@@ -1,74 +1,74 @@
-Return-Path: <linux-media+bounces-61339-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61341-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4NVwAZwmBGqDEwIAu9opvQ
-	(envelope-from <linux-media+bounces-61339-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 09:22:04 +0200
+	id aFJPI7kmBGqaEwIAu9opvQ
+	(envelope-from <linux-media+bounces-61341-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 09:22:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7533152E89F
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 09:22:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DC5552E8D9
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 09:22:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9B51E30F182D
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 07:18:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B89A930FCF0B
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 07:18:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF1613D5C06;
-	Wed, 13 May 2026 07:18:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2EC53D6495;
+	Wed, 13 May 2026 07:18:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="aEk+X2mg"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="1+zsK7/r"
 X-Original-To: linux-media@vger.kernel.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89FE13D47BC;
-	Wed, 13 May 2026 07:18:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963BB3D45F7;
+	Wed, 13 May 2026 07:18:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778656692; cv=none; b=DC4neKGrBojCcyJQSb2adxuFg1UnYZpJ8O2rQ5jQQC/folIo6TN6bnpghMdxbBPro4KSJ84J2ySvSsyPAOOB7riqz/Ukc6Zwm9jbsbyPuWlESeNGpJ+awxWWr0OETsZDMnQ9E9897aLwPZ6feK7TuwXO2XD79K5W870AWyecy3E=
+	t=1778656693; cv=none; b=Oee6eWiS3D76x9Y2Qee5JFo8FAABy5qaivbcIEk0lpYkWZ3lKHLzO7AgS3frN2XygL04fXWlO27OgRXzgkNLjBd2WE1fHbAwL97PfCEFnLjbwCDv4vEFcFLeHb6QHvQ02M7pI5XnsdJv6zHbBH6bja/gu4k3X7LIHtNx1ksOwuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778656692; c=relaxed/simple;
-	bh=WqY41+TA/Cu2ZBpBlhUCQyjQZQR/yf4ZUqVaZ6BEAco=;
+	s=arc-20240116; t=1778656693; c=relaxed/simple;
+	bh=oZSD2KDakx59aC+Mb6xKnFe1creCRvE9kRs+j1VJ1QI=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s2Ld8Rc4qSidufyNka5eIVm5CsKfv31B2mr3N2Iq/cFi0GVkinAo7+GNid7BN2rwFZ05ANA5NRE7E+hZUQJIfwb5dlMm7HOnlovJdoUbNDA9fMgwN9s62imwYGH1ZQtK2p7EZEnDswsiiuS8Yo4oKxADer6HVQoxc8S6pyMVrrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=aEk+X2mg; arc=none smtp.client-ip=68.232.154.123
+	 MIME-Version:Content-Type; b=oRPerVL7qeilzem9GB1wsdypaAZfXdNlJUW4TWJMjoQHkWI/Oqbj8txT5enzcVOP1eTI5S60DlTvrs+Kb2U73VAlWLgMbgRCHdK9dLey8VGBNXcvr4T28E2KgoRZtBNJG7WRzx/DIO2qBPpVxibCQq2rIcnFAQg+E3K+HSnAD3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=1+zsK7/r; arc=none smtp.client-ip=68.232.154.123
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1778656688; x=1810192688;
+  t=1778656691; x=1810192691;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=WqY41+TA/Cu2ZBpBlhUCQyjQZQR/yf4ZUqVaZ6BEAco=;
-  b=aEk+X2mg6gAH4ya6ddexXkM/BWRXIdF5DjpRDphdPvtVbA8ptkh1/8iX
-   m8xEdapTvpCnezbQaENddr8Oe0Pvl2jV+KlkhjW9xrCzUi/kTKU6CawLs
-   xN5uAAWJ1V3YIOUX4inYxuFrBd+t+3L1O2BIdCIkAgyuX+D1mL1C9s/hL
-   3IwRuTQGFFWL+xV0Z61qRfAlIHeXb+4RY5T2DVupNvw3Wa7H31BmX+qM5
-   aIPXE5ajBW/aGUlXX79JX6vIxh8xV2D2dLKLei7DGsMYMyNcmY/yOywZm
-   kfqap+VYfk0F5wFM09lwFqe/pAAntjUDCdTLu+VIXQE+g1TValXrdQB7N
-   w==;
-X-CSE-ConnectionGUID: oa9dgZfKSwWKc4464C1eKA==
-X-CSE-MsgGUID: 00GrWWu3Q1eihsD1b/bOSA==
+  bh=oZSD2KDakx59aC+Mb6xKnFe1creCRvE9kRs+j1VJ1QI=;
+  b=1+zsK7/rX0F9uUOnJ0OVba4YjbvMUdzfV8sQAg4HhkQSRPsoVYPJbQqv
+   ShlcMm2+E9IkCZXCE6s2k9uwm5wJ9c8FQiOh1Q6Xhc10sSbejz+VWvEwz
+   IWfAi/SnDbqOl7F+oy6ZjPz7cIdBh8jAUR+VdnALw4HMkOlYQVbYvbV47
+   8TuNMWxk5MhP3PsAqXeyaHNQDAl/4PYs+JhlzzFSKB9AZIXl/F1DbHzS2
+   SO3fmG/rZ6KTZf0R9yPsbcB5G7+F3oYMq6sCWR3HeFmH0XNQ6cvEXGP9m
+   Q1NQ+mYS4DUZSqIjw/rZrLHneLwXMi3S/CvAGADM7BT/q0bOjFDSJtQVq
+   A==;
+X-CSE-ConnectionGUID: drQh/DjOQ1KOHxomtOGmPA==
+X-CSE-MsgGUID: TznxtzkcR9GFyA+uwsZwdw==
 X-IronPort-AV: E=Sophos;i="6.23,232,1770620400"; 
-   d="scan'208";a="56656520"
+   d="scan'208";a="224672549"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 13 May 2026 00:18:08 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 00:18:11 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.87.71) by
+ chn-vm-ex4.mchp-main.com (10.10.87.33) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Wed, 13 May 2026 00:18:07 -0700
+ 15.2.2562.37; Wed, 13 May 2026 00:18:10 -0700
 Received: from che-ll-i71840.microchip.com (10.10.85.11) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.58 via Frontend Transport; Wed, 13 May 2026 00:18:04 -0700
+ 15.1.2507.58 via Frontend Transport; Wed, 13 May 2026 00:18:08 -0700
 From: Balakrishnan Sambath <balakrishnan.s@microchip.com>
 To: <linux-media@vger.kernel.org>
 CC: <mchehab@kernel.org>, <hverkuil@kernel.org>,
 	<nicolas.ferre@microchip.com>, <linux-kernel@vger.kernel.org>,
 	"Balamanikandan Gunasundar" <balamanikandan.gunasundar@microchip.com>
-Subject: [PATCH v3 07/15] media: microchip-isc: configure DPC and pipeline for SAMA7G5
-Date: Wed, 13 May 2026 12:47:34 +0530
-Message-ID: <20260513071742.97263-8-balakrishnan.s@microchip.com>
+Subject: [PATCH v3 08/15] media: microchip-isc: add gamma 1.8 and 2.4 correction curves
+Date: Wed, 13 May 2026 12:47:35 +0530
+Message-ID: <20260513071742.97263-9-balakrishnan.s@microchip.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260513071742.97263-1-balakrishnan.s@microchip.com>
 References: <20260512154339.210444-1-balakrishnan.s@microchip.com>
@@ -81,7 +81,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-Rspamd-Queue-Id: 7533152E89F
+X-Rspamd-Queue-Id: 0DC5552E8D9
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
@@ -97,7 +97,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61339-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-61341-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[microchip.com:+];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCPT_COUNT_FIVE(0.00)[6];
@@ -108,11 +108,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[microchip.com:email,microchip.com:mid,microchip.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,microchip.com:email,microchip.com:mid,microchip.com:dkim]
 X-Rspamd-Action: no action
 
-Enable DPC_GDCENABLE for RGB output. Disable pipeline for raw Bayer
-passthrough to provide unmodified sensor data for software ISP.
+Add gamma 1.8 and 2.4 curves alongside the existing 2.2 (sRGB).
+V4L2_CID_GAMMA selects preset curves: 0=3D2.4, 1=3D2.2, 2=3D1.8.
 
 Co-developed-by: Balamanikandan Gunasundar <balamanikandan.gunasundar@micro=
 chip.com>
@@ -120,53 +120,102 @@ Signed-off-by: Balamanikandan Gunasundar <balamanikandan.gunasundar@microch=
 ip.com>
 Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
 ---
- drivers/media/platform/microchip/microchip-isc-base.c    | 7 ++-----
- drivers/media/platform/microchip/microchip-sama7g5-isc.c | 3 ++-
- 2 files changed, 4 insertions(+), 6 deletions(-)
+ .../platform/microchip/microchip-isc-base.c   |  3 +-
+ .../microchip/microchip-sama7g5-isc.c         | 54 ++++++++++++++-----
+ 2 files changed, 41 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/media/platform/microchip/microchip-isc-base.c b/driver=
 s/media/platform/microchip/microchip-isc-base.c
-index f61a5d5a3e04..23a09ed12946 100644
+index 23a09ed12946..ae2a0c6ba566 100644
 --- a/drivers/media/platform/microchip/microchip-isc-base.c
 +++ b/drivers/media/platform/microchip/microchip-isc-base.c
-@@ -800,7 +800,7 @@ static int isc_try_configure_pipeline(struct isc_device=
- *isc)
- 		if (ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code)) {
- 			isc->try_config.bits_pipeline =3D CFA_ENABLE |
- 				WB_ENABLE | GAM_ENABLES | DPC_BLCENABLE |
--				CC_ENABLE;
-+				DPC_GDCENABLE | CC_ENABLE;
- 		} else {
- 			isc->try_config.bits_pipeline =3D 0x0;
- 		}
-@@ -850,10 +850,7 @@ static int isc_try_configure_pipeline(struct isc_devic=
-e *isc)
- 		}
- 		break;
- 	default:
--		if (ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code))
--			isc->try_config.bits_pipeline =3D WB_ENABLE | DPC_BLCENABLE;
--		else
--			isc->try_config.bits_pipeline =3D 0x0;
-+		isc->try_config.bits_pipeline =3D 0x0;
- 	}
+@@ -1647,8 +1647,7 @@ static int isc_ctrl_init(struct isc_device *isc)
+ 	ctrls->brightness =3D 0;
 =20
- 	/* Tune the pipeline to product specific */
+ 	v4l2_ctrl_new_std(hdl, ops, V4L2_CID_BRIGHTNESS, -1024, 1023, 1, 0);
+-	v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAMMA, 0, isc->gamma_max, 1,
+-			  isc->gamma_max);
++	v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAMMA, 0, isc->gamma_max, 1, 1);
+ 	isc->awb_ctrl =3D v4l2_ctrl_new_std(hdl, &isc_awb_ops,
+ 					  V4L2_CID_AUTO_WHITE_BALANCE,
+ 					  0, 1, 1, 1);
 diff --git a/drivers/media/platform/microchip/microchip-sama7g5-isc.c b/dri=
 vers/media/platform/microchip/microchip-sama7g5-isc.c
-index 4119cfe12cdf..04930aa0f289 100644
+index 04930aa0f289..8b73b625d92b 100644
 --- a/drivers/media/platform/microchip/microchip-sama7g5-isc.c
 +++ b/drivers/media/platform/microchip/microchip-sama7g5-isc.c
-@@ -59,7 +59,8 @@
- #define ISC_SAM9X7_MAX_SUPPORT_HEIGHT   1920
+@@ -320,21 +320,47 @@ static void isc_sama7g5_adapt_pipeline(struct isc_dev=
+ice *isc)
+ 	isc->try_config.bits_pipeline &=3D ISC_SAMA7G5_PIPELINE;
+ }
 =20
- #define ISC_SAMA7G5_PIPELINE \
--	(WB_ENABLE | CFA_ENABLE | CC_ENABLE | GAM_ENABLES | CSC_ENABLE | \
-+	(DPC_DPCENABLE | DPC_GDCENABLE | DPC_BLCENABLE | \
-+	WB_ENABLE | CFA_ENABLE | CC_ENABLE | GAM_ENABLES | CSC_ENABLE | \
- 	CBC_ENABLE | SUB422_ENABLE | SUB420_ENABLE)
+-/* Gamma table with gamma 1/2.2 */
++/* Gamma tables with gamma values 0.42, 0.45(Default), 0.56 */
+ static const u32 isc_sama7g5_gamma_table[][GAMMA_ENTRIES] =3D {
+-	/* index 0 --> gamma bipartite */
++	/* index 0 --> gamma bipartite 1/2.4(=3D0.42) */
+ 	{
+-	      0x980,  0x4c0320,  0x650260,  0x7801e0,  0x8701a0,  0x940180,
+-	   0xa00160,  0xab0120,  0xb40120,  0xbd0120,  0xc60100,  0xce0100,
+-	   0xd600e0,  0xdd00e0,  0xe400e0,  0xeb00c0,  0xf100c0,  0xf700c0,
+-	   0xfd00c0, 0x10300a0, 0x10800c0, 0x10e00a0, 0x11300a0, 0x11800a0,
+-	  0x11d00a0, 0x12200a0, 0x12700a0, 0x12c0080, 0x13000a0, 0x1350080,
+-	  0x13900a0, 0x13e0080, 0x1420076, 0x17d0062, 0x1ae0054, 0x1d8004a,
+-	  0x1fd0044, 0x21f003e, 0x23e003a, 0x25b0036, 0x2760032, 0x28f0030,
+-	  0x2a7002e, 0x2be002c, 0x2d4002c, 0x2ea0028, 0x2fe0028, 0x3120026,
+-	  0x3250024, 0x3370024, 0x3490022, 0x35a0022, 0x36b0020, 0x37b0020,
+-	  0x38b0020, 0x39b001e, 0x3aa001e, 0x3b9001c, 0x3c7001c, 0x3d5001c,
+-	  0x3e3001c, 0x3f1001c, 0x3ff001a, 0x40c001a },
++	      0x940,  0x4b0310,  0x630250,  0x7601d0,  0x840190,  0x910170,
++	   0x9d0150,  0xa80110,  0xb10110,  0xba0110,  0xc300f0,  0xcb00f0,
++	   0xd300e0,  0xda00e0,  0xe100c0,  0xe800c0,  0xee00c0,  0xf400c0,
++	   0xfa00a0, 0x10000a0, 0x10500a0, 0x10b00a0, 0x11000a0, 0x11500a0,
++	  0x11a0080, 0x11f0080, 0x1240080, 0x1290080, 0x12e0080, 0x1330070,
++	  0x1380070, 0x13c0070, 0x1410070, 0x17a0060, 0x1aa0052, 0x1d40046,
++	  0x1f90042, 0x21b003c, 0x23a0038, 0x2570034, 0x2720030, 0x28b002e,
++	  0x2a3002c, 0x2ba002a, 0x2d0002a, 0x2e60028, 0x2fa0026, 0x30e0026,
++	  0x3210024, 0x3330022, 0x3450022, 0x3560020, 0x3670020, 0x3770020,
++	  0x387001e, 0x396001e, 0x3a5001c, 0x3b3001c, 0x3c1001c, 0x3cf001a,
++	  0x3dd001a, 0x3eb0018, 0x3f90018, 0x4070016 },
++	/* index 1 --> gamma bipartite 1/2.2(=3D0.45) */
++	{
++	     0x980,  0x4c0320,  0x650260,  0x7801e0,  0x8701a0,  0x940180,
++	  0xa00160,  0xab0120,  0xb40120,  0xbd0120,  0xc60100,  0xce0100,
++	  0xd600e0,  0xdd00e0,  0xe400e0,  0xeb00c0,  0xf100c0,  0xf700c0,
++	  0xfd00c0, 0x10300a0, 0x10800c0, 0x10e00a0, 0x11300a0, 0x11800a0,
++	 0x11d00a0, 0x12200a0, 0x12700a0, 0x12c0080, 0x13000a0, 0x1350080,
++	 0x13900a0, 0x13e0080, 0x1420076, 0x17d0062, 0x1ae0054, 0x1d8004a,
++	 0x1fd0044, 0x21f003e, 0x23e003a, 0x25b0036, 0x2760032, 0x28f0030,
++	 0x2a7002e, 0x2be002c, 0x2d4002c, 0x2ea0028, 0x2fe0028, 0x3120026,
++	 0x3250024, 0x3370024, 0x3490022, 0x35a0022, 0x36b0020, 0x37b0020,
++	 0x38b0020, 0x39b001e, 0x3aa001e, 0x3b9001c, 0x3c7001c, 0x3d5001c,
++	 0x3e3001c, 0x3f1001c, 0x3ff001a, 0x40c001a },
++	/* index 2 --> gamma bipartite 1/1.8(=3D0.56) */
++	{
++	      0xa62,  0x4f0350,  0x680280,  0x7e0200,  0x8d01c0,  0x9a01a0,
++	   0xa50180,  0xb00140,  0xb90140,  0xc20120,  0xcb0120,  0xd30100,
++	   0xdb0100,  0xe300e0,  0xea00e0,  0xf100e0,  0xf700c0,  0xfd00c0,
++	  0x10300c0, 0x10900a0, 0x10e00a0, 0x11400a0, 0x11900a0, 0x11e00a0,
++	  0x12300a0, 0x12800a0, 0x12d0080, 0x1320080, 0x1370080, 0x13c0080,
++	  0x1410080, 0x1460080, 0x14a0070, 0x1830060, 0x1b40052, 0x1df0048,
++	  0x2040042, 0x2250040, 0x2440038, 0x2600036, 0x27b0032, 0x2940030,
++	  0x2ac002e, 0x2c4002c, 0x2da002a, 0x2f0002a, 0x3050028, 0x3190026,
++	  0x32c0026, 0x33e0024, 0x3500024, 0x3610022, 0x3720020, 0x3820020,
++	  0x3920020, 0x3a2001e, 0x3b1001e, 0x3c0001c, 0x3ce001c, 0x3dc001c,
++	  0x3ea001a, 0x3f8001a, 0x4060018, 0x4130018 },
+ };
 =20
- /* This is a list of the formats that the ISC can *output* */
+ static int xisc_parse_dt(struct device *dev, struct isc_device *isc)
+@@ -434,7 +460,7 @@ static int microchip_xisc_probe(struct platform_device =
+*pdev)
+ 	}
+=20
+ 	isc->gamma_table =3D isc_sama7g5_gamma_table;
+-	isc->gamma_max =3D 0;
++	isc->gamma_max =3D 2;
+=20
+ 	if (of_machine_is_compatible("microchip,sam9x7")) {
+ 		isc->max_width =3D ISC_SAM9X7_MAX_SUPPORT_WIDTH;
 --=20
 2.34.1
 
