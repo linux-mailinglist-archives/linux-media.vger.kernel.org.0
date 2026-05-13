@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-61383-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61384-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GMOBIB5WBGqMHAIAu9opvQ
-	(envelope-from <linux-media+bounces-61383-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 12:44:46 +0200
+	id wGDXJU9WBGqMHAIAu9opvQ
+	(envelope-from <linux-media+bounces-61384-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 12:45:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BDC053187A
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 12:44:45 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B18615318D3
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 12:45:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 728CF303A4D7
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 10:44:24 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 5EB8630433EB
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 10:44:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C86903F9F41;
-	Wed, 13 May 2026 10:44:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 766133EF679;
+	Wed, 13 May 2026 10:44:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dovCoRlc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d/zRTTTz"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E2D3F9F5D
-	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 10:44:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B3C83FA5F0
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 10:44:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778669050; cv=none; b=GF5jQsB+CEJ1YWxL1VZ6KG3DH8S4detAgMRbWbLYdqUVlb8UqlfOUwbxKtoRYiwvMCNm6uxKKgelZu2KAYPvQbshWWd3PVk+CFKpxVSaz2EQOFRYdqJJp0l7ypNOltWo01yw8aSjouZSR0nWKsfFG373dkbNAZcKSnl2FxaUsgI=
+	t=1778669050; cv=none; b=MBHrar6xI8lGvced0omCnuB4ybaBKpYg/CpXCYXPBszmOI8uda36JZbNjyI38RGT7Ik/2G75gXybo2N9hr1t+Ym1Mp06X7OpafLCtZG8PzX3kJMrVoyyqeRrMg/3kMJQK4oXTRXjQDXUd5ttiOHzSWxwDGwaF6mU995O+816RPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1778669050; c=relaxed/simple;
-	bh=dMCUD2To36hV0hm5GJF9vjOjDmuHV/arU5nsqCvTffs=;
+	bh=GInGFqKdQdm2+LdwfMSFiHSH4Hxnxx3QinARZCBApTY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FaxL3tWJh0zMaapFBlgEVX6GEDOh67jkgw7r04YprCw3gCwk11COzQ+tewOKVy4lYoXmreoYpjEaQRJsDJnxVMWMqaUtw3vsAWUCezS1LYmQq2v6FWlIZ6sQFDhkeCilKvESSDo2E61nJXWtTiGFLJm0/X3qrblmJtEdydur3yI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dovCoRlc; arc=none smtp.client-ip=198.175.65.14
+	 MIME-Version; b=NaSaJzhdHGQhgVkwpTPAaZZ9LgQgnUVEymGwCBdYBHNdbvs1ryD17Dx2m8akDOvuqUd0JX69b1yLEWDqO7XGcNxeGFQ0z9WoHFjX85Z1IsyipU2Qi5b3Tf+6zeN798dj2YdTnZgY6G0+9+l1OUu5n7DfMpDUBJj3g/uIeirbh80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d/zRTTTz; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778669049; x=1810205049;
+  t=1778669050; x=1810205050;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=dMCUD2To36hV0hm5GJF9vjOjDmuHV/arU5nsqCvTffs=;
-  b=dovCoRlcum2cV4TsOzoJiftc5IUewWTpABCv2JIM2DVap5DilktAAVAH
-   wK3kQ6ux9wC0jO1B3Y13/Y+5JLeMqLWRg11ai0ipQa2q7WxspMHOE6qHn
-   lHUfvYZJT5LnBXobU5DeybHwEyOOef3UIzEc6BvLQ6DqO2MvI6C6jBpa5
-   uGl3jB3WDfZcWH7ZJ+Hgxx8wkR8Kh5EMQYEVd9svvUcYsBrPRmfulWfIC
-   f30lxBTeNZ/ymMCvnAHt9i+UUukqvRxjBJ8g0Nayplxu1AKbloO3nw96J
-   CJ8X+3UGP/BNzX+PPBDoXtHE8/hDT7ouhJcQsi4lnFrQwAXEBKe8YxfrZ
-   g==;
-X-CSE-ConnectionGUID: OkqLj/n0RUagaKwpctXO7A==
-X-CSE-MsgGUID: pGf/hFw9SUCHx5841yJo3Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="83464463"
+  bh=GInGFqKdQdm2+LdwfMSFiHSH4Hxnxx3QinARZCBApTY=;
+  b=d/zRTTTz8siGHzhQC76ESpuHJpe2SexlcOm47lnrMYfOsv8DjCNg/DaX
+   aQqs3JKyHqyCST0Xq1u08a52C0Z4XaLpoXk3yZA/1Upm6Xq1+6QPuuRiK
+   vmzZRqzf7V3xTgVIZLzoFwnYgB27eWcx37fA4j/I+8lCpwTru3hrcnei8
+   mTcQdJAhhemUz+fVqu6vREmYrQvZiAvRBX0PByuz6Fy/Xje5CxoaLDh+z
+   gI9Uxmsm2jd9kLrkouPqPcV35yegusCMQfr7HTDP61bMCBic+pGnGKXzm
+   +EVTUwvKuH3fXjGuLevw39riMrQNps07IJjn99AwUrIW3tPZ0CZ0jV+Lb
+   Q==;
+X-CSE-ConnectionGUID: w3EdVT/hSLKSKpWm7CbAdA==
+X-CSE-MsgGUID: YFeyl9raRKWvw2ehkVKsqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="83464466"
 X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="83464463"
+   d="scan'208";a="83464466"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
   by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 03:44:07 -0700
-X-CSE-ConnectionGUID: tIpyD5/LTjeUdKe6F6iVJQ==
-X-CSE-MsgGUID: 8txz958BSWyrjjM8xQFTwA==
+X-CSE-ConnectionGUID: HnTxB0d+R/GUwN9lzDaN9w==
+X-CSE-MsgGUID: fpyfeIJiT7akXp7OLMsZrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="233599260"
+   d="scan'208";a="233599261"
 Received: from ettammin-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.111])
   by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 03:44:05 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id CA29D121CF3;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id CBC0D121CFD;
 	Wed, 13 May 2026 13:43:59 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1wN74I-00000009S1S-3CQM;
+	id 1wN74I-00000009S1W-3GWm;
 	Wed, 13 May 2026 13:43:58 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -77,9 +77,9 @@ Cc: laurent.pinchart@ideasonboard.com,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Mehdi Djait <mehdi.djait@linux.intel.com>
-Subject: [PATCH 06/17] media: v4l2-subdev: Change the maximum number of routes
-Date: Wed, 13 May 2026 13:43:47 +0300
-Message-ID: <20260513104358.2252605-7-sakari.ailus@linux.intel.com>
+Subject: [PATCH 07/17] media: v4l2-subdev: Return dynamically allocated pass-through routes
+Date: Wed, 13 May 2026 13:43:48 +0300
+Message-ID: <20260513104358.2252605-8-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260513104358.2252605-1-sakari.ailus@linux.intel.com>
 References: <20260513104358.2252605-1-sakari.ailus@linux.intel.com>
@@ -90,21 +90,21 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 5BDC053187A
+X-Rspamd-Queue-Id: B18615318D3
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61383-lists,linux-media=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,intel.com:email,intel.com:dkim];
+	TAGGED_FROM(0.00)[bounces-61384-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linux.intel.com:mid,intel.com:email,intel.com:dkim];
 	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
@@ -116,39 +116,51 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	DKIM_TRACE(0.00)[intel.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-As the frame descriptors are now allocated dynamically, allow as many
-routes that there can be dynamically allocated frame descriptors.
+Count the number of pass-through routes and then return the full table
+once enough memory is available for it.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ drivers/media/v4l2-core/v4l2-subdev.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index a49aaad595af..43d8c0f8701f 100644
+index 43d8c0f8701f..9d7f616ab7ea 100644
 --- a/drivers/media/v4l2-core/v4l2-subdev.c
 +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -1100,14 +1100,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
- 				num_active_routes++;
+@@ -2650,20 +2650,22 @@ int __v4l2_subdev_get_frame_desc_passthrough(struct v4l2_subdev *sd,
+ 				return -EPIPE;
+ 			}
+ 
+-			if (fd->num_entries >= V4L2_FRAME_DESC_ENTRY_PREALLOC) {
++			if (fd->num_entries >= V4L2_FRAME_DESC_ENTRY_MAX) {
+ 				dev_dbg(dev, "Frame desc entry limit reached\n");
+ 				return -E2BIG;
+ 			}
+ 
+-			fd->entry[fd->num_entries] = *source_entry;
+-
+-			fd->entry[fd->num_entries].stream = route->source_stream;
++			if (fd->num_entries < fd->len_entries) {
++				fd->entry[fd->num_entries] = *source_entry;
++				fd->entry[fd->num_entries].stream =
++					route->source_stream;
++			}
+ 
+ 			fd->num_entries++;
  		}
+ 	}
  
--		/*
--		 * Drivers that implement routing need to report a frame
--		 * descriptor accordingly, with up to one entry per route. Until
--		 * the frame descriptors entries get allocated dynamically,
--		 * limit the number of active routes to
--		 * V4L2_FRAME_DESC_ENTRY_PREALLOC.
--		 */
--		if (num_active_routes > V4L2_FRAME_DESC_ENTRY_PREALLOC)
-+		if (num_active_routes > V4L2_FRAME_DESC_ENTRY_MAX)
- 			return -E2BIG;
+-	return 0;
++	return fd->num_entries < fd->len_entries ? 0 : -ENOSPC;
+ }
+ EXPORT_SYMBOL_GPL(__v4l2_subdev_get_frame_desc_passthrough);
  
- 		/*
 -- 
 2.47.3
 
