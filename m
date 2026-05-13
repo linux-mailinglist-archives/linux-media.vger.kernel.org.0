@@ -1,74 +1,74 @@
-Return-Path: <linux-media+bounces-61342-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61343-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AKa/IeElBGqDEwIAu9opvQ
-	(envelope-from <linux-media+bounces-61342-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 09:18:57 +0200
+	id mDahCBgnBGqDEwIAu9opvQ
+	(envelope-from <linux-media+bounces-61343-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 09:24:08 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AD9552E7DE
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 09:18:56 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 588E852E953
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 09:24:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4F3ED3061EAC
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 07:18:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1E2B83117311
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 07:18:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C1A63D5C0E;
-	Wed, 13 May 2026 07:18:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 235B13D649C;
+	Wed, 13 May 2026 07:18:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="YIwsgOYC"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="XUOmG/KF"
 X-Original-To: linux-media@vger.kernel.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F803D669C;
-	Wed, 13 May 2026 07:18:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E003D6471;
+	Wed, 13 May 2026 07:18:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778656696; cv=none; b=GV2eNmITywWcU3ek0UyJ60GnmDsjhFhvlby0L0fl7AoFbtF+EeYt2QgdVa1PXmd9itzma7kQB2i9+wjNMg1ed4HD1B1W28L1zo27SsG4Hz9IBzKNT/N5QPUbjNp9ZHAlztHqQEyShB7F2zMcT8TEBwei3rUymoS+L3ajKf11SLQ=
+	t=1778656701; cv=none; b=X8ychi5bmEVG+y4hfnCHtSz8uriA+I2iBeAoHdNAZxPx0PiSBlYqXPGwhigiNUY4zElhQZa0uROrj00HeJfg+SI5eEVXBQRqCEmri5+c1eIBoEun4gsR9QEbiJrQU2I1Gueda4azR9XZ96na6n2GDwpTRmCCc6GrQ5U+9YrUb1E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778656696; c=relaxed/simple;
-	bh=vJOd9G2gjAJju8nIwdx4E5O1IGmtgDf5kVS11ianSvU=;
+	s=arc-20240116; t=1778656701; c=relaxed/simple;
+	bh=EI10U6l0lPTC8H5qaudUesuZm7mPwvRbs/ym2nBo298=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qrfCX8DCh2fpiJUg6sdVoMxfCWdRAvVigA76Tuze4VLP5SUOCxVcdpPVHzNeolBTgX0Y4SYs9XHWq8K3Q3b7dFKBeMQ5pEOO8Hx1KnRiTnMk9Mu8/F25uT9vdUF2JqZeFn2aLYz9rBdUcc3OgPndzIdloDHf965QTJiWS0JRgQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=YIwsgOYC; arc=none smtp.client-ip=68.232.154.123
+	 MIME-Version:Content-Type; b=ObwwucrHt+2UxOwEfC5FbQLM/XayBmVT3oLlJChR8J763V5fvPFJz3BN075g0ZTndOJ5pDN9CUYQlhoTUFy1wglAz3zJhewSeP6A/4u550WD3Ruw52ncwaF7Sud/gU2hDyDJhM4o9vmYmFw1XGO256rZcnifI4r5AJo5jL4VSNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=XUOmG/KF; arc=none smtp.client-ip=68.232.154.123
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1778656694; x=1810192694;
+  t=1778656697; x=1810192697;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=vJOd9G2gjAJju8nIwdx4E5O1IGmtgDf5kVS11ianSvU=;
-  b=YIwsgOYCTESFWuSHmShTT/KwtzgHWjHUzLnew2a2dmERj4IId4WuiQNh
-   SwqCCrSdgyZZBN4xj9naiwq9XzGfjU/xj4DILnuYnkyD6+WZCFjz8by/Y
-   krtbH7EpNL0cG8Y1WEAdYIdquxlno+9jd1T5J+nSeDmW5MYfQqxCgIw57
-   QFucBtTGXdfg6V/BM1vFf4wNW0RIthY+/tW25KQ643aSZ4aZwiQDFO1tf
-   3sqIXe6tGzjU/UpLCA/WUIrnRSoZVq07j8d0NPKZqsicy5Al0etrFzG5t
-   A7lGtWmbIpQHotnY1rWmoDbm3IY6XSx7STO5XZAK7RGFFo8z4j1C+Ct/G
+  bh=EI10U6l0lPTC8H5qaudUesuZm7mPwvRbs/ym2nBo298=;
+  b=XUOmG/KFHN1TzIeTEs0yZTjJh/Hx7rwic/56RTQ0uaj8M0LZqMT5ouZ5
+   x+PqJOZXeFpOhJ1CocthV9odRjrtNwswbVgJTEPuyN7EzQbpI/Tf+qyEB
+   dBtvl+WMj+sOyqzGsaM9gcmP9AzwjQLYX9qVEdM/94ypvGYdYvG3sPE63
+   IIPCzbZzftWDEnu+vji23xjzHNLIPmnK5dPq7cSpYa+nYXv7MUvCO77j2
+   za0h9tBGYEPfeevw8qNq8nfu54mAfGmWf166GZakRTHG3pHvV3ThuqGsp
+   u7L/eYL1TdCy9DJX6n7j+w1obVSSFNvwMJz5BTwQOypHV44A5p88624g5
    w==;
-X-CSE-ConnectionGUID: adbD2nhDQgSWMcvcpl42YA==
-X-CSE-MsgGUID: 4mbAshb3Qwu1qIBgqDYKyA==
+X-CSE-ConnectionGUID: N97c+eAxRAuIqI0gATmRjA==
+X-CSE-MsgGUID: BV/A1zSRThuRtdxj4Z6iEw==
 X-IronPort-AV: E=Sophos;i="6.23,232,1770620400"; 
-   d="scan'208";a="56656528"
+   d="scan'208";a="57838972"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa4.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 13 May 2026 00:18:14 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 00:18:16 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.87.71) by
+ chn-vm-ex1.mchp-main.com (10.10.87.30) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Wed, 13 May 2026 00:18:13 -0700
+ 15.2.2562.37; Wed, 13 May 2026 00:18:16 -0700
 Received: from che-ll-i71840.microchip.com (10.10.85.11) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.58 via Frontend Transport; Wed, 13 May 2026 00:18:11 -0700
+ 15.1.2507.58 via Frontend Transport; Wed, 13 May 2026 00:18:14 -0700
 From: Balakrishnan Sambath <balakrishnan.s@microchip.com>
 To: <linux-media@vger.kernel.org>
 CC: <mchehab@kernel.org>, <hverkuil@kernel.org>,
 	<nicolas.ferre@microchip.com>, <linux-kernel@vger.kernel.org>,
 	"Balamanikandan Gunasundar" <balamanikandan.gunasundar@microchip.com>
-Subject: [PATCH v3 09/15] media: microchip-isc: add SAMA7G5 hue and saturation controls
-Date: Wed, 13 May 2026 12:47:36 +0530
-Message-ID: <20260513071742.97263-10-balakrishnan.s@microchip.com>
+Subject: [PATCH v3 10/15] media: microchip-isc: expose color correction matrix as V4L2 controls
+Date: Wed, 13 May 2026 12:47:37 +0530
+Message-ID: <20260513071742.97263-11-balakrishnan.s@microchip.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260513071742.97263-1-balakrishnan.s@microchip.com>
 References: <20260512154339.210444-1-balakrishnan.s@microchip.com>
@@ -81,7 +81,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-Rspamd-Queue-Id: 2AD9552E7DE
+X-Rspamd-Queue-Id: 588E852E953
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
@@ -89,7 +89,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[microchip.com,reject];
 	R_DKIM_ALLOW(-0.20)[microchip.com:s=mchp];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -97,9 +97,9 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61342-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-61343-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[microchip.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCPT_COUNT_FIVE(0.00)[6];
 	FROM_NEQ_ENVFROM(0.00)[balakrishnan.s@microchip.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
@@ -108,12 +108,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[microchip.com:email,microchip.com:mid,microchip.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[microchip.com:email,microchip.com:mid,microchip.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-SAMA7G5 extends CBC with hue and saturation. Add V4L2_CID_HUE and
-V4L2_CID_SATURATION controls. Disable CBHS for RGB output since it
-operates in YCbCr domain.
+Add custom controls for 3x3 color correction matrix and RGB offsets.
+Used by libcamera IPA for sensor color calibration.
 
 Co-developed-by: Balamanikandan Gunasundar <balamanikandan.gunasundar@micro=
 chip.com>
@@ -121,302 +120,367 @@ Signed-off-by: Balamanikandan Gunasundar <balamanikandan.gunasundar@microch=
 ip.com>
 Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
 ---
- .../platform/microchip/microchip-isc-base.c   | 87 ++++++++++++++++++-
- .../platform/microchip/microchip-isc-regs.h   | 11 ++-
- .../media/platform/microchip/microchip-isc.h  |  5 +-
- .../microchip/microchip-sama5d2-isc.c         |  2 +-
- .../microchip/microchip-sama7g5-isc.c         |  8 +-
- 5 files changed, 99 insertions(+), 14 deletions(-)
+ .../platform/microchip/microchip-isc-base.c   | 222 +++++++++++++++++-
+ .../media/platform/microchip/microchip-isc.h  |  23 ++
+ include/linux/atmel-isc-media.h               |  13 +
+ 3 files changed, 256 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/platform/microchip/microchip-isc-base.c b/driver=
 s/media/platform/microchip/microchip-isc-base.c
-index ae2a0c6ba566..1727c98665d1 100644
+index 1727c98665d1..c24a03f9a843 100644
 --- a/drivers/media/platform/microchip/microchip-isc-base.c
 +++ b/drivers/media/platform/microchip/microchip-isc-base.c
-@@ -810,7 +810,7 @@ static int isc_try_configure_pipeline(struct isc_device=
- *isc)
- 		if (ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code)) {
- 			isc->try_config.bits_pipeline =3D CFA_ENABLE |
- 				CSC_ENABLE | GAM_ENABLES | WB_ENABLE |
--				SUB420_ENABLE | SUB422_ENABLE | CBC_ENABLE |
-+				SUB420_ENABLE | SUB422_ENABLE | CBHS_ENABLE |
- 				DPC_BLCENABLE;
- 		} else {
- 			isc->try_config.bits_pipeline =3D 0x0;
-@@ -821,7 +821,7 @@ static int isc_try_configure_pipeline(struct isc_device=
- *isc)
- 		if (ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code)) {
- 			isc->try_config.bits_pipeline =3D CFA_ENABLE |
- 				CSC_ENABLE | WB_ENABLE | GAM_ENABLES |
--				SUB422_ENABLE | CBC_ENABLE | DPC_BLCENABLE;
-+				SUB422_ENABLE | CBHS_ENABLE | DPC_BLCENABLE;
- 		} else {
- 			isc->try_config.bits_pipeline =3D 0x0;
- 		}
-@@ -833,7 +833,7 @@ static int isc_try_configure_pipeline(struct isc_device=
- *isc)
- 		if (ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code)) {
- 			isc->try_config.bits_pipeline =3D CFA_ENABLE |
- 				CSC_ENABLE | WB_ENABLE | GAM_ENABLES |
--				SUB422_ENABLE | CBC_ENABLE | DPC_BLCENABLE;
-+				SUB422_ENABLE | CBHS_ENABLE | DPC_BLCENABLE;
- 		} else {
- 			isc->try_config.bits_pipeline =3D 0x0;
- 		}
-@@ -844,7 +844,7 @@ static int isc_try_configure_pipeline(struct isc_device=
- *isc)
- 		if (ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code)) {
- 			isc->try_config.bits_pipeline =3D CFA_ENABLE |
- 				CSC_ENABLE | WB_ENABLE | GAM_ENABLES |
--				CBC_ENABLE | DPC_BLCENABLE;
-+				CBHS_ENABLE | DPC_BLCENABLE;
- 		} else {
- 			isc->try_config.bits_pipeline =3D 0x0;
- 		}
-@@ -859,6 +859,56 @@ static int isc_try_configure_pipeline(struct isc_devic=
+@@ -32,7 +32,7 @@
+ #include "microchip-isc-regs.h"
+ #include "microchip-isc.h"
+=20
+-#define ISC_IS_FORMAT_RAW(mbus_code) \
++#define ISC_IS_FORMAT_RAW(mbus_code)		\
+ 	(((mbus_code) & 0xf000) =3D=3D 0x3000)
+=20
+ #define ISC_IS_FORMAT_GREY(mbus_code) \
+@@ -55,6 +55,44 @@ static inline void isc_update_v4l2_ctrls(struct isc_devi=
+ce *isc)
+ 	v4l2_ctrl_s_ctrl(isc->gb_off_ctrl, ctrls->offset[ISC_HIS_CFG_MODE_GB]);
+ }
+=20
++/* commit CC shadow to hardware; called while ISC is powered */
++static void isc_update_cc_ctrls(struct isc_device *isc)
++{
++	struct isc_ctrls *ctrls =3D &isc->ctrls;
++	struct regmap *regmap =3D isc->regmap;
++	u32 m =3D GENMASK(11, 0);
++
++	if (!ctrls->cc_dirty)
++		return;
++
++	regmap_update_bits(regmap, ISC_CC_RR_RG, m,
++			   (u32)ctrls->cc_coeff[0] & m);
++	regmap_update_bits(regmap, ISC_CC_RR_RG, GENMASK(27, 16),
++			   ((u32)ctrls->cc_coeff[1] & m) << 16);
++	regmap_update_bits(regmap, ISC_CC_RB_OR, m,
++			   (u32)ctrls->cc_coeff[2] & m);
++	regmap_update_bits(regmap, ISC_CC_RB_OR, GENMASK(27, 16),
++			   ((u32)ctrls->cc_offset[0] & m) << 16);
++	regmap_update_bits(regmap, ISC_CC_GR_GG, m,
++			   (u32)ctrls->cc_coeff[3] & m);
++	regmap_update_bits(regmap, ISC_CC_GR_GG, GENMASK(27, 16),
++			   ((u32)ctrls->cc_coeff[4] & m) << 16);
++	regmap_update_bits(regmap, ISC_CC_GB_OG, m,
++			   (u32)ctrls->cc_coeff[5] & m);
++	regmap_update_bits(regmap, ISC_CC_GB_OG, GENMASK(27, 16),
++			   ((u32)ctrls->cc_offset[1] & m) << 16);
++	regmap_update_bits(regmap, ISC_CC_BR_BG, m,
++			   (u32)ctrls->cc_coeff[6] & m);
++	regmap_update_bits(regmap, ISC_CC_BR_BG, GENMASK(27, 16),
++			   ((u32)ctrls->cc_coeff[7] & m) << 16);
++	regmap_update_bits(regmap, ISC_CC_BB_OB, m,
++			   (u32)ctrls->cc_coeff[8] & m);
++	regmap_update_bits(regmap, ISC_CC_BB_OB, GENMASK(27, 16),
++			   ((u32)ctrls->cc_offset[2] & m) << 16);
++
++	ctrls->cc_dirty =3D false;
++}
++
+ static inline void isc_update_awb_ctrls(struct isc_device *isc)
+ {
+ 	struct isc_ctrls *ctrls =3D &isc->ctrls;
+@@ -90,6 +128,14 @@ static inline void isc_reset_awb_ctrls(struct isc_devic=
 e *isc)
+ 		/* offsets are in 2's complements */
+ 		isc->ctrls.offset[c] =3D 0;
+ 	}
++
++	/* identity matrix: diagonal =3D 1.0 in Q4.8 =3D 256, off-diagonal =3D 0 =
+*/
++	memset(isc->ctrls.cc_coeff, 0, sizeof(isc->ctrls.cc_coeff));
++	isc->ctrls.cc_coeff[0] =3D 256; /* RR */
++	isc->ctrls.cc_coeff[4] =3D 256; /* GG */
++	isc->ctrls.cc_coeff[8] =3D 256; /* BB */
++	memset(isc->ctrls.cc_offset, 0, sizeof(isc->ctrls.cc_offset));
++	isc->ctrls.cc_dirty =3D false;
+ }
+=20
+ static int isc_queue_setup(struct vb2_queue *vq,
+@@ -235,7 +281,8 @@ static void isc_set_pipeline(struct isc_device *isc, u3=
+2 pipeline)
+ 	isc->config_dpc(isc);
+ 	isc->config_csc(isc);
+ 	isc->config_cbc(isc);
+-	isc->config_cc(isc);
++	/* use shadow; config_cc() always resets to identity */
++	isc_update_cc_ctrls(isc);
+ 	isc->config_gam(isc);
+ }
+=20
+@@ -1481,6 +1528,8 @@ static void isc_awb_work(struct work_struct *w)
+ 		goto out_pm_put;
+ 	}
+=20
++	/* write pending CC matrix from shadow to hardware registers */
++	isc_update_cc_ctrls(isc);
+ 	isc_update_profile(isc);
+=20
+ 	mutex_unlock(&isc->awb_mutex);
+@@ -1660,6 +1709,161 @@ static int isc_g_volatile_awb_ctrl(struct v4l2_ctrl=
+ *ctrl)
  	return 0;
  }
 =20
-+static bool isc_format_has_chroma(u32 fourcc)
++static int isc_cc_s_ctrl(struct v4l2_ctrl *ctrl)
 +{
-+	switch (fourcc) {
-+	case V4L2_PIX_FMT_YUV420:
-+	case V4L2_PIX_FMT_YUV422P:
-+	case V4L2_PIX_FMT_YUYV:
-+	case V4L2_PIX_FMT_UYVY:
-+	case V4L2_PIX_FMT_VYUY:
-+		return true;
++	struct isc_device *isc =3D container_of(ctrl->handler,
++					     struct isc_device, ctrls.handler);
++	struct isc_ctrls *ctrls =3D &isc->ctrls;
++
++	dev_dbg(isc->dev, "id =3D 0x%x; val =3D 0x%x", ctrl->id, ctrl->val);
++
++	/*
++	 * CC registers need pm_runtime active for access.
++	 * Store to shadow here; isc_update_cc_ctrls() writes to hardware
++	 * from isc_awb_work() where ISC is powered.
++	 */
++	switch (ctrl->id) {
++	case ISC_CID_CC_RR:
++		ctrls->cc_coeff[0] =3D ctrl->val;
++		break;
++	case ISC_CID_CC_RG:
++		ctrls->cc_coeff[1] =3D ctrl->val;
++		break;
++	case ISC_CID_CC_RB:
++		ctrls->cc_coeff[2] =3D ctrl->val;
++		break;
++	case ISC_CID_CC_OR:
++		ctrls->cc_offset[0] =3D ctrl->val;
++		break;
++	case ISC_CID_CC_GR:
++		ctrls->cc_coeff[3] =3D ctrl->val;
++		break;
++	case ISC_CID_CC_GG:
++		ctrls->cc_coeff[4] =3D ctrl->val;
++		break;
++	case ISC_CID_CC_GB:
++		ctrls->cc_coeff[5] =3D ctrl->val;
++		break;
++	case ISC_CID_CC_OG:
++		ctrls->cc_offset[1] =3D ctrl->val;
++		break;
++	case ISC_CID_CC_BR:
++		ctrls->cc_coeff[6] =3D ctrl->val;
++		break;
++	case ISC_CID_CC_BG:
++		ctrls->cc_coeff[7] =3D ctrl->val;
++		break;
++	case ISC_CID_CC_BB:
++		ctrls->cc_coeff[8] =3D ctrl->val;
++		break;
++	case ISC_CID_CC_OB:
++		ctrls->cc_offset[2] =3D ctrl->val;
++		break;
 +	default:
-+		return false;
++		return -EINVAL;
 +	}
++
++	ctrls->cc_dirty =3D true;
++	return 0;
 +}
 +
-+/*
-+ * isc_update_cbc_ctrl_activity() - Activate/deactivate CBC controls
-+ *
-+ * Called from isc_set_fmt(), isc_link_validate(), and isc_ctrl_init().
-+ * At isc_ctrl_init() time isc->config.bits_pipeline is zero (no format
-+ * has been negotiated yet), so all CBC controls are initially marked
-+ * inactive.  They become active once a format that includes CBHS in the
-+ * pipeline is configured via VIDIOC_S_FMT or link validation.
-+ */
-+static void isc_update_cbc_ctrl_activity(struct isc_device *isc)
++static int isc_cc_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
 +{
-+	struct v4l2_ctrl_handler *hdl =3D &isc->ctrls.handler;
-+	struct v4l2_ctrl *brightness;
-+	struct v4l2_ctrl *contrast;
-+	struct v4l2_ctrl *hue;
-+	struct v4l2_ctrl *saturation;
-+	bool cbc_active =3D isc->config.bits_pipeline & CBHS_ENABLE;
-+	bool chroma_active =3D cbc_active && isc_format_has_chroma(isc->config.fo=
-urcc);
++	struct isc_device *isc =3D container_of(ctrl->handler,
++					     struct isc_device, ctrls.handler);
++	struct regmap *regmap =3D isc->regmap;
++	unsigned int reg;
 +
-+	brightness =3D v4l2_ctrl_find(hdl, V4L2_CID_BRIGHTNESS);
-+	if (brightness)
-+		v4l2_ctrl_activate(brightness, cbc_active);
++	switch (ctrl->id) {
++	case ISC_CID_CC_RR:
++		regmap_read(regmap, ISC_CC_RR_RG, &reg);
++		ctrl->val =3D sign_extend32(reg & GENMASK(11, 0), 11);
++		break;
++	case ISC_CID_CC_RG:
++		regmap_read(regmap, ISC_CC_RR_RG, &reg);
++		ctrl->val =3D sign_extend32((reg & GENMASK(27, 16)) >> 16, 11);
++		break;
++	case ISC_CID_CC_RB:
++		regmap_read(regmap, ISC_CC_RB_OR, &reg);
++		ctrl->val =3D sign_extend32(reg & GENMASK(11, 0), 11);
++		break;
++	case ISC_CID_CC_OR:
++		regmap_read(regmap, ISC_CC_RB_OR, &reg);
++		ctrl->val =3D sign_extend32((reg & GENMASK(27, 16)) >> 16, 11);
++		break;
++	case ISC_CID_CC_GR:
++		regmap_read(regmap, ISC_CC_GR_GG, &reg);
++		ctrl->val =3D sign_extend32(reg & GENMASK(11, 0), 11);
++		break;
++	case ISC_CID_CC_GG:
++		regmap_read(regmap, ISC_CC_GR_GG, &reg);
++		ctrl->val =3D sign_extend32((reg & GENMASK(27, 16)) >> 16, 11);
++		break;
++	case ISC_CID_CC_GB:
++		regmap_read(regmap, ISC_CC_GB_OG, &reg);
++		ctrl->val =3D sign_extend32(reg & GENMASK(11, 0), 11);
++		break;
++	case ISC_CID_CC_OG:
++		regmap_read(regmap, ISC_CC_GB_OG, &reg);
++		ctrl->val =3D sign_extend32((reg & GENMASK(27, 16)) >> 16, 11);
++		break;
++	case ISC_CID_CC_BR:
++		regmap_read(regmap, ISC_CC_BR_BG, &reg);
++		ctrl->val =3D sign_extend32(reg & GENMASK(11, 0), 11);
++		break;
++	case ISC_CID_CC_BG:
++		regmap_read(regmap, ISC_CC_BR_BG, &reg);
++		ctrl->val =3D sign_extend32((reg & GENMASK(27, 16)) >> 16, 11);
++		break;
++	case ISC_CID_CC_BB:
++		regmap_read(regmap, ISC_CC_BB_OB, &reg);
++		ctrl->val =3D sign_extend32(reg & GENMASK(11, 0), 11);
++		break;
++	case ISC_CID_CC_OB:
++		regmap_read(regmap, ISC_CC_BB_OB, &reg);
++		ctrl->val =3D sign_extend32((reg & GENMASK(27, 16)) >> 16, 11);
++		break;
++	default:
++		return -EINVAL;
++	}
 +
-+	contrast =3D v4l2_ctrl_find(hdl, V4L2_CID_CONTRAST);
-+	if (contrast)
-+		v4l2_ctrl_activate(contrast, cbc_active);
++	dev_dbg(isc->dev, "id =3D 0x%x; val =3D 0x%x", ctrl->id, ctrl->val);
 +
-+	hue =3D v4l2_ctrl_find(hdl, V4L2_CID_HUE);
-+	if (hue)
-+		v4l2_ctrl_activate(hue, chroma_active);
-+
-+	saturation =3D v4l2_ctrl_find(hdl, V4L2_CID_SATURATION);
-+	if (saturation)
-+		v4l2_ctrl_activate(saturation, chroma_active);
++	return 0;
 +}
 +
- static int isc_try_fmt(struct isc_device *isc, struct v4l2_format *f)
- {
- 	struct v4l2_pix_format *pixfmt =3D &f->fmt.pix;
-@@ -902,6 +952,7 @@ static int isc_set_fmt(struct isc_device *isc, struct v=
-4l2_format *f)
- 	/* make the try configuration active */
- 	isc->config =3D isc->try_config;
- 	isc->fmt =3D isc->try_fmt;
-+	isc_update_cbc_ctrl_activity(isc);
-=20
- 	dev_dbg(isc->dev, "ISC set_fmt to %.4s @%dx%d\n",
- 		(char *)&f->fmt.pix.pixelformat,
-@@ -989,6 +1040,7 @@ static int isc_link_validate(struct media_link *link)
- 		return ret;
-=20
- 	isc->config =3D isc->try_config;
-+	isc_update_cbc_ctrl_activity(isc);
-=20
- 	dev_dbg(isc->dev, "New ISC configuration in place\n");
-=20
-@@ -1446,6 +1498,7 @@ static int isc_s_ctrl(struct v4l2_ctrl *ctrl)
- 	struct isc_device *isc =3D container_of(ctrl->handler,
- 					     struct isc_device, ctrls.handler);
- 	struct isc_ctrls *ctrls =3D &isc->ctrls;
-+	struct regmap *regmap =3D isc->regmap;
-=20
- 	if (ctrl->flags & V4L2_CTRL_FLAG_INACTIVE)
- 		return 0;
-@@ -1453,9 +1506,30 @@ static int isc_s_ctrl(struct v4l2_ctrl *ctrl)
- 	switch (ctrl->id) {
- 	case V4L2_CID_BRIGHTNESS:
- 		ctrls->brightness =3D ctrl->val & ISC_CBC_BRIGHT_MASK;
-+		regmap_write(regmap, ISC_CBC_BRIGHT + isc->offsets.cbc, ctrls->brightnes=
-s);
- 		break;
- 	case V4L2_CID_CONTRAST:
- 		ctrls->contrast =3D ctrl->val & ISC_CBC_CONTRAST_MASK;
-+		regmap_write(regmap, ISC_CBC_CONTRAST + isc->offsets.cbc, ctrls->contras=
-t);
-+		break;
-+	case V4L2_CID_HUE:
-+		if (isc->has_cbhs) {
-+			ctrls->hue =3D ctrl->val & ISC_CBHS_HUE_MASK;
-+			regmap_write(regmap, ISC_CBHS_HUE, ctrls->hue);
-+		}
-+		break;
-+	case V4L2_CID_SATURATION:
-+		if (isc->has_cbhs) {
-+			/*
-+			 * The ISC CBHS SAT register holds a Q4 fixed-point
-+			 * coefficient: 0 =3D grayscale, 16 =3D 1.0 (no change),
-+			 * values above 16 boost saturation.  The V4L2 range
-+			 * 0-100 (default 16) maps directly to this hardware
-+			 * value; no unit conversion is applied.
-+			 */
-+			ctrls->saturation =3D ctrl->val & ISC_CBHS_SAT_MASK;
-+			regmap_write(regmap, ISC_CBHS_SAT, ctrls->saturation);
-+		}
- 		break;
- 	case V4L2_CID_GAMMA:
- 		ctrls->gamma_index =3D ctrl->val;
-@@ -1647,6 +1721,10 @@ static int isc_ctrl_init(struct isc_device *isc)
- 	ctrls->brightness =3D 0;
-=20
- 	v4l2_ctrl_new_std(hdl, ops, V4L2_CID_BRIGHTNESS, -1024, 1023, 1, 0);
-+	if (isc->has_cbhs) {
-+		v4l2_ctrl_new_std(hdl, ops, V4L2_CID_HUE, -180, 180, 1, 0);
-+		v4l2_ctrl_new_std(hdl, ops, V4L2_CID_SATURATION, 0, 100, 1, 16);
-+	}
- 	v4l2_ctrl_new_std(hdl, ops, V4L2_CID_GAMMA, 0, isc->gamma_max, 1, 1);
- 	isc->awb_ctrl =3D v4l2_ctrl_new_std(hdl, &isc_awb_ops,
- 					  V4L2_CID_AUTO_WHITE_BALANCE,
-@@ -1664,6 +1742,7 @@ static int isc_ctrl_init(struct isc_device *isc)
- 	}
-=20
- 	v4l2_ctrl_activate(isc->do_wb_ctrl, false);
-+	isc_update_cbc_ctrl_activity(isc);
-=20
- 	isc->r_gain_ctrl =3D v4l2_ctrl_new_custom(hdl, &isc_r_gain_ctrl, NULL);
- 	isc->b_gain_ctrl =3D v4l2_ctrl_new_custom(hdl, &isc_b_gain_ctrl, NULL);
-diff --git a/drivers/media/platform/microchip/microchip-isc-regs.h b/driver=
-s/media/platform/microchip/microchip-isc-regs.h
-index e77e1d9a1db8..2fd8916abf21 100644
---- a/drivers/media/platform/microchip/microchip-isc-regs.h
-+++ b/drivers/media/platform/microchip/microchip-isc-regs.h
-@@ -268,10 +268,13 @@
- #define ISC_CBC_CONTRAST	0x000003c0
- #define ISC_CBC_CONTRAST_MASK	GENMASK(11, 0)
-=20
--/* Hue Register */
--#define ISC_CBCHS_HUE	0x4e0
--/* Saturation Register */
--#define ISC_CBCHS_SAT	0x4e4
-+/* Hue Register: signed 9-bit two's complement, covers -180 to +180 degree=
-s */
-+#define ISC_CBHS_HUE		0x4e0
-+#define ISC_CBHS_HUE_MASK	GENMASK(8, 0)
++static const struct v4l2_ctrl_ops isc_cc_ops =3D {
++	.s_ctrl =3D isc_cc_s_ctrl,
++	.g_volatile_ctrl =3D isc_cc_g_volatile_ctrl,
++};
 +
-+/* Saturation Register: unsigned Q4 fixed-point (1.0 =3D 16, V4L2 range 0-=
-100) */
-+#define ISC_CBHS_SAT		0x4e4
-+#define ISC_CBHS_SAT_MASK	GENMASK(6, 0)
++#define ISC_CTRL_CC(_name, _id, _name_str, _def) \
++	static const struct v4l2_ctrl_config _name =3D { \
++		.ops =3D &isc_cc_ops, \
++		.id =3D _id, \
++		.name =3D _name_str, \
++		.type =3D V4L2_CTRL_TYPE_INTEGER, \
++		.flags =3D V4L2_CTRL_FLAG_SLIDER | V4L2_CTRL_FLAG_VOLATILE | \
++			 V4L2_CTRL_FLAG_EXECUTE_ON_WRITE, \
++		.min =3D -2048, \
++		.max =3D 2047, \
++		.step =3D 1, \
++		.def =3D _def, \
++	}
++
++ISC_CTRL_CC(isc_cc_rr_ctrl, ISC_CID_CC_RR, "CC RR", 256);
++ISC_CTRL_CC(isc_cc_rg_ctrl, ISC_CID_CC_RG, "CC RG", 0);
++ISC_CTRL_CC(isc_cc_rb_ctrl, ISC_CID_CC_RB, "CC RB", 0);
++ISC_CTRL_CC(isc_cc_or_ctrl, ISC_CID_CC_OR, "CC OR", 0);
++ISC_CTRL_CC(isc_cc_gr_ctrl, ISC_CID_CC_GR, "CC GR", 0);
++ISC_CTRL_CC(isc_cc_gg_ctrl, ISC_CID_CC_GG, "CC GG", 256);
++ISC_CTRL_CC(isc_cc_gb_ctrl, ISC_CID_CC_GB, "CC GB", 0);
++ISC_CTRL_CC(isc_cc_og_ctrl, ISC_CID_CC_OG, "CC OG", 0);
++ISC_CTRL_CC(isc_cc_br_ctrl, ISC_CID_CC_BR, "CC BR", 0);
++ISC_CTRL_CC(isc_cc_bg_ctrl, ISC_CID_CC_BG, "CC BG", 0);
++ISC_CTRL_CC(isc_cc_bb_ctrl, ISC_CID_CC_BB, "CC BB", 256);
++ISC_CTRL_CC(isc_cc_ob_ctrl, ISC_CID_CC_OB, "CC OB", 0);
++
+ static const struct v4l2_ctrl_ops isc_awb_ops =3D {
+ 	.s_ctrl =3D isc_s_awb_ctrl,
+ 	.g_volatile_ctrl =3D isc_g_volatile_awb_ctrl,
+@@ -1753,6 +1957,20 @@ static int isc_ctrl_init(struct isc_device *isc)
+ 	isc->gr_off_ctrl =3D v4l2_ctrl_new_custom(hdl, &isc_gr_off_ctrl, NULL);
+ 	isc->gb_off_ctrl =3D v4l2_ctrl_new_custom(hdl, &isc_gb_off_ctrl, NULL);
 =20
- /* Offset for SUB422 register specific to sama5d2 product */
- #define ISC_SAMA5D2_SUB422_OFFSET	0
++	/* Color correction control */
++	isc->cc_rr =3D v4l2_ctrl_new_custom(hdl, &isc_cc_rr_ctrl, NULL);
++	isc->cc_rg =3D v4l2_ctrl_new_custom(hdl, &isc_cc_rg_ctrl, NULL);
++	isc->cc_rb =3D v4l2_ctrl_new_custom(hdl, &isc_cc_rb_ctrl, NULL);
++	isc->cc_or =3D v4l2_ctrl_new_custom(hdl, &isc_cc_or_ctrl, NULL);
++	isc->cc_gr =3D v4l2_ctrl_new_custom(hdl, &isc_cc_gr_ctrl, NULL);
++	isc->cc_gg =3D v4l2_ctrl_new_custom(hdl, &isc_cc_gg_ctrl, NULL);
++	isc->cc_gb =3D v4l2_ctrl_new_custom(hdl, &isc_cc_gb_ctrl, NULL);
++	isc->cc_og =3D v4l2_ctrl_new_custom(hdl, &isc_cc_og_ctrl, NULL);
++	isc->cc_br =3D v4l2_ctrl_new_custom(hdl, &isc_cc_br_ctrl, NULL);
++	isc->cc_bg =3D v4l2_ctrl_new_custom(hdl, &isc_cc_bg_ctrl, NULL);
++	isc->cc_bb =3D v4l2_ctrl_new_custom(hdl, &isc_cc_bb_ctrl, NULL);
++	isc->cc_ob =3D v4l2_ctrl_new_custom(hdl, &isc_cc_ob_ctrl, NULL);
++
+ 	/*
+ 	 * The cluster is in auto mode with autowhitebalance enabled
+ 	 * and manual mode otherwise.
 diff --git a/drivers/media/platform/microchip/microchip-isc.h b/drivers/med=
 ia/platform/microchip/microchip-isc.h
-index ad4e98a1dd8f..2c8bcaaa26ea 100644
+index 2c8bcaaa26ea..db651c9f1387 100644
 --- a/drivers/media/platform/microchip/microchip-isc.h
 +++ b/drivers/media/platform/microchip/microchip-isc.h
-@@ -88,7 +88,7 @@ struct isc_format {
- #define GAM_RENABLE	BIT(9)
- #define VHXS_ENABLE	BIT(10)
- #define CSC_ENABLE	BIT(11)
--#define CBC_ENABLE	BIT(12)
-+#define CBHS_ENABLE	BIT(12)
- #define SUB422_ENABLE	BIT(13)
- #define SUB420_ENABLE	BIT(14)
+@@ -134,6 +134,12 @@ enum{
+ 	HIST_DISABLED,
+ };
 =20
-@@ -139,6 +139,8 @@ struct isc_ctrls {
++#define GAMMA_ENTRIES		64
++
++/* CC matrix coefficients (3x3 row-major) and per-channel offsets */
++#define ISC_CC_COEFF_NUM	9
++#define ISC_CC_OFFSET_NUM	3
++
+ struct isc_ctrls {
+ 	struct v4l2_ctrl_handler handler;
 =20
- 	u32 brightness;
- 	u32 contrast;
-+	u32 hue;
-+	u32 saturation;
- 	u8 gamma_index;
- #define ISC_WB_NONE	0
- #define ISC_WB_AUTO	1
-@@ -342,6 +344,7 @@ struct isc_device {
- 	/* pointer to the defined gamma table */
- 	const u32	(*gamma_table)[GAMMA_ENTRIES];
- 	u32		gamma_max;
-+	bool		has_cbhs;
+@@ -158,6 +164,11 @@ struct isc_ctrls {
+ #define HIST_MIN_INDEX		0
+ #define HIST_MAX_INDEX		1
+ 	u32 hist_minmax[HIST_BAYER][2];
++
++	/* CC matrix shadow; committed from isc_set_pipeline() and isc_awb_work()=
+ */
++	s32 cc_coeff[ISC_CC_COEFF_NUM];
++	s32 cc_offset[ISC_CC_OFFSET_NUM];
++	bool cc_dirty;
+ };
 =20
- 	u32		max_width;
- 	u32		max_height;
-diff --git a/drivers/media/platform/microchip/microchip-sama5d2-isc.c b/dri=
-vers/media/platform/microchip/microchip-sama5d2-isc.c
-index 66d3d7891991..239aac170472 100644
---- a/drivers/media/platform/microchip/microchip-sama5d2-isc.c
-+++ b/drivers/media/platform/microchip/microchip-sama5d2-isc.c
-@@ -54,7 +54,7 @@
+ #define ISC_PIPE_LINE_NODE_NUM	15
+@@ -338,6 +349,18 @@ struct isc_device {
+ 		struct v4l2_ctrl	*b_off_ctrl;
+ 		struct v4l2_ctrl	*gr_off_ctrl;
+ 		struct v4l2_ctrl	*gb_off_ctrl;
++		struct v4l2_ctrl        *cc_rr;
++		struct v4l2_ctrl        *cc_rg;
++		struct v4l2_ctrl        *cc_rb;
++		struct v4l2_ctrl        *cc_or;
++		struct v4l2_ctrl        *cc_gr;
++		struct v4l2_ctrl        *cc_gg;
++		struct v4l2_ctrl        *cc_gb;
++		struct v4l2_ctrl        *cc_og;
++		struct v4l2_ctrl        *cc_br;
++		struct v4l2_ctrl        *cc_bg;
++		struct v4l2_ctrl        *cc_bb;
++		struct v4l2_ctrl        *cc_ob;
+ 	};
 =20
- #define ISC_SAMA5D2_PIPELINE \
- 	(WB_ENABLE | CFA_ENABLE | CC_ENABLE | GAM_ENABLES | CSC_ENABLE | \
--	CBC_ENABLE | SUB422_ENABLE | SUB420_ENABLE)
-+	CBHS_ENABLE | SUB422_ENABLE | SUB420_ENABLE)
+ #define GAMMA_ENTRIES	64
+diff --git a/include/linux/atmel-isc-media.h b/include/linux/atmel-isc-medi=
+a.h
+index 79a320fb724e..028d34c8de81 100644
+--- a/include/linux/atmel-isc-media.h
++++ b/include/linux/atmel-isc-media.h
+@@ -53,6 +53,19 @@ enum atmel_isc_ctrl_id {
+ 	ISC_CID_GR_OFFSET,
+ 	/* Green Blue component offset control */
+ 	ISC_CID_GB_OFFSET,
++	/* Color correction registers */
++	ISC_CID_CC_RR,
++	ISC_CID_CC_RG,
++	ISC_CID_CC_RB,
++	ISC_CID_CC_OR,
++	ISC_CID_CC_GR,
++	ISC_CID_CC_GG,
++	ISC_CID_CC_GB,
++	ISC_CID_CC_OG,
++	ISC_CID_CC_BR,
++	ISC_CID_CC_BG,
++	ISC_CID_CC_BB,
++	ISC_CID_CC_OB,
+ };
 =20
- /* This is a list of the formats that the ISC can *output* */
- static const struct isc_format sama5d2_controller_formats[] =3D {
-diff --git a/drivers/media/platform/microchip/microchip-sama7g5-isc.c b/dri=
-vers/media/platform/microchip/microchip-sama7g5-isc.c
-index 8b73b625d92b..6705011edc2a 100644
---- a/drivers/media/platform/microchip/microchip-sama7g5-isc.c
-+++ b/drivers/media/platform/microchip/microchip-sama7g5-isc.c
-@@ -61,7 +61,7 @@
- #define ISC_SAMA7G5_PIPELINE \
- 	(DPC_DPCENABLE | DPC_GDCENABLE | DPC_BLCENABLE | \
- 	WB_ENABLE | CFA_ENABLE | CC_ENABLE | GAM_ENABLES | CSC_ENABLE | \
--	CBC_ENABLE | SUB422_ENABLE | SUB420_ENABLE)
-+	CBHS_ENABLE | SUB422_ENABLE | SUB420_ENABLE)
-=20
- /* This is a list of the formats that the ISC can *output* */
- static const struct isc_format sama7g5_controller_formats[] =3D {
-@@ -257,9 +257,8 @@ static void isc_sama7g5_config_cbc(struct isc_device *i=
-sc)
- 	/* Configure what is set via v4l2 ctrls */
- 	regmap_write(regmap, ISC_CBC_BRIGHT + isc->offsets.cbc, isc->ctrls.bright=
-ness);
- 	regmap_write(regmap, ISC_CBC_CONTRAST + isc->offsets.cbc, isc->ctrls.cont=
-rast);
--	/* Configure Hue and Saturation as neutral midpoint */
--	regmap_write(regmap, ISC_CBCHS_HUE, 0);
--	regmap_write(regmap, ISC_CBCHS_SAT, (1 << 4));
-+	regmap_write(regmap, ISC_CBHS_HUE, isc->ctrls.hue);
-+	regmap_write(regmap, ISC_CBHS_SAT, isc->ctrls.saturation);
- }
-=20
- static void isc_sama7g5_config_cc(struct isc_device *isc)
-@@ -461,6 +460,7 @@ static int microchip_xisc_probe(struct platform_device =
-*pdev)
-=20
- 	isc->gamma_table =3D isc_sama7g5_gamma_table;
- 	isc->gamma_max =3D 2;
-+	isc->has_cbhs =3D true;
-=20
- 	if (of_machine_is_compatible("microchip,sam9x7")) {
- 		isc->max_width =3D ISC_SAM9X7_MAX_SUPPORT_WIDTH;
+ #endif
 --=20
 2.34.1
 
