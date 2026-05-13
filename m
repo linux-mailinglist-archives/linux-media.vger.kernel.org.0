@@ -1,237 +1,217 @@
-Return-Path: <linux-media+bounces-61391-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61393-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uIraKLZWBGqjHAIAu9opvQ
-	(envelope-from <linux-media+bounces-61391-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 12:47:18 +0200
+	id MGA8AXBWBGqjHAIAu9opvQ
+	(envelope-from <linux-media+bounces-61393-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 12:46:08 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58DE0531976
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 12:47:18 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 800D553191E
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 12:46:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0804630FC870
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 10:44:39 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 3006E30557B6
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 10:45:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31D443FE670;
-	Wed, 13 May 2026 10:44:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 139FE3EFD24;
+	Wed, 13 May 2026 10:45:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Np7/q6Ef"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Y7suu8JB";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VwdnWGOx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A603FCB1F
-	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 10:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D2F379C2F
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 10:45:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778669054; cv=none; b=n3ekQYWfa/U4SrA1ovv4yWcTZP93zQJCcgXIVT4T5eOYYA+AMhzNQGTtTn4iHOjNUPHT2YvzYoihn/U6zfk6sKWOGmB7OiNsc9AS4wurTqm5nCilwnB8iSTbQ9Q2DYBAUDiN1MG1+HfxgD+tNwLR308vCXJkopdYXVulKgvPPQ4=
+	t=1778669135; cv=none; b=tkwBj4ulb6oQ4cu7Gqas8Z1nOzH8YWX5O3ptm0ioW1e4UuinZdrMM3SklxkdD0SYQfe9ruKoi3XXDUj3BvdT+Vk+TQ/ny0vHAGIW0nuMr9dHQ47sHoSOoddkT+utAm6fdQfy+sToK3VK8VQqZcopDtapcqqxFoGV7hBhxXC5CFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778669054; c=relaxed/simple;
-	bh=7p7k643r5Rz+M8RPUIqqvyB9PUohinV4VFwG5+UmvB0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=m6l50J0R6VDCYp7PCtbBlBPDyjj7o4jP2aC9rc7aKNYRY0nHBOx/Z8jApgXdy/zz/Dp515YYreyQWYWqoOfWfxHZnbyqfBy7tC/jgikS0D2yPwg+7ah4CBEqRSsIkEPKc6T8tG+6nVvf7FiiFHNXE9Wy9bt97X0xDtsg4YuUuq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Np7/q6Ef; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778669053; x=1810205053;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=7p7k643r5Rz+M8RPUIqqvyB9PUohinV4VFwG5+UmvB0=;
-  b=Np7/q6EfxytAxL61YlILcsH3PZ6Nr7jyyn7UpxkhOzr031SISdYL9M25
-   WS1AKm45mWdhcfWokUdQVTf+Hn1reuWNfgIws0ssfLUmfTNK4xm+vOdA1
-   MY5RgpvDgLmxiFc99Vu59Eu3oM/VxQwvnKPhV5hAGIR9EW6/dQ1tyye1k
-   pRRTiGDPqnULhffElhvEiXYYvsAKrp1GSyn9dBb8+WAD/aslTtz3TBD2Q
-   SipXTOZyvbEZRWr1rQlF/1qIMZknJxbSqaiv1qCp4L4qQBJQ8VkjLIrzH
-   cq8iH2JlH1O21H9Nvql38UksH7ITW8US3lLXdU/nk85xFbCxZKPaRAkz5
-   g==;
-X-CSE-ConnectionGUID: RZjhDIF5Q06mJVOZrHfOBg==
-X-CSE-MsgGUID: ELqhZjuSR3CeB8Tr1quPEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="83464495"
-X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="83464495"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 03:44:12 -0700
-X-CSE-ConnectionGUID: cd+MDVk4R/SUWSVyPYgDdg==
-X-CSE-MsgGUID: 5RJcylrKRH+eFv+5VyiiwA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
-   d="scan'208";a="233599293"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.111])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 03:44:09 -0700
-Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id ED571121DCB;
-	Wed, 13 May 2026 13:43:59 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
-	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1wN74I-00000009S2O-3qf8;
-	Wed, 13 May 2026 13:43:58 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: laurent.pinchart@ideasonboard.com,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>
-Subject: [PATCH 17/17] staging: media: ipu7: Use v4l2_subdev_get_frame_desc()
-Date: Wed, 13 May 2026 13:43:58 +0300
-Message-ID: <20260513104358.2252605-18-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260513104358.2252605-1-sakari.ailus@linux.intel.com>
-References: <20260513104358.2252605-1-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1778669135; c=relaxed/simple;
+	bh=oJ2fqk1W/16s9nzcDQBXojhk/XMkE0ss/He9zlma3kA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dwX+7tpHe0t02Q2JX9Xxl9nHUWBbNoAnlhP9EbQjDoPx8PGaAYuv4ZJM3bLYZuGoV/KQZb+0cAG2TfrXYU/jOeAqyJYb1MqRGRBv5LWYzcmUDWFdGHICLhf850z6SWbH9XDqoCTDxfXsYgy0VPf9hMMgCNXm4X+4owe5M0VHZW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Y7suu8JB; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=VwdnWGOx; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64D8xgOI4161718
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 10:45:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=vENCCUHbcJ7o6OBuExz9lMOn
+	FO5tArtUpU8fistw/ck=; b=Y7suu8JBR7AtIXRgSJaj4wd5KgDq76p/XN/VddF/
+	fM4gHi1tSxjLrwBmDWg4+O9P7AIS5buRo3HCPogxKZT5jHrPTw4rhV0EfHXOugDz
+	TBG8/udvCC+wHQQvMbt2Ab1VDKscp0b7h2mM8tr2yyCogUx2XTUmrqSp9nZUyKad
+	UWh9u0ZGFvXzhjdptLEi7a+fEUrfVLt3gJtb4BEilAEpdRDlgnKwhDxjJRmX+SPc
+	c4JkDEV5X8awUVkxUYMC4Ne5dOqTJpTjOSgaGY1Aevq/o/eiiWIna3n/5F42A2bw
+	gs2TDXYNhl9iljpSxb2UTdJ+htK7+pqlKnTMWmTSERN07g==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e4p91rcxw-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 10:45:33 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-50d5d1c2289so59775491cf.2
+        for <linux-media@vger.kernel.org>; Wed, 13 May 2026 03:45:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1778669133; x=1779273933; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vENCCUHbcJ7o6OBuExz9lMOnFO5tArtUpU8fistw/ck=;
+        b=VwdnWGOxKY8sVKcIgapx2MddvYYnUvARQr8mYTAmEmltlJnEb+sVNsADnTyLFyS8Ht
+         i39ERPEDcsRDOZRCJQWL+RP9Bv4fUfaz1ZZwJjcLYawXuOMIvuFe4JzgL2h81jCytu2p
+         ppQzTexMYSV4F5+tXflK/IUoWn5+TMY+xLT6M1guUGLBQVohH9fqZKBjYzV+3WRNmpCp
+         K8/o/C4l4FIQ4+FeqCrU3qUvujnvPhQJCaorH2AiOlEm65OFV3Gfbn+HNH/8EDdOzsaz
+         CD+qnKI/VI06N/80fmcilJplGHgiqCGg9Z88NoH5zecez55sUqzDPfoIhbgiqPxlh5KE
+         Zypw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778669133; x=1779273933;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vENCCUHbcJ7o6OBuExz9lMOnFO5tArtUpU8fistw/ck=;
+        b=dPk7mtDym+VBLyOrUZvu7KMuVkpve21vz2QDBIpx8JUEj66cOOOAMvwnJ+VuG83oVV
+         rL/6PPL+rtuTM0t5IYfU8nJwOsiRdkeQYURaTl75Z/I5ebF2Kik3l2OZ/YHSDur0/Msa
+         TdLe3Go7CxcZzCjdzsYfbpXuc+lrXnPdydjezz6EJ2QbeobxHFTYxI9lAGFSslAnC1cA
+         CjrVGrufMGkoUHZt9i2kxw5Hv58SoU1rRQUU/BAxQpVSzY8uOrkoHT1bR2S58dSDUQqu
+         wckxkW9LT4SZRnyCUgkZ01Fo1FJaLtphYEUlrEhlX5XkVsA+0Wto6UsqTxeCrm4+v+aJ
+         2uog==
+X-Forwarded-Encrypted: i=1; AFNElJ+qPlO9HCGrg7mpUCXz+VupWt6qhOVHWo/BlSmCXX6VNXA9bIeIztjxzy3S0VUIRwaoGfavc16J3K74fA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9rsGo0skaHFx3ZeMaPGV1ufuTo4qMz+ME22isxTvX+L+vokT8
+	YCCSC3Ddr59lAr6PEeFVVGP0MTPnKA9syWAznkY3hR5DB6aTbus6caCh+7ZoDIXSjl1Z7x1pDqt
+	n5vC1ib9VyIU3/4jPRrs9JRmIETDGNc+YMWFn4esUonCz2EpNSKrbdFRFextx6pCTEA==
+X-Gm-Gg: Acq92OFTASB/5h6z0UmdBBO3TU7XfHpzoTpCoTCVs4IWaoaidsMyMunOXhedV6isTnA
+	O54lXveVG4eCl0JqiGDXNhAr7WONCGi9g8LkKgmmbkKPuMeq4I6fj58oAfpBq2xN1c7gwmTpZBT
+	zEt2T8txmvE7R+DtbQ2euf0YJfs8AkpJ1JRYVBGlvYZkijrV6vVRIwzJZmXEV3t7A7EAun45eXx
+	laztnIr+3Tvj2cnlqR7G8cf73MuKWf4+oJp2Xdd/3Fvy6YoOnn8mIIWMV414afNGAgGSnHkIC0T
+	1h49cCBCBX7v9MCZ4M0igs8P2NQh6klg04c1pAemMj+VjVLpd9m9/4W9bTtOh3H79SR4dVHq1Ha
+	kATpPMwolaFnHAvVHfG5Fmen7Mo1qEbzMPrQo5XqNsa7vMjUUPmoK7O+6TN/fZa0gDti110BwDj
+	CXQX8xQjP4/WgNnFqdo47HZFU+CwRYhOF7pDs=
+X-Received: by 2002:ac8:594c:0:b0:514:d48c:f69f with SMTP id d75a77b69052e-5162f5eae22mr34218161cf.51.1778669132580;
+        Wed, 13 May 2026 03:45:32 -0700 (PDT)
+X-Received: by 2002:ac8:594c:0:b0:514:d48c:f69f with SMTP id d75a77b69052e-5162f5eae22mr34217831cf.51.1778669132178;
+        Wed, 13 May 2026 03:45:32 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8a956b225sm3922286e87.83.2026.05.13.03.45.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 May 2026 03:45:31 -0700 (PDT)
+Date: Wed, 13 May 2026 13:45:29 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 6/6] media: qcom: iris: vdec: allow GEN2 decoding into
+ 10bit format
+Message-ID: <yg7jatjy4ghl6m7mbldpdrqiv6vp7inyskaepsb7y2hsb3fadv@6m74ofi4jz36>
+References: <20260511-topic-sm8x50-iris-10bit-decoding-v3-0-7fc049b93042@linaro.org>
+ <20260511-topic-sm8x50-iris-10bit-decoding-v3-6-7fc049b93042@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 58DE0531976
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260511-topic-sm8x50-iris-10bit-decoding-v3-6-7fc049b93042@linaro.org>
+X-Proofpoint-ORIG-GUID: 6ZFNoM8A7QOX5Khf3smksEXjfowWIW0D
+X-Proofpoint-GUID: 6ZFNoM8A7QOX5Khf3smksEXjfowWIW0D
+X-Authority-Analysis: v=2.4 cv=G9Ys1dk5 c=1 sm=1 tr=0 ts=6a04564d cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=KKAkSRfTAAAA:8
+ a=Nvab_HKmlmOO6rdt0l0A:9 a=CjuIK1q_8ugA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+ a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEzMDExMiBTYWx0ZWRfX5nsaAEET+jL1
+ pxgB/+xI1N5znVnnedTiAkLJ+xLPL37o04XfNdLDnaXaZHA+jIDhaJ+QZQRVbsz6o9Hc3NM3zZH
+ nrG6kadALZ5Z7JuOJ+4J44nkJEDbsRf257tGJbIB+1MQCjiHy4TyscQXrlLUW5pcRDq3Sb+UmD5
+ Ks6wYDD3bqFB0fWb7xJot0DobyuJiaMeZ7fqNuAq8VijMVUxs1TuugbBkyqRHO+sdEEpC/7lN/q
+ SKCjGQzCHesVElPVZ/7AdBX2Ric1zs38iFp/U/0ddDiLcNTgxpCvfYIlDsUyfk+cjax6TrsbEZn
+ vYQ4tvg+Zc2s9/WwQoh7cQjaSAhcUhZLIJRfa1HRTMzzNaLntuTszu6dc5xK2zaNiJSwGmoSyuA
+ F+l/4MPC8ozeCxPj8N7//AdRfgJjOdawa2yD/2aKJ+k/nr8yki1ajvcwHA6STgvLh8T4C/5OAxm
+ m9eFZdrUWQqpmIHsV9A==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-11_05,2026-05-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 malwarescore=0 adultscore=0 spamscore=0 phishscore=0
+ clxscore=1015 priorityscore=1501 lowpriorityscore=0 bulkscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605050000
+ definitions=main-2605130112
+X-Rspamd-Queue-Id: 800D553191E
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61391-lists,linux-media=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linux.intel.com:mid,intel.com:email,intel.com:dkim];
-	HAS_ORG_HEADER(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	NEURAL_HAM(-0.00)[-1.000];
-	DKIM_TRACE(0.00)[intel.com:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61393-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,linaro.org:email,qualcomm.com:dkim,oss.qualcomm.com:dkim];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-Call v4l2_subdev_get_frame_desc() to obtain the frame descriptor. This is
-preferred over calling the get_frame_desc() pad operation directly.
+On Mon, May 11, 2026 at 11:20:31AM +0200, Neil Armstrong wrote:
+> Add the necessary bits into the gen2 platforms tables and handlers
+> to allow decoding streams into 10bit pixel formats.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  .../media/platform/qcom/iris/iris_hfi_gen2_response.c    | 16 +++++++++++++++-
+>  drivers/media/platform/qcom/iris/iris_instance.h         |  2 ++
+>  drivers/media/platform/qcom/iris/iris_platform_gen2.c    |  8 +++++---
+>  drivers/media/platform/qcom/iris/iris_vdec.c             |  8 ++++++++
+>  4 files changed, 30 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+> index 0541e02d7507..b6d815c01f1d 100644
+> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+> @@ -542,6 +542,15 @@ static void iris_hfi_gen2_read_input_subcr_params(struct iris_inst *inst)
+>  	pixmp_ip->width = width;
+>  	pixmp_ip->height = height;
+>  
+> +	if (subsc_params.bit_depth == BIT_DEPTH_8 &&
+> +	    pixmp_op->pixelformat != V4L2_PIX_FMT_NV12 &&
+> +	    pixmp_op->pixelformat != V4L2_PIX_FMT_QC08C)
+> +		pixmp_op->pixelformat = V4L2_PIX_FMT_NV12;
+> +	else if (subsc_params.bit_depth == BIT_DEPTH_10 &&
+> +		 pixmp_op->pixelformat != V4L2_PIX_FMT_P010 &&
+> +		 pixmp_op->pixelformat != V4L2_PIX_FMT_QC10C)
+> +		pixmp_op->pixelformat = V4L2_PIX_FMT_P010;
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- .../staging/media/ipu7/ipu7-isys-csi-phy.c    | 16 ++++++--------
- drivers/staging/media/ipu7/ipu7-isys-csi2.c   | 22 +++++++++----------
- 2 files changed, 17 insertions(+), 21 deletions(-)
+Do we support decoding of 10-bit videos to NV12 buffers?
 
-diff --git a/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c b/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c
-index 3f15af3b4c79..75ac77e1b782 100644
---- a/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c
-+++ b/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c
-@@ -5,6 +5,7 @@
- 
- #include <linux/bitmap.h>
- #include <linux/bug.h>
-+#include <linux/cleanup.h>
- #include <linux/delay.h>
- #include <linux/device.h>
- #include <linux/iopoll.h>
-@@ -300,7 +301,8 @@ static int ipu7_isys_csi_ctrl_dids_config(struct ipu7_isys_csi2 *csi2, u32 id)
- {
- 	struct v4l2_mbus_frame_desc_entry *desc_entry = NULL;
- 	struct device *dev = &csi2->isys->adev->auxdev.dev;
--	struct v4l2_mbus_frame_desc desc;
-+	struct v4l2_mbus_frame_desc *desc __free(v4l2_subdev_free_frame_desc) =
-+		NULL;
- 	struct v4l2_subdev *ext_sd;
- 	struct media_pad *pad;
- 	unsigned int i;
-@@ -318,17 +320,13 @@ static int ipu7_isys_csi_ctrl_dids_config(struct ipu7_isys_csi2 *csi2, u32 id)
- 		 pad->entity->name))
- 		return -ENODEV;
- 
--	ret = v4l2_subdev_call(ext_sd, pad, get_frame_desc, pad->index, &desc);
-+	desc = v4l2_subdev_get_frame_desc(ext_sd, pad->index,
-+					  V4L2_MBUS_FRAME_DESC_TYPE_CSI2);
- 	if (ret)
- 		return ret;
- 
--	if (desc.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
--		dev_warn(dev, "Unsupported frame descriptor type\n");
--		return -EINVAL;
--	}
--
--	for (i = 0; i < desc.num_entries; i++) {
--		desc_entry = &desc.entry[i];
-+	for (i = 0; i < desc->num_entries; i++) {
-+		desc_entry = &desc->entry[i];
- 		if (desc_entry->bus.csi2.vc < IPU7_NR_OF_CSI2_VC) {
- 			ret = __dids_config(csi2, id, desc_entry->bus.csi2.vc,
- 					    desc_entry->bus.csi2.dt);
-diff --git a/drivers/staging/media/ipu7/ipu7-isys-csi2.c b/drivers/staging/media/ipu7/ipu7-isys-csi2.c
-index f34eabfe8a98..5a4a53ae1104 100644
---- a/drivers/staging/media/ipu7/ipu7-isys-csi2.c
-+++ b/drivers/staging/media/ipu7/ipu7-isys-csi2.c
-@@ -6,6 +6,7 @@
- #include <linux/atomic.h>
- #include <linux/bits.h>
- #include <linux/bug.h>
-+#include <linux/cleanup.h>
- #include <linux/delay.h>
- #include <linux/device.h>
- #include <linux/io.h>
-@@ -491,7 +492,8 @@ int ipu7_isys_csi2_get_remote_desc(u32 source_stream,
- {
- 	struct v4l2_mbus_frame_desc_entry *desc_entry = NULL;
- 	struct device *dev = &csi2->isys->adev->auxdev.dev;
--	struct v4l2_mbus_frame_desc desc;
-+	struct v4l2_mbus_frame_desc *desc __free(v4l2_subdev_free_frame_desc) =
-+		NULL;
- 	struct v4l2_subdev *source;
- 	struct media_pad *pad;
- 	unsigned int i;
-@@ -505,18 +507,14 @@ int ipu7_isys_csi2_get_remote_desc(u32 source_stream,
- 	if (!pad)
- 		return -EPIPE;
- 
--	ret = v4l2_subdev_call(source, pad, get_frame_desc, pad->index, &desc);
-+	desc = v4l2_subdev_get_frame_desc(source, pad->index,
-+					  V4L2_MBUS_FRAME_DESC_TYPE_CSI2);
- 	if (ret)
- 		return ret;
- 
--	if (desc.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
--		dev_err(dev, "Unsupported frame descriptor type\n");
--		return -EINVAL;
--	}
--
--	for (i = 0; i < desc.num_entries; i++) {
--		if (source_stream == desc.entry[i].stream) {
--			desc_entry = &desc.entry[i];
-+	for (i = 0; i < desc->num_entries; i++) {
-+		if (source_stream == desc->entry[i].stream) {
-+			desc_entry = &desc->entry[i];
- 			break;
- 		}
- 	}
-@@ -534,8 +532,8 @@ int ipu7_isys_csi2_get_remote_desc(u32 source_stream,
- 
- 	*entry = *desc_entry;
- 
--	for (i = 0; i < desc.num_entries; i++) {
--		if (desc_entry->bus.csi2.vc == desc.entry[i].bus.csi2.vc)
-+	for (i = 0; i < desc->num_entries; i++) {
-+		if (desc_entry->bus.csi2.vc == desc->entry[i].bus.csi2.vc)
- 			(*nr_queues)++;
- 	}
- 
+> +
+>  	switch (pixmp_op->pixelformat) {
+>  	case V4L2_PIX_FMT_P010:
+>  		pixmp_op->width = ALIGN(width, 128);
+
 -- 
-2.47.3
-
+With best wishes
+Dmitry
 
