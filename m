@@ -1,301 +1,195 @@
-Return-Path: <linux-media+bounces-61370-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61371-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kF9kLiFNBGrNGgIAu9opvQ
-	(envelope-from <linux-media+bounces-61370-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 12:06:25 +0200
+	id 4KLwNpZRBGo6HAIAu9opvQ
+	(envelope-from <linux-media+bounces-61371-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 12:25:26 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 706525311CC
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 12:06:25 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52AE55314B8
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 12:25:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 16D0E307751B
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 10:06:11 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3708C301ABBF
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 10:25:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BFC639021A;
-	Wed, 13 May 2026 10:06:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9D9139DBE0;
+	Wed, 13 May 2026 10:25:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nYiQ/0MW"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="S1QguBQ/";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jvhuhNJ6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FAA738C40B
-	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 10:06:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E67D437B032
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 10:25:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778666764; cv=none; b=uMDSEgSwQpYr/1FeHFW0m9jmmwGGGsq+i7iZpe5RP8GrMDPneJB7wv3Nm4vSuHyFy2EsiGZvurvBTxoig1g6/ChW9FdPkSG1GD8Q9gvtNgJYveBN70qK4Gp+HMwfg+3gNN7MziUqBLa6dpPbHUlYRgc33fTzy9p1p4iaYb1fZNc=
+	t=1778667918; cv=none; b=noCaHCJpwz2upYbvWSFgOcXK5M8Ax95MrKAQvPxNn9c3lH2egq/EevMxUFHZgG6Dw1BYILlA6SqGmJ0JlrdyzXeo37CGhX2rqQvdHUgsAbOLFxCgJJdJllre7AuUm7Qt/HTXXrpFkXIwr9WyxuK7VWVl+cMd7LPnIKMNjN612Go=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778666764; c=relaxed/simple;
-	bh=CfUsDrF5ylNvxQAC5m07A4hEbvmSGmwJUzmCib0VNCs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ppBIOUavsNuIppXSHZ+Md0TK/ak1KUh2lB1m+yf/FWue90SXI3bybUyM7sYLOadrzIMF0pKWrFcLIcjNAxymX2JZtCfrOb4I+HsvEprwDtdCDbgTvsDvA8UtNnq9Cz3M2z/nbWH0hXt32O19rEWaA8TTSExyFMTz9rTNgsCsBEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nYiQ/0MW; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-bcda7765d64so611328466b.1
-        for <linux-media@vger.kernel.org>; Wed, 13 May 2026 03:06:02 -0700 (PDT)
+	s=arc-20240116; t=1778667918; c=relaxed/simple;
+	bh=4xeboWFZ7KIkPvp8DbqtxY1UtjVPp33APGryhQKBOv4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ON4bNeRhQEb8m6FnBx6lVRPpzrWv6vhj+IeJouBjJpl0sWv6nM4oHgoUpoM9JsxD0k32f1SGb/XtA0Lp6op2e49pqzGCtERanqfpzb3hC49FbnaH/t1PrvNhJRJY7pmBdkWdHnP7TtBD1Z/GvPsqfMGQUcDlpeTsbLBNjfkW21U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=S1QguBQ/; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=jvhuhNJ6; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64D8m9eO3474707
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 10:25:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=NC4z8sUzDtuoZefjQNFdQx8N
+	XDr0UWsSEbD8EvkofEE=; b=S1QguBQ/dKua1sKA0ZsCJe8NVCPqr4tczR65Qewl
+	fRNY9MHhQlpYlEjMuh7UU0wodljBsO62IXlejU5cYE5bmrvBOLCzSmQU+Sjx7ab0
+	OjjY4r979cNK/Ghw6KlyHVC9qRQh2K7M6R9cmYDgp5xqJkPibdZg1KNRy+ru3l68
+	/Mfp42wV2h0bZkIjHQzmmdF/8qEvvnS9R8a0YDfCphdKul3TeZnuoubP9ZMGrwZ3
+	dBd5H7fD+e6aLZtoKNSfzTvXTyyo2/OH2/lK6Ftul09p0B6N2FAZ79+XqFyqcRMJ
+	oaEeGD2KselY8VlTwglMeuE3IkyWyBwx1EemiB3cYfP3DQ==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e4p418c1m-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 10:25:15 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-514551d5f2aso183212281cf.2
+        for <linux-media@vger.kernel.org>; Wed, 13 May 2026 03:25:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778666761; x=1779271561; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y8agHE2UtR+0v8hUNRpGN3/NHmgQczj9TZKmKbKc+JU=;
-        b=nYiQ/0MWx9zqnzz8qzzGMzyLjhAbZWS6PTm/379VNMshJcLtpIu5kxF6cnraFj1DbO
-         BlzU1fL4lAJVK+xJyT+t0C2pgU0zXoRNRBJDuoDV7aRAV8/BXPrXurjZhhbFPRP66G4B
-         IJsfO+VD/5yKfUDzBtYj/qCOyb/VG1WmTK1QWVOgt5y86ToAS0jGu5rCD0iTU4ZwdKbt
-         PGSxd6voPOYFRhsskQZ2JVQRddLAKGHuQPOZVZK0jJea0/IaUCVN2Tich+MDh3mSnq/3
-         vJA4Hf9G9AHe9O8fkuLzpoR2r1IZWqWqTZZsA1X2Vx2+bgVyylnlQ272ERqYKRVGESq0
-         DC0g==
+        d=oss.qualcomm.com; s=google; t=1778667915; x=1779272715; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NC4z8sUzDtuoZefjQNFdQx8NXDr0UWsSEbD8EvkofEE=;
+        b=jvhuhNJ6s1N8PgD6Fz0b1JZb6efn4ob6cHatf+cTqXLpGhAaAPiHaWcisofVt3K+Zk
+         Q5DKy4bCptkWiVDGYgqIojVLxIGFpRrTGi826IYUBF33X/RPD3z8TzWlPythMUyzUOzq
+         zJTYouS58rSZk0FHoigLa7AaxctCvh9X8UbrnXAMqibnYJQqV3PIfxcmovqdQglvIJQO
+         4ddeyijrXZEAefpclljIFyksrX3/+QShUIiNCoAay+r1PZisyoVxwehJjMFOvEOnDvHL
+         jVUjDvqetF8GvIBMjS5l3lBGxOA9VX8jrnECkt+L67FIQELE2GjzePoh5eMpH8bSkQwx
+         OQlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778666761; x=1779271561;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Y8agHE2UtR+0v8hUNRpGN3/NHmgQczj9TZKmKbKc+JU=;
-        b=gQuv4z/L/nKro1s3YTM5bA2QejXvMYZ2/+Q0yhiFASy56FIeXZ4ddVmIHO0wJ7AxbK
-         gBAI++30xRFvOjnqo+1kiKRuEMJOn9RO9kPqV+lsLXlvdAoeZgUYYD6m+5R2YHV0psNt
-         SwNgkB4qbPtZJoXVMp3sP8wBuqVeuOPalcIJnpfMYkCoyxlv1LxOZe9q4GOoM+efgP2d
-         7AdIoMBe8jxYOQI09CMusoBMqPT1ZZkCSO1KqOoRQvJzQPFfcz0TVrHpfEa+radFz/qh
-         IUzkpDDdMPxyImwd6azmrc21ruSmUt1kFvP95oQpa5esgY/19Jle8E2MI8i1ve1MTCIp
-         6OSA==
-X-Forwarded-Encrypted: i=1; AFNElJ8MG7CoYKBsfOn7LEgKiMXzNAea6yFCJ0m1VLL3Pp4h/xdLwHr68NE+iFxo82vXx14noyEWYU/2qp22cw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOJRFeWWsCi8gK+e4TkYn0zcSdtgt5C49Hyq+T4FYxU6hKzqj6
-	DMNFkXA/hDpjdGLt4G3eqMr0pTFOZUo3Hhm6mcAw45fsPMuNBGcpyot5
-X-Gm-Gg: Acq92OHnY0C1xYKrUWo8sb+f7B58Qk2lJYdnWIlB1SRM2mDqlXtFwQD/DK5h1CM7Yvb
-	8t7qANT5K0wqGtXKSefjQp01Ia3EhEWgjoSzL+nGBFydZYx5OXJss0oUmWA56sXuX0KEV7m9+GL
-	Ts8PqbubmOCB1w7cd0yXlmeGLKCF0Kku8d+ET7Ccl2meMXddRwhVtHgtBWd+G841uuLYJ2zgN0M
-	8EzshHWuwTuKswE//SxCvu8iYImcS5+K1tbVRotF9M/v49p40+X6BATorGtkgsFCydCSYNvvFDe
-	97oKGX5BHPFq6Z2s9uvBklJ2mTAvg+JXJANu6RJNetns5f7vVTjiZ20tuOyXJU1eed/ban2oxLb
-	n25XsC7njuCtApicz4pRl4wBtju0wF2MTUqAkPLsWvCM9MAWaoO1mh85yGI5H5T+5++m3DYiT9y
-	7mvlCH08rSohVCjUoCSvllanL+UFKm4Z31z8ExfD+SkfNBjMnByq/GcPbeJjcp
-X-Received: by 2002:a17:907:9493:b0:bc5:2352:555c with SMTP id a640c23a62f3a-bd3add39c4bmr174356866b.14.1778666759127;
-        Wed, 13 May 2026 03:05:59 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bd2dba8fd22sm216615666b.16.2026.05.13.03.05.58
+        d=1e100.net; s=20251104; t=1778667915; x=1779272715;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NC4z8sUzDtuoZefjQNFdQx8NXDr0UWsSEbD8EvkofEE=;
+        b=GuiXqBNCfoWOuKX0iH04LdRCO7F/uqDdUcHy5cwRJwaxzNN13PAqgc172sP3vN1qBD
+         3sq86l9XzQ7GTBpfNyJByLdo3feJZntkK4KD5OZB/3ZJmjC7lefzRXDII06AroJ/CBog
+         mxb0xyIsoFimaxtENTUNXQQdINX0UWQDKgY8w0hU2FMg5kHraXVS8luw08+29wJ8mRXb
+         OJsixVx/+7FLY/lDasro79y/jixy86voDcmxLX5SvzfigjJlE7SNLPnQ9GaoQarO5Uof
+         i71lK/nM28H43FwLlnHAdVu+l1tn8ZQKhR8pPfB4kg83Ot6m2ohdx+waONGx5LZzJTib
+         KpbQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9B9kOfajGm2LKcqZbCJNrgiyx3ey5lBpA0R0W6VZUG8hhTu7F2BGfGziDern+LxJjiF+2B4/6aippA+g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYgLgpaH3/dRdu2eEI6I8ySHg8hUbPAuZlVMhhEraS6m5WryZt
+	Rypg9jLfuHh/6frz0i7SvWp0F4oeiZYvJ4iAUF+EjcYPnGw6Q/dIesSAsD6oPRrcvnptn5yMkxu
+	u4TxUlhTrFsQSydMEKZKaT3J4txgwVFaK1/kKx4cjLpbW8i8/Z/5MUXFs8H6WkmE+6A==
+X-Gm-Gg: Acq92OHTZl85Z0EFxdcbRkxC9f73WcpKwxJMzm3dL/t4UJIXredUq22x+bdW45s+Tr5
+	R5orWTgKDMW+d/5KxIF15EDh8RcQxuAoq90uvbpcX/vdyd8GBr2vki6r+afFORzBqS6ck85rlNf
+	lTzVQR4EH7QxP9/PVyyB6Xy5UBiJbKmK2ypmGot3OSp7YjAYiDGFHpNBoSHVTcNBCNPf9gQEIMi
+	FQrFWABGThGf0ZE88nNWH4TlkPDSSKH1djpJcev8IHk632s2bCl4j77Ql3vPjK+zjqwEgBOOajN
+	Yfz7I/vFefjyS6Jkg5HmFb9j/IporAwYGLLMbZRCXOM2+V/LKhIqih0h/+bpbCf04JbXl9hVpte
+	oeHvobJctmHXFiQOP/W3AYqWm3dBwAOj5KdITZOho/eZej8ACxI/VDJ1C1oVE7Yy+P1qQKMMItx
+	QbenWcTweycmspshZDKhP6XfWVxlyLiSMasJo=
+X-Received: by 2002:ac8:574a:0:b0:50e:60b8:347e with SMTP id d75a77b69052e-5162f68c693mr33074301cf.59.1778667915239;
+        Wed, 13 May 2026 03:25:15 -0700 (PDT)
+X-Received: by 2002:ac8:574a:0:b0:50e:60b8:347e with SMTP id d75a77b69052e-5162f68c693mr33073901cf.59.1778667914755;
+        Wed, 13 May 2026 03:25:14 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a8cade5fadsm2312103e87.4.2026.05.13.03.25.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 03:05:58 -0700 (PDT)
-Date: Wed, 13 May 2026 11:05:57 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>, Christoph
- Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Andrew
- Morton <akpm@linux-foundation.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, Nitesh
- Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>, Anuj
- Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v3 02/10] iov_iter: add iterator type for dmabuf maps
-Message-ID: <20260513110557.705bdeed@pumpkin>
-In-Reply-To: <20a233d2f35274817aa643cc0fe113707eb47e72.1777475843.git.asml.silence@gmail.com>
-References: <cover.1777475843.git.asml.silence@gmail.com>
-	<20a233d2f35274817aa643cc0fe113707eb47e72.1777475843.git.asml.silence@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        Wed, 13 May 2026 03:25:13 -0700 (PDT)
+Date: Wed, 13 May 2026 13:25:10 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/6] media: qcom: iris: add helpers for 8bit and 10bit
+ formats
+Message-ID: <nxydcmpfpsgndmsuh2oarbmnm6ko4k44rlcxunsjgdpmh2zsof@53elccft32x2>
+References: <20260511-topic-sm8x50-iris-10bit-decoding-v3-0-7fc049b93042@linaro.org>
+ <20260511-topic-sm8x50-iris-10bit-decoding-v3-1-7fc049b93042@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 706525311CC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260511-topic-sm8x50-iris-10bit-decoding-v3-1-7fc049b93042@linaro.org>
+X-Authority-Analysis: v=2.4 cv=df+wG3Xe c=1 sm=1 tr=0 ts=6a04518b cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=EUspDBNiAAAA:8
+ a=KKAkSRfTAAAA:8 a=5Kv_vQZlazJxXpBqwIAA:9 a=CjuIK1q_8ugA:10 a=zgiPjhLxNE0A:10
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEzMDEwNyBTYWx0ZWRfX+I+5kKJm3XTm
+ pDQlBSuBcj3nB2y2sA/XERQ4S9oAbObFMUjMUXir33VbITtdl1nIgrV1hbMX4qATQLwojgVYTk9
+ felesyJkh2W44qUCUg45xVJAvQ8KQvxFyq3ladDCDXTIQWz3pmMYv1OHgdq3oLvMBQ5qkQF4vU6
+ 1J7unqsCGybywDjUFIUNIQxn+orvHELWsC6hjuN+cgKmzZaPakUjxm6er5xt4Qo+YpiTBna4kMF
+ jW+MLHKySlZNNTOU3BSZRI1daRK92fIvEiVq5sxRk9U1urH2QN/7EA2p3FkfuPDiz2o1D8oeH1m
+ bdFzpZ8odgjMnghsvo9N4QQKTgpi4munKur6hrguwhDz0p0eEx22GPYa1PmJ2kD2y7wPepB4xcD
+ /hcS6T1n1I2/b1o/yDP9FaMJzgcRCcbSSHNNKwmy+9PF0IxswcwvFCIDi7MmKEBkDcxQ3NW41+7
+ 2Y6zZwkrsji+9y7KbVg==
+X-Proofpoint-GUID: KyE8kfZZ2KyoSKngIDt5IZXhlaWDP1EQ
+X-Proofpoint-ORIG-GUID: KyE8kfZZ2KyoSKngIDt5IZXhlaWDP1EQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-11_05,2026-05-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 malwarescore=0 priorityscore=1501 suspectscore=0 clxscore=1015
+ impostorscore=0 phishscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605050000 definitions=main-2605130107
+X-Rspamd-Queue-Id: 52AE55314B8
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61370-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61371-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linaro.org:email];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[davidlaightlinux@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-On Wed, 29 Apr 2026 16:25:48 +0100
-Pavel Begunkov <asml.silence@gmail.com> wrote:
-
-> Introduce a new iterator type for dmabuf maps. The map in an opaque
-> object with internals and format specific to the subsystem / driver, and
-> only it can use that subsystem / driver for issuing IO. The task of the
-> middle layers is to pass the map / iterator further down, maybe doing
-> basic splitting and length checking. The iterator can only be used by
-> operations of the file the associated map was created for.
+On Mon, May 11, 2026 at 11:20:26AM +0200, Neil Armstrong wrote:
+> To simplify code checking for pixel formats, add helpers to
+> check for 8bit and 10bit formats.
 > 
-> Suggested-by: Keith Busch <kbusch@kernel.org>
-> Signed-off-by: Pavel Begunkov <asml.silence@gmail.com>
+> Reviewed-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
 > ---
->  include/linux/uio.h | 11 +++++++++++
->  lib/iov_iter.c      | 29 +++++++++++++++++++++++------
->  2 files changed, 34 insertions(+), 6 deletions(-)
+>  drivers/media/platform/qcom/iris/iris_utils.c | 12 ++++++++++++
+>  drivers/media/platform/qcom/iris/iris_utils.h |  2 ++
+>  2 files changed, 14 insertions(+)
 > 
-> diff --git a/include/linux/uio.h b/include/linux/uio.h
-> index a9bc5b3067e3..75051aed70de 100644
-> --- a/include/linux/uio.h
-> +++ b/include/linux/uio.h
-> @@ -12,6 +12,7 @@
->  
->  struct page;
->  struct folio_queue;
-> +struct io_dmabuf_map;
->  
->  typedef unsigned int __bitwise iov_iter_extraction_t;
->  
-> @@ -29,6 +30,7 @@ enum iter_type {
->  	ITER_FOLIOQ,
->  	ITER_XARRAY,
->  	ITER_DISCARD,
-> +	ITER_DMABUF_MAP,
->  };
->  
->  #define ITER_SOURCE	1	// == WRITE
-> @@ -71,6 +73,7 @@ struct iov_iter {
->  				const struct folio_queue *folioq;
->  				struct xarray *xarray;
->  				void __user *ubuf;
-> +				struct io_dmabuf_map *dmabuf_map;
->  			};
->  			size_t count;
->  		};
-> @@ -155,6 +158,11 @@ static inline bool iov_iter_is_xarray(const struct iov_iter *i)
->  	return iov_iter_type(i) == ITER_XARRAY;
->  }
->  
-> +static inline bool iov_iter_is_dmabuf_map(const struct iov_iter *i)
-> +{
-> +	return iov_iter_type(i) == ITER_DMABUF_MAP;
-> +}
-> +
->  static inline unsigned char iov_iter_rw(const struct iov_iter *i)
->  {
->  	return i->data_source ? WRITE : READ;
-> @@ -300,6 +308,9 @@ void iov_iter_folio_queue(struct iov_iter *i, unsigned int direction,
->  			  unsigned int first_slot, unsigned int offset, size_t count);
->  void iov_iter_xarray(struct iov_iter *i, unsigned int direction, struct xarray *xarray,
->  		     loff_t start, size_t count);
-> +void iov_iter_dmabuf_map(struct iov_iter *i, unsigned int direction,
-> +			struct io_dmabuf_map *map,
-> +			loff_t off, size_t count);
->  ssize_t iov_iter_get_pages2(struct iov_iter *i, struct page **pages,
->  			size_t maxsize, unsigned maxpages, size_t *start);
->  ssize_t iov_iter_get_pages_alloc2(struct iov_iter *i, struct page ***pages,
-> diff --git a/lib/iov_iter.c b/lib/iov_iter.c
-> index 243662af1af7..e2253684b991 100644
-> --- a/lib/iov_iter.c
-> +++ b/lib/iov_iter.c
-> @@ -575,7 +575,8 @@ void iov_iter_advance(struct iov_iter *i, size_t size)
->  {
->  	if (unlikely(i->count < size))
->  		size = i->count;
-> -	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i))) {
-> +	if (likely(iter_is_ubuf(i)) || unlikely(iov_iter_is_xarray(i)) ||
-> +	    unlikely(iov_iter_is_dmabuf_map(i))) {
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
 
-Doesn't the extra check add more code to all the non-ubuf cases?
-This could be fixed by either making iter_type a bitmask (with one bit set)
-or writing an iter_is_one_of(i, ITER_xxx, ITER_yyy) define that uses
-'(1 << i->iter_type) & ((1 << ITER_xxx) | ...)'
-(look at the the nolibc printf code for an example).
-
->  		i->iov_offset += size;
->  		i->count -= size;
->  	} else if (likely(iter_is_iovec(i) || iov_iter_is_kvec(i))) {
-> @@ -631,7 +632,8 @@ void iov_iter_revert(struct iov_iter *i, size_t unroll)
->  		return;
->  	}
->  	unroll -= i->iov_offset;
-> -	if (iov_iter_is_xarray(i) || iter_is_ubuf(i)) {
-> +	if (iov_iter_is_xarray(i) || iter_is_ubuf(i) ||
-
-iter_is_ubuf() should have been first here.
-
--- David
-
-> +	    iov_iter_is_dmabuf_map(i)) {
->  		BUG(); /* We should never go beyond the start of the specified
->  			* range since we might then be straying into pages that
->  			* aren't pinned.
-> @@ -775,6 +777,20 @@ void iov_iter_xarray(struct iov_iter *i, unsigned int direction,
->  }
->  EXPORT_SYMBOL(iov_iter_xarray);
->  
-> +void iov_iter_dmabuf_map(struct iov_iter *i, unsigned int direction,
-> +			 struct io_dmabuf_map *map,
-> +			 loff_t off, size_t count)
-> +{
-> +	WARN_ON(direction & ~(READ | WRITE));
-> +	*i = (struct iov_iter){
-> +		.iter_type = ITER_DMABUF_MAP,
-> +		.data_source = direction,
-> +		.dmabuf_map = map,
-> +		.count = count,
-> +		.iov_offset = off,
-> +	};
-> +}
-> +
->  /**
->   * iov_iter_discard - Initialise an I/O iterator that discards data
->   * @i: The iterator to initialise.
-> @@ -841,7 +857,7 @@ static unsigned long iov_iter_alignment_bvec(const struct iov_iter *i)
->  
->  unsigned long iov_iter_alignment(const struct iov_iter *i)
->  {
-> -	if (likely(iter_is_ubuf(i))) {
-> +	if (likely(iter_is_ubuf(i)) || iov_iter_is_dmabuf_map(i)) {
->  		size_t size = i->count;
->  		if (size)
->  			return ((unsigned long)i->ubuf + i->iov_offset) | size;
-> @@ -872,7 +888,7 @@ unsigned long iov_iter_gap_alignment(const struct iov_iter *i)
->  	size_t size = i->count;
->  	unsigned k;
->  
-> -	if (iter_is_ubuf(i))
-> +	if (iter_is_ubuf(i) || iov_iter_is_dmabuf_map(i))
->  		return 0;
->  
->  	if (WARN_ON(!iter_is_iovec(i)))
-> @@ -1469,11 +1485,12 @@ EXPORT_SYMBOL_GPL(import_ubuf);
->  void iov_iter_restore(struct iov_iter *i, struct iov_iter_state *state)
->  {
->  	if (WARN_ON_ONCE(!iov_iter_is_bvec(i) && !iter_is_iovec(i) &&
-> -			 !iter_is_ubuf(i)) && !iov_iter_is_kvec(i))
-> +			 !iter_is_ubuf(i) && !iov_iter_is_kvec(i) &&
-> +			 !iov_iter_is_dmabuf_map(i)))
->  		return;
->  	i->iov_offset = state->iov_offset;
->  	i->count = state->count;
-> -	if (iter_is_ubuf(i))
-> +	if (iter_is_ubuf(i) || iov_iter_is_dmabuf_map(i))
->  		return;
->  	/*
->  	 * For the *vec iters, nr_segs + iov is constant - if we increment
-
+-- 
+With best wishes
+Dmitry
 
