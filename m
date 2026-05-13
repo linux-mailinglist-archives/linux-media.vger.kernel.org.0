@@ -1,129 +1,89 @@
-Return-Path: <linux-media+bounces-61454-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61455-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MM/LL++HBGoJLQIAu9opvQ
-	(envelope-from <linux-media+bounces-61454-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 16:17:19 +0200
+	id IAX9BdWPBGoVLgIAu9opvQ
+	(envelope-from <linux-media+bounces-61455-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 16:51:01 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80BBF534DA4
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 16:17:19 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B7D553574E
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 16:50:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DEE1F315F818
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 13:55:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 971B83432FDF
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 13:57:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 206512C08C8;
-	Wed, 13 May 2026 13:55:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B2E42D7D2E;
+	Wed, 13 May 2026 13:57:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fmfV9zrD";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="I6kkxr8z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lDiKpu/d"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 105FD2848BA
-	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 13:55:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD8B2BEC4E;
+	Wed, 13 May 2026 13:57:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778680536; cv=none; b=QotSBbWSKj8HCbWS2aOfmHUVlULe4hTZIHnQ7XtNhghcDuB3ga64LH+3KfH4uDrLQQLv3cm4tgeRVJ0hjFy6TAAZe953kBSXVp6ftKiS328snwFRBFBdjXj229GdVLALL5+FHWlJTCdbthAAqw5ZBe1IcAr/Q0KnZHzxaFowY+g=
+	t=1778680668; cv=none; b=VjIA9kBION9e7A4I8JPbJ1r6W99fMezej0pL9zHY65WOMLScRVmDxDLIzy7HO7Pys3b2Oi0h5cpZRv9VM1ZIMz2GaouoeOnvLdplE/YYwWLdc+pSZEt7myu4AjkD+JQpjmUPW80TzVls0zi2mjpIffwIQ8abX6X0F/8ss7+ROmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778680536; c=relaxed/simple;
-	bh=yx1U4YvOhOZ+FS/hZyKy/QcTnx7swfkuhM3LShOjigQ=;
+	s=arc-20240116; t=1778680668; c=relaxed/simple;
+	bh=xCGSmUNmAHPDgb/YXdd0V9GbihR6QzirJZG+PlgQxoc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tpvyABK7DInao3Kblej6Sba/p8JBPzSuM9lUvpd5CnC9Tac07bmvjV+Lg9DzMgubT+BjmbSS37uxQFwJopNVngf9PvfS2IPCtkKkRwWuOlMFqNxIeA5AIHjUk6Ewd0Ifyw5wAW8P1XV0Ygh7eK2euCeRvOAtirp5FfG3O78w0V4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fmfV9zrD; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=I6kkxr8z; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64D8wolI4159621
-	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 13:55:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=BGFkJyRTBwwbmxtZmEDcBFXU
-	seeave9XXC9XQZGzM2Y=; b=fmfV9zrD3MT+Dq9RBDkoluY4yas3yMA87jyoA8xi
-	ihnAahvrZhBx6GEgJ9GQlpp+3/ZWl39gbYaPrqfViLOIzS9ECSAD2rcwmNgd8TYC
-	R2TO8/f8v3C+gnZ6bVxZCVxEVD/FSmstYK/5UZ9VZYXZVRgSt8ogNvhzutPXIxpD
-	8tjnRTl01pymDiKZdCYwOS93+egqK0AsmyRLvcaB+1mXykL0lfnGg0DkHODOjf89
-	SyWL2sHfQAM87MKFIXQBH4CGc7j3zi6pQLRIyjwWVMoQOQ7y3BorZ5wcRJ4gOEgS
-	Qec4WQdeGsWfDNFo4XuZhgvweqClPE3UpYq/mFX5/yjWlg==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e4p91s3p8-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 13:55:34 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-5104b861649so204587381cf.1
-        for <linux-media@vger.kernel.org>; Wed, 13 May 2026 06:55:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1778680533; x=1779285333; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BGFkJyRTBwwbmxtZmEDcBFXUseeave9XXC9XQZGzM2Y=;
-        b=I6kkxr8zm3gJo4Hf2k5qgAbd/yWwIGGoFsfjHweKtQ2QD5dWH5ox8KPj6dVEW9fIYA
-         zU5kLaJKtF1PaiQKQex3pkUx5a+DCWpKNh1GE4f6OeKp7fOy/2MYU9+HDckhRoRCHSeu
-         G7zEev3z6QoiIHcuu0+hpyuYMowrfXYL+UwMCnoth2sa2sacpuWKTA5WjZ/mqXdpavi+
-         RGocGTJnbjT8uvtUXsJ9j2nt9NbHFcefZKNU9JcGCMY94vVaDqFMUnO6VKXogYy/i6Vy
-         1lQz3lmjSUaFPdnYIHKeLbwMCDmI5Y6rIpNFR5dT+MvXCRRJZ5vUFrzkcg/JIFcLuFRm
-         lscg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778680533; x=1779285333;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BGFkJyRTBwwbmxtZmEDcBFXUseeave9XXC9XQZGzM2Y=;
-        b=a+p8nhq3xlECHC2q/PZA1nsCiPPKV0SQ7UyldGYMJVJ1+MYZsqO1luiQXeL2jmL2xh
-         pS/7Gy7thmlq4e/f4D/X9xoxqjnARicqb4L4JlAiqEAftE7WjOXGbF5VrJq5zXLck5h3
-         CFyq8usmAA/odsau8O3t+pY2aLRF+yIqUIFVDMw1cWjwDNI+Db4+aaV9WDTUgGelbOix
-         8LvowQPGlJ2TlgoTgE6U0KPr1xrngUte/aKpCSrxYwZH7ZAzfdx3CafK+gsIsDwEulff
-         jICsLL5V/WgII5M9hSp5aw5QQ4VwLQfwu2CBzJmLyDCArRg+e5J8MJBtWHcb5fruwsxP
-         uMAg==
-X-Forwarded-Encrypted: i=1; AFNElJ9ks/izMNp/2v/N+0Oa14NysENxqFqCrlOcVyuSyCVRUwMSSAYS8+YiTNdJOnvP9fKFycrkE9spDl62vw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2gUzKGSd5BSzAFP6eBDqV7TgYYsXXDVsCbbG6JAk0p6s71DCH
-	JgiabAuzMZIYKPbXDrQvCIpydi0VxVAnfuAhShIrddIJR3citS4lbdyBBvNJZtHzZLx6A+wDcBG
-	Ap1odgdPsd00j002mWAJVGyMXyhsNnQNG3oBCWx5OPBioNSvuQBWyi86bj7jy3xwpAg==
-X-Gm-Gg: Acq92OGVRAJknZJM1cmn7NhNAVE9J6cFq2SttsCSHi1cF+8Ijkqxq2EdhsdUHOupf2L
-	gt//4HmziSsUdAOmvy4B2dUjr/ERvU7+7WL+82lRepLDsRGIRQBpXJPisjrp3gPVS2hvyyh8jVG
-	CyFr/ri1DOvKGjn8IkgWrB5LkbDBcUTIMqOu0+fxOdwteKf4IEnHGxGf7nBFNCPb5UaD/qNTH6W
-	/TRfbQgndx6H+mAFFyOIvdaRZ5ysFcRCH6p4ncZa1QMwtOZKAS39qAwKjFbOKLWqHnR05ApeeqX
-	5GOjD4C1V06kwj+pTSXSijNGtKOVxzrI3x8HFqk1v78Zx0QbHJu0+xyTk67bAuBIul18B1PNe3a
-	3biRbnAaw6QjG4spLywTFhAwHcf3HC3+pY5T4SEudtrsQqV2ys0AL/gGSrvD7yvuFmFuwVzoOeh
-	wzPHa4HAK2Sw6Hjg9lqIZKwZFBXRAk8ry//lc=
-X-Received: by 2002:a05:622a:5cd:b0:50d:7f4d:93cf with SMTP id d75a77b69052e-5162f440ab0mr45723391cf.8.1778680533091;
-        Wed, 13 May 2026 06:55:33 -0700 (PDT)
-X-Received: by 2002:a05:622a:5cd:b0:50d:7f4d:93cf with SMTP id d75a77b69052e-5162f440ab0mr45722661cf.8.1778680532504;
-        Wed, 13 May 2026 06:55:32 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-393f5f18f13sm38423431fa.1.2026.05.13.06.55.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2026 06:55:31 -0700 (PDT)
-Date: Wed, 13 May 2026 16:55:29 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Hans Verkuil <hverkuil@kernel.org>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
-        Del Regno <angelogioacchino.delregno@collabora.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        iommu@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 13/14] arm64: dts: qcom: glymur: Add iris video node
-Message-ID: <gc7adzf63sa4g7hsnwwoylv7ddmp2bpfa556gj7r3brzsry2x3@dmmdwsfwbcat>
-References: <20260509-glymur-v5-0-7fbb340c5dbd@oss.qualcomm.com>
- <20260509-glymur-v5-13-7fbb340c5dbd@oss.qualcomm.com>
- <b36tyrznuwwjiya4lt2ajqbyopnonvubedpofasmzknwjd2mrs@eenc4epvbokm>
- <34962003-c54c-a64a-2846-8f741fec5802@oss.qualcomm.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=AnmGVq7dty3QEIwlCn4vwQqzy425mYr5CK6J6VHezlpZUN47aEJynX80BNNMdIQ+sJjGBSkf+a/mjKtGVHXTdnt7iQ7CSZ5fFaMZhILuBvohpcZl4eQP85kemzSXDh8brvGn97BMg1hC0k9A4w7PnuhtxHj1eqgIRJD/+IkR0As=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lDiKpu/d; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778680667; x=1810216667;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xCGSmUNmAHPDgb/YXdd0V9GbihR6QzirJZG+PlgQxoc=;
+  b=lDiKpu/dGlWXyPDPiIurUgusp/s6L55sayJz1M/07DVMrTBh7Cu6Exk4
+   6qDVr9NrGYEYw+xTypYeuQH/xco0f0qV68zxZPabBCaPdGmVlSmosqtgj
+   lbdBX+9KqR7JRIxMHue4xKESvAHDdXWUwYVjyq3sYBv8nooBBRPsskS4h
+   V9fuAYRsSUma7qdo6VqkTZbqZ8i6O4+JLZ9wxNY/ToB8ydTrSiyeLnz0B
+   u32a6FRAh3mO5NJRhodjqnFamUDetaDrmvM5i25UL3aXPQf5Y7C4Y7pPT
+   LNYC8321ouqKwYIKC7bXljw19rJuo4r251x+jfkxckw3dANlu63MrmR0/
+   Q==;
+X-CSE-ConnectionGUID: jZamJhBfSym+/qhprChyFA==
+X-CSE-MsgGUID: f4/jKj+gRSaRAl4Lt6qyWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11784"; a="97034625"
+X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
+   d="scan'208";a="97034625"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 06:57:47 -0700
+X-CSE-ConnectionGUID: KmLy6cpsRD6biS0Axw4NwA==
+X-CSE-MsgGUID: 029kK+GUTgW9bdGj+3ao3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,232,1770624000"; 
+   d="scan'208";a="231700498"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.111])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2026 06:57:42 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 68CE0121C9E;
+	Wed, 13 May 2026 16:57:40 +0300 (EEST)
+Date: Wed, 13 May 2026 16:57:40 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Pengyu Luo <mitltlatltl@gmail.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Martin Kepplinger-Novakovic <martink@posteo.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Sebastian Krzyszkowiak <sebastian.krzyszkowiak@puri.sm>,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH v4 2/5] media: hi846: fix link frequency handling
+Message-ID: <agSDVJX0QKNgDMuw@kekkonen.localdomain>
+References: <20260511103927.279550-1-mitltlatltl@gmail.com>
+ <20260511103927.279550-3-mitltlatltl@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -132,251 +92,275 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <34962003-c54c-a64a-2846-8f741fec5802@oss.qualcomm.com>
-X-Proofpoint-ORIG-GUID: ka-gkWbt8LLlRlV4R8h7qKVsRJjf8ssS
-X-Proofpoint-GUID: ka-gkWbt8LLlRlV4R8h7qKVsRJjf8ssS
-X-Authority-Analysis: v=2.4 cv=G9Ys1dk5 c=1 sm=1 tr=0 ts=6a0482d6 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=iaB0vuWom9_9t0O4BOkA:9 a=CjuIK1q_8ugA:10
- a=uxP6HrT_eTzRwkO_Te1X:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTEzMDE0MiBTYWx0ZWRfX726a9wsHMJO+
- HOrdZywXQdDv4YD/n+N3uelRoiMn2LQDZkfu0ViJ6rQ1kmLpl9ei/DLVmh2jf6GWUCMqJ4nQqd8
- Pn3/1rk3HEk+iaIWC/gvSCsxAdKs8lzPNt9Ux+qQGPXdUqm+TWutNZTuTM6tmeo+9WVOSxUbMEP
- wC+n754HUd/91CZI5M81Wh8hVRUFcFx00BSILxcuYtZeJ+VCCskcQ0IPTd3MF7b9hz3lUSFGX+7
- ZlcGDRHclT1vDmtHMzWADdyLfT2UIo9y1Ip++CkEFc8s0UYALiL+qTAG2FccrieXEiMCRNzFTwV
- mq2LryMGJCwnTFEosXC05vwnnd8hlROa8aiUKv2ngM4BuFdQK3tMRgCCmrh096uR3u2z8vE67eo
- JVbhdCKP7IjbwRQT+Gq4noO88HlII/O8wXObTAJ2+brDFhakB6lY3t8XwZ3MJtXNpg4ACiJHtkw
- A0VUuwVQOSxRnPE39UQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-13_01,2026-05-08_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 malwarescore=0 adultscore=0 spamscore=0 phishscore=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 bulkscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605050000
- definitions=main-2605130142
-X-Rspamd-Queue-Id: 80BBF534DA4
+In-Reply-To: <20260511103927.279550-3-mitltlatltl@gmail.com>
+X-Rspamd-Queue-Id: 6B7D553574E
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-61454-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,oss.qualcomm.com:dkim,ae00000:email,qualcomm.com:email,qualcomm.com:dkim,a400000:email];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	TAGGED_FROM(0.00)[bounces-61455-lists,linux-media=lfdr.de];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,nxp.com,pengutronix.de,gmail.com,posteo.de,puri.sm,vger.kernel.org,lists.linux.dev,lists.infradead.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,kekkonen.localdomain:mid]
 X-Rspamd-Action: no action
 
-On Sat, May 09, 2026 at 10:26:49PM +0530, Vishnu Reddy wrote:
-> 
-> On 5/9/2026 12:57 AM, Dmitry Baryshkov wrote:
-> > On Sat, May 09, 2026 at 12:30:02AM +0530, Vishnu Reddy wrote:
-> >> Add iris video codec to glymur SoC, which comes with significantly
-> >> different powering up sequence than previous platforms, thus different
-> >> clocks and resets.
-> >>
-> >> Reviewed-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-> >> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-> >> ---
-> >>  arch/arm64/boot/dts/qcom/glymur.dtsi | 118 +++++++++++++++++++++++++++++++++++
-> >>  1 file changed, 118 insertions(+)
-> >>
-> >> diff --git a/arch/arm64/boot/dts/qcom/glymur.dtsi b/arch/arm64/boot/dts/qcom/glymur.dtsi
-> >> index f23cf81ddb77..c47443174f97 100644
-> >> --- a/arch/arm64/boot/dts/qcom/glymur.dtsi
-> >> +++ b/arch/arm64/boot/dts/qcom/glymur.dtsi
-> >> @@ -13,6 +13,7 @@
-> >>  #include <dt-bindings/interconnect/qcom,glymur-rpmh.h>
-> >>  #include <dt-bindings/interrupt-controller/arm-gic.h>
-> >>  #include <dt-bindings/mailbox/qcom-ipcc.h>
-> >> +#include <dt-bindings/media/qcom,glymur-iris.h>
-> >>  #include <dt-bindings/phy/phy-qcom-qmp.h>
-> >>  #include <dt-bindings/power/qcom,rpmhpd.h>
-> >>  #include <dt-bindings/power/qcom-rpmpd.h>
-> >> @@ -4163,6 +4164,123 @@ usb_mp: usb@a400000 {
-> >>  			status = "disabled";
-> >>  		};
-> >>  
-> >> +		iris: video-codec@aa00000 {
-> >> +			compatible = "qcom,glymur-iris";
-> >> +			reg = <0x0 0xaa00000 0x0 0xf0000>;
-> >> +
-> >> +			clocks = <&gcc GCC_VIDEO_AXI0_CLK>,
-> >> +				 <&videocc VIDEO_CC_MVS0C_CLK>,
-> >> +				 <&videocc VIDEO_CC_MVS0_CLK>,
-> >> +				 <&gcc GCC_VIDEO_AXI0C_CLK>,
-> >> +				 <&videocc VIDEO_CC_MVS0C_FREERUN_CLK>,
-> >> +				 <&videocc VIDEO_CC_MVS0_FREERUN_CLK>,
-> >> +				 <&gcc GCC_VIDEO_AXI1_CLK>,
-> >> +				 <&videocc VIDEO_CC_MVS1_CLK>,
-> >> +				 <&videocc VIDEO_CC_MVS1_FREERUN_CLK>;
-> >> +			clock-names = "iface",
-> >> +				      "core",
-> >> +				      "vcodec0_core",
-> >> +				      "iface1",
-> > I first wrote the comment regarding resets. But the clocks seem to have
-> > the same pattern. It's not just "iface1" clock. It's the clock for one
-> > of the cores. And there is another clock for another core. Please make
-> > that nicely named.
-> 
-> In v1, I used iface_ctrl to reflect the clock purpose, but received the
-> feedback [1] to align with the iface1 naming convention used on earlier
-> platforms.
-> 
-> [1] https://lore.kernel.org/all/20260414-lush-reindeer-of-storm-bbe918@quoll/
+Hi Penguy,
 
-I'd also dislike the iface_ctrl, it doesn't say anything.
+On Mon, May 11, 2026 at 06:39:24PM +0800, Pengyu Luo wrote:
+> link frequency is tied to PLL configuration, lane count, and external
 
-I'd suggest having vcodec0_iface / vcodec1_iface for vcodecs and just
-iface for the core AXI clock.
+A sentence begins with a capital letter, also the subject does.
 
+> clock rate, so use runtime here instead of hardcoding for specific
+> configuration. To implement this, this commit did
+> 
+> 1. dropped exposed link freqs as a v4l2_ctrl, since we are runtime
+> now, it is inconvenient and unnecessary to expose it, and
+> hi846_set_ctrl has nothing to do with it.
+
+Please describe the changes the patch does in imperative form.
 
 > 
-> >> +				      "core_freerun",
-> >> +				      "vcodec0_core_freerun",
-> >> +				      "iface2",
-> >> +				      "vcodec1_core",
-> >> +				      "vcodec1_core_freerun";
-> >> +
-> >> +			dma-coherent;
-> >> +
-> >> +			interconnects = <&hsc_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
-> >> +					 &config_noc SLAVE_VENUS_CFG QCOM_ICC_TAG_ACTIVE_ONLY>,
-> >> +					<&mmss_noc MASTER_VIDEO QCOM_ICC_TAG_ALWAYS
-> >> +					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
-> >> +			interconnect-names = "cpu-cfg",
-> >> +					     "video-mem";
-> >> +
-> >> +			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
-> >> +
-> >> +			iommus = <&apps_smmu 0x1940 0x0>,
-> >> +				 <&apps_smmu 0x1943 0x0>,
-> >> +				 <&apps_smmu 0x1944 0x0>,
-> >> +				 <&apps_smmu 0x19e0 0x0>;
-> >> +
-> >> +			iommu-map = <IOMMU_FID_IRIS_FIRMWARE &apps_smmu 0x19e2 0x1>;
-> >> +
-> >> +			memory-region = <&video_mem>;
-> >> +
-> >> +			operating-points-v2 = <&iris_opp_table>;
-> >> +
-> >> +			power-domains = <&videocc VIDEO_CC_MVS0C_GDSC>,
-> >> +					<&videocc VIDEO_CC_MVS0_GDSC>,
-> >> +					<&rpmhpd RPMHPD_MXC>,
-> >> +					<&rpmhpd RPMHPD_MMCX>,
-> >> +					<&videocc VIDEO_CC_MVS1_GDSC>;
-> >> +			power-domain-names = "venus",
-> >> +					     "vcodec0",
-> >> +					     "mxc",
-> >> +					     "mmcx",
-> >> +					     "vcodec1";
-> >> +
-> >> +			resets = <&gcc GCC_VIDEO_AXI0_CLK_ARES>,
-> >> +				 <&gcc GCC_VIDEO_AXI0C_CLK_ARES>,
-> >> +				 <&videocc VIDEO_CC_MVS0C_FREERUN_CLK_ARES>,
-> >> +				 <&videocc VIDEO_CC_MVS0_FREERUN_CLK_ARES>,
-> >> +				 <&gcc GCC_VIDEO_AXI1_CLK_ARES>,
-> >> +				 <&videocc VIDEO_CC_MVS1_FREERUN_CLK_ARES>;
-> >> +			reset-names = "bus0",
-> >> +				      "bus1",
-> > The names of the resets suggest that there is single "common" reset and
-> > then one reset per each core.
+> 2. attached pll_cfg_4lane to current mode, and use it with clock, lane
+> count to calculate link frequency, we use 4-lane config as default,
+> but we can double it easily for 2-lane case.
 > 
-> Two resets for controller and two resets for each per vcodec core.
+> 3. dropped mclk clock rate check.
+> 
+> Fixes: e8c0882685f9 ("media: i2c: add driver for the SK Hynix Hi-846 8M pixel camera")
+> Signed-off-by: Pengyu Luo <mitltlatltl@gmail.com>
+> ---
+>  drivers/media/i2c/hi846.c | 75 ++++++++++++++++++++-------------------
+>  1 file changed, 38 insertions(+), 37 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/hi846.c b/drivers/media/i2c/hi846.c
+> index 7f069aca0fce..61297ef66a0e 100644
+> --- a/drivers/media/i2c/hi846.c
+> +++ b/drivers/media/i2c/hi846.c
+> @@ -1,7 +1,7 @@
+>  // SPDX-License-Identifier: GPL-2.0
+>  // Copyright (c) 2021 Purism SPC
+>  
+> -#include <linux/unaligned.h>
+> +#include <linux/bitfield.h>
+>  #include <linux/clk.h>
+>  #include <linux/delay.h>
+>  #include <linux/gpio/consumer.h>
+> @@ -11,6 +11,7 @@
+>  #include <linux/pm.h>
+>  #include <linux/property.h>
+>  #include <linux/regulator/consumer.h>
+> +#include <linux/unaligned.h>
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-device.h>
+>  #include <media/v4l2-fwnode.h>
+> @@ -219,8 +220,8 @@ struct hi846_mode {
+>  	/* Horizontal timing size */
+>  	u32 llp;
+>  
+> -	/* Link frequency needed for this resolution */
+> -	u8 link_freq_index;
+> +	/* PLL configuration for 4-lane link at this resolution */
+> +	u16 pll_cfg_4lane;
 
-The same, vcodec0_bus, vcodec1_bus, please.
+Please use separate fields for different PLL configuration parameters, i.e.
+not register values.
 
-> 
-> >> +				      "core",
-> >> +				      "vcodec0_core",
-> >> +				      "bus2",
-> >> +				      "vcodec1_core";
-> > Are there two codecs? Or are there two cores? Your naming suggests the
-> > former case.
-> 
-> Two vcodec cores.
-> 
-> >> +
-> >> +			/*
-> >> +			 * IRIS firmware is signed by vendors, only
-> >> +			 * enable on boards where the proper signed firmware
-> >> +			 * is available.
-> >> +			 */
-> >> +			status = "disabled";
-> >> +
-> >> +			iris_opp_table: opp-table {
-> >> +				compatible = "operating-points-v2";
-> >> +
-> >> +				opp-240000000 {
-> >> +					opp-hz = /bits/ 64 <240000000 240000000 360000000>;
-> >> +					required-opps = <&rpmhpd_opp_svs>,
-> >> +							<&rpmhpd_opp_low_svs>;
-> >> +				};
-> >> +
-> >> +				opp-338000000 {
-> >> +					opp-hz = /bits/ 64 <338000000 338000000 507000000>;
-> >> +					required-opps = <&rpmhpd_opp_svs>,
-> >> +							<&rpmhpd_opp_svs>;
-> >> +				};
-> >> +
-> >> +				opp-366000000 {
-> >> +					opp-hz = /bits/ 64 <366000000 366000000 549000000>;
-> >> +					required-opps = <&rpmhpd_opp_svs_l1>,
-> >> +							<&rpmhpd_opp_svs_l1>;
-> >> +				};
-> >> +
-> >> +				opp-444000000 {
-> >> +					opp-hz = /bits/ 64 <444000000 444000000 666000000>;
-> >> +					required-opps = <&rpmhpd_opp_svs_l1>,
-> >> +							<&rpmhpd_opp_nom>;
-> >> +				};
-> >> +
-> >> +				opp-533333334 {
-> >> +					opp-hz = /bits/ 64 <533333334 533333334 800000000>;
-> >> +					required-opps = <&rpmhpd_opp_svs_l1>,
-> >> +							<&rpmhpd_opp_turbo>;
-> >> +				};
-> >> +
-> >> +				opp-655000000 {
-> >> +					opp-hz = /bits/ 64 <655000000 655000000 982000000>;
-> >> +					required-opps = <&rpmhpd_opp_nom>,
-> >> +							<&rpmhpd_opp_turbo_l1>;
-> >> +				};
-> >> +			};
-> >> +		};
-> >> +
-> >>  		mdss: display-subsystem@ae00000 {
-> >>  			compatible = "qcom,glymur-mdss";
-> >>  			reg = <0x0 0x0ae00000 0x0 0x1000>;
-> >>
-> >> -- 
-> >> 2.34.1
-> >>
+>  
+>  	u16 fps;
+>  
+> @@ -1040,13 +1041,6 @@ static const char * const hi846_test_pattern_menu[] = {
+>  	"Resolution Pattern",
+>  };
+>  
+> -#define FREQ_INDEX_640	0
+> -#define FREQ_INDEX_1280	1
+> -static const s64 hi846_link_freqs[] = {
+> -	[FREQ_INDEX_640] = 80000000,
+> -	[FREQ_INDEX_1280] = 200000000,
+> -};
+> -
+>  static const struct hi846_reg_list hi846_init_regs_list_2lane = {
+>  	.num_of_regs = ARRAY_SIZE(hi846_init_2lane),
+>  	.regs = hi846_init_2lane,
+> @@ -1061,7 +1055,7 @@ static const struct hi846_mode supported_modes[] = {
+>  	{
+>  		.width = 640,
+>  		.height = 480,
+> -		.link_freq_index = FREQ_INDEX_640,
+> +		.pll_cfg_4lane = 0x4924, /* HI846_REG_PLL_CFG_MIPI2_H */
+>  		.fps = 120,
+>  		.frame_len = 631,
+>  		.llp = HI846_LINE_LENGTH,
+> @@ -1086,7 +1080,7 @@ static const struct hi846_mode supported_modes[] = {
+>  	{
+>  		.width = 1280,
+>  		.height = 720,
+> -		.link_freq_index = FREQ_INDEX_1280,
+> +		.pll_cfg_4lane = 0x4924, /* HI846_REG_PLL_CFG_MIPI2_H */
+>  		.fps = 90,
+>  		.frame_len = 842,
+>  		.llp = HI846_LINE_LENGTH,
+> @@ -1112,7 +1106,7 @@ static const struct hi846_mode supported_modes[] = {
+>  	{
+>  		.width = 1632,
+>  		.height = 1224,
+> -		.link_freq_index = FREQ_INDEX_1280,
+> +		.pll_cfg_4lane = 0x4924, /* HI846_REG_PLL_CFG_MIPI2_H */
+>  		.fps = 30,
+>  		.frame_len = 2526,
+>  		.llp = HI846_LINE_LENGTH,
+> @@ -1161,7 +1155,6 @@ struct hi846 {
+>  	struct v4l2_ctrl_handler ctrl_handler;
+>  	u8 nr_lanes;
+>  
+> -	struct v4l2_ctrl *link_freq;
+>  	struct v4l2_ctrl *pixel_rate;
+>  	struct v4l2_ctrl *vblank;
+>  	struct v4l2_ctrl *hblank;
+> @@ -1192,21 +1185,37 @@ static const struct hi846_datafmt *hi846_find_datafmt(u32 code)
+>  	return NULL;
+>  }
+>  
+> -static inline u8 hi846_get_link_freq_index(struct hi846 *hi846)
+> +static u64
+> +hi846_get_link_freq(struct hi846 *hi846, const struct hi846_mode *cur_mode)
+>  {
+> -	return hi846->cur_mode->link_freq_index;
+> -}
+> +	u16 cfg = cur_mode->pll_cfg_4lane;
+> +	u64 mclk = clk_get_rate(hi846->clock);
+>  
+> -static u64 hi846_get_link_freq(struct hi846 *hi846)
+> -{
+> -	u8 index = hi846_get_link_freq_index(hi846);
+> +	/* NOTE: 6, 7 actually map to 8, 10, but this won't be that big */
+> +	u8 post_div1 = 1 + FIELD_GET(GENMASK(10, 8), cfg);
+> +	u8 post_div2 = 1 << FIELD_GET(GENMASK(12, 11), cfg);
+
+s/1U/1/
+
+>  
+> -	return hi846_link_freqs[index];
+> +	/*
+> +	 * HI846_REG_PLL_CFG_MIPI1_H = 0x025a, it is fixed in listed modes
+> +	 * [11:8]: 0x02 => pre_div = 3
+> +	 * [7:0]: 0x5a => multiplier = 90
+> +	 */
+> +	u64 link_freq = mclk / 3 * 90 / post_div1 / post_div2;
+
+This needs div_u64().
+
+Don't divide by 3 upfront, you'll lose information.
+
+> +	/*
+> +	 * for shared modes, since lane count is halved for 2-lane, then getting
+> +	 * link_freq doubled to match the same data rate. Since 720x480 is
+> +	 * 2-lane only(reg_list_4lane.num_of_regs == 0), no pll cfg for 4-lane,
+> +	 * the pll cfg is for 2-lane, so use the cfg as is.
+> +	 */
+> +	if (hi846->nr_lanes == 2 && cur_mode->reg_list_4lane.num_of_regs)
+> +		link_freq *= 2;
+> +
+> +	return link_freq;
+>  }
+>  
+>  static u64 hi846_calc_pixel_rate(struct hi846 *hi846)
+>  {
+> -	u64 link_freq = hi846_get_link_freq(hi846);
+> +	u64 link_freq = hi846_get_link_freq(hi846, hi846->cur_mode);
+>  	u64 pixel_rate = link_freq * 2 * hi846->nr_lanes;
+>  
+>  	do_div(pixel_rate, HI846_RGB_DEPTH);
+> @@ -1426,14 +1435,6 @@ static int hi846_init_controls(struct hi846 *hi846)
+>  
+>  	ctrl_hdlr->lock = &hi846->mutex;
+>  
+> -	hi846->link_freq =
+> -		v4l2_ctrl_new_int_menu(ctrl_hdlr, &hi846_ctrl_ops,
+> -				       V4L2_CID_LINK_FREQ,
+> -				       ARRAY_SIZE(hi846_link_freqs) - 1,
+> -				       0, hi846_link_freqs);
+> -	if (hi846->link_freq)
+> -		hi846->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> -
+>  	hi846->pixel_rate =
+>  		v4l2_ctrl_new_std(ctrl_hdlr, &hi846_ctrl_ops,
+>  				  V4L2_CID_PIXEL_RATE, 0,
+> @@ -1503,10 +1504,10 @@ static int hi846_set_video_mode(struct hi846 *hi846, int fps)
+>  	u64 frame_length;
+>  	int ret = 0;
+>  	int dummy_lines;
+> -	u64 link_freq = hi846_get_link_freq(hi846);
+> +	u64 link_freq = hi846_get_link_freq(hi846, hi846->cur_mode);
+>  
+>  	dev_dbg(&client->dev, "%s: link freq: %llu\n", __func__,
+> -		hi846_get_link_freq(hi846));
+> +		link_freq);
+
+Fits on the same line.
+
+>  
+>  	do_div(link_freq, fps);
+>  	frame_length = link_freq;
+> @@ -1749,7 +1750,6 @@ static int hi846_set_format(struct v4l2_subdev *sd,
+>  	mf->code = HI846_MEDIA_BUS_FORMAT;
+>  	mf->field = V4L2_FIELD_NONE;
+>  
+> -	__v4l2_ctrl_s_ctrl(hi846->link_freq, hi846_get_link_freq_index(hi846));
+>  	__v4l2_ctrl_s_ctrl_int64(hi846->pixel_rate,
+>  				 hi846_calc_pixel_rate(hi846));
+>  
+> @@ -1950,16 +1950,17 @@ static int hi846_identify_module(struct hi846 *hi846)
+>  static s64 hi846_check_link_freqs(struct hi846 *hi846,
+>  				  struct v4l2_fwnode_endpoint *ep)
+>  {
+> -	const s64 *freqs = hi846_link_freqs;
+> -	int freqs_count = ARRAY_SIZE(hi846_link_freqs);
+> +	int freqs_count = ARRAY_SIZE(supported_modes);
+> +	u64 link_freq;
+>  	int i, j;
+>  
+>  	for (i = 0; i < freqs_count; i++) {
+> +		link_freq = hi846_get_link_freq(hi846, &supported_modes[i]);
+>  		for (j = 0; j < ep->nr_of_link_frequencies; j++)
+> -			if (freqs[i] == ep->link_frequencies[j])
+> +			if (link_freq == ep->link_frequencies[j])
+>  				break;
+>  		if (j == ep->nr_of_link_frequencies)
+> -			return freqs[i];
+> +			return link_freq;
+
+I think v4l2_link_freq_to_bitmap() would be useful here.
+
+>  	}
+>  
+>  	return 0;
 
 -- 
-With best wishes
-Dmitry
+Regards,
+
+Sakari Ailus
 
