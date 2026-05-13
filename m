@@ -1,207 +1,209 @@
-Return-Path: <linux-media+bounces-61411-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61412-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uFRsJ69mBGpVIAIAu9opvQ
-	(envelope-from <linux-media+bounces-61411-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 13:55:27 +0200
+	id gDqmHKhnBGpVIAIAu9opvQ
+	(envelope-from <linux-media+bounces-61412-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 13:59:36 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0A375329E2
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 13:55:26 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69919532A71
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 13:59:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 820D030E8FF8
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 11:51:23 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C8B7C302E863
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2026 11:59:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3668A3FFAA4;
-	Wed, 13 May 2026 11:51:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FB993FFAD0;
+	Wed, 13 May 2026 11:59:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IAcCDMU6"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aLCjoli8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1073A3A16BE
-	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 11:51:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81BCA39023D
+	for <linux-media@vger.kernel.org>; Wed, 13 May 2026 11:59:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778673082; cv=none; b=mHSKqi174CclJBCUdrftH6dowzyFl9mFNbKWaNN56Gd57FttEzbD17IOIg7OpeKKjMlzu1amKXH9pJvaUe6z3asotY4o6szgIn1Pvm4F+0/NbfbpvW+Hshw42gohkB3dx9CM9Yzs/bCdBl5QGLkpt5M5nbUEzmKh7vH8GsHjn98=
+	t=1778673563; cv=none; b=GNcMu5mL5NxrN2alK+0+kPtafZQ5AGcLfx01KQ/wD/B8rSSfaiU+gYoXqSsxTqS5EMFvdOOxRLiMAtT+LK1NAI6Okii/9WTcpKiRyI+NxHjtE+yxnK8JfGnBeWarGmS1yQ60ej6VvohRGiBW73VHdWkU475Ba7leQ91g6uIrBQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778673082; c=relaxed/simple;
-	bh=75TUQIZkypLwoR8DRfvoyh1YFztZQAcIa1BmTtogMjE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hcU6n0zoDQ4BM8Xf1H3kn8g1zp8JMDEQp3PLC5wanYlxfjPYWpi4myHBGkFWCOrryO/jiBSCJU6X1Ry6TU8uRZnBOHQQC/RyQjoIMCDEoYwEZteserICOCOv2bit9YFAxPIp7dltXE1xZBpmxuyezHY8a+/FbL1jekxQi280UN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IAcCDMU6; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-676a89de629so10664234a12.1
-        for <linux-media@vger.kernel.org>; Wed, 13 May 2026 04:51:20 -0700 (PDT)
+	s=arc-20240116; t=1778673563; c=relaxed/simple;
+	bh=HsY5MIeA4hOcwSXUwi/tyCOWbILSHzAPQAce3C7wNKc=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=CQdIQA1jVFJ0gcDe8PlQLPIbafxezIyb+VHQRv3yR5+h5+dCLZ1inV9aCCYcI+hu+I1i7f0ydEVRw0EEWkc7o/cKh+MsnOcNnxhHkCiA41AUXI+AkutRwkXhZEa8sNH2wt0kH63QMNwmoDycZ4mRG6DI9tMEt7c7zU1FMJasUxQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aLCjoli8; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-488e1a8ac40so64646435e9.2
+        for <linux-media@vger.kernel.org>; Wed, 13 May 2026 04:59:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1778673079; x=1779277879; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=y32yEFiYyRsO7dPNCj0L6p2gfndeIIlW5kAPWaEhJ1w=;
-        b=IAcCDMU6ldVuBVe9v73U5cXk+5Cy6bxlflIF+4uVtUQNUqsigIUy+Sie8f5EISROXY
-         +vgfUAZS+d1pHipApfBYWOxvA+XUREc/l3MKHd1NZQ1+422YqjFhUFRxQIv5IAeD8n6U
-         647T44+xwi9hAaDk3WnebunfNLXfl1i0nYh1c=
+        d=linaro.org; s=google; t=1778673561; x=1779278361; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ru5o97ykp5715LdAIbuApmVualUVsm7HDP8jRRU8bOk=;
+        b=aLCjoli8HJr0h4+2yTM+do2Ec4GTf4yNDfrJY7F80rR1V8zFsoyzN6dBwrZ1TOE+dg
+         KQr/0Zo95sWxj2GdWPD++PCQNtkZIbEwP804/mXsVAmqYODhuqFu8xP+7yHgka/jbcTk
+         /WifHGxUoMftBddMfTGiVb0eAJQ1NeOoBYo0ppRwa1PZbmS8hGIElgG1v1K95XFb8OHg
+         CGzqlu4vJQ51v3EQ/ghRSOJmkSuRURBvb5goJhRnB/7itxqQPPVkfaPPURoELXhbYFcY
+         tpeuyowxLasND3cuulJmc6XToTQ/E6No2Ymm+qjQBEDsmqmLV5Dl3PDwbDH4+Fv9okim
+         6GZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778673079; x=1779277879;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y32yEFiYyRsO7dPNCj0L6p2gfndeIIlW5kAPWaEhJ1w=;
-        b=WnsoXSZZMLsrwbS88NVdcgw4rvxzqpfg+tmhL8HKD9AA+1fYEqxvz/mEVGJlOO3k4D
-         LvNu+Oej87Zr295Y0fl2uIV0/LeQvkjFwrnZ6F42jxsyl7NHHhozgyzcDhj1wwY5GiCD
-         bg+HhtvYFMRpbFoft709tVFE/F+OWc66qVWEUpJfKAU+lIWQZOaCIKN9JJMjTD/Zyotr
-         zyo7vOewNWyMCLdUUgSuD094IBNTE2qva+sUdZk2S9zzTsSHiAIRcB7I5Jn+CFWvPj0k
-         A7a6RfDGkTx3BRxIUxaxLSxdLNbfb83/l5rXvl6vsXjcgh8be1d0DFe7D91tJHPxowkS
-         Zo8g==
-X-Forwarded-Encrypted: i=1; AFNElJ+ANP8iBk3OdhYuJCMwsZRyjN/yp3AfTNme0Ym7dQTcE3kFrQUdtEfFMWzocIyIUPcZnEpc+EVMMBOQbw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmvqT9jHDQOMoHxoCQuWhtg2OFaXz7BnedT8525ZDVKocB67w5
-	5gzGBxIGpX6RjmgoOuFvDu78xbHri+hpIavYrYuGStQlemrekbIfLrKkQMRuccLq8BP7IanwWIp
-	5WrO/mk4P
-X-Gm-Gg: Acq92OFOk0L7o3/MNIkC6anAEw5bpeNnHKjVRLI6ce6wo+/ePdPNqe7Yb9MzG0Y5aN+
-	2p7qk6dLCEgLxifuO4E47qA4AY/KMST1sl3R+aIddaNQzzvUFwWuE2O6d6p76mzyFRFtZmjftsw
-	XpybWj76xYe9j80A8S5qESx8xgh/JQrzcBE7JVc8PyGc2FR1u9DZh+ZZucKlJUxF9hfbDSXFMo5
-	BvB6ZF5ytsVVOMlCymKWnkLSkSMKjUWUrIGmH77iO0Qlc4RVx4MQJEI9NwfJhaB83Rh7mZdo10V
-	6pJA63nHIbHLLv/JpZ1IYUeu7IHUMVPBnPAO4pkdt90kmPHmcBj71BobramKgmmvfYxBfueW+cn
-	tGK96gtvCZGHwmeyZLx72YKot1nRNM3ZsywgRWU7uHxSKW/IWPlik+ttiiFXROn5jwYR8OOKeDM
-	pqPYtz7pLEdi6CIJZ3qDSOEzcde/CaOvaL4HLUSL/Xhwx+FDYN/q8UKHeH57kdmzDkK7lZv14=
-X-Received: by 2002:a05:6402:4344:b0:674:b355:555e with SMTP id 4fb4d7f45d1cf-682a761179cmr1153595a12.17.1778673079433;
-        Wed, 13 May 2026 04:51:19 -0700 (PDT)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com. [209.85.218.53])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-67ef0b8a939sm6198302a12.13.2026.05.13.04.51.16
-        for <linux-media@vger.kernel.org>
+        d=1e100.net; s=20251104; t=1778673561; x=1779278361;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ru5o97ykp5715LdAIbuApmVualUVsm7HDP8jRRU8bOk=;
+        b=bY3q80Zfmbfk86cfTVe0C3BxiDfp04ArMYRgiktXFS4L4sutMQoVWFSmgRrAlHMzzc
+         UV2K5j0YGmTBLJc91ebsTDUvrMugdv6FU1CqkAq47ljEAYJX2d14Nh554bbWHmzRugSV
+         Rvw5xbhRNCWHb7dax0ZHtk5VSKFd5SegH3VJAuRu/qxAGjYgy90uCRLIBcniA59t54aO
+         MGcE7EwkjlIj6d9ApcjmAH9rKcMwIKCezGN8l2p0PsXW5O/VsHCO4kJt20avhlYC+98S
+         2K3DXG1t/j4Z/5GPkshPt5g1uJzH9Voh68ZVJq4NlI7m60UOTpIQw4OXJBpK2p9OHA8R
+         T6EA==
+X-Forwarded-Encrypted: i=1; AFNElJ+8tevdDoYG5cJY+lDXu62L77M9MSpV3FsyzDMYKuL154BXanTVhJx+w9img+t3CLaH+rKRT2GS4Y12WA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzW3rMzVTMdDdYAHKFGtGoG2lrwqV7Rz90/wpiqOJz9+WZyFqt8
+	1cNln+xUQZLTTzsRVfCKPcxW8x1OYGZ9zAoZTrqy+T0NmUVkG6bYtpEOfC6V7XiAu0I=
+X-Gm-Gg: Acq92OHG+dKIjfeP0dTu4v7RtlQa3f7kNxw1OhHHnXGz1JnU3ImBqhMDFRO2Z9JdUe3
+	mddEXFDwkvyegcJ73RrR98DfEgT1xxLCAeJXtX4V5cFqdQGQ2bHAo6mAIdRLdzXmzg9cg13aIOr
+	y5UTtUv/b7LIO+Mk2qlFPVXHnSUMjP61SRQuYxyB+hqmg5tKH8q6pPaHdsJ6LGry3jl5sYHpCvE
+	4clMVaUfJw6V6Sj8q0nxxs3emgKy6dHbAMgXvAOShsBwwyqj3DaSzZ919E9jYwwMnt5HFeksyWI
+	MVYkRMF1tweSnn8FJAoSC9Kvi03jXAyBIKAUfsEIeoT7fjKakEXbmE9iDEgHssP2lvAel1iTYpC
+	Qi7CLbhhDKsmTq1hdQTsjZYu1k2jAwWtfZnAS+aRDSEGGQK9mI6AL8qHFn9js3nQN64sl0v70be
+	QL9ThEIEv+VuobtRqtBVdaEVGlIm73vLJ6W9cLYWpGc7lnSCDv/7a0i3gPYwEYK7PoRrGEs/U+G
+	q+m
+X-Received: by 2002:a05:600c:1910:b0:488:9ed3:1492 with SMTP id 5b1f17b1804b1-48fc9a09cb7mr45810035e9.10.1778673560723;
+        Wed, 13 May 2026 04:59:20 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:106d:1080:6ee4:8e37:145:d60b? ([2a01:e0a:106d:1080:6ee4:8e37:145:d60b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fce38328esm38190415e9.13.2026.05.13.04.59.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 13 May 2026 04:51:16 -0700 (PDT)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-bd22b2abaa4so358694066b.0
-        for <linux-media@vger.kernel.org>; Wed, 13 May 2026 04:51:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8fYL4Ie83vk2L8NIgJJ97oOASimyxzv/mDcMZHNEUZpuvS1Ml0ukmPFlfDPk7py/p1YTALnJxSCDTBZw==@vger.kernel.org
-X-Received: by 2002:a17:907:97c2:b0:b9d:6d06:b78a with SMTP id
- a640c23a62f3a-bd3e025e2fcmr150312066b.17.1778673075122; Wed, 13 May 2026
- 04:51:15 -0700 (PDT)
+        Wed, 13 May 2026 04:59:20 -0700 (PDT)
+Message-ID: <7e6f629f-209a-481c-aa1e-9a5e8415e0a1@linaro.org>
+Date: Wed, 13 May 2026 13:59:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260513-uvc-hwtimestamp-v3-0-7a64838b0b02@chromium.org> <20260513-uvc-hwtimestamp-v3-4-7a64838b0b02@chromium.org>
-In-Reply-To: <20260513-uvc-hwtimestamp-v3-4-7a64838b0b02@chromium.org>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 13 May 2026 13:51:02 +0200
-X-Gmail-Original-Message-ID: <CANiDSCu4fjMpgwbdEq+_Uw=nRGya3Fu6aM0A9N14JLsJauk9fQ@mail.gmail.com>
-X-Gm-Features: AVHnY4Lgx11bR8Or1Dxd2VZsKqsoBhl7G-pzaH-gTXE-qB6RaCPEhsNcduKIk6U
-Message-ID: <CANiDSCu4fjMpgwbdEq+_Uw=nRGya3Fu6aM0A9N14JLsJauk9fQ@mail.gmail.com>
-Subject: Re: [PATCH v3 4/6] media: uvcvideo: Do not add clock samples with
- small sof delta
-To: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Cc: Yunke Cao <yunkec@google.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Tomasz Figa <tfiga@chromium.org>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Hans de Goede <hansg@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Rspamd-Queue-Id: F0A375329E2
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v3 6/6] media: qcom: iris: vdec: allow GEN2 decoding into
+ 10bit format
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bod@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260511-topic-sm8x50-iris-10bit-decoding-v3-0-7fc049b93042@linaro.org>
+ <20260511-topic-sm8x50-iris-10bit-decoding-v3-6-7fc049b93042@linaro.org>
+ <yg7jatjy4ghl6m7mbldpdrqiv6vp7inyskaepsb7y2hsb3fadv@6m74ofi4jz36>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <yg7jatjy4ghl6m7mbldpdrqiv6vp7inyskaepsb7y2hsb3fadv@6m74ofi4jz36>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 69919532A71
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61412-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61411-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,linaro.org:email,linaro.org:mid,linaro.org:replyto,linaro.org:dkim];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,chromium.org:email,chromium.org:dkim,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	RCPT_COUNT_SEVEN(0.00)[9];
+	REPLYTO_EQ_FROM(0.00)[]
 X-Rspamd-Action: no action
 
-Hi Hans
+On 5/13/26 12:45, Dmitry Baryshkov wrote:
+> On Mon, May 11, 2026 at 11:20:31AM +0200, Neil Armstrong wrote:
+>> Add the necessary bits into the gen2 platforms tables and handlers
+>> to allow decoding streams into 10bit pixel formats.
+>>
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> ---
+>>   .../media/platform/qcom/iris/iris_hfi_gen2_response.c    | 16 +++++++++++++++-
+>>   drivers/media/platform/qcom/iris/iris_instance.h         |  2 ++
+>>   drivers/media/platform/qcom/iris/iris_platform_gen2.c    |  8 +++++---
+>>   drivers/media/platform/qcom/iris/iris_vdec.c             |  8 ++++++++
+>>   4 files changed, 30 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+>> index 0541e02d7507..b6d815c01f1d 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+>> @@ -542,6 +542,15 @@ static void iris_hfi_gen2_read_input_subcr_params(struct iris_inst *inst)
+>>   	pixmp_ip->width = width;
+>>   	pixmp_ip->height = height;
+>>   
+>> +	if (subsc_params.bit_depth == BIT_DEPTH_8 &&
+>> +	    pixmp_op->pixelformat != V4L2_PIX_FMT_NV12 &&
+>> +	    pixmp_op->pixelformat != V4L2_PIX_FMT_QC08C)
+>> +		pixmp_op->pixelformat = V4L2_PIX_FMT_NV12;
+>> +	else if (subsc_params.bit_depth == BIT_DEPTH_10 &&
+>> +		 pixmp_op->pixelformat != V4L2_PIX_FMT_P010 &&
+>> +		 pixmp_op->pixelformat != V4L2_PIX_FMT_QC10C)
+>> +		pixmp_op->pixelformat = V4L2_PIX_FMT_P010;
+> 
+> Do we support decoding of 10-bit videos to NV12 buffers?
 
-On Wed, 13 May 2026 at 13:49, Ricardo Ribalda <ribalda@chromium.org> wrote:
->
-> Some UVC 1.1 cameras running in fast isochronous mode tend to spam the
-> USB host with a lot of empty packets. These packets contain clock
-> information and are added to the clock buffer but do not add any
-> accuracy to the calculation. In fact, it is quite the opposite, in our
-> calculations, only the first and the last timestamp is used, and we only
-> have 32 slots.
->
-> Ignore the samples that will produce less than MIN_HW_TIMESTAMP_DIFF
-> data.
->
-> Fixes: 141270bd95d4 ("media: uvcvideo: Refactor clock circular buffer")
-> Cc: stable@vger.kernel.org
-> Tested-by: Yunke Cao <yunkec@google.com>
-> Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_video.c | 14 ++++++++++++--
->  1 file changed, 12 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index 355b9bfb799e..63850b779e24 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -544,6 +544,15 @@ static void uvc_video_clock_add_sample(struct uvc_clock *clock,
->         spin_unlock_irqrestore(&clock->lock, flags);
->  }
->
-> +static inline u16 sof_diff(u16 a, u16 b)
-> +{
-> +       /*
-> +        * Because the result is modulo 2048 (via & 2047), we do not need a
-> +        * special case for a < b.
-> +        */
-> +       return (a - b) & 2047;
-> +}
-I have modified this function but kept your R-b. Hope that it is fine.
+AFAIK no, I found no sign of that in the downstream driver but I may be wrong.
 
-Thanks!
+Neil
 
+> 
+>> +
+>>   	switch (pixmp_op->pixelformat) {
+>>   	case V4L2_PIX_FMT_P010:
+>>   		pixmp_op->width = ALIGN(width, 128);
+> 
 
-> +
->  static void
->  uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
->                        const u8 *data, int len)
-> @@ -664,12 +673,13 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
->         sample.dev_sof = (sample.dev_sof + stream->clock.sof_offset) & 2047;
->
->         /*
-> -        * To limit the amount of data, drop SCRs with an SOF identical to the
-> +        * To limit the amount of data, drop SCRs with an SOF similar to the
->          * previous one. This filtering is also needed to support UVC 1.5, where
->          * all the data packets of the same frame contains the same SOF. In that
->          * case only the first one will match the host_sof.
->          */
-> -       if (sample.dev_sof == stream->clock.last_sof)
-> +       if (sof_diff(sample.dev_sof, stream->clock.last_sof) <=
-> +           (UVC_MIN_HW_TIMESTAMP_DIFF / stream->clock.size))
->                 return;
->
->         uvc_video_clock_add_sample(&stream->clock, &sample);
->
-> --
-> 2.54.0.563.g4f69b47b94-goog
->
-
-
--- 
-Ricardo Ribalda
 
