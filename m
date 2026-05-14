@@ -1,112 +1,112 @@
-Return-Path: <linux-media+bounces-61621-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61622-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sFmEK1MWBmp3egIAu9opvQ
-	(envelope-from <linux-media+bounces-61621-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 20:37:07 +0200
+	id gNdqM0kWBmp3egIAu9opvQ
+	(envelope-from <linux-media+bounces-61622-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 20:36:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE9C545EF9
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 20:37:07 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF8F545EE9
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 20:36:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4D028306D87A
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 18:36:13 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id EC78C30117BF
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 18:36:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEC6139E184;
-	Thu, 14 May 2026 18:36:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 161D439E184;
+	Thu, 14 May 2026 18:36:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NTq5EELC"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HRR26f+a"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F0F2BDC26
-	for <linux-media@vger.kernel.org>; Thu, 14 May 2026 18:36:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA45F3932CB
+	for <linux-media@vger.kernel.org>; Thu, 14 May 2026 18:36:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.47
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778783771; cv=pass; b=jwB1mAi1B2Yt3trQS5bWu+5dicoL0AlHwdYlHFQO4tXxJMli0//T8LVxKz0hDVy9Lqu9tFjIx09yrXvX2kbJcgkHWvo4nc1zkSiJydh4/IP3EICIj5oXfk+s4Qe9H5Mqa39KJdyaDKULHK9X81uFe+IHYVR+m1sxAMfmSpqbYtA=
+	t=1778783814; cv=pass; b=LweUxYlzLdh1sKrsK0tdrxbuS/Jh4Cc7Ipzko2lmjDhZxwDW17jwusEaZLW1GOwf1Lx8ukztCXR+VOlZv9oaZaz28Uz8kHW1W6LMI6VnLFK4thAwYw2aqH7zwtrsk6/Y6RhA5d5CqIROEK5zqV+spwP2q7cO3LMOIONryvO/Fx8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778783771; c=relaxed/simple;
-	bh=/qIWB5kY3TSY57LzCuBoN0AR1W10eHt1AVZjRONzhw0=;
+	s=arc-20240116; t=1778783814; c=relaxed/simple;
+	bh=ldQ5TPlSDVAaZCL1RHiVp7BAcZ4EQPjX1eKzTjmKvtw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lTlHHH8H/HsuxArr7VHMzRF+vb0hvsk7w6FIEKJoj9X7ih9l8jmG3iDbk3SJm4w8K6BOmIMF8uT+WYQV0o/p6HLFwPFjZRpX5kg7zZuNWvhsPySm5Q4+Y5y9Xtof88AahBOHmeC4T3RyXc/hg4wnDJVdeOd9zxaFf446FHUYK6E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NTq5EELC; arc=pass smtp.client-ip=74.125.224.52
+	 To:Cc:Content-Type; b=n2gXOJOjE/VGRfmEdp9TDh9PBzct+O5ncY2jPhKt+PaSTTFuW6FvQV6n7Z3Ltx12k/Of9V4f2ClGaOMxvovuhMRVL3sJ1KMYtm3CE+4pnI3yW7qxSRpXXfMIh6afeHl/gTbNIhVLwoKXskVGGlla3gdMD7jNNIjEfM5dpPpb1fs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HRR26f+a; arc=pass smtp.client-ip=74.125.224.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-65c21049dafso9235299d50.2
-        for <linux-media@vger.kernel.org>; Thu, 14 May 2026 11:36:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778783769; cv=none;
+Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-6530287803cso10047982d50.1
+        for <linux-media@vger.kernel.org>; Thu, 14 May 2026 11:36:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778783812; cv=none;
         d=google.com; s=arc-20240605;
-        b=a3aVbxU/9hFdbrnLxqOYugPq1N0btlj5SZiKPWCGqIY2SolGdQH0F7+yzQAoAMGaq5
-         KCSAD3OGsVj9yLEdvqYIT8wR8R+n7ebEKuVR9882bEPTStg6FRhYU3dTbJqKiCU3ijAp
-         UDFZ3D1Dgy98MVYKFWzrS66hdHsho7F5y1yKdbkyJhX/h4BIVL4blDOy6/a2iQkk5RRo
-         mP071GcfYOXl+E1ePyda1a65feNRtYOSS8VB6oOfI5DbquHEZLDa07a0t5SrWLbI+U8L
-         PeFuItj/xv5PkvwXKyVU8ck+ylPVNlky1RplNBMgDUZTipi/n09/BHChUazwNcMDJeIi
-         ZDMQ==
+        b=NL/aTtLVOxNQNXG7txY+5If5KEDC+Py7roC7RmbtT49vKdrHwlmIQ7r1xFWUBNpBjW
+         tLqb7bifjeJ8vdiDvcWKzrCqcgeELboxeRuXWvaFUBqzFkrdKS5JfmHAm037DqNteytH
+         2FinONT+k2vb3QeX8Cr9w8Gj3ujLQMVbOxDk79mehajylr1KqHWFcKAtV5hg9QD+AhKJ
+         k29GP1AKyCq7lN8wZsqXc2V8W/+y+fO2v/6wgt0xVMFyjuJ06R7stg0G25HAJzKan28B
+         BfofbZskrA1Vo4VNNQJwi9qV85zU/xvedWfA+80Rsm8GdVNXPQvrYDsOGY1ACmhePH6H
+         oH/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=gr66I4EbYeT/UuRyaffQxl03WvTdMurTInphDstZDZs=;
-        fh=2h7mzglrQdXtGXqyb9AaMUSl6Z9DykFdEPjKVsf8tOg=;
-        b=JhspTsjeqeTB46vtirtTr3N88dmgMG9e9XYgenW2p1LKH3pn1pn3aM6sJVzxSaImZ0
-         AH3+5Mg4KINW+2xUipWkwHCPmPo183sgx1oCsQCgYK46ma+37qRnqQJTx384D6pDeAZS
-         KzR6KdRgxccpIlemyjJtYXvYiZOxzb13HNkVSIYaQRJTteSr/8xspqoQoC/Wai4n6pQY
-         TLbglmXTQYjfUT6h/rL3Ms2/HqCzSijzzSFAiTmYNwNKRcIL7CdIc/ZDM0qRGKCTLtxG
-         EbafjpltWhK8Hl6PkPWify30VjX/Ao7fso1QL+bPD808pkgHzLxyGMhBc9P553dbvT4D
-         k4Yg==;
+        bh=ofLQ0WZkULXfMuSqkbcmkllFaI6VJgcrCFzwzW8gdh0=;
+        fh=aOo2rklFzXZlLierxyYu1fgQ+jagCM9l+hexa5TcolI=;
+        b=G99mfPVyRxkhjPWSBZ6bDBvrPlhpC5gU01Zxs03JpgtGa3N8hLJJfLjgBRcmlR8xqy
+         4+f60ujIx7JAIWujGyNkg/Wx2/ecvxVWT5i6+dzmG78jgKdwr2WkN1XMEgiJC8oGs8sU
+         DDoxl3bCGXpZ2DvDFE4C8VkGtGjwWW4Q8kU8qJUoH6kEVeiR4ZKGfsUfLfHQCCaeJ6dh
+         vU2pkcOYjinrYrpfqXov2+Ly1zQs2LwJ5UuU5/YwJ6yLDfUUC8/XOzKevirBT7fRKie0
+         TFSlEerP37QG5GXIsOmJ44auUYCpigpnZC9XszJ99ZGp4b1NfTJFJDk5xFKbdXZsNjYr
+         rmlA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778783769; x=1779388569; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778783812; x=1779388612; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gr66I4EbYeT/UuRyaffQxl03WvTdMurTInphDstZDZs=;
-        b=NTq5EELCzsk/7ARHyER/ImpxwPHKOhl2OpvHU38eBzBuYq1gHDvsF6Zm0cf35qPTx/
-         PlRd3GEudCwtr1JRSh0KhcK6Ev8It7eGbcYtpDEmt49mTahP+O8XtoSjoLZtPtw+KEyy
-         QSD0Ix9oUdw2WySuydmkIWj0XhflwmRdI8Z0vtpVfrMiNkVdHlHSEEKKv/lV4J+erbpv
-         tKECBqxah395Qgp4eekBvA19W1IHrRNjybMO7cZxIoSG2N9qqAYi0juCeLhDSkqXyNlZ
-         A4k0Y/uKPJuVMbTQnB6ONAhWSW88x/eEtSxqAYuOWW0BgzQFGPEjqy+3TNgi6s/Fb6Tj
-         1MIg==
+        bh=ofLQ0WZkULXfMuSqkbcmkllFaI6VJgcrCFzwzW8gdh0=;
+        b=HRR26f+aJAc7Ol8pd/CScBCGsm3CBDjmEBmHC593hdTEY1nHvl9bNH2sNJ+tnZi7/t
+         uSvVpkaprDOuY9zOWlGdC691YBFo3Tixcj/HP4uAwn5biQL40X62MixHOTiItZAhaavF
+         xkqyn6U7VDJVRIInG2CCZ6M3ekkOYewF0n8Lk9KmgCWkeNmAYbIHfM6CmKEb9Rdt0l/N
+         QPJvWHa8lB8Ex08NrUEK+geEHcRxVE/mX8q2bozmRzFYQT1nLGOEvwjCGuumpLvVmZNB
+         P1US99ojSYJ/tel3vWB9OUsPdSQg3wzU7Q5IVKr4E0XNSZwMwX5gw+QCdT4kMGRLpUWa
+         XyyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778783769; x=1779388569;
+        d=1e100.net; s=20251104; t=1778783812; x=1779388612;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=gr66I4EbYeT/UuRyaffQxl03WvTdMurTInphDstZDZs=;
-        b=GhZI+LHKfeze8PTnGTRPtpqt7cREnUsgA9NK27Y4R4J+PZy831kChXW3h0JPRhRoCu
-         86RwWpD+eNCUMqn7l6SMNj7nH1lwjA3eKq7JTZWZa88SrCiQ397VXwyBfNFAguFJ/Y3t
-         0EWv8GpaX7g6cejjGxLapivwjy9s9TO7qw3fFfZd5z912pvinjfEzcEms3gKF8/B5bhe
-         aXV94LGqqII5rnxDDCdq8jsxu1SJItv0PUYfrbat+EbU5wcJxfHn9CnuIrNx2feWeDlf
-         PpPkbroIYYkL67kChemaluVQATN7RwAoEsHVNShrVI3vjbsoJTcl4e1gAL2Q/b32uRAO
-         Qs/w==
-X-Forwarded-Encrypted: i=1; AFNElJ8kjMgWYUZRG8NTIGBu1ywImz7bKdP5uX9CHrSDTZBKSk1LquklnIHoI1ASXjqr+naBEUDqEQ7NMN5Jdw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywfu9AFSzoiW8XLmzzPAjnQCdpn9xnR/z2C8SbDuiqXh8ybfehc
-	oEbkN+4CADrl3a5P5yZTEfSwHxtSyTOaAUK9M88NdIFtMB49y/3jOABKR5hyCJXZSoiu1CbMzvE
-	JZT5Uid6PgmD0NTog6iiPyWFULleKvz8=
-X-Gm-Gg: Acq92OGfvReA76uOdUMJxm6nJqaAtpskyzS7hglYxYzux0xX9hO6gSgdBgqIGOvcz1W
-	YRwz2Z9UT2uFe0XBEJIwY7rUEGMw+MfS0ipeSTUUw+aUQyimgO4l3fF0Z9ee/uOBQE7a526cBAM
-	CkZ+fOLGvVtIfCRcKseJHBswvYwgkZSK3tIrWRd5A5lU3TFNJJlZFBnJoWtqugiMcKMZfy9s6l7
-	JI7HNt8v182OW44hAypExhPBNJCjXiBXVjiGExFIScKfUFDKM44b7wz/j3IXi6MyDV3plAm+u45
-	+NIl5sMouQXBrKt7PWptCntrsGkW94qUam7xNQb41ekcxfahlES7pilKLONbxUEiWMJYfxW8Ag=
+        bh=ofLQ0WZkULXfMuSqkbcmkllFaI6VJgcrCFzwzW8gdh0=;
+        b=o/w4FObRWJiHhPRkZCWM6D97gw/TM2C5lpFgeHDIpGzngRCvzp/Psei1QyzuC5Hzm5
+         aldJzDHVCwVMtJttrZf1f5MbTUDO2olsVhYRbuCJCMua3s06NF1HQIteGwn914FC8eSw
+         r+/U8/ktv3qrJxVmUryRGMQkxEz6qQoauLthEv8UTrOI1/tDeIsgBD+148JfOcg5ktKk
+         v8AB05cgOhYbe6ibe1QORUsXWQjSSTr/D+NjzVG3SZ5E5nnWU4CD4n/RWH41KVZJBQ6Q
+         svpr2xAreGVyxxa9qi94Z5klTbSD+Jhl79AIKuwU46sljbf9NTt6VnSArhjpVGFx21nv
+         22lg==
+X-Forwarded-Encrypted: i=1; AFNElJ8o0lPSQiJurEPXen50Zouhf2bgD8BI/SoLreqZdHgj7HKIA6LgeB342w3WkSHnYULLoU2x85S3hEtN+A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywn+54Pt065+zvnnCRhIDyyffCv6pvCPnnci7n8CdmcTTmNjuVj
+	MtjC3+UU8J0nThWQylxvmN7E4rNhvOwNJcm8Qjj+fNX/rRke0WEVfk4EZk70zDBrgJUmklG/zTR
+	aNGXebyCh/lZw1L+WqNv1wJv6Z7msfjk=
+X-Gm-Gg: Acq92OHpOCcftJuMzeTUqBrXNDtGtOpkeTlq15TlsFppv82HKTYGbmXKHZhpHD5GTF0
+	Wa208hlwHp/InD69a3R2dWwg9v0mFa71PhpKMkDa48Iur+bvKZm3H25sen5nYWl8r71ta9txidN
+	Ly9NM15b7Zsu/aXcoqSOR69GuL84zvSIk1D+hR0hry4gXJT0lJkiPqCC/4JuV9p9Ti1Kb9/5Pj7
+	Jjkp5BgWthlzpmXXg5HMo2w3iBozhN3xWB7ElGWdhBEZldn4ORndwbMYPHLHolVn/hPT+5oS4sF
+	B5wGouxXUedGCyiWLRRbhlXknBsWuvykw9GamNJtMW6BENSW8MvAHBQhBqU6H/j5lQDwilEW8w=
 	=
-X-Received: by 2002:a05:690c:c4e3:b0:7b7:de6:3354 with SMTP id
- 00721157ae682-7c95c200649mr5551647b3.37.1778783768824; Thu, 14 May 2026
- 11:36:08 -0700 (PDT)
+X-Received: by 2002:a05:690c:f06:b0:7bf:107b:e77a with SMTP id
+ 00721157ae682-7c95c6f3c40mr5657087b3.30.1778783811407; Thu, 14 May 2026
+ 11:36:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260513-panthor-guard-refactor-v1-0-f2d8c15a97ce@collabora.com> <20260513-panthor-guard-refactor-v1-4-f2d8c15a97ce@collabora.com>
-In-Reply-To: <20260513-panthor-guard-refactor-v1-4-f2d8c15a97ce@collabora.com>
+References: <20260513-panthor-guard-refactor-v1-0-f2d8c15a97ce@collabora.com> <20260513-panthor-guard-refactor-v1-5-f2d8c15a97ce@collabora.com>
+In-Reply-To: <20260513-panthor-guard-refactor-v1-5-f2d8c15a97ce@collabora.com>
 From: Chia-I Wu <olvaffe@gmail.com>
-Date: Thu, 14 May 2026 11:35:57 -0700
-X-Gm-Features: AVHnY4J4cD0AEiTpmvsUklLKRJtAwfvkQDtSEGOv6mvu5PgrUOl4KINCC3wbUDk
-Message-ID: <CAPaKu7RBuff70qMFdr4uq-tAzxqG5SGiRfwyc+0Wx8KDrk_D7g@mail.gmail.com>
-Subject: Re: [PATCH 4/6] drm/panthor: Use guards for resv locking
+Date: Thu, 14 May 2026 11:36:40 -0700
+X-Gm-Features: AVHnY4K60r1MCKB_TMfS092NfmTqUOWhT6Z5aVt_4fNBfnWGP3q11PrX_MvwBnU
+Message-ID: <CAPaKu7TPe3ohss2=4S=jL=egsbNWxOvu7KW+6mN3arvVmo3r-w@mail.gmail.com>
+Subject: Re: [PATCH 5/6] drm/panthor: Use the drm_dev_access guard
 To: Boris Brezillon <boris.brezillon@collabora.com>
 Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
 	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
@@ -116,17 +116,17 @@ Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
 	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 2EE9C545EF9
+X-Rspamd-Queue-Id: 3FF8F545EE9
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-61621-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-61622-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_CC(0.00)[arm.com,linaro.org,amd.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
@@ -142,298 +142,527 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[olvaffe@gmail.com,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,mail.gmail.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,reset.work:url,tick_work.work:url,mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
 On Wed, May 13, 2026 at 10:09=E2=80=AFAM Boris Brezillon
 <boris.brezillon@collabora.com> wrote:
 >
-> Now that we have guards for resv locks, we can use them to simplify the
-> core. The only manual lock/unlock remaining are the ones in
-> panthor_gem_try_evict_no_resv_wait(), because the lock/unlock are
-> in different for_each() loop scopes.
+> It simplifies the code in a few places, allowing direct returns instead
+> of gotos. It also helps identifying the sections under the dev_access
+> guard when scoped_cond_guard() is used.
 >
 > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
 Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
 > ---
->  drivers/gpu/drm/panthor/panthor_gem.c | 77 ++++++++++++-----------------=
+>  drivers/gpu/drm/panthor/panthor_device.c | 127 ++++++++++++++-----------=
 ------
->  drivers/gpu/drm/panthor/panthor_mmu.c | 16 ++++----
->  2 files changed, 32 insertions(+), 61 deletions(-)
+>  drivers/gpu/drm/panthor/panthor_drv.c    |  58 ++++++--------
+>  drivers/gpu/drm/panthor/panthor_mmu.c    |  29 +++----
+>  drivers/gpu/drm/panthor/panthor_sched.c  |  10 +--
+>  4 files changed, 95 insertions(+), 129 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/pant=
-hor/panthor_gem.c
-> index a6fddc380e7d..94facdc8cfe1 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -339,13 +339,9 @@ panthor_gem_dev_map_get_sgt_locked(struct panthor_ge=
-m_object *bo)
->  struct sg_table *
->  panthor_gem_get_dev_sgt(struct panthor_gem_object *bo)
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/p=
+anthor/panthor_device.c
+> index cb9cd8d0448b..988a9a34f753 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -123,7 +123,7 @@ static void panthor_device_reset_cleanup(struct drm_d=
+evice *ddev, void *data)
+>  static void panthor_device_reset_work(struct work_struct *work)
 >  {
-> -       struct sg_table *sgt;
-> +       guard(dma_resv)(bo->base.resv);
+>         struct panthor_device *ptdev =3D container_of(work, struct pantho=
+r_device, reset.work);
+> -       int ret =3D 0, cookie;
+> +       int ret =3D 0;
 >
-> -       dma_resv_lock(bo->base.resv, NULL);
-> -       sgt =3D panthor_gem_dev_map_get_sgt_locked(bo);
-> -       dma_resv_unlock(bo->base.resv);
-> -
-> -       return sgt;
-> +       return panthor_gem_dev_map_get_sgt_locked(bo);
->  }
->
->  static void
-> @@ -497,7 +493,7 @@ panthor_gem_prime_begin_cpu_access(struct dma_buf *dm=
-a_buf,
->         struct panthor_gem_object *bo =3D to_panthor_bo(obj);
->         struct dma_buf_attachment *attach;
->
-> -       dma_resv_lock(obj->resv, NULL);
-> +       guard(dma_resv)(obj->resv);
->         if (bo->dmap.sgt)
->                 dma_sync_sgtable_for_cpu(drm_dev_dma_dev(dev), bo->dmap.s=
-gt, dir);
->
-> @@ -510,7 +506,6 @@ panthor_gem_prime_begin_cpu_access(struct dma_buf *dm=
-a_buf,
->                 if (sgt)
->                         dma_sync_sgtable_for_cpu(attach->dev, sgt, dir);
->         }
-> -       dma_resv_unlock(obj->resv);
->
->         return 0;
->  }
-> @@ -524,7 +519,7 @@ panthor_gem_prime_end_cpu_access(struct dma_buf *dma_=
-buf,
->         struct panthor_gem_object *bo =3D to_panthor_bo(obj);
->         struct dma_buf_attachment *attach;
->
-> -       dma_resv_lock(obj->resv, NULL);
-> +       guard(dma_resv)(obj->resv);
->         list_for_each_entry(attach, &dma_buf->attachments, node) {
->                 struct sg_table *sgt =3D attach->priv;
->
-> @@ -538,7 +533,6 @@ panthor_gem_prime_end_cpu_access(struct dma_buf *dma_=
-buf,
->         if (bo->dmap.sgt)
->                 dma_sync_sgtable_for_device(drm_dev_dma_dev(dev), bo->dma=
-p.sgt, dir);
->
-> -       dma_resv_unlock(obj->resv);
->         return 0;
->  }
->
-> @@ -625,19 +619,15 @@ static void panthor_gem_unpin_locked(struct drm_gem=
-_object *obj)
->
->  int panthor_gem_pin(struct panthor_gem_object *bo)
->  {
-> -       int ret =3D 0;
-> -
->         if (drm_gem_is_imported(&bo->base))
->                 return 0;
->
->         if (refcount_inc_not_zero(&bo->backing.pin_count))
->                 return 0;
->
-> -       dma_resv_lock(bo->base.resv, NULL);
-> -       ret =3D panthor_gem_backing_pin_locked(bo);
-> -       dma_resv_unlock(bo->base.resv);
-> +       guard(dma_resv)(bo->base.resv);
->
-> -       return ret;
-> +       return panthor_gem_backing_pin_locked(bo);
->  }
->
->  void panthor_gem_unpin(struct panthor_gem_object *bo)
-> @@ -648,9 +638,8 @@ void panthor_gem_unpin(struct panthor_gem_object *bo)
->         if (refcount_dec_not_one(&bo->backing.pin_count))
+>         /* If the device is entering suspend, we don't reset. A slow rese=
+t will
+>          * be forced at resume time instead.
+> @@ -131,19 +131,17 @@ static void panthor_device_reset_work(struct work_s=
+truct *work)
+>         if (atomic_read(&ptdev->pm.state) !=3D PANTHOR_DEVICE_PM_STATE_AC=
+TIVE)
 >                 return;
 >
-> -       dma_resv_lock(bo->base.resv, NULL);
-> +       guard(dma_resv)(bo->base.resv);
->         panthor_gem_backing_unpin_locked(bo);
-> -       dma_resv_unlock(bo->base.resv);
->  }
+> -       if (!drm_dev_enter(&ptdev->base, &cookie))
+> -               return;
+> -
+> -       panthor_sched_pre_reset(ptdev);
+> -       panthor_fw_pre_reset(ptdev, true);
+> -       panthor_mmu_pre_reset(ptdev);
+> -       panthor_hw_soft_reset(ptdev);
+> -       panthor_hw_l2_power_on(ptdev);
+> -       panthor_mmu_post_reset(ptdev);
+> -       ret =3D panthor_fw_post_reset(ptdev);
+> -       atomic_set(&ptdev->reset.pending, 0);
+> -       panthor_sched_post_reset(ptdev, ret !=3D 0);
+> -       drm_dev_exit(cookie);
+> +       scoped_cond_guard(drm_dev_access, return, &ptdev->base) {
+> +               panthor_sched_pre_reset(ptdev);
+> +               panthor_fw_pre_reset(ptdev, true);
+> +               panthor_mmu_pre_reset(ptdev);
+> +               panthor_hw_soft_reset(ptdev);
+> +               panthor_hw_l2_power_on(ptdev);
+> +               panthor_mmu_post_reset(ptdev);
+> +               ret =3D panthor_fw_post_reset(ptdev);
+> +               atomic_set(&ptdev->reset.pending, 0);
+> +               panthor_sched_post_reset(ptdev, ret !=3D 0);
+> +       }
 >
->  int panthor_gem_swapin_locked(struct panthor_gem_object *bo)
-> @@ -759,13 +748,12 @@ static int panthor_gem_mmap(struct drm_gem_object *=
-obj, struct vm_area_struct *v
->                 return -EINVAL;
->
->         if (!refcount_inc_not_zero(&bo->cmap.mmap_count)) {
-> -               dma_resv_lock(obj->resv, NULL);
-> +               guard(dma_resv)(obj->resv);
->                 if (!refcount_inc_not_zero(&bo->cmap.mmap_count)) {
->                         refcount_set(&bo->cmap.mmap_count, 1);
->                         guard(mutex)(&bo->base.gpuva.lock);
->                         panthor_gem_update_reclaim_state_locked(bo, NULL)=
-;
->                 }
-> -               dma_resv_unlock(obj->resv);
->         }
->
->         vm_flags_set(vma, VM_PFNMAP | VM_DONTEXPAND | VM_DONTDUMP);
-> @@ -814,18 +802,12 @@ static vm_fault_t nonblocking_page_setup(struct vm_=
-fault *vmf,
->  {
->         struct vm_area_struct *vma =3D vmf->vma;
->         struct panthor_gem_object *bo =3D to_panthor_bo(vma->vm_private_d=
-ata);
+>         if (ret) {
+>                 panthor_device_unplug(ptdev);
+> @@ -394,38 +392,31 @@ static vm_fault_t panthor_mmio_vm_fault(struct vm_f=
+ault *vmf)
+>         u64 offset =3D (u64)vma->vm_pgoff << PAGE_SHIFT;
+>         unsigned long pfn;
+>         pgprot_t pgprot;
 > -       vm_fault_t ret;
+>         bool active;
+> -       int cookie;
 >
-> -       if (!dma_resv_trylock(bo->base.resv))
-> +       ACQUIRE(dma_resv_try, resv_guard)(bo->base.resv);
-> +       if (ACQUIRE_ERR(dma_resv_try, &resv_guard) || !bo->backing.pages)
->                 return VM_FAULT_RETRY;
+> -       if (!drm_dev_enter(&ptdev->base, &cookie))
+> +       ACQUIRE(drm_dev_access, dev_guard)(&ptdev->base);
+> +       if (ACQUIRE_ERR(drm_dev_access, &dev_guard))
+>                 return VM_FAULT_SIGBUS;
 >
-> -       if (bo->backing.pages)
-> -               ret =3D insert_page(vmf, order, bo->backing.pages[page_of=
-fset]);
-> -       else
-> -               ret =3D VM_FAULT_RETRY;
+> -       scoped_guard(mutex, &ptdev->pm.mmio_lock) {
+> -               active =3D atomic_read(&ptdev->pm.state) =3D=3D PANTHOR_D=
+EVICE_PM_STATE_ACTIVE;
+> +       guard(mutex)(&ptdev->pm.mmio_lock);
+> +       active =3D atomic_read(&ptdev->pm.state) =3D=3D PANTHOR_DEVICE_PM=
+_STATE_ACTIVE;
+>
+> -               switch (offset) {
+> -               case DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET:
+> -                       if (active)
+> -                               pfn =3D __phys_to_pfn(ptdev->phys_addr + =
+CSF_GPU_LATEST_FLUSH_ID);
+> -                       else
+> -                               pfn =3D page_to_pfn(ptdev->pm.dummy_lates=
+t_flush);
+> +       switch (offset) {
+> +       case DRM_PANTHOR_USER_FLUSH_ID_MMIO_OFFSET:
+> +               if (active)
+> +                       pfn =3D __phys_to_pfn(ptdev->phys_addr + CSF_GPU_=
+LATEST_FLUSH_ID);
+> +               else
+> +                       pfn =3D page_to_pfn(ptdev->pm.dummy_latest_flush)=
+;
+>
+> -                       pgprot =3D vma->vm_page_prot;
+> -                       if (active)
+> -                               pgprot =3D pgprot_noncached(pgprot);
+> +               pgprot =3D vma->vm_page_prot;
+> +               if (active)
+> +                       pgprot =3D pgprot_noncached(pgprot);
+>
+> -                       ret =3D vmf_insert_pfn_prot(vma, vmf->address, pf=
+n, pgprot);
+> -                       break;
+> +               return vmf_insert_pfn_prot(vma, vmf->address, pfn, pgprot=
+);
+>
+> -               default:
+> -                       ret =3D VM_FAULT_SIGBUS;
+> -                       break;
+> -               }
+> +       default:
+> +               return VM_FAULT_SIGBUS;
+>         }
 > -
-> -       dma_resv_unlock(bo->base.resv);
+> -       drm_dev_exit(cookie);
 > -       return ret;
-> +       return insert_page(vmf, order, bo->backing.pages[page_offset]);
 >  }
 >
->  static vm_fault_t blocking_page_setup(struct vm_fault *vmf, unsigned int=
- order,
-> @@ -835,8 +817,8 @@ static vm_fault_t blocking_page_setup(struct vm_fault=
- *vmf, unsigned int order,
->         vm_fault_t ret;
->         int err;
+>  static const struct vm_operations_struct panthor_mmio_vm_ops =3D {
+> @@ -482,7 +473,7 @@ static int panthor_device_resume_hw_components(struct=
+ panthor_device *ptdev)
+>  int panthor_device_resume(struct device *dev)
+>  {
+>         struct panthor_device *ptdev =3D dev_get_drvdata(dev);
+> -       int ret, cookie;
+> +       int ret;
 >
-> -       err =3D dma_resv_lock_interruptible(bo->base.resv, NULL);
-> -       if (err)
-> +       ACQUIRE(dma_resv_intr, resv_guard)(bo->base.resv);
-> +       if (ACQUIRE_ERR(dma_resv_intr, &resv_guard))
->                 return mmap_lock_held ? VM_FAULT_NOPAGE : VM_FAULT_RETRY;
+>         if (atomic_read(&ptdev->pm.state) !=3D PANTHOR_DEVICE_PM_STATE_SU=
+SPENDED)
+>                 return -EINVAL;
+> @@ -503,28 +494,27 @@ int panthor_device_resume(struct device *dev)
 >
->         err =3D panthor_gem_backing_get_pages_locked(bo);
-> @@ -857,8 +839,6 @@ static vm_fault_t blocking_page_setup(struct vm_fault=
- *vmf, unsigned int order,
->                         ret =3D VM_FAULT_RETRY;
+>         panthor_devfreq_resume(ptdev);
+>
+> -       if (panthor_device_is_initialized(ptdev) &&
+> -           drm_dev_enter(&ptdev->base, &cookie)) {
+> -               /* If there was a reset pending at the time we suspended =
+the
+> -                * device, we force a slow reset.
+> -                */
+> -               if (atomic_read(&ptdev->reset.pending)) {
+> -                       ptdev->reset.fast =3D false;
+> -                       atomic_set(&ptdev->reset.pending, 0);
+> -               }
+> +       if (panthor_device_is_initialized(ptdev)) {
+> +               scoped_cond_guard(drm_dev_access, ret =3D 0, &ptdev->base=
+) {
+> +                       /* If there was a reset pending at the time we su=
+spended the
+> +                        * device, we force a slow reset.
+> +                        */
+> +                       if (atomic_read(&ptdev->reset.pending)) {
+> +                               ptdev->reset.fast =3D false;
+> +                               atomic_set(&ptdev->reset.pending, 0);
+> +                       }
+>
+> -               ret =3D panthor_device_resume_hw_components(ptdev);
+> -               if (ret && ptdev->reset.fast) {
+> -                       drm_err(&ptdev->base, "Fast reset failed, trying =
+a slow reset");
+> -                       ptdev->reset.fast =3D false;
+>                         ret =3D panthor_device_resume_hw_components(ptdev=
+);
+> +                       if (ret && ptdev->reset.fast) {
+> +                               drm_err(&ptdev->base, "Fast reset failed,=
+ trying a slow reset");
+> +                               ptdev->reset.fast =3D false;
+> +                               ret =3D panthor_device_resume_hw_componen=
+ts(ptdev);
+> +                       }
+> +
+> +                       if (!ret)
+> +                               panthor_sched_resume(ptdev);
+>                 }
+>
+> -               if (!ret)
+> -                       panthor_sched_resume(ptdev);
+> -
+> -               drm_dev_exit(cookie);
+> -
+>                 if (ret)
+>                         goto err_suspend_devfreq;
+>         }
+> @@ -559,7 +549,6 @@ int panthor_device_resume(struct device *dev)
+>  int panthor_device_suspend(struct device *dev)
+>  {
+>         struct panthor_device *ptdev =3D dev_get_drvdata(dev);
+> -       int cookie;
+>
+>         if (atomic_read(&ptdev->pm.state) !=3D PANTHOR_DEVICE_PM_STATE_AC=
+TIVE)
+>                 return -EINVAL;
+> @@ -577,19 +566,19 @@ int panthor_device_suspend(struct device *dev)
+>                                     DRM_PANTHOR_USER_MMIO_OFFSET, 0, 1);
 >         }
 >
-> -       dma_resv_unlock(bo->base.resv);
-> -
+> -       if (panthor_device_is_initialized(ptdev) &&
+> -           drm_dev_enter(&ptdev->base, &cookie)) {
+> -               cancel_work_sync(&ptdev->reset.work);
+> +       if (panthor_device_is_initialized(ptdev)) {
+> +               scoped_guard(drm_dev_access, &ptdev->base) {
+> +                       cancel_work_sync(&ptdev->reset.work);
+>
+> -               /* We prepare everything as if we were resetting the GPU.
+> -                * The end of the reset will happen in the resume path th=
+ough.
+> -                */
+> -               panthor_sched_suspend(ptdev);
+> -               panthor_fw_suspend(ptdev);
+> -               panthor_mmu_suspend(ptdev);
+> -               panthor_gpu_suspend(ptdev);
+> -               panthor_pwr_suspend(ptdev);
+> -               drm_dev_exit(cookie);
+> +                       /* We prepare everything as if we were resetting =
+the GPU.
+> +                        * The end of the reset will happen in the resume=
+ path though.
+> +                        */
+> +                       panthor_sched_suspend(ptdev);
+> +                       panthor_fw_suspend(ptdev);
+> +                       panthor_mmu_suspend(ptdev);
+> +                       panthor_gpu_suspend(ptdev);
+> +                       panthor_pwr_suspend(ptdev);
+> +               }
+>         }
+>
+>         panthor_devfreq_suspend(ptdev);
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/pant=
+hor/panthor_drv.c
+> index e8dc4096c1d2..789ddc0ff7ef 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -997,9 +997,10 @@ static int panthor_ioctl_vm_create(struct drm_device=
+ *ddev, void *data,
+>         struct panthor_device *ptdev =3D container_of(ddev, struct pantho=
+r_device, base);
+>         struct panthor_file *pfile =3D file->driver_priv;
+>         struct drm_panthor_vm_create *args =3D data;
+> -       int cookie, ret;
+> +       int ret;
+>
+> -       if (!drm_dev_enter(ddev, &cookie))
+> +       ACQUIRE(drm_dev_access, dev_guard)(ddev);
+> +       if (ACQUIRE_ERR(drm_dev_access, &dev_guard))
+>                 return -ENODEV;
+>
+>         ret =3D panthor_vm_pool_create_vm(ptdev, pfile->vms,  args);
+> @@ -1008,7 +1009,6 @@ static int panthor_ioctl_vm_create(struct drm_devic=
+e *ddev, void *data,
+>                 ret =3D 0;
+>         }
+>
+> -       drm_dev_exit(cookie);
 >         return ret;
 >  }
 >
-> @@ -932,12 +912,12 @@ static void panthor_gem_vm_close(struct vm_area_str=
-uct *vma)
->         if (refcount_dec_not_one(&bo->cmap.mmap_count))
->                 goto out;
+> @@ -1033,38 +1033,30 @@ static int panthor_ioctl_bo_create(struct drm_dev=
+ice *ddev, void *data,
+>         struct panthor_file *pfile =3D file->driver_priv;
+>         struct drm_panthor_bo_create *args =3D data;
+>         struct panthor_vm *vm =3D NULL;
+> -       int cookie, ret;
+> +       int ret;
 >
-> -       dma_resv_lock(bo->base.resv, NULL);
-> -       if (refcount_dec_and_test(&bo->cmap.mmap_count)) {
-> -               guard(mutex)(&bo->base.gpuva.lock);
-> -               panthor_gem_update_reclaim_state_locked(bo, NULL);
-> +       scoped_guard(dma_resv, bo->base.resv) {
-> +               if (refcount_dec_and_test(&bo->cmap.mmap_count)) {
-> +                       guard(mutex)(&bo->base.gpuva.lock);
-> +                       panthor_gem_update_reclaim_state_locked(bo, NULL)=
-;
-> +               }
->         }
-> -       dma_resv_unlock(bo->base.resv);
+> -       if (!drm_dev_enter(ddev, &cookie))
+> +       ACQUIRE(drm_dev_access, dev_guard)(ddev);
+> +       if (ACQUIRE_ERR(drm_dev_access, &dev_guard))
+>                 return -ENODEV;
 >
->  out:
->         drm_gem_object_put(&bo->base);
-> @@ -1161,21 +1141,18 @@ panthor_gem_sync(struct drm_gem_object *obj, u32 =
-type,
->         if (size =3D=3D 0)
->                 return 0;
->
-> -       ret =3D dma_resv_lock_interruptible(bo->base.resv, NULL);
-> +       ACQUIRE(dma_resv_intr, resv_guard)(bo->base.resv);
-> +       ret =3D ACQUIRE_ERR(dma_resv_intr, &resv_guard);
->         if (ret)
->                 return ret;
->
->         /* If there's no pages, there's no point pulling those back, bail=
- out early. */
-> -       if (!bo->backing.pages) {
-> -               ret =3D 0;
-> -               goto out_unlock;
+>         if (!args->size || args->pad ||
+> -           (args->flags & ~PANTHOR_BO_FLAGS)) {
+> -               ret =3D -EINVAL;
+> -               goto out_dev_exit;
 > -       }
-> +       if (!bo->backing.pages)
+> +           (args->flags & ~PANTHOR_BO_FLAGS))
+> +               return -EINVAL;
+>
+>         if ((args->flags & DRM_PANTHOR_BO_NO_MMAP) &&
+> -           (args->flags & DRM_PANTHOR_BO_WB_MMAP)) {
+> -               ret =3D -EINVAL;
+> -               goto out_dev_exit;
+> -       }
+> +           (args->flags & DRM_PANTHOR_BO_WB_MMAP))
+> +               return -EINVAL;
+>
+>         if (args->exclusive_vm_id) {
+>                 vm =3D panthor_vm_pool_get_vm(pfile->vms, args->exclusive=
+_vm_id);
+> -               if (!vm) {
+> -                       ret =3D -EINVAL;
+> -                       goto out_dev_exit;
+> -               }
+> +               if (!vm)
+> +                       return -EINVAL;
+>         }
+>
+>         ret =3D panthor_gem_create_with_handle(file, ddev, vm, &args->siz=
+e,
+>                                              args->flags, &args->handle);
+>
+>         panthor_vm_put(vm);
+> -
+> -out_dev_exit:
+> -       drm_dev_exit(cookie);
+>         return ret;
+>  }
+>
+> @@ -1107,17 +1099,18 @@ static int panthor_ioctl_group_submit(struct drm_=
+device *ddev, void *data,
+>         struct drm_panthor_group_submit *args =3D data;
+>         struct drm_panthor_queue_submit *jobs_args;
+>         struct panthor_submit_ctx ctx;
+> -       int ret =3D 0, cookie;
+> +       int ret =3D 0;
+>
+>         if (args->pad)
+>                 return -EINVAL;
+>
+> -       if (!drm_dev_enter(ddev, &cookie))
+> +       ACQUIRE(drm_dev_access, dev_guard)(ddev);
+> +       if (ACQUIRE_ERR(drm_dev_access, &dev_guard))
+>                 return -ENODEV;
+>
+>         ret =3D PANTHOR_UOBJ_GET_ARRAY(jobs_args, &args->queue_submits);
+>         if (ret)
+> -               goto out_dev_exit;
+> +               return ret;
+>
+>         ret =3D panthor_submit_ctx_init(&ctx, file, args->queue_submits.c=
+ount);
+>         if (ret)
+> @@ -1201,8 +1194,6 @@ static int panthor_ioctl_group_submit(struct drm_de=
+vice *ddev, void *data,
+>  out_free_jobs_args:
+>         kvfree(jobs_args);
+>
+> -out_dev_exit:
+> -       drm_dev_exit(cookie);
+>         return ret;
+>  }
+>
+> @@ -1438,18 +1429,15 @@ static int panthor_ioctl_vm_bind(struct drm_devic=
+e *ddev, void *data,
+>                                  struct drm_file *file)
+>  {
+>         struct drm_panthor_vm_bind *args =3D data;
+> -       int cookie, ret;
+>
+> -       if (!drm_dev_enter(ddev, &cookie))
+> +       ACQUIRE(drm_dev_access, dev_guard)(ddev);
+> +       if (ACQUIRE_ERR(drm_dev_access, &dev_guard))
+>                 return -ENODEV;
+>
+>         if (args->flags & DRM_PANTHOR_VM_BIND_ASYNC)
+> -               ret =3D panthor_ioctl_vm_bind_async(ddev, args, file);
+> -       else
+> -               ret =3D panthor_ioctl_vm_bind_sync(ddev, args, file);
+> +               return panthor_ioctl_vm_bind_async(ddev, args, file);
+>
+> -       drm_dev_exit(cookie);
+> -       return ret;
+> +       return panthor_ioctl_vm_bind_sync(ddev, args, file);
+>  }
+>
+>  static int panthor_ioctl_vm_get_state(struct drm_device *ddev, void *dat=
+a,
+> @@ -1671,9 +1659,10 @@ static int panthor_mmap(struct file *filp, struct =
+vm_area_struct *vma)
+>         struct panthor_device *ptdev =3D pfile->ptdev;
+>         u64 offset =3D (u64)vma->vm_pgoff << PAGE_SHIFT;
+>         u64 user_mmio_offset;
+> -       int ret, cookie;
+> +       int ret;
+>
+> -       if (!drm_dev_enter(file->minor->dev, &cookie))
+> +       ACQUIRE(drm_dev_access, dev_guard)(file->minor->dev);
+> +       if (ACQUIRE_ERR(drm_dev_access, &dev_guard))
+>                 return -ENODEV;
+>
+>         /* Adjust the user MMIO offset to match the offset used kernel si=
+de.
+> @@ -1691,7 +1680,6 @@ static int panthor_mmap(struct file *filp, struct v=
+m_area_struct *vma)
+>                 ret =3D drm_gem_mmap(filp, vma);
+>         }
+>
+> -       drm_dev_exit(cookie);
+>         return ret;
+>  }
+>
+> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/pant=
+hor/panthor_mmu.c
+> index ab9a77e6a145..ff3beb9147e8 100644
+> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
+> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
+> @@ -788,13 +788,13 @@ static int panthor_vm_active_locked(struct panthor_=
+vm *vm)
+>  int panthor_vm_active(struct panthor_vm *vm)
+>  {
+>         struct panthor_device *ptdev =3D vm->ptdev;
+> -       int ret =3D 0, cookie;
+>
+> -       if (!drm_dev_enter(&ptdev->base, &cookie))
+> +       ACQUIRE(drm_dev_access, dev_guard)(&ptdev->base);
+> +       if (ACQUIRE_ERR(drm_dev_access, &dev_guard))
+>                 return -ENODEV;
+>
+>         if (refcount_inc_not_zero(&vm->as.active_cnt))
+> -               goto out_dev_exit;
 > +               return 0;
 >
->         sgt =3D panthor_gem_dev_map_get_sgt_locked(bo);
-> -       if (IS_ERR(sgt)) {
-> -               ret =3D PTR_ERR(sgt);
-> -               goto out_unlock;
+>         /* As soon as active is called, we place the VM at the end of the=
+ VM LRU.
+>          * If something fails after that, the only downside is that this =
+VM that
+> @@ -809,14 +809,10 @@ int panthor_vm_active(struct panthor_vm *vm)
+>         /* Make sure we don't race with lock/unlock_region() calls
+>          * happening around VM bind operations.
+>          */
+> -       scoped_guard(mutex, &vm->op_lock) {
+> -               guard(mutex)(&ptdev->mmu->as.slots_lock);
+> -               ret =3D panthor_vm_active_locked(vm);
 > -       }
-> +       if (IS_ERR(sgt))
-> +               return PTR_ERR(sgt);
+> +       guard(mutex)(&vm->op_lock);
+> +       guard(mutex)(&ptdev->mmu->as.slots_lock);
 >
->         for_each_sgtable_dma_sg(sgt, sgl, count) {
->                 if (size =3D=3D 0)
-> @@ -1219,11 +1196,7 @@ panthor_gem_sync(struct drm_gem_object *obj, u32 t=
-ype,
->                         dma_sync_single_for_cpu(dma_dev, paddr, len, DMA_=
-FROM_DEVICE);
->         }
->
-> -       ret =3D 0;
-> -
-> -out_unlock:
-> -       dma_resv_unlock(bo->base.resv);
+> -out_dev_exit:
+> -       drm_dev_exit(cookie);
 > -       return ret;
-> +       return 0;
+> +       return panthor_vm_active_locked(vm);
 >  }
 >
 >  /**
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/pant=
-hor/panthor_mmu.c
-> index 157eef286cb9..ab9a77e6a145 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -1118,10 +1118,10 @@ static void panthor_vm_bo_free(struct drm_gpuvm_b=
-o *vm_bo)
->         /* We couldn't call this when we unlinked, because the resv lock =
-can't
->          * be taken in the dma signalling path, so call it now.
->          */
-> -       dma_resv_lock(bo->base.resv, NULL);
-> -       scoped_guard(mutex, &bo->base.gpuva.lock)
-> +       scoped_guard(dma_resv, bo->base.resv) {
-> +               guard(mutex)(&bo->base.gpuva.lock);
->                 panthor_gem_update_reclaim_state_locked(bo, NULL);
-> -       dma_resv_unlock(bo->base.resv);
-> +       }
+> @@ -902,16 +898,15 @@ static size_t get_pgsize(u64 addr, size_t size, siz=
+e_t *count)
+>  static void panthor_vm_declare_unusable(struct panthor_vm *vm)
+>  {
+>         struct panthor_device *ptdev =3D vm->ptdev;
+> -       int cookie;
 >
->         kfree(vm_bo);
->  }
-> @@ -1342,16 +1342,14 @@ static int panthor_vm_prepare_map_op_ctx(struct p=
-anthor_vm_op_ctx *op_ctx,
+>         if (vm->unusable)
+>                 return;
 >
->         /* Insert BO into the extobj list last, when we know nothing can =
-fail. */
->         if (bo->base.resv !=3D panthor_vm_resv(vm)) {
-> -               dma_resv_lock(panthor_vm_resv(vm), NULL);
-> +               guard(dma_resv)(panthor_vm_resv(vm));
->                 drm_gpuvm_bo_extobj_add(op_ctx->map.vm_bo);
-> -               dma_resv_unlock(panthor_vm_resv(vm));
+>         vm->unusable =3D true;
+>         guard(mutex)(&ptdev->mmu->as.slots_lock);
+> -       if (vm->as.id >=3D 0 && drm_dev_enter(&ptdev->base, &cookie)) {
+> -               panthor_mmu_as_disable(ptdev, vm->as.id, false);
+> -               drm_dev_exit(cookie);
+> +       if (vm->as.id >=3D 0) {
+> +               scoped_guard(drm_dev_access, &ptdev->base)
+> +                       panthor_mmu_as_disable(ptdev, vm->as.id, false);
 >         }
+>  }
 >
->         /* And finally update the BO state. */
-> -       dma_resv_lock(bo->base.resv, NULL);
-> -       scoped_guard(mutex, &bo->base.gpuva.lock)
-> -               panthor_gem_update_reclaim_state_locked(bo, NULL);
-> -       dma_resv_unlock(bo->base.resv);
-> +       guard(dma_resv)(bo->base.resv);
-> +       guard(mutex)(&bo->base.gpuva.lock);
-> +       panthor_gem_update_reclaim_state_locked(bo, NULL);
+> @@ -1983,12 +1978,8 @@ static void panthor_vm_free(struct drm_gpuvm *gpuv=
+m)
+>         scoped_guard(mutex, &vm->op_lock) {
+>                 guard(mutex)(&ptdev->mmu->as.slots_lock);
+>                 if (vm->as.id >=3D 0) {
+> -                       int cookie;
+> -
+> -                       if (drm_dev_enter(&ptdev->base, &cookie)) {
+> +                       scoped_guard(drm_dev_access, &ptdev->base)
+>                                 panthor_mmu_as_disable(ptdev, vm->as.id, =
+false);
+> -                               drm_dev_exit(cookie);
+> -                       }
 >
->         return 0;
+>                         ptdev->mmu->as.slots[vm->as.id].vm =3D NULL;
+>                         clear_bit(vm->as.id, &ptdev->mmu->as.alloc_mask);
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/pa=
+nthor/panthor_sched.c
+> index d8cadd393fbe..9aa9941d2309 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -2624,21 +2624,19 @@ static void tick_work(struct work_struct *work)
+>         struct panthor_scheduler *sched =3D container_of(work, struct pan=
+thor_scheduler,
+>                                                       tick_work.work);
+>         struct panthor_device *ptdev =3D sched->ptdev;
+> -       int ret, cookie;
+> +       int ret;
 >
+> -       if (!drm_dev_enter(&ptdev->base, &cookie))
+> +       ACQUIRE(drm_dev_access, dev_guard)(&ptdev->base);
+> +       if (ACQUIRE_ERR(drm_dev_access, &dev_guard))
+>                 return;
+>
+>         ret =3D panthor_device_resume_and_get(ptdev);
+>         if (drm_WARN_ON(&ptdev->base, ret))
+> -               goto out_dev_exit;
+> +               return;
+>
+>         tick(sched);
+>         pm_runtime_mark_last_busy(ptdev->base.dev);
+>         pm_runtime_put_autosuspend(ptdev->base.dev);
+> -
+> -out_dev_exit:
+> -       drm_dev_exit(cookie);
+>  }
+>
+>  static int panthor_queue_eval_syncwait(struct panthor_group *group, u8 q=
+ueue_idx)
 >
 > --
 > 2.54.0
