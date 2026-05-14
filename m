@@ -1,51 +1,48 @@
-Return-Path: <linux-media+bounces-61608-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61609-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qEp9EjTMBWocbgIAu9opvQ
-	(envelope-from <linux-media+bounces-61608-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 15:20:52 +0200
+	id UL4yHrLNBWpGbgIAu9opvQ
+	(envelope-from <linux-media+bounces-61609-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 15:27:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B63E25423F4
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 15:20:51 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45336542519
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 15:27:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 24FAA30B14AE
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 13:16:54 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5333A3056141
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 13:25:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 683743E022D;
-	Thu, 14 May 2026 13:16:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="R5tH0WKB"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 112783DFC98;
+	Thu, 14 May 2026 13:25:03 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D8DF3DFC9C;
-	Thu, 14 May 2026 13:16:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D85C93E022A
+	for <linux-media@vger.kernel.org>; Thu, 14 May 2026 13:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778764611; cv=none; b=sBg9DaUr7oCCBs5kZheYwg+yR1HZhiZ3+i++6m9FTaVGu697poDDHWX48ByR3uvzgFH8CJTQ4UYIYuCZa4s3ZwLDdy4tRQvQzvgGgJU85a2G3cXZESMAcu2r0ODGReKVFar7GUZOSULy7hYjbPjEHYgfGpGOOqjLBiWFOQd3IV0=
+	t=1778765102; cv=none; b=k3WBg6YbyG0bkEHmfV9Kt5nAXK6/Cl3XqEWTijupzZAXc389htvE08lNU4p+Hq7BDsF96jlEs9R72SQLfHmFpTpSWyHBgEpMM4G6RPdDAI02/PSTMkLrD+7FrJqsHx0NHntlGppncLioO16wS7ALENYq8v4DBjXJqtVKijyEkkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778764611; c=relaxed/simple;
-	bh=XlQXNhbEfTr01dBzOIt2YI+/ViFio1iF/QMxPWRbPzE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WmvGsIn2+ojdCblb1i4CiSm6p7gb4wchyTeWLF2d8UKs6OrUBJ9bq89+Z+z3QinsmqWHHPbaituNXH2U+y5BcTw014W4R3O1no08ojOCWkpq3XVBJhvvMBXUUmDY+Ms5JXmn+D8JTXeCoOMBk500RtD2hmTrtKoFMcZ30aP9pZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=R5tH0WKB; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BD0F5244B;
-	Thu, 14 May 2026 06:16:38 -0700 (PDT)
-Received: from [10.1.37.28] (e122027.cambridge.arm.com [10.1.37.28])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8C8CB3F836;
-	Thu, 14 May 2026 06:16:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1778764603; bh=XlQXNhbEfTr01dBzOIt2YI+/ViFio1iF/QMxPWRbPzE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=R5tH0WKBoMTBO5UI7SJd/dQs8FJ7FF+9n8d3mFdgWH+hAbV3psXfthFEhdBOyDXLq
-	 OeV/Dc7lcuRsC2vEiRYWvm42tmeVCttsAlUj0J9Z2npAGimsSw01JbTJ8bWZTPZLmk
-	 gumAnP0vz7GxVlRoTkqGl6RoGppepG5O3T5Ti6q8=
-Message-ID: <5ab2d07c-74a4-4a2c-b145-6ed7b0060944@arm.com>
-Date: Thu, 14 May 2026 14:16:37 +0100
+	s=arc-20240116; t=1778765102; c=relaxed/simple;
+	bh=nE74hMRIsV5NF4T6Dk1/43RR7Cc0hv+Bi14VkoKALdE=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=OgK1gnJm3WwPK1LYx44ihh5ew/4cOG06M3Gyw/8D+3pQ58zQ7Mt3W6o9IPHGcO3Aq67lyCV2nazJ5fdUMS8kHLckwJQOxCE0PJqdZ23rcWqP7fTH2P5umK3OFgiDZKrISr1L7G2xYpLhPEE3vudaL395Qp3dr36mmu8x7BuD7GQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
+Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 64EDOsmR001237;
+	Thu, 14 May 2026 22:24:54 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Received: from [192.168.1.5] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
+	(authenticated bits=0)
+	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 64EDOs5Y001232
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+	Thu, 14 May 2026 22:24:54 +0900 (JST)
+	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
+Message-ID: <993bf38b-738d-4fb0-ae80-132cffa6e707@I-love.SAKURA.ne.jp>
+Date: Thu, 14 May 2026 22:24:52 +0900
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,107 +50,87 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] drm/panthor: Driver-wide xxx_[un]lock ->
- [scoped_]guard replacement
-To: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-References: <20260513-panthor-guard-refactor-v1-0-f2d8c15a97ce@collabora.com>
- <20260513-panthor-guard-refactor-v1-1-f2d8c15a97ce@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20260513-panthor-guard-refactor-v1-1-f2d8c15a97ce@collabora.com>
+Content-Language: en-US
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Subject: [PATCH v2 (repost)] media: usb: siano: don't set URB_FREE_BUFFER flag
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: B63E25423F4
+X-Anti-Virus-Server: fsav102.rs.sakura.ne.jp
+X-Virus-Status: clean
+X-Rspamd-Queue-Id: 45336542519
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.46 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[arm.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[arm.com:s=foss];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FREEMAIL_CC(0.00)[linaro.org,amd.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-61608-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[arm.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61609-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[i-love.sakura.ne.jp];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWO(0.00)[2];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[steven.price@arm.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[penguin-kernel@I-love.SAKURA.ne.jp,linux-media@vger.kernel.org];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,arm.com:mid,arm.com:dkim]
+	NEURAL_HAM(-0.00)[-0.994];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,syzkaller.appspot.com:url,appspotmail.com:email]
 X-Rspamd-Action: no action
 
-On 13/05/2026 17:58, Boris Brezillon wrote:
-> Right now panthor is mixed bag of manual locks and guards. Let's
-> make that more consitent and thus encourage new submissions to go
-> for guards.
+syzbot is reporting invalid free at usb_free_urb(), for
 
-I'm fine with encouraging guards for future code - but I'm a little wary
-of a big change like this - it's hard to review it and check that
-everything works the same. And it's a little dubious that the mechanical
-refactoring produces more readable code in some cases.
+  smscore_register_device() allocates all buffers at once as an array
 
-That said I asked my friendly AI bot...
+  smscore_createbuffer() maps each element in the array to cb->p
 
-[...]
+  usb_fill_bulk_urb() assigns urb->transfer_buffer using cb->p
+  which may point to a non-head element in the array
 
-> @@ -3142,48 +3126,44 @@ panthor_mmu_reclaim_priv_bos(struct panthor_device *ptdev,
->  	LIST_HEAD(remaining_vms);
->  	LIST_HEAD(vms);
->  
-> -	mutex_lock(&ptdev->reclaim.lock);
-> -	list_splice_init(&ptdev->reclaim.vms, &vms);
-> +	scoped_guard(mutex, &ptdev->reclaim.lock)
-> +		list_splice_init(&ptdev->reclaim.vms, &vms);
->  
->  	while (freed < nr_to_scan) {
->  		struct panthor_vm *vm;
->  
-> -		vm = list_first_entry_or_null(&vms, typeof(*vm),
-> -					      reclaim.lru_node);
-> -		if (!vm)
-> -			break;
-> -
-> -		if (!kref_get_unless_zero(&vm->base.kref)) {
-> -			list_del_init(&vm->reclaim.lru_node);
-> -			continue;
-> +		scoped_guard(mutex, &ptdev->reclaim.lock) {
-> +			vm = list_first_entry_or_null(&vms, typeof(*vm),
-> +						      reclaim.lru_node);
-> +			if (vm && !kref_get_unless_zero(&vm->base.kref)) {
-> +				list_del_init(&vm->reclaim.lru_node);
-> +				vm = NULL;
-> +			}
->  		}
->  
-> -		mutex_unlock(&ptdev->reclaim.lock);
-> +		if (!vm)
-> +			break;
+  URB_FREE_BUFFER causes usb_free_urb() to free urb->transfer_buffer
+  which may point to a non-head element in the array
 
-... and it said the above has changed behaviour.
+The urb->transfer_buffer must point to an address returned by kmalloc()
+family if URB_FREE_BUFFER flag is set. But since the urb->transfer_buffer
+allocation strategy for this module is to allocate buffers upon device
+registration and free buffers upon device unregistration, we should
+avoid setting URB_FREE_BUFFER flag. Otherwise, double free or invalid
+free will happen.
 
-In the !kref_get_unless_zero() case you now assign vm = NULL which then
-leads to the 'break' case above. Previously we 'continue'd.
+Reported-by: syzbot+b466336413a1fba398a5@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=b466336413a1fba398a5
+Fixes: 564246fd3ff4 ("media: siano: Fix coherent memory allocation failure on arm64")
+Tested-by: Tomoki Sekiyama <tomoki.sekiyama@gmail.com>
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+---
+Changes in v2:
+  Added Tested-by: line.
 
-Thanks,
-Steve
+ drivers/media/usb/siano/smsusb.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
+index 0fdc2e0950b7..8140dc0c8b7d 100644
+--- a/drivers/media/usb/siano/smsusb.c
++++ b/drivers/media/usb/siano/smsusb.c
+@@ -168,7 +168,6 @@ static int smsusb_submit_urb(struct smsusb_device_t *dev,
+ 		smsusb_onresponse,
+ 		surb
+ 	);
+-	surb->urb->transfer_flags |= URB_FREE_BUFFER;
+ 
+ 	return usb_submit_urb(surb->urb, GFP_ATOMIC);
+ }
+-- 
+2.47.3
 
