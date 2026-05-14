@@ -1,93 +1,51 @@
-Return-Path: <linux-media+bounces-61610-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61611-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ELM7FbDWBWrxbwIAu9opvQ
-	(envelope-from <linux-media+bounces-61610-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 16:05:36 +0200
+	id EMTbJ3/fBWqjcwIAu9opvQ
+	(envelope-from <linux-media+bounces-61611-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 16:43:11 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFC8E542C07
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 16:05:35 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5B1543577
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 16:43:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E568E305E891
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 13:57:23 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 80AF630626C2
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 14:35:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BA53402442;
-	Thu, 14 May 2026 13:55:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D81541324C;
+	Thu, 14 May 2026 14:34:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="LxtRhAqK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GEEEmAqS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA0C3F7A8B
-	for <linux-media@vger.kernel.org>; Thu, 14 May 2026 13:55:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.153.30
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA7840DFA0;
+	Thu, 14 May 2026 14:34:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778766946; cv=none; b=QU2I/nX4+zqzBxF4K6nuGI5qY3Nx6ZBIkMx6anOdV/Rocj2hSv/54BnZDx4Vxp0LRQNrH5S1DXZddnyODa9y22yKSCMLjCv7Om8OeYe9hmABb08qKufqQPzyCGbh70n0RsxopTJdlzfb8onRalMQU+zG06MDOheQAm5wH3g2qsE=
+	t=1778769279; cv=none; b=O+ywljqIBMmXGAeaehd24zYh0ovfLGtIct761BleoBIyz81ny2ummcSzdE8s5A80Oll92Mc+yBpfAw7VkPctS4UT3YkLDeSfvMBptbPCjLC15VkE5EOLRD2oP0WaRn/icN6pSC0/5AfBmrkAIjVO008PmAbbP72BHV0/YdQnzA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778766946; c=relaxed/simple;
-	bh=srPu2T221McHXTkQSH9Oejgv5+62Emrh2FOZ3YXu77c=;
+	s=arc-20240116; t=1778769279; c=relaxed/simple;
+	bh=sIm7xyoGq/3jQyavKbDg6WxX1bxs1qeDt2+PDlTROoc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gvmOcpyCrbaRnmYJ6usYV3h46HLkG0AlgAcqV4vze/kfFlKl9XsxVvc5iz5QyTiU1mvpjomNTglTB+oENVx6bQRhVMKkS2ccStpndewQBs13bN7M6lPhwlM0OjoQp++rYj+UtvkkRiapvVQnlwkV1N6f8ITxoK3FiGM/opibV0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=LxtRhAqK; arc=none smtp.client-ip=67.231.153.30
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
-Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
-	by m0001303.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 64E5ISit909428
-	for <linux-media@vger.kernel.org>; Thu, 14 May 2026 06:55:41 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=IkkxRlEVU+3w+Yl34MPIFikE3yFUtB8xK/F28U9hrPg=; b=LxtRhAqK961K
-	Qx6NyNdgt1AOhTAfIWUL4hMXnHS0598SipoJSDn2iWyvAzTrQJAJzUw+9sZxRwsw
-	AR4HU5bIdSM3bPtuqkEL4/XZroyBkRJFBb8S4iq2p6k3Q3kBLqi2SZyuut/I+7yv
-	xUXa521SbV2iscLIYd/hlxRNxClEJY5FzzABKnHYbLU/H96TcElBWFWztKhlJ7aG
-	ud5pmNFXYCBdVjukCE9qns8eC2TSH3FWbtOqLsrdfRLV+ZPg5rKJK7KkrwX6S2cJ
-	o1yla90oO9Hn4h6L0GpgkLL95NEIbYr1lnodaxhfyrHlbKjK8GwSA0mYBX8DYX/V
-	TqTnTTC9EQ==
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com [209.85.218.70])
-	by m0001303.ppops.net (PPS) with ESMTPS id 4e3t79tufh-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 14 May 2026 06:55:41 -0700 (PDT)
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-bcc2320b2deso525506566b.1
-        for <linux-media@vger.kernel.org>; Thu, 14 May 2026 06:55:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778766940; x=1779371740;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IkkxRlEVU+3w+Yl34MPIFikE3yFUtB8xK/F28U9hrPg=;
-        b=FrEu0tr51XQjU4wBgJcjd+FwcTxkFngkI7SGTBtY2X5yDMr5LNDI7IROw+zWc/NIBh
-         UZN/VOekFavOr/pBwOx+Ct+SU0WSn3QjJGl5gEwbgoTSuKMOM+ntHegoVHDH+YFUO/Lm
-         030uo+CoUOTA1TgMDd935P0JRalLtOZBYjXM4xRgf5Vi5VFClm+7AODIe7+Q6X7IQ+Ig
-         IFnWd86kkXLelqEjZDj6b1vVIR1YwXAcW1X5y4SpmGnmALUUSbURZPLFPWdJVdifA1Ly
-         KKlM3FTs1H1xjALuCbodwshcwagFt6FZz5hgXpxOToury3U9a6Adt20aUFnJHPGIMncC
-         GRhQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8/le+sNvG4nA5xVlLjeYbRJz0hQYd3ZNp3xbS+PdJ8LjROMJW8rh+YXgOXtbTezvdkQ6w8FN/DHK2ehQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNk2mUIHzAFm8UsUfFgVaftjrQ12bx5Ee2o8njpx7XYOdOcfkr
-	GLc1wE57Py1kPcDnpeokBkoOQsX2Iyf4JNEI78RY4hcCyrRVO3k8POiV96J/1+sTHKbo4TU3/CP
-	seTYW68XZ3Wa7HhtE6Q8C4yv/TMpHAGd9rZnCuNZAFbhKKfS1xuHgd2gt94FJJ1E=
-X-Gm-Gg: Acq92OHt1F+eEuS1xRwf2dX2LRBaMM+QIqVZiSZ8QOdFN6HwOA7jIPFRHECbdhMfmE8
-	q6nKDTNlJUG8xsuZr0zo9QnaMwFmTPpg9jjyOB2L8OaWgAjcNNw6lKZ7bE6x2QmrDzLcFLWvMQC
-	R536nYCDmsL11dxpG/1d7Pcu3QJfCSwcX7jVDZEnaOQGH2jvoXuddCHVmS4mnf9W/oAZEzrfA/0
-	eoWMlJcN+ubL2GWWtGIvKRwdc+41hyf8TkkhCVAw8DCaOkInOE+bMRkof0teTyJzkRTOqfS9Z1d
-	n9/nGIb9q+Ocucpv+hnrEhV82RxxBjPwOpRit/fG+N72ov4tLAmXsOxFCpxmMifHs8yasIHZPxB
-	851oqrnnFp8bkkWawP+sLwBQeyXY8thuIl8pqwDJpUyqwsZJMEnr/gZ62gpRQ6cBBjC0zIZTbXu
-	Qf+LRnzdyvavbOzRjevDaDdiqZlFpcgDuWfK1x7gx1K4vl1Tq88ebplgjx6TqhdFQ+ys8iQGd6n
-	Y8m5tKMKSruBwCi2UaiJNk=
-X-Received: by 2002:a17:906:4786:b0:bd3:2b8a:2164 with SMTP id a640c23a62f3a-bd3bfb9f635mr526851466b.16.1778766939872;
-        Thu, 14 May 2026 06:55:39 -0700 (PDT)
-X-Received: by 2002:a17:906:4786:b0:bd3:2b8a:2164 with SMTP id a640c23a62f3a-bd3bfb9f635mr526848066b.16.1778766939261;
-        Thu, 14 May 2026 06:55:39 -0700 (PDT)
-Received: from ?IPV6:2001:8b0:8b6:13d4:102e:f2af:e074:5cde? (e.d.c.5.4.7.0.e.f.a.2.f.e.2.0.1.4.d.3.1.6.b.8.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:8b6:13d4:102e:f2af:e074:5cde])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bd4f4bd0a24sm94246766b.11.2026.05.14.06.55.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 May 2026 06:55:38 -0700 (PDT)
-Message-ID: <5c64e13a-2d41-4e5e-addf-9a76f08ae172@meta.com>
-Date: Thu, 14 May 2026 14:55:37 +0100
+	 In-Reply-To:Content-Type; b=DanVAKkOF9S8RiLG3SY2NgqZQfNoj7jZuqreOgXc4nmRaF3nECdQnHczkDy2Z68e48HuWXgte920Wgx1oI2Ip0Rkb4QITekSG+H+Cei4fZlomD5qXenAWRQVmbywdEkHCFNwcGHU+g5BcRgdIrBQlZmwb3cWZcb5mCXIUDElnPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GEEEmAqS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1CBDC2BCB3;
+	Thu, 14 May 2026 14:34:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778769279;
+	bh=sIm7xyoGq/3jQyavKbDg6WxX1bxs1qeDt2+PDlTROoc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=GEEEmAqSwkI9NSzSJvGgB6wN7trGDIJ+ORtGRNF2fxyRc+Iqz6iRg45Z8foHpqsla
+	 Ip1H9upOtoUUFWjwBhVYogWIiSIribnF68I+rEiDlCsgLoekpENS+MhU1+RpYDOorX
+	 b1gdudOe2+p7OA2kklmLpjmcI0whPWfDuWA3ocKVpfK+FnB78o2oJW0VEkqU5RAZ2v
+	 bK3QaaMap+T4YQh3so6G5UoTqOTUXslzw/1AEqOGjSsmg+GbG/wrbFnqnWNgHAbV4l
+	 Y1WnknSMqrw4Q4YVWPPEvNdVohIVkxRPtb9Jez1sfnNBx8qOPHmNhAwyOmfoWLctH0
+	 IYh2z2nTTvRZA==
+Message-ID: <a4b317cd-2ed1-46c1-b66e-675a56d3308c@kernel.org>
+Date: Thu, 14 May 2026 16:34:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -95,195 +53,148 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 9/9] vfio/pci: Add mmap() attributes to DMABUF feature
-Content-Language: en-GB
-To: Alex Williamson <alex@shazbot.org>
-Cc: Leon Romanovsky <leon@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>,
-        Alex Mastro <amastro@fb.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>,
-        Mahmoud Adam <mngyadam@amazon.de>, David Matlack <dmatlack@google.com>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
- <bjorn@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Kevin Tian <kevin.tian@intel.com>, Ankit Agrawal <ankita@nvidia.com>,
-        Pranjal Shrivastava <praan@google.com>,
-        Alistair Popple
- <apopple@nvidia.com>,
-        Vivek Kasireddy <vivek.kasireddy@intel.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        kvm@vger.kernel.org
-References: <20260416131815.2729131-1-mattev@meta.com>
- <20260416131815.2729131-10-mattev@meta.com>
- <20260424183153.GJ3444440@nvidia.com> <20260426105215.GA440345@unreal>
- <20260427083644.4ee174cd@shazbot.org>
- <25a4fc45-1b4d-426b-954a-60bf21e9040f@meta.com>
- <20260511140957.25eb5d9d@shazbot.org>
- <4af0c788-22cc-4fb1-9276-ab35439fb7c8@meta.com>
- <20260513122734.44ce8a68@shazbot.org>
-From: Matt Evans <mattev@meta.com>
-In-Reply-To: <20260513122734.44ce8a68@shazbot.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: ho8qDTFvFoMp7XSwF56KtmySrEWjlOn2
-X-Proofpoint-ORIG-GUID: ho8qDTFvFoMp7XSwF56KtmySrEWjlOn2
-X-Authority-Analysis: v=2.4 cv=VNntWdPX c=1 sm=1 tr=0 ts=6a05d45d cx=c_pps
- a=edIAN7ErZTGbxav20d8A7Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=_78whYxrdx1mplLwxq1U:22 a=VabnemYjAAAA:8 a=QlOCKlcsugFDnh0twowA:9
- a=QEXdDO2ut3YA:10 a=gKebqoRLp9LExxC7YDUY:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE0MDE0MCBTYWx0ZWRfXysLNWrljjt38
- Fk9BOmX2QDwSuWxkDZ0oJgmy2JBgf7Uja68jlghpFvPkQ+4YL4owZ2Yt4NTpnrpiOVFmKh5VxJl
- E7d9duSzGvLk1AyhHDnN4MTIlmKOP79kwbos1uWrXBaiF7+hHsr+nQsjO/sqvH8jg+Me91t3MCA
- kQsXtx361wTOQzLVQnjK9Zk9djYY+xEZLnwLuQJA+cL+wgfqhAUeXdICHZjH4uLQkHBtnOEfWx2
- QhmAUBLX7YoWEjIceqlw668gUJMjyITcmHJtPURfAQtNJtHYjh1IO31RXLCGYvaBOPbLfDjFp3v
- +313XF72kCBZz6lfq23cBVtua0rF65Qd7Mg8Yyw422JSSCXEialdOvYLsS/jV9aGof8LkzyjQx6
- Pdp4OegYX7j2bOv5A8nRW4pc1e1i3d/RCxrxbiKhLFto06mprxlqTcAXmcGlCKvsqInAdONMO85
- ogK9m6tUaSjCzOHlQ3A==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-14_03,2026-05-13_01,2025-10-01_01
-X-Rspamd-Queue-Id: BFC8E542C07
+Subject: Re: [PATCH v5 04/14] dt-bindings: media: qcom,venus: Remove clock,
+ power-domain, and iommus from common schema
+To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bod@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Joerg Roedel <joro@8bytes.org>,
+ Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Stefan Schmidt <stefan.schmidt@linaro.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+ Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
+ Del Regno <angelogioacchino.delregno@collabora.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ iommu@lists.linux.dev, devicetree@vger.kernel.org
+References: <20260509-glymur-v5-0-7fbb340c5dbd@oss.qualcomm.com>
+ <20260509-glymur-v5-4-7fbb340c5dbd@oss.qualcomm.com>
+ <35zfskmyogpazxy7wsw2jg36fvpnnc7hng23j4heq2jy5ookai@q7d2vl7nn7ck>
+ <fc188af5-ec7e-bebb-2654-62312d79e60f@oss.qualcomm.com>
+ <kdbo5d2wibjfnchfw7xn3wcgcp5r6ff7pw3ibkpbqzjgfhkovp@v4er4hdiytks>
+ <f1fe6e8c-9a16-3103-fbe8-de772bc4728a@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <f1fe6e8c-9a16-3103-fbe8-de772bc4728a@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 3B5B1543577
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[meta.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[meta.com:s=s2048-2025-q2];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	TAGGED_FROM(0.00)[bounces-61610-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[meta.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,meta.com:email,meta.com:mid,meta.com:dkim];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mattev@meta.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-61611-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-Hi Alex,
-
-On 13/05/2026 19:27, Alex Williamson wrote:
+On 13/05/2026 20:54, Vishnu Reddy wrote:
 > 
-> On Tue, 12 May 2026 18:51:40 +0100
-> Matt Evans <mattev@meta.com> wrote:
->> On 11/05/2026 21:09, Alex Williamson wrote:
->>> I think the question of how we actually expand an arbitrary grab bag of
->>> "ATTRS" is the central question in whether we should implement the
->>> interface.
->>
->>> If we follow the direction I suggested for TPH, maybe this
->>> is just a VFIO_DEVICE_FEATURE_DMA_BUF_WC, where it supports only PROBE
->>> and SET, with SET taking only the dma-buf fd to implement the one-way
->>> promotion from UC -> WC.
+> On 5/13/2026 6:59 PM, Dmitry Baryshkov wrote:
+>> On Sat, May 09, 2026 at 10:34:15PM +0530, Vishnu Reddy wrote:
+>>> On 5/9/2026 12:52 AM, Dmitry Baryshkov wrote:
+>>>> On Sat, May 09, 2026 at 12:29:53AM +0530, Vishnu Reddy wrote:
+>>>>> The common schema defines minItems and maxItems for clocks, power-domains,
+>>>>> and iommus. This suggests that the number of these resources can vary,
+>>>>> while in reality they are fixed constraints per platform.
+>>>> It really doesn't. It provides common definitions, while individual
+>>>> platform schemas tighten those.
+>>> If a new platform requires more resources than the current maxItems listed in
+>>> the common-schema (e.g.,Glymur due to its dual vcodec core design), we need
+>>> to keep bumping maxItems in the common schema every time a new platform exceeds
+>>> the previous limit. That makes the common schema a moving target driven by
+>>> platform specific.
 >>>
->>> If we support a generic SET ATTRS feature, we really need to map out how
->>> flag bits are indicated as supported and how a user untangles failures
->>> from trying to set various attributes.  If we end up with a feature
->>> indicating each ATTR is available, we might as well have just
->>> implemented a feature for each attribute.  Thanks,
->>
->> Agreed, that's key.  Alhough, the aim of this patch is for attrs to be a
->> memory type enum rather than a bag of possibly-concurrent and
->> possibly-conflicting boolean flags.  Maybe 'memory attributes' would be
->> a better feature name.
->>
->> I'm not sure about the feature-per-attribute.  Say we do a
->> VFIO_DEVICE_FEATURE_DMA_BUF_WC and then later support a second,
->> VFIO_DEVICE_FEATURE_DMA_BUF_UC_WEAK (like, say, Arm Device-nGRE).  Then
->> we have to specify that these two VFIO feature types actually
->> interact/override somehow.  I doubt we'll end up with a dozen but it's a
->> bit tiresome having a few features that interact.
->>
->> At least if it's a single DMA_BUF_MEMATTR feature taking an enum, we
->> just encode the N different (mutually-exclusive!) valid states and done.
->>    I don't feel having a new feature for each keeps things simpler.
->>
->> Discovery of support for a specific future attribute is OK with a single
->> ATTR too; we can take an enum attribute argument to a GET and -ENOTSUPP
->> for any we don't like.
->>
->> (We could also add orthogonal DMABUF flags (can't think of a good
->> example...) but I'd suggest _those_ as semantically-grouped different
->> features, with the same issues of specifying conflicting cases versus
->> existing features.)
+>>> I am fine with increasing maxItems in the common schema instead of removing.
+>>> I can set it to a reasonable value (for example, up to 20) so that it
+>>> accommodates future platforms without frequent changes. Anyway, each platform
+>>> schema must define fixed constraints, since clocks and power-domains are
+>>> mandatory per platform.
+>>>
+>>> Could you please let me know which one you would prefer going forward?
+>> Just touch venus-common when new platform requires bigger lists.
 > 
-> I think the GET behavior you're proposing is a bit counter-intuitive, if
-> not abusive of the interface, but I do agree that if the feature is
-> SET'ing a single value and not a group of independent flags, that we
-> can probably rely more on a try-and-fail model rather than advertising
-> each supported value as a separate feature.
->
-> For example, the user has some list of compatible attributes ordered
-> from most to least desirable, they try each in order until one works,
-> or none work and they decide whether that's ok.
+> In the v3 series, I followed same approach — bumping maxItems in venus-common
+> schema to accommodate the Glymur platform while keeping fixed constraints in
+> the Glymur-specific schema:
+> https://lore.kernel.org/all/20260428-glymur-v3-2-8f28930f47d3@oss.qualcomm.com/
 > 
-> For GET, if we implement it, I think it should report the current
-> attribute, mirroring SET.  We could almost get away without implementing
-> it, but I do worry about the case of nvgrace-gpu, where it might be
-> interesting for the user to see that the default attribute could be WB
-> rather than UC.
 
-I'd come to the same conclusion yesterday when implementing it. :)
+The approach taken at v3 was correct and I ONLY commented about very
+confusing commit msg which told that you relaxed constraints. You must
+not relax constraints, so commit msg claiming that you relax them is
+obviously incorrect. Each device must have a fixed, as in non-relaxed,
+constraints, thus making them relaxed (not fixed) is wrong.
 
-GET just returns the current value, SET gives ENOTSUPP if the provided 
-value isn't supported.
-
-I haven't done much thinking on mechanisms for overriding the default 
-value, but a sub-driver could add that via some hook from 
-vfio_pci_core_feature_dma_buf().
-
-> Where does the user derive the enum value?  Are we defining our own or
-> is it a system header defined enum?  I'm curious if/how we're going to
-> handle architecture specific attributes.  Thanks,
-
-Good question.  There doesn't seem to be a suitable existing enum so I 
-defined a new set (mirroring existing pgprot_*() semantics), in the same 
-vfio.h/UAPI place as this patch.
-
-The set could be extended in future to add some kind of "base vs 
-arch-specific" grouping if we want to support arch-specific types like 
-that hypothetical example arm64 'UC_WEAK' above.  (The feature param's a 
-u32, so steal top byte for extension group_id?)
-
-For the base set of types, they should at most follow the set of 
-IO-related pgprot_*() types (whose names are a bit of an awkward fit 
-across architectures but they're used consistently).  I've revisited the 
-names to make them consistent with pgprot_*().  For sake of keeping the 
-huge enum names smaller, abbreviated slightly:
-
-pgprot_noncached()    -> VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR_NC (*)
-pgprot_writecombine() -> VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR_WC
-pgprot_device()       -> VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR_DEV
-
-  *: Was UC in the v1 patch, which makes more sense as a memory type
-     name, but consistency with pgprot_* is better.
-
-But, I was thinking to support just the NC default and WC option in this 
-series.  Does anyone feel strongly about needing pgprot_device() right 
-now?  For external PCIe functions it'll behave the same as the NC type 
-(even on arm64) so I don't think it's critical to add yet.
-
-At this stage feels like we should get more field experience before 
-adding more values/a scheme for arch-specific values so I'm keen on NC + 
-WC for now, WDYT?
-
-
-Matt
-
-
-
+Best regards,
+Krzysztof
 
