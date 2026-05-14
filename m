@@ -1,59 +1,59 @@
-Return-Path: <linux-media+bounces-61573-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61574-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oD2jKaeGBWr5XwIAu9opvQ
-	(envelope-from <linux-media+bounces-61573-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 10:24:07 +0200
+	id OD9kMdiIBWrGYAIAu9opvQ
+	(envelope-from <linux-media+bounces-61574-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 10:33:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F34AB53F395
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 10:24:06 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E1353F5D1
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 10:33:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 12CA33017240
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 08:23:59 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 3DF80301643A
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 08:33:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E2773D8120;
-	Thu, 14 May 2026 08:23:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D1233DB651;
+	Thu, 14 May 2026 08:33:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uqbmRNdM"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="eR8Nd0Yi"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184003A9851;
-	Thu, 14 May 2026 08:23:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05EC222580;
+	Thu, 14 May 2026 08:33:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778747037; cv=none; b=e9nsvIFXjAuivWbbpWMOg2akFOiJVmSM6VOStc//cvxJK1O/NQYlmEk9TEvZszVxW+w7GhBS3dQDgpae5KqkaQim8uUN2+eUQr2kjRLthhAtv0fX01qv7B8V2UtDtG7Hl3RAdZ5ETEtk2Yx18WrhFlXxWSNCMC8tlR8Qw0U1/5U=
+	t=1778747602; cv=none; b=pIuQDs10UB9Qpex1Blbb+rbRhE/jrHl6GzCts1M9Wb7XVU/TBU6E2QCyKze9oDSYSDez/gwUxyH/xmwcoSEpeuqy9zVw5jgMEwMTjZXc3wUWSBohiDsQkZCRch5jvDiqshl6Fiasg/LK0mhNX428DsIPetKAsaG828JxFVTstO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778747037; c=relaxed/simple;
-	bh=+8waOwkutzpco34bO4oHAgNXAvDP73jd5SxCVCTvcZI=;
+	s=arc-20240116; t=1778747602; c=relaxed/simple;
+	bh=dtlXmGdXA/AKlLgWR3OidkhKJcJJVDkdKC6k+VHZ0Gs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=s4rkHuy+3IL6nPiFGXZ4U5GsF4WSsGGZ0f9CL7mfW1shMNuUN9W+J706RgL+0XQA+lghfRtO+Ijun5B/ANPfGjoXfhp7LfbcwJaqK1GXzMbZ1+m3vwLQlmLcWOfGQe/tEymNF1FrURCyqN74AXitOLqG+Bmlu6eiIMphJnPicBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uqbmRNdM; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=krNwnP+nutXsB6pg2G9b+GHaslwlMtDt6bhNvNe8leA8xO38potFvr8rwbcnNEGHsIeAQF0UG0YSOZJOtc4dj3ruqAz02BL/5MGJ/7ad6GitieSnk4751GuInENcy3ZbBKK7Ze8vu2o7QK9UFUUNTHgAlI9KQ0triXJ4i0Y5omY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=eR8Nd0Yi; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 638518E0;
-	Thu, 14 May 2026 10:23:44 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0C5768E0;
+	Thu, 14 May 2026 10:33:09 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1778747024;
-	bh=+8waOwkutzpco34bO4oHAgNXAvDP73jd5SxCVCTvcZI=;
+	s=mail; t=1778747589;
+	bh=dtlXmGdXA/AKlLgWR3OidkhKJcJJVDkdKC6k+VHZ0Gs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uqbmRNdMILaeN94ZB+k+x44Fzm0ECjKXuH3vSziAx1WvfrT1L456NbbeCs38XxlV7
-	 XzcpC4mXEEyNtTD0YJQgFkSgwoK4ZqeMXMSC/ADuVzbe7XZxMIKJD1o+1xPaIog48f
-	 HYSwVCe5fHTqc8QgAiYTqdfrNkkzY/eUWjtDYHbQ=
-Date: Thu, 14 May 2026 10:23:50 +0200
+	b=eR8Nd0Yib7yTpTth9go2FnsFqbGL6suaY7+WAuCgy6YNyx6wnXugxDkt98VTs0kW8
+	 P9FJ2FPJ+4xMRpvgxleXEV5bX40zS+zz2zSR042VrZM7RiAGdTtge6TrJThMRXvEDr
+	 jm7w3zTJzat9w/7SdAF8ppK7kL+xtSNGSCEahErQ=
+Date: Thu, 14 May 2026 10:33:15 +0200
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Kieran Bingham <kieran.bingham@ideasonboard.com>
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	Steve Longerbeam <slongerbeam@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 06/11] media: i2c: ov5640: split out the LSC registers
-Message-ID: <agWGc0cN8XhFNF2T@zed>
+Subject: Re: [PATCH 08/11] media: i2c: ov5640: Document AWB control registers
+Message-ID: <agWG_dvrlSVAc65g@zed>
 References: <20260501-ov5640_cleanup-v1-0-0869a7802a33@ideasonboard.com>
- <20260501-ov5640_cleanup-v1-6-0869a7802a33@ideasonboard.com>
+ <20260501-ov5640_cleanup-v1-8-0869a7802a33@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,20 +62,20 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260501-ov5640_cleanup-v1-6-0869a7802a33@ideasonboard.com>
-X-Rspamd-Queue-Id: F34AB53F395
+In-Reply-To: <20260501-ov5640_cleanup-v1-8-0869a7802a33@ideasonboard.com>
+X-Rspamd-Queue-Id: 62E1353F5D1
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61573-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-61574-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_CC(0.00)[linux.intel.com,gmail.com,kernel.org,vger.kernel.org];
@@ -89,120 +89,128 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,ideasonboard.com:email,ideasonboard.com:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,ideasonboard.com:dkim]
 X-Rspamd-Action: no action
 
-Hi Kieran
 
-On Fri, May 01, 2026 at 04:39:08PM +0100, Kieran Bingham wrote:
-> Lens shading is a characteristic which is specific to the lens of a
-> given module.
->
-> Separate the Lens Shading Calibration registers from the init_setting
-> to identify the registers which must be updated when changing a lens.
+On Fri, May 01, 2026 at 04:39:10PM +0100, Kieran Bingham wrote:
+> Identify and map the registers that are controlling the AWB and
+> document their current impact inline in the register set.
 >
 > Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
->
 > ---
->
-> The ordering of the table entries here are maintained and not resorted
-> (i.e. that first line) to make it easy to confirm that no adjustment is
-> made to the data here.
->
-> I've also moved the LSC 'above' the init table as otherwise the diff
-> becomes unreviewable - as it shows a different hunk being conceptually
-> moved instead and hides the ability to see what is moving.
->
-> Though that itself also confirms that the values don't change here, so
-> I'm happy to move it down if requested.
-> ---
->  drivers/media/i2c/ov5640.c | 51 +++++++++++++++++++++++++++-------------------
->  1 file changed, 30 insertions(+), 21 deletions(-)
+>  drivers/media/i2c/ov5640.c | 61 +++++++++++++++++++++++++++++++++++-----------
+>  1 file changed, 47 insertions(+), 14 deletions(-)
 >
 > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> index e1e253730206..b4e1ec4364df 100644
+> index 4b6804fc47e1..34fe7f51e17b 100644
 > --- a/drivers/media/i2c/ov5640.c
 > +++ b/drivers/media/i2c/ov5640.c
-> @@ -522,6 +522,31 @@ static const struct v4l2_mbus_framefmt ov5640_dvp_default_fmt = {
->  	.field = V4L2_FIELD_NONE,
->  };
->
-> +static const struct reg_value ov5640_lsc[] = {
-> +	/* Lens Shading Correction */
-> +	{0x5800, 0x23, 0, 0}, {0x5801, 0x14, 0, 0},
-> +	{0x5802, 0x0f, 0, 0}, {0x5803, 0x0f, 0, 0}, {0x5804, 0x12, 0, 0},
-> +	{0x5805, 0x26, 0, 0}, {0x5806, 0x0c, 0, 0}, {0x5807, 0x08, 0, 0},
-> +	{0x5808, 0x05, 0, 0}, {0x5809, 0x05, 0, 0}, {0x580a, 0x08, 0, 0},
-> +	{0x580b, 0x0d, 0, 0}, {0x580c, 0x08, 0, 0}, {0x580d, 0x03, 0, 0},
-> +	{0x580e, 0x00, 0, 0}, {0x580f, 0x00, 0, 0}, {0x5810, 0x03, 0, 0},
-> +	{0x5811, 0x09, 0, 0}, {0x5812, 0x07, 0, 0}, {0x5813, 0x03, 0, 0},
-> +	{0x5814, 0x00, 0, 0}, {0x5815, 0x01, 0, 0}, {0x5816, 0x03, 0, 0},
-> +	{0x5817, 0x08, 0, 0}, {0x5818, 0x0d, 0, 0}, {0x5819, 0x08, 0, 0},
-> +	{0x581a, 0x05, 0, 0}, {0x581b, 0x06, 0, 0}, {0x581c, 0x08, 0, 0},
-> +	{0x581d, 0x0e, 0, 0}, {0x581e, 0x29, 0, 0}, {0x581f, 0x17, 0, 0},
-> +	{0x5820, 0x11, 0, 0}, {0x5821, 0x11, 0, 0}, {0x5822, 0x15, 0, 0},
-> +	{0x5823, 0x28, 0, 0}, {0x5824, 0x46, 0, 0}, {0x5825, 0x26, 0, 0},
-> +	{0x5826, 0x08, 0, 0}, {0x5827, 0x26, 0, 0}, {0x5828, 0x64, 0, 0},
-> +	{0x5829, 0x26, 0, 0}, {0x582a, 0x24, 0, 0}, {0x582b, 0x22, 0, 0},
-> +	{0x582c, 0x24, 0, 0}, {0x582d, 0x24, 0, 0}, {0x582e, 0x06, 0, 0},
-> +	{0x582f, 0x22, 0, 0}, {0x5830, 0x40, 0, 0}, {0x5831, 0x42, 0, 0},
-> +	{0x5832, 0x24, 0, 0}, {0x5833, 0x26, 0, 0}, {0x5834, 0x24, 0, 0},
-> +	{0x5835, 0x22, 0, 0}, {0x5836, 0x22, 0, 0}, {0x5837, 0x26, 0, 0},
-> +	{0x5838, 0x44, 0, 0}, {0x5839, 0x24, 0, 0}, {0x583a, 0x26, 0, 0},
-> +	{0x583b, 0x28, 0, 0}, {0x583c, 0x42, 0, 0}, {0x583d, 0xce, 0, 0},
-> +};
+> @@ -112,6 +112,34 @@
+>  #define OV5640_REG_PCLK_PERIOD		0x4837
+>  #define OV5640_REG_ISP_FORMAT_MUX_CTRL	0x501f
+>  #define OV5640_REG_PRE_ISP_TEST_SET1	0x503d
 > +
->  static const struct reg_value ov5640_init_setting[] = {
->  	{0x3103, 0x11, 0, 0},
->  	{0x3103, 0x03, 0, 0}, {0x3630, 0x36, 0, 0},
-> @@ -574,27 +599,8 @@ static const struct reg_value ov5640_init_setting[] = {
->  	{0x548d, 0xcd, 0, 0}, {0x548e, 0xdd, 0, 0}, {0x548f, 0xea, 0, 0},
->  	{0x5490, 0x1d, 0, 0}, {0x5580, 0x02, 0, 0}, {0x5583, 0x40, 0, 0},
->  	{0x5584, 0x10, 0, 0}, {0x5589, 0x10, 0, 0}, {0x558a, 0x00, 0, 0},
-> -	{0x558b, 0xf8, 0, 0}, {0x5800, 0x23, 0, 0}, {0x5801, 0x14, 0, 0},
-> -	{0x5802, 0x0f, 0, 0}, {0x5803, 0x0f, 0, 0}, {0x5804, 0x12, 0, 0},
-> -	{0x5805, 0x26, 0, 0}, {0x5806, 0x0c, 0, 0}, {0x5807, 0x08, 0, 0},
-> -	{0x5808, 0x05, 0, 0}, {0x5809, 0x05, 0, 0}, {0x580a, 0x08, 0, 0},
-> -	{0x580b, 0x0d, 0, 0}, {0x580c, 0x08, 0, 0}, {0x580d, 0x03, 0, 0},
-> -	{0x580e, 0x00, 0, 0}, {0x580f, 0x00, 0, 0}, {0x5810, 0x03, 0, 0},
-> -	{0x5811, 0x09, 0, 0}, {0x5812, 0x07, 0, 0}, {0x5813, 0x03, 0, 0},
-> -	{0x5814, 0x00, 0, 0}, {0x5815, 0x01, 0, 0}, {0x5816, 0x03, 0, 0},
-> -	{0x5817, 0x08, 0, 0}, {0x5818, 0x0d, 0, 0}, {0x5819, 0x08, 0, 0},
-> -	{0x581a, 0x05, 0, 0}, {0x581b, 0x06, 0, 0}, {0x581c, 0x08, 0, 0},
-> -	{0x581d, 0x0e, 0, 0}, {0x581e, 0x29, 0, 0}, {0x581f, 0x17, 0, 0},
-> -	{0x5820, 0x11, 0, 0}, {0x5821, 0x11, 0, 0}, {0x5822, 0x15, 0, 0},
-> -	{0x5823, 0x28, 0, 0}, {0x5824, 0x46, 0, 0}, {0x5825, 0x26, 0, 0},
-> -	{0x5826, 0x08, 0, 0}, {0x5827, 0x26, 0, 0}, {0x5828, 0x64, 0, 0},
-> -	{0x5829, 0x26, 0, 0}, {0x582a, 0x24, 0, 0}, {0x582b, 0x22, 0, 0},
-> -	{0x582c, 0x24, 0, 0}, {0x582d, 0x24, 0, 0}, {0x582e, 0x06, 0, 0},
-> -	{0x582f, 0x22, 0, 0}, {0x5830, 0x40, 0, 0}, {0x5831, 0x42, 0, 0},
-> -	{0x5832, 0x24, 0, 0}, {0x5833, 0x26, 0, 0}, {0x5834, 0x24, 0, 0},
-> -	{0x5835, 0x22, 0, 0}, {0x5836, 0x22, 0, 0}, {0x5837, 0x26, 0, 0},
-> -	{0x5838, 0x44, 0, 0}, {0x5839, 0x24, 0, 0}, {0x583a, 0x26, 0, 0},
-> -	{0x583b, 0x28, 0, 0}, {0x583c, 0x42, 0, 0}, {0x583d, 0xce, 0, 0},
-> +	{0x558b, 0xf8, 0, 0},
-> +
+> +#define OV5640_REG_AWB_CONTROL_00	0x5180 /* AWB B block */
+> +#define OV5640_REG_AWB_CONTROL_01	0x5181 /* AWB Step and Slope control */
+> +#define OV5640_REG_AWB_CONTROL_02	0x5182 /* 7:4 Max local counter 3:0 mas fast counter */
 
-I'm wondering if the empty line here is intentional.
-Regardless:
+s/mas/max ?
+
+> +#define OV5640_REG_AWB_CONTROL_03	0x5183 /* AWB Simple/Advanced control */
+> +#define OV5640_REG_AWB_CONTROL_04	0x5184 /* Count and G enable */
+> +#define OV5640_REG_AWB_CONTROL_05	0x5185 /* Stable Range Thresholds */
+> +
+> +#define OV5640_REG_AWB_CONTROL_17	0x5191 /* AWB Top limit */
+> +#define OV5640_REG_AWB_CONTROL_18	0x5192 /* AWB Bottom limit */
+> +#define OV5640_REG_AWB_CONTROL_19	0x5193 /* Red limit */
+> +#define OV5640_REG_AWB_CONTROL_20	0x5194 /* Green limit */
+> +#define OV5640_REG_AWB_CONTROL_21	0x5195 /* Blue limit */
+> +
+> +#define OV5640_REG_AWB_CONTROL_22	0x5196 /* AWB Freeze and Simple Selection */
+> +#define OV5640_AWB_FREEZE		BIT(5) /* AWB freeze */
+> +#define OV5640_AWB_SIMPLE_SELECT_MASK	GENMASK(3, 2)
+> +#define OV5640_AWB_SIMPLE_AFTER_AWB_0	0 /* AWB simple from after AWB gain */
+> +#define OV5640_AWB_SIMPLE_AFTER_GMA_0	1 /* AWB simple from after RAW GMA */
+> +#define OV5640_AWB_SIMPLE_AFTER_GMA_1	2 /* AWB simple from after RAW GMA */
+
+That's weird, but that's what the datasheet describes, yes
+
+> +#define OV5640_AWB_SIMPLE_AFTER_AWB_1	3 /* AWB simple from after AWB gain */
+> +#define OV5640_AWB_FAST_ENABLE		BIT(1) /* AWB fast enable */
+> +#define OV5640_AWB_BIAS_STAT		BIT(0)
+> +
+> +#define OV5640_REG_AWB_CONTROL_23	0x5197 /* Local Limit */
+> +
+> +#define OV5640_REG_AWB_CONTROL_30	0x519e /* Local limit and Stable Select */
+> +
+>  #define OV5640_REG_SDE_CTRL0		0x5580
+>  #define OV5640_REG_SDE_CTRL1		0x5581
+>  #define OV5640_REG_SDE_CTRL3		0x5583
+> @@ -576,12 +604,14 @@ static const struct reg_value ov5640_init_setting[] = {
+>  	{0x5000, 0xa7, 0, 0}, {0x5001, 0xa3, 0, 0},
+>
+>  	/* AWB Control */
+> -	{0x5180, 0xff, 0, 0},
+> -	{0x5181, 0xf2, 0, 0},
+> -	{0x5182, 0x00, 0, 0},
+> -	{0x5183, 0x14, 0, 0},
+> -	{0x5184, 0x25, 0, 0},
+> -	{0x5185, 0x24, 0, 0},
+> +	{OV5640_REG_AWB_CONTROL_00, 0xff, 0, 0}, /* AWB B Block */
+> +	{OV5640_REG_AWB_CONTROL_01, 0xf2, 0, 0}, /* Step and Slope  - one zone, 0 slope, step fast=step local = 3 */
+> +	{OV5640_REG_AWB_CONTROL_02, 0x00, 0, 0}, /* Local/Fast counters @ 0 */
+> +	{OV5640_REG_AWB_CONTROL_03, 0x14, 0, 0}, /* Advanced AWB: AWB SIMF, AWB Win = 1 */
+> +	{OV5640_REG_AWB_CONTROL_04, 0x25, 0, 0}, /* G-Enable, Count-limit=1, count threshold=1 */
+> +	{OV5640_REG_AWB_CONTROL_05, 0x24, 0, 0}, /* Stable Ranges: Threshold for [7:4] unstable to stable [3:0] stable to unstable */
+> +
+> +	/* AWB Advanced Control - Undocumented */
+>  	{0x5186, 0x09, 0, 0},
+>  	{0x5187, 0x09, 0, 0},
+>  	{0x5188, 0x09, 0, 0},
+> @@ -593,20 +623,23 @@ static const struct reg_value ov5640_init_setting[] = {
+>  	{0x518e, 0x34, 0, 0},
+>  	{0x518f, 0x6b, 0, 0},
+>  	{0x5190, 0x46, 0, 0},
+> -	{0x5191, 0xf8, 0, 0},
+> -	{0x5192, 0x04, 0, 0},
+> -	{0x5193, 0x70, 0, 0},
+> -	{0x5194, 0xf0, 0, 0},
+> -	{0x5195, 0xf0, 0, 0},
+> -	{0x5196, 0x03, 0, 0},
+> -	{0x5197, 0x01, 0, 0},
+> +
+> +	{OV5640_REG_AWB_CONTROL_17, 0xf8, 0, 0}, /* AWB Top limit (Default 0xff)*/
+> +	{OV5640_REG_AWB_CONTROL_18, 0x04, 0, 0}, /* AWB Bottom limit (Default 0x00) */
+> +	{OV5640_REG_AWB_CONTROL_19, 0x70, 0, 0}, /* Red limit (Default 0xf0) */
+> +	{OV5640_REG_AWB_CONTROL_20, 0xf0, 0, 0}, /* Green Limit (Default 0xf0) */
+> +	{OV5640_REG_AWB_CONTROL_21, 0xf0, 0, 0}, /* Blue limit (Default 0xf0) */
+> +	{OV5640_REG_AWB_CONTROL_22, 0x03, 0, 0}, /* AWB after AWB gain; Fast enable; Bias stat; */
+> +	{OV5640_REG_AWB_CONTROL_23, 0x01, 0, 0}, /* Local limit (Default 0x02) */
+> +
+> +	/* Debug mode - Undocumented */
+>  	{0x5198, 0x04, 0, 0},
+>  	{0x5199, 0x6c, 0, 0},
+>  	{0x519a, 0x04, 0, 0},
+>  	{0x519b, 0x00, 0, 0},
+>  	{0x519c, 0x09, 0, 0},
+>  	{0x519d, 0x2b, 0, 0},
+> -	{0x519e, 0x38, 0, 0},
+> +	{OV5640_REG_AWB_CONTROL_30, 0x38, 0, 0}, /* [7:4] Debug = 3; [3] Local Limit Select = 1; [2] Simple stable select=0; [1:0] Debug=0 */
+
+I'm happy to go over line limit for better documentation.
+
+I anticipate someone might ask to place the comment in the line above
+to reduce the line length, but I'm not going to be that person :)
+
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
->  	{0x5025, 0x00, 0, 0}, {0x3a0f, 0x30, 0, 0}, {0x3a10, 0x28, 0, 0},
->  	{0x3a1b, 0x30, 0, 0}, {0x3a1e, 0x26, 0, 0}, {0x3a11, 0x60, 0, 0},
->  	{0x3a1f, 0x14, 0, 0}, {0x3008, 0x02, 0, 0}, {0x3c00, 0x04, 0, 300},
-> @@ -2396,6 +2402,9 @@ static int ov5640_restore_mode(struct ov5640_dev *sensor)
->  	ov5640_load_regs(sensor, ov5640_init_setting,
->  			 ARRAY_SIZE(ov5640_init_setting));
 >
-> +	/* Load the Lens Shading Correction Table */
-> +	ov5640_load_regs(sensor, ov5640_lsc, ARRAY_SIZE(ov5640_lsc));
-> +
->  	ret = ov5640_mod_reg(sensor, OV5640_REG_SYS_ROOT_DIVIDER, 0x3f,
->  			     (ilog2(OV5640_SCLK2X_ROOT_DIV) << 2) |
->  			     ilog2(OV5640_SCLK_ROOT_DIV));
+>  	{0x5381, 0x1e, 0, 0}, {0x5382, 0x5b, 0, 0}, {0x5383, 0x08, 0, 0},
+>  	{0x5384, 0x0a, 0, 0}, {0x5385, 0x7e, 0, 0}, {0x5386, 0x88, 0, 0},
 >
 > --
 > 2.52.0
