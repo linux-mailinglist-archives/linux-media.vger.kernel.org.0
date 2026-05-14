@@ -1,291 +1,322 @@
-Return-Path: <linux-media+bounces-61623-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61625-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uI4DKRkXBmp3egIAu9opvQ
-	(envelope-from <linux-media+bounces-61623-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 20:40:25 +0200
+	id iEEJGckZBmrGegIAu9opvQ
+	(envelope-from <linux-media+bounces-61625-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 20:51:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 130AA545F59
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 20:40:24 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B102A5460C5
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 20:51:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BD3B7302F437
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 18:40:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E140230BF0DF
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 18:49:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E81C3A1CFE;
-	Thu, 14 May 2026 18:40:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E0C53B5835;
+	Thu, 14 May 2026 18:48:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HwwAc74f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EeYDrr0Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B79A397E6D
-	for <linux-media@vger.kernel.org>; Thu, 14 May 2026 18:40:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778784008; cv=pass; b=C5NwY/CBoRj3Tua6J6FukIiSFDJow0B65WcV/nRwCdSlpo8DVMRRcdOAbG27NqjjLc/6e69OrBqr8HPWLwylOAEd1/KX1aVDccPJiD7sybzDDHx7Swz52ATyeP/y6lEvpe8CZ+5Qe8tTUmukrl5ceaxCvxVKGZYbY9p/IB4U1Nc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778784008; c=relaxed/simple;
-	bh=qqw9pri2xaQ8Gm35Z3/8MWqJ63tPB5yH4caN4Oo5qyY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kDgAeIBHaQGZpMKNSChzxqsfiBQf5pllcX46L6oJL3+PbJ7VM2ht2GaAhNOICAeWOzMwscfO6XSpATU/Izf7OryZUVJL3MMjVMkpFc/y+X48LvOZ9aHoqVeTX0mZLMOZsMLacm4qL2JPpMszcj85JN2Dy2e/mHNXTHGnC6L4s8U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HwwAc74f; arc=pass smtp.client-ip=74.125.224.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-656d749109cso6202367d50.3
-        for <linux-media@vger.kernel.org>; Thu, 14 May 2026 11:40:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778784006; cv=none;
-        d=google.com; s=arc-20240605;
-        b=F+zythU2Bk+u6YlNiQlMD6JuJ3/7Pn21wuRm1UJEXEzr/owjwPX0IW5RvueoYqvcre
-         5ekp/BtipAcMsF11MSvXhNViIbHWr4HvJHnB/O6Kv0tMjoQxg28zEDHHUgl0aUG1gCMG
-         6gdkCMutCZpXMK5w9pRN3bIR7+8meJI6iG0/CH/ZPnJ5Qa8PxVr+J1DgiVrXVf1kGrZ6
-         ZzemVJzAfhsrKAb3m27KiV3TJOtlT44elpoyItu7Vd+2QRKyedUyJvhNBvGnUH+Klaw9
-         yd5cVcwoL8ZUwNkKOU2JtG0DapTChk2XSa77w+bH5Vy9UCETP1q0nSwPydBiQR7Hy7Uc
-         Azag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=FpoaXEJLcSJc84yZ2vARDAmkfQwqX2rRItHaBW+mwvI=;
-        fh=mNJa7BlRNxob87d/E1gxAibdjFKgqXQqU0X5IuUikFY=;
-        b=NlQ4dfS6eZLKCeD0oCtNzttiFrH4ySuL9ccp6qCmRbxIrL+Xp4cMGdySYnBW6XozAB
-         3Kk9hLAKR0kgRTnBP6JO34eVnDkYdgy6Z3FnEMKVVLp/qNF0kheMvtUYiYtEEak9NZhl
-         bqGBnjkO9KjAMmshkfNhYpVCf3dmFieIeMvkjWF8Lk9fwYdQyXPTEMloMmfnTCWUk/Bo
-         Q2JZGpdLJfhYvJHZtlmR/MLjqZx4ty37kb3byGK8q18FCYSgrE1w29tP2htYhzdr3gRo
-         sOIRTIJ/Qc6fvkY59ZJF3tICL5CT78Kjaf9ZeOytzXWaPRiwpPh4Jz4v1+L0vjrLhZCq
-         EawQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778784006; x=1779388806; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FpoaXEJLcSJc84yZ2vARDAmkfQwqX2rRItHaBW+mwvI=;
-        b=HwwAc74fyGCrzb/I6EjW4Ol0BPIMCuXTUnhJxpeiDEGblaRhH0QmBGHTQf8dJ7HoVX
-         YMLIaJZuCoyCs5SN6RKjfgSx+X9Q+ek/CHwR/pecqzBkfxuUZjx1Rwp4ishKF+f28z21
-         JpJIiJDevKr9OG0q1x4kA4cjpm0/p2jsPWCvFzfgnxdGOlJnttuEe2LagDq4Tf2WEfZx
-         uZVUVQnpMwtbPct6ruX9rrWJVi6ia8unmTN8dT7mQSau4OYD9e9hPgH2y1rb2H8EP2lz
-         MtLZArj5DuhJuUgn/ojsR3LbeCQ/FJxuUnmXkTGpJC/W/E+ihXFONYpTAN9RJ0NKfoFF
-         BnYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778784006; x=1779388806;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FpoaXEJLcSJc84yZ2vARDAmkfQwqX2rRItHaBW+mwvI=;
-        b=daxhQHp0CyUqbzMGLF9c34lqzcc8iBBzATSLh38HarVWTKsnUMzWtniDRhrZEhsvpg
-         +E4IO60BoskXS/fh9zcFUi1lDyWm1JW6kQrBqs4FrzNw/o3kE0npKdM0zZDGGrF/JLse
-         FxZ693uqLzJvHD6VAuRPkEro8kRWqVcj1foQSvH6rdL/MYFQHBsl9+9rETo1YvsEeQeQ
-         o2CRm3k2L+xVQO/DHF5oSnBYu/jFRz4th/bO7s/c6siYyxfwpH/LGII2ttol0iSNj3qg
-         yunqcvUgQAhAo+yXbkwAOqSHRUcuEZKHWpZiGNbJECcwTgH0PMf3GpBgq7vLPxxwrw4Z
-         znJA==
-X-Forwarded-Encrypted: i=1; AFNElJ+H4gB0nb93ecj+r0tIpGf7Q/aYULZs1j1zZg0McP76arBo42ucr8f8cv9BRBzdJjeBLPGVdfcmnJZitQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIR30UO2mgJMBJmhvPt59sucNW/7KFYCT5tVZ9n7CMmcycTjND
-	B+EFdDy5CI2P0oCAM8HUHCQr9E7HFKs/6b02IQzQsFi4nSu45mrvWunEgrqybLNYrtT0jYDy6ea
-	zPqnXTcZVzoRvSlhRGHtJ//fQw77EKzg=
-X-Gm-Gg: Acq92OE2srxgt5+8Y9Bf1w2C9C3P+UZxBu5slOhdoYdLq8IudhO19cnLEjD8gFcyfV9
-	pEXT5nvDvZPUbaJ0iZe8soeJZ3LU9iyXeUPWoAz3PfRmekpZzannsbyjA8BomZHgg/hzOGgwS3l
-	c9QZ8GEe75Hz2MtKV44k1TWjlAxSIFVzSgX2H5jUCQqfROpzUwjUQTdDPhW4ngVPlv8vfGjVHjt
-	er7PGHRd6wpnbzKJK7QaudDZh3VkgRdBvQ2eW8M4nX7/Q7nbxp+4i3cE7XBnewIL/crHLPFGSF+
-	onu8B3dUQVfTKV1b0qRlKTTlCxGYUJJn8VVg7gRnmhzE4DvJsAI+6ILkoJmMroVZZ92LwtrGWMI
-	9Dv7PQPl5
-X-Received: by 2002:a05:690c:c504:b0:7b8:926e:3ef4 with SMTP id
- 00721157ae682-7c9599a3c98mr6741257b3.17.1778784005522; Thu, 14 May 2026
- 11:40:05 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A57BE3ACEEB
+	for <linux-media@vger.kernel.org>; Thu, 14 May 2026 18:48:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778784518; cv=none; b=B2aBl8rOOc3ZiD5/Y21t254hVR+lgRN8l8qH5R8K69RW89eZw9V9wN+hVgP6/9RrCvrMGU4+Addb+z0KGcHDiNeYUY9wE0fCF6aVxWdN3/7W+uGnuJzJpGlLQOcYiMjI47qDfAbTUUgpn4Uc21etSYPsTbm2DbSG/adw2Q1gXdA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778784518; c=relaxed/simple;
+	bh=8I9TUEU2PGEMpyQVcCv9BVEuAiGowKzvOHtDDMMJ5eY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GryvbGyVfz4jsw3haN3/D63Rjlc4d1HBAKzvN/Zc+qZMwoiuCn1GtfZN81qpggpghsd4ICq7NMvlzL4Gs72ae7OtBU06m6EbVw3hkWim9Hia4+MbWfIsR9BhsgfhvB9YI4axmk2qgh/VcmL0qCsArCSXPxN6Tj1iWqMILaPA8RM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EeYDrr0Q; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778784515; x=1810320515;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=8I9TUEU2PGEMpyQVcCv9BVEuAiGowKzvOHtDDMMJ5eY=;
+  b=EeYDrr0QKnmvxzUx1UsHXk1tDUCXJzC6LqwoOJow/EQaf0pRFyfnooi6
+   VC2BiKXOB3oWxUXSYItnZwvypxG6G5s998lBW4/FdtpcYUPDPFGtrnOzM
+   afzYvzVunVMvfArThym0aRCskwrR7iMj9rL6rTfDUPHoZkQl3U/FIK4+h
+   EsgasGGiJPR5zPozbuBtmmvn6Ux8hyQfNTqa0v3Y2Rjl2D7M+zVstpSSU
+   Rkyj2bo9LcXr4YG0jk1ynRDtWjGTMZ0xm6Br3EPHIobi0NmckMuAKWBB+
+   HelFe1WIDDFMO+Ev1/PJN3mG8eXYlK7O+Ig3O4xn8Yns8oEQP6AupwF77
+   w==;
+X-CSE-ConnectionGUID: FhOjJ0LXSTG/McrfXXMZ9g==
+X-CSE-MsgGUID: Vnur18PPSiOcc+Rv43ZuZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11786"; a="90044650"
+X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
+   d="scan'208";a="90044650"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 11:48:25 -0700
+X-CSE-ConnectionGUID: 0qSebzHOTourkYgpVStr2w==
+X-CSE-MsgGUID: Q07Lg8fKSW6UHd8BQv6hRA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,235,1770624000"; 
+   d="scan'208";a="237474943"
+Received: from ubuntu.jf.intel.com ([10.54.60.90])
+  by orviesa006.jf.intel.com with ESMTP; 14 May 2026 11:48:24 -0700
+From: Miguel Vadillo <miguel.vadillo@intel.com>
+To: linux-media@vger.kernel.org
+Cc: wei.a.xu@intel.com,
+	atul.raut@intel.com,
+	sakari.ailus@linux.intel.com,
+	antti.laakso@linux.intel.com,
+	mehdi.djait@linux.intel.com,
+	miguel.vadillo@intel.com
+Subject: [PATCH v2 0/2] media: i2c: cvs: Add Intel CVS driver
+Date: Thu, 14 May 2026 11:44:29 -0700
+Message-ID: <20260514184431.288353-1-miguel.vadillo@intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260513-panthor-guard-refactor-v1-0-f2d8c15a97ce@collabora.com> <20260513-panthor-guard-refactor-v1-6-f2d8c15a97ce@collabora.com>
-In-Reply-To: <20260513-panthor-guard-refactor-v1-6-f2d8c15a97ce@collabora.com>
-From: Chia-I Wu <olvaffe@gmail.com>
-Date: Thu, 14 May 2026 11:39:54 -0700
-X-Gm-Features: AVHnY4K0-CnWJWVhrI1GvcjAaDfSNRBL6O_alT4g9naFYZIyIVIX0tJzKPjAXlk
-Message-ID: <CAPaKu7Sttfu4xapUwnk6WzskHVEqNuc8NOfpZch-Yp-OGd6bww@mail.gmail.com>
-Subject: Re: [PATCH 6/6] drm/panthor: Add a new guard for our custom
- resume_and_get() PM helper
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 130AA545F59
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: B102A5460C5
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-61623-lists,linux-media=lfdr.de];
+	FROM_NEQ_ENVFROM(0.00)[miguel.vadillo@intel.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-61625-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[arm.com,linaro.org,amd.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[olvaffe@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DKIM_TRACE(0.00)[intel.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_NONE(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid,collabora.com:email]
+	RCVD_COUNT_FIVE(0.00)[5];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:mid,intel.com:dkim]
 X-Rspamd-Action: no action
 
-On Wed, May 13, 2026 at 9:59=E2=80=AFAM Boris Brezillon
-<boris.brezillon@collabora.com> wrote:
->
-> Overload the already existing pm_runtime_active_auto_try_enabled guard
-> with our custom guard that force the state to suspened (and thus clear
-> the runtime_error) in case the resume fails.
->
-> Once done, we can replace the existing places where manual
-> panthor_device_resume_and_get()+pm_runtime_put_autosuspend() were
-> done by guards.
-This patch also replaces a pm_runtime_put call by
-pm_runtime_put_autosuspend, and removes redundant
-pm_runtime_mark_last_busy calls. Can we add another patch for the
-functionality change first?
+Cover Letter
+------------
 
->
-> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_device.h | 10 +++++++---
->  drivers/gpu/drm/panthor/panthor_drv.c    |  4 ++--
->  drivers/gpu/drm/panthor/panthor_sched.c  | 11 ++++-------
->  3 files changed, 13 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/p=
-anthor/panthor_device.h
-> index 1aaf06df875b..51527d2e2f77 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -407,9 +407,10 @@ int panthor_device_mmap_io(struct panthor_device *pt=
-dev,
->  int panthor_device_resume(struct device *dev);
->  int panthor_device_suspend(struct device *dev);
->
-> -static inline int panthor_device_resume_and_get(struct panthor_device *p=
-tdev)
-> +static inline int panthor_device_resume_and_get(struct device *dev)
->  {
-> -       int ret =3D pm_runtime_resume_and_get(ptdev->base.dev);
-> +       struct panthor_device *ptdev =3D dev_get_drvdata(dev);
-> +       int ret =3D pm_runtime_resume_and_get(dev);
->
->         /* If the resume failed, we need to clear the runtime_error, whic=
-h
->          * can done by forcing the RPM state to suspended. If multiple
-> @@ -424,11 +425,14 @@ static inline int panthor_device_resume_and_get(str=
-uct panthor_device *ptdev)
->          * something we can live with.
->          */
->         if (ret && atomic_cmpxchg(&ptdev->pm.recovery_needed, 1, 0) =3D=
-=3D 1)
-> -               pm_runtime_set_suspended(ptdev->base.dev);
-> +               pm_runtime_set_suspended(dev);
->
->         return ret;
->  }
->
-> +DEFINE_GUARD_COND(pm_runtime_active_auto, _try_enabled_or_suspend,
-> +                 panthor_device_resume_and_get(_T), _RET =3D=3D 0)
-> +
->  enum drm_panthor_exception_type {
->         DRM_PANTHOR_EXCEPTION_OK =3D 0x00,
->         DRM_PANTHOR_EXCEPTION_TERMINATED =3D 0x04,
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/pant=
-hor/panthor_drv.c
-> index 789ddc0ff7ef..f2d60ff00896 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -824,7 +824,8 @@ static int panthor_query_timestamp_info(struct pantho=
-r_device *ptdev,
->                 (flags & DRM_PANTHOR_TIMESTAMP_DURATION) ||
->                 (timestamp_types >=3D 2);
->
-> -       ret =3D panthor_device_resume_and_get(ptdev);
-> +       ACQUIRE(pm_runtime_active_auto_try_enabled_or_suspend, pm_guard)(=
-ptdev->base.dev);
-> +       ret =3D ACQUIRE_ERR(pm_runtime_active_auto_try_enabled_or_suspend=
-, &pm_guard);
->         if (ret)
->                 return ret;
->
-> @@ -894,7 +895,6 @@ static int panthor_query_timestamp_info(struct pantho=
-r_device *ptdev,
->                 arg->cpu_timestamp_nsec =3D 0;
->         }
->
-> -       pm_runtime_put(ptdev->base.dev);
->         return 0;
->  }
->
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/pa=
-nthor/panthor_sched.c
-> index 9aa9941d2309..9afa38e87fc9 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -2630,13 +2630,12 @@ static void tick_work(struct work_struct *work)
->         if (ACQUIRE_ERR(drm_dev_access, &dev_guard))
->                 return;
->
-> -       ret =3D panthor_device_resume_and_get(ptdev);
-> +       ACQUIRE(pm_runtime_active_auto_try_enabled_or_suspend, pm_guard)(=
-ptdev->base.dev);
-> +       ret =3D ACQUIRE_ERR(pm_runtime_active_auto_try_enabled_or_suspend=
-, &pm_guard);
->         if (drm_WARN_ON(&ptdev->base, ret))
->                 return;
->
->         tick(sched);
-> -       pm_runtime_mark_last_busy(ptdev->base.dev);
-> -       pm_runtime_put_autosuspend(ptdev->base.dev);
->  }
->
->  static int panthor_queue_eval_syncwait(struct panthor_group *group, u8 q=
-ueue_idx)
-> @@ -3359,7 +3358,8 @@ queue_run_job(struct drm_sched_job *sched_job)
->                 return dma_fence_get(job->done_fence);
->         }
->
-> -       ret =3D panthor_device_resume_and_get(ptdev);
-> +       ACQUIRE(pm_runtime_active_auto_try_enabled_or_suspend, pm_guard)(=
-ptdev->base.dev);
-> +       ret =3D ACQUIRE_ERR(pm_runtime_active_auto_try_enabled_or_suspend=
-, &pm_guard);
->         if (drm_WARN_ON(&ptdev->base, ret))
->                 return ERR_PTR(ret);
->
-> @@ -3367,9 +3367,6 @@ queue_run_job(struct drm_sched_job *sched_job)
->                 done_fence =3D queue_run_job_locked(job);
->         }
->
-> -       pm_runtime_mark_last_busy(ptdev->base.dev);
-> -       pm_runtime_put_autosuspend(ptdev->base.dev);
-> -
->         return done_fence;
->  }
->
->
-> --
-> 2.54.0
->
+This patch series introduces support for Intel Computer Vision Sensing
+(CVS) devices found on Intel Luna Lake (LNL), Panther Lake (PTL), and
+Arrow Lake (ARL) platforms.
+
+OVERVIEW
+--------
+
+The CVS device acts as a V4L2 sub-device bridge that manages CSI-2
+link ownership between the host (Linux) and firmware for camera
+sensors. It provides:
+
+1. CSI-2 link ownership arbitration between host and CVS firmware
+2. MIPI CSI-2 configuration management
+3. Privacy LED control coordination
+4. Power management integration with runtime PM
+
+The driver consists of two main components:
+- core.c: Core driver with probe, command transport, and PM callbacks
+- v4l2.c: V4L2 sub-device and media framework integration
+
+HARDWARE DETAILS
+----------------
+
+CVS devices interface via:
+- I2C for command/control communication with the device firmware
+- GPIO signals for ownership handshaking (request/response)
+- Optional reset and wake interrupt for full-capability variants
+- Integration with Intel IPU (Image Processing Unit) via ipu_bridge
+
+The driver supports two hardware capability levels:
+- Light capability: Basic GPIO-based ownership (2 GPIOs)
+- Full capability: Enhanced with reset control and wake IRQ (4 GPIOs)
+
+In order to support both configurations and all devices on the field,
+the driver detects the number of GPIOs and uses add_driver_gpios
+respectively.
+
+DEVICE QUIRKS
+-------------
+
+The driver includes a quirk table to handle device-specific variations
+across different CVS implementations (e.g., Lattice, Synaptics vendors)
+that may differ in:
+- MIPI configuration requirements
+- Buffer and header sizes
+- Reset sequence requirements
+
+FIRMWARE PROTOCOL
+-----------------
+
+The CVS firmware supports a command-response protocol over I2C with:
+- Device state queries (GET_DEV_STATE, GET_DEV_CAPABILITY)
+- Host identification (SET_DEV_HOST_ID)
+- MIPI configuration (HOST_SET_MIPI_CONFIG, HOST_GET_MIPI_CONFIG)
+- CSI ownership control (HOST_SENSOR_OWNER)
+
+The protocol supports versioning (currently 2.2+) and optional
+response prefixes for backward compatibility.
+
+V4L2 INTEGRATION
+----------------
+
+The CVS driver registers as a V4L2 sub-device exposing:
+- Sink pad: Receives frames from remote camera sensor
+- Source pad: Emits frames to downstream IPU/consumers
+- Async notifier: Discovers and connects to upstream sensors via ACPI
+
+It implements standard V4L2 operations:
+- enable/disable_stream: Start/stop streaming with ownership handoff
+- set_fmt/get_fmt: Format negotiation with format mirroring
+- get_mbus_config: CSI-2 bus configuration queries
+
+PLATFORM SUPPORT
+----------------
+
+In addition to I2C-based operation, the driver supports platform device
+instantiation for systems where CVS is exposed without I2C transport,
+falling back to GPIO-only ownership control.
+
+BIOS is presenting the device wrongly in some cases. These devices are
+already on the field thus need to support as is.
+
+POWER MANAGEMENT
+----------------
+
+Runtime PM integration allows the device to:
+- Auto-suspend after 1 second of inactivity
+- Resume on streaming start
+- Coordinate with IPU power states
+
+A PM runtime device link (DL_FLAG_PM_RUNTIME) is registered between
+IPU (consumer) and CVS (supplier) so that the PM framework
+automatically resumes CVS before IPU begins capture. CSI-2 link
+ownership is claimed in cvs_runtime_resume() and released in
+cvs_runtime_suspend(), decoupling ownership management from the V4L2
+streaming path.
+
+DEPENDENCIES
+------------
+
+- Intel IPU bridge (ipu-bridge.ko) for ACPI sensor discovery
+
+SYSTEM DIAGRAM
+--------------
+
+Below diagram shows connections of CVS/ISH/IPU and Camera Sensor:
+
+ -----------------------------------------------------------------------
+| Host Processor                                                        |
+|                                                                       |
+|   ---------------   ---------------   ---------------                 |
+|   |             |   |             |   |             |                 |
+|   |     IPU     |   |     ISH     |   |camera driver|----|            |
+|   |             |   |             |   |             |    |            |
+|   ---------------   ---------------   ---------------    |            |
+|         |                 |                 |            |            |
+|         |                 |                 |            |            |
+|         |                 |           ---------------    |            |
+|         |                 |           |             |    |            |
+|         |                 |           |  CVS driver |    |            |
+|         |                 |           |             |    |            |
+|         |                 |           ---------------    |            |
+|         |                 |                 |            |            |
+ ---------|-----------------|-----------------|------------|------------
+          | CSI             | I2C             | I2C        |
+          |                 |                 |            |
+ ---------|-----------------|-----------------|----------  |
+| CVS     |                                   |         |  |
+|         |                                   |         |  | I2C
+|   -----------------------------             |         |  |
+|   |                           |-------------|         |  |
+|   |          CVS FW           |                       |  |
+|   |                           |                       |  |
+|   -----------------------------                       |  |
+|         | CSI                                         |  |
+ ---------|---------------------------------------------   |
+          | CSI                                            |
+          |                                                |
+      --------------------------------                     |
+      |                              | I2C                 |
+      |         Camera Sensor        |---------------------|
+      |                              |
+      --------------------------------
+
+USAGE EXAMPLE
+-------------
+
+  # Load driver
+  modprobe intel_cvs
+
+  # Configure media pipeline (example with IPU7 + ov08x40)
+  media-ctl -v -V \
+    "\"Intel CVS\":1 [fmt:SGRBG10/3856x2176]"
+  media-ctl -v -V \
+    "\"Intel IPU7 CSI2 0\":0 [fmt:SGRBG10/3856x2176]"
+  media-ctl -v -V \
+    "\"Intel IPU7 CSI2 0\":1 [fmt:SGRBG10/3856x2176]"
+  media-ctl -v -l \
+    "\"Intel CVS\":1 -> \"Intel IPU7 CSI2 0\":0[1]"
+  media-ctl -v -l \
+    "\"Intel IPU7 CSI2 0\":1 -> \"Intel IPU7 ISYS Capture 0\":0[1]"
+  media-ctl -v -V \
+    "\"ov08x40 8-0010\":0 [fmt:SGRBG10/3856x2176]"
+  yavta -c1 -n1 -s 3856x2176 \
+    --file=/tmp/frame-CSI1.bin -f SGRBG10 /dev/video0
+
+Changes in v2:
+- Add MAINTAINERS entry for the CVS driver.
+- Initialize status in cvs_send() to fix maybe-uninitialized warning.
+- Convert command ID fields to __be16 and use be16/cpu helpers to fix
+  sparse type warnings.
+- Move icvs_pci_tbl out of icvs.h and into core.c to avoid unused
+  static table warnings in other translation units.
+- Update kernel-doc for cvs_send() to document @cmd correctly.
+- Fix non-kernel-doc comment delimiter in icvs.h.
+- Wrap long comment lines in core.c to keep within 80 columns.
+- Move Kconfig entry to "Miscellaneous helper chips" section.
+- Update Kconfig help text to focus on CVS function without mentioning
+  firmware download or quirks.
+- Use ipu6-pci-table.h for IPU6 PCI device ID definitions instead of
+  redefining them locally.
+- Link to v1: https://lore.kernel.org/linux-media/20260505223005.84162-1-miguel.vadillo@intel.com/
+
+Miguel Vadillo (2):
+  media: i2c: cvs: Add driver of Intel Computer Vision Sensing
+    Controller(CVS)
+  media: pci: intel: Add CVS support for IPU bridge driver
+
+ MAINTAINERS                          |    6 +
+ drivers/media/i2c/Kconfig            |    2 +
+ drivers/media/i2c/Makefile           |    1 +
+ drivers/media/i2c/cvs/Kconfig        |   21 +
+ drivers/media/i2c/cvs/Makefile       |    4 +
+ drivers/media/i2c/cvs/core.c         | 1007 ++++++++++++++++++++++++++
+ drivers/media/i2c/cvs/icvs.h         |  495 +++++++++++++
+ drivers/media/i2c/cvs/v4l2.c         |  618 ++++++++++++++++
+ drivers/media/pci/intel/ipu-bridge.c |   13 +-
+ 9 files changed, 2165 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/media/i2c/cvs/Kconfig
+ create mode 100644 drivers/media/i2c/cvs/Makefile
+ create mode 100644 drivers/media/i2c/cvs/core.c
+ create mode 100644 drivers/media/i2c/cvs/icvs.h
+ create mode 100644 drivers/media/i2c/cvs/v4l2.c
+
+-- 
+2.43.0
+
 
