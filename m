@@ -1,299 +1,384 @@
-Return-Path: <linux-media+bounces-61595-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61596-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6CB1BDCgBWo1ZAIAu9opvQ
-	(envelope-from <linux-media+bounces-61595-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 12:13:04 +0200
+	id MMihEHKhBWo1ZAIAu9opvQ
+	(envelope-from <linux-media+bounces-61596-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 12:18:26 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3245540319
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 12:13:03 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D355404B6
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 12:18:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6F749304203F
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 10:12:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 47B4F3022F81
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 10:16:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E4B43A7827;
-	Thu, 14 May 2026 10:12:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 470283B1006;
+	Thu, 14 May 2026 10:16:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dSsWByJQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sqngusou"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D808E3A3E7A
-	for <linux-media@vger.kernel.org>; Thu, 14 May 2026 10:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93737390219;
+	Thu, 14 May 2026 10:16:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778753568; cv=none; b=tSgAXEzJg/Hmbet5EGxCTWjTO+YxGTTYU9/M5IrIA1AlvCUZSolqqWEXDZ847e0M7SR3GnCPzTzqtpnL2W7hGVqzkVK64Me7srsSqf+m6NjmVz3089Tozk/oI0IC887StXV8ZnJI9Vnn8GNQ8Kv8VhpbUa9LViFxZSDg2N7ufmI=
+	t=1778753773; cv=none; b=Vl7TRHkXcKjlO6RHi+HMqD2OZ5AsapL8B4OSSJDTthv2uxdnsJczWM0ggWNWNUevdKskGaw90D31BZSumZFM64GARJqVSTKjOy/TbGt0d8cwUYSLFRTRGHrtMwSlfbE32jW7rEqJpXV0BUC8MANqTzNq66ZJ1jC1QihfEpDNNj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778753568; c=relaxed/simple;
-	bh=9EaU+pivKiDd6F7CgEZLnd0DOCJUxI3pSahbU9XYgw4=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=gPNsYGuHLfOvHZ4CpwCBBz2hlOs/vOzf3mik3Pfa3af8kKSSIedcNF/MbDZfvN3QNb7r0bd2MUXq4VkR/X5c4bHMblr17JADYqibKxb4Mw7+RQGgxoArzPoa5P6IDACa4TG3n+5XPvsGY3iSOEGSf2h5ufe7fYmRBmw4pqjSDfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dSsWByJQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 202F7C2BCB3;
-	Thu, 14 May 2026 10:12:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778753568;
-	bh=9EaU+pivKiDd6F7CgEZLnd0DOCJUxI3pSahbU9XYgw4=;
-	h=Date:From:Subject:To:Cc:From;
-	b=dSsWByJQUM3jp7PdtIa6M2l2fIUzFSocVyAm4Gqvk0LjEItoqRRgNioNg95Z4ttri
-	 3MCWnLkZYkPqiTgaQnJhaMiultIToCKvewEtOwKYLCL2J4vnTNDrRHKIDjUO3te6dN
-	 n2d2JABGB9UkTNQ21H3aGaXZfyiNBW5pqibAyQwBlKqe7uwMyMhoE5VugsOr4XEfgK
-	 mOk0KPu0BUON7MNo9GkNhYJD4GjonNvCmwSaLUUbQ4vl/oWbbhVdjsTxha8RBz0cyQ
-	 FfP0ssp7zTFw7S6a0AYVS1EXQeBQwHqHE4gxmWnpZPhOHjdleSgKQnBvzV2IosbvD5
-	 ZcWVSNsIv7UDA==
-Message-ID: <8590b824-0556-448f-be58-03ddb30b08bb@kernel.org>
-Date: Thu, 14 May 2026 12:12:38 +0200
+	s=arc-20240116; t=1778753773; c=relaxed/simple;
+	bh=E9ry05Rq6EIFB/4oeFnN5Wx6Z5D2YCZaoRisb0V93Ug=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i7pavYI31+g1JzgixspmH+HAkHXR5qoLooYjkH3GXriNf+t3X5Eg+ve8Co77WdTjyV9c9DfKHGJ3dEqPIxVAoetJcj4k0KOG1+fgXDhwhifM+Ixkqmp1cqqroSLb114bRbKD1OBZDgQ00YdVhq1y52B+3g7KHrKECtDZHdbPG/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sqngusou; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778753772; x=1810289772;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=E9ry05Rq6EIFB/4oeFnN5Wx6Z5D2YCZaoRisb0V93Ug=;
+  b=Sqngusou1pzKGclP0L4ZeVTnHmoaQm3+3JdKl3lL+jDIQ6txOp3EEYCx
+   YDfjtw5tpVw+XBy3tnj9GC3SaAhkAbFbexrKtLGzff6D8iaTacR6O9DMr
+   lkn5KqoMpNR1k8xpVUKo7tYkvw7tFs2NUQqyfl0+Il6y+NkBrch2rSG0V
+   esXXLbazyp4ztKC7rXOp+usTGnSYhPkKuH/ffOMsHWHH6qMY4NGQo+ECC
+   yicI0aEydZeKHOSS/AHcdqZbTiRCGvBF6JRambszJmZ1FD0hHZGCJuug3
+   Vj/HBInORLWrpoh2Vew8P063/iAejgmFs+v7NKK1GmjGiq6tPZyTOPekh
+   g==;
+X-CSE-ConnectionGUID: g/nJNFqjRMWcjCz69O0l2w==
+X-CSE-MsgGUID: treF6zwiTTOKbjqRmtzD/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="97264382"
+X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
+   d="scan'208";a="97264382"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 03:16:11 -0700
+X-CSE-ConnectionGUID: GAe5zrqgQaCNFXE2VoXVHQ==
+X-CSE-MsgGUID: 6KZfNXkNSWaAnJPHaKVxfg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
+   d="scan'208";a="238243091"
+Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 14 May 2026 03:16:09 -0700
+Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wNT6s-000000006L1-0dLf;
+	Thu, 14 May 2026 10:16:06 +0000
+Date: Thu, 14 May 2026 18:15:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ben Hoff <hoff.benjamin.k@gmail.com>, linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	mchehab@kernel.org, hverkuil+cisco@kernel.org,
+	kernel test robot <lkp@intel.com>
+Subject: Re: [PATCH v6] media: pci: add AVMatrix HWS capture driver
+Message-ID: <202605141850.c6zw6nTk-lkp@intel.com>
+References: <20260506192618.35384-1-hoff.benjamin.k@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: [ANNv6, final] Media Summit on May 26th in Nice, France
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Ricardo Ribalda <ribalda@chromium.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Michael Tretter <m.tretter@pengutronix.de>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Paul Kocialkowski <paulk@sys-base.io>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Brandon Brnich <b-brnich@ti.com>, Marco Felsch <m.felsch@pengutronix.de>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>,
- =?UTF-8?Q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>,
- Michael Riesch <michael.riesch@collabora.com>,
- Devarsh Thakkar <devarsht@ti.com>,
- Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
- Jackson Lee <jackson.lee@chipsnmedia.com>,
- Jai Luthra <jai.luthra@ideasonboard.com>,
- Mehdi Djait <mehdi.djait@linux.intel.com>, "Padhi, Beleswar"
- <b-padhi@ti.com>, "Donadkar, Rishikesh" <r-donadkar@ti.com>,
- Rouven Czerwinski <rouven.czerwinski@linaro.org>,
- "Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Robert Mader <robert.mader@collabora.com>,
- Suresh Vankadara <svankada@qti.qualcomm.com>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Satish Babu Patakokila <spatakok@qti.qualcomm.com>,
- Antti Laakso <antti.laakso@linux.intel.com>,
- =?UTF-8?B?VsOtY3RvciBKw6FxdWV6?= <vjaquez@igalia.com>,
- Frank Li <Frank.li@nxp.com>, Arthur Vinchon <arthur.vinchon@allegrodvt.com>
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: A3245540319
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260506192618.35384-1-hoff.benjamin.k@gmail.com>
+X-Rspamd-Queue-Id: 83D355404B6
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_ALL(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61595-lists,linux-media=lfdr.de,cisco];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,ideasonboard.com,linux.intel.com,chromium.org,collabora.com,linaro.org,raspberrypi.com,pengutronix.de,sys-base.io,foss.st.com,ti.com,oss.qualcomm.com,chipsnmedia.com,gmail.com,fooishbar.org,qti.qualcomm.com,igalia.com,nxp.com,allegrodvt.com];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-61596-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_TWELVE(0.00)[37];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,01.org:url]
 X-Rspamd-Action: no action
 
-Hi all,
+Hi Ben,
 
-This is the sixth and final version of this announcement, finalizing the list of attendees
-and the agenda at the end: please let me know if you see mistakes.
+kernel test robot noticed the following build warnings:
 
-We're now closed for new registrations: we're 26 in-person attendees and 11 remote attendees.
-Information on how to call in as remote participant will be given in a separate email next week.
+[auto build test WARNING on 74fe02ce122a6103f207d29fafc8b3a53de6abaf]
 
-This year's Media Summit will be held on Tuesday May 26th the day before the
-Embedded Recipes Conference in Nice, France:
+url:    https://github.com/intel-lab-lkp/linux/commits/Ben-Hoff/media-pci-add-AVMatrix-HWS-capture-driver/20260514-065339
+base:   74fe02ce122a6103f207d29fafc8b3a53de6abaf
+patch link:    https://lore.kernel.org/r/20260506192618.35384-1-hoff.benjamin.k%40gmail.com
+patch subject: [PATCH v6] media: pci: add AVMatrix HWS capture driver
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260514/202605141850.c6zw6nTk-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605141850.c6zw6nTk-lkp@intel.com/reproduce)
 
-https://embedded-recipes.org/2026/
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605141850.c6zw6nTk-lkp@intel.com/
 
-The Media Summit will be held at Hotel Campanile and in the same meeting room
-as last year (Nikaia):
+All warnings (new ones prefixed by >>):
 
-https://nice-aeroport.campanile.com/en-us/
-
-It is close to the Airport and to the Embedded Recipes venue.
-
-The meeting room can hold up to 30 people and I will provide video conferencing support,
-just like last year. The location and the meeting room was quite nice last year, so
-I saw no need to change it.
-
-The meeting room is sponsored by Cisco and Collabora, and the lunch is sponsored by
-Ideas on Board! Many thanks to our sponsors, it's very much appreciated.
-
-Regards,
-
-	Hans
-
-PS: Be aware that May 24 and 25 are public holidays in France. So many shops may be
-closed those days.
-
-In-person attendees:
-Sakari Ailus <sakari.ailus@linux.intel.com>
-Kieran Bingham <kieran.bingham@ideasonboard.com>
-Brandon Brnich <b-brnich@ti.com>
-Rouven Czerwinski <rouven.czerwinski@linaro.org>
-Mehdi Djait <mehdi.djait@linux.intel.com>
-Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Marco Felsch <m.felsch@pengutronix.de>
-Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-Stefan Klug <stefan.klug@ideasonboard.com>
-Paul Kocialkowski <paulk@sys-base.io>
-Frank Li <Frank.li@nxp.com>
-Jai Luthra <jai.luthra@ideasonboard.com>
-Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Beleswar Padhi <b-padhi@ti.com>
-Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Loic Poulain <loic.poulain@oss.qualcomm.com>
-Sven Püschel <s.pueschel@pengutronix.de>
-Ricardo Ribalda <ribalda@chromium.org>
-Michael Riesch <michael.riesch@collabora.com>
-Daniel Stone <daniel@fooishbar.org> (Collabora)
-Devarsh Thakkar <devarsht@ti.com>
-Michael Tretter <m.tretter@pengutronix.de>
-Suresh Vankadara <svankada@qti.qualcomm.com>
-Hans Verkuil <hverkuil@kernel.org> (Cisco)
-
-Remote attendees:
-Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-Mauro Carvalho Chehab <mchehab@kernel.org>
-Rishikesh Donadkar <r-donadkar@ti.com>
-Víctor Jáquez <vjaquez@igalia.com>
-Antti Laakso <antti.laakso@linux.intel.com>
-Jackson Lee <jackson.lee@chipsnmedia.com>
-Robert Mader <robert.mader@collabora.com>
-Satish Babu Patakokila <spatakok@qti.qualcomm.com>
-Jose A. Perez de Azpillaga <azpijr@gmail.com>
-Dave Stevenson <dave.stevenson@raspberrypi.com>
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Arthur Vinchon <arthur.vinchon@allegrodvt.com>
+>> drivers/media/pci/hws/hws_v4l2_ioctl.c:280:5: warning: no previous prototype for 'hws_vidioc_query_dv_timings' [-Wmissing-prototypes]
+     280 | int hws_vidioc_query_dv_timings(struct file *file, void *fh,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/pci/hws/hws_v4l2_ioctl.c: In function 'hws_vidioc_query_dv_timings':
+   drivers/media/pci/hws/hws_v4l2_ioctl.c:286:25: warning: variable 'live_ok' set but not used [-Wunused-but-set-variable]
+     286 |         bool interlace, live_ok;
+         |                         ^~~~~~~
+   drivers/media/pci/hws/hws_v4l2_ioctl.c: At top level:
+>> drivers/media/pci/hws/hws_v4l2_ioctl.c:309:5: warning: no previous prototype for 'hws_vidioc_enum_dv_timings' [-Wmissing-prototypes]
+     309 | int hws_vidioc_enum_dv_timings(struct file *file, void *fh,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/pci/hws/hws_v4l2_ioctl.c:326:5: warning: no previous prototype for 'hws_vidioc_g_dv_timings' [-Wmissing-prototypes]
+     326 | int hws_vidioc_g_dv_timings(struct file *file, void *fh,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/pci/hws/hws_v4l2_ioctl.c:352:5: warning: no previous prototype for 'hws_vidioc_s_dv_timings' [-Wmissing-prototypes]
+     352 | int hws_vidioc_s_dv_timings(struct file *file, void *fh,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/pci/hws/hws_v4l2_ioctl.c:412:5: warning: no previous prototype for 'hws_vidioc_dv_timings_cap' [-Wmissing-prototypes]
+     412 | int hws_vidioc_dv_timings_cap(struct file *file, void *fh,
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/pci/hws/hws_v4l2_ioctl.c:504:5: warning: no previous prototype for 'hws_vidioc_querycap' [-Wmissing-prototypes]
+     504 | int hws_vidioc_querycap(struct file *file, void *priv, struct v4l2_capability *cap)
+         |     ^~~~~~~~~~~~~~~~~~~
+>> drivers/media/pci/hws/hws_v4l2_ioctl.c:520:5: warning: no previous prototype for 'hws_vidioc_enum_fmt_vid_cap' [-Wmissing-prototypes]
+     520 | int hws_vidioc_enum_fmt_vid_cap(struct file *file, void *priv_fh, struct v4l2_fmtdesc *f)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/pci/hws/hws_v4l2_ioctl.c:529:5: warning: no previous prototype for 'hws_vidioc_g_fmt_vid_cap' [-Wmissing-prototypes]
+     529 | int hws_vidioc_g_fmt_vid_cap(struct file *file, void *fh, struct v4l2_format *fmt)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/pci/hws/hws_v4l2_ioctl.c:556:5: warning: no previous prototype for 'hws_vidioc_try_fmt_vid_cap' [-Wmissing-prototypes]
+     556 | int hws_vidioc_try_fmt_vid_cap(struct file *file, void *fh, struct v4l2_format *f)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/pci/hws/hws_v4l2_ioctl.c:633:5: warning: no previous prototype for 'hws_vidioc_s_fmt_vid_cap' [-Wmissing-prototypes]
+     633 | int hws_vidioc_s_fmt_vid_cap(struct file *file, void *priv, struct v4l2_format *f)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/pci/hws/hws_v4l2_ioctl.c:690:5: warning: no previous prototype for 'hws_vidioc_g_parm' [-Wmissing-prototypes]
+     690 | int hws_vidioc_g_parm(struct file *file, void *fh, struct v4l2_streamparm *param)
+         |     ^~~~~~~~~~~~~~~~~
+>> drivers/media/pci/hws/hws_v4l2_ioctl.c:711:5: warning: no previous prototype for 'hws_vidioc_enum_input' [-Wmissing-prototypes]
+     711 | int hws_vidioc_enum_input(struct file *file, void *priv,
+         |     ^~~~~~~~~~~~~~~~~~~~~
+>> drivers/media/pci/hws/hws_v4l2_ioctl.c:724:5: warning: no previous prototype for 'hws_vidioc_g_input' [-Wmissing-prototypes]
+     724 | int hws_vidioc_g_input(struct file *file, void *priv, unsigned int *index)
+         |     ^~~~~~~~~~~~~~~~~~
+>> drivers/media/pci/hws/hws_v4l2_ioctl.c:730:5: warning: no previous prototype for 'hws_vidioc_s_input' [-Wmissing-prototypes]
+     730 | int hws_vidioc_s_input(struct file *file, void *priv, unsigned int i)
+         |     ^~~~~~~~~~~~~~~~~~
+>> drivers/media/pci/hws/hws_v4l2_ioctl.c:735:5: warning: no previous prototype for 'hws_vidioc_s_parm' [-Wmissing-prototypes]
+     735 | int hws_vidioc_s_parm(struct file *file, void *fh, struct v4l2_streamparm *param)
+         |     ^~~~~~~~~~~~~~~~~
 
 
-Agenda:
+vim +/hws_vidioc_query_dv_timings +280 drivers/media/pci/hws/hws_v4l2_ioctl.c
 
-8:45-9:20: Arrive, settle in
+   275	
+   276	/* Query the *current detected* DV timings on the input.
+   277	 * If you have a real hardware detector, call it here; otherwise we
+   278	 * derive from the cached pix state and map to the closest supported DV mode.
+   279	 */
+ > 280	int hws_vidioc_query_dv_timings(struct file *file, void *fh,
+   281					struct v4l2_dv_timings *timings)
+   282	{
+   283		struct hws_video *vid = video_drvdata(file);
+   284		const struct hws_dv_mode *m;
+   285		u32 w, h;
+   286		bool interlace, live_ok;
+   287	
+   288		if (!timings)
+   289			return -EINVAL;
+   290	
+   291		w = vid->pix.width;
+   292		h = vid->pix.height;
+   293		interlace = vid->pix.interlaced;
+   294		live_ok = hws_get_live_dv_geometry(vid, &w, &h, &interlace);
+   295		/* Map current (live if available, otherwise cached) WxH/interlace
+   296		 * to one of our supported modes.
+   297		 */
+   298		m = hws_find_dv_by_wh(w, h, !!interlace);
+   299		if (!m)
+   300			return -ENOLINK;
+   301	
+   302		*timings = m->timings;
+   303		vid->cur_dv_timings = m->timings;
+   304		vid->current_fps = m->refresh_hz;
+   305		return 0;
+   306	}
+   307	
+   308	/* Enumerate the Nth supported DV timings from our static table. */
+ > 309	int hws_vidioc_enum_dv_timings(struct file *file, void *fh,
+   310				       struct v4l2_enum_dv_timings *edv)
+   311	{
+   312		if (!edv)
+   313			return -EINVAL;
+   314	
+   315		if (edv->pad)
+   316			return -EINVAL;
+   317	
+   318		if (edv->index >= hws_dv_modes_cnt)
+   319			return -EINVAL;
+   320	
+   321		edv->timings = hws_dv_modes[edv->index].timings;
+   322		return 0;
+   323	}
+   324	
+   325	/* Get the *currently configured* DV timings. */
+ > 326	int hws_vidioc_g_dv_timings(struct file *file, void *fh,
+   327				    struct v4l2_dv_timings *timings)
+   328	{
+   329		struct hws_video *vid = video_drvdata(file);
+   330	
+   331		if (!timings)
+   332			return -EINVAL;
+   333	
+   334		*timings = vid->cur_dv_timings;
+   335		return 0;
+   336	}
+   337	
+   338	static inline void hws_set_colorimetry_state(struct hws_pix_state *p)
+   339	{
+   340		bool sd = p->height <= 576;
+   341	
+   342		p->colorspace   = sd ? V4L2_COLORSPACE_SMPTE170M : V4L2_COLORSPACE_REC709;
+   343		p->ycbcr_enc    = V4L2_YCBCR_ENC_DEFAULT;
+   344		p->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+   345		p->xfer_func    = V4L2_XFER_FUNC_DEFAULT;
+   346	}
+   347	
+   348	/* Set DV timings: must match one of our supported modes.
+   349	 * If buffers are queued and this implies a size change, we reject with -EBUSY.
+   350	 * Otherwise we update pix state and (optionally) reprogram the HW.
+   351	 */
+ > 352	int hws_vidioc_s_dv_timings(struct file *file, void *fh,
+   353				    struct v4l2_dv_timings *timings)
+   354	{
+   355		struct hws_video *vid = video_drvdata(file);
+   356		const struct hws_dv_mode *m;
+   357		const struct v4l2_bt_timings *bt;
+   358		u32 new_w, new_h;
+   359		bool interlaced;
+   360		int ret = 0;
+   361		unsigned long was_busy;
+   362	
+   363		if (!timings)
+   364			return -EINVAL;
+   365	
+   366		m = hws_match_supported_dv(timings);
+   367		if (!m)
+   368			return -EINVAL;
+   369	
+   370		bt = &m->timings.bt;
+   371		if (bt->interlaced)
+   372			return -EINVAL; /* only progressive modes are advertised */
+   373		new_w = bt->width;
+   374		new_h = bt->height;
+   375		interlaced = false;
+   376	
+   377		lockdep_assert_held(&vid->state_lock);
+   378	
+   379		/* If vb2 has active buffers and size would change, reject. */
+   380		was_busy = vb2_is_busy(&vid->buffer_queue);
+   381		if (was_busy &&
+   382		    (new_w != vid->pix.width || new_h != vid->pix.height ||
+   383		     interlaced != vid->pix.interlaced)) {
+   384			ret = -EBUSY;
+   385			return ret;
+   386		}
+   387	
+   388		/* Update software pixel state (and recalc sizes) */
+   389		vid->pix.width      = new_w;
+   390		vid->pix.height     = new_h;
+   391		vid->pix.field      = interlaced ? V4L2_FIELD_INTERLACED
+   392						 : V4L2_FIELD_NONE;
+   393		vid->pix.interlaced = interlaced;
+   394		vid->pix.fourcc     = V4L2_PIX_FMT_YUYV;
+   395	
+   396		hws_set_colorimetry_state(&vid->pix);
+   397	
+   398		/* Recompute stride/sizeimage/half_size using your helper */
+   399		vid->pix.bytesperline = hws_calc_bpl_yuyv(new_w);
+   400		vid->pix.sizeimage    = hws_calc_size_yuyv(new_w, new_h);
+   401		vid->pix.half_size    = hws_calc_half_size(vid->pix.sizeimage);
+   402		vid->cur_dv_timings   = m->timings;
+   403		vid->current_fps      = m->refresh_hz;
+   404		if (!was_busy)
+   405			vid->alloc_sizeimage = vid->pix.sizeimage;
+   406		return ret;
+   407	}
+   408	
+   409	/* Report DV timings capability: advertise BT.656/1120 with
+   410	 * the min/max WxH derived from our table and basic progressive support.
+   411	 */
+ > 412	int hws_vidioc_dv_timings_cap(struct file *file, void *fh,
+   413				      struct v4l2_dv_timings_cap *cap)
+   414	{
+   415		u32 min_w = ~0U, min_h = ~0U;
+   416		u32 max_w = 0,       max_h = 0;
+   417		size_t i, n = 0;
+   418	
+   419		if (!cap)
+   420			return -EINVAL;
+   421	
+   422		memset(cap, 0, sizeof(*cap));
+   423		cap->type = V4L2_DV_BT_656_1120;
+   424	
+   425		for (i = 0; i < ARRAY_SIZE(hws_dv_modes); i++) {
+   426			const struct v4l2_bt_timings *bt = &hws_dv_modes[i].timings.bt;
+   427	
+   428			if (hws_dv_modes[i].timings.type != V4L2_DV_BT_656_1120)
+   429				continue;
+   430			n++;
+   431	
+   432			if (bt->width  < min_w)
+   433				min_w = bt->width;
+   434			if (bt->height < min_h)
+   435				min_h = bt->height;
+   436			if (bt->width  > max_w)
+   437				max_w = bt->width;
+   438			if (bt->height > max_h)
+   439				max_h = bt->height;
+   440		}
+   441	
+   442		/* If the table was empty, fail gracefully. */
+   443		if (!n || min_w == U32_MAX)
+   444			return -ENODATA;
+   445	
+   446		cap->bt.min_width  = min_w;
+   447		cap->bt.max_width  = max_w;
+   448		cap->bt.min_height = min_h;
+   449		cap->bt.max_height = max_h;
+   450	
+   451		/* We support both CEA-861- and VESA-style modes in the list. */
+   452		cap->bt.standards =
+   453			V4L2_DV_BT_STD_CEA861 | V4L2_DV_BT_STD_DMT | V4L2_DV_BT_STD_CVT;
+   454	
+   455		/* Progressive only, unless your table includes interlaced entries. */
+   456		cap->bt.capabilities = V4L2_DV_BT_CAP_PROGRESSIVE;
+   457	
+   458		/* Leave pixelclock/porch limits unconstrained (0) for now. */
+   459		return 0;
+   460	}
+   461	
 
-9:20-9:30: Short intro (Hans Verkuil)
-
-9:30-9:45: Status of ISP support in V4L2
-	Presenter: Laurent Pinchart
-	Description: Summary of ISP-related development in V4L2 since the last
-	Linux Media Summit. This includes a brief overview of technical
-	developments, and a summary of the efforts to engage with vendors.
-
-9:45-10:45: V4L2 Stateless Video Encoding uAPI Progress Update
-	Presenter: Paul Kocialkowski
-	Description: An update on the ongonig work to support stateless codecs in V4L2.
-	Some of the remaining open topics will be presented and discussed.
-
-10:45-11:00: break
-
-11:00-11:30: Vulkan Video Codecs
-	Presenter: Nicolas Dufresne
-	Description: Vulkan video codecs: what are the viable options for Linux Media
-	and what is in preparation outside of our subsystem. The second aspect is
-	informative as these discussions don't seem to lean toward our subsystem as the
-	foundation. But I think it's rather useful for everyone to understand why and
-	what is included.
-
-11:30-12:00: Protected Video playback on i.MX8MQ
-	Presenter: Rouven Czerwinski
-	Description: Introduction to protected video playback
-	on i.MX8MQ and missing bits for linux-media & protected heap interoperability.
-
-12:00-13:30: Lunch
-
-13:30-14:00: HDCP support for HDMI receivers
-	Presenter: Hans Verkuil
-	Description: I have been working on adding HDCP support for HDMI receivers.
-	Specifically the HDCP negotiation between sources and sinks.
-
-14:00-14:15: How to progress on Module identification
-	Presenter: Stefan Klug
-	Description: In many real world use cases it is necessary to identify
-	the exact module/lens combination on top of the currently used sensor to
-	be able to provide corresponding tuning data. I'd like to recap on the
-	existing ideas and add a few more thoughts on how we could solve that.
-
-14:15-15:00: Common raw sensor model, streams, metadata and metadata series status
-	Presenter: Sakari Ailus
-	Description: The Common Raw Sensor Model defines a new UAPI for camera
-	sensors in Linux. It provides a more useful UAPI for configuring camera
-	sensors than the existing practice is. The metadata series includes the
-	Common Raw Sensor Model and a number of other improvements, such as generic
-	raw formats, metadata support and finally enabling the streams uAPI.
-
-15:00-15:30: AI patches
-	Presenter: Sakari Ailus
-	Description: What is our policy w.r.t. AI generated patches?
-
-15:30-15:45: Break
-
-15:45-16:00: A case for a media-job scheduler
-	Presenter: Jacopo Mondi
-	Description: Dan has proposed last year a framework for scheduling operations
-	across multiple drivers that compose a capture pipeline:
-
-	https://www.spinics.net/lists/linux-media/msg279502.html
-
-	To better clarify why this is useful, I would like to discuss and
-	describe a practical use case based around the Mali-C55 ISP as
-	integrated in the Renesas RZ/V2H(P) SoC.
-
-16:00-16:30: The Butterfly Effect or How Support for Complex Hardware may affect the uAPI
-	Presenter: Michael Riesch
-	Description: Video capture and camera hardware in recent SoCs is exceedingly complex
-	and the assumption that there is one central V4L2 driver that registers
-	the media device does not necessarily hold anymore. IMHO we need a
-	central media device to rule them all and adaptations to the
-	v4l2_{async,device}_register_subdev code.
-	 - Dynamic (de)registration of media entities is desired
-	 - This requires considerations about the uAPI
-	 - There is significant overlap with the notion of fault-tolerant V4L2
-	 - There is also a ton of cleanup work, but the resulting patches must
-	   not break anything existing
-	 - So we need to talk about possible migration strategies in order to
-	   achieve reasonable progress without interfering too much with
-	   existing and working parts
-
-16:30-17:00 Overview of Media CI: where do pipelines run?
-	Presenter: Ricardo Ribalda
-	Description: How are jobs in pipelines assigned? How does the infrastructure
-	for Media CI work? Are there things that can be tweaked to make it more
-	reliable?
-
-17:00-17:45: Discussion of the media subsystem development process
-	Presenter: Hans Verkuil
-	Description: Review of the multi-committer model: current status and next steps.
-	Are there any bottlenecks, any ideas for improvements, w.r.t. the development process?
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
