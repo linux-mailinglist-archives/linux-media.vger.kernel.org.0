@@ -1,172 +1,171 @@
-Return-Path: <linux-media+bounces-61605-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61606-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mH0/Bbm+BWpLawIAu9opvQ
-	(envelope-from <linux-media+bounces-61605-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 14:23:21 +0200
+	id UBQaBJ7BBWrXawIAu9opvQ
+	(envelope-from <linux-media+bounces-61606-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 14:35:42 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64DD75418BB
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 14:23:19 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14AE4541B29
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 14:35:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 15BB9305D5C8
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 12:22:39 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 246AD301A0B6
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 12:35:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A056E3DC4AF;
-	Thu, 14 May 2026 12:22:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B82D533067C;
+	Thu, 14 May 2026 12:34:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="m1yqK4eP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sx7kCtWv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD77A3AFAE7;
-	Thu, 14 May 2026 12:22:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 277932DF13B;
+	Thu, 14 May 2026 12:34:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778761357; cv=none; b=ki6jPDwAKIHSDQd4hqvJqVAbvdbFASrnDuaaodXRVsZoc6y+RgVz6lUSIud5YdkAzaH4JolTVqgRMEoMoGX6zfJwY+vZlbjTX5dDPcb6tgKh6Mmomzxkfq0UUYcr2AskH5UQXNeV0IpuFPZZzbm6onpiIEUeVnJ+m81GrX4sKk8=
+	t=1778762095; cv=none; b=tr5QwXKU+pPKMuH3FgKYTTZ+X6NscUaNeZ5/Kot7dWi/h0Y0wkmRBM3kimO0tupjtY4HaOGGnqH4fxIzUMHfkE8UVVxXTlch8KaozQRcB6iGX+71bgwLI397By2jHu5lGSaBjN6bn/FabL5hxxV+FUvV/rO3UqW99gg/T0CPqDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778761357; c=relaxed/simple;
-	bh=CF59wHDLYkYomlLOymWpbVSCcsvbCe1Kum8Y6mH+TPM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gYRAkwetxtizXgYLD/4Czilz5bW8p3jQdXZRc1hbjaOJyua1KlyMbNmHqXuoOKEX4r0fRHTXGpX6MPChH4txsLQ7GAyDpyKcbHtLpOIUJB+dxy9P0FHzaRZfJ3eCRCHncQqfL/Hx9u4VuI0IhNgG4XhQxAKtRQF4MZ85PDeF5fU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=m1yqK4eP; arc=none smtp.client-ip=18.169.211.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1778761301;
-	bh=FdCXR+IriFz4PfcHcorRd2ofIaZySrU25+n2KQ/LyoI=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=m1yqK4ePhPTunAK7ymPj0oXOpSwoS5XdlgqNEdo2qSkgUlZ9ZbOnv9bYO8NztaIx2
-	 IIbN2Bku/ep1Y/mjXhoFx9f6UqzxRu2U/ik8D6V4B/Bto07kpxNY6zvo+Q/0oLCP6i
-	 UPqCd2aaqmaFPBNsbHYbX8iI1FqrytvrihcSHong=
-X-QQ-mid: zesmtpgz6t1778761281t1daf310b
-X-QQ-Originating-IP: D9ejdqPxcwF8mJNDxWCN+P4MCBd4EUNp78nc6ewuprM=
-Received: from PEN202512010004 ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 14 May 2026 20:21:20 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 13115496104257423360
-EX-QQ-RecipientCnt: 10
-From: Xu Rao <raoxu@uniontech.com>
-To: mchehab@kernel.org
-Cc: hverkuil+cisco@kernel.org,
-	laurent.pinchart@ideasonboard.com,
-	hansg@kernel.org,
-	ribalda@chromium.org,
-	brad@nextdimension.cc,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	raoxu@uniontech.com,
-	syzbot+f3f24bbe63f3f6db9f44@syzkaller.appspotmail.com
-Subject: [PATCH] media: dvb-usb-v2: abort probe on power-on failure
-Date: Thu, 14 May 2026 20:21:18 +0800
-Message-ID: <D69A374F59588677+20260514122118.1682587-1-raoxu@uniontech.com>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1778762095; c=relaxed/simple;
+	bh=Q0aQbhWOe5zrFqltcKX0A4/s5aa95PmqTR8lLnlVuzo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NvP2ZYE1XeqYKNL1OaWozqm/F8Tr8eWtMo5sfkfc1B/BEqSxId+qRyBp9Vz79YT/m3NO/Oj9/sqS4bEA2raIw2Gp9gb1RgILvck64WCp11OxT/CqT9FfG4mgYGIeb1awtamcMu05rpo3P9Bssk4g7UkK1bXRg0ckgo2ChJ9Sqmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sx7kCtWv; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90F7AC2BCB8;
+	Thu, 14 May 2026 12:34:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778762094;
+	bh=Q0aQbhWOe5zrFqltcKX0A4/s5aa95PmqTR8lLnlVuzo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Sx7kCtWvrOXCrQXy2983f0AYwHQot4xiXPULF3RW5kYiYbyUwzbIt5FfrS0xh4aXv
+	 s5fxJ5cNox8mE5Rx1DcB5tlVH0EAAZG6xkZEUr7imsMg0VY97QhhP8eKgFWii3VMuI
+	 5GhOCeqoNaXjX2fRHeAErcha64R8zyFBScFaPjRRJJsp3P/biekLZFQMSYxfe7yVml
+	 qfh64uhg3qTjfxBbY4pfNDfCFM2RnChG+dKo8sDBZoFptIOTo1RQwZ137mfSziin4k
+	 EN0+E69WgS/eOtyBth2PYJOqVl8mE5ugKbeVBuD3iixUoQ0Wk9ivfwEmcyzhZM/7hh
+	 c9ggp3RAcEYrg==
+Message-ID: <e15b9653-3d49-4300-9961-9303b983a4f5@kernel.org>
+Date: Thu, 14 May 2026 14:34:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
-X-QQ-XMAILINFO: MUe2PhP7Eq79w14ZDLLPTlnCFgW5Vqc5tT8hZH9L+O19Xqp51svxBPCF
-	pjbh3yfEvWFVlUkJFlLHoc39o5DPXsvsXa51BVS7McpcjB8OHBfWvHTu9zB9RMkT9galUS/
-	gdLMURJ0U9C9xP18t0AgLHdN8Hoo9bbhyzpu0z8PfaJwuOsj2DpOq4qNe3Qqkm6t0lnLWYc
-	cTRpMhXkuvfH6gOUXO0Jzu0V1Z3jK+xBIc/8FOSWzoEupI6d9sGanMd+0bWmVM61YtxL7RJ
-	xbTAEW9r46gtKkF/MHTbMFoaUkrDGXK1iMPiQ2lGkailXAo+O+igVEkQ8A9If68A2IB9jzC
-	3ox8wlOL/+cJqqimNwnmfTNJTHsZxR1vUtp+0HeGqKj3tZLNZMYnpQoHELw4vAiEysspjjr
-	MRYc6aFDOC9h5vbvSoiGL/EReikdLqPRGvoHKLWdVGra9jUF4sAgVbXHTgajntf7HFy5XmN
-	h8giQrzy8bZ6Ag+E+JZYcbHXVnkzirgHfM30XZyPYdtJtTkA82bzVHB1DUlKmWZQZ9hWbi+
-	c6J8oKFpOpzGvT+0mte/XYpWamLE7T65Cx2ZsKRTHKYVe4Ior9yj+9ZBsE7hiRKiELD2vZj
-	5TkWpSHBugElG/BEXSUD/yBkxdG5Z2Q7ijbZbOdz0+M9kiXjkYS5sehnd8855CiDbU/s3Vj
-	OlADa4uG+7AJf1w6O5XxW1NOqyijHYPvlqcpvR8TRSnxtDOSizSKgRoqKg09K2LqbHTPdp7
-	L7msl0fQFdxuQ7WvbOWKz+Q85gZA9cMooN9i/Hd9wGAw6OQwinHYS0u5GEgvoJ+WbEvp4IM
-	3GWTdJn7GngSxbI8VL4ghxRwpcypOGy71+dc2evdB9MX1b9K3Q5fUZSmcjMPIVniHMp4aew
-	aHTJtVLgZnJrjhFCme/ZTLBWlOk65tj+3RwDOeQwopFXdi+GpCg6bd4okpBMQzqFx3vUTBT
-	RrFcVVQ1y1sAK4bln0dfvuoBuQSJsNM+j7RO5U5IJ2rrIv/xdqjyhzzGV8ZGLYdfgA7KU+O
-	Sf1MYTSAJr55dvVZW5nInOFxrLCB/IWXfQZL8xcSeVR4PurGDrshnEUX7SbMvnETrCBEmJ4
-	vgnpR8c4GnbGxxunBYJAma5TBvPt1L62g==
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-X-QQ-RECHKSPAM: 0
-X-Rspamd-Queue-Id: 64DD75418BB
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/8] media: Add iMX95 neoisp driver
+To: Antoine Bouyer <antoine.bouyer@nxp.com>, julien.vuillaumier@nxp.com,
+ alexi.birlinger@nxp.com, daniel.baluta@nxp.com, peng.fan@nxp.com,
+ frank.li@nxp.com, jacopo.mondi@ideasonboard.com,
+ laurent.pinchart@ideasonboard.com, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, michael.riesch@collabora.com,
+ anthony.mcgivern@arm.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, imx@lists.linux.dev, ai.luthra@ideasonboard.com,
+ paul.elder@ideasonboard.com, geert@linux-m68k.org
+References: <20260511132629.1300868-1-antoine.bouyer@nxp.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20260511132629.1300868-1-antoine.bouyer@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 14AE4541B29
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[uniontech.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[uniontech.com:s=onoh2408];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_NEQ_ENVFROM(0.00)[raoxu@uniontech.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-61605-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	DKIM_TRACE(0.00)[uniontech.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	NEURAL_HAM(-0.00)[-0.999];
-	TO_DN_NONE(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco,f3f24bbe63f3f6db9f44];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_FROM(0.00)[bounces-61606-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,syzkaller.appspot.com:url,appspotmail.com:email,uniontech.com:email,uniontech.com:mid,uniontech.com:dkim]
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-dvb_usbv2_init() powers the device on before registering the I2C adapter
-and DVB resources, but it ignores failures from the power control
-callback.
+On 11/05/2026 15:26, Antoine Bouyer wrote:
+> 
+> ---
+> link to v1: https://lore.kernel.org/linux-media/20260413160331.2611829-1-antoine.bouyer@nxp.com/
+> Diff compared to v1:
+>  * Fix dt_binding_check errors reported by Rob's bot.
+>  * Remove extensible stats introduction, and use v4l2_isp patches
+>    from Jacopo's series instead.
+>  * Use the common v4l2_isp definitions for stats and params in neoisp.
+>    Replace all occurences of v4l2_isp_params_* and v4l2_isp_stats_* by
+>    the common structs and helpers.
+>  * Use the new v4l2_isp helpers for statistics buffer handling.
+>  * Apply comment from Geert in Kconfig.
+>  * Fix some typo in the neoisp documentation.
+>  * Remove `neoisp_feat_ctrl_s` from uapi (used only in legacy format
+>    which is not supported anymore).
+> 
+> link to RFC: https://lore.kernel.org/linux-media/20260123080938.3367348-1-antoine.bouyer@nxp.com/
+> Diff compared to RFC:
 
-For CE6230, the power control callback selects interface 1 alternate
-setting 1 with usb_set_interface(). A malformed device may not provide
-that alternate setting, causing the initial power-on request to fail.
-Probe nevertheless continues and may publish the I2C adapter before
-failing later during adapter/frontend initialization.
+This was v1. You even called it v1. This is v3. When you mess the
+numbers you make review unnecessary difficult.
 
-The later failure path then synchronously unregisters the I2C adapter
-while USB probe locks are still held. Userspace may already have opened
-the newly published i2c-dev node, holding an adapter reference and making
-i2c_del_adapter() wait indefinitely in the probe path.
-
-Abort initialization as soon as the initial power-on step fails. This
-keeps malformed devices from exposing partially initialized I2C/DVB
-resources.
-
-Fixes: c79b339f9292 ("[media] dvb_usb_v2: copy current dvb_usb as a starting point")
-Reported-by: syzbot+f3f24bbe63f3f6db9f44@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/all/683a9833.a70a0220.1a6ae.000a.GAE@google.com/
-Tested-by: syzbot+f3f24bbe63f3f6db9f44@syzkaller.appspotmail.com
-Link: https://syzkaller.appspot.com/bug?extid=f3f24bbe63f3f6db9f44
-Signed-off-by: Xu Rao <raoxu@uniontech.com>
----
- drivers/media/usb/dvb-usb-v2/dvb_usb_core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-index bd86d250433d..5635394e5b7d 100644
---- a/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-+++ b/drivers/media/usb/dvb-usb-v2/dvb_usb_core.c
-@@ -852,7 +852,9 @@ static int dvb_usbv2_init(struct dvb_usb_device *d)
- 	int ret;
- 	dev_dbg(&d->udev->dev, "%s:\n", __func__);
-
--	dvb_usbv2_device_power_ctrl(d, 1);
-+	ret = dvb_usbv2_device_power_ctrl(d, 1);
-+	if (ret < 0)
-+		goto err;
-
- 	if (d->props->read_config) {
- 		ret = d->props->read_config(d);
---
-2.43.0
+Best regards,
+Krzysztof
 
