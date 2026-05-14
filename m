@@ -1,384 +1,341 @@
-Return-Path: <linux-media+bounces-61596-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61597-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MMihEHKhBWo1ZAIAu9opvQ
-	(envelope-from <linux-media+bounces-61596-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 12:18:26 +0200
+	id 8A8VNk+hBWo1ZAIAu9opvQ
+	(envelope-from <linux-media+bounces-61597-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 12:17:51 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D355404B6
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 12:18:25 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ABBB5404AD
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 12:17:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 47B4F3022F81
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 10:16:15 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A840830461B6
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 10:17:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 470283B1006;
-	Thu, 14 May 2026 10:16:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA585388E7D;
+	Thu, 14 May 2026 10:16:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Sqngusou"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FA3rDR25"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93737390219;
-	Thu, 14 May 2026 10:16:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11003AFAE7
+	for <linux-media@vger.kernel.org>; Thu, 14 May 2026 10:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778753773; cv=none; b=Vl7TRHkXcKjlO6RHi+HMqD2OZ5AsapL8B4OSSJDTthv2uxdnsJczWM0ggWNWNUevdKskGaw90D31BZSumZFM64GARJqVSTKjOy/TbGt0d8cwUYSLFRTRGHrtMwSlfbE32jW7rEqJpXV0BUC8MANqTzNq66ZJ1jC1QihfEpDNNj4=
+	t=1778753818; cv=none; b=HaYwpvzx9ERSTXjYBCor+RYmcV3XeHV1iRTdRVYdaN8fDpyZ8BQ2gW+++UYuT0vH0CTZRp6CtX98lxtmmTS8G3KUlk+DSrlBOf7OC4Tcc1ueO41y7bBDSsbp1EqTVqLINcbc3m6/EY+tl7JpuFXD7OZZJO++FSu7sCdXXk59b4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778753773; c=relaxed/simple;
-	bh=E9ry05Rq6EIFB/4oeFnN5Wx6Z5D2YCZaoRisb0V93Ug=;
+	s=arc-20240116; t=1778753818; c=relaxed/simple;
+	bh=X/m7LVztMdMruadQZbopThINhf4KPhgzjhG3DHCY91E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i7pavYI31+g1JzgixspmH+HAkHXR5qoLooYjkH3GXriNf+t3X5Eg+ve8Co77WdTjyV9c9DfKHGJ3dEqPIxVAoetJcj4k0KOG1+fgXDhwhifM+Ixkqmp1cqqroSLb114bRbKD1OBZDgQ00YdVhq1y52B+3g7KHrKECtDZHdbPG/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Sqngusou; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778753772; x=1810289772;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=E9ry05Rq6EIFB/4oeFnN5Wx6Z5D2YCZaoRisb0V93Ug=;
-  b=Sqngusou1pzKGclP0L4ZeVTnHmoaQm3+3JdKl3lL+jDIQ6txOp3EEYCx
-   YDfjtw5tpVw+XBy3tnj9GC3SaAhkAbFbexrKtLGzff6D8iaTacR6O9DMr
-   lkn5KqoMpNR1k8xpVUKo7tYkvw7tFs2NUQqyfl0+Il6y+NkBrch2rSG0V
-   esXXLbazyp4ztKC7rXOp+usTGnSYhPkKuH/ffOMsHWHH6qMY4NGQo+ECC
-   yicI0aEydZeKHOSS/AHcdqZbTiRCGvBF6JRambszJmZ1FD0hHZGCJuug3
-   Vj/HBInORLWrpoh2Vew8P063/iAejgmFs+v7NKK1GmjGiq6tPZyTOPekh
-   g==;
-X-CSE-ConnectionGUID: g/nJNFqjRMWcjCz69O0l2w==
-X-CSE-MsgGUID: treF6zwiTTOKbjqRmtzD/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11785"; a="97264382"
-X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
-   d="scan'208";a="97264382"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 May 2026 03:16:11 -0700
-X-CSE-ConnectionGUID: GAe5zrqgQaCNFXE2VoXVHQ==
-X-CSE-MsgGUID: 6KZfNXkNSWaAnJPHaKVxfg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,234,1770624000"; 
-   d="scan'208";a="238243091"
-Received: from lkp-server01.sh.intel.com (HELO dca79079c3eb) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 14 May 2026 03:16:09 -0700
-Received: from kbuild by dca79079c3eb with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wNT6s-000000006L1-0dLf;
-	Thu, 14 May 2026 10:16:06 +0000
-Date: Thu, 14 May 2026 18:15:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Ben Hoff <hoff.benjamin.k@gmail.com>, linux-media@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	mchehab@kernel.org, hverkuil+cisco@kernel.org,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v6] media: pci: add AVMatrix HWS capture driver
-Message-ID: <202605141850.c6zw6nTk-lkp@intel.com>
-References: <20260506192618.35384-1-hoff.benjamin.k@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kgb9wx8XVAU5HbotpoMlHPjNgb7kiF89/WPjPQrU2dI/ThXCGSNTlheoj5AD21rJNjJYBr8jNgMtvhcMCoMctvHmb6vLM2gEGw+3iOMFv4TqBurJjt7XTsKfNFw57kT0ME5X7UaJW4gXNPPY9hzNt2VnE6RJA5BrJ4jr8z98rb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FA3rDR25; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21B5856D;
+	Thu, 14 May 2026 12:16:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1778753805;
+	bh=X/m7LVztMdMruadQZbopThINhf4KPhgzjhG3DHCY91E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FA3rDR25G6/OXj/GEe57UVBNJPeou0kq8DD5h62oCxZtHJsNclaGHcITAHppETp0b
+	 A7RATk0i9Pno/7bQ9kHjfDI3KDcXXsY8tXnTEkRRa4Z5BntVc4txnxBFKNEk/XYaXp
+	 +yHTPds2OB5U5ByqEKBGAo27fZC3gozakFWJ96HQ=
+Date: Thu, 14 May 2026 12:16:51 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Jai Luthra <jai.luthra@ideasonboard.com>, 
+	Mehdi Djait <mehdi.djait@linux.intel.com>
+Subject: Re: [PATCH 04/17] media: v4l2-subdev: Allocate frame descriptors
+ based on the need
+Message-ID: <agWfFzXX9a5tcd1i@zed>
+References: <20260513104358.2252605-1-sakari.ailus@linux.intel.com>
+ <20260513104358.2252605-5-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260506192618.35384-1-hoff.benjamin.k@gmail.com>
-X-Rspamd-Queue-Id: 83D355404B6
+In-Reply-To: <20260513104358.2252605-5-sakari.ailus@linux.intel.com>
+X-Rspamd-Queue-Id: 5ABBB5404AD
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-61596-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-61597-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,01.org:url]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:dkim]
 X-Rspamd-Action: no action
 
-Hi Ben,
+Hi Sakari
 
-kernel test robot noticed the following build warnings:
+On Wed, May 13, 2026 at 01:43:45PM +0300, Sakari Ailus wrote:
+> Frame descriptors entries require a small amount of memory per entry (20
+> bytes), but if the number of entries in a frame descriptor is large, an
+> unreasonably large amount of memory would need to be allocated in the
+> stack. Therefore the number of entries has been limited to 8.
+>
+> Support larger frame descriptors by allocating as much memory as required.
+> The get_frame_desc() op can now set the num_entries to a number larger
+> than V4L2_FRAME_BUS_ENTRY_MAX and return -ENOSPC. The caller,
+> v4l2_subdev_get_frame_desc(), will then allocate memory for that amount of
+> memory and call the get_frame_desc() op again.
+>
+> The caller is also responsible for releasing the allocated memory by
+> calling v4l2_subdev_free_frame_desc().
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 49 +++++++++++++++++++++------
+>  include/media/v4l2-subdev.h           | 44 +++++++++++++++++++-----
+>  2 files changed, 74 insertions(+), 19 deletions(-)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index b8acce8f9c33..012ff6fb2988 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -63,10 +63,6 @@ static bool v4l2_subdev_enable_streams_api;
+>  /*
+>   * Maximum stream ID is 63 for now, as we use u64 bitmask to represent a set
+>   * of streams.
+> - *
+> - * Note that V4L2_FRAME_DESC_ENTRY_MAX is related: V4L2_FRAME_DESC_ENTRY_MAX
+> - * restricts the total number of streams in a pad, although the stream ID is
+> - * not restricted.
+>   */
+>  #define V4L2_SUBDEV_MAX_STREAM_ID 63
+>
+> @@ -354,6 +350,7 @@ static int call_set_frame_interval(struct v4l2_subdev *sd,
+>  static int call_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+>  			       struct v4l2_mbus_frame_desc *fd)
+>  {
+> +	unsigned int type;
+>  	unsigned int i;
+>  	int ret;
+>
+> @@ -362,16 +359,38 @@ static int call_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+>  		return -EOPNOTSUPP;
+>  #endif
+>
+> +	type = fd->type;
+>  	memset(fd, 0, sizeof(*fd));
+> +	if (!fd->entry) {
+> +		fd->entry = fd->entry_mem;
+> +		fd->len_entries = ARRAY_SIZE(fd->entry_mem);
+> +	}
+>
+>  	ret = sd->ops->pad->get_frame_desc(sd, pad, fd);
+> +	if (ret == -ENOSPC) {
+> +		if (fd->num_entries > V4L2_FRAME_DESC_ENTRY_PREALLOC &&
+> +		    fd->num_entries < V4L2_FRAME_DESC_ENTRY_MAX) {
 
-[auto build test WARNING on 74fe02ce122a6103f207d29fafc8b3a53de6abaf]
+nit: you can invert the condition and save one indentation level
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ben-Hoff/media-pci-add-AVMatrix-HWS-capture-driver/20260514-065339
-base:   74fe02ce122a6103f207d29fafc8b3a53de6abaf
-patch link:    https://lore.kernel.org/r/20260506192618.35384-1-hoff.benjamin.k%40gmail.com
-patch subject: [PATCH v6] media: pci: add AVMatrix HWS capture driver
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20260514/202605141850.c6zw6nTk-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260514/202605141850.c6zw6nTk-lkp@intel.com/reproduce)
+                if (fd->num_entries <= V4L2_FRAME_DESC_ENTRY_PREALLOC ||
+                    fd->num_entries >= V4L2_FRAME_DESC_ENTRY_MAX)
+                    return -E2BIG;
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605141850.c6zw6nTk-lkp@intel.com/
+> +			fd->entry = kzalloc_objs(*fd->entry, fd->num_entries,
+> +						 GFP_KERNEL);
+> +			if (!fd->entry)
+> +				return -ENOMEM;
+> +
+> +			fd->len_entries = fd->num_entries;
+> +			fd->num_entries = 0;
+> +
+> +			ret = sd->ops->pad->get_frame_desc(sd, pad, fd);
+> +		} else {
+> +			return -E2BIG;
+> +		}
+> +	}
+>  	if (ret)
+>  		return ret;
+>
+>  	dev_dbg(sd->dev, "Frame descriptor on pad %u, type %s\n", pad,
+> -		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL ? "parallel" :
+> -		fd->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2 ? "CSI-2" :
+> -		"unknown");
+> +		type == V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL ? "parallel" :
+> +		type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2 ? "CSI-2" : "unknown");
+> +
+> +	fd->type = type;
 
-All warnings (new ones prefixed by >>):
+If we end up calling d->ops->pad->get_frame_desc() don't we overwrite
+the returned type ?
 
->> drivers/media/pci/hws/hws_v4l2_ioctl.c:280:5: warning: no previous prototype for 'hws_vidioc_query_dv_timings' [-Wmissing-prototypes]
-     280 | int hws_vidioc_query_dv_timings(struct file *file, void *fh,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/hws/hws_v4l2_ioctl.c: In function 'hws_vidioc_query_dv_timings':
-   drivers/media/pci/hws/hws_v4l2_ioctl.c:286:25: warning: variable 'live_ok' set but not used [-Wunused-but-set-variable]
-     286 |         bool interlace, live_ok;
-         |                         ^~~~~~~
-   drivers/media/pci/hws/hws_v4l2_ioctl.c: At top level:
->> drivers/media/pci/hws/hws_v4l2_ioctl.c:309:5: warning: no previous prototype for 'hws_vidioc_enum_dv_timings' [-Wmissing-prototypes]
-     309 | int hws_vidioc_enum_dv_timings(struct file *file, void *fh,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/pci/hws/hws_v4l2_ioctl.c:326:5: warning: no previous prototype for 'hws_vidioc_g_dv_timings' [-Wmissing-prototypes]
-     326 | int hws_vidioc_g_dv_timings(struct file *file, void *fh,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/pci/hws/hws_v4l2_ioctl.c:352:5: warning: no previous prototype for 'hws_vidioc_s_dv_timings' [-Wmissing-prototypes]
-     352 | int hws_vidioc_s_dv_timings(struct file *file, void *fh,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/pci/hws/hws_v4l2_ioctl.c:412:5: warning: no previous prototype for 'hws_vidioc_dv_timings_cap' [-Wmissing-prototypes]
-     412 | int hws_vidioc_dv_timings_cap(struct file *file, void *fh,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/pci/hws/hws_v4l2_ioctl.c:504:5: warning: no previous prototype for 'hws_vidioc_querycap' [-Wmissing-prototypes]
-     504 | int hws_vidioc_querycap(struct file *file, void *priv, struct v4l2_capability *cap)
-         |     ^~~~~~~~~~~~~~~~~~~
->> drivers/media/pci/hws/hws_v4l2_ioctl.c:520:5: warning: no previous prototype for 'hws_vidioc_enum_fmt_vid_cap' [-Wmissing-prototypes]
-     520 | int hws_vidioc_enum_fmt_vid_cap(struct file *file, void *priv_fh, struct v4l2_fmtdesc *f)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/pci/hws/hws_v4l2_ioctl.c:529:5: warning: no previous prototype for 'hws_vidioc_g_fmt_vid_cap' [-Wmissing-prototypes]
-     529 | int hws_vidioc_g_fmt_vid_cap(struct file *file, void *fh, struct v4l2_format *fmt)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/pci/hws/hws_v4l2_ioctl.c:556:5: warning: no previous prototype for 'hws_vidioc_try_fmt_vid_cap' [-Wmissing-prototypes]
-     556 | int hws_vidioc_try_fmt_vid_cap(struct file *file, void *fh, struct v4l2_format *f)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/pci/hws/hws_v4l2_ioctl.c:633:5: warning: no previous prototype for 'hws_vidioc_s_fmt_vid_cap' [-Wmissing-prototypes]
-     633 | int hws_vidioc_s_fmt_vid_cap(struct file *file, void *priv, struct v4l2_format *f)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/pci/hws/hws_v4l2_ioctl.c:690:5: warning: no previous prototype for 'hws_vidioc_g_parm' [-Wmissing-prototypes]
-     690 | int hws_vidioc_g_parm(struct file *file, void *fh, struct v4l2_streamparm *param)
-         |     ^~~~~~~~~~~~~~~~~
->> drivers/media/pci/hws/hws_v4l2_ioctl.c:711:5: warning: no previous prototype for 'hws_vidioc_enum_input' [-Wmissing-prototypes]
-     711 | int hws_vidioc_enum_input(struct file *file, void *priv,
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> drivers/media/pci/hws/hws_v4l2_ioctl.c:724:5: warning: no previous prototype for 'hws_vidioc_g_input' [-Wmissing-prototypes]
-     724 | int hws_vidioc_g_input(struct file *file, void *priv, unsigned int *index)
-         |     ^~~~~~~~~~~~~~~~~~
->> drivers/media/pci/hws/hws_v4l2_ioctl.c:730:5: warning: no previous prototype for 'hws_vidioc_s_input' [-Wmissing-prototypes]
-     730 | int hws_vidioc_s_input(struct file *file, void *priv, unsigned int i)
-         |     ^~~~~~~~~~~~~~~~~~
->> drivers/media/pci/hws/hws_v4l2_ioctl.c:735:5: warning: no previous prototype for 'hws_vidioc_s_parm' [-Wmissing-prototypes]
-     735 | int hws_vidioc_s_parm(struct file *file, void *fh, struct v4l2_streamparm *param)
-         |     ^~~~~~~~~~~~~~~~~
+>
+>  	for (i = 0; i < fd->num_entries; i++) {
+>  		struct v4l2_mbus_frame_desc_entry *entry = &fd->entry[i];
+> @@ -1086,9 +1105,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>  		 * descriptor accordingly, with up to one entry per route. Until
+>  		 * the frame descriptors entries get allocated dynamically,
+>  		 * limit the number of active routes to
+> -		 * V4L2_FRAME_DESC_ENTRY_MAX.
+> +		 * V4L2_FRAME_DESC_ENTRY_PREALLOC.
+>  		 */
+> -		if (num_active_routes > V4L2_FRAME_DESC_ENTRY_MAX)
+> +		if (num_active_routes > V4L2_FRAME_DESC_ENTRY_PREALLOC)
+>  			return -E2BIG;
+>
+>  		/*
+> @@ -2638,7 +2657,7 @@ int __v4l2_subdev_get_frame_desc_passthrough(struct v4l2_subdev *sd,
+>  				return -EPIPE;
+>  			}
+>
+> -			if (fd->num_entries >= V4L2_FRAME_DESC_ENTRY_MAX) {
+> +			if (fd->num_entries >= V4L2_FRAME_DESC_ENTRY_PREALLOC) {
+>  				dev_dbg(dev, "Frame desc entry limit reached\n");
+>  				return -E2BIG;
+>  			}
+> @@ -2730,6 +2749,16 @@ int v4l2_subdev_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_subdev_get_frame_desc);
+>
+> +void v4l2_subdev_free_frame_desc(struct v4l2_mbus_frame_desc *desc)
+> +{
+
+As this might be used as a __cleanup() should we check if desc is
+valid ?
+
+> +	if (desc->entry != desc->entry_mem)
+> +		kfree(desc->entry);
+> +
+> +	desc->entry = NULL;
+> +	desc->len_entries = desc->num_entries = 0;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_subdev_free_frame_desc);
+> +
+>  #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
+>
+>  #endif /* CONFIG_MEDIA_CONTROLLER */
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index c9e74566c85a..bd97510c7024 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -365,11 +365,13 @@ struct v4l2_mbus_frame_desc_entry {
+>  	} bus;
+>  };
+>
+> - /*
+> -  * If this number is too small, it should be dropped altogether and the
+> -  * API switched to a dynamic number of frame descriptor entries.
+> -  */
+> -#define V4L2_FRAME_DESC_ENTRY_MAX	8
+> +/* Size of the statically allocated frame descriptor array. */
+> +#define V4L2_FRAME_DESC_ENTRY_PREALLOC	8
+> +/*
+> + * Maximum number of dynamically allocated frame descriptors. Note that
+> + * V4L2_SUBDEV_MAX_STREAM_ID is related to this limit as well.
+> + */
+> +#define V4L2_FRAME_DESC_ENTRY_MAX	64
+>
+>  /**
+>   * enum v4l2_mbus_frame_desc_type - media bus frame description type
+> @@ -392,13 +394,17 @@ enum v4l2_mbus_frame_desc_type {
+>  /**
+>   * struct v4l2_mbus_frame_desc - media bus data frame description
+>   * @type: type of the bus (enum v4l2_mbus_frame_desc_type)
+> - * @entry: frame descriptors array
+> - * @num_entries: number of entries in @entry array
+> + * @entry_mem: memory for the frame descriptors (@entry)
+> + * @entry: pointer to the frame descriptors
+> + * @num_entries: number of entries in @entry
+> + * @len_entries: number of entries allocated for @entry
+>   */
+>  struct v4l2_mbus_frame_desc {
+>  	enum v4l2_mbus_frame_desc_type type;
+> -	struct v4l2_mbus_frame_desc_entry entry[V4L2_FRAME_DESC_ENTRY_MAX];
+> +	struct v4l2_mbus_frame_desc_entry entry_mem[V4L2_FRAME_DESC_ENTRY_PREALLOC];
+> +	struct v4l2_mbus_frame_desc_entry *entry;
+>  	unsigned short num_entries;
+> +	unsigned short len_entries;
+>  };
+>
+>  /**
+> @@ -780,7 +786,13 @@ struct v4l2_subdev_state {
+>   * @link_validate: used by the media controller code to check if the links
+>   *		   that belongs to a pipeline can be used for stream.
+>   *
+> - * @get_frame_desc: get the current low level media bus frame parameters.
+> + * @get_frame_desc: get the current low level media bus frame parameters. The
+> + *		    callback is required to update the num_entries field to the
+> + *		    total number of entries in the frame descriptor. The
+> + *		    callback shall fill the first entries array up to
+> + *		    len_entries, which signifies the number of entries
+> + *		    allocated. If num_entries exceeds len_entries, the callback
+> + *		    shall return -ENOSPC.
+>   *
+>   * @set_frame_desc: set the low level media bus frame parameters, @fd array
+>   *                  may be adjusted by the subdev driver to device capabilities.
+> @@ -1793,11 +1805,25 @@ int v4l2_subdev_get_frame_desc_passthrough(struct v4l2_subdev *sd,
+>   *
+>   * The caller is required to set @desc->type to the expected bus type.
+>   *
+> + * The entries in the frame descriptor are allocated based on the need. The
+> + * caller is required to release the memory of the frame descriptor entries for
+
+Is it unconditionally true ? If fd->entry is not initialized aren't we
+deflecting to the pre-allocated entries in call_get_frame_desc() ?
+
+	if (!fd->entry) {
+		fd->entry = fd->entry_mem;
+		fd->len_entries = ARRAY_SIZE(fd->entry_mem);
+	}
+
+v4l2_subdev_free_frame_desc() shouldn't be called in this case, right ?
 
 
-vim +/hws_vidioc_query_dv_timings +280 drivers/media/pci/hws/hws_v4l2_ioctl.c
-
-   275	
-   276	/* Query the *current detected* DV timings on the input.
-   277	 * If you have a real hardware detector, call it here; otherwise we
-   278	 * derive from the cached pix state and map to the closest supported DV mode.
-   279	 */
- > 280	int hws_vidioc_query_dv_timings(struct file *file, void *fh,
-   281					struct v4l2_dv_timings *timings)
-   282	{
-   283		struct hws_video *vid = video_drvdata(file);
-   284		const struct hws_dv_mode *m;
-   285		u32 w, h;
-   286		bool interlace, live_ok;
-   287	
-   288		if (!timings)
-   289			return -EINVAL;
-   290	
-   291		w = vid->pix.width;
-   292		h = vid->pix.height;
-   293		interlace = vid->pix.interlaced;
-   294		live_ok = hws_get_live_dv_geometry(vid, &w, &h, &interlace);
-   295		/* Map current (live if available, otherwise cached) WxH/interlace
-   296		 * to one of our supported modes.
-   297		 */
-   298		m = hws_find_dv_by_wh(w, h, !!interlace);
-   299		if (!m)
-   300			return -ENOLINK;
-   301	
-   302		*timings = m->timings;
-   303		vid->cur_dv_timings = m->timings;
-   304		vid->current_fps = m->refresh_hz;
-   305		return 0;
-   306	}
-   307	
-   308	/* Enumerate the Nth supported DV timings from our static table. */
- > 309	int hws_vidioc_enum_dv_timings(struct file *file, void *fh,
-   310				       struct v4l2_enum_dv_timings *edv)
-   311	{
-   312		if (!edv)
-   313			return -EINVAL;
-   314	
-   315		if (edv->pad)
-   316			return -EINVAL;
-   317	
-   318		if (edv->index >= hws_dv_modes_cnt)
-   319			return -EINVAL;
-   320	
-   321		edv->timings = hws_dv_modes[edv->index].timings;
-   322		return 0;
-   323	}
-   324	
-   325	/* Get the *currently configured* DV timings. */
- > 326	int hws_vidioc_g_dv_timings(struct file *file, void *fh,
-   327				    struct v4l2_dv_timings *timings)
-   328	{
-   329		struct hws_video *vid = video_drvdata(file);
-   330	
-   331		if (!timings)
-   332			return -EINVAL;
-   333	
-   334		*timings = vid->cur_dv_timings;
-   335		return 0;
-   336	}
-   337	
-   338	static inline void hws_set_colorimetry_state(struct hws_pix_state *p)
-   339	{
-   340		bool sd = p->height <= 576;
-   341	
-   342		p->colorspace   = sd ? V4L2_COLORSPACE_SMPTE170M : V4L2_COLORSPACE_REC709;
-   343		p->ycbcr_enc    = V4L2_YCBCR_ENC_DEFAULT;
-   344		p->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-   345		p->xfer_func    = V4L2_XFER_FUNC_DEFAULT;
-   346	}
-   347	
-   348	/* Set DV timings: must match one of our supported modes.
-   349	 * If buffers are queued and this implies a size change, we reject with -EBUSY.
-   350	 * Otherwise we update pix state and (optionally) reprogram the HW.
-   351	 */
- > 352	int hws_vidioc_s_dv_timings(struct file *file, void *fh,
-   353				    struct v4l2_dv_timings *timings)
-   354	{
-   355		struct hws_video *vid = video_drvdata(file);
-   356		const struct hws_dv_mode *m;
-   357		const struct v4l2_bt_timings *bt;
-   358		u32 new_w, new_h;
-   359		bool interlaced;
-   360		int ret = 0;
-   361		unsigned long was_busy;
-   362	
-   363		if (!timings)
-   364			return -EINVAL;
-   365	
-   366		m = hws_match_supported_dv(timings);
-   367		if (!m)
-   368			return -EINVAL;
-   369	
-   370		bt = &m->timings.bt;
-   371		if (bt->interlaced)
-   372			return -EINVAL; /* only progressive modes are advertised */
-   373		new_w = bt->width;
-   374		new_h = bt->height;
-   375		interlaced = false;
-   376	
-   377		lockdep_assert_held(&vid->state_lock);
-   378	
-   379		/* If vb2 has active buffers and size would change, reject. */
-   380		was_busy = vb2_is_busy(&vid->buffer_queue);
-   381		if (was_busy &&
-   382		    (new_w != vid->pix.width || new_h != vid->pix.height ||
-   383		     interlaced != vid->pix.interlaced)) {
-   384			ret = -EBUSY;
-   385			return ret;
-   386		}
-   387	
-   388		/* Update software pixel state (and recalc sizes) */
-   389		vid->pix.width      = new_w;
-   390		vid->pix.height     = new_h;
-   391		vid->pix.field      = interlaced ? V4L2_FIELD_INTERLACED
-   392						 : V4L2_FIELD_NONE;
-   393		vid->pix.interlaced = interlaced;
-   394		vid->pix.fourcc     = V4L2_PIX_FMT_YUYV;
-   395	
-   396		hws_set_colorimetry_state(&vid->pix);
-   397	
-   398		/* Recompute stride/sizeimage/half_size using your helper */
-   399		vid->pix.bytesperline = hws_calc_bpl_yuyv(new_w);
-   400		vid->pix.sizeimage    = hws_calc_size_yuyv(new_w, new_h);
-   401		vid->pix.half_size    = hws_calc_half_size(vid->pix.sizeimage);
-   402		vid->cur_dv_timings   = m->timings;
-   403		vid->current_fps      = m->refresh_hz;
-   404		if (!was_busy)
-   405			vid->alloc_sizeimage = vid->pix.sizeimage;
-   406		return ret;
-   407	}
-   408	
-   409	/* Report DV timings capability: advertise BT.656/1120 with
-   410	 * the min/max WxH derived from our table and basic progressive support.
-   411	 */
- > 412	int hws_vidioc_dv_timings_cap(struct file *file, void *fh,
-   413				      struct v4l2_dv_timings_cap *cap)
-   414	{
-   415		u32 min_w = ~0U, min_h = ~0U;
-   416		u32 max_w = 0,       max_h = 0;
-   417		size_t i, n = 0;
-   418	
-   419		if (!cap)
-   420			return -EINVAL;
-   421	
-   422		memset(cap, 0, sizeof(*cap));
-   423		cap->type = V4L2_DV_BT_656_1120;
-   424	
-   425		for (i = 0; i < ARRAY_SIZE(hws_dv_modes); i++) {
-   426			const struct v4l2_bt_timings *bt = &hws_dv_modes[i].timings.bt;
-   427	
-   428			if (hws_dv_modes[i].timings.type != V4L2_DV_BT_656_1120)
-   429				continue;
-   430			n++;
-   431	
-   432			if (bt->width  < min_w)
-   433				min_w = bt->width;
-   434			if (bt->height < min_h)
-   435				min_h = bt->height;
-   436			if (bt->width  > max_w)
-   437				max_w = bt->width;
-   438			if (bt->height > max_h)
-   439				max_h = bt->height;
-   440		}
-   441	
-   442		/* If the table was empty, fail gracefully. */
-   443		if (!n || min_w == U32_MAX)
-   444			return -ENODATA;
-   445	
-   446		cap->bt.min_width  = min_w;
-   447		cap->bt.max_width  = max_w;
-   448		cap->bt.min_height = min_h;
-   449		cap->bt.max_height = max_h;
-   450	
-   451		/* We support both CEA-861- and VESA-style modes in the list. */
-   452		cap->bt.standards =
-   453			V4L2_DV_BT_STD_CEA861 | V4L2_DV_BT_STD_DMT | V4L2_DV_BT_STD_CVT;
-   454	
-   455		/* Progressive only, unless your table includes interlaced entries. */
-   456		cap->bt.capabilities = V4L2_DV_BT_CAP_PROGRESSIVE;
-   457	
-   458		/* Leave pixelclock/porch limits unconstrained (0) for now. */
-   459		return 0;
-   460	}
-   461	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> + * each frame descriptor obtained by calling this function using
+> + * v4l2_subdev_free_frame_desc().
+> + *
+>   * Return: %0 on success or negative error code on failure.
+>   */
+>  int v4l2_subdev_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+>  			       struct v4l2_mbus_frame_desc *desc);
+>
+> +/**
+> + * v4l2_subdev_free_frame_desc() - Release the memory of a frame descriptor
+> + * @desc: A pointer to a frame descriptor
+> + *
+> + * Release the frame descriptor entries in a frame descriptor. The number of
+> + * entries in the descriptor are set to 0 again.
+> + */
+> +void v4l2_subdev_free_frame_desc(struct v4l2_mbus_frame_desc *desc);
+> +
+>  #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
+>
+>  #endif /* CONFIG_MEDIA_CONTROLLER */
+> --
+> 2.47.3
+>
+>
 
