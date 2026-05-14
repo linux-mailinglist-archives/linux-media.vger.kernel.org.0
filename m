@@ -1,273 +1,193 @@
-Return-Path: <linux-media+bounces-61617-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61618-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ULTZOgUMBmqleQIAu9opvQ
-	(envelope-from <linux-media+bounces-61617-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 19:53:09 +0200
+	id WLAdOVcTBmpQegIAu9opvQ
+	(envelope-from <linux-media+bounces-61618-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 20:24:23 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC075458F6
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 19:53:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7F3545D8D
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 20:24:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B839C3013888
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 17:53:02 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 36A2B3036489
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2026 18:24:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5598239769E;
-	Thu, 14 May 2026 17:52:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D788D2D836D;
+	Thu, 14 May 2026 18:24:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b="uID4L/RT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GEQ9FWOd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F9CC39022E
-	for <linux-media@vger.kernel.org>; Thu, 14 May 2026 17:52:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=67.231.145.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778781176; cv=none; b=mzI/fOxUuhy13mlQ9LEDmV8nW+ZULrJ4RqK/HKqbOyZTucx8jkWV7e9Bs6ywr55JVf/DalFQ1MWjogt/h0pKm3DWTyjIDdN80vyVt/g+lucsfETJmVWQjIgTDPUOhW+KtlQqMF2qjCaIt7PArGfPHtKNX74TTTZLBAZnnb73BYk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778781176; c=relaxed/simple;
-	bh=6Lsiopp+gOlTgIhuJUtI3u2C7QdWhtAwDrbE0I7bAro=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hAFXmx0uEgoDXsDujH/CTM6tS4qYhbapb18FperEtKUscB0hLUAVRM/YNSIHTw4aS0Gvt2UaRCHHDSZRR8uvcOmEt094xcO0N/6NJ2QFPXJdOw+J/bT/xJDGYaq4tFZJ9riDLRniJzJT5x3+3OvYAQto9Gt5/5wOSezLHDJoYd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com; spf=pass smtp.mailfrom=meta.com; dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.b=uID4L/RT; arc=none smtp.client-ip=67.231.145.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
-Received: from pps.filterd (m0044012.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64EFYx831742914
-	for <linux-media@vger.kernel.org>; Thu, 14 May 2026 10:52:54 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=s2048-2025-q2;
-	 bh=i7CC6BqBBL9skWarpnUsM1vRDVhAGp/lgIIkSrH6DrI=; b=uID4L/RTFdpM
-	ym5kuxwAZGXnMvm5RC/hAqjahIGR4X97DZNauwiy3+2qdGeLwon1A2giOFCwt250
-	p2DDOFCJbt9Xw927M+aXcmNFZurvTU6m7SIy/PDM/fiVkf7NqG6TpGzja1cpG9MB
-	oTwuC4fhNj9UVZMTydsFMZmhDJ/rrspbDs+/u3Ko5yH+4iTRpMG6q0zdA+yDi3Md
-	tcjYwnReCHshyKmsj+AJkYVjYTAYGsJnOGhPIjZevNDHjlHO3kIJTYdOvoyyMEyt
-	xMAEBJM041u78SHl6dC35/Cnr/q8/tjegsMQIjHnAXNRAxTU9Av7XNoZtpSdIjkC
-	VOZpBcrPXw==
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com [209.85.221.69])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4e3nvqscva-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 14 May 2026 10:52:54 -0700 (PDT)
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-43efc93e4f6so5375082f8f.3
-        for <linux-media@vger.kernel.org>; Thu, 14 May 2026 10:52:54 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C874A392C4F
+	for <linux-media@vger.kernel.org>; Thu, 14 May 2026 18:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778783050; cv=pass; b=sKVmzW1e1fq6lbWLrAOCT5yezJeGVS/11WtwGMXk6KINbBfX+xGYAEhV6mAYdPhrQxGumWJeHFVJd//8c0jGjI3VD2EBdFJmAkyyLEIfdng441akkQpLQ0AX3xaeNN90vz08mh6nZ4C/kfQcnnmq6C/sPhxpsZZ/KidCaPGbtXg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778783050; c=relaxed/simple;
+	bh=9veWAcJ/+PFKL41Z/d8kjAk/DdanyTvoGd/4QrH+tAc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tL8fQsKcM7B1VKP3j/QTXxRSEzCXRSCbGt9Z5Fq8FowAI0xR+hy0yWoD+NTR7mQsiUsmXW0QwO7eecA8QIydWjOL1c85pn1AMY4P9kxpJhuPDnT/pBLAtSrEJQ1DyNkFeqDd4DpfYpvfxvy31w7jm7X/0lw73aZG0wVZTS8MU+0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GEQ9FWOd; arc=pass smtp.client-ip=74.125.224.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-65dbe04fc1bso7047871d50.1
+        for <linux-media@vger.kernel.org>; Thu, 14 May 2026 11:24:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778783047; cv=none;
+        d=google.com; s=arc-20240605;
+        b=D/RuF1gjfEHJs8g3qFgRZNfwUl+yjn3/bJijsP3wXJRTYFRoMoxaGiljFgrxFFjadG
+         iLHEVhZSMgUOBmGyi/aNfM+0mTFYifLAK8YeuNLB+DWiAn+U3/Swgq3X8yKcQd3CNiBY
+         Cm3VsvT2J0CkjlDMijD4Y611ipwpjDE3BoJo2rMmJRmA04LzavGQvyKYIQnpeykH54iM
+         JwjKiQce6WO5aK6lD0cmnMN5A1DOBqwSnQgmcc40rmGAtneXthv1gyL5TPpxI0HPfELd
+         yGMHJPUxOCdXnCLvdxPtNOSqVdXhEF7r/lHPbQKgQPaxAoIZzeWrCugkLqRV9WowCLq7
+         tz0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=PBR7fsLisJgUG1XY+0ZPkiM5XuKRe9INIYxO9y9PY40=;
+        fh=glIp+tMNtv2NniSJrfjPAT5UZVytmRYeBwpPzIpfp78=;
+        b=l0LCUzwuK2UCOyWREW1QDW8y9bPw2AbFMAOU4tSFNydOm4gchzW7LsAV7tS6Zu40Fu
+         vUpyvb6BXglW8ot06Kt4uPWX1QGHaapG4BBZ7J3JD+nsLk7DYqsZPHuW1rWxlVF/VeIu
+         ZXWR7+1Hg6+wDvyVXdz28w+43/6nQnGpl2zrGqAZaIm7pbv7yq89Y3F2eKQXWO/+xKBl
+         FH+VSxebAlEpVB+n3GQFf2PvFuDWxab9QdVGc2gMjSh5HSThkKDH9E2MDZODzeVDHHNf
+         n/CJ9l6uhZ6Bt5ynPlZw9o+201Zkwz3oPjppWvn4E2WvNOrX1DKKPK9D1uY8P9cOd1GU
+         /p1Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778783047; x=1779387847; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PBR7fsLisJgUG1XY+0ZPkiM5XuKRe9INIYxO9y9PY40=;
+        b=GEQ9FWOdEh1zoOmhdU6SaPFtqzYPHPXLU0l8JrwV5hd2GHOlhYWiF2POPBCTFKUtag
+         JNwsPblfG4HfjJDPIfklY/al2gJm24qTHsdWu8kVL7OI5k5Us85RR+wiYB7lQfAgU4NY
+         FnFa6FRtxd+8E8aEznb0UNoxmE8sJxPdNF2dxKm1LBkvKpLQfEYIJtwHkMujm+lC/yfW
+         w19yqA9iOXPe8IvzKFlo5X65Whribt/9PamVNFYCdFCwx+fCk80g0KzDMts0+wrtP/m3
+         1sHBE3OrbzjbhtA2q5MGIFo8uvaeNKSZHmY7KoUeBh6eB99krqYPRmHHu7hADh6XyLRi
+         a8NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778781173; x=1779385973;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=i7CC6BqBBL9skWarpnUsM1vRDVhAGp/lgIIkSrH6DrI=;
-        b=h1gDUGyZH0VrS0dVJwi/hHZXBFTYJQ7/t5wkahIqzFJCHfKx6ZI+lj8wr6gNglVHX1
-         sbtJ/V0XS0F9RUr/X5+lBOyVj5yEPXHKNvFToIHYGh49Z2GjrRJDHLRn/5iq+Ess7FIb
-         ucK/N/etaecFY5A5hGRDhEiGezCGzNqyOEgTI7YV9l3GVwjGxXp27EC1q7M24CkDBsGZ
-         cSy/p27bxw0SfSH8kEPi+Wx+bmsogVYOroZ3QF4VE3tPgHoZgd05EzU/ynfuDzSVFLUs
-         kfxsbM78T3OuFtMOG01V2Agn81+yredSN3f8zNVaUFa5P89RFswAT1SXgonLPu5MdfIF
-         FFJA==
-X-Forwarded-Encrypted: i=1; AFNElJ8a0pCHZi7cAbMu5CKQeFCzqPPAm2YlW2dZOdme0IxBeumUAQWir3UKpAg2XY0UKaPlfzDVHoBxzDqdqg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YypX5xJw46kVhgnty7iye6nXQI6QhngpUEiDcS2Y/MUzMgU63qN
-	/WLl/M66hgw8zAiWEQ5HJ9zDS/+k+6okZrXrABZfjWfhm1VD92xUGN8ioFEq/DNYRCSwlQI6oBP
-	rfYQT1rmu3HSC/jd3GRtXRWFrtRMCcbdeNnt031+G5qdqormAlUJkZVahaThta0GNOkrWpBI=
-X-Gm-Gg: Acq92OHc1cxYw956+R5PSuwzOu4y2d5u/gce3rFNNnIIeWd6xydUmnF6wZGrwrLFBrT
-	nCjT6LX6Hey53OPQnKQcdnwPC7j9wNcFvZovJz2wV8Jn47VfNMP6cdjUj3ehzZ0PAld8/RGX3gE
-	Axo281MqtTlZDsI4TqcHvT/qsL+i5S1RQCSACVZPHahDZ4nzTwBS9s+mGQAO9uZMzscmrRWPLoG
-	ykogMXwbNOw/ENPVRzulBLu30jaXErnt5dnirhsLt0FKseceLUnMYM2pxRM513V6v9jtXyYRlq6
-	CmPxjTRj8hueU7xVIBMPSM+Ev7wzAIcA7SOkhoQmJmLXmH2xq6eZ4hAQM5rN+CudgPXoMMzyHuS
-	C6d3B2tKJ6FOfhjGsHeywINOQhv5SDUroRBx60/WImPofzuDykCC7UX7ABuejwkJCL7g4/lFN2P
-	euIy/aoCvGk1E9bee3Umt25rBJ1LNgk6IW39lqTcKFNSx8Ur0FaqujTRxLAJHvNCfFmo2jVJ5Tg
-	WF2LC1sgRC5/fyN8PPVXkA=
-X-Received: by 2002:a05:6000:2f87:b0:452:c246:ab7a with SMTP id ffacd0b85a97d-45e5c5beb43mr98799f8f.14.1778781172726;
-        Thu, 14 May 2026 10:52:52 -0700 (PDT)
-X-Received: by 2002:a05:6000:2f87:b0:452:c246:ab7a with SMTP id ffacd0b85a97d-45e5c5beb43mr98748f8f.14.1778781172259;
-        Thu, 14 May 2026 10:52:52 -0700 (PDT)
-Received: from ?IPV6:2001:8b0:8b6:13d4:102e:f2af:e074:5cde? (e.d.c.5.4.7.0.e.f.a.2.f.e.2.0.1.4.d.3.1.6.b.8.0.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:8b6:13d4:102e:f2af:e074:5cde])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da15a6449sm7910203f8f.37.2026.05.14.10.52.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 May 2026 10:52:51 -0700 (PDT)
-Message-ID: <c2601b9c-9265-43da-9321-66db57446807@meta.com>
-Date: Thu, 14 May 2026 18:52:50 +0100
+        d=1e100.net; s=20251104; t=1778783047; x=1779387847;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=PBR7fsLisJgUG1XY+0ZPkiM5XuKRe9INIYxO9y9PY40=;
+        b=fhE/rf7Mc+t8vfYb0sPQxfttRo4LFJKuKlyBW3YNGBmD8oSNJ2jrqPjXhYaAKjJH/N
+         VRrpoNE0sL7wPzrDeuFn5KX7M59e73zJgxVpvsbkOw7GyVZg3m5uECMcFb1Q8ktuOIlo
+         7BGQymzapn9+GxYNCfGjpoyiZraezsP2INJZA85Mnxbx9uIxHOx0kV18q4OqD20k1vLW
+         yq1x4k1TqZkqNPDCGR2COV5VyXF6USKRJmT7xrUTx2ecyVTD/w1Dz1sLU8pl5Ti7ahZb
+         HxKeQoZflML3MTdZ6f+v/ZQOrrFGajX8ZJBUoZaqx7qYlh5CAoZ0h3qjNbDpG5Y2atUG
+         1drA==
+X-Forwarded-Encrypted: i=1; AFNElJ/WQbMxnfudK3xDeFTcb605bxVEgx1cHyz3kY4/foV4GJyIyfq/B16DDNWIkIIqTtLyeh/ff/gkkhOaPA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxX2YOjTgISh89/0BIObub+17ijxyk0aHqzb+m1/9rGbs51ngpR
+	1CebI+l1idzAidmr0Mratna2lLmuFou8RlaJsnjEynqTCcgPK03j1siIelctl4UT8Va2X6zihho
+	HX7eDlfZ5RvtNeutbP4hGNKZ/E5x3zAQ=
+X-Gm-Gg: Acq92OEkytynnhRMRj5/hiLrO3WtC5fifIQf5AjlCLOJTvB4tEb8YIWDIDXiU7AwIZf
+	BrzKqMQB/TnSnfB7BTjfJIHWmnspwHux4W0C+aUOTV/0bcnHhpT6T6sPjADkSdE5uyWq+KWpOky
+	qYMa+YWoJfzWM7FFa5jvOeGphJnCsjh6/RY23YsKkJl48/Jv4zrF7PM0VVEAFMnO8gnxXLv8Vu3
+	4Zyg5/Si6hnjoNIyQBo+ED8Z+w1wW+OLzWTzJUw2NXTyYuNoIDZ4+GQfM1a76W9f149XLzTG7yx
+	IIykPsAi/aJNImX7XJIvp8SVBCvgp7zHde+EFataMVUc448sflUmCqiWrHh/r2Faiaft92xThEw
+	iGQdFfGTP
+X-Received: by 2002:a05:690c:112:b0:7bd:7e01:8d89 with SMTP id
+ 00721157ae682-7c95b824705mr4431567b3.24.1778783046617; Thu, 14 May 2026
+ 11:24:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/9] vfio/pci: Convert BAR mmap() to use a DMABUF
-Content-Language: en-GB
-To: Leon Romanovsky <leon@kernel.org>, Alex Williamson <alex@shazbot.org>,
-        Jason Gunthorpe <jgg@nvidia.com>
-Cc: Alex Mastro <amastro@fb.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>,
-        Mahmoud Adam <mngyadam@amazon.de>, David Matlack <dmatlack@google.com>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?=
- <bjorn@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Kevin Tian <kevin.tian@intel.com>, Ankit Agrawal <ankita@nvidia.com>,
-        Pranjal Shrivastava <praan@google.com>,
-        Alistair Popple
- <apopple@nvidia.com>,
-        Vivek Kasireddy <vivek.kasireddy@intel.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        kvm@vger.kernel.org
-References: <20260416131815.2729131-1-mattev@meta.com>
- <20260416131815.2729131-5-mattev@meta.com>
- <20260501161915.75525c15@shazbot.org> <afhNeYS174EW7RYp@nvidia.com>
- <20260505104911.GB11063@unreal> <20260505085058.74c34290@shazbot.org>
- <20260506053511.GG11063@unreal>
-From: Matt Evans <mattev@meta.com>
-In-Reply-To: <20260506053511.GG11063@unreal>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE0MDE3OSBTYWx0ZWRfX+bUgK3j+gn+g
- WKwL1DhnB94MzrkND54RsnLjDu1FWpMvoOtrPNV/Hug5DJ8bp5uyym5y1EKJoBODTUdySatFnSL
- jyh6Yienkd0YzeF17SrVxPaYKe7c7VNXljEM8lQCq1wtMpOaBNj0K4/AvUaWZP1jmWoEQoOVzrP
- +/VpIgU1pNxUAPHOqE4X+f+1lP1RUWLbmFhrfiX7cO2YOv97lq6ViCjP3RKiXWt/iex80bAkC/o
- 1LIoApXTLl96y4HoNgQKovrwID5gCuC8br8L6r+yxL4EH2Ex/FU4MZEcxvZZAnYX4Cjwt5g00jc
- A+hezrNHiNd9s9O5/9MBSxHDwt6MOg1VSah14VOk287s6khO0rBrH1lr5ZMtD/BhjuR/kZU1zrR
- FhB7Ik5LRChNMXx70R0np9I+oiYyGe+LTxPt1clPanEomGEFdiobIiAlJB16yp250S0XvrmV3gW
- wzdnfdas9fjpxiSmRpA==
-X-Proofpoint-GUID: RRY2VlkiDJdPQnEC-UY19u4PZCxx15yr
-X-Proofpoint-ORIG-GUID: RRY2VlkiDJdPQnEC-UY19u4PZCxx15yr
-X-Authority-Analysis: v=2.4 cv=TfKmcxQh c=1 sm=1 tr=0 ts=6a060bf6 cx=c_pps
- a=CsXZvLRfiTx/ye2xXAwb9g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22
- a=PAz_-FQ8hEVmOPYdF0yf:22 a=VwQbUJbxAAAA:8 a=QhZvmJRm3SQzdzbRGmYA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=F7q00xkr9EfWfQvbdVXI:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-14_04,2026-05-13_01,2025-10-01_01
-X-Rspamd-Queue-Id: AEC075458F6
+References: <20260513-panthor-guard-refactor-v1-0-f2d8c15a97ce@collabora.com> <20260513-panthor-guard-refactor-v1-2-f2d8c15a97ce@collabora.com>
+In-Reply-To: <20260513-panthor-guard-refactor-v1-2-f2d8c15a97ce@collabora.com>
+From: Chia-I Wu <olvaffe@gmail.com>
+Date: Thu, 14 May 2026 11:23:55 -0700
+X-Gm-Features: AVHnY4IvIwW933CTc4ZbukSnI54Tqb3-T6psAY7x90fXnGSxacMBnoW5RGKAorw
+Message-ID: <CAPaKu7QmB8s0J60O2Bpqn9P9Xi0mKH_8Xog_843AHa8wfEBNjA@mail.gmail.com>
+Subject: Re: [PATCH 2/6] dma-resv: Define guards for context-less dma_resv locks
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: 5F7F3545D8D
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[meta.com,reject];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[meta.com:s=s2048-2025-q2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	TAGGED_FROM(0.00)[bounces-61617-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61618-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[meta.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,meta.com:mid,meta.com:dkim];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mattev@meta.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[arm.com,linaro.org,amd.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[olvaffe@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-Hi Leon, Alex, Jason,
-
-On 06/05/2026 06:35, Leon Romanovsky wrote:
-> 
-> On Tue, May 05, 2026 at 08:50:58AM -0600, Alex Williamson wrote:
->> On Tue, 5 May 2026 13:49:11 +0300
->> Leon Romanovsky <leon@kernel.org> wrote:
->>
->>> On Mon, May 04, 2026 at 04:40:41AM -0300, Jason Gunthorpe wrote:
->>>> On Fri, May 01, 2026 at 04:19:15PM -0600, Alex Williamson wrote:
->>>>    
->>>>> Exporting dma-bufs from vfio-pci is a feature, but mmap of MMIO BARs is
->>>>> a legacy requirement.  That legacy requirement now depends on
->>>>> PCI_P2PDMA, which depends on 64BIT and ZONE_DEVICE.
->>>>
->>>> That should be split up now, Leon missed it when he added the new
->>>> APIs that didn't require ZONE_DEVICE..
->>>
->>> Sorry, what did I miss here?
->>> VFIO_DMABUF is an optional feature and is enabled only when P2P support is
->>> available. It does not affect legacy systems where P2P cannot be enabled.
->>
->> If we look at the long term view of moving exclusively to cdev/iommufd,
->> where VFIO_DMABUF becomes the mechanism for implementing P2P DMA
->> mappings, VFIO_DMABUF may be optional, but it's highly desirable for
->> legacy compatibility.  There's an argument though that providing P2P
->> compatibility on platforms that support PCI_P2PDMA is probably
->> sufficient.
->>
->> However, in providing mmap of dmabufs as a feature, this series is
->> wiring all mmaps through dmabufs and therefore that dependency becomes
->> fundamental to the use of vfio-pci.  Thus the discussion whether the
->> noted config requirements could be lifted.  Thanks,
-> 
-> Right, there was no need to remove ZONE_DEVICE when I added my code, and I
-> left the task of cleaning it out of is_pci_p2pdma_page() for another day.
-> Without ZONE_DEVICE, all pages are treated as non‑P2P.
-Just checking I'm following the deps correctly...
-
-If we remove the PCI_P2PDMA dependency on ZONE_DEVICE then (without) 
-it's present with P2P hard-disabled (as Leon says).  Already 
-`is_pci_p2pdma_page() == false` because folio_is_zone_device() is always 
-false in that config.
-
-The only dependency this series adds is for pcim_p2pdma_provider() (and 
-support).  We can select PCI_P2PDMA for provider purposes (VFIO!) but if 
-!ZONE_DEVICE there's no P2P.
-
-Nothing in PCI_P2PDMA depends on 64BIT and that dependency can be 
-removed [1].  (ZONE_DEVICE depends on 64BIT.)
-
-That seems a path to VFIO operating unchanged on 32-bit platforms and 
-others without ZONE_DEVICE.
-
-(PCI_P2PDMA currently also depends on NEED_SG_DMA_FLAGS, which seems to 
-be unnecessary if !ZONE_DEVICE is preventing P2P pages (no 
-sg_dma_mark_bus_address() would happen for example), is that right?)
-
-
-Then VFIO_PCI depends on a subset of PCI_P2PDMA configuation:
-
-"Diet" PCI_P2PDMA_CORE available even when !ZONE_DEVICE:
-  - Compatible with 32-bit platforms; doesn't need to depend on 64BIT
-  - Returns a provider, which allows VFIO mmap(), DMABUF mmap().
-  - Doesn't allow P2P DMA (eg. via DMABUFs).
-  - Doesn't need to select NEED_SG_DMA_FLAGS.
-
-"Classic" PCI_P2PDMA depending on ZONE_DEVICE:
-  - Behaves as PCI_P2PDMA does today
-  - If ZONE_DEVICE then PCI_P2PDMA enabled, which enables VFIO_PCI_DMABUF
-
-Meaning:
-
-32-bit configs (or 64-bit without ZONE_DEVICE):
-  - No P2P anyway
-  - VFIO mmap() works
-  - VFIO_PCI_DMABUF is disabled (no point enabling DMABUF export since it
-    can't be used for its original P2P purpose)
-
-64-bit configs that support ZONE_DEVICE:
-  - As today, DMABUF P2P, mmap() of BARs via VFIO or DMABUF
-
-
-Just added PCI_P2PDMA_CORE and (functionally) ~no code changes are 
-needed since disabling P2P just falls out of !ZONE_DEVICE.  But most of 
-p2pdma.c does nothing in that config (except for pcim_p2pdma_provider() 
-and its support) so benefits from some #ifdef to reduce it.  WDYT about 
-a pcip2pdma_core.c containing just the provider management?
-
-
-Thanks,
-
-Matt
-
-[1]:  The drivers/pci/Kconfig's PCI_P2PDMA states:
-   # The need for the scatterlist DMA bus address flag means PCI P2PDMA
-   # requires 64bit
-I think this isn't quite right as AFAICT the flags are usable on 32b 
-too, and actually it's ZONE_DEVICE that requires 64bit.
+On Wed, May 13, 2026 at 10:09=E2=80=AFAM Boris Brezillon
+<boris.brezillon@collabora.com> wrote:
+>
+> When used without a context, dma_resv are no different from regular
+> locks. Define guards so we can use the guard-syntactic sugars for
+> explicit/implicit scoped locks.
+>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+Reviewed-by: Chia-I Wu <olvaffe@gmail.com>
+> ---
+>  include/linux/dma-resv.h | 5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
+> index c5ab6fd9ebe8..e559b1811ca3 100644
+> --- a/include/linux/dma-resv.h
+> +++ b/include/linux/dma-resv.h
+> @@ -40,6 +40,7 @@
+>  #define _LINUX_RESERVATION_H
+>
+>  #include <linux/ww_mutex.h>
+> +#include <linux/cleanup.h>
+>  #include <linux/dma-fence.h>
+>  #include <linux/slab.h>
+>  #include <linux/seqlock.h>
+> @@ -484,4 +485,8 @@ void dma_resv_set_deadline(struct dma_resv *obj, enum=
+ dma_resv_usage usage,
+>  bool dma_resv_test_signaled(struct dma_resv *obj, enum dma_resv_usage us=
+age);
+>  void dma_resv_describe(struct dma_resv *obj, struct seq_file *seq);
+>
+> +DEFINE_GUARD(dma_resv, struct dma_resv *, dma_resv_lock(_T, NULL), dma_r=
+esv_unlock(_T));
+> +DEFINE_GUARD_COND(dma_resv, _intr, dma_resv_lock_interruptible(_T, NULL)=
+, !_RET);
+> +DEFINE_GUARD_COND(dma_resv, _try, dma_resv_trylock(_T));
+> +
+>  #endif /* _LINUX_RESERVATION_H */
+>
+> --
+> 2.54.0
+>
 
