@@ -1,2426 +1,3003 @@
-Return-Path: <linux-media+bounces-61759-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61760-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kH/6IlhNB2pZwwIAu9opvQ
-	(envelope-from <linux-media+bounces-61759-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 18:44:08 +0200
+	id hzwMEE5SB2pIygIAu9opvQ
+	(envelope-from <linux-media+bounces-61760-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 19:05:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D46C9553D30
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 18:44:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4E10554670
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 19:05:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9174F31F3EFC
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 16:18:12 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 90E2C304C37D
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 16:30:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4920F3F9296;
-	Fri, 15 May 2026 16:15:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F235D4EA36C;
+	Fri, 15 May 2026 16:27:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="fQuPdJW2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PC7dSiTy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B16C3F44CD
-	for <linux-media@vger.kernel.org>; Fri, 15 May 2026 16:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 406F23B4EA3;
+	Fri, 15 May 2026 16:27:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778861750; cv=none; b=VOclYAZN3U0rR681p/eH7PhufSVQ0lBWTelOSVvMfAfBje1shXKmJ1wks7OqYf02fFRzTGkxrLsRSqizlk9nwtaCBz8xGhf2eYt7Z7FXDwYdSh+K3y3OGvvgDE2iiLvJkEuC1Eezqlth4z8NveAwNM53KbiInoKglhHM2jQnBlU=
+	t=1778862431; cv=none; b=QN+yx/S5g8YzJj6T62xOamnWm2cOqkPROc3Xf30oPIytBnMJ7CuWtRP79twNxNCvywfI0w7e8g6fRTbW2Dn/ozWuFggX0F6uOJlTKP9ecog+JWMFilrcBfeagXuhRzX6a4bo/95gDh01X7XTRBOAtm4SBkdQH3iM+SjFGomh2nI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778861750; c=relaxed/simple;
-	bh=m9vEsqoFmoYYQYS+IK+vJ9/C14D2JldaFmUo8FuEZkk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DN3yP0Zh9FvmG4yDt3yC99iPQVTUnF439P+lRCc/1QHFLQTZNQMxlGFO7ywnYiKsFBO2vp8DjUzsV1myQGh3msAAMRWfA6Mg2DPQtrj8VIOAWj5Q7eQzxujtc/moEe3C8rtMlhn2xEZNbIJXYaP3dyN0D25xSK1F8ehqZFkZsfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=fQuPdJW2; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-441209fb77eso683870f8f.1
-        for <linux-media@vger.kernel.org>; Fri, 15 May 2026 09:15:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778861743; x=1779466543; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=qYmEcH/Emg6RmlvW6mJdFm5V145YP2TgS8AggJelOe4=;
-        b=fQuPdJW2qJsZsuv0iayAvPD9IBbMya9ehjDqzash6k8qRBRvIgfzfqvZUID39uemeq
-         36VhOQOiODbvshMHwN3TREZf0EKLJCF53ooyqUyCVVVzrHn20wy6PjwWYEBPpzQkJVT6
-         NrlvkdfCJ3EI0WJ7rQH9lnxUkUAUm1wwOS4DxzxjUm3DQBqqX3XVHrLXZcICsdUEVwNl
-         uRpPs5eInA6u1mtEm/ADhYyQcPcCJpvvZHkbc24WSbGfv5S3+WSJPfpfSwEad7Y6zAeW
-         WZ8AafaLa6x2LBXdahEg5wVjyyCzM2rBZ2uEh7FedSyULMVd/zbYZAWrhzXHgnWQHhda
-         JxBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778861743; x=1779466543;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qYmEcH/Emg6RmlvW6mJdFm5V145YP2TgS8AggJelOe4=;
-        b=kEQD8S/PNiZzBrKeo8SiDv5Z+yDb3vuPBfLsTZDMu2pcFz4/kshm6nrlAjFYZHNdw/
-         bOB+qvubyKJKwiXkcdJGfEFsQ8JfZDOEGHTP7U+qMQwRlHLgd/YXuY4yjKhKSNzkhACL
-         gBmn03Jq/wOHLEfNlRuOfiyqTFcIkD73GQToYc+GVVLhTA/Iz8Icv2275g8JsDlbbBAS
-         SV5mSE+bhzONSzcGMGpv4EvumtxjictP17a8M+6buSaMAFwbwVCbat/apF7lmFDgtjTZ
-         /hQ2n/Ghq912Jd4cX5CBTxEVYzu0hZPtJI1IyizJRK0HC9Nfd4uxMzR/QhFoaHb32yYz
-         bXmw==
-X-Forwarded-Encrypted: i=1; AFNElJ+CpVBvGm7eWyWLJuVwGTdGy15Kc+y/B3N4YiWHfFyS7hr9IIkXzWDucQOdORUahHUHlI4R8mRJsEKusw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxl41q4A2KgjpliGzCP8s1LVU1XwDbpJvjOArbwVhNqoRnvbEoA
-	e8M1SGoPvsLdxk8W5lKLIRXmBmaxi8fkxbP3/5qaCId3rHP00LACuAIsrv4i4WgXEK4=
-X-Gm-Gg: Acq92OE2bIYaVSEsGSfcQA8AjmHyHLEbOOqqFlZ6WUwKvB69w+27B0qvZHAxbj+8O++
-	TGEJPWYc/1tRND+imhxjxaO4OuXEYBGY/6MglXQXnirnLonym+dgVql7GIKNQhphGsP9Xp7gfoD
-	lVR+cAdX+ldrcvsfjd8H25hDQK3e5AWqsi8zzhwN5zgTxbWjuGofXTs0DMKINkYAmtbYr89pvmx
-	CScrw6MQhHz9vawTIy8hTChVJFs4Tx5pj7BVonGOgfJgamGUWjZ9r8RYG9124XNaeQcIt7Dt8oB
-	T0Kj5U6+QKgZUvX910NQiaeiNDo4br4rMTx7q5h5Jut3J4pR96xfYYf2BfEpxR4z94Pehv6uxmf
-	8RaViVcR5YUUnCi26fyHvr8TGvFOGboPXTKy3YP7cZ4YgjJEYlqSLFwpPTr3PAYw7+ULjBlWPc0
-	JbB7V/cgt8yY0YNSxeXZwYu8+guYWC2Ru+I0/zDnV90NOYgUWrV9SrO0EO7RnGLCGBW502NGsVm
-	b1TgBuWMEXpksM=
-X-Received: by 2002:a05:6000:29db:b0:454:353e:3f4b with SMTP id ffacd0b85a97d-45d901e10bemr10265116f8f.3.1778861742344;
-        Fri, 15 May 2026 09:15:42 -0700 (PDT)
-Received: from localhost (p200300f65f47db047ce9331f6697a627.dip0.t-ipconnect.de. [2003:f6:5f47:db04:7ce9:331f:6697:a627])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-45da0a1a22csm14956575f8f.19.2026.05.15.09.15.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 09:15:41 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig=20=28The=20Capable=20Hub=29?= <u.kleine-koenig@baylibre.com>
-To: Hans Verkuil <hverkuil@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Jasmin Jessich <jasmin@anw.at>,
-	Abylay Ospan <aospan@amazon.com>,
-	Matthias Schwarzott <zzam@gentoo.org>,
-	Olli Salonen <olli.salonen@iki.fi>,
-	Akihiro Tsukada <tskd08@gmail.com>,
-	Pavel Machek <pavel@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Leon Luo <leonl@leopardimaging.com>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Ramesh Shanmugasundaram <rashanmu@gmail.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	"Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Petr Cvek <petrcvekcz@gmail.com>,
-	Akinobu Mita <akinobu.mita@gmail.com>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Tim Harvey <tharvey@gateworks.com>,
-	Mehdi Djait <mehdi.djait@bootlin.com>,
-	Matt Ranostay <matt@ranostay.sg>,
-	Eduardo Valentin <edubezval@gmail.com>,
-	"Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Kees Cook <kees@kernel.org>,
-	Bradford Love <brad@nextdimension.cc>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Qianfeng Rong <rongqianfeng@vivo.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Patrice Chotard <patrice.chotard@foss.st.com>,
-	Chelsy Ratnawat <chelsyratnawat2001@gmail.com>,
-	Sean Young <sean@mess.org>,
-	Zhang Shurong <zhang_shurong@foxmail.com>,
-	Shrikant Raskar <raskar.shree97@gmail.com>,
-	Kuan-Wei Chiu <visitorckw@gmail.com>,
-	Yu-Chun Lin <eleanor.lin@realtek.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	Abdun Nihaal <nihaal@cse.iitm.ac.in>,
-	Daniel Gomez <da.gomez@samsung.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH v1] media: Use named initializers for arrays of i2c_device_data
-Date: Fri, 15 May 2026 18:15:28 +0200
-Message-ID: <20260515161528.465621-2-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.3
+	s=arc-20240116; t=1778862431; c=relaxed/simple;
+	bh=4rAGTyFMkak7Fl0r/Qo+8V8FhXToI3xwwcj3ISfI+RE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fDAFiBvUSjlqvvAoO0puxFGqYFDDifbxBn2xDwS9Se7L3E1GdJwJEG3c+aILy4YucmNb2oodk/v0zJdFZhvg+3IkLFqRU4g1d5waD+WZfkCmfLz+UfSnU++b/9YTbtJqXm/MLqxh006SYkAwAzKAm65y6BvY2zC8uGWNQjT0K6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PC7dSiTy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E262C2BCB3;
+	Fri, 15 May 2026 16:27:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778862430;
+	bh=4rAGTyFMkak7Fl0r/Qo+8V8FhXToI3xwwcj3ISfI+RE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=PC7dSiTy5peFcoCfy8VSssMZdbVzDhPIhh/vhvoygODfeOlMiVnCEyzTvoRPSYp55
+	 7b5/+jyjr+EnkdvdDh81F36jdYSrRI35Tnb+d/ijsdoXuoUckCkDOLeBwNPwrFTl2a
+	 rB43k8uo3QD0/LjLJMhYViEhknGaHhHZvTI/R84JBpIHhTih+dGXvk61D7jvqA4HWA
+	 2L1khQTAwF8XRh8zHaE95f347jKKtDJGZ4WaJhIbxIBfmYWNkO7SoDHgEAYtv31VDD
+	 TmR3XrKL57Ah/AwV9Gyqr+h/XlAC+jkpy4fGsH8qVYQ3WnkNXjgzi7DAqwxF9mJac0
+	 9TIW61h6KL45Q==
+Message-ID: <26351e3c-bb21-40f6-8cbe-d55a1a1235fd@kernel.org>
+Date: Fri, 15 May 2026 17:27:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=81884; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=m9vEsqoFmoYYQYS+IK+vJ9/C14D2JldaFmUo8FuEZkk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBqB0ag7HlFE4uzWB7khfsRUqPmyGLRIiisTEzdQ P9YFAQ8abyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCagdGoAAKCRCPgPtYfRL+ TuvuB/9J6zqaNUl6P3I+Xb4hLq4vj7wKVLRL3R7XRGvG8pYOKhd3WNOhyxu0P0Z7M+2DnvPVWch 0vSL4NhPdiL/BpPh/3riag6A6aVQ/hPVJhUh/94UEJlzYpeMF5d3Dsc/S+KEjFArKPoBoYsgLQh //AfgCvCW+pSdpYZdrv+ubAoYhUu5vdXXxCPkaTaIv5N32e2of1vCmRnmiXtoCqURJXFNG2oYjP iL8YluyzTyjEHKAJ3I2Yn5gbGaOnFoyNriQzs7SFKKz14cPq5OmUBBik8YkdhiYgdmUFPFDrEWA VaBcy8J7cSp3ONbu8Ch5TXD56XBchr9jhVcewZrIFHFJ8AOF
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: D46C9553D30
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] qcom: media: jpeg: Add Qualcomm JPEG V4L2 encoder
+To: Atanas Filipov <atanas.filipov@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Kapatrala Syed <akapatra@quicinc.com>,
+ Hariram Purushothaman <hariramp@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Gjorgji Rosikopulos <grosikop@quicinc.com>, afilipov@quicinc.com
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260515-qcom-jpeg-v4l2-v1-0-f38c2e1b3555@oss.qualcomm.com>
+ <V_d7vS0B9HkpGpEs0y9nJb64rgUqCrtvsth4jBVNHytJUb_Dvuza2SstFCDMahbyY41HvonpitbvjCQfIAuCBg==@protonmail.internalid>
+ <20260515-qcom-jpeg-v4l2-v1-2-f38c2e1b3555@oss.qualcomm.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bod@kernel.org>
+In-Reply-To: <20260515-qcom-jpeg-v4l2-v1-2-f38c2e1b3555@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: C4E10554670
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[baylibre-com.20251104.gappssmtp.com:s=20251104];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-61759-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61760-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[baylibre.com];
-	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FREEMAIL_CC(0.00)[anw.at,amazon.com,gentoo.org,iki.fi,gmail.com,kernel.org,linux.intel.com,metafoo.de,ideasonboard.com,leopardimaging.com,pengutronix.de,jmondi.org,raspberrypi.com,samsung.com,intel.com,gateworks.com,bootlin.com,ranostay.sg,collabora.com,nextdimension.cc,vivo.com,chromium.org,foss.st.com,mess.org,foxmail.com,realtek.com,cse.iitm.ac.in,vger.kernel.org,lists.infradead.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[baylibre-com.20251104.gappssmtp.com:+];
-	RCPT_COUNT_GT_50(0.00)[50];
-	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lwn.net:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,cheri-alliance.org:url,baylibre.com:email,baylibre.com:mid,baylibre-com.20251104.gappssmtp.com:dkim]
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,qualcomm.com:email]
 X-Rspamd-Action: no action
 
-While being less compact, using named initializers allows to more easily
-see which members of the structs are assigned which value without having
-to lookup the declaration of the struct. And it's also more robust
-against changes to the struct definition.
+On 15/05/2026 12:47, Atanas Filipov wrote:
+> Implementation of a V4L2 JPEG encoder device driver supporting
+> Qualcomm SC7180, SM8250, SM7280, and SM8550 chipsets.
 
-The mentioned robustness is relevant for a planned change to struct
-i2c_device_id that replaces .driver_data by an anonymous union.
+The first thing I'm noticing is you've enabled 6490 only in this series, 
+and that is not called out in your git log.
 
-While touching all these arrays, unify usage of whitespace and commas.
+> 
+> Signed-off-by: Atanas Filipov <atanas.filipov@oss.qualcomm.com>
+> ---
+>   drivers/media/platform/qcom/Kconfig                |    1 +
+>   drivers/media/platform/qcom/Makefile               |    1 +
+>   drivers/media/platform/qcom/jpeg/Kconfig           |   17 +
+>   drivers/media/platform/qcom/jpeg/Makefile          |    9 +
+>   drivers/media/platform/qcom/jpeg/qcom_jenc_defs.h  |  253 ++++
+>   drivers/media/platform/qcom/jpeg/qcom_jenc_dev.c   |  370 +++++
+>   drivers/media/platform/qcom/jpeg/qcom_jenc_dev.h   |  111 ++
+>   drivers/media/platform/qcom/jpeg/qcom_jenc_hdr.c   |  388 +++++
+>   drivers/media/platform/qcom/jpeg/qcom_jenc_hdr.h   |  130 ++
+>   drivers/media/platform/qcom/jpeg/qcom_jenc_ops.c   | 1522 ++++++++++++++++++++
+>   drivers/media/platform/qcom/jpeg/qcom_jenc_ops.h   |   49 +
+>   drivers/media/platform/qcom/jpeg/qcom_jenc_res.c   |  268 ++++
+>   drivers/media/platform/qcom/jpeg/qcom_jenc_res.h   |   70 +
+>   drivers/media/platform/qcom/jpeg/qcom_jenc_v4l2.c  | 1082 ++++++++++++++
+>   drivers/media/platform/qcom/jpeg/qcom_jenc_v4l2.h  |   27 +
+>   .../platform/qcom/jpeg/qcom_v165_jenc_hw_info.h    |  509 +++++++
+>   .../platform/qcom/jpeg/qcom_v580_jenc_hw_info.h    |  509 +++++++
+>   .../platform/qcom/jpeg/qcom_v680_jenc_hw_info.h    |  509 +++++++
+>   .../platform/qcom/jpeg/qcom_v780_jenc_hw_info.h    |  509 +++++++
+>   19 files changed, 6334 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/Kconfig b/drivers/media/platform/qcom/Kconfig
+> index 4f4d3a68e6e5..f33d53a754a0 100644
+> --- a/drivers/media/platform/qcom/Kconfig
+> +++ b/drivers/media/platform/qcom/Kconfig
+> @@ -5,3 +5,4 @@ comment "Qualcomm media platform drivers"
+>   source "drivers/media/platform/qcom/camss/Kconfig"
+>   source "drivers/media/platform/qcom/iris/Kconfig"
+>   source "drivers/media/platform/qcom/venus/Kconfig"
+> +source "drivers/media/platform/qcom/jpeg/Kconfig"
+> diff --git a/drivers/media/platform/qcom/Makefile b/drivers/media/platform/qcom/Makefile
+> index ea2221a202c0..30c94949e9de 100644
+> --- a/drivers/media/platform/qcom/Makefile
+> +++ b/drivers/media/platform/qcom/Makefile
+> @@ -2,3 +2,4 @@
+>   obj-y += camss/
+>   obj-y += iris/
+>   obj-y += venus/
+> +obj-y += jpeg/
+> diff --git a/drivers/media/platform/qcom/jpeg/Kconfig b/drivers/media/platform/qcom/jpeg/Kconfig
+> new file mode 100644
+> index 000000000000..51846aeafaf3
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/jpeg/Kconfig
+> @@ -0,0 +1,17 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +config VIDEO_QCOM_JENC
+> +	tristate "Qualcomm V4L2 JPEG Encoder driver"
+> +	depends on V4L_MEM2MEM_DRIVERS
+> +	depends on (ARCH_QCOM && IOMMU_DMA) || COMPILE_TEST
+> +	depends on VIDEO_DEV
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	select VIDEOBUF2_DMA_SG
+> +	select V4L2_MEM2MEM_DEV
+> +	help
+> +	  Qualcomm JPEG memory-to-memory V4L2 encoder driver.
+> +
+> +	  Provides:
+> +	    - qcom-jenc (encode)
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called qcom-jenc
+> diff --git a/drivers/media/platform/qcom/jpeg/Makefile b/drivers/media/platform/qcom/jpeg/Makefile
+> new file mode 100644
+> index 000000000000..310f6c3c1f19
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/jpeg/Makefile
+> @@ -0,0 +1,9 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +obj-$(CONFIG_VIDEO_QCOM_JENC) += qcom-jenc.o
+> +
+> +qcom-jenc-objs += \
+> +	qcom_jenc_dev.o \
+> +	qcom_jenc_v4l2.o \
+> +	qcom_jenc_ops.o \
+> +	qcom_jenc_res.o \
+> +	qcom_jenc_hdr.o
+> diff --git a/drivers/media/platform/qcom/jpeg/qcom_jenc_defs.h b/drivers/media/platform/qcom/jpeg/qcom_jenc_defs.h
+> new file mode 100644
+> index 000000000000..40e46820c546
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/jpeg/qcom_jenc_defs.h
+> @@ -0,0 +1,253 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> + */
+> +
+> +#ifndef QCOM_JENC_DEFS_H_
+> +#define QCOM_JENC_DEFS_H_
+> +
+> +#include <linux/types.h>
+> +#include <linux/io.h>
+> +#include <linux/bitfield.h>
+> +#include <linux/videodev2.h>
+> +#include <media/videobuf2-core.h>
+> +
+> +/* Offline JPEG encoder constraints */
+> +#define QCOM_JPEG_HW_MAX_WIDTH	9248
+> +#define QCOM_JPEG_HW_MAX_HEIGHT	8192
+> +#define QCOM_JPEG_HW_MIN_WIDTH	128
+> +#define QCOM_JPEG_HW_MIN_HEIGHT	96
+> +
+> +#define QCOM_JPEG_HW_DEF_HSTEP	16
+> +#define QCOM_JPEG_HW_DEF_VSTEP	16
+> +
+> +#define QCOM_JPEG_HW_DEF_WIDTH	1920
+> +#define QCOM_JPEG_HW_DEF_HEIGHT	1080
+> +
+> +#define QCOM_JPEG_MAX_PLANES	3
+> +
+> +#define QCOM_JPEG_QUALITY_MIN	1
+> +#define QCOM_JPEG_QUALITY_DEF	95
+> +#define QCOM_JPEG_QUALITY_MAX	100
+> +#define QCOM_JPEG_QUALITY_MID	(QCOM_JPEG_QUALITY_MAX / 2)
+> +#define QCOM_JPEG_QUALITY_UNT	1
+> +
+> +enum qcom_jpeg_soc_id {
+> +	QCOM_V165_SOC_ID = 0,
+> +	QCOM_V580_SOC_ID,
+> +	QCOM_V680_SOC_ID,
+> +	QCOM_V780_SOC_ID,
+> +	QCOM_UNKNOWN_SOC_ID,
+> +};
 
-This patch doesn't modify the compiled arrays, only their representation
-in source form benefits. The former was confirmed with x86 and arm64
-builds.
+You sould only have in the list the versions of the SoC this can 
+actually be run on. Right now that's 6490 only.
 
-Signed-off-by: Uwe Kleine-König (The Capable Hub) <u.kleine-koenig@baylibre.com>
+Add additional SoCs as you make the upstream submission, including dts 
+so that others can verify the work.
+
+> +
+> +enum qcom_soc_perf_level {
+> +	QCOM_SOC_PERF_SUSPEND = 0,
+> +	QCOM_SOC_PERF_LOWSVS,
+> +	QCOM_SOC_PERF_SVS,
+> +	QCOM_SOC_PERF_SVS_L1,
+> +	QCOM_SOC_PERF_NOMINAL,
+> +	QCOM_SOC_PERF_TURBO,
+> +	QCOM_SOC_PERF_LEVEL_MAX,
+> +};
+> +
+> +enum qcom_jpeg_mask_id {
+> +	JMSK_HW_VER_STEP,
+> +	JMSK_HW_VER_MINOR,
+> +	JMSK_HW_VER_MAJOR,
+> +
+> +	JMSK_HW_CAP_ENCODE,
+> +	JMSK_HW_CAP_DECODE,
+> +	JMSK_HW_CAP_UPSCALE,
+> +	JMSK_HW_CAP_DOWNSCALE,
+> +
+
+This gaps seem to indicate a grouping. You should have a comment to 
+enumerate those groups.
+
+Also it'd be nice if someplace JMSK was defined at least once.
+
+> +	JMSK_RST_CMD_COMMON,
+> +	JMSK_RST_CMD_FE_RESET,
+> +	JMSK_RST_CMD_WE_RESET,
+> +	JMSK_RST_CMD_ENCODER_RESET,
+> +	JMSK_RST_CMD_DECODER_RESET,
+> +	JMSK_RST_CMD_BLOCK_FORMATTER_RST,
+> +	JMSK_RST_CMD_SCALE_RESET,
+> +	JMSK_RST_CMD_REGISTER_RESET,
+> +	JMSK_RST_CMD_MISR_RESET,
+> +	JMSK_RST_CMD_CORE_RESET,
+> +	JMSK_RST_CMD_JMSK_DOMAIN_RESET,
+> +	JMSK_RST_CMD_RESET_BYPASS,
+> +
+> +	JMSK_CMD_HW_START,
+> +	JMSK_CMD_HW_STOP,
+> +	JMSK_CMD_CLR_RD_PLNS_QUEUE,
+> +	JMSK_CMD_CLR_WR_PLNS_QUEUE,
+> +	JMSK_CMD_APPLY_SWC_RD_PARAMS,
+> +
+> +	JMSK_CORE_CFG_FE_ENABLE,
+> +	JMSK_CORE_CFG_WE_ENABLE,
+> +	JMSK_CORE_CFG_ENC_ENABLE,
+> +	JMSK_CORE_CFG_SCALE_ENABLE,
+> +	JMSK_CORE_CFG_TESTBUS_ENABLE,
+> +	JMSK_CORE_CFG_MODE,
+> +	JMSK_CORE_CFG_CGC_DISABLE,
+> +
+> +	JMSK_CORE_STATUS_ENCODE_STATE,
+> +	JMSK_CORE_STATUS_SCALE_STATE,
+> +	JMSK_CORE_STATUS_RT_STATE,
+> +	JMSK_CORE_STATUS_BUS_STATE,
+> +	JMSK_CORE_STATUS_CGC_STATE,
+> +
+> +	JMSK_IRQ_ENABLE_ALL,
+> +	JMSK_IRQ_DISABLE_ALL,
+> +	JMSK_IRQ_CLEAR_ALL,
+> +
+> +	JMSK_IRQ_STATUS_SESSION_DONE,
+> +	JMSK_IRQ_STATUS_RD_BUF_PLN0_DONE,
+> +	JMSK_IRQ_STATUS_RD_BUF_PLN1_DONE,
+> +	JMSK_IRQ_STATUS_RD_BUF_PLN2_DONE,
+> +	JMSK_IRQ_STATUS_RD_BUF_PLNS_ATTN,
+> +	JMSK_IRQ_STATUS_WR_BUF_PLN0_DONE,
+> +	JMSK_IRQ_STATUS_WR_BUF_PLN1_DONE,
+> +	JMSK_IRQ_STATUS_WR_BUF_PLN2_DONE,
+> +	JMSK_IRQ_STATUS_WR_BUF_PLNS_ATTN,
+> +	JMSK_IRQ_STATUS_SESSION_ERROR,
+> +	JMSK_IRQ_STATUS_STOP_ACK,
+> +	JMSK_IRQ_STATUS_RESET_ACK,
+> +
+> +	JMSK_FE_CFG_BYTE_ORDERING,
+> +	JMSK_FE_CFG_BURST_LENGTH_MAX,
+> +	JMSK_FE_CFG_MEMORY_FORMAT,
+> +	JMSK_FE_CFG_CBCR_ORDER,
+> +	JMSK_FE_CFG_BOTTOM_VPAD_EN,
+> +	JMSK_FE_CFG_PLN0_EN,
+> +	JMSK_FE_CFG_PLN1_EN,
+> +	JMSK_FE_CFG_PLN2_EN,
+> +	JMSK_FE_CFG_SIXTEEN_MCU_EN,
+> +	JMSK_FE_CFG_MCUS_PER_BLOCK,
+> +	JMSK_FE_CFG_MAL_BOUNDARY,
+> +	JMSK_FE_CFG_MAL_EN,
+> +
+> +	JMSK_FE_VBPAD_CFG_BLOCK_ROW,
+> +
+> +	JMSK_PLNS_RD_OFFSET,
+> +	JMSK_PLNS_RD_BUF_SIZE_WIDTH,
+> +	JMSK_PLNS_RD_BUF_SIZE_HEIGHT,
+> +	JMSK_PLNS_RD_STRIDE,
+> +	JMSK_PLNS_RD_HINIT,
+> +	JMSK_PLNS_RD_VINIT,
+> +
+> +	JMSK_WE_CFG_BYTE_ORDERING,
+> +	JMSK_WE_CFG_BURST_LENGTH_MAX,
+> +	JMSK_WE_CFG_MEMORY_FORMAT,
+> +	JMSK_WE_CFG_CBCR_ORDER,
+> +	JMSK_WE_CFG_PLN0_EN,
+> +	JMSK_WE_CFG_PLN1_EN,
+> +	JMSK_WE_CFG_PLN2_EN,
+> +	JMSK_WE_CFG_MAL_BOUNDARY,
+> +	JMSK_WE_CFG_MAL_EN,
+> +	JMSK_WE_CFG_POP_BUFF_ON_EOS,
+> +
+> +	JMSK_PLNS_WR_BUF_SIZE_WIDTH,
+> +	JMSK_PLNS_WR_BUF_SIZE_HEIGHT,
+> +
+> +	JMSK_PLNS_WR_STRIDE,
+> +	JMSK_PLNS_WR_HINIT,
+> +	JMSK_PLNS_WR_VINIT,
+> +	JMSK_PLNS_WR_HSTEP,
+> +	JMSK_PLNS_WR_VSTEP,
+> +	JMSK_PLNS_WR_BLOCK_CFG_PER_COL,
+> +	JMSK_PLNS_WR_BLOCK_CFG_PER_RAW,
+> +
+> +	JMSK_ENC_CFG_IMAGE_FORMAT,
+> +	JMSK_ENC_CFG_APPLY_EOI,
+> +	JMSK_ENC_CFG_HUFFMAN_SEL,
+> +	JMSK_ENC_CFG_FSC_ENABLE,
+> +	JMSK_ENC_CFG_OUTPUT_DISABLE,
+> +	JMSK_ENC_CFG_RST_MARKER_PERIOD,
+> +	JMSK_ENC_IMAGE_SIZE_WIDTH,
+> +	JMSK_ENC_IMAGE_SIZE_HEIGHT,
+> +
+> +	JMSK_SCALE_CFG_HSCALE_ENABLE,
+> +	JMSK_SCALE_CFG_VSCALE_ENABLE,
+> +	JMSK_SCALE_CFG_UPSAMPLE_EN,
+> +	JMSK_SCALE_CFG_SUBSAMPLE_EN,
+> +	JMSK_SCALE_CFG_HSCALE_ALGO,
+> +	JMSK_SCALE_CFG_VSCALE_ALGO,
+> +	JMSK_SCALE_CFG_H_SCALE_FIR_ALGO,
+> +	JMSK_SCALE_CFG_V_SCALE_FIR_ALGO,
+> +
+> +	JMSK_SCALE_PLNS_OUT_CFG_BLK_WIDTH,
+> +	JMSK_SCALE_PLNS_OUT_CFG_BLK_HEIGHT,
+> +
+> +	JMSK_SCALE_PLNS_HSTEP_FRACTIONAL,
+> +	JMSK_SCALE_PLNS_HSTEP_INTEGER,
+> +	JMSK_SCALE_PLNS_VSTEP_FRACTIONAL,
+> +	JMSK_SCALE_PLNS_VSTEP_INTEGER,
+> +
+> +	JMSK_DMI_CFG,
+> +	JMSK_DMI_ADDR,
+> +	JMSK_DMI_DATA,
+> +
+> +	JMSK_TESTBUS_CFG,
+> +	JMSK_FE_VBPAD_CFG,
+> +
+> +	JMSK_PLN0_RD_HINIT_INT,
+> +	JMSK_PLN1_RD_HINIT_INT,
+> +	JMSK_PLN2_RD_HINIT_INT,
+> +	JMSK_PLN0_RD_VINIT_INT,
+> +	JMSK_PLN1_RD_VINIT_INT,
+> +	JMSK_PLN2_RD_VINIT_INT,
+> +	JMSK_ID_MAX
+> +};
+> +
+> +struct qcom_jpeg_reg_offs {
+> +	u32 hw_version;
+> +	u32 hw_capability;
+> +	u32 reset_cmd;
+> +	u32 core_cfg;
+> +	u32 int_mask;
+> +	u32 int_clr;
+> +	u32 int_status;
+> +	u32 hw_cmd;
+> +	u32 enc_core_state;
+> +
+> +	struct {
+> +		u32 pntr[QCOM_JPEG_MAX_PLANES];
+> +		u32 offs[QCOM_JPEG_MAX_PLANES];
+> +		u32 cnsmd[QCOM_JPEG_MAX_PLANES];
+> +		u32 bsize[QCOM_JPEG_MAX_PLANES];
+> +		u32 stride[QCOM_JPEG_MAX_PLANES];
+> +		u32 hinit[QCOM_JPEG_MAX_PLANES];
+> +		u32 vinit[QCOM_JPEG_MAX_PLANES];
+> +		u32 pntr_cnt;
+> +		u32 vbpad_cfg;
+> +	} fe;
+> +	u32 fe_cfg;
+> +
+> +	struct {
+> +		u32 pntr[QCOM_JPEG_MAX_PLANES];
+> +		u32 cnsmd[QCOM_JPEG_MAX_PLANES];
+> +		u32 bsize[QCOM_JPEG_MAX_PLANES];
+> +		u32 stride[QCOM_JPEG_MAX_PLANES];
+> +		u32 hinit[QCOM_JPEG_MAX_PLANES];
+> +		u32 hstep[QCOM_JPEG_MAX_PLANES];
+> +		u32 vinit[QCOM_JPEG_MAX_PLANES];
+> +		u32 vstep[QCOM_JPEG_MAX_PLANES];
+> +		u32 blocks[QCOM_JPEG_MAX_PLANES];
+> +		u32 pntr_cnt;
+> +	} we;
+> +	u32 we_cfg;
+> +
+> +	struct {
+> +		u32 hstep[QCOM_JPEG_MAX_PLANES];
+> +		u32 vstep[QCOM_JPEG_MAX_PLANES];
+> +	} scale;
+> +	u32 scale_cfg;
+> +	u32 scale_out_cfg[QCOM_JPEG_MAX_PLANES];
+> +
+> +	u32 enc_cfg;
+> +	u32 enc_img_size;
+> +	u32 enc_out_size;
+> +
+> +	u32 dmi_cfg;
+> +	u32 dmi_data;
+> +	u32 dmi_addr;
+> +} __packed;
+
+You generally only care about packing if you are aligning to a hardware 
+feature / reg region.
+
+Is that so here ? Seems like not, so unless this is literally a pointer 
+to a gigantic register space, I don't believe it needs __packing.
+
+> +#endif /* QCOM_JENC_DEFS_H_ */
+> diff --git a/drivers/media/platform/qcom/jpeg/qcom_jenc_dev.c b/drivers/media/platform/qcom/jpeg/qcom_jenc_dev.c
+> new file mode 100644
+> index 000000000000..4ef6bf9fd48d
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/jpeg/qcom_jenc_dev.c
+> @@ -0,0 +1,370 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/slab.h>
+> +
+> +#include <media/v4l2-mem2mem.h>
+> +
+> +#include "qcom_jenc_dev.h"
+> +
+> +#include "qcom_jenc_defs.h"
+> +#include "qcom_jenc_ops.h"
+> +#include "qcom_jenc_res.h"
+> +#include "qcom_jenc_v4l2.h"
+> +
+> +static int qcom_jpeg_match_data(struct qcom_jenc_dev *jenc)
+> +{
+> +	struct device *dev = jenc->dev;
+> +	const struct qcom_dev_resources *res;
+> +
+> +	res = device_get_match_data(dev);
+> +	if (!res)
+> +		return dev_err_probe(dev, -ENODEV, "unsupported SoC\n");
+> +
+> +	jenc->res = res;
+> +
+> +	return 0;
+> +}
+> +
+> +static int qcom_jpeg_clk_init(struct qcom_jenc_dev *jenc)
+> +{
+> +	const struct qcom_dev_resources *res = jenc->res;
+> +	int c_idx;
+> +
+> +	jenc->clks = devm_kcalloc(jenc->dev, ARRAY_SIZE(res->clk_names), sizeof(*jenc->clks),
+> +				  GFP_KERNEL);
+> +	if (!jenc->clks)
+> +		return -ENOMEM;
+> +
+> +	for (c_idx = 0; c_idx < ARRAY_SIZE(res->clk_names); c_idx++) {
+> +		if (!res->clk_names[c_idx])
+> +			break;
+
+Should this be an error ?
+
+No, probably not ..
+
+> +
+> +		jenc->clks[c_idx].clk = devm_clk_get(jenc->dev, res->clk_names[c_idx]);
+> +		if (IS_ERR(jenc->clks[c_idx].clk)) {
+> +			return dev_err_probe(jenc->dev, PTR_ERR(jenc->clks[c_idx].clk),
+> +					     "failed to get clock %s\n", res->clk_names[c_idx]);
+> +		}
+> +
+> +		jenc->clks[c_idx].id = res->clk_names[c_idx];
+> +		jenc->num_clks++;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int qcom_jpeg_clk_rate(struct qcom_jenc_dev *jenc, enum qcom_soc_perf_level level)
+> +{
+> +	const struct qcom_dev_resources	*res = jenc->res;
+> +	const struct qcom_perf_resource	*perf = &res->perf_cfg[level];
+> +	int c_idx;
+> +	int rc = 0;
+
+Reverse Christmas tree your declarations for preference.
+
+> +
+> +	for (c_idx = 0; c_idx < jenc->num_clks; c_idx++) {
+> +		/* skip clocks with fixed or default frequency */
+> +		if (!perf->clk_rate[c_idx])
+> +			continue;
+> +
+> +		/* setup frequency according to performance level */
+> +		rc = clk_set_rate(jenc->clks[c_idx].clk, perf->clk_rate[c_idx]);
+> +		if (rc < 0) {
+> +			dev_err(jenc->dev, "clock set rate failed: %d\n", rc);
+> +			return rc;
+> +		}
+> +
+> +		dev_dbg(jenc->dev, "clock %s current rate: %ld\n",
+> +			jenc->clks[c_idx].id, clk_get_rate(jenc->clks[c_idx].clk));
+> +	}
+> +
+> +	return rc;
+> +}
+> +
+> +static int qcom_jpeg_clk_on(struct qcom_jenc_dev *jenc)
+> +{
+> +	int rc;
+> +
+> +	rc = qcom_jpeg_clk_rate(jenc, jenc->perf);
+> +	if (rc)
+> +		return rc;
+> +
+> +	rc = clk_bulk_prepare_enable(jenc->num_clks, jenc->clks);
+> +	if (rc)
+> +		return rc;
+> +
+> +	return 0;
+> +}
+> +
+> +static void qcom_jpeg_clk_off(struct qcom_jenc_dev *jenc)
+> +{
+> +	clk_bulk_disable_unprepare(jenc->num_clks, jenc->clks);
+> +}
+> +
+> +static int qcom_jpeg_icc_on(struct qcom_jenc_dev *jenc)
+> +{
+> +	const struct qcom_dev_resources	*res = jenc->res;
+> +	int p_idx;
+> +	int rc;
+> +
+> +	for (p_idx = 0; p_idx < res->num_of_icc; p_idx++) {
+> +		rc = icc_set_bw(jenc->icc_paths[p_idx], res->icc_res[p_idx].pair.aggr,
+> +				res->icc_res[p_idx].pair.peak);
+> +		if (rc) {
+> +			dev_err(jenc->dev, "%s failed for path %s: %d\n", __func__,
+> +				res->icc_res[p_idx].icc_id, rc);
+
+Please drop those __func__ for upstream submssion - better error strings 
+instead.
+
+> +			goto err_icc_set_bw;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +
+> +err_icc_set_bw:
+> +	while (--p_idx >= 0)
+> +		icc_set_bw(jenc->icc_paths[p_idx], 0, 0);
+> +
+> +	return rc;
+> +}
+> +
+> +static void qcom_jpeg_icc_off(struct qcom_jenc_dev *jenc)
+> +{
+> +	const struct qcom_dev_resources	*res = jenc->res;
+> +	int p_idx;
+> +
+> +	for (p_idx = 0; p_idx < res->num_of_icc; p_idx++)
+> +		icc_set_bw(jenc->icc_paths[p_idx], 0, 0);
+> +}
+> +
+> +static int qcom_jpeg_icc_init(struct qcom_jenc_dev *jenc)
+> +{
+> +	const struct qcom_dev_resources	*res = jenc->res;
+> +	int p_idx;
+> +
+> +	jenc->icc_paths = devm_kcalloc(jenc->dev, res->num_of_icc, sizeof(*jenc->icc_paths),
+> +				       GFP_KERNEL);
+> +	if (!jenc->icc_paths)
+> +		return -ENOMEM;
+> +
+> +	for (p_idx = 0; p_idx < res->num_of_icc; p_idx++) {
+> +		jenc->icc_paths[p_idx] = devm_of_icc_get(jenc->dev, res->icc_res[p_idx].icc_id);
+> +		if (IS_ERR(jenc->icc_paths[p_idx])) {
+> +			return dev_err_probe(jenc->dev, PTR_ERR(jenc->icc_paths[p_idx]),
+> +					     "failed to get ICC path: %ld\n",
+> +					     PTR_ERR(jenc->icc_paths[p_idx]));
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static __maybe_unused int qcom_jpeg_pm_suspend(struct device *dev)
+> +{
+> +	struct qcom_jenc_dev *jenc = dev_get_drvdata(dev);
+> +
+> +	qcom_jpeg_clk_off(jenc);
+> +
+> +	qcom_jpeg_icc_off(jenc);
+> +
+> +	return 0;
+> +}
+> +
+> +static __maybe_unused int qcom_jpeg_pm_resume(struct device *dev)
+> +{
+> +	struct qcom_jenc_dev *jenc = dev_get_drvdata(dev);
+> +	int rc;
+> +
+> +	rc = qcom_jpeg_icc_on(jenc);
+> +	if (rc)
+> +		return rc;
+> +
+> +	return qcom_jpeg_clk_on(jenc);
+
+if qcom_jpeg_clk_on fails you need to unwind icc_on no ?
+
+> +}
+> +
+> +static __maybe_unused int qcom_jpeg_suspend(struct device *dev)
+> +{
+> +	struct qcom_jenc_dev *jenc = dev_get_drvdata(dev);
+> +
+> +	v4l2_m2m_suspend(jenc->m2m_dev);
+> +
+> +	return pm_runtime_force_suspend(dev);
+> +}
+> +
+> +static __maybe_unused int qcom_jpeg_resume(struct device *dev)
+> +{
+> +	struct qcom_jenc_dev *jenc = dev_get_drvdata(dev);
+> +	int rc;
+> +
+> +	rc = pm_runtime_force_resume(dev);
+> +	if (rc)
+> +		return rc;
+> +
+> +	v4l2_m2m_resume(jenc->m2m_dev);
+> +
+> +	return rc;
+> +}
+> +
+> +static const struct dev_pm_ops qcom_jpeg_pm_ops = {
+> +	SET_SYSTEM_SLEEP_PM_OPS(qcom_jpeg_suspend, qcom_jpeg_resume)
+> +	SET_RUNTIME_PM_OPS(qcom_jpeg_pm_suspend, qcom_jpeg_pm_resume, NULL)
+> +};
+> +
+> +static int qcom_jpeg_probe(struct platform_device *pdev)
+> +{
+> +	struct qcom_jenc_dev *jenc;
+> +	int rc;
+> +
+> +	jenc = devm_kzalloc(&pdev->dev, sizeof(*jenc), GFP_KERNEL);
+> +	if (!jenc)
+> +		return -ENOMEM;
+> +
+> +	jenc->dev = &pdev->dev;
+> +	mutex_init(&jenc->dev_mutex);
+> +	spin_lock_init(&jenc->hw_lock);
+> +	init_completion(&jenc->reset_complete);
+> +	init_completion(&jenc->stop_complete);
+> +
+> +	rc = qcom_jpeg_match_data(jenc);
+> +	if (rc)
+> +		return dev_err_probe(jenc->dev, rc, "failed to attach hardware\n");
+> +
+> +	if (!jenc->res->hw_offs || !jenc->res->hw_ops)
+> +		return dev_err_probe(jenc->dev, -EINVAL, "missing hw resources\n");
+> +
+> +	rc = dma_set_mask_and_coherent(jenc->dev, DMA_BIT_MASK(32));
+> +	if (rc)
+> +		return dev_err_probe(jenc->dev, rc, "failed to set DMA mask\n");
+> +
+> +	platform_set_drvdata(pdev, jenc);
+
+Strange place to assign this, do you need it subsequent in your probes 
+or could you do it right at the end ?
+
+Minor nit.
+
+> +
+> +	jenc->jpeg_base = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(jenc->jpeg_base)) {
+> +		rc = PTR_ERR(jenc->jpeg_base);
+> +		return dev_err_probe(jenc->dev, rc, "failed to map JPEG resource\n");
+> +	}
+> +
+> +	jenc->cpas_base = devm_platform_ioremap_resource(pdev, 1);
+> +	if (IS_ERR(jenc->cpas_base)) {
+> +		rc = PTR_ERR(jenc->cpas_base);
+> +		return dev_err_probe(jenc->dev, rc, "failed to map CPAS resource\n");
+> +	}
+> +
+> +	rc = qcom_jpeg_clk_init(jenc);
+> +	if (rc)
+> +		return dev_err_probe(jenc->dev, rc, "failed to init bulk clocks\n");
+> +
+> +	jenc->irq = platform_get_irq(pdev, 0);
+> +	if (jenc->irq < 0)
+> +		return dev_err_probe(jenc->dev, jenc->irq, "failed to get IRQ\n");
+> +
+> +	rc = devm_request_threaded_irq(jenc->dev, jenc->irq,
+> +				       jenc->res->hw_ops->hw_irq_top,
+> +				       jenc->res->hw_ops->hw_irq_bot,
+> +				       IRQF_ONESHOT, dev_name(jenc->dev), jenc);
+> +	if (rc)
+> +		return dev_err_probe(jenc->dev, rc, "failed to request IRQ\n");
+> +
+> +	rc = qcom_jpeg_icc_init(jenc);
+> +	if (rc)
+> +		return dev_err_probe(jenc->dev, rc, "failed to get ICC resources\n");
+> +
+> +	rc = kfifo_alloc(&jenc->kfifo_inst, sizeof(jenc->enc_status) * VB2_MAX_FRAME, GFP_KERNEL);
+> +	if (rc) {
+> +		dev_err(jenc->dev, "failed to allocate kfifo\n");
+
+dev_err_probe() like earlier on - I guess this was a jump to 
+err_kfifo_free you forgot to tidy up.
+
+> +		return rc;
+> +	}
+> +
+> +	spin_lock_init(&jenc->kfifo_lock);
+> +
+> +	rc = v4l2_device_register(jenc->dev, &jenc->v4l2_dev);
+> +	if (rc) {
+> +		dev_err(jenc->dev, "failed to register V4L2 device\n");
+> +		goto err_kfifo_free;
+> +	}
+> +
+> +	rc = qcom_jpeg_v4l2_register(jenc);
+> +	if (rc) {
+> +		dev_err(jenc->dev, "failed to register video device\n");
+> +		goto err_v4l2_device_unregister;
+> +	}
+> +
+> +	jenc->perf = QCOM_SOC_PERF_NOMINAL;
+> +
+> +	pm_runtime_enable(jenc->dev);
+> +
+> +	dev_info(jenc->dev, "Qualcomm JPEG encoder registered\n");
+> +
+> +	return 0;
+> +
+> +err_v4l2_device_unregister:
+> +	v4l2_device_unregister(&jenc->v4l2_dev);
+> +err_kfifo_free:
+> +	kfifo_free(&jenc->kfifo_inst);
+> +
+> +	return rc;
+> +}
+> +
+> +static void qcom_jpeg_remove(struct platform_device *pdev)
+> +{
+> +	struct qcom_jenc_dev *jenc = platform_get_drvdata(pdev);
+> +
+> +	pm_runtime_disable(&pdev->dev);
+> +
+> +	qcom_jpeg_v4l2_unregister(jenc);
+> +
+> +	v4l2_device_unregister(&jenc->v4l2_dev);
+> +
+> +	kfifo_free(&jenc->kfifo_inst);
+> +
+> +	dev_info(jenc->dev, "Qualcomm JPEG encoder deregistered\n");
+> +}
+> +
+> +static const struct of_device_id qcom_jpeg_of_match[] = {
+> +	{
+> +		.compatible	= "qcom,sc7180-jenc",
+> +		.data		= &qcom_jpeg_v165_drvdata
+> +	},
+> +	{
+> +		.compatible	= "qcom,sm8250-jenc",
+> +		.data		= &qcom_jpeg_v580_drvdata
+> +	},
+> +	{
+> +		.compatible	= "qcom,sm7325-jenc",
+> +		.data		= &qcom_jpeg_v580_drvdata
+> +	},
+> +	{
+> +		.compatible	= "qcom,sc7280-jenc",
+> +		.data		= &qcom_jpeg_v680_drvdata
+> +	},
+> +	{
+> +		.compatible	= "qcom,qcm6490-jenc",
+> +		.data		= &qcom_jpeg_v680_drvdata
+> +	},
+
+Only one of these is supported in your submission so NAK for all of the 
+others not in the submission.
+
+qcm6490 is the only one anybody can verify in this series, please drop 
+the others and progressively add them in with new DT entries to support.
+
+> +	{
+> +		.compatible	= "qcom,sm8550-jenc",
+> +		.data		= &qcom_jpeg_v780_drvdata
+> +	},
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, qcom_jpeg_of_match);
+> +
+> +static struct platform_driver qcom_jpeg_platform_driver = {
+> +	.probe  = qcom_jpeg_probe,
+> +	.remove = qcom_jpeg_remove,
+> +	.driver = {
+> +		.name = QCOM_JPEG_ENC_NAME,
+> +		.of_match_table = qcom_jpeg_of_match,
+> +		.pm             = &qcom_jpeg_pm_ops,
+> +	},
+> +};
+> +
+> +module_platform_driver(qcom_jpeg_platform_driver);
+> +
+> +MODULE_DESCRIPTION("QCOM JPEG mem2mem V4L2 encoder");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/media/platform/qcom/jpeg/qcom_jenc_dev.h b/drivers/media/platform/qcom/jpeg/qcom_jenc_dev.h
+> new file mode 100644
+> index 000000000000..cf0c1a933163
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/jpeg/qcom_jenc_dev.h
+> @@ -0,0 +1,111 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> + */
+> +
+> +#ifndef QCOM_JENC_DEV_H
+> +#define QCOM_JENC_DEV_H
+> +
+> +#include <linux/device.h>
+> +#include <linux/mutex.h>
+> +#include <linux/irqreturn.h>
+> +#include <linux/interconnect.h>
+> +#include <linux/kfifo.h>
+> +#include <linux/irq_work.h>
+> +#include <media/videobuf2-core.h>
+> +
+> +#include <media/v4l2-device.h>
+> +#include <media/videobuf2-v4l2.h>
+> +#include <media/v4l2-ctrls.h>
+> +
+> +#include "qcom_jenc_res.h"
+> +#include "qcom_jenc_hdr.h"
+> +#include "qcom_jenc_defs.h"
+> +
+> +#define QCOM_JPEG_ENC_NAME "qcom-jpeg-enc"
+> +
+> +#define TYPE2QID(t) \
+> +	(V4L2_TYPE_IS_OUTPUT(t) ? JENC_SRC_QUEUE : JENC_DST_QUEUE)
+> +
+> +enum qcom_enc_qid {
+> +	JENC_SRC_QUEUE = 0,
+> +	JENC_DST_QUEUE,
+> +	JENC_QUEUE_MAX
+> +};
+> +
+> +struct jenc_enc_format {
+> +	u32 type;
+> +	u32 fourcc;
+> +};
+> +
+> +struct qcom_jpeg_buff {
+> +	struct {
+> +		struct sg_table		*sgt;
+> +		dma_addr_t		dma;
+> +		unsigned long		size;
+> +
+> +	} plns[QCOM_JPEG_MAX_PLANES];
+> +};
+> +
+> +struct qcom_jenc_queue {
+> +	struct v4l2_pix_format_mplane	vf;
+> +	u32				sequence;
+> +	struct qcom_jpeg_buff		buff[VB2_MAX_FRAME];
+> +	int				buff_id;
+> +};
+> +
+> +struct qcom_jenc_dev {
+> +	struct device			*dev;
+> +	struct v4l2_device		v4l2_dev;
+> +	struct v4l2_m2m_dev		*m2m_dev;
+> +	struct video_device		*vdev;
+> +	const struct qcom_dev_resources	*res;
+> +	enum qcom_soc_perf_level	perf;
+> +	int				irq;
+> +	void __iomem			*jpeg_base;
+> +	void __iomem			*cpas_base;
+> +	struct clk_bulk_data		*clks;
+> +	int				num_clks;
+> +	/* device mutex lock */
+> +	struct mutex			dev_mutex;
+> +	atomic_t			ref_count;
+> +	struct completion		reset_complete;
+> +	struct completion		stop_complete;
+> +	/* decoder hardware lock */
+> +	spinlock_t			hw_lock;
+> +	struct jenc_context		*actx;
+> +	struct icc_path			**icc_paths;
+> +
+> +	struct kfifo			kfifo_inst;
+> +	/* lock kfifo operations */
+> +	spinlock_t			kfifo_lock;
+> +	u32				enc_status;
+> +
+> +	void (*enc_hw_irq_cb)
+> +		(void *data, enum vb2_buffer_state ev, size_t out_size);
+> +};
+> +
+> +struct jenc_context {
+> +	struct device		 *dev;
+> +	struct qcom_jenc_dev	 *jenc;
+> +	struct v4l2_fh		 fh;
+> +
+> +	/* quality update lock */
+> +	struct mutex		 quality_mutex;
+> +	struct v4l2_ctrl	 *quality_ctl;
+> +	u32			 quality_requested;
+> +	u32			 quality_programmed;
+> +	struct v4l2_ctrl_handler ctrl_hdl;
+> +
+> +	/* session context lock */
+> +	struct mutex		 ctx_lock;
+> +
+> +	/* decoder state lock */
+> +	struct mutex		 stop_lock;
+> +	bool			 is_stopping;
+> +
+> +	struct qcom_jenc_queue	bufq[JENC_QUEUE_MAX];
+> +	struct qcom_jenc_header	hdr_cache;
+> +};
+> +
+> +#endif
+> diff --git a/drivers/media/platform/qcom/jpeg/qcom_jenc_hdr.c b/drivers/media/platform/qcom/jpeg/qcom_jenc_hdr.c
+> new file mode 100644
+> index 000000000000..5a794882b980
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/jpeg/qcom_jenc_hdr.c
+> @@ -0,0 +1,388 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> + */
+> +
+> +#include <linux/string.h>
+> +#include <linux/errno.h>
+> +
+> +#include "qcom_jenc_hdr.h"
+> +#include "qcom_jenc_dev.h"
+> +
+> +/*
+> + * The elements defined in this header are specified
+> + * in the ITU-T T.81 / JPEG specification.
+> + *
+> + * https://www.w3.org/Graphics/JPEG/itu-t81.pdf
+> + */
+> +
+> +#define JFIF_HEADER_WIDTH_OFFS	0x07
+> +#define JFIF_HEADER_HEIGHT_OFFS	0x05
+> +
+> +struct jpeg_header_buf {
+> +	u8  *ptr;
+> +	u32 size;
+> +	u32 pos;
+> +};
+> +
+> +static const struct jpeg_soi_app0 soi_app0 = {
+> +	.soi		= { 0xff, 0xd8 },
+> +	.app0_marker	= { 0xff, 0xe0 },
+> +	.app0_length	= { 0x00, 0x10 },
+> +	.jfif_id	= { 'J', 'F', 'I', 'F', 0x00 },
+> +	.version	= { 0x01, 0x01 },
+> +	.units		= 0x00,
+> +	.density_x	= { 0x00, 0x01 },
+> +	.density_y	= { 0x00, 0x01 },
+> +	.thumb_x	= 0x00,
+> +	.thumb_y	= 0x00,
+> +};
+> +
+> +static const struct jpeg_record_hdr dqt_luma_hdr = {
+> +	.marker = { 0xff, 0xdb },
+> +	.length = { 0, 0x43 }
+> +};
+
+What are these magic numbers about ? Comments at the very least are 
+required so that the question isn't raised when reading.
+> +
+> +/* Luminance quantization table */
+> +static const struct jpeg_dqt_header dqt_luma_data = {
+> +	.index = 0x00,
+> +};
+> +
+> +static const struct jpeg_record_hdr  dqt_chroma_hdr = {
+> +	.marker = { 0xff, 0xdb },
+> +	.length = { 0, 0x84 }
+> +};
+> +
+> +/* Chrominance quantization table */
+> +static const struct jpeg_dqt_header dqt_chroma_data = {
+> +	.index = 0x01,
+> +};
+> +
+> +static const struct jpeg_record_hdr  sof0_mono_hdr = {
+> +	.marker	= { 0xff, 0xc0 },
+> +	.length	= { 0x00, 0x0b },
+> +};
+> +
+> +static const struct jpeg_sof0_mono sof0_mono_data = {
+> +	.precision	= 0x08,
+> +	.height		= { 0x00, 0x00 },
+> +	.width		= { 0x00, 0x00 },
+> +	.components	= 1,
+> +	.y_id		= 1,
+> +	.y_sampling	= 0x11,
+> +	.y_qtable	= 0,
+> +};
+> +
+> +static const struct jpeg_record_hdr  sof0_color_hdr = {
+> +	.marker	= { 0xff, 0xc0 },
+> +	.length	= { 0x00, 0x11 },
+> +};
+
+Hmm, there seems to be alot of the magic number stuff coming out in this 
+area recently.
+
+I'll reiterate - bit-fields with named values are required.
+
+
+> +
+> +static const struct jpeg_sof0_color sof0_color_data = {
+> +	.precision	= 0x08,
+> +	.height		= { 0x00, 0x00 },
+> +	.width		= { 0x00, 0x00 },
+> +	.components	= 3,
+> +	.y_id		= 1,
+> +	.y_sampling	= 0x22,
+> +	.y_qtable	= 0,
+> +	.cb_id		= 2,
+> +	.cb_sampling	= 0x11,
+> +	.cb_qtable	= 1,
+> +	.cr_id		= 3,
+> +	.cr_sampling	= 0x11,
+> +	.cr_qtable	= 1,
+> +};
+> +
+> +static const struct jpeg_record_hdr luma_coeff_hdr = {
+> +	.marker	= { 0xff, 0xc4 },
+> +	.length	= { 0x00, 0xb5 },
+> +};
+> +
+> +/*
+> + * DC Luminance
+> + *
+> + * Typical tables for DC difference coding from  CCITT T.81
+> + * specification K.3.3.1, page 162.
+> + */
+
+Like this - some kind of guidance what the hex numbers are all about. 
+Fantastic.
+
+> +static const struct jpeg_dc_coeff_desc luma_dc_coeff = {
+> +	.index	= 0,
+> +	.bits	= {
+> +		0x00, 0x01, 0x05, 0x01, 0x01, 0x01, 0x01, 0x01,
+> +		0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+> +	},
+> +	.values	= {
+> +		0x00, 0x01, 0x02, 0x03, 0x04, 0x05,
+> +		0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b
+> +	}
+> +};
+> +
+> +/*
+> + * AC Luminance
+> + *
+> + * Typical tables for AC coefficient coding from  CCITT T.81
+> + * specification K.3.3.2, page 162.
+> + */
+> +static const struct jpeg_ac_coeff_desc luma_ac_coeff = {
+> +	.index	= 0x10,
+> +	.bits	= {
+> +		0x00, 0x02, 0x01, 0x03, 0x03, 0x02, 0x04, 0x03,
+> +		0x05, 0x05, 0x04, 0x04, 0x00, 0x00, 0x01, 0x7d
+> +	},
+> +	.values	= {
+> +		0x01, 0x02, 0x03, 0x00, 0x04, 0x11, 0x05, 0x12, 0x21,
+> +		0x31, 0x41, 0x06, 0x13, 0x51, 0x61, 0x07, 0x22, 0x71,
+> +		0x14, 0x32, 0x81, 0x91, 0xa1, 0x08, 0x23, 0x42, 0xb1,
+> +		0xc1, 0x15, 0x52, 0xd1, 0xf0, 0x24, 0x33, 0x62, 0x72,
+> +		0x82, 0x09, 0x0a, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x25,
+> +		0x26, 0x27, 0x28, 0x29, 0x2a, 0x34, 0x35, 0x36, 0x37,
+> +		0x38, 0x39, 0x3a, 0x43, 0x44, 0x45, 0x46, 0x47, 0x48,
+> +		0x49, 0x4a, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58, 0x59,
+> +		0x5a, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, 0x6a,
+> +		0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7a, 0x83,
+> +		0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x92, 0x93,
+> +		0x94, 0x95, 0x96, 0x97, 0x98, 0x99, 0x9a, 0xa2, 0xa3,
+> +		0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xb2, 0xb3,
+> +		0xb4, 0xb5, 0xb6, 0xb7, 0xb8, 0xb9, 0xba, 0xc2, 0xc3,
+> +		0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xd2, 0xd3,
+> +		0xd4, 0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xda, 0xe1, 0xe2,
+> +		0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea, 0xf1,
+> +		0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8, 0xf9, 0xfa
+> +	}
+> +};
+> +
+> +static const struct jpeg_record_hdr coeff_mono_hdr = {
+> +	.marker = { 0xff, 0xc4 },
+> +	.length = { 0x00, 0xd2 },
+> +};
+
+You have the right idea with the public standards references but yeah 
+again closed magic numbers verboten.
+
+> +
+> +static const struct jpeg_record_hdr coeff_color_hdr = {
+> +	.marker	= { 0xff, 0xc4 },
+> +	.length	= { 0x01, 0xa2 },
+> +};
+> +
+> +/* DC Chrominance */
+> +static const struct jpeg_dc_coeff_desc chroma_dc_coeff = {
+> +	.index	= 1,
+> +	.bits	= {
+> +		0x00, 0x03, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+> +		0x01, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00
+> +	},
+> +	.values	= {
+> +		0x00, 0x01, 0x02, 0x03, 0x04, 0x05,
+> +		0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b
+> +	}
+> +};
+> +
+> +/* AC Chrominance */
+> +static const struct jpeg_ac_coeff_desc chroma_ac_coeff = {
+> +	.index	= 0x11,
+> +	.bits	= {
+> +		0x00, 0x02, 0x01, 0x02, 0x04, 0x04, 0x03, 0x04,
+> +		0x07, 0x05, 0x04, 0x04, 0x00, 0x01, 0x02, 0x77
+> +	},
+> +	.values	= {
+> +		0x00, 0x01, 0x02, 0x03, 0x11, 0x04, 0x05, 0x21, 0x31,
+> +		0x06, 0x12, 0x41, 0x51, 0x07, 0x61, 0x71, 0x13, 0x22,
+> +		0x32, 0x81, 0x08, 0x14, 0x42, 0x91, 0xa1, 0xb1, 0xc1,
+> +		0x09, 0x23, 0x33, 0x52, 0xf0, 0x15, 0x62, 0x72, 0xd1,
+> +		0x0a, 0x16, 0x24, 0x34, 0xe1, 0x25, 0xf1, 0x17, 0x18,
+> +		0x19, 0x1a, 0x26, 0x27, 0x28, 0x29, 0x2a, 0x35, 0x36,
+> +		0x37, 0x38, 0x39, 0x3a, 0x43, 0x44, 0x45, 0x46, 0x47,
+> +		0x48, 0x49, 0x4a, 0x53, 0x54, 0x55, 0x56, 0x57, 0x58,
+> +		0x59, 0x5a, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69,
+> +		0x6a, 0x73, 0x74, 0x75, 0x76, 0x77, 0x78, 0x79, 0x7a,
+> +		0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a,
+> +		0x92, 0x93, 0x94, 0x95, 0x96, 0x97, 0x98, 0x99, 0x9a,
+> +		0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9, 0xaa,
+> +		0xb2, 0xb3, 0xb4, 0xb5, 0xb6, 0xb7, 0xb8, 0xb9, 0xba,
+> +		0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca,
+> +		0xd2, 0xd3, 0xd4, 0xd5, 0xd6, 0xd7, 0xd8, 0xd9, 0xda,
+> +		0xe2, 0xe3, 0xe4, 0xe5, 0xe6, 0xe7, 0xe8, 0xe9, 0xea,
+> +		0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8, 0xf9, 0xfa
+> +	}
+> +};
+> +
+> +static const struct jpeg_record_hdr sos_mono_hdr = {
+> +	.marker	= { 0xff, 0xda },
+> +	.length	= { 0x00, 0x08 },
+> +};
+> +
+> +static const struct jpeg_sos_mono sos_mono_data = {
+> +	.components	= 1,
+> +	.y_id		= 1,
+> +	.y_tables	= 0x00,
+> +	.spectral	= { 0x00, 0x3f },
+> +	.approx		= 0x00,
+> +};
+> +
+> +static const struct jpeg_record_hdr sos_color_hdr = {
+> +	.marker	= { 0xff, 0xda },
+> +	.length	= { 0x00, 0x0c },
+> +};
+> +
+> +static const struct jpeg_sos_color sos_color_data = {
+> +	.components	= 3,
+> +	.y_id		= 1,
+> +	.y_tables	= 0x00,
+> +	.cb_id		= 2,
+> +	.cb_tables	= 0x11,
+> +	.cr_id		= 3,
+> +	.cr_tables	= 0x11,
+> +	.spectral	= { 0x00, 0x3f },
+> +	.approx		= 0x00,
+> +};
+> +
+> +static inline int jb_put_mem(struct jpeg_header_buf *b, const void *src, u32 len)
+> +{
+> +	if (len > b->size - b->pos)
+> +		return -ENOSPC;
+> +
+> +	memcpy(b->ptr + b->pos, src, len);
+> +	b->pos += len;
+> +
+> +	return 0;
+> +}
+> +
+> +static inline void patch_u16be(u8 *buf, u32 off, u16 v)
+> +{
+> +	buf[off]	= (v >> 8) & 0xff;
+> +	buf[off + 1]	=  v & 0xff;
+> +}
+> +
+> +int qcom_jenc_header_init(struct qcom_jenc_header *c, u32 fourcc)
+> +{
+> +	int rc;
+> +	struct jpeg_header_buf b = {
+> +		.ptr = c->data,
+> +		.size = sizeof(c->data),
+> +		.pos = 0,
+> +	};
+> +
+> +	c->sof_offset	= 0;
+> +	c->dqt_one_offs = 0;
+> +	c->dqt_two_offs = 0;
+> +
+> +	rc = jb_put_mem(&b, &soi_app0, sizeof(soi_app0));
+> +	if (rc)
+> +		return rc;
+> +
+> +	if (fourcc != V4L2_PIX_FMT_GREY) {
+> +		rc = jb_put_mem(&b, &dqt_chroma_hdr, sizeof(dqt_chroma_hdr));
+> +		if (rc)
+> +			return rc;
+> +
+> +		/* Store the offset of the first DQT table for later use. */
+> +		c->dqt_one_offs = b.pos;
+> +		rc = jb_put_mem(&b, &dqt_luma_data, sizeof(dqt_luma_data));
+> +		if (rc)
+> +			return rc;
+> +
+> +		/* Store the offset of the second DQT table for later use. */
+> +		c->dqt_two_offs = b.pos;
+> +		rc = jb_put_mem(&b, &dqt_chroma_data, sizeof(dqt_chroma_data));
+> +		if (rc)
+> +			return rc;
+> +	} else {
+> +		rc = jb_put_mem(&b, &dqt_luma_hdr, sizeof(dqt_luma_hdr));
+> +		if (rc)
+> +			return rc;
+> +
+> +		/* Store the offset of the first DQT table for later use. */
+> +		c->dqt_one_offs = b.pos;
+> +		rc = jb_put_mem(&b, &dqt_luma_data, sizeof(dqt_luma_data));
+> +		if (rc)
+> +			return rc;
+> +	}
+> +
+> +	/* Store the offset of the SOF record for later use. */
+> +	c->sof_offset = b.pos;
+> +
+> +	if (fourcc != V4L2_PIX_FMT_GREY) {
+> +		rc = jb_put_mem(&b, &sof0_color_hdr, sizeof(sof0_color_hdr));
+> +		if (rc)
+> +			return rc;
+> +		rc = jb_put_mem(&b, &sof0_color_data, sizeof(sof0_color_data));
+> +		if (rc)
+> +			return rc;
+> +		rc = jb_put_mem(&b, &coeff_color_hdr, sizeof(coeff_color_hdr));
+> +		if (rc)
+> +			return rc;
+> +		rc = jb_put_mem(&b, &luma_dc_coeff, sizeof(luma_dc_coeff));
+> +		if (rc)
+> +			return rc;
+> +		rc = jb_put_mem(&b, &luma_ac_coeff, sizeof(luma_ac_coeff));
+> +		if (rc)
+> +			return rc;
+> +		rc = jb_put_mem(&b, &chroma_dc_coeff, sizeof(chroma_dc_coeff));
+> +		if (rc)
+> +			return rc;
+> +		rc = jb_put_mem(&b, &chroma_ac_coeff, sizeof(chroma_ac_coeff));
+> +		if (rc)
+> +			return rc;
+> +		rc = jb_put_mem(&b, &sos_color_hdr, sizeof(sos_color_hdr));
+> +		if (rc)
+> +			return rc;
+> +		rc = jb_put_mem(&b, &sos_color_data, sizeof(sos_color_data));
+> +		if (rc)
+> +			return rc;
+> +	} else {
+> +		rc = jb_put_mem(&b, &sof0_mono_hdr, sizeof(sof0_mono_hdr));
+> +		if (rc)
+> +			return rc;
+> +		rc = jb_put_mem(&b, &sof0_mono_data, sizeof(sof0_mono_data));
+> +		if (rc)
+> +			return rc;
+> +		rc = jb_put_mem(&b, &coeff_mono_hdr, sizeof(coeff_mono_hdr));
+> +		if (rc)
+> +			return rc;
+> +		rc = jb_put_mem(&b, &luma_dc_coeff, sizeof(luma_dc_coeff));
+> +		if (rc)
+> +			return rc;
+> +		rc = jb_put_mem(&b, &luma_ac_coeff, sizeof(luma_ac_coeff));
+> +		if (rc)
+> +			return rc;
+> +		rc = jb_put_mem(&b, &sos_mono_hdr, sizeof(sos_mono_hdr));
+> +		if (rc)
+> +			return rc;
+> +		rc = jb_put_mem(&b, &sos_mono_data, sizeof(sos_mono_data));
+> +		if (rc)
+> +			return rc;
+> +	}
+> +
+> +	c->size = b.pos;
+> +
+> +	return 0;
+> +}
+> +
+> +void qcom_jenc_dqts_emit(const struct qcom_jenc_header *c, u8 *dst)
+> +{
+> +	/* Propagate DQT tables into the JPEG header */
+> +	if (c->dqt_one_offs) {
+> +		u32 one_offs = c->dqt_one_offs + sizeof(dqt_luma_data.index);
+> +
+> +		memcpy(dst + one_offs, &c->data[one_offs], sizeof(dqt_luma_data.value));
+> +	}
+> +
+> +	if (c->dqt_two_offs) {
+> +		u32 two_offs = c->dqt_two_offs + sizeof(dqt_chroma_data.index);
+> +
+> +		memcpy(dst + two_offs, &c->data[two_offs], sizeof(dqt_chroma_data.value));
+> +	}
+> +}
+> +
+> +u32 qcom_jenc_header_emit(const struct qcom_jenc_header *c, u8 *dst, u32 dst_size, u16 width,
+> +			  u16 height)
+> +{
+> +	/* Copy JFIF into JPEG header and update actual image size */
+> +	if (dst_size < c->size)
+> +		return 0;
+> +
+> +	memcpy(dst, c->data, c->size);
+> +
+> +	/* Update output image size */
+> +	patch_u16be(dst, c->sof_offset + JFIF_HEADER_WIDTH_OFFS, width);
+> +	patch_u16be(dst, c->sof_offset + JFIF_HEADER_HEIGHT_OFFS, height);
+> +
+> +	return c->size;
+> +}
+> diff --git a/drivers/media/platform/qcom/jpeg/qcom_jenc_hdr.h b/drivers/media/platform/qcom/jpeg/qcom_jenc_hdr.h
+> new file mode 100644
+> index 000000000000..0c5fcc69e7cd
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/jpeg/qcom_jenc_hdr.h
+> @@ -0,0 +1,130 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> + */
+> +
+> +#ifndef QCOM_JENC_HDR_H
+> +#define QCOM_JENC_HDR_H
+> +
+> +#include <linux/types.h>
+> +
+> +#include "qcom_jenc_defs.h"
+> +
+> +#define JPEG_QDT_LENGTH	64
+> +#define JPEG_HEADER_MAX	1024
+> +
+> +struct qcom_jenc_header {
+> +	u8  data[JPEG_HEADER_MAX];
+> +	u32 size;
+> +	u32 sof_offset;
+> +	u32 dqt_one_offs;
+> +	u32 dqt_two_offs;
+> +};
+> +
+> +struct jpeg_record_hdr {
+> +	u8 marker[2];
+> +	u8 length[2];
+> +} __packed;
+> +
+> +struct jpeg_dqt_header {
+> +	u8 index;
+> +	u8 value[JPEG_QDT_LENGTH];
+> +} __packed;
+> +
+> +struct jpeg_soi_app0 {
+> +	u8 soi[2];
+> +	u8 app0_marker[2];
+> +	u8 app0_length[2];
+> +	u8 jfif_id[5];
+> +	u8 version[2];
+> +	u8 units;
+> +	u8 density_x[2];
+> +	u8 density_y[2];
+> +	u8 thumb_x;
+> +	u8 thumb_y;
+> +} __packed;
+> +
+> +struct jpeg_sof0_mono {
+> +	u8 precision;
+> +	u8 height[2];
+> +	u8 width[2];
+> +	u8 components;
+> +
+> +	u8 y_id;
+> +	u8 y_sampling;
+> +	u8 y_qtable;
+> +} __packed;
+
+OK so we can establish these are hardware / firmware specific 
+data-strcutures and => again no magic numbers.
+
+I'm an athiest, I don't do magic.
+
+
+> +struct jpeg_sof0_color {
+> +	u8 precision;
+> +	u8 height[2];
+> +	u8 width[2];
+> +	u8 components;
+> +
+> +	u8 y_id;
+> +	u8 y_sampling;
+> +	u8 y_qtable;
+> +
+> +	u8 cb_id;
+> +	u8 cb_sampling;
+> +	u8 cb_qtable;
+> +
+> +	u8 cr_id;
+> +	u8 cr_sampling;
+> +	u8 cr_qtable;
+> +} __packed;
+> +
+> +struct jpeg_dc_coeff_desc {
+> +	u8 index;
+> +	u8 bits[16];
+> +	u8 values[12];
+> +} __packed;
+> +
+> +struct jpeg_ac_coeff_desc {
+> +	u8 index;
+> +	u8 bits[16];
+> +	u8 values[162];
+> +} __packed;
+> +
+> +struct jpeg_sos_hdr {
+> +	u8 sos_marker[2];
+> +	u8 sos_length[2];
+> +	u8 components;
+> +} __packed;
+> +
+> +struct jpeg_sos_mono {
+> +	u8 components;
+> +
+> +	u8 y_id;
+> +	u8 y_tables;
+> +
+> +	u8 spectral[2];
+> +	u8 approx;
+> +} __packed;
+> +
+> +struct jpeg_sos_color {
+> +	u8 components;
+> +
+> +	u8 y_id;
+> +	u8 y_tables;
+> +
+> +	u8 cb_id;
+> +	u8 cb_tables;
+> +
+> +	u8 cr_id;
+> +	u8 cr_tables;
+> +
+> +	u8 spectral[2];
+> +	u8 approx;
+> +} __packed;
+> +
+> +struct jenc_context;
+> +
+> +int qcom_jenc_header_init(struct qcom_jenc_header *c, u32 fourcc);
+> +
+> +void qcom_jenc_dqts_emit(const struct qcom_jenc_header *c, u8 *dst);
+> +
+> +u32 qcom_jenc_header_emit(const struct qcom_jenc_header *c, u8 *dst, u32 dst_size, u16 width,
+> +			  u16 height);
+> +
+> +#endif /* QCOM_JENC_HDR_H */
+
+This really is a very large amount of code for one single patch.
+
+Please break it up a bit.
+
+> diff --git a/drivers/media/platform/qcom/jpeg/qcom_jenc_ops.c b/drivers/media/platform/qcom/jpeg/qcom_jenc_ops.c
+> new file mode 100644
+> index 000000000000..92e3c09df3d1
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/jpeg/qcom_jenc_ops.c
+> @@ -0,0 +1,1522 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
+> + */
+> +
+> +#include <asm/div64.h>
+> +#include <linux/pm_runtime.h>
+> +
+> +#include <media/v4l2-common.h>
+> +#include <media/v4l2-mem2mem.h>
+> +#include <media/videobuf2-dma-sg.h>
+> +#include <media/videobuf2-dma-contig.h>
+> +
+> +#include "qcom_jenc_dev.h"
+> +#include "qcom_jenc_ops.h"
+> +#include "qcom_jenc_defs.h"
+> +
+> +#define JPEG_RESET_TIMEOUT_MS	300
+> +#define JPEG_STOP_TIMEOUT_MS	200
+> +
+> +#define JPEG_DQT_SHIFT		20
+> +#define JPEG_Q5_21_SHIFT	21
+> +
+> +#define JPEG_MCU_BLOCK_8	8
+> +#define JPEG_MCU_BLOCK_16	16
+> +#define JPEG_MCU_BLOCK_128	128
+> +#define JPEG_MCU_BLOCK_256	256
+> +
+> +#define JPEG_DEFAULT_SCALE_STEP	0x200000
+> +
+> +#define JPEG_U32_CLR	(0U)
+> +#define JPEG_U32_SET	(~0U)
+> +
+> +/*
+> + *  JPEG | V4L2
+> + *  ---- | -------
+> + *  H1V1 | GREY
+> + *  H1V2 | YUV422M
+> + *  H2V1 | NV16M
+> + *  H2V2 | NV12M
+> + */
+> +enum qcom_jpeg_encode_fmt {
+> +	JPEG_ENCODE_H1V1 = 0,
+> +	JPEG_ENCODE_H1V2,
+> +	JPEG_ENCODE_H2V1,
+> +	JPEG_ENCODE_H2V2,
+> +	JPEG_ENCODE_MONO,
+> +};
+> +
+> +enum qcom_jpeg_memory_fmt {
+> +	JPEG_MEM_FMT_PLANAR	 = 0x0,
+> +	JPEG_MEM_FMT_PPLANAR	 = 0x1,
+> +	JPEG_MEM_FMT_MONO	 = 0x2,
+> +	JPEG_MEM_FMT_COEFFICIENT = 0x3
+> +};
+> +
+> +enum jpeg_mal_bounds {
+> +	JPEG_CFG_MAL_BOUND_32_BYTES	= 0x0,
+> +	JPEG_CFG_MAL_BOUND_64_BYTES	= 0x1,
+> +	JPEG_CFG_MAL_BOUND_128_BYTES	= 0x2,
+> +	JPEG_CFG_MAL_BOUND_256_BYTES	= 0x3,
+> +	JPEG_CFG_MAL_BOUND_512_BYTES	= 0x4,
+> +	JPEG_CFG_MAL_BOUND_1K_BYTES	= 0x5,
+> +	JPEG_CFG_MAL_BOUND_2K_BYTES	= 0x6,
+> +	JPEG_CFG_MAL_BOUND_4K_BYTES	= 0x7
+> +};
+> +
+> +struct qcom_jpeg_scale_blocks {
+> +	u8 w_block[QCOM_JPEG_MAX_PLANES];
+> +	u8 h_block[QCOM_JPEG_MAX_PLANES];
+> +};
+> +
+> +struct qcom_jpeg_mal_boundary {
+> +	u32 bytes;
+> +	int boundary;
+> +};
+> +
+> +struct qcom_jpeg_formats {
+> +	u32 fourcc;
+> +	enum qcom_jpeg_encode_fmt encode;
+> +	enum qcom_jpeg_memory_fmt memory;
+> +};
+> +
+> +/*
+> + * Luminance quantization table defined by CCITT T.81.
+> + * See: https://www.w3.org/Graphics/JPEG/itu-t81.pdf
+> + */
+> +static const u8 t81k1_dct_luma_table[JPEG_QDT_LENGTH] = {
+> +	16,  11,  10,  16,  24,  40,  51,  61,
+> +	12,  12,  14,  19,  26,  58,  60,  55,
+> +	14,  13,  16,  24,  40,  57,  69,  56,
+> +	14,  17,  22,  29,  51,  87,  80,  62,
+> +	18,  22,  37,  56,  68, 109, 103,  77,
+> +	24,  35,  55,  64,  81, 104, 113,  92,
+> +	49,  64,  78,  87, 103, 121, 120, 101,
+> +	72,  92,  95,  98, 112, 100, 103,  99
+> +};
+> +
+> +/*
+> + * Chrominance quantization table defined by CCITT T.81.
+> + * See: https://www.w3.org/Graphics/JPEG/itu-t81.pdf
+> + */
+> +static const u8 t81k2_dct_chroma_table[JPEG_QDT_LENGTH] = {
+> +	17,  18,  24,  47,  99,  99,  99,  99,
+> +	18,  21,  26,  66,  99,  99,  99,  99,
+> +	24,  26,  56,  99,  99,  99,  99,  99,
+> +	47,  66,  99,  99,  99,  99,  99,  99,
+> +	99,  99,  99,  99,  99,  99,  99,  99,
+> +	99,  99,  99,  99,  99,  99,  99,  99,
+> +	99,  99,  99,  99,  99,  99,  99,  99,
+> +	99,  99,  99,  99,  99,  99,  99,  99
+> +};
+> +
+> +/*
+> + * Zig-zag scan order for quantized DCT coefficients
+> + * as defined by CCITT T.81.
+> + * See: https://www.w3.org/Graphics/JPEG/itu-t81.pdf
+> + */
+> +static const u8 t81a6_dct_zig_zag_table[] = {
+> +	 0,  1,  5,  6, 14, 15, 27, 28,
+> +	 2,  4,  7, 13, 16, 26, 29, 42,
+> +	 3,  8, 12, 17, 25, 30, 41, 43,
+> +	 9, 11, 18, 24, 31, 40, 44, 53,
+> +	10, 19, 23, 32, 39, 45, 52, 54,
+> +	20, 22, 33, 38, 46, 51, 55, 60,
+> +	21, 34, 37, 47, 50, 56, 59, 61,
+> +	35, 36, 48, 49, 57, 58, 62, 63
+> +};
+> +
+> +static const u8 jpeg_mcu_per_ratio[] = {
+> +	0, /* MCU = 1, Ratio < 2x	 */
+> +	3, /* MCU = 0, 2x <= Ratio < 4x	 */
+> +	2, /* MCU = 0, 4x <= Ratio < 8x	 */
+> +	1, /* MCU = 0, 8x <= Ratio < 16x */
+> +	0, /* MCU = 0, Ratio > 16x	 */
+> +};
+> +
+> +static const struct qcom_jpeg_formats jpeg_encode_fmt[] = {
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_GREY,
+> +		.encode = JPEG_ENCODE_MONO,
+> +		.memory = JPEG_MEM_FMT_MONO
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_JPEG,
+> +		.encode = JPEG_ENCODE_H1V1,
+> +		.memory = JPEG_MEM_FMT_PPLANAR
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_YUV422M,
+> +		.encode = JPEG_ENCODE_H1V2,
+> +		.memory = JPEG_MEM_FMT_PLANAR
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_YVU422M,
+> +		.encode = JPEG_ENCODE_H1V2,
+> +		.memory = JPEG_MEM_FMT_PLANAR
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_NV16M,
+> +		.encode = JPEG_ENCODE_H2V1,
+> +		.memory = JPEG_MEM_FMT_PPLANAR
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_NV61M,
+> +		.encode = JPEG_ENCODE_H2V1,
+> +		.memory = JPEG_MEM_FMT_PPLANAR
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_NV12M,
+> +		.encode = JPEG_ENCODE_H2V2,
+> +		.memory = JPEG_MEM_FMT_PPLANAR
+> +	},
+> +	{
+> +		.fourcc = V4L2_PIX_FMT_NV21M,
+> +		.encode = JPEG_ENCODE_H2V2,
+> +		.memory = JPEG_MEM_FMT_PPLANAR
+> +	}
+> +};
+> +
+> +static const struct qcom_jpeg_mal_boundary jpeg_mal_bounds[] = {
+> +	{ .bytes =   32, .boundary = JPEG_CFG_MAL_BOUND_32_BYTES  },
+> +	{ .bytes =   64, .boundary = JPEG_CFG_MAL_BOUND_64_BYTES  },
+> +	{ .bytes =  128, .boundary = JPEG_CFG_MAL_BOUND_128_BYTES },
+> +	{ .bytes =  256, .boundary = JPEG_CFG_MAL_BOUND_256_BYTES },
+> +	{ .bytes =  512, .boundary = JPEG_CFG_MAL_BOUND_512_BYTES },
+> +	{ .bytes = 1024, .boundary = JPEG_CFG_MAL_BOUND_1K_BYTES  },
+> +	{ .bytes = 4096, .boundary = JPEG_CFG_MAL_BOUND_4K_BYTES  }
+> +};
+> +
+> +static const struct qcom_jpeg_scale_blocks jpeg_mcu_blocks[] = {
+> +	[JPEG_ENCODE_H1V1] = {
+> +		.w_block = { JPEG_MCU_BLOCK_8, JPEG_MCU_BLOCK_8, JPEG_MCU_BLOCK_8 },
+> +		.h_block = { JPEG_MCU_BLOCK_8, JPEG_MCU_BLOCK_8, JPEG_MCU_BLOCK_8 },
+> +	},
+> +	[JPEG_ENCODE_H1V2] = {
+> +		.w_block = { JPEG_MCU_BLOCK_8, JPEG_MCU_BLOCK_8, JPEG_MCU_BLOCK_8  },
+> +		.h_block = { JPEG_MCU_BLOCK_16, JPEG_MCU_BLOCK_8, JPEG_MCU_BLOCK_8 },
+> +	},
+> +	[JPEG_ENCODE_H2V1] = {
+> +		.w_block = { JPEG_MCU_BLOCK_16, JPEG_MCU_BLOCK_8, JPEG_MCU_BLOCK_8 },
+> +		.h_block = { JPEG_MCU_BLOCK_8, JPEG_MCU_BLOCK_8, JPEG_MCU_BLOCK_8  },
+> +	},
+> +	[JPEG_ENCODE_H2V2] = {
+> +		.w_block = { JPEG_MCU_BLOCK_16, JPEG_MCU_BLOCK_8, JPEG_MCU_BLOCK_8 },
+> +		.h_block = { JPEG_MCU_BLOCK_16, JPEG_MCU_BLOCK_8, JPEG_MCU_BLOCK_8 },
+> +	},
+> +	[JPEG_ENCODE_MONO] = {
+> +		.w_block = { JPEG_MCU_BLOCK_8 },
+> +		.h_block = { JPEG_MCU_BLOCK_8 }
+> +	},
+> +};
+> +
+> +static inline int jpeg_get_memory_fmt(u32 fourcc)
+> +{
+> +	u32 fi;
+> +
+> +	for (fi = 0; fi < ARRAY_SIZE(jpeg_encode_fmt); fi++) {
+> +		if (jpeg_encode_fmt[fi].fourcc == fourcc)
+> +			return jpeg_encode_fmt[fi].memory;
+> +	}
+> +
+> +	return -EINVAL;
+
+EINVAL or ENODEV ENOTSUPP?
+
+Its up to you actually I don't think it makes a real difference.
+
+> +}
+> +
+> +static inline int jpeg_get_encode_fmt(u32 fourcc)
+> +{
+> +	u32 fi;
+> +
+> +	for (fi = 0; fi < ARRAY_SIZE(jpeg_encode_fmt); fi++) {
+> +		if (jpeg_encode_fmt[fi].fourcc == fourcc)
+> +			return jpeg_encode_fmt[fi].encode;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static inline int jpeg_get_mal_boundary(u32 width, const struct qcom_jpeg_mal_boundary *table,
+> +					u32 count)
+> +{
+> +	u32 bi;
+> +
+> +	if (!table || !count)
+> +		return -EINVAL;
+
+So either trust table and count (or) test to make sure count doesn't 
+exceed your expected boundary of table[count - 1]
+
+Either we trust the values coming in here or we should check them all.
+
+In particular the table[index - 1] makes me wonder how/where we have 
+verified count with respect to the extent of table[].
+
+> +
+> +	for (bi = 0; bi < count; bi++) {
+> +		if (table[bi].bytes > width)
+> +			break;
+> +	}
+> +
+> +	if (!bi)
+> +		return table[0].boundary;
+> +
+> +	return table[bi - 1].boundary;
+> +}
+> +
+> +static inline u8 jpeg_get_mcu_per_block(u32 src_size, u32 dst_size)
+> +{
+> +	u8 h_rto;
+> +
+> +	if (!src_size || !dst_size)
+> +		return 0;
+
+I get the error checking part but is it _sensible_ to have either 
+src_size or dst_size be zero and then return 0 as a result ?
+
+> +
+> +	/* Calculate scale factor */
+> +	h_rto = max(src_size, dst_size) / min(src_size, dst_size);
+> +
+> +	if (h_rto >= 0 && h_rto < 2)
+> +		return jpeg_mcu_per_ratio[0];
+> +	else if (h_rto >= 2 && h_rto < 4)
+> +		return jpeg_mcu_per_ratio[1];
+> +	else if (h_rto >= 4 && h_rto < 8)
+> +		return jpeg_mcu_per_ratio[2];
+> +	else if (h_rto >= 8 && h_rto < 16)
+> +		return jpeg_mcu_per_ratio[3];
+> +
+> +	return jpeg_mcu_per_ratio[4];
+> +}
+> +
+> +static inline int jpeg_get_mcu_geometry(enum qcom_jpeg_encode_fmt fmt, u32 width, u32 height,
+> +					u32 *blk_w, u32 *blk_h, u32 *mcu_cols, u32 *mcu_rows)
+> +{
+> +	const struct qcom_jpeg_scale_blocks *blks;
+> +	u32 bw = 0, bh = 0;
+> +	u8 pln;
+> +
+> +	if (!width || !height)
+> +		return -EINVAL;
+
+I'm not going to keep challenging these defensive coding practices, the 
+question is why can we get this far into your code where width or height 
+can have unexpected values and why does that justify getting thrown up 
+the callstack as an error.
+
+Ditto with the previous function - why is returning 0 a valid value to 
+throw up the call stack and does the calling function know what to do 
+with that ?
+
+Better to validiate width, height, src_width, src_height when you input 
+them from elsewhere in the kernel or userspace _once_ or any time up 
+update them, than to consume values and pass those values down to 
+functions which can reject their size.
+
+> +
+> +	blks = &jpeg_mcu_blocks[fmt];
+> +
+> +	for (pln = 0; pln < QCOM_JPEG_MAX_PLANES; pln++) {
+> +		bw = max(bw, blks->w_block[pln]);
+> +		bh = max(bh, blks->h_block[pln]);
+> +	}
+> +
+> +	if (!bw || !bh)
+> +		return -EINVAL;
+
+For example this check makes way more sense to me. You're reading the 
+value from a buffer so it makes sense to validate that but validating 
+the input just to me says the input _ought_ to have been validated way 
+earlier.
+
+> +
+> +	if (blk_w)
+> +		*blk_w = bw;
+> +	if (blk_h)
+> +		*blk_h = bh;
+> +
+> +	if (mcu_cols)
+> +		*mcu_cols = ALIGN(width, bw) / bw;
+> +
+> +	if (mcu_rows)
+> +		*mcu_rows = ALIGN(height, bh) / bh;
+> +
+> +	return 0;
+> +}
+> +
+> +/* Integer part of scale */
+> +static inline s32 jpeg_calc_scale_int(u32 in_width, u32 out_width)
+> +{
+> +	if (!out_width)
+> +		return 0;
+
+no
+
+> +
+> +	return (s32)(in_width / out_width);
+> +}
+> +
+> +/* Fractional part od scale */
+> +static inline u32 jpeg_calc_scale_frac(u32 in_width, u32 out_width)
+> +{
+> +	u32 remainder = in_width % out_width;
+> +
+> +	if (!out_width)
+> +		return 0;
+> +
+> +	/* 64-bit to avoid overflow during shift */
+> +	return (u32)(((u64)remainder << JPEG_Q5_21_SHIFT) / out_width);
+> +}
+> +
+> +static inline s32 jpeg_calc_q5_21(s32 int_part, u32 frac_part)
+> +{
+> +	return ((s32)((u32)int_part << JPEG_Q5_21_SHIFT)) | (frac_part & ((1u << 21) - 1));
+> +}
+> +
+> +static inline u32 jpeg_io_read(struct qcom_jenc_dev *jenc, u32 offset)
+> +{
+> +	u32 data;
+> +
+> +	rmb();	/* Preventing concurrency read/write interference */
+> +	data = readl_relaxed(jenc->jpeg_base + offset);
+
+I'm a big fan of telling people to "just relax man" but in this case I'd 
+like to understand your use case for relaxed read/writes full stop.
+
+> +
+> +	return data;
+> +}
+> +
+> +static inline void jpeg_io_write(struct qcom_jenc_dev *jenc, u32 offset, u32 value)
+> +{
+> +	wmb();	/* Preventing concurrency read/write interference */
+
+Why do relaxed writes at all ?
+
+A better model is
+
+{
+write_relaxed();
+write_relaxed();
+
+wmb();
+}
+
+> +	writel_relaxed(value, jenc->jpeg_base + offset);
+
+To me what you have here implies you fear you have a bunch of relaxed 
+writes and you aren't really sure if they have been sequenced over the 
+fabric to their destination.
+
+Which to me is an argument not to do any relaxed writes at all.
+
+
+> +}
+> +
+> +/*
+> + * Runtime bitfield helpers (for non-constant masks).
+> + *
+> + * Requirements:
+> + *  - mask must be non-zero
+> + *  - mask must be contiguous (e.g. 0x7u << n)
+> + */
+> +
+> +static inline u32 jpeg_bits_get(u32 mask, u32 reg)
+> +{
+> +	return (reg & mask) >> __builtin_ctz(mask);
+> +}
+> +
+> +static inline u32 jpeg_bits_set(u32 mask, u32 val)
+> +{
+> +	return (val << __builtin_ctz(mask)) & mask;
+> +}
+> +
+> +static inline u32 jpeg_rd_bits(struct qcom_jenc_dev *jenc, u32 offs, enum qcom_jpeg_mask_id mid)
+> +{
+> +	u32 reg  = jpeg_io_read(jenc, offs);
+> +	u32 mask = jenc->res->hw_mask[mid];
+> +
+> +	return jpeg_bits_get(mask, reg);
+> +}
+> +
+> +/*
+> + * Read-modify-write (for R/W registers)
+> + */
+> +static inline void jpeg_rw_bits(struct qcom_jenc_dev *jenc, u32 offs, enum qcom_jpeg_mask_id mid,
+> +				u32 val)
+> +{
+> +	u32 reg  = jpeg_io_read(jenc, offs);
+> +	u32 mask = jenc->res->hw_mask[mid];
+> +
+> +	reg &= ~mask;
+> +	reg |= jpeg_bits_set(mask, val);
+> +
+> +	jpeg_io_write(jenc, offs, reg);
+> +}
+> +
+> +/*
+> + * Write-only variant (for write only registers)
+> + */
+> +static inline void jpeg_wo_bits(struct qcom_jenc_dev *jenc, u32 offs, enum qcom_jpeg_mask_id mid,
+> +				u32 val)
+> +{
+> +	u32 mask = jenc->res->hw_mask[mid];
+> +
+> +	jpeg_io_write(jenc, offs, jpeg_bits_set(mask, val));
+> +}
+> +
+> +static u8 jpeg_calculate_dqt(struct jenc_context *ectx, u8 dqt_value)
+> +{
+> +	u64 ratio;
+> +	u8 calc_val;
+> +
+> +	ratio = (QCOM_JPEG_QUALITY_MAX - ectx->quality_requested) << JPEG_DQT_SHIFT;
+> +	ratio = max_t(u64, 1, ratio);
+> +	do_div(ratio, QCOM_JPEG_QUALITY_MID);
+> +
+> +	calc_val = DIV64_U64_ROUND_CLOSEST(ratio * dqt_value, 1LU << JPEG_DQT_SHIFT);
+> +
+> +	return max_t(u8, 1, calc_val);
+> +}
+> +
+> +static void jpeg_apply_dmi_table(struct jenc_context *ectx)
+> +{
+> +	const struct qcom_jpeg_reg_offs *offs = ectx->jenc->res->hw_offs;
+> +	u32 pcfg = { 0x00000011 };
+> +	u32 addr = { 0x00000000 };
+> +	u8 *base;
+> +	u8 dqt_val, idx;
+> +	u32 reg_val;
+> +	int i;
+> +
+> +	/* DMI upload start sequence */
+> +	jpeg_io_write(ectx->jenc, offs->dmi_addr, addr);
+> +	jpeg_io_write(ectx->jenc, offs->dmi_cfg, pcfg);
+> +
+> +	/* DMI Luma upload */
+> +	base = &ectx->hdr_cache.data[ectx->hdr_cache.dqt_one_offs + 1];
+> +	for (i = 0; i < ARRAY_SIZE(t81k1_dct_luma_table); i++) {
+> +		dqt_val = jpeg_calculate_dqt(ectx, t81k1_dct_luma_table[i]);
+> +		/*
+> +		 * Store the luma to be propagated to the JPEG header at a later stage.
+> +		 * If offs == 0, no DQT is present in the header and the write
+> +		 * should be skipped.
+> +		 */
+> +		if (ectx->hdr_cache.dqt_one_offs) {
+> +			idx = t81a6_dct_zig_zag_table[i];
+> +			/* Perform reordering to arrange transformed DQT in a zigzag pattern */
+> +			base[idx] = dqt_val;
+> +		}
+> +		/* The calculated DQT value cannot be less than 1 */
+> +		reg_val = div_u64(U16_MAX + 1U, dqt_val);
+> +		jpeg_io_write(ectx->jenc, offs->dmi_data, clamp_t(u32, reg_val, 0, U16_MAX));
+> +	}
+> +
+> +	/* DMI Chroma upload */
+> +	base = &ectx->hdr_cache.data[ectx->hdr_cache.dqt_two_offs + 1];
+> +	for (i = 0; i < ARRAY_SIZE(t81k2_dct_chroma_table); i++) {
+> +		dqt_val = jpeg_calculate_dqt(ectx, t81k2_dct_chroma_table[i]);
+> +		/*
+> +		 * Store the chroma to be propagated to the JPEG header at a later stage.
+> +		 * If offs == 0, no DQT is present in the header and the write
+> +		 * should be skipped.
+> +		 */
+> +		if (ectx->hdr_cache.dqt_two_offs) {
+> +			idx = t81a6_dct_zig_zag_table[i];
+> +			/* Perform reordering to arrange transformed DQT in a zigzag pattern */
+> +			base[idx] = dqt_val;
+> +		}
+> +		/* The calculated DQT value cannot be less than 1 */
+> +		reg_val = div_u64(U16_MAX + 1U, dqt_val);
+> +		jpeg_io_write(ectx->jenc, offs->dmi_data, clamp_t(u32, reg_val, 0, U16_MAX));
+> +	}
+> +
+> +	/* DMI upload end sequence */
+> +	jpeg_io_write(ectx->jenc, offs->dmi_cfg, addr);
+> +
+> +	ectx->quality_programmed = ectx->quality_requested;
+> +
+> +	dev_dbg(ectx->dev, "%s: ctx=%p quality_programmed=%d\n", __func__, ectx,
+> +		ectx->quality_programmed);
+
+For dbg __func__ is fine though.
+
+> +}
+> +
+> +static void jpeg_cpu_access(struct device *dev, struct qcom_jpeg_buff *frame,
+> +			    enum dma_data_direction direction)
+> +{
+> +	u8 pln;
+> +
+> +	for (pln = 0; pln < QCOM_JPEG_MAX_PLANES; pln++) {
+> +		struct sg_table	*sgt = frame->plns[pln].sgt;
+> +
+> +		if (!frame->plns[pln].dma || !sgt)
+> +			break;
+> +
+> +		dma_sync_sg_for_cpu(dev, sgt->sgl, sgt->orig_nents, direction);
+> +	}
+> +}
+> +
+> +static void jpeg_dev_access(struct device *dev, struct qcom_jpeg_buff *frame,
+> +			    enum dma_data_direction direction)
+> +{
+> +	u8 pln;
+> +
+> +	for (pln = 0; pln < QCOM_JPEG_MAX_PLANES; pln++) {
+> +		struct sg_table	*sgt = frame->plns[pln].sgt;
+> +
+> +		if (!frame->plns[pln].dma || !sgt)
+> +			continue;
+> +
+> +		dma_sync_sg_for_device(dev, sgt->sgl, sgt->orig_nents, direction);
+> +	}
+> +}
+> +
+> +static int jpeg_init(struct qcom_jenc_dev *jenc)
+> +{
+> +	const struct qcom_jpeg_reg_offs *offs;
+> +	void __iomem *mem_base;
+> +	unsigned long rtime;
+> +	u32 hw_ver;
+> +
+> +	if (!jenc || !jenc->dev || !jenc->jpeg_base || !jenc->res->hw_offs) {
+> +		pr_err("encoder HW init failed\n");
+> +		return -EINVAL;
+> +	}
+
+Don't pass !jenc to this function ... please reconsider the defensive 
+programming approach here and validate at input source once with 
+subsequent trust.
+
+> +
+> +	offs	 = jenc->res->hw_offs;
+> +	mem_base = jenc->jpeg_base;
+> +
+> +	jpeg_wo_bits(jenc, offs->int_clr, JMSK_IRQ_CLEAR_ALL, JPEG_U32_SET);
+> +	jpeg_rw_bits(jenc, offs->int_mask, JMSK_IRQ_STATUS_RESET_ACK, JPEG_U32_SET);
+> +
+> +	reinit_completion(&jenc->reset_complete);
+> +
+> +	jpeg_wo_bits(jenc, offs->reset_cmd, JMSK_RST_CMD_COMMON, JPEG_U32_SET);
+> +
+> +	rtime = wait_for_completion_timeout(&jenc->reset_complete,
+> +					    msecs_to_jiffies(JPEG_RESET_TIMEOUT_MS));
+> +	if (!rtime) {
+> +		dev_err(jenc->dev, "encoder HW reset timeout\n");
+> +		disable_irq(jenc->irq);
+> +		return -ETIME;
+> +	}
+> +
+> +	hw_ver = jpeg_io_read(jenc, offs->hw_version);
+> +	dev_info(jenc->dev, "JPEG HW encoder version %d.%d.%d\n",
+> +		 jpeg_bits_get(jenc->res->hw_mask[JMSK_HW_VER_MAJOR], hw_ver),
+> +		 jpeg_bits_get(jenc->res->hw_mask[JMSK_HW_VER_MINOR], hw_ver),
+> +		 jpeg_bits_get(jenc->res->hw_mask[JMSK_HW_VER_STEP], hw_ver));
+> +
+> +	jpeg_wo_bits(jenc, offs->hw_cmd, JMSK_CMD_CLR_RD_PLNS_QUEUE, JPEG_U32_SET);
+> +	jpeg_wo_bits(jenc, offs->hw_cmd, JMSK_CMD_CLR_RD_PLNS_QUEUE, JPEG_U32_CLR);
+> +
+> +	jpeg_wo_bits(jenc, offs->hw_cmd, JMSK_CMD_CLR_WR_PLNS_QUEUE, JPEG_U32_SET);
+> +	jpeg_wo_bits(jenc, offs->hw_cmd, JMSK_CMD_CLR_WR_PLNS_QUEUE, JPEG_U32_CLR);
+> +
+> +	jpeg_wo_bits(jenc, offs->int_clr, JMSK_IRQ_CLEAR_ALL, JPEG_U32_SET);
+> +	jpeg_rw_bits(jenc, offs->int_mask, JMSK_IRQ_ENABLE_ALL, JPEG_U32_SET);
+> +
+> +	return 0;
+> +}
+> +
+> +static int jpeg_exec(struct qcom_jenc_dev *jenc)
+> +{
+> +	const struct qcom_jpeg_reg_offs *offs = jenc->res->hw_offs;
+> +
+> +	jpeg_wo_bits(jenc, offs->hw_cmd, JMSK_CMD_HW_START, 1);
+> +
+> +	return 0;
+> +}
+> +
+> +static void jpeg_stop(struct qcom_jenc_dev *jenc)
+> +{
+> +	const struct qcom_jpeg_reg_offs *offs = jenc->res->hw_offs;
+> +
+> +	jpeg_wo_bits(jenc, offs->hw_cmd, JMSK_CMD_HW_START, 0);
+> +
+> +	jpeg_wo_bits(jenc, offs->hw_cmd, JMSK_CMD_CLR_RD_PLNS_QUEUE, JPEG_U32_SET);
+> +	jpeg_wo_bits(jenc, offs->hw_cmd, JMSK_CMD_CLR_RD_PLNS_QUEUE, JPEG_U32_CLR);
+> +
+> +	jpeg_wo_bits(jenc, offs->hw_cmd, JMSK_CMD_CLR_WR_PLNS_QUEUE, JPEG_U32_SET);
+> +	jpeg_wo_bits(jenc, offs->hw_cmd, JMSK_CMD_CLR_WR_PLNS_QUEUE, JPEG_U32_CLR);
+> +
+> +	jpeg_wo_bits(jenc, offs->int_clr, JMSK_IRQ_CLEAR_ALL, JPEG_U32_SET);
+> +	jpeg_rw_bits(jenc, offs->int_mask, JMSK_IRQ_ENABLE_ALL, JPEG_U32_SET);
+> +}
+> +
+> +static int jpeg_deinit(struct qcom_jenc_dev *jenc)
+> +{
+> +	const struct qcom_jpeg_reg_offs *offs = jenc->res->hw_offs;
+> +	unsigned long rtime;
+> +
+> +	jpeg_wo_bits(jenc, offs->int_clr, JMSK_IRQ_CLEAR_ALL, JPEG_U32_SET);
+> +	jpeg_rw_bits(jenc, offs->int_mask, JMSK_IRQ_STATUS_STOP_ACK, JPEG_U32_SET);
+> +
+> +	jpeg_wo_bits(jenc, offs->hw_cmd, JMSK_CMD_HW_STOP, 1);
+> +
+> +	reinit_completion(&jenc->stop_complete);
+> +	rtime = wait_for_completion_timeout(&jenc->stop_complete,
+> +					    msecs_to_jiffies(JPEG_STOP_TIMEOUT_MS));
+> +	if (!rtime) {
+> +		dev_err(jenc->dev, "encoder HW stop timeout\n");
+> +		return -ETIME;
+> +	}
+
+Aren't you missing an IRQ disable like you have on the error path of the 
+init(); ?
+
+> +
+> +	jpeg_rw_bits(jenc, offs->int_mask, JMSK_IRQ_DISABLE_ALL, JPEG_U32_CLR);
+> +	jpeg_rw_bits(jenc, offs->int_clr, JMSK_IRQ_CLEAR_ALL, JPEG_U32_SET);
+> +
+> +	return 0;
+> +}
+> +
+> +static int jpeg_apply_fe_addr(struct jenc_context *ectx, struct qcom_jenc_queue *q,
+> +			      struct vb2_buffer *vb)
+> +{
+> +	struct qcom_jenc_dev *jenc = ectx->jenc;
+> +	const struct qcom_jpeg_reg_offs *offs = jenc->res->hw_offs;
+> +	struct qcom_jpeg_buff *frame = &q->buff[vb->index];
+> +	struct v4l2_pix_format_mplane *fmt = &q->vf;
+> +	u8 pln = 0;
+> +
+> +	if (WARN_ON_ONCE(!frame->plns[pln].dma))
+> +		return -EPERM;
+> +
+> +	for (pln = 0; pln < fmt->num_planes; pln++) {
+> +		if (!frame->plns[pln].sgt || !frame->plns[pln].sgt->sgl)
+> +			break;
+> +
+> +		jpeg_io_write(jenc, offs->fe.pntr[pln], frame->plns[pln].dma);
+> +		jpeg_io_write(jenc, offs->fe.offs[pln], 0);
+> +
+> +		dev_dbg(jenc->dev, "%s: pln=%d addr=0x%llx idx:%d\n", __func__,
+> +			pln, frame->plns[pln].dma, vb->index);
+> +	}
+> +
+> +	q->buff_id = vb->index;
+> +
+> +	jpeg_dev_access(jenc->dev, frame, DMA_TO_DEVICE);
+> +
+> +	return 0;
+> +}
+> +
+> +static int jpeg_store_fe_next(struct jenc_context *ectx, struct vb2_buffer *vb2)
+> +{
+> +	struct qcom_jenc_queue *q = &ectx->bufq[TYPE2QID(vb2->type)];
+> +	struct qcom_jpeg_buff *buff = &q->buff[vb2->index];
+> +	u8 pln = 0;
+> +
+> +	buff->plns[pln].sgt = vb2_dma_sg_plane_desc(vb2, pln);
+> +	if (WARN_ON_ONCE(!buff->plns[pln].sgt))
+> +		return -EINVAL;
+> +
+> +	if (WARN_ON_ONCE(!buff->plns[pln].sgt->sgl))
+> +		return -EINVAL;
+> +
+> +	buff->plns[pln].dma = sg_dma_address(buff->plns[pln].sgt->sgl);
+> +	if (WARN_ON_ONCE(!buff->plns[pln].dma))
+> +		return -EINVAL;
+> +
+> +	buff->plns[pln].size = vb2_plane_size(vb2, pln);
+> +	if (WARN_ON_ONCE(!buff->plns[pln].size))
+> +		return -EINVAL;
+
+Why are all of these WARN_ONCE they seem like errors - at least some of 
+them ..
+
+> +
+> +	for (pln = 1; pln < q->vf.num_planes; pln++) {
+> +		buff->plns[pln].sgt = vb2_dma_sg_plane_desc(vb2, pln);
+> +		if (WARN_ON_ONCE(!buff->plns[pln].sgt || !buff->plns[pln].sgt->sgl))
+> +			return -EINVAL;
+> +
+> +		buff->plns[pln].dma = sg_dma_address(buff->plns[pln].sgt->sgl);
+> +		if (WARN_ON_ONCE(!buff->plns[pln].dma))
+> +			return -EINVAL;
+> +
+> +		buff->plns[pln].size = vb2_plane_size(vb2, pln);
+> +		if (WARN_ON_ONCE(!buff->plns[pln].size))
+> +			return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int jpeg_setup_fe_size(struct jenc_context *ectx, struct qcom_jenc_queue *q)
+> +{
+> +	struct qcom_jenc_dev *jenc = ectx->jenc;
+> +	struct v4l2_pix_format_mplane *sfmt = &q->vf;
+> +	const struct qcom_jpeg_reg_offs *offs = jenc->res->hw_offs;
+> +	u8 pln;
+> +
+> +	for (pln = 0; pln < QCOM_JPEG_MAX_PLANES; pln++) {
+> +		jpeg_rw_bits(jenc, offs->fe.bsize[pln], JMSK_PLNS_RD_BUF_SIZE_WIDTH, 0);
+> +		jpeg_rw_bits(jenc, offs->fe.bsize[pln], JMSK_PLNS_RD_BUF_SIZE_HEIGHT, 0);
+> +		jpeg_rw_bits(jenc, offs->fe.bsize[pln], JMSK_PLNS_RD_STRIDE, 0);
+> +	}
+> +
+> +	for (pln = 0; pln < sfmt->num_planes; pln++) {
+> +		jpeg_rw_bits(jenc, offs->fe.bsize[pln], JMSK_PLNS_RD_BUF_SIZE_WIDTH,
+> +			     sfmt->width  - 1);
+> +		jpeg_rw_bits(jenc, offs->fe.bsize[pln], JMSK_PLNS_RD_BUF_SIZE_HEIGHT,
+> +			     sfmt->height  - 1);
+> +		jpeg_rw_bits(jenc, offs->fe.stride[pln], JMSK_PLNS_RD_STRIDE,
+> +			     sfmt->plane_fmt[pln].bytesperline);
+> +
+> +		dev_dbg(ectx->dev, "%s: ctx=%p pln=%d width=%d height=%d stride=%d\n",
+> +			__func__, ectx, pln,
+> +			jpeg_rd_bits(jenc, offs->fe.bsize[pln], JMSK_PLNS_RD_BUF_SIZE_WIDTH),
+> +			jpeg_rd_bits(jenc, offs->fe.bsize[pln], JMSK_PLNS_RD_BUF_SIZE_HEIGHT),
+> +			jpeg_rd_bits(jenc, offs->fe.stride[pln], JMSK_PLNS_RD_STRIDE));
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int jpeg_setup_fe_hinit(struct jenc_context *ectx, struct qcom_jenc_queue *q)
+> +{
+> +	struct qcom_jenc_dev *jenc = ectx->jenc;
+> +	struct v4l2_pix_format_mplane *sfmt = &q->vf;
+> +	const struct qcom_jpeg_reg_offs *offs = jenc->res->hw_offs;
+> +	u8 pln;
+> +
+> +	if (!sfmt->width) {
+> +		dev_err(ectx->dev, "%s: invalid source width=%d\n", __func__, sfmt->width);
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (pln = 0; pln < QCOM_JPEG_MAX_PLANES; pln++)
+> +		jpeg_io_write(jenc, offs->fe.hinit[pln], 0);
+> +
+> +	return 0;
+> +}
+> +
+> +static int jpeg_setup_fe_vinit(struct jenc_context *ectx, struct qcom_jenc_queue *q)
+> +{
+> +	struct qcom_jenc_dev *jenc = ectx->jenc;
+> +	struct v4l2_pix_format_mplane *sfmt = &q->vf;
+> +	const struct qcom_jpeg_reg_offs *offs = jenc->res->hw_offs;
+> +	u8 pln;
+> +
+> +	if (!sfmt->height) {
+> +		dev_err(ectx->dev, "%s: invalid source height=%d\n", __func__, sfmt->height);
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (pln = 0; pln < QCOM_JPEG_MAX_PLANES; pln++)
+> +		jpeg_io_write(jenc, offs->fe.vinit[pln], 0);
+> +
+> +	return 0;
+> +}
+> +
+> +static int jpeg_setup_fe_params(struct jenc_context *ectx, struct qcom_jenc_queue *q)
+> +{
+> +	struct qcom_jenc_dev *jenc = ectx->jenc;
+> +	struct v4l2_pix_format_mplane *sfmt = &q->vf;
+> +	struct v4l2_pix_format_mplane *dfmt = &ectx->bufq[JENC_DST_QUEUE].vf;
+> +	const struct qcom_jpeg_reg_offs *offs = jenc->res->hw_offs;
+> +	u8 expected_planes, pln;
+> +	int rval;
+> +
+> +	jpeg_rw_bits(jenc, offs->fe_cfg, JMSK_FE_CFG_MAL_EN, 1);
+> +	jpeg_rw_bits(jenc, offs->fe_cfg, JMSK_FE_CFG_BOTTOM_VPAD_EN, 1);
+> +
+> +	rval = jpeg_get_memory_fmt(sfmt->pixelformat);
+> +	if (rval < 0) {
+> +		dev_err(ectx->dev, "%s: invalid memory format for v4l2 format:0x%x\n",
+> +			__func__, sfmt->pixelformat);
+> +		return -EINVAL;
+> +	}
+> +
+> +	switch (rval) {
+> +	case JPEG_MEM_FMT_MONO:
+> +		expected_planes = 1;
+> +		break;
+> +	case JPEG_MEM_FMT_PPLANAR:
+> +		expected_planes = 2;
+> +		break;
+> +	case JPEG_MEM_FMT_PLANAR:
+> +		expected_planes = 3;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (sfmt->num_planes != expected_planes) {
+> +		dev_err(ectx->dev, "%s: plane mismatch fmt=%u expected=%u got=%u\n",
+> +			__func__, rval, expected_planes, sfmt->num_planes);
+
+Drop the __funcs__ for non dev_dbg() cases.
+
+> +		return -EINVAL;
+> +	}
+> +
+> +	jpeg_rw_bits(jenc, offs->fe_cfg, JMSK_FE_CFG_MEMORY_FORMAT, rval);
+> +
+> +	jpeg_rw_bits(jenc, offs->fe_cfg, JMSK_FE_CFG_PLN0_EN, 0);
+> +	jpeg_rw_bits(jenc, offs->fe_cfg, JMSK_FE_CFG_PLN1_EN, 0);
+> +	jpeg_rw_bits(jenc, offs->fe_cfg, JMSK_FE_CFG_PLN2_EN, 0);
+> +
+> +	if (sfmt->width == dfmt->width && sfmt->height == dfmt->height) {
+> +		/* No scaling */
+> +		jpeg_rw_bits(jenc, offs->fe_cfg, JMSK_FE_CFG_SIXTEEN_MCU_EN, 1);
+> +		jpeg_rw_bits(jenc, offs->fe_cfg, JMSK_FE_CFG_MCUS_PER_BLOCK, 0);
+> +	} else {
+> +		u8 mcu_per_blks;
+> +
+> +		/* Scaling */
+> +		jpeg_rw_bits(jenc, offs->fe_cfg, JMSK_FE_CFG_SIXTEEN_MCU_EN, 0);
+> +		/* get value according to image width */
+> +		mcu_per_blks = jpeg_get_mcu_per_block(sfmt->width, dfmt->width);
+> +		/* get value according to image height assign the bigger */
+> +		mcu_per_blks = max_t(u8, mcu_per_blks,
+> +				     jpeg_get_mcu_per_block(sfmt->height, dfmt->height));
+> +
+> +		jpeg_rw_bits(jenc, offs->fe_cfg, JMSK_FE_CFG_MCUS_PER_BLOCK, mcu_per_blks);
+> +	}
+> +
+> +	dev_dbg(ectx->dev, "%s: sixteen MCU enabled=%d, %d MCU per blocks\n", __func__,
+> +		jpeg_rd_bits(jenc, offs->fe_cfg, JMSK_FE_CFG_SIXTEEN_MCU_EN),
+> +		jpeg_rd_bits(jenc, offs->fe_cfg, JMSK_FE_CFG_MCUS_PER_BLOCK));
+> +
+> +	rval = jpeg_get_mal_boundary(sfmt->width, jpeg_mal_bounds, ARRAY_SIZE(jpeg_mal_bounds));
+> +	if (rval < 0) {
+> +		dev_err(ectx->dev, "%s: failed to get FE mal boundary width=%u\n", __func__,
+> +			sfmt->width);
+> +		return -EINVAL;
+> +	}
+> +	jpeg_rw_bits(jenc, offs->fe_cfg, JMSK_FE_CFG_MAL_BOUNDARY, rval);
+> +
+> +	dev_dbg(ectx->dev, "%s: optimal FE mal boundary=%d\n", __func__,
+> +		jpeg_rd_bits(jenc, offs->fe_cfg, JMSK_FE_CFG_MAL_BOUNDARY));
+> +
+> +	rval = jpeg_get_encode_fmt(sfmt->pixelformat);
+> +	if (rval < 0) {
+> +		dev_err(ectx->dev, "%s: unsupported encode format fourcc=0x%x\n",
+> +			__func__, sfmt->pixelformat);
+> +		return -EINVAL;
+> +	}
+> +
+> +	switch (rval) {
+> +	case JPEG_ENCODE_MONO:
+> +	case JPEG_ENCODE_H1V1:
+> +	case JPEG_ENCODE_H2V1:
+> +		jpeg_rw_bits(jenc, offs->fe.vbpad_cfg, JMSK_FE_VBPAD_CFG_BLOCK_ROW,
+> +			     DIV_ROUND_UP(sfmt->height, JPEG_MCU_BLOCK_8));
+> +		break;
+> +	case JPEG_ENCODE_H1V2:
+> +	case JPEG_ENCODE_H2V2:
+> +		jpeg_rw_bits(jenc, offs->fe.vbpad_cfg, JMSK_FE_VBPAD_CFG_BLOCK_ROW,
+> +			     DIV_ROUND_UP(sfmt->height, JPEG_MCU_BLOCK_16));
+> +		break;
+> +	default:
+> +		dev_err(ectx->dev, "%s: unsupported encode format fourcc=0x%x\n", __func__, rval);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (sfmt->pixelformat == V4L2_PIX_FMT_NV21 || sfmt->pixelformat == V4L2_PIX_FMT_NV61)
+> +		jpeg_rw_bits(jenc, offs->fe_cfg, JMSK_FE_CFG_CBCR_ORDER, 1);
+> +	else
+> +		jpeg_rw_bits(jenc, offs->fe_cfg, JMSK_FE_CFG_CBCR_ORDER, 0);
+> +
+> +	for (pln = 0; pln < sfmt->num_planes; pln++) {
+> +		if (sfmt->width && sfmt->height) {
+> +			switch (pln) {
+> +			case 0:
+> +				jpeg_rw_bits(jenc, offs->fe_cfg, JMSK_FE_CFG_PLN0_EN, 1);
+> +				break;
+> +			case 1:
+> +				jpeg_rw_bits(jenc, offs->fe_cfg, JMSK_FE_CFG_PLN1_EN, 1);
+> +				break;
+> +			case 2:
+> +				jpeg_rw_bits(jenc, offs->fe_cfg, JMSK_FE_CFG_PLN2_EN, 1);
+> +				break;
+> +			}
+> +		}
+> +	}
+> +
+> +	jpeg_rw_bits(jenc, offs->core_cfg, JMSK_CORE_CFG_FE_ENABLE, 1);
+> +
+> +	return 0;
+> +}
+> +
+> +static int jpeg_setup_fe(struct jenc_context *ectx, struct qcom_jenc_queue *q)
+> +{
+> +	int rc;
+> +
+> +	rc = jpeg_setup_fe_size(ectx, q);
+> +	if (rc)
+> +		return rc;
+> +
+> +	rc = jpeg_setup_fe_hinit(ectx, q);
+> +	if (rc)
+> +		return rc;
+> +
+> +	rc = jpeg_setup_fe_vinit(ectx, q);
+> +	if (rc)
+> +		return rc;
+> +
+> +	rc = jpeg_setup_fe_params(ectx, q);
+> +	if (rc)
+> +		return rc;
+> +
+> +	return 0;
+> +}
+> +
+> +static int jpeg_apply_we_addr(struct jenc_context *ectx, struct qcom_jenc_queue *q,
+> +			      struct vb2_buffer *vb)
+> +{
+> +	struct qcom_jenc_dev *jenc = ectx->jenc;
+> +	const struct qcom_jpeg_reg_offs *offs = jenc->res->hw_offs;
+> +	struct qcom_jpeg_buff *frame = &q->buff[vb->index];
+> +	u8 pln = 0;
+> +
+> +	if (WARN_ON_ONCE(!frame->plns[pln].dma))
+> +		return -EPERM;
+> +
+> +	jpeg_io_write(jenc, offs->we.pntr[pln], frame->plns[pln].dma);
+> +
+> +	dev_dbg(jenc->dev, "%s: pln=%d addr=0x%llx idx:%d\n", __func__,
+> +		pln, frame->plns[pln].dma, vb->index);
+> +
+> +	q->buff_id = vb->index;
+> +
+> +	return 0;
+> +}
+> +
+> +static int jpeg_store_we_next(struct jenc_context *ectx, struct vb2_buffer *vb2)
+> +{
+> +	struct qcom_jenc_dev *jenc = ectx->jenc;
+> +	struct qcom_jenc_queue *q = &ectx->bufq[TYPE2QID(vb2->type)];
+> +	struct qcom_jpeg_buff *frame = &q->buff[vb2->index];
+> +	struct qc_jfif *mptr;
+> +	struct sg_table *sgt;
+> +	dma_addr_t dma;
+> +
+> +	sgt = vb2_dma_sg_plane_desc(vb2, 0);
+> +	if (WARN_ON_ONCE(!sgt || !sgt->sgl))
+> +		return -EINVAL;
+> +
+> +	dma = sg_dma_address(sgt->sgl);
+> +	if (WARN_ON_ONCE(!dma))
+> +		return -EINVAL;
+> +
+> +	mptr = vb2_plane_vaddr(vb2, 0);
+> +	if (WARN_ON_ONCE(!mptr))
+> +		return -EINVAL;
+
+Still don't understand this WARN_ONCE pattern you have. Do you see this 
+at all with your runtime ?
+
+> +	mutex_lock(&ectx->quality_mutex);
+> +	if (ectx->quality_programmed != ectx->quality_requested)
+> +		jpeg_apply_dmi_table(ectx);
+> +	mutex_unlock(&ectx->quality_mutex);
+> +
+> +	dma += qcom_jenc_header_emit(&ectx->hdr_cache, (void *)mptr,
+> +				     min_t(size_t, vb2->planes[0].length, ectx->hdr_cache.size),
+> +				     q->vf.width, q->vf.height);
+> +	qcom_jenc_dqts_emit(&ectx->hdr_cache, (void *)mptr);
+> +
+> +	frame->plns[0].sgt	= sgt;
+> +	frame->plns[0].dma	= dma;
+> +	frame->plns[0].size	= vb2_plane_size(vb2, 0);
+> +
+> +	jpeg_dev_access(jenc->dev, frame, DMA_TO_DEVICE);
+> +
+> +	return 0;
+> +}
+> +
+> +static int jpeg_setup_we_size(struct jenc_context *ectx, struct qcom_jenc_queue *q)
+> +{
+> +	struct qcom_jenc_dev *jenc = ectx->jenc;
+> +	const struct qcom_jpeg_reg_offs *offs = jenc->res->hw_offs;
+> +	struct v4l2_pix_format_mplane *dfmt = &q->vf;
+> +	u8 pln;
+> +
+> +	if (!dfmt->plane_fmt[0].sizeimage) {
+> +		dev_err(ectx->dev, "%s: invalid destination buffer size=0\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (pln = 0; pln < QCOM_JPEG_MAX_PLANES; pln++)
+> +		jpeg_rw_bits(jenc, offs->we.stride[pln], JMSK_PLNS_WR_STRIDE, 0);
+> +
+> +	jpeg_io_write(jenc, offs->we.bsize[0], dfmt->plane_fmt[0].sizeimage);
+> +
+> +	dev_dbg(ectx->dev, "%s: ctx=%p size=%u\n", __func__,
+> +		ectx, dfmt->plane_fmt[0].sizeimage);
+> +
+> +	return 0;
+> +}
+> +
+> +static int jpeg_setup_we_hinit(struct jenc_context *ectx, struct qcom_jenc_queue *q)
+> +{
+> +	struct qcom_jenc_dev *jenc = ectx->jenc;
+> +	const struct qcom_jpeg_reg_offs *offs = jenc->res->hw_offs;
+> +	struct v4l2_pix_format_mplane *dfmt = &q->vf;
+> +	u8 pln;
+> +
+> +	if (!dfmt->width) {
+> +		dev_err(ectx->dev, "%s: invalid destination width=%d\n", __func__, dfmt->width);
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (pln = 0; pln < QCOM_JPEG_MAX_PLANES; pln++) {
+> +		jpeg_rw_bits(jenc, offs->we.hinit[pln], JMSK_PLNS_WR_HINIT, 0);
+> +		jpeg_rw_bits(jenc, offs->we.hstep[pln], JMSK_PLNS_WR_HSTEP, 0);
+> +	}
+> +
+> +	jpeg_rw_bits(jenc, offs->we.hstep[0], JMSK_PLNS_WR_HSTEP, dfmt->width);
+> +
+> +	dev_dbg(ectx->dev, "%s: ctx=%p hstep=%u\n", __func__, ectx,
+> +		jpeg_rd_bits(jenc, offs->we.hstep[0], JMSK_PLNS_WR_HSTEP));
+> +
+> +	return 0;
+> +}
+> +
+> +static int jpeg_setup_we_vinit(struct jenc_context *ectx, struct qcom_jenc_queue *q)
+> +{
+> +	struct qcom_jenc_dev *jenc = ectx->jenc;
+> +	const struct qcom_jpeg_reg_offs *offs = jenc->res->hw_offs;
+> +	struct v4l2_pix_format_mplane *dfmt = &q->vf;
+> +	u8 pln;
+> +
+> +	if (!dfmt->height) {
+> +		dev_err(ectx->dev, "%s: invalid destination height=%d\n", __func__, dfmt->height);
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (pln = 0; pln < QCOM_JPEG_MAX_PLANES; pln++) {
+> +		jpeg_rw_bits(jenc, offs->we.vinit[pln], JMSK_PLNS_WR_VINIT, 0);
+> +		jpeg_rw_bits(jenc, offs->we.vstep[pln], JMSK_PLNS_WR_VSTEP, 0);
+> +	}
+> +
+> +	jpeg_rw_bits(jenc, offs->we.vstep[0], JMSK_PLNS_WR_VSTEP, dfmt->height);
+> +
+> +	dev_dbg(ectx->dev, "%s: ctx=%p vstep=%u\n", __func__, ectx,
+> +		jpeg_rd_bits(jenc, offs->we.vstep[0], JMSK_PLNS_WR_VSTEP));
+> +
+> +	return 0;
+> +}
+> +
+> +static int jpeg_setup_we_params(struct jenc_context *ectx, struct qcom_jenc_queue *q)
+> +{
+> +	struct qcom_jenc_dev *jenc = ectx->jenc;
+> +	const struct qcom_jpeg_reg_offs *offs = jenc->res->hw_offs;
+> +	struct v4l2_pix_format_mplane *dfmt = &q->vf;
+> +	u32 blk_w, blk_h, mcu_cols, mcu_rows;
+> +	int rval;
+> +
+> +	rval = jpeg_get_memory_fmt(dfmt->pixelformat);
+> +	if (rval < 0) {
+> +		dev_err(ectx->dev, "%s: invalid memory format for v4l2 format:0x%x\n",
+> +			__func__, dfmt->pixelformat);
+> +		return -EINVAL;
+> +	}
+> +	jpeg_rw_bits(jenc, offs->we_cfg, JMSK_WE_CFG_MEMORY_FORMAT, rval);
+> +
+> +	rval = jpeg_get_mal_boundary(dfmt->width, jpeg_mal_bounds, ARRAY_SIZE(jpeg_mal_bounds));
+> +	if (rval < 0) {
+> +		dev_err(ectx->dev, "%s: failed to get WE mal boundary width=%u\n",
+> +			__func__, dfmt->width);
+> +		return -EINVAL;
+> +	}
+> +	jpeg_rw_bits(jenc, offs->we_cfg, JMSK_WE_CFG_MAL_BOUNDARY, rval);
+> +
+> +	dev_dbg(ectx->dev, "%s: optimal WE mal boundary=%d\n", __func__,
+> +		jpeg_rd_bits(jenc, offs->we_cfg, JMSK_WE_CFG_MAL_BOUNDARY));
+> +
+> +	rval = jpeg_get_encode_fmt(dfmt->pixelformat);
+> +	if (rval < 0) {
+> +		dev_err(ectx->dev, "%s: unsupported encode format fourcc=0x%x\n",
+> +			__func__, dfmt->pixelformat);
+> +		return rval;
+> +	}
+> +
+> +	rval = jpeg_get_mcu_geometry(rval, dfmt->width, dfmt->height, &blk_w, &blk_h,
+> +				     &mcu_cols, &mcu_rows);
+> +	if (rval < 0) {
+> +		dev_err(ectx->dev, "%s: invalid MCU geometry mcu_cols=%d mcu_rows=%d\n",
+> +			__func__, mcu_cols, mcu_rows);
+> +		return rval;
+> +	}
+> +
+> +	dev_dbg(ectx->dev, "%s blk_w=%u blk_h=%u cols=%u rows=%u\n", __func__,
+> +		blk_w, blk_h, mcu_cols, mcu_rows);
+> +
+> +	jpeg_rw_bits(jenc, offs->we.blocks[0], JMSK_PLNS_WR_BLOCK_CFG_PER_RAW, mcu_rows - 1);
+> +	jpeg_rw_bits(jenc, offs->we.blocks[0], JMSK_PLNS_WR_BLOCK_CFG_PER_COL, mcu_cols - 1);
+> +
+> +	jpeg_rw_bits(jenc, offs->we_cfg, JMSK_WE_CFG_CBCR_ORDER, 1);
+> +	jpeg_rw_bits(jenc, offs->we_cfg, JMSK_WE_CFG_MAL_EN, 1);
+> +	jpeg_rw_bits(jenc, offs->we_cfg, JMSK_WE_CFG_POP_BUFF_ON_EOS, 1);
+> +	jpeg_rw_bits(jenc, offs->we_cfg, JMSK_WE_CFG_PLN0_EN, 1);
+> +
+> +	jpeg_rw_bits(jenc, offs->core_cfg, JMSK_CORE_CFG_MODE, 1);
+> +	jpeg_rw_bits(jenc, offs->core_cfg, JMSK_CORE_CFG_WE_ENABLE, 1);
+> +
+> +	return 0;
+> +}
+> +
+> +static int jpeg_setup_we(struct jenc_context *ectx, struct qcom_jenc_queue *q)
+> +{
+> +	int rc;
+> +
+> +	rc = jpeg_setup_we_size(ectx, q);
+> +	if (rc)
+> +		return rc;
+> +
+> +	rc = jpeg_setup_we_hinit(ectx, q);
+> +	if (rc)
+> +		return rc;
+> +
+> +	rc = jpeg_setup_we_vinit(ectx, q);
+> +	if (rc)
+> +		return rc;
+> +
+> +	return jpeg_setup_we_params(ectx, q);
+> +}
+> +
+> +static int jpeg_setup_scale(struct jenc_context *ectx)
+> +{
+> +	struct qcom_jenc_dev *jenc = ectx->jenc;
+> +	const struct qcom_jpeg_reg_offs *offs = jenc->res->hw_offs;
+> +	struct qcom_jenc_queue *sq = &ectx->bufq[JENC_SRC_QUEUE];
+> +	struct qcom_jenc_queue *dq = &ectx->bufq[JENC_DST_QUEUE];
+> +	struct v4l2_pix_format_mplane *sfmt = &sq->vf;
+> +	struct v4l2_pix_format_mplane *dfmt = &dq->vf;
+> +	u32 blk_w, blk_h, mcu_cols, mcu_rows;
+> +	int rval;
+> +	u8 pln;
+> +
+> +	jpeg_rw_bits(jenc, offs->reset_cmd, JMSK_RST_CMD_SCALE_RESET, 1);
+> +
+> +	/* explicit no scaling */
+> +	jpeg_rw_bits(jenc, offs->scale_cfg, JMSK_SCALE_CFG_HSCALE_ENABLE, 0);
+> +	jpeg_rw_bits(jenc, offs->scale_cfg, JMSK_SCALE_CFG_VSCALE_ENABLE, 0);
+> +
+> +	for (pln = 0; pln < QCOM_JPEG_MAX_PLANES; pln++) {
+> +		jpeg_io_write(jenc, offs->scale.hstep[pln], JPEG_DEFAULT_SCALE_STEP);
+> +		jpeg_io_write(jenc, offs->scale.vstep[pln], JPEG_DEFAULT_SCALE_STEP);
+> +	}
+> +
+> +	if (jpeg_rd_bits(jenc, offs->scale_cfg, JMSK_SCALE_CFG_HSCALE_ENABLE)) {
+> +		for (pln = 0; pln < sq->vf.num_planes; pln++) {
+> +			jpeg_rw_bits(jenc, offs->scale.hstep[pln],
+> +				     JMSK_SCALE_PLNS_HSTEP_INTEGER,
+> +				     jpeg_calc_scale_int(sfmt->width, dfmt->width));
+> +			jpeg_rw_bits(jenc, offs->scale.hstep[pln],
+> +				     JMSK_SCALE_PLNS_HSTEP_FRACTIONAL,
+> +				     jpeg_calc_scale_frac(sfmt->width, dfmt->width));
+> +
+> +			dev_dbg(ectx->dev, "%s: ctx=%p hint=%d hfrac=%d\n",
+> +				__func__, ectx,
+> +				jpeg_rd_bits(jenc, offs->scale.hstep[pln],
+> +					     JMSK_SCALE_PLNS_HSTEP_INTEGER),
+> +				jpeg_rd_bits(jenc, offs->scale.hstep[pln],
+> +					     JMSK_SCALE_PLNS_HSTEP_FRACTIONAL));
+> +		}
+> +	}
+> +
+> +	if (jpeg_rd_bits(jenc, offs->scale_cfg, JMSK_SCALE_CFG_VSCALE_ENABLE)) {
+> +		for (pln = 0; pln < sq->vf.num_planes; pln++) {
+> +			jpeg_rw_bits(jenc, offs->scale.vstep[pln],
+> +				     JMSK_SCALE_PLNS_VSTEP_INTEGER,
+> +				     jpeg_calc_scale_int(sfmt->height, dfmt->height));
+> +			jpeg_rw_bits(jenc, offs->scale.vstep[pln],
+> +				     JMSK_SCALE_PLNS_VSTEP_FRACTIONAL,
+> +				     jpeg_calc_scale_frac(sfmt->height, dfmt->height));
+> +
+> +			dev_dbg(ectx->dev, "%s: ctx=%p vint=%d vfrac=%d\n",
+> +				__func__, ectx,
+> +				jpeg_rd_bits(jenc, offs->scale.vstep[pln],
+> +					     JMSK_SCALE_PLNS_VSTEP_INTEGER),
+> +				jpeg_rd_bits(jenc, offs->scale.vstep[pln],
+> +					     JMSK_SCALE_PLNS_VSTEP_FRACTIONAL));
+> +		}
+> +	}
+> +
+> +	rval = jpeg_get_encode_fmt(sfmt->pixelformat);
+> +	if (rval < 0) {
+> +		dev_err(ectx->dev, "%s: unsupported encode format fourcc=0x%x\n",
+> +			__func__, sfmt->pixelformat);
+> +		return -EINVAL;
+> +	}
+> +
+> +	rval = jpeg_get_mcu_geometry(rval, dfmt->width, dfmt->height, &blk_w, &blk_h,
+> +				     &mcu_cols, &mcu_rows);
+> +	if (rval < 0) {
+> +		dev_err(ectx->dev, "%s: invalid MCU geometry blk_w=%d blk_h=%d\n",
+> +			__func__, blk_w, blk_h);
+> +		return -EINVAL;
+> +	}
+> +
+> +	dev_dbg(ectx->dev, "%s blk_w=%u blk_h=%u cols=%u rows=%u\n", __func__, blk_w, blk_h,
+> +		mcu_cols, mcu_rows);
+> +
+> +	for (pln = 0; pln < sq->vf.num_planes; pln++) {
+> +		jpeg_rw_bits(jenc, offs->scale_out_cfg[pln],
+> +			     JMSK_SCALE_PLNS_OUT_CFG_BLK_WIDTH, mcu_cols - 1);
+> +		jpeg_rw_bits(jenc, offs->scale_out_cfg[pln],
+> +			     JMSK_SCALE_PLNS_OUT_CFG_BLK_HEIGHT, mcu_rows - 1);
+> +	}
+> +
+> +	dev_dbg(ectx->dev, "%s: ctx=%p scale src=%ux%u dst=%ux%u enable=%d/%d\n",
+> +		__func__, ectx, sfmt->width, sfmt->height, dfmt->width, dfmt->height,
+> +		jpeg_rd_bits(jenc, offs->scale_cfg, JMSK_SCALE_CFG_HSCALE_ENABLE),
+> +		jpeg_rd_bits(jenc, offs->scale_cfg, JMSK_SCALE_CFG_VSCALE_ENABLE));
+> +
+> +	/* Disabled, but must be configured */
+> +	jpeg_rw_bits(jenc, offs->core_cfg, JMSK_CORE_CFG_SCALE_ENABLE, 0);
+> +
+> +	return 0;
+> +}
+> +
+> +static int jpeg_setup_encode(struct jenc_context *ectx)
+> +{
+> +	struct qcom_jenc_dev *jenc = ectx->jenc;
+> +	struct qcom_jenc_queue *sq = &ectx->bufq[JENC_SRC_QUEUE];
+> +	struct v4l2_pix_format_mplane *sfmt = &sq->vf;
+> +	const struct qcom_jpeg_reg_offs *offs = jenc->res->hw_offs;
+> +	u32 blk_w, blk_h, mcu_cols, mcu_rows;
+> +	int rval;
+> +
+> +	if (!sfmt->width || !sfmt->height)
+> +		return -EINVAL;
+> +
+> +	jpeg_rw_bits(jenc, offs->reset_cmd, JMSK_RST_CMD_ENCODER_RESET, 1);
+> +
+> +	rval = jpeg_get_encode_fmt(sfmt->pixelformat);
+> +	if (rval < 0) {
+> +		dev_err(ectx->dev, "%s: unsupported encode format fourcc=0x%x\n",
+> +			__func__, sfmt->pixelformat);
+> +		return -EINVAL;
+> +	}
+> +	jpeg_rw_bits(jenc, offs->enc_cfg, JMSK_ENC_CFG_IMAGE_FORMAT, rval);
+> +
+> +	rval = jpeg_get_mcu_geometry(rval, sfmt->width, sfmt->height, &blk_w, &blk_h,
+> +				     &mcu_cols, &mcu_rows);
+> +	if (rval < 0) {
+> +		dev_err(ectx->dev, "%s: invalid MCU geometry mcu_cols=%d mcu_rows=%d\n",
+> +			__func__, mcu_cols, mcu_rows);
+> +		return -EINVAL;
+> +	}
+> +
+> +	dev_dbg(ectx->dev, "%s blk_w=%u blk_h=%u cols=%u rows=%u\n", __func__,
+> +		blk_w, blk_h, mcu_cols, mcu_rows);
+> +
+> +	jpeg_rw_bits(jenc, offs->enc_img_size, JMSK_ENC_IMAGE_SIZE_WIDTH, mcu_cols - 1);
+> +	jpeg_rw_bits(jenc, offs->enc_img_size, JMSK_ENC_IMAGE_SIZE_HEIGHT, mcu_rows - 1);
+> +
+> +	dev_dbg(ectx->dev, "%s: ctx=%p width=%d height=%d\n", __func__, ectx,
+> +		jpeg_rd_bits(jenc, offs->enc_img_size, JMSK_ENC_IMAGE_SIZE_WIDTH),
+> +		jpeg_rd_bits(jenc, offs->enc_img_size, JMSK_ENC_IMAGE_SIZE_HEIGHT));
+> +
+> +	jpeg_rw_bits(jenc, offs->enc_cfg, JMSK_ENC_CFG_APPLY_EOI, 1);
+> +	jpeg_rw_bits(jenc, offs->core_cfg, JMSK_CORE_CFG_ENC_ENABLE, 1);
+> +
+> +	return 0;
+> +}
+> +
+> +static irqreturn_t op_jpeg_irq_bot(int irq, void *data)
+> +{
+> +	struct qcom_jenc_dev *jenc = data;
+> +	const struct qcom_jpeg_reg_offs *offs = jenc->res->hw_offs;
+> +	u32 irq_status;
+> +	u32 irq_mask;
+> +	unsigned long flags;
+> +	int rc;
+> +
+> +	rc = kfifo_out_spinlocked(&jenc->kfifo_inst, &irq_status, sizeof(irq_status),
+> +				  &jenc->kfifo_lock);
+> +	if (rc != sizeof(irq_status)) {
+> +		dev_err(jenc->dev, "IRQ status: FIFO empty\n");
+> +		return IRQ_HANDLED;
+> +	}
+> +
+> +	irq_mask = jenc->res->hw_mask[JMSK_IRQ_STATUS_SESSION_DONE];
+> +	if (jpeg_bits_get(irq_mask, irq_status)) {
+> +		struct jenc_context *ctx = jenc->actx;
+> +		struct qcom_jenc_queue *dq = &ctx->bufq[JENC_DST_QUEUE];
+> +		size_t out_size;
+> +
+> +		spin_lock_irqsave(&jenc->hw_lock, flags);
+> +		jenc->actx = NULL;
+> +		spin_unlock_irqrestore(&jenc->hw_lock, flags);
+> +
+> +		if (ctx && dq->buff_id >= 0) {
+> +			struct qcom_jpeg_buff *frame;
+> +			unsigned long flags;
+> +
+> +			spin_lock_irqsave(&jenc->hw_lock, flags);
+> +			frame = &dq->buff[dq->buff_id];
+> +			out_size = jpeg_io_read(jenc, offs->enc_out_size);
+> +			spin_unlock_irqrestore(&jenc->hw_lock, flags);
+> +
+> +			dev_dbg(jenc->dev, "complete idx:%d addr=0x%llx size=%zu\n",
+> +				dq->buff_id, frame->plns[0].dma, out_size);
+> +
+> +			jpeg_cpu_access(jenc->dev, frame, DMA_FROM_DEVICE);
+> +			jenc->enc_hw_irq_cb(ctx, VB2_BUF_STATE_DONE,
+> +					    out_size + JPEG_HEADER_MAX);
+> +			jpeg_stop(jenc);
+> +		}
+> +	}
+> +
+> +	irq_mask = jenc->res->hw_mask[JMSK_IRQ_STATUS_SESSION_ERROR];
+> +	if (jpeg_bits_get(irq_mask, irq_status)) {
+> +		struct jenc_context *ctx = jenc->actx;
+> +
+> +		spin_lock_irqsave(&jenc->hw_lock, flags);
+> +		jenc->actx = NULL;
+> +		spin_unlock_irqrestore(&jenc->hw_lock, flags);
+> +
+> +		dev_err(jenc->dev, "encoder hardware failure=0x%x\n",
+> +			jpeg_bits_get(JMSK_IRQ_STATUS_SESSION_ERROR, irq_status));
+> +		if (ctx)
+> +			jenc->enc_hw_irq_cb(ctx, VB2_BUF_STATE_ERROR, 0);
+> +
+> +		jpeg_stop(jenc);
+> +	}
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static irqreturn_t op_jpeg_irq_top(int irq, void *data)
+> +{
+> +	struct qcom_jenc_dev *jenc = data;
+> +	const struct qcom_jpeg_reg_offs *offs = jenc->res->hw_offs;
+> +	u32 irq_status;
+> +	u32 irq_mask;
+> +	unsigned long flags;
+> +	int rc;
+> +
+> +	spin_lock_irqsave(&jenc->hw_lock, flags);
+> +
+> +	irq_status = jpeg_io_read(jenc, offs->int_status);
+> +	jpeg_wo_bits(jenc, offs->int_clr, JMSK_IRQ_CLEAR_ALL, irq_status);
+> +
+> +	irq_mask = jenc->res->hw_mask[JMSK_IRQ_STATUS_RESET_ACK];
+> +	if (jpeg_bits_get(irq_mask, irq_status)) {
+> +		complete(&jenc->reset_complete);
+> +		spin_unlock_irqrestore(&jenc->hw_lock, flags);
+> +		return IRQ_HANDLED;
+> +	}
+> +
+> +	irq_mask = jenc->res->hw_mask[JMSK_IRQ_STATUS_STOP_ACK];
+> +	if (jpeg_bits_get(irq_mask, irq_status)) {
+> +		complete(&jenc->stop_complete);
+> +		dev_dbg(jenc->dev, "hardware stop acknowledged\n");
+> +		spin_unlock_irqrestore(&jenc->hw_lock, flags);
+> +		return IRQ_HANDLED;
+> +	}
+> +
+> +	rc = kfifo_in(&jenc->kfifo_inst, &irq_status, sizeof(irq_status));
+> +	if (rc != sizeof(irq_status))
+> +		dev_err(jenc->dev, "IRQ status: FIFO full\n");
+> +
+> +	spin_unlock_irqrestore(&jenc->hw_lock, flags);
+> +
+> +	return IRQ_WAKE_THREAD;
+I'll stop here.
+
+Really great to see this hardware getting enabled. In V2 please break 
+the code up into smaller patches which can be reviewed in more managable 
+chunks.
+
 ---
-Hello,
-
-the mentioned change to i2c_device_id is the following:
-
-	diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
-	index 23ff24080dfd..aebd3a5e90af 100644
-	--- a/include/linux/mod_devicetable.h
-	+++ b/include/linux/mod_devicetable.h
-	@@ -477,7 +477,11 @@ struct rpmsg_device_id {
-	
-	 struct i2c_device_id {
-	 	char name[I2C_NAME_SIZE];
-	-	kernel_ulong_t driver_data;     /* Data private to the driver */
-	+	union {
-	+		/* Data private to the driver */
-	+		kernel_ulong_t driver_data;
-	+		const void *driver_data_ptr;
-	+	};
-	 };
-	
-	 /* pci_epf */
-
-and this requires that .driver_data is assigned via a named initializer
-for static data. This requirement isn't a bad one because named
-initializers are also much better readable than list initializers.
-
-The union added to struct i2c_device_id enables further cleanups like:
-
-	diff --git a/drivers/media/i2c/tda1997x.c b/drivers/media/i2c/tda1997x.c
-	index afa1d6f34c9c..64fc3a5315c7 100644
-	--- a/drivers/media/i2c/tda1997x.c
-	+++ b/drivers/media/i2c/tda1997x.c
-	@@ -2274,8 +2274,8 @@ static int tda1997x_set_power(struct tda1997x_state *state, bool on)
-	 }
-	 
-	 static const struct i2c_device_id tda1997x_i2c_id[] = {
-	-	{ .name = "tda19971", .driver_data = (kernel_ulong_t)&tda1997x_chip_info[TDA19971] },
-	-	{ .name = "tda19973", .driver_data = (kernel_ulong_t)&tda1997x_chip_info[TDA19973] },
-	+	{ .name = "tda19971", .driver_data_ptr = &tda1997x_chip_info[TDA19971] },
-	+	{ .name = "tda19973", .driver_data_ptr = &tda1997x_chip_info[TDA19973] },
-		{ }
-	 };
-	 MODULE_DEVICE_TABLE(i2c, tda1997x_i2c_id);
-	@@ -2558,8 +2558,7 @@ static int tda1997x_probe(struct i2c_client *client)
-		} else if (client->dev.platform_data) {
-			struct tda1997x_platform_data *pdata =
-				client->dev.platform_data;
-	-		state->info =
-	-			(const struct tda1997x_chip_info *)id->driver_data;
-	+		state->info = id->driver_data_ptr;
-			state->pdata = *pdata;
-		} else {
-			v4l_err(client, "No platform data\n");
-
-that are an improvement for readability (again!) and it keeps some
-properties of the pointers (here: being const) without having to pay
-attention for that.
-
-My additional motivation for this effort is CHERI[1]. This is a hardware
-extension that uses 128 bit pointers but unsigned long is still 64 bit.
-So with CHERI you cannot store pointers in unsigned long variables.
-
-Best regards
-Uwe
-
-[1] https://cheri-alliance.org/discover-cheri/
-    https://lwn.net/Articles/1037974/
-
- drivers/media/cec/i2c/tda9950.c               |  2 +-
- drivers/media/dvb-frontends/a8293.c           |  4 +-
- drivers/media/dvb-frontends/af9013.c          |  4 +-
- drivers/media/dvb-frontends/af9033.c          |  4 +-
- drivers/media/dvb-frontends/au8522_decoder.c  |  4 +-
- drivers/media/dvb-frontends/cxd2099.c         |  4 +-
- drivers/media/dvb-frontends/cxd2820r_core.c   |  4 +-
- drivers/media/dvb-frontends/dvb-pll.c         | 44 +++++++++----------
- drivers/media/dvb-frontends/helene.c          |  4 +-
- drivers/media/dvb-frontends/lgdt3306a.c       |  4 +-
- drivers/media/dvb-frontends/lgdt330x.c        |  4 +-
- drivers/media/dvb-frontends/m88ds3103.c       | 10 ++---
- drivers/media/dvb-frontends/mn88443x.c        |  8 ++--
- drivers/media/dvb-frontends/mn88472.c         |  4 +-
- drivers/media/dvb-frontends/mn88473.c         |  4 +-
- drivers/media/dvb-frontends/mxl692.c          |  4 +-
- drivers/media/dvb-frontends/rtl2830.c         |  4 +-
- drivers/media/dvb-frontends/rtl2832.c         |  4 +-
- drivers/media/dvb-frontends/si2165.c          |  4 +-
- drivers/media/dvb-frontends/si2168.c          |  4 +-
- drivers/media/dvb-frontends/sp2.c             |  4 +-
- drivers/media/dvb-frontends/stv090x.c         |  4 +-
- drivers/media/dvb-frontends/stv6110x.c        |  4 +-
- drivers/media/dvb-frontends/tc90522.c         |  6 +--
- drivers/media/dvb-frontends/tda10071.c        |  4 +-
- drivers/media/dvb-frontends/ts2020.c          |  6 +--
- drivers/media/i2c/ad5820.c                    |  4 +-
- drivers/media/i2c/adp1653.c                   |  2 +-
- drivers/media/i2c/adv7170.c                   |  4 +-
- drivers/media/i2c/adv7175.c                   |  4 +-
- drivers/media/i2c/adv7180.c                   | 24 +++++-----
- drivers/media/i2c/adv7183.c                   |  4 +-
- drivers/media/i2c/adv7343.c                   |  4 +-
- drivers/media/i2c/adv7393.c                   |  4 +-
- drivers/media/i2c/adv7511-v4l2.c              |  2 +-
- drivers/media/i2c/adv7604.c                   |  8 ++--
- drivers/media/i2c/adv7842.c                   |  2 +-
- drivers/media/i2c/ak881x.c                    |  4 +-
- drivers/media/i2c/bt819.c                     |  6 +--
- drivers/media/i2c/bt856.c                     |  2 +-
- drivers/media/i2c/bt866.c                     |  2 +-
- drivers/media/i2c/cs3308.c                    |  2 +-
- drivers/media/i2c/cs5345.c                    |  2 +-
- drivers/media/i2c/cs53l32a.c                  |  2 +-
- drivers/media/i2c/cx25840/cx25840-core.c      |  2 +-
- drivers/media/i2c/ds90ub913.c                 |  4 +-
- drivers/media/i2c/ds90ub953.c                 |  6 +--
- drivers/media/i2c/ds90ub960.c                 |  8 ++--
- drivers/media/i2c/dw9714.c                    |  2 +-
- drivers/media/i2c/et8ek8/et8ek8_driver.c      |  2 +-
- drivers/media/i2c/imx274.c                    |  2 +-
- drivers/media/i2c/ir-kbd-i2c.c                |  6 +--
- drivers/media/i2c/isl7998x.c                  |  2 +-
- drivers/media/i2c/ks0127.c                    |  6 +--
- drivers/media/i2c/lm3560.c                    |  6 +--
- drivers/media/i2c/lm3646.c                    |  4 +-
- drivers/media/i2c/m52790.c                    |  2 +-
- drivers/media/i2c/max2175.c                   |  4 +-
- drivers/media/i2c/ml86v7667.c                 |  4 +-
- drivers/media/i2c/msp3400-driver.c            |  2 +-
- drivers/media/i2c/mt9m001.c                   |  2 +-
- drivers/media/i2c/mt9m111.c                   |  2 +-
- drivers/media/i2c/mt9t112.c                   |  2 +-
- drivers/media/i2c/mt9v011.c                   |  2 +-
- drivers/media/i2c/ov13858.c                   |  4 +-
- drivers/media/i2c/ov2640.c                    |  2 +-
- drivers/media/i2c/ov2659.c                    |  2 +-
- drivers/media/i2c/ov5640.c                    |  4 +-
- drivers/media/i2c/ov5645.c                    |  4 +-
- drivers/media/i2c/ov5647.c                    |  2 +-
- drivers/media/i2c/ov7640.c                    |  2 +-
- drivers/media/i2c/ov7670.c                    |  4 +-
- drivers/media/i2c/ov772x.c                    |  2 +-
- drivers/media/i2c/ov7740.c                    |  2 +-
- drivers/media/i2c/ov9640.c                    |  2 +-
- drivers/media/i2c/ov9650.c                    |  4 +-
- drivers/media/i2c/rj54n1cb0c.c                |  2 +-
- drivers/media/i2c/s5c73m3/s5c73m3-core.c      |  2 +-
- drivers/media/i2c/s5k5baf.c                   |  2 +-
- drivers/media/i2c/saa6588.c                   |  2 +-
- drivers/media/i2c/saa6752hs.c                 |  2 +-
- drivers/media/i2c/saa7110.c                   |  2 +-
- drivers/media/i2c/saa7115.c                   | 14 +++---
- drivers/media/i2c/saa7127.c                   | 10 ++---
- drivers/media/i2c/saa717x.c                   |  2 +-
- drivers/media/i2c/saa7185.c                   |  2 +-
- drivers/media/i2c/sony-btf-mpx.c              |  2 +-
- drivers/media/i2c/tc358743.c                  |  4 +-
- drivers/media/i2c/tda1997x.c                  |  6 +--
- drivers/media/i2c/tda7432.c                   |  2 +-
- drivers/media/i2c/tda9840.c                   |  2 +-
- drivers/media/i2c/tea6415c.c                  |  2 +-
- drivers/media/i2c/tea6420.c                   |  2 +-
- drivers/media/i2c/ths7303.c                   |  6 +--
- drivers/media/i2c/ths8200.c                   |  4 +-
- drivers/media/i2c/tlv320aic23b.c              |  2 +-
- drivers/media/i2c/tvaudio.c                   |  2 +-
- drivers/media/i2c/tvp514x.c                   |  8 ++--
- drivers/media/i2c/tvp5150.c                   |  2 +-
- drivers/media/i2c/tvp7002.c                   |  2 +-
- drivers/media/i2c/tw2804.c                    |  2 +-
- drivers/media/i2c/tw9900.c                    |  2 +-
- drivers/media/i2c/tw9903.c                    |  2 +-
- drivers/media/i2c/tw9906.c                    |  2 +-
- drivers/media/i2c/tw9910.c                    |  2 +-
- drivers/media/i2c/uda1342.c                   |  2 +-
- drivers/media/i2c/upd64031a.c                 |  2 +-
- drivers/media/i2c/upd64083.c                  |  2 +-
- drivers/media/i2c/video-i2c.c                 |  6 +--
- drivers/media/i2c/vp27smpx.c                  |  2 +-
- drivers/media/i2c/vpx3220.c                   |  6 +--
- drivers/media/i2c/wm8739.c                    |  2 +-
- drivers/media/i2c/wm8775.c                    |  2 +-
- drivers/media/radio/radio-tea5764.c           |  2 +-
- drivers/media/radio/saa7706h.c                |  4 +-
- drivers/media/radio/si470x/radio-si470x-i2c.c |  2 +-
- drivers/media/radio/si4713/si4713.c           |  2 +-
- drivers/media/radio/tef6862.c                 |  4 +-
- .../media/test-drivers/vidtv/vidtv_demod.c    |  4 +-
- .../media/test-drivers/vidtv/vidtv_tuner.c    |  4 +-
- drivers/media/tuners/e4000.c                  |  4 +-
- drivers/media/tuners/fc2580.c                 |  4 +-
- drivers/media/tuners/m88rs6000t.c             |  4 +-
- drivers/media/tuners/mt2060.c                 |  4 +-
- drivers/media/tuners/mxl301rf.c               |  4 +-
- drivers/media/tuners/qm1d1b0004.c             |  4 +-
- drivers/media/tuners/qm1d1c0042.c             |  4 +-
- drivers/media/tuners/si2157.c                 | 10 ++---
- drivers/media/tuners/tda18212.c               |  4 +-
- drivers/media/tuners/tda18250.c               |  4 +-
- drivers/media/tuners/tua9001.c                |  4 +-
- drivers/media/usb/go7007/s2250-board.c        |  2 +-
- drivers/media/v4l2-core/tuner-core.c          |  2 +-
- 133 files changed, 269 insertions(+), 269 deletions(-)
-
-diff --git a/drivers/media/cec/i2c/tda9950.c b/drivers/media/cec/i2c/tda9950.c
-index cbff851e0c85..2bece4e63687 100644
---- a/drivers/media/cec/i2c/tda9950.c
-+++ b/drivers/media/cec/i2c/tda9950.c
-@@ -486,7 +486,7 @@ static void tda9950_remove(struct i2c_client *client)
- }
- 
- static struct i2c_device_id tda9950_ids[] = {
--	{ "tda9950" },
-+	{ .name = "tda9950" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tda9950_ids);
-diff --git a/drivers/media/dvb-frontends/a8293.c b/drivers/media/dvb-frontends/a8293.c
-index 7c0963054a8f..52e3dc928327 100644
---- a/drivers/media/dvb-frontends/a8293.c
-+++ b/drivers/media/dvb-frontends/a8293.c
-@@ -256,8 +256,8 @@ static void a8293_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id a8293_id_table[] = {
--	{ "a8293" },
--	{}
-+	{ .name = "a8293" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, a8293_id_table);
- 
-diff --git a/drivers/media/dvb-frontends/af9013.c b/drivers/media/dvb-frontends/af9013.c
-index 75f3063c193e..d335bfd18e44 100644
---- a/drivers/media/dvb-frontends/af9013.c
-+++ b/drivers/media/dvb-frontends/af9013.c
-@@ -1553,8 +1553,8 @@ static void af9013_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id af9013_id_table[] = {
--	{ "af9013" },
--	{}
-+	{ .name = "af9013" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, af9013_id_table);
- 
-diff --git a/drivers/media/dvb-frontends/af9033.c b/drivers/media/dvb-frontends/af9033.c
-index 9a3a4d6513dd..01761861b01f 100644
---- a/drivers/media/dvb-frontends/af9033.c
-+++ b/drivers/media/dvb-frontends/af9033.c
-@@ -1173,8 +1173,8 @@ static void af9033_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id af9033_id_table[] = {
--	{ "af9033" },
--	{}
-+	{ .name = "af9033" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, af9033_id_table);
- 
-diff --git a/drivers/media/dvb-frontends/au8522_decoder.c b/drivers/media/dvb-frontends/au8522_decoder.c
-index 58b959b272c6..9ae47ea3976b 100644
---- a/drivers/media/dvb-frontends/au8522_decoder.c
-+++ b/drivers/media/dvb-frontends/au8522_decoder.c
-@@ -768,8 +768,8 @@ static void au8522_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id au8522_id[] = {
--	{ "au8522" },
--	{}
-+	{ .name = "au8522" },
-+	{ }
- };
- 
- MODULE_DEVICE_TABLE(i2c, au8522_id);
-diff --git a/drivers/media/dvb-frontends/cxd2099.c b/drivers/media/dvb-frontends/cxd2099.c
-index f95950a61307..e6110af1edcd 100644
---- a/drivers/media/dvb-frontends/cxd2099.c
-+++ b/drivers/media/dvb-frontends/cxd2099.c
-@@ -672,8 +672,8 @@ static void cxd2099_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id cxd2099_id[] = {
--	{ "cxd2099" },
--	{}
-+	{ .name = "cxd2099" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, cxd2099_id);
- 
-diff --git a/drivers/media/dvb-frontends/cxd2820r_core.c b/drivers/media/dvb-frontends/cxd2820r_core.c
-index 3deefeff4bd1..fbbffe9e7251 100644
---- a/drivers/media/dvb-frontends/cxd2820r_core.c
-+++ b/drivers/media/dvb-frontends/cxd2820r_core.c
-@@ -723,8 +723,8 @@ static void cxd2820r_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id cxd2820r_id_table[] = {
--	{ "cxd2820r" },
--	{}
-+	{ .name = "cxd2820r" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, cxd2820r_id_table);
- 
-diff --git a/drivers/media/dvb-frontends/dvb-pll.c b/drivers/media/dvb-frontends/dvb-pll.c
-index f8fd23f60e3f..d36c163b772f 100644
---- a/drivers/media/dvb-frontends/dvb-pll.c
-+++ b/drivers/media/dvb-frontends/dvb-pll.c
-@@ -911,28 +911,28 @@ static void dvb_pll_remove(struct i2c_client *client)
- 
- 
- static const struct i2c_device_id dvb_pll_id[] = {
--	{"dtt7579",		DVB_PLL_THOMSON_DTT7579},
--	{"dtt759x",		DVB_PLL_THOMSON_DTT759X},
--	{"z201",		DVB_PLL_LG_Z201},
--	{"unknown_1",		DVB_PLL_UNKNOWN_1},
--	{"tua6010xs",		DVB_PLL_TUA6010XS},
--	{"env57h1xd5",		DVB_PLL_ENV57H1XD5},
--	{"tua6034",		DVB_PLL_TUA6034},
--	{"tda665x",		DVB_PLL_TDA665X},
--	{"tded4",		DVB_PLL_TDED4},
--	{"tdhu2",		DVB_PLL_TDHU2},
--	{"tbmv",		DVB_PLL_SAMSUNG_TBMV},
--	{"sd1878_tda8261",	DVB_PLL_PHILIPS_SD1878_TDA8261},
--	{"opera1",		DVB_PLL_OPERA1},
--	{"dtos403ih102a",	DVB_PLL_SAMSUNG_DTOS403IH102A},
--	{"tdtc9251dh0",		DVB_PLL_SAMSUNG_TDTC9251DH0},
--	{"tbdu18132",		DVB_PLL_SAMSUNG_TBDU18132},
--	{"tbmu24112",		DVB_PLL_SAMSUNG_TBMU24112},
--	{"tdee4",		DVB_PLL_TDEE4},
--	{"dtt7520x",		DVB_PLL_THOMSON_DTT7520X},
--	{"tua6034_friio",	DVB_PLL_TUA6034_FRIIO},
--	{"tda665x_earthpt1",	DVB_PLL_TDA665X_EARTH_PT1},
--	{}
-+	{ .name = "dtt7579",             .driver_data = DVB_PLL_THOMSON_DTT7579 },
-+	{ .name = "dtt759x",             .driver_data = DVB_PLL_THOMSON_DTT759X },
-+	{ .name = "z201",                .driver_data = DVB_PLL_LG_Z201 },
-+	{ .name = "unknown_1",           .driver_data = DVB_PLL_UNKNOWN_1 },
-+	{ .name = "tua6010xs",           .driver_data = DVB_PLL_TUA6010XS },
-+	{ .name = "env57h1xd5",          .driver_data = DVB_PLL_ENV57H1XD5 },
-+	{ .name = "tua6034",             .driver_data = DVB_PLL_TUA6034 },
-+	{ .name = "tda665x",             .driver_data = DVB_PLL_TDA665X },
-+	{ .name = "tded4",               .driver_data = DVB_PLL_TDED4 },
-+	{ .name = "tdhu2",               .driver_data = DVB_PLL_TDHU2 },
-+	{ .name = "tbmv",                .driver_data = DVB_PLL_SAMSUNG_TBMV },
-+	{ .name = "sd1878_tda8261",      .driver_data = DVB_PLL_PHILIPS_SD1878_TDA8261 },
-+	{ .name = "opera1",              .driver_data = DVB_PLL_OPERA1 },
-+	{ .name = "dtos403ih102a",       .driver_data = DVB_PLL_SAMSUNG_DTOS403IH102A },
-+	{ .name = "tdtc9251dh0",         .driver_data = DVB_PLL_SAMSUNG_TDTC9251DH0 },
-+	{ .name = "tbdu18132",           .driver_data = DVB_PLL_SAMSUNG_TBDU18132 },
-+	{ .name = "tbmu24112",           .driver_data = DVB_PLL_SAMSUNG_TBMU24112 },
-+	{ .name = "tdee4",               .driver_data = DVB_PLL_TDEE4 },
-+	{ .name = "dtt7520x",            .driver_data = DVB_PLL_THOMSON_DTT7520X },
-+	{ .name = "tua6034_friio",       .driver_data = DVB_PLL_TUA6034_FRIIO },
-+	{ .name = "tda665x_earthpt1",    .driver_data = DVB_PLL_TDA665X_EARTH_PT1 },
-+	{ }
- };
- 
- 
-diff --git a/drivers/media/dvb-frontends/helene.c b/drivers/media/dvb-frontends/helene.c
-index 1402d124544e..993280fefc2c 100644
---- a/drivers/media/dvb-frontends/helene.c
-+++ b/drivers/media/dvb-frontends/helene.c
-@@ -1101,8 +1101,8 @@ static int helene_probe(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id helene_id[] = {
--	{ "helene", },
--	{}
-+	{ .name = "helene" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, helene_id);
- 
-diff --git a/drivers/media/dvb-frontends/lgdt3306a.c b/drivers/media/dvb-frontends/lgdt3306a.c
-index b6a66e122ed5..f4a3136baea3 100644
---- a/drivers/media/dvb-frontends/lgdt3306a.c
-+++ b/drivers/media/dvb-frontends/lgdt3306a.c
-@@ -2244,8 +2244,8 @@ static void lgdt3306a_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id lgdt3306a_id_table[] = {
--	{ "lgdt3306a" },
--	{}
-+	{ .name = "lgdt3306a" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, lgdt3306a_id_table);
- 
-diff --git a/drivers/media/dvb-frontends/lgdt330x.c b/drivers/media/dvb-frontends/lgdt330x.c
-index 19a4a05b3499..d90f642e9237 100644
---- a/drivers/media/dvb-frontends/lgdt330x.c
-+++ b/drivers/media/dvb-frontends/lgdt330x.c
-@@ -983,8 +983,8 @@ static void lgdt330x_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id lgdt330x_id_table[] = {
--	{ "lgdt330x" },
--	{}
-+	{ .name = "lgdt330x" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, lgdt330x_id_table);
- 
-diff --git a/drivers/media/dvb-frontends/m88ds3103.c b/drivers/media/dvb-frontends/m88ds3103.c
-index 44bee1f3c5e9..d79b88848a8c 100644
---- a/drivers/media/dvb-frontends/m88ds3103.c
-+++ b/drivers/media/dvb-frontends/m88ds3103.c
-@@ -2221,11 +2221,11 @@ static void m88ds3103_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id m88ds3103_id_table[] = {
--	{"m88ds3103",  M88DS3103_CHIPTYPE_3103},
--	{"m88rs6000",  M88DS3103_CHIPTYPE_RS6000},
--	{"m88ds3103b", M88DS3103_CHIPTYPE_3103B},
--	{"m88ds3103c", M88DS3103_CHIPTYPE_3103C},
--	{}
-+	{ .name = "m88ds3103", .driver_data = M88DS3103_CHIPTYPE_3103 },
-+	{ .name = "m88rs6000", .driver_data = M88DS3103_CHIPTYPE_RS6000 },
-+	{ .name = "m88ds3103b", .driver_data = M88DS3103_CHIPTYPE_3103B },
-+	{ .name = "m88ds3103c", .driver_data = M88DS3103_CHIPTYPE_3103C },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, m88ds3103_id_table);
- 
-diff --git a/drivers/media/dvb-frontends/mn88443x.c b/drivers/media/dvb-frontends/mn88443x.c
-index 818c4e67364c..cc6bd17daf73 100644
---- a/drivers/media/dvb-frontends/mn88443x.c
-+++ b/drivers/media/dvb-frontends/mn88443x.c
-@@ -787,10 +787,10 @@ static const struct of_device_id mn88443x_of_match[] = {
- MODULE_DEVICE_TABLE(of, mn88443x_of_match);
- 
- static const struct i2c_device_id mn88443x_i2c_id[] = {
--	{ "mn884433",   (kernel_ulong_t)&mn88443x_spec_pri },
--	{ "mn884434-0", (kernel_ulong_t)&mn88443x_spec_pri },
--	{ "mn884434-1", (kernel_ulong_t)&mn88443x_spec_sec },
--	{}
-+	{ .name = "mn884433", .driver_data = (kernel_ulong_t)&mn88443x_spec_pri },
-+	{ .name = "mn884434-0", .driver_data = (kernel_ulong_t)&mn88443x_spec_pri },
-+	{ .name = "mn884434-1", .driver_data = (kernel_ulong_t)&mn88443x_spec_sec },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, mn88443x_i2c_id);
- 
-diff --git a/drivers/media/dvb-frontends/mn88472.c b/drivers/media/dvb-frontends/mn88472.c
-index 275c404ce286..42b78b9aba20 100644
---- a/drivers/media/dvb-frontends/mn88472.c
-+++ b/drivers/media/dvb-frontends/mn88472.c
-@@ -708,8 +708,8 @@ static void mn88472_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id mn88472_id_table[] = {
--	{ "mn88472" },
--	{}
-+	{ .name = "mn88472" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, mn88472_id_table);
- 
-diff --git a/drivers/media/dvb-frontends/mn88473.c b/drivers/media/dvb-frontends/mn88473.c
-index 40a0cb1d9c67..b7b11a000969 100644
---- a/drivers/media/dvb-frontends/mn88473.c
-+++ b/drivers/media/dvb-frontends/mn88473.c
-@@ -743,8 +743,8 @@ static void mn88473_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id mn88473_id_table[] = {
--	{ "mn88473" },
--	{}
-+	{ .name = "mn88473" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, mn88473_id_table);
- 
-diff --git a/drivers/media/dvb-frontends/mxl692.c b/drivers/media/dvb-frontends/mxl692.c
-index 2d8eaa20723f..bca4a4c3dd66 100644
---- a/drivers/media/dvb-frontends/mxl692.c
-+++ b/drivers/media/dvb-frontends/mxl692.c
-@@ -1346,8 +1346,8 @@ static void mxl692_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id mxl692_id_table[] = {
--	{ "mxl692" },
--	{}
-+	{ .name = "mxl692" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, mxl692_id_table);
- 
-diff --git a/drivers/media/dvb-frontends/rtl2830.c b/drivers/media/dvb-frontends/rtl2830.c
-index f0ee7c38ee79..4c44e2d695f8 100644
---- a/drivers/media/dvb-frontends/rtl2830.c
-+++ b/drivers/media/dvb-frontends/rtl2830.c
-@@ -876,8 +876,8 @@ static void rtl2830_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id rtl2830_id_table[] = {
--	{ "rtl2830" },
--	{}
-+	{ .name = "rtl2830" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, rtl2830_id_table);
- 
-diff --git a/drivers/media/dvb-frontends/rtl2832.c b/drivers/media/dvb-frontends/rtl2832.c
-index d8e1546aea5e..021f3188f6a5 100644
---- a/drivers/media/dvb-frontends/rtl2832.c
-+++ b/drivers/media/dvb-frontends/rtl2832.c
-@@ -1125,8 +1125,8 @@ static void rtl2832_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id rtl2832_id_table[] = {
--	{ "rtl2832" },
--	{}
-+	{ .name = "rtl2832" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, rtl2832_id_table);
- 
-diff --git a/drivers/media/dvb-frontends/si2165.c b/drivers/media/dvb-frontends/si2165.c
-index 4170696af9f0..f1241b63aa5c 100644
---- a/drivers/media/dvb-frontends/si2165.c
-+++ b/drivers/media/dvb-frontends/si2165.c
-@@ -1281,8 +1281,8 @@ static void si2165_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id si2165_id_table[] = {
--	{ "si2165" },
--	{}
-+	{ .name = "si2165" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, si2165_id_table);
- 
-diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
-index 9c5bac8cda47..8bc3b6eb1dd3 100644
---- a/drivers/media/dvb-frontends/si2168.c
-+++ b/drivers/media/dvb-frontends/si2168.c
-@@ -790,8 +790,8 @@ static void si2168_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id si2168_id_table[] = {
--	{ "si2168" },
--	{}
-+	{ .name = "si2168" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, si2168_id_table);
- 
-diff --git a/drivers/media/dvb-frontends/sp2.c b/drivers/media/dvb-frontends/sp2.c
-index 071c7371c699..63dec4b4fd2f 100644
---- a/drivers/media/dvb-frontends/sp2.c
-+++ b/drivers/media/dvb-frontends/sp2.c
-@@ -407,8 +407,8 @@ static void sp2_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id sp2_id[] = {
--	{ "sp2" },
--	{}
-+	{ .name = "sp2" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, sp2_id);
- 
-diff --git a/drivers/media/dvb-frontends/stv090x.c b/drivers/media/dvb-frontends/stv090x.c
-index 657df713865e..932bbed5497a 100644
---- a/drivers/media/dvb-frontends/stv090x.c
-+++ b/drivers/media/dvb-frontends/stv090x.c
-@@ -5079,8 +5079,8 @@ struct dvb_frontend *stv090x_attach(struct stv090x_config *config,
- EXPORT_SYMBOL_GPL(stv090x_attach);
- 
- static const struct i2c_device_id stv090x_id_table[] = {
--	{ "stv090x" },
--	{}
-+	{ .name = "stv090x" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, stv090x_id_table);
- 
-diff --git a/drivers/media/dvb-frontends/stv6110x.c b/drivers/media/dvb-frontends/stv6110x.c
-index 7506f39ead55..5075333d7ffc 100644
---- a/drivers/media/dvb-frontends/stv6110x.c
-+++ b/drivers/media/dvb-frontends/stv6110x.c
-@@ -470,8 +470,8 @@ const struct stv6110x_devctl *stv6110x_attach(struct dvb_frontend *fe,
- EXPORT_SYMBOL_GPL(stv6110x_attach);
- 
- static const struct i2c_device_id stv6110x_id_table[] = {
--	{ "stv6110x" },
--	{}
-+	{ .name = "stv6110x" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, stv6110x_id_table);
- 
-diff --git a/drivers/media/dvb-frontends/tc90522.c b/drivers/media/dvb-frontends/tc90522.c
-index f1343ba67b97..9a5ffb5f70fc 100644
---- a/drivers/media/dvb-frontends/tc90522.c
-+++ b/drivers/media/dvb-frontends/tc90522.c
-@@ -830,9 +830,9 @@ static void tc90522_remove(struct i2c_client *client)
- 
- 
- static const struct i2c_device_id tc90522_id[] = {
--	{ TC90522_I2C_DEV_SAT, 0 },
--	{ TC90522_I2C_DEV_TER, 1 },
--	{}
-+	{ .name = TC90522_I2C_DEV_SAT, .driver_data = 0 },
-+	{ .name = TC90522_I2C_DEV_TER, .driver_data = 1 },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tc90522_id);
- 
-diff --git a/drivers/media/dvb-frontends/tda10071.c b/drivers/media/dvb-frontends/tda10071.c
-index 6e6c2e5c427e..7a635c86b86c 100644
---- a/drivers/media/dvb-frontends/tda10071.c
-+++ b/drivers/media/dvb-frontends/tda10071.c
-@@ -1230,8 +1230,8 @@ static void tda10071_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id tda10071_id_table[] = {
--	{ "tda10071_cx24118" },
--	{}
-+	{ .name = "tda10071_cx24118" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tda10071_id_table);
- 
-diff --git a/drivers/media/dvb-frontends/ts2020.c b/drivers/media/dvb-frontends/ts2020.c
-index 8b6006635e49..8775083f4dd6 100644
---- a/drivers/media/dvb-frontends/ts2020.c
-+++ b/drivers/media/dvb-frontends/ts2020.c
-@@ -716,9 +716,9 @@ static void ts2020_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id ts2020_id_table[] = {
--	{ "ts2020" },
--	{ "ts2022" },
--	{}
-+	{ .name = "ts2020" },
-+	{ .name = "ts2022" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ts2020_id_table);
- 
-diff --git a/drivers/media/i2c/ad5820.c b/drivers/media/i2c/ad5820.c
-index f60271082fb5..fcce2857b69e 100644
---- a/drivers/media/i2c/ad5820.c
-+++ b/drivers/media/i2c/ad5820.c
-@@ -347,8 +347,8 @@ static void ad5820_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id ad5820_id_table[] = {
--	{ "ad5820" },
--	{ "ad5821" },
-+	{ .name = "ad5820" },
-+	{ .name = "ad5821" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ad5820_id_table);
-diff --git a/drivers/media/i2c/adp1653.c b/drivers/media/i2c/adp1653.c
-index 391bc75bfcd0..177a6e8d7fb8 100644
---- a/drivers/media/i2c/adp1653.c
-+++ b/drivers/media/i2c/adp1653.c
-@@ -522,7 +522,7 @@ static void adp1653_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id adp1653_id_table[] = {
--	{ ADP1653_NAME },
-+	{ .name = ADP1653_NAME },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, adp1653_id_table);
-diff --git a/drivers/media/i2c/adv7170.c b/drivers/media/i2c/adv7170.c
-index ef8682b980b4..812998729207 100644
---- a/drivers/media/i2c/adv7170.c
-+++ b/drivers/media/i2c/adv7170.c
-@@ -377,8 +377,8 @@ static void adv7170_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id adv7170_id[] = {
--	{ "adv7170" },
--	{ "adv7171" },
-+	{ .name = "adv7170" },
-+	{ .name = "adv7171" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, adv7170_id);
-diff --git a/drivers/media/i2c/adv7175.c b/drivers/media/i2c/adv7175.c
-index 384da1ec5bf9..f1caab8e2abd 100644
---- a/drivers/media/i2c/adv7175.c
-+++ b/drivers/media/i2c/adv7175.c
-@@ -432,8 +432,8 @@ static void adv7175_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id adv7175_id[] = {
--	{ "adv7175" },
--	{ "adv7176" },
-+	{ .name = "adv7175" },
-+	{ .name = "adv7176" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, adv7175_id);
-diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-index 669b0b3165b1..e5d11a6e6766 100644
---- a/drivers/media/i2c/adv7180.c
-+++ b/drivers/media/i2c/adv7180.c
-@@ -1626,18 +1626,18 @@ static SIMPLE_DEV_PM_OPS(adv7180_pm_ops, adv7180_suspend, adv7180_resume);
- #endif
- 
- static const struct i2c_device_id adv7180_id[] = {
--	{ "adv7180", (kernel_ulong_t)&adv7180_info },
--	{ "adv7180cp", (kernel_ulong_t)&adv7180_info },
--	{ "adv7180st", (kernel_ulong_t)&adv7180_info },
--	{ "adv7182", (kernel_ulong_t)&adv7182_info },
--	{ "adv7280", (kernel_ulong_t)&adv7280_info },
--	{ "adv7280-m", (kernel_ulong_t)&adv7280_m_info },
--	{ "adv7281", (kernel_ulong_t)&adv7281_info },
--	{ "adv7281-m", (kernel_ulong_t)&adv7281_m_info },
--	{ "adv7281-ma", (kernel_ulong_t)&adv7281_ma_info },
--	{ "adv7282", (kernel_ulong_t)&adv7282_info },
--	{ "adv7282-m", (kernel_ulong_t)&adv7282_m_info },
--	{}
-+	{ .name = "adv7180", .driver_data = (kernel_ulong_t)&adv7180_info },
-+	{ .name = "adv7180cp", .driver_data = (kernel_ulong_t)&adv7180_info },
-+	{ .name = "adv7180st", .driver_data = (kernel_ulong_t)&adv7180_info },
-+	{ .name = "adv7182", .driver_data = (kernel_ulong_t)&adv7182_info },
-+	{ .name = "adv7280", .driver_data = (kernel_ulong_t)&adv7280_info },
-+	{ .name = "adv7280-m", .driver_data = (kernel_ulong_t)&adv7280_m_info },
-+	{ .name = "adv7281", .driver_data = (kernel_ulong_t)&adv7281_info },
-+	{ .name = "adv7281-m", .driver_data = (kernel_ulong_t)&adv7281_m_info },
-+	{ .name = "adv7281-ma", .driver_data = (kernel_ulong_t)&adv7281_ma_info },
-+	{ .name = "adv7282", .driver_data = (kernel_ulong_t)&adv7282_info },
-+	{ .name = "adv7282-m", .driver_data = (kernel_ulong_t)&adv7282_m_info },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, adv7180_id);
- 
-diff --git a/drivers/media/i2c/adv7183.c b/drivers/media/i2c/adv7183.c
-index 25a31a6dd456..a04a1a205fe0 100644
---- a/drivers/media/i2c/adv7183.c
-+++ b/drivers/media/i2c/adv7183.c
-@@ -619,8 +619,8 @@ static void adv7183_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id adv7183_id[] = {
--	{ "adv7183" },
--	{}
-+	{ .name = "adv7183" },
-+	{ }
- };
- 
- MODULE_DEVICE_TABLE(i2c, adv7183_id);
-diff --git a/drivers/media/i2c/adv7343.c b/drivers/media/i2c/adv7343.c
-index b96443404a26..9b91d7073d3c 100644
---- a/drivers/media/i2c/adv7343.c
-+++ b/drivers/media/i2c/adv7343.c
-@@ -502,8 +502,8 @@ static void adv7343_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id adv7343_id[] = {
--	{ "adv7343" },
--	{}
-+	{ .name = "adv7343" },
-+	{ }
- };
- 
- MODULE_DEVICE_TABLE(i2c, adv7343_id);
-diff --git a/drivers/media/i2c/adv7393.c b/drivers/media/i2c/adv7393.c
-index c7994bd0bbd4..6f948ba02f86 100644
---- a/drivers/media/i2c/adv7393.c
-+++ b/drivers/media/i2c/adv7393.c
-@@ -446,8 +446,8 @@ static void adv7393_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id adv7393_id[] = {
--	{ "adv7393" },
--	{}
-+	{ .name = "adv7393" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, adv7393_id);
- 
-diff --git a/drivers/media/i2c/adv7511-v4l2.c b/drivers/media/i2c/adv7511-v4l2.c
-index 853c7806de92..860cff50c522 100644
---- a/drivers/media/i2c/adv7511-v4l2.c
-+++ b/drivers/media/i2c/adv7511-v4l2.c
-@@ -2008,7 +2008,7 @@ static void adv7511_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id adv7511_id[] = {
--	{ "adv7511-v4l2" },
-+	{ .name = "adv7511-v4l2" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, adv7511_id);
-diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-index 67116a4ef134..b9fe5d2d2501 100644
---- a/drivers/media/i2c/adv7604.c
-+++ b/drivers/media/i2c/adv7604.c
-@@ -3236,10 +3236,10 @@ static const struct adv76xx_chip_info adv76xx_chip_info[] = {
- };
- 
- static const struct i2c_device_id adv76xx_i2c_id[] = {
--	{ "adv7604", (kernel_ulong_t)&adv76xx_chip_info[ADV7604] },
--	{ "adv7610", (kernel_ulong_t)&adv76xx_chip_info[ADV7611] },
--	{ "adv7611", (kernel_ulong_t)&adv76xx_chip_info[ADV7611] },
--	{ "adv7612", (kernel_ulong_t)&adv76xx_chip_info[ADV7612] },
-+	{ .name = "adv7604", .driver_data = (kernel_ulong_t)&adv76xx_chip_info[ADV7604] },
-+	{ .name = "adv7610", .driver_data = (kernel_ulong_t)&adv76xx_chip_info[ADV7611] },
-+	{ .name = "adv7611", .driver_data = (kernel_ulong_t)&adv76xx_chip_info[ADV7611] },
-+	{ .name = "adv7612", .driver_data = (kernel_ulong_t)&adv76xx_chip_info[ADV7612] },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, adv76xx_i2c_id);
-diff --git a/drivers/media/i2c/adv7842.c b/drivers/media/i2c/adv7842.c
-index ea6966c0605e..3cfae89ce944 100644
---- a/drivers/media/i2c/adv7842.c
-+++ b/drivers/media/i2c/adv7842.c
-@@ -3675,7 +3675,7 @@ static void adv7842_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id adv7842_id[] = {
--	{ "adv7842" },
-+	{ .name = "adv7842" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, adv7842_id);
-diff --git a/drivers/media/i2c/ak881x.c b/drivers/media/i2c/ak881x.c
-index ee575d01a676..cea46f01997d 100644
---- a/drivers/media/i2c/ak881x.c
-+++ b/drivers/media/i2c/ak881x.c
-@@ -304,8 +304,8 @@ static void ak881x_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id ak881x_id[] = {
--	{ "ak8813" },
--	{ "ak8814" },
-+	{ .name = "ak8813" },
-+	{ .name = "ak8814" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ak881x_id);
-diff --git a/drivers/media/i2c/bt819.c b/drivers/media/i2c/bt819.c
-index f97245f91f88..da44100062fa 100644
---- a/drivers/media/i2c/bt819.c
-+++ b/drivers/media/i2c/bt819.c
-@@ -457,9 +457,9 @@ static void bt819_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id bt819_id[] = {
--	{ "bt819a" },
--	{ "bt817a" },
--	{ "bt815a" },
-+	{ .name = "bt819a" },
-+	{ .name = "bt817a" },
-+	{ .name = "bt815a" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, bt819_id);
-diff --git a/drivers/media/i2c/bt856.c b/drivers/media/i2c/bt856.c
-index 6852aa47cafb..656719158bb4 100644
---- a/drivers/media/i2c/bt856.c
-+++ b/drivers/media/i2c/bt856.c
-@@ -230,7 +230,7 @@ static void bt856_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id bt856_id[] = {
--	{ "bt856" },
-+	{ .name = "bt856" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, bt856_id);
-diff --git a/drivers/media/i2c/bt866.c b/drivers/media/i2c/bt866.c
-index a2cc34d35ed2..f5104c7d9f90 100644
---- a/drivers/media/i2c/bt866.c
-+++ b/drivers/media/i2c/bt866.c
-@@ -197,7 +197,7 @@ static void bt866_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id bt866_id[] = {
--	{ "bt866" },
-+	{ .name = "bt866" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, bt866_id);
-diff --git a/drivers/media/i2c/cs3308.c b/drivers/media/i2c/cs3308.c
-index 3f2f993e16a6..ad37aeecf05e 100644
---- a/drivers/media/i2c/cs3308.c
-+++ b/drivers/media/i2c/cs3308.c
-@@ -109,7 +109,7 @@ static void cs3308_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id cs3308_id[] = {
--	{ "cs3308" },
-+	{ .name = "cs3308" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, cs3308_id);
-diff --git a/drivers/media/i2c/cs5345.c b/drivers/media/i2c/cs5345.c
-index 3a9797a50e82..49b8020fbea2 100644
---- a/drivers/media/i2c/cs5345.c
-+++ b/drivers/media/i2c/cs5345.c
-@@ -189,7 +189,7 @@ static void cs5345_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id cs5345_id[] = {
--	{ "cs5345" },
-+	{ .name = "cs5345" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, cs5345_id);
-diff --git a/drivers/media/i2c/cs53l32a.c b/drivers/media/i2c/cs53l32a.c
-index c4cad3293905..a894dcf6b5a9 100644
---- a/drivers/media/i2c/cs53l32a.c
-+++ b/drivers/media/i2c/cs53l32a.c
-@@ -200,7 +200,7 @@ static void cs53l32a_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id cs53l32a_id[] = {
--	{ "cs53l32a" },
-+	{ .name = "cs53l32a" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, cs53l32a_id);
-diff --git a/drivers/media/i2c/cx25840/cx25840-core.c b/drivers/media/i2c/cx25840/cx25840-core.c
-index 69d5cc648c0f..8110d40931d9 100644
---- a/drivers/media/i2c/cx25840/cx25840-core.c
-+++ b/drivers/media/i2c/cx25840/cx25840-core.c
-@@ -3989,7 +3989,7 @@ static void cx25840_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id cx25840_id[] = {
--	{ "cx25840" },
-+	{ .name = "cx25840" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, cx25840_id);
-diff --git a/drivers/media/i2c/ds90ub913.c b/drivers/media/i2c/ds90ub913.c
-index 49aa5f4a172c..6abb5e324ae1 100644
---- a/drivers/media/i2c/ds90ub913.c
-+++ b/drivers/media/i2c/ds90ub913.c
-@@ -872,8 +872,8 @@ static void ub913_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id ub913_id[] = {
--	{ "ds90ub913a-q1" },
--	{}
-+	{ .name = "ds90ub913a-q1" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ub913_id);
- 
-diff --git a/drivers/media/i2c/ds90ub953.c b/drivers/media/i2c/ds90ub953.c
-index a8ab67f4137f..d4228e1134ff 100644
---- a/drivers/media/i2c/ds90ub953.c
-+++ b/drivers/media/i2c/ds90ub953.c
-@@ -1347,9 +1347,9 @@ static const struct ub953_hw_data ds90ub971_hw = {
- };
- 
- static const struct i2c_device_id ub953_id[] = {
--	{ "ds90ub953-q1", (kernel_ulong_t)&ds90ub953_hw },
--	{ "ds90ub971-q1", (kernel_ulong_t)&ds90ub971_hw },
--	{}
-+	{ .name = "ds90ub953-q1", .driver_data = (kernel_ulong_t)&ds90ub953_hw },
-+	{ .name = "ds90ub971-q1", .driver_data = (kernel_ulong_t)&ds90ub971_hw },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ub953_id);
- 
-diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-index d50e977cf6ce..15a9797b47ac 100644
---- a/drivers/media/i2c/ds90ub960.c
-+++ b/drivers/media/i2c/ds90ub960.c
-@@ -5266,10 +5266,10 @@ static const struct ub960_hw_data ds90ub9702_hw = {
- };
- 
- static const struct i2c_device_id ub960_id[] = {
--	{ "ds90ub954-q1", (kernel_ulong_t)&ds90ub954_hw },
--	{ "ds90ub960-q1", (kernel_ulong_t)&ds90ub960_hw },
--	{ "ds90ub9702-q1", (kernel_ulong_t)&ds90ub9702_hw },
--	{}
-+	{ .name = "ds90ub954-q1", .driver_data = (kernel_ulong_t)&ds90ub954_hw },
-+	{ .name = "ds90ub960-q1", .driver_data = (kernel_ulong_t)&ds90ub960_hw },
-+	{ .name = "ds90ub9702-q1", .driver_data = (kernel_ulong_t)&ds90ub9702_hw },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ub960_id);
- 
-diff --git a/drivers/media/i2c/dw9714.c b/drivers/media/i2c/dw9714.c
-index 3288de539452..1d686b1d2fd7 100644
---- a/drivers/media/i2c/dw9714.c
-+++ b/drivers/media/i2c/dw9714.c
-@@ -307,7 +307,7 @@ static int __maybe_unused dw9714_vcm_resume(struct device *dev)
- }
- 
- static const struct i2c_device_id dw9714_id_table[] = {
--	{ DW9714_NAME },
-+	{ .name = DW9714_NAME },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, dw9714_id_table);
-diff --git a/drivers/media/i2c/et8ek8/et8ek8_driver.c b/drivers/media/i2c/et8ek8/et8ek8_driver.c
-index 50121c3e5b48..738e2801016a 100644
---- a/drivers/media/i2c/et8ek8/et8ek8_driver.c
-+++ b/drivers/media/i2c/et8ek8/et8ek8_driver.c
-@@ -1485,7 +1485,7 @@ static const struct of_device_id et8ek8_of_table[] = {
- MODULE_DEVICE_TABLE(of, et8ek8_of_table);
- 
- static const struct i2c_device_id et8ek8_id_table[] = {
--	{ ET8EK8_NAME },
-+	{ .name = ET8EK8_NAME },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, et8ek8_id_table);
-diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
-index 8ec78b60bea6..083c717b8e64 100644
---- a/drivers/media/i2c/imx274.c
-+++ b/drivers/media/i2c/imx274.c
-@@ -1951,7 +1951,7 @@ static const struct of_device_id imx274_of_id_table[] = {
- MODULE_DEVICE_TABLE(of, imx274_of_id_table);
- 
- static const struct i2c_device_id imx274_id[] = {
--	{ "IMX274" },
-+	{ .name = "IMX274" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, imx274_id);
-diff --git a/drivers/media/i2c/ir-kbd-i2c.c b/drivers/media/i2c/ir-kbd-i2c.c
-index 604745317004..f2bf2b354000 100644
---- a/drivers/media/i2c/ir-kbd-i2c.c
-+++ b/drivers/media/i2c/ir-kbd-i2c.c
-@@ -978,10 +978,10 @@ static void ir_remove(struct i2c_client *client)
- 
- static const struct i2c_device_id ir_kbd_id[] = {
- 	/* Generic entry for any IR receiver */
--	{ "ir_video", 0 },
-+	{ .name = "ir_video", .driver_data = 0 },
- 	/* IR device specific entries should be added here */
--	{ "ir_z8f0811_haup", FLAG_TX },
--	{ "ir_z8f0811_hdpvr", FLAG_TX | FLAG_HDPVR },
-+	{ .name = "ir_z8f0811_haup", .driver_data = FLAG_TX },
-+	{ .name = "ir_z8f0811_hdpvr", .driver_data = FLAG_TX | FLAG_HDPVR },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ir_kbd_id);
-diff --git a/drivers/media/i2c/isl7998x.c b/drivers/media/i2c/isl7998x.c
-index 5ffd53e005ee..a77538d2343c 100644
---- a/drivers/media/i2c/isl7998x.c
-+++ b/drivers/media/i2c/isl7998x.c
-@@ -1561,7 +1561,7 @@ static const struct of_device_id isl7998x_of_match[] = {
- MODULE_DEVICE_TABLE(of, isl7998x_of_match);
- 
- static const struct i2c_device_id isl7998x_id[] = {
--	{ "isl79987" },
-+	{ .name = "isl79987" },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(i2c, isl7998x_id);
-diff --git a/drivers/media/i2c/ks0127.c b/drivers/media/i2c/ks0127.c
-index f3fba9179684..8c66be38adc3 100644
---- a/drivers/media/i2c/ks0127.c
-+++ b/drivers/media/i2c/ks0127.c
-@@ -677,9 +677,9 @@ static void ks0127_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id ks0127_id[] = {
--	{ "ks0127" },
--	{ "ks0127b" },
--	{ "ks0122s" },
-+	{ .name = "ks0127" },
-+	{ .name = "ks0127b" },
-+	{ .name = "ks0122s" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ks0127_id);
-diff --git a/drivers/media/i2c/lm3560.c b/drivers/media/i2c/lm3560.c
-index f4cc844f4e3c..10beb8167410 100644
---- a/drivers/media/i2c/lm3560.c
-+++ b/drivers/media/i2c/lm3560.c
-@@ -455,9 +455,9 @@ static void lm3560_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id lm3560_id_table[] = {
--	{ LM3559_NAME },
--	{ LM3560_NAME },
--	{}
-+	{ .name = LM3559_NAME },
-+	{ .name = LM3560_NAME },
-+	{ }
- };
- 
- MODULE_DEVICE_TABLE(i2c, lm3560_id_table);
-diff --git a/drivers/media/i2c/lm3646.c b/drivers/media/i2c/lm3646.c
-index 2d16e42ec224..9030cbe32afc 100644
---- a/drivers/media/i2c/lm3646.c
-+++ b/drivers/media/i2c/lm3646.c
-@@ -386,8 +386,8 @@ static void lm3646_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id lm3646_id_table[] = {
--	{ LM3646_NAME },
--	{}
-+	{ .name = LM3646_NAME },
-+	{ }
- };
- 
- MODULE_DEVICE_TABLE(i2c, lm3646_id_table);
-diff --git a/drivers/media/i2c/m52790.c b/drivers/media/i2c/m52790.c
-index 9e1ecfd01e2a..f3adf8c2b27f 100644
---- a/drivers/media/i2c/m52790.c
-+++ b/drivers/media/i2c/m52790.c
-@@ -163,7 +163,7 @@ static void m52790_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id m52790_id[] = {
--	{ "m52790" },
-+	{ .name = "m52790" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, m52790_id);
-diff --git a/drivers/media/i2c/max2175.c b/drivers/media/i2c/max2175.c
-index bf02ca23a284..1cc388b52902 100644
---- a/drivers/media/i2c/max2175.c
-+++ b/drivers/media/i2c/max2175.c
-@@ -1413,8 +1413,8 @@ static void max2175_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id max2175_id[] = {
--	{ DRIVER_NAME },
--	{}
-+	{ .name = DRIVER_NAME },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, max2175_id);
- 
-diff --git a/drivers/media/i2c/ml86v7667.c b/drivers/media/i2c/ml86v7667.c
-index 57ba3693649a..48b7d589df31 100644
---- a/drivers/media/i2c/ml86v7667.c
-+++ b/drivers/media/i2c/ml86v7667.c
-@@ -424,8 +424,8 @@ static void ml86v7667_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id ml86v7667_id[] = {
--	{ DRV_NAME },
--	{}
-+	{ .name = DRV_NAME },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ml86v7667_id);
- 
-diff --git a/drivers/media/i2c/msp3400-driver.c b/drivers/media/i2c/msp3400-driver.c
-index 4c0b0ad68c08..413cfbc2dd94 100644
---- a/drivers/media/i2c/msp3400-driver.c
-+++ b/drivers/media/i2c/msp3400-driver.c
-@@ -874,7 +874,7 @@ static const struct dev_pm_ops msp3400_pm_ops = {
- };
- 
- static const struct i2c_device_id msp_id[] = {
--	{ "msp3400" },
-+	{ .name = "msp3400" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, msp_id);
-diff --git a/drivers/media/i2c/mt9m001.c b/drivers/media/i2c/mt9m001.c
-index 7a6114d18dfc..0ade967b357b 100644
---- a/drivers/media/i2c/mt9m001.c
-+++ b/drivers/media/i2c/mt9m001.c
-@@ -855,7 +855,7 @@ static void mt9m001_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id mt9m001_id[] = {
--	{ "mt9m001" },
-+	{ .name = "mt9m001" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, mt9m001_id);
-diff --git a/drivers/media/i2c/mt9m111.c b/drivers/media/i2c/mt9m111.c
-index 3532c7c38bec..4e748080b798 100644
---- a/drivers/media/i2c/mt9m111.c
-+++ b/drivers/media/i2c/mt9m111.c
-@@ -1384,7 +1384,7 @@ static const struct of_device_id mt9m111_of_match[] = {
- MODULE_DEVICE_TABLE(of, mt9m111_of_match);
- 
- static const struct i2c_device_id mt9m111_id[] = {
--	{ "mt9m111" },
-+	{ .name = "mt9m111" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, mt9m111_id);
-diff --git a/drivers/media/i2c/mt9t112.c b/drivers/media/i2c/mt9t112.c
-index 2d2c840fc002..bd2268154ca7 100644
---- a/drivers/media/i2c/mt9t112.c
-+++ b/drivers/media/i2c/mt9t112.c
-@@ -1108,7 +1108,7 @@ static void mt9t112_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id mt9t112_id[] = {
--	{ "mt9t112" },
-+	{ .name = "mt9t112" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, mt9t112_id);
-diff --git a/drivers/media/i2c/mt9v011.c b/drivers/media/i2c/mt9v011.c
-index 055b7915260a..985517f1cff7 100644
---- a/drivers/media/i2c/mt9v011.c
-+++ b/drivers/media/i2c/mt9v011.c
-@@ -582,7 +582,7 @@ static void mt9v011_remove(struct i2c_client *c)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id mt9v011_id[] = {
--	{ "mt9v011" },
-+	{ .name = "mt9v011" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, mt9v011_id);
-diff --git a/drivers/media/i2c/ov13858.c b/drivers/media/i2c/ov13858.c
-index 162b49046990..09d58e8b1c7f 100644
---- a/drivers/media/i2c/ov13858.c
-+++ b/drivers/media/i2c/ov13858.c
-@@ -1747,8 +1747,8 @@ static void ov13858_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id ov13858_id_table[] = {
--	{ "ov13858" },
--	{}
-+	{ .name = "ov13858" },
-+	{ }
- };
- 
- MODULE_DEVICE_TABLE(i2c, ov13858_id_table);
-diff --git a/drivers/media/i2c/ov2640.c b/drivers/media/i2c/ov2640.c
-index d27fc2df64e6..50feb608b92b 100644
---- a/drivers/media/i2c/ov2640.c
-+++ b/drivers/media/i2c/ov2640.c
-@@ -1271,7 +1271,7 @@ static void ov2640_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id ov2640_id[] = {
--	{ "ov2640" },
-+	{ .name = "ov2640" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ov2640_id);
-diff --git a/drivers/media/i2c/ov2659.c b/drivers/media/i2c/ov2659.c
-index 061401b020fc..7d8c7c3465a4 100644
---- a/drivers/media/i2c/ov2659.c
-+++ b/drivers/media/i2c/ov2659.c
-@@ -1553,7 +1553,7 @@ static const struct dev_pm_ops ov2659_pm_ops = {
- };
- 
- static const struct i2c_device_id ov2659_id[] = {
--	{ "ov2659" },
-+	{ .name = "ov2659" },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(i2c, ov2659_id);
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 85ecc23b3587..92d2d6cd4ba4 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -3999,8 +3999,8 @@ static const struct dev_pm_ops ov5640_pm_ops = {
- };
- 
- static const struct i2c_device_id ov5640_id[] = {
--	{ "ov5640" },
--	{}
-+	{ .name = "ov5640" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ov5640_id);
- 
-diff --git a/drivers/media/i2c/ov5645.c b/drivers/media/i2c/ov5645.c
-index b10d408034a1..c772ef6e51d2 100644
---- a/drivers/media/i2c/ov5645.c
-+++ b/drivers/media/i2c/ov5645.c
-@@ -1219,8 +1219,8 @@ static void ov5645_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id ov5645_id[] = {
--	{ "ov5645" },
--	{}
-+	{ .name = "ov5645" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ov5645_id);
- 
-diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index db9bd2892140..3facf92b3841 100644
---- a/drivers/media/i2c/ov5647.c
-+++ b/drivers/media/i2c/ov5647.c
-@@ -1278,7 +1278,7 @@ static const struct dev_pm_ops ov5647_pm_ops = {
- };
- 
- static const struct i2c_device_id ov5647_id[] = {
--	{ "ov5647" },
-+	{ .name = "ov5647" },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(i2c, ov5647_id);
-diff --git a/drivers/media/i2c/ov7640.c b/drivers/media/i2c/ov7640.c
-index 9f68d89936eb..0fd90bc67e29 100644
---- a/drivers/media/i2c/ov7640.c
-+++ b/drivers/media/i2c/ov7640.c
-@@ -77,7 +77,7 @@ static void ov7640_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id ov7640_id[] = {
--	{ "ov7640" },
-+	{ .name = "ov7640" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ov7640_id);
-diff --git a/drivers/media/i2c/ov7670.c b/drivers/media/i2c/ov7670.c
-index 0cb96b6c9990..b6d238ba0d53 100644
---- a/drivers/media/i2c/ov7670.c
-+++ b/drivers/media/i2c/ov7670.c
-@@ -1997,8 +1997,8 @@ static const struct ov7670_devtype ov7675_devdata = {
- };
- 
- static const struct i2c_device_id ov7670_id[] = {
--	{ "ov7670", (kernel_ulong_t)&ov7670_devdata },
--	{ "ov7675", (kernel_ulong_t)&ov7675_devdata },
-+	{ .name = "ov7670", .driver_data = (kernel_ulong_t)&ov7670_devdata },
-+	{ .name = "ov7675", .driver_data = (kernel_ulong_t)&ov7675_devdata },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(i2c, ov7670_id);
-diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
-index 062e1023a411..be3ba284ee0b 100644
---- a/drivers/media/i2c/ov772x.c
-+++ b/drivers/media/i2c/ov772x.c
-@@ -1546,7 +1546,7 @@ static void ov772x_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id ov772x_id[] = {
--	{ "ov772x" },
-+	{ .name = "ov772x" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ov772x_id);
-diff --git a/drivers/media/i2c/ov7740.c b/drivers/media/i2c/ov7740.c
-index 632fb80469be..c2e02f191816 100644
---- a/drivers/media/i2c/ov7740.c
-+++ b/drivers/media/i2c/ov7740.c
-@@ -1149,7 +1149,7 @@ static int __maybe_unused ov7740_runtime_resume(struct device *dev)
- }
- 
- static const struct i2c_device_id ov7740_id[] = {
--	{ "ov7740" },
-+	{ .name = "ov7740" },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(i2c, ov7740_id);
-diff --git a/drivers/media/i2c/ov9640.c b/drivers/media/i2c/ov9640.c
-index 2190c52b1433..122f411044ce 100644
---- a/drivers/media/i2c/ov9640.c
-+++ b/drivers/media/i2c/ov9640.c
-@@ -752,7 +752,7 @@ static void ov9640_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id ov9640_id[] = {
--	{ "ov9640" },
-+	{ .name = "ov9640" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ov9640_id);
-diff --git a/drivers/media/i2c/ov9650.c b/drivers/media/i2c/ov9650.c
-index c94e8fe29f22..5c85db8a4a38 100644
---- a/drivers/media/i2c/ov9650.c
-+++ b/drivers/media/i2c/ov9650.c
-@@ -1567,8 +1567,8 @@ static void ov965x_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id ov965x_id[] = {
--	{ "OV9650" },
--	{ "OV9652" },
-+	{ .name = "OV9650" },
-+	{ .name = "OV9652" },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(i2c, ov965x_id);
-diff --git a/drivers/media/i2c/rj54n1cb0c.c b/drivers/media/i2c/rj54n1cb0c.c
-index e95342d706c3..23352d71a108 100644
---- a/drivers/media/i2c/rj54n1cb0c.c
-+++ b/drivers/media/i2c/rj54n1cb0c.c
-@@ -1413,7 +1413,7 @@ static void rj54n1_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id rj54n1_id[] = {
--	{ "rj54n1cb0c" },
-+	{ .name = "rj54n1cb0c" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, rj54n1_id);
-diff --git a/drivers/media/i2c/s5c73m3/s5c73m3-core.c b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
-index ab31ee2b596b..551387cea521 100644
---- a/drivers/media/i2c/s5c73m3/s5c73m3-core.c
-+++ b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
-@@ -1728,7 +1728,7 @@ static void s5c73m3_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id s5c73m3_id[] = {
--	{ DRIVER_NAME },
-+	{ .name = DRIVER_NAME },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, s5c73m3_id);
-diff --git a/drivers/media/i2c/s5k5baf.c b/drivers/media/i2c/s5k5baf.c
-index d1d00eca8708..378d273055ee 100644
---- a/drivers/media/i2c/s5k5baf.c
-+++ b/drivers/media/i2c/s5k5baf.c
-@@ -2007,7 +2007,7 @@ static void s5k5baf_remove(struct i2c_client *c)
- }
- 
- static const struct i2c_device_id s5k5baf_id[] = {
--	{ S5K5BAF_DRIVER_NAME },
-+	{ .name = S5K5BAF_DRIVER_NAME },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, s5k5baf_id);
-diff --git a/drivers/media/i2c/saa6588.c b/drivers/media/i2c/saa6588.c
-index 90ae4121a68a..56bfa3d2604b 100644
---- a/drivers/media/i2c/saa6588.c
-+++ b/drivers/media/i2c/saa6588.c
-@@ -495,7 +495,7 @@ static void saa6588_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id saa6588_id[] = {
--	{ "saa6588" },
-+	{ .name = "saa6588" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, saa6588_id);
-diff --git a/drivers/media/i2c/saa6752hs.c b/drivers/media/i2c/saa6752hs.c
-index 1c0031ba43b4..c6bf0b0902e8 100644
---- a/drivers/media/i2c/saa6752hs.c
-+++ b/drivers/media/i2c/saa6752hs.c
-@@ -770,7 +770,7 @@ static void saa6752hs_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id saa6752hs_id[] = {
--	{ "saa6752hs" },
-+	{ .name = "saa6752hs" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, saa6752hs_id);
-diff --git a/drivers/media/i2c/saa7110.c b/drivers/media/i2c/saa7110.c
-index 942aeeb40c52..652058b8f766 100644
---- a/drivers/media/i2c/saa7110.c
-+++ b/drivers/media/i2c/saa7110.c
-@@ -439,7 +439,7 @@ static void saa7110_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id saa7110_id[] = {
--	{ "saa7110" },
-+	{ .name = "saa7110" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, saa7110_id);
-diff --git a/drivers/media/i2c/saa7115.c b/drivers/media/i2c/saa7115.c
-index 48d6730d9271..7cce90750c93 100644
---- a/drivers/media/i2c/saa7115.c
-+++ b/drivers/media/i2c/saa7115.c
-@@ -1928,13 +1928,13 @@ static void saa711x_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id saa711x_id[] = {
--	{ "saa7115_auto", 1 }, /* autodetect */
--	{ "saa7111", 0 },
--	{ "saa7113", 0 },
--	{ "saa7114", 0 },
--	{ "saa7115", 0 },
--	{ "saa7118", 0 },
--	{ "gm7113c", 0 },
-+	{ .name = "saa7115_auto", .driver_data = 1 }, /* autodetect */
-+	{ .name = "saa7111", .driver_data = 0 },
-+	{ .name = "saa7113", .driver_data = 0 },
-+	{ .name = "saa7114", .driver_data = 0 },
-+	{ .name = "saa7115", .driver_data = 0 },
-+	{ .name = "saa7118", .driver_data = 0 },
-+	{ .name = "gm7113c", .driver_data = 0 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, saa711x_id);
-diff --git a/drivers/media/i2c/saa7127.c b/drivers/media/i2c/saa7127.c
-index a42a7ffe3768..fdf17f6fae67 100644
---- a/drivers/media/i2c/saa7127.c
-+++ b/drivers/media/i2c/saa7127.c
-@@ -797,11 +797,11 @@ static void saa7127_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id saa7127_id[] = {
--	{ "saa7127_auto", 0 },	/* auto-detection */
--	{ "saa7126", SAA7127 },
--	{ "saa7127", SAA7127 },
--	{ "saa7128", SAA7129 },
--	{ "saa7129", SAA7129 },
-+	{ .name = "saa7127_auto", .driver_data = 0 },	/* auto-detection */
-+	{ .name = "saa7126", .driver_data = SAA7127 },
-+	{ .name = "saa7127", .driver_data = SAA7127 },
-+	{ .name = "saa7128", .driver_data = SAA7129 },
-+	{ .name = "saa7129", .driver_data = SAA7129 },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, saa7127_id);
-diff --git a/drivers/media/i2c/saa717x.c b/drivers/media/i2c/saa717x.c
-index 713331be947c..0536ceb54650 100644
---- a/drivers/media/i2c/saa717x.c
-+++ b/drivers/media/i2c/saa717x.c
-@@ -1334,7 +1334,7 @@ static void saa717x_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id saa717x_id[] = {
--	{ "saa717x" },
-+	{ .name = "saa717x" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, saa717x_id);
-diff --git a/drivers/media/i2c/saa7185.c b/drivers/media/i2c/saa7185.c
-index c04e452a332b..8e5c0eab907d 100644
---- a/drivers/media/i2c/saa7185.c
-+++ b/drivers/media/i2c/saa7185.c
-@@ -334,7 +334,7 @@ static void saa7185_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id saa7185_id[] = {
--	{ "saa7185" },
-+	{ .name = "saa7185" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, saa7185_id);
-diff --git a/drivers/media/i2c/sony-btf-mpx.c b/drivers/media/i2c/sony-btf-mpx.c
-index 16072a9f8247..4c87de0fe1f0 100644
---- a/drivers/media/i2c/sony-btf-mpx.c
-+++ b/drivers/media/i2c/sony-btf-mpx.c
-@@ -366,7 +366,7 @@ static void sony_btf_mpx_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id sony_btf_mpx_id[] = {
--	{ "sony-btf-mpx" },
-+	{ .name = "sony-btf-mpx" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, sony_btf_mpx_id);
-diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
-index a0ca19359c43..fbd38bbfee03 100644
---- a/drivers/media/i2c/tc358743.c
-+++ b/drivers/media/i2c/tc358743.c
-@@ -2358,8 +2358,8 @@ static void tc358743_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id tc358743_id[] = {
--	{ "tc358743" },
--	{}
-+	{ .name = "tc358743" },
-+	{ }
- };
- 
- MODULE_DEVICE_TABLE(i2c, tc358743_id);
-diff --git a/drivers/media/i2c/tda1997x.c b/drivers/media/i2c/tda1997x.c
-index 5c6dda5338f5..afa1d6f34c9c 100644
---- a/drivers/media/i2c/tda1997x.c
-+++ b/drivers/media/i2c/tda1997x.c
-@@ -2274,9 +2274,9 @@ static int tda1997x_set_power(struct tda1997x_state *state, bool on)
- }
- 
- static const struct i2c_device_id tda1997x_i2c_id[] = {
--	{"tda19971", (kernel_ulong_t)&tda1997x_chip_info[TDA19971]},
--	{"tda19973", (kernel_ulong_t)&tda1997x_chip_info[TDA19973]},
--	{ },
-+	{ .name = "tda19971", .driver_data = (kernel_ulong_t)&tda1997x_chip_info[TDA19971] },
-+	{ .name = "tda19973", .driver_data = (kernel_ulong_t)&tda1997x_chip_info[TDA19973] },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tda1997x_i2c_id);
- 
-diff --git a/drivers/media/i2c/tda7432.c b/drivers/media/i2c/tda7432.c
-index 76ef0fdddf76..a0b65a595ba8 100644
---- a/drivers/media/i2c/tda7432.c
-+++ b/drivers/media/i2c/tda7432.c
-@@ -400,7 +400,7 @@ static void tda7432_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id tda7432_id[] = {
--	{ "tda7432" },
-+	{ .name = "tda7432" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tda7432_id);
-diff --git a/drivers/media/i2c/tda9840.c b/drivers/media/i2c/tda9840.c
-index e3b266db571f..b34d992777fb 100644
---- a/drivers/media/i2c/tda9840.c
-+++ b/drivers/media/i2c/tda9840.c
-@@ -182,7 +182,7 @@ static void tda9840_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id tda9840_id[] = {
--	{ "tda9840" },
-+	{ .name = "tda9840" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tda9840_id);
-diff --git a/drivers/media/i2c/tea6415c.c b/drivers/media/i2c/tea6415c.c
-index 0cd2e6c52e20..ea7730a7ee2c 100644
---- a/drivers/media/i2c/tea6415c.c
-+++ b/drivers/media/i2c/tea6415c.c
-@@ -141,7 +141,7 @@ static void tea6415c_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id tea6415c_id[] = {
--	{ "tea6415c" },
-+	{ .name = "tea6415c" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tea6415c_id);
-diff --git a/drivers/media/i2c/tea6420.c b/drivers/media/i2c/tea6420.c
-index 400883fc0c0f..bebb9a8095db 100644
---- a/drivers/media/i2c/tea6420.c
-+++ b/drivers/media/i2c/tea6420.c
-@@ -123,7 +123,7 @@ static void tea6420_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id tea6420_id[] = {
--	{ "tea6420" },
-+	{ .name = "tea6420" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tea6420_id);
-diff --git a/drivers/media/i2c/ths7303.c b/drivers/media/i2c/ths7303.c
-index ff268ebeb4d9..fa5b9c884c1d 100644
---- a/drivers/media/i2c/ths7303.c
-+++ b/drivers/media/i2c/ths7303.c
-@@ -369,9 +369,9 @@ static void ths7303_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id ths7303_id[] = {
--	{ "ths7303" },
--	{ "ths7353" },
--	{}
-+	{ .name = "ths7303" },
-+	{ .name = "ths7353" },
-+	{ }
- };
- 
- MODULE_DEVICE_TABLE(i2c, ths7303_id);
-diff --git a/drivers/media/i2c/ths8200.c b/drivers/media/i2c/ths8200.c
-index 686f10641c7a..808ef16ec3b3 100644
---- a/drivers/media/i2c/ths8200.c
-+++ b/drivers/media/i2c/ths8200.c
-@@ -487,8 +487,8 @@ static void ths8200_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id ths8200_id[] = {
--	{ "ths8200" },
--	{}
-+	{ .name = "ths8200" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, ths8200_id);
- 
-diff --git a/drivers/media/i2c/tlv320aic23b.c b/drivers/media/i2c/tlv320aic23b.c
-index 6f6bc5236565..7deeef317714 100644
---- a/drivers/media/i2c/tlv320aic23b.c
-+++ b/drivers/media/i2c/tlv320aic23b.c
-@@ -188,7 +188,7 @@ static void tlv320aic23b_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id tlv320aic23b_id[] = {
--	{ "tlv320aic23b" },
-+	{ .name = "tlv320aic23b" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tlv320aic23b_id);
-diff --git a/drivers/media/i2c/tvaudio.c b/drivers/media/i2c/tvaudio.c
-index 6267e9ad39c0..f136310b899d 100644
---- a/drivers/media/i2c/tvaudio.c
-+++ b/drivers/media/i2c/tvaudio.c
-@@ -2086,7 +2086,7 @@ static void tvaudio_remove(struct i2c_client *client)
-    detect which device is present. So rather than listing all supported
-    devices here, we pretend to support a single, fake device type. */
- static const struct i2c_device_id tvaudio_id[] = {
--	{ "tvaudio" },
-+	{ .name = "tvaudio" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tvaudio_id);
-diff --git a/drivers/media/i2c/tvp514x.c b/drivers/media/i2c/tvp514x.c
-index f9c9c80c33ac..c8a1384e4353 100644
---- a/drivers/media/i2c/tvp514x.c
-+++ b/drivers/media/i2c/tvp514x.c
-@@ -1182,10 +1182,10 @@ static const struct tvp514x_reg tvp514xm_init_reg_seq[] = {
-  * driver_data - Driver data
-  */
- static const struct i2c_device_id tvp514x_id[] = {
--	{"tvp5146", (kernel_ulong_t)tvp5146_init_reg_seq },
--	{"tvp5146m2", (kernel_ulong_t)tvp514xm_init_reg_seq },
--	{"tvp5147", (kernel_ulong_t)tvp5147_init_reg_seq },
--	{"tvp5147m1", (kernel_ulong_t)tvp514xm_init_reg_seq },
-+	{ .name = "tvp5146", .driver_data = (kernel_ulong_t)tvp5146_init_reg_seq },
-+	{ .name = "tvp5146m2", .driver_data = (kernel_ulong_t)tvp514xm_init_reg_seq },
-+	{ .name = "tvp5147", .driver_data = (kernel_ulong_t)tvp5147_init_reg_seq },
-+	{ .name = "tvp5147m1", .driver_data = (kernel_ulong_t)tvp514xm_init_reg_seq },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(i2c, tvp514x_id);
-diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-index e3675c744d9e..9c204f38935d 100644
---- a/drivers/media/i2c/tvp5150.c
-+++ b/drivers/media/i2c/tvp5150.c
-@@ -2265,7 +2265,7 @@ static const struct dev_pm_ops tvp5150_pm_ops = {
- };
- 
- static const struct i2c_device_id tvp5150_id[] = {
--	{ "tvp5150" },
-+	{ .name = "tvp5150" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tvp5150_id);
-diff --git a/drivers/media/i2c/tvp7002.c b/drivers/media/i2c/tvp7002.c
-index c09a5bd71fd0..3979ccde5a95 100644
---- a/drivers/media/i2c/tvp7002.c
-+++ b/drivers/media/i2c/tvp7002.c
-@@ -1070,7 +1070,7 @@ static void tvp7002_remove(struct i2c_client *c)
- 
- /* I2C Device ID table */
- static const struct i2c_device_id tvp7002_id[] = {
--	{ "tvp7002" },
-+	{ .name = "tvp7002" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tvp7002_id);
-diff --git a/drivers/media/i2c/tw2804.c b/drivers/media/i2c/tw2804.c
-index 3d154f4fb5f9..713e078ff3da 100644
---- a/drivers/media/i2c/tw2804.c
-+++ b/drivers/media/i2c/tw2804.c
-@@ -414,7 +414,7 @@ static void tw2804_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id tw2804_id[] = {
--	{ "tw2804" },
-+	{ .name = "tw2804" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tw2804_id);
-diff --git a/drivers/media/i2c/tw9900.c b/drivers/media/i2c/tw9900.c
-index 53efdeaed1db..617fcf7f0b45 100644
---- a/drivers/media/i2c/tw9900.c
-+++ b/drivers/media/i2c/tw9900.c
-@@ -753,7 +753,7 @@ static const struct dev_pm_ops tw9900_pm_ops = {
- };
- 
- static const struct i2c_device_id tw9900_id[] = {
--	{ "tw9900" },
-+	{ .name = "tw9900" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tw9900_id);
-diff --git a/drivers/media/i2c/tw9903.c b/drivers/media/i2c/tw9903.c
-index c3eafd5d5dc8..db063b885b09 100644
---- a/drivers/media/i2c/tw9903.c
-+++ b/drivers/media/i2c/tw9903.c
-@@ -246,7 +246,7 @@ static void tw9903_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id tw9903_id[] = {
--	{ "tw9903" },
-+	{ .name = "tw9903" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tw9903_id);
-diff --git a/drivers/media/i2c/tw9906.c b/drivers/media/i2c/tw9906.c
-index 0ab43fe42d7f..079e2f49f38f 100644
---- a/drivers/media/i2c/tw9906.c
-+++ b/drivers/media/i2c/tw9906.c
-@@ -214,7 +214,7 @@ static void tw9906_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id tw9906_id[] = {
--	{ "tw9906" },
-+	{ .name = "tw9906" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tw9906_id);
-diff --git a/drivers/media/i2c/tw9910.c b/drivers/media/i2c/tw9910.c
-index f3e400304e04..872207e688bf 100644
---- a/drivers/media/i2c/tw9910.c
-+++ b/drivers/media/i2c/tw9910.c
-@@ -996,7 +996,7 @@ static void tw9910_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id tw9910_id[] = {
--	{ "tw9910" },
-+	{ .name = "tw9910" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tw9910_id);
-diff --git a/drivers/media/i2c/uda1342.c b/drivers/media/i2c/uda1342.c
-index 2e4540ee2df2..437726788ba0 100644
---- a/drivers/media/i2c/uda1342.c
-+++ b/drivers/media/i2c/uda1342.c
-@@ -79,7 +79,7 @@ static void uda1342_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id uda1342_id[] = {
--	{ "uda1342" },
-+	{ .name = "uda1342" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, uda1342_id);
-diff --git a/drivers/media/i2c/upd64031a.c b/drivers/media/i2c/upd64031a.c
-index a178af46e695..670118c16872 100644
---- a/drivers/media/i2c/upd64031a.c
-+++ b/drivers/media/i2c/upd64031a.c
-@@ -219,7 +219,7 @@ static void upd64031a_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id upd64031a_id[] = {
--	{ "upd64031a" },
-+	{ .name = "upd64031a" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, upd64031a_id);
-diff --git a/drivers/media/i2c/upd64083.c b/drivers/media/i2c/upd64083.c
-index 5421dc5e32c9..e610dffa9e10 100644
---- a/drivers/media/i2c/upd64083.c
-+++ b/drivers/media/i2c/upd64083.c
-@@ -190,7 +190,7 @@ static void upd64083_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id upd64083_id[] = {
--	{ "upd64083" },
-+	{ .name = "upd64083" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, upd64083_id);
-diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
-index fef3993f4e2d..5bc7cee3d540 100644
---- a/drivers/media/i2c/video-i2c.c
-+++ b/drivers/media/i2c/video-i2c.c
-@@ -921,9 +921,9 @@ static const struct dev_pm_ops video_i2c_pm_ops = {
- };
- 
- static const struct i2c_device_id video_i2c_id_table[] = {
--	{ "amg88xx", (kernel_ulong_t)&video_i2c_chip[AMG88XX] },
--	{ "mlx90640", (kernel_ulong_t)&video_i2c_chip[MLX90640] },
--	{}
-+	{ .name = "amg88xx", .driver_data = (kernel_ulong_t)&video_i2c_chip[AMG88XX] },
-+	{ .name = "mlx90640", .driver_data = (kernel_ulong_t)&video_i2c_chip[MLX90640] },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, video_i2c_id_table);
- 
-diff --git a/drivers/media/i2c/vp27smpx.c b/drivers/media/i2c/vp27smpx.c
-index df21950be24f..21fcfdd4c163 100644
---- a/drivers/media/i2c/vp27smpx.c
-+++ b/drivers/media/i2c/vp27smpx.c
-@@ -172,7 +172,7 @@ static void vp27smpx_remove(struct i2c_client *client)
- /* ----------------------------------------------------------------------- */
- 
- static const struct i2c_device_id vp27smpx_id[] = {
--	{ "vp27smpx" },
-+	{ .name = "vp27smpx" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, vp27smpx_id);
-diff --git a/drivers/media/i2c/vpx3220.c b/drivers/media/i2c/vpx3220.c
-index 5f1a22284168..29bcbb5a5fbb 100644
---- a/drivers/media/i2c/vpx3220.c
-+++ b/drivers/media/i2c/vpx3220.c
-@@ -535,9 +535,9 @@ static void vpx3220_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id vpx3220_id[] = {
--	{ "vpx3220a" },
--	{ "vpx3216b" },
--	{ "vpx3214c" },
-+	{ .name = "vpx3220a" },
-+	{ .name = "vpx3216b" },
-+	{ .name = "vpx3214c" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, vpx3220_id);
-diff --git a/drivers/media/i2c/wm8739.c b/drivers/media/i2c/wm8739.c
-index 72eb10339d06..db62bafb447c 100644
---- a/drivers/media/i2c/wm8739.c
-+++ b/drivers/media/i2c/wm8739.c
-@@ -243,7 +243,7 @@ static void wm8739_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id wm8739_id[] = {
--	{ "wm8739" },
-+	{ .name = "wm8739" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, wm8739_id);
-diff --git a/drivers/media/i2c/wm8775.c b/drivers/media/i2c/wm8775.c
-index 56778d3bc28a..5db197bb6fda 100644
---- a/drivers/media/i2c/wm8775.c
-+++ b/drivers/media/i2c/wm8775.c
-@@ -289,7 +289,7 @@ static void wm8775_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id wm8775_id[] = {
--	{ "wm8775" },
-+	{ .name = "wm8775" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, wm8775_id);
-diff --git a/drivers/media/radio/radio-tea5764.c b/drivers/media/radio/radio-tea5764.c
-index 156cca2866aa..d9547f625e30 100644
---- a/drivers/media/radio/radio-tea5764.c
-+++ b/drivers/media/radio/radio-tea5764.c
-@@ -502,7 +502,7 @@ static void tea5764_i2c_remove(struct i2c_client *client)
- 
- /* I2C subsystem interface */
- static const struct i2c_device_id tea5764_id[] = {
--	{ "radio-tea5764" },
-+	{ .name = "radio-tea5764" },
- 	{ }					/* Terminating entry */
- };
- MODULE_DEVICE_TABLE(i2c, tea5764_id);
-diff --git a/drivers/media/radio/saa7706h.c b/drivers/media/radio/saa7706h.c
-index 9572a866defb..bd8bd295a9ec 100644
---- a/drivers/media/radio/saa7706h.c
-+++ b/drivers/media/radio/saa7706h.c
-@@ -395,8 +395,8 @@ static void saa7706h_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id saa7706h_id[] = {
--	{ DRIVER_NAME },
--	{}
-+	{ .name = DRIVER_NAME },
-+	{ }
- };
- 
- MODULE_DEVICE_TABLE(i2c, saa7706h_id);
-diff --git a/drivers/media/radio/si470x/radio-si470x-i2c.c b/drivers/media/radio/si470x/radio-si470x-i2c.c
-index 3932a449a1b1..a1e570af9c59 100644
---- a/drivers/media/radio/si470x/radio-si470x-i2c.c
-+++ b/drivers/media/radio/si470x/radio-si470x-i2c.c
-@@ -28,7 +28,7 @@
- /* I2C Device ID List */
- static const struct i2c_device_id si470x_i2c_id[] = {
- 	/* Generic Entry */
--	{ "si470x" },
-+	{ .name = "si470x" },
- 	/* Terminating entry */
- 	{ }
- };
-diff --git a/drivers/media/radio/si4713/si4713.c b/drivers/media/radio/si4713/si4713.c
-index e71272c6de37..0c0354566b0a 100644
---- a/drivers/media/radio/si4713/si4713.c
-+++ b/drivers/media/radio/si4713/si4713.c
-@@ -1639,7 +1639,7 @@ static void si4713_remove(struct i2c_client *client)
- 
- /* si4713_i2c_driver - i2c driver interface */
- static const struct i2c_device_id si4713_id[] = {
--	{ "si4713" },
-+	{ .name = "si4713" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, si4713_id);
-diff --git a/drivers/media/radio/tef6862.c b/drivers/media/radio/tef6862.c
-index 3a6d7926e856..2596d7f4f3f1 100644
---- a/drivers/media/radio/tef6862.c
-+++ b/drivers/media/radio/tef6862.c
-@@ -173,8 +173,8 @@ static void tef6862_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id tef6862_id[] = {
--	{ DRIVER_NAME },
--	{}
-+	{ .name = DRIVER_NAME },
-+	{ }
- };
- 
- MODULE_DEVICE_TABLE(i2c, tef6862_id);
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_demod.c b/drivers/media/test-drivers/vidtv/vidtv_demod.c
-index c382e9e94c32..6e5fe402976b 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_demod.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_demod.c
-@@ -407,8 +407,8 @@ static const struct dvb_frontend_ops vidtv_demod_ops = {
- };
- 
- static const struct i2c_device_id vidtv_demod_i2c_id_table[] = {
--	{ "dvb_vidtv_demod" },
--	{}
-+	{ .name = "dvb_vidtv_demod" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, vidtv_demod_i2c_id_table);
- 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_tuner.c b/drivers/media/test-drivers/vidtv/vidtv_tuner.c
-index ee55df4029bc..bd50b86e927c 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_tuner.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_tuner.c
-@@ -385,8 +385,8 @@ static const struct dvb_tuner_ops vidtv_tuner_ops = {
- };
- 
- static const struct i2c_device_id vidtv_tuner_i2c_id_table[] = {
--	{ "dvb_vidtv_tuner" },
--	{}
-+	{ .name = "dvb_vidtv_tuner" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, vidtv_tuner_i2c_id_table);
- 
-diff --git a/drivers/media/tuners/e4000.c b/drivers/media/tuners/e4000.c
-index b83f37a77224..94abb3715401 100644
---- a/drivers/media/tuners/e4000.c
-+++ b/drivers/media/tuners/e4000.c
-@@ -719,8 +719,8 @@ static void e4000_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id e4000_id_table[] = {
--	{ "e4000" },
--	{}
-+	{ .name = "e4000" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, e4000_id_table);
- 
-diff --git a/drivers/media/tuners/fc2580.c b/drivers/media/tuners/fc2580.c
-index 75087d9b224f..b76fa1320f5f 100644
---- a/drivers/media/tuners/fc2580.c
-+++ b/drivers/media/tuners/fc2580.c
-@@ -600,8 +600,8 @@ static void fc2580_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id fc2580_id_table[] = {
--	{ "fc2580" },
--	{}
-+	{ .name = "fc2580" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, fc2580_id_table);
- 
-diff --git a/drivers/media/tuners/m88rs6000t.c b/drivers/media/tuners/m88rs6000t.c
-index 0a724cdf0f6d..1addb3d229cf 100644
---- a/drivers/media/tuners/m88rs6000t.c
-+++ b/drivers/media/tuners/m88rs6000t.c
-@@ -709,8 +709,8 @@ static void m88rs6000t_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id m88rs6000t_id[] = {
--	{ "m88rs6000t" },
--	{}
-+	{ .name = "m88rs6000t" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, m88rs6000t_id);
- 
-diff --git a/drivers/media/tuners/mt2060.c b/drivers/media/tuners/mt2060.c
-index ef3196e6bd30..c57233c7441a 100644
---- a/drivers/media/tuners/mt2060.c
-+++ b/drivers/media/tuners/mt2060.c
-@@ -514,8 +514,8 @@ static void mt2060_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id mt2060_id_table[] = {
--	{ "mt2060" },
--	{}
-+	{ .name = "mt2060" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, mt2060_id_table);
- 
-diff --git a/drivers/media/tuners/mxl301rf.c b/drivers/media/tuners/mxl301rf.c
-index cfc78891ce03..1d84456cb19b 100644
---- a/drivers/media/tuners/mxl301rf.c
-+++ b/drivers/media/tuners/mxl301rf.c
-@@ -317,8 +317,8 @@ static void mxl301rf_remove(struct i2c_client *client)
- 
- 
- static const struct i2c_device_id mxl301rf_id[] = {
--	{ "mxl301rf" },
--	{}
-+	{ .name = "mxl301rf" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, mxl301rf_id);
- 
-diff --git a/drivers/media/tuners/qm1d1b0004.c b/drivers/media/tuners/qm1d1b0004.c
-index 07ad84f42c9f..59d98681e674 100644
---- a/drivers/media/tuners/qm1d1b0004.c
-+++ b/drivers/media/tuners/qm1d1b0004.c
-@@ -243,8 +243,8 @@ static void qm1d1b0004_remove(struct i2c_client *client)
- 
- 
- static const struct i2c_device_id qm1d1b0004_id[] = {
--	{ "qm1d1b0004" },
--	{}
-+	{ .name = "qm1d1b0004" },
-+	{ }
- };
- 
- MODULE_DEVICE_TABLE(i2c, qm1d1b0004_id);
-diff --git a/drivers/media/tuners/qm1d1c0042.c b/drivers/media/tuners/qm1d1c0042.c
-index db60562ad698..2d19cfdb67b9 100644
---- a/drivers/media/tuners/qm1d1c0042.c
-+++ b/drivers/media/tuners/qm1d1c0042.c
-@@ -434,8 +434,8 @@ static void qm1d1c0042_remove(struct i2c_client *client)
- 
- 
- static const struct i2c_device_id qm1d1c0042_id[] = {
--	{ "qm1d1c0042" },
--	{}
-+	{ .name = "qm1d1c0042" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, qm1d1c0042_id);
- 
-diff --git a/drivers/media/tuners/si2157.c b/drivers/media/tuners/si2157.c
-index 4d67e347c22f..d517a91e6fbc 100644
---- a/drivers/media/tuners/si2157.c
-+++ b/drivers/media/tuners/si2157.c
-@@ -1097,11 +1097,11 @@ static void si2157_remove(struct i2c_client *client)
-  * all SiLabs TER tuners, as the driver should auto-detect it.
-  */
- static const struct i2c_device_id si2157_id_table[] = {
--	{"si2157", SI2157},
--	{"si2146", SI2146},
--	{"si2141", SI2141},
--	{"si2177", SI2177},
--	{}
-+	{ .name = "si2157", .driver_data = SI2157 },
-+	{ .name = "si2146", .driver_data = SI2146 },
-+	{ .name = "si2141", .driver_data = SI2141 },
-+	{ .name = "si2177", .driver_data = SI2177 },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, si2157_id_table);
- 
-diff --git a/drivers/media/tuners/tda18212.c b/drivers/media/tuners/tda18212.c
-index 5f583c010408..18d1850691fb 100644
---- a/drivers/media/tuners/tda18212.c
-+++ b/drivers/media/tuners/tda18212.c
-@@ -254,8 +254,8 @@ static void tda18212_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id tda18212_id[] = {
--	{ "tda18212" },
--	{}
-+	{ .name = "tda18212" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tda18212_id);
- 
-diff --git a/drivers/media/tuners/tda18250.c b/drivers/media/tuners/tda18250.c
-index caaf5e0d0c9b..7bb945ba0989 100644
---- a/drivers/media/tuners/tda18250.c
-+++ b/drivers/media/tuners/tda18250.c
-@@ -868,8 +868,8 @@ static void tda18250_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id tda18250_id_table[] = {
--	{ "tda18250" },
--	{}
-+	{ .name = "tda18250" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tda18250_id_table);
- 
-diff --git a/drivers/media/tuners/tua9001.c b/drivers/media/tuners/tua9001.c
-index c0aed1b441e2..fcdbf1a0c1d8 100644
---- a/drivers/media/tuners/tua9001.c
-+++ b/drivers/media/tuners/tua9001.c
-@@ -245,8 +245,8 @@ static void tua9001_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id tua9001_id_table[] = {
--	{ "tua9001" },
--	{}
-+	{ .name = "tua9001" },
-+	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tua9001_id_table);
- 
-diff --git a/drivers/media/usb/go7007/s2250-board.c b/drivers/media/usb/go7007/s2250-board.c
-index 567f851d5896..0901d79e827d 100644
---- a/drivers/media/usb/go7007/s2250-board.c
-+++ b/drivers/media/usb/go7007/s2250-board.c
-@@ -611,7 +611,7 @@ static void s2250_remove(struct i2c_client *client)
- }
- 
- static const struct i2c_device_id s2250_id[] = {
--	{ "s2250" },
-+	{ .name = "s2250" },
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, s2250_id);
-diff --git a/drivers/media/v4l2-core/tuner-core.c b/drivers/media/v4l2-core/tuner-core.c
-index 004ec4d7beea..1e130e6f903f 100644
---- a/drivers/media/v4l2-core/tuner-core.c
-+++ b/drivers/media/v4l2-core/tuner-core.c
-@@ -1401,7 +1401,7 @@ static const struct dev_pm_ops tuner_pm_ops = {
- };
- 
- static const struct i2c_device_id tuner_id[] = {
--	{ "tuner", }, /* autodetect */
-+	{ .name = "tuner" }, /* autodetect */
- 	{ }
- };
- MODULE_DEVICE_TABLE(i2c, tuner_id);
-
-base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
-prerequisite-patch-id: 7779c63f16ef6f7247cdb71c89e66b27e299eb74
-prerequisite-patch-id: 6f920b6f8c31dc0ad1689200c37680755c20ce8b
-prerequisite-patch-id: 1fd68e883664147052540eea19769ea9e92d0138
-prerequisite-patch-id: fff07090df18a39a361bbb091a3f17223b4606b4
-prerequisite-patch-id: a935aab66aa9896437ab9d757ef9fdc859d22495
-prerequisite-patch-id: d0d54f7acecd560cdeb6ea0c0e5ae77a50695d68
-prerequisite-patch-id: d7876560b3bb9b05ac462d0a9b09b50efeb9b5e1
-prerequisite-patch-id: 65531f0504ac1885c6c4ed6be0e6a206a9795d5b
-prerequisite-patch-id: ec83e7e18d66da9ca677b5c8180a22bf3717c8fb
-prerequisite-patch-id: e33193d1a91f5819128db924c080caf1c5198667
-prerequisite-patch-id: c8862be402a445f30b9f5c91b07afdc840e7e21f
-prerequisite-patch-id: 33c001d1b8ecaf57ebe53c321d82d671bc82b647
-prerequisite-patch-id: a59a578f49eb5147623aab9fdcacba405b9c8353
-prerequisite-patch-id: 5eef512b8a5a1ec1848a939928168dbb719ca72e
-prerequisite-patch-id: 04746bfdfe146af71d0c41e225978fb42ce977f5
-prerequisite-patch-id: f8aeb0b768ae718aa0dab188fbad671aa4c76501
-prerequisite-patch-id: 8e0b48a5d5f8bb91933d440eda8f065590e5ca97
-prerequisite-patch-id: 5ca261e980415013434edc099b6f741b7a96c7a8
-prerequisite-patch-id: 912c3a7f7fa847c59d499e004965b805a63c8836
-prerequisite-patch-id: acf784c7c03d3cd14a8a19610a6d8995e2b5da6d
-prerequisite-patch-id: 09a95efff7875781ceed199c60204a2603960f4f
-prerequisite-patch-id: 8051fbf0a60e5e9d34f5e7623a5159d32fbc511d
-prerequisite-patch-id: c4897ca0762d01cd5e8cb6e761e5ad95eb9de918
-prerequisite-patch-id: eb0120090b9fd1e1f668919cf1d81cdf1b684b20
-prerequisite-patch-id: 239c0e25dae78755bb553eb9049190f6ed6c056a
--- 
-2.47.3
-
+bod
 
