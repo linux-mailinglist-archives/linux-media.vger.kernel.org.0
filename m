@@ -1,470 +1,232 @@
-Return-Path: <linux-media+bounces-61634-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61635-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yM2IJ0+8BmpAnQIAu9opvQ
-	(envelope-from <linux-media+bounces-61634-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 08:25:19 +0200
+	id WGVdJoS9BmqMnQIAu9opvQ
+	(envelope-from <linux-media+bounces-61635-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 08:30:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39DE549F7D
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 08:25:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA95454A00C
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 08:30:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6A223308BD6C
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 06:20:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 861FC3022A87
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 06:30:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 081CF37DAD7;
-	Fri, 15 May 2026 06:20:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8B5B37FF79;
+	Fri, 15 May 2026 06:30:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=symple.nz header.i=@symple.nz header.b="1eAjXquN"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bT6q8Eat";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MQF/F6xJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SY5PR01CU010.outbound.protection.outlook.com (mail-australiaeastazon11022075.outbound.protection.outlook.com [40.107.40.75])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958CF33BBD9
-	for <linux-media@vger.kernel.org>; Fri, 15 May 2026 06:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.40.75
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778826034; cv=fail; b=ohdWdIXwGCLpFQ6Zd1O4MNFlzPcV2Qme7HkVF4Qg9AGqvm1AEV0KsP/j+jqHFRc6u6sGVVmA5gNdOjzb5wA/OSHRiQXSlTYaK74otGd1ZGmPZceIltvcnxwP6PhWYH/b7vc5VqcOvnSYoJ+lz+Cy76ufulp+YZTSV5C5hbteRFI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778826034; c=relaxed/simple;
-	bh=XjLdAwWU1ij1CKYHxW9/f1Hf2Je69EM2fVjwXYyeAFg=;
-	h=Message-ID:Date:To:Cc:From:Subject:Content-Type:MIME-Version; b=Alupxc4sPtRNiP6TqM+1ZwTnmpy2EYHMwjf+pXpH/tovXeYgNoatQKJ66Z6gHsj63Eqx29/7feAmFqTYK5YU6yB5sGS8EcmLkle2MjjW+rNtMJZBn3/QTc8KY09smm5LB14p+gBd253+aqYMNs4Hl0lxgE6dslF2a0FhmY+Vyro=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=symple.nz; spf=pass smtp.mailfrom=symple.nz; dkim=pass (2048-bit key) header.d=symple.nz header.i=@symple.nz header.b=1eAjXquN; arc=fail smtp.client-ip=40.107.40.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=symple.nz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=symple.nz
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Jw5x4FGAVA0fAMy4qfny8OVLbdXEaKsL6x1hEefagD6eGJPEsqmUrniSRBVVPV8DIlPMrLQ36hfFOK1bO62QW34Y2TJJiSaQ46MhsyMQMfCzIVXHBvQxkjxNc1lrBqIE8nWWR14+lH1uP3djlcq6fgeSKryGj//8FCseaZMbIaglCgiwCYLbJSipr4cpG9Ab1gvpNi5TOipu9uRa3qP56VpDpQkT0CMTfgqSNwWIyk9cKUUJ1ZaBEBbU8uBmI/CIUQCqgfITb406xn908Z7QZ8xMjG3Ot0K+/Umz+/9j1EMi0su7o0DNw7ee668X8NixA0BGpWJJWtqYMgVetm5VNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JlJz7yZ+7J4PRsASb0vXJBJDjpDGkq3jtxVirQ9+YoA=;
- b=c7y+CsORFbzOB8PNiY3QZ60ecYtBzLZViR5iWGtHe5qp7at0vJpcNigQwv3Ax5VOJBgWZKa/s6rVNLTmpGxL76rWU+8oXXyX/lPDH/cj7l9TdWme8/cQcj01efjLoD2rlNsz0kLVFCrwjEz6vJfp1d/CWy1r+Xf3l5ju7NTnhCNtKw9pXCZxG2yCC2ZXHtEQkt0zU/vvyI1JmMK0mCjjkfv4dN7ShJPygCwq5bu6yjetdN4Ew6yHPua2zFRMIeXAA7AQOscG3a/9WiSg276hMP9Ynyiap6AH0LlYO74hPc1QvNl6yIw32drBYXsyjJOUYj4uik/ovBp2+J5hgWULtQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=symple.nz; dmarc=pass action=none header.from=symple.nz;
- dkim=pass header.d=symple.nz; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=symple.nz;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JlJz7yZ+7J4PRsASb0vXJBJDjpDGkq3jtxVirQ9+YoA=;
- b=1eAjXquN/AGsamGQhiMKV41KdKC0XI0PyeuDrJfN5P5vLztuAjnB0v7XDDT4/5KwkHsFtUGtOVCi5fyjB0naeT08+KBa8Cdhnk4o1qzMDUbt9bJAGx6fl8gHz6WmEzRVN7XrNLxdJUOGURDVCoTD2zxOzrt8QZnuia0gXq+XlDkoQXc+VUfM9964A3LTSDmWYs/GWqkktSbFO3baTBGtIp4go6PAfVHRf3cGItTSGtWpoDs5AygEfJ80wt5rWnBJR5w5zS6sjv7rouoLRlwUtjYY37NhkcKyjswJ3jbexlIUC1XrF0Cr2bzpSHoesRwP3SuV2p/xnSXlxusk8n5rtw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=symple.nz;
-Received: from ME3P282MB2196.AUSP282.PROD.OUTLOOK.COM (2603:10c6:220:b2::11)
- by SY5P282MB6373.AUSP282.PROD.OUTLOOK.COM (2603:10c6:10:32a::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.18; Fri, 15 May
- 2026 06:20:28 +0000
-Received: from ME3P282MB2196.AUSP282.PROD.OUTLOOK.COM
- ([fe80::4619:bdb0:3293:3834]) by ME3P282MB2196.AUSP282.PROD.OUTLOOK.COM
- ([fe80::4619:bdb0:3293:3834%5]) with mapi id 15.21.0025.016; Fri, 15 May 2026
- 06:20:27 +0000
-Message-ID: <52a01f1f-5b36-429b-96cf-f1a0a1c8f5e4@symple.nz>
-Date: Fri, 15 May 2026 18:20:25 +1200
-User-Agent: Mozilla Thunderbird
-Content-Language: en-NZ
-To: linux-media@vger.kernel.org
-Cc: linux-rockchip@lists.infradead.org,
- Detlev Casanova <detlev.casanova@collabora.com>
-From: Simon Wright <simon@symple.nz>
-Subject: [BUG] rkvdec-vdpu383-h264: wrong pixels at horizontal de-blocking
- edges y=4 and y=12
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SY5PR01CA0003.ausprd01.prod.outlook.com
- (2603:10c6:10:1fa::16) To ME3P282MB2196.AUSP282.PROD.OUTLOOK.COM
- (2603:10c6:220:b2::11)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1CA379C31
+	for <linux-media@vger.kernel.org>; Fri, 15 May 2026 06:30:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778826616; cv=none; b=eBoQDmBkoTvtV1UUOLM+XnbHBv8vGyFRKB22tZSyf8BYX1yEGEDhOI+EQvKZV2KP5N1+3C6xPtpS/Zju4xwM1B+2yBOxKsQzxm2nZKa+hc9Wk7e7jwnbpZeUSrHtnBCJBaaa76KjBwc19uxU53AHvCsUuMdE/9l5gJII0fAaWzU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778826616; c=relaxed/simple;
+	bh=4OhkOUm1uinge3W9lUySjqDtHM82URbONjbpN6SzBlk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LinfshIsy7B1gyH+Rm5jxvA3KEcCRsOz8bWZjTAcWcOBvmb8EBf5Y07g43bLGYry/SulwARg73yjJjeSB6sR80l6+6LEnVaJs+7tZg9th3ME3gtOBQ8l0Gmj8F4N/W2M4TgsA7ZDVfMx5GLrS2fcRKZvK1iqKdcsa0yff+tq5KI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bT6q8Eat; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MQF/F6xJ; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64F4vbwD3513635
+	for <linux-media@vger.kernel.org>; Fri, 15 May 2026 06:30:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	hb7U1c0ZK+6x5WATBstJlJ/LiC1OoHYdzdqkvWGt0dM=; b=bT6q8EatEKwk6vxA
+	WJJBCA6dFpa1H690UBjIpDA4OpSfUpE3jcYK63S6pyQd2qKOLCQDORLgOL0NscT4
+	e4i3k2XLTLIqQ5wJaJiiu0kazftGdhggq3SlOKaqR/37IIvnd4cxdW/xRpw80FOe
+	MEhiU0QZfAv8jT9CZlGiDlwUTxHVqweqxgx5zimpeh75gjlBnvYd1ubKGXsArYIX
+	TTFnTiDDlw0bHhgQTmtJcZ4VPADHx/HYPI0h45BOrrRIFpqlejRqplejXeiNzqlG
+	aGYmYK4x+nQFrduTKmrpvwt+vPcg9qzTBUGfi8t4fg9tuRVj4IKTEB0AJjqhTA5y
+	G0AR9A==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e5m1v9wrb-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Fri, 15 May 2026 06:30:13 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-8b7e68098dcso208225876d6.3
+        for <linux-media@vger.kernel.org>; Thu, 14 May 2026 23:30:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1778826613; x=1779431413; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hb7U1c0ZK+6x5WATBstJlJ/LiC1OoHYdzdqkvWGt0dM=;
+        b=MQF/F6xJEYCtlYvsmTFzdaFCOIX5JLulPTuy9HFv0X85L3D5n6KlpvIrWJ6Q2DosEr
+         aX64tq3fxAtz/K2T4rtn7/q6aJ/1cuhk4/1s6DrQqXZ8GoU0WXRYO5jfg+2AYmuJlnbE
+         9POgI/+bfWEnvbPeFW+lFDWSFi6gC+NQkWfqcSkl3XLyTgI/v8IR+KEEhj5zWwGqf1g6
+         KcvPV5bUcF6wqLoQErUdJar/teDL552Yi3qT8lpXrdX8gRlibGbhE8qBGvpFiDsYWdeq
+         Qp4RmdTADjorRlhsSp6wUKl61wO25VovhUZzkhXoOzPaH1bWlNd9NUckZADTZrZT2KCc
+         +61A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778826613; x=1779431413;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hb7U1c0ZK+6x5WATBstJlJ/LiC1OoHYdzdqkvWGt0dM=;
+        b=YT+XhUxZPuGoScB2cqqUCUpQBVAh3b5sY/JeHBx0KUX/4fjU+vCPS46VooOucBZjws
+         omwcIhmmKx7YPxG7wMjOdimzHGpDbEBHdNerhIbFwHdiI3u7KVQXCmKPi/fzRPCHzXmA
+         3bBIX5P8bhdOSl1MxghTEbBxky60qAgjPRi0Vf4WcmXsetCfkBUeIpNmfB4FBkssEmdb
+         d0Ia9SCvUyQbo2wVowZYHqNxKmiIFiZ3m74Qjen/47IwUFxRYDe1PJtJIc61rzGvT98f
+         Mvpv/bRUz0dlKT5D+Sat1NPoWn+nq0xtYAUCcmYejMw7SgVNK5dvK7mir05XIYo9JHo0
+         he3A==
+X-Forwarded-Encrypted: i=1; AFNElJ+laWsmO54uJGYslMrf1cxTSWQXWRNf29qNh3cJamGes7gj9fbumxCkKEegNJYD2wPwQeWFtcVsaXrYwg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyk0IZd7V5jwQfo2ieyTR8qLk58koXaXcCXsxISOdBjP6nQ6IYV
+	rSQ6XaJcNahxqJHJJi2G43m+6WWaAnOQh7bw5NQtCNZeR0mgnE5KmCQiSyFvHO/5igx85kVDZyu
+	sTTGG9/D+xvW1G0Za3U0cr/UJmAPD1LlTg6QvbZx9CP3xQxRbzxSx7gekOTKpEszVHw==
+X-Gm-Gg: Acq92OHnxdNrNImhMZqjyzA2Cn0Eq365lYF0gHm+2RtZrJvRKFLxTJf9HUQAo1b6abv
+	tkAVFE96iJFviDZ0w+1Q60DbnG2yXgfCDQEvFfkbpLsqUIW3VQiAdJIviUyVMgPFnGNaixj9fRO
+	y9gxkkweUdK80STHgobIS48t4tY7+FsTdaaAvzZfps0PvhILPffdYxmbHK4zJa5fJtLLQanYKML
+	Bq0HWuyIU2jWHv2tw785ck69wKyYH+DHyp41XclwKEUN3f45VXwujrZwRfN2OqsIcNaSN+Mj35V
+	Xsf6GMrfPQRVGwb7Z2PutVDZNtgWC5sEalV5YDfKeFkYXvHUh2ci4WX9l8Fjp3WAlNzyYsmA8q4
+	vAb/VXWvSw8e+sTb6Coeuriw9n0RV4mNx4aROIE6ZjaSJbqvgyzHPwVA9BhzZ5XI9KUAoxv4Vo7
+	l1wR4q8R8e
+X-Received: by 2002:a0c:f109:0:b0:8ac:801d:c3dc with SMTP id 6a1803df08f44-8ca0f5c456amr36977786d6.9.1778826613186;
+        Thu, 14 May 2026 23:30:13 -0700 (PDT)
+X-Received: by 2002:a0c:f109:0:b0:8ac:801d:c3dc with SMTP id 6a1803df08f44-8ca0f5c456amr36977306d6.9.1778826612525;
+        Thu, 14 May 2026 23:30:12 -0700 (PDT)
+Received: from [10.111.160.50] (Global_NAT1_IAD_FW.qualcomm.com. [129.46.232.65])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8c908f0d92esm43711496d6.19.2026.05.14.23.30.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 14 May 2026 23:30:11 -0700 (PDT)
+Message-ID: <7d34bc76-fe49-4d8c-8ac9-f563c2c35fe1@oss.qualcomm.com>
+Date: Fri, 15 May 2026 14:30:04 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: ME3P282MB2196:EE_|SY5P282MB6373:EE_
-X-MS-Office365-Filtering-Correlation-Id: def47cf1-1ff2-43be-64a1-08deb24a0e7e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|56012099003|3023799003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	2nVqXaWOgfrScU3De6DX7tz3n9iQcP/AlQZj3DspKKd1gebWZlp41xP6utDzlVZgO++Txp9wVZaatpIf0ppz2gSRS20kYFo8CpdZuyfGZVVaE9pI1yWKL8lD8uWyqgOFQqZLKoWZQmabmSPg5b5BEDUVYk5s28NKwOi7TjhKpDCEqDl2UYKgE0SGVnVEn0gpgz5LPD4EaON102c/1el2pOxYR9hvfGk0yvOlLeIKtbqUwS1RM5kK2+v1RfvJYwJSnnzwXgo2gHG4pJZek13tnL0Im7D7iJ77XXqBZUnsnKL4HqBBLR8NxL+MoSmWUaQoVhuUKySY9j93VwVY944XYq6mT1bLobU5SZvd1cXRXGeNSPycfZNNB2Y5c2acluiqtt+jgB6v0SIClSik+ynrG3sCPPfJkycU2qsw5seXbO5IIf1MN/ueBb1eGhlh0KtUl+O6DQW+x5+UqxzKeR9upnIlydo+9iIrBl2Ukzo1WiKEy/Yrow5t0iIj9yQBkINmXmzGgyDjHWgsAu76LW0kYEVEvE4fVmy0FKrNzjq++Ct9ScSOUdOqrEiGB/V1nxtMax18pjeZUr7danh26J02jQDz8Agm9FVJ/ly3spby3t9dQ1DUIr3EPrp+uN+cMRBn4J//ZKXr8XB0274e33i1paIou3vn9eMxE5yp6NqQ9tU99+UQW883iGby3T3eIFHc
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ME3P282MB2196.AUSP282.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(56012099003)(3023799003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QVk3VisrT243QzFoNjM5TWdtb2JxbkNKOXRObmR0UmM0Zng5NFZwUERXMWFC?=
- =?utf-8?B?OTNTMXNITlNJWWV6Y2NnamtJTnU4M2pxQUhNR1FqUWxKVUdSMkV3QkxyUlFs?=
- =?utf-8?B?V1BUZXJuMEQwWVc4V1I3ZlJLSUIyZHVuSGVzMHB4ai9YaWVoSUZGS0VDT2px?=
- =?utf-8?B?QkNWUGtaR3I3OWVlbG1XQjVOZ1VvRlpuSmdwSnR5VmM0UDZBTEZsbFpCZ1lp?=
- =?utf-8?B?MFhkNVVaMVZiTmNhVk92eXk1MXJuOUlUSUxlcUoxK1MwalZ2VlVnVkd5ZENK?=
- =?utf-8?B?cW16UFlOc0ZSZnA5bzQ3RFVhL0s2VnhnU2pZWUtiZC9kR2R1QU9sZXhMVkZC?=
- =?utf-8?B?QmlUSWxPcHpVUWdRRTJIVzFmNE04a0VZaSt5MzNDUkRyMEV0TEZITG9BTkpj?=
- =?utf-8?B?b2Q5K3pPdi9vTnBIcXRKOGxEMVpLbFVRd0tXOHlIVGtBdGo2QVFqaWdQdjdz?=
- =?utf-8?B?ZjFqdjI0d0lsQlRVY2hpODd6UFdNMzR1Mzh3eVhLTkFOOXRHTXdUVHpwUTg4?=
- =?utf-8?B?WnJiOURFWFNoeGVKcWJkRi9aNmJuejFPWnd1QzFYdlZpMk15R05lTDl1U1ZP?=
- =?utf-8?B?eWFUSWhyRlZFS1JHMWlZTTBnQXpFbEtNeHpDalozbVFTOUpwaXdsWkE1QkY1?=
- =?utf-8?B?TE0wK1I1bk8vNWxjYzBvSk5tUzNTY2dTVnBHWUF6OHV2aDRuWUdjaXBNaDh1?=
- =?utf-8?B?ckdoR1NJZTdIaGRtUTNQRHpLRDJlRURnekx4MGc2ZFJuenNPY0tjREx2NXhp?=
- =?utf-8?B?TWNpK3ZpS1BUWTNNcmdmRjd4OERpMHlmZzRBaW00YVZZdUh3NEhQSjliSjM2?=
- =?utf-8?B?bUlHYnU3aFpNOEovMXFuSjQzZkMyNy83VWUybUVwSEtWUXFWU1BwWmZ3K3FW?=
- =?utf-8?B?WFNSblh4dGpOYzExWmNLeVh0MWJuNjNESXFvamgwSTd6dC94SndvTTBLSkRw?=
- =?utf-8?B?SFcrWmtqaGlaUDNLc1RYUGVPT3Bxdzh5b3ZSSW9YRjFCcGNNUE8zS1JqUHlG?=
- =?utf-8?B?azVtNDNra3JLWmJ0aGFOdS9JSjRBTnNjbzJVUDVYaHYyWHVSREhZYzlrVzJr?=
- =?utf-8?B?N3BOdDBtaFIvaUpvWUxCMllOb0lXL2tmOEkvRTJvOEF5ZkFnL28rRlpCckRE?=
- =?utf-8?B?NDVSazhsRjh0MHBIeHhVR3Q1c1VjV1NMMXFZUTczYTNNSzJGclQ5SW4wVmhO?=
- =?utf-8?B?ZEVaTG9EanJPQkttN3hGK1VXaTJWbTZOamRYRzd6cytzSVJpZmdFcFdWWFR4?=
- =?utf-8?B?UXZ3WXBoclJXZ0RTNVFUdGpFZ1N2eVE3eW5YTnpkdjVUS0JiRFg4cHBnV2pw?=
- =?utf-8?B?bzA4Mmo3b2hQNDUvd09QSnJ4R3hrY2J2bU1ZRThwRmljZDMzQk42RS9HT3I4?=
- =?utf-8?B?WGpBTGFZbml5eE8wamY5MldNakRJWFNjTXRYODdjQlQxNHlXUUc3ZGpTVENv?=
- =?utf-8?B?azZINi9qQ3EweVovWG5HOFdNZHNKakxpOW1JOGUxc2ZlRndyS2hRVXFnWjE1?=
- =?utf-8?B?ekRiTDUrNm5VTDE0RDVJZkVLU3hVYWxDMGM3ZjdsbHcwaGxEV25FbStvZlVX?=
- =?utf-8?B?aTZMWDF3Q3N4NzNvbWt4KzJCVnQvMU5adDNIWWM5M2ZDZHVkbnlmOW9jbGcr?=
- =?utf-8?B?L3E1VHBmaUhYUmtmcXBMdmNaaGt3cm5YM2RwTjcrSkFreXhsQ1VNZFR1S0pt?=
- =?utf-8?B?enFQUG5MS2JFeWFmTEQ2UEQ0bFpVaitUbnNCVGJFVVRnUGY2cEhjWVRzUStm?=
- =?utf-8?B?SkFtUWd4NG9jemJEem5YM2lsdE55eDdEYlJzdWhqamlrSmcvMlBrUUppa0Rk?=
- =?utf-8?B?N2tZYkt4TDZUb1hGS0VrWExaN1pNdXhDcm9zeDlSSnFwMGJxU2ZSaUVlUHhk?=
- =?utf-8?B?YWNBVTZSNnR3bFdFbEhVQWhqK3JuYlZpM2g2Z1VUNlNRL0RmbWxPSkpTSGRF?=
- =?utf-8?B?UVM4d096a2dtTG9QRGdJUmZWelBSZklsc0VNZDNSQW5NQm1QaitUN1k4bnd1?=
- =?utf-8?B?WExJOU9Tb3dOWEV5d0VoZitPY3JZaGVoSjc4OHkvbUNRRUNoSTFMS21VQ0ow?=
- =?utf-8?B?K3paOVNsL1czeitybFd1bHJjUUx3TncweW4vbi9idjkzTktEbVN0R21Kd25Q?=
- =?utf-8?B?TDhhdFQzODVzeG8xWjM3djJpbnB3Q1lFd1NaNEJMaXdETFJCNmgwNHRmQ2kw?=
- =?utf-8?B?dElsMStzNGRUUlQrMUFXSHpPVlFGUjVWdFdWL1R2b3hPTjhtU05mTFJTWEtt?=
- =?utf-8?B?RlY4QmNkQ0R4ZjVlZ1B6VnF3MzVXTGdBQ295c2dpaVJpZHoybm8yR3U1QlNB?=
- =?utf-8?Q?722RQ28FQsV5uxboIX?=
-X-OriginatorOrg: symple.nz
-X-MS-Exchange-CrossTenant-Network-Message-Id: def47cf1-1ff2-43be-64a1-08deb24a0e7e
-X-MS-Exchange-CrossTenant-AuthSource: ME3P282MB2196.AUSP282.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2026 06:20:27.8163
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 9531f271-068a-4210-b471-bd8da91491c5
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YOFsv1j6bWqzz0sFzXQzCvbkFxqkrdPUucKRj86X8LPPoc8rhaqrXqeosMmO/sO7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SY5P282MB6373
-X-Rspamd-Queue-Id: B39DE549F7D
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] dt-bindings: media: Add bindings for
+ qcom,x1p42100-camss
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260511-purwa_camss-v2-0-22608ab9126c@oss.qualcomm.com>
+ <20260511-purwa_camss-v2-1-22608ab9126c@oss.qualcomm.com>
+ <20260514-carmine-magpie-of-imagination-5dddfc@quoll>
+Content-Language: en-US
+From: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+In-Reply-To: <20260514-carmine-magpie-of-imagination-5dddfc@quoll>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTE1MDA2MiBTYWx0ZWRfX/83n4ihLxXdu
+ JQVdt3eu3nPFMB7bBuFrOjXt0bIypyYkR0NPbsV8GQFtJBrg7Ut0MK393R3dfqyw9EGL0DpGEK3
+ 4eI28qQ+4gSHht8Va9xMxkP2O0ZhaQTrejf9xn2QXhDeOsFH9Z0LVB45fKeEQMCUbK9kN7DvtC5
+ 6PpiRw+gJc/xfJuA8sIwtKPMvdPIVWzRxpvUnpQR1/cd/2hJfQjRlRE0y+QI4dF6h1iOn+YP4ZP
+ rG+PZs11lRnZYxnEh3KigsfsB2HC9auCPpucP7AsoqYMEjpTsSCF8T8Ww4XVpOKj5W3gzAE1WL4
+ SmugcVM00JiwiwX3D1VCV6eKq+XU9go4RM7MGXyAHoH/tghAJLsuMvx0Se5FX0ZRNuOSuoUdjl8
+ AKRttLPVvzwJK6KNa0g/pQe4uUf6KsGS54uw5PM/TZbscR7nWdw1a9SUAoklYB7wYV/1y7GK1XE
+ YY2hP5pC04Xx3YfY/og==
+X-Proofpoint-GUID: kGepOsF6K4PKzxAoB9p3T6kAkVOorU6E
+X-Proofpoint-ORIG-GUID: kGepOsF6K4PKzxAoB9p3T6kAkVOorU6E
+X-Authority-Analysis: v=2.4 cv=BvqtB4X5 c=1 sm=1 tr=0 ts=6a06bd75 cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=EUspDBNiAAAA:8 a=CMSjfWuysNDtZblWgkUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-15_01,2026-05-13_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 suspectscore=0 phishscore=0 clxscore=1015 priorityscore=1501
+ spamscore=0 malwarescore=0 bulkscore=0 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605150062
+X-Rspamd-Queue-Id: EA95454A00C
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[symple.nz,none];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[symple.nz:s=selector1];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-61634-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[symple.nz:+];
-	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linaro.org,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-61635-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[simon@symple.nz,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wenmeng.liu@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,symple.nz:mid,symple.nz:dkim]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Action: no action
 
-Hi Detlev,
-
-I'm seeing systematic pixel corruption on VDPU383 H.264 decodes on 
-RK3576 (NanoPi
-R76S).  The decoded luma plane is correct for rows 0–3 and row 8, but 
-wrong for rows
-4 and 12 (and the corresponding rows in every subsequent macroblock 
-row).  The error
-propagates to all following P-frames.
-
-I confirmed the mismatch is in the raw V4L2 CAPTURE buffer two 
-independent ways:
-
-   1. GStreamer v4l2slh264dec output compared to avdec_h264 with no 
-videoconvert step.
-   2. A hand-written Rust V4L2 decoder that submits only 
-SPS+PPS+SCALING_MATRIX+
-      DECODE_PARAMS (SLICE_PARAMS returns EINVAL on 
-VIDIOC_QUERY_EXT_CTRL on this BSP,
-      so the control set is the same as GStreamer's actual submission) — 
-identical
-      20.3% mismatch at the identical first-diff byte.  This rules out 
-any GStreamer
-      post-processing or control-submission effect as the cause.
-
-Hardware:
-   Board:      NanoPi R76S (RK3576, VDPU383)
-   Kernel:     Linux 7.0.1 (mainline rkvdec-vdpu383-h264.c, unmodified)
-   GStreamer:  1.28.2 (with v4l2slh264dec from gst-plugins-bad)
-   Content:    1920×1080 Baseline H.264, SMPTE colour bars, openh264enc
 
 
-MINIMAL REPRODUCER
-------------------
+On 5/14/2026 8:19 PM, Krzysztof Kozlowski wrote:
+> On Mon, May 11, 2026 at 04:59:34PM +0800, Wenmeng Liu wrote:
+>> Add bindings for the Camera Subsystem for X1P42100.
+>>
+>> The X1P42100 platform provides:
+>> - 2 x CSIPHY
+>> - 3 x TPG
+>> - 3 x CSID
+>> - 2 x CSID Lite
+>> - 1 x IFE
+>> - 2 x IFE Lite
+>>
+>> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+> 
+> I do not see you responded to previous comments and FIRST one was not
+> implemented, so I am ignoring the rest. Not going to review this.
+> 
+> Best regards,
+> Krzysztof
+> 
 
-Generate a test file (any H.264 Annex-B with visible content works; I 
-used openh264enc
-with SMPTE bars):
+Hi Krzysztof,
 
-   gst-launch-1.0 videotestsrc num-buffers=60 pattern=smpte \
-     ! video/x-raw,width=1920,height=1080,framerate=30/1 \
-     ! openh264enc ! h264parse ! filesink location=test.h264
+Apologies for not clearly addressing your previous comments — that’s on me.
 
-Decode via HW, capture raw NV12:
+Regarding the first concern about dependencies: in v1 the series was 
+indeed based on the csiphy rework, which pulled in a large set of 
+dependencies from Bryan’s changes. In v2 I intentionally moved back to 
+the existing (pre-rework) csiphy code to reduce the dependency 
+footprint. As a result, the remaining dependencies are now limited to:
+1) Clock changes (expected to be merged soon)
+2) TPG support (planned to appear in linux-next shortly)
+3) hamoa DTS
 
-   gst-launch-1.0 filesrc location=test.h264 num-buffers=60 \
-     ! h264parse ! v4l2slh264dec ! 'video/x-raw' \
-     ! filesink location=hw.raw
+For the csiphy-related concerns you raised earlier, those should no 
+longer apply with this approach since the series is no longer based on 
+the reworked csiphy code.
 
-Decode via SW, capture raw NV12:
+Thanks a lot for your time and feedback.
 
-   gst-launch-1.0 filesrc location=test.h264 num-buffers=60 \
-     ! h264parse ! avdec_h264 ! videoconvert ! 'video/x-raw,format=NV12' \
-     ! filesink location=sw.raw
-
-For a 1920×1080 NV12 frame (frame 0), compare the first 3,110,400 bytes:
-
-   cmp hw.raw sw.raw
-
-Expected: identical.
-Observed: first mismatch at byte 7680 (Y plane, row=4, col=0).
-
-With SMPTE bars (white region at the top), SW Y[row=3] = 0xe9 (correct 
-white-bar luma).
-HW Y[row=4] = 0xaf instead of 0xe9; HW Y[row=3] = 0xe9 (correct).
-Overall mismatch rate: 20.3% of bytes in frame 0.
-
-
-QUANTIFIED EVIDENCE (frame 0, IDR)
------------------------------------
-
-   SW decode:  Y bytes [7680..7695] = e9 e9 e9 e9 e9 e9 e9 e9 e9 e9 e9 
-e9 e9 e9 e9 e9
-   HW decode:  Y bytes [7680..7695] = af af af af af af af af af af af 
-af af af af af
-   First diff: byte 7680 → Y plane row=4, col=0
-
-Error propagation:
-   Frame 0 (IDR):  20.3% mismatch, first_diff = byte 7680 (Y row=4)
-   Frame 1 (P):    23.0% mismatch, first_diff = byte 253 (error 
-propagated to row=0)
-   Frames 5–30 (P): 25–26% mismatch, stable
-
-ANALYSIS
---------
-
-A diagnostic experiment implicates the filterd_rcb buffer (RCB index 
-6).  Redirecting
-filterd_rcb buffers 6, 7, 8 to point at the output buffer produced 98.4% 
-corruption
-with first diff at row=1, which indicates the hardware reads p-side 
-pixel context from
-filterd_rcb (rather than from the reconstruction buffer) when applying 
-horizontal
-deblocking.
-
-Based on the error pattern, our hypothesis is that filterd_rcb uses an 
-8-row circular
-index (slot = row mod 8).  If so, H.264's 4-row deblocking boundaries 
-within each
-16-row macroblock row would cause a slot collision that HEVC (with 8-row 
-CTU boundaries)
-does not encounter:
-
-   Edge y=4:  p0 from row 3  → slot 3  (zero-initialised on IDR → wrong)
-   Edge y=8:  p0 from row 7  → slot 7  (written before this edge is 
-reached → correct)
-   Edge y=12: p0 from row 11 → slot 3  (still holds row-3 data from the 
-y=4 pass → wrong)
-
-This would explain why y=8 decodes correctly while y=4 and y=12 do not.  
-We don't have
-hardware documentation for VDPU383, so we can't confirm whether this is 
-the actual
-mechanism.
-
-We tried several register adjustments hoping to change the filterd_rcb 
-update granularity:
-ctu_align_wr_en (reg027), buf_empty_en (reg009), ref strides 
-(reg083–106), and
-num_views in the SPS table.  None changed the corruption.
-
-Is there a known configuration difference for H.264's narrower 
-deblocking edges, or a
-BSP-level fix we've missed?
-
-
-ATTACHED REPRODUCER
--------------------
-
-The C program below (builds against GStreamer on-device, ~100 lines) 
-automates the
-comparison and produces per-frame mismatch statistics:
-
-   gcc -O0 -g -o h264_hw_vs_sw_dump h264_hw_vs_sw_dump.c \
-       $(pkg-config --cflags --libs gstreamer-1.0 gstreamer-video-1.0 
-gstreamer-app-1.0)
-
-   ./h264_hw_vs_sw_dump /path/to/test.h264
-
---- BEGIN h264_hw_vs_sw_dump.c ---
-/*
-  * H.264 HW vs SW byte-level comparison via GStreamer appsink.
-  *
-  * Decodes one frame of an H.264 Annex-B file via two paths:
-  *   SW:  h264parse ! avdec_h264 ! videoconvert ! NV12 appsink
-  *   HW:  h264parse ! v4l2slh264dec             ! NV12 appsink
-  *
-  * Reports first divergent byte, mismatch percentage, and unique Y 
-values for
-  * both decoders.  If HW bytes differ from SW bytes, the bug is in the 
-kernel
-  * rkvdec-vdpu383-h264.c driver.
-  *
-  * Build on device:
-  *   gcc -O0 -g -o h264_hw_vs_sw_dump h264_hw_vs_sw_dump.c \
-  *       $(pkg-config --cflags --libs gstreamer-1.0 gstreamer-video-1.0 
-gstreamer-app-1.0)
-  */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
-#include <unistd.h>
-#include <gst/gst.h>
-#include <gst/video/video.h>
-#include <gst/app/gstappsink.h>
-
-typedef struct {
-     uint8_t *data;
-     int      width, height;
-     size_t   y_size, uv_size, total;
-} DecodedFrame;
-
-static void free_frame(DecodedFrame *f) { if (f) { free(f->data); 
-f->data = NULL; } }
-
-static DecodedFrame *run_pipeline(const char *pipeline_str, const char 
-*label)
-{
-     fprintf(stderr, "[%s] pipeline: %s\n", label, pipeline_str);
-     GError *err = NULL;
-     GstElement *pipeline = gst_parse_launch(pipeline_str, &err);
-     if (!pipeline || err) {
-         fprintf(stderr, "[%s] gst_parse_launch: %s\n", label, err ? 
-err->message : "unknown");
-         return NULL;
-     }
-     GstElement *sink = gst_bin_get_by_name(GST_BIN(pipeline), "sink");
-     gst_app_sink_set_emit_signals(GST_APP_SINK(sink), FALSE);
-     gst_app_sink_set_drop(GST_APP_SINK(sink), FALSE);
-     gst_app_sink_set_max_buffers(GST_APP_SINK(sink), 1);
-     gst_element_set_state(pipeline, GST_STATE_PLAYING);
-
-     GstSample *sample = gst_app_sink_pull_sample(GST_APP_SINK(sink));
-     if (!sample) {
-         fprintf(stderr, "[%s] no sample\n", label);
-         gst_element_set_state(pipeline, GST_STATE_NULL);
-         gst_object_unref(sink); gst_object_unref(pipeline);
-         return NULL;
-     }
-     GstBuffer *buf  = gst_sample_get_buffer(sample);
-     GstCaps   *caps = gst_sample_get_caps(sample);
-     GstVideoInfo vinfo;
-     gst_video_info_from_caps(&vinfo, caps);
-
-     int w = GST_VIDEO_INFO_WIDTH(&vinfo);
-     int h = GST_VIDEO_INFO_HEIGHT(&vinfo);
-     GstVideoFrame vframe;
-     gst_video_frame_map(&vframe, &vinfo, buf, GST_MAP_READ);
-
-     size_t y_size  = (size_t)w * h;
-     size_t uv_size = (size_t)w * (h / 2);
-     DecodedFrame *frame = calloc(1, sizeof(*frame));
-     frame->data  = malloc(y_size + uv_size);
-     frame->width = w; frame->height = h;
-     frame->y_size = y_size; frame->uv_size = uv_size;
-     frame->total = y_size + uv_size;
-
-     uint8_t *y_src = GST_VIDEO_FRAME_PLANE_DATA(&vframe, 0);
-     int y_stride   = GST_VIDEO_FRAME_PLANE_STRIDE(&vframe, 0);
-     for (int row = 0; row < h; row++)
-         memcpy(frame->data + row * w, y_src + row * y_stride, w);
-
-     uint8_t *uv_src = GST_VIDEO_FRAME_PLANE_DATA(&vframe, 1);
-     int uv_stride   = GST_VIDEO_FRAME_PLANE_STRIDE(&vframe, 1);
-     uint8_t *uv_dst = frame->data + y_size;
-     for (int row = 0; row < h / 2; row++)
-         memcpy(uv_dst + row * w, uv_src + row * uv_stride, w);
-
-     gst_video_frame_unmap(&vframe);
-     gst_sample_unref(sample);
-     gst_element_set_state(pipeline, GST_STATE_NULL);
-     gst_object_unref(sink); gst_object_unref(pipeline);
-     return frame;
-}
-
-static void compare_frames(DecodedFrame *sw, DecodedFrame *hw)
-{
-     size_t n = sw->total < hw->total ? sw->total : hw->total;
-     size_t first_diff = (size_t)-1, diffs = 0;
-     for (size_t i = 0; i < n; i++) {
-         if (sw->data[i] != hw->data[i]) {
-             if (first_diff == (size_t)-1) first_diff = i;
-             diffs++;
-         }
-     }
-     if (!diffs) {
-         fprintf(stderr, "MATCH: HW == SW (%zu bytes)\n", n);
-         return;
-     }
-     size_t y_size  = (size_t)sw->width * sw->height;
-     const char *plane = first_diff < y_size ? "Y" : "UV";
-     size_t off = first_diff < y_size ? first_diff : first_diff - y_size;
-     fprintf(stderr, "MISMATCH: %zu/%zu bytes differ (%.1f%%)\n", diffs, 
-n, 100.0*diffs/n);
-     fprintf(stderr, "  First diff: byte %zu -> %s plane offset %zu 
-(row=%zu col=%zu)\n",
-             first_diff, plane, off, off / sw->width, off % sw->width);
-     fprintf(stderr, "  SW[%zu..]: ", first_diff);
-     for (size_t i = first_diff; i < first_diff+16 && i < n; i++)
-         fprintf(stderr, "%02x ", sw->data[i]);
-     fprintf(stderr, "\n  HW[%zu..]: ", first_diff);
-     for (size_t i = first_diff; i < first_diff+16 && i < n; i++)
-         fprintf(stderr, "%02x ", hw->data[i]);
-     fprintf(stderr, "\n");
-}
-
-int main(int argc, char **argv)
-{
-     if (argc < 2) { fprintf(stderr, "Usage: %s <h264_annex_b>\n", 
-argv[0]); return 1; }
-     gst_init(NULL, NULL);
-     char sw_pipe[1024], hw_pipe[1024];
-     snprintf(sw_pipe, sizeof(sw_pipe),
-         "filesrc location=%s ! h264parse ! avdec_h264 ! videoconvert ! "
-         "video/x-raw,format=NV12 ! appsink name=sink", argv[1]);
-     snprintf(hw_pipe, sizeof(hw_pipe),
-         "filesrc location=%s ! h264parse ! v4l2slh264dec ! "
-         "video/x-raw,format=NV12 ! appsink name=sink", argv[1]);
-
-     DecodedFrame *sw = run_pipeline(sw_pipe, "SW");
-     DecodedFrame *hw = run_pipeline(hw_pipe, "HW");
-     if (sw && hw) compare_frames(sw, hw);
-     if (sw) { free_frame(sw); free(sw); }
-     if (hw) { free_frame(hw); free(hw); }
-     return 0;
-}
---- END h264_hw_vs_sw_dump.c ---
-
-Thanks,
-Simon Wright
-Symple Solutions, Dunedin, New Zealand
-
+Best regards,
+Wenmeng
 
