@@ -1,141 +1,210 @@
-Return-Path: <linux-media+bounces-61654-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61655-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0BcIGhf6BmoKqQIAu9opvQ
-	(envelope-from <linux-media+bounces-61654-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 12:48:55 +0200
+	id WICLKDL+BmoeqgIAu9opvQ
+	(envelope-from <linux-media+bounces-61655-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 13:06:26 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF58554DAC6
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 12:48:54 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0654A54E0BD
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 13:06:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3BFB831EDE52
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 10:28:22 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BC30A3080C2C
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 10:40:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA92B3CF952;
-	Fri, 15 May 2026 10:28:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2D6444DB6D;
+	Fri, 15 May 2026 10:39:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="gP2r67rt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WXizuLpU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C59B03F1647;
-	Fri, 15 May 2026 10:27:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778840880; cv=pass; b=qngc3F+hxQzADvdAYKlJmIpJ59fGIkV4bFPJlzItSz5+zKrOdtXk357QVPqIQkLd7/IY+Dxpez8XgRswsP6YuNwjTT2j+jN6o8/VwUk8LqrgdmYfTq52TJKQpTKFkznj9BCaG17o86QHh3QGbfavIk24KalO1OMUsbL35eaZy9A=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778840880; c=relaxed/simple;
-	bh=Zmvtf+ndIhWbwpMvh1AWMsW62hmvFOPCpcG+EQ5f1bY=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F7044D001;
+	Fri, 15 May 2026 10:39:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778841595; cv=none; b=j7gJDZTPld5ePtF77x/xT3WY29NpYoWmcWyttWaC6OP7+Ocuarx9bxK0CeVuSZrq1007wj4T92FDt4Q0TG4xHB2PquwRVY0dmXCA7xutmY/Qo45P2RFhZtn7+fQHLr+JRG0NZnvb+0PtMc/62V2YYFjhuGI7l27J1LYKr7JudTQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778841595; c=relaxed/simple;
+	bh=F2K+7FDUJtbESplW0IG4BAnCiZSuUiTnTBrp7OG3XTE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pxTl5n14+zGX+reQa2FlGoVIxNwxl0ASvZ0c1vePrXYfPllhLvdywUF+WmZBfbSblO3ttNoolbgRAlLVMheagysAmb1NZHNOtdxcc9SafgUS85qYTlk4Cz2+jFK+lfOpiLEsdGPC28Ek+SOyeOIz+3d3I2VCqjEifLqeTAmcJZs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=gP2r67rt; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (n18ws8cotq5gnfn8-1.v6.elisa-laajakaista.fi [IPv6:2001:99a:0:19f:4ce7:0:938c:d2f4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4gH3LD2lwyz49Q0t;
-	Fri, 15 May 2026 13:27:48 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1778840868;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sJl+PyuezvhnTK+av3c/B+WvUp/rISj//64bQ8JdU3c=;
-	b=gP2r67rtkc3QbVZjGxLUWNz7tiRZaENITk+u9QHpeloaqGczGWJXvSTLk38jF9gU6Yw2Qv
-	dtRYowvCus3su6yN0uzMdyzXFT3D30vzk//hpognMD3wZSm+Xm9s0bslHHGGnl61uQKRvo
-	ubL8EeOfJu/m2a+cigcnOlfmhOPdQhLMka4kpX2R+DSSS0GBjEUmTVUBYHtW7Scx0nonuZ
-	LAitZb31TOxZQ53LGWLKpr4ApzsFFNn7pocZdKZmwR3bvRCYcR9CzOd0ima1a3sa6shlE2
-	KwtMkUX9Js8jtTKjah+ocT9SIKO7VdF0JtpCO435Eewm1K75nRP180mP28nrmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1778840868;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=sJl+PyuezvhnTK+av3c/B+WvUp/rISj//64bQ8JdU3c=;
-	b=qB0fqcDjc4JHV+zVbQ+3KAsJKdxqaN5n9r0eqPRdNgp1tVVT/VN8xrYq1JYIUC3LMpQ8fg
-	RJziDjsdvCGuWNRMl2yCSGsmI9admrd7o2sWWHUgUVb61ieouQLkbn6TkP9QhuDlbo3vXt
-	NN5n6on0/k/Wqv+RPiWU6NhIlwXHNEi2nhw3yO4ypRu9m8mJPbLsZSDf4LODASHuDQ55Xk
-	zdRRiTLZ211smyTZsi8rV9DPz4BUzvpDNq3R8mx+vWF1JS0kIx+U357i2Q14nmN8y97Bw3
-	vZI/kttttPo4SgaUAoNaPx5fILg8Wo4RJRd4wves9kjPl9+pguOfL2OA5iT5Gg==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; a=rsa-sha256; d=iki.fi; s=lahtoruutu; cv=none; t=1778840868;
-	b=t9b4pUSGG7F3/ubRtDXfHkw4d5Fe8/gyy6CuTuJ090mcPAmGbJmGS/J7HdRL/7dVTZfSQU
-	gY5gc+QbnwIHTjeRkPwwx97bFGKvvdHMrTEA9wqpck7kvTHZ15lQlu+M/XDUaQfchuqYHG
-	paTq7CEkm5Dj5z9ePSqmGt/fAD40Wouy3h/JnZA7TB6bXYzzw8faauzpY0sJDVPPIxdOkD
-	zu3ajLx+WV75mk1Z6KWAiomDHFWkU5bvqTj6awGF225w4nIXWPRNfLDFJ2+PPdlC7tHnAP
-	Rp581WPmQKJmTO7WLsIxV5m7N12uQXzkmhmdyQvn40xGfDeMdYLk/r6aRs0IkA==
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 18CDC634C4E;
-	Fri, 15 May 2026 13:27:48 +0300 (EEST)
-Date: Fri, 15 May 2026 13:27:47 +0300
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Balakrishnan Sambath <balakrishnan.s@microchip.com>
-Cc: linux-media@vger.kernel.org, mchehab@kernel.org, hverkuil@kernel.org,
-	nicolas.ferre@microchip.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 00/15] media: microchip-isc: fixes and enhancements
-Message-ID: <agb1I1l0CvKQZp-U@valkosipuli.retiisi.eu>
-References: <20260512154339.210444-1-balakrishnan.s@microchip.com>
- <20260513071742.97263-1-balakrishnan.s@microchip.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZRfShfcT4v1vKa09IYOTgPjChujgtiipdaG9WptBZ51GwvEZz+EOzVIBeTaOjvrW0MNsg7mK6F7ZvrAdziHg4/KtL/v1xsVVRoC5FRJxNe8f9CP9IKGZRGjxhFmpo8TW7I+QSescuTcEaQdF9+4TDmZfxUxPxRmEB6Ejjg98bGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WXizuLpU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81D90C2BCC7;
+	Fri, 15 May 2026 10:39:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778841595;
+	bh=F2K+7FDUJtbESplW0IG4BAnCiZSuUiTnTBrp7OG3XTE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WXizuLpUNBsyMcu/ngYzIUOaWO8IvwPvLSUV6CR2KTx3REvsdC76yekrwglLrXaDs
+	 1QT6IMdUc1+FZA+KuIX25osjTCEeB2uGDdhh17qdI4XkIz2oNZKH50Uj6sFkijJqba
+	 ijy6hPHLDCU9DPci4C3+6Om4VRW567pccVxxXW0ZHlfqzp8mReUzHlLM0guzf8N9j9
+	 OdhakEE5pQ9Sw47YY8UFheX6KKz4rRmTJ+KT8vVuUgTQpnl94rEUcWbO2mhHulDhCR
+	 tVEzLyqW5hL24ZgvYopjfr9li+ClTUrxx38lhao86z/ARKiq6slVzjmYDftoGMWKBF
+	 OU1o9JYOlo1Kw==
+Date: Fri, 15 May 2026 12:39:52 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: media: i2c: Add Sony IMX678
+Message-ID: <20260515-axiomatic-yellow-armadillo-b14dea@quoll>
+References: <20260513-imx678-v1-0-30fc593ed8fa@ideasonboard.com>
+ <20260513-imx678-v1-1-30fc593ed8fa@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260513071742.97263-1-balakrishnan.s@microchip.com>
-X-Rspamd-Queue-Id: BF58554DAC6
+In-Reply-To: <20260513-imx678-v1-1-30fc593ed8fa@ideasonboard.com>
+X-Rspamd-Queue-Id: 0654A54E0BD
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[iki.fi:s=lahtoruutu];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-61654-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[iki.fi:+];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[iki.fi];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61655-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@iki.fi,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,1a:email,ideasonboard.com:email]
 X-Rspamd-Action: no action
 
-Hi Balakhrisnan,
+On Wed, May 13, 2026 at 09:03:16PM +0530, Jai Luthra wrote:
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          data-lanes:
+> +            oneOf:
+> +              - items:
+> +                  - const: 1
+> +                  - const: 2
+> +              - items:
+> +                  - const: 1
+> +                  - const: 2
+> +                  - const: 3
+> +                  - const: 4
+> +              - items:
+> +                  - const: 1
+> +                  - const: 2
+> +                  - const: 3
+> +                  - const: 4
+> +                  - const: 5
+> +                  - const: 6
+> +                  - const: 7
+> +                  - const: 8
+> +
+> +          link-frequencies: true
 
-On Wed, May 13, 2026 at 12:47:27PM +0530, Balakrishnan Sambath wrote:
-> Bug fixes and feature additions for the Microchip ISC/XISC driver.
+Drop. My patch fixing existing bindings is still valid and I do not
+agree with other approach. I wanted to fix all existing bindings to make
+it easier for you.
 
-Please avoid using git send-email --in-reply-to argument when posting new
-versions. You could add a reference to the old series using the Message-ID:
-header though.
+> +
+> +        required:
+> +          - data-lanes
+> +          - link-frequencies
+> +
+> +    required:
+> +      - endpoint
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - avdd-supply
+> +  - ovdd-supply
+> +  - dvdd-supply
+> +  - port
+> +
 
--- 
-Regards,
+Missing ref to video interface devices
 
-Sakari Ailus
+> +additionalProperties: false
+
+and this is unevaluated then
+
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        camera@1a {
+> +            compatible = "sony,imx678";
+> +            reg = <0x1a>;
+> +            clocks = <&imx678_clk>;
+> +
+> +            avdd-supply = <&camera_avdd_3v3>;
+> +            ovdd-supply = <&camera_ovdd_1v8>;
+> +            dvdd-supply = <&camera_dvdd_1v2>;
+> +
+> +            reset-gpios = <&gpio 0 GPIO_ACTIVE_LOW>;
+> +
+> +            port {
+> +                imx678: endpoint {
+> +                    remote-endpoint = <&cam>;
+> +                    data-lanes = <1 2 3 4>;
+> +                    link-frequencies = /bits/ 64 <720000000>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 2fb1c75afd16..5260cd83a255 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -24911,6 +24911,13 @@ T:	git git://linuxtv.org/media.git
+>  F:	Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
+>  F:	drivers/media/i2c/imx415.c
+>  
+> +SONY IMX678 SENSOR DRIVER
+> +M:	Jai Luthra <jai.luthra@ideasonboard.com>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +T:	git git://linuxtv.org/media.git
+
+Drop. Individual drivers do not have dedicated trees. Media alrady
+covers it.
+
+Best regards,
+Krzysztof
+
 
