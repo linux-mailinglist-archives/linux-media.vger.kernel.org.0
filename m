@@ -1,465 +1,407 @@
-Return-Path: <linux-media+bounces-61763-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61764-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KGY5BjBWB2p7zAIAu9opvQ
-	(envelope-from <linux-media+bounces-61763-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 19:21:52 +0200
+	id sJYTDzVaB2orzwIAu9opvQ
+	(envelope-from <linux-media+bounces-61764-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 19:39:01 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F766554E61
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 19:21:51 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4BFA5555F7
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 19:39:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 39BF4303BE6F
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 17:07:13 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D930C306B53D
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 17:33:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 714DB4EA38C;
-	Fri, 15 May 2026 17:07:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01059380FC4;
+	Fri, 15 May 2026 17:31:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="E0srMPLx"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qIcPo/Ys"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81C9B4DB54B
-	for <linux-media@vger.kernel.org>; Fri, 15 May 2026 17:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778864827; cv=pass; b=K1lRu819ibvM4BmfcnLU9NMWZwDm0+m/zuZBeH2Fj13/8aF4SmJGBy85smjU2JPYNj7QZgCp6FvpY2zYJadwxF8zV8hz3UHch+J/1QC/7S1cR6PZzen5Cs1T/6pwq7/zeMZJhdwLg7sdj2fhAbubefOYl+f8uyofKMuxeNzJ8bo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778864827; c=relaxed/simple;
-	bh=nfVVCWXzvqa1LUWfzx7loZHs3RrGdLWJRj9wkdFaNyg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YO2jWgK6d7h5klHu6FPaUh72GHzascy1B+VElUMHXrnt9cQ0coabPk38NGPWFAJQjKPTP2FKsOk8O56S0NHXje2KPYnF1jZ4L/Cker4KtZW8d1KkEL6+7LugpSG0Gag5ggMRUxjOqP/dKLTiWWyr3MdhSuSlHNSaEmFyscqwgos=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=E0srMPLx; arc=pass smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4891ca4ce02so2775e9.1
-        for <linux-media@vger.kernel.org>; Fri, 15 May 2026 10:07:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778864824; cv=none;
-        d=google.com; s=arc-20240605;
-        b=DAqcWPIqsN40/HArbKVGF3RDt2/L9kCVp+vBUogvPrcy4RxRC4PY7FseTwa702ABtl
-         wr0VL7xdnXr/hhX4Aky2uUnUMowxSa8R7PKT2XBC8Umxl+hKZSc1qzfrFKPUvbWszmQ1
-         68bUnvz3p2dIBQBk2b/OSG0BraJgCjwEyTTftu1NaClMqtB47KmN3W0tgamG/ii/ZGmm
-         O4pJsqs7YxJhvnKaABMq3yKe3DVnexH3LW4gQ6kaymNVzuUJWrmkGxeBd6y+ZXSQKcaU
-         yNo/LB/EY34tLpBcxZRhrO5oKe/MiroAcMi4D8OdSyJWn7o3THKTyfRr16Ka/pbco+71
-         sPMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LQnzcBlc7+y3xboPXu3CAuDhwWayfDkxWRZzNgig+eE=;
-        fh=ssJ0637n+jQxbQ2jgQhwqgrICE7v+SXHANozAb4tI00=;
-        b=XxbyLBfqXdGPirPmIfQXISkyNPjCZvFCkhtADIl9y8gEsYqTTG1lH4enbZmA3QI6uO
-         kRFCY+CWmc0VPIzgAgeemNcxCikg9OPiYezqb7Z7Dqis+pBNYIrLpxKSFQUU89t2vzBH
-         n4rqGK3M5HnKt8N3e4Z3/ir9aYk9KdWvgzvneNvk2/C/tbIl6Vo3BnGoOnZlc+SKHH3G
-         Yjmu6ghqP3AiAeE9AMLZ2sYzn6GSPa7JGNjR6RYEpvagpdc98mVlbEBTZcqqfLMGNxPG
-         luOmWfaTsbB26pSCgm2H6PFFNbpsPDs9mcUcsC07fHSWZLAL13SNw+yVsPcRwNZ3UeQp
-         xBsA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A479F2DF15C
+	for <linux-media@vger.kernel.org>; Fri, 15 May 2026 17:31:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778866284; cv=none; b=RfW9rv9d3x9sk98ev9KMGMnEWIlyEAVuOe5+iHvTzM5Q1cdRkUEsNC5N7uzn/WSaT3UdJVfAwKGs/4ReCilvauRL/WVCf8yEEzHZBR98+mZLRp20GnoV2ZmsHlEqPbeZGZ1FqCLIAzmSTEAyeEjKJotikrSHRJUUyHjrIoTDpVw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778866284; c=relaxed/simple;
+	bh=mtRaeSTm22szPuQEOfRz5jfPAzXvm/3/BfPURC2QZAQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Zxfl8/xiqLiRGyribgtGfpL3lKF1kVvLTNKzKQpR/BRexaW+rtjOa4kdg3yP+S+i3KzUFJQdcGQaKldiJv2PIkLKdB/eo2BwUyDl8gkkAoR5UGLZ6DRi8ro1Hw22EbfJC+28Y4u/5D8K81wOjYFB/6e4moP34raqz15w2fglN1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qIcPo/Ys; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-45d96d21e82so18563f8f.0
+        for <linux-media@vger.kernel.org>; Fri, 15 May 2026 10:31:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1778864824; x=1779469624; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LQnzcBlc7+y3xboPXu3CAuDhwWayfDkxWRZzNgig+eE=;
-        b=E0srMPLxCnbv4KB+EQPF5rUjYvkR9PlBB7xN/JKyrfvX9MCkwGvTj5Wp6yUh6ELTX1
-         wLUDZbjN1jpwGP1SqsN3atkssUt11imLO3YwSPXCp6sHkOCVReBTSTDKcB5dJkOraJf0
-         kl7AbBgrxmSkdjNyF7qgTvydVY+uTkTaTpgUObzjQjZG0VVfHit2RPvQIOegafOIsU0R
-         vZn4OGzAGJlOnQtyG7YhI7QoDrpo6hGMsht4DjUGiCqgpgQRGrL44LZ53ijorf+4/zSa
-         bAdyZqGCp3GnpUfkC0io5hgmqbD1sbUrBEJM9TdQHeBKHiI7pxL7RycGbjfk3h5EtPdM
-         mLUQ==
+        d=gmail.com; s=20251104; t=1778866281; x=1779471081; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YQ909tteUlib6r5Zln7gE9fXVg66KPSxybEgXF2LXGY=;
+        b=qIcPo/YsuhaaqZ4XO7tsCqpjbeYuJCNkZQmPs4negCtYotaDUdjN5+5Gf9nDQnQvaF
+         rzDyThUUDP07LhdxxhCeM6F5QtZOqvMO4/GLDSSUUlgYnbiUwdtRMi638mkFUo5r/Mr4
+         IhFQzgezyNZcem0PFik9zencZ5koe01XjocJJUv6iUmqKN4zju7FVH7cDo0Oy95b2VIy
+         okdpn1UkCrRp9JdGvdD0GmyExVU2iKlJLHyiMnAKYxLMHml3xPKCknrU1Bf5MD1wk0qT
+         wVck7B8D3h2f9xLGei8uTutMD9iC4gMq9QG4yxJ6YTJdvmhCNVSLeMP5BsVqEPPRpSor
+         EEoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778864824; x=1779469624;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LQnzcBlc7+y3xboPXu3CAuDhwWayfDkxWRZzNgig+eE=;
-        b=SLtC/e7/R/AY4BhmieW5UfHuKrGS3LDTCt1J/C0Xky+ODUpGXCp2LXHXQWxMCeYuIb
-         LnHtoNyOy1b+GhB986u0D8ItvTqbwZqzm/QTZOO0vHFvyjZBnu4vzzxkku7ta1S+XkcL
-         sURBn/GiI+ANT0NSJJ5pG/PVVH4Nr2jfA22hCwHlRSEkoVlUwW3Dvzlu7WQTSNPOSQtu
-         xQF+iMpnaRylWFqwsO/YINL8oE3fEEs6VAx0w1wwO7WWm6G+xZQROxGWJNnPh/7h3sH4
-         2oldMwg38p71EZJEYLRhQ9Ys3AStPwtOgZxBjCOIZafv/EpX+Dk5f/xQGGpwTTI0wVB9
-         DEgQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9e/VvaB1/Oydjn9SAKWaDnFGYGmdRLnXfheOg1yPt92ErTTYMHRP/BLCdCqxWv9/6tL3RGxhrZnlWVng==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxV0RXfl0QlwkPbch1tMlSRvkYwQPiFjCwpYgLKsHm8ADIjLUyP
-	Tj12e2n9z72k8qA0+9uWrejpSulRKRLdz9R8sQfxt1GSAiKWIUbr9GbXDjw4uigbN0lTys0a5LP
-	DQQo4lFYns+xgVw7P+2TCaIgJnZnoAvVCVegiJG/P
-X-Gm-Gg: Acq92OF5sy4pUcMfivsJuy7QTy5Wa/3Vcrb5ygABauGcRV621Tfq3awA75JHRVdBCtu
-	0K14Ys8M0hTg7wEguRgZw/qmfuJdU3VjRlmhkv85Y8+vXo1anINXryV3bHEgqYF8wtBCrqUVb7z
-	XEuVHpc9RBJF5uO/2aH+DurI1QRJjWMJd04hb+9RFETmYeBtxGfji259jXjCOb2Z2ZIzYrSSlKr
-	5AzfFT08LhnBNXWdLsXC0K4U5EHNquXA25UGeDg6p3JM6USDlpZ1h54XQ0z8nsXtC5pzMH5EcwU
-	Q/b3obvJvRHjlUqpT0uZ8XPi5wgadgO9rqujuIrS0gn6qq4o
-X-Received: by 2002:a05:600c:4999:b0:489:1adc:f017 with SMTP id
- 5b1f17b1804b1-48fe881e582mr645715e9.5.1778864823481; Fri, 15 May 2026
- 10:07:03 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778866281; x=1779471081;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YQ909tteUlib6r5Zln7gE9fXVg66KPSxybEgXF2LXGY=;
+        b=jbPJLAiV9IrOj7rlGqZB7wMaW3jOz8VKt9Yc5yARGMbssd9QKvjVPE6aJw+gdNfWXI
+         EGuEo7s2rNq4bBzqJtBGmPOq+VZSC7Jw7b3RwIfYzeC+mnOCvyjaJKSB5lX7xXkmFtMh
+         GP6bJZMIu1zVwL65tkc4mMPjTgfLlEIRDtkVF3R9mP25wxkcPOor2JQk92jsfUN6wYCJ
+         3D6cIpZrO/Q/fBwHathHc2RPiu3T4LNQnwHH0PSyRPnoWA7uv91eq7Rl8M+ZsdE7lAfe
+         AxQUF7/DowB/+GXeR3sGQhXfNZ8TZ+XHqCxXbz92yF6Rgn4wGJ/RdOYNyLZnqyh3+f2j
+         jHgA==
+X-Gm-Message-State: AOJu0YwLaQ0hD8lO46F1kg9BTHoP3pvkwIm96rTY12GvNZaw9SwzfeFb
+	8FT2dBiH8lS+mJKItc1/BZtxQSFWR20XuK1iZR5Wj4Xaxh88gUXOX6rh
+X-Gm-Gg: Acq92OGzvEScHP2qiiCfF7bRVjvUOcTyGVKTpXju7NY6EPP1bRsr0FOmjpLAxHXmPnV
+	ivphU5Af3fI/iUnwZhpwUaYfuFdKGFAEorr/2PnvWdPN/IE2Coaa82GkAw1bCdMvdRUJo6M6nui
+	Q/ZXwddNUNlYgjqkrvTx/2sZFSkOE6U1LMDAvU99LD7HAlSbo9wq/mMQ0Q3FhN8de4JsrahuD9x
+	2KLMNh+NXF3Yj2KreZrO19MV4j/G+ewgceRvltyRDOJ1XfCttXZKm8cfhcjQR3VD61LnGVXoe1z
+	8byHkmjZ/lrGb6XEnGODeEAY0k/NkUToNVoGjS+b1vCui96blbrKs9LiNjhCQh6FD3hOcMAHY/m
+	xCdNka/uJL5lw1zNPIoVpTmhvnJdwYcKvhNAwG9QDCEQ2G6ws/UE262LJCFm1cH9QKMVvP+H95T
+	8nSHATYoPlytsAgPROGSlAAzgimatepL/dPkXbIriVNbcrtk6n2lE895aZAyPzkbFxIetrMoMhC
+	HMFM8E=
+X-Received: by 2002:a05:6000:1863:b0:44f:ba97:6d8c with SMTP id ffacd0b85a97d-45e5c5cf1a6mr6597732f8f.23.1778866280886;
+        Fri, 15 May 2026 10:31:20 -0700 (PDT)
+Received: from thinkpad ([46.164.90.5])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45da0fe13a7sm17227141f8f.29.2026.05.15.10.31.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 May 2026 10:31:20 -0700 (PDT)
+From: Arash Golgol <arash.golgol@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: paulk@sys-base.io,
+	mchehab@kernel.org,
+	wens@kernel.org,
+	jernej.skrabec@gmail.com,
+	samuel@sholland.org,
+	laurent.pinchart@ideasonboard.com,
+	linux-sunxi@lists.linux.dev,
+	Arash Golgol <arash.golgol@gmail.com>
+Subject: [PATCH v3] media: sun8i-a83t-mipi-csi2: Use V4L2 subdev active state
+Date: Fri, 15 May 2026 21:01:01 +0330
+Message-Id: <20260515173101.8978-1-arash.golgol@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
- <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com> <20260515-hinschauen-effizient-9e3a05a94f2e@brauner>
-In-Reply-To: <20260515-hinschauen-effizient-9e3a05a94f2e@brauner>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Fri, 15 May 2026 10:06:50 -0700
-X-Gm-Features: AVHnY4LllvNrEvKpMMJyjJvPlkuCoR7DSmB99jM3FHC68bpYwfg1MyASdUtT0JM
-Message-ID: <CABdmKX0d6Zsg+_TxXjB80UZR23ZvXzxYoWzORgwmx=ZiuE+Nzw@mail.gmail.com>
-Subject: Re: [PATCH RFC 2/5] dma-heap: charge dma-buf memory via explicit memcg
-To: Christian Brauner <brauner@kernel.org>
-Cc: Albert Esteve <aesteve@redhat.com>, Tejun Heo <tj@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
-	Andrew Morton <akpm@linux-foundation.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, mripard@kernel.org, 
-	echanude@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 1F766554E61
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: D4BFA5555F7
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61763-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[35];
-	FREEMAIL_CC(0.00)[redhat.com,kernel.org,cmpxchg.org,suse.com,lwn.net,linuxfoundation.org,linaro.org,amd.com,linux.dev,linux-foundation.org,collabora.com,arm.com,google.com,paul-moore.com,namei.org,hallyn.com,gmail.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,kvack.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61764-lists,linux-media=lfdr.de];
+	FROM_NEQ_ENVFROM(0.00)[arashgolgol@gmail.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[sys-base.io,kernel.org,gmail.com,sholland.org,ideasonboard.com,lists.linux.dev];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tjmercier@google.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FROM_HAS_DN(0.00)[]
 X-Rspamd-Action: no action
 
-On Fri, May 15, 2026 at 6:53=E2=80=AFAM Christian Brauner <brauner@kernel.o=
-rg> wrote:
->
-> On Tue, May 12, 2026 at 11:10:44AM +0200, Albert Esteve wrote:
-> > On embedded platforms a central process often allocates dma-buf
-> > memory on behalf of client applications. Without a way to
-> > attribute the charge to the requesting client's cgroup, the
-> > cost lands on the allocator, making per-cgroup memory limits
-> > ineffective for the actual consumers.
-> >
-> > Add charge_pid_fd to struct dma_heap_allocation_data. When set to
->
-> Please be aware that pidfds come in two flavors:
->
-> thread-group pidfds and thread-specific pidfds. Make sure that your API
-> doesn't implicitly depend on this distinction not existing.
+Use the V4L2 subdev active state API to store the active format.
+This simplifies the driver not only by dropping the bridge mbus_format
+field, but it also allows dropping the bridge lock, replaced with
+the state lock.
 
-Hi Christian,
+The sun8i-a83t-mipi-csi2 hardware does not perform any format
+conversion. Enforce identical formats on the sink and source pads in
+the set_fmt() and init_state() callbacks.
 
-Memcg is not a controller that supports "thread mode" so all threads
-in a group should belong to the same memcg.
+Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
+---
+Changes in v3:
+ - Fix active state lock leak on runtime PM error path
 
-Checking the flags from pidfd_get_pid would be the best way for an
-explicit check of the pidfd type?
+Changes in v2:
+ - Initialize active state before calling v4l2_subdev_state_get_format()
+ - Fix line wrapping reported by checkpatch
+ - Link to media-ci report: https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/99865145/artifacts/report.htm
 
-> > a valid pidfd, DMA_HEAP_IOCTL_ALLOC resolves the target task's
-> > memcg and charges the buffer there via mem_cgroup_charge_dmabuf()
-> > inside dma_heap_buffer_alloc(). Without charge_pid_fd, and with
-> > the mem_accounting module parameter enabled, the buffer is charged
-> > to the allocator's own cgroup.
-> >
-> > Additionally, commit 3c227be90659 ("dma-buf: system_heap: account for
-> > system heap allocation in memcg") adds __GFP_ACCOUNT to system-heap
-> > page allocations. Keeping __GFP_ACCOUNT would charge the same pages
-> > twice (once to kmem, once to MEMCG_DMABUF), thus remove it and route
-> > all accounting through a single MEMCG_DMABUF path.
-> >
-> > Usage examples:
-> >
-> >   1. Central allocator charging to a client at allocation time.
-> >      The allocator knows the client's PID (e.g., from binder's
-> >      sender_pid) and uses pidfd to attribute the charge:
-> >
-> >        pid_t client_pid =3D txn->sender_pid;
-> >        int pidfd =3D pidfd_open(client_pid, 0);
-> >
-> >        struct dma_heap_allocation_data alloc =3D {
-> >            .len             =3D buffer_size,
-> >            .fd_flags        =3D O_RDWR | O_CLOEXEC,
-> >            .charge_pid_fd   =3D pidfd,
-> >        };
-> >        ioctl(heap_fd, DMA_HEAP_IOCTL_ALLOC, &alloc);
-> >        close(pidfd);
-> >        /* alloc.fd is now charged to client's cgroup */
-> >
-> >   2. Default allocation (no pidfd, mem_accounting=3D1).
-> >      When charge_pid_fd is not set and the mem_accounting module
-> >      parameter is enabled, the buffer is charged to the allocator's
-> >      own cgroup:
-> >
-> >        struct dma_heap_allocation_data alloc =3D {
-> >            .len      =3D buffer_size,
-> >            .fd_flags =3D O_RDWR | O_CLOEXEC,
-> >        };
-> >        ioctl(heap_fd, DMA_HEAP_IOCTL_ALLOC, &alloc);
-> >        /* charged to current process's cgroup */
-> >
-> > Current limitations:
-> >
-> >  - Single-owner model: a dma-buf carries one memcg charge regardless of
-> >    how many processes share it. Means only the first owner (and exporte=
-r)
-> >    of the shared buffer bears the charge.
-> >  - Only memcg accounting supported. While this makes sense for system
-> >    heap buffers, other heaps (e.g., CMA heaps) will require selectively
-> >    charging also for the dmem controller.
-> >
-> > Signed-off-by: Albert Esteve <aesteve@redhat.com>
-> > ---
-> >  Documentation/admin-guide/cgroup-v2.rst |  5 ++--
-> >  drivers/dma-buf/dma-buf.c               | 16 ++++---------
-> >  drivers/dma-buf/dma-heap.c              | 42 +++++++++++++++++++++++++=
-+++++---
-> >  drivers/dma-buf/heaps/system_heap.c     |  2 --
-> >  include/uapi/linux/dma-heap.h           |  6 +++++
-> >  5 files changed, 53 insertions(+), 18 deletions(-)
-> >
-> > diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/ad=
-min-guide/cgroup-v2.rst
-> > index 8bdbc2e866430..824d269531eb1 100644
-> > --- a/Documentation/admin-guide/cgroup-v2.rst
-> > +++ b/Documentation/admin-guide/cgroup-v2.rst
-> > @@ -1636,8 +1636,9 @@ The following nested keys are defined.
-> >               structures.
-> >
-> >         dmabuf (npn)
-> > -             Amount of memory used for exported DMA buffers allocated =
-by the cgroup.
-> > -             Stays with the allocating cgroup regardless of how the bu=
-ffer is shared.
-> > +             Amount of memory used for exported DMA buffers allocated =
-by or on
-> > +             behalf of the cgroup. Stays with the allocating cgroup re=
-gardless
-> > +             of how the buffer is shared.
-> >
-> >         workingset_refault_anon
-> >               Number of refaults of previously evicted anonymous pages.
-> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > index ce02377f48908..23fb758b78297 100644
-> > --- a/drivers/dma-buf/dma-buf.c
-> > +++ b/drivers/dma-buf/dma-buf.c
-> > @@ -181,8 +181,11 @@ static void dma_buf_release(struct dentry *dentry)
-> >        */
-> >       BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
-> >
-> > -     mem_cgroup_uncharge_dmabuf(dmabuf->memcg, PAGE_ALIGN(dmabuf->size=
-) / PAGE_SIZE);
-> > -     mem_cgroup_put(dmabuf->memcg);
-> > +     if (dmabuf->memcg) {
-> > +             mem_cgroup_uncharge_dmabuf(dmabuf->memcg,
-> > +                                       PAGE_ALIGN(dmabuf->size) / PAGE=
-_SIZE);
-> > +             mem_cgroup_put(dmabuf->memcg);
-> > +     }
-> >
-> >       dmabuf->ops->release(dmabuf);
-> >
-> > @@ -764,13 +767,6 @@ struct dma_buf *dma_buf_export(const struct dma_bu=
-f_export_info *exp_info)
-> >               dmabuf->resv =3D resv;
-> >       }
-> >
-> > -     dmabuf->memcg =3D get_mem_cgroup_from_mm(current->mm);
-> > -     if (!mem_cgroup_charge_dmabuf(dmabuf->memcg, PAGE_ALIGN(dmabuf->s=
-ize) / PAGE_SIZE,
-> > -                                   GFP_KERNEL)) {
-> > -             ret =3D -ENOMEM;
-> > -             goto err_memcg;
-> > -     }
-> > -
-> >       file->private_data =3D dmabuf;
-> >       file->f_path.dentry->d_fsdata =3D dmabuf;
-> >       dmabuf->file =3D file;
-> > @@ -781,8 +777,6 @@ struct dma_buf *dma_buf_export(const struct dma_buf=
-_export_info *exp_info)
-> >
-> >       return dmabuf;
-> >
-> > -err_memcg:
-> > -     mem_cgroup_put(dmabuf->memcg);
-> >  err_file:
-> >       fput(file);
-> >  err_module:
-> > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-> > index ac5f8685a6494..ff6e259afcdc0 100644
-> > --- a/drivers/dma-buf/dma-heap.c
-> > +++ b/drivers/dma-buf/dma-heap.c
-> > @@ -7,13 +7,17 @@
-> >   */
-> >
-> >  #include <linux/cdev.h>
-> > +#include <linux/cgroup.h>
-> >  #include <linux/device.h>
-> >  #include <linux/dma-buf.h>
-> >  #include <linux/dma-heap.h>
-> > +#include <linux/memcontrol.h>
-> > +#include <linux/sched/mm.h>
-> >  #include <linux/err.h>
-> >  #include <linux/export.h>
-> >  #include <linux/list.h>
-> >  #include <linux/nospec.h>
-> > +#include <linux/pidfd.h>
-> >  #include <linux/syscalls.h>
-> >  #include <linux/uaccess.h>
-> >  #include <linux/xarray.h>
-> > @@ -55,10 +59,12 @@ MODULE_PARM_DESC(mem_accounting,
-> >                "Enable cgroup-based memory accounting for dma-buf heap =
-allocations (default=3Dfalse).");
-> >
-> >  static int dma_heap_buffer_alloc(struct dma_heap *heap, size_t len,
-> > -                              u32 fd_flags,
-> > -                              u64 heap_flags)
-> > +                              u32 fd_flags, u64 heap_flags,
-> > +                              struct mem_cgroup *charge_to)
-> >  {
-> >       struct dma_buf *dmabuf;
-> > +     unsigned int nr_pages;
-> > +     struct mem_cgroup *memcg =3D charge_to;
-> >       int fd;
-> >
-> >       /*
-> > @@ -73,6 +79,22 @@ static int dma_heap_buffer_alloc(struct dma_heap *he=
-ap, size_t len,
-> >       if (IS_ERR(dmabuf))
-> >               return PTR_ERR(dmabuf);
-> >
-> > +     nr_pages =3D len / PAGE_SIZE;
-> > +
-> > +     if (memcg)
-> > +             css_get(&memcg->css);
-> > +     else if (mem_accounting)
-> > +             memcg =3D get_mem_cgroup_from_mm(current->mm);
-> > +
-> > +     if (memcg) {
-> > +             if (!mem_cgroup_charge_dmabuf(memcg, nr_pages, GFP_KERNEL=
-)) {
-> > +                     mem_cgroup_put(memcg);
-> > +                     dma_buf_put(dmabuf);
-> > +                     return -ENOMEM;
-> > +             }
-> > +             dmabuf->memcg =3D memcg;
-> > +     }
-> > +
-> >       fd =3D dma_buf_fd(dmabuf, fd_flags);
-> >       if (fd < 0) {
-> >               dma_buf_put(dmabuf);
-> > @@ -102,6 +124,9 @@ static long dma_heap_ioctl_allocate(struct file *fi=
-le, void *data)
-> >  {
-> >       struct dma_heap_allocation_data *heap_allocation =3D data;
-> >       struct dma_heap *heap =3D file->private_data;
-> > +     struct mem_cgroup *memcg =3D NULL;
-> > +     struct task_struct *task;
-> > +     unsigned int pidfd_flags;
-> >       int fd;
-> >
-> >       if (heap_allocation->fd)
-> > @@ -113,9 +138,20 @@ static long dma_heap_ioctl_allocate(struct file *f=
-ile, void *data)
-> >       if (heap_allocation->heap_flags & ~DMA_HEAP_VALID_HEAP_FLAGS)
-> >               return -EINVAL;
-> >
-> > +     if (heap_allocation->charge_pid_fd) {
-> > +             task =3D pidfd_get_task(heap_allocation->charge_pid_fd, &=
-pidfd_flags);
->
-> Will always get a thread-group leader pidfd and will fail if this is a
-> thread-specific pidfd. pidfd_open(1234, PIDFD_THREAD) can be used to
-> open a thread-specific pidfd.
->
-> > +             if (IS_ERR(task))
-> > +                     return PTR_ERR(task);
-> > +
-> > +             memcg =3D get_mem_cgroup_from_mm(task->mm);
-> > +             put_task_struct(task);
-> > +     }
-> > +
-> >       fd =3D dma_heap_buffer_alloc(heap, heap_allocation->len,
-> >                                  heap_allocation->fd_flags,
-> > -                                heap_allocation->heap_flags);
-> > +                                heap_allocation->heap_flags,
-> > +                                memcg);
-> > +     mem_cgroup_put(memcg);
-> >       if (fd < 0)
-> >               return fd;
-> >
-> > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heap=
-s/system_heap.c
-> > index 03c2b87cb1112..95d7688167b93 100644
-> > --- a/drivers/dma-buf/heaps/system_heap.c
-> > +++ b/drivers/dma-buf/heaps/system_heap.c
-> > @@ -385,8 +385,6 @@ static struct page *alloc_largest_available(unsigne=
-d long size,
-> >               if (max_order < orders[i])
-> >                       continue;
-> >               flags =3D order_flags[i];
-> > -             if (mem_accounting)
-> > -                     flags |=3D __GFP_ACCOUNT;
-> >               page =3D alloc_pages(flags, orders[i]);
-> >               if (!page)
-> >                       continue;
-> > diff --git a/include/uapi/linux/dma-heap.h b/include/uapi/linux/dma-hea=
-p.h
-> > index a4cf716a49fa6..e02b0f8cbc6a1 100644
-> > --- a/include/uapi/linux/dma-heap.h
-> > +++ b/include/uapi/linux/dma-heap.h
-> > @@ -29,6 +29,10 @@
-> >   *                   handle to the allocated dma-buf
-> >   * @fd_flags:                file descriptor flags used when allocatin=
-g
-> >   * @heap_flags:              flags passed to heap
-> > + * @charge_pid_fd:   optional pidfd of the process whose cgroup should=
- be
-> > + *                   charged for this allocation; 0 means charge the c=
-alling
-> > + *                   process's cgroup
-> > + * @__padding:               reserved, must be zero
-> >   *
-> >   * Provided by userspace as an argument to the ioctl
-> >   */
-> > @@ -37,6 +41,8 @@ struct dma_heap_allocation_data {
-> >       __u32 fd;
-> >       __u32 fd_flags;
-> >       __u64 heap_flags;
-> > +     __u32 charge_pid_fd;
-> > +     __u32 __padding;
-> >  };
-> >
-> >  #define DMA_HEAP_IOC_MAGIC           'H'
-> >
-> > --
-> > 2.53.0
-> >
+ .../sun8i_a83t_mipi_csi2.c                    | 113 +++++++++---------
+ .../sun8i_a83t_mipi_csi2.h                    |   2 -
+ 2 files changed, 56 insertions(+), 59 deletions(-)
+
+diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
+index dbc51daa4fe3..2b7635f3952d 100644
+--- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
++++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
+@@ -144,12 +144,12 @@ sun8i_a83t_mipi_csi2_disable(struct sun8i_a83t_mipi_csi2_device *csi2_dev)
+ }
+ 
+ static void
+-sun8i_a83t_mipi_csi2_configure(struct sun8i_a83t_mipi_csi2_device *csi2_dev)
++sun8i_a83t_mipi_csi2_configure(struct sun8i_a83t_mipi_csi2_device *csi2_dev,
++			       const struct v4l2_mbus_framefmt *mbus_format)
+ {
+ 	struct regmap *regmap = csi2_dev->regmap;
+ 	unsigned int lanes_count =
+ 		csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
+-	struct v4l2_mbus_framefmt *mbus_format = &csi2_dev->bridge.mbus_format;
+ 	const struct sun8i_a83t_mipi_csi2_format *format;
+ 	struct device *dev = csi2_dev->dev;
+ 	u32 version = 0;
+@@ -205,7 +205,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 	struct v4l2_subdev *source_subdev = csi2_dev->bridge.source_subdev;
+ 	union phy_configure_opts dphy_opts = { 0 };
+ 	struct phy_configure_opts_mipi_dphy *dphy_cfg = &dphy_opts.mipi_dphy;
+-	struct v4l2_mbus_framefmt *mbus_format = &csi2_dev->bridge.mbus_format;
++	struct v4l2_subdev_state *state;
++	const struct v4l2_mbus_framefmt *mbus_format;
+ 	const struct sun8i_a83t_mipi_csi2_format *format;
+ 	struct phy *dphy = csi2_dev->dphy;
+ 	struct device *dev = csi2_dev->dev;
+@@ -215,8 +216,12 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 	unsigned long pixel_rate;
+ 	int ret;
+ 
+-	if (!source_subdev)
+-		return -ENODEV;
++	state = v4l2_subdev_lock_and_get_active_state(subdev);
++
++	if (!source_subdev) {
++		ret = -ENODEV;
++		goto unlock;
++	}
+ 
+ 	if (!on) {
+ 		v4l2_subdev_call(source_subdev, video, s_stream, 0);
+@@ -228,7 +233,7 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 
+ 	ret = pm_runtime_resume_and_get(dev);
+ 	if (ret < 0)
+-		return ret;
++		goto unlock;
+ 
+ 	/* Sensor pixel rate */
+ 
+@@ -254,6 +259,9 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 		goto error_pm;
+ 	}
+ 
++	mbus_format =
++		v4l2_subdev_state_get_format(state,
++					     SUN8I_A83T_MIPI_CSI2_PAD_SINK);
+ 	format = sun8i_a83t_mipi_csi2_format_find(mbus_format->code);
+ 	if (WARN_ON(!format)) {
+ 		ret = -ENODEV;
+@@ -292,7 +300,7 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 
+ 	/* Controller */
+ 
+-	sun8i_a83t_mipi_csi2_configure(csi2_dev);
++	sun8i_a83t_mipi_csi2_configure(csi2_dev, mbus_format);
+ 	sun8i_a83t_mipi_csi2_enable(csi2_dev);
+ 
+ 	/* D-PHY */
+@@ -309,7 +317,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ 	if (ret && ret != -ENOIOCTLCMD)
+ 		goto disable;
+ 
+-	return 0;
++	ret = 0;
++	goto unlock;
+ 
+ disable:
+ 	phy_power_off(dphy);
+@@ -318,6 +327,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+ error_pm:
+ 	pm_runtime_put(dev);
+ 
++unlock:
++	v4l2_subdev_unlock_state(state);
+ 	return ret;
+ }
+ 
+@@ -341,22 +352,24 @@ sun8i_a83t_mipi_csi2_mbus_format_prepare(struct v4l2_mbus_framefmt *mbus_format)
+ static int sun8i_a83t_mipi_csi2_init_state(struct v4l2_subdev *subdev,
+ 					   struct v4l2_subdev_state *state)
+ {
+-	struct sun8i_a83t_mipi_csi2_device *csi2_dev =
+-		v4l2_get_subdevdata(subdev);
+-	unsigned int pad = SUN8I_A83T_MIPI_CSI2_PAD_SINK;
+-	struct v4l2_mbus_framefmt *mbus_format =
+-		v4l2_subdev_state_get_format(state, pad);
+-	struct mutex *lock = &csi2_dev->bridge.lock;
++	unsigned int pad;
+ 
+-	mutex_lock(lock);
++	/*
++	 * This subdev does not perform format conversion,
++	 * initialize both pads identically.
++	 */
++	for (pad = 0; pad < subdev->entity.num_pads; pad++) {
++		struct v4l2_mbus_framefmt *mbus_format;
+ 
+-	mbus_format->code = sun8i_a83t_mipi_csi2_formats[0].mbus_code;
+-	mbus_format->width = 640;
+-	mbus_format->height = 480;
++		mbus_format = v4l2_subdev_state_get_format(state, pad);
++
++		mbus_format->code = sun8i_a83t_mipi_csi2_formats[0].mbus_code;
++		mbus_format->width = 640;
++		mbus_format->height = 480;
+ 
+-	sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
++		sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
++	}
+ 
+-	mutex_unlock(lock);
+ 
+ 	return 0;
+ }
+@@ -375,55 +388,33 @@ sun8i_a83t_mipi_csi2_enum_mbus_code(struct v4l2_subdev *subdev,
+ 	return 0;
+ }
+ 
+-static int sun8i_a83t_mipi_csi2_get_fmt(struct v4l2_subdev *subdev,
+-					struct v4l2_subdev_state *state,
+-					struct v4l2_subdev_format *format)
+-{
+-	struct sun8i_a83t_mipi_csi2_device *csi2_dev =
+-		v4l2_get_subdevdata(subdev);
+-	struct v4l2_mbus_framefmt *mbus_format = &format->format;
+-	struct mutex *lock = &csi2_dev->bridge.lock;
+-
+-	mutex_lock(lock);
+-
+-	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
+-		*mbus_format = *v4l2_subdev_state_get_format(state,
+-							     format->pad);
+-	else
+-		*mbus_format = csi2_dev->bridge.mbus_format;
+-
+-	mutex_unlock(lock);
+-
+-	return 0;
+-}
+-
+ static int sun8i_a83t_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
+ 					struct v4l2_subdev_state *state,
+ 					struct v4l2_subdev_format *format)
+ {
+-	struct sun8i_a83t_mipi_csi2_device *csi2_dev =
+-		v4l2_get_subdevdata(subdev);
+-	struct v4l2_mbus_framefmt *mbus_format = &format->format;
+-	struct mutex *lock = &csi2_dev->bridge.lock;
++	struct v4l2_mbus_framefmt *fmt;
+ 
+-	mutex_lock(lock);
++	/* The format on the source pad always matches the sink pad. */
++	if (format->pad != SUN8I_A83T_MIPI_CSI2_PAD_SINK)
++		return v4l2_subdev_get_fmt(subdev, state, format);
+ 
+-	sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
++	sun8i_a83t_mipi_csi2_mbus_format_prepare(&format->format);
+ 
+-	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
+-		*v4l2_subdev_state_get_format(state, format->pad) =
+-			*mbus_format;
+-	else
+-		csi2_dev->bridge.mbus_format = *mbus_format;
++	/* Set the format on the sink pad. */
++	fmt = v4l2_subdev_state_get_format(state, format->pad);
++	*fmt = format->format;
+ 
+-	mutex_unlock(lock);
++	/* Propagate the format to the source pad. */
++	fmt = v4l2_subdev_state_get_format(state,
++					   SUN8I_A83T_MIPI_CSI2_PAD_SOURCE);
++	*fmt = format->format;
+ 
+ 	return 0;
+ }
+ 
+ static const struct v4l2_subdev_pad_ops sun8i_a83t_mipi_csi2_pad_ops = {
+ 	.enum_mbus_code	= sun8i_a83t_mipi_csi2_enum_mbus_code,
+-	.get_fmt	= sun8i_a83t_mipi_csi2_get_fmt,
++	.get_fmt	= v4l2_subdev_get_fmt,
+ 	.set_fmt	= sun8i_a83t_mipi_csi2_set_fmt,
+ };
+ 
+@@ -540,8 +531,6 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t_mipi_csi2_device *csi2_dev)
+ 	bool notifier_registered = false;
+ 	int ret;
+ 
+-	mutex_init(&bridge->lock);
+-
+ 	/* V4L2 Subdev */
+ 
+ 	v4l2_subdev_init(subdev, &sun8i_a83t_mipi_csi2_subdev_ops);
+@@ -570,6 +559,12 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t_mipi_csi2_device *csi2_dev)
+ 	if (ret)
+ 		return ret;
+ 
++	/* V4L2 Subdev finalize */
++
++	ret = v4l2_subdev_init_finalize(subdev);
++	if (ret < 0)
++		goto error_media_entity_cleanup;
++
+ 	/* V4L2 Async */
+ 
+ 	v4l2_async_subdev_nf_init(notifier, subdev);
+@@ -603,6 +598,9 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t_mipi_csi2_device *csi2_dev)
+ error_v4l2_notifier_cleanup:
+ 	v4l2_async_nf_cleanup(notifier);
+ 
++	v4l2_subdev_cleanup(subdev);
++
++error_media_entity_cleanup:
+ 	media_entity_cleanup(&subdev->entity);
+ 
+ 	return ret;
+@@ -617,6 +615,7 @@ sun8i_a83t_mipi_csi2_bridge_cleanup(struct sun8i_a83t_mipi_csi2_device *csi2_dev
+ 	v4l2_async_unregister_subdev(subdev);
+ 	v4l2_async_nf_unregister(notifier);
+ 	v4l2_async_nf_cleanup(notifier);
++	v4l2_subdev_cleanup(subdev);
+ 	media_entity_cleanup(&subdev->entity);
+ }
+ 
+diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.h b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.h
+index f1e64c53434c..819527bcd64d 100644
+--- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.h
++++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.h
+@@ -33,8 +33,6 @@ struct sun8i_a83t_mipi_csi2_bridge {
+ 	struct media_pad		pads[SUN8I_A83T_MIPI_CSI2_PAD_COUNT];
+ 	struct v4l2_fwnode_endpoint	endpoint;
+ 	struct v4l2_async_notifier	notifier;
+-	struct v4l2_mbus_framefmt	mbus_format;
+-	struct mutex			lock; /* Mbus format lock. */
+ 
+ 	struct v4l2_subdev		*source_subdev;
+ };
+-- 
+2.34.1
+
 
