@@ -1,166 +1,168 @@
-Return-Path: <linux-media+bounces-61646-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61647-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QLIBG1XwBmrOowIAu9opvQ
-	(envelope-from <linux-media+bounces-61646-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 12:07:17 +0200
+	id gG8AEH/1Bmo4pgIAu9opvQ
+	(envelope-from <linux-media+bounces-61647-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 12:29:19 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0187854D06B
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 12:07:16 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32D6254D554
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 12:29:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B67D03035B38
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 09:53:26 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id E53FD30698D5
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 09:53:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F4F243E9D6;
-	Fri, 15 May 2026 09:53:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1E223E638C;
+	Fri, 15 May 2026 09:53:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nNthWIfH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oD51zqXL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6796B43DA33
-	for <linux-media@vger.kernel.org>; Fri, 15 May 2026 09:53:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FEEE43E4A6;
+	Fri, 15 May 2026 09:53:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778838804; cv=none; b=tNxaDyanLBwzPRzsJed04ssgaB5k7RPR8AWIDEpQq+RqGqYmXS7oKfvrLrECQb8icTO+r3qzrZNGDmbDfYBpOwteF+tYnLVD/Pk7jKa5agXcvNd2PqxjM/rXaTOAdA50vUx/uM2bmoOu0d606YwL0jCuGCMqYrX9riuUfpXh4Ck=
+	t=1778838810; cv=none; b=IAo/IdT5kqiRkq32/51e5liEdQXU2pzMpIl1XRnHf/JIqAue5LP5gjxxWbGINlynsUExjFAPTKxF1RMXrO/8Qt1hwA8zV5I8e1UcBRaodaQPJIlwxwMHzX9olN4vW1SHNlkgrlRtIxN+ExTT10CqElxKbv9UVdk9PVTnnEcUl5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778838804; c=relaxed/simple;
-	bh=S06a9puuG1cNW+yvSWjSUkTLH+7TpM6XqdcrsoWOrP8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IeXuQvXRTIudcN/yMdK8jt6N5LJ3N6JD7Im0PdaYSWD81hh2rb2JTWY5/9YG2Z9u4ZMT2/mDembXbf2t3WxjDaPR/fCaulvgcYhr4ii3MiN9JxEE0Y0LUcLw+obHhq9aUn1rpbRcxhxH9OXWxlqRbRbdwgoXUrDB5N+gveiXIpk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=nNthWIfH; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:6462:5de2:520d:d7a3:63ca:99e8])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 15282454;
-	Fri, 15 May 2026 11:53:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1778838791;
-	bh=S06a9puuG1cNW+yvSWjSUkTLH+7TpM6XqdcrsoWOrP8=;
-	h=Date:From:To:Cc:Subject:From;
-	b=nNthWIfHy58lrLNV6hxALPuLF9Y8to6mC358Mj+dwuPipVTeymWASRIdrfqzK04Y3
-	 o9c52rQxzWezmpHWAyrLPWokaMN9m8/oNedX8uA+9SV3NB+nZcKYVpZXDvXhYbeYrh
-	 2pRbG/nVs/Mz4tdb82VLNhnQBhDSOPDBMFPe1BUs=
-Date: Fri, 15 May 2026 11:53:17 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Hans Verkuil <hverkuil@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-Subject: [GIT PULL for v7.2] Renesas RZ/V2H(P) media updates
-Message-ID: <agbsLnO-T7xQLaJ4@zed>
+	s=arc-20240116; t=1778838810; c=relaxed/simple;
+	bh=A0YTQ7UkDojF2CD4/8jwh9dUZ30FIIWOA4StnexdvRs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gccNW2LiQXcSG0Rs0DhgGTLiqsxSMEHnuSjiMZYJEVzi86vjF3u8oKF55LxUhxmtnWrsMrSNtaYj/5R/WSTlWGilQ7T8Eoq+krdZMwDeUNi/BSxgGbwE/Q+N4QVlOrCZob+qoMiEzeQ1k2DFX8aCDMRL/D67LK+kEC+OwD6Zprk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oD51zqXL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADFCEC2BCB7;
+	Fri, 15 May 2026 09:53:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778838809;
+	bh=A0YTQ7UkDojF2CD4/8jwh9dUZ30FIIWOA4StnexdvRs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=oD51zqXLZ42q3M97ibmBgqaqDPho0Om0C3rVe6FupKBULF7WZGrN9dW3GnvZ4IRrn
+	 7pJlK8psnpUusrYRgE3MCVwu/nbJdyv0YAP7qqVtrAXt9JFgd04SHNLH1WFxE5HEEZ
+	 2SbYvWDNZiyNAYRLKhJZfgzNVwFDIDot68cVZnrZAoe/NkX2OF/jXV9GxUeh746K+W
+	 ri1XqwWwZA8GJPYadspK0CoPSVeEkGPhNUacNuCtnrneZGz85BV7kTMLlqSOvS9ImJ
+	 1h/zlYptBexyCPXheQnNJn1+CZyNcGnSggzXmz4P+ngoOewG2cFBiM3wOrNnnVJDds
+	 LSo4Ph2bCBvng==
+Message-ID: <3a36e708-6cc2-4041-8750-12b25d050b43@kernel.org>
+Date: Fri, 15 May 2026 10:53:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-X-Rspamd-Queue-Id: 0187854D06B
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 0/8] media: qcom: venus: add MSM8939 support
+To: Erikas Bitovtas <xerikasxx@gmail.com>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+References: <DNbx21zMg31pkwSpiMB9_CkOmf_zlDEkQXoUA-a8l2NewLmiwCe1HyivIJV1oKaYtXo6gTR7qvePk9rqflNU7Q==@protonmail.internalid>
+ <20260514-msm8939-venus-rfc-v7-0-33c6c6fb9285@gmail.com>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=bod@kernel.org; keydata=
+ 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
+In-Reply-To: <20260514-msm8939-venus-rfc-v7-0-33c6c6fb9285@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 32D6254D554
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-61646-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61647-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,oss.qualcomm.com,kernel.org,apitzsch.eu,baylibre.com,redhat.com];
 	MIME_TRACE(0.00)[0:+];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
-Hi Hans, Mauro,
+On 13/05/2026 22:24, Erikas Bitovtas wrote:
+> This patch series adds support for Venus on MSM8939. It is mostly
+> similar to MSM8916 Venus, except it needs two additional cores to be
+> powered on before it can start decoding.
+Stylistic feedback for future reference.
 
-The following changes since commit 10f943b12e7cb338da00f10e129043ae27b33af4:
+- Schema
+- Driver
+- DTS
 
-  media: rzg2l-cru: Add MAINTAINERS entry (2026-05-12 09:39:03 +0200)
+Is the correct stacking for patches. Makes it just a little bit easier 
+to pick and apply, no need to resend for this.
 
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/linux-media/users/jmondi.git tags/mali-ivc-cru-for-v7.2
-
-for you to fetch changes up to d744abbe39d17e49d1e8bb50e0fb2d3b1370c349:
-
-  media: mali-c55: Disable pm_runtime on probe error (2026-05-15 11:20:21 +0200)
-
-----------------------------------------------------------------
-IVC, CRU and Mali-C55 updates for v7.2
-
-Collect patches for the CRU, IVC and Mali C55 camera subsystem for
-Renesas RZ/V2H(P) SoC for Linux v7.2
-
-CI pipeline at
-https://gitlab.freedesktop.org/linux-media/users/jmondi/-/pipelines/1667961
-
-Please ignore the "Missing committer signoff" errors reported from checkpatch:
-https://gitlab.freedesktop.org/linux-media/media-ci/-/work_items/126
-
-----------------------------------------------------------------
-Alper Ak (1):
-      media: mali-c55: Fix possible ERR_PTR in enable_streams
-
-Chen Ni (2):
-      media: mali-c55: Remove unneeded semicolon
-      media: mali-c55: core: Remove redundant dev_err()
-
-Daniel Scally (1):
-      media: rzg2l-cru: Rework rzg2l_cru_fill_hw_slot()
-
-David Carlier (3):
-      media: mali-c55: Add missing of_reserved_mem_device_release()
-      media: mali-c55: Power-off the peripheral in remove()
-      media: mali-c55: Disable pm_runtime on probe error
-
-Jacopo Mondi (13):
-      media: rzg2l-cru: Modernize locking usage with guards
-      media: rzg2l-cru: Use proper guard() in irq handler
-      media: rzg2l-cru: Remove locking from start/stop routines
-      media: rzg2l-cru: Do not use irqsave when not needed
-      media: rzg2l-cru: Remove wrong locking comment
-      media: rz2gl-cru: Introduce a spinlock for hw operations
-      media: rzg2l-cru: Split hw locking from buffers
-      media: rzg2l-cru: Manually track active slot number
-      media: rz2gl-cru: Return pending buffers in order
-      media: rzg2l-cru: Remove the 'state' variable
-      media: rzg2l-cru: Remove debug printouts from irq
-      media: rzg2l-cru: Simplify irq return value handling
-      media: rzv2h-ivc: Wait for frame end in stop_streaming
-
-Tommaso Merciai (2):
-      media: rzg2l-cru: Skip ICnMC configuration when ICnSVC is used
-      media: rzg2l-cru: Use only frame end interrupts
-
-jempty.liang (1):
-      media: mali-c55: Initialise dev for tpg/rsz/isp subdevs
-
- .../media/platform/arm/mali-c55/mali-c55-core.c    |  24 +-
- drivers/media/platform/arm/mali-c55/mali-c55-isp.c |   8 +
- .../media/platform/arm/mali-c55/mali-c55-resizer.c |   1 +
- drivers/media/platform/arm/mali-c55/mali-c55-tpg.c |   1 +
- .../platform/renesas/rzg2l-cru/rzg2l-cru-regs.h    |   4 +-
- .../media/platform/renesas/rzg2l-cru/rzg2l-cru.h   |  29 +-
- .../media/platform/renesas/rzg2l-cru/rzg2l-video.c | 326 ++++++++-------------
- .../platform/renesas/rzv2h-ivc/rzv2h-ivc-video.c   |  31 +-
- 8 files changed, 190 insertions(+), 234 deletions(-)
-
+---
+bod
 
