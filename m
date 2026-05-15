@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-61647-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61648-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gG8AEH/1Bmo4pgIAu9opvQ
-	(envelope-from <linux-media+bounces-61647-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 12:29:19 +0200
+	id iBtFF1L1Bmo4pgIAu9opvQ
+	(envelope-from <linux-media+bounces-61648-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 12:28:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32D6254D554
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 12:29:18 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB5754D545
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 12:28:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E53FD30698D5
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 09:53:39 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 64E36311DB35
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 10:00:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1E223E638C;
-	Fri, 15 May 2026 09:53:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6AA843E4AC;
+	Fri, 15 May 2026 10:00:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oD51zqXL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SsXNGhPT"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FEEE43E4A6;
-	Fri, 15 May 2026 09:53:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F253E6DF5;
+	Fri, 15 May 2026 10:00:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778838810; cv=none; b=IAo/IdT5kqiRkq32/51e5liEdQXU2pzMpIl1XRnHf/JIqAue5LP5gjxxWbGINlynsUExjFAPTKxF1RMXrO/8Qt1hwA8zV5I8e1UcBRaodaQPJIlwxwMHzX9olN4vW1SHNlkgrlRtIxN+ExTT10CqElxKbv9UVdk9PVTnnEcUl5A=
+	t=1778839238; cv=none; b=NtC95Yr5Q7SWaGrQ9r+LM28LsvO7b4RF/urfESuYByy7V8cw2B+iovhWGLxlsPOQJE6jbC8+xm/IJvnYCH1I7X+OEQ6/ejOhfJ9ZmGm/qH9IZn9S8DdY3DtFyFryyvkyXD4IuuzvXCEs0fWBYBVntVNKWu5crBeFrbXdSvhD+W4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778838810; c=relaxed/simple;
-	bh=A0YTQ7UkDojF2CD4/8jwh9dUZ30FIIWOA4StnexdvRs=;
+	s=arc-20240116; t=1778839238; c=relaxed/simple;
+	bh=Q2V5zzYQTstHIPby4irHh2/noctGm88zZ8pnejdCxPQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gccNW2LiQXcSG0Rs0DhgGTLiqsxSMEHnuSjiMZYJEVzi86vjF3u8oKF55LxUhxmtnWrsMrSNtaYj/5R/WSTlWGilQ7T8Eoq+krdZMwDeUNi/BSxgGbwE/Q+N4QVlOrCZob+qoMiEzeQ1k2DFX8aCDMRL/D67LK+kEC+OwD6Zprk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oD51zqXL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADFCEC2BCB7;
-	Fri, 15 May 2026 09:53:22 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=BEqr9K3mhiTEOm0psrci2R7PRExvRpdSvt6qsgN9vUgXOuViCUOzcsCQhO8L9qqNJjOOZyL6zxtn9tIVlw7lvizAkuoEkxXyuHBtD49C5W574l/wTXxaj4WeL3yEt6AcGxBNP1rl81yvSmxQIYOWk6IBLOWRGw9u7xnPIvq+gxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SsXNGhPT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28403C2BCB0;
+	Fri, 15 May 2026 10:00:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778838809;
-	bh=A0YTQ7UkDojF2CD4/8jwh9dUZ30FIIWOA4StnexdvRs=;
+	s=k20201202; t=1778839237;
+	bh=Q2V5zzYQTstHIPby4irHh2/noctGm88zZ8pnejdCxPQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oD51zqXLZ42q3M97ibmBgqaqDPho0Om0C3rVe6FupKBULF7WZGrN9dW3GnvZ4IRrn
-	 7pJlK8psnpUusrYRgE3MCVwu/nbJdyv0YAP7qqVtrAXt9JFgd04SHNLH1WFxE5HEEZ
-	 2SbYvWDNZiyNAYRLKhJZfgzNVwFDIDot68cVZnrZAoe/NkX2OF/jXV9GxUeh746K+W
-	 ri1XqwWwZA8GJPYadspK0CoPSVeEkGPhNUacNuCtnrneZGz85BV7kTMLlqSOvS9ImJ
-	 1h/zlYptBexyCPXheQnNJn1+CZyNcGnSggzXmz4P+ngoOewG2cFBiM3wOrNnnVJDds
-	 LSo4Ph2bCBvng==
-Message-ID: <3a36e708-6cc2-4041-8750-12b25d050b43@kernel.org>
-Date: Fri, 15 May 2026 10:53:20 +0100
+	b=SsXNGhPTTBj8x/lnjvsmS+J3Dn0Xqib+Dm7QN98RT+MJT1gWZ/PAIxbKXYKyN2DaW
+	 J/JFpjFVsw9VbZE9h47wWq2/VLcNPrlM3B43nG25HCAPR8Z2ugZBL6gMt6xeCE5CGh
+	 +aidqiAMlmll/u3QGap+L4s4Q1sEqWJ2u9+fMxVG01saUimIy6W47LxLFJhWrsXeQh
+	 h782Wvi2rgPdI+YWOcOJMcIKyas5WPVK2hkR87ChxJOaYhVAiEQrv0uhjogE7lXhG1
+	 BSPage2dyx341Khe0hHanwibq0oSoqx4QV76JGgl55JHUSekb5iowMsi4WkgrFGcFz
+	 AES9vK+KDi2bQ==
+Message-ID: <ab53da53-6ac9-472d-990c-2b1c1a24b5cd@kernel.org>
+Date: Fri, 15 May 2026 11:00:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,7 +53,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 0/8] media: qcom: venus: add MSM8939 support
+Subject: Re: [PATCH v7 5/8] clk: qcom: gcc-msm8939: mark Venus core GDSCs as
+ hardware controlled
 To: Erikas Bitovtas <xerikasxx@gmail.com>,
  Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
  Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
@@ -67,10 +68,10 @@ To: Erikas Bitovtas <xerikasxx@gmail.com>,
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <DNbx21zMg31pkwSpiMB9_CkOmf_zlDEkQXoUA-a8l2NewLmiwCe1HyivIJV1oKaYtXo6gTR7qvePk9rqflNU7Q==@protonmail.internalid>
- <20260514-msm8939-venus-rfc-v7-0-33c6c6fb9285@gmail.com>
+ phone-devel@vger.kernel.org
+References: <20260514-msm8939-venus-rfc-v7-0-33c6c6fb9285@gmail.com>
+ <FvPvB-7HEPn9CgPmnQIiAkOMR1i2cxrrmltn8TNoIyLJzQLAv03h89xwZZvIw-YRXg4pqAvsao50Z6t0bOPnIg==@protonmail.internalid>
+ <20260514-msm8939-venus-rfc-v7-5-33c6c6fb9285@gmail.com>
 From: Bryan O'Donoghue <bod@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=bod@kernel.org; keydata=
@@ -116,28 +117,28 @@ Autocrypt: addr=bod@kernel.org; keydata=
  LKSGEglMpiX07M1AotgvylN5C8fjbouoK+/RAMsXkk8jba6rPfuuXPaDjCyyKn6zSVHETnHW
  3AJbgVY50T8STpnxayBQvWbCvu+6NOEjXCbyaOJig+5l0zlGN9XHjdANXC5HnwmyaGRL9YDq
  Jh2nVXVJDincOdQRdKcJjYLqaOAoWrYWSDi1iZGspHBTDrnOvfMQzzHY
-In-Reply-To: <20260514-msm8939-venus-rfc-v7-0-33c6c6fb9285@gmail.com>
+In-Reply-To: <20260514-msm8939-venus-rfc-v7-5-33c6c6fb9285@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 32D6254D554
+X-Rspamd-Queue-Id: CDB5754D545
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61647-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-61648-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com,oss.qualcomm.com,kernel.org,apitzsch.eu,baylibre.com,redhat.com];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
@@ -146,22 +147,30 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	RCPT_COUNT_TWELVE(0.00)[20];
 	TO_DN_SOME(0.00)[]
 X-Rspamd-Action: no action
 
 On 13/05/2026 22:24, Erikas Bitovtas wrote:
-> This patch series adds support for Venus on MSM8939. It is mostly
-> similar to MSM8916 Venus, except it needs two additional cores to be
-> powered on before it can start decoding.
-Stylistic feedback for future reference.
+> Since in downstream kernel VENUS_CORE0_GDSC and VENUS_CORE1_GDSC have a
+> device tree property "qcom,supports-hw-trigger", add a HW_CTRL_TRIGGER
+> flag to these GDSCs to indicate that their control can be passed to
+> hardware.
+> 
+> Signed-off-by: Erikas Bitovtas<xerikasxx@gmail.com>
+> ---
 
-- Schema
-- Driver
-- DTS
+I'm going to push back on this wording.
 
-Is the correct stacking for patches. Makes it just a little bit easier 
-to pick and apply, no need to resend for this.
+Take ownership of the proposed solution. "Do what downstream does" is 
+cargo-cultism. You have spotted a flag in downstream and tested your 
+code with/without the change, clearly demonstrating that HW_CTRL_TRIGGER 
+is required.
+
+Downstream is irrelevant. Your testing and imprimatur are all that is 
+relevant to the commit log.
+
+Please fix.
 
 ---
 bod
