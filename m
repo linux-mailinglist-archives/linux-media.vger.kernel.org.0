@@ -1,1874 +1,3172 @@
-Return-Path: <linux-media+bounces-61809-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61810-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MNcGH119CGqBsAMAu9opvQ
-	(envelope-from <linux-media+bounces-61809-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 16:21:17 +0200
+	id QMdDBbKKCGonugMAu9opvQ
+	(envelope-from <linux-media+bounces-61810-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 17:18:10 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2EFD55C094
-	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 16:21:16 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B15C55C4C7
+	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 17:18:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6BAC6302A07E
-	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 14:19:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 60D26301D32E
+	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 15:17:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C39002848A7;
-	Sat, 16 May 2026 14:19:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 000C23A3E73;
+	Sat, 16 May 2026 15:17:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fjVIuiqw"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="aEFcG/Wu";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PnQ+kSDw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBCD122D4E9;
-	Sat, 16 May 2026 14:19:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45ED91A9FB7;
+	Sat, 16 May 2026 15:17:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778941196; cv=none; b=XRAoLp2hJu9kZh9IHycehDIPdjABGhu8Rkq6NE295+bC3RgdGH9A909tLMCOQQWBZmeYyo1lZSK/MEjopM+nP9POu13UZg7nobk0uJt7x7D3ItZgZOEZI/dVDeui6RtgqrZZOxjzV2NfdQQe+fRP0o3/NcOWnBUnXpWK9+knocw=
+	t=1778944649; cv=none; b=tfbuN4EVSxwEgidDza1QIUtjC7yvg3XSeM+SxzP/FJaPl+JCEhXwsOQW58usaQ5mdK72yrVPXGVHsGVjSpzNmHZBB7jOWvq5ae4PLgMAoeoK2V6Vzfiwk7W320PZvQGzZv+/fZawTw5kj8fh6yk2GBDOV7VBgYAFxILE9OT+cwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778941196; c=relaxed/simple;
-	bh=zFyJ8dBK1PH7MW36jaDZvoNpA8rIhA+auE2R6n5NKLo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=H7mQqHlgMs0fx5cYf7RLBQtCmmJYPMr5HyyRPQfXEIrPnXMZWgX3ku9Tti729AW6nXxKwnQW+H3MeQWt6OXZ0/wSGLtNmUdKys107dwPTmkcLGpAOnuAuKOx2/K5Ga3zE/s00A98FzFJhMPS1Gmy2M7Hx1D71+zP9VZ9M1CPpe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fjVIuiqw; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c69:1da4:3c70:f102:9ea:5df7])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7D1B9229;
-	Sat, 16 May 2026 16:19:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1778941180;
-	bh=zFyJ8dBK1PH7MW36jaDZvoNpA8rIhA+auE2R6n5NKLo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=fjVIuiqw8RHUiQgIOZQbTOUDb0iRp4mjfu8QCbcxFwtN3UeW3z5blM7smHeZLz+4L
-	 qwvcCDTbX5r0eEKu+d52k/Eu6V0b1lr4WJrPB950zTggm602J0x5DkAG6tkLNpH+jT
-	 lf8Cpf9c96XWdq/I4ZmgKhbGjLLHLk0Oo8pvaYfk=
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Sat, 16 May 2026 19:49:11 +0530
-Subject: [PATCH v2 2/2] media: i2c: imx678: Add driver for Sony IMX678
+	s=arc-20240116; t=1778944649; c=relaxed/simple;
+	bh=P1gVwa41mlBa/3cmuFPrVabpCvkixXwuWxGKe05UCjw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TcmvONuzxd0EZxn+B0ujH4upM/JFQrZzHhn2IsbY2AeCUpDWn+cQcpFs723grh08758O6q7FlzNxF4XpzwMkl4WLr0+nxl4Nv3RSVW1ySARWxEfPRG4Fd5cWND/l+3Z1L7beyyfgbL8mZQbDGgh7h0tOlgHBEVei/TZYkFZ73gE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=aEFcG/Wu; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PnQ+kSDw; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfout.stl.internal (Postfix) with ESMTP id E93721D000C4;
+	Sat, 16 May 2026 11:17:21 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-10.internal (MEProxy); Sat, 16 May 2026 11:17:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1778944641;
+	 x=1779031041; bh=BaNdm1LUbyzIjKaQxHuFAw4cIZgluE8arkjVsSI7Xm0=; b=
+	aEFcG/WuPz//VldNf3owAPV9mcihNM75eFQBRnW6l5ybfjuTMnBzvrwBZKYXSBkA
+	eszNdETmnCojSuqgC/jA7X/KuByHNX09DvUpBL3VxQcOD3HFzqYloqtJsxd9NCzK
+	VxSm1GUWjLIddSoF2w4Bedpf2LFU1wVCDi+FlwUuIfMIq12PTyuOLYlM8ESDmlL2
+	hgbqAku/Cl1+WpAqfQbpQ+V52i9nbHFmAQoGn8nOEVya1XzLf2fjKp0eoSH5V4pN
+	50wwRxMGm02RTqt7bEN2K1ejFdO/8AUToicDf8t1ox3AO/I5BllU/vxPZpMZGimq
+	3yMqKT7J6FIkZoK3GPDjJw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1778944641; x=
+	1779031041; bh=BaNdm1LUbyzIjKaQxHuFAw4cIZgluE8arkjVsSI7Xm0=; b=P
+	nQ+kSDwPi8Lqu5YdbOJztrfY3x576Nja6anr2G5m5w5fPIA8K2MyyS9cxzl49u/f
+	W7foCqx8cr2XqvMTRL/nI7Hpc/1aKNhzWu9QmgZiHljvxTZ5+1hspxbSW6625NOJ
+	h/jiVJy5GZ+OjMfcsi46/JvwdRtcNp3v1VCZ/oEK9DRfILBPJroZCqvEjfIghrlD
+	UHk209JQm2n1XQE4OaORi/hs06Vsj5bn38Fza0DZso7GSG/8muLiTdUV5t+/CIN9
+	X/Ztm7NhJSNn1yhzwdkDy+5Z7AO8UT1HwlKPqJzEggbIpy1aiUIzUr+Y2hXA34Nv
+	vKOZnPgFzJ3AFwtGl1pew==
+X-ME-Sender: <xms:gYoIatiyH6XKC9XP31ayf5N8KFOw1mW8kNh0PDIpTBC8clz8Len7gg>
+    <xme:gYoIauAzBdllZ0auolIi2lO92QLm5GRuYwTW8JRKSHc1r5dz4OIaAf7wD7r9IFqlZ
+    ilr8F5RW4RIhMowcERsYmRBtpAEUDdABvIkDQhDi-UQD6aMQh-HOd4>
+X-ME-Received: <xmr:gYoIavSmFamzGbTFEYEqiboSl2EDltrJDESQay7uVn2PybwOjTUjL5abOJsOZD3pWwKuy4d_6jAIXuQecw78slJ0WdUV5ZZAAEah>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddufeefiedvucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgr
+    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
+    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefjeeiieetueek
+    ffehhfegfffhleeffefgheelhfffkeehteejfeehueevlefhjeenucffohhmrghinhepih
+    guvggrshhonhgsohgrrhgurdgtohhmpdhlihhnuhigthhvrdhorhhgnecuvehluhhsthgv
+    rhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvg
+    hrlhhunhguodhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthht
+    ohepkedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepjhgrtghophhordhmohhnug
+    hisehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehjrghirdhluhhthhhr
+    rgdorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepmh
+    gthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhunhhinhhorhhirdhm
+    ohhrihhmohhtohdrghigsehrvghnvghsrghsrdgtohhmpdhrtghpthhtoheplhgruhhrvg
+    hnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthho
+    pehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
+    eplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdp
+    rhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:gYoIajUu2yWFtbX1_4ZzjGOiWiBlbWmnnPIqcsqMFhrNP7WCPQMJbQ>
+    <xmx:gYoIaocf0B88l3yHcQVR7XTFGTP4zPGPU9CH9oyAdCSe9njKtRuhZA>
+    <xmx:gYoIavJr8be43EZUe2rQ0ayTQdRb6GozEdkcLvSUAkHAgYIRnqljNg>
+    <xmx:gYoIatyRXhnLoFxchOzpYVATAqj6Zw4uhza-7lXT7hEy4WBR-HE4Pw>
+    <xmx:gYoIap43ZwWD0baFsZjEyAhh0HscvEQLCIj8EHVdhGpJIhmWFtzJzWQ4>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 16 May 2026 11:17:20 -0400 (EDT)
+Date: Sat, 16 May 2026 17:17:18 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Jai Luthra <jai.luthra+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [v8 02/14] media: rppx1: Add framework to support Dreamchip
+ RPPX1 ISP
+Message-ID: <20260516151718.GV332351@ragnatech.se>
+References: <20260504010556.2796398-1-niklas.soderlund+renesas@ragnatech.se>
+ <20260504010556.2796398-3-niklas.soderlund+renesas@ragnatech.se>
+ <afrxmrw2BZLT1tRJ@zed>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260516-imx678-v2-2-4854ac61d6fb@ideasonboard.com>
-References: <20260516-imx678-v2-0-4854ac61d6fb@ideasonboard.com>
-In-Reply-To: <20260516-imx678-v2-0-4854ac61d6fb@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Jai Luthra <jai.luthra@ideasonboard.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=52843;
- i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=zFyJ8dBK1PH7MW36jaDZvoNpA8rIhA+auE2R6n5NKLo=;
- b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBqCHzzc2Je+R5KrZ2d3qSqM9UYY04p+OseQihDj
- KOBpIt7pb6JAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCagh88wAKCRBD3pH5JJpx
- RZerD/4xvzZakg8ANQFUiHVT1Hs8Ijeo9EdntI+qePIbnjoL7bOkgjDJ7543KGRdtCTQMgLOA3a
- LK9OPJyQhC7aa5+9xx9RDbYuq+FE1hj9t3bgR0ITnt4lxg1DrrZaCfErzqKVzIZ464QrP4jXRBr
- rd3gIFQXMnjt0FDUNLkOcCfW79lOWu0WwEoKA7b1uR3csODcFkHOawaKG+obxhaK66AKVtxObf+
- YXW+PcMfsZ2kOaPNZYKfJU5qSHyBC847Y1Q28zSzsu6iEBL/GGJsU6QO+cRGVBvf+ZLJyemb+Tw
- tPnEh80J4rNNxB1xWYBh1kEJgXmJD5tU7P3+BIJ8dXfqub+L7HFlEkxvtrlYAOlVSs+DQIlu6DH
- mQgTM/uYaIAb7TSwuzIdhyRlEFQqSNDU5997EFdLStJnWFwAaPRE3n2DZq+xSa7hVYm1iRRooEj
- nq9qtHRsi8sCCpSs/RM+O5p9/0En/3IIGV6naqHhplSrmvPYcis04rPtBsAoAyWnDI1fjDW9ViI
- LkFVXKVqLV1pB89isN7nn2Ru4Pb1A50OWFh92JYeAFAMaXOnu/+WvcVk0Z03XxPUq9TzJpPe1Ad
- GhaPXamIYVnYepk7rbVGFiZeXlYZRF6jZxHXcrMWunambX9IpN0Om1pLpCfpLFwbSCzZt5ay4zX
- qqIObQhj/kFtiYg==
-X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
- fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
-X-Rspamd-Queue-Id: A2EFD55C094
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <afrxmrw2BZLT1tRJ@zed>
+X-Rspamd-Queue-Id: 0B15C55C4C7
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm2,messagingengine.com:s=fm3];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-61809-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61810-lists,linux-media=lfdr.de,renesas];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[willwhang.com:email,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,imx678_active_area.top:url]
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,ideasonboard.com:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,lists.freedesktop.org:email,messagingengine.com:dkim,ragnatech.se:email,ragnatech.se:mid,ragnatech.se:dkim]
 X-Rspamd-Action: no action
 
-Add a V4L2 subdev driver for the Sony IMX678 image sensor.
+Hello Jacopo,
 
-IMX678 is a diagonal 8.86 mm (Type 1/1.8) CMOS active pixel type
-solid-state image sensor with a square pixel array and 8.40 M effective
-pixels.
+Thanks for your review effort.
 
-The following features are supported by the driver:
-- Monochrome and Color (Bayer filter) variants
-- Multiple input clock frequencies supported
-- Multiple link frequencies supported
-- VBLANK and HBLANK control for variable framerate
-- Freely configurable resolution through S_FMT ioctl
-- Freely configurable crop through S_SELECTION ioctl
-- 2x2 binning configurable via S_FMT/S_SELECTION APIs
-- VFLIP and HFLIP control for flipping readout
-- Test pattern control support
-- Exposure and gain control
-- MIPI RAW12 output
+Let me start of apologizing for not adding all the correct Co-Developed 
+tags. This will be fixed in the next version.
 
-Following features are not currently supported but may be added later:
-- Pixel-perfect crop reporting, account for the shift-by-1 when flipping
-  using HFLIP/VFLIP, which maintains the bayer readout order
-- Increased framerate (lower HMAX/VMAX) when cropping
-- MIPI RAW10 output mode
-- Embedded data stream
+On 2026-05-06 10:53:19 +0200, Jacopo Mondi wrote:
+> Hi Niklas
+> 
+> On Mon, May 04, 2026 at 03:05:44AM +0200, Niklas Söderlund wrote:
+> > Add a framework driver for Dreamchip RPPX1 ISP. The driver aims to
+> > provide a framework for other V4L2 based drivers to drive the RPPX1
+> > functionality. The reason for this split is that the RPPX1 IP itself do
+> > not provide any DMA engines to drive data to/from the device, instead it
+> > depends on other IP blocks to implement these features.
+> >
+> > While the peripherals around the RPPX1 ISP used in different designs and
+> > by different vendors are different the RPPX1 core itself is the same.
+> > For this reason the framework solution to be able to split the Dreamchip
+> > RPPX1 driver from vendors usage of it have been picked in hope to reduce
+> > duplication of the common parts.
+> >
+> > The design is to try and keep the surface of this framework as small as
+> > possible. The intention of this change is to be able to fill all needs
+> > of this.
+> >
+> >   * Two functions to create and destroy a RPPX1 instance, rppx1_create()
+> >     and rppx1_destory(). These are intended to be called in the users
+> >     probe and remove code paths.
+> >
+> >   * Two functions to start and stop the RPPX1 processing, rppx1_start()
+> >     and rppx1_stop(). These are intended to be called in the users
+> >     stream on and stream off code paths.
+> >
+> >   * One function to ask the RPPX1 to process parameters buffer prepared
+> >     by user space, rppx1_params(). The intention is to call this
+> >     function when the parameter buffer is queued to the V4L2 driver and
+> >     the result stored by the driver until the time it needs to be
+> >     written to the RPPX1. It's the users responsibility to write it
+> >     either using MMIO or other means.
+> >
+> >   * One function to fill in a statistic buffer based on the current
+> >     status of the RPPX1, rppx1_stats_fill_isr(). The intention is that
+> >     the user call's this in its interrupt handler when it knows the
+> >     RPPX1 is done processing a frame.
+> >
+> >   * One function to ack and retrieve the interrupts generated by the
+> >     RPPX1, rppx1_interrupt(). The intention is to call this function
+> >     when the users interrupt handler detects the RPPX1 have raised and
+> >     interrupt. There is no need for the user to understand, or act, on
+> >     the actual RPPX1 interrupt, but it can if it wants too.
+> >
+> > The initial support in the framework is limited and do not implement any
+> > ISP processing algorithms other then configuring the RPPX1 to process
+> > any Bayer (8-, 10, or 12-bit) image and produce either a RGB or YUYV
+> > output. It do however probe all function blocks of the RPPX1 and provide
+> > an interface to interact with both parameter and statistic bufferers.
+> > The user of the framework will not change as algorithms for the
+> > different function blocks of the ISP are being added.
+> >
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > Signed-off-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
+> > ---
+> > * Changes since v7
+> > - Merge with fixups done before the pixel format change.
+> 
+> Me and Jai have piled almost 60 fixup commits here
+> https://git.ideasonboard.com/renesas-v4h-isp/linux/commits/branch/v4h/jmondi/rppx1
+> 
+> which include the introduction of the uAPI header and porting of the
+> driver to new uAPI. I think it's fair to ask for this work to be
+> recorded even if it won't be visible upstream:
+> 
+> Please add:
+> 
+> Co-developed-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
+> Signed-off-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
+> Co-developed-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
----
-Changes in v2:
-- Treat the pixel rate as a fixed sensor property rather than deriving
-  it from link frequency and bit depth. Removes the iclk<->pixel
-  conversion helpers, instead using a fixed 8x ratio.
-- Express HBLANK in pixels with a step of 8.
-- Make VBLANK step = 2 and rewrite the exposure register when VBLANK
-  changes, so the effective exposure does not silently shift.
-- Fix power sequencing: hold the sensor in reset until power_on, add the
-  missing post-reset delay, and disable the clock before the regulators
-  on power_off.
-- Drop the "common regs written" flag, program them in power_on.
-- Add variant match data and cross-check the register-reported type
-  against DT; rename detect() to identify_model().
-- Use v4l2_link_freq_to_bitmap() and expose the full link frequency menu
-  with the configured one as the selected RO option.
-- Drop unused includes and defines, misc cleanups
-- Kconfig: depend on OF_GPIO
----
- MAINTAINERS                |    1 +
- drivers/media/i2c/Kconfig  |   11 +
- drivers/media/i2c/Makefile |    1 +
- drivers/media/i2c/imx678.c | 1649 ++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 1662 insertions(+)
+Indeed, thanks for pointing this out. I already added Jai on most parts 
+when squashing in the changes. I did not have your SoB from the patches 
+so did not feel comfortable adding you without it, will do for all 
+patches in this series as you also helped here and there when working on 
+the VSPX!
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6b368345a771..2cc6913fa058 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -24916,6 +24916,7 @@ M:	Jai Luthra <jai.luthra@ideasonboard.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/media/i2c/sony,imx678.yaml
-+F:	drivers/media/i2c/imx678.c
- 
- SONY MEMORYSTICK SUBSYSTEM
- M:	Maxim Levitsky <maximlevitsky@gmail.com>
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 8f2ba4121586..26b938466825 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -287,6 +287,17 @@ config VIDEO_IMX415
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called imx415.
- 
-+config VIDEO_IMX678
-+	tristate "Sony IMX678 sensor support"
-+	depends on OF_GPIO
-+	select V4L2_CCI_I2C
-+	help
-+	  This is a Video4Linux2 sensor driver for the Sony
-+	  IMX678 camera.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called imx678.
-+
- config VIDEO_MAX9271_LIB
- 	tristate
- 
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index 90b276a7417a..d9d9a6512875 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -61,6 +61,7 @@ obj-$(CONFIG_VIDEO_IMX335) += imx335.o
- obj-$(CONFIG_VIDEO_IMX355) += imx355.o
- obj-$(CONFIG_VIDEO_IMX412) += imx412.o
- obj-$(CONFIG_VIDEO_IMX415) += imx415.o
-+obj-$(CONFIG_VIDEO_IMX678) += imx678.o
- obj-$(CONFIG_VIDEO_IR_I2C) += ir-kbd-i2c.o
- obj-$(CONFIG_VIDEO_ISL7998X) += isl7998x.o
- obj-$(CONFIG_VIDEO_KS0127) += ks0127.o
-diff --git a/drivers/media/i2c/imx678.c b/drivers/media/i2c/imx678.c
-new file mode 100644
-index 000000000000..c3cb45eadc90
---- /dev/null
-+++ b/drivers/media/i2c/imx678.c
-@@ -0,0 +1,1649 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * V4L2 driver for Sony IMX678
-+ *
-+ * Diagonal 8.86 mm (Type 1/1.8) CMOS image sensor with 8.40 M effective pixels.
-+ *
-+ * Copyright (C) 2026 Ideas On Board Oy.
-+ *
-+ * Based on Sony IMX678 driver prepared by Will Whang & Soho Enterprise Ltd.
-+ */
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_graph.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
-+#include <media/v4l2-cci.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-event.h>
-+#include <media/v4l2-fwnode.h>
-+#include <media/v4l2-mediabus.h>
-+#include <media/v4l2-rect.h>
-+#include <media/v4l2-subdev.h>
-+
-+/* Standby or streaming mode */
-+#define IMX678_REG_MODE_SELECT          CCI_REG8(0x3000)
-+#define IMX678_MODE_STANDBY             0x01
-+#define IMX678_MODE_STREAMING           0x00
-+#define IMX678_STREAM_DELAY_US          25000
-+#define IMX678_STREAM_DELAY_RANGE_US    1000
-+
-+/* XVS/XHS sync control */
-+#define IMX678_REG_XMSTA                CCI_REG8(0x3002)
-+#define IMX678_REG_XXS_DRV              CCI_REG8(0x30A6)
-+#define IMX678_REG_XXS_OUTSEL           CCI_REG8(0x30A4)
-+
-+/* Clk selection */
-+#define IMX678_REG_INCK_SEL             CCI_REG8(0x3014)
-+
-+/* Link Speed */
-+#define IMX678_REG_DATARATE_SEL         CCI_REG8(0x3015)
-+
-+/* Lane Count */
-+#define IMX678_REG_LANEMODE             CCI_REG8(0x3040)
-+
-+/*
-+ * The internal readout clock runs at 74.25 Hz. In one cycle the AD reads 8
-+ * pixels, thus giving us a rate of 74.25 * 8 = 594 MPix/s
-+ */
-+#define IMX678_PIXEL_RATE		594000000
-+#define IMX678_PIX_PER_CLK		8
-+
-+/* VMAX - Frame Length in Lines */
-+#define IMX678_REG_VMAX                 CCI_REG24_LE(0x3028)
-+#define IMX678_VMAX_MAX                 0xfffff
-+#define IMX678_VMAX_DEFAULT             2250
-+
-+/* HMAX - Line Length in Cycles (8 Pixels) */
-+#define IMX678_REG_HMAX                 CCI_REG16_LE(0x302C)
-+#define IMX678_HMAX_MAX                 0xffff
-+
-+/* SHR internal */
-+#define IMX678_REG_SHR                  CCI_REG24_LE(0x3050)
-+#define IMX678_SHR_MIN                  8
-+
-+/* Exposure control */
-+#define IMX678_EXPOSURE_MIN             2
-+#define IMX678_EXPOSURE_STEP            1
-+#define IMX678_EXPOSURE_DEFAULT         1000
-+
-+/* Analog gain control */
-+#define IMX678_REG_ANALOG_GAIN          CCI_REG16_LE(0x3070)
-+#define IMX678_ANA_GAIN_MIN_NORMAL      0
-+#define IMX678_ANA_GAIN_MAX_NORMAL      240
-+#define IMX678_ANA_GAIN_STEP            1
-+#define IMX678_ANA_GAIN_DEFAULT         0
-+
-+/* Crop */
-+#define IMX678_REG_WINMODE		CCI_REG8(0x3018)
-+#define IMX678_REG_PIX_HST		CCI_REG16_LE(0x303c)
-+#define IMX678_REG_PIX_HWIDTH		CCI_REG16_LE(0x303e)
-+#define IMX678_REG_PIX_VST		CCI_REG16_LE(0x3044)
-+#define IMX678_REG_PIX_VWIDTH		CCI_REG16_LE(0x3046)
-+
-+/* Flip */
-+#define IMX678_REG_WINMODEH             CCI_REG8(0x3020)
-+#define IMX678_REG_WINMODEV             CCI_REG8(0x3021)
-+
-+/* Sensor Identification */
-+#define IMX678_REG_MONOCHROME		CCI_REG8(0x4D18)
-+#define IMX678_TYPE			BIT(0)
-+#define IMX678_REG_MODULE_ID		CCI_REG16_LE(0x4D1C)
-+#define IMX678_ID			0x02a6
-+#define IMX678_MODULE_ID_DELAY		80000
-+
-+/* Common configuration registers */
-+#define IMX678_REG_WDMODE               CCI_REG8(0x301A)
-+#define IMX678_REG_ADDMODE              CCI_REG8(0x301B)
-+#define IMX678_REG_THIN_V_EN            CCI_REG8(0x301C)
-+#define IMX678_REG_VCMODE               CCI_REG8(0x301E)
-+#define IMX678_REG_ADBIT                CCI_REG8(0x3022)
-+#define IMX678_REG_MDBIT                CCI_REG8(0x3023)
-+#define IMX678_REG_GAIN_PGC_FIDMD       CCI_REG8(0x3400)
-+
-+/* Test pattern generator */
-+#define IMX678_REG_TPG_EN_DUOUT		CCI_REG8(0x30E0)
-+#define IMX678_REG_TPG_PATSEL_DUOUT	CCI_REG8(0x30E2)
-+#define IMX678_TPG_ALL_000		0
-+#define IMX678_TPG_ALL_FFF		1
-+#define IMX678_TPG_ALL_555		2
-+#define IMX678_TPG_ALL_AAA		3
-+#define IMX678_TPG_TOG_555_AAA		4
-+#define IMX678_TPG_TOG_AAA_555		5
-+#define IMX678_TPG_TOG_000_555		6
-+#define IMX678_TPG_TOG_555_000		7
-+#define IMX678_TPG_TOG_000_FFF		8
-+#define IMX678_TPG_TOG_FFF_000		9
-+#define IMX678_TPG_H_COLOR_BARS		10
-+#define IMX678_TPG_V_COLOR_BARS		11
-+#define IMX678_REG_TPG_COLORWIDTH	CCI_REG8(0x30E4)
-+#define IMX678_TPG_COLORWIDTH_80PIX	0
-+#define IMX678_TPG_COLORWIDTH_160PIX	1
-+#define IMX678_TPG_COLORWIDTH_320PIX	2
-+#define IMX678_TPG_COLORWIDTH_640PIX	3
-+
-+#define IMX678_REG_INTERFACE_SEL	CCI_REG8(0x4E3C)
-+#define IMX678_INTERFACE_2L_4L		0x07
-+#define IMX678_INTERFACE_8L_2x4L	0x7f
-+
-+/* Minimum output resolution */
-+#define IMX678_PIXEL_ARRAY_MIN_WIDTH	128
-+#define IMX678_PIXEL_ARRAY_MIN_HEIGHT	96
-+
-+/* Sensor windowing register alignment */
-+#define IMX678_CROP_HWIDTH_ALIGN	16
-+#define IMX678_CROP_VWIDTH_ALIGN	4
-+#define IMX678_CROP_HST_ALIGN		4
-+#define IMX678_CROP_VST_ALIGN		4
-+
-+/* IMX678 native and active pixel array size. */
-+static const struct v4l2_rect imx678_native_area = {
-+	.top = 0,
-+	.left = 0,
-+	.width = 3857,
-+	.height = 2201,
-+};
-+
-+static const struct v4l2_rect imx678_active_area = {
-+	.top = 20,
-+	.left = 0,
-+	.width = 3856,
-+	.height = 2180,
-+};
-+
-+enum imx678_type {
-+	IMX678_COLOR = 0,
-+	IMX678_MONOCHROME = 1,
-+};
-+
-+struct imx678_model_info {
-+	enum imx678_type type;
-+};
-+
-+static const struct imx678_model_info imx678_aaqr_info = {
-+	.type = IMX678_COLOR,
-+};
-+
-+static const struct imx678_model_info imx678_aamr_info = {
-+	.type = IMX678_MONOCHROME,
-+};
-+
-+enum imx678_lanemode {
-+	IMX678_LANEMODE_2L = 1,
-+	IMX678_LANEMODE_4L = 3,
-+};
-+
-+/* Link frequency setup (DDR: lane rate = 2 x link freq) */
-+enum {
-+	IMX678_LINK_FREQ_297MHZ,
-+	IMX678_LINK_FREQ_360MHZ,
-+	IMX678_LINK_FREQ_445MHZ,
-+	IMX678_LINK_FREQ_594MHZ,
-+	IMX678_LINK_FREQ_720MHZ,
-+	IMX678_LINK_FREQ_891MHZ,
-+	IMX678_LINK_FREQ_1039MHZ,
-+	IMX678_LINK_FREQ_1188MHZ,
-+};
-+
-+static const u8 link_freqs_reg_value[] = {
-+	[IMX678_LINK_FREQ_297MHZ]  = 0x07,
-+	[IMX678_LINK_FREQ_360MHZ]  = 0x06,
-+	[IMX678_LINK_FREQ_445MHZ]  = 0x05,
-+	[IMX678_LINK_FREQ_594MHZ]  = 0x04,
-+	[IMX678_LINK_FREQ_720MHZ]  = 0x03,
-+	[IMX678_LINK_FREQ_891MHZ]  = 0x02,
-+	[IMX678_LINK_FREQ_1039MHZ] = 0x01,
-+	[IMX678_LINK_FREQ_1188MHZ] = 0x00,
-+};
-+
-+static const u64 link_freqs[] = {
-+	[IMX678_LINK_FREQ_297MHZ]  = 297000000,
-+	[IMX678_LINK_FREQ_360MHZ]  = 360000000,
-+	[IMX678_LINK_FREQ_445MHZ]  = 445500000,
-+	[IMX678_LINK_FREQ_594MHZ]  = 594000000,
-+	[IMX678_LINK_FREQ_720MHZ]  = 720000000,
-+	[IMX678_LINK_FREQ_891MHZ]  = 891000000,
-+	[IMX678_LINK_FREQ_1039MHZ] = 1039500000,
-+	[IMX678_LINK_FREQ_1188MHZ] = 1188000000,
-+};
-+
-+static const u16 min_hmax_4lane[] = {
-+	[IMX678_LINK_FREQ_297MHZ] = 1584,
-+	[IMX678_LINK_FREQ_360MHZ] = 1320,
-+	[IMX678_LINK_FREQ_445MHZ] = 1100,
-+	[IMX678_LINK_FREQ_594MHZ] =  792,
-+	[IMX678_LINK_FREQ_720MHZ] =  660,
-+	[IMX678_LINK_FREQ_891MHZ] =  550,
-+	[IMX678_LINK_FREQ_1039MHZ] = 550,
-+	[IMX678_LINK_FREQ_1188MHZ] = 550,
-+};
-+
-+struct imx678_inck_cfg {
-+	u32 xclk_hz;   /* platform clock rate  */
-+	u8  inck_sel;  /* value for reg        */
-+};
-+
-+static const struct imx678_inck_cfg imx678_inck_table[] = {
-+	{ 74250000, 0x00 },
-+	{ 37125000, 0x01 },
-+	{ 72000000, 0x02 },
-+	{ 27000000, 0x03 },
-+	{ 24000000, 0x04 },
-+	{ 36000000, 0x05 },
-+	{ 18000000, 0x06 },
-+	{ 13500000, 0x07 },
-+};
-+
-+static const char * const imx678_tpg_menu[] = {
-+	"Disabled",
-+	"All 000h",
-+	"All FFFh",
-+	"All 555h",
-+	"All AAAh",
-+	"Toggle 555/AAAh",
-+	"Toggle AAA/555h",
-+	"Toggle 000/555h",
-+	"Toggle 555/000h",
-+	"Toggle 000/FFFh",
-+	"Toggle FFF/000h",
-+	"Horizontal color bars",
-+	"Vertical color bars",
-+};
-+
-+static const int imx678_tpg_val[] = {
-+	IMX678_TPG_ALL_000,
-+	IMX678_TPG_ALL_000,
-+	IMX678_TPG_ALL_FFF,
-+	IMX678_TPG_ALL_555,
-+	IMX678_TPG_ALL_AAA,
-+	IMX678_TPG_TOG_555_AAA,
-+	IMX678_TPG_TOG_AAA_555,
-+	IMX678_TPG_TOG_000_555,
-+	IMX678_TPG_TOG_555_000,
-+	IMX678_TPG_TOG_000_FFF,
-+	IMX678_TPG_TOG_FFF_000,
-+	IMX678_TPG_H_COLOR_BARS,
-+	IMX678_TPG_V_COLOR_BARS,
-+};
-+
-+/* IMX678 Register List */
-+/* Common Modes */
-+static const struct cci_reg_sequence common_regs[] = {
-+	{IMX678_REG_THIN_V_EN, 0x00},
-+	{IMX678_REG_VCMODE, 0x01},
-+	{CCI_REG8(0x306B), 0x00},
-+	{IMX678_REG_GAIN_PGC_FIDMD, 0x01},
-+	{CCI_REG8(0x3460), 0x22},
-+	{CCI_REG8(0x355A), 0x64},
-+	{CCI_REG8(0x3A02), 0x7A},
-+	{CCI_REG8(0x3A10), 0xEC},
-+	{CCI_REG8(0x3A12), 0x71},
-+	{CCI_REG8(0x3A14), 0xDE},
-+	{CCI_REG8(0x3A20), 0x2B},
-+	{CCI_REG8(0x3A24), 0x22},
-+	{CCI_REG8(0x3A25), 0x25},
-+	{CCI_REG8(0x3A26), 0x2A},
-+	{CCI_REG8(0x3A27), 0x2C},
-+	{CCI_REG8(0x3A28), 0x39},
-+	{CCI_REG8(0x3A29), 0x38},
-+	{CCI_REG8(0x3A30), 0x04},
-+	{CCI_REG8(0x3A31), 0x04},
-+	{CCI_REG8(0x3A32), 0x03},
-+	{CCI_REG8(0x3A33), 0x03},
-+	{CCI_REG8(0x3A34), 0x09},
-+	{CCI_REG8(0x3A35), 0x06},
-+	{CCI_REG8(0x3A38), 0xCD},
-+	{CCI_REG8(0x3A3A), 0x4C},
-+	{CCI_REG8(0x3A3C), 0xB9},
-+	{CCI_REG8(0x3A3E), 0x30},
-+	{CCI_REG8(0x3A40), 0x2C},
-+	{CCI_REG8(0x3A42), 0x39},
-+	{CCI_REG8(0x3A4E), 0x00},
-+	{CCI_REG8(0x3A52), 0x00},
-+	{CCI_REG8(0x3A56), 0x00},
-+	{CCI_REG8(0x3A5A), 0x00},
-+	{CCI_REG8(0x3A5E), 0x00},
-+	{CCI_REG8(0x3A62), 0x00},
-+	{CCI_REG8(0x3A64), 0x00},
-+	{CCI_REG8(0x3A6E), 0xA0},
-+	{CCI_REG8(0x3A70), 0x50},
-+	{CCI_REG8(0x3A8C), 0x04},
-+	{CCI_REG8(0x3A8D), 0x03},
-+	{CCI_REG8(0x3A8E), 0x09},
-+	{CCI_REG8(0x3A90), 0x38},
-+	{CCI_REG8(0x3A91), 0x42},
-+	{CCI_REG8(0x3A92), 0x3C},
-+	{CCI_REG8(0x3B0E), 0xF3},
-+	{CCI_REG8(0x3B12), 0xE5},
-+	{CCI_REG8(0x3B27), 0xC0},
-+	{CCI_REG8(0x3B2E), 0xEF},
-+	{CCI_REG8(0x3B30), 0x6A},
-+	{CCI_REG8(0x3B32), 0xF6},
-+	{CCI_REG8(0x3B36), 0xE1},
-+	{CCI_REG8(0x3B3A), 0xE8},
-+	{CCI_REG8(0x3B5A), 0x17},
-+	{CCI_REG8(0x3B5E), 0xEF},
-+	{CCI_REG8(0x3B60), 0x6A},
-+	{CCI_REG8(0x3B62), 0xF6},
-+	{CCI_REG8(0x3B66), 0xE1},
-+	{CCI_REG8(0x3B6A), 0xE8},
-+	{CCI_REG8(0x3B88), 0xEC},
-+	{CCI_REG8(0x3B8A), 0xED},
-+	{CCI_REG8(0x3B94), 0x71},
-+	{CCI_REG8(0x3B96), 0x72},
-+	{CCI_REG8(0x3B98), 0xDE},
-+	{CCI_REG8(0x3B9A), 0xDF},
-+	{CCI_REG8(0x3C0F), 0x06},
-+	{CCI_REG8(0x3C10), 0x06},
-+	{CCI_REG8(0x3C11), 0x06},
-+	{CCI_REG8(0x3C12), 0x06},
-+	{CCI_REG8(0x3C13), 0x06},
-+	{CCI_REG8(0x3C18), 0x20},
-+	{CCI_REG8(0x3C37), 0x10},
-+	{CCI_REG8(0x3C3A), 0x7A},
-+	{CCI_REG8(0x3C40), 0xF4},
-+	{CCI_REG8(0x3C48), 0xE6},
-+	{CCI_REG8(0x3C54), 0xCE},
-+	{CCI_REG8(0x3C56), 0xD0},
-+	{CCI_REG8(0x3C6C), 0x53},
-+	{CCI_REG8(0x3C6E), 0x55},
-+	{CCI_REG8(0x3C70), 0xC0},
-+	{CCI_REG8(0x3C72), 0xC2},
-+	{CCI_REG8(0x3C7E), 0xCE},
-+	{CCI_REG8(0x3C8C), 0xCF},
-+	{CCI_REG8(0x3C8E), 0xEB},
-+	{CCI_REG8(0x3C98), 0x54},
-+	{CCI_REG8(0x3C9A), 0x70},
-+	{CCI_REG8(0x3C9C), 0xC1},
-+	{CCI_REG8(0x3C9E), 0xDD},
-+	{CCI_REG8(0x3CB0), 0x7A},
-+	{CCI_REG8(0x3CB2), 0xBA},
-+	{CCI_REG8(0x3CC8), 0xBC},
-+	{CCI_REG8(0x3CCA), 0x7C},
-+	{CCI_REG8(0x3CD4), 0xEA},
-+	{CCI_REG8(0x3CD5), 0x01},
-+	{CCI_REG8(0x3CD6), 0x4A},
-+	{CCI_REG8(0x3CD8), 0x00},
-+	{CCI_REG8(0x3CD9), 0x00},
-+	{CCI_REG8(0x3CDA), 0xFF},
-+	{CCI_REG8(0x3CDB), 0x03},
-+	{CCI_REG8(0x3CDC), 0x00},
-+	{CCI_REG8(0x3CDD), 0x00},
-+	{CCI_REG8(0x3CDE), 0xFF},
-+	{CCI_REG8(0x3CDF), 0x03},
-+	{CCI_REG8(0x3CE4), 0x4C},
-+	{CCI_REG8(0x3CE6), 0xEC},
-+	{CCI_REG8(0x3CE7), 0x01},
-+	{CCI_REG8(0x3CE8), 0xFF},
-+	{CCI_REG8(0x3CE9), 0x03},
-+	{CCI_REG8(0x3CEA), 0x00},
-+	{CCI_REG8(0x3CEB), 0x00},
-+	{CCI_REG8(0x3CEC), 0xFF},
-+	{CCI_REG8(0x3CED), 0x03},
-+	{CCI_REG8(0x3CEE), 0x00},
-+	{CCI_REG8(0x3CEF), 0x00},
-+	{CCI_REG8(0x3CF2), 0xFF},
-+	{CCI_REG8(0x3CF3), 0x03},
-+	{CCI_REG8(0x3CF4), 0x00},
-+	{CCI_REG8(0x3E28), 0x82},
-+	{CCI_REG8(0x3E2A), 0x80},
-+	{CCI_REG8(0x3E30), 0x85},
-+	{CCI_REG8(0x3E32), 0x7D},
-+	{CCI_REG8(0x3E5C), 0xCE},
-+	{CCI_REG8(0x3E5E), 0xD3},
-+	{CCI_REG8(0x3E70), 0x53},
-+	{CCI_REG8(0x3E72), 0x58},
-+	{CCI_REG8(0x3E74), 0xC0},
-+	{CCI_REG8(0x3E76), 0xC5},
-+	{CCI_REG8(0x3E78), 0xC0},
-+	{CCI_REG8(0x3E79), 0x01},
-+	{CCI_REG8(0x3E7A), 0xD4},
-+	{CCI_REG8(0x3E7B), 0x01},
-+	{CCI_REG8(0x3EB4), 0x0B},
-+	{CCI_REG8(0x3EB5), 0x02},
-+	{CCI_REG8(0x3EB6), 0x4D},
-+	{CCI_REG8(0x3EB7), 0x42},
-+	{CCI_REG8(0x3EEC), 0xF3},
-+	{CCI_REG8(0x3EEE), 0xE7},
-+	{CCI_REG8(0x3F01), 0x01},
-+	{CCI_REG8(0x3F24), 0x10},
-+	{CCI_REG8(0x3F28), 0x2D},
-+	{CCI_REG8(0x3F2A), 0x2D},
-+	{CCI_REG8(0x3F2C), 0x2D},
-+	{CCI_REG8(0x3F2E), 0x2D},
-+	{CCI_REG8(0x3F30), 0x23},
-+	{CCI_REG8(0x3F38), 0x2D},
-+	{CCI_REG8(0x3F3A), 0x2D},
-+	{CCI_REG8(0x3F3C), 0x2D},
-+	{CCI_REG8(0x3F3E), 0x28},
-+	{CCI_REG8(0x3F40), 0x1E},
-+	{CCI_REG8(0x3F48), 0x2D},
-+	{CCI_REG8(0x3F4A), 0x2D},
-+	{CCI_REG8(0x3F4C), 0x00},
-+	{CCI_REG8(0x4004), 0xE4},
-+	{CCI_REG8(0x4006), 0xFF},
-+	{CCI_REG8(0x4018), 0x69},
-+	{CCI_REG8(0x401A), 0x84},
-+	{CCI_REG8(0x401C), 0xD6},
-+	{CCI_REG8(0x401E), 0xF1},
-+	{CCI_REG8(0x4038), 0xDE},
-+	{CCI_REG8(0x403A), 0x00},
-+	{CCI_REG8(0x403B), 0x01},
-+	{CCI_REG8(0x404C), 0x63},
-+	{CCI_REG8(0x404E), 0x85},
-+	{CCI_REG8(0x4050), 0xD0},
-+	{CCI_REG8(0x4052), 0xF2},
-+	{CCI_REG8(0x4108), 0xDD},
-+	{CCI_REG8(0x410A), 0xF7},
-+	{CCI_REG8(0x411C), 0x62},
-+	{CCI_REG8(0x411E), 0x7C},
-+	{CCI_REG8(0x4120), 0xCF},
-+	{CCI_REG8(0x4122), 0xE9},
-+	{CCI_REG8(0x4138), 0xE6},
-+	{CCI_REG8(0x413A), 0xF1},
-+	{CCI_REG8(0x414C), 0x6B},
-+	{CCI_REG8(0x414E), 0x76},
-+	{CCI_REG8(0x4150), 0xD8},
-+	{CCI_REG8(0x4152), 0xE3},
-+	{CCI_REG8(0x417E), 0x03},
-+	{CCI_REG8(0x417F), 0x01},
-+	{CCI_REG8(0x4186), 0xE0},
-+	{CCI_REG8(0x4190), 0xF3},
-+	{CCI_REG8(0x4192), 0xF7},
-+	{CCI_REG8(0x419C), 0x78},
-+	{CCI_REG8(0x419E), 0x7C},
-+	{CCI_REG8(0x41A0), 0xE5},
-+	{CCI_REG8(0x41A2), 0xE9},
-+	{CCI_REG8(0x41C8), 0xE2},
-+	{CCI_REG8(0x41CA), 0xFD},
-+	{CCI_REG8(0x41DC), 0x67},
-+	{CCI_REG8(0x41DE), 0x82},
-+	{CCI_REG8(0x41E0), 0xD4},
-+	{CCI_REG8(0x41E2), 0xEF},
-+	{CCI_REG8(0x4200), 0xDE},
-+	{CCI_REG8(0x4202), 0xDA},
-+	{CCI_REG8(0x4218), 0x63},
-+	{CCI_REG8(0x421A), 0x5F},
-+	{CCI_REG8(0x421C), 0xD0},
-+	{CCI_REG8(0x421E), 0xCC},
-+	{CCI_REG8(0x425A), 0x82},
-+	{CCI_REG8(0x425C), 0xEF},
-+	{CCI_REG8(0x4348), 0xFE},
-+	{CCI_REG8(0x4349), 0x06},
-+	{CCI_REG8(0x4352), 0xCE},
-+	{CCI_REG8(0x4420), 0x0B},
-+	{CCI_REG8(0x4421), 0x02},
-+	{CCI_REG8(0x4422), 0x4D},
-+	{CCI_REG8(0x4423), 0x0A},
-+	{CCI_REG8(0x4426), 0xF5},
-+	{CCI_REG8(0x442A), 0xE7},
-+	{CCI_REG8(0x4432), 0xF5},
-+	{CCI_REG8(0x4436), 0xE7},
-+	{CCI_REG8(0x4466), 0xB4},
-+	{CCI_REG8(0x446E), 0x32},
-+	{CCI_REG8(0x449F), 0x1C},
-+	{CCI_REG8(0x44A4), 0x2C},
-+	{CCI_REG8(0x44A6), 0x2C},
-+	{CCI_REG8(0x44A8), 0x2C},
-+	{CCI_REG8(0x44AA), 0x2C},
-+	{CCI_REG8(0x44B4), 0x2C},
-+	{CCI_REG8(0x44B6), 0x2C},
-+	{CCI_REG8(0x44B8), 0x2C},
-+	{CCI_REG8(0x44BA), 0x2C},
-+	{CCI_REG8(0x44C4), 0x2C},
-+	{CCI_REG8(0x44C6), 0x2C},
-+	{CCI_REG8(0x44C8), 0x2C},
-+	{CCI_REG8(0x4506), 0xF3},
-+	{CCI_REG8(0x450E), 0xE5},
-+	{CCI_REG8(0x4516), 0xF3},
-+	{CCI_REG8(0x4522), 0xE5},
-+	{CCI_REG8(0x4524), 0xF3},
-+	{CCI_REG8(0x452C), 0xE5},
-+	{CCI_REG8(0x453C), 0x22},
-+	{CCI_REG8(0x453D), 0x1B},
-+	{CCI_REG8(0x453E), 0x1B},
-+	{CCI_REG8(0x453F), 0x15},
-+	{CCI_REG8(0x4540), 0x15},
-+	{CCI_REG8(0x4541), 0x15},
-+	{CCI_REG8(0x4542), 0x15},
-+	{CCI_REG8(0x4543), 0x15},
-+	{CCI_REG8(0x4544), 0x15},
-+	{CCI_REG8(0x4548), 0x00},
-+	{CCI_REG8(0x4549), 0x01},
-+	{CCI_REG8(0x454A), 0x01},
-+	{CCI_REG8(0x454B), 0x06},
-+	{CCI_REG8(0x454C), 0x06},
-+	{CCI_REG8(0x454D), 0x06},
-+	{CCI_REG8(0x454E), 0x06},
-+	{CCI_REG8(0x454F), 0x06},
-+	{CCI_REG8(0x4550), 0x06},
-+	{CCI_REG8(0x4554), 0x55},
-+	{CCI_REG8(0x4555), 0x02},
-+	{CCI_REG8(0x4556), 0x42},
-+	{CCI_REG8(0x4557), 0x05},
-+	{CCI_REG8(0x4558), 0xFD},
-+	{CCI_REG8(0x4559), 0x05},
-+	{CCI_REG8(0x455A), 0x94},
-+	{CCI_REG8(0x455B), 0x06},
-+	{CCI_REG8(0x455D), 0x06},
-+	{CCI_REG8(0x455E), 0x49},
-+	{CCI_REG8(0x455F), 0x07},
-+	{CCI_REG8(0x4560), 0x7F},
-+	{CCI_REG8(0x4561), 0x07},
-+	{CCI_REG8(0x4562), 0xA5},
-+	{CCI_REG8(0x4564), 0x55},
-+	{CCI_REG8(0x4565), 0x02},
-+	{CCI_REG8(0x4566), 0x42},
-+	{CCI_REG8(0x4567), 0x05},
-+	{CCI_REG8(0x4568), 0xFD},
-+	{CCI_REG8(0x4569), 0x05},
-+	{CCI_REG8(0x456A), 0x94},
-+	{CCI_REG8(0x456B), 0x06},
-+	{CCI_REG8(0x456D), 0x06},
-+	{CCI_REG8(0x456E), 0x49},
-+	{CCI_REG8(0x456F), 0x07},
-+	{CCI_REG8(0x4572), 0xA5},
-+	{CCI_REG8(0x460C), 0x7D},
-+	{CCI_REG8(0x460E), 0xB1},
-+	{CCI_REG8(0x4614), 0xA8},
-+	{CCI_REG8(0x4616), 0xB2},
-+	{CCI_REG8(0x461C), 0x7E},
-+	{CCI_REG8(0x461E), 0xA7},
-+	{CCI_REG8(0x4624), 0xA8},
-+	{CCI_REG8(0x4626), 0xB2},
-+	{CCI_REG8(0x462C), 0x7E},
-+	{CCI_REG8(0x462E), 0x8A},
-+	{CCI_REG8(0x4630), 0x94},
-+	{CCI_REG8(0x4632), 0xA7},
-+	{CCI_REG8(0x4634), 0xFB},
-+	{CCI_REG8(0x4636), 0x2F},
-+	{CCI_REG8(0x4638), 0x81},
-+	{CCI_REG8(0x4639), 0x01},
-+	{CCI_REG8(0x463A), 0xB5},
-+	{CCI_REG8(0x463B), 0x01},
-+	{CCI_REG8(0x463C), 0x26},
-+	{CCI_REG8(0x463E), 0x30},
-+	{CCI_REG8(0x4640), 0xAC},
-+	{CCI_REG8(0x4641), 0x01},
-+	{CCI_REG8(0x4642), 0xB6},
-+	{CCI_REG8(0x4643), 0x01},
-+	{CCI_REG8(0x4644), 0xFC},
-+	{CCI_REG8(0x4646), 0x25},
-+	{CCI_REG8(0x4648), 0x82},
-+	{CCI_REG8(0x4649), 0x01},
-+	{CCI_REG8(0x464A), 0xAB},
-+	{CCI_REG8(0x464B), 0x01},
-+	{CCI_REG8(0x464C), 0x26},
-+	{CCI_REG8(0x464E), 0x30},
-+	{CCI_REG8(0x4654), 0xFC},
-+	{CCI_REG8(0x4656), 0x08},
-+	{CCI_REG8(0x4658), 0x12},
-+	{CCI_REG8(0x465A), 0x25},
-+	{CCI_REG8(0x4662), 0xFC},
-+	{CCI_REG8(0x46A2), 0xFB},
-+	{CCI_REG8(0x46D6), 0xF3},
-+	{CCI_REG8(0x46E6), 0x00},
-+	{CCI_REG8(0x46E8), 0xFF},
-+	{CCI_REG8(0x46E9), 0x03},
-+	{CCI_REG8(0x46EC), 0x7A},
-+	{CCI_REG8(0x46EE), 0xE5},
-+	{CCI_REG8(0x46F4), 0xEE},
-+	{CCI_REG8(0x46F6), 0xF2},
-+	{CCI_REG8(0x470C), 0xFF},
-+	{CCI_REG8(0x470D), 0x03},
-+	{CCI_REG8(0x470E), 0x00},
-+	{CCI_REG8(0x4714), 0xE0},
-+	{CCI_REG8(0x4716), 0xE4},
-+	{CCI_REG8(0x471E), 0xED},
-+	{CCI_REG8(0x472E), 0x00},
-+	{CCI_REG8(0x4730), 0xFF},
-+	{CCI_REG8(0x4731), 0x03},
-+	{CCI_REG8(0x4734), 0x7B},
-+	{CCI_REG8(0x4736), 0xDF},
-+	{CCI_REG8(0x4754), 0x7D},
-+	{CCI_REG8(0x4756), 0x8B},
-+	{CCI_REG8(0x4758), 0x93},
-+	{CCI_REG8(0x475A), 0xB1},
-+	{CCI_REG8(0x475C), 0xFB},
-+	{CCI_REG8(0x475E), 0x09},
-+	{CCI_REG8(0x4760), 0x11},
-+	{CCI_REG8(0x4762), 0x2F},
-+	{CCI_REG8(0x4766), 0xCC},
-+	{CCI_REG8(0x4776), 0xCB},
-+	{CCI_REG8(0x477E), 0x4A},
-+	{CCI_REG8(0x478E), 0x49},
-+	{CCI_REG8(0x4794), 0x7C},
-+	{CCI_REG8(0x4796), 0x8F},
-+	{CCI_REG8(0x4798), 0xB3},
-+	{CCI_REG8(0x4799), 0x00},
-+	{CCI_REG8(0x479A), 0xCC},
-+	{CCI_REG8(0x479C), 0xC1},
-+	{CCI_REG8(0x479E), 0xCB},
-+	{CCI_REG8(0x47A4), 0x7D},
-+	{CCI_REG8(0x47A6), 0x8E},
-+	{CCI_REG8(0x47A8), 0xB4},
-+	{CCI_REG8(0x47A9), 0x00},
-+	{CCI_REG8(0x47AA), 0xC0},
-+	{CCI_REG8(0x47AC), 0xFA},
-+	{CCI_REG8(0x47AE), 0x0D},
-+	{CCI_REG8(0x47B0), 0x31},
-+	{CCI_REG8(0x47B1), 0x01},
-+	{CCI_REG8(0x47B2), 0x4A},
-+	{CCI_REG8(0x47B3), 0x01},
-+	{CCI_REG8(0x47B4), 0x3F},
-+	{CCI_REG8(0x47B6), 0x49},
-+	{CCI_REG8(0x47BC), 0xFB},
-+	{CCI_REG8(0x47BE), 0x0C},
-+	{CCI_REG8(0x47C0), 0x32},
-+	{CCI_REG8(0x47C1), 0x01},
-+	{CCI_REG8(0x47C2), 0x3E},
-+	{CCI_REG8(0x47C3), 0x01},
-+	{IMX678_REG_WDMODE, 0x00},
-+	{IMX678_REG_MDBIT, 0x01},
-+	{IMX678_REG_XXS_DRV, 0x00},
-+};
-+
-+static const u32 codes_bayer[] = {
-+	MEDIA_BUS_FMT_SRGGB12_1X12,
-+};
-+
-+static const u32 codes_monochrome[] = {
-+	MEDIA_BUS_FMT_Y12_1X12,   /* 12-bit mono */
-+};
-+
-+#define IMX678_NUM_CODES ARRAY_SIZE(codes_bayer)
-+
-+static const char * const imx678_supply_name[] = {
-+	"avdd",  /* Analog (3.3V) supply */
-+	"dvdd",  /* Digital Core (1.1V) supply */
-+	"ovdd",  /* IF (1.8V) supply */
-+};
-+
-+struct imx678 {
-+	struct v4l2_subdev sd;
-+	struct media_pad pad;
-+	struct regmap *cci;
-+
-+	enum imx678_type type;
-+
-+	struct clk *xclk;
-+	u32 xclk_freq;
-+
-+	/* chosen INCK_SEL register value */
-+	u8  inck_sel_val;
-+
-+	/* Link configurations */
-+	enum imx678_lanemode lane_mode;
-+	unsigned long link_freq_bitmap;
-+
-+	struct gpio_desc *xclr_gpio;
-+	struct regulator_bulk_data supplies[ARRAY_SIZE(imx678_supply_name)];
-+
-+	struct v4l2_ctrl_handler ctrl_handler;
-+
-+	/* V4L2 Controls */
-+	struct v4l2_ctrl *pixel_rate;
-+	struct v4l2_ctrl *link_freq;
-+	struct v4l2_ctrl *exposure;
-+	struct v4l2_ctrl *gain;
-+	struct v4l2_ctrl *vflip;
-+	struct v4l2_ctrl *hflip;
-+	struct v4l2_ctrl *vblank;
-+	struct v4l2_ctrl *hblank;
-+
-+	/* Tracking sensor VMAX/HMAX value */
-+	u32 vmax;
-+};
-+
-+static inline struct imx678 *to_imx678(struct v4l2_subdev *_sd)
-+{
-+	return container_of(_sd, struct imx678, sd);
-+}
-+
-+static inline struct v4l2_mbus_framefmt *
-+imx678_state_format(struct v4l2_subdev_state *state)
-+{
-+	return v4l2_subdev_state_get_format(state, 0);
-+}
-+
-+static inline struct v4l2_rect *imx678_state_crop(struct v4l2_subdev_state *state)
-+{
-+	return v4l2_subdev_state_get_crop(state, 0);
-+}
-+
-+static bool imx678_state_binning(struct v4l2_subdev_state *state)
-+{
-+	const struct v4l2_mbus_framefmt *format = imx678_state_format(state);
-+	const struct v4l2_rect *crop = imx678_state_crop(state);
-+
-+	return crop->width == 2 * format->width &&
-+	       crop->height == 2 * format->height;
-+}
-+
-+static const u32 *imx678_mbus_codes(struct imx678 *imx678)
-+{
-+	if (imx678->type == IMX678_MONOCHROME)
-+		return codes_monochrome;
-+	else
-+		return codes_bayer;
-+}
-+
-+static u32 imx678_default_mbus_code(struct imx678 *imx678)
-+{
-+	const u32 *codes = imx678_mbus_codes(imx678);
-+
-+	return codes[0];
-+}
-+
-+static bool imx678_mbus_code_supported(struct imx678 *imx678, u32 code)
-+{
-+	const u32 *codes = imx678_mbus_codes(imx678);
-+
-+	for (unsigned int i = 0; i < IMX678_NUM_CODES; i++) {
-+		if (codes[i] == code)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+static u32 imx678_get_format_code(struct imx678 *imx678, u32 code)
-+{
-+	if (imx678_mbus_code_supported(imx678, code))
-+		return code;
-+
-+	return imx678_default_mbus_code(imx678);
-+}
-+
-+/*
-+ * Preserve FoV, default to 2x binning when feasible
-+ */
-+static bool imx678_pick_binning(u32 width, u32 height)
-+{
-+	return 2 * width <= imx678_active_area.width &&
-+	       2 * height <= imx678_active_area.height;
-+}
-+
-+/*
-+ * Align width to 16 and height to 4 as the sensor crop requires it
-+ */
-+static void imx678_snap_format(u32 *width, u32 *height, bool binning)
-+{
-+	const u32 scale = binning ? 2 : 1;
-+	const u32 max_w = imx678_active_area.width / scale;
-+	const u32 max_h = imx678_active_area.height / scale;
-+	const u32 w_align = IMX678_CROP_HWIDTH_ALIGN / scale;
-+	const u32 h_align = IMX678_CROP_VWIDTH_ALIGN / scale;
-+
-+	*width = clamp_t(u32, ALIGN(*width, w_align),
-+			 IMX678_PIXEL_ARRAY_MIN_WIDTH, max_w);
-+	*height = clamp_t(u32, ALIGN(*height, h_align),
-+			  IMX678_PIXEL_ARRAY_MIN_HEIGHT, max_h);
-+}
-+
-+/*
-+ * Compute a centered analog crop rectangle of size (width, height) * scale,
-+ * with origin aligned to the windowing register granularity.
-+ */
-+static void imx678_default_crop_for_format(u32 width, u32 height, bool binning,
-+					   struct v4l2_rect *crop)
-+{
-+	const u32 scale = binning ? 2 : 1;
-+
-+	crop->width = width * scale;
-+	crop->height = height * scale;
-+	crop->left = imx678_active_area.left +
-+		     round_down((imx678_active_area.width - crop->width) / 2,
-+				IMX678_CROP_HST_ALIGN);
-+	crop->top = imx678_active_area.top +
-+		    round_down((imx678_active_area.height - crop->height) / 2,
-+			       IMX678_CROP_VST_ALIGN);
-+}
-+
-+static void imx678_set_framing_limits(struct imx678 *imx678,
-+				      struct v4l2_subdev_state *state)
-+{
-+	const struct v4l2_mbus_framefmt *format = imx678_state_format(state);
-+	s64 min_hblank, default_hblank, max_hblank, vblank;
-+	const u32 hmax_4lane = min_hmax_4lane[__ffs(imx678->link_freq_bitmap)];
-+	const u32 lane_scale = imx678->lane_mode == IMX678_LANEMODE_2L ? 2 : 1;
-+	const bool binning = imx678_state_binning(state);
-+	const u8 bpp = binning ? 10 : 12;
-+	u32 hmax, min_hmax;
-+
-+	imx678->vmax = IMX678_VMAX_DEFAULT;
-+	hmax = hmax_4lane * lane_scale;
-+
-+	/* HMAX can go lower when using 10bit AD for binning */
-+	min_hmax = (hmax * bpp) / 12;
-+	min_hblank = min_hmax * IMX678_PIX_PER_CLK - format->width;
-+	default_hblank = hmax * IMX678_PIX_PER_CLK - format->width;
-+	max_hblank = IMX678_HMAX_MAX * IMX678_PIX_PER_CLK - format->width;
-+
-+	__v4l2_ctrl_modify_range(imx678->hblank, min_hblank, max_hblank,
-+				 IMX678_PIX_PER_CLK, default_hblank);
-+	__v4l2_ctrl_s_ctrl(imx678->hblank, default_hblank);
-+
-+	vblank = imx678->vmax - format->height;
-+	__v4l2_ctrl_modify_range(imx678->vblank, vblank,
-+				 IMX678_VMAX_MAX - format->height, 2, vblank);
-+	__v4l2_ctrl_s_ctrl(imx678->vblank, IMX678_VMAX_DEFAULT - format->height);
-+
-+	__v4l2_ctrl_modify_range(imx678->exposure, IMX678_EXPOSURE_MIN,
-+				 imx678->vmax - IMX678_SHR_MIN, 1,
-+				 IMX678_EXPOSURE_DEFAULT);
-+}
-+
-+static int imx678_set_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct imx678 *imx678 = container_of(ctrl->handler, struct imx678, ctrl_handler);
-+	struct v4l2_subdev_state *state;
-+	struct i2c_client *client = v4l2_get_subdevdata(&imx678->sd);
-+	const struct v4l2_mbus_framefmt *format;
-+	int ret = 0;
-+
-+	state = v4l2_subdev_get_locked_active_state(&imx678->sd);
-+	format = imx678_state_format(state);
-+
-+	if (ctrl->id == V4L2_CID_VBLANK) {
-+		u32 current_exposure = imx678->exposure->cur.val;
-+
-+		imx678->vmax = format->height + ctrl->val;
-+
-+		current_exposure = clamp_t(u32, current_exposure, IMX678_EXPOSURE_MIN,
-+					   imx678->vmax - IMX678_SHR_MIN);
-+		__v4l2_ctrl_modify_range(imx678->exposure, IMX678_EXPOSURE_MIN,
-+					 imx678->vmax - IMX678_SHR_MIN, 1,
-+					 current_exposure);
-+	}
-+
-+	/*
-+	 * Applying V4L2 control value only happens
-+	 * when power is up for streaming
-+	 */
-+	if (pm_runtime_get_if_in_use(&client->dev) == 0)
-+		return 0;
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_VBLANK:
-+		cci_write(imx678->cci, IMX678_REG_VMAX, imx678->vmax, &ret);
-+		fallthrough; /* SHR = VMAX - exposure, so update it */
-+	case V4L2_CID_EXPOSURE: {
-+		u32 shr = imx678->vmax - imx678->exposure->val;
-+
-+		cci_write(imx678->cci, IMX678_REG_SHR, shr, &ret);
-+		break;
-+	}
-+	case V4L2_CID_ANALOGUE_GAIN:
-+		cci_write(imx678->cci, IMX678_REG_ANALOG_GAIN, ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_HBLANK: {
-+		u32 hmax = (format->width + ctrl->val) / IMX678_PIX_PER_CLK;
-+
-+		cci_write(imx678->cci, IMX678_REG_HMAX, hmax, &ret);
-+		break;
-+	}
-+	case V4L2_CID_TEST_PATTERN: {
-+		cci_write(imx678->cci, IMX678_REG_TPG_COLORWIDTH,
-+			  IMX678_TPG_COLORWIDTH_160PIX, &ret);
-+		cci_write(imx678->cci, IMX678_REG_TPG_PATSEL_DUOUT,
-+			  imx678_tpg_val[ctrl->val], &ret);
-+		cci_write(imx678->cci, IMX678_REG_TPG_EN_DUOUT, (ctrl->val) ? 1 : 0,
-+			  &ret);
-+		break;
-+	}
-+	case V4L2_CID_HFLIP:
-+		cci_write(imx678->cci, IMX678_REG_WINMODEH, ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_VFLIP:
-+		cci_write(imx678->cci, IMX678_REG_WINMODEV, ctrl->val, &ret);
-+		break;
-+	default:
-+		dev_warn(&client->dev,
-+			 "ctrl(id:0x%x,val:0x%x) is not handled\n",
-+			 ctrl->id, ctrl->val);
-+		break;
-+	}
-+
-+	pm_runtime_put(&client->dev);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_ctrl_ops imx678_ctrl_ops = {
-+	.s_ctrl = imx678_set_ctrl,
-+};
-+
-+static int imx678_enum_mbus_code(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *sd_state,
-+				 struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	struct imx678 *imx678 = to_imx678(sd);
-+	const u32 *codes = imx678_mbus_codes(imx678);
-+
-+	if (code->index >= IMX678_NUM_CODES)
-+		return -EINVAL;
-+
-+	code->code = codes[code->index];
-+	return 0;
-+}
-+
-+static int imx678_enum_frame_size(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *sd_state,
-+				  struct v4l2_subdev_frame_size_enum *fse)
-+{
-+	struct imx678 *imx678 = to_imx678(sd);
-+
-+	if (fse->index > 0)
-+		return -EINVAL;
-+
-+	if (!imx678_mbus_code_supported(imx678, fse->code))
-+		return -EINVAL;
-+
-+	fse->min_width = IMX678_PIXEL_ARRAY_MIN_WIDTH;
-+	fse->max_width = imx678_active_area.width;
-+	fse->min_height = IMX678_PIXEL_ARRAY_MIN_HEIGHT;
-+	fse->max_height = imx678_active_area.height;
-+
-+	return 0;
-+}
-+
-+static int imx678_set_pad_format(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *sd_state,
-+				 struct v4l2_subdev_format *fmt)
-+{
-+	struct imx678 *imx678 = to_imx678(sd);
-+	struct v4l2_mbus_framefmt *framefmt;
-+	struct v4l2_rect *crop;
-+	u32 width = fmt->format.width;
-+	u32 height = fmt->format.height;
-+	bool binning;
-+
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE &&
-+	    v4l2_subdev_is_streaming(sd))
-+		return -EBUSY;
-+
-+	fmt->format.code = imx678_get_format_code(imx678, fmt->format.code);
-+	binning = imx678_pick_binning(width, height);
-+	imx678_snap_format(&width, &height, binning);
-+
-+	fmt->format.width = width;
-+	fmt->format.height = height;
-+	fmt->format.field = V4L2_FIELD_NONE;
-+	fmt->format.colorspace = V4L2_COLORSPACE_RAW;
-+	fmt->format.ycbcr_enc =
-+		V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->format.colorspace);
-+	fmt->format.quantization =
-+		V4L2_MAP_QUANTIZATION_DEFAULT(true, fmt->format.colorspace,
-+					      fmt->format.ycbcr_enc);
-+	fmt->format.xfer_func =
-+		V4L2_MAP_XFER_FUNC_DEFAULT(fmt->format.colorspace);
-+
-+	framefmt = v4l2_subdev_state_get_format(sd_state, fmt->pad);
-+	*framefmt = fmt->format;
-+
-+	crop = imx678_state_crop(sd_state);
-+	imx678_default_crop_for_format(width, height, binning, crop);
-+
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-+		imx678_set_framing_limits(imx678, sd_state);
-+
-+	return 0;
-+}
-+
-+static int imx678_init_state(struct v4l2_subdev *sd,
-+			     struct v4l2_subdev_state *state)
-+{
-+	struct imx678 *imx678 = to_imx678(sd);
-+	struct v4l2_subdev_format fmt = {
-+		.which = V4L2_SUBDEV_FORMAT_TRY,
-+		.pad = 0,
-+		.format = {
-+			.code = imx678_default_mbus_code(imx678),
-+			.width = imx678_active_area.width,
-+			.height = imx678_active_area.height,
-+		},
-+	};
-+
-+	imx678_set_pad_format(sd, state, &fmt);
-+
-+	return 0;
-+}
-+
-+static int imx678_write_common(struct imx678 *imx678)
-+{
-+	int ret = 0;
-+
-+	cci_multi_reg_write(imx678->cci, common_regs, ARRAY_SIZE(common_regs), &ret);
-+
-+	cci_write(imx678->cci, IMX678_REG_INCK_SEL, imx678->inck_sel_val, &ret);
-+	cci_write(imx678->cci, IMX678_REG_DATARATE_SEL,
-+		  link_freqs_reg_value[__ffs(imx678->link_freq_bitmap)], &ret);
-+	cci_write(imx678->cci, IMX678_REG_LANEMODE, imx678->lane_mode, &ret);
-+
-+	cci_write(imx678->cci, IMX678_REG_INTERFACE_SEL, IMX678_INTERFACE_2L_4L,
-+		  &ret);
-+
-+	return ret;
-+}
-+
-+static int imx678_program_window(struct imx678 *imx678,
-+				 const struct v4l2_rect *crop, bool binning)
-+{
-+	int ret = 0;
-+
-+	cci_write(imx678->cci, IMX678_REG_ADDMODE, binning ? 0x01 : 0x00, &ret);
-+	cci_write(imx678->cci, IMX678_REG_WINMODE,
-+		  v4l2_rect_equal(crop, &imx678_active_area) ? 0x00 : 0x04,
-+		  &ret);
-+	cci_write(imx678->cci, IMX678_REG_PIX_HST,
-+		  crop->left - imx678_active_area.left, &ret);
-+	cci_write(imx678->cci, IMX678_REG_PIX_HWIDTH, crop->width, &ret);
-+	cci_write(imx678->cci, IMX678_REG_PIX_VST,
-+		  crop->top - imx678_active_area.top, &ret);
-+	cci_write(imx678->cci, IMX678_REG_PIX_VWIDTH, crop->height, &ret);
-+	cci_write(imx678->cci, IMX678_REG_ADBIT, binning ? 0x00 : 0x01, &ret);
-+
-+	return ret;
-+}
-+
-+static int imx678_enable_streams(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *state, u32 pad,
-+				 u64 mask)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(sd);
-+	struct imx678 *imx678 = to_imx678(sd);
-+	const struct v4l2_rect *crop = imx678_state_crop(state);
-+	const bool binning = imx678_state_binning(state);
-+	int ret = 0;
-+
-+	ret = pm_runtime_resume_and_get(&client->dev);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = imx678_program_window(imx678, crop, binning);
-+	if (ret) {
-+		dev_err(&client->dev, "%s failed to set mode\n", __func__);
-+		goto err_rpm_put;
-+	}
-+
-+	ret = __v4l2_ctrl_handler_setup(imx678->sd.ctrl_handler);
-+	if (ret) {
-+		dev_err(&client->dev, "%s failed to apply user values\n", __func__);
-+		goto err_rpm_put;
-+	}
-+
-+	cci_write(imx678->cci, IMX678_REG_MODE_SELECT, IMX678_MODE_STREAMING, &ret);
-+	usleep_range(IMX678_STREAM_DELAY_US, IMX678_STREAM_DELAY_US +
-+		     IMX678_STREAM_DELAY_RANGE_US);
-+	cci_write(imx678->cci, IMX678_REG_XMSTA, 0x00, &ret);
-+
-+	if (ret) {
-+		dev_err(&client->dev, "%s failed to start streaming\n", __func__);
-+		goto err_rpm_put;
-+	}
-+
-+	return 0;
-+
-+err_rpm_put:
-+	pm_runtime_put(&client->dev);
-+
-+	return ret;
-+}
-+
-+static int imx678_disable_streams(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *state,
-+				  u32 pad, u64 mask)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(sd);
-+	struct imx678 *imx678 = to_imx678(sd);
-+	int ret = 0;
-+
-+	/* Master mode disable */
-+	cci_write(imx678->cci, IMX678_REG_XMSTA, 0x01, &ret);
-+	/* Standby */
-+	cci_write(imx678->cci, IMX678_REG_MODE_SELECT, IMX678_MODE_STANDBY, &ret);
-+	if (ret)
-+		dev_err(&client->dev, "%s failed to stop stream\n", __func__);
-+
-+	pm_runtime_put(&client->dev);
-+
-+	return ret;
-+}
-+
-+static int imx678_power_on(struct device *dev)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct imx678 *imx678 = to_imx678(sd);
-+	int ret;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(imx678_supply_name), imx678->supplies);
-+	if (ret) {
-+		dev_err(&client->dev, "%s: failed to enable regulators\n",
-+			__func__);
-+		return ret;
-+	}
-+
-+	fsleep(1); /* Tlow > 500ns */
-+
-+	gpiod_set_value_cansleep(imx678->xclr_gpio, 1);
-+
-+	fsleep(1); /* T3 > 1us */
-+
-+	ret = clk_prepare_enable(imx678->xclk);
-+	if (ret) {
-+		dev_err(&client->dev, "%s: failed to enable clock\n",
-+			__func__);
-+		goto reg_off;
-+	}
-+
-+	fsleep(20); /* T4 > 20us */
-+
-+	ret = imx678_write_common(imx678);
-+	if (ret) {
-+		dev_err(&client->dev, "%s failed to write registers\n", __func__);
-+		goto clk_off;
-+	}
-+
-+	return 0;
-+
-+clk_off:
-+	clk_disable_unprepare(imx678->xclk);
-+reg_off:
-+	gpiod_set_value_cansleep(imx678->xclr_gpio, 0);
-+	regulator_bulk_disable(ARRAY_SIZE(imx678_supply_name), imx678->supplies);
-+	return ret;
-+}
-+
-+static int imx678_power_off(struct device *dev)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct imx678 *imx678 = to_imx678(sd);
-+
-+	clk_disable_unprepare(imx678->xclk);
-+	gpiod_set_value_cansleep(imx678->xclr_gpio, 0);
-+	regulator_bulk_disable(ARRAY_SIZE(imx678_supply_name), imx678->supplies);
-+
-+	return 0;
-+}
-+
-+static int imx678_get_regulators(struct imx678 *imx678)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&imx678->sd);
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(imx678_supply_name); i++)
-+		imx678->supplies[i].supply = imx678_supply_name[i];
-+
-+	return devm_regulator_bulk_get(&client->dev, ARRAY_SIZE(imx678_supply_name),
-+				       imx678->supplies);
-+}
-+
-+static int imx678_identify_model(struct imx678 *imx678)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&imx678->sd);
-+	const struct imx678_model_info *info;
-+	enum imx678_type detected;
-+	int ret = 0;
-+	u64 val = 0;
-+
-+	info = of_device_get_match_data(&client->dev);
-+
-+	/*
-+	 * This sensor's ID registers become accessible 80ms after coming out
-+	 * of STANDBY mode.
-+	 */
-+	cci_write(imx678->cci, IMX678_REG_MODE_SELECT, 0, &ret);
-+	fsleep(IMX678_MODULE_ID_DELAY);
-+
-+	cci_read(imx678->cci, IMX678_REG_MODULE_ID, &val, &ret);
-+
-+	if (val != IMX678_ID) {
-+		dev_err(&client->dev,
-+			"Chip ID mismatch: %x!=%llx\n", IMX678_ID, val);
-+		return -ENXIO;
-+	}
-+
-+	cci_read(imx678->cci, IMX678_REG_MONOCHROME, &val, &ret);
-+
-+	if (ret) {
-+		dev_err(&client->dev,
-+			"I2C transaction failed ret = %d\n", ret);
-+		return ret;
-+	}
-+
-+	detected = val & IMX678_TYPE;
-+
-+	if (info && detected != info->type)
-+		dev_err(&client->dev,
-+			"sensor type mismatch: detected %s, DT specifies %s; using DT value\n",
-+			detected == IMX678_MONOCHROME ? "mono" : "color",
-+			info->type == IMX678_MONOCHROME ? "mono" : "color");
-+
-+	imx678->type = info ? info->type : detected;
-+
-+	return 0;
-+}
-+
-+static int imx678_get_selection(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_state *sd_state,
-+				struct v4l2_subdev_selection *sel)
-+{
-+	switch (sel->target) {
-+	case V4L2_SEL_TGT_CROP:
-+		sel->r = *imx678_state_crop(sd_state);
-+		return 0;
-+
-+	case V4L2_SEL_TGT_NATIVE_SIZE:
-+		sel->r = imx678_native_area;
-+		return 0;
-+
-+	case V4L2_SEL_TGT_CROP_DEFAULT:
-+	case V4L2_SEL_TGT_CROP_BOUNDS:
-+		sel->r = imx678_active_area;
-+		return 0;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+/*
-+ * Only two analog crop sizes are valid for a given output format:
-+ *   - crop = format         (no binning)
-+ *   - crop = 2 x format     (2x2 binning, when it fits)
-+ *
-+ * Snap (and not reject) the request: pick the nearer of the two sizes (biased
-+ * by V4L2_SEL_FLAG_{LE,GE}), align the position to PIX_HST/VST granularity, and
-+ * clamp into the active area.
-+ */
-+static int imx678_set_selection(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_state *sd_state,
-+				struct v4l2_subdev_selection *sel)
-+{
-+	struct imx678 *imx678 = to_imx678(sd);
-+	const struct v4l2_mbus_framefmt *format;
-+	struct v4l2_rect *crop;
-+	bool prefer_2x = false;
-+
-+	if (sel->target != V4L2_SEL_TGT_CROP || sel->pad != 0)
-+		return -EINVAL;
-+
-+	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE &&
-+	    v4l2_subdev_is_streaming(sd))
-+		return -EBUSY;
-+
-+	format = v4l2_subdev_state_get_format(sd_state, sel->pad);
-+	crop = v4l2_subdev_state_get_crop(sd_state, sel->pad);
-+
-+	/* Current format can support 2x2 binning */
-+	if (imx678_pick_binning(format->width, format->height)) {
-+		if (sel->flags & V4L2_SEL_FLAG_LE)
-+			/* Prefer lower rectangle */
-+			prefer_2x = sel->r.width  >= 2 * format->width &&
-+				    sel->r.height >= 2 * format->height;
-+		else if (sel->flags & V4L2_SEL_FLAG_GE)
-+			/* Prefer bigger rectangle */
-+			prefer_2x = (sel->r.width  > format->width ||
-+				     sel->r.height > format->height);
-+		else
-+			/* Snap to closest rectangle */
-+			prefer_2x = 2 * sel->r.width  >= 3 * format->width &&
-+				    2 * sel->r.height >= 3 * format->height;
-+	}
-+
-+	crop->width  = format->width  * (prefer_2x ? 2 : 1);
-+	crop->height = format->height * (prefer_2x ? 2 : 1);
-+	crop->left = imx678_active_area.left +
-+		     ALIGN(sel->r.left - imx678_active_area.left,
-+			   IMX678_CROP_HST_ALIGN);
-+	crop->top  = imx678_active_area.top  +
-+		     ALIGN(sel->r.top  - imx678_active_area.top,
-+			   IMX678_CROP_VST_ALIGN);
-+
-+	/* This is safe to do because width/height are also 4-aligned */
-+	v4l2_rect_map_inside(crop, &imx678_active_area);
-+
-+	sel->r = *crop;
-+
-+	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-+		imx678_set_framing_limits(imx678, sd_state);
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_subdev_core_ops imx678_core_ops = {
-+	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-+	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-+};
-+
-+static const struct v4l2_subdev_video_ops imx678_video_ops = {
-+	.s_stream = v4l2_subdev_s_stream_helper,
-+};
-+
-+static const struct v4l2_subdev_pad_ops imx678_pad_ops = {
-+	.enum_mbus_code = imx678_enum_mbus_code,
-+	.get_fmt = v4l2_subdev_get_fmt,
-+	.set_fmt = imx678_set_pad_format,
-+	.get_selection = imx678_get_selection,
-+	.set_selection = imx678_set_selection,
-+	.enum_frame_size = imx678_enum_frame_size,
-+	.enable_streams = imx678_enable_streams,
-+	.disable_streams = imx678_disable_streams,
-+};
-+
-+static const struct v4l2_subdev_ops imx678_subdev_ops = {
-+	.core = &imx678_core_ops,
-+	.video = &imx678_video_ops,
-+	.pad = &imx678_pad_ops,
-+};
-+
-+static const struct v4l2_subdev_internal_ops imx678_internal_ops = {
-+	.init_state = imx678_init_state,
-+};
-+
-+static int imx678_init_controls(struct imx678 *imx678)
-+{
-+	struct v4l2_ctrl_handler *ctrl_hdlr;
-+	const u32 hmax_4lane = min_hmax_4lane[__ffs(imx678->link_freq_bitmap)];
-+	const u32 lane_scale = imx678->lane_mode == IMX678_LANEMODE_2L ? 2 : 1;
-+	struct i2c_client *client = v4l2_get_subdevdata(&imx678->sd);
-+	struct v4l2_fwnode_device_properties props;
-+	s32 hblank, max_hblank;
-+	u32 hmax;
-+	int ret;
-+
-+	ctrl_hdlr = &imx678->ctrl_handler;
-+	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 11);
-+	if (ret)
-+		return ret;
-+
-+	imx678->vmax = IMX678_VMAX_DEFAULT;
-+	hmax = hmax_4lane * lane_scale;
-+
-+	/* PIXEL_RATE is fixed and read-only */
-+	imx678->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &imx678_ctrl_ops,
-+					       V4L2_CID_PIXEL_RATE,
-+					       IMX678_PIXEL_RATE,
-+					       IMX678_PIXEL_RATE, 1,
-+					       IMX678_PIXEL_RATE);
-+
-+	/* LINK_FREQ is also read only */
-+	imx678->link_freq =
-+		v4l2_ctrl_new_int_menu(ctrl_hdlr, &imx678_ctrl_ops,
-+				       V4L2_CID_LINK_FREQ,
-+				       ARRAY_SIZE(link_freqs) - 1,
-+				       __ffs(imx678->link_freq_bitmap),
-+				       link_freqs);
-+
-+	if (imx678->link_freq)
-+		imx678->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	imx678->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx678_ctrl_ops, V4L2_CID_VBLANK,
-+					   imx678->vmax - imx678_active_area.height,
-+					   IMX678_VMAX_MAX - imx678_active_area.height, 2,
-+					   imx678->vmax - imx678_active_area.height);
-+
-+	hblank = hmax * IMX678_PIX_PER_CLK - imx678_active_area.width;
-+	max_hblank = IMX678_HMAX_MAX * IMX678_PIX_PER_CLK - imx678_active_area.width;
-+	imx678->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx678_ctrl_ops, V4L2_CID_HBLANK,
-+					   hblank, max_hblank, IMX678_PIX_PER_CLK, hblank);
-+
-+	imx678->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &imx678_ctrl_ops,
-+					     V4L2_CID_EXPOSURE,
-+					     IMX678_EXPOSURE_MIN,
-+					     IMX678_VMAX_DEFAULT -
-+					     IMX678_SHR_MIN,
-+					     IMX678_EXPOSURE_STEP,
-+					     IMX678_EXPOSURE_DEFAULT);
-+
-+	imx678->gain = v4l2_ctrl_new_std(ctrl_hdlr, &imx678_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
-+					 IMX678_ANA_GAIN_MIN_NORMAL, IMX678_ANA_GAIN_MAX_NORMAL,
-+					 IMX678_ANA_GAIN_STEP, IMX678_ANA_GAIN_DEFAULT);
-+
-+	imx678->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx678_ctrl_ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
-+	imx678->vflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx678_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
-+
-+	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &imx678_ctrl_ops, V4L2_CID_TEST_PATTERN,
-+				     ARRAY_SIZE(imx678_tpg_menu) - 1, 0, 0,
-+				     imx678_tpg_menu);
-+
-+	if (ctrl_hdlr->error) {
-+		ret = ctrl_hdlr->error;
-+		dev_err(&client->dev, "%s control init failed (%d)\n",
-+			__func__, ret);
-+		goto error;
-+	}
-+
-+	ret = v4l2_fwnode_device_parse(&client->dev, &props);
-+	if (ret)
-+		goto error;
-+
-+	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx678_ctrl_ops, &props);
-+	if (ret)
-+		goto error;
-+
-+	imx678->sd.ctrl_handler = ctrl_hdlr;
-+
-+	return 0;
-+
-+error:
-+	v4l2_ctrl_handler_free(ctrl_hdlr);
-+
-+	return ret;
-+}
-+
-+static void imx678_free_controls(struct imx678 *imx678)
-+{
-+	v4l2_ctrl_handler_free(imx678->sd.ctrl_handler);
-+}
-+
-+static int imx678_check_hwcfg(struct device *dev, struct imx678 *imx678)
-+{
-+	struct fwnode_handle *endpoint;
-+	struct v4l2_fwnode_endpoint ep_cfg = {
-+		.bus_type = V4L2_MBUS_CSI2_DPHY
-+	};
-+	int ret = -EINVAL;
-+
-+	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
-+	if (!endpoint) {
-+		dev_err(dev, "endpoint node not found\n");
-+		return -EINVAL;
-+	}
-+
-+	if (v4l2_fwnode_endpoint_alloc_parse(endpoint, &ep_cfg)) {
-+		dev_err(dev, "could not parse endpoint\n");
-+		goto error_out;
-+	}
-+
-+	switch (ep_cfg.bus.mipi_csi2.num_data_lanes) {
-+	case 2:
-+		imx678->lane_mode = IMX678_LANEMODE_2L;
-+		break;
-+	case 4:
-+		imx678->lane_mode = IMX678_LANEMODE_4L;
-+		break;
-+	default:
-+		dev_err(dev,
-+			"only 2 or 4 CSI2 data lanes are currently supported\n");
-+		goto error_out;
-+	}
-+
-+	ret = v4l2_link_freq_to_bitmap(dev, ep_cfg.link_frequencies,
-+				       ep_cfg.nr_of_link_frequencies,
-+				       link_freqs, ARRAY_SIZE(link_freqs),
-+				       &imx678->link_freq_bitmap);
-+
-+error_out:
-+	v4l2_fwnode_endpoint_free(&ep_cfg);
-+	fwnode_handle_put(endpoint);
-+
-+	return ret;
-+}
-+
-+static int imx678_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct imx678 *imx678;
-+	int ret, i;
-+
-+	imx678 = devm_kzalloc(&client->dev, sizeof(*imx678), GFP_KERNEL);
-+	if (!imx678)
-+		return -ENOMEM;
-+
-+	v4l2_i2c_subdev_init(&imx678->sd, client, &imx678_subdev_ops);
-+
-+	imx678->cci = devm_cci_regmap_init_i2c(client, 16);
-+	if (IS_ERR(imx678->cci))
-+		return dev_err_probe(dev, PTR_ERR(imx678->cci),
-+				     "failed to init CCI\n");
-+
-+	if (imx678_check_hwcfg(dev, imx678))
-+		return -EINVAL;
-+
-+	imx678->xclk = devm_v4l2_sensor_clk_get(dev, NULL);
-+	if (IS_ERR(imx678->xclk))
-+		return dev_err_probe(dev, PTR_ERR(imx678->xclk),
-+				     "failed to get xclk\n");
-+
-+	imx678->xclk_freq = clk_get_rate(imx678->xclk);
-+
-+	for (i = 0; i < ARRAY_SIZE(imx678_inck_table); ++i) {
-+		if (imx678_inck_table[i].xclk_hz == imx678->xclk_freq) {
-+			imx678->inck_sel_val = imx678_inck_table[i].inck_sel;
-+			break;
-+		}
-+	}
-+
-+	if (i == ARRAY_SIZE(imx678_inck_table))
-+		return dev_err_probe(dev, -EINVAL,
-+				     "unsupported XCLK rate %u Hz\n",
-+				     imx678->xclk_freq);
-+
-+	ret = imx678_get_regulators(imx678);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to get regulators\n");
-+
-+	imx678->xclr_gpio = devm_gpiod_get_optional(dev, "xclr",
-+						    GPIOD_OUT_LOW);
-+	if (IS_ERR(imx678->xclr_gpio))
-+		return dev_err_probe(dev, PTR_ERR(imx678->xclr_gpio),
-+				     "failed to get xclr GPIO\n");
-+
-+	ret = imx678_power_on(dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = imx678_identify_model(imx678);
-+	if (ret)
-+		goto error_power_off;
-+
-+	pm_runtime_set_active(dev);
-+	pm_runtime_enable(dev);
-+
-+	ret = imx678_init_controls(imx678);
-+	if (ret)
-+		goto error_pm_runtime;
-+
-+	imx678->sd.internal_ops = &imx678_internal_ops;
-+	imx678->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-+				V4L2_SUBDEV_FL_HAS_EVENTS;
-+	imx678->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-+
-+	imx678->pad.flags = MEDIA_PAD_FL_SOURCE;
-+
-+	ret = media_entity_pads_init(&imx678->sd.entity, 1, &imx678->pad);
-+	if (ret) {
-+		dev_err(dev, "failed to init entity pads: %d\n", ret);
-+		goto error_handler_free;
-+	}
-+
-+	imx678->sd.state_lock = imx678->ctrl_handler.lock;
-+	ret = v4l2_subdev_init_finalize(&imx678->sd);
-+	if (ret < 0) {
-+		dev_err(dev, "subdev init error\n");
-+		goto error_media_entity;
-+	}
-+
-+	ret = v4l2_async_register_subdev_sensor(&imx678->sd);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to register sensor sub-device: %d\n", ret);
-+		goto error_subdev_cleanup;
-+	}
-+
-+	pm_runtime_idle(dev);
-+
-+	return 0;
-+
-+error_subdev_cleanup:
-+	v4l2_subdev_cleanup(&imx678->sd);
-+
-+error_media_entity:
-+	media_entity_cleanup(&imx678->sd.entity);
-+
-+error_handler_free:
-+	imx678_free_controls(imx678);
-+
-+error_pm_runtime:
-+	pm_runtime_disable(&client->dev);
-+	pm_runtime_set_suspended(&client->dev);
-+
-+error_power_off:
-+	imx678_power_off(&client->dev);
-+
-+	return ret;
-+}
-+
-+static void imx678_remove(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct imx678 *imx678 = to_imx678(sd);
-+
-+	v4l2_async_unregister_subdev(sd);
-+	v4l2_subdev_cleanup(sd);
-+	media_entity_cleanup(&sd->entity);
-+	imx678_free_controls(imx678);
-+
-+	pm_runtime_disable(&client->dev);
-+	if (!pm_runtime_status_suspended(&client->dev))
-+		imx678_power_off(&client->dev);
-+	pm_runtime_set_suspended(&client->dev);
-+}
-+
-+static const struct dev_pm_ops imx678_pm_ops = {
-+	SET_RUNTIME_PM_OPS(imx678_power_off, imx678_power_on, NULL)
-+};
-+
-+static const struct of_device_id imx678_of_match[] = {
-+	{ .compatible = "sony,imx678" },
-+	{ .compatible = "sony,imx678-aamr", .data = &imx678_aamr_info },
-+	{ .compatible = "sony,imx678-aaqr", .data = &imx678_aaqr_info },
-+	{ /* sentinel */ }
-+};
-+
-+MODULE_DEVICE_TABLE(of, imx678_of_match);
-+
-+static struct i2c_driver imx678_i2c_driver = {
-+	.driver = {
-+		.name = "imx678",
-+		.of_match_table = imx678_of_match,
-+		.pm = &imx678_pm_ops,
-+	},
-+	.probe = imx678_probe,
-+	.remove = imx678_remove,
-+};
-+
-+module_i2c_driver(imx678_i2c_driver);
-+
-+MODULE_AUTHOR("Will Whang <will@willwhang.com>");
-+MODULE_AUTHOR("Tetsuya NOMURA <tetsuya.nomura@soho-enterprise.com>");
-+MODULE_AUTHOR("Jai Luthra <jai.luthra@ideasonboard.com>");
-+MODULE_DESCRIPTION("Sony imx678 sensor driver");
-+MODULE_LICENSE("GPL");
+> 
+> to the next patches in the series (and this one if you want to
+> introduce the empty uAPI header here. More below on this).
+> 
+> >
+> > * Changes since v6
+> > - Use kzalloc_obj
+> > - Set device pointer
+> >
+> > * Changes since v5
+> > - Make use of v4l2-isp.
+> > - Make VIDEO_DCT_RPPX1 a non visible symbol. It makes no sens to build
+> >   it without a consumer.
+> >
+> > * Changes since v2
+> > - Add missing include to slab.h
+> >
+> > * Changes since v3
+> > - Fix small build issues found by 0day on non-arm ARCH.
+> > ---
+> >  MAINTAINERS                                   |   7 +
+> >  drivers/media/platform/Kconfig                |   1 +
+> >  drivers/media/platform/Makefile               |   1 +
+> >  drivers/media/platform/dreamchip/Kconfig      |   3 +
+> >  drivers/media/platform/dreamchip/Makefile     |   6 +
+> >  .../media/platform/dreamchip/rppx1/Kconfig    |  12 +
+> >  .../media/platform/dreamchip/rppx1/Makefile   |  33 ++
+> >  .../platform/dreamchip/rppx1/rpp_module.c     |  40 +++
+> >  .../platform/dreamchip/rppx1/rpp_module.h     | 145 ++++++++
+> >  .../platform/dreamchip/rppx1/rpp_params.c     |  72 ++++
+> >  .../platform/dreamchip/rppx1/rpp_stats.c      |  27 ++
+> >  .../media/platform/dreamchip/rppx1/rppx1.c    | 339 ++++++++++++++++++
+> >  .../media/platform/dreamchip/rppx1/rppx1.h    |  99 +++++
+> >  .../platform/dreamchip/rppx1/rppx1_acq.c      | 147 ++++++++
+> >  .../platform/dreamchip/rppx1/rppx1_awbg.c     |  30 ++
+> >  .../media/platform/dreamchip/rppx1/rppx1_bd.c |  52 +++
+> >  .../platform/dreamchip/rppx1/rppx1_bdrgb.c    |  80 +++++
+> >  .../platform/dreamchip/rppx1/rppx1_bls.c      |  59 +++
+> >  .../platform/dreamchip/rppx1/rppx1_cac.c      |  29 ++
+> >  .../platform/dreamchip/rppx1/rppx1_ccor.c     | 106 ++++++
+> >  .../media/platform/dreamchip/rppx1/rppx1_db.c |  44 +++
+> >  .../platform/dreamchip/rppx1/rppx1_dpcc.c     |  76 ++++
+> >  .../platform/dreamchip/rppx1/rppx1_exm.c      |  51 +++
+> >  .../media/platform/dreamchip/rppx1/rppx1_ga.c |  49 +++
+> >  .../platform/dreamchip/rppx1/rppx1_hist.c     |  76 ++++
+> >  .../platform/dreamchip/rppx1/rppx1_hist256.c  |  46 +++
+> >  .../media/platform/dreamchip/rppx1/rppx1_is.c |  42 +++
+> >  .../platform/dreamchip/rppx1/rppx1_lin.c      |  58 +++
+> >  .../platform/dreamchip/rppx1/rppx1_lsc.c      |  68 ++++
+> >  .../platform/dreamchip/rppx1/rppx1_ltm.c      |  48 +++
+> >  .../platform/dreamchip/rppx1/rppx1_ltmmeas.c  |  41 +++
+> >  .../platform/dreamchip/rppx1/rppx1_outif.c    |  45 +++
+> >  .../platform/dreamchip/rppx1/rppx1_outregs.c  |  75 ++++
+> >  .../platform/dreamchip/rppx1/rppx1_rmap.c     |  64 ++++
+> >  .../platform/dreamchip/rppx1/rppx1_rmapmeas.c |  47 +++
+> >  .../platform/dreamchip/rppx1/rppx1_shrp.c     |  64 ++++
+> >  .../platform/dreamchip/rppx1/rppx1_wbmeas.c   |  61 ++++
+> >  .../platform/dreamchip/rppx1/rppx1_xyz2luv.c  |  26 ++
+> >  include/media/rppx1.h                         |  34 ++
+> >  .../uapi/linux/media/dreamchip/rppx1-config.h |  66 ++++
+> 
+> If you want to do it this way (add an empty uapi file and populate it
+> as we add blocks) please break the introduction of the uAPI header out
+> to a separate commit and retain Jai's authorship.
+> 
+> I don't think it it necessary to split adding blocks in different
+> commits and I think it would be better to add the uapi file in one go
+> for easier bisection.
+
+I really think adding each function together with it's logic. Double so 
+as you in this review calls fro some blocks to be removed as there are 
+no libcamera users of them yet. I will break out the scaffolding of the 
+header file to it's own commit based on Jai's original.
+
+> 
+> >  40 files changed, 2369 insertions(+)
+> >  create mode 100644 drivers/media/platform/dreamchip/Kconfig
+> >  create mode 100644 drivers/media/platform/dreamchip/Makefile
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/Kconfig
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/Makefile
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_module.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_module.h
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_params.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_stats.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1.h
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_acq.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_bd.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_bdrgb.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_cac.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_db.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_dpcc.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_exm.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ga.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_hist256.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_is.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ltm.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ltmmeas.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_outif.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_outregs.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_rmap.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_rmapmeas.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_shrp.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c
+> >  create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_xyz2luv.c
+> >  create mode 100644 include/media/rppx1.h
+> >  create mode 100644 include/uapi/linux/media/dreamchip/rppx1-config.h
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index fb3c08e42a66..b7bdfa1b4816 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -7787,6 +7787,13 @@ F:	drivers/block/drbd/
+> >  F:	include/linux/drbd*
+> >  F:	lib/lru_cache.c
+> >
+> > +DREAMCHIP RPPX1 ISP
+> > +M:	Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> 
+> Please add me and Jai here
+
+Of course, it makes me happy with more maintainers!
+
+> 
+> > +L:	linux-media@vger.kernel.org
+> > +S:	Maintained
+> > +F:	drivers/media/platform/dreamchip/rppx1/
+> > +F:	include/uapi/linux/media/dreamchip/rppx1-config.h
+> 
+> Once the formats are documented they should be added here
+
+Good idea, done.
+
+> 
+> > +
+> >  DRIVER COMPONENT FRAMEWORK
+> >  L:	dri-devel@lists.freedesktop.org
+> >  F:	drivers/base/component.c
+> > diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> > index 3f0b7bb68cc9..3621b46e1e8d 100644
+> > --- a/drivers/media/platform/Kconfig
+> > +++ b/drivers/media/platform/Kconfig
+> > @@ -71,6 +71,7 @@ source "drivers/media/platform/atmel/Kconfig"
+> >  source "drivers/media/platform/broadcom/Kconfig"
+> >  source "drivers/media/platform/cadence/Kconfig"
+> >  source "drivers/media/platform/chips-media/Kconfig"
+> > +source "drivers/media/platform/dreamchip/Kconfig"
+> >  source "drivers/media/platform/imagination/Kconfig"
+> >  source "drivers/media/platform/intel/Kconfig"
+> >  source "drivers/media/platform/marvell/Kconfig"
+> > diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+> > index 6d5f79ddfcc3..0cc4bfe0da32 100644
+> > --- a/drivers/media/platform/Makefile
+> > +++ b/drivers/media/platform/Makefile
+> > @@ -14,6 +14,7 @@ obj-y += atmel/
+> >  obj-y += broadcom/
+> >  obj-y += cadence/
+> >  obj-y += chips-media/
+> > +obj-y += dreamchip/
+> >  obj-y += imagination/
+> >  obj-y += intel/
+> >  obj-y += marvell/
+> > diff --git a/drivers/media/platform/dreamchip/Kconfig b/drivers/media/platform/dreamchip/Kconfig
+> > new file mode 100644
+> > index 000000000000..d177d4ee79ae
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/Kconfig
+> > @@ -0,0 +1,3 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +
+> > +source "drivers/media/platform/dreamchip/rppx1/Kconfig"
+> > diff --git a/drivers/media/platform/dreamchip/Makefile b/drivers/media/platform/dreamchip/Makefile
+> > new file mode 100644
+> > index 000000000000..ba47ba2d136e
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/Makefile
+> > @@ -0,0 +1,6 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> > +#
+> > +# Makefile for the Dreamchip device drivers.
+> > +#
+> > +
+> > +obj-y += rppx1/
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/Kconfig b/drivers/media/platform/dreamchip/rppx1/Kconfig
+> > new file mode 100644
+> > index 000000000000..0998a7d10bf2
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/Kconfig
+> > @@ -0,0 +1,12 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +config VIDEO_DCT_RPPX1
+> > +	tristate
+> > +	depends on V4L_PLATFORM_DRIVERS
+> > +	select V4L2_ISP
+> > +	help
+> > +	  Support library for Dreamchip HDR RPP X1 High Dynamic Range Real-time
+> > +	  Pixel Processor (RPP). The library can be used by other drivers who
+> > +	  utilises the RPP as part of an ISP implementation.
+> > +
+> > +	  To compile this driver as a module, choose M here: the
+> > +	  module will be called rppx1.
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/Makefile b/drivers/media/platform/dreamchip/rppx1/Makefile
+> > new file mode 100644
+> > index 000000000000..b2bd6b5d68bc
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/Makefile
+> > @@ -0,0 +1,33 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +dct-rpp-x1-objs = \
+> > +	rpp_module.o \
+> > +	rpp_params.o \
+> > +	rpp_stats.o \
+> > +	rppx1.o \
+> > +	rppx1_acq.o \
+> > +	rppx1_awbg.o \
+> > +	rppx1_bd.o \
+> > +	rppx1_bdrgb.o \
+> > +	rppx1_bls.o \
+> > +	rppx1_cac.o \
+> > +	rppx1_ccor.o \
+> > +	rppx1_db.o \
+> > +	rppx1_dpcc.o \
+> > +	rppx1_exm.o \
+> > +	rppx1_ga.o \
+> > +	rppx1_hist.o \
+> > +	rppx1_hist256.o \
+> > +	rppx1_is.o \
+> > +	rppx1_lin.o \
+> > +	rppx1_lsc.o \
+> > +	rppx1_ltm.o \
+> > +	rppx1_ltmmeas.o \
+> > +	rppx1_outif.o \
+> > +	rppx1_outregs.o \
+> > +	rppx1_rmap.o \
+> > +	rppx1_rmapmeas.o \
+> > +	rppx1_shrp.o \
+> > +	rppx1_wbmeas.o \
+> > +	rppx1_xyz2luv.o
+> > +
+> > +obj-$(CONFIG_VIDEO_DCT_RPPX1) += dct-rpp-x1.o
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_module.c b/drivers/media/platform/dreamchip/rppx1/rpp_module.c
+> > new file mode 100644
+> > index 000000000000..cd923b7ff5c1
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rpp_module.c
+> > @@ -0,0 +1,40 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include <linux/slab.h>
+> 
+> I don't think this is needed
+
+Nice catch, it have been so many iterations I don't recall why I needed 
+it in the first place.
+
+> 
+> > +
+> > +#include "rppx1.h"
+> > +#include "rpp_module.h"
+> > +
+> > +int rpp_module_probe(struct rpp_module *mod, struct rppx1 *rpp,
+> > +		     const struct rpp_module_ops *ops, u32 base)
+> > +{
+> > +	mod->rpp = rpp;
+> > +	mod->base = base;
+> > +	mod->ops = ops;
+> > +
+> > +	if (ops->probe)
+> > +		return ops->probe(mod);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +void rpp_module_write(struct rpp_module *mod, u32 offset, u32 value)
+> > +{
+> > +	rppx1_write(mod->rpp, mod->base + offset, value);
+> > +}
+> > +
+> > +u32 rpp_module_read(struct rpp_module *mod, u32 offset)
+> > +{
+> > +	return rppx1_read(mod->rpp, mod->base + offset);
+> > +}
+> > +
+> > +void rpp_module_clrset(struct rpp_module *mod, u32 offset, u32 mask, u32 value)
+> > +{
+> > +	u32 reg = rpp_module_read(mod, offset) & ~mask;
+> > +
+> > +	rpp_module_write(mod, offset, reg | value);
+> > +}
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_module.h b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
+> > new file mode 100644
+> > index 000000000000..742904973e35
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
+> > @@ -0,0 +1,145 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#ifndef __RPPX1_MODULE_H__
+> > +#define __RPPX1_MODULE_H__
+> > +
+> > +#include <linux/errno.h>
+> > +#include <linux/types.h>
+> > +#include <linux/v4l2-mediabus.h>
+> > +
+> > +#include <linux/media/dreamchip/rppx1-config.h>
+> > +
+> > +#include <media/rppx1.h>
+> > +
+> > +struct rpp_module_ops;
+> > +
+> > +enum rpp_raw_pattern {
+> > +	RPP_RGGB = 0,
+> > +	RPP_GRBG,
+> > +	RPP_GBRG,
+> > +	RPP_BGGR,
+> > +};
+> > +
+> > +struct rpp_module {
+> > +	struct rppx1 *rpp;
+> > +	u32 base;
+> > +
+> > +	const struct rpp_module_ops *ops;
+> > +
+> > +	union {
+> > +		struct {
+> > +			enum rpp_raw_pattern raw_pattern;
+> > +		} acq;
+> > +		struct {
+> > +			unsigned int colorbits;
+> > +		} bdrgb;
+> > +		struct {
+> > +			unsigned int colorbits;
+> > +		} bls;
+> > +		struct {
+> > +			unsigned int colorbits;
+> > +			unsigned int type;
+> > +		} ccor;
+> > +		struct {
+> > +			unsigned int colorbits;
+> > +		} dpcc;
+> > +		struct {
+> > +			unsigned int resultbits;
+> > +		} exm;
+> > +		struct {
+> > +			unsigned int colorbits;
+> > +		} ga;
+> > +		struct {
+> > +			unsigned int colorbits;
+> > +		} hist;
+> > +		struct {
+> > +			unsigned int colorbits;
+> > +		} lin;
+> > +		struct {
+> > +			unsigned int colorbits_high;
+> > +			unsigned int colorbits_low;
+> > +		} rmap;
+> > +		struct {
+> > +			unsigned int colorbits_high;
+> > +			unsigned int colorbits_low;
+> > +		} rmapmeas;
+> > +		struct {
+> > +			unsigned int colorbits;
+> > +		} shrp;
+> > +		struct {
+> > +			unsigned int colorbits;
+> > +		} wbmeas;
+> > +	} info;
+> > +};
+> > +
+> > +int rpp_module_probe(struct rpp_module *mod, struct rppx1 *rpp,
+> > +		     const struct rpp_module_ops *ops, u32 base);
+> > +
+> > +void rpp_module_write(struct rpp_module *mod, u32 offset, u32 value);
+> > +u32 rpp_module_read(struct rpp_module *mod, u32 offset);
+> > +void rpp_module_clrset(struct rpp_module *mod, u32 offset, u32 mask, u32 value);
+> > +
+> > +union rppx1_params_block {
+> > +	struct v4l2_isp_params_block_header header;
+> > +};
+> > +
+> > +union rppx1_stats_block {
+> > +	struct v4l2_isp_params_block_header header;
+> > +};
+> > +
+> > +struct rpp_module_ops {
+> > +	int (*probe)(struct rpp_module *mod);
+> > +	int (*start)(struct rpp_module *mod, const struct v4l2_mbus_framefmt *fmt);
+> > +
+> > +	int (*fill_params)(struct rpp_module *mod,
+> > +			   const union rppx1_params_block *block,
+> > +			   rppx1_reg_write write, void *priv);
+> > +	int (*fill_stats)(struct rpp_module *mod,
+> > +			  union rppx1_stats_block *block);
+> > +};
+> > +
+> > +extern const struct rpp_module_ops rppx1_acq_ops;
+> > +extern const struct rpp_module_ops rppx1_awbg_ops;
+> > +extern const struct rpp_module_ops rppx1_bd_ops;
+> > +extern const struct rpp_module_ops rppx1_bdrgb_ops;
+> > +extern const struct rpp_module_ops rppx1_bls_ops;
+> > +extern const struct rpp_module_ops rppx1_cac_ops;
+> > +extern const struct rpp_module_ops rppx1_ccor_ops;
+> > +extern const struct rpp_module_ops rppx1_ccor_csm_ops;
+> > +extern const struct rpp_module_ops rppx1_db_ops;
+> > +extern const struct rpp_module_ops rppx1_dpcc_ops;
+> > +extern const struct rpp_module_ops rppx1_exm_ops;
+> > +extern const struct rpp_module_ops rppx1_ga_ops;
+> > +extern const struct rpp_module_ops rppx1_hist256_ops;
+> > +extern const struct rpp_module_ops rppx1_hist_ops;
+> > +extern const struct rpp_module_ops rppx1_is_ops;
+> > +extern const struct rpp_module_ops rppx1_lin_ops;
+> > +extern const struct rpp_module_ops rppx1_lsc_ops;
+> > +extern const struct rpp_module_ops rppx1_ltm_ops;
+> > +extern const struct rpp_module_ops rppx1_ltmmeas_ops;
+> > +extern const struct rpp_module_ops rppx1_outif_ops;
+> > +extern const struct rpp_module_ops rppx1_outregs_ops;
+> > +extern const struct rpp_module_ops rppx1_rmapmeas_ops;
+> > +extern const struct rpp_module_ops rppx1_rmap_ops;
+> > +extern const struct rpp_module_ops rppx1_shrp_ops;
+> > +extern const struct rpp_module_ops rppx1_wbmeas_ops;
+> > +extern const struct rpp_module_ops rppx1_xyz2luv_ops;
+> > +
+> > +#define rpp_module_call(mod, op, args...)				\
+> > +	({								\
+> > +		struct rpp_module *__mod = (mod);			\
+> > +		int __result;						\
+> > +		if (!__mod)						\
+> > +			__result = -ENODEV;				\
+> > +		else if (!__mod->ops->op)				\
+> > +			__result = 0;					\
+> > +		else							\
+> > +			__result = __mod->ops->op(__mod, ##args);	\
+> > +		__result;						\
+> > +	})
+> > +
+> > +#endif /* __RPPX1_MODULE_H__ */
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
+> > new file mode 100644
+> > index 000000000000..a5feb18f3bd5
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
+> > @@ -0,0 +1,72 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include <media/v4l2-isp.h>
+> > +#include <media/videobuf2-v4l2.h>
+> > +
+> > +#include "rppx1.h"
+> > +
+> > +#define RPPX1_PARAMS_BLOCK_INFO(block, data) \
+> > +	[RPPX1_PARAMS_BLOCK_TYPE_ ## block] = { \
+> > +		.size = sizeof(struct rppx1_ ## data ## _params), \
+> > +	}
+> > +
+> > +static const struct v4l2_isp_block_type_info
+> > +rppx1_ext_params_blocks_info[] = {
+> > +};
+> > +
+> > +int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
+> > +		 rppx1_reg_write write, void *priv)
+> > +{
+> > +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> > +	struct v4l2_isp_params_buffer *cfg;
+> > +	size_t block_offset;
+> > +	int ret;
+> > +
+> > +	ret = v4l2_isp_params_validate_buffer_size(rpp->dev, vb, max_size);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	cfg = vb2_plane_vaddr(&vbuf->vb2_buf, 0);
+> > +
+> > +	ret = v4l2_isp_params_validate_buffer(rpp->dev, vb,
+> > +					      (struct v4l2_isp_params_buffer *)cfg,
+> 
+> The cast is probably not needed
+
+Nice catch!
+
+> 
+> > +					      rppx1_ext_params_blocks_info,
+> > +					      ARRAY_SIZE(rppx1_ext_params_blocks_info));
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	/* Walk the list of parameter blocks and process them. */
+> > +	block_offset = 0;
+> > +	while (block_offset < cfg->data_size) {
+> > +		const union rppx1_params_block *block =
+> > +			(const union rppx1_params_block *)&cfg->data[block_offset];
+> > +		struct rpp_module *module;
+> > +		int ret;
+> > +
+> > +		block_offset += block->header.size;
+> > +
+> > +		switch (block->header.type) {
+> > +		default:
+> > +			module = NULL;
+> > +			break;
+> > +		}
+> > +
+> > +		if (!module) {
+> 
+> If you want to do this you should initialize module to NULL. Otherwise
+> you can simply pr_warn (why not dev_warn() or even _dbg() ?) and
+> continue inside the switch ?
+
+Indeed. And now when we have a dev pointer we should indeed use it. I 
+will keep dev_warn() tho.
+
+> 
+> > +			pr_warn("Not handled RPPX1 block type: 0x%04x\n", block->header.type);
+> > +			continue;
+> > +		}
+> > +
+> > +		ret = rpp_module_call(module, fill_params, block, write, priv);
+> > +		if (ret) {
+> > +			pr_err("Error processing RPPX1 block type: 0x%04x\n", block->header.type);
+> 
+> Similar here, you have access to rpp->dev, use dev_err() (or _dbg() as
+> the error can be triggered by a userspace)
+
+Thanks, I will use dev_err().
+
+> 
+> > +			return ret;
+> > +		}
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(rppx1_params);
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_stats.c b/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
+> > new file mode 100644
+> > index 000000000000..8f43e56ba361
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
+> > @@ -0,0 +1,27 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rppx1.h"
+> > +#include "rpp_module.h"
+> > +
+> > +#include <media/v4l2-isp.h>
+> > +
+> > +#define RPPX1_STATS_BLOCK_INFO(type, block) \
+> > +	[RPPX1_STATS_BLOCK_TYPE_ ## type] = { \
+> > +		.size = sizeof(struct rppx1_ ## block ## _stats), \
+> > +	}
+> > +
+> > +#define rppx1_init_stats_block(rpp, buf, type)				\
+> > +	((union rppx1_stats_block *)					\
+> > +	v4l2_isp_stats_init_block((rpp)->dev, (buf),			\
+> > +				  rppx1_stats_blocks_info,		\
+> > +				  ARRAY_SIZE(rppx1_stats_blocks_info),	\
+> > +				  (type), RPPX1_STATS_MAX_SIZE))	\
+> > +
+> > +void rppx1_stats_fill_isr(struct rppx1 *rpp, u32 isc, void *buf)
+> > +{
+> > +}
+> > +EXPORT_SYMBOL_GPL(rppx1_stats_fill_isr);
+> 
+> You will need to rebase on https://patchwork.linuxtv.org/project/linux-media/list/?series=24772
+
+Done.
+
+> 
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1.c b/drivers/media/platform/dreamchip/rppx1/rppx1.c
+> > new file mode 100644
+> > index 000000000000..2998c5f2a42e
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1.c
+> > @@ -0,0 +1,339 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + *
+> > + * Support library for Dreamchip HDR RPPX1 High Dynamic Range Real-time Pixel
+> > + * Processor.
+> > + */
+> > +
+> > +#include <linux/io.h>
+> > +#include <linux/module.h>
+> > +#include <linux/slab.h>
+> > +
+> > +#include "rppx1.h"
+> > +
+> > +/* RPP_HDR Base Addresses */
+> > +#define RPPX1_HDRREGS_BASE			0x0000
+> > +#define RPPX1_HDR_IRQ_BASE			0x0200
+> > +#define RPPX1_RPP_OUT_BASE			0x0800
+> > +#define RPPX1_RPP_RMAP_BASE			0x0c00
+> > +#define RPPX1_RPP_RMAP_MEAS_BASE		0x1000
+> > +#define RPPX1_RPP_MAIN_PRE1_BASE		0x2000
+> > +#define RPPX1_RPP_MAIN_PRE2_BASE		0x4000
+> > +#define RPPX1_RPP_MAIN_POST_BASE		0xa000
+> > +#define RPPX1_RPP_MVOUT_BASE			0xc000
+> > +#define RPPX1_RPP_FUSA_BASE			0xf000
+> > +
+> > +#define RPPX1_RPP_HDRREGS_VERSION_REG			(RPPX1_HDRREGS_BASE + 0x0000)
+> > +#define RPPX1_RPP_HDR_UPD_REG				(RPPX1_HDRREGS_BASE + 0x0004)
+> > +#define RPPX1_RESERVED_3_REG				(RPPX1_HDRREGS_BASE + 0x0008)
+> > +#define RPPX1_RPP_HDR_INFORM_ENABLE_REG			(RPPX1_HDRREGS_BASE + 0x000c)
+> > +#define RPPX1_RPP_HDR_OUT_IF_ON_REG			(RPPX1_HDRREGS_BASE + 0x0010)
+> > +#define RPPX1_RPP_HDR_OUT_IF_OFF_REG			(RPPX1_HDRREGS_BASE + 0x0014)
+> > +#define RPPX1_RPP_HDR_SAFETY_ACCESS_PROTECTION_REG	(RPPX1_HDRREGS_BASE + 0x0018)
+> > +
+> > +#define RPPX1_RPP_ISM				(RPPX1_HDR_IRQ_BASE + 0x00)
+> > +#define RPPX1_RPP_RIS				(RPPX1_HDR_IRQ_BASE + 0x04)
+> > +#define RPPX1_RPP_MIS				(RPPX1_HDR_IRQ_BASE + 0x08)
+> > +#define RPPX1_RPP_ISC				(RPPX1_HDR_IRQ_BASE + 0x0c)
+> > +
+> > +/* RPP_OUT/MV_OUT Pipelines - Base Addresses */
+> > +#define RPPX1_GAMMA_OUT_BASE			0x0000 /* HV, MV */
+> > +#define RPPX1_IS_BASE				0x00c0 /* HV, MV */
+> > +#define RPPX1_CSM_BASE				0x0100 /* HV, MV */
+> > +#define RPPX1_OUT_IF_BASE			0x0200 /* HV, MV */
+> > +#define RPPX1_RPP_OUTREGS_BASE			0x02c0 /* HV, MV */
+> > +#define RPPX1_LUV_BASE				0x0300 /* MV */
+> > +
+> > +/* PRE1/PRE2/POST Pipelines - Base Addresses */
+> > +#define RPPX1_ACQ_BASE				0x0080 /* PRE1, PRE2 */
+> > +#define RPPX1_BLS_BASE				0x0100 /* PRE1, PRE2 */
+> > +#define RPPX1_GAMMA_IN_BASE			0x0200 /* PRE1, PRE2 */
+> > +#define RPPX1_LSC_BASE				0x0400 /* PRE1, PRE2 */
+> > +#define RPPX1_AWB_GAIN_BASE			0x0500 /* PRE1, PRE2, POST */
+> > +#define RPPX1_DPCC_BASE				0x0600 /* PRE1, PRE2 */
+> > +#define RPPX1_DPF_BASE				0x0700 /* PRE1, PRE2 */
+> > +#define RPPX1_FILT_BASE				0x0800 /* POST */
+> > +#define RPPX1_CAC_BASE				0x0880 /* POST */
+> > +#define RPPX1_CCOR_BASE				0x0900 /* POST */
+> > +#define RPPX1_HIST_BASE				0x0a00 /* PRE1, PRE2, POST */
+> > +#define RPPX1_HIST256_BASE			0x0b00 /* PRE1 */
+> > +#define RPPX1_EXM_BASE				0x0c00 /* PRE1, PRE2 */
+> > +#define RPPX1_LTM_BASE				0x1000 /* POST */
+> > +#define RPPX1_LTM_MEAS_BASE			0x1200 /* POST */
+> > +#define RPPX1_WBMEAS_BASE			0x1700 /* POST */
+> > +#define RPPX1_BDRGB_BASE			0x1800 /* POST */
+> > +#define RPPX1_SHRP_BASE				0x1a00 /* POST */
+> > +
+> > +/* Functional Safety Module Base Addresses */
+> > +#define RPPX1_FMU_BASE				0x0100
+> > +
+> > +#define RPPX1_RPP_HDR_FMU_FSM			(RPPX1_RPP_FUSA_BASE + RPPX1_FMU_BASE + 0x00)
+> > +#define RPPX1_RPP_HDR_FMU_RFS			(RPPX1_RPP_FUSA_BASE + RPPX1_FMU_BASE + 0x04)
+> > +#define RPPX1_RPP_HDR_FMU_MFS			(RPPX1_RPP_FUSA_BASE + RPPX1_FMU_BASE + 0x08)
+> > +#define RPPX1_RPP_HDR_FMU_FSC			(RPPX1_RPP_FUSA_BASE + RPPX1_FMU_BASE + 0x0c)
+> > +
+> > +void rppx1_write(struct rppx1 *rpp, u32 offset, u32 value)
+> > +{
+> > +	iowrite32(value, rpp->base + offset);
+> > +}
+> > +
+> > +u32 rppx1_read(struct rppx1 *rpp, u32 offset)
+> > +{
+> > +	u32 ret = ioread32(rpp->base + offset);
+> > +	return ret;
+> 
+>         return ioread32(rpp->base + offset);
+
+Wops, left over from when I logged all reads nice catch.
+
+> 
+> > +}
+> > +
+> > +bool rppx1_interrupt(struct rppx1 *rpp, u32 *isc)
+> > +{
+> > +	u32 status, raw, fault;
+> > +
+> > +	fault = rppx1_read(rpp, RPPX1_RPP_HDR_FMU_MFS);
+> > +	if (fault) {
+> > +		pr_err("%s: fault 0x%08x\n", __func__, fault);
+> 
+> Can't you use dev_err() ?
+> Please have a look at all the usages of pr_err/pr_warn and replace
+> them with dev_dbg()
+
+Good point, I did not have a device pointer in early versions of this 
+series. All pr_foo() have been replaced with dev_foo() now.
+
+> 
+> > +		rppx1_write(rpp, RPPX1_RPP_HDR_FMU_FSC, fault);
+> > +	}
+> > +
+> > +	/* Read raw interrupt status. */
+> > +	raw = rppx1_read(rpp, RPPX1_RPP_RIS);
+> > +	status = rppx1_read(rpp, RPPX1_RPP_MIS);
+> > +
+> > +	/* Propagate the isc status. */
+> > +	if (isc)
+> > +		*isc = status | raw;
+> > +
+> > +	/* Clear enabled interrupts */
+> > +	rppx1_write(rpp, RPPX1_RPP_ISC, status);
+> > +
+> > +	return !!(status & RPPX1_IRQ_ID_OUT_FRAME);
+> > +}
+> > +EXPORT_SYMBOL_GPL(rppx1_interrupt);
+> > +
+> > +void rppx1_destroy(struct rppx1 *rpp)
+> > +{
+> > +	kfree(rpp);
+> > +}
+> > +EXPORT_SYMBOL_GPL(rppx1_destroy);
+> > +
+> > +/*
+> > + * Allocate the private data structure and verify the hardware is present.
+> > + */
+> > +struct rppx1 *rppx1_create(void __iomem *base, struct device *dev)
+> > +{
+> > +	struct rppx1 *rpp;
+> > +	u32 reg;
+> > +
+> > +	/* Allocate library structure */
+> > +	rpp = kzalloc_obj(*rpp);
+> > +	if (!rpp)
+> > +		return NULL;
+> 
+> I wonder if we can use the managed version of devm_kzalloc or we're
+> going to create dependencies between the rcar-isp platform device and
+> the rpp library driver.
+
+I fear the race and life cycle management, lets avoid devm_ until we see 
+a real benefit from it here?
+
+> 
+> > +
+> > +	rpp->base = base;
+> > +	rpp->dev = dev;
+> > +
+> > +	/* Check communication with RPP and verify it truly is a X1. */
+> > +	reg = rppx1_read(rpp, RPPX1_RPP_HDRREGS_VERSION_REG);
+> > +	if (reg != 3) {
+> > +		pr_err("Unsupported HDR version (%u)\n", reg);
+> 
+> ditto
+
+Done.
+
+> 
+> > +		rppx1_destroy(rpp);
+> > +		return NULL;
+> > +	}
+> > +
+> > +	/* Probe the PRE1 pipeline. */
+> > +	if (rpp_module_probe(&rpp->pre1.acq, rpp, &rppx1_acq_ops,
+> > +			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_ACQ_BASE) ||
+> > +	    rpp_module_probe(&rpp->pre1.bls, rpp, &rppx1_bls_ops,
+> > +			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_BLS_BASE) ||
+> > +	    rpp_module_probe(&rpp->pre1.lin, rpp, &rppx1_lin_ops,
+> > +			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_GAMMA_IN_BASE) ||
+> > +	    rpp_module_probe(&rpp->pre1.lsc, rpp, &rppx1_lsc_ops,
+> > +			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_LSC_BASE) ||
+> > +	    rpp_module_probe(&rpp->pre1.awbg, rpp, &rppx1_awbg_ops,
+> > +			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_AWB_GAIN_BASE) ||
+> > +	    rpp_module_probe(&rpp->pre1.dpcc, rpp, &rppx1_dpcc_ops,
+> > +			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_DPCC_BASE) ||
+> > +	    rpp_module_probe(&rpp->pre1.bd, rpp, &rppx1_bd_ops,
+> > +			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_DPF_BASE) ||
+> > +	    rpp_module_probe(&rpp->pre1.hist, rpp, &rppx1_hist_ops,
+> > +			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_HIST_BASE) ||
+> > +	    rpp_module_probe(&rpp->pre1.hist256, rpp, &rppx1_hist256_ops,
+> > +			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_HIST256_BASE) ||
+> > +	    rpp_module_probe(&rpp->pre1.exm, rpp, &rppx1_exm_ops,
+> > +			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_EXM_BASE))
+> > +		goto err;
+> > +
+> > +	/* Probe the PRE2 pipeline. */
+> > +	if (rpp_module_probe(&rpp->pre2.acq, rpp, &rppx1_acq_ops,
+> > +			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_ACQ_BASE) ||
+> > +	    rpp_module_probe(&rpp->pre2.bls, rpp, &rppx1_bls_ops,
+> > +			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_BLS_BASE) ||
+> > +	    rpp_module_probe(&rpp->pre2.lin, rpp, &rppx1_lin_ops,
+> > +			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_GAMMA_IN_BASE) ||
+> > +	    rpp_module_probe(&rpp->pre2.lsc, rpp, &rppx1_lsc_ops,
+> > +			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_LSC_BASE) ||
+> > +	    rpp_module_probe(&rpp->pre2.awbg, rpp, &rppx1_awbg_ops,
+> > +			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_AWB_GAIN_BASE) ||
+> > +	    rpp_module_probe(&rpp->pre2.dpcc, rpp, &rppx1_dpcc_ops,
+> > +			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_DPCC_BASE) ||
+> > +	    rpp_module_probe(&rpp->pre2.bd, rpp, &rppx1_bd_ops,
+> > +			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_DPF_BASE) ||
+> > +	    rpp_module_probe(&rpp->pre2.hist, rpp, &rppx1_hist_ops,
+> > +			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_HIST_BASE) ||
+> > +	    rpp_module_probe(&rpp->pre2.exm, rpp, &rppx1_exm_ops,
+> > +			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_EXM_BASE))
+> > +		goto err;
+> > +
+> > +	/* Probe the POST pipeline. */
+> > +	if (rpp_module_probe(&rpp->post.awbg, rpp, &rppx1_awbg_ops,
+> > +			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_AWB_GAIN_BASE) ||
+> > +	    rpp_module_probe(&rpp->post.ccor, rpp, &rppx1_ccor_ops,
+> > +			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_CCOR_BASE) ||
+> > +	    rpp_module_probe(&rpp->post.hist, rpp, &rppx1_hist_ops,
+> > +			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_HIST_BASE) ||
+> > +	    rpp_module_probe(&rpp->post.db, rpp, &rppx1_db_ops,
+> > +			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_FILT_BASE) ||
+> > +	    rpp_module_probe(&rpp->post.cac, rpp, &rppx1_cac_ops,
+> > +			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_CAC_BASE) ||
+> > +	    rpp_module_probe(&rpp->post.ltm, rpp, &rppx1_ltm_ops,
+> > +			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_LTM_BASE) ||
+> > +	    rpp_module_probe(&rpp->post.ltmmeas, rpp, &rppx1_ltmmeas_ops,
+> > +			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_LTM_MEAS_BASE) ||
+> > +	    rpp_module_probe(&rpp->post.wbmeas, rpp, &rppx1_wbmeas_ops,
+> > +			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_WBMEAS_BASE) ||
+> > +	    rpp_module_probe(&rpp->post.bdrgb, rpp, &rppx1_bdrgb_ops,
+> > +			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_BDRGB_BASE) ||
+> > +	    rpp_module_probe(&rpp->post.shrp, rpp, &rppx1_shrp_ops,
+> > +			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_SHRP_BASE))
+> > +		goto err;
+> > +
+> > +	/* Probe the Human Vision pipeline. */
+> > +	if (rpp_module_probe(&rpp->hv.ga, rpp, &rppx1_ga_ops,
+> > +			     RPPX1_RPP_OUT_BASE + RPPX1_GAMMA_OUT_BASE) ||
+> > +	    rpp_module_probe(&rpp->hv.is, rpp, &rppx1_is_ops,
+> > +			     RPPX1_RPP_OUT_BASE + RPPX1_IS_BASE) ||
+> > +	    rpp_module_probe(&rpp->hv.ccor, rpp, &rppx1_ccor_csm_ops,
+> > +			     RPPX1_RPP_OUT_BASE + RPPX1_CSM_BASE) ||
+> > +	    rpp_module_probe(&rpp->hv.outif, rpp, &rppx1_outif_ops,
+> > +			     RPPX1_RPP_OUT_BASE + RPPX1_OUT_IF_BASE) ||
+> > +	    rpp_module_probe(&rpp->hv.outregs, rpp, &rppx1_outregs_ops,
+> > +			     RPPX1_RPP_OUT_BASE + RPPX1_RPP_OUTREGS_BASE))
+> > +		goto err;
+> > +
+> > +	/* Probe the Machine Vision pipeline. */
+> > +	if (rpp_module_probe(&rpp->mv.ga, rpp, &rppx1_ga_ops,
+> > +			     RPPX1_RPP_MVOUT_BASE + RPPX1_GAMMA_OUT_BASE) ||
+> > +	    rpp_module_probe(&rpp->mv.is, rpp, &rppx1_is_ops,
+> > +			     RPPX1_RPP_MVOUT_BASE + RPPX1_IS_BASE) ||
+> > +	    rpp_module_probe(&rpp->mv.ccor, rpp, &rppx1_ccor_csm_ops,
+> > +			     RPPX1_RPP_MVOUT_BASE + RPPX1_CSM_BASE) ||
+> > +	    rpp_module_probe(&rpp->mv.outif, rpp, &rppx1_outif_ops,
+> > +			     RPPX1_RPP_MVOUT_BASE + RPPX1_OUT_IF_BASE) ||
+> > +	    rpp_module_probe(&rpp->mv.outregs, rpp, &rppx1_outregs_ops,
+> > +			     RPPX1_RPP_MVOUT_BASE + RPPX1_RPP_OUTREGS_BASE) ||
+> > +	    rpp_module_probe(&rpp->mv.xyz2luv, rpp, &rppx1_xyz2luv_ops,
+> > +			     RPPX1_RPP_MVOUT_BASE + RPPX1_LUV_BASE))
+> > +		goto err;
+> > +
+> > +	/* Probe the standalone Radiance Mapping modules. */
+> > +	if (rpp_module_probe(&rpp->rmap, rpp, &rppx1_rmap_ops,
+> > +			     RPPX1_RPP_RMAP_BASE) ||
+> > +	    rpp_module_probe(&rpp->rmapmeas, rpp, &rppx1_rmapmeas_ops,
+> > +			     RPPX1_RPP_RMAP_MEAS_BASE))
+> > +		goto err;
+> 
+> Should we only probe the modules we currently support with params and
+> stats ?
+
+No. I think we shall probe all of them as they check each modules 
+version register.
+
+> 
+> > +
+> > +	return rpp;
+> > +err:
+> > +	rppx1_destroy(rpp);
+> > +
+> > +	return NULL;
+> > +}
+> > +EXPORT_SYMBOL_GPL(rppx1_create);
+> > +
+> > +int rppx1_start(struct rppx1 *rpp,
+> > +		const struct v4l2_mbus_framefmt *input,
+> > +		const struct v4l2_mbus_framefmt *hv,
+> > +		const struct v4l2_mbus_framefmt *mv)
+> > +{
+> > +	if (rpp_module_call(&rpp->pre1.acq, start, input) ||
+> > +	    rpp_module_call(&rpp->pre1.bls, start, input) ||
+> > +	    rpp_module_call(&rpp->pre1.lin, start, input) ||
+> > +	    rpp_module_call(&rpp->pre1.lsc, start, input) ||
+> > +	    rpp_module_call(&rpp->pre1.awbg, start, input) ||
+> > +	    rpp_module_call(&rpp->pre1.dpcc, start, input) ||
+> > +	    rpp_module_call(&rpp->pre1.bd, start, input) ||
+> > +	    rpp_module_call(&rpp->pre1.hist, start, input) ||
+> > +	    rpp_module_call(&rpp->pre1.exm, start, input) ||
+> > +	    rpp_module_call(&rpp->pre1.hist256, start, input))
+> > +		return -EINVAL;
+> > +
+> > +	if (rpp_module_call(&rpp->rmap, start, NULL) ||
+> > +	    rpp_module_call(&rpp->rmapmeas, start, NULL))
+> > +		return -EINVAL;
+> > +
+> > +	if (rpp_module_call(&rpp->post.awbg, start, input) ||
+> > +	    rpp_module_call(&rpp->post.db, start, input) ||
+> > +	    rpp_module_call(&rpp->post.cac, start, input) ||
+> > +	    rpp_module_call(&rpp->post.ccor, start, input) ||
+> > +	    rpp_module_call(&rpp->post.ltm, start, input) ||
+> > +	    rpp_module_call(&rpp->post.bdrgb, start, input) ||
+> > +	    rpp_module_call(&rpp->post.shrp, start, input) ||
+> > +	    rpp_module_call(&rpp->post.ltmmeas, start, input) ||
+> > +	    rpp_module_call(&rpp->post.wbmeas, start, input) ||
+> > +	    rpp_module_call(&rpp->post.hist, start, input))
+> > +		return -EINVAL;
+> > +
+> > +	if (hv && (rpp_module_call(&rpp->hv.ga, start, hv) ||
+> > +		   rpp_module_call(&rpp->hv.ccor, start, hv) ||
+> > +		   rpp_module_call(&rpp->hv.outregs, start, hv) ||
+> > +		   rpp_module_call(&rpp->hv.is, start, hv) ||
+> > +		   rpp_module_call(&rpp->hv.outif, start, hv)))
+> > +		return -EINVAL;
+> > +
+> > +	if (mv && (rpp_module_call(&rpp->mv.ga, start, mv) ||
+> > +		   rpp_module_call(&rpp->mv.ccor, start, mv) ||
+> > +		   rpp_module_call(&rpp->mv.xyz2luv, start, mv) ||
+> > +		   rpp_module_call(&rpp->mv.outregs, start, mv) ||
+> > +		   rpp_module_call(&rpp->mv.is, start, mv) ||
+> > +		   rpp_module_call(&rpp->mv.outif, start, mv)))
+> > +		return -EINVAL;
+> > +
+> > +	rppx1_write(rpp, RPPX1_RPP_HDR_UPD_REG, 0x00000001);
+> > +
+> > +	/* Clear fault interrupts. */
+> > +	rppx1_write(rpp, RPPX1_RPP_HDR_SAFETY_ACCESS_PROTECTION_REG, 0x00000001);
+> > +	rppx1_write(rpp, RPPX1_RPP_HDR_FMU_FSM, 0x000001c0);
+> > +	rppx1_write(rpp, RPPX1_RPP_HDR_FMU_FSC, rppx1_read(rpp, RPPX1_RPP_HDR_FMU_MFS));
+> > +	rppx1_write(rpp, RPPX1_RPP_HDR_SAFETY_ACCESS_PROTECTION_REG, 0x00000000);
+> > +
+> > +	/* Set interrupt mask. */
+> > +	rppx1_write(rpp, RPPX1_RPP_ISM, RPPX1_IRQ_ID_OUT_FRAME);
+> > +
+> > +	rppx1_write(rpp, RPPX1_RPP_HDR_UPD_REG, 0x00000001);
+> > +	rppx1_write(rpp, RPPX1_RPP_HDR_UPD_REG, 0x00000002);
+> > +
+> > +	/* Clear any pending interrupts. */
+> > +	rppx1_interrupt(rpp, NULL);
+> > +
+> > +	/* Enable input formatters. */
+> > +	rppx1_write(rpp, RPPX1_RPP_HDR_INFORM_ENABLE_REG, 1);
+> 
+> Should magic numbers be replaced with macros ?
+
+Yes, thanks for spotting I forgot it here!
+
+> 
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(rppx1_start);
+> > +
+> > +int rppx1_stop(struct rppx1 *rpp)
+> > +{
+> > +	/* Disable input formatters. */
+> > +	rppx1_write(rpp, RPPX1_RPP_HDR_INFORM_ENABLE_REG, 0);
+> > +
+> > +	/* Clear any pending interrupts. */
+> > +	rppx1_interrupt(rpp, NULL);
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(rppx1_stop);
+> > +
+> > +MODULE_AUTHOR("Niklas Söderlund <niklas.soderlund@ragnatech.se>");
+> > +MODULE_DESCRIPTION("Dreamchip HDR RPPX1 support library");
+> > +MODULE_LICENSE("GPL");
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1.h b/drivers/media/platform/dreamchip/rppx1/rppx1.h
+> > new file mode 100644
+> > index 000000000000..dcf43826d308
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1.h
+> > @@ -0,0 +1,99 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +
+> > +#ifndef __MEDIA_RPPX1_H__
+> > +#define __MEDIA_RPPX1_H__
+> > +
+> > +#include <linux/types.h>
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define RPPX1_IRQ_ID_256HIST			BIT(27)
+> > +#define RPPX1_IRQ_ID_PRE2_DPCC			BIT(25)
+> > +#define RPPX1_IRQ_ID_PRE1_DPCC			BIT(24)
+> > +#define RPPX1_IRQ_ID_MV_OUT_FRAME_OUT		BIT(23)
+> > +#define RPPX1_IRQ_ID_MV_OUT_OFF			BIT(22)
+> > +#define RPPX1_IRQ_ID_POST_AWB_MEAS		BIT(21)
+> > +#define RPPX1_IRQ_ID_POST_HIST_MEAS		BIT(20)
+> > +#define RPPX1_IRQ_ID_POST_TM			BIT(19)
+> > +#define RPPX1_IRQ_ID_PRE1_EXM			BIT(18)
+> > +#define RPPX1_IRQ_ID_PRE1_HIST			BIT(17)
+> > +#define RPPX1_IRQ_ID_PRE1_FRAME_IN		BIT(16)
+> > +#define RPPX1_IRQ_ID_PRE1_HSTART		BIT(15)
+> > +#define RPPX1_IRQ_ID_PRE1_VSTART		BIT(14)
+> > +#define RPPX1_IRQ_ID_PRE2_EXM			BIT(13)
+> > +#define RPPX1_IRQ_ID_PRE2_HIST			BIT(12)
+> > +#define RPPX1_IRQ_ID_PRE2_FRAME_IN		BIT(11)
+> > +#define RPPX1_IRQ_ID_PRE2_HSTART		BIT(10)
+> > +#define RPPX1_IRQ_ID_PRE2_VSTART		BIT(9)
+> > +#define RPPX1_IRQ_ID_OUT_FRAME			BIT(3)
+> > +#define RPPX1_IRQ_ID_OUT_OFF			BIT(2)
+> > +#define RPPX1_IRQ_ID_RMAP_MEAS			BIT(1)
+> > +#define RPPX1_IRQ_ID_RMAP_DONE			BIT(0)
+> > +
+> > +struct rppx1 {
+> > +	struct device *dev;
+> 
+> #include <linux/device.h>
+
+Thanks.
+
+> 
+> > +	void __iomem *base;
+> 
+> Does __iomem come from
+> #include <linux/compiler_types.h> ?
+
+Seems so, but I don't think you should include it for it.
+
+    $ git grep compiler_types.h | wc -l
+    65
+
+> 
+> > +
+> > +	struct {
+> > +		struct rpp_module acq;
+> > +		struct rpp_module bls;
+> > +		struct rpp_module lin;
+> > +		struct rpp_module lsc;
+> > +		struct rpp_module awbg;
+> > +		struct rpp_module dpcc;
+> > +		struct rpp_module bd;
+> > +		struct rpp_module hist;
+> > +		struct rpp_module hist256;
+> > +		struct rpp_module exm;
+> > +	} pre1;
+> > +
+> > +	struct {
+> > +		struct rpp_module acq;
+> > +		struct rpp_module bls;
+> > +		struct rpp_module lin;
+> > +		struct rpp_module lsc;
+> > +		struct rpp_module awbg;
+> > +		struct rpp_module dpcc;
+> > +		struct rpp_module bd;
+> > +		struct rpp_module hist;
+> > +		struct rpp_module exm;
+> > +	} pre2;
+> > +
+> > +	struct {
+> > +		struct rpp_module awbg;
+> > +		struct rpp_module ccor;
+> > +		struct rpp_module hist;
+> > +		struct rpp_module db;
+> > +		struct rpp_module cac;
+> > +		struct rpp_module ltm;
+> > +		struct rpp_module ltmmeas;
+> > +		struct rpp_module wbmeas;
+> > +		struct rpp_module bdrgb;
+> > +		struct rpp_module shrp;
+> > +	} post;
+> > +
+> > +	struct {
+> > +		struct rpp_module ga;
+> > +		struct rpp_module is;
+> > +		struct rpp_module ccor;
+> > +		struct rpp_module outif;
+> > +		struct rpp_module outregs;
+> > +	} hv;
+> > +
+> > +	struct {
+> > +		struct rpp_module ga;
+> > +		struct rpp_module is;
+> > +		struct rpp_module ccor;
+> > +		struct rpp_module outif;
+> > +		struct rpp_module outregs;
+> > +		struct rpp_module xyz2luv;
+> > +	} mv;
+> > +
+> > +	struct rpp_module rmap;
+> > +	struct rpp_module rmapmeas;
+> > +};
+> > +
+> > +void rppx1_write(struct rppx1 *rpp, u32 offset, u32 value);
+> > +u32 rppx1_read(struct rppx1 *rpp, u32 offset);
+> > +
+> > +#endif /* __MEDIA_RPPX1_H__ */
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_acq.c b/drivers/media/platform/dreamchip/rppx1/rppx1_acq.c
+> > new file mode 100644
+> > index 000000000000..45f619ccb684
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_acq.c
+> > @@ -0,0 +1,147 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define ACQ_VERSION_REG				0x0000
+> > +
+> > +#define ACQ_CTRL_REG				0x0004
+> > +#define ACQ_CTRL_ALTERNATIVE_CFG_MODE_ENABLE	BIT(8)
+> > +#define ACQ_CTRL_RPP_MODE_MASK			GENMASK(3, 1)
+> > +#define ACQ_CTRL_RPP_MODE_RAWBT601		(0 << 1)
+> > +#define ACQ_CTRL_RPP_MODE_BT656			(1 << 1)
+> > +#define ACQ_CTRL_RPP_MODE_BT601			(2 << 1)
+> > +#define ACQ_CTRL_RPP_MODE_BAYER			(3 << 1)
+> > +#define ACQ_CTRL_RPP_MODE_DATA			(4 << 1)
+> > +#define ACQ_CTRL_RPP_MODE_BAYERRGB		(5 << 1)
+> > +#define ACQ_CTRL_RPP_MODE_RAWBT656		(6 << 1)
+> > +#define ACQ_CTRL_INFORM_EN_ENABLE		BIT(0)
+> > +
+> > +#define ACQ_PROP_REG				0x0008
+> > +
+> > +#define ACQ_PROP_SENSOR_IN_LSB_ALIGNED_IN_LSB	BIT(30)
+> > +#define ACQ_PROP_YUV_OUT_SEL			BIT(25)
+> > +#define ACQ_PROP_MUX_DMA_SEL			BIT(24)
+> > +#define ACQ_PROP_SECOND_INPUT_TYPE		BIT(18)
+> > +#define ACQ_PROP_LATENCY_FIFO_INPUT_SELECTION	BIT(15)
+> > +#define ACQ_PROP_INPUT_SELECTION_MASK		GENMASK(14, 12)
+> > +#define ACQ_PROP_INPUT_SELECTION_8BIT		(0 << 12)
+> > +#define ACQ_PROP_INPUT_SELECTION_10BIT		(1 << 12)
+> > +#define ACQ_PROP_INPUT_SELECTION_12BIT		(2 << 12)
+> > +#define ACQ_PROP_BAYER_PAT_MASK			GENMASK(4, 3)
+> > +#define ACQ_PROP_BAYER_PAT_RGRG			(0 << 3)
+> > +#define ACQ_PROP_BAYER_PAT_GRGR			(1 << 3)
+> > +#define ACQ_PROP_BAYER_PAT_GBGB			(2 << 3)
+> > +#define ACQ_PROP_BAYER_PAT_BGBG			(3 << 3)
+> > +#define ACQ_PROP_VSYNC_POL			BIT(2)
+> > +#define ACQ_PROP_HSYNC_POL			BIT(1)
+> > +#define ACQ_PROP_SAMPLE_EDGE			BIT(0)
+> > +
+> > +#define ACQ_H_OFFS_REG				0x000c
+> > +#define ACQ_V_OFFS_REG				0x0010
+> > +#define ACQ_H_SIZE_REG				0x0014
+> > +#define ACQ_V_SIZE_REG				0x0018
+> > +#define ACQ_OUT_H_OFFS_REG			0x001c
+> > +#define ACQ_OUT_V_OFFS_REG			0x0020
+> > +#define ACQ_OUT_H_SIZE_REG			0x0024
+> > +#define ACQ_OUT_V_SIZE_REG			0x0028
+> > +#define FLAGS_SHD_REG				0x002c
+> > +#define ACQ_OUT_H_OFFS_SHD_REG			0x0030
+> > +#define ACQ_OUT_V_OFFS_SHD_REG			0x0034
+> > +#define ACQ_OUT_H_SIZE_SHD_REG			0x0038
+> > +#define ACQ_OUT_V_SIZE_SHD_REG			0x003c
+> > +
+> > +static int rppx1_acq_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	if (rpp_module_read(mod, ACQ_VERSION_REG) != 0x0b)
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int rppx1_acq_start(struct rpp_module *mod,
+> > +			   const struct v4l2_mbus_framefmt *fmt)
+> > +{
+> > +	u32 bayerpat, selection;
+> > +
+> > +	rpp_module_clrset(mod, ACQ_CTRL_REG, ACQ_CTRL_RPP_MODE_MASK,
+> > +			  ACQ_CTRL_RPP_MODE_BAYER);
+> > +
+> > +	rpp_module_write(mod, ACQ_H_OFFS_REG, 0);
+> > +	rpp_module_write(mod, ACQ_V_OFFS_REG, 0);
+> > +	rpp_module_write(mod, ACQ_H_SIZE_REG, fmt->width);
+> > +	rpp_module_write(mod, ACQ_V_SIZE_REG, fmt->height);
+> > +	rpp_module_write(mod, ACQ_OUT_H_OFFS_REG, 0);
+> > +	rpp_module_write(mod, ACQ_OUT_V_OFFS_REG, 0);
+> > +	rpp_module_write(mod, ACQ_OUT_H_SIZE_REG, fmt->width);
+> > +	rpp_module_write(mod, ACQ_OUT_V_SIZE_REG, fmt->height);
+> > +
+> > +	switch (fmt->code) {
+> > +	case MEDIA_BUS_FMT_SBGGR8_1X8:
+> > +	case MEDIA_BUS_FMT_SBGGR10_1X10:
+> > +	case MEDIA_BUS_FMT_SBGGR12_1X12:
+> > +		mod->info.acq.raw_pattern = RPP_BGGR;
+> > +		bayerpat = ACQ_PROP_BAYER_PAT_BGBG;
+> > +		break;
+> > +	case MEDIA_BUS_FMT_SGBRG8_1X8:
+> > +	case MEDIA_BUS_FMT_SGBRG10_1X10:
+> > +	case MEDIA_BUS_FMT_SGBRG12_1X12:
+> > +		mod->info.acq.raw_pattern = RPP_GBRG;
+> > +		bayerpat = ACQ_PROP_BAYER_PAT_GBGB;
+> > +		break;
+> > +	case MEDIA_BUS_FMT_SGRBG8_1X8:
+> > +	case MEDIA_BUS_FMT_SGRBG10_1X10:
+> > +	case MEDIA_BUS_FMT_SGRBG12_1X12:
+> > +		mod->info.acq.raw_pattern = RPP_GRBG;
+> > +		bayerpat = ACQ_PROP_BAYER_PAT_GRGR;
+> > +		break;
+> > +	case MEDIA_BUS_FMT_SRGGB8_1X8:
+> > +	case MEDIA_BUS_FMT_SRGGB10_1X10:
+> > +	case MEDIA_BUS_FMT_SRGGB12_1X12:
+> > +		mod->info.acq.raw_pattern = RPP_RGGB;
+> > +		bayerpat = ACQ_PROP_BAYER_PAT_RGRG;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	switch (fmt->code) {
+> > +	case MEDIA_BUS_FMT_SBGGR8_1X8:
+> > +	case MEDIA_BUS_FMT_SGBRG8_1X8:
+> > +	case MEDIA_BUS_FMT_SGRBG8_1X8:
+> > +	case MEDIA_BUS_FMT_SRGGB8_1X8:
+> > +		selection = ACQ_PROP_INPUT_SELECTION_8BIT;
+> > +		break;
+> > +	case MEDIA_BUS_FMT_SBGGR10_1X10:
+> > +	case MEDIA_BUS_FMT_SGBRG10_1X10:
+> > +	case MEDIA_BUS_FMT_SGRBG10_1X10:
+> > +	case MEDIA_BUS_FMT_SRGGB10_1X10:
+> > +		selection = ACQ_PROP_INPUT_SELECTION_10BIT;
+> > +		break;
+> > +	case MEDIA_BUS_FMT_SBGGR12_1X12:
+> > +	case MEDIA_BUS_FMT_SGBRG12_1X12:
+> > +	case MEDIA_BUS_FMT_SGRBG12_1X12:
+> > +	case MEDIA_BUS_FMT_SRGGB12_1X12:
+> > +		selection = ACQ_PROP_INPUT_SELECTION_12BIT;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	rpp_module_write(mod, ACQ_PROP_REG, bayerpat | selection |
+> > +			 ACQ_PROP_SENSOR_IN_LSB_ALIGNED_IN_LSB);
+> > +
+> > +	rpp_module_clrset(mod, ACQ_CTRL_REG, ACQ_CTRL_INFORM_EN_ENABLE,
+> > +			  ACQ_CTRL_INFORM_EN_ENABLE);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_acq_ops = {
+> > +	.probe = rppx1_acq_probe,
+> > +	.start = rppx1_acq_start,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c b/drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c
+> > new file mode 100644
+> > index 000000000000..e20bc369ca8c
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c
+> > @@ -0,0 +1,30 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define AWB_GAIN_VERSION_REG		0x0000
+> > +
+> > +#define AWB_ENABLE_REG			0x0004
+> > +#define AWB_ENABLE_AWB_GAIN_EN		BIT(0)
+> > +
+> > +#define AWB_GAIN_GR_REG			0x0008
+> > +#define AWB_GAIN_GB_REG			0x000c
+> > +#define AWB_GAIN_R_REG			0x0010
+> > +#define AWB_GAIN_B_REG			0x0014
+> > +
+> > +static int rppx1_awbg_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	if (rpp_module_read(mod, AWB_GAIN_VERSION_REG) != 3)
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_awbg_ops = {
+> > +	.probe = rppx1_awbg_probe,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_bd.c b/drivers/media/platform/dreamchip/rppx1/rppx1_bd.c
+> > new file mode 100644
+> > index 000000000000..acbfbcd59591
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_bd.c
+> > @@ -0,0 +1,52 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define DPF_VERSION_REG			0x0000
+> > +
+> > +#define DPF_MODE_REG			0x0004
+> > +#define DPF_MODE_USE_NF_GAIN		BIT(9)
+> > +#define DPF_MODE_LSC_GAIN_COMP		BIT(8)
+> > +#define DPF_MODE_NLL_SEGMENTATION	BIT(6)
+> > +#define DPF_MODE_RB_FILTER_SIZE		BIT(5)
+> > +#define DPF_MODE_R_FILTER_OFF		BIT(4)
+> > +#define DPF_MODE_GR_FILTER_OFF		BIT(3)
+> > +#define DPF_MODE_GB_FILTER_OFF		BIT(2)
+> > +#define DPF_MODE_B_FILTER_OFF		BIT(1)
+> > +#define DPF_MODE_DPF_ENABLE		BIT(0)
+> > +
+> > +#define DPF_STRENGTH_R_REG		0x0008
+> > +#define DPF_STRENGTH_G_REG		0x000c
+> > +#define DPF_STRENGTH_B_REG		0x0010
+> > +#define DPF_S_WEIGHT_G_1_4_REG		0x0014
+> > +#define DPF_S_WEIGHT_G_5_6_REG		0x0018
+> > +#define DPF_S_WEIGHT_RB_1_4_REG		0x001c
+> > +#define DPF_S_WEIGHT_RB_5_6_REG		0x0020
+> > +
+> > +#define DPF_NLL_G_COEFF_REG_NUM		17
+> > +#define DPF_NLL_G_COEFF_REG(n)		(0x0024 + (4 * (n)))
+> > +
+> > +#define DPF_NLL_RB_COEFF_REG_NUM	17
+> > +#define DPF_NLL_RB_COEFF_REG(n)		(0x0068 + (4 * (n)))
+> > +
+> > +#define DPF_NF_GAIN_R_REG		0x00ac
+> > +#define DPF_NF_GAIN_GR_REG		0x00b0
+> > +#define DPF_NF_GAIN_GB_REG		0x00b4
+> > +#define DPF_NF_GAIN_B_REG		0x00b8
+> > +
+> > +static int rppx1_bd_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	if (rpp_module_read(mod, DPF_VERSION_REG) != 5)
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_bd_ops = {
+> > +	.probe = rppx1_bd_probe,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_bdrgb.c b/drivers/media/platform/dreamchip/rppx1/rppx1_bdrgb.c
+> > new file mode 100644
+> > index 000000000000..292f0b7bfd3f
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_bdrgb.c
+> > @@ -0,0 +1,80 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define RGBDENOISE_VERSION_REG					0x0000
+> > +
+> > +#define RGBDENOISE_HW_BYPASS_REG				0x0004
+> > +#define RGBDENOISE_HW_BYPASS_BYPASS_EN				BIT(0)
+> > +
+> > +#define RGBDENOISE_SPNR_CTRL_REG				0x0008
+> > +#define RGBDENOISE_SPNR_CTRL_C2NR_INTENSITY_SHIFT_C_MASK	GENMASK(11, 8)
+> > +#define RGBDENOISE_SPNR_CTRL_C2NR_INTENSITY_SHIFT_Y_MASK	GENMASK(7, 4)
+> > +#define RGBDENOISE_SPNR_CTRL_C2NR_EN				BIT(0)
+> > +
+> > +#define RGBDENOISE_SPNR_LUMA_IF_COEF_00_07_REG			0x000c
+> > +#define RGBDENOISE_SPNR_LUMA_IF_COEF_08_15_REG			0x0010
+> > +#define RGBDENOISE_SPNR_LUMA_IF_COEF_16_23_REG			0x0014
+> > +#define RGBDENOISE_SPNR_LUMA_IF_COEF_24_31_REG			0x0018
+> > +#define RGBDENOISE_SPNR_CHROMA_IF_COEF_00_07_REG		0x001c
+> > +#define RGBDENOISE_SPNR_CHROMA_IF_COEF_08_15_REG		0x0020
+> > +#define RGBDENOISE_SPNR_CHROMA_IF_COEF_16_23_REG		0x0024
+> > +#define RGBDENOISE_SPNR_CHROMA_IF_COEF_24_31_REG		0x0028
+> > +#define RGBDENOISE_SPNR_SPATIAL_COEF_0_3_REG			0x002c
+> > +#define RGBDENOISE_RGB2YUV_CCOR_COEFF_0_REG			0x0030
+> > +#define RGBDENOISE_RGB2YUV_CCOR_COEFF_1_REG			0x0034
+> > +#define RGBDENOISE_RGB2YUV_CCOR_COEFF_2_REG			0x0038
+> > +#define RGBDENOISE_RGB2YUV_CCOR_COEFF_3_REG			0x003c
+> > +#define RGBDENOISE_RGB2YUV_CCOR_COEFF_4_REG			0x0040
+> > +#define RGBDENOISE_RGB2YUV_CCOR_COEFF_5_REG			0x0044
+> > +#define RGBDENOISE_RGB2YUV_CCOR_COEFF_6_REG			0x0048
+> > +#define RGBDENOISE_RGB2YUV_CCOR_COEFF_7_REG			0x004c
+> > +#define RGBDENOISE_RGB2YUV_CCOR_COEFF_8_REG			0x0050
+> > +#define RGBDENOISE_RGB2YUV_CCOR_OFFSET_R_REG			0x0054
+> > +#define RGBDENOISE_RGB2YUV_CCOR_OFFSET_G_REG			0x0058
+> > +#define RGBDENOISE_RGB2YUV_CCOR_OFFSET_B_REG			0x005c
+> > +#define RGBDENOISE_HW_BYPASS_SDW_REG				0x0060
+> > +#define RGBDENOISE_SPNR_CTRL_SDW_REG				0x0064
+> > +#define RGBDENOISE_SPNR_LUMA_IF_COEF_00_07_SDW_REG		0x0068
+> > +#define RGBDENOISE_SPNR_LUMA_IF_COEF_08_15_SDW_REG		0x006c
+> > +#define RGBDENOISE_SPNR_LUMA_IF_COEF_16_23_SDW_REG		0x0070
+> > +#define RGBDENOISE_SPNR_LUMA_IF_COEF_24_31_SDW_REG		0x0074
+> > +#define RGBDENOISE_SPNR_CHROMA_IF_COEF_00_07_SDW_REG		0x0078
+> > +#define RGBDENOISE_SPNR_CHROMA_IF_COEF_08_15_SDW_REG		0x007c
+> > +#define RGBDENOISE_SPNR_CHROMA_IF_COEF_16_23_SDW_REG		0x0080
+> > +#define RGBDENOISE_SPNR_CHROMA_IF_COEF_24_31_SDW_REG		0x0084
+> > +#define RGBDENOISE_SPNR_SPATIAL_COEFF_0_3_SDW_REG		0x0088
+> > +#define RGBDENOISE_RGB2YUV_CCOR_COEFF_0_SDW_REG			0x008c
+> > +#define RGBDENOISE_RGB2YUV_CCOR_COEFF_1_SDW_REG			0x0090
+> > +#define RGBDENOISE_RGB2YUV_CCOR_COEFF_2_SDW_REG			0x0094
+> > +#define RGBDENOISE_RGB2YUV_CCOR_COEFF_3_SDW_REG			0x0098
+> > +#define RGBDENOISE_RGB2YUV_CCOR_COEFF_4_SDW_REG			0x009c
+> > +#define RGBDENOISE_RGB2YUV_CCOR_COEFF_5_SDW_REG			0x00a0
+> > +#define RGBDENOISE_RGB2YUV_CCOR_COEFF_6_SDW_REG			0x00a4
+> > +#define RGBDENOISE_RGB2YUV_CCOR_COEFF_7_SDW_REG			0x00a8
+> > +#define RGBDENOISE_RGB2YUV_CCOR_COEFF_8_SDW_REG			0x00ac
+> > +#define RGBDENOISE_RGB2YUV_CCOR_OFFSET_R_SDW_REG		0x00b0
+> > +#define RGBDENOISE_RGB2YUV_CCOR_OFFSET_G_SDW_REG		0x00b4
+> > +#define RGBDENOISE_RGB2YUV_CCOR_OFFSET_B_SDW_REG		0x00b8
+> > +
+> > +static int rppx1_bdrgb_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	switch (rpp_module_read(mod, RGBDENOISE_VERSION_REG)) {
+> > +	case 6:
+> > +		mod->info.bdrgb.colorbits = 12;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_bdrgb_ops = {
+> > +	.probe = rppx1_bdrgb_probe,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c b/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
+> > new file mode 100644
+> > index 000000000000..de7008befd8e
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
+> > @@ -0,0 +1,59 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define BLS_VERSION_REG				0x0000
+> > +
+> > +#define BLS_CTRL_REG				0x0004
+> > +#define BLS_CTRL_BLS_WIN2			BIT(3)
+> > +#define BLS_CTRL_BLS_WIN1			BIT(2)
+> > +#define BLS_CTRL_BLS_MODE_MEASURED		BIT(1)
+> > +#define BLS_CTRL_BLS_EN				BIT(0)
+> > +
+> > +#define BLS_SAMPLES_REG				0x0008
+> > +#define BLS_H1_START_REG			0x000c
+> > +#define BLS_H1_STOP_REG				0x0010
+> > +#define BLS_V1_START_REG			0x0014
+> > +#define BLS_V1_STOP_REG				0x0018
+> > +#define BLS_H2_START_REG			0x001c
+> > +#define BLS_H2_STOP_REG				0x0020
+> > +#define BLS_V2_START_REG			0x0024
+> > +#define BLS_V2_STOP_REG				0x0028
+> > +#define BLS_A_FIXED_REG				0x002c
+> > +#define BLS_B_FIXED_REG				0x0030
+> > +#define BLS_C_FIXED_REG				0x0034
+> > +#define BLS_D_FIXED_REG				0x0038
+> > +#define BLS_A_MEASURED_REG			0x003c
+> > +#define BLS_B_MEASURED_REG			0x0040
+> > +#define BLS_C_MEASURED_REG			0x0044
+> > +#define BLS_D_MEASURED_REG			0x0048
+> > +
+> > +static int rppx1_bls_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	switch (rpp_module_read(mod, BLS_VERSION_REG)) {
+> > +	case 3:
+> > +	case 5:
+> > +		mod->info.bls.colorbits = 12;
+> > +		break;
+> > +	case 2:
+> > +	case 4:
+> > +		mod->info.bls.colorbits = 20;
+> > +		break;
+> > +	case 6:
+> > +		mod->info.bls.colorbits = 24;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_bls_ops = {
+> > +	.probe = rppx1_bls_probe,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_cac.c b/drivers/media/platform/dreamchip/rppx1/rppx1_cac.c
+> > new file mode 100644
+> > index 000000000000..5ed8c60982ba
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_cac.c
+> > @@ -0,0 +1,29 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define CAC_VERSION_REG			0x0000
+> > +#define CAC_CTRL_REG			0x0004
+> > +#define CAC_COUNT_START_REG		0x0008
+> > +#define CAC_A_REG			0x000c
+> > +#define CAC_B_REG			0x0010
+> > +#define CAC_C_REG			0x0014
+> > +#define CAC_X_NORM_REG			0x0018
+> > +#define CAC_Y_NORM_REG			0x001c
+> > +
+> > +static int rppx1_cac_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	if (rpp_module_read(mod, CAC_VERSION_REG) != 3)
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_cac_ops = {
+> > +	.probe = rppx1_cac_probe,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c b/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
+> > new file mode 100644
+> > index 000000000000..4754b0bbce0a
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
+> > @@ -0,0 +1,106 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define CCOR_VERSION_REG				0x0000
+> > +
+> > +#define CCOR_COEFF_REG_NUM				9
+> > +#define CCOR_COEFF_REG(n)				(0x0004 + (4 * (n)))
+> > +
+> > +#define CCOR_OFFSET_R_REG				0x0028
+> > +#define CCOR_OFFSET_G_REG				0x002c
+> > +#define CCOR_OFFSET_B_REG				0x0030
+> > +
+> > +#define CCOR_CONFIG_TYPE_REG				0x0034
+> > +#define CCOR_CONFIG_TYPE_USE_OFFSETS_AS_PRE_OFFSETS	BIT(1)
+> > +#define CCOR_CONFIG_TYPE_CCOR_RANGE_AVAILABLE		BIT(0)
+> > +
+> > +#define CCOR_RANGE_REG					0x0038
+> > +#define CCOR_RANGE_CCOR_C_RANGE				BIT(1)
+> > +#define CCOR_RANGE_CCOR_Y_RANGE				BIT(0)
+> > +
+> > +static int rppx1_ccor_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	switch (rpp_module_read(mod, CCOR_VERSION_REG)) {
+> > +	case 3:
+> > +		mod->info.ccor.colorbits = 12;
+> > +		break;
+> > +	case 4:
+> > +		mod->info.ccor.colorbits = 20;
+> > +		break;
+> > +	case 5:
+> > +		mod->info.ccor.colorbits = 24;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	mod->info.ccor.type = rpp_module_read(mod, CCOR_CONFIG_TYPE_REG);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int rppx1_ccor_start(struct rpp_module *mod,
+> > +			    const struct v4l2_mbus_framefmt *fmt)
+> > +{
+> > +	/* Configure matrix in bypass mode. */
+> > +	rpp_module_write(mod, CCOR_COEFF_REG(0), 0x1000);
+> > +	rpp_module_write(mod, CCOR_COEFF_REG(1), 0x0000);
+> > +	rpp_module_write(mod, CCOR_COEFF_REG(2), 0x0000);
+> > +
+> > +	rpp_module_write(mod, CCOR_COEFF_REG(3), 0x0000);
+> > +	rpp_module_write(mod, CCOR_COEFF_REG(4), 0x1000);
+> > +	rpp_module_write(mod, CCOR_COEFF_REG(5), 0x0000);
+> > +
+> > +	rpp_module_write(mod, CCOR_COEFF_REG(6), 0x0000);
+> > +	rpp_module_write(mod, CCOR_COEFF_REG(7), 0x0000);
+> > +	rpp_module_write(mod, CCOR_COEFF_REG(8), 0x1000);
+> > +
+> > +	rpp_module_write(mod, CCOR_OFFSET_R_REG, 0x00000000);
+> > +	rpp_module_write(mod, CCOR_OFFSET_G_REG, 0x00000000);
+> > +	rpp_module_write(mod, CCOR_OFFSET_B_REG, 0x00000000);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_ccor_ops = {
+> > +	.probe = rppx1_ccor_probe,
+> > +	.start = rppx1_ccor_start,
+> > +};
+> > +
+> > +static int rppx1_ccor_csm_start(struct rpp_module *mod,
+> > +				const struct v4l2_mbus_framefmt *fmt)
+> > +{
+> > +	/* Reuse bypass matrix setup. */
+> > +	if (fmt->code == MEDIA_BUS_FMT_RGB888_1X24)
+> > +		return rppx1_ccor_start(mod, fmt);
+> > +
+> > +	/* Color Transformation RGB to YUV according to ITU-R BT.709. */
+> > +	rpp_module_write(mod, CCOR_COEFF_REG(0), 0x0367);
+> > +	rpp_module_write(mod, CCOR_COEFF_REG(1), 0x0b71);
+> > +	rpp_module_write(mod, CCOR_COEFF_REG(2), 0x0128);
+> > +
+> > +	rpp_module_write(mod, CCOR_COEFF_REG(3), 0xfe2b);
+> > +	rpp_module_write(mod, CCOR_COEFF_REG(4), 0xf9d5);
+> > +	rpp_module_write(mod, CCOR_COEFF_REG(5), 0x0800);
+> > +
+> > +	rpp_module_write(mod, CCOR_COEFF_REG(6), 0x0800);
+> > +	rpp_module_write(mod, CCOR_COEFF_REG(7), 0xf8bc);
+> > +	rpp_module_write(mod, CCOR_COEFF_REG(8), 0xff44);
+> > +
+> > +	rpp_module_write(mod, CCOR_OFFSET_R_REG, 0x00000000);
+> > +	rpp_module_write(mod, CCOR_OFFSET_G_REG, 0x00000800);
+> > +	rpp_module_write(mod, CCOR_OFFSET_B_REG, 0x00000800);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_ccor_csm_ops = {
+> > +	.probe = rppx1_ccor_probe,
+> > +	.start = rppx1_ccor_csm_start,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_db.c b/drivers/media/platform/dreamchip/rppx1/rppx1_db.c
+> > new file mode 100644
+> > index 000000000000..5e233896cfc8
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_db.c
+> > @@ -0,0 +1,44 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define FILT_VERSION_REG		0x0000
+> > +
+> > +#define DEMOSAIC_REG			0x0004
+> > +#define DEMOSAIC_DEMOSAIC_BYPASS	BIT(16)
+> > +#define DEMOSAIC_DEMOSAIC_TH_MASK	GENMASK(15, 0)
+> > +
+> > +#define FILT_MODE_REG			0x0008
+> > +#define FILT_MODE_FILT_LP_SELECT_MASK	GENMASK(11, 8)
+> > +#define FILT_MODE_FILT_CHR_H_MODE_MASK	GENMASK(7, 6)
+> > +#define FILT_MODE_FILT_CHR_V_MODE_MASK	GENMASK(5, 4)
+> > +#define FILT_MODE_FILT_MODE		BIT(1)
+> > +#define FILT_MODE_FILT_ENABLE		BIT(0)
+> > +
+> > +#define FILT_THRESH_BL0_REG		0x000c
+> > +#define FILT_THRESH_BL1_REG		0x0010
+> > +#define FILT_THRESH_SH0_REG		0x0014
+> > +#define FILT_THRESH_SH1_REG		0x0018
+> > +#define FILT_LUM_WEIGHT_REG		0x001c
+> > +#define FILT_FAC_SH1_REG		0x0020
+> > +#define FILT_FAC_SH0_REG		0x0024
+> > +#define FILT_FAC_MID_REG		0x0028
+> > +#define FILT_FAC_BL0_REG		0x002c
+> > +#define FILT_FAC_BL1_REG		0x0030
+> > +
+> > +static int rppx1_db_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	if (rpp_module_read(mod, FILT_VERSION_REG) != 5)
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_db_ops = {
+> > +	.probe = rppx1_db_probe,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_dpcc.c b/drivers/media/platform/dreamchip/rppx1/rppx1_dpcc.c
+> > new file mode 100644
+> > index 000000000000..ae0b65976452
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_dpcc.c
+> > @@ -0,0 +1,76 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define DPCC_VERSION_REG			0x0000
+> > +
+> > +#define DPCC_MODE_REG				0x0004
+> > +#define DPCC_MODE_STAGE1_ENABLE			BIT(2)
+> > +#define DPCC_MODE_GRAYSCALE_MODE		BIT(1)
+> > +#define DPCC_MODE_DPCC_ENABLE			BIT(0)
+> > +
+> > +#define DPCC_OUTPUT_MODE_REG			0x0008
+> > +#define DPCC_SET_USE_REG			0x000c
+> > +#define DPCC_METHODS_SET_1_REG			0x0010
+> > +#define DPCC_METHODS_SET_2_REG			0x0014
+> > +#define DPCC_METHODS_SET_3_REG			0x0018
+> > +#define DPCC_LINE_THRESH_1_REG			0x001c
+> > +#define DPCC_LINE_MAD_FAC_1_REG			0x0020
+> > +#define DPCC_PG_FAC_1_REG			0x0024
+> > +#define DPCC_RND_THRESH_1_REG			0x0028
+> > +#define DPCC_RG_FAC_1_REG			0x002c
+> > +#define DPCC_LINE_THRESH_2_REG			0x0030
+> > +#define DPCC_LINE_MAD_FAC_2_REG			0x0034
+> > +#define DPCC_PG_FAC_2_REG			0x0038
+> > +#define DPCC_RND_THRESH_2_REG			0x003c
+> > +#define DPCC_RG_FAC_2_REG			0x0040
+> > +#define DPCC_LINE_THRESH_3_REG			0x0044
+> > +#define DPCC_LINE_MAD_FAC_3_REG			0x0048
+> > +#define DPCC_PG_FAC_3_REG			0x004c
+> > +#define DPCC_RND_THRESH_3_REG			0x0050
+> > +#define DPCC_RG_FAC_3_REG			0x0054
+> > +#define DPCC_RO_LIMITS_REG			0x0058
+> > +#define DPCC_RND_OFFS_REG			0x005c
+> > +#define DPCC_BPT_CTRL_REG			0x0060
+> > +#define DPCC_BP_NUMBER_REG			0x0064
+> > +#define DPCC_BP_TADDR_REG			0x0068
+> > +#define DPCC_BP_POSITION_REG			0x006c
+> > +
+> > +static int rppx1_dpcc_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	switch (rpp_module_read(mod, DPCC_VERSION_REG)) {
+> > +	case 2:
+> > +	case 4:
+> > +	case 6:
+> > +		mod->info.dpcc.colorbits = 12;
+> > +		break;
+> > +	case 3:
+> > +	case 5:
+> > +	case 7:
+> > +		mod->info.dpcc.colorbits = 24;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> 
+> Here and in all other modules, now that userspace is expected to
+> perform the right shifting by itself, 'colorbits' is probably not
+> needed anymore in any module.
+
+Indeed, this is now fully exposed to userspace and no adjustments are 
+needed. I will keep the version checks but drop the storage.
+
+> 
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int rppx1_dpcc_start(struct rpp_module *mod,
+> > +			    const struct v4l2_mbus_framefmt *fmt)
+> > +{
+> > +	/* Bypass stage1 and DPCC. */
+> > +	rpp_module_write(mod, DPCC_MODE_REG, 0);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_dpcc_ops = {
+> > +	.probe = rppx1_dpcc_probe,
+> > +	.start = rppx1_dpcc_start,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_exm.c b/drivers/media/platform/dreamchip/rppx1/rppx1_exm.c
+> > new file mode 100644
+> > index 000000000000..0c40300e13ad
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_exm.c
+> > @@ -0,0 +1,51 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define EXM_VERSION_REG			0x0000
+> > +#define EXM_START_REG			0x0004
+> > +
+> > +#define EXM_CTRL_REG			0x0008
+> > +#define EXM_CTRL_EXM_UPDATE_ENABLE	BIT(0)
+> > +
+> > +#define EXM_MODE_REG			0x000c
+> > +#define EXM_CHANNEL_SEL_REG		0x0010
+> > +#define EXM_LAST_MEAS_LINE_REG		0x0014
+> > +#define EXM_COEFF_R_REG			0x0018
+> > +#define EXM_COEFF_G_GR_REG		0x001c
+> > +#define EXM_COEFF_B_REG			0x0020
+> > +#define EXM_COEFF_GB_REG		0x0024
+> > +#define EXM_H_OFFS_REG			0x0028
+> > +#define EXM_V_OFFS_REG			0x002c
+> > +#define EXM_H_SIZE_REG			0x0030
+> > +#define EXM_V_SIZE_REG			0x0034
+> > +#define EXM_FORCED_UPD_START_LINE_REG	0x0038
+> > +#define EXM_VSTART_STATUS_REG		0x003c
+> > +
+> > +#define EXM_MEAN_REG_NUM		25
+> > +#define EXM_MEAN_REG(n)			(0x0040 + (4 * (n)))
+> > +
+> > +static int rppx1_exm_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	switch (rpp_module_read(mod, EXM_VERSION_REG)) {
+> > +	case 1:
+> > +		mod->info.exm.resultbits = 8;
+> > +		break;
+> > +	case 3:
+> > +		mod->info.exm.resultbits = 20;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_exm_ops = {
+> > +	.probe = rppx1_exm_probe,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_ga.c b/drivers/media/platform/dreamchip/rppx1/rppx1_ga.c
+> > new file mode 100644
+> > index 000000000000..d6c7f951cf29
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_ga.c
+> > @@ -0,0 +1,49 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define GAMMA_OUT_VERSION_REG			0x0000
+> > +
+> > +#define GAMMA_OUT_ENABLE_REG			0x0004
+> > +#define GAMMA_OUT_ENABLE_GAMMA_OUT_EN		BIT(0)
+> > +
+> > +#define GAMMA_OUT_MODE_REG			0x0008
+> > +#define GAMMA_OUT_MODE_GAMMA_OUT_EQU_SEGM	BIT(0)
+> > +
+> > +#define GAMMA_OUT_Y_REG_NUM			17
+> > +#define GAMMA_OUT_Y_REG(n)			(0x000c + (4 * (n)))
+> > +
+> > +static int rppx1_ga_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	switch (rpp_module_read(mod, GAMMA_OUT_VERSION_REG)) {
+> > +	case 1:
+> > +		mod->info.ga.colorbits = 12;
+> > +		break;
+> > +	case 2:
+> > +		mod->info.ga.colorbits = 24;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int rppx1_ga_start(struct rpp_module *mod,
+> > +			  const struct v4l2_mbus_framefmt *fmt)
+> > +{
+> > +	/* Disable stage. */
+> > +	rpp_module_write(mod, GAMMA_OUT_ENABLE_REG, 0);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_ga_ops = {
+> > +	.probe = rppx1_ga_probe,
+> > +	.start = rppx1_ga_start,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c b/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
+> > new file mode 100644
+> > index 000000000000..cab498ece5a8
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
+> > @@ -0,0 +1,76 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define HIST_VERSION_REG			0x0000
+> > +
+> > +#define HIST_CTRL_REG				0x0004
+> > +#define HIST_CTRL_HIST_UPDATE_ENABLE		BIT(0)
+> > +
+> > +#define HIST_MODE_REG				0x0008
+> > +#define HIST_MODE_HIST_MODE_MASK		GENMASK(2, 0)
+> > +#define HIST_MODE_HIST_MODE_DISABLE		0
+> > +#define HIST_MODE_HIST_MODE_YRGB		1
+> > +#define HIST_MODE_HIST_MODE_R			2
+> > +#define HIST_MODE_HIST_MODE_GR			3
+> > +#define HIST_MODE_HIST_MODE_B			4
+> > +#define HIST_MODE_HIST_MODE_GB			5
+> > +
+> > +#define HIST_CHANNEL_SEL_REG			0x000c
+> > +#define HIST_CHANNEL_SEL_CHANNEL_SELECT_MASK	GENMASK(2, 0)
+> > +
+> > +#define HIST_LAST_MEAS_LINE_REG			0x0010
+> > +#define HIST_SUBSAMPLING_REG			0x0014
+> > +#define HIST_COEFF_R_REG			0x0018
+> > +#define HIST_COEFF_G_REG			0x001c
+> > +#define HIST_COEFF_B_REG			0x0020
+> > +#define HIST_H_OFFS_REG				0x0024
+> > +#define HIST_V_OFFS_REG				0x0028
+> > +#define HIST_H_SIZE_REG				0x002c
+> > +#define HIST_V_SIZE_REG				0x0030
+> > +
+> > +#define HIST_SAMPLE_RANGE_REG			0x0034
+> > +#define HIST_SAMPLE_RANGE_SAMPLE_SHIFT_MASK	GENMASK(28, 24)
+> > +#define HIST_SAMPLE_RANGE_SAMPLE_OFFSET_MASK	GENMASK(23, 0)
+> > +
+> > +#define HIST_WEIGHT_00TO30_REG			0x0038
+> > +#define HIST_WEIGHT_40TO21_REG			0x003c
+> > +#define HIST_WEIGHT_31TO12_REG			0x0040
+> > +#define HIST_WEIGHT_22TO03_REG			0x0044
+> > +#define HIST_WEIGHT_13TO43_REG			0x0048
+> > +#define HIST_WEIGHT_04TO34_REG			0x004c
+> > +#define HIST_WEIGHT_44_REG			0x0050
+> > +#define HIST_FORCED_UPD_START_LINE_REG		0x0054
+> > +#define HIST_FORCED_UPDATE_REG			0x0058
+> > +#define HIST_VSTART_STATUS_REG			0x005c
+> > +
+> > +#define HIST_BIN_REG_NUM			32
+> > +#define HIST_BIN_REG(n)				(0x0060 + (4 * (n)))
+> > +
+> > +static int rppx1_hist_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	switch (rpp_module_read(mod, HIST_VERSION_REG)) {
+> > +	case 3:
+> > +		mod->info.hist.colorbits = 12;
+> > +		break;
+> > +	case 4:
+> > +		mod->info.hist.colorbits = 20;
+> > +		break;
+> > +	case 5:
+> > +		mod->info.hist.colorbits = 24;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_hist_ops = {
+> > +	.probe = rppx1_hist_probe,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_hist256.c b/drivers/media/platform/dreamchip/rppx1/rppx1_hist256.c
+> > new file mode 100644
+> > index 000000000000..5b846b415a49
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_hist256.c
+> > @@ -0,0 +1,46 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define HIST256_VERSION_REG			0x0000
+> > +#define HIST256_MODE_REG			0x0004
+> > +#define HIST256_MODE_HIST256_MODE		BIT(0)
+> > +
+> > +#define HIST256_CHANNEL_SEL_REG			0x0008
+> > +#define HIST256_CHANNEL_SEL_CHANNEL_SELECT	GENMASK(2, 0)
+> > +
+> > +#define HIST256_H_OFFS_REG			0x000c
+> > +#define HIST256_V_OFFS_REG			0x0010
+> > +#define HIST256_H_SIZE_REG			0x0014
+> > +#define HIST256_V_SIZE_REG			0x0018
+> > +#define HIST256_SAMPLE_OFFSET_REG		0x001c
+> > +#define HIST256_SAMPLE_SCALE_REG		0x0020
+> > +#define HIST256_MEAS_RESULT_ADDR_AUTOINCR_REG	0x0024
+> > +#define HIST256_MEAS_RESULT_ADDR_REG		0x0028
+> > +#define HIST256_MEAS_RESULT_DATA_REG		0x002c
+> > +
+> > +#define HIST256_LOG_ENABLE_REG			0x0030
+> > +#define HIST256_LOG_ENABLE_HIST256_LOG_EN	BIT(0)
+> > +
+> > +#define HIST256_LOG_DX_LO_REG			0x0034
+> > +#define HIST256_LOG_DX_HI_REG			0x0038
+> > +
+> > +#define HIST256_Y_REG_NUM			17
+> > +#define HIST256_Y_REG(n)			(0x0040 + (4 * (n)))
+> > +
+> > +static int rppx1_hist256_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	if (rpp_module_read(mod, HIST256_VERSION_REG) != 2)
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_hist256_ops = {
+> > +	.probe = rppx1_hist256_probe,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_is.c b/drivers/media/platform/dreamchip/rppx1/rppx1_is.c
+> > new file mode 100644
+> > index 000000000000..3637a2e677ca
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_is.c
+> > @@ -0,0 +1,42 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define IS_VERSION			0x0000
+> > +#define IS_H_OFFS			0x0008
+> > +#define IS_V_OFFS			0x000c
+> > +#define IS_H_SIZE			0x0010
+> > +#define IS_V_SIZE			0x0014
+> > +#define IS_H_OFFS_SHD			0x0024
+> > +#define IS_V_OFFS_SHD			0x0028
+> > +#define IS_H_SIZE_SHD			0x002c
+> > +#define IS_V_SIZE_SHD			0x0030
+> > +
+> > +static int rppx1_is_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	if (rpp_module_read(mod, IS_VERSION) != 1)
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int rppx1_is_start(struct rpp_module *mod,
+> > +			  const struct v4l2_mbus_framefmt *fmt)
+> > +{
+> > +	rpp_module_write(mod, IS_H_OFFS, 0);
+> > +	rpp_module_write(mod, IS_V_OFFS, 0);
+> > +	rpp_module_write(mod, IS_H_SIZE, fmt->width);
+> > +	rpp_module_write(mod, IS_V_SIZE, fmt->height);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_is_ops = {
+> > +	.probe = rppx1_is_probe,
+> > +	.start = rppx1_is_start,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c b/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
+> > new file mode 100644
+> > index 000000000000..f595f56a292e
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
+> > @@ -0,0 +1,58 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +/* NOTE: The module is called LIN the registers GAMMA_IN. */
+> > +#define LIN_VERSION_REG				0x0000
+> > +
+> > +#define LIN_ENABLE_REG				0x0004
+> > +#define LIN_ENABLE_GAMMA_IN_EN			BIT(0)
+> > +
+> > +#define LIN_DX_LO_REG				0x0008
+> > +#define LIN_DX_HI_REG				0x000c
+> > +
+> > +#define LIN_R_Y_REG_NUM				17
+> > +#define LIN_R_Y_REG(n)				(0x0010 + (4 * (n)))
+> > +
+> > +#define LIN_G_Y_REG_NUM				17
+> > +#define LIN_G_Y_REG(n)				(0x0054 + (4 * (n)))
+> > +
+> > +#define LIN_B_Y_REG_NUM				17
+> > +#define LIN_B_Y_REG(n)				(0x0098 + (4 * (n)))
+> > +
+> > +static int rppx1_lin_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	switch (rpp_module_read(mod, LIN_VERSION_REG)) {
+> > +	case 7:
+> > +		mod->info.lin.colorbits = 12;
+> > +		break;
+> > +	case 8:
+> > +		mod->info.lin.colorbits = 20;
+> > +		break;
+> > +	case 9:
+> > +		mod->info.lin.colorbits = 24;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int rppx1_lin_start(struct rpp_module *mod,
+> > +			   const struct v4l2_mbus_framefmt *fmt)
+> > +{
+> > +	rpp_module_clrset(mod, LIN_ENABLE_REG, LIN_ENABLE_GAMMA_IN_EN, 0);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_lin_ops = {
+> > +	.probe = rppx1_lin_probe,
+> > +	.start = rppx1_lin_start,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c b/drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c
+> > new file mode 100644
+> > index 000000000000..e8acdf744956
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c
+> > @@ -0,0 +1,68 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define LSC_VERSION_REG		0x0000
+> > +
+> > +#define LSC_CTRL_REG		0x0004
+> > +#define LSC_CTRL_LSC_EN		BIT(0)
+> > +
+> > +#define LSC_R_TABLE_ADDR_REG	0x0008
+> > +#define LSC_GR_TABLE_ADDR_REG	0x000c
+> > +#define LSC_B_TABLE_ADDR_REG	0x0010
+> > +#define LSC_GB_TABLE_ADDR_REG	0x0014
+> > +#define LSC_R_TABLE_DATA_REG	0x0018
+> > +#define LSC_GR_TABLE_DATA_REG	0x001c
+> > +#define LSC_B_TABLE_DATA_REG	0x0020
+> > +#define LSC_GB_TABLE_DATA_REG	0x0024
+> > +#define LSC_XGRAD_01_REG	0x0028
+> > +#define LSC_XGRAD_23_REG	0x002c
+> > +#define LSC_XGRAD_45_REG	0x0030
+> > +#define LSC_XGRAD_67_REG	0x0034
+> > +#define LSC_XGRAD_89_REG	0x0038
+> > +#define LSC_XGRAD_1011_REG	0x003c
+> > +#define LSC_XGRAD_1213_REG	0x0040
+> > +#define LSC_XGRAD_1415_REG	0x0044
+> > +#define LSC_YGRAD_01_REG	0x0048
+> > +#define LSC_YGRAD_23_REG	0x004c
+> > +#define LSC_YGRAD_45_REG	0x0050
+> > +#define LSC_YGRAD_67_REG	0x0054
+> > +#define LSC_YGRAD_89_REG	0x0058
+> > +#define LSC_YGRAD_1011_REG	0x005c
+> > +#define LSC_YGRAD_1213_REG	0x0060
+> > +#define LSC_YGRAD_1415_REG	0x0064
+> > +#define LSC_XSIZE_01_REG	0x0068
+> > +#define LSC_XSIZE_23_REG	0x006c
+> > +#define LSC_XSIZE_45_REG	0x0070
+> > +#define LSC_XSIZE_67_REG	0x0074
+> > +#define LSC_XSIZE_89_REG	0x0078
+> > +#define LSC_XSIZE_1011_REG	0x007c
+> > +#define LSC_XSIZE_1213_REG	0x0080
+> > +#define LSC_XSIZE_1415_REG	0x0084
+> > +#define LSC_YSIZE_01_REG	0x0088
+> > +#define LSC_YSIZE_23_REG	0x008c
+> > +#define LSC_YSIZE_45_REG	0x0090
+> > +#define LSC_YSIZE_67_REG	0x0094
+> > +#define LSC_YSIZE_89_REG	0x0098
+> > +#define LSC_YSIZE_1011_REG	0x009c
+> > +#define LSC_YSIZE_1213_REG	0x00a0
+> > +#define LSC_YSIZE_1415_REG	0x00a4
+> > +#define LSC_TABLE_SEL_REG	0x00a8
+> > +#define LSC_STATUS_REG		0x00ac
+> > +
+> > +static int rppx1_lsc_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	if (rpp_module_read(mod, LSC_VERSION_REG) != 0x04)
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_lsc_ops = {
+> > +	.probe = rppx1_lsc_probe,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_ltm.c b/drivers/media/platform/dreamchip/rppx1/rppx1_ltm.c
+> > new file mode 100644
+> > index 000000000000..693cf5ed1689
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_ltm.c
+> > @@ -0,0 +1,48 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define LTM_VERSION_REG				0x0000
+> > +
+> > +#define LTM_CTRL_REG				0x0004
+> > +#define LTM_CTRL_LTM_ENABLE			BIT(0)
+> > +
+> > +#define LTM_RGB_WEIGHTS_REG			0x0008
+> > +#define LTM_CLB_LINESIZE_REG			0x000c
+> > +#define LTM_TONECURVE_1_REG			0x0010
+> > +#define LTM_TONECURVE_2_REG			0x0014
+> > +#define LTM_TONECURVE_3_REG			0x0018
+> > +#define LTM_TONECURVE_4_REG			0x001c
+> > +#define LTM_TONECURVE_5_REG			0x0020
+> > +#define LTM_TONECURVE_6_REG			0x0024
+> > +#define LTM_TONECURVE_YM_REG(n)			(0x0028 + (4 * (n)))
+> > +#define LTM_L0W_REG				0x00ec
+> > +#define LTM_L0W_R_REG				0x00f0
+> > +#define LTM_L0D_REG				0x00f4
+> > +#define LTM_L0D_R_REG				0x00f8
+> > +#define LTM_KMIND_REG				0x00fc
+> > +#define LTM_KMAXD_REG				0x0100
+> > +#define LTM_KDIFFD_REG				0x0104
+> > +#define LTM_KDIFFD_R_REG			0x0108
+> > +#define LTM_KW_REG				0x010c
+> > +#define LTM_KW_R_REG				0x0110
+> > +#define LTM_CGAIN_REG				0x0114
+> > +#define LTM_LPRCH_R_HIGH_REG			0x0118
+> > +#define LTM_LPRCH_R_LOW_REG			0x011c
+> > +
+> > +static int rppx1_ltm_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	if (rpp_module_read(mod, LTM_VERSION_REG) != 8)
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_ltm_ops = {
+> > +	.probe = rppx1_ltm_probe,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_ltmmeas.c b/drivers/media/platform/dreamchip/rppx1/rppx1_ltmmeas.c
+> > new file mode 100644
+> > index 000000000000..efc3d09db5eb
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_ltmmeas.c
+> > @@ -0,0 +1,41 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define LTM_MEAS_VERSION_REG		0x0000
+> > +
+> > +#define LTM_MEAS_CTRL_REG		0x0004
+> > +#define LTM_MEAS_CTRL_LTM_MEAS_ENABLE	BIT(0)
+> > +
+> > +#define LTM_MEAS_RGB_WEIGHTS_REG	0x0008
+> > +#define LTM_MEAS_H_OFFS_REG		0x000c
+> > +#define LTM_MEAS_V_OFFS_REG		0x0010
+> > +#define LTM_MEAS_H_SIZE_REG		0x0014
+> > +#define LTM_MEAS_V_SIZE_REG		0x0018
+> > +
+> > +#define LTM_MEAS_PRC_THRESH_NUM		8
+> > +#define LTM_MEAS_PRC_THRESH_REG(n)	(0x001c + (4 * (n)))
+> > +
+> > +#define LTM_MEAS_PRC_REG_NUM		8
+> > +#define LTM_MEAS_PRC_REG(n)		(0x003c + (4 * (n)))
+> > +
+> > +#define LTM_MEAS_L_MIN_REG		0x005c
+> > +#define LTM_MEAS_L_MAX_REG		0x0060
+> > +#define LTM_MEAS_L_GMEAN_REG		0x0064
+> > +
+> > +static int rppx1_ltmmeas_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	if (rpp_module_read(mod, LTM_MEAS_VERSION_REG) != 1)
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_ltmmeas_ops = {
+> > +	.probe = rppx1_ltmmeas_probe,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_outif.c b/drivers/media/platform/dreamchip/rppx1/rppx1_outif.c
+> > new file mode 100644
+> > index 000000000000..742c81844912
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_outif.c
+> > @@ -0,0 +1,45 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define OUT_IF_VERSION_REG			0x0000
+> > +
+> > +#define OUT_IF_ON_REG				0x0004
+> > +#define OUT_IF_ON_RPP_ON			BIT(0)
+> > +
+> > +#define OUT_IF_OFF_REG				0x0008
+> > +
+> > +#define OUT_IF_NR_FRAMES_REG			0x000c
+> > +#define OUT_IF_NR_FRAMES_NR_FRAMES		GENMASK(9, 0)
+> > +
+> > +#define OUT_IF_NR_FRAMES_CNT_REG		0x0010
+> > +#define FLAGS_SHD_REG				0x0018
+> > +
+> > +static int rppx1_outif_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	if (rpp_module_read(mod, OUT_IF_VERSION_REG) != 1)
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int rppx1_outif_start(struct rpp_module *mod,
+> > +			     const struct v4l2_mbus_framefmt *fmt)
+> > +{
+> > +	rpp_module_clrset(mod, OUT_IF_NR_FRAMES_REG,
+> > +			  OUT_IF_NR_FRAMES_NR_FRAMES, 0);
+> > +
+> > +	rpp_module_write(mod, OUT_IF_ON_REG, OUT_IF_ON_RPP_ON);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_outif_ops = {
+> > +	.probe = rppx1_outif_probe,
+> > +	.start = rppx1_outif_start,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_outregs.c b/drivers/media/platform/dreamchip/rppx1/rppx1_outregs.c
+> > new file mode 100644
+> > index 000000000000..63d61e1dc447
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_outregs.c
+> > @@ -0,0 +1,75 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define OUTREGS_VERSION_REG					0x0000
+> > +
+> > +#define OUT_MODE_REG						0x0004
+> > +#define OUT_MODE_UNSELECTED_MODE_MASK				GENMASK(11, 8)
+> > +#define OUT_MODE_UNSELECTED_MODE_MAIN				(0x1 << 8)
+> > +#define OUT_MODE_UNSELECTED_MODE_PRE1				(0x2 << 8)
+> > +#define OUT_MODE_UNSELECTED_MODE_PRE2				(0x4 << 8)
+> > +#define OUT_MODE_IN_SEL_MASK					GENMASK(3, 0)
+> > +#define OUT_MODE_IN_SEL_MAIN					1
+> > +#define OUT_MODE_IN_SEL_PRE1					2
+> > +#define OUT_MODE_IN_SEL_PRE2					4
+> > +
+> > +#define OUT_CONV_422_METHOD_REG					0x0008
+> > +#define OUT_CONV_422_METHOD_CONV_422_METHOD_MASK		GENMASK(1, 0)
+> > +#define OUT_CONV_422_METHOD_CONV_422_METHOD_CO_SITED1		0
+> > +#define OUT_CONV_422_METHOD_CONV_422_METHOD_CO_SITED2		1
+> > +#define OUT_CONV_422_METHOD_CONV_422_METHOD_NON_CO_SITED	2
+> > +
+> > +#define OUTREGS_FORMAT_REG					0x000c
+> > +#define OUTREGS_FORMAT_OUTPUT_FORMAT_MASK			GENMASK(1, 0)
+> > +#define OUTREGS_FORMAT_OUTPUT_FORMAT_RGB			0
+> > +#define OUTREGS_FORMAT_OUTPUT_FORMAT_YUV422			1
+> > +#define OUTREGS_FORMAT_OUTPUT_FORMAT_YUV420			2
+> > +
+> > +static int rppx1_outregs_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	if (rpp_module_read(mod, OUTREGS_VERSION_REG) != 2)
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int rppx1_outregs_start(struct rpp_module *mod,
+> > +			       const struct v4l2_mbus_framefmt *fmt)
+> > +{
+> > +	u32 format;
+> > +
+> > +	switch (fmt->code) {
+> > +	case MEDIA_BUS_FMT_YUYV12_1X24:
+> > +		format = OUTREGS_FORMAT_OUTPUT_FORMAT_YUV422;
+> > +		break;
+> > +	case MEDIA_BUS_FMT_RGB888_1X24:
+> > +		format = OUTREGS_FORMAT_OUTPUT_FORMAT_RGB;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	rpp_module_clrset(mod, OUT_MODE_REG,
+> > +			  OUT_MODE_UNSELECTED_MODE_MASK | OUT_MODE_IN_SEL_MASK,
+> > +			  OUT_MODE_UNSELECTED_MODE_MASK | OUT_MODE_IN_SEL_MAIN);
+> > +
+> > +	rpp_module_clrset(mod, OUT_CONV_422_METHOD_REG,
+> > +			  OUT_CONV_422_METHOD_CONV_422_METHOD_MASK,
+> > +			  OUT_CONV_422_METHOD_CONV_422_METHOD_CO_SITED1);
+> > +
+> > +	rpp_module_clrset(mod, OUTREGS_FORMAT_REG,
+> > +			  OUTREGS_FORMAT_OUTPUT_FORMAT_MASK, format);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_outregs_ops = {
+> > +	.probe = rppx1_outregs_probe,
+> > +	.start = rppx1_outregs_start,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_rmap.c b/drivers/media/platform/dreamchip/rppx1/rppx1_rmap.c
+> > new file mode 100644
+> > index 000000000000..f6773a452bd1
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_rmap.c
+> > @@ -0,0 +1,64 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define RMAP_DATA_VERSION_REG		0x0000
+> > +
+> > +#define RMAP_CTRL_REG			0x0004
+> > +#define RMAP_CTRL_BYPASS_LONG		BIT(2)
+> > +
+> > +#define RMAP_WBTHRESHOLD_LONG_REG	0x0008
+> > +#define RMAP_WBTHRESHOLD_SHORT_REG	0x000c
+> > +#define RMAP_RESERVED_1_REG		0x0010
+> > +#define RMAP_WBGAIN_LONG_RED_REG	0x0014
+> > +#define RMAP_WBGAIN_LONG_BLUE_REG	0x0018
+> > +#define RMAP_WBGAIN_SHORT_RED_REG	0x001c
+> > +#define RMAP_WBGAIN_SHORT_BLUE_REG	0x0020
+> > +#define RMAP_RESERVED_2_REG		0x0024
+> > +#define RMAP_RESERVED_3_REG		0x0028
+> > +#define RMAP_MAP_FAC_SHORT_REG		0x002c
+> > +#define RMAP_RESERVED_4_REG		0x0030
+> > +#define RMAP_MIN_THRES_SHORT_REG	0x0034
+> > +#define RMAP_MAX_THRES_SHORT_REG	0x0038
+> > +#define RMAP_STEPSIZE_SHORT_REG		0x003c
+> > +#define RMAP_MIN_THRES_LONG_REG		0x0040
+> > +#define RMAP_MAX_THRES_LONG_REG		0x0044
+> > +#define RMAP_STEPSIZE_LONG_REG		0x0048
+> > +#define RMAP_CLB_LINESIZE_REG		0x004c
+> > +
+> > +static int rppx1_rmap_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	switch (rpp_module_read(mod, RMAP_DATA_VERSION_REG)) {
+> > +	case 8:
+> > +		mod->info.rmap.colorbits_high = 20;
+> > +		mod->info.rmap.colorbits_low = 12;
+> > +		break;
+> > +	case 9:
+> > +		mod->info.rmap.colorbits_high = 24;
+> > +		mod->info.rmap.colorbits_low = 12;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int rppx1_rmap_start(struct rpp_module *mod,
+> > +			    const struct v4l2_mbus_framefmt *fmt)
+> > +{
+> > +	/* Bypass radiance mapping and use the long exposure channel (PRE1). */
+> > +	rpp_module_write(mod, RMAP_CTRL_REG, RMAP_CTRL_BYPASS_LONG);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_rmap_ops = {
+> > +	.probe = rppx1_rmap_probe,
+> > +	.start = rppx1_rmap_start,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_rmapmeas.c b/drivers/media/platform/dreamchip/rppx1/rppx1_rmapmeas.c
+> > new file mode 100644
+> > index 000000000000..c04f92508f6d
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_rmapmeas.c
+> > @@ -0,0 +1,47 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define RMAP_MEAS_VERSION_REG			0x0000
+> > +#define RMAP_MEAS_MODE_REG			0x0004
+> > +#define RMAP_MEAS_SUBSAMPLING_REG		0x0008
+> > +#define RMAP_MEAS_RESERVED_1_REG		0x000c
+> > +#define RMAP_MEAS_MIN_THRES_SHORT_REG		0x0010
+> > +#define RMAP_MEAS_MAX_THRES_SHORT_REG		0x0014
+> > +#define RMAP_MEAS_MAX_THRES_LONG_REG		0x0018
+> > +#define RMAP_MEAS_H_OFFS_REG			0x001c
+> > +#define RMAP_MEAS_V_OFFS_REG			0x0020
+> > +#define RMAP_MEAS_H_SIZE_REG			0x0024
+> > +#define RMAP_MEAS_V_SIZE_REG			0x0028
+> > +#define RMAP_MEAS_LAST_MEAS_LINE_REG		0x002c
+> > +#define RMAP_MEAS_LS_RESULTSHORT0_REG		0x0030
+> > +#define RMAP_MEAS_LS_RESULTLONG0_REG		0x0034
+> > +#define RMAP_MEAS_RESERVED_2_REG		0x0038
+> > +#define RMAP_MEAS_RESERVED_3_REG		0x003c
+> > +#define RMAP_MEAS_LS_RESULTSHORT1_REG		0x0040
+> > +#define RMAP_MEAS_LS_RESULTLONG1_REG		0x0044
+> > +#define RMAP_MEAS_RESERVED_4_REG		0x0048
+> > +#define RMAP_MEAS_RESERVED_5_REG		0x004c
+> > +
+> > +static int rppx1_rmapmeas_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	switch (rpp_module_read(mod, RMAP_MEAS_VERSION_REG)) {
+> > +	case 3:
+> > +		mod->info.rmapmeas.colorbits_high = 24;
+> > +		mod->info.rmapmeas.colorbits_low = 12;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_rmapmeas_ops = {
+> > +	.probe = rppx1_rmapmeas_probe,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_shrp.c b/drivers/media/platform/dreamchip/rppx1/rppx1_shrp.c
+> > new file mode 100644
+> > index 000000000000..5bec022e8f05
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_shrp.c
+> > @@ -0,0 +1,64 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define SHRPCNR_VERSION_REG				0x0000
+> > +
+> > +#define SHRPCNR_CTRL_REG				0x0004
+> > +#define SHRPCNR_CTRL_CAD_EN				BIT(3)
+> > +#define SHRPCNR_CTRL_DESAT_EN				BIT(2)
+> > +#define SHRPCNR_CTRL_CNR_EN				BIT(1)
+> > +#define SHRPCNR_CTRL_SHARPEN_EN				BIT(0)
+> > +
+> > +#define SHRPCNR_PARAM_REG				0x0008
+> > +#define SHRPCNR_PARAM_SHARP_FACTOR_MASK			GENMASK(19, 12)
+> > +#define SHRPCNR_PARAM_CORING_THR_MASK			GENMASK(11, 0)
+> > +
+> > +#define SHRPCNR_MAT_1_REG				0x000c
+> > +#define SHRPCNR_MAT_2_REG				0x0010
+> > +#define SHRPCNR_CLB_LINESIZE_REG			0x0014
+> > +#define SHRPCNR_YUV2RGB_CCOR_COEFF_0_REG		0x0018
+> > +#define SHRPCNR_YUV2RGB_CCOR_COEFF_1_REG		0x001c
+> > +#define SHRPCNR_YUV2RGB_CCOR_COEFF_2_REG		0x0020
+> > +#define SHRPCNR_YUV2RGB_CCOR_COEFF_3_REG		0x0024
+> > +#define SHRPCNR_YUV2RGB_CCOR_COEFF_4_REG		0x0028
+> > +#define SHRPCNR_YUV2RGB_CCOR_COEFF_5_REG		0x002c
+> > +#define SHRPCNR_YUV2RGB_CCOR_COEFF_6_REG		0x0030
+> > +#define SHRPCNR_YUV2RGB_CCOR_COEFF_7_REG		0x0034
+> > +#define SHRPCNR_YUV2RGB_CCOR_COEFF_8_REG		0x0038
+> > +#define SHRPCNR_YUV2RGB_CCOR_OFFSET_R_REG		0x003c
+> > +#define SHRPCNR_YUV2RGB_CCOR_OFFSET_G_REG		0x0040
+> > +#define SHRPCNR_YUV2RGB_CCOR_OFFSET_B_REG		0x0044
+> > +
+> > +#define SHRPCNR_CNR_THRES_REG				0x0048
+> > +#define SHRPCNR_CNR_THRES_CNR_THRES_CR_MASK		GENMASK(27, 16)
+> > +#define SHRPCNR_CNR_THRES_CNR_THRES_CB_MASK		GENMASK(11, 0)
+> > +
+> > +#define SHRPCNR_CRED_THRES_REG				0x004c
+> > +#define SHRPCNR_CRED_SLOPE_REG				0x0050
+> > +#define SHRPCNR_CAD_RESTORE_LVL_REG			0x0054
+> > +#define SHRPCNR_CAD_THRESH_V_UNEG_REG			0x0058
+> > +#define SHRPCNR_CAD_THRESH_V_UPOS_REG			0x005c
+> > +#define SHRPCNR_CAD_THRESH_U_REG			0x0060
+> > +
+> > +static int rppx1_shrp_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	switch (rpp_module_read(mod, SHRPCNR_VERSION_REG)) {
+> > +	case 2:
+> > +		mod->info.shrp.colorbits = 12;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_shrp_ops = {
+> > +	.probe = rppx1_shrp_probe,
+> > +};
+> 
+> There are quite some modules here that have no corresponding user in
+> libcamera and which are not exercized.
+> 
+> As long as we don't have a userspace user, I would refrein from adding
+> them to the driver to avoid committing to a uAPI before anyone
+> actually uses it.
+
+I do have user-space that exercise each uAPI exposed by this series in 
+the form of unit-tests. But I know you feel strongly about libcamera 
+support so I will drop the uAPI from the ones not used by libcamera from 
+this series.
+
+Before the switch to the RPPX1 dedicated format the RkISP1 IPA in 
+libcamera did use more of the enabled blocks together with some sensors.  
+So for my core use-cases dropping them will not lose me much 
+functionality. And as this series now structures uAPI together with the 
+code moving modules in out is easy :-)
+
+I will drop the following blocks:
+
+- BLS - statistics reporting.
+- DB
+- BD
+
+> 
+> If you want to keep the kernel module, fine, but no ABI for blocks
+> without a userspace user.
+
+The probe and static init config (that instructs the ISP pipeline to 
+bypass the module) I will keep. I will drop all logic and uAPU 
+structures.
+
+> 
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c b/drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c
+> > new file mode 100644
+> > index 000000000000..3d197d914d07
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c
+> > @@ -0,0 +1,61 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define AWB_MEAS_VERSION_REG			0x0000
+> > +
+> > +#define AWB_MEAS_PROP_REG			0x0004
+> > +#define AWB_MEAS_PROP_MEAS_MODE_RGB		BIT(16) /* 0: YCbCr 1: RGB */
+> > +#define AWB_MEAS_PROP_YMAX			BIT(2)
+> > +#define AWB_MEAS_PROP_AWB_MODE_ON		BIT(1)
+> > +
+> > +#define AWB_MEAS_H_OFFS_REG			0x0008
+> > +#define AWB_MEAS_V_OFFS_REG			0x000c
+> > +#define AWB_MEAS_H_SIZE_REG			0x0010
+> > +#define AWB_MEAS_V_SIZE_REG			0x0014
+> > +#define AWB_MEAS_FRAMES_REG			0x0018
+> > +#define AWB_MEAS_REF_CB_MAX_B_REG		0x001c
+> > +#define AWB_MEAS_REF_CR_MAX_R_REG		0x0020
+> > +#define AWB_MEAS_MAX_Y_REG			0x0024
+> > +#define AWB_MEAS_MIN_Y_MAX_G_REG		0x0028
+> > +#define AWB_MEAS_MAX_CSUM_REG			0x002c
+> > +#define AWB_MEAS_MIN_C_REG			0x0030
+> > +#define AWB_MEAS_WHITE_CNT_REG			0x0034
+> > +#define AWB_MEAS_MEAN_Y_G_REG			0x0038
+> > +#define AWB_MEAS_MEAN_CB_B_REG			0x003c
+> > +#define AWB_MEAS_MEAN_CR_R_REG			0x0040
+> > +
+> > +#define AWB_MEAS_CCOR_COEFF_NUM			9
+> > +#define AWB_MEAS_CCOR_COEFF_REG(n)		(0x0044 + (4 * (n)))
+> > +
+> > +#define AWB_MEAS_CCOR_OFFSET_R_REG		0x0068
+> > +#define AWB_MEAS_CCOR_OFFSET_G_REG		0x006c
+> > +#define AWB_MEAS_CCOR_OFFSET_B_REG		0x0070
+> > +
+> > +static int rppx1_wbmeas_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	switch (rpp_module_read(mod, AWB_MEAS_VERSION_REG)) {
+> > +	case 1:
+> > +		mod->info.wbmeas.colorbits = 8;
+> > +		break;
+> > +	case 2:
+> > +		mod->info.wbmeas.colorbits = 20;
+> > +		break;
+> > +	case 3:
+> > +		mod->info.wbmeas.colorbits = 24;
+> > +		break;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_wbmeas_ops = {
+> > +	.probe = rppx1_wbmeas_probe,
+> > +};
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_xyz2luv.c b/drivers/media/platform/dreamchip/rppx1/rppx1_xyz2luv.c
+> > new file mode 100644
+> > index 000000000000..73789c48c057
+> > --- /dev/null
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_xyz2luv.c
+> > @@ -0,0 +1,26 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +
+> > +#include "rpp_module.h"
+> > +
+> > +#define XYZ2LUV_VERSION_REG			0x0000
+> > +#define XYZ2LUV_U_REF_REG			0x0004
+> > +#define XYZ2LUV_V_REF_REG			0x0008
+> > +#define XYZ2LUV_LUMA_OUT_FAC_REG		0x000c
+> > +#define XYZ2LUV_CHROMA_OUT_FAC_REG		0x0010
+> > +
+> > +static int rppx1_xyz2luv_probe(struct rpp_module *mod)
+> > +{
+> > +	/* Version check. */
+> > +	if (rpp_module_read(mod, XYZ2LUV_VERSION_REG) != 4)
+> > +		return -EINVAL;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +const struct rpp_module_ops rppx1_xyz2luv_ops = {
+> > +	.probe = rppx1_xyz2luv_probe,
+> > +};
+> > diff --git a/include/media/rppx1.h b/include/media/rppx1.h
+> > new file mode 100644
+> > index 000000000000..cb3470c27ceb
+> > --- /dev/null
+> > +++ b/include/media/rppx1.h
+> > @@ -0,0 +1,34 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Copyright 2025 Renesas Electronics Corp.
+> > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > + */
+> > +#ifndef __MEDIA_DCT_RPPX1_H__
+> > +#define __MEDIA_DCT_RPPX1_H__
+> > +
+> > +#include <linux/v4l2-mediabus.h>
+> > +#include <linux/media/dreamchip/rppx1-config.h>
+> > +
+> > +#include <media/videobuf2-core.h>
+> > +
+> > +struct rppx1;
+> > +
+> > +struct rppx1 *rppx1_create(void __iomem *base, struct device *dev);
+> > +
+> > +void rppx1_destroy(struct rppx1 *rpp);
+> > +
+> > +int rppx1_start(struct rppx1 *rpp, const struct v4l2_mbus_framefmt *input,
+> > +		const struct v4l2_mbus_framefmt *hv,
+> > +		const struct v4l2_mbus_framefmt *mv);
+> > +
+> > +int rppx1_stop(struct rppx1 *rpp);
+> > +
+> > +bool rppx1_interrupt(struct rppx1 *rpp, u32 *isc);
+> > +
+> > +typedef int (*rppx1_reg_write)(void *priv, u32 offset, u32 value);
+> > +int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
+> > +		 rppx1_reg_write write, void *priv);
+> > +
+> > +void rppx1_stats_fill_isr(struct rppx1 *rpp, u32 isc, void *buf);
+> > +
+> > +#endif /* __MEDIA_DCT_RPPX1_H__ */
+> > diff --git a/include/uapi/linux/media/dreamchip/rppx1-config.h b/include/uapi/linux/media/dreamchip/rppx1-config.h
+> > new file mode 100644
+> > index 000000000000..26627be6f483
+> > --- /dev/null
+> > +++ b/include/uapi/linux/media/dreamchip/rppx1-config.h
+> 
+> As said, I don't think it makes much sense to add an almost empty uapi
+> file.
+> 
+> I would add it in one commit.
+> 
+> Please retain Jai's authorship and add my Co-developed-by tag as I
+> rewrote most of the documentation and reworked most blocks.
+
+As discussed above, I really like adding the uAPI together with the 
+logic. I will retain the scaffolding as a separate commit from Jai and 
+add the Co-developed tags.
+
+> 
+> > @@ -0,0 +1,66 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> > +/*
+> > + * Dreamchip RPP-X1 ISP Driver - Userspace API
+> > + *
+> > + * Copyright (C) 2026 Renesas Electronics Corp.
+> > + * Copyright (C) 2026 Ideas on Board Oy
+> > + * Copyright (C) 2026 Ragnatech AB
+> > + */
+> > +
+> > +#ifndef __UAPI_RPP_X1_CONFIG_H
+> > +#define __UAPI_RPP_X1_CONFIG_H
+> > +
+> > +#include <linux/types.h>
+> > +#include <linux/media/v4l2-isp.h>
+> > +
+> > +/**
+> > + * struct rppx1_window - Measurement window
+> > + *
+> > + * RPP-X1 measurement window. Different blocks use a window or multiple
+> > + * windows for measurement purposes. This defines a common type for all of
+> > + * them. The number of relevant bits depends on the block where the window is
+> > + * used and is specified in the per-block description
+> > + *
+> > + * @h_offs: horizontal offset from the left of the frame in pixels
+> > + * @v_offs: vertical offset from the top of the frame in pixels
+> > + * @h_size: horizontal size of the window in pixels
+> > + * @v_size: vertical size of the window in pixels
+> > + */
+> > +struct rppx1_window {
+> > +	__u16 h_offs;
+> > +	__u16 v_offs;
+> > +	__u16 h_size;
+> > +	__u16 v_size;
+> > +};
+> > +
+> > +/* ---------------------------------------------------------------------------
+> > + * Parameter Structures
+> > + *
+> > + * Native RPP-X1 precision. Fields use __u32 where the hardware provides
+> > + * wider-than-8-bit results.
+> 
+> I think you could drop the first part: of course the RPP-X1 uAPI
+> header uses the RPP-X1 precision. You could add:
+> 
+>       The same ISP block might be instantiated in multiple pipeliness
+>       and operate on a different bitdepth/precision. For fields of
+>       varying length among different instances of the same block, use
+>       a data type that can accommodate the larger bitdepth/precision.
+> 
+> Or something similar
+
+Thanks, this should of course be updated now that we have a native RPPX1 
+format.
+
+> 
+> > + */
+> > +
+> > +/**
+> > + * RPPX1_PARAMS_MAX_SIZE - Maximum size of all RPP-X1 parameter blocks
+> > + *
+> > + * Some types are reported twice as the same block might be instantiated in
+> > + * multiple pipes.
+> > + */
+> > +#define RPPX1_PARAMS_MAX_SIZE 0
+> > +
+> > +/* ---------------------------------------------------------------------------
+> > + * Statistics Structures
+> > + *
+> > + * Native RPP-X1 precision. Fields use __u32 where the hardware provides
+> > + * wider-than-8-bit results.
+> 
+> Same here
+
+Ditto.
+
+> 
+> > + */
+> > +
+> > +/**
+> > + * RPPX1_STATS_MAX_SIZE - Maximum size of all RPP-X1 statistics
+> > + *
+> > + * Some types are reported twice as the same block might be instantiated in
+> > + * multiple pipes.
+> > + */
+> > +#define RPPX1_STATS_MAX_SIZE 0
+> > +
+> > +#endif /* __UAPI_RPP_X1_CONFIG_H */
+> > --
+> > 2.54.0
+> >
 
 -- 
-2.54.0
-
+Kind Regards,
+Niklas Söderlund
 
