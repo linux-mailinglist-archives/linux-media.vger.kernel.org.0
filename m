@@ -1,272 +1,162 @@
-Return-Path: <linux-media+bounces-61783-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61784-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sDv6LREOCGpVWwMAu9opvQ
-	(envelope-from <linux-media+bounces-61783-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 08:26:25 +0200
+	id 2JlrHbUeCGqOaAMAu9opvQ
+	(envelope-from <linux-media+bounces-61784-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 09:37:25 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F96455A7B1
-	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 08:26:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFBCD55A9F1
+	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 09:37:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id EEB1F300F158
-	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 06:26:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id F35C03017049
+	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 07:37:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B72E2D2488;
-	Sat, 16 May 2026 06:26:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1F7935F5E3;
+	Sat, 16 May 2026 07:37:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="GzIIK9ku"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i7R1aIVG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64BD717B506
-	for <linux-media@vger.kernel.org>; Sat, 16 May 2026 06:26:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B511FF5E3
+	for <linux-media@vger.kernel.org>; Sat, 16 May 2026 07:37:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778912782; cv=none; b=pelx1mp9RSnfJHqmBrWl454rWLlYLckkDHBiswiTkbKEaWx1tH7DJW9FCTLIUASRp58bd1unQqwd7lbvYjJ+fbrqtfW9JA6t5KlLMYJt+AE1mpYlg26NU73FbirOUKxnTmpzPqu9DfAXlIhwoqJf95d29iZ4F7Z/cgEjaKeIDEM=
+	t=1778917028; cv=none; b=RU4GY4ioTV5UPCox464pTQ9wliYeLuUJfFD96E+Ysq8lndwqLEUR2/NnrdPbWxzXGni0pprh4Skt5GeXgQn4N2MqOcTxODFgvigqeSYwRpduJhneun71jbyXIYrKh2nk1G2ojrxPPdMtNQugnAGJ9afUdPLHdMAxdq2r5RguBkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778912782; c=relaxed/simple;
-	bh=1ge+gjru13RruXYWtQ5wFSwlDdEYBliahjyiMVplGS4=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hYqOd0/f4+3NKWA0LsO445fzDf/0DzB8hJrty4jvcL4nxcJ5Ke71qrvGWLL1foMifrYtYIjFJsCTThAdVgzMIwyRsRsmGUFaVS/Tj2dOAEQiixtGsZWmdepVdtolmkWpH1S6bRjZplDPpVoCxPSvnxYkYQg7z4Psyd3KvtAFmxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=GzIIK9ku; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-453903ee4adso372877f8f.3
-        for <linux-media@vger.kernel.org>; Fri, 15 May 2026 23:26:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1778912779; x=1779517579; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XFfFEO5sWuavgdP7HUs7sjyYVRG0+1MI7HOzI8qLFzY=;
-        b=GzIIK9kufmjomXWqZDCsaYJbTvknMH3ntWpry3MTXHqs8KGtsLxa+nH4BtoZIOXufu
-         KhweWLXvwnQ6eXmZdHhToOW8ohGu034Ty3w1E2Z8BrqCsGM3xmRZGMKZuuB7ZJ9agMd9
-         20AcSAdUJH5P0A/BP5iGw6VOaXegunMVKmXLVN0TmWX8mfVs9PFqzHuYn9Jp1BBbDZ+a
-         EuOJXZbPXpqjLwNNPS2IsODYzigrJMwTieyxClqaegVw+20BisOaeRv7PUgZ1Wytggy3
-         yl9wTvQmX/HCknJu4/IV+hEbWVth+dFVnnPLlMxBcS7dBZzN8+IgpfYZa+rBmKtqVoIQ
-         UPsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778912779; x=1779517579;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=XFfFEO5sWuavgdP7HUs7sjyYVRG0+1MI7HOzI8qLFzY=;
-        b=LZAvhbkACUGESwAdqz95hPi7ff0FfL1Y/WQ36E6+eM20/02UDC+DribGI9887omLpN
-         DkBF6sOmYf1BvIde6YslvqOgsmnT7utd6feSEfU21vwXW14kTOQHmLp09NwoswMP3dxx
-         ZMClbJGneki4X0DnIfrg1YWWC0Q+bdXKahos1D/Mkbra9nJoumqXa9A92QSYH2u79mMx
-         f8WaeAqCsUP6aEnrnLBncLQIXgOq105DwaLG5ld8l0CVyaCVgTUKarAqIHjxsJhwzjBg
-         2UMP4pWT2qSZfQO047/z2/aAc37sNi2Vlyku+eLJLqWHLQFGL7syw//3t52VzTTauNOF
-         Iu9g==
-X-Gm-Message-State: AOJu0Yy4mL9qR3tgjdz8eQqC/i0G+iuJJn+TCL9y7RIvfEuwF6Ggd2bx
-	sQRKCXSv6Y5/2SP3AekudXwwwidppTGxdjuLetghQxVOJfTH0tleA3Xdv9sYMpI9qa5IX7xK2g0
-	rT9/nykwW3Q==
-X-Gm-Gg: Acq92OE3rF1/P3YjeO4YLNQlUil5iee9g3h3i5iMQuHKaUhV0cdWPsHgZ/DmCxR7Q50
-	3cl8z8IP1KCnxWIu0QZfuvlN4LTCYzG2wQJsZ4FS4B88lyev13j+5aklJdEPMFQUsHnAsZGPsDf
-	kaekFoTeYfO2SH1BzvNADY0UeF4LNbY7wLLzTIaMwEgzXfPGXDfbCROn3SM/aCn+clOE32rgTNl
-	vFFCu72sq00WKH+JxA5C1D6Tx0x7LAbX82j7Cwu4hv9hp+VRJgA32OfZIFnax5FX7LT/0EMtBfE
-	LnKTfhx2uuEM1zIBJCUtFO+Uxwf20A4oTWVlQ/KqJYeLSrnVUkkrNYJa1s8NBBQGRW1PDWrtvig
-	qtJacn6Cjnehb6tKtpqdsU2JiybIt8e0BY6iikPwsvHJv+ipbqRnN1o8LJ2AQqFoL8ercHXWecM
-	EhCqwlHbICinjeOS+y4ajg+hdO8/OnvAiqzXQtJzc=
-X-Received: by 2002:a05:6000:2c10:b0:44a:525b:2851 with SMTP id ffacd0b85a97d-45e5c367149mr9397155f8f.10.1778912778743;
-        Fri, 15 May 2026 23:26:18 -0700 (PDT)
-Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-45da15a666fsm18442852f8f.36.2026.05.15.23.26.17
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 May 2026 23:26:18 -0700 (PDT)
-Date: Sat, 16 May 2026 08:26:17 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
-To: linux-media@vger.kernel.org
-Subject: Re: [v1] media: Use named initializers for arrays of i2c_device_data
-Message-ID: <aggG2S-KG9aOTjsX@monoceros>
-References: <20260515161528.465621-2-u.kleine-koenig@baylibre.com>
- <6a0764e6.ec7b09a3.350c1e.ff87@mx.google.com>
+	s=arc-20240116; t=1778917028; c=relaxed/simple;
+	bh=P3vqgwHwD6iLuiEKYHBc9rKUdaJI1VWv+dxZinDZG8M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f7s8yj97p0DECCbosMDEoA7SxlBwZd/W/QV2UHVkohlad3SMMi27EyXXYYHaW513XPp5swXv22R+X4y+UFBlHReiRAaUaFjIj+XWzdE0mT3DD2MJ22mR9ez7sV1SN8d+TCqbAiq6B+NDRLvqtLwfrXfZUn20d9cvzH3dh3El2fs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i7R1aIVG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB9A8C2BCC9
+	for <linux-media@vger.kernel.org>; Sat, 16 May 2026 07:37:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778917027;
+	bh=P3vqgwHwD6iLuiEKYHBc9rKUdaJI1VWv+dxZinDZG8M=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=i7R1aIVGsMYbnDNR9Y4iM9e7YLGciHIqwRzponJOzvq4Q2bQiFl5XO4b4zz0lfpCk
+	 FdwpXxyEomVT95DiWXYgaxVTtRL3TPX7NbZyFfELPI+/u4FtNnCwdWHgdk88M/loIY
+	 OujMxtPlkQ3lzK5Eo4u3WJuus1zbIKiTsK4NxymlluJyXaWpsnKqLq1JENmxvin0T7
+	 L7NoIr/5IBtdcHUj6KyyHBFhMizH5BzijjJZeRLbHh8dw2ssRlQgKT1hS9cgaPVg9N
+	 qmLcSgEYwqUK5AoIl4+3q5gb2+RuWCvzlwdOBQFySOlgsNZKKq+Tjr36BZxxxWUYrW
+	 AnZPfx8HvpHYA==
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-8acb856a674so11630356d6.0
+        for <linux-media@vger.kernel.org>; Sat, 16 May 2026 00:37:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9vBv+kC3HAr7FYk/byg7y6I/7FIBi6apKVz4iGn59a7/i9hOoDkJ3Bv5o6QWU1F2JjlikIOgGlw6mdvQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxz6lrITEDM7MVvl4zKHONAsch++ajnPNt26W771AI4sfQ+vq62
+	tiHRimxwPArsrOnATdC3aRD9dtKg8DbAwQDUvwT1/+1JgPFtPGLyZYRWlL4LBKCCrPmkLv9j9CA
+	cBonyFiI2SoSvdxC7wb07fXD3Hu2UZDw=
+X-Received: by 2002:a05:6214:29ce:b0:8b3:ff3f:5d61 with SMTP id
+ 6a1803df08f44-8c8fda1ccbbmr178745586d6.22.1778917027156; Sat, 16 May 2026
+ 00:37:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gzw3nbt365y23ha7"
-Content-Disposition: inline
-In-Reply-To: <6a0764e6.ec7b09a3.350c1e.ff87@mx.google.com>
-X-Rspamd-Queue-Id: 1F96455A7B1
+References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
+ <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
+In-Reply-To: <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
+From: Barry Song <baohua@kernel.org>
+Date: Sat, 16 May 2026 15:36:56 +0800
+X-Gmail-Original-Message-ID: <CAGsJ_4xfznffbjOaNKwnN6oZk_H6pqOzYqd1zx4Q9XrocdzV8A@mail.gmail.com>
+X-Gm-Features: AVHnY4L9M-s1Neba6WebvB2EkXnslTMMIykTYPVPE3skCvVx5rzQK6ntLSW6W0w
+Message-ID: <CAGsJ_4xfznffbjOaNKwnN6oZk_H6pqOzYqd1zx4Q9XrocdzV8A@mail.gmail.com>
+Subject: Re: [PATCH RFC 2/5] dma-heap: charge dma-buf memory via explicit memcg
+To: Albert Esteve <aesteve@redhat.com>
+Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+	Andrew Morton <akpm@linux-foundation.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+	Christian Brauner <brauner@kernel.org>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
+	Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-mm@kvack.org, linux-security-module@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, mripard@kernel.org, 
+	echanude@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Rspamd-Queue-Id: DFBCD55A9F1
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-3.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[baylibre-com.20251104.gappssmtp.com:s=20251104];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61784-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,cmpxchg.org,suse.com,lwn.net,linuxfoundation.org,linaro.org,amd.com,linux.dev,linux-foundation.org,collabora.com,arm.com,google.com,paul-moore.com,namei.org,hallyn.com,gmail.com,redhat.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,kvack.org];
 	FROM_HAS_DN(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	TAGGED_FROM(0.00)[bounces-61783-lists,linux-media=lfdr.de];
-	RCPT_COUNT_ONE(0.00)[1];
-	DMARC_NA(0.00)[baylibre.com];
-	DKIM_TRACE(0.00)[baylibre-com.20251104.gappssmtp.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[36];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[baohua@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,baylibre-com.20251104.gappssmtp.com:dkim]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mail.gmail.com:mid]
 X-Rspamd-Action: no action
 
+On Tue, May 12, 2026 at 5:18=E2=80=AFPM Albert Esteve <aesteve@redhat.com> =
+wrote:
+>
+> On embedded platforms a central process often allocates dma-buf
+> memory on behalf of client applications. Without a way to
+> attribute the charge to the requesting client's cgroup, the
+> cost lands on the allocator, making per-cgroup memory limits
+> ineffective for the actual consumers.
+>
+> Add charge_pid_fd to struct dma_heap_allocation_data. When set to
+> a valid pidfd, DMA_HEAP_IOCTL_ALLOC resolves the target task's
+> memcg and charges the buffer there via mem_cgroup_charge_dmabuf()
+> inside dma_heap_buffer_alloc(). Without charge_pid_fd, and with
+> the mem_accounting module parameter enabled, the buffer is charged
+> to the allocator's own cgroup.
+>
+> Additionally, commit 3c227be90659 ("dma-buf: system_heap: account for
+> system heap allocation in memcg") adds __GFP_ACCOUNT to system-heap
+> page allocations. Keeping __GFP_ACCOUNT would charge the same pages
+> twice (once to kmem, once to MEMCG_DMABUF), thus remove it and route
+> all accounting through a single MEMCG_DMABUF path.
+>
+[...]
 
---gzw3nbt365y23ha7
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [v1] media: Use named initializers for arrays of i2c_device_data
-MIME-Version: 1.0
+> -               if (mem_accounting)
+> -                       flags |=3D __GFP_ACCOUNT;
 
-Hello,
+Hi Albert,
 
-On Fri, May 15, 2026 at 11:24:38AM -0700, Patchwork Integration wrote:
-> Thanks for your patches! Unfortunately the Media CI robot detected some
-> issues:
+would it be better to move this and its description to patch 1? It
+looks like patch 1 already introduces the double accounting changes,
+and patch 2 is mainly just supporting remote charging.
 
-I wonder about the Media CI robot testing iio and hwmon patches. What is
-their source? (Hmm, I guess that's because I forgot to remove the
-prerequisite-patch-id lines from the patch.)
-
-> # Test checkpatch:./0001-scsi-mvsas-Don-t-emit-__LINE__-in-debug-messages=
-=2Epatch checkpatch
-> WARNING: Prefer [subsystem eg: netdev]_dbg([subsystem]dev, ... then dev_d=
-bg(dev, ... then pr_debug(...  to printk(KERN_DEBUG ...
-> #36: FILE: drivers/scsi/mvsas/mv_sas.h:38:
-> +printk(KERN_DEBUG "%s: " fmt, __func__, ## arg)
-
-This issue was present already before, but yes, that could be addressed
-in a separate patch set.
-
-> total: 0 errors, 1 warnings, 0 checks, 13 lines checked
->=20
-> # Test checkpatch:./0007-iio-Initialize-i2c_device_id-arrays-using-member=
--nam.patch checkpatch
-> WARNING: line length of 102 exceeds 100 columns
-> #573: FILE: drivers/iio/chemical/atlas-ezo-sensor.c:189:
-> +{ .name =3D "atlas-co2-ezo", .driver_data =3D (kernel_ulong_t)&atlas_ezo=
-_devices[ATLAS_CO2_EZO] },
->=20
-> WARNING: line length of 102 exceeds 100 columns
-> #575: FILE: drivers/iio/chemical/atlas-ezo-sensor.c:191:
-> +{ .name =3D "atlas-hum-ezo", .driver_data =3D (kernel_ulong_t)&atlas_ezo=
-_devices[ATLAS_HUM_EZO] },
-
-Yeah, these are unfortunate, but I don't want to add line breaks to the
-array. Once i2c_device_id got the union that I want to add to it, I will
-do
-
--	{ .name =3D "atlas-hum-ezo", .driver_data =3D (kernel_ulong_t)&atlas_ezo_=
-devices[ATLAS_HUM_EZO] },
-+	{ .name =3D "atlas-hum-ezo", .driver_data_ptr =3D &atlas_ezo_devices[ATLA=
-S_HUM_EZO] },
-
-shorten the line again below the 100 char limit.
-
-> total: 0 errors, 2 warnings, 0 checks, 1372 lines checked
->=20
-> # Test checkpatch:./0009-hwmon-pmbus-mp2869-Drop-unjustified-__maybe_unus=
-ed.patch checkpatch
-> ERROR: missing sentinel in ID array
-> #27: FILE: drivers/hwmon/pmbus/mp2869.c:643:
-> +static const struct of_device_id mp2869_of_match[] =3D {
->  { .compatible =3D "XXXXXXXXXX" },
->  { .compatible =3D "XXXXXXXXXXX" },
->  { .compatible =3D "XXXXXXXXXXX" },
-
-This is a false positive, the sentinel is missing in the context of the
-patch, but it's there in the source file.
-
-> total: 1 errors, 0 warnings, 0 checks, 8 lines checked
->=20
-> # Test checkpatch:./0012-ASoC-Use-named-initializers-for-arrays-of-i2c_de=
-vice.patch checkpatch
-> WARNING: please, no spaces at the start of a line
-> #1251: FILE: sound/soc/codecs/max98088.c:1725:
-> +       { .name =3D "max98088", .driver_data =3D MAX98088 },$
->=20
-> WARNING: please, no spaces at the start of a line
-> #1252: FILE: sound/soc/codecs/max98088.c:1726:
-> +       { .name =3D "max98089", .driver_data =3D MAX98089 },$
-
-Huh, indeed, that needs fixing (though my patch didn't introduce the
-issue). I already forwarded that info to the thread where this patch is
-discussed.
-
-> total: 0 errors, 2 warnings, 0 checks, 1982 lines checked
->=20
-> # Test checkpatch:./0013-mfd-Use-named-initializers-for-arrays-of-i2c_dev=
-ice_.patch checkpatch
-> WARNING: please, no spaces at the start of a line
-> #1005: FILE: drivers/mfd/tps65910.c:521:
-> +       { .name =3D "tps65910", .driver_data =3D TPS65910 },$
->=20
-> WARNING: please, no spaces at the start of a line
-> #1006: FILE: drivers/mfd/tps65910.c:522:
-> +       { .name =3D "tps65911", .driver_data =3D TPS65911 },$
->=20
-> WARNING: line length of 101 exceeds 100 columns
-> #1046: FILE: drivers/mfd/twl-core.c:933:
-> +{ .name =3D "tps65930", .driver_data =3D TPS_SUBSET },/* fewer LDOs and =
-DACs; no charger */
->=20
-> WARNING: line length of 101 exceeds 100 columns
-> #1047: FILE: drivers/mfd/twl-core.c:934:
-> +{ .name =3D "tps65920", .driver_data =3D TPS_SUBSET },/* fewer LDOs; no =
-codec or charger */
-
-ditto
-
-> WARNING: Block comments use * on subsequent lines
-> #1049: FILE: drivers/mfd/twl-core.c:936:
-> +{ .name =3D "tps65921", .driver_data =3D TPS_SUBSET },/* fewer LDOs; no =
-codec, no LED
-> +   and vibrator. Charger in USB module*/
->=20
-> WARNING: Block comments use a trailing */ on a separate line
-> #1049: FILE: drivers/mfd/twl-core.c:936:
-> +   and vibrator. Charger in USB module*/
-
-I don't know how to fix that (it wasn't introduced in my patch), would
-require a complete reformatting I guess, not sure I want to make that
-part of my quest.
-=20
-> [...]
-
-the remaining issues are similar and addressed in the same way.
+Also, mem_accounting is only used by system_heap.c; has this patchset
+also eliminated its need?
 
 Thanks
-Uwe
-
---gzw3nbt365y23ha7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmoIDgYACgkQj4D7WH0S
-/k5A4QgAnCUKqrVgodT4Xq0Hml5UBeZi0kmsFHUIL7A4c7/PdnGBQ77eOJsOygx/
-ayEFngSTJNOZU84A+WOIPMgJLknHIhUb0TH0CxFi7RDErCfYvIAPtjBASVdHsHp+
-q0i1leEk+YuAZE9eMciB0KiOqmtObCKfWpys2wbW4eqdTbY9QGr9+xGkkb8Wg1XF
-5NRCb7tn6YP8UTOW/1DU2QVvRm/187Fl0SX+JhNZzs1LUhCvN4WNUk/nF5zezOGb
-+vC8MYMJWcBtJlUSLCBCJu+cj33bUuVyL8EQRjZQA7WFGCDa0RaXCQl0Pk7uoh5e
-Rr4FIqtqJyddiQHH3Oq0nIvGI4nczQ==
-=4V+P
------END PGP SIGNATURE-----
-
---gzw3nbt365y23ha7--
+Barry
 
