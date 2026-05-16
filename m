@@ -1,211 +1,163 @@
-Return-Path: <linux-media+bounces-61779-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61780-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eI+3GGt7B2rG5AIAu9opvQ
-	(envelope-from <linux-media+bounces-61779-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 22:00:43 +0200
+	id wMhOMv/WB2qILAMAu9opvQ
+	(envelope-from <linux-media+bounces-61780-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 04:31:27 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E80ED55734A
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 22:00:42 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A0DE559E7A
+	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 04:31:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id F0A6D3009091
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2026 20:00:41 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CFF563022F5F
+	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 02:30:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80AFF38D011;
-	Fri, 15 May 2026 20:00:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F03E285C84;
+	Sat, 16 May 2026 02:30:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="d6FW8+k3"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X1r75yAl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012056.outbound.protection.outlook.com [52.101.48.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89CC338D3E0;
-	Fri, 15 May 2026 20:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778875234; cv=fail; b=TxOK0r0ntqH0vGzkWtpLOVOKMAAvZlB40PBFEL3LLcePmf3BxhxFTZcF7FlHRnfvBJ74MqCTXRSHTCHEEhJNdTZV/ekrlFt0jHBnWRS3fC8Q7n1uGE/buPhQyH3Qz10H9paCSgSp7Tlm+AQQSty62g68FrgQSgORTJ8GSYMYIF4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778875234; c=relaxed/simple;
-	bh=RdjIOPEDMdlMiJ3UHhgF4eoWfRtGYvD4BL2ZS4VUnFw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=knl0NL5y4wxPwXkTVDBONPRIy2X4dYljuKRwSKsR6XnLm6TVjzMCFVCrFIhm2S2BtIkfFVrSn2AjdYnI2cTrEp1etQlfqeS1UPpSR2ofUFWXgCtW/UZQ2CwAA00FDWttgxnVVLno9aKaz+JSIv2c/UTIQjc5dpwOV6a7OY+O/ZM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=d6FW8+k3; arc=fail smtp.client-ip=52.101.48.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QQYusDOVWphchA7z6W3QNLHTfxHWu0WdOEai7KV7WLsLL9TrR0lpnorgKVb7r7F/tMiSopasd4Cskh5UfilnyxtXzXS94azWuvzBOyzbB3ewFo40WsHHqcW8lSkA+CKfeI1JtYuX/A0awM/VH94AScIV+QWBBrMDQTcJghac5Nfsub09f/nmbYEp/67D170ckbMpoHVeO/tiCz0bwQORpo/2fEVP8a3P4z5R3OvmMKrEXAsLlys12Z2auz5e0S+G3vS99eGKX77722/jqQDq5klY1S68gzuk9qh/0VXJ4FDydwbOAskNwMNeADcz+H4coxrsfsWyvOeMvRePUw883A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RdjIOPEDMdlMiJ3UHhgF4eoWfRtGYvD4BL2ZS4VUnFw=;
- b=irOq1nZOXtRXbWx480j83HnHlFyVlrRbglU1guyaI8dxkCz3yl6/FC225miOlhWQ27nB3EPi5u3GpQYnFYSm18J2lzmdlT4xOVqNnynHz8DM3cM2wDclmgKyjqJBrOivcAXr5uqtQrjcA8Jxoa8/x/WyLqaj98L+PBRAB6tWWGEBYd/bxQ/TUf5WylrM6qdrhIa4x3VFJ/X2DJ+yi9wEPSnBWXFTPUS3glXm+Y+ZkmFEH7DsncBOE7IsC1p+FddLrpBhV+XXeiZPaJsWVlhAq2aJlnIstZrCOlbvdSdKwI3wqkT+eMzLK3hHHT8F8j2dMQb5Kui9m/KjTEwC/C7jqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RdjIOPEDMdlMiJ3UHhgF4eoWfRtGYvD4BL2ZS4VUnFw=;
- b=d6FW8+k3Ev2htLVbeb8tWyoFeF4eGHPRpzhI/+JlDWQEeUAWYQZYo7nf2P2wdPIznNUAQe9lwonyINkKo+p8ieN39HwzgESYFWMDczzbL1/v4YaeIXNK6UvgmOYaAXP1UEsJ5Ti2yDUS62Sm7cFDDGHduXxcy6g63j9ph6hdEDI=
-Received: from DSVPR12MB999123.namprd12.prod.outlook.com (2603:10b6:8:388::13)
- by MN0PR12MB6080.namprd12.prod.outlook.com (2603:10b6:208:3c8::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.18; Fri, 15 May
- 2026 20:00:25 +0000
-Received: from DSVPR12MB999123.namprd12.prod.outlook.com
- ([fe80::17c8:33d6:3366:3fbf]) by DSVPR12MB999123.namprd12.prod.outlook.com
- ([fe80::17c8:33d6:3366:3fbf%3]) with mapi id 15.20.9913.009; Fri, 15 May 2026
- 20:00:25 +0000
-From: "Dayananda, Vivekananda" <vivekananda.dayananda@amd.com>
-To: "dumitru.ceclan@analog.com" <dumitru.ceclan@analog.com>, Tomi Valkeinen
-	<tomi.valkeinen+renesas@ideasonboard.com>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Laurent
- Pinchart <laurent.pinchart@ideasonboard.com>, Julien Massot
-	<julien.massot@collabora.com>, Rob Herring <robh@kernel.org>,
-	=?utf-8?B?TmlrbGFzIFPDtmRlcmx1bmQ=?= <niklas.soderlund@ragnatech.se>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Cosmin Tanislav
-	<cosmin.tanislav@analog.com>
-CC: "mitrutzceclan@gmail.com" <mitrutzceclan@gmail.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	=?utf-8?B?TmlrbGFzIFPDtmRlcmx1bmQ=?= <niklas.soderlund+renesas@ragnatech.se>,
-	"martin.hecht@avnet.eu" <martin.hecht@avnet.eu>, Tomi Valkeinen
-	<tomi.valkeinen@ideasonboard.com>, Cosmin Tanislav <demonsingur@gmail.com>,
-	"Dayananda, Vivekananda" <vivekananda.dayananda@amd.com>, Cory Keitz
-	<ckeitz@amazon.com>
-Subject: RE: [PATCH v11 00/22] media: i2c: add Maxim GMSL2/3 serializer and
- deserializer drivers
-Thread-Topic: [PATCH v11 00/22] media: i2c: add Maxim GMSL2/3 serializer and
- deserializer drivers
-Thread-Index: AQHc4UGLHAZ9OQXPpkeA8QZWtUoWPbYPiGPQ
-Date: Fri, 15 May 2026 20:00:20 +0000
-Message-ID:
- <DSVPR12MB999123956F5F35F8F9DF9DF947E8042@DSVPR12MB999123.namprd12.prod.outlook.com>
-References: <20260511-gmsl2-3_serdes-v11-0-fc163073c16b@analog.com>
-In-Reply-To: <20260511-gmsl2-3_serdes-v11-0-fc163073c16b@analog.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
- MSIP_Label_f39aa4b3-b62d-42bf-8097-75e2c573ddfa_ActionId=fe86f088-d5d6-4da3-82dc-df7c78dad93d;MSIP_Label_f39aa4b3-b62d-42bf-8097-75e2c573ddfa_ContentBits=0;MSIP_Label_f39aa4b3-b62d-42bf-8097-75e2c573ddfa_Enabled=true;MSIP_Label_f39aa4b3-b62d-42bf-8097-75e2c573ddfa_Method=Privileged;MSIP_Label_f39aa4b3-b62d-42bf-8097-75e2c573ddfa_Name=Non-Business
- v26;MSIP_Label_f39aa4b3-b62d-42bf-8097-75e2c573ddfa_SetDate=2026-05-15T19:56:40Z;MSIP_Label_f39aa4b3-b62d-42bf-8097-75e2c573ddfa_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;MSIP_Label_f39aa4b3-b62d-42bf-8097-75e2c573ddfa_Tag=10,
- 0, 1, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DSVPR12MB999123:EE_|MN0PR12MB6080:EE_
-x-ms-office365-filtering-correlation-id: c4b91ba8-ab25-4213-c4da-08deb2bc9ac4
-x-ld-processed: 3dd8961f-e488-4e60-8e11-a82d994e183d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|7416014|366016|1800799024|376014|56012099003|18002099003|22082099003|921020|38070700021|11063799003;
-x-microsoft-antispam-message-info:
- BCQRAvVtSblmJfwmGXN6jzYteBG6Fx/o2qCqmozrHUuWqUppGnj7SMGwBIzYjq5z25N9mA/ryaB+xoVeKoZFliVV85fINQJne3VV/jjDiBEgDBptlEo9P1ICcRMYU8E5U5axOi/0CP9m3RWlwQVWiKMpMUKxGhs4IECpm1V6wAnlzJqXN7jbliiQQDdxxFGVT5BCqk8e3k4SJai/AbzXBgjPeT3/Jz93GAcFpI8W/ErEqtmrPyQiiGrNeXeY2cAa45jORDhm0TlLZtxBSutBVW+CVt5GHaJwdRFDzSwQpXW8KU89zX16qF44YI/Kc2oTRCCBZ9gEYXPYXEWdS+AUfUOOTt/gZ+JbiD+LO/DsgGjeFkuKWjOPEZZJITYHu8Del+bir/lgNANCcROxlKApQvh7ZNw2xFnTgke1rqiTfcctABOBzdNKi3iXLTIk6roER1rZnxm1kBsPe4jesOhTft8wy3vdcgzOExZJIK43m/dRDNlyaSRhJG6kFhukrDXuZECjA8S3N0BiQ0YI/DeGLGkR8/vPcFjMR4IWBjCbHmpFW9BXLHGvkyy/rwfRGfWTBtyWVFSyYTFTBTBsVdVjXIGt+EmlsPT6raHdhNAlndJpcmtFXbJlIetCsDvJdXTeSFfohJENdJ9kPxJpM2i/U/EEI4FBB1cEb3WiQlaQO/Gi77MLOoVzkuOdJLzrZxelAmArwHw8smvlmKnT9VGj8TtFBM1nJQyc71wO2KLLpYeS6BW7RtOYvpsGBsg0sWeTPPNjdElz1HT23zubtY1oWg==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DSVPR12MB999123.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014)(56012099003)(18002099003)(22082099003)(921020)(38070700021)(11063799003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?Z3cvYWhOM2VsRHFjU2NiSkRrVWl1Q29uWGJqc3g0ZGpJWWt5NXJXTFp5NG1i?=
- =?utf-8?B?ZVN4SjRiUGRqSHBLMWxJTE9LQVRiaStJUGRTaDRyVWllSGcyZzIvaUdyd0Vu?=
- =?utf-8?B?RmxKM0hHRXg5dnVDMlhvcTNrak1KZVJ4TFJGZ29iS2NRazRZV09LYzJhWU9m?=
- =?utf-8?B?c3lvMFI5UzY3SnNkL2lya2p3V3hWZjlvUkJ1USs1Vk12cG1kajFNakU1ZE92?=
- =?utf-8?B?eS9XbDZLZis2ZHFSdWhUOWwvT244TkdXNFNjK1YwTkFHejhpNk93Z0ljaXV0?=
- =?utf-8?B?d2tNVktNY3JqZmdrKzJ0T0swSFJ2QzRFbWV1SjMxOG5RVTRqM2JFcDRySG1l?=
- =?utf-8?B?OTB1SHdxK2JHVnpBQmgwTmpiZWJXVjNYYTBSQzI5T0JwNzBZVnhGSmhuMlp0?=
- =?utf-8?B?NDBzSzVBUWNRek9mL0hiRHlZVm9iYktQWEJBMzNhelB3MTh0K1NXVDhRMktl?=
- =?utf-8?B?SWxlMFJNY3p3NVh2L2l4b2ROTklOeG11TVZDVEJ0N2Qrdzcwcmp1L3JKQ0JX?=
- =?utf-8?B?M2E1VUJzWlNsNDRua0RXTW82OHRNQVBkei9od1EzTEg5WWk0cUVydmlXc05L?=
- =?utf-8?B?YnhpKy9hSnRqOUZKYWlWYzlRUEt3NVgvNGFSL0J1RWZPbkgxTUpOaHpaU3FW?=
- =?utf-8?B?WmM2MnFOeFZrOU5IMlRQSzlFVVV5YkxvcHdrNWZSaVFQMk9CdFhMME0vTTZw?=
- =?utf-8?B?RzN1bGF0UC9tUFdxZEE3aHVPa05tTU04TFB1a0g3MmJyVTJmbGVIZUpOaVJI?=
- =?utf-8?B?RktoVW8zRm80aVJ0bmIybUpKTkFSTjExak5OajFseW4xUWsrSUx6T0lVRXhz?=
- =?utf-8?B?aUJPaU1xU1NkamYyMGhwcmg5UWkvZ3RBSlFiNmtyREhMdTZLV1I3aHZsaTFH?=
- =?utf-8?B?QnZ4NFdJdGlNK3dUbi9ic1B6S2VNbzZjaVBySGVIbFNQYTJmNnFjMGZsV0s1?=
- =?utf-8?B?SGp1UDdRQ1hHYTJITzhLTkpacmQzVEsyS0pvRzZTc1FtRHpJMVdGeXcxZnQ3?=
- =?utf-8?B?SHZoYVlmc3NrZzlYNDhyR2IyK2FVSzU5RWwrcCtLQU4wR0g0NVVqMnpLWjU5?=
- =?utf-8?B?bmxGQlRoWVlqUE0rSmVnU3laZGxaVGFtMXgxSTM0TnRvQ1V1ZmI3KzRqRXJ3?=
- =?utf-8?B?ZTdhTGNUWGp6eEVlQUhFTzhKQ3ZMemlTamtwczZsTWgxWmpzVXdlbzRmMWVQ?=
- =?utf-8?B?LzF5QThGaDNtcE5Ga0RFVlVHckgvSkFzWndkREJXM1ZnamE3S1YybU9QSnFU?=
- =?utf-8?B?K1dBSDFjTXErcTJpa0JCOGI3enJhOXMzcXUvdHJMRFlMQ2Zqb1N5d3l6UVZD?=
- =?utf-8?B?Q0tjcXplbWRQa25HMjRIYjRxTGRMcFZDdENQclFQSVplZlg3V2hIR2lqSmZC?=
- =?utf-8?B?aWRzRnI2eGVxbjF1RE4vb1Rpc3NtMFVSMjNWZmg3YjhIbjI1U0kweHd5QzF0?=
- =?utf-8?B?MFB3c1RTcWorR1ZWVTVDOEREeXZKTG9mQmRkNHpLdjlrMEdxcFdyWjRSQTZs?=
- =?utf-8?B?cjRYTXFsSjM1VjlFcGpsd0F6U1ZYYS9qSnovQ01hVndDaC8wek9KSmEwdXA1?=
- =?utf-8?B?OFMxZ0s3cSszcCtPWXMyZ3l2VXZHQ09IbHlIRUQxSzVQRlIyUnFLanZFS04x?=
- =?utf-8?B?MGJKRWsvTnMva2dsRm9rRERyU1k4eGFhVWZkNU5haHh0ZGhqK0RMYTliZXhR?=
- =?utf-8?B?TU00eUczKytUeEFKN1kzemRIT25SNjdrdGN3TElpeG8vRE5KdXFacENhS0Z3?=
- =?utf-8?B?ZHRTcThBRWVzMzVjK3NBZ2JaR0JvS09IZHhwM0pnajgxSHhrdmdnMS85UzNI?=
- =?utf-8?B?cmFMMWFZUnl6bmVCandSZWJQdWNLNmR2OWhOWStHMG5aVUk4akFwZm4xaTk3?=
- =?utf-8?B?aHRQdmYwdXNUZWlYTW5VUklHN2FDenJLb3grcE1Da3BCNXJWTnQxcGdQUHVK?=
- =?utf-8?B?ZG9Ybi91MFBCNUpHdDBNYnNGQXFWeXREcW8yS2RhNU1yUDExYWU3Tmk4dlpP?=
- =?utf-8?B?OEZzd3Zxa25UcFBVdEZiclJlRzd1RStoWjdSVjgxeXY3YlNNVDhHeit6bFVo?=
- =?utf-8?B?WU4yaEFIV2JFN2ZKekxUcUFYRmxiN0N5Z0l4NFdyVStMU3JqK054WDk2MkZZ?=
- =?utf-8?B?R21TTUEzVnA0eG4xdmFaSExpQUF0bHNic2RRRzJ4R2hFd2hwdklYamxza080?=
- =?utf-8?B?RDFLZGVSRnd3RlFOa2pOa082K3dBcmdwRXhVOVo2cHRCUEwwaHRlNzM2Wm1Z?=
- =?utf-8?B?VWlURlk4Q1IxMDhLVGNubGdPbE1JYWZJRWdxNUt1TE1SVjVUbG5wQWp3L005?=
- =?utf-8?Q?X5x7igd+POMEPBxNay?=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86DF4CB5B;
+	Sat, 16 May 2026 02:30:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778898645; cv=none; b=Mp1GGj1/cq1GRVfNFY/wDGtq7xZpaeb702ddzP8LPWtJb5u+KQePzs92Z9OM2qGViY5JUkDpbUT05Ko4tiKq+lWc6y+15tInP30TRXhCNkPDrcuhLt0f2b77NvtgqyZv6ivsJHsm0aLm9cOTuYKTYGH7ALbuSOqNXWOE3W3fK4Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778898645; c=relaxed/simple;
+	bh=fXauv6pXRzSARsUh5lGbdtmEN6s8FRglmNcydc9LiIc=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=EBDmXJEj3xIEbSkQZUL3jg5uNci0NNFxbDQS7X1aqTbqbj7lpXDpDKA5EJh4ik4ctvgtGF+LHQMIXSVTcafRKJh1blR3oXrcZJi82Cp6OjwPd/G3V2Q2InNGtpcL+AT6NXDTeFN8O4tU25433CrOvzc+OAtkL8KGqx3omxYKlDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X1r75yAl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2B63C2BCB0;
+	Sat, 16 May 2026 02:30:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778898645;
+	bh=fXauv6pXRzSARsUh5lGbdtmEN6s8FRglmNcydc9LiIc=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=X1r75yAly27zWMpcuML/U2rhPS7KlWcCKMVwJ02XGYyAh65pN8uzBoELWtEQCmUie
+	 DClCSqcA7Vt2ejiwL8LLQU2b3Pxy43WwVQGU/Sbinv4dl1Cw3hiL89xTqEcDA974dO
+	 FbtwzTwU1FobIwQiBKT8P++aQOVVi3qB61/MQ+N1ec2cJ5FEwETzndDT/2paHnFYvW
+	 hsMsaATfyguGgbqNQRRGPd/GBQ0N+5IrMRQ7cwIU/i438tPo7Zx5vaxDZNR2LGIKIp
+	 bj2ZQGnvEoQB/ZX+2HvJwwibmEnhP3vS56o+S6xSAfrc85td69CtPsVAiTrlLQnOT8
+	 bZ9CerOYXZNAw==
+Date: Fri, 15 May 2026 21:30:43 -0500
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DSVPR12MB999123.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4b91ba8-ab25-4213-c4da-08deb2bc9ac4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2026 20:00:25.2816
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: nSoQXSA/CakH4+tnJIdjnyqzAijXEF9VwZqtzdQegTDeuZgieiyGQiHoO/D8GaEI7LbNM6wpCN9551LRWIpAkw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6080
-X-Rspamd-Queue-Id: E80ED55734A
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Bjorn Andersson <andersson@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Bryan O'Donoghue <bod@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+ afilipov@quicinc.com, Hariram Purushothaman <hariramp@quicinc.com>, 
+ Gjorgji Rosikopulos <grosikop@quicinc.com>, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Kapatrala Syed <akapatra@quicinc.com>
+To: Atanas Filipov <atanas.filipov@oss.qualcomm.com>
+In-Reply-To: <20260515-qcom-jpeg-v4l2-v1-1-f38c2e1b3555@oss.qualcomm.com>
+References: <20260515-qcom-jpeg-v4l2-v1-0-f38c2e1b3555@oss.qualcomm.com>
+ <20260515-qcom-jpeg-v4l2-v1-1-f38c2e1b3555@oss.qualcomm.com>
+Message-Id: <177889864336.2704850.15815754320818996790.robh@kernel.org>
+Subject: Re: [PATCH 1/3] media: dt-bindings: qcom: add JPEG encoder binding
+X-Rspamd-Queue-Id: 4A0DE559E7A
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [2.44 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MIME_BASE64_TEXT_BOGUS(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	MIME_BASE64_TEXT(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-61779-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61780-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,lists.linux.dev,ragnatech.se,avnet.eu,ideasonboard.com,amd.com,amazon.com];
-	DKIM_TRACE(0.00)[amd.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vivekananda.dayananda@amd.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	NEURAL_HAM(-0.00)[-0.986];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email]
 X-Rspamd-Action: no action
 
-SGkgRHVtaXRydSwNCg0KVGhhbmsgeW91IGZvciB0aGlzIHBhdGNoIHNlcmllcyBhbmQgZm9yIGZp
-eGluZyB0aGUgY29udHJvbC1jaGFubmVsIHBvcnQgYnVnLg0KSSBoYXZlIHN1Y2Nlc3NmdWxseSB2
-YWxpZGF0ZWQgdGhpcyBzZXJpZXMgb24gb3VyIHRlc3QgYmVuY2ggdXNpbmcgYW4gSU1YMjE5IHNl
-bnNvci4gVGhlIGRyaXZlcnMgbG9hZCBjb3JyZWN0bHkgYW5kIHZpZGVvIHN0cmVhbWluZyB3b3Jr
-cyBhcyBleHBlY3RlZC4NCg0KUmVnYXJkcywNClZpdmVrDQo=
+
+On Fri, 15 May 2026 14:46:59 +0300, Atanas Filipov wrote:
+> Add YAML device tree binding for the Qualcomm JPEG encoder
+> hardware. This binding is used by the newly added driver and
+> describes all required resources, including clocks, power domains,
+> IOMMU mappings and interconnect paths.
+> 
+> Signed-off-by: Atanas Filipov <atanas.filipov@oss.qualcomm.com>
+> ---
+>  .../bindings/media/qcom,jpeg-encoder.yaml          | 122 +++++++++++++++++++++
+>  1 file changed, 122 insertions(+)
+> 
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/media/qcom,jpeg-encoder.yaml:20:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
+./Documentation/devicetree/bindings/media/qcom,jpeg-encoder.yaml:44:5: [warning] wrong indentation: expected 6 but found 4 (indentation)
+
+dtschema/dtc warnings/errors:
+Lexical error: Documentation/devicetree/bindings/media/qcom,jpeg-encoder.example.dts:31.27-34 Unexpected 'GIC_SPI'
+Lexical error: Documentation/devicetree/bindings/media/qcom,jpeg-encoder.example.dts:31.39-59 Unexpected 'IRQ_TYPE_EDGE_RISING'
+Lexical error: Documentation/devicetree/bindings/media/qcom,jpeg-encoder.example.dts:32.37-58 Unexpected 'CAM_CC_TITAN_TOP_GDSC'
+Lexical error: Documentation/devicetree/bindings/media/qcom,jpeg-encoder.example.dts:43.23-44 Unexpected 'GCC_CAMERA_HF_AXI_CLK'
+Lexical error: Documentation/devicetree/bindings/media/qcom,jpeg-encoder.example.dts:44.23-44 Unexpected 'GCC_CAMERA_SF_AXI_CLK'
+Lexical error: Documentation/devicetree/bindings/media/qcom,jpeg-encoder.example.dts:45.25-44 Unexpected 'CAM_CC_CORE_AHB_CLK'
+Lexical error: Documentation/devicetree/bindings/media/qcom,jpeg-encoder.example.dts:46.25-44 Unexpected 'CAM_CC_CPAS_AHB_CLK'
+Lexical error: Documentation/devicetree/bindings/media/qcom,jpeg-encoder.example.dts:47.25-46 Unexpected 'CAM_CC_CAMNOC_AXI_CLK'
+Lexical error: Documentation/devicetree/bindings/media/qcom,jpeg-encoder.example.dts:48.25-40 Unexpected 'CAM_CC_JPEG_CLK'
+Lexical error: Documentation/devicetree/bindings/media/qcom,jpeg-encoder.example.dts:55.27-44 Unexpected 'MASTER_APPSS_PROC'
+Lexical error: Documentation/devicetree/bindings/media/qcom,jpeg-encoder.example.dts:55.54-70 Unexpected 'SLAVE_CAMERA_CFG'
+Lexical error: Documentation/devicetree/bindings/media/qcom,jpeg-encoder.example.dts:56.28-44 Unexpected 'MASTER_CAMNOC_HF'
+Lexical error: Documentation/devicetree/bindings/media/qcom,jpeg-encoder.example.dts:56.56-66 Unexpected 'SLAVE_EBI1'
+Lexical error: Documentation/devicetree/bindings/media/qcom,jpeg-encoder.example.dts:57.28-44 Unexpected 'MASTER_CAMNOC_SF'
+Lexical error: Documentation/devicetree/bindings/media/qcom,jpeg-encoder.example.dts:57.56-66 Unexpected 'SLAVE_EBI1'
+Lexical error: Documentation/devicetree/bindings/media/qcom,jpeg-encoder.example.dts:58.28-45 Unexpected 'MASTER_CAMNOC_ICP'
+Lexical error: Documentation/devicetree/bindings/media/qcom,jpeg-encoder.example.dts:58.57-67 Unexpected 'SLAVE_EBI1'
+FATAL ERROR: Syntax error parsing input tree
+make[2]: *** [scripts/Makefile.dtbs:140: Documentation/devicetree/bindings/media/qcom,jpeg-encoder.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1639: dt_binding_check] Error 2
+make: *** [Makefile:248: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.kernel.org/project/devicetree/patch/20260515-qcom-jpeg-v4l2-v1-1-f38c2e1b3555@oss.qualcomm.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
