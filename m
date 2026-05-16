@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-61803-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61804-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +lMZNPhWCGr1kAMAu9opvQ
-	(envelope-from <linux-media+bounces-61803-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 13:37:28 +0200
+	id GD+WNVFXCGr1kAMAu9opvQ
+	(envelope-from <linux-media+bounces-61804-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 13:38:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493ED55B78F
-	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 13:37:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D17B55B7C5
+	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 13:38:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 43B9F3014C77
-	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 11:37:27 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E179630173B0
+	for <lists+linux-media@lfdr.de>; Sat, 16 May 2026 11:38:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CDFD3D5228;
-	Sat, 16 May 2026 11:37:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70F813D5228;
+	Sat, 16 May 2026 11:38:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MPbcEsl3"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="e4bYTYQ1"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1472580CF;
-	Sat, 16 May 2026 11:37:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8CD72580CF;
+	Sat, 16 May 2026 11:38:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778931445; cv=none; b=LM9aWB0JuIiIeMN0Lh6uX9Jl+a0V4QT7q2n1r2aHwaPE8P5dhWupDxOZziXtPyckt3cViebWBTPNPmX93P3B05xEU0N1Vld5tLwJY8qdfi9dDdT936/wq+EAb1zCmE20yaC/TVACj2Z9guYmkXxvJbcmvXbX7gAhUZ10IdxfMc0=
+	t=1778931527; cv=none; b=TrumY/GgT5lMzEjhE9zGw9k+d5LSh/LN+ro033Q9xWpzlcJQIuhks5RLHN921963cvM9RHjboRzqRnY7SpUsJhMDRFqLIaIfeo8gq8BftFKYaTqc//CJ16AfiFlJCnESoKqS1lH8Cf7GUv3HSGfjKGOwztBsf9ay1aivmQusGMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778931445; c=relaxed/simple;
-	bh=8LMT1TIsNVvknyrLg69MYjeZewa0zQXqnKxuS28eL+c=;
+	s=arc-20240116; t=1778931527; c=relaxed/simple;
+	bh=H8mAOeWk44Og/4ED7nEp6u4We/tCu4LArRG+KtxZ93k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CRMEVAkmQ+TPhMgeDQKSQg5Jc6EPlVPs7GueTGhDt8AYqeueS+VeY2coPYrq/C/WyZAYrXTbI4yTKmBB1INM6iFWX1QG4mT3IRYGzjFxi8CZFA7Y5Lnwxg+KZ4l03LZI7q8q06DtEWElE9EVFx8TC4IurzTZqhr5CoGk42skp8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MPbcEsl3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFD8CC19425;
-	Sat, 16 May 2026 11:37:23 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=q9/6kCfB3sy/VxZ7n+fjS7C5798WBN15TJBG8vuecpl7pyU3+iASuuX/DhOCJINV8lkzjigcMe5mzSoXP0FEGtMiT+uXbWGwybmKWWdSr/+X668vkCjHsvmWQW50uewTOYLi99AsAspQk9S3JFbaPV7FtrW5Cy7PiL8BNN9Cvss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=e4bYTYQ1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8AA8C19425;
+	Sat, 16 May 2026 11:38:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1778931444;
-	bh=8LMT1TIsNVvknyrLg69MYjeZewa0zQXqnKxuS28eL+c=;
+	s=korg; t=1778931527;
+	bh=H8mAOeWk44Og/4ED7nEp6u4We/tCu4LArRG+KtxZ93k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MPbcEsl37NrIoi6gkugdu76RGm+1B1heXb0avm7x3+5zUv3BKP6/+DAud92stKTIy
-	 kVV9us91F1CU39b8ftDkbwPgqSfZj9wdQ9o3dELEOwiFS9+rHKDvQMw0oRxHPIFE8N
-	 CasPNjOXD9veE4YohlCf8+S1cGeUkKhoENg/gaYk=
-Date: Sat, 16 May 2026 13:37:28 +0200
+	b=e4bYTYQ1IFzOyGzcyeZWMrAiPpnmyMYcSLRQQi95dm+iq76V/XKOTcaYNXgLfmw1k
+	 6nWDho9fq4Y/BNEYASWVYokzVul0kp7foBRtyJAjvkXtBm+yAgA0mKMk4foDvBZ7zp
+	 AWJnKP6k4OqUtaYUH7/b14TYFm1903wG8+eCD/RA=
+Date: Sat, 16 May 2026 13:38:51 +0200
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Julian Orth <ju.orth@gmail.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -57,7 +57,7 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
 	wayland-devel@lists.freedesktop.org
 Subject: Re: [PATCH 12/12] misc/syncobj: add new device
-Message-ID: <2026051653-walmart-morally-3be7@gregkh>
+Message-ID: <2026051652-pork-omission-b762@gregkh>
 References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
  <20260516-jorth-syncobj-v1-12-88ede9d98a81@gmail.com>
 Precedence: bulk
@@ -69,7 +69,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20260516-jorth-syncobj-v1-12-88ede9d98a81@gmail.com>
-X-Rspamd-Queue-Id: 493ED55B78F
+X-Rspamd-Queue-Id: 6D17B55B7C5
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [3.84 / 15.00];
 	MID_END_EQ_FROM_USER_PART(4.00)[];
@@ -83,7 +83,7 @@ X-Spamd-Result: default: False [3.84 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61803-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-61804-lists,linux-media=lfdr.de];
 	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
@@ -101,7 +101,7 @@ X-Spamd-Result: default: False [3.84 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linuxfoundation.org:dkim,shuttle.de:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linuxfoundation.org:dkim]
 X-Rspamd-Action: no action
 
 On Sat, May 16, 2026 at 01:06:15PM +0200, Julian Orth wrote:
@@ -132,34 +132,12 @@ On Sat, May 16, 2026 at 01:06:15PM +0200, Julian Orth wrote:
 >  drivers/misc/syncobj.c                             | 404 +++++++++++++++++++++
 >  include/uapi/linux/syncobj.h                       |  75 ++++
 >  5 files changed, 491 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index 331223761fff..5e140ae5735e 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -395,6 +395,7 @@ Code  Seq#    Include File                                             Comments
->                                                                         <mailto:michael.klein@puffin.lb.shuttle.de>
->  0xCC  00-0F  drivers/misc/ibmvmc.h                                     pseries VMC driver
->  0xCD  01     linux/reiserfs_fs.h                                       Dead since 6.13
-> +0xCD  00-0F  uapi/linux/syncobj.h
->  0xCE  01-02  uapi/linux/cxl_mem.h                                      Compute Express Link Memory Devices
->  0xCF  02     fs/smb/client/cifs_ioctl.h
->  0xDD  00-3F                                                            ZFCP device driver see drivers/s390/scsi/
-> diff --git a/drivers/misc/Kconfig b/drivers/misc/Kconfig
-> index 00683bf06258..c1e7749bd356 100644
-> --- a/drivers/misc/Kconfig
-> +++ b/drivers/misc/Kconfig
-> @@ -644,6 +644,16 @@ config MCHP_LAN966X_PCI
->  	    - lan966x-miim (MDIO_MSCC_MIIM)
->  	    - lan966x-switch (LAN966X_SWITCH)
->  
-> +config SYNCOBJ_DEV
-> +	tristate "DRM syncobj device (/dev/syncobj)"
-> +	depends on DRM
 
-If this is a drm-only thing, then please put it in the drm subdirs, not
-in drivers/misc/ as that would imply that I have to maintain this, not
-the DRM developers :)
+As this is a bunch of user-facing code, why not do this in rust to at
+least get some semblance of proper parsing of user data sanity?  Or is
+the api to the drm layer just to complex for that at the moment?
+
+Just curious, not a criticism of this in C at all.
 
 thanks,
 
