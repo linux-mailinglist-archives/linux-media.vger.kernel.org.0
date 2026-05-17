@@ -1,139 +1,120 @@
-Return-Path: <linux-media+bounces-61841-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61842-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6JSpBrOHCWrVeAQAu9opvQ
-	(envelope-from <linux-media+bounces-61841-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 11:17:39 +0200
+	id qHi8IhaZCWqqhAQAu9opvQ
+	(envelope-from <linux-media+bounces-61842-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 12:31:50 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A28DE56031B
-	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 11:17:38 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F6D5607A5
+	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 12:31:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id EE8E330055AC
-	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 09:17:36 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 3B8133003809
+	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 10:31:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4999035A3B9;
-	Sun, 17 May 2026 09:17:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF56C35F16B;
+	Sun, 17 May 2026 10:31:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=virgilio.it header.i=@virgilio.it header.b="AsRVXqPc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WNMz2mf1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from virgilio.it (smtp-45.italiaonline.it [213.209.10.45])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89587080D
-	for <linux-media@vger.kernel.org>; Sun, 17 May 2026 09:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.209.10.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8A6C317144;
+	Sun, 17 May 2026 10:31:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779009450; cv=none; b=YjZSUcUwuj0zz172r8KIqeTu5tNYRGCSU1aAHNY9i6GYmGmyjxYMVAGPmf9vhQFjYzt2Wht8S74sUta7BnmUtd0RtaxYQe0O3E7CLqb18K8C0IS1jyamokbjR1kdYPvx2MS6jn/QrBeXRn9q4lcW19gyH+r0IIOnJbISKZzkEzQ=
+	t=1779013897; cv=none; b=DtFn2+lvcxRpA1LCUltEYbVQFjj/GJOZybQaN1ZqHSSGusYFVT3BiZkNEdKyILqTom/ZepiSKFU/8w0K9o+gy+vUUiytw2u5pPlMJsKgwEUp7tlUVrqxa1WtGu07v8DLSMbYnj/2AzEV54VAHSpvhdFQhGKVAtuuIWiXrp09gp0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779009450; c=relaxed/simple;
-	bh=aMu4e0dakZCq6AVcA6u7jnJfaeBvp1Te1F/cmB1X5Rg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ETTuY/ZSF0BX7Kh//S/VWn7bOzJLhtbS0MXerWAswp3hKKXUdIJWRo0KRgUhAX3mq/ztJ+XGxZAUFnLKIG7GMRgQdMaE0i/oucxKzVPeMgQ+AadprznTB3/DnogubDpyzYOoPTT3QPjgp6nA+L2/3/8Nln9Fotj4JyFg0Z46meQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virgilio.it; spf=pass smtp.mailfrom=virgilio.it; dkim=pass (2048-bit key) header.d=virgilio.it header.i=@virgilio.it header.b=AsRVXqPc; arc=none smtp.client-ip=213.209.10.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virgilio.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=virgilio.it
-Received: from virgilio.it ([95.249.63.132])
-	by smtp-45.iol.local with ESMTPA
-	id OXa7wLP9Mij70OXaCwqyl4; Sun, 17 May 2026 11:14:48 +0200
-x-libjamoibt: 1601
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virgilio.it;
-	s=s2017; t=1779009288;
-	bh=WUmvhzaAYTvQ+529ZuES9WCw8eDX5ojCULxWZNGLK+E=; h=From:To;
-	b=AsRVXqPcZG3MpzH0LUieRfz5bNsDuvXpvWlEyMyEG3o+KySkMsFfdRuhZNafNJYST
-	 uxY2fX4KjjSxcwjVirHGhVfaXNQ1KHzrgmCmVoNerdD9qlP6+vk6A3efOKss0I6hAi
-	 2vp93yIHi3kMKkZL4ymYBS4t2Ar3JhE7QihIylIMbag0Ew2NMkH7N1D1lij+FUFMWi
-	 kvkdELGaxoqBIb/sbPnqWfIhLaQYhCM15EEWjORVpFQNkJa2ck8LZcoGEtbDuRHZEF
-	 t+E4+xhKAAw7OE1NCX4vUVIdW5GHLxWoI0VWibeVEYJZ4jt57AfQ9Pd604B1fRDIgz
-	 OaD6tNyBcPRsA==
-X-CNFS-Analysis: v=2.4 cv=E7PNpbdl c=1 sm=1 tr=0 ts=6a098708 cx=a_exe
- a=31gyBBid8KDB93oJ8PHLEg==:117 a=31gyBBid8KDB93oJ8PHLEg==:17
- a=wAGg3p4uCBcpEzkhgB0A:9
-From: Alessandro Baldi <baldovic@virgilio.it>
-To: sean@mess.org,
-	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alessandro Baldi <baldovic@virgilio.it>
-Subject: [PATCH] media: imon: Add iMON VFD HID OEM v1.2 key mappings
-Date: Sun, 17 May 2026 11:14:15 +0200
-Message-Id: <20260517091415.3080-1-baldovic@virgilio.it>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1779013897; c=relaxed/simple;
+	bh=2LoNGLxKpbNGIlnyuD9F+D4BlNWTV6SYStdZR9yqZUA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uaeWthAwQm+qfIJ+FZSQhUXuuLxW8+FwH3taH6huvb7seklM0dRBIgRlDQCv0ymh2oAFjzpbzV1a/XkPLR7LoOht9Iq4K86E/xLZu+utQ2tDpf6hCk6UUvWRkkgkEZ2DCRgtXDkqY5pz6/Ku/LflMVxcjWzevqDcuCx+919oF0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WNMz2mf1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EEAAC2BCB0;
+	Sun, 17 May 2026 10:31:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779013897;
+	bh=2LoNGLxKpbNGIlnyuD9F+D4BlNWTV6SYStdZR9yqZUA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=WNMz2mf1VpPRCTtY9H10C+qTaWBOmOLZGW4Jf2AJpDRAy+Fp6lrt80taEgZ4ZNJFu
+	 p7xyDtLuSg4euxrKZA2FsacgMEj8TLxhXZ2hZicRTc0PKMvmmgWMR2eIv8oa8Kxh6L
+	 eZoym/Q9rUXn0m2rxw8S1Qgrxv66QCoij+4yu/tJ94nf1rK3RXFJAgS+pQs3PAoCMJ
+	 ejrm7dyUyXdCGVxTScOYKVby2nloZUrKxTkSzn+7X8njgAShu8XYv11cz4EYXTKnyA
+	 hbnx2vpbhJHIIFOUBlXYE6rELfYIiOB2C0crbfnUZQPkWOt/0r4+eSSOKBA4HqfJFM
+	 F6U7uL5onZoAg==
+Message-ID: <759def4a-df59-499a-b21e-c441cc7c2fe8@kernel.org>
+Date: Sun, 17 May 2026 11:31:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfDny0Hjf+4ceWGCwuCUGQ6VzMy9xUF+1srS9lJT2l+AA9KjHK/qrvaOkxw4W9Zf7+Qij7HhgqUUjvK3iKsn55hX5xwN0rNVKcquxb3wnpCkNRN84JuuE
- zsxkEElt+j9+valpotnvSDMUed+8oBDcuLguAVTscZiyK8Tb7aCfWE6mgcSjIqBXA2t69871m1mL4Fd7EJwusLqUHBDYE8peWPLeZ6qHWJUO2EM9n/RVWBes
- mULFtI66NMzD3RvToGA75nfpDMbbuUsvPRkWcqY/f/PL3ytoRppFK5Fvzr5luPUR8PNXGi5w9wUBp1sepeUNbIq1hobYPeN9oHWnlvEY+Og=
-X-Rspamd-Queue-Id: A28DE56031B
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] media: dt-bindings: qcom: add JPEG encoder binding
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Atanas Filipov <atanas.filipov@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Kapatrala Syed <akapatra@quicinc.com>,
+ Hariram Purushothaman <hariramp@quicinc.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Gjorgji Rosikopulos <grosikop@quicinc.com>, afilipov@quicinc.com
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260515-qcom-jpeg-v4l2-v1-0-f38c2e1b3555@oss.qualcomm.com>
+ <b7u5v5a7DiYm-NowQSavDCjDEb1bGE_S2Z5LPZmIlMx5ve25F7067cdVqRJEeuUoTl7pHVr98FuOry9-VR5cNA==@protonmail.internalid>
+ <20260515-qcom-jpeg-v4l2-v1-1-f38c2e1b3555@oss.qualcomm.com>
+ <f4159f41-8a06-40a6-919c-5e16314b1732@kernel.org>
+ <A2T8fauV7R4twws2HDH2W_vZj6GDoKtgWiUAGP4yMPaMp9dVxoD25Wn7xBQ7sqTI_fV14Y9SCmN-j160CrMDJQ==@protonmail.internalid>
+ <a39b5e37-72b8-465a-b6c3-65415eb577aa@kernel.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bod@kernel.org>
+In-Reply-To: <a39b5e37-72b8-465a-b6c3-65415eb577aa@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: A7F6D5607A5
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[virgilio.it,quarantine];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[virgilio.it:s=s2017];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61841-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[vger.kernel.org,virgilio.it];
-	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_FROM(0.00)[virgilio.it];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[baldovic@virgilio.it,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-61842-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[virgilio.it:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,virgilio.it:email,virgilio.it:mid,virgilio.it:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-Add Vol+/Vol-/Mute panel button mappings for iMON VFD HID OEM v1.2.
-This version differs in the codes that generate the
-KEY_VOLUMEUP, KEY_VOLUMEDOWN and KEY_MUTE events.
+On 16/05/2026 21:16, Krzysztof Kozlowski wrote:
+> 
+> Bryan, before you waste more time here - you missed announcement that
+> this should have never been posted.
 
-Signed-off-by: Alessandro Baldi <baldovic@virgilio.it>
+I read that after doing my review.
+
+Sod's law.
+
 ---
-
-Note: this is my first kernel contribution.
-Keycodes discovered by parsing USB packets with usbmon:
-- modprobe usbmon
-- cat /sys/kernel/debug/usb/usbmon/1u | grep Ii
-Tested on Thermaltake Mozart Sx case with LibreELEC media center.
-
- drivers/media/rc/imon.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
-index 9bb27ba82..049a73b5f 100644
---- a/drivers/media/rc/imon.c
-+++ b/drivers/media/rc/imon.c
-@@ -290,6 +290,10 @@ static const struct imon_usb_dev_descr imon_OEM_VFD = {
- 		{ 0x000100000000ffeell, KEY_VOLUMEUP },
- 		{ 0x010000000000ffeell, KEY_VOLUMEDOWN },
- 		{ 0x000000000100ffeell, KEY_MUTE },
-+		/* iMON VFD HID OEM v1.2 */
-+		{ 0x000000000a00ffeell, KEY_VOLUMEUP },
-+		{ 0x000000000b00ffeell, KEY_VOLUMEDOWN },
-+		{ 0x000000000c00ffeell, KEY_MUTE },
- 		/* 0xffdc iMON MCE VFD */
- 		{ 0x00010000ffffffeell, KEY_VOLUMEUP },
- 		{ 0x01000000ffffffeell, KEY_VOLUMEDOWN },
--- 
-2.34.1
-
+bod
 
