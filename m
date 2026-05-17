@@ -1,244 +1,451 @@
-Return-Path: <linux-media+bounces-61867-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61868-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CHYzNVsJCmrqwAQAu9opvQ
-	(envelope-from <linux-media+bounces-61867-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 20:30:51 +0200
+	id dgvgNJ0wCmo+xgQAu9opvQ
+	(envelope-from <linux-media+bounces-61868-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 23:18:21 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 513DA563225
-	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 20:30:51 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D33C563F94
+	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 23:18:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 759DE302452A
-	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 18:30:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7F6EE300F9F1
+	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 21:18:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD3453CE4A7;
-	Sun, 17 May 2026 18:30:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="I40+Fw35"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C48E82DF6E9;
+	Sun, 17 May 2026 21:18:15 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from OS0P286CU010.outbound.protection.outlook.com (mail-japanwestazon11011014.outbound.protection.outlook.com [40.107.74.14])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 647B4305693;
-	Sun, 17 May 2026 18:30:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.74.14
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779042622; cv=fail; b=Z08TA5yQ08JkID+d+NAH72X411RvkIL+XipwPQhHgma12dqVxnBPmcsrkCyOygnAFYWydpg6Yw3GB1YWpILJOsCJtfaPC1ZOAlP4+d+nacuJillD86r5YH/+5hrsttNcGaG+qvaXivJ6Rry5rIOKffS7npR0sXAOAOYKnIbaQ1w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779042622; c=relaxed/simple;
-	bh=+E14mdCO4w23QiJsjdvmKOe0v74nz9J0REzl4tSS5SA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=isTSMYin14x4q94XUCEO/WK/dHxBf0/I8NNc0gGk/b92A6GsFC9MCHOrY8biEEMHX/5vGyQu7jFdBYbQdf0oaZYxg/1xSUQpjQMAhmMQ7LiODYiWq6R55FoLL7ZjUyF79/z7t8egELXXaujNAR6x1hYo7fGLUApEBeA4kQcvaaE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=I40+Fw35; arc=fail smtp.client-ip=40.107.74.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jCndcWEBNRIYm5znwkK2L9gGoX/1HLIc2szpv20yrmXa/1NkjtAt9KPCADD3XZdUsc2oPdwFTiS3rhax67gNbMzBJKmmVE4AqlZWpq1h9HUvP3ZHXyGRTrnN8C5wnz46KAUb7ypN++ku5sqxYdZDPvBXNKsqmznM6npMN9lDHmfN/SSuVAFLDeWBe8/70jBz5ry5WobLutJ0haovUd5OlaJq04dbXoancCD9+Zp+UmJhQ8bxhmmoZVKygMeEl8O88qTa0mIcuZJmI6IiG76ZtZpoSiOnrswONo4x4N2LRux7qdr2Ir2ZSgMKhJvxlFfQmxhm1Y+2n/dT6wZbEk4/rw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xJxBqlVT8Qq9bhPgEJok5tRSKL7umh5El09ODjG9Deg=;
- b=nvGX00ZyY2EHgcrCK7zrZo70vXAg5dNA75KNBVTP/Z5LObOtarl5Em1clOqK6Uo5n0qduVOa6us0++I2Z8CfXuR8W/S4p8ycZBlp9/MXDp6IlRTgiMyglUUTWAIwKouuYXl6ac/se/+HBU4bHqKTDm+7VQ8BivMA37euLTJA25wQ9DWVNtGfC5Ib/5P+FSfbInFmqa1dkoBuoby9XWp6meiVM/5hjVrprNt/VLr5G6+ZLASZ1ZjcFhA1Wqt29aeYyA8exUhkdD6Z60BTIC3DLauPHMh8ZSXrzEtrsQBVz3J6jkGvxcFMz+WOHUeqzR5PjafsbCve6M9z8udGYQ5H3Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xJxBqlVT8Qq9bhPgEJok5tRSKL7umh5El09ODjG9Deg=;
- b=I40+Fw35NjL6qCWSUCVS5lui52lpb9Tu92qUWaPmqWaG5Ipi3YpjMxJoyEDVcfSlGELMX5zfyx+UnKfudDz6rK5BMqoj1SP/chD821cRhKt+01qgePp1eLHET2gVKXWoZe9vyBUSSHWipYQUVNAndDcdCtAyvPIUWUqPqXciYA4=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYRPR01MB12725.jpnprd01.prod.outlook.com (2603:1096:405:1b2::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.22; Sun, 17 May
- 2026 18:30:15 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::87d1:4928:d55:97de%4]) with mapi id 15.21.0025.022; Sun, 17 May 2026
- 18:30:15 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>
-CC: "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
-	tomi.valkeinen <tomi.valkeinen@ideasonboard.com>, kieran.bingham
-	<kieran.bingham@ideasonboard.com>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>
-Subject: RE: [PATCH 04/11] drm: renesas: rz-du: Switch to new VSP API
-Thread-Topic: [PATCH 04/11] drm: renesas: rz-du: Switch to new VSP API
-Thread-Index: AQHc4aHYFosoVQaP6kCr3S+Hcm/SQLYSknig
-Date: Sun, 17 May 2026 18:30:15 +0000
-Message-ID:
- <TY3PR01MB11346319648FB960CA238884C86022@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References:
- <20260511235637.3468558-1-laurent.pinchart+renesas@ideasonboard.com>
- <20260511235637.3468558-5-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To:
- <20260511235637.3468558-5-laurent.pinchart+renesas@ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYRPR01MB12725:EE_
-x-ms-office365-filtering-correlation-id: 18880097-c198-4186-9b14-08deb4425730
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|1800799024|22082099003|18002099003|56012099003|38070700021|4143699003|11063799003;
-x-microsoft-antispam-message-info:
- 9bjxGyUwLEjraGAfUON3NYxKZDgCxNdi5fERrPNuHZjvJ3POtUnEba3QuGVlPWP/ROl6/CdX/BGMHesvChoSi1d+49/+KdC6OIvvIZs8F3+joF0KifSuB0sqhQWkIlc517DyyYtmCmIGM5CGPvFWl3VosW9N2U+jnFN5IEm9GVOEgIp3qAT75QArJ2dmb3Z+4aSanRaAhr3i1QuCNBjMnBPtoEOsPtyZtXmJg7shu0XaNtJGOfMbJfNFoteZYEwKk816ChUp1pciPtNsQ3o2aD8x5GlbkOhbMHYa+XPdpV9GM60dVY/sxo9GE92kKV1a3VIqykOBbCSnfXDqd/5mq2nKVBUPnDE0hWuOoFaKFKPfgvx0LmGByV4XQ/8WMVBkDXIHlMqYaMyOBC0vrdcXL9zjp8V0g1qw9M0HCRGvy97K4Phraj8yLV1nQkajPS8sJDQmnmGiTqKRyUVVGcRvyqM7zAx9f2A0CKXIDCxN5iyzX+f4fHBixr/vd21ePIMb8LUwczsVjd5MfNL/ACTItY+iNhqgonJO4WnLXMc5gU780v840biYeT4OFQsXN8tfgq6BUd7YTbo8i31zVQTjbaYdB0SERRT+AxmO2M/ly8qoDQtS3stMJcd2iOUWT7bctsLOFpjCq0on1tlrZnHPMpvXikz/eGspYLPzSg2VlufgwIW2Y28RDCAltpzIt4fWY2+hTWRH4jsHuZoHQdH8vLkHNDqYGdEDobtXcMnE1CbC6cjMduwH41li7BhoweXl
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(22082099003)(18002099003)(56012099003)(38070700021)(4143699003)(11063799003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?+N9e9+vIE7eaHU3idTR21nipRZrr8GMrsLQUOV/1PGIizFPaJDSKRpGJxcgP?=
- =?us-ascii?Q?m7Bp/87BUWUpiOlEEDkbLiUP46lfLlILb1HY+grIqFlTgpAbehjOM0FPj1qR?=
- =?us-ascii?Q?EeXUhgDoKjta3WUi4Owklhrh5B1Ls1De8pBtRjF+vRe8UY0ergX9FE3w+w9z?=
- =?us-ascii?Q?zC7kpm42bgWJT9Fv7/wxRG9H/XY6kBSgz1CyV1gOd6b3htyOmfA0ZXgTkUEt?=
- =?us-ascii?Q?yIIZYpt+qnfwqoogDQU2Nqw8p0c+sMiX9IbBy4j8QwD12FiwW6c3eTGyDxnA?=
- =?us-ascii?Q?jithaA5mZAcGNmaa+xk1sL9sGd215DtLwSRYf93RZ6thw1adBQ3JuCJ+Q6Il?=
- =?us-ascii?Q?YOmdoi7rqVd46JQYRiqcs1knBow4VXXG8AAmz2hHC6hD0lmeB1QPWjOh+SXD?=
- =?us-ascii?Q?LivKcI22e2x5u3SisKsT9rVyGx6zUfPRKmiA+6G0v+vrySTEW0KjMjXKB6sR?=
- =?us-ascii?Q?MZqDuMP0FbCQhq56tsEQWNyyQ3YyV2EtboOtRdocsUShsIcrEG4scIzWDder?=
- =?us-ascii?Q?sjXp5PpmoknAtqHNy+H87UvOpRno57HPeH3bz1lOkaxbKJqZu/2yjSmqBFnM?=
- =?us-ascii?Q?5T/XFhiah4Beg4/yeQYb3IK08KlBMfMtHvTmkw2pUfu1FlzQqZSBDs8SLrMj?=
- =?us-ascii?Q?uZigD+T0OGFiYvOdwNMzYhjvMM/yUivSCyYepMj11iw3fWjO1AwYfmnWLEIG?=
- =?us-ascii?Q?/wG8o2rAN4Gp7M4pJ/gs2Jc+1b77sQEvi8NFNIvjLYhbAXsk5U5ixKLGyCnx?=
- =?us-ascii?Q?mbrYPfMIQKb+HYcyO1FGWAxg7AX44fyNF7R3V48wK4WcN4KVaqJM2Cofk4MM?=
- =?us-ascii?Q?+OpBacJl9uopxsZLnlPBKieifUGmTP8bzqSClwZFsMNfei6J8alPtfqdm2Z7?=
- =?us-ascii?Q?PdrkXCvEsZWOfBT0dQ4gjsbavW+50M6lpI1c/VHEHRrf4X/ocpEUuiNicGdf?=
- =?us-ascii?Q?3WC4uE9dqq84v9qPbUM8EZJJqnX58TsMxIDvId0rLjJFqmpQKfdoUErHuROp?=
- =?us-ascii?Q?Z3IkMnE6X2h/x5ZC+YUGtJdUZs7tOQfWkxoWxRvod9pa9y1GcP0mxiZoQC5W?=
- =?us-ascii?Q?IIOXeHfH1uAbHPnBlftXChuc+/MzzB3ASI+XKNlCHW7NYd6Kr+uVXARYpDUJ?=
- =?us-ascii?Q?WsB0wZsHZTjKg6B76YkcC9TiNXLq3jfQcgudQlDuUNsB3pWSpLUXA/b3m7oU?=
- =?us-ascii?Q?B58GTCX7FyBxyhV4eno2S8OJdk1GsMykND2e9sovMdWw61dUY/QJXg/H/Hjh?=
- =?us-ascii?Q?Ys3GR6emf9Pt29KKqkYT5D3eOybndeSyccS/WGPymZ0CwFfpKKQzaUzqqFbE?=
- =?us-ascii?Q?yNOHLZQcoesvnFTr22+W5AdvPewTlsVvV6bkvOPL+tX6ow9eDLy86SN2O5ra?=
- =?us-ascii?Q?y/IsUdofsMwrQpaOzeCrEcJTbtSUAwCPxQsAYuOi4yuIZktjsMzN6HrGa1M2?=
- =?us-ascii?Q?6Rh+GmmTmi8uNN8klz7uu+KqYhkxIznVWXa726dTPa9vO+i+vzAG3p1Bw87i?=
- =?us-ascii?Q?zw1csVWt1oFUhAdNuMCi6+RfDjOl1rXEm1PbfDr7AOebHFSqgri5dOF9CseO?=
- =?us-ascii?Q?1EzADe9t0ke6RWycEZH0tqJEoGLUCSB8rzsUd/+aGzWd6Y0i5CeWqiJfLEhK?=
- =?us-ascii?Q?Je5A5ybba0WNiEwxn/Sba6gSl+JwwQQcjzSWKDk4UNt2LaTuNbi49n3Emk1M?=
- =?us-ascii?Q?MXaCcuNq98CikCVuzZXq3XDVdwmkKIsgIKGeAXvNQbj5Rftf91M1WbzhB7tA?=
- =?us-ascii?Q?oG0zUpdkjQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4F8548EE
+	for <linux-media@vger.kernel.org>; Sun, 17 May 2026 21:18:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779052695; cv=none; b=Fk4+gsNGCxdBMhxIc8b/oaqmH5SIbcb5MlUTJLC2Fr1H5CxjCn42lF6XLPA7kCGTknmybc2ICO10bdwiI/1Tocx9OOzYnfjMD70hS7KQRCDhDevh6c4O88ItEZBSQvRXvZbxGcZwyoUDzTeru1ZOekc9U6g0DQ2UmrlsTDRBkmU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779052695; c=relaxed/simple;
+	bh=gblGyBH6yDYjqnxJnKSm4FihAe+/V66x6J886Jr6KlA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k6/jVqociFGpwwXft0yd+tGazi3H+z7GH9KOwX0Zl+lN6md0aDeAOe/VzFH3xisfPJ5U0kvR/zNL5U5CFyJiDZrDclKHBHaqSjXNQz3CGKCKKDdkgRE/UBucETTweCGKSkOuqsve8shnKuYCybdDjZGiKscc0cMjQc6jTuC7USI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 9751A1F8005A
+	for <linux-media@vger.kernel.org>; Sun, 17 May 2026 21:18:08 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 12302B407A8; Sun, 17 May 2026 21:18:07 +0000 (UTC)
+X-Spam-Level: 
+Received: from collins (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id A28F4B4079C;
+	Sun, 17 May 2026 21:18:05 +0000 (UTC)
+Date: Sun, 17 May 2026 23:18:03 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Arash Golgol <arash.golgol@gmail.com>
+Cc: linux-media@vger.kernel.org, mchehab@kernel.org, wens@kernel.org,
+	jernej.skrabec@gmail.com, samuel@sholland.org,
+	laurent.pinchart@ideasonboard.com, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v3] media: sun8i-a83t-mipi-csi2: Use V4L2 subdev active
+ state
+Message-ID: <agowixYIRIB7D3J3@collins>
+References: <20260515173101.8978-1-arash.golgol@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 18880097-c198-4186-9b14-08deb4425730
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 May 2026 18:30:15.6302
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TPxtS6MaAn6q5paX3EWaP7YlF9Vrr5zPmiVUVsc8u9xnH2930ri0nOIhrOvMQfH7K4gOz1KMaKWFC01r7N/IGwxXGHg4WxJATzVnVIqezmU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB12725
-X-Rspamd-Queue-Id: 513DA563225
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="XGZqOrNyWuP5I4V2"
+Content-Disposition: inline
+In-Reply-To: <20260515173101.8978-1-arash.golgol@gmail.com>
+X-Rspamd-Queue-Id: 2D33C563F94
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [1.34 / 15.00];
+X-Spamd-Result: default: False [-1.56 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[renesas.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[bp.renesas.com:s=selector1];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61867-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[vger.kernel.org,ideasonboard.com,gmail.com,ffwll.ch];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,gmail.com,sholland.org,ideasonboard.com,lists.linux.dev];
+	TAGGED_FROM(0.00)[bounces-61868-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	DMARC_NA(0.00)[sys-base.io];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[biju.das.jz@bp.renesas.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[bp.renesas.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	RCPT_COUNT_SEVEN(0.00)[8];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[bp.renesas.com:dkim,ffwll.ch:email,TY3PR01MB11346.jpnprd01.prod.outlook.com:mid,renesas.com:email,lists.freedesktop.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[paulk@sys-base.io,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-0.999];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	R_DKIM_NA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sys-base.io:email,sys-base.io:url]
 X-Rspamd-Action: no action
 
-Hi Laurent,
 
-Thanks for the patch.
+--XGZqOrNyWuP5I4V2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Sent: 12 May 2026 00:56
-> To: linux-media@vger.kernel.org; dri-devel@lists.freedesktop.org
-> Cc: linux-renesas-soc@vger.kernel.org; tomi.valkeinen <tomi.valkeinen@ide=
-asonboard.com>; kieran.bingham
-> <kieran.bingham@ideasonboard.com>; Biju Das <biju.das.jz@bp.renesas.com>;=
- David Airlie
-> <airlied@gmail.com>; Simona Vetter <simona@ffwll.ch>
-> Subject: [PATCH 04/11] drm: renesas: rz-du: Switch to new VSP API
+Hi Arash,
+
+Le Fri 15 May 26, 21:01, Arash Golgol a =C3=A9crit :
+> Use the V4L2 subdev active state API to store the active format.
+> This simplifies the driver not only by dropping the bridge mbus_format
+> field, but it also allows dropping the bridge lock, replaced with
+> the state lock.
 >=20
-> The vsp1_du_setup_lif() function is deprecated. Use the new
-> vsp1_du_enable() and vsp1_du_disable() functions instead.
->=20
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.co=
-m>
+> The sun8i-a83t-mipi-csi2 hardware does not perform any format
+> conversion. Enforce identical formats on the sink and source pads in
+> the set_fmt() and init_state() callbacks.
+
+Looks good to me and works well on the hardware!
+Thanks again for your work.
+
+Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
+Tested-by: Paul Kocialkowski <paulk@sys-base.io>
+
+All the best,
+
+Paul
+
+> Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
 > ---
-> Biju, I would like to merge this for v7.2 through the media tree instead =
-of the DRM tree. Would that be
-> OK with you, or do you expect conflicting changes to the rz-du driver for=
- v7.2 ?
-
-Yes, it is ok for me. I don't expect any conflicting changes to the rz-du d=
-river for v7.2 in this file.
-
-Acked-by: Biju Das <biju.das.jz@bp.renesas.com>
-
-Cheers,
-Biju
-
-> ---
->  drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Changes in v3:
+>  - Fix active state lock leak on runtime PM error path
 >=20
-> diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c b/drivers/gpu/d=
-rm/renesas/rz-
-> du/rzg2l_du_vsp.c
-> index bd486377f037..d5a1d36db2c1 100644
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_du_vsp.c
-> @@ -55,12 +55,12 @@ void rzg2l_du_vsp_enable(struct rzg2l_du_crtc *crtc)
->  		.callback_data =3D crtc,
->  	};
+> Changes in v2:
+>  - Initialize active state before calling v4l2_subdev_state_get_format()
+>  - Fix line wrapping reported by checkpatch
+>  - Link to media-ci report: https://linux-media.pages.freedesktop.org/-/u=
+sers/patchwork/-/jobs/99865145/artifacts/report.htm
 >=20
-> -	vsp1_du_setup_lif(crtc->vsp->vsp, crtc->vsp_pipe, &cfg);
-> +	vsp1_du_enable(crtc->vsp->vsp, crtc->vsp_pipe, &cfg);
+>  .../sun8i_a83t_mipi_csi2.c                    | 113 +++++++++---------
+>  .../sun8i_a83t_mipi_csi2.h                    |   2 -
+>  2 files changed, 56 insertions(+), 59 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
+_mipi_csi2.c b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
+_mipi_csi2.c
+> index dbc51daa4fe3..2b7635f3952d 100644
+> --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
+si2.c
+> +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
+si2.c
+> @@ -144,12 +144,12 @@ sun8i_a83t_mipi_csi2_disable(struct sun8i_a83t_mipi=
+_csi2_device *csi2_dev)
 >  }
->=20
->  void rzg2l_du_vsp_disable(struct rzg2l_du_crtc *crtc)  {
-> -	vsp1_du_setup_lif(crtc->vsp->vsp, crtc->vsp_pipe, NULL);
-> +	vsp1_du_disable(crtc->vsp->vsp, crtc->vsp_pipe);
+> =20
+>  static void
+> -sun8i_a83t_mipi_csi2_configure(struct sun8i_a83t_mipi_csi2_device *csi2_=
+dev)
+> +sun8i_a83t_mipi_csi2_configure(struct sun8i_a83t_mipi_csi2_device *csi2_=
+dev,
+> +			       const struct v4l2_mbus_framefmt *mbus_format)
+>  {
+>  	struct regmap *regmap =3D csi2_dev->regmap;
+>  	unsigned int lanes_count =3D
+>  		csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
+> -	struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mbus_forma=
+t;
+>  	const struct sun8i_a83t_mipi_csi2_format *format;
+>  	struct device *dev =3D csi2_dev->dev;
+>  	u32 version =3D 0;
+> @@ -205,7 +205,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
+subdev *subdev, int on)
+>  	struct v4l2_subdev *source_subdev =3D csi2_dev->bridge.source_subdev;
+>  	union phy_configure_opts dphy_opts =3D { 0 };
+>  	struct phy_configure_opts_mipi_dphy *dphy_cfg =3D &dphy_opts.mipi_dphy;
+> -	struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mbus_forma=
+t;
+> +	struct v4l2_subdev_state *state;
+> +	const struct v4l2_mbus_framefmt *mbus_format;
+>  	const struct sun8i_a83t_mipi_csi2_format *format;
+>  	struct phy *dphy =3D csi2_dev->dphy;
+>  	struct device *dev =3D csi2_dev->dev;
+> @@ -215,8 +216,12 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2=
+_subdev *subdev, int on)
+>  	unsigned long pixel_rate;
+>  	int ret;
+> =20
+> -	if (!source_subdev)
+> -		return -ENODEV;
+> +	state =3D v4l2_subdev_lock_and_get_active_state(subdev);
+> +
+> +	if (!source_subdev) {
+> +		ret =3D -ENODEV;
+> +		goto unlock;
+> +	}
+> =20
+>  	if (!on) {
+>  		v4l2_subdev_call(source_subdev, video, s_stream, 0);
+> @@ -228,7 +233,7 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
+subdev *subdev, int on)
+> =20
+>  	ret =3D pm_runtime_resume_and_get(dev);
+>  	if (ret < 0)
+> -		return ret;
+> +		goto unlock;
+> =20
+>  	/* Sensor pixel rate */
+> =20
+> @@ -254,6 +259,9 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
+subdev *subdev, int on)
+>  		goto error_pm;
+>  	}
+> =20
+> +	mbus_format =3D
+> +		v4l2_subdev_state_get_format(state,
+> +					     SUN8I_A83T_MIPI_CSI2_PAD_SINK);
+>  	format =3D sun8i_a83t_mipi_csi2_format_find(mbus_format->code);
+>  	if (WARN_ON(!format)) {
+>  		ret =3D -ENODEV;
+> @@ -292,7 +300,7 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
+subdev *subdev, int on)
+> =20
+>  	/* Controller */
+> =20
+> -	sun8i_a83t_mipi_csi2_configure(csi2_dev);
+> +	sun8i_a83t_mipi_csi2_configure(csi2_dev, mbus_format);
+>  	sun8i_a83t_mipi_csi2_enable(csi2_dev);
+> =20
+>  	/* D-PHY */
+> @@ -309,7 +317,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
+subdev *subdev, int on)
+>  	if (ret && ret !=3D -ENOIOCTLCMD)
+>  		goto disable;
+> =20
+> -	return 0;
+> +	ret =3D 0;
+> +	goto unlock;
+> =20
+>  disable:
+>  	phy_power_off(dphy);
+> @@ -318,6 +327,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
+subdev *subdev, int on)
+>  error_pm:
+>  	pm_runtime_put(dev);
+> =20
+> +unlock:
+> +	v4l2_subdev_unlock_state(state);
+>  	return ret;
 >  }
+> =20
+> @@ -341,22 +352,24 @@ sun8i_a83t_mipi_csi2_mbus_format_prepare(struct v4l=
+2_mbus_framefmt *mbus_format)
+>  static int sun8i_a83t_mipi_csi2_init_state(struct v4l2_subdev *subdev,
+>  					   struct v4l2_subdev_state *state)
+>  {
+> -	struct sun8i_a83t_mipi_csi2_device *csi2_dev =3D
+> -		v4l2_get_subdevdata(subdev);
+> -	unsigned int pad =3D SUN8I_A83T_MIPI_CSI2_PAD_SINK;
+> -	struct v4l2_mbus_framefmt *mbus_format =3D
+> -		v4l2_subdev_state_get_format(state, pad);
+> -	struct mutex *lock =3D &csi2_dev->bridge.lock;
+> +	unsigned int pad;
+> =20
+> -	mutex_lock(lock);
+> +	/*
+> +	 * This subdev does not perform format conversion,
+> +	 * initialize both pads identically.
+> +	 */
+> +	for (pad =3D 0; pad < subdev->entity.num_pads; pad++) {
+> +		struct v4l2_mbus_framefmt *mbus_format;
+> =20
+> -	mbus_format->code =3D sun8i_a83t_mipi_csi2_formats[0].mbus_code;
+> -	mbus_format->width =3D 640;
+> -	mbus_format->height =3D 480;
+> +		mbus_format =3D v4l2_subdev_state_get_format(state, pad);
+> +
+> +		mbus_format->code =3D sun8i_a83t_mipi_csi2_formats[0].mbus_code;
+> +		mbus_format->width =3D 640;
+> +		mbus_format->height =3D 480;
+> =20
+> -	sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
+> +		sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
+> +	}
+> =20
+> -	mutex_unlock(lock);
+> =20
+>  	return 0;
+>  }
+> @@ -375,55 +388,33 @@ sun8i_a83t_mipi_csi2_enum_mbus_code(struct v4l2_sub=
+dev *subdev,
+>  	return 0;
+>  }
+> =20
+> -static int sun8i_a83t_mipi_csi2_get_fmt(struct v4l2_subdev *subdev,
+> -					struct v4l2_subdev_state *state,
+> -					struct v4l2_subdev_format *format)
+> -{
+> -	struct sun8i_a83t_mipi_csi2_device *csi2_dev =3D
+> -		v4l2_get_subdevdata(subdev);
+> -	struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
+> -	struct mutex *lock =3D &csi2_dev->bridge.lock;
+> -
+> -	mutex_lock(lock);
+> -
+> -	if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
+> -		*mbus_format =3D *v4l2_subdev_state_get_format(state,
+> -							     format->pad);
+> -	else
+> -		*mbus_format =3D csi2_dev->bridge.mbus_format;
+> -
+> -	mutex_unlock(lock);
+> -
+> -	return 0;
+> -}
+> -
+>  static int sun8i_a83t_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
+>  					struct v4l2_subdev_state *state,
+>  					struct v4l2_subdev_format *format)
+>  {
+> -	struct sun8i_a83t_mipi_csi2_device *csi2_dev =3D
+> -		v4l2_get_subdevdata(subdev);
+> -	struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
+> -	struct mutex *lock =3D &csi2_dev->bridge.lock;
+> +	struct v4l2_mbus_framefmt *fmt;
+> =20
+> -	mutex_lock(lock);
+> +	/* The format on the source pad always matches the sink pad. */
+> +	if (format->pad !=3D SUN8I_A83T_MIPI_CSI2_PAD_SINK)
+> +		return v4l2_subdev_get_fmt(subdev, state, format);
+> =20
+> -	sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
+> +	sun8i_a83t_mipi_csi2_mbus_format_prepare(&format->format);
+> =20
+> -	if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
+> -		*v4l2_subdev_state_get_format(state, format->pad) =3D
+> -			*mbus_format;
+> -	else
+> -		csi2_dev->bridge.mbus_format =3D *mbus_format;
+> +	/* Set the format on the sink pad. */
+> +	fmt =3D v4l2_subdev_state_get_format(state, format->pad);
+> +	*fmt =3D format->format;
+> =20
+> -	mutex_unlock(lock);
+> +	/* Propagate the format to the source pad. */
+> +	fmt =3D v4l2_subdev_state_get_format(state,
+> +					   SUN8I_A83T_MIPI_CSI2_PAD_SOURCE);
+> +	*fmt =3D format->format;
+> =20
+>  	return 0;
+>  }
+> =20
+>  static const struct v4l2_subdev_pad_ops sun8i_a83t_mipi_csi2_pad_ops =3D=
+ {
+>  	.enum_mbus_code	=3D sun8i_a83t_mipi_csi2_enum_mbus_code,
+> -	.get_fmt	=3D sun8i_a83t_mipi_csi2_get_fmt,
+> +	.get_fmt	=3D v4l2_subdev_get_fmt,
+>  	.set_fmt	=3D sun8i_a83t_mipi_csi2_set_fmt,
+>  };
+> =20
+> @@ -540,8 +531,6 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t_m=
+ipi_csi2_device *csi2_dev)
+>  	bool notifier_registered =3D false;
+>  	int ret;
+> =20
+> -	mutex_init(&bridge->lock);
+> -
+>  	/* V4L2 Subdev */
+> =20
+>  	v4l2_subdev_init(subdev, &sun8i_a83t_mipi_csi2_subdev_ops);
+> @@ -570,6 +559,12 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t_=
+mipi_csi2_device *csi2_dev)
+>  	if (ret)
+>  		return ret;
+> =20
+> +	/* V4L2 Subdev finalize */
+> +
+> +	ret =3D v4l2_subdev_init_finalize(subdev);
+> +	if (ret < 0)
+> +		goto error_media_entity_cleanup;
+> +
+>  	/* V4L2 Async */
+> =20
+>  	v4l2_async_subdev_nf_init(notifier, subdev);
+> @@ -603,6 +598,9 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t_m=
+ipi_csi2_device *csi2_dev)
+>  error_v4l2_notifier_cleanup:
+>  	v4l2_async_nf_cleanup(notifier);
+> =20
+> +	v4l2_subdev_cleanup(subdev);
+> +
+> +error_media_entity_cleanup:
+>  	media_entity_cleanup(&subdev->entity);
+> =20
+>  	return ret;
+> @@ -617,6 +615,7 @@ sun8i_a83t_mipi_csi2_bridge_cleanup(struct sun8i_a83t=
+_mipi_csi2_device *csi2_dev
+>  	v4l2_async_unregister_subdev(subdev);
+>  	v4l2_async_nf_unregister(notifier);
+>  	v4l2_async_nf_cleanup(notifier);
+> +	v4l2_subdev_cleanup(subdev);
+>  	media_entity_cleanup(&subdev->entity);
+>  }
+> =20
+> diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
+_mipi_csi2.h b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
+_mipi_csi2.h
+> index f1e64c53434c..819527bcd64d 100644
+> --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
+si2.h
+> +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
+si2.h
+> @@ -33,8 +33,6 @@ struct sun8i_a83t_mipi_csi2_bridge {
+>  	struct media_pad		pads[SUN8I_A83T_MIPI_CSI2_PAD_COUNT];
+>  	struct v4l2_fwnode_endpoint	endpoint;
+>  	struct v4l2_async_notifier	notifier;
+> -	struct v4l2_mbus_framefmt	mbus_format;
+> -	struct mutex			lock; /* Mbus format lock. */
+> =20
+>  	struct v4l2_subdev		*source_subdev;
+>  };
+> --=20
+> 2.34.1
 >=20
->  void rzg2l_du_vsp_atomic_flush(struct rzg2l_du_crtc *crtc)
-> --
-> Regards,
->=20
-> Laurent Pinchart
 
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--XGZqOrNyWuP5I4V2
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmoKMIoACgkQhP3B6o/u
+lQxynQ/8DT/tQQXwb/4gFVBlINqCHLS8RkyMQe1PdHZS/V6xRk5O7Psn478GUo/4
++92AXqt1QJXVxm++1uFFq+/PNu3MhAIcdJhLKhLJ7Vv6gmPEEAMF1Q0Gua+/E/Ri
+OdOethJDxFTl4FaincOeZ02VFcDtpdaTFRK9Rf9oQ2VbbLt6R9ULATvK9jfDGSlT
+n1IvmBswOYABEHTjku5Tcx5pXVXoOwrs3hgd2uQuvWEfB9H9YdOfx1MXQtzjh1A6
+wM0V6afe/MKtriiHj6C54OupXBPloLwRYrWjtVfAQtL+6YtAib839Q/KOV5ke9jy
+GTLd1lTud5pF7rhgB5vIjlNgpiNOR5/IQyWZDXjs4EqZ+LD3pWcu59OeNPch/5jM
+e3a6JO0pwDnfNMuDjUYz9D2+Pavpg1N2bMYDo4MxKrVta7Lqdx1wEOZRG391P2Kg
+JDSMUwUuHwXFJrf1Fh74wLGlROK2TFXWXuxuvtk0//KH09/us4LfJGlNKvgYva93
+1CBbNa1fnc+88+Y0p++LcM/6jMWTsZyOBvI9Oh6PlbB7xsTGKO7yJxIf2BRRfZeh
+mdvFh+7YQMhLI4sB87TK7R6kw+mkg08lr0E2923Jn6MmE7oWQD1Rx4TEWM8I4RQs
+wJ53Z/r9W9gZwBQxQ+HLxi/KKweh1nZRRP/9Z3BzeVmK8zk4ihM=
+=T5j2
+-----END PGP SIGNATURE-----
+
+--XGZqOrNyWuP5I4V2--
 
