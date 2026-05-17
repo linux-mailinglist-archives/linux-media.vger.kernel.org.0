@@ -1,95 +1,97 @@
-Return-Path: <linux-media+bounces-61850-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61851-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oITLD2asCWookgQAu9opvQ
-	(envelope-from <linux-media+bounces-61850-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 13:54:14 +0200
+	id YPY5CxfACWpSoAQAu9opvQ
+	(envelope-from <linux-media+bounces-61851-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 15:18:15 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C70D8560DB0
-	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 13:54:09 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85FFB5612C7
+	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 15:18:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 96BDE30142AE
-	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 11:54:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id EE3E13006784
+	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 13:18:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83A05363C61;
-	Sun, 17 May 2026 11:54:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 993223AA4E9;
+	Sun, 17 May 2026 13:18:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MKxLECEO"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Az8aK6NP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E3F3603DF
-	for <linux-media@vger.kernel.org>; Sun, 17 May 2026 11:53:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2407D39EF0B
+	for <linux-media@vger.kernel.org>; Sun, 17 May 2026 13:18:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779018840; cv=none; b=HbD2cwSYDAWDMo0Ry0x5G0HVE0Vbv3bpiC4sUpqvWJO7nND9PJuaPCrLtEWFBZSlKOBJFfSX+qQexo1B3Jb7HMg9iCIxPSanZQCoPNIUond+DhndV6QlVe0adON5cpnmalzWpt9vMwsdN1I6vy+Oh/fwPt/m3KJwpjLbtX9laKA=
+	t=1779023885; cv=none; b=mSHWxw4gZ0Pt+ZPLfURzE9H4rDIjewbT1nRNGGH3iXn8ll8CHo49ugPHiwzh6OekkDmhZQwGVs4LjqPSMfGGAekcpVIZkdIbqUmt8qFMeJJD7VsZEc7+Lsk/v4iRqeM6xQtRQv7qn90rfpQoAfMSHztvGzt+KwX/VRlInh2hYOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779018840; c=relaxed/simple;
-	bh=ncZtNx1Y7OuHHYSK44RquXi/bDCszx2wvAKmVP+oFhE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jSGEVeAcDYesIO5Yga6oDcPIchmcXN2QUmDVW9UGBPaaOTHu3pN4bA2eo6wezqdpa/uZQocTJDhtAQQ3oZeSncS6y8tOhHl4/0om4NozGJMSlZINzGc/dSfve8viMWyF8tJwdufIu4ZUE7y9V9irRUsLZPLbu0XodMTGKKFg+qw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MKxLECEO; arc=none smtp.client-ip=209.85.214.170
+	s=arc-20240116; t=1779023885; c=relaxed/simple;
+	bh=URAzz3jUC0fboRRexiwSS6WBQwgbA2/OyQ9s8WriWgM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Tt7FobppgBk1IG8WnPKzJCeqcu88OP6+Pxadldh/4I7V9hjmFMwJE5PGZbXNt+3rT+hk0+ahYbVYrig4O6ocht+PVqYOl/EkOllVtQNcsYPWRDUVc+Qlje99sfcd6fPfybRHqKpnHhic0BduEw+xURHgcEfHf8+4frR1xEaf8Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Az8aK6NP; arc=none smtp.client-ip=209.85.219.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2ba6485d219so8715195ad.3
-        for <linux-media@vger.kernel.org>; Sun, 17 May 2026 04:53:58 -0700 (PDT)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-8ca12973e15so24050416d6.1
+        for <linux-media@vger.kernel.org>; Sun, 17 May 2026 06:18:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779018838; x=1779623638; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779023880; x=1779628680; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eVgsGf4Z/8axsFXoaM/enuI2zsZhhgsgIIwSowsD/SY=;
-        b=MKxLECEOt7do0myVK2DDnIZk6b6ktK64x+EU5pEphKYC36vpKdlH0FczD2E1L0460c
-         Y6/6FxyjLNNBWVafk/CGPcU/LmLjNIyG3eVqh1maW1p8HgHS2wEfEOWxIUva96Za+Fsy
-         y6hqu7tabtEJu+2z+KPJimxFQu46WfyvCICAWCeTQJQ85sHKmdlcv5uIQIfij93haZAE
-         8aUTe4jG7ZWLX/xLHp95TUZrMbHmyog/htIe308ASmBzRqSlZGzWVdcfoSduhybnbi3H
-         62+UwPNWTJxhCEKtNsIjJEqfX933B/7pOup/SfNjSOE2g8s3MF3B8RfUvibD2xk3jApw
-         NvoQ==
+        bh=8qmzV4OG/gwgrFg2WjVRa5yFfeYJiaj+u8zvgWP2oxA=;
+        b=Az8aK6NPwCB4GB/Vx5cuwyH/7iLQWsrE8TlzuY++njwXZowvT3Hnn07Amv5h6Ff9KF
+         QZjheF/h36b1lVtqkm7rSYyUZlasoePNkSeVeGrg1z2IzpYDzHk5UT95kpg8PDNbztKH
+         3US31vgLjYEP9YHjXV+KN5K7a2Uz68dVqRCcuur8+25baw8rF4ldQ4PouMe8rLy1jKgG
+         l9VIPdyuVbISHVfJTYIhKQju9payttJ9HswUXfdlTU61OHwyAOLudNNBx2vEXspc8hrE
+         edKo5S3+9ZCHypAjTJ8LuS6UT8iRDM9Ikd3lB+cl7KPzJ7xzvWjm3GnPiqfOJaKHPGH3
+         h+bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779018838; x=1779623638;
+        d=1e100.net; s=20251104; t=1779023880; x=1779628680;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eVgsGf4Z/8axsFXoaM/enuI2zsZhhgsgIIwSowsD/SY=;
-        b=jggOsGZRlGs4qXiWfT9V/MjFBf2U2bX+gdmdLt/tcv7amsLp/gqsbPEZZi4jycAOzo
-         zht15hFkHXQ0lVIcwQZymzgVsc+NWj9iw6dGoZXStEY+anCHVyhC4cgU2EXKRxoitxYe
-         mtaxmLyHeTcxQHEUMATKQ37QcDU4FjV/ghe2yDSYlUIqWYVDI9NhQzM1V2htfIRsydEy
-         c/vs1qdbU/G92iGt+Eorh94H77LGBtcApTA7QvBAO4GJLolr3tS+G8ndusm6SBbEF/ng
-         dwaYxM57Vjxvvizi/rospI3+uWInQH1Db69JXzoBPWe2ycNhs50cmDAK6Nbw0bb6deS6
-         S0SQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/ZG6zMVTMbmZpskOg/Y9bQY5shBgAHopfnu1nw69Uaw7AolCg0BJoUP86mMNmOSAhSFv4w+swVczgFCA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YybFHS+3ZBu1fAg2J4Rw5mgTuxylbAvQChwF6ofBYcMViH7jDbH
-	B0Ldi1AjUcDhile+RoG0gNHU1Ni74Nj8oyEExEt1eB2OqO8Zc2YmOdnF
-X-Gm-Gg: Acq92OE8E7PsSLbBHVVqFvVWgMN16ddsXW3OCGOR5F66I8ozdD5wfmqJSTCBvvF6hX9
-	lYUsQBctZuHlJq4KH8XJcZukGcWvaq04pqdRwlfTMHzYm4BDKpohfV5EO2XwWK1ntmd/iL1ukti
-	fHuOO8OPCuAjNliL/CBmp/uiDdGQEUkgRhVmJyNl9y2dlCUgHGSIXkl2T88rEj1NZ7Sqkv9zJas
-	wacRyDw3pomYL4ZqgY8zsBHy66hxZpD/9zbqCIyXAMsqWAwBAZ963oKKKfhFcioEM7AqOdC1fBJ
-	P8E55uohdGqL1//OGac6o969PPS7ajeAELbzHXhpF7xbxWb9rAODjYZJjDvE11u5crQAzit/bVy
-	IrLisN2i9xx4u4IZWksHqB9aOfpQ/urghXH7i666hPBTqHmpXfWuDiGl+O9vpLV8SSYXy3uTRER
-	e09KN/VE6AHUx87OJPNZGP
-X-Received: by 2002:a17:902:ebc3:b0:2b0:6e6a:8504 with SMTP id d9443c01a7336-2bd7e973c40mr125388885ad.27.1779018838177;
-        Sun, 17 May 2026 04:53:58 -0700 (PDT)
-Received: from lgs.. ([101.76.249.46])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5d0fd856sm118282215ad.66.2026.05.17.04.53.55
+        bh=8qmzV4OG/gwgrFg2WjVRa5yFfeYJiaj+u8zvgWP2oxA=;
+        b=eS3WCeP+Q/d2/8+AYzgJ2iu09EDkru1G55y0wOwgO98wvUHYdB/ZkG1foR2aOQPyDh
+         e+OoRa/lMael/NI+Kjpd8XQZYiSXQr0eKW3lkOYt1R3o8b12M/3nYcPVaJM+Ch5ma9nV
+         8lZfa7THaXE9LcXto0XsuOiBn/JRVDtDa2LX9yDx2NmVc75lPdDEkC/mxvlsaKNR6C+F
+         jO7vRQBD4U37r8Yt+rShrENo66zXwlk2ciJzNSVtIQ9tZVExyHGQ+wWMCZ2PywJdwgVX
+         gvuM6vtyuf/JgRypLdwAul3Xcs44t4yKvKb5v/1n1S45XyJbNsbsfmHcSg8I8dV0m39w
+         YpGw==
+X-Forwarded-Encrypted: i=1; AFNElJ+SzTwA02qaalV9k/dsCtJycTTN/Q0fhzB0K98vW2LqT9er51l8wj9ora0kLVkYTRSVYZ0CE3fPdcX5Kw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2CnShQYxqGXS5NbZ/QapQnXTjuevtgefhI4UyAMnGnWcSNlN9
+	uoGMjpayH8ocnn7Ud5+apEF64/IEVy67F2JIuYF9O4+1hi6luQlw73I3
+X-Gm-Gg: Acq92OFc9IznM5uxhD36lFmFvm8wfkdjVR7DU2NO7nFTMk4d6BPR5N9tL4e0jGowCZ+
+	qk23hW2BbXBfaJIdkruc4ebd93M6AWoUvScc285NzWVj+ayYiiffU7fLfp3cUTRotiEaWbtnsj+
+	CHBXPJjPYjjuKQvIr6itum4mRUazh5bvYBDSTiiZb7+CnqOc5To41Ct8Z8TSyY4Tg4T4GWqJ+d3
+	6IlPn8p/7nWND5zOQ5J2N6KSlTkiK0GLAPCklKEJuhh+9XXWkCXgsUjoZNHyq16nS0LYJovGsFb
+	1o/WAaoftqT7w006kMh+t6kQ8U+pHX5tRH+j3MtHEkjitj+nyy2oQV9/sfZUY/rNCRKd2Bs2xoS
+	ujU9kjWeL60y6/7yqcqVVxxYdCVYIG4zBJHZnntwbWg4qhzqtfyh9gkOymqfFAatIUk/o7N6U3R
+	fFgON85TEiAMt6V9/HwM5gY7i/hNyZIpvZVsAC0MRRh4+IQkdQC4MvV1GgjKgHe5aBwVwEuD3hy
+	NwyYM/MvrU9voRpVFkM5oiMGDn36Ty5w+gh3Zk5KSY=
+X-Received: by 2002:ad4:4211:0:b0:8bd:6baa:6a0c with SMTP id 6a1803df08f44-8ca0f611b62mr138164296d6.11.1779023879979;
+        Sun, 17 May 2026 06:17:59 -0700 (PDT)
+Received: from server0.tail6e7dd.ts.net (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ca3619c703sm22268846d6.33.2026.05.17.06.17.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 May 2026 04:53:57 -0700 (PDT)
-From: Guangshuo Li <lgs201920130244@gmail.com>
-To: Neil Armstrong <neil.armstrong@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
+        Sun, 17 May 2026 06:17:59 -0700 (PDT)
+From: Michael Bommarito <michael.bommarito@gmail.com>
+To: Alex Deucher <alexander.deucher@amd.com>,
+	Christian Koenig <christian.koenig@amd.com>,
+	David Francis <David.Francis@amd.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Cc: Guangshuo Li <lgs201920130244@gmail.com>
-Subject: [PATCH] media: meson: ge2d: avoid double free on video register failure
-Date: Sun, 17 May 2026 19:53:43 +0800
-Message-ID: <20260517115343.955015-1-lgs201920130244@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linaro-mm-sig@lists.linaro.org
+Cc: Ziyi Guo <n7l8m4@u.northwestern.edu>
+Subject: [PATCH] drm/amdgpu: fix lock leak on ENOMEM in AMDGPU_GEM_OP_GET_MAPPING_INFO
+Date: Sun, 17 May 2026 09:17:42 -0400
+Message-ID: <20260517131742.3435209-1-michael.bommarito@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -97,94 +99,101 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: C70D8560DB0
+X-Rspamd-Queue-Id: 85FFB5612C7
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61850-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[linaro.org,kernel.org,baylibre.com,googlemail.com,vger.kernel.org,lists.infradead.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_FROM(0.00)[bounces-61851-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[amd.com,linaro.org,gmail.com,ffwll.ch,lists.freedesktop.org,vger.kernel.org,lists.linaro.org];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lgs201920130244@gmail.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[michaelbommarito@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[]
 X-Rspamd-Action: no action
 
-ge2d_probe() allocates a video_device with video_device_alloc() and
-releases it from the rel_vdev error path if video_register_device()
-fails.
+The AMDGPU_GEM_OP_GET_MAPPING_INFO branch of amdgpu_gem_op_ioctl()
+holds three cleanup-tracked resources before calling kvcalloc():
+the drm_gem_object reference from drm_gem_object_lookup(), the
+drm_exec lock on the looked-up GEM via drm_exec_lock_obj(), and
+the drm_exec lock on the per-process VM root page directory via
+amdgpu_vm_lock_pd().  All three are released by the out_exec
+label that every other error path in this function jumps to.
+The kvcalloc() failure path returns -ENOMEM directly, skipping
+out_exec and leaking all three.
 
-This can double free the video_device when __video_register_device()
-reaches device_register() and that call fails:
+The leaked per-process VM root PD dma_resv lock is the
+load-bearing leak: any subsequent operation on the same VM
+(further GEM ops, command-submission, eviction, TTM shrinker
+callbacks) blocks on the held lock.  DRM_IOCTL_AMDGPU_GEM_OP is
+DRM_AUTH | DRM_RENDER_ALLOW, so this is an unprivileged-local
+denial of service against the caller's GPU context, reachable
+by any process with /dev/dri/renderD* access.
 
-  video_register_device()
-    -> __video_register_device()
-       -> device_register() fails
-          -> put_device(&vdev->dev)
-             -> v4l2_device_release()
-                -> vdev->release(vdev)
-                   -> video_device_release(vdev)
+Route the failure through out_exec so drm_exec_fini() and
+drm_gem_object_put() run.
 
-  ge2d_probe()
-    -> rel_vdev
-       -> video_device_release(ge2d->vfd)
+Reproduced on stock 7.0.0-10, Ryzen 7 5700U / Radeon Vega
+(Lucienne): the failing ioctl returns -ENOMEM and a second
+GET_MAPPING_INFO on the same fd then blocks in
+drm_exec_lock_obj() on the leaked dma_resv.  SIGKILL on the
+caller does not reap the task; the fd-release path during
+process exit goes through amdgpu_gem_object_close() ->
+drm_exec_prepare_obj() on the same lock, leaving the task in D
+state until the box is rebooted.  The patched kernel was not
+rebuilt and re-tested on this hardware; the fix is mechanical.
+Tested on a single Lucienne / Vega box only.
 
-Use video_device_release_empty() while registering the device so that
-registration failure paths do not free ge2d->vfd through vdev->release().
-ge2d_probe() then releases ge2d->vfd exactly once from rel_vdev. Restore
-video_device_release() after successful registration so the registered
-device keeps its normal lifetime handling.
+Ziyi Guo posted an independent INT_MAX-bound check for
+args->num_entries in the same branch [1]; the two patches are
+complementary and can land in either order.
 
-This issue was found by a static analysis tool I am developing.
-
-Fixes: 59a635327ca7 ("media: meson: Add M2M driver for the Amlogic GE2D Accelerator Unit")
-Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+Fixes: 4d82724f7f2b ("drm/amdgpu: Add mapping info option for GEM_OP ioctl")
+Cc: stable@vger.kernel.org
+Link: https://lore.kernel.org/all/20260208000255.4073363-1-n7l8m4@u.northwestern.edu/ # [1]
+Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+Assisted-by: Claude:claude-opus-4-7
 ---
- drivers/media/platform/amlogic/meson-ge2d/ge2d.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/amlogic/meson-ge2d/ge2d.c b/drivers/media/platform/amlogic/meson-ge2d/ge2d.c
-index c5dc03905ce0..b367169e6ad8 100644
---- a/drivers/media/platform/amlogic/meson-ge2d/ge2d.c
-+++ b/drivers/media/platform/amlogic/meson-ge2d/ge2d.c
-@@ -983,6 +983,7 @@ static int ge2d_probe(struct platform_device *pdev)
- 	}
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+index 9ef80bca4102..8224fb499fdf 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c
+@@ -1091,8 +1091,10 @@ int amdgpu_gem_op_ioctl(struct drm_device *dev, void *data,
+ 		 * be retried.
+ 		 */
+ 		vm_entries = kvcalloc(args->num_entries, sizeof(*vm_entries), GFP_KERNEL);
+-		if (!vm_entries)
+-			return -ENOMEM;
++		if (!vm_entries) {
++			r = -ENOMEM;
++			goto out_exec;
++		}
  
- 	*vfd = ge2d_videodev;
-+	vfd->release = video_device_release_empty;
- 	vfd->lock = &ge2d->mutex;
- 	vfd->v4l2_dev = &ge2d->v4l2_dev;
- 
-@@ -1005,6 +1006,7 @@ static int ge2d_probe(struct platform_device *pdev)
- 
- 	v4l2_info(&ge2d->v4l2_dev, "Registered %s as /dev/%s\n",
- 		  vfd->name, video_device_node_name(vfd));
-+	vfd->release = video_device_release;
- 
- 	return 0;
- 
+ 		amdgpu_vm_bo_va_for_each_valid_mapping(bo_va, mapping) {
+ 			if (num_mappings < args->num_entries) {
 -- 
-2.43.0
+2.53.0
 
 
