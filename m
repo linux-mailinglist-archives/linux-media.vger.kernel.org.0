@@ -1,162 +1,139 @@
-Return-Path: <linux-media+bounces-61840-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61841-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 7FyJFgZ9CWp1cQQAu9opvQ
-	(envelope-from <linux-media+bounces-61840-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 10:32:06 +0200
+	id 6JSpBrOHCWrVeAQAu9opvQ
+	(envelope-from <linux-media+bounces-61841-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 11:17:39 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D0AC55FF9C
-	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 10:32:05 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A28DE56031B
+	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 11:17:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A65AE300A636
-	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 08:32:00 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id EE8E330055AC
+	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 09:17:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 760A31E511;
-	Sun, 17 May 2026 08:31:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4999035A3B9;
+	Sun, 17 May 2026 09:17:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IdHchZZB"
+	dkim=pass (2048-bit key) header.d=virgilio.it header.i=@virgilio.it header.b="AsRVXqPc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from virgilio.it (smtp-45.italiaonline.it [213.209.10.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A33833F8C6
-	for <linux-media@vger.kernel.org>; Sun, 17 May 2026 08:31:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779006718; cv=pass; b=sQg5rCnBV7nbk2DJaJT3e70rfDZTK402QkeuXDSD1wQV+UXidxCS4U7X5PKRRpMrBRR+iBe7kVVLGUgIaFDqaZxK6fngYV+VbmN/6y0zkQBwEEh0+8aDU5EMx9LGBGL2RD+CeogXVSn5c5KPOH3GY2ap3CV0dgqAi474cx5gemc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779006718; c=relaxed/simple;
-	bh=vKvzV/ZBzucko+I2D2qpu/hMnCR6mTrkOPD2NPq8JFg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=G0WEG2/BM5g+G7OLHeUlr9NtYjtCzpphrkqncIVrxwmZrsNIe8TNhjcCG0GDT22FadgL2tZHN8YexE0snQUyVtxh3F0FLRQTyX5r3/AAqwvuVrn44n36mzNkIzbhEaOfCC3+5nhrzAZHiNsFlVphALbt+5nPowqr4OKz3KRRizU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IdHchZZB; arc=pass smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-67c2b4809baso3368916a12.3
-        for <linux-media@vger.kernel.org>; Sun, 17 May 2026 01:31:57 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779006716; cv=none;
-        d=google.com; s=arc-20240605;
-        b=hVMmgd5LD6kRXFHLPalQFoRFAGy2Dg6zsk6ItVkKoXZ2OCjBaJoTnbsPWxhnhrcZuG
-         ZCB+PnxhChXCHpacWvqv5QewbOZq8uHyWHE964Fj8uPT0fuJe8iZSo1hPZbpJ9izMjHa
-         eRFZPbX6ucZisoVcJSTNkS4o1ncVgTXzWuLpTiYnY9dIA2IgoSZk7HDVnfbqEkNAO+Ta
-         M+ybS8lbBuOtqEvNI3YFlh1ZSntpx+8LML9nKCwqC0IsEBKe88qNL8BIRKtJtZAQ9WKF
-         e+EqQ/bM5sU+yLH7LSZ3kwVJ+Y1y6qIq3XjJffxGLqT3Cc4dRSKSiE7MJHr3ED+td/qT
-         kKLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=vKvzV/ZBzucko+I2D2qpu/hMnCR6mTrkOPD2NPq8JFg=;
-        fh=p6x19aQCAf0iQSS6l+GiKU5u8bdCNdEuSMm2qyEUMCw=;
-        b=IAgltMOAMDE0vUdY+LLD+9nTjZPuA2f/ygUUg374QKsAy46J9zHO3owizzhTa+xwnO
-         41YIOWJPuoLoffSmcdvfl1UjRTFoheob3wAK+kqa7M+nyT6fdZ7u5XiaT50LBd3HzbLr
-         nIE8qN1aILp8nnpNYUZnCUGhUdtPX6ZPfzREw5cSObsmMD4gx1vvOx+kJS41prvwHqeI
-         BAJj/hza1YEgS2TAXtkU8eQT4qUqpuymLme6nEVutmFiSDtqueSvO0Y/jVy6ZKQMV63k
-         1I7EhXuxUJDJGT2v28WPAkf0OUjQv1N13HKffgkUMZPMz4Ep32QHy+TVYlr0WuimVj8n
-         swCw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779006716; x=1779611516; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vKvzV/ZBzucko+I2D2qpu/hMnCR6mTrkOPD2NPq8JFg=;
-        b=IdHchZZBxdHyG5eW7LRTHUftzS44njkfZbi0EpWJoUAkcbnf5VCNQrRPzOI3p/xuiw
-         FTwe8/LrZbyJeGn5xVU9QeZIZG5jG4dXxJftA59F/MX5PpqQewJ8Jx+r0xE7BiMUV7G9
-         eZ6ptxmYQhvTdHdUbT5hh15x/ngWelKd/YGXwrtAgbNBJsrrmE7yz8ByJD2SOsTQCuBN
-         uxliqf1g354D7gFiix8pMR/M/AWDkj41rgjR8UViUQlJNR8KPN9J5BR00gt2+ukkGK90
-         pEGbR9bouJy2VpVVdYyXe/6+FXq6wVUTlublBGY9VTjUjyAR5vG9opcMPC8GC+Yh6AqU
-         boUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779006716; x=1779611516;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vKvzV/ZBzucko+I2D2qpu/hMnCR6mTrkOPD2NPq8JFg=;
-        b=APour0KXDGrsFVw2JSgoDGKTcQI0+x3tzT9V6qNqnV4Wu29z9QvUfSmD8NUstYhLia
-         NBiHynqBkxxJUrYhtcS5g48HVPGeJQY2Nm7r8OBjodHML4AK5pE+lsW2UQfN2D/+9QR0
-         w/y1pzxPZ80fALVlabSbYJHXaCSBaIggp4YVGYrp9gRRsw4jm5Jf1KxilX2QexuRW5PQ
-         YjOhvsyckAGpfS5jtoBGExjW1dU+JSnEk8qoS0d5xadoeQtE15yn5/E8DAQqqNorL7tK
-         mdSZ5XzS4whTVtz604ipscrc/WJq9bUvQ7R2+xNb0cCunf6ztNfY9gEUEcFrjuCdu/mN
-         P/sw==
-X-Forwarded-Encrypted: i=1; AFNElJ8ikJpfrpZ3EBV3t7xjzjh4xRzvCgRTt0DJfZQvmz4YmEYvUmvQyCnrUMH6BdUgfOVtPzy7Q6eRinF2VA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzyHhu62viKlqYtSI5iv8F0iRYr6Myw36RNKbihgpUdSMTr8rs+
-	sHlJaj/Wft8T3J85i06+CyAr8N51qrG1h8bfHzgnh2tKyYpkrNPpRIn2cB+ZJKKa+BNxPZHBSxl
-	GtFGBl1KacdvkouI95hiZRNVJA1QyC8o=
-X-Gm-Gg: Acq92OEDp/yRj0a/RwLTHIH7xMQhKCaFmo+KTt07yRlDXpZwqUB7WZGCa1Kkx7ZHNIV
-	tWYVIfHLn7vPaCZCbG5NJwNcXNYI9oX7bQYi/Yl4uLel/kSog55dUg7PySZVGpox+D1n7LiBf6S
-	d6P5FuUR8Hugc0uKQiPVOusua0Q8+4s5Gi0VNitQ8Z94Ir8booI8rpG51d2uLOqRELDFeT5Ho6P
-	UGr3eZUiCmFGwLwAhm+udJ0VviFkozgtYhH6FiangsgU9YenzNqKmXx1jLOY8AnKbwuFTapBkby
-	yF4B1oDwM/QzEoC9eZKFLJxFA1aUHDT34EaeltSPAT8LHp6shHxPRgKlCYOaTmDONqeQ1sl70NR
-	fTZkoCL38b4lVR5oRs4QRMQjbkhwP
-X-Received: by 2002:a17:906:d503:b0:ba6:5728:39f7 with SMTP id
- a640c23a62f3a-bd5178fa622mr372718066b.27.1779006715592; Sun, 17 May 2026
- 01:31:55 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89587080D
+	for <linux-media@vger.kernel.org>; Sun, 17 May 2026 09:17:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.209.10.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779009450; cv=none; b=YjZSUcUwuj0zz172r8KIqeTu5tNYRGCSU1aAHNY9i6GYmGmyjxYMVAGPmf9vhQFjYzt2Wht8S74sUta7BnmUtd0RtaxYQe0O3E7CLqb18K8C0IS1jyamokbjR1kdYPvx2MS6jn/QrBeXRn9q4lcW19gyH+r0IIOnJbISKZzkEzQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779009450; c=relaxed/simple;
+	bh=aMu4e0dakZCq6AVcA6u7jnJfaeBvp1Te1F/cmB1X5Rg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ETTuY/ZSF0BX7Kh//S/VWn7bOzJLhtbS0MXerWAswp3hKKXUdIJWRo0KRgUhAX3mq/ztJ+XGxZAUFnLKIG7GMRgQdMaE0i/oucxKzVPeMgQ+AadprznTB3/DnogubDpyzYOoPTT3QPjgp6nA+L2/3/8Nln9Fotj4JyFg0Z46meQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virgilio.it; spf=pass smtp.mailfrom=virgilio.it; dkim=pass (2048-bit key) header.d=virgilio.it header.i=@virgilio.it header.b=AsRVXqPc; arc=none smtp.client-ip=213.209.10.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=virgilio.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=virgilio.it
+Received: from virgilio.it ([95.249.63.132])
+	by smtp-45.iol.local with ESMTPA
+	id OXa7wLP9Mij70OXaCwqyl4; Sun, 17 May 2026 11:14:48 +0200
+x-libjamoibt: 1601
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virgilio.it;
+	s=s2017; t=1779009288;
+	bh=WUmvhzaAYTvQ+529ZuES9WCw8eDX5ojCULxWZNGLK+E=; h=From:To;
+	b=AsRVXqPcZG3MpzH0LUieRfz5bNsDuvXpvWlEyMyEG3o+KySkMsFfdRuhZNafNJYST
+	 uxY2fX4KjjSxcwjVirHGhVfaXNQ1KHzrgmCmVoNerdD9qlP6+vk6A3efOKss0I6hAi
+	 2vp93yIHi3kMKkZL4ymYBS4t2Ar3JhE7QihIylIMbag0Ew2NMkH7N1D1lij+FUFMWi
+	 kvkdELGaxoqBIb/sbPnqWfIhLaQYhCM15EEWjORVpFQNkJa2ck8LZcoGEtbDuRHZEF
+	 t+E4+xhKAAw7OE1NCX4vUVIdW5GHLxWoI0VWibeVEYJZ4jt57AfQ9Pd604B1fRDIgz
+	 OaD6tNyBcPRsA==
+X-CNFS-Analysis: v=2.4 cv=E7PNpbdl c=1 sm=1 tr=0 ts=6a098708 cx=a_exe
+ a=31gyBBid8KDB93oJ8PHLEg==:117 a=31gyBBid8KDB93oJ8PHLEg==:17
+ a=wAGg3p4uCBcpEzkhgB0A:9
+From: Alessandro Baldi <baldovic@virgilio.it>
+To: sean@mess.org,
+	mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Alessandro Baldi <baldovic@virgilio.it>
+Subject: [PATCH] media: imon: Add iMON VFD HID OEM v1.2 key mappings
+Date: Sun, 17 May 2026 11:14:15 +0200
+Message-Id: <20260517091415.3080-1-baldovic@virgilio.it>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260517060120.221278-1-diegomancera.dev@gmail.com>
-In-Reply-To: <20260517060120.221278-1-diegomancera.dev@gmail.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sun, 17 May 2026 11:31:19 +0300
-X-Gm-Features: AVHnY4IKuJB8GQXR6TT_rAhml2_1w_riXe4jyzDn3gohPdCzJ9W8ja3SHuRRLE0
-Message-ID: <CAHp75VeBjou4m5YA_9=7UBPxft-Q1+W0P2uhED3+UrkfXbJaaA@mail.gmail.com>
-Subject: Re: [PATCH] staging: media: atomisp: remove redundant comparison to false
-To: =?UTF-8?Q?Diego_Fernando_Mancera_G=C3=B3mez?= <diegomancera.dev@gmail.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org, 
-	sakari.ailus@linux.intel.com, andy@kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 9D0AC55FF9C
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfDny0Hjf+4ceWGCwuCUGQ6VzMy9xUF+1srS9lJT2l+AA9KjHK/qrvaOkxw4W9Zf7+Qij7HhgqUUjvK3iKsn55hX5xwN0rNVKcquxb3wnpCkNRN84JuuE
+ zsxkEElt+j9+valpotnvSDMUed+8oBDcuLguAVTscZiyK8Tb7aCfWE6mgcSjIqBXA2t69871m1mL4Fd7EJwusLqUHBDYE8peWPLeZ6qHWJUO2EM9n/RVWBes
+ mULFtI66NMzD3RvToGA75nfpDMbbuUsvPRkWcqY/f/PL3ytoRppFK5Fvzr5luPUR8PNXGi5w9wUBp1sepeUNbIq1hobYPeN9oHWnlvEY+Og=
+X-Rspamd-Queue-Id: A28DE56031B
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[virgilio.it,quarantine];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[virgilio.it:s=s2017];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61840-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-61841-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[vger.kernel.org,virgilio.it];
 	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_FROM(0.00)[virgilio.it];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-0.990];
+	RCPT_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andyshevchenko@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[baldovic@virgilio.it,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[virgilio.it:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,virgilio.it:email,virgilio.it:mid,virgilio.it:dkim]
 X-Rspamd-Action: no action
 
-On Sun, May 17, 2026 at 9:01=E2=80=AFAM Diego Fernando Mancera G=C3=B3mez
-<diegomancera.dev@gmail.com> wrote:
->
-> Repetitive comparisons to boolean values are error-prone and visually
-> noisy. Clean up the codebase by removing the explicit '=3D=3D false' chec=
-k
-> and utilizing the logical negation operator instead.
+Add Vol+/Vol-/Mute panel button mappings for iMON VFD HID OEM v1.2.
+This version differs in the codes that generate the
+KEY_VOLUMEUP, KEY_VOLUMEDOWN and KEY_MUTE events.
 
-Only a single problem like this in the entire driver?!
+Signed-off-by: Alessandro Baldi <baldovic@virgilio.it>
+---
 
---=20
-With Best Regards,
-Andy Shevchenko
+Note: this is my first kernel contribution.
+Keycodes discovered by parsing USB packets with usbmon:
+- modprobe usbmon
+- cat /sys/kernel/debug/usb/usbmon/1u | grep Ii
+Tested on Thermaltake Mozart Sx case with LibreELEC media center.
+
+ drivers/media/rc/imon.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
+index 9bb27ba82..049a73b5f 100644
+--- a/drivers/media/rc/imon.c
++++ b/drivers/media/rc/imon.c
+@@ -290,6 +290,10 @@ static const struct imon_usb_dev_descr imon_OEM_VFD = {
+ 		{ 0x000100000000ffeell, KEY_VOLUMEUP },
+ 		{ 0x010000000000ffeell, KEY_VOLUMEDOWN },
+ 		{ 0x000000000100ffeell, KEY_MUTE },
++		/* iMON VFD HID OEM v1.2 */
++		{ 0x000000000a00ffeell, KEY_VOLUMEUP },
++		{ 0x000000000b00ffeell, KEY_VOLUMEDOWN },
++		{ 0x000000000c00ffeell, KEY_MUTE },
+ 		/* 0xffdc iMON MCE VFD */
+ 		{ 0x00010000ffffffeell, KEY_VOLUMEUP },
+ 		{ 0x01000000ffffffeell, KEY_VOLUMEDOWN },
+-- 
+2.34.1
+
 
