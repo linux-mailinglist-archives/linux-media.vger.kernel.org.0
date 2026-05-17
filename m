@@ -1,92 +1,93 @@
-Return-Path: <linux-media+bounces-61848-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61849-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oKpICNGqCWq/kAQAu9opvQ
-	(envelope-from <linux-media+bounces-61848-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 13:47:29 +0200
+	id QP0mMparCWookgQAu9opvQ
+	(envelope-from <linux-media+bounces-61849-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 13:50:46 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9482F560CF6
-	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 13:47:24 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27C72560D29
+	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 13:50:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 60A9C301D6B0
-	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 11:46:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7976330179CC
+	for <lists+linux-media@lfdr.de>; Sun, 17 May 2026 11:50:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1264361641;
-	Sun, 17 May 2026 11:46:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CDDD35DA56;
+	Sun, 17 May 2026 11:50:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c2ytDYwA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UhPfn0ah"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237D234EF0D
-	for <linux-media@vger.kernel.org>; Sun, 17 May 2026 11:46:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4666333987
+	for <linux-media@vger.kernel.org>; Sun, 17 May 2026 11:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779018416; cv=none; b=k52/T+sbLkh4O0WZcSlgvSXkC6cu3N4PllkVMDpI4EMAYTBF+cWj10nhj+PPaz6VY+ZDquFuh7C4hxpGJKOPZd5W+teFmas9E82GXPM6LZtKmCD2vzkuHUug1SfxARs7zi9dEEhfXZEowTNJGMkOVxPGhwnAm0ew37Xdm7B/ce4=
+	t=1779018635; cv=none; b=T03rfz0oTJ7Dpt5VkkfMDjSUiFlzaHslEZKUKkM5oOF6/o0uJjeqz2DvDSR2wMvKfjhJRbMn+qsGZxrSEU4Fl9Slh2Dj/23pKwgOBzzESGUUh0RbSZ3B0usrZBkHV9EatTqyykfiWLPyQLqPx4I4m36nEQFr6oD3muJIiuvZIsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779018416; c=relaxed/simple;
-	bh=+bZSASniVZxkluqLHkj9KmClq+3fBddfwzzhV+xEhIA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kLTw5KEWThnDTWWyuwXY5waPiI0ZNqC0iKafdtvR3GYjBfAICnqnicZT6v0rHp68wFlGr6gjS++XmXvY6pM6gCxv7ieabhJwNIAay2SzVPy0J1TbnOZqBy/ZFA1bRQzSaKOIB++VfSQtLIsWuy0kLh4AxdnzhpwooktrFkgm+ec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c2ytDYwA; arc=none smtp.client-ip=209.85.214.175
+	s=arc-20240116; t=1779018635; c=relaxed/simple;
+	bh=ySMfbMwfO6T/V49VrNcMVhHqVu7LazqpqQbozRcsqyc=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=VXEzfzzaM1z70C8KuuQYcMYkzPS6QwmKfib8YTRDaFUMyYvwuSFcvwxzrDZ+bLC3oHBZIbjN1+tPE3mCCDb5ISFhgfsBl8g3erc8yJJIHK8P41QVar+OlekiMf+FRvBf1Q+OdIHe+KdTI7gGy/O+JDkq2lcDrCgnX9eC3KlyKiM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UhPfn0ah; arc=none smtp.client-ip=209.85.210.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2bd8c4aa911so14817995ad.0
-        for <linux-media@vger.kernel.org>; Sun, 17 May 2026 04:46:54 -0700 (PDT)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-83d5bbef760so539029b3a.1
+        for <linux-media@vger.kernel.org>; Sun, 17 May 2026 04:50:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779018414; x=1779623214; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Viu192jC4/rs0pGZtKEKHYWVgQLZru9+DaFpVD17To8=;
-        b=c2ytDYwAEpck2Pf3PGwO6iHGyVkMB5PYFUIvUo2vo1U3/ocDv2dV54/pu5v+HoksAC
-         F4XH7+2GQvCBYhRtpW8lCxEF/J5BeQaosFYHdi/XPNPwBlASP02xbz8ADyHhVzqTrdcC
-         o1q1IDx+scmSYFivHmS2s5D2HUKL6J+4JSVNwoDXbCQt1sYzuV6MAIckbke82MDHHGkQ
-         IzQ/5QMpsa6quIZCHO6bVkw6PH56kgBbrIulyjXsIopjbuC/YrLFgtKJ7CoS46crxPsW
-         iV/dkQHcXMf6j5zCoU3oxqsGmSNdmhaaHo5ESGjg6dGFHuhsv2yE8hecYWcgM0gXcU0s
-         bLGg==
+        d=gmail.com; s=20251104; t=1779018634; x=1779623434; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NK0FGbUhthCvGO/GheNRpPws8eCC2XUOkNPRY7jlpXA=;
+        b=UhPfn0ahz50AIyPlh8UWemGyzrEpUy9EMuOf0cbbisprbWsEtIokareeDplVMM8gzW
+         am/yTu2QctvZemaqDXZC3zZKlMsb7Hdry52nHtuEO/tWwCk3SjdHuRbZpnQ6QkgBumlk
+         2GUWPSepcz1R7WNdZB0pv/X6e+AFKk/EclsRAHQMn9ccAQeGeTZgGV9hBAbtBeRaHz14
+         6EKhwyZMzEiejoNDauZbowYqVE71QVbtlWYbuURCvosbIavWs4eeyOiUAWl8IjsogH/u
+         RfEn3rzcQayQgYjGMJ73K+eUj6qujHCjkI5vsQv8T9bcvv/2Rz9apmo8SIRCjo9Vj7VM
+         YRaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779018414; x=1779623214;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Viu192jC4/rs0pGZtKEKHYWVgQLZru9+DaFpVD17To8=;
-        b=iZxCxgOfzes67IfQbUhOSVEBc0W0kGhvMkDMfNvHWQe9wcPLNA+quXqbimGx3McxOd
-         UnQhOI9CNZhAgGp2u+f5P9UhtmBjJ5w62iLPyUtc1XTvRvGhjuEVNBMDYciJgJzKNnM7
-         l8NqMOj2iOpyNtlwwU+KtlgKt5josl62nOrds+9ty74zxz7qCTUfqmPWwWywhjftxYAx
-         te5UHSExdWaD4YDZuerMZ1qNIW8kWFEghFCOibAkD5dw7C9hKqP9jtTrM4b3k0ILACjp
-         HqGy+uw+TxfKjsQdXiXnCr7R3Hu73sCdC4NJhQwTJtuk14GbrR2fRxx3xUjsWXQHHBIh
-         eLzA==
-X-Forwarded-Encrypted: i=1; AFNElJ++4P/K8wxPF3FeI60Kmnw4wP/lrarOKrwqjp4XU0qSIC4V83zOF2kS22HfRc8aDFJUOBhAHtEOG1nlzg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVHZXdg0EHnjkAeietUfCQMY+ZbJrEIGtuysRdSowHEDXEe3oA
-	wKUcbwEv6y6sUf/P6iTvr7C8BlhPY7HNvzHsfGo1kleuGmKvU30jkSLZ3H5mN+btP3U=
-X-Gm-Gg: Acq92OF+h/+8BsZW8s6WQ3B23u+Sy6EUzto/6Yw4VgP1fgWovhpCP+twbFwSuaPNdgw
-	ZIYKQqLbsHhg+B22lwJYkIig1HSLjx+GimBvFFqdIPMQeBsHR+2nAcW6cGnpeOWpEYQETHvxagm
-	9PO4Pvswg/PUl/RZRyhWc1Lu9dttMOgQf29fE7h8CDWh7PQHEtX1aZ1Ou3WTiGVjqR/MVG5t3/u
-	bADtR/MEX585wkK4cyfwgqIBoZjtVRfcPoXfeKHcTgLON/d3hRaJOCM9G95Bd5by6KbhjVZg1Op
-	WLtMzsxzfOHocS0a8ra+IiMVAN565tat04yt4HoMdwRBETU9SXyJS8vJB2FgSUN8nyFH/lhaWSj
-	sJawuQ2fbhmd6SofCFU0b8KqQ07SUU7Mwp/E2uyQh7UhhFzZqOOBKiilYl9hLBVmBajw8hMYTWY
-	rIzkoiGOo8rIUU
-X-Received: by 2002:a17:902:da82:b0:2bd:2de3:5198 with SMTP id d9443c01a7336-2bd7e7fa235mr119231005ad.3.1779018414549;
-        Sun, 17 May 2026 04:46:54 -0700 (PDT)
-Received: from lgs.. ([118.193.39.24])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bd5cfe6492sm110180065ad.45.2026.05.17.04.46.51
+        d=1e100.net; s=20251104; t=1779018634; x=1779623434;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NK0FGbUhthCvGO/GheNRpPws8eCC2XUOkNPRY7jlpXA=;
+        b=bmu0SrLL1svf4ruzIBYLm/vVFEf+sMMwdexv6PtPcJa0zP7WpnuwQM9zM70wNJITj8
+         dpHNVWR4ktJdvnlrxivJNEGMiNy9UpjZwfkVG898NErIBQp+Lym6LCHAIj+4zQslzw7i
+         tbJIcEK9xRguOOzLVm7I9PvHFkRw94RbEN7EKWjIn/++ewPSrOy6K4q/erSn4Qs/tYes
+         pgE4GMM5FUvoX3R+/uHsgvvPkzt4cyrnroXs5rSKIMs9c1yTpeUDhfAjaGga6Zd4y1xk
+         MjuqmUoH3hMxqnVw9fCNJqzivS0zGj2rfUS+poxF1IeEXOq7rYLAJ/NkSgcyZ23wyY16
+         lE0A==
+X-Forwarded-Encrypted: i=1; AFNElJ/15r1AwNMclS/lYR0c0rFjQNdEX0szdo92QONi3MPE6KMJhV85C/f9D0PMV6fwVno9YUmAeuqp0YNhuA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFevYORk0Nj4fIgMonmRhYf4cwU3ZdKC7+tQwJUFsVz1oV1EmH
+	ZYMwpRgj8H/jZHFUFEPqSQrVrizeA2IU2w3kVStSp47Lr4apeVuEJS5V
+X-Gm-Gg: Acq92OFeRPaZlrBoV9LF4E4pxLuQxHO8omDwn5e9VbILZu7/7zmUlUZbgMR03RCQqNo
+	5gfWlwq/Om/m9qGYnc4Afcs/14YcxyvXT/lrc8kzwc3g9Cqo+ogikysogNpwAtKMHGIepqWcVTj
+	dHQxy8qchsY9n+AOkWMyq34QojhqCgIkOwe4awEPTAE/dgDtpsnb5OuIoTRQF2berzHeHS+G4Gx
+	tK4HcoDCU/LRdqIErDbHei2T/AEXBLPsUL690DC5izHkpHOb3eiW85rx10pgC7M4jSs5hBYjWwp
+	cCWphCYwtiSFWUJjv1mZ9B7nX01ce5Y4w1G4KqcN/Zrg1X95h+quk+ap6Sk2bEvy6PWgQiOqeFp
+	JbcdlJqDMjiomZhiuXvdpy6B5MSw/xg+50ui2qeRawL/0h3w9167ByuQvMhycCLZLeB9VFqewgt
+	ALHH9b4UiVB6Pj
+X-Received: by 2002:a05:6a00:391a:b0:82c:ebae:3cb with SMTP id d2e1a72fcca58-83f33d93f29mr11645175b3a.43.1779018633637;
+        Sun, 17 May 2026 04:50:33 -0700 (PDT)
+Received: from lgs.. ([118.193.39.55])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f2b9bec8fsm9725745b3a.33.2026.05.17.04.50.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 May 2026 04:46:54 -0700 (PDT)
+        Sun, 17 May 2026 04:50:31 -0700 (PDT)
 From: Guangshuo Li <lgs201920130244@gmail.com>
-To: =?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kamil Debski <k.debski@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	linux-arm-kernel@lists.infradead.org,
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Kees Cook <kees@kernel.org>,
+	Guangshuo Li <lgs201920130244@gmail.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Javier Martin <javier.martin@vista-silicon.com>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Guangshuo Li <lgs201920130244@gmail.com>
-Subject: [PATCH] media: s5p-g2d: avoid double free on video register failure
-Date: Sun, 17 May 2026 19:46:42 +0800
-Message-ID: <20260517114642.951949-1-lgs201920130244@gmail.com>
+Subject: [PATCH] media: mx2-emmaprp: avoid double free on video register failure
+Date: Sun, 17 May 2026 19:50:20 +0800
+Message-ID: <20260517115021.953212-1-lgs201920130244@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -95,40 +96,41 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 9482F560CF6
+X-Rspamd-Queue-Id: 27C72560D29
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-61848-lists,linux-media=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lgs201920130244@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,ideasonboard.com,gmail.com,samsung.com,vista-silicon.com,vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-61849-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FREEMAIL_FROM(0.00)[gmail.com];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lgs201920130244@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	NEURAL_HAM(-0.00)[-0.997];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-g2d_probe() allocates a video_device with video_device_alloc() and
+emmaprp_probe() allocates a video_device with video_device_alloc() and
 releases it from the rel_vdev error path if video_register_device()
 fails.
 
@@ -143,45 +145,44 @@ reaches device_register() and that call fails:
                 -> vdev->release(vdev)
                    -> video_device_release(vdev)
 
-  g2d_probe()
+  emmaprp_probe()
     -> rel_vdev
        -> video_device_release(vfd)
 
 Use video_device_release_empty() while registering the device so that
 registration failure paths do not free vfd through vdev->release().
-g2d_probe() then releases vfd exactly once from rel_vdev. Restore
+emmaprp_probe() then releases vfd exactly once from rel_vdev. Restore
 video_device_release() after successful registration so the registered
 device keeps its normal lifetime handling.
 
 This issue was found by a static analysis tool I am developing.
 
-Fixes: 918847341af0 ("[media] v4l: add G2D driver for s5p device family")
+Fixes: 8091cb7d9ce6 ("[media] MEM2MEM: Add support for eMMa-PrP mem2mem operations")
 Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
 ---
- drivers/media/platform/samsung/s5p-g2d/g2d.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/media/platform/nxp/mx2_emmaprp.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/platform/samsung/s5p-g2d/g2d.c b/drivers/media/platform/samsung/s5p-g2d/g2d.c
-index a18b13db19d5..f38c28abd6d9 100644
---- a/drivers/media/platform/samsung/s5p-g2d/g2d.c
-+++ b/drivers/media/platform/samsung/s5p-g2d/g2d.c
-@@ -684,6 +684,7 @@ static int g2d_probe(struct platform_device *pdev)
- 		goto unreg_v4l2_dev;
+diff --git a/drivers/media/platform/nxp/mx2_emmaprp.c b/drivers/media/platform/nxp/mx2_emmaprp.c
+index d51a62100778..a27809b7730e 100644
+--- a/drivers/media/platform/nxp/mx2_emmaprp.c
++++ b/drivers/media/platform/nxp/mx2_emmaprp.c
+@@ -834,6 +834,7 @@ static int emmaprp_probe(struct platform_device *pdev)
  	}
- 	*vfd = g2d_videodev;
+ 
+ 	*vfd = emmaprp_videodev;
 +	vfd->release = video_device_release_empty;
- 	set_bit(V4L2_FL_QUIRK_INVERTED_CROP, &vfd->flags);
- 	vfd->lock = &dev->mutex;
- 	vfd->v4l2_dev = &dev->v4l2_dev;
-@@ -711,6 +712,8 @@ static int g2d_probe(struct platform_device *pdev)
- 		v4l2_err(&dev->v4l2_dev, "Failed to register video device\n");
- 		goto free_m2m;
+ 	vfd->lock = &pcdev->dev_mutex;
+ 	vfd->v4l2_dev = &pcdev->v4l2_dev;
+ 
+@@ -867,6 +868,7 @@ static int emmaprp_probe(struct platform_device *pdev)
+ 		v4l2_err(&pcdev->v4l2_dev, "Failed to register video device\n");
+ 		goto rel_m2m;
  	}
-+
 +	vfd->release = video_device_release;
- 	video_set_drvdata(vfd, dev);
- 	dev->vfd = vfd;
- 	v4l2_info(&dev->v4l2_dev, "device registered as /dev/video%d\n",
+ 
+ 	return 0;
+ 
 -- 
 2.43.0
 
