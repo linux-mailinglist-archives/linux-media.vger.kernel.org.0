@@ -1,219 +1,287 @@
-Return-Path: <linux-media+bounces-62048-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62049-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SDHgFEF3C2o+IAUAu9opvQ
-	(envelope-from <linux-media+bounces-62048-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 22:32:01 +0200
+	id gBXNGkCBC2pvIgUAu9opvQ
+	(envelope-from <linux-media+bounces-62049-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 23:14:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B6085736BB
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 22:32:00 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA95B573B1F
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 23:14:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 2990A300F62B
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 20:31:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5DADC3038F4A
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 21:13:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 720B43254A5;
-	Mon, 18 May 2026 20:31:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 479BB39659E;
+	Mon, 18 May 2026 21:13:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H4c8eIEf"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="orsRSfAg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6037D38C410;
-	Mon, 18 May 2026 20:31:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779136311; cv=none; b=A/nMMXIvnFus3z1Lr5P7f+FVgEy8VjJHYb5aqAoPw8Wgv/+zdyZH/Ids7/B3fxq5e/GM3F5gUPgTYBoCW8WGtI0+sXHIOgkajZtKfi+qtLwhH5RnMzemcw1QkzL+QdtRMu/J9oB+ZstWCf1KlJnVMJPrVzTZxrQxOAUtkL4XKy4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779136311; c=relaxed/simple;
-	bh=ydXo2XIcnCDnuaeWYRtalIfepOWgfDw1EKpHwpkVH/8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H97hxxSkgCA9WdWt1v6vZ8p0ErZOvXFtulxlv7lMdbLIsWpjLdNvTUoaWuwUgO6OI8jEd3nlK9zy24Oq5SsIllZ8ZlI7U5U4Jaoy7FQwJVlxRcHq6suE8A6mOyHYv6PaQT6mNP8NF8buqglGQbEp6W3h+U/9cxDIj48W2qTTAho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H4c8eIEf; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779136310; x=1810672310;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ydXo2XIcnCDnuaeWYRtalIfepOWgfDw1EKpHwpkVH/8=;
-  b=H4c8eIEflAj2zhiX7yVOa3e00Q3NTjOdcdSjyzLUR5q61/xg5cLhmDW9
-   FlLhOBTXtsSfIwuvgH4SvrQ+2+rljI8h4rDtszrWSGCjyQ/HxTsZDXGPg
-   0DVQ6Noo58KGUO6CQah83kASdXEb9ge4AjT3zIVuox918Vjog9OqpgK0c
-   DUmtzSKt3HAFRcJJWufA5fEJwMk0ngsBpetxEZTPkqeVraIwjkplUrF5X
-   j0jcbeG5Xhsku2mbVscwo2o4BXzU9ztv2Y7mPNvYL6zbAZ62I/33MSAYy
-   zK5OUn0DShG/vu8sGirvE5TFkwK2RGlk8fPyEI3iLrZa6W9BcPtPb51mS
-   A==;
-X-CSE-ConnectionGUID: PCMChLQpRyCN3g3ptqPFzA==
-X-CSE-MsgGUID: 6lqcamR5Rzq/trZecizzQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="80035060"
-X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="80035060"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 13:31:50 -0700
-X-CSE-ConnectionGUID: d0m9t1lWTf6cVYdn+o0JBQ==
-X-CSE-MsgGUID: 13v+sl6tR2GHBYRSdDRZtw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="233164454"
-Received: from lkp-server01.sh.intel.com (HELO d94e5e629b2d) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 18 May 2026 13:31:47 -0700
-Received: from kbuild by d94e5e629b2d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wP4cq-000000003N4-14ih;
-	Mon, 18 May 2026 20:31:44 +0000
-Date: Tue, 19 May 2026 04:30:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Guangshuo Li <lgs201920130244@gmail.com>,
-	Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Guangshuo Li <lgs201920130244@gmail.com>
-Subject: Re: [PATCH] media: mediatek: mdp: avoid double free on video
- register failure
-Message-ID: <202605190406.bMshG7YY-lkp@intel.com>
-References: <20260518125500.1000083-1-lgs201920130244@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33A4396573
+	for <linux-media@vger.kernel.org>; Mon, 18 May 2026 21:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779138795; cv=pass; b=JSFQt9PUH90YR68pD0akUzvSYWXPoQbC3Gmp/5ifqSidlomESviBP2RLrL+n5Na7rpDICmehjeuQHlLqxQjHzlXeXTZ2A7BrH7le8VA9StiBsm3nkrq+Jntl8XwmEEeV4toTbHGAK8FceecAyr+svIo7+LTpF2+DiDjwbHDZUtQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779138795; c=relaxed/simple;
+	bh=ccaZOdGzatq1Y9GRrbmh06kJXINJhjC+T++v+WFIsqQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=R7yDKHWvVfnemqZJKkYqa14aFIApDA4hQJWn3WfFKEqaCACeflucHuLap0QNM9cc33VpSC2OQAycPP2hvddhRHryUbvvjERE4KLAEy8xieWRCoPJHTh1NGqgL8hRL6bn3w3DmxUhtsnJRJ0xhqT/Br9GhWDL4IgSo1eAgEvmyZQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=orsRSfAg; arc=pass smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4891b4934ffso165e9.0
+        for <linux-media@vger.kernel.org>; Mon, 18 May 2026 14:13:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779138792; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ger/twaqW1VWpG8A1VZ2ziCKyK30dmzCm1ycKUjQEhQffP8P4J3lI6HUoee2paICl+
+         HKK4QLH3niHYudNdW7ZiPJnWtgekLsdZpubsqsAJczZvRcxL2PddAKHMsOgPI0JpxODP
+         KBK4VgWwMuPgbTpjEQXDdzEPJ8N3pDQrOZSjIPzmuLyNw5IBRl3A4VXY+7a+BZ99qCFR
+         nt30PBHSElTSzkWnpe3kxQFZ01PcWeW+/cNUcFko1rol4WEQEta3HlevrlYSPvqWIqDs
+         /FH0WaUqaV2wEV74U1Xb2Tu+F2hYcBENIyswrakN85xAGHVY4mjqyhLur6s25nf/4Fv4
+         ZvEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=TdtUTbNXCNhmI+LuqRwGM1avFF2CHCXidccR+1bE1AI=;
+        fh=u+o/cfbTtEc4qy0PyU3FsNC70HPfa0bxMnvASZcHI6Y=;
+        b=OtW0msKeXSS7wjMNaEKlOs8JoxUU19i4IHdySsIUxbaRYozAnYT+M9EVdiIzR3EoKc
+         FKHZXs0baJBIcqYslBgMqYq/cd6gs+EuU0cpFL3W6cU+J8GgZF/g/gxxxUxAgLWVP/Be
+         yfZJbvR/xUDFJ5RgwIALTt05jnRqAsDCOwOO1iOeby6LO/d731YFDX2Qvjgwwh2ao9a3
+         DCare20LTTCvpMDWuMpMwjz9hH9QXJcmqcZf320hyxohw+vTf1HE44jQ2yWyTfqvQ199
+         ZhVgifO1VqitAh4va/tH/r5ot9dh0oP1oFKdYR9b0n8NlBCtUoYUMmniyU+TIsOs7cw9
+         elVg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1779138792; x=1779743592; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TdtUTbNXCNhmI+LuqRwGM1avFF2CHCXidccR+1bE1AI=;
+        b=orsRSfAg9qfNqkS3qBn0ZC7nna3jIFgzoW9yfOadQVpaAxeZX5+y7haVzfBO7L5SoD
+         d/9rKT1nWNO3Gczb962hk8sqoM4bRSFKFSqAbiGnv9hu4vE3PECVaC/P6bUYgeBlulJW
+         PKbvIf3ud3ocFdrLYRC7PgQqGcDHnLssRxZC1knemFcsRZTXeDiDT+HOzfWlYkpG5c5S
+         qcwbIDoAoF0pJbdE6d7aPDiWqSzvorwm8uhe+k4wdFGvfMt94wBp7Ph9OCzGFTKGmYZ8
+         hBFPj0tteO4XHLo+zGucxfMPeWTHcffHDVpVPwVze56sduwUGJJIn9toyHr8t/x7gnGk
+         ZNnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779138792; x=1779743592;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=TdtUTbNXCNhmI+LuqRwGM1avFF2CHCXidccR+1bE1AI=;
+        b=bPmfkxpN9s8nbnSPwefa76cQQu5YUtifvjkMBVgDlbC1CD1WXkI89aIICiL9LvEAn4
+         8aFmqsgslxYHFsrOr/7hnCByfpMFLjHqgQStcFvNIKviaMbOBd1lWGoPy112lHQptfSV
+         ybeWFsTEi0+LdnnUHgweNDsjx1GMZiBiuvUlD+5BogaMI1GYPzPVOAX6QxotObqe0PWn
+         Rf6sBbWxjkFoOBuwb2Kroi247naTL5VdTpfCU5j5/LDZKIxzG0SBrey6gScWgAHsz9iV
+         p8gklBFfNTGSLrOkiBx0bjKe7l9CcobO8dN7ES8Fbw6PPUxGLFMHZiKyt9yB6TuSa4Yk
+         RoxA==
+X-Forwarded-Encrypted: i=1; AFNElJ8sxuFuKnabDy3kDUOZYSVEYDB6YHoOFKfxNfGpZq3lAd/vrnCMSQuvNgx/s6L3PiUwGLvaeP1Nw8L2YQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yygh1OUg9DLimmJ8pSLizxjvmxK/ZXUxqF/e/UI9egBXrwKWVyO
+	Hk1xrBbDfrugL/iZNEgf//icLBTYlRdsGY7/+TxR6bQoDvVBunANaf/UmbQiXWUWloWmBPOtRgS
+	J1Yq+kFNkSIp8/LqfBqTX74bo+PfDP9zz6tNuI6mL
+X-Gm-Gg: Acq92OGjucZpEJwvK2VlNH5hc6x0b66xgajGd6avLwxGIvvEiVc3Ilm9WTtE+CAIdOU
+	a9LLRGJl9iSG+me9KvZUd0Mk1t1okT5hpALszHpfN4CCVM6ngR/lS0J8hcojoRRHwSWpVnHvnUl
+	3GVE1lx3Xv3Rw3fUhYKS4yCWY+fOYicSURvkgzW4SjitWyorr8nNGulbJmZdaSaidFOtvqqryDs
+	mIHAix0g2gB20U/FvB1Ew/GBhFPAY62QEyDad1A6299r2BgJqQrwaMrgbWs2xzi1XKdh13Te1Bn
+	z9shpXVVf0g/2/wI+jk3dgl9VRtci4EZT0ZHYHRAZGzvLLf5
+X-Received: by 2002:a05:600c:5650:b0:48a:5aa3:ac1e with SMTP id
+ 5b1f17b1804b1-48ffd828c95mr2422185e9.3.1779138791895; Mon, 18 May 2026
+ 14:13:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260518125500.1000083-1-lgs201920130244@gmail.com>
-X-Spamd-Result: default: False [0.34 / 15.00];
+References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
+ <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
+ <8ef38815-6ae9-4359-86d4-042554357639@amd.com> <CABdmKX2uwZ12kYJYPJGfWxuMBOJS=64b1GRj72tfB5D=NKM22w@mail.gmail.com>
+ <CAGsJ_4zjrFJYQQsLThTGXR6g+2PXzeAhjyDpLHfDFqVViWvyBQ@mail.gmail.com>
+In-Reply-To: <CAGsJ_4zjrFJYQQsLThTGXR6g+2PXzeAhjyDpLHfDFqVViWvyBQ@mail.gmail.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Mon, 18 May 2026 14:12:59 -0700
+X-Gm-Features: AVHnY4L4foI9pbyItEwrt04ziyQl1Xw6iN4loxWK62AYv0ZIBdafhEyOwVCgdmg
+Message-ID: <CABdmKX0gqg309hcXcOHSj_yTg0h1zwDL34GDk8mX3wp4YoyfDg@mail.gmail.com>
+Subject: Re: [PATCH RFC 2/5] dma-heap: charge dma-buf memory via explicit memcg
+To: Barry Song <baohua@kernel.org>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Albert Esteve <aesteve@redhat.com>, Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, Christian Brauner <brauner@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Ondrej Mosnacek <omosnace@redhat.com>, Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, mripard@kernel.org, echanude@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62048-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62049-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[36];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,mediatek.com,kernel.org,collabora.com,vger.kernel.org,lists.infradead.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[lists.linux.dev,vger.kernel.org,gmail.com];
-	DKIM_TRACE(0.00)[intel.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[google.com:+];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tjmercier@google.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[amd.com,redhat.com,kernel.org,cmpxchg.org,suse.com,lwn.net,linuxfoundation.org,linaro.org,linux.dev,linux-foundation.org,collabora.com,arm.com,google.com,paul-moore.com,namei.org,hallyn.com,gmail.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,kvack.org];
 	TAGGED_RCPT(0.00)[linux-media];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,linuxtv.org:url,intel.com:email,intel.com:mid,intel.com:dkim,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 5B6085736BB
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: DA95B573B1F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Guangshuo,
+On Sat, May 16, 2026 at 1:40=E2=80=AFAM Barry Song <baohua@kernel.org> wrot=
+e:
+>
+> On Wed, May 13, 2026 at 2:54=E2=80=AFAM T.J. Mercier <tjmercier@google.co=
+m> wrote:
+> >
+> > On Tue, May 12, 2026 at 3:14=E2=80=AFAM Christian K=C3=B6nig
+> > <christian.koenig@amd.com> wrote:
+> > >
+> > > On 5/12/26 11:10, Albert Esteve wrote:
+> > > > On embedded platforms a central process often allocates dma-buf
+> > > > memory on behalf of client applications. Without a way to
+> > > > attribute the charge to the requesting client's cgroup, the
+> > > > cost lands on the allocator, making per-cgroup memory limits
+> > > > ineffective for the actual consumers.
+> > > >
+> > > > Add charge_pid_fd to struct dma_heap_allocation_data. When set to
+> > > > a valid pidfd, DMA_HEAP_IOCTL_ALLOC resolves the target task's
+> > > > memcg and charges the buffer there via mem_cgroup_charge_dmabuf()
+> > > > inside dma_heap_buffer_alloc(). Without charge_pid_fd, and with
+> > > > the mem_accounting module parameter enabled, the buffer is charged
+> > > > to the allocator's own cgroup.
+> > > >
+> > > > Additionally, commit 3c227be90659 ("dma-buf: system_heap: account f=
+or
+> > > > system heap allocation in memcg") adds __GFP_ACCOUNT to system-heap
+> > > > page allocations. Keeping __GFP_ACCOUNT would charge the same pages
+> > > > twice (once to kmem, once to MEMCG_DMABUF), thus remove it and rout=
+e
+> > > > all accounting through a single MEMCG_DMABUF path.
+> > > >
+> > > > Usage examples:
+> > > >
+> > > >   1. Central allocator charging to a client at allocation time.
+> > > >      The allocator knows the client's PID (e.g., from binder's
+> > > >      sender_pid) and uses pidfd to attribute the charge:
+> > > >
+> > > >        pid_t client_pid =3D txn->sender_pid;
+> > > >        int pidfd =3D pidfd_open(client_pid, 0);
+> > > >
+> > > >        struct dma_heap_allocation_data alloc =3D {
+> > > >            .len             =3D buffer_size,
+> > > >            .fd_flags        =3D O_RDWR | O_CLOEXEC,
+> > > >            .charge_pid_fd   =3D pidfd,
+> > > >        };
+> > > >        ioctl(heap_fd, DMA_HEAP_IOCTL_ALLOC, &alloc);
+> > > >        close(pidfd);
+> > > >        /* alloc.fd is now charged to client's cgroup */
+> > > >
+> > > >   2. Default allocation (no pidfd, mem_accounting=3D1).
+> > > >      When charge_pid_fd is not set and the mem_accounting module
+> > > >      parameter is enabled, the buffer is charged to the allocator's
+> > > >      own cgroup:
+> > > >
+> > > >        struct dma_heap_allocation_data alloc =3D {
+> > > >            .len      =3D buffer_size,
+> > > >            .fd_flags =3D O_RDWR | O_CLOEXEC,
+> > > >        };
+> > > >        ioctl(heap_fd, DMA_HEAP_IOCTL_ALLOC, &alloc);
+> > > >        /* charged to current process's cgroup */
+> > > >
+> > > > Current limitations:
+> > > >
+> > > >  - Single-owner model: a dma-buf carries one memcg charge regardles=
+s of
+> > > >    how many processes share it. Means only the first owner (and exp=
+orter)
+> > > >    of the shared buffer bears the charge.
+> > > >  - Only memcg accounting supported. While this makes sense for syst=
+em
+> > > >    heap buffers, other heaps (e.g., CMA heaps) will require selecti=
+vely
+> > > >    charging also for the dmem controller.
+> > >
+> > > Well that doesn't looks soo bad, it at least seems to tackle the prob=
+lem at hand for Android and some of other embedded use cases.
+> >
+> > Yeah I think this might work. I know of 3 cases, and it trivially
+> > solves the first two. The third requires some work on our end to
+> > extend our userspace interfaces to include the pidfd but it seems
+> > doable. I'm checking with our graphics folks.
+> >
+> > 1) Direct allocation from user (e.g. app -> allocation ioctl on
+> > /dev/dma_heap/foo)
+> > No changes required to userspace. mem_accounting=3D1 charges the app.
+> >
+> > 2) Single hop remote allocation (e.g. app -> AHardwareBuffer_allocate
+> > -> gralloc)
+> > gralloc has the caller's pid as described in the commit message. Open
+> > a pidfd and pass it in the dma_heap_allocation_data.
+> >
+> > 3) Double hop remote allocation (e.g. app -> dequeueBuffer ->
+> > SurfaceFlinger -> gralloc)
+> > In this case gralloc knows SurfaceFlinger's pid, but not the app's. So
+> > we need to add the app's pidfd to the SurfaceFlinger -> gralloc
+> > interface, or transfer the memcg charge from SurfaceFlinger to the app
+> > after the allocation.
+> > It'd be nice to avoid the charge transfer option entirely, but if we
+> > need it that doesn't seem so bad in this case because it's a bulk
+> > charge for the entire dmabuf rather than per-page. So the exporter
+> > doesn't need to get involved (we wouldn't need a new dma_buf_op) and
+> > we wouldn't have to worry about looping and locking for each page.
+> >
+>
+> Hi T.J.,
+>
+> Your description of the three different cases sounds very interesting.
+> It helps me understand how difficult it can be to correctly charge
+> dma-buf in the current user scenarios.
+>
+> I=E2=80=99m wondering where I can find Android userspace code that transf=
+ers
+> the PID of RPC callers. Do we have any existing sample code in Android
+> for this?
 
-kernel test robot noticed the following build errors:
+Hi Barry,
 
-[auto build test ERROR on linuxtv-media-pending/master]
-[also build test ERROR on media-tree/master linus/master v7.1-rc4 next-20260518]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/media-mediatek-mdp-avoid-double-free-on-video-register-failure/20260518-211648
-base:   https://git.linuxtv.org/media-ci/media-pending.git master
-patch link:    https://lore.kernel.org/r/20260518125500.1000083-1-lgs201920130244%40gmail.com
-patch subject: [PATCH] media: mediatek: mdp: avoid double free on video register failure
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20260519/202605190406.bMshG7YY-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605190406.bMshG7YY-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605190406.bMshG7YY-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c: In function 'mtk_mdp_register_m2m_device':
->> drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c:1217:40: error: expected ';' before 'mdp'
-    1217 |         video_device_release(mdp->vdev)
-         |                                        ^
-         |                                        ;
-    1218 |         mdp->vdev = NULL;
-         |         ~~~                             
+In Java android.os.Binder.getCallingPid() will provide it. Here
 
 
-vim +1217 drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c
-
-  1172	
-  1173	int mtk_mdp_register_m2m_device(struct mtk_mdp_dev *mdp)
-  1174	{
-  1175		struct device *dev = &mdp->pdev->dev;
-  1176		int ret;
-  1177	
-  1178		mdp->variant = &mtk_mdp_default_variant;
-  1179		mdp->vdev = video_device_alloc();
-  1180		if (!mdp->vdev) {
-  1181			dev_err(dev, "failed to allocate video device\n");
-  1182			ret = -ENOMEM;
-  1183			goto err_video_alloc;
-  1184		}
-  1185		mdp->vdev->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
-  1186		mdp->vdev->fops = &mtk_mdp_m2m_fops;
-  1187		mdp->vdev->ioctl_ops = &mtk_mdp_m2m_ioctl_ops;
-  1188		mdp->vdev->release = video_device_release_empty;
-  1189		mdp->vdev->lock = &mdp->lock;
-  1190		mdp->vdev->vfl_dir = VFL_DIR_M2M;
-  1191		mdp->vdev->v4l2_dev = &mdp->v4l2_dev;
-  1192		snprintf(mdp->vdev->name, sizeof(mdp->vdev->name), "%s:m2m",
-  1193			 MTK_MDP_MODULE_NAME);
-  1194		video_set_drvdata(mdp->vdev, mdp);
-  1195	
-  1196		mdp->m2m_dev = v4l2_m2m_init(&mtk_mdp_m2m_ops);
-  1197		if (IS_ERR(mdp->m2m_dev)) {
-  1198			dev_err(dev, "failed to initialize v4l2-m2m device\n");
-  1199			ret = PTR_ERR(mdp->m2m_dev);
-  1200			goto err_m2m_init;
-  1201		}
-  1202	
-  1203		ret = video_register_device(mdp->vdev, VFL_TYPE_VIDEO, 2);
-  1204		if (ret) {
-  1205			dev_err(dev, "failed to register video device\n");
-  1206			goto err_vdev_register;
-  1207		}
-  1208		mdp->vdev->release = video_device_release;
-  1209	
-  1210		v4l2_info(&mdp->v4l2_dev, "driver registered as /dev/video%d",
-  1211			  mdp->vdev->num);
-  1212		return 0;
-  1213	
-  1214	err_vdev_register:
-  1215		v4l2_m2m_release(mdp->m2m_dev);
-  1216	err_m2m_init:
-> 1217		video_device_release(mdp->vdev)
-  1218		mdp->vdev = NULL;
-  1219	err_video_alloc:
-  1220	
-  1221		return ret;
-  1222	}
-  1223	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> > > I'm just not sure if this is future prove and will work for all use c=
+ases, e.g. cloud gaming, native context for automotive etc...
+>
+> Thanks
+> Barry
 
