@@ -1,313 +1,188 @@
-Return-Path: <linux-media+bounces-61977-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61978-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IMGbHgAEC2qj/QQAu9opvQ
-	(envelope-from <linux-media+bounces-61977-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 14:20:16 +0200
+	id UISaMVYBC2oH/QQAu9opvQ
+	(envelope-from <linux-media+bounces-61978-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 14:08:54 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D387E56C7F5
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 14:20:15 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D53056C45F
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 14:08:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 692133071C81
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 12:07:24 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id ABECB3006104
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 12:08:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 959A63FCB26;
-	Mon, 18 May 2026 12:07:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D30843FD952;
+	Mon, 18 May 2026 12:08:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GLyg4H6W";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="gfGGUQ2D"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j5X3u8h5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EF793FCB22
-	for <linux-media@vger.kernel.org>; Mon, 18 May 2026 12:07:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779106026; cv=pass; b=RuEBkV9yCMK1NI676OV2WJm7u49QaXaVGSxo/UZPiLohuxG89VN62u5k8nQi86XbHJ1ap8cCbpo9mJlknPeYSJ1iIti65psXWXbBpUeXS0o97L9Sgxsr/xGLOz7QPsj6d16higzmiRNWpyAkBzKb2bWTZ4y3r4haC1CRoA4v7xo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779106026; c=relaxed/simple;
-	bh=EAOhdahq1wTYoi+v3Sd0YHLgR6nzuu2wluSY7LEs20o=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UNq1lGn6iTfesop8CzOggIoFnDEqCGKZayWxAdN/t3LaaDZEwfnb3JvI5u/ZiKHWQVQv55nPIb2Ve+AaxsbCnSI0wljZ43rRXd+/5loAsG9UfDfm1z4KtZqrbAx5mMlLF7WGJn+SwEMNi+UvXTX9oHi1JJrEZfbV5J+7q/3tpVs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GLyg4H6W; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=gfGGUQ2D; arc=pass smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1779106020;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EAOhdahq1wTYoi+v3Sd0YHLgR6nzuu2wluSY7LEs20o=;
-	b=GLyg4H6W1yRhjE8OsNUbVkv2u+oevWCtJ9jGz0FuDXME/PMauUJI3kgtLuLJSvfzYYfdqN
-	tizhyuR/gL9TELWoW/0Li2d7AYVmKOG01oFnoiMevjL7RXSZlhWy1l9d5lirBc3Mr+ED3/
-	Eep4sLlrfKXOMGpdl17+A2OjVkj8RX4=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-427-1rP5U0YlO2O_H8EeMpBisA-1; Mon, 18 May 2026 08:06:59 -0400
-X-MC-Unique: 1rP5U0YlO2O_H8EeMpBisA-1
-X-Mimecast-MFC-AGG-ID: 1rP5U0YlO2O_H8EeMpBisA_1779106019
-Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-7bd5c267082so24151107b3.0
-        for <linux-media@vger.kernel.org>; Mon, 18 May 2026 05:06:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779106019; cv=none;
-        d=google.com; s=arc-20240605;
-        b=OMfD/o2Bx/a+HApmExb8l1wCyUs1Xzul+husXWYdVMdWUAlggSNPZ84Q6Xv3Gy5Ez1
-         NlFCjGu05bjb8ht4mEqPU3NkXpsmkPcdmN6VH2cp/mR2in8/LkJQiCG0m6CLyBUXikut
-         wfdkm2exl10CDG69nzbJeJWqCNTeoyqpohwFFXwJRDr8StKwT5jEuHpqj6XiZpLSoE2O
-         hMhEwVm+pZAgmB85f04XJm5jY2c6pLGmWZH5pXXgnFD62Dxf/YQDHKSsDDijnW1lutT6
-         8zUquAeNi2P1TgL7029m9GB9igLMXnDFRB9JNtXbjbefvuBRBGLqr0RPTZiJV+NbtAxm
-         RpUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=EAOhdahq1wTYoi+v3Sd0YHLgR6nzuu2wluSY7LEs20o=;
-        fh=EbPxaOV9Tf07HmpOzIcU4A4o+ugn6D6QRLyp2KdCYj0=;
-        b=Yr9aMscNvXIzdtO89c7HUc7vSI76IsbSh1AlpFSAM2IiRTEvc8r1TMxZqe5DSLuGBK
-         f8d8KS+muuxCfT/Gy33pq0LRwNCxdxbHpDuAc0yyvbjn6YgCoGmWTV1zNbWhL0bd7ef6
-         n3SJXoMx+wGDmeth8/AJ7TVX4Preym0bB0e4zBZ5vpk5Vg5qvza5VnqU95gh6umkExDg
-         T2pWz65FMZL77NBAG2O438Ngb3CULsOXjXT7lEV48t4RCxkftgwAvTqBwCeCD+TyM1Z1
-         vqn/g2r2wMjrxe5NFJ8FMFljQK1pD9Cbhq3QSFvzYrJ57WBwqVpplmEC9ruyVOpLvVJF
-         9JtA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D394B3FD945
+	for <linux-media@vger.kernel.org>; Mon, 18 May 2026 12:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779106127; cv=none; b=PKGCMupsZl+P0NnMwvEqimzT0CzVgLWzGILxuHiuaysCNUlTZ06rBWdXeA0vCrgjQGTHoZ9/aWkW7AStHA/csDuK6W4EOl/bh5ckpczmDT6mqzVrXR33XHreqbe/rw2Zmatkdo5I+mV7d+DhgN3bEKwg1mLBg/SL3kZNvMao1aw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779106127; c=relaxed/simple;
+	bh=zlGH5jEAEssmNm/OKOrVqj0vtMiAu/0ivcXixYxnHWo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZJvFWbTMw6CkqwEtXrRcUa+lpWDDzPaAU+B51hftc3uZeYdtZzRnYAzTV3T7wSKhtjhnqiL35uq/AUh2RwO7HqjB4BrPoXwtvRqRkiYENBJGQlrqHdKsiy9ms2WfBqqP9HCSd9AqBJ8VahqLLvOuJPWnQSmxMJZ71NZD5xgoU5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j5X3u8h5; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-836ebdeb969so901975b3a.3
+        for <linux-media@vger.kernel.org>; Mon, 18 May 2026 05:08:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1779106019; x=1779710819; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EAOhdahq1wTYoi+v3Sd0YHLgR6nzuu2wluSY7LEs20o=;
-        b=gfGGUQ2Djp0QNs7hvSWm/DxlGzxT6i6AqbeBE5jTPPdA8dxEttwC1X6m0DVSSkhE6g
-         5b7Ui0CJ9t5ydLVP+WkjIlxIVWxdN+vbfNBD2TjQXDtQp6q/sRG9ymShfELpOrWOYhH2
-         2FBHHM85ZpKtNiQKTwILsjcI6v0km/Bb29a9KgU+iESJUXx+mg/0iKYVaOuTv4SkCJK0
-         GuGCpgY74sChT5FnH6SNNfA3jFI2ZcsnjhKB6jgDgLZSEe+a1HAk/BlRBUsy4vyt/Eb+
-         4tml6nvYZQd3lPcsPlAdTwmXM174I3kB/E6cdzo0ozhznqLG6cLnrgJ8S3y7aMwz5v3k
-         TJMQ==
+        d=gmail.com; s=20251104; t=1779106119; x=1779710919; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=i6DawpBpNprrDJmZUeejuEEC3bbIORGgrCvdJmH0V7A=;
+        b=j5X3u8h5Jn0GHe6ldftes6NB1yZxDSBt4V/YZcj7XUD8tx3PLlBaH4prsD9BfOjKvU
+         PMDcdAzGPdTe6bMGX+LAjA2ITXxkMl4Pw9X9Y4ytEfGhpVDMlE7cBA5yKcDKOIjXAeek
+         7TSk9Xy+VdBCTn1oCCUp3YMU4BJV2mRGbn2EdQ9W0ssDosNlJpDkUJCbOaN9qjoJsqbt
+         BGNx26UioBYIeYBEiDlscNnWeZwBhLAdPGZ6dbfBWfrrqG1ZN56ylDE2wjSgbCi/K3gS
+         hyuxBF6k4di22pAFxp3lFsLt9QQ3NxXX/EnSU6SDtK7G6dwSzBCAPCSrh2GqY4Nk+FNe
+         tyPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779106019; x=1779710819;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EAOhdahq1wTYoi+v3Sd0YHLgR6nzuu2wluSY7LEs20o=;
-        b=k+E9CHBzSKX2LIgfgdmOQ0qhhMfARsoxiGwC9/kHvXQuUpvtf4Zg67fkJSGCNELG+v
-         VoED70JhkGw9YcdecLvOODthJjhsOb+uv0BUD6vzWcCmXChJh6V+aKLdpaeOw/sMlS5w
-         VfBtUFfqtgvEELVEBh9ZEEvx421JZNo4k0ztBlsuqnedaXJFzkFj1NbEQvmGZVB+aTdu
-         rA1dz8auUd6wRt1ADTyy0ZKjakRoQXz+29AzJVI2sxsJHofGDQBgRS/hMQ3EJ2fSXI18
-         z3Q9Vo0LzVm/azu2YBbSoCVVYVvm0oy1enb4TxYiLi4GGs8dskTsZakuIK2xLy8yRDeK
-         mDJQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+kx51hJE1VGKwfuPnSYhttHSt0Xy5H81e3+EOYm2WWtcRxF3RFFggqWZmjZS3olHzgUeWOReGuO4NmwQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOu9YJlwu6S1Bd8n0WaqDoJToys2jEoQh1Ve+hFnwf50ukjN0v
-	E7ac3RehVLBPQkUwIv4nhP6EZ/xbZ4b/qmV3XukebvqQTKsslgkKFXq7qBKdMSBOgEmg87fqwmX
-	1ewszEigCQFVNohiDWGMv6nxRpLOoFN6Ol1Z/fRzIo/Lzv4cy6Ku+ZT4gZm1RoFA2gE23BNrO+Z
-	PJu9sOzpKlywHLtFMinnT0jJlnxFA4SDpvvIFp6is=
-X-Gm-Gg: Acq92OErhTJ/T2RuQTlRoobVZHhrkHci+SX3212Vn7PWmrVrgd5xgzBQKmrM0uM9NTM
-	N5VtTlwuee5bnJovZk6zSEiZQRHlXoYFPpJHXogCI3kTVzvq6aw42QZ23HKvbkOIuYhw+HhthOZ
-	Z9nFJF+T0rZYpnQIKV/YBIajXuDPicH4yW2DPJo8dhnEhhPotdCfYUmOuyWEBxL2zIRV6/SfsPJ
-	JNxpg==
-X-Received: by 2002:a05:690c:e3e1:b0:7c0:56f:5b59 with SMTP id 00721157ae682-7c9599a36ddmr149907527b3.15.1779106018465;
-        Mon, 18 May 2026 05:06:58 -0700 (PDT)
-X-Received: by 2002:a05:690c:e3e1:b0:7c0:56f:5b59 with SMTP id
- 00721157ae682-7c9599a36ddmr149906897b3.15.1779106017837; Mon, 18 May 2026
- 05:06:57 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779106119; x=1779710919;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i6DawpBpNprrDJmZUeejuEEC3bbIORGgrCvdJmH0V7A=;
+        b=VIOMZFTWUhu1KFbGtHAKu4iJkW09UbkKGSG2jdGVpOPm3s1BsbJoSpbtQZdnaXy9+X
+         GWsbKdXPua+X6qimwcTVgXV17NG7YB55otBqktOrzpxVk0eE0IfPrsErnDPHkmXdkGLP
+         DtAmQ1o0vFlomrezTqs0JhXIhrHsJ8OVhHZ8CZX7jmcEw1h9UHKfhFc6OottfSYDn8Sy
+         8WPWlx5toDILExA2FyvMEETjPfbe79va1EfErSZZfXJWGmNkrMCO1ABA7r/xc+TB6Pys
+         rNX5XeZXRcXpTKlpeLFvb+rjfl1bDFT82i+2/vN3t4CHIHrcyOpFf39KF5AyVbVAgD7S
+         73Ng==
+X-Forwarded-Encrypted: i=1; AFNElJ8vGhtJuXAOZQRheW+yBu9kXrwpcayagLWwstGT2mJ2/oHPUK0u5ZCOj7NEIP/C6+pbbq1yhXb99z+zZQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YynZ9YxZNNLbXmJVZ+zweeocJ44yxxvuPaUs2o2Ytu0iu8sjJuk
+	BrBWEZ5kS9wsEI55ydPkKzT9bjRimDKc1btikbMRbQb1S32cxiiFu3n9
+X-Gm-Gg: Acq92OGxqOTYg+dS8yQVkJqjwya6fFRHHrmLiAeaIOXjFuVojEHoAbkIH6c7gDkUxg/
+	vp+f4v93MvfelaUMHQQBD+/ljB/eidJFgC+fwOYAdMInoHxgn9BR2Lza/3JHjUHZsAgX5kuqJIN
+	JEk652GODxXcQ4w3ZgyI3/xUHPLCP44VCRXlaZCL2M66tKUqrH166hVBp2QxkakzmZ+L3ZyeMqE
+	BIp4SeSuPNrdzj2Y7pvGBWObjSyjABsQA7Qbu4iRUUpLgs27bdxqf1B5BkuL6SoPrIY97ikvy71
+	oI0F5FoVf6dTPL9JOHgeQNRNszEoFjfsAqmChTVHVJO2nLMv54+RnhR5y9AUzw3fXx7F0VEJxQt
+	7p20Rjcd/3+b7k0bBZ6lSxRVIMNbvjnTwqQb2pJMIywFVowq1uHNvogVji/ATey0qUED0Q/KdQA
+	OQGMl+YmhsD6R19A==
+X-Received: by 2002:a05:6a00:1911:b0:82c:9f7e:518c with SMTP id d2e1a72fcca58-83f33cf10c7mr15241822b3a.25.1779106119153;
+        Mon, 18 May 2026 05:08:39 -0700 (PDT)
+Received: from lgs.. ([101.36.107.181])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f19664712sm14666966b3a.12.2026.05.18.05.08.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 05:08:38 -0700 (PDT)
+From: Guangshuo Li <lgs201920130244@gmail.com>
+To: Devarsh Thakkar <devarsht@ti.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Haoxiang Li <haoxiang_li2024@163.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Guangshuo Li <lgs201920130244@gmail.com>
+Subject: [PATCH] media: imagination: e5010: avoid double free on video register failure
+Date: Mon, 18 May 2026 20:08:24 +0800
+Message-ID: <20260518120824.993116-1-lgs201920130244@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
- <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
- <8ef38815-6ae9-4359-86d4-042554357639@amd.com> <CABdmKX2uwZ12kYJYPJGfWxuMBOJS=64b1GRj72tfB5D=NKM22w@mail.gmail.com>
- <CADSE00Jq_uvNgvxgPze0mEdUd+hF4-DPZkHy0KroWHZzygf4WA@mail.gmail.com>
- <CABdmKX3DhejYBis9htLDnzPrG7vuF3R3URLVNEbnyd61SSsx=g@mail.gmail.com>
- <CAGsJ_4zyecY6E-=Tm4_couT7uoM9LMcFdTMUPkZAjj4zUKE-dQ@mail.gmail.com> <cb84c2ee-9de1-4565-b2e0-60984721228f@amd.com>
-In-Reply-To: <cb84c2ee-9de1-4565-b2e0-60984721228f@amd.com>
-From: Albert Esteve <aesteve@redhat.com>
-Date: Mon, 18 May 2026 14:06:45 +0200
-X-Gm-Features: AVHnY4K8qpVqb_W68zu-wX_-3BWWvVrVAC2CPBMHXBkSI4OOVylnoTOI9cwLMps
-Message-ID: <CADSE00Lc42s2bzXzV5D7t1Enf56u4BVj-yXLp3Yxhm0=qMPvuw@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH RFC 2/5] dma-heap: charge dma-buf
- memory via explicit memcg
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Barry Song <baohua@kernel.org>, "T.J. Mercier" <tjmercier@google.com>, Tejun Heo <tj@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, Christian Brauner <brauner@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Ondrej Mosnacek <omosnace@redhat.com>, Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri- <devel@lists.freedesktop.org>, 
-	linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org, 
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, mripard@kernel.org, echanude@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: D387E56C7F5
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 6D53056C45F
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,google.com,cmpxchg.org,suse.com,lwn.net,linuxfoundation.org,linaro.org,linux.dev,linux-foundation.org,collabora.com,arm.com,paul-moore.com,namei.org,hallyn.com,gmail.com,redhat.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,kvack.org];
-	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-61978-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61977-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[36];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aesteve@redhat.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[ti.com,kernel.org,collabora.com,163.com,vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lgs201920130244@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[]
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[]
 X-Rspamd-Action: no action
 
-On Mon, May 18, 2026 at 9:34=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> On 5/16/26 11:19, Barry Song wrote:
-> > On Thu, May 14, 2026 at 12:35=E2=80=AFAM T.J. Mercier <tjmercier@google=
-.com> wrote:
-> > [...]
-> >>>> I have a question about this part. Albert I guess you are interested
-> >>>> only in accounting dmabuf-heap allocations, or do you expect to add
-> >>>> __GFP_ACCOUNT or mem_cgroup_charge_dmabuf calls to other
-> >>>> non-dmabuf-heap exporters?
-> >>>
-> >>> We're scoping this to dma-buf heaps for now. CMA heaps and the dmem
-> >>> controller are on the radar for follow-up/parallel work (there will b=
-e
-> >>> dragons and will surely need discussion). For DRM and V4L2 the
-> >>> long-term intent is migration to heaps, which would make direct
-> >>> accounting on those paths unnecessary.
-> >>
-> >> Ah I see. GEM buffers exported to dmabufs are what I had in mind. I
-> >> guess this would only leave the odd non-DRM driver with the need to
-> >> add their own accounting calls, which I don't expect would be a big
-> >> problem.
-> >>
-> >
-> > sounds like we still have a long way to go to correctly account for
-> > various v4l2, drm, GEM, CMA, etc. In patch 1, the charging is done in
-> > dma_buf_export(), so I guess it covers all dma-buf types except
-> > dma_heap, but the problem is that it has no remote charging support at
-> > all?
->
-> No, just the other way around
->
-> DMA-buf heaps can be handled here because we know that it is pure system =
-memory and nothing special so memcg always applies.
->
-> dma_buf_export() on the other hand handles tons of different use cases, r=
-anging from buffer accounted to dmem, over special resources which aren't e=
-ven memory all the way to buffers which can migrate from dmem to memcg and =
-back during their lifetime.
->
-> >>> udmabufs are already
-> >>> memcg-charged, so adding a separate MEMCG_DMABUF would double count.
-> >>> Are there any other exporters you had in mind that would benefit from
-> >>> this approach?
->
-> Well apart from DMA-buf memfd_create() is one of the things which as brok=
-en our neck in the past a couple of times.
->
-> But thinking more about it what if instead of making this DMA-buf heaps s=
-pecific what if we have a general cgroups function which allows to change a=
-ccounting of a buffer referenced by a file descriptor to a different proces=
-s?
->
-> That would cover not only the DMA-buf heaps use case, but also all other =
-DMA-buf with dmem and whatever we come up in the future as well.
+e5010_probe() allocates a video_device with video_device_alloc() and
+releases it from the fail_after_video_device_alloc error path if
+video_register_device() fails.
 
-I removed a draft adding an ioctl for charge transfer from the series
-before sending because I wanted to focus on the charge_pid_fd approach
-and keep things simple, deferring the recharge path to a follow-up
-depending on feedback.
+This can double free the video_device when __video_register_device()
+reaches device_register() and that call fails:
 
-The main difference between my removed draft and what you're
-describing, iiuc, is scope and layer: my draft was an explicit ioctl
-on the dma-buf fd that the consumer calls to claim the charge (see
-below), while you seem to be suggesting a more general kernel-internal
-function that could work across buffer types and cgroup controllers,
-so not necessarily userspace-initiated? A kernel-internal function
-will need a way to identify the target process, which sounds similar
-to the binder-backed approach from TJ [1]. For everything else, the
-receiver still needs to declare itself, which the ioctl accomplishes.
+  video_register_device()
+    -> __video_register_device()
+       -> device_register() fails
+          -> put_device(&vdev->dev)
+             -> v4l2_device_release()
+                -> vdev->release(vdev)
+                   -> video_device_release(vdev)
 
-```
-# When an app imports a daemon-allocated buffer, it can transfer the
-charge to itself:
-int buf_fd =3D receive_dmabuf_from_daemon();
-ioctl(buf_fd, DMA_BUF_IOCTL_XFER_CHARGE); /* charge now attributed to
-apps's cgroup */
-```
+  e5010_probe()
+    -> fail_after_video_device_alloc
+       -> video_device_release(e5010->vdev)
 
-[1] https://lore.kernel.org/cgroups/20230109213809.418135-1-tjmercier@googl=
-e.com/
+Use video_device_release_empty() while registering the device so that
+registration failure paths do not free e5010->vdev through vdev->release().
+e5010_probe() then releases e5010->vdev exactly once from
+fail_after_video_device_alloc. Restore video_device_release() after
+successful registration so the registered device keeps its normal lifetime
+handling.
 
->
-> The only drawback I can see is that DMA-buf heap allocations would be tem=
-porarily accounted to the memory allocation daemon, but I don't think that =
-this would be a problem.
+This issue was found by a static analysis tool I am developing.
 
-The main reasons we moved away from TJ's transfer-based approach
-toward `charge_pid_fd` are: avoid the transient charge window on the
-daemon's cgroup; and to decouple from Binder, allowing any allocator
-to use it.
+Fixes: 609ba05b9484 ("media: imagination: fix a potential memory leak in e5010_probe()")
+Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+---
+ drivers/media/platform/imagination/e5010-jpeg-enc.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Technically, both approaches could coexist, though. Of the three
-scenarios TJ described:
-- Scenario 2 is directly addressed by charge_pid_fd approach without
-any transient charge on the daemon at the cost of one extra field in
-the heap ioctl uAPI struct.
-- Scenario 3 can be handled by the charge transfer function without
-changes to SurfaceFlinger. The app or dequeueBuffer claims the charge
-for itself or the app, respectively (depending on whether we include a
-pid_fd field in the transfer ioctl). It also covers non-heap
-exporters. The con in both variants is the transient charge window on
-the daemon.
-
-Both approaches shift the responsibility for correct charging
-attribution to userspace: first, 'charge_pid_fd` on the allocator's
-side, and the transfer charge on the consumer's side.
-
-Deciding on one, the other or both depends on how much we value
-avoiding transient attribution, and how much we need a non-heap
-generic solution. With the XFER_CHARGE we can cover both. Thus, the
-`charge_pid_fd` approach in this RFC can be seen as a
-performance/strictness optimisation, eliminating transient charges to
-the daemon at the cost of a permanent uAPI addition to the heap ioctl
-struct, but not strictly required for correctness. On the other hand,
-if we agree on the end goal of migrating other exporters to use
-dma-buf heaps, and scenario 3 is addressed by adding the app's pid_fd
-to SurfaceFlinger, then `charge_pid_fd` alone is a coherent/sufficient
-approach despite the uAPI change.
-
->
-> Regards,
-> Christian.
->
-> >
-> > Thanks
-> > Barry
->
+diff --git a/drivers/media/platform/imagination/e5010-jpeg-enc.c b/drivers/media/platform/imagination/e5010-jpeg-enc.c
+index 42ad9ee3993b..7f4076d3bca8 100644
+--- a/drivers/media/platform/imagination/e5010-jpeg-enc.c
++++ b/drivers/media/platform/imagination/e5010-jpeg-enc.c
+@@ -1045,7 +1045,7 @@ static int e5010_probe(struct platform_device *pdev)
+ 	e5010->vdev->fops = &e5010_fops;
+ 	e5010->vdev->ioctl_ops = &e5010_ioctl_ops;
+ 	e5010->vdev->minor = -1;
+-	e5010->vdev->release = video_device_release;
++	e5010->vdev->release = video_device_release_empty;
+ 	e5010->vdev->vfl_dir = VFL_DIR_M2M;
+ 	e5010->vdev->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
+ 	e5010->vdev->v4l2_dev = &e5010->v4l2_dev;
+@@ -1106,6 +1106,7 @@ static int e5010_probe(struct platform_device *pdev)
+ 		dev_err_probe(dev, ret, "failed to register video device\n");
+ 		goto fail_after_video_register_device;
+ 	}
++	e5010->vdev->release = video_device_release;
+ 
+ 	v4l2_info(&e5010->v4l2_dev, "Device registered as /dev/video%d\n",
+ 		  e5010->vdev->num);
+-- 
+2.43.0
 
 
