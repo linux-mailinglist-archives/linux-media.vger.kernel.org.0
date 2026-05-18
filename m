@@ -1,174 +1,302 @@
-Return-Path: <linux-media+bounces-61924-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61925-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0C5IJ2XeCmqR8wQAu9opvQ
-	(envelope-from <linux-media+bounces-61924-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 11:39:49 +0200
+	id iFGOM6zgCmqR8wQAu9opvQ
+	(envelope-from <linux-media+bounces-61925-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 11:49:32 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07D1E569E26
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 11:39:48 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1D7F56A0D9
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 11:49:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 09A843037D65
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 09:35:25 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 7D85D306B6CC
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 09:39:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B2EB800;
-	Mon, 18 May 2026 09:35:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AAEE3E63A6;
+	Mon, 18 May 2026 09:38:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="lcssmPM/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="egg1n2Hh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A5E3E51E2;
-	Mon, 18 May 2026 09:35:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 273C61C860A
+	for <linux-media@vger.kernel.org>; Mon, 18 May 2026 09:38:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779096923; cv=none; b=APFBuDg772xrTUq8k9YrtFJsAiFcU72ESEXrdNarM8M9EKFeRVspUvfH2CIn8xdSQFLznhY2nm68m4nLEIZgK/+xXsT8G8QCpt//VOlT8kRYybq3rMaLRZjIj/73S/9qkiI9LYeJRhU+6anchTw/A8i6mYnWJsUBxhSO1e3WuXc=
+	t=1779097136; cv=none; b=cmIU67w3SmtlIyxyuXmK+I0f+Lc8IW25AmpzwlawLb/k+WotwaX+lclmxXfZNRBfLdpBlr81RMlrZX+aki2LfVdaAy6LrrCzDJIP+kykMCsgARpPnnLJEPRgmdQPA1ggG589xTkA9UpxDAwJ+YW//wtiw3ifB3Ne0oiiotVgN/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779096923; c=relaxed/simple;
-	bh=oDlIKsmjIzcjVIcTrJ/yYYgluBpXPLUOjcadrFJxADQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UEx6uCxDsoEUF6NFSXwe/dal/T9isIubNIvOarhNVP6ur2tegWOaGWFFUBgD/765EzHbl9r1KYFyXwxxKspo3daIL/mEzERrZPsV5mwgoTHXjsWWvJcgsnaYjmM7JxF/NLNva1cZzD7/96VGKdggBN5ipk/D/efjVdG4+tPIcYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=lcssmPM/; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1779096920;
-	bh=oDlIKsmjIzcjVIcTrJ/yYYgluBpXPLUOjcadrFJxADQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lcssmPM/5L8HhycTKzgHC8rkX9MHCs18A4XmTep9/XIOg98BFdjczvXpa4h9RjSkl
-	 wGYfsvSeNm7CCSbJ5PyPAlC313kWX87ESBpU1Bkuq67ezhxbUYwzJyz9BqMcUuGImB
-	 tuuWU1hrGElbNoyclhwqNWyQDQyYoSkDpGgo6ssifkzODeSGjh27dOzN9snUsc0hBT
-	 BwB5+oheoesjdKjjBw3KCSPgSzMbZif8bJNlvgyxeHZLLP7rpwcLwjJw6nvenLeFl1
-	 Ib1LNhZutAw2M5l/RPGNrzPCLV9Nh7K+u0RjAfZwZVdBZGAsZxRP7JJLMtLqV5ZebS
-	 6IqC8KtYDHxRA==
-Received: from fedora (unknown [100.64.0.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id EB35E17E0443;
-	Mon, 18 May 2026 11:35:19 +0200 (CEST)
-Date: Mon, 18 May 2026 11:35:15 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- linux-kernel@vger.kernel.org
-Cc: Chia-I Wu <olvaffe@gmail.com>, Steven Price <steven.price@arm.com>,
- Liviu Dudau <liviu.dudau@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 3/6] drm: Define a conditional guard for
- drm_dev_{enter,exit}()
-Message-ID: <20260518113515.794442f3@fedora>
-In-Reply-To: <a872ef35-6d5b-41fd-9242-bb44902fb237@amd.com>
-References: <20260513-panthor-guard-refactor-v1-0-f2d8c15a97ce@collabora.com>
-	<20260513-panthor-guard-refactor-v1-3-f2d8c15a97ce@collabora.com>
-	<CAPaKu7TULU6_-8eoygq0svBTbnX-vFvF3sH5hDzyi9kDP-9enQ@mail.gmail.com>
-	<20260518102813.50555650@fedora>
-	<a872ef35-6d5b-41fd-9242-bb44902fb237@amd.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1779097136; c=relaxed/simple;
+	bh=+jgR7GBiNnLSQpMYAYIPHIDchI+h0LqkVz2zIH4qI2Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=up6ybfT4zyB9zj2aDNULgk2MA485tL1oC1uMuhQExlZn/3DrW8mS5PqEqP6bcFBjsFXLJy797aAobOhj0V6E/kdD3aHeL/nmDXIHL6eyQtp3JbhD2QXWBfTv6Kbui7zq83yesSIK3YpFdk+45yhTWpkEvcXtdsoUQesyVtfFNSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=egg1n2Hh; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779097134; x=1810633134;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+jgR7GBiNnLSQpMYAYIPHIDchI+h0LqkVz2zIH4qI2Q=;
+  b=egg1n2HhBRfEoNsjhL6noyVFkHFb0jp6sNhjo/Aay0eqCCRBps4tXfW4
+   z+WGdAig4i1z2TgVgtfhvvFuRHUTYsBuzOlEkA9lVoJGT0GymnzdCz1qM
+   VdcqMKdkv+mZHgQwKs+0G29hIzloA8fGWYk8R0ctQkN1q38eMR59kfzHG
+   GjJUbHISqJwXSHqroZCzOYiP7L67gbt/bAevxBjHHlAFAYOz/ljs8bTS7
+   HLmtfhe57q0YAeAReVrMC2/XeinB4WzIhG/EkrCDYu7vOVy80hzfXQ5uK
+   RyGDGImJwLfn1uW2jfhCVpV02QPASqGa24ormoeNcoczCTgEwmnjKkXss
+   A==;
+X-CSE-ConnectionGUID: aIMaUh67REeHwdUmK75Beg==
+X-CSE-MsgGUID: ZxJZk5I+RA6cBf4mQ1fudA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11789"; a="91337133"
+X-IronPort-AV: E=Sophos;i="6.23,241,1770624000"; 
+   d="scan'208";a="91337133"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 02:38:54 -0700
+X-CSE-ConnectionGUID: wIeJ8zo+T9awvB/cLF6uhg==
+X-CSE-MsgGUID: pp7Jkq04TcqfDZj0WFz+Fw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,241,1770624000"; 
+   d="scan'208";a="236365639"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.26])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 02:38:51 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 5A88011F70F;
+	Mon, 18 May 2026 12:38:53 +0300 (EEST)
+Date: Mon, 18 May 2026 12:38:53 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>
+Subject: Re: [PATCH 03/17] media: v4l2-subdev: Prepare for changes in getting
+ frame descriptors
+Message-ID: <agreLVALburHTJ2r@kekkonen.localdomain>
+References: <20260513104358.2252605-1-sakari.ailus@linux.intel.com>
+ <20260513104358.2252605-4-sakari.ailus@linux.intel.com>
+ <agWctBkdQDzXAmh5@zed>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: 07D1E569E26
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <agWctBkdQDzXAmh5@zed>
+X-Rspamd-Queue-Id: D1D7F56A0D9
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-61925-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61924-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	HAS_ORG_HEADER(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,arm.com,linaro.org,linux.intel.com,kernel.org,suse.de,ffwll.ch,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,amd.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:dkim,kekkonen.localdomain:mid,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On Mon, 18 May 2026 11:16:55 +0200
-Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+Hi Jacopo,
 
-> On 5/18/26 10:28, Boris Brezillon wrote:
-> > On Thu, 14 May 2026 11:34:52 -0700
-> > Chia-I Wu <olvaffe@gmail.com> wrote:
-> >  =20
-> >> On Wed, May 13, 2026 at 10:24=E2=80=AFAM Boris Brezillon
-> >> <boris.brezillon@collabora.com> wrote: =20
-> >>>
-> >>> Define a conditional drm_dev_access guard to automate the
-> >>> drm_dev_{enter,exit}() sequence.
-> >>>
-> >>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
-> >>> ---
-> >>>  include/drm/drm_drv.h | 9 +++++++++
-> >>>  1 file changed, 9 insertions(+)
-> >>>
-> >>> diff --git a/include/drm/drm_drv.h b/include/drm/drm_drv.h
-> >>> index 42fc085f986d..79d1958f93e4 100644
-> >>> --- a/include/drm/drm_drv.h
-> >>> +++ b/include/drm/drm_drv.h
-> >>> @@ -490,6 +490,15 @@ void drm_dev_unplug(struct drm_device *dev);
-> >>>  int drm_dev_wedged_event(struct drm_device *dev, unsigned long metho=
-d,
-> >>>                          struct drm_wedge_task_info *info);
-> >>>
-> >>> +/*
-> >>> + * Only the conditional drm_dev_access guard is valid. The drm_dev o=
-ne is
-> >>> + * here so we can extend it with a conditional variant.
-> >>> + */
-> >>> +DEFINE_LOCK_GUARD_1(drm_dev, struct drm_device,
-> >>> +                   { WARN_ON("Use cond guards"); _T->idx =3D -1; },
-> >>> +                   drm_dev_exit(_T->idx), int idx);   =20
-> >> If this is ever mis-used, drm_dev_exit(-1) seems to cause OOB access.
-> >> Is BUG more appropriate than WARN_ON? =20
-> >=20
-> > I actually had
-> >=20
-> > 			if (_T->idx >=3D 0) drm_dev_exit(_T->idx),
-> >=20
-> > at some point, and I ditched it thinking the WARN_ON_ONCE()
-> > in srcu_read_unlock() would cover for that. I can add it back, of
-> > course.
-> >=20
-> > I'd be fine with a BUG_ON() too, but every time I tried to add one I've
-> > been encouraged to handle the unexpected case instead.
-> >=20
-> > Ideally, we would have a DEFINE_LOCK_GUARD_COND() variant that, instead
-> > of expanding a non-conditional one, would define the whole thing so
-> > that the non-conditional variant is never exposed. =20
->=20
-> Would it be possible to use BUILD_BUG() here?
+On Thu, May 14, 2026 at 12:02:50PM +0200, Jacopo Mondi wrote:
+> Hi Sakari
+> 
+> On Wed, May 13, 2026 at 01:43:44PM +0300, Sakari Ailus wrote:
+> > Introduce v4l2_subdev_alloc_frame_desc() and v4l2_subdev_free_frame_desc()
+> > to both facilitate implementing drivers that need frame descriptors as
+> > well as prepare for having a larger number of frame descriptors.
+> 
+> As noticed by Frank, this line doesn't seem to match the patch content
 
-Ah, nice! I was searching for this kind of compile-time assert that
-would trigger if the code is used, and BUILD_BUG() indeed does what we
-want. Thanks for the tip.
+Indeed. I'll fix this for v2.
+
+> 
+> > If the remote sub-device does not support frame descriptors,
+> > v4l2_subdev_get_frame_desc() creates one (with a single entry)
+> > opportunistically, thus avoiding the need to add frame descriptor support
+> > to sensor drivers the device for which only generates a single stream, or
+> > managing the situation on the caller side.
+> >
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-subdev.c | 59 +++++++++++++++++++++++++++
+> >  include/media/v4l2-subdev.h           | 20 +++++++++
+> >  2 files changed, 79 insertions(+)
+> >
+> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > index d93ed50255ed..b8acce8f9c33 100644
+> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > @@ -20,6 +20,7 @@
+> >  #include <linux/version.h>
+> >  #include <linux/videodev2.h>
+> >
+> > +#include <media/mipi-csi2.h>
+> >  #include <media/v4l2-ctrls.h>
+> >  #include <media/v4l2-device.h>
+> >  #include <media/v4l2-event.h>
+> > @@ -2671,6 +2672,64 @@ int v4l2_subdev_get_frame_desc_passthrough(struct v4l2_subdev *sd,
+> >  }
+> >  EXPORT_SYMBOL_GPL(v4l2_subdev_get_frame_desc_passthrough);
+> >
+> > +int v4l2_subdev_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+> > +			       struct v4l2_mbus_frame_desc *desc)
+> > +{
+> > +	struct v4l2_subdev_format subdev_fmt = {
+> > +		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+> > +		.pad = pad,
+> > +	};
+> > +	int ret;
+> 
+> is it worth being extra paranoid and add an
+> 
+>         if (WARN_ON(!desc))
+>                 return -EINVAL;
+
+In v2 the frame descriptor will be returned to the caller.
+
+> 
+> here ?
+> 
+> And make immediately sure that desc->type is populated by checking for
+> 
+>         if (desc->type == V4L2_MBUS_FRAME_DESC_TYPE_UNDEFINED)
+>                 return -EINVAL;
+> 
+> or is passing UNDEFINED in supported ?
+
+In fact for v4l2_subdev_get_frame_desc() we should require either of the
+supported types. I'll move the descriptor type check here.
+
+> 
+> > +
+> > +	if (v4l2_subdev_has_op(sd, pad, get_frame_desc)) {
+> > +		unsigned int type = desc->type;
+> > +
+> > +		ret = v4l2_subdev_call(sd, pad, get_frame_desc, pad, desc);
+> > +		if (ret)
+> > +			return ret;
+> > +
+> > +		if (desc->type != type) {
+> > +			dev_dbg(sd->dev,
+> > +				"wrong type of frame descriptor for pad %d (got %u, expected %u)\n",
+> > +				pad, desc->type, type);
+> > +			return -EINVAL;
+> > +		}
+> > +
+> > +		return ret;
+> 
+> You can return 0;
+
+Yes.
+
+> 
+> > +	}
+> > +
+> > +	if (desc->type != V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL &&
+> > +	    desc->type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2)
+> > +		return -EINVAL;
+> > +
+> > +	struct v4l2_subdev_state *state =
+> > +		v4l2_subdev_lock_and_get_active_state(sd);
+> > +	ret = v4l2_subdev_call(sd, pad, get_fmt, state, &subdev_fmt);
+> > +	v4l2_subdev_unlock_state(state);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	struct v4l2_mbus_frame_desc_entry entry = {
+> > +		.pixelcode = subdev_fmt.format.code,
+> > +	};
+> > +
+> > +	if (desc->type == V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
+> > +		int dt;
+> > +
+> > +		dt = mipi_csi2_dt_for_mbus(subdev_fmt.format.code);
+> > +		if (dt < 0)
+> > +			return dt;
+> > +
+> > +		entry.bus.csi2.dt = dt;
+> > +	}
+> > +
+> > +	desc->entry[0] = entry;
+> 
+> Can't you populate desc->entry[0] directly and avoid a copy ?
+
+That'd work, yes. I'll change this for v2.
+
+> 
+> > +	desc->num_entries = 1;
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(v4l2_subdev_get_frame_desc);
+> > +
+> >  #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
+> >
+> >  #endif /* CONFIG_MEDIA_CONTROLLER */
+> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > index d256b7ec8f84..c9e74566c85a 100644
+> > --- a/include/media/v4l2-subdev.h
+> > +++ b/include/media/v4l2-subdev.h
+> > @@ -1778,6 +1778,26 @@ int v4l2_subdev_get_frame_desc_passthrough(struct v4l2_subdev *sd,
+> >  					   unsigned int pad,
+> >  					   struct v4l2_mbus_frame_desc *fd);
+> >
+> > +/**
+> > + * v4l2_subdev_get_frame_desc() - Get a frame descriptor for a pad
+> > + * @sd: The sub-device
+>            The -remote- sub-device ?
+
+The API is meant for all sub-devices, in most cases it's remote but not
+always. Getting a frame descriptor from the local sub-device likely has no
+use cases but I wouldn't document that here.
+
+> 
+> > + * @pad: The number of the pad in @sd from which to obtain the frame descriptor
+> > + * @desc: A pointer to a frame descriptor, with its type field set
+> > + *
+> > + * Obtain a frame descriptor from a sub-device. If the sub-device supports the
+> > + * get_frame_desc pad operation, its result is returned, just like calling it
+> > + * directly using v4l2_subdev_call(). If the sub-device driver does not support
+> > + * it, then a frame descriptor containing a single entry is created using the
+> > + * information from the sub-device format for types
+> > + * V4L2_MBUS_FRAME_DESC_TYPE_CSI2 and V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL.
+> > + *
+> > + * The caller is required to set @desc->type to the expected bus type.
+> > + *
+> > + * Return: %0 on success or negative error code on failure.
+> > + */
+> > +int v4l2_subdev_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+> > +			       struct v4l2_mbus_frame_desc *desc);
+> > +
+> >  #endif /* CONFIG_VIDEO_V4L2_SUBDEV_API */
+> >
+> >  #endif /* CONFIG_MEDIA_CONTROLLER */
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
