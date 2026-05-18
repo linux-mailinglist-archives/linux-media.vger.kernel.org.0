@@ -1,140 +1,135 @@
-Return-Path: <linux-media+bounces-61919-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61922-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EHbpEq/ZCmoA8wQAu9opvQ
-	(envelope-from <linux-media+bounces-61919-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 11:19:43 +0200
+	id 8AhpAl7cCmpV8wQAu9opvQ
+	(envelope-from <linux-media+bounces-61922-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 11:31:10 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C095698B8
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 11:19:42 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1B07569C06
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 11:31:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8D45A3016ED0
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 09:15:05 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 545843013D5C
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 09:25:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0A403E51D2;
-	Mon, 18 May 2026 09:15:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88EF53E5ED0;
+	Mon, 18 May 2026 09:25:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="MtzABl4Q"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="sk20GFlc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from extorris.mess.org (extorris.mess.org [92.243.27.206])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C53813E1200;
-	Mon, 18 May 2026 09:15:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 633923B584A;
+	Mon, 18 May 2026 09:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.243.27.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779095704; cv=none; b=bXXpAq1/rBhVNQZfkS6d91hS3vBHbsqfPSt/dwkoJzr2C7hPxTmz4vp6KZVtwDiIw2rCzgwQsTRjcICiQxfIwbiYiFDbqMhAQYdw//JZaMAQcijuYGCyuwNgCcDFTb8X3ZtyXTO1V4cqgM2lZkpq7vt6VgVVEVwj16pN3MPCJHg=
+	t=1779096319; cv=none; b=YqmYiwCyP/N9VdVilh2bNAlDGRxYhzutE+aqfyOizO0ZDI6wgJGjO1N5CLrj8b2CViKMRk55rO2t3Wanien9wbLGNOXvZCDh5fRl+y0c36+vy8qz1swR0M60ZbHRfAxQqDBMNnpVHC52ZvTCv3PyO68M6E5gqdsWDeWf+09yGS8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779095704; c=relaxed/simple;
-	bh=Evhx71+uHCKSNbI1/JWhyd7uMUqb7RZM1k+fJyqK8h0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QbquVrMVoKh32M0Ut5hY5XH8XCZDVv2lhChwaY51ZlTo/cdVuiNp252RDFU2aF/SfF1RfSteufrKo0fZ5uqE/32ObHurO9uCtnwKSdLexjCg00PtUppGYjDraJQUcXi+GBG1D8Ub7KG6cwZbAH4PjrAItbPIiDZHmx7ZOv6TZIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=MtzABl4Q; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1779095701;
-	bh=Evhx71+uHCKSNbI1/JWhyd7uMUqb7RZM1k+fJyqK8h0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=MtzABl4Q3eo4GdeoXvWI3cqPO9TB9LGGtg+aCcf41L4Mf22ir9b++t3fpS9jvSGwd
-	 bPcO78fh1Na6RFzoy+kIES4fJNlLEWtPJPYlQN8+EUpWksyaRhwoz9MGP9WmWC+/fN
-	 duVdX/lb18qgJ7S+5tNP+U9q4Ai5OrKbV/RbVwqe4MunZJe4C3foOr4EDutN71QLqh
-	 ReLqLbArre6HxYnGUpcKJXP4dkuUnfdXOE6j3dnM+wgXUQWAwKkf5Y8hnDcv//TIE6
-	 Pns1PthM/v6JOiWRSMmCDAfppOEyDec5Ik6cXJ8pYtyEDdptBMzkS6Ow9Np1x6XzyS
-	 JkqM+aGD1NIow==
-Received: from fedora (unknown [100.64.0.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 8C06917E0319;
-	Mon, 18 May 2026 11:15:00 +0200 (CEST)
-Date: Mon, 18 May 2026 11:14:56 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/6] dma-resv: Define guards for context-less dma_resv
- locks
-Message-ID: <20260518111456.30ba9bba@fedora>
-In-Reply-To: <03a57011-e734-4a74-aef2-e3a6016e15fc@amd.com>
-References: <20260513-panthor-guard-refactor-v1-0-f2d8c15a97ce@collabora.com>
-	<20260513-panthor-guard-refactor-v1-2-f2d8c15a97ce@collabora.com>
-	<03a57011-e734-4a74-aef2-e3a6016e15fc@amd.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1779096319; c=relaxed/simple;
+	bh=wynAuqrakYL+/x14eZJMcrGSf/NygpxlDix0/zRbqPQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zo4E0r0BPvrepszafnFlXqxkTlYyJMd5YwVuVwlkcRJCLVFbJNzaItfx1HJNlJ1jhO5nNSO0Cwm2rYzgHLujZkOj8bTecryTrbgLiBKeMDZjwEQ1bUTPPj1MtPIryb8kgVoAmYiVkMf2rRIvwm25ny8lqvvcfr/6Cs6t89V+ogg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=sk20GFlc; arc=none smtp.client-ip=92.243.27.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1779095792; bh=wynAuqrakYL+/x14eZJMcrGSf/NygpxlDix0/zRbqPQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sk20GFlcJjHaYzyZ5ZzSJnvCE4g3kwUeyo47/um/pFFjFtQeaxpyuXobq4ocneVE6
+	 xEi7RbjocGxkX34kzFhFQyzfj1R9XnwSGKfYF4DyD4qgtVbAKd6PexFD6LOpfZDg4E
+	 DvvqfiV0ETNoH8+zmLbjy2tkRB6AHud3rGXZBi8uPmHK1gdLw+mRmkaSk7RdCEZKkS
+	 NEYBga29jI/ap1hEbd9P+OC2sPrCFkKwdPTNsav0OpSqx2F0IMg+V+bEa6W8k2co7o
+	 U84eTkuFdiwP6grC17ueI2DgJVb0wbau9yvHDPHBPik7nrXPWi1DWm6kMkfnstV7nQ
+	 jXjVYBofcI2hA==
+Received: by extorris.mess.org (Postfix, from userid 1001)
+	id 51AC840ADA; Mon, 18 May 2026 10:16:32 +0100 (BST)
+Date: Mon, 18 May 2026 10:16:32 +0100
+From: Sean Young <sean@mess.org>
+To: Alessandro Baldi <baldovic@virgilio.it>
+Cc: mchehab@kernel.org, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: imon: Add iMON VFD HID OEM v1.2 key mappings
+Message-ID: <agrY8P7oYjUg7dZu@extorris.mess.org>
+References: <20260517091415.3080-1-baldovic@virgilio.it>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Rspamd-Queue-Id: C7C095698B8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260517091415.3080-1-baldovic@virgilio.it>
+X-Rspamd-Queue-Id: F1B07569C06
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[mess.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[mess.org:s=2020];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-61922-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61919-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	HAS_ORG_HEADER(0.00)[];
-	FREEMAIL_CC(0.00)[arm.com,linaro.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	FREEMAIL_TO(0.00)[virgilio.it];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sean@mess.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[mess.org:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,collabora.com:email,collabora.com:dkim,amd.com:email]
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,virgilio.it:email,mess.org:dkim]
 X-Rspamd-Action: no action
 
-Hi Christian,
+On Sun, May 17, 2026 at 11:14:15AM +0200, Alessandro Baldi wrote:
+> Add Vol+/Vol-/Mute panel button mappings for iMON VFD HID OEM v1.2.
+> This version differs in the codes that generate the
+> KEY_VOLUMEUP, KEY_VOLUMEDOWN and KEY_MUTE events.
+> 
+> Signed-off-by: Alessandro Baldi <baldovic@virgilio.it>
 
-On Mon, 18 May 2026 09:10:23 +0200
-Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+Thank you, patch applied.
 
-> On 5/13/26 18:58, Boris Brezillon wrote:
-> > When used without a context, dma_resv are no different from regular
-> > locks. Define guards so we can use the guard-syntactic sugars for
-> > explicit/implicit scoped locks.
-> >=20
-> > Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com> =20
->=20
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->=20
-> How do you want to upstream it? My preference would be drm-misc-next, but=
- I think I can live with a panthor specific branch as well.
+Sean
 
-Everything Panthor related goes through drm-misc-next, so drm-misc-next
-also has my preference ;-). But I'd like to wait for more feedback on
-the other drm patches, and there are a few things I need to address in
-the panthor patches anyway, so it's likely to take a couple more weeks
-for this series to hit the drm-misc tree, unless you have a good reason
-to fast-track this specific patch.
-
-Regards,
-
-Boris
+> ---
+> 
+> Note: this is my first kernel contribution.
+> Keycodes discovered by parsing USB packets with usbmon:
+> - modprobe usbmon
+> - cat /sys/kernel/debug/usb/usbmon/1u | grep Ii
+> Tested on Thermaltake Mozart Sx case with LibreELEC media center.
+> 
+>  drivers/media/rc/imon.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
+> index 9bb27ba82..049a73b5f 100644
+> --- a/drivers/media/rc/imon.c
+> +++ b/drivers/media/rc/imon.c
+> @@ -290,6 +290,10 @@ static const struct imon_usb_dev_descr imon_OEM_VFD = {
+>  		{ 0x000100000000ffeell, KEY_VOLUMEUP },
+>  		{ 0x010000000000ffeell, KEY_VOLUMEDOWN },
+>  		{ 0x000000000100ffeell, KEY_MUTE },
+> +		/* iMON VFD HID OEM v1.2 */
+> +		{ 0x000000000a00ffeell, KEY_VOLUMEUP },
+> +		{ 0x000000000b00ffeell, KEY_VOLUMEDOWN },
+> +		{ 0x000000000c00ffeell, KEY_MUTE },
+>  		/* 0xffdc iMON MCE VFD */
+>  		{ 0x00010000ffffffeell, KEY_VOLUMEUP },
+>  		{ 0x01000000ffffffeell, KEY_VOLUMEDOWN },
+> -- 
+> 2.34.1
 
