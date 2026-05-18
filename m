@@ -1,446 +1,249 @@
-Return-Path: <linux-media+bounces-62004-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62005-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yCxxF30fC2reDgUAu9opvQ
-	(envelope-from <linux-media+bounces-62004-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 16:17:33 +0200
+	id kGfxOSAfC2q8DgUAu9opvQ
+	(envelope-from <linux-media+bounces-62005-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 16:16:00 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B70E456E8DC
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 16:17:32 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 695D656E868
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 16:16:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1193630A3915
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 14:10:01 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 13B98304D90E
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 14:14:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BF4948AE06;
-	Mon, 18 May 2026 14:09:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6493848AE0D;
+	Mon, 18 May 2026 14:14:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="XcCKlePQ";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="JEfglShx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4933F8899;
-	Mon, 18 May 2026 14:09:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779113394; cv=none; b=lXvAKfoy+rFsPX+6C/CVdYo1UO13ZOySjUaaCcyDyH7JeYHQHhArZoTycKbg9x23LTFTkDDzVZcadBGxH9Sw1KCQNitLlkTTflyd6SCGx4HbZEdjavmWWzRStKOuNN1zx8ztzBswilT5OHW/CLmLESRjT/drfPX0pnuth3hcv+E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779113394; c=relaxed/simple;
-	bh=THJGQ+eQ19c1iPFtahMpjAefG/fJYGebs2EgmM4psOE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NCstvdYqTMWYy/m/ml1gfQMg4bv1Xbx65QpU89VfCX+G/iMsc2lgrjNbxZIHvEaC5qbmAzyvun1/T9BDniQLQLApY273NV0WBjE0twKNwluiLFpqlb/7fMMTYrytdaTRcnu0ZBMzxJt1VJpTd2AlvTam4y1id7OhT4+IxCbb26g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 5F4F21F8005C;
-	Mon, 18 May 2026 14:09:47 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 35017B407F7; Mon, 18 May 2026 14:09:46 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 33A58B407F5;
-	Mon, 18 May 2026 14:09:44 +0000 (UTC)
-Date: Mon, 18 May 2026 16:09:41 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arash Golgol <arash.golgol@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: Re: [PATCH 04/16] media: sun8i-a83t-mipi-csi2: Use V4L2 subdev
- active state
-Message-ID: <agsdpcxifnFwaUu3@collins>
-References: <20260518102451.417971-1-paulk@sys-base.io>
- <20260518102451.417971-5-paulk@sys-base.io>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722C83624A6
+	for <linux-media@vger.kernel.org>; Mon, 18 May 2026 14:14:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779113662; cv=pass; b=LgjO//+qqQ+maDfi1O+i1O9gvIGJjG+hF6ITlJNmsR2wubAKrAfyqZCiqOXy+rcMOw6jwSRk6nx7pGtzIta26jgHCEgaXMphy0eYPFXZ1FUYXAALwmZ0xeXPBaECd4cgzMKOeqsePlV6L5sJdELRtoIge4ty2cDkWMB4gws4/5c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779113662; c=relaxed/simple;
+	bh=5qDpVkMt4wmJAuvajXr0K3vaIjTuOXwvJrhqj7SsGUU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=SiP0gwAz1s3StvXtWIDxwN7w7TlCoNP4di9nDb29AOsboHXIOepjeufUfQbC68BczsF3NiFS7xFn2y/gU6DOGswxSLh8RO72zYY2Xtt8iBDn3MvLvxbmaXjxEscFdxwuYRJhOY856DD9UlIhtSxcVTGQio/LFAN51pzNDAnlQO8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XcCKlePQ; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=JEfglShx; arc=pass smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1779113660;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=X0PKPpLFUcJ5PNICdj+fODP+ieu23TytLui2uhS6hnY=;
+	b=XcCKlePQRCeNFJsGcLMSHXQ/fSrJvamD5A2GxmWdoGZQL/RrWD2lyIlTxFTNF9BMo6BpbY
+	w0/EpsruSfyA3I1DLVcmyCwiy2DO/qTcIZpk/Bm8sU+YKDkio4I76oPJ2p6UBwLkGoA+Yp
+	a20GsbyKFpt8c+g3HBJT5doI0gxJFyA=
+Received: from mail-lf1-f71.google.com (mail-lf1-f71.google.com
+ [209.85.167.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-644-PXyXqMJtNGGEodxoaXGGig-1; Mon, 18 May 2026 10:14:18 -0400
+X-MC-Unique: PXyXqMJtNGGEodxoaXGGig-1
+X-Mimecast-MFC-AGG-ID: PXyXqMJtNGGEodxoaXGGig_1779113657
+Received: by mail-lf1-f71.google.com with SMTP id 2adb3069b0e04-5a8d72e2f0aso159116e87.2
+        for <linux-media@vger.kernel.org>; Mon, 18 May 2026 07:14:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779113656; cv=none;
+        d=google.com; s=arc-20240605;
+        b=GTczrRE3S9iZILOhi6Cvkyii2ih6yMeMC8mPHC1TI8dff31i7J7bji1s02MVJf0q2A
+         LtMfZb5kfFslid7cWFJlvDDuSBxXfj96kUTlKsNPXk4R9Andi//sDCJBGzVIzWeoAgiY
+         5VvcWVamcXvvx8AMmMPg3D4E/GOO4w9GMnSVKNMWEXg94HhjbFQg8G1y4rVbERqZsLiM
+         uQ0aWL2w5I4TeLXqj7uMR8eR/8wOefOpHNOX8TbezbpFCS2Fdfa+I6XNp6ikq5eU/8xx
+         K8KQIbicUIxl7isn+Bx3jwpJ68IpslRzbMKVw+X51yS1zlf/iTY1ffhKPpRjJ/8AylVr
+         2LXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=X0PKPpLFUcJ5PNICdj+fODP+ieu23TytLui2uhS6hnY=;
+        fh=yfMD/LiI852B1Fcp05FnSbmCbYU5nHINI/tnw9B8oPg=;
+        b=gGoZSBKTgTMjoSpiru8Di038uR1ULEc77CrsUNkzkaOsl3ctdgwNyXIPkPzdn23Mss
+         igp4vLN38xswDAWEp+QxAuzRr52WBmfbeHKDtutjoVs5jk4MdDZKmlbX63uuuJ7IdeiW
+         ZbIoTIW557zIGC+QLtcCDO0nSfC+6e6EoAKOR6eIFsDIX4sW4QPqN4u1yEzZ5oCXlN3E
+         loqOoWHsTGeUhHJbruRXGheLBAiXNqgqPLsg68u1gOdLaTC0GoDb7DOWvezxkhC319PQ
+         Ll3t5jlUHNMaMtbFvf2bSSRM3F2b5B1aBsLYXpFkKx1g1RSzrqb6xI1H0WhK2J+qYSPL
+         T/5A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1779113656; x=1779718456; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=X0PKPpLFUcJ5PNICdj+fODP+ieu23TytLui2uhS6hnY=;
+        b=JEfglShxs5yibxIFv6/U19ifYzbXJu1Yd2BQV36kyFt/CBsUG/2wuOTz0C/h8TWSWq
+         lA0JN50rELueXLBK637lK56wBfhJdeUjk1j7moM/16fwAyLRRA8pSdFo05VrBaCJpeLD
+         7BvNvjhkng11lJG06TgZ/Me/vyBwOAzoOv6vwANalpyj8HxxuWEytpuFKpTQ3xDuaaYf
+         EhXQlXNXGhicpWhlEDCZ74YpPN0qfsHPJU65rGjsrwiNllM+sn6q4I2FJb8DnL5QhMWK
+         fQakRPvS/mTuCD31oXyalhIEHgFcNYm7JAhiDIxBt0dWS1nmfYpRANM02nVGFn0jDOgB
+         gRfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779113656; x=1779718456;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=X0PKPpLFUcJ5PNICdj+fODP+ieu23TytLui2uhS6hnY=;
+        b=ZubHvpLrJZBspnvDTWVH/KC3YN7xk1DZbNCUnw8Ke9fwyZDxwx4xEuUEj3NREzMg5k
+         ZdX4bgHYOn9e8H3NMVivr2U9QqCHTEH92ZutB7amOTRdHpXLZOBXkYcwGX7vuWsuHJfT
+         G3V6dJs+elfM8BKYn66zxjirTywOjkLTRMknCRKVvjNZ372FA1QJgHNEwShfcQ+dMQPd
+         Xbs9Bn5LNG7+g27P1nI43WYeXcnEzbqIXVI+yqFE0eE8ZmMtRjhgGZV+YQWgKsy8aGiO
+         SEUlLwGv51kZW8rXYT1RTX+lrYl8a0LhyW3E5XL0oYP7HGi0C0D69sIww4gWN2I+lwK5
+         5q6g==
+X-Forwarded-Encrypted: i=1; AFNElJ/Y1W+JHj/aBlpeV0i9oKwljnMtb5ruJblOEtHd5FDE5FKBCTHnwyw6An/28Do7WOnYtWYf+NXNoZonLg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHjsYGkohpU2Zcjg4kzr5NBrY03RVfdgsqyIQ6Hs+fimCKhjsV
+	Er0i8jBQ44NkHxuiZ7O5z2AMtUgig3aAWzVW9QZ4nNqQ4k6kGNWFLNg/lfqi0l93xfJG6uMDDG0
+	kjXeQ5TTdT/Wi5NPGl+s1a0fCp4FNj/+N9IYd5bIsxNaQyVFFfJHnCYhw0Xkja9AGBLX7k6lLA6
+	G+yWt8AgkOAw4mxlhHVlFnPOCOzGvkpLRN4xd4SyQ=
+X-Gm-Gg: Acq92OF6LCq89ZPFrRoS6OCVNZSlu8bsNQvxE1RSj5sbcZO8bJ4ProYRkTLwMr0bRsh
+	6VbdR+WpchHUrsMoTvtfrTxVal7E6BKIYnu6v0G7R10dXbdqxV+JJG/f3yxi/vrNaW9BPVGdp1T
+	LuL8SN0Hb6i8NG2yAe/4SSt+aWEZAljRXEfikRU+x3ehZHvRFdvEu+RAm+S2+yeZ3VnDoFDPL8l
+	AvzuA==
+X-Received: by 2002:a05:651c:410e:b0:38f:f6a2:a61d with SMTP id 38308e7fff4ca-39561f2f883mr11802531fa.4.1779113656358;
+        Mon, 18 May 2026 07:14:16 -0700 (PDT)
+X-Received: by 2002:a05:651c:410e:b0:38f:f6a2:a61d with SMTP id
+ 38308e7fff4ca-39561f2f883mr11802281fa.4.1779113655655; Mon, 18 May 2026
+ 07:14:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="SmpESyxiLXAcu4zS"
-Content-Disposition: inline
-In-Reply-To: <20260518102451.417971-5-paulk@sys-base.io>
-X-Spamd-Result: default: False [-1.56 / 15.00];
-	SIGNED_PGP(-2.00)[];
+References: <20260216150205.212318-1-larisa.grigore@oss.nxp.com> <aaGkGwbk-sh0YJqj@jkangas-thinkpadp1gen3.rmtuswa.csb>
+In-Reply-To: <aaGkGwbk-sh0YJqj@jkangas-thinkpadp1gen3.rmtuswa.csb>
+From: Enric Balletbo i Serra <eballetb@redhat.com>
+Date: Mon, 18 May 2026 16:14:02 +0200
+X-Gm-Features: AVHnY4JRP0kGP-z42K5FI0qcb3gAysvgY6dzw7kUR8X3jOVZKVkXLna2nVCi7XY
+Message-ID: <CALE0LRuahJy2EKa7YUukGRq1w9iws6kDvjZ7o33ahJUGc2JSsw@mail.gmail.com>
+Subject: Re: [PATCH 00/13] Add DMA support for LINFlexD UART driver
+To: Jared Kangas <jkangas@redhat.com>
+Cc: Larisa Grigore <larisa.grigore@oss.nxp.com>, gregkh@linuxfoundation.org, 
+	jirislaby@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com, 
+	chester62515@gmail.com, cosmin.stoica@nxp.com, adrian.nitu@freescale.com, 
+	stefan-gabriel.mirea@nxp.com, Mihaela.Martinas@freescale.com, 
+	linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, s32@nxp.com, 
+	imx@lists.linux.dev, clizzi@redhat.com, aruizrui@redhat.com, 
+	echanude@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-62005-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[25];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62004-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[oss.nxp.com,linuxfoundation.org,kernel.org,linaro.org,amd.com,gmail.com,nxp.com,freescale.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev,redhat.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[sys-base.io];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,sholland.org,linuxfoundation.org,ideasonboard.com,collabora.com];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[paulk@sys-base.io,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	R_DKIM_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[paulk.fr:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,sys-base.io:url,sys-base.io:email]
-X-Rspamd-Queue-Id: B70E456E8DC
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[eballetb@redhat.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 695D656E868
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Hi all,
 
---SmpESyxiLXAcu4zS
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Any chance these series can be considered? They still apply on top of
+the mainline kernel.
 
-Le Mon 18 May 26, 12:24, Paul Kocialkowski a =C3=A9crit :
-> From: Arash Golgol <arash.golgol@gmail.com>
->=20
-> Use the V4L2 subdev active state API to store the active format.
-> This simplifies the driver not only by dropping the bridge mbus_format
-> field, but it also allows dropping the bridge lock, replaced with
-> the state lock.
->=20
-> The sun8i-a83t-mipi-csi2 hardware does not perform any format
-> conversion. Enforce identical formats on the sink and source pads in
-> the set_fmt() and init_state() callbacks.
->=20
-> Signed-off-by: Arash Golgol <arash.golgol@gmail.com>
+On Fri, Feb 27, 2026 at 3:03=E2=80=AFPM Jared Kangas <jkangas@redhat.com> w=
+rote:
+>
+> Hi Larisa,
+>
+> On Mon, Feb 16, 2026 at 04:01:52PM +0100, Larisa Grigore wrote:
+> > This patchset enhances the LINFlexD UART driver and its device tree bin=
+dings to
+> > support DMA transfers, configurable clock inputs, dynamic baudrate chan=
+ges, and
+> > termios features. It also includes a series of fixes and improvements t=
+o ensure
+> > reliable operation across various modes and configurations.
+> >
+> > The changes added can be summarized as follows:
+> > 1. Fixes with respect to FIFO handling, locking, interrupt related regi=
+sters and
+> > INITM mode transition.
+>
+> Tested this series with the default devicetree configuration by booting
+> the board to a login prompt about 200 times. Without the series applied,
+> I was seeing a bug roughly every 30-50 boots where the kernel would
+> would hang in linflex_console_putchar() waiting for DTFTFF. In my tests
+> with the series applied, I didn't see any regressions and the bug no
+> longer appeared. Thanks for the fix!
+>
+> Tested-by: Jared Kangas <jkangas@redhat.com> # S32G3, interrupt-driven
+>
 
-I forgot to pick it up but this is already:
+FWIW I also reproduced the issue Jared faced. Current state of the
+LinFLEX serial driver in mainline seems a bit buggy and I can confirm
+that these fix the problem.
 
-Reviewed-by: Paul Kocialkowski <paulk@sys-base.io>
-Tested-by: Paul Kocialkowski <paulk@sys-base.io>
+Tested-by: Enric Balletbo i Serra <eballetb@redhat.com>
 
-Paul
+> > 2. Removal of the earlycon workaround, as proper FIFO handling and INIT=
+M
+> > transitions now ensure stable behavior.
+> > 3. Support for configurable stop bits and dynamic baudrate changes base=
+d on
+> > clock inputs and termios settings.
+> > 4. Optional DMA support for RX and TX paths, preventing character loss =
+during
+> > high-throughput operations like copy-paste. Cyclic DMA is used for RX t=
+o avoid
+> > gaps between transactions.
+> >
+> > Larisa Grigore (8):
+> >   serial: linflexuart: Clean SLEEP bit in LINCR1 after suspend
+> >   serial: linflexuart: Check FIFO full before writing
+> >   serial: linflexuart: Correctly clear UARTSR in buffer mode
+> >   serial: linflexuart: Update RXEN/TXEN outside INITM mode
+> >   serial: linflexuart: Ensure FIFO is empty when entering INITM
+> >   serial: linflexuart: Revert earlycon workaround
+> >   serial: linflexuart: Add support for configurable stop bits
+> >   serial: linflexuart: Add DMA support
+> >
+> > Radu Pirea (5):
+> >   serial: linflexuart: Fix locking in set_termios
+> >   dt-bindings: serial: fsl-linflexuart: add clock input properties
+> >   dt-bindings: serial: fsl-linflexuart: add dma properties
+> >   serial: linflexuart: Add support for changing baudrate
+> >   serial: linflexuart: Avoid stopping DMA during receive operations
+> >
+> >  .../bindings/serial/fsl,s32-linflexuart.yaml  |  31 +
+> >  drivers/tty/serial/fsl_linflexuart.c          | 972 +++++++++++++++---
+> >  2 files changed, 846 insertions(+), 157 deletions(-)
+> >
+> > --
+> > 2.47.0
+> >
+>
 
-> ---
->  .../sun8i_a83t_mipi_csi2.c                    | 113 +++++++++---------
->  .../sun8i_a83t_mipi_csi2.h                    |   2 -
->  2 files changed, 56 insertions(+), 59 deletions(-)
->=20
-> diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
-_mipi_csi2.c b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
-_mipi_csi2.c
-> index dbc51daa4fe3..2b7635f3952d 100644
-> --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
-si2.c
-> +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
-si2.c
-> @@ -144,12 +144,12 @@ sun8i_a83t_mipi_csi2_disable(struct sun8i_a83t_mipi=
-_csi2_device *csi2_dev)
->  }
-> =20
->  static void
-> -sun8i_a83t_mipi_csi2_configure(struct sun8i_a83t_mipi_csi2_device *csi2_=
-dev)
-> +sun8i_a83t_mipi_csi2_configure(struct sun8i_a83t_mipi_csi2_device *csi2_=
-dev,
-> +			       const struct v4l2_mbus_framefmt *mbus_format)
->  {
->  	struct regmap *regmap =3D csi2_dev->regmap;
->  	unsigned int lanes_count =3D
->  		csi2_dev->bridge.endpoint.bus.mipi_csi2.num_data_lanes;
-> -	struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mbus_forma=
-t;
->  	const struct sun8i_a83t_mipi_csi2_format *format;
->  	struct device *dev =3D csi2_dev->dev;
->  	u32 version =3D 0;
-> @@ -205,7 +205,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
-subdev *subdev, int on)
->  	struct v4l2_subdev *source_subdev =3D csi2_dev->bridge.source_subdev;
->  	union phy_configure_opts dphy_opts =3D { 0 };
->  	struct phy_configure_opts_mipi_dphy *dphy_cfg =3D &dphy_opts.mipi_dphy;
-> -	struct v4l2_mbus_framefmt *mbus_format =3D &csi2_dev->bridge.mbus_forma=
-t;
-> +	struct v4l2_subdev_state *state;
-> +	const struct v4l2_mbus_framefmt *mbus_format;
->  	const struct sun8i_a83t_mipi_csi2_format *format;
->  	struct phy *dphy =3D csi2_dev->dphy;
->  	struct device *dev =3D csi2_dev->dev;
-> @@ -215,8 +216,12 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2=
-_subdev *subdev, int on)
->  	unsigned long pixel_rate;
->  	int ret;
-> =20
-> -	if (!source_subdev)
-> -		return -ENODEV;
-> +	state =3D v4l2_subdev_lock_and_get_active_state(subdev);
-> +
-> +	if (!source_subdev) {
-> +		ret =3D -ENODEV;
-> +		goto unlock;
-> +	}
-> =20
->  	if (!on) {
->  		v4l2_subdev_call(source_subdev, video, s_stream, 0);
-> @@ -228,7 +233,7 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
-subdev *subdev, int on)
-> =20
->  	ret =3D pm_runtime_resume_and_get(dev);
->  	if (ret < 0)
-> -		return ret;
-> +		goto unlock;
-> =20
->  	/* Sensor pixel rate */
-> =20
-> @@ -254,6 +259,9 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
-subdev *subdev, int on)
->  		goto error_pm;
->  	}
-> =20
-> +	mbus_format =3D
-> +		v4l2_subdev_state_get_format(state,
-> +					     SUN8I_A83T_MIPI_CSI2_PAD_SINK);
->  	format =3D sun8i_a83t_mipi_csi2_format_find(mbus_format->code);
->  	if (WARN_ON(!format)) {
->  		ret =3D -ENODEV;
-> @@ -292,7 +300,7 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
-subdev *subdev, int on)
-> =20
->  	/* Controller */
-> =20
-> -	sun8i_a83t_mipi_csi2_configure(csi2_dev);
-> +	sun8i_a83t_mipi_csi2_configure(csi2_dev, mbus_format);
->  	sun8i_a83t_mipi_csi2_enable(csi2_dev);
-> =20
->  	/* D-PHY */
-> @@ -309,7 +317,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
-subdev *subdev, int on)
->  	if (ret && ret !=3D -ENOIOCTLCMD)
->  		goto disable;
-> =20
-> -	return 0;
-> +	ret =3D 0;
-> +	goto unlock;
-> =20
->  disable:
->  	phy_power_off(dphy);
-> @@ -318,6 +327,8 @@ static int sun8i_a83t_mipi_csi2_s_stream(struct v4l2_=
-subdev *subdev, int on)
->  error_pm:
->  	pm_runtime_put(dev);
-> =20
-> +unlock:
-> +	v4l2_subdev_unlock_state(state);
->  	return ret;
->  }
-> =20
-> @@ -341,22 +352,24 @@ sun8i_a83t_mipi_csi2_mbus_format_prepare(struct v4l=
-2_mbus_framefmt *mbus_format)
->  static int sun8i_a83t_mipi_csi2_init_state(struct v4l2_subdev *subdev,
->  					   struct v4l2_subdev_state *state)
->  {
-> -	struct sun8i_a83t_mipi_csi2_device *csi2_dev =3D
-> -		v4l2_get_subdevdata(subdev);
-> -	unsigned int pad =3D SUN8I_A83T_MIPI_CSI2_PAD_SINK;
-> -	struct v4l2_mbus_framefmt *mbus_format =3D
-> -		v4l2_subdev_state_get_format(state, pad);
-> -	struct mutex *lock =3D &csi2_dev->bridge.lock;
-> +	unsigned int pad;
-> =20
-> -	mutex_lock(lock);
-> +	/*
-> +	 * This subdev does not perform format conversion,
-> +	 * initialize both pads identically.
-> +	 */
-> +	for (pad =3D 0; pad < subdev->entity.num_pads; pad++) {
-> +		struct v4l2_mbus_framefmt *mbus_format;
-> =20
-> -	mbus_format->code =3D sun8i_a83t_mipi_csi2_formats[0].mbus_code;
-> -	mbus_format->width =3D 640;
-> -	mbus_format->height =3D 480;
-> +		mbus_format =3D v4l2_subdev_state_get_format(state, pad);
-> +
-> +		mbus_format->code =3D sun8i_a83t_mipi_csi2_formats[0].mbus_code;
-> +		mbus_format->width =3D 640;
-> +		mbus_format->height =3D 480;
-> =20
-> -	sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
-> +		sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
-> +	}
-> =20
-> -	mutex_unlock(lock);
-> =20
->  	return 0;
->  }
-> @@ -375,55 +388,33 @@ sun8i_a83t_mipi_csi2_enum_mbus_code(struct v4l2_sub=
-dev *subdev,
->  	return 0;
->  }
-> =20
-> -static int sun8i_a83t_mipi_csi2_get_fmt(struct v4l2_subdev *subdev,
-> -					struct v4l2_subdev_state *state,
-> -					struct v4l2_subdev_format *format)
-> -{
-> -	struct sun8i_a83t_mipi_csi2_device *csi2_dev =3D
-> -		v4l2_get_subdevdata(subdev);
-> -	struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
-> -	struct mutex *lock =3D &csi2_dev->bridge.lock;
-> -
-> -	mutex_lock(lock);
-> -
-> -	if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
-> -		*mbus_format =3D *v4l2_subdev_state_get_format(state,
-> -							     format->pad);
-> -	else
-> -		*mbus_format =3D csi2_dev->bridge.mbus_format;
-> -
-> -	mutex_unlock(lock);
-> -
-> -	return 0;
-> -}
-> -
->  static int sun8i_a83t_mipi_csi2_set_fmt(struct v4l2_subdev *subdev,
->  					struct v4l2_subdev_state *state,
->  					struct v4l2_subdev_format *format)
->  {
-> -	struct sun8i_a83t_mipi_csi2_device *csi2_dev =3D
-> -		v4l2_get_subdevdata(subdev);
-> -	struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
-> -	struct mutex *lock =3D &csi2_dev->bridge.lock;
-> +	struct v4l2_mbus_framefmt *fmt;
-> =20
-> -	mutex_lock(lock);
-> +	/* The format on the source pad always matches the sink pad. */
-> +	if (format->pad !=3D SUN8I_A83T_MIPI_CSI2_PAD_SINK)
-> +		return v4l2_subdev_get_fmt(subdev, state, format);
-> =20
-> -	sun8i_a83t_mipi_csi2_mbus_format_prepare(mbus_format);
-> +	sun8i_a83t_mipi_csi2_mbus_format_prepare(&format->format);
-> =20
-> -	if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
-> -		*v4l2_subdev_state_get_format(state, format->pad) =3D
-> -			*mbus_format;
-> -	else
-> -		csi2_dev->bridge.mbus_format =3D *mbus_format;
-> +	/* Set the format on the sink pad. */
-> +	fmt =3D v4l2_subdev_state_get_format(state, format->pad);
-> +	*fmt =3D format->format;
-> =20
-> -	mutex_unlock(lock);
-> +	/* Propagate the format to the source pad. */
-> +	fmt =3D v4l2_subdev_state_get_format(state,
-> +					   SUN8I_A83T_MIPI_CSI2_PAD_SOURCE);
-> +	*fmt =3D format->format;
-> =20
->  	return 0;
->  }
-> =20
->  static const struct v4l2_subdev_pad_ops sun8i_a83t_mipi_csi2_pad_ops =3D=
- {
->  	.enum_mbus_code	=3D sun8i_a83t_mipi_csi2_enum_mbus_code,
-> -	.get_fmt	=3D sun8i_a83t_mipi_csi2_get_fmt,
-> +	.get_fmt	=3D v4l2_subdev_get_fmt,
->  	.set_fmt	=3D sun8i_a83t_mipi_csi2_set_fmt,
->  };
-> =20
-> @@ -540,8 +531,6 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t_m=
-ipi_csi2_device *csi2_dev)
->  	bool notifier_registered =3D false;
->  	int ret;
-> =20
-> -	mutex_init(&bridge->lock);
-> -
->  	/* V4L2 Subdev */
-> =20
->  	v4l2_subdev_init(subdev, &sun8i_a83t_mipi_csi2_subdev_ops);
-> @@ -570,6 +559,12 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t_=
-mipi_csi2_device *csi2_dev)
->  	if (ret)
->  		return ret;
-> =20
-> +	/* V4L2 Subdev finalize */
-> +
-> +	ret =3D v4l2_subdev_init_finalize(subdev);
-> +	if (ret < 0)
-> +		goto error_media_entity_cleanup;
-> +
->  	/* V4L2 Async */
-> =20
->  	v4l2_async_subdev_nf_init(notifier, subdev);
-> @@ -603,6 +598,9 @@ sun8i_a83t_mipi_csi2_bridge_setup(struct sun8i_a83t_m=
-ipi_csi2_device *csi2_dev)
->  error_v4l2_notifier_cleanup:
->  	v4l2_async_nf_cleanup(notifier);
-> =20
-> +	v4l2_subdev_cleanup(subdev);
-> +
-> +error_media_entity_cleanup:
->  	media_entity_cleanup(&subdev->entity);
-> =20
->  	return ret;
-> @@ -617,6 +615,7 @@ sun8i_a83t_mipi_csi2_bridge_cleanup(struct sun8i_a83t=
-_mipi_csi2_device *csi2_dev
->  	v4l2_async_unregister_subdev(subdev);
->  	v4l2_async_nf_unregister(notifier);
->  	v4l2_async_nf_cleanup(notifier);
-> +	v4l2_subdev_cleanup(subdev);
->  	media_entity_cleanup(&subdev->entity);
->  }
-> =20
-> diff --git a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
-_mipi_csi2.h b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t=
-_mipi_csi2.h
-> index f1e64c53434c..819527bcd64d 100644
-> --- a/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
-si2.h
-> +++ b/drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_c=
-si2.h
-> @@ -33,8 +33,6 @@ struct sun8i_a83t_mipi_csi2_bridge {
->  	struct media_pad		pads[SUN8I_A83T_MIPI_CSI2_PAD_COUNT];
->  	struct v4l2_fwnode_endpoint	endpoint;
->  	struct v4l2_async_notifier	notifier;
-> -	struct v4l2_mbus_framefmt	mbus_format;
-> -	struct mutex			lock; /* Mbus format lock. */
-> =20
->  	struct v4l2_subdev		*source_subdev;
->  };
-> --=20
-> 2.54.0
->=20
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---SmpESyxiLXAcu4zS
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmoLHaUACgkQhP3B6o/u
-lQxtAg//S2QfTj832c+YdD3o+iJ3BWs9KibhqT9dGuWMlWVc/9HZIlEsqYfjH5x4
-Bxvv9Uz2F46nRp3UB4H5aqDC0s1cp7h2T2vGfo/UIZ3QAKUSzuC3Kt/NUltvEC9z
-/8XZGNj7Y5t5Op2lhlvsxMN8o3fB2blmd53xQjxSQKYuLK6jQwSmgo9LmGOcNgRu
-yRw8+D9nm1f9MC2Tb1JMlKnNLnDPuFLhtscgwSzOw/vxSj1EkiXnDH8wiBerG0IR
-375DfqmVwCmZfX0bjAeObTplFu5hzLDBZbHwBm9QxC6SBHEw9KeOC/4VJF9wApM4
-foqMGlyHbjpZEv/b56hqwpD7LIfyk/7dprJDKvvGyurnRXyVJIkpAkPymAaPMlre
-ik/2xFiorIjXjhbqEHndObXu5F7CxTVirQNbSFHtBr/KytuSZN/KFvu1PN75qrJl
-lJDe57UVDA1h8q6GUjHd/cLnTZN4YZgOLOidjEYKi0JQd/am3nz8iRaVolzMK++p
-8IhvjsnHYOemh8XsbQ9jGimWzrZqR1LnBc/kcpr0GCohmD7ttQQ50YK4CtYNXFip
-qBuyLkQDfzfcyMMgXj00KbQbEwndjkF58In4kWwqpCrmmAET0U8/afswDv1+J7Qu
-EwAdL0JFWWndXIYllxNVnzepuUdwbXov4HzLRMY1AfZr/ajf8Gk=
-=vz53
------END PGP SIGNATURE-----
-
---SmpESyxiLXAcu4zS--
 
