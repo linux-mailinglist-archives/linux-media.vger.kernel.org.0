@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-61913-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61914-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EPIEEtjWCmqc8gQAu9opvQ
-	(envelope-from <linux-media+bounces-61913-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 11:07:36 +0200
+	id SMjyM2LWCmqc8gQAu9opvQ
+	(envelope-from <linux-media+bounces-61914-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 11:05:38 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7EEB5695C0
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 11:07:35 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D928D569523
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 11:05:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8749F303CD2B
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 09:02:13 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 4A10930136FC
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 09:02:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF6333AF666;
-	Mon, 18 May 2026 09:02:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E599E3E4C6F;
+	Mon, 18 May 2026 09:02:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iKqx1a+d"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NycOSLAT"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419CD3E3DBC;
-	Mon, 18 May 2026 09:02:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B823E4C99;
+	Mon, 18 May 2026 09:02:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779094931; cv=none; b=p5axATon2g3mnp7ym4eVIBdwsGQPPYHyhdtqEiD5QVlDC4TKdOlFFaFlzOYYVU9CEGCk7aW1rNq78iJgNzDr125f/847HQZCFQmsnKQdvCAcbkqFUlkxwibl69w3sak1jFZGqSymVZAevwsgT7stZ2RVgFk7UzySilqh4MHQKB8=
+	t=1779094950; cv=none; b=ZZXVPwc38HLemjIUZyiZvZYbwQeDkO2AY9zJQemNghxt3ipcTJ6meG/kzxf1SE5eRJUCOcz8m2CU4g/0FXa6EIhRjGWKRJmk1Bl3TBMmrfXMgeDOaAWkRVtZERxCRjef41HrUPQWtuSbYUdfEIlU4pvLXZMJBSZ0W2DaC274JKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779094931; c=relaxed/simple;
-	bh=SSjjersVTKJA4FOC/CVG6OACyKVEf8Rke3dGLsiTrMU=;
+	s=arc-20240116; t=1779094950; c=relaxed/simple;
+	bh=mkqh6tajjCTRtxuQ/nmbWYefsdsGtNA1pEcLfyMNdxs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VR3hpZjg0Wh2+oOUhEfQLVk3HmuIo0rOybucj9T63tp7Rr2R5/pycrMU5cxhpiNOfhyeammU4b8R1mBFDPgcylMHBFzqfxu10ky7FQ0BevHuZpsRDKaIFZRpXzpBwBhQJEuHW+nl9RlJDWr81igT1yoH7ZeWqYdr+Mi/tAsyAoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iKqx1a+d; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F358C2BCB7;
-	Mon, 18 May 2026 09:02:09 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=GMnfci/OT3R4mo3s08XTL/tqyevL9NUPcK7N67MHyWTTQ+xJY9ZVjIBYU+Qn3zmSJdMbGl7BL2HhlcBVbat0ju1+dT6kFxaRpPKF4cCNLX11r2P74lFaYzQ/tr7/6r5WBCVq1Ijn4FLhi/5BVkv9mnBLqotaLxzHHK+OdtEMDBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NycOSLAT; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5C1DC2BCB7;
+	Mon, 18 May 2026 09:02:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779094930;
-	bh=SSjjersVTKJA4FOC/CVG6OACyKVEf8Rke3dGLsiTrMU=;
+	s=k20201202; t=1779094950;
+	bh=mkqh6tajjCTRtxuQ/nmbWYefsdsGtNA1pEcLfyMNdxs=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=iKqx1a+dqZcroncIrlXCc+vwMQQOPvntOnct6USEj5K5tXNsKLvFRw1ms1V738fGC
-	 reaIxHsTB4J9dCouaHAk6c2mJu/OyHNn1zR6JiCduP4/ZqedLrIXnUb7xaWfUWdR9j
-	 uXzb65B0gmyHb9dgvrMXUluXqpifddr/hgyzmWYvx4lDvw91bdWt8gZGVc6wsPEt4C
-	 hSblaMDPlfnne4ok/EygSC2PIECC8UzWatzc7iIcOfETHc0DhV5SqTH3IEz9inN35e
-	 4OKsvR82Bf9x2+LFf5vof3UB3xG5TXQU6qoKxis+v8uVjMjvnU4PC0Rol3FcRacfAU
-	 nDEf1nNa5rxhg==
-Message-ID: <b5995c59-5413-4705-90ae-8a153fd34f09@kernel.org>
-Date: Mon, 18 May 2026 11:02:07 +0200
+	b=NycOSLAT7s/y4NrbZtbtHtzLAzuhXYziTeAjE+4WFw4SVS8uEPobAEOCNlUfFa6Ez
+	 TJnY3E7zKOQTp60XoLyBYhtBik+fxX72IT/e0A8OujCsp8O4CM83pvNrQUXj6zzjHq
+	 sRUel5nXR8+/USsTGCwS7r66UOJgxRcWlsJHmXBb/57JokO5N0vqo6Mr1Xv1+sQRqx
+	 dALhgoeRGQIrryQHWLtHgbvUxbvCj7/S/NHJzP/UupCD1lKiZHjGzdpC6cZWNGDSfZ
+	 h/8GD9DimDLeOLrPma9CXWnmpwmbH/MF2X3ULf7J9YCknbr85NjZzrPKf2p3gQH87C
+	 UdLwu6G05Xjzw==
+Message-ID: <17e2f68d-c414-471f-8705-80ff7c206fdc@kernel.org>
+Date: Mon, 18 May 2026 11:02:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,8 +53,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/6] media: uvcvideo: Do not add samples if dev_sof has
- not changed
+Subject: Re: [PATCH v3 6/6] media: uvcvideo: Only do uvc_video_get_time() if
+ needed
 To: Ricardo Ribalda <ribalda@chromium.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Tomasz Figa
@@ -62,23 +62,23 @@ To: Ricardo Ribalda <ribalda@chromium.org>,
 Cc: Yunke Cao <yunkec@google.com>, linux-media@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20260513-uvc-hwtimestamp-v3-0-7a64838b0b02@chromium.org>
- <20260513-uvc-hwtimestamp-v3-5-7a64838b0b02@chromium.org>
+ <20260513-uvc-hwtimestamp-v3-6-7a64838b0b02@chromium.org>
 From: Hans de Goede <hansg@kernel.org>
 Content-Language: en-US, nl
-In-Reply-To: <20260513-uvc-hwtimestamp-v3-5-7a64838b0b02@chromium.org>
+In-Reply-To: <20260513-uvc-hwtimestamp-v3-6-7a64838b0b02@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: B7EEB5695C0
+X-Rspamd-Queue-Id: D928D569523
 X-Rspamd-Server: lfdr
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-61913-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-61914-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -90,22 +90,23 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[hansg@kernel.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,chromium.org:email,ideasonboard.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,chromium.org:email]
 X-Rspamd-Action: no action
 
 Hi,
 
 On 13-May-26 1:49 PM, Ricardo Ribalda wrote:
-> We only save relevant samples into the circular buffer. If the data is
-> very similar to the previous one, exit early, this allows us to avoid
-> some expensive operations such as usb_get_current_frame_number().
+> There is no need to calculate the current time if the sample is going to
+> be filtered.
 > 
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Move the assignment close to uvc_video_clock_add_sample().
+> 
+> Suggested-by: Hans de Goede <hansg@kernel.org>
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
 Thanks, patch looks good to me:
@@ -118,75 +119,32 @@ Hans
 
 
 > ---
->  drivers/media/usb/uvc/uvc_video.c | 16 +++++++++++-----
->  drivers/media/usb/uvc/uvcvideo.h  |  3 ++-
->  2 files changed, 13 insertions(+), 6 deletions(-)
+>  drivers/media/usb/uvc/uvc_video.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index 63850b779e24..6794031cd0fb 100644
+> index 6794031cd0fb..1cc86a18b2bb 100644
 > --- a/drivers/media/usb/uvc/uvc_video.c
 > +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -524,7 +524,7 @@ static void uvc_video_clock_add_sample(struct uvc_clock *clock,
+> @@ -645,8 +645,6 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
+>  	if (stream->dev->quirks & UVC_QUIRK_INVALID_DEVICE_SOF)
+>  		sample.dev_sof = sample.host_sof;
 >  
->  	spin_lock_irqsave(&clock->lock, flags);
->  
-> -	if (clock->count > 0 && clock->last_sof > sample->dev_sof) {
-> +	if (clock->count > 0 && clock->last_sof_processed > sample->dev_sof) {
->  		/*
->  		 * Remove data from the circular buffer that is older than the
->  		 * last SOF overflow. We only support one SOF overflow per
-> @@ -599,7 +599,12 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
->  	if (!has_scr)
->  		return;
->  
-> -	sample.dev_sof = get_unaligned_le16(&data[header_size - 2]);
-> +	sample.dev_sof = get_unaligned_le16(&data[header_size - 2]) & 2047;
-> +	/* If the sample SOF is identical to the previous one, quit early. */
-> +	if (stream->clock.last_sof_raw == sample.dev_sof)
-> +		return;
-> +	stream->clock.last_sof_raw = sample.dev_sof;
-> +
->  	sample.dev_stc = get_unaligned_le32(&data[header_size - 6]);
->  
+> -	sample.host_time = uvc_video_get_time();
+> -
 >  	/*
-> @@ -678,19 +683,20 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
->  	 * all the data packets of the same frame contains the same SOF. In that
->  	 * case only the first one will match the host_sof.
->  	 */
-> -	if (sof_diff(sample.dev_sof, stream->clock.last_sof) <=
-> +	if (sof_diff(sample.dev_sof, stream->clock.last_sof_processed) <=
+>  	 * The UVC specification allows device implementations that can't obtain
+>  	 * the USB frame number to keep their own frame counters as long as they
+> @@ -687,6 +685,9 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
 >  	    (UVC_MIN_HW_TIMESTAMP_DIFF / stream->clock.size))
 >  		return;
 >  
+> +	/* This is expensive, only do it if the sample will be added. */
+> +	sample.host_time = uvc_video_get_time();
+> +
 >  	uvc_video_clock_add_sample(&stream->clock, &sample);
-> -	stream->clock.last_sof = sample.dev_sof;
-> +	stream->clock.last_sof_processed = sample.dev_sof;
+>  	stream->clock.last_sof_processed = sample.dev_sof;
 >  }
->  
->  static void uvc_video_clock_reset(struct uvc_clock *clock)
->  {
->  	clock->head = 0;
->  	clock->count = 0;
-> -	clock->last_sof = -1;
-> +	clock->last_sof_processed = -1;
-> +	clock->last_sof_raw = -1;
->  	clock->last_sof_overflow = -1;
->  	clock->sof_offset = -1;
->  }
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 4ba35727e954..b6bcee4a222f 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -522,7 +522,8 @@ struct uvc_streaming {
->  		unsigned int size;
->  		unsigned int last_sof_overflow;
->  
-> -		u16 last_sof;
-> +		u16 last_sof_processed;
-> +		u16 last_sof_raw;
->  		u16 sof_offset;
->  
->  		u8 last_scr[6];
 > 
 
 
