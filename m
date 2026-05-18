@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-62043-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62044-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IKLCB/xBC2p5FAUAu9opvQ
-	(envelope-from <linux-media+bounces-62043-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 18:44:44 +0200
+	id OJi3CQJCC2p5FAUAu9opvQ
+	(envelope-from <linux-media+bounces-62044-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 18:44:50 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 885FC5711EB
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 18:44:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D09E45711FB
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 18:44:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 67DC0301231F
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 16:43:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A5C24303F456
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 16:43:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E9F2480954;
-	Mon, 18 May 2026 16:43:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C32548C3EA;
+	Mon, 18 May 2026 16:43:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LJUy01zU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zu0xirUV"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABD8748C8B1
-	for <linux-media@vger.kernel.org>; Mon, 18 May 2026 16:43:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F6A48C41B
+	for <linux-media@vger.kernel.org>; Mon, 18 May 2026 16:43:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779122616; cv=none; b=LthqjmlvHPcPH+HK62tybkHta7cTC5n5Gzyyov1+xQ1aazxbrDf0ZzX4Mxtnaks/pTrQnemnMEeS4XGTWXt1b+l9idV50tmKjN4Gn8+3C0MBdDvFiqxHAPhq+lJbnbee+KlD2n8A6Z5psgX+bu5X/ddLSLLXBJ6XYNz2ipd8L3w=
+	t=1779122616; cv=none; b=nsXPBIZy7PFfMX0XjNCeFtYavU3/BowA1jidzC7JwPipGIDjWDn9qEANx0DKsqgheTNdgYc5JwUFzVRH1EJJseiLHu0vlZmmhGwD4PSu/ad4T22v7XH2KE+gw83EbPiqZh6oaH5GEdwkFmiERhcQnsCPxB48HBr69czp1cIUB8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779122616; c=relaxed/simple;
-	bh=HfAawddpAq74fAhNjHkmArww3ydntulmM65/XPRoUSU=;
+	bh=Y3O95Ec8NG6W4v8nsNuLZfUD4S62gsn1uN5O/8xlBKg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rhFHiV3GKYfsY7ZYQ4TIZtxsv9Ai46Y6aAEpmWHLyG8CNkV85ZR2CbHQuYGZodc2VHVfcN3hPnjrI7h5rDeS7mzI265Abm0L/sKD3RYby9lkFbEWS9yVywpqKyhzBFsYym213sGE+DCJuKdbQp2L1CKnaBS2SwBrlOc5uPDoC0s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LJUy01zU; arc=none smtp.client-ip=198.175.65.10
+	 MIME-Version; b=KS8dagd3IwJvDmd+KmIogxnMmVaSHv5wyYANklZyJ9y55uExgMGq0aYEQKk42ZDMXHkI++DOT09elIuAi2X41pI5KmvgN0/IEMFaTWP+uMLKrkv24TAqaDoEHwRfuiMslfFNNQXViSTYC87MprrUQFJLKY8mhZfUf4i/gF9gBl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zu0xirUV; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779122615; x=1810658615;
+  t=1779122616; x=1810658616;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=HfAawddpAq74fAhNjHkmArww3ydntulmM65/XPRoUSU=;
-  b=LJUy01zUFTqX9sU2s/KHTgaYa0lb+4KDlmpVY1fI6FFhDiyK5lST0bhM
-   MDI1FxjLvfE6NzN7JMmAjH6qFFRYaxBn+omac3aLi1/3U1B/dKmNihz8/
-   g3QMbXnSKrXa+pdM004iZRjtLnpt8rGAwjg9ajspMn2xcdQ6o9vtuXpP/
-   3G8OMWC7D/joQ2rmpIFl2kCZBa9sLfJd78aL+MtGCoDRVCZjVQ5MIFjQK
-   ZbT03o29TaZ/G2mrAuVjH2oOolEm+gbwfCrAYPIeGdX53t/pWOBSu4hww
-   vhaDmW5vyUYROU+1e421MwacQbkjk7gZvke9qNhgp6l8Wo9GirK8jiwLU
-   g==;
-X-CSE-ConnectionGUID: zWTaATsKS/iCiMqvceif+g==
-X-CSE-MsgGUID: Rayh4RJaSDmeNZTcxg6akA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="97413884"
+  bh=Y3O95Ec8NG6W4v8nsNuLZfUD4S62gsn1uN5O/8xlBKg=;
+  b=Zu0xirUVzhEAmOuWy5WwvWeghbS2RYGAxjZND8sUwidljjW1NWDrraXz
+   nTkFWdG5yCiwylnP+EpMrajA4loqY25KpMOfz9Z0+8OiFo94HwHLMebl6
+   QuH5QPiseNTZHGdK3OVmn0d2IXiR0G9ell0nO+jiFxmpa7VyrWULPBfJQ
+   3sZw0+fbUDvaufs0AvCHegC2zyCtnJpwuCmTZSRJp2wXCVqMDsAO5eEQJ
+   9jUNMhv3akNJM6iEAbxyzCmidQjUJpvbIbjmdjodx5r1B/meNrn8yHANe
+   uS1bcB/LLZgDJBleVnMEZO35ltQomTlrgEPNzXKthzKb4hRTtRHPpRClq
+   A==;
+X-CSE-ConnectionGUID: bbdMCpvxSb+HddBN7TUS4Q==
+X-CSE-MsgGUID: ZHBn2h76S86Gke8bWTaTlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11790"; a="97413887"
 X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="97413884"
+   d="scan'208";a="97413887"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
   by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 09:43:30 -0700
-X-CSE-ConnectionGUID: CGClJyUDTWKTyikQmVi6hg==
-X-CSE-MsgGUID: jiw5iQjFR1OKgYs+qPeDuA==
+X-CSE-ConnectionGUID: klOhVePtQc+CUdFV5WPYqw==
+X-CSE-MsgGUID: 2p5SM920R/O4qIxCGRBVwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,242,1770624000"; 
-   d="scan'208";a="235019310"
+   d="scan'208";a="235019315"
 Received: from mkosciow-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.125])
   by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2026 09:43:28 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 58492121D24;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 592DD121D25;
 	Mon, 18 May 2026 19:43:19 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1wP13m-0000000E8Ak-1F3R;
+	id 1wP13m-0000000E8Ap-1Ikg;
 	Mon, 18 May 2026 19:43:18 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -78,9 +78,9 @@ Cc: laurent.pinchart@ideasonboard.com,
 	Jai Luthra <jai.luthra@ideasonboard.com>,
 	Mehdi Djait <mehdi.djait@linux.intel.com>,
 	Frank Li <Frank.li@nxp.com>
-Subject: [PATCH v2 16/17] media: ipu6: Use v4l2_subdev_get_frame_desc()
-Date: Mon, 18 May 2026 19:43:16 +0300
-Message-ID: <20260518164318.3367888-17-sakari.ailus@linux.intel.com>
+Subject: [PATCH v2 17/17] staging: media: ipu7: Use v4l2_subdev_get_frame_desc()
+Date: Mon, 18 May 2026 19:43:17 +0300
+Message-ID: <20260518164318.3367888-18-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20260518164318.3367888-1-sakari.ailus@linux.intel.com>
 References: <20260518164318.3367888-1-sakari.ailus@linux.intel.com>
@@ -105,7 +105,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TO_DN_SOME(0.00)[];
 	HAS_ORG_HEADER(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62043-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62044-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[intel.com:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -117,7 +117,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,linux.intel.com:mid,intel.com:email,intel.com:dkim];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 885FC5711EB
+X-Rspamd-Queue-Id: D09E45711FB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -126,22 +126,68 @@ preferred over calling the get_frame_desc() pad operation directly.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 22 ++++++++-----------
- 1 file changed, 9 insertions(+), 13 deletions(-)
+ .../staging/media/ipu7/ipu7-isys-csi-phy.c    | 19 ++++++--------
+ drivers/staging/media/ipu7/ipu7-isys-csi2.c   | 26 ++++++++-----------
+ 2 files changed, 19 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-index 7e539a0c6c92..5317b01935a3 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-@@ -6,6 +6,7 @@
- #include <linux/atomic.h>
- #include <linux/bitfield.h>
- #include <linux/bits.h>
+diff --git a/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c b/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c
+index 3f15af3b4c79..70f8a55e3bce 100644
+--- a/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c
++++ b/drivers/staging/media/ipu7/ipu7-isys-csi-phy.c
+@@ -5,6 +5,7 @@
+ 
+ #include <linux/bitmap.h>
+ #include <linux/bug.h>
 +#include <linux/cleanup.h>
  #include <linux/delay.h>
  #include <linux/device.h>
- #include <linux/err.h>
-@@ -600,11 +601,9 @@ int ipu6_isys_csi2_get_remote_desc(u32 source_stream,
+ #include <linux/iopoll.h>
+@@ -300,7 +301,6 @@ static int ipu7_isys_csi_ctrl_dids_config(struct ipu7_isys_csi2 *csi2, u32 id)
+ {
+ 	struct v4l2_mbus_frame_desc_entry *desc_entry = NULL;
+ 	struct device *dev = &csi2->isys->adev->auxdev.dev;
+-	struct v4l2_mbus_frame_desc desc;
+ 	struct v4l2_subdev *ext_sd;
+ 	struct media_pad *pad;
+ 	unsigned int i;
+@@ -318,17 +318,14 @@ static int ipu7_isys_csi_ctrl_dids_config(struct ipu7_isys_csi2 *csi2, u32 id)
+ 		 pad->entity->name))
+ 		return -ENODEV;
+ 
+-	ret = v4l2_subdev_call(ext_sd, pad, get_frame_desc, pad->index, &desc);
+-	if (ret)
+-		return ret;
+-
+-	if (desc.type != V4L2_MBUS_FRAME_DESC_TYPE_CSI2) {
+-		dev_warn(dev, "Unsupported frame descriptor type\n");
+-		return -EINVAL;
+-	}
++	struct v4l2_mbus_frame_desc *desc __free(v4l2_subdev_free_frame_desc) =
++		v4l2_subdev_get_frame_desc(ext_sd, pad->index,
++					   V4L2_MBUS_FRAME_DESC_TYPE_CSI2);
++	if (IS_ERR(desc))
++		return PTR_ERR(desc);
+ 
+-	for (i = 0; i < desc.num_entries; i++) {
+-		desc_entry = &desc.entry[i];
++	for (i = 0; i < desc->num_entries; i++) {
++		desc_entry = &desc->entry[i];
+ 		if (desc_entry->bus.csi2.vc < IPU7_NR_OF_CSI2_VC) {
+ 			ret = __dids_config(csi2, id, desc_entry->bus.csi2.vc,
+ 					    desc_entry->bus.csi2.dt);
+diff --git a/drivers/staging/media/ipu7/ipu7-isys-csi2.c b/drivers/staging/media/ipu7/ipu7-isys-csi2.c
+index f34eabfe8a98..08f4ca1e0289 100644
+--- a/drivers/staging/media/ipu7/ipu7-isys-csi2.c
++++ b/drivers/staging/media/ipu7/ipu7-isys-csi2.c
+@@ -6,6 +6,7 @@
+ #include <linux/atomic.h>
+ #include <linux/bits.h>
+ #include <linux/bug.h>
++#include <linux/cleanup.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
+ #include <linux/io.h>
+@@ -491,11 +492,9 @@ int ipu7_isys_csi2_get_remote_desc(u32 source_stream,
  {
  	struct v4l2_mbus_frame_desc_entry *desc_entry = NULL;
  	struct device *dev = &csi2->isys->adev->auxdev.dev;
@@ -153,7 +199,7 @@ index 7e539a0c6c92..5317b01935a3 100644
  
  	source = media_entity_to_v4l2_subdev(source_entity);
  	if (!source)
-@@ -614,18 +613,15 @@ int ipu6_isys_csi2_get_remote_desc(u32 source_stream,
+@@ -505,18 +504,15 @@ int ipu7_isys_csi2_get_remote_desc(u32 source_stream,
  	if (!pad)
  		return -EPIPE;
  
@@ -180,6 +226,17 @@ index 7e539a0c6c92..5317b01935a3 100644
  			break;
  		}
  	}
+@@ -534,8 +530,8 @@ int ipu7_isys_csi2_get_remote_desc(u32 source_stream,
+ 
+ 	*entry = *desc_entry;
+ 
+-	for (i = 0; i < desc.num_entries; i++) {
+-		if (desc_entry->bus.csi2.vc == desc.entry[i].bus.csi2.vc)
++	for (i = 0; i < desc->num_entries; i++) {
++		if (desc_entry->bus.csi2.vc == desc->entry[i].bus.csi2.vc)
+ 			(*nr_queues)++;
+ 	}
+ 
 -- 
 2.47.3
 
