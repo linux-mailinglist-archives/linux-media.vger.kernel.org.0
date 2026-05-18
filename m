@@ -1,188 +1,192 @@
-Return-Path: <linux-media+bounces-61912-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61913-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0PetG1nVCmpK8gQAu9opvQ
-	(envelope-from <linux-media+bounces-61912-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 11:01:13 +0200
+	id EPIEEtjWCmqc8gQAu9opvQ
+	(envelope-from <linux-media+bounces-61913-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 11:07:36 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7B82569416
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 11:01:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7EEB5695C0
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 11:07:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CD8AC302452B
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 08:57:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8749F303CD2B
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 09:02:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B318F3E3D9E;
-	Mon, 18 May 2026 08:57:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF6333AF666;
+	Mon, 18 May 2026 09:02:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="pwwmVtLh"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iKqx1a+d"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9652E3E2AB0;
-	Mon, 18 May 2026 08:57:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 419CD3E3DBC;
+	Mon, 18 May 2026 09:02:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779094650; cv=none; b=UKDugSL0TXlZQsCtirn2kBTZzrIeUedf6Dd79FmkH0Qc8O1e57jaDOdf1QdB0S6zvQmJKAQEmlKk8jU8OBdmhgBuTjxPODOagf2Yjb0qIomG17464DpvOVdU+Xs7iJ+5eyUzLyYx7wN476HTgceWIhkxksqNcOvJMsKuXQ3Vrbg=
+	t=1779094931; cv=none; b=p5axATon2g3mnp7ym4eVIBdwsGQPPYHyhdtqEiD5QVlDC4TKdOlFFaFlzOYYVU9CEGCk7aW1rNq78iJgNzDr125f/847HQZCFQmsnKQdvCAcbkqFUlkxwibl69w3sak1jFZGqSymVZAevwsgT7stZ2RVgFk7UzySilqh4MHQKB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779094650; c=relaxed/simple;
-	bh=2qTLaW/COV+GfxNT+S1Mi+IrpTKOlvQB9ZJrbZDjHvI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ton3PVidIrD2LL8vUDvQ7qW7m0qgUZLSgFcuW3dW0Hyc0rA5YbUiwd+bgx2CokDpgPwPEVa4Vd/slgNL2hQWD+Sq/20aoPciiU0SitUJnfxhf7JnZSRAryDkV0CgsZswF877XArydKbxrkhyFh5xmvjfGlUCTEjs89PDjJktkdY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=pwwmVtLh; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1779094646;
-	bh=2qTLaW/COV+GfxNT+S1Mi+IrpTKOlvQB9ZJrbZDjHvI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=pwwmVtLhoMYQTahDd2zJsjpmIP5OzRDUKAElxBRbyqPqhFEwXyQkDtRrG0LxRQgI5
-	 wF9B8xvYuSvSdD6HcplGKMY+AxD+Dd3nUeGfwtc/0ETVDauGIuE2fkRB30chfo/GrR
-	 qUMrZDKkO04TeIYAle5Cgbvvkc7KiAsC/S2d53WSQoF6wbOUSAt/2b09UG1lY4fyQf
-	 J74eyWJIz9tMYQU6K1fLG8IAgD9A10Q7P+RG4q7DS26UxuWdgnvvXRLIn4CCACWuGO
-	 8MpaFvFYZPa6tbPLkRlP2CzjqnY+UymXtRmFzPkGG7e3hLDN35U7H/pH093EPXUJ09
-	 O657R13F7DLaw==
-Received: from fedora (unknown [100.64.0.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 419D217E0443;
-	Mon, 18 May 2026 10:57:26 +0200 (CEST)
-Date: Mon, 18 May 2026 10:57:21 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Liviu Dudau <liviu.dudau@arm.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/6] drm/panthor: Driver-wide xxx_[un]lock ->
- [scoped_]guard replacement
-Message-ID: <20260518105721.42ffa64c@fedora>
-In-Reply-To: <5ab2d07c-74a4-4a2c-b145-6ed7b0060944@arm.com>
-References: <20260513-panthor-guard-refactor-v1-0-f2d8c15a97ce@collabora.com>
-	<20260513-panthor-guard-refactor-v1-1-f2d8c15a97ce@collabora.com>
-	<5ab2d07c-74a4-4a2c-b145-6ed7b0060944@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1779094931; c=relaxed/simple;
+	bh=SSjjersVTKJA4FOC/CVG6OACyKVEf8Rke3dGLsiTrMU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VR3hpZjg0Wh2+oOUhEfQLVk3HmuIo0rOybucj9T63tp7Rr2R5/pycrMU5cxhpiNOfhyeammU4b8R1mBFDPgcylMHBFzqfxu10ky7FQ0BevHuZpsRDKaIFZRpXzpBwBhQJEuHW+nl9RlJDWr81igT1yoH7ZeWqYdr+Mi/tAsyAoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iKqx1a+d; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F358C2BCB7;
+	Mon, 18 May 2026 09:02:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779094930;
+	bh=SSjjersVTKJA4FOC/CVG6OACyKVEf8Rke3dGLsiTrMU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=iKqx1a+dqZcroncIrlXCc+vwMQQOPvntOnct6USEj5K5tXNsKLvFRw1ms1V738fGC
+	 reaIxHsTB4J9dCouaHAk6c2mJu/OyHNn1zR6JiCduP4/ZqedLrIXnUb7xaWfUWdR9j
+	 uXzb65B0gmyHb9dgvrMXUluXqpifddr/hgyzmWYvx4lDvw91bdWt8gZGVc6wsPEt4C
+	 hSblaMDPlfnne4ok/EygSC2PIECC8UzWatzc7iIcOfETHc0DhV5SqTH3IEz9inN35e
+	 4OKsvR82Bf9x2+LFf5vof3UB3xG5TXQU6qoKxis+v8uVjMjvnU4PC0Rol3FcRacfAU
+	 nDEf1nNa5rxhg==
+Message-ID: <b5995c59-5413-4705-90ae-8a153fd34f09@kernel.org>
+Date: Mon, 18 May 2026 11:02:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 5/6] media: uvcvideo: Do not add samples if dev_sof has
+ not changed
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Tomasz Figa
+ <tfiga@chromium.org>, Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: Yunke Cao <yunkec@google.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260513-uvc-hwtimestamp-v3-0-7a64838b0b02@chromium.org>
+ <20260513-uvc-hwtimestamp-v3-5-7a64838b0b02@chromium.org>
+From: Hans de Goede <hansg@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20260513-uvc-hwtimestamp-v3-5-7a64838b0b02@chromium.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: A7B82569416
+X-Rspamd-Queue-Id: B7EEB5695C0
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-61912-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-61913-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	FREEMAIL_CC(0.00)[arm.com,linaro.org,amd.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hansg@kernel.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	TO_DN_SOME(0.00)[]
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,chromium.org:email,ideasonboard.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-On Thu, 14 May 2026 14:16:37 +0100
-Steven Price <steven.price@arm.com> wrote:
+Hi,
 
-> On 13/05/2026 17:58, Boris Brezillon wrote:
-> > Right now panthor is mixed bag of manual locks and guards. Let's
-> > make that more consitent and thus encourage new submissions to go
-> > for guards.  
+On 13-May-26 1:49 PM, Ricardo Ribalda wrote:
+> We only save relevant samples into the circular buffer. If the data is
+> very similar to the previous one, exit early, this allows us to avoid
+> some expensive operations such as usb_get_current_frame_number().
 > 
-> I'm fine with encouraging guards for future code - but I'm a little wary
-> of a big change like this - it's hard to review it and check that
-> everything works the same.
+> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
-I can try to split that up, but even after the split, it will still be
-a pain to review.
+Thanks, patch looks good to me:
 
-> And it's a little dubious that the mechanical
-> refactoring produces more readable code in some cases.
+Reviewed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
 
-I agree, though the mix of guard()s and manual locks makes things even
-harder to reason about, especially when they appear in the same
-function/block. The very reason I ended up sending this series is
-because, as part of the IRQ refactor, I decided to be a good citizen
-and use guards when I could, and I realized how bad the partial
-transition was in term of ergonomics: not only you have to think about
-whether the function/block scope is what you want (that's basically
-what guard provides, unless you used explicit scoped_guard()), but you
-also have to think about the interactions with your other manual locks.
+Regards,
 
-TLDR; I'd rather switch over to guards entirely, or go back to manual
-locks, but the mix we have right now is far from ideal.
+Hans
 
+
+> ---
+>  drivers/media/usb/uvc/uvc_video.c | 16 +++++++++++-----
+>  drivers/media/usb/uvc/uvcvideo.h  |  3 ++-
+>  2 files changed, 13 insertions(+), 6 deletions(-)
 > 
-> That said I asked my friendly AI bot...
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index 63850b779e24..6794031cd0fb 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -524,7 +524,7 @@ static void uvc_video_clock_add_sample(struct uvc_clock *clock,
+>  
+>  	spin_lock_irqsave(&clock->lock, flags);
+>  
+> -	if (clock->count > 0 && clock->last_sof > sample->dev_sof) {
+> +	if (clock->count > 0 && clock->last_sof_processed > sample->dev_sof) {
+>  		/*
+>  		 * Remove data from the circular buffer that is older than the
+>  		 * last SOF overflow. We only support one SOF overflow per
+> @@ -599,7 +599,12 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
+>  	if (!has_scr)
+>  		return;
+>  
+> -	sample.dev_sof = get_unaligned_le16(&data[header_size - 2]);
+> +	sample.dev_sof = get_unaligned_le16(&data[header_size - 2]) & 2047;
+> +	/* If the sample SOF is identical to the previous one, quit early. */
+> +	if (stream->clock.last_sof_raw == sample.dev_sof)
+> +		return;
+> +	stream->clock.last_sof_raw = sample.dev_sof;
+> +
+>  	sample.dev_stc = get_unaligned_le32(&data[header_size - 6]);
+>  
+>  	/*
+> @@ -678,19 +683,20 @@ uvc_video_clock_decode(struct uvc_streaming *stream, struct uvc_buffer *buf,
+>  	 * all the data packets of the same frame contains the same SOF. In that
+>  	 * case only the first one will match the host_sof.
+>  	 */
+> -	if (sof_diff(sample.dev_sof, stream->clock.last_sof) <=
+> +	if (sof_diff(sample.dev_sof, stream->clock.last_sof_processed) <=
+>  	    (UVC_MIN_HW_TIMESTAMP_DIFF / stream->clock.size))
+>  		return;
+>  
+>  	uvc_video_clock_add_sample(&stream->clock, &sample);
+> -	stream->clock.last_sof = sample.dev_sof;
+> +	stream->clock.last_sof_processed = sample.dev_sof;
+>  }
+>  
+>  static void uvc_video_clock_reset(struct uvc_clock *clock)
+>  {
+>  	clock->head = 0;
+>  	clock->count = 0;
+> -	clock->last_sof = -1;
+> +	clock->last_sof_processed = -1;
+> +	clock->last_sof_raw = -1;
+>  	clock->last_sof_overflow = -1;
+>  	clock->sof_offset = -1;
+>  }
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 4ba35727e954..b6bcee4a222f 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -522,7 +522,8 @@ struct uvc_streaming {
+>  		unsigned int size;
+>  		unsigned int last_sof_overflow;
+>  
+> -		u16 last_sof;
+> +		u16 last_sof_processed;
+> +		u16 last_sof_raw;
+>  		u16 sof_offset;
+>  
+>  		u8 last_scr[6];
 > 
-> [...]
-> 
-> > @@ -3142,48 +3126,44 @@ panthor_mmu_reclaim_priv_bos(struct panthor_device *ptdev,
-> >  	LIST_HEAD(remaining_vms);
-> >  	LIST_HEAD(vms);
-> >  
-> > -	mutex_lock(&ptdev->reclaim.lock);
-> > -	list_splice_init(&ptdev->reclaim.vms, &vms);
-> > +	scoped_guard(mutex, &ptdev->reclaim.lock)
-> > +		list_splice_init(&ptdev->reclaim.vms, &vms);
-> >  
-> >  	while (freed < nr_to_scan) {
-> >  		struct panthor_vm *vm;
-> >  
-> > -		vm = list_first_entry_or_null(&vms, typeof(*vm),
-> > -					      reclaim.lru_node);
-> > -		if (!vm)
-> > -			break;
-> > -
-> > -		if (!kref_get_unless_zero(&vm->base.kref)) {
-> > -			list_del_init(&vm->reclaim.lru_node);
-> > -			continue;
-> > +		scoped_guard(mutex, &ptdev->reclaim.lock) {
-> > +			vm = list_first_entry_or_null(&vms, typeof(*vm),
-> > +						      reclaim.lru_node);
-> > +			if (vm && !kref_get_unless_zero(&vm->base.kref)) {
-> > +				list_del_init(&vm->reclaim.lru_node);
-> > +				vm = NULL;
-> > +			}
-> >  		}
-> >  
-> > -		mutex_unlock(&ptdev->reclaim.lock);
-> > +		if (!vm)
-> > +			break;  
-> 
-> ... and it said the above has changed behaviour.
-> 
-> In the !kref_get_unless_zero() case you now assign vm = NULL which then
-> leads to the 'break' case above. Previously we 'continue'd.
 
-Oops, that one wasn't intended, indeed.
 
