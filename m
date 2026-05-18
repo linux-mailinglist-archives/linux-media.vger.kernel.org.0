@@ -1,96 +1,95 @@
-Return-Path: <linux-media+bounces-61956-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61957-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QNjuKuvvCmpv+AQAu9opvQ
-	(envelope-from <linux-media+bounces-61956-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 12:54:35 +0200
+	id SByYK9TwCmqv+AQAu9opvQ
+	(envelope-from <linux-media+bounces-61957-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 12:58:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F53256B09C
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 12:54:35 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C23856B195
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 12:58:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0639A30036C1
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 10:54:33 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 6B41130087CC
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 10:58:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01CD93EFFC6;
-	Mon, 18 May 2026 10:54:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BA4F3EF0A0;
+	Mon, 18 May 2026 10:58:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qRbTEYbH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MTFjmCJ/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0B0F3E8C68
-	for <linux-media@vger.kernel.org>; Mon, 18 May 2026 10:54:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748273F0A87
+	for <linux-media@vger.kernel.org>; Mon, 18 May 2026 10:58:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779101667; cv=none; b=d7ZWjJs7HBbpiG6+XIxLGvngE7ehzqS8CvkrEZz7kUVvpNtubSiLzt1t1Dcx8indJ5Os7Nz7+GBxnJu/8BBIEtwyu1/It/SQPG6aJLX0RTabiWe+1wFwLA9yTSo1PRBcX/IKLqOtntaHMryqzWHLIR66o7DXfM/ov0uQxFQpnxQ=
+	t=1779101897; cv=none; b=Pls87w5iV/7/HnIdlmmNo9ZRT4fSt4m6m/wzthdKhDTVJ4yeaOOsZkZRyW20gED6hxJFXUqR0XiN22/kz2eInyGMgBo+rcBX16m8ZG0CrKmdaDT9cHbtNYRTdt8bzubSQEJDm1Y4MbZZCs9TBWR31q3xvHinqsBACWzO60gdIMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779101667; c=relaxed/simple;
-	bh=KpHz3lAQJzAohq8g44sqdTTqJWy6OEAJMENqHt74rd0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=msTR6hY1eFwBiXsyZbPREHwi7GNC5nDuWOMifrOwA/cAdKV91JSFtxtJpVbQFeVMKHijTba26AAaXROkZ9KvcLvj51eElJZ6fwKA7sw8OULsdhAWpR6+4G6SkrFpVmbASSQra0KlCJWx4USvtDC9OSy1XEW7MTWNjsW+iYekFNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qRbTEYbH; arc=none smtp.client-ip=209.85.128.52
+	s=arc-20240116; t=1779101897; c=relaxed/simple;
+	bh=O9YNQzI1HHIKBIBkzsKm32RBLUqeyNJY3cFZr5m9atE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=asMlpYUoeyV0l24ecfkLxudgv96kBoKs03GNv97J7gj8jTxQEKmRWA/usDVT02WTg4OGMueeG5fN6EjlnQ7lBA2+RfNsCblQxgZiBRC1f2+bZ8AUgQACruzCydVXiBWPCJ23Hm1rWxwLJ2U7iXLPshb2mYfSdXXxWSHYUXBt9nQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MTFjmCJ/; arc=none smtp.client-ip=209.85.210.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso20451445e9.3
-        for <linux-media@vger.kernel.org>; Mon, 18 May 2026 03:54:24 -0700 (PDT)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-836ebdeb969so866379b3a.3
+        for <linux-media@vger.kernel.org>; Mon, 18 May 2026 03:58:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779101662; x=1779706462; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779101890; x=1779706690; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Hl/m7s8+gdhaAEkK8F8CgPM1JiiK905rKoY3T49KXgs=;
-        b=qRbTEYbHn1wgrljfopAZnwIVZuqHnp78sngfpT4zbA8DF/NXNL+VzMjexvm3WdUiCG
-         rPPmHsq+XfDnZ2LzukcRxrTGR1PvyUjP59uLDf9JqO4fbcYMHa3H5Qg21JTaP+b++H+t
-         tLHpYyhv9Maf+JkyzumE73VU5rfndPXmGlqHTc23vn3Iizs/koMONhtVKSra1g7DyNwa
-         xgcOYL2n0jGD8qB48563vgjMlftxuqb0z7hLYvRp0a+gbfRFO8onCt12O6OmFlsxlksC
-         WIDtbwjGd+yALRmXna1O4EHxzt3GKB6S8Cb5XT3rrWLKkdocrvMNvYsIKcWIFFZNYWZ6
-         25eg==
+        bh=2bedMT/1wLJU6lQZbrg2nG4yNZCN3FiqAaO+Q+eV5ME=;
+        b=MTFjmCJ/8qpHXrmlMsZG0zxmJiaNApJthbgELgKyeGFNuphiV5oHL4GhlDzuQZi6De
+         QrSUDQ5LM1bXGHrAU8kfeDW8JYaBigDMEhrljIYoJFhnqlKOYmrd7k4tDLdYCd+MIr1M
+         USAn3zHhtACtx4TdUXquMHXjtWtCUx0cDM8Mp0gZVfNin3IwhDTIMhBjIS53SPXDm3qV
+         IkhLcZTvjEopiXOjNNQWZMzbKMrbSIEXR696AjEv5JqsULcn2zrxnyNG7DBJA3/Upxs+
+         bXo8oEpu9KO82YeGhARrprAkaziMLdMdO+qQUYkSn5KhIiFUiDpRwqonF/YOMQ3kkIKA
+         Gs7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779101662; x=1779706462;
+        d=1e100.net; s=20251104; t=1779101890; x=1779706690;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Hl/m7s8+gdhaAEkK8F8CgPM1JiiK905rKoY3T49KXgs=;
-        b=nYcd/TLA7ABOjVHfcNuTHgMYTMRKaVaDyVGsIK91MpM62Juq50Zgqzcq6s19GZPVAF
-         mm0BfNep6g93IZTS8DduBN69rDCbqMSH0jOzm/eSUeZuGEf49jmFnmwUIm5Y2zSNgxYt
-         9HCmWKzOU9zWEQQ/rpWTQivbBhAwyRl+1t552N6jdYX5IuCdMkpYXu4BpVlOfhorgRQR
-         rx4bVqUwmdcJ/l1ZI/y/NvXGeFeWvK4BqyMP1XYlinAkZuB3CZqIx+j3Nhx8W/6ckzAo
-         99qJHt0yJ4bbwwp8NwN949wQa/vsAeSHmCbep4WxxBwJ+FXWpux6sZZtnmDa4wglyy64
-         3KHg==
-X-Forwarded-Encrypted: i=1; AFNElJ/KNSt34TSx8MjxKT+dwiUMDH1KL3U8TC/nyMuSFEXJ5IFIy0gQ6t2eoC/Qb8xH8vFBiFogaNFHFAlKvQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoqE9vDUcengFiaZ9Z6C9bF/doSBUaCIrNeCx9S/4wVUk9gZix
-	ErafPaWUDyxkdMSgfuFNBCZ8c+dNe9PWlfkM02ZMUoriOTqXWKyFamo=
-X-Gm-Gg: Acq92OHmWogIpmivPFX1EeW8ckI3F4DcH1y7NL/ta323jCNvNx2NXlOjKuHUhiCzO71
-	u++6nYzgWrT7Qu8ohAAKjZ2HYbmkgfCFf9f7z5C7gYYMayAyb6V4XsZy30XwQIpA7TwUl4ZPag6
-	qjU3Uo5PsBnE98rPkwz7x+ZuncvmN46HUYMGMjKh2SE0dPZLS8fC99kDcU1ZY9+z7GgQhgpa6Ir
-	OtZs0aoHboyFbU48sWR2lbMQIl69t82LhxPveCmgyv7tZc3fJ6tyuLqByLD92kb98yUIgBxHm8E
-	9YdQC5CP/SmZR6WzzRxIsFCoWNyrav0lpSjzWE/iJEdlmT1X/1a2B7wXEyl9rqnnDizk9I6lpII
-	AajMtT7nDtrk4NNLvzzeUxjqUyjAxJP8aqqC4V6LJ2txagfamnWrNxECGj9cauSujOMu0jugLh4
-	++IuH7hNDGXaiF0wvqKR52NcsLYjJsSZXSauXOP1gl4bbVonM8uP5Wx+7HsI9NEddAwT9iCM0XU
-	T5DsRYnNEo02g==
-X-Received: by 2002:a05:600c:c0db:b0:48e:8499:4be0 with SMTP id 5b1f17b1804b1-48fe60ee481mr163456935e9.15.1779101662049;
-        Mon, 18 May 2026 03:54:22 -0700 (PDT)
-Received: from localhost.localdomain ([151.57.14.108])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fe5694f2csm249429345e9.4.2026.05.18.03.54.20
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 18 May 2026 03:54:21 -0700 (PDT)
-From: Francesco Saverio Pavone <pavone.lawyer@gmail.com>
-To: jonas@kwiboo.se,
-	detlev.casanova@collabora.com,
-	nicolas.dufresne@collabora.com,
-	hverkuil@kernel.org,
-	mchehab@kernel.org
-Cc: ezequiel@vanguardiasur.com.ar,
-	heiko@sntech.de,
+        bh=2bedMT/1wLJU6lQZbrg2nG4yNZCN3FiqAaO+Q+eV5ME=;
+        b=A2TOGXK7KjIp2eGIJ+UEfdI66+Ud3A/Q3tTzDo3vaMVX3E0qTXBvvDp6V31qW4m/oZ
+         61KOVKKNmnSMv1ejhxYD2HMcstHkUOg4BI7Vf1M1D6n4w0mjhG1maLaBfYLK2FLoY8B1
+         7PmQdmTtPCwot9Xm3aAwjM6Nl+vrAamZyfF2tkOFIfdyUOjZu090+y4zIQXOfiRsHSpD
+         AbWKvE1qJy5m0ODPaE3JWDcvMa+eylB05ZSLCYQslwYDdd90bvJcja0DEAvliz6tZJzk
+         CDo2x1Fzgswpg2M20gU6hXM6aVVpKzMNCGcE5J1z6pG8u7DnuvS5L9f/QciX1EeXOoEa
+         jwlA==
+X-Forwarded-Encrypted: i=1; AFNElJ833zmp/mPgzL8cRI+eW+m+ZgjTvOH1oMeyoOJpJTQcISzCxwy/MEa/+a0JLvsD4WP2WmW6KQSDFs/UmA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvNrB7m0L7jLJ4+wvbCs52Jqj+dQYKAuEU22u0LUf8w42wVUxh
+	uyM5sCoznWNynKpRx/KHjLnd+RxUZE8v3Eu+uSgW7rr7nVCgmmESp73u
+X-Gm-Gg: Acq92OF9CwI/o2Tk2yaY9l6FoDIY2m/Dpr6pKu0OOfoBtqG8rDr+fw4qhMW3a860D3g
+	LAJIci9BCSr5VJk/gAjfy2Spy5bR7uXQXai8WpQGFPc6FruevCwkMckbg15h5k/0lq4Y6cEwSjW
+	is92yBz25tgNZn+Im1Kkv50jpLqr8NHwn/BZnJo3xjmLrWrMOM137b8UzIBloko7iF7VznpEk8r
+	VV20WTo9vNZEtE+mj2jEVj4uGeuJae3Z8GUCgOwMgdDC+rxlLWpyW3Hf0++obiTuFpKia+4YDPn
+	EaHUzWlo/bAb48QwkMPqJjFGmiAv3uimY/329euV4Y5vzBCGXd7HmNkjPBDTrUWK/4s6iojiQxg
+	t7xlCK5UDrnLlFGuoP9pUEmrmB8BxuXiwFgkuqpUi9egVjsd1m+NcBwHYMcFD0Us9jV6uPMsW8r
+	e3sf83CcXFyGkoxA==
+X-Received: by 2002:a05:6a00:4403:b0:834:e882:3280 with SMTP id d2e1a72fcca58-83f33cef68amr14145948b3a.31.1779101890282;
+        Mon, 18 May 2026 03:58:10 -0700 (PDT)
+Received: from lgs.. ([101.36.109.157])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f196818efsm17201275b3a.16.2026.05.18.03.58.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 May 2026 03:58:09 -0700 (PDT)
+From: Guangshuo Li <lgs201920130244@gmail.com>
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	"Bryan O'Donoghue" <bod@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Stefan Schmidt <stefan.schmidt@linaro.org>,
 	linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: rkvdec: fix PM runtime teardown ordering in remove
-Date: Mon, 18 May 2026 12:54:13 +0200
-Message-ID: <20260518105413.42147-1-pavone.lawyer@gmail.com>
-X-Mailer: git-send-email 2.54.0
+Cc: Guangshuo Li <lgs201920130244@gmail.com>
+Subject: [PATCH] media: qcom: iris: avoid double free on video register failure
+Date: Mon, 18 May 2026 18:57:55 +0800
+Message-ID: <20260518105755.988961-1-lgs201920130244@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -98,90 +97,107 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 1F53256B09C
+X-Rspamd-Queue-Id: 9C23856B195
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_NEQ_ENVFROM(0.00)[pavonelawyer@gmail.com,linux-media@vger.kernel.org];
-	TO_DN_NONE(0.00)[];
-	TAGGED_FROM(0.00)[bounces-61956-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-61957-lists,linux-media=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lgs201920130244@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCPT_COUNT_SEVEN(0.00)[11];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	NEURAL_HAM(-0.00)[-1.000];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TAGGED_RCPT(0.00)[linux-media];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,kwiboo.se:email]
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 X-Rspamd-Action: no action
 
-From: Jonas Karlman <jonas@kwiboo.se>
+iris_register_video_device() allocates a video_device with
+video_device_alloc() and releases it from the err_vdev_release error path
+if video_register_device() fails.
 
-The current remove() path calls rkvdec_v4l2_cleanup() and
-pm_runtime_disable() before pm_runtime_dont_use_autosuspend(), and
-frees the empty IOMMU domain after that. With autosuspend still
-armed when the domain goes away, the VDPU381 can be left in a dirty
-state across module reload and suspend/resume cycles.
+This can double free the video_device when __video_register_device()
+reaches device_register() and that call fails:
 
-On RK3588 this surfaces as a VP9 inter-prediction bug: from the
-second ALTREF frame onward, motion blocks decode with U=V=0 (BT.709
-green), while intra and static blocks stay correct. Reordering the
-teardown to dont_use_autosuspend() -> iommu_domain_free() ->
-pm_runtime_disable() -> v4l2_cleanup() makes the symptom go away.
+  video_register_device()
+    -> __video_register_device()
+       -> device_register() fails
+          -> put_device(&vdev->dev)
+             -> v4l2_device_release()
+                -> vdev->release(vdev)
+                   -> video_device_release(vdev)
 
-Tested on a Radxa Rock 5B+ (RK3588, 8 GB LPDDR5) with both the
-libva-v4l2-request mpv pipeline and Chromium's V4L2 stateless
-decoder. With the fix, 300 random pixel samples on VP9 Profile 0
-clips at 1080p and 1440p match a libvpx software reference exactly
-(worst delta 0). Without it, the same 1080p sample at frame 4,
-pixel (960, 270) reads HW=(0,112,0) vs SW=(204,147,116). HEVC and
-H.264 stateless decoding via mpv keep running on hardware with no
-fallback.
+  iris_register_video_device()
+    -> err_vdev_release
+       -> video_device_release(vdev)
 
-Fixes: ff8c5622f9f7 ("media: rkvdec: Restore iommu addresses on errors")
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-Tested-by: Francesco Saverio Pavone <pavone.lawyer@gmail.com>
-Signed-off-by: Francesco Saverio Pavone <pavone.lawyer@gmail.com>
+Use video_device_release_empty() while registering the device so that
+registration failure paths do not free vdev through vdev->release().
+iris_register_video_device() then releases vdev exactly once from
+err_vdev_release. Restore video_device_release() after successful
+registration so the registered device keeps its normal lifetime handling.
+
+Clear the cached decoder or encoder video_device pointer on failure since
+it is assigned before video_register_device().
+
+This issue was found by a static analysis tool I am developing.
+
+Fixes: 38506cb7e8d2 ("media: iris: add platform driver for iris video device")
+Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
 ---
- drivers/media/platform/rockchip/rkvdec/rkvdec.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/media/platform/qcom/iris/iris_probe.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-index 6f5f0422d317..bb95b090a25b 100644
---- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-+++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-@@ -2066,12 +2066,13 @@ static void rkvdec_remove(struct platform_device *pdev)
+diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+index ddaacda523ec..0d259f9b22a1 100644
+--- a/drivers/media/platform/qcom/iris/iris_probe.c
++++ b/drivers/media/platform/qcom/iris/iris_probe.c
+@@ -151,7 +151,7 @@ static int iris_register_video_device(struct iris_core *core, enum domain_type t
+ 	if (!vdev)
+ 		return -ENOMEM;
  
- 	cancel_delayed_work_sync(&rkvdec->watchdog_work);
+-	vdev->release = video_device_release;
++	vdev->release = video_device_release_empty;
+ 	vdev->fops = core->iris_v4l2_file_ops;
+ 	vdev->vfl_dir = VFL_DIR_M2M;
+ 	vdev->v4l2_dev = &core->v4l2_dev;
+@@ -174,11 +174,17 @@ static int iris_register_video_device(struct iris_core *core, enum domain_type t
+ 	if (ret)
+ 		goto err_vdev_release;
  
--	rkvdec_v4l2_cleanup(rkvdec);
--	pm_runtime_disable(&pdev->dev);
- 	pm_runtime_dont_use_autosuspend(&pdev->dev);
++	vdev->release = video_device_release;
+ 	video_set_drvdata(vdev, core);
  
- 	if (rkvdec->empty_domain)
- 		iommu_domain_free(rkvdec->empty_domain);
+ 	return 0;
+ 
+ err_vdev_release:
++	if (core->vdev_dec == vdev)
++		core->vdev_dec = NULL;
++	if (core->vdev_enc == vdev)
++		core->vdev_enc = NULL;
 +
-+	pm_runtime_disable(&pdev->dev);
-+	rkvdec_v4l2_cleanup(rkvdec);
- }
+ 	video_device_release(vdev);
  
- #ifdef CONFIG_PM
+ 	return ret;
 -- 
-2.45.0
+2.43.0
 
 
