@@ -1,213 +1,164 @@
-Return-Path: <linux-media+bounces-61910-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-61911-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wCeLFMnRCmru8QQAu9opvQ
-	(envelope-from <linux-media+bounces-61910-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 10:46:01 +0200
+	id eE4TCKPRCmou8gQAu9opvQ
+	(envelope-from <linux-media+bounces-61911-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 10:45:23 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE24856911F
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 10:46:00 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B1E35690F7
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 10:45:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 140EB302F6B3
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 08:37:28 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 593EA3031810
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2026 08:44:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9B6B3E3166;
-	Mon, 18 May 2026 08:37:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 890913815F3;
+	Mon, 18 May 2026 08:44:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="A4FDVe8F"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="PJx2YWKH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [217.72.192.78])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 401633E2AB8;
-	Mon, 18 May 2026 08:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F2091448E0;
+	Mon, 18 May 2026 08:44:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779093446; cv=none; b=BRCgKEn/ndapIRexy+N5ehMHX7QjNGDQvOGes3rGoILNMuYduqpCedxhbWFGjM37uKAF8+nJrp8EUap8BuKt16xbUy6oOZ/tFe2A2V8veNnECnw3SxXlfuYg2mTTLy0k1M37ajt1PHJSFLzvFjuledTFTc2mOzZtxSN/A+A68gU=
+	t=1779093845; cv=none; b=M5G4/8TP2/x/OMBLad9jLULGmht2XOq0c/y34JRBkixqoPdcuSeAaGWqKwTwHZiK/ueuNykrmnw2rOMz+9PgZnYPg2SDMHNkEe6TmZVOD2EZXJVuZ47rESmsFHiGM6r33qsJGh183eLSN0Ek8eG9wh2wZKKQ5I64JvBHnZC7nlo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779093446; c=relaxed/simple;
-	bh=ggCi8n/BT9NoJR+AAcDowFfFGXlbfTYVC0uSMhMcJvQ=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=UbX5blfgYULKwHNN7scqxyMbIYAguOB0xG443BmAJKtOI4KJovqRzGCHjevkI6B5p0SZHl/LiuGfjSHuTakRwRYebApFiJFQV1+FQFVMpuBmIEXGLKgyIjfdlgwOECZT17ePYz/n3eei2gyZHbo5uJGUQU9TTgp+6rcZLrOT3n4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=A4FDVe8F; arc=none smtp.client-ip=217.72.192.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1779093442; x=1779698242; i=markus.elfring@web.de;
-	bh=ppS8uYay3QGOnM7C0BPNyYJQy3U1nTCIK2ZlFp1+LBg=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=A4FDVe8FNA12eGQeTK8MJCdkpDARgO82oQ9MRxd+uPcSIcTdP2Z5QOV9txhVj2f5
-	 CZzSB5PGanuLzLGNa7kWwqLrfyz1Qryi/IVkRtFYZ6A1AZouGW6BuIsGKNkYe1MOc
-	 qlkj59+NLKkV7jb1AQtGRLClAYAohVeYnweR9LSDZXDn9BdHcHz+51Ojy7UMlZkXI
-	 PXXN7Yzq+pU+Vx3jFocO8mS7sEivR8IyaeWX8V7fhj+Jx5gq23m7EWuUmAeBZdyv6
-	 qng2BBjgMQMapEYq/qETAAiiNiXI3cOGr2Jrp9ACrcOLhLU/PR/xSu7nrTmkIEG5I
-	 43GkBiCucSgJI7MVWg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MlL9z-1x5wsB0NUD-00o4mE; Mon, 18
- May 2026 10:37:22 +0200
-Message-ID: <a77b88d4-249e-4c9e-b529-72127bbb1103@web.de>
-Date: Mon, 18 May 2026 10:37:10 +0200
+	s=arc-20240116; t=1779093845; c=relaxed/simple;
+	bh=B79O7RG3AtnruxEHjLBPiA2D63Yfw5SoWz2V+Qe6Of8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UdrX6SgUmKv6j2r1vP/rwl+AgEt4jiJRCresiXPp+w3xwhW4XYs/+bNjDnKkrto3UbSmYtsNMjoq9sp0IAX9zKIg46fnGUFNyRilvtPBnq6yr8dV0C5gJdgeHkz8irqrHF1F7Jrq2GUIyL10QRTq+ZLm6h3t9uKJPnKooXiSy+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=PJx2YWKH; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1779093841;
+	bh=B79O7RG3AtnruxEHjLBPiA2D63Yfw5SoWz2V+Qe6Of8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=PJx2YWKHwhOIdvHGUdsJgaIqUiIz2lLg65VhYe7GMEqd3oG0MUf2pvP7PEKyX68sZ
+	 7q7iv95x4TF90kW8m4I6rclc9kQ8jBNl2h8JTVaA1Zy0n1Jvb3jq9kvoYs4zo72Bmn
+	 NNiNda+hKWmSmbZqnPxP6IubnDiCqodq790fP/Vvtt7oSq36kbjvshIjD2WU8GQQq2
+	 xirCPv1dQZ63nE1kpCEhWS74tc260aUIeN8dSVBBXPA3DNWNmpp7hMhxfqru9Z8kxo
+	 kiY/4BbAqIlcLj+Di8NScsq4/vs+WS0GaXlUa71CfO1RD5TQyXQsXhUIgK48HgeMxm
+	 7efXIsZ7C1ZfQ==
+Received: from fedora (unknown [100.64.0.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 2420217E02A3;
+	Mon, 18 May 2026 10:44:01 +0200 (CEST)
+Date: Mon, 18 May 2026 10:43:56 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Chia-I Wu <olvaffe@gmail.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/6] drm/panthor: Driver-wide xxx_[un]lock ->
+ [scoped_]guard replacement
+Message-ID: <20260518104356.71827224@fedora>
+In-Reply-To: <CAPaKu7S9WMbJERrWa=bj5qyQg72no9MPex6S1MY6t8nXoMbB-Q@mail.gmail.com>
+References: <20260513-panthor-guard-refactor-v1-0-f2d8c15a97ce@collabora.com>
+	<20260513-panthor-guard-refactor-v1-1-f2d8c15a97ce@collabora.com>
+	<5ab2d07c-74a4-4a2c-b145-6ed7b0060944@arm.com>
+	<CAPaKu7S9WMbJERrWa=bj5qyQg72no9MPex6S1MY6t8nXoMbB-Q@mail.gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Dawei Feng <dawei.feng@seu.edu.cn>, Zilin Guan <zilin@seu.edu.cn>,
- linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- bcm-kernel-feedback-list@broadcom.com
-Cc: stable@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Jianhao Xu <jianhao.xu@seu.edu.cn>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Ray Jui <rjui@broadcom.com>,
- Scott Branden <sbranden@broadcom.com>
-References: <20260515152529.1007540-1-dawei.feng@seu.edu.cn>
-Subject: Re: [PATCH] media: bcm2835-unicam: fix dummy buffer double free when
- register fails
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20260515152529.1007540-1-dawei.feng@seu.edu.cn>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:tx80KagCZZJg1dCw/zekfsK+LD3m2hVT3DSIOs3jDkDfennHF7w
- WD7aauMj07KuadCyu/H0jhPBcTamU4EQ1nzJbns08ZjECWQMzJkuYac4lCsY6nxkTfHttDC
- lHrQv3gUKlx57gbE5Zk/7c4m76Jr17+T65oWtaafHCc81yTDGGEaatR0keosZu8b/my1J8z
- 5b+29JIIRL0IbQ7fcHeEA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:U7Rbl2jFnrY=;qmpmyer6HO8vle17dbUrkTN9dpn
- kQohuQPLxRkzbdd45oy44M10JxWHNMFIHNkxxp38vm55Tj80BYT37r8ayzVYpJz/AR9MhI1rX
- qReItduLTfFvbsABHNUKitNqzaYktJo9RvgmMTLxA5Z+d+6Dt/ustNNtBWdKM5LXOy0MPqW7l
- ptnGCovdpnkWmQ1MXYoYfAlM5y0gygNeave3Ehp84QaPZ/7C84CJdV6OwWlb5plencU/i6gHf
- U0Cv3iMS2warfBuGoiULWcQV3pdcKPbrIEvQARbJQ8WT3NDAoqgPJL7ovKfUCjv42t6mLY0k9
- RxKFCsmxPA3htOcil6NmC9TdMLFBN7jCms34JL0cJgD/re9CU6q8YlhWUPWr2ZLZ85fcMCHxF
- GJFWfdWDU+05kxlcWqgar9Tm+AF0QUFfHM0KjfwwU4bVshy9/MKU3ORH6YvyrYLg4wI86rZcw
- 78wFq77GTj7PtFPe4fAWvic0mwqecAnFWlQUmzTjsQ3CyXCPxGGWCu9+iC8HtKONSWIfk8ITG
- NZWAwO1shIdiEz3VGDwCfW9Rwo7soFcRYi2bWUjTF98f6rf8H00k2Spfncj4MOnap/nNcvXqi
- kGgQ3RmKkXaG8+ISovzlWjkG+7JAuBo7CVaXRb2fNmpfz1+xP+EWomS8ZzNDsiNEvnM8kG57T
- KvqfCyZxmoBVquFbWS07KbaUWaa7bmKjVy8qNWsz+srXM+P5IvPRhFGCjFSJMkaFw3SEQ2Huz
- M4HrAz9JN28VGbfdmCd0SYyGKrUCJhJqSkaTuzUnPal62BkGRVwLY5P2+ubr0GxPWVCQkt4WR
- ORsJTKYxzmNuwhmmxopN4V0zPN5kFYMqPeMxj9OXl71aJ6Wj5Cl5hK4SeAsTW3MbweCtB4iBN
- 1NODH4qnt6c7dpDWELDfrJ+7rZdDduUtMxvNMDGaZDqIJVygzc/xkuu9bXGH0KL/u1joOy7WR
- V0nzZpfn9OVoRVd0BnD70DPeOs8o3tuiBuQILWMSChygyMLwgyhNfMGWx0hYqfoNz4XHWzxuD
- fKh7jrBKOsWnp5tNtgi3VaFh0WvyoC47lxIQlj7gwBY8UzCrGBO9DP1+QuwGEEhb0upBn9y00
- QX6UC5q/Tu3tQqyLcFXCdLImp4RglCUiP8HM4T2neyltmXflv7sf4dd0e476X7fnWudQymgbk
- 5BAaKB5c3AXdWXtpqB9Kl5OCzSlrSYuPTJi9MVGZlQ4LWU+tnZXwC0Bo2WxWwz/yFbiFSkaQI
- ds2nIEo9B+0tTLSgUL/PghBk6qoHQW7QlzQr80moioc22QRuROmh7dhNIfGBZzE1qRQB1ZJ1Y
- ypLnw56WlE8qOxhqGNE82oyvWAjx0kT9tcIeSTdOD13LBD05gzuAL7BHCwy9m79uSMi/HpVYx
- i10FIpPHTxqhQTyLj4xYRuAOfZW+dPRnpTCscktVJje/Bd259DUSuWDIDmqbM0yzs+bUQ31oG
- 6id2bEmQ0wpKc9c9B6VL7ipnX6jZ2hWJgVOVo2ZkarvaS+8/bhYX1TwhqBqZo4S6syMXVJ+O8
- ikeLeROy7gmp2G1snwxqqPEbkXZphvfCv+GApC7q3wDeMa8BkyNf4ZvqsroWH8iRiipiOCmgm
- tay5tE73Fm2RnDo1oCNUDTWu5/p9lhUoGsGNyw849oK1spofW6indV5pot551UiN7FiU1AvmG
- CQ2WtjzMdVsHCsdHjQdjczr6NoaB2pPr9f7oWllf2MaYfrXCOHCMXTRGyVm4RrWICeGIc7eq4
- /witqn51ROvY1KY4nzFmfotcleD9qEhUXmW5jPV96VcYYyk/YpMylxH5dk5NKtto+0nwrRZKT
- hEEMIrYwf+yR9PXALnPUGIBOuViws9tUd/xadZRumklj9eXXxJJuXHoxl7QWyXklc9GSEMEcD
- HkDTlSeSao7dhQeSIU6Qf3HgJ3tm5nqaN+58t1mpnqpG+v6dLGTs9aEnUBdmoSzOAtBPeWgmy
- 835I7gjpmrF4hC0Bh5IfJJDsaYU5dmZSZQ5yPVJTy44hNthtZEen+5fsHw7HijO8C6R5wih4S
- fICe2Y+UYQUi5yZIFEiZGyNEulUoPPT7kJ5U/fv1TX5XjS+XPDER4OspB+XjMDWZW6JafdDvM
- cuxy8kJH+Cs6H+w1+sSsi80D+kWsvKYVI2toqIJfG0aezIRdEatLZ4+UlF9PCVlevKImN0+GV
- AOBcxwb/1JeAR57okPjWf3Z8i/8d74Cqibi6OMhxxCvKUQyJ8HLUhGR1DIk8R4+xMCefr9uvu
- vrCJItzhyT3P2CDyCl6J9KA1n7MhrAXYdQgh4E/DQyZc58vZQvQ6tIECLl++/sYXsCw2e92mW
- yeAftAcSTgZIcu29Cz+oAJMvPstrIQjFbo6vIbO3QA1dwYLkeGGuNy25xx40Y2e624PCHco0S
- vGPiJK8BoDp1GU1AErHPOVL4bYiIx98fVkhh1E2pVvyNeK/pzh4oswX+1kzFKot5aVNql9FjI
- amNyRqXJ4rK58QYLPvN79OCNUj3MpQZRUqcq5GOfx2kXvHXMoqJ+CVsN12BAn3shPu+nxUuF+
- tn8gCkjD8CDPihTfOM6+Fkghzj0fHRzwjykXI0AhCfMuO/I5ZzMKqO7CyGQZq1Bze+bM/rX5A
- KVZdJqKKl0kBMCw7hAfZG4kpDsBDTkc4DGiBSa8dqxKYLOAeFjHP4zRmsk5OAXtNnCAM8DIba
- TZM2euiRTk0ugdK29wP0pFLhiSxtYbGkaJZ+akz9waGtQDxd4c++PI1msg3XwPNkPsmm/58hl
- h9c5OlAMt7/9/ltCq5+sIkTMJ4dzmxWYzKV2sFQhqkEg/J8eBOa0PfU3VEaviCkRli/wLM5oB
- Er/X5PSmHGQP6tsMSHfeMK7/CQ9m39b2QnlpG0MwgNikn8dUZ9i9fhPj51LPFCd0sONxlTRdU
- cmCyqOTEaTPcAGm35QlUhkPbl7FPpKRNbn6qx81n2VzkGejBki89zve+vDa8TdjqPPo04HK0n
- jwJfjpctOGX4tox5iG4TfiSME58Ra7zOvSKcyyUCEXbb7TYzCrHGLvYBHrhRO2KFCYX1KbkFC
- dfiGY99HQaK3NHxaN7no6gffhE74wROxFQHgCyiYi38rRfEu7ENNDeeBSskDWeo1XN6viv8e3
- bRQja4T23kbjZbdOJYYo31dsu1vqn9jWyO+NS1H2YE03ZdXfH6K0s8EFqsS9FeG7qIeA/g+iP
- 4hF4H8gQln+5BxtnYuCpUboYYm+PYWDylsTeSBLd4s98teZgcdlpAvXTD6l3bgps/h1hccpr8
- hU8Oq1WY5NAb+RYuQOPCjaT+z/IZEu1RL9ZEwW7xe5hRUWBwQ7nzQoAIzGkWrGCOzEkYJ8rEb
- yFeCBL8SsqkRxworPtzV8IdMQU7mGRob7VxV0Bymbdte/8bRpCDpkyCroAjEnxbnt9X/YZuH5
- oqEkpJd3miqZOdO26Yrtl9S89395k4GvBMdPPqiWeFkK9qwT4JYQ7udPcaGEneDOkw7u01Ddf
- nNvk272i6ZGDW4aF6MCnPASUnn5fJfcfwBT8zwSJVACwdPqAO+qHyeEN8jNgLfgE9gJW8zw5A
- aI2pUVpJvltS5Up542JqZBqIhiAPk/Rcsp0R/bw/5QRKnpFjAmtR4zjxJYopWRhEk+q26Wdh7
- DUbs4/P1WIRNrrakh0nZkErIHoGjRv015O6sq7GQQzCKH1/jemQoQPvOKeieuzCMK6QFMy3nu
- V0FnGnCo5YZQkSOe0+9rwyi2jWB7zcmFAvXltzpUiOLGe4oD70/lok3MtjkOYYrKhgAxH3NGn
- s29eGX1QpP3p7RW2WXk9jvmumjPGr0GwDy3yhPbeKZHRKjzCJKMBrJQjqFtiidGIzcrtuHg4s
- UG8IA4YlA51Ll3a9+JQjTuFFSSX6CP9sun2m/EjK1geNTY08vAvdOxtI9hkMQZT581+HCSL5X
- r5rVlO0x2GgPXQI2YudfEwMADSXcNJrup+tqLP8IH63HkeJm98uBXWGVSdSxo5pzkDiij5zNX
- jeRE9BwU0DiKM9oHZ1ntG0p4r8V3VNEaU6atXcxvQCnLLxs8nxA3BjyhweaETI4wheE51776y
- IoucvkNqosnqQKUBSZJoCPyvW3Ej62nkXogHyxGIluKvO2CChK8i0CeOFZXdhGyv/y798+OH6
- 1EsJJJC3T3vUT+d1umrwguK4SOt/7untKv88Q2pUbVtkSnDa1zEoclwAJ2c60PHrviSVnjKxB
- vCxhcpnXEehd3aSrQzNZA1OJTE83sdQBQMOZn8U7Fbz0XQbEiG0togu3WKKdoMIk2if8QT+rk
- PaPpMbqnYn3zrBJQTPxOjX1BxcYAbisa+pnmLBLK6o+nThWhPK2nXzSi2M4+zFitgQyx6VHpT
- rK9bvJC7nS/1EzuJxJGQYOeqklfN4eOJt35Cx5vMoa9gGz15MkrJgzi71kLIwc4lTpNBtEerE
- NoYlnmMitoBFsPUIeMfzWBcIWQgJirZMiy60QhlfrU0TeroCrnffMRKG6KNOHc8002ArYtimv
- xaVqOe+ZfMv1wMOu1GTbXSI5oDklkIGMa6muIjDt0lDSXJ/p2WsPoamNGJoEj70G62sKrheUF
- LBo+lyk3RN/Vcp1hbCq3cZp/aFqWRJsSxMvpoHqFPxA6F9GSoVHLL07Po+wnBYHmbL0weXNK5
- yXWVs2GOP6FmSE+Ng4DClpnZq4UYK4QqSU0bobQutkfatd19hkwLQu/biwOnlMr3iM/R//Aew
- 4c9GQSaXfv6FVaHRH5gIXOvEpazUPq3SPiWrUqDb4XvCs6S7JQygt0A8SaVS9c3ZK4QDEDWUJ
- MpjWnZWGZMMBs7EjKZooPq+W6QMCO6F90fTJe5pmJPByA2Hwocqrmoh6VvyADrN5d6Ul4n2Rx
- 7H7gaBJSqVS7fbGen1/+r+RrHPppFKJzQH4GTCiaLm8/hJs9UI7OpOuNNsfmWF3e6M6jwB78e
- DiELs36XWfQg6PsOBeyHmZtf3ntoYY2RJi88T+4D8Za4VhxxWDE4cO3t7ZyPiA7cZWIB8uPqm
- 228y6Ehbw1BXX+Il0CwSPlJISbTiVvJSyGluC1I8RspvHX5hry8T26Ro2XJrQzOxNCQIGVwuQ
- nYJ8EIRYAzGKoQ0vwQeEsSe9RbvUPYFmILAnYsGeeK2vADU9EM2kvREiu5cvLeyWQTq5+fFDW
- mNTird6Gy71XNdk84RuEiPH7yRjIRwhfkDY09mADiY3eAKkr4/yU3A5LyW5b82iB9G0YGjpWS
- M7gvojp07LVglkiRrHWEfa7ohj2bBZiH/5lwqGKmEE1VT6onTnHWFMue7jrIhvZccwlGD0KSn
- SzficFihRIqpXTNl4DOrLVMcpL9wUoWZnRkUc4GoaMUjUe65F9Wq/eAgyXs6obktwxjbaRr4G
- ezC1Ux/Lm1oOneUTlRma6oe/KfzlEnt+8DpstdyfSnTn3YTN47vT9b4GE608DTRO6vUgSHKiM
- xHWe3BrX5cMoOgxD8BQFfw0D3eUM3RYrhM7YtRlri/r5YgmOoOZlhkNcFEXU4fGYE2JbiGkbV
- KfwfBI5GkOwtjxN8G/gofqi9xaQOPZ7/wHFc2X19VWyYAttnt3X0hTewaldmpIbbbZHR/TkDS
- GwWG9w==
-X-Rspamd-Queue-Id: EE24856911F
+X-Rspamd-Queue-Id: 6B1E35690F7
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[web.de,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[web.de:s=s29768273];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-61911-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-61910-lists,linux-media=lfdr.de];
-	FREEMAIL_FROM(0.00)[web.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
 	RCPT_COUNT_TWELVE(0.00)[14];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[arm.com,linaro.org,amd.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Markus.Elfring@web.de,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[web.de:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,arm.com:email]
 X-Rspamd-Action: no action
 
-=E2=80=A6
-> Set dummy_buf_cpu_addr to NULL after dma_free_coherent() in both the
-> local error path and unicam_unregister_nodes() so later cleanup skips
-=E2=80=A6
-                                                 so that?
+On Thu, 14 May 2026 10:09:10 -0700
+Chia-I Wu <olvaffe@gmail.com> wrote:
 
+> On Thu, May 14, 2026 at 6:24=E2=80=AFAM Steven Price <steven.price@arm.co=
+m> wrote:
+> >
+> > On 13/05/2026 17:58, Boris Brezillon wrote: =20
+> > > Right now panthor is mixed bag of manual locks and guards. Let's
+> > > make that more consitent and thus encourage new submissions to go
+> > > for guards. =20
+> >
+> > I'm fine with encouraging guards for future code - but I'm a little wary
+> > of a big change like this - it's hard to review it and check that
+> > everything works the same. And it's a little dubious that the mechanical
+> > refactoring produces more readable code in some cases. =20
+> I agree with Steven in general, although I am in favor of landing now
+> that you've gone through the trouble.
 
-> The bug was first flagged by an experimental analysis tool we are
-> developing for kernel memory-management bugs while analyzing
-> v6.13-rc1. The tool is still under development and is not yet publicly
-> available. Manual inspection confirms that the bug is still
-> present in v7.1-rc3.
+Honestly, I agree with you. The only reason I went for it is
+because the mix we have right now is pretty confusing. This has to do
+with the fact the scopes are often loosely defined unless you used
+scoped_guard(), so it's pretty easy to mess up the lock/unlock
+ordering. For instance,
 
-Under which circumstances will the mentioned software revision gap
-be adjusted accordingly?
+	mutex_lock(locka);
+	guard(lockb);
+	mutex_unlock(locka);
 
-Regards,
-Markus
+	...
+
+once expanded, turns into inconsistent locked sections, where the inner
+lock (lockb) is released after the outer one (locka).
+
+>=20
+> I also have mixed feelings about some of the non-scoped guards. Their
+> scopes are extended slightly than before, supposedly to avoid adding
+> another level of indentation. But other than slightly slower,
+
+I tried to used scoped_guard()s every where the extra non-guarded
+section could be CPU heavy (the only bits left are some very simple
+bit/arithmetic ops, and a couple queue_work() IIRC).
+
+> it also
+> becomes less clear what exactly do the guards protect.
+
+I know, and I have pretty much the same feeling, but we've crossed that
+bridge when we started accepting non-scoped guard()s, unfortunately.
+
 
