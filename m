@@ -1,218 +1,237 @@
-Return-Path: <linux-media+bounces-62186-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62187-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KAzWGBrKDGrAlwUAu9opvQ
-	(envelope-from <linux-media+bounces-62186-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 22:37:46 +0200
+	id 0I1lI7/TDGqJnAUAu9opvQ
+	(envelope-from <linux-media+bounces-62187-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 23:18:55 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 631ED584C68
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 22:37:45 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B2285851D0
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 23:18:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 9970C301668A
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 20:37:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 54FFA30393B2
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 21:18:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ABF03BE175;
-	Tue, 19 May 2026 20:37:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FF723DFC60;
+	Tue, 19 May 2026 21:18:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b="qXzF/ueY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from smtp153-141.sina.com.cn (smtp153-141.sina.com.cn [61.135.153.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915BA3B3C00;
-	Tue, 19 May 2026 20:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528422848A0
+	for <linux-media@vger.kernel.org>; Tue, 19 May 2026 21:17:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=61.135.153.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779223055; cv=none; b=As6yv6TmAAUR/IWkfIv7YzvSmONJiHjSY3d1Et74g8f9zbjXYiRnKXQWjM5jxfoIQY9QFPOeSUn4Pio3iYOUM72K8fVMxGaQXb1i114LhrPSEwFJu+bGHORr4HTc5CfwFud8w9BfhmYHtGcocRSM8pEUSENkfyzVYa3nfEpTbDY=
+	t=1779225483; cv=none; b=uTOfbxd3Zr0qjqGhlfiR5ABDYoAEWKsdaYBzARZXVuET3FsHNM5aZ4MfDbz8ecV0sBz1cpGiGmzouTuXtMWia9TLynKQ7QwPvGvxza/JeefL/3LGp/IoPdfYIVSfToK1enMl3+O8GEAqfYXCmx4xucaPfmAa2My1HOlvq52PcgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779223055; c=relaxed/simple;
-	bh=U3uMzGCgQitddBZmz3MDenkZIrSIJ6ND7ntkRyu6z+Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D6hvsYoOtLxvr1FvnkRHJUWgU0ojOuALTpS3EgAaBuHushwTe/qIigkgmkQdZvXyKx0/w9hcEVS4oGtJr4DX2hqqzkAVggkk6zgacYWvTvDOYiBVzpim/Bf1I7JBcIYjFa13/fgMu+oFGaf2r92eGVNF1fXoDLB1lwUO0sj1vVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 1F65A1F8005F;
-	Tue, 19 May 2026 20:37:28 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 99DABB40839; Tue, 19 May 2026 20:37:26 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id 11335B40839;
-	Tue, 19 May 2026 20:37:25 +0000 (UTC)
-Date: Tue, 19 May 2026 22:37:23 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Arash Golgol <arash.golgol@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 06/16] media: v4l2-common: Add missing tiled format info
- block sizes
-Message-ID: <agzKA11feGZExvEP@collins>
-References: <20260518102451.417971-1-paulk@sys-base.io>
- <20260518102451.417971-7-paulk@sys-base.io>
- <689495bda73de063506d0a63de79b9e099747aa8.camel@collabora.com>
+	s=arc-20240116; t=1779225483; c=relaxed/simple;
+	bh=BBlEBeqB+PoyoPifviZgwuZ9xbp7WSqkHi2qx8buDnk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=f+5S3vm3atUwGOtSb8ooPV45Kw5scSASpIvzJFxbfFjgBjx1tmXAHMdN+t1VuX7Y4d/fjT+L93O+m0GcSniebPuz3R8IMKoB/MDaJLg3AWX2q0Ax8ljJ0k1BXMwPGuLyKcGqATtWaNL6BQ44iB60I9ousv4xFqsRgNJfHE/2RAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com; spf=pass smtp.mailfrom=sina.com; dkim=pass (1024-bit key) header.d=sina.com header.i=@sina.com header.b=qXzF/ueY; arc=none smtp.client-ip=61.135.153.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sina.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sina.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sina.com; s=201208; t=1779225477;
+	bh=hEHty2k4meSkuJyXOr7GpcJH2Igvo8dRaUue15eUypg=;
+	h=From:Subject:Date:Message-ID;
+	b=qXzF/ueY9r0l+tOdWR/metx8W5NO5xMRmKJp3XufrT2iqe55ZKfuF6KeIZ4a+kUuj
+	 yxwMgo5ShUlzkfUZ8PicV6THoWumVnozKW6GaD1N1kF/bWJJ71xyPX0EwctrNpY03/
+	 en796OGIvTis4xDpkf0IrEpTKFm91quTMARHn60g=
+X-SMAIL-HELO: localhost.localdomain
+Received: from unknown (HELO localhost.localdomain)([114.249.62.144])
+	by sina.com (10.54.253.31) with ESMTP
+	id 6A0CD2F10000253D; Tue, 20 May 2026 05:15:30 +0800 (CST)
+X-Sender: hdanton@sina.com
+X-Auth-ID: hdanton@sina.com
+Authentication-Results: sina.com;
+	 spf=none smtp.mailfrom=hdanton@sina.com;
+	 dkim=none header.i=none;
+	 dmarc=none action=none header.from=hdanton@sina.com
+X-SMAIL-MID: 7192836816420
+X-SMAIL-UIID: F5A0BA850BEE48DDA7824278CA8BECBF-20260520-051530-1
+From: Hillf Danton <hdanton@sina.com>
+To: Yun Zhou <yun.zhou@windriver.com>
+Cc: mchehab@kernel.org,
+	hverkuil+cisco@kernel.org,
+	sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] media: dvb-core: fix use-after-free in dvb_frontend_open()
+Date: Wed, 20 May 2026 05:15:19 +0800
+Message-ID: <20260519211520.829-1-hdanton@sina.com>
+In-Reply-To: <20260519051020.628298-1-yun.zhou@windriver.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="qDQIAplM8RyG3VNl"
-Content-Disposition: inline
-In-Reply-To: <689495bda73de063506d0a63de79b9e099747aa8.camel@collabora.com>
-X-Spamd-Result: default: False [-1.56 / 15.00];
-	SIGNED_PGP(-2.00)[];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[sina.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[sina.com:s=201208];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62186-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,lists.linux.dev,kernel.org,gmail.com,sholland.org,linuxfoundation.org,ideasonboard.com];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[sys-base.io];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[paulk@sys-base.io,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	R_DKIM_NA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sys-base.io:url,sys-base.io:email,paulk.fr:url,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 631ED584C68
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62187-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hdanton@sina.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[sina.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	FREEMAIL_FROM(0.00)[sina.com];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[windriver.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,appspotmail.com:email,syzkaller.appspot.com:url,sina.com:mid,sina.com:dkim]
+X-Rspamd-Queue-Id: 5B2285851D0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+On Tue, 19 May 2026 13:10:20 +0800 Yun Zhou wrote:
+> dvb_frontend_open() calls dvb_generic_release() in its error path after
+> dvb_generic_open() succeeds. dvb_generic_release() drops the device
+> reference via dvb_device_put(), and then dvb_device_open() drops it again
+> in its error handling, causing a use-after-free and refcount underflow.
+> 
+> Fix this by introducing __dvb_generic_release() which only restores the
+> users/readers/writers counters without dropping the device reference. Use
+> it in dvb_frontend_open()'s error path so that dvb_device_open() remains
+> the sole owner of the dvb_device_put() on open failure.
+> 
+Given the relevant code snippet
 
---qDQIAplM8RyG3VNl
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+	dvb_device_open()
+	  mutex_lock(&dvbdev_mutex);
+	  down_read(&minor_rwsem);
+	  dvbdev = dvb_minors[minor];
+	  if (dvbdev && dvbdev->fops) {
+	    dvb_device_get(dvbdev);
+	    err = file->f_op->open(inode, file);
+	    up_read(&minor_rwsem);
+	    mutex_unlock(&dvbdev_mutex);
+	    if (err)
+	       dvb_device_put(dvbdev);
+	  }
 
-Le Tue 19 May 26, 11:18, Nicolas Dufresne a =C3=A9crit :
-> Le lundi 18 mai 2026 =C3=A0 12:24 +0200, Paul Kocialkowski a =C3=A9crit=
-=C2=A0:
-> > Some YUV420 tiled format info definitions are missing block sizes.
-> > Add the missing block sizes (they are all 4x4).
-> >=20
-> > Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
-> > ---
-> > =C2=A0drivers/media/v4l2-core/v4l2-common.c | 6 ++++--
-> > =C2=A01 file changed, 4 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2=
--core/v4l2-common.c
-> > index 77a0daa92c2b..e142d40c71b9 100644
-> > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > @@ -307,10 +307,12 @@ const struct v4l2_format_info *v4l2_format_info(u=
-32 format)
-> > =C2=A0		{ .format =3D V4L2_PIX_FMT_GREY,=C2=A0=C2=A0=C2=A0 .pixel_enc =
-=3D V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 1=
-, 0, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> > =C2=A0
-> > =C2=A0		/* Tiled YUV formats */
-> > -		{ .format =3D V4L2_PIX_FMT_NV12_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_Y=
-UV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .bpp_di=
-v =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
-> > +		{ .format =3D V4L2_PIX_FMT_NV12_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_Y=
-UV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .bpp_di=
-v =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
-> > +		=C2=A0 .block_w =3D { 4, 4, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }},
->=20
-> .block_w =3D { 4, 2, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }},
->=20
-> > =C2=A0		{ .format =3D V4L2_PIX_FMT_NV15_4L4, .pixel_enc =3D V4L2_PIXEL_=
-ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 5, 10, 0, 0 }, .=
-bpp_div =3D { 4, 4, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
-> > =C2=A0		=C2=A0 .block_w =3D { 4, 4, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }=
-},
-> > -		{ .format =3D V4L2_PIX_FMT_P010_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_Y=
-UV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4, 0, 0 }, .bpp_di=
-v =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
-> > +		{ .format =3D V4L2_PIX_FMT_P010_4L4, .pixel_enc =3D V4L2_PIXEL_ENC_Y=
-UV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4, 0, 0 }, .bpp_di=
-v =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
-> > +		=C2=A0 .block_w =3D { 4, 4, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }},
->=20
-> .block_w =3D { 4, 2, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }},
->=20
-> This one is speecial, this format does not exists. I believe Jernej made =
-that
-> one based on assumptions, the actual HW should produce NV15 4L4, but I do=
-n't own
-> that hardware, and so I never managed remove that last "user" of it, whic=
-h is I
-> believe H6 VP9 decoder.
+a) the frontend open callback is invoked with refcount incremented, so
+why could a single put in the err path drop refcount to ground?
+b) worse dvbdev is freed without clearing dvb_minors[minor].
 
-I don't think I've ever tried it but do I have some H6 hardware around,
-so maybe I could test it eventually and figure out if it really uses
-this format or not.
+One explanation sounds like
 
-I guess it doesn't hurt to keep the definition either way.
+	dvb_device_open(); // err with refcount dropped but
+			   // without clearing dvb_minors[minor]
+	dvb_device_open(); // single put frees dvbdev
 
-All the best,
+so a simpler fix looks like incrementing refcount before
+dvb_generic_release() in the err path.
 
-Paul
-
->=20
-> Nicolas
->=20
-> > =C2=A0
-> > =C2=A0		/* YUV planar formats, non contiguous variant */
-> > =C2=A0		{ .format =3D V4L2_PIX_FMT_YUV420M, .pixel_enc =3D V4L2_PIXEL_E=
-NC_YUV, .mem_planes =3D 3, .comp_planes =3D 3, .bpp =3D { 1, 1, 1, 0 }, .bp=
-p_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
-
-
-
---=20
-Paul Kocialkowski,
-
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
-
-Expert in multimedia, graphics and embedded hardware support with Linux.
-
---qDQIAplM8RyG3VNl
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmoMygMACgkQhP3B6o/u
-lQyhfQ/+OihZP1pX+KtLZHb5PzSuHG0dNVPtJqPXxuifAq/+8LDU7nVA4PnCrecI
-XgxCEuVL34zttetOPT6eEv3bS5ggk83M/Cc5rB4eQqvmJvEF9CtPH42w0oTphKY3
-+0tdM1crZVVxMOZAWf0h0/vPcxU0u8k/9fiNhXGxZoHebaJKRYDsM/GRmdx00sRG
-NZhyZda+siMNnD8U8GHh5BYC8jJaGXdNRfVbybTSy4gy6lfxHGjCNXyPUip2CuVl
-aorL2mN5Tn6u2k2CeVsiNtFY88piEoKPNCj3qPrBwpfJus1shJT6KzG7hV0VkmWJ
-q4X6AifqLw2xKTrXKr2bn8ZuoPTU+1NXRW2AAZSjJZ3UEULyc2FMPeyl63PRx5mu
-5qFLO6oODog4myIXxRgX5I+348Woyk2fJlkiuQtwgropwM7IQsANfngK6NlJtK5+
-SGIu6RpmqaRsok/80menkJHVbe9eVWY5s9dFE7hOtZDIuuJzit5Iaa1u6659MKcN
-+2Q5z/EsdeMfSWtN58hhpCP+i/pv7K/tmswIjFl8/tFAMLld6dtQbUYDaDtnF26f
-K0CBJjm6GCtl9JgcCUAgXgHsKbxe0tAYL89dciy4Gurl0tRbUfEDr5NgUHQ5UtON
-EY4XD09tRKRV2RUt8y2S64q6kzTRZ999rAOoOveEj79GOO7AYNs=
-=PJVw
------END PGP SIGNATURE-----
-
---qDQIAplM8RyG3VNl--
+> Reported-by: syzbot+40339ea82afa8184ad5d@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=40339ea82afa8184ad5d
+> Cc: stable@vger.kernel.org
+> Fixes: 0fc044b2b5e2 ("media: dvbdev: adopts refcnt to avoid UAF")
+> Signed-off-by: Yun Zhou <yun.zhou@windriver.com>
+> ---
+> v2:
+>  - Fix Fixes tag commit title
+>  - Add Closes: link after Reported-by
+>  - Cc stable@vger.kernel.org
+> 
+>  drivers/media/dvb-core/dvb_frontend.c |  2 +-
+>  drivers/media/dvb-core/dvbdev.c       | 17 ++++++++++++-----
+>  include/media/dvbdev.h                | 12 ++++++++++++
+>  3 files changed, 25 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/dvb-core/dvb_frontend.c b/drivers/media/dvb-core/dvb_frontend.c
+> index d082b6c57c76..497f5920b267 100644
+> --- a/drivers/media/dvb-core/dvb_frontend.c
+> +++ b/drivers/media/dvb-core/dvb_frontend.c
+> @@ -2887,7 +2887,7 @@ static int dvb_frontend_open(struct inode *inode, struct file *file)
+>  	mutex_unlock(&fe->dvb->mdev_lock);
+>  err2:
+>  #endif
+> -	dvb_generic_release(inode, file);
+> +	__dvb_generic_release(inode, file);
+>  err1:
+>  	if (dvbdev->users == -1 && fe->ops.ts_bus_ctrl)
+>  		fe->ops.ts_bus_ctrl(fe, 0);
+> diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+> index d753d329502a..3e0ad67b79a3 100644
+> --- a/drivers/media/dvb-core/dvbdev.c
+> +++ b/drivers/media/dvb-core/dvbdev.c
+> @@ -152,19 +152,26 @@ int dvb_generic_open(struct inode *inode, struct file *file)
+>  }
+>  EXPORT_SYMBOL(dvb_generic_open);
+>  
+> -int dvb_generic_release(struct inode *inode, struct file *file)
+> +void __dvb_generic_release(struct inode *inode, struct file *file)
+>  {
+>  	struct dvb_device *dvbdev = file->private_data;
+>  
+> -	if (!dvbdev)
+> -		return -ENODEV;
+> -
+>  	if ((file->f_flags & O_ACCMODE) == O_RDONLY)
+>  		dvbdev->readers++;
+>  	else
+>  		dvbdev->writers++;
+> -
+>  	dvbdev->users++;
+> +}
+> +EXPORT_SYMBOL(__dvb_generic_release);
+> +
+> +int dvb_generic_release(struct inode *inode, struct file *file)
+> +{
+> +	struct dvb_device *dvbdev = file->private_data;
+> +
+> +	if (!dvbdev)
+> +		return -ENODEV;
+> +
+> +	__dvb_generic_release(inode, file);
+>  
+>  	dvb_device_put(dvbdev);
+>  
+> diff --git a/include/media/dvbdev.h b/include/media/dvbdev.h
+> index e5a00d126612..9e6e5cb43dcb 100644
+> --- a/include/media/dvbdev.h
+> +++ b/include/media/dvbdev.h
+> @@ -343,6 +343,18 @@ int dvb_create_media_graph(struct dvb_adapter *adap,
+>   */
+>  int dvb_generic_open(struct inode *inode, struct file *file);
+>  
+> +/*
+> + * __dvb_generic_release - Undo dvb_generic_open() counters WITHOUT
+> + *      dropping the device reference.
+> + *
+> + * @inode: pointer to &struct inode.
+> + * @file: pointer to &struct file.
+> + *
+> + * Used in cases where the caller handles dvb_device_put() and ensures
+> + * that dvbdev is valid.
+> + */
+> +void __dvb_generic_release(struct inode *inode, struct file *file);
+> +
+>  /**
+>   * dvb_generic_release - Digital TV close function, used by DVB devices
+>   *
+> -- 
+> 2.43.0
 
