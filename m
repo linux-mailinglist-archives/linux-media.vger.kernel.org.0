@@ -1,229 +1,315 @@
-Return-Path: <linux-media+bounces-62176-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62177-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8MpyCYKaDGqUjwUAu9opvQ
-	(envelope-from <linux-media+bounces-62176-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 19:14:42 +0200
+	id UISsLmyeDGq8jwUAu9opvQ
+	(envelope-from <linux-media+bounces-62177-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 19:31:24 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 236E6582E39
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 19:14:40 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BE9B58319A
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 19:31:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A02C6300699C
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 17:14:37 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D27E83067EE2
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 17:29:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE7B13FC5C8;
-	Tue, 19 May 2026 17:14:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEC77369D61;
+	Tue, 19 May 2026 17:29:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XfQ1jcYJ"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="CcXO6GZ+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F10148AE17
-	for <linux-media@vger.kernel.org>; Tue, 19 May 2026 17:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779210870; cv=pass; b=eUxUpynp1sOxP9rOyYivNX0BqBMbvwwePP/AW6QvMQlFuHd/De+7/LinhDlhizn08hOOX+1gUCdkroW9d43XfGZpUagNRFYlcU4/MSPVM2RuPa36J4LAkxbCTGIr/2yRMIctmF+Q30pVYtRthVYBb7MdypwbYS04Vzp9O1iqY9g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779210870; c=relaxed/simple;
-	bh=d00V6h/ErpHZASrHHwfgf+2hWEHhE33Q48KoY0RIrXo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IUTamfdt7JG4FcE2gb55Jyaemm8gqvhTABbnGzXyeghK2I+W5Vf6mRnr7uxoGmqA3HWrf58YcMJVg47K6OmDfID9XG+oTVTLLj8l257ulEuB3GZ6frYNmhyADfPOFyFxHpu0Vyw8790whI7sz/pVR7bpoQ2AVjM/8biP+zsp7Rk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XfQ1jcYJ; arc=pass smtp.client-ip=74.125.82.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-12c1a170a50so4771096c88.0
-        for <linux-media@vger.kernel.org>; Tue, 19 May 2026 10:14:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779210866; cv=none;
-        d=google.com; s=arc-20240605;
-        b=VoBMRmDXZAHQv3mP3WmSyXP8+KMmXQaAj7ydVQSP8clARG4+FAkz0nD65T9tLLqZwJ
-         x6G+rWGZjqMOJeRiZLDyqojjFUoktjardeIfKcIQpleHgSYVnXHT8spnFqSbYak4wq4s
-         6a9UJt2phDlgKwZpO6YSD7QC+v14QdbDovrcqx7j92wRRpsORU4tLKdVIXDFX/0X5oa2
-         PeSc1UMilKQ7ROOZX15OptJIlvAEbhh4ja/BB1FlYn1rEcSk4jAMfQD+2hpO35ywwDBJ
-         D2/VkGgS5zA9iRf8rR3G+4vQET3UaqRbbtoqHJQNMYlDA0a7G8249WdivTRzX5+DIHpJ
-         6KEQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=vF3PbAIpdXzsjA1Yq+yZ7l3npr4+DUB3TFT1IALczSw=;
-        fh=EDRSltopB4CaUoMRW29lX6bBVjFQlCamLgOITIkPrs4=;
-        b=VPEIK0T3GecOO9TUJEhlrpuptDsNTCywS3FTtHAArsYHXH939Q+CQrBKtLLfriuuNV
-         ObqWRLXojzFTCQCLA2tNbUzW3fpi6VtRPMCvCXB4I0tQPssQe+Y4xZu1j1SuGaFaDZ0G
-         bhb3t6DMpFyHRuAigszbBbkqmohODX+FW04vJwrmmBfNXChI/kJQnbSw7UmKn1UUpO8f
-         ejd3bf+eETASJqJp2tekNNAfvaGnod6JhpNd8VfR44u0mGKZaE4WhIk9yQzzI2BjrQ0D
-         lkyFy3XiVE2ESeX5P92nP8m3hfUkAKSYjgPc3ohcbEUCRVEngPcyrgv66m3sQTKFuJde
-         ma1A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779210866; x=1779815666; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vF3PbAIpdXzsjA1Yq+yZ7l3npr4+DUB3TFT1IALczSw=;
-        b=XfQ1jcYJvFBSHhD5+523iNJvDUk43DYp1gmfTPkGMtNpZX1oDCXZYjsKvtkvATHgcS
-         Gq+2GsXnJjV8EV8e01Grs8L/SKM0U+Cl5MPjbW7i1boBpCF2WARRityhb+VI1rtscUeT
-         SeXptP+CLvigUixbDt+TElZZlgezjtPJXyqwm8r/EfyLY20xQ0P9XXKeBZ74MxC/WIl3
-         Bzo03mpoQos2fePDfqgVOs35Z5SVxOucwFVj8Sqth4PKHbFZmrKcVAKQsuurcfdSywJw
-         xRxsn72jPPpGNhU6FRyx0BSVGZqtICz2/ir4kyeqAlCOQWJl+ZB6/wU1qdb4HEN9macd
-         KFBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779210866; x=1779815666;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vF3PbAIpdXzsjA1Yq+yZ7l3npr4+DUB3TFT1IALczSw=;
-        b=PQdPv4qC877Hi7uTQrmxGb0U97XrOQpHrD+0lqOjYg6Sy3JN+K7jrpK7QmrzLtdQUE
-         2r+Z/KLncd4KGopMcZJRYn2fB9c1hC4SxvtXXZRMN+qwXemJWkjuw8C9ejPn1eRLGyjo
-         2EG+k0CGxgBiBB4CSRsH9kotD15TJEwlVprhEPFJRQejxKDUHzgYSL2hFau5nXM2gTGz
-         mMOzzPp8w6T5E4goHvDUvJ6FqIPXevF6Kmb2g3vhBLxpaMeNqT8DqcQPM/yhCDCw7Wxh
-         qISfSiTOWGigWUF4+pGIPh85Vs0NROpsphCyNCtzoJ8od/YFZVyrGRmJTmKoAm4Nz2Xe
-         VuQA==
-X-Gm-Message-State: AOJu0Yzqh1sS/99Mh1KBgkvU73WVGRdC4hA0sD47Py3tSu9uMxgQzMTo
-	KtJ1AFoMRmbHuKTi+oYkHsy65pTs9Uc6QS+aXhrSG+BqywykehTIhILEGtVGXWqcvj+l07CQ9MP
-	tjmdbakwRWGokyypV394/MwSQ1eOMgfQ=
-X-Gm-Gg: Acq92OFK7VtSE8cT+/3Tw+hl9Da/Cg060kMLukN233iWdxsNRRLw1gITLzoNKJuxseg
-	sr7VsJvxhWQN7cTwqY5o7v4MaTUzuRbOVRmpYYZXtW2AWZdywcrxCPRPpspiNddUKQconZhVqXm
-	eidhrdwrEiT7nSmvwmgqUU9kKylmn4ZycnhHpZ0vWTVD58jTyxdwjVY5ZOBcdJTqW/a2oJhAVQ9
-	Q36qWzvIABxFw+YmnLI76mvPaPpG0I5mHy6CGwfEKy8RLqsDdAcRS+H2Ln5Xr2Pubu6MLyDgPb8
-	kYK7nw==
-X-Received: by 2002:a05:7022:251f:b0:133:1d3d:f93e with SMTP id
- a92af1059eb24-13504a4f6bfmr9059140c88.42.1779210865614; Tue, 19 May 2026
- 10:14:25 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94F9829ACC5;
+	Tue, 19 May 2026 17:29:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779211780; cv=none; b=T5CRD0vnlMOFis4clKDY397TRdhXUiFo17j8CDElzhH49F9A192Gj9rbQju+Z7/Jfe5P/46CI2VHBadYGPCLQNd5BOYufZpZvh5L2DCNLDDUEJWDC2dOT4Z5HUw6Usmb0FZXPjbcqTYXPQ0M52d9ieM5YMN8i8SwuY941yaT22s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779211780; c=relaxed/simple;
+	bh=KD0GOi9c8kuCzvfBSg/EAGaV+3IxmyoTnkrkk0bXqls=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=m2VOu5Z462MmgCKFU9EQi8eBqQ1kbVXx5RAdcL4Smw103e4zImft9Twzz/yah6882DcqxPZhnQ0RhroILPYoS8xhzaTKx4idh52xhGcN5Xx9f9treDq8q5766nK1nFSxeTrxbN8svYTG6IczjFqTRzGnXGVMTQEiR3ZAED/8PwU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=CcXO6GZ+; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1779211776;
+	bh=KD0GOi9c8kuCzvfBSg/EAGaV+3IxmyoTnkrkk0bXqls=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=CcXO6GZ+H0Yjwf2NfeGPjK2m5QdX4F7pB/lCTm0hp16n1jzasLMSmzlO+ssQnG32w
+	 tpwSW7KdB2mEhkFn2Wak83FFtLUHUNc466wT01RwJHY6cwswBPeFvsIifMmJUlAcKY
+	 Y64WqyXLCsRUsr5lAo3EyKk944rP77AxapGYeIifjJPKxk1+ZvZPcfzyCXiFLoFkH2
+	 XTYDNA4db8cMBjjXOIApizmud9+VBfWGzaOF5zDgprg+mNHh7swRWmtTVEtEsdNCkX
+	 NhndFC23jyw/0vQR1Y1/Ol011CnTiq9KfWXFMtFQL7LQrsfpgbgt415c3VYvFI3QQq
+	 SkHpyO2sfyIwg==
+Received: from fedora (unknown [100.64.0.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 8F14B17E125C;
+	Tue, 19 May 2026 19:29:35 +0200 (CEST)
+Date: Tue, 19 May 2026 19:29:30 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Chia-I Wu <olvaffe@gmail.com>
+Cc: Ketil Johnsen <ketil.johnsen@arm.com>, Liviu Dudau
+ <liviu.dudau@arm.com>, Marcin =?UTF-8?B?xZpsdXNhcno=?=
+ <marcin.slusarz@arm.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey
+ <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, "T.J. Mercier"
+ <tjmercier@google.com>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Steven Price <steven.price@arm.com>, Daniel
+ Almeida <daniel.almeida@collabora.com>, Alice Ryhl <aliceryhl@google.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Florent Tomasin <florent.tomasin@arm.com>, nd@arm.com
+Subject: Re: [PATCH 4/8] drm/panthor: Add support for protected memory
+ allocation in panthor
+Message-ID: <20260519192930.3873accb@fedora>
+In-Reply-To: <CAPaKu7T7JZRmsS+D_3zFZtyhJk9mNXjL=xpAQ-UNGbm0vztyRg@mail.gmail.com>
+References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
+	<20260505140516.1372388-5-ketil.johnsen@arm.com>
+	<20260505181523.49a3d85c@fedora>
+	<afxVIuVVPisBQ9p_@e129842.arm.com>
+	<20260507135356.5428d50d@fedora>
+	<agMvb_jeRsO7tSS-@e142607>
+	<20260512161111.0cb7000e@fedora>
+	<agNJasayW8VCHTiU@e142607>
+	<CAPaKu7QC7FdjL6m_OSb+E5aYKs6bmT-9DAHc5PC=XctCmRph2Q@mail.gmail.com>
+	<20260518091650.5a7a4f4a@fedora>
+	<CAPaKu7R9ET767qc3eppBUfG2RAeyrg7E-gE0turgp-u_FU4+Vg@mail.gmail.com>
+	<20260519093955.448ff899@fedora>
+	<8f0b1750-a853-4895-9672-73a75f6dbd84@arm.com>
+	<CAPaKu7T7JZRmsS+D_3zFZtyhJk9mNXjL=xpAQ-UNGbm0vztyRg@mail.gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260510235037.24876-1-hoff.benjamin.k@gmail.com> <dd77b328-f792-48ac-a427-fc70c0e2c987@kernel.org>
-In-Reply-To: <dd77b328-f792-48ac-a427-fc70c0e2c987@kernel.org>
-From: Ben Hoff <hoff.benjamin.k@gmail.com>
-Date: Tue, 19 May 2026 13:14:14 -0400
-X-Gm-Features: AVHnY4JxgJcf2FS8AKM2DSPQHpsgUjSCC88b9dTquYzMqHGyFLXfPBt7NbuHxy0
-Message-ID: <CAMSzxxTgmAaLPKosRGi_88vm+psHHaFLjcCkOc2PdTK05gBebg@mail.gmail.com>
-Subject: Re: [PATCH v7] media: pci: add AVMatrix HWS capture driver
-To: hverkuil+cisco@kernel.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	mchehab@kernel.org, kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[31];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-62176-lists,linux-media=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62177-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hoffbenjamink@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,linuxtv.org:url,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 236E6582E39
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[arm.com,gmail.com,ffwll.ch,linux.intel.com,kernel.org,suse.de,lwn.net,linuxfoundation.org,linaro.org,collabora.com,google.com,amd.com,lists.freedesktop.org,vger.kernel.org,lists.linaro.org,lists.infradead.org];
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,collabora.com:dkim,arm.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 3BE9B58319A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Hans,
+On Tue, 19 May 2026 10:07:02 -0700
+Chia-I Wu <olvaffe@gmail.com> wrote:
 
-Good catch.
+> On Tue, May 19, 2026 at 1:49=E2=80=AFAM Ketil Johnsen <ketil.johnsen@arm.=
+com> wrote:
+> >
+> > On 19/05/2026 09:39, Boris Brezillon wrote: =20
+> > > On Mon, 18 May 2026 17:36:40 -0700
+> > > Chia-I Wu <olvaffe@gmail.com> wrote:
+> > > =20
+> > >> On Mon, May 18, 2026 at 12:16=E2=80=AFAM Boris Brezillon
+> > >> <boris.brezillon@collabora.com> wrote: =20
+> > >>>
+> > >>> On Wed, 13 May 2026 12:31:32 -0700
+> > >>> Chia-I Wu <olvaffe@gmail.com> wrote:
+> > >>> =20
+> > >>>> On Tue, May 12, 2026 at 8:39=E2=80=AFAM Liviu Dudau <liviu.dudau@a=
+rm.com> wrote: =20
+> > >>>>>
+> > >>>>> On Tue, May 12, 2026 at 04:11:11PM +0200, Boris Brezillon wrote: =
+=20
+> > >>>>>> On Tue, 12 May 2026 14:47:27 +0100
+> > >>>>>> Liviu Dudau <liviu.dudau@arm.com> wrote:
+> > >>>>>> =20
+> > >>>>>>> On Thu, May 07, 2026 at 01:53:56PM +0200, Boris Brezillon wrote=
+: =20
+> > >>>>>>>> On Thu, 7 May 2026 11:02:26 +0200
+> > >>>>>>>> Marcin =C5=9Alusarz <marcin.slusarz@arm.com> wrote:
+> > >>>>>>>> =20
+> > >>>>>>>>> On Tue, May 05, 2026 at 06:15:23PM +0200, Boris Brezillon wro=
+te: =20
+> > >>>>>>>>>>> @@ -277,9 +286,21 @@ int panthor_device_init(struct panthor=
+_device *ptdev)
+> > >>>>>>>>>>>                      return ret;
+> > >>>>>>>>>>>      }
+> > >>>>>>>>>>>
+> > >>>>>>>>>>> +   /* If a protected heap name is specified but not found,=
+ defer the probe until created */
+> > >>>>>>>>>>> +   if (protected_heap_name && strlen(protected_heap_name))=
+ { =20
+> > >>>>>>>>>>
+> > >>>>>>>>>> Do we really need this strlen() > 0? Won't dma_heap_find() f=
+ail is the
+> > >>>>>>>>>> name is "" already? =20
+> > >>>>>>>>>
+> > >>>>>>>>> If dma_heap_find() will fail, then the whole probe with fail =
+too.
+> > >>>>>>>>> This check prevents that. =20
+> > >>>>>>>>
+> > >>>>>>>> Yeah, that's also a questionable design choice. I mean, we can
+> > >>>>>>>> currently probe and boot the FW even though we never setup the
+> > >>>>>>>> protected FW sections, so why should we defer the probe here? =
+Can't we
+> > >>>>>>>> just retry the next time a group with the protected bit is cre=
+ated and
+> > >>>>>>>> fail if we can find a protected heap? =20
+> > >>>>>>>
+> > >>>>>>> The problem we have with the current firmware is that it does a=
+ number of setup steps at "boot"
+> > >>>>>>> time only. One of the steps is preparing its internal structure=
+s for when it enters protected
+> > >>>>>>> mode and it stores them in the buffer passed in at firmware loa=
+ding. We cannot later run the
+> > >>>>>>> process when we have a group with protected mode set. =20
+> > >>>>>>
+> > >>>>>> No, but we can force a full/slow reset and have that thing
+> > >>>>>> re-initialized, can't we? I mean, that's basically what we do wh=
+en a
+> > >>>>>> fast reset fails: we re-initialize all the sections and reset ag=
+ain, at
+> > >>>>>> which point the FW should start from a fresh state, and be able =
+to
+> > >>>>>> properly initialize the protected-related stuff if protected sec=
+tions
+> > >>>>>> are populated. Am I missing something? =20
+> > >>>>>
+> > >>>>> Right, we can do that. For some reason I keep associating the res=
+et with the
+> > >>>>> error handling and not with "normal" operations. =20
+> > >>>> I kind of hope we end up with either
+> > >>>>
+> > >>>>   - panthor knows the exact heap to use and fails with EPROBE_DEFE=
+R if
+> > >>>> the heap is missing, or
+> > >>>>   - panthor gets a dma-buf from userspace and does the full reset
+> > >>>>     - userspace also needs to provide a dma-buf for each protected
+> > >>>> group for the suspend buffer
+> > >>>>
+> > >>>> than something in-between. The latter is more ad-hoc and basically
+> > >>>> kicks the issue to the userspace. =20
+> > >>>
+> > >>> Indeed, the second option is more ad-hoc, but when you think about =
+it,
+> > >>> userspace has to have this knowledge, because it needs to know the
+> > >>> dma-heap to use for buffer allocation that cross a device boundary
+> > >>> anyway. Think about frames produced by a video decoder, and composi=
+ted
+> > >>> by the GPU into a protected scanout buffer that's passed to the KMS
+> > >>> device. Why would the GPU driver be source of truth when it comes to
+> > >>> choosing the heap to use to allocate protected buffers for the video
+> > >>> decoder or those used for the display? =20
+> > >> I don't think the GPU driver is ever the source of truth. If the
+> > >> system integrator wants to specify the source of truth (SoT) from
+> > >> kernel space, they should use the device tree (or module params /
+> > >> config options). If they want to specify the SoT in userspace, then =
+we
+> > >> don't really care how it is done other than providing an ioctl.
+> > >> Panthor is always on the receiving end. =20
+> > >
+> > > Okay, we're on the same page then.
+> > > =20
+> > >>
+> > >> If we don't want to delay this functionality, but it takes time to
+> > >> converge on SoT, maybe a solution that is not a long-term promise can
+> > >> work? Of the options on the table (dt, module params, kconfig option=
+s,
+> > >> ioctls), a kconfig option, potentially marked as experimental, seems
+> > >> like a good candidate. =20
+> > >
+> > > If Panthor is only a consumer, I actually think it'd be easier to just
+> > > let userspace pass the protected FW section as an imported buffer
+> > > through an ioctl for now. It means we don't need any of the
+> > > modifications to the dma_heap API in this series, and userspace is fr=
+ee
+> > > to choose its SoT (efuse, DT, ...) and pass the info back to mesa/GBM
+> > > somehow (envvar, driconf, ...). The only thing we need to ensure is if
+> > > lazy protected FW section allocation is going to work, but given the
+> > > current code purely and simply ignores those sections, and the FW is
+> > > still able to boot and act properly (at least on v10-v13), I'm pretty
+> > > confident this is okay, unless there's some trick the MCU can do to
+> > > detect that the protected section isn't mapped (which I doubt, because
+> > > the MCU doesn't know it lives behind an MMU). =20
+> I set up MMU to map non-protected memory to the protected section the
+> other day. The FW still booted fine. I didn't get access violation
+> until the FW executed PROT_REGION and panthor requested
+> GLB_PROTM_ENTER in response.
 
-I've created a new patch here that dropped these three functions, see
-it here: https://patchwork.linuxtv.org/project/linux-media/patch/2026051916=
-1218.79385-1-hoff.benjamin.k@gmail.com/
+Ah, thanks for testing! We still don't have a setup with proper
+protected heap, but that was on my list of things to test.
 
-On Tue, May 19, 2026 at 9:00=E2=80=AFAM <hverkuil+cisco@kernel.org> wrote:
->
-> Hi Ben,
->
-> On 11/05/2026 01:50, Ben Hoff wrote:
->
-> <snip>
->
-> While looking for something else, I stumbled on this:
->
-> > diff --git a/drivers/media/pci/hws/hws_v4l2_ioctl.h b/drivers/media/pci=
-/hws/hws_v4l2_ioctl.h
-> > new file mode 100644
-> > index 000000000000..53044f78d6fa
-> > --- /dev/null
-> > +++ b/drivers/media/pci/hws/hws_v4l2_ioctl.h
-> > @@ -0,0 +1,36 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > +#ifndef HWS_V4L2_IOCTL_H
-> > +#define HWS_V4L2_IOCTL_H
-> > +
-> > +#include <media/v4l2-ctrls.h>
-> > +#include <linux/fs.h>
-> > +
-> > +extern const struct v4l2_ctrl_ops hws_ctrl_ops;
-> > +
-> > +int hws_vidioc_querycap(struct file *file, void *priv, struct v4l2_cap=
-ability *cap);
-> > +int hws_vidioc_enum_fmt_vid_cap(struct file *file, void *priv_fh, stru=
-ct v4l2_fmtdesc *f);
-> > +int hws_vidioc_g_fmt_vid_cap(struct file *file, void *fh, struct v4l2_=
-format *fmt);
-> > +int hws_vidioc_try_fmt_vid_cap(struct file *file, void *fh, struct v4l=
-2_format *f);
-> > +int hws_vidioc_g_std(struct file *file, void *priv, v4l2_std_id *tvnor=
-ms);
-> > +int hws_vidioc_s_std(struct file *file, void *priv, v4l2_std_id tvnorm=
-s);
-> > +int hws_vidioc_g_parm(struct file *file, void *fh, struct v4l2_streamp=
-arm *setfps);
-> > +int hws_vidioc_enum_input(struct file *file, void *priv, struct v4l2_i=
-nput *i);
-> > +int hws_vidioc_g_input(struct file *file, void *priv, unsigned int *i)=
-;
-> > +int hws_vidioc_s_input(struct file *file, void *priv, unsigned int i);
-> > +int hws_vidioc_g_ctrl(struct file *file, void *fh, struct v4l2_control=
- *a);
-> > +int hws_vidioc_s_ctrl(struct file *file, void *fh, struct v4l2_control=
- *a);
->
-> These two functions are unused.
->
-> > +int hws_vidioc_dv_timings_cap(struct file *file, void *fh,
-> > +                           struct v4l2_dv_timings_cap *cap);
-> > +int hws_vidioc_s_dv_timings(struct file *file, void *fh,
-> > +                         struct v4l2_dv_timings *timings);
-> > +
-> > +int hws_vidioc_queryctrl(struct file *file, void *fh, struct v4l2_quer=
-yctrl *a);
->
-> Ditto for this one.
->
-> > +int hws_vidioc_g_dv_timings(struct file *file, void *fh,
-> > +                         struct v4l2_dv_timings *timings);
-> > +int hws_vidioc_enum_dv_timings(struct file *file, void *fh,
-> > +                            struct v4l2_enum_dv_timings *edv);
-> > +int hws_vidioc_query_dv_timings(struct file *file, void *fh,
-> > +                             struct v4l2_dv_timings *timings);
-> > +int hws_vidioc_s_fmt_vid_cap(struct file *file, void *priv, struct v4l=
-2_format *f);
-> > +
-> > +#endif
->
-> Can you make a follow-up patch to drop these?
->
-> Regards,
->
->         Hans
+>=20
+> This was on v13, but I also doubt it will become an issue. Can ARM help c=
+larify?
+>=20
+> > >
+> > > Of course, once we have a consensus on how to describe this in the DT,
+> > > we can switch Panthor over to "protected dma_heap selection through D=
+T",
+> > > and reflect that through the ioctl that exposes whether protected
+> > > support is ready or not (would be a DEV_QUERY), such that userspace c=
+an
+> > > skip this "PROTM initialization" step.
+> > >
+> > > We're talking about an extra ioctl to set those buffers, and a
+> > > DEV_QUERY to query the state (ready or not), the size of the global
+> > > protected buffer (protected FW section) and the size of the protected
+> > > suspend buffer. The protected suspend buffer would be allocated and
+> > > passed at group creation time (extra arg passed to the existing
+> > > GROUP_CREATE ioctl). So, overall, I don't consider it a huge liability
+> > > in term of maintenance cost. =20
+> >
+> > If we can avoid the dma-heap changes, then that would surely help!
+> > I can try to implement this in the next version unless someone finds a
+> > reason why it is a bad idea. =20
+> Yeah, that sounds good to me too.
+>=20
+> Will the extra ioctl require root?
+
+The PROTM_INIT ioctl will certainly require high privilege
+CAP_SYS_<something>, dunno yet what that <something> would be though.
+
+> On a system with true protected
+> memory, the FW cannot write to non-protected memory. It seems ok to
+> allow any client to make the ioctl call. But on systems without true
+> protected memory, it can be problematic.
+
+Yep, I agree we shouldn't let random users pretend they initialized
+protected mode if the system as a whole doesn't have proper the proper
+bit hooked up to set that up.
 
