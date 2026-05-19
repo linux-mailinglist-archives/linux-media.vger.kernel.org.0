@@ -1,215 +1,269 @@
-Return-Path: <linux-media+bounces-62137-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62138-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WPd6K1RZDGorgAUAu9opvQ
-	(envelope-from <linux-media+bounces-62137-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 14:36:36 +0200
+	id wOtkHJFeDGq5gQUAu9opvQ
+	(envelope-from <linux-media+bounces-62138-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 14:58:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B62657ECE2
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 14:36:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E33FF57F2D7
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 14:58:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9F32930C7C42
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 12:32:33 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 06DC2306FFF9
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 12:51:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 147904DBD60;
-	Tue, 19 May 2026 12:32:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F56C4DD6FE;
+	Tue, 19 May 2026 12:51:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="bD4LrUFU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AhudaEwd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8532B233949;
-	Tue, 19 May 2026 12:32:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779193950; cv=none; b=j8gThWwP9hG8aM5gESJfF+Cc+61s9W76yiuOontYd/wnG1/0FBwOtJMxiOLcc0z1xZGmd7hdZH6DJymlRXxEAOULRHgkMlm8NNYC/6HRFjU0dKv8Mzei9VgnKLvYmL0oHOZUNhLlnz82/CRrFhYE0iecWrt/DN83TBp9mpi+lOw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779193950; c=relaxed/simple;
-	bh=a3i+o0McdYohTrVqOh3i5ioTr30WGEXz7x2q0R/6iQE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MjmkZQBAksRl7rqvK8NdGPmBr8iLTziGHdcvTUNMm4VqR/n3UKeZ++/rWRidLS1UQIW9ou/4xCOK9rKRv0AHg2LAgGV5YEXVRoo2ZiwxPGpoxulVGDrYDAIbHJxnvKQ6//oRde82W6lMhswQnbGQbkCQK/BNj2q72PTbHytdtWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=bD4LrUFU; arc=none smtp.client-ip=212.227.15.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1779193935; x=1779798735; i=markus.elfring@web.de;
-	bh=a3i+o0McdYohTrVqOh3i5ioTr30WGEXz7x2q0R/6iQE=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=bD4LrUFUa99UynQkR+0Haqdgw0dWp3RyKBUH8A/LzhDoAUbsOc0oiwArzrbVbhah
-	 7OBGANqlIn6A0KGyV8mrfvU7c+dSaCpFjCIfumRmndbP0A4TNlg8rbZZWaCEQBLjx
-	 VlbX9r2+JkHZbLYXNCe2JG4DZbOCbYkUA1yqxwpCwZJWjoXWgg2TKid5sBs3yD9Bp
-	 KKbJvHzSy/Omsw2bJUsBq0wBRvwZG4hipgRxmYRJJH4dknj4rtWzdnL7J+VsXzkLo
-	 NaO+L+IvZfx+0lqG48vC8FDSCacJqYh4i9KNMzBeVjVKNImsmrR8jrhAAzv9wXdWl
-	 nHMJHfqEMikaFW+mqA==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from client.hidden.invalid by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MzTLI-1xKZ0Z263E-014uRG; Tue, 19
- May 2026 14:32:15 +0200
-Message-ID: <056ecc87-c4ba-47cb-9aa2-5e3211da195c@web.de>
-Date: Tue, 19 May 2026 14:32:11 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBEEC4C9576
+	for <linux-media@vger.kernel.org>; Tue, 19 May 2026 12:51:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779195104; cv=pass; b=RE2OwLfPK73LDyQb7N0dA8Gbu1pkcWZclp1+YIILf0oEY/662fgv8uwguUTJ5VIhO8xdlnoVmZoP4xBlXV1RVk3DP9s0YeUxyRInNLiN4GDO0XyjA64zIGv87QaEMvjXV4yYcH4lkvKuQills4Smm1Y1LxRyXYA53zoo0BqCupw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779195104; c=relaxed/simple;
+	bh=4j8eKvdYW3TO/2TB5hSdezKwnL3kRYtsMEXxX47lq7I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pJ1yEMcte+YNsPxHtoWgIisZ8XGfSRbu/p45owzWFiJ7i0uFWlkK/wWU4jLH+I6rPFzfcRcdA02u5ZhTJSd1JjoAfUH/oFGYJlSGX0+cD9S7nrQ0OTeEsfloxZbn4i9K3G+ycUsvPysI3SV/POTS/Q8xkhci6Xi9CS5WtbvX28c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AhudaEwd; arc=pass smtp.client-ip=74.125.224.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-65c24be9e4bso3681064d50.1
+        for <linux-media@vger.kernel.org>; Tue, 19 May 2026 05:51:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779195102; cv=none;
+        d=google.com; s=arc-20240605;
+        b=CW1vjmw7ww66ghLz7evWiVm0CClIMaSnnTUMy0OJ7Bn8ZN7hW0TeV4nEGzIcbYwk60
+         yegzjDEOx7aq90f1YFdyKlXLounwviMfNQX7BM9P8njQtGCD7GJf5/dg9BbGvikz7bfa
+         NrzLLwuzPkW62Cec/9w4RiIQjE/iWG1a5YNWUOrhKOOQzLd8ba2rcQPXijvGxvzqtxVL
+         gXN2QHlGpyPtCzwgzulcdxbiUwDAg/c5V0wg70Omqek2QCQaTNdLEBRTZCkQPlVwgd5k
+         9T1xIzVJunnobIzCXaaFv2UOImpIVEnmPXHAPiADC2LK7pePYlhO5rc2Mtmg3l9SeyaP
+         6pyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=34dwnoGdWl07HomanjfSe75hzG9FgBIN34Pio2tP35U=;
+        fh=7SUREfSw7PKpNVBUD/vmDu11WCW2v8l6CizZhCbC624=;
+        b=KKbBz+pxlTSB894033iKVY3CJmpofyRCbk6NZZ1mAXqZr0kduwYxIlCOrTQZt6mMc4
+         zqlqs2WIUohY/9RSwocOnmfIqVbdxb0pJ7vyXOyRcu6oFf40WoAkXef7iZ6aBZ/XeIyX
+         YmHGyilQHJzT0HZJD7pjzg6cYoIU1VFqE0fNvG1RiZY2ijiHj4fCzeVaByYRcQCFrAPb
+         GVka1Got/TXQ5mYx44RZRRqSPaITFDXaPcUByWahelAl0W4HFBTuVcM0LhtFAp1Xh6FL
+         n6OhQzQgFp9LvNWPnjjsKeQfP4rmNJQrD05fzxAWz+S3oGh3el2yW+6NjmMGPDUeCG+h
+         0GwQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779195102; x=1779799902; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=34dwnoGdWl07HomanjfSe75hzG9FgBIN34Pio2tP35U=;
+        b=AhudaEwdHOfdm4bFnhwnYpo6/f/sgq9JjxaahzVDUKqX3O0oOO5twciWxwPAq3Zw3Y
+         gXlcHWvbPedEm8lu9OXZCiQuZWrveTZMgbHTz+nmZ+lmVng6UJOQVS4pJDnx3GaAX+fJ
+         I/LK/8bzzXkL6xEkwA4+X1jAs/xGGX2GyTRWNTDvUwyjXUQbJun+eqQBJOSO6I2Y5ZTu
+         CU5nzb0SEzOEnVb8J3M2PCvR209vnVglc+I4ENLnSqX2H3Y14sp4FxU06j3CB9GDwZxX
+         ztQmJK6QUZf7S1zIkpZiWrmn/7GsDMCoM4+yykrbblbM6/HgCfTsSAhoXgnf7/YfOT1i
+         F/Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779195102; x=1779799902;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=34dwnoGdWl07HomanjfSe75hzG9FgBIN34Pio2tP35U=;
+        b=dpasSsHDaxGhVIyJLfhq1TqhXmn/C29e2VD7qynaPqb+BTN6sXJ9z6pwTrMDpFJHY4
+         sLZIQZ4xO3VTZi0Rjip6Zo/31BDhMp5/92DMvXF5FB/FcN2/e0QloWYlOSvS8GgfAdcK
+         r6uBrc1hBqhzivpX/ANcWmpGXk2N6wqqqncDrxFXNnfWQAQxix5eQe4sSJ0Nzwf6xT6l
+         OR6BR+xF3uSo2ZoBwuigcliCJs2fW5m/lGaF6CN1MfrQqjXQgjPTHmRL2l5zTLiLBvb0
+         Mf0Rsxd4UZP9wmu7Nwp97rd2MgNyRn+DzIzNycynbOXbfZmVAuHh7PNPG6MA4zQZlf7B
+         RLyQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/Le8eD0R+Yfpne8wr19Zpk764OnzJTU2CIgBoURQ86BwS02xqk/FKjAV/CtL/65bBYcWRxVGKq188T4Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJs5DhcO1bFctq0blnHl7p9r1RdOi+sXVGzAkqlYif5fDsx8W+
+	ZEpTRnx9y8am9Z+lKkMVuWFZErfPOjnqDrZwqLv6g2zHnuhX17U8H8Vhq3ks7LVAnaOioQWhP+X
+	uS4hDlTn1RU+tjyZRZYVvf/VhI9IkjHI=
+X-Gm-Gg: Acq92OGLzTvUZurZXPx+Ailybo9VS41LExzecbiyXOuxDaTVpoDuqSxD/5xJL/FbirM
+	z+XfLwMqBXs9vvIHS+KCG3I63JimHCPZUu7gpULnTDuewao/mf6TBf12EKbD4HW/IxcIijJZ8Kc
+	GIsp0q2SckrSQETK1DATWOQ/qZsB5y0Ca6PbrDeIfH5AIVO3e/QShmtdqeQf4BCSACW/P+Lwghv
+	xBrarOB3XZ0p/TCIcVuoHDyIVSakhsbM4Y0RP++0PSUC7HrVeRlS8BomFJq+obmj16kWf0+9MYD
+	76PwQlpk
+X-Received: by 2002:a53:acc9:0:10b0:65c:1df4:546c with SMTP id
+ 956f58d0204a3-65e2282ac4fmr15910523d50.44.1779195101747; Tue, 19 May 2026
+ 05:51:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 09/15] accel/qda: Add DMA-backed GEM objects and memory
- manager integration
-To: Matthew Wilcox <willy@infradead.org>, dri-devel@lists.freedesktop.org,
- iommu@lists.linux.dev, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Cc: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, =?UTF-8?B?SsO2cmcgUsO2ZGVs?=
- <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Oded Gabbay <ogabbay@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, Shuah Khan <skhan@linuxfoundation.org>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Bharath Kumar <quic_bkumar@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Chenna Kesava Raju <quic_chennak@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Rob Clark <robin.clark@oss.qualcomm.com>,
- Srinivas Kandagatla <srini@kernel.org>, Will Deacon <will@kernel.org>
-References: <20260519-qda-series-v1-9-b2d984c297f8@oss.qualcomm.com>
- <5e0d72fa-929a-4905-9066-6648892bef4a@web.de>
- <agxXc8ttEzBFOlE2@casper.infradead.org>
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <agxXc8ttEzBFOlE2@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:ZCsSJd3hlZA0+s6pw9oSu6hy//TO5pI7XEUP2fNCggWZexrtIeC
- ztmJ2lavQ+zqx4kDCnaiWe2OloINiorh0ir6/HZHLmgzLjBnCWEje6lfH+2omUmIOxImtZ8
- oLJlyHHg7CSgf/fhhMzkYHPKesSLEMCEIdiyA3HuaBGm5L1K3/RB4gTtpny+qFIEcIc+nrw
- qec8gi9RND1ONV1qQOX+w==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:vJshWSmoSHA=;XWZhCWYeZiiacMBiBDZaL9WPur4
- Y8ORxJyfHaR0toT1h0GQpnWElEE1jK4s5zEyego/pC0dN6ad16u56fbHKi8E5eWF285iSXgMf
- zk1cHz/eDwQ5jcZLMVBfo+Ny+hozPzox4ExqjyDW+73IHnyjdmAoJBS2a7Bvyr4/AI8H+MCfD
- d8l+0wKmKxIFeQyedsTYyzaV/LORvVERG/q2V2ZQ8d6zJQt+2x6xnZzg5hfZnEV1okR/1c9tB
- EID81AVb4L9PapF4FZzr6HlLVFHotrRtVR0GLjV2181WwjFjfpO7kvUULzlUjQ1y6XZuenqb2
- bfz1ioznTw2v+v316qDzVCln4TeemC3jsmqHoSKqqierlwELfjV4gMzuyELdD0UEtpJuva/kQ
- bSByUb3rOo4NpB3+CbSYN4cc0Mbc5X/zCRCQ3JPq5V2haxmfgSmZQIWQslOHrf+Qo14Gc5jCa
- 58i3MlV6ESSkIpnGwiijQxkuYXcRP3FKn78IWybQpPGbHqif3D75vFP2GMmOdhYt87yresHCN
- +1MU1Otp1t62//LcRjbfnybILCeS/Yy1wl4ptsu4kvyaM0qbWixkKHHYFsLXhZOY1aq2H0aqw
- UicWrdEHOOWmZQDYBA/6v6gy8YSoe1/G1OZXnerEKfyS9z3k3FN9QZFGvG5gDKj/OJkBv7T34
- dB2uDe1GphrGVvRv9JX6G4iXGguwScIvFr3CD6piFApGQyeN9iE9zPK8/xj8hlSD3D1erunEY
- 7O+wZ+ujwmlgfjwb6sOk5RwkHBmXVoatTPm6Do15sPYZPoyLgEXJbksyI86G/+tJNUDnfZE4d
- HK55i34/VjiHwzT5CbPoELZZR6+5YTlVjaoNJqE77uD9Nj6p+k/VJjAlr+jXasLHcoGNS74YC
- 06gPph3ESd67O8k6RUtFRQEoisoeW+0nyhVOznQmpiTzGPd0O4ZI+jkkO6zV50BNsTBp69nOS
- S+TFdXnFxKKMNaQInQJRUSjCsZeHidr9OqWzLmtCd+3C9/SQHzfGbR/WDsNVj/BlBz3ppw5uY
- 7vAFaqbttG+AutrlWMb7odwHikZouVZ15BuNBzhVGgTG12cpKMOwbdSSzU5nW9dsyK5DStFN2
- 35Xo3MNVHyyjUDatC9tnNM4Wi1MLP3QxKnou9ILCO7r1N7y/nqlzuWIDuj4qRpXewzGeWjXHB
- cCFMvc6PipRQBKPsN8QzJ4ikuxIeOsSj34oiR+g2XMsI06z1o0JT9RN6rK2OeFHvMHQ699AnG
- 54/PYmNVK08Bj4IHEhOkv3qv/9Y7ozPXdCj6MqT8xn+Dmk2fXOjSwcg7E2Y9CW2HC922b1Cys
- 6wQ8/uB7gB5Ida6Ehe+5dM8fvtnJERoyFt8X0Y6gvn5jZHCKmexuV3e04hIezxe4wX9aipI+K
- 9HXjpXljSyjXwXnnC2AR3WjpNMhC4omps7gnn2n/NRnbj4nP5G/n541PFl47UuVT5JlWdEn9h
- J4sIvP8YX2wWdlkhVS7OK1nZOkjn9vtihj4rg381oPfyqwYwQmE8WIuxys4uWunfOf4Wex9GG
- MCc7acqiL/Vcckej84G6BUhpXlWGHx73qBdAD5+yvvGqt3zewKwtVm2pnqOXuI2RW6Sjo7gwC
- agXuafp7MsCO2i+xG61k65BSUTMoS6yeIv/toadeWy1wgx0cYGBPUMIBnL2ZYl9kys8qpckYS
- q/jFAC+YkS1Kf74GAhxiUB5K4fRggqMstEsPt3+l16paLjbZTLJh+Umh4CKG+fAf07p1iwYpf
- +6nADX7A6LDpKD/7chIXNQk1GQfhC9Zi1g8bBJlqdUX3/nx0SKr92lY2NlsS63ajKw7ZEirGR
- I1242weND5VRA7VpufvUTiOTGimB0J+tsKjMhJoLbXE1okw7yf5W7w8qJwLeJbnrnDfnyPDun
- MyQ/OOmuVeajt2juuTYBdu73XSRz3cuqB2bMGSmjFOml3WaB1l+ECYVpvAva0u8KzNs2QDapJ
- +qAtXcEUE8EkxLn2fAW0kfFMkZj4IORwqjfj8g0OB0ucLR1PfAKYIvR+ScEIj3Yp9wzscnwKU
- pR6JTW0pzqTbDQ/YQyih6MoK0mwbW9dognlbV+1SfkWi/FvkZd5OZELbtpAXZAqIHh9nS+W6x
- tJBp0xpt8G7r9blQY562DuVb4Sbj5H0sDafhlfYbZ4IjpyMWPt2KSEDg6fG9q8D5AfrGD1gd0
- o9NwEwagEV9OJ3G72++Y0Kq4vSOs2s7/u8XMtf/CXQjEfK8V83k8P+6Tsc8sOJLDLE2JHiHOD
- tvKzetigT1JjMMnAhO3b1I0i9/xzphxC9q58TfPttvEQUXS6gWFG+PaErhPgROANNXE0kVE3o
- SHFWB374zOqoW8XutPuKqjYkpQ4D6GGDYYCFt0N6uISVOOx95xfoVfyyMspSHLi7yRZJgGJ48
- Ohnz5deX10AiD48GChsPTIN7u3qfEPYnkKbazSZJUwonRHNSf7rTZ/r2RWvoSd7WOUoJkLaiS
- eHCA1pYXNV8HOiiHPbNFBGIe6I8KAraNZnlHlW6yvT+AFilISngU7ZwjIGoGfb4UBSE4HAo1d
- B4S2r0fSrIqqMv7YVtLF2S2rgSyCpWn6EBGVy0baPJeho7ARMRpB8HaybDTZ8rIiOQL+rtsTO
- QblVaAldyG71Id6fqM8DT8SyCR1bVdlLS4Ld+OeVtJ8uqz7Yt/Es9SgJZPI1XoVhcyuiRKix6
- gPcT55BknwNH1LSKJlk9PR8KnTdOlaovdMdKTUY+NXARurDFjLADn/alMPBrshK2fzJj/YCX+
- yQo71F+qVaA8gmoLEnCsjBIG66otxvALabJNr5LVPbFZazsJLqDMEju4xj0kTfXuU/9i4exss
- ZzMbqEOF5yWhP5S0Xc9TITyYzEUQM8fWbNeMhwKgwYXM1AM0V7hdFcsj+AEBnsVN8+lVifEqW
- f+GpFQ6d9fefNarxDDAua3W+ux6EBGdHUUbegofHrYonGuImsfJtPzuaTyHmKCECKFfZZNCoH
- W0rkeSW7IDi/F2eRpJbjxWMnoNg7gBG1u+avSGkgqRREmgq9cEu/ELctqf1OFSNr2XBrrsGow
- CxrIxzzE8ZPLVGQpU7QseqKpR+fvDbyz1rSBSBamtl3S9rXgC/Xmll5h/Qc/sUQZBowUAvETM
- zX8zPLFxVigPAvARGLS5kXirv3nPogQkXD+z9f9xvnAUaB781ORj5/y5BoHYUajsM1K0NM/vh
- RUr6qJMmj6qkx6gzQ8LZ/rYansT1Rl66JBVcf231HwJLTo22ogrz5u94lie7DF6ddHXpW52Il
- 5apKAZlHKKWyau0xqMGoXeQt8VfdVHAEiwBFJFV2XVecSU7Wz/5IYLL5CO+Io6XhksnvEvqD8
- T6lxq6AEiOCtvnh1s3Fofv8TjMW7sZa99AsypinQTD9pGBp5E53OUxgJ+iGwuT4canFanulGR
- cDm23wlu+PLp9d4c36lFoGurzn2Ju7bse0UiaP+NBDeQ4hH6dzW1gZo34Su82DCY3Gftv25yN
- Tvs9jLfzT3cmFIXkEYPCMZ5WXEruzVWQPSR1874R5aPidZ6JAMKeH0szKla5ZV7WbeNnjFNmg
- XcQhp4swK0DFY5TXmX+m3Z2OktpsgqarqqVGTptaN10H+kO9JayVbcg1GVuw59aCdeZIlmoCJ
- vbJazMEwg42AcTt9LjeWh0ZPEKVKVErfW9QBTAWWey1U5jC1JrG0el2Of/NeGS7hQ4zXfmAHL
- /9/f7NusXwUM2gXPC5bEW/LxpFNVbehsyNtsIz04mjOmQwcTum8FveHznXycq6i85a3PTkT+I
- ICahal3BpieS9MdiTp6xuMgt+C05CL6GC2amLeyXJ0sbfVDVVjqPLDkVOHeEgAynntPOwb2sT
- zr0pixJHqSJOhFB9jh3GTooszM319nSfPoqGwujhBfOQynpZHRzojjqUh1v4+/qdtRIiRy7S6
- 6G9hwW5E3SszUMnRCiS8lUGB1i5AZacAjngMLNCO5ZMt/imNpYfTyNMShlUyHz2DLp3B/QlJE
- 9iPkHeH9s7NaO11EmjGEARCwqzIPUXhrOAlvIA7Ss4L2JNkrM9JrCnTj9RB0qMu9cRM3HC18R
- prgVFTJIPn3lhVyZBVNgeEkJD5mCp9CzhzVCQk6DZPZVPmzsmcd8xrMNiWoOlg3E+qB1qeX5X
- Uf9r2V8dvua+RZHjZETNJ2TZpq7dOA/3FTA+lWhdcW2u+nNQMNYmtQpg+Ty0Nb+Dah1zBOmfR
- GO6pY1BxUN0acBIoTGuWFrknaaqN8PWfAGLgvsg//1z6wf+hhCWocOP5ivxWKuyj6rfuYu/yI
- 34nlxQ0ZD07q3S5I/OVwWCcYDhxbdU66fxImO+sgb/A2Z4IFuNdjGBDdo0rgJgUEoTNdSvpZs
- unhHZC2BnrpC5YXwRuwveQwzNuXr4VIdPKaqwl1rS2gNI8f15WIO609rH0MesubT/5DKcr1ON
- KKxVdMkEBsn/RtkRC7GxbGYZCXDOt17GOyA9+n6TpcmCskuikdN2qdoCbwKqKF93QzxRoZdhG
- pVHYghgLum7O/K/2J0fkceAEE1QU1/2HFcIoRNXHZw6vBt/WFhHODRL5Pai4LQiehKvQY4bJA
- dRbQWUAekEBggWCG2aJdRYvP3YJYZZcLTEs/aBwMaZogur/4oj1iIMhiIxfE+hnEhjLr80wDL
- hHITZ21KRQCZqOvmYKardh7UY2DDWCIHkH5ytntIxAPCS/Z723VBziJku1RnX8R2Xpc0lzKCG
- PtgseZPhC+7cFyOFjkyeo6uOOANMz7he+RPI1fnunXBRkieymWNn69kOS8NJLEf/Ou6rc0Rmz
- mBzEieD2Tnn0bCdjVf0WU8LICGnvlscQwUNhM7ZHXOiDfJ6YXz02ZxpPRZBDiNEg3qi4s600H
- DMRcRomCbvUfAgxMoTjWfii4LGJFy4j3UKw4ZPHz+lu4I3SAe9OdHgI2BXCYczcpFtM9cPE+X
- m9s6fzWvVfzbdo2GhG47HhT9PchUWvBR+ONwiEsCsNbAtsGGXRea82S/a3m45C2lebMfLFLUM
- BbxcozZasHaV04qM5u12r4XBzGv3eEqjGQ2xuAbCKRsFSgfaVr40g3Qa8MyeFF/gj2CAV8E9D
- zGpQ2BXOEBk0/WeiMZrNn2BQJKeF1Tboa3eIchOCyGDeFkjrH7QOvb3wU4auiw3tYL9X3VhDJ
- 5if4hAQ33hDiWBFhrkVEVFxjx3/b/XnoCo7FDwIQtQqFphtopFvikMtXrSmArHB1fNW2U1DOo
- r/H8jWGPnHomEi6eMSXL+fO6kuL6TfSALKbNfk7vrp2PnvkrW/cA5NHJYxv8eQZWnwhgeK9wd
- oMfVlFJjW6saW8WDVrjVbwW6s9Z/Fj7VhESl2uoEH5Az4frL7N7rCgHCRG/1eOdwmgYzfYtXn
- 3gGIBKDFT2Vl6i5sJ2DnxUr2/OgrjtC+zDa6YdGj7Fi6qKRde+2LVb65TFDYq71Ercm9rz/ap
- OHt4nBwPgJIepAXxUYsnCwjNdMSqMU3jv+OkPAAzXxQkoaezbzV2VYI1MeXXIL9wVDnEO6M+L
- 5mos686/3+lhdADOsXrDp6oZM+L0iZM4LFuTTDh2B5HVG3GsIO5L6QL4aUMSj9mI9yFQCXj60
- b9UjQg==
+References: <xMdPPQAJ2BbtNwnxmf1CN7FGbdhSJM7NIXkRCxzFvXv0g01tuvNPvAacsFJaDyBc3cIkIAEfi44ewZ3OGGAcDg==@protonmail.internalid>
+ <20260519090819.1041314-1-lgs201920130244@gmail.com> <8787ea87-aa75-4fb5-a729-cd2b54d2ff8a@kernel.org>
+In-Reply-To: <8787ea87-aa75-4fb5-a729-cd2b54d2ff8a@kernel.org>
+From: Guangshuo Li <lgs201920130244@gmail.com>
+Date: Tue, 19 May 2026 20:51:27 +0800
+X-Gm-Features: AVHnY4KqOt_44bY9beki1htG-4MqUrX2XUIpM9bTmjHAt2rVdqLTXUSsDESPn7A
+Message-ID: <CANUHTR9g6vRkKfPeHBQ4_9YR-sZQ_UZBX3+8CiKPYp-XPcp1CQ@mail.gmail.com>
+Subject: Re: [PATCH] media: venus: venc: avoid double free on video register failure
+To: "Bryan O'Donoghue" <bod@kernel.org>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>, 
+	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Stanimir Varbanov <stanimir.varbanov@linaro.org>, 
+	Hans Verkuil <hans.verkuil@cisco.com>, linux-media@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[web.de,quarantine];
-	R_DKIM_ALLOW(-0.20)[web.de:s=s29768273];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62137-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62138-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_FROM(0.00)[web.de];
-	RCPT_COUNT_TWELVE(0.00)[29];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,amd.com,gmail.com,8bytes.org,lwn.net,linux.intel.com,kernel.org,arm.com,linuxfoundation.org,ffwll.ch,linaro.org,suse.de,vger.kernel.org,quicinc.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Markus.Elfring@web.de,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[web.de:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lgs201920130244@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 5B62657ECE2
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: E33FF57F2D7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-> Feel free to ignore everything Markus says.
+Hi Bryan,
 
-Will any contributors care more for linked information sources
-(in constructive ways)?
+Thank you for the review and for pointing me to the mxc-jpeg cleanup
+path.
 
-Regards,
-Markus
+On Tue, 19 May 2026 at 18:09, Bryan O'Donoghue <bod@kernel.org> wrote:
+>
+> OK so this will get the same feedback as the Iris version which is
+> please fix the cleanup path.
+>
+> If we look at drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c we can see
+>
+>          ret = video_register_device(jpeg->dec_vdev, VFL_TYPE_VIDEO, -1);
+>          if (ret) {
+>                  dev_err(dev, "failed to register video device\n");
+>                  goto err_vdev_register;
+>          }
+> <snip>
+>
+> err_vdev_register:
+>          /* Only release if allocation succeeded but registration failed */
+>          if (jpeg->dec_vdev)
+>                  video_device_release(jpeg->dec_vdev);
+>
+> So for Venus and Iris
+>
+> err_vdev_release:
+>         if(vdev)
+>                 video_device_release(vdev);
+>
+> i.e. only release the video device on the error path if the vdev pointer
+> is non-NULL.
+>
+> ---
+> bod
+
+I agree that the mxc-jpeg pattern is useful for avoiding a double
+release when a video_device has been registered successfully and a later
+probe step fails. In that case the cleanup path does:
+
+        video_unregister_device(jpeg->dec_vdev);
+        jpeg->dec_vdev = NULL;
+
+and then falls through to:
+
+        if (jpeg->dec_vdev)
+                video_device_release(jpeg->dec_vdev);
+
+So the NULL assignment prevents the already unregistered video_device
+from being released again by the later shared error label. That makes
+sense for the "registration succeeded, later cleanup failed" case.
+
+However, the issue I am trying to fix in Venus happens before
+video_register_device() returns, when video_register_device() itself
+fails after reaching device_register().
+
+The problematic path is:
+
+        venc_probe()
+          -> video_register_device(vdev, VFL_TYPE_VIDEO, -1)
+             -> __video_register_device()
+                -> device_register(&vdev->dev) fails
+                   -> put_device(&vdev->dev)
+                      -> v4l2_device_release()
+                         -> vdev->release(vdev)
+                            -> video_device_release(vdev)
+
+At this point, video_register_device() returns an error to venc_probe().
+Then the current Venus error path continues with:
+
+        venc_probe()
+          -> err_vdev_release
+             -> video_device_release(vdev)
+
+So the same video_device can be released twice.
+
+In this path, adding only:
+
+        if (vdev)
+                video_device_release(vdev);
+
+would not avoid the double free, because vdev is a local pointer in
+venc_probe(). It is still non-NULL even if the object it points to has
+already been released through put_device(&vdev->dev) inside
+__video_register_device().
+
+So I think the mxc-jpeg cleanup pattern handles a different ownership
+transition: it avoids releasing a video_device after a successful
+registration has later been undone with video_unregister_device(). The
+Venus issue here is about the ownership state when video_register_device()
+itself fails after device_register() has already taken and dropped the
+device reference.
+
+This is why the patch temporarily uses video_device_release_empty() while
+calling video_register_device(). With that, if device_register() fails
+and the V4L2 core reaches vdev->release(vdev), it will not free vdev.
+Then the Venus err_vdev_release path can still release vdev exactly once:
+
+        venc_probe()
+          -> video_register_device()
+             -> __video_register_device()
+                -> device_register() fails
+                   -> put_device(&vdev->dev)
+                      -> v4l2_device_release()
+                         -> vdev->release(vdev)
+                            -> video_device_release_empty(vdev)
+
+        venc_probe()
+          -> err_vdev_release
+             -> video_device_release(vdev)
+
+After video_register_device() succeeds, the patch restores:
+
+        vdev->release = video_device_release;
+
+so the successfully registered device keeps the normal lifetime handling.
+
+Please let me know if you think this should be solved differently, for
+example in the V4L2 core instead of in the Venus driver. I would be happy
+to rework the patch if there is a preferred approach.
+
+Thanks,
+Guangshuo
 
