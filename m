@@ -1,169 +1,229 @@
-Return-Path: <linux-media+bounces-62175-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62176-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eAPTM5WZDGo6jwUAu9opvQ
-	(envelope-from <linux-media+bounces-62175-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 19:10:45 +0200
+	id 8MpyCYKaDGqUjwUAu9opvQ
+	(envelope-from <linux-media+bounces-62176-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 19:14:42 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74B80582DCF
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 19:10:45 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 236E6582E39
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 19:14:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 415F1302DF9F
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 17:09:15 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A02C6300699C
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 17:14:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FD57480DDC;
-	Tue, 19 May 2026 17:09:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE7B13FC5C8;
+	Tue, 19 May 2026 17:14:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kde.org header.i=@kde.org header.b="ULomDrS9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XfQ1jcYJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3836A40961B
-	for <linux-media@vger.kernel.org>; Tue, 19 May 2026 17:09:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.43.1.242
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779210552; cv=none; b=aV6pJcb2fS7HN6K6fdYhoUix5x0V6iF33RoaFhc4MyD2PzXInbs7rFSZtkdiyyoH1IlezF4nHG6kC5IxrQ/HtQGtoIIDwxt+eKtXe/ePBDxReroyqonxcjYrBQdg1mx3SYRmMPSY1oVcEeSJfmcd/P7TVwKUUi3MB81Ita7WOAw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779210552; c=relaxed/simple;
-	bh=AlJ1/t/6JcBQn3xvZ12SbKOodlIQ8ueQNBgDtOCG+Xk=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F10148AE17
+	for <linux-media@vger.kernel.org>; Tue, 19 May 2026 17:14:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779210870; cv=pass; b=eUxUpynp1sOxP9rOyYivNX0BqBMbvwwePP/AW6QvMQlFuHd/De+7/LinhDlhizn08hOOX+1gUCdkroW9d43XfGZpUagNRFYlcU4/MSPVM2RuPa36J4LAkxbCTGIr/2yRMIctmF+Q30pVYtRthVYBb7MdypwbYS04Vzp9O1iqY9g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779210870; c=relaxed/simple;
+	bh=d00V6h/ErpHZASrHHwfgf+2hWEHhE33Q48KoY0RIrXo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nCrvMjgnwTPwJ/UauDPKFod9cQaWw0uASH71n4DZgSz4TqVzChvQ+8s47MUradFzcyM1ATzllgf5p1mTR6n1Qk4bIGL+VDloEjv3rq0XVCunhK2o55GHPcG6ZS4jZHSrBRoartqdT6vBjXLzMD91zXfBHn1MKUzdVSmkjVvVX2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kde.org; spf=pass smtp.mailfrom=kde.org; dkim=pass (2048-bit key) header.d=kde.org header.i=@kde.org header.b=ULomDrS9; arc=none smtp.client-ip=46.43.1.242
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kde.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kde.org
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
-	(Authenticated sender: zamundaaa)
-	by letterbox.kde.org (Postfix) with ESMTPSA id C520532B23B
-	for <linux-media@vger.kernel.org>; Tue, 19 May 2026 18:09:07 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
-	t=1779210548; bh=AlJ1/t/6JcBQn3xvZ12SbKOodlIQ8ueQNBgDtOCG+Xk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ULomDrS9UqUbxh3IzJyvC4+q/VmRHFROIzfDMEyYaPejcn1rB1NEXGg3KBPnjmAEh
-	 iAPC/67qui6nmReo5x4MtCM9fnKz+0kMn4dTCuab25hyJJLy1Q9YTn4uW9hEH03S0g
-	 N1PfoTIr+iaK05XtPwZUOcd8Trz0rhKcZeeMgbhaWTAkM17z8cWoZ1kwXBXXdDd/9T
-	 3/iUa7kTM03makIM4O9+zXpGE3wRZFda52gjJGeBD+ck/25Vqhy9I9SqPXGq6wBaf1
-	 YkIRxjUw+J/Rz1TYDm3b+nP5PfQrVVIiQNgSwROSkJLhq1zjzkrOxqJLR1vGXyFmZe
-	 OatGh1T1ZXZrA==
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-65890a6ca20so4292083d50.0
-        for <linux-media@vger.kernel.org>; Tue, 19 May 2026 10:09:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8i9qjywY4/tIAu1sTcPlkKrgE0AlhqIFzDH7TWK3Hng2Rl1ByfO175tc30HQinh8qPiD8vAR1ZVYC5ZQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVMJN6ev1TkbGkuGTKt2q7TOLbTwHctvXkr6tYdKlFyFk7yuIJ
-	JeoBPW9myJT9LDLNrsoPOQ4FBFGtWWWyX3QphpCwyKAw3bFti6ZMZ1oQLF9LXwOu6t8HX3Fpkgg
-	CGTQjAX2lXxlFrDyGTEg7FSnYbluIVxU=
-X-Received: by 2002:a53:c041:0:20b0:658:509a:754f with SMTP id
- 956f58d0204a3-65e226bb1acmr16811065d50.18.1779210546198; Tue, 19 May 2026
- 10:09:06 -0700 (PDT)
+	 To:Cc:Content-Type; b=IUTamfdt7JG4FcE2gb55Jyaemm8gqvhTABbnGzXyeghK2I+W5Vf6mRnr7uxoGmqA3HWrf58YcMJVg47K6OmDfID9XG+oTVTLLj8l257ulEuB3GZ6frYNmhyADfPOFyFxHpu0Vyw8790whI7sz/pVR7bpoQ2AVjM/8biP+zsp7Rk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XfQ1jcYJ; arc=pass smtp.client-ip=74.125.82.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-12c1a170a50so4771096c88.0
+        for <linux-media@vger.kernel.org>; Tue, 19 May 2026 10:14:27 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779210866; cv=none;
+        d=google.com; s=arc-20240605;
+        b=VoBMRmDXZAHQv3mP3WmSyXP8+KMmXQaAj7ydVQSP8clARG4+FAkz0nD65T9tLLqZwJ
+         x6G+rWGZjqMOJeRiZLDyqojjFUoktjardeIfKcIQpleHgSYVnXHT8spnFqSbYak4wq4s
+         6a9UJt2phDlgKwZpO6YSD7QC+v14QdbDovrcqx7j92wRRpsORU4tLKdVIXDFX/0X5oa2
+         PeSc1UMilKQ7ROOZX15OptJIlvAEbhh4ja/BB1FlYn1rEcSk4jAMfQD+2hpO35ywwDBJ
+         D2/VkGgS5zA9iRf8rR3G+4vQET3UaqRbbtoqHJQNMYlDA0a7G8249WdivTRzX5+DIHpJ
+         6KEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=vF3PbAIpdXzsjA1Yq+yZ7l3npr4+DUB3TFT1IALczSw=;
+        fh=EDRSltopB4CaUoMRW29lX6bBVjFQlCamLgOITIkPrs4=;
+        b=VPEIK0T3GecOO9TUJEhlrpuptDsNTCywS3FTtHAArsYHXH939Q+CQrBKtLLfriuuNV
+         ObqWRLXojzFTCQCLA2tNbUzW3fpi6VtRPMCvCXB4I0tQPssQe+Y4xZu1j1SuGaFaDZ0G
+         bhb3t6DMpFyHRuAigszbBbkqmohODX+FW04vJwrmmBfNXChI/kJQnbSw7UmKn1UUpO8f
+         ejd3bf+eETASJqJp2tekNNAfvaGnod6JhpNd8VfR44u0mGKZaE4WhIk9yQzzI2BjrQ0D
+         lkyFy3XiVE2ESeX5P92nP8m3hfUkAKSYjgPc3ohcbEUCRVEngPcyrgv66m3sQTKFuJde
+         ma1A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779210866; x=1779815666; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vF3PbAIpdXzsjA1Yq+yZ7l3npr4+DUB3TFT1IALczSw=;
+        b=XfQ1jcYJvFBSHhD5+523iNJvDUk43DYp1gmfTPkGMtNpZX1oDCXZYjsKvtkvATHgcS
+         Gq+2GsXnJjV8EV8e01Grs8L/SKM0U+Cl5MPjbW7i1boBpCF2WARRityhb+VI1rtscUeT
+         SeXptP+CLvigUixbDt+TElZZlgezjtPJXyqwm8r/EfyLY20xQ0P9XXKeBZ74MxC/WIl3
+         Bzo03mpoQos2fePDfqgVOs35Z5SVxOucwFVj8Sqth4PKHbFZmrKcVAKQsuurcfdSywJw
+         xRxsn72jPPpGNhU6FRyx0BSVGZqtICz2/ir4kyeqAlCOQWJl+ZB6/wU1qdb4HEN9macd
+         KFBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779210866; x=1779815666;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=vF3PbAIpdXzsjA1Yq+yZ7l3npr4+DUB3TFT1IALczSw=;
+        b=PQdPv4qC877Hi7uTQrmxGb0U97XrOQpHrD+0lqOjYg6Sy3JN+K7jrpK7QmrzLtdQUE
+         2r+Z/KLncd4KGopMcZJRYn2fB9c1hC4SxvtXXZRMN+qwXemJWkjuw8C9ejPn1eRLGyjo
+         2EG+k0CGxgBiBB4CSRsH9kotD15TJEwlVprhEPFJRQejxKDUHzgYSL2hFau5nXM2gTGz
+         mMOzzPp8w6T5E4goHvDUvJ6FqIPXevF6Kmb2g3vhBLxpaMeNqT8DqcQPM/yhCDCw7Wxh
+         qISfSiTOWGigWUF4+pGIPh85Vs0NROpsphCyNCtzoJ8od/YFZVyrGRmJTmKoAm4Nz2Xe
+         VuQA==
+X-Gm-Message-State: AOJu0Yzqh1sS/99Mh1KBgkvU73WVGRdC4hA0sD47Py3tSu9uMxgQzMTo
+	KtJ1AFoMRmbHuKTi+oYkHsy65pTs9Uc6QS+aXhrSG+BqywykehTIhILEGtVGXWqcvj+l07CQ9MP
+	tjmdbakwRWGokyypV394/MwSQ1eOMgfQ=
+X-Gm-Gg: Acq92OFK7VtSE8cT+/3Tw+hl9Da/Cg060kMLukN233iWdxsNRRLw1gITLzoNKJuxseg
+	sr7VsJvxhWQN7cTwqY5o7v4MaTUzuRbOVRmpYYZXtW2AWZdywcrxCPRPpspiNddUKQconZhVqXm
+	eidhrdwrEiT7nSmvwmgqUU9kKylmn4ZycnhHpZ0vWTVD58jTyxdwjVY5ZOBcdJTqW/a2oJhAVQ9
+	Q36qWzvIABxFw+YmnLI76mvPaPpG0I5mHy6CGwfEKy8RLqsDdAcRS+H2Ln5Xr2Pubu6MLyDgPb8
+	kYK7nw==
+X-Received: by 2002:a05:7022:251f:b0:133:1d3d:f93e with SMTP id
+ a92af1059eb24-13504a4f6bfmr9059140c88.42.1779210865614; Tue, 19 May 2026
+ 10:14:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
- <c6c91de9-a34b-4b50-a3c1-d42bf7631f8e@amd.com> <CAHijbEUzWZC4GAMU6YGV42gOYkrQaMZZPiwS4Erb4H1J-fh_8Q@mail.gmail.com>
- <69dcbcc1-da58-4d34-bfb0-5c8d33b75d59@amd.com> <CAHijbEWqc2+kSkk3i_LxB2PQ6XwUetw1UkdUdXJfdv3zgKd1kA@mail.gmail.com>
- <38551bfe-75e1-4978-b57d-adc43cebc85e@amd.com> <CAHijbEWHp960qvZFoK7+9ppHAqkAR7=UQhtMUccqWzGd_pFPQA@mail.gmail.com>
- <5ee6d5af-ac48-41d7-a19f-e08a3c5b7d19@amd.com> <CAFZQkGwmeipZnvmBkcE7KhvUSMkSE=fzLBZtiMyhv3mM04Vudg@mail.gmail.com>
- <dff60378-4e47-4753-8878-feec6e1c2690@amd.com>
-In-Reply-To: <dff60378-4e47-4753-8878-feec6e1c2690@amd.com>
-From: Xaver Hugl <xaver.hugl@kde.org>
-Date: Tue, 19 May 2026 19:08:54 +0200
-X-Gmail-Original-Message-ID: <CAFZQkGz=UJqaJ_eTwKBy1pAg5xL+PLibh7W1vYf7JD7Jrx-LZQ@mail.gmail.com>
-X-Gm-Features: AVHnY4K_IfI4nF31sGUOpZQLLhRb2Bvzlif26PEgJHTzyC-9E6RsTuVsRZfgh_U
-Message-ID: <CAFZQkGz=UJqaJ_eTwKBy1pAg5xL+PLibh7W1vYf7JD7Jrx-LZQ@mail.gmail.com>
-Subject: Re: [PATCH 00/12] misc/syncobj: add /dev/syncobj device
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Julian Orth <ju.orth@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
-	wayland-devel@lists.freedesktop.org, 
-	=?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+References: <20260510235037.24876-1-hoff.benjamin.k@gmail.com> <dd77b328-f792-48ac-a427-fc70c0e2c987@kernel.org>
+In-Reply-To: <dd77b328-f792-48ac-a427-fc70c0e2c987@kernel.org>
+From: Ben Hoff <hoff.benjamin.k@gmail.com>
+Date: Tue, 19 May 2026 13:14:14 -0400
+X-Gm-Features: AVHnY4JxgJcf2FS8AKM2DSPQHpsgUjSCC88b9dTquYzMqHGyFLXfPBt7NbuHxy0
+Message-ID: <CAMSzxxTgmAaLPKosRGi_88vm+psHHaFLjcCkOc2PdTK05gBebg@mail.gmail.com>
+Subject: Re: [PATCH v7] media: pci: add AVMatrix HWS capture driver
+To: hverkuil+cisco@kernel.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	mchehab@kernel.org, kernel test robot <lkp@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[kde.org:s=users];
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62175-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[kde.org];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,linaro.org,lwn.net,linuxfoundation.org,arndb.de,lists.freedesktop.org,vger.kernel.org,lists.linaro.org,mailbox.org];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[xaver.hugl@kde.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kde.org:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-62176-lists,linux-media=lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,kde.org:dkim]
-X-Rspamd-Queue-Id: 74B80582DCF
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hoffbenjamink@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,linuxtv.org:url,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 236E6582E39
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-> > The part where we get this independent of attached hardware is quite
-> > important for us though, since we can't just ignore explicit sync once
-> > the device we previously imported the syncobj into is disconnected.
+Hi Hans,
+
+Good catch.
+
+I've created a new patch here that dropped these three functions, see
+it here: https://patchwork.linuxtv.org/project/linux-media/patch/2026051916=
+1218.79385-1-hoff.benjamin.k@gmail.com/
+
+On Tue, May 19, 2026 at 9:00=E2=80=AFAM <hverkuil+cisco@kernel.org> wrote:
 >
-> Can you elaborate more on this?
-
-In Wayland, the client is allowed to attach dmabuf and syncobj
-independently, they don't have to be from the same device (and the
-compositor wouldn't be able to verify the opposite anyways). The
-compositor will usually import both into the same drm device, but
-especially with compositors that render on multiple devices, that's
-not necessarily the case either.
-
-If for example we had a system with one internal GPU and one external
-GPU, the client renders on the internal GPU and the compositor uses
-the external one. Now when the user yanks the USB C cable, afaiu
-- the buffers from the client stay valid
-- the syncobj stays valid on the client side
-- the syncobj becomes invalid on the compositor side
-
-"invalid" there means either
-- the acquire point of the client is marked as signaled, before
-rendering on the client side is completed
-- the acquire point of the client is never signaled. Since the
-compositor waits for the acquire point, the Wayland surface is stuck
-forever
-
-Afaik the latter is currently the case. The former wouldn't be much
-better though, not when it's preventable.
-
-This is admittedly an edge case, but GPU hotunplug is something we try
-to support as well as possible in Plasma, and all the edge cases cause
-a lot of problems in combination and are a lot of headaches to handle
-(or really work around) in the compositor.
-Another edge case is when the client asks the compositor to import the
-syncobj, which can fail when a hotunplug is in process, and ends up
-disconnecting the client for no fault of either client or compositor.
-
-> >>> 3. It removes the need to translate between syncobjs fds and handles.
-> >>
-> >> That's a pretty big no-go as well. The differentiation between FDs and handles is completely intentional.
-> > Could you expand on why it's needed? For compositors, the handle is
-> > just an intermediary thing when translating between file descriptors.
+> Hi Ben,
 >
-> Well what we could do is to add an IOCTL to directly attach an syncobj file descriptor to an eventfd.
-That would be nice.
-
-- Xaver
+> On 11/05/2026 01:50, Ben Hoff wrote:
+>
+> <snip>
+>
+> While looking for something else, I stumbled on this:
+>
+> > diff --git a/drivers/media/pci/hws/hws_v4l2_ioctl.h b/drivers/media/pci=
+/hws/hws_v4l2_ioctl.h
+> > new file mode 100644
+> > index 000000000000..53044f78d6fa
+> > --- /dev/null
+> > +++ b/drivers/media/pci/hws/hws_v4l2_ioctl.h
+> > @@ -0,0 +1,36 @@
+> > +/* SPDX-License-Identifier: GPL-2.0-only */
+> > +#ifndef HWS_V4L2_IOCTL_H
+> > +#define HWS_V4L2_IOCTL_H
+> > +
+> > +#include <media/v4l2-ctrls.h>
+> > +#include <linux/fs.h>
+> > +
+> > +extern const struct v4l2_ctrl_ops hws_ctrl_ops;
+> > +
+> > +int hws_vidioc_querycap(struct file *file, void *priv, struct v4l2_cap=
+ability *cap);
+> > +int hws_vidioc_enum_fmt_vid_cap(struct file *file, void *priv_fh, stru=
+ct v4l2_fmtdesc *f);
+> > +int hws_vidioc_g_fmt_vid_cap(struct file *file, void *fh, struct v4l2_=
+format *fmt);
+> > +int hws_vidioc_try_fmt_vid_cap(struct file *file, void *fh, struct v4l=
+2_format *f);
+> > +int hws_vidioc_g_std(struct file *file, void *priv, v4l2_std_id *tvnor=
+ms);
+> > +int hws_vidioc_s_std(struct file *file, void *priv, v4l2_std_id tvnorm=
+s);
+> > +int hws_vidioc_g_parm(struct file *file, void *fh, struct v4l2_streamp=
+arm *setfps);
+> > +int hws_vidioc_enum_input(struct file *file, void *priv, struct v4l2_i=
+nput *i);
+> > +int hws_vidioc_g_input(struct file *file, void *priv, unsigned int *i)=
+;
+> > +int hws_vidioc_s_input(struct file *file, void *priv, unsigned int i);
+> > +int hws_vidioc_g_ctrl(struct file *file, void *fh, struct v4l2_control=
+ *a);
+> > +int hws_vidioc_s_ctrl(struct file *file, void *fh, struct v4l2_control=
+ *a);
+>
+> These two functions are unused.
+>
+> > +int hws_vidioc_dv_timings_cap(struct file *file, void *fh,
+> > +                           struct v4l2_dv_timings_cap *cap);
+> > +int hws_vidioc_s_dv_timings(struct file *file, void *fh,
+> > +                         struct v4l2_dv_timings *timings);
+> > +
+> > +int hws_vidioc_queryctrl(struct file *file, void *fh, struct v4l2_quer=
+yctrl *a);
+>
+> Ditto for this one.
+>
+> > +int hws_vidioc_g_dv_timings(struct file *file, void *fh,
+> > +                         struct v4l2_dv_timings *timings);
+> > +int hws_vidioc_enum_dv_timings(struct file *file, void *fh,
+> > +                            struct v4l2_enum_dv_timings *edv);
+> > +int hws_vidioc_query_dv_timings(struct file *file, void *fh,
+> > +                             struct v4l2_dv_timings *timings);
+> > +int hws_vidioc_s_fmt_vid_cap(struct file *file, void *priv, struct v4l=
+2_format *f);
+> > +
+> > +#endif
+>
+> Can you make a follow-up patch to drop these?
+>
+> Regards,
+>
+>         Hans
 
