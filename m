@@ -1,178 +1,196 @@
-Return-Path: <linux-media+bounces-62162-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62163-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SFM6DMeADGprigUAu9opvQ
-	(envelope-from <linux-media+bounces-62162-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 17:24:55 +0200
+	id SPllHNqADGprigUAu9opvQ
+	(envelope-from <linux-media+bounces-62163-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 17:25:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E991581624
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 17:24:54 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0185758164B
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 17:25:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 265A53057B7A
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 15:15:43 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9F1D8309A566
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 15:16:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E42C403E80;
-	Tue, 19 May 2026 15:13:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9075C403E9D;
+	Tue, 19 May 2026 15:16:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DhYHepEj"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="BIzGmVZX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6B04F7993
-	for <linux-media@vger.kernel.org>; Tue, 19 May 2026 15:13:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD9F403E8A;
+	Tue, 19 May 2026 15:16:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779203634; cv=none; b=eBcAJl2FxGN9c4CFgFgrNoECgAIhvBHAnvy8ZHZD1BAcXNmhdoLWZ+tkW0s3nX1UkvbeX0/CAu6FmGqNx39kF0OtJV8u5B/PRifO87bD+7rU2S3/uLHa6qoxDtinvuxBliR7W8iIjmcRK9/uXznCKIHCabuxN0jiwZdl8//zEFQ=
+	t=1779203785; cv=none; b=kDaVImfk28xx2sPkB85uy+DRefJ138M7o8GGJr7IlcrrNhNncMd719pW1d1oRIEs7HnFx0G2KSg2UrpVaHDvQ+YpkLCHnlePKrT1fpVGARtayulNMkJddwhiR54U/ZZaSKrxa5idA8CWnnE8K0b4+JBoYcAY3LeHzJp49wbTBkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779203634; c=relaxed/simple;
-	bh=16AoPtmHTYpJSipw80SylHAI5EPglqbbZ9EkozbD51k=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=BDW6EmdCaR0y8913rjaStJr6PwF+daVZQ+Gw0BVE/Oo0WoS57VPanIhiP4GyKaCJmO0L73aqYvhgUKO7cpjCtleq4JpUhtdCY0W2yc+zlHM0PdbWrgq3BvFl0FWaYcMcZSmZEZfL6zm0YaATYKgK04jhuJTw+ZkhGNDeOuSvKXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DhYHepEj; arc=none smtp.client-ip=209.85.208.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-67e43a8996fso4666815a12.0
-        for <linux-media@vger.kernel.org>; Tue, 19 May 2026 08:13:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779203630; x=1779808430; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MD8vAn9/wfDPga+z35YKtSQ1Eizg0RFa87mkXotuc18=;
-        b=DhYHepEjAME9HAypfjQdpTCctWhHMNRjAyhpQU1/0WqNsdXG1d5RwaQIA1heOPwwKt
-         PgPxdbNmNlFSyFHvMcSF1o2AkXlFVk0YBJuVP/NGqJwce6E3EleGXRgTa3fYDI/stXIn
-         28raa0ZhmPTnH8VTljkRhB7UEKe6Y61zgCoJQafdV56XGf+O6WBZixBbnH0uYNjIYiAF
-         hJ80rffLRn+/Ir4yJ8E1q+hJOEYUOmyB1cHnrUOW5O270QqEOlVg2+yQZfIXL7NtO63d
-         J8nUhG7EOioS8NbA1ElWfgloqYzVvrNnq8rsRPlg+8jCHLD4jUYhUUt8YbuqQOJYaqTK
-         M8Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779203630; x=1779808430;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=MD8vAn9/wfDPga+z35YKtSQ1Eizg0RFa87mkXotuc18=;
-        b=OeTxTJHQPbEIw2sO0lJzbsj2ibwE2cUNsjrWw+eTpszqURd7o8si0eQmqrWbuTIK80
-         /m+nTFXOD7JpdM1Idci2fPPfDnpAGm2n7+8nnlmQ0XkxavtJQL7GHPp2+speh65wBvXu
-         427ECH2356sWFt9F1iylmdTtB6ja95NPcnS3otIvfoGX36UlYcjChJwzheyRQ2KKXB78
-         uMcYoA24OglTjmOVgetWDgUPBDcVbA2K7QAy8TZUjZ9Vb3Iju7TFBUzCVuG/u4tfeTgX
-         xz8dbV+bleOeCMBB8T5e7KxrgtqQv0M9VjeoNm9wsXFsxOowJTwq4N2/WbxlvM23NhcO
-         4YSw==
-X-Gm-Message-State: AOJu0YwerGR9ulsTKDMAkuF74Mzn3/76jfBV0zx0pgJSlF9/Q5iSuYTf
-	XHgWFa0IEluHXdTZHbZnuOHlxc2FLJoNIGFmnl+numIs9QmgV/J8K+TG
-X-Gm-Gg: Acq92OFpXYe+0Gd0T+/sQ1jW4E1usSMPkgQmg1BFbT2edoDSSsECttyInk5+5U23Bwp
-	l1T9LiEDtKV7JFfnouRuG+HuAKs+mMs58V9DtEkIl4gajQ4rLuF3gc/77NB/fx3DyCC2Pg9QR+K
-	g6Go3xcmyptf2U4EbWPnD6njKGlAPi5W/J1PyZ8Iwa6CV4lcg68ceu1JzTmrGAw49tQ8eycpp+E
-	N5jLvweZZgzFxsyre8+MXlfNnf5F6nV9xShWllmlSlAUEV9+15lVm/zcxiXfXDgAJKvzDtaDwzk
-	zbSQ0uXAQhUZv88lrC3DRwZBXWeSpl49sVVVkNcyptBOCcJroU0YargWUzgdIu/E4Ek30HCmbFS
-	wzYHVpn4hIUJNQeDwSylOGYPdvV6GhO7acwOGCQGKnryEUqMX+mRyq3BAX0fiOFNpt4c4882yGx
-	8MtPc5D+7ap/csi4YE3LI4ntzPTT8ZOMgAl90J
-X-Received: by 2002:a05:6402:e04:b0:670:ef2a:217e with SMTP id 4fb4d7f45d1cf-683baa391aemr10613028a12.0.1779203630340;
-        Tue, 19 May 2026 08:13:50 -0700 (PDT)
-Received: from [192.168.0.39] ([79.133.247.80])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68310b52675sm6697700a12.8.2026.05.19.08.13.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 08:13:49 -0700 (PDT)
-From: Erikas Bitovtas <xerikasxx@gmail.com>
-Date: Tue, 19 May 2026 18:10:53 +0300
-Subject: [PATCH v8 8/9] arm64: dts: qcom: msm8939-longcheer-l9100: Enable
- venus node
+	s=arc-20240116; t=1779203785; c=relaxed/simple;
+	bh=LeeRjDKdU98xs9zRHyVlw4Dxq1DWY3AOHyqzA6RQyk8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=A94j0qKslE0baB+lYZcsFoXU9CiUM0nmBSQ+92B8iUsBtWm5sRRvw2oKRbs9dgXXOBzZrx2RiHNiqURSoqy+UO5PVK2mJwJZ7UAsfZCctJtZ16EBwYYPhghzwc0+iAXdaXDfhB+9lpCo1H/UtOWeWqoNMWODPQ0iLJQ0yt6wFrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=BIzGmVZX; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1779203780;
+	bh=LeeRjDKdU98xs9zRHyVlw4Dxq1DWY3AOHyqzA6RQyk8=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=BIzGmVZX7WuoGCBqs8TVvfe6IAiXzAbgNzXkT5K/YhBIwLJwSni7btMn9SumAwHRd
+	 yYMxK+FlNvhcL5reNzbEaqTVpwYwJMAn6mvoi86ru++B1H1wUBohGelADL4ThXNazp
+	 kcQ7ARc9mdtezse4LnovGMYXMcFZAfyeXmJSDv9Q31YkIq6Hfn3dcHmujAdWagpViT
+	 NnI9aZpdq6Vq57u7E9gC4ZWAXpXKep7D4xIRnxtEDOkZMUa5r4L7cTmzfLezpmOj2h
+	 RmDVZMINMEcFZkD8jeIj5MsoxAIs4UT/N/oXazgSSObDkVfO+d6jwxeWDJ/9ojYlNE
+	 DBUftxHB1ZJGg==
+Received: from [100.64.0.214] (unknown [100.64.0.214])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id AB6A017E1299;
+	Tue, 19 May 2026 17:16:18 +0200 (CEST)
+Message-ID: <d2c20b4cac22f04bf864534edf27993236ac9e09.camel@collabora.com>
+Subject: Re: [PATCH 05/16] media: v4l2-common: Fix NV15_4L4 format info
+ block height
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Paul Kocialkowski <paulk@sys-base.io>, linux-media@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Chen-Yu Tsai
+ <wens@kernel.org>,  Jernej Skrabec <jernej.skrabec@gmail.com>, Samuel
+ Holland <samuel@sholland.org>, Greg Kroah-Hartman	
+ <gregkh@linuxfoundation.org>, Arash Golgol <arash.golgol@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date: Tue, 19 May 2026 11:16:17 -0400
+In-Reply-To: <20260518102451.417971-6-paulk@sys-base.io>
+References: <20260518102451.417971-1-paulk@sys-base.io>
+	 <20260518102451.417971-6-paulk@sys-base.io>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-GJ5iBdhdx0UoTc8uYpG1"
+User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260519-msm8939-venus-rfc-v8-8-542ec7557ebc@gmail.com>
-References: <20260519-msm8939-venus-rfc-v8-0-542ec7557ebc@gmail.com>
-In-Reply-To: <20260519-msm8939-venus-rfc-v8-0-542ec7557ebc@gmail.com>
-To: Bryan O'Donoghue <bod@kernel.org>, 
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>, 
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
- phone-devel@vger.kernel.org, Erikas Bitovtas <xerikasxx@gmail.com>
-X-Mailer: b4 0.15.2
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-2.76 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62162-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62163-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,sholland.org,linuxfoundation.org,ideasonboard.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.sr.ht,gmail.com];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[xerikasxx@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,apitzsch.eu:email]
-X-Rspamd-Queue-Id: 9E991581624
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:mid,collabora.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,sys-base.io:email]
+X-Rspamd-Queue-Id: 0185758164B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: André Apitzsch <git@apitzsch.eu>
 
-Enable the venus node so that the video encoder/decoder will start
-working.
+--=-GJ5iBdhdx0UoTc8uYpG1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Default paths for firmware work on BQ Aquaris M5, which means
-firmware-name property can be left out.
+Le lundi 18 mai 2026 =C3=A0 12:24 +0200, Paul Kocialkowski a =C3=A9crit=C2=
+=A0:
+> The NV15_4L4 format is specified as a 4x4 format, not 4x1.
+> In addition the block size should not take subsampling in account,
+> so specify it as 4x4 for both luma and chroma.
+>=20
+> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+> ---
+> =C2=A0drivers/media/v4l2-core/v4l2-common.c | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
+ore/v4l2-common.c
+> index 554c591e1113..77a0daa92c2b 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -309,7 +309,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
+ormat)
+> =C2=A0		/* Tiled YUV formats */
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_NV12_4L4, .pixel_enc =3D V4L2_PIXEL_EN=
+C_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 1, 2, 0, 0 }, .bpp=
+_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_NV15_4L4, .pixel_enc =3D V4L2_PIXEL_EN=
+C_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 5, 10, 0, 0 }, .bp=
+p_div =3D { 4, 4, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
+> -		=C2=A0 .block_w =3D { 4, 2, 0, 0 }, .block_h =3D { 1, 1, 0, 0 }},
+> +		=C2=A0 .block_w =3D { 4, 4, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }},
 
-Signed-off-by: André Apitzsch <git@apitzsch.eu>
-Reviewed-by: Bryan O'Donoghue <bod@kernel.org>
----
- arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Only the block_h is broken. The block_w is in "pixels" which for the UV pla=
+ne is
+component pairs. So both set of tiles have 5bytes stride. But since the sec=
+ond
+set, the UV tiles, are interleaved, they only have 2 pairs of UV per row. S=
+o to
+me the correct fix is:
 
-diff --git a/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts b/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts
-index 13422a19c26a..48514c3df718 100644
---- a/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts
-+++ b/arch/arm64/boot/dts/qcom/msm8939-longcheer-l9100.dts
-@@ -314,6 +314,14 @@ &usb_hs_phy {
- 	extcon = <&usb_id>;
- };
- 
-+&venus {
-+	status = "okay";
-+};
-+
-+&venus_mem {
-+	status = "okay";
-+};
-+
- &wcnss {
- 	status = "okay";
- };
++		  .block_w =3D { 4, 2, 0, 0 }, .block_h =3D { 4, 4, 0, 0 }},
 
--- 
-2.54.0
+If its not the case for the camera pipeline, then a new format is needed, s=
+ince
+this format should perfectly match NV15 + VIVANTE_TILED in the DRM world.
 
+regards,
+Nicolas
+
+> =C2=A0		{ .format =3D V4L2_PIX_FMT_P010_4L4, .pixel_enc =3D V4L2_PIXEL_EN=
+C_YUV, .mem_planes =3D 1, .comp_planes =3D 2, .bpp =3D { 2, 4, 0, 0 }, .bpp=
+_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2 },
+> =C2=A0
+> =C2=A0		/* YUV planar formats, non contiguous variant */
+
+--=-GJ5iBdhdx0UoTc8uYpG1
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCagx+wQAKCRDZQZRRKWBy
+9H3cAQCZckjwaH4Ua7bFNH0TlIe7qNnm4JBXewMsZ3UzDAKbHAD+MzI3Pek25YiV
+cuO2+w5f3DUEwgpRmjCUKnqmGO9WqQ4=
+=HPXQ
+-----END PGP SIGNATURE-----
+
+--=-GJ5iBdhdx0UoTc8uYpG1--
 
