@@ -1,253 +1,429 @@
-Return-Path: <linux-media+bounces-62168-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62169-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UNnQN0qLDGo1iwUAu9opvQ
-	(envelope-from <linux-media+bounces-62168-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 18:09:46 +0200
+	id yK2VAxGMDGr0iwUAu9opvQ
+	(envelope-from <linux-media+bounces-62169-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 18:13:05 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8945C582012
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 18:09:46 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95822582114
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 18:13:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B3685302D2ED
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 16:01:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 7CF373115559
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 16:04:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5A632E974D;
-	Tue, 19 May 2026 16:01:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71E552E9ED6;
+	Tue, 19 May 2026 16:04:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="A/apEJ2Q"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="L8FspndC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010060.outbound.protection.outlook.com [52.101.193.60])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012162DA756;
-	Tue, 19 May 2026 16:01:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.60
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654DF2DF153
+	for <linux-media@vger.kernel.org>; Tue, 19 May 2026 16:04:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779206477; cv=fail; b=TaSw0xt15amIyNTW61X15R1eiHpsTbxJEnUS3YxneK3IOi496FINcW8X0TSkFDRfQy/2cA04cVlpkjC3Uat6DNU6c/CdQzjK0xibUlFYITmPyTYFXx5rAYizbGY3AtwPonVrRNN0cHqX+AvX4JJVCmQ6Uqp7SHqdsT0S+CJG6oE=
+	t=1779206667; cv=pass; b=JgUkLElytU80F3BvpT7S0HAjn3gfJyJUxi3elZZJn+g6twP57yylOEDMhhDQ/1vg6n8+KrpSY5ZWUlGCCfJkutFxf7vuJOU4SwzR2bdD/STKEWDebLJ+PmkrzUYfBjG4PagZ5l+f5WasYarT8r4AHmia45yUMCb3IVB/46b/AqA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779206477; c=relaxed/simple;
-	bh=bOneGRO/OZxvgXe7LTpEnGJIAyA+DRxWwEXHD8tRhYs=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=U1bPL6+uisLcElIRdgcOWlkEnhIc9aw7Rl+7WCc2NqstswWDxlVq0oXV8y7xW5In0VrfVxc3YIO2XMS8PDTeUi5y9znQh6I2+6ZXa2pAc+7EZPS7U7N6WIlF+WExKJybZqVWcuolx9yiyfWefUj5yke6MfBzHkkUUidxfr6LPqg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=A/apEJ2Q; arc=fail smtp.client-ip=52.101.193.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iS9S8ia92Ce/udbv2pAgh+YFUkLBoZ8ZmmkM17s5+a4CKx8JfilAj1vDHt3GOD1BdVNWc1BolV3gl6fhN1asXvdz/ttTo28s4CzWLctP5+6SWPd2BdeIvPkGZQV4qkzY69v2UDyuMBL7rnjH/EuXlsPULasU5M/eEL0owxfwsghZvYBFoGMFCaY+qFG+WwPATeieF1+a9umVc87r7/rzTyq8UHmhZygyRHK2LoNAU4ZYECXS79vtZarVeLJif2AUqKSoCxAtBlO/O5TAkdLH5vyv18nFpjT9KIiYvYjkD5v7HdY2oXhnxGSHllR3tGK3N76VC/z0Yfuw3hLKTzbfew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yJBAZMonto8kFM+S2DQQvr9Q5kCNnJ/IZCt8qwLLwLk=;
- b=KWNGZSHbM9q7POwxZMn/ZXKf5KUsAWfZUUeCN07XOpLQimyy4FzcKc6cMw2jRVpCgdZzIRP+Mu/V3FiZtnC/gpulFEFRnIhWAjAJYCPEj6aL5hQxFAadFZvjEV+LWHti5Ib10yDBMEVpXJWFVX99lD4xTMD/bR8Bs8qoiOE+PYT5N6EIcVH9NmIOiIW9Ol7DyxiFPNZaSHraFPgPmH1oyRtZNgwRMrIXrHh/EwYJ5P9LqoUP7VysiZmyTCdfqTTpJr4AS5Lu2OCttQ/jy/WxOEUVVIL4L8hQZ7tcncAz4GoplSuiRevM6jOwJieGUdLiRBaU3B1Fja/YQmJqnnUhvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yJBAZMonto8kFM+S2DQQvr9Q5kCNnJ/IZCt8qwLLwLk=;
- b=A/apEJ2QkcaqwKAZrGgPbjWS+3p5IlZfubJGRU5gfu0fYXjhpRefPhajPyMML2aEpXG4ETePEVCdKn+mRg9PnYLHM/yZXgukadWzG/8I1UeqYIO665BsTLbSmrTu+J+TpV4+i3EM6cDqrpQqP5YnRldeBBEXywfoD559albXPxs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by IA1PR12MB9529.namprd12.prod.outlook.com (2603:10b6:208:592::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.25.19; Tue, 19 May
- 2026 16:01:04 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0025.022; Tue, 19 May 2026
- 16:01:04 +0000
-Message-ID: <dff60378-4e47-4753-8878-feec6e1c2690@amd.com>
-Date: Tue, 19 May 2026 18:00:57 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/12] misc/syncobj: add /dev/syncobj device
-To: Xaver Hugl <xaver.hugl@kde.org>
-Cc: Julian Orth <ju.orth@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-doc@vger.kernel.org, wayland-devel@lists.freedesktop.org,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
- <c6c91de9-a34b-4b50-a3c1-d42bf7631f8e@amd.com>
- <CAHijbEUzWZC4GAMU6YGV42gOYkrQaMZZPiwS4Erb4H1J-fh_8Q@mail.gmail.com>
- <69dcbcc1-da58-4d34-bfb0-5c8d33b75d59@amd.com>
- <CAHijbEWqc2+kSkk3i_LxB2PQ6XwUetw1UkdUdXJfdv3zgKd1kA@mail.gmail.com>
- <38551bfe-75e1-4978-b57d-adc43cebc85e@amd.com>
- <CAHijbEWHp960qvZFoK7+9ppHAqkAR7=UQhtMUccqWzGd_pFPQA@mail.gmail.com>
- <5ee6d5af-ac48-41d7-a19f-e08a3c5b7d19@amd.com>
- <CAFZQkGwmeipZnvmBkcE7KhvUSMkSE=fzLBZtiMyhv3mM04Vudg@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAFZQkGwmeipZnvmBkcE7KhvUSMkSE=fzLBZtiMyhv3mM04Vudg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0268.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e8::13) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	s=arc-20240116; t=1779206667; c=relaxed/simple;
+	bh=iqfn9b7LvsrX9N8j1+B+kLi+vjwXFN6p1qgb98OAfQY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JlgyTy0p6fI8+NrjXTR36R2abqw1g6xcgHuA1+jtqrXiGvMzAUscPkqWo356QaWYfojv+Fpch9TxVNdgLvrx6isl9cji3PeJ3/39fI4VfdERaaGD4IrMHR2rHaUkN5h++b40n45aw597h1G8l3gLnqRckB2gMMeV0jwfqyPPDdo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b=L8FspndC; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1779206658; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=ZoycXRtfGt5de8gkMTTs3iCvm0uFzGCY0CpYTxTqfzMXmnndxrgvGGgj6dkCv2rFAowWldVPovmn3s28on7UJKSsHcRzCl32h4Q0Jk6I4pEE696RQpJqAiqxEmJ1FXQ02xQPbVxti11Xw1IklMcrTy/0DvQ+gbkT5cHXIg78DvY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1779206658; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=z0GF6sR8NlAqLNJaBDThxNHckHlSdVt5wH99EVLxGU0=; 
+	b=YHKWQsnDbHXXVKNicQiAn6GGdwLwb5qXjTZsAf/z0w37kUebSG0l6KQnf7sLrPBnf3Y00Fec0GZLj8h9/c3JNeN3h7bxKEka8KCIwEuOHMDCnKFZdQpQpx0Skz1zMu+iE3TIrCRhm/1/a0UW+HB/xqfi/YRiPL3qOa8AXslY4Vg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
+	dmarc=pass header.from=<detlev.casanova@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779206658;
+	s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=z0GF6sR8NlAqLNJaBDThxNHckHlSdVt5wH99EVLxGU0=;
+	b=L8FspndCpP5U8INavgetUzwjvXVOoQP7ESVslLfBdjVHiuxMO/Uat/jHg3ZGCJBg
+	p3t0+Zp7hQ+OKkNKlQLDQ7DU3UcW5cajqHGzvl7MEi7nqD1QlIOQRawdz7Zt0NmDdjj
+	BArcjFsXcXatQmiTN9u5oe0YVR+MIio9xtmJcJy4=
+Received: by mx.zohomail.com with SMTPS id 1779206656021234.5951284234577;
+	Tue, 19 May 2026 09:04:16 -0700 (PDT)
+Message-ID: <5797ac61-dc61-4182-ac60-cc377564ff90@collabora.com>
+Date: Tue, 19 May 2026 12:04:14 -0400
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB9529:EE_
-X-MS-Office365-Filtering-Correlation-Id: 237c7ba7-b248-4dc6-7eba-08deb5bfd437
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|22082099003|56012099003|18002099003|4143699003|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	ZOAjKR5rYMflddddzYJ9bdsebehaBLqcfOYfkzxzarKJ5yr8ppEH7cuMfY9PHMEeyigrzdatr3Pfin1jxDpbyO8rgUGU8OT1crCB8MF9EDm5S/dRwdRnTTebxUrjykrhL34gTk6JXpK8+teCEFVHPx3ECFp7Rdkllnfcfd740+SMMI6WyhKVbKY/6IZzi7WfCVVaigM5VPYzpeNqLFB5C2VKr668NJltH2rtivl2uZbNIDpPdo4BRTqGifF1ZOFk2uRWyHdfdY6Oru5mIVhldy+jY7dG7+pS+yFTu1wI1SvjRhbyQPx5DMxPE5ZbeqZJv8onsAWC9FeZMotU1hTC+B/K69vZtpPYABVs0rPMwOasJLKTXYDNrhdY5JsTGgbTQswdJhGbLvyKadEbeP2c0cBuhoEhFq2EZ0xiap65tEcWArYQhZi2hYPNMM/jXDEJbmADRwiSEfsPzE7yxDgZO+5h6O6azpdNSdsF5GOK0TTNkrobojr0uZ3jGx06dKA62Mdt15fxYDwlMFELtsJaW7Y5b6GxStV514qGbM+4McMPGexcmZ9aRToqkDlLbQjQLtgI48K/9srTSbMpB4AqZddEuzDh+r2RfSJfhNpv41xlIjbU9Yp/ZMFKQEIJmcfgT5UC6Qq/8MO8AUZyID1OU+30fAlaFWnRVIT6g7E4gx+g2GZC5PzcTjLlWKk8pI62
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(22082099003)(56012099003)(18002099003)(4143699003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QldpbGMzVk1tMTJCQkxseGdneE5sb1dHNVlWem9ZTk92Wk9IaXdhL2p5a2ox?=
- =?utf-8?B?T293d0ZYZVpQNTFIdDhlQndlMzNYZHNZcnhXeHhBSFpUZkMrRG53Qk1Hd1Vm?=
- =?utf-8?B?ZG8rS3N0TGVsTXcyVVpXUm9KeWhjRWE5ajBLT2ZWQUl4OFZGVG1nSWx5WE9G?=
- =?utf-8?B?ak4wcDJuUFBzNmhITUszS01jWEZZTDl6SWZVcVg2Y0laTnhka2NrQ0JEd1Fh?=
- =?utf-8?B?dGNwVGxxdk94YVQra3p2SUZLeW5YV252WHREc0NDU2RsREJVaWZGSzBicVJz?=
- =?utf-8?B?cm5KaWkxUEhYQ2c2NHRIN1Eyb3hsQXhsTHo2blFzeVBLc1BaOXBlMEhtcmV4?=
- =?utf-8?B?b3p4Ym9SY1JJK3JDYURSYzY2ZkFIeDF4akZ5ekhXN1dQV20xN2M5VFBnZW9Q?=
- =?utf-8?B?TitzOEIydFg3OWN2dFFSeE11QzJBU0dQYlJtNHFQZ3hNbDFMTlhqdUhOMkRt?=
- =?utf-8?B?TmFvRG5KMnk5V1pBU3VWdkRCdlM2RUtHM0RRcWs4a3hxWlpjUEpUSnZ2TC9t?=
- =?utf-8?B?bHkzZHJxM1E3N1BkNzNWdlA2bzRweW4rdTFmemhnZ0NuOWh6Ymk5WXBiSUph?=
- =?utf-8?B?ZE13Ukk0Q0g2UUxyaHVzTUtGSW1zUG9hUG1BVGR3MS8weTlwOHhSZG5tZE9Z?=
- =?utf-8?B?ZEV4M2V4NzdTOFdFSVRWZENqRDNicm8zWnFrcDhmRUxuSThuUmhrdzQ3a1hh?=
- =?utf-8?B?NDJmd25vaWg1c3ZSTit2Vmc3REwzSkIrK0JpSS9jV2Z1dm1TOWNpTERWbldG?=
- =?utf-8?B?WGpkNmFIV21kRjVGYVdGcjJUVmxNbWlDK3ZvOFZGK2NDeWlVN2hONFhVTG1X?=
- =?utf-8?B?Mm13TG9QWEo4UE4zbWVjalRLUXR6akkweG9OMWZralBOL1lKclRyamkxOW1q?=
- =?utf-8?B?aFhHMHVZRlAwYWM0SnpoZnMzZVY0Y1NFa0xIcGU1MTNKOUoxb0RTTDZZRVVn?=
- =?utf-8?B?Yk9zWFJiNmRMamFrY2FxZitjTWVSOXBFTWZ2Y2pBZ2pTaTJXWmUrTjJCZ1pp?=
- =?utf-8?B?NERQNjNpdG9TKzk4Z3pXZmRkUlM1OWVaUEp6R1lYNXoyVVRKUEJjSkl4TzIy?=
- =?utf-8?B?bUdzelh5RXcxTm04TWU1T3NiNTFoNEQ3NWZRUlFnc0hKM3g3ekpiYytzZE16?=
- =?utf-8?B?YWl0R09BbDMvdlJXaFZBKzFRZXJoVkswNlpNOTY1dnB0NzBDTllPWkhoQTl6?=
- =?utf-8?B?WEtCQTRPdEZIY29sQTBlYTJqZlpmbUZVcVN4MFdFZ2NCMGZoR29aVThxY1lS?=
- =?utf-8?B?Tm9TQmhRMGZJa1gvNG9RSzJBVWxCcUpMLzhPOWxrWHoxeEo5M3RtWjZlei9y?=
- =?utf-8?B?R2E0WDJlVXNOOTZXMi9hcHIvMXkxZWJVbUxPWjhjYlBCWmZlL1lYb2JpaTZo?=
- =?utf-8?B?NXRxTDRtRFhuNUdpbERRb2E3Q1d1RFB4TCtlOXZWWG9SaXJ0c2VmalZRSm1K?=
- =?utf-8?B?UUlFSE54V29hbU9qOS9sQWFQbWpCK09rWXVFQUVLUWpKeUtSSzhudWtSWkcv?=
- =?utf-8?B?NENtajBhaGNJQkR5RVRyZEJaTEgxNXNORmZrbkM0d1FyTlZtaldKZHNselJn?=
- =?utf-8?B?K1ZsRXV3amdGbys4UjIzZHZGUzN5UklDelZzbjkwUnRhdzA3YkE1MkRaeStn?=
- =?utf-8?B?KzBqSjJLMnNMUWZOTmpSVzR5blptR1V0QW90dFNmNDdLTnQ1Qm9LSzcxcGMy?=
- =?utf-8?B?TFVKTVYvckJpbU5kS3dPVGViZXF0azRjWUdBeEdxTWkzTVhoRGxUY0FPTzlS?=
- =?utf-8?B?SEZ5VVcycXI1OHc3NXpQU1o3TEF0MnJoUWxmdjJ2R1JoalZWYWdaSE5mYjN6?=
- =?utf-8?B?dVI4Uk8wcUwreWVnZktuVDN3aVJwSzU1NHN2UDhUM2hyVldNTFZpa0lqNll6?=
- =?utf-8?B?alN5b3ZwMDd2ZXIvQ3h0YzVHMVk4RVhMUzdPUXAxcmRvcjQ0K3IwUlVBY1o5?=
- =?utf-8?B?bHhrNmMwSWhabU1sUlFldjl1QU96Y0dzUFhSOVhGRVpiNnp0cWkwMm9SYzA4?=
- =?utf-8?B?SE5SK2Y3cnRGYm1qbWRJZ3BvS3lZTUtaSkJnMnpQYWJEczVmbzhWN2xaT2J5?=
- =?utf-8?B?bkhGT1ZxOTMzM1FBWG9XbCtHUlY5VHN1cjVqZ3BMTlk4QksxTUM2dmFiYW1L?=
- =?utf-8?B?aWRDSmJ3WGREUTlBWlNWUExuRm5aMWhUcGZTeUVvYmpHQU9xNlkxa3REUEsr?=
- =?utf-8?B?dHpFRitKRlgySHFsM25ka0tvSEw3YkpXcFhhZTJra3E3SjNHTU1GZElhMHdq?=
- =?utf-8?B?eHlYR1BZSHpZbDNidU5HWGVzZVc2UVRFNGFKL3hPZ0hQOXl1dDVkY1plcm8v?=
- =?utf-8?Q?Z/YG7ESBqYwUe3wcc4?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 237c7ba7-b248-4dc6-7eba-08deb5bfd437
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2026 16:01:04.2813
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /MCQR0oYk7unyi/NOgZJRZlkqp62PzzOK39PJzrB7+4w0ZR+bvVqN7bw9lIpGu8A
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9529
-X-Spamd-Result: default: False [1.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [BUG] rkvdec-vdpu383-h264: wrong pixels at horizontal de-blocking
+ edges y=4 and y=12
+To: Simon Wright <simon@symple.nz>, linux-media@vger.kernel.org
+Cc: linux-rockchip@lists.infradead.org
+References: <52a01f1f-5b36-429b-96cf-f1a0a1c8f5e4@symple.nz>
+Content-Language: en-US
+From: Detlev Casanova <detlev.casanova@collabora.com>
+In-Reply-To: <52a01f1f-5b36-429b-96cf-f1a0a1c8f5e4@symple.nz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62168-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[detlev.casanova@collabora.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,linaro.org,lwn.net,linuxfoundation.org,arndb.de,lists.freedesktop.org,vger.kernel.org,lists.linaro.org,mailbox.org];
-	DKIM_TRACE(0.00)[amd.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,amd.com:mid,amd.com:dkim,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 8945C582012
+	RCVD_COUNT_THREE(0.00)[4];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo];
+	PRECEDENCE_BULK(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62169-lists,linux-media=lfdr.de];
+	RCPT_COUNT_THREE(0.00)[3];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+]
+X-Rspamd-Queue-Id: 95822582114
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 5/19/26 17:31, Xaver Hugl wrote:
-> Am Di., 19. Mai 2026 um 15:29 Uhr schrieb Christian König
-> <christian.koenig@amd.com>:
->>> 1. This series makes the ability to manipulate syncobjs available
->>> independently of attached hardware.
->>> 2. It makes it available under a consistent path /dev/syncobj.
->>
->> Exactly that is a big no-go. This has to be under /dev/dri.
-> FWIW udmabuf is also under /dev directly, but I don't think any
-> compositor developer would complain about a different path.
-> What are the rules for that? Could this simply be put in /dev/dri/syncobj?
+Hi Simon,
 
-The syncobj are actually the DRM specific way of doing things. The general kernel wide way is to use sync files (see drivers/dma-buf/sync_file.c).
+Thank you for the complete analysis !
 
-But there has already been tons of problems with those sync files. E.g. they doesn't support your use case at all since they don't have wait before submit behavior.
+I am not able to reproduce this, but I had a similar report before.
 
-So there are already ways to do this, but the Linux kernel so far told everybody that this is forbidden. The DRM syncobj wait before signal functionality is much better, but then basically the second try to do this.
+I am using a Radxa Rock 4D for testing and development, yours and the 
+other report both were on a NanoPi board.
+It should be the same SoC, but I'm not ruling out something specific to 
+that board, I'll see if I can get one.
 
-> The part where we get this independent of attached hardware is quite
-> important for us though, since we can't just ignore explicit sync once
-> the device we previously imported the syncobj into is disconnected.
+What I don't have is a test showing that the hardware behaves properly 
+with the vendor driver.
+Is that something you could try on the NanoPi ?
 
-Can you elaborate more on this?
+The other report also mentioned that the issue was happening 10% of the 
+time, but you seem to see it every time, could be nothing though.
 
-> Buffers can be from any device or allocated in system memory and
-> access should be synchronized properly in all cases.
-> 
-> How exactly it's made available isn't all that critical.
-> 
->>> 3. It removes the need to translate between syncobjs fds and handles.
->>
->> That's a pretty big no-go as well. The differentiation between FDs and handles is completely intentional.
-> Could you expand on why it's needed? For compositors, the handle is
-> just an intermediary thing when translating between file descriptors.
+The MPP userspace driver is really specific to VDPU383, there is no 
+special case I can see for the NanoPi.
 
-Well what we could do is to add an IOCTL to directly attach an syncobj file descriptor to an eventfd.
-
-> FTR for me at least, this part would be merely nice to have, since it
-> slightly reduces the amount of ioctls a compositor needs to call, but
-> it's not important.
-> 
->>>> What about using VGEM for this?
->>>
->>> If the vgem render node were made available unconditionally under,
->>
->> Software rendering is a complete corner case, I don't think that this will be enabled by default.
-> That simply makes vgem unsuitable for solving the problems we face in
-> compositors.
-
-Thinking more about it vgem also has the same issues as sync file mentioned above. So that is really also not doable.
-
-Maybe Simona or David have another idea.
+We do not have documentation for this decoder, but could you check your 
+decoder version ? It is store in register 0 and I get 0x38321746.
 
 Regards,
-Christian.
+Detlev.
 
-> 
-> - Xaver
+On 5/15/26 02:20, Simon Wright wrote:
+> Hi Detlev,
+>
+> I'm seeing systematic pixel corruption on VDPU383 H.264 decodes on 
+> RK3576 (NanoPi
+> R76S).  The decoded luma plane is correct for rows 0–3 and row 8, but 
+> wrong for rows
+> 4 and 12 (and the corresponding rows in every subsequent macroblock 
+> row).  The error
+> propagates to all following P-frames.
+>
+> I confirmed the mismatch is in the raw V4L2 CAPTURE buffer two 
+> independent ways:
+>
+>   1. GStreamer v4l2slh264dec output compared to avdec_h264 with no 
+> videoconvert step.
+>   2. A hand-written Rust V4L2 decoder that submits only 
+> SPS+PPS+SCALING_MATRIX+
+>      DECODE_PARAMS (SLICE_PARAMS returns EINVAL on 
+> VIDIOC_QUERY_EXT_CTRL on this BSP,
+>      so the control set is the same as GStreamer's actual submission) 
+> — identical
+>      20.3% mismatch at the identical first-diff byte.  This rules out 
+> any GStreamer
+>      post-processing or control-submission effect as the cause.
+>
+> Hardware:
+>   Board:      NanoPi R76S (RK3576, VDPU383)
+>   Kernel:     Linux 7.0.1 (mainline rkvdec-vdpu383-h264.c, unmodified)
+>   GStreamer:  1.28.2 (with v4l2slh264dec from gst-plugins-bad)
+>   Content:    1920×1080 Baseline H.264, SMPTE colour bars, openh264enc
+>
+>
+> MINIMAL REPRODUCER
+> ------------------
+>
+> Generate a test file (any H.264 Annex-B with visible content works; I 
+> used openh264enc
+> with SMPTE bars):
+>
+>   gst-launch-1.0 videotestsrc num-buffers=60 pattern=smpte \
+>     ! video/x-raw,width=1920,height=1080,framerate=30/1 \
+>     ! openh264enc ! h264parse ! filesink location=test.h264
+>
+> Decode via HW, capture raw NV12:
+>
+>   gst-launch-1.0 filesrc location=test.h264 num-buffers=60 \
+>     ! h264parse ! v4l2slh264dec ! 'video/x-raw' \
+>     ! filesink location=hw.raw
+>
+> Decode via SW, capture raw NV12:
+>
+>   gst-launch-1.0 filesrc location=test.h264 num-buffers=60 \
+>     ! h264parse ! avdec_h264 ! videoconvert ! 'video/x-raw,format=NV12' \
+>     ! filesink location=sw.raw
+>
+> For a 1920×1080 NV12 frame (frame 0), compare the first 3,110,400 bytes:
+>
+>   cmp hw.raw sw.raw
+>
+> Expected: identical.
+> Observed: first mismatch at byte 7680 (Y plane, row=4, col=0).
+>
+> With SMPTE bars (white region at the top), SW Y[row=3] = 0xe9 (correct 
+> white-bar luma).
+> HW Y[row=4] = 0xaf instead of 0xe9; HW Y[row=3] = 0xe9 (correct).
+> Overall mismatch rate: 20.3% of bytes in frame 0.
+>
+>
+> QUANTIFIED EVIDENCE (frame 0, IDR)
+> -----------------------------------
+>
+>   SW decode:  Y bytes [7680..7695] = e9 e9 e9 e9 e9 e9 e9 e9 e9 e9 e9 
+> e9 e9 e9 e9 e9
+>   HW decode:  Y bytes [7680..7695] = af af af af af af af af af af af 
+> af af af af af
+>   First diff: byte 7680 → Y plane row=4, col=0
+>
+> Error propagation:
+>   Frame 0 (IDR):  20.3% mismatch, first_diff = byte 7680 (Y row=4)
+>   Frame 1 (P):    23.0% mismatch, first_diff = byte 253 (error 
+> propagated to row=0)
+>   Frames 5–30 (P): 25–26% mismatch, stable
+>
+> ANALYSIS
+> --------
+>
+> A diagnostic experiment implicates the filterd_rcb buffer (RCB index 
+> 6).  Redirecting
+> filterd_rcb buffers 6, 7, 8 to point at the output buffer produced 
+> 98.4% corruption
+> with first diff at row=1, which indicates the hardware reads p-side 
+> pixel context from
+> filterd_rcb (rather than from the reconstruction buffer) when applying 
+> horizontal
+> deblocking.
+>
+> Based on the error pattern, our hypothesis is that filterd_rcb uses an 
+> 8-row circular
+> index (slot = row mod 8).  If so, H.264's 4-row deblocking boundaries 
+> within each
+> 16-row macroblock row would cause a slot collision that HEVC (with 
+> 8-row CTU boundaries)
+> does not encounter:
+>
+>   Edge y=4:  p0 from row 3  → slot 3  (zero-initialised on IDR → wrong)
+>   Edge y=8:  p0 from row 7  → slot 7  (written before this edge is 
+> reached → correct)
+>   Edge y=12: p0 from row 11 → slot 3  (still holds row-3 data from the 
+> y=4 pass → wrong)
+>
+> This would explain why y=8 decodes correctly while y=4 and y=12 do 
+> not.  We don't have
+> hardware documentation for VDPU383, so we can't confirm whether this 
+> is the actual
+> mechanism.
+>
+> We tried several register adjustments hoping to change the filterd_rcb 
+> update granularity:
+> ctu_align_wr_en (reg027), buf_empty_en (reg009), ref strides 
+> (reg083–106), and
+> num_views in the SPS table.  None changed the corruption.
+>
+> Is there a known configuration difference for H.264's narrower 
+> deblocking edges, or a
+> BSP-level fix we've missed?
+>
+>
+> ATTACHED REPRODUCER
+> -------------------
+>
+> The C program below (builds against GStreamer on-device, ~100 lines) 
+> automates the
+> comparison and produces per-frame mismatch statistics:
+>
+>   gcc -O0 -g -o h264_hw_vs_sw_dump h264_hw_vs_sw_dump.c \
+>       $(pkg-config --cflags --libs gstreamer-1.0 gstreamer-video-1.0 
+> gstreamer-app-1.0)
+>
+>   ./h264_hw_vs_sw_dump /path/to/test.h264
+>
+> --- BEGIN h264_hw_vs_sw_dump.c ---
+> /*
+>  * H.264 HW vs SW byte-level comparison via GStreamer appsink.
+>  *
+>  * Decodes one frame of an H.264 Annex-B file via two paths:
+>  *   SW:  h264parse ! avdec_h264 ! videoconvert ! NV12 appsink
+>  *   HW:  h264parse ! v4l2slh264dec             ! NV12 appsink
+>  *
+>  * Reports first divergent byte, mismatch percentage, and unique Y 
+> values for
+>  * both decoders.  If HW bytes differ from SW bytes, the bug is in the 
+> kernel
+>  * rkvdec-vdpu383-h264.c driver.
+>  *
+>  * Build on device:
+>  *   gcc -O0 -g -o h264_hw_vs_sw_dump h264_hw_vs_sw_dump.c \
+>  *       $(pkg-config --cflags --libs gstreamer-1.0 
+> gstreamer-video-1.0 gstreamer-app-1.0)
+>  */
+>
+> #include <stdio.h>
+> #include <stdlib.h>
+> #include <string.h>
+> #include <stdint.h>
+> #include <unistd.h>
+> #include <gst/gst.h>
+> #include <gst/video/video.h>
+> #include <gst/app/gstappsink.h>
+>
+> typedef struct {
+>     uint8_t *data;
+>     int      width, height;
+>     size_t   y_size, uv_size, total;
+> } DecodedFrame;
+>
+> static void free_frame(DecodedFrame *f) { if (f) { free(f->data); 
+> f->data = NULL; } }
+>
+> static DecodedFrame *run_pipeline(const char *pipeline_str, const char 
+> *label)
+> {
+>     fprintf(stderr, "[%s] pipeline: %s\n", label, pipeline_str);
+>     GError *err = NULL;
+>     GstElement *pipeline = gst_parse_launch(pipeline_str, &err);
+>     if (!pipeline || err) {
+>         fprintf(stderr, "[%s] gst_parse_launch: %s\n", label, err ? 
+> err->message : "unknown");
+>         return NULL;
+>     }
+>     GstElement *sink = gst_bin_get_by_name(GST_BIN(pipeline), "sink");
+>     gst_app_sink_set_emit_signals(GST_APP_SINK(sink), FALSE);
+>     gst_app_sink_set_drop(GST_APP_SINK(sink), FALSE);
+>     gst_app_sink_set_max_buffers(GST_APP_SINK(sink), 1);
+>     gst_element_set_state(pipeline, GST_STATE_PLAYING);
+>
+>     GstSample *sample = gst_app_sink_pull_sample(GST_APP_SINK(sink));
+>     if (!sample) {
+>         fprintf(stderr, "[%s] no sample\n", label);
+>         gst_element_set_state(pipeline, GST_STATE_NULL);
+>         gst_object_unref(sink); gst_object_unref(pipeline);
+>         return NULL;
+>     }
+>     GstBuffer *buf  = gst_sample_get_buffer(sample);
+>     GstCaps   *caps = gst_sample_get_caps(sample);
+>     GstVideoInfo vinfo;
+>     gst_video_info_from_caps(&vinfo, caps);
+>
+>     int w = GST_VIDEO_INFO_WIDTH(&vinfo);
+>     int h = GST_VIDEO_INFO_HEIGHT(&vinfo);
+>     GstVideoFrame vframe;
+>     gst_video_frame_map(&vframe, &vinfo, buf, GST_MAP_READ);
+>
+>     size_t y_size  = (size_t)w * h;
+>     size_t uv_size = (size_t)w * (h / 2);
+>     DecodedFrame *frame = calloc(1, sizeof(*frame));
+>     frame->data  = malloc(y_size + uv_size);
+>     frame->width = w; frame->height = h;
+>     frame->y_size = y_size; frame->uv_size = uv_size;
+>     frame->total = y_size + uv_size;
+>
+>     uint8_t *y_src = GST_VIDEO_FRAME_PLANE_DATA(&vframe, 0);
+>     int y_stride   = GST_VIDEO_FRAME_PLANE_STRIDE(&vframe, 0);
+>     for (int row = 0; row < h; row++)
+>         memcpy(frame->data + row * w, y_src + row * y_stride, w);
+>
+>     uint8_t *uv_src = GST_VIDEO_FRAME_PLANE_DATA(&vframe, 1);
+>     int uv_stride   = GST_VIDEO_FRAME_PLANE_STRIDE(&vframe, 1);
+>     uint8_t *uv_dst = frame->data + y_size;
+>     for (int row = 0; row < h / 2; row++)
+>         memcpy(uv_dst + row * w, uv_src + row * uv_stride, w);
+>
+>     gst_video_frame_unmap(&vframe);
+>     gst_sample_unref(sample);
+>     gst_element_set_state(pipeline, GST_STATE_NULL);
+>     gst_object_unref(sink); gst_object_unref(pipeline);
+>     return frame;
+> }
+>
+> static void compare_frames(DecodedFrame *sw, DecodedFrame *hw)
+> {
+>     size_t n = sw->total < hw->total ? sw->total : hw->total;
+>     size_t first_diff = (size_t)-1, diffs = 0;
+>     for (size_t i = 0; i < n; i++) {
+>         if (sw->data[i] != hw->data[i]) {
+>             if (first_diff == (size_t)-1) first_diff = i;
+>             diffs++;
+>         }
+>     }
+>     if (!diffs) {
+>         fprintf(stderr, "MATCH: HW == SW (%zu bytes)\n", n);
+>         return;
+>     }
+>     size_t y_size  = (size_t)sw->width * sw->height;
+>     const char *plane = first_diff < y_size ? "Y" : "UV";
+>     size_t off = first_diff < y_size ? first_diff : first_diff - y_size;
+>     fprintf(stderr, "MISMATCH: %zu/%zu bytes differ (%.1f%%)\n", 
+> diffs, n, 100.0*diffs/n);
+>     fprintf(stderr, "  First diff: byte %zu -> %s plane offset %zu 
+> (row=%zu col=%zu)\n",
+>             first_diff, plane, off, off / sw->width, off % sw->width);
+>     fprintf(stderr, "  SW[%zu..]: ", first_diff);
+>     for (size_t i = first_diff; i < first_diff+16 && i < n; i++)
+>         fprintf(stderr, "%02x ", sw->data[i]);
+>     fprintf(stderr, "\n  HW[%zu..]: ", first_diff);
+>     for (size_t i = first_diff; i < first_diff+16 && i < n; i++)
+>         fprintf(stderr, "%02x ", hw->data[i]);
+>     fprintf(stderr, "\n");
+> }
+>
+> int main(int argc, char **argv)
+> {
+>     if (argc < 2) { fprintf(stderr, "Usage: %s <h264_annex_b>\n", 
+> argv[0]); return 1; }
+>     gst_init(NULL, NULL);
+>     char sw_pipe[1024], hw_pipe[1024];
+>     snprintf(sw_pipe, sizeof(sw_pipe),
+>         "filesrc location=%s ! h264parse ! avdec_h264 ! videoconvert ! "
+>         "video/x-raw,format=NV12 ! appsink name=sink", argv[1]);
+>     snprintf(hw_pipe, sizeof(hw_pipe),
+>         "filesrc location=%s ! h264parse ! v4l2slh264dec ! "
+>         "video/x-raw,format=NV12 ! appsink name=sink", argv[1]);
+>
+>     DecodedFrame *sw = run_pipeline(sw_pipe, "SW");
+>     DecodedFrame *hw = run_pipeline(hw_pipe, "HW");
+>     if (sw && hw) compare_frames(sw, hw);
+>     if (sw) { free_frame(sw); free(sw); }
+>     if (hw) { free_frame(hw); free(hw); }
+>     return 0;
+> }
+> --- END h264_hw_vs_sw_dump.c ---
+>
+> Thanks,
+> Simon Wright
+> Symple Solutions, Dunedin, New Zealand
+>
 
 
