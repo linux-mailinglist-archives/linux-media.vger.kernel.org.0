@@ -1,295 +1,151 @@
-Return-Path: <linux-media+bounces-62179-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62180-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wPViI1GnDGrskQUAu9opvQ
-	(envelope-from <linux-media+bounces-62179-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 20:09:21 +0200
+	id 8OpUGzmoDGoIkgUAu9opvQ
+	(envelope-from <linux-media+bounces-62180-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 20:13:13 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3CC1583727
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 20:09:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B00A58379C
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 20:13:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 29A14305EABB
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 18:07:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 66DF6304EA3B
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 18:11:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7ED1D32AABA;
-	Tue, 19 May 2026 18:07:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC0A233F360;
+	Tue, 19 May 2026 18:11:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eWeWeIWF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZnUrhGqQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7889D326D51
-	for <linux-media@vger.kernel.org>; Tue, 19 May 2026 18:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779214071; cv=pass; b=OWbLhjLgTdLhbRdV5oldz5gAcsPum5qENOFFaSr0Tl0c2MNzwnI48T2mWtzlGjiGG34bVRPoUwoK4Wg4Ko9ybu00FMg+9gFLgMLC1IoNu1XZJhcsaw2NYCTLkmO1bOx1E4/vfQX3eFqH5kh3MDcBmTUfO/G+DtE5d5/5fg7sVGA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779214071; c=relaxed/simple;
-	bh=xssGkiKE0NLLgIm8hq0sx4z1JVWvwtNlxiDz+CYQuyY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bFy0XRSQ4fXcl8Q/jCvZQUy0Jh5je6IaWFTR8MFPe7uB8ybYqxOoPBtPCBLjY/+T0r3i58WIU75TsmDdYeYngZR67nEXNK1NJ+AnrEkgwWdzp1CiYyySrKtbnEyQetnPuUgdEFUUxJ5fGYtx+j4/e/+hd0F4TjrrfFauNBmxuCY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eWeWeIWF; arc=pass smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4891b4934ffso2075e9.0
-        for <linux-media@vger.kernel.org>; Tue, 19 May 2026 11:07:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779214069; cv=none;
-        d=google.com; s=arc-20240605;
-        b=e/HdytufkmcnFWPq7SHjEOPUuZ6GTSZpDN+BCVX4OXWu1VGvrF7ctHkHksSS5VKYy7
-         jaxR7JinQesIhF55h/QBL9q44pXJUEnRF5sZHrXbR6tk+gzHX9QYKXcdciy1e87lYxqF
-         AS6isRPptQdGNHPix91Z387ZWmHMJ/oxohcLFJXt1HHyUyg2PwinL9DOPLheYG6vtz9F
-         nGOq9k1Q7Q9l2nlHBuNq0/Ycan1uyPOVsqSp+7NL+qniNpD+EhVGC4HLBMgPpUMseDmv
-         CN8Kuv5eyMKyWq+cRVn2liKqoFmyRlwpcr7zyBt0JCIxCTVunFApjfLtGN7j62ie0sIC
-         S90A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=xssGkiKE0NLLgIm8hq0sx4z1JVWvwtNlxiDz+CYQuyY=;
-        fh=NSMvjA8JCtRkpEclmgGclYZO9D3vn6YjRR0tmzSGeKo=;
-        b=Zu0H8dIcu0QSGIlLQfBznyaRZ/9KAvix94ZNQzxwFG9l5VewiE9ikS9o4ttkh7iQMH
-         nhtAc1VAuTZzR3Rab/3ervCZl3HZjeWW0tqb41vlDtUarOMgTruUcwcaUqApXZKcJBtQ
-         2KfWY9rBgslNvXpTS9pWJ5fAa1zY1tRP1qsYNQ/BDDSPGqTN7zvSGoM6qb9ADaWkuTSK
-         NBaDpovm+FRd6NsPOWcb1Vop4cGRQRycYYmJoW9MX1Xqh3R7g80ioF5iW2r4cfb9ay3M
-         a+NScDxowofFQXys4HM8XqRkPuedrMXsp5Xs/UT4Mn2g8j88Dog6b1Jhog7Vf4MCzjSE
-         1vDw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779214069; x=1779818869; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xssGkiKE0NLLgIm8hq0sx4z1JVWvwtNlxiDz+CYQuyY=;
-        b=eWeWeIWFQkhgJUMtdPmPfch1gHn6y0RMODHat6KPHaMDF1OFqbY09x0XUxRQFve3Tw
-         GKjCah7Z65qJy9VtD0Xk6PUxhM5gbnnmPIGPlCEpuxQohywyZ9YAuoDmCOa+72a1xeKs
-         S5qZzMKHV2zKB0B9JpYcPsctQUH8Gb9XlVy0HShMsnSXwU9pIA+pP9rjSi9x+ZD9Bs3Y
-         xBy3CLTe7d2Swwrnwd+u7NE7MUJinmvcZbLWYQOcJWO1eQ/orFirzO/2qg5Fq/nAfiyC
-         1yInXJBRFkQP2HD67p/H19TSSyUE2k1fRPB2hpYAyVhjvkSF0KrJKlfI3BtcNnVD4Hai
-         iiQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779214069; x=1779818869;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=xssGkiKE0NLLgIm8hq0sx4z1JVWvwtNlxiDz+CYQuyY=;
-        b=WNPD3LnB/NIHThgfqj+Zgijez2UodPOX5gN0BaW0oUgDJzy6uC4pQ6yBzndKuxg/oT
-         ANNoTL3aI2zh5wOwDQfMJKPETTnHqZfQGH0xmQVRo5/UGFH1u5yLJFL+vZ2jvFuFJXxz
-         tL87wiNnn5Uura7iMztH4RLV1EZYkTEZDtoRDEY1ODttP48RK4Ph9AnynN0G7KJHZyYs
-         Tpm9jS4QGRWJZmOsj08oT/Rum14lx8aSKMGGIeTjS/HzC4zArkH4qoGad5v4fY4AmQE6
-         Kw//KwPjt5V0f1YNbt57eVyT1lq9oxi5dV9bw3MoSBocqz3v4oM5WjoCCHWRgmrMqYyv
-         hFGg==
-X-Forwarded-Encrypted: i=1; AFNElJ/Vx/0cwAo4lWa4QTOlJwkrhf43mbxgbLZCNU9b8qWFF3LJszwP94v0/u7N7KJOxJmBkG414dODt/czvQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yywo1ide3i6QvRfkOHki9d10AxvM9/bd2Oxfrtoq1b9s/T0DUSF
-	fE3VMifsH4GCd4WlYLEGzOsLdn9mKhP203XdTIg4xL27qaNyEeXPHMVQ+8WtoV51Y8v/qYqlYqe
-	vweR04YGzNJK/5Tt35yz8my1x/xbu0w0IUGPwQZkR
-X-Gm-Gg: Acq92OFtcLA812JiW9LvQbo4NJepOzc0tCi+TEZjyNIrLGOPcutaQlX2vNmobKHhUMP
-	2LLSm5r9WWdz7wPZoKbNfPehG8gJCcxYuIWVdXR+rEtpUcjxiDtJJkwWS6iMlezgUvn4Sz29cS4
-	4xR9crILex/T/xFvwjzodPfptqxvAGlSnvWbACu4iIC4P1/12GUStOV9ZzvxJs6Avxh2zEVIDwX
-	Iov3P9cH9tM3U5DpLQ/+kZcMANdMsZNmB7EygjSpQ1sH/f7uh+XL+ixHNwAhpNepxKwLyXH7Mjn
-	j729Hj8le9n25fW0w4MeYEBCy0d76nzTiL/VaPbXAPDzU8eC
-X-Received: by 2002:a7b:cc8b:0:b0:48f:de33:777a with SMTP id
- 5b1f17b1804b1-48ffd857abfmr3637845e9.11.1779214068422; Tue, 19 May 2026
- 11:07:48 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CABF633263E;
+	Tue, 19 May 2026 18:11:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779214308; cv=none; b=VLGYs1lHU3B+Vx8a0ECEAfGBVLCsZzSq5nUwY2T1HlwnmWIlewc53G73MbJaahwh4zvTwCq7AubS9jnszXML9vh0EiGkKxH+CzxoD5pAxUgMBiFqdST+zVYPqC5BrAe66/WVuFDgtAMzn3w+Ul6LFG/1FtcVvr+hcdtigBoSvg0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779214308; c=relaxed/simple;
+	bh=jpOj3VYuGBvOov2Qvryovn/ZZ7UxJGuvoEYFpLfiIKo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gTPVnwdCne2ggvNi8LdyFrxDq2c5jzaNiLORH9upOtrA12qo+cREPlL/UBsnhM6O6kNYiBY94gQkgFar5SxSbU35aelS1w5QUydmPGuhUPQpvfpY2bHf6cTMjACsfwtuTNqiXxTG7Ndy0057EMjjnm8tFQjy7lOwCrBmnh81yjE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZnUrhGqQ; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779214303; x=1810750303;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jpOj3VYuGBvOov2Qvryovn/ZZ7UxJGuvoEYFpLfiIKo=;
+  b=ZnUrhGqQ0mld4YAwkiRioul9J32E8i7Fry7qnJyfqwQ+9gy7wCLmJnqY
+   L3EBqrWsFPv2cWeHGAOdIoLAMlxE/kErsclZRl9/CKXVvrqPZkfbyS8DS
+   JXSHycYQitYVDZTwkPTVPKJCKXiES+P7+aXRWSVzYmy6sWxWjpvLmlGca
+   RHJLaKHBNVHEE2IkNxL9tTimKslLekJx+lxsH7GwowCQWIfs7i1rmn2jY
+   1ltB1WC5UBmWTZj5ETTKOx5pKzF/5B5QeJZuWRou5hOrq0zFggCmcO8MM
+   JERqmxxQ2C9Vs69GpDQX8zq7ndpyl6CgBTLleAzHkcECTKI936zdn0apd
+   A==;
+X-CSE-ConnectionGUID: fATWvinOT2KTE0UhkYschQ==
+X-CSE-MsgGUID: W8DPG3gMSaGC9BY9sy882Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="83984088"
+X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
+   d="scan'208";a="83984088"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2026 11:11:38 -0700
+X-CSE-ConnectionGUID: 9rmPTksPSKqN6fRTf1zO1Q==
+X-CSE-MsgGUID: x82uGznVRuiaDWPK9WAsnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,243,1770624000"; 
+   d="scan'208";a="239904676"
+Received: from lkp-server02.sh.intel.com (HELO 30e86e9c1927) ([10.239.97.151])
+  by orviesa009.jf.intel.com with ESMTP; 19 May 2026 11:11:37 -0700
+Received: from kbuild by 30e86e9c1927 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wPOtw-000000001e5-1qsT;
+	Tue, 19 May 2026 18:11:00 +0000
+Date: Wed, 20 May 2026 02:08:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: shravan kumar <shravan.chippa@microchip.com>,
+	sakari.ailus@linux.intel.com, mchehab@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, conor.dooley@microchip.com,
+	valentina.fernandezalanis@microchip.com,
+	praveen.kumar@microchip.com, shravan.chippa@microchip.com
+Subject: Re: [PATCH] media: i2c: imx334: add new link frequency configuration
+Message-ID: <202605200257.113Ddqne-lkp@intel.com>
+References: <20260519104129.2001018-1-shravan.chippa@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260512-v2_20230123_tjmercier_google_com-v1-0-6326701c3691@redhat.com>
- <20260512-v2_20230123_tjmercier_google_com-v1-2-6326701c3691@redhat.com>
- <20260515-hinschauen-effizient-9e3a05a94f2e@brauner> <CABdmKX0d6Zsg+_TxXjB80UZR23ZvXzxYoWzORgwmx=ZiuE+Nzw@mail.gmail.com>
- <208fb820-d8eb-4832-a343-ef8b360e8120@amd.com> <CADSE00Lh95ygoXGKJGsYvQGEsFV8sVmwEC3uvh8M6r3ERzaJwg@mail.gmail.com>
- <88efe10a-8b93-4a81-8279-4a5559d0f17c@amd.com> <CABdmKX3yZubjDKbVqwrjHAiKyj_ioHzOoxd0wzFbJK=PAGOqcQ@mail.gmail.com>
- <01b6eefc-c107-4f8c-9d7c-3b86f54cabaa@amd.com>
-In-Reply-To: <01b6eefc-c107-4f8c-9d7c-3b86f54cabaa@amd.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Tue, 19 May 2026 11:07:36 -0700
-X-Gm-Features: AVHnY4JsuFzXOj8AzAQ7jEDe53JgzbJyOG548qhgZV3zTdsbu0QldI49eMqYz9w
-Message-ID: <CABdmKX1wLoLuWPUEY3D7afQhO0AUnOE7c3iE-VkPuKdeQixBxA@mail.gmail.com>
-Subject: Re: [PATCH RFC 2/5] dma-heap: charge dma-buf memory via explicit memcg
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Albert Esteve <aesteve@redhat.com>, Christian Brauner <brauner@kernel.org>, Tejun Heo <tj@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Michal Hocko <mhocko@kernel.org>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek <omosnace@redhat.com>, 
-	Shuah Khan <shuah@kernel.org>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-mm@kvack.org, linux-security-module@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, mripard@kernel.org, 
-	echanude@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260519104129.2001018-1-shravan.chippa@microchip.com>
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62179-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[35];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-62180-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[google.com:+];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tjmercier@google.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[redhat.com,kernel.org,cmpxchg.org,suse.com,lwn.net,linuxfoundation.org,linaro.org,linux.dev,linux-foundation.org,collabora.com,arm.com,google.com,paul-moore.com,namei.org,hallyn.com,gmail.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,kvack.org];
-	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[intel.com:+];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid,amd.com:email]
-X-Rspamd-Queue-Id: E3CC1583727
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:mid,intel.com:dkim,01.org:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 0B00A58379C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, May 19, 2026 at 12:19=E2=80=AFAM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> On 5/19/26 01:39, T.J. Mercier wrote:
-> > On Mon, May 18, 2026 at 7:07=E2=80=AFAM Christian K=C3=B6nig
-> > <christian.koenig@amd.com> wrote:
-> >>
-> >> On 5/18/26 14:50, Albert Esteve wrote:
-> >>> On Mon, May 18, 2026 at 9:20=E2=80=AFAM Christian K=C3=B6nig
-> >>> <christian.koenig@amd.com> wrote:
-> >>>>
-> >>>> On 5/15/26 19:06, T.J. Mercier wrote:
-> >>>>> On Fri, May 15, 2026 at 6:53=E2=80=AFAM Christian Brauner <brauner@=
-kernel.org> wrote:
-> >>>>>>
-> >>>>>> On Tue, May 12, 2026 at 11:10:44AM +0200, Albert Esteve wrote:
-> >>>>>>> On embedded platforms a central process often allocates dma-buf
-> >>>>>>> memory on behalf of client applications. Without a way to
-> >>>>>>> attribute the charge to the requesting client's cgroup, the
-> >>>>>>> cost lands on the allocator, making per-cgroup memory limits
-> >>>>>>> ineffective for the actual consumers.
-> >>>>>>>
-> >>>>>>> Add charge_pid_fd to struct dma_heap_allocation_data. When set to
-> >>>>>>
-> >>>>>> Please be aware that pidfds come in two flavors:
-> >>>>>>
-> >>>>>> thread-group pidfds and thread-specific pidfds. Make sure that you=
-r API
-> >>>>>> doesn't implicitly depend on this distinction not existing.
-> >>>>>
-> >>>>> Hi Christian,
-> >>>>>
-> >>>>> Memcg is not a controller that supports "thread mode" so all thread=
-s
-> >>>>> in a group should belong to the same memcg.
-> >>>>
-> >>>> BTW: Exactly that is the requirement automotive has with their nativ=
-e context use case.
-> >>>>
-> >>>> The use case is that you have a deamon which has multiple threads we=
-re each one is acting on behalve of some other process.
-> >>>>
-> >>>> At the moment we basically say they are simply not using cgroups for=
- that use case, but it would be really nice if we could handle that as well=
-.
-> >>>>
-> >>>> Summarizing the requirement of that use case: You need a different c=
-group for each thread of a process.
-> >>>
-> >>> Hi Christian,
-> >>>
-> >>> Thanks for sharing this atuomotive usecase. If I understand correctly=
-,
-> >>> the actual requirement is attributing dma-buf charges to the right
-> >>> client, not putting each daemon thread in a different cgroup?
-> >>
-> >> Nope, exactly that's the difference.
-> >>
-> >> The thread acts as a filtering agent for both memory allocation and co=
-mmand submission for somebody else, the process on which behalve the daemon=
- does things can even be in a client VM, completely remote over some networ=
-k or even something like a microcontroller.
-> >>
-> >> Everything the thread does regarding CPU time, GPU driver memory alloc=
-ation as well as resources like GPU processing and I/O time etc.. needs to =
-be accounted to one client which can be different for each thread of the pr=
-ocess.
-> >>
-> >> The only thing which is shared with the main process thread is CPU mem=
-ory resources, e.g. malloc() because that is basically just needed for hous=
-ekeeping and pretty much irrelevant for this kind of use case.
-> >>
-> >> The problem is now you can't do that with cgroups at the moment but un=
-fortunately only the kernel has the information you need to know to do this=
-.
-> >>
-> >> So what you end up with is to define tons of interfaces just to get th=
-e necessary information from the kernel into userspace and then essentially=
- duplicate the same infrastructure cgroup provides in the kernel in userspa=
-ce again.
-> >>
-> >>> If so,
-> >>> the `charge_pid_fd` approach achieves this directly by passing the
-> >>> client's `pid_fd`, without needing to add per-thread cgroup
-> >>> infrastructure.
-> >>
-> >> Well it's already a massive improvemt, we could basically stop doing t=
-he whole duplication part for the GPU driver stack and just use cgroups for=
- this part.
-> >>
-> >> Doing that automatically for CPU and I/O time would just be nice to ha=
-ve additionally.
-> >>
-> >> Regards,
-> >> Christian.
-> >
-> > Hopefully I'm following correctly here.... So you are duplicating the
-> > GPU driver stack to achieve remote accounting on a per-thread basis?
->
-> Not quite, we are duplicating the handling cgroup provides in the kernel =
-in userspace.
->
-> For this memory usage information as well as execution times of the GPU k=
-ernel driver is exposed in fdinfo for example.
+Hi shravan,
 
-Oh I see, thanks.
+kernel test robot noticed the following build warnings:
 
-> > Does this mean for GPU allocations you currently have some GFP_ACCOUNT
-> > magic in your driver to attribute GPU memory to the correct remote
-> > client?
->
-> No, we just expose what the kernel driver has allocated for itself. E.g. =
-page tables, buffers etc...
->
-> When userspace allocates something using memfd_create() for example we ju=
-st ignore that.
->
-> > So this series would close the gap for dma-buf allocations,
-> > but what about private GPU driver memory allocated on behalf of a
-> > client?
->
-> Well we would need a cgroup which isn't associated with any process were =
-we could charge the GPU driver allocations against.
->
-> But good point, charging against a pid wouldn't work in this use case.
+[auto build test WARNING on sailus-media-tree/master]
+[also build test WARNING on linuxtv-media-pending/master media-tree/master linus/master v7.1-rc4 next-20260518]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-It would be pretty low overhead to put a process doing while(1)
-pause(); in a separate cgroup for this purpose, but I guess a fd for
-the actual cgroup would be a little cleaner in this case.
+url:    https://github.com/intel-lab-lkp/linux/commits/shravan-kumar/media-i2c-imx334-add-new-link-frequency-configuration/20260519-191302
+base:   git://linuxtv.org/sailus/media_tree.git master
+patch link:    https://lore.kernel.org/r/20260519104129.2001018-1-shravan.chippa%40microchip.com
+patch subject: [PATCH] media: i2c: imx334: add new link frequency configuration
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20260520/202605200257.113Ddqne-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260520/202605200257.113Ddqne-lkp@intel.com/reproduce)
 
-> Regards,
-> Christian.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605200257.113Ddqne-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/media/i2c/imx334.c:216 struct member 'new_supported_modes' not described in 'imx334'
+>> Warning: drivers/media/i2c/imx334.c:216 struct member 'new_modes_size' not described in 'imx334'
+>> Warning: drivers/media/i2c/imx334.c:216 struct member 'new_supported_modes' not described in 'imx334'
+>> Warning: drivers/media/i2c/imx334.c:216 struct member 'new_modes_size' not described in 'imx334'
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
