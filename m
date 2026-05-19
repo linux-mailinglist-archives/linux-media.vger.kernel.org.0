@@ -1,189 +1,315 @@
-Return-Path: <linux-media+bounces-62119-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62120-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id AHzrBq03DGq2aAUAu9opvQ
-	(envelope-from <linux-media+bounces-62119-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 12:13:01 +0200
+	id 4LZmB6o/DGqqawUAu9opvQ
+	(envelope-from <linux-media+bounces-62120-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 12:47:06 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 929A057BF9E
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 12:13:00 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95FAC57CBF1
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 12:47:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 958B9306D613
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 10:10:01 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 419EB3126440
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 10:28:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74AF948B381;
-	Tue, 19 May 2026 10:10:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 633E2352028;
+	Tue, 19 May 2026 10:25:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h21upgNJ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NkAGI4eI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE3283E8324;
-	Tue, 19 May 2026 10:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFB54D9902;
+	Tue, 19 May 2026 10:24:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779185399; cv=none; b=lElp2bR9VlS/cXWK2skTlWx1tHgeuSeWr4NSRFmAFl+YfV3Hk8iKs1AIUqsVHNXVi7ZvbHAcXuGKOS++X/k4azWT03jUJOdbSl+MBE41BTkW8K7keca+bUd1WFtbpxZzDu713Ls/Inb2pSa58p3Ja4aJoEG95chezXOFAHrRquM=
+	t=1779186299; cv=none; b=Yw5ewcSQb/KqHnypk6PjxetTpjW38TGkWhIyo2fLqa6/tEHh0iEAMrttQinWBAZYZBuw5lr2tfjTeGWCstCPWRRsZRS2ZZYdHApvp0AC3WXmZWOcWyQf0mOU/8d59HlbqvYJoe+ws2bfJrC9FxW/QWIB4Rk5eg3kbrHBteaiWd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779185399; c=relaxed/simple;
-	bh=gqTwg04iG1VCtmCJgZsODsu191AL/onfsPNz5zC9wIk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=IvpsaOZZCVm7hwAmFgDf29MxH4Ah/EedT4V9ITOW2pcLUdannyVFeYdRYqXBOtwhJTKWOQJRyrMkRtzMJ1Gw4J2iy2y76bXlT1EmbIkp/kOL5Bdeb0fEjNtiDLwgHS6K+x0wi6LHGkHY7mEOSrp1YbWeI5iwJYG+dGS3qZ97dPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h21upgNJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCEFDC2BCB3;
-	Tue, 19 May 2026 10:09:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779185399;
-	bh=gqTwg04iG1VCtmCJgZsODsu191AL/onfsPNz5zC9wIk=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=h21upgNJ1EqHXXTEy6Y2/NnPCwbiiJ0yBEKQzY1s7/lfuDGf/VehNwgUU+PwzUJCe
-	 o5xLjyotanBKBS6oJTbHExJK3v34vrehvEJSmq6q1faE/1OZsglciPMv+KSgfiR+XN
-	 m1GS5Rrthqt/OLgOwFUpLym/qo87mCA85fGkVVnrbJhiwFkaG6e3yFocRe1h6UBukK
-	 jk/uPOOu62HHc/WkTJb9f1kXUGOoukqgockNPap46bNFsldb+BsR9VupyzHH4KwERO
-	 mOCA9/lwWjMBbZCTmnhEWOVXmh77wQjkBX7QSjq+/Q/A6ptkfjS0XOvPnCeH7P7IWp
-	 93z/Np7dEBlNw==
-Message-ID: <8787ea87-aa75-4fb5-a729-cd2b54d2ff8a@kernel.org>
-Date: Tue, 19 May 2026 11:09:56 +0100
+	s=arc-20240116; t=1779186299; c=relaxed/simple;
+	bh=sKJYf3HQdsLdF6J/FcNTKXsWoqBJyWsFUyib5GQ4Hww=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=FXVCt+xIflV+gutt37wX8P0AAAR5w6hUoSoygNv+3i2fQwSzbS6cVYW0Z8LwWxzpX8u06EyY5H9P4NXtljWIZ3xuWBtMKipaWO7vESOKgbS5XUARYaktjO6QqK6HiXyVsVrg9srjfiI1uKTQaynBwk9b9Cwjx8DaMhRfLQDOwcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NkAGI4eI; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [IPv6:2a01:cb1d:8f2:800:ad48:920a:da6f:a034])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BC665296;
+	Tue, 19 May 2026 12:24:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1779186282;
+	bh=sKJYf3HQdsLdF6J/FcNTKXsWoqBJyWsFUyib5GQ4Hww=;
+	h=From:Date:Subject:To:Cc:From;
+	b=NkAGI4eItoJQESlZau7r+yp846apBSRSS81To5imLhU8mihOGqeDIo0i4aiTlbcqZ
+	 gS6lK48wcptIpNqmX4oFe+6zIIW9BEOhwJf3BMu94UdN6C11o03gSv6aN1rMWwBAnO
+	 +k+Nt0+0Z1SmUuulem541A7yxsK4bKofKdbfe53g=
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Date: Tue, 19 May 2026 12:24:39 +0200
+Subject: [PATCH v3] media: Documentation: Fix frame interval calculation
+ for raw camera sensors
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: venus: venc: avoid double free on video register
- failure
-To: Guangshuo Li <lgs201920130244@gmail.com>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Stanimir Varbanov <stanimir.varbanov@linaro.org>,
- Hans Verkuil <hans.verkuil@cisco.com>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <xMdPPQAJ2BbtNwnxmf1CN7FGbdhSJM7NIXkRCxzFvXv0g01tuvNPvAacsFJaDyBc3cIkIAEfi44ewZ3OGGAcDg==@protonmail.internalid>
- <20260519090819.1041314-1-lgs201920130244@gmail.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bod@kernel.org>
-In-Reply-To: <20260519090819.1041314-1-lgs201920130244@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20260519-media-fps-docs-v3-1-bb5658ddd075@ideasonboard.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XMQQ6CMBCF4auQrq2hUwroynsYF2VmkC6gpDWNh
+ nB3CysTdfm/5H2LiBwcR3EuFhE4uej8lEMfCoGDne4sHeUWUEJdgjrJkclZ2c9Rkscoe1JkGwB
+ E3Yp8mgP37rmD11vuwcWHD6/dT2pb/1JJSSVL3TZo0Oi6xYsjttFPnbeBjuhHsYkJPhQwXwpkx
+ WAHAFQpruiHsq7rG0/SgzX5AAAA
+X-Change-ID: 20260219-media-fps-docs-fd1da722cc38
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Jai Luthra <jai.luthra@ideasonboard.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9362;
+ i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
+ bh=sKJYf3HQdsLdF6J/FcNTKXsWoqBJyWsFUyib5GQ4Hww=;
+ b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBqDDpyvv5tTnEMeCsd+llK5krgVO5EbgG+H3Xq7
+ 7r7Ks3VnN2JAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCagw6cgAKCRBD3pH5JJpx
+ RSWcD/9uI8vbyF+hbKKf0RiWDXsrx8/M3Z7Iin7cxY12RhwQdlxroGrApAGUnbdsKN7DqpDDmIz
+ wzDx9GZ7Nal1nrYIF5wOLRRzzhirxmKPm1j4V+TeQnGuYQCIjy2TfobUK4hHpF7XHsAnS8RR7Ex
+ 9m5WM4wEOzqikNONyqKD/4MapqHjVpjSG0+AxCMWFXi83wtoLAVK/+f80Y1szrk6B8owv/ZJsLy
+ Xtwac6wMjxlDa+VSr1CcDQmbnMSuypggGLDwFe+1js6RtY+978miHlWaNnQQ4iA4CUoLm/wN8UU
+ P4MYUmwKMSPn5EiHZ3SottPwiKGmS4e7EtiZS5ZwAQ3J4Z3GcX33YHetXCTbboqa7CSKhDIQivU
+ Yk+3jHn/yzBUcDhxYo9ALz+l7X0idDlUrYQLXL9Q1U8532MOA2K4Dv9MdVZICwN4l4iFf01GZ2a
+ wnkSNEI/rFbfvEhF5Wo0U1qDSfwijRsuDRaCQUc1QKWydoyKPScSKzjN1QZ2QXCdQrEiBikl9de
+ rqbPuqJTfJhw/w7F8kIXAsOAnPP51+2Jh0R5xJ99SFh7j2kcqtyge229WsABBl6nzSrEhELsd5C
+ Y29FjOyGQolhP1XOL01J1aWd4ihUmMJWXkf52eOI0f5aZuQSvSoySOHvg1r10lL9omSTJPC1OWR
+ iNDwz5O3ewvOzZw==
+X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
+ fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-62120-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62119-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,oss.qualcomm.com,kernel.org,linaro.org,cisco.com,vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 929A057BF9E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 95FAC57CBF1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 19/05/2026 10:08, Guangshuo Li wrote:
-> venc_probe() allocates a video_device with video_device_alloc() and
-> releases it from the err_vdev_release error path if
-> video_register_device() fails.
-> 
-> This can double free the video_device when __video_register_device()
-> reaches device_register() and that call fails:
-> 
->    video_register_device()
->      -> __video_register_device()
->         -> device_register() fails
->            -> put_device(&vdev->dev)
->               -> v4l2_device_release()
->                  -> vdev->release(vdev)
->                     -> video_device_release(vdev)
-> 
->    venc_probe()
->      -> err_vdev_release
->         -> video_device_release(vdev)
-> 
-> Use video_device_release_empty() while registering the device so that
-> registration failure paths do not free vdev through vdev->release().
-> venc_probe() then releases vdev exactly once from err_vdev_release.
-> Restore video_device_release() after successful registration so the
-> registered device keeps its normal lifetime handling.
-> 
-> This issue was found by a static analysis tool I am developing.
-> 
-> Fixes: aaaa93eda64b ("[media] media: venus: venc: add video encoder files")
-> Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
-> ---
->   drivers/media/platform/qcom/venus/venc.c | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-> index bf53267cb68d..9a5a025607fb 100644
-> --- a/drivers/media/platform/qcom/venus/venc.c
-> +++ b/drivers/media/platform/qcom/venus/venc.c
-> @@ -1579,7 +1579,7 @@ static int venc_probe(struct platform_device *pdev)
->   		return -ENOMEM;
-> 
->   	strscpy(vdev->name, "qcom-venus-encoder", sizeof(vdev->name));
-> -	vdev->release = video_device_release;
-> +	vdev->release = video_device_release_empty;
->   	vdev->fops = &venc_fops;
->   	vdev->ioctl_ops = &venc_ioctl_ops;
->   	vdev->vfl_dir = VFL_DIR_M2M;
-> @@ -1590,6 +1590,7 @@ static int venc_probe(struct platform_device *pdev)
->   	if (ret)
->   		goto err_vdev_release;
-> 
-> +	vdev->release = video_device_release;
->   	core->vdev_enc = vdev;
->   	core->dev_enc = dev;
-> 
-> --
-> 2.43.0
-> 
+The previous frame interval formula used analogue crop dimensions. This
+diverges from what most (non-CCS) raw camera sensor drivers do and what
+most applications expect.
 
-OK so this will get the same feedback as the Iris version which is 
-please fix the cleanup path.
+The CCS specification describes under section "8.2.6 Line Length and
+Frame Length" how the horizontal and vertical readout minimums can be
+different when binning.
 
-If we look at drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c we can see
+We see the same thing in non-CCS sensor drivers, for example in imx219
+the minimum FLL (frame length in lines) can be lower than the analogue
+crop height when doing 2x2 or 4x4 binning. Similarly in imx283 HMAX
+(line length) can be lower compared to the analogue crop width when
+doing 2x2 or 3x3 binning.
 
-         ret = video_register_device(jpeg->dec_vdev, VFL_TYPE_VIDEO, -1);
-         if (ret) {
-                 dev_err(dev, "failed to register video device\n");
-                 goto err_vdev_register;
-         }
-<snip>
+While the CCS driver defines the HBLANK/VBLANK controls with respect to
+the analogue crop rectangle, with possibly negative values for blanking,
+most other raw sensor drivers instead define them with respect to the
+output dimensions (width and height of the source pad format) sent on
+the bus.
 
-err_vdev_register:
-         /* Only release if allocation succeeded but registration failed */
-         if (jpeg->dec_vdev)
-                 video_device_release(jpeg->dec_vdev);
+So fix the frame interval calculation described in the documentation to
+match the reality of existing drivers, separating out the CCS and
+non-CCS cases. In future, with the common raw sensor model, this may
+need further updates.
 
-So for Venus and Iris
+While at it, also clarify the order of operations in the sensor pipeline
+and give the "hardware" definition for frame interval using the pixel
+readout rate, LLP (line length in pixels) and FLL (frame length in
+lines). Also link to the definitions of PIXEL_RATE, HBLANK and VBLANK
+controls.
 
-err_vdev_release:
-	if(vdev)
-		video_device_release(vdev);
+Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+---
+Changes in v3:
+- Include suggestions from Jacopo (linking to VBLANK/HBLANK/PIXEL_RATE
+  controls, rewording a couple of lines)
+- Include suggestions from Dave (clarifying LLP/HMAX can be in scaled
+  units compared to the pixel rate)
+- Reword the whole section again so it makes sense (thus not taking the
+  Review tag from Jacopo on v2)
+- Link to v2: https://lore.kernel.org/r/20260225-media-fps-docs-v2-1-5cb222d41e4d@ideasonboard.com
 
-i.e. only release the video device on the error path if the vdev pointer 
-is non-NULL.
+Changes in v2:
+- Use reStructureText note box for describing the
+  HBLANK/VBLANK/PIXEL_RATE controls
+- Document the blanking formula for both CCS and non-CCS raw
+  sensor drivers
+- Drop driver-api documentation as common raw sensor model is coming
+  soon
+- Link to v1: https://lore.kernel.org/r/20260219-media-fps-docs-v1-1-0387c5c5368c@ideasonboard.com
+---
+ .../userspace-api/media/drivers/camera-sensor.rst  | 99 ++++++++++++++++------
+ .../media/v4l/ext-ctrls-image-source.rst           |  4 +
+ 2 files changed, 75 insertions(+), 28 deletions(-)
+
+diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+index 75fd9166383f..07a679525f0c 100644
+--- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
++++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+@@ -49,34 +49,77 @@ depends on the type of the device.
+ Raw camera sensors
+ ~~~~~~~~~~~~~~~~~~
+ 
+-Instead of a high level parameter such as frame interval, the frame interval is
+-a result of the configuration of a number of camera sensor implementation
+-specific parameters. Luckily, these parameters tend to be the same for more or
+-less all modern raw camera sensors.
+-
+-The frame interval is calculated using the following equation::
+-
+-	frame interval = (analogue crop width + horizontal blanking) *
+-			 (analogue crop height + vertical blanking) / pixel rate
+-
+-The formula is bus independent and is applicable for raw timing parameters on
+-large variety of devices beyond camera sensors. Devices that have no analogue
+-crop, use the full source image size, i.e. pixel array size.
+-
+-Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+-``V4L2_CID_VBLANK``, respectively. The unit of the ``V4L2_CID_HBLANK`` control
+-is pixels and the unit of the ``V4L2_CID_VBLANK`` is lines. The pixel rate in
+-the sensor's **pixel array** is specified by ``V4L2_CID_PIXEL_RATE`` in the same
+-sub-device. The unit of that control is pixels per second.
+-
+-Register list-based drivers need to implement read-only sub-device nodes for the
+-purpose. Devices that are not register list based need these to configure the
+-device's internal processing pipeline.
+-
+-The first entity in the linear pipeline is the pixel array. The pixel array may
+-be followed by other entities that are there to allow configuring binning,
+-skipping, scaling or digital crop, see :ref:`VIDIOC_SUBDEV_G_SELECTION
+-<VIDIOC_SUBDEV_G_SELECTION>`.
++Instead of a high level parameter such as frame interval, the frame interval on
++a raw camera sensor is determined by a number of sensor-specific parameters.
++These parameters tend to be common across most modern raw camera sensors.
++
++The pixel array is the full grid of photosensitive elements on the camera
++sensor. A subregion of it is selected by the analogue crop. The cropped image
++may then be subject to binning (averaging of an NxN block) and subsampling
++which further reduce the image dimensions. The resulting image is then read out
++by the ADC (analogue-to-digital converter) line by line. After ADC readout,
++optional digital crop or scaling may further reduce the image dimensions, see
++:ref:`VIDIOC_SUBDEV_G_SELECTION <VIDIOC_SUBDEV_G_SELECTION>`.
++
++The sensor scales the input clock to a (usually) fixed pixel readout rate. Thus
++the frame interval is determined by two fundamental timing registers: **line
++length in pixels (LLP)** and **frame length in lines (FLL)**.
++
++LLP is the total number of pixels per line, including both the active readout
++width and horizontal blanking. FLL is the total number of lines per frame,
++including both the active readout height and vertical blanking. These two
++parameters allow controlling the total time taken to read out an image by
++adjusting the blanking intervals.
++
++These registers may go by other names for different sensors, like HMAX and
++VMAX, or HTOTAL and VTOTAL, or similar. They are exposed to userspace
++applications through the horizontal and vertical blanking controls.
++
++For some sensors the value for the horizontal timing (LLP/HMAX/HTOTAL) may be
++in cycles of an internal clock, where multiple pixels are read out per cycle.
++In such cases the driver should handle this scaling internally, ensuring the
++userspace control for the horizontal blanking is always in units of pixels.
++
++So the frame interval can be calculated as::
++
++        frame interval = (LLP * FLL) / pixel rate
++
++See the note below on how applications can map this to the blanking and pixel
++rate controls:
++
++.. note::
++
++	Horizontal and vertical blanking are specified by :ref:`V4L2_CID_HBLANK
++	<v4l2-cid-hblank>` and :ref:`V4L2_CID_VBLANK <v4l2-cid-vblank>`,
++	respectively. The unit of ``HBLANK`` is pixels, and the unit of
++	``VBLANK`` is lines.
++
++	The pixel rate in the sensor's pixel array is specified by
++	:ref:`V4L2_CID_PIXEL_RATE <v4l2-cid-pixel-rate>`, in units of pixels
++	per second.
++
++	Sensor drivers are required to implement sub-device nodes that expose
++	these controls. They can be read-only or configurable depending on the
++	device.
++
++	For most raw sensors the blanking is defined relative to the size of
++	the image being sent out to the host over the bus (source pad format)::
++
++                LLP = output width + horizontal blanking
++                FLL = output height + vertical blanking
++
++        For CCS-compliant raw sensors (that use the CCS driver), the blanking
++        controls are defined relative to the analogue crop rectangle::
++
++                LLP = analogue crop width + horizontal blanking
++                FLL = analogue crop height + vertical blanking
++
++Some sensors may lower the minimum allowed values for LLP and/or FLL when
++binning or subsampling, thus increasing the effective frame rate.
++
++The driver shall update the minimum and maximum values of the blanking controls
++so that the resulting LLP and FLL registers are programmed within the range
++permitted by the sensor hardware for the current mode.
+ 
+ USB cameras etc. devices
+ ~~~~~~~~~~~~~~~~~~~~~~~~
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+index f9c0b7ad3b4e..1a61acb0bb1a 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+@@ -21,6 +21,8 @@ Image Source Control IDs
+ ``V4L2_CID_IMAGE_SOURCE_CLASS (class)``
+     The IMAGE_SOURCE class descriptor.
+ 
++.. _v4l2-cid-vblank:
++
+ ``V4L2_CID_VBLANK (integer)``
+     Vertical blanking. The idle period after every frame during which no
+     image data is produced. The unit of vertical blanking is a line.
+@@ -28,6 +30,8 @@ Image Source Control IDs
+     the pixel rate defined by ``V4L2_CID_PIXEL_RATE`` control in the
+     same sub-device.
+ 
++.. _v4l2-cid-hblank:
++
+ ``V4L2_CID_HBLANK (integer)``
+     Horizontal blanking. The idle period after every line of image data
+     during which no image data is produced. The unit of horizontal
 
 ---
-bod
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+change-id: 20260219-media-fps-docs-fd1da722cc38
+
+Best regards,
+-- 
+Jai Luthra <jai.luthra@ideasonboard.com>
+
 
