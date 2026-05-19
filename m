@@ -1,449 +1,232 @@
-Return-Path: <linux-media+bounces-62095-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62097-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WKI5EisBDGpcTQUAu9opvQ
-	(envelope-from <linux-media+bounces-62095-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 08:20:27 +0200
+	id WAW2BSYKDGo5UQUAu9opvQ
+	(envelope-from <linux-media+bounces-62097-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 08:58:46 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id D851A577EDA
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 08:20:26 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F7895787D8
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 08:58:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A03F2309C7FC
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 06:16:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7B02030C766E
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 06:51:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 556193ACF01;
-	Tue, 19 May 2026 06:15:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6EC939EF21;
+	Tue, 19 May 2026 06:51:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JVYMBi4e"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="y/P2Ncmj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011003.outbound.protection.outlook.com [40.107.208.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64FB6399001;
-	Tue, 19 May 2026 06:15:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779171356; cv=none; b=oHqwVpiFHKi6+v2SFuCWIM8Ln4vm5prnK31U9NbFu+eQl4QBknFwfl0Nw5P1v9VHvgP+oW5g7MwBw1eZdy+n+XXrnJGgZB2ctyLNJf9NBVp1WxlsHGKkgaFTwv8tY7kSXd39BkYM/W9ptdM+pfysln5Ij9lADW2oaVzZw0U6TgI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779171356; c=relaxed/simple;
-	bh=VogAFtpediecZpP5TM2uZbRcL0kuXBfdro2v4LUoJkk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mZBuFgTQERXA/lodaLOYEc+0EKBfH5ZrSOtmtcAQ0s4tRBvEGyMes8o4+G0ZbISl6bDzhxsuh19YA0ZhiIfniRdtZdwMusj8OxZzWF2XVAMjF7SeRFmWqcaefKrDmDSHTWevq3uwil4vb+vL7lF0vKvSuU0vjhRNDAIsGAATKTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JVYMBi4e; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 47D4EC2BD01;
-	Tue, 19 May 2026 06:15:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1779171356;
-	bh=VogAFtpediecZpP5TM2uZbRcL0kuXBfdro2v4LUoJkk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=JVYMBi4e5knehOiV81O7cwQseHAQVHd+8s2BqVc/aix1i3/H+O+BSZoRmk3LdV8ie
-	 tcMaX8rldTCDyNXRLyaCQ4QPHlQ8ca3n6w/FTZeJdzl2LnHOkT41jHijZ0kpoDI36g
-	 9lLoZM9Lq2YU4+YzgwhWOFCA9lDb9I0EWtP5I40b/d8ijR/urpQxlQpMG7pJg2+/U3
-	 AUgQIrK5jGhMvvkVVwz2QgvvIQF76zCn0jyaU65hJ7QVWZgfqAwkSojIa5oIJDhzvi
-	 9vSRRbbd5HcgIPEkcUh7Ib9cE1f+2GqPbz9VfbFAkyji8pRucSVbXX5dcsbWKAeGJg
-	 NRjMky5HYjSXQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40B63CD4F54;
-	Tue, 19 May 2026 06:15:56 +0000 (UTC)
-From: Ekansh Gupta via B4 Relay <devnull+ekansh.gupta.oss.qualcomm.com@kernel.org>
-Date: Tue, 19 May 2026 11:46:05 +0530
-Subject: [PATCH 15/15] accel/qda: Add remote memory unmap from DSP address
- space
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEC213112C1;
+	Tue, 19 May 2026 06:51:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.3
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779173470; cv=fail; b=rrV5agY2hXgiSMh3mZDI5jm3RDt/L1l5+sVt59KhCwJmwNbAPD9SUuoG7CyeqLVCj/wCGmcGQgfj+K1VPFcmKrWR4weJ7UsPHknYNnVHLPA1gs/vdIZRhyDuOoKAzsisSaviRlxuPp9xx2rOik7iBMV5b5hq+tUoyAok84PdiH8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779173470; c=relaxed/simple;
+	bh=MJ9aOFaVIylSFjo6pzUaF4kKIXbaO5LiaBvdCMhH2HQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ReoBQ37SiAxSx3XePejRMY5yCew0ZoSxpnjT4DwDzCtq38XMnwRUXLSzXI/tt1tmwdG3wMi0qhXWGI4yAX+hmTKIBG1lJEITiRlH5Xomi7PpCamtkCdu1ODKpo7ALNtwHrLEeeWYovzuA1bEX0x037vnmMAY9fXCjSTy5kisot4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=y/P2Ncmj; arc=fail smtp.client-ip=40.107.208.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bK4fbFe+GcCYtMLXY4sybMbo4XEr9QR3XPt5VFj6cqenB8UDunQrXfbwi0uH53LpM4o6K90AlM96aeu8+ut4AXcO+a884Jb7KTpgI+h6HIG3Y4ciCF19Qe+AeWNso3iCudhCqsE+ha7JQpcDSqWfyg4q/eTEG9uY23jmJPfNPmnVRNS4xSI6yjNbYleuv6BPQUFsrRYGOWq5wfTODNy83RXvHzuzyah2gxtN8c2HwVTbhsSKYtcaaqjqIhhWJOFGccPaPozboXRi9PrwiR4CBrN8d1ukcM/258NMeJmi9/Vwbcg9aWtQ/tiEvfunq7Ulpj0t/OsPYBfi6qibm0Bojg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Qvpt86PxcIzhxzluWfNWX4n9/8UCh7lqDC61KeKXZ5w=;
+ b=VESQh3iJm4oL+Huqtcl2533BW07DjB1nl0dPKQFLV1n9aA05uXwhmb5xQKegV43mG483yDA3MLYZVJawq1Hgyck7t2LcsobM9Q7NEyfRP49UBiBa5OVbaEY2j53nD793Ufi7saJh47f6QicZE9UYBPRoEHQppj47M7/iRLmisE8dB3hPyEko0gMEvfU19JGJa04fdZWGIHdo2SOUotZz4VfwZWeOILrhFIslTgoe2dBWL7JrKFJHZPK2eUWFT+F2DqNxGoKSngUinbMtz1iVXVkkk/jLbr3aHKTsjkIeR9BFXlkxkChGS2lvs4H2NrZ63zW1lsCgtq9zjfX6gDXgQg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Qvpt86PxcIzhxzluWfNWX4n9/8UCh7lqDC61KeKXZ5w=;
+ b=y/P2NcmjvhoP3xHi5s20kJql6zGKostNgiBiURy3orzpP3suRpPoNx75euHZyxLLU76jwyhXJRcrSblR/t7UquPc+3kT352sTP5tl+hyu2ayNNNcHQFmX3RGlUh1gEKeKifc5AGd4Sk3hiDHQHI3EJlg1AgkpMUp54OsqgKGhSQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CH3PR12MB8459.namprd12.prod.outlook.com (2603:10b6:610:139::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.12; Tue, 19 May
+ 2026 06:51:05 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0025.022; Tue, 19 May 2026
+ 06:51:05 +0000
+Message-ID: <b4acc363-b307-4ce1-beef-fece0d66e696@amd.com>
+Date: Tue, 19 May 2026 08:51:00 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-buf: system_heap: Use LIST_HEAD() to initialize on
+ stack list head
+To: Jisheng Zhang <jszhang@kernel.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20260519060532.13221-1-jszhang@kernel.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20260519060532.13221-1-jszhang@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0449.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c6::9) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260519-qda-series-v1-15-b2d984c297f8@oss.qualcomm.com>
-References: <20260519-qda-series-v1-0-b2d984c297f8@oss.qualcomm.com>
-In-Reply-To: <20260519-qda-series-v1-0-b2d984c297f8@oss.qualcomm.com>
-To: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>, 
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Bharath Kumar <quic_bkumar@quicinc.com>, 
- Chenna Kesava Raju <quic_chennak@quicinc.com>, srini@kernel.org, 
- dmitry.baryshkov@oss.qualcomm.com, andersson@kernel.org, 
- konradybcio@kernel.org, robin.clark@oss.qualcomm.com, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-doc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- iommu@lists.linux.dev, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, 
- Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779171352; l=11684;
- i=ekansh.gupta@oss.qualcomm.com; s=20260223; h=from:subject:message-id;
- bh=/fQu1UAz3gyMqR3NFZpJX4rpM/wwR7jVltKg2M1B+DU=;
- b=72Y34omiJ0pH6eH3TjgrzGhfH0pIU59j8J/43VANXh+n8/tZffL9Y1uIHokwT5VZoT6IjXqws
- XpdsbbgKvkoDGQjDTS6MiWkzLPEsSABcWvS6//F1VQ4hTleSHoj3T3L
-X-Developer-Key: i=ekansh.gupta@oss.qualcomm.com; a=ed25519;
- pk=n0SepARizye+pYjhjg1RA5J+Nq4+IJbyRcBybU+/ERQ=
-X-Endpoint-Received: by B4 Relay for ekansh.gupta@oss.qualcomm.com/20260223
- with auth_id=647
-X-Original-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-Reply-To: ekansh.gupta@oss.qualcomm.com
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB8459:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3488bb25-b4e0-4658-ca64-08deb572ffc2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|11063799003|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	OoAQN+iNPB/d32DBvqPTj46p7YQQzHHs6CR52PrmotpWseXjCzGz2RBSTONtyybDkiE3Qy/O11a7VbCHK9sPznQhj4r3zMX27SSeTNa2svm+K/uMQsZRy+gaCbpwh+5EMuJ6onGgqhha0FZKSKl488AVVOtB7VSMUcX4e2NOTC+TyJYVXjEbcc/u0JtylXQxlxFBy1yxu4tyl4PRTu512GyEE3zszNVEODfsk5m927k7wg07YodHBc2OaRZcu3D43VETCW8FJKpS0fg7ESzeFoeZ/e2n/17+twofPblcEWA1icWjjzbMaV+0vKka3XJNZUqqdJKPrZXpP0mMwIEObRSnxbmcQHROZCWR09x5k3HbMDjj4ILsi0C1LBmpItXQmu85nlFnNpmpFPIymba1ozN+GzdJZVGfFxueFgrS03vVxPDmIV/P+qcFqLlJptEd/xgPidyIijODjuXbUui9R1mKgXZCY25Mp81ztGijBdyzP3Mhc8VNB0Cy3u933hDJPV5Qbg7z0ezoPgXinCQJr/XGLfWhCc8CHWM2Abg3R/mPZ584XHN81PcsfXIY8o8v+8x72mkwqJzbuTYN+16HloG5FJcDKQI4+H0uQmNEk+rkWCWbcqmLCpmJ08dU+SszVwf/p0sOEp772CCA1/oIqjAcXqMK5tXf+UgoHnUD0ixLQO4em/BLyZe0yBP/jndI
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(11063799003)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dzNXS3NTN211UHBXMmN1bFBGYVF6ZlVnRDFJNTdwcGxvN1ovQWQ0WTN2SjNu?=
+ =?utf-8?B?cjZ5QXFCdE13V2YxaE5rSFRIanBoMVE2OG1VUHFySDdTS2RXdTNqaFFtcUFM?=
+ =?utf-8?B?eWEyNndlakRRNkNwbGRSS3RjcjRZT0Q2eHdzMTFoWlR3bkVWNW1Ta1FERXFV?=
+ =?utf-8?B?MjZUZW1pZWJWczRRekV3WCtCSStSVCtGSVdnY1FNRWw2U0ZxenNPMllzaUFS?=
+ =?utf-8?B?OUVWaUZLc0tXY3I4VWxtZWFDc3NrQ3hDVXdBUHRDTzJ5bGpCa0s4WSs5RXha?=
+ =?utf-8?B?eVZOU3dzR0h5a29SeVFlaDBWRFhCVTdFK0h6SGE3SjNrYlZYbnJGMVV2Sk14?=
+ =?utf-8?B?d0ZXdzkvU3VoQTVtN1dwM2l1eTVEcGxLcm4vOGZwb2hUbERvUEp2MjQvR3Nw?=
+ =?utf-8?B?MjNnaDFPdmx0a2hqZ3MrV0VaRGVlME4xMy9BTFZ4bk5HSythM2plaHg0eUNM?=
+ =?utf-8?B?cGJXMW5jWVp6aE1wOGZ0d2xvL0lzcVA4MzdLNEZEaTVzbXpOZU1USERhVDBF?=
+ =?utf-8?B?QmsralRvcTdZYWNoKzBZaERndmVWMEVFS2tSYzh3enhiSFJPbjFXQzIrWDBt?=
+ =?utf-8?B?RlVEUGxKUXpDczRrK2EvQTl1SGFQOUZsekc3d0xRU1FiNFNUakxqa1dtdS9r?=
+ =?utf-8?B?M2czZlJpY2k1cWdycEl6MHNUNjBic1NTQkxQN0xrZURWaTlHQnlsRDN2c0hO?=
+ =?utf-8?B?OEZFNWhTVndKdTAzclQ5OExuOGJBWmsvL0xtcjBrWHNCbm5uVUpnYit5bFY2?=
+ =?utf-8?B?amVqbFVGN0FOcXUrTmNVaHBnVHpqdHBmMEMvTnJBWGhLTVg4T2dNRHc5NGc4?=
+ =?utf-8?B?TXcwQjNIVENZYVRGZUVtQ3RCcmhYc1lZSWZhUExqd1R1L3JvWVVFa1ZFMm85?=
+ =?utf-8?B?Nk9RR1ArYUtSVEFtN2VsNFVGSGpxcHZEMVViM3lsaGhJNHF4MlJlR0hGT1N5?=
+ =?utf-8?B?UmlvdzI2VW9wREdyeGJMYUMyTVRhYmlwd1ZLM1BLUjhtbG92amFmWWRyalFV?=
+ =?utf-8?B?dkxkOVphSHJyM3VOaGlzdVc2N2laRUtCL2o3SXFXblAxckFKUUlzNXdJOUk0?=
+ =?utf-8?B?TVRxNmticEJSdldIS2R2ditNakhXM0dIQ05MWEhmbTk5dHpiK3BGdUpQaU1S?=
+ =?utf-8?B?RlhPK1pOSnVTUzdyOVUxeDNUbWlBRlJhUVdXWkZXMHBGaXYxcDk2eGN0T3FH?=
+ =?utf-8?B?U210YXhNMTBLOUU5SzMwOHdRNm1XRXl4Ukx2YmZZdGZ4citWa2xUaGx5SDdk?=
+ =?utf-8?B?OW9qejRtYmtxS0ozSlJITlhPQXhtd0M1NVFYUGhYdVM1LzJVd2JQQkxPdGlp?=
+ =?utf-8?B?U3k2djZNZitWSzZNUm9kbHREQUpLSHUremhpalQ4TE5US3pHNnBKRGJHVCtD?=
+ =?utf-8?B?aVBiMTFMam1jb0ZTQ3NLOFZyd2ZEMmYzOE9xTERWNnphd2J6V1VBZmF0dzhn?=
+ =?utf-8?B?a3VLTTM3RzFXb2FPTWFBL2pvT2Z2WnRoRlRKTlBhOG9YQzd3N3p5TW1DekVv?=
+ =?utf-8?B?azA2MmVWZXZ4OEtBa3hYeTFjMnY5TmtOZjI1bURuUkdFNDUvWjMvNUJiNjRs?=
+ =?utf-8?B?N3duSmIrOGt5ZkxaL1lnemFhTEFhdThiWFhmbTdCZE1qQ1BUQmVkT0g1MDZY?=
+ =?utf-8?B?QnV1QmtDUnlTSUZSSEgxZWpaZEVwUVBtcGlrK3ZKVXZTSEZRZ1JkNUxGVUNk?=
+ =?utf-8?B?Q1Bma2dCWTRwdTM4cXF0U0diRmZybE9zOURRR2NuOExnUHptTCtrdldLR251?=
+ =?utf-8?B?a0RKdy94aUhaTUJGNll3SjcvSHgybDN6MGtXNVFibEJ2OHhzK0taYjIreUR0?=
+ =?utf-8?B?L0V0Qy8zdHV1Ykd0ZUZzN05xcWc5SG1OQ2krYVpDUlcyanpIdWx3VWU5QXFl?=
+ =?utf-8?B?ZkRYT1lBeEkvYmdYMVhjeWljNjVXcVU3NmlKemIvVDZ4TU54QTRHZUlVOXIv?=
+ =?utf-8?B?dC9xQ0JWMU5jSFdHeTc2c3Yxa0RzZ1pNbUxINFpvTWhHcVVKRzZhdWRVelVI?=
+ =?utf-8?B?aE9rbHNMUVZ0Qys2UmExZ3pYWmk1RG1sQ1NGSnA4VEhGVlh0bFh0Sk1janEw?=
+ =?utf-8?B?UDQxSVNJSXhudjF4ejdkck9XdG5TY3pqWVNVaWdkaFBRdFJLelVnVDIxdUlm?=
+ =?utf-8?B?aDU1d2ZmbGRPY1pIT3VjcHFMQkRCMnJSUVVpWnhENkhMcHM3TTBkZitsQW02?=
+ =?utf-8?B?eUk3akFHT0llblVJYmsxSDM3ZHErWXZkajdDa1MrNmJISmlWbkpTd0ZBNkFp?=
+ =?utf-8?B?VnpSbGdaTC80T081aks3RU9ZOStkeDVQK1k5ZWVRQzI0VjVmMHg3VFU0VkRS?=
+ =?utf-8?Q?L7Mq3AUw+HbdOVq6N9?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3488bb25-b4e0-4658-ca64-08deb572ffc2
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2026 06:51:05.6547
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kWU9ENBR7luzPqRuS2Ktusv4JZNyDMRLFd/at/qCoM3TpafSQdmpEp7iOmdM2cAD
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8459
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_TO(0.00)[kernel.org,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-62095-lists,linux-media=lfdr.de,ekansh.gupta.oss.qualcomm.com];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FROM_HAS_DN(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
 	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:mid,amd.com:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo];
+	RCVD_TLS_LAST(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62097-lists,linux-media=lfdr.de];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	PRECEDENCE_BULK(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	HAS_REPLYTO(0.00)[ekansh.gupta@oss.qualcomm.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,qualcomm.com:email,oss.qualcomm.com:mid,oss.qualcomm.com:replyto]
-X-Rspamd-Queue-Id: D851A577EDA
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[amd.com:+]
+X-Rspamd-Queue-Id: 5F7895787D8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
+On 5/19/26 08:05, Jisheng Zhang wrote:
+> Use LIST_HEAD to initialize on stack list head. No intentional
+> functional impact.
+> 
+> Change generated with below coccinelle script:
+> 
+> @@
+> identifier name;
+> @@
+> - struct list_head name;
+> + LIST_HEAD(name);
+> ... when != name
+> - INIT_LIST_HEAD(&name);
 
-Implement DRM_IOCTL_QDA_REMOTE_MUNMAP (command 0x06), which unmaps
-a previously mapped memory region from the DSP's virtual address space.
-Two unmap modes mirror the two map modes:
+The patch itself looks correct, but my question is why would we want to do that?
 
-QDA_MUNMAP_REQUEST_LEGACY (FASTRPC_RMID_INIT_MUNMAP)
-  Legacy single-argument unmap: sends a fastrpc_munmap_req_msg
-  containing the session ID, the DSP virtual address (vaddrout from
-  the original map response), and the region size.
+Initializing the list head (or any other result variable) directly before it is filled in is usually good practice.
 
-QDA_MUNMAP_REQUEST_ATTR (FASTRPC_RMID_INIT_MEM_UNMAP)
-  Attribute-based unmap: sends a fastrpc_mem_unmap_req_msg which
-  additionally carries the original DMA-BUF fd and virtual address,
-  matching the fd-based MEM_MAP path.
+Regards,
+Christian.
 
-DRM_QDA_REMOTE_MUNMAP is assigned command number 0x06, filling the
-slot that was previously reserved for this purpose.
-
-Assisted-by: Claude:claude-4-6-sonnet
-Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
----
- drivers/accel/qda/qda_drv.c     |  1 +
- drivers/accel/qda/qda_fastrpc.c | 84 +++++++++++++++++++++++++++++++++++++++++
- drivers/accel/qda/qda_fastrpc.h | 34 +++++++++++++++++
- drivers/accel/qda/qda_ioctl.c   | 28 ++++++++++++++
- drivers/accel/qda/qda_ioctl.h   |  1 +
- include/uapi/drm/qda_accel.h    | 36 +++++++++++++++++-
- 6 files changed, 183 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/accel/qda/qda_drv.c b/drivers/accel/qda/qda_drv.c
-index 3640e4a41605..41cc207447b4 100644
---- a/drivers/accel/qda/qda_drv.c
-+++ b/drivers/accel/qda/qda_drv.c
-@@ -68,6 +68,7 @@ static const struct drm_ioctl_desc qda_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(QDA_GEM_MMAP_OFFSET, qda_ioctl_gem_mmap_offset, 0),
- 	DRM_IOCTL_DEF_DRV(QDA_REMOTE_SESSION_CREATE, qda_ioctl_init_create, 0),
- 	DRM_IOCTL_DEF_DRV(QDA_REMOTE_MAP, qda_ioctl_mmap, 0),
-+	DRM_IOCTL_DEF_DRV(QDA_REMOTE_MUNMAP, qda_ioctl_munmap, 0),
- 	DRM_IOCTL_DEF_DRV(QDA_REMOTE_INVOKE, qda_ioctl_invoke, 0),
- };
- 
-diff --git a/drivers/accel/qda/qda_fastrpc.c b/drivers/accel/qda/qda_fastrpc.c
-index cab3a560ceb5..0513beede428 100644
---- a/drivers/accel/qda/qda_fastrpc.c
-+++ b/drivers/accel/qda/qda_fastrpc.c
-@@ -887,6 +887,84 @@ static int fastrpc_prepare_args_mem_map_attr(struct fastrpc_invoke_context *ctx,
- 	return err;
- }
- 
-+static int fastrpc_prepare_args_munmap(struct fastrpc_invoke_context *ctx, char __user *argp)
-+{
-+	struct drm_qda_fastrpc_invoke_args *args;
-+	struct fastrpc_munmap_req_msg *req_msg;
-+	struct drm_qda_mem_unmap uargs;
-+	void *req;
-+	int err;
-+
-+	memcpy(&uargs, argp, sizeof(uargs));
-+
-+	args = kzalloc_obj(*args);
-+	if (!args)
-+		return -ENOMEM;
-+
-+	req = kzalloc_obj(*req_msg);
-+	if (!req) {
-+		err = -ENOMEM;
-+		goto err_free_args;
-+	}
-+	req_msg = (struct fastrpc_munmap_req_msg *)req;
-+
-+	req_msg->remote_session_id = ctx->remote_session_id;
-+	req_msg->size  = uargs.size;
-+	req_msg->vaddr = uargs.vaddrout;
-+
-+	setup_single_arg(args, req_msg, sizeof(*req_msg));
-+	ctx->sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_MUNMAP, 1, 0);
-+	ctx->args = args;
-+	ctx->req = req;
-+	ctx->handle = FASTRPC_INIT_HANDLE;
-+
-+	return 0;
-+
-+err_free_args:
-+	kfree(args);
-+	return err;
-+}
-+
-+static int fastrpc_prepare_args_mem_unmap_attr(struct fastrpc_invoke_context *ctx,
-+					       char __user *argp)
-+{
-+	struct drm_qda_fastrpc_invoke_args *args;
-+	struct fastrpc_mem_unmap_req_msg *req_msg;
-+	struct drm_qda_mem_unmap uargs;
-+	void *req;
-+	int err;
-+
-+	memcpy(&uargs, argp, sizeof(uargs));
-+
-+	args = kzalloc_obj(*args);
-+	if (!args)
-+		return -ENOMEM;
-+
-+	req = kzalloc_obj(*req_msg);
-+	if (!req) {
-+		err = -ENOMEM;
-+		goto err_free_args;
-+	}
-+	req_msg = (struct fastrpc_mem_unmap_req_msg *)req;
-+
-+	req_msg->remote_session_id = ctx->remote_session_id;
-+	req_msg->fd      = uargs.fd;		/* DMA-BUF fd forwarded to DSP */
-+	req_msg->vaddrin = uargs.vaddr;
-+	req_msg->len     = uargs.size;
-+
-+	setup_single_arg(args, req_msg, sizeof(*req_msg));
-+	ctx->sc = FASTRPC_SCALARS(FASTRPC_RMID_INIT_MEM_UNMAP, 1, 0);
-+	ctx->args = args;
-+	ctx->req = req;
-+	ctx->handle = FASTRPC_INIT_HANDLE;
-+
-+	return 0;
-+
-+err_free_args:
-+	kfree(args);
-+	return err;
-+}
-+
- static int fastrpc_prepare_args_invoke(struct fastrpc_invoke_context *ctx, char __user *argp)
- {
- 	struct drm_qda_invoke_args invoke_args;
-@@ -945,6 +1023,12 @@ int qda_fastrpc_prepare_args(struct fastrpc_invoke_context *ctx, char __user *ar
- 	case FASTRPC_RMID_INIT_MEM_MAP:
- 		err = fastrpc_prepare_args_mem_map_attr(ctx, argp);
- 		break;
-+	case FASTRPC_RMID_INIT_MUNMAP:
-+		err = fastrpc_prepare_args_munmap(ctx, argp);
-+		break;
-+	case FASTRPC_RMID_INIT_MEM_UNMAP:
-+		err = fastrpc_prepare_args_mem_unmap_attr(ctx, argp);
-+		break;
- 	case FASTRPC_RMID_INVOKE_DYNAMIC:
- 		err = fastrpc_prepare_args_invoke(ctx, argp);
- 		break;
-diff --git a/drivers/accel/qda/qda_fastrpc.h b/drivers/accel/qda/qda_fastrpc.h
-index 71812eaf9a54..030e9b954f7a 100644
---- a/drivers/accel/qda/qda_fastrpc.h
-+++ b/drivers/accel/qda/qda_fastrpc.h
-@@ -275,9 +275,11 @@ struct fastrpc_invoke_context {
- /* Remote Method ID table - identifies initialization and control operations */
- #define FASTRPC_RMID_INIT_RELEASE	1	/* Release DSP process */
- #define FASTRPC_RMID_INIT_MMAP		4	/* Map memory region to DSP */
-+#define FASTRPC_RMID_INIT_MUNMAP	5	/* Unmap DSP memory region */
- #define FASTRPC_RMID_INIT_CREATE	6	/* Create DSP process */
- #define FASTRPC_RMID_INIT_CREATE_ATTR	7	/* Create DSP process with attributes */
- #define FASTRPC_RMID_INIT_MEM_MAP	10	/* Map DMA buffer with attributes to DSP */
-+#define FASTRPC_RMID_INIT_MEM_UNMAP	11	/* Unmap DMA buffer from DSP */
- #define FASTRPC_RMID_INVOKE_DYNAMIC	0xFFFFFFFF	/* Dynamic method invocation */
- 
- /* Common handle for initialization operations */
-@@ -345,6 +347,38 @@ struct fastrpc_map_rsp_msg {
- 	u64 vaddrout;
- };
- 
-+/**
-+ * struct fastrpc_mem_unmap_req_msg - Memory unmap request message with attributes
-+ *
-+ * This message structure is sent to the DSP to request unmapping
-+ * of a previously mapped memory region (ATTR request).
-+ */
-+struct fastrpc_mem_unmap_req_msg {
-+	/** @remote_session_id: Client identifier for the session */
-+	s32 remote_session_id;
-+	/** @fd: DMA-BUF file descriptor of the buffer to unmap */
-+	s32 fd;
-+	/** @vaddrin: DSP virtual address of the mapped region to unmap */
-+	u64 vaddrin;
-+	/** @len: Size of the region to unmap in bytes */
-+	u64 len;
-+};
-+
-+/**
-+ * struct fastrpc_munmap_req_msg - Legacy memory unmap request message
-+ *
-+ * This message structure is sent to the DSP to request unmapping
-+ * of a previously mapped memory region.
-+ */
-+struct fastrpc_munmap_req_msg {
-+	/** @remote_session_id: Client identifier for the session */
-+	s32 remote_session_id;
-+	/** @vaddr: DSP virtual address of the mapped region to unmap */
-+	u64 vaddr;
-+	/** @size: Size of the region to unmap in bytes */
-+	u64 size;
-+};
-+
- void qda_fastrpc_context_free(struct kref *ref);
- struct fastrpc_invoke_context *qda_fastrpc_context_alloc(void);
- int qda_fastrpc_prepare_args(struct fastrpc_invoke_context *ctx, char __user *argp);
-diff --git a/drivers/accel/qda/qda_ioctl.c b/drivers/accel/qda/qda_ioctl.c
-index 283eb7535c45..aeba6190182e 100644
---- a/drivers/accel/qda/qda_ioctl.c
-+++ b/drivers/accel/qda/qda_ioctl.c
-@@ -254,6 +254,34 @@ int qda_ioctl_mmap(struct drm_device *dev, void *data, struct drm_file *file_pri
- 	}
- }
- 
-+/**
-+ * qda_ioctl_munmap() - Unmap memory from DSP address space
-+ * @dev: DRM device structure
-+ * @data: User-space data (struct drm_qda_mem_unmap)
-+ * @file_priv: DRM file private data
-+ *
-+ * Return: 0 on success, negative error code on failure
-+ */
-+int qda_ioctl_munmap(struct drm_device *dev, void *data, struct drm_file *file_priv)
-+{
-+	struct drm_qda_mem_unmap *unmap_req;
-+
-+	if (!data)
-+		return -EINVAL;
-+
-+	unmap_req = (struct drm_qda_mem_unmap *)data;
-+
-+	switch (unmap_req->request) {
-+	case QDA_MUNMAP_REQUEST_LEGACY:
-+		return fastrpc_invoke(FASTRPC_RMID_INIT_MUNMAP, dev, data, file_priv);
-+	case QDA_MUNMAP_REQUEST_ATTR:
-+		return fastrpc_invoke(FASTRPC_RMID_INIT_MEM_UNMAP, dev, data, file_priv);
-+	default:
-+		drm_err(dev, "Invalid munmap request type: %u\n", unmap_req->request);
-+		return -EINVAL;
-+	}
-+}
-+
- /**
-  * qda_ioctl_invoke() - Perform a dynamic FastRPC method invocation
-  * @dev: DRM device structure
-diff --git a/drivers/accel/qda/qda_ioctl.h b/drivers/accel/qda/qda_ioctl.h
-index 457ceccede08..e14a39050d09 100644
---- a/drivers/accel/qda/qda_ioctl.h
-+++ b/drivers/accel/qda/qda_ioctl.h
-@@ -14,5 +14,6 @@ int qda_ioctl_gem_create(struct drm_device *dev, void *data, struct drm_file *fi
- int qda_ioctl_gem_mmap_offset(struct drm_device *dev, void *data, struct drm_file *file_priv);
- int qda_ioctl_invoke(struct drm_device *dev, void *data, struct drm_file *file_priv);
- int qda_ioctl_mmap(struct drm_device *dev, void *data, struct drm_file *file_priv);
-+int qda_ioctl_munmap(struct drm_device *dev, void *data, struct drm_file *file_priv);
- 
- #endif /* __QDA_IOCTL_H__ */
-diff --git a/include/uapi/drm/qda_accel.h b/include/uapi/drm/qda_accel.h
-index 173f59abd361..e3b5c9a963bf 100644
---- a/include/uapi/drm/qda_accel.h
-+++ b/include/uapi/drm/qda_accel.h
-@@ -21,9 +21,10 @@ extern "C" {
- #define DRM_QDA_QUERY		0x00
- #define DRM_QDA_GEM_CREATE		0x01
- #define DRM_QDA_GEM_MMAP_OFFSET	0x02
--/* Command number 0x03 reserved for INIT_ATTACH; 0x06 reserved for MUNMAP */
-+/* Command number 0x03 reserved for INIT_ATTACH */
- #define DRM_QDA_REMOTE_SESSION_CREATE		0x04
- #define DRM_QDA_REMOTE_MAP			0x05
-+#define DRM_QDA_REMOTE_MUNMAP			0x06
- #define DRM_QDA_REMOTE_INVOKE			0x07
- 
- /*
-@@ -44,6 +45,8 @@ extern "C" {
- 		 struct drm_qda_init_create)
- #define DRM_IOCTL_QDA_REMOTE_MAP	DRM_IOWR(DRM_COMMAND_BASE + DRM_QDA_REMOTE_MAP, \
- 					  struct drm_qda_mem_map)
-+#define DRM_IOCTL_QDA_REMOTE_MUNMAP	DRM_IOWR(DRM_COMMAND_BASE + DRM_QDA_REMOTE_MUNMAP, \
-+					  struct drm_qda_mem_unmap)
- #define DRM_IOCTL_QDA_REMOTE_INVOKE	DRM_IOWR(DRM_COMMAND_BASE + DRM_QDA_REMOTE_INVOKE, \
- 					  struct drm_qda_invoke_args)
- 
-@@ -51,6 +54,10 @@ extern "C" {
- #define QDA_MAP_REQUEST_LEGACY    1  /* Legacy MMAP operation */
- #define QDA_MAP_REQUEST_ATTR      2  /* Handle-based MEM_MAP operation with attributes */
- 
-+/* Request type definitions for qda_mem_unmap */
-+#define QDA_MUNMAP_REQUEST_LEGACY    1  /* Legacy MUNMAP operation */
-+#define QDA_MUNMAP_REQUEST_ATTR      2  /* Handle-based MEM_UNMAP operation */
-+
- /**
-  * struct drm_qda_query - Device information query structure
-  * @dsp_name: Name of DSP (e.g., "adsp", "cdsp", "cdsp1", "gdsp0", "gdsp1")
-@@ -188,6 +195,33 @@ struct drm_qda_mem_map {
- 	__u64 vaddrout;
- };
- 
-+/**
-+ * struct drm_qda_mem_unmap - Memory unmapping request structure
-+ * @request: Request type (QDA_MUNMAP_REQUEST_LEGACY or QDA_MUNMAP_REQUEST_ATTR)
-+ * @fd: DMA-BUF file descriptor (used for ATTR request)
-+ * @vaddr: Virtual address (used for ATTR request)
-+ * @vaddrout: DSP virtual address (used for LEGACY request)
-+ * @size: Size of the memory region to unmap in bytes
-+ *
-+ * This structure is used to request unmapping of a previously mapped
-+ * memory region from the DSP's virtual address space.
-+ *
-+ * For QDA_MUNMAP_REQUEST_LEGACY (value 1):
-+ *   - Uses fields: vaddrout, size
-+ *   - Legacy MUNMAP operation for backward compatibility
-+ *
-+ * For QDA_MUNMAP_REQUEST_ATTR (value 2):
-+ *   - Uses fields: fd, vaddr, size
-+ *   - Handle-based MEM_UNMAP operation
-+ */
-+struct drm_qda_mem_unmap {
-+	__u32 request;
-+	__s32 fd;
-+	__u64 vaddr;
-+	__u64 vaddrout;
-+	__u64 size;
-+};
-+
- #if defined(__cplusplus)
- }
- #endif
-
--- 
-2.34.1
-
+> 
+> Signed-off-by: Jisheng Zhang <jszhang@kernel.org>
+> ---
+>  drivers/dma-buf/heaps/system_heap.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+> index 03c2b87cb111..6f8b7138ff56 100644
+> --- a/drivers/dma-buf/heaps/system_heap.c
+> +++ b/drivers/dma-buf/heaps/system_heap.c
+> @@ -409,7 +409,7 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
+>         struct dma_buf *dmabuf;
+>         struct sg_table *table;
+>         struct scatterlist *sg;
+> -       struct list_head pages;
+> +       LIST_HEAD(pages);
+>         struct page *page, *tmp_page;
+>         int i, ret = -ENOMEM;
+> 
+> @@ -423,7 +423,6 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
+>         buffer->len = len;
+>         buffer->cc_shared = cc_shared;
+> 
+> -       INIT_LIST_HEAD(&pages);
+>         i = 0;
+>         while (size_remaining > 0) {
+>                 /*
+> --
+> 2.53.0
+> 
 
 
