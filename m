@@ -1,83 +1,84 @@
-Return-Path: <linux-media+bounces-62158-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62159-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sPCqHZiADGpfigUAu9opvQ
-	(envelope-from <linux-media+bounces-62158-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 17:24:08 +0200
+	id AO0uEbaFDGoniwUAu9opvQ
+	(envelope-from <linux-media+bounces-62159-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 17:45:58 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 167F15815DA
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 17:24:08 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD0AA581AF5
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 17:45:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B532B30A97B4
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 15:14:49 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 239013227C1B
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 15:15:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF9E5400E17;
-	Tue, 19 May 2026 15:13:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A663407CC5;
+	Tue, 19 May 2026 15:13:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BajwrF+5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pf1+b31s"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F772400E05
-	for <linux-media@vger.kernel.org>; Tue, 19 May 2026 15:13:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F8A3F0766
+	for <linux-media@vger.kernel.org>; Tue, 19 May 2026 15:13:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779203617; cv=none; b=iU846GLtUpRgMw7dzsLqzzjhiY/wPlkQp1Oab82XsycZ/msaHvTEPOLz6F5VoEv0hjH7ligqJXCHgOti14nnMWYSqvX/nMaWxl8EUS1oXedfzE8Ncqr7QVt/HqN0G+QPEUOrUF/ApeDQlBsIToSGiPqzFnyJbTdXJe0vz+tqR1w=
+	t=1779203620; cv=none; b=X5SNMFsIc55sg+BN3dgCGnOwq6DTyvCr8NFpxXHbQjWi+OXL3Wkvyh57oi+yOocAphZWVia62N8sE3Zlhu0ShxrK8hTxUJi1RuzrAuc87vUo0n9XFFXCf+MSBPp0fAU/VPqP/UQGjiixLjd92rahH2ZIS9zOujsg0PAfjl8fu24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779203617; c=relaxed/simple;
-	bh=PyMDXHTHmiBal63+huyGbhXhACUB3uDUE0n5xE6s7NA=;
+	s=arc-20240116; t=1779203620; c=relaxed/simple;
+	bh=aYhaIzNwDkK+FVYZ56jaWtzX4RysdwPlvKRxwy6pzZ0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=IfNOy5sV/gz++7wFgj1Wn+Ud9g+9u5gEPJVuXgkGuhWDgj4iQ+BWN+Dp01+1j9LNKgliBlsf/sChzmnDxXrHzqqvwRcHR8NW1PJrn+lvUPwqSgcW3mE5UVrn0oPKxvH5WZBo51t94wD4az+z4JBdhfrUMcpjvTjwOs6E1d3cO8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BajwrF+5; arc=none smtp.client-ip=209.85.208.46
+	 In-Reply-To:To:Cc; b=tkk62txng2p7EA6mZYb9OwBgN8uabA07euq6ZtTNXITangthfQjZfpiNs8mFSawc0VEcygIiuHNU7r18m6oD1zhuZ8LYSH7Mv0yqdoYN1XHtgtXZRY2PM/1NA6W15itOX49PtN+l2TWF2RqlgFfSdJswz5DZ0iaSeZKSwuPIcM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pf1+b31s; arc=none smtp.client-ip=209.85.208.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-686af4e582aso3056509a12.0
-        for <linux-media@vger.kernel.org>; Tue, 19 May 2026 08:13:34 -0700 (PDT)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-676a89de629so6426003a12.1
+        for <linux-media@vger.kernel.org>; Tue, 19 May 2026 08:13:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779203613; x=1779808413; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779203617; x=1779808417; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Xq7nQ1Lsb3vRwbjHSOrZ5dNJgO6+7CKIuI6JGLvOcQk=;
-        b=BajwrF+52pOVnrXSdG8nYsG1nb2P/dv5aBLkWrSRM6UImHnLFqX+GyTcCHmOR2QsyF
-         aRFXdqk2aPoZs/EqSLpp0f2V8Oh3HrNE3HdmMlxeKepNpSYqgWCobNXrLF9OX7noFsbx
-         ZaHBnNr1BgN4Qs5KugIlzww61vtwdmZ9Uh1WiUX4OO2mCrGviMHY8BcjXDSUTUAnG2n3
-         LTEG3+burDB36W/R+Yu4XaxBD9EPyA+RnIomXygprHvshJxf2gjqaKqDitytL9sQ+bql
-         YMNg9TWj1L3TvVOEjnAy9ksNGuY/So2ocXWxb81GPrtA4O2DkiQkJ7Wa1D4xFe8rnPq7
-         CrmQ==
+        bh=yfYMJnZuLLMFjOVUeUnlk0ujttfbJS66AiqGq0iE0pc=;
+        b=pf1+b31sT7s0MlBVk/5TWXX0SFF4RL3QgP/g5YmRpOAiCU5ZhMon12oNTxN3Uv9GpG
+         3BYA8nO29XT+FWgM3uRNPF9AZWFuEJ0GOUaFE7l1GWoImqNoUUXaVr2zjktjQ1oVxXIH
+         jDGJqiYkjjM3td4PeIPh2wSVu9zvtOSIfjnbwNr+BHfmkhT4TF/XaNHclzI5gPn+SZdD
+         HlRE4Z1P5nV5f4tQ+JO3q4Miv9UROF/Uhqx2c2OMGam9E0o1fAXINHPgB2UMB2utQPWt
+         /GWYZKjLF/zbjCganFp1MELbp3FGkf7Im7t007WYeK4r9OBeF1EGLvGHVVRHHmURSJhh
+         bI4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779203613; x=1779808413;
+        d=1e100.net; s=20251104; t=1779203617; x=1779808417;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Xq7nQ1Lsb3vRwbjHSOrZ5dNJgO6+7CKIuI6JGLvOcQk=;
-        b=IPX2qW9BtkRAgTIFL4Shin+uIHaL9pVAdu/3LVJXuWr3L8oypIdJ5pyZYoF5v6Pa+E
-         jIz3b/cD7E67cRAbwQyVC3NTE9igHvDCJy2TgRuPklXY9U9KiCE6y304t5rhOU1CpKn8
-         Uz57tRjhPubzS7bfC8gm5oZcY1DCPVCvNYd6ugLqjKlGFEYGGqC3xAd8vGMicSvz4HHn
-         ulimet1K70OELx/VdTZBtHnorNx2TEaPpqTuLYqoc6HFpeHq0b7XaPkmSctSKo8mpWve
-         3m7ujjTdkeoLVX0Y/6dZ2mgCS4VGOoxazmqvx3BgLUaPBoX8eW3Vwx3ybu0dl+LuHUth
-         KaTA==
-X-Gm-Message-State: AOJu0YylUUfDJZFL9lkdWI9Z0ArJff+W+/lUfDZdFHkZwt1VFZooqWek
-	/o9UGZvkyJ6NErJ0x/qi9u7lHaZDKmwWkoALw7b2h2dkY46vWlia5L1Y
-X-Gm-Gg: Acq92OG+EgkunJb9ONSabimJFXrn8gvks5X9N7bly46NkNYUbFzHdyb4BcbmyOe96sM
-	YrFx1UuT/Gtcy9CpsK3MaQpP9bu1ocpPr0ylOaDlatkg7ALhYlS6aAJLo9fGqqRTMnuxemP8H0s
-	RoL9uy8KGvZbm4ypABuwnHLQ6Bt2QDHGTcn62q0xcDP21lDW2mjPbZefdOblLDwYe/4y5xAPlbm
-	Ueia297Oezl3aPN6qMM6UiJZFblwqlzAnRFh0YaZuMekNmX2N9ybxamf6p6r3jgSpSTay165kqb
-	HxSgc08ei5DPiBgSXIfIVXMfBi9kUCDn+Sr3CZM8zdTtBGDH4DEDO12vg3fgG7rllSeR5rwC/wV
-	WR4GfWSsD4Va1sFiC4ciGkNlTJpg1WEsePFoaigyapXVZ40kZ8+0BS30xR5493glAIeOf6sgkW8
-	u1h/Y0JDmDJ6gbp4YKHHLJwJ7L9g==
-X-Received: by 2002:a05:6402:40cf:b0:67d:bc41:334c with SMTP id 4fb4d7f45d1cf-683b40c5f7amr10086739a12.5.1779203613247;
-        Tue, 19 May 2026 08:13:33 -0700 (PDT)
+        bh=yfYMJnZuLLMFjOVUeUnlk0ujttfbJS66AiqGq0iE0pc=;
+        b=ZK1rbyrjndsMj0UOwjn1aePdr4HmPsC8XQyE+RBIVZOdGO2IrXgBPp8GDOFyrpRRaZ
+         NFtrOf36qWZQfrUoI8qWl0qAspbCiDfbVf/nBQVmMBStbOouoCZsgWWo9brs+c3W39jF
+         ObE12b5sa5FHV7vNHC7T/RLkQn0MU2kWaI27Z0gsMj2AqGul5ATAFpiePCDM3P8u63Pd
+         C/JliDlyKrWGm/AhpKX1NBreDPX3uAdxxx+x03jH1mmD2Rs5I93wi3jCmmV0dun5L93o
+         6XGeGq9ZWe80QwuawPQkx6WsFhC1hPnI8QTIuwE7QfSScn30yQ9DHMXfcmyDaRDoYFU5
+         zwvQ==
+X-Gm-Message-State: AOJu0YxlP38KpFSQdG1jaSLUUWusIuWP6Uq+iMjWeQ80E/TZGcirC18f
+	33955LjZgfdw4S90Vv3DuwQ6PdKGHkyRopooTCm8Vg+VJZ1x+7u+SFiO
+X-Gm-Gg: Acq92OHsqFtS+EQ50BM1KaRfZRUtbjyR/rw5ypnBZu3waGOjvdmYJtm1szDMHdT4d/p
+	Enb3lqTf8jZ2FW4SF18P/o8Ja2PCa0sqjgMgKbrFS98gFhGVXQ7nmTrLbS+Gk1bO/Cz5OUDxoTo
+	+LeaPMZgsPAub7MTbzF3nAvnwGFqmJhGVcAKYVMe2o7Ko5nDcemEEM+Rl/yYLOYAERXL79dACYG
+	3manTkXVxmQG9zhqsGLacKHWJFM9RBnrHMeoR1sbbr52NU3iS7rMofNhmfFEakPsrZ7wLDB8rpg
+	sJOO8usozya5dXPXbmem8RfjmlaasG4FGC723zOmVE7j8LPh+3KC1D2PkG0483ZUWavEwmE/lu1
+	aq3Uut9OY8i6T9mukC3Bi0Eqm6dvQ2JCBws5QYUS2F7qW4Y1imSoLhdPoXHMqLYBH+rMbxT3SYf
+	ktIm5s/rmSiVftIqEJf4TPan/PZhOeFDLGw86R
+X-Received: by 2002:a05:6402:13c2:b0:683:1cc8:84a8 with SMTP id 4fb4d7f45d1cf-683bd28ac44mr10467337a12.12.1779203617448;
+        Tue, 19 May 2026 08:13:37 -0700 (PDT)
 Received: from [192.168.0.39] ([79.133.247.80])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68310b52675sm6697700a12.8.2026.05.19.08.13.28
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68310b52675sm6697700a12.8.2026.05.19.08.13.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2026 08:13:31 -0700 (PDT)
+        Tue, 19 May 2026 08:13:36 -0700 (PDT)
 From: Erikas Bitovtas <xerikasxx@gmail.com>
-Date: Tue, 19 May 2026 18:10:49 +0300
-Subject: [PATCH v8 4/9] media: qcom: venus: add codec blacklist mechanism
+Date: Tue, 19 May 2026 18:10:50 +0300
+Subject: [PATCH v8 5/9] media: qcom: venus: migrate MSM8916 to new
+ blacklist mechanism
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,7 +87,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260519-msm8939-venus-rfc-v8-4-542ec7557ebc@gmail.com>
+Message-Id: <20260519-msm8939-venus-rfc-v8-5-542ec7557ebc@gmail.com>
 References: <20260519-msm8939-venus-rfc-v8-0-542ec7557ebc@gmail.com>
 In-Reply-To: <20260519-msm8939-venus-rfc-v8-0-542ec7557ebc@gmail.com>
 To: Bryan O'Donoghue <bod@kernel.org>, 
@@ -110,11 +111,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62158-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62159-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -131,55 +132,33 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 167F15815DA
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: BD0AA581AF5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add decode and encode blacklist properties to allow disabling different
-codecs per Venus device, instead of doing it per HFI version.
+Blacklist unsupported codecs for MSM8916 reported by firmware to prevent
+them from loading.
 
 Signed-off-by: Erikas Bitovtas <xerikasxx@gmail.com>
 ---
- drivers/media/platform/qcom/venus/core.h       |  2 ++
- drivers/media/platform/qcom/venus/hfi_parser.c | 10 +++++-----
- 2 files changed, 7 insertions(+), 5 deletions(-)
+ drivers/media/platform/qcom/venus/core.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index c1603eebd757..46705a666776 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -88,6 +88,8 @@ struct venus_resources {
- 	const char **opp_pmdomain;
- 	unsigned int opp_pmdomain_num;
- 	unsigned int vcodec_num;
-+	const u32 dec_codec_blacklist;
-+	const u32 enc_codec_blacklist;
- 	const char * const resets[VIDC_RESETS_NUM_MAX];
- 	unsigned int resets_num;
- 	enum hfi_version hfi_version;
-diff --git a/drivers/media/platform/qcom/venus/hfi_parser.c b/drivers/media/platform/qcom/venus/hfi_parser.c
-index 92765f9c8873..8e762cf77968 100644
---- a/drivers/media/platform/qcom/venus/hfi_parser.c
-+++ b/drivers/media/platform/qcom/venus/hfi_parser.c
-@@ -206,11 +206,11 @@ static int parse_codecs(struct venus_core *core, void *data)
- 	core->dec_codecs = codecs->dec_codecs;
- 	core->enc_codecs = codecs->enc_codecs;
- 
--	if (IS_V1(core)) {
--		core->dec_codecs &= ~HFI_VIDEO_CODEC_HEVC;
--		core->dec_codecs &= ~HFI_VIDEO_CODEC_SPARK;
--		core->enc_codecs &= ~HFI_VIDEO_CODEC_HEVC;
--	}
-+	if (core->res->dec_codec_blacklist)
-+		core->dec_codecs &= ~core->res->dec_codec_blacklist;
-+
-+	if (core->res->enc_codec_blacklist)
-+		core->enc_codecs &= ~core->res->enc_codec_blacklist;
- 
- 	return sizeof(*codecs);
- }
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index a87e8afb23df..3baa6bb4968f 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -684,6 +684,8 @@ static const struct venus_resources msm8916_res = {
+ 	.vmem_addr = 0,
+ 	.dma_mask = 0xddc00000 - 1,
+ 	.fwname = "qcom/venus-1.8/venus.mbn",
++	.dec_codec_blacklist = HFI_VIDEO_CODEC_HEVC | HFI_VIDEO_CODEC_SPARK,
++	.enc_codec_blacklist = HFI_VIDEO_CODEC_HEVC,
+ 	.dec_nodename = "video-decoder",
+ 	.enc_nodename = "video-encoder",
+ };
 
 -- 
 2.54.0
