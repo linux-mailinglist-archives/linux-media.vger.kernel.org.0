@@ -1,213 +1,251 @@
-Return-Path: <linux-media+bounces-62076-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62077-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IO0WLM/iC2qdQAUAu9opvQ
-	(envelope-from <linux-media+bounces-62076-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 06:10:55 +0200
+	id SIfiNLLjC2qdQAUAu9opvQ
+	(envelope-from <linux-media+bounces-62077-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 06:14:42 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C79577232
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 06:10:54 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5510A577278
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 06:14:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D406A304808D
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 04:08:50 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0213B3043C30
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2026 04:14:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C318B2FE05B;
-	Tue, 19 May 2026 04:08:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0D782FC037;
+	Tue, 19 May 2026 04:14:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ctLjxadB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ae/StVv7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D628C29B200
-	for <linux-media@vger.kernel.org>; Tue, 19 May 2026 04:08:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03FB1A9FA4
+	for <linux-media@vger.kernel.org>; Tue, 19 May 2026 04:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779163729; cv=pass; b=UIx8ADbg+TVx/zOHFM7gO9LFZg3+P6dAU4AWScJ4Syyt9p4q22OYlgnnqd5ey7xa5Zb+IOza1xRMO8/RKu8Zj5rQoiAL7LRmQ6886SgcCWTKkko6e98EOHcRc0FC55rgiQ7cfDfyPflhlKLl7xLC0rhJWyrtg3Uf1I3pT0Y8S3g=
+	t=1779164073; cv=pass; b=B7nCvw+eA8hPhZ9CXuQUpu1dBvSyZ53YMFAcGc+QMK8x53ZfM9RdTKxC9uswuwYU16rDGK7CpQDlv9p+EjZkdV05d8ieOhl4btzxNpnstR5OrKiV8u9E492BnEq+3nCiSIx5ZltzdKLNhISPx1qNgqMNGsyY8+uRWWzwmFWRE68=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779163729; c=relaxed/simple;
-	bh=t2cMNU2aA1KxvxZx7gAR15pb3MDXwlSILsNYkZLsYZw=;
+	s=arc-20240116; t=1779164073; c=relaxed/simple;
+	bh=ZN75BNxVhUMX1Jg1VcWsYYID9KMPww5Z2eyKKPXfyeQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=scTVolPazz35cMTMUS5cCWjndi83HGCcOulUijNQkeDHUt7HeOVSC7wPlfcMhUjN+v/7Qeg0yRDTj70OLQFOugtRZyLH9MuOQaWBc5XyjYNrFvtyTBkMBvQ5QOVW62Z4c3tleOG+6myb6tjwsbDFcvTzoRScZ5bDPcKLYdB1h5k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ctLjxadB; arc=pass smtp.client-ip=74.125.224.41
+	 To:Cc:Content-Type; b=cHXyR7kBvv3aw0b0UwPZ5G2tJ/LowPVkgQdXj70gltEyssy/34Ws4aJXbUNVGvK5H9DoxoQXdwRxHQUmmFpOdJlBICqRlrcKFMdiQNIQFRh3Lqn2FYjnjJrNmYCQTnmF1LZnWMcrzyFs1hLE2vDTTcpkwKobLFeOVNdGzzSAm1o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ae/StVv7; arc=pass smtp.client-ip=74.125.224.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-65c396d3b36so3149564d50.0
-        for <linux-media@vger.kernel.org>; Mon, 18 May 2026 21:08:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779163726; cv=none;
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-65c09c1d000so3885266d50.1
+        for <linux-media@vger.kernel.org>; Mon, 18 May 2026 21:14:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779164071; cv=none;
         d=google.com; s=arc-20240605;
-        b=SV+M/aL+qDOUe83H+7QvBVNaWbx5tKDeaIP/k2AxR6YH1KZESdyQywobjmOHGuMjiS
-         mWXrBrBXLqpg+xh1vbZENlNgX1b7ipR/Dgdd5bJM4p+/MZ0utsfpyWm/uAZi+9oBxb6c
-         yhTVUi+ri0NX+9RnJXiQunzK8RLeNhQEiv2yPXF0nsa0i6VNaR/4ld+GU80PHKGsdANv
-         TtwtMFtaYyMIs5kcpUTwA4tgbsPYmuVjGqnykpgEL3xhm9ULxgAYdOFnOXRWCFdxcciZ
-         3y1TFCDAsQx12OQoeQ+BAgetcGbYr2M5QxQJjbndnde5xFN7YVrYQ+Bfv3NJ72IcIUUP
-         zWvg==
+        b=WtRpq/jeZbLFvCqWI8jtNRwGKLZENL8KlOaulIzUb4pZy3qd32bOxqqp4yCv3ElXud
+         uV43TKHDc2uxey4dFxLoubQOq/dwKwbC/5ZfelSOlJQmSpIpz4NJ9PZsBkpXAd8l3V+c
+         RA0sadl8PCnY8AheQ2yRGFp/8leURR3G0+rJfaE009DeYDeG1r/RfDkwSMh9UOty5nbE
+         ZFfepKZqxuQIrKDptEfaAcf3cgbZRbSapprBylFzRPIOTMCc9Xgiu7MSL7M8DJbNK5cM
+         +dUE4R3bQropQOfT0ekIfjUyOQ20RrPNjPw6Wk6K7PvisNM6zOm78dD2B/z0JiYTnhFF
+         EtHg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=7kA2hMel3rxxxc6CCqPFQDCtKlIGXB83OzM5cTPXrbQ=;
-        fh=DfdCgovGU3mHub9iX+cacMBU/c83iQPDRWcou902k40=;
-        b=iIZ3gSljkrH7b2UrZcg3Pec7FT97/ouX9MzuikvIemISLXUQoMIvhDyjRsBHt8DUrS
-         MvJ/R6ns3W4HiGCTtwG4GsTQyz0pbzpjIEjMu7z12eUicHEBt/gwTIfhmiTVBfIxhnLM
-         YMoxkWsyjNmpPCtIqp2pygc6ty1kXoHUzWPWczv2px0RcVu/scedBCk8T/Y58Gm0d9fq
-         4Qd2zOmbjKFARoOQLvnBzhgu2TkkgWn7Xj40HYywM4vrf82StvorJyDnTlyXj07nkDpl
-         enjhZI54vkqEV+2jJJKChrcIfgfOORk9KBZvchwyGBsmpT1Sd53vak0goy1TQy0MUr0E
-         jlNg==;
+        bh=I3Cc6m38oPvcGuBp5AJqGBI+Tkcix4npCtWvX6h14ng=;
+        fh=RerJJCB8soiXZ4ugnL89JPoaYXjNQQnQyW+eZuMYwpU=;
+        b=b6uTrWtDoCGRH6DMXM4L07sFh57AspPLhY1FURolsKRNSGgzvGn9SHONSH+120TuSb
+         6dKas+62UQM7s0HOkjd04TMNgh1W3b9Tvv9cD8ZSDoU0zIOwnP/plwz9jBQCckDwpTLh
+         XJBJvzh1LARb4HIdrA+QVjJoTspxZBAMhx4oH16f+yfzK9GxUD8aRFSBdN81IgJINR0j
+         vT8yGw6nLD3CwFOhvhJMjt2CuwxmYvbJNTuG0kYa1TiKo0Mb9Ir25fax2gPxUKGPkqET
+         v9y2Yp3jFSeWyT92xy4BzGvgyW/tgiIDsLHPIEMN42EdH805wnCBiTz7iLpsczV9Xyj4
+         pyag==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779163726; x=1779768526; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779164071; x=1779768871; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7kA2hMel3rxxxc6CCqPFQDCtKlIGXB83OzM5cTPXrbQ=;
-        b=ctLjxadBju125+KfH1+ocvwxvruILyh9VtI3nsbuDRjgBQpn+LB63NRdTyhapIFsBL
-         hAslfpwPwY3Yzg3Swn2bOTpcif2fjuVWoNMXdAqr5133PB6mVcXvXZIFJDUTjTLljHuP
-         gKvlzgeCjWmCiIrzjvqwz1BZZZbxp4ghhseG5UAy6I4jTTpdUEjNaQz8sjgbQ3tFY6XU
-         k4B2jDCf5p8+XIuy6kmLqvF0EPWUGVZfqD5+UmBtP4Wwwe41pFV7kyEiX1sxZfUQdhwQ
-         2eiNhX/DuCRG4uBfXF2/4dr8TH2rv/Xh//ZFsB9JRf/WhpnjQHJcevR84B6mwBjw1t2W
-         R9XQ==
+        bh=I3Cc6m38oPvcGuBp5AJqGBI+Tkcix4npCtWvX6h14ng=;
+        b=Ae/StVv79lL4dTMjrsUzJ59sSeCOagOSCo4hLFo9TCn0vtykqPMt8NkNU9eYZ0nMkV
+         bMoh7ttPM8h28DNLleHUGox+F4izNC+hwqv2msXegmksKVtcrF4SU1nAl9aQwby6h5yG
+         W+ycg/dx1D1dYiGv+i+jVAijvDuVCCtUHJJ0fkng8883kRmn8eXLzwDSTSx2w1Iyq2Ln
+         wSVlWWdgZ3cBrccEVRW+ve0BAPzzgMR0ECf9B2CPujNNp26iyTRHWYcOgah9e04VAn++
+         u993AqBtLwLDOkw9YDwKUUTBB0mQyhobzVmNqxFWgHUHp9FP6yFuUouC4jNp6zEGYF9V
+         krXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779163726; x=1779768526;
+        d=1e100.net; s=20251104; t=1779164071; x=1779768871;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7kA2hMel3rxxxc6CCqPFQDCtKlIGXB83OzM5cTPXrbQ=;
-        b=bZYWyiADehsikp71sV5k0Rj4+RC2ITLHlIXB529MoMaa1csjDOjn7ZDeUaqE+9pUq5
-         OIA3Zu4fIIkM896mJiy406qjSUUR4eL42Hpsm8KstUmYofJwSdvHU4Y2CCvuHyEOiC2E
-         Fhka+vcxs9LDXilN0aiSos23PnlTTJxFIprS+aXc0uMsprJQPTWn3cSO3M/fZZ8ItyQ/
-         +JBq7dxIdw5uSlcbINMsl8njA+lyJW3asgIx+LNcsVPnmeTmuD4guNDtG9NbX3W/WgBc
-         HD45sbCFvs/Y/vgbXOlTpCcslTuR4AlzAj/VmJ5GGK+sOD6qJIqzLpUQWR8NYozAkz59
-         nr2g==
-X-Forwarded-Encrypted: i=1; AFNElJ/y/L9lwo2Hptb1CPTESUMS4xN2yyAjS36kJvnrSoKpbmarayMDXk9wXog0Eq1urtFtebAs1+8LvB0PVQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9h9yqTCP5ARIeGhV9ze7qTHeyo1tGs3kouCzqDSCJksCuZ35M
-	JrSagz7io2bnWWFYMmaErwFlDG8NrAiNiWr3lCNkj23mWLFH+DVYvOfk5iQBCqfE351Qggz5m5p
-	6PckGDlwZHXPJhNrvvKbqDppM1toO56M=
-X-Gm-Gg: Acq92OFR+Gu7eXnW/X2yhTTweq1MAOLChY7vgEltX8dTjVLqDYg7ckvYlJX/GQXLvBC
-	ngQxVxLKgAr6vQ2cgHZFoGwT2CDrSd922sDVOzWBCFh4dWA09df74ouEcCxkuokc76bZhM5S/xi
-	ew8xGo9Wsmby8PL+6tWwSMjcJbVeOm4+SX0cmLfXwKL/rWQ5I+37JtgrmwXEtDReAubh4x3Z7w6
-	lQ7wNtFaqRPuroAFnT+cYMpNx3gVhczgrag3pVz3Tb7PogyUy0zb+gkM7X6aBKHmnpAI51ZMCRW
-	MGwIq6j5
-X-Received: by 2002:a05:690e:4192:b0:651:c642:92a6 with SMTP id
- 956f58d0204a3-65e2276af55mr14893597d50.21.1779163726061; Mon, 18 May 2026
- 21:08:46 -0700 (PDT)
+        bh=I3Cc6m38oPvcGuBp5AJqGBI+Tkcix4npCtWvX6h14ng=;
+        b=o9ABapFg2HlGYJ7gwq2w/ffMrXrSIoAZLhCqq5AhLlXG+34lRm/699uG4aN74OC9sA
+         ElokNFfaqKWearEA1gJcTOSCPYORd54mzX++98M9/C7OdCSJepxeJ4bJiFw8OvmKdR1Q
+         lSzXPHuiR6dCIALS2FAaZU5Xt/F7JwqGzPlwhp3XHT3W4nuBqEOxZ739QHjaQm6JmkDE
+         Da83/uVMjHOVX1QOt77v7W0oWE1cBEI3UF/yLga2oXKh+3/NGF0VxqhDkHKaoBwhHMh1
+         llc3w30/c/x04VmfbVMm1r9yzBvV0kx/3BRiSgp4++zVVCPVmFYDdVhnbN7n+hAxl5co
+         lJOw==
+X-Forwarded-Encrypted: i=1; AFNElJ9qzEt2AkVArcGJ2q9k3oD8041gx2JkoIuWbAUk/jfSUNTwA/OBZMXvkF6SDKKNsD1Aj5YlVB96DMr4Vw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBh9cNLdGoSxFq7CTEjQVhoQ6ALqHXzbrV3ERTANFU51tGe7YR
+	F0P3mkNQhM+e+RZHQcyoMZyGhey1/56mJJQIxYOsVFH9HrGvnFALB0XwinEL91UJ7UxsbJg0UrD
+	Ih2eC/RCSPnpXTn+VHhZZ1hbqI+vHC1OtoS2OgZXC9w==
+X-Gm-Gg: Acq92OGxGx1B+xRoyfLkkDPwLIntQjB53cbYl39Or5xvpb+J8B6bNB/jvMiAJL74dWn
+	DfAskQRW8jd4PyPt3l0TH9TzzieE9iXIbGI7ztEuW7/ip7Hvi+bspzJbsw/NvuGx3BFSQAgx1oy
+	uHvx0p6k30H+IDUkRZOeHNULNN1annEqo7Pin55dp42FQqBXGEhG89Ap7I3FhITqmmPM3m2LsPv
+	uB277Y0CHuywukFTb502lWDNkGRAkRftxnCeiOCi3IQme+FP/0WW8oZyhZK9qi6B/KLMFiLjwd0
+	R70TGDX6
+X-Received: by 2002:a05:690e:438d:b0:65e:782e:9df3 with SMTP id
+ 956f58d0204a3-65e782ea2bcmr1341256d50.7.1779164070708; Mon, 18 May 2026
+ 21:14:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260518105755.988961-1-lgs201920130244@gmail.com> <voc7mqvhim4gfaar4n6v3b3xkttzij7uaqs7lh7jriatyonoi4@tle3syly3hbi>
-In-Reply-To: <voc7mqvhim4gfaar4n6v3b3xkttzij7uaqs7lh7jriatyonoi4@tle3syly3hbi>
+References: <20260518125500.1000083-1-lgs201920130244@gmail.com> <202605190845.KlMSPp80-lkp@intel.com>
+In-Reply-To: <202605190845.KlMSPp80-lkp@intel.com>
 From: Guangshuo Li <lgs201920130244@gmail.com>
-Date: Tue, 19 May 2026 12:08:33 +0800
-X-Gm-Features: AVHnY4Kmevscl33_As9WRlCBA6NKiL2y-AhAuAVokGZCmpYURKETKpE7xfV4szc
-Message-ID: <CANUHTR_VrfH44KB6Nng+yeGqLgBst+Xz0AsPp0J0Pap_rOF-OQ@mail.gmail.com>
-Subject: Re: [PATCH] media: qcom: iris: avoid double free on video register failure
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>, 
-	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
-	"Bryan O'Donoghue" <bod@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
-	Stefan Schmidt <stefan.schmidt@linaro.org>, linux-media@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Tue, 19 May 2026 12:14:18 +0800
+X-Gm-Features: AVHnY4Km_xmIfqiLJD15ZaDQr9lLAh1Ogha024FXgf4YUM6n3JdHCvcB7t1E46k
+Message-ID: <CANUHTR-J7VY4Jx7WVqEpC+Xg2cR_Rnb=gaA_xecyNO9dmFcyew@mail.gmail.com>
+Subject: Re: [PATCH] media: mediatek: mdp: avoid double free on video register failure
+To: kernel test robot <lkp@intel.com>
+Cc: Minghsiu Tsai <minghsiu.tsai@mediatek.com>, Houlong Wei <houlong.wei@mediatek.com>, 
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Hans Verkuil <hverkuil@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-62077-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62076-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_FROM(0.00)[gmail.com];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[lgs201920130244@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FREEMAIL_CC(0.00)[mediatek.com,kernel.org,gmail.com,collabora.com,vger.kernel.org,lists.infradead.org,lists.linux.dev];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 28C79577232
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[01.org:url,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,mail.gmail.com:mid,intel.com:email]
+X-Rspamd-Queue-Id: 5510A577278
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Dmitry,
+Thanks for the report.
 
-Thanks for reviewing.
-
-On Tue, 19 May 2026 at 01:12, Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> wrote:
+On Tue, 19 May 2026 at 10:13, kernel test robot <lkp@intel.com> wrote:
 >
-> On Mon, May 18, 2026 at 06:57:55PM +0800, Guangshuo Li wrote:
-> > iris_register_video_device() allocates a video_device with
-> > video_device_alloc() and releases it from the err_vdev_release error path
-> > if video_register_device() fails.
-> >
-> > This can double free the video_device when __video_register_device()
-> > reaches device_register() and that call fails:
-> >
-> >   video_register_device()
-> >     -> __video_register_device()
-> >        -> device_register() fails
-> >           -> put_device(&vdev->dev)
-> >              -> v4l2_device_release()
-> >                 -> vdev->release(vdev)
-> >                    -> video_device_release(vdev)
-> >
-> >   iris_register_video_device()
-> >     -> err_vdev_release
-> >        -> video_device_release(vdev)
-> >
-> > Use video_device_release_empty() while registering the device so that
-> > registration failure paths do not free vdev through vdev->release().
-> > iris_register_video_device() then releases vdev exactly once from
-> > err_vdev_release. Restore video_device_release() after successful
-> > registration so the registered device keeps its normal lifetime handling.
+> Hi Guangshuo,
 >
-> This is definitely not the correct way to handle the issue. Fix the
-> error path instead.
+> kernel test robot noticed the following build errors:
 >
+> [auto build test ERROR on linuxtv-media-pending/master]
+> [also build test ERROR on media-tree/master linus/master v7.1-rc4 next-20260518]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Guangshuo-Li/media-mediatek-mdp-avoid-double-free-on-video-register-failure/20260518-211648
+> base:   https://git.linuxtv.org/media-ci/media-pending.git master
+> patch link:    https://lore.kernel.org/r/20260518125500.1000083-1-lgs201920130244%40gmail.com
+> patch subject: [PATCH] media: mediatek: mdp: avoid double free on video register failure
+> config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20260519/202605190845.KlMSPp80-lkp@intel.com/config)
+> compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260519/202605190845.KlMSPp80-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202605190845.KlMSPp80-lkp@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c:1217:33: error: expected ';' after expression
+>     1217 |         video_device_release(mdp->vdev)
+>          |                                        ^
+>          |                                        ;
+>    1 error generated.
+>
+>
+> vim +1217 drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c
+>
+>   1172
+>   1173  int mtk_mdp_register_m2m_device(struct mtk_mdp_dev *mdp)
+>   1174  {
+>   1175          struct device *dev = &mdp->pdev->dev;
+>   1176          int ret;
+>   1177
+>   1178          mdp->variant = &mtk_mdp_default_variant;
+>   1179          mdp->vdev = video_device_alloc();
+>   1180          if (!mdp->vdev) {
+>   1181                  dev_err(dev, "failed to allocate video device\n");
+>   1182                  ret = -ENOMEM;
+>   1183                  goto err_video_alloc;
+>   1184          }
+>   1185          mdp->vdev->device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING;
+>   1186          mdp->vdev->fops = &mtk_mdp_m2m_fops;
+>   1187          mdp->vdev->ioctl_ops = &mtk_mdp_m2m_ioctl_ops;
+>   1188          mdp->vdev->release = video_device_release_empty;
+>   1189          mdp->vdev->lock = &mdp->lock;
+>   1190          mdp->vdev->vfl_dir = VFL_DIR_M2M;
+>   1191          mdp->vdev->v4l2_dev = &mdp->v4l2_dev;
+>   1192          snprintf(mdp->vdev->name, sizeof(mdp->vdev->name), "%s:m2m",
+>   1193                   MTK_MDP_MODULE_NAME);
+>   1194          video_set_drvdata(mdp->vdev, mdp);
+>   1195
+>   1196          mdp->m2m_dev = v4l2_m2m_init(&mtk_mdp_m2m_ops);
+>   1197          if (IS_ERR(mdp->m2m_dev)) {
+>   1198                  dev_err(dev, "failed to initialize v4l2-m2m device\n");
+>   1199                  ret = PTR_ERR(mdp->m2m_dev);
+>   1200                  goto err_m2m_init;
+>   1201          }
+>   1202
+>   1203          ret = video_register_device(mdp->vdev, VFL_TYPE_VIDEO, 2);
+>   1204          if (ret) {
+>   1205                  dev_err(dev, "failed to register video device\n");
+>   1206                  goto err_vdev_register;
+>   1207          }
+>   1208          mdp->vdev->release = video_device_release;
+>   1209
+>   1210          v4l2_info(&mdp->v4l2_dev, "driver registered as /dev/video%d",
+>   1211                    mdp->vdev->num);
+>   1212          return 0;
+>   1213
+>   1214  err_vdev_register:
+>   1215          v4l2_m2m_release(mdp->m2m_dev);
+>   1216  err_m2m_init:
+> > 1217          video_device_release(mdp->vdev)
+>   1218          mdp->vdev = NULL;
+>   1219  err_video_alloc:
+>   1220
+>   1221          return ret;
+>   1222  }
+>   1223
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-I had also considered fixing this by changing the error path, but I am
-a bit concerned about the interaction with the device_register()
-failure path in __video_register_device().
+This build failure was caused by my oversight. I missed the semicolon after
+video_device_release(mdp->vdev).
 
-Commit 2a934fdb01db ("media: v4l2-dev: fix error handling in
-__video_register_device()") added put_device() after device_register()
-fails, because after calling device_register(), the device must be
-released with put_device() even if device_register() returns an error.
-Otherwise the reference initialized by the driver core is not dropped,
-which can cause a memory leak.
+I will send a v2 to fix this issue.
 
-On the other hand, if I simply remove video_device_release() from the
-video_register_device() failure path in iris_register_video_device(),
-then earlier failures in __video_register_device() would leak the
-video_device. Those earlier failures happen before device_register()
-is called, so put_device() is not used and vdev->release() is not
-invoked. In that case, the video_device allocated by
-video_device_alloc() is still owned by the caller and still needs to
-be released by video_device_release().
-
-So there seem to be two different failure cases:
-
-before device_register(): caller still needs video_device_release()
-
-device_register() failure: __video_register_device() calls
-put_device(), which may already invoke vdev->release()
-
-Would you please share any suggestions on how to fix this issue properly?
-
-Best regards,
-Guangshuo
+Sorry for the noise.
 
