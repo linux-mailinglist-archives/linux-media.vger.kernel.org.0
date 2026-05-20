@@ -1,374 +1,237 @@
-Return-Path: <linux-media+bounces-62243-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62244-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cALcEFGbDWoS0AUAu9opvQ
-	(envelope-from <linux-media+bounces-62243-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 13:30:25 +0200
+	id aEgPJ++cDWoS0AUAu9opvQ
+	(envelope-from <linux-media+bounces-62244-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 13:37:19 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB8B58C78E
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 13:30:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0244658CAF8
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 13:37:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B417F319B0E2
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 11:24:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4CEC4325ABF2
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 11:30:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A9823ED121;
-	Wed, 20 May 2026 11:20:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9C263DDDAE;
+	Wed, 20 May 2026 11:21:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DqWkldPq"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Sbwc6DT8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013020.outbound.protection.outlook.com [40.93.201.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B62439D6E2;
-	Wed, 20 May 2026 11:20:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779276028; cv=none; b=XyN9OynOtjo6DIyWmVPmFnFnRIHX5AJt8CX4pLEYZASsKQjJDeZh+DIDKi7NXtWioeJngwhDE0thzrFKABeB6gwVbx8AVi3HD2c73UYXyYyNAf3ZCCD3Jg2WM7ImmV/Ibb/b5tgxYKBy3LdFEydwpM8HR5SERBknp0jinfZVKVE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779276028; c=relaxed/simple;
-	bh=LRN2672r35IyVec++JGBaiETnqJv8Sk5nTuKiSNxa8A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sjLne0DAi5kl+hOA4Va5GNYlp15QgzzL+m3pe+Ykmwc2ruJg/J0GoaUm54eN+wge1FRex/ghKmNHrBE+SMdjFCP1cXFhxwmrtBAGsH7ws8x0ak7Bu7OJTRf+8gsGh4ft0J/IguOR0vbsJtxtbKCqZZJpC8bmY2HFRI8Tr6sBBfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DqWkldPq; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D6EE1F00897;
-	Wed, 20 May 2026 11:20:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779276026;
-	bh=Awnos86qn1nOZLrjiQeDKSX5qCUuZjhkaj+6eONAsSQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=DqWkldPqCO9shgs18fFncUaZJppA0Hy5/IivQGaN+7SsYDBo5wxCa1hiyX6Eo7CxM
-	 HmaIOco1eTf6/cOq9kbtZrntWqCAYcN+TA8rBLCDQ3cnKFnWEZUYBXJb2OK6ZAmxCW
-	 WaPG/a31nc2CYWzgsTq0fNzna+Q6y/D8VwEvOK1rMZz/GoZmccFBaVB5foSdRBWZSE
-	 vTfbHRf14Cpe/OOc0ZySNe6KHMXMThqlTPFtcXVfzPupChiSRASusS4ydX7pGRzkM4
-	 t2wu6GRtpwiGwTxNCFnyd+RacghFG9yOJy/XPn+U7ea2gjZpQTO9gMioPUXdgPtOOT
-	 uHAMTFhCD4GNw==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bryan O'Donoghue <bod@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Sasha Levin <sashal@kernel.org>,
-	rfoss@kernel.org,
-	todor.too@gmail.com,
-	mchehab@kernel.org,
-	linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 7.0-6.12] media: qcom: camss: avoid format string warning
-Date: Wed, 20 May 2026 07:19:01 -0400
-Message-ID: <20260520111944.3424570-29-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260520111944.3424570-1-sashal@kernel.org>
-References: <20260520111944.3424570-1-sashal@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4FF73D47DE;
+	Wed, 20 May 2026 11:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779276098; cv=fail; b=tXTiozKi11NFomia+IxWd001dMzgdAgnLc3TUSd8iyFu+s9wsrRajaqtbcSXM7weZMaE6QGY1/b0kY2ZRC0xwGRhVQoACXJtjkf4ybmtd3cxqsiUEQs9WzMLzdMu36B4VG5K1XXUWFWTezqL99JosiQGXzosDU/moT1fmivQWsA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779276098; c=relaxed/simple;
+	bh=LB2aCjuyJ6bmu7098Tgt07LtmJFI/YppGYhw61urrvI=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=l3OCw2Ed5OVSjIQ9mAzVE3/vzQKYiS4eoclYR429AVZUo+ME2zyNOeptDvnd65lYCkA4kKFcx7QtFvw0byHNCm2phrKKa1gSAyWqvrYFmzbq0XzdMZfX6KsOTt5A2DCrD7YbLqabJybQZv77Y6FYd84OO6y7DNXd+F7LMeryeMI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Sbwc6DT8; arc=fail smtp.client-ip=40.93.201.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GAECtCPEfMJ0Xh8bjb/i883oJUbcI+RnDO83wbgy49VJ/xuMA1/o31CPzlRD1jiV12ZQeBxBIC1JgW/155svdZx5fjagrnVDDgWFsI5imTzutNjOtI2ZPcX6mpaCy2jifxTp/uhtUwZ/sPX4ViByHd7TZrBaQ27SlakpYsqF3CDvsnjDM0A7yQckakyvD8GhJ5+WIEnexQY4daivTge+qVXpn3oQixSUXxadO3Tl95IAeOTJMJ8BktX4h93MeZ3yptDuYLoWZ+RyzBqTBinFbjTeXNLb4T70FlDFBLcogGQiyfGD9cEmeXy0FU3a4roTnNtQE9ME/R/kpqlgV61Ptg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bMkdtj4/VjJmQfSS8pJtUJDtx2BMYRJ3Q2W42DaSjrQ=;
+ b=Sgk1SEYqxO03S7ASdpeODXuXMY7Z9cUaD3ec/X3YoEe0m2sPg2WOyW+WRb6LAPRWvUauXcnReQ+0kPAKZSx4MLruALwa/saCX0+DQgJEP+s6kc6x2XHCNgf21EFSapdnK6hSINgr3Fh7DK3lPrNDYXiR2ngRzcUbtqliE15bZD8lPHV+uWAGRvU6NxHpYxCmUCkwwYMxun5cWaulGGMpa4/llLvfkJftY/nwHbdMj8f0rWV6qtQI2/TiVSYrzuFuc/fc8dn3zF0dFdGNJvY1GAeHxWEhuilzGP6Cjf0EThNYZcbR9HknUygHniIiBddDUEOUgQh+K1SQHEHxPs4BuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bMkdtj4/VjJmQfSS8pJtUJDtx2BMYRJ3Q2W42DaSjrQ=;
+ b=Sbwc6DT8Brvq2BYgj2TZo4GuVbC9N7wFtywYNl9pSnDG6oYODElZKShMCSpWnSW8S/g3po7IRx5PTqh1SnUF4Pfwo55cosmq3df+YRspw9Qn+CZxHUi2jxmf5Twx6noLCLNYdS/p+2o1NEuA6NSA+77cko2qgGOEQu4fTJsLTvk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DM4PR12MB6493.namprd12.prod.outlook.com (2603:10b6:8:b6::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Wed, 20 May
+ 2026 11:21:33 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0025.022; Wed, 20 May 2026
+ 11:21:33 +0000
+Message-ID: <1e94106a-f72e-447e-9885-2d2cc8f8e722@amd.com>
+Date: Wed, 20 May 2026 13:21:26 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/12] misc/syncobj: add /dev/syncobj device
+To: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>,
+ Xaver Hugl <xaver.hugl@kde.org>
+Cc: Julian Orth <ju.orth@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-doc@vger.kernel.org, wayland-devel@lists.freedesktop.org
+References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
+ <c6c91de9-a34b-4b50-a3c1-d42bf7631f8e@amd.com>
+ <CAHijbEUzWZC4GAMU6YGV42gOYkrQaMZZPiwS4Erb4H1J-fh_8Q@mail.gmail.com>
+ <69dcbcc1-da58-4d34-bfb0-5c8d33b75d59@amd.com>
+ <CAHijbEWqc2+kSkk3i_LxB2PQ6XwUetw1UkdUdXJfdv3zgKd1kA@mail.gmail.com>
+ <38551bfe-75e1-4978-b57d-adc43cebc85e@amd.com>
+ <CAHijbEWHp960qvZFoK7+9ppHAqkAR7=UQhtMUccqWzGd_pFPQA@mail.gmail.com>
+ <5ee6d5af-ac48-41d7-a19f-e08a3c5b7d19@amd.com>
+ <CAFZQkGwmeipZnvmBkcE7KhvUSMkSE=fzLBZtiMyhv3mM04Vudg@mail.gmail.com>
+ <dff60378-4e47-4753-8878-feec6e1c2690@amd.com>
+ <385a4d4f-fe22-41a7-8d4b-4dc6bc9930d3@mailbox.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <385a4d4f-fe22-41a7-8d4b-4dc6bc9930d3@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BL1PR13CA0081.namprd13.prod.outlook.com
+ (2603:10b6:208:2b8::26) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 7.0.9
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB6493:EE_
+X-MS-Office365-Filtering-Correlation-Id: d440df65-d31e-4e0b-0dd3-08deb661f296
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|4143699003|22082099003|18002099003|56012099003|3023799007|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	ze466dad6Kfj9aK4hCsQjF2BIYDSqOtT7KzTRCYSJ6YtayLNJ2oHVjkljesBAKbGmhc2wcHBPO3QXbhrx3oEHgoddE8fhdhta6XpP4pKdan7YQUVAXPFvm4kzVkW0LClY7sKVcxN5sBAbaYdMdGxrruVi/ayTd1Jg2tHCrgECxtY/iVzVI1h7PDiTBz+rn0CMEqAFh8Zclrgg46aFWbYgQzIllBjgZh162ikncWEpskluykEyu6whLp/RaFY6YS61jMyrFBUN4ZufuPKg0hN6iT9nAzziharP14n62K5QE8HIsxYociOgoscKIX/Su5Wb83J0P5qCUmag4VMD5WpyrUI32Sw2bjJZR6mBjdkomPb6Z6nLT4Xu/iIpzS7YVkr/BrOqthj04A0nn8334CRljhzstFehEPn8c1j8dyCzaTzZ6Rg23mZmDaSWJAiq62FYeoIHGHn8/7sr/erQSpGQGb+kLZRQrTnPjEJaqCMWV0KsfBOHf6YhIuSOnzzhGY1dJGBzxhiuIL0MrCFvRptFb4g/Z/YQFdfV3eIlA5O+FUMPw58hpUqUok3rnHh4jiVCHHUNmgr4JwytbZoUusLE01jyCKN9xOIz6VUvIQPaJPhMECXrjMzStJ5P9i106RtH2hpss4bLxmdxuigftD6ouBxqiqwSDOu4osqu+Kz3y7Pn8LRaoW4wiV+Zuzbq60U
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(4143699003)(22082099003)(18002099003)(56012099003)(3023799007)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?b2tDOFBTZDJaV3ptbXIxT2JiS3BSM0s0QnFPRlg0a1JpQVJGbFo4YWNhUTRS?=
+ =?utf-8?B?SDI0bUJaZmZZb0FWcnB4b3hXaDkwTWpka3NMVW1jNzhXVDdBY01HWEtPa3Zs?=
+ =?utf-8?B?Zkh4aHpKMXZvUzRna1AxMW1xOThRVjJidUdvOGdwODNuZnVyODkya2dMR2pX?=
+ =?utf-8?B?b0JucWllbm9GbGFyT2RGT0lPNUZQV0dTUHI0d1JCT2FMV2x4OE5Raks4TlUv?=
+ =?utf-8?B?NkJlWUZ0bnZnSVF5RGdZd2g2MnlNTFhoWnZhSlRLTjN3VVRQKzBrL3ZOTUU5?=
+ =?utf-8?B?OFgwRjFkcVdzaWpiTGFDY1lVQ0ExMWlsVmxJYitab3VEYzk5TlBlM0tlRCtU?=
+ =?utf-8?B?T24rcXlEcllaU0lKY1ptSncxVjFiZ1hQVWZTNjh6dFZNN1VsOFphTmxPcFpD?=
+ =?utf-8?B?VGJKOXFFZkZiU25aT0VFZGRGZUNlSVZpeUpSLzljY3l3eG8xSElIbTIxN0FG?=
+ =?utf-8?B?TWJRNmxiMkV5REJ2QnJmNmxpMzFWa3ZDai9mVHRWbjd3NmpvemMxR1dsSnp3?=
+ =?utf-8?B?NURNK0R2UUdmclVFTHIybU40aTFDZ21RTTJGakhicGhHOEgxc0pZZnZXZ0lY?=
+ =?utf-8?B?UDJSRGFLblBpYzEvLzdIZUVzTUFLWEJTazdPMm90NE9jaHFjakMxd1M2dHJh?=
+ =?utf-8?B?OGpCUTMyKzQxQnYvODAxRzZjWURKNEpHNGNkRk9kQ2pPZ0svL0E0bTBEZ0gw?=
+ =?utf-8?B?ZVhEQWFGNjRuZG9RNWNJc3RNeGtXdCtNaUxORW9XNy9ZcFJYRGpIenVDZXV2?=
+ =?utf-8?B?dXVKMWl6NW55M285SGJUYnNXL2ttV0kwYWs4cGRtUC9FMHl2WmMzeFFSbURD?=
+ =?utf-8?B?Y0RaVko4V1ZkdEZ4ODV5MGpDUGMzWENIVzA5WS9kWHUrZE9xR2dya2hMMXVr?=
+ =?utf-8?B?cGJuNFhCdFFHNDB6WUZEdHdOaG9mUlNXV2lpUnA4bnBSYWp4TWMxZHhjZStX?=
+ =?utf-8?B?YkRTZlRZbkxmRzg2djR3cVNuY3h3U0h0N0hwWngzT0lYai9YRC9sL2dsODNt?=
+ =?utf-8?B?OFRscGhkeGhZVDdGbDNMSHYxcHlHRE5UdG5WK2Q1M1ZWeFA0eUtNTDMvd0RJ?=
+ =?utf-8?B?TlloYk1XblhaT0t2N0daL2pJZXMzVThuMXIwV3laVEhSUXBqWFZ0YnRRdTB4?=
+ =?utf-8?B?QjF3WHMzd1dtbmNnQXAwcVIwc21oc1JzNnZNSGp6VTZ6VDN4V1FIZ2hTUDZ0?=
+ =?utf-8?B?eWM3QTFLNE03S0FUYWxkRUVudGRyUGlqK3hudHU1TDdUdlpnVDg0NlRTRlBC?=
+ =?utf-8?B?cHFEalhFdUhoY252aGQ3aEFJZnFRNWJ2VmxiOHBJczVmeS9yMDhpdUQyYVJs?=
+ =?utf-8?B?SkFCSmU1akJtZ3luZ24xSVB2bkZEeWhCaHppeGl2V0N2Sm5oNGNNb2FlZi8r?=
+ =?utf-8?B?QnRuY2pVZnN0ZXdKVWliUm5YSTVqZ2dVWWtadndrdEQ0WUxoMWttN29aYW9X?=
+ =?utf-8?B?dDRncXkzV3d1WVdndmVNc0VyWEZFWGxBL0h4bGIzZDUwYUhYbHNJNVlPWFA5?=
+ =?utf-8?B?MkZvYkF1Z0tDOW5tM1VqbTU0QUJpOStZVVhtVDlqdGMySlBZWENjdk9xK1Y3?=
+ =?utf-8?B?VVBOUGZWS1FwMjRQMlh3QjRVQmUzNkFKVHU0VW9ER3BTS0k4YzByQzhBdkM2?=
+ =?utf-8?B?SkhOTmJ0VzU1V0lMQVBrMDVYNW5paEwvcmcvRDA2VXNUYVlhYnlxZDdkYlY5?=
+ =?utf-8?B?a09qV0lRalVuaEF2d05lS1FWam04R3VZSXh5TGVEa2MxN3dENGlSSlZxSW52?=
+ =?utf-8?B?SlVUSkk1S1J5MktBaERtbG5KMTNKci91eUY4eS9tbmZFNnJxamRpbnBkQWd0?=
+ =?utf-8?B?NDFnVytDSUQ0RW8rZk1KNlJFa0NQVnozbnlhU2ZMeXN4Tmg2MHV3Vjhhdm5K?=
+ =?utf-8?B?cGFBUWVhMkdySExVbUtibTYvRHQzdU9MeWkxbDJaTGRtbUZwR2VBZTVFUmor?=
+ =?utf-8?B?Zm5nVWlkbjh0bmhnOU1zYmV5SFRiSURYWmVhSkQ2N0pNUDE2M1FNbG12MUdw?=
+ =?utf-8?B?c3RkWGdNcVF2a2lUSXBadVppbGc3WGhWRnF0RDZhK2NPRnlDclZTc0dHbEZF?=
+ =?utf-8?B?M05rWHB0SXBQYzBTOHBFQWUvTlA3Y2ZxNk5GM1IxU2xHaTlDTHg1Q3dUc0di?=
+ =?utf-8?B?K1dwUHU4KzZ0Q2xLUkY2U0E2VEtkdXdFbFovd0huYnFlMkw4U0o5L2w2Q0RG?=
+ =?utf-8?B?cFA1MnZzTDFsN0p0WUkvZlFUMmRMbW5ra0o1NUFjZXVnSkJHb0o3eE5DOHVP?=
+ =?utf-8?B?bkFQeEozMWFQd3A5VFJKZzN4K2NtUldKOERDaG9JaGlkNlZjeGxRYzRBREZ6?=
+ =?utf-8?Q?HuXbKv1W/n9G16YLQJ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d440df65-d31e-4e0b-0dd3-08deb661f296
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 11:21:33.2919
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: lN47Jq8rGKFwoiS7EC2Y2yikhmGzK/Dhfb0305PJjzdhER7rAm8IQGsgmbqVk5QX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6493
+X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62243-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[arndb.de,linaro.org,kernel.org,gmail.com,vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62244-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,linaro.org,lwn.net,linuxfoundation.org,arndb.de,lists.freedesktop.org,vger.kernel.org,lists.linaro.org];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashal@kernel.org,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[amd.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,msgid.link:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 9DB8B58C78E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 0244658CAF8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Arnd Bergmann <arnd@arndb.de>
+On 5/20/26 10:13, Michel Dänzer wrote:
+> On 5/19/26 18:00, Christian König wrote:
+>> On 5/19/26 17:31, Xaver Hugl wrote:
+>>> Am Di., 19. Mai 2026 um 15:29 Uhr schrieb Christian König
+>>> <christian.koenig@amd.com>:
+>>>>> 1. This series makes the ability to manipulate syncobjs available
+>>>>> independently of attached hardware.
+>>>>> 2. It makes it available under a consistent path /dev/syncobj.
+>>>>
+>>>> Exactly that is a big no-go. This has to be under /dev/dri.
+>>> FWIW udmabuf is also under /dev directly, but I don't think any
+>>> compositor developer would complain about a different path.
+>>> What are the rules for that? Could this simply be put in /dev/dri/syncobj?
+>>
+>> The syncobj are actually the DRM specific way of doing things. The general kernel wide way is to use sync files (see drivers/dma-buf/sync_file.c).
+>>
+>> But there has already been tons of problems with those sync files. E.g. they doesn't support your use case at all since they don't have wait before submit behavior.
+>>
+>> So there are already ways to do this, but the Linux kernel so far told everybody that this is forbidden. The DRM syncobj wait before signal functionality is much better, but then basically the second try to do this.
+> 
+> I'm not quite sure what you're getting at here, just to be clear though:
+> 
+> While the syncobj Wayland protocol extension supports wait-before-submit behaviour at the Wayland protocol level, it doesn't need or cause wait-before-submit behaviour for DMA fences in the kernel. The usual rules apply to fences attached to syncobj timeline points. The wait-before-submit behaviour at the Wayland protocol level comes from allowing submit before a fence is attached to the acquire timeline point.
 
-[ Upstream commit 23c39cb598977f10909a2387c5e5f34afc1d6933 ]
+Yeah I know. I'm one of the people who came up with the idea of doing wait before signal this way in the drm_syncobj.
 
-clang-22 warns about csiphy_match_clock_name() taking a variable format
-string that is not checked against the 'int index' argument:
+What I wanted to say is that a lot of people used the dma_fence to implement wait before signal before and got a bloody nose from that.
 
-drivers/media/platform/qcom/camss/camss-csiphy.c:566:44: error: diagnostic behavior may be improved by
-      adding the 'format(printf, 2, 3)' attribute to the declaration of 'csiphy_match_clock_name'
-      [-Werror,-Wmissing-format-attribute]
-  561 | static bool csiphy_match_clock_name(const char *clock_name, const char *format,
-      | __attribute__((format(printf, 2, 3)))
-  562 |                                     int index)
-  563 | {
-  564 |         char name[16]; /* csiphyXXX_timer\0 */
-  565 |
-  566 |         snprintf(name, sizeof(name), format, index);
-      |                                                   ^
-drivers/media/platform/qcom/camss/camss-csiphy.c:561:13: note: 'csiphy_match_clock_name' declared here
-  561 | static bool csiphy_match_clock_name(const char *clock_name, const char *format,
-      |             ^
+> (It took me a while to realize this distinction, before which I mistakenly thought the kernel's DMA fence rules would prohibit wait-before-submit behaviour at the Wayland protocol level as well)
 
-Change the function to use a snprintf() style format string that allows this
-to be checked at the call site.
+This is what surprised me.
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Signed-off-by: Bryan O'Donoghue <bod@kernel.org>
-Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
+The drm_syncobj implementation solved the wait before signal for the kernel, but my last feedback was that we basically just moved the issue to userspace and Wayland compositors would have quite some overhead to implement it correctly.
 
-LLM Generated explanations, may be completely bogus:
+That compositors now use eventfd to simplify that was news to me but makes totally sense in hindsight.
 
-## Phase Walkthrough
+But anyway, we need to somehow simplify the drm_syncobj -> eventfd usage in the compositor. That requirement is perfectly justified and avoiding importing the drm_syncobj fd into any DRM driver should actually be really easy to implement.
 
-### Phase 1: Commit Message Forensics
-Step 1.1 Record: Subsystem is `media: qcom: camss`; action verb is
-`avoid`; claimed intent is to avoid a clang-22 format-string build
-warning/error in `csiphy_match_clock_name()`.
-
-Step 1.2 Record: Verified fetched commit
-`2211e826bd69c041534093735241182013dde7bc` has:
-- `Signed-off-by: Arnd Bergmann <arnd@arndb.de>`
-- `Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>`
-- `Signed-off-by: Bryan O'Donoghue <bod@kernel.org>`
-
-The original lore submission also has `Fixes: 0727615fb975 ("media:
-qcom: camss: Functionally decompose CSIPHY clock lookups")`. No
-`Reported-by`, `Tested-by`, `Cc: stable`, or bug-report `Link` was
-verified.
-
-Step 1.3 Record: The body describes a clang-22 diagnostic promoted to
-error: `[-Werror,-Wmissing-format-attribute]`. The root cause is that
-`csiphy_match_clock_name()` takes a `const char *format` and passes it
-to `snprintf()` with a fixed `int index`, but the helper itself lacks a
-checkable printf-style prototype.
-
-Step 1.4 Record: This is not a hidden runtime bug fix. It is a build-
-warning/build-error fix for newer clang plus warning-as-error
-configurations.
-
-### Phase 2: Diff Analysis
-Step 2.1 Record: One file changed:
-`drivers/media/platform/qcom/camss/camss-csiphy.c`, `7 insertions(+), 3
-deletions(-)`. One function modified: `csiphy_match_clock_name()`. Scope
-is single-file surgical.
-
-Step 2.2 Record: Before, the helper accepted `format, int index` and
-called `snprintf(name, sizeof(name), format, index)`. After, it is
-declared `__printf(2, 3)`, accepts varargs, uses `va_start()`,
-`vsnprintf()`, and `va_end()`. Call sites remain unchanged.
-
-Step 2.3 Record: Bug category is build fix / compiler diagnostic fix. It
-does not fix memory safety, locking, refcounting, or runtime logic.
-
-Step 2.4 Record: The fix is mechanically correct and minimal. Existing
-callers pass literal format strings plus `csiphy->id`, so behavior is
-preserved while allowing compiler format checking. Regression risk is
-very low; the only meaningful risk is varargs misuse, but current call
-sites were verified unchanged and simple.
-
-### Phase 3: Git History Investigation
-Step 3.1 Record: `git blame` shows the helper body was introduced by
-`0727615fb975f6`, authored by Bryan O'Donoghue on 2023-09-25. `git
-describe --contains` places it at `v6.7-rc1~51^2~149`.
-
-Step 3.2 Record: The final fetched commit lacks a `Fixes:` trailer, but
-the original lore submission includes `Fixes: 0727615fb975`. I inspected
-that commit; it introduced the helper and the `snprintf(..., format,
-index)` pattern.
-
-Step 3.3 Record: Recent file history includes later CAMSS/CSIPHY
-changes, especially `74cae7794341` changing callers to use `csiphy->id`.
-No prerequisite for this format-warning fix was found beyond the helper
-existing.
-
-Step 3.4 Record: Arnd Bergmann has prior CAMSS build/undefined-behavior
-fixes in history. Bryan O'Donoghue, who reviewed the patch, is listed as
-a CAMSS maintainer in `MAINTAINERS`.
-
-Step 3.5 Record: No dependent commits were found. The patch only needs
-the existing helper and kernel `__printf`/`va_list` support, both
-present in the checked tree.
-
-### Phase 4: Mailing List And External Research
-Step 4.1 Record: `b4 dig -c 2211e826...` found the original patch at
-`https://patch.msgid.link/20260320151828.3456863-1-arnd@kernel.org`. `b4
-dig -a` found only v1.
-
-Step 4.2 Record: `b4 dig -w` shows relevant maintainers/lists were
-included: CAMSS maintainers, media maintainers, `linux-media`, `linux-
-arm-msm`, `linux-kernel`, and `llvm`.
-
-Step 4.3 Record: No separate bug report was present. The concrete report
-is the compiler diagnostic embedded in the patch.
-
-Step 4.4 Record: This is a standalone one-patch fix, not part of a
-multi-patch series.
-
-Step 4.5 Record: Direct lore stable search was blocked by Anubis; web
-search did not find stable-specific discussion for this exact patch.
-
-### Phase 5: Code Semantic Analysis
-Step 5.1 Record: Modified function: `csiphy_match_clock_name()`.
-
-Step 5.2 Record: Callers are only within `msm_csiphy_subdev_init()`, at
-the three verified clock-name checks: `"csiphy%d_timer"`, `"csi%d_phy"`,
-and `"csiphy%d"`.
-
-Step 5.3 Record: The helper calls formatting and string comparison
-functions: previously `snprintf()` and `strcmp()`, after patch
-`vsnprintf()` and `strcmp()`.
-
-Step 5.4 Record: The affected path is CAMSS device probe:
-`camss_probe()` calls `camss_init_subdevices()`, which calls
-`msm_csiphy_subdev_init()`. Runtime behavior remains equivalent for the
-verified call sites.
-
-Step 5.5 Record: Nearby CAMSS code has no other `const char *format`
-helper or `vsnprintf()`/`__printf()` pattern matching this issue.
-
-### Phase 6: Stable Tree Analysis
-Step 6.1 Record: The buggy helper exists from `v6.7` onward. Verified
-absent in `v6.6`, present in `v6.12`, and present in `v7.0`.
-
-Step 6.2 Record: `git apply --check` succeeds against the current
-`7.0.5` checkout. For `v6.12`, the same helper and `snprintf(name,
-sizeof(name), format, index)` pattern are present, but I did not run a
-separate worktree apply check.
-
-Step 6.3 Record: No related stable-specific fix for this exact CAMSS
-warning was found in local targeted searches or public web search.
-
-### Phase 7: Subsystem Context
-Step 7.1 Record: Subsystem is Qualcomm CAMSS media driver under
-`drivers/media/platform/qcom/camss/`. Criticality is peripheral/driver-
-specific, but build failures affect anyone building this driver or
-COMPILE_TEST coverage.
-
-Step 7.2 Record: CAMSS is actively developed; recent history shows many
-CAMSS commits, including fixes and new platform support.
-
-### Phase 8: Impact And Risk
-Step 8.1 Record: Affected population is config-specific: builders with
-`CONFIG_VIDEO_QCOM_CAMSS`, including `COMPILE_TEST`, using clang-22 with
-`-Wmissing-format-attribute` and warnings-as-errors.
-
-Step 8.2 Record: Trigger is build-time, not runtime.
-`scripts/Makefile.warn` verifies `-Wmissing-format-attribute` is under
-`W=1`; `-Werror` is enabled by `W=e` or `CONFIG_WERROR`.
-
-Step 8.3 Record: Failure mode is build failure, not
-crash/corruption/security. Severity is medium, but build fixes are an
-accepted stable exception.
-
-Step 8.4 Record: Benefit is moderate: keeps affected stable builds
-working with newer clang warning behavior. Risk is very low: 10-line
-single-function mechanical change, no API change, call sites unchanged.
-
-### Phase 9: Final Synthesis
-Evidence for backporting:
-- Real build failure mode documented in commit and lore.
-- Fits stable build-fix exception.
-- Very small, contained, reviewed by CAMSS maintainer.
-- Applies cleanly to current `7.0.5`; buggy code exists in `v6.12+` and
-  `v7.0`.
-
-Evidence against backporting:
-- Not a runtime correctness, crash, data corruption, or security fix.
-- Trigger requires specific compiler/warning-as-error build settings.
-- Not relevant to `v6.6` and older because the helper is absent there.
-
-Stable rules checklist:
-1. Obviously correct and tested: yes for code review/readability; no
-   local clang-22 build reproduction.
-2. Fixes a real bug: yes, a verified build diagnostic/error path.
-3. Important issue: medium; build failure, not runtime failure.
-4. Small and contained: yes, one function, one file, 7+/3-.
-5. No new feature/API: yes.
-6. Can apply to stable: verified for current `7.0.5`; likely
-   straightforward for `v6.12+`, not applicable to `v6.6` and older.
-
-Exception category: Build fix.
-
-## Verification
-- Phase 1: `git show` verified candidate commit metadata and exact diff
-  for `2211e826bd69...`.
-- Phase 2: `git diff --shortstat` verified `1 file changed, 7
-  insertions(+), 3 deletions(-)`.
-- Phase 3: `git blame` verified helper introduced by `0727615fb975`;
-  `git show` inspected that commit.
-- Phase 3/6: `git describe --contains` and tag containment checks
-  verified introduction in `v6.7`, presence in `v6.12+`, absence from
-  `v6.6`.
-- Phase 4: `b4 dig`, `b4 dig -a`, `b4 dig -w`, and saved mbox verified
-  original lore thread, v1-only series, recipients, `Fixes:` trailer,
-  and Bryan’s review.
-- Phase 5: `rg` and file reads verified call sites and probe call chain.
-- Phase 6: `git apply --check` verified clean apply to current `7.0.5`.
-- Phase 7: `MAINTAINERS` verified Bryan O'Donoghue is a CAMSS
-  maintainer.
-- Phase 8: `scripts/Makefile.warn` verified when `-Wmissing-format-
-  attribute` and `-Werror` are enabled.
-- UNVERIFIED: I did not reproduce the clang-22 build failure locally.
-- UNVERIFIED: I did not perform an actual `git apply --check` in a
-  separate `v6.12` worktree.
-
-This is stable-worthy as a low-risk build fix for stable trees that
-contain the helper, especially `v6.12+`/`v7.0` era trees, and should be
-skipped for older trees where the code does not exist.
-
-**YES**
-
- drivers/media/platform/qcom/camss/camss-csiphy.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-index 62623393f4144..78a1b568dbae6 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-@@ -558,12 +558,16 @@ static int csiphy_init_formats(struct v4l2_subdev *sd,
- 	return csiphy_set_format(sd, fh ? fh->state : NULL, &format);
- }
- 
--static bool csiphy_match_clock_name(const char *clock_name, const char *format,
--				    int index)
-+static bool __printf(2, 3)
-+csiphy_match_clock_name(const char *clock_name, const char *format, ...)
- {
- 	char name[16]; /* csiphyXXX_timer\0 */
-+	va_list args;
-+
-+	va_start(args, format);
-+	vsnprintf(name, sizeof(name), format, args);
-+	va_end(args);
- 
--	snprintf(name, sizeof(name), format, index);
- 	return !strcmp(clock_name, name);
- }
- 
--- 
-2.53.0
-
+Regards,
+Christian.
 
