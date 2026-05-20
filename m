@@ -1,44 +1,45 @@
-Return-Path: <linux-media+bounces-62361-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62359-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YCVrBZg9Dmqr9AUAu9opvQ
-	(envelope-from <linux-media+bounces-62361-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 01:02:48 +0200
+	id IPrtLmk6Dmqu8wUAu9opvQ
+	(envelope-from <linux-media+bounces-62359-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 00:49:13 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E60659C82F
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 01:02:46 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3965259C4E4
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 00:49:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id BEED430F1B28
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 22:45:30 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 59A34318B19A
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 22:45:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD2733D0905;
-	Wed, 20 May 2026 22:44:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A60E33CA487;
+	Wed, 20 May 2026 22:44:40 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 127BE3CC332
-	for <linux-media@vger.kernel.org>; Wed, 20 May 2026 22:44:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 580A83C278A
+	for <linux-media@vger.kernel.org>; Wed, 20 May 2026 22:44:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779317084; cv=none; b=uaCUKq4dGqMbGsB/VBAa6IIZraJs2TY2Ga9/csK3d/gMxGofp2Fdu4rpG3OlUI2YNcWbZbkzsWFT7wa/iL4BZaAUlNsenrDJui8sG0HHv8l6iSSD2QZ7ROznI/6oFnJdYzZZdLMMAiy/Vcblm4DGfxKcddrq/JjC6+Qk0vtZZjI=
+	t=1779317080; cv=none; b=uwz+mhqpi8c3s8XFsLPmxEliCui9QEV3IIMZiHhCehjJTzga1i6k2qoe1EMVkXHOn0iUO8PO3Sm8MxPlfZXxD0XZ9Y0vxXxLqtVa0kf/BcgTMWTG70lwWehwx9OwN3V4SwW8kcpo2oFlxb4e/ywEhH8ayoKJ982GkYL7lLOTV8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779317084; c=relaxed/simple;
-	bh=zI7A0kM2VF3G3Xki/qAN6KAp8j6/JdVqWIbShHY3FvQ=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=LO+3uyFnEFUvxYAJ+s5zSxa+rYEGV7qRfJjFgtOElPmnT7Qj3NPsjvTaX/+UqwUH7m2FgmnW6iDJd2tEV53T06ldzT2XsgcSmHOaab1F+AyMaY1cTsl7lMAQ+1pNbZcfibi3T26kD0vf2GG41Ffnlma24ep1ERYE33dQPm9THoo=
+	s=arc-20240116; t=1779317080; c=relaxed/simple;
+	bh=ljhyyAVAsaT41Rpt30YyAO53+U3vqFIqV/OgI67rHP8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=kRQXKuI/wKgXfFFyems5FTdThfDNpfzimiV4q9ag20+dQMKSXJGHLvrYH5Rw4nbqc7wzLFqgbnBF6NCddm+u1TBG2+Nah16fvPg5zdZzkWHjov4Iv8ewnSWkal40Rf3rdjvZMkdQU1A347ZmjmUzNZbvRsEfRcEjRbj58im1VAE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=peter.mobile.pengutronix.de)
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <s.pueschel@pengutronix.de>)
-	id 1wPpeJ-0005vy-Qh; Thu, 21 May 2026 00:44:23 +0200
+	id 1wPpeL-0005vy-DY; Thu, 21 May 2026 00:44:25 +0200
 From: =?utf-8?q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>
-Subject: [PATCH v7 00/28] media: platform: rga: Add RGA3 support
-Date: Thu, 21 May 2026 00:44:05 +0200
-Message-Id: <20260521-spu-rga3-v7-0-3f33e8c7145f@pengutronix.de>
+Date: Thu, 21 May 2026 00:44:06 +0200
+Subject: [PATCH v7 01/28] media: dt-bindings: media: rockchip-rga: add
+ rockchip,rk3588-rga3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -47,13 +48,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/23Ry2rDMBAF0F8xWlft6G151f8oXegxSbSI7coPU
- kL+vbJDsKFejtC5A3PvZMCccCBNdScZ5zSkri2DeatIuLj2jDTFMhMOXDEARod+ovnsBK0dAAK
- rPeNAyvc+4ynd1qiv7zJf0jB2+XdNntny+goxW8jMKFChXayVMiCBf/bYnqcxd226vUckS9LMN
- 81B7DQv2tbWaWOlORl2qMVLa2B8v1sUbYznRoA2Hv2hlpsWXO20LBotYGBBM6HkoVablrzeabV
- ob04qArOx1odab1qx/W69aCUNUxy9DfaffjwLyfgzlUrHZytbo021HpNxvYam7nqd4rj0R0OEo
- LiUwUjXlMuXIO8GpKH8SWNTXTEm99HibSxbHn8XTnhlQAIAAA==
-X-Change-ID: 20251001-spu-rga3-8a00e018b120
+Message-Id: <20260521-spu-rga3-v7-1-3f33e8c7145f@pengutronix.de>
+References: <20260521-spu-rga3-v7-0-3f33e8c7145f@pengutronix.de>
+In-Reply-To: <20260521-spu-rga3-v7-0-3f33e8c7145f@pengutronix.de>
 To: Jacob Chen <jacob-chen@iotwrt.com>, 
  Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -65,9 +62,7 @@ Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
  devicetree@vger.kernel.org, kernel@pengutronix.de, nicolas@ndufresne.ca, 
  sebastian.reichel@collabora.com, m.tretter@pengutronix.de, 
  p.zabel@pengutronix.de, 
- =?utf-8?q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>, 
- Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
- Michael Olbrich <m.olbrich@pengutronix.de>
+ =?utf-8?q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>
 X-Mailer: b4 0.15.2
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
 X-SA-Exim-Mail-From: s.pueschel@pengutronix.de
@@ -76,38 +71,41 @@ X-PTX-Original-Recipient: linux-media@vger.kernel.org
 X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62361-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62359-lists,linux-media=lfdr.de];
 	DMARC_NA(0.00)[pengutronix.de];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[s.pueschel@pengutronix.de,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	MID_RHS_MATCH_FROM(0.00)[];
 	R_DKIM_NA(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 0E60659C82F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,iotwrt.com:email,pengutronix.de:mid,pengutronix.de:email]
+X-Rspamd-Queue-Id: 3965259C4E4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-This series adds support for the Raster Graphic Acceleration 3 (RGA3)
-peripheral, which is included in the RK3588 SoC. The RK3588
-contains one RGA2-Enhanced core (which is already implemented by the
-rockchip rga driver) and two independent RGA3 cores. They feature
-a similar functionality of scaling, cropping and rotating of up to two input
-images into one output image. Key differences of the RGA3 are:
+Add a new compatible for the RGA3 (Raster Graphic Acceleration 3)
+peripheral found on the RK3588 SoC. Also specify an iommu property,
+as the RGA3 contains the generic rockchip iommu. While other versions
+also have an iommu, it's usually specific to them.
+
+The RK3588 contains one RGA2-Enhance core (also contained on the RK3399)
+and two RGA3 cores. Both feature a similar functionality of scaling,
+cropping and rotating of up to two input images into one output image.
+Key differences of the RGA3 are:
 
 - supports 10bit YUV output formats
 - supports 8x8 tiles and FBCD as inputs and outputs
@@ -117,201 +115,53 @@ images into one output image. Key differences of the RGA3 are:
 - fully planar formats (3 planes) are not supported
 - max scale up/down factor of 8 (RGA2 allows up to 16)
 
-This patch set adds support for one RGA3 core in the existing
-rga m2m driver. The feature set of the PR is limited to scaling,
-format and color space conversions between common 8bit RGB/YUV formats.
-This already allows a practical usage of the RGA3.
-
-During testing it has been noted that the scaling of the hardware is
-slightly incorrect. A test conversion of 128x128 RGBA to 256x256 RGBA
-causes a slight shift to the bottom right. The shift is suddle, as it seems
-that the image is shifted by about 2px down and right and then cropped to
-it's final size (probably caused by the source sampling).
-The same behavior has been observed when using the vendor driver
-with the librga library.
-
-Furthermore comparing the RGA3 conversion with the GStreamer
-videoconvertscale element, the chroma-site is different. A quick testing
-didn't reveal a chroma-site that creates the same image with the
-GStreamer Element. Also when converting from YUV to RGB the RGB values
-differ by 1 or 2. This doesn't seem to be a colorspace conversion issue
-but rather a slightly different precision on the calculation.
-
-This was tested on a Radxa Rock 5T. Around 80 fps were measured when
-scaling and converting from RGBA 480x360 to NV12 3840x2160 in a single
-gstreamer pipeline. Format conversions were tested with a single
-gstreamer pipeline converting a fixed input to a given input format.
-Afterwards it's piped through the RGA3 and the result is converted back
-to rgba and compared against a given hash value (generated after
-comparing the output manually to the input).
-
-The patchset also fixes the failing v4l2-compliance tests due to the
-missing colorimetry propagation from output to capture:
-
-  v4l2-compliance 1.32.0, 64 bits, 64-bit time_t
-  ...
-  	Card type        : rga2
-  ...
-  Total for rockchip-rga device /dev/video0: 48, Succeeded: 48, Failed: 0, Warnings: 0
-
-  v4l2-compliance 1.32.0, 64 bits, 64-bit time_t
-  ...
-	Card type        : rga3
-  ...
-  Total for rockchip-rga device /dev/video1: 48, Succeeded: 48, Failed: 0, Warnings: 0
-
-To distinguish the RGA2 core from the RGA3 cores the Card type is set
-accordingly. Scheduling operations between both RGA3 cores to double
-the possible frame rate might be a future improvement. Until then
-additional RGA3 cores are disabled to only provide one video device to
-the user space. This prevents a potential ABI breakage when multi core
-support is implemented.
-
-The DTS change at the end is just as a preview, as this series targets
-media/next. After it's merged the DTS change will be sent as a new
-patch not targeting media.
-
-Patch 1 updates the dtb bindings doc to support the RGA3
-Patch 2-5 extend v4l2 common functionality
-Patch 6-10 are general cleanups
-Patch 11-26 prepare the rga driver for the RGA3
-Patch 27 adds RGA3 support to the rga driver
-Patch 28 dtsi additions for the RGA3
-
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 Signed-off-by: Sven Püschel <s.pueschel@pengutronix.de>
 ---
-Changes in v7:
-- avoid incorrect stride being derived for NV24
-- Link to v6: https://patch.msgid.link/20260515-spu-rga3-v6-0-e547152eb9c9@pengutronix.de
-
-Changes in v6:
-- avoid build failure by selecting VIDEOBUF2_DMA_CONTIG
-- sorted nodes in dtsi addition
-- reworked cmdbuf preparation/reuse to a dirty flag instead of streamon
-- fix alignment multiplication edge cases in v4l2_format_plane_stride
-- fix unintended parameter change when switching to v4l2_fill_pixfmt_mp_aligned call
-- adjust dma_addrs variable type to match the changed struct type change
-- dropped scaling limit from s_fmt
-- scaling limit considers rotation
-- scaling limit is checked when updating selection/rotation while streaming
-- don't prevent setting a selection for the RGA3
-- fixed flipped inline if branches in rga3_adjust_and_map_format
-- Link to v5: https://patch.msgid.link/20260428-spu-rga3-v5-0-eb7f5d019d86@pengutronix.de
-
-Changes in v5:
-- Fixed cmdbuf allocation size being only a quarter
-- Fixed streamon cmdbuf preparation to not set
-  rotation/flipping which prevents changing it during streaming
-- Link to v4: https://patch.msgid.link/20260325-spu-rga3-v4-0-e90ec1c61354@pengutronix.de
-
-Changes in v4:
-- Add Nicolas to Cc for potential reviews and Sebastian for the nice
-  RK3588 mainline status table
-- Improved single memory plane y stride alignment adjustments
-- Adjusted scaling inaccuracy description
-- Dropped required iommu property from the binding yaml
-- Fixed binding yaml indentation
-- Link to v3: https://lore.kernel.org/r/20260127-spu-rga3-v3-0-77b273067beb@pengutronix.de
-
-Changes in v3:
-- Add iommus property to the dtb bindings documentation
-- Drop interrupt name from the dtsi
-- Added v4l2_format_info for missing 2 byte RGB formats
-- Fixed incorrect dt node reference in the binding patch commit message
-- Removed now unused depth member of rga_frame
-- Replaced RGA3 semi planar bool with v4l2_format_info check
-- Calculated x_div/y_div variables instead of storing them
-- Limited width/height to even values for YUV formats
-- Support all 4 CSC modes: BT601L, BT601F, BT709L, BT2020L
-- Note slightly incorrect scaling by the hardware
-- Fix stride alignment to bytes
-- Use early returns in rga-buf init/cleanup
-- Fix incorrect devm_clk_bulk_get with devm_clk_bulk_get_all
-- Don't enforce max scaling factor in try_fmt (only in s_fmt)
-- Merge single register editing RGA3 functions into the other functions
-- Link to v2: https://lore.kernel.org/r/20251203-spu-rga3-v2-0-989a67947f71@pengutronix.de
-
-Changes in v2:
-- Removed overclocking (assigning higher clock speeds in the dts)
-- Disable the second RGA3 core
-- Improved RGA3 feature documentation and code comments
-- Don't write the whole command buffer in each frame
-- Don't announce CIDs for the RGA3 and error out on s_selection
-- Check the max scaling factor of 16 (RGA2) and 8 (RGA3)
-- Move stride alignment and alpha checking to v4l2 common
-- Register the interrupt as shared for an external IOMMU
-- Add IOMMU patch as dependency to fix sporadic hangups
-- Link to v1: https://lore.kernel.org/r/20251007-spu-rga3-v1-0-36ad85570402@pengutronix.de
-
-To: Jacob Chen <jacob-chen@iotwrt.com>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Rob Herring <robh@kernel.org>
-To: Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: Conor Dooley <conor+dt@kernel.org>
-To: Heiko Stuebner <heiko@sntech.de>
-To: Hans Verkuil <hverkuil@kernel.org>
-Cc: linux-media@vger.kernel.org
-Cc: linux-rockchip@lists.infradead.org
-Cc: devicetree@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
-
+Changed in v3/v4:
+- Dropped Acked-by: Krzysztof Kozlowski due to the added iommus property
+  and description adjustments.
 ---
-Michael Olbrich (1):
-      media: rockchip: rga: share the interrupt when an external iommu is used
+ Documentation/devicetree/bindings/media/rockchip-rga.yaml | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-Sven Püschel (27):
-      media: dt-bindings: media: rockchip-rga: add rockchip,rk3588-rga3
-      media: v4l2-common: sort RGB formats in v4l2_format_info
-      media: v4l2-common: add missing 1 and 2 byte RGB formats to v4l2_format_info
-      media: v4l2-common: add has_alpha to v4l2_format_info
-      media: v4l2-common: add v4l2_fill_pixfmt_mp_aligned helper
-      media: rockchip: rga: fix too small buffer size
-      media: rockchip: rga: use clk_bulk api
-      media: rockchip: rga: use stride for offset calculation
-      media: rockchip: rga: remove redundant rga_frame variables
-      media: rockchip: rga: announce and sync colorimetry
-      media: rockchip: rga: move hw specific parts to a dedicated struct
-      media: rockchip: rga: avoid odd frame sizes for YUV formats
-      media: rockchip: rga: calculate x_div/y_div using v4l2_format_info
-      media: rockchip: rga: move cmdbuf to rga_ctx
-      media: rockchip: rga: align stride to 4 bytes
-      media: rockchip: rga: reuse cmdbuf contents
-      media: rockchip: rga: check scaling factor
-      media: rockchip: rga: use card type to specify rga type
-      media: rockchip: rga: change offset to dma_addresses
-      media: rockchip: rga: support external iommus
-      media: rockchip: rga: remove size from rga_frame
-      media: rockchip: rga: remove stride from rga_frame
-      media: rockchip: rga: move rga_fmt to rga-hw.h
-      media: rockchip: rga: add feature flags
-      media: rockchip: rga: disable multi-core support
-      media: rockchip: rga: add rga3 support
-      arm64: dts: rockchip: add rga3 dt nodes
+diff --git a/Documentation/devicetree/bindings/media/rockchip-rga.yaml b/Documentation/devicetree/bindings/media/rockchip-rga.yaml
+index ac17cda65191b..7bd92f7336664 100644
+--- a/Documentation/devicetree/bindings/media/rockchip-rga.yaml
++++ b/Documentation/devicetree/bindings/media/rockchip-rga.yaml
+@@ -9,7 +9,11 @@ title: Rockchip 2D raster graphic acceleration controller (RGA)
+ description:
+   RGA is a standalone 2D raster graphic acceleration unit. It accelerates 2D
+   graphics operations, such as point/line drawing, image scaling, rotation,
+-  BitBLT, alpha blending and image blur/sharpness.
++  BitBLT, alpha blending and image blur/sharpness. There exist many versions
++  of this unit that differ in the supported inputs/output formats,
++  the attached IOMMU and the supported operations on the input. As some SoCs
++  include multiple RGA units with different versions, a more specific
++  compatible name to differentiate the concrete unit is used for them.
+ 
+ maintainers:
+   - Jacob Chen <jacob-chen@iotwrt.com>
+@@ -20,6 +24,7 @@ properties:
+     oneOf:
+       - const: rockchip,rk3288-rga
+       - const: rockchip,rk3399-rga
++      - const: rockchip,rk3588-rga3
+       - items:
+           - enum:
+               - rockchip,rk3228-rga
+@@ -45,6 +50,9 @@ properties:
+   power-domains:
+     maxItems: 1
+ 
++  iommus:
++    maxItems: 1
++
+   resets:
+     maxItems: 3
+ 
 
- .../devicetree/bindings/media/rockchip-rga.yaml    |  10 +-
- arch/arm64/boot/dts/rockchip/rk3588-base.dtsi      |  44 ++
- drivers/media/platform/rockchip/rga/Kconfig        |   1 +
- drivers/media/platform/rockchip/rga/Makefile       |   2 +-
- drivers/media/platform/rockchip/rga/rga-buf.c      |  89 +++-
- drivers/media/platform/rockchip/rga/rga-hw.c       | 357 +++++++++----
- drivers/media/platform/rockchip/rga/rga-hw.h       |  16 +-
- drivers/media/platform/rockchip/rga/rga.c          | 576 ++++++++++-----------
- drivers/media/platform/rockchip/rga/rga.h          |  88 ++--
- drivers/media/platform/rockchip/rga/rga3-hw.c      | 507 ++++++++++++++++++
- drivers/media/platform/rockchip/rga/rga3-hw.h      | 192 +++++++
- drivers/media/v4l2-core/v4l2-common.c              | 135 +++--
- include/media/v4l2-common.h                        |   6 +
- 13 files changed, 1520 insertions(+), 503 deletions(-)
----
-base-commit: dd9a02fc75cefc84024eb658c9e528cc97ca4eda
-change-id: 20251001-spu-rga3-8a00e018b120
-prerequisite-change-id: 20251126-spu-iommudtefix-cd0c5244c74a:v2
-prerequisite-patch-id: 10c6c977c0f71400931941b42da73adcaf63e810
-
-Best regards,
---  
-Sven Püschel <s.pueschel@pengutronix.de>
+-- 
+2.54.0
 
 
