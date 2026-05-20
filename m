@@ -1,227 +1,213 @@
-Return-Path: <linux-media+bounces-62198-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62199-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uLO+Lx0dDWrZtQUAu9opvQ
-	(envelope-from <linux-media+bounces-62198-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 04:31:57 +0200
+	id OIxMMIQ7DWrfugUAu9opvQ
+	(envelope-from <linux-media+bounces-62199-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 06:41:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59A2D586DA2
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 04:31:57 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B638587941
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 06:41:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 422B13045991
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 02:31:56 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6AC63303266C
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 04:41:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CA483093A6;
-	Wed, 20 May 2026 02:31:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64F2F34F26F;
+	Wed, 20 May 2026 04:41:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JB9KLif2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nuI6F2M3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yx1-f45.google.com (mail-yx1-f45.google.com [74.125.224.45])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD7A3019A9
-	for <linux-media@vger.kernel.org>; Wed, 20 May 2026 02:31:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779244311; cv=pass; b=boRnNvzjmhuGhnDokidXzMwSkLrpXq5GmtJMWyZdDHV+1ygoXJ56pDtHBHYyWXvh+/XFUAwONrZN2Y1TF0B3QO9liPqXqwULAw2bCgu5xJV9295I7aG3DrGVMddIhEaNjs+UnEYkG3k6IbZWjvQoAqFzSDnMGRmR0fCWnFM4wwc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779244311; c=relaxed/simple;
-	bh=1WPnCXVijfHC5H5f/Ma0Ogk8m5Y8rDwOElq+000H1SU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ux7DAXqnPZ5/PLCpJQuoceD5+U3wp04TxAJ3gFaYsgo3fLkANwlFU3ywexkt0mUjtN25YlszVbuFWILYyUDAkmkeDvQe9xcyRqYbQSP0HtH/9TJkm1AEUkChqaGAnDSTcjmhk3hHY3WpgSSpJExtiUGoNov4889WZvC0rnUUjtQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JB9KLif2; arc=pass smtp.client-ip=74.125.224.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FFB730566E
+	for <linux-media@vger.kernel.org>; Wed, 20 May 2026 04:40:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779252059; cv=none; b=p7gTM4IGzH7a+XrOKSc1MRlhpsFE7SfIDCgragWHdujayrCEQ1a2CntV17hvWl9/GqfWoa/5e6/Km/qGjziBz4uIc0NDbTdqUVVUp17TDhSdOszERwLyAZZdpp5tAWs7BDZCsd8G0HkTAmHjGN3GFFiPsRsC4TB6/VfsJBp3zJ4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779252059; c=relaxed/simple;
+	bh=IzCpapzovKld03EFxt2Y7uGfXk1dtMIpLr0vVycq20k=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=arGwjb8IO/4dIq4ZBUOIl5M9qfcJ/A/gQ6ASOrVS/6qgjg4WZltmHKRkUHGhb5r09BcsPnv/Kjubs/f6xIdYy8M/aO4zskw5zqDjGRZlr4qBOJY+mitbBGVA2dRxljb3eyp/QMi9QFh1Ns+iSV0RgEtpllZL8DTAOOQXBDqaR78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nuI6F2M3; arc=none smtp.client-ip=209.85.210.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx1-f45.google.com with SMTP id 956f58d0204a3-65dd9b25829so3425574d50.3
-        for <linux-media@vger.kernel.org>; Tue, 19 May 2026 19:31:49 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779244309; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Zx2RhxxbNu3dGWAWJAJzABsHsgnw6xgA57jB7vCpLkqXgmDXFAEiWA4kVGIbjiLlPV
-         Zuu7cLFbubBxDeNS6gkhAE+NKoHOiVXES1HecuXXkUUbtQBXIUOz55jELh7SzcZrLBqb
-         ZFRMRJEaiAw6jObIGNlF+41A5xaiF1sPIQgBgHKwMKijEkjXBZZUrHzr/bXohcohFWs6
-         ttHMu3MUK0RD1mOD2Itqkwvm5TcxB4D8baJOjLp+hesXJfM2ZTlsLTS7X/PedqO6nyj5
-         1XEJh1XM68XsolN36GSUPSGI7818PijG7FISmlXGLZTxSyK2cV/zcHvT+t7CAO6n3aMH
-         Bvfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=qx5mfJbpIgRnw4qAKMbmotbNhbk+521TWh0CiXkM9ZY=;
-        fh=27ogi0xLXUrIruWB/IPuv3JNnTUEBFirkhCoLdp2ngk=;
-        b=hpgq3HhAxsRvctafdfWUBSQI7eKsIblS6PrM+IOHvThHIATEgDiNg+iPNiUR73lrYJ
-         nrqw8ITWx4kytI2XtDB8h1zAbl2QIQz2DNJgmCFpVrnZ9DQvgwkOdBsM5BSIOoBwgr41
-         BdLi7NDgrvN37l92eXjDLxjumlsdVBB8eeypPf6bgmwzLz306QitiQClqio3LAIesyF2
-         OJ6W6WAClxcs4Kmik6Z0wOsZTTY2B+ykY80XP2fF22td7bjPeZDHL4lHRg4ocfHoDeB8
-         TPqOXLRJ+BKxNwQaN+KDz9DCgiKVpED686gYEVfFMhgoZi100J10Qp7qO0TvKvrKLOU5
-         x/qw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-824c9da9928so1684688b3a.3
+        for <linux-media@vger.kernel.org>; Tue, 19 May 2026 21:40:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779244309; x=1779849109; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qx5mfJbpIgRnw4qAKMbmotbNhbk+521TWh0CiXkM9ZY=;
-        b=JB9KLif2kGm4EW2W/R6nWGFi1VbeEqTL37GWhbD+/+338PXGpJSxuWOeExzDlQU7Zw
-         tXiR3RD/qFuVJw50cm+G1jM1j3Wa/bLGd7Brh4m04KSAtWbCX9//5VZZAXAAm9tlAGKV
-         qQrFXUExE8omDTEx8DBa8Sqyf085+xfH6DIRjCQTQ9Lc83FmJtDL8dOcL5IvdBIGZz1s
-         e4da4emvyqivK4rDwBd6rKsTPa//DRnnaGFAiogmGDTwADpBF8rFGfxZJ6BpPD46QJTt
-         a78x+DZgpl+WOqPPF9yY6IBoPbtEAxAWGKqLr+Bh/4BaZGe6Ev0SKo7i1McE5yhgY00/
-         Qmvg==
+        d=gmail.com; s=20251104; t=1779252058; x=1779856858; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=UawR2ecAAmpl5iNmgN346ehivn3mNf/9XSeJ91i6yF8=;
+        b=nuI6F2M3HIFNxNqLsjy5xsmgVtrK6/PiboVxRkj5XXAgsy1ePqO59micdS43fbVmxi
+         JcuugtHOVehT/OJTcNtvBliuDHelCv/54PODI2ck78CDxA16DXulDRk9qvNneWpF3UDy
+         znSj+1WNOC0sK9eBCPAJH1dPq+9aWbKHWBUmNnVFh4yg7KP5bAVRnYhwrUqBPLAw7H7b
+         TMDe0sPGoQ5yEZghcrZJv1NKO7aCTqj+jct3UZJIJF53xc6jRb8LS7zxzIjXqABR6bku
+         sK+V8nXa+5Ag8qnaPUuEsIzHwpFLqpPEYg4aOZk8djKTWbJ9breZx8rgouow7orWp3Bc
+         pJYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779244309; x=1779849109;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=qx5mfJbpIgRnw4qAKMbmotbNhbk+521TWh0CiXkM9ZY=;
-        b=A/R6Fxr9a5VTWBavvNXXQcRwdSHl/vGSQ9S+nmm6fNLBk2GFe3/XcfsCgHockI+Zl9
-         0H0L57+8E6sBmpvjbNOvdbcBTalktqFa84ea/sSiV0uGvB0jiH6317QVObXMqIR0k/d2
-         8FilBgZnRzdC1QITzFh7zgyvHx+h9O+6SvjNwgr9Gwm4v8HslwEY4S3Ov6YSg0zsdGz7
-         NZLaWyN5HtnbXSWR/gRkyJUG5ECrtfgdopy60hKMBjc5Cmz9cJq0po6rYK3SiwOhSorB
-         fNx/I9Isx6vhmU/Qhtmeo6tEdY8xDUH5Ywy/EF4ruFrlVEqZ4d65hEzURn4nLGbxQPr9
-         MEvg==
-X-Forwarded-Encrypted: i=1; AFNElJ87CuDJg5TkSfdi3KvWfWW/64Iwjh9h2Hi+p04GLri9q4pQrtz7XM5R0SRcjShfQRNd7sc9wlNv8e2BPA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/oXGhyFNNi1FEBEI9xPtHiDlMdGRXQpIKJVpi5tqdZVNimOfy
-	2KfSxT2nLvNc9lmbx+BUVzspnbL34WUmtHar/+JDxe0f2juRaG8w0Frm87/h/+dd4R6SeHDHqU+
-	9g/1dLKHSoNce0EF1DMLqwVX4hIILVJU=
-X-Gm-Gg: Acq92OHPTmmCq0FNyFkMImjLBXxVWWN5jO1v10xPu2f4f81wrhEBR5OJDM/kcdK9YU5
-	qDhcuXmOR8v0FJh4IOPr8468puuyV5kaX/g/gy8Wikvk+eNf2sm4ptF39Xif+ht3PjiMngIF20U
-	9B1H+xCfCSRm21zp5K3sK05cIEdPtMFsDN48RA6aJWN9oVXTxNvtQxgWExx6uAWzJM+Tt54ssTM
-	ucVxkSABeELCfz1tjlIlRDZfSl/bloDGkLutT2eVNBFVCq1PSy/gRgSqjdvjWLccI8DN7xC4BFB
-	31wejyvI
-X-Received: by 2002:a05:690e:169e:b0:650:36e6:2ace with SMTP id
- 956f58d0204a3-65e227cffebmr22544599d50.31.1779244308690; Tue, 19 May 2026
- 19:31:48 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779252058; x=1779856858;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UawR2ecAAmpl5iNmgN346ehivn3mNf/9XSeJ91i6yF8=;
+        b=jF1nXCEhfHBiWYOkUw//yKmsOfq5WRnyEbYFbNzrZs1BjeKzgfyM/86NMLLsXpkmBv
+         naEdFhYzPD9fDn12fLhHRp8L/Tdh1DajQdFPGQzBb66DT0aY9ZrPfksmR3rOPzSeIBC9
+         alhDUOCcCKBwhEtL1XbeaO/SZNFLeg/h6Y0ldHsYGJNOEr+IhmCryKGol2GuaiK8OCel
+         AGrnm4HnJQsQ/0TtaI7UMZf3xxTKuSXMzftce2eY2bGT1bQpbQE/kaM/mKRvkLDeUCHQ
+         fsK3iYUK0f8Dm2NeKRshdTu2yeMRpIw0UgSvPvXG2B79whyG77c3s7eYR5+hi3VVvMyZ
+         XwDg==
+X-Forwarded-Encrypted: i=1; AFNElJ8GANGURrgHB8lPuKV01bUr6NXkL6jQYoXtSihpjXzjI2QDeNFERNeFVEnWYwg/7b7TIbi48R5mmwZliA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrIv5ehouFrDcJbIOCVfeFABXbxsxOD9FxpHRKw4c2ClAxmSIW
+	krc8cJ8yd+5vlnA34RD51NnAaWMnRQZA93g279UrH0DjgzPHVq6sbFdZmV824Q==
+X-Gm-Gg: Acq92OGqW3dmntsrRTseFmctiTsSrZ5y1JnYeb4mCAHMTHK0p3PopK2T9qHY6MvmyqT
+	WDd7YkeRsEvvhemwS4f22ZXA331d8yfHNHSaDqkpehaKAZauotJXU53wBXnbay13RUMCwo/ps0c
+	0i9HPt6wNdstF5amA1LOvshV5u4jlcNLK962OwIbb56REw0mYkDUrH1YbHHhhMn6LHzIYvsUWTt
+	ajHmg85N/YyH0USWnxnbOC3UjiJ7LzcUOkJHAu2VurtRhes7Jf3cHmH90Gi2gB8ul33vz1AUDPO
+	L4DyT/W7uXp8K7hgdYz1j+DS2kPlui7UZIbRCEyIxL2k7Fl3ILdWWrbVZXB/1PPSCwtcUDhOh4T
+	6DGA948qXOeb89ubLW5MY2RfyfUte6jqiyvHxtgzgbv4LnUuR5jaXd7HLztZEW5b6dfjsy8GekY
+	NCSPM155nA7+GLc5buu9QjDYITw5ffSAM=
+X-Received: by 2002:a05:6a00:8c2:b0:835:a682:a6d7 with SMTP id d2e1a72fcca58-83f33bae2camr23163556b3a.4.1779252057807;
+        Tue, 19 May 2026 21:40:57 -0700 (PDT)
+Received: from rockpi-5b ([45.112.0.230])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83f19c5be71sm18649802b3a.39.2026.05.19.21.40.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2026 21:40:57 -0700 (PDT)
+From: Anand Moon <linux.amoon@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Maxime Jourdan <mjourdan@baylibre.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	linux-media@vger.kernel.org (open list:MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS),
+	linux-amlogic@lists.infradead.org (open list:MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS),
+	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Amlogic Meson SoC support),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Anand Moon <linux.amoon@gmail.com>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>
+Subject: [PATCH v3] media: meson: vdec: Fix memory leak in error path of vdec_open
+Date: Wed, 20 May 2026 10:10:41 +0530
+Message-ID: <20260520044046.7553-1-linux.amoon@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <xMdPPQAJ2BbtNwnxmf1CN7FGbdhSJM7NIXkRCxzFvXv0g01tuvNPvAacsFJaDyBc3cIkIAEfi44ewZ3OGGAcDg==@protonmail.internalid>
- <20260519090819.1041314-1-lgs201920130244@gmail.com> <8787ea87-aa75-4fb5-a729-cd2b54d2ff8a@kernel.org>
- <ihn1XgQJPFsYvuTtWPxpZWwaQBVXHDmJ6Kp6i4DmDowTcRQITZXJlaVsbtkW-bpWydiYGAyyh6c9QLs4Nsn6lA==@protonmail.internalid>
- <CANUHTR9g6vRkKfPeHBQ4_9YR-sZQ_UZBX3+8CiKPYp-XPcp1CQ@mail.gmail.com>
- <d7082ea8-3b3d-468d-ba27-4d3ba5103a3a@kernel.org> <ZdheLnLujnIRGAGLFiz1lwSwxaUCArec6sbk_VkixDGjsuPYnMT4_YCSMTbwBWI5-b62G90Qia9lQ90pyFvjBA==@protonmail.internalid>
- <CANUHTR99NHPRP3ooEXEBHf4Fksy0B96vdoV3=mzoMBawVgek+w@mail.gmail.com> <cfb76181-4d59-43b3-a45b-a344a71fdfbf@kernel.org>
-In-Reply-To: <cfb76181-4d59-43b3-a45b-a344a71fdfbf@kernel.org>
-From: Guangshuo Li <lgs201920130244@gmail.com>
-Date: Wed, 20 May 2026 10:31:33 +0800
-X-Gm-Features: AVHnY4IKjQnljjpGsUQoQWZv1Y2n6uDHs4zZhfcFPqUV4dLPUHv3Pm8y929Ral4
-Message-ID: <CANUHTR9OX4KC6djn=wdkwAhiB0zqFEHFu3jtJ-+LdixgbB-OUw@mail.gmail.com>
-Subject: Re: [PATCH] media: venus: venc: avoid double free on video register failure
-To: "Bryan O'Donoghue" <bod@kernel.org>
-Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>, 
-	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Stanimir Varbanov <stanimir.varbanov@linaro.org>, 
-	Hans Verkuil <hans.verkuil@cisco.com>, linux-media@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62198-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lgs201920130244@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 59A2D586DA2
+	TAGGED_FROM(0.00)[bounces-62199-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,ndufresne.ca];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[linaro.org,kernel.org,linuxfoundation.org,baylibre.com,googlemail.com,vger.kernel.org,lists.infradead.org,lists.linux.dev];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FROM_NEQ_ENVFROM(0.00)[linuxamoon@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ndufresne.ca:email]
+X-Rspamd-Queue-Id: 2B638587941
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, 20 May 2026 at 00:34, Bryan O'Donoghue <bod@kernel.org> wrote:
->
-> On 19/05/2026 15:58, Guangshuo Li wrote:
-> > Hi Bryan,
-> >
-> > On Tue, 19 May 2026 at 21:20, Bryan O'Donoghue <bod@kernel.org> wrote:
-> >>
-> >> Yes I take your point.
-> >>
-> >> So what you are describing is an error in the software contract from
-> >> video_register_device() - if we look throughout the usage of that
-> >> function we see either the pattern we already have - not checking for
-> >> NULL or checking for NULL - not the double free case you are addressin=
-g.
-> >>
-> >> So really the fix - the place to litigate this is not in Venus or Iris
-> >> but in video_register_device's cleanup path.
-> >>
-> >> ---
-> >> bod
-> >
-> > Thanks, I agree.
-> >
-> > This should probably be handled in the video_register_device() failure
-> > path rather than in each individual driver.
-> >
-> > I do not have a good idea yet for how to fix that cleanly in the v4l2
-> > core. Do you have any suggestion?
->
-> So if we look at how video_register_device() is used by drivers we have
-> two different behaviours.
->
-> 1. Trap the error and release the device
-> 2. Trip the error - check for NULL and release the device
->
-> Either way the _users_ of video_register_device() right now expect to
-> have to call video_device_release().
->
-> So... it seems to me video_register_device() also calling
-> video_release() on some but not all of its error path is not the
-> expected software contract.
->
-> So I suggest two things.
->
-> 1. Audit all users of video_register_device() and confirm the hypothesis
->     That is callers expect to own vdev and currently everybody tries
->     to clean it up.
->
-> 2. If 1 is true then fix video_register_device() to not call
->     video_device_release()
->
-> It either needs to be that or fully delegate ownership of vdev to
-> video_device_register() _and_ update all of the callers.
->
-> It may be that < 100% of callers if that is low single digits then
-> worthwhile updating those drivers to match the new semantic.
->
-> =E2=82=AC0.02
->
-> ---
-> bod
+The vdec_open() function previously jumped directly to
+err_m2m_release when vdec_init_ctrls() failed, skipping
+release of the m2m context. This caused a resource leak.
 
-Thanks, I agree with your suggestion.
+Fix it by introducing a proper err_m2m_ctx_release label
+that calls v4l2_m2m_ctx_release(sess->m2m_ctx) before
+releasing the m2m device.
 
-I initially considered that some callers might not follow this ownership
-semantic, so I tried to fix the issues reported by my static analysis tool
-driver by driver first.
+This was identified via kmemleak:
+unreferenced object 0xffff0000205d6878 (size 8):
+  comm "v4l_id", pid 5289, jiffies 4294938580
+  hex dump (first 8 bytes):
+    40 d2 49 18 00 00 ff ff                          @.I.....
+  backtrace (crc d3204599):
+    kmemleak_alloc+0xc8/0xf0
+    __kvmalloc_node_noprof+0x60c/0x850
+    v4l2_ctrl_handler_init_class+0x1b4/0x2e8 [videodev]
+    vdec_open+0x1f4/0x788 [meson_vdec]
+    v4l2_open+0x144/0x460 [videodev]
+    chrdev_open+0x1ac/0x500
+    do_dentry_open+0x3f0/0xfe8
+    vfs_open+0x68/0x320
+    do_open+0x2d8/0x9a8
+    path_openat+0x1d0/0x4f0
+    do_filp_open+0x190/0x380
+    do_sys_openat2+0xf8/0x1b0
+    __arm64_sys_openat+0x13c/0x1e8
+    invoke_syscall+0xdc/0x268
+    el0_svc_common.constprop.0+0x178/0x258
+    do_el0_svc+0x4c/0x70
 
-I will audit the users of video_register_device() to check the common
-caller expectation, and then look into fixing the core error path if that
-is the right direction.
+Cc: Nicolas Dufresne <nicolas@ndufresne.ca>
+Fixes: 3e7f51bd9607 ("media: meson: add v4l2 m2m video decoder driver")
+Signed-off-by: Anand Moon <linux.amoon@gmail.com>
+---
+v2: https://lore.kernel.org/all/20260321065408.209723-1-linux.amoon@gmail.com/
+   updated the commit message, applied the suggestion from sashiko
+   below.
+  [3] https://sashiko.dev/#/patchset/20260321065408.209723-1-linux.amoon%40gmail.com
 
-Thanks,
-Guangshuo
+v1: https://lore.kernel.org/all/20260304100557.126488-1-linux.amoon@gmail.com/
+   tried to address the issue reported by Nicolas
+   improve the commit message.
+---
+ drivers/staging/media/meson/vdec/vdec.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+index 4b77ec1af5a7..a039d925c0fe 100644
+--- a/drivers/staging/media/meson/vdec/vdec.c
++++ b/drivers/staging/media/meson/vdec/vdec.c
+@@ -889,7 +889,7 @@ static int vdec_open(struct file *file)
+ 
+ 	ret = vdec_init_ctrls(sess);
+ 	if (ret)
+-		goto err_m2m_release;
++		goto err_m2m_ctx_release;
+ 
+ 	sess->pixfmt_cap = formats[0].pixfmts_cap[0];
+ 	sess->fmt_out = &formats[0];
+@@ -913,6 +913,8 @@ static int vdec_open(struct file *file)
+ 
+ 	return 0;
+ 
++err_m2m_ctx_release:
++	v4l2_m2m_ctx_release(sess->m2m_ctx);
+ err_m2m_release:
+ 	v4l2_m2m_release(sess->m2m_dev);
+ err_free_sess:
+
+base-commit: 27fa82620cbaa89a7fc11ac3057701d598813e87
+-- 
+2.50.1
+
 
