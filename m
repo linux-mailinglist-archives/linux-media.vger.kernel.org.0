@@ -1,286 +1,264 @@
-Return-Path: <linux-media+bounces-62289-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62291-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aFs/G4W+DWrH2wUAu9opvQ
-	(envelope-from <linux-media+bounces-62289-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 16:00:37 +0200
+	id UDL9B/i9DWrH2wUAu9opvQ
+	(envelope-from <linux-media+bounces-62291-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 15:58:16 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDCAA58F389
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 16:00:36 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F4558F2EA
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 15:58:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 6ED423050A6F
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 13:56:51 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 7375C30454F2
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 13:57:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DCD13D75A0;
-	Wed, 20 May 2026 13:56:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90E173E2764;
+	Wed, 20 May 2026 13:57:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b="enZIu5UC"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="cAJJKhJX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013030.outbound.protection.outlook.com [40.93.201.30])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBBC63D8128
-	for <linux-media@vger.kernel.org>; Wed, 20 May 2026 13:56:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779285407; cv=none; b=B4gZ5j+Ealmm6VZwtovnrgwsJlwvkREmr1nDn3Yj0EtmyhHZ3uBfBKZncYS06J5Na4Bozko/OCZ5i1WAuHtWJ39+15JFzx3rfSgJCCLfWZFTbKWVuzC9yFWp0YgZ6hFTGOcDo6YWOPtnmhR4sOvl3ljOE/BoWbKos49rR1c7yuA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779285407; c=relaxed/simple;
-	bh=ts3U0DRr6d9NnETLjnGWPaUJgDNKvjqhIRhVTqEgvZw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=oGTPobKFbypgx5sc4Z1QYbRsdcVIxYDhPO1WA+qCeppeFRLD05pGTYC2tLB7jCvzWRCJWif/Kv+iT5lQDI6xdQHBc4+jhDB+F3U+HhrUnr9MOZSbAwz8YBHbEv0O/sRtggLu0WxX3uOLemZNC27HrEzjgZNFT+N9CSSWts5AILo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=enZIu5UC; arc=none smtp.client-ip=209.85.222.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-90fc979d84cso321574485a.1
-        for <linux-media@vger.kernel.org>; Wed, 20 May 2026 06:56:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1779285405; x=1779890205; darn=vger.kernel.org;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=6AoVqM70l4U+qYVnKG6rb2UkmbXX7bAvSah0+zZjZcs=;
-        b=enZIu5UCXb4MDCvEGooihHC8H3sSl2LVwCsfsOj4WbN8ZHyXiV5z2TBecc9nwqNvyl
-         uJFYjTBjjL8Kx+LCF30SxZHTCi0huMPbzDHKl6NYYwE7Kb+iS/xID0Yt8LsWr5RfQqoD
-         T5sEZc2HW2hAVf3UPhuTVp5++VrDMM88SjlGtG9WuMVxRH+eY+tH9pGqSafDZQzjW2bn
-         CLTYCvq9IWl9z6Z9+nw0yID1B/xOnTPz5ehI3qMic4ppVTNZAEx64DoVdj+SNYRGZLct
-         QPHWEqSKp1ammXkHBE5HUdk0G5IvvwtPOxiY3w6fTFVIfHSzROpK0MGykHfv6ovhWXc8
-         rSEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779285405; x=1779890205;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6AoVqM70l4U+qYVnKG6rb2UkmbXX7bAvSah0+zZjZcs=;
-        b=oIMzn4tZ4EXwLO2MmgYv9PuIJBbjPWG1UNZVftsNSG8JTY1+zKUI3l4sS00g7lLcVC
-         AJmCe/rYT+p7XiRct45lN+TnxkYWS8M/kPNSPK2Pfp0d0OOff2bU6wO9FBjqGAiu1tv3
-         vkyP9u2okvm5ZCSkM8x3K1BjZHHM+3S9WwsDYzJraWyQpHa2flcRNK41CsAvEZ6LrHIl
-         fua4H5q5qeBBiGBS9DqfsqNVoJxTVk5YDy64h6p6CS+hIlKsa7EcuUhKna4Ksn6riRHG
-         l/TjaBK9SCK/yrj5YrkgorOW5/yI2fqbKJzgFTRZIE9vNold8S69/7Eoylhd5bEfGQFD
-         hetQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8tGGSlmVAJmTmWW76/rfSgMsEo/jAJS5kK8XeefY6eQAXiD4QO0yBjMuIuCuDXnQT18h8fv/TjqAd/aw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxeFP/hZBKR67yMXXTH32kfb3biLkJFq9/ri2j1AFi73JgIEbTK
-	AmE+jJ8D+2knE1I/ghEJJO+mJNvlR9bNJ9EWk/tMl6W+8GEWQ4xk8ztQZoo4y/WFqCc=
-X-Gm-Gg: Acq92OEYzl9KVlLPg0PTQMOzmdEAjnYwFMtc/2ktQqZ7/R3RhLP+lNz4PQWuDdFuuZX
-	mJh2ZlomGiv3A5E74N9tibDlY4pKmVzYpoJcah8oeoYOycg1I+BLhGnhdm1EnWRst9ik7BM5Fm/
-	9GC0RDf/hUcEvPLaFtBm2JgC2uNJBrXipteMzP61nrMPHOJcnN13fRz6qoon2U0YQ66ARBgwZiK
-	jzSWdGzBoKMpSuVWk4PmHiWUIGiQNYJB8Ilka1WJxQ8D6FxCRcvHb7QVgjPzw2We1VKAL8y4EV8
-	Dl26Pc3/vOWQuuP/L9HSvVOxEOW6XOMEPFZlzsu+s4Ixe4Y/lx8ocv6d61J0i0tFej4f8lpset6
-	cx1S3eVGHxmUuqw1hts/m69TP/0/HXjk6836N/doevTUNQ7hj+rA9+GrZLeuFOkFip1RBM/647k
-	XPQyeqhiLapYM5e4c2FoTq35Bn3NLjr2pxw9qIeSBrT9fgxHMnD3TdQtsEtSsVcCxFRZ2o
-X-Received: by 2002:a05:620a:4611:b0:912:c0b3:7d9b with SMTP id af79cd13be357-912c0b37ec9mr3183101085a.24.1779285404810;
-        Wed, 20 May 2026 06:56:44 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:15:e06b:3a7c:76ff:fea1:2ac0? ([2606:6d00:15:e06b:3a7c:76ff:fea1:2ac0])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-910ba182535sm2144742585a.8.2026.05.20.06.56.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2026 06:56:43 -0700 (PDT)
-Message-ID: <cae1117b91eb2df890c79b8f914628a38df0e2ce.camel@ndufresne.ca>
-Subject: Re: [PATCHv2 2/2] media: vivid: check for vb2_is_busy() when
- toggling caps
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org
-Cc: stable@vger.kernel.org, 
-	syzbot+dac8f5eaa46837e97b89@syzkaller.appspotmail.com
-Date: Wed, 20 May 2026 09:56:43 -0400
-In-Reply-To: <ba02852937616394e2f5de34ee2effa0944d7c88.1779266182.git.hverkuil+cisco@kernel.org>
-References: <cover.1779266182.git.hverkuil+cisco@kernel.org>
-	 <ba02852937616394e2f5de34ee2effa0944d7c88.1779266182.git.hverkuil+cisco@kernel.org>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-BnYdjJtgzWi/l7jlWyDC"
-User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6F57344DA4;
+	Wed, 20 May 2026 13:57:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.30
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779285443; cv=fail; b=j57giOrWk2r1xeaFHTW/mASG+WWkg92popGz6gGlJ42oCgt3H662MNlDayZMhKJgDbAHorsR1s/iOlZB/ZSnqsg2J5bueyihdqy8W6fUOHjcpgzegpi4AyMQuaK6n4JauCmFYYuNEGI7nZTGt+nSipYDAlyFwhtxthwezltApz8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779285443; c=relaxed/simple;
+	bh=oYtPg34OHcptWL0TXzGyplzqAe1Nx8ZIKSvTNahgK8Y=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kDwh7uG/aySeAn49QDJU67t23QihOKV2/60LYyWqFwaUpMWRqVWUZMzUYiyc4J1B90fi/mR0zWO3JYaAdR0HLWVGAaFg4YSE0SBGoeH02gCrXMNIfzEG8jRko9esH+ZfKybIpBtXdpH88FB5/Yo9RjA1XYaF8dWbcHJups3xSL4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=cAJJKhJX; arc=fail smtp.client-ip=40.93.201.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GKGhsVamlKFhVuJBbCq+nBk93lIlkGiO9v5b+12uG/JkufupKGdrYVNAwVrHfW3iI+5+pNEK2U5nUZD2+sldSHILW/rWvZKqa3jM9N1S7+mGXQwsM8fCvvxF7/eAnYUeZfXKeV+qWMg1e7HXDy7MJQWfPED+T6iu0l3RyeHaPzkPPNEimF5vPQEUE4ibzPTv+wIDlI1zqLxyL8vNnHyMxayG0g5DhXbeNzT1z1t2tVmbhQMUDNNE6Jx5EOWcXu3mcJkqpiD0ybMZchbmtL6za7+ueJdkS+YOESAMcgUv0xQfsLici/LTUDIhiTcxKaepVpe2Krg/47teyMDFdYEfUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uiIVVNwu1I0UWmkGam6DcPeQB9uT0hN0Ep3xzi4TNTk=;
+ b=VCIm9IQ6ynKzbqYL2pI5Mgext0WO1t+U7AQ1wY9rBLPrZVdrRQ2tK8Rk8Jq+jSM2k20a3gRPhKMk+QvFk08mqykuXbolUE4niED+4x86axrHFdAfVqRHUypUxrhLT/DgcNgGr+27fRjRlafrC+ouvns2MklBodYJvZks0ut4ZZWfMZXODogG0I/oT/t4vdXVrRnrhQprCoxQY66f9DhoIYGq7YHqnyPrl9Gl7SGjhX+FUGIM4+wQ+/kpmcXhwFfNJpa559uZ8PCVJA06tflHVAHwuRCbGey/KXFopHlG5VPEcmwOWv5L2TqMeIKbyOj28keFtqIH6SPd+avDYXMT9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.23.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uiIVVNwu1I0UWmkGam6DcPeQB9uT0hN0Ep3xzi4TNTk=;
+ b=cAJJKhJXntT2dcvfEuz77xDBBMsIx5Gv444NhrHXm8uuG82l3TIBBUgfylqXYaSk/lzHVqRrrRQlw6KXT/XVibeB270gJHND68u35k/oyRoYz2qdMU4jxFZJ9YTALj+QZQB6yi5a1bzwTkLdplzg2oBdUlM0OEFKAvK0MitYvVc=
+Received: from SJ0PR13CA0125.namprd13.prod.outlook.com (2603:10b6:a03:2c6::10)
+ by DM4PR10MB7392.namprd10.prod.outlook.com (2603:10b6:8:10c::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Wed, 20 May
+ 2026 13:57:14 +0000
+Received: from SJ5PEPF000001CC.namprd05.prod.outlook.com
+ (2603:10b6:a03:2c6:cafe::98) by SJ0PR13CA0125.outlook.office365.com
+ (2603:10b6:a03:2c6::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.48.16 via Frontend Transport; Wed, 20
+ May 2026 13:57:14 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.23.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.23.195; helo=lewvzet201.ext.ti.com; pr=C
+Received: from lewvzet201.ext.ti.com (198.47.23.195) by
+ SJ5PEPF000001CC.mail.protection.outlook.com (10.167.242.41) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.48.11 via Frontend Transport; Wed, 20 May 2026 13:57:14 +0000
+Received: from DLEE212.ent.ti.com (157.170.170.114) by lewvzet201.ext.ti.com
+ (10.4.14.104) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 20 May
+ 2026 08:57:13 -0500
+Received: from DLEE207.ent.ti.com (157.170.170.95) by DLEE212.ent.ti.com
+ (157.170.170.114) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 20 May
+ 2026 08:57:13 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE207.ent.ti.com
+ (157.170.170.95) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
+ Transport; Wed, 20 May 2026 08:57:13 -0500
+Received: from ws.dhcp.ti.com (ws.dhcp.ti.com [172.24.233.149])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 64KDv59u2091153;
+	Wed, 20 May 2026 08:57:06 -0500
+From: Rishikesh Donadkar <r-donadkar@ti.com>
+To: <jai.luthra@linux.dev>, <laurent.pinchart@ideasonboard.com>,
+	<mripard@kernel.org>
+CC: <r-donadkar@ti.com>, <y-abhilashchandra@ti.com>, <devarsht@ti.com>,
+	<s-jain1@ti.com>, <vigneshr@ti.com>, <mchehab@kernel.org>, <robh@kernel.org>,
+	<krzk+dt@kernel.org>, <p.zabel@pengutronix.de>, <conor+dt@kernel.org>,
+	<sakari.ailus@linux.intel.com>, <hverkuil-cisco@xs4all.nl>,
+	<tomi.valkeinen@ideasonboard.com>, <jai.luthra@ideasonboard.com>,
+	<changhuang.liang@starfivetech.com>, <jack.zhu@starfivetech.com>,
+	<sjoerd@collabora.com>, <dan.carpenter@linaro.org>,
+	<hverkuil+cisco@kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>
+Subject: [PATCH] media: ti: j721e-csi2rx: Minor cleanup of loop variables
+Date: Wed, 20 May 2026 19:27:05 +0530
+Message-ID: <20260520135705.661455-1-r-donadkar@ti.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20251104.gappssmtp.com:s=20251104];
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001CC:EE_|DM4PR10MB7392:EE_
+X-MS-Office365-Filtering-Correlation-Id: 53f03454-060a-4005-3863-08deb677b245
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|82310400026|1800799024|376014|36860700016|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	U5UQo7BCpQf7EmgIJFY9Ofk3BN3AIVaRD8mGl7XmkEB9gFZ7nXMoG3mItfFHN5kxBbaoCYdDnFyGj7Eaq8Bi+KLAUUtO6EAEE3cYwS/pwHLZcQB75sH21qw126DPgjqiu5djHtGVYW2I347Mnuft16oR28bCOeq/B7kSvJgym5u7EKvomW4UjJ8swbQswKqLgZl8GtjPXZmWbm+7GDPtiKeRr7+oiZBY9iiBmlxO0sAKPBZr9lOw69X/MG2/t+uZBgL5fLcta5H+v8egvgrqHF5S1HRNTNCOYQYNCOtL4v/iwusg2dfdfgJErXgVnsHtKcz/brYfF0vE6ynqENT05jSLSh5ldt2TwHQwvSObiZaFLHZndV8hdDt3u/ms0cIA6i4tPeCgnCmhdff9oYUB0Oh8SkOfEKEr0IuYlOTGaSPNwc8GQmBBFZCyzA2IAqRpCEncqzedrXrWbLeOtMJejFj4ugo/Xr+uS7u6IhBKcpM4GC98vJDh0d7Iz0JiD7OQpuQ075Dup2986lQ6B+VOof/cEAprawMb0X8GDj5bapcQukBVhKyKJ8tbKYq1/bB8MGkKl8DsDKKiEIgi5bpLPWGP14sxJSf+CCAx7fkYRXXqfMjgO48iVR4nWAKEEStc1oDQY4dDrvdvpGvtbID2yXepTrchvqjijN7dNf9J6QIyG771oLWCOC9P4sCBQq3NiwQ4RGgmSe0tSByvCIulhfS7FP4u6zrlLAbRi9yQ7z4=
+X-Forefront-Antispam-Report:
+	CIP:198.47.23.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet201.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(82310400026)(1800799024)(376014)(36860700016)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	DMFABFx6bJKeELYSEOQ5g6TbroQfsKZ29MICdkCRUBREzgxYQYDMlak5ahlWQdA2BlnVAaMokyfUyeKXG4Ol/mN+T74rqoppWv4DFf2QDaukYgf+hY5Sq8jOF8MXMbGRj+Hn5AlpaToO/RoawMwq3ksfFZvEbWFQgfbQ4NdE9cwEFqUFksAslA43hBWoEFJcN11B7yL4vti90oIzFwCfiXV2PCUbZQiCjGtv+AH5pCwfULfW32IjPThWw7XWcdXtj2n47lfzyMmVmGTLP+VsKSTlMd4zB1c+FbfP5nHXug3zvdouMkRC75lQtG0X3HuRLrfcacN3qwQBbnff3cs1DSIRiNo54/AOvlqh/EaAnh+2W3hdbbZcejy2uyocEKJTieNsQUBDDMcbNq/+CKCtk7s3QjPZHHkVo69sGAqIP+kXsy+0GCqhOpucxCYDe/Eg
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 13:57:14.0114
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53f03454-060a-4005-3863-08deb677b245
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.195];Helo=[lewvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ5PEPF000001CC.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR10MB7392
+X-Spamd-Result: default: False [2.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ti.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[ti.com:s=selector1];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62289-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ndufresne-ca.20251104.gappssmtp.com:+];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FREEMAIL_CC(0.00)[ti.com,kernel.org,pengutronix.de,linux.intel.com,xs4all.nl,ideasonboard.com,starfivetech.com,collabora.com,linaro.org,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-62291-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[r-donadkar@ti.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[ti.com:+];
+	TO_DN_NONE(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,cisco,dac8f5eaa46837e97b89];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[appspotmail.com:email,syzkaller.appspot.com:url,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,collabora.com:email,ndufresne-ca.20251104.gappssmtp.com:dkim]
-X-Rspamd-Queue-Id: CDCAA58F389
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	RCVD_COUNT_SEVEN(0.00)[10]
+X-Rspamd-Queue-Id: D4F4558F2EA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Replace open-coded `i--; for (; i >= 0; i--)` patterns with the
+idiomatic `while (i--)` in the error unwind paths of
+csi_async_notifier_complete() and ti_csi2rx_probe().
 
---=-BnYdjJtgzWi/l7jlWyDC
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Also scope loop variables directly in the for statement instead of
+declaring them at the top of the function in ti_csi2rx_suspend(),
+ti_csi2rx_resume() and ti_csi2rx_remove(). Change the type to
+unsigned int in the first two to match csi->num_ctx.
 
-Le mercredi 20 mai 2026 =C3=A0 10:36 +0200, Hans Verkuil a =C3=A9crit=C2=A0=
-:
-> The vivid_update_format_cap/out() functions must only be called if the
-> capture/output queue are not busy. But for the controls that select
-> the CROP/COMPOSE/SCALE capability that is not checked.
->=20
-> Only when streaming starts will they be set to 'grabbed' and it is
-> impossible to change the control, but between REQBUFS and STREAMON you
-> are still allowed to set these controls. Since vivid_update_format_cap/ou=
-t
-> will change the format, this can cause unexpected results.
->=20
-> Besides adding these checks, also add a WARN_ON in
-> vivid_update_format_cap/out() if the queue is busy.
->=20
-> I'm 90% certain that this is the cause of this syzbot bug:
->=20
-> https://syzkaller.appspot.com/bug?extid=3Ddac8f5eaa46837e97b89
->=20
-> But since we never have reproducers, it is hard to be certain. In any cas=
-e,
-> these checks are needed regardless.
->=20
-> Fixes: 73c3f48230cd ("[media] vivid: add the control handling code")
-> Cc: stable@vger.kernel.org
-> Reported-by: syzbot+dac8f5eaa46837e97b89@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3Ddac8f5eaa46837e97b89
-> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
+---
+This patch depends on [1]
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+[1]: https://lore.kernel.org/all/20260520120022.539913-1-r-donadkar@ti.com/
 
-> ---
-> =C2=A0drivers/media/test-drivers/vivid/vivid-ctrls.c=C2=A0=C2=A0 | 12 +++=
-+++++++++
-> =C2=A0drivers/media/test-drivers/vivid/vivid-vid-cap.c |=C2=A0 6 ++++++
-> =C2=A0drivers/media/test-drivers/vivid/vivid-vid-out.c |=C2=A0 6 ++++++
-> =C2=A03 files changed, 24 insertions(+)
->=20
-> diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/med=
-ia/test-drivers/vivid/vivid-ctrls.c
-> index 1077445f5772..a8a134b36720 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-> @@ -613,14 +613,20 @@ static int vivid_vid_cap_s_ctrl(struct v4l2_ctrl *c=
-trl)
-> =C2=A0			vivid_update_reduced_fps(dev);
-> =C2=A0		break;
-> =C2=A0	case VIVID_CID_HAS_CROP_CAP:
-> +		if (vb2_is_busy(&dev->vb_vid_cap_q))
-> +			return -EBUSY;
-> =C2=A0		dev->has_crop_cap =3D ctrl->val;
-> =C2=A0		vivid_update_format_cap(dev, true);
-> =C2=A0		break;
-> =C2=A0	case VIVID_CID_HAS_COMPOSE_CAP:
-> +		if (vb2_is_busy(&dev->vb_vid_cap_q))
-> +			return -EBUSY;
-> =C2=A0		dev->has_compose_cap =3D ctrl->val;
-> =C2=A0		vivid_update_format_cap(dev, true);
-> =C2=A0		break;
-> =C2=A0	case VIVID_CID_HAS_SCALER_CAP:
-> +		if (vb2_is_busy(&dev->vb_vid_cap_q))
-> +			return -EBUSY;
-> =C2=A0		dev->has_scaler_cap =3D ctrl->val;
-> =C2=A0		vivid_update_format_cap(dev, true);
-> =C2=A0		break;
-> @@ -1117,14 +1123,20 @@ static int vivid_vid_out_s_ctrl(struct v4l2_ctrl =
-*ctrl)
-> =C2=A0
-> =C2=A0	switch (ctrl->id) {
-> =C2=A0	case VIVID_CID_HAS_CROP_OUT:
-> +		if (vb2_is_busy(&dev->vb_vid_out_q))
-> +			return -EBUSY;
-> =C2=A0		dev->has_crop_out =3D ctrl->val;
-> =C2=A0		vivid_update_format_out(dev);
-> =C2=A0		break;
-> =C2=A0	case VIVID_CID_HAS_COMPOSE_OUT:
-> +		if (vb2_is_busy(&dev->vb_vid_out_q))
-> +			return -EBUSY;
-> =C2=A0		dev->has_compose_out =3D ctrl->val;
-> =C2=A0		vivid_update_format_out(dev);
-> =C2=A0		break;
-> =C2=A0	case VIVID_CID_HAS_SCALER_OUT:
-> +		if (vb2_is_busy(&dev->vb_vid_out_q))
-> +			return -EBUSY;
-> =C2=A0		dev->has_scaler_out =3D ctrl->val;
-> =C2=A0		vivid_update_format_out(dev);
-> =C2=A0		break;
-> diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c b/drivers/m=
-edia/test-drivers/vivid/vivid-vid-cap.c
-> index 76e0b161c049..e20449084709 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-> @@ -391,6 +391,12 @@ void vivid_update_format_cap(struct vivid_dev *dev, =
-bool keep_controls)
-> =C2=A0	struct v4l2_bt_timings *bt =3D &dev->dv_timings_cap[dev->input].bt=
-;
-> =C2=A0	u32 dims[V4L2_CTRL_MAX_DIMS] =3D {};
-> =C2=A0
-> +	/*
-> +	 * This resets the format, so must never be called while vb2_is_busy().
-> +	 */
-> +	if (WARN_ON(vb2_is_busy(&dev->vb_vid_cap_q)))
-> +		return;
-> +
-> =C2=A0	switch (dev->input_type[dev->input]) {
-> =C2=A0	case WEBCAM:
-> =C2=A0	default:
-> diff --git a/drivers/media/test-drivers/vivid/vivid-vid-out.c b/drivers/m=
-edia/test-drivers/vivid/vivid-vid-out.c
-> index 8c037b90833e..23e1d5a189ee 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-vid-out.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-vid-out.c
-> @@ -214,6 +214,12 @@ void vivid_update_format_out(struct vivid_dev *dev)
-> =C2=A0	unsigned size, p;
-> =C2=A0	u64 pixelclock;
-> =C2=A0
-> +	/*
-> +	 * This resets the format, so must never be called while vb2_is_busy().
-> +	 */
-> +	if (WARN_ON(vb2_is_busy(&dev->vb_vid_out_q)))
-> +		return;
-> +
-> =C2=A0	switch (dev->output_type[dev->output]) {
-> =C2=A0	case SVID:
-> =C2=A0	default:
+ .../platform/ti/j721e-csi2rx/j721e-csi2rx.c     | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
---=-BnYdjJtgzWi/l7jlWyDC
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+index 21388284cbaa..ef74e2da19b6 100644
+--- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
++++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+@@ -485,8 +485,7 @@ static int csi_async_notifier_complete(struct v4l2_async_notifier *notifier)
+ 	return 0;
+ 
+ unregister_dev:
+-	i--;
+-	for (; i >= 0; i--) {
++	while (i--) {
+ 		media_entity_remove_links(&csi->ctx[i].vdev.entity);
+ 		video_unregister_device(&csi->ctx[i].vdev);
+ 	}
+@@ -1552,7 +1551,7 @@ static int ti_csi2rx_suspend(struct device *dev)
+ 	struct ti_csi2rx_ctx *ctx;
+ 	struct ti_csi2rx_dma *dma;
+ 	unsigned long flags = 0;
+-	int i, ret = 0;
++	int ret = 0;
+ 
+ 	/* If device was not in use we can simply suspend */
+ 	if (pm_runtime_status_suspended(dev))
+@@ -1564,7 +1563,7 @@ static int ti_csi2rx_suspend(struct device *dev)
+ 	 */
+ 	writel(0, csi->shim + SHIM_CNTL);
+ 
+-	for (i = 0; i < csi->num_ctx; i++) {
++	for (unsigned int i = 0; i < csi->num_ctx; i++) {
+ 		ctx = &csi->ctx[i];
+ 		dma = &ctx->dma;
+ 
+@@ -1604,7 +1603,7 @@ static int ti_csi2rx_resume(struct device *dev)
+ 	struct ti_csi2rx_buffer *buf;
+ 	unsigned long flags = 0;
+ 	unsigned int reg;
+-	int i, ret = 0;
++	int ret = 0;
+ 
+ 	/* If device was not in use, we can simply wakeup */
+ 	if (pm_runtime_status_suspended(dev))
+@@ -1614,7 +1613,7 @@ static int ti_csi2rx_resume(struct device *dev)
+ 	reg = SHIM_CNTL_PIX_RST;
+ 	writel(reg, csi->shim + SHIM_CNTL);
+ 
+-	for (i = 0; i < csi->num_ctx; i++) {
++	for (unsigned int i = 0; i < csi->num_ctx; i++) {
+ 		ctx = &csi->ctx[i];
+ 		dma = &ctx->dma;
+ 		spin_lock_irqsave(&dma->lock, flags);
+@@ -1755,8 +1754,7 @@ static int ti_csi2rx_probe(struct platform_device *pdev)
+ err_notifier:
+ 	ti_csi2rx_cleanup_notifier(csi);
+ err_ctx:
+-	i--;
+-	for (; i >= 0; i--)
++	while (i--)
+ 		ti_csi2rx_cleanup_ctx(&csi->ctx[i]);
+ 	ti_csi2rx_cleanup_v4l2(csi);
+ err_dma_chan:
+@@ -1768,12 +1766,11 @@ static int ti_csi2rx_probe(struct platform_device *pdev)
+ static void ti_csi2rx_remove(struct platform_device *pdev)
+ {
+ 	struct ti_csi2rx_dev *csi = platform_get_drvdata(pdev);
+-	unsigned int i;
+ 
+ 	if (!pm_runtime_status_suspended(&pdev->dev))
+ 		pm_runtime_set_suspended(&pdev->dev);
+ 
+-	for (i = 0; i < csi->num_ctx; i++)
++	for (unsigned int i = 0; i < csi->num_ctx; i++)
+ 		ti_csi2rx_cleanup_ctx(&csi->ctx[i]);
+ 
+ 	ti_csi2rx_cleanup_notifier(csi);
+-- 
+2.34.1
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCag29mwAKCRDZQZRRKWBy
-9BrOAQDKrHnTjk3eMBXGWR0ThQbDvPgqB619//sIz2aIseBNVQD/cKgdId+LpSva
-HIpSWby4TPk3Oi1KCvkA3DjiUCuFsQM=
-=w5Kf
------END PGP SIGNATURE-----
-
---=-BnYdjJtgzWi/l7jlWyDC--
 
