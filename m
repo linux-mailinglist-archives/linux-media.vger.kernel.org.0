@@ -1,304 +1,222 @@
-Return-Path: <linux-media+bounces-62280-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62281-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ELdwE7yuDWr31QUAu9opvQ
-	(envelope-from <linux-media+bounces-62280-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 14:53:16 +0200
+	id UJWmMvyuDWrW1QUAu9opvQ
+	(envelope-from <linux-media+bounces-62281-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 14:54:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF2E958E420
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 14:53:15 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63C2758E491
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 14:54:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F299430BCF0D
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 12:45:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B480C312D3D2
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 12:45:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4EE83DD535;
-	Wed, 20 May 2026 12:45:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 358DA3E1233;
+	Wed, 20 May 2026 12:45:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O76VR5Ec"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bJKrYH+H";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZmZBGr9h"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11B936CE1C;
-	Wed, 20 May 2026 12:45:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF8D3C661A
+	for <linux-media@vger.kernel.org>; Wed, 20 May 2026 12:45:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779281105; cv=none; b=j6y65ZHHgW5IlDhhjPb4AigmHqI8NJ+/poEC9YW60Az3Upav+aWkT8AcGJ+UwDUTUDlNzrWFYO7udHC1tcAKpp+78uG3MGxHau3sZbRMZTmSSzmuK/cGnR/y2tu15S2JQmWW6GEg5aG3sNcNcECvjvOOt+rknBwRGByxgTuhvr8=
+	t=1779281156; cv=none; b=EbFjv6TvCD6afjIm+7Li+5haj23fsU06v8PxqGZ2H6FaLCjVsitRh11LX3lQy4PkgZhiMAAalIaKAJ0Xlto7wJGmxpN2YoPrBnUMYwQg9bX9ThIvdBauJYJWI7hu4ldextpeAZjGQK5QTmABTx0va1D/7cHbtQxD2BjKXCLdkR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779281105; c=relaxed/simple;
-	bh=o+zWeAeWfgBM2dfrXik88pRyFw11jcBdmJe5VStV108=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=MfQnTy+qirwe8tlxr4VUlKbRvN16OVoFw7gfZTVAU3mlMV/rwEjcWgk1WeP+a3KPDHmtq9ks6wH1ZzJEYRedGAs0zEOsIyfmm1hLANLDA4SOEsF5MS8H5P9qcbRWakBXuK132AiQuK+UN4xnZRFH5FqgSiS/RouM2LpDOix2kPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O76VR5Ec; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 548F91F000E9;
-	Wed, 20 May 2026 12:45:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779281103;
-	bh=2vfRYOQgayFctntzMRJtiwXMdzMQj1Pho2ViKIs1pDk=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To;
-	b=O76VR5EcFStafaF5CLkt5VCkwP+jNewu2zRMcwtp9x0MMCegzsLMn1UBAMPoqwmb7
-	 QGVF0GpuMBdOnjfmz3nnz5L2DK3mi0R/+IONJ1kF57HhAPtZ7htCn1YYRuH7HE7y16
-	 9Km+5Mmj9VmniAb5b2KDX36j6LV5pGX+LshFyGy+Vay69trrSNctDFJzM5lAarcyg8
-	 PdPfddYQJZYWgHYCqKWroJFEAL5j/lywmO797nZsyzaG6kcB0dvhn3yqleHODjuZ9+
-	 BD1b0lU1gkqrmu2Brz0wNN0g/Pwp6w2vmL4cNAQQHxQ605spRZMSDmBS2CA2XBqX+1
-	 edhTj3G41NBkg==
-Message-ID: <14d99c12-2d7d-4f09-b805-e795c8051626@kernel.org>
-Date: Wed, 20 May 2026 14:45:00 +0200
+	s=arc-20240116; t=1779281156; c=relaxed/simple;
+	bh=cLaTmSKhZdE69LzIgcez/DsGhTPNYNcrI9RL0CruJ5g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HZzlzNROH1hWXFzwchjEZgK9+kMoyeX6v5CTrrCulcymdoExW6ZjG4Ae3aMgX9h/8efeia3X8EZiHP1EX41QfPgVOBaU96lbIL7yH2IPbZYKnKbVYqRTeFfe+gu6ud+8+PwsRhc2QBGlw67wbQ4JWKScqEhK4jTHRFU5qECCKw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bJKrYH+H; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ZmZBGr9h; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64K6kNWg1725321
+	for <linux-media@vger.kernel.org>; Wed, 20 May 2026 12:45:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=cIZhTAzDt9+wu0W7bhluPXYB
+	8tTK/ULqj6C6vI+4RFM=; b=bJKrYH+HZjulNKG2nXTbJFE5pY6emoCZ1RcOpXoq
+	HXkHQ92QHj6os7+z3O3bpOMY7W7DN2TN5b5UPzpda9mZLuAS27CGgatIBNS2zqju
+	GsocGnD0zr81EiY6gImdXecz/ASrZh+Q3KJ9MYSQV40m+CKba1NEfY1Fx6Jn581i
+	BYMdzKMfiHVX9JzdXNuPq1z/nwOHC+dN7T1UsVomfbWvcM4TXyC2IkNZx7A2OYnP
+	6Vn2mIf0a/P+mKl4lUz3haD9lB4nJTzamlD4g9W4XrBsOExzMLvlxG21UUkpqZHF
+	m4pVbaO/Vee4X9P4PzNse/kXjwj8uGr2KEg3Nh0ZaIqU9g==
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com [209.85.221.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e8t3qms2g-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 20 May 2026 12:45:53 +0000 (GMT)
+Received: by mail-vk1-f199.google.com with SMTP id 71dfb90a1353d-5752402f5e1so12815791e0c.1
+        for <linux-media@vger.kernel.org>; Wed, 20 May 2026 05:45:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1779281152; x=1779885952; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=cIZhTAzDt9+wu0W7bhluPXYB8tTK/ULqj6C6vI+4RFM=;
+        b=ZmZBGr9hCRJ8sHrQXwQEA8zcRy6siYS3ekwjNd89jFYGQGQ0mErIzDfrT6bMOd+nub
+         H7xBMJWPk1N897u5c1mLablto7GcrfYuIoUs/5yD1pPnQfpzprlZT+OKRRzizFsxbgZw
+         DHb78CULZD60IDJ+hNWpjJGLN9UWn4fdbyoDLtgNpAd8fS5aNuv1GRKDUxBVP77beY3h
+         ytxmwU83Lzh4x6V7Y77/Sy4qs9i6sBXtwjT6D+JsEZOVGuvoObbpTSWNlQrfGjeP7d5e
+         HH+6IHRJ97G1ClIhdZOFWsvteyJFaM1DH17duzBazSHU8PZhGhLeo7IvhP8cTMGo9AOp
+         DJSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779281152; x=1779885952;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cIZhTAzDt9+wu0W7bhluPXYB8tTK/ULqj6C6vI+4RFM=;
+        b=LQaXYGbB2Pp7tLFGCWmWOydIbb601Dpe4SeKnyuUrkMbzOrETd1up1xkB4rSVrJYtU
+         guzT624QF/v9EvPiQokXnDVcngngs9y8BI4DEeKPDZLZEYdw+BzWPyFv0Q/uv5gtaq4b
+         9+tl4eV032+LSe3Nrop2Eh3zaHb0tR3mumQFqv1DL8SS5ftAvR6IXudA1doiPL4UZfQb
+         Rb4P0LMOm+bO2hdVaX7vFNBKqjxYAaylV56z4nBAkKGcwPLkGwxSI3gA6ffYhIb3AOgM
+         e0uqSh+A2GEhgujOiVt3TjijL7uvHzNwio8zx0Kek0V3Gnx+kBUJtkRzG34ir+bBKcMm
+         Lqhg==
+X-Forwarded-Encrypted: i=1; AFNElJ9hAlGqzAhZm2fTHcZ6aeZYzHQb3eN/D/Eetu4EjFHlQfveK8XOyAl1ITPkTrXQ+JIoQAU2KAsB2fTRJw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLQhHm/GwOVBQLc+8qmCSQyQfLplEepKBlBX4eSgeJ3oEX1Xbv
+	X090UBIl72yp8/NsMByuiMpWgww0ymmR20oQB882ma/vrmfnrkuC5jUb2mSSru2eDOkR+6Kqouc
+	cvvgPWWSMmd/hyrXqNiKdGF4oLF/njjcF+0qtDscUQs4aL8SyeDnWBC8EVImR0qbvVA==
+X-Gm-Gg: Acq92OGxC54Ca+ipxWgJLb/jEphXN1f/ezSjG+bmtKbhP2xA98TYQCMcIA/VPf7arED
+	1vQCj7hmnbJ8mQG7tIi7MJWYluPNA2uJC2NGQ+AHip75t4dAb+xlHpjJKw1aK1eKW9wy0Fy2GXw
+	GyueMspIJlY5OX1QWNRWF0vkeepBRrnMYjiveHvXOv4dkpa6IH5DekrRI4Zzsii7zNgcvvE46h4
+	FtkBwUlsrMIgek/5mE1MPto06JvHO3aX4Nu4Tky+d8vsGQN93mF9kjSiFZom5fGi9+nBv54lp2+
+	RsX0DpRliwSWBGHNQU9FBMbz6QQzmaENMrFcOFnewixPoJdzEX6ukFkwDGUBTISQD+pLgRLcN1F
+	9L0LJPRE4fGB9r3Zvnub0t4ZIJvmrtn+JvWxVoJURmBnjdlAz/6XATdNTNfpVu5NoM0OK8uqCCa
+	ee2RQja48GSdz4XDkVSeYxF2tRDZn92L1SEWY=
+X-Received: by 2002:a05:6122:a5c7:10b0:577:51e4:ef1f with SMTP id 71dfb90a1353d-57751e4eff9mr6283728e0c.9.1779281152535;
+        Wed, 20 May 2026 05:45:52 -0700 (PDT)
+X-Received: by 2002:a05:6122:a5c7:10b0:577:51e4:ef1f with SMTP id 71dfb90a1353d-57751e4eff9mr6283671e0c.9.1779281152095;
+        Wed, 20 May 2026 05:45:52 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5a9164c5712sm4836341e87.59.2026.05.20.05.45.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 May 2026 05:45:51 -0700 (PDT)
+Date: Wed, 20 May 2026 15:45:48 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Erikas Bitovtas <xerikasxx@gmail.com>
+Cc: Bryan O'Donoghue <bod@kernel.org>,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        =?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+        phone-devel@vger.kernel.org
+Subject: Re: [PATCH v8 5/9] media: qcom: venus: migrate MSM8916 to new
+ blacklist mechanism
+Message-ID: <mvlslbtufxodehvqqcmhihtchct3tegjbfjl2nmt3bh3fczdze@4fnrrtm2njlv>
+References: <20260519-msm8939-venus-rfc-v8-0-542ec7557ebc@gmail.com>
+ <20260519-msm8939-venus-rfc-v8-5-542ec7557ebc@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH] media: v4l2-dev: do not fire driver's release on
- __video_register_device() failure
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Guangshuo Li <lgs201920130244@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Kees Cook <kees@kernel.org>,
- Ma Ke <make24@iscas.ac.cn>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260520090624.1071139-1-lgs201920130244@gmail.com>
- <20260520093421.GA215344@killaraus.ideasonboard.com>
- <14ab929b-f236-48cf-a022-f424fa1e0c1e@kernel.org>
- <20260520104816.GB215344@killaraus.ideasonboard.com>
- <00110771-c722-4208-a0e8-48819952e992@kernel.org>
- <ag2iy5fRlZJLYijT@kekkonen.localdomain>
- <20260520124123.GD215344@killaraus.ideasonboard.com>
-Content-Language: en-US, nl
-In-Reply-To: <20260520124123.GD215344@killaraus.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260519-msm8939-venus-rfc-v8-5-542ec7557ebc@gmail.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIwMDEyMyBTYWx0ZWRfX7PsggCOMtzbE
+ aGE6GQ8JWz8rULGXNlrS5GSnPTgIFYLgahKHf6mvggiXo4m0oZ3ikrKBBIfYYqNNBkkLShLdxZG
+ BjY/Lq1D+MleC1qi5xjmRHDKmo0Ekrc3+ls5Ychk2VGdNMMaxkGMN1hMU2frbestCuomjJWFfAW
+ GfWdkP4Fp+X41bYpJdmHWAL3HW7PuMlCyuZd5VuS/oijFAbUpNflPCk43KyUZMCbdgy3s4BbUmI
+ 0pd/duEkwCBXUrMM2vZXC8t5lLGsqxRT8eWHuRptnWvlvV8i54OtcTSoA9KZ7YQUykYy6U9Jtzq
+ RvBHxsdYdnBcXYFMub/svABSe8N4ckWaG0PJjr8ar8ie455G6hadcQxt1vc13/kWuAECSYZifdX
+ 9SriUjv58nQk+UAW09fZpYeCHvRo/UOSm2mS146mfItxgxCQmY9yjtCktmCspBi6UKc9ThuJ9gC
+ E/eNfPuVxlBq9djdWxA==
+X-Authority-Analysis: v=2.4 cv=N9cZ0W9B c=1 sm=1 tr=0 ts=6a0dad01 cx=c_pps
+ a=+D9SDfe9YZWTjADjLiQY5g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=pGLkceISAAAA:8
+ a=FYQP979REZT08Aj4asUA:9 a=CjuIK1q_8ugA:10 a=vmgOmaN-Xu0dpDh8OwbV:22
+X-Proofpoint-GUID: svF2iJx301Rcup86n9lSgESqj4yfWiWL
+X-Proofpoint-ORIG-GUID: svF2iJx301Rcup86n9lSgESqj4yfWiWL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-20_02,2026-05-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 adultscore=0 lowpriorityscore=0
+ suspectscore=0 malwarescore=0 spamscore=0 phishscore=0 clxscore=1015
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2605130000
+ definitions=main-2605200123
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,iscas.ac.cn,vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-62280-lists,linux-media=lfdr.de,cisco];
-	DKIM_TRACE(0.00)[kernel.org:+];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-62281-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qualcomm.com:dkim,oss.qualcomm.com:dkim];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: BF2E958E420
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 63C2758E491
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 20/05/2026 14:41, Laurent Pinchart wrote:
-> On Wed, May 20, 2026 at 03:02:19PM +0300, Sakari Ailus wrote:
->> On Wed, May 20, 2026 at 01:26:30PM +0200, Hans Verkuil wrote:
->>> On 20/05/2026 12:48, Laurent Pinchart wrote:
->>>> On Wed, May 20, 2026 at 12:01:46PM +0200, Hans Verkuil wrote:
->>>>> On 20/05/2026 11:34, Laurent Pinchart wrote:
->>>>>> On Wed, May 20, 2026 at 05:06:24PM +0800, Guangshuo Li wrote:
->>>>>>> video_register_device() / __video_register_device() registers vdev->dev
->>>>>>> with device_register(). Before the call the video core sets
->>>>>>>
->>>>>>> 	vdev->dev.release = v4l2_device_release;
->>>>>>>
->>>>>>> v4l2_device_release() invokes vdev->release(vdev) as its last step, and
->>>>>>> the driver's vdev->release hook is commonly video_device_release(), which
->>>>>>> kfree()s the vdev that the driver allocated with video_device_alloc().
->>>>>>>
->>>>>>> When device_register() fails inside __video_register_device() the core
->>>>>>> does
->>>>>>>
->>>>>>> 	put_device(&vdev->dev);
->>>>>>> 	return ret;
->>>>>>>
->>>>>>> which drops the only reference and fires the v4l2_device_release()
->>>>>>> chain:
->>>>>>>
->>>>>>>   __video_register_device()
->>>>>>>     device_register() -> -E*
->>>>>>>     put_device(&vdev->dev)
->>>>>>>       -> v4l2_device_release()
->>>>>>>          -> vdev->release(vdev)
->>>>>>>             -> video_device_release(vdev)   /* kfree(vdev), free #1 */
->>>>>>>
->>>>>>> video_register_device() returns the error to the driver. Drivers that
->>>>>>> follow the documented ownership contract release vdev on their own error
->>>>>>> path, e.g.
->>>>>>>
->>>>>>>   driver_probe()
->>>>>>>     if (video_register_device(vdev, ...))
->>>>>>>       goto err_release_vdev;
->>>>>>>     ...
->>>>>>>   err_release_vdev:
->>>>>>>     video_device_release(vdev);   /* free #2 -- DOUBLE FREE */
->>>>>>>
->>>>>>> This is the contract documented in
->>>>>>> Documentation/driver-api/media/v4l2-dev.rst: the driver owns vdev and
->>>>>>> is responsible for releasing it if video_register_device() fails. As
->>>>>>> Hans Verkuil pointed out, the right place to fix this is the v4l2 core
->>>>>>> rather than every individual driver, because drivers are expected to
->>>>>>> follow the documented ownership contract.
->>>>>>>
->>>>>>> Neutralise vdev->release around put_device() in the device_register()
->>>>>>> failure path so the device core cleanup does not run the driver's
->>>>>>> release hook. The driver-supplied release is restored before returning
->>>>>>> so the caller can release vdev according to the documented contract.
->>>>>>> Successful registration is unchanged, so the normal teardown sequence
->>>>>>> continues to call the driver's release hook and free vdev exactly once on
->>>>>>> unregister.
->>>>>>>
->>>>>>> Fixes: 2a934fdb01db ("media: v4l2-dev: fix error handling in __video_register_device()")
->>>>>>> Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
->>>>>>> ---
->>>>>>>  drivers/media/v4l2-core/v4l2-dev.c | 5 +++++
->>>>>>>  1 file changed, 5 insertions(+)
->>>>>>>
->>>>>>> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
->>>>>>> index 6ce623a1245a..73648549eb2a 100644
->>>>>>> --- a/drivers/media/v4l2-core/v4l2-dev.c
->>>>>>> +++ b/drivers/media/v4l2-core/v4l2-dev.c
->>>>>>> @@ -1075,9 +1075,14 @@ int __video_register_device(struct video_device *vdev,
->>>>>>>  	mutex_lock(&videodev_lock);
->>>>>>>  	ret = device_register(&vdev->dev);
->>>>>>>  	if (ret < 0) {
->>>>>>> +		void (*release)(struct video_device *) = vdev->release;
->>>>>>> +
->>>>>>>  		mutex_unlock(&videodev_lock);
->>>>>>>  		pr_err("%s: device_register failed\n", __func__);
->>>>>>> +
->>>>>>> +		vdev->release = video_device_release_empty;
->>>>>>>  		put_device(&vdev->dev);
->>>>>>> +		vdev->release = release;
->>>>>>
->>>>>> That looks like a big hack. There must be something wrong somewhere else
->>>>>> in the design.
->>>>>
->>>>> There is, unfortunately the design was wrong since the beginning of V4L2.
->>>>>
->>>>> Documentation/driver-api/media/v4l2-dev.rst explicitly says that you should use:
->>>>>
->>>>>         err = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
->>>>>         if (err) {
->>>>>                 video_device_release(vdev); /* or kfree(my_vdev); */
->>>>>                 return err;
->>>>>         }
->>>>>
->>>>> So everyone does that. Luckily device_register never fails in practice (you probably have
->>>>> bigger problems if it fails then just a double-free).
->>>>>
->>>>> The reality is that we don't handle this failure well at all, and this change wouldn't
->>>>> help in all cases either. E.g. drivers/media/platform/renesas/renesas-ceu.c actually relies
->>>>> on the release() callback in that it doesn't call video_device_release().
->>>>>
->>>>> But then it would fail on the v4l2_err(vdev->v4l2_dev, ...) call since vdev would be freed
->>>>> already.
->>>>>
->>>>> There are probably more drivers like that. (drivers/media/i2c/video-i2c.c)
->>>>>
->>>>> I'm not sure what is wisdom here.
->>>>>
->>>>> See also commit 2a934fdb01db ("media: v4l2-dev: fix error handling in __video_register_device()"),
->>>>> which is where the put_device was introduced in the first place.
->>>>>
->>>>> Perhaps that should be reverted instead?
->>>>
->>>> If we want a short term fix I think that would be better.
->>>>
->>>> Have you seen
->>>> https://lore.kernel.org/all/aeCOdWLaVpH-5w8s@hovoldconsulting.com/ ?
->>>
->>> I hadn't seen it. Interesting.
->>>
->>>>
->>>> Having an API contract different from device_register() will likely
->>>> cause issues one way or another.
->>>
->>> Looking closely how the driver core works and what commit 2a934fdb01db changed,
->>> I think this might fix it:
->>>
->>> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
->>> index 5516b2bbb08f..6ffd385e880f 100644
->>> --- a/drivers/media/v4l2-core/v4l2-dev.c
->>> +++ b/drivers/media/v4l2-core/v4l2-dev.c
->>> @@ -1071,25 +1071,27 @@ int __video_register_device(struct video_device *vdev,
->>>  	vdev->dev.class = &video_class;
->>>  	vdev->dev.devt = MKDEV(VIDEO_MAJOR, vdev->minor);
->>>  	vdev->dev.parent = vdev->dev_parent;
->>> -	vdev->dev.release = v4l2_device_release;
->>>  	dev_set_name(&vdev->dev, "%s%d", name_base, vdev->num);
->>>
->>> -	/* Increase v4l2_device refcount */
->>> -	v4l2_device_get(vdev->v4l2_dev);
->>> -
->>>  	mutex_lock(&videodev_lock);
->>>  	ret = device_register(&vdev->dev);
->>>  	if (ret < 0) {
->>>  		mutex_unlock(&videodev_lock);
->>>  		pr_err("%s: device_register failed\n", __func__);
->>>  		put_device(&vdev->dev);
->>> -		return ret;
->>> +		goto cleanup;
->>>  	}
->>> +	/* Register the release callback that will be called when the last
->>> +	   reference to the device goes away. */
->>> +	vdev->dev.release = v4l2_device_release;
->>>
->>>  	if (nr != -1 && nr != vdev->num && warn_if_nr_in_use)
->>>  		pr_warn("%s: requested %s%d, got %s\n", __func__,
->>>  			name_base, nr, video_device_node_name(vdev));
->>>
->>> +	/* Increase v4l2_device refcount */
->>> +	v4l2_device_get(vdev->v4l2_dev);
->>> +
->>>  	/* Part 5: Register the entity. */
->>>  	ret = video_register_media_controller(vdev);
->>>
->>> This mostly reverts 2a934fdb01db, except that we keep the put_device.
->>> But when this is called, vdev->dev.release isn't set yet, so it only
->>> frees the device-related data (device_release in drivers/base/core.c).
->>>
->>> Am I missing something?
->>
->> I guess this could be workable. This way the caller knows the release
->> callback won't be called.
-> 
-> I think it's a short term hack at best though :-( If the device core
-> requires reference-counting for struct device, with a requirement to
-> call put_device() instead of just freeing the structure, then anything
-> that embeds a struct device should do the same. That means exposing
-> video_put() (which should probably be renamed to video_device_put()) and
-> calling that in the error path, in the caller.
-> 
-> We may also want to split video_register_device() into
-> video_device_init() and video_device_add(), but that's a separate
-> question.
+On Tue, May 19, 2026 at 06:10:50PM +0300, Erikas Bitovtas wrote:
+> Blacklist unsupported codecs for MSM8916 reported by firmware to prevent
+> them from loading.
 
-I believe that would be the right approach long-term. I actually started
-on that once, but very quickly ran out of time.
-
-Regards,
-
-	Hans
+This should be squashed in the previous commit. Otherwise the codec list
+will be broken between these two commits.
 
 > 
->> Regarding error handling, the return value from
->> video_register_media_controller() is ignored. It'd probably be good to fix
->> that in a separate patch though. I could submit one as well.
+> Signed-off-by: Erikas Bitovtas <xerikasxx@gmail.com>
+> ---
+>  drivers/media/platform/qcom/venus/core.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index a87e8afb23df..3baa6bb4968f 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -684,6 +684,8 @@ static const struct venus_resources msm8916_res = {
+>  	.vmem_addr = 0,
+>  	.dma_mask = 0xddc00000 - 1,
+>  	.fwname = "qcom/venus-1.8/venus.mbn",
+> +	.dec_codec_blacklist = HFI_VIDEO_CODEC_HEVC | HFI_VIDEO_CODEC_SPARK,
+> +	.enc_codec_blacklist = HFI_VIDEO_CODEC_HEVC,
+>  	.dec_nodename = "video-decoder",
+>  	.enc_nodename = "video-encoder",
+>  };
+> 
+> -- 
+> 2.54.0
 > 
 
+-- 
+With best wishes
+Dmitry
 
