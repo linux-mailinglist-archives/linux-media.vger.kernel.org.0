@@ -1,247 +1,297 @@
-Return-Path: <linux-media+bounces-62247-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62248-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4NzdAOSjDWq10QUAu9opvQ
-	(envelope-from <linux-media+bounces-62247-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 14:07:00 +0200
+	id 0JrKONyiDWq10QUAu9opvQ
+	(envelope-from <linux-media+bounces-62248-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 14:02:36 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B2BB58D473
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 14:06:58 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9762358D32C
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 14:02:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2123030F21DA
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 11:46:26 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id EC1B5309002B
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 11:57:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CB913D75B9;
-	Wed, 20 May 2026 11:46:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25CE93DA5CF;
+	Wed, 20 May 2026 11:57:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DLLFzq1N"
+	dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b="St3bJdGI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11021120.outbound.protection.outlook.com [40.107.51.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114133CBE78
-	for <linux-media@vger.kernel.org>; Wed, 20 May 2026 11:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D9E3355F42;
+	Wed, 20 May 2026 11:57:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.51.120
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779277575; cv=pass; b=SHLqGyyZ2FGJ+ht7gjHh+52/Wy5Xfdo4s0bWaVsKn7Rv30NDyYmVQMQCYYUlCZuhUpbIPS0OFbUwHDBDmsgWRVSaOCENQ+3WMBNvehDiRHIAcaUDoJNhufbNyHCtGRZTSKSDDJ+jjyGMuhihbx0bk9X8MatwaRgxCVK3mdXSMyM=
+	t=1779278229; cv=fail; b=pN7rIeXBQ8ngFTgJF4K5C8sBzR6IcgRFqihsDG4D6YlGUeWQPVKg/2dg6DcbZsHfvlJLIvOhbo9pCZXn/X/gBkt9QTTzabvsoRnM/E5sQHyVPkwz5XY6NM7gXc/yYS3q8fMbNbdd+0W7DTb5rrGfisr1mDmTcYB9DY/ACp3V+k0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779277575; c=relaxed/simple;
-	bh=mwQC2VpgPcAOO/eSiXMuOlKGLERJ6tVL0QZy3DdZeqg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=c74um4Ilhvf0C7fWLbaHy5T4EXdu0Jcbxw+z4cVYvg+hthc8//aG7hYO2sGj6nO6kcwvbWOjlixkeZ+QAK6rg5OWQrermcfkCx/UVdtjV97TX2QkUDjVc6r055ZTj7lmM7Nf9Zu1vHS17B7PW8aAJ7W8dVEg7AjLmrjtd2JAUkE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DLLFzq1N; arc=pass smtp.client-ip=74.125.224.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-65c2cd216c9so4006203d50.3
-        for <linux-media@vger.kernel.org>; Wed, 20 May 2026 04:46:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779277573; cv=none;
-        d=google.com; s=arc-20240605;
-        b=A+7Cvt+m1rEnBle6dYA4LyLTvUy2Fpvag7fZoEvMwDGevNyn+4UOFqqUHLdAUe56/7
-         1+4LpFkVOwaGgzF62ZDmqS7RxwuokZs5aG91BbZEpdFZQPWuzN0DPRKg7Mhj2g/nzz7d
-         J90l0RhdmQqlq1sO6Ax/d7IRtLmFL9HnceM3gmvQZ5AfIRdDOkBttFv8sJLDqYHLmIMI
-         Ubjushw0HCrTvY+tPrjmG3SjThpKsUVsgvk8oQ2lusxLDA7ECMRVrjgtSXffdwlE31Uc
-         s+oY3KCcZlfUEaZV8JFPxUlB2FHtkWwzARaA8HcYr1x21iSUsq9T7cxqzUreQEi5KaPN
-         M5Pg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=mwQC2VpgPcAOO/eSiXMuOlKGLERJ6tVL0QZy3DdZeqg=;
-        fh=V3BDrcCqDQUwZQZvueeKPf7VDpkBY+Poaz43X34PJWA=;
-        b=ElJSpoWBAx7Xau+T+MzCSHaGnrRgKvNUBN7eQPZHvxofBAs7lD8CuyN5EfuVMOfRSt
-         o7dW+PJx3+Dfa1tQldBttpfcfPw01XRM0XThfqQrSVoQfr4jAdhQoY1Vg/sllkIcRQlC
-         p7ETmaALxCgwwOo9C5Am/RWnqNpTmL6YDKaRx9M4ZnVL2Ssd0/SQ3xv5vHS/9U3plk8U
-         qlpDtvvvSjzpZ5i284vMREYsgXIwZbmrQ5vKjQDShfPC5k13c2Yup+Bhgw0/wdRcxHIO
-         ESdXMtjWF3/ppj10A21Kglurz37YVYPaTPQkb0CSiZ8Aevbb3p1T5ibgZ5ZJZLathBVi
-         MGBw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779277573; x=1779882373; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mwQC2VpgPcAOO/eSiXMuOlKGLERJ6tVL0QZy3DdZeqg=;
-        b=DLLFzq1NI/jlE0KjxAF+xBgYr0bijFFLMLnQXRF9R+yg2s3RjBXBZQNjb/M41Ql3EQ
-         +ZheyYRDDN9kkHa9dnnqjzyXzQj/lZippxiK1tSuOwMhmI2qy9lMle+0b22N0RKRFbu7
-         lv+r5D+s6/LoQMztNtN2U69qRAjas2hZcCwd7hgqtUfMh+fIafWtQKACTWfQrn6UHGdy
-         Ru4qqJpuDWEMTgAfRByrjP2/ckcxnn3QmrX/lMngpYgC4lgHEVJ2w3xGDq20PHZNs8O5
-         g/JaTcX5f093Iga9G9Go7DUID3PH1u3ZyXMSGCnglb1l46M+eAwY/p9mJXVmhrxjRmv/
-         U52A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779277573; x=1779882373;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=mwQC2VpgPcAOO/eSiXMuOlKGLERJ6tVL0QZy3DdZeqg=;
-        b=JYFp51nS7CnbwOGV0SSIe3IkIchxPkr9+EzX3zUi/YYwtzqhgGiGVE3Z5Ik3Oc+x4A
-         blGNpboXEcMtKsc3Bz0qlCHKDRYbyWp7ozgE4SkBebYLXOBs5H7FLl7WLPK4AuMzUOx0
-         mx+q+YhO1GWTDsy4BKhbSAHFc+HLp6FU8TdDp9YY1c4EQTqNMLrNoOl/EJuheOVArX7B
-         vuoHZWsJZaEQbA7FF7Ekj6P3N16ggwFr1WG7xdmFeoAFzu+joMZZKd2emGGdRivTO46F
-         c9jtlBDZiwLigHgC8AVG0BevzUCz9uYx4RQ9h56v9gWizIS28zaWiyMLrHhUXGVnzYZ3
-         x05Q==
-X-Forwarded-Encrypted: i=1; AFNElJ9Ed1dSAgHpR9LZtMpDBbgqyWfn7UQ+/bYcg/kA2ENZd8ET90cxZulQ793bLrApimgVbBv2LiRkH1ql0g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2D7vyfBvHy0kdNTOuBz9F1H4Ou7qSFXJqQEPJ+GXb+1VRpluY
-	yMmj3VOK0ilF/hnfdvM20qnsS/QxtXoSRDfLbkDhvSmprUU0Jff1RCDomOQj1MQHyfmUtvnNIAz
-	a5jpWFAeQQ3sNNuGv/at1y5cjh+Xu87Q=
-X-Gm-Gg: Acq92OFSoMbgWNRGo8IVER3gfZXiJ+tSeOyMZU7qZZOC7nfgEWA9YagTZys/s48gSL6
-	hWG4gDUPppLxnhqhAUYngFqqxSD1dwaW/uSMBGmt/nWj8Be784CZvVG9Z7iudDk0SlI6zxjdkk2
-	74teBDx4Jum3g0IjA9BZDo0cktBLD+VQplDXh53aAEByz5Qb8AaXRKhisUWzKOTZndGUphW0bjV
-	vikg9PguxL+y5sYrV5ebfpS8W1teWVRO/wCO/9AFTX79lTjOFdavE5dujldXJ3WbULlsPbZSMPH
-	2D8DK2OnIkaJZ1yxPX0Iw7vR1mSh7JRrcGy3uoV9VVFJRJ4c
-X-Received: by 2002:a05:690e:1487:b0:65e:4b06:f89b with SMTP id
- 956f58d0204a3-65e4b06fd2cmr14416343d50.51.1779277572905; Wed, 20 May 2026
- 04:46:12 -0700 (PDT)
+	s=arc-20240116; t=1779278229; c=relaxed/simple;
+	bh=ZAKka/ySWt2XaTKiJW2njV1wYx3DEVDmMZggLjGqmAM=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=eNgKAUleFDlMxoUc7fWFmRYDtpmFpp3JwToOZO04joGhtV6LTzuCZX95vLbCx7OumOf5x5p/KALzqGR6pYGB8LZQkapntqWTTPqVfOBRagsO8HCetW18lrM79hN6ILcptaCOpDPuleXibBa6ldDK9e7emNPPZPyO7OtWZBLpwJQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=St3bJdGI; arc=fail smtp.client-ip=40.107.51.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qQ+9JpkufGqpPDVefGoaJzU021+LszZbG+HmM6cxEAZNUXdZwg0hPH7+PVmqtly9mR0MM5qyONbkRY+LZl/8oac5/Gk+txlxfdgNfMW0fmDq8p1wopFplaQt/JEHy/Lc5Q0D0t7byW4VWTd7ieBcCabby6PGL35Y/ndDWafl7/p/2W8ZQEtoyWGD+Bg7bs2JCPcnINlSxnyEhJeTbHkgBTYFu2h/X1HU4CwYz/1CqqwEXOju1hcNWqR5aXXA4W7AQaUgmNXXak/uyAIrKXeJYk0WVdR7dKYlLpRoZWHRdIfqzT5NhLb+UpYb2idwRJe8cwQ8h4LUy2nr8zV9AINrtw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8TfBo7cDOf480O0C3/qfy82Yru3WfqbqPfXAQvQ6Jjg=;
+ b=useBSNGg0JOLg6u8zf1nGJFWi99d01tBD/WSEdBaEgRgcp+SEVu2spP5MOIGs40bQSRZOH+mVIteY0PGh0ZH77CUx4wmCyjJaOebB+Qqp1p1a9m9Xyq+Ji2D8ckAC1yDiRWztMKz8J7Sij7QpqQrpSHX+0/3eMecS6XejnkWZ9+kGBHejNF918u2U0T9E31TpQLYqm+3QyLMg7Jdk7X4UZhC7seGU3RIGlQHdfaytZcJAgS6/f0IDSRAm0WgbPb+BfZlitS5KUv+jqQ84VzVTL2riZtdZ9ZVtcT5E/Kc0GCeNL+EocwYY2QAVKwxTF/bcg44u43U52nYOK9NFmdyIQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8TfBo7cDOf480O0C3/qfy82Yru3WfqbqPfXAQvQ6Jjg=;
+ b=St3bJdGIObRksZKnSOf+u/zJJco62K1Anpjvzq4DEP+jKJwbXsSF2aixMg1mk90LdYICeWEvpimbyfrRGuXh43zpcSUCKAM49brXyl+7ijr27IFny8tjgrRcP8txsO7yJzY8IsbAuFs4amwDgmT9+sC8+N32q3xU+kb+VP1NL//FTvoFKT8Jp9/li+5/5MFksU9OcmmnmkefmMuRP2FYsPmsUt4VoIyrhNapm6kkrHmHwYp3qBD0sj55g7RlIh+7iO42jNoUMobgjss4mzOya5gnDaqADzpc5DpvoFFBkB8FG2BL+VrNyIljxFU2ejp7y2rrLMdsT7lCDcO1qPTiLw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
+Received: from PN0P287MB2019.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1b8::9)
+ by MAUP287MB5499.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:218::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Wed, 20 May
+ 2026 11:57:03 +0000
+Received: from PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ebd8:538d:c705:8432]) by PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ebd8:538d:c705:8432%6]) with mapi id 15.21.0048.013; Wed, 20 May 2026
+ 11:57:02 +0000
+From: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+To: sakari.ailus@linux.intel.com
+Cc: Himanshu Bhavani <HimanshuBhavanihimanshu.bhavani@siliconsignals.io>,
+	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
+	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Walter Werner Schneider <contact@schnwalter.eu>,
+	Kate Hsuan <hpa@redhat.com>,
+	Svyatoslav Ryhel <clamor95@gmail.com>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Subject: [PATCH 0/3] media: i2c: Add imx576 camera sensor driver
+Date: Wed, 20 May 2026 17:26:32 +0530
+Message-Id: <20260520115641.11729-1-himanshu.bhavani@siliconsignals.io>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PN5P287CA0046.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:25f::12) To PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:1b8::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
- <c6c91de9-a34b-4b50-a3c1-d42bf7631f8e@amd.com> <CAHijbEUzWZC4GAMU6YGV42gOYkrQaMZZPiwS4Erb4H1J-fh_8Q@mail.gmail.com>
- <69dcbcc1-da58-4d34-bfb0-5c8d33b75d59@amd.com> <CAHijbEWqc2+kSkk3i_LxB2PQ6XwUetw1UkdUdXJfdv3zgKd1kA@mail.gmail.com>
- <38551bfe-75e1-4978-b57d-adc43cebc85e@amd.com> <CAHijbEWHp960qvZFoK7+9ppHAqkAR7=UQhtMUccqWzGd_pFPQA@mail.gmail.com>
- <5ee6d5af-ac48-41d7-a19f-e08a3c5b7d19@amd.com> <CAFZQkGwmeipZnvmBkcE7KhvUSMkSE=fzLBZtiMyhv3mM04Vudg@mail.gmail.com>
- <dff60378-4e47-4753-8878-feec6e1c2690@amd.com> <385a4d4f-fe22-41a7-8d4b-4dc6bc9930d3@mailbox.org>
- <1e94106a-f72e-447e-9885-2d2cc8f8e722@amd.com>
-In-Reply-To: <1e94106a-f72e-447e-9885-2d2cc8f8e722@amd.com>
-From: Julian Orth <ju.orth@gmail.com>
-Date: Wed, 20 May 2026 13:46:00 +0200
-X-Gm-Features: AVHnY4JZYLaQrAuUqg_r9R4xrt_7B8lof_FLZgmpinm1lpd54PV11HWLkp9qJk4
-Message-ID: <CAHijbEWSnwm5_uTAbRDYOkMFwu+X3_xGHxjHyK-XeaO15KTGOQ@mail.gmail.com>
-Subject: Re: [PATCH 00/12] misc/syncobj: add /dev/syncobj device
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>, 
-	Xaver Hugl <xaver.hugl@kde.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
-	wayland-devel@lists.freedesktop.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PN0P287MB2019:EE_|MAUP287MB5499:EE_
+X-MS-Office365-Filtering-Correlation-Id: f8d3f4f2-2fc7-4be0-1102-08deb666e7b3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|52116014|7416014|1800799024|366016|38350700014|5023799004|3023799007|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	XuU00zoaNGKZ3pxjBgl1YXJ4aYhjYRDQxB//PSw3aX/dQgn8r+Pq8FVosN1Uf3u3xQVXA5iXmAfEV8QdRIVQFztfsW4fcxjw+2A0m1Xh4R9bb+YPFco9i940lFK6+vTblp1KURRGRYU+3Xdx6UeKrBjWR2Wy3OR9DfpCyVua93eRQVVrWr5hrWcC2Py38+AgT94spCOmuzpRUlQCN75JGDudp6cwOAzAX+PB1Tlpm75ShZvYCg+O7VPxx87+Pa9FjfuA4kaPM/Ji4V0M+4qPShYAz9iwybmiXWgR7BjwhLxzxInbII+raYy2Pvb8Ebj8CxXnnrHRYnptPQEychoI/syOGGwTvQaTv/T3w/ym4lvdRZrFMH5dU77fGgKefwZYkK7f9fGyKAdyEy9yK+Rdq49u9y4iYvSnlBa+T/Hn6UGTYReAI1mG6YlQ+mP+Aldn8Vj5b+1WU+fcySutwZL4oDG58/TwmT9kKpxOUERvZaseOzXwP6gShYHp5VO5raZpsMC7cbiSqfG9r6joiU3uHoeA88zd5Quq+CyxyBqUC77qThViLGSbyf61/sWp4xT+E+K0cCbpojAOizDYyLM0F1FZsdcrarw9V13dxEmlOmNWSuM5UAA8LHrPwz0HfasSptVhOJPOCOCeGb6LC6OGBPpB0fmRZUxqLFn44WiDb4x2Or2z92SyA72FRnqkXW7xPlGqQTmPi9x96g5Xdxk3MybvIYWMDLKLIrHuwbeXAMJ22beD2sA+5XEvxJE1vrew
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN0P287MB2019.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(7416014)(1800799024)(366016)(38350700014)(5023799004)(3023799007)(56012099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?0GcYjpqWTQEDL0ESyIVRW+E18TU4qCH1kZ7DJI5+2WMliYvC8HPQX6GSLe1q?=
+ =?us-ascii?Q?LfgyubHEuFKHVW79R7XshKHCdo13lAAhJHoLitHMq4A2eFyFgiImDXiC85Ob?=
+ =?us-ascii?Q?1FcXYNxdgnH8Goz0H+gP18uOYvowUBRSS/6g5aX5r4xvH8LdQH6FO+x1EcNk?=
+ =?us-ascii?Q?oAJ97d4qak4M0zw3aQvfZwQPUruZWdIVp4v8Yl8UFkaxcq/3BCtBbnK4zRiB?=
+ =?us-ascii?Q?I6QohqzLOEZ6zp4RE5/sazeMyZ4drUv4/oboOwk0C2Abc8wxaM84sjhRRhDD?=
+ =?us-ascii?Q?RjnYaK3WyVIUnptC/7y08N0ic6wNe/dKrSYZYTaQo5a+8LjwXpO2IKki//Ua?=
+ =?us-ascii?Q?hvGYcE0GyAvFdA2hZ6u59XQrqL6huUnV4AH5fi8gglzOc1nYip79Okmt3zqK?=
+ =?us-ascii?Q?3DMsWQPLavDTv9zmamxsf6dBlGnYbEYNv+rGzo7wxY3xcfpVY/zUhIFAxVT/?=
+ =?us-ascii?Q?+dHSrG7CyVCKITS17tP5z041tp5ary2gfUaURPjh2Z6rh7yGMizB2RSlyP8S?=
+ =?us-ascii?Q?vj8BUh21o9z8wigCAde2T+ciru26Q48/9fqlCRViycp8y0azzjpLKfbsIgm7?=
+ =?us-ascii?Q?tk5Z3Xn+79nEYFpQxSo4W4AOcDbcU0olMw19XdB7XzyIbSorCJUbFTfDBIf0?=
+ =?us-ascii?Q?u6jUQPXfcHLWk/PMXPrLhbbr3UlesuU9WTFdAzp++hXX/D1TKTUgz+GhPNDy?=
+ =?us-ascii?Q?/U0zI0RMuVnLPr+XlIe3NTLa+GalPyqT+p7PrwDDRfikblHftj7Y6LcEX9C7?=
+ =?us-ascii?Q?1zECOhlsRySjmdkLSanvM6JWQNeDV8EYCxX2TPFZsb/NyXMiDL0aIr6LJEGp?=
+ =?us-ascii?Q?LJUrnRWay3AT2cFWnaPaRz5s+ItVIe57EkaGNGI2LZXbJaELAeJCXvR5JWst?=
+ =?us-ascii?Q?iFD8vsbQP2FriCXnvhvIrfrrnw1t2hNwbKacL0/g9XdTNKJx6P3qN4Zk2Fot?=
+ =?us-ascii?Q?KrACuHTwuBZFDSu6OPoEGjTQjcoHDeR5KfkybHkTyDH6KcoGtFzPQIUU/nra?=
+ =?us-ascii?Q?hyTK1nSUXycq8GUPUNIj3Gvb0nvcWYZ2v7/X+XSy5macUzRi/fLFogbBtHpA?=
+ =?us-ascii?Q?+KjcquJB2BnnxjknVRJr+GYi6d/4RrvL3GYfMlsAGzNimoBSm3Q7HwQpAb7Z?=
+ =?us-ascii?Q?Fg3FkrRPebw9QWOElV01AeLn6TC+g7/PCx4nxriaWLEvG5HNZNdFUDEPR/78?=
+ =?us-ascii?Q?9eEPI8PGOS9QDZ42v21LCnVAciZHFJpKcR1KJbWdTo0iCfxeHNjo2dHgxfrD?=
+ =?us-ascii?Q?OydO28SgaeQA+uCSm14voFIw4BAYk69UCUoZQdh+wTjAQWG1hXMVK98nR+nW?=
+ =?us-ascii?Q?ZITBASVx/+pmu8BwBUddD9MQOm5w2PvAE182qeT1vIyKHB5/M2TMuTXqKauX?=
+ =?us-ascii?Q?89IWR8s2wIkQ/h3g44H3rTR3WqKqw3EQ7SVSkVUJ8DVYCh7YxOI+SRv0xQD6?=
+ =?us-ascii?Q?/IL4ZC+NcLlUKjU857+pBRGmHZmy5OnR+UYGRBMaWWLyDIKJcngfjYgwbiny?=
+ =?us-ascii?Q?t09fepDNI4zeZAlBLQHHqmdoTUGr0pkPESp4sCBLv8Zn41841Rw32af6xc/Z?=
+ =?us-ascii?Q?2uQcMvxD1TY+hShpKrCi2cXgelY7Hr5hvOiHCCfUFQ/bcTaoSgpxjmmdJzsR?=
+ =?us-ascii?Q?31sMqLRa8khrsQMUMg0v8gzV/NFbSxYz5dxyaIIam/Ld8oUlLYcfNXc1heCc?=
+ =?us-ascii?Q?lDGEPUwt6eK33te1lK9+B7tzNWRA1HpuRCtRDo1/GZu+Q6z+YqOhNkQLTmJO?=
+ =?us-ascii?Q?u4D0oQBFl7trNlnEXJ+nSk7Bx3hLLUblGJm5pf8wc980eAgk/S0D?=
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-Network-Message-Id: f8d3f4f2-2fc7-4be0-1102-08deb666e7b3
+X-MS-Exchange-CrossTenant-AuthSource: PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 11:57:02.4479
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mDuPH41IB1ZZuh94sNRs5N+W7fagqkiwJVww+XCV7vrVB/OAXeEY11YwqrJA25Yi5NJOZ4ktpODVe/Gb2c+w+jsgdvEzyspgwgmlfwiGRrJcaYjz4cjuOmkcLSRzJ/8e
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAUP287MB5499
+X-Spamd-Result: default: False [2.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[siliconsignals.io,quarantine];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[siliconsignals.io:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62247-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[mailbox.org,kde.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,linaro.org,lwn.net,linuxfoundation.org,arndb.de,lists.freedesktop.org,vger.kernel.org,lists.linaro.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	FREEMAIL_CC(0.00)[siliconsignals.io,kernel.org,oss.qualcomm.com,linaro.org,ideasonboard.com,schnwalter.eu,redhat.com,gmail.com,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[22];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62248-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[siliconsignals.io:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[juorth@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid,amd.com:email]
-X-Rspamd-Queue-Id: 7B2BB58D473
+	FROM_NEQ_ENVFROM(0.00)[himanshu.bhavani@siliconsignals.io,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,siliconsignals.io:email,siliconsignals.io:mid,siliconsignals.io:dkim]
+X-Rspamd-Queue-Id: 9762358D32C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Wed, May 20, 2026 at 1:21=E2=80=AFPM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> On 5/20/26 10:13, Michel D=C3=A4nzer wrote:
-> > On 5/19/26 18:00, Christian K=C3=B6nig wrote:
-> >> On 5/19/26 17:31, Xaver Hugl wrote:
-> >>> Am Di., 19. Mai 2026 um 15:29 Uhr schrieb Christian K=C3=B6nig
-> >>> <christian.koenig@amd.com>:
-> >>>>> 1. This series makes the ability to manipulate syncobjs available
-> >>>>> independently of attached hardware.
-> >>>>> 2. It makes it available under a consistent path /dev/syncobj.
-> >>>>
-> >>>> Exactly that is a big no-go. This has to be under /dev/dri.
-> >>> FWIW udmabuf is also under /dev directly, but I don't think any
-> >>> compositor developer would complain about a different path.
-> >>> What are the rules for that? Could this simply be put in /dev/dri/syn=
-cobj?
-> >>
-> >> The syncobj are actually the DRM specific way of doing things. The gen=
-eral kernel wide way is to use sync files (see drivers/dma-buf/sync_file.c)=
-.
-> >>
-> >> But there has already been tons of problems with those sync files. E.g=
-. they doesn't support your use case at all since they don't have wait befo=
-re submit behavior.
-> >>
-> >> So there are already ways to do this, but the Linux kernel so far told=
- everybody that this is forbidden. The DRM syncobj wait before signal funct=
-ionality is much better, but then basically the second try to do this.
-> >
-> > I'm not quite sure what you're getting at here, just to be clear though=
-:
-> >
-> > While the syncobj Wayland protocol extension supports wait-before-submi=
-t behaviour at the Wayland protocol level, it doesn't need or cause wait-be=
-fore-submit behaviour for DMA fences in the kernel. The usual rules apply t=
-o fences attached to syncobj timeline points. The wait-before-submit behavi=
-our at the Wayland protocol level comes from allowing submit before a fence=
- is attached to the acquire timeline point.
->
-> Yeah I know. I'm one of the people who came up with the idea of doing wai=
-t before signal this way in the drm_syncobj.
->
-> What I wanted to say is that a lot of people used the dma_fence to implem=
-ent wait before signal before and got a bloody nose from that.
->
-> > (It took me a while to realize this distinction, before which I mistake=
-nly thought the kernel's DMA fence rules would prohibit wait-before-submit =
-behaviour at the Wayland protocol level as well)
->
-> This is what surprised me.
->
-> The drm_syncobj implementation solved the wait before signal for the kern=
-el, but my last feedback was that we basically just moved the issue to user=
-space and Wayland compositors would have quite some overhead to implement i=
-t correctly.
->
-> That compositors now use eventfd to simplify that was news to me but make=
-s totally sense in hindsight.
->
-> But anyway, we need to somehow simplify the drm_syncobj -> eventfd usage =
-in the compositor.
+From: Himanshu Bhavani <Himanshu Bhavani himanshu.bhavani@siliconsignals.io>
 
-That is not the only usage in the compositor. Compositors use all of
-the following operations on syncobjs:
+The following features are supported:
+- Manual exposure an gain control support.
+- vblank/hblank control support.
+- Supported resolution: 2880 x 2156 30fps (SRGGB10)
 
-- creating syncobjs
-- waiting for points synchronously
-- signaling points without a sync file
-- querying points
-- transferring sync files between points
-- exporting sync files
-- importing sync files
+The driver has been tested on the mainline v7.0-rc6 kernel on the Fairphone 4 running postmarketOS.
 
-Which you can see by looking at the userspace code linked in the cover
-letter. Bypassing the handle in one ioctl would gain compositors
-nothing since they would still have to convert to handles and manage
-their lifetime for all other ioctls.
+fairphone-fp4:~$ v4l2-compliance -d /dev/v4l-subdev21
+v4l2-compliance 1.32.0, 64 bits, 64-bit time_t
 
-> That requirement is perfectly justified and avoiding importing the drm_sy=
-ncobj fd into any DRM driver should actually be really easy to implement.
+Compliance test for device /dev/v4l-subdev21:
 
-That is what this series does.
+Driver Info:
+        Driver version   : 7.0.0
+        Capabilities     : 0x00000000
+        Client Capabilities: 0x0000000000000002
+interval-uses-which
+Required ioctls:
+        test VIDIOC_SUDBEV_QUERYCAP: OK
+        test invalid ioctls: OK
 
->
-> Regards,
-> Christian.
+Allow for multiple opens:
+        test second /dev/v4l-subdev21 open: OK
+        test VIDIOC_SUBDEV_QUERYCAP: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 12 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK (Not Supported)
+        test VIDIOC_TRY_FMT: OK (Not Supported)
+        test VIDIOC_S_FMT: OK (Not Supported)
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK (Not Supported)
+        test Requests: OK (Not Supported)
+        test blocking wait: OK (Not Supported)
+
+Total for device /dev/v4l-subdev21: 46, Succeeded: 46, Failed: 0, Warnings: 0
+
+Hardevsinh Palaniya (2):
+  dt-bindings: media: i2c: Add imx576 sensor
+  arm64: dts: qcom: sm7225-fairphone-fp4: Add Sony IMX576 front camera
+    support
+
+Himanshu Bhavani (1):
+  media: i2c: add imx576 image sensor driver
+
+ .../bindings/media/i2c/sony,imx576.yaml       |  111 ++
+ MAINTAINERS                                   |    8 +
+ .../boot/dts/qcom/sm7225-fairphone-fp4.dts    |   54 +
+ drivers/media/i2c/Kconfig                     |   10 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/imx576.c                    | 1029 +++++++++++++++++
+ 6 files changed, 1213 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx576.yaml
+ create mode 100644 drivers/media/i2c/imx576.c
+
+--
+2.34.1
+
 
