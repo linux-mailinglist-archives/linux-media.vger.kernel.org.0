@@ -1,319 +1,172 @@
-Return-Path: <linux-media+bounces-62322-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62324-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0PJwDcffDWro4QUAu9opvQ
-	(envelope-from <linux-media+bounces-62322-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 18:22:31 +0200
+	id eOcBJqrcDWqE4QUAu9opvQ
+	(envelope-from <linux-media+bounces-62324-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 18:09:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EC07591CAA
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 18:22:29 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F35A0591856
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 18:09:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id C5D8A31FD9F0
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 15:27:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D2D433329DE6
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 15:28:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5715E3ED3BA;
-	Wed, 20 May 2026 15:26:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4894A3F39ED;
+	Wed, 20 May 2026 15:27:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b="B594E8RK"
+	dkim=pass (2048-bit key) header.d=kde.org header.i=@kde.org header.b="T419hTEV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from letterbox.kde.org (letterbox.kde.org [46.43.1.242])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 222073033C6
-	for <linux-media@vger.kernel.org>; Wed, 20 May 2026 15:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 138403F39C7
+	for <linux-media@vger.kernel.org>; Wed, 20 May 2026 15:27:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.43.1.242
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779290813; cv=none; b=BRd3hG6wh3oY81iYti7ncd8dwhZvBEbCIQzbDdOVcKA/udfYcHyVmJJHgkNAYHbCs7eXrVZUbX7Dt5ZeWwbqMor3GHioPcsGvjwZFzZd/NIwnJUdVOHQ7dj6eVsJcSITadbhUSs+nKBdImGc4ZO53P9R8BYZ1W4hrfIeDKj0N4A=
+	t=1779290855; cv=none; b=EsNjY/ASUkQ6JJQm9EyAKg8x+SaLBeLsIBx5J49D+VXrakZLrh4jOij1oNZm0HG+2hU/0jB3fA283desXBt3kOBi9ABSBRmar7pYatrPHHfZOB/ObsLS1wj/YjOH66OrZA+U3HdJIRgR5ZO4sD1A3tg9BdbIvxC47+GxSzqDJDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779290813; c=relaxed/simple;
-	bh=cWeJRAhkmfTMdjcNX7mK9Zk2C8NhaiuzSgw0sH92OCY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Hsw9GzOU5U78XVucUS/1BMUa9FdHNSQAJo5I/eUrN3vP5MWMsFgpZM8pDF/AgQPq5Z4QoY1K4d/D7m6y3vvvY9eNHGZIXDFsfA9ozCV9+s3N7hkukHnWukIwjjoSZ8+q6MJEkSlwsIlOdiyh77tfdwKsYCSTn2yUKTibnf5rv6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=B594E8RK; arc=none smtp.client-ip=209.85.167.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-47c918c62b4so3321587b6e.0
-        for <linux-media@vger.kernel.org>; Wed, 20 May 2026 08:26:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1779290811; x=1779895611; darn=vger.kernel.org;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=cWeJRAhkmfTMdjcNX7mK9Zk2C8NhaiuzSgw0sH92OCY=;
-        b=B594E8RKkLMwizB8nDYJe6X7iwecGFpmao4T8NPhaRWHj6b1+Os4DYd83bTiBZ0ON4
-         Ao5Q5gNtQfwbOiZBL5uisGhIxM9PYUaIwU3jhkJeRBJJXlqYRM5fGpUK3NjiUZJv1gox
-         OovjbIUQeUtJ0UXgTTRZrdSMJCCvcJPenVJnZJuBfiLXA2SljXp6PZ5i0Q/p7jLjvc/b
-         k+CJz3qtLh9pU8M5jskUEDJMeai+D8b48fWSQkg9YWbnGNVeqPR+xZY9RS01kM644Mcf
-         NzNvL/MHD5Bgfdmyhf56Yv8hqw9juhGA9dpar8XjbKo2o5KBsQ8oHzasf1bKPjPBRE9l
-         p7rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779290811; x=1779895611;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cWeJRAhkmfTMdjcNX7mK9Zk2C8NhaiuzSgw0sH92OCY=;
-        b=KFr+8zKs3Ie+dtvdA67CpCLaA3+EO7qPO4F8jNcZQUpsNQpVs4PTZlmzx28kxRshE6
-         koEO6bykpuuqWRn1fKRRK6rrVw6tEIyUi1dPsVm4aeeox4IO7jQt/9ELYTD02rxhY4lu
-         ocVJJkF5zm5l3dCIj42iJfA3/tc+rHMl5foHomUnu1D13PrmvoiglysPpSU0GIBsZMfZ
-         frOG+Ge1iijF90BoltKVvB5GomqSURyQQMUYAZsdVmb55QwStfN2hKUu67vyROHbIrAl
-         lH+eQLfCD+9CTaxOPL/vvrWwVDoAdBPa1KGLrPj2okTbrep3CwG+3qE20+aIBJELUZ0n
-         AHrA==
-X-Gm-Message-State: AOJu0Ywrkq158INXS5BDsWU6/gYRFlV+vw30AIAdnEM3FoIdXnoFn4p7
-	zewDVm0DSeJOYCaOrsNyOk80UswsENujcgqoGOI+YczpPYC4Ch/HzciDWAgXPwBdf3KPPb0DMsH
-	ulbLSzEg=
-X-Gm-Gg: Acq92OHYHXRTVdnUx1SRt6Qkls8MaDy14g/C9TY1mOpP1sTJU8JXut0vV0UF6Zn/YPQ
-	YBviUrZugPibAtdmesekeIbeBPh6A0Qqtz8tE1gDvc4WXlO+ezO1AHDDub5Q82b056uF2oQpDtU
-	lg4WJ6CTcl8Cq3MDuCUIHe62XVtO2y/qu+B6j7jdX8gky7RzXzAHp6etaiXVUgM0wcuOWMti9b0
-	YQIIA/cdoefPTZWBB0vy6C003mgVPAnUCjl+BkaDfmDh9oiQB4RewdiaYrOiUkyPEnDGtoDE8hO
-	6Xv8x5B94Lqz6snqyDVuPeOiv/rFUdQ1DazlHPtkyxIK4KCkmNCnE4eaUdgmcgA7lvbfLTLSl+u
-	PiUQEVZIEVZI4HsffpgRGKAN8lBswdKJ6ilMs4IfGZK4FVoX1YiUBbjLTXSuC+L/7yDBLHUVanY
-	twhDeVjfBFlkkpCjF7UCNU2/nbZA+9pNHlC0337JwyXic51eGcCamS4S8KqdW5ICGMfaFH
-X-Received: by 2002:a05:6808:4fc8:b0:467:2375:58c9 with SMTP id 5614622812f47-482e5978e89mr15232837b6e.45.1779290810886;
-        Wed, 20 May 2026 08:26:50 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:15:e06b:3a7c:76ff:fea1:2ac0? ([2606:6d00:15:e06b:3a7c:76ff:fea1:2ac0])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-482ee38a5ecsm8416472b6e.7.2026.05.20.08.26.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2026 08:26:49 -0700 (PDT)
-Message-ID: <a0f382b4c174251a21e21752e2ae3efc622a600f.camel@ndufresne.ca>
-Subject: Re: [ANNOUNCE] libva-v4l2-request: RK3588 VDPU381 VP9 decode (fork)
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Francesco Saverio Pavone <pavone.lawyer@gmail.com>
-Cc: linux-media@vger.kernel.org, Paul Kocialkowski	
- <paul.kocialkowski@bootlin.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
- Jonas Karlman <jonas@kwiboo.se>, Detlev Casanova
- <detlev.casanova@collabora.com>, Heiko Stuebner	 <heiko@sntech.de>
-Date: Wed, 20 May 2026 11:26:47 -0400
-In-Reply-To: <20260520144017.69528-1-pavone.lawyer@gmail.com>
-References: <20260520144017.69528-1-pavone.lawyer@gmail.com>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-rMn8wAQ6E+4f5jMRn2nH"
-User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
+	s=arc-20240116; t=1779290855; c=relaxed/simple;
+	bh=gcOIwOeeWzpvsrYJGYkpmTBiDOCGGGdp9mfugdpA+HY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mMNNilK1Em/mfwzWoMI1HEvl0Zqj6IE/Nihh7dzUJyOtAgOVq6yj7DXZtwAlWWQdfVP0NDXTLOMfb2w3tx+OW+TTEFXCGxYQdRvWGo3wme7TqYCW3EEE4D4uSHuQvEv9upVy+3BkdgzytcvbAawxMm3h8XEZRWfw5oUFnpRg63E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kde.org; spf=pass smtp.mailfrom=kde.org; dkim=pass (2048-bit key) header.d=kde.org header.i=@kde.org header.b=T419hTEV; arc=none smtp.client-ip=46.43.1.242
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kde.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kde.org
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+	(Authenticated sender: zamundaaa)
+	by letterbox.kde.org (Postfix) with ESMTPSA id B044432BAF8
+	for <linux-media@vger.kernel.org>; Wed, 20 May 2026 16:27:32 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kde.org; s=users;
+	t=1779290852; bh=gcOIwOeeWzpvsrYJGYkpmTBiDOCGGGdp9mfugdpA+HY=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=T419hTEVZCJohJJRY3tDRT94FAIrYPv48owA0ZwRJgpDxJ1GkS5YE5qsTj7HlWxqG
+	 3V0OQc9p8tVe1bzlkJw3wH9CgwBa4Tq6Qt2swVgcATaH/NH/QqycIMymlsurhx5jJp
+	 xoG7LB7vXJ2K1lJ6Rkao4L9H+YB3Mn93NyiK+FCSPeWNK8iY/Z1JHqT3ZpAHZcXfaK
+	 qRrsxp2MMtDMY+IW84d/Pr+INHZmye7hTxOVzdVNAtQRhU01gdhn40M1qUTchoyBzi
+	 mlCfRZVWAkqKhESz66+ZAA+K/TFRvVH3AtGOREFlYIHVplh2s/Xja6CMu+wBIRuke7
+	 /nTJQ/XCRtuog==
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-65e39d1dd38so4484884d50.3
+        for <linux-media@vger.kernel.org>; Wed, 20 May 2026 08:27:32 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/8eRBVKSYkg2IuWyZpfzahR49D8ivd98oTbT4H9kKAKiD22K5A0tMy2Xb1AlfBfkkhM5NGuYkfGHC+9g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5X3GeIdIOT8nNJHd/CLWItYh98xRFYAxrIzvJdRPxCQ0ofgPg
+	fb8c0GOmXeMr5kL8930GKYJraUy3LYbslYXw9LdkltT7QGwlzlGY7g7TFTYu/RTcxuWRV5PtDTy
+	wf4PbiLvtDXMWmi7P0RBYqxlrpHEpj6E=
+X-Received: by 2002:a05:690e:151b:b0:65d:8f98:6bb4 with SMTP id
+ 956f58d0204a3-65e2272ee9bmr21554674d50.29.1779290850965; Wed, 20 May 2026
+ 08:27:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	SIGNED_PGP(-2.00)[];
+References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
+ <c6c91de9-a34b-4b50-a3c1-d42bf7631f8e@amd.com> <CAHijbEUzWZC4GAMU6YGV42gOYkrQaMZZPiwS4Erb4H1J-fh_8Q@mail.gmail.com>
+ <69dcbcc1-da58-4d34-bfb0-5c8d33b75d59@amd.com> <CAHijbEWqc2+kSkk3i_LxB2PQ6XwUetw1UkdUdXJfdv3zgKd1kA@mail.gmail.com>
+ <38551bfe-75e1-4978-b57d-adc43cebc85e@amd.com> <CAHijbEWHp960qvZFoK7+9ppHAqkAR7=UQhtMUccqWzGd_pFPQA@mail.gmail.com>
+ <5ee6d5af-ac48-41d7-a19f-e08a3c5b7d19@amd.com> <CAFZQkGwmeipZnvmBkcE7KhvUSMkSE=fzLBZtiMyhv3mM04Vudg@mail.gmail.com>
+ <dff60378-4e47-4753-8878-feec6e1c2690@amd.com> <CAFZQkGz=UJqaJ_eTwKBy1pAg5xL+PLibh7W1vYf7JD7Jrx-LZQ@mail.gmail.com>
+ <53edf0b5-e733-4b96-87d7-3307275500c0@amd.com> <CAFZQkGxpPm081Fz8UtDuBA1PKD42+9YDA+cc6fbSpfawXwu9+g@mail.gmail.com>
+ <c9fbfdaf-2a58-4423-8dc5-6e29a88f6293@amd.com>
+In-Reply-To: <c9fbfdaf-2a58-4423-8dc5-6e29a88f6293@amd.com>
+From: Xaver Hugl <xaver.hugl@kde.org>
+Date: Wed, 20 May 2026 17:27:20 +0200
+X-Gmail-Original-Message-ID: <CAFZQkGyK-ZV-2QuC21sbGu2BELbAicN7EqCAY=bo+WsKXcA+Yg@mail.gmail.com>
+X-Gm-Features: AVHnY4KO7S743c3zkoDggQQ_Kb7Ge56iO-xUbB5sb3ZY8i7QvLODzDohK8-8SEc
+Message-ID: <CAFZQkGyK-ZV-2QuC21sbGu2BELbAicN7EqCAY=bo+WsKXcA+Yg@mail.gmail.com>
+Subject: Re: [PATCH 00/12] misc/syncobj: add /dev/syncobj device
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Julian Orth <ju.orth@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+	wayland-devel@lists.freedesktop.org, 
+	=?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20251104.gappssmtp.com:s=20251104];
+	R_DKIM_ALLOW(-0.20)[kde.org:s=users];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,bootlin.com,xs4all.nl,kwiboo.se,collabora.com,sntech.de];
-	TAGGED_FROM(0.00)[bounces-62322-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ndufresne-ca.20251104.gappssmtp.com:+];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62324-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	DMARC_NA(0.00)[kde.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,linaro.org,lwn.net,linuxfoundation.org,arndb.de,lists.freedesktop.org,vger.kernel.org,lists.linaro.org,mailbox.org];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kde.org:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[xaver.hugl@kde.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 2EC07591CAA
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,kde.org:dkim]
+X-Rspamd-Queue-Id: F35A0591856
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+> In general the answer is yes, userspace needs to take care of inserting fences when wait before signal is used and the work can not be submitted to the HW for some reason.
+>
+> Currently we only have an IOCTL to insert the signaled dummy fence at some timeline sequence, but it should be trivial as well to insert a signaled fence with an error code.
+>
+> But the compositor needs to be able to handle that case anyway, because it can be that a malicious or just buggy client just never inserts the fence.
+>
+> So that a device is hot plugged is not different to just a client not inserting the fence in the first place.
+A buggy client can always freeze its own surface, it doesn't need
+handling beyond cleaning up properly when the client disconnects.
+The hotplug case is different, since currently a well-behaved client
+can only attempt to signal the point in the syncobj... but the drm
+device is gone, so the ioctl will fail and the client's surface is
+frozen, even though it did everything right.
 
---=-rMn8wAQ6E+4f5jMRn2nH
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+So afaict, whatever new ioctl is added for this will need to be
+independent of the drm device, or be special cased not to fail when
+the device is removed.
 
-Le mercredi 20 mai 2026 =C3=A0 16:40 +0200, Francesco Saverio Pavone a =C3=
-=A9crit=C2=A0:
-> Hi Nicolas,
->=20
-> Thanks for the candid feedback =E2=80=94 and for the heads-up that the
-> direction I picked is the dead end rather than the destination. That
-> saves me a lot of investment in a path you and the V4L2 community
-> already see as deprecated.
->=20
-> Two pointers would help me catch up:
->=20
-> 1. The recent Chromium VP9 probabilities work for the V4L2 stateless
-> =C2=A0=C2=A0 path =E2=80=94 could you share a commit, a Phabricator/Gerri=
-t link, or a
-> =C2=A0=C2=A0 tracker ID? I would like to read it, test it on RK3588 RKVDE=
-C2
-> =C2=A0=C2=A0 (VDPU381 / VDPU346), and see if it covers the same compresse=
-d
-> =C2=A0=C2=A0 header / interp_filter corner that the libva-v4l2-request fo=
-rk was
-> =C2=A0=C2=A0 fixing. If there is something useful I can contribute back =
-=E2=80=94 test
-> =C2=A0=C2=A0 coverage, bug reports, follow-up patches =E2=80=94 I would r=
-ather put the
-> =C2=A0=C2=A0 effort there than on the libva side.
+> >> One problem is that only syncfile allows for querying such error codes at the moment, we have patches pending to add that to syncobj as well but we lack a compositor with support for that as userspace client.
+> > As long as the error case can be detected with an eventfd,
+>
+> Yeah that's the problem. The eventfd only tells you if the operation is completed (or at least has materialized).
+>
+> To query the error you would need to ask the underlying syncobj or syncfile directly.
+Issuing an additional ioctl after the eventfd fired for this rare case
+wouldn't be particularly nice, but also not difficult. If we'd get
+that with the eventfd directly, that would be much better though.
 
-Sure, the changes is (merged):
+> Ah! I think I got the problem now. You basically want to avoid importing the syncobj because when the wrong device goes away you are busted.
+Exactly.
 
-https://chromium-review.googlesource.com/c/chromium/src/+/7794420
+> The reason we didn't considered having the IOCTLs on the FD is because if you don't import them and instead keep them around you can run out file descriptors quite quickly.
+>
+> When you have an use case where you receive an FD from the client and do a one shot conversion to an eventfd that will probably work, but for keeping them in the long run you need some kind of container for the syncobjs, don't you?
+Compositors always run with vastly increased fd limits since they have
+to handle a lot of fds for dmabufs alone, so keeping the fd around
+wouldn't be an issue for us.
 
-The story behind it is that the code was owned by ChromeOS team (and assume=
-d
-ChromeOS specific), and they removed compressed header parsing from the com=
-mon
-code when the last RK Chromebook went end-of-life. That broke non-chromeboo=
-k
-users of RK and VSI decoders. This remains quite niche set of users, so it =
-took
-a bit of time, but its fixed by moving the relevant code into the V4L2 stat=
-eless
-decoder components. Its also only run when the HW actually needs it now.
+> > A device-independent way to create and use syncobj would still be
+> > useful to us though, both to simplify the compositor and to improve
+> > the software rendering use cases.
+>
+> Yeah not sure how to cleanly do that. We could have a dummy /dev/dri/rendersync or something like that, but that would be quite a hack.
+I think for userspace it would be less of a hack than searching for a
+random drm node that can import it. I'd gladly take another solution
+as well though, if there is one.
 
-As I'me starting to get a glimpse of the latest generation of CPU accessed =
-VP9
-decoders, I already know that some of the decoder needs to be passed the of=
-fsets
-to every tiles ahead of time. Information that is aliased inside the compre=
-ssed
-video data. I don't know yet if its the case for the newer RKVDEC VP9 decod=
-ers,
-previous generation was decoding tiles in order, one-by-one. There is V4L2
-controls spec for that coming soon.
-
-This is of course all supported in GStreamer and LibreELEC fork of FFMPEG.
-GStreamer support being fully upstream, and FFMPEG upstreaming happening he=
-re:
-
-https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/20847
-
->=20
-> 2. Vulkan Video status. Is there a public roadmap or a working branch
-> =C2=A0=C2=A0 for the V4L2-backed Vulkan Video decoder you are pushing? I =
-am
-> =C2=A0=C2=A0 especially interested in how request_fd / per-frame controls=
- map
-> =C2=A0=C2=A0 into the Vulkan Video API, and whether ARM SoCs with statele=
-ss
-> =C2=A0=C2=A0 decoders are part of the early target set. If there is a pla=
-ce to
-> =C2=A0=C2=A0 follow the work or contribute, please point me to it.
-
-This is of course a much younger subject, whith less implementation. So far=
- a
-quick vibe coded prototype has been made to verify if using V4L2 Stateless =
-API
-under the hood of a Vulkan Video driver was even possible. I will have to a=
-sk
-the "author" if he's interested in sharing, though its of low value in term=
- of
-code. The VP9 probabilities, along with few bit skip kind of parameters whe=
-re
-found missing, the AI open coded parser to workaround it.
-
-I really want to spec out these extensions this year, so we can have a non-
-parsing Vulkan Video layer as a demonstration instead. Parsing is achievabl=
-e,
-and the PoC demonstrated it, but doing it correctly requires running a
-dependency manager (it is fence base execution) in userspace in case there =
-would
-be a fence on the bitstream data you need to parse. Quite some work for
-something hypothetical, and in the Linux Vulkan echosystem, such as Mesa + =
-DRM,
-the dependency management has been chosen to happen in the kernel only for
-performance reason, and parsing in kernel is a no-go for security reason.
-
-As of where to discuss. Its not all very central and quite per project. On =
-the
-Mesa side, public discussion have started here:
-
-https://gitlab.freedesktop.org/mesa/mesa/-/work_items/14987
-
-This is about a concurrent PoC, that make use of non-V4L2 drivers. I will
-discuss this subject with the Linux Media group in Nice next week. Understa=
-nd
-that these are discussions, no one on either Linux Media or DRM subsystem h=
-ave
-committed to this change of direction. The challenge being that on one end,=
- we
-have a subsystem expert in low latency dynamic HW rendering pipeline runnin=
-g
-behind standard APIs, but not really having much clue on the handling of sm=
-ooth
-playback for variable processing time decoders (about buffering), and on th=
-e
-other end, its us, Linux Media subsystem, entirely focus on smoothness real=
-ly,
-and making their own standards and spec, but not particularly focus on late=
-ncy,
-which happen to be good most of the time though.
-
->=20
-> I will keep the libva-v4l2-request fork running locally for the
-> ecosystem that still depends on it (mpv `--hwdec=3Dvaapi-copy`, ffmpeg
-> CLI), but I will stop pushing it toward upstream now that the
-> direction is clear. The kernel-side fix that got VP9 working on
-> RKVDEC2 (the PM runtime teardown cleanup, lore link in the original
-> announce) is independent and stays useful for any of the userspace
-> paths above.
-
-Thanks for the PM runtime fixes, its in my queue, you should get feedback s=
-oon.
-You should really give a look at LibreELEC FFMPEG work, and Jonas upstreami=
-ng
-effort. V4L2 Stateless (also called request) decoder is the active standard=
- on
-Linux/ARM at the moment and is meant to be used directly without an abstrac=
-tion.
-So if you can adopt support for that, you will thin your software layers qu=
-ite a
-bit. For me, Vulkan Video will slowly take over, specially since they have =
-got
-ahead of us on the encoder side. Its also a nice commodity when the exact s=
-ame
-software can run on your PC and your embedded system. Though, there is stil=
-l a
-lot of work to do, and there is a lot of firmware accessed decoder/encoder =
-that
-are incompatible by firmware designs, which remain only covered by V4L2 Sta=
-teful
-driver layer until their vendor decide to offer new type of firmwares.
-
-Nicolas
-
->=20
-> Thanks again,
-> Francesco
-
---=-rMn8wAQ6E+4f5jMRn2nH
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCag3StwAKCRDZQZRRKWBy
-9CnNAP9GEJsngNSkPyWHS15aHqw6x5QFBOZqi0l9su04tOfoEAD+LtOjqRYlDrFC
-XTq5V7HIRR1yvxqfmHPRnHoeRGtJ/gc=
-=/tJx
------END PGP SIGNATURE-----
-
---=-rMn8wAQ6E+4f5jMRn2nH--
+- Xaver
 
