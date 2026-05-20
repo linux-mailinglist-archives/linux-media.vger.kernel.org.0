@@ -1,374 +1,308 @@
-Return-Path: <linux-media+bounces-62270-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62265-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wJeWFnWlDWrp0wUAu9opvQ
-	(envelope-from <linux-media+bounces-62270-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 14:13:41 +0200
+	id cD1MFQClDWpM0wUAu9opvQ
+	(envelope-from <linux-media+bounces-62265-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 14:11:44 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id E604858D6C4
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 14:13:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3C1F58D60B
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 14:11:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B6BCA30FBDFB
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 12:04:03 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3CD3E30E78BA
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 12:03:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 629CA3DF002;
-	Wed, 20 May 2026 12:03:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 853323DCD8B;
+	Wed, 20 May 2026 12:02:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="garucca5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dqoZ4dmu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012021.outbound.protection.outlook.com [52.101.48.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482603DDDCB;
-	Wed, 20 May 2026 12:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779278596; cv=fail; b=hvQkGVCtlKI73i3KMqwH+ORoozeR2yhms3HjBE+nkhzCcS2R0R0U8ZFpQJVGO9AkQTHCUG/Vl9wPhrepvQFMvO1iy9ub/YcDtWR+fn/OmDVNzbGKY3zxadNx+FKKz1ZorXkcMFkTdHGoe1AEVR1WK5/tuC3TUNHrnGPDqKG85LY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779278596; c=relaxed/simple;
-	bh=rulxTz2J2jNI9cxOLILr18FLmrbI2P+4fU5t1F28q7U=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cKuEp2CSuAztJIC4dHetNsOfEj1fahhGSWy2+LI8ltJmqCjLJm6pZvU1xgnlPqETH67hrFyonO3p+LPdN4yyZmJ8bRFE8x83gCmB402KKmkcw5gMQHeEGR9CPsYUgjpJY5QQVD3qhULHL0ts0whPboYVUquPYffH1ZgutEr+p4c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=garucca5; arc=fail smtp.client-ip=52.101.48.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iP4hKYJpC4eaz6bgp4lp+gdwshGjrUlWFmz9Uts0ECoTlMEh2vDwpCAds7Bx9s9Z4SvQX5wOFupBmJvnvY3Tn3bCH1OCBm9ZvAmjMpxIERbP9PzZ92dNle1KM5uwtTugoli4gZhryMhk4IA+kqaJITdJWh74LJ/LK9uHY3mQArVrEYs5Rz260avmxxEuL23PS6bw2cG9ODWBvHDt/lrXSqoziXzR+JCS/2pZU0RKOJKLpVkhkgmO1j543c9i2GaAyUhsTv9DlX2Pv8+ijD+IxjyeR6pbzohdeGMeQchl8RGwbUDzGFmaIexgU0MTQZD6hse8YDUb3x8Vau328SWlMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jiUjxvQAivtEqLejQ48o5KNl6cE2AkwYWjEIuCKdHRk=;
- b=HI/gPi3XSpW0PnR++MTS8qcyOLex/OYWSecOApcNGzX0LOxdxVr1GbZSN+oCQtXD5IQgCmZdRuvJAzWLewRzet9yu2uM2uksyQ4nsFf6LByvM7UFP5McmThliQTxYbGwzEBHdkByqfJIPrIRY5xti355basw8lqfJHbDx2YC2lmsT8boST5J4up5tcD9huI2TGcFar1MClEeBxj+y4kDjM3colrpy7vYsgmkspt3DMjhaSh76T8oPN1EmGnLFCbTAKHkO336eWI3Kn3sRmaT4iA2PlNi2b8nEGxQV03JBobvq8d/5tB4OuIzyxoBRPU1Gw44m9uG5fviPSgL355pHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jiUjxvQAivtEqLejQ48o5KNl6cE2AkwYWjEIuCKdHRk=;
- b=garucca5+5FFMBa0BH1jAWUxvqx5LoFZuZyKCnQpVOew0cLQZ4mTwUwxnxRhcS7RB7qTA8lXejqLYpFMqvfIYxDiipd2yRcrxXZGNSsojvE2Jh0UdgURlhC54vtcBaWdAmkPv27DMMLiwzHCmAC35SmPjOC4vMOfJYKJTof0d8w=
-Received: from DM6PR07CA0087.namprd07.prod.outlook.com (2603:10b6:5:337::20)
- by DS7PR10MB5975.namprd10.prod.outlook.com (2603:10b6:8:9d::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.48.14; Wed, 20 May 2026 12:03:13 +0000
-Received: from DS1PEPF00017095.namprd03.prod.outlook.com
- (2603:10b6:5:337:cafe::3b) by DM6PR07CA0087.outlook.office365.com
- (2603:10b6:5:337::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.48.16 via Frontend Transport; Wed, 20
- May 2026 12:03:13 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.194; helo=flwvzet200.ext.ti.com; pr=C
-Received: from flwvzet200.ext.ti.com (198.47.21.194) by
- DS1PEPF00017095.mail.protection.outlook.com (10.167.17.138) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.48.11 via Frontend Transport; Wed, 20 May 2026 12:03:11 +0000
-Received: from DFLE204.ent.ti.com (10.64.6.62) by flwvzet200.ext.ti.com
- (10.248.192.31) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 20 May
- 2026 07:02:31 -0500
-Received: from DFLE203.ent.ti.com (10.64.6.61) by DFLE204.ent.ti.com
- (10.64.6.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 20 May
- 2026 07:02:31 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE203.ent.ti.com
- (10.64.6.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
- Transport; Wed, 20 May 2026 07:02:31 -0500
-Received: from ws.dhcp.ti.com (ws.dhcp.ti.com [172.24.233.149])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 64KC0N3g1914726;
-	Wed, 20 May 2026 07:02:24 -0500
-From: Rishikesh Donadkar <r-donadkar@ti.com>
-To: <jai.luthra@linux.dev>, <laurent.pinchart@ideasonboard.com>,
-	<mripard@kernel.org>
-CC: <r-donadkar@ti.com>, <y-abhilashchandra@ti.com>, <devarsht@ti.com>,
-	<s-jain1@ti.com>, <vigneshr@ti.com>, <mchehab@kernel.org>, <robh@kernel.org>,
-	<krzk+dt@kernel.org>, <p.zabel@pengutronix.de>, <conor+dt@kernel.org>,
-	<sakari.ailus@linux.intel.com>, <hverkuil-cisco@xs4all.nl>,
-	<tomi.valkeinen@ideasonboard.com>, <jai.luthra@ideasonboard.com>,
-	<changhuang.liang@starfivetech.com>, <jack.zhu@starfivetech.com>,
-	<sjoerd@collabora.com>, <dan.carpenter@linaro.org>,
-	<hverkuil+cisco@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v13 17/17] media: ti: j721e-csi2rx: Support system suspend using pm_notifier
-Date: Wed, 20 May 2026 17:30:22 +0530
-Message-ID: <20260520120022.539913-18-r-donadkar@ti.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260520120022.539913-1-r-donadkar@ti.com>
-References: <20260520120022.539913-1-r-donadkar@ti.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 196AF3DD51F;
+	Wed, 20 May 2026 12:02:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779278547; cv=none; b=dkb6V+ioY8r9KOMFsz2OYr7wg13BrEgTSEnhdc3ZnlSpnqKyeupgHfkiMjyvJ3Oaw39BjdL83Ha9GMfKvvKiZP/CT0vMGsH/6OlROKt7+T/9RIUP1gi95ZYTah/cGTZ3aL8TX/SQojWPp8D84elObMZftR16VGllmY0MSgkyeQ8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779278547; c=relaxed/simple;
+	bh=cQmfLJSc40bDBXP/fgWlHQ8o57Tl2yyI+creHsRHiRA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KU3raI3nFZ9+UQKrRQJuYqEzDUAuKMIH6R4UXp2UgYXNrGIaw3fk/QWmHH4z1Xs3bU0ydTiWQdmST2Qef4cjaNg5hhex8ZUL3OBdV6AY5LjpIdd+jj8y7GNeHj494s4ysyHLmT5VwILtXm7wgBqoaR8r0/XaFEqWvE4FL+Z9/Vo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dqoZ4dmu; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779278547; x=1810814547;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cQmfLJSc40bDBXP/fgWlHQ8o57Tl2yyI+creHsRHiRA=;
+  b=dqoZ4dmuL+64A8jD40u5U0WEo3VMtuZKCwAZWm48HYLu2Qbo8C4K0jDm
+   zRhoi52gE6+k1sr2+6Sj/kiotf28sN85zzAP1WewWbhh2dexXkVTo+ew6
+   WqKdn8UVKQpYkI2/COMOt6afI/y5a1ew/ilbXVFlyR4A5ms8H/5xCmr1S
+   Dx3j6kt+wwxC42g+88RME19VWrhh/Mh2kkBseFnRyFZFXw0gIqkP31NVj
+   tjlhaUFOR/I+EE931rw0I6Resn+UMMt5sARplZq4ix/x0NlCFDxuGDRSI
+   2WfE8TTn9Y8fGmGezesZfBSiC10F4QpMYNryOu5fWt/+EcMc68YbeRnQU
+   w==;
+X-CSE-ConnectionGUID: zh4D4fOSQyCaAqbe4vgtqQ==
+X-CSE-MsgGUID: v3Yn7gJWRKerWSuqxgruBw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11791"; a="90470726"
+X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
+   d="scan'208";a="90470726"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 05:02:26 -0700
+X-CSE-ConnectionGUID: QAQqgWdBRT+zMt5bNQa1bA==
+X-CSE-MsgGUID: +A8kp5Z5Tryqt3+zsLsuTw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,244,1770624000"; 
+   d="scan'208";a="245137103"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.115])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2026 05:02:24 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id EE9A711F851;
+	Wed, 20 May 2026 15:02:19 +0300 (EEST)
+Date: Wed, 20 May 2026 15:02:19 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Guangshuo Li <lgs201920130244@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Kees Cook <kees@kernel.org>, Ma Ke <make24@iscas.ac.cn>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: v4l2-dev: do not fire driver's release on
+ __video_register_device() failure
+Message-ID: <ag2iy5fRlZJLYijT@kekkonen.localdomain>
+References: <20260520090624.1071139-1-lgs201920130244@gmail.com>
+ <20260520093421.GA215344@killaraus.ideasonboard.com>
+ <14ab929b-f236-48cf-a022-f424fa1e0c1e@kernel.org>
+ <20260520104816.GB215344@killaraus.ideasonboard.com>
+ <00110771-c722-4208-a0e8-48819952e992@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF00017095:EE_|DS7PR10MB5975:EE_
-X-MS-Office365-Filtering-Correlation-Id: 559c2025-e807-4898-55f1-08deb667c40a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|376014|7416014|82310400026|1800799024|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	o2xvRL0fG2xXeOGUmHJL4jGmEsf2vg0nEICBrHnQg1JcNUhjiTt9K1d43FOyuc8F2CyWv5qqL2E8Q8ipf9doRsr/9F6hJ/ak3TeEMY2Qxhp8+wBhK5Dv4B2mjeoLVShuEyvYHc8f2f5EKL3E1LHeDiBBWg+NqWDblczPD286hiwTPeHPkI5WR3h5u+rNNpD285gpZTd/J2pS2QBPYYoH+y1AIe1wQJXyKbTs8hRFMyNa0zLD1nxWoK0pM0dG1ZUHDuU9b4xGhb+f8QasGzvPhhTxpmD5UaVlwWWJKWOzyM+hnZZtOaGR5lA1IVlC7sC9K8jt9zghD4F4snFEDX5TNHLrJAt58OLIM/TD0VcyLprmbMn3NkxJCg1zUzN7SkhftSw+FpHlNxxYYbzZ96fSkx6ny5gTJ6N/FDIu6AZL1ncGV/rZdtnwJJxRmdi8W2Ds7rBJ78q5+kR6t0dV0TGUdw2yxs+X6e5L9/B0yyn6JYyukEXM0D4ISsbQktlfbCKPon/HGF1QDXFHsxZ+2c7D2Sh1yDC7NNcz23yw8UbPZOylBP8rNnX3uq0orOUofF0jjnxD87gsnX3VogfwbjFccntnEvxxXne/RwfipJ/cxpnszsL2PviELmci2gaSr78oqRZnnpueT3Ly20MW/7Hph/COxa+i7sFwICcnoftUKGmh9IL4hcvoM8QypHT8rAhE0Yt4Tz5aEeT+mjjeubNjya0aY/YfhaxHjC9hFDXJeOE=
-X-Forefront-Antispam-Report:
-	CIP:198.47.21.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet200.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(36860700016)(376014)(7416014)(82310400026)(1800799024)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	Pa7AsUY7LGqtNhY4YuQtXkdEayUwKNCoIykGG7FemO8vgJXxPvljjtL4etII06QpySCCJKlTLPj6GWepOdg7zyRapuqi1Sk6JYe2gjzXaLNEedqBAA2pGiwp/1e+WmoDp5fBXs41KXPZ2PsZFBNL2RiH62pkPUcgsn+a64YZ6Sv0RpIuCvyJx75PntuNN1BtSve47bmp0oL74aB0NxzBOoeE8utG63HILCDoZLSiLF+X7NDtlpH1pp4HcNAZsLUzfHowprB9Dt2j6i8pTZPq4/GwE3zCWx7IsKnTDEubCYCbym8GE00vMliOda32MJWq8aV1t3A3BZEJ3N85Qyyn5hhWerWMjvlcyNyVg3FP2Z5nqx6EgoO+BP/Hkg9NMzLGaQVM64DyffEX1Pl/hMndCSCiotoy2+Uyus1HlW9eJX00bMEx8eurF09CEUdRJ27i
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 12:03:11.9032
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 559c2025-e807-4898-55f1-08deb667c40a
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.194];Helo=[flwvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS1PEPF00017095.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR10MB5975
-X-Spamd-Result: default: False [2.84 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <00110771-c722-4208-a0e8-48819952e992@kernel.org>
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ti.com,quarantine];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[ti.com:s=selector1];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[ti.com,kernel.org,pengutronix.de,linux.intel.com,xs4all.nl,ideasonboard.com,starfivetech.com,collabora.com,linaro.org,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-62270-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[r-donadkar@ti.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[ideasonboard.com,gmail.com,kernel.org,iscas.ac.cn,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-62265-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ti.com:+];
-	TO_DN_NONE(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ti.com:email,ti.com:mid,ti.com:dkim,ideasonboard.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
-	RCVD_COUNT_SEVEN(0.00)[10]
-X-Rspamd-Queue-Id: E604858D6C4
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,intel.com:dkim]
+X-Rspamd-Queue-Id: E3C1F58D60B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Jai Luthra <jai.luthra@ideasonboard.com>
+Hi Hans,
 
-As this device is the "orchestrator" for the rest of the media
-pipeline, we need to stop all on-going streams before system suspend and
-enable them back when the system wakes up from sleep.
+On Wed, May 20, 2026 at 01:26:30PM +0200, Hans Verkuil wrote:
+> On 20/05/2026 12:48, Laurent Pinchart wrote:
+> > Hi Hans,
+> > 
+> > On Wed, May 20, 2026 at 12:01:46PM +0200, Hans Verkuil wrote:
+> >> On 20/05/2026 11:34, Laurent Pinchart wrote:
+> >>> On Wed, May 20, 2026 at 05:06:24PM +0800, Guangshuo Li wrote:
+> >>>> video_register_device() / __video_register_device() registers vdev->dev
+> >>>> with device_register(). Before the call the video core sets
+> >>>>
+> >>>> 	vdev->dev.release = v4l2_device_release;
+> >>>>
+> >>>> v4l2_device_release() invokes vdev->release(vdev) as its last step, and
+> >>>> the driver's vdev->release hook is commonly video_device_release(), which
+> >>>> kfree()s the vdev that the driver allocated with video_device_alloc().
+> >>>>
+> >>>> When device_register() fails inside __video_register_device() the core
+> >>>> does
+> >>>>
+> >>>> 	put_device(&vdev->dev);
+> >>>> 	return ret;
+> >>>>
+> >>>> which drops the only reference and fires the v4l2_device_release()
+> >>>> chain:
+> >>>>
+> >>>>   __video_register_device()
+> >>>>     device_register() -> -E*
+> >>>>     put_device(&vdev->dev)
+> >>>>       -> v4l2_device_release()
+> >>>>          -> vdev->release(vdev)
+> >>>>             -> video_device_release(vdev)   /* kfree(vdev), free #1 */
+> >>>>
+> >>>> video_register_device() returns the error to the driver. Drivers that
+> >>>> follow the documented ownership contract release vdev on their own error
+> >>>> path, e.g.
+> >>>>
+> >>>>   driver_probe()
+> >>>>     if (video_register_device(vdev, ...))
+> >>>>       goto err_release_vdev;
+> >>>>     ...
+> >>>>   err_release_vdev:
+> >>>>     video_device_release(vdev);   /* free #2 -- DOUBLE FREE */
+> >>>>
+> >>>> This is the contract documented in
+> >>>> Documentation/driver-api/media/v4l2-dev.rst: the driver owns vdev and
+> >>>> is responsible for releasing it if video_register_device() fails. As
+> >>>> Hans Verkuil pointed out, the right place to fix this is the v4l2 core
+> >>>> rather than every individual driver, because drivers are expected to
+> >>>> follow the documented ownership contract.
+> >>>>
+> >>>> Neutralise vdev->release around put_device() in the device_register()
+> >>>> failure path so the device core cleanup does not run the driver's
+> >>>> release hook. The driver-supplied release is restored before returning
+> >>>> so the caller can release vdev according to the documented contract.
+> >>>> Successful registration is unchanged, so the normal teardown sequence
+> >>>> continues to call the driver's release hook and free vdev exactly once on
+> >>>> unregister.
+> >>>>
+> >>>> Fixes: 2a934fdb01db ("media: v4l2-dev: fix error handling in __video_register_device()")
+> >>>> Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+> >>>> ---
+> >>>>  drivers/media/v4l2-core/v4l2-dev.c | 5 +++++
+> >>>>  1 file changed, 5 insertions(+)
+> >>>>
+> >>>> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> >>>> index 6ce623a1245a..73648549eb2a 100644
+> >>>> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> >>>> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> >>>> @@ -1075,9 +1075,14 @@ int __video_register_device(struct video_device *vdev,
+> >>>>  	mutex_lock(&videodev_lock);
+> >>>>  	ret = device_register(&vdev->dev);
+> >>>>  	if (ret < 0) {
+> >>>> +		void (*release)(struct video_device *) = vdev->release;
+> >>>> +
+> >>>>  		mutex_unlock(&videodev_lock);
+> >>>>  		pr_err("%s: device_register failed\n", __func__);
+> >>>> +
+> >>>> +		vdev->release = video_device_release_empty;
+> >>>>  		put_device(&vdev->dev);
+> >>>> +		vdev->release = release;
+> >>>
+> >>> That looks like a big hack. There must be something wrong somewhere else
+> >>> in the design.
+> >>
+> >> There is, unfortunately the design was wrong since the beginning of V4L2.
+> >>
+> >> Documentation/driver-api/media/v4l2-dev.rst explicitly says that you should use:
+> >>
+> >>         err = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+> >>         if (err) {
+> >>                 video_device_release(vdev); /* or kfree(my_vdev); */
+> >>                 return err;
+> >>         }
+> >>
+> >> So everyone does that. Luckily device_register never fails in practice (you probably have
+> >> bigger problems if it fails then just a double-free).
+> >>
+> >> The reality is that we don't handle this failure well at all, and this change wouldn't
+> >> help in all cases either. E.g. drivers/media/platform/renesas/renesas-ceu.c actually relies
+> >> on the release() callback in that it doesn't call video_device_release().
+> >>
+> >> But then it would fail on the v4l2_err(vdev->v4l2_dev, ...) call since vdev would be freed
+> >> already.
+> >>
+> >> There are probably more drivers like that. (drivers/media/i2c/video-i2c.c)
+> >>
+> >> I'm not sure what is wisdom here.
+> >>
+> >> See also commit 2a934fdb01db ("media: v4l2-dev: fix error handling in __video_register_device()"),
+> >> which is where the put_device was introduced in the first place.
+> >>
+> >> Perhaps that should be reverted instead?
+> > 
+> > If we want a short term fix I think that would be better.
+> > 
+> > Have you seen
+> > https://lore.kernel.org/all/aeCOdWLaVpH-5w8s@hovoldconsulting.com/ ?
+> 
+> I hadn't seen it. Interesting.
+> 
+> > 
+> > Having an API contract different from device_register() will likely
+> > cause issues one way or another.
+> 
+> Looking closely how the driver core works and what commit 2a934fdb01db changed,
+> I think this might fix it:
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index 5516b2bbb08f..6ffd385e880f 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -1071,25 +1071,27 @@ int __video_register_device(struct video_device *vdev,
+>  	vdev->dev.class = &video_class;
+>  	vdev->dev.devt = MKDEV(VIDEO_MAJOR, vdev->minor);
+>  	vdev->dev.parent = vdev->dev_parent;
+> -	vdev->dev.release = v4l2_device_release;
+>  	dev_set_name(&vdev->dev, "%s%d", name_base, vdev->num);
+> 
+> -	/* Increase v4l2_device refcount */
+> -	v4l2_device_get(vdev->v4l2_dev);
+> -
+>  	mutex_lock(&videodev_lock);
+>  	ret = device_register(&vdev->dev);
+>  	if (ret < 0) {
+>  		mutex_unlock(&videodev_lock);
+>  		pr_err("%s: device_register failed\n", __func__);
+>  		put_device(&vdev->dev);
+> -		return ret;
+> +		goto cleanup;
+>  	}
+> +	/* Register the release callback that will be called when the last
+> +	   reference to the device goes away. */
+> +	vdev->dev.release = v4l2_device_release;
+> 
+>  	if (nr != -1 && nr != vdev->num && warn_if_nr_in_use)
+>  		pr_warn("%s: requested %s%d, got %s\n", __func__,
+>  			name_base, nr, video_device_node_name(vdev));
+> 
+> +	/* Increase v4l2_device refcount */
+> +	v4l2_device_get(vdev->v4l2_dev);
+> +
+>  	/* Part 5: Register the entity. */
+>  	ret = video_register_media_controller(vdev);
+> 
+> This mostly reverts 2a934fdb01db, except that we keep the put_device.
+> But when this is called, vdev->dev.release isn't set yet, so it only
+> frees the device-related data (device_release in drivers/base/core.c).
+> 
+> Am I missing something?
 
-Using .suspend/.resume callbacks does not work, as the order of those
-callbacks amongst various devices in the camera pipeline like the sensor,
-FPD serdes, CSI bridge etc. is impossible to enforce, even with
-device links. For example, the Cadence CSI bridge is a child device of
-this device, thus we cannot create a device link with the CSI bridge as
-a provider and this device as consumer. This can lead to situations
-where all the dependencies for the bridge have not yet resumed when we
-request the subdev to start streaming again through the .resume callback
-defined in this device.
+I guess this could be workable. This way the caller knows the release
+callback won't be called.
 
-Instead here we register a notifier callback with the PM framework
-which is triggered when the system is fully functional. At this point we
-can cleanly stop or start the streams, because we know all other devices
-and their dependencies are functional. A downside of this approach is
-that the userspace is also alive (not frozen yet, or just thawed), so
-the suspend notifier might complete before the userspace has completed
-all ioctls, like QBUF/DQBUF/STREAMON/STREAMOFF.
+Regarding error handling, the return value from
+video_register_media_controller() is ignored. It'd probably be good to fix
+that in a separate patch though. I could submit one as well.
 
-Tested-by: Rishikesh Donadkar <r-donadkar@ti.com>
-Reviewed-by: Rishikesh Donadkar <r-donadkar@ti.com>
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 135 ++++++++++++++++++
- 1 file changed, 135 insertions(+)
-
-diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-index d68b8d6ffeb1..21388284cbaa 100644
---- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-+++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-@@ -131,6 +131,7 @@ struct ti_csi2rx_dev {
- 	struct v4l2_subdev		*source;
- 	struct v4l2_subdev		subdev;
- 	struct ti_csi2rx_ctx		ctx[TI_CSI2RX_MAX_CTX];
-+	struct notifier_block		pm_notifier;
- 	u8				pix_per_clk;
- 	/* Buffer to drain stale data from PSI-L endpoint */
- 	struct {
-@@ -1544,6 +1545,124 @@ static int ti_csi2rx_runtime_resume(struct device *dev)
- 	return 0;
- }
- 
-+static int ti_csi2rx_suspend(struct device *dev)
-+{
-+	struct ti_csi2rx_dev *csi = dev_get_drvdata(dev);
-+	enum ti_csi2rx_dma_state state;
-+	struct ti_csi2rx_ctx *ctx;
-+	struct ti_csi2rx_dma *dma;
-+	unsigned long flags = 0;
-+	int i, ret = 0;
-+
-+	/* If device was not in use we can simply suspend */
-+	if (pm_runtime_status_suspended(dev))
-+		return 0;
-+
-+	/*
-+	 * If device is running, assert the pixel reset to cleanly stop any
-+	 * on-going streams before we suspend.
-+	 */
-+	writel(0, csi->shim + SHIM_CNTL);
-+
-+	for (i = 0; i < csi->num_ctx; i++) {
-+		ctx = &csi->ctx[i];
-+		dma = &ctx->dma;
-+
-+		spin_lock_irqsave(&dma->lock, flags);
-+		state = dma->state;
-+		spin_unlock_irqrestore(&dma->lock, flags);
-+
-+		if (state != TI_CSI2RX_DMA_STOPPED) {
-+			/* Disable source */
-+			ret = v4l2_subdev_disable_streams(&csi->subdev,
-+							  TI_CSI2RX_PAD_FIRST_SOURCE + ctx->idx,
-+							  BIT(0));
-+			if (ret)
-+				dev_err(csi->dev, "Failed to stop subdev stream\n");
-+		}
-+
-+		/* Stop any on-going streams */
-+		writel(0, csi->shim + SHIM_DMACNTX(ctx->idx));
-+
-+		/* Drain DMA */
-+		ti_csi2rx_drain_dma(ctx);
-+
-+		/* Terminate DMA */
-+		ret = dmaengine_terminate_sync(ctx->dma.chan);
-+		if (ret)
-+			dev_err(csi->dev, "Failed to stop DMA\n");
-+	}
-+
-+	return ret;
-+}
-+
-+static int ti_csi2rx_resume(struct device *dev)
-+{
-+	struct ti_csi2rx_dev *csi = dev_get_drvdata(dev);
-+	struct ti_csi2rx_ctx *ctx;
-+	struct ti_csi2rx_dma *dma;
-+	struct ti_csi2rx_buffer *buf;
-+	unsigned long flags = 0;
-+	unsigned int reg;
-+	int i, ret = 0;
-+
-+	/* If device was not in use, we can simply wakeup */
-+	if (pm_runtime_status_suspended(dev))
-+		return 0;
-+
-+	/* If device was in use before, restore all the running streams */
-+	reg = SHIM_CNTL_PIX_RST;
-+	writel(reg, csi->shim + SHIM_CNTL);
-+
-+	for (i = 0; i < csi->num_ctx; i++) {
-+		ctx = &csi->ctx[i];
-+		dma = &ctx->dma;
-+		spin_lock_irqsave(&dma->lock, flags);
-+		if (dma->state != TI_CSI2RX_DMA_STOPPED) {
-+			/* Re-submit all previously submitted buffers to DMA */
-+			list_for_each_entry(buf, &ctx->dma.submitted, list) {
-+				ti_csi2rx_start_dma(ctx, buf);
-+			}
-+			spin_unlock_irqrestore(&dma->lock, flags);
-+
-+			/* Restore stream config */
-+			ti_csi2rx_setup_shim(ctx);
-+
-+			ret = v4l2_subdev_enable_streams(&csi->subdev,
-+							 TI_CSI2RX_PAD_FIRST_SOURCE + ctx->idx,
-+							 BIT(0));
-+			if (ret)
-+				dev_err(ctx->csi->dev, "Failed to start subdev\n");
-+		} else {
-+			spin_unlock_irqrestore(&dma->lock, flags);
-+		}
-+	}
-+
-+	return ret;
-+}
-+
-+static int ti_csi2rx_pm_notifier(struct notifier_block *nb,
-+				 unsigned long action, void *data)
-+{
-+	struct ti_csi2rx_dev *csi =
-+		container_of(nb, struct ti_csi2rx_dev, pm_notifier);
-+
-+	switch (action) {
-+	case PM_HIBERNATION_PREPARE:
-+	case PM_SUSPEND_PREPARE:
-+	case PM_RESTORE_PREPARE:
-+		ti_csi2rx_suspend(csi->dev);
-+		break;
-+	case PM_POST_SUSPEND:
-+	case PM_POST_HIBERNATION:
-+	case PM_POST_RESTORE:
-+		ti_csi2rx_resume(csi->dev);
-+		break;
-+	}
-+
-+	return NOTIFY_DONE;
-+}
-+
- static const struct dev_pm_ops ti_csi2rx_pm_ops = {
- 	RUNTIME_PM_OPS(ti_csi2rx_runtime_suspend, ti_csi2rx_runtime_resume,
- 		       NULL)
-@@ -1617,6 +1736,20 @@ static int ti_csi2rx_probe(struct platform_device *pdev)
- 		goto err_notifier;
- 	}
- 
-+	/*
-+	 * Use PM notifier instead of .suspend/.resume callbacks because the
-+	 * ordering of callbacks among camera pipeline devices (sensor, serdes,
-+	 * CSI bridge) cannot be enforced even with device links. The notifier
-+	 * is called when the system is fully functional, ensuring all
-+	 * dependencies are available when stopping/starting streams.
-+	 */
-+	csi->pm_notifier.notifier_call = ti_csi2rx_pm_notifier;
-+	ret = register_pm_notifier(&csi->pm_notifier);
-+	if (ret) {
-+		dev_err(csi->dev, "Failed to create PM notifier: %d\n", ret);
-+		goto err_notifier;
-+	}
-+
- 	return 0;
- 
- err_notifier:
-@@ -1644,6 +1777,8 @@ static void ti_csi2rx_remove(struct platform_device *pdev)
- 		ti_csi2rx_cleanup_ctx(&csi->ctx[i]);
- 
- 	ti_csi2rx_cleanup_notifier(csi);
-+	unregister_pm_notifier(&csi->pm_notifier);
-+
- 	ti_csi2rx_cleanup_v4l2(csi);
- 	dma_free_coherent(csi->dev, csi->drain.len, csi->drain.vaddr,
- 			  csi->drain.paddr);
 -- 
-2.34.1
+Regards,
 
+Sakari Ailus
 
