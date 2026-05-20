@@ -1,165 +1,180 @@
-Return-Path: <linux-media+bounces-62310-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62311-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2JW+MhjNDWrh3QUAu9opvQ
-	(envelope-from <linux-media+bounces-62310-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 17:02:48 +0200
+	id sM0xBV/LDWqq3QUAu9opvQ
+	(envelope-from <linux-media+bounces-62311-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 16:55:27 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4659859068A
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 17:02:48 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9258C59042D
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 16:55:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 13CFB3164BBC
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 14:40:29 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id BD6DB303306F
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 14:50:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64198365A13;
-	Wed, 20 May 2026 14:40:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87E543E95B8;
+	Wed, 20 May 2026 14:50:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O2mMUdnH"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="SB7hSCQD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA6F23392C
-	for <linux-media@vger.kernel.org>; Wed, 20 May 2026 14:40:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779288026; cv=none; b=OyWRtV7Y9w/ZRsYW5QhEmyN3zj3ZFapSTXYSVmWYH1kEnNbRgTqt385Pe4PTNzunj0lhtImofl0oNT0QEarXHlc50mtGbzKB1lnJO35hpN51mhB/LYPrEnHHnj8NnClqP36vPl3eXZvemVxehVoDf4aloLQlGu4xJaTdwFITYlM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779288026; c=relaxed/simple;
-	bh=Z5a6VYgp4AzsTZqKEH+EQUvDERNLvmTuY5HgheWJxSM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=q8Gfx4lt6cmqBPGRGvx2nku/Q+WQSPJmV2ECU27gncLnSQ+Nnp8GnZWtAkECM/hsgXowrbtVFadpvf3safsldfEU9qiN7/P6paKh+D46qjkj8JhUD0ItHRFEr15W+F3WJXeeo9h2lQE4+DUDZnfam7Wp+2QoNfn4Lzb1vAsT7/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O2mMUdnH; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-488d2079582so48174985e9.2
-        for <linux-media@vger.kernel.org>; Wed, 20 May 2026 07:40:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779288024; x=1779892824; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PGN2TPTujR4Xka4apJmaKEVpKRvu4thpccKwr1dUJ/k=;
-        b=O2mMUdnHcOGk0FsmvTLk/1mRdbsHvCS/0BosPPie53iKE71zgJTGfWqY4LSAlV+CqA
-         /Ky5eRPj28Gbx9oN3h2uX0cWD/oDxRcBRWbC4i11eiWg8h1/vvvYIDoZpXmP1m21muKU
-         NrfaUNkrYLSrwHSzPYssNiJWENWOEM4+62Oi7xslGOfa3aqPapMvJo0Up+UDocLUc0o2
-         kmX/CEDFt6xvmu9uy8//kjoFNSh2kG4iPSf96+Fm2VTmOuWzGJANoS2Q8hpzaRbMiaxm
-         y5uvnXQrNk8kk7RejN33WOMbTmUAZFbXwwsLdtjZmhJXTSWXirUOybseAmAlNOSW71o6
-         S6GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779288024; x=1779892824;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PGN2TPTujR4Xka4apJmaKEVpKRvu4thpccKwr1dUJ/k=;
-        b=BmTzI1q3kEmHuPS0+ngxpTdET1FvbJCR3jJ7c1PePVSIQpePvQir0DjnDAXX2LY4Wc
-         4fU9kRald4T8T9gHfqFiy2v4bx+LNol7ORei4Z1JCCASzYEeRPygBYbg8AEnzoy7n6UG
-         BXH7euBZe6Kd6hB5g4wgu8HUzvl5NefuwJwYVrjYDnTHnnCWfO5FUD4yaGbzIQmkM+CL
-         Wr2DJwgKhBMC2gI3CGtv9lOBKMntCQAuo2p8iORPoccGyCYMOjB3MHTCT4cUSkNsv3s+
-         JJIeeqkMYM2wS7VxvOd4hl1C3rIOJMMBvTrslp+C/GrkqDQDJUDbKzKX9qkKoK5Cmu1Z
-         9Qhw==
-X-Gm-Message-State: AOJu0YwFu1fgKytmheTCx02JinkIS+WE1cum5iyjcuJRE8BkmGTrFPk3
-	smfs2zzpPsE0njsZyKS0ZhItVVKOjrGwj1jyJBmDv62J7suICX36o/w=
-X-Gm-Gg: Acq92OG3yktPhg3Sw1OpnxmBtUaAm/FFhwNWkGRGAjp8drCQL2NKlYC+yCtqFzFs1hH
-	ZhcpWvOn+UneIG501iB0L0k8s35kJCfH/nr07rwwnvfsOe09hVGg/rhwq3BgxJ3LlCUNHux76c4
-	fNfbk0UbTE2Y9Y0+nGYIFtaJ68E+nnQw7ypz+gTlmb/yV6pe1YPiMRI5ed61wl0iOG8SxAMYEky
-	nT8VB39fbEGDQL2lUeaBCCUEKW7Lzh4LKAdudjjA13kqmgT4B3ZTp1Imt7agdDlLWdpkExQT4ws
-	6du14/UF/uAakbR2DXmhFhke4cjEIozLcz2JkW76x0L7a9phEjveAgH8CHWlBu5QJRRehWMhsKo
-	8fNlAxlGYUYQ0C/UA9+ia+BpnGxq6yVZkn0l9ZQqsObylZ5Y04lUO9sCqjbC35rYjNsL2b8jGsY
-	mUWQ4T7YWBn/EPqoRfoGWyG7x5REUm1ntkjDWDMNZbB7fMVyBqTi+RsRVJ+s7xuwDyKpeJqnX5j
-	vVzcbG09vhGsA==
-X-Received: by 2002:a05:600c:858d:b0:48e:5990:96b1 with SMTP id 5b1f17b1804b1-48fe6514c62mr292743205e9.23.1779288023465;
-        Wed, 20 May 2026 07:40:23 -0700 (PDT)
-Received: from localhost.localdomain ([151.37.214.14])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48fffb9aac4sm540283105e9.9.2026.05.20.07.40.20
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 20 May 2026 07:40:22 -0700 (PDT)
-From: Francesco Saverio Pavone <pavone.lawyer@gmail.com>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: linux-media@vger.kernel.org,
-	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Detlev Casanova <detlev.casanova@collabora.com>,
-	Heiko Stuebner <heiko@sntech.de>
-Subject: Re: [ANNOUNCE] libva-v4l2-request: RK3588 VDPU381 VP9 decode (fork)
-Date: Wed, 20 May 2026 16:40:17 +0200
-Message-ID: <20260520144017.69528-1-pavone.lawyer@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96DC93DC4D7
+	for <linux-media@vger.kernel.org>; Wed, 20 May 2026 14:50:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779288648; cv=pass; b=IGaW9cDkCZO7N6ItblHLoWIwi0YdA8RdpwbVUNhrtuEdR/1QL9uc1tkUw5dq7+ecg9pvdHEc5IroXiq17QKxfqd90pi1c5qjzvOkALYsqZU/oSzVF6HEt50YQSJm7SvQXlYnDOzO3bGEicewf4nwK1q0t9VLp7payxZnFRUwOi8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779288648; c=relaxed/simple;
+	bh=KtyTM2IpfxTgORhQ3IWjefHMhQMTjM+XYFwdTMGN3Y0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bp7Wz4BzuS7PwOvMZINq5WpYEte1gy/CpcNCr9RdsvZB2sP4r8u+QumWmoywCtdcyZoJhMaDPnkP+B95rkmzffvReyfw2jUTgaU0L0cvFUt69OzQQFyp5QNkl6bZ/DB6hXuJCugtA92c+2n1P82v4M2evqjQB/dKFZN1Ma8ZXcA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=SB7hSCQD; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (n18ws8cotq5gnfn8-1.v6.elisa-laajakaista.fi [IPv6:2001:99a:0:19f:4ce7:0:938c:d2f4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4gLDx50jR1z49Q53;
+	Wed, 20 May 2026 17:50:33 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1779288633;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WDme+ovEo7mVSlS6elBAPpULvLghlwQZaO5Bz5D00iU=;
+	b=SB7hSCQD0CFdXB/5GZlFhNAtDnmGD0kFu9NkUapcKWyHWh5LzdS/Ua9OngR+jLwPCgHwnP
+	7jKWACVdTYckgkGmmuY9t4tyX6Xfqh43/346FteYQhht75V4ZSoneHnGTSPfo9GGO2ndJ3
+	nM8LzIsC290JFil8EjuvtOWdzDJCPECCeKjk7rSAgFeSpFj4LR9lPsDFK3hAjnHSdoxhYL
+	OC+AoYI8bxzZK075dObOQ8a9f9Duq0up0+/I1RG0zgJNpc4b499R9JsD66lkZLgGdeBI1L
+	4oXhd2lMpaK2aTXe6Hi0bY8XQ8MWeWSlKghHwj7eqp2om5zCUW/QUlZj9krykg==
+ARC-Seal: i=1; a=rsa-sha256; d=iki.fi; s=lahtoruutu; cv=none; t=1779288633;
+	b=DwGOcFuUJk5F1wHZi+hK5dzV63NTSmbIKftQc9jWOXj0Fg2dmpCewZTJX2nJPa/QRwDeCN
+	/oHZfZnA1I6zwRhSONPC2CZrv/hzyWl99nJLMKcHlXI1sT4Ddfhowv7ssDMT/efZlEpBbE
+	2i53c6mh/kcmbfkNljI8eFnJ3aTYGrGnKqmnAr9x59CCmktLYmdiLnZAsWL7B6bDp+6s3O
+	tjIhbue4byNtYP7NEE76wFGPuNqG+rfujGIVKPfnTQUlK0zAka0iMbW/Jn1jjh83xvLQ7f
+	PneHD1dfDOenKHRv35LJ2Wwa7JBtytMPt3nxcqj6PF0GjBUiuzr12xC6zVXAMg==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1779288633;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WDme+ovEo7mVSlS6elBAPpULvLghlwQZaO5Bz5D00iU=;
+	b=mYZR690eSDWtDXgeGMC90YFjcNW1aSkjhNAec+bqkoH4HNpvqNonzwbowLNKleBOUZyYbx
+	5NqoNDZYx+0a571y7JRgP/BMsMZrjg9+baMBXVhjEPNqj10dWPXyA3+U88bGOZ63J+xH+O
+	lSRDRPIOaNeKLjZbNkynPHR2MAJ54EMnyeovtedho8t4on6CGwYStxogRBqwbKy5QwUeVJ
+	sEqQ4BrzTl/Uyuo8l6HJSp6fYudixbHkCkOHQnKMLl7ayXLpvMqAsZ4d9aZiztIe8LOD6q
+	av0fdssFN4egW2XAsHGFAsJwRsWEIQCgBXVdj8AshL68/l3QI4Krwo1+1wIGgw==
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 81679634C50;
+	Wed, 20 May 2026 17:50:27 +0300 (EEST)
+Date: Wed, 20 May 2026 17:50:27 +0300
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Denis Yasyuchenya <d.s.yasyuchenya@gmail.com>
+Cc: linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: ov02c10: Add support for 26 MHz external clock
+Message-ID: <ag3KMwGMw82SejLE@valkosipuli.retiisi.eu>
+References: <CAKP_te-WT+HTEyhSvQ3snEOaTp5B1OUL18JjuzO238=_fTOuXQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-1.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	FAKE_REPLY(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKP_te-WT+HTEyhSvQ3snEOaTp5B1OUL18JjuzO238=_fTOuXQ@mail.gmail.com>
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[iki.fi:s=lahtoruutu];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,bootlin.com,xs4all.nl,kwiboo.se,collabora.com,sntech.de];
-	TAGGED_FROM(0.00)[bounces-62310-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	FREEMAIL_TO(0.00)[gmail.com];
+	DMARC_NA(0.00)[iki.fi];
+	TAGGED_FROM(0.00)[bounces-62311-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[iki.fi:+];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[pavonelawyer@gmail.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@iki.fi,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 4659859068A
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,iki.fi:dkim]
+X-Rspamd-Queue-Id: 9258C59042D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Nicolas,
+Hi Denis,
 
-Thanks for the candid feedback — and for the heads-up that the
-direction I picked is the dead end rather than the destination. That
-saves me a lot of investment in a path you and the V4L2 community
-already see as deprecated.
+On Thu, Jan 29, 2026 at 10:19:52PM +0300, Denis Yasyuchenya wrote:
+> Some platforms (e.g. Samsung Galaxy Book with Intel IPU6) provide a 26 MHz
+> external clock for the OV02C10 sensor, while the driver currently only
+> accepts 19.2 MHz. This causes probe to fail with "external clock 26000000
+> is not supported".
+> 
+> Add support for 26 MHz by introducing OV02C10_MCLK_26MHZ and accepting
+> both 19.2 MHz and 26 MHz in ov02c10_probe().
+> 
+> Tested on Samsung Galaxy Book with OV02C10 sensor and 26 MHz clock.
+> 
+> Signed-off-by: Denis Yasyuchenya <ceo@znn.by>
+> 
+> --- a/drivers/media/i2c/ov02c10.c
+> +++ b/drivers/media/i2c/ov02c10.c
+> @@ -17,7 +17,8 @@
+>  #include <media/v4l2-fwnode.h>
+> 
+>  #define OV02C10_LINK_FREQ_400MHZ 400000000ULL
+> -#define OV02C10_MCLK 19200000
+> +#define OV02C10_MCLK_19_2MHZ 19200000
+> +#define OV02C10_MCLK_26MHZ   26000000
+>  #define OV02C10_RGB_DEPTH 10
+> 
+>  #define OV02C10_REG_CHIP_ID CCI_REG16(0x300a)
+> @@ -568,8 +569,10 @@ static int ov02c10_probe(struct i2c_client *client)
+>   if (IS_ERR(ov02c10->img_clk))
+>   return dev_err_probe(ov02c10->dev, PTR_ERR(ov02c10->img_clk),
+>       "failed to get imaging clock\n");
+> 
+>   freq = clk_get_rate(ov02c10->img_clk);
+> - if (freq != OV02C10_MCLK)
+> + if (freq != OV02C10_MCLK_19_2MHZ && freq != OV02C10_MCLK_26MHZ)
 
-Two pointers would help me catch up:
+While this is enough to make the sensor work, possibly, changes will be
+needed to the PLL configuration to maintain the expected pixel rate and
+link frequency, as well as to ensure conforming to the sensor's PLL limit
+frequencies.
 
-1. The recent Chromium VP9 probabilities work for the V4L2 stateless
-   path — could you share a commit, a Phabricator/Gerrit link, or a
-   tracker ID? I would like to read it, test it on RK3588 RKVDEC2
-   (VDPU381 / VDPU346), and see if it covers the same compressed
-   header / interp_filter corner that the libva-v4l2-request fork was
-   fixing. If there is something useful I can contribute back — test
-   coverage, bug reports, follow-up patches — I would rather put the
-   effort there than on the libva side.
+Are you sure about the clock frequency?
 
-2. Vulkan Video status. Is there a public roadmap or a working branch
-   for the V4L2-backed Vulkan Video decoder you are pushing? I am
-   especially interested in how request_fd / per-frame controls map
-   into the Vulkan Video API, and whether ARM SoCs with stateless
-   decoders are part of the early target set. If there is a place to
-   follow the work or contribute, please point me to it.
+>   return dev_err_probe(ov02c10->dev, -EINVAL,
+>       "external clock %lu is not supported",
+>       freq);
+> 
 
-I will keep the libva-v4l2-request fork running locally for the
-ecosystem that still depends on it (mpv `--hwdec=vaapi-copy`, ffmpeg
-CLI), but I will stop pushing it toward upstream now that the
-direction is clear. The kernel-side fix that got VP9 working on
-RKVDEC2 (the PM runtime teardown cleanup, lore link in the original
-announce) is independent and stays useful for any of the userspace
-paths above.
+-- 
+Regards,
 
-Thanks again,
-Francesco
+Sakari Ailus
 
