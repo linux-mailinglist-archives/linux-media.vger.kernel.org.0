@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-62272-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62273-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aNFiBMWmDWpr1AUAu9opvQ
-	(envelope-from <linux-media+bounces-62272-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 14:19:17 +0200
+	id CFaBGySnDWpr1AUAu9opvQ
+	(envelope-from <linux-media+bounces-62273-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 14:20:52 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8387458D830
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 14:19:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD6AD58D884
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 14:20:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 42589310FD67
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 12:09:52 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6B9FE301F16F
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 12:15:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA5DC3DC4CD;
-	Wed, 20 May 2026 12:09:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 620B73D811E;
+	Wed, 20 May 2026 12:15:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="bfDJqHLB"
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="2c8DS+6e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5305134A76E
-	for <linux-media@vger.kernel.org>; Wed, 20 May 2026 12:09:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7DE3DBD72
+	for <linux-media@vger.kernel.org>; Wed, 20 May 2026 12:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779278989; cv=none; b=QBCkrqk1doiGC8a8IcrAsGfksFCnXQ7P1gVIv0A3Kad0SCy7grlEQO3SIi4pUU4cgScrxK4++1PQSf60dujwkn6uXpT/CGQtncZ+XTaL3BeO3BobEsqEkv/z1akMu8j36C4zo/XD15kDMWWoi39myI+brKwhqfrB71HDoQwAXPI=
+	t=1779279300; cv=none; b=un+4EOFUPw9W6BqYGANYtvXR5U8yJgerZsV4A6AV3tSyNGKwyOA1frCsNOqY3eZFCQ6g81Wl3lYiM/GCtE3rsSnlVJYtURqmGQVSdk7+ftstl/83SkyRI1NVrsMB8jF74xSXXIvLtxd2O8GL5R2MlR38Mxl5X32/6+dfBG7dIME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779278989; c=relaxed/simple;
-	bh=apP4bHK9o8kKM1AATKJRJEhNmgYIjEwrlA6dPIL2hwE=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=qsr/ajSJnQ5nFzBJXw31Aucky7Jjf1D9Op6iFPiGVcOYz/vWDF8lbnasZj/XBcupNWgkdCgsMz6IcgCV5yKkcSbfv6eUD8DIEKPHlYIIEs/xolZO0FwHwdmoVPT7vG/C48BMVN6hORZCRmRDWFhYeC9bz5QNu43sW7VEnHv/NCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=bfDJqHLB; arc=none smtp.client-ip=209.85.218.44
+	s=arc-20240116; t=1779279300; c=relaxed/simple;
+	bh=c20waQ3ciaPhuvDx9sD7rBsAnnmu0YP6ZK66HfND+vk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=VTUS5Jy9Th9dxNLcgabj5OoC/AF3I4xBR3jIN3JsHUSucsmn15jq9hlE896bkK7u61+0pJ9yAY4qePzUaY+hPbTXCLvfonpTtgX2THQV1IqyO2Q9mEqAJQYBEFsXE4QvXT3gxyARewpYi8bZM/stUk3S99nDfxnqH35XGf1SECk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=2c8DS+6e; arc=none smtp.client-ip=209.85.208.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-bcd0111ea98so722730766b.1
-        for <linux-media@vger.kernel.org>; Wed, 20 May 2026 05:09:47 -0700 (PDT)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-67b8d9c26bbso10853295a12.2
+        for <linux-media@vger.kernel.org>; Wed, 20 May 2026 05:14:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1779278986; x=1779883786; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
+        d=fairphone.com; s=fair; t=1779279297; x=1779884097; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0f3m0GIe6VwwygrGPUchXC8YWWLmWU3POOz3A5MK3WQ=;
-        b=bfDJqHLBaUClsr6ITOpH0RLPvxZawuXlCbnb3Kdl58qw5pJnicJInvFLshHyiMNEUF
-         JsGgOWUrOLznYJ8vDXG7mhahqq+RkJb4EMsVptGLvE7BLl0nzpHjck1wb767kW7ILRLp
-         c2F4u5eh6niNCNVJi72NWi6rBUGA4opgoIuljbhWvelqDGGjcKLePEImc4cQQ0y3kPnZ
-         6K1GQMi9hNcEfBjcmAMzb93QSLXzfj/I3JYjijOF80i46GUfWHuozx5wPbi/MUAXe4WI
-         DGcQxF0pDG1R72bYp5Vm9gPSeSD39FxCYMZNQIEEhI5rqNbfL5JM2qM6mhR34KRNLqu/
-         c/FA==
+        bh=3XpYHzlqjA32IUkHlT71NisujrYawqJ/BOyAN5JmGyM=;
+        b=2c8DS+6e6Uj7GZlhNIJ66CaRAg3WVVmSv6Dbmyi9IklK3iZexA++PhMKUkRkSxceXW
+         LVpBAu7D8hCNhrW9jd749Hym4Yal58iX0Svea3miw9AZC3XYnJS83XjTdbLGebU8gz2J
+         C8ZuiK7pX9a6iMp95Ue849K6Ejq0lpA50cupQIsshZ5KOKmR7i7NnGK+Nz1wRl5IZ/tB
+         qei7gQiJjpMzKjrleGNopbm9v/Sy2WUiwBXDOjzHAwmpv+uEqax0/vb1/E5rQ7Xl4nV7
+         UtKc4TD+U2HhoqpTDgkQZFS7TQ2eqCY7BYJgTwgY0ttA1wMuORtmzndVQQumGIozE/OU
+         +qvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779278986; x=1779883786;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
+        d=1e100.net; s=20251104; t=1779279297; x=1779884097;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=0f3m0GIe6VwwygrGPUchXC8YWWLmWU3POOz3A5MK3WQ=;
-        b=oAujyjvIrYAa6kFmsH1XfAMXF5JOHwRl4pGsx7xBfC68u0xg6IijzfwqwUCfI+0rc+
-         FMmi6Exee/OuuHHOrWD6F5ptaL4sDyVDa9mJ1/aeu592LL7xqdREV1yWeuepAwwO8J/F
-         C1hTZDET6FHhUbDtm12pDnR5eeTXtrWn1mWrnMH0l0hGJht1k3IEwkJDQtt1fjvgg1kL
-         jmje6kbETX+N9H21uvdlCWJ3ENd1Orb7zYIcBAzPXEJkLgEkEdTFroE6B+oqn79xrSGT
-         6db3LgpVHDhCvT10WsbhlaHtzhTvxk08u45up+L8VHrqN2xz+JOw+RA/TpeRyxQoYBgK
-         iPmQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+odr1GwmpJq0NrKWESXfVME0BlU2dR/wm2Tke+LXvNkyC0veN/HJBqlvmovlVDgwfP7g8nDHC1e9/v1w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyq+GUsDeXwBDETZGDQKzpuaRhI5TLGRVYATFUzqu+cziZn/Cp+
-	cNTS13++QfBpfcTqCtSmzOI2QoZht4LLdxC2Nvw5K9cQB7AwvWsj4XqUIaIWgPNOuLg=
-X-Gm-Gg: Acq92OHqa3r8+3JlPJK1h8XG42/Y1vMeGspZRMTIM637yo3Spuq3ls9d2/FLVrYGs7G
-	EEg+QF8Od7aAsCT/enloBHuPe950RcF01JV0/1qgjtGGigqF2j0umKqg/Ra3PJ7nlk7hamRUSKE
-	c7b+cGra/EhbEac8p3PM3wKAiU+jVC4WN0tmBG2zJoPOhEmWljFAyet9Oevb9lYM3fqy4tJXC8P
-	yKdA1lueRV3sqFkh4fyRx1aa/rVLqrXHLLrm6ImeReb2Bp8SOXOBbMpfcemqhT05CwNBCJlygw+
-	GH4ojTbAJefoWbYkBIsS+776Y6f2EnOwa/BARXVUDbUBx28wxPSsEeG7Kn76MkSJ4Z0lbjAHSdA
-	NnV4LsEFXsbmxITQGz2zr9XvPd8tpck3UvK8y5IzRAC/Ch3GK/Yqyv7yclBMoZrx260190/x2Pw
-	XLlrauVxIAOOLuykSBe6oQzBMkQmdzkrp5rp6SaeF/t0VBKtW2NkU1IUBkcI+XysS6wqKu
-X-Received: by 2002:a17:906:eece:b0:bd8:5ef9:9b38 with SMTP id a640c23a62f3a-bd85ef9a0b5mr744077666b.33.1779278985602;
-        Wed, 20 May 2026 05:09:45 -0700 (PDT)
+        bh=3XpYHzlqjA32IUkHlT71NisujrYawqJ/BOyAN5JmGyM=;
+        b=WZGPFZUru/e8PVA/LrdJXSBPFLF69KpxYjSgOw78Y9N2VCXGeG7Dp3uVvy+tedBoh+
+         I9srmisCkxxoSGExDzKmqG0DVwYXi5ClrWlr5eoJDIgcX7JDoFkR4RRwCVinaVPHiCuF
+         80XB4gLcy6JpHrAGq06kZDwcFWmJjX0kj4u/RQ8zpDIVETVMVlVZG+OuXTAyAe5qg76D
+         df+Qn9ykaDJpzDsUGIruONpbf+Uzb8lHSVDrSGbu3dWvooCakVKgS1CzFUBK7gAqAp4Q
+         3+bAf0w5CvjhNBVR+xJNZ8NGQ61sngHgWmV+nJVYlw8vuyva/uj7l3ye7bC5uuP1Xswy
+         fG4Q==
+X-Forwarded-Encrypted: i=1; AFNElJ8MobhWNJpD52w5BpVwFhDhVVuTIMwdqtSYwjnZlrIMHisW/jvpPYILuUjGFZuGCyyUXt4UgNC4EwMQ2w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyhyEOntZCe9urSFLcqoyyrhKxMFzhTzOqN4pRdLIjSSpBaHgJV
+	hIca8YDojDy6pDvXv1P4A+pOBURQAY/hinwlrMSDNeqOL9jItA95WniDkrQLFy815vQ=
+X-Gm-Gg: Acq92OHDTaDJ4vbiU113w3Jj+RcOxZ5llfaXqmEquZ9DtUKhRVqjn1Ism6cDxmk27TX
+	w/Bbg3WKojYeKZvKpZW/bQezjxqMSqEr/IuGUfj6Q1u8MTwnf5a3EyHSx79Xh5Q7CHHA5m4yRlH
+	PJmtvlljG6APplDF9h+5Hq0Ku09SdN7Aiv1pdnNEm+Ftx22CNNtCkV5eDRdMm57wUZBX3cZ7Fat
+	pOeH4VldQXT1HGyG34qYRqzCnk3+c47KCD/nZPkPleRR+552lL6M0WpAgSZoSGStDcCyJWkYhT1
+	DcR9JSgKWsqGP7i3YwPD8XtTl0ztyPbVs3mpPrtQZj/q73aHn4DsMaLqg4h4YotynxAHMqR2vuF
+	pkLWrzlUwW7JIdBQZ+Mfc3CP5gZpMgoWcCgV5ngYi5Tbukh1ZRqfUsIoOqrMshFv57txvWmrm8R
+	y0Bys8SHvQhli8RFoVxSwSRbOrmAxwXRSRb/0YxppOsejpD8J4PBTqa+dheny0DUMd/gTl
+X-Received: by 2002:a17:907:9607:b0:bda:17d0:cf02 with SMTP id a640c23a62f3a-bda17d0cf22mr285739166b.19.1779279297448;
+        Wed, 20 May 2026 05:14:57 -0700 (PDT)
 Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bd4f4e5eef9sm836855066b.51.2026.05.20.05.09.44
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bd4f4e604e6sm840883366b.52.2026.05.20.05.14.56
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 20 May 2026 05:09:45 -0700 (PDT)
+        Wed, 20 May 2026 05:14:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -84,8 +84,11 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 20 May 2026 14:09:44 +0200
-Message-Id: <DINHRDC35RER.Q143U5P4ZV9O@fairphone.com>
+Date: Wed, 20 May 2026 14:14:56 +0200
+Message-Id: <DINHVCP2GI7N.2AJJFB3CM2DHN@fairphone.com>
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Himanshu Bhavani" <himanshu.bhavani@siliconsignals.io>,
+ <sakari.ailus@linux.intel.com>
 Cc: "Hardevsinh Palaniya" <hardevsinh.palaniya@siliconsignals.io>, "Mauro
  Carvalho Chehab" <mchehab@kernel.org>, "Rob Herring" <robh@kernel.org>,
  "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
@@ -95,20 +98,17 @@ Cc: "Hardevsinh Palaniya" <hardevsinh.palaniya@siliconsignals.io>, "Mauro
  <johannes.goede@oss.qualcomm.com>, "Vladimir Zapolskiy"
  <vladimir.zapolskiy@linaro.org>, "Elgin Perumbilly"
  <elgin.perumbilly@siliconsignals.io>, "Laurent Pinchart"
- <laurent.pinchart@ideasonboard.com>, "Xiaolei Wang"
- <xiaolei.wang@windriver.com>, "Walter Werner Schneider"
+ <laurent.pinchart@ideasonboard.com>, "Walter Werner Schneider"
  <contact@schnwalter.eu>, "Kate Hsuan" <hpa@redhat.com>, "Svyatoslav Ryhel"
  <clamor95@gmail.com>, <linux-media@vger.kernel.org>,
  <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
  <linux-arm-msm@vger.kernel.org>
-Subject: Re: [PATCH 1/3] dt-bindings: media: i2c: Add imx576 sensor
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Himanshu Bhavani" <himanshu.bhavani@siliconsignals.io>,
- <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH 3/3] arm64: dts: qcom: sm7225-fairphone-fp4: Add Sony
+ IMX576 front camera support
 X-Mailer: aerc 0.21.0-0-g5549850facc2
 References: <20260520115641.11729-1-himanshu.bhavani@siliconsignals.io>
- <20260520115641.11729-2-himanshu.bhavani@siliconsignals.io>
-In-Reply-To: <20260520115641.11729-2-himanshu.bhavani@siliconsignals.io>
+ <20260520115641.11729-4-himanshu.bhavani@siliconsignals.io>
+In-Reply-To: <20260520115641.11729-4-himanshu.bhavani@siliconsignals.io>
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
@@ -119,12 +119,12 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62272-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62273-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[siliconsignals.io,kernel.org,oss.qualcomm.com,linaro.org,ideasonboard.com,windriver.com,schnwalter.eu,redhat.com,gmail.com,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[22];
+	FREEMAIL_CC(0.00)[siliconsignals.io,kernel.org,oss.qualcomm.com,linaro.org,ideasonboard.com,schnwalter.eu,redhat.com,gmail.com,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
@@ -138,8 +138,8 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.10:email,siliconsignals.io:email,devicetree.org:url,fairphone.com:mid,fairphone.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 8387458D830
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.3:email,siliconsignals.io:email,0.0.0.50:email,fairphone.com:mid,fairphone.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,0.0.0.10:email]
+X-Rspamd-Queue-Id: CD6AD58D884
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -148,166 +148,132 @@ Hi Himanshu,
 On Wed May 20, 2026 at 1:56 PM CEST, Himanshu Bhavani wrote:
 > From: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
 >
-> Add bindings for Sony IMX576 sensor
+> Add device tree support for the Sony IMX576 front camera
+> sensor and connect it to CAMSS via CSIPHY3.
 >
 > Signed-off-by: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io=
 >
 
-This patch is missing your Signed-off-by I believe since you sent the
-patch.
+Your Signed-off-by is missing here as well
 
 > ---
->  .../bindings/media/i2c/sony,imx576.yaml       | 111 ++++++++++++++++++
->  MAINTAINERS                                   |   7 ++
->  2 files changed, 118 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx5=
-76.yaml
+>  .../boot/dts/qcom/sm7225-fairphone-fp4.dts    | 54 +++++++++++++++++++
+>  1 file changed, 54 insertions(+)
 >
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx576.yaml=
- b/Documentation/devicetree/bindings/media/i2c/sony,imx576.yaml
-> new file mode 100644
-> index 000000000000..b74253004fae
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx576.yaml
-> @@ -0,0 +1,111 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/sony,imx576.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts b/arch/arm=
+64/boot/dts/qcom/sm7225-fairphone-fp4.dts
+> index 3964aae47fd4..5fb0f3eddf66 100644
+> --- a/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts
+> +++ b/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts
+> @@ -17,6 +17,7 @@
+>  #include <dt-bindings/iio/qcom,spmi-adc7-pmk8350.h>
+>  #include <dt-bindings/input/input.h>
+>  #include <dt-bindings/leds/common.h>
+> +#include <dt-bindings/media/video-interfaces.h>
+>  #include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
+>  #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
+>  #include <dt-bindings/sound/qcom,q6asm.h>
+> @@ -547,6 +548,24 @@ vreg_bob: bob {
+>  	};
+>  };
+>
+> +&camss {
 > +
-> +title: Sony IMX576 Image Sensor
-> +
-> +maintainers:
-> +  - Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-> +
-> +description:
-> +  IMX576 sensor is a Sony CMOS active pixel digital image sensor with an=
- active
-> +  array size of 5760(H) =C3=97 4312(V). It is programmable through an I2=
-C interface.
-> +  Image data is transmitted through MIPI CSI-2. It supports RAW10/RAW8, =
-COMP8
-> +  output formats.
-> +
-> +allOf:
-> +  - $ref: /schemas/media/video-interface-devices.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: sony,imx576
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: INCLK clock
-> +
-> +  avdd-supply:
-> +    description: Analog Domain Power Supply (2.8v)
-> +
-> +  dovdd-supply:
-> +    description: I/O Domain Power Supply (1.05v)
-> +
-> +  dvdd-supply:
-> +    description: Digital Domain Power Supply (1.8v)
 
-Sony calls them vana, vdig and vif.
+random extra newline
+
+> +	vdd-csiphy3-0p9-supply =3D <&vreg_l18a>;
+> +	vdd-csiphy3-1p25-supply =3D <&vreg_l22a>;
+
+If you're already enabling that, please also add the supplies for the
+other CSIPHYs (0-3).
+
+But also, since camss for sm6350 hasn't been merged upstream yet, this
+patchset depends on
+https://lore.kernel.org/linux-arm-msm/20260216-sm6350-camss-v4-0-b9df35f87e=
+db@fairphone.com/
+You need to declare that in the cover letter!
+
+> +
+> +	status =3D "okay";
+> +
+> +	ports {
+> +		port@3 {
+> +			csiphy3_ep: endpoint {
+> +				data-lanes =3D <0 1 2 3>;
+> +				bus-type =3D <MEDIA_BUS_TYPE_CSI2_DPHY>;
+> +				remote-endpoint =3D <&camera_imx576_ep>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+>  &cci0 {
+>  	status =3D "okay";
+>  };
+> @@ -582,6 +601,34 @@ &cci1 {
+>
+>  &cci1_i2c0 {
+>  	/* Front cam (Sony IMX576) @ 0x10 */
+
+Remove the comment now since you're adding the node.
+
+> +	camera@10 {
+> +		compatible =3D "sony,imx576";
+> +		reg =3D <0x10>;
+> +
+> +		avdd-supply =3D <&vreg_l3p>;
+> +		dovdd-supply =3D <&vreg_32m_cam_dvdd_1p05>;
+> +		dvdd-supply =3D <&vreg_l6p>;
+> +
+> +		clocks =3D <&camcc CAMCC_MCLK1_CLK>;
+> +		assigned-clocks =3D <&camcc CAMCC_MCLK1_CLK>;
+> +		assigned-clock-rates =3D <24000000>;
+> +
+> +		reset-gpios =3D <&tlmm 35 GPIO_ACTIVE_LOW>;
+> +		pinctrl-0 =3D <&cam_mclk1_default>;
+> +		pinctrl-names =3D "default";
+> +
+> +		orientation =3D <0>;
+
+I personally like adding a comment to make clear what '0' is:
+
+		orientation =3D <0>; /* Front facing */
+
+> +		rotation =3D <90>;
+> +
+> +		port {
+> +			camera_imx576_ep: endpoint {
+> +				data-lanes =3D <1 2 3 4>;
+> +				bus-type =3D <MEDIA_BUS_TYPE_CSI2_DPHY>;
+> +				link-frequencies =3D /bits/ 64 <600000000>;
+> +				remote-endpoint =3D <&csiphy3_ep>;
+> +			};
+> +		};
+> +	};
+>
+>  	eeprom@50 {
+>  		compatible =3D "giantec,gt24p64a", "atmel,24c64";
+> @@ -1115,6 +1162,13 @@ platform {
+>  &tlmm {
+>  	gpio-reserved-ranges =3D <13 4>, <56 2>;
+>
+> +	cam_mclk1_default: cam-mclk1-default-state {
+> +		pins =3D "gpio30";
+> +		function =3D "cam_mclk1";
+> +		drive-strength =3D <2>;
+> +		bias-disable;
+> +	};
+
+I think I was told before that this can go into the SoC .dtsi
 
 Regards
 Luca
 
 > +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: Reset Pin GPIO Control (active low)
-> +
-> +  port:
-> +    description: MIPI CSI-2 transmitter port
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            oneOf:
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +                  - const: 3
-> +                  - const: 4
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +        required:
-> +          - data-lanes
-> +          - link-frequencies
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - avdd-supply
-> +  - dovdd-supply
-> +  - dvdd-supply
-> +  - port
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/media/video-interfaces.h>
-> +
-> +    i2c {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        camera-sensor@10 {
-> +            compatible =3D "sony,imx576";
-> +            reg =3D <0x10>;
-> +            clocks =3D <&imx576_clk>;
-> +            reset-gpios =3D <&tlmm 35 GPIO_ACTIVE_LOW>;
-> +
-> +            avdd-supply =3D <&vreg_l3p>;
-> +            dovdd-supply =3D <&vreg_l6p>;
-> +            dvdd-supply =3D <&vreg_32m_cam_dvdd_1p05>;
-> +
-> +            orientation =3D <0>;
-> +            rotation =3D <90>;
-> +
-> +            port {
-> +                cam_out: endpoint {
-> +                   remote-endpoint =3D <&csiphy3_ep>;
-> +                   data-lanes =3D <1 2 3 4>;
-> +                   link-frequencies =3D /bits/ 64 <600000000>;
-> +                };
-> +            };
-> +        };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ff935e197c21..1b15fa355e8b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -24856,6 +24856,13 @@ T:	git git://linuxtv.org/media.git
->  F:	Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
->  F:	drivers/media/i2c/imx415.c
->
-> +SONY IMX576 SENSOR DRIVER
-> +M:	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
-> +M:	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +F:	Documentation/devicetree/bindings/media/i2c/sony,imx576.yaml
-> +
->  SONY MEMORYSTICK SUBSYSTEM
->  M:	Maxim Levitsky <maximlevitsky@gmail.com>
->  M:	Alex Dubov <oakad@yahoo.com>
+>  	qup_uart1_sleep_cts: qup-uart1-sleep-cts-state {
+>  		pins =3D "gpio61";
+>  		function =3D "gpio";
 > --
 > 2.34.1
 
