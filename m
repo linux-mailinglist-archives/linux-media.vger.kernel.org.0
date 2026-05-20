@@ -1,366 +1,179 @@
-Return-Path: <linux-media+bounces-62218-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62219-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SI3EJMdrDWqHxAUAu9opvQ
-	(envelope-from <linux-media+bounces-62218-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 10:07:35 +0200
+	id 4NGeMRRsDWrgxAUAu9opvQ
+	(envelope-from <linux-media+bounces-62219-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 10:08:52 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10EA9589669
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 10:07:35 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 489C85896BB
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 10:08:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 49C373078DDA
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 08:06:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 806BA3085BF1
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 08:07:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B58603A6EF1;
-	Wed, 20 May 2026 08:06:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1EDC3A5428;
+	Wed, 20 May 2026 08:07:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="UX5kmpL8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aLAI5Lge"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010024.outbound.protection.outlook.com [52.101.61.24])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D5F36C5BB;
-	Wed, 20 May 2026 08:06:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A83A37107E
+	for <linux-media@vger.kernel.org>; Wed, 20 May 2026 08:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.49
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779264371; cv=fail; b=DzUgEgFsVS7YZhUp9BDDlFxk67VVpJLiiNZclweAe6pLL5Xw0y6NbdY6vLzKr+kImmH7L0Ulls5Rwj9w5dQ+o8RiExx+LAxksbkKnbN6Mxzo82WmC/7NUkxn2AZPtjQHE0k2jDPdH64IkiZCPYKswPsyl1zojhTXxL/hfaSAo/M=
+	t=1779264443; cv=pass; b=pFhd/zMPk8uec4lfrtwXxsQVENpAUUOD9ajdl7QVhgkztGwUrBV/j4Om+l2jM8tkxgiGsiP95l3m2eCZ0Ytwya1b1YZEfV4Fuwri7s5QqCP8Ywbi0DZsZ0O+lXXI+W5EPwkBFTQ4ZL3znZhYk3fr+CjI8MPYd2y1Ei1hbI9nCck=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779264371; c=relaxed/simple;
-	bh=5moltNm6tj4QN/VLffYSG3oyUediCegD2l2omqlAqOc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=rHBTlItJb6iJTzLqm0EgzwSFXGYqM71eoMZ0NmaXX/NYoHOhozW0kklT7CCCVSZI2vyVDGKiNDaVox8dDdqGWsVD2VbwD4vtI6wdWDodWBrwf8TQ3dYCVVsSYvfTaVzPWwUkN465v6EGaT+bZdSJUe/oGCN4IqUluIfpROSpL0w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=UX5kmpL8; arc=fail smtp.client-ip=52.101.61.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=O+ZSofVNB/m6K9TIefM3fKTwYP6aTNME0ZPFPmhRvDyQqKewXZUo6sHoN7CK+jhdJ3jXOB+1rT1aC9W0fvZAiMUu+BOOT2Kn15AIfwE1YFPXBLuD08QoO7Akw3oHzLbBg4bXZZ+x+0hPwvKvfAXae2DY1+fsgx5DMzCUlhhlFIbq68EJPJ57IIGDd1QLP1MVthqPG6diQ4NT+spsbiiNLbs/m0FtHO51D4yw29jf3KvqXXfBUCij71tLqlFvQ8sL6U4QRtR9R1MnXjCY3ivYIDpF0Qkn5m4AqcvVnOYRIEDNzW0orhPL4F0FoeWlAL1RKbROFk7XmB6TZ6xeis52Pw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p3tRspF2EqpkUMpuEqSz36am5V1A7PAdiZ7mKj0qlw4=;
- b=Denn/GVYhYsZv21+SsXlKPM5zJNklv9R/rKvuR5Z2MSDzGHiLN9QjpT+Nfkbz9pnv+VUe0Raz7g3q7qNVUxJTOQyVJrNpgtfbgpZOtBxYhH5POYw6ZtCJwi+0r7Lpap5EJhpucNmoEmgbz0kEKaz9/SnrLIw43bpKiHsC3mAEMjqLVVNWL9L2lvqTM3VzQCz1XbewVI63G0qGgPTQtwcxiGqQB0AQk2Zm2RWicoNFLa88CWoZeoRPd4MRxA9PCokVMC8HYw15Vpaf+BFth6CnEpLG3FO0RL8KVFbGW1xR/A9rTxCETZlvGMXgZCWzovJmsSnrc79w0jUU8dwqymygg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p3tRspF2EqpkUMpuEqSz36am5V1A7PAdiZ7mKj0qlw4=;
- b=UX5kmpL8HGaVSiU0AN4SEAIZw+wDN41+sYohREBqG7B4QJ9zmL71aiRmyga8NjToWKA15/AizlG3IJYT7bHnxxPgXoioO/IFiRaJbUBevxQIE1nC+8WWbsvRpqIaBYt8pLEWBgMr+vUF+lZm8Uvh+7yFtKSZC/m+LvX84mtAlpo=
-Received: from BN9PR03CA0054.namprd03.prod.outlook.com (2603:10b6:408:fb::29)
- by IA4PR10MB8325.namprd10.prod.outlook.com (2603:10b6:208:55e::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.12; Wed, 20 May
- 2026 08:05:59 +0000
-Received: from BN2PEPF000055DB.namprd21.prod.outlook.com
- (2603:10b6:408:fb:cafe::f2) by BN9PR03CA0054.outlook.office365.com
- (2603:10b6:408:fb::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.48.14 via Frontend Transport; Wed, 20
- May 2026 08:05:59 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- BN2PEPF000055DB.mail.protection.outlook.com (10.167.245.5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.71.0 via Frontend Transport; Wed, 20 May 2026 08:05:59 +0000
-Received: from DLEE209.ent.ti.com (157.170.170.98) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 20 May
- 2026 03:05:58 -0500
-Received: from DLEE206.ent.ti.com (157.170.170.90) by DLEE209.ent.ti.com
- (157.170.170.98) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37; Wed, 20 May
- 2026 03:05:58 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE206.ent.ti.com
- (157.170.170.90) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.37 via Frontend
- Transport; Wed, 20 May 2026 03:05:58 -0500
-Received: from [172.24.233.149] (ws.dhcp.ti.com [172.24.233.149])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 64K85pGi1040621;
-	Wed, 20 May 2026 03:05:52 -0500
-Message-ID: <c3caaaed-902c-4247-9f0a-4e62c07f32df@ti.com>
-Date: Wed, 20 May 2026 13:35:51 +0530
+	s=arc-20240116; t=1779264443; c=relaxed/simple;
+	bh=QIY7kxVOO0O3K5PTYsFqKN58Au9Ry/1rwDJltP+Zpt4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=suc8G168Enau0lR86GMVtope/98B0tNOXJ38doVD/BiulBIradd9bFV0hf2Lml63xhGPZpwkJShB44w2+e9pRRdlS10EKGgTjpCwz113s1qspg2JpnzBK7Gd4lKmaY1nMDC0bXmtjS+YS4aLcfhx2F+8I325zXqzepzXPF62Mw4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aLAI5Lge; arc=pass smtp.client-ip=209.85.210.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-7dca5f64e86so3831378a34.0
+        for <linux-media@vger.kernel.org>; Wed, 20 May 2026 01:07:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779264441; cv=none;
+        d=google.com; s=arc-20240605;
+        b=SurCf9yFzK1U2M02dZMFYK4m802qzmZiLciQoVf64/wuFSt7nmiEB+LbjnPvxdftF/
+         q+N73UF/m4dDZfyHKXc+RhCm3T3DHYdaFs8/DmACVcrLHY2/IAZA0MV5RjI92k8j7AzX
+         6UauBsZGXygQnh41som6ZaiPyUzli0xdnKW0e+l69gCw12hVGOQApOs4rVltpqTIVUHc
+         mQ6lnHlS8YW7eD1DyKTWu4jP3nOpj7rCtT6JQt4rYXYLDQu18wWAw8ibjM8FnngzCa1D
+         l8FbzqXeXIzybM4+n0UIKDPj304C6nWc/9uOcbTdxiKwNNVA/TwRxMyCFLJ4cPruI/op
+         FOhg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Ytey4qORX2TbyVZpIBqgx3oRXsMx32wxQcpaf7l+9+M=;
+        fh=aJvVCraiUiodX/tUbjbCsukDBmHloo5dfiyx3J9u4Ww=;
+        b=NxRXvqRHBfR95W+SAbSYNOGso3W+8VhYCt5UwysoiiZBxKKODk8tL+fHpEWFC+Pc4Z
+         +/jpzp0fDAqYVXe7FyzsXKIifLmWjZ1hGMULToWVRkoibyYp3uVpX5j7xX3XruEgpD39
+         GYOIWjYvY9bVWAkX7PHrZCtDC8VjxLrhzjgz1u6EWgRXvyQjmI9IocrwJSe0AltFscid
+         XW9In0PPlb013Yerj9POsy01O/9/lTWhOx5hGJchA+qo51/7XI+8q5VnJiULRHnwN2uX
+         Li3vlyWE7E3eNgBV69xIQV4WUylTNG+kaP9f4fBDydhksZH0YU1zE+0L44pxF8ELAmPN
+         1ONQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779264441; x=1779869241; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ytey4qORX2TbyVZpIBqgx3oRXsMx32wxQcpaf7l+9+M=;
+        b=aLAI5LgeOkuj7FTEYQ+nps5qoT6ViFBQsZ+pdctCGuzqFXbxeJKXe1bwPtOncDTwB1
+         rdM4PUmfmgcdakzzcb/kzR758V7RYCyLc9jNvA/QJEDBHpiq9Tpl0XUdEKerY8qlTMk8
+         +HZcRsOCbHvmsl0gpdQIdeHLLQJ93d58oya9TW7THgf6JVNm7scD6sePgTpm1EwuwU8p
+         AIvJXzAdA/hEfXyLFfCt+BYb3+yQc9/97AiEGiWyvvlBb5pALWlABgWuniuXEevAuk8+
+         o2lF+pC7oRDRPxb+DvCdmiMe8IdEAVLSOmkhB5MLvhZXeqOxIJhkucFvkYrqF1Q4MnxA
+         rRmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779264441; x=1779869241;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Ytey4qORX2TbyVZpIBqgx3oRXsMx32wxQcpaf7l+9+M=;
+        b=kqinq33dUZsNSaMCJcou2Oa9pjYwmdzwkDk4NiGoKrXyt7VTwYxMsqOE4woFS0WdGH
+         WKZCNsJD/x/aB4ZigaIfsDsUB9lc9+D0AP7ehQhzUAMoe7aonkBUuIQeGVS0YwjgwUf/
+         o/oZqP4I9Hp+0F7Eqn0Eio5pbrTY2eLXf0IP8es3u0e9bxh3dtpvSbgDCHYn2qTW7iLQ
+         KTNNvBKaH34omC7h/EDkAcpZbgn81+aDfsvR0qXXO3RFA4cx11PPJMJcYCf1awaZ99S3
+         Xx5X3+mQiXgqXRrjR5g9hQjRnOSmO7O2ziX7FyIj2zBuPwp/l+64WQ2jJtdvnLQVHbLo
+         MRTg==
+X-Forwarded-Encrypted: i=1; AFNElJ+M3/guUW35zO4u5xal9AM/DPWc/PA5McEGU8sCZuZAWDp2XanIJY7pAo9pSNG8mOsKKPD6XtdqrKV6eA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSc3CzaiCgWLjYzFqAsWAVf1NdFa82IJPaHBeojCV8/aRQIvnR
+	B9+G6+BKCQHEfST2Q2vev1DBR+6HEsF6Nc03fnykgFyVpZU0seNK/hi53u6VM2oUy9vgFGyOyT3
+	2kaJ4YW3gZNPL4N5ixbtzVdtn4eVhvfE=
+X-Gm-Gg: Acq92OEgs8QT/UrzH3PrP6yAm2yGszFwydeqydHvIxwg9b4EB+8OlVbRWtEQ58sg9ez
+	W5/KP78n4/g3G4EqYQ7z2YH1cKsdLy5eo6JzzoT8wl3muGekiTI2yskYU33F1zuAAkdZ8vESrVY
+	yJ/ECjNctoH9TXmDktNCoBWU7dZ/JdlAvLZo4+fzxt43jrXV15mOdeMpTCajO2FkQyVYLlpDfu6
+	kHSloA8J+aYh1wQ9fKJ7drpoI0njK7XPUA3gJLyQCl++RP/sq+wsPK1vnIIHaZRxfK47WmEBWzp
+	AwARGnaDlQ==
+X-Received: by 2002:a05:6830:928:b0:7dc:e08d:d9ec with SMTP id
+ 46e09a7af769-7e4f2b24e30mr16828017a34.15.1779264440957; Wed, 20 May 2026
+ 01:07:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 16/17] media: ti: j721e-csi2rx: Support runtime
- suspend
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: <jai.luthra@linux.dev>, <laurent.pinchart@ideasonboard.com>,
-	<mripard@kernel.org>, <y-abhilashchandra@ti.com>, <devarsht@ti.com>,
-	<s-jain1@ti.com>, <vigneshr@ti.com>, <mchehab@kernel.org>, <robh@kernel.org>,
-	<krzk+dt@kernel.org>, <p.zabel@pengutronix.de>, <conor+dt@kernel.org>,
-	<hverkuil-cisco@xs4all.nl>, <tomi.valkeinen@ideasonboard.com>,
-	<jai.luthra@ideasonboard.com>, <changhuang.liang@starfivetech.com>,
-	<sjoerd@collabora.com>, <dan.carpenter@linaro.org>,
-	<hverkuil+cisco@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>
-References: <20260313090701.646534-1-r-donadkar@ti.com>
- <20260313090701.646534-17-r-donadkar@ti.com>
- <agxYPM3mLwR302Za@kekkonen.localdomain>
-Content-Language: en-US
-From: Rishikesh Donadkar <r-donadkar@ti.com>
-In-Reply-To: <agxYPM3mLwR302Za@kekkonen.localdomain>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000055DB:EE_|IA4PR10MB8325:EE_
-X-MS-Office365-Filtering-Correlation-Id: 127332b7-ec6e-4490-507e-08deb646a0bb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|36860700016|82310400026|1800799024|4143699003|22082099003|56012099003|18002099003|5023799004;
-X-Microsoft-Antispam-Message-Info:
-	WjmQfE9Smz8hVDcqOSyawpprXGhAWDMnh5qARCxyHh8D3c2Xv4MbHApT6Dm3dg7ScoB/X9xiHToil55cgFeE575t0NQ58pqhxN6kac7WJe65W3CWAmRrfVPlrmujHFUx52okTiTBizGXCEN0IoTQN31xYriBG4qll6r+D//tqyTuA7RUHZ4Bffjez1CYbobPKQGaGlWFGH/548JnqP2OGCnj2cufbSf0RzF0LZkcE0QfpimLZAMSMXpoTulBpd5A0ckjKbsDa6+FqNP7cONxVV98G2Y/X6YptmYNzzEdG07SvNTyIE80O8PM4lJuT5TtOa/6vufOBWjJrrUqAAOJwzk0XxkVqqz8e779O5Hc0hWAoYWnXr4glMbGYexUJyaW27Wofbd+xk7PNzGmHve4AJFPZLL0bNjd1bGhTo32rjCQvaFOSgWHEGmpp4Pysb+fsAqubKRycKPtlr5aDu90FlAnKI0fSu6fiF3is3BCR35pokXYZojS+yhCeK5h4h7aYVkBJtANUR6k1OApjejh+TYCzRujvKacVyc2AU1rQIEBevpFGu2GVqyd0KJLOVS5ZdL/bV8R0FKjmenq8jq93nSXYi/QTzRQXwGd1FB0oe/DpsOWfHXCYpVTZM9JOQ0Wmkk6cL7eC6Bc6WgLJa4G0dbxmQ0EZOCJiJH1OfA2tMeofiiKBtcClxd4LTKohCvieXOCCTR5zotaYYbbWQQG9iiyEg4K5Nh6OjpVtuG9JXk=
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(36860700016)(82310400026)(1800799024)(4143699003)(22082099003)(56012099003)(18002099003)(5023799004);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	6CHVz52RVxZv0cP8/JEmRSvUa0m/HLjnC29go4iWuTKAlj3AgQc90wf2rKBoK6eg9W69DFFsJV8nMB1ez85FyvT0IZSN8TLEdWO+P6ac9c5Vx98hCYByuCC7l0OR4Z2pYMtw5UkCZW7mopwiV2LvOBCgdsetATVWRhNkkxBq69w76AvbFghg5QcH9y/+Yy60pTsG+zb8aGpj3PiWkh92YZklKw/dWwMQi27ho1ATNLkY7fCEX5ev4dQwAsXFmmIsdMgvg05NGaaZ830QGJfK8HfNK3WoY+voQAMXBeR2EwfMeEQZALX+L4mpOOGwkrwg+UradauXDvKhHRE7VgEnYHSW4yU8kY77x3Yt8VVXHN857XAMIjSkeNZCpQyOR+adNfEt21jo3srVwpAQqM8H3Ftf2ZFLgcX1gzANi1Ce4yzEnIUMSLifEJAjP0ZWzlTN
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 08:05:59.2532
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 127332b7-ec6e-4490-507e-08deb646a0bb
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF000055DB.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR10MB8325
-X-Spamd-Result: default: False [1.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[ti.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[ti.com:s=selector1];
+References: <20260429143743.50743-1-mikhail.v.gavrilov@gmail.com>
+ <20260519161541.19994-1-mikhail.v.gavrilov@gmail.com> <45bbcc75-f852-46c2-bcff-8cacb9413376@amd.com>
+In-Reply-To: <45bbcc75-f852-46c2-bcff-8cacb9413376@amd.com>
+From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
+Date: Wed, 20 May 2026 13:07:09 +0500
+X-Gm-Features: AVHnY4LjCbKcTkLs9-x5er23_LG6HLKFdPJe4uy4QSmttSvQ2RTUpYxe2TP8aBU
+Message-ID: <CABXGCsPRY+jk_ArYMOXqNTw31W95FBgNzqFq0_pvi3paYR=KDQ@mail.gmail.com>
+Subject: Re: [PATCH v2] drm/amdgpu: fix recursive ww_mutex acquire in amdgpu_devcoredump_format
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, 
+	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62218-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[linux.dev,ideasonboard.com,kernel.org,ti.com,pengutronix.de,xs4all.nl,starfivetech.com,collabora.com,linaro.org,vger.kernel.org];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[r-donadkar@ti.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-62219-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,amd.com,gmail.com,ffwll.ch,linaro.org,lists.linaro.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ti.com:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[10]
-X-Rspamd-Queue-Id: 10EA9589669
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mikhailvgavrilov@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,mail.gmail.com:mid,amd.com:email]
+X-Rspamd-Queue-Id: 489C85896BB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-
-On 19/05/26 18:01, Sakari Ailus wrote:
-> Hi Rishikesh,
-
-Hi Sakari,
-
-Thank you for the review !
-
+On Wed, May 20, 2026 at 12:08=E2=80=AFPM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> On Fri, Mar 13, 2026 at 02:37:00PM +0530, Rishikesh Donadkar wrote:
->> From: Jai Luthra <jai.luthra@ideasonboard.com>
->>
->> Add support for runtime power-management to enable powering off the
->> shared power domain between Cadence CSI2RX and TI CSI2RX wrapper when
->> the device(s) are not in use.
->>
->> When powering off the IP, the PSI-L endpoint loses the paired DMA
->> channels. Thus we have to release the DMA channels at runtime suspend
->> and request them again at resume.
->>
->> Tested-by: Rishikesh Donadkar <r-donadkar@ti.com>
->> Reviewed-by: Rishikesh Donadkar <r-donadkar@ti.com>
->> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
->> Co-developed-by: Rishikesh Donadkar <r-donadkar@ti.com>
->> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
->> ---
->>   drivers/media/platform/ti/Kconfig             |  1 +
->>   .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 55 ++++++++++++++++++-
->>   2 files changed, 54 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/media/platform/ti/Kconfig b/drivers/media/platform/ti/Kconfig
->> index da33facf44678..d0cb05481bd85 100644
->> --- a/drivers/media/platform/ti/Kconfig
->> +++ b/drivers/media/platform/ti/Kconfig
->> @@ -83,6 +83,7 @@ config VIDEO_TI_J721E_CSI2RX
->>   	depends on VIDEO_CADENCE_CSI2RX
->>   	depends on PHY_CADENCE_DPHY_RX || COMPILE_TEST
->>   	depends on ARCH_K3 || COMPILE_TEST
->> +	depends on PM
->>   	select VIDEOBUF2_DMA_CONTIG
->>   	select V4L2_FWNODE
->>   	help
->> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
->> index dda8a66babeca..52c93a11ce8b7 100644
->> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
->> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
->> @@ -13,6 +13,7 @@
->>   #include <linux/module.h>
->>   #include <linux/of_platform.h>
->>   #include <linux/platform_device.h>
->> +#include <linux/pm_runtime.h>
->>   #include <linux/property.h>
->>   
->>   #include <media/cadence/cdns-csi2rx.h>
->> @@ -966,12 +967,16 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
->>   	unsigned long flags;
->>   	int ret = 0;
-> Redundant initialisation.
+> That whole infrastructure is superflous. You just need to modify amdgpu_v=
+m_lock_by_pasid() to take a drm_exec object to lock the root BO.
 >
->>   
->> +	ret = pm_runtime_resume_and_get(csi->dev);
->> +	if (ret)
->> +		return ret;
->> +
->>   	spin_lock_irqsave(&dma->lock, flags);
->>   	if (list_empty(&dma->queue))
->>   		ret = -EIO;
->>   	spin_unlock_irqrestore(&dma->lock, flags);
->>   	if (ret)
->> -		return ret;
->> +		goto err;
->>   
->>   	ret = video_device_pipeline_start(&ctx->vdev, &csi->pipe);
->>   	if (ret)
->> @@ -993,6 +998,8 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
->>   	writel(0, csi->shim + SHIM_DMACNTX(ctx->idx));
->>   err:
->>   	ti_csi2rx_cleanup_buffers(ctx, VB2_BUF_STATE_QUEUED);
->> +	pm_runtime_put(csi->dev);
->> +
->>   	return ret;
->>   }
->>   
->> @@ -1012,6 +1019,7 @@ static void ti_csi2rx_stop_streaming(struct vb2_queue *vq)
->>   
->>   	ti_csi2rx_stop_dma(ctx);
->>   	ti_csi2rx_cleanup_buffers(ctx, VB2_BUF_STATE_ERROR);
->> +	pm_runtime_put(csi->dev);
->>   }
->>   
->>   static const struct vb2_ops csi_vb2_qops = {
->> @@ -1257,7 +1265,9 @@ static void ti_csi2rx_cleanup_notifier(struct ti_csi2rx_dev *csi)
->>   
->>   static void ti_csi2rx_cleanup_ctx(struct ti_csi2rx_ctx *ctx)
->>   {
->> -	dma_release_channel(ctx->dma.chan);
->> +	if (!pm_runtime_status_suspended(ctx->csi->dev))
->> +		dma_release_channel(ctx->dma.chan);
->> +
->>   	vb2_queue_release(&ctx->vidq);
->>   
->>   	video_unregister_device(&ctx->vdev);
->> @@ -1507,6 +1517,39 @@ static int ti_csi2rx_init_ctx(struct ti_csi2rx_ctx *ctx)
->>   	return ret;
->>   }
->>   
->> +static int ti_csi2rx_runtime_suspend(struct device *dev)
->> +{
->> +	struct ti_csi2rx_dev *csi = dev_get_drvdata(dev);
->> +	int i;
->> +
->> +	if (csi->enable_count != 0)
->> +		return -EBUSY;
->> +
->> +	for (i = 0; i < csi->num_ctx; i++)
-> You could declare i here, and I'd use unsigned int.
->
->> +		dma_release_channel(csi->ctx[i].dma.chan);
->> +
->> +	return 0;
->> +}
->> +
->> +static int ti_csi2rx_runtime_resume(struct device *dev)
->> +{
->> +	struct ti_csi2rx_dev *csi = dev_get_drvdata(dev);
->> +	unsigned int ret, i;
-> Ret should be signed and could be declared below (up to you).
->
->> +
->> +	for (i = 0; i < csi->num_ctx; i++) {
-> i could be declared here.
 
+Christian, modifying amdgpu_vm_lock_by_pasid() to take a drm_exec turns
+out to also require converting its other caller, amdgpu_vm_handle_fault(),
+to drm_exec =E2=80=94 most of the diff is that conversion, not the helper i=
+tself.
 
-Thanks for pointing out, Will do all the changes in v13
+I can:
+ (a) convert both in a 2-patch series (handle_fault becomes
+     drm_exec_init + drm_exec_until_all_locked + drm_exec_fini, ~30 lines),
+     or
+ (b) keep the loop inside amdgpu_vm_lock_by_pasid() so handle_fault stays
+     a one-liner =E2=80=94 but then the devcoredump caller can't add the IB=
+ BOs
+     to the same ticket, which is the whole point.
 
+(a) seems unavoidable if we want one helper. Is that what you had in mind,
+or did you intend something lighter =E2=80=94 e.g. a separate
+amdgpu_vm_lock_by_pasid_exec() leaving handle_fault untouched?
 
-Rishikesh
-
->
->> +		ret = ti_csi2rx_init_dma(&csi->ctx[i]);
->> +		if (ret)
->> +			return ret;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static const struct dev_pm_ops ti_csi2rx_pm_ops = {
->> +	RUNTIME_PM_OPS(ti_csi2rx_runtime_suspend, ti_csi2rx_runtime_resume,
->> +		       NULL)
->> +};
->> +
->>   static int ti_csi2rx_probe(struct platform_device *pdev)
->>   {
->>   	struct device_node *np = pdev->dev.of_node;
->> @@ -1562,6 +1605,9 @@ static int ti_csi2rx_probe(struct platform_device *pdev)
->>   			goto err_ctx;
->>   	}
->>   
->> +	pm_runtime_set_active(csi->dev);
->> +	pm_runtime_enable(csi->dev);
->> +
->>   	ret = ti_csi2rx_notifier_register(csi);
->>   	if (ret)
->>   		goto err_ctx;
->> @@ -1592,6 +1638,9 @@ static void ti_csi2rx_remove(struct platform_device *pdev)
->>   	struct ti_csi2rx_dev *csi = platform_get_drvdata(pdev);
->>   	unsigned int i;
->>   
->> +	if (!pm_runtime_status_suspended(&pdev->dev))
->> +		pm_runtime_set_suspended(&pdev->dev);
->> +
->>   	for (i = 0; i < csi->num_ctx; i++)
->>   		ti_csi2rx_cleanup_ctx(&csi->ctx[i]);
->>   
->> @@ -1599,6 +1648,7 @@ static void ti_csi2rx_remove(struct platform_device *pdev)
->>   	ti_csi2rx_cleanup_v4l2(csi);
->>   	dma_free_coherent(csi->dev, csi->drain.len, csi->drain.vaddr,
->>   			  csi->drain.paddr);
->> +	pm_runtime_disable(&pdev->dev);
->>   }
->>   
->>   static const struct of_device_id ti_csi2rx_of_match[] = {
->> @@ -1613,6 +1663,7 @@ static struct platform_driver ti_csi2rx_pdrv = {
->>   	.driver = {
->>   		.name = TI_CSI2RX_MODULE_NAME,
->>   		.of_match_table = ti_csi2rx_of_match,
->> +		.pm		= &ti_csi2rx_pm_ops,
->>   	},
->>   };
->>   
+--=20
+Best Regards,
+Mike Gavrilov.
 
