@@ -1,183 +1,153 @@
-Return-Path: <linux-media+bounces-62221-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62222-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wA+PFFltDWpCxQUAu9opvQ
-	(envelope-from <linux-media+bounces-62221-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 10:14:17 +0200
+	id sK8uMKltDWrgxAUAu9opvQ
+	(envelope-from <linux-media+bounces-62222-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 10:15:37 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015CA589806
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 10:14:16 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68EDE589852
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 10:15:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 81D9D303A808
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 08:13:52 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 99C9C3045981
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 08:14:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E1683A7857;
-	Wed, 20 May 2026 08:13:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F73137D10F;
+	Wed, 20 May 2026 08:14:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="Uh3wbPHC"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="clv5UKGK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B9913A759D;
-	Wed, 20 May 2026 08:13:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779264820; cv=pass; b=EZjQk/tiNyqngCGL+RIBspC617y/sFAa9tr7g8EALVmLti0tXAGuszPyzRkSZ3LXxgy8iPSJF6tVsxUBafrhXOV1SPZO4v+ebn5LxyEunTDnQYHracG5WCGKO5MzVwklNOze68xlKbYguUy/6bdtY7/lZ/XFPQic21kLUrXawv8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779264820; c=relaxed/simple;
-	bh=UuHZN8bLdDb35hsZfOIbiCsj2GNcJv+JahtKBFao7JM=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE443ACF01;
+	Wed, 20 May 2026 08:13:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779264840; cv=none; b=jIDoXToTbpnxoCISrjcMXsDjGJMWNWDLjJ4Cwrxvsqar8dEMX6vHp5Ch3vrI5hWq7mVybjg6E/vd9d0yEsEC82xgPka6riJNPlPtF+ghRZdG3m7QaWuYJwKmJw6RH65yRPjz4IkXK3xjARgH1I8Tud2mbVmxP8BUxiWKwpyzDYA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779264840; c=relaxed/simple;
+	bh=FZTrBn7fkmwsCJCTyHYiBauWuoHQJYgl2wmHWfwcWkM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pKNMFiuXGETu7as/d6seWnmLSeRSihnDweFiyI7tHyzCU27PrsgyENEMvCJunHW3VgfA1rlTLfUwlAekOhmyHvSNJZL8cpE0R+/XScC+Uww/kHoEJcHN/LtalLretmo1n4ExjfxFxYO7GSDi0xYq3RXJI3krvBpT5Nxrfs15bRU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=Uh3wbPHC; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1779264795; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=fhoFZAGE734g7YrwnK69+Fp+SlBP+e532/rwFxqqOg8FV5tdEIfaFORTiqM7n7YHad3es+GlWxlzsGHFrGKmdpYlnHvbmI07PynfxC0MmNg3KoTVLwV5hv//8Qm7A/9yCp5Bqp5lY06N0LRgOXEXr1Tm2J2d+40YejVZHso/9qc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1779264795; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=1DaCzDhRImq3pbfy2r8JVXerCF/X/rQL52mfTWicG4k=; 
-	b=K3aH/+VmSSz2zNU3CCHPtj8w3HqysMSbIPKHzatggDefM46va4bIfeUqv9Yi8u7NpUttUonl5naq6Pn/swZE223u1Adj+zj2Zvh30+EWyGv6ZzG7yNetKASukVSTLQVsaovI58YmPid6/GP6ZYkLAv9PWmFKpTYTPnzTcqVhyL4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
-	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779264795;
-	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=1DaCzDhRImq3pbfy2r8JVXerCF/X/rQL52mfTWicG4k=;
-	b=Uh3wbPHCLetqao1sJ7Ww936T/0G+TEuQ9eZT1Mp+poKOwsOIjUnwdOOdRXAk4InP
-	Uaty3nP1NfXa2mETMeGvPFJJqqvNUqPmcIWGCohU4EwEQ1nDdkykQdd/R7m2KjrSQ51
-	g2CJSVyOSfXMx1O01zyUaaPNsikI0NgfwcNfxCrI=
-Received: by mx.zohomail.com with SMTPS id 1779264793673372.72174741381184;
-	Wed, 20 May 2026 01:13:13 -0700 (PDT)
-Message-ID: <f37bdc63-3575-49e5-aa5b-7b93428b293d@collabora.com>
-Date: Wed, 20 May 2026 11:12:53 +0300
+	 In-Reply-To:Content-Type; b=W4lgYlZ2G3Nt1Ji5tSpYCSXn98NHbA+W7PUpquQjCJqgj0aQhKU7yoOQPixEFm+Vt3niWuwYAy0NzkDnimlOPdw41nsDzWm64lv3ird5Hsr4Cgmzfxrr8FOn5HVc9t6aT7qVunxq3/kKRnDpk0uU1F4/abn82cnALme0Tn3w1LQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=clv5UKGK; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4gL47J5KHPz9v1L;
+	Wed, 20 May 2026 10:13:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1779264828;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hQXDOHc4G7dDQ3kQbTmT21spqpc7LlPAUB+S3ExR0h4=;
+	b=clv5UKGKubY2vtMtbud3ZYfrqBJNr87Hwa1wylUBd92LNwEvCBU6e1tOetr8sn8iHHgpjP
+	0QgpQDMdE+Nbhx7zYTijf3Ayy1/90aJX4Os8kv88Q+/WVPpozCCY2MMPY9BWifiL4/AWgH
+	leboD+Zf7QGE4Vf9X9p4gpBTSnQD3CUVPp0TG5SpxFugxWBszWxPYFyG4jOO4VnQVOoI6G
+	QZoj/xqBhSVcB53FhMYLEZysfLSRFQd7MwARa7wRiRmcOtV7QqUC+QuuMAZSNr2q+Hdlw7
+	wUy5LXQ4bWur8dtC0QeVuLFyRsBcZ230ta29gNIuOJGV9B4zu4UzfpX0pKZuFg==
+Message-ID: <385a4d4f-fe22-41a7-8d4b-4dc6bc9930d3@mailbox.org>
+Date: Wed, 20 May 2026 10:13:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] drm/virtio: use uninterruptible resv lock for plane
- updates
+Subject: Re: [PATCH 00/12] misc/syncobj: add /dev/syncobj device
 To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Deepanshu Kartikey <kartikey406@gmail.com>, airlied@redhat.com,
- kraxel@redhat.com, gurchetansingh@chromium.org, olvaffe@gmail.com,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- simona@ffwll.ch, sumit.semwal@linaro.org
-Cc: dri-devel@lists.freedesktop.org, virtualization@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org,
- syzbot+72bd3dd3a5d5f39a0271@syzkaller.appspotmail.com, stable@vger.kernel.org
-References: <20260519082247.34470-1-kartikey406@gmail.com>
- <2e23513c-9d59-4891-acfe-9f1fbcbce778@amd.com>
- <f6bcef23-5510-4aad-bf6a-4e1ecfc8d474@collabora.com>
- <a0f2cfd5-d4df-4e50-a52b-d5befbc2e481@amd.com>
-Content-Language: en-US
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <a0f2cfd5-d4df-4e50-a52b-d5befbc2e481@amd.com>
+ Xaver Hugl <xaver.hugl@kde.org>
+Cc: Julian Orth <ju.orth@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-doc@vger.kernel.org, wayland-devel@lists.freedesktop.org
+References: <20260516-jorth-syncobj-v1-0-88ede9d98a81@gmail.com>
+ <c6c91de9-a34b-4b50-a3c1-d42bf7631f8e@amd.com>
+ <CAHijbEUzWZC4GAMU6YGV42gOYkrQaMZZPiwS4Erb4H1J-fh_8Q@mail.gmail.com>
+ <69dcbcc1-da58-4d34-bfb0-5c8d33b75d59@amd.com>
+ <CAHijbEWqc2+kSkk3i_LxB2PQ6XwUetw1UkdUdXJfdv3zgKd1kA@mail.gmail.com>
+ <38551bfe-75e1-4978-b57d-adc43cebc85e@amd.com>
+ <CAHijbEWHp960qvZFoK7+9ppHAqkAR7=UQhtMUccqWzGd_pFPQA@mail.gmail.com>
+ <5ee6d5af-ac48-41d7-a19f-e08a3c5b7d19@amd.com>
+ <CAFZQkGwmeipZnvmBkcE7KhvUSMkSE=fzLBZtiMyhv3mM04Vudg@mail.gmail.com>
+ <dff60378-4e47-4753-8878-feec6e1c2690@amd.com>
+From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
+Content-Language: en-CA
+In-Reply-To: <dff60378-4e47-4753-8878-feec6e1c2690@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+X-MBO-RS-META: jpk3endswr6szttqjbsbpohbo1sccyz9
+X-MBO-RS-ID: 17008d7d8dbc6b85f09
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62221-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,kernel.org,suse.de,ffwll.ch,linaro.org,lwn.net,linuxfoundation.org,arndb.de,lists.freedesktop.org,vger.kernel.org,lists.linaro.org];
+	TAGGED_FROM(0.00)[bounces-62222-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[amd.com,gmail.com,redhat.com,chromium.org,linux.intel.com,kernel.org,suse.de,ffwll.ch,linaro.org];
-	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.osipenko@collabora.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,72bd3dd3a5d5f39a0271];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[michel.daenzer@mailbox.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[mailbox.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 015CA589806
+X-Rspamd-Queue-Id: 68EDE589852
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 5/20/26 10:05, Christian König wrote:
-> On 5/20/26 08:50, Dmitry Osipenko wrote:
->> On 5/19/26 11:27, Christian König wrote:
->>> On 5/19/26 10:22, Deepanshu Kartikey wrote:
->>>> virtio_gpu_cursor_plane_update() and virtio_gpu_resource_flush() lock
->>>> the framebuffer BO's dma_resv via virtio_gpu_array_lock_resv() and
->>>> ignore its return value. The function can fail with -EINTR from
->>>> dma_resv_lock_interruptible() (signal during lock wait) or with
->>>> -ENOMEM from dma_resv_reserve_fences() (fence slot allocation),
->>>> leaving the resv lock not held. The queue path then walks the object
->>>> array and calls dma_resv_add_fence(), which requires the lock held;
->>>> with lockdep enabled this trips dma_resv_assert_held():
->>>>
->>>>   WARNING: drivers/dma-buf/dma-resv.c:296 at dma_resv_add_fence+0x71e/0x840
->>>>   Call Trace:
->>>>    virtio_gpu_array_add_fence
->>>>    virtio_gpu_queue_ctrl_sgs
->>>>    virtio_gpu_queue_fenced_ctrl_buffer
->>>>    virtio_gpu_cursor_plane_update
->>>>    drm_atomic_helper_commit_planes
->>>>    drm_atomic_helper_commit_tail
->>>>    commit_tail
->>>>    drm_atomic_helper_commit
->>>>    drm_atomic_commit
->>>>    drm_atomic_helper_update_plane
->>>>    __setplane_atomic
->>>>    drm_mode_cursor_universal
->>>>    drm_mode_cursor_common
->>>>    drm_mode_cursor_ioctl
->>>>    drm_ioctl
->>>>    __x64_sys_ioctl
->>>>
->>>> Beyond the WARN, mutating the dma_resv fence list without the lock
->>>> races with concurrent readers/writers and can corrupt the list.
+On 5/19/26 18:00, Christian König wrote:
+> On 5/19/26 17:31, Xaver Hugl wrote:
+>> Am Di., 19. Mai 2026 um 15:29 Uhr schrieb Christian König
+>> <christian.koenig@amd.com>:
+>>>> 1. This series makes the ability to manipulate syncobjs available
+>>>> independently of attached hardware.
+>>>> 2. It makes it available under a consistent path /dev/syncobj.
 >>>
->>> Well why are you trying to add a fence on an atomic mode set in the first place?
->>>
->>> That is usually an illegal operation here.
->> That is pre-existing in the driver. It performs draw operation and in
->> some cases waits for the completion during atomic. Whether all that
->> syncing is correct is hard to say immediately as some of it may be
->> historical edge cases.
+>>> Exactly that is a big no-go. This has to be under /dev/dri.
+>> FWIW udmabuf is also under /dev directly, but I don't think any
+>> compositor developer would complain about a different path.
+>> What are the rules for that? Could this simply be put in /dev/dri/syncobj?
 > 
-> I'm not not so deeply in the atomic mode setting stuff but it strongly sounds like that this is seriously broken.
+> The syncobj are actually the DRM specific way of doing things. The general kernel wide way is to use sync files (see drivers/dma-buf/sync_file.c).
 > 
-> The background is that the atomic mode set framework allows an output dma_fence which is signaled when the commit is finished.
+> But there has already been tons of problems with those sync files. E.g. they doesn't support your use case at all since they don't have wait before submit behavior.
 > 
-> So when you allocate a fence slot and add a new fence to finish the atomic commit it is trivially possible that this cycles back and waits for the atomic commit to finish. In other words you have a deadlock.
-> 
-> You probably need specially crafted userspace with the right timing to trigger that, but such issues are usually a rather big no-no and need to be fixed in the long term.
-> 
-> Try to add dma_fence_begin_signaling() and dma_fence_end_signaling() annotation and enable lockdep, the tool should be able to point out if and what exactly goes wrong.
-> 
-> The usual fix is to prepare everything before commit_tail is called (alloc memory, create, reserve slot, add dma_fence etc....) and then just send out the prepared commands later on.
+> So there are already ways to do this, but the Linux kernel so far told everybody that this is forbidden. The DRM syncobj wait before signal functionality is much better, but then basically the second try to do this.
 
-We tried with moving resv alloc to prepare_fb() in a previous patch
-version, it resulted in a non-trivial deadlocks. The goal of this patch
-is to fix immediate problem with a minimal code change.
+I'm not quite sure what you're getting at here, just to be clear though:
 
-What you're saying is correct, but it may require a rather big
-refactoring of the code. In general, everything works okay today, so not
-really an urgent problem.
+While the syncobj Wayland protocol extension supports wait-before-submit behaviour at the Wayland protocol level, it doesn't need or cause wait-before-submit behaviour for DMA fences in the kernel. The usual rules apply to fences attached to syncobj timeline points. The wait-before-submit behaviour at the Wayland protocol level comes from allowing submit before a fence is attached to the acquire timeline point.
+
+(It took me a while to realize this distinction, before which I mistakenly thought the kernel's DMA fence rules would prohibit wait-before-submit behaviour at the Wayland protocol level as well)
+
 
 -- 
-Best regards,
-Dmitry
+Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
+https://redhat.com             \               Libre software enthusiast
 
