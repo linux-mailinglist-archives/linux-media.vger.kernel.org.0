@@ -1,208 +1,246 @@
-Return-Path: <linux-media+bounces-62337-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62338-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0N/EAyLgDWrb4QUAu9opvQ
-	(envelope-from <linux-media+bounces-62337-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 18:24:02 +0200
+	id KHI7LxToDWrM4gUAu9opvQ
+	(envelope-from <linux-media+bounces-62338-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 18:57:56 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F6DC591D4C
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 18:24:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33EAD592B66
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 18:57:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5AF593545D21
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 15:58:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D24913583460
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 16:01:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DEFE346FA1;
-	Wed, 20 May 2026 15:56:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 578BA311597;
+	Wed, 20 May 2026 16:00:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iKl8cYfM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gZf65mxN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765143403F0;
-	Wed, 20 May 2026 15:56:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779292595; cv=none; b=BIMBSUBuG/kUiSEu/OJxtAX/5ACdN46eNlwEKYeqT0gBZzXv6DHWD36r6AsM26aUDV2dyy1mlJIXxRswrxZCgxvpuYhhACW4CShh/HgFJ91Vi/YS00ua2BM0Yp/ZkKrg85UHDcxGJ96iwEkMyzL2q6106vkX3P56uJXrmYMQxy0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779292595; c=relaxed/simple;
-	bh=K1OLdncdSg1THSvTn+xrQefeXYQWeEzS6c2njTthU3c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tqs4ssQKLvmlRZdO5J53oCkHXuBRCP+Tdprc/1/5xwWkDrNtECaxkb1iRameDpvhEDTw2T//tV6ZSsA+niI4Zx4foc7IB3rQMOhf+qzup8q+gKjgXnz6zsjPzDPOrPyDYq0Nc2Fkg2m7py4V3GAJu53DrXZ/z0gC7IOWkGHIC88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iKl8cYfM; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 703A91F000E9;
-	Wed, 20 May 2026 15:56:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779292594;
-	bh=LyLGZ6SHlqwWj37h3IZFU92VVyYHsz9rH7coDDyQ2zY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=iKl8cYfMCqKRDSI2WFrQaAw5nxF2ddWAQNzHzoTcY9xVFrFahbNMkSXVYCfeQyTl5
-	 vwib8cF4WWzCbPH8PhzALVZK7uFbinGhYc6SuAHA2UNSVbWqrlrv9kGgqnuLFzAUZE
-	 gvGtIrzglz9e9gNnZEdME7fq6vEdrgHPY7BaQdMXRzGQaTlOXM43wb0zVXVbJ8Rw9A
-	 Hs4P5c+IVqWc25A0wNdZbrjcaiRF5bsKGJ5LAOdQWNu8hGYP5UdMBVs6TWS5hLIi59
-	 tjw66V7kXROU4hT8T6Pg09HZOgwy2Yeq22DT3tZv0PS/e2+Xit9hoB/eU7iC1ZMWB1
-	 D/Eojp6WbcHBQ==
-Date: Wed, 20 May 2026 16:56:29 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Lachlan Michael <Lachlan.Michael@sony.com>,
-	Ryuichi Tadano <Ryuichi.Tadano@sony.com>,
-	Kengo Hayasaka <Kengo.Hayasaka@sony.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: media: i2c: Add Sony IMX678
-Message-ID: <20260520-crusher-species-cf707a9a8b46@spud>
-References: <20260520-imx678-v3-0-8b5f9676486e@ideasonboard.com>
- <20260520-imx678-v3-1-8b5f9676486e@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A213161BE
+	for <linux-media@vger.kernel.org>; Wed, 20 May 2026 16:00:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779292802; cv=pass; b=PiS1XJ02dNEbC2O3EpCPfIb8+lIOdEgatJf73dgWXFL+AiipmyZpwaURNkl8K5rAPzVi0okobovvkrm7yWLMV8BHKHLZABe22i/t/FbbTxKAFfcve1QkwYVmBUl9HTg8ajBvCvrBRnBTvhxmknz3V/RjG4w5+Odu7nxMzC/4BQE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779292802; c=relaxed/simple;
+	bh=Nu4tKXn78iixF1Te73+mYVhVesjIGn94UyWZfZ1zrj0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dp4gFVSb2MqmmOcjk12sFQo5NTWUXVe71YdjlLRG+p/nYZ/s/UY+9MS6lZUmvu9fiA3KdyTpLtUCR7bUPJfmFlSi0482gBWsIUcGCaOeCvkyk3e+y2rUP/9dqonxQ9RRUk9wUJ+PXKO4cTLOhP7kEeXCWK42I9Z7nrZYkBJx8+g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gZf65mxN; arc=pass smtp.client-ip=74.125.224.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-65c0bda7f15so5056137d50.0
+        for <linux-media@vger.kernel.org>; Wed, 20 May 2026 09:00:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779292800; cv=none;
+        d=google.com; s=arc-20240605;
+        b=LeOKNkAnsHo2ttKGmrZj+xONL1K7dQRPfiLwdqrHhQH/wltVsbrfyJsjSUw0NqD3Sr
+         QNObKPo1fad06f5Y87nWNv0uwAGA1dDPg/h+KC8k/19IFsdmtzzT9B2uJJ5H0UFGMgkP
+         zP4l6MhCXxWE35yG4MxEcQDht6HvTb0rhEnJQNmgD3/mlciuz8njpHK91ZdJrHhkQzLN
+         dJmgMBZ+s0iTO1/phhjW4Hq6R1ODLlasyLXFcRjx1qYVmulH4/Xt4Dx2qVNjDlBlk4Kb
+         52ZKOLLlF5WNcWuAz4CAk7uRicPcGhnb1lz7T6LbPGDod+SyR+VKp+AHW5FAQmO5gQpJ
+         EALA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=/qePdh68iZCKwosOGb2v44Bw68AogG3ERpVFmfA5qKo=;
+        fh=ywRBOB5sK8zaUmoZzEnQqKAZdmreERPqnlTDnpa9N9w=;
+        b=eDnUqyhq6BAUiPZfH3h49nbf19ctMZnJHaP/JxXRjUB5YnKLuNYhR/dbz57cC0f/DF
+         XVKBAVCbbKMJJrNnsNw5xwKhIDMmabS1QLIhO1n44nxCAR2bAD6I+IAlvwlQy0+WVr0k
+         2d9xAj0qhwpk9mjwdGYzJVFkPdrTWKU6RlUrvbToInyxM8H4GEyAjvPkar0RbpBkoHR8
+         3+0cADN0OiYEr8EVfbOgNUdlZRRX3d5S4HAM2Fl3UeRYtDNSiDSPpJ7lV0fc5nWOAjtG
+         Sba5QFfy5ypWMXziMrEoxpnIt1XKrFFiXj/bOuS58hoLFqUk7kLgubif/owiiOiZpVD1
+         E0Gw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779292800; x=1779897600; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/qePdh68iZCKwosOGb2v44Bw68AogG3ERpVFmfA5qKo=;
+        b=gZf65mxNhaxPK0lqtVmRm6aRhQnnfpmS/Rv3iuXaFVoFsqhNqY8KTamjObHesUc3Rt
+         L6rhNAm9wgajUKN3wd1zrv6eESTP1EnworuVywIX2euQqF9TQcR8n+TEwg19yDqtIaL3
+         OmMYWXE6VOi+qBrRNABnUMGsA1ySN+LlrMyC19gvvmX8KHde5U11a5eqzTdoAQF3sdPk
+         mMXxuATRrZVep6G1UlN8Tttlyf4x2ZiT4bGa0R+57SV5l3lwcEYzRKub/jJ0INvYLJha
+         GCSYs8oOd/dglQaG0oPqzyrpTWJTVT+F3t1Y6CevlB90LLb+zwp83G+M12VM9ioxtLk/
+         ktug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779292800; x=1779897600;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/qePdh68iZCKwosOGb2v44Bw68AogG3ERpVFmfA5qKo=;
+        b=ejk7+MHIR9UzL+ce8swlY1KEBvVdA5SRp4uAYNSo9zbe5GbRhYgfp9oI0J32g8SB/C
+         XS98QNfUuz91hIJ3raGtzuLPqyN9lh03GGJ8Hc6vibTQ5TLMz/Ue2ta994DEqMvvJHH9
+         zqqgH/uXW9ZdI8FpY3hfDain4vHAz2I8505phH93IIudY2mCq3W0wEv6m6SVB+49iVc6
+         tgCRJK92bWccFlPOszQUil9GKdK6p0dSwxaefVvy4XGUc9sIxe6fihX8QxlfMLLDZTRj
+         KcjMbQzUw0enfHKV3zMX6K2FDdQ+yiDFQJwhP0bVjHmX3A6ifOK9wEGoG0JW1RCObQV9
+         GjKw==
+X-Forwarded-Encrypted: i=1; AFNElJ+aNOlma74m/Kg85Koy+9TFyi3RztciTj4pP4b8c1L31tledVj1X3Mx7qxxxzCDBhckWhbXOV1+9Sw/8Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOJ1FcyTwmPPYF39VTv83BaZwCLkB4RcWDNgGxXRP/j8CSb1Ex
+	Nm1o3PD6F86rBGV9UTvHkGWnDCyVBRZrMDLX6Gmg2Pcc6vfYxp9KK7KbB28QEJekKJONmEJk/om
+	U0UI2u7oXwGDLE+ocql+SiCvL9/W0OVc=
+X-Gm-Gg: Acq92OFT77ouTs9DlTTvsO6y+kcJBPCbhH60iBCJKJQUcRm6dlrV76iK07angXTc4K/
+	kF2vbV7fODd6KFLRahqLY/yM9Cjw6AcnvJ+uTRHxVKPNcD1/MB3hj/FoZqmUwmbStTwPOqv6B0S
+	3A2jlwmRWFqo58OlJItAd6W0Ex18HvuMZD+79Doam/OCgktmHYVVyLgO9C0s67NEOENwO5RmaYB
+	yHe9RnkZH/eKXSsWJNPfMKJpw+MmE0O7h936GB8YcSvl5fsk8qubkcgXzMovjVNUHaSquZaOU7I
+	GVHDflzB
+X-Received: by 2002:a05:690e:bcb:b0:65e:55bb:d5c4 with SMTP id
+ 956f58d0204a3-65e55bbfaefmr13936717d50.48.1779292799759; Wed, 20 May 2026
+ 08:59:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="lCbMfOv3j2Ws0v29"
-Content-Disposition: inline
-In-Reply-To: <20260520-imx678-v3-1-8b5f9676486e@ideasonboard.com>
-X-Spamd-Result: default: False [-3.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MID_RHS_NOT_FQDN(0.50)[];
+References: <CGME20260518130946eucas1p1a8e6673355aa1b2f7bb35f9070f289ce@eucas1p1.samsung.com>
+ <20260518130929.1003652-1-lgs201920130244@gmail.com> <38f2ff7f-ee5b-44e8-972b-107b73dccd31@samsung.com>
+In-Reply-To: <38f2ff7f-ee5b-44e8-972b-107b73dccd31@samsung.com>
+From: Guangshuo Li <lgs201920130244@gmail.com>
+Date: Wed, 20 May 2026 23:59:45 +0800
+X-Gm-Features: AVHnY4Idw_mAdZpVPyN7nF09r8RstUgNxjmwYh8BVbbirhp3GoFHnjEdp5i7LWg
+Message-ID: <CANUHTR-RfWnoMRRAoDb6CPZsaiAYBLy61dd0P6TnKYgjNeBWpA@mail.gmail.com>
+Subject: Re: [PATCH] media: s5p-mfc: avoid double free on video register failure
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62337-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-62338-lists,linux-media=lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 5F6DC591D4C
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lgs201920130244@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_FIVE(0.00)[6];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid,samsung.com:email]
+X-Rspamd-Queue-Id: 33EAD592B66
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Hi Marek,
 
---lCbMfOv3j2Ws0v29
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thanks for your feedback.
 
-On Wed, May 20, 2026 at 05:17:25PM +0200, Jai Luthra wrote:
-> Sony IMX678 is an 8.4 Megapixel (3856x2180) CMOS sensor, that can output
-> pixels over MIPI CSI-2 bus. Add bindings for it.
->=20
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> ---
-> Changes in v3:
-> - Use `reset-gpios`, mentioning the sensor XCLR acts like RESETN, instead=
- of `xclr-gpios`
-> Changes in v2:
-> - Add per-variant compatibles for mono and colour, alongside the
->   generic fallback, so the variant can be declared without powering
->   the sensor at probe.
-> - Rename reset GPIO to xclr as that's what it's called in the
->   datasheet, and how it behaves
-> - Reference the generic video interface devices schema and switch to
->   unevaluatedProperties.
-> - Drop "link-frequencies: true"
-> - Drop the T: entry for media.git from MAINTAINERS.
-> ---
->  .../devicetree/bindings/media/i2c/sony,imx678.yaml | 129 +++++++++++++++=
-++++++
->  MAINTAINERS                                        |   6 +
->  2 files changed, 135 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx678.yaml=
- b/Documentation/devicetree/bindings/media/i2c/sony,imx678.yaml
-> new file mode 100644
-> index 000000000000..d85745ddbefd
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx678.yaml
-> @@ -0,0 +1,129 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2026 Ideas on Board Oy
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/sony,imx678.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Sony IMX678 Sensor
-> +
-> +maintainers:
-> +  - Jai Luthra <jai.luthra@ideasonboard.com>
-> +
-> +description:
-> +  Sony IMX678 diagonal 8.86 mm (Type 1/1.8) CMOS active pixel type solid=
--state
-> +  image sensor with a square pixel array and 8.40M (3856x2180) effective=
- pixels.
-> +
-> +allOf:
-> +  - $ref: /schemas/media/video-interface-devices.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - sony,imx678
-> +      - sony,imx678-aamr
-> +      - sony,imx678-aaqr
-> +    description:
-> +      The IMX678 sensor exists in a colour variant (IMX678-AAQR) and a m=
-ono
-> +      variant (IMX678-AAMR). An internal register can also help detect t=
-his at
-> +      runtime.
+On Wed, 20 May 2026 at 19:37, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
+>
+> On 18.05.2026 15:09, Guangshuo Li wrote:
+> > s5p_mfc_probe() allocates video_device instances for both the decoder
+> > and encoder and releases them from the probe error paths if
+> > video_register_device() fails.
+> >
+> > This can double free a video_device when __video_register_device()
+> > reaches device_register() and that call fails:
+> >
+> >   video_register_device()
+> >     -> __video_register_device()
+> >        -> device_register() fails
+> >           -> put_device(&vdev->dev)
+> >              -> v4l2_device_release()
+> >                 -> vdev->release(vdev)
+> >                    -> video_device_release(vdev)
+> >
+> >   s5p_mfc_probe()
+> >     -> err_dec_reg or err_enc_reg
+> >        -> video_device_release(vdev)
+> >
+> > Use video_device_release_empty() while registering the decoder and encoder
+> > video devices so that registration failure paths do not free them through
+> > vdev->release(). s5p_mfc_probe() then releases each video_device exactly
+> > once from its error path. Restore video_device_release() after successful
+> > registration so the registered devices keep their normal lifetime
+> > handling.
+> >
+> > This issue was found by a static analysis tool I am developing.
+> >
+> > Fixes: d0ce898c39bf ("[media] s5p-mfc: Replaced commas with semicolons")
+> > Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+> Frankly speaking I don't like this dancing with video_device_release_empty() and
+> video_device_release(). I would rather make video_device struct a part of device
+> state and use common release function.
+>
+> > ---
+> >  drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c | 8 ++++++--
+> >  1 file changed, 6 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
+> > index 32eb402d439c..75abb0a8b7a9 100644
+> > --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
+> > +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
+> > @@ -1376,7 +1376,7 @@ static int s5p_mfc_probe(struct platform_device *pdev)
+> >       }
+> >       vfd->fops       = &s5p_mfc_fops;
+> >       vfd->ioctl_ops  = get_dec_v4l2_ioctl_ops();
+> > -     vfd->release    = video_device_release;
+> > +     vfd->release    = video_device_release_empty;
+> >       vfd->lock       = &dev->mfc_mutex;
+> >       vfd->v4l2_dev   = &dev->v4l2_dev;
+> >       vfd->vfl_dir    = VFL_DIR_M2M;
+> > @@ -1395,7 +1395,7 @@ static int s5p_mfc_probe(struct platform_device *pdev)
+> >       }
+> >       vfd->fops       = &s5p_mfc_fops;
+> >       vfd->ioctl_ops  = get_enc_v4l2_ioctl_ops();
+> > -     vfd->release    = video_device_release;
+> > +     vfd->release    = video_device_release_empty;
+> >       vfd->lock       = &dev->mfc_mutex;
+> >       vfd->v4l2_dev   = &dev->v4l2_dev;
+> >       vfd->vfl_dir    = VFL_DIR_M2M;
+> > @@ -1416,6 +1416,8 @@ static int s5p_mfc_probe(struct platform_device *pdev)
+> >               v4l2_err(&dev->v4l2_dev, "Failed to register video device\n");
+> >               goto err_dec_reg;
+> >       }
+> > +
+> > +     dev->vfd_dec->release = video_device_release;
+> >       v4l2_info(&dev->v4l2_dev,
+> >                 "decoder registered as /dev/video%d\n", dev->vfd_dec->num);
+> >
+> > @@ -1424,6 +1426,8 @@ static int s5p_mfc_probe(struct platform_device *pdev)
+> >               v4l2_err(&dev->v4l2_dev, "Failed to register video device\n");
+> >               goto err_enc_reg;
+> >       }
+> > +
+> > +     dev->vfd_enc->release = video_device_release;
+> >       v4l2_info(&dev->v4l2_dev,
+> >                 "encoder registered as /dev/video%d\n", dev->vfd_enc->num);
+> >
+>
+> Best regards
+> --
+> Marek Szyprowski, PhD
+> Samsung R&D Institute Poland
+>
 
-I don't understand the compatibles here. If aaqr is tge colour variant,
-and aamr is mono, what does the suffix-less compatible represent?
+I agree that switching between video_device_release_empty() and
+video_device_release() is not a good approach. After looking at this
+again, I think the real issue should be fixed in the core error
+handling path instead of working around it in the s5p-mfc driver.
 
-Your commit message says:
-> - Add per-variant compatibles for mono and colour, alongside the
->   generic fallback, so the variant can be declared without powering
->   the sensor at probe.
-But that's not what you have permitted in the binding, you've described
-3 different variants and using the one with no suffix as a fallback will
-produce validation errors.
-
-I think this probably is
-pw-bot: changes-requested
+Please ignore this patch. I will drop it and look into a proper core-side fix.
 
 Thanks,
-Conor.
-
---lCbMfOv3j2Ws0v29
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCag3ZrQAKCRB4tDGHoIJi
-0lCtAQCSqyEOEO5cyauW06oSd71ClHJyyt5xT9vEYRX/J2P+5gEA/oht/dLQVbcM
-iRu536TcVnV42p5GdkSSXyC0hcir2As=
-=kH6c
------END PGP SIGNATURE-----
-
---lCbMfOv3j2Ws0v29--
+Guangshuo
 
