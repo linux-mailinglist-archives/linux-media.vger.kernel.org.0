@@ -1,234 +1,236 @@
-Return-Path: <linux-media+bounces-62320-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62321-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cMX0EVzVDWrW3wUAu9opvQ
-	(envelope-from <linux-media+bounces-62320-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 17:38:04 +0200
+	id ACUHJDPWDWrW3wUAu9opvQ
+	(envelope-from <linux-media+bounces-62321-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 17:41:39 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F0905910D1
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 17:38:01 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAF91591184
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 17:41:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6BEBF32BD852
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 15:21:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 180D93159E68
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 15:27:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 127A83EF66A;
-	Wed, 20 May 2026 15:20:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 142763EFFD6;
+	Wed, 20 May 2026 15:26:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="OQRypaQM"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="quuL0OnN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013064.outbound.protection.outlook.com [40.107.162.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6763E9C1F;
-	Wed, 20 May 2026 15:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.64
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779290424; cv=fail; b=JSfT5aRb8i2kuQe7jhohE8LL5frip2aLLxgGudYRmFi/7A5RnsFhm/uivRfsJUOh/IyMW4I9Xzj2ngEBpxcEYeVqE3x2MRWrDMb57Rr+JwzWTo5tQQuw11APjVTAoIA31EiBHrvXls6CG2ofyU568LYHXdUSKFJEIurDH8IJ6uI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779290424; c=relaxed/simple;
-	bh=l4/qnkjd6bZg1XEV1PAL87hixaCbAhx6wxIELiuPUQA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=Xc2dTqiG/FWcXIvdz9g5ltHOmtxd/n8caf9XehfMymatDc+FC63rbUIwphY3wMf2RpO4qBCC1KwIfiVpX5NfNGWJdWfCJzY4+MPzrWUOcTOog9Zs2k385625fjUy356DN1DVHgDooQlrwRZtH+FAMD1d0kY1CrKQ1YRT6kFSnqc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=OQRypaQM; arc=fail smtp.client-ip=40.107.162.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aA+JXsQik2/65dKKvYoYr1R+s8ZSAkh6iypCTHshK+iogywfx6hkYDRX5VM+B4zXupEWK04lHy5FP/BHFapQs7N4aCL5sh38lFY4yJryc0OoTavixnFkV52tRwBok2kg8vgMpEwFq2Qq7lsc0s4aIt0APR5A8Te7rfpe8msFTX1qwMPMjBUPgEwimgjevWsAqWaHJBiB0OycN+GTRT1kbbqPyoiB852AQvix8FqjFL4kh37ACSnNib5uhTCV4QrCz3Ix/I8BvROl2h/5z+jtOQJa8bQf6F9N/2PU8cghT90DuoPFkGxryVPAjC3wRf9KclpkJARKF6hKDh971fQBKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mkW91SkV0pxRKcye1NH7wqUvPh4aFckQs7BkyPzGA48=;
- b=oJRIDflWs9ypVQjuOP1tV2WULzNWrBtenuMMJomTvzQRY+VgMQqLDSG3JJ8qeYp6TV1UCbboOYMsY+O3AxNSU3MwRC9xlz+VcrbeL0y0LzADB0V4WcNsZQOy74ouUuopRt7M4n1y61vqlkv6NKrqvlSEH9gGLkH+Hid1rvRfvQto+kDr5+1dRzNGHHNdOKWAZ/llJDEy7CU5pbKgtsA/x+1HWBZMASur0/bux+i/f75gr2yAxcbWtpe23HQhOZ7PNYhlSlFgHSJdeGPdhxfE92QGvTXrY78gtrw0puRW3OjL2SeMmu74bhvQwiXyMRCXHqU5fpH3Sebwsc32pgSuOw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mkW91SkV0pxRKcye1NH7wqUvPh4aFckQs7BkyPzGA48=;
- b=OQRypaQMCjAzSX0eywA8LNtnOT2VZoWmNWA0Nkb3P1YysAG4BffxJM9k7Z3/R+m1slXLZu5rtpxbsTZf0zxLEeYlqKLDwmEvlhbaYZRdExIz/eyfyAUnwaBhPwWSCxVNg16DHKSAFvEwGb22h3o43KBPU27+L35MbR5PFDfQwqoW33EPvUXB84lKq1xf4/4+FbIM/tpiBN9/ySRa/QOfa/VMbfg1CIi7PIb5PMftnKS66iFR/lkBbGK5AySk7KREiuj5AN/aOx/7xZkBuTQnQyRrKMtd2DsOuBiSTY/mzi3vDPC9eNgbDf0Qj7UbJMz2rWpJMMj8/vCyl2TY/vnjYw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AM0PR04MB6900.eurprd04.prod.outlook.com (2603:10a6:208:17d::10)
- by VI0PR04MB10808.eurprd04.prod.outlook.com (2603:10a6:800:261::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Wed, 20 May
- 2026 15:20:18 +0000
-Received: from AM0PR04MB6900.eurprd04.prod.outlook.com
- ([fe80::7fda:8431:ca1b:b023]) by AM0PR04MB6900.eurprd04.prod.outlook.com
- ([fe80::7fda:8431:ca1b:b023%5]) with mapi id 15.21.0048.013; Wed, 20 May 2026
- 15:20:17 +0000
-Date: Wed, 20 May 2026 18:20:12 +0300
-From: Vladimir Oltean <vladimir.oltean@nxp.com>
-To: Heiko Stuebner <heiko@sntech.de>
-Cc: linux-phy@lists.infradead.org, Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-can@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org,
-	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
-	spacemit@lists.linux.dev, UNGLinuxDriver@microchip.com,
-	Sandy Huang <hjc@rock-chips.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Subject: Re: [PATCH v8 phy-next 15/31] drm/rockchip: dw_hdmi: avoid direct
- dereference of phy->dev.of_node
-Message-ID: <20260520152012.acf6xpe7hvrdzn2u@skbuf>
-References: <20260505100523.1922388-1-vladimir.oltean@nxp.com>
- <20260505100523.1922388-16-vladimir.oltean@nxp.com>
- <3758596.1xdlsreqCQ@phil>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3758596.1xdlsreqCQ@phil>
-X-ClientProxiedBy: WA1PEPF00005B93.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d8::631) To AM0PR04MB6900.eurprd04.prod.outlook.com
- (2603:10a6:208:17d::10)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 948563E9C19;
+	Wed, 20 May 2026 15:26:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779290812; cv=none; b=s/TadcRIjx77qebsebzyAqL7c4hsEFyJbyz72EMrQBCE6U0fvtjKAATI3KYF94H3L3iUgrzQDKlTkRDi+4G7w3tcN05two8P0XpoT5EHxrj9he3LMIB+rI+dEjcHJwz6Lq44HH0pVTHCA1ef/Igy1ir8hydMg+8gSlfjuLG0M6Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779290812; c=relaxed/simple;
+	bh=7n6+w/JNJIy9JBoZEpq6DMA9zKTx48lQeLJC8YLMxp4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=smTG4T7Rf0/T+VA28PA7udVI3fBA2UUoQzubbduhnazBHjNIBtDsoHxCHEJsqYgitcMh0hXRuaz58pbwZ3+FdgOkK9sgPJUL8r9abCQbFQWe0tiz+cAHfbvtejqLPVw+n+pYDsMDVBPq9F6h4h8vTAGS+Sxfw1xZIB1NJBCN/4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=quuL0OnN; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B668416A3;
+	Wed, 20 May 2026 08:26:44 -0700 (PDT)
+Received: from [10.57.33.178] (unknown [10.57.33.178])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9B9BF3F632;
+	Wed, 20 May 2026 08:26:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1779290809; bh=7n6+w/JNJIy9JBoZEpq6DMA9zKTx48lQeLJC8YLMxp4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=quuL0OnNg2zLJ2BDZ1cDhvpe34hP8cBpi4dNiIS7uWI9QJj/QpjNuoupzxo27MkGx
+	 7LeMTtSADUfabpkVQChWMdtc+4mKpoJRgcnVPE6zou0KA1WiuebrMJEOWWZYcDDf6+
+	 kwMaqTeo6QGyfMGTBU6A0OGpW+xw8UfHYagH5+v8=
+Message-ID: <6923c228-b81e-4d02-b59c-a21b2212318e@arm.com>
+Date: Wed, 20 May 2026 16:26:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM0PR04MB6900:EE_|VI0PR04MB10808:EE_
-X-MS-Office365-Filtering-Correlation-Id: c385c8c1-b3c8-4655-82ec-08deb6834c8f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|19092799006|10070799003|366016|11063799006|5023799004|6133799003|56012099003|22082099003|18002099003|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	y6VMH6By2VJoIZ5ieBzCRsombvv6k3m1LLawVi98Fb0P4dpJygu7ekSLtmwIiRHbUJ5TqjcQHt+TfBIXZz4uHqR5IVMruCx7MMkt6zGjL2TZ83RrFa1T+YjUw6Fg4N9GlD3wrmkKOdtbti0rc6X16vdCTLSTd0dNX7ygXO0P9C9vkVimI6+AbXnbSRy0cZUOjbB/aGrUzN82UhgrtYlGFS1o6BbtYTqrFG2cJTO+SLjBstzCoJeR1QQKhujIEWYld3reDZOYZSuft9fl98numemuPhRABZIn/FJHkxu9Tl1q7/+UY6iQjz5oq/Mgf+rwnFDewsmvzrZmYhdUDjT0EUU/tjej8/h+ijOkSno0CtycIARjpbjIGmivdJ0NcORWrNK7nnvOawbqMJMOvhrpgt604+eXjXEg9tIKCReaTZ4g821ZVoVFInj4eLtljkUEj4lLIw5X4odI7zsIxyRJWpjIhA9GTBDxBI000Bmn+xALPDpOD2cQFPb8Rn5ITpufTh+buBJ1meivFtmZyHyDUL6fC17HxMmycZJD304Ke5tdFhLB2xaRckMQtOZpxYcU4A3flvBWamOBbrtHY6kAL0E/0Nu+ZqG0MEM7vCOeTBeu6o14sPf51v2hCwJLpgCXr7sUguoZfh4AsrdpThDo6JNZpMVmK2Sfx89VEFMVMIGN/3qiOdg0xo08pWy/Rw9WM6j0gPfW7iFWsYZNSgX7zA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR04MB6900.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(19092799006)(10070799003)(366016)(11063799006)(5023799004)(6133799003)(56012099003)(22082099003)(18002099003)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?w+bzZsFe3eKKjCLyiZMDhiUaw1usTpGN0A/VGIJbnAU/L1jz2NnkRTkuQ1?=
- =?iso-8859-1?Q?SjdVO4XPOp46xKNJy9SxbrSI9zktykp5eHFoLj48iqNmgMU1kvBTKaZ6vB?=
- =?iso-8859-1?Q?7Ji/LWZghZhprNPfJN11bum8PZazaRAey61lyzgFq81RyyTlgmJN6ndjZG?=
- =?iso-8859-1?Q?lnhCcU3ktE/a1YO5XjUxUN9SmJWTIctpKyJToJjKUP/J1wibcRMGDJcq0T?=
- =?iso-8859-1?Q?utmqq3sQKkA1KLJ59UsIeEkpVrlUSJ5+kUL9Mh4DHECvEOHpfmzXs91z6T?=
- =?iso-8859-1?Q?DT9SXcOnS00uSDxbEp2RvjHLlkKvdn6AYeAIRumT6MkQpI9PH3vyO5oIOR?=
- =?iso-8859-1?Q?G79iwJnowCwlPIkNhdawGMCmlVlnMe8ZdMbsnCD4gssgqwYEW/zMOirjf+?=
- =?iso-8859-1?Q?C2IY70OgNKDP7wiPCqw7P4rRiVHTS141vBDt2KD1EBcEUNHiiwgdH9hKRU?=
- =?iso-8859-1?Q?RzRvFPMTwjQUjWMLPoz/CA8W8iI+Q5Ao0VRX/3sgg4KKHc81hgFW8ItliE?=
- =?iso-8859-1?Q?flMuxNs0dW7/j/4hgQ6vTkc7JrDSuACRLyKjAN5WaHlkzj3fVdqRqMoZ19?=
- =?iso-8859-1?Q?KZ0ZLD8a3ktt7DIoys1iQu8ONhAEqiLNgUPDcjbXS7l/TweaFAQqortR8a?=
- =?iso-8859-1?Q?MToSXs3XO5DkzK58HXlm+JSsVj99hN0EhOZaoZA1bq14VbbmFobFcNw2lo?=
- =?iso-8859-1?Q?wDkQSunXeFwIyhk2m5Nc7cvRT+9+KRUBGd7Vg3AWmW6MpdmGu69wpx6Okm?=
- =?iso-8859-1?Q?zhJT78p2vGIM/i8cGDgXPjniF0OKHWuChaJ12Jo58DdEthOp747khVlFIG?=
- =?iso-8859-1?Q?buDlmVNxKyYB/b6+S2O6IOnJTy3wY7d88hSPCoF0GTaIbemd4kfvHyZ+zm?=
- =?iso-8859-1?Q?aucQwWXAWUJnhLTzbVkZGDbhftTRPW0Ns6ARX91zOEpriOS2s6urvpioW5?=
- =?iso-8859-1?Q?PswradQ3uKdChmxqIA1eU+Vkul8MlzS9/E0npsVNK0f7X6GrfsRfMuD3IP?=
- =?iso-8859-1?Q?SZSoH9EtVxW+ktkQnL5UxbEmf75RNuiJqfrX5jttAutoCcVqGYOuOsgQR1?=
- =?iso-8859-1?Q?vTiXCa8H8qAzH88MbiO7Mnl9eISERZTfscEIFgqJoO3F7gzy8Okp2r0FLz?=
- =?iso-8859-1?Q?YJkq70v1uRvDEYIA78yI7lQ1+l25rEUOZzZ2A6xN8TtHlgnuD2dMPF47Ex?=
- =?iso-8859-1?Q?voOt28Z7pocAYhQjs4xFf9Zisf/B/BJdZtH5soWUyCA85tRB+xkJPiktNq?=
- =?iso-8859-1?Q?kUT+fxM8BMhSK0aqju1NdZiF/dpMZ3ZCtkGRN4zbeAltjrI9Lm9/6W0Ra6?=
- =?iso-8859-1?Q?4zzTh/88P4X5g6G/1e/WcbQOyULO2Tn2QtjvFWAo5/45sjmlUWBGkcpC5v?=
- =?iso-8859-1?Q?qcq+0adp6u2F3qq5UMpZfuIAuig9XLWCPQEGa9m2C1VH5mdRMC+hXejJP5?=
- =?iso-8859-1?Q?lp+wWWZaRSidsHzl25ajbOYMSv6BbxVw+FQ2PKC0XmkgXeq4jlm+NTRY/D?=
- =?iso-8859-1?Q?9/OdIwsIXsHhZ8fC9310VsVXjW6s04Fcglex5f4k06b4SUIx5F2S5A5I2y?=
- =?iso-8859-1?Q?+YgtCeOcj0X/LxCRbTc9s4/pnlvVj67GsYP73bRmnkPf14mHn6WiTKFdHT?=
- =?iso-8859-1?Q?TRpiVjFxKiScw6UxbVloY2HIco9czRJsQzO+j73zrXZqjBxRG6AujOV5KC?=
- =?iso-8859-1?Q?uTeD9DTaA0L/7i62meoJhVgEDESNAOy53Ck3g89w4cwPvxiqTgNHmK6vOC?=
- =?iso-8859-1?Q?mRDE+zFDSlrVE33FApjom1COBgFnNlVMUG0TpKNwN9RM3bKY+jwn7iBFUe?=
- =?iso-8859-1?Q?YmBm3XuW6GqH/uV25VqE7ARzchddWnf3l6A53jPVEpbsyPZsqmuYFpiFTh?=
- =?iso-8859-1?Q?JF?=
-X-MS-Exchange-AntiSpam-MessageData-1: HLlipyHbu6yqYg==
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c385c8c1-b3c8-4655-82ec-08deb6834c8f
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR04MB6900.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2026 15:20:17.6180
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eTVm/2d3fCQSmd5fytap+wEqwJac+az9a+yuKziHQ+ZvOOwWG065tCPWUtheZHYzEZHW/7dhoMsqYnslhvOdPg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10808
-X-Spamd-Result: default: False [0.34 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] drm/panthor: Driver-wide xxx_[un]lock ->
+ [scoped_]guard replacement
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+ Chia-I Wu <olvaffe@gmail.com>
+Cc: Liviu Dudau <liviu.dudau@arm.com>, Sumit Semwal
+ <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20260513-panthor-guard-refactor-v1-0-f2d8c15a97ce@collabora.com>
+ <20260513-panthor-guard-refactor-v1-1-f2d8c15a97ce@collabora.com>
+ <5ab2d07c-74a4-4a2c-b145-6ed7b0060944@arm.com>
+ <CAPaKu7S9WMbJERrWa=bj5qyQg72no9MPex6S1MY6t8nXoMbB-Q@mail.gmail.com>
+ <20260518104356.71827224@fedora>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20260518104356.71827224@fedora>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[arm.com,none];
+	R_DKIM_ALLOW(-0.20)[arm.com:s=foss];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62320-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[32];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[lists.infradead.org,kernel.org,linaro.org,lists.freedesktop.org,vger.kernel.org,lists.linux.dev,microchip.com,rock-chips.com,linux.intel.com,suse.de,gmail.com,ffwll.ch];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[arm.com,linaro.org,amd.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
+	TAGGED_FROM(0.00)[bounces-62321-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[collabora.com,gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[arm.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.oltean@nxp.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[nxp.com:+];
+	FROM_NEQ_ENVFROM(0.00)[steven.price@arm.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,nxp.com:dkim,sntech.de:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 3F0905910D1
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,arm.com:mid,arm.com:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: EAF91591184
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Heiko,
+On 18/05/2026 09:43, Boris Brezillon wrote:
+> On Thu, 14 May 2026 10:09:10 -0700
+> Chia-I Wu <olvaffe@gmail.com> wrote:
+> 
+>> On Thu, May 14, 2026 at 6:24 AM Steven Price <steven.price@arm.com> wrote:
+>>>
+>>> On 13/05/2026 17:58, Boris Brezillon wrote:  
+>>>> Right now panthor is mixed bag of manual locks and guards. Let's
+>>>> make that more consitent and thus encourage new submissions to go
+>>>> for guards.  
+>>>
+>>> I'm fine with encouraging guards for future code - but I'm a little wary
+>>> of a big change like this - it's hard to review it and check that
+>>> everything works the same. And it's a little dubious that the mechanical
+>>> refactoring produces more readable code in some cases.  
+>> I agree with Steven in general, although I am in favor of landing now
+>> that you've gone through the trouble.
+> 
+> Honestly, I agree with you. The only reason I went for it is
+> because the mix we have right now is pretty confusing. This has to do
+> with the fact the scopes are often loosely defined unless you used
+> scoped_guard(), so it's pretty easy to mess up the lock/unlock
+> ordering. For instance,
+> 
+> 	mutex_lock(locka);
+> 	guard(lockb);
+> 	mutex_unlock(locka);
+> 
+> 	...
+> 
+> once expanded, turns into inconsistent locked sections, where the inner
+> lock (lockb) is released after the outer one (locka).
 
-On Wed, May 20, 2026 at 04:21:24PM +0200, Heiko Stuebner wrote:
-> Hi Vladimir,
-> 
-> Am Dienstag, 5. Mai 2026, 12:05:07 Mitteleuropäische Sommerzeit schrieb Vladimir Oltean:
-> > The dw_hdmi-rockchip driver validates pixel clock rates against the
-> > HDMI PHY's internal clock provider on certain SoCs like RK3328.
-> > This is currently achieved by dereferencing hdmi->phy->dev.of_node
-> > to obtain the provider node, which violates the Generic PHY API's
-> > encapsulation (the goal is for struct phy to be an opaque pointer
-> > with a hidden definition, to be interacted with only using API
-> > functions or NULL pointer checks, for the case where optional variants
-> > of phy_get() did not find a PHY).
-> > 
-> > Refactor dw_hdmi_rockchip_bind() to perform a manual phandle lookup
-> > on the "hdmi" PHY index within the controller's DT node. This provides
-> > a parallel path to the clock provider's OF node without relying on the
-> > internal structure of the struct phy handle.
-> > 
-> > Signed-off-by: Vladimir Oltean <vladimir.oltean@nxp.com>
-> > Reviewed-by: Heiko Stueber <heiko@sntech.de>
-> 
-> there is now already more stuff depending on this change [0], and
-> the change itself also is sort of independent of the whole
-> phy-series. And somehow this series itself sadly hasn't gotten
-> much review yet.
-> 
-> So would you be ok with me just picking this one patch for the
-> drm-misc-tree?
-> 
-> 
-> Thanks
-> Heiko
-> 
-> [0] https://lore.kernel.org/dri-devel/20260518193748.2482823-1-jonas@kwiboo.se/
+I think that's a good argument for getting all the guard forms available
+before tackling the conversion. Mostly I feel like it would be benefit
+from being split up into multiple patches (maybe one per file?) so that
+there are smaller units to review.
 
-I am currently out of office, so I can't look very closely, but yes,
-I did agree with Vinod to try to reduce the size of this series by
-submitting some of the changes this cycle to individual subsystems, and
-the cross-tree remainder the following cycle. So yes, feel free to pick
-from this series and I'll submit to dri-devel whatever remains when I
-return to this activity.
+>>
+>> I also have mixed feelings about some of the non-scoped guards. Their
+>> scopes are extended slightly than before, supposedly to avoid adding
+>> another level of indentation. But other than slightly slower,
+> 
+> I tried to used scoped_guard()s every where the extra non-guarded
+> section could be CPU heavy (the only bits left are some very simple
+> bit/arithmetic ops, and a couple queue_work() IIRC).
+> 
+>> it also
+>> becomes less clear what exactly do the guards protect.
+> 
+> I know, and I have pretty much the same feeling, but we've crossed that
+> bridge when we started accepting non-scoped guard()s, unfortunately.
+
+The problem with scoped guards is the extra level of indentation.
+Personally I find a mixture of all three is appropriate depending on the
+case.
+
+E.g.
+
+int small_simple_function() {
+	if (simple_condition)
+		return early;
+
+	guard(lock);
+
+	if (condition_that_needs_lock)
+		return early;
+	/* more work */
+	return late;
+}
+
+Here it's easy to reason because the lock is just held for the duration
+of the function after the initial early-out condition is checked.
+
+int short_lock() {
+	/* bunch of work */
+
+	scoped_guard(lock) {
+		tmp = read_value();
+		if (tmp == 42)
+			return -ESOLONGANDTHANKSFORALLTHEFISH;
+		tmp++;
+		write_value(tmp);
+	}
+
+	/* more work */
+}
+
+Here there's a small section of code which is working on the lock, so it
+makes sense to indent it to show the boundaries of it. The other nice
+thing is that the error return handles the locks for us.
+
+int old_fashioned() {
+	if (lock_required)
+		mutex_lock(lock);
+
+	/* some work */
+
+	if (lock_required)
+		mutex_unlock(lock);
+}
+
+Generally a pattern to be avoided if possible, but IMHO this is much
+better than the equivalent of:
+
+int dodgy_function() {
+	/* some work */
+}
+
+int outer_function() {
+	if (lock_required) {
+		scoped_guard(lock)
+			dodgy_function();
+	} else {
+		dodgy_function();
+	}
+}
+
+which requires breaking out the work into an extra function and
+duplicating the call (or worse duplicating the function body).
+
+One thing I do agree is that mixing and matching within the same
+function is a recipe for confusion and mistakes.
+
+Thanks,
+Steve
 
