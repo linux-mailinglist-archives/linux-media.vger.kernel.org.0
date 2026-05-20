@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-62203-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62204-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yIQCLvZTDWr9wAUAu9opvQ
-	(envelope-from <linux-media+bounces-62203-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 08:25:58 +0200
+	id 8HvKAD1XDWpuwQUAu9opvQ
+	(envelope-from <linux-media+bounces-62204-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 08:39:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3970A5881F2
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 08:25:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 712BE588441
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 08:39:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5C0873010BB2
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 06:25:38 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id BC173307BDBB
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 06:35:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B25D7374737;
-	Wed, 20 May 2026 06:25:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E6FA31352D;
+	Wed, 20 May 2026 06:35:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PRI+GIPo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nWxCjECE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D76027CB02;
-	Wed, 20 May 2026 06:25:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF8824E4A1;
+	Wed, 20 May 2026 06:35:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779258336; cv=none; b=D0WQAeXveLO4A2rwUANkP26wwgssI9vwdWBVy6IjV6FPedlAd85etm562if2cK6W12rwNC0f7dsf7AJjj/TYH5WE1nxdg8JtIgr88fPY8/lcO7TEpn5/AOpWOz7PtfGRzy5Eltd1X/v6ksG7yhc7d88V/ZKv2Muf4TCEQ8ILd0M=
+	t=1779258903; cv=none; b=UKFjBBwJNuNNIuYkf4Ga+heOyPOVu9luV3m0CHqFaBbX3kpOAsrO8XA2WH4Y9YOHpicPaMDDTdx1eREl//Y8WBon7nY++TgBR/NoDLf/qAhvYpKK//Kfwu0M0Tu7E0mo1mabNNsR8ZeRCE9wbmr6Ss777/qwM0H92C8GEbA9BvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779258336; c=relaxed/simple;
-	bh=fl5GvyBknC8NjQZKIqVSX1M5iySNft/etucU1YnztVw=;
+	s=arc-20240116; t=1779258903; c=relaxed/simple;
+	bh=jcOCONsx+VdOxYvIZe50Fp6qk+W/qkJujqYeZn8aSko=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Fokf6Tr+aMVqNUa7RDWuU9A2R4w1LQK0cx0BSH910kJjWDsuSAD+rCruaa7azX+ZlbBPBB5nYAXCJh/wd/T7GTsirkHYbzzcNOAPX1qBuNHWYJOcHgQdQNbrrFAHOkggewLX04NMxnVjVnf8caNVYOJAB1CeySoCPwGb/tg/Bus=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PRI+GIPo; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A09F01F000E9;
-	Wed, 20 May 2026 06:25:33 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=FwWQSHVNXEZZxqdzAhBnhbUNSWpzG6nVB2LaxGURYUvY8enJrMYEMznn68iPway9Ehb94xlKQuTrnsWEiC+a5ICWsNuD0Q1jkGr14Kty1zSx3yxjGL2y6E1Xo8zB9YhSFz0gZkRBW3O/GCAKOBrCgOSg9jVT0i6B3j/v/IFlLoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nWxCjECE; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 799341F000E9;
+	Wed, 20 May 2026 06:35:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779258334;
-	bh=/1uAQpAEAqN7Pf61eEDXBzLLkXXbY78D1+3lOWxzSsY=;
+	s=k20260515; t=1779258901;
+	bh=eCPYd6/O9YjWG81fw1PetIq8TV8ng3RBlo98avIypBM=;
 	h=Date:From:Subject:To:Cc:References:In-Reply-To;
-	b=PRI+GIPo+U/bqfsV6FVMJbC7aq+bukz1nEJonR6JIH+nmxOX6e3ukmPiVN82+28qe
-	 ViBnLViBGu8zpwwvQW/ghv2vM5a+R8jKImYznvQag10fHsiBns4MJdiU6etCJK9lQz
-	 9NJE6GPrGHqdleBN8Cjv+UXZkzfE/KFJ79KKeuUrDGs2EIFEbMWKL6j2uvubu05o1V
-	 EEOaxNYwqHtp/8Be9oib06KVY7IR6pSz61q/M615j996PgVwq8SzYI4HaJp+CB+zBg
-	 2kYGjOStqicGS8hCKe2IYx7OhPYiOH2RSYP8Zfrfq4Xbchz2MYSKJzOBCuiOQc+WHf
-	 c5ictepNP6dFA==
-Message-ID: <3c427dde-54c5-4a63-bcab-dd0079593ba1@kernel.org>
-Date: Wed, 20 May 2026 08:25:31 +0200
+	b=nWxCjECESXqC8Ivso2LmY0ltMZcLDKE1zj6SpVDnbpAFFjV9sT3U9zOhzrNJFgZLw
+	 IdgQyss4hxrnpLCmVGqdtEyw8yViBigzU0C9cUt/Qidc9TR7M7Tcjc1Y322L6wMoiV
+	 BXaim1lE2GQMjgpolzHr2alp6oQ4LuM9kze5el82Bf0feVbGaQ3ilmw19+cwdwq3uP
+	 6zsV4eeGzPwtiL11vD87MSK2LKoRGvXh1euA29Z107wpI+HOiiD2c0MrGXeckJFlCn
+	 SgzfhmHNToQMAL9BsE8UeVBIVPbujc//HUZX+rp9gC0qVYrcUO4ZgIUQO5eZ+rA3ky
+	 a/As8rFV14S/w==
+Message-ID: <936ca84b-3c4f-4415-8389-7d065cf18feb@kernel.org>
+Date: Wed, 20 May 2026 08:34:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -54,14 +54,14 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH] media: rtl2832_sdr: free DMA stream buffers before
- clearing udev on remove
+Subject: Re: [PATCH] media: rtl2832_sdr: release URBs and stream buffers on
+ start_streaming() failure
 To: Valery Borovsky <vebohr@gmail.com>, mchehab@kernel.org, crope@iki.fi,
  linux-media@vger.kernel.org
 Cc: stable@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260513055745.146998-1-vebohr@gmail.com>
+References: <20260513055733.146905-1-vebohr@gmail.com>
 Content-Language: en-US, nl
-In-Reply-To: <20260513055745.146998-1-vebohr@gmail.com>
+In-Reply-To: <20260513055733.146905-1-vebohr@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-2.16 / 15.00];
@@ -76,7 +76,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_COUNT_THREE(0.00)[4];
 	FREEMAIL_TO(0.00)[gmail.com,kernel.org,iki.fi,vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62203-lists,linux-media=lfdr.de,cisco];
+	TAGGED_FROM(0.00)[bounces-62204-lists,linux-media=lfdr.de,cisco];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
@@ -90,34 +90,37 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 3970A5881F2
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,gitlab.freedesktop.org:url]
+X-Rspamd-Queue-Id: 712BE588441
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 On 13/05/2026 07:57, Valery Borovsky wrote:
-> rtl2832_sdr_remove() runs on USB disconnect and immediately clears
-> dev->udev to NULL before any pending streaming teardown can run. When
-> the user-space application later closes its file descriptor, vb2 calls
-> rtl2832_sdr_stop_streaming() which in turn calls
-> rtl2832_sdr_free_stream_bufs(). That helper releases each coherent
-> buffer with:
+> rtl2832_sdr_start_streaming() calls rtl2832_sdr_alloc_stream_bufs(),
+> rtl2832_sdr_alloc_urbs() and rtl2832_sdr_submit_urbs() in sequence and
+> shares a single err: label that only unlocks the mutex and returns.
+> When alloc_urbs() succeeds but submit_urbs() fails, or when alloc_urbs()
+> itself returns -ENOMEM after alloc_stream_bufs() has already succeeded,
+> the URBs and/or the coherent DMA stream buffers stay allocated while
+> streaming reports failure to vb2. Two latent defects follow on the next
+> VIDIOC_STREAMON:
 > 
->     usb_free_coherent(dev->udev, dev->buf_size,
->                       dev->buf_list[dev->buf_num],
->                       dev->dma_addr[dev->buf_num]);
+> 1) rtl2832_sdr_alloc_stream_bufs() unconditionally resets dev->buf_num
+>    to 0 and overwrites dev->buf_list[]/dev->dma_addr[], permanently
+>    leaking the coherent DMA memory allocated by the previous attempt.
 > 
-> usb_free_coherent() returns immediately when its dev argument is NULL,
-> so every DMA stream buffer that was live at disconnect is silently
-> leaked. The URBs allocated in rtl2832_sdr_alloc_urbs() outlive the
-> device for the same reason.
+> 2) rtl2832_sdr_alloc_urbs() never resets dev->urbs_initialized and only
+>    increments it. After a second successful pass urbs_initialized can
+>    exceed MAX_BULK_BUFS, so the subsequent rtl2832_sdr_free_urbs() walks
+>    from urbs_initialized - 1 down to 0 and reads past the end of
+>    dev->urb_list[], passing garbage pointers to usb_free_urb().
 > 
-> Tear down the streaming state in rtl2832_sdr_remove() while dev->udev
-> is still valid: call rtl2832_sdr_kill_urbs(), rtl2832_sdr_free_urbs()
-> and rtl2832_sdr_free_stream_bufs() before zeroing dev->udev. The
-> helpers are idempotent (they clear urbs_submitted, urbs_initialized
-> and the URB_BUF flag), so the subsequent stop_streaming() path from
-> the vb2 release sequence becomes a safe no-op.
+> Mirror the teardown that stop_streaming() already performs: on the error
+> path call rtl2832_sdr_free_urbs() and rtl2832_sdr_free_stream_bufs()
+> before unlocking. Both helpers are idempotent (free_urbs kills and zeros
+> urbs_initialized; free_stream_bufs is gated on URB_BUF and clears the
+> buf_num counter), so partial-failure paths and the no-allocation paths
+> remain safe.
 > 
 > Issue identified by automated review of the INV-003 series at
 > https://sashiko.dev/
@@ -126,39 +129,32 @@ On 13/05/2026 07:57, Valery Borovsky wrote:
 > Cc: stable@vger.kernel.org
 > Signed-off-by: Valery Borovsky <vebohr@gmail.com>
 > ---
->  drivers/media/dvb-frontends/rtl2832_sdr.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  drivers/media/dvb-frontends/rtl2832_sdr.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
 > diff --git a/drivers/media/dvb-frontends/rtl2832_sdr.c b/drivers/media/dvb-frontends/rtl2832_sdr.c
-> index 422d1a7b5456..817d91faa598 100644
+> index 422d1a7b5456..efcef1317cf9 100644
 > --- a/drivers/media/dvb-frontends/rtl2832_sdr.c
 > +++ b/drivers/media/dvb-frontends/rtl2832_sdr.c
-> @@ -1470,6 +1470,14 @@ static void rtl2832_sdr_remove(struct platform_device *pdev)
+> @@ -900,7 +900,13 @@ static int rtl2832_sdr_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	if (ret)
+>  		goto err;
 >  
->  	mutex_lock(&dev->vb_queue_lock);
->  	mutex_lock(&dev->v4l2_lock);
-> +	/*
-> +	 * Release URBs and coherent DMA stream buffers while dev->udev
-> +	 * is still valid; once it is cleared, usb_free_coherent() silently
-> +	 * returns and any later stop_streaming() leaks the DMA memory.
-> +	 */
-> +	rtl2832_sdr_kill_urbs(dev);
+> +	mutex_unlock(&dev->v4l2_lock);
+> +
+> +	return 0;
+> +
+>  err:
 > +	rtl2832_sdr_free_urbs(dev);
 > +	rtl2832_sdr_free_stream_bufs(dev);
->  	/* No need to keep the urbs around after disconnection */
->  	dev->udev = NULL;
->  	v4l2_device_disconnect(&dev->v4l2_dev);
+>  	mutex_unlock(&dev->v4l2_lock);
+>  
+>  	return ret;
 
-This isn't the right solution.
+This patch no longer applies to the next branch of
+https://gitlab.freedesktop.org/linux-media/media-committers/
 
-What needs to happen is that the video_unregister_device(&dev->vdev);
-calls is replaced by vb2_video_unregister_device(&dev->vdev); and that
-that line is moved up to before dev->udev = NULL.
-
-vb2_video_unregister_device ensures that all streaming stops at once,
-so it calls stop_streaming which will free all streaming resources.
-
-You were on the right track, but it's not quite the right solution.
+Please rebase and repost.
 
 Regards,
 
