@@ -1,68 +1,68 @@
-Return-Path: <linux-media+bounces-62465-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62466-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CMZnOGL8DmoSDwYAu9opvQ
-	(envelope-from <linux-media+bounces-62465-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 14:36:50 +0200
+	id wIRbD+D8DmoSDwYAu9opvQ
+	(envelope-from <linux-media+bounces-62466-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 14:38:56 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C665A4EB7
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 14:36:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE4945A4F03
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 14:38:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 91C90309E1BF
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 12:28:43 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 4C8F9315135B
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 12:30:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9B2C3C9EE0;
-	Thu, 21 May 2026 12:28:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC95D3CE0A2;
+	Thu, 21 May 2026 12:30:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ed4Z80cl"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="hPs+LI9t"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010002.outbound.protection.outlook.com [40.93.198.2])
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011000.outbound.protection.outlook.com [40.93.194.0])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918653D1A83;
-	Thu, 21 May 2026 12:28:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783473D4107;
+	Thu, 21 May 2026 12:30:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.0
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779366508; cv=fail; b=s+S9mtkAxLS9UzP5Oxn2qv3yf6feLa8xr/CV6vhns6Tu5aReD+706CmtgP14SZMPTqyDGckMMJB45RGLsM+tn4GBVDe+nYBOenwf8MoaCZIH46YKnv1Bu/F9rcXOAPARbjzIsLC9+5Qd5h9pAsTcTjZlhxcI7UfqRtIM9O32tRU=
+	t=1779366636; cv=fail; b=qXqziADhbEz65sAUBJblQw9P7qL5JcuxI/DMDOR0ZTcVULtfy3MTPttxn8TJdx2TMMMVnVpHe8lp6ho3OOrqRLW+wEDH6wUA1LtfzAgqb66c2mJ0mp3Q5+5Ta/lRlhOlFLxUcDqQhmtpZkrT6HgNANaV+61IX6ttPEcgAjxKNFU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779366508; c=relaxed/simple;
-	bh=qzbLutj0IWydVatkLgnZtki7KUWFYp3FfJ6iwyB4IwM=;
+	s=arc-20240116; t=1779366636; c=relaxed/simple;
+	bh=IGJeQg/0IzGtIJqUoAExl9TYW+zCcp4OaJSwWc4UmVQ=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=j9io16k88nwh3/o9x0idLsmzHOlsvHqGCt2fz/rrsLZlCWqRdMoZVMoj32H/phP+tXb93BV+T24DqLSMGtA3YgEAvXkBK5EvdmKJTnMFHlqe9XeQrmJwkB9/8Ej2672eekSXOuBl1nrDgK8qzr4EPlSSppGDcDPp6xf7a7uCX/U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ed4Z80cl; arc=fail smtp.client-ip=40.93.198.2
+	 Content-Type:MIME-Version; b=GgFAzrih2M0s4f3GYJX6o6nFYidFZHA1GoUDvX9ryKrUZE8xJyMBkPbNjnvyUTU8vR1QdYVzD0ZsVBD1d+8dwNAu7H/InwPnHVbLcGdBfoRYh+ti6NzmiS3UwRt5Q1GIa/SOiDy7KcA0NJ9yxJKHNlv9jC0mwZrn9xHf3GIGJ1Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=hPs+LI9t; arc=fail smtp.client-ip=40.93.194.0
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dhW/jRE3sh0w1M+2Qfsha97IR38fo+xWylxgYH+L3Q5UKMVqo5CFnuQSvufRJ9iZevbnB0UcVkN5rRx8+85omm07uY0cPSIj4xg7VFEq8blUUXfo0l2KS4GZfB9mCUYJZugZpykJ89t4uEY3ZxcVPQm8PbzHwVn0xgIi4Cx+ziRYJNgsgJDdZxol8JiGp0MGC+FpFwKPjRROoUJK7f2jwMQF25yMtYetPpn3XTGAcTKo4Y6/YlQLpLffWdm1ELZQvKpOZS04p8FNRm2WMEi8GrqGxaVBRnf9/xlv4pLNaEZeWxAUj1UFyiYjwTuKuytk5Tp9Cb1e9USBncKWAq8s7w==
+ b=Ax3miZOmgBILrGdhVk4AmeluNh+gD7DGHRYQQQqIyMRRcHvniYfYeZnFvykP2ofyG7UYFPy4nyWiX+M273JFlpFZohRu2466u8UhkNbHcxwC2cDU/+WYTojlPXGAEHVim2IA2fP5Z7jBX0moJRPO0NzjF45zRecQDzY89nvkImiDPplpS3xOALK7axKmk619MnedU7m3WLNoNN8kArjjSNno5Dw1FlyOYTQcRIQoiW04kuVa6spobq5fxrxrZalpu9m3WPY/CcgO/PLHmobmRdksg7Ve+vfVq4dT7UjPP06NQkqNEi7UdaZtmxgYuKdBf+rtld0L+KMZ0dSxBitDzQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JQ3P1JU7gPxNE6tmfvhoojCYlaX8q1B127RCLIlF4XU=;
- b=jMeK1RJqABPN2utw0guodp8q0oHXpG/BdSzXqa3bDhWsQo7Kp/AWzUv3SNbNo7+Xty56x7wcq7KJ4WhmUqcKw8MF11CTTE5vKJzgmqPVfZcpk8r1uwY9QHDQtVVd9DyqW90/lqohLwecuy/5Jy4pwmA/WdcCZXoNKGgbr+MF8cX7FHKxLmsjZ6uq7pTwj56Zb5gf3W7IHCzyAo67eEkId1AyRgVnVcPJSgunISK3bdVCM8FNnDGzvcy9xTvuasSjH11fBgewdFMD5lSgH8IXJi7i6b8XE38BGXUVxIEe3KMN3TzNIQOj1rgwyEMjP8raxFWjuu1KTnb1dVnEP90vtw==
+ bh=oLvXFcH5KavKgiiI0TyEeeIOpVLMjvyPhQ4iH2prz+U=;
+ b=n3I4LPtAPgUrgWpHjy+aTJdcZdOcvGxWbh6f9KDGw+cqy5KAGeqVvgvcrqpv+AdFaG1/Q0B1dZRNPS6g6QWIioyasp2f95Z4bQTh6nz5Qpa/rcfvVJUsvfG5HzfrIcbLKwuAGADYgzuMMqLWED6lgLHUMgTeBd0W3RLC61yqLXzYQDQDjnoTHGA0mTAjBu3sel/94cTRi9jBdQMZFYrROg7GRnd3L/D8KPeItiXacyFZ58ZL69EjmfXvgZV2Tb7gqt1IdbRHwSv5ZZPb5DzQz2sz9zBvW3IVoAH/mndzH+AkLV+EfrpiRw4zKTHkqElgRRrYpf6q6zM0XB+RIzbaFg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JQ3P1JU7gPxNE6tmfvhoojCYlaX8q1B127RCLIlF4XU=;
- b=ed4Z80cl2oCXKRYW4MZFRrsUcsp4wrzpuC6Z3GX5a7mTesiyx1DCKCbTOzVLRx8GqulWx6tO5zuIKbNMr5vUw9Bt0xvObD8gexzuLzA1lXnul5b5K39xfNr72vbZ7y5xTrBpr0B7MkGS+tHzjXLK5v8fI5aESX/K6Z4yXlQvX6o=
+ bh=oLvXFcH5KavKgiiI0TyEeeIOpVLMjvyPhQ4iH2prz+U=;
+ b=hPs+LI9tja58GfVLAdm7VmIvuH4KGYXG1mLM/bbG2BrpuZk6j3FYnX1J2jLX6q0+fLFHMQtbTYe6UPgMpHkiJBEr7FukAY4VdIo6uVDPBVcIOGlL5vruFcFNg89GAEZ10RXqOhWnmAjHeF1i6DyE01rloNFC48Pdz4+TtfTIuU4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA3PR12MB8811.namprd12.prod.outlook.com (2603:10b6:806:312::18) with
+ by SA1PR12MB8843.namprd12.prod.outlook.com (2603:10b6:806:379::5) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.14; Thu, 21 May
- 2026 12:28:22 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.17; Thu, 21 May
+ 2026 12:30:25 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0025.022; Thu, 21 May 2026
- 12:28:21 +0000
-Message-ID: <7b662fcd-3bcd-40a2-b014-d9ce36f6425b@amd.com>
-Date: Thu, 21 May 2026 14:28:02 +0200
+ 12:30:25 +0000
+Message-ID: <bbcb0051-7969-45a5-847f-24e1c43f83dc@amd.com>
+Date: Thu, 21 May 2026 14:30:18 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] dma-buf: add DMA_BUF_IOCTL_DERIVE for
+Subject: Re: [PATCH 1/2] dma-buf: add DMA_BUF_IOCTL_DERIVE for
  reduced-permission aliases
 To: Albert Esteve <aesteve@redhat.com>, Sumit Semwal
  <sumit.semwal@linaro.org>,
@@ -73,13 +73,14 @@ Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
  linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
  linux-kselftest@vger.kernel.org, mripard@kernel.org
 References: <20260521-dmabuf-limit-access-v1-0-26c01e27365a@redhat.com>
+ <20260521-dmabuf-limit-access-v1-1-26c01e27365a@redhat.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260521-dmabuf-limit-access-v1-0-26c01e27365a@redhat.com>
+In-Reply-To: <20260521-dmabuf-limit-access-v1-1-26c01e27365a@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0410.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:d0::15) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR4P281CA0399.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:cf::8) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -88,68 +89,68 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA3PR12MB8811:EE_
-X-MS-Office365-Filtering-Correlation-Id: 87abbc02-3fe4-4fac-de82-08deb7347255
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB8843:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6e013e7c-e50f-41bc-7a01-08deb734bbb9
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|18002099003|22082099003|56012099003|3023799007|11063799006|6133799003;
+	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|56012099003|18002099003|22082099003|4143699003|3023799007|6133799003|11063799006;
 X-Microsoft-Antispam-Message-Info:
-	0KiGsXu49oQkCLBhvUa0sm2/4+TlhVdev+yzycX4xY014ZqXzrNdIxPpxzwIODICBQcgaXE3SG6eMNMAtTXSSkKDuRDQdDaxoxVyjENrxlktKrEBr4x+5O2xnE2YismJ71MpcvFIjyrCSrEKE+MIY+XlS2X4z9SHbn0lfSHsCVHdX5s4lZuFg70ukxq0Ig7T8t9ErfMu0EK7PxxQ/p5y9iUNUSzc9SDyaliinyDONrO58kQ8idJXrhMx0BBHQW2OgUtsfGbXh7IyAcfOEc6PZPUx6SjcxiO+/MF/b1zNsOCfaHIlkokl02S++GzH6fScu3j7pX/UEKw0oBPbO1FwhlM/1xoE0eK7QBCXmu3xguE894cI35MDnIMXDWt1Mtmv74SNTATFgdP+gtnExkdFLio+aMRq0wseHjjYr5vwCwCPkQBgPnxYhhcMsCdnGTR0C/leH5UMhZYOeHpe+0qnkl25CFSh8e/3yC+1xWDRS4zJdniHsd1AtCa8A6y+ZdioTucS9MRi4zig+I2HGngC/FXBHemYiXVaYzFelrVI0oOvSa4zwf2Z6M5b/vOC2GIt1JwbBjBjG1jM4cDUhs2teKZnBNhtZGwPHqgRy1A2N69Rfr3qKNgxcKR0i/IgtYZsmiQQxMyzijBOFSqhXDrGD+RUK9JT+I9t78G2766n+bM3KNwr2hCTN3fpI4/Bui6u
+	8MBmF//3CuLnS8ZMWCVazGwRW3qTy2D4wNzeIg8Ytr5crbvU246wRmO2KSmkxC298troxHve7ngSl5tFm3+aOyU/iM04Qzi2G6M7uwlJN7I5M0hiq+XkTg2kP4YV3JKUSch8ha8BY7B1BT+cL8EttSc0kfFXPewAhHUiryPiMiP7eKMJUaEnSOjc4MWRSMvfCo9edWEKI9C1gO8eR/XoxowCvmpaB61JsyRvBNtNxDt3STcxls/Ee0myToXet9JEsGd1W7cq0ntpWqrel/aX1GC4xLCSLnCUtdukSF6l0jUmtbLRHA9mLrph2QUogB6NVcu/CpM07Ysh2MlWLsnZ4rxooRFyUBp0MoQwuuH8X8HakUvXg8tc1p3k/Ae8u7iRNTtAsm2xW/GmBwLvvfB/vRl4BGHdQH5roDmrglVCzdeNr2X/pMvyZAsm8YvDoiABejeHTixBQ1gaw22LqRsYeRRcnPIWIj6J1vPGkUFjSal83Xjetp12CwXZTrZvu0Wx6CT7f5EGcvesIft+2EdHFkGkRLHPE1sA1WawgaU3Zl0dbKBFrZvYwyEdJM9FdcjkzJhQs0kRhXbh81fKgfFsrxW6JCFUezlo3mOQd4OY0Dx7QPj8v/VUt8oG1Uuev5USRBe62cROx1K4tvh50fY8pRfUB61CIsy6BAeVavAtYgBr+BN2JW4dJl5sN2kmSctt
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(18002099003)(22082099003)(56012099003)(3023799007)(11063799006)(6133799003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(56012099003)(18002099003)(22082099003)(4143699003)(3023799007)(6133799003)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bHdYMkFoQkZ0MStqQThuc3Z2RFNDYjJTSVoxaEhQZm5kV21JT2c5YlpXdExo?=
- =?utf-8?B?cGdPOG01SDl3MmhFNm5BaFFkVE51QTFOUmF5Q1VsS2Vra0RxUTIwUVJPRnY5?=
- =?utf-8?B?R2c1dnU4RUZ0cktudXVweElTbk41bnQzR3ozOE45aGhKYUhOZ0drUTJubXVM?=
- =?utf-8?B?SmtEUGRTUkpOWDBONE9QZjM1UHBDMFZadWtqYWpNOWNoMEU3aitidS9ST3VB?=
- =?utf-8?B?bnRBcERxaUxQMnp1a0lsSURubjBEVWs5N3VqM0VUa0NOZ0pJeDFQZ2EzYjgr?=
- =?utf-8?B?TUJ4T3AvSUdMODZrQTJlWmFhd0lmZzI0aXpGMDViVyt6bzAxQ1Zmc3FxWkVO?=
- =?utf-8?B?RkNURGE3cmNNVDJnREo2VzNDVGRJTSs5bWI1dU8wVnpWNVZIcmgwSEZlZitQ?=
- =?utf-8?B?bGFBYUxaV0loamk4c0xram9STlNVSXVxNVBUNWM2Y1R6SmltUGRTai9wVGJ0?=
- =?utf-8?B?b0hIWHZyRlBtb0VjeVdsdFA2L0piUDlNTmUxM3FhaGFMaEVpMEFXRVZUSW00?=
- =?utf-8?B?VTVvTlBjUjNieVZrcDEzUW9jS200eENYTHhPT0ZiME9kVUpGZ3VpVDVpbnN4?=
- =?utf-8?B?YWRDZHRyTW41L3BWMzFES3oyeXQ4aTUyYWJGaXd6SkpWb056U20xQk9ydzl4?=
- =?utf-8?B?MktOU2h6dFVKeDVTUFpXVUwyWlVzb0ZwNVlXUTByRmtFS2pDeDF6TThVVGs1?=
- =?utf-8?B?KzhJMFRLZEVDQTd6MDgvSWg3S1lvb3M1Ni95QjZKSERYZUg2dGVJMmxFZ25j?=
- =?utf-8?B?dE0wSk4yVTkvOXNvUzJEZUdZSFd2WXhpQUkvN0Vidnh1eFhYNXhDWXgyaTkw?=
- =?utf-8?B?K21CeXh5SWF3Z2hqSFVzMDhwOWxyVlpjU01CaXcwbVc0VytUVEppaDk4dURV?=
- =?utf-8?B?WDcwYVVtMFhmaUk4YXk4K3FMUE1jMFMxQXVEOGlDU1M1clJHZ1o5UHI1T3VR?=
- =?utf-8?B?WTEyTXFWMkYvbFhHaDhobVNGbDNETy9oaUdxc2Z0RzN6ZzE5NTJqRjBGSExB?=
- =?utf-8?B?OUFzYzhlQStUdXVvc0M1L096cGJ1T2RUdk1rbnIrSmd5T0hpK1I1RTAwZVd6?=
- =?utf-8?B?b2VjZkFIOFZXNEIxZS96WXFhM1YyZlhvY0NIb2JvV3piS01yYjZKZDJWR0l2?=
- =?utf-8?B?dlh4bVA4YVhNVHlBSTJNWmtoYXp5YitTaWQrRCtkb2RYZE9XUW93by9XVFBR?=
- =?utf-8?B?YVovSUdIVFhUZytuWmZEMllsNVgvWmV6ZkozdEs1VkY1Q2NpN2NvZlU5ZGdQ?=
- =?utf-8?B?VFdFY2JseGdsMytCZGo0LzlnRmNrZWdyUWhMWjVqWTZvZzk0RG5YY2o1dEtY?=
- =?utf-8?B?NElsRDI5alBJZEkvNHlPeDVMaUsxcmhNMXZSTzR1cWtPeWVGU3hQUWV5YnJO?=
- =?utf-8?B?U3ZlVW9QN0tJWjczTFVrc3hDdXJlc29DNkUrdmZJUzYyaDgzbTB6cG5lZWpo?=
- =?utf-8?B?WVBKMWRUUE5RME1ORTJyQVlCZVZDZEYyOEFZYW8yQnYrVHNUTEx0TnpydTQ2?=
- =?utf-8?B?NnRHcEdhanlUdklTa2Z0NzZSNzhGM0lma2ptM013S3lEQWNUdVJaYmZjWDl1?=
- =?utf-8?B?aktHWEJuMDQ1TUM1aXZQcjJFU1QxMVlKTkIwWmo1QmpFTjk1clUySVRCV0FB?=
- =?utf-8?B?TDdGQTVkRnBodi9oRFJId2tvWk53Y1BNb1VucFZlcFZLWWhHMUsvckMyd1pE?=
- =?utf-8?B?VkZicHhkeEZrd0NiTmtPSFRuUTdHNmNZZ3lHeW8yenlsWXNETWVLc1dQSWpF?=
- =?utf-8?B?WWsxQkdUSVJadjR2Rm84SU1hOEI5d09LWlUrdVZ5THVDN1hsWVR1NUZIYWdB?=
- =?utf-8?B?TXpMb25jOVBaRndpeTRZSXBvZXdvY2VaQkE5VmZCK0lranVwN2tpM0ptbWpt?=
- =?utf-8?B?T2F3aGJUTnh2bEFhNVU5enVFYk9LcGdqQ1RUK3dPVjBWdVJ4REh0VTlxUHYw?=
- =?utf-8?B?Q1hkVXBOVzBrOXpDUmtETXhlMWlxdUdUdWNCQTJvL2EwakdUNm9JUlZua3NZ?=
- =?utf-8?B?SUlCOFdnaTVLMFVaNEtFSmpmNXAvVFkxbTZIREZsa0sxL1R2RkdveGM1RENJ?=
- =?utf-8?B?dHh6eHNrVkVXb0VmWXlWMldLK01OMVdKNWJkMUFYY3M1My9GdVBzT2FNMGVE?=
- =?utf-8?B?dHpSUkUzQWxaU1UzNVhuMS9LUzJPTzhNanVjeDE1bzJhWkJuUHJqTkNUTjBB?=
- =?utf-8?B?RUdiKy85WXh0OWNlTEZSdmEvNTR0V1NxbW1uQUVKQWNncGVSd0V1Wk5HVytr?=
- =?utf-8?B?Tm11QUpiYTRWVzNiM1VqZG9WZ1pKSHRKekhqWU9qbzN6eWFFaVV2d2hIYllP?=
- =?utf-8?Q?OACEhQB8WzVDBhjMdT?=
+	=?utf-8?B?b0ZtTEtFZmtCVXpIdEtndzJ1SUpFMVB3cWN6WnA5VnRUZVJ5bERSVmo3b2k4?=
+ =?utf-8?B?Qk4vdXZqYTE1Y1pkOGdJYkUrcXhZZzBMaWVKanhzSy9sdzEzc1hpYVcyc2Jx?=
+ =?utf-8?B?bmlBL2hPR0Fod3BrMUF0THFYRUpTb20yS05hL1hvSlRQcjMyK3NuSHRiME8w?=
+ =?utf-8?B?Sk16SXRZWi9scGRaNzh6cytvdlIrRm1nUWlOeC9PM0xpOUI5cXI2WFY5aEZx?=
+ =?utf-8?B?VUMwK05kS3lsL2lqekdBV3VPVTFaM1lWRms3ZjN1WjVteHVwNGRPenZ0SGYv?=
+ =?utf-8?B?dlJZQ0tveEhaQ1o1TXdpMVNKaU9NeGVzbWFWMUtOdzh1THNidmlIUjFXOVJy?=
+ =?utf-8?B?c2c3U3piYW1OS2FleURYMzZhMWprOHgwRjJyRk1MS0pyN3hpc3h0RFluSG5J?=
+ =?utf-8?B?R0hxTURyZzIrbC9nK0w1elh6dlI2ajA2NkUvM0YzZ3phOEZvZWFEL3RaNTNV?=
+ =?utf-8?B?WWtrcE1pSC9saHVWNnoxWVdmWFN1bWh3M0N5UWpjVzVXVTdYLzljR2lDNDRv?=
+ =?utf-8?B?WjhqQTBvazJuM1BFNWhJL2dSMFdxRnNwUVgrMWNzS3VUVEp0bFVjSjdCK2FB?=
+ =?utf-8?B?TlA4NnZrNGtRVHBJS2J2UEE5MDJrTzVlN3F3aTJLWWlyV05adkJyaS9XYXFq?=
+ =?utf-8?B?WStPVkFzcUkrTW9Zb1NPam5YU1dCaTlGYjFzbzgxRjJGSFUzZmw5TjNFZHpp?=
+ =?utf-8?B?UzNtbi9kb3k4RXRhUWkyc1VvT3hRT3NVTDFNZi9INzFhQTJCQ1I3b0hSYTBO?=
+ =?utf-8?B?alh0YklYS2l5Q3U0b2lXMDRrWEZmOTNLNTArK1VIZ0xEbFZWaExwVFBmNTNF?=
+ =?utf-8?B?ZHdKZHhPNkJ3YzZFREJqQ09VOUxxOUtWVFBOeWRGazY0ckxIYmdTSzR2TTFU?=
+ =?utf-8?B?OHFMbEFvZCt0eHpVTXh2WlNSaEcyL2Nya2VUWktkR05qZi9NVXdWam9jQW9p?=
+ =?utf-8?B?ZkUzTFBkU2NLNlVHQU9yUlJ0ZFo4NWU3b1Q0Z3VlcFE1TUFXemNJTndkT0tZ?=
+ =?utf-8?B?bnRNNXAyMUcrSW5ZbjRNelNVSytrNDBCRXg2RG5uQXkvOG9QUzRxRG43aTlu?=
+ =?utf-8?B?SEJHb1ZqemxhNDdDZjZWL1hsR2hGVHRMalV1WnJIYS9Wbnh6ek1UNkFUd1B5?=
+ =?utf-8?B?MjlHOVdxR3VyUklmRkFZVkIwZUVFaTVadHFpS21DQ1p1WGZjaklIek44U3dW?=
+ =?utf-8?B?NWlIdms4WWRVQnhYeWdmN0sybXZONGFGeUZnS3NnODMwT2FCMGE4VEFDTnBG?=
+ =?utf-8?B?N1Y2UlR4cmFPTno4M21JekhjdnlKMEg0Rmh4WVlNMjQxbmtIQzArTk9ib3RY?=
+ =?utf-8?B?SzRwaTlEVmFjbm5nZEtxL1NnYW1zUThnZmhNMGM3TW9PZmswNC9id3AvQjg2?=
+ =?utf-8?B?M3R4ZVExZUM0cWdidXhDMVlDd2xncUJBYTNQb09TQlBoZGhDc2ZYZzJBbW85?=
+ =?utf-8?B?RjFZRytoRm5xU2Z2WXhMNUd5cWNjNXJQRUFMWGZCRXF3UEhsRkd6VUR2NTdJ?=
+ =?utf-8?B?dzE3OFNPQ2FNblhmRUxFQm5CaUFpZUw2UDNudnpGZEt3U2dPWWFhOE52UG1X?=
+ =?utf-8?B?dEE1R3hqNmN6U3ErQmlUaEg2Ni9XQ2pmdDBxTWZISnJrUVdoaWJ6NWduVVgz?=
+ =?utf-8?B?WDlzcHdlVHdGdjQvYUJpcUVDR1ZTU2ZGaXhZeU0rN1p4Z3lQZUtsd3JqMCto?=
+ =?utf-8?B?bDBBWHpQeGhZc3JobTd3bE54eVdQL0pzUnEwQTdXTC9PNDRrRFBzRlg4dk13?=
+ =?utf-8?B?UkgrN0tWRTQ0UWJ1ZGRhMXcwejRKYms5cUV6QU40Q1pTcDBGSFpiWHo1V2E5?=
+ =?utf-8?B?VFVtS1VpTk1WRGw5U0dtYWJScWo2bjEzaTMvUFUybkphVmFJYkhPTnpMVlNX?=
+ =?utf-8?B?V1MrVFJqNjBrQnN3aFcvWGFGNEFWZlM2WGVmYXNiWlBGdXpTTUtFRHJZZDlh?=
+ =?utf-8?B?NGVDWUpWVTVocytYSmVybTAyWS9jeHl1SjlWcVBvY1ljMHRUWi9FaDRwWUlE?=
+ =?utf-8?B?elJZZTlMenRHYU01blQ1K2UxaHo4a1BkSnNlTzMvYVlncXJCc0p1OUlRVWNN?=
+ =?utf-8?B?bzNUZnNqcG1qTllTbTIxMDFLQlYvemlTQTBZNjVNREt2Z0dsQzZVbGdUMW1F?=
+ =?utf-8?B?UEJhUW16UWFTZ0NoM0xuSEFXMmJDTStJWTk1ZWZjczJ0bXhQQ1VBM2ZkNzcz?=
+ =?utf-8?B?WXZhR0d2aEo0NnlJWlZFWFo5QW4wQmpUUG1IOHg2NGtCb29lN3dRVnVDbUdE?=
+ =?utf-8?B?Mko3aXZONjFDSEF3YUNXWUNqM1R2QTJVOGxaTml0MDhRUEFVRkVKd0R4SDRM?=
+ =?utf-8?Q?leCyzGrqBmUwzXT11v?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 87abbc02-3fe4-4fac-de82-08deb7347255
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e013e7c-e50f-41bc-7a01-08deb734bbb9
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2026 12:28:21.8877
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2026 12:30:25.0485
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UbypUtKrJKweMp9k0C+qqEue3j2vyYzHyW6hNHrxf969E8NigDVkRDkzOM7HivII
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB8811
+X-MS-Exchange-CrossTenant-UserPrincipalName: fHykI5Ua+N0R7HLMRhokJTjWaOSgcVJmyQ5hBeR8AKv6+GXHXih8Aywj3Vz4usD4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8843
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
@@ -158,7 +159,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62465-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62466-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
@@ -175,101 +176,199 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,amd.com:mid,amd.com:dkim]
-X-Rspamd-Queue-Id: 61C665A4EB7
+X-Rspamd-Queue-Id: BE4945A4F03
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 On 5/21/26 11:10, Albert Esteve wrote:
-> When sharing a dma-buf between components of different trust levels, the
-> allocator may need to hand a consumer a read-only view of a buffer it
-> holds with read-write access. An example is a camera pipeline where the
-> capture component writes frames into a buffer and needs to pass a
-> read-only handle to a downstream processing component that should not be
-> able to modify the data.
+> When sharing a dma-buf between components of different trust levels,
+> the allocator may need to hand out a read-only view of a buffer it
+> holds with read-write access. Currently there is no mechanism to do
+> this: the file flags set at allocation time are fixed for the
+> lifetime of the dma-buf, and dup(2) and dup3(2) cannot change the
+> access mode of the new fd.
 > 
-> However, no such mechanism exists today. The access mode of a dma-buf
-> file descriptor is fixed at export time, and the standard POSIX
-> interfaces for duplicating or changing file descriptors (i.e., dup(2),
-> dup3(2), and fcntl(F_SETFL)) cannot alter the read/write access mode of
-> the copy.
+> Add DMA_BUF_IOCTL_DERIVE, which takes a struct dma_buf_derive carrying
+> the desired access flags and returns a new file descriptor for the same
+> buffer with those flags applied. Permission escalation is rejected with
+> EACCES.
 > 
-> One natural candidate would be reopening via /proc/self/fd/<N> with
-> O_RDONLY, which works for regular files. For dma-buf this would fail
-> (that is, if we were to add a new handler for open f_op) with ENXIO
-> because the dmabuf pseudo-filesystem carries SB_NOUSER, which prevents
-> the VFS from opening its files through path-based resolution from
-> userspace.
+> The new fd aliases the same struct dma_buf, same dma_resv, same exporter
+> ops, same underlying memory. Importers that attach to either fd operate
+> on the same object and observe the same fence timeline.
+> 
+> To support multiple struct file instances sharing one struct dma_buf,
+> two small internal adjustments are required. First, move
+> __dma_buf_list_del() to dma_buf_release() so that list removal fires
+> exactly once when the dentry is destroyed. Second, update
+> dma_buf_file_release() to call dma_buf_put() only for the files that
+> are not primary dmabuf files, leaving the primary fd's refcount managed
+> by the normal dentry lifecycle.
 
-OH MY GOD! This is the like the sixth time I had to clarify that in the last few weeks, I'm really wondering where that is suddenly coming from.
 
-Creating the DMA-buf with O_RDONLY does *NOT* make the DMA-buf itself read only!
+> Finally, enforce the access restriction in dma_buf_mmap_internal():
+> a shared writable mapping (MAP_SHARED + PROT_WRITE) on a read-only fd
+> is rejected with -EACCES. Without this check, O_RDONLY on a dma-buf
+> fd would be cosmetic, as the VFS does not enforce f_mode for writable
+> mmap on anonymous inodes.
 
-That's a really common misconception. The flag only controls if mmap() can be done read/write or read-only to handle cache coherency issues.
-
-It is still perfectly possible for a device to write into a DMA-buf created with O_RDONLY with DMA!
-
-So long story short there is not such feature as a read only DMA-buf, and putting read-only pages into a DMA-buf and then expecting that nobody can write to them is an absolutely clear No-Go.
-
-If we would want to implement a read-only DMA-buf feature we would need to go over all the different DMA-buf importers in the kernel and add security checks.
+Clear NAK to that since that would break the existing uAPI.
 
 Regards,
 Christian.
 
-
-> 
-> Alternatively, exporting the buffer twice would produce two independent
-> dma_buf instances, which breaks fence synchronization.
-> 
-> Therefore we add a new DMA_BUF_IOCTL_DERIVE ioctl, which produces a new
-> file descriptor for an existing dma-buf with a caller-specified subset
-> of the original permissions:
-> 
-> ```
->   struct dma_buf_derive { __u32 flags; __s32 fd; };
-> 
->   struct dma_buf_derive req = { .flags = O_RDONLY | O_CLOEXEC };
->   ioctl(rw_fd, DMA_BUF_IOCTL_DERIVE, &req);
->   /* req.fd is now a read-only alias of the same buffer */
-> ```
-> 
-> Permission escalation is rejected with -EACCES. The new fd aliases the
-> same struct dma_buf as the original, same dma_resv, same exporter ops,
-> same underlying memory; so importers attaching to either fd see the same
-> fence timeline and operate on the same object. Access control for which
-> components may receive or pass on restricted descriptors can be layered on
-> top via SELinux file:read and file:write permissions.
-> 
-> A shared writable mapping (PROT_WRITE | MAP_SHARED) on the read-only fd is
-> rejected with -EACCES in dma_buf_mmap_internal().
-> 
-> Two small internal adjustments accompany the ioctl:
-> - __dma_buf_list_del() is moved to dma_buf_release() so it fires exactly
->   once on dentry destruction rather than on every file close.
-> - dma_buf_file_release() is updated to call dma_buf_put() only for
->   files that are not the primary dma-buf file.
-> 
-> This may not be the best approach, but after considering different
-> options and alternatives (as described above), we decided to raise the
-> discussion upstream. Thus, we welcome any alternative proposal or ideas.
-> 
-> The series is structured as:
-> - Patch 1 adds the new ioctl implementation.
-> - Patch 2 adds selftests covering the new ioctl.
 > 
 > Signed-off-by: Albert Esteve <aesteve@redhat.com>
 > ---
-> Albert Esteve (2):
->       dma-buf: add DMA_BUF_IOCTL_DERIVE for reduced-permission aliases
->       selftests: dma-buf: add DERIVE ioctl tests
+>  drivers/dma-buf/dma-buf.c    | 58 +++++++++++++++++++++++++++++++++++++++++++-
+>  include/uapi/linux/dma-buf.h | 28 +++++++++++++++++++++
+>  2 files changed, 85 insertions(+), 1 deletion(-)
 > 
->  drivers/dma-buf/dma-buf.c                          |  58 ++++++++++-
->  include/uapi/linux/dma-buf.h                       |  28 +++++
->  tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c | 114 ++++++++++++++++++++-
->  3 files changed, 198 insertions(+), 2 deletions(-)
-> ---
-> base-commit: ab5fce87a778cb780a05984a2ca448f2b41aafbf
-> change-id: 20260520-dmabuf-limit-access-73261353841a
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 71f37544a5c61..34a3872365730 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -180,6 +180,7 @@ static void dma_buf_release(struct dentry *dentry)
+>  	 */
+>  	BUG_ON(dmabuf->cb_in.active || dmabuf->cb_out.active);
+>  
+> +	__dma_buf_list_del(dmabuf);
+>  	dmabuf->ops->release(dmabuf);
+>  
+>  	if (dmabuf->resv == (struct dma_resv *)&dmabuf[1])
+> @@ -193,10 +194,13 @@ static void dma_buf_release(struct dentry *dentry)
+>  
+>  static int dma_buf_file_release(struct inode *inode, struct file *file)
+>  {
+> +	struct dma_buf *dmabuf = file->private_data;
+> +
+>  	if (!is_dma_buf_file(file))
+>  		return -EINVAL;
+>  
+> -	__dma_buf_list_del(file->private_data);
+> +	if (file != dmabuf->file)
+> +		dma_buf_put(dmabuf);
+>  
+>  	return 0;
+>  }
+> @@ -232,6 +236,11 @@ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+>  	if (!is_dma_buf_file(file))
+>  		return -EINVAL;
+>  
+> +	if ((vma->vm_flags & VM_WRITE) &&
+> +	    (vma->vm_flags & VM_SHARED) &&
+> +	    !(file->f_mode & FMODE_WRITE))
+> +		return -EACCES;
+> +
+>  	dmabuf = file->private_data;
+>  
+>  	/* check if buffer supports mmap */
+> @@ -537,6 +546,50 @@ static long dma_buf_import_sync_file(struct dma_buf *dmabuf,
+>  }
+>  #endif
+>  
+> +static const struct file_operations dma_buf_fops;
+> +
+> +static int dma_buf_ioctl_derive(struct dma_buf *dmabuf, struct file *file,
+> +				void __user *udata)
+> +{
+> +	struct dma_buf_derive params;
+> +	struct file *new_file;
+> +	int new_fd;
+> +
+> +	if (copy_from_user(&params, udata, sizeof(params)))
+> +		return -EFAULT;
+> +
+> +	if (params.flags & ~(O_ACCMODE | O_CLOEXEC))
+> +		return -EINVAL;
+> +
+> +	/* Escalating permissions is not allowed. */
+> +	if ((params.flags & O_ACCMODE) == O_RDWR &&
+> +	    !(file->f_mode & FMODE_WRITE))
+> +		return -EACCES;
+> +
+> +	new_file = alloc_file_clone(dmabuf->file, params.flags, &dma_buf_fops);
+> +	if (IS_ERR(new_file))
+> +		return PTR_ERR(new_file);
+> +
+> +	get_dma_buf(dmabuf);
+> +	new_file->private_data = dmabuf;
+> +
+> +	new_fd = get_unused_fd_flags(params.flags & O_CLOEXEC ? O_CLOEXEC : 0);
+> +	if (new_fd < 0) {
+> +		fput(new_file);
+> +		return new_fd;
+> +	}
+> +
+> +	params.fd = new_fd;
+> +	if (copy_to_user(udata, &params, sizeof(params))) {
+> +		put_unused_fd(new_fd);
+> +		fput(new_file);
+> +		return -EFAULT;
+> +	}
+> +
+> +	fd_install(new_fd, new_file);
+> +	return 0;
+> +}
+> +
+>  static long dma_buf_ioctl(struct file *file,
+>  			  unsigned int cmd, unsigned long arg)
+>  {
+> @@ -587,6 +640,9 @@ static long dma_buf_ioctl(struct file *file,
+>  		return dma_buf_import_sync_file(dmabuf, (const void __user *)arg);
+>  #endif
+>  
+> +	case DMA_BUF_IOCTL_DERIVE:
+> +		return dma_buf_ioctl_derive(dmabuf, file, (void __user *)arg);
+> +
+>  	default:
+>  		return -ENOTTY;
+>  	}
+> diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
+> index e827c9d20c5d3..d0cf616228e55 100644
+> --- a/include/uapi/linux/dma-buf.h
+> +++ b/include/uapi/linux/dma-buf.h
+> @@ -168,6 +168,33 @@ struct dma_buf_import_sync_file {
+>  	__s32 fd;
+>  };
+>  
+> +/**
+> + * struct dma_buf_derive - Obtain a dma-buf fd with reduced access permissions
+> + *
+> + * Userspace can perform a DMA_BUF_IOCTL_DERIVE to obtain a second file
+> + * descriptor for the same dma-buf with a subset of the calling fd's
+> + * permissions.  This allows a producer holding read-write access to hand a
+> + * read-only view to a less-privileged consumer without giving up its own
+> + * write access or allocating a separate buffer.
+> + *
+> + * Unlike first-export ioctls, the new fd is not a re-export. It shares the
+> + * same reservation object, exporter ops, and underlying memory as the
+> + * original.
+> + *
+> + * The requested permissions must not exceed those of the calling fd.
+> + */
+> +struct dma_buf_derive {
+> +	/**
+> +	 * @flags: Requested access flags.
+> +	 *
+> +	 * Accepts O_RDONLY or O_RDWR, optionally combined with O_CLOEXEC.
+> +	 * All other bits must be zero.
+> +	 */
+> +	__u32 flags;
+> +	/** @fd: Returned file descriptor with the requested permissions */
+> +	__s32 fd;
+> +};
+> +
+>  #define DMA_BUF_BASE		'b'
+>  #define DMA_BUF_IOCTL_SYNC	_IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
+>  
+> @@ -179,5 +206,6 @@ struct dma_buf_import_sync_file {
+>  #define DMA_BUF_SET_NAME_B	_IOW(DMA_BUF_BASE, 1, __u64)
+>  #define DMA_BUF_IOCTL_EXPORT_SYNC_FILE	_IOWR(DMA_BUF_BASE, 2, struct dma_buf_export_sync_file)
+>  #define DMA_BUF_IOCTL_IMPORT_SYNC_FILE	_IOW(DMA_BUF_BASE, 3, struct dma_buf_import_sync_file)
+> +#define DMA_BUF_IOCTL_DERIVE		_IOWR(DMA_BUF_BASE, 4, struct dma_buf_derive)
+>  
+>  #endif
 > 
-> Best regards,
 
 
