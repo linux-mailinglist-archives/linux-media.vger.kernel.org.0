@@ -1,174 +1,437 @@
-Return-Path: <linux-media+bounces-62532-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62533-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0CG+LPA8D2rQIAYAu9opvQ
-	(envelope-from <linux-media+bounces-62532-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 19:12:16 +0200
+	id 8HiRFMo1D2opHwYAu9opvQ
+	(envelope-from <linux-media+bounces-62533-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 18:41:46 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id B54B15A9F3F
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 19:12:15 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C03805A97A8
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 18:41:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 14316302FAF1
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 15:16:07 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9090734BFAB5
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 15:16:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31E0733F58E;
-	Thu, 21 May 2026 15:15:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WH2q71/J"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED6E0345CBD;
+	Thu, 21 May 2026 15:16:28 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802B5302149;
-	Thu, 21 May 2026 15:15:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873B333A71A
+	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 15:16:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779376555; cv=none; b=C7bhzutMgq26Odac+T5AGPaHBcWKLHARyfOovAhMRHNo15F92B5/14opDWz/EPqtK6/D3IxO4ofcWDxfO+BxOt/9+S4UyoyGS6EcTH3K8ZkDARuj595NQrqpMSxVgyZWFw/EjjfrCIisP/wMPSYt4+eyyykMBKlIZwhzPPkxdoQ=
+	t=1779376588; cv=none; b=Sr4gVaI42sQ1MG83SURxeTuohTgML2vH10HaeLR80d+mG372KjOZ32W6b7mpGHGGvfwQUM0WcxeipsuOgIBqnOo92PurZSwayHpvFHQ8MtEPVR8sIMl/fik4VoX2cHkgjpX1Iv71OUroCfS2OJzPwPZL8a9rJvKzXXXZtVdwxHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779376555; c=relaxed/simple;
-	bh=c6708tXft9gLhDUY1x+PmJB9Hj8ECYv5J+JeI7o7NyY=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=LhOGJg1odTQFEuuhw+02xGpbjBt0TL3zJKVoFzcX9g66GfEALgf8kOpFDmfjdtY4dIjSGgeozH53T0XpfH6evIc0d6t2O5iYbm35g8V4ScZ8F2zRPuCV4KP0P1YXY2XiByZhYF4nBni/O/1K5Hz2QamC8X3x8LyXx9Vrls+wPE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WH2q71/J; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EED471F00A3B;
-	Thu, 21 May 2026 15:15:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779376554;
-	bh=6+hPFg766OszpUSn1xTNsvl7vipNukyxXO874O2maWg=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject;
-	b=WH2q71/J6y0dFUjb7NBabK7U82iWvGQixkAmY0LxWgp3ltpqlgBBhXJD6QrjiWCvC
-	 WDicWNNAvjRQ5HZhFPtlEqzBdgCRJeunIr5v99a38F7faeQwSM7j6qrEABeVtQn76A
-	 aD04TSH7GhElThcrlErG3k+X8otgHzK836QoyPjDk6aWOnDTRGr4ePnTTMng4uw21/
-	 GW9JPDLS0wod1oo3RwrSdRgI8e83q/hFjpLftRNkmZBjsu8i1sBPSr2IexAQqomzsM
-	 nUhBuAhrJLZDE9v3Vgu/dYBHIU9vNwh9+HRY8WFKqT30AnEuf/8aEJ/SsB1Bg5Seky
-	 bDnXphfoTyTHw==
-Date: Thu, 21 May 2026 10:15:53 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1779376588; c=relaxed/simple;
+	bh=E5zvi9W0wGdONiJp5Lu8xXHdTNy0xkSadaGtmG4/Rjc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gLfTWlFaMNT/5ZkRJvCeoJlNER65YfAzWbZylLiE8gWQNiuORb2j/RCyFADD0iD5DwExr7YZFYrtY845hA/+ITIewDyr4Cm4KVTqznLxYHxUGcdrlf3kxtzG+WY25asTNfraaSmESf2bB73zDO2dzpteygHjIUu9hF3XJtloaAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <m.tretter@pengutronix.de>)
+	id 1wQ587-0001qV-HL; Thu, 21 May 2026 17:16:11 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <m.tretter@pengutronix.de>)
+	id 1wQ584-0017oK-34;
+	Thu, 21 May 2026 17:16:09 +0200
+Received: from mtr by pty.whiteo.stw.pengutronix.de with local (Exim 4.98.2)
+	(envelope-from <m.tretter@pengutronix.de>)
+	id 1wQ585-00000004XZo-1e4X;
+	Thu, 21 May 2026 17:16:09 +0200
+Date: Thu, 21 May 2026 17:16:09 +0200
+From: Michael Tretter <m.tretter@pengutronix.de>
+To: Sven =?utf-8?Q?P=C3=BCschel?= <s.pueschel@pengutronix.de>
+Cc: Jacob Chen <jacob-chen@iotwrt.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, kernel@pengutronix.de,
+	nicolas@ndufresne.ca, sebastian.reichel@collabora.com,
+	p.zabel@pengutronix.de,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: Re: [PATCH v7 19/28] media: rockchip: rga: change offset to
+ dma_addresses
+Message-ID: <ag8hueNRNIAtF3Lz@pengutronix.de>
+Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
+	Sven =?utf-8?Q?P=C3=BCschel?= <s.pueschel@pengutronix.de>,
+	Jacob Chen <jacob-chen@iotwrt.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, kernel@pengutronix.de,
+	nicolas@ndufresne.ca, sebastian.reichel@collabora.com,
+	p.zabel@pengutronix.de,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20260521-spu-rga3-v7-0-3f33e8c7145f@pengutronix.de>
+ <20260521-spu-rga3-v7-19-3f33e8c7145f@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Kishon Vijay Abraham I <kishon@kernel.org>, 
- Bryan O'Donoghue <bod@kernel.org>, devicetree@vger.kernel.org, 
- Neil Armstrong <neil.armstrong@linaro.org>, Vinod Koul <vkoul@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20260521-x1e-csi2-phy-v6-1-9d73d9bd7d20@linaro.org>
-References: <20260521-x1e-csi2-phy-v6-0-9d73d9bd7d20@linaro.org>
- <20260521-x1e-csi2-phy-v6-1-9d73d9bd7d20@linaro.org>
-Message-Id: <177937655318.1947776.1539787576186189902.robh@kernel.org>
-Subject: Re: [PATCH v6 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY
- schema
-X-Spamd-Result: default: False [-1.16 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260521-spu-rga3-v7-19-3f33e8c7145f@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: m.tretter@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spamd-Result: default: False [0.04 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62532-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	TAGGED_FROM(0.00)[bounces-62533-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[pengutronix.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,devicetree.org:url,0.0.0.2:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,0.0.0.1:email,linaro.org:email]
-X-Rspamd-Queue-Id: B54B15A9F3F
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[m.tretter@pengutronix.de,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:mid,pengutronix.de:email,collabora.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,sashiko.dev:url]
+X-Rspamd-Queue-Id: C03805A97A8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-
-On Thu, 21 May 2026 13:20:08 +0100, Bryan O'Donoghue wrote:
-> Add a base schema initially compatible with x1e80100 to describe MIPI CSI2
-> PHY devices.
+On Thu, 21 May 2026 00:44:24 +0200, Sven Püschel wrote:
+> Change the offset to dma_addresses, as the current naming is misleading.
+> The offset naming comes from the fact that it references the offset in
+> the mapped iommu address space. But from the hardware point of view this
+> is an address, as also pointed out by the register naming
+> (e.g. RGA_DST_Y_RGB_BASE_ADDR). Therefore also change the type to
+> dma_addr_t, as with an external iommu driver this would also be the
+> correct type.
 > 
-> The hardware can support both CPHY, DPHY and a special split-mode DPHY.
+> This change is a preparation for the RGA3 support, which uses an external
+> iommu and therefore just gets an dma_addr_t for each buffer. The field
+> renaming allows to reuse the existing fields of rga_vb_buffer to store
+> these values.
 > 
-> The schema here defines three ports:
+> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Signed-off-by: Sven Püschel <s.pueschel@pengutronix.de>
 > 
-> port@0:
->     The first input port where a sensor is always required.
-> 
-> port@1:
->     A second optional input port which if present implies DPHY split-mode.
-> 
-> port@2:
->     A third always required output port which connects to the controller.
-> 
-> The CSIPHY devices have their own pinouts on the SoC as well as their own
-> individual voltage rails.
-> 
-> The need to model voltage rails on a per-PHY basis leads us to define
-> CSIPHY devices as individual nodes.
-> 
-> Two nice outcomes in terms of schema and DT arise from this change.
-> 
-> 1. The ability to define on a per-PHY basis voltage rails.
-> 2. The ability to require those voltage.
-> 
-> We have had a complete bodge upstream for this where a single set of
-> voltage rail for all CSIPHYs has been buried inside of CAMSS.
-> 
-> Much like the I2C bus which is dedicated to Camera sensors - the CCI bus in
-> CAMSS parlance, the CSIPHY devices should be individually modelled.
-> 
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
->  .../bindings/phy/qcom,x1e80100-csi2-phy.yaml       | 205 +++++++++++++++++++++
->  1 file changed, 205 insertions(+)
+> Changes in v6:
+> - Also changed dma_addrs variable type to dma_addr_t. Flagged by Sashiko
+>   https://sashiko.dev/#/patchset/20260428-spu-rga3-v5-0-eb7f5d019d86%40pengutronix.de?part=20
+> ---
+>  drivers/media/platform/rockchip/rga/rga-buf.c |  12 +--
+>  drivers/media/platform/rockchip/rga/rga-hw.c  | 105 +++++++++++++-------------
+>  drivers/media/platform/rockchip/rga/rga.h     |  12 +--
+>  3 files changed, 64 insertions(+), 65 deletions(-)
 > 
+> diff --git a/drivers/media/platform/rockchip/rga/rga-buf.c b/drivers/media/platform/rockchip/rga/rga-buf.c
+> index dcaba66f5c1fc..ab9554c1c4cd9 100644
+> --- a/drivers/media/platform/rockchip/rga/rga-buf.c
+> +++ b/drivers/media/platform/rockchip/rga/rga-buf.c
+> @@ -121,7 +121,7 @@ static int rga_buf_prepare(struct vb2_buffer *vb)
+>  	size_t curr_desc = 0;
+>  	int i;
+>  	const struct v4l2_format_info *info;
+> -	unsigned int offsets[VIDEO_MAX_PLANES];
+> +	dma_addr_t dma_addrs[VIDEO_MAX_PLANES];
+>  
+>  	if (IS_ERR(f))
+>  		return PTR_ERR(f);
+> @@ -145,18 +145,18 @@ static int rga_buf_prepare(struct vb2_buffer *vb)
+>  				 "Failed to map video buffer to RGA\n");
+>  			return n_desc;
+>  		}
+> -		offsets[i] = curr_desc << PAGE_SHIFT;
+> +		dma_addrs[i] = curr_desc << PAGE_SHIFT;
+>  		curr_desc += n_desc;
+>  	}
+>  
+>  	/* Fill the remaining planes */
+>  	info = v4l2_format_info(f->fmt->fourcc);
+>  	for (i = info->mem_planes; i < info->comp_planes; i++)
+> -		offsets[i] = get_plane_offset(f, info, i);
+> +		dma_addrs[i] = dma_addrs[0] + get_plane_offset(f, info, i);
 
-My bot found errors running 'make dt_binding_check' on your patch:
+dma_addr[0] looks suspicious, but correct, because mem_planes is either
+1 or equal to comp_planes and therefore, the "remaining planes" are
+always all planes except for the first plane, which happens to be
+dma_addrs[0]. Maybe, dma_addrs[info->mem_planes - 1] would be more
+correct, but also even more confusing.
 
-yamllint warnings/errors:
+Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml: port@0: Missing additionalProperties/unevaluatedProperties constraint
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml: port@1: Missing additionalProperties/unevaluatedProperties constraint
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml: port@2: Missing additionalProperties/unevaluatedProperties constraint
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.example.dtb: csiphy@ace4000 (qcom,x1e80100-csi2-phy): ports:port@0:endpoint: 'data-lanes' is a required property
-	from schema $id: http://devicetree.org/schemas/phy/qcom,x1e80100-csi2-phy.yaml
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.example.dtb: csiphy@ace4000 (qcom,x1e80100-csi2-phy): ports:port@0:endpoint: 'clock-lanes' is a required property
-	from schema $id: http://devicetree.org/schemas/phy/qcom,x1e80100-csi2-phy.yaml
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.kernel.org/project/devicetree/patch/20260521-x1e-csi2-phy-v6-1-9d73d9bd7d20@linaro.org
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+>  
+> -	rbuf->offset.y_off = offsets[0];
+> -	rbuf->offset.u_off = offsets[1];
+> -	rbuf->offset.v_off = offsets[2];
+> +	rbuf->dma_addrs.y_addr = dma_addrs[0];
+> +	rbuf->dma_addrs.u_addr = dma_addrs[1];
+> +	rbuf->dma_addrs.v_addr = dma_addrs[2];
+>  
+>  	return 0;
+>  }
+> diff --git a/drivers/media/platform/rockchip/rga/rga-hw.c b/drivers/media/platform/rockchip/rga/rga-hw.c
+> index 43fd023b7571c..99cf57d5ba89d 100644
+> --- a/drivers/media/platform/rockchip/rga/rga-hw.c
+> +++ b/drivers/media/platform/rockchip/rga/rga-hw.c
+> @@ -16,11 +16,11 @@ enum e_rga_start_pos {
+>  	RB = 3,
+>  };
+>  
+> -struct rga_corners_addr_offset {
+> -	struct rga_addr_offset left_top;
+> -	struct rga_addr_offset right_top;
+> -	struct rga_addr_offset left_bottom;
+> -	struct rga_addr_offset right_bottom;
+> +struct rga_corners_addrs {
+> +	struct rga_addrs left_top;
+> +	struct rga_addrs right_top;
+> +	struct rga_addrs left_bottom;
+> +	struct rga_addrs right_bottom;
+>  };
+>  
+>  static unsigned int rga_get_scaling(unsigned int src, unsigned int dst)
+> @@ -36,20 +36,20 @@ static unsigned int rga_get_scaling(unsigned int src, unsigned int dst)
+>  	return (src > dst) ? ((dst << 16) / src) : ((src << 16) / dst);
+>  }
+>  
+> -static struct rga_corners_addr_offset
+> -rga_get_addr_offset(struct rga_frame *frm, struct rga_addr_offset *offset,
+> -		    unsigned int x, unsigned int y, unsigned int w, unsigned int h)
+> +static struct rga_corners_addrs
+> +rga_get_corner_addrs(struct rga_frame *frm, struct rga_addrs *addrs,
+> +		     unsigned int x, unsigned int y, unsigned int w, unsigned int h)
+>  {
+> -	struct rga_corners_addr_offset offsets;
+> -	struct rga_addr_offset *lt, *lb, *rt, *rb;
+> +	struct rga_corners_addrs corner_addrs;
+> +	struct rga_addrs *lt, *lb, *rt, *rb;
+>  	const struct v4l2_format_info *format_info;
+>  	unsigned int x_div = 0,
+>  		     y_div = 0, uv_stride = 0, pixel_width = 0;
+>  
+> -	lt = &offsets.left_top;
+> -	lb = &offsets.left_bottom;
+> -	rt = &offsets.right_top;
+> -	rb = &offsets.right_bottom;
+> +	lt = &corner_addrs.left_top;
+> +	lb = &corner_addrs.left_bottom;
+> +	rt = &corner_addrs.right_top;
+> +	rb = &corner_addrs.right_bottom;
+>  
+>  	format_info = v4l2_format_info(frm->pix.pixelformat);
+>  	/* x_div is only used for the u/v planes.
+> @@ -64,29 +64,28 @@ rga_get_addr_offset(struct rga_frame *frm, struct rga_addr_offset *offset,
+>  	uv_stride = frm->stride / x_div;
+>  	pixel_width = frm->stride / frm->pix.width;
+>  
+> -	lt->y_off = offset->y_off + y * frm->stride + x * pixel_width;
+> -	lt->u_off = offset->u_off + (y / y_div) * uv_stride + x / x_div;
+> -	lt->v_off = offset->v_off + (y / y_div) * uv_stride + x / x_div;
+> +	lt->y_addr = addrs->y_addr + y * frm->stride + x * pixel_width;
+> +	lt->u_addr = addrs->u_addr + (y / y_div) * uv_stride + x / x_div;
+> +	lt->v_addr = addrs->v_addr + (y / y_div) * uv_stride + x / x_div;
+>  
+> -	lb->y_off = lt->y_off + (h - 1) * frm->stride;
+> -	lb->u_off = lt->u_off + (h / y_div - 1) * uv_stride;
+> -	lb->v_off = lt->v_off + (h / y_div - 1) * uv_stride;
+> +	lb->y_addr = lt->y_addr + (h - 1) * frm->stride;
+> +	lb->u_addr = lt->u_addr + (h / y_div - 1) * uv_stride;
+> +	lb->v_addr = lt->v_addr + (h / y_div - 1) * uv_stride;
+>  
+> -	rt->y_off = lt->y_off + (w - 1) * pixel_width;
+> -	rt->u_off = lt->u_off + w / x_div - 1;
+> -	rt->v_off = lt->v_off + w / x_div - 1;
+> +	rt->y_addr = lt->y_addr + (w - 1) * pixel_width;
+> +	rt->u_addr = lt->u_addr + w / x_div - 1;
+> +	rt->v_addr = lt->v_addr + w / x_div - 1;
+>  
+> -	rb->y_off = lb->y_off + (w - 1) * pixel_width;
+> -	rb->u_off = lb->u_off + w / x_div - 1;
+> -	rb->v_off = lb->v_off + w / x_div - 1;
+> +	rb->y_addr = lb->y_addr + (w - 1) * pixel_width;
+> +	rb->u_addr = lb->u_addr + w / x_div - 1;
+> +	rb->v_addr = lb->v_addr + w / x_div - 1;
+>  
+> -	return offsets;
+> +	return corner_addrs;
+>  }
+>  
+> -static struct rga_addr_offset *rga_lookup_draw_pos(struct
+> -		rga_corners_addr_offset
+> -		* offsets, u32 rotate_mode,
+> -		u32 mirr_mode)
+> +static struct rga_addrs *rga_lookup_draw_pos(struct rga_corners_addrs *corner_addrs,
+> +					     u32 rotate_mode,
+> +					     u32 mirr_mode)
+>  {
+>  	static enum e_rga_start_pos rot_mir_point_matrix[4][4] = {
+>  		{
+> @@ -103,18 +102,18 @@ static struct rga_addr_offset *rga_lookup_draw_pos(struct
+>  		},
+>  	};
+>  
+> -	if (!offsets)
+> +	if (!corner_addrs)
+>  		return NULL;
+>  
+>  	switch (rot_mir_point_matrix[rotate_mode][mirr_mode]) {
+>  	case LT:
+> -		return &offsets->left_top;
+> +		return &corner_addrs->left_top;
+>  	case LB:
+> -		return &offsets->left_bottom;
+> +		return &corner_addrs->left_bottom;
+>  	case RT:
+> -		return &offsets->right_top;
+> +		return &corner_addrs->right_top;
+>  	case RB:
+> -		return &offsets->right_bottom;
+> +		return &corner_addrs->right_bottom;
+>  	}
+>  
+>  	return NULL;
+> @@ -316,9 +315,9 @@ static void rga_cmd_set_trans_info(struct rga_ctx *ctx)
+>  }
+>  
+>  static void rga_cmd_set_src_info(struct rga_ctx *ctx,
+> -				 struct rga_addr_offset *offset)
+> +				 struct rga_addrs *addrs)
+>  {
+> -	struct rga_corners_addr_offset src_offsets;
+> +	struct rga_corners_addrs src_corner_addrs;
+>  	u32 *dest = ctx->cmdbuf_virt;
+>  	unsigned int src_h, src_w, src_x, src_y;
+>  
+> @@ -330,22 +329,22 @@ static void rga_cmd_set_src_info(struct rga_ctx *ctx,
+>  	/*
+>  	 * Calculate the source framebuffer base address with offset pixel.
+>  	 */
+> -	src_offsets = rga_get_addr_offset(&ctx->in, offset,
+> -					  src_x, src_y, src_w, src_h);
+> +	src_corner_addrs = rga_get_corner_addrs(&ctx->in, addrs,
+> +						src_x, src_y, src_w, src_h);
+>  
+>  	dest[(RGA_SRC_Y_RGB_BASE_ADDR - RGA_MODE_BASE_REG) >> 2] =
+> -		src_offsets.left_top.y_off;
+> +		src_corner_addrs.left_top.y_addr;
+>  	dest[(RGA_SRC_CB_BASE_ADDR - RGA_MODE_BASE_REG) >> 2] =
+> -		src_offsets.left_top.u_off;
+> +		src_corner_addrs.left_top.u_addr;
+>  	dest[(RGA_SRC_CR_BASE_ADDR - RGA_MODE_BASE_REG) >> 2] =
+> -		src_offsets.left_top.v_off;
+> +		src_corner_addrs.left_top.v_addr;
+>  }
+>  
+>  static void rga_cmd_set_dst_info(struct rga_ctx *ctx,
+> -				 struct rga_addr_offset *offset)
+> +				 struct rga_addrs *addrs)
+>  {
+> -	struct rga_addr_offset *dst_offset;
+> -	struct rga_corners_addr_offset offsets;
+> +	struct rga_addrs *dst_addrs;
+> +	struct rga_corners_addrs corner_addrs;
+>  	u32 *dest = ctx->cmdbuf_virt;
+>  	unsigned int dst_h, dst_w, dst_x, dst_y;
+>  	unsigned int mir_mode = 0;
+> @@ -379,15 +378,15 @@ static void rga_cmd_set_dst_info(struct rga_ctx *ctx,
+>  	/*
+>  	 * Configure the dest framebuffer base address with pixel offset.
+>  	 */
+> -	offsets = rga_get_addr_offset(&ctx->out, offset, dst_x, dst_y, dst_w, dst_h);
+> -	dst_offset = rga_lookup_draw_pos(&offsets, rot_mode, mir_mode);
+> +	corner_addrs = rga_get_corner_addrs(&ctx->out, addrs, dst_x, dst_y, dst_w, dst_h);
+> +	dst_addrs = rga_lookup_draw_pos(&corner_addrs, rot_mode, mir_mode);
+>  
+>  	dest[(RGA_DST_Y_RGB_BASE_ADDR - RGA_MODE_BASE_REG) >> 2] =
+> -		dst_offset->y_off;
+> +		dst_addrs->y_addr;
+>  	dest[(RGA_DST_CB_BASE_ADDR - RGA_MODE_BASE_REG) >> 2] =
+> -		dst_offset->u_off;
+> +		dst_addrs->u_addr;
+>  	dest[(RGA_DST_CR_BASE_ADDR - RGA_MODE_BASE_REG) >> 2] =
+> -		dst_offset->v_off;
+> +		dst_addrs->v_addr;
+>  }
+>  
+>  static void rga_cmd_set_mode(struct rga_ctx *ctx)
+> @@ -426,8 +425,8 @@ static void rga_cmd_set(struct rga_ctx *ctx,
+>  
+>  	rga_cmd_set_dst_addr(ctx, dst->dma_desc_pa);
+>  
+> -	rga_cmd_set_src_info(ctx, &src->offset);
+> -	rga_cmd_set_dst_info(ctx, &dst->offset);
+> +	rga_cmd_set_src_info(ctx, &src->dma_addrs);
+> +	rga_cmd_set_dst_info(ctx, &dst->dma_addrs);
+>  
+>  	rga_write(rga, RGA_CMD_BASE, ctx->cmdbuf_phy);
+>  
+> diff --git a/drivers/media/platform/rockchip/rga/rga.h b/drivers/media/platform/rockchip/rga/rga.h
+> index cee2e75ea89f1..bf21a57555a59 100644
+> --- a/drivers/media/platform/rockchip/rga/rga.h
+> +++ b/drivers/media/platform/rockchip/rga/rga.h
+> @@ -97,10 +97,10 @@ struct rockchip_rga {
+>  	const struct rga_hw *hw;
+>  };
+>  
+> -struct rga_addr_offset {
+> -	unsigned int y_off;
+> -	unsigned int u_off;
+> -	unsigned int v_off;
+> +struct rga_addrs {
+> +	dma_addr_t y_addr;
+> +	dma_addr_t u_addr;
+> +	dma_addr_t v_addr;
+>  };
+>  
+>  struct rga_vb_buffer {
+> @@ -112,8 +112,8 @@ struct rga_vb_buffer {
+>  	dma_addr_t dma_desc_pa;
+>  	size_t n_desc;
+>  
+> -	/* Plane offsets of this buffer into the mapping */
+> -	struct rga_addr_offset offset;
+> +	/* Plane DMA addresses after the MMU mapping of the buffer */
+> +	struct rga_addrs dma_addrs;
+>  };
+>  
+>  static inline struct rga_vb_buffer *vb_to_rga(struct vb2_v4l2_buffer *vb)
+> 
+> -- 
+> 2.54.0
+> 
+> 
 
