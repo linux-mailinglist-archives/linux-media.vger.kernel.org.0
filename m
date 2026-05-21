@@ -1,257 +1,297 @@
-Return-Path: <linux-media+bounces-62496-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62497-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id WDaeGaYND2qSEgYAu9opvQ
-	(envelope-from <linux-media+bounces-62496-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 15:50:30 +0200
+	id MKbiFOYKD2omEgYAu9opvQ
+	(envelope-from <linux-media+bounces-62497-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 15:38:46 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC0D5A64A4
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 15:50:29 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDBE85A60AE
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 15:38:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1160831482C8
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 12:58:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B5DE331609B6
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 13:02:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FFF13D6CC2;
-	Thu, 21 May 2026 12:58:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28EA33D7D66;
+	Thu, 21 May 2026 13:01:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mynaPeiI"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OxrI1RPw";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="diUyF/eV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF2A73D567B
-	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 12:58:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779368283; cv=none; b=U/0obHDBGgJ2ocF+1XkJllDYUa83mkqPHfJSE7n7B0wyo/7SR1GtsrSXLv2uwz3VAod+bSI24lQSkPFaT0UGn+qBJOBeFu4GMgp4po1rzlsBhJfJq0GGa6mzeRddJ3PwRJKAYrnxoCxhfyyXb3YQTtBzLISb7yH2Uk7Fa2andpk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779368283; c=relaxed/simple;
-	bh=14LJ5CLZqx0/2eEPwTtKM9AwLYxUCsecgICz5wwcJCo=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=a0pxav3KYme28sGyAJp7RIefpSfG/URa9udarX4I1ZVUYKcFO9lTZWUjHznexhnqwW9yOleyQG7cBzSos5iZI2km8iuB0v4LyNfDQax1z8xNQ46ZVVbxeKGqHP1PWb7sM/ecnNBTmN0+WLZ9a5YPi/hww7L4wLQhxlcogSdx8aE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mynaPeiI; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490229aa522so27048055e9.3
-        for <linux-media@vger.kernel.org>; Thu, 21 May 2026 05:58:01 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237D2226863
+	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 13:01:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779368494; cv=pass; b=LPex6ZhFxIJy3T4nR0UqIhqAYmps6iMY8cXbBbAAU+AgG4QjKMcv9edQpu7hAWPge68BI3zQqDhVXj8tAqMC3aHPo9eGZw+SAid7U9GjTkeclM1o1knjbHjVNAhcZVdHobeMSJ7iWg1RcplaoKEZseG1VGJPzj1aUPo9yl9Mg1s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779368494; c=relaxed/simple;
+	bh=s/LhWOJ82A/Il7Fwfsi+/4LPTb+4kNKDQTmAaQ9VC64=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=X19Gm9u7qTYVibEono2EgXU1iuURtRpKJyNbNidUaPTJ8Yxwa24M5UelvqbfDNuHXB7/YST6uShRJy9edoiTXRem/XReX2J2Hxs1u6azis8YwDm6veCJ68EFBhFHgrrpbnEpk2BLA+9g/3CaYgh27rW8qTDQ+ptjpmKH38JY4WA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OxrI1RPw; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=diUyF/eV; arc=pass smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1779368491;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LmwC58HJBimxH19t4ZPSn9X111oVOA5kpRJyuTfhJLQ=;
+	b=OxrI1RPwhVeaoFNNn9BmIFIvKgUPnSaJ2diRLZJItmw1EkyR60Ud4dz4qUFUA6tNxkpXrv
+	vLHM47e6KQFujMSpBqp/2EdlexxUmM+d5H7U1EvqMrrKWwoLnqBvAV2yHX6cjWuTWv5EW+
+	1qvoc9AlYE+j+M4s1vT7t1IBuJ7bsxQ=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-458-dp8P9JtxNyeUwblhMC506A-1; Thu, 21 May 2026 09:01:29 -0400
+X-MC-Unique: dp8P9JtxNyeUwblhMC506A-1
+X-Mimecast-MFC-AGG-ID: dp8P9JtxNyeUwblhMC506A_1779368489
+Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-7c9e610f273so79417977b3.0
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2026 06:01:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779368489; cv=none;
+        d=google.com; s=arc-20240605;
+        b=BIuFHwqc8IAF5nGwVorEjTYhr0P5OHhjr3xt5nvU7M/Tpr+giHTr7DUc1hG+VS9FAr
+         +DlKvyhQvZwW5y3O5b/orT/A+4xzuxUcT0QaMnC1Z3clpPGCVO1lCxr+otuBNNbcYorh
+         sCz3n1ZCfgbxiv6Oxp0CzvS8fAoVWJ1NHSGknmX883IdYquc5Uom2/vTnN5EphTkUbJR
+         p/ZpDQw7k9BrjgJqLomEvum8rIsunx9fd/9wkeihnuSryBU391V/w85xOt8xkbTfxzCE
+         D3nb4CzR45BHeUPdoUEukPbqE1NvsanXr1ExA/Wtnps23Vuq6VELMUi1/nJolL5QH6Ls
+         Pnng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=LmwC58HJBimxH19t4ZPSn9X111oVOA5kpRJyuTfhJLQ=;
+        fh=VHwbaDsAzDBbTVwwG2WwufoBrAoLQjkbgR68Tvd67m4=;
+        b=iYvLO4z9/LBIryjzVKLZcpcjSxuuaGIUJ88vDbDHDTOF/26ofQctAs0MGqYHSrSSUD
+         RN4RwXhciXSUrOuqKQ4G1Fgup+g1g4Z2sn31kwCuxqC9CwKBvFXFaC/ZNaaymeKncggv
+         vcksrDPlYy9I+/Bma/MCJy1hxgjouPHFjn3q7Rtc1TH8wt65bOVOUaqfoPnvE+y+GjuM
+         93NLuUEY/+yq8sQ5Bwgio+NcZhOzpCsXhJKHbWnYi8CsgLObaE8CsWaQ6pDo3GRy5aKu
+         D+TLDF2ygcAZ2A2Wkvvuhux9fnivgYw5q8BCXpREb4t+qBWdzkJvnJoEqpKBPZo98nWI
+         vZfA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1779368280; x=1779973080; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ij+HmZb50wrOGLgyBR5wCEH6ymGTjEYisLCldFWkgQQ=;
-        b=mynaPeiICRMzMHSzwH+2HwS1QU9WYbx90D1cQBFEUD5X7mR4yYKdtd0hGtrd6RDm9Z
-         b+L/xeRwucUVbasf6ptks5Z2l80oyLaUn3SDAYWePysHbTp+FdJk8rcSg/rlORTGX5ts
-         RoyX1lvkpketWiXCbrNOSn9jc0SIn47n4i//McyKayCIb17n99WpPWXmlwwuZMdGS18U
-         Ek81/oKwzpRMIOO2miZymT4ksBO/80HQn1j2c0HOBcKjHuVkFw5zoJBLbtfVOh403pKW
-         aq1ZfJ8pvp79PWBK4Hgny745iVmFHhQDCoRTsw1wumhwS1W6aI1jUbKTgxoGm7XaJ8K7
-         3XwQ==
+        d=redhat.com; s=google; t=1779368489; x=1779973289; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LmwC58HJBimxH19t4ZPSn9X111oVOA5kpRJyuTfhJLQ=;
+        b=diUyF/eVXhQW3OMlnjN+OHIw0yGM/7C1Nd0c4UA3QPRGdHerd/v34IJFv/ISPyfwK2
+         cTH1tQJKe+vtoTC3IzM08D3zvbNWRManXxwjq7J3gyM2DuoFdzIFBXRt4qyV1veBPauV
+         nTSEGqxDBL6SoUetZoxkcTSIaWUz9xY+a3ZXa/cVCu+8EDdk5qRc35R9lyW1jxpNCGvX
+         Afj21cu7PrMuEClG3wY8NVmsyFFf9hX2XoN4/E5sFHjxWNhqEICPWxqsm8qvDy9UQL0B
+         VqPODck5FEJ4q6vd5hgG9RjAKlMts9UI3ycjWhxmL6Ih6SbtvKs+9+tWSKCRZmqI6iGH
+         eonw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779368280; x=1779973080;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ij+HmZb50wrOGLgyBR5wCEH6ymGTjEYisLCldFWkgQQ=;
-        b=onH/VVcZa3zAn23tT99bybV9Y98UQLWlzfLhBGwrsaCck4vtDrrIUHGiOwZT2QFXJt
-         KkJ/T37r3xKrLsA/ipDSY70Fng9hae0PYlSWWf2O+fV+JJi4oudVxKqD+kCMP1rN6ckU
-         DVRVX4cFFP0KsEqBUbNLWpcs59j1bEoK0j0YPVtz45scXonOXCnjcX4lM21R552KFYeK
-         0aGvFmiB2v2dU25VyMa3ifBfeTmqijlJETo92o381U4Aw9JgRqH1zzWX8yNdMsaEPznq
-         rFPKauYXW9pmjnTeIDB+wBdOdATZr59eMqD/vNWNMYm7A162gUKGq5HAjA5Nfl3sxJhd
-         7wCg==
-X-Gm-Message-State: AOJu0YwJ9V/zt3G7tAGzd3r1HtjWZrPtufqPS72GpOJay6fuR+oRWntp
-	fpncICmcqMOZt2yo+i07D2N1eJxdNSZELzI8hPwMjIvaebqWYYLYMvOxhMYh+lbZ9nI=
-X-Gm-Gg: Acq92OGgSWn3uyVyBb4QPBQj9erhKxFM964n7CnnIGRCxXPP03OgV8S/yGhZ3tktgGg
-	8TBqY0ouxZxqg2HI0AE0uy+fjo/SViWtpR9+ywbAAATuDU3kL7A4+hD4t+vA0DVkjoVPobvuXJT
-	v2re5ZNqAz6kwAjpHP1ETLTOP12ws2ABcfQ4lPpfpnw2FIMAvhQsh9iX3hjo4+ZumHaCkgIbIJ4
-	tTls6yWyS5PC5bVqmhrlDMzG9f8xhlXqm/dXBHQ2oKIJtjygxyCul9sqKPQIuZuDE2yV00FxLc2
-	Jip6pu0nqyXVkYiiuIIZ/CGUtfOF+z4LiFYkwvhKVdKZz7cw6Q+Rjbr9zMgKg087LcKbJbAYENO
-	v8Zg/r/Y91+ioqkxwYjeYIUb7LaF4rujbkl0Doe6hlD+M7i27g/5uR5ILEOBFe/ZOq/LKBIZlaW
-	wnsONEAOqfZXH36snE56y9SOhVDiw1yauaBCaA5wx5IHURZfSeegEpokMK2BXy5Yb8BTpRBDjQu
-	mAuDXc=
-X-Received: by 2002:a05:600c:4654:b0:48e:635a:18d9 with SMTP id 5b1f17b1804b1-4903608439fmr27803815e9.15.1779368279923;
-        Thu, 21 May 2026 05:57:59 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:106d:1080:7e6c:bb76:ade5:7e8b? ([2a01:e0a:106d:1080:7e6c:bb76:ade5:7e8b])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49035f52a0dsm15092125e9.24.2026.05.21.05.57.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 May 2026 05:57:59 -0700 (PDT)
-Message-ID: <d69f2c50-732f-41cc-86fe-9eabae7b6d71@linaro.org>
-Date: Thu, 21 May 2026 14:57:58 +0200
+        d=1e100.net; s=20251104; t=1779368489; x=1779973289;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=LmwC58HJBimxH19t4ZPSn9X111oVOA5kpRJyuTfhJLQ=;
+        b=oR8pK4j0iq7NdSSXJyYbKBt7SmWwCLufGgcGjdFZB3F5tGXKPwlos+bhTCrhItlI1s
+         NwKiwxXydPjfg5hMeMkiaCHLFwdr2JuRMvJ8k3cQHGREDzaN47ajYPcUTj+I8zjIADee
+         35GWsxLXEJTQD2kpQUa82e2Hmki1MvwmWzj5dXYbvjRFeEcOMWfBW872d6Xzqsahz2od
+         ZNx8+HrdO0/CeRpxLfUtGDjc/xQvJaZoY/fZGl0NeI0AtBsSzP+wTRhEOhl503ZYdI7w
+         mcFnif2TvELV+tYc3kLPDUFVHg8Vs2I+zMu/0I1d2UPwugyQyGn0u/IlCQbYjUl/dE7q
+         vpoA==
+X-Forwarded-Encrypted: i=1; AFNElJ/GWH5p0ShAtWfwOLKHqGtYENSfnpQXNGkzyIckF+Dr2uMuJlfXZ+EcHtys2krMRocL+pM/6YCEiMD5wg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqwuZMuTIAvKJIH0xjBkbF6LWTvGOGV+I7qo6RckyhOkNz5KCS
+	KBRMsT9bHaHnBAL4FKFxbFDG0eD9dYOyYDmjioEQAbNy3+FTVzOwrOZ2lgd1FGQhlWkpxt3JsK1
+	S2NVvXqEa5MtNYexh8jNaVhC/AnCdvXmpwJ7EeLUtun06+eSlvP/XtglSUSvrJciaTpYCTjvce6
+	NggOoCNSOZdf1JDhU/LNSZU43CoSTbn/jeSgwh+24=
+X-Gm-Gg: Acq92OHM40zcEaDzNlAoMzzymhFKACfjVT3n/OcZH2ycJUiVnpA1IL+oa1z2swR1Qq5
+	85BV3k1lLviyZRYygEESPuX6YUXYQlhzUYH1kCOb7JRY29hzLZQzr/1qgFHjXf1nc36wWaXHv1+
+	0V/62KwrytGWw/G9lUBO7j/pl2lkqzs9858Gp5wWuH9vJ3mCR8o5k1eqH++8WlAzq8I+k4ExWug
+	+FlVQ==
+X-Received: by 2002:a05:690c:2701:b0:798:5213:d90e with SMTP id 00721157ae682-7d21458c414mr20821377b3.25.1779368487410;
+        Thu, 21 May 2026 06:01:27 -0700 (PDT)
+X-Received: by 2002:a05:690c:2701:b0:798:5213:d90e with SMTP id
+ 00721157ae682-7d21458c414mr20820547b3.25.1779368486638; Thu, 21 May 2026
+ 06:01:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v3 3/6] media: qcom: iris: gen2: add support for 10bit
- decoding
-To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bod@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260511-topic-sm8x50-iris-10bit-decoding-v3-0-7fc049b93042@linaro.org>
- <20260511-topic-sm8x50-iris-10bit-decoding-v3-3-7fc049b93042@linaro.org>
- <b6ab2112-c89a-4ac4-8525-e913ed0b5313@oss.qualcomm.com>
- <febaa0cf-eecf-40ea-b243-4f03646af918@linaro.org>
- <c770444d-be66-47e3-83bc-be477d4e07cd@oss.qualcomm.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <c770444d-be66-47e3-83bc-be477d4e07cd@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20260521-dmabuf-limit-access-v1-0-26c01e27365a@redhat.com> <7b662fcd-3bcd-40a2-b014-d9ce36f6425b@amd.com>
+In-Reply-To: <7b662fcd-3bcd-40a2-b014-d9ce36f6425b@amd.com>
+From: Albert Esteve <aesteve@redhat.com>
+Date: Thu, 21 May 2026 15:01:15 +0200
+X-Gm-Features: AVHnY4LBiwiMio4g-NMYwHAheob8lHj03QTb2KFQDfp0pjJRm1wTbuvqILl5JEg
+Message-ID: <CADSE00J1+V4=qFZPOL8Cr8hYw6d=hf_XcDPezjYGkcxAwLYGyw@mail.gmail.com>
+Subject: Re: [PATCH 0/2] dma-buf: add DMA_BUF_IOCTL_DERIVE for
+ reduced-permission aliases
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, Shuah Khan <shuah@kernel.org>, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, mripard@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62496-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[linaro.org:+];
+	TAGGED_FROM(0.00)[bounces-62497-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,linaro.org:replyto,linaro.org:email,linaro.org:mid,linaro.org:dkim];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[aesteve@redhat.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	REPLYTO_EQ_FROM(0.00)[]
-X-Rspamd-Queue-Id: 0DC0D5A64A4
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,amd.com:email,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: BDBE85A60AE
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 5/21/26 11:44, Vikash Garodia wrote:
-> 
-> On 5/18/2026 1:02 PM, Neil Armstrong wrote:
->> On 5/13/26 20:50, Vikash Garodia wrote:
->>>
->>> On 5/11/2026 2:50 PM, Neil Armstrong wrote:
->>>> Add the necessary plumbing into the HFi Gen2 to signal the decoder
->>>> the right 10bit pixel format and stride when in compressed mode.
->>>>
->>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>> ---
->>>>   .../platform/qcom/iris/iris_hfi_gen2_command.c     | 75 +++++++++++ ++++++++++-
->>>>   .../platform/qcom/iris/iris_hfi_gen2_defines.h     |  1 +
->>>>   drivers/media/platform/qcom/iris/iris_utils.c      |  4 +-
->>>>   3 files changed, 76 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
->>>> index 30bfd90d423b..89de8c366836 100644
->>>> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
->>>> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
->>>> @@ -481,8 +481,20 @@ static int iris_hfi_gen2_set_colorformat(struct iris_inst *inst, u32 plane)
->>>>       if (inst->domain == DECODER) {
->>>>           pixelformat = inst->fmt_dst->fmt.pix_mp.pixelformat;
->>>> -        hfi_colorformat = pixelformat == V4L2_PIX_FMT_NV12 ?
->>>> -            HFI_COLOR_FMT_NV12 : HFI_COLOR_FMT_NV12_UBWC;
->>>> +        switch (pixelformat) {
->>>> +        case V4L2_PIX_FMT_NV12:
->>>> +            hfi_colorformat = HFI_COLOR_FMT_NV12;
->>>> +            break;
->>>> +        case V4L2_PIX_FMT_QC08C:
->>>> +            hfi_colorformat = HFI_COLOR_FMT_NV12_UBWC;
->>>> +            break;
->>>> +        case V4L2_PIX_FMT_P010:
->>>> +            hfi_colorformat = HFI_COLOR_FMT_P010;
->>>> +            break;
->>>> +        case V4L2_PIX_FMT_QC10C:
->>>> +            hfi_colorformat = HFI_COLOR_FMT_TP10_UBWC;
->>>> +            break;
->>>> +        };
->>>
->>> semicolon ?
->>
->> Ack
->>
->>>
->>>>       } else {
->>>>           pixelformat = inst->fmt_src->fmt.pix_mp.pixelformat;
->>>>           hfi_colorformat = pixelformat == V4L2_PIX_FMT_NV12 ?
->>>> @@ -517,7 +529,8 @@ static int iris_hfi_gen2_set_linear_stride_scanline(struct iris_inst *inst, u32
->>>>       stride_uv = stride_y;
->>>>       scanline_uv = scanline_y / 2;
->>>> -    if (pixelformat != V4L2_PIX_FMT_NV12)
->>>> +    if (pixelformat != V4L2_PIX_FMT_NV12 &&
->>>> +        pixelformat != V4L2_PIX_FMT_P010)
->>>>           return 0;
->>>>       payload[0] = stride_y << 16 | scanline_y;
->>>> @@ -532,6 +545,61 @@ static int iris_hfi_gen2_set_linear_stride_scanline(struct iris_inst *inst, u32
->>>>                             sizeof(u64));
->>>>   }
->>>> +static int iris_hfi_gen2_set_ubwc_stride_scanline(struct iris_inst *inst, u32 plane)
->>>> +{
->>>> +    u32 meta_stride_y, meta_scanline_y, meta_stride_uv, meta_scanline_uv;
->>>> +    u32 stride_y, scanline_y, stride_uv, scanline_uv;
->>>> +    u32 port = iris_hfi_gen2_get_port(inst, plane);
->>>> +    u32 pixelformat, width, height;
->>>> +    u32 payload[4];
->>>> +
->>>> +    if (inst->domain != DECODER ||
->>>> +        inst->fmt_src->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_AV1)
->>>
->>> whats the restriction with AV1 here ?
->>
->> This restriction is used in downstream driver and Dikshita reported we shouldn't
->> call HFI_PROP_UBWC_STRIDE_SCANLINE except for AV1.
->>
->> Could you please check if it's necessary ?
->>
-> I discussed this with firmware folks. As per them, this interface is effective for AV1, and for others, it might lead to higher size due to host demanded alignment.
-> 
-> As per firmware team,
-> "While the documentation states it is applicable "for AV1 ONLY", sending it for HEVC, VP9, or H.264 will physically work—forcing the UBWC output buffers into the Host's fixed stride layout. However, because older codecs handle resolution changes natively by triggering a standard Port Settings Change (PSC) to reallocate buffers, using this property for them is largely unnecessary and will persist statically, potentially leading to wasted memory due to over-allocated padding"
+Hi Christian,
 
-Thanks a lot for asking, I will leave it as is for now until we have a stride issue we can enable it for other codecs.
+On Thu, May 21, 2026 at 2:28=E2=80=AFPM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> On 5/21/26 11:10, Albert Esteve wrote:
+> > When sharing a dma-buf between components of different trust levels, th=
+e
+> > allocator may need to hand a consumer a read-only view of a buffer it
+> > holds with read-write access. An example is a camera pipeline where the
+> > capture component writes frames into a buffer and needs to pass a
+> > read-only handle to a downstream processing component that should not b=
+e
+> > able to modify the data.
+> >
+> > However, no such mechanism exists today. The access mode of a dma-buf
+> > file descriptor is fixed at export time, and the standard POSIX
+> > interfaces for duplicating or changing file descriptors (i.e., dup(2),
+> > dup3(2), and fcntl(F_SETFL)) cannot alter the read/write access mode of
+> > the copy.
+> >
+> > One natural candidate would be reopening via /proc/self/fd/<N> with
+> > O_RDONLY, which works for regular files. For dma-buf this would fail
+> > (that is, if we were to add a new handler for open f_op) with ENXIO
+> > because the dmabuf pseudo-filesystem carries SB_NOUSER, which prevents
+> > the VFS from opening its files through path-based resolution from
+> > userspace.
+>
+> OH MY GOD! This is the like the sixth time I had to clarify that in the l=
+ast few weeks, I'm really wondering where that is suddenly coming from.
 
-Neil
+Sorry! I do not know where others came from. But my interest comes
+from automotive, safety, and mixed criticality scenarios. I kind of
+hinted at that in the opening when referring to "different trust
+levels".
 
-> 
+>
+> Creating the DMA-buf with O_RDONLY does *NOT* make the DMA-buf itself rea=
+d only!
+>
+> That's a really common misconception. The flag only controls if mmap() ca=
+n be done read/write or read-only to handle cache coherency issues.
+>
+> It is still perfectly possible for a device to write into a DMA-buf creat=
+ed with O_RDONLY with DMA!
+>
+> So long story short there is not such feature as a read only DMA-buf, and=
+ putting read-only pages into a DMA-buf and then expecting that nobody can =
+write to them is an absolutely clear No-Go.
+>
+> If we would want to implement a read-only DMA-buf feature we would need t=
+o go over all the different DMA-buf importers in the kernel and add securit=
+y checks.
+
+This clarifies a lot. Too bad, but it makes sense. I will abandon the
+series then.
+
+Thanks for the review and the explanation!
+
+BR,
+Albert
+
+>
 > Regards,
-> Vikash
+> Christian.
+>
+>
+> >
+> > Alternatively, exporting the buffer twice would produce two independent
+> > dma_buf instances, which breaks fence synchronization.
+> >
+> > Therefore we add a new DMA_BUF_IOCTL_DERIVE ioctl, which produces a new
+> > file descriptor for an existing dma-buf with a caller-specified subset
+> > of the original permissions:
+> >
+> > ```
+> >   struct dma_buf_derive { __u32 flags; __s32 fd; };
+> >
+> >   struct dma_buf_derive req =3D { .flags =3D O_RDONLY | O_CLOEXEC };
+> >   ioctl(rw_fd, DMA_BUF_IOCTL_DERIVE, &req);
+> >   /* req.fd is now a read-only alias of the same buffer */
+> > ```
+> >
+> > Permission escalation is rejected with -EACCES. The new fd aliases the
+> > same struct dma_buf as the original, same dma_resv, same exporter ops,
+> > same underlying memory; so importers attaching to either fd see the sam=
+e
+> > fence timeline and operate on the same object. Access control for which
+> > components may receive or pass on restricted descriptors can be layered=
+ on
+> > top via SELinux file:read and file:write permissions.
+> >
+> > A shared writable mapping (PROT_WRITE | MAP_SHARED) on the read-only fd=
+ is
+> > rejected with -EACCES in dma_buf_mmap_internal().
+> >
+> > Two small internal adjustments accompany the ioctl:
+> > - __dma_buf_list_del() is moved to dma_buf_release() so it fires exactl=
+y
+> >   once on dentry destruction rather than on every file close.
+> > - dma_buf_file_release() is updated to call dma_buf_put() only for
+> >   files that are not the primary dma-buf file.
+> >
+> > This may not be the best approach, but after considering different
+> > options and alternatives (as described above), we decided to raise the
+> > discussion upstream. Thus, we welcome any alternative proposal or ideas=
+.
+> >
+> > The series is structured as:
+> > - Patch 1 adds the new ioctl implementation.
+> > - Patch 2 adds selftests covering the new ioctl.
+> >
+> > Signed-off-by: Albert Esteve <aesteve@redhat.com>
+> > ---
+> > Albert Esteve (2):
+> >       dma-buf: add DMA_BUF_IOCTL_DERIVE for reduced-permission aliases
+> >       selftests: dma-buf: add DERIVE ioctl tests
+> >
+> >  drivers/dma-buf/dma-buf.c                          |  58 ++++++++++-
+> >  include/uapi/linux/dma-buf.h                       |  28 +++++
+> >  tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c | 114 +++++++++++++=
++++++++-
+> >  3 files changed, 198 insertions(+), 2 deletions(-)
+> > ---
+> > base-commit: ab5fce87a778cb780a05984a2ca448f2b41aafbf
+> > change-id: 20260520-dmabuf-limit-access-73261353841a
+> >
+> > Best regards,
+>
 
 
