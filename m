@@ -1,85 +1,85 @@
-Return-Path: <linux-media+bounces-62404-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62405-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UMSvCT2yDmr6AwYAu9opvQ
-	(envelope-from <linux-media+bounces-62404-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 09:20:29 +0200
+	id wC0pORi0DmosBQYAu9opvQ
+	(envelope-from <linux-media+bounces-62405-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 09:28:24 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E8F95A004A
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 09:20:28 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F17E5A0190
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 09:28:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9C14D30488EB
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 07:19:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8171E30B2C19
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 07:24:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF86C349B0D;
-	Thu, 21 May 2026 07:18:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 350B8392C2E;
+	Thu, 21 May 2026 07:24:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uXdzFnB/"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zO/kjsE9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90D5C306767
-	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 07:18:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FF1399CFC
+	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 07:24:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779347936; cv=none; b=dQkgAtrgwwyiwUOYGiiqOGnbESxig2Bjvlbdseup86nc1eFCLYHZZ58aFANZNEUaL8DLqPMb0jHCrAfpUt8zEtDE0WRX1G5zZFHWLjy4sANcMm/Jnl4Il4vMx2F0jIG7j/uGO/sIoUfmoyENNb/wDSJs2PJ6nwiTDSAxjiP7kl0=
+	t=1779348297; cv=none; b=nAxKJvKFkxwaYl/VA/beOhAIn4qwcs5M3WvYpYTrm1poSb5PjISKBom+e1Mfn4yAjyWVSxRV+wc8CC49oykfzZfHftY/VtHIIBz8VBly830AohU8cCYacpdYk5qdXcaWpAhI867NAU/IpkyiyE5/iZfyk1j+ereSt8oF+Am8quc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779347936; c=relaxed/simple;
-	bh=ENWaSHBZoZ9w5cKwcFrQT87wjVPfmFeBFdI2+RaeD74=;
+	s=arc-20240116; t=1779348297; c=relaxed/simple;
+	bh=yD3Pj/26SleXylY72WE7+uu20gBtyD5pqbIoEG9pJHE=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=KIpIHSmH0/1On3SUAoIqfudI2FuEaLDXXJxA5hZZOUGnk1BLc6xQp34/gjnWohQzTtIJM/2mGx6Ebd6nxyYuheCAS4or8WOZjW4/k0QBu5r2RYmQTzLR0GkwAxUSkV9Eoj+Lx0JJZI8gZDVd2IeR1Dq7Gkf6EC798fvD6T51CNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uXdzFnB/; arc=none smtp.client-ip=209.85.221.43
+	 In-Reply-To:Content-Type; b=nSduWFRb5c/2+6y6gTN8m5TkxIcOxAdxH64WN3PNPa2rRSASN3cF+Fkh2WfTb2yCTPwBx3ks/R4pd/TXhNQK1qhsP+ci5OgJSLmInZC03CfmEVwvxwK2D7PA+/mx/Kj8tB65cyQqbz4kHSGOZIekTSLUH5pOhzjg6GI/dbX6Zek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zO/kjsE9; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-44a5174670eso3355255f8f.1
-        for <linux-media@vger.kernel.org>; Thu, 21 May 2026 00:18:54 -0700 (PDT)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-452169ae568so3670233f8f.3
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2026 00:24:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1779347933; x=1779952733; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1779348292; x=1779953092; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:references:cc:to:subject:reply-to:from:user-agent
          :mime-version:date:message-id:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bETVK/qL+P6n+cslnrRdLDkDC8prspZnCCpH5RkWKN0=;
-        b=uXdzFnB/PEbkb08zbsX4PkC1McJfoogR2AIPeyu13Lqtw6VNGaoBPxZNt8i0YsvcK8
-         lXL7qLKimsNdS/NbS7RLsl4gQTCGRiEgbBOB/38Pc61ZXN7l8FEhZmmQZ1yZmlgakCMX
-         7szvRWgw9/k+ae+sVTtWnktCZSCjCS0kOrmvd0eIMyVkaJq9NIttQ6KhVUyX/otJcoE/
-         jm4fSywOuiIyCmlhtVN20bp2fzQXjSJhmgjd7QFl6L9WP83AIfciXZEMvohP28Z3ev+9
-         xvD403TZEliktzaNvy+2frLaP8me03DUhc9q0WzfuOeOw+oO4LyKZJT6PZEqDU/k/bJH
-         jUMw==
+        bh=6kum5lj2T63gTqeDEzNY2vu1o8ElPs88myjInX2jIN8=;
+        b=zO/kjsE9/RUsL7l23qfIkS1PlBEvyIF4yNyNHtyzuEZQJywZ2x21kmXyJjk01taGdG
+         vdnzaFspG5fAiEUme6LCYJnugL0smhLljScJN5QCnXBM6goMPucdyVGns6oxs9qZX2oM
+         bO1X4EOVTbayNH2sns5tbg+B78ofwh+OXzXEcve4f7g2RztS88RQkeYUJt+VFD54KhNK
+         HdW6hD6v3dkGKPTxI/9sqzSyhBj469s+r2aaHryQUV8wV0TM+ybckuWSfaBGibWfDjrC
+         yE78UNAQjRf6WjwSy0+PgcNPqDaGZ74yKLin8X3NB9/viw8VfRJ8zdb+fBEiVAyEsZmS
+         rn7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779347933; x=1779952733;
+        d=1e100.net; s=20251104; t=1779348292; x=1779953092;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:references:cc:to:subject:reply-to:from:user-agent
          :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bETVK/qL+P6n+cslnrRdLDkDC8prspZnCCpH5RkWKN0=;
-        b=RKCRe0e9y7XxTv+GEjsCTlpVUVgJc2Yu5Xqh6y+kO3Wz+J1fs55uheTNUSL68hIFhD
-         vUEg8qiY+DNuD0TucXDArnCHBNDu0UY88xndXABqud043B+nrM6UNP94vv957ruoVK3Z
-         TZFEr9zCNy5xEyCQQ9NLWzhW3bWkKr6vhXlrrG9rLFDgdgk3Lnchd8AcB8OtXZo7tNBQ
-         4pZ9EHKO3myNXPf0StoBSEmqY8F0mWlxcIaNMkMItlkIa98rArTViQPPkTVdTLfHL/ed
-         Se3IH4u5XPeCxoSvf49oJEJeiAIB87XbRLxUf8XWG16SXMwSlFu2Jb+iQ6GM6tx768Yb
-         IIQA==
-X-Gm-Message-State: AOJu0Yz6uuml1CG6c7ZbeZceQQJ8M56VJUq8IO9Yn7AXLnscd65u5nCV
-	ajztBWeXIKcmM9mQEi8QofslNBXHh7i2bTtvgFRn/xWRYwLsb1XB1GOqzQSY9y+Bir4=
-X-Gm-Gg: Acq92OFVuuDsyUwLcbIZCh7sHCRask1wha8peoom0gwlGzEVXfvJcBpn9NG1UnQI2hQ
-	ek5OiTnbHqSCbCGkqJCQ27oRTNjwFZMy+xNoBWbUSw4h08KV9fS9P0lRW65K+9XSFWh7724kc4+
-	RH83VaLe/PUT2kKIfjvpEE/EYZ9G0q7dytG8hgpsgOwdU27dvxkQWQAiFQ3140WyxB/lcXYHdKW
-	7xHPzAdtmlFGXFL/cEShLu8YuD/5ZgkRLwPRwowP2hC3VxTDvopHi4VFwMs6mrYiWZXMsuaY5lp
-	nwqNa4tNpP0w3dHXMIs9N8yem10jSwavqz/C66CfnF4ARwdp43ryD/A7RD9u3D2Xw5gnv7RudxE
-	RmQyEkNMRhZSZ6+a4xR2OFz2iXQyNp2bRJIw5lgi058VdIeCZ7XpM1DG0qid4ZYX4oP/cz2g84v
-	6IJVF+nSOH3fGMgMVkm0QEijuwDscB6qn43kLwmVNO1/6/V3tddjjYbEpuzvaMdjRvgOzp9lgVc
-	nQFjTvGtt7ortyWWw==
-X-Received: by 2002:a05:6000:240b:b0:43e:a69b:d810 with SMTP id ffacd0b85a97d-45ea3df3f69mr2462925f8f.38.1779347932779;
-        Thu, 21 May 2026 00:18:52 -0700 (PDT)
+        bh=6kum5lj2T63gTqeDEzNY2vu1o8ElPs88myjInX2jIN8=;
+        b=lSfmgxiUC57cXPuA0ExfwvpJepGAlN+RSWF5NBq0RG+mcXnF+gppxPv3wMjogBOE3y
+         Kcjfq3m+/UostV+rEOf2VYFG2/q/3uwxMs38wwREMND/p2wPbJwenSJSwoRQOkjP0h1R
+         sTwRHnB/jkHKekKw1pNDjFBxZ2Qh6NDbnKYSVXouwslJgGStVimCAxehh0VYIb3+Nw3+
+         amrG8AFEsZmCAEHXliRk3HLM2ttcYqoxKiQWnhmaWq2yg4Y8xgReJmenuWJWug32jGV4
+         TNyI/NhhsNVzvl9LxaL1Qyy6HLwOLvVb2uirKx0xTfrTzIvg2glj1+h65QhCd/KKmUwH
+         197Q==
+X-Gm-Message-State: AOJu0YwNtMs9WfpNiN2XzWfmagZfPk3S0N/QMnQQ3gcT2FUWsTKo0qiS
+	tiPXlUhpXqsQTSCv7jRNhRDkdfxVNoPIyQSV1n2RLuRsvkZ4PeCnBvDe0rn8D5+EKG4=
+X-Gm-Gg: Acq92OHEmhNwnRWYa0u0jVGCUY1hYjwjQ3kjbxuXQNq5WJwQbC2asGrP7riVaQDBcC9
+	/aYAo2K9/9BrBc3h3xczNq6A1xMZ3I7aXqH9KpoBwWQeyqEbIcHECxbTRGXDTWULXVHcC9BSiT8
+	zTeq3TFcz3x95eZd+Nqcg91qC5yF4ey4bW8sO50RzddtNzBD0AoQ20uTDGZKRTuKjFTuCKMCF9L
+	mN0UcS3daSGKBkvwPlPfj1f7g0FXus1Ben7gFWSxFDPg7qSGDqNaJV0WgJVwBVfOoELrxrdoEI5
+	g85S/BjXLmkI3qUf5U7Bd9kv3YrwigMsZWRNJI2nMKAzZ13sbkKH+4oRefjdXe/ofFPJaDuh8Oi
+	BRHi5w2Mc2s/3k9S7JzQUVBg7k14VEwXdaDW7QLQ17SIm7NDxLrrQWKhhRMcuaCdCdTAiVFnTku
+	Z0pcsNCTcnqYy71K6F5dmEN9sq702AYK8ouBtKcztY8YswdwHAOczau6fy/hLVqCM+ZeTKburRQ
+	F46eCxJBFh3dgYDeg==
+X-Received: by 2002:a05:6000:4023:b0:43d:d037:d59c with SMTP id ffacd0b85a97d-45ea38c97f5mr2635196f8f.16.1779348291660;
+        Thu, 21 May 2026 00:24:51 -0700 (PDT)
 Received: from ?IPV6:2a01:e0a:106d:1080:e038:7e8a:7467:8c6c? ([2a01:e0a:106d:1080:e038:7e8a:7467:8c6c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eaa7d0a36sm544322f8f.2.2026.05.21.00.18.52
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45eaa93d291sm485480f8f.36.2026.05.21.00.24.50
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 May 2026 00:18:52 -0700 (PDT)
-Message-ID: <f8273eaf-1eb5-4f9e-aca2-ebbe4bd2e361@linaro.org>
-Date: Thu, 21 May 2026 09:18:51 +0200
+        Thu, 21 May 2026 00:24:51 -0700 (PDT)
+Message-ID: <18096ecd-3905-4d4c-960c-bf438178b4b1@linaro.org>
+Date: Thu, 21 May 2026 09:24:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -89,23 +89,18 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Neil Armstrong <neil.armstrong@linaro.org>
 Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v3 5/6] media: qcom: iris: vdec: update find_format to
- handle 8bit and 10bit formats
+Subject: Re: [PATCH v3 0/6] media: qcom: iris: add support for decoding 10bit
+ formats
 To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
  Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
  Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bod@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- nicolas Dufresne <nicolas@ndufresne.ca>,
- Hans Verkuil <hverkuil+cisco@kernel.org>
+ Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20260511-topic-sm8x50-iris-10bit-decoding-v3-0-7fc049b93042@linaro.org>
- <20260511-topic-sm8x50-iris-10bit-decoding-v3-5-7fc049b93042@linaro.org>
- <5fc62574-fae1-4bf0-b6b9-fb6fb33041f8@oss.qualcomm.com>
- <08eff436-4221-4bc2-9fac-2ac1b6a091ae@linaro.org>
- <8f708b87-92d3-47ed-8cda-1f34b512816c@oss.qualcomm.com>
- <0534f746-c776-4688-94d3-85a7d7f2d25e@linaro.org>
- <209f8a94-957f-4362-9e17-40e74eed4d7c@oss.qualcomm.com>
+ <c4144820-c5fe-4249-85df-acd64642b909@oss.qualcomm.com>
+ <3b3fbaab-1463-4593-beeb-40168658de7c@linaro.org>
+ <16581410-45e9-4311-a0e5-435dc5314ae6@oss.qualcomm.com>
 Content-Language: en-US, fr
 Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
@@ -132,146 +127,155 @@ Autocrypt: addr=neil.armstrong@linaro.org; keydata=
  4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
  QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
 Organization: Linaro
-In-Reply-To: <209f8a94-957f-4362-9e17-40e74eed4d7c@oss.qualcomm.com>
+In-Reply-To: <16581410-45e9-4311-a0e5-435dc5314ae6@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62404-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-62405-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[linaro.org:+];
+	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,linaro.org:replyto,linaro.org:mid,linaro.org:dkim];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[5];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	REPLYTO_EQ_FROM(0.00)[]
-X-Rspamd-Queue-Id: 8E8F95A004A
+X-Rspamd-Queue-Id: 0F17E5A0190
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 5/20/26 17:47, Vikash Garodia wrote:
+On 5/20/26 17:44, Vikash Garodia wrote:
 > 
-> On 5/20/2026 9:09 PM, Neil Armstrong wrote:
->> On 5/20/26 17:30, Vikash Garodia wrote:
+> On 5/18/2026 1:12 PM, Neil Armstrong wrote:
+>> On 5/13/26 19:33, Vikash Garodia wrote:
 >>>
->>> On 5/18/2026 1:06 PM, Neil Armstrong wrote:
->>>> On 5/13/26 21:27, Vikash Garodia wrote:
->>>>>
->>>>>
->>>>> On 5/11/2026 2:50 PM, Neil Armstrong wrote:
->>>>>> The 10bit pixel format can be only used when the decoder identifies the
->>>>>> stream as decoding into 10bit pixel format buffers, so update the
->>>>>> find_format helper to filter the formats and only allow the proper
->>>>>> formats when setting or trying a capture format.
->>>>>>
->>>>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>>>> ---
->>>>>>   drivers/media/platform/qcom/iris/iris_platform_common.h |  1 +
->>>>>>   drivers/media/platform/qcom/iris/iris_vdec.c            | 10 ++++ ++ ++++
->>>>>>   2 files changed, 11 insertions(+)
->>>>>>
->>>>>> diff --git a/drivers/media/platform/qcom/iris/ iris_platform_common.h b/drivers/media/platform/qcom/iris/ iris_platform_common.h
->>>>>> index 5a489917580e..cd3509da4b75 100644
->>>>>> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
->>>>>> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
->>>>>> @@ -18,6 +18,7 @@ struct iris_inst;
->>>>>>   #define REGISTER_BIT_DEPTH(luma, chroma)    ((luma) << 16 | (chroma))
->>>>>>   #define BIT_DEPTH_8                REGISTER_BIT_DEPTH(8, 8)
->>>>>> +#define BIT_DEPTH_10                REGISTER_BIT_DEPTH(10, 10)
->>>>>>   #define CODED_FRAMES_PROGRESSIVE        0x0
->>>>>>   #define DEFAULT_MAX_HOST_BUF_COUNT        64
->>>>>>   #define DEFAULT_MAX_HOST_BURST_BUF_COUNT    256
->>>>>> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/ drivers/ media/platform/qcom/iris/iris_vdec.c
->>>>>> index eea69f937147..f4d9951ed04c 100644
->>>>>> --- a/drivers/media/platform/qcom/iris/iris_vdec.c
->>>>>> +++ b/drivers/media/platform/qcom/iris/iris_vdec.c
->>>>>> @@ -99,6 +99,16 @@ find_format(struct iris_inst *inst, u32 pixfmt, u32 type)
->>>>>>       if (i == size || fmt[i].type != type)
->>>>>>           return NULL;
->>>>>> +    if (type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
->>>>>> +        if (iris_fmt_is_8bit(fmt[i].pixfmt) &&
->>>>>> +            inst->fw_caps[BIT_DEPTH].value == BIT_DEPTH_10)
->>>>>> +            return NULL;
->>>>>> +
->>>>>> +        if (iris_fmt_is_10bit(fmt[i].pixfmt) &&
->>>>>> +            inst->fw_caps[BIT_DEPTH].value != BIT_DEPTH_10)
->>>>>> +            return NULL;
->>>>>> +    }
->>>>>
->>>>> similar logic would be now needed while enumerating fmt.
->>>>>
->>>>> VIDIOC_ENUM_FMT will now enumerate all capture formats (NV12, QC08C, QC10C..) regardless of the stream's bit depth, while VIDIOC_S_FMT will reject the wrong-depth formats.
->>>>>
->>>>> userspace will see formats via ENUM_FMT that it cannot successfully set with S_FMT.
+>>> On 5/11/2026 2:50 PM, Neil Armstrong wrote:
+>>>> This adds the plumbing to support decoding HEVC, VP9 and AV1
+>>>> streams into 10bit pixel formats, linear and compressed.
 >>>>
->>>> So initially I did that, but I reverted since it broke decoding with gstreamer when trying
->>>> to use QC10C since it requires negociating the src/sink before sending the fist buffer
->>>> and then get the source format change to switch to 10bit.
->>>
->>> Does that mean that src is still producing the data in Q10c, while sink is configured to NV12 (8bit) ?
->>
->> No, it's early src/sink negociation capabilities with the special DRM DMABUF format to handle the QC10c, way before playback starts and starts the v4l2 dance.
->>
-> 
-> How will it know its Q10c, even before the playback starts ?
-
-So in the way upstream gstreamer wants to support QC8C/QC10C, the format must be specified like:
-gst-launch-1.0 -v -m filesrc location=Big_Buck_Bunny_1080_10s_30MB.h265 ! h265parse !  v4l2h265dec ! "video/x-raw(memory:DMABuf), format=DMA_DRM, drm-format=NV12:0x0500000000000001" ! kmssink
-or
-gst-launch-1.0 -v -m filesrc location=Big_Buck_Bunny_1080_10s_30MB_main10.h265 ! h265parse !  v4l2h265dec ! "video/x-raw(memory:DMABuf), format=DMA_DRM, drm-format=P010:0x0500000000000001" ! kmssink
-
-so this means the QC8C/QC10C format must be listed in the VIDIOC_ENUM_FMT so the v4l2h265dec element can enums them as supported (and translated as drm-format=NV12:0x0500000000000001/drm-format=P010:0x0500000000000001)
-
-Neil
-
-> 
->>>
+>>>> This has only been tested on SM8550 & SM8650 with HEVC, and was
+>>>> inspired by Venus, DRM MSM and the downstream vidc driver for the
+>>>> buffer calculations and HFI messages.
 >>>>
->>>> I checked and none of the other v4l2 drivers supporting 10bit does that, so it seems right
->>>> to allow enumerating all possibly supported formats and only accept the session supported
->>>> one with S_FMT.
->>>
->>> I was reading the documentation on this aspects, and it says to keep all the supported ones, instead of changing runtime and limit it to 10bit ones, in this case.
->>
->> Hmm, so my change is correct ?
-> 
-> Yes, to me.
-> 
->>
->>>
->>> +ing Nico and Hans incase they would like to comment on this.
->>>
+>>>> I was unable to get 10bit decoding working with ffmpeg since P010
+>>>> support for v4l2 decoding is missing, but v4l2-ctl works with:
+>>>> v4l2-ctl --verbose --set-fmt-video-out=pixelformat=HEVC --set-fmt- video=pixelformat=P010 --stream-mmap --stream-out-mmap --stream-from- hdr Big_Buck_Bunny_1080_10s_30MB_main10.h265.hdr --stream-to out.P010
+>>>> v4l2-ctl --verbose --set-fmt-video-out=pixelformat=HEVC --set-fmt- video=pixelformat=Q10C --stream-mmap --stream-out-mmap --stream-from- hdr Big_Buck_Bunny_1080_10s_30MB_main10.h265.hdr --stream-to out.QC10
 >>>>
->>>>>
->>>>>> +
->>>>>>       return &fmt[i];
->>>>>>   }
->>>>>>
->>>>>
->>>>> Regards,
->>>>> Vikash
->>>>>
+>>>> The non-10bit decoding still works as before.
 >>>>
+>>>> With Big_Buck_Bunny_1080_10s_30MB reencoded in 10-bit profile
+>>>> and tranformed in v4l2 header format with [1]:
+>>>> ffmpeg -i Big_Buck_Bunny_1080_10s_30MB.h264 -pix_fmt yuv420p10le -c:v libx265 -crf 28 -x265-params profile=main10 Big_Buck_Bunny_1080_10s_30MB_main10.h265
+>>>> /path/to/mkhdr.sh Big_Buck_Bunny_1080_10s_30MB_main10.h265 raw Big_Buck_Bunny_1080_10s_30MB_main10.h265.hdr
+>>>>
+>>>> Fluster HEVC results on SM8650:
+>>>>
+>>>> ./fluster.py run -ts JCT-VC-HEVC_V1 -d GStreamer-H.265-V4L2-Gst1.0 - 131/147
+>>>> The failing test case:
+>>>> - Pixel Format mismatch
+>>>>   - TSUNEQBD_A_MAIN10_Technicolor_2 - Gstreamer waits NV12 but decoder returns P010
+>>>> - Unsupported resolution
+>>>>   - PICSIZE_A_Bossen_1 - resolution is higher than max supported
+>>>>   - PICSIZE_B_Bossen_1 - resolution is higher than max supported
+>>>>   - WPP_D_ericsson_MAIN_2 - resolution is lower than min supported
+>>>>   - WPP_D_ericsson_MAIN10_2 - resolution is lower than min supported
+>>>> - CRC mismatch
+>>>>   - RAP_A_docomo_6
+>>>> - CRC mismatch - bitstream issue - fails with ffmpeg sw decoder as well
+>>>>   - VPSSPSPPS_A_MainConcept_1
 >>>
+>>>  From earlier SOC reports, 10bit tests which were failing were
+>>> - DBLK_A_MAIN10_VIXS_4
+>>> - INITQP_B_Main10_Sony_1
+>>> - TSUNEQBD_A_MAIN10_Technicolor_2
+>>> - WP_A_MAIN10_Toshiba_3
+>>> - WP_MAIN10_B_Toshiba_3
+>>> - WPP_A_ericsson_MAIN10_2
+>>> - WPP_B_ericsson_MAIN10_2
+>>> - WPP_C_ericsson_MAIN10_2
+>>> - WPP_E_ericsson_MAIN10_2
+>>> - WPP_F_ericsson_MAIN10_2
+>>>
+>>> I was in the opinion that once we enable 10bit, these tests would pass. Though i do not see these in your failing tests, but the count of 131/147 have not improved. Could you check if these tests are passing and count is better than 131 pass ?
+>>
+>> Sorry there's a copy paste error I'll fix on v4, here's the fluster log:
+>>
+>>
+>> |Test|GStreamer-H.265-V4L2|
+>> |-|-|
+>> |TOTAL|141/147|
+>> |TOTAL TIME|8.600s|
+>> |-|-|
+>> ...
+>> |PICSIZE_A_Bossen_1|☠|
+>> |PICSIZE_B_Bossen_1|☠|
+>> ...
+>> |RAP_A_docomo_6|❌|
+>> ...
+>> |TSUNEQBD_A_MAIN10_Technicolor_2|☠|
+>> ...
+>> |WPP_D_ericsson_MAIN10_2|☠|
+>> |WPP_D_ericsson_MAIN_2|☠|
+>> ...
+>> |-|-|
+>> |Test|GStreamer-H.265-V4L2|
+>> |TOTAL|140/147|
+>> |TOTAL TIME|8.600s|
+>>
+>> |-|-|
+>> |Profile|GStreamer-H.265-V4L2|
+>> |MAIN|131/135|
+>> |MAIN_10|9/11|
+>> |MAIN_STILL_PICTURE|1/1|
+>>
+>> So the failing cases:
+>> - Pixel Format mismatch
+>>   - TSUNEQBD_A_MAIN10_Technicolor_2 - Gstreamer waits NV12 but decoder returns P010
+> 
+> Why would gstreamer expect NV12 for MAIN10 usecase ? Is this something to do with format negotiation ?
+
+                         # Feature: Test unequal luma and chroma bitdepth
+                         # setting. The luma bitdepth is higher than the chroma
+                         # bitdepth.
+                         # Luma is 10 bit, chroma is 9 bit
+
+This particular test uses different bit depth for luma and chroma, and the fw upscales all to 10bit
+while the sw decoder seems to downscale to 8bit. And it seems other HW decoder does the same as iris.
+
+I think the HW decoder is right here, but this use case will probably never occur in real life.
+
+> 
+>> - Unsupported resolution
+>>   - PICSIZE_A_Bossen_1 - resolution is higher than max supported
+>>   - PICSIZE_B_Bossen_1 - resolution is higher than max supported
+>>   - WPP_D_ericsson_MAIN_2 - resolution is lower than min supported
+>>   - WPP_D_ericsson_MAIN10_2 - resolution is lower than min supported
+>> - CRC mismatch
+>>   - RAP_A_docomo_6
+>>
+>>>
+>>> Regards,
+>>> Vikash
 >>
 > 
 
