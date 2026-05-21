@@ -1,491 +1,614 @@
-Return-Path: <linux-media+bounces-62456-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62457-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MI9kO0PzDmqmDQYAu9opvQ
-	(envelope-from <linux-media+bounces-62456-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 13:57:55 +0200
+	id +AOSCAnzDmqmDQYAu9opvQ
+	(envelope-from <linux-media+bounces-62457-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 13:56:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 521ED5A455C
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 13:57:55 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 938D45A452F
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 13:56:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 86BA43063572
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 11:52:42 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 47BA33043C0B
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 11:53:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96CDB3C8719;
-	Thu, 21 May 2026 11:52:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4CB13C73FB;
+	Thu, 21 May 2026 11:53:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="VkKHzQmz"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="FqZuYwat"
 X-Original-To: linux-media@vger.kernel.org
-Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f48.google.com (mail-yx1-f48.google.com [74.125.224.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314B13ACEE0;
-	Thu, 21 May 2026 11:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.3.216
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779364361; cv=none; b=m4Dy9ZH13547hbAgduyVNXR6smOjxiCr+YVL0HaiAzGDN8BJIKf7sBlXG1mGeMNjtvlFTsnMHAarCBTCkYoHW4LbRtGlqoiMa0MnBMhNTHws3keMB+S05oYttEtMkLbasJzlhIsDxphzrxjb8+BJtJgKZkLr40WlLLcUqrdeo0Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779364361; c=relaxed/simple;
-	bh=vbHdOinYV8YgqEE1iYXkqGIFlq0m5mJvmk6QW/IwU8Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oz6T6yK9k+fHVngP4MfymOlNDu+M6w0W3FiFS8IcJG737ZvcVeQrfc6Cw1CQy8kiATBXsLkG2RMj/Zc3EWQHzwTdo2Au2TWcxP9G4enQljBDpo7BYeCl8ksxuO8Ao+26inXj39EYIOmw6afMktiYkJ2A/kE9t3I5CVvshyrCLjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=VkKHzQmz; arc=none smtp.client-ip=188.40.3.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=ew.tq-group.com; s=default2602; h=Content-Type:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=amM9eiEA/pvK+ydwPeVpWCIxUjk/OZPSWjNRu2oMb5w=; b=VkKHzQmzuj8K5qIXEc3DMSVof8
-	/nFs80YrUTxE9QGf2d33GryU1qcU2ADtGgBrf/Jmu1VEW/LlZomuBYf0G+fndUD3+NbCpfh1hltw3
-	giFs5ExG849OROQ2r5GngCS5jciOy/ZT88eEqlZZaFENXyx40SvTyT6KTpt0Ini/lbgxIxvJNJ+6c
-	v6e4Zhy+CZh2JgbIZE0N8Xe8TAF5p9UzCdJ28ExKuwpNXHb5W/TJ6ols5aZLV6UvVecE3iCMjM48O
-	E9KZ637KM2Qn1CslIhUx1QW2jIzxBj0bwtKoijfsbG6D2bx2uUkgUZ04VRflDKxzKqz1O52W+v96N
-	8wYTXDFg==;
-Received: from sslproxy05.your-server.de ([78.46.172.2])
-	by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <alexander.stein@ew.tq-group.com>)
-	id 1wQ1x3-000588-1X;
-	Thu, 21 May 2026 13:52:33 +0200
-Received: from localhost ([127.0.0.1])
-	by sslproxy05.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <alexander.stein@ew.tq-group.com>)
-	id 1wQ1x2-0009UY-1F;
-	Thu, 21 May 2026 13:52:33 +0200
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Michael Riesch <michael.riesch@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Frank Li <frank.li@nxp.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mehdi Djait <mehdi.djait@linux.intel.com>,
- Hans Verkuil <hverkuil+cisco@kernel.org>,
- "G.N. Zhou (OSS)" <guoniu.zhou@oss.nxp.com>,
- "G.N. Zhou (OSS)" <guoniu.zhou@oss.nxp.com>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "imx@lists.linux.dev" <imx@lists.linux.dev>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>,
- "G.N. Zhou (OSS)" <guoniu.zhou@oss.nxp.com>
-Subject: Re: [PATCH v4 4/6] media: synopsys: Add PHY stopstate wait for i.MX93
-Date: Thu, 21 May 2026 13:52:31 +0200
-Message-ID: <3606153.44csPzL39Z@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To:
- <AS8PR04MB9080D3B1A6B522F3F9342E23FA0E2@AS8PR04MB9080.eurprd04.prod.outlook.com>
-References:
- <20260519-csi2_imx95-v4-0-84ea4bb78a88@oss.nxp.com>
- <10853728.nUPlyArG6x@steina-w>
- <AS8PR04MB9080D3B1A6B522F3F9342E23FA0E2@AS8PR04MB9080.eurprd04.prod.outlook.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 752503BED5A
+	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 11:53:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779364396; cv=pass; b=gGne7L7o3TK/yz+I3MGRVwYvjE3bTYkdop/P74u0zViPP7BIqeCdrkm5klSgjpE0w6TUlCvXJvUxOJaMwtF9SOkMgd6VmiWyrJwXAH3YLA8ZygrES+4xHw7czzu87WiOihI4/kPhtQD2j9rUt6wz24O1VCaN3IEZH/XzTR8dT4E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779364396; c=relaxed/simple;
+	bh=/+lublT9PfdOW5nWD8XN2kdfMbB6V0Rg22KT+ry4thc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tCIZcFQH64paQL+Bkjv4KZY1pNq+kS991jTh3RM8f8uqb1WBoq/qRGvpgltbipCs4L7ROzNhFZytutmVjFTonyBRB4NUB5GeOByGaWS8pHnmlq/Rx8Bq/TMFyECTdkADCiHMuIcllWrmgv9vDgMwDk8qo1nK9p0FuxH5CIOmBi8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=FqZuYwat; arc=pass smtp.client-ip=74.125.224.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yx1-f48.google.com with SMTP id 956f58d0204a3-654672a6d68so5979770d50.0
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2026 04:53:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779364393; cv=none;
+        d=google.com; s=arc-20240605;
+        b=jB1Wk1SY1P+gd0KResIKyLbpEZwTuByYFJjRu9Dn+ap3bQp+XFRDUkUGUYMg3O04hS
+         oez7GGhgumaA/k0vD28vI92/VUfD25xG5PcSFCxgeCPjL6+V8TTpfIiUx+ZvesA6o7Xw
+         sTqmSd8l8p498VgwDy5+Cn9jQG9/liD2OIDpcVS7t7sypaUuwI5wfYULkXpnE88DO7XU
+         gQV5NQ0rr6h2c+XcZMMyHMkBbaFtCFI188lPnPz0yqHBkmnQhxrTXbSj1kU34m2ZZJ4x
+         eo02HvPCW8ir6wWi0Ka/R0AGwkgaJmQTExma0D1K8NArBbCcAg58PGvjNZMevNi6avgt
+         d/9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=0ATXJvpVl+yDdbf1L9wASD+cd9VRiDei3GKJ8PoyERQ=;
+        fh=B7ifxTXUpfhvGJsPkXPZzRGOUDWcc9l2BJXuwbV02q0=;
+        b=hvkWq0BGd9fZJu8ohuTLz3aXE7XUHfwQ6GwfpFOFPhkOvUeAV5w2TGpjWN+hfZtgHf
+         45pK2KBiI9JFvxPdokx9NjNdsk23OdpZnaG10THHhOOlJauRmrs1MY5lKCxmVeI4Bg0H
+         7+XlKYg2uENmjqMfu/rOXI4OCzh2sDeqQm/4kWNbyYyqRbxDCdAgL6tCtIAg+SxolofQ
+         TsbsQ1fxw5DwvM+e3tCTV0+UqV6ygqj3RLKQUBX9JYxtRlLYMS2vk4MMw91hiUZjAZoG
+         1qwCLbi61pIEvXoW2aYnyqoV2G88SsW1Z3QnRzhN3qvlWghnovHxoVXqHsZ0ckAOCQtg
+         vl/w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1779364393; x=1779969193; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0ATXJvpVl+yDdbf1L9wASD+cd9VRiDei3GKJ8PoyERQ=;
+        b=FqZuYwatxuvoB+qZXho06PZq57YYqOYBAzqJj08YDBZusGeqeQ128Jl94tR62KYURa
+         C/pdkEtutHzE00m4UzvkNQaOWTXjM5rc3mvL7Gl1b7QF/OpDBnZCnivClljmcqpIiuAx
+         jNHFgUGjT+J2KsLBoeUBijYpJrpUfZkUfyHa8sfJJJXJbFKGpD1rWFTEwyS2El2xUJaC
+         5oyOMEaIlyrNdzAR2kJF27ueNRv4l1QfltncJa2yrd/z1TigqQU57jjpj/nOtlud4TBI
+         FZO6cNlkXJ225i71nslB8ybdSSoU2eFkG/OxU0wc2167HMhc0wioftMj2oPEkKz84mlE
+         dcig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779364393; x=1779969193;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0ATXJvpVl+yDdbf1L9wASD+cd9VRiDei3GKJ8PoyERQ=;
+        b=qy4XOgP9dCanI7HOChlLRIsPSmbueyJUEGuddnI07PIxiE+owbW9ytijUjwi8/s/Si
+         n5/LVI3r/lif+pRwB00j+BE0MroKsLHn5QVHRfuv4wjs+V0ja1ymXw+9ewGHsJlZ7MbU
+         nyUQeP6ZnLaximVmsvEHuOLEUeM6Rq6x9Rx2G8p5tvKVI3CghalSKx/BJpDKsLYncDwz
+         GI7kOW3tsk7I+ql3y9n+swLEFYn9VxAIsg8w6oO/AvVj8u08/XnSwGjTGSBA3EjNljIy
+         l2rl9PWmkIe2hI6DmK3Q48p0B9xmvwH3Q/h6LJBEi/v69e+Z5qElF8IUK+0njRAp3n46
+         JZYQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/zolN+YsQ8xQcINOL91qMTnpH6dfHuGYl0cPR6/mEb9pUFCe4f5nDWz1wOMkjltddbIEb2rVAY085Wbg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWXj0CKzgfYi9WqR63eYPr1L3N3RWl18QglAYa5MCcCUwvlkgP
+	WzzHziJEHxHYJctBOJA/dOKnVu3iFeT5hJj9MUPftpXTVdDguUiqTtSbXqpEPOowvtgvNLOhsSW
+	JnTZax9fMbWgvC8CRtCjq3zLzock16Y17Yp0b50DirznQjr/FrWcPBt8=
+X-Gm-Gg: Acq92OGjQ06jq0PHanjRPUH+DCt6j/hm3daqnivgv6LAFrQCTEURgwvnq6WWLz0j6+6
+	dvWuV01zBDOSgnc9ZYE9hEMCFzxegcuK0NX3hE4gi55Lp6l7CF8OwjyVqjqasIYqrKVgpvwQ3AO
+	y/AADC1abAOZTXcrGicHOAUtRUZcrs3YxE6POCKwzAD4nUKh7cygp6kHevJJaN3u7sDA6S952WW
+	mNx7BHmRBf39pc9RHkOGj/Ui1DQaCrxdmW/XDiHa5EehJ0QPNGH0pBrfsI6iiLLYcVPOf/MNJ8e
+	mTUfP5SZcNJWjodpSxtxCxvruaSnPWnvZzAbOF5RZaZOnPJymKp+0DXMwtNevzd3bG79Mo0JBuJ
+	vntlMwtD64knmfrgA6mVCePY9
+X-Received: by 2002:a05:690e:120d:b0:65e:b97:771c with SMTP id
+ 956f58d0204a3-65eae0ca72cmr2031771d50.42.1779364393353; Thu, 21 May 2026
+ 04:53:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260519104129.2001018-1-shravan.chippa@microchip.com>
+ <CAPY8ntC4kSq21J=BF+kxO8dESd1u3+cUbgj1VQzKhGYF_pMstA@mail.gmail.com>
+ <SA1PR11MB8280C7085CB7BE509107F6E481012@SA1PR11MB8280.namprd11.prod.outlook.com>
+ <CAPY8ntD6_2BDiP-0zXK1X0f69btepZYCTgbMpWryZhKvZoNPpw@mail.gmail.com> <SA1PR11MB82806D01B032E83C37B97F96810E2@SA1PR11MB8280.namprd11.prod.outlook.com>
+In-Reply-To: <SA1PR11MB82806D01B032E83C37B97F96810E2@SA1PR11MB8280.namprd11.prod.outlook.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 21 May 2026 12:52:57 +0100
+X-Gm-Features: AVHnY4I2v8OsMQTZ8N2ty53sTiAnAF2sIB5zXilkKqY8xj0nqSPM135XEkzd12Q
+Message-ID: <CAPY8ntAqtVuz+sxHj8gOOnM74iwn682+GEd6DHcta_UwQ42+-g@mail.gmail.com>
+Subject: Re: [PATCH] media: i2c: imx334: add new link frequency configuration
+To: Shravan.Chippa@microchip.com
+Cc: sakari.ailus@linux.intel.com, mchehab@kernel.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Conor.Dooley@microchip.com, Valentina.FernandezAlanis@microchip.com, 
+	Praveen.Kumar@microchip.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-X-Virus-Scanned: Clear (ClamAV 1.4.3/28007/Thu May 21 08:26:28 2026)
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ew.tq-group.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[ew.tq-group.com:s=default2602];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	TAGGED_FROM(0.00)[bounces-62456-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[raspberrypi.com:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62457-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[alexander.stein@ew.tq-group.com,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ew.tq-group.com:+];
+	MIME_TRACE(0.00)[0:+];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TO_DN_NONE(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 521ED5A455C
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[microchip.com:email,intel.com:email,raspberrypi.com:email,raspberrypi.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: 938D45A452F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi,
-
-thanks for the replay.
-
-Am Donnerstag, 21. Mai 2026, 11:29:39 CEST schrieb G.N. Zhou (OSS):
-> Hi Alexander,
->=20
+On Thu, 21 May 2026 at 05:48, <Shravan.Chippa@microchip.com> wrote:
+>
+> Hi Dave,
+>
 > > -----Original Message-----
-> > From: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > Sent: Wednesday, May 20, 2026 7:12 PM
-> > To: Michael Riesch <michael.riesch@collabora.com>; Mauro Carvalho Chehab
-> > <mchehab@kernel.org>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
-> > <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Heiko Stuebner
-> > <heiko@sntech.de>; Laurent Pinchart <laurent.pinchart@ideasonboard.com>;
-> > Frank Li <frank.li@nxp.com>; Sakari Ailus <sakari.ailus@linux.intel.com=
->; Bryan
-> > O'Donoghue <bryan.odonoghue@linaro.org>; Mehdi Djait
-> > <mehdi.djait@linux.intel.com>; Hans Verkuil <hverkuil+cisco@kernel.org>;
-> > G.N. Zhou (OSS) <guoniu.zhou@oss.nxp.com>
-> > Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
-> > devicetree@vger.kernel.org; imx@lists.linux.dev; linux-arm-
-> > kernel@lists.infradead.org; linux-rockchip@lists.infradead.org; G.N. Zh=
-ou (OSS)
-> > <guoniu.zhou@oss.nxp.com>
-> > Subject: Re: [PATCH v4 4/6] media: synopsys: Add PHY stopstate wait for
-> > i.MX93
-> >=20
-> > Hi,
-> >=20
-> > Am Dienstag, 19. Mai 2026, 04:07:41 CEST schrieb Guoniu Zhou:
-> > > Implement waiting for D-PHY lanes to enter stop state on i.MX93. This
-> > > ensures proper PHY initialization by verifying that the clock lane and
-> > > all active data lanes have entered the stop state before proceeding
-> > > with further operations.
+> > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > Sent: Wednesday, May 20, 2026 6:06 PM
+> > To: shravan Chippa - I35088 <Shravan.Chippa@microchip.com>
+> > Cc: sakari.ailus@linux.intel.com; mchehab@kernel.org; linux-
+> > media@vger.kernel.org; linux-kernel@vger.kernel.org; Conor Dooley - M52=
+691
+> > <Conor.Dooley@microchip.com>; Valentina Fernandez Alanis - M63239
+> > <Valentina.FernandezAlanis@microchip.com>; Praveen Kumar - I30718
+> > <Praveen.Kumar@microchip.com>
+> > Subject: Re: [PATCH] media: i2c: imx334: add new link frequency configu=
+ration
+> >
+> > EXTERNAL EMAIL: Do not click links or open attachments unless you know =
+the
+> > content is safe
+> >
+> > Hi Shravan
+> >
+> > On Wed, 20 May 2026 at 06:21, <Shravan.Chippa@microchip.com> wrote:
 > > >
-> > > Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> > > Signed-off-by: Guoniu Zhou <guoniu.zhou@oss.nxp.com>
-> > > ---
-> > > Changes in v2:
-> > > - Removes redundant register availability check
-> > > - Uses read_poll_timeout() with dw_mipi_csi2rx_read() instead of
-> > >   readl_poll_timeout() with direct register address
-> > > - Fixes stopstate condition logic
-> > > - Check PHY stopstate after sensor enable instead of before to ensure
-> > >   correct timing.
-> > > - Optimize PHY stopstate polling parameters (1000us->10us, 2s->1ms) to
-> > >   balance performance and responsiveness.
-> > > ---
-> > >  drivers/media/platform/synopsys/dw-mipi-csi2rx.c | 36
-> > > ++++++++++++++++++++++++
-> > >  1 file changed, 36 insertions(+)
 > > >
-> > > diff --git a/drivers/media/platform/synopsys/dw-mipi-csi2rx.c
-> > > b/drivers/media/platform/synopsys/dw-mipi-csi2rx.c
-> > > index 92178a3dec5d..8a34aec550ad 100644
-> > > --- a/drivers/media/platform/synopsys/dw-mipi-csi2rx.c
-> > > +++ b/drivers/media/platform/synopsys/dw-mipi-csi2rx.c
-> > > @@ -11,6 +11,7 @@
-> > >  #include <linux/clk.h>
-> > >  #include <linux/delay.h>
-> > >  #include <linux/io.h>
-> > > +#include <linux/iopoll.h>
-> > >  #include <linux/module.h>
-> > >  #include <linux/of.h>
-> > >  #include <linux/phy/phy.h>
-> > > @@ -35,6 +36,8 @@
-> > >  #define DW_REG_EXIST		BIT(31)
-> > >  #define DW_REG(x)		(DW_REG_EXIST | (x))
 > > >
-> > > +#define DPHY_STOPSTATE_CLK_LANE		BIT(16)
-> > > +
-> > >  #define DPHY_TEST_CTRL0_TEST_CLR	BIT(0)
+> > > > -----Original Message-----
+> > > > From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > > Sent: Tuesday, May 19, 2026 7:37 PM
+> > > > To: shravan Chippa - I35088 <Shravan.Chippa@microchip.com>
+> > > > Cc: sakari.ailus@linux.intel.com; mchehab@kernel.org; linux-
+> > > > media@vger.kernel.org; linux-kernel@vger.kernel.org; Conor Dooley -
+> > > > M52691 <Conor.Dooley@microchip.com>; Valentina Fernandez Alanis -
+> > > > M63239 <Valentina.FernandezAlanis@microchip.com>; Praveen Kumar -
+> > > > I30718 <Praveen.Kumar@microchip.com>
+> > > > Subject: Re: [PATCH] media: i2c: imx334: add new link frequency
+> > > > configuration
+> > > >
+> > > > EXTERNAL EMAIL: Do not click links or open attachments unless you
+> > > > know the content is safe
+> > > >
+> > > > Hi Shravan
+> > > >
+> > > > On Tue, 19 May 2026 at 12:17, shravan kumar
+> > > > <shravan.chippa@microchip.com> wrote:
+> > > > >
+> > > > > From: Shravan Chippa <shravan.chippa@microchip.com>
+> > > > >
+> > > > > Add support for a new 222=E2=80=AFMHz link frequency configuratio=
+n to the
+> > > > > IMX334 driver and dynamically generate the supported modes array
+> > > > > based on the link frequencies specified in the DTS. When multiple
+> > > > > link frequencies support the same resolution, the driver selects
+> > > > > the first matching entry; therefore, the link frequency must be
+> > > > > explicitly defined in the DTS to avoid resolution conflicts.
+> > > > > The link frequency is a read=E2=80=91only parameter and is automa=
+tically
+> > > > > set based on the selected resolution and DTS configuration.
+> > > >
+> > > > Where is the sensor setup to configure this 222MHz link frequency?
+> > > >
+> > > > I have a datasheet that lists support for 1782, 1188, and 891Mbit/s=
+,
+> > > > which equates to 891, 594, and 445.5MHz link frequencies. There is
+> > > > no mention of supporting 444Mbit/s or 222MHz.
+> > > > The driver switches from the default 445.5MHz to 891MHz by changing
+> > > > SYS_MODE from 0x02 to 0x00 (it's an 8bit register, so I don't know
+> > > > why it's trying to write 0x0100).
+> > > >
+> > > > As far as I can tell, this patch just changes the advertised link
+> > > > frequency, but the sensor will produce exactly the same 445.5MHz
+> > > > output. Can you tell me what I've missed?
 > > >
-> > >  #define IPI_VCID_VC(x)			FIELD_PREP(GENMASK(1, 0),
-> > (x))
-> > > @@ -65,6 +68,7 @@ enum dw_mipi_csi2rx_regs_index {
-> > >  	DW_MIPI_CSI2RX_PHY_TST_CTRL0,
-> > >  	DW_MIPI_CSI2RX_PHY_TST_CTRL1,
-> > >  	DW_MIPI_CSI2RX_PHY_SHUTDOWNZ,
-> > > +	DW_MIPI_CSI2RX_PHY_STOPSTATE,
-> > >  	DW_MIPI_CSI2RX_IPI_DATATYPE,
-> > >  	DW_MIPI_CSI2RX_IPI_MEM_FLUSH,
-> > >  	DW_MIPI_CSI2RX_IPI_MODE,
-> > > @@ -87,6 +91,7 @@ struct dw_mipi_csi2rx_drvdata {
-> > >  	void (*dphy_assert_reset)(struct dw_mipi_csi2rx_device *csi2);
-> > >  	void (*dphy_deassert_reset)(struct dw_mipi_csi2rx_device *csi2);
-> > >  	void (*ipi_enable)(struct dw_mipi_csi2rx_device *csi2);
-> > > +	int (*wait_for_phy_stopstate)(struct dw_mipi_csi2rx_device *csi2);
-> > >  };
+> > > Hi Dave,
 > > >
-> > >  struct dw_mipi_csi2rx_format {
-> > > @@ -139,6 +144,7 @@ static const u32 imx93_regs[DW_MIPI_CSI2RX_MAX]
-> > =3D {
-> > >  	[DW_MIPI_CSI2RX_PHY_SHUTDOWNZ] =3D DW_REG(0x40),
-> > >  	[DW_MIPI_CSI2RX_DPHY_RSTZ] =3D DW_REG(0x44),
-> > >  	[DW_MIPI_CSI2RX_PHY_STATE] =3D DW_REG(0x48),
-> > > +	[DW_MIPI_CSI2RX_PHY_STOPSTATE] =3D DW_REG(0x4c),
-> > >  	[DW_MIPI_CSI2RX_PHY_TST_CTRL0] =3D DW_REG(0x50),
-> > >  	[DW_MIPI_CSI2RX_PHY_TST_CTRL1] =3D DW_REG(0x54),
-> > >  	[DW_MIPI_CSI2RX_IPI_MODE] =3D DW_REG(0x80), @@ -556,10 +562,19
-> > @@
-> > > static int dw_mipi_csi2rx_enable_streams(struct v4l2_subdev *sd,
-> > >  	if (ret)
-> > >  		goto err_csi_stop;
+> > > I am attempting to change the value of the register
+> > > IMX334_REG_INCKSEL2 to 0x0A in this patch, which sets the link
+> > > frequency to 222 MHz and defines the supported resolutions; however,
+> > > this behavior is not documented in the datasheet. Additionally,
+> > > writing 0x0E to IMX334_REG_INCKSEL2 results in a 111 MHz link
+> > > frequency, while writing 0x06 sets the link frequency to 445 MHz
+> >
+> > Apologies, I'd totally missed that you were writing
+> > IMX334_REG_INCKSEL2 directly from imx334_enable_streams. So it's the
+> > magic of the PLL_IF_GC bits, and they aren't documented.
+> > Most likely the register is only controlling a divider, in which case t=
+he link
+> > frequency would be 222.275MHz.
+>
+>
+> No need to apologize=E2=80=94I appreciate you taking the time to review i=
+t. Your comments are helpful,
+> and thank you for taking another look.
+> Yes, the PLL_IF_GC bits are responsible for changing the link frequency.
+>
+> >
+> > It was fairly ugly with IMX334_REG_INCKSEL2 being written from
+> > common_mode_regs and then written again from mode_3840x2160_regs,
+> > but now it may get written from imx334_enable_streams too.
+> > It'd be nice if that was all factored out into clean handling for link =
+frequency
+> > (and input clock?), but seeing as this is an orphaned driver there's su=
+pposedly
+> > no one who really cares too much.
+> >
+> > A further question: if the link frequency is lower then doesn't hblank =
+need to
+> > be extended to allow enough time to output the data? Or is there enough
+> > slack in the current timings to give enough time, or the pixel rate has=
+ changed
+> > too?
+> > All modes except 3840x2160 advertise a pixel clock of 297MPix/s with th=
+e
+> > same hblank of 2480 pixels and vblank of 1170 lines. However the actual
+> > HMAX register isn't changed between modes (0x44c written from
+> > common_mode_regs), so I suspect they all actually give different refres=
+h rates
+> > from those advertised.
+> >
+>
+> There are two additional registers related to the resolution: IMX334_REG_=
+Y_OUT_SIZE and IMX334_REG_HNUM.
+> I believe the hblank value is sufficient, and with a 222=E2=80=AFMHz link=
+ frequency, achieving 30=E2=80=AFfps should be possible.
+> Increasing the link frequency may allow the frame rate to exceed 30=E2=80=
+=AFfps.
+
+Is 30fps that max that is achievable with the current 445.5MHz link frequen=
+cy?
+Sony have done their usual in the datasheet of giving individual
+examples rather than specifications. It lists the 2x2 binned mode as
+needing 891/1188 Mbit/s for 30 or 25fps, and 1188/1782 Mbit/s for 60
+or 50fps. If 30fps can actually be achieved on 222MHz/445.5Mbit/s,
+then why can't 60fps be achieved on 445.5MHz/891Mbit/s?
+
+It's a tangent, so if the modes all work at the correct frame rates
+without corruption, then fine.
+
+> > > For the 891 MHz link frequency, the SYS_MODE value is 0x100, and it i=
+s
+> > written automatically when the 3840=C3=972160 resolution is selected. T=
+his
+> > behavior does not apply to the 222 MHz mode. For the 222 MHz link
+> > frequency, the required SYS_MODE value is 0x02.
+> >
+> > My comment was more that IMX334_REG_SYS_MODE is defined as
+> > CCI_REG8(0x319e), so only the bottom 8 bits of any value will ever be t=
+aken.
+> > Trying to write 0x100 will therefore be equate to writing 0x00.
+> > So it's more odd behaviour from the original driver rather than anythin=
+g in this
+> > patch.
+>
+> Correct. This behavior is not introduced by this patch. The register is o=
+nly 8 bits wide, so writing 0x100 will result in 0x00 being written instead=
+.
+>
+> >
+> > Sorry, I saw this patch and took a look as it's another Starvis sensor,=
+ but I seem
+> > to be seeing various potential issues lurking.
+>
+> This patch only modifies the link frequency by updating the IMX334_REG_IN=
+CKSEL2 register value and configures the sensor to operate at 30 fps.
+
+Yes, sorry. It's the problem of starting to look at a new module and
+starting to see the issues and ambiguities. I'll just review the
+patch.
+I might see if I can find a vendor of a suitable module to play with.
+At least with it being a Starvis sensor they tend to stay in
+production longer.
+
+> Thanks,
+> Shravan
+>
+> >
+> >   Dave
+> >
+> > > Thanks,
+> > > Shravan
 > > >
-> > > +	if (!csi2->enabled_streams &&
-> > > +	    csi2->drvdata->wait_for_phy_stopstate) {
-> > > +		ret =3D csi2->drvdata->wait_for_phy_stopstate(csi2);
-> > > +		if (ret)
-> > > +			goto err_disable_streams;
-> > > +	}
-> > > +
-> > >  	csi2->enabled_streams |=3D streams_mask;
-> > >
-> > >  	return 0;
-> > >
-> > > +err_disable_streams:
-> > > +	v4l2_subdev_disable_streams(remote_sd, remote_pad->index, mask);
-> > >  err_csi_stop:
-> > >  	/* Stop CSI hardware if no streams are enabled */
-> > >  	if (!csi2->enabled_streams)
-> > > @@ -871,11 +886,32 @@ static void imx93_csi2rx_dphy_ipi_enable(struct
-> > dw_mipi_csi2rx_device *csi2)
-> > >  	dw_mipi_csi2rx_write(csi2, DW_MIPI_CSI2RX_IPI_MODE, val);  }
-> > >
-> > > +static int imx93_csi2rx_wait_for_phy_stopstate(struct
-> > > +dw_mipi_csi2rx_device *csi2) {
-> > > +	struct device *dev =3D csi2->dev;
-> > > +	u32 stopstate_mask;
-> > > +	u32 val;
-> > > +	int ret;
-> > > +
-> > > +	stopstate_mask =3D DPHY_STOPSTATE_CLK_LANE | GENMASK(csi2-
-> > >lanes_num -
-> > > +1, 0);
-> > > +
-> > > +	ret =3D read_poll_timeout(dw_mipi_csi2rx_read, val,
-> > > +				(val & stopstate_mask) =3D=3D stopstate_mask,
-> > > +				 10, 1000, true,
-> > > +				 csi2, DW_MIPI_CSI2RX_PHY_STOPSTATE);
-> > > +	if (ret)
-> > > +		dev_err(dev, "lanes are not in stop state: %#x,
-> > expected %#x\n",
-> > > +			val, stopstate_mask);
-> >=20
-> > Did you actually test this on imx93? I'm trying to get my imx327 sensor=
- to run,
-> > but only run into this error message:
-> > dw-mipi-csi2rx 4ae00000.mipi-csi: lanes are not in stop state: 0x0, exp=
-ected
-> > 0x10003
->=20
-> Thanks for testing. Regarding the lane stop state error on i.MX93 with im=
-x327:
->=20
-> This error indicates the CSI-2 lanes are not in LP-11 (stop) state when=20
-> expected. Please check:
->=20
-> 1) Verify the sensor PHY is in LP-11 state before returning from the sens=
-or's=20
->    s_stream(1) call. The CSI-2 receiver expects lanes to be in stop state=
-=20
->    initially.
+> > > > Thanks
+> > > >   Dave
+> > > >
+> > > > > Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
+> > > > > ---
+> > > > >  drivers/media/i2c/imx334.c | 112
+> > > > > +++++++++++++++++++++++++++++++++++--
+> > > > >  1 file changed, 106 insertions(+), 6 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/media/i2c/imx334.c
+> > > > > b/drivers/media/i2c/imx334.c index 9654f9268056..336de9cd8ff2
+> > > > > 100644
+> > > > > --- a/drivers/media/i2c/imx334.c
+> > > > > +++ b/drivers/media/i2c/imx334.c
+> > > > > @@ -109,6 +109,7 @@
+> > > > >  /* CSI2 HW configuration */
+> > > > >  #define IMX334_LINK_FREQ_891M          891000000
+> > > > >  #define IMX334_LINK_FREQ_445M          445500000
+> > > > > +#define IMX334_LINK_FREQ_222M          222500000
 
-Well, this might be tricky as I don't have D-PHY capable scopes.
-I can successfully use this sensor on a imx8mp, so I am expecting this to be
-okay.
+Half of 445500000 would be 222750000.
 
-> 2) Check if the imx327 driver has a delay between starting the stream and=
-=20
->    returning from s_stream(). If the sensor transitions PHY out of LP-11=
-=20
->    state during this delay, the CSI driver's lane state check will fail=20
->    when it runs later. The sensor should remain in LP-11 until the CSI=20
->    controller completes its initialization.
+> > > > >  #define IMX334_NUM_DATA_LANES          4
+> > > > >
+> > > > >  #define IMX334_REG_MIN                 0x00
+> > > > > @@ -209,6 +210,8 @@ struct imx334 {
+> > > > >         };
+> > > > >         u32 vblank;
+> > > > >         const struct imx334_mode *cur_mode;
+> > > > > +       const struct imx334_mode *new_supported_modes;
+> > > > > +       int new_modes_size;
+> > > > >         unsigned long link_freq_bitmap;
+> > > > >         u32 cur_code;
+> > > > >  };
+> > > > > @@ -216,6 +219,7 @@ struct imx334 {  static const s64 link_freq[]
+> > > > > =3D {
+> > > > >         IMX334_LINK_FREQ_891M,
+> > > > >         IMX334_LINK_FREQ_445M,
+> > > > > +       IMX334_LINK_FREQ_222M,
+> > > > >  };
+> > > > >
+> > > > >  /* Sensor common mode registers values */ @@ -486,6 +490,45 @@
+> > > > > static const struct imx334_mode supported_modes[] =3D {
+> > > > >                         .num_of_regs =3D ARRAY_SIZE(mode_640x480_=
+regs),
+> > > > >                         .regs =3D mode_640x480_regs,
+> > > > >                 },
+> > > > > +       }, {
+> > > > > +               .width =3D 1920,
+> > > > > +               .height =3D 1080,
+> > > > > +               .hblank =3D 2480,
+> > > > > +               .vblank =3D 1170,
+> > > > > +               .vblank_min =3D 45,
+> > > > > +               .vblank_max =3D 132840,
+> > > > > +               .pclk =3D 297000000,
+> > > > > +               .link_freq_idx =3D 2,
+> > > > > +               .reg_list =3D {
+> > > > > +                       .num_of_regs =3D ARRAY_SIZE(mode_1920x108=
+0_regs),
+> > > > > +                       .regs =3D mode_1920x1080_regs,
+> > > > > +               },
+> > > > > +       }, {
+> > > > > +               .width =3D 1280,
+> > > > > +               .height =3D 720,
+> > > > > +               .hblank =3D 2480,
+> > > > > +               .vblank =3D 1170,
+> > > > > +               .vblank_min =3D 45,
+> > > > > +               .vblank_max =3D 132840,
+> > > > > +               .pclk =3D 297000000,
+> > > > > +               .link_freq_idx =3D 2,
+> > > > > +               .reg_list =3D {
+> > > > > +                       .num_of_regs =3D ARRAY_SIZE(mode_1280x720=
+_regs),
+> > > > > +                       .regs =3D mode_1280x720_regs,
+> > > > > +               },
+> > > > > +       }, {
+> > > > > +               .width =3D 640,
+> > > > > +               .height =3D 480,
+> > > > > +               .hblank =3D 2480,
+> > > > > +               .vblank =3D 1170,
+> > > > > +               .vblank_min =3D 45,
+> > > > > +               .vblank_max =3D 132840,
+> > > > > +               .pclk =3D 297000000,
+> > > > > +               .link_freq_idx =3D 2,
+> > > > > +               .reg_list =3D {
+> > > > > +                       .num_of_regs =3D ARRAY_SIZE(mode_640x480_=
+regs),
+> > > > > +                       .regs =3D mode_640x480_regs,
+> > > > > +               },
+> > > > >         },
+> > > > >  };
+> > > > >
+> > > > > @@ -713,7 +756,7 @@ static int imx334_enum_frame_size(struct
+> > > > v4l2_subdev *sd,
+> > > > >         struct imx334 *imx334 =3D to_imx334(sd);
+> > > > >         u32 code;
+> > > > >
+> > > > > -       if (fsize->index >=3D ARRAY_SIZE(supported_modes))
+> > > > > +       if (fsize->index >=3D imx334->new_modes_size)
+> > > > >                 return -EINVAL;
+> > > > >
+> > > > >         code =3D imx334_get_format_code(imx334, fsize->code); @@
+> > > > > -721,9
+> > > > > +764,9 @@ static int imx334_enum_frame_size(struct v4l2_subdev
+> > > > > +*sd,
+> > > > >         if (fsize->code !=3D code)
+> > > > >                 return -EINVAL;
+> > > > >
+> > > > > -       fsize->min_width =3D supported_modes[fsize->index].width;
+> > > > > +       fsize->min_width =3D
+> > > > > + imx334->new_supported_modes[fsize->index].width;
+> > > > >         fsize->max_width =3D fsize->min_width;
+> > > > > -       fsize->min_height =3D supported_modes[fsize->index].heigh=
+t;
+> > > > > +       fsize->min_height =3D
+> > > > > + imx334->new_supported_modes[fsize->index].height;
+> > > > >         fsize->max_height =3D fsize->min_height;
+> > > > >
+> > > > >         return 0;
+> > > > > @@ -792,8 +835,8 @@ static int imx334_set_pad_format(struct
+> > > > v4l2_subdev *sd,
+> > > > >         const struct imx334_mode *mode;
+> > > > >         int ret =3D 0;
+> > > > >
+> > > > > -       mode =3D v4l2_find_nearest_size(supported_modes,
+> > > > > -                                     ARRAY_SIZE(supported_modes)=
+,
+> > > > > +       mode =3D v4l2_find_nearest_size(imx334->new_supported_mod=
+es,
+> > > > > +                                     imx334->new_modes_size,
+> > > > >                                       width, height,
+> > > > >                                       fmt->format.width,
+> > > > > fmt->format.height);
+> > > > >
+> > > > > @@ -914,6 +957,9 @@ static int imx334_enable_streams(struct
+> > > > v4l2_subdev *sd,
+> > > > >                 goto err_rpm_put;
+> > > > >         }
+> > > > >
+> > > > > +       if (link_freq[imx334->cur_mode->link_freq_idx] =3D=3D
+> > > > IMX334_LINK_FREQ_222M)
+> > > > > +               cci_write(imx334->cci, IMX334_REG_INCKSEL2, 0x0a,
+> > > > > + NULL);
+> > > > > +
 
-In imx290_set_stream() and subsequently imx290_start_streaming() setting
-IMX290_XMSTA starts the stream. I expect this is the point when the sensors
-switches from LP-11 to HS. But again, I can't verify.
+The return value from cci_write is not checked, nor ret passed in.
 
-With enabling debug
-> echo "module videodev +p" > /sys/kernel/debug/dynamic_debug/control
-> echo 0xff > /sys/class/video4linux/video0/dev_debug
-
-After I setup the media pipeline, running the command
-> v4l2-ctl -z "platform:4ae40000.isi" -d "mxc_isi.0.capture" --stream-mmap =
-=2D-stream-count=3D1 --stream-to=3Dimx93.raw
-I get the following debug output:
-
-=2D-8<--
-plane 0: bytesperline=3D3840 sizeimage=3D4147200
-mxc-isi 4ae40000.isi: validating link "crossbar":2 -> "mxc_isi.0":0
-mxc-isi 4ae40000.isi: validating stream "crossbar":2:0 -> "mxc_isi.0":0:0
-mxc-isi 4ae40000.isi: validating link "dw-mipi-csi2rx 4ae00000.mipi-csi":1 =
-=2D> "crossbar":0
-mxc-isi 4ae40000.isi: validating stream "dw-mipi-csi2rx 4ae00000.mipi-csi":=
-1:0 -> "crossbar":0:0
-mxc-isi 4ae40000.isi: validating link "imx327 4-001a":0 -> "dw-mipi-csi2rx =
-4ae00000.mipi-csi":0
-mxc-isi 4ae40000.isi: validating stream "imx327 4-001a":0:0 -> "dw-mipi-csi=
-2rx 4ae00000.mipi-csi":0:0
-mxc-isi 4ae40000.isi: enable streams "crossbar":2/0x1
-mxc-isi 4ae40000.isi: collect_streams: "crossbar":2: found 0x1 enabled 0x0
-imx290 4-001a: Frame descriptor on pad 0, type CSI-2
-imx290 4-001a:   stream 0, code 0x300f, length 0, flags 0x0000, vc 0, dt 0x=
-2b
-dw-mipi-csi2rx 4ae00000.mipi-csi: Frame descriptor on pad 1, type CSI-2
-dw-mipi-csi2rx 4ae00000.mipi-csi:        stream 0, code 0x300f, length 0, f=
-lags 0x0000, vc 0, dt 0x2b
-mxc-isi 4ae40000.isi: enable streams "dw-mipi-csi2rx 4ae00000.mipi-csi":1/0=
-x1
-dw-mipi-csi2rx 4ae00000.mipi-csi: collect_streams: "dw-mipi-csi2rx 4ae00000=
-=2Emipi-csi":1: found 0x1 enabled 0x0
-mxc-isi 4ae40000.isi: enable streams "imx327 4-001a":0/0x1
-imx290 4-001a: collect_streams: sub-device "imx327 4-001a" does not support=
- streams
-dw-mipi-csi2rx 4ae00000.mipi-csi: lanes are not in stop state: 0x0, expecte=
-d 0x10003
-mxc-isi 4ae40000.isi: disable streams "imx327 4-001a":0/0x1
-imx290 4-001a: collect_streams: sub-device "imx327 4-001a" does not support=
- streams
-mxc-isi 4ae40000.isi: enable streams 1:0x1 failed: -110
-mxc-isi 4ae40000.isi: failed to enable streams 0x1 on 'dw-mipi-csi2rx 4ae00=
-000.mipi-csi':1: -110
-mxc-isi 4ae40000.isi: enable streams 2:0x1 failed: -110
-mxc-isi 4ae40000.isi: Failed to enable pipe 0
-video0: VIDIOC_STREAMON: error -110: type=3Dvid-cap-mplane
-videodev: v4l2_release: video0: release
-=2D-8<--
-
-=46or completeness this is my media device config
-=2D-8<--
-# media-ctl  -p
-Media controller API version 7.1.0
-
-Media device information
-=2D-----------------------
-driver          mxc-isi
-model           FSL Capture Media Device
-serial         =20
-bus info        platform:4ae40000.isi
-hw revision     0x0
-driver version  7.1.0
-
-Device topology
-=2D entity 1: crossbar (3 pads, 2 links, 1 route)
-            type V4L2 subdev subtype Unknown flags 0
-            device node name /dev/v4l-subdev0
-        routes:
-                0/0 -> 2/0 [ACTIVE]
-        pad0: SINK,MUST_CONNECT
-                [stream:0 fmt:SRGGB10_1X10/1920x1080 field:none colorspace:=
-raw]
-                <- "dw-mipi-csi2rx 4ae00000.mipi-cs":1 [ENABLED,IMMUTABLE]
-        pad1: SINK,MUST_CONNECT
-        pad2: SOURCE
-                [stream:0 fmt:SRGGB10_1X10/1920x1080 field:none colorspace:=
-raw]
-                -> "mxc_isi.0":0 [ENABLED,IMMUTABLE]
-
-=2D entity 5: mxc_isi.0 (2 pads, 2 links, 0 routes)
-            type V4L2 subdev subtype Unknown flags 0
-            device node name /dev/v4l-subdev1
-        pad0: SINK
-                [stream:0 fmt:SRGGB10_1X10/1920x1080 field:none colorspace:=
-raw
-                 compose.bounds:(0,0)/1920x1080
-                 compose:(0,0)/1920x1080]
-                <- "crossbar":2 [ENABLED,IMMUTABLE]
-        pad1: SOURCE
-                [stream:0 fmt:SRGGB10_1X10/1920x1080 field:none colorspace:=
-jpeg xfer:srgb ycbcr:601 quantization:full-range
-                 crop.bounds:(0,0)/1920x1080
-                 crop:(0,0)/1920x1080]
-                -> "mxc_isi.0.capture":0 [ENABLED,IMMUTABLE]
-
-=2D entity 8: mxc_isi.0.capture (1 pad, 1 link)
-            type Node subtype V4L flags 0
-            device node name /dev/video0
-        pad0: SINK
-                <- "mxc_isi.0":1 [ENABLED,IMMUTABLE]
-
-=2D entity 16: dw-mipi-csi2rx 4ae00000.mipi-cs (2 pads, 2 links, 1 route)
-             type V4L2 subdev subtype Unknown flags 0
-             device node name /dev/v4l-subdev2
-        routes:
-                0/0 -> 1/0 [ACTIVE]
-        pad0: SINK,MUST_CONNECT
-                [stream:0 fmt:SRGGB10_1X10/1920x1080 field:none colorspace:=
-raw xfer:none ycbcr:601 quantization:full-range]
-                <- "imx327 4-001a":0 [ENABLED]
-        pad1: SOURCE
-                [stream:0 fmt:SRGGB10_1X10/1920x1080 field:none colorspace:=
-raw xfer:none ycbcr:601 quantization:full-range]
-                -> "crossbar":0 [ENABLED,IMMUTABLE]
-
-=2D entity 21: imx327 4-001a (1 pad, 1 link, 0 routes)
-             type V4L2 subdev subtype Sensor flags 0
-             device node name /dev/v4l-subdev3
-        pad0: SOURCE
-                [stream:0 fmt:SRGGB10_1X10/1920x1080 field:none colorspace:=
-raw xfer:none ycbcr:601 quantization:full-range
-                 crop.bounds:(0,0)/1945x1097
-                 crop:(12,8)/1920x1080]
-                -> "dw-mipi-csi2rx 4ae00000.mipi-cs":0 [ENABLED]
-=2D-8<--
-
-Anything odd here?
-
-> You may need to remove any delays in the imx327 s_stream implementation, =
-or=20
-> ensure the sensor stays in LP-11 state until the CSI receiver is ready.
->=20
-> If possible, could you share the imx327 driver code or check its s_stream=
- implementation?
-
-It's essentially upstream in drivers/media/i2c/imx290.c.
-I only have a dummy implementation for get_frame_desc and a small adjusteme=
-nt
-for my camera module regarding i2c access.
-
-=2D-8<--
-static int imx290_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-				 struct v4l2_mbus_frame_desc *fd)
-{
-	const struct v4l2_mbus_framefmt *format;
-	struct v4l2_subdev_state *state;
-
-	state =3D v4l2_subdev_lock_and_get_active_state(sd);
-	format =3D v4l2_subdev_state_get_format(state, pad);
-	v4l2_subdev_unlock_state(state);
-
-	fd->type =3D V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
-	fd->num_entries =3D 1;
-	fd->entry[0].pixelcode =3D format->code;
-	fd->entry[0].stream =3D 0;
-	fd->entry[0].bus.csi2.vc =3D 0;
-	fd->entry[0].bus.csi2.dt =3D MIPI_CSI2_DT_RAW10; //TODO: get_data_type_by_=
-code(format->code);
-
-	return 0;
+I'm not maintainer of this driver, but a simple refactor to remove
+INCKSEL2 from the register tables and have one switch here
+switch(link_freq[imx334->cur_mode->link_freq_idx]) {
+  case IMX334_LINK_FREQ_891M:
+    cci_write(imx334->cci, IMX334_REG_INCKSEL2, 0x02, &ret);
+    break;
+  case IMX334_LINK_FREQ_445M:
+    cci_write(imx334->cci, IMX334_REG_INCKSEL2, 0x06, &ret);
+    break;
+  case IMX334_LINK_FREQ_222M:
+    /* Undocumented, but controlled by IF_PLL_GC */
+    cci_write(imx334->cci, IMX334_REG_INCKSEL2, 0xa, &ret);
+    break;
 }
-=2D-8<--
+would make the driver far easier to read. It'd also be trivial to add
+the 111MHz link frequency at a later date if desired.
 
-Another thing. I use https://lore.kernel.org/imx/20250701-95_cam-v1-2-c5172=
-bab387b@nxp.com/
-for the D-PHY. Is there any update/progress on that driver?
+> > > > >         /* Start streaming */
+> > > > >         ret =3D cci_write(imx334->cci, IMX334_REG_MODE_SELECT,
+> > > > >                         IMX334_MODE_STREAMING, NULL); @@ -979,6
+> > > > > +1025,55 @@ static int imx334_detect(struct imx334 *imx334)
+> > > > >         return 0;
+> > > > >  }
+> > > > >
+> > > > > +/**
+> > > > > + * imx334_update_supported_mode_array() - Search for the support=
+ed
+> > > > > + *                                        modes add them in the =
+new list
+> > > > > + * @imx334: pointer to imx334 device
+> > > > > + *
+> > > > > + * Return: 0 if successful, error code otherwise.
+> > > > > + */
+> > > > > +static int imx334_update_supported_mode_array(struct imx334
+> > > > > +*imx334) {
+> > > > > +       int i, j, size =3D 0;
+> > > > > +       struct imx334_mode *temp_ptr;
+> > > > > +
+> > > > > +       for (i =3D 0; i < ARRAY_SIZE(link_freq); i++) {
+> > > > > +               if (imx334->link_freq_bitmap & (1 << i)) {
+> > > > > +                       for (j =3D 0; j < ARRAY_SIZE(supported_mo=
+des); j++) {
+> > > > > +                               if (supported_modes[j].link_freq_=
+idx =3D=3D i)
+> > > > > +                                       size++;
+> > > > > +                       }
+> > > > > +               }
+> > > > > +       }
+> > > > > +
+> > > > > +       if (!size)
+> > > > > +               return -EINVAL;
+> > > > > +
+> > > > > +       imx334->new_modes_size =3D size;
+> > > > > +
+> > > > > +       size =3D 0;
+> > > > > +
+> > > > > +       temp_ptr =3D devm_kmalloc(imx334->dev,
+> > > > > + imx334->new_modes_size *
+> > > > sizeof(struct imx334_mode),
+> > > > > +                               GFP_KERNEL);
 
-Best regards,
-Alexander
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
+Memory says that using devm_kmalloc_array is now preferred to protect
+against overflows (however unlikely in this case).
 
+There is kmalloc_objs as well to remove the requirement for sizeof,
+but there doesn't appear to be a devm_ variant of those.
 
+> > > > > +       if (!temp_ptr)
+> > > > > +               return -ENOMEM;
+> > > > > +
+> > > > > +       for (i =3D 0; i < ARRAY_SIZE(link_freq); i++) {
+> > > > > +               if (imx334->link_freq_bitmap & (1 << i)) {
+> > > > > +                       for (j =3D 0; j < ARRAY_SIZE(supported_mo=
+des); j++) {
+> > > > > +                               if (supported_modes[j].link_freq_=
+idx =3D=3D i) {
+> > > > > +                                       temp_ptr[size] =3D suppor=
+ted_modes[j];
+> > > > > +                                       size++;
+> > > > > +                               }
+> > > > > +                       }
+> > > > > +               }
+> > > > > +       }
+> > > > > +
+> > > > > +       imx334->new_supported_modes =3D temp_ptr;
+> > > > > +
+> > > > > +       return 0;
+> > > > > +}
+> > > > > +
+> > > > >  /**
+> > > > >   * imx334_parse_hw_config() - Parse HW configuration and check i=
+f
+> > > > supported
+> > > > >   * @imx334: pointer to imx334 device @@ -1038,6 +1133,11 @@
+> > > > > static int imx334_parse_hw_config(struct
+> > > > imx334 *imx334)
+> > > > >                                        link_freq, ARRAY_SIZE(link=
+_freq),
+> > > > >                                        &imx334->link_freq_bitmap)=
+;
+> > > > >
+> > > > > +       if (ret)
+> > > > > +               goto done_endpoint_free;
+> > > > > +
+> > > > > +       ret =3D imx334_update_supported_mode_array(imx334);
+> > > > > +
+> > > > >  done_endpoint_free:
+> > > > >         v4l2_fwnode_endpoint_free(&bus_cfg);
+> > > > >
+> > > > > @@ -1251,7 +1351,7 @@ static int imx334_probe(struct i2c_client
+> > *client)
+> > > > >         }
+> > > > >
+> > > > >         /* Set default mode to max resolution */
+> > > > > -       imx334->cur_mode =3D &supported_modes[__ffs(imx334-
+> > > > >link_freq_bitmap)];
+> > > > > +       imx334->cur_mode =3D
+> > > > > + &imx334->new_supported_modes[__ffs(imx334->link_freq_bitmap)];
+
+Does this work now?
+It was relying on mode[0] using link_idx 0, and mode[1] using link_idx
+1. If link frequency 0 wasn't enabled, then it switched to a supported
+mode.
+You're now generating your own version of the table with only the
+modes where the corresponding link frequency is enabled, so shouldn't
+the default just be imx334->new_supported_modes[0]?
+
+  Dave
+
+> > > > >         imx334->cur_code =3D imx334_mbus_codes[0];
+> > > > >         imx334->vblank =3D imx334->cur_mode->vblank;
+> > > > >
+> > > > > --
+> > > > > 2.34.1
+> > > > >
+> > > > >
 
