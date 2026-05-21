@@ -1,437 +1,428 @@
-Return-Path: <linux-media+bounces-62533-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62534-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8HiRFMo1D2opHwYAu9opvQ
-	(envelope-from <linux-media+bounces-62533-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 18:41:46 +0200
+	id kJReMY0rD2q3HQYAu9opvQ
+	(envelope-from <linux-media+bounces-62534-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 17:58:05 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C03805A97A8
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 18:41:45 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 103B95A8C78
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 17:58:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9090734BFAB5
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 15:16:49 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id DE729311DBF3
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 15:24:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED6E0345CBD;
-	Thu, 21 May 2026 15:16:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6763D368D4B;
+	Thu, 21 May 2026 15:23:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="asQ/FVCK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 873B333A71A
-	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 15:16:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C17349CC3
+	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 15:23:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779376588; cv=none; b=Sr4gVaI42sQ1MG83SURxeTuohTgML2vH10HaeLR80d+mG372KjOZ32W6b7mpGHGGvfwQUM0WcxeipsuOgIBqnOo92PurZSwayHpvFHQ8MtEPVR8sIMl/fik4VoX2cHkgjpX1Iv71OUroCfS2OJzPwPZL8a9rJvKzXXXZtVdwxHQ=
+	t=1779377035; cv=none; b=MVsyR+oVpix8ykt3fXOqHVl1tLyE7XGXLpthiOh90V7LsaskC/tgikJfaT8urpjxI3BYmPWXXaWiwlPqV0cZxlc3O/TtlzifCkUSjhVRjWJZBkNpvWhaIALTnQwGdmEI6HWX1MN8lKGhE2OfkNfs7IjlaFx/oyf8rR5+vJr7oI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779376588; c=relaxed/simple;
-	bh=E5zvi9W0wGdONiJp5Lu8xXHdTNy0xkSadaGtmG4/Rjc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gLfTWlFaMNT/5ZkRJvCeoJlNER65YfAzWbZylLiE8gWQNiuORb2j/RCyFADD0iD5DwExr7YZFYrtY845hA/+ITIewDyr4Cm4KVTqznLxYHxUGcdrlf3kxtzG+WY25asTNfraaSmESf2bB73zDO2dzpteygHjIUu9hF3XJtloaAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <m.tretter@pengutronix.de>)
-	id 1wQ587-0001qV-HL; Thu, 21 May 2026 17:16:11 +0200
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <m.tretter@pengutronix.de>)
-	id 1wQ584-0017oK-34;
-	Thu, 21 May 2026 17:16:09 +0200
-Received: from mtr by pty.whiteo.stw.pengutronix.de with local (Exim 4.98.2)
-	(envelope-from <m.tretter@pengutronix.de>)
-	id 1wQ585-00000004XZo-1e4X;
-	Thu, 21 May 2026 17:16:09 +0200
-Date: Thu, 21 May 2026 17:16:09 +0200
-From: Michael Tretter <m.tretter@pengutronix.de>
-To: Sven =?utf-8?Q?P=C3=BCschel?= <s.pueschel@pengutronix.de>
-Cc: Jacob Chen <jacob-chen@iotwrt.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, kernel@pengutronix.de,
-	nicolas@ndufresne.ca, sebastian.reichel@collabora.com,
-	p.zabel@pengutronix.de,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: Re: [PATCH v7 19/28] media: rockchip: rga: change offset to
- dma_addresses
-Message-ID: <ag8hueNRNIAtF3Lz@pengutronix.de>
-Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
-	Sven =?utf-8?Q?P=C3=BCschel?= <s.pueschel@pengutronix.de>,
-	Jacob Chen <jacob-chen@iotwrt.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, kernel@pengutronix.de,
-	nicolas@ndufresne.ca, sebastian.reichel@collabora.com,
-	p.zabel@pengutronix.de,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <20260521-spu-rga3-v7-0-3f33e8c7145f@pengutronix.de>
- <20260521-spu-rga3-v7-19-3f33e8c7145f@pengutronix.de>
+	s=arc-20240116; t=1779377035; c=relaxed/simple;
+	bh=UjpwAo5VvsK9dAHYmO4XAYczRIFiqJBYQkUE7wUpguY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=JowIRW2MI+g84tl9m0FNwwbkTxCyVQtlH892oTiwZ+NnVgnyvkljSKH6Lw6pU0F+RpiryRVp+oZ9gzqhrR1kRlfNihQeoN2fLq5oCvx0Q24owTLy3sexOSvM4jE7id9FFhHiNHVqHwzOZUqWRHwe5szzbckrLSEG2bNVmWQSUjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=asQ/FVCK; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779377032; x=1810913032;
+  h=date:from:to:cc:subject:message-id;
+  bh=UjpwAo5VvsK9dAHYmO4XAYczRIFiqJBYQkUE7wUpguY=;
+  b=asQ/FVCKOZ5vPunkcF5r4Lm5HgYESzI2+4Nq8kdDuUVXQdDmv9pAYwVK
+   tW95jj5FFJjJnomVqbq44oP1cB6dsVkoPeBSX55ob/lEx7kx0ylIkBtI9
+   O2FMESV6DYlLlLK3DQbZ+zx/3EHNxTc/rKX3uieRcM5bjROTj8xoz3FcB
+   PIyTt1Qo2TMydsC+Ngm5Rz23DjHzkr2YIBtFv0nXoR57CpfMM+4n5Bstg
+   mhGKhGiVUfR1xIJxFptArLceGh2SnhotStabz7ecKrZabDy/pd6/ZnmUZ
+   wjH5RggvtN3hc+6aa+ugVVIlV+ktq6jmlXeZO9gpxJGDOXUli7IaYWfWe
+   w==;
+X-CSE-ConnectionGUID: Y/kHqc7XRiONmgaW6JJfYg==
+X-CSE-MsgGUID: I3COl0ART12Fy3zf+UOniQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11793"; a="79447955"
+X-IronPort-AV: E=Sophos;i="6.23,160,1770624000"; 
+   d="scan'208";a="79447955"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 08:23:51 -0700
+X-CSE-ConnectionGUID: BzkZzaheQFCU/qUNCtZriA==
+X-CSE-MsgGUID: h9VodCBlQp6jBaQtFVRfXw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,160,1770624000"; 
+   d="scan'208";a="264076616"
+Received: from lkp-server01.sh.intel.com (HELO fdb68b0ce653) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 21 May 2026 08:23:50 -0700
+Received: from kbuild by fdb68b0ce653 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wQ5FT-000000000hD-2iTZ;
+	Thu, 21 May 2026 15:23:47 +0000
+Date: Thu, 21 May 2026 23:23:28 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:cleanup] BUILD SUCCESS
+ 352380d3b474b3179a0607a90243b0018f3ce210
+Message-ID: <202605212320.4KVzNU8Z-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260521-spu-rga3-v7-19-3f33e8c7145f@pengutronix.de>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: m.tretter@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spamd-Result: default: False [0.04 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	TAGGED_FROM(0.00)[bounces-62533-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[pengutronix.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWO(0.00)[2];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62534-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[m.tretter@pengutronix.de,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:mid,pengutronix.de:email,collabora.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,sashiko.dev:url]
-X-Rspamd-Queue-Id: C03805A97A8
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 103B95A8C78
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, 21 May 2026 00:44:24 +0200, Sven Püschel wrote:
-> Change the offset to dma_addresses, as the current naming is misleading.
-> The offset naming comes from the fact that it references the offset in
-> the mapped iommu address space. But from the hardware point of view this
-> is an address, as also pointed out by the register naming
-> (e.g. RGA_DST_Y_RGB_BASE_ADDR). Therefore also change the type to
-> dma_addr_t, as with an external iommu driver this would also be the
-> correct type.
-> 
-> This change is a preparation for the RGA3 support, which uses an external
-> iommu and therefore just gets an dma_addr_t for each buffer. The field
-> renaming allows to reuse the existing fields of rga_vb_buffer to store
-> these values.
-> 
-> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Signed-off-by: Sven Püschel <s.pueschel@pengutronix.de>
-> 
-> ---
-> Changes in v6:
-> - Also changed dma_addrs variable type to dma_addr_t. Flagged by Sashiko
->   https://sashiko.dev/#/patchset/20260428-spu-rga3-v5-0-eb7f5d019d86%40pengutronix.de?part=20
-> ---
->  drivers/media/platform/rockchip/rga/rga-buf.c |  12 +--
->  drivers/media/platform/rockchip/rga/rga-hw.c  | 105 +++++++++++++-------------
->  drivers/media/platform/rockchip/rga/rga.h     |  12 +--
->  3 files changed, 64 insertions(+), 65 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rockchip/rga/rga-buf.c b/drivers/media/platform/rockchip/rga/rga-buf.c
-> index dcaba66f5c1fc..ab9554c1c4cd9 100644
-> --- a/drivers/media/platform/rockchip/rga/rga-buf.c
-> +++ b/drivers/media/platform/rockchip/rga/rga-buf.c
-> @@ -121,7 +121,7 @@ static int rga_buf_prepare(struct vb2_buffer *vb)
->  	size_t curr_desc = 0;
->  	int i;
->  	const struct v4l2_format_info *info;
-> -	unsigned int offsets[VIDEO_MAX_PLANES];
-> +	dma_addr_t dma_addrs[VIDEO_MAX_PLANES];
->  
->  	if (IS_ERR(f))
->  		return PTR_ERR(f);
-> @@ -145,18 +145,18 @@ static int rga_buf_prepare(struct vb2_buffer *vb)
->  				 "Failed to map video buffer to RGA\n");
->  			return n_desc;
->  		}
-> -		offsets[i] = curr_desc << PAGE_SHIFT;
-> +		dma_addrs[i] = curr_desc << PAGE_SHIFT;
->  		curr_desc += n_desc;
->  	}
->  
->  	/* Fill the remaining planes */
->  	info = v4l2_format_info(f->fmt->fourcc);
->  	for (i = info->mem_planes; i < info->comp_planes; i++)
-> -		offsets[i] = get_plane_offset(f, info, i);
-> +		dma_addrs[i] = dma_addrs[0] + get_plane_offset(f, info, i);
+tree/branch: git://linuxtv.org/sailus/media_tree.git cleanup
+branch HEAD: 352380d3b474b3179a0607a90243b0018f3ce210  media: ti: j721e-csi2rx: Support system suspend using pm_notifier
 
-dma_addr[0] looks suspicious, but correct, because mem_planes is either
-1 or equal to comp_planes and therefore, the "remaining planes" are
-always all planes except for the first plane, which happens to be
-dma_addrs[0]. Maybe, dma_addrs[info->mem_planes - 1] would be more
-correct, but also even more confusing.
+elapsed time: 1420m
 
-Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
+configs tested: 303
+configs skipped: 15
 
->  
-> -	rbuf->offset.y_off = offsets[0];
-> -	rbuf->offset.u_off = offsets[1];
-> -	rbuf->offset.v_off = offsets[2];
-> +	rbuf->dma_addrs.y_addr = dma_addrs[0];
-> +	rbuf->dma_addrs.u_addr = dma_addrs[1];
-> +	rbuf->dma_addrs.v_addr = dma_addrs[2];
->  
->  	return 0;
->  }
-> diff --git a/drivers/media/platform/rockchip/rga/rga-hw.c b/drivers/media/platform/rockchip/rga/rga-hw.c
-> index 43fd023b7571c..99cf57d5ba89d 100644
-> --- a/drivers/media/platform/rockchip/rga/rga-hw.c
-> +++ b/drivers/media/platform/rockchip/rga/rga-hw.c
-> @@ -16,11 +16,11 @@ enum e_rga_start_pos {
->  	RB = 3,
->  };
->  
-> -struct rga_corners_addr_offset {
-> -	struct rga_addr_offset left_top;
-> -	struct rga_addr_offset right_top;
-> -	struct rga_addr_offset left_bottom;
-> -	struct rga_addr_offset right_bottom;
-> +struct rga_corners_addrs {
-> +	struct rga_addrs left_top;
-> +	struct rga_addrs right_top;
-> +	struct rga_addrs left_bottom;
-> +	struct rga_addrs right_bottom;
->  };
->  
->  static unsigned int rga_get_scaling(unsigned int src, unsigned int dst)
-> @@ -36,20 +36,20 @@ static unsigned int rga_get_scaling(unsigned int src, unsigned int dst)
->  	return (src > dst) ? ((dst << 16) / src) : ((src << 16) / dst);
->  }
->  
-> -static struct rga_corners_addr_offset
-> -rga_get_addr_offset(struct rga_frame *frm, struct rga_addr_offset *offset,
-> -		    unsigned int x, unsigned int y, unsigned int w, unsigned int h)
-> +static struct rga_corners_addrs
-> +rga_get_corner_addrs(struct rga_frame *frm, struct rga_addrs *addrs,
-> +		     unsigned int x, unsigned int y, unsigned int w, unsigned int h)
->  {
-> -	struct rga_corners_addr_offset offsets;
-> -	struct rga_addr_offset *lt, *lb, *rt, *rb;
-> +	struct rga_corners_addrs corner_addrs;
-> +	struct rga_addrs *lt, *lb, *rt, *rb;
->  	const struct v4l2_format_info *format_info;
->  	unsigned int x_div = 0,
->  		     y_div = 0, uv_stride = 0, pixel_width = 0;
->  
-> -	lt = &offsets.left_top;
-> -	lb = &offsets.left_bottom;
-> -	rt = &offsets.right_top;
-> -	rb = &offsets.right_bottom;
-> +	lt = &corner_addrs.left_top;
-> +	lb = &corner_addrs.left_bottom;
-> +	rt = &corner_addrs.right_top;
-> +	rb = &corner_addrs.right_bottom;
->  
->  	format_info = v4l2_format_info(frm->pix.pixelformat);
->  	/* x_div is only used for the u/v planes.
-> @@ -64,29 +64,28 @@ rga_get_addr_offset(struct rga_frame *frm, struct rga_addr_offset *offset,
->  	uv_stride = frm->stride / x_div;
->  	pixel_width = frm->stride / frm->pix.width;
->  
-> -	lt->y_off = offset->y_off + y * frm->stride + x * pixel_width;
-> -	lt->u_off = offset->u_off + (y / y_div) * uv_stride + x / x_div;
-> -	lt->v_off = offset->v_off + (y / y_div) * uv_stride + x / x_div;
-> +	lt->y_addr = addrs->y_addr + y * frm->stride + x * pixel_width;
-> +	lt->u_addr = addrs->u_addr + (y / y_div) * uv_stride + x / x_div;
-> +	lt->v_addr = addrs->v_addr + (y / y_div) * uv_stride + x / x_div;
->  
-> -	lb->y_off = lt->y_off + (h - 1) * frm->stride;
-> -	lb->u_off = lt->u_off + (h / y_div - 1) * uv_stride;
-> -	lb->v_off = lt->v_off + (h / y_div - 1) * uv_stride;
-> +	lb->y_addr = lt->y_addr + (h - 1) * frm->stride;
-> +	lb->u_addr = lt->u_addr + (h / y_div - 1) * uv_stride;
-> +	lb->v_addr = lt->v_addr + (h / y_div - 1) * uv_stride;
->  
-> -	rt->y_off = lt->y_off + (w - 1) * pixel_width;
-> -	rt->u_off = lt->u_off + w / x_div - 1;
-> -	rt->v_off = lt->v_off + w / x_div - 1;
-> +	rt->y_addr = lt->y_addr + (w - 1) * pixel_width;
-> +	rt->u_addr = lt->u_addr + w / x_div - 1;
-> +	rt->v_addr = lt->v_addr + w / x_div - 1;
->  
-> -	rb->y_off = lb->y_off + (w - 1) * pixel_width;
-> -	rb->u_off = lb->u_off + w / x_div - 1;
-> -	rb->v_off = lb->v_off + w / x_div - 1;
-> +	rb->y_addr = lb->y_addr + (w - 1) * pixel_width;
-> +	rb->u_addr = lb->u_addr + w / x_div - 1;
-> +	rb->v_addr = lb->v_addr + w / x_div - 1;
->  
-> -	return offsets;
-> +	return corner_addrs;
->  }
->  
-> -static struct rga_addr_offset *rga_lookup_draw_pos(struct
-> -		rga_corners_addr_offset
-> -		* offsets, u32 rotate_mode,
-> -		u32 mirr_mode)
-> +static struct rga_addrs *rga_lookup_draw_pos(struct rga_corners_addrs *corner_addrs,
-> +					     u32 rotate_mode,
-> +					     u32 mirr_mode)
->  {
->  	static enum e_rga_start_pos rot_mir_point_matrix[4][4] = {
->  		{
-> @@ -103,18 +102,18 @@ static struct rga_addr_offset *rga_lookup_draw_pos(struct
->  		},
->  	};
->  
-> -	if (!offsets)
-> +	if (!corner_addrs)
->  		return NULL;
->  
->  	switch (rot_mir_point_matrix[rotate_mode][mirr_mode]) {
->  	case LT:
-> -		return &offsets->left_top;
-> +		return &corner_addrs->left_top;
->  	case LB:
-> -		return &offsets->left_bottom;
-> +		return &corner_addrs->left_bottom;
->  	case RT:
-> -		return &offsets->right_top;
-> +		return &corner_addrs->right_top;
->  	case RB:
-> -		return &offsets->right_bottom;
-> +		return &corner_addrs->right_bottom;
->  	}
->  
->  	return NULL;
-> @@ -316,9 +315,9 @@ static void rga_cmd_set_trans_info(struct rga_ctx *ctx)
->  }
->  
->  static void rga_cmd_set_src_info(struct rga_ctx *ctx,
-> -				 struct rga_addr_offset *offset)
-> +				 struct rga_addrs *addrs)
->  {
-> -	struct rga_corners_addr_offset src_offsets;
-> +	struct rga_corners_addrs src_corner_addrs;
->  	u32 *dest = ctx->cmdbuf_virt;
->  	unsigned int src_h, src_w, src_x, src_y;
->  
-> @@ -330,22 +329,22 @@ static void rga_cmd_set_src_info(struct rga_ctx *ctx,
->  	/*
->  	 * Calculate the source framebuffer base address with offset pixel.
->  	 */
-> -	src_offsets = rga_get_addr_offset(&ctx->in, offset,
-> -					  src_x, src_y, src_w, src_h);
-> +	src_corner_addrs = rga_get_corner_addrs(&ctx->in, addrs,
-> +						src_x, src_y, src_w, src_h);
->  
->  	dest[(RGA_SRC_Y_RGB_BASE_ADDR - RGA_MODE_BASE_REG) >> 2] =
-> -		src_offsets.left_top.y_off;
-> +		src_corner_addrs.left_top.y_addr;
->  	dest[(RGA_SRC_CB_BASE_ADDR - RGA_MODE_BASE_REG) >> 2] =
-> -		src_offsets.left_top.u_off;
-> +		src_corner_addrs.left_top.u_addr;
->  	dest[(RGA_SRC_CR_BASE_ADDR - RGA_MODE_BASE_REG) >> 2] =
-> -		src_offsets.left_top.v_off;
-> +		src_corner_addrs.left_top.v_addr;
->  }
->  
->  static void rga_cmd_set_dst_info(struct rga_ctx *ctx,
-> -				 struct rga_addr_offset *offset)
-> +				 struct rga_addrs *addrs)
->  {
-> -	struct rga_addr_offset *dst_offset;
-> -	struct rga_corners_addr_offset offsets;
-> +	struct rga_addrs *dst_addrs;
-> +	struct rga_corners_addrs corner_addrs;
->  	u32 *dest = ctx->cmdbuf_virt;
->  	unsigned int dst_h, dst_w, dst_x, dst_y;
->  	unsigned int mir_mode = 0;
-> @@ -379,15 +378,15 @@ static void rga_cmd_set_dst_info(struct rga_ctx *ctx,
->  	/*
->  	 * Configure the dest framebuffer base address with pixel offset.
->  	 */
-> -	offsets = rga_get_addr_offset(&ctx->out, offset, dst_x, dst_y, dst_w, dst_h);
-> -	dst_offset = rga_lookup_draw_pos(&offsets, rot_mode, mir_mode);
-> +	corner_addrs = rga_get_corner_addrs(&ctx->out, addrs, dst_x, dst_y, dst_w, dst_h);
-> +	dst_addrs = rga_lookup_draw_pos(&corner_addrs, rot_mode, mir_mode);
->  
->  	dest[(RGA_DST_Y_RGB_BASE_ADDR - RGA_MODE_BASE_REG) >> 2] =
-> -		dst_offset->y_off;
-> +		dst_addrs->y_addr;
->  	dest[(RGA_DST_CB_BASE_ADDR - RGA_MODE_BASE_REG) >> 2] =
-> -		dst_offset->u_off;
-> +		dst_addrs->u_addr;
->  	dest[(RGA_DST_CR_BASE_ADDR - RGA_MODE_BASE_REG) >> 2] =
-> -		dst_offset->v_off;
-> +		dst_addrs->v_addr;
->  }
->  
->  static void rga_cmd_set_mode(struct rga_ctx *ctx)
-> @@ -426,8 +425,8 @@ static void rga_cmd_set(struct rga_ctx *ctx,
->  
->  	rga_cmd_set_dst_addr(ctx, dst->dma_desc_pa);
->  
-> -	rga_cmd_set_src_info(ctx, &src->offset);
-> -	rga_cmd_set_dst_info(ctx, &dst->offset);
-> +	rga_cmd_set_src_info(ctx, &src->dma_addrs);
-> +	rga_cmd_set_dst_info(ctx, &dst->dma_addrs);
->  
->  	rga_write(rga, RGA_CMD_BASE, ctx->cmdbuf_phy);
->  
-> diff --git a/drivers/media/platform/rockchip/rga/rga.h b/drivers/media/platform/rockchip/rga/rga.h
-> index cee2e75ea89f1..bf21a57555a59 100644
-> --- a/drivers/media/platform/rockchip/rga/rga.h
-> +++ b/drivers/media/platform/rockchip/rga/rga.h
-> @@ -97,10 +97,10 @@ struct rockchip_rga {
->  	const struct rga_hw *hw;
->  };
->  
-> -struct rga_addr_offset {
-> -	unsigned int y_off;
-> -	unsigned int u_off;
-> -	unsigned int v_off;
-> +struct rga_addrs {
-> +	dma_addr_t y_addr;
-> +	dma_addr_t u_addr;
-> +	dma_addr_t v_addr;
->  };
->  
->  struct rga_vb_buffer {
-> @@ -112,8 +112,8 @@ struct rga_vb_buffer {
->  	dma_addr_t dma_desc_pa;
->  	size_t n_desc;
->  
-> -	/* Plane offsets of this buffer into the mapping */
-> -	struct rga_addr_offset offset;
-> +	/* Plane DMA addresses after the MMU mapping of the buffer */
-> +	struct rga_addrs dma_addrs;
->  };
->  
->  static inline struct rga_vb_buffer *vb_to_rga(struct vb2_v4l2_buffer *vb)
-> 
-> -- 
-> 2.54.0
-> 
-> 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig    gcc-15.2.0
+alpha                            allyesconfig    gcc-15.2.0
+alpha                               defconfig    gcc-15.2.0
+arc                              allmodconfig    clang-16
+arc                              allmodconfig    gcc-15.2.0
+arc                               allnoconfig    gcc-15.2.0
+arc                              allyesconfig    clang-23
+arc                              allyesconfig    gcc-15.2.0
+arc                                 defconfig    gcc-15.2.0
+arc                            randconfig-001    gcc-8.5.0
+arc                   randconfig-001-20260521    gcc-13.4.0
+arc                   randconfig-001-20260521    gcc-8.5.0
+arc                            randconfig-002    gcc-8.5.0
+arc                   randconfig-002-20260521    gcc-12.5.0
+arc                   randconfig-002-20260521    gcc-8.5.0
+arm                               allnoconfig    clang-23
+arm                               allnoconfig    gcc-15.2.0
+arm                              allyesconfig    clang-16
+arm                              allyesconfig    gcc-15.2.0
+arm                                 defconfig    gcc-15.2.0
+arm                      footbridge_defconfig    clang-17
+arm                            randconfig-001    gcc-8.5.0
+arm                   randconfig-001-20260521    clang-23
+arm                   randconfig-001-20260521    gcc-8.5.0
+arm                            randconfig-002    gcc-8.5.0
+arm                   randconfig-002-20260521    gcc-12.5.0
+arm                   randconfig-002-20260521    gcc-8.5.0
+arm                            randconfig-003    gcc-8.5.0
+arm                   randconfig-003-20260521    gcc-13.4.0
+arm                   randconfig-003-20260521    gcc-8.5.0
+arm                            randconfig-004    gcc-8.5.0
+arm                   randconfig-004-20260521    gcc-8.5.0
+arm64                            allmodconfig    clang-19
+arm64                            allmodconfig    clang-23
+arm64                             allnoconfig    gcc-15.2.0
+arm64                               defconfig    gcc-15.2.0
+arm64                          randconfig-001    gcc-8.5.0
+arm64                 randconfig-001-20260521    clang-23
+arm64                 randconfig-001-20260521    gcc-8.5.0
+arm64                          randconfig-002    gcc-8.5.0
+arm64                 randconfig-002-20260521    gcc-8.5.0
+arm64                          randconfig-003    gcc-8.5.0
+arm64                 randconfig-003-20260521    gcc-8.5.0
+arm64                          randconfig-004    gcc-8.5.0
+arm64                 randconfig-004-20260521    gcc-8.5.0
+csky                             allmodconfig    gcc-15.2.0
+csky                              allnoconfig    gcc-15.2.0
+csky                                defconfig    gcc-15.2.0
+csky                           randconfig-001    gcc-8.5.0
+csky                  randconfig-001-20260521    gcc-15.2.0
+csky                  randconfig-001-20260521    gcc-8.5.0
+csky                           randconfig-002    gcc-8.5.0
+csky                  randconfig-002-20260521    gcc-15.2.0
+csky                  randconfig-002-20260521    gcc-8.5.0
+hexagon                          allmodconfig    clang-17
+hexagon                          allmodconfig    gcc-15.2.0
+hexagon                           allnoconfig    clang-23
+hexagon                           allnoconfig    gcc-15.2.0
+hexagon                             defconfig    gcc-15.2.0
+hexagon               randconfig-001-20260521    clang-23
+hexagon               randconfig-001-20260521    gcc-11.5.0
+hexagon               randconfig-002-20260521    clang-23
+hexagon               randconfig-002-20260521    gcc-11.5.0
+i386                             allmodconfig    clang-20
+i386                             allmodconfig    gcc-14
+i386                              allnoconfig    gcc-14
+i386                              allnoconfig    gcc-15.2.0
+i386                             allyesconfig    clang-20
+i386                 buildonly-randconfig-001    clang-20
+i386        buildonly-randconfig-001-20260521    clang-20
+i386                 buildonly-randconfig-002    clang-20
+i386        buildonly-randconfig-002-20260521    clang-20
+i386                 buildonly-randconfig-003    clang-20
+i386        buildonly-randconfig-003-20260521    clang-20
+i386                 buildonly-randconfig-004    clang-20
+i386        buildonly-randconfig-004-20260521    clang-20
+i386                 buildonly-randconfig-005    clang-20
+i386        buildonly-randconfig-005-20260521    clang-20
+i386                 buildonly-randconfig-006    clang-20
+i386        buildonly-randconfig-006-20260521    clang-20
+i386                                defconfig    gcc-15.2.0
+i386                  randconfig-001-20260521    clang-20
+i386                  randconfig-002-20260521    clang-20
+i386                  randconfig-002-20260521    gcc-14
+i386                  randconfig-003-20260521    clang-20
+i386                  randconfig-004-20260521    clang-20
+i386                  randconfig-004-20260521    gcc-14
+i386                  randconfig-005-20260521    clang-20
+i386                  randconfig-006-20260521    clang-20
+i386                  randconfig-007-20260521    clang-20
+i386                           randconfig-011    gcc-14
+i386                  randconfig-011-20260521    gcc-14
+i386                           randconfig-012    gcc-14
+i386                  randconfig-012-20260521    gcc-14
+i386                           randconfig-013    gcc-14
+i386                  randconfig-013-20260521    gcc-14
+i386                           randconfig-014    gcc-14
+i386                  randconfig-014-20260521    gcc-14
+i386                           randconfig-015    gcc-14
+i386                  randconfig-015-20260521    gcc-14
+i386                           randconfig-016    gcc-14
+i386                  randconfig-016-20260521    gcc-14
+i386                           randconfig-017    gcc-14
+i386                  randconfig-017-20260521    gcc-14
+loongarch                        allmodconfig    clang-19
+loongarch                        allmodconfig    clang-23
+loongarch                         allnoconfig    clang-23
+loongarch                         allnoconfig    gcc-15.2.0
+loongarch                           defconfig    clang-19
+loongarch             randconfig-001-20260521    gcc-11.5.0
+loongarch             randconfig-001-20260521    gcc-12.5.0
+loongarch             randconfig-002-20260521    gcc-11.5.0
+loongarch             randconfig-002-20260521    gcc-15.2.0
+m68k                             allmodconfig    gcc-15.2.0
+m68k                              allnoconfig    gcc-15.2.0
+m68k                             allyesconfig    clang-16
+m68k                             allyesconfig    gcc-15.2.0
+m68k                                defconfig    clang-19
+m68k                                defconfig    gcc-15.2.0
+microblaze                        allnoconfig    gcc-15.2.0
+microblaze                       allyesconfig    gcc-15.2.0
+microblaze                          defconfig    clang-19
+microblaze                          defconfig    gcc-15.2.0
+mips                             allmodconfig    gcc-15.2.0
+mips                              allnoconfig    gcc-15.2.0
+mips                             allyesconfig    gcc-15.2.0
+mips                  cavium_octeon_defconfig    gcc-15.2.0
+nios2                         10m50_defconfig    gcc-11.5.0
+nios2                            allmodconfig    clang-23
+nios2                            allmodconfig    gcc-11.5.0
+nios2                             allnoconfig    clang-23
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    clang-19
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20260521    gcc-11.5.0
+nios2                 randconfig-002-20260521    gcc-11.5.0
+openrisc                         allmodconfig    clang-23
+openrisc                         allmodconfig    gcc-15.2.0
+openrisc                          allnoconfig    clang-23
+openrisc                          allnoconfig    gcc-15.2.0
+openrisc                            defconfig    gcc-15.2.0
+parisc                           allmodconfig    gcc-15.2.0
+parisc                            allnoconfig    clang-23
+parisc                            allnoconfig    gcc-15.2.0
+parisc                           allyesconfig    clang-19
+parisc                           allyesconfig    gcc-15.2.0
+parisc                              defconfig    gcc-15.2.0
+parisc                randconfig-001-20260521    gcc-12.5.0
+parisc                randconfig-002-20260521    gcc-12.5.0
+parisc                randconfig-002-20260521    gcc-15.2.0
+parisc64                            defconfig    clang-19
+parisc64                            defconfig    gcc-15.2.0
+powerpc                          allmodconfig    gcc-15.2.0
+powerpc                           allnoconfig    clang-23
+powerpc                           allnoconfig    gcc-15.2.0
+powerpc                      mgcoge_defconfig    clang-23
+powerpc                 mpc837x_rdb_defconfig    gcc-15.2.0
+powerpc               randconfig-001-20260521    clang-23
+powerpc               randconfig-001-20260521    gcc-12.5.0
+powerpc               randconfig-002-20260521    clang-17
+powerpc               randconfig-002-20260521    gcc-12.5.0
+powerpc                    sam440ep_defconfig    gcc-15.2.0
+powerpc64             randconfig-001-20260521    clang-23
+powerpc64             randconfig-001-20260521    gcc-12.5.0
+powerpc64             randconfig-002-20260521    gcc-12.5.0
+riscv                            allmodconfig    clang-23
+riscv                             allnoconfig    clang-23
+riscv                             allnoconfig    gcc-15.2.0
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    clang-23
+riscv                               defconfig    gcc-15.2.0
+riscv                          randconfig-001    gcc-15.2.0
+riscv                 randconfig-001-20260521    clang-23
+riscv                 randconfig-001-20260521    gcc-15.2.0
+riscv                          randconfig-002    gcc-15.2.0
+riscv                 randconfig-002-20260521    gcc-13.4.0
+riscv                 randconfig-002-20260521    gcc-15.2.0
+s390                             allmodconfig    clang-18
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-23
+s390                             allyesconfig    gcc-15.2.0
+s390                          debug_defconfig    gcc-15.2.0
+s390                                defconfig    clang-23
+s390                                defconfig    gcc-15.2.0
+s390                           randconfig-001    gcc-15.2.0
+s390                  randconfig-001-20260521    gcc-15.2.0
+s390                  randconfig-001-20260521    gcc-8.5.0
+s390                           randconfig-002    gcc-15.2.0
+s390                  randconfig-002-20260521    clang-17
+s390                  randconfig-002-20260521    gcc-15.2.0
+sh                               allmodconfig    gcc-15.2.0
+sh                                allnoconfig    clang-23
+sh                                allnoconfig    gcc-15.2.0
+sh                               allyesconfig    clang-19
+sh                               allyesconfig    gcc-15.2.0
+sh                                  defconfig    gcc-14
+sh                                  defconfig    gcc-15.2.0
+sh                             randconfig-001    gcc-15.2.0
+sh                    randconfig-001-20260521    gcc-15.2.0
+sh                             randconfig-002    gcc-15.2.0
+sh                    randconfig-002-20260521    gcc-12.5.0
+sh                    randconfig-002-20260521    gcc-15.2.0
+sh                          rsk7264_defconfig    gcc-15.2.0
+sparc                             allnoconfig    clang-23
+sparc                             allnoconfig    gcc-15.2.0
+sparc                               defconfig    gcc-15.2.0
+sparc                          randconfig-001    gcc-8.5.0
+sparc                 randconfig-001-20260521    gcc-8.5.0
+sparc                          randconfig-002    gcc-8.5.0
+sparc                 randconfig-002-20260521    gcc-8.5.0
+sparc64                          allmodconfig    clang-23
+sparc64                             defconfig    clang-20
+sparc64                             defconfig    gcc-14
+sparc64                        randconfig-001    gcc-8.5.0
+sparc64               randconfig-001-20260521    gcc-8.5.0
+sparc64                        randconfig-002    gcc-8.5.0
+sparc64               randconfig-002-20260521    gcc-8.5.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-23
+um                               allyesconfig    gcc-14
+um                               allyesconfig    gcc-15.2.0
+um                                  defconfig    clang-23
+um                                  defconfig    gcc-14
+um                             i386_defconfig    gcc-14
+um                             randconfig-001    gcc-8.5.0
+um                    randconfig-001-20260521    gcc-14
+um                    randconfig-001-20260521    gcc-8.5.0
+um                             randconfig-002    gcc-8.5.0
+um                    randconfig-002-20260521    gcc-14
+um                    randconfig-002-20260521    gcc-8.5.0
+um                           x86_64_defconfig    clang-23
+um                           x86_64_defconfig    gcc-14
+x86_64                           allmodconfig    clang-20
+x86_64                            allnoconfig    clang-20
+x86_64                            allnoconfig    clang-23
+x86_64                           allyesconfig    clang-20
+x86_64               buildonly-randconfig-001    clang-20
+x86_64      buildonly-randconfig-001-20260521    clang-20
+x86_64               buildonly-randconfig-002    clang-20
+x86_64      buildonly-randconfig-002-20260521    clang-20
+x86_64               buildonly-randconfig-003    clang-20
+x86_64      buildonly-randconfig-003-20260521    clang-20
+x86_64               buildonly-randconfig-004    clang-20
+x86_64      buildonly-randconfig-004-20260521    clang-20
+x86_64               buildonly-randconfig-005    clang-20
+x86_64      buildonly-randconfig-005-20260521    clang-20
+x86_64               buildonly-randconfig-006    clang-20
+x86_64      buildonly-randconfig-006-20260521    clang-20
+x86_64                              defconfig    gcc-14
+x86_64                                  kexec    clang-20
+x86_64                         randconfig-001    clang-20
+x86_64                randconfig-001-20260521    clang-20
+x86_64                         randconfig-002    clang-20
+x86_64                randconfig-002-20260521    clang-20
+x86_64                         randconfig-003    clang-20
+x86_64                randconfig-003-20260521    clang-20
+x86_64                randconfig-003-20260521    gcc-14
+x86_64                         randconfig-004    clang-20
+x86_64                randconfig-004-20260521    clang-20
+x86_64                         randconfig-005    clang-20
+x86_64                randconfig-005-20260521    clang-20
+x86_64                         randconfig-006    clang-20
+x86_64                randconfig-006-20260521    clang-20
+x86_64                         randconfig-011    gcc-14
+x86_64                randconfig-011-20260521    gcc-14
+x86_64                         randconfig-012    gcc-14
+x86_64                randconfig-012-20260521    clang-20
+x86_64                randconfig-012-20260521    gcc-14
+x86_64                         randconfig-013    gcc-14
+x86_64                randconfig-013-20260521    gcc-14
+x86_64                         randconfig-014    gcc-14
+x86_64                randconfig-014-20260521    gcc-14
+x86_64                         randconfig-015    gcc-14
+x86_64                randconfig-015-20260521    gcc-14
+x86_64                         randconfig-016    gcc-14
+x86_64                randconfig-016-20260521    gcc-14
+x86_64                         randconfig-071    clang-20
+x86_64                randconfig-071-20260521    clang-20
+x86_64                         randconfig-072    clang-20
+x86_64                randconfig-072-20260521    clang-20
+x86_64                         randconfig-073    clang-20
+x86_64                randconfig-073-20260521    clang-20
+x86_64                         randconfig-074    clang-20
+x86_64                randconfig-074-20260521    clang-20
+x86_64                         randconfig-075    clang-20
+x86_64                randconfig-075-20260521    clang-20
+x86_64                         randconfig-076    clang-20
+x86_64                randconfig-076-20260521    clang-20
+x86_64                               rhel-9.4    clang-20
+x86_64                           rhel-9.4-bpf    gcc-14
+x86_64                          rhel-9.4-func    clang-20
+x86_64                    rhel-9.4-kselftests    clang-20
+x86_64                         rhel-9.4-kunit    gcc-14
+x86_64                           rhel-9.4-ltp    gcc-14
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                            allnoconfig    clang-23
+xtensa                            allnoconfig    gcc-15.2.0
+xtensa                           allyesconfig    clang-23
+xtensa                         randconfig-001    gcc-8.5.0
+xtensa                randconfig-001-20260521    gcc-8.5.0
+xtensa                         randconfig-002    gcc-8.5.0
+xtensa                randconfig-002-20260521    gcc-11.5.0
+xtensa                randconfig-002-20260521    gcc-8.5.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
