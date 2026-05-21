@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-62409-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62410-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MB7OKdO2DmrBBgYAu9opvQ
-	(envelope-from <linux-media+bounces-62409-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 09:40:03 +0200
+	id WFJwEje2DmrBBgYAu9opvQ
+	(envelope-from <linux-media+bounces-62410-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 09:37:27 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 003035A03EF
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 09:40:02 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50FC85A036D
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 09:37:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 97381308B96D
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 07:35:18 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0517A30166A9
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 07:35:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33FC7397B06;
-	Thu, 21 May 2026 07:35:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF8F039B964;
+	Thu, 21 May 2026 07:35:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="krDouXGs"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HdhxFlHb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5067813DDAE
-	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 07:35:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175C7351C1E
+	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 07:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779348917; cv=none; b=ibZPJLYk+93mNRhpNUAIzd79XS9j+tZu3MV/0rMIy/v7xjIXUw6v9OBFrD8Ssxzs6ap7gCLjTW0rnZDhztjoRc6h+ovxE17R/X1ABmoQAHLutsTz+m9PBCMEQGVJLUmKauLR0HGZcXFDCABSDCL3I/IJyNNe1waIN2iENJtSe1s=
+	t=1779348934; cv=none; b=Ny6UD6h5Ib0FvpEIloJupqhEuC3ooM5uzxArO81t0Zu4vWhcIM1K8uLuL5W3euNe888mcG9EpXbjTPY0+L5FOyDRqAbYoi0Xd8N4k6kD8XGvlNvojTmV5H1mN7/8lCOqUmf58XEY7//yuDapGYA71qp/xSQQSvmRitNvSiaWaos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779348917; c=relaxed/simple;
-	bh=ryTUXf8sC7d0Ori3299ByXCBMLqJUA7IfN4hnFcDBsc=;
+	s=arc-20240116; t=1779348934; c=relaxed/simple;
+	bh=R3voIaLtl2BRlPPKHEPBQ78/UAuVNbWj0w+ZXJI+bb4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ksy1Gh4f/h7y7QpZ4lB10w4vszDQ/8z8JTfUTM5MEq1NB7FQjENFK99oAzxM3LtPYkr//86CmxM38DZOqNWv9itLniXrHT7PlSfvIqsbu29h73FyekbVNhUYR50wiWcBpnCd7EXYtHDX72cvaUkCDUBTYSpxYN5y9azfd6W5RaM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=krDouXGs; arc=none smtp.client-ip=209.85.216.52
+	 MIME-Version; b=BtUmPlDj0xba8fToKe+0tWYKKnqV4Hdwu44ytDnx+iOkgijomCLwC3pF2FmZEF9QFD4qt5/asF5Lfyz//g4xTPOb3EtPH8DvDr5mebZ6skOJccKJm+EGGIyfL42vg14tMGZRCgLBWmoAnKrvo9Dy46jnhKlGOUJErojq7giFMdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HdhxFlHb; arc=none smtp.client-ip=209.85.216.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-367cbac9cb1so5454363a91.3
-        for <linux-media@vger.kernel.org>; Thu, 21 May 2026 00:35:16 -0700 (PDT)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-368f25ff4c4so3022104a91.2
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2026 00:35:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779348915; x=1779953715; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779348932; x=1779953732; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=62v+VUjFmSMO7xe18HMoRAsN6xnzoeMa1iqyd56dOLs=;
-        b=krDouXGs7/Wk/XqT6TvNSsNXI+oXv21jwmp0CMzkLdqYSo0zfMw6AXnzpWH1VGgFZq
-         A3thu+viQ2o0OmKvulscLx4RUeOHU4Mm6BstC12wcNYPcLR1mSjkIAL6iCR+pUX/6IWO
-         hBjjZMQ+fMnNW6qGN2zFcIQomuf8wiPt/57+uVa5r0yUKC5GbZA5N2+cj0qAa+dDRgOs
-         351KIpggt2ZVfAUGCfFhV8PRER5F01X/c9JA7HXtVC4obUCziGrqJF0CmAGmva6R/544
-         ToJ2W33cegDJtFKqRUzbVhRowT/CHdSYhU5jaxPNzpF+D0jq3FUQf+mD0Ip5FSBC7BMf
-         pfKQ==
+        bh=3NPvLu4dxOkoKdNg46+oSXq3CipWU7w/mHnMaydoddU=;
+        b=HdhxFlHb31qKSbw27ge6zqBrW4qTzLoC4CW/JbK43OvWrcjicwns75bxemt9fj+IgV
+         GGvCY7l3A6EhurN+LbhTOAtMK7RaSlK6SsfaDLlHelN+suwbL31p8I9m6H2lOY8QqRe1
+         WWzefx+wcraTGqStv8XGslVhzVn7tm+yn3dIOZw4JkSrs0djgV8x3GgU42tQ/8Fh6+tk
+         PS6BtHs44rp5K8YPbDSZXg9vgXmskDFp58+n8YqSo/Y8Zc2dVcNd5/CT+70aYvF78QGQ
+         Axp05AWf5gP333QI8+3w7BCJS2E10u+SYavOSkQGoOC/K6hfMhkBqtOjBcjrbygtUED+
+         66OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779348915; x=1779953715;
+        d=1e100.net; s=20251104; t=1779348932; x=1779953732;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=62v+VUjFmSMO7xe18HMoRAsN6xnzoeMa1iqyd56dOLs=;
-        b=HrrjjacheTI4p9uhwzOZYq8wcVVDBpw+UaA3hNwaW7DZWh5F+RQwLvqvcM5468N4to
-         c0nInaiJl2Jicp/Zf29QOFxNMsombJyLeT0ZRmPfX0FiDvjDf081474dMNX3RjVWK8L1
-         WjDy99DkQldxQ1CkqB4YA+NQZhUrbRnTb2rCBYL3IGBmccFtmfZBjsTp6Rs1yk+kz54I
-         BvEhF6gAljbz1jKoN2fuC3DgXHqCOtP8XeHAFSoz4kolkhI7pR18BisVUu3IUeWJy9uF
-         cQDzTbAsh62476Icl9ySfSfe0TAr4yN7ef3565K94asft6c8cu4iFHFyb1uWKapZMeBd
-         eSkA==
-X-Forwarded-Encrypted: i=1; AFNElJ/hYFGPhoI7lRuhIa6FKScfLPg4wnhFLxBn8icR/+pGd7A3XOW+F3JZICSoawN7cWRcNPJqD/wpQh0djw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyiG4MrLfttgI43q/7lTJ7xo6a0MqukYgZoTXDDjBkzlqgejZbf
-	t4DaSLhpmhnUmqOiYe7++FMOJ9Pu70qUO41s0movG2NngP8QjqSVm3DC
-X-Gm-Gg: Acq92OHRqVRaDCArPDCAD9QT+EEEksKD8Q/9+oWXso3tV5WXtaF3I2K23F378PzzGwl
-	BGcMVQ2BKgBMBHkTZLLuB21+UFSxgafU89v9TPCMwKOODucB3bNaWvmnAH/w+m2vm3IuNitR/yD
-	ZBivfhHpRHD4wK0KwODxUcyWUH72bpzCft8G5p7pDbSM0k75sCMNt45KzZgG5lUXpru/p50naj1
-	nyqaOPH9KoESjCrxhgCtMRMCTkEqWv0uUTJkHlSnUFlimjfBAn+yhEjHbleKg3aYcYnrQjNVx7W
-	+gem94zkI4MkPXmSG3qzMVfjBwXVBoPZYbG5+U54fxxEFAkQi4ANu//6JJwiG9S8d+8Ipbx0dg7
-	UUo07ihdiPxSBx3VVUnaipThBiog5dCtjZN9KPYxlPKeEquM9uy57Hn5icBAPPUNzupz17Wr0Jt
-	xXVg9nbqZpxGUxC6G5DbLU
-X-Received: by 2002:a17:90b:2c8d:b0:36a:2a9b:3fb2 with SMTP id 98e67ed59e1d1-36a45600421mr1777569a91.16.1779348915390;
-        Thu, 21 May 2026 00:35:15 -0700 (PDT)
+        bh=3NPvLu4dxOkoKdNg46+oSXq3CipWU7w/mHnMaydoddU=;
+        b=OFr8mQfmAT718wBwKUhADVOMnjl45IdUaWFXjhlU0iA4ECYb3uxDVVKtRHJQN0Vpmr
+         W/ssqbp4gSSl1RtfDEQYEdpFRgPrRvaG+YptfXRh3axQs90LsIcRXMZKzuQoXqjpQMKq
+         qz9Mu40hhBVhs5CYFbwMLnpmjKYQze9ERZHxgPibxl/5nhYDWrufnWg8p47DepeJ5f88
+         3jrGualEQq1StvJc+348b0TXQm5FrxB0yu67osVxUviJaQeIYAUyqYa+hWgWpHKGnSD0
+         2wtdLZ/bGvA/AnEVGgocT8x8NhnXA2WGuk4rWhuHhTgpOzhNuyOSZxJsy8SAlGftQtpv
+         +55A==
+X-Forwarded-Encrypted: i=1; AFNElJ9WlYyIKMPTegqHvLBmcnqnK/EIoat+kfFM2HIhH1bo5QxrpKdXWH3hYG1NZK0t6DsWMXMXikY6Zss7GA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDVJywRBl8lDLE5CepPxMs7UoIAZc5tNs+oitKdVep3fn6JbZS
+	RGMn20hw0KxiPc8EfnVfhur6EL+y4swFWNyWJWtnLnti1BnVOzx/RZD/
+X-Gm-Gg: Acq92OFCNdGRuJie6xKSCk7fUy0ONYrQmRIP2HmBIMwPRPI7eE7zOTCfFYaMe4nxSg4
+	jAjGDHrg2nQjGuOAZIRdPnmIkofgZX9zcEcn/07NO9mz/7sNONtZAgXnRTJD67ndiLYgl2sJgmB
+	Js/u5mB8+6a/CO3ysOBSPc2m97THWAjWsVKLxzFbkb0DSTbh4MwgNikcvCYGfz0Ig4szI5rprw8
+	uVEuxQ8mDvj9lDuxmxQmDEIDAIOvyQIiA0kMiSsmSeEGocWy76b2W1na/MsbZBs23xgJWRH5MEC
+	W2VdYX2F3oplfe8P/uNZV0OXLxmoctzzauHF/kjtor8sz8hl6A1/iPimWCliybR5fo7x/KJuo8J
+	EdbGjrRtzmuSdI48ru5FuYfK6jOHwe1DJkm452K7Hc0cRtfzorCB+0T4nq2iZPR3FdK6dY5Axrh
+	T2Nze2ObY0JCQIKh397fgexCVnNlNw49Y=
+X-Received: by 2002:a17:90b:3c08:b0:35d:a3b4:2f0d with SMTP id 98e67ed59e1d1-36a45137990mr1777189a91.6.1779348932255;
+        Thu, 21 May 2026 00:35:32 -0700 (PDT)
 Received: from rockpi-5b ([45.112.0.230])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36a45c5decesm783833a91.1.2026.05.21.00.35.10
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36a45c5decesm783833a91.1.2026.05.21.00.35.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 00:35:14 -0700 (PDT)
+        Thu, 21 May 2026 00:35:31 -0700 (PDT)
 From: Anand Moon <linux.amoon@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -93,9 +93,9 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
 Cc: Anand Moon <linux.amoon@gmail.com>,
 	Nicolas Dufresne <nicolas@ndufresne.ca>,
 	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH v4 1/3] media: meson: vdec: Fix memory leak in error path of vdec_open
-Date: Thu, 21 May 2026 13:04:11 +0530
-Message-ID: <20260521073449.10057-2-linux.amoon@gmail.com>
+Subject: [PATCH v4 2/3] media: meson: vdec: Add error handling for recycle thread creation
+Date: Thu, 21 May 2026 13:04:12 +0530
+Message-ID: <20260521073449.10057-3-linux.amoon@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260521073449.10057-1-linux.amoon@gmail.com>
 References: <20260521073449.10057-1-linux.amoon@gmail.com>
@@ -111,7 +111,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -119,12 +119,12 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[16];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-62409-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62410-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_CC(0.00)[gmail.com,ndufresne.ca,kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FREEMAIL_TO(0.00)[linaro.org,kernel.org,linuxfoundation.org,baylibre.com,googlemail.com,vger.kernel.org,lists.infradead.org,lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
@@ -136,42 +136,22 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ndufresne.ca:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,sashiko.dev:url]
-X-Rspamd-Queue-Id: 003035A03EF
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ndufresne.ca:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 50FC85A036D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The vdec_open() function previously jumped directly to err_m2m_release
-when vdec_init_ctrls() failed, skipping release of the m2m context.
-This caused a resource leak.
+Add proper error handling for kthread_run() in vdec_start_streaming().
+If thread creation fails and returns an ERR_PTR, record the error,
+reset sess->recycle_thread to NULL, and unwind resources via err_cleanup.
+This prevents later calls to kthread_stop() in vdec_stop_streaming() from
+dereferencing an ERR_PTR and causing a kernel panic. Fix this by adding the
+label and invoking vdec_poweroff() to prevent hardware power leaks.
 
-Fix it by introducing a proper err_m2m_ctx_release label that calls
-v4l2_m2m_ctx_release(sess->m2m_ctx) before releasing the m2m device.
-Also free the v4l2 control handler memory allocated by vdec_init_ctrls()
-in vdec_close().
-
-This was identified via kmemleak:
-unreferenced object 0xffff0000205d6878 (size 8):
-  comm "v4l_id", pid 5289, jiffies 4294938580
-  hex dump (first 8 bytes):
-    40 d2 49 18 00 00 ff ff                          @.I.....
-  backtrace (crc d3204599):
-    kmemleak_alloc+0xc8/0xf0
-    __kvmalloc_node_noprof+0x60c/0x850
-    v4l2_ctrl_handler_init_class+0x1b4/0x2e8 [videodev]
-    vdec_open+0x1f4/0x788 [meson_vdec]
-    v4l2_open+0x144/0x460 [videodev]
-    chrdev_open+0x1ac/0x500
-    do_dentry_open+0x3f0/0xfe8
-    vfs_open+0x68/0x320
-    do_open+0x2d8/0x9a8
-    path_openat+0x1d0/0x4f0
-    do_filp_open+0x190/0x380
-    do_sys_openat2+0xf8/0x1b0
-    __arm64_sys_openat+0x13c/0x1e8
-    invoke_syscall+0xdc/0x268
-    el0_svc_common.constprop.0+0x178/0x258
-    do_el0_svc+0x4c/0x70
+Additionally, reorder the error path to properly mirror the allocation
+sequence clear the streamon status flags before emptying the M2M buffers
+to avoid race conditions, and ensure DMA buffers are released gracefully
+relative to the hardware state lifecycle.
 
 Cc: Nicolas Dufresne <nicolas@ndufresne.ca>
 Reported-by: Sashiko <sashiko-bot@kernel.org>
@@ -179,54 +159,66 @@ Closes: https://lore.kernel.org/all/20260520045905.6ACBA1F000E9@smtp.kernel.org/
 Fixes: 3e7f51bd9607 ("media: meson: add v4l2 m2m video decoder driver")
 Signed-off-by: Anand Moon <linux.amoon@gmail.com>
 ---
-v4: update the commit message to add v4l2_ctrl_handler_free() in vdec_close()
-to adderss the issue:
-  This isn't a bug introduced by this patch, but does vdec_close() properly
-  free the v4l2 control handler memory allocated by vdec_init_ctrls() here?
+v4: new patch
+[Severity: High]
+This isn't a bug introduced by this patch, but does the driver verify if
+kthread_run() returns an ERR_PTR when starting the recycle thread?
 
-v3: https://lore.kernel.org/all/20260520044046.7553-1-linux.amoon@gmail.com/
-  update the commit messagee.
-
-v2: https://lore.kernel.org/all/20260321065408.209723-1-linux.amoon@gmail.com/
-  updated the commit message, applied the suggestion from sashiko below.
-
-  [3] https://sashiko.dev/#/patchset/20260321065408.209723-1-linux.amoon%40gmail.com
-
-v1: https://lore.kernel.org/all/20260304100557.126488-1-linux.amoon@gmail.com/
-  tried to address the issue reported by Nicolas improve the commit message.
+If thread creation fails in vdec_start_streaming() and returns an ERR_PTR,
+could a later call to kthread_stop(sess->recycle_thread) in
+vdec_stop_streaming() attempt to dereference that ERR_PTR and cause a
+kernel panic?
 ---
- drivers/staging/media/meson/vdec/vdec.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/staging/media/meson/vdec/vdec.c | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-index 4b77ec1af5a7..9244fb09eb36 100644
+index 9244fb09eb36..8615a935e86d 100644
 --- a/drivers/staging/media/meson/vdec/vdec.c
 +++ b/drivers/staging/media/meson/vdec/vdec.c
-@@ -889,7 +889,7 @@ static int vdec_open(struct file *file)
+@@ -337,29 +337,37 @@ static int vdec_start_streaming(struct vb2_queue *q, unsigned int count)
  
- 	ret = vdec_init_ctrls(sess);
- 	if (ret)
--		goto err_m2m_release;
-+		goto err_m2m_ctx_release;
+ 	sess->sequence_cap = 0;
+ 	sess->sequence_out = 0;
+-	if (vdec_codec_needs_recycle(sess))
++	if (vdec_codec_needs_recycle(sess)) {
+ 		sess->recycle_thread = kthread_run(vdec_recycle_thread, sess,
+ 						   "vdec_recycle");
++		if (IS_ERR(sess->recycle_thread)) {
++			ret = PTR_ERR(sess->recycle_thread);
++			sess->recycle_thread = NULL;
++			goto err_cleanup;
++		}
++	}
  
- 	sess->pixfmt_cap = formats[0].pixfmts_cap[0];
- 	sess->fmt_out = &formats[0];
-@@ -913,6 +913,8 @@ static int vdec_open(struct file *file)
- 
+ 	sess->status = STATUS_INIT;
+ 	core->cur_sess = sess;
+ 	schedule_work(&sess->esparser_queue_work);
  	return 0;
  
-+err_m2m_ctx_release:
-+	v4l2_m2m_ctx_release(sess->m2m_ctx);
- err_m2m_release:
- 	v4l2_m2m_release(sess->m2m_dev);
- err_free_sess:
-@@ -926,6 +928,7 @@ static int vdec_close(struct file *file)
++err_cleanup:
++	vdec_poweroff(sess);
+ vififo_free:
+ 	dma_free_coherent(sess->core->dev, sess->vififo_size,
+ 			  sess->vififo_vaddr, sess->vififo_paddr);
+ bufs_done:
+-	while ((buf = v4l2_m2m_src_buf_remove(sess->m2m_ctx)))
+-		v4l2_m2m_buf_done(buf, VB2_BUF_STATE_QUEUED);
+-	while ((buf = v4l2_m2m_dst_buf_remove(sess->m2m_ctx)))
+-		v4l2_m2m_buf_done(buf, VB2_BUF_STATE_QUEUED);
+-
+ 	if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+ 		sess->streamon_out = 0;
+ 	else
+ 		sess->streamon_cap = 0;
  
- 	v4l2_m2m_ctx_release(sess->m2m_ctx);
- 	v4l2_m2m_release(sess->m2m_dev);
-+	v4l2_ctrl_handler_free(&sess->ctrl_handler);
- 	v4l2_fh_del(&sess->fh, file);
- 	v4l2_fh_exit(&sess->fh);
++	while ((buf = v4l2_m2m_src_buf_remove(sess->m2m_ctx)))
++		v4l2_m2m_buf_done(buf, VB2_BUF_STATE_QUEUED);
++	while ((buf = v4l2_m2m_dst_buf_remove(sess->m2m_ctx)))
++		v4l2_m2m_buf_done(buf, VB2_BUF_STATE_QUEUED);
++
+ 	return ret;
+ }
  
 -- 
 2.50.1
