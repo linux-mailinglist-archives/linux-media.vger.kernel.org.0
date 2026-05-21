@@ -1,222 +1,278 @@
-Return-Path: <linux-media+bounces-62446-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62447-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4BMlBWPaDmrmCgYAu9opvQ
-	(envelope-from <linux-media+bounces-62446-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 12:11:47 +0200
+	id KHUDGRrUDmr2CQYAu9opvQ
+	(envelope-from <linux-media+bounces-62447-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 11:44:58 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 885735A3047
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 12:11:45 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 077C25A2931
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 11:44:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BCE9C30F4FF6
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 09:38:57 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 278CA302E1DF
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 09:44:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B32D137B01F;
-	Thu, 21 May 2026 09:38:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 79C4037BE7B;
+	Thu, 21 May 2026 09:44:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="0I4tMOaq"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="e89tlKG2";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hEWE8z9e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC35376A10;
-	Thu, 21 May 2026 09:38:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1293242B8
+	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 09:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779356329; cv=none; b=MfZj7393sxePZLF46o74pxuI+etB9G+ZLIlImEnprP51KLfYraJPD6WO5Oo1b7sC7FhHoZUqPfx/gJY/kHJm1J4Epe8ci6dkmtr9Q/tDB7Dr2QBmVJc0fmzLfPJcyAvO+8oADzKJQ3VSkVsEhBxj6PEvgljPH2dmUWCX5kGTlaE=
+	t=1779356672; cv=none; b=T0htKiMC7gtegbr3Vph/j78ymwFJiuUn6G2LNavL+O8Nj8TIRmCeDD+0n4IAEa2V9rHHSmKNbiq3RlaT9TQSlA8yhWXxtVKyX4HlMBc082QXajxEn5efL7NGMyTpb03hjp6WnCWVIPFlbhjT70Y0RqZOszNTU8PjODJSNlPIE3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779356329; c=relaxed/simple;
-	bh=KfGfTyFVL31vdUdOn+76p0c9asI51Kz6rpZ61Tm62g8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cEw3imQRhQn+KYwmqNMyGexNEwoS8UClVayeQ8FU6aYTc7vLw9cT0dHrvKadL0dWY25OaH6PiqmNjUujhbbyKHKqXHs1P/3GlDl/SRcOlfRY07DLXei3h5gEVSetrHh29J6PMt5hF86TC/vlW30M+D2Y0rnR84Z8UH+hZf9cdL8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=0I4tMOaq; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=82qSLImWzSWwJwDL4P56RDhSxB/3/+bLg3x1B6/8Vyo=; b=0I4tMOaqwxFvPcLAyXC1tGPrfE
-	HXHaVV7+wYwVP4UGjSNoFDd1VfRVRwKpSUpdi+/cM0lBIFBOtW57RPkKHZJ6gSZa57lZaOJNQszdB
-	j5MhP9nNF2ZBC5XTLEZLefqvWnNibulepEtkV4okP/kU2AAENM/x1cT5yntunk8HjnN93yJVk0KhD
-	4BGKyKzwZYIhS+icC3RQoCP/xlaXk2zQuPvKHmUwXbld7xPg620UPcbli2n9Nu98+Jo3ggiseSwXX
-	f5u71NtNcCGIkISy1Bu3AzX1ANpj9jp2f9+W1J8qexkOfVBSIDSPhC21GfXXPezuckw1Oq9h13vk1
-	Ke/2S4sA==;
-From: Heiko Stuebner <heiko@sntech.de>
-To: linux-phy@lists.infradead.org,
-	Vladimir Oltean <vladimir.oltean@nxp.com>
-Cc: Heiko Stuebner <heiko@sntech.de>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	dri-devel@lists.freedesktop.org,
-	freedreno@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-can@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-ide@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-tegra@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	spacemit@lists.linux.dev,
-	UNGLinuxDriver@microchip.com,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	=?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@linaro.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Can Guo <quic_cang@quicinc.com>,
-	Chanho Park <chanho61.park@samsung.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Daniel Machon <daniel.machon@microchip.com>,
-	David Airlie <airlied@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Eric Dumazet <edumazet@google.com>,
-	Fabio Estevam <festevam@gmail.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Inki Dae <inki.dae@samsung.com>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	JC Kuo <jckuo@nvidia.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Jessica Zhang <jesszhan0024@gmail.com>,
-	Joe Perches <joe@perches.com>,
-	Johan Hovold <johan+linaro@kernel.org>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Kevin Xie <kevin.xie@starfivetech.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Marc Kleine-Budde <mkl@pengutronix.de>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	Markus Schneider-Pargmann <msp@baylibre.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Michael Dege <michael.dege@renesas.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Niklas Cassel <cassel@kernel.org>,
-	Nitin Rawat <quic_nitirawa@quicinc.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Peter Chen <peter.chen@kernel.org>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Robert Foss <rfoss@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Samuel Holland <samuel@sholland.org>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Sean Paul <sean@poorly.run>,
-	Sebastian Reichel <sre@kernel.org>,
-	Shawn Guo <shawn.guo@linaro.org>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Steen Hegelund <Steen.Hegelund@microchip.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	Vincent Mailhol <mailhol@kernel.org>,
-	Xu Yang <xu.yang_2@nxp.com>,
-	Yixun Lan <dlan@kernel.org>,
-	Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Subject: Re: (subset) [PATCH v8 phy-next 00/31] Split Generic PHY consumer and provider API
-Date: Thu, 21 May 2026 11:38:18 +0200
-Message-ID: <177935628872.1653123.15514691751947313571.b4-ty@sntech.de>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260505100523.1922388-1-vladimir.oltean@nxp.com>
-References: <20260505100523.1922388-1-vladimir.oltean@nxp.com>
+	s=arc-20240116; t=1779356672; c=relaxed/simple;
+	bh=vx8UXlor1Q+mZBEMuasnpVJ17YTJIUQy7oD2wpSPt9c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gpBaPvFmw2wRpn0l0+SlSVWLzwWB0aguMvGww5VX+6Tp6gN/6hLAk+DCCaMXksaLd4OmseybAQ8ye7dGJulil1RsvE4tTQgg12GyS81Z4soMlsRtqc3Y3DVlELyFhRt4lMkP1l12eU2YoUE/bcgyCcampwOY3QmXMMdgVpj4LUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=e89tlKG2; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hEWE8z9e; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64L9A0952632756
+	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 09:44:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Pm8xPGqFT3gNqQUPfHk3ZAk/G820di6y10EGhneFd/Q=; b=e89tlKG2ldRZLMgx
+	ZROd5bzhmXQ5wAsHKr99UO36vWiJIQeLI7XLkwAClZJh6MaiyUIiSL5cwfuYPa/p
+	EVi4MM0L32qSmqAEFoppGGbhaTP3k7xHSmZsaDdlL2IsyQluVwKdhwb/AbT5YFWl
+	u5UyLo1C4aueueP1hc0ByxH/8rwmJL1QPOYLxAAiNcbsNRSBnbBw8Xwnz0kAj4yh
+	wLcLRWB5bTeoKbLvVzlU6KeuhEPEw04QFSeB+NZlywnl3OrSuQD6VDGQc7mFI7QZ
+	QOkA4mIcmXPFL0Ul8y7XA4dz5XJUFbHLF3x2zRu2uLx3BAnFoGTCNt1O7gyExSNu
+	YDNO/g==
+Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4e9ee8caxh-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 09:44:28 +0000 (GMT)
+Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2bc860066a6so42409095ad.0
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2026 02:44:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1779356668; x=1779961468; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Pm8xPGqFT3gNqQUPfHk3ZAk/G820di6y10EGhneFd/Q=;
+        b=hEWE8z9ejFXC/IgNaUGsbo0EHfTqVEKwViMW7vTp7zBL2tnE9t8D/WG9hh5DE5zhu9
+         m2H6j68Q5ObBVB2Z+93aoBGSWDnAmIl2JlfBzPnMGMS0zmzdIPjLDjhXYZ4BBta38F9a
+         XwUcIj50h1pAIZA1E4bdmny8IDBgXgpje7QrpBr5gzOVDx9vtJPL1QrsY+1qVg5QbaRc
+         Zgxe2/nBweHGQP6rFoa++5OzFusfWpfPNK2KYZdEkXfcQTloR1f//UoBp2qbiqao+p8V
+         l8Sv4IwC1KRc/nmvsKIrlwLYNwzZmGVnYBFiUV9ZR0xZlX4JaR0p//7+p+uPMFm9pifs
+         sFHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779356668; x=1779961468;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Pm8xPGqFT3gNqQUPfHk3ZAk/G820di6y10EGhneFd/Q=;
+        b=l12PuHejvC3iNpwmTwPgP5GDdJyx2apahs5FEOjOlnLKplySJ9fZwHRpPMh/yd3xDV
+         kOG5hLyyt/VY2mHslrO6hiGJ2gS3UvN2pcXphBOYqx++gp5sjzwZCL9ztdco3sMOjJU4
+         GTWv/g3pp883Z4L6pkH3vADjA3075Z9p/7rrQAbpLP6FGYouHr4k4VIl2j5ZKGuLcihA
+         jgKmMPcZ0wRWaFORxF0HL44fhP2CfGvTL6Pvgryu89BRJ1Q5xEEIDJnqPVFIdf6ZHoM+
+         EnOS/iLIDkxEcmO/HMubH2ox8tGKq9mcFx+0fNeHACPUXDve1fPQXbXu80qs/3B42Hkw
+         FSrQ==
+X-Gm-Message-State: AOJu0YybOFqJA7F07mNCCJm7qYzdlJRuBsZF9Zmr/vDU1F0AQ+Ou8DPR
+	ZWzJA0A7QZ5BHPvQaZuylM6UvaRg4taqdh1c/abnFZo3B7CB1+qiSD5WvhjyGPH6wPGrVdmScB4
+	SEd7G+TsUeK0o5HyzV+lAseFrC6neL9eB2d+jYidSV78NVfhlj+rHKI7XlrXiEhpvig==
+X-Gm-Gg: Acq92OFFgarRaBOmcq8V21XPjAYFQbtViyKGmRtyIIXNUvgL1WtdFhUaQuk4XniyUYJ
+	6npg1Nttr6lhnscVNFcCo8OgrTxtr7OG1hXiXbIHaxHYYCmUh/bP/UDf4RLhWigFyFHxVGrTi+l
+	+GkpM3MVPqQwO+E3LFxPJgy1SFKqbi6YvfvkGbOey5zOsJ0e10hOoZb22sHpKeF4OqoJvy7YRQ9
+	KyAun/HkNnm2JMatu4vdJLs68EpAUTorIki5SkIFOX4HZNCYth5LecPIwGLv1A/E6/QzjNpAjZn
+	xBh0S1cZJujF0BFRZlo8H06S+j7DrhUW56toX5qpMOTd9JdToxo4qrN2CVtBCruHeenFtIRSbgQ
+	N2SfPtT5O0LmdEPPsCL+5VwRPYq54jGzmyydlhqRBgZKaZJuI0UdTNFI=
+X-Received: by 2002:a17:902:f786:b0:2bd:2de3:519f with SMTP id d9443c01a7336-2bea32fd20fmr21522465ad.19.1779356667896;
+        Thu, 21 May 2026 02:44:27 -0700 (PDT)
+X-Received: by 2002:a17:902:f786:b0:2bd:2de3:519f with SMTP id d9443c01a7336-2bea32fd20fmr21522145ad.19.1779356667407;
+        Thu, 21 May 2026 02:44:27 -0700 (PDT)
+Received: from [10.204.101.125] ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bea99112basm5206415ad.64.2026.05.21.02.44.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 May 2026 02:44:26 -0700 (PDT)
+Message-ID: <c770444d-be66-47e3-83bc-be477d4e07cd@oss.qualcomm.com>
+Date: Thu, 21 May 2026 15:14:22 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/6] media: qcom: iris: gen2: add support for 10bit
+ decoding
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260511-topic-sm8x50-iris-10bit-decoding-v3-0-7fc049b93042@linaro.org>
+ <20260511-topic-sm8x50-iris-10bit-decoding-v3-3-7fc049b93042@linaro.org>
+ <b6ab2112-c89a-4ac4-8525-e913ed0b5313@oss.qualcomm.com>
+ <febaa0cf-eecf-40ea-b243-4f03646af918@linaro.org>
+Content-Language: en-US
+From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+In-Reply-To: <febaa0cf-eecf-40ea-b243-4f03646af918@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Proofpoint-ORIG-GUID: 57NMCZ8R6qBPEizBwgUMNqKNlflQ_Bs1
+X-Authority-Analysis: v=2.4 cv=e5k2j6p/ c=1 sm=1 tr=0 ts=6a0ed3fc cx=c_pps
+ a=JL+w9abYAAE89/QcEU+0QA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=KKAkSRfTAAAA:8 a=iptcRLJNIGpdCXh1_3wA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=324X-CrmTo6CU4MGRt3R:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIxMDA5NiBTYWx0ZWRfXwRXx9tjOsW6i
+ PfybkhQivt1f0+0etWyOl9u+NLfFLuoFbQxmEY0g9NQ0XzkLKGdMLnBeJEuVRCmgQ3aCKBv+RRy
+ ihIO5lWdO4/p5gzRD8B6OJoet99V1zGu7/OL2vaLphwR365XVIQs14r/OO8x97LneInGraL3CfH
+ 4WQfeNyakXYjJpNfGwN9uzdMU9zupAPxQUTrPaICycQPepGW/dUGcv1mOX7hJJhAxPDExszqDbC
+ cPiIK8OVPyIVVN3as4klSZnFNiD1XERrJBR2wOhMts7GgzJoTwEyVulESs4MgGTNbYWPm/Uk296
+ 5tzArTf2YtMj9XaAg6/DEXItTrTgvJvJbR5v/SmD+mq4hcax/uifgLWJELfF3K4QqiZj2CqSXqm
+ WDnHPBoGXyN2Kl5Qa1vOn6HnSxGzWs/lv5nS+7j3IrAmEvutCS3T4CuEZXIFJKSiL0Yf6k7uoW5
+ XywqFPuqTG6n4dhwisw==
+X-Proofpoint-GUID: 57NMCZ8R6qBPEizBwgUMNqKNlflQ_Bs1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-21_01,2026-05-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 phishscore=0 malwarescore=0 bulkscore=0 lowpriorityscore=0
+ adultscore=0 suspectscore=0 priorityscore=1501 clxscore=1015 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605210096
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[sntech.de,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[sntech.de:s=gloria202408];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-62446-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	FREEMAIL_CC(0.00)[sntech.de,kernel.org,linaro.org,lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev,microchip.com,linux.dev,bootlin.com,samsung.com,lunn.ch,intel.com,rock-chips.com,acm.org,google.com,quicinc.com,tuxon.dev,gmail.com,davemloft.net,nxp.com,glider.be,linuxfoundation.org,amarulasolutions.com,HansenPartnership.com,nvidia.com,perches.com,kwiboo.se,starfivetech.com,oss.qualcomm.com,ideasonboard.com,linux.intel.com,pengutronix.de,somainline.org,baylibre.com,oracle.com,renesas.com,redhat.com,armlinux.org.uk,sholland.org,poorly.run,ffwll.ch,synopsys.com,suse.de];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	TAGGED_FROM(0.00)[bounces-62447-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[106];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[heiko@sntech.de,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[sntech.de:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,netdev,renesas,linaro,kernel];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,sntech.de:email,sntech.de:mid,sntech.de:dkim]
-X-Rspamd-Queue-Id: 885735A3047
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 077C25A2931
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
-On Tue, 05 May 2026 13:04:52 +0300, Vladimir Oltean wrote:
-> The biggest problem requiring this split is the fact that consumer
-> drivers poke around in struct phy, accessing fields which shouldn't be
-> visible to them. Follow the example of mux, gpio, iio, spi offload,
-> pwrsec, pinctrl and regulator, which each expose separate headers for
-> consumers and providers.
+On 5/18/2026 1:02 PM, Neil Armstrong wrote:
+> On 5/13/26 20:50, Vikash Garodia wrote:
+>>
+>> On 5/11/2026 2:50 PM, Neil Armstrong wrote:
+>>> Add the necessary plumbing into the HFi Gen2 to signal the decoder
+>>> the right 10bit pixel format and stride when in compressed mode.
+>>>
+>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>>> ---
+>>>   .../platform/qcom/iris/iris_hfi_gen2_command.c     | 75 +++++++++++ 
+>>> ++++++++++-
+>>>   .../platform/qcom/iris/iris_hfi_gen2_defines.h     |  1 +
+>>>   drivers/media/platform/qcom/iris/iris_utils.c      |  4 +-
+>>>   3 files changed, 76 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c 
+>>> b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+>>> index 30bfd90d423b..89de8c366836 100644
+>>> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+>>> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+>>> @@ -481,8 +481,20 @@ static int iris_hfi_gen2_set_colorformat(struct 
+>>> iris_inst *inst, u32 plane)
+>>>       if (inst->domain == DECODER) {
+>>>           pixelformat = inst->fmt_dst->fmt.pix_mp.pixelformat;
+>>> -        hfi_colorformat = pixelformat == V4L2_PIX_FMT_NV12 ?
+>>> -            HFI_COLOR_FMT_NV12 : HFI_COLOR_FMT_NV12_UBWC;
+>>> +        switch (pixelformat) {
+>>> +        case V4L2_PIX_FMT_NV12:
+>>> +            hfi_colorformat = HFI_COLOR_FMT_NV12;
+>>> +            break;
+>>> +        case V4L2_PIX_FMT_QC08C:
+>>> +            hfi_colorformat = HFI_COLOR_FMT_NV12_UBWC;
+>>> +            break;
+>>> +        case V4L2_PIX_FMT_P010:
+>>> +            hfi_colorformat = HFI_COLOR_FMT_P010;
+>>> +            break;
+>>> +        case V4L2_PIX_FMT_QC10C:
+>>> +            hfi_colorformat = HFI_COLOR_FMT_TP10_UBWC;
+>>> +            break;
+>>> +        };
+>>
+>> semicolon ?
 > 
-> Some off-list discussions were had with Vinod Koul regarding the 3 PHY
-> providers outside the drivers/phy/ subsystem. It was agreed that it is
-> desirable to relocate them to drivers/phy/, rather than to publish
-> phy-provider.h to include/linux/phy/ for liberal use. Only phy.h and
-> (new) phy-props.h - consumer-facing headers - stay there.
+> Ack
 > 
-> [...]
+>>
+>>>       } else {
+>>>           pixelformat = inst->fmt_src->fmt.pix_mp.pixelformat;
+>>>           hfi_colorformat = pixelformat == V4L2_PIX_FMT_NV12 ?
+>>> @@ -517,7 +529,8 @@ static int 
+>>> iris_hfi_gen2_set_linear_stride_scanline(struct iris_inst *inst, u32
+>>>       stride_uv = stride_y;
+>>>       scanline_uv = scanline_y / 2;
+>>> -    if (pixelformat != V4L2_PIX_FMT_NV12)
+>>> +    if (pixelformat != V4L2_PIX_FMT_NV12 &&
+>>> +        pixelformat != V4L2_PIX_FMT_P010)
+>>>           return 0;
+>>>       payload[0] = stride_y << 16 | scanline_y;
+>>> @@ -532,6 +545,61 @@ static int 
+>>> iris_hfi_gen2_set_linear_stride_scanline(struct iris_inst *inst, u32
+>>>                             sizeof(u64));
+>>>   }
+>>> +static int iris_hfi_gen2_set_ubwc_stride_scanline(struct iris_inst 
+>>> *inst, u32 plane)
+>>> +{
+>>> +    u32 meta_stride_y, meta_scanline_y, meta_stride_uv, 
+>>> meta_scanline_uv;
+>>> +    u32 stride_y, scanline_y, stride_uv, scanline_uv;
+>>> +    u32 port = iris_hfi_gen2_get_port(inst, plane);
+>>> +    u32 pixelformat, width, height;
+>>> +    u32 payload[4];
+>>> +
+>>> +    if (inst->domain != DECODER ||
+>>> +        inst->fmt_src->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_AV1)
+>>
+>> whats the restriction with AV1 here ?
+> 
+> This restriction is used in downstream driver and Dikshita reported we 
+> shouldn't
+> call HFI_PROP_UBWC_STRIDE_SCANLINE except for AV1.
+> 
+> Could you please check if it's necessary ?
+> 
+I discussed this with firmware folks. As per them, this interface is 
+effective for AV1, and for others, it might lead to higher size due to 
+host demanded alignment.
 
-Applied, thanks!
+As per firmware team,
+"While the documentation states it is applicable "for AV1 ONLY", sending 
+it for HEVC, VP9, or H.264 will physically work—forcing the UBWC output 
+buffers into the Host's fixed stride layout. However, because older 
+codecs handle resolution changes natively by triggering a standard Port 
+Settings Change (PSC) to reallocate buffers, using this property for 
+them is largely unnecessary and will persist statically, potentially 
+leading to wasted memory due to over-allocated padding"
 
-[15/31] drm/rockchip: dw_hdmi: avoid direct dereference of phy->dev.of_node
-        commit: 9392e7340bffb406a705de755adfb44eab547d40
-
-Best regards,
--- 
-Heiko Stuebner <heiko@sntech.de>
+Regards,
+Vikash
 
