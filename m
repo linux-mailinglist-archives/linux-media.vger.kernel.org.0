@@ -1,194 +1,204 @@
-Return-Path: <linux-media+bounces-62432-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62433-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4GN1Lc7TDmr2CQYAu9opvQ
-	(envelope-from <linux-media+bounces-62432-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 11:43:42 +0200
+	id iGS/Ej3VDmr2CQYAu9opvQ
+	(envelope-from <linux-media+bounces-62433-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 11:49:49 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADD65A28CB
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 11:43:41 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id A98BF5A2AA4
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 11:49:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DDA0231EC5B7
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 09:13:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 04A1C3179398
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 09:18:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AD04369211;
-	Thu, 21 May 2026 09:13:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70E30376BEF;
+	Thu, 21 May 2026 09:18:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qIIr3YP8"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="JWBCucmL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3AD29C327;
-	Thu, 21 May 2026 09:13:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5A136A355;
+	Thu, 21 May 2026 09:17:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779354795; cv=none; b=dSqU7Rk1GPz8p8iaGmUPlZxwzY4E6lQ8uy0gDT2UfM/wIDnlvlEfIQnaUp07T4dL1cKPWgIcuJAlsFKnGt7YduhqsrDdJ92mNhzg5XiBYrNoh9SbrxVMEiO3v6HB/PA41yUkb3+JX95ZNWKBhZPb23pZHowu1eKJcAjzsfcjwfU=
+	t=1779355086; cv=none; b=n3qrgsftgxYZWbEJ+OhpZmg+pUw63ZxJ+nP9en1cvyl4neQvFceyXAgldF+czNef5UAJEX2XHlS6Nc+DdM/hAUYMvQHYfdRpVtA5SuUiP/321Z2tbKGxioCMRUto3IOM/LOq93vVwwQcdLZELOuntiftNu/Q6vcUTTwpUSMvlC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779354795; c=relaxed/simple;
-	bh=sDtCR/112nTH/J/4iPL+45VIxb96cevBopgsu4Ph8eo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t9E0w5iaAZXEDfU5Bk0wpf0UG8VR9FgH2Aaa+km+CnFCOO19iXTTKlVXqPeojxDinCZUZQgDLSxcBl6jt01ZOqtuFzjNOa2W6/xm/qmZGl3vcZE+4ONddDa0EIZsT+SutgETjIydtLr5i3UYbXQeVUjEvFrexEQ3r1fwVw1vhu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qIIr3YP8; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (unknown [IPv6:2a01:cb1d:8f2:800:42d6:38fa:3bdf:70df])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 301F96DF;
-	Thu, 21 May 2026 11:12:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1779354777;
-	bh=sDtCR/112nTH/J/4iPL+45VIxb96cevBopgsu4Ph8eo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qIIr3YP8EAZW/iNOMw/M83HwuXvaiW2nt6NKTXAAeyC2iRQOxtyJLDg1gp9bNZTum
-	 clogYJTaTikdiQ/fMlCox498QlxMUMfloaJhvs2T9peZdU1RkF0OmGBnJ5BoqTPSxN
-	 bcjGvDXa+j/Vds8fTNw8+rZDtwh+h1VnEQRbvHn0=
-Date: Thu, 21 May 2026 11:13:10 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
-Cc: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Hans de Goede <johannes.goede@oss.qualcomm.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
-	Xiaolei Wang <xiaolei.wang@windriver.com>,
-	Walter Werner Schneider <contact@schnwalter.eu>,
-	Kate Hsuan <hpa@redhat.com>, Svyatoslav Ryhel <clamor95@gmail.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>
-Subject: Re: [PATCH 2/3] media: i2c: add imx576 image sensor driver
-Message-ID: <20260521091310.GB4511@killaraus.ideasonboard.com>
-References: <20260520115641.11729-1-himanshu.bhavani@siliconsignals.io>
- <20260520115641.11729-3-himanshu.bhavani@siliconsignals.io>
- <20260520123326.GC215344@killaraus.ideasonboard.com>
- <PN0P287MB20196A26D90DF65CF551FD359A0E2@PN0P287MB2019.INDP287.PROD.OUTLOOK.COM>
+	s=arc-20240116; t=1779355086; c=relaxed/simple;
+	bh=iB9jAHKjfyb1yn0BP3YJgPX6Z8FybJBuZEiOoZNCNm8=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:MIME-Version:
+	 Content-Type:References; b=UcDK0GBo/ZJ5TzFXXDe6ycje83WVpEmWYXl1z3xVVO32UicyMyX5SpTxLAMf8Q6UV4rySHB8vAopOw/B7pOoc0cY+V+vaFpQ7lCP20UmyDImromaMSQhiFLapy5PB1yeEhoOwHPzoCvYLcLkdOd7itAMHrvP4bt2UXT97Zz4dO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=JWBCucmL; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20260521091750euoutp029019ead77c04b2458adeccf709e02a6d~xigJrSrAF2230022300euoutp02D;
+	Thu, 21 May 2026 09:17:50 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20260521091750euoutp029019ead77c04b2458adeccf709e02a6d~xigJrSrAF2230022300euoutp02D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1779355070;
+	bh=tla4LIP0HEFHoX1w40Aji8U/IZUoIzvhT3y/D99OCOM=;
+	h=From:To:Cc:Subject:In-Reply-To:Date:References:From;
+	b=JWBCucmL7WVMJM9IsjHOplWSYB8TAS+pQfF3q1fVesX3jVDIbFESbMlVhLPvCqoHx
+	 N9CWIQ/CTnGFge8SjaB2JJ+AE97haJdA1bK1IIxMCsb6knPRj6qpy5nW36HHbH6vSp
+	 S2UTPGvg/kuh2tkLNe2SSiMAQ5d+KQdvZ+0kxBjg=
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20260521091750eucas1p1b3186d0ad37643279c08c842482c461b~xigJGJI1B0858208582eucas1p1H;
+	Thu, 21 May 2026 09:17:50 +0000 (GMT)
+Received: from localhost (unknown [106.120.51.111]) by eusmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20260521091750eusmtip1aa20055378fcc28431326a001e937a4c~xigJCdYqo2518325183eusmtip1C;
+	Thu, 21 May 2026 09:17:50 +0000 (GMT)
+From: Lukasz Stelmach <l.stelmach@samsung.com>
+To: Guangshuo Li <lgs201920130244@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,  Kamil Debski
+	<k.debski@samsung.com>,  Kyungmin Park <kyungmin.park@samsung.com>,  Marek
+	Szyprowski <m.szyprowski@samsung.com>, linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: s5p-g2d: avoid double free on video register
+ failure
+In-Reply-To: <20260517114642.951949-1-lgs201920130244@gmail.com> (Guangshuo
+	Li's message of "Sun, 17 May 2026 19:46:42 +0800")
+Date: Thu, 21 May 2026 11:17:49 +0200
+Message-ID: <oypijdv7ch86ki.fsf%l.stelmach@samsung.com>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <PN0P287MB20196A26D90DF65CF551FD359A0E2@PN0P287MB2019.INDP287.PROD.OUTLOOK.COM>
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: multipart/signed; boundary="=-=-="; micalg="pgp-sha256";
+	protocol="application/pgp-signature"
+X-CMS-MailID: 20260521091750eucas1p1b3186d0ad37643279c08c842482c461b
+X-Msg-Generator: CA
+X-RootMTR: 20260517114658eucas1p26d540bb0740e60f04f7be661f2991add
+X-EPHeader: CA
+X-CMS-RootMailID: 20260517114658eucas1p26d540bb0740e60f04f7be661f2991add
+References: <CGME20260517114658eucas1p26d540bb0740e60f04f7be661f2991add@eucas1p2.samsung.com>
+	<20260517114642.951949-1-lgs201920130244@gmail.com>
+X-Spamd-Result: default: False [-3.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[samsung.com,none];
+	R_DKIM_ALLOW(-0.20)[samsung.com:s=mail20170921];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,siliconsignals.io,kernel.org,oss.qualcomm.com,linaro.org,windriver.com,schnwalter.eu,redhat.com,gmail.com,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-62432-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62433-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[22];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[samsung.com:+];
 	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[l.stelmach@samsung.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,siliconsignals.io:email,killaraus.ideasonboard.com:mid]
-X-Rspamd-Queue-Id: 1ADD65A28CB
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,samsung.com:mid,samsung.com:dkim]
+X-Rspamd-Queue-Id: A98BF5A2AA4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, May 21, 2026 at 05:44:09AM +0000, Himanshu Bhavani wrote:
-> > On Wed, May 20, 2026 at 05:26:34PM +0530, Himanshu Bhavani wrote:
-> >> Add a v4l2 subdevice driver for the Sony imx576 sensor.
-> >>
-> >> The Sony IMX576 image sensor with an active
-> >> array size of 5760 x 4312
-> >>
-> >> The following features are supported:
-> >> - Manual exposure an gain control support
-> >> - vblank/hblank control support
-> >> - Supported resolution: 2880 x 2156 30fps (SRGGB10)
-> >>
-> >> Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
-> >> ---
-> >>  MAINTAINERS                |    1 +
-> >>  drivers/media/i2c/Kconfig  |   10 +
-> >>  drivers/media/i2c/Makefile |    1 +
-> >>  drivers/media/i2c/imx576.c | 1029 ++++++++++++++++++++++++++++++++++++
-> >>  4 files changed, 1041 insertions(+)
-> >>  create mode 100644 drivers/media/i2c/imx576.c
+--=-=-=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-[snip]
+It was 2026-05-17 nie 19:46, when Guangshuo Li wrote:
+> g2d_probe() allocates a video_device with video_device_alloc() and
+> releases it from the rel_vdev error path if video_register_device()
+> fails.
+>
+> This can double free the video_device when __video_register_device()
+> reaches device_register() and that call fails:
+>
+>   video_register_device()
+>     -> __video_register_device()
+>        -> device_register() fails
+>           -> put_device(&vdev->dev)
+>              -> v4l2_device_release()
+>                 -> vdev->release(vdev)
+>                    -> video_device_release(vdev)
+>
+>   g2d_probe()
+>     -> rel_vdev
+>        -> video_device_release(vfd)
+>
+> Use video_device_release_empty() while registering the device so that
+> registration failure paths do not free vfd through vdev->release().
+> g2d_probe() then releases vfd exactly once from rel_vdev. Restore
+> video_device_release() after successful registration so the registered
+> device keeps its normal lifetime handling.
+>
+> This issue was found by a static analysis tool I am developing.
 
-> >> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-> >> index 90b276a7417a..e96c083e03d9 100644
-> >> --- a/drivers/media/i2c/Makefile
-> >> +++ b/drivers/media/i2c/Makefile
-> >> @@ -61,6 +61,7 @@ obj-$(CONFIG_VIDEO_IMX335) += imx335.o
-> >>  obj-$(CONFIG_VIDEO_IMX355) += imx355.o
-> >>  obj-$(CONFIG_VIDEO_IMX412) += imx412.o
-> >>  obj-$(CONFIG_VIDEO_IMX415) += imx415.o
-> >> +obj-$(CONFIG_VIDEO_IMX576) += imx576.o
-> >>  obj-$(CONFIG_VIDEO_IR_I2C) += ir-kbd-i2c.o
-> >>  obj-$(CONFIG_VIDEO_ISL7998X) += isl7998x.o
-> >>  obj-$(CONFIG_VIDEO_KS0127) += ks0127.o
-> >> diff --git a/drivers/media/i2c/imx576.c b/drivers/media/i2c/imx576.c
-> >> new file mode 100644
-> >> index 000000000000..910cbcfb6031
-> >> --- /dev/null
-> >> +++ b/drivers/media/i2c/imx576.c
+Thank you for taking time to analyze our code. I was going to write
+something along the lines Marek Szyprowski has laready written in this
+thread https://lore.kernel.org/all/CANUHTR-RfWnoMRRAoDb6CPZsaiAYBLy61dd0P6T=
+nKYgjNeBWpA@mail.gmail.com/
+Do follow his advise with this one too.
 
-[snip]
+> Fixes: 918847341af0 ("[media] v4l: add G2D driver for s5p device family")
+> Signed-off-by: Guangshuo Li <lgs201920130244@gmail.com>
+> ---
+>  drivers/media/platform/samsung/s5p-g2d/g2d.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/media/platform/samsung/s5p-g2d/g2d.c b/drivers/media=
+/platform/samsung/s5p-g2d/g2d.c
+> index a18b13db19d5..f38c28abd6d9 100644
+> --- a/drivers/media/platform/samsung/s5p-g2d/g2d.c
+> +++ b/drivers/media/platform/samsung/s5p-g2d/g2d.c
+> @@ -684,6 +684,7 @@ static int g2d_probe(struct platform_device *pdev)
+>  		goto unreg_v4l2_dev;
+>  	}
+>  	*vfd =3D g2d_videodev;
+> +	vfd->release =3D video_device_release_empty;
+>  	set_bit(V4L2_FL_QUIRK_INVERTED_CROP, &vfd->flags);
+>  	vfd->lock =3D &dev->mutex;
+>  	vfd->v4l2_dev =3D &dev->v4l2_dev;
+> @@ -711,6 +712,8 @@ static int g2d_probe(struct platform_device *pdev)
+>  		v4l2_err(&dev->v4l2_dev, "Failed to register video device\n");
+>  		goto free_m2m;
+>  	}
+> +
+> +	vfd->release =3D video_device_release;
+>  	video_set_drvdata(vfd, dev);
+>  	dev->vfd =3D vfd;
+>  	v4l2_info(&dev->v4l2_dev, "device registered as /dev/video%d\n",
 
-> >> +static const struct imx576_mode supported_modes_10bit[] = {
-> >> +	{
-> >> +		.width = 2880,
-> >> +		.height = 2156,
-> >> +		.hts = 3165,
-> >> +		.vts = 2172,
-> >> +		.reg_list = {
-> >> +			.num_of_regs = ARRAY_SIZE(mode_2880x2156_regs),
-> >> +			.regs = mode_2880x2156_regs,
-> >> +		},
-> >> +	},
-> >> +};
-> >
-> > No mode tables please. Control the analog crop and binning through the
-> > selection and format APIs.
-> >
-> >> +
-> >> +static const s64 link_freq[] = {
-> >> +	IMX576_LINK_FREQ_600MHZ,
-> >
-> > The link frequency should be selectable from DT, with PLL parameters (if
-> > any) computed by the driver.
-> 
-> I don't have the full datasheet, so this cannot be implemented properly.
+=2D-=20
+=C5=81ukasz Stelmach
+Samsung R&D Institute Poland
+Samsung Electronics
 
-Have you tried to work with your support channel to obtain the
-documentation?
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
--- 
-Regards,
+-----BEGIN PGP SIGNATURE-----
 
-Laurent Pinchart
+iQEzBAEBCAAdFiEEXpuyqjq9kGEVr9UQsK4enJilgBAFAmoOzb0ACgkQsK4enJil
+gBDAvwf/UqBCHoEFcpYoctqpNZB9CoQg5p5yFhsNbYNDc15ydTPBINYKGRXBzPLe
+U+mHRQeqxMHzlzKnBYGJX7LYWXJyK0HAi0Et+jlb4o/v43eoBTBfaaRrbm+ST3sT
+8qVUOcBjdV3AkiXggyGqS5F9XSqEAlcVFc6QJ+YgpIDvu4Kkp6KWBPXqgBT+THPa
+6z+mLGHQNX0NNalw1XBLjbNGlbec6UMFMYk8NJgMV1I5sWdIiDuvUCWyk/oiVwOM
+FTq/BI8ey1+z1bOCux903ak+3iz22voLKCfQPYESX84hDSRs/gAwOh0x5iM5a6kU
++8oCn5DaDhL/D4jVXb7Dq2PVIWahdA==
+=CxIp
+-----END PGP SIGNATURE-----
+--=-=-=--
 
