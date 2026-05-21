@@ -1,297 +1,329 @@
-Return-Path: <linux-media+bounces-62497-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62498-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MKbiFOYKD2omEgYAu9opvQ
-	(envelope-from <linux-media+bounces-62497-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 15:38:46 +0200
+	id +MLqNpoGD2qFEQYAu9opvQ
+	(envelope-from <linux-media+bounces-62498-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 15:20:26 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDBE85A60AE
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 15:38:45 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E79F5A59FB
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 15:20:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B5DE331609B6
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 13:02:42 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8FD2A306B3A0
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 13:03:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28EA33D7D66;
-	Thu, 21 May 2026 13:01:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OxrI1RPw";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="diUyF/eV"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18C463B961B;
+	Thu, 21 May 2026 13:03:28 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237D2226863
-	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 13:01:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779368494; cv=pass; b=LPex6ZhFxIJy3T4nR0UqIhqAYmps6iMY8cXbBbAAU+AgG4QjKMcv9edQpu7hAWPge68BI3zQqDhVXj8tAqMC3aHPo9eGZw+SAid7U9GjTkeclM1o1knjbHjVNAhcZVdHobeMSJ7iWg1RcplaoKEZseG1VGJPzj1aUPo9yl9Mg1s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779368494; c=relaxed/simple;
-	bh=s/LhWOJ82A/Il7Fwfsi+/4LPTb+4kNKDQTmAaQ9VC64=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=X19Gm9u7qTYVibEono2EgXU1iuURtRpKJyNbNidUaPTJ8Yxwa24M5UelvqbfDNuHXB7/YST6uShRJy9edoiTXRem/XReX2J2Hxs1u6azis8YwDm6veCJ68EFBhFHgrrpbnEpk2BLA+9g/3CaYgh27rW8qTDQ+ptjpmKH38JY4WA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OxrI1RPw; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=diUyF/eV; arc=pass smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1779368491;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LmwC58HJBimxH19t4ZPSn9X111oVOA5kpRJyuTfhJLQ=;
-	b=OxrI1RPwhVeaoFNNn9BmIFIvKgUPnSaJ2diRLZJItmw1EkyR60Ud4dz4qUFUA6tNxkpXrv
-	vLHM47e6KQFujMSpBqp/2EdlexxUmM+d5H7U1EvqMrrKWwoLnqBvAV2yHX6cjWuTWv5EW+
-	1qvoc9AlYE+j+M4s1vT7t1IBuJ7bsxQ=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-458-dp8P9JtxNyeUwblhMC506A-1; Thu, 21 May 2026 09:01:29 -0400
-X-MC-Unique: dp8P9JtxNyeUwblhMC506A-1
-X-Mimecast-MFC-AGG-ID: dp8P9JtxNyeUwblhMC506A_1779368489
-Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-7c9e610f273so79417977b3.0
-        for <linux-media@vger.kernel.org>; Thu, 21 May 2026 06:01:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779368489; cv=none;
-        d=google.com; s=arc-20240605;
-        b=BIuFHwqc8IAF5nGwVorEjTYhr0P5OHhjr3xt5nvU7M/Tpr+giHTr7DUc1hG+VS9FAr
-         +DlKvyhQvZwW5y3O5b/orT/A+4xzuxUcT0QaMnC1Z3clpPGCVO1lCxr+otuBNNbcYorh
-         sCz3n1ZCfgbxiv6Oxp0CzvS8fAoVWJ1NHSGknmX883IdYquc5Uom2/vTnN5EphTkUbJR
-         p/ZpDQw7k9BrjgJqLomEvum8rIsunx9fd/9wkeihnuSryBU391V/w85xOt8xkbTfxzCE
-         D3nb4CzR45BHeUPdoUEukPbqE1NvsanXr1ExA/Wtnps23Vuq6VELMUi1/nJolL5QH6Ls
-         Pnng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LmwC58HJBimxH19t4ZPSn9X111oVOA5kpRJyuTfhJLQ=;
-        fh=VHwbaDsAzDBbTVwwG2WwufoBrAoLQjkbgR68Tvd67m4=;
-        b=iYvLO4z9/LBIryjzVKLZcpcjSxuuaGIUJ88vDbDHDTOF/26ofQctAs0MGqYHSrSSUD
-         RN4RwXhciXSUrOuqKQ4G1Fgup+g1g4Z2sn31kwCuxqC9CwKBvFXFaC/ZNaaymeKncggv
-         vcksrDPlYy9I+/Bma/MCJy1hxgjouPHFjn3q7Rtc1TH8wt65bOVOUaqfoPnvE+y+GjuM
-         93NLuUEY/+yq8sQ5Bwgio+NcZhOzpCsXhJKHbWnYi8CsgLObaE8CsWaQ6pDo3GRy5aKu
-         D+TLDF2ygcAZ2A2Wkvvuhux9fnivgYw5q8BCXpREb4t+qBWdzkJvnJoEqpKBPZo98nWI
-         vZfA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1779368489; x=1779973289; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LmwC58HJBimxH19t4ZPSn9X111oVOA5kpRJyuTfhJLQ=;
-        b=diUyF/eVXhQW3OMlnjN+OHIw0yGM/7C1Nd0c4UA3QPRGdHerd/v34IJFv/ISPyfwK2
-         cTH1tQJKe+vtoTC3IzM08D3zvbNWRManXxwjq7J3gyM2DuoFdzIFBXRt4qyV1veBPauV
-         nTSEGqxDBL6SoUetZoxkcTSIaWUz9xY+a3ZXa/cVCu+8EDdk5qRc35R9lyW1jxpNCGvX
-         Afj21cu7PrMuEClG3wY8NVmsyFFf9hX2XoN4/E5sFHjxWNhqEICPWxqsm8qvDy9UQL0B
-         VqPODck5FEJ4q6vd5hgG9RjAKlMts9UI3ycjWhxmL6Ih6SbtvKs+9+tWSKCRZmqI6iGH
-         eonw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779368489; x=1779973289;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LmwC58HJBimxH19t4ZPSn9X111oVOA5kpRJyuTfhJLQ=;
-        b=oR8pK4j0iq7NdSSXJyYbKBt7SmWwCLufGgcGjdFZB3F5tGXKPwlos+bhTCrhItlI1s
-         NwKiwxXydPjfg5hMeMkiaCHLFwdr2JuRMvJ8k3cQHGREDzaN47ajYPcUTj+I8zjIADee
-         35GWsxLXEJTQD2kpQUa82e2Hmki1MvwmWzj5dXYbvjRFeEcOMWfBW872d6Xzqsahz2od
-         ZNx8+HrdO0/CeRpxLfUtGDjc/xQvJaZoY/fZGl0NeI0AtBsSzP+wTRhEOhl503ZYdI7w
-         mcFnif2TvELV+tYc3kLPDUFVHg8Vs2I+zMu/0I1d2UPwugyQyGn0u/IlCQbYjUl/dE7q
-         vpoA==
-X-Forwarded-Encrypted: i=1; AFNElJ/GWH5p0ShAtWfwOLKHqGtYENSfnpQXNGkzyIckF+Dr2uMuJlfXZ+EcHtys2krMRocL+pM/6YCEiMD5wg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqwuZMuTIAvKJIH0xjBkbF6LWTvGOGV+I7qo6RckyhOkNz5KCS
-	KBRMsT9bHaHnBAL4FKFxbFDG0eD9dYOyYDmjioEQAbNy3+FTVzOwrOZ2lgd1FGQhlWkpxt3JsK1
-	S2NVvXqEa5MtNYexh8jNaVhC/AnCdvXmpwJ7EeLUtun06+eSlvP/XtglSUSvrJciaTpYCTjvce6
-	NggOoCNSOZdf1JDhU/LNSZU43CoSTbn/jeSgwh+24=
-X-Gm-Gg: Acq92OHM40zcEaDzNlAoMzzymhFKACfjVT3n/OcZH2ycJUiVnpA1IL+oa1z2swR1Qq5
-	85BV3k1lLviyZRYygEESPuX6YUXYQlhzUYH1kCOb7JRY29hzLZQzr/1qgFHjXf1nc36wWaXHv1+
-	0V/62KwrytGWw/G9lUBO7j/pl2lkqzs9858Gp5wWuH9vJ3mCR8o5k1eqH++8WlAzq8I+k4ExWug
-	+FlVQ==
-X-Received: by 2002:a05:690c:2701:b0:798:5213:d90e with SMTP id 00721157ae682-7d21458c414mr20821377b3.25.1779368487410;
-        Thu, 21 May 2026 06:01:27 -0700 (PDT)
-X-Received: by 2002:a05:690c:2701:b0:798:5213:d90e with SMTP id
- 00721157ae682-7d21458c414mr20820547b3.25.1779368486638; Thu, 21 May 2026
- 06:01:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C9CD86334
+	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 13:03:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779368607; cv=none; b=gnCGbzv3P+aEMR2NKtub0nn2Gz1gGExX2aHzmLFpqKQOpIOYUEHXW7Gbi0nVd5QS795qYQVaF4kJ8iPuwz+6pJOamncMOk2SEgfZ+DMHEyd8AxchaLon592IMUfeEBuRHm8GBkiBY1i3zl4aTAr3V7fa2rxkLNr2kMeledpqUlc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779368607; c=relaxed/simple;
+	bh=I28j9kLoWaLcBbB2Eh06lpqo8nF8S9y4Yy/xYsPb3Ic=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ayce7Z+DwkqCZ01LrcE23cIpX34HRJGD5QEJErNeIC6Sa9J4zTy9PnsdgPRofapQHHvRhiJ3KSVZv9VShdUUqiik2Dtwl4dvC19haRd2dRQrkgGCVl/3F1EwrZQItjLAVzjGeHR1Uqv9KaIaVM1QwUTfKTVIldQ8bzC96oS5SWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <m.tretter@pengutronix.de>)
+	id 1wQ33Q-0003bA-HC; Thu, 21 May 2026 15:03:12 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <m.tretter@pengutronix.de>)
+	id 1wQ33O-0016fi-2f;
+	Thu, 21 May 2026 15:03:11 +0200
+Received: from mtr by pty.whiteo.stw.pengutronix.de with local (Exim 4.98.2)
+	(envelope-from <m.tretter@pengutronix.de>)
+	id 1wQ33P-00000004Vyy-10Cg;
+	Thu, 21 May 2026 15:03:11 +0200
+Date: Thu, 21 May 2026 15:03:11 +0200
+From: Michael Tretter <m.tretter@pengutronix.de>
+To: Sven =?utf-8?Q?P=C3=BCschel?= <s.pueschel@pengutronix.de>
+Cc: Jacob Chen <jacob-chen@iotwrt.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, kernel@pengutronix.de,
+	nicolas@ndufresne.ca, sebastian.reichel@collabora.com,
+	p.zabel@pengutronix.de,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: Re: [PATCH v7 09/28] media: rockchip: rga: remove redundant
+ rga_frame variables
+Message-ID: <ag8Cjzl2m_fvbiZZ@pengutronix.de>
+Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
+	Sven =?utf-8?Q?P=C3=BCschel?= <s.pueschel@pengutronix.de>,
+	Jacob Chen <jacob-chen@iotwrt.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, kernel@pengutronix.de,
+	nicolas@ndufresne.ca, sebastian.reichel@collabora.com,
+	p.zabel@pengutronix.de,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20260521-spu-rga3-v7-0-3f33e8c7145f@pengutronix.de>
+ <20260521-spu-rga3-v7-9-3f33e8c7145f@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260521-dmabuf-limit-access-v1-0-26c01e27365a@redhat.com> <7b662fcd-3bcd-40a2-b014-d9ce36f6425b@amd.com>
-In-Reply-To: <7b662fcd-3bcd-40a2-b014-d9ce36f6425b@amd.com>
-From: Albert Esteve <aesteve@redhat.com>
-Date: Thu, 21 May 2026 15:01:15 +0200
-X-Gm-Features: AVHnY4LBiwiMio4g-NMYwHAheob8lHj03QTb2KFQDfp0pjJRm1wTbuvqILl5JEg
-Message-ID: <CADSE00J1+V4=qFZPOL8Cr8hYw6d=hf_XcDPezjYGkcxAwLYGyw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] dma-buf: add DMA_BUF_IOCTL_DERIVE for
- reduced-permission aliases
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, Shuah Khan <shuah@kernel.org>, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, mripard@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260521-spu-rga3-v7-9-3f33e8c7145f@pengutronix.de>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: m.tretter@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spamd-Result: default: False [0.04 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62497-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	TAGGED_FROM(0.00)[bounces-62498-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DMARC_NA(0.00)[pengutronix.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aesteve@redhat.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-1.000];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,amd.com:email,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: BDBE85A60AE
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[m.tretter@pengutronix.de,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_DKIM_NA(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,pengutronix.de:url,pengutronix.de:email,pengutronix.de:mid,collabora.com:email]
+X-Rspamd-Queue-Id: 3E79F5A59FB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Christian,
+On Thu, 21 May 2026 00:44:14 +0200, Sven Püschel wrote:
+> Remove the redundant rga_frame variables width, height and color space.
+> The value of these variables is already contained in the pix member
+> of rga_frame. The code also keeps these values in sync. Therefore drop
+> them in favor of the existing pix member.
+> 
+> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Signed-off-by: Sven Püschel <s.pueschel@pengutronix.de>
 
-On Thu, May 21, 2026 at 2:28=E2=80=AFPM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> On 5/21/26 11:10, Albert Esteve wrote:
-> > When sharing a dma-buf between components of different trust levels, th=
-e
-> > allocator may need to hand a consumer a read-only view of a buffer it
-> > holds with read-write access. An example is a camera pipeline where the
-> > capture component writes frames into a buffer and needs to pass a
-> > read-only handle to a downstream processing component that should not b=
-e
-> > able to modify the data.
-> >
-> > However, no such mechanism exists today. The access mode of a dma-buf
-> > file descriptor is fixed at export time, and the standard POSIX
-> > interfaces for duplicating or changing file descriptors (i.e., dup(2),
-> > dup3(2), and fcntl(F_SETFL)) cannot alter the read/write access mode of
-> > the copy.
-> >
-> > One natural candidate would be reopening via /proc/self/fd/<N> with
-> > O_RDONLY, which works for regular files. For dma-buf this would fail
-> > (that is, if we were to add a new handler for open f_op) with ENXIO
-> > because the dmabuf pseudo-filesystem carries SB_NOUSER, which prevents
-> > the VFS from opening its files through path-based resolution from
-> > userspace.
->
-> OH MY GOD! This is the like the sixth time I had to clarify that in the l=
-ast few weeks, I'm really wondering where that is suddenly coming from.
+Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
 
-Sorry! I do not know where others came from. But my interest comes
-from automotive, safety, and mixed criticality scenarios. I kind of
-hinted at that in the opening when referring to "different trust
-levels".
+> ---
+>  drivers/media/platform/rockchip/rga/rga-buf.c |  6 ++---
+>  drivers/media/platform/rockchip/rga/rga-hw.c  |  6 ++---
+>  drivers/media/platform/rockchip/rga/rga.c     | 32 ++++++++++-----------------
+>  drivers/media/platform/rockchip/rga/rga.h     |  5 -----
+>  4 files changed, 18 insertions(+), 31 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rga/rga-buf.c b/drivers/media/platform/rockchip/rga/rga-buf.c
+> index 65fc0d5b4aa10..ffc6162b2e681 100644
+> --- a/drivers/media/platform/rockchip/rga/rga-buf.c
+> +++ b/drivers/media/platform/rockchip/rga/rga-buf.c
+> @@ -103,10 +103,10 @@ static int get_plane_offset(struct rga_frame *f,
+>  	if (plane == 0)
+>  		return 0;
+>  	if (plane == 1)
+> -		return stride * f->height;
+> +		return stride * f->pix.height;
+>  	if (plane == 2)
+> -		return stride * f->height +
+> -		       (stride * f->height / info->hdiv / info->vdiv);
+> +		return stride * f->pix.height +
+> +		       (stride * f->pix.height / info->hdiv / info->vdiv);
+>  
+>  	return -EINVAL;
+>  }
+> diff --git a/drivers/media/platform/rockchip/rga/rga-hw.c b/drivers/media/platform/rockchip/rga/rga-hw.c
+> index d1618bb247501..ec6c17504ca15 100644
+> --- a/drivers/media/platform/rockchip/rga/rga-hw.c
+> +++ b/drivers/media/platform/rockchip/rga/rga-hw.c
+> @@ -53,7 +53,7 @@ rga_get_addr_offset(struct rga_frame *frm, struct rga_addr_offset *offset,
+>  	x_div = frm->fmt->x_div;
+>  	y_div = frm->fmt->y_div;
+>  	uv_stride = frm->stride / x_div;
+> -	pixel_width = frm->stride / frm->width;
+> +	pixel_width = frm->stride / frm->pix.width;
+>  
+>  	lt->y_off = offset->y_off + y * frm->stride + x * pixel_width;
+>  	lt->u_off = offset->u_off + (y / y_div) * uv_stride + x / x_div;
+> @@ -191,7 +191,7 @@ static void rga_cmd_set_trans_info(struct rga_ctx *ctx)
+>  
+>  	if (RGA_COLOR_FMT_IS_YUV(ctx->in.fmt->hw_format) &&
+>  	    RGA_COLOR_FMT_IS_RGB(ctx->out.fmt->hw_format)) {
+> -		switch (ctx->in.colorspace) {
+> +		switch (ctx->in.pix.colorspace) {
+>  		case V4L2_COLORSPACE_REC709:
+>  			src_info.data.csc_mode = RGA_SRC_CSC_MODE_BT709_R0;
+>  			break;
+> @@ -203,7 +203,7 @@ static void rga_cmd_set_trans_info(struct rga_ctx *ctx)
+>  
+>  	if (RGA_COLOR_FMT_IS_RGB(ctx->in.fmt->hw_format) &&
+>  	    RGA_COLOR_FMT_IS_YUV(ctx->out.fmt->hw_format)) {
+> -		switch (ctx->out.colorspace) {
+> +		switch (ctx->out.pix.colorspace) {
+>  		case V4L2_COLORSPACE_REC709:
+>  			dst_info.data.csc_mode = RGA_SRC_CSC_MODE_BT709_R0;
+>  			break;
+> diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
+> index c07207edffdb6..ca8d8a53dc251 100644
+> --- a/drivers/media/platform/rockchip/rga/rga.c
+> +++ b/drivers/media/platform/rockchip/rga/rga.c
+> @@ -329,9 +329,6 @@ static struct rga_fmt *rga_fmt_find(u32 pixelformat)
+>  }
+>  
+>  static struct rga_frame def_frame = {
+> -	.width = DEFAULT_WIDTH,
+> -	.height = DEFAULT_HEIGHT,
+> -	.colorspace = V4L2_COLORSPACE_DEFAULT,
+>  	.crop.left = 0,
+>  	.crop.top = 0,
+>  	.crop.width = DEFAULT_WIDTH,
+> @@ -363,9 +360,9 @@ static int rga_open(struct file *file)
+>  	ctx->out = def_frame;
+>  
+>  	v4l2_fill_pixfmt_mp(&ctx->in.pix,
+> -			    ctx->in.fmt->fourcc, ctx->out.width, ctx->out.height);
+> +			    ctx->in.fmt->fourcc, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+>  	v4l2_fill_pixfmt_mp(&ctx->out.pix,
+> -			    ctx->out.fmt->fourcc, ctx->out.width, ctx->out.height);
+> +			    ctx->out.fmt->fourcc, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+>  
+>  	if (mutex_lock_interruptible(&rga->mutex)) {
+>  		kfree(ctx);
+> @@ -453,10 +450,8 @@ static int vidioc_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
+>  	if (IS_ERR(frm))
+>  		return PTR_ERR(frm);
+>  
+> -	v4l2_fill_pixfmt_mp(pix_fmt, frm->fmt->fourcc, frm->width, frm->height);
+> -
+> +	*pix_fmt = frm->pix;
+>  	pix_fmt->field = V4L2_FIELD_NONE;
+> -	pix_fmt->colorspace = frm->colorspace;
+>  
+>  	return 0;
+>  }
+> @@ -505,27 +500,24 @@ static int vidioc_s_fmt(struct file *file, void *priv, struct v4l2_format *f)
+>  	frm = rga_get_frame(ctx, f->type);
+>  	if (IS_ERR(frm))
+>  		return PTR_ERR(frm);
+> -	frm->width = pix_fmt->width;
+> -	frm->height = pix_fmt->height;
+>  	frm->size = 0;
+>  	for (i = 0; i < pix_fmt->num_planes; i++)
+>  		frm->size += pix_fmt->plane_fmt[i].sizeimage;
+>  	frm->fmt = rga_fmt_find(pix_fmt->pixelformat);
+>  	frm->stride = pix_fmt->plane_fmt[0].bytesperline;
+> -	frm->colorspace = pix_fmt->colorspace;
+>  
+>  	/* Reset crop settings */
+>  	frm->crop.left = 0;
+>  	frm->crop.top = 0;
+> -	frm->crop.width = frm->width;
+> -	frm->crop.height = frm->height;
+> +	frm->crop.width = pix_fmt->width;
+> +	frm->crop.height = pix_fmt->height;
+>  
+>  	frm->pix = *pix_fmt;
+>  
+>  	v4l2_dbg(debug, 1, &rga->v4l2_dev,
+>  		 "[%s] fmt - %p4cc %dx%d (stride %d, sizeimage %d)\n",
+>  		  V4L2_TYPE_IS_OUTPUT(f->type) ? "OUTPUT" : "CAPTURE",
+> -		  &frm->fmt->fourcc, frm->width, frm->height,
+> +		  &frm->fmt->fourcc, pix_fmt->width, pix_fmt->height,
+>  		  frm->stride, frm->size);
+>  
+>  	for (i = 0; i < pix_fmt->num_planes; i++) {
+> @@ -579,8 +571,8 @@ static int vidioc_g_selection(struct file *file, void *priv,
+>  	} else {
+>  		s->r.left = 0;
+>  		s->r.top = 0;
+> -		s->r.width = f->width;
+> -		s->r.height = f->height;
+> +		s->r.width = f->pix.width;
+> +		s->r.height = f->pix.height;
+>  	}
+>  
+>  	return 0;
+> @@ -629,8 +621,8 @@ static int vidioc_s_selection(struct file *file, void *priv,
+>  		return -EINVAL;
+>  	}
+>  
+> -	if (s->r.left + s->r.width > f->width ||
+> -	    s->r.top + s->r.height > f->height ||
+> +	if (s->r.left + s->r.width > f->pix.width ||
+> +	    s->r.top + s->r.height > f->pix.height ||
+>  	    s->r.width < MIN_WIDTH || s->r.height < MIN_HEIGHT) {
+>  		v4l2_dbg(debug, 1, &rga->v4l2_dev, "unsupported crop value.\n");
+>  		return -EINVAL;
+> @@ -821,8 +813,8 @@ static int rga_probe(struct platform_device *pdev)
+>  		goto rel_m2m;
+>  	}
+>  
+> -	def_frame.stride = (def_frame.width * def_frame.fmt->depth) >> 3;
+> -	def_frame.size = def_frame.stride * def_frame.height;
+> +	def_frame.stride = (DEFAULT_WIDTH * def_frame.fmt->depth) >> 3;
+> +	def_frame.size = def_frame.stride * DEFAULT_HEIGHT;
+>  
+>  	ret = video_register_device(vfd, VFL_TYPE_VIDEO, -1);
+>  	if (ret) {
+> diff --git a/drivers/media/platform/rockchip/rga/rga.h b/drivers/media/platform/rockchip/rga/rga.h
+> index 477cf5b62bbb2..c4a3905a48f0d 100644
+> --- a/drivers/media/platform/rockchip/rga/rga.h
+> +++ b/drivers/media/platform/rockchip/rga/rga.h
+> @@ -24,11 +24,6 @@ struct rga_fmt {
+>  };
+>  
+>  struct rga_frame {
+> -	/* Original dimensions */
+> -	u32 width;
+> -	u32 height;
+> -	u32 colorspace;
+> -
+>  	/* Crop */
+>  	struct v4l2_rect crop;
+>  
+> 
+> -- 
+> 2.54.0
+> 
+> 
 
->
-> Creating the DMA-buf with O_RDONLY does *NOT* make the DMA-buf itself rea=
-d only!
->
-> That's a really common misconception. The flag only controls if mmap() ca=
-n be done read/write or read-only to handle cache coherency issues.
->
-> It is still perfectly possible for a device to write into a DMA-buf creat=
-ed with O_RDONLY with DMA!
->
-> So long story short there is not such feature as a read only DMA-buf, and=
- putting read-only pages into a DMA-buf and then expecting that nobody can =
-write to them is an absolutely clear No-Go.
->
-> If we would want to implement a read-only DMA-buf feature we would need t=
-o go over all the different DMA-buf importers in the kernel and add securit=
-y checks.
-
-This clarifies a lot. Too bad, but it makes sense. I will abandon the
-series then.
-
-Thanks for the review and the explanation!
-
-BR,
-Albert
-
->
-> Regards,
-> Christian.
->
->
-> >
-> > Alternatively, exporting the buffer twice would produce two independent
-> > dma_buf instances, which breaks fence synchronization.
-> >
-> > Therefore we add a new DMA_BUF_IOCTL_DERIVE ioctl, which produces a new
-> > file descriptor for an existing dma-buf with a caller-specified subset
-> > of the original permissions:
-> >
-> > ```
-> >   struct dma_buf_derive { __u32 flags; __s32 fd; };
-> >
-> >   struct dma_buf_derive req =3D { .flags =3D O_RDONLY | O_CLOEXEC };
-> >   ioctl(rw_fd, DMA_BUF_IOCTL_DERIVE, &req);
-> >   /* req.fd is now a read-only alias of the same buffer */
-> > ```
-> >
-> > Permission escalation is rejected with -EACCES. The new fd aliases the
-> > same struct dma_buf as the original, same dma_resv, same exporter ops,
-> > same underlying memory; so importers attaching to either fd see the sam=
-e
-> > fence timeline and operate on the same object. Access control for which
-> > components may receive or pass on restricted descriptors can be layered=
- on
-> > top via SELinux file:read and file:write permissions.
-> >
-> > A shared writable mapping (PROT_WRITE | MAP_SHARED) on the read-only fd=
- is
-> > rejected with -EACCES in dma_buf_mmap_internal().
-> >
-> > Two small internal adjustments accompany the ioctl:
-> > - __dma_buf_list_del() is moved to dma_buf_release() so it fires exactl=
-y
-> >   once on dentry destruction rather than on every file close.
-> > - dma_buf_file_release() is updated to call dma_buf_put() only for
-> >   files that are not the primary dma-buf file.
-> >
-> > This may not be the best approach, but after considering different
-> > options and alternatives (as described above), we decided to raise the
-> > discussion upstream. Thus, we welcome any alternative proposal or ideas=
-.
-> >
-> > The series is structured as:
-> > - Patch 1 adds the new ioctl implementation.
-> > - Patch 2 adds selftests covering the new ioctl.
-> >
-> > Signed-off-by: Albert Esteve <aesteve@redhat.com>
-> > ---
-> > Albert Esteve (2):
-> >       dma-buf: add DMA_BUF_IOCTL_DERIVE for reduced-permission aliases
-> >       selftests: dma-buf: add DERIVE ioctl tests
-> >
-> >  drivers/dma-buf/dma-buf.c                          |  58 ++++++++++-
-> >  include/uapi/linux/dma-buf.h                       |  28 +++++
-> >  tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c | 114 +++++++++++++=
-+++++++-
-> >  3 files changed, 198 insertions(+), 2 deletions(-)
-> > ---
-> > base-commit: ab5fce87a778cb780a05984a2ca448f2b41aafbf
-> > change-id: 20260520-dmabuf-limit-access-73261353841a
-> >
-> > Best regards,
->
-
+-- 
+Pengutronix e.K.                           | Michael Tretter             |
+Steuerwalder Str. 21                       | https://www.pengutronix.de/ |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
