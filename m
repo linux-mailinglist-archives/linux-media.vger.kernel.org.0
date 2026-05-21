@@ -1,308 +1,341 @@
-Return-Path: <linux-media+bounces-62543-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62544-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KF8kIp5bD2rdJQYAu9opvQ
-	(envelope-from <linux-media+bounces-62543-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 21:23:10 +0200
+	id EK3VOvKGD2qONAYAu9opvQ
+	(envelope-from <linux-media+bounces-62544-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 00:28:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76F75AB6B0
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 21:23:09 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6480E5AC58A
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 00:28:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D695A302C14E
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 19:23:04 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 28FB4302AF0B
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 22:28:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02B50393DF1;
-	Thu, 21 May 2026 19:23:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFA783D3B3;
+	Thu, 21 May 2026 22:28:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DuzZz3TJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BIoGdz1s"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D171A2727F3
-	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 19:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3881530567F
+	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 22:27:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779391383; cv=none; b=sdUl2DDHIBR+GDMvhy0XzjVYtQDPMxegqF3DDRWcOnlm1qSK47gUTbchQb4V+Ap9B9cNKDEM+PIcZCpTosNyc1nNSeLVuhen3K1KKr5tzFy/y+Ed+dpwHcB6JU8jWIBxn3Jp50nd657A1g1yxdMHUPPpNjM3lGcEUbcxA0XwPYw=
+	t=1779402479; cv=none; b=WjuUkKAo7NG2s3pLdGlv90QCpodCIPaPMwwIZhTJJ8cD4tl1DxTRFgkHV4Vh61RVsu5gmIBB6/SyRvbRrB5PixEfqHDYTBlsPgZUGxRq/dyUGzf8vU9S2NidWs+g6dW0HmLCw/DxJCRy5SCN4TR7nS+ts7O+myms8rS0uDo+Jzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779391383; c=relaxed/simple;
-	bh=poEZm3j1amHVru7gDU4GmDtHXDN4JNmHmoTpeLJHwNk=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=aKy60/64+fblyEZuQVBCJ4giaMSR6X5avPIpwi4Muv2IfmsKB9bHf+DGGQn2Sx8xae3c0U6FSPWsk4c+8QfpGieM99gXt5Tz1HYf3BLv6GNJAtw4FNPK5hvM8KMr+RXPY5S0DE5VXKAchXsx9QAIrpYbbEARU38LHY/NZc7r6yE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DuzZz3TJ; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F13931F000E9;
-	Thu, 21 May 2026 19:22:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779391381;
-	bh=p7dHsvp3sO2vm1nqacl5hsCw/YTKJEHGx90WuYyOUy4=;
-	h=Date:From:Subject:To:Cc;
-	b=DuzZz3TJE4yQQIBLtMqZSHywhaQEmdqR8sdzcpp0qVGaD2KLnDVSFKKBbb/Ew1Sit
-	 72t/0xBdhbLIGih2pL2btYe2IANvjycK+TURDu331BwKjLENSigVIKe7LYTmYDh/nP
-	 WwSxpBCkPl8reIV2EZQ+vWOd7sJJa4VgLFfSNwgBvmGpEirGTPUutXDQ6yfG0eX+zT
-	 Vtq+DBNWNVtUQJRml11FYH6pYoKGe3qvhiABF2VN2gA1kqykaEQH6c1LzSdKbD+XNs
-	 +nwZc3f08kVcWOCiES6teQ2xn5E4naYhXxyc3VSzy6xkiPK27pXsBzXKoyn0GTk8tI
-	 Tx0jazPj5NCeQ==
-Message-ID: <e6c07c24-da54-4269-b42f-b9af544da2d8@kernel.org>
-Date: Thu, 21 May 2026 21:22:51 +0200
+	s=arc-20240116; t=1779402479; c=relaxed/simple;
+	bh=3QtlB6BtDRwqJSSEVjD+rY/Vxw5LBu36ogRAKQ+2ZcA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cY+fZ+R3VNWIJ+gVGF5Pu64ViIX9ctyml2aDzT7FwLMQsJzGHz1/mcGg2tC6d39ckg7TzjT5qwgB67L4E6J6iglmAHyUvGz5cvP+ZcT7fWuCdK68s2KOuLyxplFj1C0fZbv06Rf/RanmmYMuPNWRFCvswkPT8UckGUM+r1BrRUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BIoGdz1s; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779402478; x=1810938478;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=3QtlB6BtDRwqJSSEVjD+rY/Vxw5LBu36ogRAKQ+2ZcA=;
+  b=BIoGdz1sdTrAJXiO7iWpgO8Rw/SwwxFaZOy2QDxVoOAzfEFbLu2P1pGu
+   TcZuNECfSMMtOU0dLh61l1ju4CA3FhleLFzMHESUfz+Q9qiypXPiWlZBU
+   AlBiy/oJrQs9QJF3/HPeCtbQgcZJqhVd1ynxVjtobB6O6BFWpRWZZ54mO
+   OeWzyklSLo4mVhlpSdchaCjXlOZRk5EHxaveAOYhwshSX1h+oyzXdOxjc
+   rIgZxBp8BGo2+v6pmoGprggYAfq2xOzwbd0Vqxa6P5LkceCW/+wHlvtx0
+   QVT46B4zjD0Df923G+nXV7w2V4rj/XqO/daPd0Ixklq/Ln4Y52ENlTfWE
+   g==;
+X-CSE-ConnectionGUID: 9QAEDlmkQYGGEkS8Dq/teA==
+X-CSE-MsgGUID: aox6V64/QRmhoiEOlEzbrg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11793"; a="67857592"
+X-IronPort-AV: E=Sophos;i="6.24,161,1774335600"; 
+   d="scan'208";a="67857592"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2026 15:27:57 -0700
+X-CSE-ConnectionGUID: iIjGvzmST7+3bLsx1adY9Q==
+X-CSE-MsgGUID: MIlMx27rRl+DJlztULLgAA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,161,1774335600"; 
+   d="scan'208";a="271031202"
+Received: from ubuntu.jf.intel.com ([10.54.60.90])
+  by orviesa002.jf.intel.com with ESMTP; 21 May 2026 15:27:58 -0700
+From: Miguel Vadillo <miguel.vadillo@intel.com>
+To: linux-media@vger.kernel.org
+Cc: wei.a.xu@intel.com,
+	atul.raut@intel.com,
+	sakari.ailus@linux.intel.com,
+	antti.laakso@linux.intel.com,
+	mehdi.djait@linux.intel.com,
+	kieran.bingham@ideasonboard.com,
+	miguel.vadillo@intel.com
+Subject: [PATCH v3 0/3] media: i2c: cvs: Add Intel CVS driver
+Date: Thu, 21 May 2026 15:23:56 -0700
+Message-ID: <20260521222359.16716-1-miguel.vadillo@intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: [ANNv7, final] Media Summit on May 26th in Nice, France
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Ricardo Ribalda <ribalda@chromium.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Michael Tretter <m.tretter@pengutronix.de>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Paul Kocialkowski <paulk@sys-base.io>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Brandon Brnich <b-brnich@ti.com>, Marco Felsch <m.felsch@pengutronix.de>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>,
- =?UTF-8?Q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>,
- Michael Riesch <michael.riesch@collabora.com>,
- Devarsh Thakkar <devarsht@ti.com>,
- Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
- Jackson Lee <jackson.lee@chipsnmedia.com>,
- Jai Luthra <jai.luthra@ideasonboard.com>,
- Mehdi Djait <mehdi.djait@linux.intel.com>, "Padhi, Beleswar"
- <b-padhi@ti.com>, "Donadkar, Rishikesh" <r-donadkar@ti.com>,
- Rouven Czerwinski <rouven.czerwinski@linaro.org>,
- "Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
- Daniel Stone <daniel@fooishbar.org>,
- Robert Mader <robert.mader@collabora.com>,
- Suresh Vankadara <svankada@qti.qualcomm.com>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Satish Babu Patakokila <spatakok@qti.qualcomm.com>,
- Antti Laakso <antti.laakso@linux.intel.com>,
- =?UTF-8?B?VsOtY3RvciBKw6FxdWV6?= <vjaquez@igalia.com>,
- Frank Li <Frank.li@nxp.com>, Arthur Vinchon <arthur.vinchon@allegrodvt.com>,
- Mirela Rabulea <mirela.rabulea@nxp.com>, Martin Hecht <mhecht73@gmail.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Content-Language: en-US, nl
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_ALL(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62543-lists,linux-media=lfdr.de,cisco];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,ideasonboard.com,linux.intel.com,chromium.org,collabora.com,linaro.org,raspberrypi.com,pengutronix.de,sys-base.io,foss.st.com,ti.com,oss.qualcomm.com,chipsnmedia.com,gmail.com,fooishbar.org,qti.qualcomm.com,igalia.com,nxp.com,allegrodvt.com];
+	FROM_NEQ_ENVFROM(0.00)[miguel.vadillo@intel.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-62544-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	NEURAL_HAM(-0.00)[-1.000];
+	TO_DN_NONE(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_TWELVE(0.00)[40];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: D76F75AB6B0
+	RCVD_COUNT_FIVE(0.00)[5];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:mid,intel.com:dkim]
+X-Rspamd-Queue-Id: 6480E5AC58A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi all,
+Cover Letter
+------------
 
-This is the seventh and final (really!) version of this announcement, updating the list of
-remote attendees. All remote attendees should have received the meeting invite with details
-on how to call in. If not, please let me know asap!
+This patch series introduces support for Intel Computer Vision Sensing
+(CVS) devices found on Intel Luna Lake (LNL), Panther Lake (PTL), and
+Arrow Lake (ARL) platforms.
 
-We're now closed for new registrations: we're 26 in-person attendees and 15 remote attendees.
-Information on how to call in as remote participant will be given in a separate email next week.
+OVERVIEW
+--------
 
-This year's Media Summit will be held on Tuesday May 26th the day before the
-Embedded Recipes Conference in Nice, France:
+The CVS device acts as a V4L2 sub-device bridge that manages CSI-2
+link ownership between the host (Linux) and firmware for camera
+sensors. It provides:
 
-https://embedded-recipes.org/2026/
+1. CSI-2 link ownership arbitration between host and CVS firmware
+2. MIPI CSI-2 configuration management
+3. Privacy LED control coordination
+4. Power management integration with runtime PM
 
-The Media Summit will be held at Hotel Campanile and in the same meeting room
-as last year (Nikaia):
+The driver consists of two main components:
+- core.c: Core driver with probe, command transport, and PM callbacks
+- v4l2.c: V4L2 sub-device and media framework integration
 
-https://nice-aeroport.campanile.com/en-us/
+HARDWARE DETAILS
+----------------
 
-It is close to the Airport and to the Embedded Recipes venue.
+CVS devices interface via:
+- I2C for command/control communication with the device firmware
+- GPIO signals for ownership handshaking (request/response)
+- Optional reset and wake interrupt for full-capability variants
+- Integration with Intel IPU (Image Processing Unit) via ipu_bridge
 
-The meeting room can hold up to 30 people and I will provide video conferencing support,
-just like last year. The location and the meeting room was quite nice last year, so
-I saw no need to change it.
+The driver supports two hardware capability levels:
+- Light capability: Basic GPIO-based ownership (2 GPIOs)
+- Full capability: Enhanced with reset control and wake IRQ (4 GPIOs)
 
-The meeting room is sponsored by Cisco and Collabora, and the lunch is sponsored by
-Ideas on Board! Many thanks to our sponsors, it's very much appreciated.
+In order to support both configurations and all devices on the field,
+the driver detects the number of GPIOs and uses add_driver_gpios
+respectively.
 
-We're using this etherpad to make notes: https://pad.systemli.org/p/media-summit-2026
+DEVICE QUIRKS
+-------------
 
-Regards,
+The driver includes a quirk table to handle device-specific variations
+across different CVS implementations (e.g., Lattice, Synaptics vendors)
+that may differ in:
+- MIPI configuration requirements
+- Buffer and header sizes
+- Reset sequence requirements
 
-	Hans
+FIRMWARE PROTOCOL
+-----------------
 
-PS: Be aware that May 24 and 25 are public holidays in France. So many shops may be
-closed those days.
+The CVS firmware supports a command-response protocol over I2C with:
+- Device state queries (GET_DEV_STATE, GET_DEV_CAPABILITY)
+- Host identification (SET_DEV_HOST_ID)
+- MIPI configuration (HOST_SET_MIPI_CONFIG, HOST_GET_MIPI_CONFIG)
+- CSI ownership control (HOST_SENSOR_OWNER)
 
-In-person attendees:
-Sakari Ailus <sakari.ailus@linux.intel.com>
-Kieran Bingham <kieran.bingham@ideasonboard.com>
-Brandon Brnich <b-brnich@ti.com>
-Rouven Czerwinski <rouven.czerwinski@linaro.org>
-Mehdi Djait <mehdi.djait@linux.intel.com>
-Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Marco Felsch <m.felsch@pengutronix.de>
-Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-Stefan Klug <stefan.klug@ideasonboard.com>
-Paul Kocialkowski <paulk@sys-base.io>
-Frank Li <Frank.li@nxp.com>
-Jai Luthra <jai.luthra@ideasonboard.com>
-Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Beleswar Padhi <b-padhi@ti.com>
-Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Loic Poulain <loic.poulain@oss.qualcomm.com>
-Sven Püschel <s.pueschel@pengutronix.de>
-Ricardo Ribalda <ribalda@chromium.org>
-Michael Riesch <michael.riesch@collabora.com>
-Daniel Stone <daniel@fooishbar.org> (Collabora)
-Devarsh Thakkar <devarsht@ti.com>
-Michael Tretter <m.tretter@pengutronix.de>
-Suresh Vankadara <svankada@qti.qualcomm.com>
-Hans Verkuil <hverkuil@kernel.org> (Cisco)
+The protocol supports versioning (currently 2.2+) and optional
+response prefixes for backward compatibility.
 
-Remote attendees:
-Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-Mauro Carvalho Chehab <mchehab@kernel.org>
-Rishikesh Donadkar <r-donadkar@ti.com>
-Martin Hecht <mhecht73@gmail.com> (Avnet Silica)
-Víctor Jáquez <vjaquez@igalia.com>
-Antti Laakso <antti.laakso@linux.intel.com>
-Jackson Lee <jackson.lee@chipsnmedia.com>
-Robert Mader <robert.mader@collabora.com>
-Mirela Rabulea <mirela.rabulea@nxp.com>
-Satish Babu Patakokila <spatakok@qti.qualcomm.com>
-Jose A. Perez de Azpillaga <azpijr@gmail.com>
-Dave Stevenson <dave.stevenson@raspberrypi.com>
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Arthur Vinchon <arthur.vinchon@allegrodvt.com>
+V4L2 INTEGRATION
+----------------
 
+The CVS driver registers as a V4L2 sub-device exposing:
+- Sink pad: Receives frames from remote camera sensor
+- Source pad: Emits frames to downstream IPU/consumers
+- Async notifier: Discovers and connects to upstream sensors via ACPI
 
-Agenda:
+It implements standard V4L2 operations:
+- enable/disable_stream: Start/stop streaming with ownership handoff
+- set_fmt/get_fmt: Format negotiation with format mirroring
+- get_mbus_config: CSI-2 bus configuration queries
 
-8:45-9:20: Arrive, settle in
+PLATFORM SUPPORT
+----------------
 
-9:20-9:30: Short intro (Hans Verkuil)
+In addition to I2C-based operation, the driver supports platform device
+instantiation for systems where CVS is exposed without I2C transport,
+falling back to GPIO-only ownership control.
 
-9:30-9:45: Status of ISP support in V4L2
-	Presenter: Laurent Pinchart
-	Description: Summary of ISP-related development in V4L2 since the last
-	Linux Media Summit. This includes a brief overview of technical
-	developments, and a summary of the efforts to engage with vendors.
+BIOS is presenting the device wrongly in some cases. These devices are
+already on the field thus need to support as is.
 
-9:45-10:45: V4L2 Stateless Video Encoding uAPI Progress Update
-	Presenter: Paul Kocialkowski
-	Description: An update on the ongoing work to support stateless codecs in V4L2.
-	Some of the remaining open topics will be presented and discussed.
+POWER MANAGEMENT
+----------------
 
-10:45-11:00: break
+Runtime PM integration allows the device to:
+- Auto-suspend after 1 second of inactivity
+- Resume on streaming start
+- Coordinate with IPU power states
 
-11:00-11:30: Vulkan Video Codecs
-	Presenter: Nicolas Dufresne
-	Description: Vulkan video codecs: what are the viable options for Linux Media
-	and what is in preparation outside of our subsystem. The second aspect is
-	informative as these discussions don't seem to lean toward our subsystem as the
-	foundation. But I think it's rather useful for everyone to understand why and
-	what is included.
+A PM runtime device link (DL_FLAG_PM_RUNTIME) is registered between
+IPU (consumer) and CVS (supplier) so that the PM framework
+automatically resumes CVS before IPU begins capture. CSI-2 link
+ownership is claimed in cvs_runtime_resume() and released in
+cvs_runtime_suspend(), decoupling ownership management from the V4L2
+streaming path.
 
-11:30-12:00: Protected Video playback on i.MX8MQ
-	Presenter: Rouven Czerwinski
-	Description: Introduction to protected video playback
-	on i.MX8MQ and missing bits for linux-media & protected heap interoperability.
+DEPENDENCIES
+------------
 
-12:00-13:30: Lunch
+- Intel IPU bridge (ipu-bridge.ko) for ACPI sensor discovery
 
-13:30-14:00: HDCP support for HDMI receivers
-	Presenter: Hans Verkuil
-	Description: I have been working on adding HDCP support for HDMI receivers.
-	Specifically the HDCP negotiation between sources and sinks.
+SYSTEM DIAGRAM
+--------------
 
-14:00-14:15: How to progress on Module identification
-	Presenter: Stefan Klug
-	Description: In many real world use cases it is necessary to identify
-	the exact module/lens combination on top of the currently used sensor to
-	be able to provide corresponding tuning data. I'd like to recap on the
-	existing ideas and add a few more thoughts on how we could solve that.
+Below diagram shows connections of CVS/ISH/IPU and Camera Sensor:
 
-14:15-15:00: Common raw sensor model, streams, metadata and metadata series status
-	Presenter: Sakari Ailus
-	Description: The Common Raw Sensor Model defines a new UAPI for camera
-	sensors in Linux. It provides a more useful UAPI for configuring camera
-	sensors than the existing practice is. The metadata series includes the
-	Common Raw Sensor Model and a number of other improvements, such as generic
-	raw formats, metadata support and finally enabling the streams uAPI.
+ -----------------------------------------------------------------------
+| Host Processor                                                        |
+|                                                                       |
+|   ---------------   ---------------   ---------------                 |
+|   |             |   |             |   |             |                 |
+|   |     IPU     |   |     ISH     |   |camera driver|----|            |
+|   |             |   |             |   |             |    |            |
+|   ---------------   ---------------   ---------------    |            |
+|         |                 |                 |            |            |
+|         |                 |                 |            |            |
+|         |                 |           ---------------    |            |
+|         |                 |           |             |    |            |
+|         |                 |           |  CVS driver |    |            |
+|         |                 |           |             |    |            |
+|         |                 |           ---------------    |            |
+|         |                 |                 |            |            |
+ ---------|-----------------|-----------------|------------|------------
+          | CSI             | I2C             | I2C        |
+          |                 |                 |            |
+ ---------|-----------------|-----------------|----------  |
+| CVS     |                                   |         |  |
+|         |                                   |         |  | I2C
+|   -----------------------------             |         |  |
+|   |                           |-------------|         |  |
+|   |          CVS FW           |                       |  |
+|   |                           |                       |  |
+|   -----------------------------                       |  |
+|         | CSI                                         |  |
+ ---------|---------------------------------------------   |
+          | CSI                                            |
+          |                                                |
+      --------------------------------                     |
+      |                              | I2C                 |
+      |         Camera Sensor        |---------------------|
+      |                              |
+      --------------------------------
 
-15:00-15:30: AI patches
-	Presenter: Sakari Ailus
-	Description: What is our policy w.r.t. AI generated patches?
+USAGE EXAMPLE
+-------------
 
-15:30-15:45: Break
+  # Load driver
+  modprobe intel_cvs
 
-15:45-16:00: A case for a media-job scheduler
-	Presenter: Jacopo Mondi
-	Description: Dan has proposed last year a framework for scheduling operations
-	across multiple drivers that compose a capture pipeline:
+  # Configure media pipeline (example with IPU7 + ov08x40)
+  media-ctl -v -V \
+    "\"Intel CVS\":1 [fmt:SGRBG10/3856x2176]"
+  media-ctl -v -V \
+    "\"Intel IPU7 CSI2 0\":0 [fmt:SGRBG10/3856x2176]"
+  media-ctl -v -V \
+    "\"Intel IPU7 CSI2 0\":1 [fmt:SGRBG10/3856x2176]"
+  media-ctl -v -l \
+    "\"Intel CVS\":1 -> \"Intel IPU7 CSI2 0\":0[1]"
+  media-ctl -v -l \
+    "\"Intel IPU7 CSI2 0\":1 -> \"Intel IPU7 ISYS Capture 0\":0[1]"
+  media-ctl -v -V \
+    "\"ov08x40 8-0010\":0 [fmt:SGRBG10/3856x2176]"
+  yavta -c1 -n1 -s 3856x2176 \
+    --file=/tmp/frame-CSI1.bin -f SGRBG10 /dev/video0
 
-	https://www.spinics.net/lists/linux-media/msg279502.html
+Changes in v3:
+- Replace icvs_pci_tbl (which duplicated the IPU6 entries already in
+  ipu6_pci_tbl from ipu6-pci-table.h) with icvs_ipu7_tbl containing
+  only the two IPU7 IDs. Probe now iterates ipu6_pci_tbl first, then
+  icvs_ipu7_tbl, eliminating the sparse unused-variable warning.
+- Use cvs_read_i2c() for the prefix probe in cvs_hw_init() instead of
+  open-coded i2c_master_send/recv; drop the redundant n.cmd_id
+  assignment by reusing the cmd variable for both reads.
+- Fix put_device(&ipu->dev) missing on error paths after
+  ipu_bridge_init() succeeds; consolidate cleanup under err_put_ipu
+  label and make device_link_add() failure a hard error.
+- Add patch 3: ACPI scan fix to honor _DEP for Intel CVS devices so
+  that the ACPI scan waits for CVS dependencies before marking the
+  device ready.
+- Link to v2: https://lore.kernel.org/linux-media/20260514184431.288353-1-miguel.vadillo@intel.com/
 
-	To better clarify why this is useful, I would like to discuss and
-	describe a practical use case based around the Mali-C55 ISP as
-	integrated in the Renesas RZ/V2H(P) SoC.
+Changes in v2:
+- Add MAINTAINERS entry for the CVS driver.
+- Initialize status in cvs_send() to fix maybe-uninitialized warning.
+- Convert command ID fields to __be16 and use be16/cpu helpers to fix
+  sparse type warnings.
+- Move icvs_pci_tbl out of icvs.h and into core.c to avoid unused
+  static table warnings in other translation units.
+- Update kernel-doc for cvs_send() to document @cmd correctly.
+- Fix non-kernel-doc comment delimiter in icvs.h.
+- Wrap long comment lines in core.c to keep within 80 columns.
+- Move Kconfig entry to "Miscellaneous helper chips" section.
+- Update Kconfig help text to focus on CVS function without mentioning
+  firmware download or quirks.
+- Use ipu6-pci-table.h for IPU6 PCI device ID definitions instead of
+  redefining them locally.
+- Link to v1: https://lore.kernel.org/linux-media/20260505223005.84162-1-miguel.vadillo@intel.com/
 
-16:00-16:30: The Butterfly Effect or How Support for Complex Hardware may affect the uAPI
-	Presenter: Michael Riesch
-	Description: Video capture and camera hardware in recent SoCs is exceedingly complex
-	and the assumption that there is one central V4L2 driver that registers
-	the media device does not necessarily hold anymore. IMHO we need a
-	central media device to rule them all and adaptations to the
-	v4l2_{async,device}_register_subdev code.
-	 - Dynamic (de)registration of media entities is desired
-	 - This requires considerations about the uAPI
-	 - There is significant overlap with the notion of fault-tolerant V4L2
-	 - There is also a ton of cleanup work, but the resulting patches must
-	   not break anything existing
-	 - So we need to talk about possible migration strategies in order to
-	   achieve reasonable progress without interfering too much with
-	   existing and working parts
+Miguel Vadillo (3):
+  media: i2c: cvs: Add driver of Intel Computer Vision Sensing
+    Controller(CVS)
+  media: pci: intel: Add CVS support for IPU bridge driver
+  ACPI: scan: Honor _DEP for Intel CVS devices
 
-16:30-17:00 Overview of Media CI: where do pipelines run?
-	Presenter: Ricardo Ribalda
-	Description: How are jobs in pipelines assigned? How does the infrastructure
-	for Media CI work? Are there things that can be tweaked to make it more
-	reliable?
+ MAINTAINERS                          |    6 +
+ drivers/acpi/scan.c                  |    5 +-
+ drivers/media/i2c/Kconfig            |    2 +
+ drivers/media/i2c/Makefile           |    1 +
+ drivers/media/i2c/cvs/Kconfig        |   21 +
+ drivers/media/i2c/cvs/Makefile       |    4 +
+ drivers/media/i2c/cvs/core.c         | 1042 ++++++++++++++++++++++++++
+ drivers/media/i2c/cvs/icvs.h         |  495 ++++++++++++
+ drivers/media/i2c/cvs/v4l2.c         |  618 +++++++++++++++
+ drivers/media/pci/intel/ipu-bridge.c |   13 +-
+ 10 files changed, 2203 insertions(+), 4 deletions(-)
+ create mode 100644 drivers/media/i2c/cvs/Kconfig
+ create mode 100644 drivers/media/i2c/cvs/Makefile
+ create mode 100644 drivers/media/i2c/cvs/core.c
+ create mode 100644 drivers/media/i2c/cvs/icvs.h
+ create mode 100644 drivers/media/i2c/cvs/v4l2.c
 
-17:00-17:45: Discussion of the media subsystem development process
-	Presenter: Hans Verkuil
-	Description: Review of the multi-committer model: current status and next steps.
-	Are there any bottlenecks, any ideas for improvements, w.r.t. the development process?
+-- 
+2.43.0
 
 
