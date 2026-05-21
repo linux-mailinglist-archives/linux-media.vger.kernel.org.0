@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-62507-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62508-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YK7gBvkYD2qLFgYAu9opvQ
-	(envelope-from <linux-media+bounces-62507-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 16:38:49 +0200
+	id IGo1J4UND2qSEgYAu9opvQ
+	(envelope-from <linux-media+bounces-62508-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 15:49:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AF395A7712
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 16:38:48 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 812285A6469
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 15:49:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E659530D3976
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 13:37:37 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 23F0630F1C35
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 13:38:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C592D3ED11D;
-	Thu, 21 May 2026 13:33:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40F42400E0D;
+	Thu, 21 May 2026 13:33:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OsMbrSfw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eL7P5sQO"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783573D88F1;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A10D3DA5D9;
 	Thu, 21 May 2026 13:33:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779370410; cv=none; b=W80YcKp/g6nuVsnWFcAi9+4fmG4w0a1zI7dPzcn3S0qmTMPfcFfssGmp9U0EUm682OAMXD/dZr8BlmFWZwm9PAQM7jE9SbIAAoK9vJPdEhPF7lG0PI5iDc2a5YhL8WcgHMvouaVxCBT+mk3SDv9HzYYO8RcRt664o5xEXpV03n8=
+	t=1779370410; cv=none; b=JofttuYW3Jyt6QN4QfZdTodsvuu2rlTOFmBNxLG10TLvdr0Lu33UKwGm9WqC7qNbva5ZZ0Gnrd9Gh6hYte+7dcFRGl61MY2cKTlw3lpA45rnxIteDoJQRwNLGtgRWhMfqjGpdGFd0Tscll4N9EwXKFpQS+S88rGZhGCaU3ZoN3Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779370410; c=relaxed/simple;
-	bh=vLGSuUHmnLi1/YHHelOJK4C4TcXRiKv4YFWn5np0glM=;
+	bh=T4N6FoAPN5e2cqvWSGS7oEs1xiLk99wdr1LKck0ur78=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=oU+vyFNwa/iAVuj1yjd+xIJafNuoFh+v4X0DwBTo2t+CxiatqMIUA/A5AnVTDpKHQ4g1x0hUTm+gIjlKEKxpJoBeMIcwheffd7BAQrrrzlUI0BzXCiCSdy//P2SxJBg8n/vZWKYYkq53PE3Rx93OOMNcQTuC3GcxuHBTleCfGB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OsMbrSfw; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCD6A1F00ADE;
+	 MIME-Version; b=d58JjWDKtFwLOrKo41yGHcEyMHsbUPPe2x+l0iPkN9vrVsG3Y2NlWwB4SySJrHfzgbI1x02TzY+ltg8p3Bqa6/YO1BoMjnAIenPw2pwcjnew/UwAb4UEqGzv7zaRRTIiggn9YdPCz0oHFIy/IdwWjisujVK5oJlXrzJhhwwmh/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eL7P5sQO; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D38751F00A3E;
 	Thu, 21 May 2026 13:33:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1779370406;
-	bh=D92GfeXfztwtGh+NKFXW+ejJ7GCi/ckBt7Icqwg1tfs=;
+	bh=Mj7DVCvMStdFPb34OrcUAAH1hWW4OYzU+C7hp9VpbjY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=OsMbrSfwtX1kazk5IQM74ggG4Dvao03ITo2rB7fjYJyw9ABWXfqI+9aA5qAj2SR/5
-	 bCJNN1CMD9hyb5ppglH/pZwAMSiek0jplgAMqEVVQL5JpcL8KAc0T0+rQaEkPfLgZJ
-	 h9CesS2RNlFMe0lhxQwlPJ5aoyzt8jSouyNeQ/ut9fjkrIWPM1iotTIo8B7ZH0pEOt
-	 PXBO5iwh3tZMUmZ6TsOUjTCKa3JTEC0MG2ngQVnXCKyNc+yajzL20Z6iBGWjesqILa
-	 wl9GSf1Gtg2R6s/MvPcceAUrPZB+a/bbJr58Jk3b4DpNimJFAtwQW4sG1Fmcwkxlwv
-	 gBE9pRr5KxqXg==
+	b=eL7P5sQOnRUqovuCINXrhkkCMFQg4gJz9lHl+mo5l/7tWzuLIYX1MykUtmft4cIo2
+	 M+FcdXMoQ4rswOfqo73Od6nx4/NZcLe4hChmGlU7e8EHcktUR9bbKkyMDXjIyfyf9B
+	 eV78dkZWgUFtYC1qxRKZKBtpzjNh1YNv+xYbvGb/59goFKFuu3NOIeGjgRpvSgtIPo
+	 8ivmmDGfUlUajD9Xi2Zb0jv40IpLIkZ1zlVqLGUDtdGxm942GdK2191iVOUAdgY/d9
+	 LkEDqWs4BcK2jEMPeiyQHLfliXA1m2lVAX62EVolUfTIC9T8HiuTytz5hngxpheUFV
+	 LHEYk2tMnbFvw==
 From: Kees Cook <kees@kernel.org>
 To: Luis Chamberlain <mcgrof@kernel.org>
 Cc: Kees Cook <kees@kernel.org>,
@@ -144,9 +144,9 @@ Cc: Kees Cook <kees@kernel.org>,
 	netdev@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
 	linux-hardening@vger.kernel.org
-Subject: [PATCH 05/11] moduleparam: Rename .get field to .get_str
-Date: Thu, 21 May 2026 06:33:18 -0700
-Message-Id: <20260521133326.2465264-5-kees@kernel.org>
+Subject: [PATCH 06/11] moduleparam: Add seq_buf-based .get callback alongside .get_str
+Date: Thu, 21 May 2026 06:33:19 -0700
+Message-Id: <20260521133326.2465264-6-kees@kernel.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260521133315.work.845-kees@kernel.org>
 References: <20260521133315.work.845-kees@kernel.org>
@@ -156,7 +156,7 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3072; i=kees@kernel.org; h=from:subject; bh=vLGSuUHmnLi1/YHHelOJK4C4TcXRiKv4YFWn5np0glM=; b=owGbwMvMwCVmps19z/KJym7G02pJDFn8nAsD4o0V/uTmcB53njx1B6e/bj7HRgn2VXOEOnsWp wZ2X7zWUcrCIMbFICumyBJk5x7n4vG2Pdx9riLMHFYmkCEMXJwCMBEONkaGy7PKr73Ur1Czz5B6 etdJJuEbm4bhmk/7zrsdOuT8PYl9KSPDwTtq/fyyAtr+f2YaPvkpdWtWnGfLNNfmFeI5M+tXlVf wAAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3696; i=kees@kernel.org; h=from:subject; bh=T4N6FoAPN5e2cqvWSGS7oEs1xiLk99wdr1LKck0ur78=; b=owGbwMvMwCVmps19z/KJym7G02pJDFn8nIs2HH8iHuPEcem9X7HM2rJrS2LZVs8vP/M+reLdF K3trxtfdZSyMIhxMciKKbIE2bnHuXi8bQ93n6sIM4eVCWQIAxenAExEwZOR4alreLoXi13roV/i 9/tfrbvsVLZZb2L3Qh33TS8N1v2/U8fwT//2x1KTz9OUg91P7LvT39NrdVL4qeIHRzc9ZcnAHRc /cgAA
 X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
 Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [0.84 / 15.00];
@@ -166,7 +166,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -174,9 +174,9 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62507-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62508-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[kees@kernel.org,linux-media@vger.kernel.org];
@@ -187,88 +187,109 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 2AF395A7712
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 812285A6469
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Now that every kernel_param_ops initializer in the tree goes through
-DEFINE_KERNEL_PARAM_OPS, no source file outside kernel/params.c and
-include/linux/moduleparam.h references the .get field by name. Take
-advantage of that to rename the field to .get_str.
+Add a new struct kernel_param_ops::get callback whose signature
+takes a struct seq_buf instead of a raw char buffer:
 
-The bare .get name is now free for the next commit, which adds it
-back as a struct seq_buf *-based callback.
+  int (*get)(struct seq_buf *sb, const struct kernel_param *kp);
+
+The previously-legacy .get field is now .get_str (char *buffer);
+.get is the new seq_buf-aware form.  param_attr_show() prefers .get
+when set, otherwise falls back to .get_str.  WARN_ON_ONCE() if both
+are set.  Return contract for .get:
+
+  < 0 : errno propagated to userspace; seq_buf contents discarded
+  = 0 : success; length derived from seq_buf_used()
+  > 0 : forbidden; the dispatcher WARN_ON_ONCE()s and treats as 0
+
+The default policy on seq_buf_has_overflowed() is silent truncation,
+matching scnprintf()/sysfs_emit() behaviour.  Callbacks that want a
+specific overflow errno can check seq_buf_has_overflowed() and
+return their preferred error.
+
+No callbacks use .get yet; the legacy path is still the only one in use
+after this commit. A subsequent commit teaches DEFINE_KERNEL_PARAM_OPS
+to route initializers by type.
 
 Signed-off-by: Kees Cook <kees@kernel.org>
 ---
- include/linux/moduleparam.h | 8 ++++----
- kernel/params.c             | 6 +++---
- 2 files changed, 7 insertions(+), 7 deletions(-)
+ include/linux/moduleparam.h | 13 ++++++++++++-
+ kernel/params.c             | 26 ++++++++++++++++++++++++--
+ 2 files changed, 36 insertions(+), 3 deletions(-)
 
 diff --git a/include/linux/moduleparam.h b/include/linux/moduleparam.h
-index 26bf45b36d02..f5f4148e2504 100644
+index f5f4148e2504..c52120f6ac28 100644
 --- a/include/linux/moduleparam.h
 +++ b/include/linux/moduleparam.h
-@@ -63,7 +63,7 @@ struct kernel_param_ops {
+@@ -7,6 +7,7 @@
+ #include <linux/build_bug.h>
+ #include <linux/compiler.h>
+ #include <linux/init.h>
++#include <linux/seq_buf.h>
+ #include <linux/stringify.h>
+ #include <linux/sysfs.h>
+ #include <linux/types.h>
+@@ -62,7 +63,17 @@ struct kernel_param_ops {
+ 	unsigned int flags;
  	/* Returns 0, or -errno.  arg is in kp->arg. */
  	int (*set)(const char *val, const struct kernel_param *kp);
- 	/* Returns length written or -errno.  Buffer is 4k (ie. be short!) */
--	int (*get)(char *buffer, const struct kernel_param *kp);
-+	int (*get_str)(char *buffer, const struct kernel_param *kp);
+-	/* Returns length written or -errno.  Buffer is 4k (ie. be short!) */
++	/*
++	 * Format the parameter's value into @s.  Return 0 on success
++	 * (length derived from seq_buf_used()) or -errno on error.
++	 * Exactly one of .get and .get_str should be set; the dispatcher
++	 * WARNs and prefers .get if both are.
++	 */
++	int (*get)(struct seq_buf *s, const struct kernel_param *kp);
++	/*
++	 * Returns length written or -errno.  Buffer is 4k (ie. be short!).
++	 * Deprecated: callbacks should implement .get instead.
++	 */
+ 	int (*get_str)(char *buffer, const struct kernel_param *kp);
  	/* Optional function to free kp->arg when module unloaded. */
  	void (*free)(void *arg);
- };
-@@ -82,7 +82,7 @@ struct kernel_param_ops {
- #define DEFINE_KERNEL_PARAM_OPS(_name, _set, _get)			\
- 	const struct kernel_param_ops _name = {				\
- 		.set = (_set),						\
--		.get = (_get),						\
-+		.get_str = (_get),					\
- 	}
- 
- /* As DEFINE_KERNEL_PARAM_OPS, with KERNEL_PARAM_OPS_FL_NOARG set. */
-@@ -90,14 +90,14 @@ struct kernel_param_ops {
- 	const struct kernel_param_ops _name = {				\
- 		.flags = KERNEL_PARAM_OPS_FL_NOARG,			\
- 		.set = (_set),						\
--		.get = (_get),						\
-+		.get_str = (_get),					\
- 	}
- 
- /* As DEFINE_KERNEL_PARAM_OPS, with an additional .free callback. */
- #define DEFINE_KERNEL_PARAM_OPS_FREE(_name, _set, _get, _free)		\
- 	const struct kernel_param_ops _name = {				\
- 		.set = (_set),						\
--		.get = (_get),						\
-+		.get_str = (_get),					\
- 		.free = (_free),					\
- 	}
- 
 diff --git a/kernel/params.c b/kernel/params.c
-index e19fff2926bc..6852caea1785 100644
+index 6852caea1785..4eda2d23ddf2 100644
 --- a/kernel/params.c
 +++ b/kernel/params.c
-@@ -467,7 +467,7 @@ static int param_array_get(char *buffer, const struct kernel_param *kp)
- 	for (i = off = 0; i < (arr->num ? *arr->num : arr->max); i++) {
- 		p.arg = arr->elem + arr->elemsize * i;
- 		check_kparam_locked(p.mod);
--		ret = arr->ops->get(elem_buf, &p);
-+		ret = arr->ops->get_str(elem_buf, &p);
- 		if (ret < 0)
- 			goto out;
- 		ret = min(ret, (int)(PAGE_SIZE - 1 - off));
-@@ -554,11 +554,11 @@ static ssize_t param_attr_show(const struct module_attribute *mattr,
+@@ -553,12 +553,34 @@ static ssize_t param_attr_show(const struct module_attribute *mattr,
+ {
  	int count;
  	const struct param_attribute *attribute = to_param_attr(mattr);
++	const struct kernel_param_ops *ops = attribute->param->ops;
  
--	if (!attribute->param->ops->get)
-+	if (!attribute->param->ops->get_str)
+-	if (!attribute->param->ops->get_str)
++	if (!ops->get && !ops->get_str)
  		return -EPERM;
  
++	WARN_ON_ONCE(ops->get && ops->get_str);
++
  	kernel_param_lock(mk->mod);
--	count = attribute->param->ops->get(buf, attribute->param);
-+	count = attribute->param->ops->get_str(buf, attribute->param);
+-	count = attribute->param->ops->get_str(buf, attribute->param);
++	if (ops->get) {
++		struct seq_buf s;
++
++		seq_buf_init(&s, buf, PAGE_SIZE);
++		count = ops->get(&s, attribute->param);
++		if (count >= 0) {
++			WARN_ON_ONCE(count > 0);
++			count = seq_buf_used(&s);
++			/* Make sure string is terminated. */
++			seq_buf_str(&s);
++			/*
++			 * If overflowed, reduce count by 1 for trailing
++			 * NUL byte.
++			 */
++			if (seq_buf_has_overflowed(&s))
++				count--;
++		}
++	} else {
++		count = ops->get_str(buf, attribute->param);
++	}
  	kernel_param_unlock(mk->mod);
  	return count;
  }
