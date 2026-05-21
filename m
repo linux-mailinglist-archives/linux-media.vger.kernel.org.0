@@ -1,99 +1,70 @@
-Return-Path: <linux-media+bounces-62393-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62394-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +GROIs5KDmoM9gUAu9opvQ
-	(envelope-from <linux-media+bounces-62393-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 01:59:10 +0200
+	id kBLhA+lXDmo4+AUAu9opvQ
+	(envelope-from <linux-media+bounces-62394-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 02:55:05 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7333859D0D5
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 01:59:10 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 599F259D6D1
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 02:55:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 614DE3011EB9
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2026 23:59:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A5F37303BB24
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 00:51:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A5E833D6F9;
-	Wed, 20 May 2026 23:59:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD836287268;
+	Thu, 21 May 2026 00:51:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b="BgYPaL4a"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="T2f4YxCa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0CC1395D87
-	for <linux-media@vger.kernel.org>; Wed, 20 May 2026 23:59:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3702566E9;
+	Thu, 21 May 2026 00:51:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779321543; cv=none; b=uRu+npKmZ25fjsFWETuy7F1rum9UkjFewjeFIb454YjXkKv+v7iXYUoSojkeoOdyad8MPFNqPRLu9S4LNGpo2a4aDOI06RqEeO16wkzmOah81VFNG9tXXxjff+X3QcnrEoop812nwbKHPWvkKUo4vrwBEJe4kTjCXGYR1QsBmbs=
+	t=1779324681; cv=none; b=AArJxX5Gvv5YdmT4uKpdaH15Rngz/A28OFsaiGeqogYUCOgl0rh5sO8eH8/Nw11QBocSfbJxtltvxfWGi8WYAWq1Ll/LA4fKcGWHvnd35eWOQtuLIit/EHKaB/6TEkO3QvGtMqxAwtNjZa4n7Kevv9+hEacbEfyufHoAkE7S0MQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779321543; c=relaxed/simple;
-	bh=joPSnpUtrDJM3RSpJxT3RlTsp7Yuvzim4L7lc4TnBTg=;
+	s=arc-20240116; t=1779324681; c=relaxed/simple;
+	bh=arSk2JLb7QUS+XlkRypR39OwcccG3078jR5uHlxGM/k=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=HTeVbclcKa3rwEn3miO3ZVgWtDrFYWBmdTvZcrGJ8Jt0ZzZ5QWfJvNtA7Ks00FN+zv+F01+CB2guNS9DVNmdusEiG7SwYpLkp1L24q9bWhi1XRpql8W14nTjaMbHmnEbrxKvuJRg9JLYNrqidaG9b6CXZ6AKmRxcyvz5SvzQXVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20251104.gappssmtp.com header.i=@ndufresne-ca.20251104.gappssmtp.com header.b=BgYPaL4a; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-39556b00a85so46783191fa.0
-        for <linux-media@vger.kernel.org>; Wed, 20 May 2026 16:59:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20251104.gappssmtp.com; s=20251104; t=1779321539; x=1779926339; darn=vger.kernel.org;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=BEhywNjRyQXniz/pcQ13Co3tXpnmGzhcmCEno154HXY=;
-        b=BgYPaL4aY4WaQTaVLYH6EXoIqgGHH1c50q6rY5qwy77W19wTTQTQdWm679F1X+uS2W
-         /cDGlF/P/g1I+RzD4HxufmQ698Bv6rW4SIEWBGXMbESdTJIG7GkNOaX/mXar+mDf2hQ2
-         RR+h1C+j81OOOKjKawzD6ka3HdK42CP6XJ+XkrPBeXEnN8x43Si+2DDuVTYDVnxyZsDm
-         34rgyKzSxl4zT257u7ZAGzU8ToYOzpF9jEr9ggPMJqzcUoMecedwT8VCWj4x2hxBzk8S
-         Zoky3NV6SVQsdFJK2iEfOijvGuTY4CbccTde59RmlsM01eY3CTqBfrupCJ+wdgwS9fTq
-         fTWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779321539; x=1779926339;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BEhywNjRyQXniz/pcQ13Co3tXpnmGzhcmCEno154HXY=;
-        b=gUbuzaXZuK9/z419zGS/N07S+AgvR7VGLVfp6IsdZXe6RvuPdc60fC3bDr0klPIrRW
-         DIKq70okr6Ju+1Db8G++fWvlqO/aVZh7g2XUVt8UoiYJDVngkYhEeKXYtYK2x6vz2Yn1
-         fQquc1L1mXPxkQqK76Xiww5SMvLrTsGzETulRqZ6r0vdzrB1uMscswFaxdnMj0vXiVpL
-         fJL6AyUIhauHjLcXx+dE3eyFGGMW8YqiBPosnprDqpBPSbYZOzw0RZbjTLbm5Yzi1lcE
-         sdgEfSbUIozLDJ0P67ocfbxH3rIQhvqkiRcyGGabZnWUI/gr6HbS/IQJ6JaMHn33vXZz
-         hUAQ==
-X-Gm-Message-State: AOJu0YyhKlaQk/puCYLUDHqmsPqOoShZHyYp9sPDcI6bByu2v1qMFpPi
-	G6Lz8CN4gkkJuRjkBuoUhUR5AkdKyKFS4qGpt+DA7PlpQaTqcfh0LaStLnMKPRtI21g=
-X-Gm-Gg: Acq92OHH7s3DJBzn0wkQQQP/63qBdDHGrFVi+aSZpmSD38DQyFBLbqJfhyBuMUrR23B
-	MiZr82Ebw/hgQRL7p80hncOlMGj+rq3VFbrEH9yiYYrxdzrnTzjrPlZkwdfc3ep7nr2+jsx+o4z
-	FPL2dY/0IH59oGSyv18q7qL4b+BX2YhqnHkqP/HKsGZpKoOND5UdIL3TMnoSyt4/lX4SpLzd+vb
-	pIjZ/TMnnzeOVGPYvlqOV7xI1I+e7uUM+YQO2PYEBZU2ATpmOR0kpVnyr1YJFMl1c+GamO2Onl9
-	lfUY5QHPePn/wNnR89Hj8/TXaMCr6oMA51xK0G6RBmi42HOqbev/kj7oFhj2KxjGhMMM/B+UP1Z
-	lJAVGbP+MlxxX923Phz6pV76LrU+2Iph+8SiWYy6TTvcLm8T/0FNoSS8QW/sTO8u6/v+veeUmvK
-	N/ykrxotXyRIRS32WgGBId48WbzPRBSmu6BFN/s15jh2J2GxAgB7YTbFzLvyX0r9Wzv+4STksay
-	CGjEuA=
-X-Received: by 2002:a2e:bd17:0:b0:393:d6dd:e8a1 with SMTP id 38308e7fff4ca-395ca24e814mr1927031fa.2.1779321538328;
-        Wed, 20 May 2026 16:58:58 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:15:e06b:3a7c:76ff:fea1:2ac0? ([2606:6d00:15:e06b:3a7c:76ff:fea1:2ac0])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-395882d28f4sm33341501fa.17.2026.05.20.16.58.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2026 16:58:57 -0700 (PDT)
-Message-ID: <5eeeaa5979a3f16ec8397b62bc35fd9b08d36032.camel@ndufresne.ca>
-Subject: Re: [PATCH v7 17/28] media: rockchip: rga: check scaling factor
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Sven =?ISO-8859-1?Q?P=FCschel?= <s.pueschel@pengutronix.de>, Jacob Chen
-	 <jacob-chen@iotwrt.com>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
- Mauro Carvalho Chehab
-	 <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Rob Herring
-	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	 <conor+dt@kernel.org>, Hans Verkuil <hverkuil@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, kernel@pengutronix.de, 
-	sebastian.reichel@collabora.com, m.tretter@pengutronix.de, 
-	p.zabel@pengutronix.de
-Date: Wed, 20 May 2026 19:58:53 -0400
-In-Reply-To: <20260521-spu-rga3-v7-17-3f33e8c7145f@pengutronix.de>
-References: <20260521-spu-rga3-v7-0-3f33e8c7145f@pengutronix.de>
-	 <20260521-spu-rga3-v7-17-3f33e8c7145f@pengutronix.de>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+	 Content-Type:MIME-Version; b=nVjBwzoKGNHdEKblWGRnXCS7lGDMRAKeyXDMVBM2FPpL+okg94/D13UpEMc67ilk95BGDE6v0Kcf2HM2XoZlzL7LoQiCS7VbHLAFRO/Rgfm9bWy8M8I4obfMA8Cl1WxbSx+KpeY1cuWcbSuSt6LmekV1cG+grd8bcwX4uUS+H1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=T2f4YxCa; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1779324677;
+	bh=arSk2JLb7QUS+XlkRypR39OwcccG3078jR5uHlxGM/k=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=T2f4YxCa1yBlYqFhB5tknvzvZ/liruTCLp8Vlzk35NLTNUxzOTDTuuzoQnp8XCsWe
+	 Ghikn3Lf74f2Uj3rnqv4EOw5AXbAl1QSsE5EeivXDMokOjeAmhNTjvsMb7qbEDSfVl
+	 5/OL3fssk9U/qY5ShtJll1TE/6L8uXBWNN+xloTsZGQbfTAmTBiYo8siQ9Uuh5plOl
+	 /YyhJ7G0vnfHZbcPclW5Jgye2ufDD1mgz1yEialk6oR4pmapM9NCd6UKnuMPDVEVFD
+	 ryPHtLx1syLKd6hf25XWjY2yaVqJo27yLI9QJz8p05rBsVAp7JXW/mGiVUKh9810Ug
+	 TeSTMvc8Oqw1w==
+Received: from [100.64.0.214] (unknown [100.64.0.214])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 750AD17E0234;
+	Thu, 21 May 2026 02:51:16 +0200 (CEST)
+Message-ID: <f9e63fbbd99c11f303ac8e8f5aec6b2bd528cf99.camel@collabora.com>
+Subject: Re: [PATCH v2] media: rkvdec: fix PM runtime teardown ordering in
+ remove
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Francesco Saverio Pavone <pavone.lawyer@gmail.com>, jonas@kwiboo.se, 
+	detlev.casanova@collabora.com, hverkuil@kernel.org, mchehab@kernel.org
+Cc: ezequiel@vanguardiasur.com.ar, heiko@sntech.de, stable@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Date: Wed, 20 May 2026 20:51:14 -0400
+In-Reply-To: <20260518145414.64514-1-pavone.lawyer@gmail.com>
+References: <20260518105413.42147-1-pavone.lawyer@gmail.com>
+	 <20260518145414.64514-1-pavone.lawyer@gmail.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
  cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
@@ -106,8 +77,9 @@ Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
  ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-rdFBmfYTegp3nVJVJScl"
+	protocol="application/pgp-signature"; boundary="=-9/VsCBjDISjI7Lc8ZtP/"
 User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -115,324 +87,133 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-2.76 / 15.00];
 	SIGNED_PGP(-2.00)[];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[ndufresne-ca.20251104.gappssmtp.com:s=20251104];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[ndufresne.ca : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62393-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TAGGED_FROM(0.00)[bounces-62394-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,kwiboo.se,collabora.com,kernel.org];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	DKIM_TRACE(0.00)[ndufresne-ca.20251104.gappssmtp.com:+];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nicolas@ndufresne.ca,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,collabora.com:email,ndufresne.ca:mid,pengutronix.de:email,ndufresne-ca.20251104.gappssmtp.com:dkim]
-X-Rspamd-Queue-Id: 7333859D0D5
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kwiboo.se:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,collabora.com:email,collabora.com:mid,collabora.com:dkim,pages.freedesktop.org:url]
+X-Rspamd-Queue-Id: 599F259D6D1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 
---=-rdFBmfYTegp3nVJVJScl
+--=-9/VsCBjDISjI7Lc8ZtP/
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le jeudi 21 mai 2026 =C3=A0 00:44 +0200, Sven P=C3=BCschel a =C3=A9crit=C2=
-=A0:
-> Check the scaling factor to avoid potential problems. This is relevant
-> for the upcoming RGA3 support, as it can hang when the scaling factor
-> is exceeded.
+Le lundi 18 mai 2026 =C3=A0 16:54 +0200, Francesco Saverio Pavone a =C3=A9c=
+rit=C2=A0:
+> From: Jonas Karlman <jonas@kwiboo.se>
 >=20
-> The check is done at streamon when the other side is already streaming
-> to avoid incorrectly failing if the application configures the other
-> side after calling streamon. As try_fmt shouldn't be state aware,
-> it cannot be used to limit the format based on the scaling factor.
-> Therefore the check is done just before the actual streaming would be
-> started.
+> The current remove() path calls rkvdec_v4l2_cleanup() and
+> pm_runtime_disable() before pm_runtime_dont_use_autosuspend(), and
+> frees the empty IOMMU domain after that. With autosuspend still
+> armed when the domain goes away, the VDPU381 can be left in a dirty
+> state across module reload and suspend/resume cycles.
 >=20
-> As the driver allows changing the rotation and selection while
-> streaming, add additional checks to ensure these changes
-> don't exceed the scaling factor.
+> On RK3588 this surfaces as a VP9 inter-prediction bug: from the
+> second ALTREF frame onward, motion blocks decode with U=3DV=3D0 (BT.709
+> green), while intra and static blocks stay correct. Reordering the
+> teardown to dont_use_autosuspend() -> iommu_domain_free() ->
+> pm_runtime_disable() -> v4l2_cleanup() makes the symptom go away.
 >=20
-> Signed-off-by: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
+> Tested on a Radxa Rock 5B+ (RK3588, 8 GB LPDDR5) with both the
+> libva-v4l2-request mpv pipeline and Chromium's V4L2 stateless
+> decoder. With the fix, 300 random pixel samples on VP9 Profile 0
+> clips at 1080p and 1440p match a libvpx software reference exactly
+> (worst delta 0). Without it, the same 1080p sample at frame 4,
+> pixel (960, 270) reads HW=3D(0,112,0) vs SW=3D(204,147,116). HEVC and
+> H.264 stateless decoding via mpv keep running on hardware with no
+> fallback.
+>=20
+> Fixes: ff8c5622f9f7 ("media: rkvdec: Restore iommu addresses on errors")
+> Cc: <stable@vger.kernel.org>
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> Tested-by: Francesco Saverio Pavone <pavone.lawyer@gmail.com>
+> Signed-off-by: Francesco Saverio Pavone <pavone.lawyer@gmail.com>
 
+Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
->=20
-> ---
-> Changes in v6:
-> - Dropped scaling adjustment in s_fmt, as this didn't match the try_fmt
-> =C2=A0 result (which shouldn't have it to avoid making it stateful)
-> - Moved scaling check to the prepare_streaming callback instead of
-> =C2=A0 overwriting the ioctl directly
-> - Consider rotation when checking the scaling
-> - Check scaling factor when adjusting rotation and selection while
-> =C2=A0 streaming
-> ---
-> =C2=A0drivers/media/platform/rockchip/rga/rga-buf.c | 28 ++++++++++++
-> =C2=A0drivers/media/platform/rockchip/rga/rga-hw.c=C2=A0 |=C2=A0 1 +
-> =C2=A0drivers/media/platform/rockchip/rga/rga-hw.h=C2=A0 |=C2=A0 1 +
-> =C2=A0drivers/media/platform/rockchip/rga/rga.c=C2=A0=C2=A0=C2=A0=C2=A0 |=
- 63 +++++++++++++++++++++++++--
-> =C2=A0drivers/media/platform/rockchip/rga/rga.h=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 4 ++
-> =C2=A05 files changed, 94 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/media/platform/rockchip/rga/rga-buf.c b/drivers/medi=
-a/platform/rockchip/rga/rga-buf.c
-> index ffc6162b2e681..dcaba66f5c1fc 100644
-> --- a/drivers/media/platform/rockchip/rga/rga-buf.c
-> +++ b/drivers/media/platform/rockchip/rga/rga-buf.c
-> @@ -197,6 +197,33 @@ static void rga_buf_return_buffers(struct vb2_queue =
-*q,
-> =C2=A0	}
-> =C2=A0}
-> =C2=A0
-> +static int rga_buf_prepare_streaming(struct vb2_queue *q)
-> +{
-> +	struct rga_ctx *ctx =3D vb2_get_drv_priv(q);
-> +	const struct rga_hw *hw =3D ctx->rga->hw;
-> +	int ret;
-> +
-> +	/* It's safe to check the streaming state of the other queue,
-> +	 * as the streamon ioctl's can't race due to the lock set in
-> +	 * the queue_init function.
-> +	 */
-> +	if ((V4L2_TYPE_IS_OUTPUT(q->type) &&
-> +	=C2=A0=C2=A0=C2=A0=C2=A0 vb2_is_streaming(v4l2_m2m_get_dst_vq(ctx->fh.m=
-2m_ctx))) ||
-> +	=C2=A0=C2=A0=C2=A0 (V4L2_TYPE_IS_CAPTURE(q->type) &&
-> +	=C2=A0=C2=A0=C2=A0=C2=A0 vb2_is_streaming(v4l2_m2m_get_src_vq(ctx->fh.m=
-2m_ctx)))) {
-> +		/*
-> +		 * As the other side is already streaming,
-> +		 * check that the max scaling factor isn't exceeded.
-> +		 */
-> +		ret =3D rga_check_scaling(hw, &ctx->in.crop, &ctx->out.crop,
-> +					ctx->rotate);
-> +		if (ret < 0)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> =C2=A0static int rga_buf_start_streaming(struct vb2_queue *q, unsigned in=
-t count)
-> =C2=A0{
-> =C2=A0	struct rga_ctx *ctx =3D vb2_get_drv_priv(q);
-> @@ -232,6 +259,7 @@ const struct vb2_ops rga_qops =3D {
-> =C2=A0	.buf_prepare =3D rga_buf_prepare,
-> =C2=A0	.buf_queue =3D rga_buf_queue,
-> =C2=A0	.buf_cleanup =3D rga_buf_cleanup,
-> +	.prepare_streaming =3D rga_buf_prepare_streaming,
-> =C2=A0	.start_streaming =3D rga_buf_start_streaming,
-> =C2=A0	.stop_streaming =3D rga_buf_stop_streaming,
-> =C2=A0};
-> diff --git a/drivers/media/platform/rockchip/rga/rga-hw.c b/drivers/media=
-/platform/rockchip/rga/rga-hw.c
-> index 567d39e58d33f..f2900812ba76f 100644
-> --- a/drivers/media/platform/rockchip/rga/rga-hw.c
-> +++ b/drivers/media/platform/rockchip/rga/rga-hw.c
-> @@ -584,6 +584,7 @@ const struct rga_hw rga2_hw =3D {
-> =C2=A0	.max_width =3D MAX_WIDTH,
-> =C2=A0	.min_height =3D MIN_HEIGHT,
-> =C2=A0	.max_height =3D MAX_HEIGHT,
-> +	.max_scaling_factor =3D MAX_SCALING_FACTOR,
-> =C2=A0	.stride_alignment =3D 4,
-> =C2=A0
-> =C2=A0	.setup_cmdbuf =3D rga_hw_setup_cmdbuf,
-> diff --git a/drivers/media/platform/rockchip/rga/rga-hw.h b/drivers/media=
-/platform/rockchip/rga/rga-hw.h
-> index c2e34be751939..805ec23e5e3f4 100644
-> --- a/drivers/media/platform/rockchip/rga/rga-hw.h
-> +++ b/drivers/media/platform/rockchip/rga/rga-hw.h
-> @@ -14,6 +14,7 @@
-> =C2=A0
-> =C2=A0#define MIN_WIDTH 34
-> =C2=A0#define MIN_HEIGHT 34
-> +#define MAX_SCALING_FACTOR 16
-> =C2=A0
-> =C2=A0#define RGA_TIMEOUT 500
-> =C2=A0
-> diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/pl=
-atform/rockchip/rga/rga.c
-> index 394b14b9469df..22954bbae55fc 100644
-> --- a/drivers/media/platform/rockchip/rga/rga.c
-> +++ b/drivers/media/platform/rockchip/rga/rga.c
-> @@ -127,7 +127,9 @@ static int rga_s_ctrl(struct v4l2_ctrl *ctrl)
-> =C2=A0{
-> =C2=A0	struct rga_ctx *ctx =3D container_of(ctrl->handler, struct rga_ctx=
-,
-> =C2=A0					=C2=A0=C2=A0 ctrl_handler);
-> +	const struct rga_hw *hw =3D ctx->rga->hw;
-> =C2=A0	unsigned long flags;
-> +	int ret =3D 0;
-> =C2=A0
-> =C2=A0	spin_lock_irqsave(&ctx->rga->ctrl_lock, flags);
-> =C2=A0	switch (ctrl->id) {
-> @@ -138,6 +140,13 @@ static int rga_s_ctrl(struct v4l2_ctrl *ctrl)
-> =C2=A0		ctx->vflip =3D ctrl->val;
-> =C2=A0		break;
-> =C2=A0	case V4L2_CID_ROTATE:
-> +		if (vb2_is_streaming(v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)) &&
-> +		=C2=A0=C2=A0=C2=A0 vb2_is_streaming(v4l2_m2m_get_src_vq(ctx->fh.m2m_ct=
-x))) {
-> +			ret =3D rga_check_scaling(hw, &ctx->in.crop,
-> +						&ctx->out.crop, ctrl->val);
-> +			if (ret < 0)
-> +				goto s_ctrl_done;
-> +		}
-> =C2=A0		ctx->rotate =3D ctrl->val;
-> =C2=A0		break;
-> =C2=A0	case V4L2_CID_BG_COLOR:
-> @@ -145,8 +154,10 @@ static int rga_s_ctrl(struct v4l2_ctrl *ctrl)
-> =C2=A0		break;
-> =C2=A0	}
-> =C2=A0	ctx->cmdbuf_dirty =3D true;
-> +
-> +s_ctrl_done:
-> =C2=A0	spin_unlock_irqrestore(&ctx->rga->ctrl_lock, flags);
-> -	return 0;
-> +	return ret;
-> =C2=A0}
-> =C2=A0
-> =C2=A0static const struct v4l2_ctrl_ops rga_ctrl_ops =3D {
-> @@ -182,6 +193,38 @@ static int rga_setup_ctrls(struct rga_ctx *ctx)
-> =C2=A0	return 0;
-> =C2=A0}
-> =C2=A0
-> +static bool check_scaling_factor(const struct rga_hw *hw, u32 src_size,
-> +				 u32 dst_size)
-> +{
-> +	if (src_size < dst_size)
-> +		return src_size * hw->max_scaling_factor >=3D dst_size;
-> +	else
-> +		return dst_size * hw->max_scaling_factor >=3D src_size;
-> +}
-> +
-> +int rga_check_scaling(const struct rga_hw *hw, const struct v4l2_rect *c=
-rop_in,
-> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct v4l2_rect *crop_out, u32 r=
-otate)
-> +{
-> +	u32 scaled_width;
-> +	u32 scaled_height;
-> +
-> +	if (rotate =3D=3D 90 || rotate =3D=3D 270) {
-> +		scaled_width =3D crop_out->height;
-> +		scaled_height =3D crop_out->width;
-> +	} else {
-> +		scaled_width =3D crop_out->width;
-> +		scaled_height =3D crop_out->height;
-> +	}
-> +
-> +	if (!check_scaling_factor(hw, crop_in->width, scaled_width))
-> +		return -EINVAL;
-> +
-> +	if (!check_scaling_factor(hw, crop_in->height, scaled_height))
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> =C2=A0static struct rga_fmt *rga_fmt_find(struct rockchip_rga *rga, u32 p=
-ixelformat)
-> =C2=A0{
-> =C2=A0	unsigned int i;
-> @@ -525,7 +568,6 @@ static int vidioc_s_selection(struct file *file, void=
- *priv,
-> =C2=A0	struct rga_ctx *ctx =3D file_to_rga_ctx(file);
-> =C2=A0	struct rockchip_rga *rga =3D ctx->rga;
-> =C2=A0	struct rga_frame *f;
-> -	int ret =3D 0;
-> =C2=A0
-> =C2=A0	f =3D rga_get_frame(ctx, s->type);
-> =C2=A0	if (IS_ERR(f))
-> @@ -569,10 +611,25 @@ static int vidioc_s_selection(struct file *file, vo=
-id *priv,
-> =C2=A0		return -EINVAL;
-> =C2=A0	}
-> =C2=A0
-> +	if (vb2_is_streaming(v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx)) &&
-> +	=C2=A0=C2=A0=C2=A0 vb2_is_streaming(v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx=
-))) {
-> +		int ret =3D 0;
-> +
-> +		if (V4L2_TYPE_IS_OUTPUT(s->type))
-> +			ret =3D rga_check_scaling(rga->hw, &s->r, &ctx->out.crop,
-> +						ctx->rotate);
-> +		else
-> +			ret =3D rga_check_scaling(rga->hw, &ctx->in.crop, &s->r,
-> +						ctx->rotate);
-> +
-> +		if (ret < 0)
-> +			return ret;
-> +	}
-> +
-> =C2=A0	f->crop =3D s->r;
-> =C2=A0	ctx->cmdbuf_dirty =3D true;
-> =C2=A0
-> -	return ret;
-> +	return 0;
-> =C2=A0}
-> =C2=A0
-> =C2=A0static const struct v4l2_ioctl_ops rga_ioctl_ops =3D {
-> diff --git a/drivers/media/platform/rockchip/rga/rga.h b/drivers/media/pl=
-atform/rockchip/rga/rga.h
-> index 5360f092fecf0..df525c6aea8b6 100644
-> --- a/drivers/media/platform/rockchip/rga/rga.h
-> +++ b/drivers/media/platform/rockchip/rga/rga.h
-> @@ -123,6 +123,9 @@ static inline struct rga_vb_buffer *vb_to_rga(struct =
-vb2_v4l2_buffer *vb)
-> =C2=A0
-> =C2=A0struct rga_frame *rga_get_frame(struct rga_ctx *ctx, enum v4l2_buf_=
-type type);
-> =C2=A0
-> +int rga_check_scaling(const struct rga_hw *hw, const struct v4l2_rect *c=
-rop_in,
-> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const struct v4l2_rect *crop_out, u32 r=
-otate);
-> +
-> =C2=A0/* RGA Buffers Manage */
-> =C2=A0extern const struct vb2_ops rga_qops;
-> =C2=A0
-> @@ -151,6 +154,7 @@ struct rga_hw {
-> =C2=A0	size_t cmdbuf_size;
-> =C2=A0	u32 min_width, min_height;
-> =C2=A0	u32 max_width, max_height;
-> +	u8 max_scaling_factor;
-> =C2=A0	u8 stride_alignment;
-> =C2=A0
-> =C2=A0	void (*setup_cmdbuf)(struct rga_ctx *ctx);
+cheers,
+Nicolas
 
---=-rdFBmfYTegp3nVJVJScl
+> ---
+> Changes in v2:
+> =C2=A0- Add Cc: <stable@vger.kernel.org>; media-CI flagged that the
+> =C2=A0=C2=A0 Fixes: target (ff8c5622f9f7) is present in the 6.17, 6.18, 6=
+.19
+> =C2=A0=C2=A0 and 7.0 stable branches, so the fix should reach them too.
+> =C2=A0=C2=A0 Link to v1:
+> https://lore.kernel.org/all/20260518105413.42147-1-pavone.lawyer@gmail.co=
+m/
+> =C2=A0=C2=A0 Media-CI report:
+> https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/100124=
+849/artifacts/report.htm
+>=20
+> =C2=A0drivers/media/platform/rockchip/rkvdec/rkvdec.c | 5 +++--
+> =C2=A01 file changed, 3 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> index 6f5f0422d317..bb95b090a25b 100644
+> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> @@ -2066,12 +2066,13 @@ static void rkvdec_remove(struct platform_device
+> *pdev)
+> =C2=A0
+> =C2=A0	cancel_delayed_work_sync(&rkvdec->watchdog_work);
+> =C2=A0
+> -	rkvdec_v4l2_cleanup(rkvdec);
+> -	pm_runtime_disable(&pdev->dev);
+> =C2=A0	pm_runtime_dont_use_autosuspend(&pdev->dev);
+> =C2=A0
+> =C2=A0	if (rkvdec->empty_domain)
+> =C2=A0		iommu_domain_free(rkvdec->empty_domain);
+> +
+> +	pm_runtime_disable(&pdev->dev);
+> +	rkvdec_v4l2_cleanup(rkvdec);
+> =C2=A0}
+> =C2=A0
+> =C2=A0#ifdef CONFIG_PM
+
+--=-9/VsCBjDISjI7Lc8ZtP/
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCag5KvQAKCRDZQZRRKWBy
-9E9rAQDiJbGoDoukTZoC800Ujw8eKYRfiw95dLx/TYGqe+Q0sgD7B6/L2PKKbwBM
-wjRPxzakETkICLxJ+XtnlfrFYSrmBAo=
-=Il/H
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCag5XAgAKCRDZQZRRKWBy
+9NU5APwMFBluL6g6766QU+uMgGgxwYcXppMNPnkJlEEwmSVQ4QD/R4746MdSuHfn
+HqsiVSwonz4lYaPyLE/WF53aDG1G5QU=
+=9djU
 -----END PGP SIGNATURE-----
 
---=-rdFBmfYTegp3nVJVJScl--
+--=-9/VsCBjDISjI7Lc8ZtP/--
 
