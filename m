@@ -1,407 +1,564 @@
-Return-Path: <linux-media+bounces-62469-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62470-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MAe3Km39DmrrDwYAu9opvQ
-	(envelope-from <linux-media+bounces-62469-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 14:41:17 +0200
+	id 0EbqNW7/DmomEAYAu9opvQ
+	(envelope-from <linux-media+bounces-62470-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 14:49:50 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51FF05A4F9A
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 14:41:17 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52DA35A51EB
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 14:49:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 04D6C3058D62
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 12:39:54 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D152230F1916
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 12:44:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 038CE3D5C3E;
-	Thu, 21 May 2026 12:39:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A15903D9699;
+	Thu, 21 May 2026 12:44:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="SQskeNd7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="awgltIzO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012010.outbound.protection.outlook.com [40.107.209.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D288B3B83E8;
-	Thu, 21 May 2026 12:39:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779367158; cv=fail; b=mbNeDsroTWnWubZalkX+mDYQwDpdXJqzSTrcgL66wV99L4ZtfG2s4oPF9FULFjVMu51Z05rgXP9pzCD3YERMmW5XDr0nqXEYTCGitbQi3Vbr2aevFr58KV8Otz83Xy+L+0ascKHP37kObHW+H5BilXyo+QeIl9cSZv60Emy3vFs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779367158; c=relaxed/simple;
-	bh=hX3LwWoaOS0mVUaLa17An+IGekzNB7EH+vMNaQE1tTE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=nWPiu4m2G4cKWbtE3/RtAPUPcjS9uQlB4MZscQ8L6ntnpVAayBVPyV9NOY2AqOw22LpVQhN7T2bEan8tBEcZUL7Mvo5Or1/iH+DpWCqhpjfkjlyVrKtJ5oDxcq2OpeTLb2sJAx19cLHwQ6L5u7a5fzX/DYfBql0nPB4evC5rin0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=SQskeNd7; arc=fail smtp.client-ip=40.107.209.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=L6t5vPrYXpJF/lM74EyuvK8p5cSb64qMDb7rM1h+yOPA8OqE7nXOTmT9TajfZA1d4SrU7U3t1BlUePMmUfWfKqMJIzxOG+Ju0fwusVeFUTXO/xcBLhwubPL+s/GCATHoTcbe/8D0u27J+z2aKmnFuQI37MJEmHgPxA33bpghTWQ2/AqVh1TotDmRMBjMPsPPNwoByQF/vnbWREgsIFUh72G4wtkkZuNy5w3dR0O5Sfi+iHLKCwG+GZjvbPpRpshXnV2OSjwDIyJ1d5uwx0akyWmo9trRYJ5kAGZfA71wdrkK6oVeUT+xPpkAVa02WzYBCdN38MR10L/W84+9GZ0wOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qB7DG/Qoe6AxYIXu8MQKx/ll6syNJYZzRyJc7mjTS50=;
- b=PS3HYZXYJJZ3rw58oKN4Noew1bcWmQqVRHdnivUFtS8ZGs6frN6bGGRvr09ydmkZFvdJ5e6sGsoG062amivMH58e2pxOUSftPh9Dat0R48S9XBQwV51TrbNxjCiJ87PDl/Ga82c+hzxt/dFXW/XXFcGGEP3Vq7SndnfPk03cnsagh1Dy+TtcFdHJuAbHDH8qbXDbs3FC0+qvPDvCUUmAzmQ4br5tAXJKlAsQdHWjqxQ3nrpJqIBKe/+IOM/VVOxrW1WTNutI9nzlJDOG8vR3LjraCIpuNLWCJkR75bnkKDjZA8rDA2JnX9v3lMPU/feE/JAOT2h+fOLLMvtDm2jDpQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qB7DG/Qoe6AxYIXu8MQKx/ll6syNJYZzRyJc7mjTS50=;
- b=SQskeNd7kr1W7bRvvVlK1uvrNZF4qTsqXlxwagPsmY8cE5gAAbdNBEsOHoqcadtRfFfKvbObl5TPfq3WSJL1Avqeia4Et08dp4Eq3+YRydpiTFZKNoyPrcijnBlhvpyOy42826+E75ZMwe6mHqRb2F+c4q6LOJ/Te0SUpuhgv+k=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA5PPF916D632A9.namprd12.prod.outlook.com (2603:10b6:80f:fc04::8d6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9913.11; Thu, 21 May
- 2026 12:39:14 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0025.022; Thu, 21 May 2026
- 12:39:13 +0000
-Message-ID: <24b58d4c-7fa8-4bd4-a799-701f69cfbc06@amd.com>
-Date: Thu, 21 May 2026 14:39:07 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/2] drm/amdgpu: convert amdgpu_vm_lock_by_pasid() to
- drm_exec
-To: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-Cc: Alex Deucher <alexander.deucher@amd.com>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20260520151741.50575-1-mikhail.v.gavrilov@gmail.com>
- <20260521104335.28978-1-mikhail.v.gavrilov@gmail.com>
- <20260521104335.28978-2-mikhail.v.gavrilov@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260521104335.28978-2-mikhail.v.gavrilov@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0029.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:14::16) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B233D25DE;
+	Thu, 21 May 2026 12:44:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779367460; cv=none; b=BG1dhnVgEa4EUMQneSYIMbPxTU3rcsfXjvFGqidavJ6pRaL12v+5+ewq7RKxIi/ZPvNQ2DuJkKFzfrSTX1lermjEE/4OfrWY2bKerUJUTjVkQoqG0HoFKjZHCkhoeLYW8m4HwNtvuSygH7lkT/LcGDeeja8WZaHWWh3joytBPEY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779367460; c=relaxed/simple;
+	bh=UALezlk++baViWzliaBTVRS0BohNP8Rjc8NtXQdpyDA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=iu7LDrelsBDnf+L6nPFDZjfjdT6yYhTb9WKqE9bYXecBNFmQ0wWjzKgNgHohKpwCc8ef/DgwkkuDMmWjZIbHyAZs94LDvDy8OIDJIjD9omvmx2rvwQ+XNv6dAsvgwwPRq7h6Hq70IrOhOmibN2WWrvpbNZv21jarUq39yq3q7uU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=awgltIzO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4EFDAC2BCB9;
+	Thu, 21 May 2026 12:44:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1779367460;
+	bh=UALezlk++baViWzliaBTVRS0BohNP8Rjc8NtXQdpyDA=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=awgltIzONXgfsHsR0SToD33t5hJ6kTWeZjXHdfZvcltHE2UxW9+ZkhlYHPoAtqJH0
+	 W3rB4RoHyNovMUspcLvk+Y7OwMkTYc5EgbzEMoqLX3VzSZ03C+LEPtYXWBzyLLNepn
+	 cNgPBIAcbNBXzi/RQyGVkHRxNoXmZNPnokqZ0ahBIXzHjcgkBzQouQw8b/v9B1N76H
+	 1PQCxdshvvmBQnxH6QlyCysQm1lHXZtMFPsFT3RE4wBfG0kLOLPUL1SCNkLy+IQDmn
+	 T7m83PN2PwgMQpzNFTYtPXxatdSp9n3gEScwc4bJC2sZspai6FUZhZk2Yh7kpbJLVt
+	 W2y5yVh/TyUog==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29A4CCD5BAC;
+	Thu, 21 May 2026 12:44:20 +0000 (UTC)
+From: Dumitru Ceclan via B4 Relay <devnull+dumitru.ceclan.analog.com@kernel.org>
+Subject: [PATCH v12 00/22] media: i2c: add Maxim GMSL2/3 serializer and
+ deserializer drivers
+Date: Thu, 21 May 2026 15:44:06 +0300
+Message-Id: <20260521-gmsl2-3_serdes-v12-0-b26d92931196@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA5PPF916D632A9:EE_
-X-MS-Office365-Filtering-Correlation-Id: cc5ffeda-48d1-46b0-3c94-08deb735f6e6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|22082099003|56012099003|18002099003|4143699003|11063799006|3023799007|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	9G9gh9T4Cq47uC9APOgbqbMcND6VgSWsntlU999vAIUDtn5oRHRGRmlYGByyeh3ghcB04P/PY2BUDo5GtgxqhTTKS8mPujGiPV9bSwimT9tjNNYvceziSUk9NmNZWsxFKllm+bmFA8vbek0enCMAKbf6FyU5dSJPkIvsELlKqgr8Vb3S/QWWd3XHxHI9sfERCmfV1hd++PFg17WTgM/y6fJcmmZr2hEzekf33QhgefrZ4ZnAhEVOTN72hUhW6BAfJ+S/6LnJlGDIm8e38u+H6zisRXtIXFkQSGKxslvZ0jg6z4gUNp24+UlaeS8dJfoRi51Jyxavlc7egZiRL77SKHQPhHh/dYaS19sheRkHf1pXKzpBcfHQ5+DDPm9XFpkAOHimt3+ON+DL32eQ8K5AZrxOR5TcmZHnSnePxVXfjeq7KvDO/0kzkca71+goKCXv68OG8dB8teFT39/IU8W4q9Tnyi5c2NC8HEmtVmFUi5cAKHkhm+CG8Y9C+o1aMWR2p/Py/mDqgr+PFhlaeddLPcL5ahYRQlkuh9PSMLhb5+TehZsvPDD9c2p74bwnaatpfpOjDsZf7PiBlIw9ZP5IqhnWGJC2c1DPXCVPCPuWo7FhrsI2VgtWXfntKNCQRVIktrF5gV0wFed5BkPZQ2dDOoHc05O9wp1GeLXUX5hhtAej7wCj1xSVs84nC/65btMU
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(22082099003)(56012099003)(18002099003)(4143699003)(11063799006)(3023799007)(6133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SVhOQ1BlK252andmYW1qN1dySVFqcE5DRXdpekxqMFA1T2ZSU1UxTlZHeUFs?=
- =?utf-8?B?N3ZrbUVlVHpNalF6ZzVjUzFnWWZjNzdBUFZJbm52WERDR1JOdW1MaVFaRnVv?=
- =?utf-8?B?N011dkxRNFZFMWRvckcxTG9UN21TbEJsVmR4VzErUDhzdGVMSW16Yk9ZcDZm?=
- =?utf-8?B?WmhPR0E5ZEZpRmlMZnhKOU9EY2kyM1FteUdOL0FDcUI5NTFxSlNFU296eUVL?=
- =?utf-8?B?OWtPcWlXdkpsWGlacmFweUZoZ040M2t2TXczUmZ0eXlWVmZsZHMvRk9rdG53?=
- =?utf-8?B?NUhwOXhOTm8zWndHdUY2dlhCWHhmcDk2ZDlIbVU5b1BlVDJEWldkdlJOL1cz?=
- =?utf-8?B?bmdrQ2doUyt1QVorMjZhMm9FUUFLbmNYZjBrbk9PMHFDQWRFOVB3cFVmQVE2?=
- =?utf-8?B?bzZCZnhZMFJ4R2g3T2hBT0JjdzRtclpLWUJYd3R4ZWhPcEhiTGVhRkhrNzNG?=
- =?utf-8?B?dHFCditjK0VZWkhPaHMxWmsvN2lsVk5qZXRlRFdSTExEcVY3K0F0MThSVTZm?=
- =?utf-8?B?UGxWNUFGbGkveC9RYUNROU01VU5LNS8zc00xek5sQmV5OSszR2QxNEl2L2c0?=
- =?utf-8?B?ZGdIaHltODh5U1hVa3JzQmRuVUcvdWkyLzVjWmw2MFVnV2c5UjlDc203cTNr?=
- =?utf-8?B?NDVkSHlsYUMzck1iSTBiRDkzQTgvL09vV3ZFd1pDZmx1YXRudVBCRjAzSGlH?=
- =?utf-8?B?YzVSTWpEcnF0dlVrVWJlc25tdGVxMnpyVTJyWUhCeDFjN2t3Wm5tamVRWUpY?=
- =?utf-8?B?VTltMlZHRWhtMTVNNmhvWnVDeHVUMGZpeTBXdlMwcDh4ZWZLdHNicnk4Zmoz?=
- =?utf-8?B?akVkU2NZTklvUHpVTTdJbm5IbEpPV20rOVJFV0dSSGJvbkdPTUZJeW1yaDNV?=
- =?utf-8?B?KzlINmgwa0tjYThVa1VvazZLK1NPYzdndGVYU0dOWHdrUmJjZmxjaEhVK0ho?=
- =?utf-8?B?NDZxMFBYMzZKUFE4WStEekRodTVReTdxMnlKOHhSR0Y2SVNncDdmbCtLQjJI?=
- =?utf-8?B?UG9DZlZVRlZ1N0Fic0l0ckFvTjNoSkJPMUEwNzlVdWxCOGRhSWZpN3lVWmho?=
- =?utf-8?B?R0F1Sllydkd1T0FlWWNiL1BGcDNCRVY5VDdpd0xCUEZYeGorRlNXbGxxY3NW?=
- =?utf-8?B?VmhzNHg3OWRoeHZHOEk5Z0haeGlhSkdSbkJrMlc4UzRPSHFjN3hOSmh2eWN4?=
- =?utf-8?B?L1ZNRks2VXNaOXhmQ0FBT0NmVDlJVjhFSE1BdWs0UUluOFhCS0lVc2VhT0F1?=
- =?utf-8?B?WnlVb3pwaTRDZSt6cXJpOEZVVEgrZVhiMnV2a21wMFJFT3o1UUhBNTJrckVs?=
- =?utf-8?B?ak03T2tYRGFpaEVzaGlZYW4rNEp5VFBXUnMxZG1IZUVDeExvdHlEOVdOUW90?=
- =?utf-8?B?YWxLTk9IMFQrQ3ZJUUdoYkVhZzlnZVgvUmlZTGc5cE9BZ1M0MEZnWnFVbXpT?=
- =?utf-8?B?VDJmTytYdW14aUhoZ012NXZhcTBSSjU0SURQdytUL3Q1Y1I0bWJOd1ZSTFRj?=
- =?utf-8?B?ZllwU3ZNRTBOZ2twYjNLZFhUOGpoK2NaME80R0JKWVFCVSt1cldrSXB6MER6?=
- =?utf-8?B?d2ZvbnJlZUN5dUJMV05IR3pId3pJRGNJdjlaN2l1Qnl5Z3NZdmRQTFphb1Vk?=
- =?utf-8?B?Si81Y3cvQnBCV1RDTmMwbGxvZkpiUGJBd2hRYjZHV2Y0N05aVUN3RkhpSC91?=
- =?utf-8?B?dmVzQXRIMDE5TVNGalZ3S3F3NG9icHVSQmgxLzc0Y3dsT2VMM0tLd3VHVGZR?=
- =?utf-8?B?SVFWVlo0Unl5eUwrN0pNRnlCMFJPbzRYZW45ZmFkaEtqNU1ZTjNXbnNGbnl5?=
- =?utf-8?B?QmpkZ1NHZWNZVGsrMVFhWU9yeVcza0g1ZDZyVlN2azJTQW4xYWY5Ly9id3Ny?=
- =?utf-8?B?K05mdGZDVTI4TFJvNnYvOEZnYVEyZS9la1NCNjZtdG9kVWluT2FJUXNvelhN?=
- =?utf-8?B?cnlreVRBNDkxa0tVR1pGOUUvT3AwU0gxM09rZTlHRUlzM2ZjajZjaGF5SDM0?=
- =?utf-8?B?clE0THlXdmxUM0lHc1cvVTRkWEFyYVNFaXVKMkRmaFNEcmNIaWhFdlFmWkJV?=
- =?utf-8?B?bEZmUEVoOTNqemZxYXhmY0ZqUVFrUkJZNXduOXkybDRNRUIwMVNKN1BoOGxR?=
- =?utf-8?B?T2U1ZzVWZ0FpNmV1NXp1d3hPWWJYOGpQOW5pbEl3RS9WM2I4bmdTamU4bXFm?=
- =?utf-8?B?d094NlltenZ1L2hvT1hnYWsrQjlSdEQ5WmdBZFJzM0h2MmJoc0djUEFDWTUz?=
- =?utf-8?B?VWpMUk84NkhhaHo4NGc3NndMSkxJREhnRkZNU2JJY1RwYm5QVERhOVlyNER3?=
- =?utf-8?Q?wMTycSXD5dJui3XH6T?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cc5ffeda-48d1-46b0-3c94-08deb735f6e6
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2026 12:39:13.8207
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: G8y2f64Sk/eaXA8zxfuLIo1cvfU2D1Vkz1BeEa4yyxD76zrdU+udMQZN4t1OrPNS
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA5PPF916D632A9
-X-Spamd-Result: default: False [1.34 / 15.00];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIABb+DmoC/23O3crCMAyA4VuRHltJ+rfFI+9DRGbXzoJusspQZ
+ PduJop83zwqCbxP+hA59ClksV48RB+GlFPX8oBquRD+WLVNkKnmhVCgLCIUsjnnk5J6z2EdstR
+ RHcrSKiCvBUeXPsR0e4nbHc/HlK9df38dGMpp+6bQ/KeGUoI0hSGqCQoi2FRtdeqale/OYrIG+
+ vQONOKsp6lH7iMQgImzHuELGHAzAIEFZ6x1EEPtKzsX8CvYH1/gFcjo0WkoND+HP8I4jk8GgLh
+ ScgEAAA==
+X-Change-ID: 20251107-gmsl2-3_serdes-3f2b885209c3
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Julien Massot <julien.massot@collabora.com>, Rob Herring <robh@kernel.org>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: mitrutzceclan@gmail.com, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Martin Hecht <Martin.Hecht@avnet.eu>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Cosmin Tanislav <demonsingur@gmail.com>, 
+ Vivekananda Dayananda <vivekana@amd.com>, 
+ Dumitru Ceclan <dumitru.ceclan@analog.com>, Cory Keitz <ckeitz@amazon.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779367457; l=18853;
+ i=dumitru.ceclan@analog.com; s=20240313; h=from:subject:message-id;
+ bh=UALezlk++baViWzliaBTVRS0BohNP8Rjc8NtXQdpyDA=;
+ b=biyO/DiXT1+R71umclQIf5P2p6hoTRkfAXr3WJlbYoLJBdTkLskS4bmVf+EeHMUnpcD4WQ/2q
+ swhakf7WZwlD9BiaOr4KH7glYLaoUd7KL3WFEnRD844JEN95TMfcaUh
+X-Developer-Key: i=dumitru.ceclan@analog.com; a=ed25519;
+ pk=HdqMlVyrcazwoiai7oN6ghU+Bj1pusGUFRl30jhS7Bo=
+X-Endpoint-Received: by B4 Relay for dumitru.ceclan@analog.com/20240313
+ with auth_id=140
+X-Original-From: Dumitru Ceclan <dumitru.ceclan@analog.com>
+Reply-To: dumitru.ceclan@analog.com
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com,lists.freedesktop.org,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-62469-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,linaro.org,vger.kernel.org,lists.linaro.org];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62470-lists,linux-media=lfdr.de,dumitru.ceclan.analog.com];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,lists.linux.dev,ragnatech.se,avnet.eu,ideasonboard.com,amd.com,analog.com,amazon.com];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[amd.com:+];
+	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,amd.com:mid,amd.com:dkim,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 51FF05A4F9A
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	HAS_REPLYTO(0.00)[dumitru.ceclan@analog.com];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 52DA35A51EB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 5/21/26 12:43, Mikhail Gavrilov wrote:
-> amdgpu_vm_lock_by_pasid() looks up a VM by PASID and reserves its root
-> PD with a bare amdgpu_bo_reserve(), returning the still-reserved root to
-> the caller. A caller that then needs to reserve further BOs (for example
-> the devcoredump IB dump) ends up nesting reservation_ww_class_mutex
-> acquires without a ww_acquire_ctx, which lockdep flags as recursive
-> locking.
-> 
-> Convert the helper to take a drm_exec context and lock the root PD with
-> drm_exec_lock_obj(). Callers now run it inside a
-> drm_exec_until_all_locked() loop and can lock additional BOs in the same
-> ww ticket, so there is no nested ww_mutex acquire.
-> 
-> The drm_exec context holds its own reference on the locked root BO, so
-> the helper no longer hands a root reference back to the caller: the
-> root output parameter is dropped, and the transient reference taken
-> across the PASID lookup is released before returning.
-> 
-> The only existing caller, amdgpu_vm_handle_fault(), is updated
-> accordingly. Its is_compute_context path, which previously dropped the
-> root reservation around svm_range_restore_pages() and re-took it, now
-> finalises the drm_exec context and re-initialises a fresh one; behaviour
-> is otherwise unchanged.
-> 
-> No functional change intended for the page-fault path.
-> 
-> Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c | 91 ++++++++++++++++----------
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h |  2 +-
->  2 files changed, 58 insertions(+), 35 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> index 9ba9de16a27a..591980907211 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c
-> @@ -2950,47 +2950,56 @@ int amdgpu_vm_ioctl(struct drm_device *dev, void *data, struct drm_file *filp)
->  }
->  
->  /**
-> - * amdgpu_vm_lock_by_pasid - return an amdgpu_vm and its root bo from a pasid, if possible.
-> + * amdgpu_vm_lock_by_pasid - look up a VM by PASID and lock its root PD
->   * @adev: amdgpu device pointer
-> - * @root: root BO of the VM
->   * @pasid: PASID of the VM
-> - * The caller needs to unreserve and unref the root bo on success.
-> + * @exec: drm_exec context to lock the root PD in
-> + *
-> + * Must be called from within a drm_exec_until_all_locked() loop; the caller
-> + * runs drm_exec_retry_on_contention() afterwards. The drm_exec context holds
-> + * a reference on the root BO until it is finalised.
-> + *
-> + * Return: the VM on success, or NULL if the PASID has no VM, the VM is being
-> + * torn down, or locking the root PD failed.
->   */
->  struct amdgpu_vm *amdgpu_vm_lock_by_pasid(struct amdgpu_device *adev,
-> -					  struct amdgpu_bo **root, u32 pasid)
-> +					  u32 pasid, struct drm_exec *exec)
->  {
->  	unsigned long irqflags;
-> +	struct amdgpu_bo *root;
->  	struct amdgpu_vm *vm;
->  	int r;
->  
->  	xa_lock_irqsave(&adev->vm_manager.pasids, irqflags);
->  	vm = xa_load(&adev->vm_manager.pasids, pasid);
-> -	*root = vm ? amdgpu_bo_ref(vm->root.bo) : NULL;
-> +	root = vm ? amdgpu_bo_ref(vm->root.bo) : NULL;
->  	xa_unlock_irqrestore(&adev->vm_manager.pasids, irqflags);
->  
-> -	if (!*root)
-> +	if (!root)
->  		return NULL;
->  
-> -	r = amdgpu_bo_reserve(*root, true);
-> -	if (r)
-> -		goto error_unref;
-> +	r = drm_exec_lock_obj(exec, &root->tbo.base);
-> +	if (r) {
-> +		amdgpu_bo_unref(&root);
-> +		return NULL;
-> +	}
->  
->  	/* Double check that the VM still exists */
->  	xa_lock_irqsave(&adev->vm_manager.pasids, irqflags);
->  	vm = xa_load(&adev->vm_manager.pasids, pasid);
-> -	if (vm && vm->root.bo != *root)
-> +	if (vm && vm->root.bo != root)
->  		vm = NULL;
->  	xa_unlock_irqrestore(&adev->vm_manager.pasids, irqflags);
-> -	if (!vm)
-> -		goto error_unlock;
-> +	if (!vm) {
-> +		drm_exec_unlock_obj(exec, &root->tbo.base);
-> +		amdgpu_bo_unref(&root);
-> +		return NULL;
-> +	}
->  
-> -	return vm;
-> -error_unlock:
-> -	amdgpu_bo_unreserve(*root);
-> +	/* The drm_exec context holds its own reference on the root BO. */
-> +	amdgpu_bo_unref(&root);
->  
-> -error_unref:
-> -	amdgpu_bo_unref(root);
-> -	return NULL;
-> +	return vm;
->  }
->  
->  /**
-> @@ -3012,33 +3021,49 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
->  			    uint64_t ts, bool write_fault)
->  {
->  	bool is_compute_context = false;
-> -	struct amdgpu_bo *root;
-> +	struct drm_exec exec;
->  	uint64_t value, flags;
->  	struct amdgpu_vm *vm;
->  	int r;
->  
-> -	vm = amdgpu_vm_lock_by_pasid(adev, &root, pasid);
-> -	if (!vm)
-> +	drm_exec_init(&exec, 0, 0);
+This series adds new drivers for multiple Maxim GMSL2 and GMSL3 devices,
+replacing the few GMSL2 drivers already in upstream, and introducing a
+common framework that can be used to implement such GMSL chips, which
+avoids code duplication while also adding support for previously
+unsupported features.
 
-Make the last parameter 1 here since we are expecting to lock 1 object.
+While the normally acceptable and polite way would be to extend the
+current mainline drivers, the choice was made here to add a totally new
+set of drivers. The current drivers support only a small subset of the
+possible features, and only a few devices, so the end result after
+extending them would in any case be essentially fully rewritten, new
+drivers.
 
-Not a must have, it will work without but it is just a little bit more optimal.
+This series depends on support for internal pads, for which a patch has
+been added.
 
-Apart from that Reviewed-by: Christian König <christian.koenig@amd.com>.
+The previous version is at:
+v11: https://lore.kernel.org/r/20260511-gmsl2-3_serdes-v11-0-fc163073c16b@analog.com
 
-Thanks,
-Christian.
+Since the previous series, Cosmin has left Analog Devices.
+Because included changes from previous version are trivial, his sign-off
+and tags were retained.
 
-> +	drm_exec_until_all_locked(&exec) {
-> +		vm = amdgpu_vm_lock_by_pasid(adev, pasid, &exec);
-> +		drm_exec_retry_on_contention(&exec);
-> +		if (!vm)
-> +			break;
-> +	}
-> +	if (!vm) {
-> +		drm_exec_fini(&exec);
->  		return false;
-> +	}
->  
->  	is_compute_context = vm->is_compute_context;
->  
->  	if (is_compute_context) {
-> -		/* Unreserve root since svm_range_restore_pages might try to reserve it. */
-> -		/* TODO: rework svm_range_restore_pages so that this isn't necessary. */
-> -		amdgpu_bo_unreserve(root);
-> +		/* Release the root PD lock since svm_range_restore_pages
-> +		 * might try to take it.
-> +		 * TODO: rework svm_range_restore_pages so that this isn't
-> +		 * necessary.
-> +		 */
-> +		drm_exec_fini(&exec);
->  
->  		if (!svm_range_restore_pages(adev, pasid, vmid,
-> -					     node_id, addr >> PAGE_SHIFT, ts, write_fault)) {
-> -			amdgpu_bo_unref(&root);
-> +					     node_id, addr >> PAGE_SHIFT, ts, write_fault))
->  			return true;
-> -		}
-> -		amdgpu_bo_unref(&root);
->  
->  		/* Re-acquire the VM lock, could be that the VM was freed in between. */
-> -		vm = amdgpu_vm_lock_by_pasid(adev, &root, pasid);
-> -		if (!vm)
-> +		drm_exec_init(&exec, 0, 0);
-> +		drm_exec_until_all_locked(&exec) {
-> +			vm = amdgpu_vm_lock_by_pasid(adev, pasid, &exec);
-> +			drm_exec_retry_on_contention(&exec);
-> +			if (!vm)
-> +				break;
-> +		}
-> +		if (!vm) {
-> +			drm_exec_fini(&exec);
->  			return false;
-> +		}
->  	}
->  
->  	addr /= AMDGPU_GPU_PAGE_SIZE;
-> @@ -3062,7 +3087,7 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
->  		value = 0;
->  	}
->  
-> -	r = dma_resv_reserve_fences(root->tbo.base.resv, 1);
-> +	r = dma_resv_reserve_fences(vm->root.bo->tbo.base.resv, 1);
->  	if (r) {
->  		pr_debug("failed %d to reserve fence slot\n", r);
->  		goto error_unlock;
-> @@ -3076,12 +3101,10 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
->  	r = amdgpu_vm_update_pdes(adev, vm, true);
->  
->  error_unlock:
-> -	amdgpu_bo_unreserve(root);
-> +	drm_exec_fini(&exec);
->  	if (r < 0)
->  		dev_err(adev->dev, "Can't handle page fault (%d)\n", r);
->  
-> -	amdgpu_bo_unref(&root);
-> -
->  	return false;
->  }
->  
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> index d083d7aab75c..0c6e3e0368c7 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm.h
-> @@ -593,7 +593,7 @@ bool amdgpu_vm_handle_fault(struct amdgpu_device *adev, u32 pasid,
->  			    bool write_fault);
->  
->  struct amdgpu_vm *amdgpu_vm_lock_by_pasid(struct amdgpu_device *adev,
-> -					  struct amdgpu_bo **root, u32 pasid);
-> +					  u32 pasid, struct drm_exec *exec);
->  
->  void amdgpu_vm_set_task_info(struct amdgpu_vm *vm);
->  
+The following deserializers are supported:
+* MAX96712 (already exists in staging)
+* MAX96714 (already exists)
+* MAX96714F (already exists)
+* MAX96714R (GMSL2)
+* MAX96716 (GMSL2)
+* MAX96724 (already exists as part of existing MAX96712 driver)
+* MAX96724F (GMSL2)
+* MAX96724R (GMSL2)
+* MAX9296A (GMSL2)
+* MAX96792A (GMSL3)
+
+The following serializers are supported:
+* MAX96717 (already exists)
+* MAX9295A (GMSL2)
+* MAX96793 (GMSL3)
+
+The following list enumerates new features that are supported by the
+common framework and their respective chip-specific drivers:
+* Full Streams API support. Most deserializers have support for more
+than one link, and more than one PHY. Streams support allows
+configuration of routing between these links and PHYs.
+
+* .get_frame_desc() support. Both the serializers and deserializers
+implement this to query and provide frame descriptor data. This is
+used in features explained in-depth below.
+
+* .get_mbus_config() support. The deserializers implement this to allow
+upstream devices to query the link frequency of its pads.
+
+* Address translation with I2C ATR for the serializers.
+
+* I2C ATR translation - some deserializers cannot do muxing since I2C
+communication channel masking is not available per-link, and the only
+other way to select links is to turn them off, causing link resets.
+For such cases, I2C ATR is used to change the address of the
+serializers at probe time.
+
+* Automatic GMSL link version negotiation between GMSL3, GMSL2 6Gbps, GMSL2
+3Gbps.
+
+* Automatic stream id selection for deserializers which need serializers to
+stream on unique stream ids.
+
+* Automatic VC remapping on the deserializers. VCs are picked so that
+if they were unique on the sink pad, they will end up as unique on
+the source pad they are routed to too, prioritizing using the same
+VC ID as the sink pad, to facilitate the possibility of using tunnel
+mode.
+
+* Automatic pixel mode / tunnel mode selection. Tunnel mode is used
+when VC IDs do not need to be changed and all hardware supports
+tunnel mode, otherwise, pixel mode is used. The serializers are
+automatically switched between the two by using a private API.
+
+* Automatic double mode selection. In pixel mode, double mode can be
+used to pack two pixels into a single data unit, optimizing bandwidth
+usage. The serializers are automatically set up to support the double
+modes determined by the deserializers using a private API.
+
+* Automatic data padding. In pixel mode, if the data being transferred
+uses two different BPPs, data needs to be padded. The serializers
+automatically set this up depending on the configured double mode
+settings and incoming data types.
+
+* Logging. Both the deserializers and serializers implement the V4L2
+.log_status() ops to allow debugging of the internal state and
+important chip status registers.
+
+* PHY modes. Deserializer chips commonly have more than a single PHY.
+The firmware ports are parsed to determine the modes in which to
+configure the PHYs (2x4, 4x2, 1x4+2x2, 2x2+1x4, and variations using
+fewer lanes).
+
+* Serializer pinctrl. Serializers implement pinctrl to allow setting
+configs which would otherwise be inaccessible through GPIO: TX/RX via
+GMSL link, pull-up & pull-down (with strength), open-drain &
+push-pull, slew rate, RCLK pin selection.
+
+* TPG with selectable formats, resolutions and framerates for both
+serializers and deserializers.
+
+The drivers have been tested on the following hardware combinations, but
+further testing is welcome to ensure no / minimal breakage:
+* Raspberry Pi 5 + MAX9296A + 2xMAX96717 + 2xIMX219
+* Raspberry Pi 5 + MAX96714 + 1xMAX96717 + 1xIMX219
+* Raspberry Pi 5 + MAX96716A + 2xMAX96717 + 2xIMX219
+* Raspberry Pi 5 + MAX96712 + 4xMAX96717 + 4xIMX219
+* Raspberry Pi 5 + MAX96724 + 4xMAX96717 + 4xIMX219
+* Raspberry Pi 5 + MAX96792A + 1xMAX96793 + 1xMAX96717 + 2xIMX219
+* Raspberry Pi 5 + MAX96792A + 2xMAX96717 + 2xIMX219
+* Renesas V4H + MAX96712 + 2xMAX96717 + 2xIMX219
+
+Analog Devices is taking responsibility for the maintenance of these
+drivers and common framework, and plans to add support for new
+broad-market chips on top of them.
+
+Special thanks go to Tomi Valkeinen <
+tomi.valkeinen+renesas@ideasonboard.com>
+for testing the drivers, helping debug and coming up with ideas /
+implementations for various features.
+
+V12:
+* max_serdes: drop custom field_get/prep custom macros
+* max96717: use new clock ops function determine_rate()
+* fix git diff context for patches 20-22
+
+V11:
+* max96724: preserve cc_port_cfg in select_links()
+
+V10:
+* dt-bindings: add control-channel property
+* max96724: add configurable control-channel port selection
+* max-ser/max-des: fix VIDIOC_SUBDEV_G/S_FMT, detect ~0U format
+ (v4l2-test-subdevs.cpp:448: s_fmt.format.code == ~0U)
+* max-ser/max-des: fix VIDIOC_SUBDEV_G/S_FRAME_INTERVAL fail:
+	 add max_(ser/des)_get_frame_interval returning -ENOTTY
+	for non-TPG pads and streams
+ (v4l2-test-subdevs.cpp:302: node->enum_frame_interval_pad != (int)pad)
+
+V9:
+* split max_des_ops into *_info and *_ops
+* use read_poll_timeout macro in *_wait_for_device()
+* return read_poll_timeout error -ETIMEDOUT in *_wait_for_device()
+* remove use_atr duplicate from max9296a_chip_info, present in max_des_info
+* fix max9296a DPLL register offset
+* fix C-PHY DPLL frequency in max9296a and max96724
+    reported by: Cory Keitz <ckeitz@amazon.com>
+* use MAX9296A_COMMON_INFO and MAX9296A_COMMON_OPS to simplify
+  probe ops init
+* fix borked patches in previous version, actually remove MAX96717 and
+  MAX96714 drivers
+
+V8:
+* max96717: use the renamed PIN_CONFIG_OUTPUT to _LEVEL
+* max96717: use the renamed set_rv ops from struct gpio_chip
+* dt-bindings: set minItems lane-polarities to 2
+* dt-bindings: "add myself as maintainer" commits were removed
+* max_des & max_ser: use a default format for set_routing
+* max_des & max_ser: return ENNOTTY in *_frame_interval for non-TPG pads
+
+V7:
+* dt-bindings: max9296a: use full max96717 compatible
+* max9296a: make max96714_rlms_reg_sequence static
+* explicitly include linux/bitfield.h
+* explicitly depend on I2C and PINCTRL
+* sort media_entity_operations
+* add has_pad_interdep to media_entity_operations
+
+V6:
+* max9296a: put rlms sequence in max9296a_chip_info
+* max_des: reflow stream id a comment
+* max_ser: remove exported symbols not used in other modules
+* max_ser: init mode to a supported value
+* add default routing
+* MAX_SERDES_GMSL_3 -> MAX_SERDES_GMSL_3_12GBPS
+* guard reg_read/write with CONFIG_VIDEO_ADV_DEBUG
+* put exported symbols in MAXIM_SERDES namespace
+
+V5:
+* dt-bindings: max96717: restrict RCLKOUT to pins 2 & 4
+* dt-bindings: max96717: remove confusing rclksel pinconf property
+* dt-bindings: max96717: remove maxim,gmsl-tx/rx pinconf property
+* dt-bindings: max96717: remove gmsl prefix from maxim,gmsl-tx-id/rx-id
+* dt-bindings: max96717: remove minimum: 0
+* dt-bindings: max96717: better document slew-rate
+* dt-bindings: max96717: better document maxim,jitter-compensation
+* dt-bindings: max96717: better document maxim,tx-id/rx-id
+
+* max_serdes: add default TPG values
+* max_serdes: remove MAX_MIPI_FMT macro
+* max_serdes: EXPORT_SYMBOL -> EXPORT_SYMBOL_GPL
+* max_serdes: remove EXPORT_SYMBOL_GPL from symbols not used in other
+modules
+* max_serdes: rename symbols/macros/types to have max_serdes prefix
+* max_serdes: slim down TPG functions
+
+* max_des: fix may be used uninitialized errors
+* max_des: fix misplaced TPG validation
+* max_des: fix setting pipe PHY in tunnel mode for chips that support
+both set_pipe_phy() and set_pipe_tunnel_phy()
+* max_des: move doubled_bpp/sink_bpps variables to usage place
+* max_des: do not dynamically control PHY enable, letting lanes be in
+LP-11 when not streaming
+* max_des: refactor get/set_pipe_stream_id() logic
+* max_des: remove explicit ret = 0
+
+* max_ser: make VC remaps not pipe-specific, allocate dynamically
+
+* max9296a: add missing 1080p30 TPG entry
+* max9296a: move BIT() left shift into macro
+* max9296a: move BIT() ternary into macro
+* max9296a: reuse max_des_ops for chip-specific ops\
+* max9296a: document and compress RLMS register writes
+
+* max96717: restrict RCLKOUT to pins 2 & 4 because of hardware
+capabilities
+* max96717: add support for XTAL/1, XTAL/2, XTAL/4 clocks
+* max96717: set RX_EN/TX_EN automatically
+* max96717: reorder custom pinconf flags
+* max96717: drop OF dependency
+
+* drop of_match_ptr
+* re-do some indentation
+* implement TPG pattern control
+* remove pr_info() usage
+* inline lane polarity val = 0
+* inline returns
+* rewrite some Kconfig docs
+* split up patches for easier review
+
+V4:
+* max_des: fix infinite version loop
+* max_des: fix pipe link id when there are more pipes than links
+* max_des: implement setting pipe link
+* max_des: do not pass routing to phy update
+* max_des: move GMSL version strings to max_serdes
+* max_des: split finding existing VC remap from adding a new one
+* max_des: add tracking for in-use pipes
+* max_des: skip unused pipes when finding / setting pixel/tunnel mode
+* max_des: simplify remap code
+* max_des: split set_pipe_phy() into set_pipe_tunnel_phy()
+
+* max_ser: clean up i2c_xlates printing
+* max_ser: fix changing serializer address
+* max_ser: move non-continuous mode check into max96717 driver
+
+* max96724: use regmap_set_bits for STREAM_SEL_ALL
+* max96724: match surrounding indent for MAX96724_PHY1_ALT_CLOCK
+* max96724: fix setting invalid PHY to 1 when PHY 0 is in 4-lane mode
+* max96724: remove support for setting pipe phy from max96712
+* max96724: fix setting double mode on pipes 4-7
+* max96724: drop powerdown gpios
+
+* max96717: use gpio_chip's set_rv
+
+* max9296a: switch versions to unsigned int
+* max9296a: remove parantheses from MAX9296A_MIPI_PHY18/20
+* max9296a: fix printing of PHY packet counts
+* max9296a: fix phy_hw_ids size
+
+* remove usage of cammel case in defines
+* move field_get/prep to max_serdes.h
+* rework stream id setup
+* rework tunnel/pixel mode finding
+* rework bpps retrieval
+* pass whole subdev state around
+* add helper for retrieving a route's hw components / frame desc
+* update pipe enable based on active routes
+* add support for tunnel-only chips and VC remaps in tunnel mode
+* simplify max_get_streams_masks()
+* add support for TPG
+
+V3:
+* dt-bindings: drop reflow text patches
+
+* dt-bindings: max96717: move pinctrl configuration into main file
+* dt-bindings: max96717: allow a single level of pins configuration
+* dt-bindings: max96717: use regex for matching pins nodes
+* dt-bindings: max96717: drop extra allOf in pinctrl configuration
+* dt-bindings: max96717: fix i2c-atr channel name regex
+* dt-bindings: max96717: limit pinctrl functions to gpio / rclkout
+* dt-bindings: max96717: limit pins for gpio / rclkout
+* dt-bindings: max96717: add description for bias-pull-up/down
+* dt-bindings: max96717: require pins and function properties
+* dt-bindings: max96717: turn single compatible strings into an enum
+
+* dt-bindings: max9296a: include indices in port descriptions
+* dt-bindings: max9296a: remove property-less schema from input ports
+* dt-bindings: max9296a: use ATR for MAX96716A too, removing MUX entirely
+
+* dt-bindings: max96712: include indices in port descriptions
+* dt-bindings: max96712: deprecate enable-gpios in favor of powerdown-gpios
+* dt-bindings: max96712: switch from MUX to ATR
+
+* dt-bindings: max96714: add support for MAX96714R
+
+* max_des: fix POC NULL check
+* max_des: remove index var in POC enable
+* max_des: fix writing empty remaps
+* max_des: skip mode setting in tunnel mode
+* max_des: remove a duplicate source->sd NULL check
+* max_des: set pipe tunnel mode even for disabled links
+
+* max_ser: apply TX ID changes irrespective of serializer ID
+
+* max9296a: fix typo in BACKTOP22
+* max9296a: make register macros more consistent
+* max9296a: switch MAX96716 from MUX to ATR
+* max9296a: deduplicate max9296a_phy_id() logic
+* max9296a: use proper PHY id in remaps
+* max9296a: fix DPLL reset clear
+* max9296a: limit MAX96714F to GMSL2 3Gbps
+* max9296a: add support for MAX96714R
+* max9296a: do not write GMSL3 link select registers in GMSL2 devices
+* max9296a: use field_prep when setting RX_RATE
+* max9296a: simplify setting SEL_STREAM for MAX96714
+* max9296a: max96716_set_pipe_phy -> max96716a_set_pipe_phy
+* max9296a: fix off-by-one in lane polarity when using
+polarity_on_physical_lanes
+
+* max96724: fix typo in BACKTOP22
+* max96724: switch from MUX to ATR
+* max96724: add support for powerdown GPIO
+* max96724: remove support for tunneling from MAX96712
+* max96724: only set tunnel-related bits when in tunnel mode
+* max96724: add support for MAX96724F/R
+* max96724: oneshot reset links after link selection
+
+* remove GMSL2 version defaults, set all supported versions explicitly
+* reorder GMSL versions to start from 0
+* add support for GMSL2 3Gbps
+* support GMSL version finding for devices using MUX / GATE
+* add support for deserializers which don't have individual control
+of each link's GMSL version
+* add support for deserializers that need unique stream ids across all
+serializers
+* select_link_version -> set_link_version
+* select_resets_link -> use_atr
+
+V2:
+* add missing compatible for MAX96717F
+* fix embarrassing dt-bindings mistakes
+* move MAX9296A/MAX96716/MAX96792A to a separate file as they have two
+links / PHYs, and adding those conditionally seems impossible
+
+---
+To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Julien Massot <julien.massot@collabora.com>
+To: Rob Herring <robh@kernel.org>
+To: Niklas Söderlund <niklas.soderlund@ragnatech.se>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: mitrutzceclan@gmail.com
+Cc: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-staging@lists.linux.dev
+Cc: linux-gpio@vger.kernel.org
+Cc: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Cc: Martin Hecht <Martin.Hecht@avnet.eu>
+
+---
+Cosmin Tanislav (20):
+      dt-bindings: media: i2c: max96717: add support for I2C ATR
+      dt-bindings: media: i2c: max96717: add support for pinctrl/pinconf
+      dt-bindings: media: i2c: max96717: add support for MAX9295A
+      dt-bindings: media: i2c: max96717: add support for MAX96793
+      dt-bindings: media: i2c: max96712: use pattern properties for ports
+      dt-bindings: media: i2c: max96712: add support for I2C ATR
+      dt-bindings: media: i2c: max96712: add support for POC supplies
+      dt-bindings: media: i2c: max96712: add support for MAX96724F/R
+      dt-bindings: media: i2c: max96714: add support for MAX96714R
+      dt-bindings: media: i2c: add MAX9296A, MAX96716A, MAX96792A
+      media: i2c: add Maxim GMSL2/3 serializer and deserializer framework
+      media: i2c: add Maxim GMSL2/3 serializer framework
+      media: i2c: add Maxim GMSL2/3 deserializer framework
+      media: i2c: maxim-serdes: add MAX96717 driver
+      media: i2c: maxim-serdes: add MAX96724 driver
+      media: i2c: maxim-serdes: add MAX9296A driver
+      arm64: defconfig: disable deprecated MAX96712 driver
+      staging: media: remove MAX96712 driver
+      media: i2c: remove MAX96717 driver
+      media: i2c: remove MAX96714 driver
+
+Dumitru Ceclan (1):
+      dt-bindings: media: i2c: max96712: add control-channel-port property
+
+Sakari Ailus (1):
+      media: mc: Add INTERNAL pad flag
+
+ .../bindings/media/i2c/maxim,max9296a.yaml         |  242 ++
+ .../bindings/media/i2c/maxim,max96712.yaml         |   73 +-
+ .../bindings/media/i2c/maxim,max96714.yaml         |    5 +-
+ .../bindings/media/i2c/maxim,max96717.yaml         |  154 +-
+ .../userspace-api/media/mediactl/media-types.rst   |    9 +
+ MAINTAINERS                                        |   10 +-
+ arch/arm64/configs/defconfig                       |    1 -
+ drivers/media/i2c/Kconfig                          |   34 +-
+ drivers/media/i2c/Makefile                         |    3 +-
+ drivers/media/i2c/max96714.c                       | 1017 -------
+ drivers/media/i2c/max96717.c                       | 1104 -------
+ drivers/media/i2c/maxim-serdes/Kconfig             |   60 +
+ drivers/media/i2c/maxim-serdes/Makefile            |    6 +
+ drivers/media/i2c/maxim-serdes/max9296a.c          | 1358 +++++++++
+ drivers/media/i2c/maxim-serdes/max96717.c          | 1688 +++++++++++
+ drivers/media/i2c/maxim-serdes/max96724.c          | 1261 ++++++++
+ drivers/media/i2c/maxim-serdes/max_des.c           | 3205 ++++++++++++++++++++
+ drivers/media/i2c/maxim-serdes/max_des.h           |  156 +
+ drivers/media/i2c/maxim-serdes/max_ser.c           | 2155 +++++++++++++
+ drivers/media/i2c/maxim-serdes/max_ser.h           |  147 +
+ drivers/media/i2c/maxim-serdes/max_serdes.c        |  413 +++
+ drivers/media/i2c/maxim-serdes/max_serdes.h        |  181 ++
+ drivers/media/mc/mc-entity.c                       |   15 +-
+ drivers/staging/media/Kconfig                      |    2 -
+ drivers/staging/media/Makefile                     |    1 -
+ drivers/staging/media/max96712/Kconfig             |   14 -
+ drivers/staging/media/max96712/Makefile            |    2 -
+ drivers/staging/media/max96712/max96712.c          |  487 ---
+ include/uapi/linux/media.h                         |    1 +
+ 29 files changed, 11116 insertions(+), 2688 deletions(-)
+---
+base-commit: 05418e6ae57234644f9b52d74f913706a64a3de4
+change-id: 20251107-gmsl2-3_serdes-3f2b885209c3
+
+Best regards,
+-- 
+Dumitru Ceclan <dumitru.ceclan@analog.com>
+
 
 
