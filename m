@@ -1,286 +1,194 @@
-Return-Path: <linux-media+bounces-62431-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62432-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SNBeBkfNDmpoCQYAu9opvQ
-	(envelope-from <linux-media+bounces-62431-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 11:15:51 +0200
+	id 4GN1Lc7TDmr2CQYAu9opvQ
+	(envelope-from <linux-media+bounces-62432-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 11:43:42 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id A87155A2128
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 11:15:50 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ADD65A28CB
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 11:43:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6E0E43069026
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 09:11:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DDA0231EC5B7
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 09:13:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B2D936F434;
-	Thu, 21 May 2026 09:11:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AD04369211;
+	Thu, 21 May 2026 09:13:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="TKAoRhvh"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qIIr3YP8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DAF1363C6F
-	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 09:11:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3AD29C327;
+	Thu, 21 May 2026 09:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779354666; cv=none; b=W5ATIQFXd82vnyYcgTmfYpAUE8lpUiIa517ltwPLUcbyxp24hke4PwUgTGlU0PBNbdjWoiYiWfGC6AKayBE72rsgAyc4/A/yNrLzPKdmOcypZfLXJ1Dsc37O6YKDWimE+Vp/Dh9LS+mv+4HU/rDWdreWBS5NzY7T7hRJAleQJJg=
+	t=1779354795; cv=none; b=dSqU7Rk1GPz8p8iaGmUPlZxwzY4E6lQ8uy0gDT2UfM/wIDnlvlEfIQnaUp07T4dL1cKPWgIcuJAlsFKnGt7YduhqsrDdJ92mNhzg5XiBYrNoh9SbrxVMEiO3v6HB/PA41yUkb3+JX95ZNWKBhZPb23pZHowu1eKJcAjzsfcjwfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779354666; c=relaxed/simple;
-	bh=/ApxYmdq3kHu3thKFegK+YtWMiL83D621EF8tkmYSG4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=M36kE3cV/YcNxdwDC/FEGK0BYAY+JUUYIRMI/rd53k6uJuZPNtQQ6SbDEWrQDOmGA8fbUoh0G5o4OTzSryPBUoHUV4v16m5Qd0tOQuUOXmbKbCpmeSuTrgejePKFOjQt23RQduV7XcLah/D8RbB9JFK7BE//9vIM7pVTbzv59fg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TKAoRhvh; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1779354664;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vjxV//gOyz/n+AtRONHMGYrZm4NAi0bq2+NJ8phfFu8=;
-	b=TKAoRhvhxqGmosWfTPn3+abzOxwIV9mwuUnW5DNSzxOPUuZH8Dy5Vg0BNQ6p2P8QYYTJHb
-	XKeLG7GY58vShp5B8Lq6NAzkOFWlhm5XTIF/H0eKuPCl9ijcnNLLUAwhwr1Byo4o79cD3w
-	KfUMCT7BYUcRQ7asNeeN4dZXAUOIxZU=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-160-qNw0hdrzO3mUsAwMX-eh-w-1; Thu,
- 21 May 2026 05:11:01 -0400
-X-MC-Unique: qNw0hdrzO3mUsAwMX-eh-w-1
-X-Mimecast-MFC-AGG-ID: qNw0hdrzO3mUsAwMX-eh-w_1779354659
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4CD221800343;
-	Thu, 21 May 2026 09:10:59 +0000 (UTC)
-Received: from [192.168.1.153] (headnet01.pony-001.prod.iad2.dc.redhat.com [10.2.32.101])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 33E7C19560A3;
-	Thu, 21 May 2026 09:10:56 +0000 (UTC)
-From: Albert Esteve <aesteve@redhat.com>
-Date: Thu, 21 May 2026 11:10:15 +0200
-Subject: [PATCH 2/2] selftests: dma-buf: add DERIVE ioctl tests
+	s=arc-20240116; t=1779354795; c=relaxed/simple;
+	bh=sDtCR/112nTH/J/4iPL+45VIxb96cevBopgsu4Ph8eo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t9E0w5iaAZXEDfU5Bk0wpf0UG8VR9FgH2Aaa+km+CnFCOO19iXTTKlVXqPeojxDinCZUZQgDLSxcBl6jt01ZOqtuFzjNOa2W6/xm/qmZGl3vcZE+4ONddDa0EIZsT+SutgETjIydtLr5i3UYbXQeVUjEvFrexEQ3r1fwVw1vhu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qIIr3YP8; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from killaraus.ideasonboard.com (unknown [IPv6:2a01:cb1d:8f2:800:42d6:38fa:3bdf:70df])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 301F96DF;
+	Thu, 21 May 2026 11:12:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1779354777;
+	bh=sDtCR/112nTH/J/4iPL+45VIxb96cevBopgsu4Ph8eo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qIIr3YP8EAZW/iNOMw/M83HwuXvaiW2nt6NKTXAAeyC2iRQOxtyJLDg1gp9bNZTum
+	 clogYJTaTikdiQ/fMlCox498QlxMUMfloaJhvs2T9peZdU1RkF0OmGBnJ5BoqTPSxN
+	 bcjGvDXa+j/Vds8fTNw8+rZDtwh+h1VnEQRbvHn0=
+Date: Thu, 21 May 2026 11:13:10 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+Cc: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
+	Xiaolei Wang <xiaolei.wang@windriver.com>,
+	Walter Werner Schneider <contact@schnwalter.eu>,
+	Kate Hsuan <hpa@redhat.com>, Svyatoslav Ryhel <clamor95@gmail.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>
+Subject: Re: [PATCH 2/3] media: i2c: add imx576 image sensor driver
+Message-ID: <20260521091310.GB4511@killaraus.ideasonboard.com>
+References: <20260520115641.11729-1-himanshu.bhavani@siliconsignals.io>
+ <20260520115641.11729-3-himanshu.bhavani@siliconsignals.io>
+ <20260520123326.GC215344@killaraus.ideasonboard.com>
+ <PN0P287MB20196A26D90DF65CF551FD359A0E2@PN0P287MB2019.INDP287.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260521-dmabuf-limit-access-v1-2-26c01e27365a@redhat.com>
-References: <20260521-dmabuf-limit-access-v1-0-26c01e27365a@redhat.com>
-In-Reply-To: <20260521-dmabuf-limit-access-v1-0-26c01e27365a@redhat.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T.J. Mercier" <tjmercier@google.com>, Shuah Khan <shuah@kernel.org>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, Albert Esteve <aesteve@redhat.com>, 
- mripard@kernel.org
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779354648; l=4904;
- i=aesteve@redhat.com; s=20260303; h=from:subject:message-id;
- bh=/ApxYmdq3kHu3thKFegK+YtWMiL83D621EF8tkmYSG4=;
- b=Xw1Be6/9oJc7tUp8Mo1663PiOX1fvKwqDaWX3WJ3OMPYs/gXgAh7yML6JMuLdi5QSXy/RKbdE
- 8UmbeD0gzGDCHTDVwDgZf86kMG0+6oi6wy+eK+Yz6BDr1US2pGcJXSz
-X-Developer-Key: i=aesteve@redhat.com; a=ed25519;
- pk=YSFz6sOHd2L45+Fr8DIvHTi6lSIjhLZ5T+rkxspJt1s=
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <PN0P287MB20196A26D90DF65CF551FD359A0E2@PN0P287MB2019.INDP287.PROD.OUTLOOK.COM>
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[redhat.com:+];
+	FREEMAIL_CC(0.00)[linux.intel.com,siliconsignals.io,kernel.org,oss.qualcomm.com,linaro.org,windriver.com,schnwalter.eu,redhat.com,gmail.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-62432-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[22];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62431-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aesteve@redhat.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	RCVD_COUNT_FIVE(0.00)[6];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: A87155A2128
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,siliconsignals.io:email,killaraus.ideasonboard.com:mid]
+X-Rspamd-Queue-Id: 1ADD65A28CB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-dma-buf now supports aliasing an existing file descriptor with reduced
-access permissions via DMA_BUF_IOCTL_DERIVE ioctl, and enforces that a
-shared writable mapping cannot be created through a read-only file
-descriptor.
+On Thu, May 21, 2026 at 05:44:09AM +0000, Himanshu Bhavani wrote:
+> > On Wed, May 20, 2026 at 05:26:34PM +0530, Himanshu Bhavani wrote:
+> >> Add a v4l2 subdevice driver for the Sony imx576 sensor.
+> >>
+> >> The Sony IMX576 image sensor with an active
+> >> array size of 5760 x 4312
+> >>
+> >> The following features are supported:
+> >> - Manual exposure an gain control support
+> >> - vblank/hblank control support
+> >> - Supported resolution: 2880 x 2156 30fps (SRGGB10)
+> >>
+> >> Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+> >> ---
+> >>  MAINTAINERS                |    1 +
+> >>  drivers/media/i2c/Kconfig  |   10 +
+> >>  drivers/media/i2c/Makefile |    1 +
+> >>  drivers/media/i2c/imx576.c | 1029 ++++++++++++++++++++++++++++++++++++
+> >>  4 files changed, 1041 insertions(+)
+> >>  create mode 100644 drivers/media/i2c/imx576.c
 
-Add two tests to the dmabuf-heaps selftest to exercise this behaviour.
-The positive test allocates a buffer, derives its file descriptor as
-O_RDONLY through the ioctl, confirms that a read-only shared mapping
-succeeds, and verifies that data written through the original read-write
-file descriptor is visible through the derived one.
+[snip]
 
-The negative test confirms that attempting a DMA_BUF_IOCTL_DERIVE ioctl
-call with RW flags on a read-only file descriptor is rejected with EACCES.
-Same for mmap() escalation attempt.
+> >> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> >> index 90b276a7417a..e96c083e03d9 100644
+> >> --- a/drivers/media/i2c/Makefile
+> >> +++ b/drivers/media/i2c/Makefile
+> >> @@ -61,6 +61,7 @@ obj-$(CONFIG_VIDEO_IMX335) += imx335.o
+> >>  obj-$(CONFIG_VIDEO_IMX355) += imx355.o
+> >>  obj-$(CONFIG_VIDEO_IMX412) += imx412.o
+> >>  obj-$(CONFIG_VIDEO_IMX415) += imx415.o
+> >> +obj-$(CONFIG_VIDEO_IMX576) += imx576.o
+> >>  obj-$(CONFIG_VIDEO_IR_I2C) += ir-kbd-i2c.o
+> >>  obj-$(CONFIG_VIDEO_ISL7998X) += isl7998x.o
+> >>  obj-$(CONFIG_VIDEO_KS0127) += ks0127.o
+> >> diff --git a/drivers/media/i2c/imx576.c b/drivers/media/i2c/imx576.c
+> >> new file mode 100644
+> >> index 000000000000..910cbcfb6031
+> >> --- /dev/null
+> >> +++ b/drivers/media/i2c/imx576.c
 
-Signed-off-by: Albert Esteve <aesteve@redhat.com>
----
- tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c | 114 ++++++++++++++++++++-
- 1 file changed, 113 insertions(+), 1 deletion(-)
+[snip]
 
-diff --git a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-index fc9694fc4e89e..c3856189200be 100644
---- a/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-+++ b/tools/testing/selftests/dmabuf-heaps/dmabuf-heap.c
-@@ -390,6 +390,116 @@ static void test_alloc_errors(char *heap_name)
- 	close(heap_fd);
- }
- 
-+static int setup_ro_derive(int heap_fd, int *dmabuf_fd, int *ro_fd)
-+{
-+	struct dma_buf_derive params = {
-+		.flags = O_RDONLY | O_CLOEXEC,
-+	};
-+	int ret;
-+
-+	ret = dmabuf_heap_alloc(heap_fd, ONE_MEG, 0, dmabuf_fd);
-+	ksft_test_result(!ret, "Allocate RW buffer\n");
-+	if (ret)
-+		return -1;
-+
-+	ret = ioctl(*dmabuf_fd, DMA_BUF_IOCTL_DERIVE, &params);
-+	ksft_test_result(!ret, "Derive as O_RDONLY %s\n",
-+			 ret < 0 ? strerror(errno) : "OK");
-+	if (ret < 0) {
-+		close(*dmabuf_fd);
-+		*dmabuf_fd = -1;
-+		return -1;
-+	}
-+
-+	*ro_fd = params.fd;
-+	return 0;
-+}
-+
-+static void test_ro_derive(char *heap_name)
-+{
-+	int heap_fd = -1, dmabuf_fd = -1, ro_fd = -1;
-+	void *rw_map = MAP_FAILED, *ro_map = MAP_FAILED;
-+	int ret;
-+
-+	heap_fd = dmabuf_heap_open(heap_name);
-+
-+	ksft_print_msg("Testing read-only derive with mmap:\n");
-+
-+	if (setup_ro_derive(heap_fd, &dmabuf_fd, &ro_fd))
-+		goto out;
-+
-+	rw_map = mmap(NULL, ONE_MEG, PROT_READ | PROT_WRITE, MAP_SHARED,
-+		      dmabuf_fd, 0);
-+	ksft_test_result(rw_map != MAP_FAILED, "RW mmap on RW fd %s\n",
-+			 rw_map == MAP_FAILED ? strerror(errno) : "OK");
-+	if (rw_map == MAP_FAILED)
-+		goto out;
-+
-+	dmabuf_sync(dmabuf_fd, DMA_BUF_SYNC_START);
-+	memset(rw_map, 0xab, ONE_MEG);
-+	dmabuf_sync(dmabuf_fd, DMA_BUF_SYNC_END);
-+
-+	ro_map = mmap(NULL, ONE_MEG, PROT_READ, MAP_SHARED, ro_fd, 0);
-+	ksft_test_result(ro_map != MAP_FAILED, "RO mmap on RO fd %s\n",
-+			 ro_map == MAP_FAILED ? strerror(errno) : "OK");
-+	if (ro_map == MAP_FAILED)
-+		goto out;
-+
-+	dmabuf_sync(ro_fd, DMA_BUF_SYNC_START);
-+	ret = memcmp(rw_map, ro_map, ONE_MEG);
-+	dmabuf_sync(ro_fd, DMA_BUF_SYNC_END);
-+	ksft_test_result(!ret, "Data written via RW fd visible through RO fd\n");
-+
-+out:
-+	if (ro_map != MAP_FAILED)
-+		munmap(ro_map, ONE_MEG);
-+	if (rw_map != MAP_FAILED)
-+		munmap(rw_map, ONE_MEG);
-+	if (ro_fd >= 0)
-+		close(ro_fd);
-+	if (dmabuf_fd >= 0)
-+		close(dmabuf_fd);
-+	close(heap_fd);
-+}
-+
-+static void test_ro_derive_escalation(char *heap_name)
-+{
-+	struct dma_buf_derive params = {
-+		.flags = O_RDWR | O_CLOEXEC,
-+	};
-+	int heap_fd = -1, dmabuf_fd = -1, ro_fd = -1, ret = 0;
-+	void *bad_map;
-+
-+	heap_fd = dmabuf_heap_open(heap_name);
-+
-+	ksft_print_msg("Testing read-only derive with escalation attempt:\n");
-+
-+	if (setup_ro_derive(heap_fd, &dmabuf_fd, &ro_fd))
-+		goto out;
-+
-+	ret = ioctl(ro_fd, DMA_BUF_IOCTL_DERIVE, &params);
-+	ksft_test_result(ret < 0 && errno == EACCES,
-+			 "O_RDWR derive on RO fd correctly rejected (errno=%d)\n",
-+			 errno);
-+	if (!ret)
-+		close(params.fd);
-+
-+	bad_map = mmap(NULL, ONE_MEG, PROT_READ | PROT_WRITE, MAP_SHARED,
-+		       ro_fd, 0);
-+	ksft_test_result(bad_map == MAP_FAILED && errno == EACCES,
-+			 "RW shared mmap on RO fd correctly rejected (errno=%d)\n",
-+			 errno);
-+	if (bad_map != MAP_FAILED)
-+		munmap(bad_map, ONE_MEG);
-+
-+out:
-+	if (ro_fd >= 0)
-+		close(ro_fd);
-+	if (dmabuf_fd >= 0)
-+		close(dmabuf_fd);
-+	close(heap_fd);
-+}
-+
- static int numer_of_heaps(void)
- {
- 	DIR *d = opendir(DEVPATH);
-@@ -420,7 +530,7 @@ int main(void)
- 		return KSFT_SKIP;
- 	}
- 
--	ksft_set_plan(11 * numer_of_heaps());
-+	ksft_set_plan(20 * numer_of_heaps());
- 
- 	while ((dir = readdir(d))) {
- 		if (!strncmp(dir->d_name, ".", 2))
-@@ -435,6 +545,8 @@ int main(void)
- 		test_alloc_zeroed(dir->d_name, ONE_MEG);
- 		test_alloc_compat(dir->d_name);
- 		test_alloc_errors(dir->d_name);
-+		test_ro_derive(dir->d_name);
-+		test_ro_derive_escalation(dir->d_name);
- 	}
- 	closedir(d);
- 
+> >> +static const struct imx576_mode supported_modes_10bit[] = {
+> >> +	{
+> >> +		.width = 2880,
+> >> +		.height = 2156,
+> >> +		.hts = 3165,
+> >> +		.vts = 2172,
+> >> +		.reg_list = {
+> >> +			.num_of_regs = ARRAY_SIZE(mode_2880x2156_regs),
+> >> +			.regs = mode_2880x2156_regs,
+> >> +		},
+> >> +	},
+> >> +};
+> >
+> > No mode tables please. Control the analog crop and binning through the
+> > selection and format APIs.
+> >
+> >> +
+> >> +static const s64 link_freq[] = {
+> >> +	IMX576_LINK_FREQ_600MHZ,
+> >
+> > The link frequency should be selectable from DT, with PLL parameters (if
+> > any) computed by the driver.
+> 
+> I don't have the full datasheet, so this cannot be implemented properly.
+
+Have you tried to work with your support channel to obtain the
+documentation?
 
 -- 
-2.53.0
+Regards,
 
+Laurent Pinchart
 
