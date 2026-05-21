@@ -1,386 +1,174 @@
-Return-Path: <linux-media+bounces-62531-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62532-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QO7mCPQ0D2qSHgYAu9opvQ
-	(envelope-from <linux-media+bounces-62531-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 18:38:12 +0200
+	id 0CG+LPA8D2rQIAYAu9opvQ
+	(envelope-from <linux-media+bounces-62532-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 19:12:16 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8735D5A96C1
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 18:38:10 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id B54B15A9F3F
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 19:12:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DEBCE36ECD9C
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 15:09:25 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 14316302FAF1
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 15:16:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF5C633EB1B;
-	Thu, 21 May 2026 15:08:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31E0733F58E;
+	Thu, 21 May 2026 15:15:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TdviwDXV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WH2q71/J"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4104D32BF52
-	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 15:08:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 802B5302149;
+	Thu, 21 May 2026 15:15:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779376134; cv=none; b=moIN3vNJfi/UzFBpD3wH7yrwUnACxzOV6qf3qH/yy5XgDZ2Vx7JRfReiDvUL9sDoCKDN3U28w/44i130nrYji/m3pLrt2VV74dIKUU9HbHE+Fndntfn6pIhkMMd1LZfdhh4VeO+b+2yMeCUSzXEHMAuaitUYTBuvXeQXSALtaC0=
+	t=1779376555; cv=none; b=C7bhzutMgq26Odac+T5AGPaHBcWKLHARyfOovAhMRHNo15F92B5/14opDWz/EPqtK6/D3IxO4ofcWDxfO+BxOt/9+S4UyoyGS6EcTH3K8ZkDARuj595NQrqpMSxVgyZWFw/EjjfrCIisP/wMPSYt4+eyyykMBKlIZwhzPPkxdoQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779376134; c=relaxed/simple;
-	bh=jhawuaQE4VaUOaqBjSVJ7L9kHTPtT9q8QTpefJsl81M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D9pkNrDJJwjvB1CqpGQcfhfpMDTmIn6n2PntKjEZRjPIo+VTWhngopkSdVKfvllWU7SY8ZGW+fFCAo1IN13zwfSZH6G9vGZ3IlWm11GFouR0oMTgYUdwnDYxSxMx2buwoxjeBda4bHW2o8WOqe3RYsPftkCz7LMs8JS3bkAv7wI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TdviwDXV; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5a887ebb416so7559298e87.2
-        for <linux-media@vger.kernel.org>; Thu, 21 May 2026 08:08:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779376130; x=1779980930; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V2MVfvQBPeY6Pwia0clIRhZPiWkl2nWuf72y0t9gH4Q=;
-        b=TdviwDXVIHPeaDNfUcwJJOO/rRX1Pj2G/9FpNHhuNiL26KcIAKBuyb4W8BmhtTjpmN
-         zo8xb6acZRgZXhLzrMLTxj+sINpr2Kc3ekAn/eaTmNWJxuoIckZnXynUncu3+X4q1nTp
-         WnrwRZjZAssoef44K1pgkmpZVr6wFJ140cyuWNn4AxOBAMPomV6LmJw6JQKUbWGXwlny
-         8h0Xb066367eIX2++TxrUWKE69ACbJhVgUR+k+byruT0O5UxsB+pmwzTPkkW9Qv5/Su5
-         QIWWvkw05RipsT5tWq4HTW96XejbNNSC5Rq687N5777KvKXs8PIV9iKU5RI/bQqNCMdg
-         2SGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779376130; x=1779980930;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=V2MVfvQBPeY6Pwia0clIRhZPiWkl2nWuf72y0t9gH4Q=;
-        b=pqbcT0wsr9QABg2SHqjUNRdN7HZ7/OScV8zFvp80UEt7ZrJB4xR/O8R3Exi9+r9HwC
-         4KItW+k6I9x5s8NUUsWSyZODeUwG5/A35JZYcsHAK4HvcBPw3IQ47fJLq271Vbtrnr7P
-         b+DjvHARucJk/o/42wQuCFosKgJEzQ7eJmtvjmyxK5+zV7hvi9avXq4xAUuL3vxu5P6I
-         fJlTfJQt5N+bKL7esS2FcZzbIgXkZHDL4Y3Ti+d6Qmj+VVOUbgusucy2I6iY0b1Vit/O
-         6dSZ9ZxxUgePc8VuM/HmJL3dD2A7dHUgP7ebYWgECI/WhvlczvFgPlA8BBz3XJfvfPjm
-         MEPg==
-X-Forwarded-Encrypted: i=1; AFNElJ/LF+/v1bgjV8tQbgQ+rxkvdjvA5w6d1UJXNVbWfjP+p9ImWiIdaQNRZ1oj9+af2vtcHhzdsesUBBQX8w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxviBHpc9whJeNT0CO9uWusPIHDTCmuKAhcDEbMYBTCc38TQSp6
-	CivMnrZCPJaNLTCmT9zo/p2kqSOle8bJet6dNf/KlTf5EmXa1wQL026N
-X-Gm-Gg: Acq92OHrDJR9AiFEw0KHWwF+WXqEWf9vI05jnJYlXBqcFVr9gJNGpdr72iL+2KYF4gS
-	cVqv1JX08P+4zEoyV9UPW1LZgHvKVIs+2ik1c2R0RpZm587hDuDuFvqXZnxomoRo/o4QxnhqdpP
-	7Rh+4bYKyosoJDGsAQ3N6Zqkd5lXmeJMqkz8apHuJy8VzEa9i2CK6HI3ABZVdZiYkR79r7UrUqg
-	eXG6XvufIMNrJlLRjAo6l9B8eLtIf83b9MaByzjs6ea62XPvUXhfkhpvppDH6BxfCPtFshzEiEG
-	PGXvQzWNhY/h+mmIila6OCjeojh0szfPqO4An90txZgfU4uLK6/RXFX4UDFdXKE9DybxzNm4G+G
-	PQKim8B9HblReIDawBY4TrWl5wVY2Mw+25tgWUBEshis5hpVBjbmV8OTDTqsLUhQ3rJFxvqAxX8
-	/snW0TwMxm5trbvcmfS4N749Ra+ZnLpbdx
-X-Received: by 2002:ac2:5dcd:0:b0:5a8:a754:f9d5 with SMTP id 2adb3069b0e04-5aa2ba9ac3bmr843915e87.39.1779376130152;
-        Thu, 21 May 2026 08:08:50 -0700 (PDT)
-Received: from localhost ([188.234.148.119])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa2f120c6esm335686e87.19.2026.05.21.08.08.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2026 08:08:49 -0700 (PDT)
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-To: amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Cc: Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Subject: [PATCH v5 2/2] drm/amdgpu: fix recursive ww_mutex acquire in amdgpu_devcoredump_format
-Date: Thu, 21 May 2026 20:08:40 +0500
-Message-ID: <20260521150841.20625-3-mikhail.v.gavrilov@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260521150841.20625-1-mikhail.v.gavrilov@gmail.com>
-References: <20260521104335.28978-1-mikhail.v.gavrilov@gmail.com>
- <20260521150841.20625-1-mikhail.v.gavrilov@gmail.com>
+	s=arc-20240116; t=1779376555; c=relaxed/simple;
+	bh=c6708tXft9gLhDUY1x+PmJB9Hj8ECYv5J+JeI7o7NyY=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=LhOGJg1odTQFEuuhw+02xGpbjBt0TL3zJKVoFzcX9g66GfEALgf8kOpFDmfjdtY4dIjSGgeozH53T0XpfH6evIc0d6t2O5iYbm35g8V4ScZ8F2zRPuCV4KP0P1YXY2XiByZhYF4nBni/O/1K5Hz2QamC8X3x8LyXx9Vrls+wPE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WH2q71/J; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EED471F00A3B;
+	Thu, 21 May 2026 15:15:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779376554;
+	bh=6+hPFg766OszpUSn1xTNsvl7vipNukyxXO874O2maWg=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject;
+	b=WH2q71/J6y0dFUjb7NBabK7U82iWvGQixkAmY0LxWgp3ltpqlgBBhXJD6QrjiWCvC
+	 WDicWNNAvjRQ5HZhFPtlEqzBdgCRJeunIr5v99a38F7faeQwSM7j6qrEABeVtQn76A
+	 aD04TSH7GhElThcrlErG3k+X8otgHzK836QoyPjDk6aWOnDTRGr4ePnTTMng4uw21/
+	 GW9JPDLS0wod1oo3RwrSdRgI8e83q/hFjpLftRNkmZBjsu8i1sBPSr2IexAQqomzsM
+	 nUhBuAhrJLZDE9v3Vgu/dYBHIU9vNwh9+HRY8WFKqT30AnEuf/8aEJ/SsB1Bg5Seky
+	 bDnXphfoTyTHw==
+Date: Thu, 21 May 2026 10:15:53 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-phy@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Bryan O'Donoghue <bod@kernel.org>, devicetree@vger.kernel.org, 
+ Neil Armstrong <neil.armstrong@linaro.org>, Vinod Koul <vkoul@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20260521-x1e-csi2-phy-v6-1-9d73d9bd7d20@linaro.org>
+References: <20260521-x1e-csi2-phy-v6-0-9d73d9bd7d20@linaro.org>
+ <20260521-x1e-csi2-phy-v6-1-9d73d9bd7d20@linaro.org>
+Message-Id: <177937655318.1947776.1539787576186189902.robh@kernel.org>
+Subject: Re: [PATCH v6 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY
+ schema
+X-Spamd-Result: default: False [-1.16 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62531-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[amd.com,gmail.com,ffwll.ch,linaro.org,vger.kernel.org,lists.linaro.org];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	TAGGED_FROM(0.00)[bounces-62532-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mikhailvgavrilov@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 8735D5A96C1
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[0.0.0.0:email,devicetree.org:url,0.0.0.2:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,0.0.0.1:email,linaro.org:email]
+X-Rspamd-Queue-Id: B54B15A9F3F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-When dumping IB contents from a hung job, amdgpu_devcoredump_format()
-acquired the VM root PD's reservation via amdgpu_vm_lock_by_pasid() and
-then, for each IB, called amdgpu_bo_reserve() on the BO backing the IB.
-Both reservations are reservation_ww_class_mutex objects and neither
-used a ww_acquire_ctx, which trips lockdep:
 
-  WARNING: possible recursive locking detected
-  --------------------------------------------
-  kworker/u128:0 is trying to acquire lock:
-  ffff88838b16e1f0 (reservation_ww_class_mutex){+.+.}-{4:4},
-    at: amdgpu_devcoredump_format+0x1594/0x23f0 [amdgpu]
+On Thu, 21 May 2026 13:20:08 +0100, Bryan O'Donoghue wrote:
+> Add a base schema initially compatible with x1e80100 to describe MIPI CSI2
+> PHY devices.
+> 
+> The hardware can support both CPHY, DPHY and a special split-mode DPHY.
+> 
+> The schema here defines three ports:
+> 
+> port@0:
+>     The first input port where a sensor is always required.
+> 
+> port@1:
+>     A second optional input port which if present implies DPHY split-mode.
+> 
+> port@2:
+>     A third always required output port which connects to the controller.
+> 
+> The CSIPHY devices have their own pinouts on the SoC as well as their own
+> individual voltage rails.
+> 
+> The need to model voltage rails on a per-PHY basis leads us to define
+> CSIPHY devices as individual nodes.
+> 
+> Two nice outcomes in terms of schema and DT arise from this change.
+> 
+> 1. The ability to define on a per-PHY basis voltage rails.
+> 2. The ability to require those voltage.
+> 
+> We have had a complete bodge upstream for this where a single set of
+> voltage rail for all CSIPHYs has been buried inside of CAMSS.
+> 
+> Much like the I2C bus which is dedicated to Camera sensors - the CCI bus in
+> CAMSS parlance, the CSIPHY devices should be individually modelled.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  .../bindings/phy/qcom,x1e80100-csi2-phy.yaml       | 205 +++++++++++++++++++++
+>  1 file changed, 205 insertions(+)
+> 
 
-  but task is already holding lock:
-  ffff8882f82681f0 (reservation_ww_class_mutex){+.+.}-{4:4},
-    at: amdgpu_devcoredump_format+0x1594/0x23f0 [amdgpu]
+My bot found errors running 'make dt_binding_check' on your patch:
 
-   Possible unsafe locking scenario:
-         CPU0
-         ----
-    lock(reservation_ww_class_mutex);
-    lock(reservation_ww_class_mutex);
+yamllint warnings/errors:
 
-   *** DEADLOCK ***
-   May be due to missing lock nesting notation
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml: port@0: Missing additionalProperties/unevaluatedProperties constraint
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml: port@1: Missing additionalProperties/unevaluatedProperties constraint
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.yaml: port@2: Missing additionalProperties/unevaluatedProperties constraint
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.example.dtb: csiphy@ace4000 (qcom,x1e80100-csi2-phy): ports:port@0:endpoint: 'data-lanes' is a required property
+	from schema $id: http://devicetree.org/schemas/phy/qcom,x1e80100-csi2-phy.yaml
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/phy/qcom,x1e80100-csi2-phy.example.dtb: csiphy@ace4000 (qcom,x1e80100-csi2-phy): ports:port@0:endpoint: 'clock-lanes' is a required property
+	from schema $id: http://devicetree.org/schemas/phy/qcom,x1e80100-csi2-phy.yaml
 
-  Workqueue: events_unbound amdgpu_devcoredump_deferred_work [amdgpu]
-  Call Trace:
-   __ww_mutex_lock.constprop.0
-   ww_mutex_lock
-   amdgpu_bo_reserve
-   amdgpu_devcoredump_format+0x1594 [amdgpu]
-   amdgpu_devcoredump_deferred_work+0xea [amdgpu]
+doc reference errors (make refcheckdocs):
 
-The two reservations are on different BOs in the captured trace, so the
-splat is a lockdep-correctness warning, not an observed deadlock. It
-becomes a real self-deadlock whenever the IB BO shares its dma_resv with
-the root PD (the always-valid case, see amdgpu_vm_is_bo_always_valid()):
-amdgpu_bo_reserve(abo) re-acquires the same ww_mutex without a ticket
-and blocks forever.
+See https://patchwork.kernel.org/project/devicetree/patch/20260521-x1e-csi2-phy-v6-1-9d73d9bd7d20@linaro.org
 
-With amdgpu.gpu_recovery=0 the timeout handler refires every ~2 s and
-each invocation produces this splat, drowning the kernel ring buffer.
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
-Now that amdgpu_vm_lock_by_pasid() takes a drm_exec context, lock the
-root PD and every IB BO together in a single drm_exec ticket.
-DRM_EXEC_IGNORE_DUPLICATES handles IB BOs that share a dma_resv (e.g.
-always-valid BOs, or two IBs backed by the same BO). Every lock is now
-a top-level acquire under one ww_acquire_ctx, so the recursive ww_mutex
-condition is gone, and the per-IB amdgpu_bo_reserve()/amdgpu_bo_unref()
-dance -- including a BO refcount leak on the amdgpu_bo_reserve() failure
-path -- is removed.
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-Reproducer (~150 LoC libdrm_amdgpu): submit a single GFX IB containing
-PACKET3_INDIRECT_BUFFER chained at GPU VA 0 and wait for the fence. The
-TDR fires within ~10 s and the deferred coredump worker produces the
-splat above on every invocation; with this change applied the splat is
-gone.
+pip3 install dtschema --upgrade
 
-Fixes: 7b15fc2d1f1a ("drm/amdgpu: dump job ibs in the devcoredump")
-Suggested-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
----
- .../gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c  | 105 ++++++++++++------
- 1 file changed, 71 insertions(+), 34 deletions(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-index d386bc775d03..456ea9911d48 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dev_coredump.c
-@@ -24,6 +24,7 @@
- 
- #include <generated/utsrelease.h>
- #include <linux/devcoredump.h>
-+#include <drm/drm_exec.h>
- #include "amdgpu_dev_coredump.h"
- #include "atom.h"
- 
-@@ -214,13 +215,9 @@ amdgpu_devcoredump_format(char *buffer, size_t count, struct amdgpu_coredump_inf
- 	struct drm_printer p;
- 	struct drm_print_iterator iter;
- 	struct amdgpu_vm_fault_info *fault_info;
--	struct amdgpu_bo_va_mapping *mapping;
- 	struct amdgpu_ip_block *ip_block;
- 	struct amdgpu_res_cursor cursor;
--	struct amdgpu_bo *abo, *root;
--	uint64_t va_start, offset;
- 	struct amdgpu_ring *ring;
--	struct amdgpu_vm *vm;
- 	u32 *ib_content;
- 	uint8_t *kptr;
- 	int ver, i, j, r;
-@@ -343,43 +340,84 @@ amdgpu_devcoredump_format(char *buffer, size_t count, struct amdgpu_coredump_inf
- 		drm_printf(&p, "VRAM is lost due to GPU reset!\n");
- 
- 	if (coredump->num_ibs) {
--		/* Don't try to lookup the VM or map the BOs when calculating the
--		 * size required to store the devcoredump.
-+		struct amdgpu_bo_va_mapping *mapping;
-+		struct amdgpu_bo *abo;
-+		struct drm_exec exec;
-+		struct amdgpu_vm *vm;
-+		u64 va_start, offset;
-+		bool locked = false;
-+
-+		/*
-+		 * Lock the VM root PD and every IB BO together in a single
-+		 * drm_exec ticket. Reserving the IB BOs one by one while the
-+		 * root PD is held would be a recursive reservation_ww_class_mutex
-+		 * acquire without a ww_acquire_ctx, which trips lockdep and
-+		 * self-deadlocks for IB BOs that share their dma_resv with the
-+		 * root PD (always-valid BOs).
-+		 *
-+		 * Skip locking entirely on the sizing pass: it does not write
-+		 * IB content, so the size estimate doesn't depend on whether
-+		 * the BOs are reachable.
- 		 */
--		if (sizing_pass)
--			vm = NULL;
--		else
--			vm = amdgpu_vm_lock_by_pasid(adev, &root, coredump->pasid);
-+		if (!sizing_pass) {
-+			drm_exec_init(&exec, DRM_EXEC_IGNORE_DUPLICATES,
-+				      1 + coredump->num_ibs);
-+			drm_exec_until_all_locked(&exec) {
-+				vm = amdgpu_vm_lock_by_pasid(adev, coredump->pasid,
-+							     &exec);
-+				drm_exec_retry_on_contention(&exec);
-+				if (!vm)
-+					break;
-+
-+				for (int i = 0; i < coredump->num_ibs; i++) {
-+					u64 pfn;
-+
-+					va_start = coredump->ibs[i].gpu_addr &
-+						   AMDGPU_GMC_HOLE_MASK;
-+					pfn = va_start / AMDGPU_GPU_PAGE_SIZE;
-+					mapping = amdgpu_vm_bo_lookup_mapping(vm, pfn);
-+					if (!mapping)
-+						continue;
-+
-+					abo = mapping->bo_va->base.bo;
-+					r = drm_exec_lock_obj(&exec, &abo->tbo.base);
-+					drm_exec_retry_on_contention(&exec);
-+					if (r)
-+						break;
-+				}
-+				if (r)
-+					break;
-+			}
-+			if (vm && !r)
-+				locked = true;
-+			else
-+				drm_exec_fini(&exec);
-+		}
-+
-+		for (int i = 0; i < coredump->num_ibs; i++) {
-+			bool emit_content = sizing_pass;
- 
--		for (int i = 0; i < coredump->num_ibs && (sizing_pass || vm); i++) {
- 			ib_content = kvmalloc_array(coredump->ibs[i].ib_size_dw, 4,
- 						    GFP_KERNEL);
- 			if (!ib_content)
- 				continue;
- 
--			/* vm=NULL can only happen when 'sizing_pass' is true. Skip to the
--			 * drm_printf() calls (ib_content doesn't need to be initialized
--			 * as its content won't be written anywhere).
--			 */
--			if (!vm)
-+			if (!locked)
- 				goto output_ib_content;
- 
- 			va_start = coredump->ibs[i].gpu_addr & AMDGPU_GMC_HOLE_MASK;
- 			mapping = amdgpu_vm_bo_lookup_mapping(vm, va_start / AMDGPU_GPU_PAGE_SIZE);
- 			if (!mapping)
--				goto free_ib_content;
-+				goto output_ib_content;
- 
--			offset = va_start - (mapping->start * AMDGPU_GPU_PAGE_SIZE);
--			abo = amdgpu_bo_ref(mapping->bo_va->base.bo);
--			r = amdgpu_bo_reserve(abo, false);
--			if (r)
--				goto free_ib_content;
-+			abo = mapping->bo_va->base.bo;
-+			offset = va_start - mapping->start * AMDGPU_GPU_PAGE_SIZE;
- 
- 			if (abo->flags & AMDGPU_GEM_CREATE_NO_CPU_ACCESS) {
- 				off = 0;
- 
- 				if (abo->tbo.resource->mem_type != TTM_PL_VRAM)
--					goto unreserve_abo;
-+					goto output_ib_content;
- 
- 				amdgpu_res_first(abo->tbo.resource, offset,
- 						 coredump->ibs[i].ib_size_dw * 4,
-@@ -391,12 +429,13 @@ amdgpu_devcoredump_format(char *buffer, size_t count, struct amdgpu_coredump_inf
- 					off += cursor.size;
- 					amdgpu_res_next(&cursor, cursor.size);
- 				}
-+				emit_content = true;
- 			} else {
- 				r = ttm_bo_kmap(&abo->tbo, 0,
- 						PFN_UP(abo->tbo.base.size),
- 						&abo->kmap);
- 				if (r)
--					goto unreserve_abo;
-+					goto output_ib_content;
- 
- 				kptr = amdgpu_bo_kptr(abo);
- 				kptr += offset;
-@@ -404,23 +443,21 @@ amdgpu_devcoredump_format(char *buffer, size_t count, struct amdgpu_coredump_inf
- 				       coredump->ibs[i].ib_size_dw * 4);
- 
- 				amdgpu_bo_kunmap(abo);
-+				emit_content = true;
- 			}
- 
- output_ib_content:
- 			drm_printf(&p, "\nIB #%d 0x%llx %d dw\n",
- 				   i, coredump->ibs[i].gpu_addr, coredump->ibs[i].ib_size_dw);
--			for (int j = 0; j < coredump->ibs[i].ib_size_dw; j++)
--				drm_printf(&p, "0x%08x\n", ib_content[j]);
--unreserve_abo:
--			if (vm)
--				amdgpu_bo_unreserve(abo);
--free_ib_content:
-+			if (emit_content) {
-+				for (int j = 0; j < coredump->ibs[i].ib_size_dw; j++)
-+					drm_printf(&p, "0x%08x\n", ib_content[j]);
-+			}
- 			kvfree(ib_content);
- 		}
--		if (vm) {
--			amdgpu_bo_unreserve(root);
--			amdgpu_bo_unref(&root);
--		}
-+
-+		if (locked)
-+			drm_exec_fini(&exec);
- 	}
- 
- 	return count - iter.remain;
--- 
-2.54.0
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
 
