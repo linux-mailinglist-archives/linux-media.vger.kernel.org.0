@@ -1,591 +1,459 @@
-Return-Path: <linux-media+bounces-62434-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62435-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yN0QA3HWDmr2CQYAu9opvQ
-	(envelope-from <linux-media+bounces-62434-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 11:54:57 +0200
+	id mDjOOOzWDmr2CQYAu9opvQ
+	(envelope-from <linux-media+bounces-62435-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 11:57:00 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 632F95A2C00
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 11:54:56 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5004C5A2C9C
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 11:56:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1BA5A31167C1
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 09:24:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C5CD131C79F3
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2026 09:25:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9612D34B1B0;
-	Thu, 21 May 2026 09:24:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCA9B376BEF;
+	Thu, 21 May 2026 09:25:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J4XXePb4"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EicbDHoN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0EE636F434
-	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 09:24:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779355452; cv=pass; b=g6LMnRNvW5+xOcK360/tpHx0WRNWH1n7L76VXo054oejOjVWwS7M9kKJVudLGejj4gBSIaPrdZ0DJ7+OH6vRiffvNh/sgkTEp1a7Ro6Gv0FtMl0wRUD4rDeM66kPrIPFBO0elrOsM2cKtDNKcI7Jn4+edi6lPkCMWFGuTQDLnGY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779355452; c=relaxed/simple;
-	bh=RL59BZOrhPjg0L0Ms+OIJfvtIFaBX3/J/gg5/XayWR4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SKQE9CSERDftcadIDknWcnLBRBRDJWRLhFAyyJPclMwAY/Yk8+X7nS0QDtdHOpC4E1GIaBvjoIT8+NUQ5UusD0qkSeDblePB//oC9H65/KV8jHVBdtVZkYQXuS1G4gKfPAf8P4oDFe/atici9HsMxG5iKyHoTVFJLukL7r9lJXU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J4XXePb4; arc=pass smtp.client-ip=209.85.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7dcd689829eso4943061a34.3
-        for <linux-media@vger.kernel.org>; Thu, 21 May 2026 02:24:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779355446; cv=none;
-        d=google.com; s=arc-20240605;
-        b=gdy3m/TEULuIQ3qYsbKKO0bV8wPMbwNVaWRKsPK6Q7yp/RU88ZIfCtyNg9QjsT4i2i
-         Jk3y7qDdniPjKd5ZAi+etWbnzmu13jjAWFDSdlKxm4Vk2u4SU+1zRuhCqlAM0iO+UByu
-         CPnZJsjuTd5ZTeByp3Ugd1c+CcSocHyHdMyDNvxOBRVMyMc8TIwGn4yOlbo7Co/9N55Q
-         Gzdncwa0CmKF6oEtXwhlmVAyJTpS7YLyoBCfh22mMlZg33uel6AMqLX3IE17NsfMBCK2
-         K8rKMMQd+rZStttUnF4Qsx/C8N0vY4IX5p2GeTCH3lPVdL+I/sZ0NSa+bfSuLUSDZxod
-         7D+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Bg/32xNRu9xmU6RjD3VE0ZNzN4b0mPq9saaOodPsoaY=;
-        fh=GP5zbwGsHIVGgxC1Fihe1L0ZnEh2ifkPL/J4fskmbDU=;
-        b=A84M0RU/XzeII9ZnXySIiEsfgvN3L63S+JozNCfZtGwD9wpGqBOjZ0+5pShiDkIw9w
-         xrlXqpk/ZtcF3Bn+rw7J6xdSHZU4k+cD9ixTAcI/Qp2Jq+8hTwzB/gwaCzaspIQkXBCR
-         bp88EzZqMvTNC5nuym+7L8wQcE4jUZ21ECblbda/xStZBsA8NreoT1xOCRuXVbjne3mh
-         F+OarjTK1urn6iSg7YlO/4Vo/orVlr81gU0N7XIFOALOZ7+UkXO4cTVDClxPpBFHyBDB
-         iaxVrjjwb7FFzpVuQvCY+ywXFPcIB3Jc9xsDKyPfKVGYmzVQXRVX2QT8IBn9kNjqZ2tT
-         56VA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6C5352010
+	for <linux-media@vger.kernel.org>; Thu, 21 May 2026 09:25:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779355504; cv=none; b=p52V6R1VV+lIvOXTVPZHAjdpO7hF5pWBsYeqsQXx7T0H5gdNRvorqcIxzYxXxOHF5gId2JHjqIRKUVCKLXKO4rV5ZI5dSG4pwzFV6YTf3saFPnphMrm4qP1TOsBBqVvfWB+80j82MkZBLqmH+/mLO3ClOl4aPW8CyBeKD3crLgM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779355504; c=relaxed/simple;
+	bh=UrKzJZyVuS7OMSe4A2xQwaz4d6xdF/RDIk9affmKoM8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=e7bfYQTfGVRonAHILtTyysAtRCjqAwfFs01MHhlMQ/QyW/WsSFWQqEfgmf2vaL28w7+U8Rga1dWsSrKk3YYm4sSZ9IHG5iFCbXMiBF6i8xWq90qONOL9j00tIHf/GXm5cByNj4dO9XycEqlbNPtNOVlSRUNS5YryJZmH9hpkBTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EicbDHoN; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48d146705b4so65298405e9.3
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2026 02:25:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779355446; x=1779960246; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bg/32xNRu9xmU6RjD3VE0ZNzN4b0mPq9saaOodPsoaY=;
-        b=J4XXePb4lgdgtmApXqejflgrt5k70+2LgFehfHnc0sNn3ocZr/Lw3y0kxn0CRv1FjP
-         wsZIXsU2JXoN2iCl3uwSOOQCkamqwkeq9ZcxhEFuS6oaX5TnVokN0SgAeoAI09S8/9nS
-         VXdk7+W8bxlxFzfxCpvi70HQNfJVTb1aB+jpoeVrB1WbvcbMh5V0AfmQtrYVUVpV7j/C
-         Tpli7rFQKbdCHV78TQLTWwbJarMMYgeCpeE4747E0J9K2I/IolMQJJUQphrnskoCzteC
-         GTxfjzKHcMp+/yhlIqw0xvgbgk9UySJp9UEmB5WHJ8qNS9aSipoVYo4uR3AD4A7OSCFO
-         mX8w==
+        d=linaro.org; s=google; t=1779355500; x=1779960300; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=K9G1Frv6heZP5sdNjxpwKXBej9hW46A9UFkdAM//WeA=;
+        b=EicbDHoN1u/igzr2oM0cS6Xn6kwoQo9LtEqEF9AXS5Sd5zltI6A7/pXzGhk/KIvliC
+         l5ojO6GvNyntZDPOb15iX7SwC6V11IatHZW+AVr5Te/B0mOoKHLBFxjL/oMFbtK1SPMn
+         wxqljBbFDXzd6tcdCg1DvnmrjiZjAWHPGLiXcOKthM0McTtqPaRKNYTJH9qlbAHL9Im9
+         6mdeU7N+mqwOXXMMF25jfokllh0na6fQH6xisR21xd7HPyKKrnOoruj3h3qZiIPjBg2T
+         2sTpZoKoL26dm7+onimuAuSymDsTYJt3By5iGc7jItWUA5OsXgMR26FCz+ZtAZ0Yytt3
+         o3rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779355446; x=1779960246;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Bg/32xNRu9xmU6RjD3VE0ZNzN4b0mPq9saaOodPsoaY=;
-        b=RjdDJEczvqKCV1jW/ZwnIYB3LwmKbCE3vqEyCkJlEXIkcxzcsaztfD+2d+DwaH9tq6
-         Q32eUa614Jc6H17+/RPegJe8eVvvs2MPhLAaD6uzR6rUSsUyJJrLz45Pp6VeCKFt+6Ud
-         a+2oxP+L1M307NjI4sKrACGyjUhllyGvDpAcwmkaIIMSRbxLoNb8yEOkjZsO32Y+KzM4
-         fax6ewHdENU0RXGg3VLydT7sso5s6NS3gmpWE31U/Q5xi0LFbQ1S3aUQrMMJkzX1nGr3
-         bWMe/228wAUjZsC6ukbKcDkHm19nEh34o30/2CF1DXtvL+r+H1ljHP3v9U73b3zDY7mB
-         ivYQ==
-X-Gm-Message-State: AOJu0YwOqdXahsYXD6bckRBPsuJh+dSKbE8LP1FGEhlOD09hVnd7mTad
-	7N27qfcZOw+SiaL/t9DAjlEyu9m/CLd12/t7um3kTt1cHI9jG791GbQ3SzWaeHsAgjYDyAidRlc
-	EG+LDhqOYX2+ZY/AMBZO5NSXqAVSIxko=
-X-Gm-Gg: Acq92OGRVdCONR8GI8vZwVKTUq5apdmC1qwnJHWqEHDS6tHUpQEkizfrJeiiCSnv9cA
-	KEjFGXv//ynnHDwlXURhogXMfBmsRc0DgB/CLrsexFLXYxpToujX8wI/YIFv4JBfuw7DQX4jg+R
-	+YIFFkahdyQj9ZSQuy3jh8aJukRXw3T0UvbxKCGFtoqVLk2jqx1mIA8lgesTE8pWVhPqLzcLpzx
-	PZhOGnvHK7+0Rg8mXRJp/eMG5r5numAtc24Pd/9Tgvkq4meR1e8VoC7YBBBYOYoD1cgX0VdhTZN
-	uYc/HzBU/T3Gcn9ThSrvAYvEv/H2FVXZutBQE6zWwQfGGOw+AUrjV91OuFS6q4oDXeBjQWxMw9e
-	6OWa2
-X-Received: by 2002:a05:6820:81c8:b0:67e:2988:15e1 with SMTP id
- 006d021491bc7-69d6ee60692mr915956eaf.16.1779355445586; Thu, 21 May 2026
- 02:24:05 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1779355500; x=1779960300;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=K9G1Frv6heZP5sdNjxpwKXBej9hW46A9UFkdAM//WeA=;
+        b=oj4J7/pPQ1vOk8geui1RBnhCDTlNsnNwzJncY/C7gz5wjnrd9Z+ZqHs9lpS0vDa/as
+         olK0RLCsi5pnX5ByH+pycvtDBw1J8+4LT7ghZZtTfAyKHrz64KvGvczE5PrBGtCUqtZ+
+         19v1ZhET0bETashqlEWMemqf214pJNS2wtAU4ovKHKgAE1fvzJ+Bc75uI9MA9W4H5oOH
+         251shXX0udaJX9Kmn3Ya/GOrBNZef60TAgal9iV/ZGoczayKZTFUfspf8VIbEJyC4zAT
+         q5YGLcsM0LEHvUIANPyvmqmQszW4pggjYHYA8iUteBLfTlLz7JPT/Ts6y/VaOhTutLNU
+         1lUQ==
+X-Gm-Message-State: AOJu0Yyc9skwPW1MaiPXz3FVFNy5kdVvyXCOwzTFERdyPhtikQP21QJD
+	xC4JLHKZuqQOmPiXeTTJwxJYzvMJ5YsmSwZHduxZ7CPl4rovcnfDnX1Dg7I23Hpl09Y=
+X-Gm-Gg: Acq92OGJT4+zG1rUDYukCyWkP1L41qhMFIpDqmhMN22S0Wfwx7u3EqjVH2wEx00dttJ
+	ss3jS01rwJQMnUztzSRnPZH/+AbBdet6yboJHVtg6DzsXuuHjl8b+sUrwBEj1MBdSYIpiyUXblO
+	Aa5iH9YfhXJFKy8p1+YMIsDQSGwuuefGe/lJgDnDNk/+VKG5Wd7Hd/DgMFqdZ3gWUCzVjFfZstx
+	WIfAmxwZqrlkkzeQZyIS5bB+oWah0GKvj3gdtPebT/xBkevOYiCaEar6l5ORW8QYYXPRC+pzZ0v
+	igsaM3pGkOJiHio5E2ZjbBt7Lj7OwpxDRqVsp7CGKBm29W4l80/MgIZudojVfx8U8as85oFjYgs
+	lH757EZ4pw5ZCVngehVomv15ljiEXU3iQV+Ne+qES+3r2Wmj23IXfQUZgr24YdarIOgxjEAiL6U
+	A/1Do36nYCrRw4kJ+QOtaUoyeHaB8+JRYy7PcqFe2DLilvkXf4MMdxQOo=
+X-Received: by 2002:a05:600c:8585:b0:490:3890:605b with SMTP id 5b1f17b1804b1-49038906125mr16989805e9.31.1779355500334;
+        Thu, 21 May 2026 02:25:00 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:106d:1080:8261:5fff:fe11:bdda])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49033d8e25bsm54945595e9.11.2026.05.21.02.24.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 May 2026 02:24:59 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH v4 0/6] media: qcom: iris: add support for decoding 10bit
+ formats
+Date: Thu, 21 May 2026 11:24:53 +0200
+Message-Id: <20260521-topic-sm8x50-iris-10bit-decoding-v4-0-8ff8fce3f904@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260518102451.417971-1-paulk@sys-base.io> <20260518102451.417971-15-paulk@sys-base.io>
-In-Reply-To: <20260518102451.417971-15-paulk@sys-base.io>
-From: arash golgol <arash.golgol@gmail.com>
-Date: Thu, 21 May 2026 12:53:42 +0330
-X-Gm-Features: AVHnY4JLgYD5g8KSsZAQsfTJHSovnmg95Dqn-5an288CZbWMq20rZb5y5QAIb78
-Message-ID: <CAMxPZkg9MgZrsM2L0vKzzUOA_tnSLKHdHkzDsfH5_WRqSQgvZg@mail.gmail.com>
-Subject: Re: [PATCH 14/16] media: sun6i-isp: Use V4L2 subdev active state
-To: Paul Kocialkowski <paulk@sys-base.io>
-Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-staging@lists.linux.dev, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Samuel Holland <samuel@sholland.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGXPDmoC/5XOzW7CMBAE4FdBPner9R9Oeup7VBySzSZs1cbIT
+ iMQyrvXgQOtuMBxpNE3c1aZk3BWb5uzSjxLljiW4F42ivbNODBIV7IyaLbosIIpHoQgf1dHjyB
+ JMmhsZYKOKXYyDoDBkW0o1MGTKswhcS/Hy8TH7przT/vJNK3u2thLnmI6XT7Meu09MTdrQHCmI
+ s1k2Pb2/UvGJsXXmAa17s3mj6jDA6IpItVVaLe+sbrzd6K9iV7rB0RbxNATurqtLTrzT1yW5Rd
+ IvNUZhwEAAA==
+X-Change-ID: 20260408-topic-sm8x50-iris-10bit-decoding-074c3ac7975c
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>, 
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bod@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=11043;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=UrKzJZyVuS7OMSe4A2xQwaz4d6xdF/RDIk9affmKoM8=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBqDs9oDFX2D4Cd4IJFHuhqa4GaZSx6PrQ/YX2dtoTh
+ 4Lajh1iJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCag7PaAAKCRB33NvayMhJ0dkDD/
+ sFnXRmAx4pspYEjJqSgcnU8QerfPhIUDtp3OdOWn6QMGKBBR58+Y6sDrcYW7H7xAYAlYZR9G5Mwfcn
+ B0vNOWXh4TiTMSEjQIh4hzahny+eaiAHwC+N/FFcPfziqTsKF57rKsuXDTIzgB4ad2F83uqMsMrK9D
+ ngxIbKj7G4Hz6oCYlnNuC2kz+KjcphDCowlVt3g04AtG6TjR0r+x7Aw+nJUvtpLzYACuWFygRzizcE
+ o/PoTWldTRQ5bnkLKNop95VE1m6MB8dM1sB8R7CT+PmmC9YDbAXya3gCBFHjK7KNPTCjVdvuHINUR4
+ SAETvU43bh8XliRZuZt7j1UAsmeRlufuW9M+pRUNHrJEfS16fmhZgMkD+UGDqwQtm7mbuH8WjGq6kW
+ 40dwDadO+ez8yfCYpcGSGEgiwGQsmPoixiPD7qT92+P9Yo1D6IyMkGnxseRc4WFBkWrhjOAd+lBZO2
+ F4+dpZ6dJc2D9TgCJZHmyAoxXL+AeW8pHHi0+sWmmQr12ESfiYx995TEa60o5l7c22+z81+HJxNyRK
+ njrLxjMzwfKaZiPv4nwdJpVBD13hHwAOL9uOV91Q37p4o23XG6vZoy7iguHKsDD/1frSxvq1DAipHD
+ w3ojUGc6Vag14dgnC0PV3z3JmlVp1oIRUrEDOzpijSdVsENFttECBvxlNMBQ==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62434-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,lists.linux.dev,kernel.org,gmail.com,sholland.org,linuxfoundation.org,ideasonboard.com,collabora.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[arashgolgol@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62435-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,sys-base.io:email]
-X-Rspamd-Queue-Id: 632F95A2C00
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,msgid.link:url,linaro.org:email,linaro.org:mid,linaro.org:dkim,gitlab.freedesktop.org:url]
+X-Rspamd-Queue-Id: 5004C5A2C9C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Paul,
+This adds the plumbing to support decoding HEVC, VP9 and AV1
+streams into 10bit pixel formats, linear and compressed.
 
-On Mon, May 18, 2026 at 2:02=E2=80=AFPM Paul Kocialkowski <paulk@sys-base.i=
-o> wrote:
->
-> Store the active format using the common V4L2 subdev active state
-> instead of our local copy of it.
->
-> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
-> ---
->  .../media/sunxi/sun6i-isp/sun6i_isp_capture.c |  16 ++-
->  .../media/sunxi/sun6i-isp/sun6i_isp_params.c  |  18 ++-
->  .../media/sunxi/sun6i-isp/sun6i_isp_params.h  |   4 +-
->  .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 117 ++++++++----------
->  .../media/sunxi/sun6i-isp/sun6i_isp_proc.h    |   7 --
->  5 files changed, 82 insertions(+), 80 deletions(-)
->
-> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c b/=
-drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-> index e7b99cee63d6..24e731bcabe9 100644
-> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
-> @@ -595,11 +595,25 @@ static int sun6i_isp_capture_link_validate(struct m=
-edia_link *link)
->                 media_entity_to_video_device(link->sink->entity);
->         struct sun6i_isp_device *isp_dev =3D video_get_drvdata(video_dev)=
-;
->         struct v4l2_device *v4l2_dev =3D &isp_dev->v4l2.v4l2_dev;
-> +       struct v4l2_subdev *proc_subdev =3D
-> +               media_entity_to_v4l2_subdev(link->source->entity);
->         unsigned int capture_width, capture_height;
->         unsigned int proc_width, proc_height;
-> +       struct v4l2_subdev_format proc_subdev_format =3D {
-> +               .which  =3D V4L2_SUBDEV_FORMAT_ACTIVE,
-> +               .pad    =3D link->source->index,
-> +       };
-> +       int ret;
->
->         sun6i_isp_capture_dimensions(isp_dev, &capture_width, &capture_he=
-ight);
-> -       sun6i_isp_proc_dimensions(isp_dev, &proc_width, &proc_height);
-> +
-> +       ret =3D v4l2_subdev_call(proc_subdev, pad, get_fmt, NULL,
-> +                              &proc_subdev_format);
-> +       if (ret)
-> +               return ret;
-> +
-> +       proc_width =3D proc_subdev_format.format.width;
-> +       proc_height =3D proc_subdev_format.format.height;
->
->         /* No cropping/scaling is supported (yet). */
->         if (capture_width !=3D proc_width || capture_height !=3D proc_hei=
-ght) {
-> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c b/d=
-rivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-> index b7ef33fa2b13..0cc48e2bc8c6 100644
-> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
-> @@ -43,11 +43,14 @@ static const struct sun6i_isp_params_config sun6i_isp=
-_params_config_default =3D {
->         },
->  };
->
-> -static void sun6i_isp_params_configure_ob(struct sun6i_isp_device *isp_d=
-ev)
-> +static void
-> +sun6i_isp_params_configure_ob(struct sun6i_isp_device *isp_dev,
-> +                             const struct v4l2_mbus_framefmt *mbus_forma=
-t)
->  {
->         unsigned int width, height;
->
-> -       sun6i_isp_proc_dimensions(isp_dev, &width, &height);
-> +       width =3D mbus_format->width;
-> +       height =3D mbus_format->height;
->
->         sun6i_isp_load_write(isp_dev, SUN6I_ISP_OB_SIZE_REG,
->                              SUN6I_ISP_OB_SIZE_WIDTH(width) |
-> @@ -112,10 +115,12 @@ static void sun6i_isp_params_configure_wb(struct su=
-n6i_isp_device *isp_dev)
->                              SUN6I_ISP_WB_CFG_CLIP(0xfff));
->  }
->
-> -static void sun6i_isp_params_configure_base(struct sun6i_isp_device *isp=
-_dev)
-> +static void
-> +sun6i_isp_params_configure_base(struct sun6i_isp_device *isp_dev,
-> +                               const struct v4l2_mbus_framefmt *mbus_for=
-mat)
->  {
->         sun6i_isp_params_configure_ae(isp_dev);
-> -       sun6i_isp_params_configure_ob(isp_dev);
-> +       sun6i_isp_params_configure_ob(isp_dev, mbus_format);
->         sun6i_isp_params_configure_wb(isp_dev);
->  }
->
-> @@ -170,14 +175,15 @@ sun6i_isp_params_configure_modules(struct sun6i_isp=
-_device *isp_dev,
->         sun6i_isp_load_write(isp_dev, SUN6I_ISP_MODULE_EN_REG, value);
->  }
->
-> -void sun6i_isp_params_configure(struct sun6i_isp_device *isp_dev)
-> +void sun6i_isp_params_configure(struct sun6i_isp_device *isp_dev,
-> +                               const struct v4l2_mbus_framefmt *mbus_for=
-mat)
->  {
->         struct sun6i_isp_params_state *state =3D &isp_dev->params.state;
->         unsigned long flags;
->
->         spin_lock_irqsave(&state->lock, flags);
->
-> -       sun6i_isp_params_configure_base(isp_dev);
-> +       sun6i_isp_params_configure_base(isp_dev, mbus_format);
->
->         /* Default config is only applied at the very first stream start.=
- */
->         if (state->configured)
-> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.h b/d=
-rivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.h
-> index 50f10f879c42..c0d6cff95d54 100644
-> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.h
-> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.h
-> @@ -36,8 +36,8 @@ struct sun6i_isp_params {
->
->  /* Params */
->
-> -void sun6i_isp_params_configure(struct sun6i_isp_device *isp_dev);
-> -
-> +void sun6i_isp_params_configure(struct sun6i_isp_device *isp_dev,
-> +                               const struct v4l2_mbus_framefmt *mbus_for=
-mat);
->  /* State */
->
->  void sun6i_isp_params_state_update(struct sun6i_isp_device *isp_dev,
-> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c b/dri=
-vers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
-> index 46a334b602f1..9073a7f3f8c8 100644
-> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
-> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c
-> @@ -15,17 +15,6 @@
->  #include "sun6i_isp_proc.h"
->  #include "sun6i_isp_reg.h"
->
-> -/* Helpers */
-> -
-> -void sun6i_isp_proc_dimensions(struct sun6i_isp_device *isp_dev,
-> -                              unsigned int *width, unsigned int *height)
-> -{
-> -       if (width)
-> -               *width =3D isp_dev->proc.mbus_format.width;
-> -       if (height)
-> -               *height =3D isp_dev->proc.mbus_format.height;
-> -}
-> -
->  /* Format */
->
->  static const struct sun6i_isp_proc_format sun6i_isp_proc_formats[] =3D {
-> @@ -137,9 +126,10 @@ static void sun6i_isp_proc_disable(struct sun6i_isp_=
-device *isp_dev)
->         regmap_write(regmap, SUN6I_ISP_FE_CFG_REG, 0);
->  }
->
-> -static void sun6i_isp_proc_configure(struct sun6i_isp_device *isp_dev)
-> +static void
-> +sun6i_isp_proc_configure(struct sun6i_isp_device *isp_dev,
-> +                        const struct v4l2_mbus_framefmt *mbus_format)
->  {
-> -       struct v4l2_mbus_framefmt *mbus_format =3D &isp_dev->proc.mbus_fo=
-rmat;
->         const struct sun6i_isp_proc_format *format;
->         u32 value;
->
-> @@ -173,6 +163,8 @@ static int sun6i_isp_proc_s_stream(struct v4l2_subdev=
- *subdev, int on)
->         struct sun6i_isp_proc_source *source;
->         struct v4l2_subdev *source_subdev;
->         struct media_pad *remote_pad;
-> +       struct v4l2_subdev_state *state;
-> +       const struct v4l2_mbus_framefmt *mbus_format;
->         int ret;
->
->         /* Source */
-> @@ -191,6 +183,10 @@ static int sun6i_isp_proc_s_stream(struct v4l2_subde=
-v *subdev, int on)
->         else
->                 source =3D &proc->source_csi1;
->
-> +       /* Active State */
-> +
-> +       state =3D v4l2_subdev_lock_and_get_active_state(subdev);
-> +
->         if (!on) {
->                 sun6i_isp_proc_irq_disable(isp_dev);
->                 v4l2_subdev_call(source_subdev, video, s_stream, 0);
-> @@ -202,7 +198,7 @@ static int sun6i_isp_proc_s_stream(struct v4l2_subdev=
- *subdev, int on)
->
->         ret =3D pm_runtime_resume_and_get(dev);
->         if (ret < 0)
-> -               return ret;
-> +               goto unlock;
->
->         /* Clear */
->
-> @@ -210,9 +206,12 @@ static int sun6i_isp_proc_s_stream(struct v4l2_subde=
-v *subdev, int on)
->
->         /* Configure */
->
-> +       mbus_format =3D v4l2_subdev_state_get_format(state,
-> +                                                  SUN6I_ISP_PROC_PAD_SIN=
-K_CSI);
-> +
->         sun6i_isp_tables_configure(isp_dev);
-> -       sun6i_isp_params_configure(isp_dev);
-> -       sun6i_isp_proc_configure(isp_dev);
-> +       sun6i_isp_params_configure(isp_dev, mbus_format);
-> +       sun6i_isp_proc_configure(isp_dev, mbus_format);
->         sun6i_isp_capture_configure(isp_dev);
->
->         /* State Update */
-> @@ -230,13 +229,17 @@ static int sun6i_isp_proc_s_stream(struct v4l2_subd=
-ev *subdev, int on)
->                 goto disable;
->         }
->
-> -       return 0;
-> +       ret =3D 0;
-> +       goto unlock;
->
->  disable:
->         sun6i_isp_proc_disable(isp_dev);
->
->         pm_runtime_put(dev);
->
-> +unlock:
-> +       v4l2_subdev_unlock_state(state);
-> +
->         return ret;
->  }
->
-> @@ -259,21 +262,22 @@ sun6i_isp_proc_mbus_format_prepare(struct v4l2_mbus=
-_framefmt *mbus_format)
->  static int sun6i_isp_proc_init_state(struct v4l2_subdev *subdev,
->                                      struct v4l2_subdev_state *state)
->  {
-> -       struct sun6i_isp_device *isp_dev =3D v4l2_get_subdevdata(subdev);
-> -       unsigned int pad =3D SUN6I_ISP_PROC_PAD_SINK_CSI;
-> -       struct v4l2_mbus_framefmt *mbus_format =3D
-> -               v4l2_subdev_state_get_format(state, pad);
-> -       struct mutex *lock =3D &isp_dev->proc.lock;
-> +       unsigned int pad;
->
-> -       mutex_lock(lock);
-> +       for (pad =3D 0; pad < subdev->entity.num_pads; pad++) {
-> +               struct v4l2_mbus_framefmt *mbus_format;
->
-> -       mbus_format->code =3D sun6i_isp_proc_formats[0].mbus_code;
-> -       mbus_format->width =3D 1280;
-> -       mbus_format->height =3D 720;
-> +               if (pad =3D=3D SUN6I_ISP_PROC_PAD_SINK_PARAMS)
-> +                       continue;
->
-> -       sun6i_isp_proc_mbus_format_prepare(mbus_format);
-> +               mbus_format =3D v4l2_subdev_state_get_format(state, pad);
->
-> -       mutex_unlock(lock);
-> +               mbus_format->code =3D sun6i_isp_proc_formats[0].mbus_code=
-;
-> +               mbus_format->width =3D 1280;
-> +               mbus_format->height =3D 720;
-> +
-> +               sun6i_isp_proc_mbus_format_prepare(mbus_format);
-> +       }
->
->         return 0;
->  }
-> @@ -291,53 +295,31 @@ sun6i_isp_proc_enum_mbus_code(struct v4l2_subdev *s=
-ubdev,
->         return 0;
->  }
->
-> -static int sun6i_isp_proc_get_fmt(struct v4l2_subdev *subdev,
-> -                                 struct v4l2_subdev_state *state,
-> -                                 struct v4l2_subdev_format *format)
-> -{
-> -       struct sun6i_isp_device *isp_dev =3D v4l2_get_subdevdata(subdev);
-> -       struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
-> -       struct mutex *lock =3D &isp_dev->proc.lock;
-> -
-> -       mutex_lock(lock);
-> -
-> -       if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
-> -               *mbus_format =3D *v4l2_subdev_state_get_format(state,
-> -                                                            format->pad)=
-;
-> -       else
-> -               *mbus_format =3D isp_dev->proc.mbus_format;
-> -
-> -       mutex_unlock(lock);
-> -
-> -       return 0;
-> -}
-> -
->  static int sun6i_isp_proc_set_fmt(struct v4l2_subdev *subdev,
->                                   struct v4l2_subdev_state *state,
->                                   struct v4l2_subdev_format *format)
->  {
-> -       struct sun6i_isp_device *isp_dev =3D v4l2_get_subdevdata(subdev);
-> -       struct v4l2_mbus_framefmt *mbus_format =3D &format->format;
-> -       struct mutex *lock =3D &isp_dev->proc.lock;
-> +       struct v4l2_mbus_framefmt *mbus_format;
->
-> -       mutex_lock(lock);
-> +       if (format->pad !=3D SUN6I_ISP_PROC_PAD_SINK_CSI)
-> +               return v4l2_subdev_get_fmt(subdev, state, format);
->
-> -       sun6i_isp_proc_mbus_format_prepare(mbus_format);
-> +       sun6i_isp_proc_mbus_format_prepare(&format->format);
->
-> -       if (format->which =3D=3D V4L2_SUBDEV_FORMAT_TRY)
-> -               *v4l2_subdev_state_get_format(state, format->pad) =3D
-> -                       *mbus_format;
-> -       else
-> -               isp_dev->proc.mbus_format =3D *mbus_format;
-> +       mbus_format =3D v4l2_subdev_state_get_format(state, format->pad);
-> +       *mbus_format =3D format->format;
->
-> -       mutex_unlock(lock);
-> +       /* Propagate the format to the source pad. */
-> +       mbus_format =3D v4l2_subdev_state_get_format(state,
-> +                                                  SUN6I_ISP_PROC_PAD_SOU=
-RCE);
-> +       *mbus_format =3D format->format;
->
->         return 0;
->  }
->
->  static const struct v4l2_subdev_pad_ops sun6i_isp_proc_pad_ops =3D {
->         .enum_mbus_code =3D sun6i_isp_proc_enum_mbus_code,
-> -       .get_fmt        =3D sun6i_isp_proc_get_fmt,
-> +       .get_fmt        =3D v4l2_subdev_get_fmt,
->         .set_fmt        =3D sun6i_isp_proc_set_fmt,
->  };
->
-> @@ -499,8 +481,6 @@ int sun6i_isp_proc_setup(struct sun6i_isp_device *isp=
-_dev)
->         struct media_pad *pads =3D proc->pads;
->         int ret;
->
-> -       mutex_init(&proc->lock);
-> -
->         /* V4L2 Subdev */
->
->         v4l2_subdev_init(subdev, &sun6i_isp_proc_subdev_ops);
-> @@ -532,10 +512,14 @@ int sun6i_isp_proc_setup(struct sun6i_isp_device *i=
-sp_dev)
->
->         /* V4L2 Subdev */
->
-> +       ret =3D v4l2_subdev_init_finalize(subdev);
-> +       if (ret < 0)
-> +               goto error_media_entity;
-> +
->         ret =3D v4l2_device_register_subdev(v4l2_dev, subdev);
->         if (ret < 0) {
->                 v4l2_err(v4l2_dev, "failed to register v4l2 subdev: %d\n"=
-, ret);
-> -               goto error_media_entity;
-> +               goto error_subdev_finalize;
->         }
->
->         /* V4L2 Async */
-> @@ -562,6 +546,9 @@ int sun6i_isp_proc_setup(struct sun6i_isp_device *isp=
-_dev)
->
->         v4l2_device_unregister_subdev(subdev);
->
-> +error_subdev_finalize:
-> +       v4l2_subdev_cleanup(subdev);
-> +
->  error_media_entity:
->         media_entity_cleanup(&subdev->entity);
->
-> @@ -577,5 +564,7 @@ void sun6i_isp_proc_cleanup(struct sun6i_isp_device *=
-isp_dev)
->         v4l2_async_nf_cleanup(notifier);
->
->         v4l2_device_unregister_subdev(subdev);
-> +       v4l2_subdev_cleanup(subdev);
-> +
->         media_entity_cleanup(&subdev->entity);
->  }
-> diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h b/dri=
-vers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h
-> index db6738a39147..26c4327c5ed7 100644
-> --- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h
-> +++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_proc.h
-> @@ -42,18 +42,11 @@ struct sun6i_isp_proc {
->         struct v4l2_subdev              subdev;
->         struct media_pad                pads[3];
->         struct v4l2_async_notifier      notifier;
-> -       struct v4l2_mbus_framefmt       mbus_format;
-> -       struct mutex                    lock; /* Mbus format lock. */
->
->         struct sun6i_isp_proc_source    source_csi0;
->         struct sun6i_isp_proc_source    source_csi1;
->  };
->
-> -/* Helpers */
-> -
-> -void sun6i_isp_proc_dimensions(struct sun6i_isp_device *isp_dev,
-> -                              unsigned int *width, unsigned int *height)=
-;
-> -
->  /* Format */
->
->  const struct sun6i_isp_proc_format *sun6i_isp_proc_format_find(u32 mbus_=
-code);
-> --
-> 2.54.0
->
+This has only been tested on SM8550 & SM8650 with HEVC, and was
+inspired by Venus, DRM MSM and the downstream vidc driver for the
+buffer calculations and HFI messages.
 
-I used LicheePi Zero Dock (V3s) with the following pipeline as test setup.
+Gstreamer support for QC08 and QC10 need the MR at [1] to be applied,
+but NV12 and P010 works out of the box with mainline Gstreamer.
 
-ov5647 -> sun6i-mipi-csi2 -> sun6i-csi-bridge -> sun6i-isp-proc ->
-sun6i-isp-capture
+Fluster HEVC results on SM8650 using Gstreamer:
 
-I verified TRY and ACTIVE state handling, including changing TRY
-formats without affecting ACTIVE state. Format propagation from the
-sink (csi) pad to the source pad was also tested.
+./fluster.py run -ts JCT-VC-HEVC_V1 -d GStreamer-H.265-V4L2-Gst1.0 - 141/147
+The failing test case:
+- Pixel Format mismatch
+ - TSUNEQBD_A_MAIN10_Technicolor_2 - Gstreamer waits NV12 but decoder returns P010
+- Unsupported resolution
+ - PICSIZE_A_Bossen_1 - resolution is higher than max supported
+ - PICSIZE_B_Bossen_1 - resolution is higher than max supported
+ - WPP_D_ericsson_MAIN_2 - resolution is lower than min supported
+ - WPP_D_ericsson_MAIN10_2 - resolution is lower than min supported
+- CRC mismatch
+ - RAP_A_docomo_6
 
-I also tested streaming with the sensor test pattern enabled and
-verified the captured output was correct.
+v4l2-compliance results on SM8550 & SM8650:
 
-Tested-by: Arash Golgol <arash.golgol@gmail.com>
---=20
-Regards
-Arash Golgol
+$ v4l2-compliance -d /dev/video1 -s
+v4l2-compliance 1.33.0-5456, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 8aa593bda182 2026-04-11 10:54:25
+
+Compliance test for iris_driver device /dev/video1:
+
+Driver Info:
+	Driver name      : iris_driver
+	Card type        : Iris Encoder
+	Bus info         : platform:aa00000.video-codec
+	Driver version   : 7.0.0
+	Capabilities     : 0x84204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+	Detected Stateful Encoder
+
+Required ioctls:
+	test VIDIOC_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/video1 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 43 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+	test blocking wait: OK
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK (Not Supported)
+	Video Capture Multiplanar: Captured 61 buffers    
+	test MMAP (select, REQBUFS): OK
+	Video Capture Multiplanar: Captured 61 buffers    
+	test MMAP (epoll, REQBUFS): OK
+	Video Capture Multiplanar: Captured 61 buffers    
+	test MMAP (select, CREATE_BUFS): OK
+	Video Capture Multiplanar: Captured 61 buffers    
+	test MMAP (epoll, CREATE_BUFS): OK
+	test USERPTR (select): OK (Not Supported)
+	test DMABUF: Cannot test, specify --expbuf-device
+
+Total for iris_driver device /dev/video1: 54, Succeeded: 54, Failed: 0, Warnings: 0
+
+$ v4l2-compliance -d /dev/video0 -s5 --stream-from=test_video_10s.h264
+v4l2-compliance 1.33.0-5456, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 8aa593bda182 2026-04-11 10:54:25
+
+Compliance test for iris_driver device /dev/video0:
+
+Driver Info:
+	Driver name      : iris_driver
+	Card type        : Iris Decoder
+	Bus info         : platform:aa00000.video-codec
+	Driver version   : 7.0.0
+	Capabilities     : 0x84204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+	Detected Stateful Decoder
+
+Required ioctls:
+	test VIDIOC_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/video0 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 12 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK
+	test Composing: OK
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test CREATE_BUFS maximum buffers: OK
+	test VIDIOC_REMOVE_BUFS: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+	test blocking wait: OK
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK (Not Supported)
+the input file is smaller than 7077888 bytes
+	Video Capture Multiplanar: Captured 601 buffers   
+	test MMAP (select, REQBUFS): OK
+the input file is smaller than 7077888 bytes
+	Video Capture Multiplanar: Captured 601 buffers   
+	test MMAP (epoll, REQBUFS): OK
+the input file is smaller than 7077888 bytes
+	Video Capture Multiplanar: Captured 601 buffers   
+	test MMAP (select, CREATE_BUFS): OK
+the input file is smaller than 7077888 bytes
+	Video Capture Multiplanar: Captured 601 buffers   
+	test MMAP (epoll, CREATE_BUFS): OK
+	test USERPTR (select): OK (Not Supported)
+	test DMABUF: Cannot test, specify --expbuf-device
+
+Total for iris_driver device /dev/video0: 54, Succeeded: 54, Failed: 0, Warnings: 0
+
+[1] https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8195
+
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Changes in v4:
+- Picked review tags
+- Use u32 instead of __u32
+- Explicit DPB
+- Drop NULL and use >>1 in q10c buffer calc
+- Drop selicolon after switch statementr
+- Correctly align HFI_PROP_UBWC_STRIDE_SCANLINE entry
+- Rebase on media next tree after the file split
+- Link to v3: https://patch.msgid.link/20260511-topic-sm8x50-iris-10bit-decoding-v3-0-7fc049b93042@linaro.org
+
+Changes in v3:
+- Added review tag on patch 1
+- Limited stride command to AV1 decoding only
+- Link to v2: https://patch.msgid.link/20260417-topic-sm8x50-iris-10bit-decoding-v2-0-c987b65a31d5@linaro.org
+
+Changes in v2:
+- Fixed bug breaking 8bit decoding
+- Dropped filtering on G_FMT while waiting for soure change
+- Dropped format filtering on ENUMFMT
+- Switched ALIGN(x, 192) to roundup(x, 192) because ALIGN works only with Power Of Two numbers
+- Cleaned and refactors the width/height/stride calculations
+- Cleaned and redesigned the buffer calculations functions with proper comments and var names
+- Passed fluster and v4l2-compliance to check for non regression
+- Tested on SM8550
+- Added missing V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10 with made gstreamer fail decoding
+- Link to v1: https://patch.msgid.link/20260408-topic-sm8x50-iris-10bit-decoding-v1-0-428c1ec2e3f3@linaro.org
+
+---
+Neil Armstrong (6):
+      media: qcom: iris: add helpers for 8bit and 10bit formats
+      media: qcom: iris: add QC10C & P010 buffer size calculations
+      media: qcom: iris: gen2: add support for 10bit decoding
+      media: qcom: iris: vdec: update size and stride calculations for 10bit formats
+      media: qcom: iris: vdec: update find_format to handle 8bit and 10bit formats
+      media: qcom: iris: vdec: allow GEN2 decoding into 10bit format
+
+ drivers/media/platform/qcom/iris/iris_buffer.c     | 195 ++++++++++++++++++++-
+ drivers/media/platform/qcom/iris/iris_hfi_gen2.c   |   8 +-
+ .../platform/qcom/iris/iris_hfi_gen2_command.c     |  75 +++++++-
+ .../platform/qcom/iris/iris_hfi_gen2_defines.h     |   1 +
+ .../platform/qcom/iris/iris_hfi_gen2_response.c    |  37 +++-
+ drivers/media/platform/qcom/iris/iris_instance.h   |   2 +
+ .../platform/qcom/iris/iris_platform_common.h      |   1 +
+ drivers/media/platform/qcom/iris/iris_utils.c      |  16 +-
+ drivers/media/platform/qcom/iris/iris_utils.h      |   2 +
+ drivers/media/platform/qcom/iris/iris_vdec.c       |  42 ++++-
+ 10 files changed, 364 insertions(+), 15 deletions(-)
+---
+base-commit: 86693e86019a7466be961fd4f45d407cc0b0ba0a
+change-id: 20260408-topic-sm8x50-iris-10bit-decoding-074c3ac7975c
+
+Best regards,
+--  
+Neil Armstrong <neil.armstrong@linaro.org>
+
 
