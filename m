@@ -1,69 +1,75 @@
-Return-Path: <linux-media+bounces-62552-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62553-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id sO3jHlLID2rdPgYAu9opvQ
-	(envelope-from <linux-media+bounces-62552-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 05:06:58 +0200
+	id APVpABrLD2obPwYAu9opvQ
+	(envelope-from <linux-media+bounces-62553-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 05:18:50 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF9CB5AE3A5
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 05:06:57 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F5A75AE49E
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 05:18:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9AF52303AA97
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 03:02:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CF70F304D71C
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 03:11:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA3F73148DD;
-	Fri, 22 May 2026 03:02:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50CB0313E24;
+	Fri, 22 May 2026 03:11:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b="pJ6VAARk"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bqHzF6oG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBD48347C7;
-	Fri, 22 May 2026 03:02:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.178.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A4F285058
+	for <linux-media@vger.kernel.org>; Fri, 22 May 2026 03:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779418958; cv=none; b=U1vxZXMpuGkGslu5vTX4Md1WVI3uLVDmgD1z6KpWCS54S3F7GAYEjWCzhz4+6yVAAP5sy05fSBaCclV75hypz5olweYgUJJBE3IGO5NKskV97QCaCKTXKECYWMeTeWbvy7SNtVcI+hwy/jP0EvZ+cIR55OJIrOpDW0/HxxU3O1Y=
+	t=1779419506; cv=none; b=dEio31a5bmyGlhc5E9QW0UnxIzFHxsP3u68fjGc9WSSsxc4i4wjvU2VB2kyHD33hYkGkcwvUrAN66hziii03CFGgfUMVXFeTSg5ISdGk/YMp5qQi5VXqvF+p+7Rksx2p1rRSa86LHZoFrV2JlO0m+2GtIv7OusiLBZyqauiE0yU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779418958; c=relaxed/simple;
-	bh=/6iAAGgJcVED4HgMne6G26B3C44R5Vcy+tkHLbom6lU=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XBn9GNOgNeEzKRkltL85OQ3/BgGTWEP12YOg1xNFD1Z0RtTOs6axhArsZ/a9YkUrOJQJfCpM+TaRhB/QehLWbX9SpfVBKMDABStDiuMCJBNaCk773jM+MKhkZO8a0gt+iSh469tPvTxHTqBr4SukfhMa1y/U375VWG931ee5TPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; dkim=pass (2048-bit key) header.d=windriver.com header.i=@windriver.com header.b=pJ6VAARk; arc=none smtp.client-ip=205.220.178.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 64M1Aku31687246;
-	Fri, 22 May 2026 03:02:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=Ie1ddqEl0
-	xdjRINEGd5fGybBUDGRGkaVyM1iXxkZrTU=; b=pJ6VAARkg9MfPgOZH0X5yGWUo
-	YRHPCByFEYHuLG/wnM2L9OOnw+QWfUVQOAHpKAfG0uNaZxPSU9m5kib0gpxjSWFP
-	TMW5SiDqREX4Mqq0dxg8arXD/R/jREvISCr4ljRVBXbn29974TqhCJgVuRp1djx4
-	a6TMAuNjjmFIf6H1OxArOk5W1mnlc3h1mQyMhP5uKZkGn4rBMl67/DAsecUhxAex
-	7jTwniCX/p4CEeLs9p28Qm3mr9ntBT8qcQPtTTerc4Rg/CXgvA7DPLL2TWYiLnje
-	F/Ud5E3MAH2V0QOaR2YLoQA2+caWDgBn468zMuXAPQrHlLyeaLLk2wuGwRSuA==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4e9xab1nwg-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 22 May 2026 03:02:27 +0000 (GMT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Thu, 21 May 2026 20:02:26 -0700
-Received: from pek-yzhou-d3.wrs.com (10.11.232.110) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Thu, 21 May 2026 20:02:24 -0700
-From: Yun Zhou <yun.zhou@windriver.com>
-To: <hdanton@sina.com>, <mchehab@kernel.org>, <kees@kernel.org>,
-        <linma@zju.edu.cn>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v3] media: dvb-core: fix use-after-free in dvb_frontend_open()
-Date: Fri, 22 May 2026 11:02:23 +0800
-Message-ID: <20260522030223.1457871-1-yun.zhou@windriver.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1779419506; c=relaxed/simple;
+	bh=D3vHqPLuIGGyEhyIojoaxdhyH4N1KjdLgY0iTJL4i6M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=II/Kv4s8x+ad9Ig9jOF3L7wd7OWIMkTz4cvCejHl7FKLZ3qkwTYQVRwm24xoe0HTnM9sG59MnIRX6FhilVqNGmFjYr0w4Np+SmgjjA9lTnjqH3Fpyq0hXuJeMXC//0We3dZ1JOXJT04Do3URosGKRkASGuzGdN6cwufddp4v3Ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bqHzF6oG; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1779419502;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=5tO5Ng0FXj7mZMqmWHnptwAYgii2rUGDhjpFXTYlcn8=;
+	b=bqHzF6oGsc10A4Ei+70aI00wFTgU4g9gVV+dPjm31l+ynto1kMG4FaV4hMAfFVOUKy/7JW
+	Gkr7oxsLeKAeb69ofsXnQFhrPIKEdVUoyr9QUx1LNoO5FyvN7DKdQ9vnVAkp/9VF/F8s9N
+	n8JJ6QDL7KWO6bcjgwyeOZzFG8L+CJk=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-528-OhuiFOqWNQqb1RypQdCwAA-1; Thu,
+ 21 May 2026 23:11:38 -0400
+X-MC-Unique: OhuiFOqWNQqb1RypQdCwAA-1
+X-Mimecast-MFC-AGG-ID: OhuiFOqWNQqb1RypQdCwAA_1779419495
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 09CEE1800451;
+	Fri, 22 May 2026 03:11:35 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.67.32.61])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D25CC19560A3;
+	Fri, 22 May 2026 03:11:30 +0000 (UTC)
+From: Kate Hsuan <hpa@redhat.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Serin Yeh <serin.yeh@intel.com>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Kate Hsuan <hpa@redhat.com>
+Subject: [PATCH v3 0/3] Add Sony IMX471 camera sensor driver
+Date: Fri, 22 May 2026 11:11:18 +0800
+Message-ID: <20260522031121.11968-1-hpa@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -71,102 +77,105 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: V5cJZXRqdAMrIB_deyjIEFLF3JTz9iE6
-X-Authority-Analysis: v=2.4 cv=ac5RWxot c=1 sm=1 tr=0 ts=6a0fc743 cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=fTW__CHxibyLmBMfj2wP:22 a=edf1wS77AAAA:8 a=hSkVLCK3AAAA:8 a=VwQbUJbxAAAA:8
- a=t7CeM3EgAAAA:8 a=XssDyHoSECOwkyI3_iQA:9 a=DcSpbTIhAlouE1Uv7lRv:22
- a=cQPPKAXgyycSBL8etih5:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: V5cJZXRqdAMrIB_deyjIEFLF3JTz9iE6
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTIyMDAyNiBTYWx0ZWRfX9Se5LKa0CZWU
- DgUDDh8MBmFnFPQhfwsS2vgYc+Owe1G6/DU7Lpu2GOdXrfNnmvrxCK7GFN/adcZwl4+iT4WtQoi
- zndcqTVLuKcmVFKcD/Fg+EieV/cz5i82eIdMr3xL0Ti6LOfGi4ktjT9BdAG/vQ/DFzjKvKWYkCP
- rUpsDatZrEzju6p6rirYLEnzJNy1gvJ188YdOkUXQ60k++56pBL8JdtDVzHevwijlAHUMKTR5bT
- h2x5WKjnH6VUb1F/6zSM8p5Gtt6w8X49495hQHJWG8Z/7RvyxE+QzYDNVlQNlSSIpDzktfB/tlw
- FIg7Qhrndl0g16TTkDUZfB4jXvhhfqMluqfUDQeDmm259UDRQcJ57y5Xwqx3HqC6fu9o84uecfp
- ckST+o42vQzojClfGUydJ8kO01i+9O3XDc8OK3EOVNk8+lgRKyqB4M2Xn+02gJmpxOFMAizhQKA
- kaFZZKW93l2cCMUzlvA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-21_05,2026-05-18_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1011 priorityscore=1501 phishscore=0 adultscore=0 impostorscore=0
- lowpriorityscore=0 bulkscore=0 malwarescore=0 suspectscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605130000 definitions=main-2605220026
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[windriver.com,reject];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[windriver.com:s=PPS06212021];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62552-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	FREEMAIL_TO(0.00)[sina.com,kernel.org,zju.edu.cn];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_NEQ_ENVFROM(0.00)[yun.zhou@windriver.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-62553-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[redhat.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[windriver.com:email,windriver.com:mid,windriver.com:dkim,appspotmail.com:email,syzkaller.appspot.com:url];
-	DKIM_TRACE(0.00)[windriver.com:+];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: CF9CB5AE3A5
+	FROM_NEQ_ENVFROM(0.00)[hpa@redhat.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	NEURAL_HAM(-0.00)[-0.993];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 6F5A75AE49E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-dvb_frontend_open() calls dvb_generic_release() in its error path after
-dvb_generic_open() succeeds. dvb_generic_release() drops the device
-reference via dvb_device_put(), and then dvb_device_open() drops it again
-in its error handling, causing a use-after-free and refcount underflow.
+This patchset adds the Sony IMX471 camera sensor driver to the Linux
+kernel and resolves the IPU7 camera can't work issueon Lenovo X9
+laptops [1].
 
-Fix this by incrementing the refcount before dvb_generic_release() in the
-error path, so that the put inside dvb_generic_release() is balanced and
-dvb_device_open() remains the sole effective put on open failure.
+The patchset contains two patches:
+1. Add DMI information of Lenovo X9 to the image upside-down list
+2. Add Sony IMX471 image sensor driver
 
-Reported-by: syzbot+40339ea82afa8184ad5d@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=40339ea82afa8184ad5d
-Cc: stable@vger.kernel.org
-Fixes: 0fc044b2b5e2 ("media: dvbdev: adopts refcnt to avoid UAF")
-Signed-off-by: Yun Zhou <yun.zhou@windriver.com>
----
-v3:
- - Simplify fix: increment refcount before dvb_generic_release() instead
-   of introducing __dvb_generic_release()
+The IMX471 driver can be found in the Intel ipu6-drivers repository [2].
+To comply with the sensor driver implementation, the clean-up work
+includes:
 
-v2:
- - Fix Fixes tag commit title
- - Add Closes: link after Reported-by
- - Cc stable@vger.kernel.org
+1. Use CCI register helpers.
 
- drivers/media/dvb-core/dvb_frontend.c | 1 +
- 1 file changed, 1 insertion(+)
+2. Enable and disable streams using enable_streams and disable_streams
+   functions in struct v4l2_subdev_pad_ops. Invoke
+   v4l2_subdev_s_stream_helper() to manage the streaming state.
 
-diff --git a/drivers/media/dvb-core/dvb_frontend.c b/drivers/media/dvb-core/dvb_frontend.c
-index d082b6c57c76..608525d08277 100644
---- a/drivers/media/dvb-core/dvb_frontend.c
-+++ b/drivers/media/dvb-core/dvb_frontend.c
-@@ -2887,6 +2887,7 @@ static int dvb_frontend_open(struct inode *inode, struct file *file)
- 	mutex_unlock(&fe->dvb->mdev_lock);
- err2:
- #endif
-+	dvb_device_get(dvbdev);
- 	dvb_generic_release(inode, file);
- err1:
- 	if (dvbdev->users == -1 && fe->ops.ts_bus_ctrl)
+3. Get rotation information from fwnode properties using
+   v4l2_fwnode_device_parse().
+
+4. Finalizes the initialization of the subdev, including allocation of
+   the active state using v4l2_subdev_init_finalize().
+
+5. Add the IMX471 driver to the Makefile and Kconfig file.
+
+6. The mutex lock is managed by the V4l2 core.
+
+7. Replace the supported link frequency with v4l2_link_freq_to_bitmap().
+
+8. Drop unused codes.
+
+[1] https://bugzilla.redhat.com/show_bug.cgi?id=2454119
+[2] https://github.com/intel/ipu6-drivers/commits/master/drivers/media/i2c/imx471.c
+
+Changes in v3:
+1. Naming the register addresses and set up the value with the correct value length.
+2. Implement the .get_selection().
+3. Drop "identified" field from struct imx471.
+4. Drop "streaming" field from struct imx471 and use the __v4l2_ctrl_grab() instead.
+5. Moreover, The naming for the register can be found in a seperated patch. If we
+   agree with the patch, I will squash it into one patch.
+
+Changes in v2:
+1. Change the Bayer format setting according to the vertical and horizontal flip settings.
+2. Replace the self-owned mutex with the v4l2 subdev state.
+3. Rework the flip control.
+4. Manage the regulators using devm_regulator_bulk_get|disable|enbale API
+5. Invoke devm_v4l2_sensor_clk_get to get clock-frequency
+
+
+Kate Hsuan (3):
+  media: ipu-bridge: Add DMI information of Lenovo X9 to the image
+    upside-down list
+  media: i2c: imx471: Add Sony IMX471 image sensor driver
+  media: i2c: imx471: Naming the register
+
+ MAINTAINERS                          |    6 +
+ drivers/media/i2c/Kconfig            |   10 +
+ drivers/media/i2c/Makefile           |    1 +
+ drivers/media/i2c/imx471.c           | 1010 ++++++++++++++++++++++++++
+ drivers/media/pci/intel/ipu-bridge.c |   14 +
+ 5 files changed, 1041 insertions(+)
+ create mode 100644 drivers/media/i2c/imx471.c
+
 -- 
-2.43.0
+2.54.0
 
 
