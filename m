@@ -1,185 +1,173 @@
-Return-Path: <linux-media+bounces-62569-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62570-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cKU5OHQUEGryTAYAu9opvQ
-	(envelope-from <linux-media+bounces-62569-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 10:31:48 +0200
+	id SIfMDq0UEGphTQYAu9opvQ
+	(envelope-from <linux-media+bounces-62570-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 10:32:45 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CDB65B09E2
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 10:31:48 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94AA65B0A10
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 10:32:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DEB2E3018585
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 08:31:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A69A6301CA52
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 08:32:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7CA93769E0;
-	Fri, 22 May 2026 08:31:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9A43371CE0;
+	Fri, 22 May 2026 08:32:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WF+MjT8R"
+	dkim=pass (2048-bit key) header.d=yoseli.org header.i=@yoseli.org header.b="ZkEk9Nwi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA31371CE0
-	for <linux-media@vger.kernel.org>; Fri, 22 May 2026 08:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779438699; cv=pass; b=Jk2glBEnpf0+UCYo8JdoXz4emy7OCmFFhMg/rk8eg13aP/GT/tnQeNT1n5mtk+dgKuqlE5aByUBi+3xJW+sHK3VnfxOcvTDVWWqdni1bf7POq8FBKTytDkVBstFEeP1zcgdbbYbBxw6uNB3A1KTEt2nM7oDLflt46Pve6zFtMbM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779438699; c=relaxed/simple;
-	bh=efXhO9JMDuOv34dwkURyUnlAdGMbT3N9I2G2ixD4iws=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KULlQaBSTIeiNAmd9u2XVRj6S8qjKTvVL7AgJLX9uqsnxpuIHn/OwVwlZb2JSoCHfanCLdJDegKS5I0UoyPOpT25j1IEQtZr6m3mctA9HPiwF0hHVucomDSJgA5xXq9DjuEdVbYpwpWClhe/9Yr0rpiVOmqt9AP4OJxFS+LIvkw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WF+MjT8R; arc=pass smtp.client-ip=209.85.210.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7dea20cf21aso6502793a34.1
-        for <linux-media@vger.kernel.org>; Fri, 22 May 2026 01:31:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1779438696; cv=none;
-        d=google.com; s=arc-20240605;
-        b=c6mr/4xCFAFROjcJOvujkxzumtaPFVy8PyAqs3UM0eVngH4dspXyKgN4Oy3bXd0OYq
-         iwY4Mw1nIHmViam1thMEeFw2cyxTHOYWfG+qkVq+VJbGeB4896eshmOiYQDmefj4ppQo
-         bRFvRYmWxQgz/ltOpFU1PcMZ79dc/W4PYeRZehItpl3Kyfq+gPLG2EzUl7745Q6/hxvO
-         pf/aetf1w2Yv8y896uBkDLWnk64vjBrw2fy9xxjG+GLJSXAX9aDjggdXxuRhjK4QJbO7
-         d+kLrYepNJuffA+WATi73y2M3J0J/5Z0kzZgWT7XiQQiU3EhWBn4w2hh3veyU7tWY8e7
-         rjtw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=9ThiWo7n+RoKO5Fmewf5eOm/6gdGdTn6HMevgFDP/mU=;
-        fh=pZ6rABJsQ8bQ2lhNp9Tg4x7YifLFNfDSB6ydmGGIBcg=;
-        b=PUU8cDA1ST/CFiZnSaov8ll7G1jjMVGT8rZ/hTvqLbyU95Xo4rVqFKx7K6BvpHzIC2
-         HNAGzWvkrxoAnNI/hkb39ljl5Yv8dNkQDbXmkmANJW0CWhJ9hqDJ555kPXFePjbvmfaI
-         6/FMNOB2OduKUfW4ECduN0pJi84GiB0KmByKDfo547FA3maA1xp0K34XqPxU7aBaPyfl
-         4DtzmaqH4SjBcXmsmZQWll+B0GOu4N52a2tjrUgE1mpz2n72S0+4luN+ygBLvJGL6KQy
-         TNvOfgVyZTKfwg/DPO1+EKL/63g7RGNbX9jKMjpZVY7HR+Tj97g51SxdAtzQKcxXSCGx
-         OgMw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779438696; x=1780043496; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9ThiWo7n+RoKO5Fmewf5eOm/6gdGdTn6HMevgFDP/mU=;
-        b=WF+MjT8R46LFU/tz8j1ZThIITIe5WKySoZvXuR57J1kyGGLXe2ZcRv3az3BXDYTsGI
-         No844Yflu+HskMrbfpbIp8LNeCwBz662Wi2mX6PdkRA0mtqnW29wbKTK9uhqGR1ZOyBA
-         3KKNESi7hWr9kjjfEsBB7yIVKU06uCvDX7LE+2vVItj0jXCNOSxw6AnSiXuFPasfSODV
-         4We54uxCG1+HxLUexZtdB36p+7sHVPCHwsbvEJ3AJY4PuRb6D/9ReURcGvTBRE6LGFy9
-         NBaD9VR2tcRbwVQ96RBV3PnJQzYQhst1Qq0HBddpTASTyv4YDsmNRbjdGBm8IMDcRv7O
-         cA0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779438696; x=1780043496;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=9ThiWo7n+RoKO5Fmewf5eOm/6gdGdTn6HMevgFDP/mU=;
-        b=pgjg7sIaChH7uAE80qsv4ROxkqLNF4sVqZqbfT1WsaANC/gleoeMOJu34fH/KOe1dQ
-         c88u/7XcewqDwG8pAMBEQCg/XxQhlYnGB1OOyzoJ/u5a/PaphN+Dz1BasxlBPKa9E0Z5
-         ENhKexB4tKLYl44RQmXl3GEpkTsSk1tlEgj/+KAEgo7skQPUwKWma/cTQ6rdxz+LvaFj
-         oImGZH2Ush+icRNRfdIjGsH2vdh34ahSLAWdCHnTDXdeHPij6gjWkMt5JlCAebh6/9IN
-         AvAmmLp/dnNZTl8tJTHGecWztRlVTJoiSC1TEPQP123K4mubLtj8Uae1i/gmsCN7xSCC
-         v48g==
-X-Forwarded-Encrypted: i=1; AFNElJ8AUfEYaANWSxQ2RNGoRK5Ly99srF0ts6FJjMB5Arf8WsZB1hbM6T5KIQ703pmHNguUt++UqtK+ONE3fQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9QK9pAgZbaJjsmvS22Cp3POeTrEeWdymVj3lepMxQV6+IS5hS
-	LeEihtR/LW6Cc5nsitXTPnWpFgPD7SFigHqw29Fa+/1CGVqHzEv2/H0MobLj0MgIzBXp2mjTebW
-	V7BLErOFC5W3Zbu/yJHkG2IRkXfhF+SE=
-X-Gm-Gg: Acq92OHVPpUz4TnZ46w4BOY1zsUwqplviIkFFBXjMqpgVyy4rkYYgKZs9njL/QQSNM9
-	Jo41Sk3P9rMiqvyQ53ghIb+F5LvchR7lPIMOX+i/Y/0U5E23E1w9L6xlohr8BjgVM2r5A4hZiuF
-	70mauzPhrFUsFSE6r5sB70hZvU6/R8+HVzts5jJR568CDViySg+lXtR75qCmpzuE5B75IM0HjbS
-	2UEJKCmkkPK2cvxB1UYGiIvpkEWLbDJMIWlJMKol8gbJXU6aoPBsbXVsxqIdf6QaPyAD7Q34FSx
-	zxStcqLUzA==
-X-Received: by 2002:a05:6830:4707:b0:7d7:570b:6800 with SMTP id
- 46e09a7af769-7e5feef54dbmr1560827a34.23.1779438695670; Fri, 22 May 2026
- 01:31:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B88533D515;
+	Fri, 22 May 2026 08:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779438725; cv=none; b=q5bLDeWTLj60wZvAC8IAtFwz5vsRy/SwlRFpQeqr46IZjzEfLEtiln3f32NRVJfK627EVKMp20IlvzYxcOKUXIw6Hp0Bj+opi6LcN7FK3eLZqxhDJn/3s+WidOT48FPJwSZBmSGO3DuG58mcidKf+eBPYI97PvIfLdlJm/TxJuw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779438725; c=relaxed/simple;
+	bh=Iady9+NbF47F22N34Vj5+Ibg0jHYs0Yu3xUv2Q1m2OU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rvte2Onfz/OGu3uvGZjzNL53F35HTkwMPKDJ/GNWhlcs5BiIwZbFU9+qBznU5cb3A1aoIEZ5gNKi0Ua1pMJec4ekdG7Q2xl+RXNU2AvOUtjez+VA/2STwOx9w7dAT74N8/3FszF2TUOEJCz98yvipZvv2s/51pi/mWMKjsdAPRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yoseli.org; spf=pass smtp.mailfrom=yoseli.org; dkim=pass (2048-bit key) header.d=yoseli.org header.i=@yoseli.org header.b=ZkEk9Nwi; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yoseli.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yoseli.org
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E574E3E949;
+	Fri, 22 May 2026 08:31:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yoseli.org; s=gm1;
+	t=1779438714;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uS43xLoRfhTODKTKwo15Svv0trKosxXMBeI5sE6g/Iw=;
+	b=ZkEk9Nwi9jCbB1sSuaSyR93+XO/vzUoyLiAGubnfT2HH6jNXeFpDvLujh2m9pmeaBxFZm2
+	UJyRCW5JDM6A9chxo/kwSLbrougQGj2XbEsf6YINjOQTnHYgp/oUcxxyG0yFv/ZWuO2g06
+	GY4t4mDzcjcVmEtxuZToS07klzxS65JQdNyYHXLB+MSlvdpdcSI/1qHVzMGs/F2INtHvuk
+	5EKA7Zh4Vkg5wcSoqdT85ZS/EdQiK92Sn4z5F72VVx1uARND4Dc1/BShL6jjKD67iGlZ9R
+	+JOGbrAIYkcn4rLdXlKZFEg7vqIDoY9I8YhoIZ7rTXQRRpoAOmEtJQNTcPm2Hw==
+Message-ID: <4d7deb19-d384-497e-8139-c977a9f3679d@yoseli.org>
+Date: Fri, 22 May 2026 10:31:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260521104335.28978-1-mikhail.v.gavrilov@gmail.com>
- <20260521150841.20625-1-mikhail.v.gavrilov@gmail.com> <20260521150841.20625-3-mikhail.v.gavrilov@gmail.com>
- <55aee3e4-9003-4694-b0fa-277a8c2bbbc4@amd.com>
-In-Reply-To: <55aee3e4-9003-4694-b0fa-277a8c2bbbc4@amd.com>
-From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
-Date: Fri, 22 May 2026 13:31:23 +0500
-X-Gm-Features: AVHnY4LSbTM-4tTWAVOgrISJCrLtgJ-GyODBgDohHuk9RVR7oadaYTWLeSuLNrM
-Message-ID: <CABXGCsPPY3qX7Ad-a7==nmA5R7aejCTCrmWYpn-9OQQU=1eMMA@mail.gmail.com>
-Subject: Re: [PATCH v5 2/2] drm/amdgpu: fix recursive ww_mutex acquire in amdgpu_devcoredump_format
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, Alex Deucher <alexander.deucher@amd.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: bcm2835-unicam: Fix log status runtime access
+To: Eugen Hristev <ehristev@kernel.org>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Ray Jui <rjui@broadcom.com>,
+ Scott Branden <sbranden@broadcom.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Naushir Patuck <naush@raspberrypi.com>, linux-media@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20260521-bcmpipm-v1-1-3eba88d88045@kernel.org>
+Content-Language: fr-FR, en-US, en-GB
+From: Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
+In-Reply-To: <20260521-bcmpipm-v1-1-3eba88d88045@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: jeanmichel.hautbois@yoseli.org
+X-GND-Score: -100
+X-GND-Cause: dmFkZTFFsxZdjDYbGI/O5qas+S55Zs7dmoPxVtmp+czXqra4L2sIv8wbpaqEtn1bOdK8KIN2ag1M2Q3dKtTl6m6zi8wlIyQrykWZEM4aYNI25pd/9DorWT+QpvMcEZc0jjss4u4gDMz8fCc+WAYO8okFbwrlALjGvVzEe7zo6X6WNQMqcR4FWl52A1LvT3nIiQLHNZJ0uTzeKwDQopHDwUV9nocaPfGc/zWA/QdiIBibW+qj6GkJSfKIryIbWEJcu28gmS7LvHKWEQ+1LKh9PVc1fITB1iPcgUSxZrAZm8yQGUCvnTpg7zfjUQliYzawmk1GAOfe7mI9UpE4aVdV1CvdMrYzG3sRPfHYzQwuhIH9XK6a3u12kc94cutk+nBxm7f9P2vbyBvHO6b58ZLAfNZ3HzaJuaoYxFeCsutS8PyxcW4l5ykBUIX1shlvsDsVEBGWjhpKyqP8JyrV7PeEOsDJ0B2JQhEO4AOU33va4etuD1D3nZtFXgjVM5Z4xqhUMDufUqPBE1mr1cKZV74PuC9nYjHbBFALavonlq38lBJh0+gUowbmwMV9vBUOcbvMYgt78nACsTTGYRIJGIWlVZk/1FE+oWWbN5Taz5ANT1Et4k79BxeTfYV6xsjNgEj2NCacwVKO9y/Aw5tfACN1DyQbGkVzOD+7tT0HjJ3XQQYc5X037A
+X-GND-State: clean
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[yoseli.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[yoseli.org:s=gm1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62569-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,amd.com,gmail.com,ffwll.ch,linaro.org,lists.linaro.org];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62570-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MISSING_XM_UA(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	NEURAL_HAM(-0.00)[-1.000];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	DKIM_TRACE(0.00)[yoseli.org:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mikhailvgavrilov@gmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[jeanmichel.hautbois@yoseli.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,mail.gmail.com:mid]
-X-Rspamd-Queue-Id: 5CDB65B09E2
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,yoseli.org:mid,yoseli.org:dkim]
+X-Rspamd-Queue-Id: 94AA65B0A10
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Thanks for the review. v6 will:
+Hi Eugen,
 
- - trim the commit message: drop the reproducer paragraph, keep just
-   the problem description and the solution
- - move the IB dumping into its own function
- - replace the break-based flow inside drm_exec_until_all_locked() with
-   goto error handling, and drop the now-superfluous `locked` variable
- - not call drm_exec_fini() in the locking helper on the error path
+Thanks for the fix, the issue is real, but I think the patch leaks a 
+runtime PM reference.
 
-One thing I'd like to confirm before respinning =E2=80=94 the !mapping case=
- in
-the locking loop:
+Le 21/05/2026 à 20:09, Eugen Hristev a écrit :
+> When requesting log status, the block might be powered
+> off, but registers are being read.
+> Avoid reading the registers if the device is not
+> resumed, thus also avoid powering up the device just
+> for log status.
+> 
+> Fixes: 392cd78d495f ("media: bcm2835-unicam: Add support for CCP2/CSI2 camera interface")
+> Signed-off-by: Eugen Hristev <ehristev@kernel.org>
+> ---
+>   drivers/media/platform/broadcom/bcm2835-unicam.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
+> index 8d28ba0b59a3..818694f007e2 100644
+> --- a/drivers/media/platform/broadcom/bcm2835-unicam.c
+> +++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
+> @@ -2052,6 +2052,10 @@ static int unicam_log_status(struct file *file, void *fh)
+>   		 node->fmt.fmt.pix.width, node->fmt.fmt.pix.height);
+>   	dev_info(unicam->dev, "V4L2 format:         %08x\n",
+>   		 node->fmt.fmt.pix.pixelformat);
+> +
+> +	if (!pm_runtime_get_if_in_use(unicam->dev))
+> +		return 0;
+> +
 
-mapping =3D amdgpu_vm_bo_lookup_mapping(vm, pfn);
-if (!mapping)
-    continue;
+pm_runtime_get_if_in_use() returns 1 and increments the usage counter is 
+active and in use.
 
-You commented "That's also an error, it could be that we just want to
-print the IB start address in that case."
+I think we need to add:
+pm_runtime_put(unicam->dev);
 
-My reading: a missing mapping is not fatal to the whole dump. For that
-IB there is simply nothing to lock, so the locking loop should move on
-to the next IB, and the content loop then still emits the
-"IB #N 0x<addr> <dw>" header with no body (it already does this via
-goto output_ib_content). The dump continues for the remaining IBs.
+Just before the return 0;
 
-So in the locking loop I'd keep `continue` for !mapping, and reserve
-goto-abort only for real errors (drm_exec_lock_obj() failure, VM not
-found). Is that what you intended, or should a missing mapping abort
-the whole IB dump?
+BTW, we may miss a dev_info explaining why the live data is skipped when 
+the device is suspended ?
 
---=20
 Thanks,
-Mike.
+JM
+
+>   	reg = unicam_reg_read(unicam, UNICAM_IPIPE);
+>   	dev_info(unicam->dev, "Unpacking/packing:   %u / %u\n",
+>   		 unicam_get_field(reg, UNICAM_PUM_MASK),
+> 
+> ---
+> base-commit: e98d21c170b01ddef366f023bbfcf6b31509fa83
+> change-id: 20260521-bcmpipm-6c578e73239c
+> 
+> Best regards,
+> --
+> Eugen Hristev <ehristev@kernel.org>
+> 
+
 
