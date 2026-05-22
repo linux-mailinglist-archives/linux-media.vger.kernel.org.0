@@ -1,142 +1,181 @@
-Return-Path: <linux-media+bounces-62591-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62593-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0Lt8EMUuEGrIUgYAu9opvQ
-	(envelope-from <linux-media+bounces-62591-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 12:24:05 +0200
+	id wBCiN2wyEGp4UwYAu9opvQ
+	(envelope-from <linux-media+bounces-62593-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 12:39:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id C92C45B2002
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 12:24:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 928E55B24D5
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 12:39:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 2245F3045A81
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 10:21:15 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 0A7033063F06
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 10:29:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0CF33D88F1;
-	Fri, 22 May 2026 10:18:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EBDB3CB91F;
+	Fri, 22 May 2026 10:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VgGyU12e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31BE3D7A07;
-	Fri, 22 May 2026 10:18:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A63FF3C4B86;
+	Fri, 22 May 2026 10:28:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779445129; cv=none; b=XrdpbNxSyGzJOOXJi2Zy7C10XbUXsIRkCfDU2/yjM87V0KQpmp3xUosNtJRVVazHCjZgeu3AiFW9kUkIjL9KbOVieDgXhj/OxAX3R+4QfgWVUbBSd1Jurmj/MbQ+fXzPuQLjtjJTtXcINOnpEZMCSxRbCrShvaX5/AN54nIgf5c=
+	t=1779445737; cv=none; b=R+H19o998RB9jTK7lwwLrutKHcufM/bVIV2/bXQ9Dpu8Hkjne4bbYJomFaVkusO7kzpwcwZUYmjxyVvOCUKjMu+tucRgT/mdVUnee6Ay7oI6sj0YszIgli46qydGF/Wq6SveVOhguUZMCp7cwYZqrJgzLgsAwvSguvN9IpNqjLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779445129; c=relaxed/simple;
-	bh=pGGYOoltPgaRRnXyzfCNBXs1jvHPDksxLI7XjwOIn7I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VdIspDL2C2i5eErdRjJORQ9atkQoIJdLh1+xgechIUh6dyfDjE06Hs2sFdvH277mAzi8KDh2wXINPOBxxlZdznQexvdMU+WLLcyK0yowCDAZSCv8f48PqSqRcYX7gQ/sRRgWgrdNu/ruBall8nam+vGAL+/LiwoiUTfVEJN98Cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 63BBB3700290;
-	Fri, 22 May 2026 10:18:27 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id B5153B408D2; Fri, 22 May 2026 10:18:22 +0000 (UTC)
-X-Spam-Level: **
-Received: from shepard (unknown [192.168.1.65])
-	by laika.paulk.fr (Postfix) with ESMTP id 5E19EB408CC;
-	Fri, 22 May 2026 10:17:19 +0000 (UTC)
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: devicetree@vger.kernel.org,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
+	s=arc-20240116; t=1779445737; c=relaxed/simple;
+	bh=o80USRSoOccAjZ0/+LbXX+qxTLzgZyZiobgDeEHQ1+U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lYz/JKR79teEJbNWLMdzWCrBtphjIx9iksQp3uYk9q2JrOZqaeQX1vmTRrre8jCW8FRNUHWgmoLr/9OsqBCVoa3ApuU593PW9mzhlUUJ9yTqFVsw3KewScSOt4qCI1SzD2JOgMzDKsBipPVwE08FFcQJae74kEotulJ6e1Htm9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VgGyU12e; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779445736; x=1810981736;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=o80USRSoOccAjZ0/+LbXX+qxTLzgZyZiobgDeEHQ1+U=;
+  b=VgGyU12eDAO/sTp0dqlCdcR1Ibul0/K1Zii1sJi/VMGxHJAcjsSM8f5E
+   TqmVIVNPl7xVWr91uf2gFLr5g1nGhqeJE64u2PBJI97wGTmZvWOvlFGOP
+   +VCC2Ve4fcAV0VY0kHDE2voJiVXN0l55I5Arzuvkqbg282vAXwcJFK4h0
+   Cl3yrSAn66rsrjgjGtJ6Ub8PulFgvnjbQovCkkECgBlhZS+r20SrZCeom
+   O8DtOgRtHrNIhWW23vvlgeZGDpFm6DgQH3ui5H6gJP+1d0mNsGPUYOI2G
+   GOAHXDX24mZAFTWSNP0kO4Px0ru21VCPMMUQUihATgMHfCCJD4nMviv+M
+   w==;
+X-CSE-ConnectionGUID: nlU/wtjlQlOInBCB9OiKNQ==
+X-CSE-MsgGUID: +8ZcvxkDRkyxaDKSLZzDaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11793"; a="103052273"
+X-IronPort-AV: E=Sophos;i="6.24,162,1774335600"; 
+   d="scan'208";a="103052273"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2026 03:28:55 -0700
+X-CSE-ConnectionGUID: L4nas1MgQJyvuR4w2vBveQ==
+X-CSE-MsgGUID: CGSZjljdTVKDuo6whHqd1g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,162,1774335600"; 
+   d="scan'208";a="245860596"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.224])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 May 2026 03:28:51 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 99493121C7F;
+	Fri, 22 May 2026 13:28:47 +0300 (EEST)
+Date: Fri, 22 May 2026 13:28:47 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
+Cc: Eugen Hristev <ehristev@kernel.org>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	Hans Verkuil <hverkuil@kernel.org>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Michael Tretter <m.tretter@pengutronix.de>
-Subject: [PATCH 14/14] arm64: dts: imx8mp: add VC8000E encoder node
-Date: Fri, 22 May 2026 12:16:53 +0200
-Message-ID: <20260522101653.2565125-15-paulk@sys-base.io>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260522101653.2565125-1-paulk@sys-base.io>
-References: <20260522101653.2565125-1-paulk@sys-base.io>
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Naushir Patuck <naush@raspberrypi.com>, linux-media@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: bcm2835-unicam: Fix log status runtime access
+Message-ID: <ahAv3430zwqeDXnQ@kekkonen.localdomain>
+References: <20260521-bcmpipm-v1-1-3eba88d88045@kernel.org>
+ <4d7deb19-d384-497e-8139-c977a9f3679d@yoseli.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [1.54 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
+In-Reply-To: <4d7deb19-d384-497e-8139-c977a9f3679d@yoseli.org>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62591-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62593-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[sys-base.io];
+	FROM_HAS_DN(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FROM_NEQ_ENVFROM(0.00)[paulk@sys-base.io,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-0.557];
-	DBL_PROHIBIT(0.00)[2.72.183.128:email,2.72.144.112:email];
-	RCVD_COUNT_FIVE(0.00)[6];
-	R_DKIM_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	MISSING_XM_UA(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sys-base.io:mid,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,pengutronix.de:email,2.72.222.144:email]
-X-Rspamd-Queue-Id: C92C45B2002
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 928E55B24D5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Marco Felsch <m.felsch@pengutronix.de>
+Hi Eugen, Jean-Michel,
 
-Add support for the Versilicon VC8000E multi-codec stateless encoder.
-The IP integrated on the i.MX8MP supports H.264 and H.265 encoding.
+On Fri, May 22, 2026 at 10:31:51AM +0200, Jean-Michel Hautbois wrote:
+> Hi Eugen,
+> 
+> Thanks for the fix, the issue is real, but I think the patch leaks a runtime
+> PM reference.
+> 
+> Le 21/05/2026 à 20:09, Eugen Hristev a écrit :
+> > When requesting log status, the block might be powered
+> > off, but registers are being read.
+> > Avoid reading the registers if the device is not
+> > resumed, thus also avoid powering up the device just
+> > for log status.
 
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
----
- arch/arm64/boot/dts/freescale/imx8mp.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Please rewrap this, most editors can do that automatically.
 
-diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-index a3de6604e29f..4e63c2b16c1a 100644
---- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-@@ -2290,6 +2290,17 @@ vpu_g2: video-codec@38310000 {
- 			power-domains = <&vpumix_blk_ctrl IMX8MP_VPUBLK_PD_G2>;
- 		};
- 
-+		vpu_vc8000e: video-codec@38320000 {
-+			compatible = "nxp,imx8mp-vpu-vc8000e";
-+			reg = <0x38320000 0x10000>;
-+			interrupts = <GIC_SPI 30 IRQ_TYPE_LEVEL_HIGH>;
-+			clocks = <&clk IMX8MP_CLK_VPU_VC8KE_ROOT>;
-+			assigned-clocks = <&clk IMX8MP_CLK_VPU_VC8000E>;
-+			assigned-clock-parents = <&clk IMX8MP_SYS_PLL1_800M>;
-+			assigned-clock-rates = <400000000>;
-+			power-domains = <&vpumix_blk_ctrl IMX8MP_VPUBLK_PD_VC8000E>;
-+		};
-+
- 		vpumix_blk_ctrl: blk-ctrl@38330000 {
- 			compatible = "fsl,imx8mp-vpu-blk-ctrl", "syscon";
- 			reg = <0x38330000 0x100>;
+> > 
+> > Fixes: 392cd78d495f ("media: bcm2835-unicam: Add support for CCP2/CSI2 camera interface")
+> > Signed-off-by: Eugen Hristev <ehristev@kernel.org>
+> > ---
+> >   drivers/media/platform/broadcom/bcm2835-unicam.c | 4 ++++
+> >   1 file changed, 4 insertions(+)
+> > 
+> > diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
+> > index 8d28ba0b59a3..818694f007e2 100644
+> > --- a/drivers/media/platform/broadcom/bcm2835-unicam.c
+> > +++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
+> > @@ -2052,6 +2052,10 @@ static int unicam_log_status(struct file *file, void *fh)
+> >   		 node->fmt.fmt.pix.width, node->fmt.fmt.pix.height);
+> >   	dev_info(unicam->dev, "V4L2 format:         %08x\n",
+> >   		 node->fmt.fmt.pix.pixelformat);
+> > +
+> > +	if (!pm_runtime_get_if_in_use(unicam->dev))
+> > +		return 0;
+> > +
+> 
+> pm_runtime_get_if_in_use() returns 1 and increments the usage counter is
+> active and in use.
+
+Also, should this be pm_runtime_get_if_active() instead?
+
+> 
+> I think we need to add:
+> pm_runtime_put(unicam->dev);
+> 
+> Just before the return 0;
+> 
+> BTW, we may miss a dev_info explaining why the live data is skipped when the
+> device is suspended ?
+
 -- 
-2.53.0
+Regards,
 
+Sakari Ailus
 
