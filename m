@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-62586-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62587-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wO78DfcwEGoaUwYAu9opvQ
-	(envelope-from <linux-media+bounces-62586-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 12:33:27 +0200
+	id IDmyF+AtEGrIUgYAu9opvQ
+	(envelope-from <linux-media+bounces-62587-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 12:20:16 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361585B22B2
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 12:33:25 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08D975B1EEF
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 12:20:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 4FB7B302D31E
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 10:18:54 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id E1DB6301AFCE
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2026 10:19:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 947603CE0B4;
-	Fri, 22 May 2026 10:18:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32F233CF688;
+	Fri, 22 May 2026 10:18:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B76EC3CC333;
-	Fri, 22 May 2026 10:18:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F4CB3CE4A2;
+	Fri, 22 May 2026 10:18:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779445100; cv=none; b=A4NUkk1EA7FHqD6ZZaOxNQ29zAiESaJCn556lxRA5rNovGQRhfVQ81V5s/O28tZTkF77bHsMVy6jkso52/+D/w0NxIErDbqx7pCDtYKM7fD3f0Kz1m3X34o/0HM4aSlFCVMK/Sm2r5tp1tV8Srq6ng71rN1qRJ3Euq1gqqqgzls=
+	t=1779445102; cv=none; b=FFPmwnBjDpDzi1AVxsdoKOiIv5yrWQRA0PjYUWgQzxD2X6BymvP1toi45r1i9B1/1aTo/ngz5g5NvVlPUBTfJ0vMIK9QX02U105TIf8yehyEpsx3DCF9amxZpnF3QCwB0RJetN1l6zre3kUjHqOo7/hvWm8VW6DLil8jo4MeA44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779445100; c=relaxed/simple;
-	bh=H4ahuP7qK6F1laIsAeO9Wq5rgaRo+/IalAB1WKxGgjI=;
+	s=arc-20240116; t=1779445102; c=relaxed/simple;
+	bh=x/6Zg3Wi00xuQO62fUSq4YsyxLHa2RWNHXpPt0DMNDY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JBEpijPS8VlQRoYWPkNnPJI335/fj1wh2514AHl1/i+sAqSK066u+HA1s3Rd/R+wsgoYDoiA3oUdTCuMTLYTKigHmBCNbRvq2Q2zLeB3swbZMnVScmGlTHogmLbRWTVaJDtX3wZGwQHAetlZk5tmwZQqYPWnvdEgv4lfAhVsBJc=
+	 MIME-Version; b=RFvUaMeJAFBadtXTpc91qn1Fs3g6dxQ9bcc082avtckGpPMzPrbnTE8msR7qdppBqn5UyFlozCKNfg9+zTSBYfkdhmwDY62K3+0imuXYoQ7f6n60UWVIMwliQ6SEf+iXyOxXQHdqz9dUR3feIB/TxOJjQ+Cn84+6iRg1eLrFthw=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
 Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 5659837002A3;
-	Fri, 22 May 2026 10:17:55 +0000 (UTC)
+	by leonov.paulk.fr (Postfix) with ESMTPS id 2C3BE3700293;
+	Fri, 22 May 2026 10:18:00 +0000 (UTC)
 Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id C4CB3B408D7; Fri, 22 May 2026 10:17:54 +0000 (UTC)
+	id 9D4C3B408C8; Fri, 22 May 2026 10:17:59 +0000 (UTC)
 X-Spam-Level: **
 Received: from shepard (unknown [192.168.1.65])
-	by laika.paulk.fr (Postfix) with ESMTP id A4C02B408C9;
-	Fri, 22 May 2026 10:17:08 +0000 (UTC)
+	by laika.paulk.fr (Postfix) with ESMTP id 1FC35B408CF;
+	Fri, 22 May 2026 10:17:09 +0000 (UTC)
 From: Paul Kocialkowski <paulk@sys-base.io>
 To: devicetree@vger.kernel.org,
 	imx@lists.linux.dev,
@@ -59,11 +59,10 @@ Cc: Rob Herring <robh@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Hans Verkuil <hverkuil@kernel.org>,
 	Marco Felsch <m.felsch@pengutronix.de>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Paul Kocialkowski <paulk@sys-base.io>
-Subject: [PATCH 09/14] media: verisilicon: Cancel job with runtime pm put/clk disable on failure
-Date: Fri, 22 May 2026 12:16:48 +0200
-Message-ID: <20260522101653.2565125-10-paulk@sys-base.io>
+	Michael Tretter <m.tretter@pengutronix.de>
+Subject: [PATCH 10/14] media: hantro: use hantro_decoded_buffer only for dst_vq
+Date: Fri, 22 May 2026 12:16:49 +0200
+Message-ID: <20260522101653.2565125-11-paulk@sys-base.io>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260522101653.2565125-1-paulk@sys-base.io>
 References: <20260522101653.2565125-1-paulk@sys-base.io>
@@ -79,86 +78,58 @@ X-Spamd-Result: default: False [1.54 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	DMARC_NA(0.00)[sys-base.io];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-62586-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FROM_NEQ_ENVFROM(0.00)[paulk@sys-base.io,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
-	R_DKIM_NA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.504];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-62587-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.513];
+	FROM_NEQ_ENVFROM(0.00)[paulk@sys-base.io,linux-media@vger.kernel.org];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 361585B22B2
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,sys-base.io:mid]
+X-Rspamd-Queue-Id: 08D975B1EEF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The no-pm variant of hantro_job_finish is only good to use directly if
-runtime pm get failed. In other cases, we need to do a runtime pm put
-and bulk clk disable to correctly undo what was set up.
+From: Marco Felsch <m.felsch@pengutronix.de>
 
-Fixes: 892bb6ecead9 ("media: hantro: do a PM resume earlier")
-Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+The dst_vq buffer size for encoders should not use the size of the
+'hantro_decoded_buffer'. Make use of 'v4l2_m2m_buffer' instead till some
+encoder requires pre buffer extra data.
+
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 ---
- .../media/platform/verisilicon/hantro_drv.c   | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+ drivers/media/platform/verisilicon/hantro_drv.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
-index e0c11fe8b55c..e21306f2bf2e 100644
+index e21306f2bf2e..6f72e25fa88c 100644
 --- a/drivers/media/platform/verisilicon/hantro_drv.c
 +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-@@ -169,29 +169,34 @@ void hantro_end_prepare_run(struct hantro_ctx *ctx)
- static void device_run(void *priv)
- {
- 	struct hantro_ctx *ctx = priv;
-+	struct hantro_dev *vpu = ctx->dev;
- 	struct vb2_v4l2_buffer *src, *dst;
- 	int ret;
- 
- 	src = hantro_get_src_buf(ctx);
- 	dst = hantro_get_dst_buf(ctx);
- 
--	ret = pm_runtime_resume_and_get(ctx->dev->dev);
-+	ret = pm_runtime_resume_and_get(vpu->dev);
- 	if (ret < 0)
--		goto err_cancel_job;
-+		goto err_cancel_job_no_pm;
- 
--	ret = clk_bulk_enable(ctx->dev->variant->num_clocks, ctx->dev->clocks);
-+	ret = clk_bulk_enable(vpu->variant->num_clocks, vpu->clocks);
- 	if (ret)
--		goto err_cancel_job;
-+		goto err_cancel_job_pm;
- 
- 	v4l2_m2m_buf_copy_metadata(src, dst, true);
- 
- 	if (ctx->codec_ops->run(ctx))
--		goto err_cancel_job;
-+		goto err_cancel_job_clk;
- 
- 	return;
- 
--err_cancel_job:
--	hantro_job_finish_no_pm(ctx->dev, ctx, VB2_BUF_STATE_ERROR);
-+err_cancel_job_clk:
-+	clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks);
-+err_cancel_job_pm:
-+	pm_runtime_put_autosuspend(vpu->dev);
-+err_cancel_job_no_pm:
-+	hantro_job_finish_no_pm(vpu, ctx, VB2_BUF_STATE_ERROR);
- }
- 
- static const struct v4l2_m2m_ops vpu_m2m_ops = {
+@@ -248,7 +248,10 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
+ 	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
+ 	dst_vq->drv_priv = ctx;
+ 	dst_vq->ops = &hantro_queue_ops;
+-	dst_vq->buf_struct_size = sizeof(struct hantro_decoded_buffer);
++	if (ctx->is_encoder)
++		dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
++	else
++		dst_vq->buf_struct_size = sizeof(struct hantro_decoded_buffer);
+ 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+ 	dst_vq->lock = &ctx->dev->vpu_mutex;
+ 	dst_vq->dev = ctx->dev->v4l2_dev.dev;
 -- 
 2.53.0
 
