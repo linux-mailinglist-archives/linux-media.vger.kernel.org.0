@@ -1,94 +1,94 @@
-Return-Path: <linux-media+bounces-62675-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62676-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id vDw7JKfbEWq+rQYAu9opvQ
-	(envelope-from <linux-media+bounces-62675-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 23 May 2026 18:53:59 +0200
+	id 0HKoI+PbEWq+rQYAu9opvQ
+	(envelope-from <linux-media+bounces-62676-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 23 May 2026 18:54:59 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63A125BFE6C
-	for <lists+linux-media@lfdr.de>; Sat, 23 May 2026 18:53:59 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 963565BFEA1
+	for <lists+linux-media@lfdr.de>; Sat, 23 May 2026 18:54:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 1500F3008988
-	for <lists+linux-media@lfdr.de>; Sat, 23 May 2026 16:53:58 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A799430125A3
+	for <lists+linux-media@lfdr.de>; Sat, 23 May 2026 16:54:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C63ED320CB1;
-	Sat, 23 May 2026 16:53:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36C65324B22;
+	Sat, 23 May 2026 16:54:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C+YanwQN"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eBzvroCc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE5B71FE471
-	for <linux-media@vger.kernel.org>; Sat, 23 May 2026 16:53:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14F9F316189
+	for <linux-media@vger.kernel.org>; Sat, 23 May 2026 16:54:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779555234; cv=none; b=afCvoZ5ZkQ67k0SEFLYMFS37BJ7o4KcRIc6GqKsuAYCZ+JLtPBkwMVo8Cx1Kivd0LMhGUD4o1110Cy0H0d0FPKgkHCql6/7BLbNrYKvkOiueVzpbEx4KLPoT49oZE5J8YrY/H6ZuZG3U3zzr+fYZGjJxHxiTOht6NlcciMl6TYY=
+	t=1779555244; cv=none; b=tS5wk12bHMp84YirrqaTwIBYVQFKf4Hfn5zqycKAzd6x9DN6CMpJkZEa5pfN9uYsWd2FFMV8NxcscJDiCK1McqdLJ9fCfGFwk6VwboO52zO8tnT5Q1496Ly0iXfePhBMv0kDyKBwLLNgRSTvRj6re9UrxUTVu+s4QfYHe0FpY04=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779555234; c=relaxed/simple;
-	bh=DGZ1Iu78FNYWURpAerzc6calyIgHVwJu5yS0L/BzyJM=;
+	s=arc-20240116; t=1779555244; c=relaxed/simple;
+	bh=0MwoAX/J5bzYEqSgxGhyDDvWiurQkDJFryudRPqqyec=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XVq/Utmq7ANGaCecFHf1MdsZIoe96fLyZjQuWkhI1Nx446Kh4EkF4b1tVBkBHbEPdUYglJ4qQx0+4gil277T82/V8hftkfudZuKeFiemYYHmWTxrvANuHiuWfsKUIfyyPIOuGJlUFzvwS9sDxPaDydUsgXflxSJuUyGxpa0VliE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C+YanwQN; arc=none smtp.client-ip=209.85.167.48
+	 MIME-Version; b=FU38Q4PXGVjAcC30IHkPYBg3+4eGjqOLguKH144Y/Sh6cXaaybF+dqFRqJQhrk2ydh0Ry/Rflm0gqFFgM0DQgzrGNE3CtFJIea9TtYBahnMG7ADXPbTLFTpaSzpiHkJOsCWdiaUE0gdyAIylfiAHpnTnE8QsMHbLwRyhXjIHGXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eBzvroCc; arc=none smtp.client-ip=209.85.208.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5a85b30dd54so8939719e87.2
-        for <linux-media@vger.kernel.org>; Sat, 23 May 2026 09:53:52 -0700 (PDT)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-38e84ed22bdso94947021fa.2
+        for <linux-media@vger.kernel.org>; Sat, 23 May 2026 09:54:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779555231; x=1780160031; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779555241; x=1780160041; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0KNiADcE9MK3Ayde/OGmbBhB9zN35/Oo61VBdFulAcM=;
-        b=C+YanwQNeFjqTjMJVHH7bjIVzHMZD1nNjB8QWt8YPRHQk1KJ665xZcgEicBVbE4oan
-         iJrMtHJNkWRbjR7r2bCjJU+DfwC4bSR08+/r4UoNZ0/xkQJKktVQkAJefEq94hUcsdve
-         t2ooL3OdiXJW8j1DON+c0CEnv9AkRVFBls12wqqjo3GtOLNfx7cUf5IdNjqCCxgfZjjc
-         0uJLtvZ9mRXjamM94dJGpIqKRMXfoctw5/OSIJQErv5AWMD86chrbvvtwzgqqZurkrHp
-         wGvzZBflWx/DUp61cmMVQF78k6IZsO384jDi3KTnQEn2ijOXjZGrchmPOiVDiTqD7x2S
-         PHBg==
+        bh=dUFxLs9xayiDL27YZLOgJaat3erm/tdOdPXhQ8ySemg=;
+        b=eBzvroCcbMaioE1zTmmGAAnKkWj4XziwtoppjBPSUBHNYHhg3qi9Gr7E4g8wZFVOI4
+         ALMeVu73nA43EsF/pRe4mkwoV994r0VTNuts1NXsKIn954nW7koCN3vxRMpvbfxKu80w
+         xycee3g/DQ1wJdk4Gvggg52Tl9GCgp8uVcKV9GpDx75STxoWMmYaDC2wZcyDaF3lWv1u
+         HKsOR6yusvCSw1CCgHUg7opcGZmaKT68NehG9qh7dRmTS/4FcDL1vSHCbeM2H3zuF2Z4
+         BncHO7uvwvCjdO2C56tEpR/7QGuJKE9ES6B+NsFSwfxMnyVJ+EWtvOPLHiilwP4Rjg3b
+         cBRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779555231; x=1780160031;
+        d=1e100.net; s=20251104; t=1779555241; x=1780160041;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0KNiADcE9MK3Ayde/OGmbBhB9zN35/Oo61VBdFulAcM=;
-        b=b5Q3kgRZDu1xhX0nWjQCgoW3J5BhqnsBnGMKty8RJuXrFp1RdL1dfdavhEaubCI2MG
-         7ahp9uJ1XgJXEN+EThlAsFLpHDV8yggmEPouzmPNvU9N9py817JDBRcTE09ve+z1CFQC
-         SM3nuMih+4WLk9TbKHr73kghzf4cLb8aJ1A7G6XTdEYX/TLeJLCdarVxygqtJPJ09FWA
-         cBDBBEY8zNrNBX59ugR3CkqtVsOtzo3dMmm8XfExlPjNEkG+STLZ8RScFkZHjFv7Qpsy
-         8KcUrfWfNDmqAW/4ATX10QrrRgSe4H/Cvh0Cg2r0QmuWvkww/BVrulPMUz8N9VohkBBH
-         IIyw==
-X-Forwarded-Encrypted: i=1; AFNElJ/bczu1Wenxhz562IsopwINzdUrDPPXhDAVutgagZxd8eR+89sH7NLYM+QMppAfgqUVuOy9qTM1hrKCzA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuZUQaL9pUpEjb+NdOxOdokOztQFMIzV5Xb3pWropmgualmL+T
-	FcSChlvzbOF18wEw3SW3mSegw4RtwHXkxM/GGlFIRLsJId+1xhEspeNM
-X-Gm-Gg: Acq92OG2Jm5F9rpsB/H+8dw7oj63eWTuv/cjnnFH+gG+uBlDOHUoa25CtiH2d5HG3Dk
-	C9Ss75Ic4/CKN3vLQSYYI9N1/xzWq8eNOraIOz0lmRZo/xSg6Wu3G6kqj1dDntIn0dfR65wHXBq
-	8wQC9F067oTUv2o6s1o/dKtdHUOAGNaayD28zc8FZTrAq92pC01+lSxMdYUKXgPVDhpCl//IqEN
-	UTy51WJRg64k7CXzKqsu//0hvxAMLFufzANvNdQBS0jrVO/gw34H8a8/BaDJLB1Qv94HImZY8j5
-	WRPEm4WrtfeRTutf0ziHMJLlzewHH05Z41YvjomPufkyxfKROH4EumnCXygNmpYqQyq1T/9CQvB
-	qTazrtML8qXDrPeiWtEs8JO/ibC8ZfeNryxPUSLH3UIjzNjWbvqAp2ErTtnQ9544c5ash2bvTDz
-	9Sb4mYhBpsI3Arkq3GBNjROCfijnjS/LVIu3GBj0zVBes4DlnKsGQkNGAyQ7Pe0aZAb9G8OQ==
-X-Received: by 2002:a05:6512:6399:20b0:5aa:2a4e:5b78 with SMTP id 2adb3069b0e04-5aa32326a7cmr1765641e87.17.1779555230628;
-        Sat, 23 May 2026 09:53:50 -0700 (PDT)
+        bh=dUFxLs9xayiDL27YZLOgJaat3erm/tdOdPXhQ8ySemg=;
+        b=GHlFwF+ktp7Rb7A1HtzqjopMJwi8nTDdJsD5x9qX4naTjMhOfTGKo5mq9TrXoCJs9+
+         JmCCrhMnYg3ISVZiOr7GZh8sgtX6tu0PaQSjXIvXg5J06NpekjdEX4kONT2gXUYOjvJz
+         8sBkP7QQ138ZjtZr1OEMMjp/9eGCFyn9g9tlcMZIS+zZVdn2+Y/drfuHfPF2O8qDPgUQ
+         KksMctHJFYgYy1OH0+MVAHGktUMgQ7lLuOLNA67cNaEMBii//Nci/uX0FyuIgmGDltQe
+         1CFKdIiU6j2Gg0Dq8XG438o8gg3F6/3/q4CwgteH0bfPubyBqV+WAHKWQ1OVGYsWIGKx
+         omZA==
+X-Forwarded-Encrypted: i=1; AFNElJ86Pk2XmXVh8o/HD5O+4VLXMveUp26n0m37bxDDM8JEUtHlm4g3WGnC5VsVwtGqpnDjqBfZOf7SQnqLkA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1lPRJ0/4wRDe0fXnRfOKRoSP9TIoNLTpiO6IhDMQLMtfQ0Orf
+	5o4tamo0UmV+yszgPFGslUO+xQnEWwpnVEBKgjg8KlWRXACRkrbivdNf
+X-Gm-Gg: Acq92OEsA/RIekbjQC46txp0dTeD3P3/Jh76dUd0wmawA7ZNkCanM6dqfnMCe1yVQlQ
+	hc6/tPZnI4vDWyRfW3lcqS8sGjnZ4DlLXN0zMO3ima/4MihYX1VO6T44qFt9zunfi9cXnuhi+Gy
+	ZBt1fQzvozdrUszRFZTNYQsNeYH/WxpH2BAYelov1uTIH2IExtvqNyUX3xz96GUy5O67ccrlf2+
+	I8fLUWO++4NWsVeOIQr0U0cXykPTFC8f4vGhPa+45MQUCW1fNxrF2UlCm8iqCBwrmhfkln46Nbp
+	M5lELe4TNxp+5g26olfp2hqpE4T47bcQIcQHGfc22PdzDIbaZQmBWjmeTyo7xHbN++KGHwCHjzD
+	smGU5lB1UCuYq/LP+iwti1I8H6K5CouDciGgL1UMnAU/NOWbF+qaINWQunk0H0tEvAydZ6i/IPT
+	YQxFYNklRd0gx5l9TT4M7BH7v8dMe0xX4n3/WLsUH7/PzSYoamCfosc+ofg4UlfYLqzbLDlQ==
+X-Received: by 2002:a05:651c:222c:b0:393:a4f5:3e0f with SMTP id 38308e7fff4ca-395d8c35f3fmr27895731fa.2.1779555241189;
+        Sat, 23 May 2026 09:54:01 -0700 (PDT)
 Received: from va-HP-Pavilion-Desktop-595-p0xxx.mshome.net ([193.0.150.248])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa32cf96bfsm1267717e87.77.2026.05.23.09.53.49
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-395dcc2c6efsm12092981fa.29.2026.05.23.09.54.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 May 2026 09:53:50 -0700 (PDT)
+        Sat, 23 May 2026 09:54:00 -0700 (PDT)
 From: Valery Borovsky <vebohr@gmail.com>
-To: mchehab@kernel.org
+To: mchehab@kernel.org,
+	crope@iki.fi
 Cc: hverkuil+cisco@kernel.org,
 	linux-media@vger.kernel.org,
 	stable@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: [PATCH v2] media: airspy: use vb2_video_unregister_device() on disconnect to fix NULL deref
-Date: Sat, 23 May 2026 19:53:49 +0300
-Message-ID: <20260523165349.286212-1-vebohr@gmail.com>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] media: rtl2832_sdr: release URBs and stream buffers on start_streaming() failure
+Date: Sat, 23 May 2026 19:53:58 +0300
+Message-ID: <20260523165358.286293-1-vebohr@gmail.com>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <f202c8ae-554f-49de-a9d1-add337e28515@kernel.org>
-References: <f202c8ae-554f-49de-a9d1-add337e28515@kernel.org>
+In-Reply-To: <20260513055733.146905-1-vebohr@gmail.com>
+References: <20260513055733.146905-1-vebohr@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -101,12 +101,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62675-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62676-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -122,99 +122,75 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	RCPT_COUNT_FIVE(0.00)[6];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,sashiko.dev:url]
-X-Rspamd-Queue-Id: 63A125BFE6C
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 963565BFEA1
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-airspy_disconnect() clears s->udev under v4l2_lock, but
-airspy_stop_streaming() unconditionally calls airspy_ctrl_msg() and
-airspy_free_stream_bufs() afterwards. If a streaming user closes the
-device after disconnect, stop_streaming() runs and dereferences the
-NULL s->udev:
+rtl2832_sdr_start_streaming() calls rtl2832_sdr_alloc_stream_bufs(),
+rtl2832_sdr_alloc_urbs() and rtl2832_sdr_submit_urbs() in sequence and
+shares a single err: label that only unlocks the mutex and returns.
+When alloc_urbs() succeeds but submit_urbs() fails, or when alloc_urbs()
+itself returns -ENOMEM after alloc_stream_bufs() has already succeeded,
+the URBs and/or the coherent DMA stream buffers stay allocated while
+streaming reports failure to vb2. Two latent defects follow on the next
+VIDIOC_STREAMON:
 
-  airspy_stop_streaming()
-    airspy_ctrl_msg(s, CMD_RECEIVER_MODE, 0, 0, NULL, 0)
-      usb_sndctrlpipe(s->udev, 0)         /* NULL deref */
-    airspy_free_stream_bufs(s)
-      usb_free_coherent(s->udev, ...)     /* NULL deref */
+1) rtl2832_sdr_alloc_stream_bufs() unconditionally resets dev->buf_num
+   to 0 and overwrites dev->buf_list[]/dev->dma_addr[], permanently
+   leaking the coherent DMA memory allocated by the previous attempt.
 
-The airspy driver uses vb2_fop_release() in its file_operations, so
-replace video_unregister_device(&s->vdev) with
-vb2_video_unregister_device(&s->vdev) and move it before clearing
-s->udev. vb2_video_unregister_device() releases the vb2 queue, which
-synchronously runs airspy_stop_streaming() if streaming is active, so
-the URBs, coherent DMA stream buffers and the hardware stop control
-message all execute while s->udev is still valid.
+2) rtl2832_sdr_alloc_urbs() never resets dev->urbs_initialized and only
+   increments it. After a second successful pass urbs_initialized can
+   exceed MAX_BULK_BUFS, so the subsequent rtl2832_sdr_free_urbs() walks
+   from urbs_initialized - 1 down to 0 and reads past the end of
+   dev->urb_list[], passing garbage pointers to usb_free_urb().
 
-vb2_video_unregister_device() locks vdev->queue->lock (vb_queue_lock)
-internally, and stop_streaming() locks v4l2_lock, so the previous outer
-mutex_lock(&s->vb_queue_lock) / mutex_lock(&s->v4l2_lock) pair around
-the unregister sequence would self-deadlock and has been removed. A
-short v4l2_lock critical section around s->udev = NULL remains so any
-ioctl path that still holds the file descriptor sees coherent state.
+Mirror the teardown that stop_streaming() already performs: on the error
+path call rtl2832_sdr_free_urbs() and rtl2832_sdr_free_stream_bufs()
+before unlocking. Both helpers are idempotent (free_urbs kills and zeros
+urbs_initialized; free_stream_bufs is gated on URB_BUF and clears the
+buf_num counter), so partial-failure paths and the no-allocation paths
+remain safe.
 
 Issue identified by automated review of the INV-003 series at
 https://sashiko.dev/
 
-Fixes: 634fe5033951 ("[media] airspy: AirSpy SDR driver")
+Fixes: 771138920eaf ("[media] rtl2832_sdr: Realtek RTL2832 SDR driver module")
 Cc: stable@vger.kernel.org
-Suggested-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 Signed-off-by: Valery Borovsky <vebohr@gmail.com>
 ---
 Changes since v1
-(https://lore.kernel.org/linux-media/20260513052617.140688-1-vebohr@gmail.com/):
-- Rewritten per Hans Verkuil's review
-  (https://lore.kernel.org/linux-media/f202c8ae-554f-49de-a9d1-add337e28515@kernel.org/):
-  fix the root cause in airspy_disconnect() by replacing
-  video_unregister_device() with vb2_video_unregister_device() and
-  moving it before clearing s->udev, instead of guarding the hardware
-  teardown in airspy_stop_streaming() with "if (s->udev)".
-  vb2_video_unregister_device() releases the queue, which synchronously
-  calls stop_streaming() while s->udev is still valid, so the guard is
-  no longer needed; airspy_stop_streaming() is unchanged.
-- Dropped the outer mutex_lock(&s->vb_queue_lock) /
-  mutex_lock(&s->v4l2_lock) around the unregister sequence:
-  vb2_video_unregister_device() acquires vb_queue_lock internally and
-  stop_streaming() acquires v4l2_lock, so holding either of those
-  while calling the unregister helper self-deadlocks.
-- Rebased on media-committers/next.
+(https://lore.kernel.org/linux-media/20260513055733.146905-1-vebohr@gmail.com/):
+- Rebased on media-committers/next. The err: label in
+  rtl2832_sdr_start_streaming() now also calls
+  rtl2832_sdr_cleanup_queued_bufs(dev, VB2_BUF_STATE_QUEUED) from
+  commit 33ca0aab6f4b ("media: rtl2832_sdr: Return queued buffers on
+  start_streaming() failure"); free_urbs()/free_stream_bufs() are placed
+  before that cleanup, matching the order in stop_streaming(). No
+  semantic change to v1.
 
- drivers/media/usb/airspy/airspy.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ drivers/media/dvb-frontends/rtl2832_sdr.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/media/usb/airspy/airspy.c b/drivers/media/usb/airspy/airspy.c
-index 57edb42463e8..358a66ab8e48 100644
---- a/drivers/media/usb/airspy/airspy.c
-+++ b/drivers/media/usb/airspy/airspy.c
-@@ -464,14 +464,21 @@ static void airspy_disconnect(struct usb_interface *intf)
+diff --git a/drivers/media/dvb-frontends/rtl2832_sdr.c b/drivers/media/dvb-frontends/rtl2832_sdr.c
+index c564485e3bbb..036b67a17b7a 100644
+--- a/drivers/media/dvb-frontends/rtl2832_sdr.c
++++ b/drivers/media/dvb-frontends/rtl2832_sdr.c
+@@ -906,9 +906,12 @@ static int rtl2832_sdr_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 		goto err;
  
- 	dev_dbg(s->dev, "\n");
- 
--	mutex_lock(&s->vb_queue_lock);
-+	/*
-+	 * vb2_video_unregister_device() releases the vb2 queue, which
-+	 * triggers airspy_stop_streaming() if streaming is active.
-+	 * stop_streaming() dereferences s->udev via airspy_ctrl_msg() and
-+	 * airspy_free_stream_bufs(), so it must run before s->udev is
-+	 * cleared. vb2_video_unregister_device() locks vb_queue_lock
-+	 * internally and stop_streaming() locks v4l2_lock, so neither may
-+	 * be held by the caller.
-+	 */
-+	v4l2_device_disconnect(&s->v4l2_dev);
-+	vb2_video_unregister_device(&s->vdev);
+ 	mutex_unlock(&dev->v4l2_lock);
 +
- 	mutex_lock(&s->v4l2_lock);
--	/* No need to keep the urbs around after disconnection */
- 	s->udev = NULL;
--	v4l2_device_disconnect(&s->v4l2_dev);
--	video_unregister_device(&s->vdev);
- 	mutex_unlock(&s->v4l2_lock);
--	mutex_unlock(&s->vb_queue_lock);
+ 	return 0;
  
- 	v4l2_device_put(&s->v4l2_dev);
- }
+ err:
++	rtl2832_sdr_free_urbs(dev);
++	rtl2832_sdr_free_stream_bufs(dev);
+ 	rtl2832_sdr_cleanup_queued_bufs(dev, VB2_BUF_STATE_QUEUED);
+ 	mutex_unlock(&dev->v4l2_lock);
+ 
 -- 
 2.51.0
 
