@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-62660-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62661-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gOGkME33EGoxgAYAu9opvQ
-	(envelope-from <linux-media+bounces-62660-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 23 May 2026 02:39:41 +0200
+	id KGXVLvL5EGqJgAYAu9opvQ
+	(envelope-from <linux-media+bounces-62661-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 23 May 2026 02:50:58 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 656AD5BC1AE
-	for <lists+linux-media@lfdr.de>; Sat, 23 May 2026 02:39:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20B945BC361
+	for <lists+linux-media@lfdr.de>; Sat, 23 May 2026 02:50:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5CF07302DB77
-	for <lists+linux-media@lfdr.de>; Sat, 23 May 2026 00:38:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8BE7D304457C
+	for <lists+linux-media@lfdr.de>; Sat, 23 May 2026 00:46:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83971239E7E;
-	Sat, 23 May 2026 00:38:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1D382749E6;
+	Sat, 23 May 2026 00:45:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W/qwAMS1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AYrP9ADM"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8B0DFC0A;
-	Sat, 23 May 2026 00:38:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66A235972;
+	Sat, 23 May 2026 00:45:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779496689; cv=none; b=IQaTe+gCPBiaxl9+p3IJ+Q2Dnx8XI+G+pTfJVka1+ANrXw66sfyQdzcpuLaHEvymnKjBn4j8AgF7NkyhUJA3G8LQBrUOAEOrft/w5Uk+2yxOqunFajPet5mztBeQyJJmebCAyRUdnTttV2eezOlU7cYtWqfHllQ9ue2Vu82L7Y4=
+	t=1779497156; cv=none; b=LShcHICzLdcR75EwljIPg1iq8uncAxzvSDUI9WCcRZeH8VxdFbGf2rPbv3HY9tECq/CXY7uPUvvCU+RL+HdSDRrYYxF95Io1TNV89Lv+ivZDE6X84E2ichW9I7Uf0oRDyf56anJPEXDK4Hh/O0GlnghBTKCpq35dp+ijYPlKtyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779496689; c=relaxed/simple;
-	bh=5mcnBS5MtgC9UfAOoDlmY0BQO+Ao/SdQLXT9dBQtNkk=;
+	s=arc-20240116; t=1779497156; c=relaxed/simple;
+	bh=DqeXOCZ0TXIcigSWsRqnJQXcvPDVQzLlWv2CI6safo4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rNlIIwOGjatOkritxjJNEUAlz2vwjWZJ9JMwAJxKdCkcyRKjimih0PPF61skI2pMDAiLsTReITEBhwjWSn7QL5XDnPnSbMfHBgGBXEpi6C3SGDhBlbluVCZk9doqKgOCp8tV3xZgEeRSgcBIPobl/b95etFlgHkeUg3y6JsD5d0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W/qwAMS1; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDCE81F000E9;
-	Sat, 23 May 2026 00:38:04 +0000 (UTC)
+	 MIME-Version; b=us74pcfi2l8+92P5YS3giAS6E89XloG4EJTCJncQNsrcv7nmuJHLFI/MTLcbqkjeTsid5P7Cxi+zUORbmHhoWNHeAdZNfse/Flnttbrva3J3o+sxYi5ylhnqcBVFWSqWGkJJ//OPySSEiJCD22I4zgnVqGgjLxv2ER1xPJsS5R0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AYrP9ADM; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D8D01F000E9;
+	Sat, 23 May 2026 00:45:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779496688;
-	bh=ke0QgGP72oU1/KHDzVSs1lh/gkg7Mw8fFDTolKbzoHA=;
+	s=k20260515; t=1779497154;
+	bh=Z9Ii4kFnGASPrJVUv4pLJyz9ASaQSsUSFT2aMNSnQpw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=W/qwAMS1ok+56HAwvYiYz0R5wmKsD0RscuUhy5BVEzThMnr+wQxbKIW0Yk+lqtg0R
-	 dxN4FM+nLAHenqFi1JvSelOt20CYFnYpdSX3hvz5/mvzq/JXO7gcBTjSStG/A5FM8j
-	 0Dk4RFZ90/nX0Xzby8V+5D3uQDTYP8o1bo3XSKlx4rKPB6vCO/Oui18woqanoP+n4U
-	 enXhw+/EJeP6Kw2ZiII29eiMOdyHFC3VD0U1T97Mm+aD6rZa6A+hyeA7zcgLPdsptw
-	 8LWGxoojes1mewesgkVxxy+dLIhtJlwu3XyRYodcKxBzIRSnWjQs++a/owD5p2CmBM
-	 RNz3sazG7iMhQ==
+	b=AYrP9ADMMstpZMK07X7RJX7Vi+LssxAckCYKP0qcdmy4tA9a9uGeNKXekQFeMbDY2
+	 LDBidZU8qfyCeiIO2lTcwcq4IenY+1Wd9qlBghobsMk+v2M/w+YRP79CHe0dVbDprH
+	 6m4cKDcu9eoRxsj9K8pW3klTEaPK47F9haaWHiA44qhhUhE1d+q0p7agQTc1CqKY7Y
+	 TIm3cavZyfg5Ocnp8Ulrf7LvNxFf6kEk1G4wZqQ5n3xAgZSAUkznMwff7nIEvl1Awg
+	 MCkN/vkTJiTtDyoIlmLFKVmTKKTBPE0rS5dN7mvUamAdq3cIcL7ggZ6AdKA3393vQz
+	 kGvcVXqs9FgPQ==
 From: SeongJae Park <sj@kernel.org>
 To: Kees Cook <kees@kernel.org>
 Cc: SeongJae Park <sj@kernel.org>,
@@ -144,12 +144,13 @@ Cc: SeongJae Park <sj@kernel.org>,
 	linux-arch@vger.kernel.org,
 	netdev@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 04/11] treewide: Convert struct kernel_param_ops initializers to DEFINE_KERNEL_PARAM_OPS
-Date: Fri, 22 May 2026 17:38:01 -0700
-Message-ID: <20260523003801.86344-1-sj@kernel.org>
+	linux-hardening@vger.kernel.org,
+	damon@lists.linux.dev
+Subject: Re: [PATCH 09/11] treewide: Convert custom kernel_param_ops .get callbacks to seq_buf via cocci
+Date: Fri, 22 May 2026 17:45:43 -0700
+Message-ID: <20260523004543.86540-1-sj@kernel.org>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260521133326.2465264-4-kees@kernel.org>
+In-Reply-To: <20260521133326.2465264-9-kees@kernel.org>
 References: 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -173,7 +174,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62660-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62661-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -181,49 +182,66 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[sj@kernel.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_GT_50(0.00)[100];
+	RCPT_COUNT_GT_50(0.00)[101];
 	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-0.999];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 656AD5BC1AE
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 20B945BC361
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, 21 May 2026 06:33:17 -0700 Kees Cook <kees@kernel.org> wrote:
++ damon@lists.linux.dev
 
-> Using Coccinelle, rewrite every struct kernel_param_ops initializer that
-> sets .get into a DEFINE_KERNEL_PARAM_OPS-family macro invocation,
-> for example:
+On Thu, 21 May 2026 06:33:22 -0700 Kees Cook <kees@kernel.org> wrote:
+
+> Using the following Coccinelle script, convert struct kernel_param_ops
+> .get callbacks from "char *" to "struct seq_buf *" when the only write
+> to the buffer is via a final call of scnprintf(), snprintf(), sprintf(),
+> or sysfs_emit().
+> 
+> Since seq_buf_printf() will return -1 on overflow, and struct
+> kernel_param_ops .get callbacks are expected to truncate without error,
+> we must ignore the return value from seq_buf_print() and always return 0
+> (as the length is calculated in the common dispatcher code).
 > 
 > @@
-> declarer name DEFINE_KERNEL_PARAM_OPS;
-> identifier OPS;
-> expression SET, GET;
+> identifier FN, BUF, KP;
+> expression FMT;
+> expression list ARGS;
 > @@
-> - const struct kernel_param_ops OPS = {
-> -       .set = SET,
-> -       .get = GET,
-> - };
-> + DEFINE_KERNEL_PARAM_OPS(OPS, SET, GET);
+>  int FN(
+> -               char *BUF
+> +               struct seq_buf *BUF
+>                 , const struct kernel_param *KP)
+>  {
+>         ... when any
+> (
+> -       return scnprintf(BUF, PAGE_SIZE, FMT, ARGS);
+> |
+> -       return snprintf(BUF, PAGE_SIZE, FMT, ARGS);
+> |
+> -       return sprintf(BUF, FMT, ARGS);
+> |
+> -       return sysfs_emit(BUF, FMT, ARGS);
+> )
+> +       seq_buf_printf(BUF, FMT, ARGS);
+> +       return 0;
+>  }
 > 
-> Using the macro for initialization means future changes can manipulate
-> the struct layout and callback prototypes without having to change every
-> initializer.
+> No struct kernel_param_ops initializations need changing since
+> DEFINE_KERNEL_PARAM_OPS already routes the pointer to .get or .get_str
+> via _Generic based on the function signature, so converted callbacks
+> are automatically moved from the .get_str to the .get callback.
 > 
 > Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
 [...]
->  mm/damon/lru_sort.c                           | 19 ++---
->  mm/damon/reclaim.c                            | 19 ++---
->  mm/damon/stat.c                               |  6 +-
-[...]
->  samples/damon/mtier.c                         |  6 +-
->  samples/damon/prcl.c                          |  6 +-
->  samples/damon/wsse.c                          |  6 +-
+>  mm/damon/lru_sort.c                           | 14 +++---
+>  mm/damon/reclaim.c                            | 14 +++---
+>  mm/damon/stat.c                               | 10 ++--
 
-For the above DAMON part changes,
+For the above DAMON changes,
 
 Reviewed-by: SeongJae Park <sj@kernel.org>
 
