@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-62671-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62672-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SAMoLTGfEWr1oAYAu9opvQ
-	(envelope-from <linux-media+bounces-62671-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 23 May 2026 14:36:01 +0200
+	id IB+3CRW7EWo5pQYAu9opvQ
+	(envelope-from <linux-media+bounces-62672-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 23 May 2026 16:35:01 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14B085BEEC3
-	for <lists+linux-media@lfdr.de>; Sat, 23 May 2026 14:36:01 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18E115BF687
+	for <lists+linux-media@lfdr.de>; Sat, 23 May 2026 16:35:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 41FA5303A109
-	for <lists+linux-media@lfdr.de>; Sat, 23 May 2026 12:33:37 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 97F2C3003BC7
+	for <lists+linux-media@lfdr.de>; Sat, 23 May 2026 14:34:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D636E39901C;
-	Sat, 23 May 2026 12:33:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F8122FD665;
+	Sat, 23 May 2026 14:34:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jW3+XESk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fRuMNnEn"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E225F399361;
-	Sat, 23 May 2026 12:33:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABA292D1F44;
+	Sat, 23 May 2026 14:34:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779539612; cv=none; b=Ltp3L6yeDsT8DqAoOpzTvnS4fy9MKT2pFdwHMBXxx7CAZkNIlubZEZ66I9J9ZpnUAY6ypK9dmgyAOcytkLhltiGK8I9uiS+yZStHelfQe2uJhUSa6OKhinYRx+auzuf2Cftb9FnnrrmpFI0H2G2t7kXj6UC6JAUrgY9d8qKWyKs=
+	t=1779546882; cv=none; b=TZ28NaEJ21p2r2wEl0juj4JNAlfa0d8Zk55q3vw7GwSNIYb4ny73SBa8VDce7Sm1gItueIC5iUmZI5I70dVYnGAtWpYdPkKGMTndtCTviXLmlKATldJVWqAq4C2Iw2qGKKBUHi7kbXssbqvUIYEnCNdLMR+kpIS8ImQuwgjcqk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779539612; c=relaxed/simple;
-	bh=56rtl5yWcqt/qvv0kT1QPxahxvD5Oep41kV/zQgRNLw=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=BCBnco9lLzAqCsjkIiC7wbyZX3Q4mfMVkxvqxXpgQrvRmhg0qZ2NOzxerEygdnY3GXO7fNot+h+qFF5Zv6rOwU5dgvnhtgOxNS5qC3rE0c3uzLlScf/RF8st/cbv4uHbApJRTsxyjhIodZV3tQouEDxHluvJ7QMRurRVFIfuMPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jW3+XESk; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D033D1F000E9;
-	Sat, 23 May 2026 12:32:43 +0000 (UTC)
+	s=arc-20240116; t=1779546882; c=relaxed/simple;
+	bh=wRmeeDFW9aLsG7APMHX0/TFOJPnEO5M+u+iIvZF5X3s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UfAoYqkfVo+nb8j2/4qJ/YJ6fCncSjThRH+dMzrhqaA1uu/dFkKeJdPOIlRdKOQk0eaMZtHFXJk2A4GWh6zxI/09flg334G8L8AyjUFYIvpideJGtfSrvL1PfocBhAInOUGCApiQcaUQX+5TTMehfeqSvI7QXvxSNNqbKMkmxEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fRuMNnEn; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15A8F1F000E9;
+	Sat, 23 May 2026 14:34:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779539609;
-	bh=feRzGMWHkALLA8SyrU6RJ1+Ne9lKt9MuXcA+HfB5g6s=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To;
-	b=jW3+XESk7IvEcBU+bpy8yPJAU/0IVwlShO9v6KZOWX/ll0bKB5YUpHGA74CScGkib
-	 h61p7Ii11ojyLl4zWD9zC9jbGza8+08D0KF1Xyx9eBM6rLRsPBrMoOJWaYv4k5Vx5f
-	 b+ou7eQ1gREOxWOzgW+VN7myFXCmEhBFTQ9Sdu659LX8/GPVkRUMTXMWimv/FjEczf
-	 bG24n4N8iuPU4UnGW4T49bADfkhY2K1I2wXkGRyHTK9qH1ARUHqANTaWPkqp1iRNQ2
-	 wp7jB+4PxO00QxNwhLHhUxRt7tl3Y/eymRjs0Aul1vvTeTOYwlxBhdLtHlabRl0oG/
-	 MVc5rNjQJ3rsg==
-Message-ID: <6b2a816f-eb3b-4e0c-a024-ee2e3743eb04@kernel.org>
-Date: Sat, 23 May 2026 21:32:41 +0900
+	s=k20260515; t=1779546881;
+	bh=m0RMW+vUTF/Kw0EclT9JxUQS8BolCI+Rfe/P5jHnTs0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=fRuMNnEnaU3pUZeCti0/1FjuF1JXjZLBPgmMnv61LrJySZ6X8EFw4h2BCpGe3W364
+	 f+9TH0AgdXEX9X7yLx0+VKbn0qgcbuAO51gJuiY2p1d+A/K6NqWlqTun1KP2N5Qd1u
+	 9/yPoL0gp7BNmbXkMwnk20TdBUFwagzYOSTEaD2Ww0In+zde2qnzcSAcBA5S4vFz/1
+	 i1k+D0fxc9jwqqB0D96e1yuj5vzgO3x0eJY8B8QPTXwXDcHwhvQHiQfJ3SyX3YnzuA
+	 8cpCjfk1Cu/tjjhiI9kllFtuwCkOTVqsyDsk/+ZQ4bT+UY/+1Q+KXZm0s45qWVf0FB
+	 XkiIfM2Ewr0dw==
+Message-ID: <0592b09b-a084-4d9d-bcbf-1b77e45226cf@kernel.org>
+Date: Sat, 23 May 2026 23:34:07 +0900
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,10 +53,10 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Harry Yoo <harry@kernel.org>
-Subject: DEPT (the dependency tracker) as AI review prompt? (was: DEPT v18)
-To: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org
-Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
+Subject: Re: DEPT (the dependency tracker) as AI review prompt?
+To: Yunseong Kim <ysk@kzalloc.com>
+Cc: Byungchul Park <byungchul@sk.com>, linux-kernel@vger.kernel.org,
+ kernel_team@skhynix.com, torvalds@linux-foundation.org,
  damien.lemoal@opensource.wdc.com, linux-ide@vger.kernel.org,
  adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org, mingo@redhat.com,
  peterz@infradead.org, will@kernel.org, tglx@linutronix.de,
@@ -68,17 +68,16 @@ Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
  minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
  sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
  penberg@kernel.org, rientjes@google.com, vbabka@suse.cz, ngupta@vflare.org,
- linux-block@vger.kernel.org, josef@toxicpanda.com,
- linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org,
- dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
- dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
- melissa.srw@gmail.com, hamohammed.sa@gmail.com, harry.yoo@oracle.com,
- chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
- max.byungchul.park@gmail.com, boqun.feng@gmail.com, longman@redhat.com,
- yunseong.kim@ericsson.com, ysk@kzalloc.com, yeoreum.yun@arm.com,
- netdev@vger.kernel.org, matthew.brost@intel.com, her0gyugyu@gmail.com,
- corbet@lwn.net, catalin.marinas@arm.com, bp@alien8.de, x86@kernel.org,
- hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
+ linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+ jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+ djwong@kernel.org, dri-devel@lists.freedesktop.org,
+ rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+ hamohammed.sa@gmail.com, harry.yoo@oracle.com, chris.p.wilson@intel.com,
+ gwan-gyeong.mun@intel.com, max.byungchul.park@gmail.com,
+ boqun.feng@gmail.com, longman@redhat.com, yunseong.kim@ericsson.com,
+ yeoreum.yun@arm.com, netdev@vger.kernel.org, matthew.brost@intel.com,
+ her0gyugyu@gmail.com, corbet@lwn.net, catalin.marinas@arm.com, bp@alien8.de,
+ x86@kernel.org, hpa@zytor.com, luto@kernel.org, sumit.semwal@linaro.org,
  gustavo@padovan.org, christian.koenig@amd.com, andi.shyti@kernel.org,
  arnd@arndb.de, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
  rppt@kernel.org, surenb@google.com, mcgrof@kernel.org, petr.pavlu@suse.com,
@@ -114,132 +113,70 @@ Cc: kernel_team@skhynix.com, torvalds@linux-foundation.org,
  lossin@kernel.org, a.hindborg@kernel.org, aliceryhl@google.com,
  tmgross@umich.edu, rust-for-linux@vger.kernel.org, Chris Mason
  <clm@meta.com>, Roman Gushchin <roman.gushchin@linux.dev>,
- Josef Bacik <josef@toxicpanda.com>
+ Josef Bacik <josef@toxicpanda.com>, Yunseong Kim <yunseong.kim@est.tech>
 References: <20251205071855.72743-1-byungchul@sk.com>
+ <6b2a816f-eb3b-4e0c-a024-ee2e3743eb04@kernel.org>
+ <CA+7O06GxeDLR9RcKDN2i-Rgc4kgzz6BfF4b0XAH4tFx=A723Nw@mail.gmail.com>
 Content-Language: en-US
-In-Reply-To: <20251205071855.72743-1-byungchul@sk.com>
+From: Harry Yoo <harry@kernel.org>
+In-Reply-To: <CA+7O06GxeDLR9RcKDN2i-Rgc4kgzz6BfF4b0XAH4tFx=A723Nw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	SUBJECT_ENDS_QUESTION(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[skhynix.com,linux-foundation.org,opensource.wdc.com,vger.kernel.org,dilger.ca,redhat.com,infradead.org,kernel.org,linutronix.de,goodmis.org,joelfernandes.org,ffwll.ch,gmail.com,intel.com,mit.edu,fromorbit.com,linuxfoundation.org,lge.com,kvack.org,cmpxchg.org,linux.com,google.com,suse.cz,vflare.org,toxicpanda.com,lists.freedesktop.org,oracle.com,ericsson.com,kzalloc.com,arm.com,lwn.net,alien8.de,zytor.com,linaro.org,padovan.org,amd.com,arndb.de,suse.com,nvidia.com,joshtriplett.org,efficios.com,linux.dev,suse.de,brown.name,talpey.com,huawei.com,amazon.co.uk,linux.alibaba.com,glider.be,linux.intel.com,treblig.org,star-ark.net,valla.it,vivo.com,baidu.com,lists.infradead.org,lists.linaro.org,lists.linux.dev,qq.com,ownmail.net,sang-engineering.com,linux-m68k.org,garyguo.net,protonmail.com,umich.edu,meta.com];
+	FREEMAIL_CC(0.00)[sk.com,vger.kernel.org,skhynix.com,linux-foundation.org,opensource.wdc.com,dilger.ca,redhat.com,infradead.org,kernel.org,linutronix.de,goodmis.org,joelfernandes.org,ffwll.ch,gmail.com,intel.com,mit.edu,fromorbit.com,linuxfoundation.org,lge.com,kvack.org,cmpxchg.org,linux.com,google.com,suse.cz,vflare.org,lists.freedesktop.org,oracle.com,ericsson.com,arm.com,lwn.net,alien8.de,zytor.com,linaro.org,padovan.org,amd.com,arndb.de,suse.com,nvidia.com,joshtriplett.org,efficios.com,linux.dev,suse.de,brown.name,talpey.com,huawei.com,amazon.co.uk,linux.alibaba.com,glider.be,linux.intel.com,treblig.org,star-ark.net,valla.it,vivo.com,baidu.com,lists.infradead.org,lists.linaro.org,lists.linux.dev,qq.com,ownmail.net,sang-engineering.com,linux-m68k.org,garyguo.net,protonmail.com,umich.edu,meta.com,toxicpanda.com,est.tech];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62672-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62671-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,locking.md:url];
-	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCPT_COUNT_GT_50(0.00)[169];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[harry@kernel.org,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_GT_50(0.00)[169];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,renesas];
-	SUBJECT_HAS_QUESTION(0.00)[]
-X-Rspamd-Queue-Id: 14B085BEEC3
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 18E115BF687
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Can we start DEPT as an AI review prompt, by documenting DEPT's 
-dependency tracking model and false positive elimination rules as a 
-carefully crafted prompt?
 
-While DEPT can identify deadlock issues beyond lockdep's capabilities, 
-it is hard to enable in automated testing; without fine-grained 
-annotations it can produce a high rate of false positives, and verifying 
-them requires significant human effort.
 
-The open source AI Review Prompt has locking.md file [1] that teaches 
-the AI how to review locks and detect misuse.
+On 5/23/26 11:00 PM, Yunseong Kim wrote:
+> I've previously experimented with running DEPT alongside syzkaller fuzzing,
+> and many hung tasks missed by lockdep are caught by DEPT, but the resulting
+> high volume of reports makes it easy for issues to get lost in the massive
+> log output. Sorting through that output manually is a huge bottleneck, so
+> leveraging a well-crafted AI prompt to triage the warnings and filter out
+> the false positives would be incredibly valuable.
 
-If we can write a review prompt for DEPT in a similar manner and have 
-the AI do the deadlock detection and false positive elimination, I think 
-we could identify those problems more effectively with much less human 
-effort.
+I mean both 1) detection of deadlock issues AND 2) false positive 
+elimination with AI.
 
-[1] 
-https://github.com/masoncl/review-prompts/blob/main/kernel/subsystem/locking.md
+If the review prompt is only used to eliminate DEPT's false positives, I 
+think that would be quite hard to get broad use.
+
+Someone would have to build out-of-tree DEPT, collect the reports, and 
+then feed those back into the AI. I don't think building that kind of 
+pipeline would actually work well in practice.
 
 -- 
 Cheers,
 Harry / Hyeonggon
-
-On 12/5/25 4:18 PM, Byungchul Park wrote:
-> I'm happy to see that DEPT reported real problems in practice:
-> 
->     https://lore.kernel.org/lkml/6383cde5-cf4b-facf-6e07-1378a485657d@I-love.SAKURA.ne.jp/
->     https://lore.kernel.org/lkml/1674268856-31807-1-git-send-email-byungchul.park@lge.com/
->     https://lore.kernel.org/all/b6e00e77-4a8c-4e05-ab79-266bf05fcc2d@igalia.com/
-> 
-> I’ve added documentation describing DEPT — this should help you
-> understand what DEPT is and how it works.  You can use DEPT simply by
-> enabling CONFIG_DEPT and checking dmesg at runtime.
-> ---
-> 
-> Hi Linus and folks,
-> 
-> I’ve been developing a tool to detect deadlock possibilities by tracking
-> waits/events — rather than lock acquisition order — to cover all the
-> synchronization mechanisms.  To summarize the design rationale, starting
-> from the problem statement, through analysis, to the solution:
-> 
->     CURRENT STATUS
->     --------------
->     Lockdep tracks lock acquisition order to identify deadlock conditions.
->     Additionally, it tracks IRQ state changes — via {en,dis}able — to
->     detect cases where locks are acquired unintentionally during
->     interrupt handling.
->     
->     PROBLEM
->     -------
->     Waits and their associated events that are never reachable can
->     eventually lead to deadlocks.  However, since Lockdep focuses solely
->     on lock acquisition order, it has inherent limitations when handling
->     waits and events.
->     
->     Moreover, by tracking only lock acquisition order, Lockdep cannot
->     properly handle read locks or cross-event scenarios — such as
->     wait_for_completion() and complete() — making it increasingly
->     inadequate as a general-purpose deadlock detection tool.
->     
->     SOLUTION
->     --------
->     Once again, waits and their associated events that are never
->     reachable can eventually lead to deadlocks.  The new solution, DEPT,
->     focuses directly on waits and events.  DEPT monitors waits and events,
->     and reports them when any become unreachable.
-> 
-> DEPT provides:
-> 
->     * Correct handling of read locks.
->     * Support for general waits and events.
->     * Continuous operation, even after multiple reports.
->     * Simple, intuitive annotation APIs.
-> 
-> There are still false positives, and some are already being worked on
-> for suppression.  Especially splitting the folio class into several
-> appropriate classes e.g. block device mapping class and regular file
-> mapping class, is currently under active development by me and Yeoreum
-> Yun.
->> Anyway, these efforts will need to continue for a while, as we’ve seen
-> with lockdep over two decades.  DEPT is tagged as EXPERIMENTAL in
-> Kconfig — meaning it’s not yet suitable for use as an automation tool.
-> 
-> However, for those who are interested in using DEPT to analyze complex
-> synchronization patterns and extract dependency insights, DEPT would be
-> a great tool for the purpose.
 
 
