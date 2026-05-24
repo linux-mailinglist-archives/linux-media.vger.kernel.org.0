@@ -1,160 +1,205 @@
-Return-Path: <linux-media+bounces-62691-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62692-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id IAByJJ9jE2of/gYAu9opvQ
-	(envelope-from <linux-media+bounces-62691-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 24 May 2026 22:46:23 +0200
+	id CBe5Ca5jE2r+/QYAu9opvQ
+	(envelope-from <linux-media+bounces-62692-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 24 May 2026 22:46:38 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 431CB5C4389
-	for <lists+linux-media@lfdr.de>; Sun, 24 May 2026 22:46:23 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E555C43A0
+	for <lists+linux-media@lfdr.de>; Sun, 24 May 2026 22:46:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id CAEE1300F7A4
-	for <lists+linux-media@lfdr.de>; Sun, 24 May 2026 20:46:14 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 35FC13004075
+	for <lists+linux-media@lfdr.de>; Sun, 24 May 2026 20:46:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D1B0333434;
-	Sun, 24 May 2026 20:46:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C5CB337BAB;
+	Sun, 24 May 2026 20:46:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nqgrh3PR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jmp3uHrJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D561E555
-	for <linux-media@vger.kernel.org>; Sun, 24 May 2026 20:46:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41FFF3195FB
+	for <linux-media@vger.kernel.org>; Sun, 24 May 2026 20:46:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779655570; cv=none; b=PHMYrfB7M+mICW59EI6OHXqUgl4jr4IFXxP9fAfxMvRmajZophR1mJu6UBsdouPbVJttLGOEPIJ16echQdlAH7XtcTFiuwhyixxS1j84U0cJz0oRM8GwILuc9Rpy19SggVZmQyqNygQu4GaGNE9Xi3PLlsWUzLNUlM0W2b0uXng=
+	t=1779655581; cv=none; b=OxJ4h0htZdP3t3fkAoWZkXYUu7zOYg9ZzvIIEXbChmvH46t06fBZqejqbaXnJ5eXyVcjlSG1nCv1swpjuTV9eTlcJvyuLbraAUqVS9qmtRGQQj89sYfHABobY27EcOkP8Q2rkPo3zJGnvaNz81psAz0iROCep0DiCVGDdyprksc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779655570; c=relaxed/simple;
-	bh=nLbGNUquuTxDNs6KGZ4Mu+s7hZ8Us3f1vpxwNbU2M7o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bbZmDwYnaJTIXqPaaw1C5G3nURMp3tzD6x/ZB3XqM8SFf3F+VNjlq7iNhAOa5hxMJgdYZTVg3EPg52kpDnCfyxOCCVVT1iNPYG7YrOBgDKyVwMuIWGZjEh1TJGweLfXbmR/annPsKtMTHxJyOgF/iW5yJdP9FF/lMIJb0C9vc44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nqgrh3PR; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-49050bfe053so15514165e9.3
-        for <linux-media@vger.kernel.org>; Sun, 24 May 2026 13:46:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779655568; x=1780260368; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FeIpuMJ+03Ky1SEliE0xHMO+6I116HGvNeqXrJ7rydc=;
-        b=Nqgrh3PRCLqSJvMHEoS16Cj/CzZYJVZNy88WDLeyEPWv8GY3+Ku2/HPdnWbS97Z0nQ
-         yRTIA2OAbaqcJcdbkTRRnrL89H6yfPpgCYxfvQlCsiv6v6m2cTw8LyHnWuEXd78RNoy3
-         hfWYwoZUkcfDKVEC0fyH0TI4LyUx8VgRoxWCo9cAiecLR0g+b4fhCDWRbiV92nAnxBvM
-         H2MSPv3hYDWG4bR0Io4hRmywvZG96gdGT8k9w3JgQ+uDR3y9fZ+xnqZKB12ks/MvhKxi
-         SYeuBMeiPbnGANzXiQxl333qAnY2RICG7Dp47ZXVQV/BJ9RMTCf+nZOE2v9aNl/l9DRy
-         44yQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779655568; x=1780260368;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=FeIpuMJ+03Ky1SEliE0xHMO+6I116HGvNeqXrJ7rydc=;
-        b=bX7eptOmkTVDa9ZT6cWnZRzgXmF57vGHkXhnAiGLt3+2oKJxqVV9IBxj71l6R0Cxfp
-         6zn7UcFGEYgKnmiqh0whSI9TX/vGhlHI+DtNvePrtD4yBHDY2GJsGUtBVcN8fGsPuKsX
-         jG1En3g60hDgCEWVxr236BHVhBRmRXHXNaJUDmpTUFiXTi0WGPB78XoNSoLPwkj0A1wp
-         3XefN5jWEJdkF7y+SYu7XEuUUdLg+lpOI9zUk0TKP278bByGkL3aMcLUmjA8jJUVsHCx
-         irPAVozX/pelE9E76UKoTrJAENBye6IB2ppETeH9/eqqKfVQQ4Dlki2mzKTS2c7RI8bC
-         fW/w==
-X-Gm-Message-State: AOJu0YxndaW/HCfzPi6gylk7PJj7m18ic7iJM1afeGvQlvLZU6cHhEYb
-	GaBifdoz31N5VkVjwGVQ3YO+GoIhpfrPpiIsFqvhpFOkseiRgjxFH1MR3ytKxg==
-X-Gm-Gg: Acq92OHRKCWtbiP4DdlrnvAUPC97r7cl4u6eEV8fIWa0JBTW6FiiKZWXMrj76lBk+nZ
-	El3PlMf+mPMC6uHER86Nj8o0Mz/d7p9Dh9yUbaNPT40x4PHk9RMTIwPs8lax4TCIeojJEskXSdA
-	NK+i2HjrNGwgqSWaitM7MfJiGG7y7KndZ2v8d5mYZ+wUwbUEKkukB5/AeBLkoeRU5WF56/8KNdn
-	tPeWfElnxJs3mW4xNvASO3FfF7gW656EbxvmMINuIvKo46ELPDU/fN6rjHj5CxnFzGTiY0ECgj2
-	oxGM/D0sO7bRO6FAaiByWaILDg9ygRpShcFinXimV2OJY1dIwW2YtNAFNQuy+w8SbPNDRNTcWBs
-	jajcgw5Qt6g6d7KHqzvXezuzB1r3UGOqlcUVvjFqbe8TqHsQaAQZInb0mTU5ncifQ+4FQevEUy0
-	0hh1Z3zryw7to1ugai63s8R1OJcBzGTlXNdFCcFwltvOf2s1qCI1vIibjORVyW05GqEfPTEFUj0
-	g==
-X-Received: by 2002:a05:600c:a402:b0:48f:be94:d82c with SMTP id 5b1f17b1804b1-490426d1a91mr137589135e9.19.1779655567824;
-        Sun, 24 May 2026 13:46:07 -0700 (PDT)
-Received: from sarah-VirtualBox.Dlink ([46.31.102.10])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490454ac6a6sm208148865e9.12.2026.05.24.13.46.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 May 2026 13:46:07 -0700 (PDT)
-From: Sarah Gershuni <sarah556726@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: hverkuil+cisco@kernel.org,
-	Sarah Gershuni <sarah556726@gmail.com>
-Subject: [PATCH v4l-utils 2/2] Fix expected length calculation using bytesperline
-Date: Sun, 24 May 2026 23:44:00 +0300
-Message-ID: <20260524204400.8287-3-sarah556726@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260524204400.8287-1-sarah556726@gmail.com>
-References: <20260524204400.8287-1-sarah556726@gmail.com>
+	s=arc-20240116; t=1779655581; c=relaxed/simple;
+	bh=z916saKk+Bibhk8li2KvcNhAv1Ate3JvIJh3qFvDy4o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Urtc6x76WZ3Kz248H/hBCeh1Upy9AXN6rTBEBwDxPTBhPZhr/Iv7JpOuvMFiKhbT6WpMTwugBOtHplCruVlgpmgzyugOndCtken8sLp92lL8IggCuEgP/WR0Sc+kxkXISMfOobzKC8km/ASg4HDSZRyZkhxZZzj0HanUx3+at5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jmp3uHrJ; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D3911F000E9
+	for <linux-media@vger.kernel.org>; Sun, 24 May 2026 20:46:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779655578;
+	bh=XdF14EN2gaQGUPUIlCL2/+2xdkR1iD92W761e0Tt4JU=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=Jmp3uHrJalMuK97geIL59g/5n7B65j4S+VeBKj4DmDnWAQAOqouhdvFbo252rKe1N
+	 EUpcyyD86pld7FFWuHYj2qi8ttslywQ2YFv76xk/LlUttVGuoD9e4xgAb2hVLHFodp
+	 u6Q1IXTDm6SolrO1KWjZicEZWW5RynXVu/f7bW8JdKQU1niaxHUcErr+5GtJ0J//7M
+	 tS3zfKpjQBSUnWPA00aobrjTTMyxvZ/TVTOv9zHAI180OLjHC+Dvj5SdsgPFJNu5mY
+	 JaZH7oDTDHlAfcxE3VboyLjNP0h0O1pur4E3J7GfrvSc94tGzLkq5ydvaUoftCMZrX
+	 zBlUfe1hiS8dg==
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-39397d63804so38780901fa.2
+        for <linux-media@vger.kernel.org>; Sun, 24 May 2026 13:46:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8zC6CLiCgIHcEW7J3AZYX2QbZ9Haer93eFZJCWDfODOG65lRS9G14UlviiQPsMvk/JXbMVizcQ6/HfwA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyOVfZYoIEv1mDz5+prBOLoUxPD+CU3gSSRUl8Wj1c5lsEco8DC
+	pq6XX12m6K/7jb9bLIO/YbqLme7iw5A88fAWqEO1M+edvh+xqVTgYVK6jWo2Tp4WJPe+1V5r0pf
+	4yM5MEPqHTkcQ7BzuZMaiNA8JW6a+dI0=
+X-Received: by 2002:a05:651c:222c:b0:394:942:9bb6 with SMTP id
+ 38308e7fff4ca-395d8c129fbmr37366311fa.6.1779655576527; Sun, 24 May 2026
+ 13:46:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260505134812.408316-1-wens@kernel.org> <20260505134812.408316-6-wens@kernel.org>
+ <afpUiupOgPhLksM8@shepard>
+In-Reply-To: <afpUiupOgPhLksM8@shepard>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sun, 24 May 2026 23:46:04 +0300
+X-Gmail-Original-Message-ID: <CAGb2v64Ln=2RnOf_WKHJTGphofe-+iUddenu7H4FNFx03tJoOw@mail.gmail.com>
+X-Gm-Features: AVHnY4LzB_OhmZqGSHcQSdeKCJP6XONAvy9GHgQqfzYfXCQHIhPSMFyqiHhyTFc
+Message-ID: <CAGb2v64Ln=2RnOf_WKHJTGphofe-+iUddenu7H4FNFx03tJoOw@mail.gmail.com>
+Subject: Re: [PATCH 5/7] arm64: dts: allwinner: sun50i-h6: Add missing SRAM
+ region for video engine
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: Maxime Ripard <mripard@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62692-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62691-lists,linux-media=lfdr.de];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCPT_COUNT_THREE(0.00)[3];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sarah556726@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	MIME_TRACE(0.00)[0:+];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	HAS_REPLYTO(0.00)[wens@kernel.org];
 	RCVD_COUNT_FIVE(0.00)[5];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	NEURAL_HAM(-0.00)[-1.000];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	NEURAL_HAM(-0.00)[-0.999];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 431CB5C4389
+	DBL_BLOCKED_OPENRESOLVER(0.00)[paulk.fr:url,mail.gmail.com:mid,sys-base.io:url,sys-base.io:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,1c0e000:email]
+X-Rspamd-Queue-Id: 22E555C43A0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The current implementation of get_expected_length_trace() assumes that the stride is equal to the image width, which can lead to incorrect buffer size calculations when padding is present.
-Fix this by using the bytesperline value provided by the driver instead of width when computing the expected buffer length.
-Keep the existing format-specific logic for formats such as NV12 and YUV420 unchanged, but base the calculation on the actual stride.
-This addresses the TODO comment regarding incorrect assumptions about stride handling.
+On Tue, May 5, 2026 at 10:35=E2=80=AFPM Paul Kocialkowski <paulk@sys-base.i=
+o> wrote:
+>
+> Hi Chen-Yu,
+>
+> On Tue 05 May 26, 21:48, Chen-Yu Tsai wrote:
+> > The SRAM C region contains a partial alias to the VE SRAM already
+> > referenced by the video engine. To avoid access through this alias
+> > window, the region should also be claimed by the video engine.
+> >
+> > Add a reference to the SRAM C region to the video engine node.
+>
+> It feels very weird to have a reference to the DE2 SRAM region in the
+> VE node. It seems unlikely that the same region would be used by both DE2=
+ and
+> VE and I am pretty sure can have both running at the same time without
+> overstepping.
+>
+> From what I can see we have so far assumed that the SRAM C and SRAM C1
+> are two different physical SRAM areas, but this is most likely not the ca=
+se.
+> My guess would be that SRAM C1 is actually a part of SRAM C and the DE2 i=
+s
 
-Signed-off-by: Sarah Gershuni <sarah556726@gmail.com>
----
- utils/v4l2-tracer/trace-helper.cpp | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+No. It's the opposite. 0x28000 maps to the same SRAM block at 0x1a00000.
+If you write to one, you see the results in both. However the alias at
+028000 can be disabled while retaining access to 0x1a00000. I don't
+remember how much of the alias points to VE SRAM (0x1a00000). Maybe it
+was the whole alias on the H6.
 
-diff --git a/utils/v4l2-tracer/trace-helper.cpp b/utils/v4l2-tracer/trace-helper.cpp
-index 6c296dbf..a56e2d02 100644
---- a/utils/v4l2-tracer/trace-helper.cpp
-+++ b/utils/v4l2-tracer/trace-helper.cpp
-@@ -233,12 +233,7 @@ void print_buffers_trace(void)
- 
- unsigned get_expected_length_trace()
- {
--	/*
--	 * TODO: this assumes that the stride is equal to the real width and that the
--	 * padding follows the end of the chroma plane. It could be improved by
--	 * following the model in v4l2-ctl-streaming.cpp read_write_padded_frame()
--	 */
--	unsigned expected_length = ctx_trace.width * ctx_trace.height;
-+	unsigned expected_length = ctx_trace.plane_bytesperline[0] * ctx_trace.height;
- 	if (ctx_trace.pixelformat == V4L2_PIX_FMT_NV12 || ctx_trace.pixelformat == V4L2_PIX_FMT_YUV420) {
- 		expected_length *= 3;
- 		expected_length /= 2;
--- 
-2.43.0
+Also, I can't remember if this was tested on the H6 or H616, but the
+VE indeed writes to VE SRAM (0x1a00000), so that part is indeed used
+by the video engine.
 
+> using another part of it. The syscon block probably allows switching acce=
+ss
+> to these different parts of SRAM C.
+
+From what I've seen in the vendor BSP, both drivers toggle the switch.
+I believe the goal is to prevent the CPU from having access, rather than
+either peripheral claiming it as its own. And that is also what our SRAM
+driver does. It claims the SRAM from the CPU. That's all. The toggle bit
+pattern used by both drivers is the same.
+
+> Also the sram_c1 node implies it's 2 MiB, which sounds quite unlikely.
+
+That is what the memory map says. Calling it SRAM C1 is probably wrong.
+
+
+ChenYu
+
+> All the best,
+>
+> Paul
+>
+> >
+> > Fixes: b542570e5605 ("arm64: dts: allwinner: h6: Add Video Engine node"=
+)
+> > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+> > ---
+> >  arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi b/arch/arm64/=
+boot/dts/allwinner/sun50i-h6.dtsi
+> > index 72ce1a75647b..88c6e3e105c0 100644
+> > --- a/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> > +++ b/arch/arm64/boot/dts/allwinner/sun50i-h6.dtsi
+> > @@ -205,7 +205,7 @@ video-codec@1c0e000 {
+> >                       clock-names =3D "ahb", "mod", "ram";
+> >                       resets =3D <&ccu RST_BUS_VE>;
+> >                       interrupts =3D <GIC_SPI 89 IRQ_TYPE_LEVEL_HIGH>;
+> > -                     allwinner,sram =3D <&ve_sram 1>;
+> > +                     allwinner,sram =3D <&ve_sram 1>, <&de2_sram 1>;
+> >                       iommus =3D <&iommu 3>;
+> >               };
+> >
+> > --
+> > 2.47.3
+> >
+>
+> --
+> Paul Kocialkowski,
+>
+> Independent contractor - sys-base - https://www.sys-base.io/
+> Free software developer - https://www.paulk.fr/
+>
+> Expert in multimedia, graphics and embedded hardware support with Linux.
 
