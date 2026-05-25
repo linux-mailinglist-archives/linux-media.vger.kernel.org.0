@@ -1,153 +1,161 @@
-Return-Path: <linux-media+bounces-62724-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62725-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SCmOFOtvFGqXNQcAu9opvQ
-	(envelope-from <linux-media+bounces-62724-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 17:51:07 +0200
+	id 0Dm6LKd1FGokNgcAu9opvQ
+	(envelope-from <linux-media+bounces-62725-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 18:15:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A48265CC83C
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 17:51:06 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 235735CCAA7
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 18:15:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 83FEF3037DCC
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 15:47:50 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 549A63013024
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 16:15:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF64B3F58F6;
-	Mon, 25 May 2026 15:47:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55A523F412A;
+	Mon, 25 May 2026 16:15:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="AM6v4juS"
+	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="WytNgwDj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
+Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800393F0A9B;
-	Mon, 25 May 2026 15:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779724069; cv=none; b=ml8nEGFxWhEpWqumVZBPn/VuO+UAKkTlyxU+uJFw4FwvM8+LnVO5YluZK3qkQaeymBgLBWYjvDEc8fkI6x0WVDPbUQw4nKEcUB8rnLFTPXCpW1rgCpKSOia+Sp8FIlKN1z//omZItfkz8Ol97jDRglW34H/947WsXQj4rQC3ndI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779724069; c=relaxed/simple;
-	bh=DrnexA7je7PQWSjTQeVWmOtxj7eJT2Dst7Fjf63aG28=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EiFbknyvD+2CztqoWhZGhQUY9WJU592mK/npzEnQqcJUrXKzpVZBiTCCbKa6knhM+RCT/+3U9HnQoH16JJBifrvGAhOWSUA1eWtx0oU2pgi5WumgNmzIbo4qE9v2dOgebrMGnMfDgTrasXRAAxrOoPv/e0i7U6eq0FmlMfieeVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=AM6v4juS; arc=none smtp.client-ip=45.254.49.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
-Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [223.112.146.162])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 3fbdb7a8a;
-	Mon, 25 May 2026 23:42:30 +0800 (GMT+08:00)
-From: Dawei Feng <dawei.feng@seu.edu.cn>
-To: mchehab@kernel.org
-Cc: kees@kernel.org,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	jianhao.xu@seu.edu.cn,
-	Dawei Feng <dawei.feng@seu.edu.cn>,
-	stable@vger.kernel.org,
-	Zilin Guan <zilin@seu.edu.cn>
-Subject: [PATCH RESEND] media: mantis: fix memory leak in hopper_pci_probe()
-Date: Mon, 25 May 2026 23:42:29 +0800
-Message-Id: <20260525154229.928736-1-dawei.feng@seu.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AA42D592D;
+	Mon, 25 May 2026 16:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779725725; cv=pass; b=WsRUmp71ukNCOdcuEOUyTyBs5VhsL8+/Li6Dr0tklppiC96GoY6n4ogGlpaIwTk7vfofy2AW6yooqAoSU+e5ct+d0qhQKUJ2UXKUtzedjUrXLHbT/71HxekzB1kf4iGFRRhYe/x2Gg+PusZ/O3+pa11yXxApgP5LGs5+WO+5EHI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779725725; c=relaxed/simple;
+	bh=31lWgL7rRszME87e69h+HAvMDZ7Q4wYmWrJPYZF91vA=;
+	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:Content-Type; b=HwA+1OojN524w38nnl3W8k2rMyi0BcWEVVGYVHRuHWcy9gVHzNisBMd3y88Jc1fmE6rkrWGnzCYph5C0jpeMSseFRpn+sd5XeuI60AOjZjI9Z5XvkSuQ4eJwszufont2SbbuSeeHwcbabMLByA2BIXP6D0n+XbYQfhN3eYfOVAY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=WytNgwDj; arc=pass smtp.client-ip=103.117.158.91
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
+ARC-Seal: i=1; a=rsa-sha256; t=1779725707; cv=none; 
+	d=zohomail.in; s=zohoarc; 
+	b=H25KuHE6vAhOCynJ5x+qZ5OGe3TvROfKcZs/PD4Ycarm3C4XqqmvEp6VEoaMJXqzd/sf03pzo8G1ESs7sK8sbGe7m9rM/A2TFXDp8heW2Gyl/wOYOvpHiDWBFJQOTVGWE5Q79iwAO2cGlKpgRqRP6t0mA2+hKLlnMaRdcIQOb2Y=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
+	t=1779725707; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=4/D3ZVk1g/KQX6fWV5B7LUKksuGO5srwLpNpriK86Bg=; 
+	b=LkYNNaQypFhCfBff4KVZD91R3KgVQeghBER9Z29ln/ipfb36g7cITNMjCWb7Soa19McREYRq9GbU9VouVuK5waMolPlc9Q+YCw/poc1nFBJ1hT1MWUErH5De0nhnedfZFi7jZIzdYZq9FGue+K/uxAnvZ5qYYdLUmObhb5Okz2E=
+ARC-Authentication-Results: i=1; mx.zohomail.in;
+	dkim=pass  header.i=zohomail.in;
+	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
+	dmarc=pass header.from=<linuxuser509@zohomail.in>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779725707;
+	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
+	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=4/D3ZVk1g/KQX6fWV5B7LUKksuGO5srwLpNpriK86Bg=;
+	b=WytNgwDj/WXRYSgXLQMXI6vst00r9vJwpU9LXUmrJ02Wptii+IBzkhmdOg6kK+l/
+	1/YuCIoVzwlbg6WxmgNacXCAFSaZ+GY4CcdsPYds8g2l5I47OnjSOToCnp/hf003Zwj
+	LBY6MzRWUZs42z7Dr+jl5Ue3Msp6cKk85ZPHI31s=
+Received: from mail.zoho.in by mx.zoho.in
+	with SMTP id 1779725705895713.3716859499349; Mon, 25 May 2026 21:45:05 +0530 (IST)
+Received: from  [117.99.195.86] by mail.zoho.in
+	with HTTP;Mon, 25 May 2026 21:45:05 +0530 (IST)
+Date: Mon, 25 May 2026 21:45:05 +0530
+From: Ashwin Gundarapu <linuxuser509@zohomail.in>
+To: "gregkh" <gregkh@linuxfoundation.org>
+Cc: "linux-kernel" <linux-kernel@vger.kernel.org>,
+	"linux-staging" <linux-staging@lists.linux.dev>,
+	"linux-media" <linux-media@vger.kernel.org>
+Message-ID: <19e5feb2286.b0d1beb80076.1209164292362410446@zohomail.in>
+Subject: [PATCH] staging: media: Remove deprecated Atmel ISC drivers
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-HM-Tid: 0a9e5fcd4a6203a2kunm9ae92e48b9d38
-X-HM-MType: 10
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaHR9NVklLGkoaSElMQk5JSFYeHw
-	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUhVSkpJVUpPTVVKTUlZV1kWGg8SFR0UWUFZT0tIVUpLSU
-	hOQ0NVSktLVUtZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=AM6v4juSWbvd9iN2hrwROSo6t6F6UoPiDgkiAlkaVnIBvocJiSALeWC7QH0uvPjzjIOjEC+8wwviF1wCzQnDtg9/r0BLtl5ea/l8U5jqryK4rKsFS1y2ttljDKTYXzEmBz7+Q51S6TOOJDnnOaILWocNsuvXpjTIk4cUTeTAR0g=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
-	bh=DawwoEvqy/RU2x32dtGT3ZnqibUyYSLLp+FB+/EHnGU=;
-	h=date:mime-version:subject:message-id:from;
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[seu.edu.cn,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[seu.edu.cn:s=default];
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+Importance: Medium
+User-Agent: Zoho Mail
+X-Mailer: Zoho Mail
+X-Spamd-Result: default: False [-2.15 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[zohomail.in,reject];
+	R_DKIM_ALLOW(-0.20)[zohomail.in:s=zoho];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62724-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[seu.edu.cn:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dawei.feng@seu.edu.cn,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[zohomail.in:+];
+	TO_DN_ALL(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62725-lists,linux-media=lfdr.de];
+	RCPT_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[linuxuser509@zohomail.in,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,seu.edu.cn:email,seu.edu.cn:mid,seu.edu.cn:dkim]
-X-Rspamd-Queue-Id: A48265CC83C
+	MIME_TRACE(0.00)[0:+]
+X-Rspamd-Queue-Id: 235735CCAA7
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-In hopper_pci_probe(), two probe-error paths jump to the wrong cleanup
-stage. If mantis_get_mac() fails after mantis_i2c_init() succeeds, the
-function skips mantis_i2c_exit() and leaves the I2C adapter registered.
-If mantis_stream_control() fails after mantis_pci_init() succeeds, the
-function frees the mantis structure without undoing the PCI setup.
+The Atmel ISC and XISC drivers were deprecated and scheduled
+for removal by the beginning of 2026. The replacement drivers
+(VIDEO_MICROCHIP_ISC and VIDEO_MICROCHIP_XISC) are available
+in the main media subsystem.
 
-Route the affected error paths to the correct cleanup labels so that
-hopper_pci_probe() releases resources in reverse order, matching the
-cleanup flow already used by mantis_pci_probe().
+Remove the Kconfig entries, Makefile rules, and the
+STAGING_MEDIA_DEPRECATED menuconfig since it is no longer
+needed.
 
-The bug was first flagged by an experimental analysis tool we are
-developing for kernel memory-management bugs while analyzing
-v6.13-rc1. The tool is still under development and is not yet publicly
-available. Manual inspection confirms that the bug is still
-present in v7.1-rc5.
-
-An x86_64 allyesconfig build showed no new warnings. As we do
-not have a Twinhan VP-3028 DVB-T board to test with, no runtime
-testing was able to be performed.
-
-Fixes: b3b961448f702 ("V4L/DVB (13795): [Mantis/Hopper] Code overhaul, add Hopper devices into the PCI ID list")
-Cc: stable@vger.kernel.org
-Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
-Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
+Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
 ---
-Resend to correct the recipient email addresses.
- drivers/media/pci/mantis/hopper_cards.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/media/Kconfig  | 18 +-----------------
+ drivers/staging/media/Makefile |  1 -
+ 2 files changed, 1 insertion(+), 18 deletions(-)
 
-diff --git a/drivers/media/pci/mantis/hopper_cards.c b/drivers/media/pci/mantis/hopper_cards.c
-index 050068308c10..b55543054727 100644
---- a/drivers/media/pci/mantis/hopper_cards.c
-+++ b/drivers/media/pci/mantis/hopper_cards.c
-@@ -175,7 +175,7 @@ static int hopper_pci_probe(struct pci_dev *pdev,
- 	err = mantis_stream_control(mantis, STREAM_TO_HIF);
- 	if (err < 0) {
- 		dprintk(MANTIS_ERROR, 1, "ERROR: Mantis stream control failed <%d>", err);
--		goto fail1;
-+		goto fail2;
- 	}
+diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
+index 1aa31bddf970..52b4aab944f6 100644
+--- a/drivers/staging/media/Kconfig
++++ b/drivers/staging/media/Kconfig
+@@ -38,20 +38,4 @@ source "drivers/staging/media/sunxi/Kconfig"
  
- 	err = mantis_i2c_init(mantis);
-@@ -187,7 +187,7 @@ static int hopper_pci_probe(struct pci_dev *pdev,
- 	err = mantis_get_mac(mantis);
- 	if (err < 0) {
- 		dprintk(MANTIS_ERROR, 1, "ERROR: Mantis MAC address read failed <%d>", err);
--		goto fail2;
-+		goto fail3;
- 	}
- 
- 	err = mantis_dma_init(mantis);
--- 
-2.34.1
+ source "drivers/staging/media/tegra-video/Kconfig"
+
+-menuconfig STAGING_MEDIA_DEPRECATED
+-	bool "Media staging drivers (DEPRECATED)"
+-	default n
+-	help
+-	  This option enables deprecated media drivers that are
+-	  scheduled for future removal from the kernel.
+-
+-	  If you wish to work on these drivers to prevent their removal,
+-	  then contact the linux-media@vger.kernel.org mailing list.
+-
+-	  If in doubt, say N here.
+-
+-if STAGING_MEDIA_DEPRECATED
+-source "drivers/staging/media/deprecated/atmel/Kconfig"
+-endif
+-
+-endif
++endif # STAGING_MEDIA
+diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
+index 6f78b0edde1e..6fd7179733d8 100644
+--- a/drivers/staging/media/Makefile
++++ b/drivers/staging/media/Makefile
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+-obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE)	+= deprecated/atmel/
+ obj-$(CONFIG_INTEL_ATOMISP)     += atomisp/
+ obj-$(CONFIG_VIDEO_IMX_MEDIA)	+= imx/
+ obj-$(CONFIG_VIDEO_MAX96712)	+= max96712/
+--
+2.43.0
+
 
 
