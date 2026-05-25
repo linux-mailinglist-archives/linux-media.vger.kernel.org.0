@@ -1,173 +1,202 @@
-Return-Path: <linux-media+bounces-62700-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62701-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oCbyGXv6E2oxIQcAu9opvQ
-	(envelope-from <linux-media+bounces-62700-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 09:30:03 +0200
+	id SE5/EpIAFGquIQcAu9opvQ
+	(envelope-from <linux-media+bounces-62701-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 09:56:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC7655C7266
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 09:30:02 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id C34EF5C758A
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 09:56:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6BCC03029AD0
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 07:29:16 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B6DD530156F6
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 07:55:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B8BF3D330C;
-	Mon, 25 May 2026 07:29:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44BD43D5C0E;
+	Mon, 25 May 2026 07:55:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UlHC2Qlk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fUCgxp3b"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6335D3D1CB2
-	for <linux-media@vger.kernel.org>; Mon, 25 May 2026 07:29:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29EA23D649C;
+	Mon, 25 May 2026 07:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779694154; cv=none; b=k5Z1NiPj/YnREJDOHWxPa0t89659PYpV5ICLMDmCnAuGo8yeQkWLEJbAkDBXLP92n3bhnw/VST3AxfvXfxYkqjQuoKkq89lvZqQlZIxS2ZS3/zM4586YsGQXAbGQI40SgevlEyvs4V0D1U7TFKIV8IpQZO1FrV1oAWnmocEsiK4=
+	t=1779695750; cv=none; b=aLv9thwdkAU+xfnCUzKOjTcNj954ofTG8OZwcEGE4phcHc7oBkcMDZwkX6fRWEXIzOKzJ+nWJcFOvBh4XgxRuZ+Sjpsk68hxh77qL5Aa4sCA66gPX1gpeMmC5DKWKmw/KqGk1mMdG7FdGhhDwFAhZP4PNnGJNsdhPOgZy9SnWG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779694154; c=relaxed/simple;
-	bh=Dg6xOhAfC8nAS8w2UlP1hkcGBI6/eEQ9ST3cagLZT4s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dTCbwqMN0QrnUFavWbHhK4H10DfGGOnr7zZz5tfLZWGfWcHPU9Kzc3bmhYKOqpyDyzDvtnnnTzzOBRSK+VrQKS0HPf+JnQwzImRrSQflH4to7/8yHOOxVjztBQZVVO3wrD1fM1OLwzoCmarpSGL9bUtcXLYYuBEXjkR7jrniEVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UlHC2Qlk; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49056b9f04aso18890245e9.0
-        for <linux-media@vger.kernel.org>; Mon, 25 May 2026 00:29:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779694152; x=1780298952; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=m+/CremarURMLXbq9HZsozt2//0CtuRcgdYp3OMzrIs=;
-        b=UlHC2QlkIb4XLnXGJy7wJ9WEAIolGMLkGZ4XYlME8S5AEhdyWcsYCae0wgtAz5uZ6+
-         wDxbJJc9Qcy9N4zpjKC7zI5pmqbWBoSZDbWXiLTEehoIUXCaj34l+WX6RaOvip1EfiRN
-         BWYI+Lt8tA7PBSZL/Rc7fB0gydpI+H2O6cCgLPmW57JUpG8J7z0/QgZ2aUm1B9SPftOE
-         Rp+dcu5/00PDGT9i0OHnPZ0cYSSdG0yV5Eq+2sDJGN61sVIoGEdfy28aIcecT3IQko+W
-         ZWSGztFHDohN0gSU1UiEHLFPN28TmZTWsrNkupph4hd+MoKIvQjrfq5Tc9IWiVAk6hog
-         kHhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779694152; x=1780298952;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m+/CremarURMLXbq9HZsozt2//0CtuRcgdYp3OMzrIs=;
-        b=UOQolBnsEkTVWHvTim8Yk5wjm1FgpvI/JV4iFIIJ3weqZ6blnUYnECxriV5ova7HKA
-         E0NMyonc+0AoACmeKDxyCyPPY5sbqG5JcCUXUmD8Jo0+RliosW7xAFnSnstso/Xx6t/s
-         lCidENReFOttgVzD1xP6IOrYgBhliuCfftkRiHPQQqw2y7pPUZw8EQ85ytjCqb9120eg
-         s4aUI+Nue3Qrybi1Qq5dp3zpg2g6w3xef65glP7jUOBEZRXbJnq7LjJz61pBcao0IJGm
-         Bl1mjquIoZLO4Vw10LnhcaxhAQsk7yvNXYK2DACWK+tMttvSI5vvIKG6buh0xxrhq9AG
-         naKw==
-X-Forwarded-Encrypted: i=1; AFNElJ9n4QgH3+T7h5Y50EursAHB7gYXALlv+qJscYsai/HE/VqKPpYgZkWwqtMzQFpN8jUDJtm7A9hTLZFNgw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9LFBiCXp5jcRP0zwE9sLEozSIP+Ayj4c7meeoovq8GGU6yAPZ
-	HFe1WQ2xgYYW4n59dAgpwTjND/x4rieFtuP3wpmTdeINzw8TH7pWZ5z9
-X-Gm-Gg: Acq92OEQdbS1qqbQJqg9gI3G8tqQZumxX/sbw8NWES3J7i9BEYjiKYjnTv6FIC21Co6
-	NS1Vr73LihmH5yFRf59AeyML+y4llGYWD1LleTRNexSXiuEy/Je8xII/4eRMpeQwfN6M51et/vb
-	x5NLbRMrvHzmFM2eElWEuLHN8y7vytjfUI1QB2jfcL2nmeKITHXrBUIVnkk26eAW9H0wh8oo9mF
-	7fC2zTQ9AJ7rL79UI9JFwTj2HS6sN4MlpCpb8BX69Dno5i8AJIpgcpMgHKmKbIABllILJcab5wn
-	xKCbzstBvXHIP8vIZq8L3W8DdY5OjiyhU0sPTK4mnRlcmoQ245hxm0WjS7gxAHhAC32sCVRHQ2k
-	yxOciSM/1LArrKBteLnYpBWgW1k2EzuMv8J8Sc/jSGbPU71Pxbjx3HsWXO1WUcG8q93Ex6jWgW4
-	N2K7oQ+1hCAC4UXQzR8HHbRzG/x2y6JpvlhoAh25VOY2evRbSRPkHbwneIp5cjgF1uMvCa27hW6
-	305h26VrRnm6T2IaaX8PQohNW/8zTjErpNm+78PkyHjiBi1kMLk57ozJ9NFyrI7gfg0IU70S6Fe
-	33buhAFHN/rylYzu5u3l990=
-X-Received: by 2002:a05:600c:c4a1:b0:490:1640:8269 with SMTP id 5b1f17b1804b1-490426d1a16mr227253215e9.18.1779694151663;
-        Mon, 25 May 2026 00:29:11 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c? ([2a01:4b00:bd21:4f00:7cc6:d3ca:494:116c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490428d4cefsm81771025e9.14.2026.05.25.00.29.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 May 2026 00:29:10 -0700 (PDT)
-Message-ID: <57ae2e2f-8523-4cba-ad77-920535edd236@gmail.com>
-Date: Mon, 25 May 2026 08:29:08 +0100
+	s=arc-20240116; t=1779695750; c=relaxed/simple;
+	bh=LcYJGzA6Ip5bOzj01f04I/SJm1+EtJhIKyxQGfMYw+U=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ln92V3wAQWmUbGxYMlI3UO84mcohg+x8I5qWLUs5WCAQftdpHX+yanNj2aQ/vmrVefoiL2zJw4tEPLDhowzWtH70dlp3izOguDsHBMG6ZVFWTaKiDVUaUCF7JIo0IdIxArOLT5+6X4JpbYV22eb+HGy1vaaGJWgrAVrbGoPH9xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fUCgxp3b; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E7361F000E9;
+	Mon, 25 May 2026 07:55:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779695746;
+	bh=ACjGyXRjli4oLa6o/HLH8h+it8SYZeJIvbN4HR3my/c=;
+	h=From:Date:Subject:To:Cc;
+	b=fUCgxp3bbDQ8vDQqCtwIff1SmkV5lDqx3E+PFn/MzlvKBwHsiKCeMOaDQ8VXoQu6O
+	 sxT0eGVrVZcogbWo9tk0DJ1mggfzM/q417i91R7q8aGkjc9hkyoypxwMl6pFETxHaK
+	 oHMHreX4DhUzCrCOG23eYEt66BUfyMhcudsJzvVu+MpqYNUwhUuYnZwN0r+UvxJDht
+	 LWEU9+76nBqCCwtJWeXi3tI150zOn9yFsg39Vu2kAlAE/jdOmfBCbqzJWlrsK6INBN
+	 6Ln+ib16UvhpLMtotS8g7pyl0rP7iaz1bSFY1+LPid8LYMpf8uZzv4XQN46N3qnF7m
+	 t6ZtIOfVN9YjA==
+From: Linus Walleij <linusw@kernel.org>
+Date: Mon, 25 May 2026 09:55:42 +0200
+Subject: [PATCH v2] media: camif-core: Drop GPIO handling
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 04/10] block: introduce dma map backed bio type
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-nvme@lists.infradead.org, linux-fsdevel@vger.kernel.org,
- io-uring@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- Nitesh Shetty <nj.shetty@samsung.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Anuj Gupta <anuj20.g@samsung.com>, Tushar Gohad <tushar.gohad@intel.com>,
- William Power <william.power@intel.com>, Phil Cayton
- <phil.cayton@intel.com>, Jason Gunthorpe <jgg@nvidia.com>
-References: <cover.1777475843.git.asml.silence@gmail.com>
- <646ecd6fde8d9e146cb051efb514deb27ce3883e.1777475843.git.asml.silence@gmail.com>
- <20260513081929.GD5477@lst.de>
- <24833f76-2289-4859-86d1-9215b11a1258@gmail.com>
- <20260520083043.GA18893@lst.de>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <20260520083043.GA18893@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20260525-s3c-camif-descriptors-v2-1-d703e47c4f96@kernel.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WNTQ6CMBBGr0Jm7RjaCgRX3sOwKGWA8YeSDhIN4
+ e4WPIDLl7zvfQsIBSaBc7JAoJmF/RBBHxJwvR06Qm4ig051nmbaoBiHzj65xYbEBR4nHwQLlet
+ T7VJjywbidgzU8nvvXqsfy6u+kZu22Gb0LHH52Y9ntXn/PmaFCouyiIq1dZaZy53CQI+jDx1U6
+ 7p+Ae5cuujNAAAA
+X-Change-ID: 20260523-s3c-camif-descriptors-71624bc03a9d
+To: Sylwester Nawrocki <sylvester.nawrocki@gmail.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Bartosz Golaszewski <brgl@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, Linus Walleij <linusw@kernel.org>
+X-Mailer: b4 0.15.2
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62700-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62701-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[24];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[asmlsilence@gmail.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: BC7655C7266
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,msgid.link:url]
+X-Rspamd-Queue-Id: C34EF5C758A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 5/20/26 09:30, Christoph Hellwig wrote:
-> On Mon, May 18, 2026 at 11:29:54AM +0100, Pavel Begunkov wrote:
->>>>    	BIO_ZONE_WRITE_PLUGGING, /* bio handled through zone write plugging */
->>>>    	BIO_EMULATES_ZONE_APPEND, /* bio emulates a zone append operation */
->>>> +	BIO_DMABUF_MAP, /* Using premmaped dma buffers */
->>>
->>> Shouldn't this be a REQ_ flag as we should never mix and match bios with
->>> and without this flag in a single request?
->>
->> Do you mean adding both and propagating it from bio to req? submit_bio()
->> takes a bio, so we still need to set it there before it reaches blk-mq.
->> And there might be bio-based drivers using it in the future.
-> 
-> I think I forgot to reply to this, so let's do this now.
-> 
-> REQ_ is actually used by both bios and requests, so if you set it in
-> bio->bi_opf it will automatically get propagated to the request, but
-> it can also always be tested on the bio, including by bio-based
-> drivers.
+The driver and platform data refers to the legacy GPIO API,
+doesn't really use it, and also calls some GPIO-related functions
+passed as platform data.
 
-Ah yes, good point, thanks
+This platform data is not used anywhere in the kernel.
 
--- 
-Pavel Begunkov
+I'm not outright deleting the driver, just deleting the bogus
+GPIO handling. If outoftree developers want to fix up the
+driver the GPIOs should be defined in some kind of firmware
+node and be obtained using the gpiod_get*() APIs directly
+in the driver, but I don't even know what these GPIOs are
+since they are hidden in platform data that is not in the
+mainline kernel, so what can I do.
+
+Signed-off-by: Linus Walleij <linusw@kernel.org>
+---
+Changes in v2:
+- Drop unused local pdata variable in remove() after a gazillion
+  robot complaints.
+- Link to v1: https://patch.msgid.link/20260523-s3c-camif-descriptors-v1-1-797052aab553@kernel.org
+---
+ drivers/media/platform/samsung/s3c-camif/camif-core.c | 10 ++--------
+ include/media/drv-intf/s3c_camif.h                    |  2 --
+ 2 files changed, 2 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/media/platform/samsung/s3c-camif/camif-core.c b/drivers/media/platform/samsung/s3c-camif/camif-core.c
+index 221e3c447f36..14eedd1ceb27 100644
+--- a/drivers/media/platform/samsung/s3c-camif/camif-core.c
++++ b/drivers/media/platform/samsung/s3c-camif/camif-core.c
+@@ -12,7 +12,6 @@
+ #include <linux/delay.h>
+ #include <linux/device.h>
+ #include <linux/errno.h>
+-#include <linux/gpio.h>
+ #include <linux/i2c.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+@@ -412,7 +411,7 @@ static int s3c_camif_probe(struct platform_device *pdev)
+ 
+ 	camif->dev = dev;
+ 
+-	if (!pdata || !pdata->gpio_get || !pdata->gpio_put) {
++	if (!pdata) {
+ 		dev_err(dev, "wrong platform data\n");
+ 		return -EINVAL;
+ 	}
+@@ -429,9 +428,7 @@ static int s3c_camif_probe(struct platform_device *pdev)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	ret = pdata->gpio_get();
+-	if (ret < 0)
+-		return ret;
++	/* FIXME: get GPIOs here */
+ 
+ 	ret = s3c_camif_create_subdev(camif);
+ 	if (ret < 0)
+@@ -504,14 +501,12 @@ static int s3c_camif_probe(struct platform_device *pdev)
+ err_clk:
+ 	s3c_camif_unregister_subdev(camif);
+ err_sd:
+-	pdata->gpio_put();
+ 	return ret;
+ }
+ 
+ static void s3c_camif_remove(struct platform_device *pdev)
+ {
+ 	struct camif_dev *camif = platform_get_drvdata(pdev);
+-	struct s3c_camif_plat_data *pdata = &camif->pdata;
+ 
+ 	media_device_unregister(&camif->media_dev);
+ 	media_device_cleanup(&camif->media_dev);
+@@ -521,7 +516,6 @@ static void s3c_camif_remove(struct platform_device *pdev)
+ 	pm_runtime_disable(&pdev->dev);
+ 	camif_clk_put(camif);
+ 	s3c_camif_unregister_subdev(camif);
+-	pdata->gpio_put();
+ }
+ 
+ static int s3c_camif_runtime_resume(struct device *dev)
+diff --git a/include/media/drv-intf/s3c_camif.h b/include/media/drv-intf/s3c_camif.h
+index f746851a5ce6..00d83620ea5f 100644
+--- a/include/media/drv-intf/s3c_camif.h
++++ b/include/media/drv-intf/s3c_camif.h
+@@ -31,8 +31,6 @@ struct s3c_camif_sensor_info {
+ 
+ struct s3c_camif_plat_data {
+ 	struct s3c_camif_sensor_info sensor;
+-	int (*gpio_get)(void);
+-	int (*gpio_put)(void);
+ };
+ 
+ #endif /* MEDIA_S3C_CAMIF_ */
+
+---
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+change-id: 20260523-s3c-camif-descriptors-71624bc03a9d
+
+Best regards,
+--  
+Linus Walleij <linusw@kernel.org>
 
 
