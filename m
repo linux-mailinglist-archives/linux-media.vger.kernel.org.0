@@ -1,176 +1,148 @@
-Return-Path: <linux-media+bounces-62732-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62733-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OGaILrelFGrJPAcAu9opvQ
-	(envelope-from <linux-media+bounces-62732-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 21:40:39 +0200
+	id vELrBinSFGpbQgcAu9opvQ
+	(envelope-from <linux-media+bounces-62733-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 00:50:17 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE6C5CE0D8
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 21:40:38 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9699D5CF0F9
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 00:50:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 1364D30089B4
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 19:40:38 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4ADB93009880
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 22:50:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D53BC38C42B;
-	Mon, 25 May 2026 19:40:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16610358387;
+	Mon, 25 May 2026 22:50:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="CSL58RYG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="llgkbar+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0560379981
-	for <linux-media@vger.kernel.org>; Mon, 25 May 2026 19:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818D22868B4;
+	Mon, 25 May 2026 22:50:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779738036; cv=none; b=eNLKixq3RVP2JwVd5vgDpeFwfCuSCbqTz31Gyrj5wdXpS8JygLniDKWcIbIo7MedpOiS7oRNR87VypQBtPmekJMegGYqtrtN851HEea5NpCZxC2bCzTJTx6pAtes3TH9RPNPXLXoTGxDXFSbA2G0KQPqZAGSwiGvG9HnXNh97X4=
+	t=1779749412; cv=none; b=icMV/U0OWTEiNy0zvvgWqrZYo9whmHKQEM36nhRODW+n5gnquvpC+F9Zpaei4xwDju+NJhTCnUk7NphGvbvEldbFavHsu4qJqe8RIBC1IoNBLV6rcr0reld5pTD9PFEYj6JNVA5L3FvNau5d04pJwWjP4d1iC+6uMuF9ZcJ3l3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779738036; c=relaxed/simple;
-	bh=L1xa6/8OPc06NMscINzjX6g3anqLL8GTJmS5Dr+Z9IY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kwpddoYYC98h2L6sNImCb9fVZBuq/DazxUAwPZji7hWy/QzBK8trVj7LJVZG108b+n5DQE1dgakWm7nuE9tlci9UxgmwnaHnUdpZFovZPe/XcjT8Tb+x6ezdXsHXrEOez2txEkvkhKpeC72jmUcEdPqy9u9/vwk8K9rSnowcsi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=CSL58RYG; arc=none smtp.client-ip=209.85.222.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-914c1ced558so137383385a.3
-        for <linux-media@vger.kernel.org>; Mon, 25 May 2026 12:40:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1779738034; x=1780342834; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=87zu2+zpmmokKau51ImwYtnM2oqOxBaSdU4la7TSpRY=;
-        b=CSL58RYGg/51AOkw8XrE257tNDhGQCaLXK8zaJLzD5fcwb3uoBbEgzID62WvqEF/zg
-         g/6vOPx33Um0RWUMx8MhJKRAQummi58aNZYldvgL15ih8pOxSKLud8be5L3Hj2Ix0C1L
-         cz99wsGHPnFAKcMXKhj/I9Y8KnzflxT0pe0xP6d7ojwhdKlzD6XK/9UwKOy2sEv0ijX4
-         nWvAnqrASZXznMZTc+XnPZJwrMQZKIhF3jmZ0Imn6oVmEd92Ty0RUUx90kH+MZUKWvAf
-         +kSRilYrM8L/FtAgCgZyuTDnuz6fl7pSpW+H/004uaPkWHmW77hhXnLexe14xsBcucwh
-         xtsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779738034; x=1780342834;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=87zu2+zpmmokKau51ImwYtnM2oqOxBaSdU4la7TSpRY=;
-        b=RgapFYvgZQ07TkrLvSoobLRzRFLRj4Iechn1bne1VrUr2nzU7xO0nt34isTbsi4UDN
-         jzokTCEOm3dW+WmoGFU0hj/eAhSCti6P3IGoQDpaCeKtOTGFkVyCgH1aNsMocSLCH9Bc
-         Yhp1K3bR3LJhpxWliGgK/TTFsxZe7fUvgk0+jcVl9kRa7XbpJqJpryHdTQkjDnQJ0sQ9
-         37Q/bH7ET7c9gZX/ojkicShdEmu1GmhvLXGRpfYs/xAjswmqRLbS6ACW6Ty7KOiHblKO
-         T0VYUfpHLj1ph46r5y0nS4lHqAxV8A99oHtbkgHO46XwJ8bhbK4fb7DUlEZ/kJj6RYj0
-         kqTw==
-X-Forwarded-Encrypted: i=1; AFNElJ9CUOkpj6eM7wRD20pz2mW44IFN85vQ6p6Krbqcw/AlbtPQwLt0ToAC7oCKg71PsRkhmHMTQux6wTS5pQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRjGdEsYfaejNcI4pIqU2NmDQiwbDcBVvrbuq43e7D2PGRdnsZ
-	XEAPNepEGZ5fKOkzdBfIFmZmwsTDB+mAdCu9w9t7p6YOgQJfobkdnuCrx++V6OlgYA==
-X-Gm-Gg: Acq92OECVatoCK3ktzcpbGnXCT278uekEhmF8QZHlVi58xSxlLMDnf4S/DKNPW2sCh3
-	DMc9SlaNgIaLMzsuTBE0gkyQtw7fsw2iXy4X1kk/8RuYiLJ0nL7i6Jux5gYIuiUcwRzC4atN/iO
-	/T95JiQP9URB+V4H3mxEL/3AnA7Y6tG9e7zpiCPPjvdbvTerrhBMuC/SlpRY/YQyd4nZ345bjWW
-	FUZlD+UhCT0dq1gEYA88OoMHXTR54WF5tLgz4i74DkJU0sMAcnb5rNTa3A6C667zvQ5ppZQfgSI
-	H/05Fyr8VXgJOL9fo2XMLBwzIY+kM5JTMdTZTF/Ov1Sy9AJ00+Vp41cvjBfD9qDpHtFS2L0c01W
-	hOcPpTozBGrThRiP8PockR1y9Ty20hxZWV4dOEehevobZbEIK4n5HiCeNZolqUATsB64flHyIxS
-	IJwY/6n6DX+71FzyGAaA65IUQtIHeO0lKRvdnbaBret38qnwszSGxjrlE7Ck+n+VKq
-X-Received: by 2002:a05:620a:44ce:b0:8d1:a75e:2f8c with SMTP id af79cd13be357-914b49e07c7mr2182004285a.53.1779738033681;
-        Mon, 25 May 2026 12:40:33 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210:d62f:1911:f952:16ba])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-914bb8e8d91sm1113879885a.11.2026.05.25.12.40.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2026 12:40:32 -0700 (PDT)
-Date: Mon, 25 May 2026 15:40:28 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Henry Lin <henryl@nvidia.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 0/1] media: uvcvideo: reset interface on bulk stream
- stop
-Message-ID: <3fd4f5fd-5a52-4584-85b7-1c3b76e7285f@rowland.harvard.edu>
-References: <20260525182028.2148267-1-henryl@nvidia.com>
+	s=arc-20240116; t=1779749412; c=relaxed/simple;
+	bh=cuv37fJ2TU/g+Nx8I0NIyMMeP4+4l25EK7DnZG0dzZY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=K03En2hPCU40gAld3z7XLjUWGy+mzZiAuon+WRPNJR5sMDAaodASYKdsivOddHV45jPcCAK4h7U9wqAT84FUKDqrdA2vG7QoFjJl4V1pEAQ7TKdU8piJd7lH03Pi/EB/mXRZBPs8D6L7cNZxwc97Tu5B6graOrPVvt17LH7jVMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=llgkbar+; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B9AB1F000E9;
+	Mon, 25 May 2026 22:50:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779749411;
+	bh=B7aToGjDT1CxQXkUImyUemxUxNUp509zdccrBS7VJtU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=llgkbar+llPAx4I+EUimeQxIzRXQDq8d7UD1fHTNHj+1fdNSE9MW/vaqyRWXi2uIt
+	 z+Ge5NYoCMe7/t4mlaebosBhaSqTgdfqNQZQJB10GAYzM/UurfbTxR+6ZakwpudU+c
+	 QY3KddlI1BtUi6b4tK88UeEVjamSf2j3hDY0tPjz8otPrmi4N9J54W9g/uWuuHZr5M
+	 vnMKl0dc67nZwVKFNk/P1xyqzi9h+jP//u97VpbxR+9l6qS6U8JifNMYfBrd9OB40v
+	 svDHGu57aFal4JcFHtI8v9kZ6KVzBocUuUIcHRaGkRJC3DVbSAAzEFSHyjId6VgDJT
+	 dhI/Pt1CUJ/mQ==
+Message-ID: <82f7a200-ab07-4ff4-b84e-305351f78460@kernel.org>
+Date: Mon, 25 May 2026 23:50:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260525182028.2148267-1-henryl@nvidia.com>
-X-Spamd-Result: default: False [-2.16 / 15.00];
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 2/9] clk: qcom: gcc-msm8939: mark Venus core GDSCs as
+ hardware controlled
+To: Erikas Bitovtas <xerikasxx@gmail.com>,
+ Taniya Das <taniya.das@oss.qualcomm.com>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org
+References: <20260519-msm8939-venus-rfc-v8-0-542ec7557ebc@gmail.com>
+ <e7WD-tbtAA7Bx0uDnXgPHto9hACWxgblhI2eitNHX4VYEgxOOceuY0sOS6KQnGiyTaDYaKudZt4k50z_vJVpnw==@protonmail.internalid>
+ <20260519-msm8939-venus-rfc-v8-2-542ec7557ebc@gmail.com>
+ <608dc53d-17a8-4230-9ebb-48a94bf03675@kernel.org>
+ <6ae3a89c-f205-45c5-87c0-5550f78502d6@oss.qualcomm.com>
+ <01f9a303-846a-4048-8115-c94b9b78078a@gmail.com>
+ <ecaa113a-02d7-48b6-a94e-9299a684b0be@oss.qualcomm.com>
+ <4JzpVyRt008YHZIv34VGG-Z_etL_fh9cE8AL30d-uekLUAxGmZNV9os6xkESzPAyzDHFHA9XXyPgWxzBlEfnhQ==@protonmail.internalid>
+ <d8177e27-7cd6-43f2-b88b-2dbce936421b@gmail.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bod@kernel.org>
+In-Reply-To: <d8177e27-7cd6-43f2-b88b-2dbce936421b@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[rowland.harvard.edu,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[rowland.harvard.edu:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[rowland.harvard.edu:+];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-62732-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62733-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,oss.qualcomm.com,kernel.org,apitzsch.eu,baylibre.com,redhat.com];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_FIVE(0.00)[5];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.998];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[stern@rowland.harvard.edu,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[spinics.net:url,rowland.harvard.edu:mid,rowland.harvard.edu:dkim]
-X-Rspamd-Queue-Id: 5CE6C5CE0D8
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 9699D5CF0F9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, May 25, 2026 at 06:20:27PM +0000, Henry Lin wrote:
-> Hi,
-> 
-> I would like to revive an old UVC bulk-streaming issue originally reported
-> by Hans Yang. I am sending this RFC on his behalf for discussion before
-> submitting a non-RFC patch.
-> 
-> Hans previously proposed making uvcvideo call usb_set_interface(..., 0)
-> when stopping a bulk-based stream, before clearing halt on the bulk endpoint.
-> The issue was discussed here:
-> 
->   https://www.spinics.net/lists/linux-usb/msg171584.html
-> 
-> The current upstream stop path calls usb_set_interface(..., 0) only when the
-> streaming interface has more than one alternate setting. For single-altsetting
-> bulk devices, uvcvideo only sends CLEAR_FEATURE(ENDPOINT_HALT) to the bulk
-> endpoint.
+On 25/05/2026 10:56, Erikas Bitovtas wrote:
+> +	for (; i < res->vcodec_pmdomains_num; i++) {
+> +		pd_dev = core->pmdomains->pd_devs[i];
+> +		ret = pm_runtime_resume_and_get(pd_dev);
+> +		if (ret)
+> +			goto err;
+> +
+> +		ret = dev_pm_genpd_set_hwmode(pd_dev, true);
+> +		if (ret && ret != -EOPNOTSUPP) {
+> +			pm_runtime_put_sync(pd_dev);
+> +			goto err;
+> +		}
+> +	}
 
-How does it send this request?  By calling usb_clear_halt()?  Or some 
-other way?
+In Iris we do
 
-> The patch in this RFC changes uvc_video_stop_streaming() to always call
-> usb_set_interface(..., 0) to reset the streaming interface first. For
-> bulk devices, the existing CLEAR_FEATURE(ENDPOINT_HALT) request is still
-> sent afterwards.
-> 
-> On the affected devices, current upstream stop/start sequence can leave
-> the next bulk stream failing immediately with transfer errors such as:
-> 
->   uvcvideo: Non-zero status (-71) in video completion handler.
-> 
-> USB bus traces show that, without usb_set_interface(..., 0), the host
-> continues the next bulk stream with the previous stream's sequence state,
-> while the device expects the new stream to start from the initial sequence
-> state.
+- enable_power_domains
+- enable_clocks
+- set hwmode
 
-(I assume by "sequence state" you mean the USB-3 sequence number 
-associated with the endpoint.)
+Instead of
 
-Are you certain about this?  The usb_clear_halt() routine has reset 
-the endpoint state, including the sequence number, ever since commit 
-3444b26afa14 ("USB: add reset endpoint operations") was added in 2009.
+- enable_power_domains
+- set hwmode
+- enable clocks
 
-If uvcvideo isn't using usb_clear_halt(), the simplest solution might be 
-to make it do so.
+Worth trying that flow instead.
 
-Alan Stern
+---
+bod
 
