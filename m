@@ -1,159 +1,153 @@
-Return-Path: <linux-media+bounces-62723-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62724-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mLIDEVZtFGoTNQcAu9opvQ
-	(envelope-from <linux-media+bounces-62723-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 17:40:06 +0200
+	id SCmOFOtvFGqXNQcAu9opvQ
+	(envelope-from <linux-media+bounces-62724-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 17:51:07 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E9C5CC654
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 17:40:05 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id A48265CC83C
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 17:51:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 93F80301468C
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 15:40:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 83FEF3037DCC
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 15:47:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40B293EDE72;
-	Mon, 25 May 2026 15:40:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF64B3F58F6;
+	Mon, 25 May 2026 15:47:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="tu7W9/g2"
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="AM6v4juS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A459D2E7F3A
-	for <linux-media@vger.kernel.org>; Mon, 25 May 2026 15:39:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 800393F0A9B;
+	Mon, 25 May 2026 15:47:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.254.49.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779723599; cv=none; b=rpNZKwZqodzhP2moxhyAw9tt2r+OIqf4x02SZyKmh71YPPOcm8iwg02IV02gSBmDmQZIuhDYautRUyiqNsOzeALUrD1k9nLhIpZ7VmD6lE7gjawYm339huj2hZe7kdvyj/RA8JyBsZ0OTSpqO40f7OA6YNBaAqB+er60JSt7tFE=
+	t=1779724069; cv=none; b=ml8nEGFxWhEpWqumVZBPn/VuO+UAKkTlyxU+uJFw4FwvM8+LnVO5YluZK3qkQaeymBgLBWYjvDEc8fkI6x0WVDPbUQw4nKEcUB8rnLFTPXCpW1rgCpKSOia+Sp8FIlKN1z//omZItfkz8Ol97jDRglW34H/947WsXQj4rQC3ndI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779723599; c=relaxed/simple;
-	bh=6Mxi2ebcjnIAe3vY8mCbzvpLw7qlAGs3WqFRpvDWXeA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RtDPAVh4kdaBIo0+ZnximQA1jtZ6seOFsMExAB4bdbYpDUMgOyxwOLLLswJICFtYczlga1C+1Nu98jKAP/Ho4PZGpNysvkevp6oB2m02QBjMA4ErHPYdTPIPxLa8uqd+OdDmiRm13g2g03EhBGaImCS9ua+lV99tp9bO24ZxHVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=tu7W9/g2; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (84.134.69.85.rev.sfr.net [85.69.134.84])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 30E387FA;
-	Mon, 25 May 2026 17:39:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1779723577;
-	bh=6Mxi2ebcjnIAe3vY8mCbzvpLw7qlAGs3WqFRpvDWXeA=;
-	h=Date:From:To:Cc:Subject:From;
-	b=tu7W9/g2RRQgb2N8fjLG8yYUVVtfCuqUJjHp/0B1JHikMx9V50L64MfD6uRhFg9M5
-	 +GWFOIv0hAzte2L9ocaMC4jzPLZEmkHoNLF5Vvh4Lp6SAhVTtnRn68vskPcN631rXO
-	 OUIFbarnQQNSzWcbV0tOLtlTj4EEYfdcqwDJZbsQ=
-Date: Mon, 25 May 2026 17:39:53 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: libcamera-devel@lists.libcamera.org
-Cc: linux-media@vger.kernel.org,
-	Barnabas =?utf-8?B?UMWRY3pl?= <barnabas.pocze@ideasonboard.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	Devarsh Thakkar <devarsht@ti.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Konstantin Babin <Konstantin.Babin@arm.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
-	Simon Parri <simonparri@ganzeria.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Suresh Vankadara <svankada@qti.qualcomm.com>
-Subject: [ANNOUNCEMENT] libcamera workshop 2026 - Logistics and agenda
-Message-ID: <20260525153953.GA300256@killaraus.ideasonboard.com>
+	s=arc-20240116; t=1779724069; c=relaxed/simple;
+	bh=DrnexA7je7PQWSjTQeVWmOtxj7eJT2Dst7Fjf63aG28=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EiFbknyvD+2CztqoWhZGhQUY9WJU592mK/npzEnQqcJUrXKzpVZBiTCCbKa6knhM+RCT/+3U9HnQoH16JJBifrvGAhOWSUA1eWtx0oU2pgi5WumgNmzIbo4qE9v2dOgebrMGnMfDgTrasXRAAxrOoPv/e0i7U6eq0FmlMfieeVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=AM6v4juS; arc=none smtp.client-ip=45.254.49.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [223.112.146.162])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 3fbdb7a8a;
+	Mon, 25 May 2026 23:42:30 +0800 (GMT+08:00)
+From: Dawei Feng <dawei.feng@seu.edu.cn>
+To: mchehab@kernel.org
+Cc: kees@kernel.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	jianhao.xu@seu.edu.cn,
+	Dawei Feng <dawei.feng@seu.edu.cn>,
+	stable@vger.kernel.org,
+	Zilin Guan <zilin@seu.edu.cn>
+Subject: [PATCH RESEND] media: mantis: fix memory leak in hopper_pci_probe()
+Date: Mon, 25 May 2026 23:42:29 +0800
+Message-Id: <20260525154229.928736-1-dawei.feng@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9e5fcd4a6203a2kunm9ae92e48b9d38
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaHR9NVklLGkoaSElMQk5JSFYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUhVSkpJVUpPTVVKTUlZV1kWGg8SFR0UWUFZT0tIVUpLSU
+	hOQ0NVSktLVUtZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=AM6v4juSWbvd9iN2hrwROSo6t6F6UoPiDgkiAlkaVnIBvocJiSALeWC7QH0uvPjzjIOjEC+8wwviF1wCzQnDtg9/r0BLtl5ea/l8U5jqryK4rKsFS1y2ttljDKTYXzEmBz7+Q51S6TOOJDnnOaILWocNsuvXpjTIk4cUTeTAR0g=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=DawwoEvqy/RU2x32dtGT3ZnqibUyYSLLp+FB+/EHnGU=;
+	h=date:mime-version:subject:message-id:from;
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[seu.edu.cn,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[seu.edu.cn:s=default];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62723-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,ideasonboard.com,raspberrypi.com,ti.com,arm.com,linux.intel.com,ndufresne.ca,gmail.com,ganzeria.com,qti.qualcomm.com];
-	RCPT_COUNT_TWELVE(0.00)[15];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62724-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[seu.edu.cn:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[openstreetmap.org:url,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: A7E9C5CC654
+	FROM_NEQ_ENVFROM(0.00)[dawei.feng@seu.edu.cn,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,seu.edu.cn:email,seu.edu.cn:mid,seu.edu.cn:dkim]
+X-Rspamd-Queue-Id: A48265CC83C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hello everybody,
+In hopper_pci_probe(), two probe-error paths jump to the wrong cleanup
+stage. If mantis_get_mac() fails after mantis_i2c_init() succeeds, the
+function skips mantis_i2c_exit() and leaves the I2C adapter registered.
+If mantis_stream_control() fails after mantis_pci_init() succeeds, the
+function frees the mantis structure without undoing the PCI setup.
 
-I'm looking forward to seeing you all on Friday the 29th of May for the
-libcamera workshop. Here is the agenda draft, along with logistics
-information for on-site and remote attendees.
+Route the affected error paths to the correct cleanup labels so that
+hopper_pci_probe() releases resources in reverse order, matching the
+cleanup flow already used by mantis_pci_probe().
 
-The workshop is organized as part of the "Embedded Week in Nice" ([1])
-and will be located at the Radisson Blu Hotel Nice ([2]), four tram
-stops away from the Embedded Recipes location. We will welcome you from
-08:30 in "Salle Courants", which will be identified by the libcamera
-logo.
+The bug was first flagged by an experimental analysis tool we are
+developing for kernel memory-management bugs while analyzing
+v6.13-rc1. The tool is still under development and is not yet publicly
+available. Manual inspection confirms that the bug is still
+present in v7.1-rc5.
 
-As all workshop agendas, this is tentative and we will adjust the exact
-timing depending on how the discussions progress.
+An x86_64 allyesconfig build showed no new warnings. As we do
+not have a Twinhan VP-3028 DVB-T board to test with, no runtime
+testing was able to be performed.
 
-09:00 - 09:15  Welcome and agenda bashing
-09:15 - 10:00  libcamera roadmap and ongoing work (Kieran Bingham)
-10:00 - 10:30  Break
-10:30 - 11:15  Passing vendor settings to pipeline & IPA (Naush Patuck)
-11:15 - 12:00  Control queues (David Plowman)
-12:00 - 12:30  Camera module identification (Stefan Klug)
-12:30 - 13:30  Lunch
-13:30 - 14:15  Memory allocation & request management (Nicolas Dufresne)
-14:15 - 15:00  Bayer reprocessing (David Plowman)
-15:00 - 15:30  Break
-15:30 - 16:15  ISP parameters synchronization (Jacopo Mondi)
-16:15 - 17:00  Feedback on the state of GStreamer support (Nicolas Dufresne)
-17:00 - 18:00  TBD
+Fixes: b3b961448f702 ("V4L/DVB (13795): [Mantis/Hopper] Code overhaul, add Hopper devices into the PCI ID list")
+Cc: stable@vger.kernel.org
+Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
+Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
+---
+Resend to correct the recipient email addresses.
+ drivers/media/pci/mantis/hopper_cards.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Each agenda item is listed with the name of the person who proposed it.
-We expect those persons to introduce the topic (orally or with slides,
-at your discretion) and drive the discussion.
-
-We will use Jitsi Meet for remote access. The event will be accessible
-at https://meet.jit.si/libcamera-workshop-nice-2026. We can however
-not guarantee the quality of the network connection on site.
-
-All times are in the CEST (UTC+2) time zone. If you plan to attend
-remotely and are located in a time zone that makes the agenda items you
-are most interested in occur at an inconvenient time, please let me know
-and we will try to reorder the discussion topics.
-
-Discussions will not be recorded, but the minutes of the workshop will
-be posted to the mailing list after the event.
-
-[1] https://embedded-recipes.org/2026/colo/#libcamera
-[2] https://www.openstreetmap.org/relation/5130684
-
+diff --git a/drivers/media/pci/mantis/hopper_cards.c b/drivers/media/pci/mantis/hopper_cards.c
+index 050068308c10..b55543054727 100644
+--- a/drivers/media/pci/mantis/hopper_cards.c
++++ b/drivers/media/pci/mantis/hopper_cards.c
+@@ -175,7 +175,7 @@ static int hopper_pci_probe(struct pci_dev *pdev,
+ 	err = mantis_stream_control(mantis, STREAM_TO_HIF);
+ 	if (err < 0) {
+ 		dprintk(MANTIS_ERROR, 1, "ERROR: Mantis stream control failed <%d>", err);
+-		goto fail1;
++		goto fail2;
+ 	}
+ 
+ 	err = mantis_i2c_init(mantis);
+@@ -187,7 +187,7 @@ static int hopper_pci_probe(struct pci_dev *pdev,
+ 	err = mantis_get_mac(mantis);
+ 	if (err < 0) {
+ 		dprintk(MANTIS_ERROR, 1, "ERROR: Mantis MAC address read failed <%d>", err);
+-		goto fail2;
++		goto fail3;
+ 	}
+ 
+ 	err = mantis_dma_init(mantis);
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
 
