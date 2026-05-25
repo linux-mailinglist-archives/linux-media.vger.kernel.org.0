@@ -1,240 +1,152 @@
-Return-Path: <linux-media+bounces-62705-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62706-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oGXlD0sKFGrVJAcAu9opvQ
-	(envelope-from <linux-media+bounces-62705-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 10:37:31 +0200
+	id 0NnXAJsWFGqFJgcAu9opvQ
+	(envelope-from <linux-media+bounces-62706-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 11:30:03 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A97A85C7DD4
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 10:37:30 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EB645C89BD
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 11:30:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 48715300A32D
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 08:36:59 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6A84D3022550
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 09:28:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78BEC3E3C4F;
-	Mon, 25 May 2026 08:36:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B1463E5EEF;
+	Mon, 25 May 2026 09:28:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RIv1bPbE"
+	dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b="AGjLrCBN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mail-m155101.qiye.163.com (mail-m155101.qiye.163.com [101.71.155.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60A9C3E3C6B
-	for <linux-media@vger.kernel.org>; Mon, 25 May 2026 08:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F902D77E6;
+	Mon, 25 May 2026 09:28:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=101.71.155.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779698212; cv=none; b=QtjW4tLzf/TFoSHkMV1g/BqZfGT/8e2At1XTWq1OjR+NC/AK499ZZmKVTD1udRvdhXeXnr1h8UxDwOBe/1Hg5l7OguZ57wlrvujifsbUsLp1fOY5WvTRqy1cTTaT5a+E9Q7hXBp3RgMHTaC45QoOpri1+FxwM7ITcvLjC5aEVjI=
+	t=1779701298; cv=none; b=Hr5VZbzjHoUegrhfEvcNh7CslMJSNPUl8iJPYg6ve67yZeyurJ88G9pqE4oJXa6PBJQb0dR5e9yWh2tAz88ojVDj/97kBEH5vZqKkYnO86ZFMAHl5KsImwq5ZMguBYjBcydJFYCbGoma89krT4kRueIWDbTGp4H2HziwHlmMkJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779698212; c=relaxed/simple;
-	bh=RQV63Zb/zBJ3Y0orK8I3qLhUtgNBs7COvCkW25OGnhw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qea6ZeMZTQDSu+GydOAMBXxP09bYXhDEeVx3jwHlIJ4wUAV8MKxzT5LtFiONLyQbJZcnkYhjQWdxvjy7jWk/BfLQmekObwyTT0AA85X2xJhU8vKaZMsMI/ldGR+XFf4/VvkQnwLdtpAMLUROEKOAxZOPWvhiFbxPBVhBEKHg0x4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RIv1bPbE; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779698209; x=1811234209;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RQV63Zb/zBJ3Y0orK8I3qLhUtgNBs7COvCkW25OGnhw=;
-  b=RIv1bPbEdX6eXsxl+CgjQJq+nhNuGAGDbq/CwkcSZgThAmKWD3EUq5lY
-   YNzoncP0GOFFlDXQnSgtLmdQvP9mH8ykfT66J+N6Z3i+UOEOkcS0sZtO8
-   ZfcEUmbzD+ocl9jxeJnBL9DjxJ0ULuIqvK23U0HLDpaAqOeU2757ZhWOM
-   Z6h3TNG2B+t5yxjbMGoOZfscFj9YGJKNMF2VJ2mJ5kBw1b8GcNyCgq2PR
-   uFlIXIWqQLgKaD6CIIu1NnOGmqGO/ioK4HqDltcWYpmMchrz6e1SSGlC8
-   oxa/e8B0LcolWw3GL1/inLlmk/h1Mr5UaK2CjKqOPD9R08HGshxs9J7cD
-   A==;
-X-CSE-ConnectionGUID: gIftWpblTsWvXLK6uo+mRw==
-X-CSE-MsgGUID: Ftd91LPnTNqrEyRkpZ6dUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11796"; a="91989658"
-X-IronPort-AV: E=Sophos;i="6.24,167,1774335600"; 
-   d="scan'208";a="91989658"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2026 01:36:47 -0700
-X-CSE-ConnectionGUID: AHNK2iIzQ4S9631x4mCFLw==
-X-CSE-MsgGUID: 5f+EURcjT8y4wzUTDfG5kA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,167,1774335600"; 
-   d="scan'208";a="237123929"
-Received: from abityuts-desk.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.245.207])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2026 01:36:45 -0700
-Date: Mon, 25 May 2026 10:36:38 +0200
-From: Mehdi Djait <mehdi.djait@linux.intel.com>
-To: "Vadillo, Miguel" <miguel.vadillo@intel.com>
-Cc: linux-media@vger.kernel.org, wei.a.xu@intel.com, atul.raut@intel.com, 
-	sakari.ailus@linux.intel.com, antti.laakso@linux.intel.com, kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v3 1/3] media: i2c: cvs: Add driver of Intel Computer
- Vision Sensing Controller(CVS)
-Message-ID: <ahQIk6QV9HRwxyyJ@mdjait-mobl>
-References: <20260521222359.16716-1-miguel.vadillo@intel.com>
- <20260521222359.16716-2-miguel.vadillo@intel.com>
- <ahAVpZUnNhI34BAv@mdjait-mobl>
- <173d3eec-de57-43eb-ba46-d08c8c1dc8b2@intel.com>
+	s=arc-20240116; t=1779701298; c=relaxed/simple;
+	bh=MPo8QHjwE4jm7G3tCxLHiFaKJjtI78HznDljRZ/DBHs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=ech7W+aqg5adNI24V0WOs+dDNcwV9TLHFsJPEDvbv1pcqUvRjQkqVc/yDOpxJWSGuOfaK6RnDHd0QTQvuGmyBo8sIsHVvciVHdZnczQAEUOcu4WxilgbkU4i/fMkNt2osoorjR0HTmiaCRhgWtsOr/+/XKzwJFHI9rLwjSoclRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=AGjLrCBN; arc=none smtp.client-ip=101.71.155.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=seu.edu.cn
+Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [221.228.238.82])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 3fb4bd637;
+	Mon, 25 May 2026 17:23:01 +0800 (GMT+08:00)
+From: Dawei Feng <dawei.feng@seu.edu.cn>
+To: chehab@kernel.org
+Cc: kees@kernel.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	jianhao.xu@seu.edu.cn,
+	Dawei Feng <dawei.feng@seu.edu.cn>,
+	stable@vger.kernel.org,
+	Zilin Guan <zilin@seu.edu.cn>
+Subject: [PATCH] media: mantis: fix memory leak in hopper_pci_probe()
+Date: Mon, 25 May 2026 17:22:31 +0800
+Message-Id: <20260525092231.815099-1-dawei.feng@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <173d3eec-de57-43eb-ba46-d08c8c1dc8b2@intel.com>
-X-Spamd-Result: default: False [-1.66 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9e5e71dd0403a2kunme0340fb0a9b67
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVkaShhMVhkZSxlNHx1PTkhKGVYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktJSE
+	5DQ1VKS0tVS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=AGjLrCBN0A0C3TNaSEgzVtUepeIdMtjB8P1kxfcZ8aGRejXR7ESVDUgN1Ul7rEIjy4vILrT2s8pg7XtfJCDfiFRs0tJwiIAnCFKiLu3+1tEh3Rvlzzqu3fPi5z85MkYYeymyh+gnFT80jp8Js3Gq9DwP/l8cyUlJq1bHWcxuU7Y=; s=default; c=relaxed/relaxed; d=seu.edu.cn; v=1;
+	bh=rERlZ1mfSkCbBOzn0q/OTZ9yjJk5rhyqg8nOj0+onTE=;
+	h=date:mime-version:subject:message-id:from;
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[seu.edu.cn,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[seu.edu.cn:s=default];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62705-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62706-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[seu.edu.cn:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dawei.feng@seu.edu.cn,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mehdi.djait@linux.intel.com,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: A97A85C7DD4
+	DBL_BLOCKED_OPENRESOLVER(0.00)[seu.edu.cn:email,seu.edu.cn:mid,seu.edu.cn:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 2EB645C89BD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Miguel,
+In hopper_pci_probe(), two probe-error paths jump to the wrong cleanup
+stage. If mantis_get_mac() fails after mantis_i2c_init() succeeds, the
+function skips mantis_i2c_exit() and leaves the I2C adapter registered.
+If mantis_stream_control() fails after mantis_pci_init() succeeds, the
+function frees the mantis structure without undoing the PCI setup.
 
-On Sat, May 23, 2026 at 04:37:41PM -0700, Vadillo, Miguel wrote:
-> Hi Mehdi,
-> 
-> On 5/22/26 1:39 AM, Mehdi Djait wrote:
-> > Hi Miguel,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Thu, May 21, 2026 at 03:23:57PM -0700, Miguel Vadillo wrote:
-> > > Add driver for Intel Computer Vision Sensing (CVS) devices found on
-> > 
-> > [..]
-> > 
-> > > +fail_i2c:
-> > > +	ret = cvs_csi_init(ctx, dev, i2c);
-> > > +	if (ret) {
-> > > +		dev_err_probe(dev, ret, "CSI init failed\n");
-> > > +		goto err_put_ipu;
-> > > +	}
-> > > +
-> > > +	dev_set_drvdata(dev, ctx);
-> > > +	pm_runtime_set_autosuspend_delay(dev, 1000);
-> > > +	pm_runtime_use_autosuspend(dev);
-> > > +	pm_runtime_enable(dev);
-> > > +	pm_runtime_idle(dev);
-> > > +
-> > > +	/*
-> > > +	 * Create a PM runtime device link with IPU as consumer and CVS as
-> > > +	 * supplier. When the IPU runtime-resumes to start streaming, the PM
-> > > +	 * framework automatically resumes CVS first, triggering
-> > > +	 * cvs_runtime_resume() which hands CSI-2 link ownership to the host.
-> > > +	 */
-> > > +	ctx->ipu_link = device_link_add(&ipu->dev, dev,
-> > > +					DL_FLAG_PM_RUNTIME |
-> > > +					DL_FLAG_RPM_ACTIVE |
-> > > +					DL_FLAG_STATELESS);
-> > > +	put_device(&ipu->dev);
-> > > +	if (!ctx->ipu_link) {
-> > > +		dev_err(dev, "IPU device link failed\n");
-> > > +		ret = -ENODEV;
-> > > +		goto err_csi_remove;
-> > > +	}
-> > > +
-> > > +	if (has_acpi_companion(dev))
-> > > +		acpi_dev_clear_dependencies(ACPI_COMPANION(dev));
-> > > +
-> > > +	return 0;
-> > > +
-> > > +err_csi_remove:
-> > > +	if (ctx->ipu_link)
-> > > +		device_link_del(ctx->ipu_link);
-> > > +	cvs_csi_remove(ctx);
-> > > +	pm_runtime_dont_use_autosuspend(dev);
-> > > +	pm_runtime_disable(dev);
-> > > +	pm_runtime_set_suspended(dev);
-> > > +	return ret;
-> > 
-> > this return ret seems wrong here.
-> 
-> Are you referring to just the space before return?
-> @@ -1318,10 +1318,12 @@ static int cvs_core_probe(struct device *dev, struct
-> i2c_client *i2c)
->         pm_runtime_dont_use_autosuspend(dev);
->         pm_runtime_disable(dev);
->         pm_runtime_set_suspended(dev);
-> +
->         return ret;
-> 
->  err_put_ipu:
->         put_device(&ipu->dev);
-> +
->         return ret;
->  }
-> 
-> put_device(ipu) was already done after the ipu_link so no need to waterfall
-> all the way down. Please clarify if I am misunderstanding your comment.
+Route the affected error paths to the correct cleanup labels so that
+hopper_pci_probe() releases resources in reverse order, matching the
+cleanup flow already used by mantis_pci_probe().
 
-that's the expected code flow with goto err_x, goto err_y; -> That you do the
-error handling in reverse order of allocation/init and then finish by return ret.
+The bug was first flagged by an experimental analysis tool we are
+developing for kernel memory-management bugs while analyzing
+v6.13-rc1. The tool is still under development and is not yet publicly
+available. Manual inspection confirms that the bug is still
+present in v7.1-rc5.
 
-So in this case how about you hold on the the ipu-dev a bit longer,
-remove the return ret of err_csi_remove and put_device() at the end if everything goes without error:
+An x86_64 allyesconfig build showed no new warnings. As we do
+not have a Twinhan VP-3028 DVB-T board to test with, no runtime
+testing was able to be performed.
 
-diff --git a/drivers/media/i2c/cvs/core.c b/drivers/media/i2c/cvs/core.c
-index 9db56eb77645..b8d270c001b3 100644
---- a/drivers/media/i2c/cvs/core.c
-+++ b/drivers/media/i2c/cvs/core.c
-@@ -815,7 +815,6 @@ static int cvs_core_probe(struct device *dev, struct i2c_client *i2c)
-                                        DL_FLAG_PM_RUNTIME |
-                                        DL_FLAG_RPM_ACTIVE |
-                                        DL_FLAG_STATELESS);
--       put_device(&ipu->dev);
-        if (!ctx->ipu_link) {
-                dev_err(dev, "IPU device link failed\n");
-                ret = -ENODEV;
-@@ -825,6 +824,8 @@ static int cvs_core_probe(struct device *dev, struct i2c_client *i2c)
-        if (has_acpi_companion(dev))
-                acpi_dev_clear_dependencies(ACPI_COMPANION(dev));
+Fixes: b3b961448f702 ("V4L/DVB (13795): [Mantis/Hopper] Code overhaul, add Hopper devices into the PCI ID list")
+Cc: stable@vger.kernel.org
+Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
+Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
+---
+ drivers/media/pci/mantis/hopper_cards.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/pci/mantis/hopper_cards.c b/drivers/media/pci/mantis/hopper_cards.c
+index 050068308c10..b55543054727 100644
+--- a/drivers/media/pci/mantis/hopper_cards.c
++++ b/drivers/media/pci/mantis/hopper_cards.c
+@@ -175,7 +175,7 @@ static int hopper_pci_probe(struct pci_dev *pdev,
+ 	err = mantis_stream_control(mantis, STREAM_TO_HIF);
+ 	if (err < 0) {
+ 		dprintk(MANTIS_ERROR, 1, "ERROR: Mantis stream control failed <%d>", err);
+-		goto fail1;
++		goto fail2;
+ 	}
  
-+       put_device(&ipu->dev);
-+
-        return 0;
+ 	err = mantis_i2c_init(mantis);
+@@ -187,7 +187,7 @@ static int hopper_pci_probe(struct pci_dev *pdev,
+ 	err = mantis_get_mac(mantis);
+ 	if (err < 0) {
+ 		dprintk(MANTIS_ERROR, 1, "ERROR: Mantis MAC address read failed <%d>", err);
+-		goto fail2;
++		goto fail3;
+ 	}
  
- err_csi_remove:
-@@ -834,7 +835,6 @@ static int cvs_core_probe(struct device *dev, struct i2c_client *i2c)
-        pm_runtime_dont_use_autosuspend(dev);
-        pm_runtime_disable(dev);
-        pm_runtime_set_suspended(dev);
--       return ret;
- 
- err_put_ipu:
-        put_device(&ipu->dev);
+ 	err = mantis_dma_init(mantis);
+-- 
+2.34.1
 
-
-(Actually if you want to go just a tiny bit the extra mile and see if we
-can solve this without holding a reference to the dev for the whole
-probe function will actually simplify the error handling a lot, this is
-of course not a priority at all and I am ok with whatever you choose to
-do)
-
---
-Kind Regards
-Mehdi Djait
 
