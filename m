@@ -1,312 +1,223 @@
-Return-Path: <linux-media+bounces-62728-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62729-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8OftDJ2CFGrhNwcAu9opvQ
-	(envelope-from <linux-media+bounces-62728-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 19:10:53 +0200
+	id uBJVA0+TFGowOgcAu9opvQ
+	(envelope-from <linux-media+bounces-62729-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 20:22:07 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 995665CD313
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 19:10:52 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F3E65CD9BC
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 20:22:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 08C623028368
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 17:10:14 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A4E9D3023E0C
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 18:21:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D26B83F86EC;
-	Mon, 25 May 2026 17:10:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2BDA336EC5;
+	Mon, 25 May 2026 18:21:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="GQr1PYm1"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="DwlgeeVH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011008.outbound.protection.outlook.com [52.101.62.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426393F7872
-	for <linux-media@vger.kernel.org>; Mon, 25 May 2026 17:10:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779729011; cv=none; b=NqvsEmx5jPI5eVJMFHTi+yU1Itb0RbVFfex46V3ifdmrNMgJg8/bc7sUW00fr1jmGws1f+rF4hRZPbsu5lkwLbXGaJAC9Eplr2F6ZoW7nQL7w8cmZgmP3dLGrB3NEVgus7dm9udBZW2Ikz081u+CCeBsC30h5Kv8QPL1ThcI8D8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779729011; c=relaxed/simple;
-	bh=PTNg3RyBjtWL4NnI8O0q7hXUoY8uPF4RaVnZMbEInR0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K473DSweVzCAiFdlBfVDXebvFZvizbvnINNoIIbOitJp+qY9GlUx0n96Z2Aq1+/tMTnH63dwJKb80Hk2VrSiDaKIYOk8hJrFQBdM0g7dJwac8uARA72FwYAOldVwbiA7jYeTydpfn75/Y/ytdzlcrVQNyVypQJDECGACF3mFGm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=GQr1PYm1; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-48e8132c6d0so61593525e9.1
-        for <linux-media@vger.kernel.org>; Mon, 25 May 2026 10:10:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1779729007; x=1780333807; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=izugkSqOYsBmSyQ8jfD9m1SVj73YG14U78pRBc6Lai0=;
-        b=GQr1PYm1QRIrfgBC/EILAtR9O17tFRT933ldDJCayUjXIyRMiDnumrFP9i4iPLQuP/
-         bWYj6u/50hd5AlTl8fnNFXZxscNWQsfvT08lWT2g7USA76CFTeDeB9CAGnGBLt+Jk5Kd
-         lX3x9dDR55Y2wg8pVl8cBGmVyZoFj8APvHLhilXEkRN6z7J5HsqQkRDuiJpcpmZ76bBE
-         nunnNO0efpqrh3Mg+srvekhGI13bTspzjyxHMZeoT7BQvRd6lyijtBc2rfmKjAaENr6C
-         i+8SY1MRgNki/ClY1lWgGG4FXSsH+ZhGYZ0VK7FSfIVhFbKqAWGdmu0VyhcviooSpQ7X
-         9jYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779729007; x=1780333807;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=izugkSqOYsBmSyQ8jfD9m1SVj73YG14U78pRBc6Lai0=;
-        b=jKp4FY/qVo7OIo7TSu6EGhvswUj7pUJ8syI1YntE23WZ8VqFIvnW2JH5woalP/eBUx
-         mOJAQNIrRmrRIO84oip5gBeT9EjC0PclbAbF5Nhrp/8GvUqFqC1k5pYLeO2dIh1NtzX5
-         fwgb/G8fiZNIKYckAw2UD9LUJrj0dXxIJ/3eEn5wKUfSqUjYNp9NB1qmoYnm0eB1dXYT
-         7O3IxxLsGv92MOxh0xzsrMKzmUXH84EbnT65lnAwIEVtnpcWJPt1DAsOxFRokfsUZeEX
-         StkygAIHFq5hRISq0mrsgSWSNbal2UNnQdlJpN/MoS18oDb2deZRqna1XbbP7HtYuve3
-         uBpQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/Jhg5K3ZRlW3cJntJjdvpQPJnSBYajcG5m/598uXCTLCKBr0WbFlD8aYv/dcrWVBrZydiPLanyQIrdyw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YywWKwcp5FlvBjt3VzYZrmhKm0+qxVUuE4hX8P9Kgfx8xCGgXa3
-	mMlsw1/e7RW8yQ6Mv9J/EWAAyHBDg8JT3q84K4guPqYNTu59IbID+CoSWSbDMZk1eJs=
-X-Gm-Gg: Acq92OG+PluAgJtNtPGd8Yay7T4+gZMf3//zNmHdvVMfw7odYmhFQUPF4Dr7Pgdm6nE
-	MwpWHEGrX/OMoD3FOByZB6Yat0wOQ7wNxhkIuzJGDM5MwPPCCRzSHSXuGJnBJp2hEnvWgaT3LHO
-	e+2YH0j9RCijL27wox1t4aK2IQw67FSeB+b0miY13prtySIw53EtWI/MVbH7H8Mj4lYYXgT7he9
-	UT+aaLM1hTwuEffqexIQW6jS8DCJB1pa7QQ1Z9lH5yIT7ERVZBHRBscjtky7wliEpeACAQtCmaH
-	rRConzz7uCteIHXRciYLNqoxa+IYo4YAoXT4YLJ93sJmcLEvXEanOh5Pr0M2zB9huGf1HUbJvab
-	sv/var+ICHlZX95czWNmW0r46eJuSdmFZIxro9Vqol7aIne5Bb1oDuQKQYwVTMz5MG02stBDRSi
-	CswUDT3hGvd+ev6dfZ2fPdoE/CMX1EKxn1V8MB1vUAdHqLriFC2+odMRRjzrkAktMY+Ch4B+Kc3
-	Gcp0fsnYM3X5VB8BqvW/TddW0ITLPUD2Lg53cVDoIswJsfFI9fpS3wGOiQyYljQTGZMKURGdQgN
-	fQU1I182YPTxCFE=
-X-Received: by 2002:a05:600c:35cf:b0:490:44eb:c1e5 with SMTP id 5b1f17b1804b1-49044ebc257mr277307095e9.31.1779729006482;
-        Mon, 25 May 2026 10:10:06 -0700 (PDT)
-Received: from ?IPV6:2a00:1028:838d:271e:8e3b:4aff:fe4c:a100? (dynamic-2a00-1028-838d-271e-8e3b-4aff-fe4c-a100.ipv6.o2.cz. [2a00:1028:838d:271e:8e3b:4aff:fe4c:a100])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4904526c926sm456877405e9.1.2026.05.25.10.10.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 May 2026 10:10:06 -0700 (PDT)
-Message-ID: <a192eb5c-5d16-483d-862e-d937fa1b8269@suse.com>
-Date: Mon, 25 May 2026 19:10:03 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B6DA345CB2;
+	Mon, 25 May 2026 18:21:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779733310; cv=fail; b=W8x9mg9ZKt9io1lcNpbRfWibg+iurhloXDKuGYf1kU2rGWuvRZgkvF6ywyhK4FvkcT7VUNVLcEEJ3vjF1HVSek39dqIP4+FrWnKljMYzCD8R7BrKEtaITkLOq7rKLG+5aQJ7oi8x1CKZZYZVn2ar81B/rEFpG2FJFaU2/d9j4p8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779733310; c=relaxed/simple;
+	bh=XSYIisLjky2cafe9sDPEfoKJDWVYN086VmZAM5rkicY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=C09KXUwkKTmNMsgeF4RHfreiMPyA1RSlUJRz5DZsRaexS8WFW1tuibhcnoh0QT9sBM3Feg57Q6MVYfXp6GQyUwtJlFHxaO7w0yACqeO7TPQwrxNK/0uITb/3zVr4u5x3syaOXSD/h1r+SEDx0HHnC2cTM7lvU7keqLocFnWrqe0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=DwlgeeVH; arc=fail smtp.client-ip=52.101.62.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=N/rzs9Mjn7XYZimgskeG63xu4o/XCLw0RA9wGrdnqqY0m88/hbT05VCaPqVsbL5/+I5fWorriddSZN67JMAFXq/aK3vakh7aCsgaumRw5+cln/zYHT8dlmucR3b2K7jlZnSIfpGmb8kYd5TWM/w3ygff33QOu0TQoC3G/s1rgBebBF/3qR0A5hyZ8XptypZnatZL0kHre7+exB+cLa/6+6BJSXWyYtCO92RdM3F0X7MRzvxdg8Ncpl3XSEFxCGYxcGMCR7O3/fA2TK/Ws6DJ9yTIG99uNmqSkbJMZINAeLxFGcWxDu8YP+CyziS/ZIWCk8tMkKMv9fSTC0FJGlhepA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=q06Je9sQ1PTKEZd4t5QQWIj2VJK7mOmdweTFayf0Wmg=;
+ b=YmL0b3kiQPP9wnG0ejqTG2sBjKh6aY3GXaKgbX+pZsvjOcF9RZLAsgVQzjZkiN3B2Qd3ZEWyqDFJzcRozAOqc35e8ME8d+NkcidMndc3rC6wANX1akJHCHOGLjAiGJydc1YtKcZAFSJSSy+Lw/nlfNkUjXKG3H5WaXCnfh77I58oiwZ58Elwd9PSnpttmMX8dy5y0X0VT9p8088AV8Z34vNjn+fEYSD6ekWvgx3AEBdXl430a5b6oEacX+KofyGbwsP6TS3/MaGPHdl8k84AioWNQpDL7144c2LaaLlCA/sNY2gYN1/lPf2tlBCZNNjAOiAlyFPA56ODlSLjGoQysw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=ideasonboard.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=q06Je9sQ1PTKEZd4t5QQWIj2VJK7mOmdweTFayf0Wmg=;
+ b=DwlgeeVHt6V/PC/ue/g0u8776U4LW5Miyr7/5eRsdWyRB3bON0/TLC5z+o/b79012pVkeXRF8VoMg1Zqv+lw1rNUY1aXxOMXfQG2TslaWj/5DVG2vbqJE6NdjovrrS3AfyE8GI39gJO2DQFOGf95npXVjyhL6FBDFTndmtf9skOC2dIEvo6wsfMPtjMGB6LlYa22DAYJcJTzfsiPNNiXHNXLgCaN73NdtFPtr//aCpvK5UZvVwG0FG4ko5MoPW3FmwuNyhNPbliCMJqYiKt6VL0uDNMwABoLo0AN26OFo2BQc/zO/CyELF/LRpnuDfMvBCTNNSk6ME+X0xmXfXrrDg==
+Received: from PH8P221CA0023.NAMP221.PROD.OUTLOOK.COM (2603:10b6:510:2d8::11)
+ by SJ2PR12MB8111.namprd12.prod.outlook.com (2603:10b6:a03:4fe::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.20; Mon, 25 May
+ 2026 18:21:43 +0000
+Received: from CY4PEPF0000E9D1.namprd03.prod.outlook.com
+ (2603:10b6:510:2d8:cafe::a9) by PH8P221CA0023.outlook.office365.com
+ (2603:10b6:510:2d8::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.48.20 via Frontend Transport; Mon, 25
+ May 2026 18:21:43 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ CY4PEPF0000E9D1.mail.protection.outlook.com (10.167.241.136) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.71.7 via Frontend Transport; Mon, 25 May 2026 18:21:42 +0000
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 25 May
+ 2026 11:21:32 -0700
+Received: from build-henryl-noble-20260506.internal (10.126.231.37) by
+ rnnvmail201.nvidia.com (10.129.68.8) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Mon, 25 May 2026 11:21:31 -0700
+From: Henry Lin <henryl@nvidia.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, "Mauro Carvalho
+ Chehab" <mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Henry Lin <henryl@nvidia.com>
+Subject: [RFC PATCH 0/1] media: uvcvideo: reset interface on bulk stream stop
+Date: Mon, 25 May 2026 18:20:27 +0000
+Message-ID: <20260525182028.2148267-1-henryl@nvidia.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/11] params: Convert generic kernel_param_ops .get
- helpers to seq_buf
-To: Kees Cook <kees@kernel.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>, Pengpeng Hou
- <pengpeng@iscas.ac.cn>, Richard Weinberger <richard@nod.at>,
- Anton Ivanov <anton.ivanov@cambridgegreys.com>,
- Johannes Berg <johannes@sipsolutions.net>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
- Corey Minyard <corey@minyard.net>, Gabriel Somlo <somlo@cmu.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Bart Van Assche <bvanassche@acm.org>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
- Hannes Reinecke <hare@suse.de>,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <martin.petersen@oracle.com>,
- Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
- Lukasz Luba <lukasz.luba@arm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Alan Stern <stern@rowland.harvard.edu>,
- Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
- Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>,
- Tiwei Bie <tiwei.btw@antgroup.com>, Benjamin Berg <benjamin.berg@intel.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "David E. Box" <david.e.box@linux.intel.com>,
- "Maciej W. Rozycki" <macro@orcam.me.uk>,
- Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
- Peter Zijlstra <peterz@infradead.org>, Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, Sean Christopherson <seanjc@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, Vinod Koul <vkoul@kernel.org>,
- Frank Li <Frank.Li@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
- Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>,
- Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
- Dmitry Vyukov <dvyukov@google.com>, Andrew Morton
- <akpm@linux-foundation.org>, John Johansen <john.johansen@canonical.com>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Georgia Garcia <georgia.garcia@canonical.com>, kvm@vger.kernel.org,
- dmaengine@vger.kernel.org, linux-modules@vger.kernel.org,
- kasan-dev@googlegroups.com, linux-mm@kvack.org, apparmor@lists.ubuntu.com,
- linux-security-module@vger.kernel.org, linux-um@lists.infradead.org,
- linux-acpi@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
- qemu-devel@nongnu.org, intel-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
- linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-pm@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-serial@vger.kernel.org,
- linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
- virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, netdev@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-hardening@vger.kernel.org
-References: <20260521133315.work.845-kees@kernel.org>
- <20260521133326.2465264-8-kees@kernel.org>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20260521133326.2465264-8-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+X-NVConfidentiality: public
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+Content-Type: text/plain
+X-ClientProxiedBy: rnnvmail201.nvidia.com (10.129.68.8) To
+ rnnvmail201.nvidia.com (10.129.68.8)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D1:EE_|SJ2PR12MB8111:EE_
+X-MS-Office365-Filtering-Correlation-Id: afb0dbee-cfc3-4d18-8543-08deba8a78cf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|36860700016|82310400026|56012099003|11063799006|18002099003|6133799003|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	JseN0SjamOyHhLoHpFYFMizKG0V1/TdE6MHy6vNHI8F+TfHa+PrBfsaP84+3OhaY4FhUtqXU7mfHOupRQwfpGs3XsBWbzNSOyzJrTvkl2GFBEIGIgjeRQwys+k425YtavPJ/u/51HXB4gNWEt6//S5dsWtCEC0/PTYFSI7exFMSKoDylVhKm+JnkHu0Q7xXWL2PggdbrvTlohMqGMt1MtTyF2toZVBzyxfGs+ZuD5iKLes5DT9nNjKSafKeNSUpL5eVXJKOu5LjinYKe3GHNfyrQ0tr47mYaIV/9tn7JJd/q6LMQK3zoGTmvISmoTSrRfL/SyEnf2nZXmpq6+sDo4Aeqvi/ac9kQbi8+BaDsmi744sjYjBITVEZrP8gg4GYrc/VGhbD/Ty4Dj3xqtRfglJcjjFxVnQg6YYNO8qS9D4WLO/q+rVqzeYLGSbfgK4H8QZhozO8j0VKSVNtGMzMzBeAyZ/TzPbihc5FQRZMXmN0VowDWIrwZjXDIVzivV/30HMFoPLXFac0rWJGYX+1PuDhPOX7P21ttUma6HpXPKuYuV/cjtAYCvvgZ+6QNFPIF3O9j/UYH0U0PCjKbH6Lbk/YFG+BAyNy1Ja+aOdzRUzzK1wR3S8n5LYmN6IukT5jaIdm4oUXusou0ZXHKcvvAENTxbjG34P76dHSh9E9GbDZiqPXaTE7xdqJsOXTIMYB6lFmb6vJBdX7EuE+pxx1SI4SgJ2n4AOi+HUunNjWaWtU=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700016)(82310400026)(56012099003)(11063799006)(18002099003)(6133799003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	e1Fr0q7crk5PBC0dMAOZJsKvSG8EJ5s8vTsW79lce0jqjRV20FgmPnoRxGgI2VaJ8KuG3JsUzp/iHQVF4Fo7YHwFvaBU+VKd+8UgS2nylvP/fdDZOHpEzEGpTKlFMHXnMI2fNROCFsjbu4P0Q1Qa6dYKem9Z3IXYu3JkgV6ez9fI0uUj96I9tD4nLurFMAWgZtfUN5VEVTZ0I19iLmDrRHF21rLxxIciRoN8z+bOxsY8NOhsR7zRlovdn4MbvZ6DvHoFNUcNO2pFKJnm2QwE8eyxQlNqTE8vdnjdUg5DHigzJuX4acxlBm1cnLtlNGdaC7a670F7Ahdql6idUbu1iFdqKLMZlc06dMcL042fwsC/mAPvEII8QdjVIeo8nR0eq2r99IGIXNcqb1kuhTOGPyWU3MtU24zL37N7ncogbYhEZKaQUGcmc6pdnEbT9hlR
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 May 2026 18:21:42.6876
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: afb0dbee-cfc3-4d18-8543-08deba8a78cf
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000E9D1.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8111
+X-Spamd-Result: default: False [1.34 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,iscas.ac.cn,nod.at,cambridgegreys.com,sipsolutions.net,minyard.net,cmu.edu,redhat.com,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,acm.org,ziepe.ca,ideasonboard.com,google.com,suse.de,HansenPartnership.com,oracle.com,arm.com,linuxfoundation.org,rowland.harvard.edu,linux.alibaba.com,akamai.com,antgroup.com,orcam.me.uk,infradead.org,linux.ibm.com,alien8.de,zytor.com,atomlin.com,linux-foundation.org,canonical.com,paul-moore.com,namei.org,hallyn.com,vger.kernel.org,googlegroups.com,kvack.org,lists.ubuntu.com,lists.infradead.org,lists.sourceforge.net,nongnu.org,lists.freedesktop.org,lists.ozlabs.org,lists.one-eyed-alien.net,lists.linux.dev];
-	DKIM_TRACE(0.00)[suse.com:+];
-	TAGGED_FROM(0.00)[bounces-62728-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62729-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[petr.pavlu@suse.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_GT_50(0.00)[98];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[henryl@nvidia.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,spinics.net:url,nvidia.com:mid,Nvidia.com:dkim];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:mid,suse.com:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 995665CD313
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_COUNT_SEVEN(0.00)[8]
+X-Rspamd-Queue-Id: 6F3E65CD9BC
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 5/21/26 3:33 PM, Kees Cook wrote:
-> Convert the generic struct kernel_param_ops .get helpers in
-> kernel/params.c directly to the seq_buf signature, drop their legacy
-> "char *" form, and refresh prototypes in <linux/moduleparam.h>:
-> 
->   param_get_byte/short/ushort/int/uint/long/ulong/ullong/hexint
->   param_get_charp/bool/invbool/string
->   param_array_get
-> 
-> The STANDARD_PARAM_DEF() macro expands to a seq_buf body for every
-> numeric helper. param_array_get() now writes element output directly
-> into the parent seq_buf when the element ops provide .get; it only
-> allocates the per-call PAGE_SIZE bounce buffer when the element ops
-> still use the legacy .get_str path. The common "rewrite the prior
-> element's trailing newline as a comma" step lives outside both
-> branches so the two paths share it.
-> 
-> The non-core changes in this commit (arch/x86/kvm, mm/kfence,
-> drivers/dma/dmatest, security/apparmor) are the small set of callers that
-> directly invoke one of the converted generic helpers from their own .get
-> callback (e.g. an apparmor wrapper that adds a capability check and then
-> delegates to param_get_bool()). Because the helpers' signature changes
-> here, these wrappers must move in lockstep. Each of them is updated
-> to take "struct seq_buf *" and pass it through; param_get_debug() in
-> apparmor also pulls aa_print_debug_params() (and its val_mask_to_str()
-> helper, in security/apparmor/lib.c) over to seq_buf, since that is the
-> only consumer. No other behavioural change is intended.
-> 
-> Custom .get callbacks that do not delegate to a generic helper (and
-> therefore still match the .get_str signature) are routed automatically
-> to the .get_str field by the DEFINE_KERNEL_PARAM_OPS _Generic dispatcher
-> and are deliberately left alone here, to be changed separately within
-> their respective subsystems.
-> 
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
-> [...]
-> @@ -453,36 +457,46 @@ static int param_array_set(const char *val, const struct kernel_param *kp)
->  			   arr->num ?: &temp_num);
->  }
->  
-> -static int param_array_get(char *buffer, const struct kernel_param *kp)
-> +static int param_array_get(struct seq_buf *s, const struct kernel_param *kp)
->  {
-> -	int i, off, ret;
-> -	char *elem_buf;
->  	const struct kparam_array *arr = kp->arr;
->  	struct kernel_param p = *kp;
-> +	char *elem_buf = NULL;
-> +	int i, ret = 0;
->  
-> -	elem_buf = kmalloc(PAGE_SIZE, GFP_KERNEL);
-> -	if (!elem_buf)
-> -		return -ENOMEM;
-> +	for (i = 0; i < (arr->num ? *arr->num : arr->max); i++) {
-> +		size_t before = s->len;
->  
-> -	for (i = off = 0; i < (arr->num ? *arr->num : arr->max); i++) {
->  		p.arg = arr->elem + arr->elemsize * i;
->  		check_kparam_locked(p.mod);
-> -		ret = arr->ops->get_str(elem_buf, &p);
-> -		if (ret < 0)
-> -			goto out;
-> -		ret = min(ret, (int)(PAGE_SIZE - 1 - off));
-> -		if (!ret)
-> +
-> +		if (arr->ops->get) {
-> +			ret = arr->ops->get(s, &p);
-> +			if (ret < 0)
-> +				goto out;
-> +		} else {
-> +			if (!elem_buf) {
-> +				elem_buf = kmalloc(PAGE_SIZE, GFP_KERNEL);
-> +				if (!elem_buf) {
-> +					ret = -ENOMEM;
-> +					goto out;
-> +				}
-> +			}
-> +			ret = arr->ops->get_str(elem_buf, &p);
-> +			if (ret < 0)
-> +				goto out;
-> +			seq_buf_putmem(s, elem_buf, ret);
-> +		}
-> +
-> +		/* Nothing got written (e.g. overflow) — stop. */
-> +		if (s->len == before)
->  			break;
-> +
->  		/* Replace the previous element's trailing newline with a comma. */
-> -		if (i)
-> -			buffer[off - 1] = ',';
-> -		memcpy(buffer + off, elem_buf, ret);
-> -		off += ret;
-> -		if (off == PAGE_SIZE - 1)
-> -			break;
-> +		if (i && s->buffer[before - 1] == '\n')
-> +			s->buffer[before - 1] = ',';
->  	}
-> -	buffer[off] = '\0';
-> -	ret = off;
-> +	ret = 0;
->  out:
->  	kfree(elem_buf);
->  	return ret;
+Hi,
 
-Since you're almost completely rewriting the logic in param_array_get(),
-I suggest tightening it up a bit. The function could warn or return an
-error when a kernel_param_ops::get/get_str() call adds a string that
-doesn't terminate with '\n', specifically, when the call adds either
-a zero-length string or a non-zero-length string that ends with
-a different character (unless an overflow occurred).
+I would like to revive an old UVC bulk-streaming issue originally reported
+by Hans Yang. I am sending this RFC on his behalf for discussion before
+submitting a non-RFC patch.
 
-The updated code silently stops the loop when a get call returns
-a zero-length string. Similarly, handling of a string not terminated by
-'\n' is halfway there because of the added check
-"s->buffer[before - 1] == '\n'".
+Hans previously proposed making uvcvideo call usb_set_interface(..., 0)
+when stopping a bulk-based stream, before clearing halt on the bulk endpoint.
+The issue was discussed here:
 
--- 
+  https://www.spinics.net/lists/linux-usb/msg171584.html
+
+The current upstream stop path calls usb_set_interface(..., 0) only when the
+streaming interface has more than one alternate setting. For single-altsetting
+bulk devices, uvcvideo only sends CLEAR_FEATURE(ENDPOINT_HALT) to the bulk
+endpoint.
+
+The patch in this RFC changes uvc_video_stop_streaming() to always call
+usb_set_interface(..., 0) to reset the streaming interface first. For
+bulk devices, the existing CLEAR_FEATURE(ENDPOINT_HALT) request is still
+sent afterwards.
+
+On the affected devices, current upstream stop/start sequence can leave
+the next bulk stream failing immediately with transfer errors such as:
+
+  uvcvideo: Non-zero status (-71) in video completion handler.
+
+USB bus traces show that, without usb_set_interface(..., 0), the host
+continues the next bulk stream with the previous stream's sequence state,
+while the device expects the new stream to start from the initial sequence
+state. With usb_set_interface(..., 0), the host and device sequence states
+match again and repeated stop/start cycles complete successfully.
+
+The affected devices we have seen include:
+
+  - ID 8086:0b07 Intel Corp. RealSense D435
+  - ID 2560:c1d0 e-con Systems See3CAM_CU130
+  - ID 2b03:f582 STEREOLABS ZED camera
+
+I understand that the earlier discussion raised two important concerns:
+
+  1. Whether this should be fixed in uvcvideo or lower in the USB/xHCI stack,
+     since CLEAR_FEATURE(ENDPOINT_HALT) should normally reset the endpoint
+     halt condition and data toggle/sequence state.
+
+  2. Whether calling usb_set_interface(..., 0) for single-altsetting bulk UVC
+     devices could regress existing devices.
+
+For the first point, my understanding is that the kernel helper
+usb_set_interface(..., 0) issues SET_INTERFACE and lets the USB core
+reinitialize the endpoints for the selected alternate setting, including their
+data toggle/sequence state. The traces suggest that, in this stop/start path,
+CLEAR_FEATURE(ENDPOINT_HALT) alone is not enough to make the host and device
+restart the next bulk stream from the same sequence state. The additional
+usb_set_interface(..., 0) call makes repeated stop/start cycles reliable on
+the affected hardware.
+
+For the second point, I can provide before/after test results from the
+affected hardware listed above. I can also test a quirk-based version if that
+would be preferred over changing the generic bulk-stream stop path.
+
+I would appreciate guidance on whether this one-patch RFC is the preferred
+direction, or whether upstream would prefer a UVC quirk-based change for the
+affected devices listed above.
+
 Thanks,
-Petr
+Henry
 
