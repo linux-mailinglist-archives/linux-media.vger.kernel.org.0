@@ -1,79 +1,81 @@
-Return-Path: <linux-media+bounces-62707-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62708-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eDspMlscFGoGJwcAu9opvQ
-	(envelope-from <linux-media+bounces-62707-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 11:54:35 +0200
+	id eADkEXEcFGoGJwcAu9opvQ
+	(envelope-from <linux-media+bounces-62708-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 11:54:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 255085C8D3A
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 11:54:34 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E4EC5C8D42
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 11:54:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BC84E301C5B0
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 09:52:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 38C703024968
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 09:52:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25F4D3E63B3;
-	Mon, 25 May 2026 09:52:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A18D537269F;
+	Mon, 25 May 2026 09:52:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="p7uqsc/V"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="krDJvIw7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E260237269F
-	for <linux-media@vger.kernel.org>; Mon, 25 May 2026 09:52:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C401D3E3C79
+	for <linux-media@vger.kernel.org>; Mon, 25 May 2026 09:52:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779702754; cv=none; b=QUUmiharu2bBCNwMCBaWrvtk06tzNx758802NLJKE8eN7Sd9tft2Pdv6rgS6PFWGpQY/BhIAB2b8r/kgA0tsz+NA2ejFEmvnJ38BnLb69EhdrSuhXo0WdudUVKd3+0jTOmqqjPoP5cJND8O6hR7QUIjJopQE+5IJCf8ezF07CUU=
+	t=1779702762; cv=none; b=flF3JBq0g/hWN9FIqD+FRRoL3nXXgp+N8AXA3QJaHSKmLSEhNH+Dc8InFkcmXlb89cvDENUTP2r67A/G6Lf8CbL38fFx9w3vd8TU+0EsDyrMehJVezaEJNEEBlxQ4w6H2y5FFhUjsxfFXxmVjTjUc1X4Nhm7yufQLBFODzYeI7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779702754; c=relaxed/simple;
-	bh=gfO1Y5Cvx+draxMRz7VV+taVU8+4zXC20+dPuEQlJG8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=swTotljp96vmqtYO4ddhInbBmj+RlaNRkV6iuZMhvKXUUqgWbly+B2MyzomaJx/ptY5VJU18IJh2fpmdtBnmPcoJ74/dOPfxwB41mT4dJuBYFVu4svTa8fJGYKzYSv9ayToeIb2iFv01s1ebfI1A/tfVR4HU6WIub35dTcGSWko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=p7uqsc/V; arc=none smtp.client-ip=209.85.214.179
+	s=arc-20240116; t=1779702762; c=relaxed/simple;
+	bh=WIS3BgyrEbuPFk0DAL3nE3V6IGRFLo7gF/BE5feLCxo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=J5BbJ4nmysI0gL+cfBJ4EzsuSRUrwfvMnUxoXqBdR5ZcFlfvnFxc9K39mRAaDA4SMdfVzrytuM4XYAAL9sIU5NJeIV+UHK5fuNiGZZHs7v4sSgKxQpNpTBXR0Jh8TsWcuwM1+L5LHjAO5yvi5KTFUDEyXHdnDz43zjXPvjAQ4u8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=krDJvIw7; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ba6485d219so72090855ad.3
-        for <linux-media@vger.kernel.org>; Mon, 25 May 2026 02:52:31 -0700 (PDT)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2bd9c3b550aso65898555ad.2
+        for <linux-media@vger.kernel.org>; Mon, 25 May 2026 02:52:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779702751; x=1780307551; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6jqLwhkLz3GnNiG5F6aqvc2zAsvy9RUUFv6VMz3rWAI=;
-        b=p7uqsc/VrGZVSPDRdZ7Qz8bpSpkoeSP/fcSSIvjq3Lbp2jPpZzOTeDqd4OdSEP0j7p
-         9OAB5o0sNqy+/flDAjwmM1fe3PgDOq44L45ekAG//MS6k0I75y1abR3mj3TRIXaxl7dp
-         qQe9m3RnWHUWYPFTF5oI2qrpRCyNBTx52L7TV2KxH9OQ2v1Uu0XliPvfKnAdRyUUEy0f
-         CJhci46MqRM9iev6XrFNCvwbXBTrDK3urzIHCqer+QJK5ukkcOMfr4GX7KJsFDZ4D1A5
-         YOtua3AIPANEPb7Xxfw8eUjxeV+YNtAipuEIkc5ng/2Opt++idGF68iS6AwyHypiRtew
-         9/5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779702751; x=1780307551;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1779702760; x=1780307560; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6jqLwhkLz3GnNiG5F6aqvc2zAsvy9RUUFv6VMz3rWAI=;
-        b=T1EGInvfopSDJ6C22ouoNPrrtk41RsQV4pmDzgaQRcDE6e97MO4iJD74LywrOVrVGN
-         2ZTibzw8JNo01OLml1SS88KPFixDnLbxEhjJucuAXWAVd9hg8+rV8YVXe54o/EguJAJ8
-         Kwt0m2aJd1IcGUJ0lVGC9C29bZzEo0mQyl3ZI+WK1Qa0XGt4DaRpujNicDy0MX3fwx9W
-         Az6feJp0NRUPaDW7gnPsePuU/axhm/EzlLPA75y82kgLkdwvAbgCkGaleFRpWAzLZi4Y
-         WtXDHve77WfQWzFDgTy+a9OW51dnIt579evboSlRmqjmvpPBj9CMTDsCtqdrRsIJo/it
-         TEBw==
-X-Forwarded-Encrypted: i=1; AFNElJ9UPgqnSPwPP7ZKsNzT/eCQYKkGQTDQVDHDyGO2h1Bt+aKTcNmgDn099zw3wV8Cce/fQ5LmZTJzydj3ig==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIh131agbUtMavI8COmOkilFW6bcA+lnLSpF5WhATY3kNA70Q1
-	Qn/tN4OfQTbgWa/FjfrJhphpFAa9GwJGNlrPnnCtb5ZbshdXCtEabD+7
-X-Gm-Gg: Acq92OE/+CcnqU2hx+2zGYW/iXHGjmyfDxqA/X6iiW/6RXDaPx0Wb0cCAVrA5dQqK5T
-	RUm0epObRCkkWyYst7BJhqMFQoanwBFWUYrFEGvxGF+Dl8dOpI/IOmjKmpmszxWeK4QpjWF9CzP
-	RYtdDxiVStvw8rjWV/w1UN6mM+GJU4tQicc0kqRxQsdA/viVLU9Lsj82XnMxE8KmppPGVReBByD
-	2ztlaACiJFGTJjGO2jger3iRmZ0a0h28JTIqQpIz4/IvGQVQX95XMS1KeTeVkupZQ0KGfstwCZw
-	dbZ6yUhrF9jYsUP3lWbZJO+vKcFdbqKgOlWmXM+5VobuAkvs2hAoxHE8/CbW9oo/eZgYzwA6MEu
-	9xivkacJlhCtA/iWhcJM2yKAKAdw/uGlMKCOoA+S/vsEeRrucMo4K/gWci3vDi7SBsYVXfc+EqH
-	jjEjnvmspJ8/EHLAg9wpgY
-X-Received: by 2002:a17:902:ffcf:b0:2b0:663f:6b53 with SMTP id d9443c01a7336-2beb0385f3amr153090915ad.13.1779702751312;
-        Mon, 25 May 2026 02:52:31 -0700 (PDT)
+        bh=5gZEIwW5TqIv7uy+nwwFRwQeWX+dkGvQ9eeETlxlcvg=;
+        b=krDJvIw7DyTuW5gqNxDvwpPwCYjS9hn4JmztEKVe23sTtev/33wHFxgiKquNIpzzta
+         Rc+bl+QuW8LOklanU5k6l4534mwhd98xUsBYokvImrPt+3E9DE6+fxJD2yj8PE3NjgHs
+         470bCEuQeTMdBwyhiVxunpw7wdRp06XNE6ltCVwE+Yu+XHORePjIzrdATRHw6+Rn3eIw
+         A1Nz3YKs/PiA7+y5eRUvqFxPIhqxJUW103FOpH+xL08iTbqODxdHBOuVtxbG/UxaAJCR
+         x7kF7BF86rIBrO7v4Xe2Zt9ZjjZ47qpfQ5KX6IZS5NgVL0oXbD8SN0RZvcWZ245H/qBP
+         CTMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779702760; x=1780307560;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=5gZEIwW5TqIv7uy+nwwFRwQeWX+dkGvQ9eeETlxlcvg=;
+        b=qWgyMhcEYOnNQdgc/nkUzqLQH3jIUqOVwy5dA2da8Tg3UfAKMGwC2sdevmScqh2o7y
+         gCu6AeZtxmrt9dbFQKQQm59PRAKk3dW+ZrR/ftVD6p4xrmFYhvhVWuzl/JoZsXn3kiBk
+         VwksWCWMWck9ow8cswFx8oGPPjvleE5U6qm6+zklEoj8g9r4Yd4VCI8C5lueRoysDRxH
+         waXcZrtG7u3suh8Y9xu98vEjC108+3tDTq00pZ1DdQ4Cueu1ieaA8GjKJ4kpGa69MkNq
+         1jXe2ksTLaXn0OyrR7QCHLfD1Q0CTxeFdH5rjTd2ax3iEY97s+FOsbp0NNHn0MlbIuve
+         LBMg==
+X-Forwarded-Encrypted: i=1; AFNElJ80DDf1ZMnLSacUAzbCKxV0Z6x/m0hlmQOcZTKep+9TXUcC6o17pImT5sfCJw4T593l/BtFwrUbELtWTw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDcct2GnRyP+Bbom9XIntYXCoYeCCsHGEOQ9BWOrE6akwosMl4
+	Ikl3JLUYUtn/JMALQNNKI1LL4/R3Kxs7lIY1mJ45k2T3psE7u/ybo0IU
+X-Gm-Gg: Acq92OEbZ9qJGREDD0pPBMlmCuK6jpDZW+PFf63m74P3aZlbjRC85cU2wGd1p6fUCMV
+	uMwBiGYwUcaFbuR0fW+TXvlgOdbE/OAVqRZ6DCGsjbPYXCMVYG7bekbmQJu/YYRmFtKKBGxRNza
+	OwptjHts/bRg18QwawQI7j82x986tjtRW53DmfLuCi75B2hO1voZBX/SRAvz5cakYMxcB5lUju0
+	58v1oEc5sYVooii7DtVrZtj2mZ/enohV8VQEzZp0bBWRKdRsyIoyv94xs0ZyH6RyfkrRyEml+9H
+	r+i2aj7TCcJ8Z9EKW6wcAJtbcIj4eTqjtPxhxRpUD3U1Qd4f3mpgo+aRKbmeOpaOaZDkCcrDde8
+	dhYJprotNiUftpZb7sDdyJncyFrX+D1Ngml4LwLPEVyhmA9M1dwE/uDTDbb7UEewA/Cb6rguTf/
+	Q0lZwp0NkoIJM5bN6f34ZY7cQpNsBjTKI=
+X-Received: by 2002:a17:902:f70e:b0:2bc:8ebd:af76 with SMTP id d9443c01a7336-2beb03466afmr148144335ad.0.1779702760099;
+        Mon, 25 May 2026 02:52:40 -0700 (PDT)
 Received: from rockpi-5b ([45.112.0.230])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb58b2cd6sm92533615ad.52.2026.05.25.02.52.25
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb58b2cd6sm92533615ad.52.2026.05.25.02.52.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2026 02:52:30 -0700 (PDT)
+        Mon, 25 May 2026 02:52:39 -0700 (PDT)
 From: Anand Moon <linux.amoon@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -81,19 +83,22 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
 	Kevin Hilman <khilman@baylibre.com>,
 	Jerome Brunet <jbrunet@baylibre.com>,
 	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	Maxime Jourdan <mjourdan@baylibre.com>,
 	Hans Verkuil <hverkuil@kernel.org>,
+	Maxime Jourdan <mjourdan@baylibre.com>,
 	linux-media@vger.kernel.org (open list:MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS),
 	linux-amlogic@lists.infradead.org (open list:MESON VIDEO DECODER DRIVER FOR AMLOGIC SOCS),
 	linux-staging@lists.linux.dev (open list:STAGING SUBSYSTEM),
 	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Amlogic Meson SoC support),
 	linux-kernel@vger.kernel.org (open list)
 Cc: Anand Moon <linux.amoon@gmail.com>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>,
 	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH v5 0/6] media: meson: Fix memory leak in error path in vdec
-Date: Mon, 25 May 2026 15:21:48 +0530
-Message-ID: <20260525095216.12078-1-linux.amoon@gmail.com>
+Subject: [PATCH v5 1/6] media: meson: vdec: Fix memory leak in error path of vdec_open
+Date: Mon, 25 May 2026 15:21:49 +0530
+Message-ID: <20260525095216.12078-2-linux.amoon@gmail.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260525095216.12078-1-linux.amoon@gmail.com>
+References: <20260525095216.12078-1-linux.amoon@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -106,16 +111,16 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62707-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62708-lists,linux-media=lfdr.de];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	FREEMAIL_CC(0.00)[gmail.com,ndufresne.ca,kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[linaro.org,kernel.org,linuxfoundation.org,baylibre.com,googlemail.com,vger.kernel.org,lists.infradead.org,lists.linux.dev];
@@ -125,69 +130,107 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[linuxamoon@gmail.com,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-0.993];
+	NEURAL_HAM(-0.00)[-0.992];
 	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 255085C8D3A
+X-Rspamd-Queue-Id: 8E4EC5C8D42
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-V5: Changes 
-Following chamges try to fix the memory leak reported by Sashiko
+The vdec_open() function previously jumped directly to err_m2m_release
+when vdec_init_ctrls() failed, skipping release of the m2m context.
+This caused a resource leak.
 
-New issues:
-- [High] The newly added error path in `vdec_start_streaming()` leaks 
-  `sess->priv` when `kthread_run()` fails.
+Fix it by introducing a proper err_m2m_ctx_release label that calls
+v4l2_m2m_ctx_release(sess->m2m_ctx) before releasing the m2m device.
+Also free the v4l2 control handler memory allocated by vdec_init_ctrls()
+in vdec_close().
 
-Pre-existing issues:
-- [Critical] Race condition between hardware power-on and `core->cur_sess`
-   initialization leads to a NULL pointer dereference in the IRQ handler.
-- [High] Returning buffers for both source and destination queues upon
-    single-queue failure orphans active queue buffers.
-- [High] Concurrent sessions can bypass the hardware exclusivity check, 
-  leading to simultaneous hardware programming.
---
+This was identified via kmemleak:
+unreferenced object 0xffff0000205d6878 (size 8):
+  comm "v4l_id", pid 5289, jiffies 4294938580
+  hex dump (first 8 bytes):
+    40 d2 49 18 00 00 ff ff                          @.I.....
+  backtrace (crc d3204599):
+    kmemleak_alloc+0xc8/0xf0
+    __kvmalloc_node_noprof+0x60c/0x850
+    v4l2_ctrl_handler_init_class+0x1b4/0x2e8 [videodev]
+    vdec_open+0x1f4/0x788 [meson_vdec]
+    v4l2_open+0x144/0x460 [videodev]
+    chrdev_open+0x1ac/0x500
+    do_dentry_open+0x3f0/0xfe8
+    vfs_open+0x68/0x320
+    do_open+0x2d8/0x9a8
+    path_openat+0x1d0/0x4f0
+    do_filp_open+0x190/0x380
+    do_sys_openat2+0xf8/0x1b0
+    __arm64_sys_openat+0x13c/0x1e8
+    invoke_syscall+0xdc/0x268
+    el0_svc_common.constprop.0+0x178/0x258
+    do_el0_svc+0x4c/0x70
 
+Cc: Nicolas Dufresne <nicolas@ndufresne.ca>
 Reported-by: Sashiko <sashiko-bot@kernel.org>
-https://lore.kernel.org/all/20260521090944.F35401F00A3D@smtp.kernel.org/
+Closes: https://lore.kernel.org/all/20260520045905.6ACBA1F000E9@smtp.kernel.org/#t
+Fixes: 3e7f51bd9607 ("media: meson: add v4l2 m2m video decoder driver")
+Signed-off-by: Anand Moon <linux.amoon@gmail.com>
+---
+v5: update the error path for v4l2_ctrl_handler_free() as per the review
+    ccmment to fix the use after free bug.
+[4] https://patchwork.kernel.org/project/linux-amlogic/patch/20260521073449.10057-2-linux.amoon@gmail.com/
 
-V4: Changes:
+v4: update the commit message to add v4l2_ctrl_handler_free() in vdec_close()
+to adderss the issue:
+  This isn't a bug introduced by this patch, but does vdec_close() properly
+  free the v4l2 control handler memory allocated by vdec_init_ctrls() here?
 
-Following chamges try to fix the memory leak reported by Sashiko
+v3: https://lore.kernel.org/all/20260520044046.7553-1-linux.amoon@gmail.com/
+  update the commit messagee.
 
-Pre-existing issues:
-- [Critical] The `sess->esparser_queue_work` work item is not canceled
-   before freeing the session context, leading to a potential Use-After-Free
-   vulnerability.
-- [High] The patch attempts to fix a memory leak reported by kmemleak,
-    but misdiagnoses the root cause and leaves the primary memory leak
-    (the V4L2 control handler) unresolved.
-- [High] The driver does not verify if `kthread_run()` returns an `ERR_PTR`,
-     leading to a kernel panic when `kthread_stop()` is called.
+v2: https://lore.kernel.org/all/20260321065408.209723-1-linux.amoon@gmail.com/
+  updated the commit message, applied the suggestion from sashiko below.
 
-Reported-by: Sashiko <sashiko-bot@kernel.org>
-https://lore.kernel.org/all/20260520045905.6ACBA1F000E9@smtp.kernel.org/#t
+  [3] https://sashiko.dev/#/patchset/20260321065408.209723-1-linux.amoon%40gmail.com
 
-Thanks
--Anand
+v1: https://lore.kernel.org/all/20260304100557.126488-1-linux.amoon@gmail.com/
+  tried to address the issue reported by Nicolas improve the commit message.
+---
+ drivers/staging/media/meson/vdec/vdec.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Anand Moon (6):
-  media: meson: vdec: Fix memory leak in error path of vdec_open
-  media: meson: vdec: Protect session exclusivity check with lock
-  media: meson: vdec: Set cur_sess before hardware vdec_poweron()
-  media: meson: vdec: Handle kthread error and free codec private data
-  media: meson: vdec: Isolate error path buffer flush to the active
-    queue
-  media: meson: vdec: Cancel esparser work in error and stop paths
-
- drivers/staging/media/meson/vdec/vdec.c | 54 ++++++++++++++++++++-----
- 1 file changed, 44 insertions(+), 10 deletions(-)
-
-
-base-commit: e7ae89a0c97ce2b68b0983cd01eda67cf373517d
+diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+index 4b77ec1af5a7..18a22b79e835 100644
+--- a/drivers/staging/media/meson/vdec/vdec.c
++++ b/drivers/staging/media/meson/vdec/vdec.c
+@@ -889,7 +889,7 @@ static int vdec_open(struct file *file)
+ 
+ 	ret = vdec_init_ctrls(sess);
+ 	if (ret)
+-		goto err_m2m_release;
++		goto err_m2m_ctx_release;
+ 
+ 	sess->pixfmt_cap = formats[0].pixfmts_cap[0];
+ 	sess->fmt_out = &formats[0];
+@@ -913,6 +913,8 @@ static int vdec_open(struct file *file)
+ 
+ 	return 0;
+ 
++err_m2m_ctx_release:
++	v4l2_m2m_ctx_release(sess->m2m_ctx);
+ err_m2m_release:
+ 	v4l2_m2m_release(sess->m2m_dev);
+ err_free_sess:
+@@ -928,6 +930,7 @@ static int vdec_close(struct file *file)
+ 	v4l2_m2m_release(sess->m2m_dev);
+ 	v4l2_fh_del(&sess->fh, file);
+ 	v4l2_fh_exit(&sess->fh);
++	v4l2_ctrl_handler_free(&sess->ctrl_handler);
+ 
+ 	mutex_destroy(&sess->lock);
+ 	mutex_destroy(&sess->bufs_recycle_lock);
 -- 
 2.50.1
 
