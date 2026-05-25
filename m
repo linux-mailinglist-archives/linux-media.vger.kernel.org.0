@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-62708-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62709-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eADkEXEcFGoGJwcAu9opvQ
-	(envelope-from <linux-media+bounces-62708-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 11:54:57 +0200
+	id QB1BEaYcFGoGJwcAu9opvQ
+	(envelope-from <linux-media+bounces-62709-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 11:55:50 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E4EC5C8D42
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 11:54:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95FA75C8D59
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 11:55:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 38C703024968
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 09:52:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6845E3032073
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 09:52:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A18D537269F;
-	Mon, 25 May 2026 09:52:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 881963E8349;
+	Mon, 25 May 2026 09:52:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="krDJvIw7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OXe63wV4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C401D3E3C79
-	for <linux-media@vger.kernel.org>; Mon, 25 May 2026 09:52:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A29C43E5EE3
+	for <linux-media@vger.kernel.org>; Mon, 25 May 2026 09:52:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779702762; cv=none; b=flF3JBq0g/hWN9FIqD+FRRoL3nXXgp+N8AXA3QJaHSKmLSEhNH+Dc8InFkcmXlb89cvDENUTP2r67A/G6Lf8CbL38fFx9w3vd8TU+0EsDyrMehJVezaEJNEEBlxQ4w6H2y5FFhUjsxfFXxmVjTjUc1X4Nhm7yufQLBFODzYeI7E=
+	t=1779702771; cv=none; b=mQ5m3fBImu9PHDtB/4Ob85qVT4UkZJF2MaqvCcpIGtraJ0Bv87s4CyKhc21tzs3p75Es40iLV65k97VdVIM5oWdrouJI/5L/9GuIC27jF9FflzlwXnYkJHhFFXHZ5O9J64sypH4iFo7ZsF694NhTYKKR6wFZec+bPYsTF3lFq/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779702762; c=relaxed/simple;
-	bh=WIS3BgyrEbuPFk0DAL3nE3V6IGRFLo7gF/BE5feLCxo=;
+	s=arc-20240116; t=1779702771; c=relaxed/simple;
+	bh=4B9KkP1btML4C6oNkrTHn+OUIMQeidMbAkDiIWR3XwY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J5BbJ4nmysI0gL+cfBJ4EzsuSRUrwfvMnUxoXqBdR5ZcFlfvnFxc9K39mRAaDA4SMdfVzrytuM4XYAAL9sIU5NJeIV+UHK5fuNiGZZHs7v4sSgKxQpNpTBXR0Jh8TsWcuwM1+L5LHjAO5yvi5KTFUDEyXHdnDz43zjXPvjAQ4u8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=krDJvIw7; arc=none smtp.client-ip=209.85.214.176
+	 MIME-Version; b=cws8AG3R4Cx9ouC5eUTB2cGrpMZeq7+Cglw7q+fKruPNrT5sIapeG2lNHXn//cE4bT5dPvzp5zcR1EqJANleDn/gjPEfZ7AXkqixybPeVNpLPN6ttAtMlKFYRBbbHZAEWw1oshrBtLenrA5As/C7O0DGur+Q61CNI131/b4ucP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OXe63wV4; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2bd9c3b550aso65898555ad.2
-        for <linux-media@vger.kernel.org>; Mon, 25 May 2026 02:52:40 -0700 (PDT)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2bccb978bd9so59972455ad.0
+        for <linux-media@vger.kernel.org>; Mon, 25 May 2026 02:52:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779702760; x=1780307560; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779702768; x=1780307568; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5gZEIwW5TqIv7uy+nwwFRwQeWX+dkGvQ9eeETlxlcvg=;
-        b=krDJvIw7DyTuW5gqNxDvwpPwCYjS9hn4JmztEKVe23sTtev/33wHFxgiKquNIpzzta
-         Rc+bl+QuW8LOklanU5k6l4534mwhd98xUsBYokvImrPt+3E9DE6+fxJD2yj8PE3NjgHs
-         470bCEuQeTMdBwyhiVxunpw7wdRp06XNE6ltCVwE+Yu+XHORePjIzrdATRHw6+Rn3eIw
-         A1Nz3YKs/PiA7+y5eRUvqFxPIhqxJUW103FOpH+xL08iTbqODxdHBOuVtxbG/UxaAJCR
-         x7kF7BF86rIBrO7v4Xe2Zt9ZjjZ47qpfQ5KX6IZS5NgVL0oXbD8SN0RZvcWZ245H/qBP
-         CTMA==
+        bh=oIFEnpVuawucZlIPGTpnFigTasBUEJzr8Hl8oaehmP4=;
+        b=OXe63wV47PkWs03ZPySrt/2gPtLAHsNor9VUjIKALf3FkjA6cYDgOa0x/xOdhjrIq9
+         9/4nS71Ud18+q7jSmnX3qNwWtjo8bKyCcl0YRZdDo+1JpCJ9uX/zyQop8lqS+aNADYHm
+         blBqlSguNEVntBR71ip6tthOLJajRioknYfAw2IYmGkdMrk7RnG4WSFCVjKBc4bt16lQ
+         oY4xHEtPyjmFbmRKQhI3ENk+nwAWSeZd0UjIohGGbBO1VxPNJL44cP+4T3LMdqhxtLwj
+         gUVtDRItqp48RB+ZvaYQt68BhIVyFOL2N1/bBxM8pGmZD1zs0Kk+5Ueq1YN5QT8DD6cO
+         o8Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779702760; x=1780307560;
+        d=1e100.net; s=20251104; t=1779702768; x=1780307568;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=5gZEIwW5TqIv7uy+nwwFRwQeWX+dkGvQ9eeETlxlcvg=;
-        b=qWgyMhcEYOnNQdgc/nkUzqLQH3jIUqOVwy5dA2da8Tg3UfAKMGwC2sdevmScqh2o7y
-         gCu6AeZtxmrt9dbFQKQQm59PRAKk3dW+ZrR/ftVD6p4xrmFYhvhVWuzl/JoZsXn3kiBk
-         VwksWCWMWck9ow8cswFx8oGPPjvleE5U6qm6+zklEoj8g9r4Yd4VCI8C5lueRoysDRxH
-         waXcZrtG7u3suh8Y9xu98vEjC108+3tDTq00pZ1DdQ4Cueu1ieaA8GjKJ4kpGa69MkNq
-         1jXe2ksTLaXn0OyrR7QCHLfD1Q0CTxeFdH5rjTd2ax3iEY97s+FOsbp0NNHn0MlbIuve
-         LBMg==
-X-Forwarded-Encrypted: i=1; AFNElJ80DDf1ZMnLSacUAzbCKxV0Z6x/m0hlmQOcZTKep+9TXUcC6o17pImT5sfCJw4T593l/BtFwrUbELtWTw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDcct2GnRyP+Bbom9XIntYXCoYeCCsHGEOQ9BWOrE6akwosMl4
-	Ikl3JLUYUtn/JMALQNNKI1LL4/R3Kxs7lIY1mJ45k2T3psE7u/ybo0IU
-X-Gm-Gg: Acq92OEbZ9qJGREDD0pPBMlmCuK6jpDZW+PFf63m74P3aZlbjRC85cU2wGd1p6fUCMV
-	uMwBiGYwUcaFbuR0fW+TXvlgOdbE/OAVqRZ6DCGsjbPYXCMVYG7bekbmQJu/YYRmFtKKBGxRNza
-	OwptjHts/bRg18QwawQI7j82x986tjtRW53DmfLuCi75B2hO1voZBX/SRAvz5cakYMxcB5lUju0
-	58v1oEc5sYVooii7DtVrZtj2mZ/enohV8VQEzZp0bBWRKdRsyIoyv94xs0ZyH6RyfkrRyEml+9H
-	r+i2aj7TCcJ8Z9EKW6wcAJtbcIj4eTqjtPxhxRpUD3U1Qd4f3mpgo+aRKbmeOpaOaZDkCcrDde8
-	dhYJprotNiUftpZb7sDdyJncyFrX+D1Ngml4LwLPEVyhmA9M1dwE/uDTDbb7UEewA/Cb6rguTf/
-	Q0lZwp0NkoIJM5bN6f34ZY7cQpNsBjTKI=
-X-Received: by 2002:a17:902:f70e:b0:2bc:8ebd:af76 with SMTP id d9443c01a7336-2beb03466afmr148144335ad.0.1779702760099;
-        Mon, 25 May 2026 02:52:40 -0700 (PDT)
+        bh=oIFEnpVuawucZlIPGTpnFigTasBUEJzr8Hl8oaehmP4=;
+        b=mBpJ0uJPkjHpaRLRvJrSy+sRA56KDQ3aPfljieEq7+A7F5Yr9TIVQgz8+C123Zpnul
+         t0ChSU+sN7mwCpXsPKGA6Npk2QjHdtYPKl9HcCDU3gML2+U6rf519R7kNpWSTsXKAo4C
+         LNklSODGUgnYmzMQ/4w3IaSUay93t4rassgiS/jHvohMBnbyQZrcaM1IRkPjWJgYBjsY
+         udyLt0udtX9VaVu7a8tBXQsrA6oGyjx4VN5/MJ61YZmHrrHUrJf/8kCoU6M7I3ZkPAfI
+         ULg3lsjftH6sRVHsdgPE2FV1GPD3iCHAeS7MvvKpXWIfhbXyTehGdvPSv4TnIbn1SdQs
+         F/5A==
+X-Forwarded-Encrypted: i=1; AFNElJ8tA+HTRwz+pNAAwTs2dZPLgdeVY13FKtypzByGSObR8yOd5yGmGCekpKY6CkUz9o+gt8add+BMmIQO6w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7OzKgw1jlR0zoPC9m9iBrBu2V7SP78Tl6KDJyu/QAQ2WkLWna
+	goWN1r0/NyNANVHsz/9FbogvNmZBvbA4qj63l1c1aEF3Sek1ZKmYMO3hxlhbbA==
+X-Gm-Gg: Acq92OEta+FZ3mYhr6h9l8b3MYgsAxsZb5WNHEjjG/cRLp1DvgQOo8ThZIK/tS9cL5/
+	U1C/qcZMxjzX0n164jJjHhUlQAN1q2qH7qTuf2TumNKcO9uuf3cryUtGp4Rv7kxoYC2uXz4mP5j
+	mLwHMfAoIfcdBj+Hhm+F4Hwl90cXnH85F9cAbTlVSEZVDFJskpI/y9pFaBi7p2IHb8T1LgWbRti
+	V04AU8W/Bd0zPVYu98wKpzra1zBW2R6sH/L6+W4e+xiKq4Q6hfqiRqfAq1e+x3zbSSOzduvVp4I
+	bLK4VbR2IjoW2ZOwVMMJfT9axTQOKRkQbMhv41tZIbJH1/GyNNPAP+wPYJZbJdUGYKa9tbzUhRI
+	yPyXzMkUuR6pSvUuNPid2j2hd0mSD+bL6J/3U8FhX1nH7vYFiha8jdE+/h4w+Bsl4xvSgPWWt43
+	cqe8Ujeuh85KDJ0FXhHVTt
+X-Received: by 2002:a17:902:f546:b0:2bc:8e7d:3dce with SMTP id d9443c01a7336-2bea23e2057mr157194235ad.27.1779702767866;
+        Mon, 25 May 2026 02:52:47 -0700 (PDT)
 Received: from rockpi-5b ([45.112.0.230])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb58b2cd6sm92533615ad.52.2026.05.25.02.52.35
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2beb58b2cd6sm92533615ad.52.2026.05.25.02.52.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2026 02:52:39 -0700 (PDT)
+        Mon, 25 May 2026 02:52:47 -0700 (PDT)
 From: Anand Moon <linux.amoon@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -93,9 +93,9 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
 Cc: Anand Moon <linux.amoon@gmail.com>,
 	Nicolas Dufresne <nicolas@ndufresne.ca>,
 	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH v5 1/6] media: meson: vdec: Fix memory leak in error path of vdec_open
-Date: Mon, 25 May 2026 15:21:49 +0530
-Message-ID: <20260525095216.12078-2-linux.amoon@gmail.com>
+Subject: [PATCH v5 2/6] media: meson: vdec: Protect session exclusivity check with lock
+Date: Mon, 25 May 2026 15:21:50 +0530
+Message-ID: <20260525095216.12078-3-linux.amoon@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260525095216.12078-1-linux.amoon@gmail.com>
 References: <20260525095216.12078-1-linux.amoon@gmail.com>
@@ -117,7 +117,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62708-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62709-lists,linux-media=lfdr.de];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	FREEMAIL_CC(0.00)[gmail.com,ndufresne.ca,kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[16];
@@ -130,107 +130,55 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[linuxamoon@gmail.com,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-0.992];
+	NEURAL_HAM(-0.00)[-0.995];
 	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: 8E4EC5C8D42
+X-Rspamd-Queue-Id: 95FA75C8D59
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The vdec_open() function previously jumped directly to err_m2m_release
-when vdec_init_ctrls() failed, skipping release of the m2m context.
-This caused a resource leak.
+Add the check for an active hardware session is performed without holding
+the core->lock mutex. In multi-threaded environments, two concurrent
+STREAMON ioctls on different file descriptors can simultaneously find
+core->cur_sess to be NULL, bypass the check, and concurrently call
+vdec_poweron(), corrupting hardware state.
 
-Fix it by introducing a proper err_m2m_ctx_release label that calls
-v4l2_m2m_ctx_release(sess->m2m_ctx) before releasing the m2m device.
-Also free the v4l2 control handler memory allocated by vdec_init_ctrls()
-in vdec_close().
-
-This was identified via kmemleak:
-unreferenced object 0xffff0000205d6878 (size 8):
-  comm "v4l_id", pid 5289, jiffies 4294938580
-  hex dump (first 8 bytes):
-    40 d2 49 18 00 00 ff ff                          @.I.....
-  backtrace (crc d3204599):
-    kmemleak_alloc+0xc8/0xf0
-    __kvmalloc_node_noprof+0x60c/0x850
-    v4l2_ctrl_handler_init_class+0x1b4/0x2e8 [videodev]
-    vdec_open+0x1f4/0x788 [meson_vdec]
-    v4l2_open+0x144/0x460 [videodev]
-    chrdev_open+0x1ac/0x500
-    do_dentry_open+0x3f0/0xfe8
-    vfs_open+0x68/0x320
-    do_open+0x2d8/0x9a8
-    path_openat+0x1d0/0x4f0
-    do_filp_open+0x190/0x380
-    do_sys_openat2+0xf8/0x1b0
-    __arm64_sys_openat+0x13c/0x1e8
-    invoke_syscall+0xdc/0x268
-    el0_svc_common.constprop.0+0x178/0x258
-    do_el0_svc+0x4c/0x70
+Fix this by wrapping the session exclusivity check inside core->lock.
 
 Cc: Nicolas Dufresne <nicolas@ndufresne.ca>
 Reported-by: Sashiko <sashiko-bot@kernel.org>
-Closes: https://lore.kernel.org/all/20260520045905.6ACBA1F000E9@smtp.kernel.org/#t
+Closes: https://lore.kernel.org/all/20260521090944.F35401F00A3D@smtp.kernel.org/
 Fixes: 3e7f51bd9607 ("media: meson: add v4l2 m2m video decoder driver")
 Signed-off-by: Anand Moon <linux.amoon@gmail.com>
 ---
-v5: update the error path for v4l2_ctrl_handler_free() as per the review
-    ccmment to fix the use after free bug.
-[4] https://patchwork.kernel.org/project/linux-amlogic/patch/20260521073449.10057-2-linux.amoon@gmail.com/
-
-v4: update the commit message to add v4l2_ctrl_handler_free() in vdec_close()
-to adderss the issue:
-  This isn't a bug introduced by this patch, but does vdec_close() properly
-  free the v4l2 control handler memory allocated by vdec_init_ctrls() here?
-
-v3: https://lore.kernel.org/all/20260520044046.7553-1-linux.amoon@gmail.com/
-  update the commit messagee.
-
-v2: https://lore.kernel.org/all/20260321065408.209723-1-linux.amoon@gmail.com/
-  updated the commit message, applied the suggestion from sashiko below.
-
-  [3] https://sashiko.dev/#/patchset/20260321065408.209723-1-linux.amoon%40gmail.com
-
-v1: https://lore.kernel.org/all/20260304100557.126488-1-linux.amoon@gmail.com/
-  tried to address the issue reported by Nicolas improve the commit message.
+v5: New patch.
+[High] Concurrent sessions can bypass the hardware exclusivity check,
+leading to simultaneous hardware programming.
 ---
- drivers/staging/media/meson/vdec/vdec.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/staging/media/meson/vdec/vdec.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-index 4b77ec1af5a7..18a22b79e835 100644
+index 18a22b79e835..e72f54af026e 100644
 --- a/drivers/staging/media/meson/vdec/vdec.c
 +++ b/drivers/staging/media/meson/vdec/vdec.c
-@@ -889,7 +889,7 @@ static int vdec_open(struct file *file)
+@@ -286,10 +286,13 @@ static int vdec_start_streaming(struct vb2_queue *q, unsigned int count)
+ 	struct vb2_v4l2_buffer *buf;
+ 	int ret;
  
- 	ret = vdec_init_ctrls(sess);
- 	if (ret)
--		goto err_m2m_release;
-+		goto err_m2m_ctx_release;
++	mutex_lock(&core->lock);
+ 	if (core->cur_sess && core->cur_sess != sess) {
++		mutex_unlock(&core->lock);
+ 		ret = -EBUSY;
+ 		goto bufs_done;
+ 	}
++	mutex_unlock(&core->lock);
  
- 	sess->pixfmt_cap = formats[0].pixfmts_cap[0];
- 	sess->fmt_out = &formats[0];
-@@ -913,6 +913,8 @@ static int vdec_open(struct file *file)
- 
- 	return 0;
- 
-+err_m2m_ctx_release:
-+	v4l2_m2m_ctx_release(sess->m2m_ctx);
- err_m2m_release:
- 	v4l2_m2m_release(sess->m2m_dev);
- err_free_sess:
-@@ -928,6 +930,7 @@ static int vdec_close(struct file *file)
- 	v4l2_m2m_release(sess->m2m_dev);
- 	v4l2_fh_del(&sess->fh, file);
- 	v4l2_fh_exit(&sess->fh);
-+	v4l2_ctrl_handler_free(&sess->ctrl_handler);
- 
- 	mutex_destroy(&sess->lock);
- 	mutex_destroy(&sess->bufs_recycle_lock);
+ 	if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+ 		sess->streamon_out = 1;
 -- 
 2.50.1
 
