@@ -1,161 +1,220 @@
-Return-Path: <linux-media+bounces-62725-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62726-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0Dm6LKd1FGokNgcAu9opvQ
-	(envelope-from <linux-media+bounces-62725-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 18:15:35 +0200
+	id IKKFJrF2FGokNgcAu9opvQ
+	(envelope-from <linux-media+bounces-62726-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 18:20:01 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 235735CCAA7
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 18:15:35 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FBE35CCBF9
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 18:20:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 549A63013024
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 16:15:30 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3425B3021D23
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2026 16:19:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55A523F412A;
-	Mon, 25 May 2026 16:15:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F0B03F54C7;
+	Mon, 25 May 2026 16:19:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="WytNgwDj"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="dr4TZWgD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AA42D592D;
-	Mon, 25 May 2026 16:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779725725; cv=pass; b=WsRUmp71ukNCOdcuEOUyTyBs5VhsL8+/Li6Dr0tklppiC96GoY6n4ogGlpaIwTk7vfofy2AW6yooqAoSU+e5ct+d0qhQKUJ2UXKUtzedjUrXLHbT/71HxekzB1kf4iGFRRhYe/x2Gg+PusZ/O3+pa11yXxApgP5LGs5+WO+5EHI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779725725; c=relaxed/simple;
-	bh=31lWgL7rRszME87e69h+HAvMDZ7Q4wYmWrJPYZF91vA=;
-	h=Date:From:To:Cc:Message-ID:Subject:MIME-Version:Content-Type; b=HwA+1OojN524w38nnl3W8k2rMyi0BcWEVVGYVHRuHWcy9gVHzNisBMd3y88Jc1fmE6rkrWGnzCYph5C0jpeMSseFRpn+sd5XeuI60AOjZjI9Z5XvkSuQ4eJwszufont2SbbuSeeHwcbabMLByA2BIXP6D0n+XbYQfhN3eYfOVAY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=WytNgwDj; arc=pass smtp.client-ip=103.117.158.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
-ARC-Seal: i=1; a=rsa-sha256; t=1779725707; cv=none; 
-	d=zohomail.in; s=zohoarc; 
-	b=H25KuHE6vAhOCynJ5x+qZ5OGe3TvROfKcZs/PD4Ycarm3C4XqqmvEp6VEoaMJXqzd/sf03pzo8G1ESs7sK8sbGe7m9rM/A2TFXDp8heW2Gyl/wOYOvpHiDWBFJQOTVGWE5Q79iwAO2cGlKpgRqRP6t0mA2+hKLlnMaRdcIQOb2Y=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
-	t=1779725707; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=4/D3ZVk1g/KQX6fWV5B7LUKksuGO5srwLpNpriK86Bg=; 
-	b=LkYNNaQypFhCfBff4KVZD91R3KgVQeghBER9Z29ln/ipfb36g7cITNMjCWb7Soa19McREYRq9GbU9VouVuK5waMolPlc9Q+YCw/poc1nFBJ1hT1MWUErH5De0nhnedfZFi7jZIzdYZq9FGue+K/uxAnvZ5qYYdLUmObhb5Okz2E=
-ARC-Authentication-Results: i=1; mx.zohomail.in;
-	dkim=pass  header.i=zohomail.in;
-	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
-	dmarc=pass header.from=<linuxuser509@zohomail.in>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779725707;
-	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=4/D3ZVk1g/KQX6fWV5B7LUKksuGO5srwLpNpriK86Bg=;
-	b=WytNgwDj/WXRYSgXLQMXI6vst00r9vJwpU9LXUmrJ02Wptii+IBzkhmdOg6kK+l/
-	1/YuCIoVzwlbg6WxmgNacXCAFSaZ+GY4CcdsPYds8g2l5I47OnjSOToCnp/hf003Zwj
-	LBY6MzRWUZs42z7Dr+jl5Ue3Msp6cKk85ZPHI31s=
-Received: from mail.zoho.in by mx.zoho.in
-	with SMTP id 1779725705895713.3716859499349; Mon, 25 May 2026 21:45:05 +0530 (IST)
-Received: from  [117.99.195.86] by mail.zoho.in
-	with HTTP;Mon, 25 May 2026 21:45:05 +0530 (IST)
-Date: Mon, 25 May 2026 21:45:05 +0530
-From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-To: "gregkh" <gregkh@linuxfoundation.org>
-Cc: "linux-kernel" <linux-kernel@vger.kernel.org>,
-	"linux-staging" <linux-staging@lists.linux.dev>,
-	"linux-media" <linux-media@vger.kernel.org>
-Message-ID: <19e5feb2286.b0d1beb80076.1209164292362410446@zohomail.in>
-Subject: [PATCH] staging: media: Remove deprecated Atmel ISC drivers
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5E63F44EB
+	for <linux-media@vger.kernel.org>; Mon, 25 May 2026 16:19:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779725968; cv=none; b=aicwSP+P0tp1/yELrWKHDlu+cGH1+5ZJoWb9UtEunrQP4/hDJR2xNteTe+RjZrJiq1QijApQDYwc4n1yqe+ladK9bH3HEV+lxFTpUcu9TbubUcmbmm3mwnGpzoogAsWWlnMlQUZVITRg/V8gqatO90s3DLI1fY2/VY87fVUiVEA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779725968; c=relaxed/simple;
+	bh=6ATTepTt/W1eTfJKlZcOEC7miXlLa4M2ScAL84EJqWk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iUNsy4sOmePP4fvv3kalJoSZvnDJZsLVLn0RXY1K8zXLQQti/YjqjHqPXzr+T7BtpyMd2zuY0JFZhTcnqjdA6MX0QcGFDeFJO2RijcCBdkFKinxUYW+t+tfknHMktkKuxKmbRqAzYggfs1ipHZ5NCUn4c066KgUyZ27SAdbIf8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=dr4TZWgD; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-48a3e9862f0so51631045e9.1
+        for <linux-media@vger.kernel.org>; Mon, 25 May 2026 09:19:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1779725963; x=1780330763; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6YA+/JJXQ9abERc/NViF0XyaL5qdJ2pUb4chRkVwshY=;
+        b=dr4TZWgD1Esm3Qat2phkFsMogL1QSisy0KS5zRNj7QLd+O/GTWfZKF/uEdi+t9nmcR
+         dNii4QQxToJf+zI9chidglTAOXLiVdJ387YJpWnu4O63RZWZpdft6OjU//0zfSVBO/Yy
+         aLoJ+GdqYyIcf1QZ3S/llKFAOlJ84UyYM98oHjPHgYY3F7FL0OrljqOzg8++8jmqQw7A
+         O5n5KKQspBxCRl24VEYndxfcbPND9j7SmWztWHYdSuVM/njdzkK1jbGeu/q+wYu+k1tw
+         8TTcdzkzuBj6AUmwdDxqdavz+slVMsWbwdX+qKe1b1YYNz7v1oMCb8aIIpb7FBEk2qd1
+         WQkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779725963; x=1780330763;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6YA+/JJXQ9abERc/NViF0XyaL5qdJ2pUb4chRkVwshY=;
+        b=k3jiZCgky4hJE/XUP4j5VHsoAyf92TouXraSb3WH14QWqHgkpEJieLOmR62jthSktM
+         EsnHsnDlNqKc9mM6KH7waLede4Z4toD3hVuGWepWvUKK0m8v0ccP5zg0k7Yl4Hj6vrDt
+         ypbxK7yfJDjlPJcsubjOV3K5asxsADRKNa8U4j7q2Pta1gP6Z+iuiNXe5Dzhrp+S7w3m
+         J/VhGqfVSgPCasseJioU0qmvVTK2yfsKy4BBBPLALJbaeXWhfIHVWHQg1Ea8J1GKF1Bd
+         0rsWJrLBQNRH9eMVJVGYJvSX/T0PYmDyNEZpiVzxv8ZUozDO+R84OE40VNQOBeEZr6De
+         XB5g==
+X-Forwarded-Encrypted: i=1; AFNElJ8vth1d9bXM4Ts6R4ZmZeHOyBgOMCBWyeZ4sWIhxaYIRUIPG0BtnXS0p9KwCthcALKKiopnwu4s2L3d6A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCNfCntWG/Z6+1armsRJlOS/TchBaoztVNsfI9kbIerzHNTmGZ
+	Dbbfwj3+tvcBg9VmUGmmyhx5EZpFxKdfFgsMOAHCAnCrjcuRVpVkPgYZgnFejju8Ak4=
+X-Gm-Gg: Acq92OEHyLHMVKYy/fg8djfof3vRVt4zsbj3JsLgqIRDcnMNK7hBFBTZXaJeSYy1qkZ
+	tdh24hfGfUD9Tx2lBxRbt8RMZKqTBUbx2ypH4k7vh7HixTDlX59lDd9JD2vbbaU1ckIMBBAIyur
+	jc4eaB44/Xm+u4ekgtIoDBTvIMlhmydESjodzmICtkMbvZ/lGuCeB/mDHAwaUUcPXtVuqmAQlhY
+	Bj9IIXmIprW4nDd0hGWy5b4GjPNkVsDFypEZTMsOuUe4SPU9uS54itziSXk4GEjw5uVwxjikIYB
+	/Z4ig5bx1l3wObE5fz75F67wbUHxw013fo8D9ZkYDoGnLKBXBpZcYu9nN3g1CgTHqizmMkMUYkp
+	a5QxQiITjG5X1c76W7zR1aqnf/bZrL7Jj7yt5i1pjB1qHeIJUYgJTtIr3S2ItXuG0c2g7oxZ27K
+	HIUOoTta/bKiikhzf2pofYDY/w0jSVXPjVrys3yNuHueMztD6qazsCSizJcpUU3GtaMM2lVAKdf
+	v99sH2N4qWHktrqPGP8uunMg/QniUbLwJrFg6hlpCbswdXpsFVFiCothhIIoBqX++3Ouw==
+X-Received: by 2002:a05:600c:3b07:b0:490:f7c:b19 with SMTP id 5b1f17b1804b1-490420f67f5mr197977845e9.0.1779725963153;
+        Mon, 25 May 2026 09:19:23 -0700 (PDT)
+Received: from ?IPV6:2a00:1028:838d:271e:8e3b:4aff:fe4c:a100? (dynamic-2a00-1028-838d-271e-8e3b-4aff-fe4c-a100.ipv6.o2.cz. [2a00:1028:838d:271e:8e3b:4aff:fe4c:a100])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49059cc9a91sm48939425e9.1.2026.05.25.09.19.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 25 May 2026 09:19:22 -0700 (PDT)
+Message-ID: <a4c7ccee-6189-4c74-bad8-57d1438c7d8d@suse.com>
+Date: Mon, 25 May 2026 18:19:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 06/11] moduleparam: Add seq_buf-based .get callback
+ alongside .get_str
+To: Kees Cook <kees@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Pengpeng Hou
+ <pengpeng@iscas.ac.cn>, Richard Weinberger <richard@nod.at>,
+ Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+ Corey Minyard <corey@minyard.net>, Gabriel Somlo <somlo@cmu.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Bart Van Assche <bvanassche@acm.org>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+ Hannes Reinecke <hare@suse.de>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <martin.petersen@oracle.com>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Alan Stern <stern@rowland.harvard.edu>,
+ Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>,
+ Tiwei Bie <tiwei.btw@antgroup.com>, Benjamin Berg <benjamin.berg@intel.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ "David E. Box" <david.e.box@linux.intel.com>,
+ "Maciej W. Rozycki" <macro@orcam.me.uk>,
+ Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+ Peter Zijlstra <peterz@infradead.org>, Heiko Carstens <hca@linux.ibm.com>,
+ Vasily Gorbik <gor@linux.ibm.com>, Sean Christopherson <seanjc@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Vinod Koul <vkoul@kernel.org>,
+ Frank Li <Frank.Li@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
+ Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>,
+ Alexander Potapenko <glider@google.com>, Marco Elver <elver@google.com>,
+ Dmitry Vyukov <dvyukov@google.com>, Andrew Morton
+ <akpm@linux-foundation.org>, John Johansen <john.johansen@canonical.com>,
+ Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Georgia Garcia <georgia.garcia@canonical.com>, kvm@vger.kernel.org,
+ dmaengine@vger.kernel.org, linux-modules@vger.kernel.org,
+ kasan-dev@googlegroups.com, linux-mm@kvack.org, apparmor@lists.ubuntu.com,
+ linux-security-module@vger.kernel.org, linux-um@lists.infradead.org,
+ linux-acpi@vger.kernel.org, openipmi-developer@lists.sourceforge.net,
+ qemu-devel@nongnu.org, intel-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-rdma@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-pm@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-serial@vger.kernel.org,
+ linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+ virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, netdev@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-hardening@vger.kernel.org
+References: <20260521133315.work.845-kees@kernel.org>
+ <20260521133326.2465264-6-kees@kernel.org>
+Content-Language: en-US
+From: Petr Pavlu <petr.pavlu@suse.com>
+In-Reply-To: <20260521133326.2465264-6-kees@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-X-Spamd-Result: default: False [-2.15 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[zohomail.in,reject];
-	R_DKIM_ALLOW(-0.20)[zohomail.in:s=zoho];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[suse.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[suse.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[zohomail.in:+];
-	TO_DN_ALL(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62725-lists,linux-media=lfdr.de];
-	RCPT_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[kernel.org,iscas.ac.cn,nod.at,cambridgegreys.com,sipsolutions.net,minyard.net,cmu.edu,redhat.com,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,acm.org,ziepe.ca,ideasonboard.com,google.com,suse.de,HansenPartnership.com,oracle.com,arm.com,linuxfoundation.org,rowland.harvard.edu,linux.alibaba.com,akamai.com,antgroup.com,orcam.me.uk,infradead.org,linux.ibm.com,alien8.de,zytor.com,atomlin.com,linux-foundation.org,canonical.com,paul-moore.com,namei.org,hallyn.com,vger.kernel.org,googlegroups.com,kvack.org,lists.ubuntu.com,lists.infradead.org,lists.sourceforge.net,nongnu.org,lists.freedesktop.org,lists.ozlabs.org,lists.one-eyed-alien.net,lists.linux.dev];
+	DKIM_TRACE(0.00)[suse.com:+];
+	TAGGED_FROM(0.00)[bounces-62726-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linuxuser509@zohomail.in,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[petr.pavlu@suse.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCPT_COUNT_GT_50(0.00)[98];
 	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	MIME_TRACE(0.00)[0:+]
-X-Rspamd-Queue-Id: 235735CCAA7
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,suse.com:email,suse.com:mid,suse.com:dkim]
+X-Rspamd-Queue-Id: 1FBE35CCBF9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The Atmel ISC and XISC drivers were deprecated and scheduled
-for removal by the beginning of 2026. The replacement drivers
-(VIDEO_MICROCHIP_ISC and VIDEO_MICROCHIP_XISC) are available
-in the main media subsystem.
+On 5/21/26 3:33 PM, Kees Cook wrote:
+> Add a new struct kernel_param_ops::get callback whose signature
+> takes a struct seq_buf instead of a raw char buffer:
+> 
+>   int (*get)(struct seq_buf *sb, const struct kernel_param *kp);
+> 
+> The previously-legacy .get field is now .get_str (char *buffer);
+> .get is the new seq_buf-aware form.  param_attr_show() prefers .get
+> when set, otherwise falls back to .get_str.  WARN_ON_ONCE() if both
+> are set.  Return contract for .get:
+> 
+>   < 0 : errno propagated to userspace; seq_buf contents discarded
+>   = 0 : success; length derived from seq_buf_used()
+>   > 0 : forbidden; the dispatcher WARN_ON_ONCE()s and treats as 0
+> 
+> The default policy on seq_buf_has_overflowed() is silent truncation,
+> matching scnprintf()/sysfs_emit() behaviour.  Callbacks that want a
+> specific overflow errno can check seq_buf_has_overflowed() and
+> return their preferred error.
+> 
+> No callbacks use .get yet; the legacy path is still the only one in use
+> after this commit. A subsequent commit teaches DEFINE_KERNEL_PARAM_OPS
+> to route initializers by type.
+> 
+> Signed-off-by: Kees Cook <kees@kernel.org>
 
-Remove the Kconfig entries, Makefile rules, and the
-STAGING_MEDIA_DEPRECATED menuconfig since it is no longer
-needed.
+Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
 
-Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
----
- drivers/staging/media/Kconfig  | 18 +-----------------
- drivers/staging/media/Makefile |  1 -
- 2 files changed, 1 insertion(+), 18 deletions(-)
-
-diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
-index 1aa31bddf970..52b4aab944f6 100644
---- a/drivers/staging/media/Kconfig
-+++ b/drivers/staging/media/Kconfig
-@@ -38,20 +38,4 @@ source "drivers/staging/media/sunxi/Kconfig"
- 
- source "drivers/staging/media/tegra-video/Kconfig"
-
--menuconfig STAGING_MEDIA_DEPRECATED
--	bool "Media staging drivers (DEPRECATED)"
--	default n
--	help
--	  This option enables deprecated media drivers that are
--	  scheduled for future removal from the kernel.
--
--	  If you wish to work on these drivers to prevent their removal,
--	  then contact the linux-media@vger.kernel.org mailing list.
--
--	  If in doubt, say N here.
--
--if STAGING_MEDIA_DEPRECATED
--source "drivers/staging/media/deprecated/atmel/Kconfig"
--endif
--
--endif
-+endif # STAGING_MEDIA
-diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
-index 6f78b0edde1e..6fd7179733d8 100644
---- a/drivers/staging/media/Makefile
-+++ b/drivers/staging/media/Makefile
-@@ -1,5 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
--obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE)	+= deprecated/atmel/
- obj-$(CONFIG_INTEL_ATOMISP)     += atomisp/
- obj-$(CONFIG_VIDEO_IMX_MEDIA)	+= imx/
- obj-$(CONFIG_VIDEO_MAX96712)	+= max96712/
---
-2.43.0
-
-
+-- Petr
 
