@@ -1,209 +1,181 @@
-Return-Path: <linux-media+bounces-62823-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62824-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id ANCPE/DaFWpzdQcAu9opvQ
-	(envelope-from <linux-media+bounces-62823-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 19:40:00 +0200
+	id MJe+EAXdFWrTdQcAu9opvQ
+	(envelope-from <linux-media+bounces-62824-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 19:48:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB825DAD11
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 19:39:58 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0560E5DAEC9
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 19:48:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id DAC4C300D781
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 17:39:52 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C942B3012CF2
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 17:48:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB79F41B366;
-	Tue, 26 May 2026 17:39:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E258C41C31B;
+	Tue, 26 May 2026 17:48:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="LfQ1NlAM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KNZXw6Ea"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ixit.cz (ixit.cz [185.100.197.86])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943063FDBFC;
-	Tue, 26 May 2026 17:39:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F01F372EF1;
+	Tue, 26 May 2026 17:48:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779817187; cv=none; b=MPHh1Cqrv6umb3OSyYomhD7ItHytqUNFJMyfdZM7aa4Z8nrrIDFOgsykkz/o8hC2t7kRHT9iMbrTDYx/0kIUqiWRW5FT5GJmouEhoKdIuZqOn1xiWGQ4nrtza1HcBRaK7eT3OhfeiMT3awiFD1hNPYZzpTR2oo7+ULrc9mR6/js=
+	t=1779817720; cv=none; b=R8TJKctB+YHoYs+eO+98VwrOTE3g9NVc8j4zMuatcFsJw628hOqFTM6XeMumygCHIbx2wa+HaObxovSMOOFmWSy7vaCaT0+vtrJHL1chKX3T2kw0EyPK1uccRr422zbwODhidwRDRno1/SfvH5AsJo1rr21mZJUBTZFiVdAlDUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779817187; c=relaxed/simple;
-	bh=2svDCkRXi0dv0W8DMDcfsOYTPpf3L1poLkJxUJ/UDgQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MMezfqm9CYRxsspvUtqK7fFocetLn4x/amys1Q+qkyzpmOv3mFQneTF0X1ynMOdC4hriJa9rh9ktxr1bWVpO8sCHElj27J2bfUX5lENIhulriThLm7cottUXUIJBYwTswnwQaJF5bgkD7jGKuilbV8eSehcj9pG9M+6av2bFklM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=LfQ1NlAM; arc=none smtp.client-ip=185.100.197.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
-Received: from [10.68.117.55] (unknown [146.0.31.183])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id B0E96534011A;
-	Tue, 26 May 2026 19:39:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1779817178;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=3OInQWiNTtlxMeL8alyUAGsrbLk9TIZWw+8X948//T8=;
-	b=LfQ1NlAMKoh880fZNHeOrCg+EAjYI82RBmWNT2MYs0b9OYMnNUA/IGb5vcfcDSP+cRb3GZ
-	CuW6ceYyoNK+NSQc4N3OhJYxXnFUxdxJH0SHY/ikIjHrK59uvmoZHBRE+6s+vjYlpFiiue
-	OAfg9NLOKMA7oy5K4u8nzBZW2ghEu4k=
-Message-ID: <a2470c9f-67ee-4cd2-a8d0-f27a185a2194@ixit.cz>
-Date: Tue, 26 May 2026 19:39:36 +0200
+	s=arc-20240116; t=1779817720; c=relaxed/simple;
+	bh=a5Ee7f09oAdBoMKIxduYTdY6R7xOpK2bD0sHpJz4/l0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=UXs7BEe8IOt7/YM7kgVHbXf7IOvRZWy/Cs2xKJvOclEu07qSuJNcDFUZEXn/h1da5ZqyplTkVEfRDJoR/+YGRw0YFy5mxID8tZvF/RJMHJvULzIc8KNqBMSD3qtkS9GXfwqy7jvU3iGNm14OToH54E1dGfxenrLkEx2M2qla0+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KNZXw6Ea; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779817718; x=1811353718;
+  h=date:from:to:cc:subject:message-id;
+  bh=a5Ee7f09oAdBoMKIxduYTdY6R7xOpK2bD0sHpJz4/l0=;
+  b=KNZXw6EaI7uYqH8F//a6w2O/5P6dEFKhfRsXV+NkemiKm38FEELGfV+e
+   PdQELk+EETmHhe+s7W7OF+b4JgVUbzscHP9EQfrJ45Xf/drnlvsS0ctZR
+   lrtlMkThIjRgq7Sfw1y9ONEcF7gnlrP05QLiHiGMrmxVznA/ycaFyFK9F
+   FOfT2zRSoYN8OuJaH0NsCWs77gef3uwvT+1rqY9ANIJ9dYifowIE7oO1z
+   4WhWVjPIPf6NzH025V/HJGKZ9zHp2joFuiy8iCycwGxCOMSBGRM97UUbe
+   DRoza16uUUjm73y+IwzEc3KrHLbR1z33D6iQJuWuZF4IcDnrHRxXamAWm
+   w==;
+X-CSE-ConnectionGUID: sU4scsulRNOyf/rKYqBT2Q==
+X-CSE-MsgGUID: EEITXgBVSByR5BM9ImSz0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="91211126"
+X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
+   d="scan'208";a="91211126"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 10:48:38 -0700
+X-CSE-ConnectionGUID: 7NUp1wFST9aArxjbuvgHGA==
+X-CSE-MsgGUID: fJ6uiUOWRfOcRcZbelprXQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
+   d="scan'208";a="246242838"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 26 May 2026 10:48:36 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wRvtI-00000000CSf-3MYG;
+	Tue, 26 May 2026 17:48:32 +0000
+Date: Tue, 26 May 2026 19:47:33 +0200
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Mirela Rabulea <mirela.rabulea@nxp.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-doc@vger.kernel.org
+Subject: [sailus-media-tree:metadata 59/126] htmldocs:
+ Documentation/userspace-api/media/v4l/subdev-config-model.rst:6: WARNING:
+ duplicate label media_subdev_config_model, other instance in
+ Documentation/userspace-api/media/v4l/dev-subdev.rst
+Message-ID: <202605261948.2WptznsW-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH WIP v4 9/9] media: qcom: camss: Account for C-PHY when
- calculating link frequency
-To: Cory Keitz <ckeitz@amazon.com>
-Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Luca Weiss <luca.weiss@fairphone.com>, Petr Hodina <phodina@protonmail.com>,
- Casey Connolly <casey.connolly@linaro.org>, "Dr. Git" <drgitx@gmail.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Joel Selvaraj <foss@joelselvaraj.com>, Kieran Bingham <kbingham@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org
-References: <20260301-qcom-cphy-v4-0-e53316d2cc65@ixit.cz>
- <20260301-qcom-cphy-v4-9-e53316d2cc65@ixit.cz>
- <ab2kjbN0Igbkp6sw@bcd074ae11bb>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <ab2kjbN0Igbkp6sw@bcd074ae11bb>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [1.09 / 15.00];
+	LONG_SUBJ(1.75)[233];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ixit.cz,quarantine];
-	R_DKIM_ALLOW(-0.20)[ixit.cz:s=dkim];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62823-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linaro.org,fairphone.com,protonmail.com,oss.qualcomm.com,joelselvaraj.com,linux.intel.com,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62824-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[david@ixit.cz,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ixit.cz:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ixit.cz:mid,ixit.cz:dkim,codeberg.org:url,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 4DB825DAD11
+	PRECEDENCE_BULK(0.00)[];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,intel.com:email,intel.com:mid,intel.com:dkim]
+X-Rspamd-Queue-Id: 0560E5DAEC9
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 20/03/2026 20:48, Cory Keitz wrote:
-> On Sun, Mar 01, 2026 at 01:51:28AM +0100, David Heidelberg via B4 Relay wrote:
->> -static int csid_set_clock_rates(struct csid_device *csid)
->> +static int csid_set_clock_rates(struct v4l2_subdev *sd, struct csid_device *csid)
->>   {
->>   	struct device *dev = csid->camss->dev;
->> +	struct csiphy_device *csiphy = v4l2_get_subdevdata(sd);
->> +	struct csiphy_lanes_cfg *lane_cfg = &csiphy->cfg.csi2->lane_cfg;
-> 
-> I believe there's a regression here from v3. I've been testing v4 of
-> this series on SA8775P (kernel 6.18) with a GMSL2 camera pipeline and
-> hit an invalid pointer dereference in csid_set_clock_rates() during
-> pipeline power-up:
-> 
->    pc : camss_get_link_freq+0x1c/0xc4 [qcom_camss]
->    lr : csid_set_power+0xc8/0x404 [qcom_camss]
->    Code: 910003fd a90153f3 aa0003f4 a9025bf5 (b9400040)
-> 
-> The sd passed here from csid_set_power() is the csid subdev, so the
-> subdevdata is a csid_device rather than a csiphy_device. The csid_device
-> stores its linked csiphy_id during csid_link_setup(), so the fix is to
-> look it up through the camss device array:
-> 
->      static int csid_set_clock_rates(struct csid_device *csid)
->      {
->          struct csiphy_device *csiphy = &csid->camss->csiphy[csid->phy.csiphy_id];
->          struct csiphy_lanes_cfg *lane_cfg = &csiphy->cfg.csi2->lane_cfg;
-> 
-> This also lets us drop the v4l2_subdev parameter entirely since it's
-> no longer needed. With the above change my pipeline powers on and
-> streams correctly.
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   5b470f2ed717705b51f4a799722dffb34a37f10a
+commit: 643ed29222de6019c0321bbb7d7d65e6a50fcf4f [59/126] media: Documentation: Add subdev configuration models, raw sensor model
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260526/202605261948.2WptznsW-lkp@intel.com/reproduce)
 
-Thank you for catching this, until I'll sent next revision, it's fixed in the 
-git branch [1].
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605261948.2WptznsW-lkp@intel.com/
 
-David
+All warnings (new ones prefixed by >>):
 
-[1] https://codeberg.org/sdm845/linux/commits/branch/b4/qcom-cphy
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:168: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:191: ERROR: Unknown target name: "network flags". [docutils]
+>> Documentation/userspace-api/media/v4l/subdev-config-model.rst:6: WARNING: duplicate label media_subdev_config_model, other instance in Documentation/userspace-api/media/v4l/dev-subdev.rst
+>> Documentation/userspace-api/media/v4l/subdev-config-model.rst:35: WARNING: duplicate label media_subdev_config_model_common_raw_sensor, other instance in Documentation/userspace-api/media/v4l/dev-subdev.rst
+>> Documentation/userspace-api/media/v4l/subdev-config-model.rst:: WARNING: duplicate label media_subdev_config_model_common_raw_sensor_subdev, other instance in Documentation/userspace-api/media/v4l/dev-subdev.rst
+   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+   Documentation/userspace-api/media/drivers/camera-sensor.rst:147: WARNING: undefined label: 'media-metadata-layout-ccs' [ref.ref]
 
-> 
-> Tested-by: Cory Keitz <ckeitz@amazon.com>
-> 
-> ---
-> 
-> Regards,
-> Cory
 
--- 
-David Heidelberg
+vim +6 Documentation/userspace-api/media/v4l/subdev-config-model.rst
 
+     4	
+     5	Sub-device configuration models
+   > 6	===============================
+     7	
+     8	The V4L2 specification defines a subdev API that exposes three type of
+     9	configuration elements: formats, selection rectangles and controls. The
+    10	specification contains generic information about how those configuration
+    11	elements behave, but not precisely how they apply to particular hardware
+    12	features. We leave some leeway to drivers to decide how to map selection
+    13	rectangles to device features, as long as they comply with the V4L2
+    14	specification. This is needed as hardware features differ between devices, so
+    15	it's the driver's responsibility to handle this mapping.
+    16	
+    17	Unfortunately, this lack of clearly defined mapping in the specification has led
+    18	to different drivers mapping the same hardware features to different API
+    19	elements, or implementing the API elements with slightly different
+    20	behaviours. Furthermore, many drivers have implemented selection rectangles in
+    21	ways that do not comply with the V4L2 specification. All of this makes userspace
+    22	development difficult.
+    23	
+    24	Sub-device configuration models specify in detail what the user space can expect
+    25	from a sub-device in terms of V4L2 sub-device interface support, semantics
+    26	included.
+    27	
+    28	A sub-device may implement more than one configuration model at the same
+    29	time. The implemented configuration models can be obtained from the sub-device's
+    30	``V4L2_CID_CONFIG_MODEL`` control.
+    31	
+    32	.. _media_subdev_config_model_common_raw_sensor:
+    33	
+    34	Common raw camera sensor model
+  > 35	------------------------------
+    36	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
