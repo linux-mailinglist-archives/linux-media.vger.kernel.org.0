@@ -1,465 +1,299 @@
-Return-Path: <linux-media+bounces-62791-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62792-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gEMCA/+WFWqNWgcAu9opvQ
-	(envelope-from <linux-media+bounces-62791-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 14:50:07 +0200
+	id QON6AvGhFWprWwcAu9opvQ
+	(envelope-from <linux-media+bounces-62792-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 15:36:49 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id B73A75D5C85
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 14:50:06 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25E345D6993
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 15:36:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id A9ED03013BB2
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 12:49:35 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 27854301E6F5
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 13:31:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92BEF2264CA;
-	Tue, 26 May 2026 12:49:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89D243FB05D;
+	Tue, 26 May 2026 13:31:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KeOqfOGc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q892Qets"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727C0214204;
-	Tue, 26 May 2026 12:49:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016193E9C2E
+	for <linux-media@vger.kernel.org>; Tue, 26 May 2026 13:31:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779799770; cv=none; b=WTAtASaUL9n6cQ/7nmlQC8H0/BNKc6E1IqnBw0c/PmTbWL3L97vbl1F6/zRkDUChhAJLKu8iIAaE8FKNj+5Z3QjG3HuOzPg8OuWJCeWEiV/YnMHPH6W+2y68eAmn+NP71nMtyiqwZyoPHz1gKW31ThZk3zqpfT3DgRo3cB4T2Ec=
+	t=1779802296; cv=none; b=lGhr7LNc0WSJFPFsKmoGZujlpb8OJ3pdWTSzlkIR0RMVsEXt6l3FVW/I4ktVCLqWHpGIJEp4wIvz/JXyzfUdxnlBfvrzHPZf0Gjk/D9DUUsl9Gxqivr5uCjbQH9ddPYgC4C95k2M19zDQhmeADjqlutXgLD+v8ZFlmOCsTm8MhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779799770; c=relaxed/simple;
-	bh=pS4eLGd/BXtwpbYBBWMTsqkQdJI9FVfDYLoXd59olh8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FMc+rOmIjIhVwgyOBhIGW0bgdpc4kQSyQw7LCH24djXcc2qeI5NI2dnOVQb2kpWo248g1JPqaeTgy1UgoHApptFstIYlUwOcyggskqC+mpfKc4q38ULkv+bchwTfW3hkszhBgoSTfXKT8ibHEynYwG7tsl5U2bGS4fxzfaLKNtg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KeOqfOGc; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76B9B1F00A3F;
-	Tue, 26 May 2026 12:49:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779799768;
-	bh=B5bQe/xVdGiU9uGdav6T7X5GGz8gWhOzLpuzwqabKIU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=KeOqfOGcaPN+w0DqoklYwWZDvOG8oJrJNvR79LPjVhh+RRyPBK9xbKGYh+Uscu7pz
-	 Y7BMQJAi11YVY4Fif/k2AUWScqQ2IjYhLAOnT0Zt3EafhAe7cDjXTfHbLCE6YBN33t
-	 gKLByZx9ibRKhru/aUoE/U6xtWmSVThjBiwX5WOtTQVBwtmP1IC7UcuWz90sSh4NX9
-	 3NFoQKZo0M95FuQpXke00jdDRLrhhb2rh79T4d/hd1pulQXhGTg5PulZNsXSF1p958
-	 omWPNjhKVgNEaz8Aic86C8qlBvdWiQS6iX8EjFkX5wO9ywAfAm+ugzuvHvA2ZmrcvJ
-	 YkQbsbYPpgOfQ==
-Message-ID: <ad61077f-4e7b-4088-834d-0fd7d3567a47@kernel.org>
-Date: Tue, 26 May 2026 13:49:15 +0100
+	s=arc-20240116; t=1779802296; c=relaxed/simple;
+	bh=4LPn246sZQ7GUeZYHYVe97OQMA2AVBQuSkUX8Kzlk8M=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=OL/dUjlaODr799IzKZwuRwEs+E6PR70MtYjxI6OGXUHNShOqKFCEhYld/q1gyJ50Y83q6JjAqnal/n9YBM/PTnoNobBiSmcmmjz7A2TWrhH08yqmnlyJr9CKulwAnBMjhOg3CzVhdk8mvdrDVoo2wSuhmMnT4L5BDoAZC5Zf9EI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q892Qets; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490426d72f7so39311955e9.3
+        for <linux-media@vger.kernel.org>; Tue, 26 May 2026 06:31:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779802292; x=1780407092; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=4n5ZbQUwp/G3ciXRXlB/UDEsWvDsE0SWate1awvibH8=;
+        b=Q892Qetsp+LeVA+IAsGNSqX6UoXdJZcMVKcoUO/WdCnbA0lTkmdi/rwe4z3ij9kGsG
+         bHQq9krG51CCTkCU+TBtgFwtMxF/VfbrfLJWI8xoECgHbsY5b6ubZGGYLXnZDcAcBfkZ
+         mA0VgUdzBwmQF3DIMJVT1/Oh8HVJsEZhRqKy10YPtk3xHpyvDPKWyDyeqIdmV47lke9i
+         ZIoqI+XQEHBAavCnqM9Xssosqru5n5QTU95pHd7+JtzIRJ3GchnI/Ichduz5GK2MG+qH
+         WWqJYyZS4aZi9uIoqlmDdG5dBduCXYNVMdJ5O3INUU/MLP/Gqo31TUNpBSm6wPeJkWQe
+         jhxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779802292; x=1780407092;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4n5ZbQUwp/G3ciXRXlB/UDEsWvDsE0SWate1awvibH8=;
+        b=pv5dBth7j8T+plO9/HVtC9zEgzP5MOBJ+/GS7RSwg2ScoElPx9E+Kpym0lPgMURRPr
+         fG689GkWt5s9+d009mXy+3lfnA5uVo9e2YthMTv2N73MLbo3pd9ibqvSNujIdQQRo1C4
+         S5G10IC91R1iaKjH3M9T1r2Z3pv0v/dPIOUEOb7UDIi5NU9kY4ZkMgl5JHOFqnKatkqL
+         HCfSi7n498KZLiSsBrxOL80217PgzIt83e4WRxXaH1nsWrsYnQcHfL1a+7rCSHYC1ux2
+         siOq5CdfoZCdPBf9g750Bolx/f+attUYxVaw95W1pQ3IUmEqKav59CrH6RakB4BqVN1L
+         S1tA==
+X-Gm-Message-State: AOJu0YwN0sOWjrS2bw0mc+p4keIA6GRp8e//2JkoN3EfQUz4rFO5NAdE
+	ZGN5HJHuMQN+cA1IKK/hG450b08XfdpQHCIo1iOB1su0eFUwrvJTA9+/
+X-Gm-Gg: Acq92OHBjTZRLR6a80Ma5O9QJoA+F6NbHwddaxYcqp/HuIS4Htp8l2I0jTt7GK6mHAC
+	RCJdZyuP+wbARX8L/Spa8LEPsJHEhBo4RgMJzCH+uTMN+6199yOxr6g57gOOEiDMIObTShXRF16
+	mTo1pBj8qr0gFjtMDRp6z5A5z2oQQt3aSrXF8qRfdKTkG2tbh/z1BKc9V30RASUTtdkOzjtw3Oh
+	ufngxJcwLgZSGqUvDURQHH2CgsEltXOu1lgnNY29BkuQC/783IQh0eTlXcOJRkLAqNYw69nWyvk
+	SWtfsEC2d6kS2gxROvGRJvNB6khT2y8rXyKmSe6m9R8/P19LgbxRRt9gYgmLp24uxvPRuDVY5cU
+	fazeTWjF8yCL59lP6dWIw5FORaYlA7w0HJiVMBCvzuB5QSkxClygSsUKx9xWKqeSCg7VLIZk/Tj
+	kt4SZQDikbJw6kFh7+RaDtGdfI6EWKaPQwaEWz
+X-Received: by 2002:a05:600c:a402:b0:490:3d62:eb0 with SMTP id 5b1f17b1804b1-490426d7019mr256118175e9.24.1779802292035;
+        Tue, 26 May 2026 06:31:32 -0700 (PDT)
+Received: from [192.168.0.39] ([79.133.247.80])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490452580dfsm170958895e9.1.2026.05.26.06.31.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2026 06:31:31 -0700 (PDT)
+From: Erikas Bitovtas <xerikasxx@gmail.com>
+Subject: [PATCH v9 0/8] media: qcom: venus: add MSM8939 support
+Date: Tue, 26 May 2026 16:24:23 +0300
+Message-Id: <20260526-msm8939-venus-rfc-v9-0-bb1069f3fe02@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/4] media: qcom: flip the switch between Venus and
- Iris drivers
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- cros-qcom-dts-watchers@chromium.org, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-References: <sYZHD3u8jIct2FxvEcwr_2zJAwlRZlgApp_nZRHcBHzhnTYkersBivmgF9agXwr_MAMQq9aXHnEfhYlOs_B6qw==@protonmail.internalid>
- <20260327-venus-iris-flip-switch-v5-0-2f4b6c636927@oss.qualcomm.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bod@kernel.org>
-In-Reply-To: <20260327-venus-iris-flip-switch-v5-0-2f4b6c636927@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/33PwU7DMAwG4FeZciYoceKk5sR7IA6Nl2xBtEXNV
+ oGmvjvpOFCViuMv/f5s30SJY45FPB1uYoxTLnnoa6CHg+Bz25+izMeaBShwymonu9I1ZEhOsb8
+ WOSaWrADZsrepjaLOfYwx5c+7+fL6k8s1vEW+LNDSOOdyGcav+9JJL73//ElLJVtFiRMwmGN6P
+ nVtfn/koROLP8FKANwToArJUUQIxoHyW8GsBb8nmCpA02jCEDzpP4L9FVDtfmGrQGQTxgDQctg
+ KuBZ2b8AqHH3A2AJHJL0V3ErQak9wVYiOrEPjkZTaCn4t2D3BV8EYduxSIGhwLczz/A0XolHpU
+ AIAAA==
+X-Change-ID: 20260416-msm8939-venus-rfc-c025c4c74fae
+To: Bryan O'Donoghue <bod@kernel.org>, 
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
+ phone-devel@vger.kernel.org, Erikas Bitovtas <xerikasxx@gmail.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+X-Mailer: b4 0.15.2
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62791-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-62792-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.sr.ht,gmail.com,linaro.org,oss.qualcomm.com];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[xerikasxx@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: B73A75D5C85
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 25E345D6993
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 27/03/2026 20:19, Dmitry Baryshkov wrote:
-> As the Venus and Iris drivers are close to the "feature parity" for the
-> common platforms (SC7280, SM8250), in order to get more attention to
-> squashing bugs from the Iris driver, flip the switch and default to the
-> Iris driver if both are enabled. The Iris driver has several
-> regressions, but hopefully they can be fixed through the development
-> cycle by the respective team. Also it is better to fail the test than
-> crash the device (which Venus driver does a lot).
-> 
-> Note: then intention is to land this in 6.21, which might let us to
-> drop those platforms from the Venus driver in 6.22+.
-> 
-> Testing methodology: fluster test-suite, single-threaded mode, SM8250
-> device (RB5).
-> 
-> $ ./fluster.py r -j 1 -d  GStreamer-H.264-V4L2-Gst1.0 -s -so out-h264.md -ts JVT-AVC_V1
-> $ ./fluster.py r -j 1 -d  GStreamer-H.265-V4L2-Gst1.0 -s -so out-h265.md -ts JCT-VC-HEVC_V1
-> $ ./fluster.py r -j 1 -d  GStreamer-VP9-V4L2-Gst1.0 -s -so out-vp9.md
-> 
-> For H.264:
-> 
-> Only the main set was used on both platforms
-> 
-> On Venus pass 126/135
-> On Iris  pass 78/135
-> 
-> - Fail on Iris, but pass on Venus:
->    cabac_mot_fld0_full, cabac_mot_mbaff0_full, cabac_mot_picaff0_full,
->    CAFI1_SVA_C, CAMA1_Sony_C, cama1_vtc_c, cama2_vtc_b, cama3_vtc_b,
->    CAMACI3_Sony_C, CAMASL3_Sony_B, CAMP_MOT_MBAFF_L30,
->    CAMP_MOT_MBAFF_L31, CANLMA2_Sony_C, CANLMA3_Sony_C,
->    cavlc_mot_fld0_full_B, cavlc_mot_mbaff0_full_B,
->    cavlc_mot_picaff0_full_B, CVCANLMA2_Sony_C, CVFI1_Sony_D, CVFI1_SVA_C,
->    CVFI2_Sony_H, CVFI2_SVA_C, CVMA1_Sony_D, CVMAPAQP3_Sony_E,
->    CVMAQP2_Sony_G, CVMAQP3_Sony_D, CVMP_MOT_FLD_L30_B,
->    CVMP_MOT_FRM_L31_B, CVNLFI1_Sony_C, CVNLFI2_Sony_H, FI1_Sony_E,
->    MR9_BT_B, Sharp_MP_Field_1_B, Sharp_MP_Field_2_B, Sharp_MP_Field_3_B,
->    Sharp_MP_PAFF_1r2, Sharp_MP_PAFF_2r
-> 
-> - Fail on Venus, but pass on Iris:
->    BA3_SVA_C
-> 
-> For Venus several tests crash the firmware or crash the device,
-> so test-suite was executed with extra:
-> 
-> -sv CABREF3_Sand_D CAMANL1_TOSHIBA_B CAMA1_TOSHIBA_B \
->    CAMA3_Sand_E CAMANL2_TOSHIBA_B CAMANL3_Sand_E CAPA1_TOSHIBA_B \
->    CAPAMA3_Sand_F CVMA1_TOSHIBA_B CVMANL1_TOSHIBA_B CVMANL2_TOSHIBA_B \
->    CVPA1_TOSHIBA_B
-> 
-> For H.265:
-> 
-> Only the main set was used on both platforms
-> 
-> On Venus pass 135/147
-> On Iris  pass 133/147
-> 
-> - Fail on Iris, but pass on Venus:
->    INITQP_B_Main10_Sony_1, WP_A_MAIN10_Toshiba_3,
->    WPP_A_ericsson_MAIN10_2, WPP_B_ericsson_MAIN10_2,
->    WPP_C_ericsson_MAIN10_2, WPP_E_ericsson_MAIN10_2,
->    WPP_F_ericsson_MAIN10_2
-> 
-> - Fail on Venus, but pass on Iris:
->    ipcm_A_NEC_3, ipcm_B_NEC_3, ipcm_C_NEC_3, ipcm_D_NEC_3, ipcm_E_NEC_2,
->    IPRED_B_Nokia_3, VPSSPSPPS_A_MainConcept_1
-> 
-> For VP9 codec:
-> 
-> On Venus pass 174/311
-> On Iris  pass 232/311
-> 
-> - Fail on Venus, but pass on Iris:
->    vp90-2-05-resize.ivf, vp90-2-14-resize-10frames-fp-tiles-1-2-4-8,
->    vp90-2-14-resize-10frames-fp-tiles-1-2,
->    vp90-2-14-resize-10frames-fp-tiles-1-4,
->    vp90-2-14-resize-10frames-fp-tiles-1-8,
->    vp90-2-14-resize-10frames-fp-tiles-2-1,
->    vp90-2-14-resize-10frames-fp-tiles-2-4,
->    vp90-2-14-resize-10frames-fp-tiles-2-8,
->    vp90-2-14-resize-10frames-fp-tiles-4-1,
->    vp90-2-14-resize-10frames-fp-tiles-4-2,
->    vp90-2-14-resize-10frames-fp-tiles-4-8,
->    vp90-2-14-resize-10frames-fp-tiles-8-1,
->    vp90-2-14-resize-10frames-fp-tiles-8-2,
->    vp90-2-14-resize-10frames-fp-tiles-8-4-2-1,
->    vp90-2-14-resize-10frames-fp-tiles-8-4, vp90-2-14-resize-fp-tiles-1-16,
->    vp90-2-14-resize-fp-tiles-1-2-4-8-16, vp90-2-14-resize-fp-tiles-1-2,
->    vp90-2-14-resize-fp-tiles-1-4, vp90-2-14-resize-fp-tiles-16-1,
->    vp90-2-14-resize-fp-tiles-16-2, vp90-2-14-resize-fp-tiles-16-4,
->    vp90-2-14-resize-fp-tiles-16-8-4-2-1, vp90-2-14-resize-fp-tiles-16-8,
->    vp90-2-14-resize-fp-tiles-1-8, vp90-2-14-resize-fp-tiles-2-16,
->    vp90-2-14-resize-fp-tiles-2-1, vp90-2-14-resize-fp-tiles-2-4,
->    vp90-2-14-resize-fp-tiles-2-8, vp90-2-14-resize-fp-tiles-4-16,
->    vp90-2-14-resize-fp-tiles-4-1, vp90-2-14-resize-fp-tiles-4-2,
->    vp90-2-14-resize-fp-tiles-4-8, vp90-2-14-resize-fp-tiles-8-16,
->    vp90-2-14-resize-fp-tiles-8-1, vp90-2-14-resize-fp-tiles-8-2,
->    vp90-2-14-resize-fp-tiles-8-4, vp90-2-15-segkey,
->    vp90-2-21-resize_inter_1280x720_5_1-2, vp90-2-21-resize_inter_1280x720_5_3-4,
->    vp90-2-21-resize_inter_1280x720_7_1-2, vp90-2-21-resize_inter_1280x720_7_3-4,
->    vp90-2-21-resize_inter_1920x1080_5_1-2,
->    vp90-2-21-resize_inter_1920x1080_5_3-4,
->    vp90-2-21-resize_inter_1920x1080_7_1-2,
->    vp90-2-21-resize_inter_1920x1080_7_3-4,
->    vp90-2-21-resize_inter_320x180_5_3-4, vp90-2-21-resize_inter_320x180_7_3-4,
->    vp90-2-21-resize_inter_320x240_5_3-4, vp90-2-21-resize_inter_320x240_7_3-4,
->    vp90-2-21-resize_inter_640x360_5_1-2, vp90-2-21-resize_inter_640x360_5_3-4,
->    vp90-2-21-resize_inter_640x360_7_1-2, vp90-2-21-resize_inter_640x360_7_3-4,
->    vp90-2-21-resize_inter_640x480_5_1-2, vp90-2-21-resize_inter_640x480_5_3-4,
->    vp90-2-21-resize_inter_640x480_7_1-2, vp90-2-21-resize_inter_640x480_7_3-4
-> 
-> $ v4l2-compliance -d /dev/video0
-> v4l2-compliance 1.30.1, 64 bits, 64-bit time_t
-> 
-> Compliance test for iris_driver device /dev/video0:
-> 
-> Driver Info:
->          Driver name      : iris_driver
->          Card type        : Iris Decoder
->          Bus info         : platform:aa00000.video-codec
->          Driver version   : 6.19.0
->          Capabilities     : 0x84204000
->                  Video Memory-to-Memory Multiplanar
->                  Streaming
->                  Extended Pix Format
->                  Device Capabilities
->          Device Caps      : 0x04204000
->                  Video Memory-to-Memory Multiplanar
->                  Streaming
->                  Extended Pix Format
->          Detected Stateful Decoder
-> 
-> Required ioctls:
->          test VIDIOC_QUERYCAP: OK
->          test invalid ioctls: OK
-> 
-> Allow for multiple opens:
->          test second /dev/video0 open: OK
->          test VIDIOC_QUERYCAP: OK
->          test VIDIOC_G/S_PRIORITY: OK
->          test for unlimited opens: OK
-> 
-> Debug ioctls:
->          test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->          test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->          test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->          test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->          test VIDIOC_ENUMAUDIO: OK (Not Supported)
->          test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->          test VIDIOC_G/S_AUDIO: OK (Not Supported)
->          Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->          test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->          test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->          test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->          test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->          Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->          test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->          test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->          test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->          test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
->          test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->          test VIDIOC_QUERYCTRL: OK
->          test VIDIOC_G/S_CTRL: OK
->          test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->          test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->          test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->          Standard Controls: 2 Private Controls: 0
-> 
-> Format ioctls:
->          test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->          test VIDIOC_G/S_PARM: OK (Not Supported)
->          test VIDIOC_G_FBUF: OK (Not Supported)
->          test VIDIOC_G_FMT: OK
->          test VIDIOC_TRY_FMT: OK
->          test VIDIOC_S_FMT: OK
->          test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->          test Cropping: OK
->          test Composing: OK
->          test Scaling: OK (Not Supported)
-> 
-> Codec ioctls:
->          test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->          test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->          test VIDIOC_(TRY_)DECODER_CMD: OK
-> 
-> Buffer ioctls:
->          test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->          test CREATE_BUFS maximum buffers: OK
->          test VIDIOC_REMOVE_BUFS: OK
->          test VIDIOC_EXPBUF: OK
->          test Requests: OK (Not Supported)
->          test blocking wait: OK
-> 
-> $ v4l2-compliance -d /dev/video1
-> v4l2-compliance 1.30.1, 64 bits, 64-bit time_t
-> 
-> Compliance test for iris_driver device /dev/video1:
-> 
-> Driver Info:
->          Driver name      : iris_driver
->          Card type        : Iris Encoder
->          Bus info         : platform:aa00000.video-codec
->          Driver version   : 6.19.0
->          Capabilities     : 0x84204000
->                  Video Memory-to-Memory Multiplanar
->                  Streaming
->                  Extended Pix Format
->                  Device Capabilities
->          Device Caps      : 0x04204000
->                  Video Memory-to-Memory Multiplanar
->                  Streaming
->                  Extended Pix Format
->          Detected Stateful Encoder
-> 
-> Required ioctls:
->          test VIDIOC_QUERYCAP: OK
->          test invalid ioctls: OK
-> 
-> Allow for multiple opens:
->          test second /dev/video1 open: OK
->          test VIDIOC_QUERYCAP: OK
->          test VIDIOC_G/S_PRIORITY: OK
->          test for unlimited opens: OK
-> 
-> Debug ioctls:
->          test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->          test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->          test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->          test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->          test VIDIOC_ENUMAUDIO: OK (Not Supported)
->          test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->          test VIDIOC_G/S_AUDIO: OK (Not Supported)
->          Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->          test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->          test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->          test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->          test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->          Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->          test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->          test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->          test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->          test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
->          test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->          test VIDIOC_QUERYCTRL: OK
->          test VIDIOC_G/S_CTRL: OK
->          test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->          test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->          test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->          Standard Controls: 18 Private Controls: 0
-> 
-> Format ioctls:
->          test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->          test VIDIOC_G/S_PARM: OK
->          test VIDIOC_G_FBUF: OK (Not Supported)
->          test VIDIOC_G_FMT: OK
->          test VIDIOC_TRY_FMT: OK
->          test VIDIOC_S_FMT: OK
->          test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->          test Cropping: OK
->          test Composing: OK (Not Supported)
->          test Scaling: OK (Not Supported)
-> 
-> Codec ioctls:
->          test VIDIOC_(TRY_)ENCODER_CMD: OK
->          test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->          test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls:
->          test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->          test CREATE_BUFS maximum buffers: OK
->          test VIDIOC_REMOVE_BUFS: OK
->          test VIDIOC_EXPBUF: OK
->          test Requests: OK (Not Supported)
->          test blocking wait: OK
-> 
-> Total for iris_driver device /dev/video1: 48, Succeeded: 48, Failed: 0, Warnings: 0
-> 
-> For SC7280, the results match the SM8250 ones.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
-> Changes in v5:
-> - Rebased on linux-next, dropping applied patch
-> - No other changes from the previous patchset, the previous patchset can
->    still be applied, if it was already.
-> - Link to v4: https://lore.kernel.org/r/20260131-venus-iris-flip-switch-v4-0-e10b886771e1@oss.qualcomm.com
-> 
-> Changes in v4:
-> - Fixed building (Dikshita)
-> - Changed H265D_MAX_SLICE to have the same value as in Venus, fixing
->    H.265 decoding on SC7280
-> - Link to v3: https://lore.kernel.org/r/20260127-venus-iris-flip-switch-v3-0-7f37689f4b39@oss.qualcomm.com
-> 
-> Changes in v3:
-> - Dropped dependency on the sc8280xp patchset, this will probably go in
->    earlier.
-> - Updated commit messages for DT bindings (Konrad)
-> - Link to v2: https://lore.kernel.org/r/20260126-venus-iris-flip-switch-v2-0-b0ea05e1739a@oss.qualcomm.com
-> 
-> Changes in v2:
-> - Sorted out SC7280 Chromebook bindings (Stephan)
-> - Dropped most of ifdef from venus (Vikash, Konrad)
-> - Added testign results to the cover letter.
-> - Link to v1: https://lore.kernel.org/r/20251119-venus-iris-flip-switch-v1-1-852369f66e36@oss.qualcomm.com
-> 
-> ---
-> Dmitry Baryshkov (4):
->        media: dt-bindings: qcom,sc7280-venus: drop non-PAS support
->        media: dt-bindings: qcom-sc7180-venus: move video-firmware here
->        media: qcom: iris: increase H265D_MAX_SLICE to fix H.265 decoding on SC7280
->        media: qcom: venus: flip the venus/iris switch
-> 
->   .../devicetree/bindings/media/qcom,sc7180-venus.yaml      | 15 +++++++++++++++
->   .../devicetree/bindings/media/qcom,sc7280-venus.yaml      | 10 ++--------
->   .../devicetree/bindings/media/qcom,venus-common.yaml      | 15 ---------------
->   drivers/media/platform/qcom/iris/Makefile                 |  5 +----
->   drivers/media/platform/qcom/iris/iris_probe.c             |  2 --
->   drivers/media/platform/qcom/iris/iris_vpu_buffer.h        |  2 +-
->   drivers/media/platform/qcom/venus/core.c                  |  6 ++++++
->   drivers/media/platform/qcom/venus/core.h                  | 11 +++++++++++
->   8 files changed, 36 insertions(+), 30 deletions(-)
-> ---
-> base-commit: e77a5a5cfe43b4c25bd44a3818e487033287517f
-> change-id: 20251119-venus-iris-flip-switch-d59a3fbc6a4b
-> 
-> Best regards,
-> --
-> With best wishes
-> Dmitry
-> 
-> 
+This patch series adds support for Venus on MSM8939. It is mostly
+similar to MSM8916 Venus, except it needs two additional cores to be
+powered on before it can start decoding.
 
-Not applicable against -next with enough of a splat I'll ask you to 
-rebase/reset this yourself.
+As per Dmitry's request, I am attaching Fluster results and
+v4l2-compliance output. Fluster results were very inconsistent and
+caused power collapse fails.
+H.264: https://pastebin.com/C15qeq5W
+H.265 (HEVC): https://pastebin.com/WDsnxvuk
+VP8: https://pastebin.com/egAgEm15
+v4l2-compliance: https://pastebin.com/VpBhEFc1
+Power collapse fail log: https://pastebin.com/rTivMcpK
+
+Signed-off-by: Erikas Bitovtas <xerikasxx@gmail.com>
+---
+Changes in v9:
+- Squashed conversion of MSM8916 to a new blacklisting mechanism back
+  into one commit.
+- Extracted passing hardware control to GDSCs into a new function. Power
+  control is now passed to hardware after core clocks are enabled, not
+  before.
+- Set halt check for Venus core clocks to BRANCH_HALT.
+- Link to v8: https://patch.msgid.link/20260519-msm8939-venus-rfc-v8-0-542ec7557ebc@gmail.com
+
+Changes in v8:
+- Only enable vcodec clks if power domains attatched to them are
+  present.
+- Reworded GDSC clock commit. Frankly, I'm not sure why exactly it
+  happens, I only know that if I don't set this flag and pass control to
+  hardware, the cores won't power up.
+- Extracted conversion of MSM8916 to a new blacklisting mechanism into a
+  commit of its own.
+- Fixed GDSC power domain not being powered off after failing to pass
+  control to hardware.
+- Reordered commits to include schema first, then driver changes, then
+  device tree source.
+- Link to v7: https://patch.msgid.link/20260514-msm8939-venus-rfc-v7-0-33c6c6fb9285@gmail.com
+
+Changes in v7:
+- Moved codec blacklist mechanism to be applied before MSM8939 struct is
+  added.
+- Vcodec power domains are attached with a managed method now.
+- Removed duplicate clock rates in msm8939_freq_tbl.
+- Redid the merge of vcodec_clks done in v5.
+- Removed the {vdec,venc}_{get,power}() methods and moved them to their
+  respective core_* parts. Vcodec cores are now powered up along with
+  the core.
+- Switched HW_CTRL to HW_CTRL_TRIGGER in Venus core GDSCs. They are now
+  powered up first, then their control is passed to hardware.
+- For now, document just the change of halt check in the commit message
+  of setting GDSCs to hardware controlled. I'm not sure what happens
+  exactly, but if they are set to BRANCH_HALT, probing the driver fails:
+  https://pastebin.com/EYQekR1p
+- Given the power management behavior has changed substantially in the
+  power domain enable logic patch, I removed Bryan's "Reviewed-by: "
+  tag.
+- Link to v6: https://patch.msgid.link/20260510-msm8939-venus-rfc-v6-0-e69465375900@gmail.com
+
+Changes in v6:
+- Added a more generic mechanism on blacklisting codecs.
+- Reworded a commit for setting Venus core GDSCs to hardware controlled.
+- Reworded a commit for adding HEVC decoding to MSM8939.
+- Link to v5: https://patch.msgid.link/20260507-msm8939-venus-rfc-v5-0-d7b5ea2ce591@gmail.com
+
+Changes in v5:
+- Undid the merge of vcodec_clks, they are split back to
+  vcodec{0,1}_clks now.
+- Extracted a dev_pm_domain_attach_list() call into a function of its
+  own to reduce nesting.
+- Added missing "power-domain-names" required property to device tree
+  binding.
+- Renamed vcodec clocks and power domains to match other Venus bindings.
+- Reordered commits and grouped them by subsystems. Now first come DTB
+  patches, then clock, then media.
+- Removed "status = "disabled"" in the device tree example.
+- Link to v4: https://patch.msgid.link/20260506-msm8939-venus-rfc-v4-0-994f5eb22acb@gmail.com
+
+Changes in v4:
+- Removed vcodec{0,1}_pmdomains and merged vcodec{0,1}_clks into
+  vcodec_clks instead for MSM8939.
+- Inlined video decoder and encoder device tree nodes in the driver and
+  removed them from the binding.
+- Kept vdec and venc methods for HFI v3 separate from HFI v1.
+- {vdec,venc}_get() are now called as early as before, since it is no
+  longer needed for us to attach power domains to dev_dec and dev_enc.
+- Link to v3: https://patch.msgid.link/20260427-msm8939-venus-rfc-v3-0-288195bb7917@gmail.com
+
+Changes in v3:
+- Added missing vcodec1_clks to resource struct.
+- Removed enc_nodename from resource struct since we include
+  video-decoder now.
+- Link to v2: https://patch.msgid.link/20260425-msm8939-venus-rfc-v2-0-f69e52b36207@gmail.com
+
+Changes in v2:
+- Enabled GDSCs during encoding as well.
+- Merged vcodec{0,1}_pmdomains_num into vcodec_pmdomains_num.
+- Reworded commit for marking GDSCs as hardware controlled. Same
+  situation as in cdc59600bccf ("clk: qcom: gcc-msm8953: fix stuck venus0_core0 clock")
+- Clarified the reason for missing firmware-name property in device
+  tree.
+- Clarified the reason for moving vdec_get and venc_get for later.
+- Link to v1: https://patch.msgid.link/20260416-msm8939-venus-rfc-v1-0-a09fcf2c23df@gmail.com
+
+To: Bryan O'Donoghue <bod@kernel.org>
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: André Apitzsch <git@apitzsch.eu>
+To: Erikas Bitovtas <xerikasxx@gmail.com>
+To: Bjorn Andersson <andersson@kernel.org>
+To: Konrad Dybcio <konradybcio@kernel.org>
+To: Michael Turquette <mturquette@baylibre.com>
+To: Stephen Boyd <sboyd@kernel.org>
+To: Brian Masney <bmasney@redhat.com>
+Cc: linux-arm-msm@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-clk@vger.kernel.org
 
 ---
-bod
+André Apitzsch (4):
+      media: dt-bindings: venus: Add qcom,msm8939 schema
+      media: qcom: venus: Add msm8939 resource struct
+      arm64: dts: qcom: msm8939: Add venus node
+      arm64: dts: qcom: msm8939-longcheer-l9100: Enable venus node
+
+Erikas Bitovtas (4):
+      clk: qcom: gcc-msm8939: mark Venus core GDSCs as hardware controlled
+      media: qcom: venus: add power domain enable logic for Venus cores
+      media: qcom: venus: add codec blacklist mechanism
+      arm64: dts: qcom: msm8939-asus-z00t: add Venus
+
+ .../bindings/media/qcom,msm8939-venus.yaml         |  79 +++++++++++
+ arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts     |   8 ++
+ .../boot/dts/qcom/msm8939-longcheer-l9100.dts      |   8 ++
+ arch/arm64/boot/dts/qcom/msm8939.dtsi              |  23 ++++
+ drivers/clk/qcom/gcc-msm8939.c                     |   4 +
+ drivers/media/platform/qcom/venus/core.c           |  45 +++++++
+ drivers/media/platform/qcom/venus/core.h           |   5 +
+ drivers/media/platform/qcom/venus/hfi_parser.c     |  10 +-
+ drivers/media/platform/qcom/venus/pm_helpers.c     | 146 ++++++++++++++++++++-
+ 9 files changed, 318 insertions(+), 10 deletions(-)
+---
+base-commit: d387b06f7c15b4639244ad66b4b0900c6a02b430
+change-id: 20260416-msm8939-venus-rfc-c025c4c74fae
+
+Best regards,
+--  
+Erikas Bitovtas <xerikasxx@gmail.com>
+
 
