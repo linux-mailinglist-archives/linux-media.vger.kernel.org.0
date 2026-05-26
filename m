@@ -1,99 +1,93 @@
-Return-Path: <linux-media+bounces-62827-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62828-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8P8eGTgEFmrNgwcAu9opvQ
-	(envelope-from <linux-media+bounces-62827-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 22:36:08 +0200
+	id uNEIDjMRFmojhQcAu9opvQ
+	(envelope-from <linux-media+bounces-62828-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 23:31:31 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C211F5DC5EB
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 22:36:07 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7368D5DCC53
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 23:31:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 16753303C2A2
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 20:36:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7A925306033F
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 21:29:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85A213BFAD5;
-	Tue, 26 May 2026 20:35:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A45B43C3BE6;
+	Tue, 26 May 2026 21:29:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pinefeat.co.uk header.i=@pinefeat.co.uk header.b="EdJR0YkM"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Yzca15Li"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD2C332615
-	for <linux-media@vger.kernel.org>; Tue, 26 May 2026 20:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE2463C140D
+	for <linux-media@vger.kernel.org>; Tue, 26 May 2026 21:29:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779827758; cv=none; b=vCttYw398Vy4LlxFsceDdcCas7LCxJszxdSi5pp9APgUv6v97rCCBXIwhB8Akm5fUzrTipUIo/Wc+PMWmZMhufac5mneOajw8e12jVxz6xcecrJwnOJfDnL+Hk1bKIvYo/aiCRG41PPnJTgubbw8HIQ1CVICAQC52R48Zdr6o0E=
+	t=1779830960; cv=none; b=j9SJgb7O0y9yCtHSiFrBVc0X7hWI5e+wf8oWpEMikVaIsqzZgxCLg54cFhPhw8A/jCpi583Q342VHp4sxrncWDLsyKGMa2tZbsNs/T2NUEjdExr4/fVfedY9mIcFFnImLRr9XwDBCiRI8JTG7mCFP+3SFj7prThcyvyYDhz9n+k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779827758; c=relaxed/simple;
-	bh=C8DbFtwWr73bU897qlWowKdI+LzJPATt/h5/a2KEgZ4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=mzYGYUWtD8EffBONYUoZPAKc2DMQRtI7RQRwyiPSx7kS5RmrdSIvMMqaf3fh3gCZTbj6tBxNSHaPLQCFikWfz5qv+QoWyHD5w6XEOgX4xy9V1gB+F4IRArbpEXb5M366RxOoeFZ7FQ7u93qUf/7kDvGwbo3J5yYU8Wkry82GoJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pinefeat.co.uk; spf=pass smtp.mailfrom=pinefeat.co.uk; dkim=pass (2048-bit key) header.d=pinefeat.co.uk header.i=@pinefeat.co.uk header.b=EdJR0YkM; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pinefeat.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pinefeat.co.uk
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-490388fd0dbso54647995e9.0
-        for <linux-media@vger.kernel.org>; Tue, 26 May 2026 13:35:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pinefeat.co.uk; s=google; t=1779827754; x=1780432554; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iBYDos+g2gG8Yh/X4GriPM+bzzxtZiAUCWEAIa/mg9w=;
-        b=EdJR0YkMwGNBkxbI733CqF++SVx1Hn2OKo4Mv5uTK0TR6SxzNLFViZ0+L3AYGjcNtC
-         8B4WJy4ibhVVHAshkOWyeI83O3XeNV9nwbqhMmGwB1dGBvRvsudBFahhqCut/l0j7xYJ
-         1lz2OKeo61rR6euaMxxWbniK66GS5/Xzj6rwRv32WETwX1qaFg1dOi2UtQ408vPxDcHB
-         m9C0VQpQcfbwMIZFw6yo2iMkhrg+iJLTsc95TSuPR/Rj8k5dJF3kmXrhnnvknZcBdYGq
-         2Ia/OXZGiLRF2xojQAg93lktI2Qm2zk8l3XGsxUTAgWjKjSLoicNOBuB9M4++gGyaueS
-         Zd4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779827754; x=1780432554;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=iBYDos+g2gG8Yh/X4GriPM+bzzxtZiAUCWEAIa/mg9w=;
-        b=bSUn/A+iblsXPWLyEeTigxzv93pnwXjea9h4WGzCwYfFEC1pE8YSoGTdcSYOxBwPgm
-         MQ+/WSC+v/14Ia7ziUh/Eyu1KQglIJ8bq/ant9SHtPD2weiAOTTqlGmurkINnIfP4/jg
-         LF0N7JpAiGgWdKlPCu3HONY31gXUHy/dsGQcyEZMO4kKp+qzqw1LHtAlpKoLlPcUUjJj
-         ncJwAT+9q8Ws8PM8eYFLDcB9rVbXucUlMZ2WCzuzCm3YAD3tddZwKDi42l3QWjPi4JBb
-         MZ82D6kl2bI1VcMn1blAn+C+WGOlnt379WtQAl+S6Gs01oBBuJsXj/tyvEPuA4w+j+gd
-         sd6A==
-X-Forwarded-Encrypted: i=1; AFNElJ/2lVWySybjX2nG7sYHjeiJkzlyuRqRQBrwLzJ7J+5dkn/boqqOQMwbbHIxR+8brXcPvgYk2M5WzjRkUQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqZicFhzasnJLaj2eKFzaN4MHK4xDQ9T+rQiHdOFY3NaFNa57Y
-	5+iknJU6ndxO5hSCPcJZCA0V0Rq1BHklQLJVYGCJ+0JbM7z1l4Ep434ROM5z0qMUi9M=
-X-Gm-Gg: Acq92OFKvJPax70x0wXq0IbqjRSHlNUy4ssY6E6uXGGMuvv0HJTBjUHhK8CK3k2/GtW
-	w2Sr5vmAxmy3B706DSLHRIPpPdZayCXP8fL3TSr9HN1IQQk2VjUAtZ3vG6C7mMJcNuZLdvNcA+F
-	auYHsc0fnr+O+dalC9mM+6X6/igqgg8qgoeA5JaaeXeiXh6545xCPPEqkspJaCE37D9RE0dQrxX
-	srCFA1INzSA4ez7WsbIh3jTbM8p1/oA3KSJ+QsJJt4uB+S+TXnEQKwbLtMOpAUK9QbsYS1jHNet
-	JEMExzC02OnaPobOGOg2tEg/rfd6eGe/GI8CgZrSWoHQoh+HCoWudM9mIkuaICmqxQcCCT0Wyt2
-	GUpPODFSLGDPOunZTznm700JABTE717rF/VhU6DrXnB+9EYpocVeUySJ9TSq0Y82P5oSWAity1n
-	/Cit8h9WJhGSlNSd4yyebfXotswahqOaMA9yyD+DpuQORwt0wtzYs=
-X-Received: by 2002:a05:600c:474a:b0:490:51e2:d992 with SMTP id 5b1f17b1804b1-49051e2daa6mr272126805e9.13.1779827753941;
-        Tue, 26 May 2026 13:35:53 -0700 (PDT)
-Received: from asmirnov-G751JM.Home ([2a02:c7c:b28c:1f00:4309:135:1dc2:4f93])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4904526c926sm620908185e9.1.2026.05.26.13.35.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2026 13:35:53 -0700 (PDT)
-From: Aliaksandr Smirnou <asmirnou@pinefeat.co.uk>
-To: alen.karnil@ideasonboard.com
-Cc: asmirnou@pinefeat.co.uk,
-	conor+dt@kernel.org,
-	devicetree@vger.kernel.org,
-	hverkuil@xs4all.nl,
-	jacopo.mondi@ideasonboard.com,
-	krzk+dt@kernel.org,
+	s=arc-20240116; t=1779830960; c=relaxed/simple;
+	bh=91N+57rUR1pWbGR8nhj2bpJrpWtcapPBXOCxGh0W5F0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oIKK/xifmzhFnmvYnTGLZtu912oFLC15jYUdyaufHyCDnbwgqSU4zyecL6xmYj+xvMpCaWpATvYH7TVgYlwk9EvPEsygJUEoxmN5Imnx9wbaUYGJmpeEiJzJ45GCKWzQqviBh138SUYsGJh1492KFL9v4XQqSrCPgS7lnA70ckw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Yzca15Li; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1779830956;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=UeKDht6hynwmyvVnnx2NrDn4vXJFoG7xglLiWdTdkKo=;
+	b=Yzca15Li7pbmGLDQGCTWeSVZ2Gh+lBDRn7AJefSctEwCeaIT1GywO6shPtHT4S49yxgD0i
+	LajXTPVx1L9+MwwXSNpxQeP3EbdkO5tO4cnyxskyUriUWEViVk7z5HvKBGY19UZnrFSHSo
+	GyzRZqzHwp7xw24y6Wfvs3zmeoB6JZc=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-380-fu2eY1SLOO-o5GiefNWvRg-1; Tue,
+ 26 May 2026 17:29:12 -0400
+X-MC-Unique: fu2eY1SLOO-o5GiefNWvRg-1
+X-Mimecast-MFC-AGG-ID: fu2eY1SLOO-o5GiefNWvRg_1779830949
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9DBEB19560AE;
+	Tue, 26 May 2026 21:29:08 +0000 (UTC)
+Received: from GoldenWind.lan (unknown [10.22.64.238])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D130A30001BB;
+	Tue, 26 May 2026 21:29:04 +0000 (UTC)
+From: Lyude Paul <lyude@redhat.com>
+To: dri-devel@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org,
+	nouveau@lists.freedesktop.org
+Cc: Alexandre Courbot <acourbot@nvidia.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	driver-core@lists.linux.dev,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Simona Vetter <simona@ffwll.ch>,
 	linux-kernel@vger.kernel.org,
+	Sumit Semwal <sumit.semwal@linaro.org>,
 	linux-media@vger.kernel.org,
-	mchehab@kernel.org,
-	robh@kernel.org
-Subject: Re: [PATCH v6 0/2] Pinefeat cef168 lens control board driver
-Date: Tue, 26 May 2026 21:35:52 +0100
-Message-Id: <20260526203552.16717-1-asmirnou@pinefeat.co.uk>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <93997447-2f03-4449-ac51-ee6a2e470d58@ideasonboard.com>
-References: <93997447-2f03-4449-ac51-ee6a2e470d58@ideasonboard.com>
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Maxime Ripard <mripard@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	linaro-mm-sig@lists.linaro.org,
+	Danilo Krummrich <dakr@kernel.org>,
+	Mukesh Kumar Chaurasiya <mkchauras@gmail.com>,
+	Asahi Lina <lina+kernel@asahilina.net>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Lyude Paul <lyude@redhat.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v14 0/6] rust: drm: gem: shmem: Add sg_table() function
+Date: Tue, 26 May 2026 17:28:51 -0400
+Message-ID: <20260526212857.1158294-1-lyude@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -101,92 +95,80 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [1.34 / 15.00];
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[pinefeat.co.uk:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62827-lists,linux-media=lfdr.de];
-	URIBL_MULTI_FAIL(0.00)[raspberrypi.com:server fail,pinefeat.co.uk:server fail,tor.lore.kernel.org:server fail];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FREEMAIL_CC(0.00)[pinefeat.co.uk,kernel.org,vger.kernel.org,xs4all.nl,ideasonboard.com];
-	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[nvidia.com,garyguo.net,amd.com,lists.linux.dev,kernel.org,linux.intel.com,google.com,ffwll.ch,vger.kernel.org,linaro.org,suse.de,gmail.com,lists.linaro.org,asahilina.net,collabora.com,redhat.com,linuxfoundation.org];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-62828-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[pinefeat.co.uk];
-	FROM_NEQ_ENVFROM(0.00)[asmirnou@pinefeat.co.uk,linux-media@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	NEURAL_HAM(-0.00)[-0.999];
-	TO_DN_NONE(0.00)[];
-	DKIM_TRACE(0.00)[pinefeat.co.uk:+];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pinefeat.co.uk:mid,pinefeat.co.uk:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: C211F5DC5EB
+	FROM_NEQ_ENVFROM(0.00)[lyude@redhat.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media,kernel];
+	NEURAL_HAM(-0.00)[-0.997];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lkml.org:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,shmem.rs:url,gitlab.freedesktop.org:url]
+X-Rspamd-Queue-Id: 7368D5DCC53
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, 26 May 2026 16:54:37 +0100, Alen Karnil wrote:
+(was previously Rust bindings for gem shmem)
 
-> I've been asked by Kieran Bingham to review your patches, I've
-> reproduced your work on setup with a Pi 5 with a 6.18 kernel and
-> I got a few questions
+Most of this patch series has already been pushed upstream, this is just
+the second half of the patch series that has not been pushed yet + some
+additional changes which were required to implement changes requested by
+the mailing list. This patch series is originally from Asahi, previously
+posted by Daniel Almeida.
 
-Hi Alen,
+The previous version of the patch series can be found here:
 
-Thank you for resuming the work on the patch.
+	https://patchwork.freedesktop.org/series/164580/
 
-> I built the calibration application but it would not work out the
-> box, I can see that CEF168_V4L2_CID_CUSTOM is different between that
-> is in the patch and in the application? Which is the correct one,
-> does the  patch need updating?
+Branch with patches applied available here:
 
-The CEF168_V4L2_CID_CUSTOM value used in the patch is the correct one.
+	https://gitlab.freedesktop.org/lyudess/linux/-/commits/rust/gem-shmem
 
-Although the repository currently defines it with a different value,
-this does not cause any issues for users because the driver is built
-and installed locally together with the calibration tool.
+This patch series applies on top of drm-rust-next with the following
+dependencies applied:
 
-I can update the value in the cef168 repository at any time, so as long
-as users pull the latest version of the repository, everything will work
-correctly.
+	https://lkml.org/lkml/2026/5/26/1960
 
-If the driver is eventually merged into the Linux kernel source tree,
-the repository will need to be updated accordingly anyway, because there
-will be no need to build the driver locally.
+Lyude Paul (6):
+  rust: faux: Allow retrieving a bound Device
+  rust: gem: shmem: Fix Default implementation for ObjectConfig
+  rust: drm: gem: s/device::Device/Device/ for shmem.rs
+  drm/gem/shmem: Introduce __drm_gem_shmem_free_sgt_locked()
+  rust: drm: gem/shmem: Add DmaResvGuard helper
+  rust: drm: gem: Introduce shmem::Object::sg_table()
 
-> The tool to modify the device tree also did not work with the
-> IMX477, I needed to manually modify my device tree to get the dtbo
-> to build,
+ drivers/gpu/drm/drm_gem_shmem_helper.c |  32 ++-
+ include/drm/drm_gem_shmem_helper.h     |   1 +
+ rust/kernel/drm/gem/shmem.rs           | 264 +++++++++++++++++++++++--
+ rust/kernel/faux.rs                    |   7 +-
+ 4 files changed, 279 insertions(+), 25 deletions(-)
 
-I just double-checked the setup on a Raspberry Pi 5 running the latest
-6.18 kernel from the stock Raspberry Pi OS, and everything works
-correctly. Are you using a customized Linux distribution?
 
-Could you provide the build error logs and the overlay files generated
-by the tool before you modified them?
+base-commit: 2cf1840b0fa7637b6731fd554529f8d57ea34c04
+prerequisite-patch-id: c8ade07eec6e9c9e875800b114137c459d362e4e
+prerequisite-patch-id: dc4f750bc885b867842587b994261f43602bc6a8
+-- 
+2.54.0
 
-The modifications applied by the tool are shown in this diff:
-
-https://gist.github.com/pinefeat/1b3a258a193754f073e171b1ed33a0cc
-
-Were the generated files different in your setup?
-
-> there needs to be some further discussions on how we could
-> improve the user experience when it comes to enabling the vcm with
-> camera sensors.
-
-I agree. I started the discussion on the Raspberry Pi forum, but the
-driver needs to be merged first before moving forward with that.
-
-https://forums.raspberrypi.com/viewtopic.php?p=2318070#p2318070
 
