@@ -1,65 +1,65 @@
-Return-Path: <linux-media+bounces-62829-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62830-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2AIjB3wRFmojhQcAu9opvQ
-	(envelope-from <linux-media+bounces-62829-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 23:32:44 +0200
+	id KPRXBNYQFmojhQcAu9opvQ
+	(envelope-from <linux-media+bounces-62830-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 23:29:58 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 884DB5DCC6E
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 23:32:43 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 870245DCC04
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 23:29:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F314E307F890
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 21:29:30 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 47BF1300C9AD
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 21:29:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B1CC3C3451;
-	Tue, 26 May 2026 21:29:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A89C30C60D;
+	Tue, 26 May 2026 21:29:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KaX3Xi7w"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JRROu47N"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 877A63C2785
-	for <linux-media@vger.kernel.org>; Tue, 26 May 2026 21:29:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929FE3C4B8A
+	for <linux-media@vger.kernel.org>; Tue, 26 May 2026 21:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779830966; cv=none; b=Lz4nzX1Zpwn9s7ypR5+JkrhtmccMbWs0eeaARlWrYjigHPAGvBZ2OlBUVrlSbHug8cPUiIrCdheHHdxenOtf4up1QqueA8Mq9aP4nK9CROrJtQka8wxH3gngHbbFg7gohqzxozrJ8VjbnYCtmMMcbplLYJChkyq3b95Y9PLgJTw=
+	t=1779830972; cv=none; b=jQTEwhPHpNMjp/lyKkBNmbW/8/ad59GRORVLbfIdsWBNPlTbgEuS07vDRzUTPsdmBsoEIGtpUcvOBBi5jEcSxmBvfkCaxFDpZ+pr4cAtaM1R6wpPs+8u1jqmvROSVa7XZsG1XP0Su5poJ75TkALe5DMQMqNSoTvFFShmqAf7now=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779830966; c=relaxed/simple;
-	bh=NfValsT13B9XTlXeTicbkDGTa8+Fj2v0hJKR8oGpyBc=;
+	s=arc-20240116; t=1779830972; c=relaxed/simple;
+	bh=A3BK2WnGiGinC8G8uh44KNuTg0qtxi2s9zDoOZWxO6Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=N43WsvYiLwSZUHx51v7ch0rc5anSnzW/cyXwGdBf3QrDm+8+RPXTQWYlqC9jWbjs7HLunrJwINzstv/0DbPtuG922BURKpIQEN5DQRlKOFUmDxZzdLEewx80cUtcVZ7OK3gFlLytNWqgCcIEvbHOVwSgzk/rDgTWAaYZBhQSUsA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KaX3Xi7w; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=Y5t9sG18k4g1VlPjLh8YaflicCwps1dVOBzhDp2P/le9tr0/f9v680FQNKWMOX3HlDCXqi17WNM6+1vsPUZ/wU1fkzBIVuXjwI4STiPITMZxZm8IaydYdUeJOB6O+B5bBpHFscAF/C/2GNILw60R4ss8lbmvAMatUHBscW1NxDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JRROu47N; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1779830961;
+	s=mimecast20190719; t=1779830966;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cF/fCKGGsVn6l967F1Qq9M9WKaqTKMJ/A9UZOUtdnUs=;
-	b=KaX3Xi7w5IhlbLso6o6JsAl5+b6obGTutH5JQxdQo3u8D9ORy6OcUi4KTkGPWiMKlUZb/J
-	yaUPwVfCpOJchpqd7qz3Z8Rgaa+HClXCXOSn8rp3mFnQEa/boGDUUwUf2s01dkJ1DiI4lA
-	dp6Dom8PoMmSxDxgFExOJ3Ah15fM1DA=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=35xOY5UpjGtZddGUxJfTOaK/u/wc0iWDPCGCXs5Om6w=;
+	b=JRROu47Ndk4QiWciGTw8ILyvUa9uXePZ2Y6d/gpaT0EVkqBMyS2NWrEccsW6IDgnnFqCzl
+	cIrqUdm/7K6I74oLJgH0RrNqfm0AUYy4m39awysS2TB1aL+tHOT32rbDuajHSwQ/MMf8r1
+	Rqi6nkWh3Va5rj75Etkj6JDF8ua+R/s=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-58-Zm3utFQkM5-IN6O6wWuj2g-1; Tue,
- 26 May 2026 17:29:16 -0400
-X-MC-Unique: Zm3utFQkM5-IN6O6wWuj2g-1
-X-Mimecast-MFC-AGG-ID: Zm3utFQkM5-IN6O6wWuj2g_1779830953
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-587-cEgIZJ2IMoG2W1xSPwgxqA-1; Tue,
+ 26 May 2026 17:29:19 -0400
+X-MC-Unique: cEgIZJ2IMoG2W1xSPwgxqA-1
+X-Mimecast-MFC-AGG-ID: cEgIZJ2IMoG2W1xSPwgxqA_1779830956
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9095118002CB;
-	Tue, 26 May 2026 21:29:12 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 408E01955F25;
+	Tue, 26 May 2026 21:29:16 +0000 (UTC)
 Received: from GoldenWind.lan (unknown [10.22.64.238])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CC8F730001BE;
-	Tue, 26 May 2026 21:29:08 +0000 (UTC)
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C072E30001BB;
+	Tue, 26 May 2026 21:29:12 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org,
@@ -87,9 +87,9 @@ Cc: Alexandre Courbot <acourbot@nvidia.com>,
 	Daniel Almeida <daniel.almeida@collabora.com>,
 	Lyude Paul <lyude@redhat.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v14 1/6] rust: faux: Allow retrieving a bound Device
-Date: Tue, 26 May 2026 17:28:52 -0400
-Message-ID: <20260526212857.1158294-2-lyude@redhat.com>
+Subject: [PATCH v14 2/6] rust: gem: shmem: Fix Default implementation for ObjectConfig
+Date: Tue, 26 May 2026 17:28:53 -0400
+Message-ID: <20260526212857.1158294-3-lyude@redhat.com>
 In-Reply-To: <20260526212857.1158294-1-lyude@redhat.com>
 References: <20260526212857.1158294-1-lyude@redhat.com>
 Precedence: bulk
@@ -106,7 +106,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -114,7 +114,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FREEMAIL_CC(0.00)[nvidia.com,garyguo.net,amd.com,lists.linux.dev,kernel.org,linux.intel.com,google.com,ffwll.ch,vger.kernel.org,linaro.org,suse.de,gmail.com,lists.linaro.org,asahilina.net,collabora.com,redhat.com,linuxfoundation.org];
 	RCPT_COUNT_TWELVE(0.00)[26];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-62829-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62830-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	MISSING_XM_UA(0.00)[];
@@ -127,48 +127,54 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,kernel];
 	NEURAL_HAM(-0.00)[-0.996];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 884DB5DCC6E
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 870245DCC04
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-When writing up some rust code that used faux devices for unit testing, I
-noticed that we never actually added the Bound device context to
-faux::Registration's AsRef<device::Device> implementation. This being said:
-the Registration object itself is proof that a driver is bound to the
-device - so this should be safe.
+I completely forgot when coming up with this type that #[derive(Default)]
+only works if all generics mentioned in the type implement Default (and T
+usually doesn't). This being said: We don't use `T` for anything besides
+using it for a reference type, so whether or not it implements `Default`
+shouldn't actually need to matter.
+
+So, fix this by just manually implementing Default instead of deriving it.
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
- rust/kernel/faux.rs | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ rust/kernel/drm/gem/shmem.rs | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/rust/kernel/faux.rs b/rust/kernel/faux.rs
-index 43b4974f48cd2..e0856b2964a2c 100644
---- a/rust/kernel/faux.rs
-+++ b/rust/kernel/faux.rs
-@@ -25,7 +25,8 @@
+diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
+index e1b648920d2f6..8b7de136ab1f9 100644
+--- a/rust/kernel/drm/gem/shmem.rs
++++ b/rust/kernel/drm/gem/shmem.rs
+@@ -39,7 +39,6 @@
  ///
- /// # Invariants
- ///
--/// `self.0` always holds a valid pointer to an initialized and registered [`struct faux_device`].
-+/// - `self.0` always holds a valid pointer to an initialized and registered [`struct faux_device`].
-+/// - This object is proof that the object described by this `Registration` is bound to a device.
- ///
- /// [`struct faux_device`]: srctree/include/linux/device/faux.h
- pub struct Registration(NonNull<bindings::faux_device>);
-@@ -59,8 +60,8 @@ fn as_raw(&self) -> *mut bindings::faux_device {
-     }
+ /// This is used with [`Object::new()`] to control various properties that can only be set when
+ /// initially creating a shmem-backed GEM object.
+-#[derive(Default)]
+ pub struct ObjectConfig<'a, T: DriverObject> {
+     /// Whether to set the write-combine map flag.
+     pub map_wc: bool,
+@@ -50,6 +49,16 @@ pub struct ObjectConfig<'a, T: DriverObject> {
+     pub parent_resv_obj: Option<&'a Object<T>>,
  }
  
--impl AsRef<device::Device> for Registration {
--    fn as_ref(&self) -> &device::Device {
-+impl AsRef<device::Device<device::Bound>> for Registration {
-+    fn as_ref(&self) -> &device::Device<device::Bound> {
-         // SAFETY: The underlying `device` in `faux_device` is guaranteed by the C API to be
-         // a valid initialized `device`.
-         unsafe { device::Device::from_raw(addr_of_mut!((*self.as_raw()).dev)) }
++impl<'a, T: DriverObject> Default for ObjectConfig<'a, T> {
++    #[inline(always)]
++    fn default() -> Self {
++        Self {
++            map_wc: false,
++            parent_resv_obj: None,
++        }
++    }
++}
++
+ /// A shmem-backed GEM object.
+ ///
+ /// # Invariants
 -- 
 2.54.0
 
