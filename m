@@ -1,56 +1,56 @@
-Return-Path: <linux-media+bounces-62758-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62761-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 0OaKCYhcFWp7UgcAu9opvQ
-	(envelope-from <linux-media+bounces-62758-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 10:40:40 +0200
+	id GNBROc5cFWp7UgcAu9opvQ
+	(envelope-from <linux-media+bounces-62761-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 10:41:50 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B875D28D8
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 10:40:39 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4802B5D292B
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 10:41:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id A38D0300E013
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 08:40:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 29487303FA8F
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 08:40:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E076D3CF024;
-	Tue, 26 May 2026 08:40:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A1E63CF048;
+	Tue, 26 May 2026 08:40:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NkB8Nsjc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HosGgryB"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3879B2C181;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D4B13BB136;
 	Tue, 26 May 2026 08:40:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779784832; cv=none; b=uZ8CtwK5lfW2ADsq4x8AtUZr15D0M4xcSWyt4how4rXhVK7Tg4Cfoq3CHI/VLeuzN+ZOKFNZWgyS8C1JAd24ssCMnThnemJgOWGdGdHgI6qmtdXwFVxJSA2hWSwaaiMmV17gk+GU1IFfJcbb50hAp6YElOsG9N3eYzHlKsx6gqM=
+	t=1779784832; cv=none; b=mfIn/K15nS1TD7VAdxxtrNWSNNYk7MmE4xHkdDL2ONXHmXPjti2haA4s1XSINQYTQ9NlOCYN4FTx2Mdu/7SEXQ4y7Vn7aVQDFXD145Ni8du4BGW9yJJrmaxBqDLglKlCn6geaErtgAuO3injcDBIz5Tf//wmXaFUChmQxY9nDIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779784832; c=relaxed/simple;
-	bh=dK6d6cYoqFc3ZfUKf9JNJjrgbE7x6z5aNRmfsd9a828=;
+	bh=RgNF0F2HN9p73iF+SqdKXpsHir3w80ckwMighuSI7Ps=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dMVk7PpTdo9mzMMI82zJ3R3kG3FHY0mYxZl4vBU3Ocgxzhv0O4HakVMWEF5Pv7B2vR7xGl7Zscc3qgEg6LTUlk2Fr8wVVViI4ejHWDcUwIw45lKHGBoGGRn548pkDqEsZpWN8br3QhWa7MC8ctiqfd1lGyfsUFSzSF8FWqPfmGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NkB8Nsjc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EBB34C2BCC9;
-	Tue, 26 May 2026 08:40:31 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=MGyPElkbcsbOvJCakCJi9vRr8WDdwOnFQ692JNFt3SW2N4iSJBLz9GWvUCHlWcr+12ZdAGNuxKz391G2c+zuja7AN/AIpY/tdyt0Y6NmWNk2jRbr9i9oxRNuc2WUOXui9LxP6lP/+wfUZwILk6MP5gMUk1lwTzH3j2coKzYMYFU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HosGgryB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 05EA8C2BCC6;
+	Tue, 26 May 2026 08:40:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1779784832;
-	bh=dK6d6cYoqFc3ZfUKf9JNJjrgbE7x6z5aNRmfsd9a828=;
+	bh=RgNF0F2HN9p73iF+SqdKXpsHir3w80ckwMighuSI7Ps=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=NkB8NsjcnV73TcMgKtM5K7PZYJCymRuRmuMxVskgVAZM8r0WiOfQqWbVGazBgjmtX
-	 twsGmuXMD3jkvQBiNptHEzJlBYVYVWsDOg0w8v8T1YJn+4hyKaTZalkk3ZM4pLjPIw
-	 epk8NdfTE7MLaeoGh2DZJoZ79q4PthIT3geepOHMaB/k7keg7ubhazX4jg55iFKtt8
-	 yiEwPbEePlXAtBgBmITm6IXW/ooP5rqo1W026GeD6dk85OZImTlI2mscayw/iNsSWn
-	 ywLydZl9LW0aVYQzKa/3eWfa6pEw5NieEGFr6abJXJsYSAX+j+voOw5QSqWDpLwaxn
-	 HwP+5gHUMmVGw==
+	b=HosGgryBKSuIZy3Ii9CqPdt6jq6yYAWdE1sL35mQe7O6OtVtfFiK4iaputkp7JHhZ
+	 n01GGs8S3J6XRmA/GmARxdwG9385IHfgFvZCj8qgFcg1/mf7sP+TvNqPh3n1fS/Jgp
+	 T+Rz3MG/cJM26S6ag9fbonbVHpetvW+HZaQpbHs8+V9YIH7MuC1JRWbJ9sdNJ1Hop9
+	 Z2/I7YHHk4SPRfg5JCuFfh2InGLRuKTOFz/+Ft4fGkTDAy5c/Zfg1V/afw7eCzxLjy
+	 3p/nXw8StCt+c9Jdmhz0BGpxAK9ZSqxu80yU+YNJ3S9hYoeOTv8M2o/M7ZmYn52NvQ
+	 ksVVND3JLbXwg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3134CD5BDD;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFCADCD5BDE;
 	Tue, 26 May 2026 08:40:31 +0000 (UTC)
 From: Zhentao Guo via B4 Relay <devnull+zhentao.guo.amlogic.com@kernel.org>
-Date: Tue, 26 May 2026 16:40:18 +0800
-Subject: [PATCH RFC RESEND v5 2/6] firmware: meson: sm: video firmware
- loading via secure monitor
+Date: Tue, 26 May 2026 16:40:19 +0800
+Subject: [PATCH RFC RESEND v5 3/6] media: dt-bindings: Add Amlogic V4L2
+ video decoder
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,7 +59,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260526-b4-s4-vdec-upstream-v5-2-33bc817f93f4@amlogic.com>
+Message-Id: <20260526-b4-s4-vdec-upstream-v5-3-33bc817f93f4@amlogic.com>
 References: <20260526-b4-s4-vdec-upstream-v5-0-33bc817f93f4@amlogic.com>
 In-Reply-To: <20260526-b4-s4-vdec-upstream-v5-0-33bc817f93f4@amlogic.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -72,11 +72,11 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
  devicetree@vger.kernel.org, Zhentao Guo <zhentao.guo@amlogic.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779784828; l=663;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779784828; l=3277;
  i=zhentao.guo@amlogic.com; s=20251024; h=from:subject:message-id;
- bh=2+l4DUwLwWn2GDHI6LoxkCkn7TDYkl4Sv8Q4p9SlS/E=;
- b=K7DQ71fqbh3rYm2IuWeVYzvl26czXaJUk8ABXFSly1FA93FtCy5MvdN+V97ol5CT3L/Ne6gVs
- uiXU0OZRZ+nAqzEtvPQxyrRgdqJ+VgAZoNl41CZfQc9FQaxaTCVp9fZ
+ bh=Y6NOz9RdMoIgnHY7/7xm2UZW9WOOh5UFL6VA7UOlVrU=;
+ b=zAjbkqPDqkQWsZVoRyWAd3krxEC9oX9Ex8DbDR1s4u9SYSUrl2LowpYbUgnx9bFyiIgGSN4WU
+ QKBaBtxKH/CD9DcjHBrFPYdtAZ9L1hDPN3vP3nNq9bZZf+V0BUBznFs
 X-Developer-Key: i=zhentao.guo@amlogic.com; a=ed25519;
  pk=5yfDKrjreXwcAoEUsdtWafy6YN500upXp/CgtnXjLVU=
 X-Endpoint-Received: by B4 Relay for zhentao.guo@amlogic.com/20251024 with
@@ -88,12 +88,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62758-lists,linux-media=lfdr.de,zhentao.guo.amlogic.com];
+	TAGGED_FROM(0.00)[bounces-62761-lists,linux-media=lfdr.de,zhentao.guo.amlogic.com];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[linaro.org,baylibre.com,googlemail.com,kernel.org];
 	MIME_TRACE(0.00)[0:+];
@@ -106,38 +106,134 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-0.998];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-0.999];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	HAS_REPLYTO(0.00)[zhentao.guo@amlogic.com]
-X-Rspamd-Queue-Id: C2B875D28D8
+X-Rspamd-Queue-Id: 4802B5D292B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Zhentao Guo <zhentao.guo@amlogic.com>
 
-Add SM_LOAD_VIDEO_FW to the secure monitor command enum
-to allow decoder drivers to load firmware through the meson_sm
-interface.
+Describe the initial support for the V4L2 stateless video decoder
+driver used with the Amlogic S4 (S805X2) platform.
 
 Signed-off-by: Zhentao Guo <zhentao.guo@amlogic.com>
 ---
- include/linux/firmware/meson/meson_sm.h | 1 +
- 1 file changed, 1 insertion(+)
+ .../devicetree/bindings/media/amlogic,s4-vdec.yaml | 103 +++++++++++++++++++++
+ 1 file changed, 103 insertions(+)
 
-diff --git a/include/linux/firmware/meson/meson_sm.h b/include/linux/firmware/meson/meson_sm.h
-index 8eaf8922ab02..f40867a000f1 100644
---- a/include/linux/firmware/meson/meson_sm.h
-+++ b/include/linux/firmware/meson/meson_sm.h
-@@ -14,6 +14,7 @@ enum {
- 	SM_GET_CHIP_ID,
- 	SM_A1_PWRC_SET,
- 	SM_A1_PWRC_GET,
-+	SM_LOAD_VIDEO_FW,
- };
- 
- struct meson_sm_firmware;
+diff --git a/Documentation/devicetree/bindings/media/amlogic,s4-vdec.yaml b/Documentation/devicetree/bindings/media/amlogic,s4-vdec.yaml
+new file mode 100644
+index 000000000000..a0f33f6c35a1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/amlogic,s4-vdec.yaml
+@@ -0,0 +1,103 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++# Copyright (C) 2025 Amlogic, Inc. All rights reserved
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/amlogic,s4-vdec.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Amlogic Video Decode Accelerator
++
++maintainers:
++  - Zhentao Guo <zhentao.guo@amlogic.com>
++
++description:
++  The Video Decoder Accelerator present on Amlogic SOCs.
++  It supports stateless h264 decoding.
++
++properties:
++  compatible:
++    const: amlogic,s4-vdec
++
++  reg:
++    maxItems: 2
++
++  reg-names:
++    items:
++      - const: dos
++      - const: dmc
++
++  interrupts:
++    maxItems: 3
++
++  clocks:
++    maxItems: 3
++
++  clock-names:
++    items:
++      - const: dos
++      - const: vdec
++      - const: hevcf
++
++  power-domains:
++    maxItems: 2
++
++  power-domain-names:
++    items:
++      - const: vdec
++      - const: hevc
++
++  resets:
++    maxItems: 1
++
++  amlogic,canvas:
++    description: should point to a canvas provider node
++    $ref: /schemas/types.yaml#/definitions/phandle
++
++  secure-monitor:
++    description: phandle to the secure-monitor node
++    $ref: /schemas/types.yaml#/definitions/phandle
++
++required:
++  - compatible
++  - reg
++  - reg-names
++  - interrupts
++  - clocks
++  - clock-names
++  - power-domains
++  - power-domain-names
++  - amlogic,canvas
++  - secure-monitor
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/amlogic,s4-pll-clkc.h>
++    #include <dt-bindings/clock/amlogic,s4-peripherals-clkc.h>
++    #include <dt-bindings/power/meson-s4-power.h>
++    #include <dt-bindings/reset/amlogic,meson-s4-reset.h>
++    video-codec@fe320000 {
++      compatible = "amlogic,s4-vdec";
++      reg = <0xfe320000 0x10000>,
++            <0xfe036000 0x20>;
++      amlogic,canvas = <&canvas>;
++      reg-names = "dos",
++                  "dmc";
++      interrupts = <GIC_SPI 91 IRQ_TYPE_EDGE_RISING>,
++                   <GIC_SPI 92 IRQ_TYPE_EDGE_RISING>,
++                   <GIC_SPI 93 IRQ_TYPE_EDGE_RISING>;
++      clocks = <&clkc_periphs CLKID_DOS>,
++               <&clkc_periphs CLKID_VDEC_SEL>,
++               <&clkc_periphs CLKID_HEVCF_SEL>;
++      clock-names = "dos",
++                    "vdec",
++                    "hevcf";
++      power-domains = <&pwrc PWRC_S4_DOS_VDEC_ID>,
++                      <&pwrc PWRC_S4_DOS_HEVC_ID>;
++      power-domain-names = "vdec",
++                           "hevc";
++      resets = <&reset RESET_DOS>;
++      secure-monitor = <&sm>;
++    };
 
 -- 
 2.42.0
