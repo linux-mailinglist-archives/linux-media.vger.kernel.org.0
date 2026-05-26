@@ -1,174 +1,194 @@
-Return-Path: <linux-media+bounces-62799-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62801-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gDaEBpmjFWprWwcAu9opvQ
-	(envelope-from <linux-media+bounces-62799-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 15:43:53 +0200
+	id aGa+CcikFWqJXAcAu9opvQ
+	(envelope-from <linux-media+bounces-62801-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 15:48:56 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B6585D6BEF
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 15:43:51 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF02B5D6D6C
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 15:48:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 95CB630D22B6
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 13:33:02 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 6217B306CACB
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 13:43:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA8EA3FB7E1;
-	Tue, 26 May 2026 13:32:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2C713F7887;
+	Tue, 26 May 2026 13:43:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FaFpYZiY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NRCIkDgp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96DC63FCB06
-	for <linux-media@vger.kernel.org>; Tue, 26 May 2026 13:31:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00BB63BBA08
+	for <linux-media@vger.kernel.org>; Tue, 26 May 2026 13:43:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779802319; cv=none; b=MA1QIpDTICEoO51B/l+AfEF0L9nV4JURfVSbie9gjtf4tVOKuG3PtyLDY0Fv2T3imk3+01/9FNBgt+UsSAxU6OYWZ9wRO70wHC0U1qtsmlqrMCBn53gua43l4f24VbnJ2/O6DeMSgkNoAsXiw5GpT8GLDmJ7/q47u8Vcpnf0Nmk=
+	t=1779803005; cv=none; b=Ol50n3VypVRXp+sXH4bdG+ym0hNShLoUn4f6OkZP477mXOxcc8I7hW1s6zeXrN11kZF33Rz+IfjPQVSqBv6IG0XZUcGAlVXRmEUPUrAzBMNNvmmEttJoWefQ95Oka7OLOO5WBCnNSOldZ855hI6f3wQgRbDqehVjwxq8ouOzvjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779802319; c=relaxed/simple;
-	bh=u1ZxeAc19H3I75eYjPO22qxUQ5RQA6sI/ieAA9yHFvU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Xc7yXC6Ky3RoalpDCJliOoMD0oXxWBBiGPBQemhS68Vy4+d1ep3/MHe1MPmyzLaO3J8YckC11mflkARi68jdI4O6y9Hm00n4aXfu6DFoMkfUSLJZnVwnmswdMz174hToJIrvfsfCsNgTTUg7Rc/eMErUMpQf7+RMdb3VPTTXFb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FaFpYZiY; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4903997fcb5so50519945e9.2
-        for <linux-media@vger.kernel.org>; Tue, 26 May 2026 06:31:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779802308; x=1780407108; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=xLO7DOU1ouh67wd4NrLBkCSh/jnFkIqwlgXZjoPnVfo=;
-        b=FaFpYZiYG8kkPPU8xAUK0V1ai0Yrr41pASF/JQ+2Ywq7KfHjbjK9CWyTrczbjy04Pt
-         DLq8Oxg1534SpO1GC5aMMNMIE90jX6JvXqHP0+eoBA6H0HoMaBX7pvW/nUrar+YKMtYc
-         iPbwNUPNemE6g1gJ6YVrQ1iyYXdu7JfafFLgfJtrFy6NhgiQUZR81y+1y3087PhFbqZW
-         uXg9kNrku8POn98YwlSrcaKysrobJ+7YKFMZej+oyHkY8u7+fi6xBbhiW6jDJjmzRHmk
-         0iKD8hVITO3N1AEOM5nILjyAemFyrbZiVwyTe5OVvNSLuyx2+XAdcPQOVIvWTOkHgIT8
-         ixWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779802308; x=1780407108;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=xLO7DOU1ouh67wd4NrLBkCSh/jnFkIqwlgXZjoPnVfo=;
-        b=RXxpn9j6nx2XHgW7x/ymDpZznFlGDItKF0ImCEUvLrbXgy5j8hEaR8DzMk0222eAzD
-         eASEJHv8ZnS+uZMJkhdTgacSNPWug8ZDzkAlPa7klAOCbZrHODVt71FVBekNk3xYxn6a
-         GSQyQ2tOxhsGR28GyBfBS3UVHgXT+pPVTNl+yxgJE3OROOHYhFVhDGAV5dDRljrHaxjH
-         1YlefvPJ22jHTyEvYSB95vwHUVogzyBMHVQ69ouRjxE0n85dcigBSye7DkJKEPOt2Cci
-         vlwTgfzKrzqfBsoewUk4wIJ/11IUqv5NZrtyRXd4s/v8kik9gR1Np/VYV0pC2Xy26npB
-         cv4g==
-X-Gm-Message-State: AOJu0YzVFPZiThKqqmhPedSuP126p5Iw9FaCzBRwNpjlNZhC4JEYM74b
-	WLLdgRnXvqUgiabJBwFh2Md96zcQ4Ho4H/FN95oYTDaAzth1dHgUJUx/
-X-Gm-Gg: Acq92OH7t+C4hxHClj6O9CFQcKbXrHbsxJs9FOnJbgMM7KG9Klnp/ngZnBDiSJ3eCmy
-	yT80LzL7c0Pwzne+58+Vh/+Omg8sLfy7EGpsR1Fv19bvFLUKKLUY5vY6wFpDSKK1Mx4VaUdgw9e
-	XaYuTU1/rNpgyLiUbwGM0UuKUMlk6yjATzBLnqgSXHru0byXqs9SJYyAH3Xr7o23BUSP6ZpGZrU
-	QQaTnr+UmbZYDmKemIXrmVTNKn9G8mJtGtj9FSSvSdEMCq6GRISk0AUIEHhooXJHsP28y5MdUAR
-	5BuIxXBNASSE5cqEbeAgqByOAbAD2oWXBu9dZX8CJPFcwWkhmS6VlGqoWrTLkmrLLE/UCZSDAwr
-	JbqXjEdKUfCbktobuq7cqnWVaxUScW5Z5zG/fa3afD3ro4/qGChPqy0WcsMlWkbx6Is7CdayIZ/
-	R2GTL5Crmha4CWBvVGH/NmV/51UA==
-X-Received: by 2002:a05:600c:a402:b0:490:3f7a:108b with SMTP id 5b1f17b1804b1-490426c5be8mr262860365e9.16.1779802307589;
-        Tue, 26 May 2026 06:31:47 -0700 (PDT)
-Received: from [192.168.0.39] ([79.133.247.80])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490452580dfsm170958895e9.1.2026.05.26.06.31.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2026 06:31:47 -0700 (PDT)
-From: Erikas Bitovtas <xerikasxx@gmail.com>
-Date: Tue, 26 May 2026 16:24:31 +0300
-Subject: [PATCH v9 8/8] arm64: dts: qcom: msm8939-asus-z00t: add Venus
+	s=arc-20240116; t=1779803005; c=relaxed/simple;
+	bh=CCUoa61mcLwr4VdtCOvNq1W/mDB5D3Lw3OdOf6V+5sQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=nZB09r9hfNFAzflqRidxro7fQd+llQJpJPOut+3l0BMzcGr8g5s35fcm8yEunMzwcI/cw/gOF7HBN42a4PtucrKvNWaLQL9gzeME5MsnKpsRsPTB8Jg8901pVkEzq2ELfcnNnZL8fdtSq3oNyWbThuDaHOMTpMBsgAdZbJ+h9nQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NRCIkDgp; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B8B61F00A3E
+	for <linux-media@vger.kernel.org>; Tue, 26 May 2026 13:43:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1779803003;
+	bh=onYU15ZSswBDHBQgYer7fqI1iFeWN5ErEBp+0R/HHLE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=NRCIkDgprGfJuzHo53TGSQKHMvVRujnpQIcHCHxZ7xtX8hiLBHua1nujl+Jyq1b59
+	 oh+xHjgvuxRCNQLllzB277b+IRUBkOXFIZTnWpiAdffCv0lreIB6QHdN6VbM9H36NX
+	 pZkD9+TkEvgz9rOmCObY3HoIZkJ43gOid5XW79WEaCc019n9TnAk9ZKtuP4/k53z9v
+	 nPHhxHxNaS5w07xj00/Fi87RnUvC7uADQ77lzzTZm/uaEcwX4p1DDFZdLg/FvFsUeS
+	 dmDjjYrHy4+edwD2+bHyHbpPK9Z9k3wHcyuHFx3gxyekqC1N9Y3SQCzXprngWoKlsv
+	 kBpdArtfY41gw==
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aa1b2327c8so12196874e87.0
+        for <linux-media@vger.kernel.org>; Tue, 26 May 2026 06:43:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ90SDg5Bh7IqFIkcrzsNR9YdJP0ZbzH7h95NacZ9pCymL3dGylI92yIa/vj0upxJNaWGwd/jpxWLzDJ4A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzl5taZ+IFiDpjCHG1wZdYs2JbjfIqYTFYb0UX61rkdeUwjsGxi
+	f07EOVyqYhBk71Fs7OX/VxkKDLcTNJE/x9M44/hDbLm4CKJKW1EM/Ipa0o2XfOKsCp4zT1o9lBx
+	TBXECFQcvnBMeVXVfXxUhZqo4wK5YvUQ=
+X-Received: by 2002:a05:6512:388f:b0:5a8:6eb1:2b6d with SMTP id
+ 2adb3069b0e04-5aa32314263mr3942928e87.9.1779803001849; Tue, 26 May 2026
+ 06:43:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260526-msm8939-venus-rfc-v9-8-bb1069f3fe02@gmail.com>
-References: <20260526-msm8939-venus-rfc-v9-0-bb1069f3fe02@gmail.com>
-In-Reply-To: <20260526-msm8939-venus-rfc-v9-0-bb1069f3fe02@gmail.com>
-To: Bryan O'Donoghue <bod@kernel.org>, 
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-clk@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht, 
- phone-devel@vger.kernel.org, Erikas Bitovtas <xerikasxx@gmail.com>
-X-Mailer: b4 0.15.2
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+References: <20260428080513.1833515-1-tuhaowen@uniontech.com> <20260428080513.1833515-2-tuhaowen@uniontech.com>
+In-Reply-To: <20260428080513.1833515-2-tuhaowen@uniontech.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Tue, 26 May 2026 15:43:10 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0jFUemrBWNN7=NXPPRb2cHk=ZJG5VaNhaE3uD+NRSn6tg@mail.gmail.com>
+X-Gm-Features: AVHnY4I5KRc6L49SOodcQ5gG3nbXpyhw7M7qfvjIEKl2Xcr2-_6AJAkN7-v7xdI
+Message-ID: <CAJZ5v0jFUemrBWNN7=NXPPRb2cHk=ZJG5VaNhaE3uD+NRSn6tg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] PM: hibernate: add pm_hibernation_storing_image() helper
+To: Haowen Tu <tuhaowen@uniontech.com>
+Cc: rafael@kernel.org, lenb@kernel.org, pavel@kernel.org, 
+	linux-pm@vger.kernel.org, laurent.pinchart@ideasonboard.com, hansg@kernel.org, 
+	mchehab@kernel.org, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62799-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.sr.ht,gmail.com];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62801-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[xerikasxx@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[rafael@kernel.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 6B6585D6BEF
+	DBL_BLOCKED_OPENRESOLVER(0.00)[uniontech.com:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: EF02B5D6D6C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Enable Venus video encoder/decoder for Asus ZenFone 2 Laser/Selfie.
+On Tue, Apr 28, 2026 at 10:06=E2=80=AFAM Haowen Tu <tuhaowen@uniontech.com>=
+ wrote:
+>
+> During hibernation, after create_image() saves the memory snapshot,
+> the kernel resumes devices with PMSG_THAW solely to write the hibernation
+> image to storage, then powers off.  Drivers for hardware not involved in
+> storage I/O have no reason to reinitialize during this transient phase.
+>
+> Some subsystems, such as USB, do not expose the hibernation PM message
+> to driver resume callbacks, so drivers there need an explicit query to
+> distinguish the image-write phase from the final restore path.  Export
+> pm_hibernation_storing_image() for this purpose.
+>
+> The implementation returns !!in_suspend, which is set to 1 in
+> create_image() just before swsusp_arch_suspend() and reset to 0 in
+> hibernate() after swsusp_write() completes.  Because in_suspend is
+> marked __nosavedata, it is not saved into the hibernation image; on the
+> restore path the variable remains 0 throughout, so the helper correctly
+> returns false during PMSG_RESTORE device resume.
+>
+> Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
+> ---
+>  include/linux/suspend.h  |  2 ++
+>  kernel/power/hibernate.c | 19 +++++++++++++++++++
+>  2 files changed, 21 insertions(+)
+>
+> diff --git a/include/linux/suspend.h b/include/linux/suspend.h
+> index b02876f1ae38..28b454def83d 100644
+> --- a/include/linux/suspend.h
+> +++ b/include/linux/suspend.h
+> @@ -393,6 +393,7 @@ extern void hibernation_set_ops(const struct platform=
+_hibernation_ops *ops);
+>  extern int hibernate(void);
+>  extern bool system_entering_hibernation(void);
+>  extern bool hibernation_available(void);
+> +extern bool pm_hibernation_storing_image(void);
+>  asmlinkage int swsusp_save(void);
+>  extern struct pbe *restore_pblist;
+>  int pfn_is_nosave(unsigned long pfn);
+> @@ -412,6 +413,7 @@ static inline void hibernation_set_ops(const struct p=
+latform_hibernation_ops *op
+>  static inline int hibernate(void) { return -ENOSYS; }
+>  static inline bool system_entering_hibernation(void) { return false; }
+>  static inline bool hibernation_available(void) { return false; }
+> +static inline bool pm_hibernation_storing_image(void) { return false; }
+>
+>  static inline int hibernate_quiet_exec(int (*func)(void *data), void *da=
+ta) {
+>         return -ENOTSUPP;
+> diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
+> index af8d07bafe02..bc632cce40ff 100644
+> --- a/kernel/power/hibernate.c
+> +++ b/kernel/power/hibernate.c
+> @@ -113,6 +113,25 @@ bool hibernation_available(void)
+>                 !secretmem_active() && !cxl_mem_active();
+>  }
+>
+> +/**
+> + * pm_hibernation_storing_image - check if system is writing the hiberna=
+tion image
+> + *
+> + * After create_image() saves a memory snapshot, the kernel briefly resu=
+mes
+> + * devices with PMSG_THAW to write the image to storage before final pow=
+erdown.
+> + * Drivers for hardware not involved in storage I/O may call this helper=
+ from
+> + * their resume callbacks to skip unnecessary hardware initialization du=
+ring
+> + * that transient phase.
+> + *
+> + * Context: May be called from device PM callbacks.
+> + * Return: %true if a hibernation snapshot has been taken and the system=
+ is
+> + *         in the process of writing the image to persistent storage.
+> + */
+> +bool pm_hibernation_storing_image(void)
+> +{
+> +       return !!in_suspend;
+> +}
+> +EXPORT_SYMBOL_GPL(pm_hibernation_storing_image);
 
-Default firmware paths work on Asus ZenFone 2 Laser/Selfie, which
-means firmware-name property can be left out.
+Could this be called pm_hibernation_snapshot_done(), please?
 
-Reviewed-by: Bryan O'Donoghue <bod@kernel.org>
-Signed-off-by: Erikas Bitovtas <xerikasxx@gmail.com>
----
- arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts b/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
-index 90e966242720..231a3e9c1929 100644
---- a/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
-+++ b/arch/arm64/boot/dts/qcom/msm8939-asus-z00t.dts
-@@ -267,6 +267,14 @@ &usb_hs_phy {
- 	extcon = <&usb_id>;
- };
- 
-+&venus {
-+	status = "okay";
-+};
-+
-+&venus_mem {
-+	status = "okay";
-+};
-+
- &wcnss {
- 	status = "okay";
- };
-
--- 
-2.54.0
-
+Also, since it relies on in_suspend, please double check that
+in_suspend is cleared properly in all hibernation failure/test paths
+(basically, it must be cleared if the snapshot memory is going to be
+released).
 
