@@ -1,181 +1,150 @@
-Return-Path: <linux-media+bounces-62824-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62825-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MJe+EAXdFWrTdQcAu9opvQ
-	(envelope-from <linux-media+bounces-62824-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 19:48:53 +0200
+	id qBRuFhr0FWqzfwcAu9opvQ
+	(envelope-from <linux-media+bounces-62825-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 21:27:22 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0560E5DAEC9
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 19:48:47 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C04155DBF92
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 21:27:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C942B3012CF2
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 17:48:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 600F6300FB4D
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 19:27:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E258C41C31B;
-	Tue, 26 May 2026 17:48:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28A343C0A0F;
+	Tue, 26 May 2026 19:27:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KNZXw6Ea"
+	dkim=pass (2048-bit key) header.d=luaberry.com header.i=@luaberry.com header.b="Y6JU/jKE";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="VSTzTrV/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F01F372EF1;
-	Tue, 26 May 2026 17:48:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CED1352C52;
+	Tue, 26 May 2026 19:27:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779817720; cv=none; b=R8TJKctB+YHoYs+eO+98VwrOTE3g9NVc8j4zMuatcFsJw628hOqFTM6XeMumygCHIbx2wa+HaObxovSMOOFmWSy7vaCaT0+vtrJHL1chKX3T2kw0EyPK1uccRr422zbwODhidwRDRno1/SfvH5AsJo1rr21mZJUBTZFiVdAlDUY=
+	t=1779823628; cv=none; b=gFm5X7G+0f6SY/hUZvW8mjfy7BqpXWPc8l3tn2+LfoW5JVOD3CplqlMT6XpbFWGkyjZX2iZN2jjmV/O0zGNTAvKiT6iV6BIdnYo4nLh5a1kfuO7L1uGXXVliEREslL9slEnjiDjCBjzjDWad0QbXfXqOjSeWazaRgGfoYP3wwIU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779817720; c=relaxed/simple;
-	bh=a5Ee7f09oAdBoMKIxduYTdY6R7xOpK2bD0sHpJz4/l0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UXs7BEe8IOt7/YM7kgVHbXf7IOvRZWy/Cs2xKJvOclEu07qSuJNcDFUZEXn/h1da5ZqyplTkVEfRDJoR/+YGRw0YFy5mxID8tZvF/RJMHJvULzIc8KNqBMSD3qtkS9GXfwqy7jvU3iGNm14OToH54E1dGfxenrLkEx2M2qla0+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KNZXw6Ea; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779817718; x=1811353718;
-  h=date:from:to:cc:subject:message-id;
-  bh=a5Ee7f09oAdBoMKIxduYTdY6R7xOpK2bD0sHpJz4/l0=;
-  b=KNZXw6EaI7uYqH8F//a6w2O/5P6dEFKhfRsXV+NkemiKm38FEELGfV+e
-   PdQELk+EETmHhe+s7W7OF+b4JgVUbzscHP9EQfrJ45Xf/drnlvsS0ctZR
-   lrtlMkThIjRgq7Sfw1y9ONEcF7gnlrP05QLiHiGMrmxVznA/ycaFyFK9F
-   FOfT2zRSoYN8OuJaH0NsCWs77gef3uwvT+1rqY9ANIJ9dYifowIE7oO1z
-   4WhWVjPIPf6NzH025V/HJGKZ9zHp2joFuiy8iCycwGxCOMSBGRM97UUbe
-   DRoza16uUUjm73y+IwzEc3KrHLbR1z33D6iQJuWuZF4IcDnrHRxXamAWm
-   w==;
-X-CSE-ConnectionGUID: sU4scsulRNOyf/rKYqBT2Q==
-X-CSE-MsgGUID: EEITXgBVSByR5BM9ImSz0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="91211126"
-X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="91211126"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2026 10:48:38 -0700
-X-CSE-ConnectionGUID: 7NUp1wFST9aArxjbuvgHGA==
-X-CSE-MsgGUID: fJ6uiUOWRfOcRcZbelprXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,170,1774335600"; 
-   d="scan'208";a="246242838"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa004.jf.intel.com with ESMTP; 26 May 2026 10:48:36 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wRvtI-00000000CSf-3MYG;
-	Tue, 26 May 2026 17:48:32 +0000
-Date: Tue, 26 May 2026 19:47:33 +0200
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Mirela Rabulea <mirela.rabulea@nxp.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-doc@vger.kernel.org
-Subject: [sailus-media-tree:metadata 59/126] htmldocs:
- Documentation/userspace-api/media/v4l/subdev-config-model.rst:6: WARNING:
- duplicate label media_subdev_config_model, other instance in
- Documentation/userspace-api/media/v4l/dev-subdev.rst
-Message-ID: <202605261948.2WptznsW-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1779823628; c=relaxed/simple;
+	bh=77/+ZGFfTGvt8mRdWPo2XaFHsdjtVQ7o8hyrs4/G/Y4=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=N8A57YOLdmw34I003cjRhU31qyiYELWvC713ylvJydvtSbSLXHBxtsfQBQMkHBRQ5wX6ISgnvEYyhEQC+hdSft3WCCwojBe4O+y4fHQDQkK8ZeNBy5m8SkdGOLxaKMprl+eSXYoEGCZZn+24IgcF+2n+wXIFWeOEk04GY6DCuZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luaberry.com; spf=pass smtp.mailfrom=luaberry.com; dkim=pass (2048-bit key) header.d=luaberry.com header.i=@luaberry.com header.b=Y6JU/jKE; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=VSTzTrV/; arc=none smtp.client-ip=202.12.124.144
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luaberry.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luaberry.com
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.stl.internal (Postfix) with ESMTP id 9D44E1D00084;
+	Tue, 26 May 2026 15:27:05 -0400 (EDT)
+Received: from phl-imap-17 ([10.202.2.105])
+  by phl-compute-03.internal (MEProxy); Tue, 26 May 2026 15:27:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=luaberry.com; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1779823625;
+	 x=1779910025; bh=77/+ZGFfTGvt8mRdWPo2XaFHsdjtVQ7o8hyrs4/G/Y4=; b=
+	Y6JU/jKEF1E6nSnunXBI+O85bhvOI+S+VFQWFnAV/p6e3oAGEaedeHVVjKTaZXvd
+	tMszbAfoup2NiO2iJocNGKS3M+2Vs0yNxHgf1dufo0KfDp7/ELgNCa7BBD+RKMf0
+	4wjqZVt85SW6gY1vg4jFkcUsLegN4ksBLyBSDy6FnwwdsmIQauq0Y357ke8TH3h4
+	2ZuOfI4hvcn0eDfYfno2lgdoiKtAXNitiH3mn+/9DChnT9Nn7kRpzxDCEgpwNFqB
+	dO6eo9vKiVv/UCdCBKf4SGTFVkUQMK6OKyjBgh96pH4R4KoWt46dXxHoOQZ/xv4l
+	cYnvnIoCp+zMATD6NQYBJw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1779823625; x=
+	1779910025; bh=77/+ZGFfTGvt8mRdWPo2XaFHsdjtVQ7o8hyrs4/G/Y4=; b=V
+	STzTrV/SCT67mwjyvLCnl7Vy7erGqgPJBxviVrsk7zJswKbeWL75SpCD0TbLvVau
+	S7uz4n7qzsslyz3UX4U2nFJfKfy+bfij3KvaPRC1/gPqeTxOmk6x6Hk+6/B2Ods5
+	5IoShfyo+flcyCSKPNW8GTdf+iVDIbyPkfbv2r7GwLpCuUAIsqn0l0e/M9gJcc5L
+	h+buGIA5K3fJH3Xlf6OpI6JNZm4+0XKm/M0AOBYYbZVfnIxfAMiwZsidmO6UN244
+	scbyAAquhkfSRysqmI+Rv2ZAEr2ILqqGHOF5XUyW8uBxczyCIyqcJcH8vhS20pTh
+	3iSTcjZbSOMcy0vxRgK8w==
+X-ME-Sender: <xms:CfQVaphL9KGX0CT4BVD3NUz86ZB_ZObNbArwionxkHSfo83XRIEavQ>
+    <xme:CfQVao2TncwCOQr45i_gSK1axahW9uCLTMEshWuMWvlrgRqVxdfU73WIvw_eCtSnG
+    OC0s-a4gUVajcoV52lBeOAnDnnNg0TuhZHlhcPIFHT8Ya0ijZm7ncId>
+X-ME-Proxy-Cause: dmFkZTFKOyn/k+gJ/GYMTo7ZsgSeiWloFYeuZlKbMQv0yX3qqGXrX8yhvAkXOzLNBFNsc8
+    kaeaR+SiZJjBuZJf1QQum/vp2v5gEZSO5UEOgXqDmyjso51n3I8uQrp9/yepB0nNf9MsPN
+    F3wkJwDZfaegA2J+PaEczcfuzg26RyBJRdv6b2OvstHuhbX6O92V5Rxi6OuWwtr+CTubVn
+    KPkpaCO//ABMCKkFWD4HuBMNzLSDz0E4fuBhK0ZgIsUzkV0cLMgY6ThjkOXh/k4NtrCZRj
+    jRqHn9gbAjeSpxcskrfQo1fvh+M8DSLf0+VmJC9qwf4l2jOfcp/O5En+gjJTIRv5v7rmlp
+    aMbeI9pGsooHmAZIvVz4tRoF9yBoCqBK0h66GF/S0qhn+jSyf6w4TKYDia/k9IrITmcP/r
+    uB0YHJ1hN+yl8QbI/33Zmnd29HmsxYZ8NPgK7Mpfrws+MuHIW+Mjj/WSGepgWN8Eah9yJ2
+    9tOWnPZI+pBcDTZmcxswH28CtNoAr1qVoLnJV+DAeELS1qG6nYVcgkIcIFJb45TwE98P1O
+    Z5nVA1JSEAZmSq5AUUQXQhQ2ATTCioJ35BRIPpM4FxB49YS1Bc37E45MK1Cszo4NAUwCyB
+    SitxcapSa8zUW4VsMzeoDl2I/oLZE3+XhByNXLiUhNkxasWNu3NwFsLk4YKw
+X-ME-Proxy: <xmx:CfQValDHK09HRFQCxAv7zZv6s0HRmOGlGvG-spvN48bMsEZ-KukEOQ>
+    <xmx:CfQVamm-6lhkDgTCHlYDs8XBaugyxYBUgAw1w8wiWqA3BjOyLZuxsQ>
+    <xmx:CfQVarNA77Vi5ZX4NAkSPGXdL2zT4SpT9i3S3bxz-Mpzbb49SDvKVg>
+    <xmx:CfQVar_VBSNH58LF93nOqrfm6Tnlphkb2JmjwThZuf9wxlsvUhw76w>
+    <xmx:CfQVaphdQBcpzzMG5tAuNrBsctQUJp3gD3aOwj6S6Xe44fEMt7oSqcrz>
+Feedback-ID: i372e487a:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 02C71C40071; Tue, 26 May 2026 15:27:05 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Spamd-Result: default: False [1.09 / 15.00];
-	LONG_SUBJ(1.75)[233];
-	MID_CONTAINS_FROM(1.00)[];
+MIME-Version: 1.0
+X-ThreadId: AEG3Zae6raYJ
+Date: Wed, 27 May 2026 04:25:37 +0900
+From: "Jeongin Yeo" <jeongin.yeo@luaberry.com>
+To: "Greg KH" <gregkh@linuxfoundation.org>
+Cc: hansg@kernel.org, mchehab@kernel.org, sakari.ailus@linux.intel.com,
+ andy@kernel.org, matt@mattwardle.net, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Message-Id: <7aecd867-68a8-4c83-a154-a96da89a269b@app.fastmail.com>
+In-Reply-To: <2026052613-glamour-caress-1b8a@gregkh>
+References: <20260526104750.1284935-1-jeongin.yeo@luaberry.com>
+ <2026052613-glamour-caress-1b8a@gregkh>
+Subject: Re: [PATCH] media: atomisp: use __func__ in debug messages in binary.c
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-1.65 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[luaberry.com:s=fm2,messagingengine.com:s=fm3];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	XM_UA_NO_VERSION(0.01)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62824-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62825-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[luaberry.com:+,messagingengine.com:+];
 	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[luaberry.com];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media];
-	PRECEDENCE_BULK(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,intel.com:email,intel.com:mid,intel.com:dkim]
-X-Rspamd-Queue-Id: 0560E5DAEC9
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jeongin.yeo@luaberry.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,luaberry.com:dkim]
+X-Rspamd-Queue-Id: C04155DBF92
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   5b470f2ed717705b51f4a799722dffb34a37f10a
-commit: 643ed29222de6019c0321bbb7d7d65e6a50fcf4f [59/126] media: Documentation: Add subdev configuration models, raw sensor model
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260526/202605261948.2WptznsW-lkp@intel.com/reproduce)
+On Wed, May 27, 2026, at 1:21 AM, Greg KH wrote:
+> dev_dbg() already has __func__ in the output, why is it needed again?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605261948.2WptznsW-lkp@intel.com/
+You're right, dynamic_debug's 'f' flag can already emit the function
+name, so both __func__ and the "ia_css_binary_find()" prefix were redundant.
 
-All warnings (new ones prefixed by >>):
+I'll send v2 that removes the function name strings entirely instead
+of converting them to __func__.
 
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:168: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:191: ERROR: Unknown target name: "network flags". [docutils]
->> Documentation/userspace-api/media/v4l/subdev-config-model.rst:6: WARNING: duplicate label media_subdev_config_model, other instance in Documentation/userspace-api/media/v4l/dev-subdev.rst
->> Documentation/userspace-api/media/v4l/subdev-config-model.rst:35: WARNING: duplicate label media_subdev_config_model_common_raw_sensor, other instance in Documentation/userspace-api/media/v4l/dev-subdev.rst
->> Documentation/userspace-api/media/v4l/subdev-config-model.rst:: WARNING: duplicate label media_subdev_config_model_common_raw_sensor_subdev, other instance in Documentation/userspace-api/media/v4l/dev-subdev.rst
-   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
-   Documentation/userspace-api/media/drivers/camera-sensor.rst:147: WARNING: undefined label: 'media-metadata-layout-ccs' [ref.ref]
+Thanks for the review.
 
-
-vim +6 Documentation/userspace-api/media/v4l/subdev-config-model.rst
-
-     4	
-     5	Sub-device configuration models
-   > 6	===============================
-     7	
-     8	The V4L2 specification defines a subdev API that exposes three type of
-     9	configuration elements: formats, selection rectangles and controls. The
-    10	specification contains generic information about how those configuration
-    11	elements behave, but not precisely how they apply to particular hardware
-    12	features. We leave some leeway to drivers to decide how to map selection
-    13	rectangles to device features, as long as they comply with the V4L2
-    14	specification. This is needed as hardware features differ between devices, so
-    15	it's the driver's responsibility to handle this mapping.
-    16	
-    17	Unfortunately, this lack of clearly defined mapping in the specification has led
-    18	to different drivers mapping the same hardware features to different API
-    19	elements, or implementing the API elements with slightly different
-    20	behaviours. Furthermore, many drivers have implemented selection rectangles in
-    21	ways that do not comply with the V4L2 specification. All of this makes userspace
-    22	development difficult.
-    23	
-    24	Sub-device configuration models specify in detail what the user space can expect
-    25	from a sub-device in terms of V4L2 sub-device interface support, semantics
-    26	included.
-    27	
-    28	A sub-device may implement more than one configuration model at the same
-    29	time. The implemented configuration models can be obtained from the sub-device's
-    30	``V4L2_CID_CONFIG_MODEL`` control.
-    31	
-    32	.. _media_subdev_config_model_common_raw_sensor:
-    33	
-    34	Common raw camera sensor model
-  > 35	------------------------------
-    36	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Jeongin Yeo
 
