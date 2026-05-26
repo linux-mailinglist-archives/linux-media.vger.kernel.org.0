@@ -1,248 +1,197 @@
-Return-Path: <linux-media+bounces-62772-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62773-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id UD0+Fr5rFWoEVAcAu9opvQ
-	(envelope-from <linux-media+bounces-62772-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 11:45:34 +0200
+	id uOtpCypuFWojVAcAu9opvQ
+	(envelope-from <linux-media+bounces-62773-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 11:55:54 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941DC5D39CD
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 11:45:33 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C9D75D3C6B
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 11:55:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id AED4B300A5A5
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 09:44:49 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5F42B302A7F0
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 09:55:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1797E3D9051;
-	Tue, 26 May 2026 09:44:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B3233D9666;
+	Tue, 26 May 2026 09:55:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PvhOmsTo"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="V80fYTHx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011019.outbound.protection.outlook.com [52.101.57.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4363D8909;
-	Tue, 26 May 2026 09:44:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779788685; cv=none; b=Muvk7+bBoOGLuTIuHS4UGh6iciHZN4TAJGjFbrbf9zfk+gs8O/oBak+DdHV6DsBtKrSqX2AIVqrqjoQEbqBkkyKJNf0tsx/cSuKRRjVJ9/NwYe/bsDz6gj8zOOidS+ULpnykEYa3WDy3jp4gkfeQRU3YagFH2BmnZznkrMeDfm0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779788685; c=relaxed/simple;
-	bh=U2+ZqPjvAiVmxd7qt0wOerBLfKuC1rSIN5i69jydn5k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RU6FVTSQGHBK6iLK2u5KgQ0tcfhTJVdEUWgZFni0mwOGXTagQOXswe250xKAcYtTM9aYlOKWk/o3uNXafcTmIEK6cxMSjp3eG+54AXA531BSdDPE6jcVD2uc9V5pAlyeGLcYcnFE/EzCceuhbWKa0zMhCx98efztZAE4VF+hMu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PvhOmsTo; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (unknown [146.0.25.242])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A9E1A492;
-	Tue, 26 May 2026 11:44:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1779788661;
-	bh=U2+ZqPjvAiVmxd7qt0wOerBLfKuC1rSIN5i69jydn5k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PvhOmsToRO3rC28XupWVRACpG//74c+zZot9GLddRpSbnxeuPf/vOixR7V9Bl3cpb
-	 jCB7tuhVixoWh4HX02RVmNxldN6d2LGQq/vry4oFR6F1HwGIBhs6OJ4qKyydu2wSD/
-	 jjw6GYpYF3RiFLHCYc/P4cHrI3LRDeKD8YxQVI/Q=
-Date: Tue, 26 May 2026 11:44:38 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Guoniu Zhou <guoniu.zhou@oss.nxp.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Frank Li <frank.li@nxp.com>,
-	imx@lists.linux.dev, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Guoniu Zhou <guoniu.zhou@nxp.com>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Subject: Re: [PATCH v8 1/2] media: dt-bindings: Add CSI Pixel Formatter DT
- bindings
-Message-ID: <20260526094438.GE228394@killaraus.ideasonboard.com>
-References: <20260525-csi_formatter-v8-0-6b646231224b@oss.nxp.com>
- <20260525-csi_formatter-v8-1-6b646231224b@oss.nxp.com>
- <20260526-towering-essential-civet-19a5ad@quoll>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5973CF97E;
+	Tue, 26 May 2026 09:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779789325; cv=fail; b=ek0UJ6rjrs3M+b7TGN4giHdjAFl/3sl10zoAofkAjGvJRE+64JMG2C8SUl+o2ePUw7NM5YwQWNX5gQhGZ0meDUUfUi013g9axDucGAgNHLKHl+jjq+zzVYDMkMOtbFExtk8wrt3YYTvWz1K+pcAhdWunCh6Gmsrdo1JoA5oYWkY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779789325; c=relaxed/simple;
+	bh=5bayH101FRoPxqRCyn+HCk6b+fEvMcK3cax4KaAUcxA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=uip+1+0FWttLDPo3CA1QnF4whLdWnk9fhTTQvg+NVdgs133EoOBnRv/6hFm272QXWjaexeYfmxzffwJSrGxXdWzhvJdiYjGaL1S9RaoJrCv+aS/+Pz8mM5doiVnekSs/SuWWnDPzqF8/3LFlGJ9rn0nqzN46Jav3uKcwwkcPS4E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=V80fYTHx; arc=fail smtp.client-ip=52.101.57.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Q528pVnaQ0vrq4cOkNEinFuGXMxoXAMeZcadauDMpSp3LbiaDoTvuVAHYNPqIs1leKSOyHg8jQvJ6MT8D6ZmSy+bXd4vHuGfkVtUnnD7fI8bGonMYD4o6pgtPQP2o+O/ziHRPxiogSsY0n2GyB4ecB6Kx4lUkaQMkG70N207OEq7ssdKE8nOwnitgOzissr8OrJ6rSIOXiH5gvVWzoR5RJXRlXUzvl2eeFiFkdTBgu8tjqZSWw+WsDNajC0myj9WRn6uQIJM2IhDpxDcl0LAn2bBp9ZWIENdsnFKTK2cm9MLyj4tEuK2/JlqGumwFGXojaHgaD8VRZknvDEtcK2qnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5bayH101FRoPxqRCyn+HCk6b+fEvMcK3cax4KaAUcxA=;
+ b=AdJoPhCaZJgRHsYG8Vq2P+adDrGRWAjJ9ke+bseP2nplDIcGcLSDPHFAOx5thfSqmyHfwrR9ZyTv2xaxwvdJrCHMiFPyCm4HHgXzCrA8llk+rEL/eky+CNTnI19EUEEM0ZoBOwzInIipDL5bZf/BlcPexsRNrhGqUOPe43CancxGciqOt1agyl9+6Wx/oSt7ugFhch9LdOsb5keSess/BHLHVYVtve+oKQCeS9P2xkK1l3SL/rvLbHVIFPdGEdHmCMmpbCXTqgk2TAm3EB5Z5tkvYG/SHzgysHcQao+PUQVr6KH/TNAcvoOaexxosCXnoJ4rDoZNGUDJ8I15zOaT+w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5bayH101FRoPxqRCyn+HCk6b+fEvMcK3cax4KaAUcxA=;
+ b=V80fYTHxfQ7f+CVVGhDFb3hULJXkmerh133flDVaOH/nUHp6m5oxoCBClk3OtG6Q8Ig1wN8KCwKBH+qSA8PPm4oeJMFJKlzOA6/NUEcPeusqdpDO7+cqKBj4tdY4ITU5HjWTMVCgD+/kF/MdZCBkVsiv+0/nGg/bMz54RihhsAg0rQCcBaI+O4ObAaZBrANvQRh8Iqd8+PF6/tjdnqV4dcKPRTOcS3zDkQzy4idLAHd1xtAWRZNhxqiC+kQ9LN5zPvf1SI5OhErh0lPPah+Vgitwbky3killJpl9y1JXIdZHVm+3mM9Dvv7LS12Ecopn1Ic+fjvnwFQzyAYbYGA/ug==
+Received: from SAWPR12MB999118.namprd12.prod.outlook.com
+ (2603:10b6:806:4e2::13) by IA1PR12MB7589.namprd12.prod.outlook.com
+ (2603:10b6:208:42b::13) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.48.20; Tue, 26 May
+ 2026 09:55:19 +0000
+Received: from SAWPR12MB999118.namprd12.prod.outlook.com
+ ([fe80::29d3:5625:9339:d4ba]) by SAWPR12MB999118.namprd12.prod.outlook.com
+ ([fe80::29d3:5625:9339:d4ba%4]) with mapi id 15.20.9913.009; Tue, 26 May 2026
+ 09:55:19 +0000
+From: Henry Lin <henryl@nvidia.com>
+To: Michal Pecio <michal.pecio@gmail.com>
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linux-usb@vger.kernel.org"
+	<linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH 0/1] media: uvcvideo: reset interface on bulk stream
+ stop
+Thread-Topic: [RFC PATCH 0/1] media: uvcvideo: reset interface on bulk stream
+ stop
+Thread-Index: AQHc7HNZ+U2PWH4GIEyVP7J8a4HKY7YfavUAgACmhmQ=
+Date: Tue, 26 May 2026 09:55:19 +0000
+Message-ID:
+ <SAWPR12MB99911841F75A9492A6FA875421AC0B2@SAWPR12MB999118.namprd12.prod.outlook.com>
+References: <20260525182028.2148267-1-henryl@nvidia.com>
+ <20260526015514.466b72d4.michal.pecio@gmail.com>
+In-Reply-To: <20260526015514.466b72d4.michal.pecio@gmail.com>
+Accept-Language: en-US, zh-TW
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SAWPR12MB999118:EE_|IA1PR12MB7589:EE_
+x-ms-office365-filtering-correlation-id: 0a93001e-ccf1-4416-bb2a-08debb0ce532
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|376014|366016|38070700021|22082099003|11063799006|18002099003|56012099003|4143699003;
+x-microsoft-antispam-message-info:
+ AlNzvWUsHIJEBQXnkLJgE65vcUKmXiLtkXhIZobk6fKvOk04ITwsYTXXPjwQSVx2WJH7M5AnPauhe/NNvLB6Whc/TJ/2zzGcJhO9KBt+8BdYtyqYqF80ZKfSL3DpkVHUHEo6R6+tijH5g9XUjg9cvqQDIJZIgNZDGtsCgs9Ok9iKfJAgizN0aQSfXVTyc83oZ62pj962MFqQD1mh+5wa7Z8VbVjcHAcH74YRU+Yt4dxqkpMdfT37Dj3Vq9McQptXt92/3SsO9EYeqswD5sWTahl2W6wFV6gZUeiWgggoprS8q21GA3qfaiifyxZPhm/CfKJQDRNSd8Tg1CNM+lcW4SuJPgAG9HgyyeQ6b22ZK0LAJmwFWyMBPXMwBe4/fJBpw1RiZhoIyZZlQRW5E8ZMZ8g10sgsJemrYMrhyz+s2LUiyc5aucSqf/F1mBn0Q6Cku4RSoKpynkAzJsCQuGYGjpUfVvPh9QC+3FWSWL802lrKol9XrooW9KyzWcei18gez1ELB4SGP1CHEK5N4//QVqm/1TovW3y6tPwYC3wdWM/r5sSoT6scU3WA9ucypceLyFVJHd6Z49UBjBunuo2WKtHrHnXJC07VW4oLdhl/ctoLGyNWBfPr8QuFEtbeMY6e4dJiv5+v4Eg1Pd5a+hFA826lg6M7MdgR9ageF721ey9NOK6N4lZ3ze+fwBoI2fXB6aI+qN+Q/GwqSlyHkSs6mtFIzy5FAIHbyNiWpq99vAQmyIYgssDONr8AeajwBPBG
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SAWPR12MB999118.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700021)(22082099003)(11063799006)(18002099003)(56012099003)(4143699003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?L0dOEgxb+WI33c3tHAMv5xdV9yXoI66e2Ng3d/QLbyi+gSSWBM4G9NzLOD?=
+ =?iso-8859-1?Q?hWmID8QtK93zpHO0AvteVCXMWJjnN2ep3rQwxGHNz5on5i/jjpQwGqmEXe?=
+ =?iso-8859-1?Q?EkmrOqrpR4KICcWh4JnzlmMnVTkXjLrRba2AYyadn3DRvIm8vuuizQl3KC?=
+ =?iso-8859-1?Q?luiw+8gVeCcEMaU2G9Q6fL4G88hBnvgF+QHFYZP5MsOYj0T/k9ignpreI2?=
+ =?iso-8859-1?Q?TLZU+GxercSRvyhrTYXepisngJxqiUJbb90tA8vZsTZbtUW54XGMxks9Xp?=
+ =?iso-8859-1?Q?K102JLaHXo8GBFB01uQLnPoleheQfbv3XjpG3AWl2nLi5cweSXZjMf3RX8?=
+ =?iso-8859-1?Q?uvp9KsWsV6qVzsQpMu/0jlTnrb/aBWHien8DL9xFP1I7dHqcFEY6mLLhTB?=
+ =?iso-8859-1?Q?kmxPP2R5/JH6yTQfW4cnrYCPxF70f5bc8fqpoF0aao0r5wkLmyx+qwOQon?=
+ =?iso-8859-1?Q?yWAz1Gzq0oMBxONrK4dG50AiKzzr2QCm3poDdOf3QOoMLAP67mQtn0Ag/v?=
+ =?iso-8859-1?Q?xmEdhWYjlCjIrVa1ycFzZCHyTcs4PyQ/jwSJL3rKkK3EqdTrMhQoY1aAVb?=
+ =?iso-8859-1?Q?xDP+3IvwjrWr7Ds3hD0CC+iEu7fG3213Rzs6nDv1yq8Z4XGjG6ikV0HeJP?=
+ =?iso-8859-1?Q?59ntfJfKCPV5dTNV2tSv0Vg7o0ON+OQtswh98J0w1HIGknctmN8Iv4txuv?=
+ =?iso-8859-1?Q?SGgzoarTz/eIpgIqQkpUGsO9Lq/Y5VVIpLtJdSuS0FDRj9lmt4sNOx5MUg?=
+ =?iso-8859-1?Q?8CMdlqRN7k1zNl9apwNZ8emeDK1kWGn3Lv+fTygzLciiuGx9sUlacLB+6f?=
+ =?iso-8859-1?Q?U74nz3X5jivL4C5UIbjh6OfK+CLi826m8m3+zyxmPpEdbhLM5fRp9rhRNY?=
+ =?iso-8859-1?Q?qCx90LgNLokvtTNiLq2IVwj1GWSDoUsmCpoWzzMX9jyGWoQV23u5S/xLP7?=
+ =?iso-8859-1?Q?RXxppwPxi8aq2wta88bOPaI52B2yoW5kJPdAkHJVrZAzLlYknIYTc+Y5Tq?=
+ =?iso-8859-1?Q?QXWtWkGILrXAgwxX7u9R9+5Ip23fw4I5RV8N5Ol89FvYGwq6yFKFMVM+7c?=
+ =?iso-8859-1?Q?JC3AIrERLqUPlvz38H8gECJH19i+kGpGXKnQau8ShbRnApBxjQHcvSli9x?=
+ =?iso-8859-1?Q?6P2zVn1EVEipLQ3C2C4KsMdfMHZCthfhjgv6wofFOxgmZuNR0IKcxi6iLa?=
+ =?iso-8859-1?Q?oeGsqaxNcSkAf86Ha8KdCSmQCVvJJL8ns1lxaBbOvKSBfdL486MfBp9oDj?=
+ =?iso-8859-1?Q?5c/wtH+wuMlW8/bWqnfMUFfpV/lfWqR3BRQRBAqFSRG/WDGJs6zY2KXGIA?=
+ =?iso-8859-1?Q?bqxzowPLoYeAQ9MT5Kb6AEa2W5hHfVlpshhYd7KfRuS6TIRqW7+wzdrbBQ?=
+ =?iso-8859-1?Q?n/iU4haoczUztG6+UBVMvW0RYCJ/tqWAa/qPmYq3QdBOfUv8Uh7RIiFZBD?=
+ =?iso-8859-1?Q?OMIHVjb3TP2KtmsatM+Dp53FhzC9vJhDmQPExNKLmoaCZ/W7J76RC+rBr8?=
+ =?iso-8859-1?Q?VAeWVa6b4KunPT87zNPNbrzzcfekO92mpuA39FmJbgHulnLJp0TfcKbhkL?=
+ =?iso-8859-1?Q?0NBS9tO5np742kdS2zVcl9kGJvO5njzyc8svLgntaU6ewdR69HURNW/R/t?=
+ =?iso-8859-1?Q?kN9u3Y8sUVGK+dp7auQlQtEGl4GZPVCpJqBQuKJ0KnpAALhg0T3sjt6BOx?=
+ =?iso-8859-1?Q?JHRbxJIHYgJAXp+GpGjOSX4qkNYQhTegq3HVGBuRnHxn7lVC2plVlzRpib?=
+ =?iso-8859-1?Q?JLEScfo2wDynik6kp3TCgBg+ugQTsnSPLv+lQcPbaYgurm?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260526-towering-essential-civet-19a5ad@quoll>
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SAWPR12MB999118.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a93001e-ccf1-4416-bb2a-08debb0ce532
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 May 2026 09:55:19.1623
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NUog6pzEAzbo8UAQCl/ViFXOx9XyDX4wWsom7hgJxC6O4DTVZsVKGEEIfQDCVz4yTCRz237K6H8bRacjgEUM+w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7589
+X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
+	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62772-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[oss.nxp.com,kernel.org,pengutronix.de,gmail.com,nxp.com,lists.linux.dev,vger.kernel.org,lists.infradead.org,oss.qualcomm.com];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[18];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62773-lists,linux-media=lfdr.de];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DBL_PROHIBIT(0.00)[0.0.0.20:email];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[Nvidia.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[4ac10000:email,0.0.0.0:email,qualcomm.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,nxp.com:email,0.0.0.1:email,killaraus.ideasonboard.com:mid,devicetree.org:url]
-X-Rspamd-Queue-Id: 941DC5D39CD
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[henryl@nvidia.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_FIVE(0.00)[6];
+	NEURAL_HAM(-0.00)[-0.995];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,Nvidia.com:dkim]
+X-Rspamd-Queue-Id: 9C9D75D3C6B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Tue, May 26, 2026 at 11:13:35AM +0200, Krzysztof Kozlowski wrote:
-> On Mon, May 25, 2026 at 04:12:22PM +0800, Guoniu Zhou wrote:
-> > From: Guoniu Zhou <guoniu.zhou@nxp.com>
-> > 
-> > The i.MX95 CSI pixel formatting module uses packet info, pixel and
-> > non-pixel data from the CSI-2 host controller and reformat them to
-> > match Pixel Link(PL) definition.
-> > 
-> > Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> 
-> Drop both review tags and request re-review since you made significant
-> changes.
-> 
-> > Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
-> > ---
-> > Changes in v8:
-> > - Use standard port reference instead of video-interfaces.yaml
-> 
-> Why? Properties are not applicable?
-> 
-> > - Add parent syscon node in example to show device integration
-> > - Add required constraints for port@0 and port@1 in ports node
-> > 
-> > Changes in v7:
-> > - Change compatible to imx95-csi-formatter as IP is i.MX95 specific per Marco's suggestion
-> >   Link: https://lore.kernel.org/linux-media/20260511-csi_formatter-v6-0-01028e312e2b@oss.nxp.com/T/#mcd135b3de179b3cb69daa1fd6e0e8e27c85b3332
-> > ---
-> >  .../bindings/media/fsl,imx95-csi-formatter.yaml    | 92 ++++++++++++++++++++++
-> >  1 file changed, 92 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/fsl,imx95-csi-formatter.yaml b/Documentation/devicetree/bindings/media/fsl,imx95-csi-formatter.yaml
-> > new file mode 100644
-> > index 000000000000..bc2f5d448fe5
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/fsl,imx95-csi-formatter.yaml
-> > @@ -0,0 +1,92 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/fsl,imx95-csi-formatter.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: i.MX95 CSI Pixel Formatter
-> > +
-> > +maintainers:
-> > +  - Guoniu Zhou <guoniu.zhou@nxp.com>
-> > +
-> > +description:
-> > +  The CSI pixel formatting module found on i.MX95 uses packet info, pixel
-> > +  and non-pixel data from the CSI-2 host controller and reformat them to
-> > +  match Pixel Link(PL) definition.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: fsl,imx95-csi-formatter
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    maxItems: 1
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: MIPI CSI-2 RX IDI interface
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: Pixel Link Interface
-> > +
-> > +    required:
-> > +      - port@0
-> > +      - port@1
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - power-domains
-> > +  - ports
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/clock/nxp,imx95-clock.h>
-> > +
-> > +    syscon@4ac10000 {
-> > +        compatible = "nxp,imx95-camera-csr", "syscon";
-> 
-> Drop entire node, not relevant. Or actually this example could be in the
-> parent binding example.
-
-I asked for this in the review of a previous version. The example only
-stated "formatter@20" and it was not mentioned anywhere that the device
-was supposed to be a child node of a syscon. The driver reads the reg
-property and uses it as an offset to the regmap of the syscon, I wanted
-to see where/how the node was meant to be integrated in DT.
-
-> > +        reg = <0x0 0x4ac10000 0x0 0x10000>;
-> > +        #address-cells = <1>;
-> > +        #size-cells = <1>;
-> > +
-> > +        formatter@20 {
-> > +            compatible = "fsl,imx95-csi-formatter";
-> > +            reg = <0x20 0x100>;
-> > +            clocks = <&cameramix_csr IMX95_CLK_CAMBLK_CSI2_FOR0>;
-> > +            power-domains = <&scmi_devpd 3>;
-> > +
-> > +            ports {
-> > +                #address-cells = <1>;
-> > +                #size-cells = <0>;
-> > +
-> > +                port@0 {
-> > +                    reg = <0>;
-> > +
-> > +                    endpoint {
-> > +                        remote-endpoint = <&mipi_csi_0_out>;
-> > +                };
-> > +            };
-> > +
-> > +                port@1 {
-> 
-> Messed indentation.
-
--- 
-Regards,
-
-Laurent Pinchart
+Hi Michal,=0A=
+=0A=
+> Please check if this works for you, it's included in 7.1 RCs and some=0A=
+> latest stable kernels. If not, you might be affected by other bugs.=0A=
+=0A=
+I tested 25e531b422dc ("usb: xhci: Make usb_host_endpoint.hcpriv=0A=
+survive endpoint_disable()") on the affected setup, and it fixes the=0A=
+issue.=0A=
+=0A=
+With that change applied, repeated stop/start cycles complete=0A=
+successfully, and I no longer see the uvcvideo -71 transfer errors.=0A=
+=0A=
+So I think the uvcvideo workaround in this RFC is not needed. The issue=0A=
+is covered by the xHCI fix.=0A=
+=0A=
+Thanks,=0A=
+Henry=
 
