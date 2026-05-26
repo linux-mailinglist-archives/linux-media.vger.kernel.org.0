@@ -1,56 +1,56 @@
-Return-Path: <linux-media+bounces-62762-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62763-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SAUQKtdcFWp7UgcAu9opvQ
-	(envelope-from <linux-media+bounces-62762-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 10:41:59 +0200
+	id KMejAxtdFWp7UgcAu9opvQ
+	(envelope-from <linux-media+bounces-62763-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 10:43:07 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 235025D2940
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 10:41:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C1175D2960
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 10:43:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 79B523040DB2
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 08:40:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 44984304B2AD
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 08:40:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 185C73CF051;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C439A3CFF50;
 	Tue, 26 May 2026 08:40:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s2UFptAJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JH2RhQkO"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623963CC7E4;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68D9C3CC7F1;
 	Tue, 26 May 2026 08:40:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779784832; cv=none; b=Apiu3EERNXWgRuGbnYout328sh5YQRZi5u7u8Qg6qMsAENDXIu371g3w3YMnE7+7MrzykTlmOiIsN2YxwoR04LtJyZ7FAiPLe2HJAWI7KBYTbIecn14wJ8XADTH5UDYvnrlIohB+7OBJriQZPOc/3rs5/dgi+CqMA7+duYTFRcc=
+	t=1779784832; cv=none; b=kEBeOp3xdmj7LilncV3b7fpxqip1sioumfqns46+WTugmDDtsZN18FvtNRtBISO84RUiMWN88Cj88odEO5vIx9SabV1i+FqIZc1tCus2XtGWZ7uek8kOmCP1i5uB+FoDnqxtngK1TQOafoPn/Eq2BXZdxQdxrS32SVsMGyqdxQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1779784832; c=relaxed/simple;
-	bh=Ex6/9dNKnvHs3Oge7eQrUgtoT6twrlN8SWMJ0lY6PFU=;
+	bh=AyN+JuzMyo4kB6MKCoa08QrCLJ+c+BCADd1S66NVbZg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=lbsbTD0zwqyT7AbGSR9b2+2iJfbbJc/lcvjaBD7ddn5qRdUjI5SNRxKd6k48B9HhvNsx8NZnUmj+6VpaFtF4K4DJk3pPh2B7eZdP6QA5Qbmlu03TeiKA8fZt4I0Vgk342mvZyLZ46k2pTSs3azFXbHTs7IXk0RaQyw6XkGAjIOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s2UFptAJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 303C8C2BD01;
+	 In-Reply-To:To:Cc; b=lEYaUZzVrXXyo8KjBwki6aVy1VR8u8mdLgp15UrIq7i45h2PV3nS2nBlevCH1FrDxAITZqFI4W0cW64tE0d7q8W2MjZl/AVV4S6HLHiojX0oEo+ADUYlhN3eiwDLnKxmVddFwKq68Kr5HI1FwiA5f4l7V/NGpB3ApvY9nSZ460Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JH2RhQkO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3F5D1C2BCF7;
 	Tue, 26 May 2026 08:40:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1779784832;
-	bh=Ex6/9dNKnvHs3Oge7eQrUgtoT6twrlN8SWMJ0lY6PFU=;
+	bh=AyN+JuzMyo4kB6MKCoa08QrCLJ+c+BCADd1S66NVbZg=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=s2UFptAJqnqM1bNoR4DDPPEJwXcRVNNyjSHu56gokxtyDTexkpAZcP7PJuBtDs+g7
-	 1fnID0GQmNmhRABhCSkyA+xpJMbDiQliQ8eIbvWfgJQu08e3R2dm5qxSi+ke/pQsaq
-	 Atwi1voUdBWwkLCezUwKO2HYalmm0BeaFEinqG7ocvXmlw7pVGQU/tWiX4yos/V8Q9
-	 0yN5I4zTXw9NnK5o6qLlsx8jfSgHwI71rUgled7Og8cbMl+hcyzdOUkJGCALWIXqw7
-	 z7D0/zoXV+i0P7fOtyWQyZv3r4Lb2Lc2lFKP00LUn2HHmCq6i0KalzKp6X+K/1H/aO
-	 yAeJl/oa0JQzA==
+	b=JH2RhQkOkx9sbOq4D+6ZIvA0Iem4yAmoKEyGz22nesCG8ICcVMNEPW3/LwLpWIAqF
+	 rUWk2heknduk6fLwbDY/92j3UNG9VcMkE3d0YawT0jsvIP60/OxMiUX0e2BkBEKjk+
+	 mHxkS0xYrjcLCzwry6GRxnMygx7Rcxw3RsrBd3R22qz2Egys2IESJl1+QPceRgrEPS
+	 5tEdMx55WfWMWEeClck6LCzWDEXIrgK4MvlGp/OThS6MeHi/WIP3a1A+0wPBY7lXdK
+	 I/mpRR2LVHjTZnZ0zuMCxe63gI7Csq03o78Jihknf9FGSP1zvMIcO6dYBknNC/gVbi
+	 9ue/NxirjQT1w==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A423CD5BD1;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38166CD5BDF;
 	Tue, 26 May 2026 08:40:32 +0000 (UTC)
 From: Zhentao Guo via B4 Relay <devnull+zhentao.guo.amlogic.com@kernel.org>
-Date: Tue, 26 May 2026 16:40:21 +0800
-Subject: [PATCH RFC RESEND v5 5/6] arm64: dts: amlogic: Add video decoder
- driver support for S4 SOCs
+Date: Tue, 26 May 2026 16:40:22 +0800
+Subject: [PATCH RFC RESEND v5 6/6] arm64: defconfig: Enable
+ CONFIG_VIDEO_AMLOGIC_VDEC
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,7 +59,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260526-b4-s4-vdec-upstream-v5-5-33bc817f93f4@amlogic.com>
+Message-Id: <20260526-b4-s4-vdec-upstream-v5-6-33bc817f93f4@amlogic.com>
 References: <20260526-b4-s4-vdec-upstream-v5-0-33bc817f93f4@amlogic.com>
 In-Reply-To: <20260526-b4-s4-vdec-upstream-v5-0-33bc817f93f4@amlogic.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>, 
@@ -72,11 +72,11 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-amlogic@lists.infradead.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
  devicetree@vger.kernel.org, Zhentao Guo <zhentao.guo@amlogic.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1779784828; l=1760;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1779784828; l=768;
  i=zhentao.guo@amlogic.com; s=20251024; h=from:subject:message-id;
- bh=1qF2f9ADFwCWWbSpwYb2bAeCjbaHvd/hJkHSg3Lnlh8=;
- b=ERzxHkusE0DRUGGalcEh+1YXN5WZTyPDZy2vKRneRZ1q7ucjdVO6J2OEbfZZe7cQ2I9srCrm5
- nWuS3mNzMsWDjYK7GZJDoTTxkYDGimh2q7qwjAUpdykwjXzKjXEVhCM
+ bh=zpeG8QZ2+jvMHE/2NSqDBdO1rAoUz1HvG8dAn1hwiLI=;
+ b=krqDTA/5rT0vhS8B/EHNhikzh4IiLOjfvt0RTIoz1G3q3G12csZ9iasBWch2hcCkHY1n+blkn
+ wcWzE9zHvFCDxth6NYuj0qgqsQVBa5KPQ+g6HhJpEnbBKQhJWfSuQW7
 X-Developer-Key: i=zhentao.guo@amlogic.com; a=ed25519;
  pk=5yfDKrjreXwcAoEUsdtWafy6YN500upXp/CgtnXjLVU=
 X-Endpoint-Received: by B4 Relay for zhentao.guo@amlogic.com/20251024 with
@@ -93,7 +93,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62762-lists,linux-media=lfdr.de,zhentao.guo.amlogic.com];
+	TAGGED_FROM(0.00)[bounces-62763-lists,linux-media=lfdr.de,zhentao.guo.amlogic.com];
 	FROM_HAS_DN(0.00)[];
 	FREEMAIL_TO(0.00)[linaro.org,baylibre.com,googlemail.com,kernel.org];
 	MIME_TRACE(0.00)[0:+];
@@ -111,71 +111,33 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	HAS_REPLYTO(0.00)[zhentao.guo@amlogic.com]
-X-Rspamd-Queue-Id: 235025D2940
+X-Rspamd-Queue-Id: 5C1175D2960
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Zhentao Guo <zhentao.guo@amlogic.com>
 
-Add vdec node to enable Amlogic V4L2 stateless video decoder
-support.
+Enable the Amlogic V4L2 stateless video decoder driver as a module
+in the arm64 defconfig. This driver is needed for stateless video
+decoding support on Amlogic SoCs.
 
 Signed-off-by: Zhentao Guo <zhentao.guo@amlogic.com>
 ---
- arch/arm64/boot/dts/amlogic/meson-s4.dtsi | 34 +++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/amlogic/meson-s4.dtsi b/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
-index 2a6fbd530836..5ad826e4b554 100644
---- a/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
-+++ b/arch/arm64/boot/dts/amlogic/meson-s4.dtsi
-@@ -96,6 +96,11 @@ saradc: adc@fe026000 {
- 		status = "disabled";
- 	};
- 
-+	optee {
-+		compatible = "linaro,optee-tz";
-+		method = "smc";
-+	};
-+
- 	soc {
- 		compatible = "simple-bus";
- 		#address-cells = <2>;
-@@ -907,5 +912,34 @@ emmc: mmc@fe08c000 {
- 			assigned-clocks = <&clkc_periphs CLKID_SD_EMMC_C>;
- 			assigned-clock-rates = <24000000>;
- 		};
-+
-+		canvas: video-lut@fe036048 {
-+			compatible = "amlogic,canvas";
-+			reg = <0x0 0xfe036048 0x0 0x14>;
-+		};
-+
-+		video-codec@fe320000 {
-+			compatible = "amlogic,s4-vdec";
-+			reg = <0x0 0xfe320000 0x0 0x10000>,
-+			      <0x0 0xfe036000 0x0 0x20>;
-+			amlogic,canvas = <&canvas>;
-+			reg-names = "dos",
-+				    "dmc";
-+			interrupts = <GIC_SPI 91 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 92 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 93 IRQ_TYPE_EDGE_RISING>;
-+			clocks = <&clkc_periphs CLKID_DOS>,
-+				 <&clkc_periphs CLKID_VDEC_SEL>,
-+				 <&clkc_periphs CLKID_HEVCF_SEL>;
-+			clock-names = "dos",
-+				      "vdec",
-+				      "hevcf";
-+			power-domains = <&pwrc PWRC_S4_DOS_VDEC_ID>,
-+					<&pwrc PWRC_S4_DOS_HEVC_ID>;
-+			power-domain-names = "vdec",
-+					     "hevc";
-+			resets = <&reset RESET_DOS>;
-+			secure-monitor = <&sm>;
-+		};
- 	};
- };
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index 4567f4b34f29..14caac24d200 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -913,6 +913,7 @@ CONFIG_V4L_PLATFORM_DRIVERS=y
+ CONFIG_SDR_PLATFORM_DRIVERS=y
+ CONFIG_V4L_MEM2MEM_DRIVERS=y
+ CONFIG_VIDEO_AMPHION_VPU=m
++CONFIG_VIDEO_AMLOGIC_VDEC=m
+ CONFIG_VIDEO_CADENCE_CSI2RX=m
+ CONFIG_VIDEO_WAVE_VPU=m
+ CONFIG_VIDEO_E5010_JPEG_ENC=m
 
 -- 
 2.42.0
