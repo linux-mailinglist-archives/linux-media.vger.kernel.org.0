@@ -1,251 +1,242 @@
-Return-Path: <linux-media+bounces-62784-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62785-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id oAKvOgKQFWrUWQcAu9opvQ
-	(envelope-from <linux-media+bounces-62784-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 14:20:18 +0200
+	id eI9kEZKQFWovWgcAu9opvQ
+	(envelope-from <linux-media+bounces-62785-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 14:22:42 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC795D5718
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 14:20:18 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5FB5D5784
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 14:22:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CD5B9300D14F
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 12:17:25 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B2FAD30297BE
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 12:22:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B10083F928B;
-	Tue, 26 May 2026 12:17:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22B043F9289;
+	Tue, 26 May 2026 12:22:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b="x7KgnH+/"
+	dkim=pass (2048-bit key) header.d=mju-ac-kr.20251104.gappssmtp.com header.i=@mju-ac-kr.20251104.gappssmtp.com header.b="pc85n44F"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender-pp-o91.zoho.in (sender-pp-o91.zoho.in [103.117.158.91])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBD73DA5BC;
-	Tue, 26 May 2026 12:17:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=103.117.158.91
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779797844; cv=pass; b=lUXkJXXBK9OSGtfF22MtbQu2GrXMlsU87rcyX4W0uvOphtVqe+tocrbJts0r5xAH1vnwksmEkyd4lzoHQIsXv8pvDqcXjFL09jO648oI0rMB8qeBNAw6oxGx0EXDo4vv0W1GMoa11RNGCzBz7+XuZq4bx7w20Rn/ykx3yJ9KnDY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779797844; c=relaxed/simple;
-	bh=qLJqGU149AFEK5NAq3HTdCtG16am9VLMU7zTyfXwD7s=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:Subject:MIME-Version:
-	 Content-Type; b=maLMFt9b12mTfIy/V3pqeLU2PVyHM+Q0iYGNUtuhDk67l6vN/v1dnhxQm7nFmS4juq++tz/TJoyz8b45BcshGq39AbOU/MPXifdQONA7JMtWIutfExOrQ8GuM7V+EtfcHDUIBYagiDxXGs499uuFdFO1KiOWNqvPg4e5YXC4d/I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in; spf=pass smtp.mailfrom=zohomail.in; dkim=pass (1024-bit key) header.d=zohomail.in header.i=linuxuser509@zohomail.in header.b=x7KgnH+/; arc=pass smtp.client-ip=103.117.158.91
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=zohomail.in
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zohomail.in
-ARC-Seal: i=1; a=rsa-sha256; t=1779797817; cv=none; 
-	d=zohomail.in; s=zohoarc; 
-	b=XZrSsg7xjPkluKenruUMlqvU8ob6WnsTA5J8959sjqdBNVuqxzcT4bdNyNTe0QMnQgSRAXlmSndvOwodr2ZqrTuohwi1QyyKAYNNKqRkSoxLU4eBqCnwZY5Xvi8dVc0eamGrP1YCmDibO4eRH8XlRqDfn01Idm2SCXToGAIQ72g=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.in; s=zohoarc; 
-	t=1779797817; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=fBl59d6BpzTCvjrU0Ys2J2ycHy/10G7PhZT1nzOVOzc=; 
-	b=PwxLLlgL1UicAKZEkmrbvRM9/RxxdCNhftwj/jZMO3+8qFBqf21fC7+LVnB2mWlq/zGBGQQ2wh3b+TkzL40IsKs1RuvY1RnGpoWDfUkB+rB0mW6z1PJCkJCnCVieyp1aWU9ZYxupeKAu4dwZM+UvWMeorgMNyo7DNePLBlrheBQ=
-ARC-Authentication-Results: i=1; mx.zohomail.in;
-	dkim=pass  header.i=zohomail.in;
-	spf=pass  smtp.mailfrom=linuxuser509@zohomail.in;
-	dmarc=pass header.from=<linuxuser509@zohomail.in>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1779797817;
-	s=zoho; d=zohomail.in; i=linuxuser509@zohomail.in;
-	h=Date:Date:From:From:To:To:Cc:Cc:Message-ID:In-Reply-To:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=fBl59d6BpzTCvjrU0Ys2J2ycHy/10G7PhZT1nzOVOzc=;
-	b=x7KgnH+/750qiDJ/c0QznrO5+KSiwZZblE7GH00kF1fZ7PVWedLc1ar8EHzj29eo
-	O74qTKEIhJb8c/d+byB3cSNGt/U/GcrSxWHcNtQLdLFi/CHM5XXZsL8tTrHrXwdFjNq
-	Z3l0DFHNnKfi74MC2OK9XSOO79oOGHKNxKiUFAa4=
-Received: from mail.zoho.in by mx.zoho.in
-	with SMTP id 1779797816842128.25528368276662; Tue, 26 May 2026 17:46:56 +0530 (IST)
-Received: from  [223.228.122.9] by mail.zoho.in
-	with HTTP;Tue, 26 May 2026 17:46:56 +0530 (IST)
-Date: Tue, 26 May 2026 17:46:56 +0530
-From: Ashwin Gundarapu <linuxuser509@zohomail.in>
-To: "gregkh" <gregkh@linuxfoundation.org>
-Cc: "linux-kernel" <linux-kernel@vger.kernel.org>,
-	"linux-media" <linux-media@vger.kernel.org>,
-	"linux-staging" <linux-staging@lists.linux.dev>
-Message-ID: <19e64377600.72fca248167943.7947263371163961978@zohomail.in>
-In-Reply-To: 
-Subject: [PATCH v3] staging: media: Remove deprecated Atmel ISC drivers
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734873A963B
+	for <linux-media@vger.kernel.org>; Tue, 26 May 2026 12:22:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779798141; cv=none; b=PW1g1l41luKLf0GtLbSpECYIcwjEimCQ0cmT1d532Do0o9Xw76pU+NxI29DwP11GKBMRj/9JPV0l/tEsVTXa+wgm4lmVIocFjZ5PojpT6UsAs6FHm5Kvghm3xz9D/0KFLfpEK+uPHklanDcM2vL/5KIsIk2Py+TPYMu/9EqbCts=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779798141; c=relaxed/simple;
+	bh=AXtwezzLoCGxwF0CydKIJ/MZv+sX+BtL3/6cQf3SnXE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D7RkF6aIpgHW5wP/AScm9j5X5x3Z6AVAxkFcG/4X9AEU2F2Tmn2pNBzapMBQbbhxSZ1zW4YT6rcLppwIxVBw5Z3p4+cR0K8bWmo8LAkzLRSfI+gobWzB672FQfvc1j8L6WBnn/Lficxqyg94dZ2oeFSO1MvENQtLEb5E+ZJeaJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mju.ac.kr; spf=pass smtp.mailfrom=mju.ac.kr; dkim=pass (2048-bit key) header.d=mju-ac-kr.20251104.gappssmtp.com header.i=@mju-ac-kr.20251104.gappssmtp.com header.b=pc85n44F; arc=none smtp.client-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mju.ac.kr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mju.ac.kr
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-36a35e4eefeso3638336a91.1
+        for <linux-media@vger.kernel.org>; Tue, 26 May 2026 05:22:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mju-ac-kr.20251104.gappssmtp.com; s=20251104; t=1779798137; x=1780402937; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=D5pp2GVwoUtQ80LYt6zY3fggW5ulozvNln+1jo2wsGI=;
+        b=pc85n44F52vGdFc722ar6sIIgpoJbpfycBaf8TCfqSlkVbjjp3WXa2RsVC096HlHvn
+         znqFhPnf3UqQljcZX3r2iHtHi9jzSLvSI3Xu4B1B1oAs4xC1CrwW4jFNthorw6xiwvSr
+         c7/Lvv/EmtKAraUn6xD5ZdQ8/gp7K8QbRkx6jQdmS26orOghVu0pwYwZaojBLI9X6Rvq
+         QMNmFTnDvspxnLBOxi/9w15txJ5QaeAmcORIMu5JwnVpDEPvwkpffe7MBZ7Vy46U4T7P
+         M6Mv6Qg88DnQKy8JBwJKggQ004mEBwg8gmrIVUwiU1z3fllP4g/bTXqcRuyAisrq7IVR
+         eZQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779798137; x=1780402937;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=D5pp2GVwoUtQ80LYt6zY3fggW5ulozvNln+1jo2wsGI=;
+        b=Df6BeBccWp2wO6FkVpWA7zmNXgYsFWs3tGZCk4a9DQcWnlK04+w4+LMrGsjfwSKOZs
+         fwM5EV2FO5sEJpMTNax//pm3VDpH6Xf2gk3KrRdiogY/AHF91Rslzo51nF9mo8FowS7s
+         R7LU0ddUOfHKf7HxG6b29ovDTDYFnwreA+3x6wbbnaNANxKzSDiJtAmhnyTEb+PqsI5C
+         dTrs/+J94t1cRn5xYA6aOHu5yzj01k2RKHW/Kkm6V+3jE5DYVYVYC3+KqfyztOW7FtnH
+         C2fwjkaidoujcErBD0CwBjC3M/GMirr0Odhrc1lu1Ebg0WrTlc2u+nYvUA900s+BiWR1
+         /n0w==
+X-Gm-Message-State: AOJu0YwQasmwu5VstULRFCco0dbVVx1qeeQfBexKrSk+DoTdqxJQsBpJ
+	LZdFhqpnv+QzH6kmdxLff/b7cZfRCbyHlquoiJzTEW9o73/7Xcr6YTBilGpX2bjieF+BvqB/5n/
+	AQMOtQ4ENmA==
+X-Gm-Gg: Acq92OG331mUbJAR4Eun7FsLhGREJui9ofxDYioZXMZjflh47CLmdBsTX6H/frJpYJp
+	fngypPs6oIw5WS8GDDxDq6mgrMu3hh/Z5nG0RURbJswdEZAHGDXiored3JgGZAx4vInroUtesg+
+	/+oZgSFPFoQdWEYbpxyw+pVvgVEvjX6YzFKYrJZ7VpwUBAWyAUfjf86+c/JoVdvSBuoIS2Y2hQP
+	oAXCITti8hPD6q6ebWv86YmynnrSgfbUJxuicpPE3lQBB5OrBgtB6g0zgmvelaOuYn1PhhGysTi
+	M4KcQC0iEpKmH3r6GZQU7gCYkpcIJRJq6C3JXE5151WgEoLivp1g8HS7+YR094fOVOB9t4rDGib
+	wB1bjV2q3F/t5k0ltbbJzg3OWIEtIYZrQU5xjWyE6bB9OeTU0ZqRcMEjDRhH9lD1VFZ6Si5Ajl0
+	JrXtK8XrFY8mOn9FNa0CHGJG5rCJbgVLHwtoEKCxdv0a0=
+X-Received: by 2002:a17:90b:2f84:b0:35f:b714:e516 with SMTP id 98e67ed59e1d1-36a674f4399mr18640295a91.16.1779798137481;
+        Tue, 26 May 2026 05:22:17 -0700 (PDT)
+Received: from younhochoi-MS-7C82.. ([117.17.158.201])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36a723cee01sm12089470a91.14.2026.05.26.05.22.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2026 05:22:17 -0700 (PDT)
+From: Younho Choi <gdool88@mju.ac.kr>
+To: linux-media@vger.kernel.org
+Cc: mchehab@kernel.org,
+	hverkuil+cisco@kernel.org,
+	laurent.pinchart@ideasonboard.com,
+	sakari.ailus@linux.intel.com,
+	benjamin.gaignard@collabora.com,
+	ysk@kzalloc.com,
+	kees@kernel.org,
+	linux-kernel@vger.kernel.org,
+	Younho Choi <gdool88@mju.ac.kr>,
+	stable@vger.kernel.org
+Subject: [PATCH] media: vim2m: keep transaction buffer count stable while streaming
+Date: Tue, 26 May 2026 21:22:05 +0900
+Message-ID: <20260526122205.1019913-1-gdool88@mju.ac.kr>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-Importance: Medium
-User-Agent: Zoho Mail
-X-Mailer: Zoho Mail
-X-Spamd-Result: default: False [-2.15 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[zohomail.in,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[zohomail.in:s=zoho];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[mju-ac-kr.20251104.gappssmtp.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	DKIM_TRACE(0.00)[zohomail.in:+];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_ALL(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62784-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MIME_TRACE(0.00)[0:+];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linuxuser509@zohomail.in,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62785-lists,linux-media=lfdr.de];
 	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[zohomail.in:email,zohomail.in:mid,zohomail.in:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 4FC795D5718
+	DMARC_NA(0.00)[mju.ac.kr];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[gdool88@mju.ac.kr,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	NEURAL_HAM(-0.00)[-0.995];
+	DKIM_TRACE(0.00)[mju-ac-kr.20251104.gappssmtp.com:+];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,mju.ac.kr:mid,mju.ac.kr:email,mju-ac-kr.20251104.gappssmtp.com:dkim]
+X-Rspamd-Queue-Id: AD5FB5D5784
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The Atmel ISC and XISC drivers were deprecated and scheduled
-for removal by the beginning of 2026. The replacement drivers
-(VIDEO_MICROCHIP_ISC and VIDEO_MICROCHIP_XISC) are available
-in the main media subsystem.
+V4L2_CID_TRANS_NUM_BUFS controls how many buffer pairs a vim2m
+mem2mem job processes before the job is completed. The driver stores
+the value in ctx->translen and device_work() uses it later to decide
+whether the current transaction should continue.
 
-Remove the Kconfig entries, Makefile rules, MAINTAINERS entries,
-and the STAGING_MEDIA_DEPRECATED menuconfig since it is no longer
-needed. The source files remain on disk but are no longer compiled
-since the build infrastructure is removed.
+Letting userspace change this control while streaming is active can
+make a queued job observe a different transaction length than the one
+it started with. That leaves the transaction state inconsistent with
+the buffers currently queued for the job.
 
-Signed-off-by: Ashwin Gundarapu <linuxuser509@zohomail.in>
+Grab the transaction buffer count control while either queue is
+streaming, and release it only after both queues have stopped
+streaming. The V4L2 control framework then rejects changes with
+-EBUSY while the value is in use, while still allowing userspace to
+configure the value before streaming starts.
+
+Keep the control handler alive until after v4l2_m2m_ctx_release(),
+since releasing the mem2mem context can call stop_streaming(), which
+now ungrabs the control.
+
+Fixes: 96d8eab5d0a1 ("V4L/DVB: [v5,2/2] v4l: Add a mem-to-mem videobuf framework test device")
+Cc: stable@vger.kernel.org
+Signed-off-by: Younho Choi <gdool88@mju.ac.kr>
 ---
- MAINTAINERS                                   |  2 -
- drivers/staging/media/Kconfig                 | 18 +------
- drivers/staging/media/Makefile                |  1 -
- .../staging/media/deprecated/atmel/Kconfig    | 47 -------------------
- .../staging/media/deprecated/atmel/Makefile   |  8 ----
- 5 files changed, 1 insertion(+), 75 deletions(-)
- delete mode 100644 drivers/staging/media/deprecated/atmel/Kconfig
- delete mode 100644 drivers/staging/media/deprecated/atmel/Makefile
+ drivers/media/test-drivers/vim2m.c | 29 ++++++++++++++++++++++++++---
+ 1 file changed, 26 insertions(+), 3 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 27a073f53cea..4290eae8838e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17364,8 +17364,6 @@ F:	Documentation/devicetree/bindings/media/atmel,isc.yaml
- F:	Documentation/devicetree/bindings/media/microchip,xisc.yaml
- F:	drivers/media/platform/microchip/microchip-isc*
- F:	drivers/media/platform/microchip/microchip-sama*-isc*
--F:	drivers/staging/media/deprecated/atmel/atmel-isc*
--F:	drivers/staging/media/deprecated/atmel/atmel-sama*-isc*
- F:	include/linux/atmel-isc-media.h
+diff --git a/drivers/media/test-drivers/vim2m.c b/drivers/media/test-drivers/vim2m.c
+index bb2dd11eef0e..f4a2c4083829 100644
+--- a/drivers/media/test-drivers/vim2m.c
++++ b/drivers/media/test-drivers/vim2m.c
+@@ -205,6 +205,7 @@ struct vim2m_ctx {
+ 	struct vim2m_dev	*dev;
+ 
+ 	struct v4l2_ctrl_handler hdl;
++	struct v4l2_ctrl	*trans_num_bufs_ctrl;
+ 
+ 	/* Processed buffers in this transaction */
+ 	u8			num_processed;
+@@ -1258,9 +1259,27 @@ static int vim2m_start_streaming(struct vb2_queue *q, unsigned int count)
+ 		ctx->aborting = 0;
+ 
+ 	q_data->sequence = 0;
++	v4l2_ctrl_grab(ctx->trans_num_bufs_ctrl, true);
++
+ 	return 0;
+ }
+ 
++static bool vim2m_other_queue_is_streaming(struct vim2m_ctx *ctx,
++					   struct vb2_queue *q)
++{
++	struct vb2_queue *other_vq;
++
++	if (!ctx->fh.m2m_ctx)
++		return false;
++
++	if (V4L2_TYPE_IS_OUTPUT(q->type))
++		other_vq = v4l2_m2m_get_dst_vq(ctx->fh.m2m_ctx);
++	else
++		other_vq = v4l2_m2m_get_src_vq(ctx->fh.m2m_ctx);
++
++	return vb2_is_streaming(other_vq);
++}
++
+ static void vim2m_stop_streaming(struct vb2_queue *q)
+ {
+ 	struct vim2m_ctx *ctx = vb2_get_drv_priv(q);
+@@ -1274,11 +1293,14 @@ static void vim2m_stop_streaming(struct vb2_queue *q)
+ 		else
+ 			vbuf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+ 		if (!vbuf)
+-			return;
++			break;
+ 		v4l2_ctrl_request_complete(vbuf->vb2_buf.req_obj.req,
+ 					   &ctx->hdl);
+ 		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
+ 	}
++
++	if (!vim2m_other_queue_is_streaming(ctx, q))
++		v4l2_ctrl_grab(ctx->trans_num_bufs_ctrl, false);
+ }
+ 
+ static void vim2m_buf_request_complete(struct vb2_buffer *vb)
+@@ -1380,7 +1402,8 @@ static int vim2m_open(struct file *file)
+ 
+ 	vim2m_ctrl_trans_time_msec.def = default_transtime;
+ 	v4l2_ctrl_new_custom(hdl, &vim2m_ctrl_trans_time_msec, NULL);
+-	v4l2_ctrl_new_custom(hdl, &vim2m_ctrl_trans_num_bufs, NULL);
++	ctx->trans_num_bufs_ctrl =
++		v4l2_ctrl_new_custom(hdl, &vim2m_ctrl_trans_num_bufs, NULL);
+ 	if (hdl->error) {
+ 		rc = hdl->error;
+ 		v4l2_ctrl_handler_free(hdl);
+@@ -1435,10 +1458,10 @@ static int vim2m_release(struct file *file)
+ 
+ 	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+-	v4l2_ctrl_handler_free(&ctx->hdl);
+ 	mutex_lock(&dev->dev_mutex);
+ 	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+ 	mutex_unlock(&dev->dev_mutex);
++	v4l2_ctrl_handler_free(&ctx->hdl);
+ 	kfree(ctx);
+ 
+ 	atomic_dec(&dev->num_inst);
 
- MICROCHIP ISI DRIVER
-diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
-index 1aa31bddf970..52b4aab944f6 100644
---- a/drivers/staging/media/Kconfig
-+++ b/drivers/staging/media/Kconfig
-@@ -38,20 +38,4 @@ source "drivers/staging/media/sunxi/Kconfig"
-
- source "drivers/staging/media/tegra-video/Kconfig"
-
--menuconfig STAGING_MEDIA_DEPRECATED
--	bool "Media staging drivers (DEPRECATED)"
--	default n
--	help
--	  This option enables deprecated media drivers that are
--	  scheduled for future removal from the kernel.
--
--	  If you wish to work on these drivers to prevent their removal,
--	  then contact the linux-media@vger.kernel.org mailing list.
--
--	  If in doubt, say N here.
--
--if STAGING_MEDIA_DEPRECATED
--source "drivers/staging/media/deprecated/atmel/Kconfig"
--endif
--
--endif
-+endif # STAGING_MEDIA
-diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
-index 6f78b0edde1e..6fd7179733d8 100644
---- a/drivers/staging/media/Makefile
-+++ b/drivers/staging/media/Makefile
-@@ -1,5 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
--obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE)	+= deprecated/atmel/
- obj-$(CONFIG_INTEL_ATOMISP)     += atomisp/
- obj-$(CONFIG_VIDEO_IMX_MEDIA)	+= imx/
- obj-$(CONFIG_VIDEO_MAX96712)	+= max96712/
-diff --git a/drivers/staging/media/deprecated/atmel/Kconfig b/drivers/staging/media/deprecated/atmel/Kconfig
-deleted file mode 100644
-index 418841ea5a0d..000000000000
---- a/drivers/staging/media/deprecated/atmel/Kconfig
-+++ /dev/null
-@@ -1,47 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0-only
--
--comment "Atmel media platform drivers"
--
--config VIDEO_ATMEL_ISC
--	tristate "ATMEL Image Sensor Controller (ISC) support (DEPRECATED)"
--	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && COMMON_CLK
--	depends on ARCH_AT91 || COMPILE_TEST
--	depends on !VIDEO_MICROCHIP_ISC_BASE || COMPILE_TEST
--	select MEDIA_CONTROLLER
--	select VIDEO_V4L2_SUBDEV_API
--	select VIDEOBUF2_DMA_CONTIG
--	select REGMAP_MMIO
--	select V4L2_FWNODE
--	select VIDEO_ATMEL_ISC_BASE
--	help
--	   This module makes the ATMEL Image Sensor Controller available
--	   as a v4l2 device.
--
--	   This driver is deprecated and is scheduled for removal by
--	   the beginning of 2026. See the TODO file for more information.
--
--config VIDEO_ATMEL_XISC
--	tristate "ATMEL eXtended Image Sensor Controller (XISC) support (DEPRECATED)"
--	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && COMMON_CLK
--	depends on ARCH_AT91 || COMPILE_TEST
--	depends on !VIDEO_MICROCHIP_ISC_BASE || COMPILE_TEST
--	select VIDEOBUF2_DMA_CONTIG
--	select REGMAP_MMIO
--	select V4L2_FWNODE
--	select VIDEO_ATMEL_ISC_BASE
--	select MEDIA_CONTROLLER
--	select VIDEO_V4L2_SUBDEV_API
--	help
--	   This module makes the ATMEL eXtended Image Sensor Controller
--	   available as a v4l2 device.
--
--	   This driver is deprecated and is scheduled for removal by
--	   the beginning of 2026. See the TODO file for more information.
--
--config VIDEO_ATMEL_ISC_BASE
--	tristate
--	default n
--	help
--	  ATMEL ISC and XISC common code base.
-diff --git a/drivers/staging/media/deprecated/atmel/Makefile b/drivers/staging/media/deprecated/atmel/Makefile
-deleted file mode 100644
-index 34eaeeac5bba..000000000000
---- a/drivers/staging/media/deprecated/atmel/Makefile
-+++ /dev/null
-@@ -1,8 +0,0 @@
--# SPDX-License-Identifier: GPL-2.0-only
--atmel-isc-objs = atmel-sama5d2-isc.o
--atmel-xisc-objs = atmel-sama7g5-isc.o
--atmel-isc-common-objs = atmel-isc-base.o atmel-isc-clk.o
--
--obj-$(CONFIG_VIDEO_ATMEL_ISC_BASE) += atmel-isc-common.o
--obj-$(CONFIG_VIDEO_ATMEL_ISC) += atmel-isc.o
--obj-$(CONFIG_VIDEO_ATMEL_XISC) += atmel-xisc.o
---
+base-commit: 5d6919055dec134de3c40167a490f33c74c12581
+-- 
 2.43.0
-
-
 
 
