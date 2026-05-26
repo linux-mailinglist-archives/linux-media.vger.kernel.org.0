@@ -1,206 +1,209 @@
-Return-Path: <linux-media+bounces-62822-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62823-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YDUxKkHaFWpYdAcAu9opvQ
-	(envelope-from <linux-media+bounces-62822-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 19:37:05 +0200
+	id ANCPE/DaFWpzdQcAu9opvQ
+	(envelope-from <linux-media+bounces-62823-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 19:40:00 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E5365DAC75
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 19:37:05 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DB825DAD11
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 19:39:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 26D2F3045B51
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 17:33:58 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id DAC4C300D781
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 17:39:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC42841B340;
-	Tue, 26 May 2026 17:33:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB79F41B366;
+	Tue, 26 May 2026 17:39:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MkYUWpMv"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="LfQ1NlAM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ixit.cz (ixit.cz [185.100.197.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D1940DFD1
-	for <linux-media@vger.kernel.org>; Tue, 26 May 2026 17:33:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 943063FDBFC;
+	Tue, 26 May 2026 17:39:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779816835; cv=none; b=AXJQGOe2S8AhY7SlVfAa3Mi8EhBhzGpsDcSHXE0i9RrRCnr22BIxvwHWJDUI1SUdGLG/mrhW3jckrOD6E0QtHShBo+8cqXAM5ByDtyL+4ag+o3c5SADVWc1CtrZlcB65cyqS62wj2XDQNeoh/Rhn2vbpZNV1EnyawSaLxkd10hQ=
+	t=1779817187; cv=none; b=MPHh1Cqrv6umb3OSyYomhD7ItHytqUNFJMyfdZM7aa4Z8nrrIDFOgsykkz/o8hC2t7kRHT9iMbrTDYx/0kIUqiWRW5FT5GJmouEhoKdIuZqOn1xiWGQ4nrtza1HcBRaK7eT3OhfeiMT3awiFD1hNPYZzpTR2oo7+ULrc9mR6/js=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779816835; c=relaxed/simple;
-	bh=t9PeMGz8g3DJguAGpGkukwTFWcPlOIHZ7bBFuMA4mxU=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=SmYgeM3aC+Hvx1MHmFD+k0H1LyoJKi9AC8UFeFusUyFx77HTIeWB5TdbK4H6/hqgAgn/lYyxeoI/ER668Z5wGrXR4Q8ZBFl7AMlavxiGb9Eiw5dytiRowInMz0MJs/fEdlDtoM2PQuK/UjYgkJp2FrKmz/rMlaHXh1PcCmccdRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--praan.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MkYUWpMv; arc=none smtp.client-ip=209.85.214.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--praan.bounces.google.com
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2b2e8bba2e6so143605895ad.1
-        for <linux-media@vger.kernel.org>; Tue, 26 May 2026 10:33:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779816833; x=1780421633; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hcUFNVo2Sgdj71izYX2y2jUTakglUwC/840c4cOGT0g=;
-        b=MkYUWpMvI/RCSkD4m4tzCnvpuO9VdUZceA8zGsgAptualwxBbZAeq2XHiK86Qxpc75
-         WgrLmOKGuKMkvTQl+jwcRi5+QnUY1ZEhgnGXtiNGbIdK0ckJdRDPU+nnVm5bIntnVMxK
-         1XXJeRNqtE7mcgoiz3+7KUoCBN90avOAIoWQRAPBDWXc6htTvz7norE3qHe+vVI5qab9
-         DdG0O0wVBhvuSbpIsDbMk9rJ7aO70OR9UYZaxCyn9xIJfVAqTn0EY1b2OavfwmJ+NIuH
-         LGsf5DO30mFJmagc5Q1famhoNN7Ac9K9VfRTQS8NbxP2vpnmvTAoQq5yek29MsKBUfmw
-         R6iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779816833; x=1780421633;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hcUFNVo2Sgdj71izYX2y2jUTakglUwC/840c4cOGT0g=;
-        b=oep8GvteLo0WZzhH7yJysJCDZoEENt+JZvSkRB79ojvAYqBC4jaFuqOOckBSoInNrE
-         kq4XZEmfh9gkJaP57/1NwtwioUiCOz0BV09lsgLzSXmwjSauUB/EUipGs/EI5tS/ceSM
-         xmFWf24YZVTZv8xN2cASiHWjDR0pIcooAdzzFURbOMKwza2A0XO2CScxzbPZ9TE6JtKo
-         EUq169erpUSm25ISnHJizavfFBcHkSggnOAkims2sKXrYVUOi/VYECs9RnQwI6h3ViPj
-         1eKdamJoI9mgXqWZ1X0UtWIvUTTNyVtKnwKx/PW/z3lEkKQ7P8Kefw39K2Ldgjisfp1c
-         +eDg==
-X-Forwarded-Encrypted: i=1; AFNElJ+CQdQcFAumq+dBUW1bTZV/aYy3TJhUEokCvXDwQyuXkO44LsNPYu1Je4AprzLsOIpyC99nkEDrs6sBKw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBBLXtke6Wx7ZEOhGL7Qyu9J17dfaosMC+arI9HZlo587P91tV
-	3TJQzmlbq5yZ+y+dljy4rP1lV2zickYbTDIWkBCq+S50ogIy1nDYJuawRHktb4756gHNGeW9bJi
-	DFg==
-X-Received: from pgbfe22.prod.google.com ([2002:a05:6a02:2896:b0:c82:798f:6276])
- (user=praan job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a21:3947:b0:398:d6a9:fc9
- with SMTP id adf61e73a8af0-3b328cb9cffmr19853341637.5.1779816833191; Tue, 26
- May 2026 10:33:53 -0700 (PDT)
-Date: Tue, 26 May 2026 17:33:50 +0000
-In-Reply-To: <20260511214243.349487-1-xuehaohu@google.com>
+	s=arc-20240116; t=1779817187; c=relaxed/simple;
+	bh=2svDCkRXi0dv0W8DMDcfsOYTPpf3L1poLkJxUJ/UDgQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MMezfqm9CYRxsspvUtqK7fFocetLn4x/amys1Q+qkyzpmOv3mFQneTF0X1ynMOdC4hriJa9rh9ktxr1bWVpO8sCHElj27J2bfUX5lENIhulriThLm7cottUXUIJBYwTswnwQaJF5bgkD7jGKuilbV8eSehcj9pG9M+6av2bFklM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=LfQ1NlAM; arc=none smtp.client-ip=185.100.197.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+Received: from [10.68.117.55] (unknown [146.0.31.183])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id B0E96534011A;
+	Tue, 26 May 2026 19:39:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1779817178;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=3OInQWiNTtlxMeL8alyUAGsrbLk9TIZWw+8X948//T8=;
+	b=LfQ1NlAMKoh880fZNHeOrCg+EAjYI82RBmWNT2MYs0b9OYMnNUA/IGb5vcfcDSP+cRb3GZ
+	CuW6ceYyoNK+NSQc4N3OhJYxXnFUxdxJH0SHY/ikIjHrK59uvmoZHBRE+6s+vjYlpFiiue
+	OAfg9NLOKMA7oy5K4u8nzBZW2ghEu4k=
+Message-ID: <a2470c9f-67ee-4cd2-a8d0-f27a185a2194@ixit.cz>
+Date: Tue, 26 May 2026 19:39:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260511214243.349487-1-xuehaohu@google.com>
-X-Mailer: git-send-email 2.54.0.746.g67dd491aae-goog
-Message-ID: <20260526173350.2359263-1-praan@google.com>
-Subject: Re: [PATCH] dma-buf: Fix silent overflow for phys vec to sgt
-From: Pranjal Shrivastava <praan@google.com>
-To: xuehaohu@google.com
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, kevin.tian@intel.com, 
-	ankita@nvidia.com, jgg@ziepe.ca, alex@shazbot.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
-	jmoroni@google.com, Pranjal Shrivastava <praan@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH WIP v4 9/9] media: qcom: camss: Account for C-PHY when
+ calculating link frequency
+To: Cory Keitz <ckeitz@amazon.com>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Luca Weiss <luca.weiss@fairphone.com>, Petr Hodina <phodina@protonmail.com>,
+ Casey Connolly <casey.connolly@linaro.org>, "Dr. Git" <drgitx@gmail.com>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Joel Selvaraj <foss@joelselvaraj.com>, Kieran Bingham <kbingham@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org
+References: <20260301-qcom-cphy-v4-0-e53316d2cc65@ixit.cz>
+ <20260301-qcom-cphy-v4-9-e53316d2cc65@ixit.cz>
+ <ab2kjbN0Igbkp6sw@bcd074ae11bb>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <ab2kjbN0Igbkp6sw@bcd074ae11bb>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MV_CASE(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ixit.cz,quarantine];
+	R_DKIM_ALLOW(-0.20)[ixit.cz:s=dkim];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62822-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62823-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linaro.org,fairphone.com,protonmail.com,oss.qualcomm.com,joelselvaraj.com,linux.intel.com,vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[praan@google.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	NEURAL_HAM(-0.00)[-0.996];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[david@ixit.cz,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ixit.cz:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,bootlin.com:url]
-X-Rspamd-Queue-Id: 4E5365DAC75
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ixit.cz:mid,ixit.cz:dkim,codeberg.org:url,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 4DB825DAD11
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, May 11, 2026, David Hu wrote:
-> In case MMIO size is bigger than 4G, and peer2peer
-> dma goes through host bridge, we trigger the code
-> path to assign total linked IVOA, greater than 4G
+On 20/03/2026 20:48, Cory Keitz wrote:
+> On Sun, Mar 01, 2026 at 01:51:28AM +0100, David Heidelberg via B4 Relay wrote:
+>> -static int csid_set_clock_rates(struct csid_device *csid)
+>> +static int csid_set_clock_rates(struct v4l2_subdev *sd, struct csid_device *csid)
+>>   {
+>>   	struct device *dev = csid->camss->dev;
+>> +	struct csiphy_device *csiphy = v4l2_get_subdevdata(sd);
+>> +	struct csiphy_lanes_cfg *lane_cfg = &csiphy->cfg.csi2->lane_cfg;
+> 
+> I believe there's a regression here from v3. I've been testing v4 of
+> this series on SA8775P (kernel 6.18) with a GMSL2 camera pipeline and
+> hit an invalid pointer dereference in csid_set_clock_rates() during
+> pipeline power-up:
+> 
+>    pc : camss_get_link_freq+0x1c/0xc4 [qcom_camss]
+>    lr : csid_set_power+0xc8/0x404 [qcom_camss]
+>    Code: 910003fd a90153f3 aa0003f4 a9025bf5 (b9400040)
+> 
+> The sd passed here from csid_set_power() is the csid subdev, so the
+> subdevdata is a csid_device rather than a csiphy_device. The csid_device
+> stores its linked csiphy_id during csid_link_setup(), so the fix is to
+> look it up through the camss device array:
+> 
+>      static int csid_set_clock_rates(struct csid_device *csid)
+>      {
+>          struct csiphy_device *csiphy = &csid->camss->csiphy[csid->phy.csiphy_id];
+>          struct csiphy_lanes_cfg *lane_cfg = &csiphy->cfg.csi2->lane_cfg;
+> 
+> This also lets us drop the v4l2_subdev parameter entirely since it's
+> no longer needed. With the above change my pipeline powers on and
+> streams correctly.
 
-Nit: s/IVOA/IOVA
+Thank you for catching this, until I'll sent next revision, it's fixed in the 
+git branch [1].
 
-> to mapped_len, and leading to a silent overflow
+David
 
-> Fixes: 3aa31a8bb11e ("dma-buf: provide phys_vec to scatter-gather mapping routine")
-> Signed-off-by: David Hu <xuehaohu@google.com>
+[1] https://codeberg.org/sdm845/linux/commits/branch/b4/qcom-cphy
+
+> 
+> Tested-by: Cory Keitz <ckeitz@amazon.com>
+> 
 > ---
-> drivers/dma-buf/dma-buf-mapping.c | 3 ++-
-> 1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> Regards,
+> Cory
 
-> diff --git a/drivers/dma-buf/dma-buf-mapping.c b/drivers/dma-buf/dma-buf-mapping.c
-> index 794acff2546a..658064140357 100644
-> --- a/drivers/dma-buf/dma-buf-mapping.c
-> +++ b/drivers/dma-buf/dma-buf-mapping.c
-> @@ -95,7 +95,8 @@ struct sg_table *dma_buf_phys_vec_to_sgt(struct dma_buf_attachment *attach,
->  					 size_t nr_ranges, size_t size,
-> 					 enum dma_data_direction dir)
-> {
-> -	unsigned int nents, mapped_len = 0;
-> +	unsigned int nents = 0;
-> +	size_t mapped_len = 0;
-> 	struct dma_buf_dma *dma;
-> 	struct scatterlist *sgl;
-> 	dma_addr_t addr;
+-- 
+David Heidelberg
 
-Minor nit: Let's follow the reverse xmas tree format?
-This looks correct to me, for this change:
-
-Reviewed-by: Pranjal Shrivastava <praan@google.com>
-
-Apart from this, I see similar issues at other places:
-
-  1. In calc_sg_nents(), nents is accumulated as an unsigned int. [1]
-     If nr_ranges is very large, nents could also overflow, potentially
-     leading to a small allocation in sg_alloc_table() and a subsequent
-     out-of-bounds access in the mapping loop. It might be worth changing
-     nents to size_t there and adding a check against UINT_MAX.
-
-   2. In fill_sg_entry(), the loop variable i is an int [2]. Changing
-     it to unsigned int would be more consistent with the nents type
-     and safer for extremely large mappings.
-
-
-Maybe, we should also fix these? For example:
-
-diff --git a/drivers/dma-buf/dma-buf-mapping.c b/drivers/dma-buf/dma-buf-mapping.c
-index 794acff2546a..ecf07ffca2b9 100644
---- a/drivers/dma-buf/dma-buf-mapping.c
-+++ b/drivers/dma-buf/dma-buf-mapping.c
-@@ -10,7 +10,7 @@ static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, size_t length,
-                                         dma_addr_t addr)
- {
-        unsigned int len, nents;
--       int i;
-+       unsigned int i;
-
-        nents = DIV_ROUND_UP(length, UINT_MAX);
-        for (i = 0; i < nents; i++) {
-@@ -36,7 +36,7 @@ static unsigned int calc_sg_nents(struct dma_iova_state *state,
-                                  struct phys_vec *phys_vec, size_t nr_ranges,
-                                  size_t size)
- {
--       unsigned int nents = 0;
-+       size_t nents = 0;
-        size_t i;
-
-        if (!state || !dma_use_iova(state)) {
-@@ -51,6 +51,9 @@ static unsigned int calc_sg_nents(struct dma_iova_state *state,
-                nents = DIV_ROUND_UP(size, UINT_MAX);
-        }
-
-+       if (nents > UINT_MAX)
-+               return 0;
-+
-        return nents;
- }
-
-Thanks,
-Praan
-
-[1] https://elixir.bootlin.com/linux/v7.1-rc3/source/drivers/dma-buf/dma-buf-mapping.c#L39
-[2] https://elixir.bootlin.com/linux/v7.1-rc3/source/drivers/dma-buf/dma-buf-mapping.c#L13
 
