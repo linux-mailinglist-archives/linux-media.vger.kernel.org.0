@@ -1,70 +1,69 @@
-Return-Path: <linux-media+bounces-62898-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62899-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 2L51AocCF2qz0wcAu9opvQ
-	(envelope-from <linux-media+bounces-62898-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 16:41:11 +0200
+	id wDXEGLUCF2qz0wcAu9opvQ
+	(envelope-from <linux-media+bounces-62899-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 16:41:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BA9C5E6133
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 16:41:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB7F05E6158
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 16:41:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4A5FC3011C55
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 14:40:59 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 10826302ED6D
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 14:41:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 849B4401A37;
-	Wed, 27 May 2026 14:40:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A0884014B8;
+	Wed, 27 May 2026 14:41:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="xbDPDvVy"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="zflJPWBG"
 X-Original-To: linux-media@vger.kernel.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E01175A67;
-	Wed, 27 May 2026 14:40:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD1C175A67;
+	Wed, 27 May 2026 14:41:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779892858; cv=none; b=cWFkqi2gtjIVojQdiJU2jcy068ISgE9MD2KJnTjfqbscnkI3W8pVtZlZ7WjSnCuiVU//UWkqGvkbrRqK3cWnjNWY4GtMm9ibhMlAFfc03SfFeK5e/+ukcjrbT7PCBidKEoMb5oaut/vz3tBQihvHyA1I3EPfFLjkXIpuT83tzrI=
+	t=1779892862; cv=none; b=nbdwlUZbW083S2v3cT91OyXtmKO5QPazRNvQI2s5P1EHQynlxOndh1wAK7kmPama2460u46Jl9EVSsG2A9WxU5gB+yWp/MDA24Ieq2y1ybb4PwbZSb9QTE1WpUIj9Xo1PpxY2MW0FaLixkklH3Oavl584E0ZNIM7dFspsSfAAx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779892858; c=relaxed/simple;
-	bh=ub4UG5sqL5oQEDTUAcKwlNBK5R7RhkBiz2g0E4FNJhY=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=Ud0vMpGYjCwa+JtJjvoBZDJJhuj96iefyS81S/qwyqVthSMswUc8YvHnKpmJPxnSPwIyYvohj9W2sQvX/iZ7hlrC3UTQf5FI1TegvLBu0AaheZZ2ofSnxqdkY29kbyyc8Pa+O1dWc7z6p3FdX8fibmAMxeSVAwCQj5jmPrZ/+zE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=xbDPDvVy; arc=none smtp.client-ip=68.232.153.233
+	s=arc-20240116; t=1779892862; c=relaxed/simple;
+	bh=V3QR3jP44aqqC9ymtZ4lbbwtzZ+8iYreYhsmQlowOPU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=iHW6Dh3XrKd21dNz0pH5dUMwj8yN1SA7FeUDecWJ3+22WSQV0l8lRMRO4tikxCYNV5p9ldMoCohFuUdto9DLlUjuhXZNF9rZGsdjt0KRv4u2VmVY7OyjExfusmcg8rI/2FufbdoFcZ1LSanoUzr91QMdbZJwHsvcOiIZ5h5znmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=zflJPWBG; arc=none smtp.client-ip=68.232.153.233
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1779892857; x=1811428857;
-  h=from:subject:date:message-id:mime-version:
-   content-transfer-encoding:to:cc;
-  bh=ub4UG5sqL5oQEDTUAcKwlNBK5R7RhkBiz2g0E4FNJhY=;
-  b=xbDPDvVydonEccArzCoQGd3kXYcq3WNfTQY7rLivBrmbul+o/f4Yq9gs
-   11CsNG3cbPd7LcLZnF9qwkIddm50KAW2UbZgR64qM/+lOclFN3WhCiQfJ
-   Laaz1WUPqeXei8ARBhBWaRyhyexm/Kk7PwfhfsKtDo7AJruLM40l9crj2
-   MQdOw9T2zHZeQoxJtpc4nN+dCiQmw2QVJAxDXOZjg5lKkmXrW391UoS/i
-   t7m/fPSBjNW5/LEA8nYvWI9wQQIvkuh1krqbeITJtSY/Q5RZFWnj1Jh6o
-   ylSXzKAAPGG3jtTGr0vNYYYC/59YC6NzsIFAjShbJs/1a0hDNootdbh4e
-   g==;
-X-CSE-ConnectionGUID: okRCfW5xRlOMXFPbdh+4kA==
-X-CSE-MsgGUID: qv0Qi8EtTnK9KBgUnQNAKA==
+  t=1779892861; x=1811428861;
+  h=from:date:subject:mime-version:content-transfer-encoding:
+   message-id:references:in-reply-to:to:cc;
+  bh=V3QR3jP44aqqC9ymtZ4lbbwtzZ+8iYreYhsmQlowOPU=;
+  b=zflJPWBGWJVWEM/B0V3mQ0pGgnxVQ8gawPnNvA06X4G6e4Lr5hKm7uW5
+   P++DV2XBA5jERRmbY6SPlFLqwlno4udWnMlury0i2jMVgcKaVqiONij5F
+   2vsQ87TAja/aWDB0Zr54GJlbpgJ4FlrYG19qM8+c3MR2CGTi1oa7nu5SQ
+   G2hIS+P0b0ET1V5xRkB3qn0TD4lveWxRf7RZcRTPkGmPV1Cad6pUtc8L2
+   oeTJZiqEHtJir1XE1xZwUjPBn+HqYmCrsSyIyE85vvMRrOVSLGZjW87Pl
+   KlmgGgU+ZlcKb1rQuUv+Gu7DMIF9NSfotyen+k03NDISWKgFiDBNAT57q
+   Q==;
+X-CSE-ConnectionGUID: H1EI0QVERrmv8Nk8ruBKDw==
+X-CSE-MsgGUID: e/iu+SMCS4qhbyMQGWZA4w==
 X-IronPort-AV: E=Sophos;i="6.24,171,1774335600"; 
-   d="scan'208";a="289515115"
+   d="scan'208";a="67002841"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 May 2026 07:40:56 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+  by esa1.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 07:41:00 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.87.71) by
+ chn-vm-ex2.mchp-main.com (10.10.87.31) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Wed, 27 May 2026 07:40:55 -0700
+ 15.2.2562.41; Wed, 27 May 2026 07:40:59 -0700
 Received: from [127.0.0.1] (10.10.85.11) by chn-vm-ex01.mchp-main.com
  (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
- Transport; Wed, 27 May 2026 07:40:51 -0700
+ Transport; Wed, 27 May 2026 07:40:55 -0700
 From: Balakrishnan Sambath <balakrishnan.s@microchip.com>
-Subject: [PATCH 00/12] media: i2c: convert ternaries to string_choices
- helpers
-Date: Wed, 27 May 2026 20:10:49 +0530
-Message-ID: <20260527-cleanup-string-choices-media-i2c-v1-0-e8f7d2284288@microchip.com>
+Date: Wed, 27 May 2026 20:10:50 +0530
+Subject: [PATCH 01/12] media: max9286: use string_choices helper
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -73,10 +72,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAHICF2oC/x3NwQrCMAyA4VcZORuogU7xVcRDzNItoN1o3BDK3
- n1lx+/y/xVci6nDo6tQdDO3OTdcLx3IxHlUtKEZKFAfIt1QPsp5XdB/xfKIMs0m6vjVwRiNBCO
- /U+rjPZAytMxSNNn/XDxf+34AWsUGi3IAAAA=
-X-Change-ID: 20260527-cleanup-string-choices-media-i2c-5abff65802ea
+Message-ID: <20260527-cleanup-string-choices-media-i2c-v1-1-e8f7d2284288@microchip.com>
+References: <20260527-cleanup-string-choices-media-i2c-v1-0-e8f7d2284288@microchip.com>
+In-Reply-To: <20260527-cleanup-string-choices-media-i2c-v1-0-e8f7d2284288@microchip.com>
 To: Jacopo Mondi <jacopo+renesas@jmondi.org>, Kieran Bingham
 	<kieran.bingham+renesas@ideasonboard.com>, Laurent Pinchart
 	<laurent.pinchart+renesas@ideasonboard.com>,
@@ -90,17 +88,17 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[microchip.com,reject];
-	R_DKIM_ALLOW(-0.20)[microchip.com:s=mchp];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[microchip.com:s=mchp];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62898-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62899-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[microchip.com:+];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -112,55 +110,44 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,microchip.com:email,microchip.com:mid,microchip.com:dkim]
-X-Rspamd-Queue-Id: 7BA9C5E6133
+	DBL_BLOCKED_OPENRESOLVER(0.00)[microchip.com:email,microchip.com:mid,microchip.com:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: EB7F05E6158
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Replace boolean-to-string ternaries with helpers from
-<linux/string_choices.h> across drivers/media/i2c/.
+Replace open-coded boolean-to-string ternaries with the standard
+helpers from <linux/string_choices.h>.
 
-Strings in uppercase or mixed case ("Yes"/"No", "ON"/"OFF", "On"/"Off")
-in adv7604.c, isl7998x.c, and ths7303.c are left as-is since the
-helpers return lowercase only.
-
-Build-tested with x86_64 allmodconfig. No functional change.
+No functional change.
 
 Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
 ---
-Balakrishnan Sambath (12):
-      media: max9286: use string_choices helper
-      media: saa7110: use string_choices helper
-      media: tvp7002: use string_choices helper
-      media: vpx3220: use string_choices helper
-      media: msp3400: use string_choices helpers
-      media: tda1997x: use string_choices helper
-      media: ths8200: use string_choices helpers
-      media: adv7511: use string_choices helpers
-      media: saa7127: use string_choices helpers
-      media: adv7604: use string_choices helpers
-      media: tc358743: use string_choices helpers
-      media: adv7842: use string_choices helpers
+ drivers/media/i2c/max9286.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
- drivers/media/i2c/adv7511-v4l2.c   | 11 +++++-----
- drivers/media/i2c/adv7604.c        | 26 +++++++++++-----------
- drivers/media/i2c/adv7842.c        | 44 ++++++++++++++++++--------------------
- drivers/media/i2c/max9286.c        |  3 ++-
- drivers/media/i2c/msp3400-driver.c |  5 +++--
- drivers/media/i2c/saa7110.c        |  3 ++-
- drivers/media/i2c/saa7127.c        | 13 +++++------
- drivers/media/i2c/tc358743.c       | 40 +++++++++++++++-------------------
- drivers/media/i2c/tda1997x.c       |  7 +++---
- drivers/media/i2c/ths8200.c        |  9 ++++----
- drivers/media/i2c/tvp7002.c        |  3 ++-
- drivers/media/i2c/vpx3220.c        |  3 ++-
- 12 files changed, 83 insertions(+), 84 deletions(-)
----
-base-commit: a3d78e74dd3ed04797ea351edb7f0a19b961c063
-change-id: 20260527-cleanup-string-choices-media-i2c-5abff65802ea
+diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+index ac0712ce1..e2954ed26 100644
+--- a/drivers/media/i2c/max9286.c
++++ b/drivers/media/i2c/max9286.c
+@@ -22,6 +22,7 @@
+ #include <linux/of_graph.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/slab.h>
++#include <linux/string_choices.h>
+ 
+ #include <media/v4l2-async.h>
+ #include <media/v4l2-ctrls.h>
+@@ -1330,7 +1331,7 @@ static int max9286_poc_enable(struct max9286_priv *priv, bool enable)
+ 
+ 	if (ret < 0)
+ 		dev_err(&priv->client->dev, "Unable to turn power %s\n",
+-			enable ? "on" : "off");
++			str_on_off(enable));
+ 
+ 	return ret;
+ }
 
-Best regards,
 -- 
-Balakrishnan Sambath <balakrishnan.s@microchip.com>
+2.34.1
 
 
