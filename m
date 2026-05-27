@@ -1,82 +1,82 @@
-Return-Path: <linux-media+bounces-62924-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62925-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 6OitAzZLF2r0/wcAu9opvQ
-	(envelope-from <linux-media+bounces-62924-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 21:51:18 +0200
+	id yLaEEHxLF2r0/wcAu9opvQ
+	(envelope-from <linux-media+bounces-62925-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 21:52:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59CC85E9B2F
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 21:51:17 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C2875E9B97
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 21:52:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 752FD30FB4A8
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 19:48:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 85F6E3116F29
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 19:48:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7455F37B007;
-	Wed, 27 May 2026 19:48:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A901B3B1EC6;
+	Wed, 27 May 2026 19:48:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BjAug6No"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XO5zxaDv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC483B0AF8
-	for <linux-media@vger.kernel.org>; Wed, 27 May 2026 19:48:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86541311973
+	for <linux-media@vger.kernel.org>; Wed, 27 May 2026 19:48:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779911298; cv=none; b=KcxTqL6sat5QZBlETc16gEnljCX8T8RJUenJlxQeg1zIIbCQqgPPJ4AYyV7ZBlDX1yD/5r5bOmbW2UbUcwdCzutRUkOZHu9BeRCC0h6ZyfM4dMd7y6AK9oARfhysq8plEYJrySScsiJTUYeAyHTbgtpiTKojU2a0LzDkTRn6Tk8=
+	t=1779911302; cv=none; b=D/dbyrAymZbKQGZrf7U/jJ7ZmfCDgyAkoZk6lEP6xNRFuCsh8NItd0A1D5CKIMKrcJSRqNeUDsxr5Tmu9CiRnnqJaACU2P1BNJD96mnbvCYVPYE+S9oDCj+1xEyXthGiNRMEPkOZP5DaIZQ06n0JVvsCjRzkO77Xc/X0cAF1cnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779911298; c=relaxed/simple;
-	bh=y+E8ZzupUHLf3gc/wNrJPKcphCNANPEiF+VWr/qbaf4=;
+	s=arc-20240116; t=1779911302; c=relaxed/simple;
+	bh=ls9Q2NTNnUqYE9WFLwlbflCuLfOEy5TVf3Kpig70cRU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uLseq7wY2s1gWBzKR3u293KueVSCd29c2gQxYZ4WvXfh8iO8guxUTOLmUllvK0A5ngOTNu9pQ56nvSeQRFx9d8GmClobCr9Nk0RGpUaHunCazcLH31UTKcMbI0BU/9huRhtnQ9ZhziEEDB7+g8ZCwxybB4bBYKAFe9pa3jN35VE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BjAug6No; arc=none smtp.client-ip=209.85.222.177
+	 MIME-Version; b=au3S69X9GwbyTQgUU1jz8jxeL2f7KCEzsWaK8U0UD+lsd70ObQvrFQisQyF/gBXnyno5rj6QaWGrAbRH1P53SwQ913cvVOAqToGt62MG11rf4BOthMWeizO7cirPvTudQWUaHvX6Rc2vVj1z6yrrDqbLwJu/WEJ/zzEAc+/U7Gc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XO5zxaDv; arc=none smtp.client-ip=209.85.222.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-911dfc86903so1401447085a.3
-        for <linux-media@vger.kernel.org>; Wed, 27 May 2026 12:48:17 -0700 (PDT)
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-914c1ced558so275593485a.3
+        for <linux-media@vger.kernel.org>; Wed, 27 May 2026 12:48:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1779911296; x=1780516096; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1779911297; x=1780516097; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=R8mDciBpPj7QyAvnzZsu2M6LtyDI2HbLOpEqsNC58XE=;
-        b=BjAug6NozGbX9p5nbs4G+DAgooiNz5PRAhLl37xzA5AgY5p2OLulpzCrcIfbTnbo//
-         7o2jRjxP9QwDh6s2vyir6uoLVq3s1MGG+YwGBIlVsJd6Jv8rUaa53lDtn98rzMVfNFVR
-         grjy/ineC4NHaNzGwu4xF8GG+RbBkvzE4Swde3gyEqVaOkSHKJKt0LkquEc+3zVOPRX5
-         EeFrUjTMDQNEdo3yRbTxbLgVP7yTMg32z9khvHRITpBt93lZ6QtkCyHEj/XWAP2VzffA
-         hkSmYm5v327p3XfOVorRVKF2GD9qcU726co9I9ipxLxKHQlPONxKXKDR0I8VU9PZludG
-         FUxw==
+        bh=c11hqP4/VNZytv7vm7NkzIMTSch4hrmtgsXa84FfdMs=;
+        b=XO5zxaDvZ0LMHTjBLddhkLHWvWBYhqL638utXQjFZwtRywTnBEsGZq2zr0jwLYdR8u
+         TjlflIt/dKRMIOlPSSWDYt9vi2JjpSDi2gecYh2bO6IAV/fmV5YwIu6Z9/xIHKtDBKp6
+         Eolsou11QjEm57zW5r36jRAcrZbUKF8FYikqcHbK9Av5P8vQkvL+JVrN5gOajLSY7cjP
+         7Sus64U1cN2pFu5ZdRc6vwlmCH1nWJFGwwXCsoVe0azOIBAcZhufbs1c3vSjxjfSAIg9
+         j6O+Vf0+UPqGvgIVH7exyExixOwJNwnJMSXu3N4uDCdF25cETaa7NTOaq9Xo3ccDSlk/
+         uIkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779911296; x=1780516096;
+        d=1e100.net; s=20251104; t=1779911297; x=1780516097;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=R8mDciBpPj7QyAvnzZsu2M6LtyDI2HbLOpEqsNC58XE=;
-        b=n4pSv1KaZ1Rp3VAcxlLhPZ5v/1G55QjErG5s6vb5x7VBYFH0puTd0JXwXV2daR9uim
-         oqWi33l3DB+QKc5GuZmfvAqAQLI9PWPUf2TV2wDnhiyN1Cbo8tOdoWPrAQKuNobvetnC
-         /6zfMsObkK8ujVhoJSW+8WWhWxZ7Ry8twuOQimtwDF736HsrlUxKDAfKOLlgcvm4Kli6
-         8iso+jWGyM2Ryxb1bSLahYdMxr/wHNx15HqD19GVxsVevmGaayvYo81TOmi0rOedd2tu
-         zuy/WCdJQaiPVYwNbnmFcjW4C0qDaRw1ZC5C4hN1noFRc1LZ/SSbSZBB+A32UpH+iVLf
-         MWyw==
-X-Forwarded-Encrypted: i=1; AFNElJ/tLXY2MxtRCnC4Kn5Mg91ZnxQjth5G1hqOHQhStZDEsJdBCoZA22d5mFa4l3B6YVWF3lorhYlsFzulqw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwCeuFYwuEPwJViSs/zx/F6NY5XVD6IPe/D+ckQvjenDJhrbucx
-	kkiLkSRMYldepiqLFNENTqwX2rlNPNOTLF9QyOoNTIMxFVUIRiOmugzo
-X-Gm-Gg: Acq92OGgcJJbN9oJzPbEJOf3yu98PnJD/+Z6U7MJqLgccoaFc0hQdyIJO77TcCKRGeY
-	+L6RyuY5dCffZJ52FW7amUPO4N7cCDqyKUMjt24MfYeSwRYoMDUPkUhvltQOcpAhjjCkRjdaiS7
-	C0wJ0oUVLZd3ylTbD1H+1l72k94SUE0i5djaBBHvfgjD1GP9pOkbKMRB+nBCvwTLZjHMpnp/qaf
-	O72N9lfKTAbSeyXLRTx3r535M2KtvORVwytT2xmObZxe92k3UmHtwHT7TqXboiB6dzRzizdjwX8
-	8l72GMnHGEf4yrXR/Z4xF9FBNtwHSQwoAhJxWlI5dQ1YMFGIQKi8JtF6xnwEVqUVKW55D6eq8eB
-	3KVxGZ08dAsaPdc6z1Bxwek4TO1EYVC/2CaZViV3tAJtiI12FiJSm2UaiZ50DxDD51CaRjzT/Jw
-	y3jiQ6mfvTqQFSfpZji5SoE96IwX0psBzfaB7oDNA8xX3T7HGU6SZim7fZkrfn1XejuVdAFTLlb
-	s0DB61xxbSTmHxZ1HmsOTCbgIv/eRiNA/n5Vk831Cb8hBrC73YC7w==
-X-Received: by 2002:a05:620a:1b81:b0:912:1:b415 with SMTP id af79cd13be357-914b4934c9dmr3420082985a.26.1779911295913;
-        Wed, 27 May 2026 12:48:15 -0700 (PDT)
+        bh=c11hqP4/VNZytv7vm7NkzIMTSch4hrmtgsXa84FfdMs=;
+        b=CVzc3QJLd+5+f0dQks7oWnLpXowZ9P8l9AOfivTW9TmW5kiY+7g33ZARlf6OaBU8J+
+         h0HD3268yEsrML4RGNSfwYGNCYUzh1j9DS+LQ3scJS7BvxBYn164M6Eh87pf2XLhv6Eg
+         Rv4k9MmcQ305WCQezhLq8PvhmtrB1XfwHPVZbxgM8ADNfPzXd7X5qF9CQsAfTDHp6yih
+         WHf8SHFJUkNxJA8n97h/MIxZzve0gtlhExO3IrHxUFxdjTnZ9t+1iSb1fDqItJYiuvPA
+         WKJdBl8L+Q5Go9HmNmpc2fyLRSJYuoPZcHgwNTvd0Ed7o2ykahf8O2G2E21enfTSXslh
+         XqEw==
+X-Forwarded-Encrypted: i=1; AFNElJ/tKWX0Uc6Gt65mA1wM48zwS+tvvrG3RCUvc3nhwG06UwMsVfdzE6inPOwWjYKT43NArBMILVPqw3oRTA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwlITVh5XyNSBWaAaIf769hHTbK9J6upmT5NuEAis2gGUZ0Vr3t
+	VOB2Om/4XhEDmTpfCK6qOGWoP0MLpMbZLshD++qe51lB8ypqU0YQsMNT
+X-Gm-Gg: Acq92OFhUvi325UusR5DcRyvDxZtij7tqOEqR2GYOGf8w+7ft7w7nXHhiBfAp0sBeVu
+	mjtjgV1n/+W5ocVRD4Yc03Ndg9v2/rPkRHZcJyHigCNf6asuLNm60FDp6Dz2t8bLYdtWoqzJdcJ
+	xO1k3z6+GJdq/b/KpNqDOCU1m1UItV2GuhdNMGuoy3hmL9X8ATsSL+gycA4Rqdj9P0XMon4vELr
+	R0XQCFD+vzTKc9mhfdm2iKf/W0dtqeiDDDOclP6NjKV7ck/eaR96+pU5CzEfF6BZmOd2IN3/mEo
+	EbUVPoJAOwBKQB6kQIg1DZUDudvQOUfy+pj6jr9J7A/sFNJ2fWZsKwEN/OEeZCU3yF3vS/6zIv+
+	0NnukjorNZzLW5lnopuDC5ActUwoJEzLs3nkZV2Lw7YIlhcNHHf6yrAYPJzcmz+fUIAbv/Va+Xx
+	dsrGxzLeD1MpY8Gi9cxB7xm8JlSXcxqZ6SXZ0W9ZcavjqjFdg7WFfwvsw1k1j/vm5QsGsDIk91a
+	ipdwt3M4Og3fFGiHOa6pheD2KjUxWMzZYsenml8K3D14e/9snsTjQ==
+X-Received: by 2002:a05:620a:2a08:b0:90f:624d:70d3 with SMTP id af79cd13be357-914b4928045mr3475904085a.23.1779911297364;
+        Wed, 27 May 2026 12:48:17 -0700 (PDT)
 Received: from server0.tail6e7dd.ts.net (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-914f87017a0sm564942385a.15.2026.05.27.12.48.14
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-914f87017a0sm564942385a.15.2026.05.27.12.48.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2026 12:48:15 -0700 (PDT)
+        Wed, 27 May 2026 12:48:16 -0700 (PDT)
 From: Michael Bommarito <michael.bommarito@gmail.com>
 To: Detlev Casanova <detlev.casanova@collabora.com>,
 	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
@@ -89,12 +89,13 @@ Cc: Hans Verkuil <hverkuil@kernel.org>,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Subject: [PATCH v2 0/3] media: rkvdec: hevc: bound EXT SPS RPS control counts
-Date: Wed, 27 May 2026 15:47:34 -0400
-Message-ID: <20260527194737.1999409-1-michael.bommarito@gmail.com>
+Subject: [PATCH v2 1/3] media: rkvdec: hevc: tighten EXT SPS RPS control dimensions
+Date: Wed, 27 May 2026 15:47:35 -0400
+Message-ID: <20260527194737.1999409-2-michael.bommarito@gmail.com>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260513181922.2075438-1-michael.bommarito@gmail.com>
+In-Reply-To: <20260527194737.1999409-1-michael.bommarito@gmail.com>
 References: <20260513181922.2075438-1-michael.bommarito@gmail.com>
+ <20260527194737.1999409-1-michael.bommarito@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -106,12 +107,12 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_FROM(0.00)[bounces-62924-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62925-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
@@ -123,60 +124,54 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[michaelbommarito@gmail.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 59CC85E9B2F
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,collabora.com:email]
+X-Rspamd-Queue-Id: 8C2875E9B97
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-A userspace V4L2 client that can open the Rockchip RKVDEC m2m decoder
-node can submit HEVC EXT SPS RPS controls whose spec-derived count
-fields exceed the driver's fixed hardware descriptor tables and
-temporary helper arrays. KASAN under a KUnit harness wrapping the real
-rkvdec_hevc_assemble_hw_rps() helper confirms slab-out-of-bounds writes
-on num_short_term_ref_pic_sets > 64, num_long_term_ref_pics_sps > 32,
-num_negative/positive_pics > 16, and an OOB read via u8 ref_rps_idx
-underflow when delta_idx_minus1 + 1 > idx.
+The VDPU381 HEVC driver registers V4L2_CID_STATELESS_HEVC_EXT_SPS_ST_RPS
+and V4L2_CID_STATELESS_HEVC_EXT_SPS_LT_RPS with .cfg.dims = { 65 }, but
+the HEVC spec caps num_short_term_ref_pic_sets at 64 (ITU-T H.265 7.4.8)
+and num_long_term_ref_pics_sps at 32 (7.4.3.2.1). The hardware descriptor
+table (struct rkvdec_rps) sizes match those spec limits: refs[32] and
+short_term_ref_sets[64].
 
-v2 splits the single validation function from v1 into three layers at
-the appropriate level, per Detlev's review:
+Reduce the dims to { 64 } and { 32 } respectively so the V4L2 control
+framework rejects oversized payloads before any driver code runs.
 
-  1/3  Tighten .cfg.dims on EXT_SPS_ST_RPS (65 -> 64) and
-       EXT_SPS_LT_RPS (65 -> 32) to match the HEVC spec limits and
-       let the V4L2 control framework reject oversized payloads.
-
-  2/3  Add SPS ST/LT count validation plus
-       num_negative_pics / num_positive_pics validation in
-       v4l2-ctrls-core.c so every consumer driver is protected.
-
-  3/3  Guard the delta_idx_minus1 underflow in
-       st_ref_pic_set_prediction() in the rkvdec construction code.
-
+Fixes: c9a59dc2acc7 ("media: rkvdec: Add HEVC support for the VDPU381 variant")
 Cc: stable@vger.kernel.org
+Suggested-by: Detlev Casanova <detlev.casanova@collabora.com>
+Assisted-by: Claude:claude-opus-4-7
+Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+---
+ drivers/media/platform/rockchip/rkvdec/rkvdec.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Changes in v2:
-- Split the monolithic rkvdec-hevc-common.c validation function into
-  dims, v4l2-core, and construction-code layers as Detlev suggested.
-- Drop the rkvdec-local #defines and pr_err_ratelimited; the V4L2
-  framework now handles the bulk of the rejection, including the SPS
-  count fields that drive the rkvdec loops.
-
-Michael Bommarito (3):
-  media: rkvdec: hevc: tighten EXT SPS RPS control dimensions
-  media: v4l2-ctrls: validate HEVC EXT SPS RPS counts
-  media: rkvdec: hevc: guard INTER_REF_PIC_SET_PRED index underflow
-
- .../platform/rockchip/rkvdec/rkvdec-hevc-common.c |  3 +++
- drivers/media/platform/rockchip/rkvdec/rkvdec.c   |  4 ++--
- drivers/media/v4l2-core/v4l2-ctrls-core.c         | 15 +++++++++++++++
- 3 files changed, 20 insertions(+), 2 deletions(-)
-
-
-base-commit: 7fd2df204f342fc17d1a0bfcd474b24232fb0f32
---
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+index 1d1e9bfef8e96..4fd06f4c04db0 100644
+--- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+@@ -278,12 +278,12 @@ static const struct rkvdec_ctrl_desc vdpu38x_hevc_ctrl_descs[] = {
+ 	{
+ 		.cfg.id = V4L2_CID_STATELESS_HEVC_EXT_SPS_ST_RPS,
+ 		.cfg.ops = &rkvdec_ctrl_ops,
+-		.cfg.dims = { 65 },
++		.cfg.dims = { 64 },
+ 	},
+ 	{
+ 		.cfg.id = V4L2_CID_STATELESS_HEVC_EXT_SPS_LT_RPS,
+ 		.cfg.ops = &rkvdec_ctrl_ops,
+-		.cfg.dims = { 65 },
++		.cfg.dims = { 32 },
+ 	},
+ };
+ 
+-- 
 2.53.0
 
