@@ -1,222 +1,124 @@
-Return-Path: <linux-media+bounces-62836-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62837-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mB0ZDlEeFmpZhwcAu9opvQ
-	(envelope-from <linux-media+bounces-62836-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 00:27:29 +0200
+	id WPzdCeJVFmqplQcAu9opvQ
+	(envelope-from <linux-media+bounces-62837-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 04:24:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999E75DD316
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 00:27:28 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 725615DE864
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 04:24:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 741D930376B5
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2026 22:27:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 18B5E303A27C
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 02:24:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B9AC3C76AC;
-	Tue, 26 May 2026 22:27:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="12uauAYg"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04F6A35E94F;
+	Wed, 27 May 2026 02:24:10 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCFFF3C769B
-	for <linux-media@vger.kernel.org>; Tue, 26 May 2026 22:27:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7B4432D7F1;
+	Wed, 27 May 2026 02:24:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779834431; cv=none; b=Vv34zmWsHehUXmKdDKF+R0FXYLtFFSDoC3VqLoIFctowt1wXvjYN7HkSA1TmttZEDT7F3nlRhKP53fkXqV+527/VBAHQ+9olNB6OrdhTZd/QmjdCGvJKKNraYk61dboOm2xO3y2Q9vqwCOXrloYOkWlmOC2VL6spohkINy6GAZA=
+	t=1779848649; cv=none; b=Bsc/DipmJ6z/fHndm5na+xKXbVgWqtSffr0WAgsh/ITkDRPV9xvWa6UuUu1NfcC6SyVjM8Ln3gxeXUFxtw1GYvEgQdijddT2brEQtEucz9fEX0osomCRdw/vweL7E6YZXKQExPWtFCkOFSWGHdKvaznVrGxrn8QavzmJP2138sU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779834431; c=relaxed/simple;
-	bh=NC7L59h3MSV2X+AacNqB1xKtV9B97rIzx+FWhV/JJUc=;
-	h=Date:To:From:Subject:Message-Id; b=aO1gPDF2U+/osUNSinY/pyTY5M0s1rID4qdRDeqQxBLxWA0X757M+tfpSEoUBYp+5ar83QnPEq8S/HXkirbpMtqMYQFtLJk9VNEb1Y/vbvmcsx1RijnYmQTiuNnzECYzI6B+Cr9cOEz83h6vj83tdF8khzordognntTPiDSkabU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=12uauAYg; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 608471F000E9;
-	Tue, 26 May 2026 22:27:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1779834429;
-	bh=wnlOv1JnrWmpR4lUq5WND2dWRN3S65r/ZqBcztg5U9o=;
-	h=Date:To:From:Subject;
-	b=12uauAYglGi22GXIqTs2guqMXsQAvknS8Xia1nvCzMzdfEtugTyPC83WONWHZFyle
-	 QSMQcTCDnk0m4zlCnaXDEdXx/ZUiCoOQbd0BOqmGJ/JXorn4FbJ8PAgU8Jxb0Dyv0E
-	 caM9D3eLSm1Wusk2ZZJ7VjuPWQkMyP+ig5G/2tgw=
-Date: Tue, 26 May 2026 15:27:08 -0700
-To: akpm@linux-foundation.org,linux-media@vger.kernel.org,mchehab@kernel.org,akpm@linux-foundation.org
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: [patch 1/1] drivers/media/v4l2-core/v4l2-vp9.c: reduce inlining
-Message-Id: <20260526222709.608471F000E9@smtp.kernel.org>
+	s=arc-20240116; t=1779848649; c=relaxed/simple;
+	bh=T+YnW2GWxrjOFRHp7zajPkbikAV165zb5SodWyKFO+A=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=omznSHOWz9NuD1V2cxGUgW6LY5wWdhZbGlUJ/vFJ3Y3giPe3CrUR2BuE1MtIMR+lM3hqx21rgZ4Ii/fe6rQywXyCjGSH12hWf+ndtJLw4tEZDeabk2J2k8yr5fTq2B/WNy8QhkU3vk0KDR/A1Cwt6ZreEUAjCIe8YnWa6YZjX2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn; spf=pass smtp.mailfrom=isrc.iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=isrc.iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=isrc.iscas.ac.cn
+Received: from localhost.localdomain (unknown [36.112.3.223])
+	by APP-05 (Coremail) with SMTP id zQCowAD3XOC7VRZqJveEEQ--.11828S2;
+	Wed, 27 May 2026 10:23:55 +0800 (CST)
+From: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+To: p.zabel@pengutronix.de,
+	mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
+Subject: [PATCH] media: coda: destroy vdoa context on coda_open() error paths
+Date: Wed, 27 May 2026 10:23:53 +0800
+Message-Id: <20260527022353.2069271-1-lihaoxiang@isrc.iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Spamd-Result: default: False [-1.16 / 15.00];
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowAD3XOC7VRZqJveEEQ--.11828S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7Jr1fCFWrAr4kGF4rCw45Wrg_yoWfXFc_ua
+	109FsrZFy0y3s3Cr12yF1ru348ArZ5urs5Ja4Sgry3A34DJw45Xr1jvFZ8Zw4UXF42yF9F
+	9398W34UCFnrujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbckFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_
+	Gr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Jr0_Gr
+	1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0
+	cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8Jw
+	ACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_JF0_
+	Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxV
+	WUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI
+	7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r
+	1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI
+	42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUSNtxUUUUU=
+X-CM-SenderInfo: 5olkt0x0ld0ww6lv2u4olvutnvoduhdfq/1tbiCREAE2oWPLld2AAAs3
+X-Spamd-Result: default: False [0.04 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[linux-foundation.org:s=korg];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62836-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[akpm@linux-foundation.org,linux-media@vger.kernel.org];
+	DMARC_NA(0.00)[iscas.ac.cn];
 	RCVD_COUNT_THREE(0.00)[4];
-	DMARC_NA(0.00)[linux-foundation.org];
-	DKIM_TRACE(0.00)[linux-foundation.org:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_NONE(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 999E75DD316
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62837-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lihaoxiang@isrc.iscas.ac.cn,linux-media@vger.kernel.org];
+	R_DKIM_NA(0.00)[];
+	NEURAL_HAM(-0.00)[-0.959];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,iscas.ac.cn:email,isrc.iscas.ac.cn:mid]
+X-Rspamd-Queue-Id: 725615DE864
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Andrew Morton <akpm@linux-foundation.org>
-Subject: drivers/media/v4l2-core/v4l2-vp9.c: reduce inlining
-Date: Tue May 26 03:14:09 PM PDT 2026
+vdoa context is not released in the error path. Call
+vdoa_context_destroy() to do the cleanup.
 
-csky allmodconfig, gcc-15.2.0:
-
-drivers/media/v4l2-core/v4l2-vp9.c: In function 'v4l2_vp9_adapt_noncoef_probs':
-drivers/media/v4l2-core/v4l2-vp9.c:1834:1: error: the frame size of 1436 bytes is larger than 1280 bytes [-Werror=frame-larger-than=]
-
-The amount of inlining in there is simply nuts.  This patch semi-randomly
-uninlines various things and fixes the above.
-
-Ad the .text size reduction is tremendous:
-
-ts:/usr/src/25> size drivers/media/v4l2-core/v4l2-vp9.o
-   text	   data	    bss	    dec	    hex	filename
-  22450	     36	      0	  22486	   57d6	drivers/media/v4l2-core/v4l2-vp9.o-before
-  16144	     36	      0	  16180	   3f34	drivers/media/v4l2-core/v4l2-vp9.o-after
-
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+Signed-off-by: Haoxiang Li <lihaoxiang@isrc.iscas.ac.cn>
 ---
+ drivers/media/platform/chips-media/coda/coda-common.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
- drivers/media/v4l2-core/v4l2-vp9.c |   30 +++++++++++++--------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+diff --git a/drivers/media/platform/chips-media/coda/coda-common.c b/drivers/media/platform/chips-media/coda/coda-common.c
+index 33f712ff8556..bdc597781e6c 100644
+--- a/drivers/media/platform/chips-media/coda/coda-common.c
++++ b/drivers/media/platform/chips-media/coda/coda-common.c
+@@ -2721,6 +2721,8 @@ static int coda_open(struct file *file)
+ err_clk_enable:
+ 	pm_runtime_put_sync(dev->dev);
+ err_pm_get:
++	if (ctx->vdoa)
++		vdoa_context_destroy(ctx->vdoa);
+ 	v4l2_fh_del(&ctx->fh, file);
+ 	v4l2_fh_exit(&ctx->fh);
+ err_coda_name_init:
+-- 
+2.25.1
 
---- a/drivers/media/v4l2-core/v4l2-vp9.c~drivers-media-v4l2-core-v4l2-vp9c-reduce-inlining
-+++ a/drivers/media/v4l2-core/v4l2-vp9.c
-@@ -1582,25 +1582,25 @@ static inline u8 noncoef_merge_prob(u8 p
-  *	merge_prob(p[9], c[9], [10])
-  */
- 
--static inline void merge_probs_variant_a(u8 *p, const u32 *c, u16 count_sat, u32 update_factor)
-+static noinline_for_stack void merge_probs_variant_a(u8 *p, const u32 *c, u16 count_sat, u32 update_factor)
- {
- 	p[1] = merge_prob(p[1], c[0], c[1] + c[2], count_sat, update_factor);
- 	p[2] = merge_prob(p[2], c[1], c[2], count_sat, update_factor);
- }
- 
--static inline void merge_probs_variant_b(u8 *p, const u32 *c, u16 count_sat, u32 update_factor)
-+static noinline_for_stack void merge_probs_variant_b(u8 *p, const u32 *c, u16 count_sat, u32 update_factor)
- {
- 	p[0] = merge_prob(p[0], c[0], c[1], count_sat, update_factor);
- }
- 
--static inline void merge_probs_variant_c(u8 *p, const u32 *c)
-+static noinline_for_stack void merge_probs_variant_c(u8 *p, const u32 *c)
- {
- 	p[0] = noncoef_merge_prob(p[0], c[2], c[1] + c[0] + c[3]);
- 	p[1] = noncoef_merge_prob(p[1], c[0], c[1] + c[3]);
- 	p[2] = noncoef_merge_prob(p[2], c[1], c[3]);
- }
- 
--static void merge_probs_variant_d(u8 *p, const u32 *c)
-+static noinline_for_stack void merge_probs_variant_d(u8 *p, const u32 *c)
- {
- 	u32 sum = 0, s2;
- 
-@@ -1624,20 +1624,20 @@ static void merge_probs_variant_d(u8 *p,
- 	p[8] = noncoef_merge_prob(p[8], c[6], c[7]);
- }
- 
--static inline void merge_probs_variant_e(u8 *p, const u32 *c)
-+static noinline_for_stack void merge_probs_variant_e(u8 *p, const u32 *c)
- {
- 	p[0] = noncoef_merge_prob(p[0], c[0], c[1] + c[2] + c[3]);
- 	p[1] = noncoef_merge_prob(p[1], c[1], c[2] + c[3]);
- 	p[2] = noncoef_merge_prob(p[2], c[2], c[3]);
- }
- 
--static inline void merge_probs_variant_f(u8 *p, const u32 *c)
-+static noinline_for_stack void merge_probs_variant_f(u8 *p, const u32 *c)
- {
- 	p[0] = noncoef_merge_prob(p[0], c[0], c[1] + c[2]);
- 	p[1] = noncoef_merge_prob(p[1], c[1], c[2]);
- }
- 
--static void merge_probs_variant_g(u8 *p, const u32 *c)
-+static noinline_for_stack void merge_probs_variant_g(u8 *p, const u32 *c)
- {
- 	u32 sum;
- 
-@@ -1659,12 +1659,12 @@ static void merge_probs_variant_g(u8 *p,
- }
- 
- /* 8.4.3 Coefficient probability adaptation process */
--static inline void adapt_probs_variant_a_coef(u8 *p, const u32 *c, u32 update_factor)
-+static noinline_for_stack void adapt_probs_variant_a_coef(u8 *p, const u32 *c, u32 update_factor)
- {
- 	merge_probs_variant_a(p, c, 24, update_factor);
- }
- 
--static inline void adapt_probs_variant_b_coef(u8 *p, const u32 *c, u32 update_factor)
-+static noinline_for_stack void adapt_probs_variant_b_coef(u8 *p, const u32 *c, u32 update_factor)
- {
- 	merge_probs_variant_b(p, c, 24, update_factor);
- }
-@@ -1724,33 +1724,33 @@ static inline void adapt_probs_variant_b
- 	merge_probs_variant_b(p, c, 20, 128);
- }
- 
--static inline void adapt_probs_variant_c(u8 *p, const u32 *c)
-+static noinline_for_stack void adapt_probs_variant_c(u8 *p, const u32 *c)
- {
- 	merge_probs_variant_c(p, c);
- }
- 
--static inline void adapt_probs_variant_d(u8 *p, const u32 *c)
-+static noinline_for_stack void adapt_probs_variant_d(u8 *p, const u32 *c)
- {
- 	merge_probs_variant_d(p, c);
- }
- 
--static inline void adapt_probs_variant_e(u8 *p, const u32 *c)
-+static noinline_for_stack void adapt_probs_variant_e(u8 *p, const u32 *c)
- {
- 	merge_probs_variant_e(p, c);
- }
- 
--static inline void adapt_probs_variant_f(u8 *p, const u32 *c)
-+static noinline_for_stack void adapt_probs_variant_f(u8 *p, const u32 *c)
- {
- 	merge_probs_variant_f(p, c);
- }
- 
--static inline void adapt_probs_variant_g(u8 *p, const u32 *c)
-+static noinline_for_stack void adapt_probs_variant_g(u8 *p, const u32 *c)
- {
- 	merge_probs_variant_g(p, c);
- }
- 
- /* 8.4.4 Non coefficient probability adaptation process, adapt_prob() */
--static inline u8 adapt_prob(u8 prob, const u32 counts[2])
-+static noinline_for_stack u8 adapt_prob(u8 prob, const u32 counts[2])
- {
- 	return noncoef_merge_prob(prob, counts[0], counts[1]);
- }
-_
 
