@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-62887-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62888-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SEhbLZXRFmowsgcAu9opvQ
-	(envelope-from <linux-media+bounces-62887-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 13:12:21 +0200
+	id cKeyCM/SFmq+swcAu9opvQ
+	(envelope-from <linux-media+bounces-62888-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 13:17:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E2D05E32BF
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 13:12:21 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 218C75E341C
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 13:17:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id E3C5D3012D5D
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 11:10:00 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 3A3AB3000891
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 11:10:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15B133FE375;
-	Wed, 27 May 2026 11:08:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 839FB3F6C3C;
+	Wed, 27 May 2026 11:08:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="eTLg6Fr5"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="jh3KTMZk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4CC43FD957;
-	Wed, 27 May 2026 11:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10DB3F39EA;
+	Wed, 27 May 2026 11:08:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779880094; cv=none; b=efi3+jw2JBbpTxegKJxaVTUPyK06XFucDzBymqA1eikK3VsGj/gEkd68dh8lmPkALy0B4xTxDJVzcpeBIiWdlQI16pwke2AtiueGwEO0SNHJj4WQvEHRnRb2Ped+7KEJGT0vXoHz/aUKD0ThiAADtgIQLzR5gcFJMwyLO+NY9zg=
+	t=1779880098; cv=none; b=PTd98bJXt7Xxlgr1HUL5Fcdh/VOth1dko4wfOKb7iPKEbqrW44tbiNmONhDfJrKP8bLq0hLMlXrS28SBumr6cZvGvvAguQJW5meY+FOEh1/5CBPav52KjWSR/lIIkcj2PdJIHaBkajf4tkJ8jyHIdnAuF2u/8IdgmzLfqRK3ylc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779880094; c=relaxed/simple;
-	bh=qDvEDWXEKa8hkWcJmwTKKABkJC3pfZSaCyEoriecjCc=;
+	s=arc-20240116; t=1779880098; c=relaxed/simple;
+	bh=ReiDdwkcSLe/Nn2wIdWLLJpIXqoldTX9ysS+Ik/I7zA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=N45wKIDLyeXfznPsZ1S/KB0fZrMCsTCc6nS4UsWoYgYLrzVS8OU2lnQAl09Ehl4osvZHsPHfTnagwu5cYXQiAiMbY+cKSQv8m1NsMUe6IsO+kzTPaOaTg1PIyQr45emcQAWj/UWC4UjDKKwn7e30LAKdcgw0C+yZ8q5FqQ9mZ6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=eTLg6Fr5; arc=none smtp.client-ip=68.232.154.123
+	 In-Reply-To:To:CC; b=HNByagAPiuiYq04/jRUo+ZXgevzhjG4HiGmQvFeDSnvXhCvXvze0fEK+Xebax/IeSzPzCt8GP7zvjlIQWw2RM0Yh/A7FRWBtTZW+gKuegiiGEqjXAeore1/9KsmTDFrPLI9kaoTFLeZ6qBjECLJI3aMjycSu1PvqNqzIVoafot8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=jh3KTMZk; arc=none smtp.client-ip=68.232.153.233
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1779880093; x=1811416093;
+  t=1779880098; x=1811416098;
   h=from:date:subject:mime-version:content-transfer-encoding:
    message-id:references:in-reply-to:to:cc;
-  bh=qDvEDWXEKa8hkWcJmwTKKABkJC3pfZSaCyEoriecjCc=;
-  b=eTLg6Fr5ThyS3lOupe7PqEorhrfg1WFnSYSUVhQPM8ePGz829ADvJXfw
-   gTaI8eOXo4CWNW6ktNuR2ubwFLXJnw40heM/TT4dtQlzbpGEn5EYWHQU2
-   XkvNFqMCes9Np/RskxswudFeTVN2kUcCjsz3hh2fFUAfMHuemUQ43aSfn
-   BSOzCJIORV+hiZdFtTwyOk6tV1T7G66zTxUoMqCRPnijAAUe4a0rpSBLZ
-   x96Cif3Jq0vJPxuhVEiLcpsWfZoW8JA+WMTuDR6hoWPHGIoCmgh3h7teT
-   mmcSDkJFCkYQxe9NgODYYig9P+iUfOIJ7zK4it5fFz/6YDUZxdSUvLBzc
-   Q==;
-X-CSE-ConnectionGUID: 2CtCAwlxSXCVN3qBpWODfQ==
-X-CSE-MsgGUID: AjSiTKxHRj2rMAiwG66s8Q==
+  bh=ReiDdwkcSLe/Nn2wIdWLLJpIXqoldTX9ysS+Ik/I7zA=;
+  b=jh3KTMZk3rLwTlk7IlxADdHm25NgZjHLSHV4YfP4O2SUw0FOT+p25alz
+   aONPNZq3LKKCBjn4UoM40C20cY8JTBP/lve65h0u7D1IFk7/9dWL/Y8+G
+   qtYB6oGnj4Uvyh2maYFxd0drFhAgEPzGo4d8b3qNGocbF/4qoMMUQ7TXg
+   RwneBYPHEvnznjuVhM/w2absvCQ/e2sLLCbcJ17Y7uMumDA90EhFVd9CY
+   YbEyibate0XUMcZ3lasdjjNoPa4fuXAlhg+Arxvupxx5jvhsKk0lD57Ma
+   SosYog3sb8KmvCoG1pPFRTqLwb+qFZRDaH0PeiwuJBkShT8dOTZxO6G85
+   g==;
+X-CSE-ConnectionGUID: YtkCLYPYRH+rVljlFN//UA==
+X-CSE-MsgGUID: zq6Q3617RFqRIFdRKtuy8A==
 X-IronPort-AV: E=Sophos;i="6.24,171,1774335600"; 
-   d="scan'208";a="58532069"
+   d="scan'208";a="58112124"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 04:08:12 -0700
+  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 04:08:17 -0700
 Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
  chn-vm-ex3.mchp-main.com (10.10.87.32) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.41; Wed, 27 May 2026 04:08:11 -0700
+ 15.2.2562.41; Wed, 27 May 2026 04:08:16 -0700
 Received: from [127.0.0.1] (10.10.85.11) by chn-vm-ex02.mchp-main.com
  (10.10.85.144) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
- Transport; Wed, 27 May 2026 04:08:07 -0700
+ Transport; Wed, 27 May 2026 04:08:12 -0700
 From: Balakrishnan Sambath <balakrishnan.s@microchip.com>
-Date: Wed, 27 May 2026 16:37:27 +0530
-Subject: [PATCH v5 11/12] media: microchip-isc: smooth AWB gains with EMA
- filter
+Date: Wed, 27 May 2026 16:37:28 +0530
+Subject: [PATCH v5 12/12] media: microchip-isc: scale DPC black level to
+ sensor bit depth
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -73,7 +73,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20260527-microchip-isc-fixes-v5-11-b0ec1bb954be@microchip.com>
+Message-ID: <20260527-microchip-isc-fixes-v5-12-b0ec1bb954be@microchip.com>
 References: <20260527-microchip-isc-fixes-v5-0-b0ec1bb954be@microchip.com>
 In-Reply-To: <20260527-microchip-isc-fixes-v5-0-b0ec1bb954be@microchip.com>
 To: Eugen Hristev <ehristev@kernel.org>, Mauro Carvalho Chehab
@@ -88,93 +88,84 @@ X-Mailer: b4 0.14.3
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[microchip.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	R_DKIM_ALLOW(-0.20)[microchip.com:s=mchp];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-62887-lists,linux-media=lfdr.de];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
 	DKIM_TRACE(0.00)[microchip.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62888-lists,linux-media=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[balakrishnan.s@microchip.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_FIVE(0.00)[6];
+	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCPT_COUNT_SEVEN(0.00)[11];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,microchip.com:email,microchip.com:mid,microchip.com:dkim]
-X-Rspamd-Queue-Id: 5E2D05E32BF
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 218C75E341C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Apply exponential moving average (alpha=0.25) to reduce per-frame
-flicker from sensor noise.
+The DPC_BLCFG black level register expects counts in the sensor's
+native bit depth. The previous fixed 10-bit value (64 counts) under-
+corrects 12-bit sensors and over-corrects 8-bit ones, producing an
+incorrect black point. Scale the nominal 10-bit value to match the
+8/10/12-bit sensor bus width derived from pfe_cfg0_bps.
 
+Co-developed-by: Balamanikandan Gunasundar <balamanikandan.gunasundar@microchip.com>
+Signed-off-by: Balamanikandan Gunasundar <balamanikandan.gunasundar@microchip.com>
 Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
 ---
- drivers/media/platform/microchip/microchip-isc-base.c | 19 ++++++++++++++++---
- drivers/media/platform/microchip/microchip-isc.h      |  1 +
- 2 files changed, 17 insertions(+), 3 deletions(-)
+ .../media/platform/microchip/microchip-sama7g5-isc.c  | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/microchip/microchip-isc-base.c b/drivers/media/platform/microchip/microchip-isc-base.c
-index a2719830d39b..d07ea2fa33c6 100644
---- a/drivers/media/platform/microchip/microchip-isc-base.c
-+++ b/drivers/media/platform/microchip/microchip-isc-base.c
-@@ -94,6 +94,7 @@ static inline void isc_reset_awb_ctrls(struct isc_device *isc)
- 	for (c = ISC_HIS_CFG_MODE_GR; c <= ISC_HIS_CFG_MODE_B; c++) {
- 		/* gains have a fixed point at 9 decimals */
- 		ctrls->gain[c] = 1 << 9;
-+		ctrls->gain_smooth[c] = 1 << 9;
- 		/* offsets are in 2's complements */
- 		ctrls->offset[c] = 0;
- 	}
-@@ -1477,11 +1478,23 @@ static void isc_wb_update(struct isc_ctrls *ctrls)
- 		/* Combine stretch and grey-world gains; result stays in Q9. */
- 		gain = (s_gain * gw_gain) >> 9;
+diff --git a/drivers/media/platform/microchip/microchip-sama7g5-isc.c b/drivers/media/platform/microchip/microchip-sama7g5-isc.c
+index f51c7cac25df..067a6e1558d3 100644
+--- a/drivers/media/platform/microchip/microchip-sama7g5-isc.c
++++ b/drivers/media/platform/microchip/microchip-sama7g5-isc.c
+@@ -26,6 +26,7 @@
+  * HIS: Histogram module performs statistic counters on the frames
+  */
  
--		ctrls->gain[c] = clamp_val(gain, 0, GENMASK(12, 0));
-+		/*
-+		 * Smooth gain updates with an exponential weighted average
-+		 * to suppress per-frame flicker:
-+		 *   smooth[n] = (3 * smooth[n-1] + gain) / 4
-+		 * Clamp to the hardware register width to prevent unbounded
-+		 * accumulation under degenerate (near-empty histogram) inputs.
-+		 */
-+		ctrls->gain_smooth[c] = (3 * ctrls->gain_smooth[c] + gain) / 4;
-+		ctrls->gain_smooth[c] = min_t(u32, ctrls->gain_smooth[c],
-+					      GENMASK(12, 0));
++#include <linux/bitfield.h>
+ #include <linux/clk.h>
+ #include <linux/clkdev.h>
+ #include <linux/clk-provider.h>
+@@ -289,9 +290,25 @@ static void isc_sama7g5_config_dpc(struct isc_device *isc)
+ {
+ 	u32 bay_cfg = isc->config.sd_format->cfa_baycfg;
+ 	struct regmap *regmap = isc->regmap;
++	u32 bps, bloff;
 +
-+		ctrls->gain[c] = ctrls->gain_smooth[c];
++	/*
++	 * Scale the nominal 10-bit black level offset (64 counts) to the
++	 * actual sensor bus width.
++	 * ISC_PFE_CFG0_BPS encodes (12 - bit_depth) / 2 in bits[30:28]:
++	 *   BPS_EIGHT  = 4  ->  8-bit  -> bloff = 64 >> 2 = 16
++	 *   BPS_TEN    = 2  -> 10-bit  -> bloff = 64
++	 *   BPS_TWELVE = 0  -> 12-bit  -> bloff = min(64 << 2, 255) = 255
++	 * The BLOFF hardware field is 8-bit so values are clamped to 255.
++	 */
++	bps = FIELD_GET(ISC_PFE_CFG0_BPS_MASK, isc->config.sd_format->pfe_cfg0_bps);
++	if (bps >= 2)
++		bloff = 64u >> (bps - 2);
++	else
++		bloff = min(64u << (2 - bps), 255u);
  
- 		dev_dbg(isc->dev,
--			"isc wb: c=%u black=%u avg=%u s_gain=%u gw_gain=%u gain=%u",
--			c, hist_min, channel_avg, s_gain, gw_gain, gain);
-+			"isc wb: c=%u black=%u avg=%u s_gain=%u gw_gain=%u gain=%u smooth=%u\n",
-+			c, hist_min, channel_avg, s_gain, gw_gain, gain,
-+			ctrls->gain_smooth[c]);
- 	}
+ 	regmap_update_bits(regmap, ISC_DPC_CFG, ISC_DPC_CFG_BLOFF_MASK,
+-			   (64 << ISC_DPC_CFG_BLOFF_SHIFT));
++			   (bloff << ISC_DPC_CFG_BLOFF_SHIFT));
+ 	regmap_update_bits(regmap, ISC_DPC_CFG, ISC_DPC_CFG_BAYCFG_MASK,
+ 			   (bay_cfg << ISC_DPC_CFG_BAYCFG_SHIFT));
  }
- 
-diff --git a/drivers/media/platform/microchip/microchip-isc.h b/drivers/media/platform/microchip/microchip-isc.h
-index 45168c62e3bc..0ae9b4e8f32d 100644
---- a/drivers/media/platform/microchip/microchip-isc.h
-+++ b/drivers/media/platform/microchip/microchip-isc.h
-@@ -149,6 +149,7 @@ struct isc_ctrls {
- 
- 	/* one for each component : GR, R, GB, B */
- 	u32 gain[HIST_BAYER];
-+	u32 gain_smooth[HIST_BAYER];
- 	s32 offset[HIST_BAYER];
- 
- 	u32 hist_entry[HIST_ENTRIES];
 
 -- 
 2.34.1
