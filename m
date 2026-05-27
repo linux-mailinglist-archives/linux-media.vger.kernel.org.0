@@ -1,462 +1,313 @@
-Return-Path: <linux-media+bounces-62891-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62892-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mHGaC9nZFmpVtgcAu9opvQ
-	(envelope-from <linux-media+bounces-62891-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 13:47:37 +0200
+	id 4LYSFVbcFmofuAcAu9opvQ
+	(envelope-from <linux-media+bounces-62892-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 13:58:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 355D65E398E
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 13:47:36 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8B0C5E3C04
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 13:58:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id BDCCF3017E98
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 11:45:38 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6BD7A30451CF
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 11:54:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 045AA3B9D91;
-	Wed, 27 May 2026 11:45:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53070401493;
+	Wed, 27 May 2026 11:54:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="J7vCu8Ho"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AFQV38mY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63AA3400E10;
-	Wed, 27 May 2026 11:45:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779882333; cv=none; b=Sud547ANhrCqzgkmm+5xH1WdcFAR1wak9GmfDQhwZYfWEFqREDaJk++hmyZKQXhqE6S54HC+xL0C8ZyynBKDC2pxG5Pz02YMkyDfFY8XHzNZ+4RZ0DeOoFcmb94emSC/WJVJYll9anagtpoMq1S4Gp8fpEFMZJEhbva7dcQmGO4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779882333; c=relaxed/simple;
-	bh=lD8D59F0rX4/9epBtkrlRda2HI8iAifPwcgPNJwjOUs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OYHHGXponaXLw60aHRJHnXYwZj0cqdWeCDGYE96dAATFbFKkqxXghJx4OeN8YDS1iYnsePL8Yl4vLROFrZeXtzJygs/wrqCoiMcG8HTat5k1MVGnWVYl+/52X88n3u+3e9W3gn0oxTZzA9q+UoMh9cMrMmBg648qSoqxT0YsTLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=J7vCu8Ho; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.0.83] (cpc89242-aztw30-2-0-cust469.18-1.cable.virginm.net [86.31.129.214])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0DFB99D1;
-	Wed, 27 May 2026 13:45:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1779882311;
-	bh=lD8D59F0rX4/9epBtkrlRda2HI8iAifPwcgPNJwjOUs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=J7vCu8HoPmZC7g5BSoY5poUe7iUOTjvbQ0zwR6cVYF0UIG9jpSpARd3cx/SXUY1qV
-	 fUDe2IOFPeoYbuH/FpMCnO0fx9zbeaEEGOr2NVae40xolOl+Y+esOg2TurKlc2PWQH
-	 mGp4X3HDbpyp/qoHV38IsBnG73QHJnUBeo2evxoA=
-Message-ID: <cb202484-3a53-4821-b1bd-5f910e0cd953@ideasonboard.com>
-Date: Wed, 27 May 2026 12:45:26 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1066129BDB1
+	for <linux-media@vger.kernel.org>; Wed, 27 May 2026 11:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1779882858; cv=pass; b=Jw9th6T6ayOr8cVbTSQ/0wwUViUxEdixR3RuJAPKPLl5pKiqu9zw7QzRS7d6n+ceFwNt9YQKsprjV3jRV4fWjuijrMuXsfR0S6B59/4kCHYiWBU3YZwNcHcQtpbcr7CSmBVO/IldOU4p//PAb8oBNZK0QLZKlGTlhj2DQezH59Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1779882858; c=relaxed/simple;
+	bh=r7JV4Qlc/632i94GYxXPKPWstQRLKr2HGMAhVUjmiKQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S8mEujiKbvPN8umfNqSBilCc8d2Gp/vDPElmEZv/R+AxIoDFv1ZsfEa7uZwm2myzenNuiQjSHNDyaX7KpcmkRrUKuNWNqwAQqmm1IEqJ6jqO2uCOtAFNJcsyiHdia0wCQ6XaEAsajZmoN9988rhAHWBafaUeGpwLPUrlXqmCjjk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AFQV38mY; arc=pass smtp.client-ip=209.85.210.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-7dcdaf06498so7507708a34.2
+        for <linux-media@vger.kernel.org>; Wed, 27 May 2026 04:54:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779882855; cv=none;
+        d=google.com; s=arc-20240605;
+        b=IBgZv+2H+Bdcdg4SlU2YXOFRwGVNJXTG1vO8ARvZPl+Oq1ZLsU0/1grKPiHIZQMvMm
+         zANmViInlFjWZv0Rv1AL/vk23NeTgevE2ietp0HxW2HQS6PQYH170nSyVUiy+p82VyWj
+         8ju1UzjYCyJV7HfLPiSg5R6ahJaX2E5PSbnN/wkZsvnIcPffX5XFMGD4sX/OzXqFdW4G
+         MA1wF/pNXkTjNpIoGQ+/1RLi1AZnkrQlAqjeZVl38cMxY6OM5GH+rdVfdWahExw1MX6i
+         0fnG+VZyz9oqXTNuFBHLnTX9V4tE3+vyQ3qJqxk/Vkpq3RF7J8GWrHGuRE737bgc6KRV
+         bXNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=3vFoZj3BR3SklGgACKj9VkieCL7MJ3G4MrQ8F1FQu/s=;
+        fh=GP5zbwGsHIVGgxC1Fihe1L0ZnEh2ifkPL/J4fskmbDU=;
+        b=RYtDC3VYwgZwDPZ0P0mra2viNTfsOKIjwglNol71wNtSZhTPc2kiRzm4SKzzjT7QUZ
+         oEgPO1I7irc2Uq1SeoQ3uA0RJ2yAN9suXuUY/pbleQooN4tm+wBI4LmXFZSR94W+PvtU
+         daMg+0qeu3wLewo3iVK24Z1zrCLmwb2l73i2nEPcplGze8yht4XzAMv4dgordFD7KGDX
+         Q836Migr75TVMt/ICncmOWR9osOREQPqstdRQ8/moHGfnJAIh5aJJxrUtMCYGcriAh1N
+         T1H4MvPY1QxgEwpp3brU1uM40Ksqv5IgYkCdeX2qXOVQ30pQMPpL51y9VqZ4eUdTRMbH
+         t+ZQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779882855; x=1780487655; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3vFoZj3BR3SklGgACKj9VkieCL7MJ3G4MrQ8F1FQu/s=;
+        b=AFQV38mYg7Kznofm6ukE2qntxLctnCTEl/73rI6fpknkzW8lPJ3PktusTva+MlvLiA
+         Fmc+pm3aItCBZ6MQhcdTtDPTG5RFN1TnH48jGJjVvuWtgtH738qt7kHANBvtVMLOZK3o
+         V0DJoez+Xu5R/K4OAkB3ASBQxLGPpcHUd1gcL/LczXhORkVUdVEg8n7qcf37MC2WVk0a
+         NyBJqkFDj9A+idtRPxYyk3Jo44Js/DS0GdCapR81EMLQg7mMTdL3nxPcM74XQbCPkX/s
+         KjiN941DcR9RaGsCpcpoWdHKR2nlNPd2yFSnnUWmStmjhc+0dB8+4M/2nv5AOcf3OM8K
+         Eeww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779882855; x=1780487655;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3vFoZj3BR3SklGgACKj9VkieCL7MJ3G4MrQ8F1FQu/s=;
+        b=i1QK9ZEN8uxYzpwvS9xDXGR8HZqFjv9eKVqmvd7mxLozlQTCwvSEZ76ejl3Iu+cvDJ
+         RTvSGk5OjGnrB06OgHTlJBS/CSjQHDqbHO9QJk9ceTlPqg4CGuVQbVLT4bREJJ0+P7jC
+         7Xl5owexWaR6iOPBGzHEQWJTCsWi0Dgqreaz/kpHqtVYv0fumBTR/s45Bpar1QEWQ6se
+         vdbn6ovB4KRj3U3XJMgh3j0GeCJw6FyOOHR5A7vP/AEWi6mMrroDSPSiWi8evrQ4ZeQk
+         xab1v7QE5bXa2/o+UbDRxRINSj1JyYYi9uATFdCiY4fLGg6xHgYzJBIVz/yy56RehZaH
+         83mg==
+X-Gm-Message-State: AOJu0Yz1lnB4AIYF2DfUh6c1KWIzWB+DDNQokVHYQtnHMx6yinHj7SWN
+	GFiJV2tTKqZf0upIx4oRfJUi4Eug+/tKDI/zg+ZnNamFYV9Nan8lSx9+Y1pcWcSOCTFLiTCvs0J
+	TR/rD3rSikgJzrgJYR/WJ7LfzwIpNWQo=
+X-Gm-Gg: Acq92OGJEzu+tBP0/AA2yDNZCWLjTA5mVbPjatmTHp6qMIzZo8fT1jcZNUWfAPQbMf+
+	6mG2YPGJOfCEjGjQKynO2shKrtngoWgXBpKQnt4TcFjqRDN76qHK4G94FVGLml8X0lO20REzLj8
+	+A/at9goqtVj11yog1Ppe/wdtJ12cUVE1ET7IxlyMGOPwqGbF+CB1OrFEpntZPifDXnAjnf7Wb7
+	M8zmrg4O+cuS0L7jljc3DrF8Vlv1EY4ugqIUyAS48xvV8sG0jOSa9/5wMHJHAPUFeVRnC8yvxOJ
+	kutas4eBw23gm7QpoyqweE8sKdA+nTWsLORDZ81Y/Xr9YFHfALCBOVUHvD+i2x6Yh5g=
+X-Received: by 2002:a05:6820:4dcc:b0:67e:251a:bd3e with SMTP id
+ 006d021491bc7-69d7eb50ef8mr12523541eaf.18.1779882855023; Wed, 27 May 2026
+ 04:54:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/2] Pinefeat cef168 lens control board driver
-To: Aliaksandr Smirnou <asmirnou@pinefeat.co.uk>
-Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, hverkuil@xs4all.nl,
- jacopo.mondi@ideasonboard.com, krzk+dt@kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- mchehab@kernel.org, robh@kernel.org
-References: <93997447-2f03-4449-ac51-ee6a2e470d58@ideasonboard.com>
- <20260526203552.16717-1-asmirnou@pinefeat.co.uk>
-Content-Language: en-US
-From: Alen Karnil <alen.karnil@ideasonboard.com>
-Autocrypt: addr=alen.karnil@ideasonboard.com; keydata=
- xjMEafxhCxYJKwYBBAHaRw8BAQdAXswEEnvxYiHXb8Q8GsSAuaLuXqJFs3kmsMI7EWF9EuDN
- NUFsZW4gS2FybmlsIChXb3JrIElvQikgPGFsZW4ua2FybmlsQGlkZWFzb25ib2FyZC5jb20+
- wpkEExYKAEEWIQT0whyXpTyoVtApVAlRzoJ78NRPngUCagGrrgIbAwUJBaOagAULCQgHAgIi
- AgYVCgkICwIEFgIDAQIeBwIXgAAKCRBRzoJ78NRPnkpDAP4kmtHsMfTtV6BC1z7GTb86BL2g
- 9FC1EarGJDDzcafMGQEA6clsoXvRYjHPJexVebjmkI4bq1QM0X/L9Ffe0PfpdQbOOARp/GEL
- EgorBgEEAZdVAQUBAQdAsVoGZ4IK0EgJ8HU05PQKzK15jaCi/IEA/7Cw9ZzcBmwDAQgHwn4E
- GBYKACYWIQT0whyXpTyoVtApVAlRzoJ78NRPngUCafxhCwIbDAUJBaOagAAKCRBRzoJ78NRP
- nqYcAP0eh3LahCDsfNa8zsiK+8QzeujWPKhc5zDcIqrDI6xufwD+Mu9e202It54rNZb8UWEy
- V5OzTEy0JlsQfO6DYWIORwI=
-In-Reply-To: <20260526203552.16717-1-asmirnou@pinefeat.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260518102451.417971-1-paulk@sys-base.io> <20260518102451.417971-11-paulk@sys-base.io>
+ <CAMxPZkiKBFsPA5x6KpBajGqO5xqxD5AOd26j3uwqnQko1VzknQ@mail.gmail.com> <ahakVq7Fv78ODicG@shepard>
+In-Reply-To: <ahakVq7Fv78ODicG@shepard>
+From: arash golgol <arash.golgol@gmail.com>
+Date: Wed, 27 May 2026 15:23:44 +0330
+X-Gm-Features: AVHnY4IBJ2USZh9zewtK1mpREASscLC7umJs8sYSO8dfl7Vqb2mCAkjyaVX__p0
+Message-ID: <CAMxPZkjQGFxGeafUhCSn82PnWeRpW3YQ-5ZTZUwE1psTq2hJiw@mail.gmail.com>
+Subject: Re: [PATCH 10/16] media: sun6i-csi: Add support for MC-centric format enumeration
+To: Paul Kocialkowski <paulk@sys-base.io>
+Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Chen-Yu Tsai <wens@kernel.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,xs4all.nl,ideasonboard.com];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	TAGGED_FROM(0.00)[bounces-62891-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62892-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,lists.linux.dev,kernel.org,gmail.com,sholland.org,linuxfoundation.org,ideasonboard.com,collabora.com];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	MIME_TRACE(0.00)[0:+];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	NEURAL_HAM(-0.00)[-0.999];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[alen.karnil@ideasonboard.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[arashgolgol@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 355D65E398E
+X-Rspamd-Queue-Id: C8B0C5E3C04
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Hi Paul,
 
+On Wed, May 27, 2026 at 11:29=E2=80=AFAM Paul Kocialkowski <paulk@sys-base.=
+io> wrote:
+>
+> Hi Arash,
+>
+> On Wed 27 May 26, 09:20, arash golgol wrote:
+> > On Mon, May 18, 2026 at 2:00=E2=80=AFPM Paul Kocialkowski <paulk@sys-ba=
+se.io> wrote:
+> > >
+> > > Use the dedicated helper to check possible pixelformats against the
+> > > provided mbus code in order to support MC-centric format enumeration.
+> > >
+> > > Note that multiple pixelformats may be returned for a given mbus code=
+.
+> > >
+> > > Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+> > > ---
+> > >  .../sunxi/sun6i-csi/sun6i_csi_capture.c       | 38 +++++++++++++++++=
+--
+> > >  1 file changed, 34 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture=
+.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> > > index a836fa7f081a..409c28621093 100644
+> > > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> > > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
+> > > @@ -773,14 +773,43 @@ static int sun6i_csi_capture_querycap(struct fi=
+le *file, void *priv,
+> > >  static int sun6i_csi_capture_enum_fmt(struct file *file, void *priv,
+> > >                                       struct v4l2_fmtdesc *fmtdesc)
+> > >  {
+> > > +       const struct sun6i_csi_capture_format *capture_format;
+> > > +       const struct sun6i_csi_bridge_format *bridge_format;
+> > > +       u32 mbus_code =3D fmtdesc->mbus_code;
+> > >         u32 index =3D fmtdesc->index;
+> > > +       unsigned int index_valid =3D 0;
+> > > +       unsigned int i;
+> > > +
+> > > +       /* Video-node-centric enumeration. */
+> > > +       if (!mbus_code) {
+> > > +               if (index >=3D ARRAY_SIZE(sun6i_csi_capture_formats))
+> > > +                       return -EINVAL;
+> > > +
+> > > +               fmtdesc->pixelformat =3D
+> > > +                       sun6i_csi_capture_formats[index].pixelformat;
+> > > +               return 0;
+> > > +       }
+> > >
+> > > -       if (index >=3D ARRAY_SIZE(sun6i_csi_capture_formats))
+> > > +       bridge_format =3D sun6i_csi_bridge_format_find(mbus_code);
+> > > +       if (!bridge_format)
+> > >                 return -EINVAL;
+> > >
+> > > -       fmtdesc->pixelformat =3D sun6i_csi_capture_formats[index].pix=
+elformat;
+> > > +       for (i =3D 0; i < ARRAY_SIZE(sun6i_csi_capture_formats); i++)=
+ {
+> > > +               capture_format =3D &sun6i_csi_capture_formats[i];
+> > >
+> > > -       return 0;
+> > > +               if (!sun6i_csi_capture_format_check(capture_format,
+> > > +                                                   bridge_format))
+> > > +                       continue;
+> > > +
+> > > +               if (index_valid =3D=3D index) {
+> > > +                       fmtdesc->pixelformat =3D capture_format->pixe=
+lformat;
+> > > +                       return 0;
+> > > +               }
+> > > +
+> > > +               index_valid++;
+> > > +       }
+> > > +
+> > > +       return -EINVAL;
+> > >  }
+> > >
+> > >  static int sun6i_csi_capture_enum_framesize(struct file *file, void =
+*fh,
+> > > @@ -1076,7 +1105,8 @@ int sun6i_csi_capture_setup(struct sun6i_csi_de=
+vice *csi_dev)
+> > >
+> > >         strscpy(video_dev->name, SUN6I_CSI_CAPTURE_NAME,
+> > >                 sizeof(video_dev->name));
+> > > -       video_dev->device_caps =3D V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_=
+STREAMING;
+> > > +       video_dev->device_caps =3D V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_=
+STREAMING |
+> > > +                                V4L2_CAP_IO_MC;
+> > >         video_dev->vfl_dir =3D VFL_DIR_RX;
+> > >         video_dev->release =3D video_device_release_empty;
+> > >         video_dev->fops =3D &sun6i_csi_capture_fops;
+> > > --
+> > > 2.54.0
+> > >
+> >
+> > Tested on a LicheePi Zero Dock (V3s) with the following pipeline:
+> >
+> > ov7670 -> sun6i-csi-bridge -> sun6i-csi-capture
+> >
+> > I verified that mbus-code-based format enumeration works correctly
+> > from userspace and that the reported capture formats change according
+> > to the selected media bus format.
+> >
+> > I could also successfully start streaming with several of the
+> > enumerated capture formats (e.g. YUYV and BA81)
+>
+> Excellent, thank-you very much for testing this!
+>
 
-On 26/05/2026 21:35, Aliaksandr Smirnou wrote:
-> On Tue, 26 May 2026 16:54:37 +0100, Alen Karnil wrote:
-> 
->> I've been asked by Kieran Bingham to review your patches, I've
->> reproduced your work on setup with a Pi 5 with a 6.18 kernel and
->> I got a few questions
-> 
-> Hi Alen,
-> 
-> Thank you for resuming the work on the patch.
-> 
->> I built the calibration application but it would not work out the
->> box, I can see that CEF168_V4L2_CID_CUSTOM is different between that
->> is in the patch and in the application? Which is the correct one,
->> does the  patch need updating?
-> 
-> The CEF168_V4L2_CID_CUSTOM value used in the patch is the correct one.
-> 
-> Although the repository currently defines it with a different value,
-> this does not cause any issues for users because the driver is built
-> and installed locally together with the calibration tool.
-> 
-> I can update the value in the cef168 repository at any time, so as long
-> as users pull the latest version of the repository, everything will work
-> correctly.
-> 
-> If the driver is eventually merged into the Linux kernel source tree,
-> the repository will need to be updated accordingly anyway, because there
-> will be no need to build the driver locally.
-> 
->> The tool to modify the device tree also did not work with the
->> IMX477, I needed to manually modify my device tree to get the dtbo
->> to build,
-> 
-> I just double-checked the setup on a Raspberry Pi 5 running the latest
-> 6.18 kernel from the stock Raspberry Pi OS, and everything works
-> correctly. Are you using a customized Linux distribution?
-> 
-Strange, I've taken the latest RPi lite trxie OS, but I replaced the 
-kernel from the rpi-6.18.y branch.
+Happy to help.
 
-> Could you provide the build error logs and the overlay files generated
-> by the tool before you modified them?
-using the configure.sh tool with imx477
-imx477_378-overlay.dtsi
+> > However, I could not fully validate actual format conversion behavior
+> > (e.g. MEDIA_BUS_FMT_YUYV8_2X8 to NV12) because my OV7670 setup
+> > currently has non-functional test patterns except for 'shifting-1'
+> > mode.
+>
+> That's fine. I don't think I have tested it recently either.
+>
+> > Tested-by: Arash Golgol <arash.golgol@gmail.com>
+> >
+> > PS:
+> >
+> > While testing this patch I also noticed that
+> > VIDIOC_SUBDEV_ENUM_MBUS_CODE reports duplicate entries for:
+> >  - MEDIA_BUS_FMT_UYVY8_2X8
+> >  - MEDIA_BUS_FMT_UYVY8_1X16
+> > on sun6i-csi-bridge.
+>
+> I just had a look and you are definitely right, the entries are clearly
+> duplicates and at the same time all the relevant formats are included, so=
+ they
+> are not taking the place of another format that was forgotten.
+>
+> You're welcome to submit a patch to remove these entries if you'd like,
+> or I could do it otherwise.
+>
 
-```
-// SPDX-License-Identifier: GPL-2.0-only
-// Definitions for IMX477 camera module on VC I2C bus
+Thanks, I'll send a small patch to remove the duplicate mbus format entries=
+.
 
-/{
-	compatible = "brcm,bcm2835";
+> By the way would you be interested in testing the H.264 encoder support f=
+or
+> V3/V3s once I send a first version for it? I had written initial support =
+for
+> it a while ago (did not send it to the list) and now that my work on the =
+V4L2
+> stateless uAPI has reached a point of usability I will probably try to up=
+date
+> my rework of the cedrus driver to use it.
+>
 
-	fragment@0 {
-		target = <&i2c0if>;
-		__overlay__ {
-			status = "okay";
-		};
-	};
+Yes, I would definitely be interested in testing the H.264 encoder
+support on V3s once you post it. I previously did some experiments
+with Cedrus on V3s (bootlin, cedrus/h264-encoding branch).
 
-	clk_frag: fragment@1 {
-		target = <&cam1_clk>;
-		cam_clk: __overlay__ {
-			clock-frequency = <24000000>;
-			status = "okay";
-		};
-	};
+Looking forward to it!
 
-	fragment@2 {
-		target = <&i2c0mux>;
-		__overlay__ {
-			status = "okay";
-		};
-	};
-
-	reg_frag: fragment@3 {
-		target = <&cam1_reg>;
-		cam_reg: __overlay__ {
-			startup-delay-us = <300000>;
-		};
-	};
-
-	fragment@4 {
-		target = <&cam_node>;
-		__overlay__ {
-			lens-focus = <&vcm_node>;
-		};
-	};
-
-	reg_alwayson_frag: fragment@99 {
-		target = <&cam1_reg>;
-		__dormant__ {
-			regulator-always-on;
-		};
-	};
-
-	i2c_frag: fragment@100 {
-		target = <&i2c_csi_dsi>;
-		__overlay__ {
-			#address-cells = <1>;
-			#size-cells = <0>;
-			status = "okay";
-
-			#include "imx477_378.dtsi"
-		};
-	};
-
-	csi_frag: fragment@101 {
-		target = <&csi1>;
-		csi: __overlay__ {
-			status = "okay";
-
-			port {
-				csi_ep: endpoint {
-					remote-endpoint = <&cam_endpoint>;
-					clock-lanes = <0>;
-					data-lanes = <1 2>;
-					clock-noncontinuous;
-				};
-			};
-		};
-	};
-
-	fragment@102 {
-		target = <&csi1>;
-		__dormant__ {
-			compatible = "brcm,bcm2835-unicam-legacy";
-		};
-	};
-
-	__overrides__ {
-		rotation = <&cam_node>,"rotation:0";
-		orientation = <&cam_node>,"orientation:0";
-		media-controller = <0>,"!102";
-		cam0 = <&i2c_frag>, "target:0=",<&i2c_csi_dsi0>,
-		       <&csi_frag>, "target:0=",<&csi0>,
-		       <&clk_frag>, "target:0=",<&cam0_clk>,
-		       <&reg_frag>, "target:0=",<&cam0_reg>,
-		       <&reg_alwayson_frag>, "target:0=",<&cam0_reg>,
-		       <&cam_node>, "clocks:0=",<&cam0_clk>,
-		       <&cam_node>, "VANA-supply:0=",<&cam0_reg>;
-		always-on = <0>, "+99";
-		link-frequency = <&cam_endpoint>,"link-frequencies#0";
-		vcm = <&vcm_node>, "status",
-		      <0>, "=4";
-	};
-};
-
-&cam_node {
-	status = "okay";
-};
-
-&cam_endpoint {
-	remote-endpoint = <&csi_ep>;
-};
-
-&vcm_node {
-	status = "okay";
-};
-```
-
-And imx477_378.dtsi
-
-```
-cam_node: imx477@1a {
-	reg = <0x1a>;
-	status = "disabled";
-
-	clocks = <&cam1_clk>;
-	clock-names = "xclk";
-
-	VANA-supply = <&cam1_reg>;	/* 2.8v */
-	VDIG-supply = <&cam_dummy_reg>;	/* 1.05v */
-	VDDL-supply = <&cam_dummy_reg>;	/* 1.8v */
-
-	rotation = <180>;
-	orientation = <2>;
-
-	port {
-		cam_endpoint: endpoint {
-			clock-lanes = <0>;
-			data-lanes = <1 2>;
-			clock-noncontinuous;
-			link-frequencies =
-				/bits/ 64 <450000000>;
-		};
-	};
-};
-
-vcm_node: cef168@d {
-	compatible = "pinefeat,cef168";
-	reg = <0x0d>;
-	status = "disabled";
-	vcc-supply = <&vdd_3v3_reg>;
-};
-```
-
-If put these into my kernel build I get:
-
-$ make dtbs
-   DTCO     arch/arm64/boot/dts/overlays/camera-mux-2port.dtbo
-arch/arm64/boot/dts/overlays/imx477_378.dtsi:26.20-31.3: ERROR 
-(duplicate_label): /fragment@200/__overlay__/pca@70/i2c@1/cef168@d: 
-Duplicate label 'vcm_node' on 
-/fragment@200/__overlay__/pca@70/i2c@1/cef168@d and 
-/fragment@200/__overlay__/pca@70/i2c@0/cef168@d
-ERROR: Input tree has errors, aborting (use -f to force output)
-make[3]: *** [scripts/Makefile.dtbs:142: 
-arch/arm64/boot/dts/overlays/camera-mux-2port.dtbo] Error 2
-make[2]: *** [scripts/Makefile.build:544: arch/arm64/boot/dts/overlays] 
-Error 2
-make[1]: *** [/home/admin/linux/Makefile:1498: dtbs] Error 2
-make: *** [Makefile:248: __sub-make] Error 2
-
-> 
-> The modifications applied by the tool are shown in this diff:
-> 
-> https://gist.github.com/pinefeat/1b3a258a193754f073e171b1ed33a0cc
-> 
-> Were the generated files different in your setup?
-I will include my working dts* for the imx477
-
-imx477_378-overlay.dtsi
-```
-// SPDX-License-Identifier: GPL-2.0-only
-// Definitions for IMX477 camera module on VC I2C bus
-
-/{
-	compatible = "brcm,bcm2835";
-
-	fragment@0 {
-		target = <&i2c0if>;
-		__overlay__ {
-			status = "okay";
-		};
-	};
-
-	clk_frag: fragment@1 {
-		target = <&cam1_clk>;
-		cam_clk: __overlay__ {
-			clock-frequency = <24000000>;
-			status = "okay";
-		};
-	};
-
-	fragment@2 {
-		target = <&i2c0mux>;
-		__overlay__ {
-			status = "okay";
-		};
-	};
-
-	reg_frag: fragment@3 {
-		target = <&cam1_reg>;
-		cam_reg: __overlay__ {
-			startup-delay-us = <300000>;
-		};
-	};
-
-	reg_alwayson_frag: fragment@99 {
-		target = <&cam1_reg>;
-		__dormant__ {
-			regulator-always-on;
-		};
-	};
-
-	i2c_frag: fragment@100 {
-		target = <&i2c_csi_dsi>;
-		__overlay__ {
-			#address-cells = <1>;
-			#size-cells = <0>;
-			status = "okay";
-
-			#include "imx477_378.dtsi"
-
-			vcm: cef168@d {
-				compatible = "pinefeat,cef168";
-				reg = <0x0d>;
-				status = "disabled";
-				vcc-supply = <&vdd_3v3_reg>;
-			};
-		};
-	};
-
-	csi_frag: fragment@101 {
-		target = <&csi1>;
-		csi: __overlay__ {
-			status = "okay";
-
-			port {
-				csi_ep: endpoint {
-					remote-endpoint = <&cam_endpoint>;
-					clock-lanes = <0>;
-					data-lanes = <1 2>;
-					clock-noncontinuous;
-				};
-			};
-		};
-	};
-
-	fragment@102 {
-		target = <&csi1>;
-		__dormant__ {
-			compatible = "brcm,bcm2835-unicam-legacy";
-		};
-	};
-
-	__overrides__ {
-		rotation = <&cam_node>,"rotation:0";
-		orientation = <&cam_node>,"orientation:0";
-		media-controller = <0>,"!102";
-		cam0 = <&i2c_frag>, "target:0=",<&i2c_csi_dsi0>,
-		       <&csi_frag>, "target:0=",<&csi0>,
-		       <&clk_frag>, "target:0=",<&cam0_clk>,
-		       <&reg_frag>, "target:0=",<&cam0_reg>,
-		       <&reg_alwayson_frag>, "target:0=",<&cam0_reg>,
-		       <&cam_node>, "clocks:0=",<&cam0_clk>,
-		       <&cam_node>, "VANA-supply:0=",<&cam0_reg>;
-		always-on = <0>, "+99";
-		vcm = <&vcm>, "status=okay",
-		      <&cam_node>,"lens-focus:0=", <&vcm>;
-		link-frequency = <&cam_endpoint>,"link-frequencies#0";
-	};
-
-};
-
-&cam_node {
-	status = "okay";
-};
-
-&cam_endpoint {
-	remote-endpoint = <&csi_ep>;
-};
-```
-
-Also I needed to add `vcm` to my dtoverlay for the pi's config.txt
-> 
->> there needs to be some further discussions on how we could
->> improve the user experience when it comes to enabling the vcm with
->> camera sensors.
-> 
-> I agree. I started the discussion on the Raspberry Pi forum, but the
-> driver needs to be merged first before moving forward with that.
-Sure that makes sense, lets focus on the driver for now.
-> 
-> https://forums.raspberrypi.com/viewtopic.php?p=2318070#p2318070
-
-Also you will most likely need to update the patch since the line 
-offsets have moved to work 6.18
-
+--=20
+Regards,
+Arash Golgol
 
