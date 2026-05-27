@@ -1,69 +1,69 @@
-Return-Path: <linux-media+bounces-62908-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62909-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OB0hGwkDF2qz0wcAu9opvQ
-	(envelope-from <linux-media+bounces-62908-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 16:43:21 +0200
+	id 0DiIIy0DF2qz0wcAu9opvQ
+	(envelope-from <linux-media+bounces-62909-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 16:43:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10F3E5E619A
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 16:43:21 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EE725E61C0
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 16:43:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id E1B4A303ED06
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 14:41:59 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 92D83304AB33
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 14:42:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF9CA42848B;
-	Wed, 27 May 2026 14:41:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1E99426EAB;
+	Wed, 27 May 2026 14:41:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="Uuyh7HR3"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="titjY1KU"
 X-Original-To: linux-media@vger.kernel.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D072B402B8A;
-	Wed, 27 May 2026 14:41:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC1EA42882B;
+	Wed, 27 May 2026 14:41:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779892901; cv=none; b=QRtZ6l+DPzim06IKPkmd3HyBX415nzDKxoqUeaY1ePxr3YaFvbD6XWDAW8jxOONn8nAcHv1Rv8bQITF9t7v5vt6MsHyHr1qZNkBlvQI3JAA0ufx+e5bWCndH+Ww+2LnCevwWKsn798pbBhsOscZV+aKEr3o6gR/jUIoRN1HgRUg=
+	t=1779892905; cv=none; b=PQlpO+DXgRXDzL37i6iIBkq9ghV2POmlmlNvK1QqdctIduyCHXu6X1AXaEth6zK+WWHRS+6p2cGNgmNvyzUcbv0SK2LJKPZTIPLE/yEhp3DaQlgI1IeLMJScIveGZnNtq5WGpyodJ5fW8E4I8wfT1eqlTdHCu+MI0MJubAeZDz4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779892901; c=relaxed/simple;
-	bh=1yf0UY0Ap0VuYT9Fb7dhFa0Rl/LF/JNp175GQkm5AiM=;
+	s=arc-20240116; t=1779892905; c=relaxed/simple;
+	bh=uBSKdqLZP6Jmy0x9HDnccItPG/Ikh98WNY28qCku4n4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=pVTZYX56Z+E7N9/LEumrW3Y1fchpTYPfDo82/z2/UTVmNT0OGoLZOowMY2HMdEUKM0HJGT9sjHfd+E3z5x3u1B8ImR0P76mJTWpuGvTt7J52JmXtyOE0S1zzr3Zb37GHvVGmeROXjMUbWsMKIDu/85+nFhAoSePrDS6q02D4bZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=Uuyh7HR3; arc=none smtp.client-ip=68.232.153.233
+	 In-Reply-To:To:CC; b=BJyiOLZiqxc5SawvFfKHECtow/MndPcWAL4dhJPjcJJR0N34yFTXRjQS1iXpf/NbtI0/kqCdjw9aI3ErvYSwiQe9P+tr1jkfTAZvmkaI8+kWAeeiTApSgFJujrk/0u3cixSGySowc1dNLiWqi7/9DcPDwh7BEdo7il6wjcNgdSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=titjY1KU; arc=none smtp.client-ip=68.232.153.233
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1779892900; x=1811428900;
+  t=1779892904; x=1811428904;
   h=from:date:subject:mime-version:content-transfer-encoding:
    message-id:references:in-reply-to:to:cc;
-  bh=1yf0UY0Ap0VuYT9Fb7dhFa0Rl/LF/JNp175GQkm5AiM=;
-  b=Uuyh7HR3GjDeOq75LJHP5Ml6ABEUoWxGKmTDKprVrOwr038QYoizAOAJ
-   v4lYyS2GFA0TiXE6biZy1Q7FqSkzWw0UVcyF0KJZX6P6gGyzRJDVuYjwO
-   ojFDybAOyhUo0PS3Z0egzjx98oj8ayGxxhTJEw/JxTv7TM5rmtpoepLTm
-   I/sJJeEcuUn4uPKDDCBOaw+pewtVUHogfwa8wGnAM6n4gaWKN8IyvEedh
-   V/hURMZehwCg2HeLEWXrTW0CS/bz+jqOowsuwyEOHwW9DjpXnG+TCdZ4t
-   H/jQXwxRD4NGynL9ypNoGWflKJNhT1MM748Oi2RilAkgTIGP98yTuHX+r
+  bh=uBSKdqLZP6Jmy0x9HDnccItPG/Ikh98WNY28qCku4n4=;
+  b=titjY1KUpQ0ufvlxQri4O19Lor075fTkoJ1RqJBpZmKRIALmxDjsZTLG
+   GdVyvRBjbMHn1Ghr+3A6cSw8YII2wllllo01WjGR0tvvbh2QFbz3ncLuQ
+   ONSc5ym3r/kG54Xaf2jJWLxc7ydEzEXXokwDfbPT2m4/TYCee5H4RGIUD
+   K3BSJK8Yg5efEAr0u+9b6dywTVDNz+Ny5WrL0P4AQIF5tok7XbIPbuyLf
+   5kE7U4sfQx59Hr5WGh8m0IrGuLtgiY6Dlouv0CHvNYy5hF+e4EEa83Ofp
+   Rd4srn0moNwyoDvJKfCYH8KAXUbBfvkSOOLOQpBhdv9LV+TTbJIiF94Ew
    w==;
-X-CSE-ConnectionGUID: 3BotJfn9SoKWL3f5S53HqA==
-X-CSE-MsgGUID: gjQ+AwKrT5Sgbv0o94ZhZw==
+X-CSE-ConnectionGUID: ZBZWZdEiQKO5N6QPoYMTJw==
+X-CSE-MsgGUID: +vNeos2QQf+TdieNbxDGXA==
 X-IronPort-AV: E=Sophos;i="6.24,171,1774335600"; 
-   d="scan'208";a="289515140"
+   d="scan'208";a="289515143"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 27 May 2026 07:41:40 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 07:41:44 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.87.71) by
+ chn-vm-ex2.mchp-main.com (10.10.87.31) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Wed, 27 May 2026 07:41:38 -0700
+ 15.2.2562.41; Wed, 27 May 2026 07:41:42 -0700
 Received: from [127.0.0.1] (10.10.85.11) by chn-vm-ex01.mchp-main.com
  (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
- Transport; Wed, 27 May 2026 07:41:35 -0700
+ Transport; Wed, 27 May 2026 07:41:39 -0700
 From: Balakrishnan Sambath <balakrishnan.s@microchip.com>
-Date: Wed, 27 May 2026 20:10:59 +0530
-Subject: [PATCH 10/12] media: adv7604: use string_choices helpers
+Date: Wed, 27 May 2026 20:11:00 +0530
+Subject: [PATCH 11/12] media: tc358743: use string_choices helpers
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -72,7 +72,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20260527-cleanup-string-choices-media-i2c-v1-10-e8f7d2284288@microchip.com>
+Message-ID: <20260527-cleanup-string-choices-media-i2c-v1-11-e8f7d2284288@microchip.com>
 References: <20260527-cleanup-string-choices-media-i2c-v1-0-e8f7d2284288@microchip.com>
 In-Reply-To: <20260527-cleanup-string-choices-media-i2c-v1-0-e8f7d2284288@microchip.com>
 To: Jacopo Mondi <jacopo+renesas@jmondi.org>, Kieran Bingham
@@ -88,7 +88,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[microchip.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[microchip.com:s=mchp];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -96,7 +96,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62908-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62909-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[microchip.com:+];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -105,13 +105,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[balakrishnan.s@microchip.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,renesas];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,microchip.com:email,microchip.com:mid,microchip.com:dkim]
-X-Rspamd-Queue-Id: 10F3E5E619A
+X-Rspamd-Queue-Id: 3EE725E61C0
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -122,90 +122,105 @@ No functional change.
 
 Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
 ---
- drivers/media/i2c/adv7604.c | 26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ drivers/media/i2c/tc358743.c | 40 +++++++++++++++++-----------------------
+ 1 file changed, 17 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/media/i2c/adv7604.c b/drivers/media/i2c/adv7604.c
-index ac9c69ce4..3b06ddad8 100644
---- a/drivers/media/i2c/adv7604.c
-+++ b/drivers/media/i2c/adv7604.c
-@@ -23,6 +23,7 @@
- #include <linux/module.h>
- #include <linux/of_graph.h>
- #include <linux/slab.h>
+diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+index fbd38bbfe..57d2808ba 100644
+--- a/drivers/media/i2c/tc358743.c
++++ b/drivers/media/i2c/tc358743.c
+@@ -20,6 +20,7 @@
+ #include <linux/delay.h>
+ #include <linux/gpio/consumer.h>
+ #include <linux/interrupt.h>
 +#include <linux/string_choices.h>
- #include <linux/v4l2-dv-timings.h>
+ #include <linux/timer.h>
+ #include <linux/of_graph.h>
  #include <linux/videodev2.h>
- #include <linux/workqueue.h>
-@@ -2563,15 +2564,14 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
- 	};
+@@ -1308,7 +1309,7 @@ static void tc358743_hdmi_sys_int_handler(struct v4l2_subdev *sd, bool *handled)
+ 		bool tx_5v = tx_5v_power_present(sd);
  
- 	v4l2_info(sd, "-----Chip status-----\n");
--	v4l2_info(sd, "Chip power: %s\n", no_power(sd) ? "off" : "on");
-+	v4l2_info(sd, "Chip power: %s\n", str_off_on(no_power(sd)));
- 	edid_enabled = rep_read(sd, info->edid_status_reg);
- 	v4l2_info(sd, "EDID enabled port A: %s, B: %s, C: %s, D: %s\n",
- 			((edid_enabled & 0x01) ? "Yes" : "No"),
- 			((edid_enabled & 0x02) ? "Yes" : "No"),
- 			((edid_enabled & 0x04) ? "Yes" : "No"),
- 			((edid_enabled & 0x08) ? "Yes" : "No"));
--	v4l2_info(sd, "CEC: %s\n", state->cec_enabled_adap ?
--			"enabled" : "disabled");
-+	v4l2_info(sd, "CEC: %s\n", str_enabled_disabled(state->cec_enabled_adap));
- 	if (state->cec_enabled_adap) {
- 		int i;
+ 		v4l2_dbg(1, debug, sd, "%s: Tx 5V power present: %s\n",
+-				__func__, tx_5v ?  "yes" : "no");
++				__func__, str_yes_no(tx_5v));
  
-@@ -2592,14 +2592,14 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
- 			((cable_det & 0x04) ? "Yes" : "No"),
- 			((cable_det & 0x08) ? "Yes" : "No"));
+ 		if (tx_5v) {
+ 			tc358743_enable_edid(sd);
+@@ -1385,26 +1386,24 @@ static int tc358743_log_status(struct v4l2_subdev *sd)
+ 			!!(sysctl & MASK_CECRST),
+ 			!!(sysctl & MASK_CTXRST),
+ 			!!(sysctl & MASK_HDMIRST));
+-	v4l2_info(sd, "Sleep mode: %s\n", sysctl & MASK_SLEEP ? "on" : "off");
++	v4l2_info(sd, "Sleep mode: %s\n", str_on_off(sysctl & MASK_SLEEP));
+ 	v4l2_info(sd, "Cable detected (+5V power): %s\n",
+-			hdmi_sys_status & MASK_S_DDC5V ? "yes" : "no");
++			str_yes_no(hdmi_sys_status & MASK_S_DDC5V));
+ 	v4l2_info(sd, "DDC lines enabled: %s\n",
+-			(i2c_rd8(sd, EDID_MODE) & MASK_EDID_MODE_E_DDC) ?
+-			"yes" : "no");
++			str_yes_no(i2c_rd8(sd, EDID_MODE) & MASK_EDID_MODE_E_DDC));
+ 	v4l2_info(sd, "Hotplug enabled: %s\n",
+-			(i2c_rd8(sd, HPD_CTL) & MASK_HPD_OUT0) ?
+-			"yes" : "no");
++			str_yes_no(i2c_rd8(sd, HPD_CTL) & MASK_HPD_OUT0));
+ 	v4l2_info(sd, "CEC enabled: %s\n",
+-			(i2c_rd16(sd, CECEN) & MASK_CECEN) ?  "yes" : "no");
++			str_yes_no(i2c_rd16(sd, CECEN) & MASK_CECEN));
+ 	v4l2_info(sd, "-----Signal status-----\n");
  	v4l2_info(sd, "TMDS signal detected: %s\n",
--			no_signal_tmds(sd) ? "false" : "true");
-+			str_false_true(no_signal_tmds(sd)));
- 	v4l2_info(sd, "TMDS signal locked: %s\n",
--			no_lock_tmds(sd) ? "false" : "true");
--	v4l2_info(sd, "SSPD locked: %s\n", no_lock_sspd(sd) ? "false" : "true");
--	v4l2_info(sd, "STDI locked: %s\n", no_lock_stdi(sd) ? "false" : "true");
--	v4l2_info(sd, "CP locked: %s\n", no_lock_cp(sd) ? "false" : "true");
-+			str_false_true(no_lock_tmds(sd)));
-+	v4l2_info(sd, "SSPD locked: %s\n", str_false_true(no_lock_sspd(sd)));
-+	v4l2_info(sd, "STDI locked: %s\n", str_false_true(no_lock_stdi(sd)));
-+	v4l2_info(sd, "CP locked: %s\n", str_false_true(no_lock_cp(sd)));
- 	v4l2_info(sd, "CP free run: %s\n",
--			(in_free_run(sd)) ? "on" : "off");
-+			str_on_off(in_free_run(sd)));
- 	v4l2_info(sd, "Prim-mode = 0x%x, video std = 0x%x, v_freq = 0x%x\n",
- 			io_read(sd, 0x01) & 0x0f, io_read(sd, 0x00) & 0x3f,
- 			(io_read(sd, 0x01) & 0x70) >> 4);
-@@ -2639,7 +2639,7 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
- 				(reg_io_0x02 & 0x02) ? "RGB" : "YCbCr",
- 				(((reg_io_0x02 >> 2) & 0x01) ^ (reg_io_0x02 & 0x01)) ?
- 					"(16-235)" : "(0-255)",
--				(reg_io_0x02 & 0x08) ? "enabled" : "disabled");
-+				str_enabled_disabled(reg_io_0x02 & 0x08));
- 	}
- 	v4l2_info(sd, "Color space conversion: %s\n",
- 			csc_coeff_sel_rb[cp_read(sd, info->cp_csc) >> 4]);
-@@ -2651,9 +2651,9 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
- 	v4l2_info(sd, "Digital video port selected: %c\n",
- 			(hdmi_read(sd, 0x00) & 0x03) + 'A');
- 	v4l2_info(sd, "HDCP encrypted content: %s\n",
--			(hdmi_read(sd, 0x05) & 0x40) ? "true" : "false");
-+			str_true_false(hdmi_read(sd, 0x05) & 0x40));
- 	v4l2_info(sd, "HDCP keys read: %s%s\n",
--			(hdmi_read(sd, 0x04) & 0x20) ? "yes" : "no",
-+			str_yes_no(hdmi_read(sd, 0x04) & 0x20),
- 			(hdmi_read(sd, 0x04) & 0x10) ? "ERROR" : "");
- 	if (is_hdmi(sd)) {
- 		bool audio_pll_locked = hdmi_read(sd, 0x04) & 0x01;
-@@ -2674,7 +2674,7 @@ static int adv76xx_log_status(struct v4l2_subdev *sd)
- 		v4l2_info(sd, "Audio N: %u\n", ((hdmi_read(sd, 0x5d) & 0x0f) << 16) +
- 				(hdmi_read(sd, 0x5e) << 8) +
- 				hdmi_read(sd, 0x5f));
--		v4l2_info(sd, "AV Mute: %s\n", (hdmi_read(sd, 0x04) & 0x40) ? "on" : "off");
-+		v4l2_info(sd, "AV Mute: %s\n", str_on_off(hdmi_read(sd, 0x04) & 0x40));
+-			hdmi_sys_status & MASK_S_TMDS ? "yes" : "no");
++			str_yes_no(hdmi_sys_status & MASK_S_TMDS));
+ 	v4l2_info(sd, "Stable sync signal: %s\n",
+-			hdmi_sys_status & MASK_S_SYNC ? "yes" : "no");
++			str_yes_no(hdmi_sys_status & MASK_S_SYNC));
+ 	v4l2_info(sd, "PHY PLL locked: %s\n",
+-			hdmi_sys_status & MASK_S_PHY_PLL ? "yes" : "no");
++			str_yes_no(hdmi_sys_status & MASK_S_PHY_PLL));
+ 	v4l2_info(sd, "PHY DE detected: %s\n",
+-			hdmi_sys_status & MASK_S_PHY_SCDT ? "yes" : "no");
++			str_yes_no(hdmi_sys_status & MASK_S_PHY_SCDT));
  
- 		v4l2_info(sd, "Deep color mode: %s\n", deep_color_mode_txt[(hdmi_read(sd, 0x0b) & 0x60) >> 5]);
- 		v4l2_info(sd, "HDMI colorspace: %s\n", hdmi_color_space_txt[hdmi_read(sd, 0x53) & 0xf]);
+ 	if (tc358743_get_detected_timings(sd, &timings)) {
+ 		v4l2_info(sd, "No video detected\n");
+@@ -1421,17 +1420,13 @@ static int tc358743_log_status(struct v4l2_subdev *sd)
+ 	v4l2_info(sd, "Lanes in use: %d\n",
+ 			state->csi_lanes_in_use);
+ 	v4l2_info(sd, "Waiting for particular sync signal: %s\n",
+-			(i2c_rd16(sd, CSI_STATUS) & MASK_S_WSYNC) ?
+-			"yes" : "no");
++			str_yes_no(i2c_rd16(sd, CSI_STATUS) & MASK_S_WSYNC));
+ 	v4l2_info(sd, "Transmit mode: %s\n",
+-			(i2c_rd16(sd, CSI_STATUS) & MASK_S_TXACT) ?
+-			"yes" : "no");
++			str_yes_no(i2c_rd16(sd, CSI_STATUS) & MASK_S_TXACT));
+ 	v4l2_info(sd, "Receive mode: %s\n",
+-			(i2c_rd16(sd, CSI_STATUS) & MASK_S_RXACT) ?
+-			"yes" : "no");
++			str_yes_no(i2c_rd16(sd, CSI_STATUS) & MASK_S_RXACT));
+ 	v4l2_info(sd, "Stopped: %s\n",
+-			(i2c_rd16(sd, CSI_STATUS) & MASK_S_HLT) ?
+-			"yes" : "no");
++			str_yes_no(i2c_rd16(sd, CSI_STATUS) & MASK_S_HLT));
+ 	v4l2_info(sd, "Color space: %s\n",
+ 			state->mbus_fmt_code == MEDIA_BUS_FMT_UYVY8_1X16 ?
+ 			"YCbCr 422 16-bit" :
+@@ -1440,14 +1435,13 @@ static int tc358743_log_status(struct v4l2_subdev *sd)
+ 
+ 	v4l2_info(sd, "-----%s status-----\n", is_hdmi(sd) ? "HDMI" : "DVI-D");
+ 	v4l2_info(sd, "HDCP encrypted content: %s\n",
+-			hdmi_sys_status & MASK_S_HDCP ? "yes" : "no");
++			str_yes_no(hdmi_sys_status & MASK_S_HDCP));
+ 	v4l2_info(sd, "Input color space: %s %s range\n",
+ 			input_color_space[(vi_status3 & MASK_S_V_COLOR) >> 1],
+ 			(vi_status3 & MASK_LIMITED) ? "limited" : "full");
+ 	if (!is_hdmi(sd))
+ 		return 0;
+-	v4l2_info(sd, "AV Mute: %s\n", hdmi_sys_status & MASK_S_AVMUTE ? "on" :
+-			"off");
++	v4l2_info(sd, "AV Mute: %s\n", str_on_off(hdmi_sys_status & MASK_S_AVMUTE));
+ 	v4l2_info(sd, "Deep color mode: %d-bits per channel\n",
+ 			deep_color_mode[(i2c_rd8(sd, VI_STATUS1) &
+ 				MASK_S_DEEPCOLOR) >> 2]);
 
 -- 
 2.34.1
