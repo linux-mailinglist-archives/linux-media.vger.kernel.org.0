@@ -1,149 +1,159 @@
-Return-Path: <linux-media+bounces-62859-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62860-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SAleD3exFmokogcAu9opvQ
-	(envelope-from <linux-media+bounces-62859-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 10:55:19 +0200
+	id uFFjM6S0FmokogcAu9opvQ
+	(envelope-from <linux-media+bounces-62860-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 11:08:52 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 892FC5E165D
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 10:55:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 326AF5E18AD
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 11:08:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B87CF3084472
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 08:49:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B54DD300D16A
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 09:01:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA5292F6560;
-	Wed, 27 May 2026 08:49:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A85C3E1208;
+	Wed, 27 May 2026 09:01:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aS/Y3c/2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CXmsFGhy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410DD3D0BE5;
-	Wed, 27 May 2026 08:49:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B1A39479E
+	for <linux-media@vger.kernel.org>; Wed, 27 May 2026 09:01:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779871754; cv=none; b=GjEVuUVAqP/xn1GZg6IXn7cPCCPgTBEiK3jx0Qcw/nSFIVNRmhREndl1tRc7IeK1Ps9cYx3MyGcDH9uOLA7OYFoUJrFpiJhkIYP7W3y66s2BLCJY4yAPBTgbazHGSl2AB4fsDGQnqTz3sdyNgDHg5WFypH+pVFLdElaVUytxE9Q=
+	t=1779872513; cv=none; b=NnkfZ7aNKSNK2AEicXs9gj2TeW7z/8Xa5oGCW1t/MQPeTR+yTeQD34MQE5tIgdeqk7v871ELL0GPzIVS/SPh/ORVerVvmC+OMkOpXRauxdueoihDuzhKYoXrtBcHW6JydcL46Qp8L/Ed4xfQrxiaWuu8PxIlNUIKzeiduzArYuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779871754; c=relaxed/simple;
-	bh=vnMFODbc+LljT7eUBEEQawLt47/OgLwD8JHdSRnnDAI=;
+	s=arc-20240116; t=1779872513; c=relaxed/simple;
+	bh=QNcej0T5mLHT51hptzwJsYWMaSPM+275COLzzec1UeE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rikojWph9hcDHbX5GmlmzIRfVvuRLivwmdmWMQ3U/adhuAksC9LpjJgxtkmhdZMXwl2Au8wluCRWMpwYRZGP+LAUxDje1FKykZwDZ+mm/avWQHhOBgXz6p/w4OvVUq0HRdzZnB1cvkZlFJF7cR5lwNjmPYZMstP3vDzEr8npaDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aS/Y3c/2; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BEDC1F000E9;
-	Wed, 27 May 2026 08:49:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1779871753;
-	bh=vnMFODbc+LljT7eUBEEQawLt47/OgLwD8JHdSRnnDAI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aS/Y3c/2krAHC8mOb1Mcxes6m5FDVlOQc6VRTrd4yb0jWg0E+fTAIr9V8KuSqacM9
-	 SIbKkCn1wvlJlDFUj5AU0W7QFUSMx4r5jxxVIDwcmTK4z/7y4ySTtfMkftCqbjjQ/R
-	 iw6WbgDW39eVcstSBGH1axuFDeW8urSBPHp7PEsHFNeQ4DS8kRG8UsGyG5+Vbzxlp1
-	 1NHOkope50m9rEbE1J86KoQu0JBkgf8WCTF9fIc0fUbBpCcY6vApcQEIEUFpJRxlYZ
-	 OSBSZxMHdKZTsy62UXtsvYlY+tmvCEULoPU9XtGMu8zXdEQf0IS+WN28HliJ/U7RQx
-	 OhrLGfwNO4nQw==
-Date: Wed, 27 May 2026 09:49:06 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Michael Riesch <michael.riesch@collabora.com>
-Cc: Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Kever Yang <kever.yang@rock-chips.com>,
-	Jagan Teki <jagan@amarulasolutions.com>,
-	=?utf-8?B?0JrRg9C30L3QtdGG0L7QsiDQnNC40YXQsNC40Ls=?= <mai.kuznetsov.misha@gmail.com>,
-	Charalampos Mitrodimas <charmitro@posteo.net>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Collabora Kernel Team <kernel@collabora.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v5 2/8] media: dt-bindings: add rockchip rk3588 vicap
-Message-ID: <20260527-grimace-plausibly-c620ea58f197@spud>
-References: <20260522-rk3588-vicap-v5-0-d1d1f5265c56@collabora.com>
- <20260522-rk3588-vicap-v5-2-d1d1f5265c56@collabora.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ikkLCVR5cNaxLHGSrBVU5QwdradW6t2FHnVcghHw8LLpnhtaua2EQn6uGka+371t2IhJrGWpFJIILZ2jGusrZkpCsRbK6LoNg4oQ9LFxlQqWhyk+xR/XdpzY1devBSRJK3c9TATPOI21ZUBWdFkExkHxRlduQrQT8AcGnG/PMeQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CXmsFGhy; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1779872511; x=1811408511;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=QNcej0T5mLHT51hptzwJsYWMaSPM+275COLzzec1UeE=;
+  b=CXmsFGhyxI8pUgX3QDxXTh+TuM0tvtnPmbn3tRLfAqhy7L6lWMZgHtAs
+   SfJrFXmzlX7CDQm0d4ieizg2n0nqzE7sxBJcFSH7qrXCHE/h2Dw9DMHK7
+   GkR5ZAazJfUmqdiS/zDMn1jYN80UG3vFDNFXWaM3Z0+14Lv7hqiMvTLbF
+   PR7NRXIHVVTFBQb5pqY0uX0EoHfVovt2mneqhF/y7kErWBQAXQ5FzP1U8
+   1Xlwo692qbXU/QkRNZgliRS91DiDcdVu/tnimJMs4I+a+fgQr4Ssjl7aJ
+   +FJjUF9kyCDxyjO1Un9DiLxAPJvGup72PygrwNgCBDW5/Fm2fAsZSTJZe
+   A==;
+X-CSE-ConnectionGUID: dv9wUtQQTt2ReDC/1BWC9g==
+X-CSE-MsgGUID: wrDfrhUBQQS3JsPYgsm7Ug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11798"; a="91269420"
+X-IronPort-AV: E=Sophos;i="6.24,171,1774335600"; 
+   d="scan'208";a="91269420"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 02:01:50 -0700
+X-CSE-ConnectionGUID: tjmXBLcrSBesG8OlPlhzWQ==
+X-CSE-MsgGUID: GGB7snNwSCWLIDWHtmgjLg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,171,1774335600"; 
+   d="scan'208";a="266053337"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.41])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2026 02:01:49 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 06685120EBD;
+	Wed, 27 May 2026 12:01:45 +0300 (EEST)
+Date: Wed, 27 May 2026 12:01:44 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: "Vadillo, Miguel" <miguel.vadillo@intel.com>
+Cc: linux-media@vger.kernel.org, wei.a.xu@intel.com, atul.raut@intel.com,
+	antti.laakso@linux.intel.com, mehdi.djait@linux.intel.com,
+	kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v4 0/3] media: i2c: cvs: Add Intel CVS driver
+Message-ID: <ahay-Ej_RrrGzIrX@kekkonen.localdomain>
+References: <20260526022509.162908-1-miguel.vadillo@intel.com>
+ <ahXB-Eg1O2-PlFvU@kekkonen.localdomain>
+ <16f5874d-0d22-4c8a-9bad-63a9b383dcf1@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mp0q5jdAdl2wMqsR"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260522-rk3588-vicap-v5-2-d1d1f5265c56@collabora.com>
-X-Spamd-Result: default: False [-2.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <16f5874d-0d22-4c8a-9bad-63a9b383dcf1@intel.com>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-62860-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62859-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	FREEMAIL_CC(0.00)[linux.intel.com,ideasonboard.com,kernel.org,sntech.de,rock-chips.com,amarulasolutions.com,gmail.com,posteo.net,collabora.com,vger.kernel.org,lists.infradead.org,microchip.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[microchip.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 892FC5E165D
+	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,intel.com:dkim,gitlab.freedesktop.org:url,kekkonen.localdomain:mid]
+X-Rspamd-Queue-Id: 326AF5E18AD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Hi Miguel,
 
---mp0q5jdAdl2wMqsR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, May 26, 2026 at 09:29:30AM -0700, Vadillo, Miguel wrote:
+> Hi Sakari,
+> 
+> Thanks for checking this.
+> 
+> On 5/26/26 8:53 AM, Sakari Ailus wrote:
+> > Hi Miguel,
+> > 
+> > On Mon, May 25, 2026 at 07:25:05PM -0700, Miguel Vadillo wrote:
+> > > Cover Letter
+> > > ------------
+> > > 
+> > > This patch series introduces support for Intel Computer Vision Sensing
+> > > (CVS) devices found on Intel Luna Lake (LNL), Panther Lake (PTL), and
+> > > Arrow Lake (ARL) platforms.
+> > 
+> > Thanks for the update. I got from Media CI:
+> > 
+> > drivers/media/i2c/cvs/core.c:909:12: warning: ‘cvs_resume’ defined but not used [-Wunused-function]
+> >    909 | static int cvs_resume(struct device *dev)
+> >        |            ^~~~~~~~~~
+> > drivers/media/i2c/cvs/core.c:892:12: warning: ‘cvs_suspend’ defined but not used [-Wunused-function]
+> >    892 | static int cvs_suspend(struct device *dev)
+> >        |            ^~~~~~~~~~~
+> > 
+> > I suppose this happens when CONFIG_PM isn't defined
+> > <URL:https://gitlab.freedesktop.org/linux-media/users/sailus/-/jobs/100763316/artifacts/file/artifacts/no-PM.config>?
+> 
+> My bad, that seems to be the case with CONFIG_PM disabled:
+> this fix will be needed, I will prepare this and send an update, waiting in
+> case there are more comments..
 
-On Fri, May 22, 2026 at 11:23:08PM +0200, Michael Riesch wrote:
-> Add documentation for the Rockchip RK3588 Video Capture (VICAP) unit. To
-> that end, make the existing rockchip,rk3568-vicap documentation more
-> general and introduce variant specific constraints.
->=20
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+I think cvs_pm_ops also needs __maybe_unused.
 
-Ah right I remember what Rob wanted changed now.
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+-- 
+Regards,
 
-Cheers,
-Conor.
-
---mp0q5jdAdl2wMqsR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCahawAgAKCRB4tDGHoIJi
-0oypAQDd8ds975P1XLz5OPsVbwIIl4FFnLtrrNNKezd22scM1wEA0cwWA/v8lM9Y
-tspAlrkx0Tv3bx0mhY4ZOay8xpcbbgY=
-=8xBO
------END PGP SIGNATURE-----
-
---mp0q5jdAdl2wMqsR--
+Sakari Ailus
 
