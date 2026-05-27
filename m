@@ -1,226 +1,444 @@
-Return-Path: <linux-media+bounces-62849-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62848-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kLsTMomgFmqBnwcAu9opvQ
-	(envelope-from <linux-media+bounces-62849-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 09:43:05 +0200
+	id 8DekJFifFmqBnwcAu9opvQ
+	(envelope-from <linux-media+bounces-62848-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 09:38:00 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2102B5E0921
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 09:43:05 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E085E0883
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 09:37:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 3F733300B8EA
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 07:43:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 21F2A300D6B9
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 07:37:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 965193C9EE7;
-	Wed, 27 May 2026 07:43:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8C903C9ED9;
+	Wed, 27 May 2026 07:37:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="WN0sbbk8"
+	dkim=pass (2048-bit key) header.d=luaberry.com header.i=@luaberry.com header.b="doZqlcQQ";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Y2sDJXMr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.63.166])
+Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45BD3BD24A;
-	Wed, 27 May 2026 07:42:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.68.63.166
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55CB3C5523;
+	Wed, 27 May 2026 07:37:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779867780; cv=none; b=Djub3eRHx/wOI0PBE48cd2DshSYgog/U28UfuQl6Srrt6i9OyKHypjG89bllLamoBeAUTP+Dg3rL15zOMmFNKnHXkv4VghBF3Hll9EkADvHuALXxpVe7yzLatns6QDjkDyTJiDRmDk7Ueg0lt107fE86oh2BRwlvaYSIzfztYbg=
+	t=1779867445; cv=none; b=A8Sp+9T1R4C/YfWVIIPjTWz7K54sXWcd9ZlZPBbP8QVoUIeCEAratq7MD1PG7UtJw09IGRuOeeNRZGAchj7f150ywpj+Kzq/lZlaWaV9+y1+yU6Yz1ERdLqOa5pT/bbIASh/HNLn4O8yYQ6kaXm0qhHht8CAY3A0mnlC3HCRGKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779867780; c=relaxed/simple;
-	bh=a2Y8X5Smv57ajcfAfVNBiZIFlppcEAQ6eJFxUUek++8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DiR4VU0N++BkT4PL2cJoQyEamEX4QjgdkKA15CzvMKXaCWURkgFaUkIsWYTmYYajla5zzRIoyCNKaMF0NkoOC1l1OLZ5iwC1fy0Gz+HVd7kpqYVNkDoqfLno5QlJIXE6IwAMSf4f3VT8PMYCw7X6Z4ndM990qHBwOsAQVq/Eaa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=WN0sbbk8; arc=none smtp.client-ip=188.68.63.166
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
-Received: from mors-relay-8202.netcup.net (localhost [127.0.0.1])
-	by mors-relay-8202.netcup.net (Postfix) with ESMTPS id 4gQLxQ3yZzz4054;
-	Wed, 27 May 2026 09:35:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
-	s=key2; t=1779867306;
-	bh=a2Y8X5Smv57ajcfAfVNBiZIFlppcEAQ6eJFxUUek++8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=WN0sbbk8dHGIXg/X0UdZKmAgM1d2uCk7EP+gewVZ3VXFcfYumVTVGXbjCaPl9UiEO
-	 ljFMz85Z6Bg3sI3QJR7M6z8XmML+bdRfpk4wMJStHYWwelsXEYCcRPtO6Dim+kIjs9
-	 vk57tYS0ZUpVExIxnApqNP5YU+XDOvpYx/O+k3cgzOBBzZHcKKj0nCuCgtnPKJKTmj
-	 M3Ggkm4EzMMEfj7Qj2dO6AM9BhZ0MXA2cDOHecE722jXLXGgGfznX6FNtyPzQQGYYB
-	 RNHTgVvqMvIoY3rs1ZIG5yW6HTfk/bBIOBuR3AcPDFYgQev6gWiNJDsPmMRM4dt2br
-	 q+O4LUCO/HwNQ==
-Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
-	by mors-relay-8202.netcup.net (Postfix) with ESMTPS id 4gQLxQ3D1cz3ySy;
-	Wed, 27 May 2026 09:35:06 +0200 (CEST)
-Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4gQLxP6RtYz8sh8;
-	Wed, 27 May 2026 09:35:05 +0200 (CEST)
-Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
-	by mxe9fb.netcup.net (Postfix) with ESMTPSA id 58DAF60384;
-	Wed, 27 May 2026 09:35:05 +0200 (CEST)
-Authentication-Results: mxe9fb;
-        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
-Received-SPF: pass (mxe9fb: connection is authenticated)
-Message-ID: <0977c2c0-79ea-4435-9e1c-f54ca5e18342@leemhuis.info>
-Date: Wed, 27 May 2026 09:35:03 +0200
+	s=arc-20240116; t=1779867445; c=relaxed/simple;
+	bh=9peMDbQrmb540gBVVIfkqGBvNS3jiYkxpRc8g+Gms3g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CqzqMXFaWFickb17OBJDemqxhyuBlrEEKKn209/AngOXE45ognWb+2/Stohmg8czyDtzQQOkES7vzpzW4EyTpOujLjXry34FjAXCtkgyqd7w1x9q92EVwS8sl+NNyLA3ADrGot/Z2tVQmY5jh+ibXeArKuSJvHgwdphpUs84qA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luaberry.com; spf=pass smtp.mailfrom=luaberry.com; dkim=pass (2048-bit key) header.d=luaberry.com header.i=@luaberry.com header.b=doZqlcQQ; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Y2sDJXMr; arc=none smtp.client-ip=103.168.172.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=luaberry.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=luaberry.com
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 28177140005F;
+	Wed, 27 May 2026 03:37:22 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Wed, 27 May 2026 03:37:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=luaberry.com; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1779867442; x=1779953842; bh=pftRh1hNKYuB0aVObT6yg
+	zb0FoctksUaJHC3LvnKA/Q=; b=doZqlcQQwEB9uvxlMqfzw2R1KVPl/f+N1/69f
+	DtH0uVl0Wl4L7m64vM7MQ88xKfKYHW3qv2ETR9R1pdOBdBpeCr7WuJMyPwGfINGF
+	qRKhbgQipDkU9DVrWsnV1GbCKmZHz8bkCC/3YVIToJpuwZzvqTgSGdjzDCArlegs
+	VOWCErmM79T+dW1opr01Bn7UFJvICaqwSWR/FO+L0i6rbQ5jvaeyPOAq7ghd6vET
+	3BmD3L9saY5XlBntY80vXHYdSiAKg9cEQVl2vKAV7+6SiCvjb42BXONv4qed1ckR
+	h8K25/HjKT3kUGnrHZHGjVfzqzyDPsaEDzzumQdUrlWNVsT6w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1779867442; x=1779953842; bh=pftRh1hNKYuB0aVObT6ygzb0FoctksUaJHC
+	3LvnKA/Q=; b=Y2sDJXMrrhz92vocm1V4vpHdzHk8J8kiQt4eCRtpBf3qTPSxQBp
+	4ANN8RntFJD8ALtKErU0hOrnth5tQnKThcm7j080qlWPfZCQsgqMZodflGki5HXF
+	Sik4bAR5lVCfxP0/+RTRupiNSYPgBAKPxNc0kBwJgCubzEFNr4PK8iJTRzfSZIjs
+	kxXtg+ZEKOHjczJHbfhLo7oD1dqgT+lxVRBJdtjr9uQoGJnomAbQIWj+E9mnYARr
+	p9Gam0KwHzqqzfPDdVZ4a6WplPBmesfiKHc8yfz3MhULZx+pWATkYLOPCz5wtY6b
+	gvzqZXOWV1ERev/Xl1FieEIfxofyunw2ixw==
+X-ME-Sender: <xms:MZ8WavKVwKjfcMofFQSOHwf1n3esQGlZ3DHPU58MJcmZnFEIyqsP2Q>
+    <xme:MZ8Wau-uALXIS5NHGEu3gsG-U6eUKQ-uekE1mOZJq8akTHGDtrXtbToPJW6GhTILl
+    t-jmZ6_bVIVmng-4v-ZYNTXfY8VsRN5w6BVQxDeA16DkaPwINO26oo>
+X-ME-Received: <xmr:MZ8WajFvGv2oJOzZVu4SzpX-XNqmKc065nLW1wXcqI-9UrWjdBeRltBHs5Ec-eAqqsHAiJu-wc_IpgI>
+X-ME-Proxy-Cause: dmFkZTFHpRPo9qHiSx7q9pUshMxyk4a5QDBhkpifbIFatRX5HcTPZp62E06/ES4zz6Dt1E
+    io0joxfStEL7eUVcegJdkPCQ3X9zQKVkgz1FARJLQRCM6eQXCouIZBGGKaYZvyh2vE66Jf
+    V0M0Odc0b4Xd6bzoEwGYQl2APCr17juXlmuSBbhni0xicxE/n1uKi+mTy+X0HEJ6z5ANaZ
+    Og8GRw6OJJHiR+3yNmvlh54N4cKBmo5PuAoCOqFKK5kMijpLiZVjcBlG91zT19Esu/YDIx
+    RhJn72PCpiaV3GKk5c9D6S8x1NWniptJPLRzI/b5hA+l96/4FEzkxuokjn3rm/Lvfrc7Xt
+    DCFBtXUTYJzxl6lzyNxtQStjRw2RuNZV+hajWqi/CV02kWB8yz/LkkzF4EpeVv9lmu4Io9
+    SxKoTO1wfGQkbxv/F0NStk0uSk/zEyKCA5IkYIvgsfIZ7D/92H5IAJT5tTY0PeQSZe0kkT
+    asyM+NnNFkxQP9/imot+9cJdVTRpJICBcClPcJs3fNaNrY8udJaTkbyzCNu3T4ogfAKYeG
+    mjeRrcIEL5D46ELlIqUc9s0/KzSr1J5i2m2r7X2rxiFnmt5gQ73uUZvsg0zG3Sw+YiAdIZ
+    C3RhanMjVjP/0mQP9EUYfyW5XAyTTK600MSjOr6zPhR2t57Mwri99A71ny3w
+X-ME-Proxy: <xmx:MZ8Wah6bAbbO0XhOqcBIYWaNd1VcGmVFAsMM6VF6kah6XEm-g0O2lQ>
+    <xmx:MZ8WakaWPjqJq0M-g2uamddME9M6a6ViQ3DUSnRR8LpnrvGQLmv36A>
+    <xmx:MZ8WanixL29Yx8bieb6y1RFiCJ9eYAnvUUmNKerRqUblJQInDa1SbQ>
+    <xmx:MZ8Waudt-aTCfd8hbE7ssD3ISJehxy1DYuUOWkiZHCtQL2HVkkjvBQ>
+    <xmx:Mp8WarrLOEAjHDpS3hsLoPgIC82Hw1kBGSTBYJ5AFKA-XUBI8RjnVTSN>
+Feedback-ID: i372e487a:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 27 May 2026 03:37:18 -0400 (EDT)
+From: Jeongin Yeo <jeongin.yeo@luaberry.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org
+Cc: gregkh@linuxfoundation.org,
+	sakari.ailus@linux.intel.com,
+	andy.shevchenko@gmail.com,
+	andy@kernel.org,
+	matt@mattwardle.net,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Jeongin Yeo <jeongin.yeo@luaberry.com>
+Subject: [PATCH v3] media: atomisp: remove redundant prefix from dev_dbg calls
+Date: Wed, 27 May 2026 07:37:05 +0000
+Message-ID: <20260527073705.1544479-1-jeongin.yeo@luaberry.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] Revert "media: renesas: vsp1: brx: Fix format
- propagation"
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-media@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Linux kernel regressions list <regressions@lists.linux.dev>
-References: 
- <20260506215650.1897177-1-laurent.pinchart+renesas@ideasonboard.com>
- <20260506215650.1897177-3-laurent.pinchart+renesas@ideasonboard.com>
-From: Thorsten Leemhuis <regressions@leemhuis.info>
-Content-Language: de-DE, en-US
-X-Enigmail-Draft-Status: N11222
-Autocrypt: addr=linux@leemhuis.info; keydata=
- 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 MEK4
-In-Reply-To: 
- <20260506215650.1897177-3-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-PPP-Message-ID: 
- <177986730564.3967245.11737610773534317714@mxe9fb.netcup.net>
-X-NC-CID: YzDKEPAXYRUkrN1wUqTFc8mKbz45nudHb3MBoA4DMsf3k6KDgW4=
-X-Spamd-Result: default: False [-0.16 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[leemhuis.info:s=key2];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[luaberry.com:s=fm2,messagingengine.com:s=fm3];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62849-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[leemhuis.info];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[leemhuis.info:+];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,leemhuis.info:mid,leemhuis.info:dkim,ideasonboard.com:email];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[regressions@leemhuis.info,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62848-lists,linux-media=lfdr.de];
+	RCVD_COUNT_FIVE(0.00)[6];
+	DMARC_NA(0.00)[luaberry.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[linuxfoundation.org,linux.intel.com,gmail.com,kernel.org,mattwardle.net,vger.kernel.org,lists.linux.dev,luaberry.com];
+	MIME_TRACE(0.00)[0:+];
+	FROM_NEQ_ENVFROM(0.00)[jeongin.yeo@luaberry.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	NEURAL_HAM(-0.00)[-0.999];
+	DKIM_TRACE(0.00)[luaberry.com:+,messagingengine.com:+];
+	TAGGED_RCPT(0.00)[linux-media];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 2102B5E0921
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,messagingengine.com:dkim]
+X-Rspamd-Queue-Id: 07E085E0883
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 5/6/26 23:56, Laurent Pinchart wrote:
-> This reverts commit 937f3e6b51f1cea079be9ba642665f2bf8bcc31f.
-> 
-> The change to format propagation in the BRx broke configuration of the
-> DRM pipeline. Revert it to fix the regression.
+Remove the hardcoded function name and line number prefix from
+dev_dbg() output strings within ia_css_binary_find(). dev_dbg()
+can already emit the function name and line number via dynamic_debug's
+'f' and 'l' flags, so embedding it in the format string is redundant.
 
-Laurent, is this still on your radar? From the outside it looks like
-this fix for the 7.1 regression should ideally go to Linus this week, as
-he ideally wants all known regression fixed by -rc6.
+This resolves the EMBEDDED_FUNCTION_NAME checkpatch warnings without
+introducing __func__ to format strings.
 
-But it's easy to miss things from the outside, so if this is not a
-proper regression, the revert obsolete, or something like that, just
-mention it.
+No functional changes.
 
-Ciao, Thorsten
+Signed-off-by: Jeongin Yeo <jeongin.yeo@luaberry.com>
+---
+Changes in v3:
+- Remove the __LINE__ argument and "[%d]" prefix from dev_dbg() calls.
+  Like __func__, line numbers are provided by dynamic_debug via the 'l' flag.
+- Link to v2: https://lore.kernel.org/r/20260526200222.330280-1-jeongin.yeo@luaberry.com
 
-> The original commit was meant to fix a v4l2-compliance failure, with no
-> known userspace applications being affected beside test tools. Reverting
-> is the simplest option, a more comprehensive fix can be developed (and
-> tested more thoroughly) later.
-> 
-> Reported-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Closes: https://lore.kernel.org/linux-media/CA+V-a8t481xuwava0nb7uY9CUPqFWZ_8EP0xrK3BgumP7HDcLg@mail.gmail.com
-> Fixes: 937f3e6b51f1 ("media: renesas: vsp1: brx: Fix format propagation")
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/media/platform/renesas/vsp1/vsp1_brx.c | 10 ++--------
->  1 file changed, 2 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> index b1a2c68e9944..9d93cb8b8e82 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> @@ -156,20 +156,14 @@ static int brx_set_format(struct v4l2_subdev *subdev,
->  		compose->height = format->height;
->  	}
->  
-> -	/*
-> -	 * Propagate the format code to all pads, and the whole format to the
-> -	 * source pad.
-> -	 */
-> +	/* Propagate the format code to all pads. */
->  	if (fmt->pad == BRX_PAD_SINK(0)) {
->  		unsigned int i;
->  
-> -		for (i = 0; i < brx->entity.source_pad; ++i) {
-> +		for (i = 0; i <= brx->entity.source_pad; ++i) {
->  			format = v4l2_subdev_state_get_format(state, i);
->  			format->code = fmt->format.code;
->  		}
-> -
-> -		format = v4l2_subdev_state_get_format(state, i);
-> -		*format = fmt->format;
->  	}
->  
->  done:
+Changes in v2:
+- Remove the function name strings entirely instead of converting
+  them to __func__, per feedback from Greg KH. dev_dbg() can already
+  emit function names via dynamic_debug's 'f' flag.
+- Link to v1: https://lore.kernel.org/r/20260526104750.1284935-1-jeongin.yeo@luaberry.com
+
+ .../atomisp/pci/runtime/binary/src/binary.c   | 133 ++++++++----------
+ 1 file changed, 58 insertions(+), 75 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+index e9016d7775dc3..ef766a02b460b 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
++++ b/drivers/staging/media/atomisp/pci/runtime/binary/src/binary.c
+@@ -925,7 +925,7 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
+ 	/* MW: used after an error check, may accept NULL, but doubtful */
+ 	assert(binary);
+ 
+-	dev_dbg(atomisp_dev, "ia_css_binary_find() enter: descr=%p, (mode=%d), binary=%p\n",
++	dev_dbg(atomisp_dev, "enter: descr=%p, (mode=%d), binary=%p\n",
+ 		descr, descr->mode, binary);
+ 
+ 	mode = descr->mode;
+@@ -991,8 +991,7 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
+ 		struct ia_css_binary_info *candidate = &xcandidate->sp;
+ 		/* printf("sh_css_binary_find: evaluating candidate:
+ 		 * %d\n",candidate->id); */
+-		dev_dbg(atomisp_dev,
+-			"ia_css_binary_find() candidate = %p, mode = %d ID = %d\n",
++		dev_dbg(atomisp_dev, "candidate = %p, mode = %d ID = %d\n",
+ 			candidate, candidate->pipeline.mode, candidate->id);
+ 
+ 		/*
+@@ -1002,16 +1001,13 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
+ 		*/
+ 		if (!candidate->enable.continuous &&
+ 		    continuous && (mode != IA_CSS_BINARY_MODE_COPY)) {
+-			dev_dbg(atomisp_dev,
+-				"ia_css_binary_find() [%d] continue: !%d && %d && (%d != %d)\n",
+-				__LINE__, candidate->enable.continuous,
+-				continuous, mode, IA_CSS_BINARY_MODE_COPY);
++			dev_dbg(atomisp_dev, "continue: !%d && %d && (%d != %d)\n",
++				candidate->enable.continuous, continuous,
++				mode, IA_CSS_BINARY_MODE_COPY);
+ 			continue;
+ 		}
+ 		if (striped && candidate->iterator.num_stripes == 1) {
+-			dev_dbg(atomisp_dev,
+-				"ia_css_binary_find() [%d] continue: binary is not striped\n",
+-				__LINE__);
++			dev_dbg(atomisp_dev, "continue: binary is not striped\n");
+ 			continue;
+ 		}
+ 
+@@ -1019,38 +1015,38 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
+ 		    (mode != IA_CSS_BINARY_MODE_COPY) &&
+ 		    (mode != IA_CSS_BINARY_MODE_CAPTURE_PP) &&
+ 		    (mode != IA_CSS_BINARY_MODE_VF_PP)) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: (%d != %d)\n",
+-				__LINE__, candidate->pipeline.isp_pipe_version, isp_pipe_version);
++			dev_dbg(atomisp_dev, "continue: (%d != %d)\n",
++				candidate->pipeline.isp_pipe_version, isp_pipe_version);
+ 			continue;
+ 		}
+ 		if (!candidate->enable.reduced_pipe && enable_reduced_pipe) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: !%d && %d\n",
+-				__LINE__, candidate->enable.reduced_pipe, enable_reduced_pipe);
++			dev_dbg(atomisp_dev, "continue: !%d && %d\n",
++				candidate->enable.reduced_pipe, enable_reduced_pipe);
+ 			continue;
+ 		}
+ 		if (!candidate->enable.dvs_6axis && enable_dvs_6axis) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: !%d && %d\n",
+-				__LINE__, candidate->enable.dvs_6axis, enable_dvs_6axis);
++			dev_dbg(atomisp_dev, "continue: !%d && %d\n",
++				candidate->enable.dvs_6axis, enable_dvs_6axis);
+ 			continue;
+ 		}
+ 		if (candidate->enable.high_speed && !enable_high_speed) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: %d && !%d\n",
+-				__LINE__, candidate->enable.high_speed, enable_high_speed);
++			dev_dbg(atomisp_dev, "continue: %d && !%d\n",
++				candidate->enable.high_speed, enable_high_speed);
+ 			continue;
+ 		}
+ 		if (!candidate->enable.xnr && need_xnr) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: %d && !%d\n",
+-				__LINE__, candidate->enable.xnr, need_xnr);
++			dev_dbg(atomisp_dev, "continue: %d && !%d\n",
++				candidate->enable.xnr, need_xnr);
+ 			continue;
+ 		}
+ 		if (!(candidate->enable.ds & 2) && enable_yuv_ds) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: !%d && %d\n",
+-				__LINE__, ((candidate->enable.ds & 2) != 0), enable_yuv_ds);
++			dev_dbg(atomisp_dev, "continue: !%d && %d\n",
++				((candidate->enable.ds & 2) != 0), enable_yuv_ds);
+ 			continue;
+ 		}
+ 		if ((candidate->enable.ds & 2) && !enable_yuv_ds) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: %d && !%d\n",
+-				__LINE__, ((candidate->enable.ds & 2) != 0), enable_yuv_ds);
++			dev_dbg(atomisp_dev, "continue: %d && !%d\n",
++				((candidate->enable.ds & 2) != 0), enable_yuv_ds);
+ 			continue;
+ 		}
+ 
+@@ -1064,85 +1060,77 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
+ 				       candidate->vf_dec.is_variable ||
+ 				       /* or more than one output pin. */
+ 				       xcandidate->num_output_pins > 1)) {
+-			dev_dbg(atomisp_dev,
+-				"ia_css_binary_find() [%d] continue: (%p != NULL) && !(%d || %d || (%d >%d))\n",
+-				__LINE__, req_vf_info, candidate->enable.vf_veceven,
++			dev_dbg(atomisp_dev, "continue: (%p != NULL) && !(%d || %d || (%d >%d))\n",
++				req_vf_info, candidate->enable.vf_veceven,
+ 				candidate->vf_dec.is_variable, xcandidate->num_output_pins, 1);
+ 			continue;
+ 		}
+ 		if (!candidate->enable.dvs_envelope && need_dvs) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: !%d && %d\n",
+-				__LINE__, candidate->enable.dvs_envelope, (int)need_dvs);
++			dev_dbg(atomisp_dev, "continue: !%d && %d\n",
++				candidate->enable.dvs_envelope, (int)need_dvs);
+ 			continue;
+ 		}
+ 		/* internal_res check considers input, output, and dvs envelope sizes */
+ 		ia_css_binary_internal_res(req_in_info, req_bds_out_info,
+ 					   req_bin_out_info, &dvs_env, candidate, &internal_res);
+ 		if (internal_res.width > candidate->internal.max_width) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: (%d > %d)\n",
+-				__LINE__, internal_res.width, candidate->internal.max_width);
++			dev_dbg(atomisp_dev, "continue: (%d > %d)\n",
++				internal_res.width, candidate->internal.max_width);
+ 			continue;
+ 		}
+ 		if (internal_res.height > candidate->internal.max_height) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: (%d > %d)\n",
+-				__LINE__, internal_res.height, candidate->internal.max_height);
++			dev_dbg(atomisp_dev, "continue: (%d > %d)\n",
++				internal_res.height, candidate->internal.max_height);
+ 			continue;
+ 		}
+ 		if (!candidate->enable.ds && need_ds && !(xcandidate->num_output_pins > 1)) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: !%d && %d\n",
+-				__LINE__, candidate->enable.ds, (int)need_ds);
++			dev_dbg(atomisp_dev, "continue: !%d && %d\n",
++				candidate->enable.ds, (int)need_ds);
+ 			continue;
+ 		}
+ 		if (!candidate->enable.uds && !candidate->enable.dvs_6axis && need_dz) {
+-			dev_dbg(atomisp_dev,
+-				"ia_css_binary_find() [%d] continue: !%d && !%d && %d\n",
+-				__LINE__, candidate->enable.uds, candidate->enable.dvs_6axis,
++			dev_dbg(atomisp_dev, "continue: !%d && !%d && %d\n",
++				candidate->enable.uds, candidate->enable.dvs_6axis,
+ 				(int)need_dz);
+ 			continue;
+ 		}
+ 		if (online && candidate->input.source == IA_CSS_BINARY_INPUT_MEMORY) {
+-			dev_dbg(atomisp_dev,
+-				"ia_css_binary_find() [%d] continue: %d && (%d == %d)\n",
+-				__LINE__, online, candidate->input.source,
++			dev_dbg(atomisp_dev, "continue: %d && (%d == %d)\n",
++				online, candidate->input.source,
+ 				IA_CSS_BINARY_INPUT_MEMORY);
+ 			continue;
+ 		}
+ 		if (!online && candidate->input.source == IA_CSS_BINARY_INPUT_SENSOR) {
+-			dev_dbg(atomisp_dev,
+-				"ia_css_binary_find() [%d] continue: !%d && (%d == %d)\n",
+-				__LINE__, online, candidate->input.source,
++			dev_dbg(atomisp_dev, "continue: !%d && (%d == %d)\n",
++				online, candidate->input.source,
+ 				IA_CSS_BINARY_INPUT_SENSOR);
+ 			continue;
+ 		}
+ 		if (req_bin_out_info->res.width < candidate->output.min_width ||
+ 		    req_bin_out_info->res.width > candidate->output.max_width) {
+-			dev_dbg(atomisp_dev,
+-				"ia_css_binary_find() [%d] continue: (%d > %d) || (%d < %d)\n",
+-				__LINE__, req_bin_out_info->padded_width,
+-				candidate->output.min_width, req_bin_out_info->padded_width,
+-				candidate->output.max_width);
++			dev_dbg(atomisp_dev, "continue: (%d > %d) || (%d < %d)\n",
++				req_bin_out_info->padded_width, candidate->output.min_width,
++				req_bin_out_info->padded_width, candidate->output.max_width);
+ 			continue;
+ 		}
+ 		if (xcandidate->num_output_pins > 1 &&
+ 		    /* in case we have a second output pin, */
+ 		    req_vf_info) { /* and we need vf output. */
+ 			if (req_vf_info->res.width > candidate->output.max_width) {
+-				dev_dbg(atomisp_dev,
+-					"ia_css_binary_find() [%d] continue: (%d < %d)\n",
+-					__LINE__, req_vf_info->res.width,
+-					candidate->output.max_width);
++				dev_dbg(atomisp_dev, "continue: (%d < %d)\n",
++					req_vf_info->res.width, candidate->output.max_width);
+ 				continue;
+ 			}
+ 		}
+ 		if (req_in_info->padded_width > candidate->input.max_width) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: (%d > %d)\n",
+-				__LINE__, req_in_info->padded_width, candidate->input.max_width);
++			dev_dbg(atomisp_dev, "continue: (%d > %d)\n",
++				req_in_info->padded_width, candidate->input.max_width);
+ 			continue;
+ 		}
+ 		if (!binary_supports_output_format(xcandidate, req_bin_out_info->format)) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: !%d\n",
+-				__LINE__, binary_supports_output_format(xcandidate,
+-									req_bin_out_info->format));
++			dev_dbg(atomisp_dev, "continue: !%d\n",
++				binary_supports_output_format(xcandidate,
++							      req_bin_out_info->format));
+ 			continue;
+ 		}
+ 		if (xcandidate->num_output_pins > 1 &&
+@@ -1151,9 +1139,8 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
+ 		    /* check if the required vf format
+ 		    is supported. */
+ 		    !binary_supports_output_format(xcandidate, req_vf_info->format)) {
+-			dev_dbg(atomisp_dev,
+-				"ia_css_binary_find() [%d] continue: (%d > %d) && (%p != NULL) && !%d\n",
+-				__LINE__, xcandidate->num_output_pins, 1, req_vf_info,
++			dev_dbg(atomisp_dev, "continue: (%d > %d) && (%p != NULL) && !%d\n",
++				xcandidate->num_output_pins, 1, req_vf_info,
+ 				binary_supports_output_format(xcandidate, req_vf_info->format));
+ 			continue;
+ 		}
+@@ -1162,9 +1149,8 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
+ 		if (xcandidate->num_output_pins == 1 &&
+ 		    req_vf_info && candidate->enable.vf_veceven &&
+ 		    !binary_supports_vf_format(xcandidate, req_vf_info->format)) {
+-			dev_dbg(atomisp_dev,
+-				"ia_css_binary_find() [%d] continue: (%d == %d) && (%p != NULL) && %d && !%d\n",
+-				__LINE__, xcandidate->num_output_pins, 1,
++			dev_dbg(atomisp_dev, "continue: (%d == %d) && (%p != NULL) && %d && !%d\n",
++				xcandidate->num_output_pins, 1,
+ 				req_vf_info, candidate->enable.vf_veceven,
+ 				binary_supports_vf_format(xcandidate, req_vf_info->format));
+ 			continue;
+@@ -1174,31 +1160,28 @@ int ia_css_binary_find(struct ia_css_binary_descr *descr, struct ia_css_binary *
+ 		if (xcandidate->num_output_pins == 1 &&
+ 		    req_vf_info && candidate->enable.vf_veceven) { /* and we need vf output. */
+ 			if (req_vf_info->res.width > candidate->output.max_width) {
+-				dev_dbg(atomisp_dev,
+-					"ia_css_binary_find() [%d] continue: (%d < %d)\n",
+-					__LINE__, req_vf_info->res.width,
+-					candidate->output.max_width);
++				dev_dbg(atomisp_dev, "continue: (%d < %d)\n",
++					req_vf_info->res.width, candidate->output.max_width);
+ 				continue;
+ 			}
+ 		}
+ 
+ 		if (!supports_bds_factor(candidate->bds.supported_bds_factors,
+ 					 descr->required_bds_factor)) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: 0x%x & 0x%x)\n",
+-				__LINE__, candidate->bds.supported_bds_factors,
+-				descr->required_bds_factor);
++			dev_dbg(atomisp_dev, "continue: 0x%x & 0x%x)\n",
++				candidate->bds.supported_bds_factors, descr->required_bds_factor);
+ 			continue;
+ 		}
+ 
+ 		if (!candidate->enable.dpc && need_dpc) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: 0x%x & 0x%x)\n",
+-				__LINE__, candidate->enable.dpc, descr->enable_dpc);
++			dev_dbg(atomisp_dev, "continue: 0x%x & 0x%x)\n",
++				candidate->enable.dpc, descr->enable_dpc);
+ 			continue;
+ 		}
+ 
+ 		if (candidate->uds.use_bci && enable_capture_pp_bli) {
+-			dev_dbg(atomisp_dev, "ia_css_binary_find() [%d] continue: 0x%x & 0x%x)\n",
+-				__LINE__, candidate->uds.use_bci, descr->enable_capture_pp_bli);
++			dev_dbg(atomisp_dev, "continue: 0x%x & 0x%x)\n",
++				candidate->uds.use_bci, descr->enable_capture_pp_bli);
+ 			continue;
+ 		}
+ 
+-- 
+2.43.0
 
 
