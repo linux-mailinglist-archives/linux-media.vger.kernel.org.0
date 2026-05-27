@@ -1,81 +1,82 @@
-Return-Path: <linux-media+bounces-62861-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62862-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CDf5Nce2Fmo6pwcAu9opvQ
-	(envelope-from <linux-media+bounces-62861-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 11:17:59 +0200
+	id MENNOqu4FmqLqAcAu9opvQ
+	(envelope-from <linux-media+bounces-62862-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 11:26:03 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 585425E1AC7
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 11:17:59 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 415CD5E1C41
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 11:26:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 607D0302A4DA
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 09:13:36 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9F2713023529
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2026 09:20:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE49F3E6DDC;
-	Wed, 27 May 2026 09:13:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62F343E8323;
+	Wed, 27 May 2026 09:20:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="RX1xznAb"
+	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="NNpel607"
 X-Original-To: linux-media@vger.kernel.org
-Received: from outbound.soverin.net (outbound.soverin.net [185.233.34.18])
+Received: from outbound.soverin.net (outbound.soverin.net [185.233.34.146])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14CBD3E7151;
-	Wed, 27 May 2026 09:13:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255EF3E6DDC
+	for <linux-media@vger.kernel.org>; Wed, 27 May 2026 09:20:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779873203; cv=none; b=LOizTUV/tsdZntyS2HxscSLHewB/5CCck4Fhq//kXetglU/CIkTIxiSpxQM1vZys92iru1fpSP4RUvxcwyMk3Lpi/Zcsr77IplWE8faS6LBupnI0VQsWq0tiwl2IKHXvj1qYo153smcj+UmjvVywSPwcDyRFTRldgrja4Ue6U6A=
+	t=1779873615; cv=none; b=a5tqW1eSDwZhsNKRpPPSYHRDPb2miStOp1RYF5l1ml0zQ9vY1Sv8Vesdl6tZoU8pmzdnXq+H2ZnysGkQuhUSf/Cw3gHpJT8/U2nda6wmDv2cWao4SheakLuzDHJerBS6MkOgPusgHTzGI+LyMegQbxgw7RmSMy8aP1ncU9cFcDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779873203; c=relaxed/simple;
-	bh=MdfCAFoUBjK43tuM8ptdLXguK4v3FM8uYeH5PUsCbQg=;
+	s=arc-20240116; t=1779873615; c=relaxed/simple;
+	bh=7GZG9TldFlfP6shQftG/+NOf3ALX/Q9xXCrePj1oG7c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I28RSugWbW+wnFicRKtuRCT3L6NaIsTML0J1YY3CW73fTdNUP5fAwN3Jvo8vLLhWKEDwJyLursaeDOMmYUMO55GAK9IblDqDm4SD2CKtcBRnbmED827Kl/WtIlJhRlgNKPn84MTwtIT4fHYSP8hbTbZxFcQjI7f287rhZ8v6jT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=RX1xznAb; arc=none smtp.client-ip=185.233.34.18
+	 In-Reply-To:Content-Type; b=UDAFj6m8BH4TtLGxMIm8hMoe2GabwAmo2FeEcHncy+Qjv6bu47/LmTk9sFmpdNzgGJMo15acooNBLHFjDDhds10aPdVXXAUOBVP8pn5vDXIi6ntg0+GtqHdbuIsJf0dcnmxOygd0FS5hXWGPOpN0eAPsT0QDkl8Hxu6hSQ/qRaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=NNpel607; arc=none smtp.client-ip=185.233.34.146
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
 Received: from smtp.freedom.nl (unknown [10.10.4.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by outbound.soverin.net (Postfix) with ESMTPS id 4gQP6b68gpz1NNH;
-	Wed, 27 May 2026 09:13:11 +0000 (UTC)
-Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.108]) by freedom.nl (Postfix) with ESMTPSA id 4gQP6Z617bz2xLS;
-	Wed, 27 May 2026 09:13:10 +0000 (UTC)
+	by outbound.soverin.net (Postfix) with ESMTPS id 4gQP7t16PZz1xpv;
+	Wed, 27 May 2026 09:14:18 +0000 (UTC)
+Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.108]) by freedom.nl (Postfix) with ESMTPSA id 4gQP7s0Qy9z2xLS;
+	Wed, 27 May 2026 09:14:16 +0000 (UTC)
 Authentication-Results: smtp.freedom.nl;
-	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=RX1xznAb;
+	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=NNpel607;
 	dkim-atps=neutral
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
-	s=soverin1; t=1779873191;
+	s=soverin1; t=1779873258;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=etfwjiPIcnyIi3OTeXprjKmDih1/Qt0l4v+9NlSouZ0=;
-	b=RX1xznAbimCP0LGxs4wx6uOEiugUNoFgEHJJIbZFQ/27gOBk3yxsLhSRXpxO5COoB0h08m
-	eMaMthvFMLYuN3nIb+s2piMWLaaY0A1GKV0Ede2M/Be8RHei+U6G4zvNBwazHpgE1fU5n4
-	SsJ5cR8F76S7NRN6elZfkWyZAIV+Le5Aj6AwXylVKOLcuurONysjMQtIQbSXka19HuMlhY
-	BShxElkY84Rgnd5lNsP3yWcNZc6ncejPO1YL1P08pPwVa4B0YX2xMdk3E2wOixzXaBlnBi
-	UbFUnaJ6s2b2ghJnwVMXvpzjEYOl2a1SCACex/X22LB64bA7kdKxEMJCXCmNyg==
-X-CM-Envelope: MS4xfHpRFkbO+JcS4iICG734fMU6AHzEPVOAMQtzc8vO/acBDXCdaM4gGjuaP1QcEnnn+N0qhI7bPFS2vxLItIQ/YREg1/BocdGuOppa+eA8/3UQG50rsuoK 3mcpKln45Xyl2vlnqysVIntZhZfIdV/nMvqpXLrDF+ZFj3C3RiTKoH8urK7xWKDJcNvUp1Hs4bbShpi3pmp2yChyRu72Ny+xulCjOBkuaEACvAD6EZco0613 nkODkRn0c+TDakZ8PtjS5aKB5+vdTI9vN+Hhe8uWquXnlnhoqGBNkfDNZ1QmpkgrB8EyJtPfQkuFq+RBjysoFwqEg37Rvhal7jcvWrQ/5MsVftul3vIsZphw N70lak5ALSYz8xNwWT1m8hP12l/Rk2cSl8d0WPsANQO6NzckJXkJGK9wthDn7RW2+9uLXnacHwlRxz6iylPEzgAvR/pDMWnDyBGskQZqtAY++Rtc+PM=
-X-Soverin-Id: 019e68b5-9458-7bd9-b8c6-f0959a4a33e1
-Message-ID: <59a90896-5e23-4afc-b437-a71bfc57a55d@jjverkuil.nl>
-Date: Wed, 27 May 2026 11:12:24 +0200
+	bh=/v60P3uAT0/Xbja1O2Qd2WEn4BErZih9q23CgshkOgM=;
+	b=NNpel607qgfvfU23kcHXwWIOKS87lSf7nhJgUpp2MGJ+D5ykBZf29dR35PYhOkArF+gRNt
+	W3jSMPJQOWP8idmCvHvFmmdb9FvVawPTPKM2OPcEyXGBFOvzJJx9WrcIvBU0L91A5UNFND
+	4+fF28q4oFro1Sm1b1FRWuBL6LMiMdmPWSEy/c6U/TmEpB8cW58Dmq2j7zhwenb0HhC+Xh
+	i4VJolC/lzraM/rTa3J2/2/Uxv29T2m5Q6xCljoCRGtcALRdJm6HA8AUObd50fopWPHsBN
+	AEoay3kEa7pKp9qfI2jGg3Pgl38Bej+qeUb5ShOd2kWAi1jepQ7N4poDXSbQdg==
+X-CM-Envelope: MS4xfEmdsTB2tmzLxNpBJqgeqir7lnXdL81J6lOrG6K1sK2aC+SWgn7mvYyt6ZD6cRBBrALLnNbrJ51hC3kjW6d8IoE0f5QW3heuQnjpr4H4p0CZ8ZMCHvpf ENoDrBvyh7gQmFCuDYwHOaUIfpjYPQ0TjDJB/VISAQXuQStP/GU1Jn1+F60oAwNXfn0H6qfRCY6wBPz73cF88Dmq0hHv9hGGBGYpE0zBLgfx6nxCbVFenlYc NO/yDFTuV0vaJ6EUuj6iFbUtB4fiazAvjQMupDmt6+KU/mo97CEy7k7UquRG/q6ycaeEQfrDhETxnT3A45ecnom3Jep8psuGW92DfJsrUbGJ5etceaimeW23 Vqz4XUSf7dAnnbFF8SwHp779JM2K/xEA7xut1o9n2rDz3RhoWRyEoQJKJZhtN570cOnvyORs
+X-Soverin-Id: 019e68b6-9a10-7ec2-b2c4-98845cb425f8
+Message-ID: <91a509aa-f180-4bec-be10-2278b0e93426@jjverkuil.nl>
+Date: Wed, 27 May 2026 11:13:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3] staging: media: imx: fix parenthesis ending checks
-To: Mark Adamenko <marusik.adamenko@gmail.com>, linux-staging@lists.linux.dev
-Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, imx@lists.linux.dev,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260310002643.27465-1-marusik.adamenko@gmail.com>
+Subject: Re: [GIT PULL FOR v7.2] i.MX NXP stage driver for changes
+To: Frank.Li@oss.nxp.com, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, imx@lists.linux.dev,
+ Mark Adamenko <marusik.adamenko@gmail.com>,
+ Shyam Sunder Reddy Padira <shyamsunderreddypadira@gmail.com>,
+ Michael Tretter <m.tretter@pengutronix.de>
+References: <20260522194020.693731-1-Frank.Li@oss.nxp.com>
 Content-Language: en-US
 From: Hans Verkuil <hans@jjverkuil.nl>
-In-Reply-To: <20260310002643.27465-1-marusik.adamenko@gmail.com>
+In-Reply-To: <20260522194020.693731-1-Frank.Li@oss.nxp.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spampanel-Class: ham
@@ -83,112 +84,86 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[jjverkuil.nl,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[jjverkuil.nl:s=soverin1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmail.com,pengutronix.de,linuxfoundation.org,lists.linux.dev,vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
 	DKIM_TRACE(0.00)[jjverkuil.nl:+];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-62861-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,lists.linux.dev];
+	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,gmail.com,pengutronix.de];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_FROM(0.00)[bounces-62862-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[hans@jjverkuil.nl,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	NEURAL_HAM(-0.00)[-0.998];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,jjverkuil.nl:mid,jjverkuil.nl:dkim]
-X-Rspamd-Queue-Id: 585425E1AC7
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,jjverkuil.nl:mid,jjverkuil.nl:dkim,nxp.com:email,gitlab.freedesktop.org:url]
+X-Rspamd-Queue-Id: 415CD5E1C41
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Mark,
+Hi Frank,
 
-On 3/10/26 1:26 AM, Mark Adamenko wrote:
-> Remove 4 checks for ending with a parenthesis by removing unnecessary
-> line breaks, and forward declare a variable for a function call that
-> would otherwise remain over 80 columns.
+On 5/22/26 9:40 PM, Frank.Li@oss.nxp.com wrote:
+> The following changes since commit 940f161f734b25f175a95d2684c2021f6323693a:
+> 
+>    media: meson: vdec: Fix memory leak in error path of vdec_open (2026-05-21 12:32:22 +0200)
+> 
+> are available in the Git repository at:
+> 
+>    https://gitlab.freedesktop.org/linux-media/users/frankl.git tags/media-stage-nxp-20260519
+> 
+> for you to fetch changes up to 87ac7ccb322a2cb70957878905fd46d821a919bd:
+> 
+>    media: staging: imx: fix parenthesis ending checks (2026-05-21 12:58:30 -0400)
+> 
+> CI pipeline: https://gitlab.freedesktop.org/linux-media/users/frankl/-/pipelines/1672639
+> 
+> ----------------------------------------------------------------
+> - Use media_pad_is_streaming helper function for cleaner code
+> 
+> - Fix media pipeline handling in imx-csi driver by explicitly starting
+>    pipeline on pad 0 and moving media_pipeline to video device
+> 
+> - Fix imx stage driver code style problem
+> 
+> ----------------------------------------------------------------
+> Mark Adamenko (1):
+>        media: staging: imx: fix parenthesis ending checks
 
-Sorry, but I'm rejecting this patch: it just swaps one 'problem' 
-(parenthesis ending check) with another problem: long lines.
+I'm dropping this patch, see my review of it.
 
-In the end the current version is just more readable, so I'm just 
-dropping this patch.
-
-Rejected-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+I'll take the other patches.
 
 Regards,
 
 	Hans
 
 > 
-> Signed-off-by: Mark Adamenko <marusik.adamenko@gmail.com>
-> ---
-> v3: fix commit message
-> ---
-> ---
->   drivers/staging/media/imx/imx-ic-prpencvf.c | 16 ++++++----------
->   1 file changed, 6 insertions(+), 10 deletions(-)
+> Michael Tretter (3):
+>        media: staging: imx-csi: move media_pipeline to video device
+>        media: staging: imx-csi: explicitly start media pipeline on pad 0
+>        media: staging: imx-csi: use media_pad_is_streaming helper
 > 
-> diff --git a/drivers/staging/media/imx/imx-ic-prpencvf.c b/drivers/staging/media/imx/imx-ic-prpencvf.c
-> index 77360bfe081a..2339b59af7b0 100644
-> --- a/drivers/staging/media/imx/imx-ic-prpencvf.c
-> +++ b/drivers/staging/media/imx/imx-ic-prpencvf.c
-> @@ -315,8 +315,7 @@ static void prp_setup_vb2_buf(struct prp_priv *priv, dma_addr_t *phys)
->   		buf = imx_media_capture_device_next_buf(vdev);
->   		if (buf) {
->   			priv->active_vb2_buf[i] = buf;
-> -			phys[i] = vb2_dma_contig_plane_dma_addr(
-> -				&buf->vbuf.vb2_buf, 0);
-> +			phys[i] = vb2_dma_contig_plane_dma_addr(&buf->vbuf.vb2_buf, 0);
->   		} else {
->   			priv->active_vb2_buf[i] = NULL;
->   			phys[i] = priv->underrun_buf.phys;
-> @@ -704,11 +703,9 @@ static int prp_start(struct prp_priv *priv)
->   	}
->   
->   	if (ipu_rot_mode_is_irt(priv->rot_mode))
-> -		priv->eof_irq = ipu_idmac_channel_irq(
-> -			ic_priv->ipu, priv->rot_out_ch, IPU_IRQ_EOF);
-> +		priv->eof_irq = ipu_idmac_channel_irq(ic_priv->ipu, priv->rot_out_ch, IPU_IRQ_EOF);
->   	else
-> -		priv->eof_irq = ipu_idmac_channel_irq(
-> -			ic_priv->ipu, priv->out_ch, IPU_IRQ_EOF);
-> +		priv->eof_irq = ipu_idmac_channel_irq(ic_priv->ipu, priv->out_ch, IPU_IRQ_EOF);
->   
->   	ret = devm_request_irq(ic_priv->ipu_dev, priv->eof_irq,
->   			       prp_eof_interrupt, 0,
-> @@ -750,7 +747,7 @@ static int prp_start(struct prp_priv *priv)
->   static void prp_stop(struct prp_priv *priv)
->   {
->   	struct imx_ic_priv *ic_priv = priv->ic_priv;
-> -	unsigned long flags;
-> +	unsigned long flags, timeout_in_jiffies;
->   	int ret;
->   
->   	/* mark next EOF interrupt as the last before stream off */
-> @@ -761,9 +758,8 @@ static void prp_stop(struct prp_priv *priv)
->   	/*
->   	 * and then wait for interrupt handler to mark completion.
->   	 */
-> -	ret = wait_for_completion_timeout(
-> -		&priv->last_eof_comp,
-> -		msecs_to_jiffies(IMX_MEDIA_EOF_TIMEOUT));
-> +	timeout_in_jiffies = msecs_to_jiffies(IMX_MEDIA_EOF_TIMEOUT);
-> +	ret = wait_for_completion_timeout(&priv->last_eof_comp, timeout_in_jiffies);
->   	if (ret == 0)
->   		v4l2_warn(&ic_priv->sd, "wait last EOF timeout\n");
->   
+> Shyam Sunder Reddy Padira (1):
+>        media: staging: imx: remove unnecessary out-of-memory error message
+> 
+>   drivers/staging/media/imx/imx-ic-prpencvf.c   | 16 ++++++----------
+>   drivers/staging/media/imx/imx-media-capture.c |  8 ++++----
+>   drivers/staging/media/imx/imx-media-utils.c   | 16 +++++++++-------
+>   drivers/staging/media/imx/imx-media.h         |  7 ++++---
+>   4 files changed, 23 insertions(+), 24 deletions(-)
+> 
 
 
