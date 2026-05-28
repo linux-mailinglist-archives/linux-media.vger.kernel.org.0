@@ -1,78 +1,66 @@
-Return-Path: <linux-media+bounces-62944-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62946-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QMKSM/v7F2oTYQgAu9opvQ
-	(envelope-from <linux-media+bounces-62944-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 10:25:31 +0200
+	id 0J7QKfT9F2oTYQgAu9opvQ
+	(envelope-from <linux-media+bounces-62946-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 10:33:56 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE4A95EE84E
-	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 10:25:30 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 505CA5EEA42
+	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 10:33:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 5DF4A309BEF0
-	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 08:19:32 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 1376B30769E9
+	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 08:30:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F29237883E;
-	Thu, 28 May 2026 08:19:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9DB4318B9D;
+	Thu, 28 May 2026 08:30:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="UPoGZUCW"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="bHgBkqpW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5453F2571C7;
-	Thu, 28 May 2026 08:19:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F93837FF5A;
+	Thu, 28 May 2026 08:30:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779956368; cv=none; b=M2STwJu8Dv+3DhXH+l59RegMIsgj7Biz+zjE9POrumPwAkHf+Z8Hg7uITZzS902Lsd8yNZjYipRKAQCV+/mxQv1Ul6chM5cOo4Gyk3XXaG0rrIWY7t8g7O9+GTbj2tvnrVm9RNChYsG+hiOxeia3hWXFOw390u18YWnAFbFmz30=
+	t=1779957033; cv=none; b=CqOrS/J55Uw9m8SyXBKquOGyX7FNAVaXCtYZxQX7XGZMKNQdhDbFOrCJvFV1jsiGbOT0kaRg3w4NuW4hmrgUXyUaBhC03pm7x3EKi4S3SMzs6yR3laJ8Llpo6kXvV+cXFxyHsoQD0WwH0leqhscUgEWhv8ZmrXMsg41TvFWXVMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779956368; c=relaxed/simple;
-	bh=MLatFh+ITEgavEN5ELhODVOrrueAp2v6chz36/OYIfQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=u6xErf/cIm+Zp8jBJqhJfbVM+pVfYYEnH3SofjzAJcIXEg1HlDuhH6LsUngR751VCgWHAXMljt7YlFZA0zG0kukBgFDrXgSeOJNxnnmRzmBuPlTL0f0wd0Iy/jC1CV26+2ye/tYCHRVnhZU1oKCvyjSBod05FH1bg7SmECLIq30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=UPoGZUCW; arc=none smtp.client-ip=54.254.200.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1779956363;
-	bh=oeURz6oicc+pZP9AWLhlYv7MHtn2iU5Ne4XKIeL0nIc=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=UPoGZUCWSPekYr5V/OPXEZDb4Up4tHhT8ZmgXB04zWiajDnu0f0lXi6iHdRHo3z6h
-	 mlroBJ48QaFss/GBpMLB5nRpD46uGS8spiFdvy3dSW4ZKGT+TEq3WXkcQvpUnnT4jq
-	 6fpTv8RgaVj0N2XjQOXlGXTb18rFC+13t1DEG5VY=
-X-QQ-mid: zesmtpgz3t1779956349t15de0229
-X-QQ-Originating-IP: SYALA+0AfiCbbM+XpXJbIjiqmJcJglSmxfVd4eUuncE=
-Received: from localhost.localdomain ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 28 May 2026 16:19:06 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 10008302796186427878
-EX-QQ-RecipientCnt: 15
-From: Haowen Tu <tuhaowen@uniontech.com>
-To: rafael@kernel.org
-Cc: lenb@kernel.org,
-	pavel@kernel.org,
-	linux-pm@vger.kernel.org,
-	laurent.pinchart@ideasonboard.com,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	linux-media@vger.kernel.org,
-	gregkh@linuxfoundation.org,
-	stern@rowland.harvard.edu,
-	oneukum@suse.com,
-	linux-usb@vger.kernel.org,
+	s=arc-20240116; t=1779957033; c=relaxed/simple;
+	bh=iOVvP7tzc8ITp05VV3fN7R6yOndkX0tN9xPDQsTKN7o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dCWLI70Lpy4YZt9j/IezA6bvr6SwSlohII7OUT5Dn+MyRMhz39jyktEyB5Pi78VJoJJVYO86cCtcLQI33V9EkxZHwUxPD6bp/3ETtqGXWQegof6OK0j0gBCC9FDQXwMIQz9tTzUxkGbTPVOqWLuegx02/WbfRicmEaUfsHRjB1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=bHgBkqpW; arc=none smtp.client-ip=220.197.31.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=n0
+	3eoOtM3eHsClG29ijMHpetVoDW9xstf0etlqEH/3I=; b=bHgBkqpWxzkBp7BEs9
+	fVdDHTiMq4OCJFhh4wQoWgS5Z+Xs2qAbwmfADZYtwwu/7l3T4JBVxH3PcE4SXJQK
+	AbU3mTpIHauqMtbOs3pMwdubdKpP0WfJJMTeo91MCJpK6lbbLyUtGj/OnBojhtdG
+	deIOR5YM5130/xGIEFJOYPQtk=
+Received: from 163.com (unknown [])
+	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wDnv_3a_BdqOMI7AA--.8856S2;
+	Thu, 28 May 2026 16:29:18 +0800 (CST)
+From: w15303746062@163.com
+To: maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	sumit.semwal@linaro.org,
+	christian.koenig@amd.com
+Cc: jeffy.chen@rock-chips.com,
+	dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org,
-	kernel@uniontech.com,
-	Haowen Tu <tuhaowen@uniontech.com>
-Subject: [PATCH v2 2/2] media: uvcvideo: skip resume after hibernation snapshot
-Date: Thu, 28 May 2026 16:18:40 +0800
-Message-Id: <20260528081840.3528089-3-tuhaowen@uniontech.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20260528081840.3528089-1-tuhaowen@uniontech.com>
-References: <20260428080513.1833515-1-tuhaowen@uniontech.com>
- <20260528081840.3528089-1-tuhaowen@uniontech.com>
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	Mingyu Wang <25181214217@stu.xidian.edu.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] drm/prime: Fix unsupervised rb_tree corruption in drm_prime_remove_buf_handle
+Date: Thu, 28 May 2026 16:29:12 +0800
+Message-Id: <20260528082912.1051262-1-w15303746062@163.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -80,126 +68,128 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: M1v+UkG2MoDhCQ3lacNFWoCDrJnYJ5B3tmDdimcXIgaZwyiSgngjOLmD
-	mQEbX3CeVAzjBC4FzfP00rCgV9FQZ+QmDE7xu4mMmJRAG4vYd8VYpxSxccpyruECF7/3pKc
-	JuRF+GJOjNc3rBcGDDZJW0Gf9Ou3nxfQ5xs+MVC7Sl34tfE7ELOJ2Kraal0lN+YhHUyQicq
-	Lx94dkSNIOv92oafEIWMld19YWIA0lR+qocNdyLGzVSAoc5B+JPfxM226GVTQoD9TcvGVaK
-	nBkOy1lEHnD4aOc7vji531GBCKmg8n8WcyL72Ah3hiAZTfvpymYY7omDj5Re2Zx436QQrU7
-	fatfUt3EifvQ/x4MHZa2m1hqinZ1c19bMsINPrWeQ/hBuGHvZmOxCTGmHSVgntez46cqvxV
-	9H9YrfcGKyX7XUWH6+e/ocm6SIoKamYdTFqy4PGBjvuRqtqxy4waQ5W0Cq1Zr8k4GbELftu
-	h+ZE4gThnjzB15lSPWOhUJGHn3wGcJqNnNFfLgf3KodfEHRKmu0hJabcL9ESvXLf83/voC8
-	17sqmcaA/dzMYo3zLmr98kNPsEOEb8fxc7Br847qvymc0N/KbX3983URYf9nI7ix3SMWjyN
-	O8UjEYEt/2y6PvHDF/FjPakE89YuHBLUBU+LbQPWsTRAwjt4gyWOfuBaTRGUCL/7sF+yHAr
-	6DtT+Ku7AlXCx12kBlysgdveTGh2x0bJqTs6ry/FSZPfOD5rAGPWdxWi6Pk9TiaGgLvTtgY
-	aF+Fyvq2Uwb+dAKEdC8xOwmnuIpHMR9ZZtoecCUf+uT5t5mVrlp9Y+peqZezaOYOfGRKXVY
-	7WIVtT3Q1A0T/EtgDTGWrjMnuINJxIANqCGINnLn2QUY4tHYFMEtwGlCTW1JQ5FlLv+ADrw
-	2erg01hfhceUMHwz9bWqX/h5K87SVWJla7oa3pNi0f2D3O+7sNAVnoyiYOxrza1uZj+1w4U
-	VwLVqMcM+0jd+6fr6fX7HDZ6q8c23P8ioiTU+CDt2zTCBdJeaswnHJ376CNqMmbbglsPn0y
-	KEKHQhT4io61twSqypHRh/F9cGabCrRLbzpFQAaKhluk9aKbC+oDMdva7yc9HaVTboUaAs0
-	XBDr6B3dJZY
-X-QQ-XMRINFO: Mp0Kj//9VHAxzExpfF+O8yhSrljjwrznVg==
-X-QQ-RECHKSPAM: 0
+X-CM-TRANSID:_____wDnv_3a_BdqOMI7AA--.8856S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxuF1xWF48Kw1xXw1xXw18Xwb_yoW5KFyfpF
+	W3tryYkr48JF42gayIy3W7Zas3Aa1fWF4xWa92qr93Z3s0yr1xurWayFyj9rW5Gr97GryY
+	qFyUJw15KFyjkrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j5EfOUUUUU=
+X-CM-SenderInfo: jzrvjiatxuliiws6il2tof0z/xtbDAB7WumoX-N6FmwAA3z
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[uniontech.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[uniontech.com:s=onoh2408];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[163.com,none];
+	R_DKIM_ALLOW(-0.20)[163.com:s=s110527];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-62944-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[163.com];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[163.com:+];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tuhaowen@uniontech.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[uniontech.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	TAGGED_FROM(0.00)[bounces-62946-lists,linux-media=lfdr.de];
 	TAGGED_RCPT(0.00)[linux-media];
-	FROM_HAS_DN(0.00)[]
-X-Rspamd-Queue-Id: CE4A95EE84E
+	FROM_NO_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[w15303746062@163.com,linux-media@vger.kernel.org]
+X-Rspamd-Queue-Id: 505CA5EEA42
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-When a UVC camera is in active use and the system enters S4 hibernation,
-the camera is suspended as part of the normal device freeze sequence.
-However, after create_image() saves the memory snapshot, the kernel
-briefly resumes all devices with PMSG_THAW to write the hibernation
-image to storage.  This causes uvc_video_resume() to run and
-reinitialize the camera hardware, which visibly turns on the camera
-indicator LED during this intermediate phase even though the system is
-about to power off.
+From: Mingyu Wang <25181214217@stu.xidian.edu.cn>
 
-The UVC device is not needed during the image-write window, where the
-system only needs devices required for writing the hibernation image.
-USB .resume callbacks do not receive pm_message_t, unlike .suspend, so
-use the PM-layer helper to detect this phase.
+Syzkaller fuzzer triggered a kernel panic via a WARNING in
+drm_prime_destroy_file_private() due to a non-empty prime rb_tree.
 
-This is intentionally handled in uvcvideo rather than in USB core.  USB
-core cannot skip all interface resume callbacks during hibernation THAW,
-because some USB interfaces may be part of the image writeout path or
-otherwise be required by dependencies.  uvcvideo has a concrete
-user-visible side effect from reinitializing hardware in this transient
-phase, and it is not involved in image writeout.
+The root cause is a complete lack of synchronization in the teardown
+path. While the import path (drm_gem_prime_fd_to_handle) holds the
+&file_priv->prime.lock during lookup and insertion, the deletion path
+(drm_prime_remove_buf_handle) traverses and mutates both the 'handles'
+and 'dmabufs' rb_trees without acquiring any mutex.
 
-The check is placed after stream->frozen is cleared and the clock is
-reset, so that driver state remains consistent if the image write fails
-and the system resumes normally instead of powering off.  In that case
-userspace will need to restart the stream, but the driver will not be
-left with stale frozen state.
+When multiple threads concurrently close GEM handles or interleave import
+and close operations, the pointers and balance states of the rb_tree
+nodes get corrupted. As a result, certain members are erased from one
+tree but remain orphaned in the other. Upon process exit, the final
+sanity check triggers the WARNING.
 
-Tested with hibernation image written to local storage and resumed from
-disk on a system with a USB UVC camera attached; the camera LED remains
-off during image writing and the video stream resumes correctly after
-restore.
+[    448.919314][T19739] ------------[ cut here ]------------
+[    448.945387][T19739] WARNING: CPU: 0 PID: 19739 at drivers/gpu/drm/drm_prime.c:223 drm_prime_destroy_file_private+0x43/0x60
+...
+[    449.056535][T19739] Call Trace:
+[    449.056544][T19739]  <TASK>
+[    449.056553][T19739]  drm_file_free.part.0+0x805/0xcf0
+[    449.056652][T19739]  drm_close_helper.isra.0+0x183/0x1f0
+[    449.056677][T19739]  drm_release+0x1ab/0x360
+[    449.056719][T19739]  __fput+0x402/0xb50
+[    449.056783][T19739]  task_work_run+0x16b/0x260
+[    449.056883][T19739]  exit_to_user_mode_loop+0xf9/0x130
+[    449.056931][T19739]  do_syscall_64+0x424/0xfa0
+[    449.056977][T19739]  entry_SYSCALL_64_after_hwframe+0x77/0x7f
+[    449.057268][T19739]  </TASK>
+[    449.057295][T19739] Kernel panic - not syncing: kernel: panic_on_warn set ...
 
-Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
+Fix this by acquiring the prime_fpriv->lock mutex around the rb_tree
+lookup and erasure logic. To respect the locking rules and avoid potential
+deadlocks with driver-specific memory cleanups, assign the target node to
+a temporary pointer and defer the dma_buf_put() and kfree() operations
+until after the mutex is safely dropped.
+
+Fixes: ea2aa97ca37a ("drm/gem: Fix GEM handle release errors")
+Cc: stable@vger.kernel.org
+Signed-off-by: Mingyu Wang <25181214217@stu.xidian.edu.cn>
 ---
-Changes in v2:
-- Use pm_hibernation_snapshot_done() after the PM helper was renamed.
+ drivers/gpu/drm/drm_prime.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
- drivers/media/usb/uvc/uvc_video.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index f6c8e3223796..9fa649fd47e0 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -12,6 +12,7 @@
- #include <linux/list.h>
- #include <linux/module.h>
- #include <linux/slab.h>
-+#include <linux/suspend.h>
- #include <linux/usb.h>
- #include <linux/usb/hcd.h>
- #include <linux/videodev2.h>
-@@ -2151,6 +2152,17 @@ int uvc_video_resume(struct uvc_streaming *stream, int reset)
- 	if (!uvc_queue_streaming(&stream->queue))
- 		return 0;
- 
-+	/*
-+	 * During hibernation image writing (PMSG_THAW), the kernel briefly
-+	 * resumes devices after the snapshot has been created.  Skip hardware
-+	 * reinitialization to avoid USB traffic and the spurious camera LED
-+	 * activation.  stream->frozen has already been cleared, so if the
-+	 * image write fails and the system resumes normally, driver state
-+	 * remains consistent; userspace will need to restart the stream.
-+	 */
-+	if (pm_hibernation_snapshot_done())
-+		return 0;
+diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+index 9b44c78cd77f..26319c638e0f 100644
+--- a/drivers/gpu/drm/drm_prime.c
++++ b/drivers/gpu/drm/drm_prime.c
+@@ -190,6 +190,9 @@ void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
+ 				 uint32_t handle)
+ {
+ 	struct rb_node *rb;
++	struct drm_prime_member *found = NULL;
 +
- 	ret = uvc_commit_video(stream, &stream->ctrl);
- 	if (ret < 0)
- 		return ret;
++	mutex_lock(&prime_fpriv->lock);
+ 
+ 	rb = prime_fpriv->handles.rb_node;
+ 	while (rb) {
+@@ -200,8 +203,7 @@ void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
+ 			rb_erase(&member->handle_rb, &prime_fpriv->handles);
+ 			rb_erase(&member->dmabuf_rb, &prime_fpriv->dmabufs);
+ 
+-			dma_buf_put(member->dma_buf);
+-			kfree(member);
++			found = member;
+ 			break;
+ 		} else if (member->handle < handle) {
+ 			rb = rb->rb_right;
+@@ -209,6 +211,13 @@ void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
+ 			rb = rb->rb_left;
+ 		}
+ 	}
++	mutex_unlock(&prime_fpriv->lock);
++
++	/* Defer resource release outside the mutex to prevent deadlocks */
++	if (found) {
++		dma_buf_put(found->dma_buf);
++		kfree(found);
++	}
+ }
+ 
+ void drm_prime_init_file_private(struct drm_prime_file_private *prime_fpriv)
 -- 
-2.20.1
+2.34.1
+
 
