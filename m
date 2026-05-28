@@ -1,256 +1,409 @@
-Return-Path: <linux-media+bounces-62960-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62961-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +LqmCo9FGGr5iAgAu9opvQ
-	(envelope-from <linux-media+bounces-62960-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 15:39:27 +0200
+	id eKjrIOlGGGr5iAgAu9opvQ
+	(envelope-from <linux-media+bounces-62961-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 15:45:13 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770765F2DD7
-	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 15:39:26 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0469B5F2F01
+	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 15:45:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2DA13311776E
-	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 13:32:41 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id DB2CE301B178
+	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 13:40:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 970CA3AF677;
-	Thu, 28 May 2026 13:32:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D8B83E315A;
+	Thu, 28 May 2026 13:40:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="sBW54BXE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aS++qDNi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011012.outbound.protection.outlook.com [52.101.62.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707BB3E5A18;
-	Thu, 28 May 2026 13:32:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA1103F6C56
+	for <linux-media@vger.kernel.org>; Thu, 28 May 2026 13:40:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.43
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779975160; cv=fail; b=ZMTu4pnlbEBuC0nMAjarLeOgBI3vuUlgW2LsPBPUMGYLBq29hw5YWdL1ugcf7Z0BPVOt87Y1kdSjfQrQxeh4jSwwTmdWyIxGgk3QZ8Z8/aFqcrwBMDvh7bXK6wqfVvtx/2Y7bCplHRNPArQa1xWa7TNYXnXazMJF7r+w+v1v8h8=
+	t=1779975621; cv=pass; b=Eue+Uzh51hQSq575LWM8HKvrGJ+vsHU1YeyjttIIXN1R/txDrxt26Icz8p9+wqGuBZtQwrZZG31IEn1rakZ0LzyE2UiUBzQiMHyP6MZ9p6A52ouw4HhxF0CkZhWmKyIJWFhaHaVFVSDkPAP24Fs8pvfiq4P08JX7clf0UN2pNr0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779975160; c=relaxed/simple;
-	bh=6NiOj59uxgDvC+nh10fPGUSehaCbYx1NFxpxdq3PlMw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=EXneTMm2MkNUUgmRgAGfo5zDmlsIeX6ne9M4uwYFK+XdaThCYEIEaGfY+hZfwJ6cnmfv/FEew5kGIsFEYGyVRniYObCFD8ho7ZsC61Kx+nu9RxynKE0Fr2tgNX4l4ZWsa7HS6ZEm8UZFSc/xdVOlxhkZci2tVlzG++V7V8jW7fM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=sBW54BXE; arc=fail smtp.client-ip=52.101.62.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pQ5fjdsxu/hTV1cVhWMEwpNfL6ZaslCG3ocEXUUFdEgUB/RAO4wbzYdW/zKpAGPZJG1UkvFxEyBwRy46LhXmpGpd0XpV3UMdZw3UVTzDCyGxl7idOYWbtdpQHq6wQPBXvMNipPClmw6aT7xbePHUbzV+T9oUybU2dEm3b49uLkqSqM2/4BStft+6LdLylgSUEo3+Crlgg5fLb3Fo8CV9tTBoT9MdUigd6oGYJXtouTqyctmBT0hDabGO16MV3uwZbNq1lfV2LyEZzQGL4wgXTVVUYrT+ieU5NltSGWlIfx36O/C1Jv1VNOhd79zi0rWFhJIZ1ARDfhWwO3M/OofrRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=v+9YcsALWWSmBSbfZOIBoPsFgGYyV+IQTFs8S6vvagM=;
- b=j/IMIsPU6qnWBqvzrL4O/RBv+F+5nmmiIQWEsWsxjZZ0xGgmA3N1XQePubVBYK8fmvfz/7ZzIc/URhTKZO9E+OZXYnX1URHPnpLhvS3HqOp3Rnz9trWAz5bsPg+cuxYT2GYNg4gxovgFdWZta8scsvH5FtUtFtWXMUc2IYXDGTohU4FCat3AxRO89Osl8FuUNqt8ZSjDUVCEQXsKq5OdQ85V1GLZe38zLmoNCUqncMWnqHKTSr/DLvFWMGQFLeEJfg2J+wJPS+PdK6WSoRS7KsOaQ+2EkroLslIRfVW/uMC3uk0DF8NEXy9FJnF+t6TEf1ThwpCjjKHgGxHn4ZmOPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=v+9YcsALWWSmBSbfZOIBoPsFgGYyV+IQTFs8S6vvagM=;
- b=sBW54BXE9oeqD+Ogppv0NxXKqKqnMZdoK+BN2Y7sYYhncLdE2XiT8QlZP/ApuS8ORZ2Sb8q+T61YDejVxxzz6c+cg2yuDjCRk6xICBg5KbAvVvaI6971fYCsOT8Ojlh2STGYZw5WmS2NYw3yUUSFhHDnJqWyrNFZdV+KgI416Sg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS0PR12MB7948.namprd12.prod.outlook.com (2603:10b6:8:152::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.12; Thu, 28 May
- 2026 13:32:34 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0071.011; Thu, 28 May 2026
- 13:32:33 +0000
-Message-ID: <62c256eb-1df4-4633-8040-222895b54f97@amd.com>
-Date: Thu, 28 May 2026 15:32:28 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] drm/prime: fix dangling dmabuf entries after handle
- release
-To: w15303746062@163.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- sumit.semwal@linaro.org
-Cc: jeffy.chen@rock-chips.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, Mingyu Wang <25181214217@stu.xidian.edu.cn>
-References: <0e12ce28-f5b7-4ffa-849c-df9ad1796e22@amd.com>
- <20260528132932.1078483-1-w15303746062@163.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260528132932.1078483-1-w15303746062@163.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR3P281CA0021.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:1c::11) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	s=arc-20240116; t=1779975621; c=relaxed/simple;
+	bh=KNTUanOOjBrTnxR4pmWBIGsAiQo6MGI8WKkMcO3Eedg=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=TpmEmp0MoMVUX99Ypdc+pWcgZBddpdvqgGIm2+9dwIjHXnjL0ZaoGEsn3XxM0RXhS3LHpN86MxbHDrcHHiMXpPbmogiNRotnr3PZuwBeXI0pDXPxkvJhuGK6R8AFpoTnZf7BhTq3I4XwbOep7QoplEUKKiTi9gV05+40xD9InGM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aS++qDNi; arc=pass smtp.client-ip=209.85.161.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-69d78547957so3546126eaf.0
+        for <linux-media@vger.kernel.org>; Thu, 28 May 2026 06:40:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1779975615; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RWLnwn87SSRb4aKCgLfDOhBcL8QweR6Mdn7kbWW4kGwdGCn9v5M+uc5gcZQAJjmqPk
+         dkb7MI6JuUgpv2x71w0BIAotB9/Km7kbJyUm59DMELQAoEeNzS0WPg/XOm9IDEZsyhPm
+         aU3LX8aUKR6IEAwyqqQhZpxg98qyZYyL9Wu7qJD4U8oNpj+2cCTRGbiMijZYuVL7zno7
+         qVtN3Rpy+sy1Qv5zzzWpLvkJRmH2xLxlXwHzzHNjAnqpjOZnMzdlAebDAxDngxTac+rP
+         ZMA0nagtjPvfpHGxVTT0ZIqC8OnyAlCQDEKIdUpAJU4+ifLdAgF97NbtoDt3+sPttDvQ
+         3Xig==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=o/OQ7V/HHVFhw6uCybNx3p4Srl1M7rYCCl0IG1Fc9ms=;
+        fh=4gRXwXlQXkYTgTIdhI4yrAD5qXgSXmhjhoNDbbMi2l8=;
+        b=OpXclZG0Tb9mMvj4o/FjF+qVAo9tEgBF/79US1ng8imjBjW1CvdxDVFZTsHFQALkq/
+         SvTeZ4/LPb0ELYOyblCk7eELynYfbr/z675QQ3xy2XncwvRFsfyCHzPFnIuzBt7My9GP
+         wH0HQc5YNN8G79j0nnMk0l1t3wh4D3JcgQo0ZCCK6e9aCB82o2i7Fmuek99B+6IyXbV0
+         Z2Hwm3GhJLCnT99nlrKHcHyXrDR5d/EiVo8mtWppHVYSaQs1XGIDmr+kARhnBf9FKwFr
+         0tIAAHfwWMjTtIwhUDmnKITWumdLuWOf86KyLrqGNG/DaU5R5+SiH7KUxu2F4kymiY0h
+         Lvdg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779975615; x=1780580415; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=o/OQ7V/HHVFhw6uCybNx3p4Srl1M7rYCCl0IG1Fc9ms=;
+        b=aS++qDNiiGZ2mzwmF8FV9Ryt+ZqOWGXggKCy/ollc+j41TgM50Q4FVFIj3uJtssEep
+         ZYeF4BwZZb7CBwbF4xqLF51uU1o+LiHitY18Vp0cJGxJq/t0Vm2dmM/Kk1UnACcK1AVN
+         cBB7ZCsqPkoOZ/WeYkK6rrF4vKFqjI0oCNz9z2jFUu1fcGNfxMed9UJ9nKa2IY8rDwsm
+         sIlZlDoLHXRESVrmz8daHuAt810Q4qeMAUCDDymDvtzSOOTjvyGM+O9nWp//+lbDDZjB
+         DCxFEGmd0s+RZYZcACTjf/XnDWUbEiMMciN9SvodXL5f5Nu2SYj99ioRbIqdUh6aphHH
+         n/tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779975615; x=1780580415;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=o/OQ7V/HHVFhw6uCybNx3p4Srl1M7rYCCl0IG1Fc9ms=;
+        b=PJqSBqUNtGtMylrZLjkA9TiNDJYCx+hUh5ZGDkyT/u1yFbTtAsG1naQi+nsRpm5+FL
+         2dAWFINrxvtlgYAJ2P3l4Gskosxe5zg49xPUya/Kh9PO3iOkK9HmKDNf98HcAol68G+t
+         jlz15BfYSLCkNizIQ7ghnKKdeRUkNavVrcmQHzlHRcBRQt0+TxOhZuVX+PT+I+AfcfAG
+         wCvGmBNwRqiq0yNblI6R0A1esLSEfr6UY6th2W422n1kXogk7OtNHZnkvqIWO8i9zTIc
+         getg2MIIyU585YQkjbHlOTdIIGzs4v2hC+mCaUdN4a6Oe7JYA+3yd96PXlk3N5uKLFBx
+         SJ1A==
+X-Gm-Message-State: AOJu0Yzc0DvzvCKLezNFqrY18e1o+6ynaBvljFF5SMpGE/lIjTBojKzc
+	kCPimIDuZo6eC1ymEbj6h+GO0aDXZ4qVOIUOFRaM6QBM2nxmDLa06szEXm+nNWyojZpyKZVU5UU
+	S0KClo7W/asMX2jp6wYEE6qH6eLc2DZI=
+X-Gm-Gg: Acq92OFNDdiT0s7hnoUUmQzwRPStbstcwb6Ly74L1bcnBC/GQGPbS4SspYB+AolSlxp
+	6A440+cQiMSudOyGLkcKE9ihJzZ7Uln4Ke/wCqac7vV6dwFK2R/pOBP3BsRSOu4K1NIKSSURiCS
+	+1u1AeNBF3xPQMf+arcNSh4YLZHhb8yTRudRI93rpReD89TB/N2YC6XmoQO3JbVVBtsRhF4U2uo
+	oWxwPKDpSZKoBZacgAX/W5+SDFF9vkF5PK1gXqHL8sGc9aVLyvxKN9VjIGDQMOFI+Vkhwj/e+8O
+	fjIcZIP0yTSF7V2VKsIK4hi4tQ==
+X-Received: by 2002:a05:6820:1514:b0:69b:8e24:8523 with SMTP id
+ 006d021491bc7-69dfa8cc5d5mr572077eaf.30.1779975614573; Thu, 28 May 2026
+ 06:40:14 -0700 (PDT)
+Received: from 469456477896 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 28 May 2026 06:40:13 -0700
+Received: from 469456477896 named unknown by gmailapi.google.com with
+ HTTPREST; Thu, 28 May 2026 06:40:13 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB7948:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3bde40f2-f034-42f4-6365-08debcbd92bd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|4143699003|56012099006|11063799006|6133799003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	WTvgizEDEpNARjStNY1t8ojVHnuzpxqMrCZHIYWRQAh8reJp6BT0XAJeBJHkI3YUMVKLnCidnVl9kH9CFxIqq141o/TVOYHRqbl4zDxPxdOS5NSijSAuFeR95O/pdbif1Cguo2OLVbOESM7ukrUP3KcsmGRHGPBCF9D6C+Wdw/ABN/sgPAYgomcJIsgz2AJCw8YhD+DQ+m1SXsrX5JZrLqnEGF32OSEKwONzVPOBc6nDF+OEJpwZsJyLA5OiBgYqIpUXxgPKV5h1FO/xIsNsJw/QLTfMHHcCMSNaQ1zNbCMw+ORNyiPIEAAImFdsQEsNBoRxRLsiTxJKn7ax9dfGUXOEJxd5n5a6OPcJIvEg3sw2cNtWKyyVWGhHD3yuzmCHJlG3gBE2IR5IwKxpguaYNd04cAnYZTPWiLY/rMBpU0XZRJDqcGe9MjLbfj1RUxx19AQ/HJ0PtedF2xEXY34OWyYpUBxM6hkxFH8TDYoIxIMlpVmFXH/ro8becGgc9hFhTsMdNWOrrqH3kwWwXCjKjkhm2W3P8OnWWdD5ziyxE0iY/IyzfBa1YF3o8VPuMHUUlCJQ74T8rwv7fkgGt53qtVzKnN7cvtjYA8kuC4KtzGrPW6ePfhZ0WBnwxK+vtVJVm3CUk7LDMWxHoxpuZhDxBiqMLG7vP08rik6Vfa5dfS4z7Tb5f6t553teyrX4Y0a+
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(4143699003)(56012099006)(11063799006)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?b3VFbTFyTUc1NGwwc3Bxa1N3V3hLSVgzVlUwbW1QcDF3WWQyNXBIL1BySjhV?=
- =?utf-8?B?Q05salZpVHViR0JZYkNiWHc4MklCaXlFU3hoME03U3FLRnhMUEVZeHJSVFNO?=
- =?utf-8?B?akdHNlJCMUZWWjV3QUZYTzQ3V29oeFc2UnZ5NURyeEpIMlJrNjVNYk1JcVVy?=
- =?utf-8?B?dmRDYmpYUXY3ZmRWVGFoL2hueFBlTG1XeDFUeTkxeDNVRmNGMUFrMXJNdm1Q?=
- =?utf-8?B?Nk00TUhzcWNZYzRiMXhSYTV5RVNVNEJMREdHaHpiRkRuMmgxblpRRlNHUkRs?=
- =?utf-8?B?SjBXWTBFc0l1djE4cmhWRVVrTUdIRWd2T2RGMytmZDVDcEJoZy9rYmxaM1FV?=
- =?utf-8?B?SlZDdTR6RjhlaGdLK25DcFhhdGM0ckZ2TmhCUzJaS2dzNU5TVUVLaDBVYm1V?=
- =?utf-8?B?MkFOdElDdkRpN1hFT2xwSkd4dDRhVzhGRVdvMTBsanZYSGd6OTVJRG1Ha0RF?=
- =?utf-8?B?Njg2R1FGU2dBZWF1S2lOZ3hjSDF2NDNHQ3RicURTQ3d2RENuZU81QnppdHk3?=
- =?utf-8?B?TUZtNnFiQm1WNFVyZjN4V1czQUlVM0MyeWd4Zm5TTThLNlJxRXFlTGJNZ1Qw?=
- =?utf-8?B?UlRjRWdMMTNkVjBmQ0h5ZHY4RXlIMFIwVUtJY2gvZTh1UXFvcDhUeTkvMk03?=
- =?utf-8?B?dUhibDF3ZkVKOUZZZG5MQi9NUEJRVmNHTDdaRzNodHk3amlhQ0xEVEsvQVp3?=
- =?utf-8?B?N1BTM1F2VkI3R3Z3WUJnWUc4cmhKdUxKb0NpdlNMUHhlSDM1Y1JQLzU2RlBx?=
- =?utf-8?B?OE9BajJJdzJzTGdySXpuR3ZVK1doc0xSRFBmUjJmeVZuN2I5WE9LMlVJYXhk?=
- =?utf-8?B?bVY5VzJaYkJJYXViVUsxcTdnUE9vd1VuS051blFIZEtmTmhpeTJuZG5Sd2Iw?=
- =?utf-8?B?WFhXVjRINHpRN1dRc3NNelBWU2ZjZFZaV2VwVnFhMGg3SG01aENuVnFhVVVr?=
- =?utf-8?B?UjVFRXU2WnFCRWdWaDZvaGt1LzkreExEcUlxK0JhODFWK1c2MmdWTDhTbEZs?=
- =?utf-8?B?NzdoY2o4dTBRbnF4eWhoWFVaZExVTXh1QWZEMHgxK29lK2JTcEhmYzFJdzZ1?=
- =?utf-8?B?V01SN1RoOU5Bc2dqYmN0QkNESjg4ZUdTbkhZaGNnN1VMb3FtMzZpZmZKa0Vy?=
- =?utf-8?B?aGtzSGtxc0dsT0pTWC92VEZQalpGcmhiS0ZKUk02YXBjbVgvVDNCMUl4UXd3?=
- =?utf-8?B?dGwrelhBV1N6alRZZGpZZGRSUzB4aEN4cHpVWEJ0YjlqQmNiL1oyT3V5c3VQ?=
- =?utf-8?B?YS9SWHRGbGdvY2prOFNqank4YW03ZmJhKzEwdFpHcmpQUGhWMU5MblZDSUE2?=
- =?utf-8?B?R1hFZWhBNnJhaGEwZ0tmSTUybDdmZmNQMS9NbGJuVWZBRi92Q2FzTXZyNHFX?=
- =?utf-8?B?Snpld2wzNkNFOGNZNjRqU0NYSkFQWThFajJaeFNtUFF3TnY1QlplWFB6SEta?=
- =?utf-8?B?cW5lZlVoRHFiU1JPN21xUDg4dXdZK0VWRXRDc0JmNTg0bnJrdmNmYWNRRFY2?=
- =?utf-8?B?NzBQYlZuOEZVTzc4eEtFK2dxMkkydUpyaVYxSEw0bmltLzB2Tm02Nkx1Z1I2?=
- =?utf-8?B?WGlmRVA4dGl0OFl4VEVjVGl0eXhsazFCamJva09TelFqcDFZdkk5d2VQYkNK?=
- =?utf-8?B?UURRN3F5TzZWMEl6cExrOTFpSXUrM3dlMUtyREFVQVNwMHpPMmowaXY2VUdI?=
- =?utf-8?B?bEU1emFmRGdwV044RUJwSkFpOWd0cEJKWW5KeTlIVVhTSjJPeDMxZUlIc2R1?=
- =?utf-8?B?eDM1eEEvTVRHcEpodytqWjdTRmV2cStpRnNLNXhsNklHUjBpeXl6ejh1Y010?=
- =?utf-8?B?STQ1M3FkYWk0SXcrdmxreTR6V0dURnBFVWt3d1ZXcHlMelBmZmI2TlNPWTh5?=
- =?utf-8?B?bkljcFdnTDJZYVM1NnNVTjVSOEptVGlvOG1sVFJZTjR4bmR6WkJqOVlyWUF2?=
- =?utf-8?B?RlJWOUNKV2lkWXJBU2l6THY2QlJvSmJMOUJ0U0dUdHBOVWI4MVd0S1BVeGNC?=
- =?utf-8?B?ckcwNmxzdGRLUGQyMmZKOE55N0k2MGZjSTdQS1ZCV0RMUjE5RVJCbVlkdmNx?=
- =?utf-8?B?T2QrWjVBUGJ1R3BRVWJWcmllbm01TnZmT3BqdnpuTzFiLzBqNEs1UWtpSEow?=
- =?utf-8?B?WVZxQ0VxalVhVXpXMURCR1hQZmkyZUtlY0pyR3RPL2ZlSk8vci96L082VXRo?=
- =?utf-8?B?K3RxWUlkTmFWOENSeVZWcGQwdXVwZlJzNWR3dElMM0VCT1dZM21aM2VnbkpJ?=
- =?utf-8?B?OEp5NjJneHhqU1VhMTJBV1k4a2dHT0JibEZOeWd1b2lDNzQwY1NRRVA0NjU4?=
- =?utf-8?Q?8haX1nJHoKaB3Ifjop?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3bde40f2-f034-42f4-6365-08debcbd92bd
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 May 2026 13:32:33.1616
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Oy8LF59FPZF1JpzYP6e7Gw8YnyZr4DvDrIGS25wZw09Ba5U0oqqc6UJcsRc4wiGd
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7948
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+From: Siho Lee <25esihoya@gmail.com>
+Date: Thu, 28 May 2026 06:40:13 -0700
+X-Gm-Features: AVHnY4JXYGs3S0_mcaACUuFljEkuqUaAf_GrutdRvpL5G16OnCEiVbGJccw5zHk
+Message-ID: <CAOYEF6=_rSZMGQP2nMPVd3=zrG=dDzecjMSqaXgzR_5M1juUFw@mail.gmail.com>
+Subject: [PATCH v1 0/4] media: atomisp: prevent integer overflow in DVS table allocations
+To: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	TAGGED_FROM(0.00)[bounces-62960-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62961-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[163.com,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,linaro.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[amd.com:+];
+	FROM_NEQ_ENVFROM(0.00)[25esihoya@gmail.com,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,xidian.edu.cn:email]
-X-Rspamd-Queue-Id: 770765F2DD7
+	RCPT_COUNT_FIVE(0.00)[5]
+X-Rspamd-Queue-Id: 0469B5F2F01
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 5/28/26 15:29, w15303746062@163.com wrote:
-> From: Mingyu Wang <25181214217@stu.xidian.edu.cn>
-> 
-> When a GEM handle already exists in the drm_prime_file_private, repeated
-> calls to DRM_IOCTL_PRIME_HANDLE_TO_FD can cause drm_prime_add_buf_handle()
-> to insert multiple entries with the same handle into the handles rb_tree.
-> Because the insertion walk moves left on equality, duplicate keys are
-> structurally accepted by the tree.
+From 8955328f674e82dea60f6c9982f20623b10a3619 Mon Sep 17 00:00:00 2001
+From: Siho Lee <25esihoya@gmail.com>
+Date: Tue, 26 May 2026 00:29:26 +0900
+Subject: [PATCH v1 0/4] media: atomisp: prevent integer overflow in
+DVS table allocations
 
-That should never happen and would be a major bug.
+CVE-2022-50399 (commit 51b8dc5163d2) fixed an integer overflow in
+sh_css_set_black_frame() by using array3_size(). However, the same
+overflow pattern exists in 9 other locations that were not updated.
 
-All callers should check if a handler exists before calling drm_prime_add_buf_handle().
+The most critical is in alloc_dvs_6axis_table() (sh_css_param_dvs.c)
+where width_y * height_y multiplication overflows on 32-bit arithmetic
+when the user sets a large resolution via VIDIOC_S_FMT. ATOM_ISP_MAX_WIDTH
+is set to UINT_MAX which imposes no limit.
 
-How do you see that a handle is added twice?
+For example, with frame_res width=16777216, width_y becomes 262145:
+    262145 * 262145 = 524289 (32-bit, overflowed)
+    262145 * 262145 = 68720001025 (64-bit, actual)
 
-Regards,
-Christian.
+This causes kvmalloc() to allocate only ~2 MB instead of the required
+~64 GB, leading to an out-of-bounds write in
+init_dvs_6axis_table_from_default() that triggers a kernel panic.
 
-> 
-> Later, when the handle is released via drm_gem_release() ->
-> drm_gem_object_release_handle() -> drm_prime_remove_buf_handle(), the
-> latter iterates the handles tree, removes the first matching node, and
-> breaks out of the loop. Any remaining duplicate nodes that share the
-> same handle are left orphaned in the dmabufs tree - they are no longer
-> reachable through the handles tree and are never freed.
-> 
-> When the drm file is finally closed, drm_prime_destroy_file_private()
-> triggers:
-> 
->         WARN_ON(!RB_EMPTY_ROOT(&prime_fpriv->dmabufs));
-> 
-> because the dmabufs tree is still non-empty. With CONFIG_PANIC_ON_WARN
-> this becomes a kernel panic:
-> 
->         ------------[ cut here ]------------
->         WARNING: CPU: 0 PID: 19739 at drivers/gpu/drm/drm_prime.c:223 drm_prime_destroy_file_private+0x43/0x60
->         ...
->         Kernel panic - not syncing: kernel: panic_on_warn set ...
-> 
-> Fix this by restarting the lookup from the root of the handles tree
-> after each successful removal, so that all duplicate nodes for the given
-> handle are erased. The caller (drm_gem_object_release_handle) already
-> holds prime_fpriv->lock, so this does not change the locking strategy.
-> 
-> Signed-off-by: Mingyu Wang <25181214217@stu.xidian.edu.cn>
-> ---
-> Changes in v2:
->  - Drop the unnecessary mutex_lock addition, as the caller (drm_gem_object_release_handle) already holds the lock.
->  - Rewrite the commit message to accurately reflect the root cause (duplicate handle insertions) rather than an assumed lack of synchronization.
->  - Restart the rb_tree lookup from the root instead of breaking the loop to ensure all orphaned duplicate nodes are thoroughly removed.
-> 
->  drivers/gpu/drm/drm_prime.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> index 9b44c78cd77f..dc28df1c6698 100644
-> --- a/drivers/gpu/drm/drm_prime.c
-> +++ b/drivers/gpu/drm/drm_prime.c
-> @@ -202,7 +202,10 @@ void drm_prime_remove_buf_handle(struct drm_prime_file_private *prime_fpriv,
-> 
->                         dma_buf_put(member->dma_buf);
->                         kfree(member);
-> -                       break;
-> +                       /* Duplicate handles may exist; restart search from root
-> +                        * to guarantee removal of all matching entries.
-> +                        */
-> +                       rb = prime_fpriv->handles.rb_node;
->                 } else if (member->handle < handle) {
->                         rb = rb->rb_right;
->                 } else {
-> --
-> 2.34.1
-> 
+Patches 1-3 use array3_size() to prevent overflow at the remaining
+locations. Patch 4 reduces ATOM_ISP_MAX_WIDTH/HEIGHT from UINT_MAX
+to 8192 as a hard limit (mathematically: DVS_BLOCKDIM=64, max blocks
+129*129, 129*129*sizeof(u32)=66564 bytes which cannot overflow u32).
 
+Tested on: 5.15.0 (hardware), 6.8.0 (hardware), v7.0.10 stable (QEMU),
+v7.1-rc5 mainline (static analysis). No Intel Atom ISP hardware
+available for V4L2 ioctl path verification.
+
+Siho Lee (4):
+  staging: atomisp: prevent integer overflow in DVS 6-axis allocation
+  staging: atomisp: prevent integer overflow in sh_css_params DVS
+    allocation
+  staging: atomisp: prevent integer overflow in shading table allocation
+  staging: atomisp: add resolution limits to prevent DVS overflow
+
+ drivers/staging/media/atomisp/pci/atomisp_internal.h     | 4 ++--
+ drivers/staging/media/atomisp/pci/sh_css_param_dvs.c     | 8 ++++----
+ drivers/staging/media/atomisp/pci/sh_css_param_shading.c | 2 +-
+ drivers/staging/media/atomisp/pci/sh_css_params.c        | 8 ++++----
+ 4 files changed, 11 insertions(+), 11 deletions(-)
+
+-- 
+2.43.0
+
+
+
+From 99ca51470fb296b4b33283a106d9388521646cb3 Mon Sep 17 00:00:00 2001
+From: Siho Lee <25esihoya@gmail.com>
+Date: Tue, 26 May 2026 00:28:35 +0900
+Subject: [PATCH v1 1/4] staging: atomisp: prevent integer overflow in DVS
+ 6-axis allocation
+
+The width_y * height_y multiplication in alloc_dvs_6axis_table() can
+overflow on 32-bit arithmetic when the user sets a large resolution via
+VIDIOC_S_FMT, since ATOM_ISP_MAX_WIDTH = UINT_MAX imposes no limit.
+
+For example, with frame_res width=16777216, width_y becomes 262145 and:
+    262145 * 262145 = 524289 (32-bit, overflowed)
+    262145 * 262145 = 68720001025 (64-bit, actual)
+
+This causes kvmalloc() to allocate only 2 MB instead of the required
+256 GB, leading to an out-of-bounds write in
+init_dvs_6axis_table_from_default() that triggers a kernel panic.
+
+Use array3_size() to prevent the overflow, consistent with the
+CVE-2022-50399 fix in sh_css_set_black_frame().
+
+Fixes: a49d25364dfb ("staging/atomisp: add support for DVS")
+Cc: stable@vger.kernel.org
+Signed-off-by: Siho Lee <25esihoya@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/sh_css_param_dvs.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
+b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
+index 9ccdb66de..3ea707528 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
+@@ -48,7 +48,7 @@ alloc_dvs_6axis_table(const struct ia_css_resolution
+*frame_res,
+ 		}
+
+ 		/* Generate Y buffers  */
+-		dvs_config->xcoords_y = kvmalloc(width_y * height_y * sizeof(uint32_t),
++		dvs_config->xcoords_y = kvmalloc(array3_size(width_y, height_y,
+sizeof(uint32_t)),
+ 						 GFP_KERNEL);
+ 		if (!dvs_config->xcoords_y) {
+ 			IA_CSS_ERROR("out of memory");
+@@ -56,7 +56,7 @@ alloc_dvs_6axis_table(const struct ia_css_resolution
+*frame_res,
+ 			goto exit;
+ 		}
+
+-		dvs_config->ycoords_y = kvmalloc(width_y * height_y * sizeof(uint32_t),
++		dvs_config->ycoords_y = kvmalloc(array3_size(width_y, height_y,
+sizeof(uint32_t)),
+ 						 GFP_KERNEL);
+ 		if (!dvs_config->ycoords_y) {
+ 			IA_CSS_ERROR("out of memory");
+@@ -67,7 +67,7 @@ alloc_dvs_6axis_table(const struct ia_css_resolution
+*frame_res,
+ 		/* Generate UV buffers  */
+ 		IA_CSS_LOG("UV W %d H %d", width_uv, height_uv);
+
+-		dvs_config->xcoords_uv = kvmalloc(width_uv * height_uv * sizeof(uint32_t),
++		dvs_config->xcoords_uv = kvmalloc(array3_size(width_uv, height_uv,
+sizeof(uint32_t)),
+ 						  GFP_KERNEL);
+ 		if (!dvs_config->xcoords_uv) {
+ 			IA_CSS_ERROR("out of memory");
+@@ -75,7 +75,7 @@ alloc_dvs_6axis_table(const struct ia_css_resolution
+*frame_res,
+ 			goto exit;
+ 		}
+
+-		dvs_config->ycoords_uv = kvmalloc(width_uv * height_uv * sizeof(uint32_t),
++		dvs_config->ycoords_uv = kvmalloc(array3_size(width_uv, height_uv,
+sizeof(uint32_t)),
+ 						  GFP_KERNEL);
+ 		if (!dvs_config->ycoords_uv) {
+ 			IA_CSS_ERROR("out of memory");
+-- 
+2.43.0
+
+
+
+From 6205ae2498aea5944d41cae04135daf4912e0a2f Mon Sep 17 00:00:00 2001
+From: Siho Lee <25esihoya@gmail.com>
+Date: Tue, 26 May 2026 00:28:56 +0900
+Subject: [PATCH v1 2/4] staging: atomisp: prevent integer overflow in
+ sh_css_params DVS allocation
+
+Same integer overflow pattern as the previous commit, in the same file
+where CVE-2022-50399 was fixed (line 954) but these four locations
+(lines 4481, 4486, 4491, 4497) were missed.
+
+Fixes: a49d25364dfb ("staging/atomisp: add support for DVS")
+Cc: stable@vger.kernel.org
+Signed-off-by: Siho Lee <25esihoya@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/sh_css_params.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_params.c
+b/drivers/staging/media/atomisp/pci/sh_css_params.c
+index fcebace11..52ac15df1 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_params.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_params.c
+@@ -4478,23 +4478,23 @@ ia_css_dvs2_6axis_config_allocate(const struct
+ia_css_stream *stream)
+ 				    params->pipe_dvs_6axis_config[IA_CSS_PIPE_ID_VIDEO]->height_uv;
+ 	IA_CSS_LOG("table Y: W %d H %d", width_y, height_y);
+ 	IA_CSS_LOG("table UV: W %d H %d", width_uv, height_uv);
+-	dvs_config->xcoords_y = kvmalloc(width_y * height_y * sizeof(uint32_t),
++	dvs_config->xcoords_y = kvmalloc(array3_size(width_y, height_y,
+sizeof(uint32_t)),
+ 					 GFP_KERNEL);
+ 	if (!dvs_config->xcoords_y)
+ 		goto err;
+
+-	dvs_config->ycoords_y = kvmalloc(width_y * height_y * sizeof(uint32_t),
++	dvs_config->ycoords_y = kvmalloc(array3_size(width_y, height_y,
+sizeof(uint32_t)),
+ 					 GFP_KERNEL);
+ 	if (!dvs_config->ycoords_y)
+ 		goto err;
+
+-	dvs_config->xcoords_uv = kvmalloc(width_uv * height_uv *
++	dvs_config->xcoords_uv = kvmalloc(array3_size(width_uv, height_uv,
+ 					  sizeof(uint32_t),
+ 					  GFP_KERNEL);
+ 	if (!dvs_config->xcoords_uv)
+ 		goto err;
+
+-	dvs_config->ycoords_uv = kvmalloc(width_uv * height_uv *
++	dvs_config->ycoords_uv = kvmalloc(array3_size(width_uv, height_uv,
+ 					  sizeof(uint32_t),
+ 					  GFP_KERNEL);
+ 	if (!dvs_config->ycoords_uv)
+-- 
+2.43.0
+
+
+
+From e9c253be79c1f78008c27514f4d01230c8a260f5 Mon Sep 17 00:00:00 2001
+From: Siho Lee <25esihoya@gmail.com>
+Date: Tue, 26 May 2026 00:29:08 +0900
+Subject: [PATCH v1 3/4] staging: atomisp: prevent integer overflow in shading
+ table allocation
+
+The width * height multiplication in ia_css_shading_table_alloc() can
+overflow on 32-bit arithmetic when width and height are large, causing
+an undersized kvmalloc() and subsequent out-of-bounds write.
+
+Use array3_size() to prevent the overflow, consistent with the
+CVE-2022-50399 fix and the previous commits.
+
+Fixes: 3c4efab94858 ("staging/atomisp: allocate shading table separately")
+Cc: stable@vger.kernel.org
+Signed-off-by: Siho Lee <25esihoya@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/sh_css_param_shading.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
+b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
+index 9105334c7..2a8756f1f 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_param_shading.c
+@@ -339,7 +339,7 @@ ia_css_shading_table_alloc(
+ 	me->fraction_bits = 0;
+ 	for (i = 0; i < IA_CSS_SC_NUM_COLORS; i++) {
+ 		me->data[i] =
+-		    kvmalloc(width * height * sizeof(*me->data[0]),
++		    kvmalloc(array3_size(width, height, sizeof(*me->data[0])),
+ 			     GFP_KERNEL);
+ 		if (!me->data[i]) {
+ 			unsigned int j;
+-- 
+2.43.0
+
+
+
+From 8955328f674e82dea60f6c9982f20623b10a3619 Mon Sep 17 00:00:00 2001
+From: Siho Lee <25esihoya@gmail.com>
+Date: Tue, 26 May 2026 00:29:20 +0900
+Subject: [PATCH v1 4/4] staging: atomisp: add resolution limits to prevent DVS
+ overflow
+
+ATOM_ISP_MAX_WIDTH and ATOM_ISP_MAX_HEIGHT are set to UINT_MAX, which
+allows userspace to set arbitrarily large resolutions via VIDIOC_S_FMT.
+This is the root enabler for the integer overflow in DVS table allocation
+fixed in the previous commits.
+
+Add reasonable limits (8192x8192) as a defense-in-depth measure. The
+Intel Atom ISP hardware does not support resolutions beyond 8192x8192,
+so this should not affect any real use case.
+
+Fixes: a49d25364dfb ("staging/atomisp: add support for DVS")
+Cc: stable@vger.kernel.org
+Signed-off-by: Siho Lee <25esihoya@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_internal.h | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_internal.h
+b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+index 5a69580b8..bb2367d19 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_internal.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_internal.h
+@@ -55,8 +55,8 @@
+
+ #define ATOM_ISP_MIN_WIDTH	4
+ #define ATOM_ISP_MIN_HEIGHT	4
+-#define ATOM_ISP_MAX_WIDTH	UINT_MAX
+-#define ATOM_ISP_MAX_HEIGHT	UINT_MAX
++#define ATOM_ISP_MAX_WIDTH	8192
++#define ATOM_ISP_MAX_HEIGHT	8192
+
+ /* sub-QCIF resolution */
+ #define ATOM_RESOLUTION_SUBQCIF_WIDTH	128
+-- 
+2.43.0
 
