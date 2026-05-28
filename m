@@ -1,225 +1,156 @@
-Return-Path: <linux-media+bounces-62970-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62971-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id eODdBVV3GGo8kQgAu9opvQ
-	(envelope-from <linux-media+bounces-62970-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 19:11:49 +0200
+	id wJHSIV9zGGq4kAgAu9opvQ
+	(envelope-from <linux-media+bounces-62971-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 18:54:55 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B04455F5732
-	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 19:11:48 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A79C5F548C
+	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 18:54:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 57ADE3129D23
-	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 16:35:26 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C86553014A1A
+	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 16:45:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A76162E7179;
-	Thu, 28 May 2026 16:35:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9E0D3F8899;
+	Thu, 28 May 2026 16:45:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tiFOCtvW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hsKDbIfA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f201.google.com (mail-qt1-f201.google.com [209.85.160.201])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1D633783C0
-	for <linux-media@vger.kernel.org>; Thu, 28 May 2026 16:35:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12EA024E4AF
+	for <linux-media@vger.kernel.org>; Thu, 28 May 2026 16:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779986124; cv=none; b=eZuvy63dkrVFAMKvPtMNoEHACdl7SPjHlDyyRt+wXchNkI4P/XSD6u9d6K2zMqjvh+2VebyE1YE52HYQfcAeX962HDtd4VITJvqGrcnduOA4u50glaEm0MHbTy19WXg1mt72A8QljQfMe0XFa1rAURUTvqS3HyAnuUF5/Mj1bdM=
+	t=1779986732; cv=none; b=tD6OOAcUuAQbAn+31OMmXuMtiYU4Om6/J5QDuJX2QOjvUa10PX4BydPYQPO+G6lHfVDS2bKdh6zI7vUPKPJwzZZy1fBSjeAoZ8QPSXeffM+bIVrvGJb0XwW8rKkAEm+PeAOHLNRCXWOE7raU1a80jWxSt5UHyejWM6mOPXT2Hsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779986124; c=relaxed/simple;
-	bh=5yhDp8R6zKNYZkVZaAHP6czTm7JOZIuCzndR4V+fFjE=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=ASUBj8jztjF7ulWaXZUxLLNQ+fhjNguQYVInuNdkPeruJM90dDbezVMUl5JbTj6ApSsHB+cxVFsc78vnfMdkMeJlZQq/m610NeQgrLsJ6bikzTr5PHmB1X4zEGMk+CavdoBJwFh3BC3xjy9MClkI8p1sIwVXXbYmU82LmY3giuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--briandaniels.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tiFOCtvW; arc=none smtp.client-ip=209.85.160.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--briandaniels.bounces.google.com
-Received: by mail-qt1-f201.google.com with SMTP id d75a77b69052e-516dd6e4ed4so129670061cf.0
-        for <linux-media@vger.kernel.org>; Thu, 28 May 2026 09:35:22 -0700 (PDT)
+	s=arc-20240116; t=1779986732; c=relaxed/simple;
+	bh=Jj7ML26PQTjvxqh2kYmSYqd9mqKRY/SbRRDvkNUUB9g=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=mT0x9yempGGpkSVrJTByIjFOFxGs12wYOwNubtyK6MkU4KQQaOjDmp6PUNodRhREqzZqvfS2y2OXrSV17YrmwaRDszf5ViOsr1kug92u8hL9M0cFvbSG53RpRWWljQdIwb7CySlmP38UABCJ5Cfwuh5Nf+fFQdehbMVMfxcuVo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hsKDbIfA; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-490388fd0dbso73811985e9.0
+        for <linux-media@vger.kernel.org>; Thu, 28 May 2026 09:45:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1779986122; x=1780590922; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=wpIpYDonhVzCRqac3h1+9LCONZ2LSPLiYOoRoOQd++A=;
-        b=tiFOCtvWiYEGRa6r/PND2SlOvzgSjIx1ubLvqjMG33Qm+lXGK/oi1YmYeSjf88Nf97
-         mNBnPL8cdYJzkOAdkR+nSErvM4etw16th4FOOPJD5eFmIwytvJWOqdQt1jByI05Q24Ei
-         YZ28YcFF9nO+q8eRdri6wPfK4xfmmP3fUf4Zh98esxkBV7YUkktuqLpERAYM7KAuGtmc
-         PERpNIjrUrYebeYS8vz8QpHIkX4MfcOnix8VH53HC9naMSJNjZYIdXcLAOgi8SCQJQIA
-         YemyPafTGdBhl1U/3DkEM0mmN5XVl3rx/qj7N5dkvLKL7gznsXQWkX2dWwFQ+ERAk6RO
-         j4KQ==
+        d=gmail.com; s=20251104; t=1779986729; x=1780591529; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3+tlXWib7a29ljZjrx5g+d0tTx+x+16PkIEERsQd7Aw=;
+        b=hsKDbIfA1w18fYu6ScCpULh4gSfG027eDQc2SU9AMhO8C/BFSc/VtW++j1x9S/dgId
+         uJGd4ZE8Vt0jVqIwiFE8uDGvjb9CpRhFERRewi2NmNU4XB6tXHlGz0PQfwFtqvK5C3VS
+         C8Q7jo5oR5xGUlqpwHj9WJlcJVB/vT3aDZNXx+UzZtK+iG8NftqZPtBucNmYMjl/kltm
+         HhQnXD0n0bb0DCLVBbevWvQTd45hsZ2/aFeGb6esj+OwMz6jJrCt3/5IqcFykbkRJUuO
+         xWzB+SxvXOF9xwI/InCZWMH/iucm/yudYgNTMFBd6WS8QGJZQrAA+HItpsil6IHu6/Qy
+         6fQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1779986122; x=1780590922;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wpIpYDonhVzCRqac3h1+9LCONZ2LSPLiYOoRoOQd++A=;
-        b=T48PGWg/1Oh3pqxKl0aSj0Uj1vbZ8CQqCt08v1XazbxTAkFLmo1wazIt7Qz3iym0IX
-         YWf0hvClSlpCegDfn00wrEzfkaT5UIPeWzFvXKPoTOochb5DztZXD4P/ZGqNMOpME8kO
-         X2cnwlMC/yq3JDL+jvGsEBrmeCMPp4ERBZjElfBMBH0LNquOVeAumubsLv/hnMDpGdcI
-         LpHwa/U81NW09YFsJ+85S9XlavuM1zfeX5y8avbc0JdmpbDO0rLGrt/k0idfsm955e/C
-         MFMerr3FPShQ90KgpI/2W4CvEqELc6uGBEcrFTdvZTK6y8LyEiQ3TAwlNPoPxgIewMrR
-         Sydg==
-X-Gm-Message-State: AOJu0YyN+vaBvkkAv6cuqgaZXUe5/4WNaFWO11WvZuGnPsPDBMIuzdFk
-	BG524JLxQpSTXrLNs/gWlabDCQquMC8khiFl1NKHeLtFJ00QvZEdql7bcPqRRd4LLmoJiX9xmJk
-	tilV2B0lIlWUeKZsC1fJ7lq24Ju0Bp4nG5IP+8GodkLaYZUAgr+YFeCtyHx5YO3U2q9OJJ+Gng4
-	0lsH2EqSD6ierORG6ESneIaNv5jrYkeF9DjBkAl3lKaocfJRiN3WCZ7XPqpUerM1DG2uCVkmazk
-	w==
-X-Received: from qtqq8-n2.prod.google.com ([2002:a05:622a:8408:20b0:509:2144:daad])
- (user=briandaniels job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:622a:260f:b0:50b:4a84:aa94 with SMTP id d75a77b69052e-516d42ee019mr388716951cf.7.1779986121415;
- Thu, 28 May 2026 09:35:21 -0700 (PDT)
-Date: Thu, 28 May 2026 12:34:36 -0400
+        d=1e100.net; s=20251104; t=1779986729; x=1780591529;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=3+tlXWib7a29ljZjrx5g+d0tTx+x+16PkIEERsQd7Aw=;
+        b=QwyHwYh1DSsHbaFnyPwXU0PhAEosssBTTvpwzlMMVvLfak9sr8jnIZnWKUYDBKOzUA
+         Mk9Aj9vnd8najzhg48vNH1OQaOK9mp/vS9yEvJ+o/cXHejykze/ti5AXo/MM82VAACxA
+         fakbN9FdpJQAvJebGlSt9LtLHSoSeVYB3jXkaIFqPL0cGYj7WmEwq6tWz5q9AKjm+NPs
+         pPXMCWA9or7LwKLNNUshx/XVSsl9iqllR/lJ+JqWL7xJvlT0V6jf5tXPczUt29f/Juc2
+         leQ9YlCLPFgAqYUtKmzB4hEMOnJwH3FTPkjTCgozfbupXrddM9dKjGUz+01psBWqSj57
+         JQsQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9akUahUHchIssj+lu2QgyVDFFKa8xsoXMjq6patEX6MUNogPAzQkRX7go+2Y5PqJ+LtV/mCM+iC1J9/Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVHOaU5pds20yUuPU8S4x2ePP+6JJcHu3I/PKixe1mq+X0v/qi
+	6xAvVVzrZXxFT8cWziaoXANHx0ttXTOmWJE/D4+A5uq27F1m1zgjy/5b
+X-Gm-Gg: Acq92OG+7ca8yutZhEKAqKI75iSB+ZUHn32kcHIsFMyMYsEXh5z3VPwapfHdqAaskNb
+	/pNWw3Z0ULHn9rOL2/6WSkh/YYFD9yi0cmnznHnl1qLleMZvf4wBTLaMEX2apMb+AZxBW7fWxIE
+	5EWt2oHfovUz5RpuzU8389Nhxf0Pc2MkB8QqCq/8ur+i+W5oAShVqzJxat3RRFvuNrmpPf6rOiT
+	ltEdcOR7x0T8m89EAnfL7m6b0SLM9qtJyoijgZ9ZsCjhWviVH9QW0ZMm7Yen2M7I96tuEWZ80MJ
+	AL2HbBEjA5GZn7HeAWyncq8CHV9j+ookJklqAs3Yga930Ya/FKwuhNgCLsiA4pYNBHIk26LbmPB
+	+dlNUk4OlqqB/YNf/EuztEaMuaJs+vKBh4L8KfcNUaHErPjEnB5YhVEHiMHaqv8YQMsg9ZtCONN
+	Sx/gFhMwcpoXhJd5ycmMBg8dz83AOBmVSCTxLzPyhJNbvy8Mda/GxfvbOF
+X-Received: by 2002:a05:600c:35cf:b0:490:44eb:c1e5 with SMTP id 5b1f17b1804b1-49044ebc257mr506726775e9.31.1779986729268;
+        Thu, 28 May 2026 09:45:29 -0700 (PDT)
+Received: from foxbook (bfe246.neoplus.adsl.tpnet.pl. [83.28.42.246])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49092a925acsm89762075e9.14.2026.05.28.09.45.28
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Thu, 28 May 2026 09:45:28 -0700 (PDT)
+Date: Thu, 28 May 2026 18:45:24 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Henry Lin <henryl@nvidia.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho
+ Chehab <mchehab@kernel.org>, "linux-media@vger.kernel.org"
+ <linux-media@vger.kernel.org>, "linux-usb@vger.kernel.org"
+ <linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH 0/1] media: uvcvideo: reset interface on bulk stream
+ stop
+Message-ID: <20260528184524.08e98ddb.michal.pecio@gmail.com>
+In-Reply-To: <SAWPR12MB9991187DB56BAB00EB2550E897AC092@SAWPR12MB999118.namprd12.prod.outlook.com>
+References: <20260525182028.2148267-1-henryl@nvidia.com>
+	<20260526015514.466b72d4.michal.pecio@gmail.com>
+	<SAWPR12MB99911841F75A9492A6FA875421AC0B2@SAWPR12MB999118.namprd12.prod.outlook.com>
+	<20260526121605.332525c6.michal.pecio@gmail.com>
+	<SAWPR12MB9991187DB56BAB00EB2550E897AC092@SAWPR12MB999118.namprd12.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.54.0.794.g4f17f83d09-goog
-Message-ID: <20260528163448.4031965-1-briandaniels@google.com>
-Subject: [PATCH v4l-utils] v4l2-compliance: Add an option to override the
- driver name
-From: Brian Daniels <briandaniels@google.com>
-To: linux-media@vger.kernel.org
-Cc: Brian Daniels <briandaniels@google.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-0.66 / 15.00];
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	MV_CASE(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-62971-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62970-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[briandaniels@google.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	NEURAL_HAM(-0.00)[-1.000];
 	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[michalpecio@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: B04455F5732
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 8A79C5F548C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-When using the virtio-media driver, the host and a guest VM are used,
-with the guest VM proxying requests to a host device. The driver name in
-the guest VM is reported as "virtio-media", when really its proxying
-requests to a driver with a different name (for example, "uvcvideo").
-For the test to pass, v4l2-compliance needs to know the driver name of
-the device on the host because it changes its behavior depending on the
-driver under test.
+On Thu, 28 May 2026 08:36:12 +0000, Henry Lin wrote:
+> > Were you seeing one such error for each restart, followed by
+> > uvcvideo dropping a few frames and continuing to stream normally,
+> > or multiple transaction errors and complete functional failure?  
+> 
+> On the NVIDIA xHCI host controller, I see the former.
+> 
+> After each stop/start cycle, uvcvideo reports one -71 completion
+> error, and only the first frame is broken. Streaming then continues
+> normally. I do not see multiple transaction errors or a complete
+> functional failure.
+> 
+> With 25e531b422dc applied, the -71 completion error no longer appears
+> in the same test.
 
-With this new option, the name of the host driver can be passed in on
-the command line so the test running in the guest can adapt accordingly.
+No worries then, this is expected behavior and a known bug, now fixed.
 
-Assisted-by: Gemini CLI:gemini-3.1-pro
-Signed-off-by: Brian Daniels <briandaniels@google.com>
----
- utils/v4l2-compliance/v4l2-compliance.cpp | 17 +++++++++++++++++
- utils/v4l2-compliance/v4l2-compliance.h   | 15 ++++++++++++++-
- 2 files changed, 31 insertions(+), 1 deletion(-)
-
-diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-index 4e5c9d00..ddb4e7a7 100644
---- a/utils/v4l2-compliance/v4l2-compliance.cpp
-+++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-@@ -52,6 +52,7 @@ enum Option {
- 	OptHelp = 'h',
- 	OptSetMediaDevice = 'm',
- 	OptSetMediaDeviceOnly = 'M',
-+	OptDriverName = 'N',
- 	OptNoWarnings = 'n',
- 	OptNoProgress = 'P',
- 	OptSetRadioDevice = 'r',
-@@ -87,6 +88,7 @@ bool exit_on_warn;
- bool is_vivid;
- bool is_uvcvideo;
- int media_fd = -1;
-+std::string override_driver_name;
- unsigned warnings;
- bool has_mmu = true;
- 
-@@ -130,6 +132,7 @@ static struct option long_options[] = {
- 	{"help", no_argument, nullptr, OptHelp},
- 	{"verbose", no_argument, nullptr, OptVerbose},
- 	{"color", required_argument, nullptr, OptColor},
-+	{"driver-name", required_argument, nullptr, OptDriverName},
- 	{"no-warnings", no_argument, nullptr, OptNoWarnings},
- 	{"no-progress", no_argument, nullptr, OptNoProgress},
- 	{"exit-on-fail", no_argument, nullptr, OptExitOnFail},
-@@ -255,6 +258,8 @@ static void usage()
- 	printf("                     then this defaults to 90%%.\n");
- 	printf("  -E, --exit-on-fail Exit on the first fail.\n");
- 	printf("  -h, --help         Display this help message.\n");
-+	printf("  -N, --driver-name <name>\n");
-+	printf("                     Override driver name with <name>.\n");
- 	printf("  -C, --color <when> Highlight OK/warn/fail/FAIL strings with colors\n");
- 	printf("                     <when> can be set to always, never, or auto (the default)\n");
- 	printf("  -n, --no-warnings  Turn off warning messages.\n");
-@@ -1026,6 +1031,15 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
- 		printf("Compliance test for device ");
- 	else
- 		printf("Compliance test for %s device ", driver.c_str());
-+
-+	struct v4l2_capability real_vcap;
-+	node.querycap(real_vcap);
-+
-+	std::string real_vcap_driver = reinterpret_cast<const char *>(real_vcap.driver);
-+	if (driver != real_vcap_driver) {
-+		printf("(overridden from %s) ", real_vcap_driver.c_str());
-+	}
-+
- 	printf("%s%s:\n\n", node.device, node.g_direct() ? "" : " (using libv4l2)");
- 
- 	if (node.g_caps() & (V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_VBI_CAPTURE |
-@@ -1811,6 +1825,9 @@ int main(int argc, char **argv)
- 				}
- 			}
- 			break;
-+		case OptDriverName:
-+			override_driver_name = optarg;
-+			break;
- 		case OptColor:
- 			if (!strcmp(optarg, "always"))
- 				show_colors = true;
-diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
-index 4a7af5f5..563075c6 100644
---- a/utils/v4l2-compliance/v4l2-compliance.h
-+++ b/utils/v4l2-compliance/v4l2-compliance.h
-@@ -311,7 +311,20 @@ static inline double fract2f(const struct v4l2_fract *f)
- 	return (double)f->numerator / (double)f->denominator;
- }
- 
--#define doioctl(n, r, p) v4l_named_ioctl((n)->g_v4l_fd(), #r, r, p)
-+extern std::string override_driver_name;
-+
-+inline int wrapped_doioctl(struct node *n, const char *name, unsigned long cmd, void *arg)
-+{
-+	int retval = v4l_named_ioctl(n->g_v4l_fd(), name, cmd, arg);
-+	if (retval == 0 && cmd == VIDIOC_QUERYCAP && arg != nullptr && !override_driver_name.empty()) {
-+		struct v4l2_capability *cap = (struct v4l2_capability *)arg;
-+		strncpy((char *)cap->driver, override_driver_name.c_str(), sizeof(cap->driver) - 1);
-+		cap->driver[sizeof(cap->driver) - 1] = '\0';
-+	}
-+	return retval;
-+}
-+
-+#define doioctl(n, r, p) wrapped_doioctl(n, #r, r, p)
- 
- const char *ok(int res);
- int check_string(const char *s, size_t len);
-
-base-commit: f2a3cb8a59bcce9ac9f7a7c5b71429610d638a12
--- 
-2.54.0.794.g4f17f83d09-goog
-
+Regards,
+Michal
 
