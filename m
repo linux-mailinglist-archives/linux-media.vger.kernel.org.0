@@ -1,76 +1,76 @@
-Return-Path: <linux-media+bounces-62972-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62973-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cE99NiZ5GGqxkQgAu9opvQ
-	(envelope-from <linux-media+bounces-62972-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 19:19:34 +0200
+	id 0BcaFyV4GGqPkQgAu9opvQ
+	(envelope-from <linux-media+bounces-62973-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 19:15:17 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 753855F589E
-	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 19:19:33 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D465F57AD
+	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 19:15:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 710FD3113335
-	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 17:05:43 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 75323305EE53
+	for <lists+linux-media@lfdr.de>; Thu, 28 May 2026 17:06:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F0613F99ED;
-	Thu, 28 May 2026 17:05:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BF7D28727D;
+	Thu, 28 May 2026 17:06:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f2K+qOB/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CV3qH15Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188593E6DD4
-	for <linux-media@vger.kernel.org>; Thu, 28 May 2026 17:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1DC53F9F45
+	for <linux-media@vger.kernel.org>; Thu, 28 May 2026 17:06:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779987939; cv=none; b=dy9bolvjXdIrUzvnDOV4EjUdjZwYWBInnVWdMqG75THHAdhR7p65UYK1CcJEcTonLATaIVTg6/KFqvbZyf3nOuUwSd9E/BxqdkWVJvlGZKXJ8LGq6EA09Tt2yMkuduNNC+Fy1+N5DpU2MiwNTlKcOSMCXKYzV1veG8XYa86SvBw=
+	t=1779987981; cv=none; b=Dac/x66W2jV7j2wXvFLFJZaV6SNpOJoykIK7TwkzUBxuryqNE2N0ugGH5mNDEDxdKmKM2oIMXVBnUaTSikUDKKG6TH9S97TO2uzftJlXRxWcv6QpEBCkGguGcmZpDYXi696N+4tcTObvEQresUHhc4/vStiQdqo0EQ88F6Lcgcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779987939; c=relaxed/simple;
-	bh=59fvnQcXkMrQroUoZwuq0OrUz4f194nsV+K0sERQ0DE=;
+	s=arc-20240116; t=1779987981; c=relaxed/simple;
+	bh=LBjuiURhyLeVnP1VD3oZ12uFqgGzcPg2uyCTkeLAUnM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ze24w+fEyrqCSQAqUhFNr+zZlfK3Qa5ekyAagZWhsMwReYu73jGGZOUXIcOG99UvlqJFm5tmiF+hHesv7ynKrrQt010jPKaTy4U+9ZfKwKAKn2Fay+vAnkaTgLbmA7hhsaxOnlT55TjyM4ZcDPIxLhax0JwKi2N8Wh/2ht34eFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f2K+qOB/; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=FTo/Sq8t+INgwR6OfslbHzNi6MKj1O0neWSSXxC/vkq/GN4Yg1AAWCykOhEBm4ztkZF1yurSh45dNVGz5h+jgroKLZUg3LcpC54svleYNswHRmxeunaz+pR3cDBjsKzfB7VEpaqyy2ZF1JXExngsYN3iOxA+olrZlK0fgFg6PDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CV3qH15Q; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1779987938; x=1811523938;
+  t=1779987979; x=1811523979;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=59fvnQcXkMrQroUoZwuq0OrUz4f194nsV+K0sERQ0DE=;
-  b=f2K+qOB/tRKS2R/ejK8G07MakrmuSAmvDw0YfgbPimC3DyJGV30cCm7b
-   WXNxiJrNpetKWyz172IcxHuSVcI5iz18WWX+/ISuTeAmasN+m7wQaLfBE
-   EFmdvg4YkkWGGtjDvIP08b3IiWFfwirPwdZljPqPVGkiAyfQlB3G45Tp/
-   lWw2u4ieoOBF4YtNfcE0pivSjfvN3SaAJdJ+e3NPJgaT/VxcpKdq5yOjB
-   EYfLxc/d2WJViZ2GQZm8VenDZqo5b+qLS42E0yzctJH6DO1jTAGjur0QF
-   rHJuisOdsXdlPCIkXxP7FKcs4s0QeLtz6sFl4CEI3UPgjQPUmV9aZ5kkS
-   w==;
-X-CSE-ConnectionGUID: AIz0ZLmVSkmbEctUAAvT4A==
-X-CSE-MsgGUID: HZHQmx5uQZm/KXpOUGHAtg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="106288127"
+  bh=LBjuiURhyLeVnP1VD3oZ12uFqgGzcPg2uyCTkeLAUnM=;
+  b=CV3qH15QB8Cdk+7dCXk7Cr07AEcaABdm3DiHz9RGqniXNBE1BLO/QlRB
+   JUl1SDoZAaBK+83okJGkt0p2Blr2k6ztFnjQpfsYsr+fZRYjdqc+Rk3ws
+   WowA91e9+OOVyteTxDjdTD9rGI5eCeBhWQKyzct+xJDIt8/KfQghf6DYp
+   s49wFo0HwXNEMrMNzZ3OaK+ie2dC2ryWR0V0bx06TUWh2hnLPmcQMQ1n4
+   TmYEBMhP23l5bfpJ9EtLnb0yvlqvTaXVoCCNtm634PpCU8ERIXcUg/ZV7
+   m/CNQxCajZ0wHgST9qG/B3IqfX1SrvZPbidm/nIOuJKjb/KZAca6TiMKB
+   A==;
+X-CSE-ConnectionGUID: N2S4J4oSSDi9dlqQOa+CiA==
+X-CSE-MsgGUID: y2sJdQRPS1aC2A8Wd34ACg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11800"; a="91405816"
 X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="106288127"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 10:05:37 -0700
-X-CSE-ConnectionGUID: HLLB3FymQxKCMwcUIP0AvQ==
-X-CSE-MsgGUID: tJX/VekMS62YMT2UagdxNA==
+   d="scan'208";a="91405816"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 10:06:18 -0700
+X-CSE-ConnectionGUID: v+Vc6rogSKOKCHs5OU6UYg==
+X-CSE-MsgGUID: 7jrgTZeIQvubKW34Pk9Jkg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,173,1774335600"; 
-   d="scan'208";a="272937951"
+   d="scan'208";a="239585539"
 Received: from ettammin-mobl3.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.244.75])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 10:05:35 -0700
-Date: Thu, 28 May 2026 19:05:23 +0200
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2026 10:06:17 -0700
+Date: Thu, 28 May 2026 19:06:10 +0200
 From: Mehdi Djait <mehdi.djait@linux.intel.com>
 To: Miguel Vadillo <miguel.vadillo@intel.com>
 Cc: linux-media@vger.kernel.org, wei.a.xu@intel.com, atul.raut@intel.com, 
 	sakari.ailus@linux.intel.com, antti.laakso@linux.intel.com, kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v5 1/3] media: i2c: cvs: Add driver of Intel Computer
- Vision Sensing Controller(CVS)
-Message-ID: <ahh1YmWwCrqIAChN@mdjait-mobl>
+Subject: Re: [PATCH v5 2/3] media: pci: intel: Add CVS support for IPU bridge
+ driver
+Message-ID: <ahh15eCp2hNeuIF1@mdjait-mobl>
 References: <20260527170531.383871-1-miguel.vadillo@intel.com>
- <20260527170531.383871-2-miguel.vadillo@intel.com>
+ <20260527170531.383871-3-miguel.vadillo@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,12 +79,12 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260527170531.383871-2-miguel.vadillo@intel.com>
+In-Reply-To: <20260527170531.383871-3-miguel.vadillo@intel.com>
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -93,75 +93,34 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	DKIM_TRACE(0.00)[intel.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62972-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-62973-lists,linux-media=lfdr.de];
 	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[mehdi.djait@linux.intel.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_COUNT_FIVE(0.00)[5];
 	RCPT_COUNT_SEVEN(0.00)[7];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 753855F589E
+X-Rspamd-Queue-Id: 69D465F57AD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 Hi Miguel,
 
-thank you for the patch
+Thank you for the patch!
 
-On Wed, May 27, 2026 at 10:05:29AM -0700, Miguel Vadillo wrote:
-> Add driver for Intel Computer Vision Sensing (CVS) devices found on
-> Intel Luna Lake (LNL), Panther Lake (PTL), and Arrow Lake (ARL)
-> platforms.
+On Wed, May 27, 2026 at 10:05:30AM -0700, Miguel Vadillo wrote:
+> CVS is located between IPU device and sensors and is available in
+> existing commercial platforms from multiple OEMs. The connection
+> information between them in firmware is not enough to build a V4L2
+> connection graph. This patch parses the connection properties from the
+> SSDB buffer in DSDT and builds the connection using software nodes.
 > 
-> The CVS device acts as a V4L2 sub-device bridge that manages CSI-2
-> link ownership between the host (Linux) and firmware for camera
-> sensors. It provides:
-> 
-> - Query the device status via sysfs interface
-> - CSI-2 link ownership arbitration between host and CVS firmware
-> - MIPI CSI-2 configuration management
-> - Privacy LED control coordination
-> - Power management integration with runtime PM
-> 
-> The driver consists of two main components:
->   core.c: Core driver with probe, command transport, and power management
->   v4l2.c: V4L2 sub-device and media framework integration
-> 
-> Hardware Interface:
-> - I2C for command/control communication with device firmware
-> - GPIO signals for ownership handshaking (request/response)
-> - Optional reset and wake interrupt for full-capability variants
-> - Integration with Intel IPU via ipu_bridge
-> 
-> The driver supports two hardware capability levels:
-> - Light capability: Basic GPIO-based ownership (2 GPIOs)
-> - Full capability: Enhanced with reset control and wake IRQ (4 GPIOs)
-> 
-> Device-specific quirks are handled via a quirk table to accommodate
-> variations across different CVS implementations (Lattice, Synaptics).
-> 
-> In addition to I2C-based operation, the driver supports platform
-> device instantiation for systems where CVS is exposed without I2C
-> transport, falling back to GPIO-only ownership control.
-> 
-> The CVS driver integrates with the IPU bridge for automatic device
-> discovery via ACPI on supported platforms.
-> 
-> PCI device IDs for Intel IPU7 (0x645d, shared by MTL and LNL) and
-> IPU7.5 (0xb05d, shared by ARL and PTL) are included in the
-> driver-local icvs_pci_tbl lookup table, enabling CVS to locate these
-> IPU variants without modifying the shared ipu6-pci-table header.
-> 
-> A PM runtime device link is established between IPU (consumer) and CVS
-> (supplier) so that the PM framework automatically resumes CVS before
-> IPU begins streaming, triggering cvs_runtime_resume() to claim CSI-2
-> link ownership. Ownership is released via cvs_runtime_suspend() after
-> the autosuspend delay.
+> From the IPU bridge point of view, CVS is just like IVSC.
 > 
 > Signed-off-by: Miguel Vadillo <miguel.vadillo@intel.com>
 
