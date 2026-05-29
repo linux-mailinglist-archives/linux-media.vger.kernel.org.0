@@ -1,169 +1,175 @@
-Return-Path: <linux-media+bounces-63074-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63075-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KNFrE9MJGmo70wgAu9opvQ
-	(envelope-from <linux-media+bounces-63074-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 23:49:07 +0200
+	id OIIrGlkUGmrj1AgAu9opvQ
+	(envelope-from <linux-media+bounces-63075-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 00:34:01 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2C76609056
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 23:49:06 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFC016095CB
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 00:34:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D46F8305A70A
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 21:48:50 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E37E0301ABA5
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 22:33:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3749E3ACA6F;
-	Fri, 29 May 2026 21:48:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 220D63BC687;
+	Fri, 29 May 2026 22:33:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WDrtArgH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oZ63UmkR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6D8374722;
-	Fri, 29 May 2026 21:48:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62220376475
+	for <linux-media@vger.kernel.org>; Fri, 29 May 2026 22:33:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780091329; cv=none; b=A3+zAZeORRkw4t6EHIqP8b1/Sm/m9llxu4YVAZchLL6fUAcGhbNl6ZTQh9tm0KaL7FcmJ7D4jkTWXet0SB0kOvJQ4HtxU1MMkXO2qeftZLMJ6FLAiq0E/nySVO2X4/gYeL68jMbeO/lYre6HKBcVmlsjnWHhv+AMvVWeNMnbFlE=
+	t=1780094033; cv=none; b=WyhvDL4peZXDPNdI9uHBKvY/1tbwKZTRMbiItH7OPRK4cZEoQghMdfH5Yc11YVJoDZQIMyqGDqKQuD78SseJh6rqhGkuWWmx0hkeCCARQGAQcyu5paDE8YtjTP6pliBx6fBnBK/ZR6W/49DgX0TeYjPtZmXS2Jv7XZZq9RjKibk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780091329; c=relaxed/simple;
-	bh=a/S4RbpuGnYphkTlF0GnyYfumwJ+3KLmGoNSdH9MGio=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=ZS+nMO/vQX2MFrKaXU+LCrwr5DbmrV0xhL/wwzGJejuaItDxAa1IoG1F4sJ7eytiNkIJNgCs+toIANfSBYujFc8OoGoHu9beMogHnlOu+5rFgqn+J/I/RD0pPCx3J8aakb2UkxM5IZMiIltv8KN59WZh8pb7M4E0fPoRXLBcZaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WDrtArgH; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F7671F00893;
-	Fri, 29 May 2026 21:48:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780091328;
-	bh=EtxGBSR6/hYbsXE8BzvOi83Nkr+esz2G5sdenNUru0Q=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=WDrtArgHCP2Ta7Qn6nkGUjqEAdAB0Su42GeR05PEdV29Z/o42scuND3FOg2nTMbsi
-	 5zbX/IwFm4W62fEok+5zBdnwyhdQOnibZAkWWRQsYeKQrBpO8V+KlrsMtkXaRpRO2Q
-	 uHTJvNQvBuCfdRWO2HmFD6PCVAXI6D9GBXJYPBaQEDx48qXqW5ah3JnTejOU9VVqvV
-	 0XEFXTKoF/SDtRQwK/05pcQHPSQp3OzOJLsyCcW6PvNzwwd61EfVKqvgERsRqLfPjT
-	 xcR3bTlJv5D4F8dBltp8W0zUMxF+muMhInaaauTIoj4j3J8AwQr2zrrIWMf3KF1m6j
-	 x0/H1uVirZ5SA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 2/3] media: iris: Add support for Milos (VPU v2.0)
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Alexander Koskovich" <akoskovich@pm.me>
-Cc: conor+dt@kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org
-In-Reply-To: <20260529-milos-iris-v2-2-7a763d7195ae@pm.me>
-References: <20260529-milos-iris-v2-2-7a763d7195ae@pm.me>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 29 May 2026 21:48:47 +0000
-Message-Id: <20260529214848.1F7671F00893@smtp.kernel.org>
+	s=arc-20240116; t=1780094033; c=relaxed/simple;
+	bh=r01UNiJ5t+QQ9v0MNroLwd2ymcO66a+NVdwEtdbq5hw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XOiCbF4c/JGMZ6u5wOt5MdRbIL4OxCUaKkbvUAYE4ccbmYmEy4Hg56Mqn7CxoFUDH6hGGcX7i7NfLsd3zxp/QYFL3cc6nyieDrbjZ3I53ViT/ykkuNhZeTvG0QzDVtMgRK7/jSB2PDcWGacTgvyDASMQKmk0nf5y9bKoLEUfvho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oZ63UmkR; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4903d730b1fso75178315e9.2
+        for <linux-media@vger.kernel.org>; Fri, 29 May 2026 15:33:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780094031; x=1780698831; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Ymjm8eNHpxcDzNBbywPMho5NaL6tCXYzCbWJlV5z4Gg=;
+        b=oZ63UmkRRUV1DNuCUs5V/nJ3clNAs88gUrGkZV5uFnOFtZCpuY6tLSyUKOQahvgotn
+         Z0iqxMkjoL0J/51E/QzYH8lTyhB4QmwP2rJeGee7xlM3eUroWS/wtkUzniohlSxLNX/H
+         I2Hf1dpAY7VAb9NghulNZvls2P/ZPBb4BvbnsYQcCIqMeQdpRzE4sGIPXHiJCIkcQotB
+         Ulu2uck9kpr/MJ5LjkfzKgEDbkpRIGVk7CKPyRHplUyVC7kjlFOO87Ww+bdqXTiajlvJ
+         rSjtWFbIIoM4uTtBlBcrJUEbF5845ODVFHakAak/2pn8TLZRLfYXeQ4XSWNncvpH/K7t
+         +jvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780094031; x=1780698831;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ymjm8eNHpxcDzNBbywPMho5NaL6tCXYzCbWJlV5z4Gg=;
+        b=cDcj4lET4r3YtjmIvu7P4H0SBHZF8mWyvsI+1Ket/xe+CRFqSLgRUXBTwnU/SO3NI/
+         wI2kJNkMlKH1Ivz1GPGxp00wjg313RFtv35+4mP9uhAR/B9AF4Kz2hHbPrDc4ziXN1aO
+         3nCwyQzcUnOt6T7Rwui6Fb2yKAggCxJzo5YNRyEG3tJ5omjqCLFqYG4+q+lrxXX/+9kH
+         Cx4jVQ1GdXqiC5Yq9TlV+Hd5VUnq0WKdi3kWckugnFykdVrX/DusULh0hTxKmgsapAVx
+         b547TP0EpR8jFuLozAlDF/azVQoWtB8LMJU/pG/HymYpBXgJa89C6g6q1ifkx2JGiZzY
+         fhWg==
+X-Gm-Message-State: AOJu0YxA3+7DhmN53lidyKd1FGNDOUpjpR4sAoi8mtiemPrjJMveuQfT
+	ZiI+TuutB3+wy5Hx7UBaYOviMl2g2V49jHFuuQeFN41KnSL/8LGnVCPIHmvJTw6bKoI=
+X-Gm-Gg: Acq92OHH6IDMvFb68L4Y32j+JFdtlFj2EEdO+RWTE5W7dhHx9l9r2WqigTgDvoCSEF9
+	wXUNcFlMHP+Q8qj47rYtugvCNmHzzUSVa5W48M/BOtQiYXyl9W38S8lBkudD9N45mt2StlIf88U
+	wA71gcfu90YfKLiLe3esGrb1cm750WELQWhfUMwKNEWEEkyedMiVxHOwhel/RrWQAqy/dj87YOU
+	XK0y5QkPUdh4FVEPlthLUzxUQ/VVflVMoU4GDHf8BaNZL8IR7Q+Lq8KMcSgMgD2oh44G/VTCnNB
+	a5W5qtVNzvVux6nyYeV/JKzw+E4Pam0/WWSSHaknWDCjRDpLuWDDndO2HLFUUQdODP8MLdyAf+I
+	/Akcn1DOuI6MwvxiPoFO4W+rmzPcNPZi9NeCVtl1UscDoBHMqON7m/OxZDZL5CRcA9gHnkK/khI
+	QFEk6Yn2BqGPmYnq0rbxYum6npxozFzZSVUdU=
+X-Received: by 2002:a05:600c:8508:b0:490:52fb:12dd with SMTP id 5b1f17b1804b1-490a2915bc8mr25060585e9.10.1780094030708;
+        Fri, 29 May 2026 15:33:50 -0700 (PDT)
+Received: from [192.168.17.180] ([89.205.36.60])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909c09ab75sm22726955e9.6.2026.05.29.15.33.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 May 2026 15:33:50 -0700 (PDT)
+Message-ID: <9727b97f-7838-4d5f-bd8a-e26dabf1d38f@gmail.com>
+Date: Sat, 30 May 2026 00:33:48 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	MISSING_MIME_VERSION(2.00)[];
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/3] media: ipu-bridge: Add DMI information of Lenovo
+ X9 to the image upside-down list
+To: Kate Hsuan <hpa@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans de Goede <johannes.goede@oss.qualcomm.com>,
+ Hans Verkuil <hverkuil+cisco@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Serin Yeh <serin.yeh@intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260522031121.11968-1-hpa@redhat.com>
+ <20260522031121.11968-2-hpa@redhat.com>
+Content-Language: en-US
+From: Damjan Georgievski <gdamjan@gmail.com>
+In-Reply-To: <20260522031121.11968-2-hpa@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,lists.linux.dev:replyto,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,pm.me:email,sashiko.dev:url];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63074-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63075-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[gdamjan@gmail.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	FROM_NO_DN(0.00)[];
-	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev]
-X-Rspamd-Queue-Id: A2C76609056
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: EFC016095CB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] Missing 'mb_cycles_vsp' in platform capabilities leads to severe V=
-SP hardware under-clocking.
---
+On 5/22/26 05:11, Kate Hsuan wrote:
+> The Lenovo X9 has an upside-down-mounted Sony IMX471 sensor so the image
+> was displayed upside-down. Add the DMI information of Lenovo X9 to
+> resolve the issue.
+>
+> Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> ---
+>   drivers/media/pci/intel/ipu-bridge.c | 14 ++++++++++++++
+>   1 file changed, 14 insertions(+)
+>
+> diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
+> index 32cc95a766b7..1c3364451fa3 100644
+> --- a/drivers/media/pci/intel/ipu-bridge.c
+> +++ b/drivers/media/pci/intel/ipu-bridge.c
+> @@ -118,6 +118,20 @@ static const struct dmi_system_id upside_down_sensor_dmi_ids[] = {
+>   		},
+>   		.driver_data = "OVTI02C1",
+>   	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+> +			DMI_MATCH(DMI_PRODUCT_VERSION, "ThinkPad X9-14"),
 
-commit fb28be6de0281a92b4bb987cda425cdebb0eb9c1
-Author: Alexander Koskovich <akoskovich@pm.me>
+Isn't this going to be an issue in the future if/when a "Gen 2" appears?
 
-media: iris: Add support for Milos (VPU v2.0)
+Just extrapolation from my older laptop, it shows "ThinkPad X1 Carbon 
+5th" for "/sys/class/dmi/id/product_version"
 
-Add support for the Milos Iris codec. This only supports the variant
-found on the SM7635-AB that has half of it's pipes disabled via efuse.
-
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/driv=
-ers/media/platform/qcom/iris/iris_platform_gen2.c
-> index 5da90d47f9c6e..1690e463c8ce5 100644
-> --- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-[ ... ]
-> @@ -1317,3 +1318,108 @@ const struct iris_platform_data qcs8300_data =3D {
-[ ... ]
-> +const struct iris_platform_data milos_data =3D {
-> +	.get_instance =3D iris_hfi_gen2_get_instance,
-> +	.init_hfi_command_ops =3D iris_hfi_gen2_command_ops_init,
-> +	.init_hfi_response_ops =3D iris_hfi_gen2_response_ops_init,
-> +	.get_vpu_buffer_size =3D iris_vpu_buf_size,
-> +	.vpu_ops =3D &iris_vpu2_ops,
-[ ... ]
-> +	.inst_caps =3D &platform_inst_cap_milos,
-[ ... ]
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_milos.h b/dri=
-vers/media/platform/qcom/iris/iris_platform_milos.h
-> new file mode 100644
-> index 0000000000000..dacd3ad5aa7e8
-> --- /dev/null
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_milos.h
-[ ... ]
-> +static struct platform_inst_caps platform_inst_cap_milos =3D {
-> +	.min_frame_width =3D 96,
-> +	.max_frame_width =3D 4096,
-> +	.min_frame_height =3D 96,
-> +	.max_frame_height =3D 4096,
-> +	.max_mbpf =3D (4096 * 2176) / 256,
-> +	.mb_cycles_vpp =3D 200,
-> +	.mb_cycles_fw =3D 326389,
-> +	.mb_cycles_fw_vpp =3D 44156,
-
-[Severity: High]
-Does this struct unintentionally omit .mb_cycles_vsp?
-
-Because milos_data uses iris_vpu2_ops, the platform expects .mb_cycles_vsp
-to be defined for calculating the VSP hardware clock frequency in
-iris_vpu2_calc_freq().
-
-With .mb_cycles_vsp missing, it will default to 0. This causes the main
-mbs_per_second factor to be multiplied by 0, leading to severe hardware
-under-clocking, frame drops, and potential timeouts.
-
-Also, should .mb_cycles_fw and .mb_cycles_fw_vpp be removed here, since they
-are used exclusively by VPU v3.0+ platforms?
-
-> +	.num_comv =3D 0,
-> +	.max_frame_rate =3D MILOS_V1_MAX_FPS,
-> +	.max_operating_rate =3D MILOS_V1_MAX_FPS,
-> +};
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260529-milos-iris=
--v2-0-7a763d7195ae@pm.me?part=3D2
+> +		},
+> +		.driver_data = "SONY471A",
+> +	},
+> +	{
+> +		.matches = {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+> +			DMI_MATCH(DMI_PRODUCT_VERSION, "ThinkPad X9-15"),
+> +		},
+> +		.driver_data = "SONY471A",
+> +	},
+>   	{} /* Terminating entry */
+>   };
+>   
 
