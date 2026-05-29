@@ -1,95 +1,97 @@
-Return-Path: <linux-media+bounces-63001-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63002-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id SOK0DOciGWqVqwgAu9opvQ
-	(envelope-from <linux-media+bounces-63001-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 07:23:51 +0200
+	id AKfxKrArGWogrwgAu9opvQ
+	(envelope-from <linux-media+bounces-63002-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 08:01:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABD365FD4EC
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 07:23:50 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2919E5FDAF8
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 08:01:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A044930640BB
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 05:23:04 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id D388930799F2
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 06:00:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 244103A2540;
-	Fri, 29 May 2026 05:22:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10FCE3A1E7B;
+	Fri, 29 May 2026 06:00:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bEk0OV9j"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sTfcriTF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB173A1A54
-	for <linux-media@vger.kernel.org>; Fri, 29 May 2026 05:22:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE1D2E737D
+	for <linux-media@vger.kernel.org>; Fri, 29 May 2026 06:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780032177; cv=none; b=qNGH4hgcbRDZgDrPkC3gYryYqEFCh1oT5ZH0DbC0aBTY0CSQQY3I0QmlG3TrMsoU27yMt/r5y+Yr5witb1wiLY3QIK2VQ5t2J3QH2LiBGIRK2C1pZX0z3MYVNeGLnaZ+aso/x+QUZ0qVVnBhevgMM87F3C7laEg1VyWz5k4v/qw=
+	t=1780034442; cv=none; b=mAkOJ8xZlpzJ43cGENzgq27HN+8+4g+1MygyH/BCBH6ILLZanbl5RcYt2cSN7HJioDitovXZ8nXDeHEFvOS620P5lSIEr6P54MMwciAVtUtgqLOozMveH8GX5aMN7WxSYRCR3CZfydE8pZ/SSgRLJWf/rHi1aAofFzdSG9oYHa4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780032177; c=relaxed/simple;
-	bh=T4zdCWM1w4bByz1c2cKlwQxSjvPUfAWxKCPZoEfbaaw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XVGI6HhKpktTJwq9I9HkvdV9Kpb2cNEwMeTOMl0jYszjyIkKd5L+JBG93axVxoGtGCnrH5E6rLJFUsXFWArbG80Rh6FkVkeKCicryKgvXmsp3vjQ0CctItnOV0YA3vh5LNOHzpn7zTjJW0KMVUtVo7YkgNjPsMU3IpnOG5rqbcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bEk0OV9j; arc=none smtp.client-ip=209.85.210.45
+	s=arc-20240116; t=1780034442; c=relaxed/simple;
+	bh=LlKjfmg4uzjgcSwowvq2v2W/FzEckjJHb/li9GuSVSo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=apJK59XAysJsYYTu0aFWGfZBVqh0s7UUgYmZZzDOBIIW81GMww21nU/TsHwifQv3E1XInSOUdmL/+WiczfrbQhj67nlf727DlO6yEhr6VYapE7+8nHgGMclIyr4rOzWlDb1wrTxi0JIjHcL9mF7h7ZHJ98FyKLmI+I3TCdwIQMQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sTfcriTF; arc=none smtp.client-ip=74.125.82.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7e603d0ee0aso4444872a34.2
-        for <linux-media@vger.kernel.org>; Thu, 28 May 2026 22:22:56 -0700 (PDT)
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-304ddfcf72cso1355264eec.0
+        for <linux-media@vger.kernel.org>; Thu, 28 May 2026 23:00:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780032175; x=1780636975; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q8y9FkhHEIxGsnXBCWmwSdl4mvBOFnGqj5GzxpKDmAM=;
-        b=bEk0OV9j5MhXcLpOG4M3BtcPjzQtGedrdafbiKEL5fA/80u4ibpfB8QdWiT+N8hEGI
-         kofIVM2hXj6MjFEybPNSaEOqtatA97LbA7FRW/1BYPXXblLC9waPZmT4jFdhtXFCnThK
-         AzObzdlr/YS7+b5yjOQW3+6ICfNJhRtGrzf2Mrze3d8TGr7c6VXxoE6QjPX02gg0djoE
-         qksZ0lPDpn3ovc+H4+8JRyqjhqke8NSCoAcCl95WN2Q77MCEOs1QuGGdeO6p6O3FLech
-         i34DP0D0uvAd1hRoqSIe0o10VfEdEKPpWLRNVdc7hlki3jeCQkFJeZAgyit6Ci3SkNiB
-         apVQ==
+        d=gmail.com; s=20251104; t=1780034439; x=1780639239; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3n5bXyy99k9iyvx4lY1kMjVmlRsiOyGImOOHuWaZn0k=;
+        b=sTfcriTFichN/Y4ZJGQSnZInshHdN5ub8zq4Ppp69vuLdpj4MVC3H/sZ6e2OoXYJ5N
+         l5/948sD1KBXyjRUzMKFJp1QD5WZ+qTIDXQdQxMOER8JocnIbK9VcrYAwcQbalO4dl3B
+         H21/vTNM0nXTAAEiwM8SIHEx2XUxnpsW8OcjOXybgx49fE9ZJwW2B/LyaC/qj1t6/2sd
+         DQJlVc7J16NOLWM7f7KOGIXgUhN/JS4Oo/dX61heZBObyr6g8FLAbOeFZIhLKl8OWRPV
+         et6pYhKO7jSUcEs/xbXzLLXgzxQ8Q9ZMDoX1/Ea4G5fw/Y6GUW8AMeSq6PKiucr/rWE7
+         sXSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780032175; x=1780636975;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Q8y9FkhHEIxGsnXBCWmwSdl4mvBOFnGqj5GzxpKDmAM=;
-        b=drE+h65uVkOZrY5IWCeOuFCiYHPoop2NilbUD9xhIJ+HysIchSeW/Ju85JePuGaX6s
-         Jg2dxw3ytSfATIV6E+CtSRUh4kT0nSWujU/Cl/oRYx4E2nvC9WHF6LyA1LOQmCfxpSHg
-         KKF1uV3pEk4ZgOb2lbfFqucFtb4AQqj2vWr5xNXTz5CNJiWcmfXBZcZ/IdwZOW9UVnyn
-         3HMlj4HcUysMFCfsh7E2cBHz8OEnoPZD09LTFbj3yqdFvP+f/XnRWv431O0hkNXJY93c
-         oCyE3dz8l3lXLMf+VVVyTUOyO8SOti0R0gyIa2QsCzJIHgyMXKFiTImFliSkg7xd9OkR
-         Gztg==
-X-Forwarded-Encrypted: i=1; AFNElJ8YF2sUr7tjip0+cfcWxC472IBLgvCTBlGe20Oe6oOn3zN5E3JNusTxnpc0tFbJgLP07I5OkVTz7EQNhQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUNz43y/hX2zJoPYO83jS1h61XGFbXI/4nYAYZr9D8kexFYxch
-	jOq2NGRWdy83JS3kkYyFFKJOtE22uCcoG0BvGuFcovGnlgfYhof98YM1
-X-Gm-Gg: Acq92OFzlsa+RsIIFhhisVSedtWMJrEG7pCXE/ibSk9J5sBuHp/bWxa7ypOJ7/QKVa6
-	ktVUbjy0lwtrfl6AdLyRnkKQFtQX/nK9YtlQ2JUEpMACubvtSlmfM9dnSJk7UzON8PKXIV5uN8i
-	clrCZBXavtUlNVZtRmEQxIm3jatWUuyOWdYB1myI6IkGGSpX2hiWKe5ZXllpET1cVVeEDSnaIbQ
-	2RMjPXgZsATh2p0Cz2k+ApCpDnrJWYVoEKG7m+uiip/Eozlb4912ccuIYOWTJfdmN6KQkptXrFH
-	ClATEHChmeTPfw7X8WsSRl7V7kATOIeNxAYYVs5FMKIeYFGikx2YATVCiqc9qjCfLbr0o/1kGg8
-	8XsJB9ia3AQfD10j+uZ452RbTOPOIHOXQWtVyXluN1AKC/xhk297z1o5cRQgRjL36z0Vt/kW+Dd
-	vlk5e2Vrov2kNYfXEnuS2vqLRh7GIrUKFzsxQb6++ZUixhN8UiZqayVvWjDDoM/as=
-X-Received: by 2002:a05:6830:8285:b0:7dc:dd58:50a1 with SMTP id 46e09a7af769-7e694db77a3mr1174335a34.15.1780032175559;
-        Thu, 28 May 2026 22:22:55 -0700 (PDT)
-Received: from fsh.attlocal.net ([2600:1702:56e9:4b40:e3a9:78c5:641e:a58c])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e695bd790fsm760909a34.10.2026.05.28.22.22.53
+        d=1e100.net; s=20251104; t=1780034439; x=1780639239;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3n5bXyy99k9iyvx4lY1kMjVmlRsiOyGImOOHuWaZn0k=;
+        b=hex2q7sAmtZ0eaaRb6eqCzwm3dpWsIHdeKCOK4G2oPoSC2wYcD3LVi/ZaDICk/4E6+
+         DSHhX87A8fMvpc6oIg7dUoaw2jgOUS7wyIitm59a91AeyVgWatzMmSkKlcRRvk2EuSde
+         Bsd97dxCNMN+5uwOLuoDnK70IffOn7cgPxLxgfLjex4HmIcluPB8FTW9SYvoUgssTb26
+         TRWYSP3MmzlsKViGS6FZ5l3fxp6saY+QsxJrtFojkwnazjLTn5hG96RvJ9z/sPZV2FnT
+         Iu7xuvE+vxnGFmxsqWwobqiKTe1nLV1R9aj7JT+QnSrXjCrTi/y2Li8qfI4YglMIDcG7
+         fMKg==
+X-Forwarded-Encrypted: i=1; AFNElJ8XIvNtCwuap7oxWPTl6QciZUZws2k2mvxeyIpZxST2T8udFaE8w85pSopNLr7LA42iAx9tV8DkoEyY6A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwcFohvfCHd+kH5UCquyAuTX73chQI8OOou68EUZmc32N+eGQQ/
+	gA4KU70qu28eYf4dp/VuFOgQ01z6YeXV/6Ddd/G1S2qIdjRGRxgHYkJx
+X-Gm-Gg: Acq92OEiPBvqoUIGs5+M5tDiWpId84KehJN1PuQIffRy0CfIz+8A84O6zeDdhgD0gWW
+	241zsPDrhY5ayaUrnFaaKIP/N4Hw2ily/ROv0AtQHggdNdN1fwABX5dNH4jf8wmZs8/Nf1RFH8p
+	b2OUCilQj0icXtypa2XNeH7WebcDTgO0KRIbzXjlwS4MqCbEOm5EirY1R6YBCCXwypbfmvGh2iK
+	FvMKCXCyMFQJ3llyXGKeRIvEv4IGEcppb0nQEZwbnSxvKkSmbwrYhLWnzCNi/Gk95DGHV7ej6JB
+	LAtdsSAEYaQkpDmX01Ttovpmt5FxFIZWgKngjV6CoiQYsxyL/SL6ibN1Y8i6jFIEF1MimlNenoZ
+	9gXibws8R6wxLtQmHKNelcAXHD7DpZ4UdiF8/HvD5/Jwk3a2ZBedhz3EsTM9e5Wb0f60Run1iv2
+	8zrzoVPRbfJpCtpuBGv92wuq+B3SXbKQ/bfqC9qng13AZnrpJpl6aLb8sNbkuOKnh3TiJN1tS+2
+	uOtm9+UbDYkTBeRk4q4orF7dOxFzVdSVuv7QKuiqQlB7HIXpp86u6rWjmwZog93HfK/1qmuMsWz
+	spYxgcI8af0edgGZ25cs3pRsf75yFoUb7W73kw08SqlCGl9n0REAhLrc6cL3wdiH3N0=
+X-Received: by 2002:a05:7300:7f9f:b0:2da:44ac:6d17 with SMTP id 5a478bee46e88-304eb0d738fmr636180eec.17.1780034439290;
+        Thu, 28 May 2026 23:00:39 -0700 (PDT)
+Received: from odroidn2.. (c-67-180-34-11.hsd1.ca.comcast.net. [67.180.34.11])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-304ed2c120csm674689eec.4.2026.05.28.23.00.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2026 22:22:53 -0700 (PDT)
-From: Akash Sukhavasi <akash.sukhavasi@gmail.com>
-To: devicetree@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+        Thu, 28 May 2026 23:00:38 -0700 (PDT)
+From: Yi Ding <yi.s.ding@gmail.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
 	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 2/4] dt-bindings: media: remove obsolete rc.txt
-Date: Fri, 29 May 2026 00:22:39 -0500
-Message-ID: <20260529052246.4934-3-akash.sukhavasi@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260529052246.4934-1-akash.sukhavasi@gmail.com>
-References: <20260529052246.4934-1-akash.sukhavasi@gmail.com>
+	linux-amlogic@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Yi Ding <yi.s.ding@gmail.com>
+Subject: [PATCH] media: cec: meson: ao-cec-g12a: name the CEC core regmap to avoid debugfs clash
+Date: Thu, 28 May 2026 23:00:05 -0700
+Message-ID: <20260529060005.94700-1-yi.s.ding@gmail.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -101,74 +103,73 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[baylibre.com,googlemail.com,vger.kernel.org,lists.infradead.org,gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63001-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63002-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[akashsukhavasi@gmail.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	FREEMAIL_FROM(0.00)[gmail.com];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[yisding@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_COUNT_FIVE(0.00)[5];
 	MID_RHS_MATCH_FROM(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: ABD365FD4EC
+X-Rspamd-Queue-Id: 2919E5FDAF8
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-rc.txt has been a single-line redirect to rc.yaml since
-commit 7c31b9d67342 ("media: dt-bindings: media: Add YAML schemas for
-the generic RC bindings"), which introduced the .yaml schema and
-reduced the .txt to a stub in the same change. The .yaml has the same
-filename in the same directory, making this redirect unnecessary
-for discoverability.
+The driver registers two regmaps on the same platform device: an MMIO
+regmap for the AO CEC registers, and an indirect regmap (using
+reg_read()/reg_write() callbacks) for the CEC controller core registers.
+Neither regmap_config sets a .name, so both default their debugfs
+directory to the device name and collide:
 
-One file still references rc.txt, forcing readers through an extra
-hop to reach the .yaml. The stub has not been touched since August
-2019. Update the reference in hix5hd2-ir.txt to point directly to
-rc.yaml and remove the stub.
+  debugfs: 'ff800280.cec' already exists in 'regmap'
 
-Signed-off-by: Akash Sukhavasi <akash.sukhavasi@gmail.com>
+Because of the clash the second regmap's debugfs directory fails to
+register, so its registers can no longer be inspected via debugfs.
+
+Give the indirect CEC core regmap a distinct name. The two debugfs
+directories then become "<dev>.cec" and "<dev>.cec-core". This only
+affects debugfs naming; register access is unchanged.
+
+Tested on an ODROID-N2 (Amlogic S922X): the warning is gone and both
+/sys/kernel/debug/regmap/ff800280.cec and ff800280.cec-core are present.
+
+Fixes: b7778c46683c ("media: platform: meson: Add Amlogic Meson G12A AO CEC Controller driver")
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: Yi Ding <yi.s.ding@gmail.com>
 ---
- Documentation/devicetree/bindings/media/hix5hd2-ir.txt | 2 +-
- Documentation/devicetree/bindings/media/rc.txt         | 1 -
- 2 files changed, 1 insertion(+), 2 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/rc.txt
+ drivers/media/cec/platform/meson/ao-cec-g12a.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/devicetree/bindings/media/hix5hd2-ir.txt b/Documentation/devicetree/bindings/media/hix5hd2-ir.txt
-index ca4cf774662e..f777c2707e65 100644
---- a/Documentation/devicetree/bindings/media/hix5hd2-ir.txt
-+++ b/Documentation/devicetree/bindings/media/hix5hd2-ir.txt
-@@ -11,7 +11,7 @@ Required properties:
- 	- clocks: clock phandle and specifier pair.
+diff --git a/drivers/media/cec/platform/meson/ao-cec-g12a.c b/drivers/media/cec/platform/meson/ao-cec-g12a.c
+index 41f5b8669..2c914f000 100644
+--- a/drivers/media/cec/platform/meson/ao-cec-g12a.c
++++ b/drivers/media/cec/platform/meson/ao-cec-g12a.c
+@@ -405,6 +405,7 @@ static int meson_ao_cec_g12a_write(void *context, unsigned int addr,
+ }
  
- Optional properties:
--	- linux,rc-map-name: see rc.txt file in the same directory.
-+	- linux,rc-map-name: see rc.yaml file in the same directory.
- 	- hisilicon,power-syscon: DEPRECATED. Don't use this in new dts files.
- 		Provide correct clocks instead.
- 
-diff --git a/Documentation/devicetree/bindings/media/rc.txt b/Documentation/devicetree/bindings/media/rc.txt
-deleted file mode 100644
-index be629f7fa77e..000000000000
---- a/Documentation/devicetree/bindings/media/rc.txt
-+++ /dev/null
-@@ -1 +0,0 @@
--This file has been moved to rc.yaml.
+ static const struct regmap_config meson_ao_cec_g12a_cec_regmap_conf = {
++	.name = "core",
+ 	.reg_bits = 8,
+ 	.val_bits = 8,
+ 	.reg_read = meson_ao_cec_g12a_read,
 -- 
-2.54.0
+2.47.3
 
 
