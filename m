@@ -1,136 +1,167 @@
-Return-Path: <linux-media+bounces-62997-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-62998-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kG2fCP7pGGruoggAu9opvQ
-	(envelope-from <linux-media+bounces-62997-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 03:21:02 +0200
+	id 4PEYAZr9GGoEpggAu9opvQ
+	(envelope-from <linux-media+bounces-62998-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 04:44:42 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EF775FBF66
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 03:21:00 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60AEE5FC759
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 04:44:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6BC473006448
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 01:21:00 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3351A3036711
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 02:44:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC8063559F8;
-	Fri, 29 May 2026 01:20:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10310367B9B;
+	Fri, 29 May 2026 02:44:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LpnB7SEt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8F6298CB2
-	for <linux-media@vger.kernel.org>; Fri, 29 May 2026 01:20:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.181.97.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5D3366DA3
+	for <linux-media@vger.kernel.org>; Fri, 29 May 2026 02:44:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780017656; cv=none; b=oTjPrv1c7rqhk2ziIhOFV8SGfEGUb/C7zg6Xpl+UfjiqzCvLfDUJBfT6I/LcMqmXZivuO9flDYutkOiAJ6NFairyKf6Xf43RPPFv+iD0FoqsL4AQnvm9dAKlJudzr/La7L3ixAzooD81ejFwyxt0oS5FWuSEno1RV3E5SA/PSso=
+	t=1780022676; cv=none; b=SaofJU9FLDo+yEjOwizWC3eDr5ugifCN8eohdBJ3tPCCx7qqFPuBjA1i/sjE3n1OXkqzzXuflZa8ybhC3w5BBqoACHWbI4MNWOS11H8wIiUgJtwykWSyiZLkzxVLL8dKct/LEi/XeEQJDGWH+5iAKXQHCzNs5+Mxic+A5bJyk8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780017656; c=relaxed/simple;
-	bh=nE74hMRIsV5NF4T6Dk1/43RR7Cc0hv+Bi14VkoKALdE=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=d0zG2iz/Ygyo8BVzR0RBPX7gMy540t1mFJwHuHn2BV01THzbRbpl8JfT5QiUZNadlDcuSBrJqvt+JPj7Xv60IvcPy3AeKAxTfYT7v60W2MMogIzqgclTcC14Ih8VZYsu5D6gaaCowFNSoWxirKbf2+VOBWzB8rb7jka/oBCvUkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp; arc=none smtp.client-ip=202.181.97.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=I-love.SAKURA.ne.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=I-love.SAKURA.ne.jp
-Received: from www262.sakura.ne.jp (localhost [127.0.0.1])
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 64T1Kn24027355;
-	Fri, 29 May 2026 10:20:49 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from [192.168.1.5] (M106072072000.v4.enabler.ne.jp [106.72.72.0])
-	(authenticated bits=0)
-	by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 64T1Knmr027352
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 29 May 2026 10:20:49 +0900 (JST)
-	(envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <bf19e526-3327-46a5-8ecd-4baaadef5bcf@I-love.SAKURA.ne.jp>
-Date: Fri, 29 May 2026 10:20:46 +0900
+	s=arc-20240116; t=1780022676; c=relaxed/simple;
+	bh=ERCUu0OTKyBW7d8BDg6b1CCWGXh2afeMFLXTgY0V+mg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KmfJz4e6QjHcWzaTVtS7RyyO647vdQXv9mfrMBR5YpN/gfPUvddcHIu49EhbWXzHk3js6sgoQgSIePL5QLxuEIsHfJzjMBjpdql5XO1znk2SqS/IRXdGhThgknBeVkGRDuuUUa9it7pCq46OsMRdRGEk1OXff3HcQ/boc9G8WmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LpnB7SEt; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49048e043e5so56376685e9.1
+        for <linux-media@vger.kernel.org>; Thu, 28 May 2026 19:44:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780022674; x=1780627474; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PIeeAegIg2JykmlVBizWFPwVLHaIF4C+HMP59JRPEVg=;
+        b=LpnB7SEtNAgAxeG+fxGILewB3ONlmgQGuMFJxyotYLDUmyjKyb8345cyLw2ktPTmpl
+         wUQrFgwQD3FR/nMVjcuSm85RB7u39/AcO+WpOIs3cw5aCPL0Oq+QXb3ofctsR6613Qxa
+         2btHsoJot3VqOPRVXdsSt3c/YRngAKMDjjOsPDcEErwOhnRxFxexkTK5KI8u6qbqK1Ux
+         v2CjvB4GrVA1Rcepnv3Rbt5DwTK9lhkIxUTs79axnkBl91/FzxclijwxQl+J18VvXke0
+         W7myMVcv7gVuqdq3Xs3hJtseWAfZmPh50VZEJ9AfR8ey22EbjN+1M1TA5Emat/k7BVw7
+         A/Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780022674; x=1780627474;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PIeeAegIg2JykmlVBizWFPwVLHaIF4C+HMP59JRPEVg=;
+        b=VEGZvR73kPZgubJUuwnENf84c3CgHCjbKA3cnpKd3OYAXcDUcddaHYVbtcQyEvIOgq
+         3VI8Plz/g4+k+FJ3Ppq+97bJI/X7ZHHJ281Z5c5hyoXUTl8AebRUsrLwxtDg0R0zmNvf
+         ckfwjE4TTqz4+cy5dJzaKXLjzBFyyxI5txQQM/VgJH/GzqnkGblBs1iBNfU4zd6pENBS
+         D43HcLtaRxvouDGRHVn/NPldIo1hG9nboG7DpQpk8VBlMTdcrcgwvxR/QCouiOzXGrh/
+         a5x3fMBRi80aLj2bK9LAEP3WNccZQsBYHQM71T0DLGfZUMCPQ+/VefJflHWnrO9kHOWh
+         1mww==
+X-Forwarded-Encrypted: i=1; AFNElJ8dpMKyl4RBU7DoFej4XUyobptXF/7oQtaEAYeC8kLBqds6jx/v98HOiKeQaBHR4TX9CL2NRhNzUawVjQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIaKeSzuPG/tosb+f5eIu9Z1sCkZv41zFB06uMtSzzhJtST2AE
+	U38JlE+q/rqla0QHWJiqtnxzoiunQ6VWMtPExpk5li9Bts+Y/WGib1Rm
+X-Gm-Gg: Acq92OHSHHzoNX9AviAnOjQy5m9hMtD/BON9mLSYEtkYp1bZs6SL8n0Hv20RUDkYYjc
+	Kf+GJAAQOv56eOkilyg26ZzSY2RL73TkjTyEPTezXGLxw9q3p4KeeonNvweZ4yHSRf3dYejhc7a
+	+IStvYvPjnrjO/VjAACVgXNCavm/AR9bHmh6vl+O16Wl/gAwzkYGVmJUIAUrTQUvreUSJZuDeaY
+	J/VafDRxpjy07JdqBCkK28LYziXcvSGqqRlaBGJjPGl2l310xn1BcPszAhcqk2C6YUz4wajUieF
+	nPnbFk7MXQMbPWViJA6zlK55uwgKYLU/1S++6Oqhxl3gON5DYcRSjrdSIg0pgcIdfNQpm+TZ47T
+	jB4ipUG30OwzJIZ+F1ef43pLoZYDbl6aomadEtjlKauUVNwsL6ofsuft5IygRchhv5zMK8MKa3W
+	czEkWq0tCHxNTtmBvJJWyHF7QVPqo2XW094rwbZO6VqzXmanT4prm8HcI3qj1DG4iase5hFKD01
+	ZqEffoBB6okMCDmP1r7Kg==
+X-Received: by 2002:a05:600c:e489:20b0:490:6869:46c6 with SMTP id 5b1f17b1804b1-4909c0c3aa4mr10788265e9.31.1780022673514;
+        Thu, 28 May 2026 19:44:33 -0700 (PDT)
+Received: from dohko.chello.ie (188-141-5-72.dynamic.upc.ie. [188.141.5.72])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef34a065esm178139f8f.5.2026.05.28.19.44.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2026 19:44:32 -0700 (PDT)
+From: David Carlier <devnexen@gmail.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Nayden Kanchev <nayden.kanchev@arm.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	David Carlier <devnexen@gmail.com>
+Subject: [PATCH] media: mali-c55: fix integer overflow in scaler factor calculation
+Date: Fri, 29 May 2026 03:44:29 +0100
+Message-ID: <20260529024429.6942-1-devnexen@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-Subject: [PATCH v2 (repost * 2)] media: usb: siano: don't set URB_FREE_BUFFER
- flag
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Virus-Status: clean
-X-Anti-Virus-Server: fsav204.rs.sakura.ne.jp
-X-Spamd-Result: default: False [-1.46 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DMARC_NA(0.00)[i-love.sakura.ne.jp];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	NEURAL_HAM(-0.00)[-0.995];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_DKIM_NA(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	FROM_NEQ_ENVFROM(0.00)[penguin-kernel@I-love.SAKURA.ne.jp,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,arm.com,vger.kernel.org,gmail.com];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	TAGGED_FROM(0.00)[bounces-62997-lists,linux-media=lfdr.de];
-	RCVD_COUNT_FIVE(0.00)[5];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[]
-X-Rspamd-Queue-Id: 1EF775FBF66
+	TAGGED_FROM(0.00)[bounces-62998-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[devnexen@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[]
+X-Rspamd-Queue-Id: 60AEE5FC759
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-syzbot is reporting invalid free at usb_free_urb(), for
+The scaling factors are computed by multiplying the crop dimension by
+the Q4.20 unit (1 << 20) and dividing by the output dimension. The
+results are stored in u64, but both operands are 32-bit, so the product
+is evaluated in 32-bit arithmetic and only widened afterwards.
 
-  smscore_register_device() allocates all buffers at once as an array
+Crop dimensions may be up to 8192. Once a dimension reaches 4096 the
+product overflows 32 bits and wraps (zero at exactly 4096), programming
+a corrupted scaling increment and corrupting the downscaled output.
 
-  smscore_createbuffer() maps each element in the array to cb->p
+Define the fixed-point unit as unsigned long long so the multiplication
+is done in 64-bit arithmetic.
 
-  usb_fill_bulk_urb() assigns urb->transfer_buffer using cb->p
-  which may point to a non-head element in the array
-
-  URB_FREE_BUFFER causes usb_free_urb() to free urb->transfer_buffer
-  which may point to a non-head element in the array
-
-The urb->transfer_buffer must point to an address returned by kmalloc()
-family if URB_FREE_BUFFER flag is set. But since the urb->transfer_buffer
-allocation strategy for this module is to allocate buffers upon device
-registration and free buffers upon device unregistration, we should
-avoid setting URB_FREE_BUFFER flag. Otherwise, double free or invalid
-free will happen.
-
-Reported-by: syzbot+b466336413a1fba398a5@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=b466336413a1fba398a5
-Fixes: 564246fd3ff4 ("media: siano: Fix coherent memory allocation failure on arm64")
-Tested-by: Tomoki Sekiyama <tomoki.sekiyama@gmail.com>
-Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Fixes: d5f281f3dd29 ("media: mali-c55: Add Mali-C55 ISP driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: David Carlier <devnexen@gmail.com>
 ---
-Changes in v2:
-  Added Tested-by: line.
+ drivers/media/platform/arm/mali-c55/mali-c55-resizer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- drivers/media/usb/siano/smsusb.c | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
-index 0fdc2e0950b7..8140dc0c8b7d 100644
---- a/drivers/media/usb/siano/smsusb.c
-+++ b/drivers/media/usb/siano/smsusb.c
-@@ -168,7 +168,6 @@ static int smsusb_submit_urb(struct smsusb_device_t *dev,
- 		smsusb_onresponse,
- 		surb
- 	);
--	surb->urb->transfer_flags |= URB_FREE_BUFFER;
+diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-resizer.c b/drivers/media/platform/arm/mali-c55/mali-c55-resizer.c
+index c4f46651dcee..182a1b19def4 100644
+--- a/drivers/media/platform/arm/mali-c55/mali-c55-resizer.c
++++ b/drivers/media/platform/arm/mali-c55/mali-c55-resizer.c
+@@ -15,7 +15,7 @@
+ #include "mali-c55-registers.h"
  
- 	return usb_submit_urb(surb->urb, GFP_ATOMIC);
- }
+ /* Scaling factor in Q4.20 format. */
+-#define MALI_C55_RSZ_SCALER_FACTOR	(1U << 20)
++#define MALI_C55_RSZ_SCALER_FACTOR	(1ULL << 20)
+ 
+ #define MALI_C55_RSZ_COEFS_BANKS	8
+ #define MALI_C55_RSZ_COEFS_ENTRIES	64
 -- 
-2.47.3
+2.53.0
+
 
