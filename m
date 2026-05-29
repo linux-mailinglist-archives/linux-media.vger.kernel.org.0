@@ -1,242 +1,149 @@
-Return-Path: <linux-media+bounces-63063-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63065-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qLsUD4zgGWpmzggAu9opvQ
-	(envelope-from <linux-media+bounces-63063-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 20:53:00 +0200
+	id AInrF3fjGWpmzggAu9opvQ
+	(envelope-from <linux-media+bounces-63065-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 21:05:27 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7004607896
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 20:52:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04FAB607ACA
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 21:05:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id EEFD630CA9D0
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 18:44:21 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 9D978314707A
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 18:53:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E83E6478E5F;
-	Fri, 29 May 2026 18:37:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4261D438FF7;
+	Fri, 29 May 2026 18:46:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YOlLwjzT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R3F3U8hV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB97147D959
-	for <linux-media@vger.kernel.org>; Fri, 29 May 2026 18:37:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F8942E013
+	for <linux-media@vger.kernel.org>; Fri, 29 May 2026 18:46:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780079861; cv=none; b=qcONfYcv4UHwy/Bp1skgrSuuJ0UvStrybftoim44CyPdw7FBIHipIK+jQHzMGkoML/W9AnHkvWGrE8E/ZfNGiLvGqBjkgT3TkVqKVmen6K1hMSFukVB1qU+zhWEMJIoolS+u9UEXZnPuLYTo5BWTGLVAYO1Gb1oQt+dFb53bvmQ=
+	t=1780080382; cv=none; b=IVKWQwSvWQA6lD6uzoDWD7wJpJEasmjVaBOQES/csub3+7CO2zrUXaYkeRLGrrv5BkaICkuG4T6R08WeMZq+qM3eaMh6teJ3cnnQv6uiFl8xmXT2rb3BWZUakwmYV5BAYwaWON5scovN0NctrTcmhNYlATX6zQqDKACXCNJ4hno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780079861; c=relaxed/simple;
-	bh=4cjwe87q/t7s3dmQsDYYrUXGLi6ANKnSrefxeksGMpo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gqYZ4bjivlE0UOvYkLad9mqeLkclOjQ2B9pR7DpyJVDA63Al8dW9aK60SFs5zRjUVK4fjSj+YvioqQAoHH78x7n418Rm+IRK35dmgfzQ3bFwOtttzxO3LER05ixBYv4Wfipj773LAV+XPW2bt+L5yi7cTrrReV0c5TIPpLDiJYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YOlLwjzT; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780079857;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FW4muBq04eUEQ5DPUv/MIH2aGLX2hNQSawY7hFA7cfc=;
-	b=YOlLwjzTNL2vfZZ+SgbDlGg6DyK+eqz+xaMhBQ23veSPTVxJd8WfGpwCpKA4cmoCebk7RD
-	FHX308qkMYwVrlabCHrtKlGJR8y/HAwfm8xts5SPcyVnbOdKBMHw3qfRSwbKNxTTotAWT1
-	eEI5/D7rRBTEeyNOQJ4y7e30AL5nulU=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-297-kMqJ3efKP_6-3Cyqrp-ceg-1; Fri,
- 29 May 2026 14:37:34 -0400
-X-MC-Unique: kMqJ3efKP_6-3Cyqrp-ceg-1
-X-Mimecast-MFC-AGG-ID: kMqJ3efKP_6-3Cyqrp-ceg_1780079851
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 25A85195608B;
-	Fri, 29 May 2026 18:37:31 +0000 (UTC)
-Received: from GoldenWind.redhat.com (unknown [10.22.89.101])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0DCF21776;
-	Fri, 29 May 2026 18:37:27 +0000 (UTC)
-From: Lyude Paul <lyude@redhat.com>
-To: dri-devel@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org,
-	nouveau@lists.freedesktop.org
-Cc: Alexandre Courbot <acourbot@nvidia.com>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	driver-core@lists.linux.dev,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	linux-kernel@vger.kernel.org,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	linux-media@vger.kernel.org,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Maxime Ripard <mripard@kernel.org>,
-	David Airlie <airlied@gmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	linaro-mm-sig@lists.linaro.org,
-	Danilo Krummrich <dakr@kernel.org>,
-	Mukesh Kumar Chaurasiya <mkchauras@gmail.com>,
-	Asahi Lina <lina+kernel@asahilina.net>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Lyude Paul <lyude@redhat.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v15 6/6] rust: drm: gem: Introduce shmem::Object::sg_table()
-Date: Fri, 29 May 2026 14:34:04 -0400
-Message-ID: <20260529183702.677677-7-lyude@redhat.com>
-In-Reply-To: <20260529183702.677677-1-lyude@redhat.com>
-References: <20260529183702.677677-1-lyude@redhat.com>
+	s=arc-20240116; t=1780080382; c=relaxed/simple;
+	bh=7h+QcjSgyrI2Gt9tIpxIOMIkeczAfrFZ84lRYJvq4F4=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=q8igQNHbflj5aP1hoOhTnxsJQr0Jy6NzjRgNeoHFKQP4tFtjgk3FEH52BxQDAcO1+yP11prmH+cv8FtW9F1n/tIwUvDWsG33R5VIqBaLcS4uGTTrNvQIolPPj5iD4monNonCqwJxWsNqpjEh5Hq9t8ow7Ct5SlPuGxixOHFmhFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R3F3U8hV; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 580651F00893;
+	Fri, 29 May 2026 18:46:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780080377;
+	bh=2x4ivcsr3PIEB4AQjp9Oc8t1wMR4aIuIIgTBmeNjhTo=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=R3F3U8hVbJIt24zySCmB2LDl0/t9dz9+fy0KUtmwZsmYw44yhXrTlhpL8qttqvGM2
+	 4e/7FdCYMI7IX3yYAHg7KxcIh/c1obl29j/qJeNrMINcfF7EWMkZW8V/uZr6DEMurj
+	 swj0y6TBXN5KuUDDLizn+kdMCq0++k0Do3aELtbaBTgq3ZwLjuovCdDvBFfEim/Wn8
+	 KgVg5Yfvf26gnZ3r6ULugg7WHbE4WLg63vcheKmQkhXvZZv9BfMQEAe2HMOKdgw+Vj
+	 Ee3UrCyDeamJUtrEB2ugzXvYxITOhEznCBsBqaf4+hMNn7hR9db4nKnrHtGW0B7xR3
+	 e405KjVPMg/bg==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v15 1/6] rust: gem: shmem: Fix Default implementation
+ for ObjectConfig
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Lyude Paul" <lyude@redhat.com>
+Cc: ojeda@kernel.org, linux-media@vger.kernel.org
+In-Reply-To: <20260529183702.677677-2-lyude@redhat.com>
+References: <20260529183702.677677-2-lyude@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 29 May 2026 18:46:12 +0000
+Message-Id: <20260529184617.580651F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	MISSING_MIME_VERSION(2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[nvidia.com,garyguo.net,amd.com,lists.linux.dev,kernel.org,linux.intel.com,google.com,ffwll.ch,vger.kernel.org,linaro.org,suse.de,gmail.com,lists.linaro.org,asahilina.net,collabora.com,redhat.com,linuxfoundation.org];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-63063-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
+	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lyude@redhat.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
-	TAGGED_RCPT(0.00)[linux-media,kernel];
-	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_FROM(0.00)[bounces-63065-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NO_DN(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: D7004607896
+	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,lists.linux.dev:replyto,smtp.kernel.org:mid,sashiko.dev:url]
+X-Rspamd-Queue-Id: 04FAB607ACA
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-In order to do this, we need to be careful to ensure that any interface we
-expose for scatterlists ensures that any mappings created from one are
-destroyed on driver-unbind. To do this, we introduce a Devres resource into
-shmem::Object that we use in order to ensure that we release any SGTable
-mappings on driver-unbind.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Low] The `default()` method in the manual `Default` implementation for `=
+ObjectConfig` is incorrectly annotated with `#[inline(always)]` instead of =
+`#[inline]`.
+--
 
-There's some other slightly unfortunate caveats of this:
+commit 2f2d2871dcff324f4a62883f7a855840f82b51f7
+Author: Lyude Paul <lyude@redhat.com>
 
-* Drivers don't have explicit control at the moment over when unmapping
-  happens (which is exactly the same as the C side atm, so it might not be
-  a problem).
-* We can't just return `SGTableMap` to the user through an Arc to attempt
-  to fix the last caveat - because that implies the gem object would need
-  to hold a reference count to the scatterlist mapping, which just leaves
-  us with the same problem.
+rust: gem: shmem: Fix Default implementation for ObjectConfig
 
-Signed-off-by: Lyude Paul <lyude@redhat.com>
+This commit replaces the derived Default implementation for ObjectConfig wi=
+th
+a manual implementation. This resolves an issue where the derive macro
+incorrectly requires the generic type T to implement Default even though it
+is only used as a reference.
 
----
-V3:
-* Rename OwnedSGTable to shmem::SGTable. Since the current version of the
-  SGTable abstractions now has a `Owned` and `Borrowed` variant, I think
-  renaming this to shmem::SGTable makes things less confusing.
-  We do however, keep the name of owned_sg_table() as-is.
-V4:
-* Clarify safety comments for SGTable to explain why the object is
-  thread-safe.
-* Rename from SGTableRef to SGTable
-V10:
-* Use Devres in order to ensure that SGTables are revocable, and are
-  unmapped on driver-unbind.
-V11:
-* s/create_sg_table()/get_sg_table()
-* Get rid of extraneous `ret = ` in shmem::Object::get_sg_table()
-V12:
-* Actually move sgt_res in this patch and not the next one
-V13:
-* Use DmaResvGuard suggestion from Alexander
-* Use Alexander's (much better) solution for get_sg_table()
-* Use SetOnce instead of UnsafeCell
-* s/SGTableRef/SGTableMap
-* Fix typo in SGTableMap documentation
-* Create fallible constructor for SGTableMap
-* Don't reuse dma_resv lock for protecting Object contents, just use Mutex
-  + SetOnce
-* Drop use of drm_gem_shmem_get_pages_sgt_locked(), since we don't need to
-  hold the dma_resv lock ourselves for anything but this function.
-* Check that the device we receive in the bounds for sg_table() and
-  owned_sg_table() that said Device is in fact, the correct device.
-* Remove redundant docs in owned_sg_table(), just point it back to
-  sg_table().
-* Implement Deborah's suggestion to fix double-free in
-  free_callback()
-* Restore original order of Object<T>
-* Fix doc typo for SGTableMap
-V14:
-* Use new InitOnce container over the Mutex/SetOnce horror show we had
-  before.
-* Start using LazyInit container for storing Devres for sgt unmap
-* Add some kunit tests for sg_table (not sure why I didn't do this before)
-  using some of the boilerplate code leftover from the vmap bindings
-* Get rid of the owned SGTable variant for now, we'll add it back in a
-  future patch if people actually need it.
-* Use new LazyInit container from me to get rid of the horrid
-  Mutex<SetOnce<>> mess.
-* Add the best we can do for unit tests w/r/t SGTable at the moment
+> diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
+> index e1b648920d2f6..8b7de136ab1f9 100644
+> --- a/rust/kernel/drm/gem/shmem.rs
+> +++ b/rust/kernel/drm/gem/shmem.rs
+[ ... ]
+> @@ -50,6 +49,16 @@ pub struct ObjectConfig<'a, T: DriverObject> {
+>      pub parent_resv_obj: Option<&'a Object<T>>,
+>  }
+> =20
+> +impl<'a, T: DriverObject> Default for ObjectConfig<'a, T> {
+> +    #[inline(always)]
 
- rust/kernel/drm/gem/shmem.rs | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+[Severity: Low]
+This isn't a bug, but should this be #[inline] instead of #[inline(always)]?
 
-diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
-index 494e0d0d8d0d6..5655c2a1ae8fb 100644
---- a/rust/kernel/drm/gem/shmem.rs
-+++ b/rust/kernel/drm/gem/shmem.rs
-@@ -664,4 +664,28 @@ fn vmap_io() -> Result {
- 
-         Ok(())
-     }
-+
-+    // TODO: I would love to actually test the success paths of sg_table(), but that would require
-+    // also implementing dummy dma_ops so that trying to create a mapping doesn't explode. So, leave
-+    // that for someone else.
-+
-+    // Ensures that passing the wrong device to sg_table() fails as we expect, and also ensure it
-+    // skips initializing `sgt_res` since we could otherwise create `sgt_res` with the wrong device
-+    // bound to it.
-+    #[test]
-+    fn fail_sg_table_on_wrong_dev() -> Result {
-+        let (_dev, drm) = create_drm_dev()?;
-+        let wrong_dev = faux::Registration::new(c"EvilKunit", None)?;
-+
-+        let obj = Object::<KunitObject>::new(&drm, PAGE_SIZE, ObjectConfig::default(), ())?;
-+
-+        assert_eq!(obj.sg_table(wrong_dev.as_ref()).err().unwrap(), EINVAL);
-+
-+        // If sgt_res was not initialized mistakenly with the wrong device, this should still fail.
-+        assert_eq!(obj.sg_table(wrong_dev.as_ref()).err().unwrap(), EINVAL);
-+
-+        // TODO: Someday, we should test that creating an sg_table here still succeeds.
-+
-+        Ok(())
-+    }
- }
--- 
-2.54.0
+According to the Rust subsystem coding guidelines, #[inline(always)] is
+reserved for functions using build_assert!() that depend on function
+parameters. Small abstraction functions and default method implementations
+like this should generally use #[inline] instead.
 
+> +    fn default() -> Self {
+> +        Self {
+> +            map_wc: false,
+> +            parent_resv_obj: None,
+> +        }
+> +    }
+> +}
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260529183702.6776=
+77-1-lyude@redhat.com?part=3D1
 
