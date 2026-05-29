@@ -1,63 +1,65 @@
-Return-Path: <linux-media+bounces-63059-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63058-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MG0lAZTfGWpmzggAu9opvQ
-	(envelope-from <linux-media+bounces-63059-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 20:48:52 +0200
+	id wIm8FyDgGWpmzggAu9opvQ
+	(envelope-from <linux-media+bounces-63058-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 20:51:12 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F448607808
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 20:48:50 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E82607854
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 20:51:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 95DAE3105332
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 18:43:03 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 6403E30AA8E9
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 18:43:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95D2D410D24;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E5FA47AF6B;
 	Fri, 29 May 2026 18:37:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="V+BvAY7Z"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MDGiXlVS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209F2478851
-	for <linux-media@vger.kernel.org>; Fri, 29 May 2026 18:37:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E4EC42B74B
+	for <linux-media@vger.kernel.org>; Fri, 29 May 2026 18:37:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780079843; cv=none; b=GL3T9lG57QW47t7ByRnLOFo98EmMfkpaEH7I2FuRR2IvEP4UXw0MaVSNjL7bKY1Ai9BXHn5J/qCEFeSN5iDP10b/IvGXzHtYJ5G8+8fzInyzN96ykizJ7DJPevf/6ivL3jS4QhT0a8AbDwn1kPjZwOPDunL/QMA10SDFquaNzu0=
+	t=1780079842; cv=none; b=bkO2DRZCKPv4gPTXbfDqNmikMLLS0XXHNa8UCqPnoro3lnELh6W8thU3eGrvTIxSujMXms53F/9WEp+UtKGjy4D4nU4jY1uC8vMMB6qRV9lqj1RjjRzfHONyMi45/Y+SYsDklXHok9xnptviGFKBodGyIo/5AjLzqfA689/l+Gs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780079843; c=relaxed/simple;
-	bh=rEQoSq9IEEKZKygG/YbRuz243qjYKgg0W4HBMQTatF4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BZ6Y2MgywOAgnqzCU/xaaGQ289fOwK08rQE9UGCghmDpC1z6cB/sqfgGGQN8PYSfVIX+uw8VioarN9K/YE//eLHy+Wz7g0+LeBnWagUgdXnWERRq6GFYwBC0YWLfHmoafq/0DU3kyy/iLMTE8m99l1R7HykEpP8nMv+AjhNQb0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=V+BvAY7Z; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1780079842; c=relaxed/simple;
+	bh=A3BK2WnGiGinC8G8uh44KNuTg0qtxi2s9zDoOZWxO6Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=UnS5KSdptXiyiKigxAdVVrsAfrYQkjbBdfjh8QLw0J9xcI5eZZv4iyQbbdsegTsZK9pw/FQSEp0AyXCgMC6hNSQUwk/d73QmIxPbEcd4gq+ObuBc/PMPZRFtvCDv6+27EgXq7FNq5r6+70iQxoMKpHzFvKE8qxZLaC46QUBbQsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MDGiXlVS; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780079839;
+	s=mimecast20190719; t=1780079838;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ibOzZZ9MbBgPCsyeHLx7hx/XOPF768dDk7bOGh7vXek=;
-	b=V+BvAY7ZO7jWvRaYXi7RkYgMTMNXINP0GY6ecXaT0x3vfVQ/8CMqmJempE0K5HG2g268UH
-	klRtxbzLCAr9NeEJWyMcEA9IQKYlNxmK+W9F67BVI7rlyFjc4KaU0VtoKAGlOzQhWkz+h0
-	OQIVq6mvOqnFAqO2yrnyIswktRef7Rc=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=35xOY5UpjGtZddGUxJfTOaK/u/wc0iWDPCGCXs5Om6w=;
+	b=MDGiXlVSim4zOMX1Op4AVH/7K38YlMxKEjT9DPBO5GZFD/ZpPzsmS7LTTlUVNn8mouGhHj
+	e8f3UQ4+KrbVhyWFO9xTU3I8TMuCnnFmwF8KYqKnFb/siMw+E3ebKj4MDZGk2EFT/zDp5C
+	/PhwmUjmFJ0tqopp+FQuxbYbLsujSss=
 Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-641-N3PmdtkkNv6foI_0vejyiA-1; Fri,
- 29 May 2026 14:37:13 -0400
-X-MC-Unique: N3PmdtkkNv6foI_0vejyiA-1
-X-Mimecast-MFC-AGG-ID: N3PmdtkkNv6foI_0vejyiA_1780079830
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-384-VLIRDv4IP3exfw8E8q8HAg-1; Fri,
+ 29 May 2026 14:37:16 -0400
+X-MC-Unique: VLIRDv4IP3exfw8E8q8HAg-1
+X-Mimecast-MFC-AGG-ID: VLIRDv4IP3exfw8E8q8HAg_1780079834
 Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 81E7019560AE;
-	Fri, 29 May 2026 18:37:09 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 804B01956089;
+	Fri, 29 May 2026 18:37:13 +0000 (UTC)
 Received: from GoldenWind.redhat.com (unknown [10.22.89.101])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9C43B1688;
-	Fri, 29 May 2026 18:37:05 +0000 (UTC)
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B23801686;
+	Fri, 29 May 2026 18:37:09 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org,
@@ -85,9 +87,11 @@ Cc: Alexandre Courbot <acourbot@nvidia.com>,
 	Daniel Almeida <daniel.almeida@collabora.com>,
 	Lyude Paul <lyude@redhat.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v15 0/6] Rust bindings for gem shmem
-Date: Fri, 29 May 2026 14:33:58 -0400
-Message-ID: <20260529183702.677677-1-lyude@redhat.com>
+Subject: [PATCH v15 1/6] rust: gem: shmem: Fix Default implementation for ObjectConfig
+Date: Fri, 29 May 2026 14:33:59 -0400
+Message-ID: <20260529183702.677677-2-lyude@redhat.com>
+In-Reply-To: <20260529183702.677677-1-lyude@redhat.com>
+References: <20260529183702.677677-1-lyude@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -102,7 +106,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -110,7 +114,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FREEMAIL_CC(0.00)[nvidia.com,garyguo.net,amd.com,lists.linux.dev,kernel.org,linux.intel.com,google.com,ffwll.ch,vger.kernel.org,linaro.org,suse.de,gmail.com,lists.linaro.org,asahilina.net,collabora.com,redhat.com,linuxfoundation.org];
 	RCPT_COUNT_TWELVE(0.00)[26];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-63059-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63058-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	MISSING_XM_UA(0.00)[];
@@ -123,49 +127,54 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,kernel];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,gitlab.freedesktop.org:url,patchwork.freedesktop.org:url]
-X-Rspamd-Queue-Id: 6F448607808
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 39E82607854
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Most of this patch series has already been pushed upstream, this is just
-the second half of the patch series that has not been pushed yet + some
-additional changes which were required to implement changes requested by
-the mailing list. This patch series is originally from Asahi, previously
-posted by Daniel Almeida.
+I completely forgot when coming up with this type that #[derive(Default)]
+only works if all generics mentioned in the type implement Default (and T
+usually doesn't). This being said: We don't use `T` for anything besides
+using it for a reference type, so whether or not it implements `Default`
+shouldn't actually need to matter.
 
-The previous version of the patch series can be found here:
+So, fix this by just manually implementing Default instead of deriving it.
 
-	https://patchwork.freedesktop.org/series/164580/
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+---
+ rust/kernel/drm/gem/shmem.rs | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-Branch with patches applied available here:
-
-	https://gitlab.freedesktop.org/lyudess/linux/-/commits/rust/gem-shmem
-
-This patch series applies on top of drm-rust-next with the following
-dependencies applied:
-
-	https://lore.kernel.org/rust-for-linux/20260529173137.303717-1-lyude@redhat.com/T/#t
-
-Lyude Paul (6):
-  rust: gem: shmem: Fix Default implementation for ObjectConfig
-  rust: drm: gem/shmem: Add DmaResvGuard helper
-  rust: drm: gem: Add vmap functions to shmem bindings
-  rust: faux: Allow retrieving a bound Device
-  drm/gem/shmem: Introduce __drm_gem_shmem_free_sgt_locked()
-  rust: drm: gem: Introduce shmem::Object::sg_table()
-
- drivers/gpu/drm/drm_gem_shmem_helper.c |  32 +-
- include/drm/drm_gem_shmem_helper.h     |   1 +
- rust/kernel/drm/gem/shmem.rs           | 497 ++++++++++++++++++++++++-
- rust/kernel/faux.rs                    |   7 +-
- 4 files changed, 512 insertions(+), 25 deletions(-)
-
-
-base-commit: 0e42ec83d46ab8877d38d37493328ed7d1a24de8
-prerequisite-patch-id: c8ade07eec6e9c9e875800b114137c459d362e4e
-prerequisite-patch-id: c38da06dbc4cfd2589bf2e7e9f0ebaa4da521ddf
+diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
+index e1b648920d2f6..8b7de136ab1f9 100644
+--- a/rust/kernel/drm/gem/shmem.rs
++++ b/rust/kernel/drm/gem/shmem.rs
+@@ -39,7 +39,6 @@
+ ///
+ /// This is used with [`Object::new()`] to control various properties that can only be set when
+ /// initially creating a shmem-backed GEM object.
+-#[derive(Default)]
+ pub struct ObjectConfig<'a, T: DriverObject> {
+     /// Whether to set the write-combine map flag.
+     pub map_wc: bool,
+@@ -50,6 +49,16 @@ pub struct ObjectConfig<'a, T: DriverObject> {
+     pub parent_resv_obj: Option<&'a Object<T>>,
+ }
+ 
++impl<'a, T: DriverObject> Default for ObjectConfig<'a, T> {
++    #[inline(always)]
++    fn default() -> Self {
++        Self {
++            map_wc: false,
++            parent_resv_obj: None,
++        }
++    }
++}
++
+ /// A shmem-backed GEM object.
+ ///
+ /// # Invariants
 -- 
 2.54.0
 
