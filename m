@@ -1,241 +1,167 @@
-Return-Path: <linux-media+bounces-63022-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63023-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gBdPKL9iGWrDvwgAu9opvQ
-	(envelope-from <linux-media+bounces-63022-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 11:56:15 +0200
+	id EJ83MphjGWoBwAgAu9opvQ
+	(envelope-from <linux-media+bounces-63023-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 11:59:52 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A84066004F8
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 11:56:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1554600607
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 11:59:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 97C39301426E
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 09:55:55 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id CA3D0300BC49
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 09:59:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 058643C4579;
-	Fri, 29 May 2026 09:55:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA0013C661D;
+	Fri, 29 May 2026 09:59:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XsHwlxh0"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="fY/t++Yd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1585A329396
-	for <linux-media@vger.kernel.org>; Fri, 29 May 2026 09:55:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00973C457C
+	for <linux-media@vger.kernel.org>; Fri, 29 May 2026 09:59:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780048550; cv=none; b=cu+FBvJW6oU4LYvw40X1WMDSBRygdB9BtaYMOcPq/8fJTpNMrRzQZ9809rHo8wZoh2p1VCpB7pvceA5m5vK8fzBLJ7OhJnauUokRhZ892W3o3RpKpkvgSFuj23YwRH62WQXBfMYJtcqDneQAPVBiJR3n9ViDtCCBds7wQHyK6g0=
+	t=1780048784; cv=none; b=ezzBcXo6TfrbzLRrwmG3lT/M5QeT8aSres5p4PyYxOwnGgDCQNq9HT2S4LGy5EcqMZnYYW5URjRQaY0c+IpjS/mAqEIV3kqhdITzWgr5SAWg2SUoTvO8BYwjNh8+gzc9FQRyvh8HiyVhX9hVoFjXhtRR2K2CFHcd6TzKa3Zp7dA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780048550; c=relaxed/simple;
-	bh=d3Z4Z1iJBfrEqHD0Kpt8W1NR0WSMZYbfR2eL2irTvY4=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=l93hxZQb9naUfAv3eMWnSFu7wY0/Hq92wKxpIVdRVTvOEqoxKlpxxXqXy+JywiZgdlVz13qlQazjvZCBO4hgAMo3jWF0GkldZsxfmCP1GFPdvxD7GOC+JI6bXtDV7efX2uoyBNoPCgVMARE8OTfsZSNs6umqnQJHu5JlmkYdpEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XsHwlxh0; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49050ff7cbdso63007995e9.2
-        for <linux-media@vger.kernel.org>; Fri, 29 May 2026 02:55:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1780048547; x=1780653347; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=m7yi/3JR1gKrin2QFBbQQL2NOWimtIfwQZrg/mmS3vs=;
-        b=XsHwlxh0bfAcSxP6kVwcZEWUEnVF5tki3+XGiukD6yA6m5Bqs+C0XEAC3DC7T9ccUz
-         lNKLSVTPaeThgTlGw8T8bM+V3gDOkM0erVttObs63KUC5RyqCJvwlHxpsDy7u/W6kYRB
-         IAh7F8YHbtK95D3Njzuj73hZe1GAc/P6otYQCOiWCDM9EUpo9Owhtk6kd9pqX85+F6li
-         TFWsxpWGZNbeafXFi1AG0+gZB2Gkn8poEJvgIv5253dd1qiZgRSWwNEdcTGtPdqNnNlc
-         3wy6gxYb5OZGUWQiR5tRAeYjsFoAQlVyuH5/yOFslzsazqLjwc8gQXM54WMwNp2fICsA
-         yXrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780048547; x=1780653347;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=m7yi/3JR1gKrin2QFBbQQL2NOWimtIfwQZrg/mmS3vs=;
-        b=kYuQNVMiMJ+38HZB/QdTUvBIjH3pZ6kkN9yOaYys9CFe1n7fMjxL47Ivc0tHWk5wHc
-         7wXdD+c2mFtBYJnZtclEBTNqekhAhpNLMXPjBO1N3aibjmQ4az4c47BQIkhb+4sZ3nU9
-         jUcFPI3KMbDE15QH7D6CRDA2KbdNQdlvwQ3oCJf+16Z10nqfOyznkzpP+mf+sMlz7xow
-         NeTEzb27r6T/e7axKJtn3lArmH3DPnTVcM6SIwo5M6EOmZ+YXreWnxoONBLKtzLEqQEB
-         OOMLkjDfV+NBuppGVnrBEfJsvGX8FWDJ3Va1vVVYtOFSB2l7MWqCVR6IMx3VsJP1nrnv
-         qOmw==
-X-Gm-Message-State: AOJu0YzHaZ+MJL0vd/+ORIsuYErnoQY687mG+R/4m4hc4Uabrvo1VmEG
-	YL0gbKum4V4BcX4GJbglLX8fAfFxeqPVYtZYPVNwjb+cB1J9bmAne/IA/M7QjSdlvOc=
-X-Gm-Gg: Acq92OFxlNQvSe5OsQ+uJz9D3m5vSnDm4Zfi0Xc3meOWC+QNH88KSww1egxQ3B8Tsyn
-	kKbb8WFe+eIB9A/gUjjV8AtfSGDrPC7GPqWdzoFSTyLLyZLpqWB7vmqQRUzOyh8MuVi1umiLEv6
-	3K7o/uBeGABiVFwqtBt3QrecxjZLKAyP9GFa2iEkRkQDV5qgbxXsUTXJr96OYQjGugVIzkWqaGa
-	T70kfjwdf0HM+dv+b1nrtPu0pec6Wf/xWjWVFEW0dHrTvl86bvOQp0FBvjWKbe/9h06asoq7U4y
-	6rzeE3w6N1Pw8smucY6jNSDtORPHW5/KBjkIsoA5fTaAz3cr6tguygwao+OtYkIBEXMgvc41nrn
-	aKnFo+L2srorBT5hW1X2EEDXragn0wwPAGhOWOHfhdfwBskItqKpgS53FDCucwvhfdLIP4v9dNv
-	A+oKjoStsCb6/3Pfm9MW/VUZxEtcFmfDZRJtVh5Be9DA==
-X-Received: by 2002:a05:600c:4815:b0:488:b187:3c with SMTP id 5b1f17b1804b1-4909c088fd9mr21674855e9.14.1780048546862;
-        Fri, 29 May 2026 02:55:46 -0700 (PDT)
-Received: from [172.20.10.3] ([37.167.96.43])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4909c0c39b0sm17345645e9.2.2026.05.29.02.55.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 29 May 2026 02:55:46 -0700 (PDT)
-Message-ID: <3baa753a-f716-45da-b1aa-7406f4092578@linaro.org>
-Date: Fri, 29 May 2026 11:55:44 +0200
+	s=arc-20240116; t=1780048784; c=relaxed/simple;
+	bh=Npw6meRVzI8XXIu6E9mJDwAM/yCnOHRzevF4jIdYA98=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X/3uowGUhKmS0sXJiVQxBk9hwyUdBFBISqoslpx838SG9aQplAvw2xxyFElAnfYa45blrMbD9HvImyjo6xUcW0wzp+sCzT0cLyAdZTa7dM5zl54fn6VjN4LnCqN8w9SPMxnMj4B1f7vQFHaSvIIQBGYEEFI4RrPAkyUrkSEkbEc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=fY/t++Yd; arc=none smtp.client-ip=121.127.44.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
+ To: From; q=dns/txt; s=fe-e1b5cab7be; t=1780048774;
+ bh=7cmZ6ZbL+80ClxTtf0v5i/q6YUQKok4MUwle1i80mjw=;
+ b=fY/t++Yd5qX993GEMnkXrSgWn+LSLxPS5VqbkVFwdIp4KL8I22PuQq+qPXDJMYuHViooTvvlx
+ tnJHUSiipCjgXmLegu+09X90zkt8qKzzNsDoqJFDNVfbsCzb1tX7MoVUOpeUbOYCM0RdLNdFC3k
+ ezTky5lN37zgzQXo3PaFW03tI6jxjICW+prrXwL7hAO9YnIPN6E6mRAvaWyDoOTt7DhNY4iHcfk
+ Z2rsU07SLzyZF7kYzwovjYNw5nXAuAY32BTQgvCoH3QVLQPET/J8Ffxm/903Ho+V5X9dJWew/sL
+ etRuBDcCKXBZ2Ok9PM7XI7R3x3gtd2pnlnP2S4G4VYEg==
+X-Forward-Email-ID: 6a196383dafd1a4f103a4ea9
+X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 121.127.44.73
+X-Forward-Email-Version: 2.8.15
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
+From: Jonas Karlman <jonas@kwiboo.se>
+To: Hans Verkuil <hverkuil@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Patrice Chotard <patrice.chotard@foss.st.com>,
+	Sean Young <sean@mess.org>
+Cc: Jonas Karlman <jonas@kwiboo.se>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] media: cec: core: Fix kmemleak due to missed rc_free_device() call
+Date: Fri, 29 May 2026 09:59:26 +0000
+Message-ID: <20260529095926.2837178-1-jonas@kwiboo.se>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v4 0/6] media: qcom: iris: add support for decoding 10bit
- formats
-To: Wangao Wang <wangao.wang@oss.qualcomm.com>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bod@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-References: <20260521-topic-sm8x50-iris-10bit-decoding-v4-0-8ff8fce3f904@linaro.org>
- <fa26f61e-86b6-4612-afae-7726e3b35c4b@oss.qualcomm.com>
- <12102d68-da35-47ea-a972-28cb6d54ce1c@linaro.org>
- <feb42925-5704-4266-8c3f-aa944fdbed28@oss.qualcomm.com>
- <12da2953-fe51-4999-9656-2b42a7897f91@oss.qualcomm.com>
- <c54e7f34-b3a7-47fa-843a-9930de04599e@linaro.org>
- <9148913b-a5cd-4730-beff-6c517ac4818e@oss.qualcomm.com>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <9148913b-a5cd-4730-beff-6c517ac4818e@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kwiboo.se,quarantine];
+	R_DKIM_ALLOW(-0.20)[kwiboo.se:s=fe-e1b5cab7be];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63022-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,larmoire.org:url,linaro.org:replyto,linaro.org:mid,linaro.org:dkim];
 	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	HAS_REPLYTO(0.00)[neil.armstrong@linaro.org];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[neil.armstrong@linaro.org,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	TAGGED_FROM(0.00)[bounces-63023-lists,linux-media=lfdr.de];
 	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCVD_COUNT_FIVE(0.00)[5];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jonas@kwiboo.se,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kwiboo.se:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	REPLYTO_EQ_FROM(0.00)[]
-X-Rspamd-Queue-Id: A84066004F8
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,kwiboo.se:email,kwiboo.se:mid,kwiboo.se:dkim]
+X-Rspamd-Queue-Id: B1554600607
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi,
+The commit dccc0c3ddf8f ("media: rc: fix race between unregister and
+urb/irq callbacks") removed the implicit call to rc_free_device() from
+rc_unregister_device(). However, the commit missed to remove the NULL
+assignment of adap->rc that is now causing rc_free_device() to never be
+called on an allocated rc device.
 
-On 5/29/26 10:21, Wangao Wang wrote:
-> 
-> 
-> On 2026/5/28 21:26, Neil Armstrong wrote:
->> Hi Wangao,
->>
->> On 5/27/26 06:15, Wangao Wang wrote:
->>> I tested the v4 patch using the gst command you provided earlier. The decoded output still has the previous plane misalignment issue, but all frames are decoded successfully. When viewing the raw data with an image player at 1920x1080 resolution, the first frame looks correct but subsequent frames appear shifted. If viewed at 1920x1088 resolution, there are artifacts at the bottom of each frame. I've attached the images.
->>>
->>> Also, have you tested the 720p case? I can't get it to run on my end.
->>
->> Thanks for the report but I don't have access to the Purwa platform you use,
->> I've run test with multiple resolutions with display using P010
->> and QC10, and ran fluster aswell and all passed on SM8550 and SM8650.
->>
->> I'll test it on the Hamoa T14S I have which should be the closest to purwa,
->> but it uses the same driver setup as SM8550 so I expected it to work the same.
->>
->> Could you indicate which iris firmware you're using ?
->>
->> Could you try passing the fluster h265 main10 test suite with gstreamer ?
->>
->> fluster download -c h.265
->> fluster run -d GStreamer-H.265-V4L2 -ts JCT-VC-HEVC_V1 -q -s -j1
->>
->> The picture you send looks like there's a mismatch with the kernel
->> and firmware setup of planes offsets.
->> Could you check if there's a Purwa specific firmware property
->> to set for 10bit decoding ?
->>
->> Neil
->>
->>>
-> 
-> Hi Neil,
-> 
-> I also tested on hamoa, and it has the same issue as purwa. The firmware used on purwa is vpu30_p1_s7.mbn.
-> 
-> This is the result of fluster:
-> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) WP_MAIN10_B_Toshiba_3       ... Success
-> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) WPP_A_ericsson_MAIN10_2       ... Success
-> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) WPP_A_ericsson_MAIN_2       ... Success
-> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) WPP_B_ericsson_MAIN10_2       ... Success
-> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) WPP_B_ericsson_MAIN_2       ... Success
-> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) WPP_C_ericsson_MAIN10_2       ... Success
-> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) WPP_C_ericsson_MAIN_2       ... Success
-> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) WPP_D_ericsson_MAIN10_2       ... Error
-> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) WPP_D_ericsson_MAIN_2       ... Error
-> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) WPP_E_ericsson_MAIN10_2       ... Success
-> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) WPP_E_ericsson_MAIN_2       ... Success
-> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) WPP_F_ericsson_MAIN10_2       ... Success
-> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) WPP_F_ericsson_MAIN_2       ... Success
-> 
+kmemleak reports following after e.g. dw-hdmi unbind:
 
-Ok so this works fine, so I'm really wondering if your main10 HEVC is not properly encoded.
+unreferenced object 0xffff00010ac10000 (size 4096):
+  comm "kworker/u16:1", pid 39, jiffies 4294897739
+  hex dump (first 32 bytes):
+    20 23 4b 0a 01 00 ff ff 08 00 c1 0a 01 00 ff ff   #K.............
+    08 00 c1 0a 01 00 ff ff 00 00 00 00 00 00 00 00  ................
+  backtrace (crc e11baccc):
+    kmemleak_alloc+0x38/0x44
+    __kmalloc_cache_noprof+0x4a8/0x5e0
+    rc_allocate_device+0x48/0x2a0
+    cec_allocate_adapter+0x3ac/0x800
+    dw_hdmi_cec_probe+0x264/0x634
+    platform_probe+0xc0/0x188
+    really_probe+0x4a4/0x8e0
+    __driver_probe_device+0x2f8/0x440
+    driver_probe_device+0x60/0x160
+    __device_attach_driver+0x1a0/0x2a0
+    bus_for_each_drv+0x100/0x1a0
+    __device_attach+0x174/0x350
+    device_initial_probe+0x90/0xb0
+    bus_probe_device+0x4c/0x120
+    device_add+0xdec/0x116c
+    platform_device_add+0x354/0x598
 
-Could you try playing a well know HEVC main10 files ?
+Remove the assignment of adap->rc to NULL to let cec_delete_adapter()
+free the allocated rc device after last user of the cec device exits to
+fix the kmemleak.
 
-For example I just tried the 1080p and 4k 10bit files on Hamoa + fluster and it just worked as expected:
-https://larmoire.org/jellyfish/
-https://larmoire.org/jellyfish/media/jellyfish-10-mbps-hd-hevc-10bit.mkv
-https://larmoire.org/jellyfish/media/jellyfish-120-mbps-4k-uhd-hevc-10bit.mkv
+Fixes: dccc0c3ddf8f ("media: rc: fix race between unregister and urb/irq callbacks")
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+---
+Changes in v2:
+- Remove adap->rc = NULL instead of an explicit call to rc_free_device()
+- Update commit message
+Link to v1: https://lore.kernel.org/linux-media/20260527222024.1906303-1-jonas@kwiboo.se/
+---
+ drivers/media/cec/core/cec-core.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-Neil
-
-
-> 
+diff --git a/drivers/media/cec/core/cec-core.c b/drivers/media/cec/core/cec-core.c
+index 0fcd3b5e60c8..90a98f322f5e 100644
+--- a/drivers/media/cec/core/cec-core.c
++++ b/drivers/media/cec/core/cec-core.c
+@@ -371,9 +371,7 @@ void cec_unregister_adapter(struct cec_adapter *adap)
+ 		return;
+ 
+ #ifdef CONFIG_MEDIA_CEC_RC
+-	/* Note: rc_unregister also calls rc_free */
+ 	rc_unregister_device(adap->rc);
+-	adap->rc = NULL;
+ #endif
+ 	debugfs_remove_recursive(adap->cec_dir);
+ #ifdef CONFIG_CEC_NOTIFIER
+-- 
+2.54.0
 
 
