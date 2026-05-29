@@ -1,65 +1,65 @@
-Return-Path: <linux-media+bounces-63061-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63062-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GMojLFjgGWpmzggAu9opvQ
-	(envelope-from <linux-media+bounces-63061-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 20:52:08 +0200
+	id iLGQMGngGWpmzggAu9opvQ
+	(envelope-from <linux-media+bounces-63062-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 20:52:25 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F9DC607879
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 20:52:07 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 530F4607887
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 20:52:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5D9BE311E60C
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 18:44:00 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3E69C31248AB
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2026 18:44:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D65F947CC73;
-	Fri, 29 May 2026 18:37:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88C3A47DD45;
+	Fri, 29 May 2026 18:37:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NB8ZoISj"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QsDY48WE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC402478E5F
-	for <linux-media@vger.kernel.org>; Fri, 29 May 2026 18:37:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BF947D95E
+	for <linux-media@vger.kernel.org>; Fri, 29 May 2026 18:37:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780079857; cv=none; b=dqd1abSNcOhctfu8HkV+HOqGu6BT1tnDf/9qytP86jrQnT7RBtk24kFReS4tTsuEi/AoZF4zGxVco/Bef88jZvXSZJ8l2yG4mCR//3+n6VRcG01xv5zDRpJg7EYT9A5KTCyO5IX7Zq0SGNSYadb4JGKkGFxVrtPhpofhhJkA6gs=
+	t=1780079860; cv=none; b=P+2NsS/b4Xlyx4QH4G3XY9GWV8IfPPQMiMJU6jGjEIqVzGvha1Wl0N9ILMw9LRqrk4OJ1S19yrVXOCJDtxemeO8xPyKYThwG4PwGdxyAFy14YiYgFVvgRnd+Gy1ePvVHXjMN993F0cuMt9orZcS+MjSDnFJoEuHhre3aEWl9HY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780079857; c=relaxed/simple;
-	bh=NfValsT13B9XTlXeTicbkDGTa8+Fj2v0hJKR8oGpyBc=;
+	s=arc-20240116; t=1780079860; c=relaxed/simple;
+	bh=m/ZuTvDTd2RiJVeIWiH9JqSGrSiIRaTy3fvE3xM5Oqs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=q8fHdbi3WYcSqZey4Lwj5xQcbjPIWr1IrwMGKfnjq0kHiwS3OwmFw2HikqOVbqSA8KHM9TGMb+YFNUI7/b3iyBzPYc+QA0CC1Zr05/9cA9sOwKbHm2gW5G6n6RzpquPLlvy/UZtqSC5pFXWdEKXZcBTxa29CFvGMWGW4lLaXii0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NB8ZoISj; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=pnUrZKqLebxB0CIP/XnQdI0KxUJpzDjctT0vJH76r58sdoLV/SzzbQjAKuCAWIbe00VQOoUNAEuguA5hARPpFbJ6CLcBaWrYOuIU21UlFRB0S8zIaAF4xMnm1EL27ntBtSjWzvJimVuWZYWTTMWwWCzfzwWnURYR2WJ+RtdP4JI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QsDY48WE; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780079854;
+	s=mimecast20190719; t=1780079856;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=cF/fCKGGsVn6l967F1Qq9M9WKaqTKMJ/A9UZOUtdnUs=;
-	b=NB8ZoISjSFxbadmYc9Nxx4Rdx9Xt28xl9kj91u8Jqp1OuSfguUrFUv10dYeocY503baNDv
-	zQvftGHHxRLk9YQzjZ8LV1iTy49kE7H2CXLjGohngTbS0vUNbClFdlfDIDuIbZWHXiDPNM
-	heKmFgsACwGk+GulG5aVBC36Tl89ask=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=9iRHxmN/dnU79hS18x4XdzAf0Ghs0AIzOreSmFvd9Ao=;
+	b=QsDY48WE10GYoZAjSTNZQG6N89aOb+q9ErxxPvARrM3CjyjEjc+jt9PrFci6l1PZt1Bt6R
+	WgddtbRDscVZ6OwFnGb5Lvplo1NSElL2RE9EK/wruLv5T5moNkZXyw+9ILXcdYYC/bpDUO
+	jWiXQ3RqpVQkvYo+s8GtaCqvJFLLR+8=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-574-luTdiZlOM6a9-dwZsVaUpA-1; Fri,
- 29 May 2026 14:37:27 -0400
-X-MC-Unique: luTdiZlOM6a9-dwZsVaUpA-1
-X-Mimecast-MFC-AGG-ID: luTdiZlOM6a9-dwZsVaUpA_1780079844
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-136-knbq1hdOPo-qIGV8Qr4TAw-1; Fri,
+ 29 May 2026 14:37:31 -0400
+X-MC-Unique: knbq1hdOPo-qIGV8Qr4TAw-1
+X-Mimecast-MFC-AGG-ID: knbq1hdOPo-qIGV8Qr4TAw_1780079848
 Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6653518002CF;
-	Fri, 29 May 2026 18:37:24 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D10D719560AA;
+	Fri, 29 May 2026 18:37:27 +0000 (UTC)
 Received: from GoldenWind.redhat.com (unknown [10.22.89.101])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 13D901686;
-	Fri, 29 May 2026 18:37:20 +0000 (UTC)
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 979E91773;
+	Fri, 29 May 2026 18:37:24 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org,
@@ -87,9 +87,9 @@ Cc: Alexandre Courbot <acourbot@nvidia.com>,
 	Daniel Almeida <daniel.almeida@collabora.com>,
 	Lyude Paul <lyude@redhat.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v15 4/6] rust: faux: Allow retrieving a bound Device
-Date: Fri, 29 May 2026 14:34:02 -0400
-Message-ID: <20260529183702.677677-5-lyude@redhat.com>
+Subject: [PATCH v15 5/6] drm/gem/shmem: Introduce __drm_gem_shmem_free_sgt_locked()
+Date: Fri, 29 May 2026 14:34:03 -0400
+Message-ID: <20260529183702.677677-6-lyude@redhat.com>
 In-Reply-To: <20260529183702.677677-1-lyude@redhat.com>
 References: <20260529183702.677677-1-lyude@redhat.com>
 Precedence: bulk
@@ -106,7 +106,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -114,7 +114,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FREEMAIL_CC(0.00)[nvidia.com,garyguo.net,amd.com,lists.linux.dev,kernel.org,linux.intel.com,google.com,ffwll.ch,vger.kernel.org,linaro.org,suse.de,gmail.com,lists.linaro.org,asahilina.net,collabora.com,redhat.com,linuxfoundation.org];
 	RCPT_COUNT_TWELVE(0.00)[26];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-63061-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63062-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	MISSING_XM_UA(0.00)[];
@@ -127,48 +127,98 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,kernel];
 	NEURAL_HAM(-0.00)[-1.000];
 	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 2F9DC607879
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 530F4607887
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-When writing up some rust code that used faux devices for unit testing, I
-noticed that we never actually added the Bound device context to
-faux::Registration's AsRef<device::Device> implementation. This being said:
-the Registration object itself is proof that a driver is bound to the
-device - so this should be safe.
+One of the complications of trying to use the shmem helpers to create a
+scatterlist for shmem objects is that we need to be able to provide a
+guarantee that the driver cannot be unbound for the lifetime of the
+scatterlist.
+
+The easiest way of handling this seems to be just hooking up an unmap
+operation to devres the first time we create a scatterlist, which allows us
+to still take advantage of gem shmem facilities without breaking that
+guarantee. To allow for this, we extract __drm_gem_shmem_free_sgt_locked()
+- which allows a caller (e.g. the rust bindings) to manually unmap the sgt
+for a gem object as needed.
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
----
- rust/kernel/faux.rs | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
 
-diff --git a/rust/kernel/faux.rs b/rust/kernel/faux.rs
-index 43b4974f48cd2..e0856b2964a2c 100644
---- a/rust/kernel/faux.rs
-+++ b/rust/kernel/faux.rs
-@@ -25,7 +25,8 @@
- ///
- /// # Invariants
- ///
--/// `self.0` always holds a valid pointer to an initialized and registered [`struct faux_device`].
-+/// - `self.0` always holds a valid pointer to an initialized and registered [`struct faux_device`].
-+/// - This object is proof that the object described by this `Registration` is bound to a device.
- ///
- /// [`struct faux_device`]: srctree/include/linux/device/faux.h
- pub struct Registration(NonNull<bindings::faux_device>);
-@@ -59,8 +60,8 @@ fn as_raw(&self) -> *mut bindings::faux_device {
-     }
+---
+V10:
+* Fix incorrect function name in documentation for
+  __drm_gem_shmem_release_sgt_locked()
+
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 32 +++++++++++++++++++++-----
+ include/drm/drm_gem_shmem_helper.h     |  1 +
+ 2 files changed, 27 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index 545933c7f7121..c989459eb2159 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -158,6 +158,30 @@ struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t
  }
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_create);
  
--impl AsRef<device::Device> for Registration {
--    fn as_ref(&self) -> &device::Device {
-+impl AsRef<device::Device<device::Bound>> for Registration {
-+    fn as_ref(&self) -> &device::Device<device::Bound> {
-         // SAFETY: The underlying `device` in `faux_device` is guaranteed by the C API to be
-         // a valid initialized `device`.
-         unsafe { device::Device::from_raw(addr_of_mut!((*self.as_raw()).dev)) }
++/**
++ * __drm_gem_shmem_release_sgt_locked - Unpin and DMA unmap pages, and release the
++ * cached scatter/gather table for an shmem GEM object.
++ * @shmem: shmem GEM object
++ *
++ * If the passed shmem object has an active scatter/gather table for driver
++ * usage, this function will unmap it and release the memory associated with it.
++ * It is the responsibility of the caller to ensure it holds the dma_resv_lock
++ * for this object.
++ *
++ * Drivers should not need to call this function themselves, it is mainly
++ * intended for usage in the Rust shmem bindings.
++ */
++void __drm_gem_shmem_free_sgt_locked(struct drm_gem_shmem_object *shmem)
++{
++	dma_resv_assert_held(shmem->base.resv);
++
++	dma_unmap_sgtable(shmem->base.dev->dev, shmem->sgt, DMA_BIDIRECTIONAL, 0);
++	sg_free_table(shmem->sgt);
++	kfree(shmem->sgt);
++	shmem->sgt = NULL;
++}
++EXPORT_SYMBOL_GPL(__drm_gem_shmem_free_sgt_locked);
++
+ /**
+  * drm_gem_shmem_release - Release resources associated with a shmem GEM object.
+  * @shmem: shmem GEM object
+@@ -176,12 +200,8 @@ void drm_gem_shmem_release(struct drm_gem_shmem_object *shmem)
+ 
+ 		drm_WARN_ON(obj->dev, refcount_read(&shmem->vmap_use_count));
+ 
+-		if (shmem->sgt) {
+-			dma_unmap_sgtable(obj->dev->dev, shmem->sgt,
+-					  DMA_BIDIRECTIONAL, 0);
+-			sg_free_table(shmem->sgt);
+-			kfree(shmem->sgt);
+-		}
++		if (shmem->sgt)
++			__drm_gem_shmem_free_sgt_locked(shmem);
+ 		if (shmem->pages)
+ 			drm_gem_shmem_put_pages_locked(shmem);
+ 
+diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+index 5ccdae21b94a9..b2c23af628e1a 100644
+--- a/include/drm/drm_gem_shmem_helper.h
++++ b/include/drm/drm_gem_shmem_helper.h
+@@ -111,6 +111,7 @@ int drm_gem_shmem_init(struct drm_device *dev, struct drm_gem_shmem_object *shme
+ struct drm_gem_shmem_object *drm_gem_shmem_create(struct drm_device *dev, size_t size);
+ void drm_gem_shmem_release(struct drm_gem_shmem_object *shmem);
+ void drm_gem_shmem_free(struct drm_gem_shmem_object *shmem);
++void __drm_gem_shmem_free_sgt_locked(struct drm_gem_shmem_object *shmem);
+ 
+ void drm_gem_shmem_put_pages_locked(struct drm_gem_shmem_object *shmem);
+ int drm_gem_shmem_pin(struct drm_gem_shmem_object *shmem);
 -- 
 2.54.0
 
