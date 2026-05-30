@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-63085-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63087-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cByyOVk0Gmp+2AgAu9opvQ
-	(envelope-from <linux-media+bounces-63085-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 02:50:33 +0200
+	id 2AX0LW00Gmp+2AgAu9opvQ
+	(envelope-from <linux-media+bounces-63087-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 02:50:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A8E60A6AB
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 02:50:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EDC960A6CF
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 02:50:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 272CA30D0F0A
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 00:46:46 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 7949E30D9FEC
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 00:46:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C14C52D73B5;
-	Sat, 30 May 2026 00:46:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 260A02DB7AE;
+	Sat, 30 May 2026 00:46:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R0pc5/Xg"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EVv+JYYO"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FDA1D54FA;
-	Sat, 30 May 2026 00:46:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8881E231835;
+	Sat, 30 May 2026 00:46:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780101999; cv=none; b=YQhq8+LSSH+Eb7/fm8Vjkks84pbEgDKSspv+p4jpa6M5nG85s/mg+vtEFNBAtEnDyZbapG3fcwfh8QJ2m4KOvcCu3kpJPJHSfXMglVd6ATspmIi+XL6lg+EbkC5Pc43a19JcWRbJen0kkfZH4GCWmN0CmVgBvC0nIprL7VXc0qA=
+	t=1780102000; cv=none; b=F6jwtAT+7kUPrvycl/Gvb8eXWgS0E4F1HGYtKmF0slzkwfBzgYTobWVyNgCz3aHrbZVtgKTnVvo8cnoBO9RlbJqRdHxaacl3T8a2XIqcH4cBCXa+DZ5tUb7u7Za7pzjn9J//ntMm3+uq0XFsdIVDurSJK/n89tUyulV4s+4Cekk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780101999; c=relaxed/simple;
-	bh=7lqFnFjQvdDTgpyUY1NolFpvZQRHLDdHcmsgMfBwFas=;
+	s=arc-20240116; t=1780102000; c=relaxed/simple;
+	bh=Psfr/ckPJk8zTQ+R1gsU9wtUd2EiQDz8HHcfCS4bSvU=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=OQzgvkXEeTZAYHo2TLmVgLSW4vFSK4m1dVw/Bj9WJn6QO8L0DrSpDgIs5Jn5hyM9WdAKG90h9NUTWEnnhY3VPdqf/5C1+Wv9O6DM2AVsLhJSCnZeT3tnlDTbC+MA1lztgryHyDL2HNEg9dNbnthHPnoZF5NhFZyaFV0hX6qeOwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R0pc5/Xg; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C56D1F00899;
-	Sat, 30 May 2026 00:46:37 +0000 (UTC)
+	 Message-Id; b=BLZFwXfqvJ6B6Qh2/dxcXpuBg2AmnBq0h8jm9Jbxiu+AgWSlEL/VafDRlxAOoUt0UbwK8be5xsY4mbO5D4gl0rJqna6+lmUqIBcMyMGworn5SafCAwjKMwWQ9N+BnrHFsmFC0E+XmU6ox7VeMJIjSRpKgpExgTKIru5X96bNa0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EVv+JYYO; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 408191F00898;
+	Sat, 30 May 2026 00:46:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780101997;
-	bh=XkjEolf/FRhOYNgQhhq72CoQUrPQbazZ8GHz962AcT8=;
+	s=k20260515; t=1780101999;
+	bh=Re9A7o/WP/gOrmM2UzeScLbXaI5m/21+pfvpSTOHfOE=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=R0pc5/XgSdybDTzg2CZ7KJNzgmtvILXKrfXofVa2dtMi/wmSmovKgRjsOh35FJjcL
-	 c+yLHo4dHILXzdZaAHoF9M3MvcB4Uog9afR1wdOBChjoKxLfkerHkmbIbZ8lXjxfkv
-	 I05oxI+Zhq8M5Azcq2hwFjYVvNe8Vi+wfgEgBm6Z8FyIt3fF+xnLqO0raY5KYUQrVX
-	 PsiNw63b8a4fFFWt/lajulX8Si7pG3wmJpgFpd2uKsOt4PL018ZeGeXrgNd8+cUIQ3
-	 MrfHtIAyvtZIw4nJFGdu4NanKq/hsHb5ehI/8O/sOxanlFd0asrEIzB1jsqQX7A6gq
-	 oU2A/hXSGL+qQ==
+	b=EVv+JYYODKaQGG/tampCPIsI5OCvky5tDmaWx5ZFbDPKvIQ/VUxLpW5xDgJOAdFIj
+	 Uv9NBM2NQGI9TgnKH04dNGC+DZGl8BUrVGsk1EOQXE7IxbMol5CtasH4cU1EalcWF/
+	 w6B2KMcYNY9RlflZ6YrSsCWKK0hH8ynG7QYQ/zFLjqe0DNpMrGk15l5R6DW5s1JMEv
+	 w5jO+IW7n2atk1RYkdUHn6DAWSqOet2xIfLOePhioRGrdSCm03Dholl05IjTUS/2DX
+	 WE2pbT87IE1S7dGaw9W6ux3XV4Tsf6PnaECzxcH6HTJUsOzl8S/xkB/Tl1cDQY1Tp8
+	 ACMUYMXGPxDyg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 03/15] firmware: qcom_scm: Migrate to generic PAS
- service
+Subject: Re: [PATCH v7 06/15] remoteproc: qcom_q6v5_mss: Switch to generic
+ PAS TZ APIs
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Sumit Garg" <sumit.garg@kernel.org>
 Cc: robh@kernel.org, linux-media@vger.kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org
-In-Reply-To: <20260522115936.201208-4-sumit.garg@kernel.org>
-References: <20260522115936.201208-4-sumit.garg@kernel.org>
+In-Reply-To: <20260522115936.201208-7-sumit.garg@kernel.org>
+References: <20260522115936.201208-7-sumit.garg@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 30 May 2026 00:46:37 +0000
-Message-Id: <20260530004637.8C56D1F00899@smtp.kernel.org>
+Date: Sat, 30 May 2026 00:46:38 +0000
+Message-Id: <20260530004639.408191F00898@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -72,7 +72,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,sashiko.dev:url,lists.linux.dev:replyto,qualcomm.com:email];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63085-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63087-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -93,153 +93,130 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
 	FROM_NO_DN(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[5]
-X-Rspamd-Queue-Id: 94A8E60A6AB
+X-Rspamd-Queue-Id: 4EDC960A6CF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+Thank you for your contribution! Sashiko AI review found 4 potential issue(=
 s) to consider:
 
 New issues:
-- [High] The metadata release function removes the safety check for `ctx->p=
-tr`, leading to a regression (NULL pointer dereference or kernel WARN) in e=
-rror paths of legacy clients.
-- [High] The global `ops_ptr` in the generic PAS service is accessed withou=
-t locking or RCU, causing a race condition and TOCTOU vulnerability.
+- [High] Incorrect probe deferral check on PAS instead of SCM leads to pote=
+ntial NULL pointer dereferences and infinite probe deferral loops.
+- [High] Lockless and unprotected access to the generic PAS backend API can=
+ lead to Use-After-Free or TOCTOU races.
 
 Pre-existing issues:
-- [High] The resource table size returned by TrustZone is trusted without v=
-alidating it against the allocated buffer size, leading to an out-of-bounds=
- read of kernel memory.
+- [High] Missing probe deferral for platforms that require PAS memory setup=
+ but do not require memory protection.
+- [High] The driver fails to initialize `qproc->need_pas_mem_setup` from th=
+e device match data, skipping PAS memory setup entirely on platforms that n=
+eed it.
 --
 
-commit f83d1b236620417cf15f3c965e134b36b0bf8395
+commit 1d2ed84159dbf869652e837f7c8e10ba7f8e650b
 Author: Sumit Garg <sumit.garg@oss.qualcomm.com>
 
-firmware: qcom_scm: Migrate to generic PAS service
-   =20
-This patch adds SCM calls as a backend for the generic PAS service to keep
-supporting legacy QTEE interfaces. The exported qcom_scm wrappers are retai=
-ned
-but will get dropped once all the client drivers get migrated as part of fu=
-ture
-patches.
+remoteproc: qcom_q6v5_mss: Switch to generic PAS TZ APIs
 
-> diff --git a/drivers/firmware/qcom/qcom_scm.c b/drivers/firmware/qcom/qco=
-m_scm.c
-> index 9b06a69d3a6d7..d87a962e93da1 100644
-> --- a/drivers/firmware/qcom/qcom_scm.c
-> +++ b/drivers/firmware/qcom/qcom_scm.c
+Switch qcom_q6v5_mss client driver over to generic PAS TZ APIs. Generic PAS
+TZ service allows to support multiple TZ implementation backends like QTEE
+based SCM PAS service, OP-TEE based PAS service and any further future TZ
+backend service.
+
+> diff --git a/drivers/remoteproc/qcom_q6v5_mss.c b/drivers/remoteproc/qcom=
+_q6v5_mss.c
+> index ae78f5c7c1b69..96888007faa88 100644
+> --- a/drivers/remoteproc/qcom_q6v5_mss.c
+> +++ b/drivers/remoteproc/qcom_q6v5_mss.c
+
 [ ... ]
-> @@ -671,36 +671,35 @@ int qcom_scm_pas_init_image(u32 pas_id, const void =
-*metadata, size_t size,
+
+> @@ -1480,7 +1481,7 @@ static int q6v5_mpss_load(struct q6v5 *qproc)
+>  	}
 > =20
->  	return ret ? : res.result[0];
->  }
-> -EXPORT_SYMBOL_GPL(qcom_scm_pas_init_image);
-> =20
-> -/**
-> - * qcom_scm_pas_metadata_release() - release metadata context
-> - * @ctx:	pas context
-> - */
-> -void qcom_scm_pas_metadata_release(struct qcom_scm_pas_context *ctx)
-> +int qcom_scm_pas_init_image(u32 pas_id, const void *metadata, size_t siz=
-e,
-> +			    struct qcom_scm_pas_context *ctx)
->  {
-> -	if (!ctx->ptr)
-> -		return;
-> +	return __qcom_scm_pas_init_image2(__scm->dev, pas_id, metadata, size,
-> +					  (struct qcom_pas_context *)ctx);
-> +}
-> +EXPORT_SYMBOL_GPL(qcom_scm_pas_init_image);
-> =20
-> +static void __qcom_scm_pas_metadata_release(struct device *dev,
-> +					    struct qcom_pas_context *ctx)
-> +{
+>  	if (qproc->need_pas_mem_setup) {
 
 [Severity: High]
-Does this removal of the !ctx->ptr safety check cause a regression? In
-legacy clients like qcom_q6v5_pas, this function might be unconditionally
-called during unprepare or error paths where init_image failed and ctx->ptr
-is NULL. This can result in qcom_tzmem_free() warning on a NULL pointer or
-dma_free_coherent() crashing. Note that this appears to be fixed later in t=
-he
-series when clients migrate to the new qcom_pas_metadata_release which
-restores the check, but it poses an issue for this intermediate commit.
+This is a pre-existing issue, but does the driver fail to initialize
+qproc->need_pas_mem_setup from the device match data?
 
->  	if (ctx->use_tzmem)
->  		qcom_tzmem_free(ctx->ptr);
->  	else
-> -		dma_free_coherent(__scm->dev, ctx->size, ctx->ptr, ctx->phys);
-> +		dma_free_coherent(dev, ctx->size, ctx->ptr, ctx->phys);
-> =20
->  	ctx->ptr =3D NULL;
->  }
-[ ... ]
-> @@ -909,11 +828,12 @@ struct resource_table *qcom_scm_pas_get_rsc_table(s=
-truct qcom_scm_pas_context *c
-> =20
->  	memcpy(input_rt_tzm, input_rt, input_rt_size);
-> =20
-> -	output_rt_tzm =3D __qcom_scm_pas_get_rsc_table(ctx->pas_id, input_rt_tz=
-m,
-> +	output_rt_tzm =3D __qcom_scm_pas_get_rsc_table(dev, ctx->pas_id,
->  						     input_rt_tzm,
->  						     input_rt_size, &size);
+In q6v5_probe(), various fields from the desc match data are copied to
+the qproc structure, but desc->need_pas_mem_setup is completely omitted.
+Since qproc is allocated via devm_rproc_alloc() using kzalloc,
+qproc->need_pas_mem_setup will always be evaluated as false here, skipping
+the required setup for all platforms that rely on it.
+
+> -		ret =3D qcom_scm_pas_mem_setup(MPSS_PAS_ID, qproc->mpss_phys, qproc->m=
+pss_size);
+> +		ret =3D qcom_pas_mem_setup(MPSS_PAS_ID, qproc->mpss_phys, qproc->mpss_=
+size);
 
 [Severity: High]
-This is a pre-existing issue, but does this function trust the resource tab=
-le
-size returned by TrustZone without validating it against the allocated buff=
-er
-size?
+Can this lead to a Use-After-Free or TOCTOU race if the PAS backend
+module is unregistered concurrently?
 
-If TrustZone returns success and specifies a size larger than the initial
-16KB allocation (but smaller than 1GB), the size variable is updated to this
-larger size. Later in this function, kmemdup() is called with this updated
-size, which would read past the end of the 16KB buffer allocated by
-qcom_tzmem_alloc(). Can this leak adjacent kernel heap data into the return=
-ed
-resource table?
+Looking at qcom_pas_mem_setup() in drivers/firmware/qcom/qcom_pas.c, it
+uses a lockless ops_ptr variable that is checked and dereferenced
+sequentially:
 
->  	if (PTR_ERR(output_rt_tzm) =3D=3D -EOVERFLOW)
->  		/* Try again with the size requested by the TZ */
-> -		output_rt_tzm =3D __qcom_scm_pas_get_rsc_table(ctx->pas_id,
-> +		output_rt_tzm =3D __qcom_scm_pas_get_rsc_table(dev, ctx->pas_id,
->  							     input_rt_tzm,
->  							     input_rt_size,
->  							     &size);
+int qcom_pas_mem_setup(...)
+{
+    if (!ops_ptr)
+        return -ENODEV;
+
+    return ops_ptr->mem_setup(...);
+}
+
+If the PAS backend module is unloaded concurrently, ops_ptr could be
+nullified between the check and the dereference, without any device
+links or module references preventing it.
+
+>  		if (ret) {
+>  			dev_err(qproc->dev,
+>  				"setting up mpss memory failed: %d\n", ret);
+
 [ ... ]
-> @@ -2836,6 +2803,11 @@ static int qcom_scm_probe(struct platform_device *=
-pdev)
+
+> @@ -2077,7 +2078,7 @@ static int q6v5_probe(struct platform_device *pdev)
+>  	if (!desc)
+>  		return -EINVAL;
 > =20
->  	__get_convention();
-> =20
-> +	if (qcom_scm_is_pas_available()) {
-> +		qcom_pas_ops_scm.dev =3D scm->dev;
-> +		qcom_pas_ops_register(&qcom_pas_ops_scm);
-> +	}
-> +
+> -	if (desc->need_mem_protection && !qcom_scm_is_available())
+> +	if (desc->need_mem_protection && !qcom_pas_is_available())
 
 [Severity: High]
-Is there a race condition when accessing the global ops_ptr in the generic
-PAS service?
+Does changing this check to use qcom_pas_is_available() break the
+guarantee that SCM is fully initialized?
 
-Functions like qcom_pas_shutdown() check if (!ops_ptr) and then dereference
-ops_ptr->shutdown. Since ops_ptr can be modified concurrently (for instance,
-if the PAS TEE service is unbound via sysfs calling
-qcom_pas_ops_unregister()), could a compiler reload or concurrent execution
-lead to a NULL pointer dereference or use-after-free of the backend provider
-data? There appears to be no module referencing or locking to prevent the P=
-AS
-provider from unbinding while in use.
+The desc->need_mem_protection flag indicates the platform requires
+qcom_scm_assign_mem() to configure memory protection, which directly
+dereferences the global __scm->dev pointer.
 
->  	/*
->  	 * If "download mode" is requested, from this point on warmboot
->  	 * will cause the boot stages to enter download mode, unless
+If an alternative PAS backend like OP-TEE registers the PAS service,
+q6v5_probe() will proceed even if SCM is absent. When
+q6v5_xfer_mem_ownership() later calls qcom_scm_assign_mem(), it would
+dereference an uninitialized __scm pointer, leading to a panic.
+
+Conversely, could platforms that require SCM memory protection but lack
+a PAS backend be trapped in an infinite -EPROBE_DEFER loop?
+
+[Severity: High]
+This isn't a bug introduced by this patch, but is there a missing probe
+deferral for platforms that require PAS memory setup but do not require
+memory protection?
+
+For platforms where need_pas_mem_setup is true and need_mem_protection
+is false (e.g., MSM8937, MSM8940, MSM8953), the driver skips the
+deferral check entirely. If the remoteproc is started before the PAS
+backend initializes, qcom_pas_mem_setup() will fail with -ENODEV and
+prevent the remote processor from starting.
+
+>  		return -EPROBE_DEFER;
+> =20
+>  	mba_image =3D desc->hexagon_mba_image;
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260522115936.2012=
-08-1-sumit.garg@kernel.org?part=3D3
+08-1-sumit.garg@kernel.org?part=3D6
 
