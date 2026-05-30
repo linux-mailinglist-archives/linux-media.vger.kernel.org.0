@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-63107-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63108-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qDHXHNuxGmoH7ggAu9opvQ
-	(envelope-from <linux-media+bounces-63107-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 11:46:03 +0200
+	id SF+FFPmxGmoH7ggAu9opvQ
+	(envelope-from <linux-media+bounces-63108-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 11:46:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA54E60BF36
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 11:46:02 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE3EB60BF45
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 11:46:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 45E3C306D59D
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 09:44:59 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0343F307DE1E
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 09:45:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BAA539D6CA;
-	Sat, 30 May 2026 09:44:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C57539A048;
+	Sat, 30 May 2026 09:45:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Py+qmQt1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VIeazxf/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F93369D47
-	for <linux-media@vger.kernel.org>; Sat, 30 May 2026 09:44:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B626B39E162
+	for <linux-media@vger.kernel.org>; Sat, 30 May 2026 09:45:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780134295; cv=none; b=FZiJOfnCqRS6btu4DdfPnUFLH4jt2h226BMqijp8Hw6ocA7mVfCnv4/uc19G8N1FmPF906rWG/lMwIncf5n1EYuA9t2u15TCt79RR22TmmOwMJM8gILsoBdtwJIlJx2Pp7GGSOEx0qs3EUY1BVPpOMb25TNDo1vW/BthHIIzjaQ=
+	t=1780134307; cv=none; b=nkQsYCm0reP+aB5Pi8CGMVPOKyB7WmZssu3kbb4yLtne96u5qW9twxrDX+5GFJCzjmhptvezA6K42DP4s5Eny+nAPFtvx9CGvBcur3iRysfeO5xqTUGs4c5mM7rzWfzNwaTwn3aUGpGds47cUVCZVZNKKiyzruOGJfnFR5dkjEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780134295; c=relaxed/simple;
-	bh=U+d2jT76hbERqFnnuLcNz9UQ38hwXQfEMVzxXIG/jas=;
+	s=arc-20240116; t=1780134307; c=relaxed/simple;
+	bh=g7WNCB9Rt/1OuSYvuRDcXaghERK+Kgq7rXBJpRUKNDo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fPc1+JZrfHSAmaZhUo6RmJq2wZfqb2a4+WwJJQJdmlk0iiqvD6QS84oIdRiim0mukG19nbLQZAXT7d18ouuYF8cgz1mgD11xow11uCTVaqf7uiSAcXUuxeGKxJeeCIO4L336mo7zRSctwolALzUnznWUxStW2iUIPSbGjvMDl2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Py+qmQt1; arc=none smtp.client-ip=209.85.214.171
+	 MIME-Version; b=eFDppGLspnBeQVjVbQC+kQodqN64oDgZ7D3Dfw1v68orUo73jFNGqoQaoIK4CXgI4WrfZadpn5ovbUjgngXDhIrU24v5ByBUPzwrFwzhUKQ4xkJzmUFzI4vFjMZSJmRYi0rktQp5cUtmn+OozkSu1IY71FatQIxY2BxIckqLf4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VIeazxf/; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2bab82d75fdso75061045ad.2
-        for <linux-media@vger.kernel.org>; Sat, 30 May 2026 02:44:53 -0700 (PDT)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2ba4a1a0325so98840265ad.0
+        for <linux-media@vger.kernel.org>; Sat, 30 May 2026 02:45:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780134293; x=1780739093; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1780134306; x=1780739106; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Eg9ggvkEkoQKR+hIDJPnP9lc/gF7VRqufBdsoqX52Vc=;
-        b=Py+qmQt1TCI9VuVFPFxZqIK0ucZ5osbRuCLbGsbcwf9yracV8aHsS2IHYGgEYyW7Xv
-         JelEr0HMgLgPbFSKUwOQQt7HQx6x1LcVNwSe7Cia9+TWaZV3VUhBZGrNzsTWdOoSbc4B
-         3qgzmBLfFfP25MYyc2BubYcsPeMQoZGjr6Tp4vdlJ1GQucsB9uY2vNsaydJsq8aOwEYC
-         QorhlZ9DG/XQ4tAwVBcs+NhjGTrfDF9Pnu2QvYRZhwyIwy/2nYsrkL62t2EXNvRGXE2g
-         o3MdFEsJuazJBT+IANL1Gyj5HczDAFwZElrM/j8aDhGTyxVZn4xuaudaXiFdfKm/88sk
-         frhQ==
+        bh=UsfY8GRrXZdSk9lyMdgzW2ibIF3DXFt06J5TGlB1HVc=;
+        b=VIeazxf/pOgIOrSnPe35VdjpGxmNQAboJ7opWLOaRxgi6s4qOTroJfCziQi1IJKHus
+         aK8Ya6Eet6D9HWVsbgIUlxADr+HUcdftQX133EFn97XUGWt0+YjIGNq7qUPay2blL+r+
+         kp3KEkX+gyUhuZOU+pCYwlaJSqrqBMdXy4TQh/PkVcjLztHL/OTIU1sAmo+IPl6smJSc
+         pJQ26uib882FcqVZHCoD5x+BQJ4+llX5TmbubN7rXv0r8ws/O1Yz4JB1tuoBK/VsPoxJ
+         n6jRPqLUqKzlGRr8Aj9aH5ljK60h5sToBnGA5H/AzSl+qtZUT4ItnUOHtuWMEPjlsZj0
+         xfqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780134293; x=1780739093;
+        d=1e100.net; s=20251104; t=1780134306; x=1780739106;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Eg9ggvkEkoQKR+hIDJPnP9lc/gF7VRqufBdsoqX52Vc=;
-        b=ISKM/G3RPUnfZrxCVc0nKRaYMvC2fEG2j8ifQuih3g40zVVNSX/ic6Wl+ltrTZ0PuF
-         N8pL2U0BO4qtRwbBLcA3RKK6eIsrfsJ3h2uHjBWedEjdzEiROU8x4cTk9Pijax5APLr/
-         +56UyUw1Pr+s5Gw+bcs3/ZFsloWOBOWZndlawM096OWZK7ps0pbGY2Nl3FflUb82HDOB
-         D5cGzAjC9YnyHtbQ05G+kegeSVg5lagiYdkJ1PpoWrKz3aM6l54XjXTyVBFzEsCdJ6ci
-         AAotuFqMgZp7Gz+mZKMyt1alNStVfHcDQaL63VZMkWesrPRL7w8sTFWDLoVTYa0GsTKz
-         XDkw==
-X-Forwarded-Encrypted: i=1; AFNElJ9XFyNQ3ioFRNxlv7nL2BEhRk9yCXy64gc7bxZvBTQvMXX8Jm2fvgCtH7u1hFnsTIL8Y7D9JXmX1ZQWgw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwEiVd+fJP3VvzTw6HFNzrzfpch++UDZZwatK0kqAuxuN53fArT
-	yqAqI11J2rwqAmLFZb0IqUq9J1z25NBTFdFxF4NeVbEbCnZDTP/b4/N8
-X-Gm-Gg: Acq92OEwy2mkxOuTA+5bU5M7pqAj/gRIzvBrmoQc1M6C7clfF27cvxvr8gjAErYJGEw
-	YLSQLoaHpsQwzGWhPQ93IAlUw0O3+rJVn3f2IXguw2v82LV0VumonB5BUcLprfRZ7A+QRAOC4+a
-	/X0iGndcVgcQVHwkISuYuBwSKnmFogdb7Daj2qPMdxBmwocRksL2ls9V5POqFOlVinMpKcOeWtA
-	ftaeCUC1krMSARvqw2QQvjIaJMMkn3hiJh2lU3YmdaPk4mg2tnPTiDqYonyIjY5B54BAF4ZzKmm
-	aO06H9HBBQgVeJKHXA5mxP0PB3H12RxRg8MYLYfb9ZpyqPdQN7PYEUIXc92gP0+KGS/69Ol8/Sx
-	3y6JSz5cGYG//LdeduIhmT00fJNnZ8HrA5ez2ND2Wp/x1+tuGSdNsOiclQ92u9ooj+uFAdpV/Wc
-	Zg82wHwUvdSsvXjBgs6ygH9XbXyW6cJOA=
-X-Received: by 2002:a17:902:c94c:b0:2b2:be01:5532 with SMTP id d9443c01a7336-2bf3686d1dcmr41074635ad.35.1780134293228;
-        Sat, 30 May 2026 02:44:53 -0700 (PDT)
+        bh=UsfY8GRrXZdSk9lyMdgzW2ibIF3DXFt06J5TGlB1HVc=;
+        b=dulUKAgesUnC0LDwX7CGtjVLtZVZwjs8Vzi0CvxqCWZgMrnTc2nPHwINu9AUDLVLBo
+         d/NtYmqS/OWVvcugVtO/DU+oCR/4vYyfVynCc2SUEESfdr8SElPAKfsbLDj7VwJJgm4x
+         HvTN6BFqJqYYJMEl7fPfLYOHSJFsW1QxxkC8F4Qc9glxEiLDi7pyOmRTn8IeS9vSZqab
+         85KBN9ytXszTkYYP5qVL3QuKtdvU86uOxQw0almpSWMSRdFi5uOXIhOALg/4GmqcV8Ng
+         1cWOWQUvMDVjeuUvu8BOReEqomrdaK0jSs1Uafg821cQc4wY6MdDeyuN02x/AruJefCS
+         SnOQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8CkFEvzR38XTO25k8yxYou86aW3TI8x5vqc310ocknGfXngAOEVT2rI8xb7B+RqnqaV8LtoIlFJcR7yg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyR02icQ94kRZe/h2rvXnhkTc+O2OG2ryC9VYwsv6RHQyYigKeu
+	VrVFUOaFsbzNpY/zX8tgjc2wh+8Q9mJ8K/t7sDLJs72kBhrYH56SB5bTmVXCdg==
+X-Gm-Gg: Acq92OET64ReYr/CEeVrPNd3OpjQu8zPYm8vyvpO71hEmlyOdBhxT14fg2ZXoDe4djm
+	LcxLXd2OFdSzucPhyitDe9M+ZGYupen+p+emsgHC5t/dt1H/V6KqoVMPzrHpcbJPuA2XZIIj1ab
+	7vLNvAHaWhccI9t4bYsy0k0rflZksgtLEWpE2PMNmfGYoEQfK0HsTdr8I9Bhd3aiiI0ovHn8BR/
+	ricH4beHjq3oeQt02Mzg2ijES83aADxjkGM6z4OVeiy5SO8PjWZ5y7aUX5jN2I9eM9ysMUQ5yxU
+	yNa5dvmhD9SFiTAzur19BbkDcWtucatJdOycpQXOuvknPpiQdq04wZrW6jPKcMkwbRnA5LsAt+9
+	YTDMsQ7MIy6vp7cYJO6ECwRJM87vF06wQGFmodTwetY9vVaxoiW4fgaw0/FI0pC/wJYJX5UH4Wc
+	AHLZP0Ja6ucy9HgLoht3lKXdVr7SUfQW2g1/Aun8CyLQ==
+X-Received: by 2002:a17:903:32cc:b0:2bf:23ad:8598 with SMTP id d9443c01a7336-2bf3679336dmr37430715ad.5.1780134306001;
+        Sat, 30 May 2026 02:45:06 -0700 (PDT)
 Received: from rockpi-5b ([45.112.0.191])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf239e700csm61529945ad.10.2026.05.30.02.44.46
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf239e700csm61529945ad.10.2026.05.30.02.44.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 30 May 2026 02:44:52 -0700 (PDT)
+        Sat, 30 May 2026 02:45:05 -0700 (PDT)
 From: Anand Moon <linux.amoon@gmail.com>
 To: Neil Armstrong <neil.armstrong@linaro.org>,
 	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -99,9 +99,9 @@ To: Neil Armstrong <neil.armstrong@linaro.org>,
 Cc: Anand Moon <linux.amoon@gmail.com>,
 	Nicolas Dufresne <nicolas@ndufresne.ca>,
 	Sashiko <sashiko-bot@kernel.org>
-Subject: [PATCH v6 5/8] media: meson: vdec: Cancel esparser work during teardown
-Date: Sat, 30 May 2026 15:12:51 +0530
-Message-ID: <20260530094326.11892-6-linux.amoon@gmail.com>
+Subject: [PATCH v6 6/8] media: meson: vdec: Configure DMA mask and segment size in probe
+Date: Sat, 30 May 2026 15:12:52 +0530
+Message-ID: <20260530094326.11892-7-linux.amoon@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260530094326.11892-1-linux.amoon@gmail.com>
 References: <20260530094326.11892-1-linux.amoon@gmail.com>
@@ -111,60 +111,55 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63107-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[linaro.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,baylibre.com,googlemail.com,linuxfoundation.org,lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[gmail.com,ndufresne.ca,kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[22];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-63108-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,ndufresne.ca,kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[linaro.org,linux.intel.com,kernel.org,suse.de,gmail.com,ffwll.ch,baylibre.com,googlemail.com,linuxfoundation.org,lists.freedesktop.org,lists.infradead.org,vger.kernel.org,lists.linux.dev];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FROM_NEQ_ENVFROM(0.00)[linuxamoon@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-0.999];
+	NEURAL_HAM(-0.00)[-0.993];
 	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,ndufresne.ca:email]
-X-Rspamd-Queue-Id: CA54E60BF36
+X-Rspamd-Queue-Id: BE3EB60BF45
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-The esparser workqueue could remain active during error unwind,
-streaming stop, or device close, leading to use‑after‑free when
-work items accessed freed session memory.
+The vdec probe routine did not set explicit DMA constraints,
+leaving the driver dependent on platform defaults. This could
+cause allocation failures or fragmented buffer handling on
+systems with stricter DMA limits.
 
-Fix this by explicitly cancelling the work in all teardown paths:
+Fix this by:
+- Setting a 64 bit coherent DMA mask with
+  dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64)).
+- Configuring the maximum contiguous segment size to UINT_MAX
+  via vb2_dma_contig_set_max_seg_size().
 
-- Call cancel_work_sync(&sess->esparser_queue_work) in
-  vdec_start_streaming() error unwind, vdec_stop_streaming(),
-  and vdec_close().
-- Ensure the workqueue is drained before releasing session
-  state and buffers.
-- Move codec_ops->drain() evaluation earlier in stop_streaming()
-  using the status snapshot, so draining occurs before buffer
-  cleanup.
-
-Following change prevents dangling work execution, eliminates
-use‑after‑free hazards, and ensures orderly teardown of decoder
-resources.
+This aligns the driver with common DMA setup practices and guarantees
+large buffer allocations work reliably across platforms.
 
 Cc: Nicolas Dufresne <nicolas@ndufresne.ca>
 Reported-by: Sashiko <sashiko-bot@kernel.org>
@@ -172,70 +167,29 @@ Closes: https://lore.kernel.org/all/20260521090944.F35401F00A3D@smtp.kernel.org/
 Fixes: 3e7f51bd9607 ("media: meson: add v4l2 m2m video decoder driver")
 Signed-off-by: Anand Moon <linux.amoon@gmail.com>
 ---
- drivers/staging/media/meson/vdec/vdec.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ drivers/staging/media/meson/vdec/vdec.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-index 698a95566ad2..4884ee04b352 100644
+index 4884ee04b352..f99335effe17 100644
 --- a/drivers/staging/media/meson/vdec/vdec.c
 +++ b/drivers/staging/media/meson/vdec/vdec.c
-@@ -380,6 +380,8 @@ static int vdec_start_streaming(struct vb2_queue *q, unsigned int count)
- 			  sess->vififo_vaddr, sess->vififo_paddr);
- 	sess->vififo_vaddr = NULL;
- bufs_done:
-+	cancel_work_sync(&sess->esparser_queue_work);
-+
- 	mutex_lock(&core->lock);
- 	if (core->cur_sess == sess)
- 		core->cur_sess = NULL;
-@@ -437,6 +439,8 @@ static void vdec_stop_streaming(struct vb2_queue *q)
- 	struct vb2_v4l2_buffer *buf;
- 	enum amvdec_status old_status;
+@@ -1064,6 +1064,15 @@ static int vdec_probe(struct platform_device *pdev)
+ 	if (IS_ERR(core->canvas))
+ 		return PTR_ERR(core->canvas);
  
-+	cancel_work_sync(&sess->esparser_queue_work);
++	ret = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
++	if (ret)
++		return dev_err_probe(dev, ret, "Failed to set DMA mask\n");
 +
- 	/*
- 	 * Safely snapshot the status and clear the hardware owner inside
- 	 * the mutex to prevent data races with concurrent STREAMON requests.
-@@ -448,7 +452,11 @@ static void vdec_stop_streaming(struct vb2_queue *q)
- 	sess->status = STATUS_STOPPED;
- 	mutex_unlock(&core->lock);
++	ret = vb2_dma_contig_set_max_seg_size(dev, UINT_MAX);
++	if (ret)
++		return dev_err_probe(dev, ret,
++				     "Failed to set DMA max segment size\n");
++
+ 	of_id = of_match_node(vdec_dt_match, dev->of_node);
+ 	core->platform = of_id->data;
  
--	/* Evaluate the hardware state using our snapshot */
-+	if (q->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
-+		if (old_status >= STATUS_RUNNING && codec_ops->drain)
-+			codec_ops->drain(sess);
-+	}
-+
- 	if (old_status == STATUS_RUNNING ||
- 	    old_status == STATUS_INIT ||
- 	    (old_status == STATUS_NEEDS_RESUME &&
-@@ -472,16 +480,10 @@ static void vdec_stop_streaming(struct vb2_queue *q)
- 	if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
- 		while ((buf = v4l2_m2m_src_buf_remove(sess->m2m_ctx)))
- 			v4l2_m2m_buf_done(buf, VB2_BUF_STATE_ERROR);
--
- 		sess->streamon_out = 0;
- 	} else {
--		/* Drain remaining refs if was still running using the snapshot */
--		if (old_status >= STATUS_RUNNING && codec_ops->drain)
--			codec_ops->drain(sess);
--
- 		while ((buf = v4l2_m2m_dst_buf_remove(sess->m2m_ctx)))
- 			v4l2_m2m_buf_done(buf, VB2_BUF_STATE_ERROR);
--
- 		sess->streamon_cap = 0;
- 	}
- }
-@@ -967,6 +969,8 @@ static int vdec_close(struct file *file)
- {
- 	struct amvdec_session *sess = file_to_amvdec_session(file);
- 
-+	cancel_work_sync(&sess->esparser_queue_work);
-+
- 	v4l2_m2m_ctx_release(sess->m2m_ctx);
- 	v4l2_fh_del(&sess->fh, file);
- 	v4l2_fh_exit(&sess->fh);
 -- 
 2.50.1
 
