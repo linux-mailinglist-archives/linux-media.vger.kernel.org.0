@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-63116-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63117-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wzBGISbDGmoi8QgAu9opvQ
-	(envelope-from <linux-media+bounces-63116-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 12:59:50 +0200
+	id OFqvE9HFGmpw8QgAu9opvQ
+	(envelope-from <linux-media+bounces-63117-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 13:11:13 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D805B60C4F3
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 12:59:49 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4ECA60C62C
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 13:11:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 27594302167A
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 10:59:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9EF07301E218
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 11:10:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0A733750BD;
-	Sat, 30 May 2026 10:59:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BACF39B489;
+	Sat, 30 May 2026 11:10:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n5XAxFWq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E3YU0GSJ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36EF123D7E6
-	for <linux-media@vger.kernel.org>; Sat, 30 May 2026 10:59:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C512C3A8734
+	for <linux-media@vger.kernel.org>; Sat, 30 May 2026 11:10:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780138787; cv=none; b=QQrAMCOh2LGkkNOVp8gv8pXE5pI25mpF8sINEVZcKIm02b5MHV1PNlZt556GhOdwig/EXs0VmTk+BSbX59LM700eHYZ4b8aPpvfwoDO146btghOdSG8DRa/B38W2j0DDQhiXAv85qDPPwL0m4zev8uhfpUTdYqrbCMF3Ix3GNdc=
+	t=1780139424; cv=none; b=OfAmw9SQJHemUm+oT5MREHN5w2pj2qQiUg5C9QT8yqFENIaTim6KPldIbOPikZJCj+2LgKLj6fWoA/KUl4cmahggAHh3wmTBhV9wv8EKilyXvtpBsHikrdFl2k+f92r5PqbLn2e1OME1by0Ej0KLiNBQ8eQrStz8C0n5goQxeTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780138787; c=relaxed/simple;
-	bh=kfSBwzpLFNjcsxptLNwi24dZh924A2QpUdwfWkN9R3w=;
+	s=arc-20240116; t=1780139424; c=relaxed/simple;
+	bh=tqYFsiyiOTI3wib+NAngYkKunkiI4TSEPNfrzQ7CWi8=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=qFJfOPdeVV23f36b9v2X60y8LMjEhNhkz/uUBQugj4VXHLJ0J8nTk7AdPOwuD1kuZMWGgAhltJdfxks7DSxl1fQfvW5JRurSLeSPD+FysXPHdsBYL3slQcEibDuvjlVQ0JMMzxUknuO1TjCdwnAWeKXYZ+mUcv6pbXhsWsznQCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n5XAxFWq; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95F941F00898;
-	Sat, 30 May 2026 10:59:45 +0000 (UTC)
+	 Message-Id; b=Dmme6IYYEDdZuH4vC6bYz69ntYUNuoTsA6eh+0RC2JVTmn2yrossdBLMrg/YV89a5teRhOne3/3UjpOfA1JGw7omoeOHirNmOfWZpOMLHtdomnHKELGCnZPUJw+rjpGnwQxp9NzWpAqm3SseP8G7cd3dlvZ57VFf9G5YeAY54fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E3YU0GSJ; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C6D71F00893;
+	Sat, 30 May 2026 11:10:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780138785;
-	bh=dLJElK0DaXy94pgcBF1T68oVr+X826YV1J+ElotE7A8=;
+	s=k20260515; t=1780139423;
+	bh=cRidFqpaHYJwIgtkoGwGJAGfQh466yyG3vrix1ctLvE=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=n5XAxFWqlhK8StMCr+XCiwwAcmip+nF/LHoA7CsShuvJcrO75G1Ep28B1hwgo49wA
-	 Etq3bVo5/apY9R93AUShEIijhxmGyRE61Ubef5xQGdHVHoT11DenioqaGY3G2Evfvl
-	 TFzlWeKCxI0XeoMWSDl26JvlCb6uzCqa50RKD88uN5J5Z2WToNya/daRP4r2qJ3N24
-	 jt9egXAsJz065D19e3NTZL5JqcBdbm2gOB8fhtJQ5s7ngaW5aceM2v9BK3+9PK04/t
-	 x/NbR7u7t7UcIjPAUC4JU/3CmgIZgXdEoJH/K59bGsq6bD7wdv8icP5nurx9G/Rfr9
-	 vX8tY/vx8NdtA==
+	b=E3YU0GSJ3vEJvpjuF5qE+6zz37Ya7Iow9ybJp/xzhEmwl9kfzFYOf31VH4x+/IBoU
+	 LCyEjPNSAbr76mYhj0JD2sXlb3dCj6HGrvUMuJaXwleK8NZ3UfThPxbwswAaafWV9K
+	 xAtBCf/ZyajOpXzjbD7fA8pqUsOWy9b0apnb79FplU0XnAXkcSsCOAxT3ASat7NhYk
+	 6PsDOE7iV/TIBKkBCusupxNMht7LI4dboY9BnLJXsTpGAdIlHH5jGtY4Z8a8teMSmO
+	 DGLD2yY6ZgyCR3PSz4Xtm2YbVlV9RKfieGaFmdXVMeGAW/5lpxIscdMLQhQPyE/n0p
+	 9ywOSZnbbsmZg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 5/8] media: meson: vdec: Cancel esparser work during
- teardown
+Subject: Re: [PATCH v6 6/8] media: meson: vdec: Configure DMA mask and
+ segment size in probe
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Anand Moon" <linux.amoon@gmail.com>
-Cc: neil.armstrong@linaro.org, linux-amlogic@lists.infradead.org, linux-media@vger.kernel.org
-In-Reply-To: <20260530094326.11892-6-linux.amoon@gmail.com>
-References: <20260530094326.11892-6-linux.amoon@gmail.com>
+Cc: linux-media@vger.kernel.org, neil.armstrong@linaro.org, linux-amlogic@lists.infradead.org
+In-Reply-To: <20260530094326.11892-7-linux.amoon@gmail.com>
+References: <20260530094326.11892-7-linux.amoon@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 30 May 2026 10:59:45 +0000
-Message-Id: <20260530105945.95F941F00898@smtp.kernel.org>
+Date: Sat, 30 May 2026 11:10:22 +0000
+Message-Id: <20260530111022.9C6D71F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,14 +67,14 @@ X-Spamd-Result: default: False [1.34 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63116-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63117-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
@@ -91,11 +91,11 @@ X-Spamd-Result: default: False [1.34 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_NO_DN(0.00)[];
 	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCPT_COUNT_THREE(0.00)[4];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,smtp.kernel.org:mid,lists.linux.dev:replyto,sashiko.dev:url]
-X-Rspamd-Queue-Id: D805B60C4F3
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.linux.dev:replyto,smtp.kernel.org:mid,sashiko.dev:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: A4ECA60C62C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -103,100 +103,88 @@ Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
 
 New issues:
-- [High] Calling `cancel_work_sync(&sess->esparser_queue_work)` while holdi=
-ng the session lock (`sess->lock`) causes a guaranteed AB-BA deadlock if th=
-e `esparser_queue_all_src` work is executing.
+- [Critical] Applying a 64-bit DMA mask causes silent physical address trun=
+cation and memory corruption, as the hardware and driver only support 32-bi=
+t addresses.
 
 Pre-existing issues:
-- [Critical] Prematurely clearing the hardware owner `core->cur_sess` intro=
-duces a critical race condition that can corrupt hardware state and disable=
- clocks for concurrent sessions.
+- [High] The vdec driver stores a raw pointer to the `meson_canvas` device =
+without linking the devices or holding a reference, leading to a Use-After-=
+Free if the canvas provider unbinds.
 --
 
-commit 20f0925bb191ee052dd2907764b22c2e4a352074
+commit 895ef453d9c75df04fd40367102f8eafce76e013
 Author: Anand Moon <linux.amoon@gmail.com>
 
-media: meson: vdec: Cancel esparser work during teardown
+media: meson: vdec: Configure DMA mask and segment size in probe
 
-This commit adds cancel_work_sync() calls during streaming stop, error unwi=
-nd,
-and device close. It aims to prevent use-after-free hazards by ensuring the
-esparser workqueue is drained before releasing session state and buffers.
+The vdec probe routine did not set explicit DMA constraints, leaving the
+driver dependent on platform defaults. This could cause allocation failures
+or fragmented buffer handling on systems with stricter DMA limits. This
+change configures a 64-bit DMA mask and sets the maximum contiguous segment
+size to UINT_MAX.
 
 Closes: https://lore.kernel.org/all/20260521090944.F35401F00A3D@smtp.kernel=
 .org/
 
 > diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/me=
 dia/meson/vdec/vdec.c
-> index 698a95566ad27..4884ee04b3529 100644
+> index 4884ee04b3529..f99335effe176 100644
 > --- a/drivers/staging/media/meson/vdec/vdec.c
 > +++ b/drivers/staging/media/meson/vdec/vdec.c
-> @@ -380,6 +380,8 @@ static int vdec_start_streaming(struct vb2_queue *q, =
-unsigned int count)
->  			  sess->vififo_vaddr, sess->vififo_paddr);
->  	sess->vififo_vaddr =3D NULL;
->  bufs_done:
-> +	cancel_work_sync(&sess->esparser_queue_work);
-> +
+> @@ -1064,6 +1064,15 @@ static int vdec_probe(struct platform_device *pdev)
+>  	if (IS_ERR(core->canvas))
+>  		return PTR_ERR(core->canvas);
 
 [Severity: High]
-Does this code introduce a deadlock? The V4L2 core acquires the queue lock
-(sess->lock) before calling vdec_start_streaming() or vdec_stop_streaming().
+This isn't a bug introduced by this patch, but can we experience a
+use-after-free here if the canvas provider unbinds?
 
-If cancel_work_sync() is called here while the ioctl thread holds sess->loc=
-k,
-and the worker thread is currently executing:
+Looking at meson_canvas_get(), the reference to the provider device is
+dropped immediately before returning the internal canvas pointer:
 
-drivers/staging/media/meson/vdec/esparser.c:esparser_queue_all_src() {
+drivers/soc/amlogic/meson-canvas.c:meson_canvas_get() {
     ...
-    mutex_lock(&sess->lock);
-    ...
+    put_device(&canvas_pdev->dev);
+    return canvas;
+}
 
-Could the worker thread block indefinitely waiting for sess->lock, while the
-ioctl thread blocks indefinitely in cancel_work_sync() waiting for the work=
-er
-to complete?
+Since the vdec driver stores this pointer in core->canvas but does not
+establish a device link or hold a module reference, what prevents the
+canvas memory from being freed by devres while the vdec driver is still
+using it?
 
->  	mutex_lock(&core->lock);
->  	if (core->cur_sess =3D=3D sess)
->  		core->cur_sess =3D NULL;
-
-[ ... ]
-
-> @@ -437,6 +439,8 @@ static void vdec_stop_streaming(struct vb2_queue *q)
->  	struct vb2_v4l2_buffer *buf;
->  	enum amvdec_status old_status;
 > =20
-> +	cancel_work_sync(&sess->esparser_queue_work);
-> +
->  	/*
->  	 * Safely snapshot the status and clear the hardware owner inside
->  	 * the mutex to prevent data races with concurrent STREAMON requests.
-> @@ -448,7 +452,11 @@ static void vdec_stop_streaming(struct vb2_queue *q)
->  	sess->status =3D STATUS_STOPPED;
->  	mutex_unlock(&core->lock);
+> +	ret =3D dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
 
 [Severity: Critical]
-This isn't a bug introduced by this patch, but does prematurely clearing
-core->cur_sess here introduce a race condition?
+Will setting a 64-bit DMA mask cause silent physical address truncation?
 
-Since core->cur_sess is set to NULL under core->lock, but the hardware
-teardown via vdec_poweroff() executes later after releasing the lock, could
-a concurrent STREAMON from a different session acquire core->cur_sess and
-execute vdec_poweron()?
+The Meson VDEC hardware natively uses 32-bit registers for DMA addresses,
+and the driver's helper functions strictly accept 32-bit values:
 
-This sequence would cause vdec_poweroff() of the old session and
-vdec_poweron() of the new session to execute simultaneously, potentially
-leading to conflicting hardware accesses and disabling clocks for the
-concurrent session.
+drivers/staging/media/meson/vdec/vdec_helpers.h:
+void amvdec_write_dos(struct amvdec_core *core, u32 reg, u32 val);
 
-> -	/* Evaluate the hardware state using our snapshot */
-> +	if (q->type !=3D V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
-> +		if (old_status >=3D STATUS_RUNNING && codec_ops->drain)
-> +			codec_ops->drain(sess);
-> +	}
+If the DMA API allocates memory buffers at physical addresses above 4GB,
+their 64-bit addresses will be implicitly truncated to 32 bits when passed
+to the hardware registers.
+
+Can this lead to the hardware reading or writing to incorrect physical
+memory locations in the lower 4GB?
+
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "Failed to set DMA mask\n");
+> +
+> +	ret =3D vb2_dma_contig_set_max_seg_size(dev, UINT_MAX);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret,
+> +				     "Failed to set DMA max segment size\n");
+> +
+>  	of_id =3D of_match_node(vdec_dt_match, dev->of_node);
+>  	core->platform =3D of_id->data;
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260530094326.1189=
-2-1-linux.amoon@gmail.com?part=3D5
+2-1-linux.amoon@gmail.com?part=3D6
 
