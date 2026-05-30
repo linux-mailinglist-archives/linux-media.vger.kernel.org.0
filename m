@@ -1,283 +1,354 @@
-Return-Path: <linux-media+bounces-63094-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63095-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id DCCCB0NDGmpy2ggAu9opvQ
-	(envelope-from <linux-media+bounces-63094-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 03:54:11 +0200
+	id 45yfFnRwGmqf4QgAu9opvQ
+	(envelope-from <linux-media+bounces-63095-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 07:07:00 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B151560AD78
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 03:54:08 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9FDB60B4D6
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 07:06:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1559A30180BB
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 01:52:09 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 31CFE302C760
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 05:06:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D6743090F4;
-	Sat, 30 May 2026 01:52:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2415534B662;
+	Sat, 30 May 2026 05:06:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bln1yPc9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KCxyOpqQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2611EB5FD
-	for <linux-media@vger.kernel.org>; Sat, 30 May 2026 01:52:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14AD82E1EE0
+	for <linux-media@vger.kernel.org>; Sat, 30 May 2026 05:06:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780105927; cv=none; b=boSIBGeTDRiK/Yik624QTN66c6XL774HtMARdClwFiidNX4nZnKVfE4r0NOKt6M/OOeudwr/pmwnBJRhcmITnwORvbYLLfiH7+g3NrOtJOrLhDdZ2bOLFPmIU6/QwwpRiYvpL5YKgPETUAXl4NRtd1+2tuRGShSSOxLKPv0hV2M=
+	t=1780117617; cv=none; b=AO9S6nWUEZB8vJu1J/v+l0CCBTp5UBl2A5UpSXqIeisgK8hgH4JVDqrE3IylIClQ145Me3OAdd8h0vc1iuLP8jKTIa9ednPxWdQ1SlUQ4QVWMQmGEFOx180COkOF9x6HGqhQn7Qfah/0qZg4wEdYD4mI8DpxYZs1+aos0yiaysQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780105927; c=relaxed/simple;
-	bh=bMrkPrcIgUUBoxnPGxbtwORBe8hBlyge55cuq3XiLu8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=cGlKAizH64jJ/LROMe/yulXvZXHJIjxZX0Uhc3COJv8eKHFgHcGYv46i3+QP0ZQKahrRITdxfKT7Twu3sx31NkrHNH2s+r4hI/7TTe7rBuhPQ+pAGdmP5R11SRPgzfQTcJkjUdd/+UWG5RDrB3SY/Zz07uN7K903zwEjT42dXTE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bln1yPc9; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780105926; x=1811641926;
-  h=date:from:to:cc:subject:message-id;
-  bh=bMrkPrcIgUUBoxnPGxbtwORBe8hBlyge55cuq3XiLu8=;
-  b=bln1yPc9uKZ+P+9iCXz3/irkWOF5sEsJ5vhlBXj4Dti+e7Nd1MKHZxiG
-   6rsspuZSq54wGqa7KnI5WCAI3LEa6y5936AY2NZFqJqZg8BvylmT3LdZE
-   Nqa7BYNuOaDB23X1yL4IVs3HmrAOG2hnlswIrOyeza91acXcIq0hvJbwd
-   FNdrjOmxVW4UIF9o7O05NcaL3CPXIQ41R7Ri20ZwyYp+4EivA8JYfMLQ0
-   heaWcrIC+OyYV8KPBzt/Gk60lbNLKoIdi6kSLOrDyeXCY5Pky2NWSy2eC
-   wdE/qJqMRtwN9taivL+L3eKyjmt/Xa0onukwNHyNJWJjeea361JyVKfsD
-   Q==;
-X-CSE-ConnectionGUID: gGudykDrStuO8dB/lOC6Zg==
-X-CSE-MsgGUID: 2AYcSUVGQT+ZB+oTSp3VSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11801"; a="80932768"
-X-IronPort-AV: E=Sophos;i="6.24,176,1774335600"; 
-   d="scan'208";a="80932768"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 May 2026 18:52:06 -0700
-X-CSE-ConnectionGUID: I1J4S5nXTxqJltUI6NeegQ==
-X-CSE-MsgGUID: DXsjEa2TQA6dDM3af2EdRw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,176,1774335600"; 
-   d="scan'208";a="266641939"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 29 May 2026 18:52:04 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wT8rp-000000007te-37rz;
-	Sat, 30 May 2026 01:52:01 +0000
-Date: Sat, 30 May 2026 09:51:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@kernel.org>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-pending:fixes] BUILD SUCCESS
- f78073e84c800ae146ce62447e7a685a5ceeb92d
-Message-ID: <202605300914.U4IJjPbT-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1780117617; c=relaxed/simple;
+	bh=cvP4uX/NT74dxgXZK9f+hLBK8LmC9dEiU7Put7J3lJo=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=H7dt/OoFt9+1Vcwe4oDMNIxrYPoofhc7NpsYtS/avWfnOGelRZzH6Wd3nOBOY749AFSRC9i8qZym+JYJ45xTk0WToS/aQNanEoGuuIClhuyc98SNAR6pHFLLjihnLWOlqi5qaMRDWGjtrvm+9COLNr8nUIsd58tU+9ckjyYKs1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KCxyOpqQ; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8E8F51F00893;
+	Sat, 30 May 2026 05:06:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780117615;
+	bh=rrJ8yTsqyxVCIKr8qQL4McXijOQ2bdZrb4ZvFDqPuRY=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=KCxyOpqQjln54xOXwvnQjMH49X+t+Blxdzg+4MCAIi64VLm/0l8v6sgNSNh915Z6U
+	 OC38G3kcJ8cD7o3gweVGTmUYLArIPAt7zZw7epecanyLSEANcSrLa8kwmyoYl/8y/Q
+	 fJnqzIjBG8Y+D5YxhaOTjIisPgXHz1fFJF/Bf/Bs7mN8nI3NMzYnqPfXZ7nHpPWhPz
+	 0sLGETlrnXGlOAAZfIjeew2kXWi2X6MZzlKTEgv/3EWnIAMDBQbzISmdkko26CKmgq
+	 5vY6KcPTBkVac+cXK4GuuevFtP8L/qKVPl/reR5gj4HlymmNop0rFHiGkIVv5wW+2q
+	 Txe+cYCDDaKPg==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v15 3/6] rust: drm: gem: Add vmap functions to shmem
+ bindings
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Lyude Paul" <lyude@redhat.com>
+Cc: ojeda@kernel.org, linux-media@vger.kernel.org
+In-Reply-To: <20260529183702.677677-4-lyude@redhat.com>
+References: <20260529183702.677677-4-lyude@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 30 May 2026 05:06:55 +0000
+Message-Id: <20260530050655.8E8F51F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	MISSING_MIME_VERSION(2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63094-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
+	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_FROM(0.00)[bounces-63095-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxtv.org:url]
-X-Rspamd-Queue-Id: B151560AD78
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NO_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,sashiko.dev:url,lists.linux.dev:replyto]
+X-Rspamd-Queue-Id: D9FDB60B4D6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-tree/branch: https://git.linuxtv.org/media-ci/media-pending.git fixes
-branch HEAD: f78073e84c800ae146ce62447e7a685a5ceeb92d  Revert "media: renesas: vsp1: brx: Fix format propagation"
-
-elapsed time: 742m
-
-configs tested: 158
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig    gcc-15.2.0
-alpha                            allyesconfig    gcc-15.2.0
-alpha                               defconfig    gcc-15.2.0
-arc                              allmodconfig    clang-16
-arc                               allnoconfig    gcc-15.2.0
-arc                              allyesconfig    clang-23
-arc                                 defconfig    gcc-15.2.0
-arc                   randconfig-001-20260530    gcc-14.3.0
-arc                   randconfig-002-20260530    gcc-14.3.0
-arm                               allnoconfig    gcc-15.2.0
-arm                              allyesconfig    clang-16
-arm                                 defconfig    gcc-15.2.0
-arm                   randconfig-001-20260530    gcc-14.3.0
-arm                   randconfig-002-20260530    gcc-14.3.0
-arm                   randconfig-003-20260530    gcc-14.3.0
-arm                   randconfig-004-20260530    gcc-14.3.0
-arm                             rpc_defconfig    clang-18
-arm64                            allmodconfig    clang-23
-arm64                             allnoconfig    gcc-15.2.0
-arm64                               defconfig    gcc-15.2.0
-arm64                 randconfig-001-20260530    gcc-8.5.0
-arm64                 randconfig-002-20260530    gcc-8.5.0
-arm64                 randconfig-003-20260530    gcc-8.5.0
-arm64                 randconfig-004-20260530    gcc-8.5.0
-csky                             allmodconfig    gcc-15.2.0
-csky                              allnoconfig    gcc-15.2.0
-csky                                defconfig    gcc-15.2.0
-csky                  randconfig-001-20260530    gcc-8.5.0
-csky                  randconfig-002-20260530    gcc-8.5.0
-hexagon                          allmodconfig    gcc-15.2.0
-hexagon                           allnoconfig    gcc-15.2.0
-hexagon                             defconfig    gcc-15.2.0
-hexagon               randconfig-001-20260530    clang-23
-hexagon               randconfig-002-20260530    clang-23
-i386                             allmodconfig    clang-20
-i386                              allnoconfig    gcc-15.2.0
-i386                             allyesconfig    clang-20
-i386        buildonly-randconfig-001-20260530    clang-20
-i386        buildonly-randconfig-002-20260530    clang-20
-i386        buildonly-randconfig-003-20260530    clang-20
-i386        buildonly-randconfig-004-20260530    clang-20
-i386        buildonly-randconfig-005-20260530    clang-20
-i386        buildonly-randconfig-006-20260530    clang-20
-i386                                defconfig    gcc-15.2.0
-i386                  randconfig-001-20260530    clang-20
-i386                  randconfig-002-20260530    clang-20
-i386                  randconfig-003-20260530    clang-20
-i386                  randconfig-004-20260530    clang-20
-i386                  randconfig-005-20260530    clang-20
-i386                  randconfig-006-20260530    clang-20
-i386                  randconfig-007-20260530    clang-20
-i386                  randconfig-011-20260530    clang-20
-i386                  randconfig-012-20260530    clang-20
-i386                  randconfig-013-20260530    clang-20
-i386                  randconfig-014-20260530    clang-20
-i386                  randconfig-015-20260530    clang-20
-i386                  randconfig-016-20260530    clang-20
-i386                  randconfig-017-20260530    clang-20
-loongarch                        allmodconfig    clang-23
-loongarch                         allnoconfig    gcc-15.2.0
-loongarch                           defconfig    clang-19
-loongarch             randconfig-001-20260530    clang-23
-loongarch             randconfig-002-20260530    clang-23
-m68k                             allmodconfig    gcc-15.2.0
-m68k                              allnoconfig    gcc-15.2.0
-m68k                             allyesconfig    clang-16
-m68k                                defconfig    clang-19
-microblaze                        allnoconfig    gcc-15.2.0
-microblaze                       allyesconfig    gcc-15.2.0
-microblaze                          defconfig    clang-19
-mips                             allmodconfig    gcc-15.2.0
-mips                              allnoconfig    gcc-15.2.0
-mips                             allyesconfig    gcc-15.2.0
-nios2                            allmodconfig    clang-23
-nios2                             allnoconfig    clang-23
-nios2                               defconfig    clang-19
-nios2                 randconfig-001-20260530    clang-23
-nios2                 randconfig-002-20260530    clang-23
-openrisc                         allmodconfig    clang-23
-openrisc                          allnoconfig    clang-23
-openrisc                            defconfig    gcc-15.2.0
-parisc                           allmodconfig    gcc-15.2.0
-parisc                            allnoconfig    clang-23
-parisc                           allyesconfig    clang-19
-parisc                              defconfig    gcc-15.2.0
-parisc                randconfig-001-20260530    gcc-8.5.0
-parisc                randconfig-002-20260530    gcc-8.5.0
-parisc64                            defconfig    clang-19
-powerpc                          allmodconfig    gcc-15.2.0
-powerpc                           allnoconfig    clang-23
-powerpc                     mpc83xx_defconfig    clang-23
-powerpc               randconfig-001-20260530    gcc-8.5.0
-powerpc               randconfig-002-20260530    gcc-8.5.0
-powerpc                    socrates_defconfig    gcc-15.2.0
-powerpc64             randconfig-001-20260530    gcc-8.5.0
-powerpc64             randconfig-002-20260530    gcc-8.5.0
-riscv                            allmodconfig    clang-23
-riscv                             allnoconfig    clang-23
-riscv                            allyesconfig    clang-16
-riscv                               defconfig    gcc-15.2.0
-riscv                 randconfig-001-20260530    gcc-12.5.0
-riscv                 randconfig-002-20260530    gcc-12.5.0
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-23
-s390                             allyesconfig    gcc-15.2.0
-s390                                defconfig    gcc-15.2.0
-s390                  randconfig-001-20260530    gcc-12.5.0
-s390                  randconfig-002-20260530    gcc-12.5.0
-sh                               allmodconfig    gcc-15.2.0
-sh                                allnoconfig    clang-23
-sh                               allyesconfig    clang-19
-sh                                  defconfig    gcc-14
-sh                    randconfig-001-20260530    gcc-12.5.0
-sh                    randconfig-002-20260530    gcc-12.5.0
-sparc                             allnoconfig    clang-23
-sparc                               defconfig    gcc-15.2.0
-sparc                 randconfig-001-20260530    gcc-9.5.0
-sparc                 randconfig-002-20260530    gcc-9.5.0
-sparc64                          allmodconfig    clang-23
-sparc64                             defconfig    gcc-14
-sparc64               randconfig-001-20260530    gcc-9.5.0
-sparc64               randconfig-002-20260530    gcc-9.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-23
-um                               allyesconfig    gcc-15.2.0
-um                                  defconfig    gcc-14
-um                             i386_defconfig    gcc-14
-um                    randconfig-001-20260530    gcc-9.5.0
-um                    randconfig-002-20260530    gcc-9.5.0
-um                           x86_64_defconfig    gcc-14
-x86_64                           allmodconfig    clang-20
-x86_64                            allnoconfig    clang-23
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20260530    gcc-14
-x86_64      buildonly-randconfig-002-20260530    gcc-14
-x86_64      buildonly-randconfig-003-20260530    gcc-14
-x86_64      buildonly-randconfig-004-20260530    gcc-14
-x86_64      buildonly-randconfig-005-20260530    gcc-14
-x86_64      buildonly-randconfig-006-20260530    gcc-14
-x86_64                              defconfig    gcc-14
-x86_64                                  kexec    clang-20
-x86_64                randconfig-071-20260530    gcc-14
-x86_64                randconfig-072-20260530    gcc-14
-x86_64                randconfig-073-20260530    gcc-14
-x86_64                randconfig-074-20260530    gcc-14
-x86_64                randconfig-075-20260530    gcc-14
-x86_64                randconfig-076-20260530    gcc-14
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-14
-x86_64                          rhel-9.4-func    clang-20
-x86_64                    rhel-9.4-kselftests    clang-20
-x86_64                         rhel-9.4-kunit    gcc-14
-x86_64                           rhel-9.4-ltp    gcc-14
-x86_64                          rhel-9.4-rust    clang-20
-xtensa                            allnoconfig    clang-23
-xtensa                           allyesconfig    clang-23
-xtensa                randconfig-001-20260530    gcc-9.5.0
-xtensa                randconfig-002-20260530    gcc-9.5.0
-
+Thank you for your contribution! Sashiko AI review found 6 potential issue(=
+s) to consider:
+- [Critical] Calling `Object::sg_table()` multiple times sequentially or co=
+ncurrently causes a Use-After-Free and Double Free of the GEM object's SG t=
+able due to eager evaluation.
+- [High] `SGTableMap::drop` can access the `Object` after it has been freed=
+ if the device is unbound concurrently with the GEM object's destruction (U=
+se-After-Free).
+- [High] The `IoCapable` implementation for `VMap` uses non-volatile memory=
+ accesses, enabling dangerous compiler optimizations on memory shared with =
+hardware.
+- [Medium] Using uninterruptible lock `DmaResvGuard` for `vmap` operations.
+- [Low] The patch introduces a call to an undefined C function `__drm_gem_s=
+hmem_free_sgt_locked`, breaking bisectability.
+- [Low] Returning `ENOTSUPP` instead of `EOPNOTSUPP` for unsupported I/O me=
+mory allocations.
 --
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+commit ff0ae9dbbc71a4912f8e6e6c487db7df45d250fb
+Author: Lyude Paul <lyude@redhat.com>
+
+rust: drm: gem: Add vmap functions to shmem bindings
+
+This commit adds vmap bindings for gem shmem objects in Rust, introducing
+owned and borrowed mappings similar to SGTables.
+
+> diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
+> index a116b0752e46a..494e0d0d8d0d6 100644
+> --- a/rust/kernel/drm/gem/shmem.rs
+> +++ b/rust/kernel/drm/gem/shmem.rs
+
+[ ... ]
+
+> @@ -170,22 +196,123 @@ extern "C" fn free_callback(obj: *mut bindings::dr=
+m_gem_object) {
+>          // - We verified above that `obj` is valid, which makes `this` v=
+alid
+>          // - This function is set in AllocOps, so we know that `this` is=
+ contained within a
+>          //   `Object<T>`
+> -        let this =3D unsafe { container_of!(Opaque::cast_from(this), Sel=
+f, obj) }.cast_mut();
+> +        let this =3D unsafe { container_of!(Opaque::cast_from(base), Sel=
+f, obj) }.cast_mut();
+> +
+> +        // We need to reset `sgt_res` first, since doing so requires tha=
+t the GEM object is still
+> +        // alive.
+> +        // SAFETY:
+> +        // - We verified above that `this` is valid.
+> +        // - `&mut (*this)` does not implement Unpin.
+> +        unsafe { Pin::new_unchecked(&mut (*this).sgt_res) }.reset();
+
+[Severity: High]
+If the device is unbound concurrently with the GEM object's destruction, do=
+es
+this reset() allow the devres callback to access the Object after it has
+been freed? Since the devres callback might already be executing and has
+extracted the value, reset() could complete without waiting, proceeding to
+free the Object memory while SGTableMap::drop later dereferences the freed
+pointer.
+
+> +
+> +        // SAFETY:
+> +        // - We're in free_callback - so this function is safe to call.
+> +        // - We won't be using the gem resources on `this` after this ca=
+ll.
+> +        unsafe { bindings::drm_gem_shmem_release(base) };
+> =20
+>          // SAFETY: We're recovering the Kbox<> we created in gem_create_=
+object()
+>          let _ =3D unsafe { KBox::from_raw(this) };
+>      }
+> +
+> +    /// Attempt to create a vmap from the gem object, and confirm the si=
+ze of said vmap.
+> +    fn make_vmap<'a, R, const SIZE: usize>(&'a self) -> Result<VMap<T, R=
+, SIZE>>
+> +    where
+> +        R: Deref<Target =3D Self> + From<&'a Self>,
+> +    {
+> +        // INVARIANT: We check here that the gem object is at least as l=
+arge as `SIZE`.
+> +        if self.size() < SIZE {
+> +            return Err(ENOSPC);
+> +        }
+> +
+> +        let mut map: MaybeUninit<bindings::iosys_map> =3D MaybeUninit::u=
+ninit();
+> +        let guard =3D DmaResvGuard::new(self);
+
+[Severity: Medium]
+Is it safe to use the uninterruptible DmaResvGuard::new() here? This is a
+user-triggerable path (creating a vmap), and acquiring the dma_resv lock
+uninterruptibly might cause unkillable tasks during heavy lock contention.
+The C helper drm_gem_shmem_vmap uses the interruptible version.
+
+> +
+> +        // SAFETY: drm_gem_shmem_vmap can be called with the DMA reserva=
+tion lock held
+> +        to_result(unsafe {
+> +            bindings::drm_gem_shmem_vmap_locked(self.as_raw_shmem(), map=
+.as_mut_ptr())
+> +        })?;
+> +
+> +        // Drop the guard explicitly here, since we may need to call raw=
+_vunmap() (which re-acquires
+> +        // the lock).
+> +        drop(guard);
+> +
+> +        // SAFETY: The call to drm_gem_shmem_vmap_locked succeeded above=
+, so we are guaranteed that
+> +        // map is properly initialized.
+> +        let map =3D unsafe { map.assume_init() };
+> +
+> +        // XXX: We don't currently support iomem allocations
+> +        if map.is_iomem {
+> +            // SAFETY:
+> +            // - The vmap operation above succeeded, guaranteeing that `=
+map` points to a valid
+> +            //   memory mapping.
+> +            // - We checked that this is an iomem allocation, making it =
+safe to read vaddr_iomem
+> +            unsafe { self.raw_vunmap(map) };
+> +
+> +            Err(ENOTSUPP)
+
+[Severity: Low]
+Should this return EOPNOTSUPP instead? ENOTSUPP is an internal kernel
+error code that shouldn't be returned to userspace, as it can cause
+unexpected behavior in libc if propagated through an ioctl.
+
+> +        } else {
+> +            Ok(VMap {
+> +                // SAFETY: We checked that this is not an iomem allocati=
+on, making it safe to read
+> +                // vaddr
+> +                addr: unsafe { map.__bindgen_anon_1.vaddr },
+> +                owner: self.into(),
+> +            })
+> +        }
+> +    }
+
+[ ... ]
+
+> +    pub fn sg_table<'a>(
+> +        &'a self,
+> +        dev: &'a device::Device<Bound>,
+> +    ) -> Result<&'a scatterlist::SGTable> {
+> +        if dev.as_raw() !=3D self.dev().as_ref().as_raw() {
+> +            return Err(EINVAL);
+> +        }
+> +
+> +        match self.sgt_res.init(Devres::new(dev, SGTableMap::new(self)))=
+ {
+
+[Severity: Critical]
+Could this lead to a double-free of the SG table? In Rust, function
+arguments are evaluated eagerly. SGTableMap::new(self) executes
+unconditionally before LazyInit::init checks if it is already initialized.
+
+If sgt_res is already initialized, init() will return AlreadyInit, and the
+newly instantiated SGTableMap argument will be dropped. The Drop impl for
+SGTableMap unconditionally frees the shared shmem->sgt, which would leave
+the first SGTableMap instance holding a dangling reference.
+
+> +            Ok(ret) | Err(LazyInitError::AlreadyInit(ret)) =3D> Ok(ret.a=
+ccess(dev)?),
+> +            Err(LazyInitError::DuringInit(e)) =3D> Err(e),
+> +        }
+> +    }
+>  }
+
+[ ... ]
+
+> +macro_rules! impl_vmap_io_capable {
+> +    ($impl:ident, $ty:ty) =3D> {
+> +        impl<D, R, const SIZE: usize> IoCapable<$ty> for $impl<D, R, SIZ=
+E>
+> +        where
+> +            D: DriverObject,
+> +            R: Deref<Target =3D Object<D>>,
+> +        {
+> +            #[inline(always)]
+> +            unsafe fn io_read(&self, address: usize) -> $ty {
+> +                let ptr =3D address as *mut $ty;
+> +
+> +                // SAFETY: The safety contract of `io_read` guarantees t=
+hat address is a valid
+> +                // address within the bounds of `Self` of at least the s=
+ize of $ty, and is properly
+> +                // aligned.
+> +                unsafe { ptr::read(ptr) }
+
+[Severity: High]
+Does using standard non-volatile ptr::read() enable dangerous compiler
+optimizations here? The memory mapped via a GEM object is shared with
+hardware and is often mapped as Write-Combine. Standard accesses might
+allow the compiler to hoist reads out of loops or split reads. The C
+implementation uses READ_ONCE() to prevent this.
+
+> +            }
+> +
+> +            #[inline(always)]
+> +            unsafe fn io_write(&self, value: $ty, address: usize) {
+> +                let ptr =3D address as *mut $ty;
+> +
+> +                // SAFETY: The safety contract of `io_write` guarantees =
+that address is a valid
+> +                // address within the bounds of `Self` of at least the s=
+ize of $ty, and is properly
+> +                // aligned.
+> +                unsafe { ptr::write(ptr, value) }
+
+[Severity: High]
+Similarly, does ptr::write() risk the compiler eliminating stores it
+deems dead? Using WRITE_ONCE() would ensure the memory accesses happen
+exactly as specified for hardware-shared memory.
+
+> +            }
+> +        }
+> +    };
+> +}
+
+[ ... ]
+
+> +impl<T: DriverObject> Drop for SGTableMap<T> {
+> +    fn drop(&mut self) {
+> +        // SAFETY: `obj` is always valid via our type invariants
+> +        let obj =3D unsafe { self.obj.as_ref() };
+
+[Severity: High]
+If the devres callback executes this concurrently with
+Object::free_callback resetting the sgt_res, is it possible that this
+dereferences a raw pointer to an Object that has just been freed?
+
+> +        let _lock =3D DmaResvGuard::new(obj);
+> +
+> +        // SAFETY: We acquired the lock needed for calling this function=
+ above
+> +        unsafe { bindings::__drm_gem_shmem_free_sgt_locked(obj.as_raw_sh=
+mem()) };
+
+[Severity: Low]
+Does this break bisectability? The function
+__drm_gem_shmem_free_sgt_locked() does not seem to be defined in the C
+headers at this commit.
+
+> +    }
+> +}
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260529183702.6776=
+77-1-lyude@redhat.com?part=3D3
 
