@@ -1,60 +1,60 @@
-Return-Path: <linux-media+bounces-63138-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63139-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kLkxNFX6GmoC+QgAu9opvQ
-	(envelope-from <linux-media+bounces-63138-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:55:17 +0200
+	id gIJIAAj9GmpX+QgAu9opvQ
+	(envelope-from <linux-media+bounces-63139-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 17:06:48 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4964360D96E
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:55:16 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4775660DA64
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 17:06:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 92D553028F70
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 14:55:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BC96A3026740
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 15:06:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96CC03112BD;
-	Sat, 30 May 2026 14:55:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49DEA3002AB;
+	Sat, 30 May 2026 15:06:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JpaveJfQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PKIGo7Ad"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04FC13019A9
-	for <linux-media@vger.kernel.org>; Sat, 30 May 2026 14:54:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF163093C6
+	for <linux-media@vger.kernel.org>; Sat, 30 May 2026 15:06:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780152900; cv=none; b=NeSQfqNlbiwxFRvBzfyPiY6sqSIKKHEu5BblIIvJirMQa6NQH+qV8YGcK63c3ki1Fk+1su6XGyp16+kYztOfFLMoL8GYnQaCMic8RUEZDQHbhqXEhcsU53eJXg3zFCrjFwyWu9XkBQGLfxEEXYBmT8Sb7GEtH05bG1HVqmJwMk8=
+	t=1780153585; cv=none; b=ndDsoAeHezxb3RnSOL78CYCONL57OwbwcM+L1shiWtxVl6YMWIPewdQPk9r3dYpscEADNjqNG0LpNayrOH/NnE4/w2jGkleVhpHE49G/Yr3okmHTZUF1MwuBGTj4oVcuBHezUhzdzlaxKW5Nwc/OvVGjmX489xoha66MHiRNJMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780152900; c=relaxed/simple;
-	bh=41iZbpTaYdRqJNutZInkcL+szP9563jC66hvl5BjZhM=;
+	s=arc-20240116; t=1780153585; c=relaxed/simple;
+	bh=HIyWHxYLXZNg/c6l1z/0l9ommiZTcuYmF4H/53c+uHk=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=gXYNBeKmMcOutCRr8TP0zIMmSWrHnn5WXLQSs1eJ/nqb9iJEcpVae1LgLCCuwil9xt9lZb519Nn/IB3c9FFkFqGdwRgkj1vwwD61nJCfs4O5A5SanQva/P22q5Nv7NFDyGeT/NlSPiwtfnkXmQnjiPMQLCKHAdEB8xShU4CxDX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JpaveJfQ; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81FAA1F00893;
-	Sat, 30 May 2026 14:54:58 +0000 (UTC)
+	 Message-Id; b=PBkEWkEZrcm/n/EyItbfg2r9WIiABh8HOYHG4dGVM6o1tMUPYUQ4eCjWHpilepEK7g4ZGhTljdOMSBE9ZYLFL1ShecGNY8FFIq6jj6jOIWPgJVzbPemO9BUTPaTT2/CM4fBQCFQsJk2kT/zV707ZykRt7CZYz20eVEdGvaV4+64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PKIGo7Ad; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 393FC1F00893;
+	Sat, 30 May 2026 15:06:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780152898;
-	bh=ogyNf3jiJQaja6gtEM7xgF1i6zflrZsS5mTT96zBiAU=;
+	s=k20260515; t=1780153582;
+	bh=VAqIyrmvuzHHk9D3eLJaA8Psc/ewn49nLxW/zDyacQc=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=JpaveJfQNMmVoyvjbMUyGxkQblyz2mCJ7nSFNVd+ZNt6EilOTVMsY8X4t6rhcGk8I
-	 5HNF0kfM1PZe2yN0PsJx6yNBYEmSldygD56cfrTW4NFI1SqsA80VKTjzmC/teVFhmw
-	 z7+iHTM9bHqTPqPED62zKXRqyUlQOfPdG0Zma1IZFL9ZPiD8tPm+6ZINAtSAzk54h0
-	 K/KwUMf/h7KDps1FZRTQZf07yjV5UAQneHLla9VSSSYCSWJ9K3y/2P3TmD3j/PaK34
-	 eQSZeszJ2GLcc0FsDGCi8zXJxKPhjDRpn0W2t4ehfvxVhni5BiZdMqEpNEJ7mEuACA
-	 H4bnLmluF6yYQ==
+	b=PKIGo7AdAUvY7wUHTwS1TGm8w6AhA4GxnavDdA2sKSSrrnpiGFPjtJ82tsnEE9QxP
+	 /iq5SAbSUStnG34XtK+FmJpUtAqZpyWXomrHQ2TpjLHNftuELWymhRsr08/8R41wkc
+	 Xq9iwziVFyAzyboddVcmo7/tQJUpI5UyHczHm+KnNmvbwK0kWzcu9cZk0K2u0pfHxB
+	 AQxxHqL9qBpirlujkUWLt9Z+fIdeblHQLS3P4LgAKePz9S/85NwBGz7PLU1jgmq/c+
+	 /fKwS4Yq0r8M7hwwlTOC4dXOxUs0lmykcnDcKl3ikMmslA++zwqqpxJFX63Fn0l6ac
+	 ha2F4aWzDLQOg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/4] rust: rcu: add RcuBox type
+Subject: Re: [PATCH 3/4] rust: Add dma_fence abstractions
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Philipp Stanner" <phasta@kernel.org>
-Cc: ojeda@kernel.org, linux-media@vger.kernel.org
-In-Reply-To: <20260530143541.229628-4-phasta@kernel.org>
-References: <20260530143541.229628-4-phasta@kernel.org>
+Cc: linux-media@vger.kernel.org, ojeda@kernel.org
+In-Reply-To: <20260530143541.229628-5-phasta@kernel.org>
+References: <20260530143541.229628-5-phasta@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 30 May 2026 14:54:58 +0000
-Message-Id: <20260530145458.81FAA1F00893@smtp.kernel.org>
+Date: Sat, 30 May 2026 15:06:21 +0000
+Message-Id: <20260530150622.393FC1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,153 +64,200 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MISSING_MIME_VERSION(2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63139-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63138-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	REPLYTO_DN_EQ_FROM_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
 	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MISSING_XM_UA(0.00)[];
 	RCPT_COUNT_THREE(0.00)[3];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FROM_NO_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 4964360D96E
+	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev]
+X-Rspamd-Queue-Id: 4775660DA64
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+Thank you for your contribution! Sashiko AI review found 4 potential issue(=
 s) to consider:
-- [Critical] `RcuBox::into_foreign` consumes `self` by value without preven=
-ting its destructor from running, causing immediate RCU freeing of the acti=
-ve allocation.
-- [High] `RcuBox` defers the execution of the inner value's destructor usin=
-g RCU but fails to restrict the value to the `'static` lifetime, allowing u=
-se-after-free on stack references.
-- [High] `ForeignOwnableRcu` implementation for `RcuBox<T>` does not requir=
-e `T: Sync`, allowing data races on `!Sync` types.
+- [Critical] DriverFence::drop eagerly drops FenceCtx and user data before =
+the C dma_fence refcount reaches 0, leading to a Use-After-Free.
+- [High] FenceCtx::drop unconditionally calls rcu_barrier(), causing a 'sch=
+eduling while atomic' panic when a DriverFence is dropped from an interrupt=
+ handler or under a spinlock.
+- [High] DriverFence::drop() passes a positive error code (ECANCELED) to dm=
+a_fence_set_error(), triggering a WARN_ON and misconfiguring the error stat=
+e.
+- [High] DriverFence::as_raw and DriverFenceBorrow::as_raw create exclusive=
+ mutable references (&mut) to actively shared data, causing Rust aliasing U=
+ndefined Behavior.
 --
 
-commit 81791c9c93af881931b7e9c9ed0d885ba31c73cb
-Author: Alice Ryhl <aliceryhl@google.com>
+commit bf1d1a15337629cfe74eaeb7d34f6878de552428
+Author: Philipp Stanner <phasta@kernel.org>
+Subject: rust: Add dma_fence abstractions
 
-rust: rcu: add RcuBox type
+This commit introduces Rust abstractions for the dma_fence framework. It
+provides DriverFence, Fence, and FenceCtx types to decouple fence issuers
+from consumers and safely manage synchronization primitives required by
+GPU drivers.
 
-This adds an RcuBox container, which is like KBox except that the value
-is freed with kfree_rcu. To allow containers to rely on the rcu properties
-of RcuBox, an extension of ForeignOwnable is added.
-
-> diff --git a/rust/kernel/sync/rcu/rcu_box.rs b/rust/kernel/sync/rcu/rcu_b=
-ox.rs
+> diff --git a/rust/kernel/dma_buf/dma_fence.rs b/rust/kernel/dma_buf/dma_f=
+ence.rs
 > new file mode 100644
-> index 0000000000000..2508fdb609ecc
 > --- /dev/null
-> +++ b/rust/kernel/sync/rcu/rcu_box.rs
+> +++ b/rust/kernel/dma_buf/dma_fence.rs
 
 [ ... ]
 
-> +/// A box that is freed with rcu.
-> +///
-> +/// The value must be `Send`, as rcu may drop it on another thread.
-> +///
-> +/// # Invariants
-> +///
-> +/// * The pointer is valid and references a pinned `RcuBoxInner<T>` allo=
-cated with `kmalloc`.
-> +/// * This `RcuBox` holds exclusive permissions to rcu free the allocati=
-on.
-> +pub struct RcuBox<T: Send>(NonNull<RcuBoxInner<T>>);
+> +#[pinned_drop]
+> +impl<F: Send + Sync, C: Send + Sync> PinnedDrop for FenceCtx<F, C> {
+> +    fn drop(self: Pin<&mut Self>) {
+> +        // SAFETY: `rcu_barrier()` is always safe to be called.
+> +        unsafe { bindings::rcu_barrier() };
 
 [Severity: High]
-Does RcuBox need a 'static bound on T here?
+Does calling rcu_barrier() here risk a scheduling-while-atomic panic?
 
-RcuBox defers the execution of the inner value's destructor using RCU via
-call_rcu, but the definition lacks a 'static bound on T. This means the Rust
-compiler would permit short-lived local references (e.g., &'a mut i32) to be
-stored inside types wrapped by RcuBox.
+Since DriverFence::signal() consumes self, the DriverFence will be dropped
+at the end of the method. If this happens in an atomic context (such as an
+interrupt handler or under a spinlock), and it holds the last reference to
+the FenceCtx, dropping it triggers FenceCtx::drop().
 
-Since the actual destructor of T is executed asynchronously in the RCU
-callback, it may occur after the local variables it references have been
-popped from the stack. If T's destructor accesses those references, it will
-read or write to freed stack memory.
+Because rcu_barrier() blocks and sleeps until all pending RCU callbacks
+complete, this could attempt to sleep in atomic context.
 
-[ ... ]
-
-> +// SAFETY:
-> +// * The `RcuBoxInner<T>` was allocated with `kmalloc`.
-> +// * `NonNull::as_ptr` returns a non-null pointer.
-> +unsafe impl<T: Send + 'static> ForeignOwnable for RcuBox<T> {
-> +    const FOREIGN_ALIGN: usize =3D <KBox<RcuBoxInner<T>> as ForeignOwnab=
-le>::FOREIGN_ALIGN;
-> +
-> +    type Borrowed<'a> =3D &'a T;
-> +    type BorrowedMut<'a> =3D &'a T;
-> +
-> +    fn into_foreign(self) -> *mut c_void {
-> +        self.0.as_ptr().cast()
-> +    }
-
-[Severity: Critical]
-Does this code inadvertently run the destructor of RcuBox during
-into_foreign()?
-
-Since this method takes self by value and doesn't explicitly wrap it in
-core::mem::ManuallyDrop or call core::mem::forget(self), the object will
-be dropped at the end of the method's scope.
-
-This would invoke RcuBox::drop immediately, enqueuing a call to
-bindings::call_rcu or bindings::kvfree_call_rcu before returning the
-pointer. Any subsequent access by C code reading the published pointer
-would result in a use-after-free, and calling from_foreign() and dropping
-it again would cause a double-free.
-
-> +
-> +    unsafe fn from_foreign(ptr: *mut c_void) -> Self {
-
-[ ... ]
-
-> +impl<T: Send + 'static> ForeignOwnableRcu for RcuBox<T> {
-
-[Severity: High]
-Should this trait implementation also require T: Sync?
-
-The ForeignOwnableRcu trait is designed to allow concurrent RCU readers to
-safely borrow the underlying data, with rcu_borrow() returning &'a T.
-
-Because RCU allows multiple threads to execute read-side critical sections
-concurrently, multiple CPUs can concurrently call rcu_borrow on the same
-pointer. If T is not Sync (e.g., Cell<i32>), this could result in multiple
-&T references to a !Sync type across different threads, allowing concurrent
-mutation through shared references.
-
-> +    type RcuBorrowed<'a> =3D &'a T;
-> +
-> +    unsafe fn rcu_borrow<'a>(ptr: *mut c_void) -> &'a T {
-> +        // SAFETY: `RcuBox::drop` can only run after `from_foreign` is c=
-alled, and the value is
-> +        // valid until `RcuBox::drop` plus one grace period.
-> +        unsafe { &(*ptr.cast::<RcuBoxInner<T>>()).value }
 > +    }
 > +}
 
+[ ... ]
+
+> +impl<F: Send + Sync, C: Send + Sync> DriverFence<F, C> {
+> +    fn as_raw(&self) -> *mut bindings::dma_fence {
+> +        // SAFETY: Valid because `self` is valid.
+> +        let fence_data =3D unsafe { &mut *self.data.as_ptr() };
+
+[Severity: High]
+Does this create an exclusive mutable reference to actively shared memory?
+
+DriverFenceData can be accessed concurrently by other threads holding Fence
+references (for instance, when checking if the fence is signaled). Creating
+a mutable reference (&mut) in Rust asserts exclusive access and violates
+aliasing rules, which allows the compiler to make invalid optimization
+assumptions.
+
+Could this use an immutable reference &*self.data.as_ptr() instead?
+
+> +
+> +        fence_data.inner.inner.get()
+> +    }
+
+[ ... ]
+
+> +impl<F: Send + Sync, C: Send + Sync> DriverFenceBorrow<F, C> {
+> +    fn as_raw(&self) -> *mut bindings::dma_fence {
+> +        // SAFETY: Valid because `self` is valid.
+> +        let fence_data =3D unsafe { &mut *self.data.as_ptr() };
+
+[Severity: High]
+Similar to DriverFence::as_raw(), does this also incorrectly create a
+mutable reference to shared data?
+
+> +
+> +        fence_data.inner.inner.get()
+> +    }
+
+[ ... ]
+
+> +impl<F: Send + Sync, C: Send + Sync> Drop for DriverFence<F, C> {
+> +    fn drop(&mut self) {
+> +        let fence =3D self.as_raw();
+> +        let mut fence_flags: usize =3D 0;
+> +        let flag_ptr =3D &raw mut fence_flags;
+> +
+> +        // SAFETY: Once a `DriverFence` is initialized, the inner `fence=
+` is
+> +        // valid and initialized. It is valid until the refcount drops
+> +        // to 0, which can earliest happen once the `DriverFence` has be=
+en dropped.
+> +        unsafe {
+> +            bindings::dma_fence_lock_irqsave(fence, flag_ptr);
+> +            #[allow(unused_unsafe)]
+> +            if warn_on!(!bindings::dma_fence_is_signaled_locked(fence)) {
+> +                bindings::dma_fence_set_error(fence, ECANCELED as i32);
+
+[Severity: High]
+Is it intentional to pass a positive error code here?
+
+bindings::ECANCELED evaluates to a positive integer, but
+dma_fence_set_error() expects a negative error code (and triggers a WARN_ON
+for positive values). A positive value might also be interpreted as success
+by callers checking for values < 0.
+
+Should this be - (bindings::ECANCELED as i32)?
+
+> +                bindings::dma_fence_signal_locked(fence);
+> +            }
+> +            bindings::dma_fence_unlock_irqrestore(fence, flag_ptr);
+> +        }
+> +
+> +        // SAFETY: `self.data` is owned by the DriverFence, but could be=
+ accessed
+> +        // through some dma_fence callbacks right now. Access is being r=
+evoked
+> +        // above by signalling the fence. The DriverFenceAllowedData tra=
+it
+> +        // ensures that the data either does not need drop, or if it doe=
+s it
+> +        // lives in a RcuBox which will delay dropping by one grace peri=
+od, hence
+> +        // ensuring that all readers have disappeared.
+> +        unsafe { drop_in_place(self.data.as_ptr()) };
+
+[Severity: Critical]
+Could this eagerly drop FenceCtx and user data before the C dma_fence
+refcount reaches 0?
+
+The C dma_fence object can remain alive as long as consumers (like sync_file
+or the GPU scheduler) hold references to it. If the backend later invokes
+callbacks like ops->get_driver_name(), FenceCtx::get_driver_name() would
+attempt to read fctx.driver_name from the already-dropped FenceCtx:
+
+FenceCtx::get_driver_name() {
+    ...
+    fctx.driver_name.as_char_ptr()
+}
+
+Can this result in a use-after-free?
+
+> +
+> +        // SAFETY: Once a `DriverFence` is initialized, the inner `fence=
+` is
+> +        // valid and initialized. It is valid until the refcount drops
+> +        // to 0, which can earliest happen once the `DriverFence` has be=
+en dropped.
+> +        unsafe {
+> +            bindings::dma_fence_put(fence);
+> +        }
+
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260530143541.2296=
-28-2-phasta@kernel.org?part=3D2
+28-2-phasta@kernel.org?part=3D3
 
