@@ -1,245 +1,182 @@
-Return-Path: <linux-media+bounces-63098-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63099-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QIE9Aep6GmrW4ggAu9opvQ
-	(envelope-from <linux-media+bounces-63098-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 07:51:38 +0200
+	id vAifFhqgGmoI6QgAu9opvQ
+	(envelope-from <linux-media+bounces-63099-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 10:30:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58FBA60B58E
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 07:51:36 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCEAE60BB23
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 10:30:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id ED71E303AF05
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 05:50:29 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 93BE530566A5
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 08:30:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E0DA2580F2;
-	Sat, 30 May 2026 05:50:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 422D03976B8;
+	Sat, 30 May 2026 08:30:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e45XiW77"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nzbFGrL0"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0074A219303
-	for <linux-media@vger.kernel.org>; Sat, 30 May 2026 05:50:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 710883976BA
+	for <linux-media@vger.kernel.org>; Sat, 30 May 2026 08:30:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780120229; cv=none; b=ZKOQM9B50p+WczVe+KUFGSVQYBJactQMlE7TYsAXFU44ICaQHF3FDGAXaF77cYAeeEg6Zy1WocIgx8838+L+OLqbcQDBTu11Qf+6YcUsA1qA1UePslWsI1jU3J4n991bvYULThG0ipS7EWuR4mynh1wUdXgTjXyCNVb43QDo7o4=
+	t=1780129810; cv=none; b=FfsUycuwjUL0313CtrV8E1r48B01/jkI09wsrXdXb47WxIecHruf48ET5abAxZXIHkhjFndmnbsFDT4CfribGNoUSxuw26d7lIKGOTv4R895w3JXx+a4TrDn/UQlRBB9Vw/V2t25k+llCYpRMlKcM4aTUlRQkHWsv6LDWqe0G1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780120229; c=relaxed/simple;
-	bh=HqdpIWDBXiQCki9mNT42IA9nM4U8ePLD34SIC5IIRCo=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=eFVcr7Qgt3u00/9v8n3IA3WozZehOYX/vcwH67n2sE+VAcJs9jWoXVyhwdDBZxO8ZbKYhj/8wOkyOVvy8HogvvnS6WlIBgs0TY5t3IYuIuVoHXl/BN70kggHlPmVB7oxxjR3eDDYrT3G4PD1ZnTYeceBCunAtE5LB1CvxhgSeAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e45XiW77; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B09A1F00893;
-	Sat, 30 May 2026 05:50:27 +0000 (UTC)
+	s=arc-20240116; t=1780129810; c=relaxed/simple;
+	bh=/3pLUo1hW6YedR8nRoTaCJlkplvJs3IjADIubhcEbp4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=STsFqNTJ5Vg6m1TPIRcuFxm83WirFPlhrHYqWTGpL4pvAtnmmxZVyRR3ooC5eq582Ja1X9eLzGhSxAHmEjdDNB3KfsfnjNf5gsRY4lFXecMzRciP4EFVPRuD/JgiiozMNcUx3I8hiKuibgFbIxJUUGEz1iiG21tNDOGeEXEkV7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nzbFGrL0; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 587E61F00893;
+	Sat, 30 May 2026 08:30:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780120227;
-	bh=EqgKkxkf00+LTAUc6BGP2Zt5MLy2/I7GMhyyjVyL+EI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=e45XiW77K7N3RKmCKFXiBThz/n9wxlY/WBYUP/UoIAvZ2OP4kXqO8lbO1XGfH6xI2
-	 3h2fV25drch/X+AriX6OMuakXA3fIHsx4d/lGXC0Sz6RUgN6D+z/ekT3xnKvbapmMq
-	 1KDGnUGrl2bZV2n7EfSMvu/OB4PYvSrK1SCAhDSpMZlACMdYlTV1A6SQwNKWVY5Mqn
-	 40YBYqqwuGM6MOOyM2d2JaXkdbeXXhMTBmIOo25nTZguzzrMs6PgsUUWCXw+wEB1VG
-	 W/ssF4N4KxOl4dj0Bn5SsMsCchxylwGC3znHjauU0RED73RxZkTOVVisQvw8W2Lfd/
-	 Cx4QNzw8qw6CQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v15 6/6] rust: drm: gem: Introduce
- shmem::Object::sg_table()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Lyude Paul" <lyude@redhat.com>
-Cc: linux-media@vger.kernel.org, ojeda@kernel.org
-In-Reply-To: <20260529183702.677677-7-lyude@redhat.com>
-References: <20260529183702.677677-7-lyude@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 30 May 2026 05:50:27 +0000
-Message-Id: <20260530055027.6B09A1F00893@smtp.kernel.org>
+	s=k20260515; t=1780129809;
+	bh=BESCNZoSjaZLTpboEdx7c/NZJ+2TODsTplTMlnnkCV8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=nzbFGrL002328mwxia9+De7S7OQAKJSg2Ao6UMmTBCtZZr8IX9ztsdXKZvjbDI6Q7
+	 sz3neL1csQSoNPHYNpKgiYOlG8XQM4IIkPx1Tj2qJVfGl/IZag7O8XZ+b1CBD7mNn2
+	 nfnBMsvZyJQUKXRcfEbzZgT4WRug5qSBh1uhFSDDrw29VBoBUWdcYKesRZmYhdFZrF
+	 WT1F81ToirNwmAKAyrdrDHLAs1XYeCz16ra1bYQt+gcABQ4GYdoPmfj+xaeFsxuu3B
+	 frMUWiW19gExkopJxBqLeAUCSwHWRtPevDIKkbiM+K+gj0s4F9z+ogaf67nBS84yPt
+	 X1yL6DHAV6Heg==
+Date: Sat, 30 May 2026 10:30:04 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Derek Barbosa <debarbos@redhat.com>, Roman Gushchin
+ <roman.gushchin@linux.dev>, Konstantin Ryabitsev
+ <konstantin@linuxfoundation.org>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Steven Rostedt <rostedt@goodmis.org>,
+ users@kernel.org, Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: Linking Patchwork with Sashiko?
+Message-ID: <20260530103004.6fe2ffa7@foz.lan>
+In-Reply-To: <ahmwUk0uXTkdwohf@debarbos-thinkpadt14gen5.rmtusma.csb>
+References: <20260528144627.1ae09ff2@foz.lan>
+	<1372F826-5513-4EB2-AE27-1DC0D2DE0AEB@linux.dev>
+	<20260529083100.6710b6cd@foz.lan>
+	<20260529083801.2c7e8990@foz.lan>
+	<ahmwUk0uXTkdwohf@debarbos-thinkpadt14gen5.rmtusma.csb>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	MISSING_MIME_VERSION(2.00)[];
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	SUBJECT_ENDS_QUESTION(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63098-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63099-lists,linux-media=lfdr.de,huawei];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_NO_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.linux.dev:replyto,smtp.kernel.org:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,sashiko.dev:url]
-X-Rspamd-Queue-Id: 58FBA60B58E
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,sashiko.dev:url]
+X-Rspamd-Queue-Id: BCEAE60BB23
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [High] Eager evaluation of `Devres::new` and `SGTableMap::new` inside `sg=
-_table()` causes a use-after-free of the scatterlist and leaking of page re=
-ferences.
-- [High] Concurrent device unbind and GEM object free causes Use-After-Free=
- of the GEM object in `SGTableMap::drop`.
-- [Low] The patch imports and uses `LazyInit`, `new_lazy_init`, and `LazyIn=
-itError` from `crate::sync`, but these are neither defined nor exported any=
-where in the tree.
---
+Hi Derek/Konstantin/Roman,
 
-commit 2d2d3346ec26b2ca8eba7a05f0577c63628921d0
-Author: Lyude Paul <lyude@redhat.com>
+On Fri, 29 May 2026 11:28:29 -0400
+Derek Barbosa <debarbos@redhat.com> wrote:
 
-rust: drm: gem: Introduce shmem::Object::sg_table()
+> Hi!
+> 
+> > 
+> > Forgot to mention, but at least on media patchwork, the best is for
+> > Sashiko to send an e-mail that would allow a local script to run it. 
+> > 
+> > The rationale is that patchwork permissions aren't fine-grained: only
+> > an user with a project maintainer token can update checks. Granting
+> > such permission would allow other changes at the repository, like
+> > delegating a patch, archiving it or changing its status.
+> > 
+> 
+> Thanks for the note. It will take me a minute-or-two to get up to speed here.
+> I'll reach out for any clarifying questions if that's OK :^)
 
-In order to do this, we need to be careful to ensure that any interface we
-expose for scatterlists ensures that any mappings created from one are
-destroyed on driver-unbind. To do this, we introduce a Devres resource into
-shmem::Object that we use in order to ensure that we release any SGTable
-mappings on driver-unbind.
+I added a bot parsing tool at:
+	https://github.com/mchehab/pw_tools
 
-> diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
-> index 494e0d0d8d0d6..5655c2a1ae8fb 100644
-> --- a/rust/kernel/drm/gem/shmem.rs
-> +++ b/rust/kernel/drm/gem/shmem.rs
+And ran it at the maildir with linux-media e-mails I have locally.
+It is currently set to parse e-mails from:
 
-[ ... ]
+	- LKP;
+	- Sysbot;
+	- Sashiko.
 
->      sync::{
->          aref::ARef,
->          new_lazy_init,
->          LazyInit,
->          LazyInitError, //
->      },
+You can see the results at:
+	https://patchwork.linuxtv.org/project/linux-media/list/
 
-[Severity: Low]
-Are these primitives defined somewhere else?  The patch imports and uses
-LazyInit, new_lazy_init, and LazyInitError from crate::sync, but these don't
-seem to be present in the tree or introduced anywhere in this patch series.
-Will this lead to a module resolution failure and compilation error?
+(most of the warnings there are from my parser)
 
-[ ... ]
+And this is how it looks when a patch with bot results is opened:
+	https://patchwork.linuxtv.org/project/linux-media/patch/20260529-milos-iris-v2-2-7a763d7195ae@pm.me/
 
->      extern "C" fn free_callback(obj: *mut bindings::drm_gem_object) {
->          // SAFETY:
->          // - DRM always passes a valid gem object here
->          // - We used drm_gem_shmem_create() in our create_gem_object cal=
-lback, so we know that
->          //   `obj` is contained within a drm_gem_shmem_object
->          let base =3D unsafe { container_of!(obj, bindings::drm_gem_shmem=
-_object, base) };
-> =20
->          // SAFETY:
->          // - We verified above that `obj` is valid, which makes `this` v=
-alid
->          // - This function is set in AllocOps, so we know that `this` is=
- contained within a
->          //   `Object<T>`
->          let this =3D unsafe { container_of!(Opaque::cast_from(base), Sel=
-f, obj) }.cast_mut();
-> =20
->          // We need to reset `sgt_res` first, since doing so requires tha=
-t the GEM object is still
->          // alive.
->          // SAFETY:
->          // - We verified above that `this` is valid.
->          // - `&mut (*this)` does not implement Unpin.
->          unsafe { Pin::new_unchecked(&mut (*this).sgt_res) }.reset();
+I didn't set yet any daemon to keep this updated. As I used my own
+token, all contexts were marked with my own ID.
 
-[Severity: High]
-Does this code introduce a race condition causing a use-after-free?
+There is one issue with the current process: if there aren't any
+warnings on a patch, like on this example:
 
-If drm_gem_object_put() triggers free_callback() concurrently with a device
-unbind, the device unbind thread's devres release callback calls
-Revocable::revoke().  This swaps is_available to false and blocks on
-synchronize_rcu() before dropping SGTableMap.
+	https://patchwork.linuxtv.org/project/linux-media/patch/20260529154357.18066-1-mohan86108@gmail.com/
 
-Concurrently, free_callback() calls sgt_res.reset(), which drops Devres.
-Devres::drop() calls revoke_nosync(), which sees is_available is already fa=
-lse
-and returns immediately without waiting for the unbind thread.
+There's no way to tell if Sashiko tested such patch or not. As I
+commented with Roman in a private discussion, ideally the best
+would be if Sashiko could produce a single per-patch-series email
+that would have something similar to this:
 
-Then free_callback() proceeds to call drm_gem_shmem_release() and frees the=
- GEM
-object memory.
+	Subject: Re: [PATCH v3 00/13] Improve process/maintainers output
+ 	Reply-to: <some_id>
+ 
+ 	Hi,
+ 
+ 	Sashiko robot found the following potencial issues:
 
-When the unbind thread finishes synchronize_rcu() and executes
-SGTableMap::drop(), could it dereference the freed GEM object memory
-to lock its dma_resv?
+	Patch 1/13 (<message_id): Success
+	Patch 2/13 (<message_id): Success
+	Patch 3/13 (<message_id): Success
+	Patch 4/13 (<message_id): Success
+	Patch 5/13 (<message_id): Success
 
-> =20
->          // SAFETY:
->          // - We're in free_callback - so this function is safe to call.
->          // - We won't be using the gem resources on `this` after this ca=
-ll.
->          unsafe { bindings::drm_gem_shmem_release(base) };
+ 	Patch 6/13 (<message_id): Warning: https://sashiko.dev/#/patchset/...
+	- [Low] The `self.field_prev` variable is assigned but never used
+	...
 
-[ ... ]
+	Patch 13/13: Success
 
->      pub fn sg_table<'a>(
->          &'a self,
->          dev: &'a device::Device<Bound>,
->      ) -> Result<&'a scatterlist::SGTable> {
->          if dev.as_raw() !=3D self.dev().as_ref().as_raw() {
->              return Err(EINVAL);
->          }
-> =20
->          match self.sgt_res.init(Devres::new(dev, SGTableMap::new(self)))=
- {
+ 	Please check if those issues are pertinent.
+  
+ 	Sashiko AI review 
 
-[Severity: High]
-Can eager evaluation cause a use-after-free and leaked page references here?
+E.g. it would contain success and warning status for each message
+ID inside a patch series. This is also ideal for me as a maintainer,
+as I can clearly see the low/mid/high issues detected by sashiko
+on a single e-mail.
 
-In Rust, function arguments are evaluated eagerly.  Devres::new allocates a=
-nd
-executes its initializer eagerly.  SGTableMap::new(self) evaluates its
-initializer, causing drm_gem_shmem_get_pages_sgt() to be called synchronous=
-ly
-every time sg_table() is executed, incrementing the page use count.
-
-If sgt_res is already initialized, init() returns LazyInitError::AlreadyInit
-and drops the newly created Devres argument.
-
-When Devres is dropped, it drops the inner SGTableMap, calling
-SGTableMap::drop(). This calls __drm_gem_shmem_free_sgt_locked(), which
-unconditionally unmaps and frees the shared shmem->sgt memory and sets it to
-NULL without decrementing the page use count.
-
-Does this leave the originally cached SGTableMap holding a reference to a N=
-ULL
-or freed shmem->sgt, which would cause a NULL pointer dereference or
-use-after-free the next time it's accessed?
-
->              Ok(ret) | Err(LazyInitError::AlreadyInit(ret)) =3D> Ok(ret.a=
-ccess(dev)?),
->              Err(LazyInitError::DuringInit(e)) =3D> Err(e),
->          }
->      }
->  }
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260529183702.6776=
-77-1-lyude@redhat.com?part=3D6
+Thanks,
+Mauro
 
