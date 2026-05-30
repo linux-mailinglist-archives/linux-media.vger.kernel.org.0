@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-63079-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63081-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YNolHW0zGmp+2AgAu9opvQ
-	(envelope-from <linux-media+bounces-63079-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 02:46:37 +0200
+	id YJ6JDiA0Gmp+2AgAu9opvQ
+	(envelope-from <linux-media+bounces-63081-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 02:49:36 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A3B660A4C1
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 02:46:36 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id C771460A651
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 02:49:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 50FF73024384
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 00:46:14 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B8DF530B237F
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 00:46:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9635259CB9;
-	Sat, 30 May 2026 00:46:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BF0030148B;
+	Sat, 30 May 2026 00:46:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="leeoZkVj"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GaxTetCI"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC9929D27D;
-	Sat, 30 May 2026 00:45:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88CEC2D8393;
+	Sat, 30 May 2026 00:46:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780101961; cv=none; b=Da5I+r8KVfEJUHjj4U7BA0IbDcfbPaNn8faEbF3lVqlmrNmTydQxR2jypqHX8JsyD1iUYzk1regLfZeghjJT2+5u0rkEoo909SBmWpLchsdo7XyXGmHL6Ycw946jc4B62YHSWD4SSIHT02A9BmpzvQM7zUjTppZoPTh/uafFFzY=
+	t=1780101964; cv=none; b=Br+u17Tma/rBkNtF31RIWZ23LFUfvtYx+FcoLl4B9NpIOY5q3VPza7VG+TrAz76T6vAtZWmcHqbssN3cJYjIHUB2TuN4umCpsSHUatIuiF5E0pDKivH4a1uYE7RDk6ku/n8lMDHyBtWAt5J+0sClPACrl9GJmPiPk9e+mtN7coM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780101961; c=relaxed/simple;
-	bh=ncJ2789ZxEManu0umNRfq8NgXuKtoilCWAr6G05xwaU=;
+	s=arc-20240116; t=1780101964; c=relaxed/simple;
+	bh=T6StIc+S7LmpMRyXVlAjVPZFElYigxub0A+lfzhMZoY=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=AR9jXBsGXXOTCyJEf7DBQULmrBjmu/vLkdHnyWivEL4oQj4qwEuKTXyVtohzwNWpMX4QiMO/z9gvSB5zwMUF2w1PmweKoJQE/3ZiAfgOBG/hFZJcGyduOCviZ0MtaYzFGysHjuke/iE5B/7MB7skPoFsDiwkGomfxIdVPhCvxGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=leeoZkVj; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A82371F00893;
-	Sat, 30 May 2026 00:45:58 +0000 (UTC)
+	 Message-Id; b=fMg7x9KCoGibLAlZeutALX1ez4r2oM6wtlpcde8c0UzhSx9BiPauarT8et0ihtfdkkjXfttut/Xsbx0CvaiqXy7+BBkiYZlYNzcX33e0B+AgxhLobL1fVKskq5hY8pnihF7IYSY6GP6SpVS6FEYQqto5n8tjBjENNZwyZ+xwI6A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GaxTetCI; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 430391F00899;
+	Sat, 30 May 2026 00:46:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780101959;
-	bh=2JOWVvGPu8d06NpwIW3hSQNiXstDCk/vkp0BSRFR6RY=;
+	s=k20260515; t=1780101961;
+	bh=s1vN3UitLlzLcD29lzcFPKhjjvtfv2O+YVSzGjb5VXg=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=leeoZkVjkxCCKvr0U2PNFo0a+Dg6KKjN3LuN4AGfcS4aTIJ8nxk4ZLJ158d0xQRBT
-	 OxvkrKhjGZPl2XyZeXERlkS4opM7vR9Ytde/f2XaQOo3FLzTzjadbFc2cDxXZ0luAr
-	 0dT+NEDvATSmwVQZGWjYMeS6OYHrRYv1gAcut9QI41VfD526wxobn4tvQ379iqt8K/
-	 KtFT8PpNSMpyumRyOMZb8l5g0Nqr8y97MiBYjT3TLyBkH0bidOd/GNDPKE9fwfkcaO
-	 scIE2SfYKJoVEaqsqrDxmQchflM6MTIXBF09YjIAz4htPHFtqKCrkpiOGnLL5t/zge
-	 Usgyqzy3dSjUQ==
+	b=GaxTetCIIOcASlpnP929drAaCahncV9klHyxTiHKs9Yvaz5pWpQr5OYu8cPgTKrXA
+	 0VP5bwQPqb7hBCNMOzxm4gEPBHJPb3+uXYNwe6wf/pxNCuAfhg/dgubCqCmv5dyQ9q
+	 p90bwwsbeAbMkEwSa9j4nrqct4VIs2bpWi9uIRbSweQlvJveRDUWgONybB7gurGl/u
+	 6Wsq5bfv4oeYkXhWnzy3VajGK0TsMuGrvu/C+VLNNzKr4QoL9F0qQ3NPun2VkfveTj
+	 w5X9LNJB4/3O+VV3bPANnHX6Cwx4L0FhwiMnQyjaPNU3GyLdMtqyeoLJVT9+JKDzbm
+	 k3BLXtNLN9aSQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 06/11] moduleparam: Add seq_buf-based .get callback
- alongside .get_str
+Subject: Re: [PATCH 08/11] params: Convert generic kernel_param_ops .get
+ helpers to seq_buf
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Kees Cook" <kees@kernel.org>
-Cc: vkoul@kernel.org, Frank.Li@kernel.org, dmaengine@vger.kernel.org, linux-media@vger.kernel.org, linux-modules@vger.kernel.org, linux-pci@vger.kernel.org, kvm@vger.kernel.org
-In-Reply-To: <20260521133326.2465264-6-kees@kernel.org>
-References: <20260521133326.2465264-6-kees@kernel.org>
+Cc: vkoul@kernel.org, dmaengine@vger.kernel.org, linux-modules@vger.kernel.org, linux-media@vger.kernel.org, kvm@vger.kernel.org, Frank.Li@kernel.org, linux-pci@vger.kernel.org
+In-Reply-To: <20260521133326.2465264-8-kees@kernel.org>
+References: <20260521133326.2465264-8-kees@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 30 May 2026 00:45:58 +0000
-Message-Id: <20260530004558.A82371F00893@smtp.kernel.org>
+Date: Sat, 30 May 2026 00:45:59 +0000
+Message-Id: <20260530004600.430391F00899@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,13 +66,13 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63079-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63081-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -88,85 +88,108 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
 	FROM_NO_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,sashiko.dev:url,smtp.kernel.org:mid,lists.linux.dev:replyto]
-X-Rspamd-Queue-Id: 1A3B660A4C1
+	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,sashiko.dev:url,lists.linux.dev:replyto,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: C771460A651
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] Silent data truncation and spurious kernel warning when the sysf=
-s buffer is exactly filled.
+- [High] Information Leak / Uninitialized Memory Disclosure in param_array_=
+get()
 --
 
-commit 6802395b5f9f236d2cc29365e6d39e6de2eae4ca
+commit 4bb10449d07e3a1b177001d61d53053c25dd4767
 Author: Kees Cook <kees@kernel.org>
 
-moduleparam: Add seq_buf-based .get callback alongside .get_str
+params: Convert generic kernel_param_ops .get helpers to seq_buf
 
-This commit adds a new seq_buf-based .get callback to struct kernel_param_o=
-ps=20
-to format parameter values safely. It updates param_attr_show() to prefer=20
-this new callback when available, using a page-sized buffer. The legacy=20
-.get_str callback is retained as a fallback.
+This commit converts the generic kernel parameter .get helpers in
+kernel/params.c to use the seq_buf signature instead of char pointers. It
+allows param_array_get to write element output directly into the parent
+seq_buf when supported, updating various dependent callers to match the new
+signature.
 
 > diff --git a/kernel/params.c b/kernel/params.c
-> index 6852caea17854..4eda2d23ddf28 100644
+> index 4eda2d23ddf28..25f0c8d5d19f3 100644
 > --- a/kernel/params.c
 > +++ b/kernel/params.c
 [ ... ]
-> @@ -553,12 +553,34 @@ static ssize_t param_attr_show(const struct module_=
-attribute *mattr,
+> @@ -453,36 +457,46 @@ static int param_array_set(const char *val, const s=
+truct kernel_param *kp)
 [ ... ]
->  	kernel_param_lock(mk->mod);
-> -	count =3D attribute->param->ops->get_str(buf, attribute->param);
-> +	if (ops->get) {
-> +		struct seq_buf s;
+> -static int param_array_get(char *buffer, const struct kernel_param *kp)
+> +static int param_array_get(struct seq_buf *s, const struct kernel_param =
+*kp)
+>  {
+[ ... ]
+> -	for (i =3D off =3D 0; i < (arr->num ? *arr->num : arr->max); i++) {
+> +	for (i =3D 0; i < (arr->num ? *arr->num : arr->max); i++) {
+> +		size_t before =3D s->len;
+> =20
+>  		p.arg =3D arr->elem + arr->elemsize * i;
+>  		check_kparam_locked(p.mod);
+> -		ret =3D arr->ops->get_str(elem_buf, &p);
+> -		if (ret < 0)
+> -			goto out;
+> -		ret =3D min(ret, (int)(PAGE_SIZE - 1 - off));
+> -		if (!ret)
 > +
-> +		seq_buf_init(&s, buf, PAGE_SIZE);
-> +		count =3D ops->get(&s, attribute->param);
-> +		if (count >=3D 0) {
-> +			WARN_ON_ONCE(count > 0);
-> +			count =3D seq_buf_used(&s);
-> +			/* Make sure string is terminated. */
-> +			seq_buf_str(&s);
-> +			/*
-> +			 * If overflowed, reduce count by 1 for trailing
-> +			 * NUL byte.
-> +			 */
-> +			if (seq_buf_has_overflowed(&s))
-> +				count--;
-
-[Severity: Medium]
-Does this code silently truncate data and trigger a kernel warning when the
-buffer is exactly filled?
-
-If the .get() callback writes exactly PAGE_SIZE bytes without triggering an
-overflow, seq_buf_has_overflowed(&s) will evaluate to false because s.len
-exactly equals s.size. In this case, count remains PAGE_SIZE.
-
-However, seq_buf_str(&s) unconditionally writes a NUL byte at the end of the
-buffer, which will replace the last byte of valid data at PAGE_SIZE - 1.
-
-Furthermore, returning PAGE_SIZE causes the sysfs core to print a bad count
-warning to dmesg and truncate the count anyway. Should this code explicitly
-decrement count when count =3D=3D PAGE_SIZE to avoid overwriting data and c=
-ausing
-the warning?
-
+> +		if (arr->ops->get) {
+> +			ret =3D arr->ops->get(s, &p);
+> +			if (ret < 0)
+> +				goto out;
+> +		} else {
+[ ... ]
+> +			ret =3D arr->ops->get_str(elem_buf, &p);
+> +			if (ret < 0)
+> +				goto out;
+> +			seq_buf_putmem(s, elem_buf, ret);
 > +		}
-> +	} else {
-> +		count =3D ops->get_str(buf, attribute->param);
-> +	}
->  	kernel_param_unlock(mk->mod);
->  	return count;
+> +
+> +		/* Nothing got written (e.g. overflow) =E2=80=94 stop. */
+> +		if (s->len =3D=3D before)
+>  			break;
+
+[Severity: High]
+When a seq_buf overflows, it calls seq_buf_set_overflow() which sets
+s->len =3D s->size. Because of this, does s->len actually equal before
+when an overflow occurs?
+
+If s->len becomes s->size, the condition s->len =3D=3D before will evaluate
+to false, causing the loop to continue for one more iteration rather than
+breaking. On the next iteration, before will be s->size, the write will
+fail again, and the loop will finally break.
+
+Because the overflow mechanism sets the length to the buffer size without
+actually writing data into the remaining space, could this leak uninitializ=
+ed
+kernel heap memory to userspace when sysfs returns the buffer?
+
+> +
+> +		/* Replace the previous element's trailing newline with a comma. */
+> -		if (i)
+> -			buffer[off - 1] =3D ',';
+> -		memcpy(buffer + off, elem_buf, ret);
+> -		off +=3D ret;
+> -		if (off =3D=3D PAGE_SIZE - 1)
+> -			break;
+> +		if (i && s->buffer[before - 1] =3D=3D '\n')
+> +			s->buffer[before - 1] =3D ',';
+>  	}
+> -	buffer[off] =3D '\0';
+> -	ret =3D off;
+> +	ret =3D 0;
+>  out:
+>  	kfree(elem_buf);
+>  return ret;
 >  }
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260521133315.work=
-.845-kees@kernel.org?part=3D6
+.845-kees@kernel.org?part=3D8
 
