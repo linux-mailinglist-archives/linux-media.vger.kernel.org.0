@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-63147-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63148-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YEDfJeklG2rO/QgAu9opvQ
-	(envelope-from <linux-media+bounces-63147-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 20:01:13 +0200
+	id gLETCwgzG2qqAAkAu9opvQ
+	(envelope-from <linux-media+bounces-63148-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 20:57:12 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99C34610D29
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 20:01:12 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6AAC612D1E
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 20:57:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 96F273004D01
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 18:00:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C1B343033F86
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 18:49:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B16D43C1977;
-	Sat, 30 May 2026 18:00:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8E27242D67;
+	Sat, 30 May 2026 18:49:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nWs7QtZd"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B1RGXnUo"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53463342CB3
-	for <linux-media@vger.kernel.org>; Sat, 30 May 2026 18:00:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 391A81D63E4
+	for <linux-media@vger.kernel.org>; Sat, 30 May 2026 18:49:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780164024; cv=none; b=rj/3Y1UPuVQqjyU3uOg14JXWgCpG3Dgybp1al0GzgWCbHr+LpokdM0KnkbZqKKTnLLVSsqDNC6APqrcyQ8cRaIxJM02VRTs+uRgYNuVk15S8I278KExSoGE7G3Awufn2iWl1bLHicXIBcnjRQQP+I383cJGIHVrLMbO6WjLDHhg=
+	t=1780166991; cv=none; b=uAxUdw2NzzLTRzQqubmET9xPmMDZgVrefIZR7ql360GsABS4IeUjQRfmljJYLV6JEdveNdrwO3dFVq85QfrCwqn+0Ky6j4+vT26oMBA/slCUze8rVxN+auUc9DQAJAONRBpoZ89P1eQ95tWkra3K56RFI4W0FFd0q+bPsTQZ6R0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780164024; c=relaxed/simple;
-	bh=7/XvxLcrEU9e7itf83nGhqk8SdGNlxP/QiO3sQXiVzU=;
+	s=arc-20240116; t=1780166991; c=relaxed/simple;
+	bh=4HGzWH3eYdvzPWBRkxAB+CQsPs7s9sDREb4PVPPmA44=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iJ2toxEGvrQz04TtDccZW/+1szs7mP8VkSfU/U9FqTbKtrZY5Rw67Lq88TZHBNpjL9E3+GSQMuVysBz1mHI25HlL/N0ZWy/oE+tddhdDx5wZDly/92RNcvEsA6F1Y6Cs1BYnvcNKGPODeEl6Yb5CVCpBZKB4FhVbuHsWjYvZJ1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nWs7QtZd; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E9EE1F00898;
-	Sat, 30 May 2026 18:00:20 +0000 (UTC)
+	 MIME-Version:Content-Type; b=jvcOnKtmc2JzonhZ5uAAfNvEIquHgQc6JeLxftbjm5iDaimMmEkdLFfW8LCVJgvDQF3CziqFwYskEikhjFHh5VqGOOJ5jOydgOrUU/Tk9kbkQCxmIo5O6+c+0f8SrKjD9Pd39s/WCd+9uDgPqcainFT9G3newWbShKv9FiiI8PM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B1RGXnUo; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E8571F00898;
+	Sat, 30 May 2026 18:49:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780164022;
-	bh=sB95AeAQB4DcmqKWYki8m9Y3cn29Y+9hpfDFO5Sf8B4=;
+	s=k20260515; t=1780166990;
+	bh=pg4OBm/UHh+7fflnrcjyUzAFqWRnHOb7i1lltJfil80=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=nWs7QtZdOJPt8soEo7iqhk+RNF6mU7T5jCimnfxKUOrYDvR2bf48LupS8VL6lcWuw
-	 8JsSCayMXd7A8w0zAhX3FgUAB3uIWPnZyrS3l2kwJr+yRAOX4A6giLV6IP+o93q3oE
-	 4BM8QjNn4zboJX3fKR31AteHrmas/sgvjvA6IUIKuBikT3323CZ/rzjW0K2k9OtqFo
-	 aPXlCa1p3LU1geHfAh0rsND4nujmeVoMbuWpjDpG/SMQR8nleTyTcW01ouuS1bexKM
-	 e219cJQbaPOaKDRueKIl6DmdNg2pI24B7/qroi8AXHRGW39+r52q86GOCmdPrrULAs
-	 YvoHPt+owEC8w==
-Date: Sat, 30 May 2026 20:00:17 +0200
+	b=B1RGXnUoi6qfPIYqYikjQvWhLndsu5DLsvVLVVzhdQVFS3ydiflC3MSuqLKTHfJmU
+	 RFbwIMo1HyexeSiT3zDHfoIwFwWysRH5oU2wSDzVdOnhu6wKFLT+4CJKHBNaNlVTri
+	 TuX5BA207741Vfot8fuc/mDe3KV6vQ0twtuL1nrN4+ynbJjyjnAoeX9lrfIVB+MzAE
+	 Kyx+9RYa/xWs2wvtJNh+vcqJbz2Yj5eR0RJjR3gXNjDIY9rYyTAPqwLWeBaLgTNPh0
+	 2VCsvHBJRVHGFUCiUa5Py83zL2NfMdNgTq/CxfXB8IPsex3D8+/9ZRTRrl68+3b1Gx
+	 +Uohz7APzvU7g==
+Date: Sat, 30 May 2026 20:49:45 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Roman Gushchin <roman.gushchin@linux.dev>
 Cc: Derek Barbosa <debarbos@redhat.com>, Konstantin Ryabitsev
@@ -52,10 +52,11 @@ Cc: Derek Barbosa <debarbos@redhat.com>, Konstantin Ryabitsev
  Rostedt <rostedt@goodmis.org>, users@kernel.org, Linux Media Mailing List
  <linux-media@vger.kernel.org>
 Subject: Re: Linking Patchwork with Sashiko?
-Message-ID: <20260530200017.0fe7f685@foz.lan>
-In-Reply-To: <7E971C76-0568-43EF-9EE7-C8DB78C45CA1@linux.dev>
+Message-ID: <20260530204945.22ac92c6@foz.lan>
+In-Reply-To: <20260530200017.0fe7f685@foz.lan>
 References: <20260530103004.6fe2ffa7@foz.lan>
 	<7E971C76-0568-43EF-9EE7-C8DB78C45CA1@linux.dev>
+	<20260530200017.0fe7f685@foz.lan>
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -63,161 +64,83 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Spamd-Result: default: False [-1.16 / 15.00];
-	SUBJECT_ENDS_QUESTION(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	SUBJECT_ENDS_QUESTION(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63147-lists,linux-media=lfdr.de,huawei];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_FROM(0.00)[bounces-63148-lists,linux-media=lfdr.de,huawei];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
 	RCPT_COUNT_SEVEN(0.00)[7];
-	TO_DN_SOME(0.00)[]
-X-Rspamd-Queue-Id: 99C34610D29
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linuxtv.org:url,linux.dev:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: C6AAC612D1E
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sat, 30 May 2026 08:57:13 -0700
-Roman Gushchin <roman.gushchin@linux.dev> wrote:
+On Sat, 30 May 2026 20:00:17 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 
-> Hi Mauro!
->=20
-> My understanding is that some subsystems might be interested in having pa=
-tchwork integration=20
-> without Sashiko sending reviews over the email. Most notable, net. Also m=
-ptcp.
+> On Sat, 30 May 2026 08:57:13 -0700
+> Roman Gushchin <roman.gushchin@linux.dev> wrote:
+> 
+> > Hi Mauro!
+> > 
+> > My understanding is that some subsystems might be interested in having patchwork integration 
+> > without Sashiko sending reviews over the email. Most notable, net. Also mptcp.  
+> 
+> Well, you can use my scripts to do such integration
+> (https://github.com/mchehab/pw_tools).
 
-Well, you can use my scripts to do such integration
-(https://github.com/mchehab/pw_tools).
+Btw, I'm running my script here, making it use kernel.org. On some
+patches that are c/c to media, I can update status with my user,
+as I'm marked as maintainer there, like on those:
 
-Yet, you'll need a patchwork token with full project permission to add
-a new check - e.g. it would allow Sachiko to not only change checks.=20
-Such token will have all project grants including status and delegation
-changes.
+	https://patchwork.kernel.org/project/linux-media/patch/20251220192210.399423-1-szymonwilczek@gmx.com/
+	https://patchwork.kernel.org/project/linux-media/patch/bf19e526-3327-46a5-8ecd-4baaadef5bcf@I-love.SAKURA.ne.jp/
 
-Anyway, for subsystems that prefer a direct integration and provide
-you a write token, you can let sashiko to run my script - or call directly
-the Python class on it - letting it update status directly. You'll
-probably need to implement a queue to do retries, in case patchwork
-server has issues by the time it tries to update.
+but on others, it fails:
 
-For media, I prefer a single e-mail, sent to a separate e-mail, to
-reduce e-mail traffic at the main ML. This way, we can let such script
-do just check changes - and use the same process to also handle other
-bots like sysbot and LKP.
+	ERROR: 14589154: sashiko failed to set 'warning': 403 Client Error: Forbidden for url: https://patchwork.kernel.org/api/patches/14589154/checks/
 
-Also, emails are asynchronous, and, in case of problems, one can repeat
-the operation later using a ML archive to re-run the email queue.=20
+In total, it was able to update 160 patches. At the media instance,
+~230 patches were updated using the same maildir directory.
 
->=20
-> Thanks!
->=20
-> > On May 30, 2026, at 1:30=E2=80=AFAM, Mauro Carvalho Chehab <mchehab+hua=
-wei@kernel.org> wrote:
-> >=20
-> > =EF=BB=BFHi Derek/Konstantin/Roman,
-> >  =20
-> >> On Fri, 29 May 2026 11:28:29 -0400
-> >> Derek Barbosa <debarbos@redhat.com> wrote:
-> >>=20
-> >> Hi!
-> >>  =20
-> >>>=20
-> >>> Forgot to mention, but at least on media patchwork, the best is for
-> >>> Sashiko to send an e-mail that would allow a local script to run it.
-> >>>=20
-> >>> The rationale is that patchwork permissions aren't fine-grained: only
-> >>> an user with a project maintainer token can update checks. Granting
-> >>> such permission would allow other changes at the repository, like
-> >>> delegating a patch, archiving it or changing its status.
-> >>>  =20
-> >>=20
-> >> Thanks for the note. It will take me a minute-or-two to get up to spee=
-d here.
-> >> I'll reach out for any clarifying questions if that's OK :^) =20
-> >=20
-> > I added a bot parsing tool at:
-> >    https://github.com/mchehab/pw_tools
-> >=20
-> > And ran it at the maildir with linux-media e-mails I have locally.
-> > It is currently set to parse e-mails from:
-> >=20
-> >    - LKP;
-> >    - Sysbot;
-> >    - Sashiko.
-> >=20
-> > You can see the results at:
-> >    https://patchwork.linuxtv.org/project/linux-media/list/
-> >=20
-> > (most of the warnings there are from my parser)
-> >=20
-> > And this is how it looks when a patch with bot results is opened:
-> >    https://patchwork.linuxtv.org/project/linux-media/patch/20260529-mil=
-os-iris-v2-2-7a763d7195ae@pm.me/
-> >=20
-> > I didn't set yet any daemon to keep this updated. As I used my own
-> > token, all contexts were marked with my own ID.
-> >=20
-> > There is one issue with the current process: if there aren't any
-> > warnings on a patch, like on this example:
-> >=20
-> >    https://patchwork.linuxtv.org/project/linux-media/patch/202605291543=
-57.18066-1-mohan86108@gmail.com/
-> >=20
-> > There's no way to tell if Sashiko tested such patch or not. As I
-> > commented with Roman in a private discussion, ideally the best
-> > would be if Sashiko could produce a single per-patch-series email
-> > that would have something similar to this:
-> >=20
-> >    Subject: Re: [PATCH v3 00/13] Improve process/maintainers output
-> >    Reply-to: <some_id>
-> >=20
-> >    Hi,
-> >=20
-> >    Sashiko robot found the following potencial issues:
-> >=20
-> >    Patch 1/13 (<message_id): Success
-> >    Patch 2/13 (<message_id): Success
-> >    Patch 3/13 (<message_id): Success
-> >    Patch 4/13 (<message_id): Success
-> >    Patch 5/13 (<message_id): Success
-> >=20
-> >    Patch 6/13 (<message_id): Warning: https://sashiko.dev/#/patchset/...
-> >    - [Low] The `self.field_prev` variable is assigned but never used
-> >    ...
-> >=20
-> >    Patch 13/13: Success
-> >=20
-> >    Please check if those issues are pertinent.
-> >=20
-> >    Sashiko AI review
-> >=20
-> > E.g. it would contain success and warning status for each message
-> > ID inside a patch series. This is also ideal for me as a maintainer,
-> > as I can clearly see the low/mid/high issues detected by sashiko
-> > on a single e-mail.
-> >=20
-> > Thanks,
-> > Mauro =20
+Looking on this patch, for instance:
+	https://patchwork.kernel.org/project/linux-media/patch/20260530143541.229628-3-phasta@kernel.org/
+	https://patchwork.linuxtv.org/project/linux-media/patch/20260530143541.229628-3-phasta@kernel.org/
 
+(patch is actually for Rust, but it was c/c to linux-media,
+so it appears at linux-media project)
 
+and on this:
+	https://patchwork.kernel.org/project/linux-media/patch/20260530094326.11892-2-linux.amoon@gmail.com/
+	https://patchwork.linuxtv.org/project/linux-media/patch/20260530094326.11892-2-linux.amoon@gmail.com/
+
+(patch is actually for linux-media, but was c/c to other
+mailing lists as well)
+
+Both were updated on linuxtv.org (as there's just one Kernel project
+there), but they were not updated at kernel.org. What I *suspect* is
+that patches which are copied to multiple e-mails are problematic.
 
 Thanks,
 Mauro
