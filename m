@@ -1,171 +1,148 @@
-Return-Path: <linux-media+bounces-63145-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63146-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id aPgnLIcQG2q/+ggAu9opvQ
-	(envelope-from <linux-media+bounces-63145-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 18:29:59 +0200
+	id mPnXBNIUG2pV/AgAu9opvQ
+	(envelope-from <linux-media+bounces-63146-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 18:48:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F0E060E306
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 18:29:57 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5E2360E6B5
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 18:48:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9BC31303D31B
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:21:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 85B4E3063834
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:43:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BA94344D8B;
-	Sat, 30 May 2026 16:21:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86D6439B4A6;
+	Sat, 30 May 2026 16:43:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TO/kNxtX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qtjxk4cT"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F5C2D9787;
-	Sat, 30 May 2026 16:21:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E585233F590
+	for <linux-media@vger.kernel.org>; Sat, 30 May 2026 16:43:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780158114; cv=none; b=qCPLY59Qy4VqqVY2Ld+yb5mGuk0A948SgqbQyxMc9NAYOwe85hBvuUXeL8jH4EGVMGC10qPKXySiFcZun7GfJlAcMcpTBVuEgs/pckOGI2i9iTuzKOoOrwhRunZz/8uDHmraB26+VKTAx6FgVP/A5/YXn32MCa6gtcFlXUyN7uo=
+	t=1780159401; cv=none; b=RoI9VN/+phshZdSon7w3+3M+mOetYoO1zJ585hf0JDonwU8mBJLYA5BtLjSZTms+7JHyEeZqHK27yZemXd1d2bb3nSHeJjugS7h0rIvYeOXcW9Qg4DtR78ekOCK7lKu/KxzF0eHob9ucVDAqaxZi4mpsq8OjcOTwPDF3PuhS6no=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780158114; c=relaxed/simple;
-	bh=2gzMfdFXy0BMihsmlVdCnvciyVpPnsnIPsLHyFmw6Jg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K4YWVl/ybCftqbA/pAjwPfqVh6yQSS+a50NvFrbFuxASOGQ7HyMlWd6UGLGAHPWqGc8GfHmhXiqbb+etMbaGlOpomfmq2VP1fzhd+tKpNsabnHsRoSmo4nlQpgLEvm1xmIv6i8so6JtVOsshsVEcTS8fHW/BLicO34KA67//7/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TO/kNxtX; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 566E91F00893;
-	Sat, 30 May 2026 16:21:52 +0000 (UTC)
+	s=arc-20240116; t=1780159401; c=relaxed/simple;
+	bh=wXrTrHg7jThfvHpbPuI4wb8lylFg+0R9kOLuU7injEI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=K62TMRwTQ8lzBz3xhMT0rXffw6rnTih26rKsTq+C+GXnumn82pgKlntmeTOG6FBZehlMDT23tbKFsrQiNAyYbSI71/NchwnYn/yF4OzW6xc1S8QeN08Wt2A2k8WdFWjlnUqqHg0YSPu4uwbXPMH4s7VKcrGBcQIKtsCtn5x6WUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qtjxk4cT; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B33C81F008A2
+	for <linux-media@vger.kernel.org>; Sat, 30 May 2026 16:43:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780158113;
-	bh=sRaIXeQUwMuhp5TJ2eLQrQTV5Aj2BLvk9ybsr5kWV10=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=TO/kNxtX2mFI6z/9SPSvneyfhCeGTqBG1H2A0PPcQ7FSC30GoyMswhQr67PXy8eS0
-	 XFIDEm8HZOUyUXvcrHW9tsD8LFMpVi9BqT/MNyIgzxrPYYfr1SUHAaMZUbjIU+Tc1U
-	 i8r6p2ChO3znMjjVdYoc+yiokcc3lln/tGHr/DcdiFbDWNwqXqroD1gMBlkifLtLP3
-	 mJ2f+bX/2kNHF2XMrVOhd7t5qhyDwmSfY5Auz64zS159uqQmBXH0ycK+zqjpVk3yML
-	 UU0bW6KKpJNjbtwYo0+tpplqUC0WN3LSJhYYehaSmpjoXCCFsOGaIE+nnH3RKizaIB
-	 V57zvCo1t+WXA==
-Message-ID: <9665bf18-57fd-404c-b0fa-df13f2847606@kernel.org>
-Date: Sat, 30 May 2026 17:21:50 +0100
+	s=k20260515; t=1780159398;
+	bh=wXrTrHg7jThfvHpbPuI4wb8lylFg+0R9kOLuU7injEI=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc;
+	b=Qtjxk4cTmrxuyYwRg0Gn/54Zo7PflF3XoWSNhJqxxeEtgel+rF9QJydQjc/Gyy8/Y
+	 6UkFPGzspzkdMKLOBH/k1c0T5DyaW9JxWEkEeG7gUz2ctFS8oo2JwJJbEBMKl5n/pV
+	 JegRUzdxEElfST3kpdXdyi0/ZoPS3Zo1XmRmJBRoam1hX8ajz1BIiKKJA8SdSJ+PW0
+	 9rUUUvbLFl6l/hFnHSE7Ck5KMbsS5B9u94sAoU8T0dWR+CNGqovTthKJYdpbMNWO7O
+	 puSXtHwRa5FHLCUYaq7kj3TSIYssDZk1MBoo43FU6gCALFJPo5M5KFAX4Q4GLZvAqd
+	 /Ib1a1urHIM0w==
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-3967724bed1so285491fa.1
+        for <linux-media@vger.kernel.org>; Sat, 30 May 2026 09:43:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9l8hnK8YgVPGQM1pw8pz3siY1XteEKPFRPo7li2FhA39iyR3CLd9Q5xd0+b79rrwm2ZUf2SQ8485YlpQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwqrLUDLOhhCUZdolv91OlWRRZXT+RfZ8kOUlhbz46kEvKAJzPW
+	ESmDKJVk4CQrv/5QyybazWPh59m52uLveqiQcp8edxLn/B+9bYYjg+pgC7NlsagDd0XaIlmDR3x
+	cCYfT4bh+iwahFUxtjUqriVhG2z+xBec=
+X-Received: by 2002:a05:651c:20dc:20b0:396:5731:db22 with SMTP id
+ 38308e7fff4ca-39664edbde0mr9068591fa.23.1780159397154; Sat, 30 May 2026
+ 09:43:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] media: iris: optimize COMV buffer allocation for VPU3x
- and VPU4x
-To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260514-optimize_comv_buffer-v4-1-7da70b586aec@oss.qualcomm.com>
- <178010072997.281459.14229826511412321235.b4-reply@b4>
- <Y4KHl34IvyFwK4XW3AU7Ng-oIbP-PeO3BVEma9D3AiZEnufRSi7e23mgtwrUcWwFXUVGOLAWu5pGIs6olYZ8Uw==@protonmail.internalid>
- <4d2823d3-567e-4c6e-0950-3f0df80ff184@oss.qualcomm.com>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=bod@kernel.org; keydata=
- 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
-In-Reply-To: <4d2823d3-567e-4c6e-0950-3f0df80ff184@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+References: <20260505134812.408316-1-wens@kernel.org> <20260505134812.408316-5-wens@kernel.org>
+ <JyKk48uGRMGhs1Z-wzq5pA@gmail.com>
+In-Reply-To: <JyKk48uGRMGhs1Z-wzq5pA@gmail.com>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Sat, 30 May 2026 19:43:05 +0300
+X-Gmail-Original-Message-ID: <CAGb2v64wDvLMFn9DYs-kH1S2PpHJat-imxR5eJSQAUYjOp=Xdg@mail.gmail.com>
+X-Gm-Features: AVHnY4JPf-OCVxDr7xF6UmPyet8eqBpmFwZfdZsz7_1mZVTdUTpZyn83IUGk-ro
+Message-ID: <CAGb2v64wDvLMFn9DYs-kH1S2PpHJat-imxR5eJSQAUYjOp=Xdg@mail.gmail.com>
+Subject: Re: [PATCH 4/7] drivers: staging: media: sunxi: cedrus: add H616 variant
+To: =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Jernej Skrabec <jernej@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, devicetree@vger.kernel.org, 
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63145-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63146-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[wens@kernel.org,linux-media@vger.kernel.org];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 3F0E060E306
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	HAS_REPLYTO(0.00)[wens@kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: A5E2360E6B5
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 30/05/2026 10:24, Vishnu Reddy wrote:
-> Hi Bryan,
-> 
-> I checked that the patch is already present in linux-media/users/bodonoghue →
-> venus-iris-next.
-> It also applies cleanly on the following branches:
-> linux-next → master
-> media tree → next
-> linux-media/users/bodonoghue → next
-> linux-media/users/bodonoghue → next+fixes
-> linux-media/users/bodonoghue → next-smoketest
-> 
-> Could you please let me know on which branch the patch is not applying
-> cleanly and where exactly you'd like me to rebase?
-> 
-> Thanks,
-> Vishnu Reddy.
+On Tue, May 5, 2026 at 7:18=E2=80=AFPM Jernej =C5=A0krabec <jernej.skrabec@=
+gmail.com> wrote:
+>
+> Dne torek, 5. maj 2026 ob 15:48:08 Srednjeevropski poletni =C4=8Das je Ch=
+en-Yu Tsai napisal(a):
+> > The Allwinner H616 SoC has a video engine hardware block like the one
+> > found on previous generations such as the H6. In addition to the
+> > currently supported features of the H6, it is also supposed to include
+>
+> Remove "supposed".
 
-As you can see I'm doing "b4 shazam" at 1:24 am when I should probably 
-be in bed with my teddy bear.
+I can't actually verify that, so "supposed" is accurate from my point of
+view.
 
-Ignore.
+ChenYu
 
----
-bod
+> > a VP9 decoder. However software support for this is currently missing
+> > and still needs to be reverse engineered from the vendor BSP.
+> >
+> > Add the compatible for the H616 variant, using the H6 variant data.
+> >
+> > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+>
+> With that:
+> Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+>
+> Best regards,
+> Jernej
+>
+>
 
