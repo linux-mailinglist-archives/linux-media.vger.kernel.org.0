@@ -1,152 +1,228 @@
-Return-Path: <linux-media+bounces-63131-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63132-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +PWGJi7xGmre9wgAu9opvQ
-	(envelope-from <linux-media+bounces-63131-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:16:14 +0200
+	id CASDFmX2Gmp4+AgAu9opvQ
+	(envelope-from <linux-media+bounces-63132-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:38:29 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4591260D635
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:16:14 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6AB160D843
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:38:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0CDD630E95F0
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 14:09:33 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2A776303C7C3
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 14:36:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D81882F6931;
-	Sat, 30 May 2026 14:09:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9E422DF13A;
+	Sat, 30 May 2026 14:36:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="WJIXh54Q"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KuUNbr4g"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEBE22F6188
-	for <linux-media@vger.kernel.org>; Sat, 30 May 2026 14:09:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E29EC15C;
+	Sat, 30 May 2026 14:36:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780150170; cv=none; b=AI+OHa2cv+qCvxAJiErJVGropUEKzVZqzT55HVZXswkypq93xU2L9jzWJOADLROq1Bftj65jlynso/PV2yHh/m0e6a0UO8bq95iysmhIEAEaiOFM/oH1zglSryvEs41jEdJPraIx8uCH1iDO8sxJRB9G4PovpJAAGXV/EeVfmCQ=
+	t=1780151774; cv=none; b=fnKYgAlQQK3yDc9C7ZtAasdN1me5y9HA8wreHbebeMF5zSliSoDHg0UviGb1b8s8PsML8YN5smtP6Ty44+3CsoOqh0qi5LPAlv1IwuSEHLhuafNMSITZwU5YufikX5X4LLRkz1jQbLAOt/toQ3+l8c3v5NBNAvUpNstCeyWPa98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780150170; c=relaxed/simple;
-	bh=MjB4PmG9F1nMbW5nGldNc0Mw5C3dA0nRUxuoPh5AO7w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W4jzLMOSl2IjHpKlo5z+jGktk2sg00qyMP86e3EpfqlFKjDeAqLlZkCymbrdkeCqa+Yo6jnaA9vraw4YzEuIkF6vVPYSFZu8aQj6q5LkF819yVa7lvJCRCJHZpNkNwDLbKK8EpN0LSRLHb9lPMl0v2h+FYoyqaVORPCNQd7lQFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=WJIXh54Q; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=MjB4
-	PmG9F1nMbW5nGldNc0Mw5C3dA0nRUxuoPh5AO7w=; b=WJIXh54QIvpyhN+0Ulho
-	5CycptCmQ0ptKEPxci5yVnlm8oFiuh0ZO/wQxP116LRMZY173FNwTLwEZHyuOuFh
-	UFdaH0B36AnkOv2zsEn6I2YegAFLCf2j1VZvpx8SYuN+M5TOozY6/YpgCeJEVhvX
-	gMAjjuvSwJ92Hyrod3Qz4m8BnIobL3uA+4ygJsuR4zQVqS28CTGh2QO/mSZLvc/7
-	cgl6Lckw03GiTezQCF2qRUyJAGiQNIF+3Bjy03PgJlxxdneiMAZ3HTDidH6JQOHW
-	QZRGPZrS6W7KCyK8AmvT7BarVdiCyTxIJjzO0zsZluI1ugWvVY4+4AMQop+e6xrt
-	jw==
-Received: (qmail 1764476 invoked from network); 30 May 2026 16:09:26 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 May 2026 16:09:26 +0200
-X-UD-Smtp-Session: l3s3148p1@gMhLgglTVOcqAQ4KEBW5QLbOwWyJKVt/
-Date: Sat, 30 May 2026 16:09:25 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Vikram Sharma <vikram.sharma@oss.qualcomm.com>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Loic Poulain <loic.poulain@oss.qualcomm.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Nihal Kumar Gupta <nihal.gupta@oss.qualcomm.com>,
-	Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-	linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-i2c@vger.kernel.org,
-	Suresh Vankadara <svankada@qti.qualcomm.com>,
-	Prashant Shrotriya <pshrotri@qti.qualcomm.com>
-Subject: Re: [PATCH 2/6] dt-bindings: i2c: qcom-cci: Document Glymur
- compatible
-Message-ID: <ahrvlYI-WfHwUPMC@shikoro>
-References: <20260529-glymur_camss-v1-0-bee535396d22@oss.qualcomm.com>
- <20260529-glymur_camss-v1-2-bee535396d22@oss.qualcomm.com>
+	s=arc-20240116; t=1780151774; c=relaxed/simple;
+	bh=kWdFGXaIdTqSIXR1N4ZXJu3yyoPEhmdsXSJR/tKNIhw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QXuOhEz3nUydv6h2ZrHRy8093a4DrzgYxhg1kVuN5cCWynldGwb63Wu+2nzzpL/sXQTcgs9XsXZwESJkMsh0MKhq64VqPSHzIcpuwgIzXLOwwLWZoye69o1ESrioWRRrHNYS3AnoSDRalz2G5/ciPfKYtfVk/pvt3dDmU5oT88c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KuUNbr4g; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A2A91F00893;
+	Sat, 30 May 2026 14:36:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780151773;
+	bh=xz9gQQhI8Lkkj85ZF10THg+XrwAiifLzonLHj9O4ez8=;
+	h=From:To:Cc:Subject:Date;
+	b=KuUNbr4gBLFewAbSoKvU4Sn6LwubCf4meWBq/sC1Kldjx+uqF1Sm/MGZtX83s0/dz
+	 094NqiBWjEddTVeAGXvkz/whF2v+lvOrj2Vjnkuva4KYPTPJAXDK8kg0SZX41sKmRb
+	 3777EhJG9dJQ6JhEEm5rOchcHXIWjcOpNJuMHXRIldbGlHeP4mHFuznkALLsCQGcQk
+	 gNaGPqoMZb9DH/TFw5IwXHggXPcWOo+3ChQTRT3ufsUKe22tpUipEsZdsTOe4o+t2A
+	 IyCOu4dmSX9ZrLxbLSKLR0Z5avuKZRbXbGzCQNFocfUlPma7Mly7Y/xdYjQHkpoyk/
+	 4db50WjYoqMPw==
+From: Philipp Stanner <phasta@kernel.org>
+To: Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Philipp Stanner <phasta@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Igor Korotin <igor.korotin@linux.dev>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	FUJITA Tomonori <fujita.tomonori@gmail.com>,
+	Krishna Ketan Rai <prafulrai522@gmail.com>,
+	Shankari Anand <shankari.ak0208@gmail.com>,
+	manos@pitsidianak.is,
+	Boris Brezillon <boris.brezillon@collabora.com>
+Cc: linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	rcu@vger.kernel.org
+Subject: [PATCH 0/4] rust / dma_buf: Add abstractions for dma_fence
+Date: Sat, 30 May 2026 16:35:08 +0200
+Message-ID: <20260530143541.229628-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sbuNnDmWOaUg48ge"
-Content-Disposition: inline
-In-Reply-To: <20260529-glymur_camss-v1-2-bee535396d22@oss.qualcomm.com>
-X-Spamd-Result: default: False [-3.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[sang-engineering.com:s=k1];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63132-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[38];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,linaro.org,amd.com,nvidia.com,joshtriplett.org,gmail.com,goodmis.org,efficios.com,linux.dev,collabora.com,linuxfoundation.org,pitsidianak.is];
 	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[sang-engineering.com];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	TAGGED_FROM(0.00)[bounces-63131-lists,linux-media=lfdr.de,renesas];
-	MISSING_XM_UA(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wsa@sang-engineering.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[sang-engineering.com:+];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[phasta@kernel.org,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sang-engineering.com:email,sang-engineering.com:dkim,qualcomm.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 4591260D635
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: C6AB160D843
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+Changes since the RFC:
+  - Include support for ForeignOwnable for ARef, so that a Fence can be
+    stuffed into an XArray et al. (Code by Danilo)
+  - Implement ForeignOwnable (with new borrow type) for DriverFence, so
+    that it can be stuffed into an XArray.
+  - Include the rcu::RcuBox data type to defer dropping data with RCU
+    (Cody by Alice)
+  - Port DmaFence to RcuBox to make UAF bugs through later, new dma_fence
+    callbacks (backend_ops) impossible.
+  - Force users to pass their fence data in an RcuBox (or have it not
+    need drop()) through a Sealed trait.
+  - Document the rules for the user's DriverFence::data's drop
+    implementation very clearly (deadlock danger).
+  - rustfmt, Clippy.
+  - Various style suggestions, safety comments, etc. (Önur)
+  - Add __rust_helper prefix to helper functions. (Önur)
 
---sbuNnDmWOaUg48ge
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changes in RFC v3:
+  - Omit JobQueue patches for now
+  - Completely redesign the memory layout: Instead of a Fence
+    refcounting a DriverFence, both now live in the same allocation to
+    allow for future support the dma_fence backend_ops callbacks which
+    need to do container_of. (mostly Boris's feedback)
+  - Allow for pre-allocating fences to avoid deadlocks when submitting
+    jobs to a GPU. (Boris)
+  - Simultaneously, allow for pre-preparing fence callback objects, so
+    the driver can allocate them when it sees fit. (code largely stolen
+    and inspired by Daniel).
+  - Signal fences on drop, ensure synchronization.
+  - Force users to set an error code when signalling.
+  - Write more documentation
+  - A ton of minor other changes.
 
-On Fri, May 29, 2026 at 08:07:22PM +0530, Vikram Sharma wrote:
-> From: Nihal Kumar Gupta <nihal.gupta@oss.qualcomm.com>
->=20
-> Add Glymur compatible consistent with CAMSS CCI interfaces.
->=20
-> Signed-off-by: Nihal Kumar Gupta <nihal.gupta@oss.qualcomm.com>
-> Signed-off-by: Vikram Sharma <vikram.sharma@oss.qualcomm.com>
+Alright, so since the last RFCs did not reveal significant design
+issues, I decided to transition this series to a v1 and hope that we can
+get it upstream.
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+This now includes code for more common infrastructure that dma_fence
+needs, contributed by Danilo and Alice.
 
+---
 
---sbuNnDmWOaUg48ge
-Content-Type: application/pgp-signature; name="signature.asc"
+Old cover letter for RFC:
 
------BEGIN PGP SIGNATURE-----
+So, this is the spiritual successor of the first / second RFC [1]. v2
+also contained code for drm::JobQueue, but mostly to show how the fence
+code would be used. JobQueue is under heavy rework right now, so I don't
+want to bother your eyes with it. The docstring examples should show how
+Rust fences are supposed to be used, though.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmoa75UACgkQFA3kzBSg
-KbZxqg/9Ef9VbcVm4iGwE6vGGwaE3/psSXTuu3nGvOb2pWx4/ZFeXoRYNRNPNo1P
-VU4yXYh+voyaamDQ0ZzaWxZbvHC4SIgz72zNXoYyqBth0e2YyKjjrqnHo+OVtQn4
-mu1kkJscvj3JSz7guMyWuznUVrSnK8BzfpaW93VRLKIsebSD9QfbFp4r3XHgio63
-T5wjQTvAjfQgF6ur7yHLD5JTiT+Rpd9JEZvP6bLB/lTdMNhn7y1NE3Fr6uVb4g8B
-Wj0thoYp1nfyxid86bSADfDL58Os9kokBxLbTcSTDNeD1Y3ZFFZT57sPqKdarO3f
-74doMFofvvTph9s+qVAZn+oWti3HQRmok19YVx/oKmb43Ps9TqbrmCgj4ieAFnco
-6djiK/0rJT/Y9lJYFzgkxq/0sxhUEZagtyZa/in3/IpcPmZTNkTbXX7VmNDjahBY
-WEIayLPUjTvDIqovjHCo+3uFefzuvkdHWELaqpeBthIDeswkBjm9ZMh95gQXfUb4
-xlJfonlZh5CbNb9c17H7zh/XXHXCq2KBsueY3LKf+IakkDqalGEAUzcMcXxs/SHX
-4aOJbdPVDLqOqJjaIK4drq2q9FcdNcStLVHz86JMxq5+zWyonqPptpAqKt1qNOUU
-ExvvQVkKbCDBI+eoe0ZBOGdufYpcF/MfsMiXAfP7k9R/0CYdFuI=
-=S3Db
------END PGP SIGNATURE-----
+This v3 contains a huge amount of highly valuable feedback from a
+variety of people, notably Boris, but also from Alice, Gary and Danilo.
 
---sbuNnDmWOaUg48ge--
+There are some TODOs open (a better trait for fence backend_ops and RCU
+support), but my hope is that this effort is now finally approaching its
+end.
+
+I would greatly appreciate feedback and especially more information
+about what might be missing to make this usable, which is obviously
+where Daniel's and Boris's feedback will be valuable once more.
+
+Please regard this patch just as what it's titled: an RFC, to discuss a
+bit more and to inform a broader community about what the current state
+is and where this is heading at.
+
+Many regards,
+Philipp
+
+[1] https://lore.kernel.org/rust-for-linux/20260203081403.68733-2-phasta@kernel.org/
+
+Alice Ryhl (1):
+  rust: rcu: add RcuBox type
+
+Danilo Krummrich (1):
+  rust: types: implement ForeignOwnable for ARef<T>
+
+Philipp Stanner (2):
+  rust: Add dma_fence abstractions
+  MAINTAINERS: Add entry for Rust dma-buf
+
+ MAINTAINERS                      |   2 +
+ rust/bindings/bindings_helper.h  |   2 +
+ rust/helpers/dma_fence.c         |  48 ++
+ rust/helpers/helpers.c           |   1 +
+ rust/kernel/dma_buf/dma_fence.rs | 821 +++++++++++++++++++++++++++++++
+ rust/kernel/dma_buf/mod.rs       |  13 +
+ rust/kernel/lib.rs               |   1 +
+ rust/kernel/sync/aref.rs         |  39 ++
+ rust/kernel/sync/rcu.rs          |  31 +-
+ rust/kernel/sync/rcu/rcu_box.rs  | 145 ++++++
+ 10 files changed, 1102 insertions(+), 1 deletion(-)
+ create mode 100644 rust/helpers/dma_fence.c
+ create mode 100644 rust/kernel/dma_buf/dma_fence.rs
+ create mode 100644 rust/kernel/dma_buf/mod.rs
+ create mode 100644 rust/kernel/sync/rcu/rcu_box.rs
+
+-- 
+2.54.0
+
 
