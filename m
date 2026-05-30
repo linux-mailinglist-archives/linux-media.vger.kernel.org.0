@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-63091-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63090-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qP2YDJM0Gmp+2AgAu9opvQ
-	(envelope-from <linux-media+bounces-63091-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 02:51:31 +0200
+	id qMRWI4w0Gmp+2AgAu9opvQ
+	(envelope-from <linux-media+bounces-63090-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 02:51:24 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B704D60A721
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 02:51:30 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4621860A71A
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 02:51:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 31B8130EAED9
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 00:46:56 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E498530E8EB8
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 00:46:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F1952F6586;
-	Sat, 30 May 2026 00:46:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B75AD2F260C;
+	Sat, 30 May 2026 00:46:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LfRVBaW0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gZ5bBIYb"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 865302E8B81;
-	Sat, 30 May 2026 00:46:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E6FE2DB7BB;
+	Sat, 30 May 2026 00:46:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780102003; cv=none; b=Qals25SLyr3XsNckqDlGz+SR8AMPTpuNgshWRO9FBNeOwfvLFhi70ZPAePgNGnuiPE2t4TAkPQUqYpMNDHLQomYIlaTVi9LkbZpIjaIZ9+bqGAmaJrMZMZ2jfirfoLUhjZHS9pcGHf8fmYV9LA+veAL+YNlWYJY5/KCZErcKeWk=
+	t=1780102003; cv=none; b=bGxeRmH3+mzScRc14RwyKavCOwNAgVRIr8xeE1A+7URmx+5hweqB3+lbm48/Nb50f303ki5MJLoyjPIB0c2tjH1VCFM82Gyz3KlAnh3wgbWDyfQIkg6BC2J/u3RaNP0Vr+HNUPB3Lgqi5p5I2yjDvV3zm6hsvD/LfAMV0kG7z0s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780102003; c=relaxed/simple;
-	bh=FxWXLMC0hgWGI1n/2rhHTofNZkUhMCX0A6uUZLKc2eU=;
+	bh=Gj7Ho0fpm89YpVQqdP011+hYYm1f/ozWnlkoOZjGM1E=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=RYR/aOhpk7jwL5r6VboZnFu8vFC55wKT/hfqvur1SJot2cbweYFLRL6CcnJtk8Qplp1vdJQOftDoPwjbp4TTfs8kTmKCxPYgwuL5uiBFw02moopLmclCOOA+cz0ySKrthE3AigVkkmExWPiE0LKcoRQ9SVuhpbVe8ExYpPK6mWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LfRVBaW0; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 426441F00898;
+	 Message-Id; b=EAcPF2f2dDkjYrKjlVPYJmgyVZIQk80mqkRMcLOc8IsHzEyerF1kaiQyrltQRqT71X1aJAj2xl/luG903cBlNWH7v32esIxiubZwMzoobq7GNXWa9o/RKwRouQRqtA+dAOwndF06gmHoav9HJSmOwH+ZJHaBBizlRI+/CVBVzeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gZ5bBIYb; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D438D1F00893;
 	Sat, 30 May 2026 00:46:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780102001;
-	bh=0uknB490YeUqEj5Klxk46OMiLB2YQii7itDUPxra3IA=;
+	s=k20260515; t=1780102002;
+	bh=NJcxkZ5CVcWbKhMMFpsQuqUBFLHlS9Piddgvot8kfgA=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=LfRVBaW0HeGQDW6KMRJuGqkURMSfGy6lSHhoJeYdWrozTispj5UILa4Sfzg3Qcux1
-	 B9lAchMyhlJZh1XH38RlKDzri9IG+arJDu+EMqYeA2l5hStHGjIBnVuA+SMkeBp9E4
-	 J2D/kJtgSj2FiKZg/DWtkQ+AOtimslB9Je4gTlRztcGXC32m15pL7oUJNJI02/u7kM
-	 FgkQHnQ9uhBqfJqwal94WtJqM1SHUzRScH7zHjmKc+T5Biv1wL52vtJngskpJrHS0D
-	 bQCBxrc2FZkebVDtJbV5GlzmEKfxsXybDmxfj92I+oEVeiydRhWh/u33L/gNcZufZ1
-	 nop6IuN4MCh5w==
+	b=gZ5bBIYb7S1znQu53i0Q9NjwvqLAokIn769EDupEVZjiODNEc2PUnjHAoPWyA+ZGp
+	 iZhlhcwS6li4vSf8JS35/y4igrYQ9f1cgUPWH5kxnmEMIvfCXMh2+NqUsYRW3xHhxH
+	 ndSUS1PER0GGpzcZ9qaSOrw3oP7/i354SVYUtzr0IPRpIDrtgWPf682ziw3nJAtEbW
+	 uCnxjtuKexvaHny7uC1OYwP7lvcO1WWC/BXgreAGRgre7DcVdjlbjTI8AqqFYQOaqa
+	 yqUYTYq1IItfXjDhmMYW/3Mutq61ig4Y9Vb3lR+Do83f5Wdfe4CNys2gz0qBp4gdk/
+	 TU/Ti2tfahuCQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 05/15] remoteproc: qcom_q6v5_pas: Switch over to
- generic PAS TZ APIs
+Subject: Re: [PATCH v7 11/15] media: qcom: Pass proper PAS ID to
+ set_remote_state API
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Sumit Garg" <sumit.garg@kernel.org>
-Cc: robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org, linux-media@vger.kernel.org
-In-Reply-To: <20260522115936.201208-6-sumit.garg@kernel.org>
-References: <20260522115936.201208-6-sumit.garg@kernel.org>
+Cc: conor+dt@kernel.org, robh@kernel.org, devicetree@vger.kernel.org, linux-media@vger.kernel.org
+In-Reply-To: <20260522115936.201208-12-sumit.garg@kernel.org>
+References: <20260522115936.201208-12-sumit.garg@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 30 May 2026 00:46:40 +0000
-Message-Id: <20260530004641.426441F00898@smtp.kernel.org>
+Date: Sat, 30 May 2026 00:46:41 +0000
+Message-Id: <20260530004641.D438D1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,13 +66,13 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,sashiko.dev:url,lists.linux.dev:replyto,qualcomm.com:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,sashiko.dev:url,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,lists.linux.dev:replyto,qualcomm.com:email];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63091-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63090-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -88,133 +88,76 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
 	FROM_NO_DN(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[5]
-X-Rspamd-Queue-Id: B704D60A721
+X-Rspamd-Queue-Id: 4621860A71A
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
 
-New issues:
-- [High] Replacing `qcom_scm_is_available()` with `qcom_pas_is_available()`=
- breaks probe ordering with the SCM driver, leading to a potential NULL poi=
-nter dereference in `qcom_scm_assign_mem()`.
-- [High] Lockless access to the global `ops_ptr` combined with missing modu=
-le reference counting allows the PAS backend module to be unloaded while in=
- use, leading to a NULL pointer dereference or Use-After-Free.
-
 Pre-existing issues:
-- [High] The dtb firmware object requested via request_firmware() is never =
-released on the success path of qcom_pas_load().
+- [High] Lockless access and TOCTOU (Time-Of-Check to Time-Of-Use) race on =
+the global `ops_ptr` variable leading to a NULL pointer dereference.
 --
 
-commit 3637c6003564ac65554a8805148bf9af6b138d86
+commit cea57543db0155e85cd736ed70440a251d359393
 Author: Sumit Garg <sumit.garg@oss.qualcomm.com>
-Date:   Fri May 22 11:59:26 2026 +0000
 
-    remoteproc: qcom_q6v5_pas: Switch over to generic PAS TZ APIs
+media: qcom: Pass proper PAS ID to set_remote_state API
    =20
-    Switch qcom_q6v5_pas client driver over to generic PAS TZ APIs. Generic=
- PAS
-    TZ service allows to support multiple TZ implementation backends like Q=
-TEE
-    based SCM PAS service, OP-TEE based PAS service and any further future =
-TZ
-    backend service.
-   =20
-    Since qcom_q6v5_pas depends on MDT loader for PAS firmware loading, it
-    has to be switched over to generic PAS APIs in this commit to avoid any
-    build issues.
+This commit updates the SCM backend calls in the iris and venus drivers
+to pass the correct PAS ID to qcom_pas_set_remote_state() instead of 0,
+which is used by OP-TEE for bookkeeping purposes.
 
-> diff --git a/drivers/remoteproc/qcom_q6v5_pas.c b/drivers/remoteproc/qcom=
-_q6v5_pas.c
-> index da27d1d3c9da6..847249c28c1be 100644
-> --- a/drivers/remoteproc/qcom_q6v5_pas.c
-> +++ b/drivers/remoteproc/qcom_q6v5_pas.c
+> diff --git a/drivers/media/platform/qcom/iris/iris_firmware.c b/drivers/m=
+edia/platform/qcom/iris/iris_firmware.c
+> index b3c5281aea919..856fa6a79064c 100644
+> --- a/drivers/media/platform/qcom/iris/iris_firmware.c
+> +++ b/drivers/media/platform/qcom/iris/iris_firmware.c
+> @@ -109,5 +109,5 @@ int iris_fw_unload(struct iris_core *core)
+> =20
+>  int iris_set_hw_state(struct iris_core *core, bool resume)
+>  {
+> -	return qcom_pas_set_remote_state(resume, 0);
+> +	return qcom_pas_set_remote_state(resume, core->iris_platform_data->pas_=
+id);
+
+[Severity: High]
+This isn't a bug introduced by this patch, but since this code relies on the
+underlying qcom_pas_set_remote_state() function, is there a race condition
+in how ops_ptr is accessed?
+
+Looking at qcom_pas_set_remote_state() in drivers/firmware/qcom/qcom_pas.c:
+
+int qcom_pas_set_remote_state(u32 state, u32 pas_id)
+{
+	if (!ops_ptr)
+		return -ENODEV;
+
+	return ops_ptr->set_remote_state(ops_ptr->dev, state, pas_id);
+}
+
+If the provider driver is concurrently unbound (e.g., via qcom_pas_tee_remo=
+ve)
+or shut down, and qcom_pas_ops_unregister() sets ops_ptr =3D NULL, could op=
+s_ptr
+become NULL between the check and the dereference?
+
+Since there appears to be no locking, RCU, or module reference counting
+protecting ops_ptr, could this lead to a NULL pointer dereference, or an
+invalid memory access if the provider module is unloaded and the memory
+containing the callbacks is freed?
+
+>  }
+
 [ ... ]
-> @@ -228,9 +229,9 @@ static int qcom_pas_load(struct rproc *rproc, const s=
-truct firmware *fw)
->  	pas->firmware =3D fw;
-> =20
->  	if (pas->lite_pas_id)
-> -		qcom_scm_pas_shutdown(pas->lite_pas_id);
-> +		qcom_pas_shutdown(pas->lite_pas_id);
-
-[Severity: High]
-Can the new generic PAS TZ APIs lead to a use-after-free or null pointer
-dereference?
-
-The backend implementation for qcom_pas_shutdown() and other generic APIs
-seems to perform a lockless check of a global ops_ptr without any module
-reference counting (e.g., try_module_get()) or synchronization.
-
-If a user unloads the PAS backend module concurrently while a remoteproc
-operation is in flight, could the pointer become null right after the check,
-or the backing code be unmapped from memory?
-
->  	if (pas->lite_dtb_pas_id)
-> -		qcom_scm_pas_shutdown(pas->lite_dtb_pas_id);
-> +		qcom_pas_shutdown(pas->lite_dtb_pas_id);
-> =20
->  	if (pas->dtb_pas_id) {
->  		ret =3D request_firmware(&pas->dtb_firmware, pas->dtb_firmware_name, p=
-as->dev);
-> @@ -250,7 +251,7 @@ static int qcom_pas_load(struct rproc *rproc, const s=
-truct firmware *fw)
->  	return 0;
-
-[Severity: High]
-This is a pre-existing issue, but does this function leak pas->dtb_firmware?
-
-When request_firmware() succeeds for the DTB firmware, this function returns
-0 without calling release_firmware(). There doesn't appear to be any
-corresponding cleanup for this firmware object elsewhere in the driver's
-lifecycle (e.g., in qcom_pas_unprepare() or qcom_pas_stop()).
-
-Could this lead to gradual memory exhaustion every time the remoteproc is
-loaded or restarted?
-
-> =20
->  release_dtb_metadata:
-> -	qcom_scm_pas_metadata_release(pas->dtb_pas_ctx);
-> +	qcom_pas_metadata_release(pas->dtb_pas_ctx);
->  	release_firmware(pas->dtb_firmware);
-> =20
->  	return ret;
-[ ... ]
-> @@ -746,7 +747,7 @@ static int qcom_pas_probe(struct platform_device *pde=
-v)
->  	if (!desc)
->  		return -EINVAL;
-> =20
-> -	if (!qcom_scm_is_available())
-> +	if (!qcom_pas_is_available())
-
-[Severity: High]
-Does this change break probe ordering with the SCM driver?
-
-If an alternative PAS backend (such as OP-TEE) probes before the SCM driver,
-qcom_pas_probe() will now proceed instead of deferring.
-
-However, for platforms that specify memory region assignments
-(region_assign_idx), qcom_pas_assign_memory_region() is still called
-during probe, which unconditionally invokes qcom_scm_assign_mem().
-
-Since qcom_scm_assign_mem() dereferences SCM state without initialization
-checks, could calling it before the SCM driver has fully probed lead to a n=
-ull
-pointer dereference?
-
->  		return -EPROBE_DEFER;
-> =20
->  	fw_name =3D desc->firmware_name;
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260522115936.2012=
-08-1-sumit.garg@kernel.org?part=3D5
+08-1-sumit.garg@kernel.org?part=3D11
 
