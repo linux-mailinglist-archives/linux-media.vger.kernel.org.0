@@ -1,48 +1,49 @@
-Return-Path: <linux-media+bounces-63132-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63133-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id CASDFmX2Gmp4+AgAu9opvQ
-	(envelope-from <linux-media+bounces-63132-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:38:29 +0200
+	id 4OOoGpL2Gmp4+AgAu9opvQ
+	(envelope-from <linux-media+bounces-63133-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:39:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6AB160D843
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:38:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D975660D862
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:39:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2A776303C7C3
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 14:36:20 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 058A4304FFCD
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 14:36:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9E422DF13A;
-	Sat, 30 May 2026 14:36:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56FF12DF13A;
+	Sat, 30 May 2026 14:36:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KuUNbr4g"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CVR7LIu9"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E29EC15C;
-	Sat, 30 May 2026 14:36:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D42B124EA90;
+	Sat, 30 May 2026 14:36:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780151774; cv=none; b=fnKYgAlQQK3yDc9C7ZtAasdN1me5y9HA8wreHbebeMF5zSliSoDHg0UviGb1b8s8PsML8YN5smtP6Ty44+3CsoOqh0qi5LPAlv1IwuSEHLhuafNMSITZwU5YufikX5X4LLRkz1jQbLAOt/toQ3+l8c3v5NBNAvUpNstCeyWPa98=
+	t=1780151785; cv=none; b=JquFIaaIfex2x1uBwev4KVhzdmmPD+zXs94q+tRhc/euc5gkQ4ZwprIZOXN8aSDZz/SASCNjvtmIWAiG0XrZD0mWyOEUC0KmknlIpFJ8eFHwME7TWLVufziZb8ijYketHotc+RM/P2+xdGMRw+lPT9nBX3rdDPTo3SIMtI2GsTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780151774; c=relaxed/simple;
-	bh=kWdFGXaIdTqSIXR1N4ZXJu3yyoPEhmdsXSJR/tKNIhw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QXuOhEz3nUydv6h2ZrHRy8093a4DrzgYxhg1kVuN5cCWynldGwb63Wu+2nzzpL/sXQTcgs9XsXZwESJkMsh0MKhq64VqPSHzIcpuwgIzXLOwwLWZoye69o1ESrioWRRrHNYS3AnoSDRalz2G5/ciPfKYtfVk/pvt3dDmU5oT88c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KuUNbr4g; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A2A91F00893;
-	Sat, 30 May 2026 14:36:04 +0000 (UTC)
+	s=arc-20240116; t=1780151785; c=relaxed/simple;
+	bh=iusRewpZ34TnQ5G2HLBSE7H0Lnu251CvtBRxV7HZGC0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=UPx8GK3juxeBvBWp+awHW+fqaXCXdQ6BJgWFbksbA1l3M9MEJzZMGE90FrjBM59mh5QS1PyRaXCrrzvgrL/wgMYkdCAE7SdcfFqJ+O5ULxm/5rHqCt2GAYLaJaunTMxoZ+9TNcp16B5zLIAjlom352y/c1eGT7V8HqukchTR3qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CVR7LIu9; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3121E1F00898;
+	Sat, 30 May 2026 14:36:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780151773;
-	bh=xz9gQQhI8Lkkj85ZF10THg+XrwAiifLzonLHj9O4ez8=;
-	h=From:To:Cc:Subject:Date;
-	b=KuUNbr4gBLFewAbSoKvU4Sn6LwubCf4meWBq/sC1Kldjx+uqF1Sm/MGZtX83s0/dz
-	 094NqiBWjEddTVeAGXvkz/whF2v+lvOrj2Vjnkuva4KYPTPJAXDK8kg0SZX41sKmRb
-	 3777EhJG9dJQ6JhEEm5rOchcHXIWjcOpNJuMHXRIldbGlHeP4mHFuznkALLsCQGcQk
-	 gNaGPqoMZb9DH/TFw5IwXHggXPcWOo+3ChQTRT3ufsUKe22tpUipEsZdsTOe4o+t2A
-	 IyCOu4dmSX9ZrLxbLSKLR0Z5avuKZRbXbGzCQNFocfUlPma7Mly7Y/xdYjQHkpoyk/
-	 4db50WjYoqMPw==
+	s=k20260515; t=1780151784;
+	bh=pDJyMWyNek1/CTCATK0JZj8GklloT+oL+OiV9mbnCoA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=CVR7LIu9D96HTbHsL8aBjWenUaBybuuukmD4fMNjxcMZnl63zeJhQ8xZBs0if29ua
+	 RutT4/vJgD70WtBIhs7aHz7+KoobG2F2itlJcCPiHANBtwgd0ZPgqdeaqEB/j5EIQF
+	 z2R8gfk0d9wJFpdGs/FXn/ikx6lpcn3R1Lh4jmhp+4/rPSzI+L3QzULgEsFRPmIjyV
+	 bqHR8sEKi4+XG+mT/+2MEIq+M8uoZ6dzlEWhQpEFJ6RgFo8wRJW53uXppvZ3NHqEar
+	 agGq7cBi/W+qCHpg+h4mbcNQ2Nn2DkAZtfYLJ7LK6e6eoPT1oQcVFI+hHFE4uMZ7Lz
+	 hoQc9Z5K74OmQ==
 From: Philipp Stanner <phasta@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Boqun Feng <boqun@kernel.org>,
@@ -82,146 +83,122 @@ Cc: linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linaro-mm-sig@lists.linaro.org,
 	rcu@vger.kernel.org
-Subject: [PATCH 0/4] rust / dma_buf: Add abstractions for dma_fence
-Date: Sat, 30 May 2026 16:35:08 +0200
-Message-ID: <20260530143541.229628-2-phasta@kernel.org>
+Subject: [PATCH 1/4] rust: types: implement ForeignOwnable for ARef<T>
+Date: Sat, 30 May 2026 16:35:09 +0200
+Message-ID: <20260530143541.229628-3-phasta@kernel.org>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260530143541.229628-2-phasta@kernel.org>
+References: <20260530143541.229628-2-phasta@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.34 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63132-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[38];
+	FREEMAIL_TO(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,linaro.org,amd.com,nvidia.com,joshtriplett.org,gmail.com,goodmis.org,efficios.com,linux.dev,collabora.com,linuxfoundation.org,pitsidianak.is];
+	TAGGED_FROM(0.00)[bounces-63133-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,linaro.org,amd.com,nvidia.com,joshtriplett.org,gmail.com,goodmis.org,efficios.com,linux.dev,collabora.com,linuxfoundation.org,pitsidianak.is];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[phasta@kernel.org,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: C6AB160D843
+X-Rspamd-Queue-Id: D975660D862
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Changes since the RFC:
-  - Include support for ForeignOwnable for ARef, so that a Fence can be
-    stuffed into an XArray et al. (Code by Danilo)
-  - Implement ForeignOwnable (with new borrow type) for DriverFence, so
-    that it can be stuffed into an XArray.
-  - Include the rcu::RcuBox data type to defer dropping data with RCU
-    (Cody by Alice)
-  - Port DmaFence to RcuBox to make UAF bugs through later, new dma_fence
-    callbacks (backend_ops) impossible.
-  - Force users to pass their fence data in an RcuBox (or have it not
-    need drop()) through a Sealed trait.
-  - Document the rules for the user's DriverFence::data's drop
-    implementation very clearly (deadlock danger).
-  - rustfmt, Clippy.
-  - Various style suggestions, safety comments, etc. (Önur)
-  - Add __rust_helper prefix to helper functions. (Önur)
+From: Danilo Krummrich <dakr@kernel.org>
 
-Changes in RFC v3:
-  - Omit JobQueue patches for now
-  - Completely redesign the memory layout: Instead of a Fence
-    refcounting a DriverFence, both now live in the same allocation to
-    allow for future support the dma_fence backend_ops callbacks which
-    need to do container_of. (mostly Boris's feedback)
-  - Allow for pre-allocating fences to avoid deadlocks when submitting
-    jobs to a GPU. (Boris)
-  - Simultaneously, allow for pre-preparing fence callback objects, so
-    the driver can allocate them when it sees fit. (code largely stolen
-    and inspired by Daniel).
-  - Signal fences on drop, ensure synchronization.
-  - Force users to set an error code when signalling.
-  - Write more documentation
-  - A ton of minor other changes.
+Implement ForeignOwnable for ARef<T>, making it possible for C code to
+own an ARef<T>.
 
-Alright, so since the last RFCs did not reveal significant design
-issues, I decided to transition this series to a v1 and hope that we can
-get it upstream.
+Since ARef represents shared ownership, BorrowedMut is &T rather than
+&mut T, matching the semantics of the underlying reference-counted type.
 
-This now includes code for more common infrastructure that dma_fence
-needs, contributed by Danilo and Alice.
-
+Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 ---
+ rust/kernel/sync/aref.rs | 39 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
-Old cover letter for RFC:
-
-So, this is the spiritual successor of the first / second RFC [1]. v2
-also contained code for drm::JobQueue, but mostly to show how the fence
-code would be used. JobQueue is under heavy rework right now, so I don't
-want to bother your eyes with it. The docstring examples should show how
-Rust fences are supposed to be used, though.
-
-This v3 contains a huge amount of highly valuable feedback from a
-variety of people, notably Boris, but also from Alice, Gary and Danilo.
-
-There are some TODOs open (a better trait for fence backend_ops and RCU
-support), but my hope is that this effort is now finally approaching its
-end.
-
-I would greatly appreciate feedback and especially more information
-about what might be missing to make this usable, which is obviously
-where Daniel's and Boris's feedback will be valuable once more.
-
-Please regard this patch just as what it's titled: an RFC, to discuss a
-bit more and to inform a broader community about what the current state
-is and where this is heading at.
-
-Many regards,
-Philipp
-
-[1] https://lore.kernel.org/rust-for-linux/20260203081403.68733-2-phasta@kernel.org/
-
-Alice Ryhl (1):
-  rust: rcu: add RcuBox type
-
-Danilo Krummrich (1):
-  rust: types: implement ForeignOwnable for ARef<T>
-
-Philipp Stanner (2):
-  rust: Add dma_fence abstractions
-  MAINTAINERS: Add entry for Rust dma-buf
-
- MAINTAINERS                      |   2 +
- rust/bindings/bindings_helper.h  |   2 +
- rust/helpers/dma_fence.c         |  48 ++
- rust/helpers/helpers.c           |   1 +
- rust/kernel/dma_buf/dma_fence.rs | 821 +++++++++++++++++++++++++++++++
- rust/kernel/dma_buf/mod.rs       |  13 +
- rust/kernel/lib.rs               |   1 +
- rust/kernel/sync/aref.rs         |  39 ++
- rust/kernel/sync/rcu.rs          |  31 +-
- rust/kernel/sync/rcu/rcu_box.rs  | 145 ++++++
- 10 files changed, 1102 insertions(+), 1 deletion(-)
- create mode 100644 rust/helpers/dma_fence.c
- create mode 100644 rust/kernel/dma_buf/dma_fence.rs
- create mode 100644 rust/kernel/dma_buf/mod.rs
- create mode 100644 rust/kernel/sync/rcu/rcu_box.rs
-
+diff --git a/rust/kernel/sync/aref.rs b/rust/kernel/sync/aref.rs
+index 9989f56d0605..82907383c44b 100644
+--- a/rust/kernel/sync/aref.rs
++++ b/rust/kernel/sync/aref.rs
+@@ -17,6 +17,10 @@
+ //! [`Arc`]: crate::sync::Arc
+ //! [`Arc<T>`]: crate::sync::Arc
+ 
++use crate::{
++    prelude::*,
++    types::ForeignOwnable, //
++};
+ use core::{marker::PhantomData, mem::ManuallyDrop, ops::Deref, ptr::NonNull};
+ 
+ /// Types that are _always_ reference counted.
+@@ -183,6 +187,41 @@ fn eq(&self, other: &ARef<U>) -> bool {
+ }
+ impl<T: AlwaysRefCounted + Eq> Eq for ARef<T> {}
+ 
++// SAFETY: `into_foreign` returns a pointer from `NonNull::as_ptr`, so it's non-null. The
++// `ARef` invariant guarantees that `ptr` points to a valid `T`, so it's aligned to `T`.
++unsafe impl<T: AlwaysRefCounted + 'static> ForeignOwnable for ARef<T> {
++    const FOREIGN_ALIGN: usize = core::mem::align_of::<T>();
++
++    type Borrowed<'a> = &'a T;
++    type BorrowedMut<'a> = &'a T;
++
++    fn into_foreign(self) -> *mut c_void {
++        ARef::into_raw(self).as_ptr().cast()
++    }
++
++    unsafe fn from_foreign(ptr: *mut c_void) -> Self {
++        // SAFETY: The safety requirements of this function ensure that `ptr` comes from a previous
++        // call to `Self::into_foreign`.
++        let ptr = unsafe { NonNull::new_unchecked(ptr.cast()) };
++
++        // SAFETY: `ptr` came from `into_foreign`, which consumed an `ARef` without decrementing
++        // the refcount, so we can transfer the ownership to the new `ARef`.
++        unsafe { ARef::from_raw(ptr) }
++    }
++
++    unsafe fn borrow<'a>(ptr: *mut c_void) -> &'a T {
++        // SAFETY: The safety requirements of this method ensure that the object remains alive and
++        // immutable for the duration of 'a.
++        unsafe { &*ptr.cast() }
++    }
++
++    unsafe fn borrow_mut<'a>(ptr: *mut c_void) -> &'a T {
++        // SAFETY: The safety requirements for `borrow_mut` are a superset of the safety
++        // requirements for `borrow`.
++        unsafe { <Self as ForeignOwnable>::borrow(ptr) }
++    }
++}
++
+ impl<T, U> PartialEq<&'_ U> for ARef<T>
+ where
+     T: AlwaysRefCounted + PartialEq<U>,
 -- 
 2.54.0
 
