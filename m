@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-63133-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63134-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 4OOoGpL2Gmp4+AgAu9opvQ
-	(envelope-from <linux-media+bounces-63133-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:39:14 +0200
+	id iA0jJNH2Gmp4+AgAu9opvQ
+	(envelope-from <linux-media+bounces-63134-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:40:17 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id D975660D862
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:39:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EDA960D89F
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:40:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 058A4304FFCD
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 14:36:32 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B3570306DEC4
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 14:36:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56FF12DF13A;
-	Sat, 30 May 2026 14:36:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C673030171C;
+	Sat, 30 May 2026 14:36:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CVR7LIu9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k3TVWN3V"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D42B124EA90;
-	Sat, 30 May 2026 14:36:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0078124EA90;
+	Sat, 30 May 2026 14:36:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780151785; cv=none; b=JquFIaaIfex2x1uBwev4KVhzdmmPD+zXs94q+tRhc/euc5gkQ4ZwprIZOXN8aSDZz/SASCNjvtmIWAiG0XrZD0mWyOEUC0KmknlIpFJ8eFHwME7TWLVufziZb8ijYketHotc+RM/P2+xdGMRw+lPT9nBX3rdDPTo3SIMtI2GsTM=
+	t=1780151799; cv=none; b=QsEtfacLuGR6DWMe6EBzJcoFEA5FUWLT3/6KlpQKTv+YvESzd6ThDazjrU9IFpYG3Y0jzIAiP8YnqW5Ks4pnDtYR4Wui1Fha++MPulp838V9VGmpoXxMg0PozlJhCdyCiHI66voKghvNDmhu8sHL/cIZMVLJr66+7tVZ/hyv/Vg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780151785; c=relaxed/simple;
-	bh=iusRewpZ34TnQ5G2HLBSE7H0Lnu251CvtBRxV7HZGC0=;
+	s=arc-20240116; t=1780151799; c=relaxed/simple;
+	bh=j13bHhU0pkqLtqhmThdRI5vZsTfYYx3E5DZ+AN72eto=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UPx8GK3juxeBvBWp+awHW+fqaXCXdQ6BJgWFbksbA1l3M9MEJzZMGE90FrjBM59mh5QS1PyRaXCrrzvgrL/wgMYkdCAE7SdcfFqJ+O5ULxm/5rHqCt2GAYLaJaunTMxoZ+9TNcp16B5zLIAjlom352y/c1eGT7V8HqukchTR3qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CVR7LIu9; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3121E1F00898;
-	Sat, 30 May 2026 14:36:15 +0000 (UTC)
+	 MIME-Version; b=IRLP7Sq+6JYoOqk/yS10BzXx+VVf3fWf+1BycK5xFVcsg0og4+5RBkdXGcPwgip09aFCIdXfrGuGX57n6xvJY67DX6OhEs515KSqPG3gBuA58F8aKUcqVeUh/oe+urG1XbD2D13q0MvMVJtSLCooh9qeXBmjtdLCCZYFydsw1yA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k3TVWN3V; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D1761F00893;
+	Sat, 30 May 2026 14:36:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780151784;
-	bh=pDJyMWyNek1/CTCATK0JZj8GklloT+oL+OiV9mbnCoA=;
+	s=k20260515; t=1780151797;
+	bh=dNbTGAbme9kt3YqMUKN2FspzxRjZvUcj7K7J7y2iZ3U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=CVR7LIu9D96HTbHsL8aBjWenUaBybuuukmD4fMNjxcMZnl63zeJhQ8xZBs0if29ua
-	 RutT4/vJgD70WtBIhs7aHz7+KoobG2F2itlJcCPiHANBtwgd0ZPgqdeaqEB/j5EIQF
-	 z2R8gfk0d9wJFpdGs/FXn/ikx6lpcn3R1Lh4jmhp+4/rPSzI+L3QzULgEsFRPmIjyV
-	 bqHR8sEKi4+XG+mT/+2MEIq+M8uoZ6dzlEWhQpEFJ6RgFo8wRJW53uXppvZ3NHqEar
-	 agGq7cBi/W+qCHpg+h4mbcNQ2Nn2DkAZtfYLJ7LK6e6eoPT1oQcVFI+hHFE4uMZ7Lz
-	 hoQc9Z5K74OmQ==
+	b=k3TVWN3Vqh1wLDUNxAj0ciKt0MCWTe82+l/lyquU2HNALCAGyRjrd2Xz6kK7zpwJV
+	 ySoA8kHlSDWUeJxlZGDcXicjcv6GuBeLeV9QkJiyDySp4xSl3rrQ5I8t/01AZcESwU
+	 tWBGeHGmS7URJ+u1p5877i19c+WZP+jTULHzT2KvFTH9cE264BgBxNT6AEVtApJ7rV
+	 tZdmicfQSQPD7FuBVjkF0sPW2PmjOFlFSCQCzmbZtWM8q1kWRoHJyAoHRbNQIeX6oA
+	 eIPgChh/13ZCbSIaad9svInJCGiTgwfoosmrkG2ZnToQjpbJOevEFlDnBbszSy2U+D
+	 4K0iTTcEsxptg==
 From: Philipp Stanner <phasta@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Boqun Feng <boqun@kernel.org>,
@@ -83,9 +83,9 @@ Cc: linux-kernel@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linaro-mm-sig@lists.linaro.org,
 	rcu@vger.kernel.org
-Subject: [PATCH 1/4] rust: types: implement ForeignOwnable for ARef<T>
-Date: Sat, 30 May 2026 16:35:09 +0200
-Message-ID: <20260530143541.229628-3-phasta@kernel.org>
+Subject: [PATCH 2/4] rust: rcu: add RcuBox type
+Date: Sat, 30 May 2026 16:35:10 +0200
+Message-ID: <20260530143541.229628-4-phasta@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260530143541.229628-2-phasta@kernel.org>
 References: <20260530143541.229628-2-phasta@kernel.org>
@@ -109,7 +109,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCPT_COUNT_TWELVE(0.00)[38];
 	FREEMAIL_TO(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,linaro.org,amd.com,nvidia.com,joshtriplett.org,gmail.com,goodmis.org,efficios.com,linux.dev,collabora.com,linuxfoundation.org,pitsidianak.is];
-	TAGGED_FROM(0.00)[bounces-63133-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63134-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -125,80 +125,235 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: D975660D862
+X-Rspamd-Queue-Id: 0EDA960D89F
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-From: Danilo Krummrich <dakr@kernel.org>
+From: Alice Ryhl <aliceryhl@google.com>
 
-Implement ForeignOwnable for ARef<T>, making it possible for C code to
-own an ARef<T>.
+This adds an RcuBox container, which is like KBox except that the value
+is freed with kfree_rcu.
 
-Since ARef represents shared ownership, BorrowedMut is &T rather than
-&mut T, matching the semantics of the underlying reference-counted type.
+To allow containers to rely on the rcu properties of RcuBox, an
+extension of ForeignOwnable is added.
 
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+Signed-off-by: Alice Ryhl <aliceryhl@google.com>
 ---
- rust/kernel/sync/aref.rs | 39 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+ rust/bindings/bindings_helper.h |   1 +
+ rust/kernel/sync/rcu.rs         |  31 ++++++-
+ rust/kernel/sync/rcu/rcu_box.rs | 145 ++++++++++++++++++++++++++++++++
+ 3 files changed, 176 insertions(+), 1 deletion(-)
+ create mode 100644 rust/kernel/sync/rcu/rcu_box.rs
 
-diff --git a/rust/kernel/sync/aref.rs b/rust/kernel/sync/aref.rs
-index 9989f56d0605..82907383c44b 100644
---- a/rust/kernel/sync/aref.rs
-+++ b/rust/kernel/sync/aref.rs
-@@ -17,6 +17,10 @@
- //! [`Arc`]: crate::sync::Arc
- //! [`Arc<T>`]: crate::sync::Arc
+diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_helper.h
+index 446dbeaf0866..2011645c7cfb 100644
+--- a/rust/bindings/bindings_helper.h
++++ b/rust/bindings/bindings_helper.h
+@@ -80,6 +80,7 @@
+ #include <linux/property.h>
+ #include <linux/pwm.h>
+ #include <linux/random.h>
++#include <linux/rcupdate.h>
+ #include <linux/refcount.h>
+ #include <linux/regulator/consumer.h>
+ #include <linux/sched.h>
+diff --git a/rust/kernel/sync/rcu.rs b/rust/kernel/sync/rcu.rs
+index a32bef6e490b..7234fe3e79ee 100644
+--- a/rust/kernel/sync/rcu.rs
++++ b/rust/kernel/sync/rcu.rs
+@@ -4,7 +4,16 @@
+ //!
+ //! C header: [`include/linux/rcupdate.h`](srctree/include/linux/rcupdate.h)
  
+-use crate::{bindings, types::NotThreadSafe};
 +use crate::{
-+    prelude::*,
-+    types::ForeignOwnable, //
++    bindings,
++    types::{
++        ForeignOwnable,
++        NotThreadSafe, //
++    }, //
 +};
- use core::{marker::PhantomData, mem::ManuallyDrop, ops::Deref, ptr::NonNull};
++
++mod rcu_box;
++pub use self::rcu_box::RcuBox;
  
- /// Types that are _always_ reference counted.
-@@ -183,6 +187,41 @@ fn eq(&self, other: &ARef<U>) -> bool {
+ /// Evidence that the RCU read side lock is held on the current thread/CPU.
+ ///
+@@ -50,3 +59,23 @@ fn drop(&mut self) {
+ pub fn read_lock() -> Guard {
+     Guard::new()
  }
- impl<T: AlwaysRefCounted + Eq> Eq for ARef<T> {}
- 
-+// SAFETY: `into_foreign` returns a pointer from `NonNull::as_ptr`, so it's non-null. The
-+// `ARef` invariant guarantees that `ptr` points to a valid `T`, so it's aligned to `T`.
-+unsafe impl<T: AlwaysRefCounted + 'static> ForeignOwnable for ARef<T> {
-+    const FOREIGN_ALIGN: usize = core::mem::align_of::<T>();
++
++/// Declares that a pointer type is rcu safe.
++pub trait ForeignOwnableRcu: ForeignOwnable {
++    /// Type used to immutably borrow an rcu-safe value that is currently foreign-owned.
++    type RcuBorrowed<'a>;
++
++    /// Borrows a foreign-owned object immutably for an rcu grace period.
++    ///
++    /// This method provides a way to access a foreign-owned rcu-safe value from Rust immutably.
++    ///
++    /// # Safety
++    ///
++    /// * The provided pointer must have been returned by a previous call to [`into_foreign`].
++    /// * If [`from_foreign`] is called, then `'a` must not end after the call to `from_foreign`
++    ///   plus one rcu grace period.
++    ///
++    /// [`into_foreign`]: ForeignOwnable::into_foreign
++    /// [`from_foreign`]: ForeignOwnable::from_foreign
++    unsafe fn rcu_borrow<'a>(ptr: *mut ffi::c_void) -> Self::RcuBorrowed<'a>;
++}
+diff --git a/rust/kernel/sync/rcu/rcu_box.rs b/rust/kernel/sync/rcu/rcu_box.rs
+new file mode 100644
+index 000000000000..2508fdb609ec
+--- /dev/null
++++ b/rust/kernel/sync/rcu/rcu_box.rs
+@@ -0,0 +1,145 @@
++// SPDX-License-Identifier: GPL-2.0
++
++// Copyright (C) 2026 Google LLC.
++
++//! Provides the `RcuBox` type for Rust allocations that live for a grace period.
++
++use core::{ops::Deref, ptr::NonNull};
++
++use kernel::{
++    alloc::{self, AllocError},
++    bindings,
++    ffi::c_void,
++    prelude::*,
++    sync::rcu::{ForeignOwnableRcu, Guard},
++    types::ForeignOwnable,
++};
++
++/// A box that is freed with rcu.
++///
++/// The value must be `Send`, as rcu may drop it on another thread.
++///
++/// # Invariants
++///
++/// * The pointer is valid and references a pinned `RcuBoxInner<T>` allocated with `kmalloc`.
++/// * This `RcuBox` holds exclusive permissions to rcu free the allocation.
++pub struct RcuBox<T: Send>(NonNull<RcuBoxInner<T>>);
++
++struct RcuBoxInner<T> {
++    value: T,
++    rcu_head: bindings::callback_head,
++}
++
++// Note that `T: Sync` is required since when moving an `RcuBox<T>`, the previous owner may still
++// access `&T` for one grace period.
++//
++// SAFETY: Ownership of the `RcuBox<T>` allows for `&T` and dropping the `T`, so `T: Send + Sync`
++// implies `RcuBox<T>: Send`.
++unsafe impl<T: Send + Sync> Send for RcuBox<T> {}
++
++// SAFETY: `&RcuBox<T>` allows for no operations other than those permitted by `&T`, so `T: Sync`
++// implies `RcuBox<T>: Sync`.
++unsafe impl<T: Send + Sync> Sync for RcuBox<T> {}
++
++impl<T: Send> RcuBox<T> {
++    /// Create a new `RcuBox`.
++    pub fn new(x: T, flags: alloc::Flags) -> Result<Self, AllocError> {
++        let b = KBox::new(
++            RcuBoxInner {
++                value: x,
++                rcu_head: Default::default(),
++            },
++            flags,
++        )?;
++
++        // INVARIANT:
++        // * The pointer contains a valid `RcuBoxInner` allocated with `kmalloc`.
++        // * We just allocated it, so we own free permissions.
++        Ok(RcuBox(NonNull::from(KBox::leak(b))))
++    }
++
++    /// Access the value for a grace period.
++    pub fn with_rcu<'rcu>(&self, _read_guard: &'rcu Guard) -> &'rcu T {
++        // SAFETY: The `RcuBox` has not been dropped yet, so the value is valid for at least one
++        // grace period.
++        unsafe { &(*self.0.as_ptr()).value }
++    }
++}
++
++impl<T: Send> Deref for RcuBox<T> {
++    type Target = T;
++    fn deref(&self) -> &T {
++        // SAFETY: While the `RcuBox<T>` exists, the value remains valid.
++        unsafe { &(*self.0.as_ptr()).value }
++    }
++}
++
++// SAFETY:
++// * The `RcuBoxInner<T>` was allocated with `kmalloc`.
++// * `NonNull::as_ptr` returns a non-null pointer.
++unsafe impl<T: Send + 'static> ForeignOwnable for RcuBox<T> {
++    const FOREIGN_ALIGN: usize = <KBox<RcuBoxInner<T>> as ForeignOwnable>::FOREIGN_ALIGN;
 +
 +    type Borrowed<'a> = &'a T;
 +    type BorrowedMut<'a> = &'a T;
 +
 +    fn into_foreign(self) -> *mut c_void {
-+        ARef::into_raw(self).as_ptr().cast()
++        self.0.as_ptr().cast()
 +    }
 +
 +    unsafe fn from_foreign(ptr: *mut c_void) -> Self {
-+        // SAFETY: The safety requirements of this function ensure that `ptr` comes from a previous
-+        // call to `Self::into_foreign`.
-+        let ptr = unsafe { NonNull::new_unchecked(ptr.cast()) };
-+
-+        // SAFETY: `ptr` came from `into_foreign`, which consumed an `ARef` without decrementing
-+        // the refcount, so we can transfer the ownership to the new `ARef`.
-+        unsafe { ARef::from_raw(ptr) }
++        // INVARIANT: Pointer returned by `into_foreign` carries same invariants as `RcuBox<T>`.
++        // SAFETY: `into_foreign` never returns a null pointer.
++        Self(unsafe { NonNull::new_unchecked(ptr.cast()) })
 +    }
 +
 +    unsafe fn borrow<'a>(ptr: *mut c_void) -> &'a T {
-+        // SAFETY: The safety requirements of this method ensure that the object remains alive and
-+        // immutable for the duration of 'a.
-+        unsafe { &*ptr.cast() }
++        // SAFETY: Caller ensures that `'a` is short enough.
++        unsafe { &(*ptr.cast::<RcuBoxInner<T>>()).value }
 +    }
 +
 +    unsafe fn borrow_mut<'a>(ptr: *mut c_void) -> &'a T {
-+        // SAFETY: The safety requirements for `borrow_mut` are a superset of the safety
-+        // requirements for `borrow`.
-+        unsafe { <Self as ForeignOwnable>::borrow(ptr) }
++        // SAFETY: `borrow_mut` has strictly stronger preconditions than `borrow`.
++        unsafe { Self::borrow(ptr) }
 +    }
 +}
 +
- impl<T, U> PartialEq<&'_ U> for ARef<T>
- where
-     T: AlwaysRefCounted + PartialEq<U>,
++impl<T: Send + 'static> ForeignOwnableRcu for RcuBox<T> {
++    type RcuBorrowed<'a> = &'a T;
++
++    unsafe fn rcu_borrow<'a>(ptr: *mut c_void) -> &'a T {
++        // SAFETY: `RcuBox::drop` can only run after `from_foreign` is called, and the value is
++        // valid until `RcuBox::drop` plus one grace period.
++        unsafe { &(*ptr.cast::<RcuBoxInner<T>>()).value }
++    }
++}
++
++impl<T: Send> Drop for RcuBox<T> {
++    fn drop(&mut self) {
++        // SAFETY: The `rcu_head` field is in-bounds of a valid allocation.
++        let rcu_head = unsafe { &raw mut (*self.0.as_ptr()).rcu_head };
++        if core::mem::needs_drop::<T>() {
++            // SAFETY: `rcu_head` is the `rcu_head` field of `RcuBoxInner<T>`. All users will be
++            // gone in an rcu grace period. This is the destructor, so we may pass ownership of the
++            // allocation.
++            unsafe { bindings::call_rcu(rcu_head, Some(drop_rcu_box::<T>)) };
++        } else {
++            // SAFETY: All users will be gone in an rcu grace period.
++            unsafe { bindings::kvfree_call_rcu(rcu_head, self.0.as_ptr().cast()) };
++        }
++    }
++}
++
++/// Free this `RcuBoxInner<T>`.
++///
++/// # Safety
++///
++/// `head` references the `rcu_head` field of an `RcuBoxInner<T>` that has no references to it.
++/// Ownership of the `KBox<RcuBoxInner<T>>` must be passed.
++unsafe extern "C" fn drop_rcu_box<T>(head: *mut bindings::callback_head) {
++    // SAFETY: Caller provides a pointer to the `rcu_head` field of a `RcuBoxInner<T>`.
++    let box_inner = unsafe { crate::container_of!(head, RcuBoxInner<T>, rcu_head) };
++
++    // SAFETY: Caller ensures exclusive access and passed ownership.
++    drop(unsafe { KBox::from_raw(box_inner) });
++}
 -- 
 2.54.0
 
