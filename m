@@ -1,172 +1,180 @@
-Return-Path: <linux-media+bounces-63136-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63137-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +PhCEt/2Gmp4+AgAu9opvQ
-	(envelope-from <linux-media+bounces-63136-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:40:31 +0200
+	id yNT3FlD4GmrH+AgAu9opvQ
+	(envelope-from <linux-media+bounces-63137-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:46:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CAF60D8B6
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:40:29 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A622860D91D
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 16:46:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 034493032172
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 14:37:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id DA0883019C8D
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 14:45:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B6002FE066;
-	Sat, 30 May 2026 14:37:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3BEA2D3225;
+	Sat, 30 May 2026 14:45:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P695W+rQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fDJFDxN6"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E68682BE033;
-	Sat, 30 May 2026 14:37:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D1B250BEC
+	for <linux-media@vger.kernel.org>; Sat, 30 May 2026 14:45:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780151859; cv=none; b=QwP8Nh6DwHwcEI0P0Ymwo1gBvKMfI14GYEF7sa4sLJ3JkMYqX6XvjGnPm02SIOCi3WoO237zVLsl/MsmswsQZeOjJMLFEvcXMXKPYJsZdg8VjwMCwkTUdofLKPYlETipcRmfZ6MIW8urxxU6sxCzjqQfzpFkYS1A0VRnH1UQSfo=
+	t=1780152340; cv=none; b=Gj+/buqpvFeOGa0BQTcPB9rsEJpeyMEmuwkO5heWplAEffifuYdc2ZnRY0X/ZRHdk1mHqZUPu6Xk5tXMgyQKK/1uXdbQsXv6bJt3Ab+0reVhEkdYWbaPiSA04RbQqdhNmSQSQt4dkQslzinUD9uC3YBFpAmBaNaffFfOULoJOuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780151859; c=relaxed/simple;
-	bh=4euHBbsz9eB8Goft/Un98U/vCSep1wxIpkjJFv0sH48=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Lhv9dnokl0bp6GbmFpvaUI2b68U4rv9+4uXLxP/vUHHb9jFdnLZ6TsghcBJRjWunYB8oAUuwrwC3kSET2wYTiO152ReZOWLBLa4jSC4L7eGMynYMa0ZhilBvGatWzTnUMPvsI7tfVxNhjCJo9ornJajruVh/qK/UX54S/EUSXfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P695W+rQ; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 850C31F00893;
-	Sat, 30 May 2026 14:37:30 +0000 (UTC)
+	s=arc-20240116; t=1780152340; c=relaxed/simple;
+	bh=ozUwYXcEFWxu04+fqtxivLHvapi1adEAQ2Jkxo1jkno=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=J7g8mqeb75xk4tjT/35QF03v1xVcSzN74Xyv4CrWOSwSd+69Fg+S0iAatNGYZaVjM/hAGNypbhOl1eBA1w6PKoztpOmiH1SAZKSDs/31jD6I+byi0qaasq9RiGcsvRxrU7BQqhUOCHaIMqZqUM9iDOhBJpnIxar8N6+A2RswDSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fDJFDxN6; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF3EA1F00893;
+	Sat, 30 May 2026 14:45:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780151858;
-	bh=Oh702E20bwx/p0BX78CbvBoV0ZkW0mSKteIxLUaDpYc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=P695W+rQUAycRVtKTMK8ZUb4SRqjKHX3MUQPaWLoXKoi1Fh4ArSVZjLAgERV3InZ6
-	 azFgBj9tuRdq+8LLH7SCkgIYl6jT59xVULdW8b5zOFVNr1ql+RMvRTRCm50Z6KChcN
-	 LpL/sHozZlMg1O7Ds+qQ+9Io9DBC+ahhBanec3c+RZgUauwgBNQFkO3fo4Cagx41Rm
-	 Uk8vp2pTDBqdgelT1YnZDLBWC7xVa99KDyu8Uj82J234Gn0mFp/R7hQynU1DK3bPlX
-	 PXfqWdFRo6ef4p0Qv3tXENq/y6iZrogTLXOBuAgOW2py0oh9wchFqhFHCMsEErcqhl
-	 nuAKWfPFkUkkw==
-From: Philipp Stanner <phasta@kernel.org>
-To: Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Igor Korotin <igor.korotin@linux.dev>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>,
-	Krishna Ketan Rai <prafulrai522@gmail.com>,
-	Shankari Anand <shankari.ak0208@gmail.com>,
-	manos@pitsidianak.is,
-	Boris Brezillon <boris.brezillon@collabora.com>
-Cc: linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	rcu@vger.kernel.org
-Subject: [PATCH 4/4] MAINTAINERS: Add entry for Rust dma-buf
-Date: Sat, 30 May 2026 16:35:13 +0200
-Message-ID: <20260530143541.229628-7-phasta@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260530143541.229628-2-phasta@kernel.org>
-References: <20260530143541.229628-2-phasta@kernel.org>
+	s=k20260515; t=1780152339;
+	bh=Z3IVHgXppubXihmyJFwsCA4Hb8miO0ZRxVzScYjlROs=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=fDJFDxN65HddEeVgNzWTRefkuaUMXZUrqVkghzxmiqWvKgUAaTKA3bnt3yKrXhrjK
+	 +J03AYL0UPuc6Io1ArFU1/CFNHcGTWfvvcnA2K9vxW+p3mC0x2s/I4ssjiGoDYIYum
+	 IksmYwL072Gb3r/SjfIK2LRTyWPOPBiOJxb15rBIXzC0+98PGmhAaBjwqfKULQkl+e
+	 XEl2oI4e8DCpkcJQqWvjSBva2aJkXLcchz0zmcfYyl+bgVKt08ic15sdJYKdOwtIjL
+	 XeG5BrNi4VI1/WHv6Q5+o6Sobo4tl/UjDfCmB34g5qqQ1BxE7SbMEgosQeGhwIBF0V
+	 x8YXU1OkOaJeQ==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 1/4] rust: types: implement ForeignOwnable for ARef<T>
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Philipp Stanner" <phasta@kernel.org>
+Cc: linux-media@vger.kernel.org, ojeda@kernel.org
+In-Reply-To: <20260530143541.229628-3-phasta@kernel.org>
+References: <20260530143541.229628-3-phasta@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 30 May 2026 14:45:38 +0000
+Message-Id: <20260530144538.DF3EA1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	MISSING_MIME_VERSION(2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63136-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[38];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,linaro.org,amd.com,nvidia.com,joshtriplett.org,gmail.com,goodmis.org,efficios.com,linux.dev,collabora.com,linuxfoundation.org,pitsidianak.is];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
+	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@kernel.org,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-63137-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,amd.com:email]
-X-Rspamd-Queue-Id: 42CAF60D8B6
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NO_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,sashiko.dev:url,lists.linux.dev:replyto]
+X-Rspamd-Queue-Id: A622860D91D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Rust does now have abstractions for dma_fence. These abstractions are
-quite complicated and require expertise with both the C and the Rust
-side. Therefore, using the existing entry also for maintenance of the
-Rust code appears reasonable.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Low] Missing `#[inline]` annotations on small forwarding trait methods i=
+n `ForeignOwnable` implementation for `ARef<T>`.
+--
 
-Philipp volunteers to help maintain the dma_fence abstractions. Add a
-corresponding MAINTAINERS entry.
+commit 62543d419c62c8206acbd8b76f07e5198b71442e
+Author: Danilo Krummrich <dakr@kernel.org>
 
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
----
-Just as a suggestion, I don't want to force myself in here. Would also
-be perfectly happy with other approaches; there are certainly a few
-people who could maintain or co-maintain it.
----
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+rust: types: implement ForeignOwnable for ARef<T>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2e8d160babc2..31fc595d5c6b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7521,6 +7521,7 @@ F:	fs/dlm/
- DMA BUFFER SHARING FRAMEWORK
- M:	Sumit Semwal <sumit.semwal@linaro.org>
- M:	Christian König <christian.koenig@amd.com>
-+M:	Philipp Stanner <phasta@kernel.org>
- L:	linux-media@vger.kernel.org
- L:	dri-devel@lists.freedesktop.org
- L:	linaro-mm-sig@lists.linaro.org (moderated for non-subscribers)
-@@ -7529,6 +7530,7 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/driver-api/dma-buf.rst
- F:	Documentation/userspace-api/dma-buf-alloc-exchange.rst
- F:	drivers/dma-buf/
-+F:	rust/kernel/dma_buf/
- F:	include/linux/*fence.h
- F:	include/linux/dma-buf.h
- F:	include/linux/dma-buf/
--- 
-2.54.0
+This commit implements ForeignOwnable for ARef<T>, making it possible for C
+code to own an ARef<T>. It sets BorrowedMut to &T to match the shared
+ownership semantics of the underlying reference-counted type.
 
+> diff --git a/rust/kernel/sync/aref.rs b/rust/kernel/sync/aref.rs
+> index 9989f56d06052..82907383c44b5 100644
+> --- a/rust/kernel/sync/aref.rs
+> +++ b/rust/kernel/sync/aref.rs
+
+[ ... ]
+
+> +    type Borrowed<'a> =3D &'a T;
+> +    type BorrowedMut<'a> =3D &'a T;
+> +
+> +    fn into_foreign(self) -> *mut c_void {
+
+[Severity: Low]
+This isn't a bug, but should this method be annotated with #[inline]?
+According to the Rust subsystem guidelines, small forwarding functions in
+abstractions should be annotated with #[inline].
+
+> +        ARef::into_raw(self).as_ptr().cast()
+> +    }
+> +
+> +    unsafe fn from_foreign(ptr: *mut c_void) -> Self {
+
+[Severity: Low]
+This isn't a bug, but should from_foreign() also have an #[inline]
+annotation since it is a small wrapper method?
+
+> +        // SAFETY: The safety requirements of this function ensure that =
+`ptr` comes from a previous
+> +        // call to `Self::into_foreign`.
+> +        let ptr =3D unsafe { NonNull::new_unchecked(ptr.cast()) };
+> +
+> +        // SAFETY: `ptr` came from `into_foreign`, which consumed an `AR=
+ef` without decrementing
+> +        // the refcount, so we can transfer the ownership to the new `AR=
+ef`.
+> +        unsafe { ARef::from_raw(ptr) }
+> +    }
+> +
+> +    unsafe fn borrow<'a>(ptr: *mut c_void) -> &'a T {
+
+[Severity: Low]
+This isn't a bug, but similar to the above, should borrow() be annotated
+with #[inline]?
+
+> +        // SAFETY: The safety requirements of this method ensure that th=
+e object remains alive and
+> +        // immutable for the duration of 'a.
+> +        unsafe { &*ptr.cast() }
+> +    }
+> +
+> +    unsafe fn borrow_mut<'a>(ptr: *mut c_void) -> &'a T {
+
+[Severity: Low]
+This isn't a bug, but does borrow_mut() need an #[inline] annotation here
+as well?
+
+> +        // SAFETY: The safety requirements for `borrow_mut` are a supers=
+et of the safety
+> +        // requirements for `borrow`.
+> +        unsafe { <Self as ForeignOwnable>::borrow(ptr) }
+> +    }
+> +}
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260530143541.2296=
+28-2-phasta@kernel.org?part=3D1
 
