@@ -1,258 +1,153 @@
-Return-Path: <linux-media+bounces-63118-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63119-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KFjKCg3JGmqA8wgAu9opvQ
-	(envelope-from <linux-media+bounces-63118-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 13:25:01 +0200
+	id QDEfJHTLGmqA8wgAu9opvQ
+	(envelope-from <linux-media+bounces-63119-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 13:35:16 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AAF760C724
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 13:25:00 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id E45F260C884
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 13:35:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AC38A303CD29
-	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 11:23:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E82D0302D51D
+	for <lists+linux-media@lfdr.de>; Sat, 30 May 2026 11:35:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18CF83A963D;
-	Sat, 30 May 2026 11:23:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD6F43ABD88;
+	Sat, 30 May 2026 11:34:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SnqX67f+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="imYG6wHp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797C42475CF
-	for <linux-media@vger.kernel.org>; Sat, 30 May 2026 11:23:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C88726A0D5;
+	Sat, 30 May 2026 11:34:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780140225; cv=none; b=Nc4TnDrYOQykIPgdegH/Q0lnzrO5RyV8OSqjSJU++frYOzNr+jSoPVz/VmsgQV8wFtXjR4r9riy1Q8BONiXFdgeeG9S9xNuXTuoxMXoP5Qa0bwJOBAoJFaKcwYv/XdWT0BaFUwcGJ4VAtr0YmFKMq6Vxz1a6/T/DWPz/A62bbAo=
+	t=1780140899; cv=none; b=N8CMQ15PemhPOVw6suINE060ebb6GRx+fZ3srN3r0euyrO6pGJ3F8clEffvXAOS6njHzfj7IL7oAreJBQngpNh2c99hkCxtGtkTzthxyqbsFvOjR45CrRvstoS+rMi/YdwvauH1E8MI8VvRXPEneuqHOsAcrlAcxA2voyt3xsdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780140225; c=relaxed/simple;
-	bh=TUmKLMAq//3RSTzEWCncl86apzOdtgMk0XOIs12SQdQ=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=L5SUwbwlBUa+jhfoqiPl61aeyeCnrRnvchyFq7gNLc92pfp6yfPsQlkTdX2rxXOo8ikGIcJMDuG88f5O5C1/BBL/X3sdwMjyHYTQCFLjZ92tTS3OL+4yyMA1rU+mIzAtsHwWC6VVABnuQw63DZAoTcOxKSdefTRQQEs8dLmLcMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SnqX67f+; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E33051F00893;
-	Sat, 30 May 2026 11:23:43 +0000 (UTC)
+	s=arc-20240116; t=1780140899; c=relaxed/simple;
+	bh=Ku/aFaxUgfIGXui8jRwFs/0PTJclzFiBbeu2QzFxa64=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WDCRvW4ORcCTZ8MacDPHy9kpCngnJqKBVk5StK4SnMS0tKyBIGIt8f5W2s1pyDVOslh7MYYVjY1Vtas1IdaiRNPaQTx9NVwnC9qq67ZIW10//wt1TMtq8Gwgucz46S9ESt4uFuGiHpwZfmuxYjaCPb4UyFtkk9cTxU9vnKmaknw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=imYG6wHp; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50AE61F00893;
+	Sat, 30 May 2026 11:34:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780140224;
-	bh=p3GF2+elIyBw2+ACsQDxH2lMBpgjPWo/Sy0efQo5rqk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=SnqX67f+zGkajBdgRJruuRtPIe32xsYGosp8sHv3sfBpRrGD90u+/3ZlqPF3i/pxF
-	 xz7YGBqzVxmvA/32tG5OYlYgXWW4RYKQBepj3VGwL+RvbGRBHPk/HNR6l1FfryCmlr
-	 ksUfbN9DUJ7rtm9901qeLiXW6nHYl2FFOcl8skHE5TXj9F7M2z9/h2FSoyt+u0MEUz
-	 DLouBhbWtLhTeJEEimbnqT6pvXYl8c6zQL5GqdpaRdKxylpxfxEUT+xcLKY7d7J3n4
-	 De7HjvqA9mNVc9SnQMiywyD09EQiz85HC8or3+T9DFsXe5xMumn0pQzR++mI/fU3ib
-	 vQB8rdgHKoETQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 7/8] media: meson: vdec: Fix NULL pointer dereference
- in ISR handlers
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Anand Moon" <linux.amoon@gmail.com>
-Cc: linux-media@vger.kernel.org, neil.armstrong@linaro.org, linux-amlogic@lists.infradead.org
-In-Reply-To: <20260530094326.11892-8-linux.amoon@gmail.com>
-References: <20260530094326.11892-8-linux.amoon@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 30 May 2026 11:23:43 +0000
-Message-Id: <20260530112343.E33051F00893@smtp.kernel.org>
+	s=k20260515; t=1780140897;
+	bh=r6iJ03g0GN7RPUEqnMX9QzrhnN3t4K3RUDcacgMvbpA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=imYG6wHpndrIyG2kUXah98OBeOwxAQDxY+wnIJP2tmdT81J8jrlgyC9zjchdYinrp
+	 qrUwgYBT9G5apv8isIO+ZfnGbXbykqDUC1FDnE7Ay5q/2UR5W8EZyOe1i0mxgZPKIy
+	 iIPeqjCEDwKD8nsV8rhLLHL1+Ev5/QAyb3zCLONelalhQa4Lpq9RpJtoRu/3SLYSQ6
+	 UW2ecTI7wyeuNZhHfcKVjz2R1WFhmrbOJVHtcx+VcYPUS6Py/4NsxZwC+CbRiSRC4d
+	 qL01rbpeAjc9gEJmvEQSKpvHrqY+MAWqSYcPSuE7/rMcGqnz1mvNLBj+QYcfzF0z2H
+	 psI/LmsNcVEUQ==
+Date: Sat, 30 May 2026 13:34:55 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Nihal Kumar Gupta <nihal.gupta@oss.qualcomm.com>
+Cc: Bryan O'Donoghue <bod@kernel.org>, 
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Loic Poulain <loic.poulain@oss.qualcomm.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
+	Fabio Estevam <festevam@gmail.com>, linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org, 
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	Suresh Vankadara <quic_svankada@quicinc.com>, Vikram Sharma <vikram.sharma@oss.qualcomm.com>
+Subject: Re: [PATCH 1/8] dt-bindings: media: qcom: Add Shikra CAMSS compatible
+Message-ID: <20260530-lorikeet-of-strongest-honeydew-fd9b16@quoll>
+References: <20260526-shikra-camss-review-v1-0-645d2c8c75a7@qti.qualcomm.com>
+ <20260526-shikra-camss-review-v1-1-645d2c8c75a7@qti.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Spamd-Result: default: False [1.34 / 15.00];
-	MISSING_MIME_VERSION(2.00)[];
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260526-shikra-camss-review-v1-1-645d2c8c75a7@qti.qualcomm.com>
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-63119-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[26];
 	MIME_TRACE(0.00)[0:+];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63118-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,linaro.org,oss.qualcomm.com,nxp.com,pengutronix.de,gmail.com,vger.kernel.org,lists.linux.dev,lists.infradead.org,quicinc.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_NO_DN(0.00)[];
-	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_THREE(0.00)[4];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 8AAF760C724
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: E45F260C884
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Thank you for your contribution! Sashiko AI review found 5 potential issue(=
-s) to consider:
+On Tue, May 26, 2026 at 10:42:45PM +0530, Nihal Kumar Gupta wrote:
+> Shikra uses the same CAMSS IP as QCM2290. Extend the existing
+> qcom,qcm2290-camss binding to add the qcom,shikra-camss compatible
+> string.
+> 
+> Signed-off-by: Nihal Kumar Gupta <nihal.gupta@oss.qualcomm.com>
+> ---
+>  Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml b/Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml
+> index 391d0f6f67ef5fdfea31dd3683477561516b1556..7b1469d6a1601413a1a32dc452d7d1fc85aa9eb8 100644
+> --- a/Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml
+> +++ b/Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml
+> @@ -8,13 +8,16 @@ title: Qualcomm QCM2290 Camera Subsystem (CAMSS)
+>  
+>  maintainers:
+>    - Loic Poulain <loic.poulain@oss.qualcomm.com>
+> +  - Nihal Kumar Gupta <nihal.gupta@oss.qualcomm.com>
+>  
+>  description:
+>    The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms.
+>  
+>  properties:
+>    compatible:
+> -    const: qcom,qcm2290-camss
+> +    enum:
+> +      - qcom,qcm2290-camss
+> +      - qcom,shikra-camss
+>  
+>    reg:
+>      maxItems: 9
+> @@ -76,6 +79,7 @@ properties:
+>        - const: sf_mnoc
+>  
+>    iommus:
+> +    minItems: 1
 
-New issues:
-- [Critical] Freeing `core->m2m_dev` in `vdec_remove` causes a use-after-fr=
-ee vulnerability when userspace keeps file descriptors open.
-- [High] Returning IRQ_NONE without clearing the hardware interrupt status =
-when `core->cur_sess` is NULL leaves the level-triggered hardware interrupt=
- unacknowledged, causing an interrupt storm.
-- [High] Bailing out early in the ISR prevents updating `sess->last_irq_jif=
-fies`, completely bypassing the hardware quiescence wait.
-- [High] Prematurely releasing `core->lock` and clearing `core->cur_sess` i=
-n `vdec_stop_streaming()` allows another session to start streaming concurr=
-ently while the hardware is still being powered off.
+No. Same feedback as before - you need to describe now the items if you
+claim that there is distinction. I already pointed this out to Qualcomm
+at least two or three times.
 
-Pre-existing issues:
-- [High] The patch fails to resolve the underlying race condition, leaving =
-a Time-of-Check to Time-of-Use (TOCTOU) vulnerability that causes Use-After=
--Free and bus aborts.
---
+Best regards,
+Krzysztof
 
-commit c640aebabd0e51f1ec94916e63bc19e2fc312eb7
-Author: Anand Moon <linux.amoon@gmail.com>
-
-media: meson: vdec: Fix NULL pointer dereference in ISR handlers
-
-This commit attempts to fix a NULL pointer dereference in the vdec
-interrupt handlers by using READ_ONCE() to take an atomic snapshot of
-core->cur_sess. If the session has already been torn down and the
-pointer is NULL, it returns IRQ_NONE to prevent dereferencing it.
-
-Link: https://lore.kernel.org/all/20260521090944.F35401F00A3D@smtp.kernel.o=
-rg/
-
-> diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/me=
-dia/meson/vdec/vdec.c
-> index f99335effe176..3897c75b19c8f 100644
-> --- a/drivers/staging/media/meson/vdec/vdec.c
-> +++ b/drivers/staging/media/meson/vdec/vdec.c
-> @@ -996,17 +996,36 @@ static const struct v4l2_file_operations vdec_fops =
-=3D {
->  static irqreturn_t vdec_isr(int irq, void *data)
->  {
->  	struct amvdec_core *core =3D data;
-> -	struct amvdec_session *sess =3D core->cur_sess;
-> +	struct amvdec_session *sess;
-> +	irqreturn_t ret =3D IRQ_HANDLED;
-> +
-> +	/*
-> +	 * Use READ_ONCE to secure an atomic snapshot of the pointer,
-> +	 * protecting against concurrent clearing during streaming
-> +	 * teardowns.
-> +	 */
-> +	sess =3D READ_ONCE(core->cur_sess);
-> +	if (!sess)
-> +		return IRQ_NONE;
-
-[Severity: High]
-Can returning IRQ_NONE here cause an interrupt storm?
-
-In vdec_stop_streaming(), core->cur_sess is set to NULL before the hardware
-is actually stopped. If an active hardware interrupt fires during this wind=
-ow,
-the handler observes a NULL sess and returns IRQ_NONE early.
-
-Because the interrupt is not cleared in the hardware registers, the
-level-triggered interrupt remains asserted. Will this trigger an infinite
-interrupt loop until the kernel's spurious interrupt detector permanently
-disables the IRQ line?
-
-[Severity: High]
-Does bailing out early prevent updating sess->last_irq_jiffies?
-
-The teardown sequence calls vdec_wait_inactive(), which sleeps until 50ms
-have elapsed since sess->last_irq_jiffies. By returning early when
-core->cur_sess is NULL, the handler no longer updates this timestamp for
-trailing interrupts.
-
-Could vdec_wait_inactive() observe a stale timestamp and return immediately
-instead of waiting for the hardware to quiesce? This might allow the driver
-to forcefully disable device clocks while the hardware is still actively
-processing.
-
-> =20
->  	sess->last_irq_jiffies =3D get_jiffies_64();
-> +	ret =3D sess->fmt_out->codec_ops->isr(sess);
-> =20
-> -	return sess->fmt_out->codec_ops->isr(sess);
-> +	return ret;
->  }
-> =20
->  static irqreturn_t vdec_threaded_isr(int irq, void *data)
->  {
->  	struct amvdec_core *core =3D data;
-> -	struct amvdec_session *sess =3D core->cur_sess;
-> +	struct amvdec_session *sess;
-> +
-> +	/*
-> +	 * Prevent late-stage threaded interrupts from dereferencing a NULL
-> +	 * session.
-> +	 */
-> +	sess =3D READ_ONCE(core->cur_sess);
-
-[Severity: High]
-This is a pre-existing issue, but does using READ_ONCE() here fully resolve
-the underlying race condition?
-
-If the thread is preempted after passing the !sess check, could
-vdec_stop_streaming() concurrently clear core->cur_sess, disable hardware
-clocks via vdec_poweroff(), and free sess->priv?
-
-When the thread resumes, it would dereference the freed sess->priv and acce=
-ss
-disabled hardware. Should the driver use synchronize_irq() to ensure
-in-flight handlers have completed before tearing down session resources?
-
-> +	if (!sess)
-> +		return IRQ_NONE;
-> =20
->  	return sess->fmt_out->codec_ops->threaded_isr(sess);
->  }
-
-[Severity: High]
-Does prematurely releasing core->lock and clearing core->cur_sess in
-vdec_stop_streaming() allow another session to start streaming concurrently
-while the hardware is still being powered off?
-
-vdec_stop_streaming() acquires core->lock to set core->cur_sess =3D NULL, b=
-ut
-then releases the lock before stopping the hardware via vdec_poweroff().
-
-Could a concurrent vdec_start_streaming() on a different session successful=
-ly
-claim core->cur_sess, release the lock, and call vdec_poweron(), breaking
-hardware exclusion?
-
-[Severity: Critical]
-Does freeing core->m2m_dev in vdec_remove() cause a use-after-free
-vulnerability when userspace keeps file descriptors open?
-
-The driver allocates a shared m2m_dev in vdec_probe() and explicitly frees =
-it
-via v4l2_m2m_release(core->m2m_dev) in vdec_remove(). However, vdec_remove()
-is executed on device unbind, which does not wait for userspace to close
-active file descriptors.
-
-If a user holds an open file descriptor when the device is unbound, m2m_dev=
- is
-freed immediately. When the user later closes the file descriptor, vdec_clo=
-se()
-calls v4l2_m2m_ctx_release(sess->m2m_ctx), which internally dereferences the
-already-freed m2m_dev.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260530094326.1189=
-2-1-linux.amoon@gmail.com?part=3D7
 
