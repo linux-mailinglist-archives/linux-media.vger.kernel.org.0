@@ -1,169 +1,205 @@
-Return-Path: <linux-media+bounces-63174-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63175-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GIYRI43/G2o3IQkAu9opvQ
-	(envelope-from <linux-media+bounces-63174-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 31 May 2026 11:29:49 +0200
+	id kDgWCHAYHGo+JwkAu9opvQ
+	(envelope-from <linux-media+bounces-63175-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 31 May 2026 13:16:00 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AAA7615610
-	for <lists+linux-media@lfdr.de>; Sun, 31 May 2026 11:29:48 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5E09615BDF
+	for <lists+linux-media@lfdr.de>; Sun, 31 May 2026 13:15:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A677A30060A2
-	for <lists+linux-media@lfdr.de>; Sun, 31 May 2026 09:29:41 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1BB14300CC38
+	for <lists+linux-media@lfdr.de>; Sun, 31 May 2026 11:15:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 504E234D93B;
-	Sun, 31 May 2026 09:29:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9070F3839BD;
+	Sun, 31 May 2026 11:15:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ORENTZ64"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KZVFGm3n"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A95349CD6
-	for <linux-media@vger.kernel.org>; Sun, 31 May 2026 09:29:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AA083839A7;
+	Sun, 31 May 2026 11:15:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780219779; cv=none; b=h0pwh+R+Xh0wOZJN+t1CG5jlr9pPud6PQadfH/8lWjdwAOBG7IjgGNAr9NhZ669jSGKflTQM9ENHzi22Wfny90KaaJRnpL5F06J5ApCNdYHwqQWpzyldYadkpek/V9OeS8wcBjk9A7YsALAZCxsr/vl2TRjqrMtI+c0IqNcasac=
+	t=1780226151; cv=none; b=qA6/Fez31xf+AEahWMtIOXpR3/iH3xkkR4ikKjqs0Txv+MqISCiXZ+Ut48jbS7BU4aZh7NTTfTH7uCq9fGG8fGN/ZWAHQxI5coXkcpbyKC9/LLVCbBGr8uTbmYcwdS+CPKadVtZO1KVWCwY22zu0MKHFx9Q/XH3gsEYxxrO/0j8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780219779; c=relaxed/simple;
-	bh=er0ubEXqc5SkXg9dCN53ES8cWYd71tCmkqSVLbDGaBk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HrHayibRgA5uUVTS8mkHNxFHRIs2+WApfOzTdpblVNPGs8oJcJZvqHSU1hABgWFpf2z44Nd1n629ISfKRlEsmZCD0rvJKORjbHZLn9XMDKp2Qmn0nDUZv2aP6g/sfEkyZ4Y5LY0W2gXBe2ksjZk+VWnGZFzehifRMApiIvlikow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ORENTZ64; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-45eea68dd6fso1536403f8f.2
-        for <linux-media@vger.kernel.org>; Sun, 31 May 2026 02:29:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780219777; x=1780824577; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Iew4XenhKOLgBtnmmbivz3Klyz0GTJLb8N3yaWb7V4k=;
-        b=ORENTZ64LfIYZyuQm1fJWTlwqVlD9VAVGS8j8uTNWNbkqm1AMPHvUngXLIvN186Nn/
-         5R0PxbHTi3u1J02rH2Cf3UWHWqQE9YPWRs2yF7srzOY50LnVC01CCbgz8zgDLtmXzIsH
-         lEvkM8nzh9MnWiqHh9ka1W0R6/M5FAU8AbQHL4QkJCDqnURosUGmYItw7O0Brpd7RT/5
-         U0TJH6srB0vWBlX/7vYg8QRxzJOCNIJyaGkObY6qMAlqpCbife2d4A0TfpP8aT8h0OXD
-         /ykzD1Xyc6krxZG7+/UPyzfbqNpcYweKI4rM9Fjlqq29Mqft+4178EfiT+JPR7FlGoo2
-         mbTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780219777; x=1780824577;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Iew4XenhKOLgBtnmmbivz3Klyz0GTJLb8N3yaWb7V4k=;
-        b=tXwNd57Yiwo3dqrH4tm+EQ5kFyz+Kdgb8SUpInMTJ3Bfsh0cp3yQo6+Xn86C80X+VH
-         H7zH1rlm/LcQSbmiuAiksrIxcsS94kEoiaxHqoJR5bYBw5GBhBZrHBmFxfWQ9rhaAviV
-         Y9yLbUyqnF3fInFj6o5rkhRNTmJdpTpfbdKJ+vI9YzGNRJ7ThRPg3cBgEXb0N5dmYiVZ
-         u/v5mTZRUTcDS/riMXozK5k0tD8CoJtpq9Bj5NAp1VLacepBO6biqRXrcjL8k/ECfAR8
-         6Cd50csoawFR7CeFfAMfaO61knOni/yCj0jD53P/YjxQnBEYmIYsDfKq9VQZfLiKf43V
-         oIvw==
-X-Gm-Message-State: AOJu0Yx81X+ABFHHVHc0RMxyQPt02ia80aQwqgLfbz2V4MmaehDK0dsr
-	fHfcQRkcg0Vu1izTtc9g0vHIH44SEETk+DdkQ+mEUoU/HTtAXtl4nc70
-X-Gm-Gg: Acq92OHFePOZtDz/Z8VK5G7+dtPWrtFv6DJooECSUkVu9NIq85iIDbdKSEI7X4klAuF
-	zX5F91/0uwstuMxyX2V6MoIygnuzs+iygKRJMclu5Uh9AY+jo3uvoItA3lhOM32dqqKGYWi1zDa
-	WrBK7bNutBRx8tNf4jNHknTmeecwxrggnoPfKDz+2KP69r/9F4MBrrVW4TziDs9ErF7NuP9DMYH
-	8G9QPgtr0QoHnUb1Ms4d0Q11zyZjo2tt8Z7L0GL+/XoNvrOZjVyLeg+wJUW/8u/GQQOQp2C9ofR
-	TyOQsNhvZhl+AaK2AIuqFPpC+F6apQIlxu+xiae01PMPOaw/Og+c9bV9RWVlsTEo/IzZzp5UWmI
-	DPkggXY80gr/IORloSSzQz0TsS1178InGy0nM4lF28U+JjQXoMvRSI5h4oVsB38gK1qecH1JyAp
-	S/Ylwk7q9mcNzuVmhES6MQZRQ=
-X-Received: by 2002:a05:600c:4f53:b0:490:3b8b:6ba2 with SMTP id 5b1f17b1804b1-490a290bbc9mr125178125e9.8.1780219776830;
-        Sun, 31 May 2026 02:29:36 -0700 (PDT)
-Received: from xeon ([188.163.112.61])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef34a03f8sm17671313f8f.7.2026.05.31.02.29.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2026 02:29:36 -0700 (PDT)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v1 1/1 RESEND] dt-bindings: media: mt9m114: document common video device properties
-Date: Sun, 31 May 2026 12:29:23 +0300
-Message-ID: <20260531092924.12929-2-clamor95@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260531092924.12929-1-clamor95@gmail.com>
-References: <20260531092924.12929-1-clamor95@gmail.com>
+	s=arc-20240116; t=1780226151; c=relaxed/simple;
+	bh=+AOKjE4PtFEzn10iFvjOLMkW2RSIqfpcoQwMnM66Mbg=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=JUzrRn4ZuGT3K0k/Sx2lNDSCWNOU7VzdVMDWnYMOucZ/ir9J3JEw8ErBO1g8V2EGM7wLhGQ9UBDQLkhpxAVrvvtBUW346syJ2K1wWizthi7BZWu79KV75NT5j7+Oc7jJx4aYZsVViteE0wL8FjiXpZoup/JZCg3XV4CDpoKywFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KZVFGm3n; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C69B1F00893;
+	Sun, 31 May 2026 11:15:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780226148;
+	bh=MmP6eMpNgWpOghHNBzUcCjRFl36x07LkIghuAUOYnNU=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=KZVFGm3nLyedz47sTDn9OUj507dJQPrTjnZvpDOr/nSIrX/TM22Np8sZ0Lskc8PVN
+	 XNo7EKsDWFbN28uhnCg7+l6WlyXbqsFA6FTehcqDssj4sAEravh+L0yXTdQawCbyv1
+	 F4QpWcBTiYS3+XeZuS4TpIQFx0a+lLj99VRQmw4EJ6g8Y25rf2LLmRG45cpwHQOLrd
+	 wqhVIp8Jr6kEsHZsmfboFCmxAF2nS13lUOJyt8kHUstDIaqDG7A3No0ATu1aBd2d8+
+	 wFf3umXlvjjcBdfFa9l81u1x/loWlHHgREpcIZ3vVnG8g5C0vTnbUpQnxUbBvMLFPI
+	 XYQPBvKNoaJXA==
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v5 5/5] media: qcom: camss: vfe-340: Support for PIX
+ client
+From: bod@kernel.org
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Cc: bryan.odonoghue@linaro.org, vladimir.zapolskiy@linaro.org, 
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ mchehab@kernel.org, konrad.dybcio@oss.qualcomm.com, 
+ dmitry.baryshkov@oss.qualcomm.com
+In-Reply-To: <20260414185202.2714019-6-loic.poulain@oss.qualcomm.com>
+References: <20260414185202.2714019-1-loic.poulain@oss.qualcomm.com>
+ <20260414185202.2714019-6-loic.poulain@oss.qualcomm.com>
+Date: Sun, 31 May 2026 12:15:44 +0100
+Message-Id: <178022614455.4008.17510287169443435896.b4-reply@b4>
+X-Mailer: b4 0.16-dev-d5d98
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3966; i=bod@kernel.org;
+ h=from:subject:message-id; bh=+AOKjE4PtFEzn10iFvjOLMkW2RSIqfpcoQwMnM66Mbg=;
+ b=owEBbQKS/ZANAwAKASJxO7Ohjcg6AcsmYgBqHBhiifeIX757nxzx8evWRdVHYcAPisUQrQWL2
+ UYziwGBu4KJAjMEAAEKAB0WIQTmk/sqq6Nt4Rerb7QicTuzoY3IOgUCahwYYgAKCRAicTuzoY3I
+ Ot71D/9RR+aV3JHmmAI23cjDzuM4em1aiIUGo3EzeslqGpib1X2+PyUjAc52BgUEuoa3BdpY16Y
+ dMXJJLZTHsbKCZ3Zt972mPotf/HCJSlYficO6wVEhdIfrJFktb/eeVBwg224xeicTDq8PSMS8fQ
+ jHFu6wcqjGdIm7ynOeQ97/56uktY5MTuhIqiLlE8Mj/esSg2VrqQyp1DqckOrhP/idRC/7nsEkd
+ vArUc37M+9+hvEcGCnL5AXdf/HmiUokirOigfg5fIxvTYEcoY8lblU7uVbRiVQGxbUVpFkV/l4S
+ lPQiHlmuItlcZINbprNZ/R4fCIgATmRu5WInrNBf0y4zqLctAa30iUQUwGQgDqERz3UR7uaGJqD
+ KtqYdVurwjtKEA5N67fE9vCIE137lFL97ktzj+SIslO+RIqtn3kkErfufvkXE1A6rvWMikQAz+p
+ yHTN1W51Y4eKnXDqpSDvX63cD5APpQ4jQ1R/iBspLcChNSZu/+dp3/McIWerAIjcDtBQb8v9NmO
+ iSItUs9ZtDLy2/cXw/qmp9FZsCgYShko8NJpTlUkhltJUV440Vd6aq5UTL9gBD2pRJjD+UEETmV
+ 6By+D0unSQ29Tohrjdn4vBCGFn5BJu6/fw62zGJSlFy0m2ildwbudTBU/UToNPmXzysEEwTSots
+ JUtRWDCTdP7UjfA==
+X-Developer-Key: i=bod@kernel.org; a=openpgp;
+ fpr=E693FB2AABA36DE117AB6FB422713BB3A18DC83A
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[ideasonboard.com,kernel.org,gmail.com];
+	TAGGED_FROM(0.00)[bounces-63175-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63174-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NO_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 9AAA7615610
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qualcomm.com:email]
+X-Rspamd-Queue-Id: B5E09615BDF
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Document common video interface device properties, such as rotation and
-orientation.
+On 2026-04-14 20:52 +0200, Loic Poulain wrote:
+> Add support for the vfe-340 PIX write engine, enabling frame capture
+> through the PIX video device (e.g. msm_vfe0_pix). The PIX path requires
+> a separate configuration flow from RDI, including cropping setup, line-
+> based write engine configuration, and the correct packer format based
+> on the input pixel format.
+> 
+> In contrast to RDI, the PIX interface embeds a lightweight processing
+> engine we can use for cropping, configuring custom stride/alignment,
+> and, in the future, extracting frame statistics.
+> 
+> The functionality has been validated on Arduino-Uno-Q with:
+> media-ctl -d /dev/media0 --reset
+> media-ctl -d /dev/media0 -l '"msm_csiphy0":1->"msm_csid0":0[1],"msm_csid0":4->"msm_vfe0_pix":0[1]'
+> media-ctl -d /dev/media0 -V '"imx219 1-0010":0[fmt:SRGGB8_1X8/640x480 field:none]'
+> media-ctl -d /dev/media0 -V '"msm_csiphy0":0[fmt:SRGGB8_1X8/640x480 field:none]'
+> media-ctl -d /dev/media0 -V '"msm_csid0":0[fmt:SRGGB8_1X8/640x480 field:none]'
+> media-ctl -d /dev/media0 -V '"msm_vfe0_pix":0[fmt:SRGGB8_1X8/640x480 field:none]'
+> yavta -B capture-mplane --capture=3 -n 3 -f SRGGB8 -s 640x480 /dev/video3
+> 
+> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+> ---
+>  .../media/platform/qcom/camss/camss-vfe-340.c | 82 ++++++++++++++++---
+>  1 file changed, 72 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-340.c b/drivers/media/platform/qcom/camss/camss-vfe-340.c
+> index d129b0d3a6ed..a01b78c805cd 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe-340.c
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe-340.c
+> @@ -54,6 +54,7 @@
+>  
+>  #define TFE_BUS_CLIENT_CFG(c)				BUS_REG(0x200 + (c) * 0x100)
+>  #define		TFE_BUS_CLIENT_CFG_EN		BIT(0)
+> +#define		TFE_BUS_CLIENT_CFG_AUTORECOVER	BIT(4)
+>  #define		TFE_BUS_CLIENT_CFG_MODE_FRAME	BIT(16)
+>  #define TFE_BUS_IMAGE_ADDR(c)				BUS_REG(0x204 + (c) * 0x100)
+>  #define TFE_BUS_FRAME_INCR(c)				BUS_REG(0x208 + (c) * 0x100)
+> @@ -63,12 +64,23 @@
+>  #define TFE_BUS_IMAGE_CFG_2(c)				BUS_REG(0x214 + (c) * 0x100)
+>  #define		TFE_BUS_IMAGE_CFG_2_DEFAULT	0xffff
+>  #define TFE_BUS_PACKER_CFG(c)				BUS_REG(0x218 + (c) * 0x100)
+> +#define		TFE_BUS_PACKER_CFG_FMT_PLAIN8	0x1
+>  #define		TFE_BUS_PACKER_CFG_FMT_PLAIN64	0xa
+> +#define		TFE_BUS_PACKER_CFG_FMT_MIPI10	0xc
+> +#define		TFE_BUS_PACKER_CFG_FMT_MIPI12	0xd
+>  #define TFE_BUS_IRQ_SUBSAMPLE_CFG_0(c)			BUS_REG(0x230 + (c) * 0x100)
+>  #define TFE_BUS_IRQ_SUBSAMPLE_CFG_1(c)			BUS_REG(0x234 + (c) * 0x100)
+>  #define TFE_BUS_FRAMEDROP_CFG_0(c)			BUS_REG(0x238 + (c) * 0x100)
+>  #define TFE_BUS_FRAMEDROP_CFG_1(c)			BUS_REG(0x23c + (c) * 0x100)
+>  
+> +#define PP_CROP_REG(a)					(0x2800 + (a))
+> +#define TFE_PP_CROP_CFG					PP_CROP_REG(0x60)
+> +#define		TFE_PP_CROP_CFG_EN	(BIT(0) | BIT(9))
+> +#define	TFE_PP_CROP_LINE_CFG				PP_CROP_REG(0x68)
+> +#define		TFE_PP_CROP_FIRST	GENMASK(29, 16)
+> +#define		TFE_PP_CROP_LAST	GENMASK(13, 0)
+> +#define	TFE_PP_CROP_PIX_CFG				PP_CROP_REG(0x6C)
+> +
+>  enum tfe_client {
+>  	TFE_CLI_BAYER,
+>  	TFE_CLI_IDEAL_RAW,
+> @@ -245,18 +257,69 @@ static void vfe_wm_update(struct vfe_device *vfe, u8 wm, u32 addr,
+>  	writel_relaxed(addr, vfe->base + TFE_BUS_IMAGE_ADDR(client));
+>  }
+>  
+> +static u32 vfe_packer_format(struct vfe_device *vfe, u32 pixelformat)
+> +{
+> +	const struct camss_formats *fmt = vfe->res->formats_rdi;
+> +	unsigned int bpp = 0;
+> +	int i;
+> +
+> +	for (i = 0; i < fmt->nformats; i++) {
+> +		if (fmt->formats[i].pixelformat == pixelformat) {
+> +			bpp = fmt->formats[i].mbus_bpp;
+> +			break;
+> +		}
+> +	}
+> +
+> +	switch (fmt->formats[i].mbus_bpp) {
 
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+Do you mean to switch on bpp or mbus_bpp here ? bpp probably.
+
+ci flagged bpp was set but never used and now that I look at it it seems to
+me your intention is switch (bpp)
+
+Anyway please confirm and I can fix this up for you.
+
 ---
- .../devicetree/bindings/media/i2c/onnn,mt9m114.yaml          | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-index e896f4db2421..2b39614f5cbf 100644
---- a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-@@ -15,6 +15,9 @@ description: |-
-   an I2C interface and outputs image data over a 8-bit parallel or 1-lane MIPI
-   CSI-2 connection.
- 
-+allOf:
-+  - $ref: /schemas/media/video-interface-devices.yaml#
-+
- properties:
-   compatible:
-     enum:
-@@ -90,7 +93,7 @@ required:
-   - vaa-supply
-   - port
- 
--additionalProperties: false
-+unevaluatedProperties: false
- 
- examples:
-   - |
--- 
-2.51.0
+bod
 
 
