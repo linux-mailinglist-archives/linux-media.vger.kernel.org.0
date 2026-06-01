@@ -1,212 +1,314 @@
-Return-Path: <linux-media+bounces-63262-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63263-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id KEsVLIuJHWrAbQkAu9opvQ
-	(envelope-from <linux-media+bounces-63262-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 15:30:51 +0200
+	id oFdZBCiKHWrAbQkAu9opvQ
+	(envelope-from <linux-media+bounces-63263-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 15:33:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D2296200E6
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 15:30:50 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65723620150
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 15:33:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 3B54E3012B0C
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 13:30:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 335463092F3B
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 13:30:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED3613ACF1C;
-	Mon,  1 Jun 2026 13:30:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B9723ACF06;
+	Mon,  1 Jun 2026 13:30:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SMm++gvs";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Do1XWa0u"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="gB+ixUoO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D5E3ACA74
-	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 13:30:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B723AC0F3
+	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 13:30:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780320647; cv=none; b=KZenCAjzQjCCNKEAX13hkbx0PB9jfXSK/y5eq3TOxl5NCMahtZ0WSORPQ+IIIzp6KuE/BjuTdNOr0c0dBGjtqE9WmpXgFvFtdqxtWFuiwGYMBZF5S3O5ht1qhl2FshJtvWIgKIFfzcoGN4bY8NBL8h5T2t0IlTvF/sTUhRIe5Dg=
+	t=1780320649; cv=none; b=K2duTXtkrDuimBNOkGRM+l6dMVRwvdeG5aou6nqphcU3xF1IVX3UkDEk2ai+Ezc1yFMsvjy1zA4YrEw9fSOWjEGmOgWsFC8VrWUCq8ab5e02yI+5P7GR27UVzihhgYwTC1Ti4cyYTfmjwygw3c8yuTzJ6cnmnPjPnr59+2ssazM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780320647; c=relaxed/simple;
-	bh=UDmJ1k1aLBInIvFNqEcNOlLzi9eOR2sEjPHpu1oXk5o=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=BR13W44Z4NZpA4Xoe6n6gQ2tJURzsZ2HPZzkvzQH1cVFqA6Gba7xDATnY+hAI07E1OB+OgblM9yocoPs9gp96ZXBPuXsRPi68FJUChgxqpxpbVESiBayE/s5etUWzZeBpehdpSOI4VZX4jpcJKzdDsAs/w5QT/AM/dXQh60R31A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SMm++gvs; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Do1XWa0u; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 651AxGGu334647
-	for <linux-media@vger.kernel.org>; Mon, 1 Jun 2026 13:30:44 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Bhd58qYV5qQ5sfvU/qA2szyY/a3HbSOfNKYbjuYIxdU=; b=SMm++gvsFKSE5wBA
-	g5VS7Jqcx7dcNO2P86vhYJWGVcerVWx0P9ivsVJ/5bPFjCoumIJr0oItSxwxL+Co
-	MliHmyCSqwUR1fNrtr6SMp1xY07Xy3ydfng1lpyPXatpimcb7npllGgqe7pQ4aKt
-	7h7cwcYwO5gbtd3kLiHku4DB5teQvOdbC8bsG0kEkAYzy/TyHZwXV8Vy2Yj+u3YR
-	f3IiuxovmzbWED14m3FJkiUEiKMRcWCID7ajSWFnS/xr+zTZQ0C7ONhgPE+2Of68
-	GrGxcFcnBZDVFMsN43OPuf0LQT3/5ffZWftqpJ7hayxl40W0qA4NOM7hFPdjLvFt
-	oRJ51A==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eh8tfrkjm-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 13:30:43 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2c0bfcd629eso18133565ad.2
-        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 06:30:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1780320643; x=1780925443; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Bhd58qYV5qQ5sfvU/qA2szyY/a3HbSOfNKYbjuYIxdU=;
-        b=Do1XWa0ujBw20wCGTbZPGqOUBbAcsTsMYh5eB9cm0AK7GRJCVUY7BvYxUOVU+Q0QKZ
-         6TS0UtoYuUCwWEZkDwgCqolgbNjNakz0LyGVuE4TXwMRKc2yFSmWzqFIQ2nGRYa7Xv4p
-         y7CqOQnDmzaMsaIAniXs+2kTg52dbnaobtHtf06I5rCCRvJJSPDcCLxyk+XevugpCvGG
-         AdW2hJ3fBdeyNVqfW59b3xsRdS/I7roQrrJfBmyk3W4fa/6huiXeLn29QMUso2LpgpKY
-         uqGf7ZrTEozTpmOfhCOp6InR0+P0EI+BHkPMj0Vijf12p0VGdlY4/uA8l96xUTf5/wyn
-         jLLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780320643; x=1780925443;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Bhd58qYV5qQ5sfvU/qA2szyY/a3HbSOfNKYbjuYIxdU=;
-        b=EaVIBTJFWt2Qo1STRlQgLwV+scBJsfqF+JHBy7WYVXnMbDEqcyNLVJVasEsllVObgQ
-         VoT+CBPJKZFSp/JA7nceItngxtiNBT0ev8PTptDzls4hFom0BMUngG2b+bIUUPQ9N2At
-         hggbxrzs6INyZXfvzsy0W9+kK3q1U4y/0Gqszdh/Lc7eo8sUlAViZVOYALERSi+8Sg0I
-         KPHq7HOu7uZlBGQONLTI8fvfdDRXjDgYpuEnFNVkomyVOQf3ODoRC/9FvURaxdOClwIg
-         lYsIEXDrcZKbUFntsRO+83OKlH1kYxaQGJr2Z7FB+BDxDeRNzZdKAk3X0AUS/7WOzwQI
-         azpQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/4spNCUfgFbKCGXgYKOsdQPvmxHVH5bbh2hJ+AntgWqw91AlhMgrY58oU4eu5fKS2078oXdX+jmZ3pTw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw30rpivaLYzNcCHS9ZMni/XEMJpd5S91IRVQtNQxiML4OnkIV0
-	dk/aS76MUoIxfkXlu7n1Ba5llyidRSYskGN7KKvW4b7OOFyAgQe+ldBcHx7t+Xhr1VzO6dWwBjh
-	SIvGb+RC5efneKspx0moxv3GhAMTEZKLPalpOUgLTa4E2qONr5dbvwv6IdaneON6shg==
-X-Gm-Gg: Acq92OFmhuztHvgWJEzsfEP/Pf7XF6bIGGMPO+q2e/p/jtVabnUUHWfSh+t23d5y4fJ
-	RJdCfmroAg3OdnjXZvXvdUvukO8dgivEnhPJ0EnGHlA+QQiSW6qdnqGUEDLAqE+A6zvdajXeogQ
-	MGDSCCTjOTd8FRTOEXWKz4PXMq2D3ABvxCsvus0Z6tNl6tLD5+9IypTZbl5rF0fSmnaCrnQFe+S
-	YxZv5l/SGRQla1Oo1Kl+tB8SHkKzSdvKZu962q6ED12UNP7K1Mb4pvTxdHW3N4W6T6A9ppRjeYu
-	A0Q31YxtmlLFnNc5f7dH9oI0rueZZD/eUcxXrPu3zq+gpOZ3C+hC+aAwg925/TgNvIJF0RRF0eC
-	jkRpHdjr4M/rLTE/4cnf8mrhJzMcnNXjHlJ13HRN9mg7bChsCq1hGYLte+Klqpw==
-X-Received: by 2002:a17:902:d58d:b0:2bf:2e28:db28 with SMTP id d9443c01a7336-2bf368263d0mr123080455ad.29.1780320642768;
-        Mon, 01 Jun 2026 06:30:42 -0700 (PDT)
-X-Received: by 2002:a17:902:d58d:b0:2bf:2e28:db28 with SMTP id d9443c01a7336-2bf368263d0mr123079815ad.29.1780320642277;
-        Mon, 01 Jun 2026 06:30:42 -0700 (PDT)
-Received: from [10.206.103.106] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf239e6ff5sm143718315ad.7.2026.06.01.06.30.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jun 2026 06:30:41 -0700 (PDT)
-Message-ID: <c1d1a8db-9cd2-462c-ab6b-d14eb97c644c@oss.qualcomm.com>
-Date: Mon, 1 Jun 2026 19:00:33 +0530
+	s=arc-20240116; t=1780320649; c=relaxed/simple;
+	bh=8od38mN8RGoPUTqcetnFeVT6MlcYS3uqlzPU8Aid2DA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=E0TahE5KkugdjlLE9OONk0AquMMC004NqJsub2qVdSjo79sAAg39EckjDv1UyYR3elbqy/GgUxvZhgif7yeO4APZbOaBBzQ3vLw0kDXeerEH1m16fxs+AizTAeU4EcDEwo27/IaXCG/IiusQbgBw5jyZq4S+zNXTpZvSj2/bL50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=gB+ixUoO; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gTZbR0sV0z9txV;
+	Mon,  1 Jun 2026 15:30:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1780320643; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tUA6+vSRcRGCo2mXauDXESLTiUY0t5EjlzPqXhMCfaE=;
+	b=gB+ixUoOKuA+JLTSFS00U5QDrEUCY9lIEOPtKefgVSgMrvg8gNO7ngRajooDrT5iVLIB3y
+	vrOtrfid4GGVl+A6m2Yj4wS23vJKPtHWaRKIBQE/hqpkBa7fIpZPR8qvbtEonvvrdwlolL
+	y4ZK3xiINeM6WJkxCCiPn1dnMy+hRbKcKD5GsnhmtEDgKTmm7cAYb0Q4WOukPDjpmGK0Zs
+	gXy87bOK2Zjohe2j5MkZdZHlcvI4RrXG1fbvgkm/TLBjGGRhMMLD8LLv8W3bb9jWHP2XOq
+	xicmIO/vHlAOKMB0GrRj+DcTBZ2OZzEkZTNuufOzTDuo72sUUAyzi+436myyYw==
+Message-ID: <88fa86984dbc8a11bb9f4d1af76a1ba0d942136f.camel@mailbox.org>
+Subject: Re: [PATCH 3/4] rust: Add dma_fence abstractions
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: phasta@kernel.org, Alice Ryhl <aliceryhl@google.com>
+Cc: sashiko-reviews@lists.linux.dev, linux-media@vger.kernel.org, 
+	ojeda@kernel.org, Boris Brezillon <boris.brezillon@collabora.com>
+Date: Mon, 01 Jun 2026 15:30:38 +0200
+In-Reply-To: <24ef07ed85d9e7aa7f9d3a96301c4c15bc0f2315.camel@mailbox.org>
+References: <20260530143541.229628-5-phasta@kernel.org>
+		 <20260530150622.393FC1F00893@smtp.kernel.org>
+	 <ah1c3NSU-4UkdUhb@google.com>
+		 <a3d09b270e6effb6f2bfb5d7ba8de48e3c2c4081.camel@mailbox.org>
+		 <CAH5fLggvxGwJkAp+VqG7pA-e2zM-T8_DR0DeCiZiJyM+o51DuQ@mail.gmail.com>
+	 <24ef07ed85d9e7aa7f9d3a96301c4c15bc0f2315.camel@mailbox.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Nihal Kumar Gupta <nihal.gupta@oss.qualcomm.com>
-Subject: Re: [PATCH 3/8] media: qcom: camss: add support for QCM2390 camss
-To: bod@kernel.org
-Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Loic Poulain <loic.poulain@oss.qualcomm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>, linux-arm-msm@vger.kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-        Suresh Vankadara <quic_svankada@quicinc.com>,
-        Vikram Sharma <vikram.sharma@oss.qualcomm.com>,
-        Prashant Shrotriya <pshrotri@qti.qualcomm.com>
-References: <20260526-shikra-camss-review-v1-0-645d2c8c75a7@qti.qualcomm.com>
- <20260526-shikra-camss-review-v1-3-645d2c8c75a7@qti.qualcomm.com>
- <178000641103.4557.14582699057810501776.b4-reply@b4>
-Content-Language: en-US
-In-Reply-To: <178000641103.4557.14582699057810501776.b4-reply@b4>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: xbjME1JdBWprUpH4PmzTClx2dwGo0a1E
-X-Proofpoint-ORIG-GUID: xbjME1JdBWprUpH4PmzTClx2dwGo0a1E
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAxMDEzNSBTYWx0ZWRfXz84uOYFyXsWa
- OEetCEg8Q43TrA3zTIsCFsPWeQj8woCvpVLBym9gk+tEhbgLpG7gc8lnIQW+tLNOsODZEGsTIVG
- QZMxJu0dQAOO5VJ2dxNi8n2BmyCm+SLOuHd05UmI0Uljqq3H8LXLkjAYHPo7ybAKCaEyd00QIxx
- TbvejqLk1Lx3SZ74BRBMw9RZCto62dpLzaQLkmiOCXlbO0BJpRYVE9S573SCi+vjMoZXLKZz3id
- D5WWqShtNst/VjEgvrh03MMvgxtmnhtfGpRa7cpFrqVYTMz9trMFuvoZF8nV7iKvNE2+J9MaX3O
- SvGuqSvFOWS8OAoArSznd9bOulhNydNzYD0cAbpqxd8bacKvh4ZkAFIA/tDQCftY6iC/5VXEwBK
- RDwHm0motuHj37TqYoIciexuA5QN4ejEVLiOQ+G5VBo2ABS+n/y1HtENCLc/JyOsB/6wBCGdsEl
- oG9FjorJSh4RtRxGBmg==
-X-Authority-Analysis: v=2.4 cv=P4YKQCAu c=1 sm=1 tr=0 ts=6a1d8983 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
- a=VwQbUJbxAAAA:8 a=FPLoCuxg6rETm2Q1RYYA:9 a=QEXdDO2ut3YA:10
- a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-01_04,2026-05-28_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 suspectscore=0 impostorscore=0
- clxscore=1015 spamscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605210000
- definitions=main-2606010135
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-MBO-RS-META: nh9kcw14h8q57rginwga3c3o9jg1j7z5
+X-MBO-RS-ID: 34be4622bcf030201fb
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[linaro.org,oss.qualcomm.com,kernel.org,nxp.com,pengutronix.de,gmail.com,vger.kernel.org,lists.linux.dev,lists.infradead.org,quicinc.com,qti.qualcomm.com];
-	TAGGED_FROM(0.00)[bounces-63262-lists,linux-media=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,oss.qualcomm.com:mid,oss.qualcomm.com:dkim];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63263-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mailbox.org:email,mailbox.org:mid,mailbox.org:dkim,data.data:url];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nihal.gupta@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	NEURAL_HAM(-0.00)[-0.999];
+	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 2D2296200E6
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	HAS_REPLYTO(0.00)[phasta@kernel.org]
+X-Rspamd-Queue-Id: 65723620150
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
+On Mon, 2026-06-01 at 15:14 +0200, Philipp Stanner wrote:
+> +Cc Boris
+>=20
+> On Mon, 2026-06-01 at 14:55 +0200, Alice Ryhl wrote:
+> > On Mon, Jun 1, 2026 at 2:34=E2=80=AFPM Philipp Stanner <phasta@mailbox.=
+org> wrote:
+> > >=20
+> > > On Mon, 2026-06-01 at 10:20 +0000, Alice Ryhl wrote:
+> > > > On Sat, May 30, 2026 at 03:06:21PM +0000, sashiko-bot@kernel.org=C2=
+=A0wrote:
+> > > > > > +impl<F: Send + Sync, C: Send + Sync> DriverFence<F, C> {
+> > > > > > +=C2=A0=C2=A0=C2=A0 fn as_raw(&self) -> *mut bindings::dma_fenc=
+e {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: Valid be=
+cause `self` is valid.
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence_data =3D =
+unsafe { &mut *self.data.as_ptr() };
+> > > > >=20
+> > > > > [Severity: High]
+> > > > > Does this create an exclusive mutable reference to actively share=
+d memory?
+> > > > >=20
+> > > > > DriverFenceData can be accessed concurrently by other threads hol=
+ding Fence
+> > > > > references (for instance, when checking if the fence is signaled)=
+. Creating
+> > > > > a mutable reference (&mut) in Rust asserts exclusive access and v=
+iolates
+> > > > > aliasing rules, which allows the compiler to make invalid optimiz=
+ation
+> > > > > assumptions.
+> > > > >=20
+> > > > > Could this use an immutable reference &*self.data.as_ptr() instea=
+d?
+> > > >=20
+> > > > Yes, please use an immutable reference here.
+> > > >=20
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fence_data.inner.in=
+ner.get()
+> > > > > > +=C2=A0=C2=A0=C2=A0 }
+> > > > >=20
+> > > > > [ ... ]
+> > > > >=20
+> > > > > > +impl<F: Send + Sync, C: Send + Sync> DriverFenceBorrow<F, C> {
+> > > > > > +=C2=A0=C2=A0=C2=A0 fn as_raw(&self) -> *mut bindings::dma_fenc=
+e {
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: Valid be=
+cause `self` is valid.
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence_data =3D =
+unsafe { &mut *self.data.as_ptr() };
+> > > > >=20
+> > > > > [Severity: High]
+> > > > > Similar to DriverFence::as_raw(), does this also incorrectly crea=
+te a
+> > > > > mutable reference to shared data?
+> > > >=20
+> > > > Here as well.
+> > >=20
+> > > `data` is not shared. By design there is only ever one DriverFence, a=
+nd
+> > > the driver's data (`data.data`) is `Sync`.
+> > >=20
+> > > But I guess an immutable one should do the trick, too.
+> >=20
+> > There's only one DriverFence, but I can perform shared access to that
+> > one DriverFence from two threads in parallel. You made the type Sync,
+> > and this is what you are allowing when you do so.
+>=20
+> Nope, DriverFence is just Send, not Sync.
+>=20
+> data.data is Sync, but `data` in the code above is not the actual user
+> data, but the memory backing it up.
+>=20
+> >=20
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bindings::dma_fence_signal_locked(fence);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 }
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 bindings::dma_fence_unlock_irqrestore(fence, flag_ptr);
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > > > +
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: `self.da=
+ta` is owned by the DriverFence, but could be accessed
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // through some dma=
+_fence callbacks right now. Access is being revoked
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // above by signall=
+ing the fence. The DriverFenceAllowedData trait
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // ensures that the=
+ data either does not need drop, or if it does it
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // lives in a RcuBo=
+x which will delay dropping by one grace period, hence
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // ensuring that al=
+l readers have disappeared.
+> > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsafe { drop_in_pl=
+ace(self.data.as_ptr()) };
+> > > > >=20
+> > > > > [Severity: Critical]
+> > > > > Could this eagerly drop FenceCtx and user data before the C dma_f=
+ence
+> > > > > refcount reaches 0?
+> > > > >=20
+> > > > > The C dma_fence object can remain alive as long as consumers (lik=
+e sync_file
+> > > > > or the GPU scheduler) hold references to it. If the backend later=
+ invokes
+> > > > > callbacks like ops->get_driver_name(), FenceCtx::get_driver_name(=
+) would
+> > > > > attempt to read fctx.driver_name from the already-dropped FenceCt=
+x:
+> > > > >=20
+> > > > > FenceCtx::get_driver_name() {
+> > > > > =C2=A0=C2=A0=C2=A0 ...
+> > > > > =C2=A0=C2=A0=C2=A0 fctx.driver_name.as_char_ptr()
+> > > > > }
+> > > > >=20
+> > > > > Can this result in a use-after-free?
+> > > >=20
+> > > > Hmm, I don't know about what sahisko said, but I don't think this i=
+s the
+> > > > right way to do rcu freeing. I think the type's destructor should b=
+e
+> > > > reserved for cases where the value becomes immediately unusable.
+> > >=20
+> > > We could guard the strings with RcuBox, but we could not then guard t=
+he
+> > > FenceCtx code against code UAF if we don't have the rcu_barrier().
+> > >=20
+> > > Or could we?
+> > >=20
+> > > If a rust module unloads, module::remove() should contain an
+> > > rcu_barrier() (right??). Would that be enough to guard against the
+> > > FenceCtx code being unloaded?
+> > >=20
+> > > >=20
+> > > > For example, let's say I'm using RcuBox<_> here. Yes, the data you =
+get
+> > > > from dereferencing the RcuBox will stay alive for a grace period, b=
+ut
+> > > > IMO once you run the destructor of the box itself, the *pointer* be=
+comes
+> > > > immediately unusable.
+> > >=20
+> > > I don't know why you're stressing the pointer?
+> > >=20
+> > > The trick above is simply that drop / dealloc *and* code unloading is
+> > > delayed by a grace period.
+> >=20
+> > Sorry let me try to rephrase. I'm not worried about the stuff behind
+> > the pointer. After all, you're using RcuBox to protect that stuff.
+> > What I'm worried about is the pointer itself. You invoked
+> > drop_in_place() on the pointer to the fence context,
+> >=20
+>=20
+> on the pointer to DriverFenceData, which contains a refcount to the
+> FenceCtx, which might then want to drop.
+>=20
+> > =C2=A0so even though
+> > the fence context may be valid for another grace period, the *pointer*
+> > to the fence context is not. The pointer could have been zeroed by the
+> > destructor.
+>=20
+> That particular pointer to the DriverFenceData could have been zeroed.
+> But potential other accessors have already crafted themselves a new
+> pointer to the, by the power of RCU, still valid data.
+>=20
+
+correction:
+it is refcounting that ensures the memory is still valid.
+
+dma_fence_put() in DriverFence::drop() could earliest free the memory.
+
+P.
 
 
-On 29-05-2026 03:43, bod@kernel.org wrote:
-> NAK - what is the point of this identifier ? It literally just adds a new
-> define and a new string.
-> 
-> Unless there is an actual difference with 2290 which thus far we haven't
-> see, this new type is not required.
-Understood.
-
-As mentioned by Vikram, Shikra will use a new compatible string with 
-fallback to qcm2290, similar to CCI approach. 
-The CAMSS_2390 identifier and the driver changes will be dropped in v2.
-
---
-Regards,
-Nihal Kumar Gupta
+>  That new pointer
+> is container-of-ed from struct dma_fence *f.
+>=20
+> >=20
+> > Actually maybe I am worried about the strings too. Let's say that one
+> > thread does:
+> >=20
+> > rcu_read_lock()
+> > get_driver_name()
+> > // .. read the driver name
+> > rcu_read_unlock()
+> >=20
+> > and another thread signals the fence. If there are no queued
+> > call_rcu() callbacks right now, then the rcu_barrier() could be a
+> > no-op and the rcu reader will UAF on the driver name. It looks like
+> > you need synchronize_rcu() rather than rcu_barrier() here?
+>=20
+> It would seem to me that you are right.
+>=20
+> Boris, do you have an opinion on that?
+>=20
+>=20
+> P.
+>=20
+> >=20
+> > Alice
 
