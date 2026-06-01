@@ -1,207 +1,252 @@
-Return-Path: <linux-media+bounces-63268-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63269-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qFa1MgSRHWp2cQkAu9opvQ
-	(envelope-from <linux-media+bounces-63268-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 16:02:44 +0200
+	id cOAbKpOTHWqmcQkAu9opvQ
+	(envelope-from <linux-media+bounces-63269-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 16:13:39 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E52EB620767
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 16:02:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3028A62099D
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 16:13:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B4DC0302BE8D
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 13:55:21 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 844543086994
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 14:06:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B2733AE18C;
-	Mon,  1 Jun 2026 13:55:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD3D83AF640;
+	Mon,  1 Jun 2026 14:06:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Sel3T2xA";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="FvvAGFfL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DaMZv8cP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2AA43AE1B1
-	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 13:55:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE1683ACEF3
+	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 14:06:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780322117; cv=none; b=QWNwMGAeIO+h0gTB1yEQxyXIM1itz4Gq4wwx/Pepv6j+8eqNfqDrbXjA7ZpkDZzJ4DOlc1wAJIcx7DepooOoy9rChBp4POH2IwkFTt7OGLHQ3fZDgveJe+vJhx54YPRh7ivDQ86aLXBzYg0MXXgTd/4lumxMibScfZs4U/Hy8j4=
+	t=1780322797; cv=none; b=KmXsjkrD1ppezs5RtlJuXHehgWHrGet3YY9TSr7z1znNGerrj6ODthDunPAvJHYNQb5Z22ZKxQXtHB7aNfzMRMmBjrM/sEt1Tf+CbXIUs7Wn1ir25p15sj/fhYIkf7qKCHaHrPdDJUGLlzhq4n4Xkl1x2Hr2e4B6PMk21HBs1AU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780322117; c=relaxed/simple;
-	bh=wK2kSrx/pkY4LtGToP9RGTEX/TwkRTf0yVVB5y4qHNA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LtAsYZXGdTDMT/OTkifxU7zBR0eWJbvr+RXlV1BMQlRgyGhwLYxCTBhHfwrP1eqpojJUOPzfB6JDUTy62ZZ3yxS2C122Ex1mDkowLBjr9f/90G8EDJyi0bFykEyiOTTHG3/wQWA27ZPRdUKn1Wb4d3ShMFY9mADWK4Gy0HS7ebs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Sel3T2xA; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=FvvAGFfL; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 651CcVxZ600475
-	for <linux-media@vger.kernel.org>; Mon, 1 Jun 2026 13:55:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	uyAUjOxF0Tn2t9DeI7xkqKHi27Jd5OntW0Mgn/yPicU=; b=Sel3T2xAawdSe8J/
-	uljNAH7MCAMyUYYXZWoLgU84EQUBUG3aAgqCqRdrl55n079YlNx4mvSMlOSjPR1b
-	Itfvh0EL4KB1d0Qk64wzqKyOxCXZGWqA3pQX0cax8lMFHK8DSW3y952idKgXYqVU
-	onDdZeHJZOv1hFalCfmb0CfoUXdgtHfGcWDF/Cu0wGnFFB9EAOXsLV83/AilL2Ew
-	UFs5BRAh5Keu6WjDQexe4iAhUL3qGOLYHFv072Fub5igqNpEPfUKTpqaIQbuUuo5
-	5zVTzUAwLAkf7bIl5qo/bSjb0msEeDHbnEJIGeicCDxYvQyd39KcK8UD06G3LgL5
-	4TLNag==
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com [209.85.217.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eha8r89fp-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 13:55:14 +0000 (GMT)
-Received: by mail-vs1-f71.google.com with SMTP id ada2fe7eead31-6751db2792dso3889786137.3
-        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 06:55:14 -0700 (PDT)
+	s=arc-20240116; t=1780322797; c=relaxed/simple;
+	bh=k9DY2eKAq43fDbUXhY0ndixpVAYu6LqK3b0B59oV4N8=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=WxjlbLxO093ZW0RCXfAh6LSeSJgO1jSGXUf9nrYQ9EYXejDBdeBTp+rKKBYU9HAJjicJScXD+bw4iDYRdRjNPnzcS26smpXNrmkSCodHZQzB8OnuQq8dt7en2H8X1aoRfDQR3y5RV4GMg++7c35FgoVVx/t6XN80Kxa6flaw0Ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DaMZv8cP; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aa68cf9123so1405274e87.0
+        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 07:06:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1780322114; x=1780926914; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=uyAUjOxF0Tn2t9DeI7xkqKHi27Jd5OntW0Mgn/yPicU=;
-        b=FvvAGFfLct8FP1ihcBSawtpycOZTmruYVg04BjbnWedLjIN+egQJKik6AbInDmy16z
-         oZid6+QSqylHBC0vp/AbHIOoMHWEiSVHEjrsbphnnaUYuCbPdhbiXoBJC/9NSRUKjUK1
-         D4t1UOaT6tskHIFGfOX+Uh4qprEWa4VTwtcDHuA51hbXR0QQ7if+SW5moqnSDp7NB4c6
-         lwcGnpWdZJeDQ926PhQEb5CSfMnj/EUcNPavSPOPD7WYB2qqpYN/M6EdeF47KGsS2YxD
-         LZSBgyKDDA+GDQcCOWBUgKTO5O5cIegXhfefImeJhI7gi6kEa8GhioddIsUjJQEBIpI/
-         HvfQ==
+        d=gmail.com; s=20251104; t=1780322794; x=1780927594; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-language:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nOc7BFAMb/Y9gmJ/GTgJ6m/JbBQ6Da1YwZ1MJKOchbg=;
+        b=DaMZv8cPcXe5r4xytjMG3kWwmY+bZjHUpBzWL0x5fDnSa6KdnF7kg+Mf5eVxOGmFaI
+         iWWejdsvROzWxnh9d0thQmwcsp+At6l/8knTpG/opX3R5/NENmgbOZkLazSO5VGoDL1s
+         995xUAfDDnGmgyvJ/xJpKpGi+W+2aALd9OymlsdGfrQs3bz5Cy0iYy0xP9MXmF25jOxY
+         jEd176R6B7Q+BJK+r6shqMU6fr6EhnTXS1uxhv6p8DcBBfmN3gQih3Iqy9NoCU73P2xV
+         x4l0iFPwaTqypDUrOh0JZljpLQyaRVtZg6U9WAweiQjY4811ipHhM6wAoSga6KY+3kKI
+         87jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780322114; x=1780926914;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uyAUjOxF0Tn2t9DeI7xkqKHi27Jd5OntW0Mgn/yPicU=;
-        b=YMUbla9SLPxzLjAGvcUt7NrOQ3irc33Xt2gJn9AogBmovmA7r0hLrezpUA4D0c3VBQ
-         b2+n9hXqXB/QIJdt20dmeDmu4UbTSrle6I4NN/GbN67e5OkdD1aI82AwhNYPe04MyN2a
-         oZrov+h0hrHv1LlkBSfpm0eSkKY0qXnd+YmRdwvLEIRgyg8bvD3Twxkoh9BV59laU96W
-         KImUHYfr2XTjYBCNOwTEu6OHrL5LQKVDZRPNxgXM85mdBP3QlwMbUGhfUmWeva+xnYku
-         rIsdK+McqCiHBiYtGpOz+vvke1Z2+wBNSucdojBwyWmw8LNmq0j34z84kM2dVTsN7GnU
-         qiTA==
-X-Forwarded-Encrypted: i=1; AFNElJ9+wWOLQTa1z7kLjje3ltC4khb7CGjYH2n0VF1tDqkdoVWHn5oBC4A4RRxPnrXh+TNP7e4Rt+X/pr+uqg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDF6YD9T5chPjjGtEO5e03GDWlWdcvll3uVkaEThn0j/uRtqwm
-	k6dFXBy1LQEyOd3oOrtMLEO/AytwNAvUdJOYy4SA4inUhBvbsSWa3+cNytbmbKKEqih0PFXNhIi
-	dQPqd6+tP0dOIyMUFNsR6XEixPq5X8izqqNyMFGv1NTyJTsWA+288DCqjsQKWi/tZGA==
-X-Gm-Gg: Acq92OGqMvYSsbd6qBoE4ieo5UvrcdHAYoHqzvMsGWwRaT1RSuBbUru3nxmA86I7qj7
-	+TNINZU+JReupTAtM/UxFv+QokIiNc5FSlNfxkiLjKA1Ib2MV2vzsRpa9laIKVzR2rgPJEzVX2J
-	zjFXjRMPafgBN5nwcetMUoc+/eXmGnunYFqGR2pF5dFkV1USPPBGox+IeGvrDAWmCucUKXtELor
-	vKOA0J2c4czdDTyk0XNAH+KeMRkogjglMPOpMPwgbj0dQGA/VLy9W9D2wH/9VmoaG0K1ZnHY8e/
-	YGCWfVSt8gQJGzegtF40RX5O9sQ2Z/CexLkCvlm9xXGkcOutA2t+VMYqXTZhTyXPsp6CYFC+PxA
-	otXoIs4Gs/sXhriAtUIhvo6A5wD2CiIQcP8wWSBOLu1bRa3v2PXvuuuEkmtAOH7xEFaFvgLzw+g
-	NDzy48QKcP3B1JvHBVysR5cq8nxSuvaxQ1pxEzsQMQBD9jMA==
-X-Received: by 2002:a05:6102:26c7:b0:636:46ee:2f0b with SMTP id ada2fe7eead31-6c690fc77e8mr3840414137.12.1780322114079;
-        Mon, 01 Jun 2026 06:55:14 -0700 (PDT)
-X-Received: by 2002:a05:6102:26c7:b0:636:46ee:2f0b with SMTP id ada2fe7eead31-6c690fc77e8mr3840396137.12.1780322113673;
-        Mon, 01 Jun 2026 06:55:13 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa5b596664sm2042866e87.39.2026.06.01.06.55.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2026 06:55:12 -0700 (PDT)
-Date: Mon, 1 Jun 2026 16:55:09 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Nihal Kumar Gupta <nihal.gupta@oss.qualcomm.com>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Vikram Sharma <vikram.sharma@oss.qualcomm.com>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Loic Poulain <loic.poulain@oss.qualcomm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
-        Andi Shyti <andi.shyti@kernel.org>, linux-arm-msm@vger.kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
-        Suresh Vankadara <svankada@qti.qualcomm.com>,
-        Prashant Shrotriya <pshrotri@qti.qualcomm.com>
-Subject: Re: [PATCH 5/6] media: qcom: camss: enable vfe for Glymur
-Message-ID: <lepv7cgykrylficddcnnbii3kzxsiei3itcwc4ibq53s33rogi@ndnf7zrtu5ex>
-References: <20260529-glymur_camss-v1-0-bee535396d22@oss.qualcomm.com>
- <20260529-glymur_camss-v1-5-bee535396d22@oss.qualcomm.com>
- <449651a8-18a5-40d2-bc68-59223dc8b69a@linaro.org>
- <ad3e885a-c04d-4e78-a037-63ddfb0b9c52@oss.qualcomm.com>
- <7clwzl33xumipuucecv5tovo5mfp2dl7j6v4wmvbwj7d3o42yf@3srv6pzfldhh>
- <3dd46660-b01d-4c00-b3d2-d0f1fd1e4fa0@oss.qualcomm.com>
+        d=1e100.net; s=20251104; t=1780322794; x=1780927594;
+        h=content-transfer-encoding:content-language:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nOc7BFAMb/Y9gmJ/GTgJ6m/JbBQ6Da1YwZ1MJKOchbg=;
+        b=QnfUhcaVm8QVAau1DLZ6hSpB3EY7vxgSOyJGq4Ox8QhyQKgub0qlS7ADyaLzFGa6X0
+         lNs6z2Cu3Pogg41QgB0Zx7J3e4XFVv2w6L+m7AaAvbNCFm05FxhlSFlgzZTKW0Uvg6Fz
+         70w3V8wXSL7FuIyV2BVtkjDVQqxApKCiYpSxrDmbDvPIZ13ViaesRlZg+vXzew50KHVv
+         pXOiud1LAzvSJ97sLSqc+FZ+IH9GnJlIw0N4HxqQP2Wgdkg4aLif1INW9YdLZcWZvby6
+         aXKJa0mjK/AXs+VK4xDQ5AJ3EPn2fbvUljIvG/ayfx2MI/3NLDvuVh+BijQSVQPntSlX
+         u4GQ==
+X-Gm-Message-State: AOJu0YxenOJjhhiWIjrM8Xm9ikG7nSE9H9/y40BxdM/ZKCM284hFy7il
+	9POzqXbCSH+VPzZe9thy2JJ3kFipL5w1Pjc7VcQf3XeDFI5m/U7odxom2fvhiBDK
+X-Gm-Gg: Acq92OH3QkYtSJazywX1dt9Xm8yllxUXbGy2DfgsRdVugqyv8RIek/NmzZuhNHjf74n
+	0ofZLpeRKm8xAgJRlskd4E7hYB2zOqzfScfSb+t2E5h5sorkaHj8W/njTURV5Ya6rZNu1uRTFXH
+	hofBcbQgXK5P706XTSDSKdVGjrRC6BOuAhYy1vomJCL5Rfl4RXeh57sZ6U7g7iWeijTSrGI0M+L
+	SomIMwr/on+9+5UOhOLM4gNS5xnWZJoazmNYiBPY0zxVaLriwqjDDHcJa+KJUcpUjAWQu6zjepU
+	/G1WxbM7+Uq+ATpcUkcWo4CEXwUErjaUQtYTLVQT82E8Fzl2TPaFH553lU3D4noXX1MPo1B1Yeg
+	Q9g/QF5IL456JyNz1ivD6SfNgZd7MAGY40TMJUrX8Ry2ECEojcCx/iGMXgO6jzuNlLtFMmYsTD7
+	JL9p7mZFL+RLtxzX7gm3rhGMbn2eR3HsbNHFA9SF1UfYb+dA==
+X-Received: by 2002:a05:6512:1252:b0:5aa:678f:5646 with SMTP id 2adb3069b0e04-5aa678f5ademr2666938e87.8.1780322793547;
+        Mon, 01 Jun 2026 07:06:33 -0700 (PDT)
+Received: from [192.168.7.105] ([83.136.105.81])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef356b129sm32078117f8f.32.2026.06.01.07.06.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Jun 2026 07:06:32 -0700 (PDT)
+Message-ID: <abeb9142-16a7-417b-be0f-b929234de6db@gmail.com>
+Date: Mon, 1 Jun 2026 16:06:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+From: "Angioli Samuele (gmail)" <angioli.samuele@gmail.com>
+Subject: [BUG] OV02C10 on Dell 16 Premium DA16250 (ARL): INT3472
+ handshake-derived "dvdd" regulator registered but never linked to sensor,
+ sensor probe fails with -EREMOTEIO
+To: linux-media@vger.kernel.org
+Cc: Hans de Goede <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Marco Nenciarini <mnencia@kcore.it>,
+ Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
+ linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Content-Language: it
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <3dd46660-b01d-4c00-b3d2-d0f1fd1e4fa0@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=aKnAb79m c=1 sm=1 tr=0 ts=6a1d8f42 cx=c_pps
- a=P2rfLEam3zuxRRdjJWA2cw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=kmbsWd4-S-67eBYOI4cA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=ODZdjJIeia2B_SHc_B0f:22
-X-Proofpoint-GUID: WMfXm8WtrWWDcSQDYCfX-abbSn2YSSNt
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAxMDEzOSBTYWx0ZWRfXwumQGqLWMDHS
- T22itZGFoq2rfdWsBhvFZItnWqoBouLFwJCewyt/30F0ZfXYsxyukVtq2adWDlm69RTz+2DmoHZ
- cmM5x+O9kFDNhAgxe8ym/0SCbWuTc+Wmr/ApKeDa6flubUeE2ZdqfxJ7FcnVzpa14fdR2QYRSxB
- jnpg+49DVctBHb0tN1rFrcY8rmQeEY3XhW5vbDSv6Z9WQ7bZu/A7YYHViRTVjTGLePNWzMzuu3M
- 0J4Rd7JJKS9nEYMlA9sE2GH/zsgNVW4555GOZPEVx7IoJoXcnJSch41indr8zFCSWu+3aMR8OJB
- EQVBFM+rGgm+ZXxbdoQ+7M9ggbpr+YlKOTTdCdGVEzn0lZOInn1P4HQINrFNEbL4wt+sTKpfSTx
- kQXbSUqHm0RdExjLEJjUcbu3i5ThxI8hHEZrW64AEdjOTtI4zFMOZXJu76OelZWGnH0Dem1nn6x
- tXblt2m/yePzmttvgyw==
-X-Proofpoint-ORIG-GUID: WMfXm8WtrWWDcSQDYCfX-abbSn2YSSNt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-01_04,2026-05-28_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 bulkscore=0 malwarescore=0 priorityscore=1501 adultscore=0
- lowpriorityscore=0 clxscore=1015 impostorscore=0 phishscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606010139
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63268-lists,linux-media=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qualcomm.com:dkim];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	TAGGED_FROM(0.00)[bounces-63269-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: E52EB620767
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[angiolisamuele@gmail.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 3028A62099D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, Jun 01, 2026 at 06:31:08PM +0530, Nihal Kumar Gupta wrote:
-> 
-> 
-> On 01-06-2026 17:01, Dmitry Baryshkov wrote:
-> > Is it completely compatible? If so, we can drop the driver parts and
-> > make Glymur fallback to Hamoa.
-> 
-> Not fully — Glymur lacks CSIPHY2. So, A direct fallback to x1e80100 would
-> probe a non-existent CSIPHY2 register region.
-> 
-> All other resources (VFE, CSID, TPG, ICC) and version-switch paths are identical
-> to x1e80100, so only the csiphy_res table needs to remain Glymur-specific.
+Hi all,
 
-We have all the resources in DT. Can we not use DT to determine whether
-the host has CSIPHY2 or not?
+On a Dell 16 Premium (DA16250, Intel Core Ultra 7 255H, Arrow Lake-H)
+with an OV02C10 IR camera sensor behind a Lattice NX33 USB-IO bridge
+(2ac1:20c9), the integrated webcam does not work on a vanilla
+v7.1-rc5 kernel. All required drivers are in-tree (usbio, gpio-usbio,
+int3472-discrete with strobe / handshake support, ov02c10, ipu-bridge),
+yet the sensor probe consistently fails with -EREMOTEIO at the
+chip-ID read because its supplies fall back to dummy regulators.
 
--- 
-With best wishes
-Dmitry
+Summary
+=======
+
+* INT3472:0c declares (among others) a HANDSHAKE GPIO (type 0x12) on
+\_SB.PC00.XHCI.RHUB.HS09.VGPO pin 1 (USB-IO bridge gpiochip,
+INTC10B2:00, 128 lines).
+* int3472-discrete successfully acquires that pin (gpioinfo shows
+`line 1: output consumer="dvdd"`) and registers a regulator named
+`INT3472:0c-dvdd` with init_data.consumer_supplies set such that
+`dev_name == "i2c-OVTI02C1:00"` and `supply == "dvdd"` (lower- and
+upper-case forms, per
+drivers/platform/x86/intel/int3472/clk_and_regulator.c:219).
+* The OV02C10 sensor (ACPI HID OVTI02C1, i2c device dev_name
+`i2c-OVTI02C1:00`) calls devm_regulator_bulk_get() for
+"avdd"/"dvdd"/"dovdd" and gets the dummy regulator for *all three*,
+including "dvdd". The chip-ID read at register 0x300a then returns
+-EREMOTEIO and probe is aborted.
+
+In other words: the regulator is correctly registered and the consumer
+device exists with the matching dev_name, but the regulator core does
+not link them; `regulator_summary` shows `INT3472:0c-dvdd` with
+`use=0 open=0` and no children, while the sensor stays on dummy.
+
+Hardware / software
+===================
+
+Machine : Dell 16 Premium DA16250
+CPU : Intel Ultra 9 285H × 16
+Camera sensor : OmniVision OV02C10 (ACPI HID OVTI02C1),
+module id 'CJFME322D'
+Power controller : INT3472:0c (discrete), ACPI status 15
+GPIO provider : Lattice NX33 USB-IO bridge (USB 2ac1:20c9),
+auxiliary HID INTC10B2 → gpiochip1, 128 lines
+Distro / kernel : Manjaro Linux, kernel 7.1.0-rc5-1-MANJARO
+(vanilla 7.1-rc5, no out-of-tree DKMS modules)
+
+Relevant log excerpts
+=====================
+
+dmesg (initial failure):
+
+ov02c10 i2c-OVTI02C1:00: supply dovdd not found, using dummy regulator
+ov02c10 i2c-OVTI02C1:00: supply avdd not found, using dummy regulator
+ov02c10 i2c-OVTI02C1:00: supply dvdd not found, using dummy regulator
+ov02c10 i2c-OVTI02C1:00: Error reading reg 0x300a: -121
+ov02c10 i2c-OVTI02C1:00: failed to find sensor: -121
+ov02c10 i2c-OVTI02C1:00: probe with driver ov02c10 failed with error -121
+
+dmesg with `module intel_skl_int3472_discrete dyndbg=+p` (selected,
+duplicate retries during probe-deferral elided):
+
+int3472-discrete INT3472:0c: Sensor module id: 'CJFME322D'
+int3472-discrete INT3472:0c: dvdd \_SB.PC00.XHCI.RHUB.HS09.VGPO pin 1 
+active-high
+[... ~30 deferral retries while gpio_usbio finishes coming up ...]
+gpio_usbio.usbio-gpio usbio.usbio-gpio.0: [Firmware Bug]: GPIO 4 is not 
+in FW pins bitmap
+int3472-discrete INT3472:0c: [Firmware Bug]: ir_flood \_SB.GPI0 pin 
+number mismatch _DSM 0 resource 352
+int3472-discrete INT3472:0c: ir_flood \_SB.GPI0 pin 352 active-high
+
+After int3472 finishes (probe returns 0):
+
+$ sudo gpiodetect
+gpiochip0 [INTC105E:00] (451 lines) # SoC GPIO
+gpiochip1 [INTC10B2:00] (128 lines) # USB-IO bridge (Lattice NX33)
+gpiochip2 [cs42l43-pinctrl] (3 lines)
+
+$ sudo gpioinfo --chip gpiochip1 | head -3
+gpiochip1 - 128 lines:
+line 0: unnamed input
+line 1: unnamed output consumer="dvdd"
+
+$ sudo cat /sys/kernel/debug/regulator/regulator_summary | grep -A1 dvdd
+INT3472:0c-dvdd 0 0 0 unknown 0mV 0mA 0mV 0mV
+
+No consumers under INT3472:0c-dvdd. The ov02c10 i2c device exists at
+the matching dev_name but gets the dummy regulator instead.
+
+Suspected cause
+===============
+
+The HANDSHAKE case in int3472 was added (commit history under
+drivers/platform/x86/intel/int3472/) on the assumption that registering
+a regulator with init_data.consumer_supplies[].dev_name set to the
+constructed i2c sensor name ("i2c-<ACPI HID>:<inst>") would be enough
+for an ACPI-instantiated sensor i2c_client of that exact dev_name to
+match via regulator_get(). On this DA16250 the device naming matches
+(the dev_err prefix on ov02c10 is literally "i2c-OVTI02C1:00"), yet
+the supply_map entry never fires and the consumer ends up bound to
+the dummy supply.
+
+Possible explanations:
+
+(a) fwnode/of-based supply matching in the regulator core now takes
+precedence over the legacy dev_name-based supply_map lookups, and
+the sensor's fwnode (a software_node created by ipu-bridge) does
+not reference the INT3472:0c regulator -> the supply_map is
+shadowed and dummy is selected.
+
+(b) The sensor i2c_client created via ipu-bridge has a slightly
+different dev_name than what int3472 constructed via
+I2C_DEV_NAME_FORMAT ("i2c-%s") at probe time (possibly due to
+sw-fwnode instantiation differing from acpi_i2c enumeration).
+
+I am happy to provide any further data — DSDT extract for INT3472:0c
+(both _CRS and the _DSM result for the GPIO at \_SB.PC00.XHCI.RHUB.HS09.VGPO
+pin 1), full dmesg, lsusb -v for 2ac1:20c9, and any patch test results.
+
+Thanks,
+Samuele
 
