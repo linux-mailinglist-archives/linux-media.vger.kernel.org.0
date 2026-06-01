@@ -1,251 +1,176 @@
-Return-Path: <linux-media+bounces-63228-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63229-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id 8D16FuRMHWphYgkAu9opvQ
-	(envelope-from <linux-media+bounces-63228-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 11:12:04 +0200
+	id EACcMFJQHWooYwkAu9opvQ
+	(envelope-from <linux-media+bounces-63229-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 11:26:42 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9859661C2B7
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 11:12:03 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38E1961C663
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 11:26:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 03A5D308D1A5
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 09:03:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 499A13067AC2
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 09:20:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC45038D415;
-	Mon,  1 Jun 2026 09:03:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3968F3905EC;
+	Mon,  1 Jun 2026 09:20:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="l269HnYe"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bkAZlkaD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013013.outbound.protection.outlook.com [40.93.196.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2D3360EFC
-	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 09:03:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780304622; cv=fail; b=oIVMXUtGaqy7Ibf9iFsTuCSluWimku6uRHNO7PXecgzrX/kz0X42jQcRz9x+gJMft2IDn+Dm/aqlxGTiSqtG12FjTo79YNBEB0mQ3PZ1JXXe2y2vKnBXJJLyhjuIBS6xsC5QfSsf208zyhP3ag9Ko0vBBNYnB3Qx8M62boUhFII=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780304622; c=relaxed/simple;
-	bh=2/d/wfw+u/k0in/6s4Q/NK/4EVyW36erlfqu0s8Jwpo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=of5lt1P0VVzqoV/8qR8Is/A0E2BXnUctJnmiMXlfUtFCyKqvF7p6CYWxIkHG43CREFWGHiv0/TXITbtQpLpnaXmKpOxgBKLLkiwMO3QXxxACDCZ6kb6rqfQU36kSASkCYPtDJ57togzi9C3XT2K4tvA2dzfyxYS/K8vv+yihq38=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=l269HnYe; arc=fail smtp.client-ip=40.93.196.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=O7BWj0v8VEeYlSgU7mUMwOsodZOVuIQ0zyzv+I8NABe1AAwuCJS1QJNxtiSXKFy737+2/Yzlu6AFGuuGCAzll5mnYbfA7Egn1rR5Uhu0beipcCwZsJZ1BpnBJX3kPYgfO74SPl6/S8A8PqMf2HuKb+chN8GQ2AqrbmV9ltcQ//AL/aLH7tJ9nrLBgJO0XvOIBBdJGVupbZKFBvJyTKg/4CgtjFbZK/eIF1CEzcNFy58ddXtRHRg65vJNNGfYOEsLxe7EnDDW4BHwq6z99b6yl0q+l2xod9dJSbnUNTWY2LLo+GDSOiDiJVeH5hdYcaLmuDTU58wI9hxfVt4S6RJdgA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2/d/wfw+u/k0in/6s4Q/NK/4EVyW36erlfqu0s8Jwpo=;
- b=fhjW59CZhBTk5yaKM/AhF9UcEd+gl+yN+R3TJ13trv6e8UnEQQJq1r9aGbx7Wag+Yc3Fp1HcJkjNl7ceVUKJBBUsmL97KWVQpnVYVyA6Iunm20xnb8+Q3mWdTMRHBiORxa0pNdm9UdqJUmkvHRH9Os0V/XseK+gB5zOKHX1KKtrvVLfmQCkMl8cZDfKMrKwcNO8WpowccOSZoaX+aKqRsP76L7pgocjmruWeSvaFuYU4F1s2BrL/tiHQ9s0qx42OXWZkdn5dxNbrSSMeXoJOvscRMSY5jf+scyOEPao4KzydAy821CU27bs5IvF5iTcYPEtUt5M/rUG/QkyQA39eGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2/d/wfw+u/k0in/6s4Q/NK/4EVyW36erlfqu0s8Jwpo=;
- b=l269HnYe+hmilHLAXZ2v/arwLQJWmreyoJVG0hxF6lbhTD8v8TQIUnawhaS6Dlyo67KDtJQ66PyB8LxSzUpQzEHqb8nHvqXWXfqH029HnKmFVCmZXpz6xgXN4M5KMqztNinTWPAmDX7YJGtQMT/zGyAuuJQjGpAZds0ZlmvBOUk=
-Received: from BN3PR12MB9569.namprd12.prod.outlook.com (2603:10b6:408:2ca::9)
- by CY5PR12MB6298.namprd12.prod.outlook.com (2603:10b6:930:21::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.16; Mon, 1 Jun 2026
- 09:03:37 +0000
-Received: from BN3PR12MB9569.namprd12.prod.outlook.com
- ([fe80::2aa1:eed7:b03f:5020]) by BN3PR12MB9569.namprd12.prod.outlook.com
- ([fe80::2aa1:eed7:b03f:5020%4]) with mapi id 15.21.0071.015; Mon, 1 Jun 2026
- 09:03:37 +0000
-From: "Cao, Bingbu" <Bingbu.Cao@amd.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>, "tfiga@google.com"
-	<tfiga@google.com>, "ribalda@chromium.org" <ribalda@chromium.org>
-Subject: RE: [PATCH v2] media: update contact email of Bingbu Cao
-Thread-Topic: [PATCH v2] media: update contact email of Bingbu Cao
-Thread-Index: AQHc8ZPGyawsf8eYuUWun7yTLn4c0bYpXT0AgAADltA=
-Date: Mon, 1 Jun 2026 09:03:37 +0000
-Message-ID:
- <BN3PR12MB95698640E1B433B04559BD438B152@BN3PR12MB9569.namprd12.prod.outlook.com>
-References: <20260601065555.150536-1-bingbu.cao@amd.com>
- <ah1B9h8baqGqZ8Zj@kekkonen.localdomain>
-In-Reply-To: <ah1B9h8baqGqZ8Zj@kekkonen.localdomain>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
- MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_Enabled=True;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_SetDate=2026-06-01T08:38:15.0000000Z;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_Name=AMD
- General
- v26;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_ContentBits=3;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_Method=Standard
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN3PR12MB9569:EE_|CY5PR12MB6298:EE_
-x-ms-office365-filtering-correlation-id: 8302e6b3-be6b-4bfc-f117-08debfbcaae4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|366016|1800799024|38070700021|18002099003|22082099003|56012099006|11063799006|4143699003;
-x-microsoft-antispam-message-info:
- MXzjzri3AzDJcyFROJdmziH4HBN853CXgjJmoFr0ESoy13FGiBelZD7/5XzrXM4FsdsUzOSesRaTiOGPXWdJpEr7dYt7NGuW5jOWV+3316AkFtkxTT2Wq4DbiU5CC14djCCtPFcLB/vOQCu1diJ/fJBc42FSfk6RGIbRzMsJk4IR+GZ5DY+kQgUtAcQHgyONZZyL4G+kk18HoujGaQTQqBh+6A1mkbjNhkz5QeKFYGdJTqgN3t/5113Qv9gQBmrWFHvcR75DR0YuV422odhTaUXyCuirfwtStqaRfSWKGfUV0vbRzsB/IYQ3VYAqlxo6GgEGwViyM3HshIftSJc7k1hiCdkZxqc8RnPu7+voUh/vy/qo0HBSLjN5mpCqT+xhhI4yutkoso35N/9kMx4wWnGJq1sBeEkbc9vW+oqXkYs8AWvNWadWEQa8kWaAyNaY1AfP4o5CncvIwB3+JXnChUPXiKxY99KYSpu9U5tUPbziw3YRgVl7wmvQAf8P6yOUHuvYwU3VGb8X2XNl/k4yR/4dC6p8Pabs/Y7lpzxkak7Jh/CQoAjwa2AubIif7msT716bsNMTZVR7Hbja9R/9uiakaR/B5FYqVAWGNAwAE5feOsxkKjDraJpkMPxc8a90FVUP078hpj7KeVYsY2agKqQs3fl8o0QIakBojyvwraUnSNniwwgJFb87o5qR/R/+nZf0QPLAHfSNlubNzp6e2GLpIzwSbchcWIVAECd6R34G/7n2g38hDAuGjsr1uqI9
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN3PR12MB9569.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700021)(18002099003)(22082099003)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?tVCqBiCHH3t+1WAlVTNvfNGLjTHdyAmMR90XjnCHzrikS0Deu4YMHy8x8gpZ?=
- =?us-ascii?Q?0RnftXyw6Jmw06J4TTVmiN1T6F+oxMnuECkCNXQrujvwiez+AFZxsFGDuK48?=
- =?us-ascii?Q?7znwVEzqu6nwZCe16piD4Te11lkvcrCk9C3lWbrKOUzsg47Gn/e1E9lIZmEa?=
- =?us-ascii?Q?+2avXVAJTGH350N7w9qr79bfw3G17Cz3lIfmm8jOXAUTkwCHEfETI86X/8b5?=
- =?us-ascii?Q?1G63A4mGOCxYLabrQilhzcOEHQrk1QCa9JJqg9/Kc7rH9cYPxsYVl3Gx5qm/?=
- =?us-ascii?Q?9qau2r/tJwttmy6cmZDrBsAnPxoYQPWk7UeHsokEkY3zRnvqx3yCbPnpLMTz?=
- =?us-ascii?Q?RFsgjTIEeRxjkRi5ZAyV74zLOSNfsgyjrc2QClyk7d5usSk+jsU1qfg1fgkq?=
- =?us-ascii?Q?wbL8KzCyqP38+Vrofmz8BfKND/WpfLweGJFLXQ0v9sJ3CbG+bUJK0Dh9/+ws?=
- =?us-ascii?Q?g9UdJXozr8nExH8zRVG/fcFZhg4me4oYaHbXJZT981Vw0LUeFbZy722MBH7q?=
- =?us-ascii?Q?gwQLgGM2t+kKIm1soL2IYH7wlWsu6f2l3AQiogKjSYpNiq8iGQmPP0yEJf9C?=
- =?us-ascii?Q?981kaOuOa3xzo3ko2GRqeMZ5hnT1CwhZX0L94LUdAm7DvfIAsnwDVJD1crJS?=
- =?us-ascii?Q?e08iMKXsuVPGoEMLe+NXDiGd2CizkSDOEt/6FeBAvklq5n9kqCVdS1IXUFro?=
- =?us-ascii?Q?mBohZxolrTN/7vutjzrvyG9d7PWQelarJ8hXdQohYfLpXt2y4vP6RFMOSlP3?=
- =?us-ascii?Q?qqdmL+V/Qz2eyrAIRBX3whE5NjW3Ozed7XnRh5fuh7T3BiO/XmKaCNPSc+aE?=
- =?us-ascii?Q?rGZyxMNEKYWntGf9uVgeUU6rKBU1v3SdUCtdmVOt+aqRzS9TW5rXwzl3/j0g?=
- =?us-ascii?Q?9gi8YALB4Pzi+4KlOeLFuHQt4Z9EIaVszu08204HBKkj0wNXdbYSn7BytCyI?=
- =?us-ascii?Q?LO7lezZLA+3i0f0QYqWO6epoy8pHQSe0djrtratHPSDScNVjy0MnUixNEt6t?=
- =?us-ascii?Q?6pE0DtdDxear2eqs3LL/nthGopbrxPm45Ee0qEQqGaASttc31U4w2mwPY+wq?=
- =?us-ascii?Q?YRIU7j2PBe0b88N+7UNVk+0zeECKPGOsKQewRAjuuHcFLUp4asTeV/ALfVpx?=
- =?us-ascii?Q?2rHaIFRwEVhXOh4A2I0EtRDSjNENybZJOGKf9tp7twGh4KkYpJiNJwkClB5y?=
- =?us-ascii?Q?tTs4NqRryasvTOhTPwMLhjdLqR6pJgwCF4DncIKusqRus5nczq0twSuT4TZs?=
- =?us-ascii?Q?49D1ffEHbO/mv7NnwKotW7GdzJn9wV4NSovqYm65mMXRzbNZA/BETVfTpNd1?=
- =?us-ascii?Q?zGvb9LdiCPvNdpFYDups0THRraudvL2pQmhCPVDj9sWJVz3Xcc0wiqB+wqgn?=
- =?us-ascii?Q?OUY0xgPRHZWRggf17EWy1f53L5NuYgGXsvIS3Vo7duC8D8AD8SLKkBvxLDRi?=
- =?us-ascii?Q?9YOE+gKVPps33lmDyX69KD1o1DMYZAFpetZM5+kyNt0gxR2LjZv0LzPe7pij?=
- =?us-ascii?Q?tZjissurKNup+NGkDtccBPGHAlEs+jQEWyu9Sy4n922GKx67ZmvE0d3T2der?=
- =?us-ascii?Q?OQMBX94CwMWk8b+BRblgxe9w6l/yyC/Ml3HJN+4TPCVeZZIhKYf8PU6QXhxe?=
- =?us-ascii?Q?tki0xOvgp1fVAt3MPhKn9HcRDsa2Oglc2I0XIFIJSLumFRtTIsTXPtWDaOlx?=
- =?us-ascii?Q?3xtQ6gVj8Banvt1jT+hbE8ab5/V0KfQ9nGlY720DgDz4yPFg?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B363539021B
+	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 09:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780305604; cv=none; b=ZzOYx46TSrYyvp3lXhGU1oATVzBGrJIG2Ql7KeodMDd9wFVv7w1LxVrjEDpQLqlNDrY+TZW7Ee1Ibcbfvm7Px0ik/XeBb7uMxKi5rmdLT6mHKxefrxXArhqgjEvxy/DyiWEUMjMjeHg9ENTv97MR3UPdudb0m2Wi8Wn2gchX+Y4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780305604; c=relaxed/simple;
+	bh=2LkuKaJomgCV549AW9szbWuvCIwNTgMUu0k0QYg7k0g=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=fe3sXk/1ip2RqRzI2WZKZcaFlJKdodVzSdoIbBxc4WMXG/pSEGG2AlOSPWP5sPo98L/BNheIjEW/IUvw2yhgc/m+ZCtUjSgxUYvCZRcTDsP9rL4xTbyWdoo07+pnWYeUaK2qkSFpv0teSiFkWFQvlqXw+Eca4CDoA42sT+ouubI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bkAZlkaD; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 394621F00893;
+	Mon,  1 Jun 2026 09:20:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780305603;
+	bh=L7EwAcluIDwZCYjn9YIIHDsqdXkOmtNJKkzaIhPSJyk=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To;
+	b=bkAZlkaDj/bqPy3qtV6hgxJmUBwCYTg29RYHCEriy4l6rh9GsskydzNSoKB+j7axd
+	 Yc1XhCFiFdqnQZo521TYJZNNCYFo4lAO07ml2Gl84oGWnBXt2gTHLJTO/ccwQZTNEm
+	 7S+5n8Qi4qvpnP+gpV0wfzcD06RshqiLz2KQwLKbz9+5txMHtpXh2+o4Rfx4P8QU47
+	 3ktmgXNP9KjVq13xndr1LwaZgKH6f4eOqpEqh0Tz/ePLEJBGl9suaQrTAerIw/Pxhv
+	 1Cj3Zafaoi8io43rptyymfj6S1Lo59KRTFbk4e9ItunsjCXqujTcFzm3hoH4FF/BzH
+	 JNO2locIDie1w==
+Message-ID: <3ba10f5b-063d-42db-87ec-243e88af815c@kernel.org>
+Date: Mon, 1 Jun 2026 11:20:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN3PR12MB9569.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8302e6b3-be6b-4bfc-f117-08debfbcaae4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Jun 2026 09:03:37.4964
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7xlA3Z2Vgg+k0z3Z9e3h6PuT2tzlhvD0tiOFdOKaq5EWRU6THnbsFfVMZCGjK666
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6298
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: media-comitters next vs fixes trees
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linux-media@vger.kernel.org, media-committers@linuxtv.org,
+ Bryan O'Donoghue <bod@kernel.org>
+References: <CAO9ioeW5mv9bQjKbd3KOx6V4GB2xKgmDcLrbLowc=j0agwWMag@mail.gmail.com>
+ <2d1e7167-2cf4-4998-9005-5d18a45c0144@kernel.org>
+ <20260601102127.625ed568@foz.lan>
+ <CAO9ioeVPX_KWh4Pgh94o3P+tuwBsBsbBNxds3ERVQo3r5iMVQA@mail.gmail.com>
+Content-Language: en-US, nl
+In-Reply-To: <CAO9ioeVPX_KWh4Pgh94o3P+tuwBsBsbBNxds3ERVQo3r5iMVQA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63228-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63229-lists,linux-media=lfdr.de,cisco];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Bingbu.Cao@amd.com,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	NEURAL_HAM(-0.00)[-1.000];
-	REDIRECTOR_URL(0.00)[aka.ms];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,amd.com:email,amd.com:dkim,intel.com:email,aka.ms:url,BN3PR12MB9569.namprd12.prod.outlook.com:mid]
-X-Rspamd-Queue-Id: 9859661C2B7
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,huawei];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 38E1961C663
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-AMD General
+On 01/06/2026 10:51, Dmitry Baryshkov wrote:
+> On Mon, 1 Jun 2026 at 10:21, Mauro Carvalho Chehab
+> <mchehab+huawei@kernel.org> wrote:
+>>
+>> On Sun, 31 May 2026 15:24:48 +0200
+>> Hans Verkuil <hverkuil+cisco@kernel.org> wrote:
+>>
+>>> Hi Dmitry,
+>>>
+>>> On 31/05/2026 11:13, Dmitry Baryshkov wrote:
+>>>> Hi,
+>>>>
+>>>> Is there any current rule or plan about submerging the fixes branch of
+>>>> media-comitters to the enxt branch? For example, I have several
+>>>> patchsets which apply perfectly to the linux-next, but fail to apply
+>>>> (and function correctly) on top of media-comitters/next because it
+>>>> depends on the commits which are only a part of -fixes.
+>>>>
+>>>
+>>> By default we (and with 'we' I mean Mauro and myself as media maintainers) do
+>>> not merge the patches in the fixes branch into the next branch, unless we are
+>>> asked to.
+>>>
+>>> Most of the time the fixes are independent of work in the -next branch, so we
+>>> do this only if there is a good reason for it.
+>>
+>> Please also notice that we only merge upstream tags into "next" branch (e.g.,
+>> currently we only merge from a 7.x-rc? tag).
+> 
+> I'd be happy if this was actually happening. Should this become a rule
+> for media-committers/next, to merge -rc tags? Or to merge -rc tags
+> after there was a medai-related fix merged into Linus's tree?
 
-Hi, Sakari,
+No, Linus doesn't like backmerging of -rcX tags, unless there is a good reason for
+it that is also listed in the commit log of the merge. So this isn't something
+you can automate, you actually need to write a proper commit log when doing this.
 
-> -----Original Message-----
-> From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Sent: Monday, June 1, 2026 4:25 PM
-> To: Cao, Bingbu <Bingbu.Cao@amd.com>
-> Cc: linux-media@vger.kernel.org; laurent.pinchart@ideasonboard.com;
-> mchehab@kernel.org; tfiga@google.com; ribalda@chromium.org
-> Subject: Re: [PATCH v2] media: update contact email of Bingbu Cao
->
-> [You don't often get email from sakari.ailus@linux.intel.com. Learn
-> why this is important at
-> https://aka.ms/LearnAboutSenderIdentification ]
->
-> Caution: This message originated from an External Source. Use proper
-> caution when opening attachments, clicking links, or responding.
->
->
-> Hi Bingbu,
->
-> Good to see you're staying in the Linux media circles! 8-)
+It's no fun having Linus yell at you :-)
 
-:)
+Our experience is that this is actually quite rare, perhaps once a year, and if it
+is needed, then just ask.
 
->
-> On Mon, Jun 01, 2026 at 02:55:07PM +0800, Bingbu Cao wrote:
-> > I left Intel and joined AMD, so update my email in the MAINTAINERS.
-> >
-> > For the Intel IPU3, IPU6 and IPU7 staging drivers, I am not able to
-> > continue the code review from now, so remove me from the MAINTAINERS
-> > and remove the invalid email in MODULE_AUTHOR.
-> >
-> > Signed-off-by: Bingbu Cao <bingbu.cao@amd.com>
->
-> Dave posted a patch related to this:
-> <URL:https://lore.kernel.org/linux-
-> media/ahiSOvQ2zQuHDHWI@kekkonen.localdomain/T/#t>;
-> I'm planning to post v2 based on the discussion and I can take this
-> patch
-> into account as well.
+> 
+>>> It's a bit late in the cycle to do something like that, though. In the meantime,
+>>> just mention in your cover letter that the series depends on patches in the
+>>> -fixes branch.
+>>
+>> A "good reason" means that you need to submit a patch that will be merged
+>> in time for the next merge window which depends on a fix already merged
+>> upstream.
 
-Sorry, I miss this as I have not read the LKML for a while.
-Please feel free to post v2 based on the change from Dave and me.
+That's one reason, yes.
 
->
-> That patch however is just for MAINTAINERS and I think it'd be best
-> kept
-> that way. Can you post a patch to address this for the media tree? I
-> think
-> I'd keep the ipu7 (staging) and Documentation/ changes as separate
-> patches,
-> too. Tian Shu's e-mail isn't valid either, could you drop the address
-> while
-> at it?
+>>
+>> Just to give you a concrete example: we're now at 7.1-rc6, which is a
+>> late -rc, as this is the last week where media subsystem is opened for
+>> non-critical merges. We usually don't expect big/complex patches anymore
+>> on a late -rc kernel cycle. Most of patches on this time are supposed to
+>> be fixing issues.
+>>
+>> So, on this specific case, a "good reason" means that you have a fix that
+>> must go to 7.2-rc, but depends on merging fixes from 7.1-rc6.
+>>
+>> If this is not the case, better to just wait for 7.2-rc1.
+> 
+> Yes, I agree. At this point it is really late. A part of the problem
+> was that there were no patches picked for drivers/platform/media/qcom
+> to media-committers/next between February and May 9th, with several
+> patches being picked to -fixes also around end of April. I can only
+> hope that it will work better during the next release.
+> 
 
-I can submit a patch for ipu7 and Documentation/ based on your v2 or you
-can submit a separate patch.
+Regards,
 
->
-> It looks like the ov9734 driver will be left without a maintainer,
-> would
-> you be interested in maintaining it? I'd also add myself as maintainer
-> for
-> the imx319 and the ov01a10 drivers.
-
-I would like to be reviewer for ov9734, could you take the maintainer?
-
->
-> --
-> Kind regards,
->
-> Sakari Ailus
+	Hans
 
