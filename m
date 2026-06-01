@@ -1,176 +1,145 @@
-Return-Path: <linux-media+bounces-63229-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63230-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id EACcMFJQHWooYwkAu9opvQ
-	(envelope-from <linux-media+bounces-63229-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 11:26:42 +0200
+	id mBHxFD9XHWpLZQkAu9opvQ
+	(envelope-from <linux-media+bounces-63230-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 11:56:15 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38E1961C663
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 11:26:42 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id E390361CE2B
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 11:56:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 499A13067AC2
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 09:20:09 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 65513303E23D
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 09:46:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3968F3905EC;
-	Mon,  1 Jun 2026 09:20:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEC09391833;
+	Mon,  1 Jun 2026 09:46:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bkAZlkaD"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Df+gsVdw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f74.google.com (mail-ej1-f74.google.com [209.85.218.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B363539021B
-	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 09:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45CB395ADC
+	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 09:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780305604; cv=none; b=ZzOYx46TSrYyvp3lXhGU1oATVzBGrJIG2Ql7KeodMDd9wFVv7w1LxVrjEDpQLqlNDrY+TZW7Ee1Ibcbfvm7Px0ik/XeBb7uMxKi5rmdLT6mHKxefrxXArhqgjEvxy/DyiWEUMjMjeHg9ENTv97MR3UPdudb0m2Wi8Wn2gchX+Y4=
+	t=1780307171; cv=none; b=VyVWSNUbMundYkOyI9NbMPlqvR+luKCt5qVZdLYQG9n+GJNenz+92v2yhtoRPx/IO0gSBMWhVz1rMYXbCoOw+VFlx85vT/gJo5hnPjxH8mk9RrjKzDlShtcPyylfciDVX0ACGtN+juJhV4KOj0325cnnR8nplDkxPL7Yu9jMmBw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780305604; c=relaxed/simple;
-	bh=2LkuKaJomgCV549AW9szbWuvCIwNTgMUu0k0QYg7k0g=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=fe3sXk/1ip2RqRzI2WZKZcaFlJKdodVzSdoIbBxc4WMXG/pSEGG2AlOSPWP5sPo98L/BNheIjEW/IUvw2yhgc/m+ZCtUjSgxUYvCZRcTDsP9rL4xTbyWdoo07+pnWYeUaK2qkSFpv0teSiFkWFQvlqXw+Eca4CDoA42sT+ouubI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bkAZlkaD; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 394621F00893;
-	Mon,  1 Jun 2026 09:20:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780305603;
-	bh=L7EwAcluIDwZCYjn9YIIHDsqdXkOmtNJKkzaIhPSJyk=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To;
-	b=bkAZlkaDj/bqPy3qtV6hgxJmUBwCYTg29RYHCEriy4l6rh9GsskydzNSoKB+j7axd
-	 Yc1XhCFiFdqnQZo521TYJZNNCYFo4lAO07ml2Gl84oGWnBXt2gTHLJTO/ccwQZTNEm
-	 7S+5n8Qi4qvpnP+gpV0wfzcD06RshqiLz2KQwLKbz9+5txMHtpXh2+o4Rfx4P8QU47
-	 3ktmgXNP9KjVq13xndr1LwaZgKH6f4eOqpEqh0Tz/ePLEJBGl9suaQrTAerIw/Pxhv
-	 1Cj3Zafaoi8io43rptyymfj6S1Lo59KRTFbk4e9ItunsjCXqujTcFzm3hoH4FF/BzH
-	 JNO2locIDie1w==
-Message-ID: <3ba10f5b-063d-42db-87ec-243e88af815c@kernel.org>
-Date: Mon, 1 Jun 2026 11:20:00 +0200
+	s=arc-20240116; t=1780307171; c=relaxed/simple;
+	bh=cV18jvtNXIodO6tysPsBXW0X3xVvWrtNzux1ufx6488=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=FmiTAHIuAUrC1U7DC1Red8e4uv9W5ipvViK+uEJnBlSTDw+xOnu1A7YgeaFLfsh1ms3P6q3YOnVqCG4msAma3RAy3BV8k0AB32pYNs0vae3EqPgR1DS3wSh1jYVdNevTFxD+KtU3q/dgj4QcFyL2PMO5zKdWahWweOfAz4tbuKA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Df+gsVdw; arc=none smtp.client-ip=209.85.218.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
+Received: by mail-ej1-f74.google.com with SMTP id a640c23a62f3a-bec405b1c6fso92982466b.0
+        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 02:46:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1780307162; x=1780911962; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=F2mLiP05KImuXhLYRlm3itUuIPBG7j9sX+uByjRaID4=;
+        b=Df+gsVdwnaFnn3ZIHTyclLRbocaC0Vij9gUEXBbEsqwia8hx88vkEF6PrH925lg2F4
+         TNkNWB+rjEQ85OPUwZMIbeilLRRRm14mpIG9XQimhC4/GyBjiJxX1Aq6e0IjJGdhoaXQ
+         9RuaIevv3hHB2IozWJsYLF11si7iA7x1zS18ujoIoDAfzCEcwxt9UKFWEJEq36f/xzuH
+         Unqlf+CvnkFLsRaKk4qu5Lw1T7bUOU/kOBwZ4Po9HiGaTEte9T1rFXm4IUUrcTFF0/NX
+         r1QWy5Y/KUoYfUZcBqBlklb8mSemf/5OM6lWVqyNBvGgO0aFoiVE8tLrjCFBVdF1Ijei
+         PGNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780307162; x=1780911962;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=F2mLiP05KImuXhLYRlm3itUuIPBG7j9sX+uByjRaID4=;
+        b=l/046CRAHQQ5WjUANcf33dUb89lQ4dzw0928Wq9OSYvkV3rMN6V8KSm+W6Bm5muZUs
+         0aS64bMM5QnesLb6qx72Ix52vVhqO95fSvZ2uAqcA8vy+rl2rGzN8pFdjz1u9PTSNbQc
+         qjSs+w3xMvod7TNhnh2qM0/3x0NDKFumoTedFNNtJV2SeH1g4J57kGL+6OTbf3ldGgQ6
+         uy1P5K4JkPXhGxh8C+KBqPqMHgwctoPiYPsU6zgcq5fbJcVaz8ntiNpW7BJi+sQRhy0W
+         D3FrXogLeaCyyMwi9v7/w8mpQ3tp4BNgJPl6YbBArNPM7hJfJRkgLbBJaU+YeDQIofR4
+         lm6g==
+X-Forwarded-Encrypted: i=1; AFNElJ9UYAe4HNZ4JvSNE0bpX4XlHWhXkSDQ7iwiDBOB/p37vsK8s6nRO9noWoE9e1XupznNdgdI6eQUt6F9AA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxy7SFB0Fa7bn3bLD/Tmqggccn3kYsXuHGpz8HbHppDLHeiydfI
+	iiVCoNOM0hf9CrvI5L7VC8AOoO2a0zwJ0bMRgbad2h61XNf+tNztNjsf6/V1tUdrIcENAb/X3Tz
+	h5wYGvlRqTik20E+XeA==
+X-Received: from ejcmy11.prod.google.com ([2002:a17:906:5a4b:b0:beb:3773:86c7])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:e158:b0:beb:7979:47dd with SMTP id a640c23a62f3a-beb797959f7mr242224566b.27.1780307161830;
+ Mon, 01 Jun 2026 02:46:01 -0700 (PDT)
+Date: Mon, 1 Jun 2026 09:46:00 +0000
+In-Reply-To: <20260530143541.229628-3-phasta@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: media-comitters next vs fixes trees
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: linux-media@vger.kernel.org, media-committers@linuxtv.org,
- Bryan O'Donoghue <bod@kernel.org>
-References: <CAO9ioeW5mv9bQjKbd3KOx6V4GB2xKgmDcLrbLowc=j0agwWMag@mail.gmail.com>
- <2d1e7167-2cf4-4998-9005-5d18a45c0144@kernel.org>
- <20260601102127.625ed568@foz.lan>
- <CAO9ioeVPX_KWh4Pgh94o3P+tuwBsBsbBNxds3ERVQo3r5iMVQA@mail.gmail.com>
-Content-Language: en-US, nl
-In-Reply-To: <CAO9ioeVPX_KWh4Pgh94o3P+tuwBsBsbBNxds3ERVQo3r5iMVQA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Mime-Version: 1.0
+References: <20260530143541.229628-2-phasta@kernel.org> <20260530143541.229628-3-phasta@kernel.org>
+Message-ID: <ah1U2P8ppTjprYwR@google.com>
+Subject: Re: [PATCH 1/4] rust: types: implement ForeignOwnable for ARef<T>
+From: Alice Ryhl <aliceryhl@google.com>
+To: Philipp Stanner <phasta@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	"Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
+	Frederic Weisbecker <frederic@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
+	Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>, 
+	Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Zqiang <qiang.zhang@linux.dev>, Daniel Almeida <daniel.almeida@collabora.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Igor Korotin <igor.korotin@linux.dev>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	FUJITA Tomonori <fujita.tomonori@gmail.com>, Krishna Ketan Rai <prafulrai522@gmail.com>, 
+	Shankari Anand <shankari.ak0208@gmail.com>, manos@pitsidianak.is, 
+	Boris Brezillon <boris.brezillon@collabora.com>, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	rcu@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MV_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63229-lists,linux-media=lfdr.de,cisco];
+	TAGGED_FROM(0.00)[bounces-63230-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,linaro.org,amd.com,nvidia.com,joshtriplett.org,gmail.com,goodmis.org,efficios.com,linux.dev,collabora.com,linuxfoundation.org,pitsidianak.is,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
+	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,huawei];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 38E1961C663
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_TWELVE(0.00)[37];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: E390361CE2B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 01/06/2026 10:51, Dmitry Baryshkov wrote:
-> On Mon, 1 Jun 2026 at 10:21, Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
->>
->> On Sun, 31 May 2026 15:24:48 +0200
->> Hans Verkuil <hverkuil+cisco@kernel.org> wrote:
->>
->>> Hi Dmitry,
->>>
->>> On 31/05/2026 11:13, Dmitry Baryshkov wrote:
->>>> Hi,
->>>>
->>>> Is there any current rule or plan about submerging the fixes branch of
->>>> media-comitters to the enxt branch? For example, I have several
->>>> patchsets which apply perfectly to the linux-next, but fail to apply
->>>> (and function correctly) on top of media-comitters/next because it
->>>> depends on the commits which are only a part of -fixes.
->>>>
->>>
->>> By default we (and with 'we' I mean Mauro and myself as media maintainers) do
->>> not merge the patches in the fixes branch into the next branch, unless we are
->>> asked to.
->>>
->>> Most of the time the fixes are independent of work in the -next branch, so we
->>> do this only if there is a good reason for it.
->>
->> Please also notice that we only merge upstream tags into "next" branch (e.g.,
->> currently we only merge from a 7.x-rc? tag).
+On Sat, May 30, 2026 at 04:35:09PM +0200, Philipp Stanner wrote:
+> From: Danilo Krummrich <dakr@kernel.org>
 > 
-> I'd be happy if this was actually happening. Should this become a rule
-> for media-committers/next, to merge -rc tags? Or to merge -rc tags
-> after there was a medai-related fix merged into Linus's tree?
-
-No, Linus doesn't like backmerging of -rcX tags, unless there is a good reason for
-it that is also listed in the commit log of the merge. So this isn't something
-you can automate, you actually need to write a proper commit log when doing this.
-
-It's no fun having Linus yell at you :-)
-
-Our experience is that this is actually quite rare, perhaps once a year, and if it
-is needed, then just ask.
-
+> Implement ForeignOwnable for ARef<T>, making it possible for C code to
+> own an ARef<T>.
 > 
->>> It's a bit late in the cycle to do something like that, though. In the meantime,
->>> just mention in your cover letter that the series depends on patches in the
->>> -fixes branch.
->>
->> A "good reason" means that you need to submit a patch that will be merged
->> in time for the next merge window which depends on a fix already merged
->> upstream.
-
-That's one reason, yes.
-
->>
->> Just to give you a concrete example: we're now at 7.1-rc6, which is a
->> late -rc, as this is the last week where media subsystem is opened for
->> non-critical merges. We usually don't expect big/complex patches anymore
->> on a late -rc kernel cycle. Most of patches on this time are supposed to
->> be fixing issues.
->>
->> So, on this specific case, a "good reason" means that you have a fix that
->> must go to 7.2-rc, but depends on merging fixes from 7.1-rc6.
->>
->> If this is not the case, better to just wait for 7.2-rc1.
+> Since ARef represents shared ownership, BorrowedMut is &T rather than
+> &mut T, matching the semantics of the underlying reference-counted type.
 > 
-> Yes, I agree. At this point it is really late. A part of the problem
-> was that there were no patches picked for drivers/platform/media/qcom
-> to media-committers/next between February and May 9th, with several
-> patches being picked to -fixes also around end of April. I can only
-> hope that it will work better during the next release.
-> 
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
 
-Regards,
-
-	Hans
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
 
