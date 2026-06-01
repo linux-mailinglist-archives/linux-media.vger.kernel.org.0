@@ -1,394 +1,296 @@
-Return-Path: <linux-media+bounces-63211-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63212-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iNY6Ja8tHWo4WAkAu9opvQ
-	(envelope-from <linux-media+bounces-63211-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 08:58:55 +0200
+	id 0PXACj8vHWo4WAkAu9opvQ
+	(envelope-from <linux-media+bounces-63212-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 09:05:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD5C61A816
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 08:58:55 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2252C61AA50
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 09:05:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7BD77301DCD7
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 06:57:27 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 019B4300D54B
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 07:03:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 687973845D0;
-	Mon,  1 Jun 2026 06:56:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3BA5382F31;
+	Mon,  1 Jun 2026 07:03:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="4nw4t89r"
+	dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b="L6KHJt0S"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011064.outbound.protection.outlook.com [40.93.194.64])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7BC53845AE
-	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 06:56:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B8B382F1F;
+	Mon,  1 Jun 2026 07:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780296999; cv=fail; b=pulngZ/IyXL8L+D0lbDzZYqjjj1sz469CQGNeG5wdJ4lOY1tbtduxyXTpnpEct8HbPuIR6+n+BybwhPHNnsV5gmqXiQY8+SfHAVBpiL8dMezg+Itqda0OKqKWmTLv++vlXnLnPZnQYWY8veVMwNB2nHAJpLer3EtEzuzFfjRvr0=
+	t=1780297428; cv=pass; b=VVS5JBP/MD8UNNr0s7/gqFKI9td9TfgRT7FzFcU7X7YEfOwhL5s2Q5uxCe7Y50aTel9DBEGtX2om8KBBxfgSrOZWEQVbZwzjyTEQ/AT6zknt1spIndbKr5RaM1vhAr2t7zIlPKhjJZam06EKgvtYuLNJ3G18z6dy75T4zlMxNWc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780296999; c=relaxed/simple;
-	bh=586/dx2HoMnhALU48C8WAbNCk5NpfArttzCAVa+fYSQ=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=H9s4qGDREvSEEhI1SMFK+VSd+4tsr5UzAXpphxbvBpOdlpYbHU7W6f5+sp2ANfcOgsjxUhUswMYV9RVeKYOb9o7xD/+s30uuPNOxlC27WVWOXkuI08GJmcbIWWT8KdsUjgEDvgGf0QyerGPImCbPValaIIPIuOu4Q7oC7D7pDQ8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=4nw4t89r; arc=fail smtp.client-ip=40.93.194.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=acFJwmDexBa6+Fc/CVrtfR768Np6QWQYfJCmEILxo1CxfFBlL9fHKMwnlKFTidXCkUnmHZCRqMDbtdw45ODUjP+xFLhkTYeVk6EOV+Al89LIDfrVztbuwWoXRomU8ktgWo+/qP5X0DvCNL8zWJoQXm6CCjbemoqu62l/earFfYJSh1I+t8D2JKJM4g8LLkvbY2Z80ITxPDbLVH/XR8f/sTC1lpTNLA1m+Cv6YrpRNoEVodyE/MlSzhuqhwuU9nuCtM1UoHQgIOY1ZhmtfeFHNiqWB2PW1EpTTFJsAUtbsBylitpRkJBbbiw8YwQSRfrszOkc3b8w5rbiYkjn77d6Rg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=7/tJUyZLaJC5vUIFY0CYP2KukX/W+x3l72IjDbVUjHU=;
- b=DGBBciLzrOSGBcP+D4CLPV6LZIpJcY4gyhiI6oEras7Hv75xZISWw1o7lQEzjBeva2RwN9GgONcuMPXGPpaEBhtCTxxYmAudAL7/tp5jmSb6/CdZDPO4C2SFdOKZt0nEYOMt4HUnUdfif/g5M6J36shCHNojP21ybfm2tOd0AYdNjytL4n4mSVizcNmA9rD0QtJBgWkH66I3x7aaLHEBzIQqOc3f/1PCnULPhnAAV6GBL0PcJOYJ2WNhJ6QUWe4BcoS4zOydUr3mCcnIwk9dI6vJR9ZwQjsm8BG6sA3Hc5C9Nxr+MuN3CIkkvxklvgaAeuu3jq5bNi8Ew6CA2W8ztw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7/tJUyZLaJC5vUIFY0CYP2KukX/W+x3l72IjDbVUjHU=;
- b=4nw4t89rfG2/5mJl0Q7tpfH/YEQFSymTM5/TNUqw1CeT9tq6iEIqhuyTZaFYf11K2XErcSkQGrFbjjMrDi/6bbXotO+8VvDJUojaiLOH7Pmm6flrfDj/D7+c8ygtXWES+bLgK34Ro7+Y2QH52wxzZ2ZrdSxSK9OpqIT4RWcXhis=
-Received: from MN2PR01CA0049.prod.exchangelabs.com (2603:10b6:208:23f::18) by
- MW6PR12MB8957.namprd12.prod.outlook.com (2603:10b6:303:23a::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.71.15; Mon, 1 Jun 2026 06:56:27 +0000
-Received: from BL02EPF00021F6A.namprd02.prod.outlook.com
- (2603:10b6:208:23f:cafe::46) by MN2PR01CA0049.outlook.office365.com
- (2603:10b6:208:23f::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.71.16 via Frontend Transport; Mon, 1
- Jun 2026 06:56:27 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BL02EPF00021F6A.mail.protection.outlook.com (10.167.249.6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.92.5 via Frontend Transport; Mon, 1 Jun 2026 06:56:26 +0000
-Received: from BJGBICAO01.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Mon, 1 Jun
- 2026 01:56:24 -0500
-From: Bingbu Cao <bingbu.cao@amd.com>
-To: <linux-media@vger.kernel.org>, <sakari.ailus@linux.intel.com>,
-	<laurent.pinchart@ideasonboard.com>
-CC: <mchehab@kernel.org>, <tfiga@google.com>, <ribalda@chromium.org>, "Bingbu
- Cao" <bingbu.cao@amd.com>
-Subject: [PATCH v2] media: update contact email of Bingbu Cao
-Date: Mon, 1 Jun 2026 14:55:07 +0800
-Message-ID: <20260601065555.150536-1-bingbu.cao@amd.com>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1780297428; c=relaxed/simple;
+	bh=3cVHoTs9yIJLWxEQnk9A0TGwbvrqcT4lJZl9MBwsvfE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=agMbVHD7OgWVH/0U75PwSZrbPT7mmWWPVz8z+1Do4OLVuO2AxBtYvtRVplzk29H3HrAgzc1uZd4MIC9S2XXV5KHAHJrIyXVXqS0KiLyCpvwhQB4AIBdPw3iXv0/t5GuaMaSJRZkrcJAKX15DKWeip4FFNaEGEWDD09Fl9vnzZkQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me; spf=pass smtp.mailfrom=icenowy.me; dkim=pass (2048-bit key) header.d=icenowy.me header.i=uwu@icenowy.me header.b=L6KHJt0S; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=icenowy.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icenowy.me
+ARC-Seal: i=1; a=rsa-sha256; t=1780297408; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=fkMe4pbAWpDntsPu1e74bIEM/oqdRyymB/ChZzBA6Ij+MKejLq01j2fZQmoEL+g1NV926gogTPw+zAT+DykEsfF5m4IC79eDvt5R7gYyVDE9LoYBUqUulzEtZw/iqLmWcHbPJAB8TCC+uXU4X4qFPl6T4hwRvyYjcoRi7jCRcQc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1780297408; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=QLCPiUeXBpuiNP7Dd5XfYFOCbvsBtllxZtOQ2WJE6js=; 
+	b=GLoctPx0OnzfMSZFc/CciDZFpqWgg3fo60qW7DyweCgmJn8yFIzhMLzrGqHZGcmXN0rFFZoZn5RTywEE7kSpmnLcHLpEHMg+iiJNYpcsC5g4bdCIjckN3kvD225QtLpZn4B8C66NRhqEIP7oaKGDpY+4GBG42y1/JD9C18Zbm28=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=icenowy.me;
+	spf=pass  smtp.mailfrom=uwu@icenowy.me;
+	dmarc=pass header.from=<uwu@icenowy.me>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1780297408;
+	s=zmail2; d=icenowy.me; i=uwu@icenowy.me;
+	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:Date:Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:MIME-Version:Message-Id:Reply-To;
+	bh=QLCPiUeXBpuiNP7Dd5XfYFOCbvsBtllxZtOQ2WJE6js=;
+	b=L6KHJt0SJcleHALx/I8/21KXoJ0EFDVPZeaH1b+NPRTvnTIyzdzig/I8bjRH4azw
+	Y399K/dPQTfEhc1EjvVaQ1XGv/eQiDGQR02iMBQSFcE59fIfQu76GzCLvswt9a9Ui9k
+	U1t+7MI8xoS5Kp81nn87gJ3UYwyUir/6L1cTej5QeechPhHyI5BZSTmT7ZHrR/9dsPs
+	3QMZhFimNPV92HiroyDWd12O4dHqDnVkkCkgYm910k7KH8NnxxsD+2WjicqxeLw+lFz
+	oBSzvRrS1PP48Od39az8YISdjjozoKNdjCdUSqjYyAgm0AaDyza2gVweEhOYs4xjFI5
+	YzvwjnLYag==
+Received: by mx.zohomail.com with SMTPS id 1780297406409465.9604788970639;
+	Mon, 1 Jun 2026 00:03:26 -0700 (PDT)
+Message-ID: <1e61d12528c7c0a8b8d05f9d789b5b40024e8001.camel@icenowy.me>
+Subject: Re: [PATCH] media: mtk-jpeg: fix use-after-free in release path due
+ to uncancelled work
+From: Icenowy Zheng <uwu@icenowy.me>
+To: Fan Wu <fanwu01@zju.edu.cn>, bin.liu@mediatek.com, mchehab@kernel.org, 
+	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com
+Cc: irui.wang@mediatek.com, kyrie.wu@mediatek.com, hverkuil@kernel.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+Date: Mon, 01 Jun 2026 15:03:19 +0800
+In-Reply-To: <20260304031934.147483-1-fanwu01@zju.edu.cn>
+References: <20260304031934.147483-1-fanwu01@zju.edu.cn>
+Organization: Anthon Open-Source Community
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF00021F6A:EE_|MW6PR12MB8957:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1dcb340b-0dd8-4a0e-c2d4-08debfaae6bc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|376014|1800799024|18002099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	YU8H3JGvyHQ0BPRWAI4i/n2/th1Cx0pxwkcUoNbnQXioDJVSVRQUuNcWE75jN1dzudIODl661oVbrZFG11NkSxTRcfQayl2Gmlb08M7o3Vs1DtFl3i5EYCB1hCPlEwtTwwhqpHxVSclmYBJlzean77oIEfyDIKnlJDM5h55SmPRNXK9Il+UwZ+elnmC7NQuoITix9HenTF73IwKQG+uXLy51kTO2NdFTV5oRnyy2kqjytN7HMsSm9GmwL+5BNkC0+Nder2OaOFkW2ky9f6I2gf/HE0NOfS8vNILroIb5stjvw2G5J+6ffWQRREA/vv0rzqMexv5itfLDmWS3eNMi6vxUhxmwdmQF3PSJHV93VPpH2DUIeKKm8HShfBqtdbKQU201sy7VhSJ/bdYQW6GecedTpGvs1MRtEYwj97pRnxlnmgMVl6uNCLqsQnPI780hWl1R9D9lOtiu77MncJTQJHwPvvR3QfyA30J687XMhWpNob0Atf3RfIUD/+y2dRooD5beClbtbzg1qITl/iPYxh4vdLn45oUwC2ySbfo2/EqpuKJdS+YhrZCyNtQf49/5bEePQ/rQqp5l5meOCZdBbrsY62s+BYcsesn14ZGBOHM90tGFWB5pHWrScSsrowXMYJd6Lmiw60nfVyAMlY0zRp5nZ1gyBZ3uH6YEe8A8UR1zlIvZmcvHCb029mT2k6eGYSK/72qrQMDe8onKPMMqnOmPC+VtW6FbhSx3fVwiV6Y=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(376014)(1800799024)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	uwztdg/NYtX1xK5cwdVr7NKymdTIK2RRmlH33qjQRsZF4X/vlOcUY8R2GA5Z3iuR4z5rRjUA5ef+kYwnZ3av0K2rTlKZ6Yc11bnbsVHr31sqX6T2Sn8UMVTzmALkOc2VRtq+NTNsRfO9kwK/TJOePcFTI8+qcZLJJ5C3UdD4Sk7yVn89d/u5r99UuW1awdcOxV+XI7O8kK+lv89gD0edSd0Oiyk7SMMpEfptvCfIinixeeTlYa9rbZhatK3Oz1/K91qfGkHys1tgzXavarl1nC9bNtEfgCQikqef8GnyVvAZyl3xXtae8EKYOjefkzvqb7OVEXg2E+7v4t38lYHSpaMD1dCUM0OgxUMXWIH/JNay7YeIcVse1ps+hqy4aUnzLY4fBkCWlQz1ORAn+znKxL7tMwgKLcCwAYtJzbfmdp63jFEbQb+Q0wI2BMHU1/ov
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2026 06:56:26.9222
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1dcb340b-0dd8-4a0e-c2d4-08debfaae6bc
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL02EPF00021F6A.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8957
-X-Spamd-Result: default: False [1.34 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+X-ZohoMailClient: External
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[icenowy.me,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[icenowy.me:s=zmail2];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63211-lists,linux-media=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,amd.com:email,amd.com:mid,amd.com:dkim,intel.com:email];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63212-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[zju.edu.cn,mediatek.com,kernel.org,gmail.com,collabora.com];
+	HAS_ORG_HEADER(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[amd.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bingbu.cao@amd.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	NEURAL_HAM(-0.00)[-0.999];
+	FROM_NEQ_ENVFROM(0.00)[uwu@icenowy.me,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[icenowy.me:+];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 3CD5C61A816
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,icenowy.me:mid,icenowy.me:dkim,zju.edu.cn:email]
+X-Rspamd-Queue-Id: 2252C61AA50
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-I left Intel and joined AMD, so update my email in the MAINTAINERS.
+=E5=9C=A8 2026-03-04=E4=B8=89=E7=9A=84 03:19 +0000=EF=BC=8CFan Wu=E5=86=99=
+=E9=81=93=EF=BC=9A
+> The mtk_jpeg_release() function frees the context structure (ctx)
+> without
+> first cancelling any pending or running work in ctx->jpeg_work. This
+> creates a race window where the workqueue callback may still be
+> accessing
+> the context memory after it has been freed.
 
-For the Intel IPU3, IPU6 and IPU7 staging drivers, I am not able to
-continue the code review from now, so remove me from the MAINTAINERS
-and remove the invalid email in MODULE_AUTHOR.
+This patch leads to frequent kernel warning on my mt8188-geralt-ciri
+device:
 
-Signed-off-by: Bingbu Cao <bingbu.cao@amd.com>
----
- Documentation/driver-api/media/drivers/ipu6.rst |  2 +-
- MAINTAINERS                                     | 13 ++++---------
- drivers/media/i2c/ak7375.c                      |  2 +-
- drivers/media/i2c/imx319.c                      |  2 +-
- drivers/media/i2c/imx355.c                      |  2 +-
- drivers/media/i2c/ov01a10.c                     |  2 +-
- drivers/media/i2c/ov2740.c                      |  2 +-
- drivers/media/i2c/ov9734.c                      |  2 +-
- drivers/media/pci/intel/ipu6/ipu6-isys.c        |  2 +-
- drivers/media/pci/intel/ipu6/ipu6.c             |  2 +-
- drivers/staging/media/ipu7/ipu7-isys.c          |  2 +-
- drivers/staging/media/ipu7/ipu7.c               |  2 +-
- 12 files changed, 15 insertions(+), 20 deletions(-)
+```
+[   42.493013] ------------[ cut here ]------------
+[   42.497645] WARNING: kernel/workqueue.c:4302 at
+__flush_work+0x34c/0x380, CPU#2: wireplumber/1100
+[   42.506521] Modules linked in: snd_seq_dummy snd_hrtimer snd_seq
+snd_seq_device aes_ce_ccm rfcomm hid_himax(OE) bnep mtk_vcodec_dec_hw
+btusb memconsole_coreboot btmtk btrtl btbcm vpd_sysfs cbmem
+nf_conntrack_netbios_ns memconsole framebuffer_coreboot btintel
+nf_conntrack_broadcast nft_fib_inet bluetooth nft_fib_ipv4 nft_fib_ipv6
+nft_fib mt7921e nft_reject_inet mt7921_common nf_reject_ipv4
+nf_reject_ipv6 mt792x_lib nft_reject mt76_connac_lib mt76 nft_ct
+mtk_jpeg mt8188_mt6359 snd_soc_hdmi_codec mtk_vcodec_dec airoha_eth
+mt6359_accdet v4l2_vp9 airoha_npu mtk_jpeg_enc_hw mtk_vcodec_enc
+snd_soc_mt6359 v4l2_h264 mac80211 nft_chain_nat mtk_vcodec_dbgfs
+mtk_jpeg_dec_hw mtk_vcodec_common mtk_vpu cfg80211 ip6table_nat
+mtk_mdp3 ip6table_mangle v4l2_mem2mem ip6table_raw ofpart
+videobuf2_dma_contig dsa_core videobuf2_memops phylink
+ip6table_security hsr cmdlinepart videobuf2_v4l2 videobuf2_common
+iptable_nat nf_nat bridge videodev cros_ec_sensors spi_nor nf_conntrack
+stp mc cros_ec_sensors_core llc mtd
+[   42.506764]  industrialio_triggered_buffer kfifo_buf nf_defrag_ipv6
+snd_sof_mt8186 rfkill mtk_adsp_common nf_defrag_ipv4 iptable_mangle
+mtk_adsp_ipc snd_soc_es8326 snd_soc_max98390 iptable_raw
+snd_sof_xtensa_dsp mediatek_cpufreq_hw iptable_security snd_sof_of
+snd_soc_mt8188_afe snd_sof snd_soc_dmic snd_soc_mtk_common
+snd_sof_utils mt6359_auxadc snd_soc_core snd_compress ac97_bus mtk_scp
+mt6577_auxadc snd_pcm_dmaengine snd_pcm mtk_rpmsg lvts_thermal
+nf_tables mtk_scp_ipi snd_timer industrialio rpmsg_core snd
+ip6table_filter coreboot_table soundcore ip6_tables iptable_filter
+ip_tables x_tables joydev mousedev qrtr tun sch_fq_codel fuse nfnetlink
+onboard_usb_dev panel_himax_hx83102 cros_usbpd_charger cros_ec_hwmon
+cros_ec_sysfs cros_ec_sensorhub cros_usbpd_notify sbs_battery
+gpio_cros_ec hwmon cros_charge_control cros_ec_chardev
+cros_usbpd_logger cros_ec_debugfs hid_google_hammer hid_multitouch
+hid_vivaldi_common cros_ec_keyb i2c_cros_ec_tunnel hid_generic
+led_class cros_ec_dev rtc_mt6397 mt6359_regulator
+[   42.594635]  tpm_tis_i2c_cr50 xhci_mtk_hcd i2c_hid_of tpm_tis_spi
+i2c_hid tpm_tis_core cros_ec_spi cros_ec clk_mt8188_vdo1
+clk_mt8188_vdo0 cros_ec_proto mt6397 clk_mt8188_vpp0 clk_mt8188_vpp1
+mtk_dp ghash_ce phy_mtk_dp drm_dp_aux_bus phy_mtk_tphy sm4 mediatek_drm
+drm_dma_helper drm_display_helper cec clk_mt8188_ipe clk_mt8188_venc
+rc_core clk_mt8188_vdec clk_mt8188_cam clk_mt8188_img clk_mt8188_ccu
+clk_mt8188_wpe panfrost mtk_mmsys mtk_mutex governor_simpleondemand
+phy_mtk_mipi_dsi_drv clk_mt8188_mfg mtk_cmdq_helper nvmem_mtk_efuse
+gpu_sched mtk_smi spi_mtk_nor mtu3 clk_mt8188_imp_iic_wrap mtk_sd roles
+mmc_hsq udc_core cqhci spmi_mtk_pmif i2c_mt65xx spmi_devres
+pwm_mtk_disp spi_mt65xx clk_mt8188_peri_ao clk_mt8188_adsp_audio26m
+clk_mt8188_infra_ao spmi clk_mt8188_apmixedsys mtk_pmic_wrap mtk_wdt
+mtk_adsp_mailbox mtk_iommu clk_mt8188_topckgen mtk_cmdq_mailbox fixed
+ramoops pwm_bl i2c_dev aes_neon_bs aes_neon_blk aes_ce_blk
+[   42.765118] CPU: 2 UID: 975 PID: 1100 Comm: wireplumber Tainted: G=20
+W  OE       7.0.10-aosc-main #1 PREEMPT(lazy)=20
+[   42.775983] Tainted: [W]=3DWARN, [O]=3DOOT_MODULE, [E]=3DUNSIGNED_MODULE
+[   42.782155] Hardware name: Google Ciri sku1 board (DT)
+[   42.787286] pstate: 60400009 (nZCv daif +PAN -UAO -TCO -DIT -SSBS
+BTYPE=3D--)
+[   42.794243] pc : __flush_work+0x34c/0x380
+[   42.798251] lr : __cancel_work_sync+0x90/0xe0
+[   42.802604] sp : ffff8000854f3980
+[   42.805912] x29: ffff8000854f39e0 x28: ffff0000c9530000 x27:
+0000000000000000
+[   42.813048] x26: 0000000000000000 x25: 0000000000000000 x24:
+0000000000000001
+[   42.820183] x23: ffffb0d11de2bd40 x22: ffff0000c98db6c0 x21:
+0000000000000001
+[   42.827319] x20: 0000000000000000 x19: ffff0000c2679f20 x18:
+ffff8000851ad068
+[   42.834454] x17: 0000000000000000 x16: 0000000000000000 x15:
+0000000000000000
+[   42.841588] x14: 0000000000000000 x13: 0000000000000000 x12:
+0000000000000000
+[   42.848723] x11: 0000000000000000 x10: 0000000000000000 x9 :
+ffffb0d11993da28
+[   42.855858] x8 : 0000000000000000 x7 : 0000000000000000 x6 :
+0000000000000000
+[   42.862992] x5 : 0000000000000000 x4 : 0000000000000000 x3 :
+0000000000000000
+[   42.870126] x2 : 0000000000000000 x1 : 0000000000000000 x0 :
+0000000000000000
+[   42.877262] Call trace:
+[   42.879704]  __flush_work+0x34c/0x380 (P)
+[   42.883713]  __cancel_work_sync+0x90/0xe0
+[   42.887719]  cancel_work_sync+0x20/0x50
+[   42.891551]  mtk_jpeg_release+0x38/0xb0 [mtk_jpeg]
+[   42.896348]  v4l2_release+0x94/0x118 [videodev]
+[   42.900910]  __fput+0xec/0x330
+[   42.903968]  fput_close_sync+0x44/0x160
+[   42.907803]  __arm64_sys_close+0x44/0xa0
+[   42.911723]  invoke_syscall.constprop.0+0x60/0xf0
+[   42.916426]  el0_svc_common.constprop.0+0x114/0x140
+[   42.921302]  do_el0_svc+0x28/0x58
+[   42.924614]  el0_svc+0x44/0x1e0
+[   42.927754]  el0t_64_sync_handler+0xc0/0x108
+[   42.932019]  el0t_64_sync+0x1b8/0x1c0
+[   42.935680] ---[ end trace 0000000000000000 ]---
 
-diff --git a/Documentation/driver-api/media/drivers/ipu6.rst b/Documentation/driver-api/media/drivers/ipu6.rst
-index 88f6498e74db..7845998a3971 100644
---- a/Documentation/driver-api/media/drivers/ipu6.rst
-+++ b/Documentation/driver-api/media/drivers/ipu6.rst
-@@ -4,7 +4,7 @@
- Intel IPU6 Driver
- ==================
- 
--Author: Bingbu Cao <bingbu.cao@intel.com>
-+Author: Bingbu Cao
- 
- Overview
- =========
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 461a3eed6129..da53dec5cc6a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13016,7 +13016,6 @@ F:	drivers/iommu/intel/
- INTEL IPU3 CSI-2 CIO2 DRIVER
- M:	Yong Zhi <yong.zhi@intel.com>
- M:	Sakari Ailus <sakari.ailus@linux.intel.com>
--M:	Bingbu Cao <bingbu.cao@intel.com>
- M:	Dan Scally <dan.scally@ideasonboard.com>
- R:	Tianshu Qiu <tian.shu.qiu@intel.com>
- L:	linux-media@vger.kernel.org
-@@ -13027,7 +13026,6 @@ F:	drivers/media/pci/intel/ipu3/
- 
- INTEL IPU3 CSI-2 IMGU DRIVER
- M:	Sakari Ailus <sakari.ailus@linux.intel.com>
--R:	Bingbu Cao <bingbu.cao@intel.com>
- R:	Tianshu Qiu <tian.shu.qiu@intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
-@@ -13038,7 +13036,6 @@ F:	drivers/staging/media/ipu3/
- 
- INTEL IPU6 INPUT SYSTEM DRIVER
- M:	Sakari Ailus <sakari.ailus@linux.intel.com>
--M:	Bingbu Cao <bingbu.cao@intel.com>
- R:	Tianshu Qiu <tian.shu.qiu@intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
-@@ -13048,7 +13045,6 @@ F:	drivers/media/pci/intel/ipu6/
- 
- INTEL IPU7 INPUT SYSTEM DRIVER
- M:	Sakari Ailus <sakari.ailus@linux.intel.com>
--R:	Bingbu Cao <bingbu.cao@intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-@@ -13350,7 +13346,6 @@ F:	drivers/net/wireless/intel/iwlwifi/
- 
- INTEL VISION SENSING CONTROLLER DRIVER
- M:	Sakari Ailus <sakari.ailus@linux.intel.com>
--R:	Bingbu Cao <bingbu.cao@intel.com>
- R:	Lixu Zhang <lixu.zhang@intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
-@@ -19671,7 +19666,7 @@ F:	Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml
- F:	drivers/media/i2c/os05b10.c
- 
- OMNIVISION OV01A10 SENSOR DRIVER
--M:	Bingbu Cao <bingbu.cao@intel.com>
-+M:	Bingbu Cao <bingbu.cao@amd.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-@@ -19766,7 +19761,7 @@ F:	drivers/media/i2c/ov2735.c
- OMNIVISION OV2740 SENSOR DRIVER
- M:	Tianshu Qiu <tian.shu.qiu@intel.com>
- R:	Sakari Ailus <sakari.ailus@linux.intel.com>
--R:	Bingbu Cao <bingbu.cao@intel.com>
-+R:	Bingbu Cao <bingbu.cao@amd.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-@@ -19909,7 +19904,7 @@ F:	drivers/media/i2c/ov9650.c
- 
- OMNIVISION OV9734 SENSOR DRIVER
- M:	Tianshu Qiu <tian.shu.qiu@intel.com>
--R:	Bingbu Cao <bingbu.cao@intel.com>
-+R:	Bingbu Cao <bingbu.cao@amd.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-@@ -24919,7 +24914,7 @@ F:	Documentation/devicetree/bindings/media/i2c/sony,imx296.yaml
- F:	drivers/media/i2c/imx296.c
- 
- SONY IMX319 SENSOR DRIVER
--M:	Bingbu Cao <bingbu.cao@intel.com>
-+M:	Bingbu Cao <bingbu.cao@amd.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-diff --git a/drivers/media/i2c/ak7375.c b/drivers/media/i2c/ak7375.c
-index 9a2432cea3ff..bb73cc1ef991 100644
---- a/drivers/media/i2c/ak7375.c
-+++ b/drivers/media/i2c/ak7375.c
-@@ -352,6 +352,6 @@ static struct i2c_driver ak7375_i2c_driver = {
- module_i2c_driver(ak7375_i2c_driver);
- 
- MODULE_AUTHOR("Tianshu Qiu <tian.shu.qiu@intel.com>");
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao <bingbu.cao@amd.com>");
- MODULE_DESCRIPTION("AK7375 VCM driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/media/i2c/imx319.c b/drivers/media/i2c/imx319.c
-index 953310ef3046..87301d62eb8d 100644
---- a/drivers/media/i2c/imx319.c
-+++ b/drivers/media/i2c/imx319.c
-@@ -2499,7 +2499,7 @@ module_i2c_driver(imx319_i2c_driver);
- 
- MODULE_AUTHOR("Qiu, Tianshu <tian.shu.qiu@intel.com>");
- MODULE_AUTHOR("Rapolu, Chiranjeevi");
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao <bingbu.cao@amd.com>");
- MODULE_AUTHOR("Yang, Hyungwoo");
- MODULE_DESCRIPTION("Sony imx319 sensor driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
-index 27a5c212a527..9969c61f1ec4 100644
---- a/drivers/media/i2c/imx355.c
-+++ b/drivers/media/i2c/imx355.c
-@@ -1892,7 +1892,7 @@ module_i2c_driver(imx355_i2c_driver);
- 
- MODULE_AUTHOR("Qiu, Tianshu <tian.shu.qiu@intel.com>");
- MODULE_AUTHOR("Rapolu, Chiranjeevi");
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao <bingbu.cao@amd.com>");
- MODULE_AUTHOR("Yang, Hyungwoo");
- MODULE_DESCRIPTION("Sony imx355 sensor driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
-index 8a29e5b4b6ba..f857d3dd8ec5 100644
---- a/drivers/media/i2c/ov01a10.c
-+++ b/drivers/media/i2c/ov01a10.c
-@@ -1131,7 +1131,7 @@ static struct i2c_driver ov01a10_i2c_driver = {
- 
- module_i2c_driver(ov01a10_i2c_driver);
- 
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao <bingbu.cao@amd.com>");
- MODULE_AUTHOR("Wang Yating <yating.wang@intel.com>");
- MODULE_DESCRIPTION("OmniVision OV01A10 sensor driver");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-index fb590dfadda1..f5d5a3b8f87f 100644
---- a/drivers/media/i2c/ov2740.c
-+++ b/drivers/media/i2c/ov2740.c
-@@ -1481,6 +1481,6 @@ module_i2c_driver(ov2740_i2c_driver);
- 
- MODULE_AUTHOR("Qiu, Tianshu <tian.shu.qiu@intel.com>");
- MODULE_AUTHOR("Shawn Tu");
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao <bingbu.cao@amd.com>");
- MODULE_DESCRIPTION("OmniVision OV2740 sensor driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/media/i2c/ov9734.c b/drivers/media/i2c/ov9734.c
-index 0eaf33807fc9..2c94691741d8 100644
---- a/drivers/media/i2c/ov9734.c
-+++ b/drivers/media/i2c/ov9734.c
-@@ -989,6 +989,6 @@ static struct i2c_driver ov9734_i2c_driver = {
- module_i2c_driver(ov9734_i2c_driver);
- 
- MODULE_AUTHOR("Qiu, Tianshu <tian.shu.qiu@intel.com>");
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao <bingbu.cao@amd.com>");
- MODULE_DESCRIPTION("OmniVision OV9734 sensor driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys.c b/drivers/media/pci/intel/ipu6/ipu6-isys.c
-index c9cdeb7054d7..f33a6da2f669 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys.c
-@@ -1356,7 +1356,7 @@ module_auxiliary_driver(isys_driver);
- 
- MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
- MODULE_AUTHOR("Tianshu Qiu <tian.shu.qiu@intel.com>");
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao");
- MODULE_AUTHOR("Yunliang Ding <yunliang.ding@intel.com>");
- MODULE_AUTHOR("Hongju Wang");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/media/pci/intel/ipu6/ipu6.c b/drivers/media/pci/intel/ipu6/ipu6.c
-index d033d4618169..5b99cc4a419c 100644
---- a/drivers/media/pci/intel/ipu6/ipu6.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6.c
-@@ -840,7 +840,7 @@ module_pci_driver(ipu6_pci_driver);
- MODULE_IMPORT_NS("INTEL_IPU_BRIDGE");
- MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
- MODULE_AUTHOR("Tianshu Qiu <tian.shu.qiu@intel.com>");
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao");
- MODULE_AUTHOR("Qingwu Zhang <qingwu.zhang@intel.com>");
- MODULE_AUTHOR("Yunliang Ding <yunliang.ding@intel.com>");
- MODULE_AUTHOR("Hongju Wang");
-diff --git a/drivers/staging/media/ipu7/ipu7-isys.c b/drivers/staging/media/ipu7/ipu7-isys.c
-index cb2f49f3e0fa..78f6c52dc1bf 100644
---- a/drivers/staging/media/ipu7/ipu7-isys.c
-+++ b/drivers/staging/media/ipu7/ipu7-isys.c
-@@ -1157,7 +1157,7 @@ static struct auxiliary_driver isys_driver = {
- 
- module_auxiliary_driver(isys_driver);
- 
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao");
- MODULE_AUTHOR("Tianshu Qiu <tian.shu.qiu@intel.com>");
- MODULE_AUTHOR("Qingwu Zhang <qingwu.zhang@intel.com>");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/staging/media/ipu7/ipu7.c b/drivers/staging/media/ipu7/ipu7.c
-index c771e763f8c5..c990a95aa59a 100644
---- a/drivers/staging/media/ipu7/ipu7.c
-+++ b/drivers/staging/media/ipu7/ipu7.c
-@@ -2774,7 +2774,7 @@ static struct pci_driver ipu7_pci_driver = {
- module_pci_driver(ipu7_pci_driver);
- 
- MODULE_IMPORT_NS("INTEL_IPU_BRIDGE");
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao");
- MODULE_AUTHOR("Tianshu Qiu <tian.shu.qiu@intel.com>");
- MODULE_AUTHOR("Qingwu Zhang <qingwu.zhang@intel.com>");
- MODULE_AUTHOR("Intel");
--- 
-2.53.0
+```
 
+Thanks,
+Icenowy
+
+>=20
+> Race condition:
+>=20
+> =C2=A0=C2=A0=C2=A0 CPU 0 (release)=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ CPU 1 (workqueue)
+> =C2=A0=C2=A0=C2=A0 ----------------=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 --=
+----------------
+> =C2=A0=C2=A0=C2=A0 close()
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mtk_jpeg_release()
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 mtk_jpegenc_worker()
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 ctx =3D work->data
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 // accessing ctx
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kfree(ctx)=C2=A0 // freed!
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 access ctx=C2=A0 // UAF!
+>=20
+> The work is queued via queue_work() during JPEG encode/decode
+> operations
+> (via mtk_jpeg_device_run). If the device is closed while work is
+> pending
+> or running, the work handler will access freed memory.
+>=20
+> Fix this by calling cancel_work_sync() BEFORE acquiring the mutex.
+> This
+> ordering is critical: if cancel_work_sync() is called after
+> mutex_lock(),
+> and the work handler also tries to acquire the same mutex, it would
+> cause
+> a deadlock.
+>=20
+> Note: The open error path does NOT need cancel_work_sync() because
+> INIT_WORK() only initializes the work structure - it does not
+> schedule
+> it. Work is only scheduled later during ioctl operations.
+>=20
+> Fixes: 5fb1c2361e56 ("mtk-jpegenc: add jpeg encode worker interface")
+> Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+> ---
+> =C2=A0drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 1 +
+> =C2=A01 file changed, 1 insertion(+)
+>=20
+> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+> b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+> index c01124a349f6..8c684756d5fc 100644
+> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+> @@ -1202,6 +1202,7 @@ static int mtk_jpeg_release(struct file *file)
+> =C2=A0	struct mtk_jpeg_dev *jpeg =3D video_drvdata(file);
+> =C2=A0	struct mtk_jpeg_ctx *ctx =3D mtk_jpeg_file_to_ctx(file);
+> =C2=A0
+> +	cancel_work_sync(&ctx->jpeg_work);
+> =C2=A0	mutex_lock(&jpeg->lock);
+> =C2=A0	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+> =C2=A0	v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
 
