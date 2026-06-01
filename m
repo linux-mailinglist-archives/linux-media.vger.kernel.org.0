@@ -1,354 +1,270 @@
-Return-Path: <linux-media+bounces-63220-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63221-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id qDIIO3hGHWpbXwkAu9opvQ
-	(envelope-from <linux-media+bounces-63220-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 10:44:40 +0200
+	id CJPgBo9HHWohYgkAu9opvQ
+	(envelope-from <linux-media+bounces-63221-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 10:49:19 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8867661BADB
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 10:44:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A363461BC07
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 10:49:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 48AD6302A43C
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 08:42:18 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id E23B4300D1D8
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 08:46:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB55F38D3E0;
-	Mon,  1 Jun 2026 08:41:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 609F834753B;
+	Mon,  1 Jun 2026 08:46:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Kije7Vny";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MrEh4QFt"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="l+L4lkx5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B56538657A
-	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 08:41:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15935343D86;
+	Mon,  1 Jun 2026 08:46:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780303280; cv=none; b=jtddJ1ymex4ASfVa4K7OygNVKinCGzADEFIZhrVS9dOE8O2Xox0jmreSu4zs2HJ479w1RFKhqazGi1CLHtJREf4K3yXe7A9vvbjEND05i/RgdFSta6pm2PQEAyD1WprnxWugaZOWpKVV5EumJAX4tAPun44GxBXd1AAJg7CJki8=
+	t=1780303605; cv=none; b=kZVXS3z10D0bClvSGtNuzaQpGYB75AnWMVSYvLFStuYZwakFZnSZzfJZtACcI4Qe8lWdS7Eag2sp4spmUn6msb3hx0JBEQVYmRxuP0c/cRnPiiyY3xafYbL2tnLS5FyMAP4xm0FwPIhoZWzm+X/dZF9vLLNDmxy/b3d4IrrysmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780303280; c=relaxed/simple;
-	bh=FAe1TTeXB/wf4FY/upQUFO7lPWEm3eKXvYi2TIJKSB0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dvi82hL/7GNjAi9KdjIheRlyixv5U4hghhs/7RUFqY3U8+EF4vE/kJjkkaKYB1d/IaRh01imt/MsHgIdcpG+G4yLPyq7pJQzehaeQhLHWSWcTxa7xuLxwCXcP/gItQuYwuOwjrCDSWvC6H4b+rCbDoBIlLieZbQvN0g5GyDNmG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Kije7Vny; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MrEh4QFt; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6516r8D51073320
-	for <linux-media@vger.kernel.org>; Mon, 1 Jun 2026 08:41:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ddLw5H24WRkJUgkUQGt/x5/4oKPT/MTVNGwDHrIL2qk=; b=Kije7VnyEPDpBDDX
-	i74jZIHbNXXYwCwOxBNF5/ngVelMLQwSJJr4SPZVAK7iLG8GbMG/aBxVAG2eUofP
-	u9f5+NQiImEZ3iiGVGVkOGds7ybf2YiGL0rrmaGzXeWDwJkph8XNB0L2nwNKzLVK
-	x6h6xlOixHreMESEzn5J+NYFKp7TRTHMPJhLZELHh5WSwZmg98hefc03AGekxIWT
-	j7jScj6GXoavJ6c3hDES1FIOt47p4jC1COCT/LbVDKsXldoXkhnWsLxzAAUqz0qo
-	DReqou6iKzV9NeKXZ66TV66w5Mi5dlE3xmLAcaZAie1TEMvPXyEK2Pbuiq23//py
-	ICc/9g==
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4efpw7prnj-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 08:41:17 +0000 (GMT)
-Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-84235f9b91fso1030701b3a.2
-        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 01:41:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1780303276; x=1780908076; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ddLw5H24WRkJUgkUQGt/x5/4oKPT/MTVNGwDHrIL2qk=;
-        b=MrEh4QFt/1/FIChvgR+8WP+X421hADdEDbV1i4QVnFiu8TALIQmOmcsTv/smyMfvbJ
-         TlSYQTNq8rwoAA1740InGMtNX7uDnUeELb2Usp7/yLa8CwSDqJhZFk6YQKRUof1gvpGu
-         UsLFbrZAihZMzE2iSrw8xtQr7ma0wpyAZIlcU0jSzRR02K12+fhJIsJ0lQ5irBaZ9f21
-         AZeQl84u3nE/2eM0wWyV2FYP0TI0CfslStag2Plka9GHeKiAxVD8wbY+cqfpnEVYiow0
-         Sut8eIR633grUQUgBdi0L8PbgB1W4liH1MZUOJrYd/SwLXsNFWxbxeQGnlF8abbt6e8K
-         PnHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780303276; x=1780908076;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ddLw5H24WRkJUgkUQGt/x5/4oKPT/MTVNGwDHrIL2qk=;
-        b=NUqeRsgMDRtUnjmWYuzM85URkEqY1B4/zM8I180SU9bjzrLGWPNVgJ1Xl+kJc3RW2Y
-         gvEPbQK+qkylbWWW9vwPk3xTPvvKmuv6i5okfFOgdPedwii37B0hedC8hLVuh/DBK/Id
-         9gTtnAJ1XDgATTRVTBCnyUXd4p+KVTUn9MJLwb0eA/rbX624UgLdjX1Xi7c5bBWP0SfW
-         esG46+oMj7Q12g3DTczvoSSjd8WrVopPQvV2rlgHn1mP7RoXywxrDofxTsgd5qieFcLD
-         QElWHBf/Bmp+H2xGKujqxxanf6b81lokHIWa7jIXFZ6fo8vGOFx3AkldigB2CmRL8dl+
-         MTWg==
-X-Gm-Message-State: AOJu0YyCSG5wrnP5RCgfQjaW9ltp6KpMylJc3Y6Tb79k6AidxvIIocgp
-	XnL+aPGohtAOqUjYncyDW9JznUaXlpyuGLmHDNAHUD2SKD67LW5R7JTO0FVBmlgS3cyIpCi1a1h
-	ftPBku/eOnuyKg3FLvmByKDdnLcm35UfSpEfwSrBQkJWlAN5tRGS3HCgjdBS4J9w0Mg==
-X-Gm-Gg: Acq92OGdaQd+gRLSngWV3TdElUIMWFyvk9NqB4ZSmMhE+vIYI+KwihX7DTaLgkYS9v9
-	URcf/F23cxAP1fIoI94We++9kuBoGfrND2eGtAuh0UdpaI718S4HP0BqPNC+SIvqur+NIN7zgMy
-	DxLWJkq1+cqBfabJmMXkPY5EpEHwRrTXWtMgWy2c7hjJvlbwPe13rFoATU5I1chuW5JkVgQt2x3
-	z0ong52PEW/dmhxpJOYmuKBeCvJS1P8gDO6S7n4Eco1sTdbQz3aXBSdM4fytmZPOfRFdm+HP5ue
-	aqRM2x7a1/Cd6wK5/8UKxfkg2oRBG/PvWSNs/L3SYPvaMwlTKzOSP6BVfJkSvM9rZ7ePIxpnKr7
-	3TXRqXhX4tvTLZfr66bgg+wlT8A+HzjwHKZbn/R7NaS0J5dmnL1KwuRBRz3CB+UNx
-X-Received: by 2002:a05:6a00:6f03:b0:842:2f05:ea64 with SMTP id d2e1a72fcca58-8422f05ec78mr6825722b3a.36.1780303276304;
-        Mon, 01 Jun 2026 01:41:16 -0700 (PDT)
-X-Received: by 2002:a05:6a00:6f03:b0:842:2f05:ea64 with SMTP id d2e1a72fcca58-8422f05ec78mr6825701b3a.36.1780303275815;
-        Mon, 01 Jun 2026 01:41:15 -0700 (PDT)
-Received: from [10.204.101.69] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8423f419128sm4920564b3a.21.2026.06.01.01.41.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jun 2026 01:41:15 -0700 (PDT)
-Message-ID: <7e8315c8-9255-4a88-81ac-5363dc05336a@oss.qualcomm.com>
-Date: Mon, 1 Jun 2026 14:11:09 +0530
+	s=arc-20240116; t=1780303605; c=relaxed/simple;
+	bh=TRfcJtRlchZEGxap6JkQGnGqe9tHTNUIeQjlYrEhxs0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=fbmd2gZcnm0KxwzpN7YQSL6WyxI4hbq6jZn8tDJVDkTWiLKuzsoQD24Ng3dBJMa1q81tgLVblkffmhGlV+5GjB6D+8P3sDeinJxH5lK3Ti63c9qqv5Ksfp0rBOQekuDGV4S/OM5bLu53ptEh7khxR7Yq/wYoreOoYTy5F41cq5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=l+L4lkx5; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gTSHh09Pdz9smP;
+	Mon,  1 Jun 2026 10:46:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1780303600; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TRfcJtRlchZEGxap6JkQGnGqe9tHTNUIeQjlYrEhxs0=;
+	b=l+L4lkx5YykvlZQQ78XWjIA6WEdByX0p9ODGpQG0i7HCziAq8cfWlQaF04W54go7TCGLXY
+	SDxoOfHqTW1b7btZjZsYeCoazTQKE4F1DuXT7szg3AGSoiJpvOIChcaPDWRkI+bwWXXOnA
+	2k01Pio/CM829xoopFjDlv5vxLrjIzbcVb4rSWkQ5sdhC3IIeRBdub1LshfGjHODqiVjze
+	KaIWiCEHjRwq/+aXTNL2OyykkgJObBIkgKuBmUOMTDL9EVuw9hR/tzGOruI2TxU3GRpljy
+	g307wc/GZwe3P1/bXaT4sMwXvQCv/wsZe6FvghgoWUsGY+N+09vPF5CFPG79Ag==
+Message-ID: <08b87b07279e7774c76c0267b1d6c337f705acda.camel@mailbox.org>
+Subject: Re: [PATCH 3/4] rust: Add dma_fence abstractions
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Danilo Krummrich <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo
+	 <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron	
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
+ Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross	 <tmgross@umich.edu>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?=	 <christian.koenig@amd.com>, "Paul E.
+ McKenney" <paulmck@kernel.org>,  Frederic Weisbecker	
+ <frederic@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Joel
+ Fernandes <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>,
+ Uladzislau Rezki	 <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Mathieu Desnoyers	 <mathieu.desnoyers@efficios.com>, Lai Jiangshan
+ <jiangshanlai@gmail.com>,  Zqiang <qiang.zhang@linux.dev>, Daniel Almeida
+ <daniel.almeida@collabora.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Igor Korotin <igor.korotin@linux.dev>,
+ Lorenzo Stoakes	 <ljs@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
+ FUJITA Tomonori	 <fujita.tomonori@gmail.com>, Krishna Ketan Rai
+ <prafulrai522@gmail.com>,  Shankari Anand <shankari.ak0208@gmail.com>,
+ manos@pitsidianak.is, Boris Brezillon <boris.brezillon@collabora.com>, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, rcu@vger.kernel.org
+Date: Mon, 01 Jun 2026 10:46:19 +0200
+In-Reply-To: <DIW3ZK5NLKU3.1QYMQB0ISHFBG@kernel.org>
+References: <20260530143541.229628-2-phasta@kernel.org>
+	 <20260530143541.229628-5-phasta@kernel.org>
+	 <DIW3ZK5NLKU3.1QYMQB0ISHFBG@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/6] media: qcom: iris: add support for decoding 10bit
- formats
-To: Wangao Wang <wangao.wang@oss.qualcomm.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-References: <20260521-topic-sm8x50-iris-10bit-decoding-v4-0-8ff8fce3f904@linaro.org>
- <fa26f61e-86b6-4612-afae-7726e3b35c4b@oss.qualcomm.com>
- <12102d68-da35-47ea-a972-28cb6d54ce1c@linaro.org>
- <feb42925-5704-4266-8c3f-aa944fdbed28@oss.qualcomm.com>
- <12da2953-fe51-4999-9656-2b42a7897f91@oss.qualcomm.com>
- <c54e7f34-b3a7-47fa-843a-9930de04599e@linaro.org>
- <9148913b-a5cd-4730-beff-6c517ac4818e@oss.qualcomm.com>
- <3baa753a-f716-45da-b1aa-7406f4092578@linaro.org>
- <88f8519f-31d8-47db-b0d1-f1d0d8c9df1f@oss.qualcomm.com>
- <0fb85345-ea8c-4294-bf4b-220617c9f089@linaro.org>
- <e6df389b-cca9-481a-b2b9-5915cd6ff88a@oss.qualcomm.com>
-Content-Language: en-US
-From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-In-Reply-To: <e6df389b-cca9-481a-b2b9-5915cd6ff88a@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 6jrZ4pcWT-NOueSwNKCiYrjoBsJ5WQsD
-X-Proofpoint-ORIG-GUID: 6jrZ4pcWT-NOueSwNKCiYrjoBsJ5WQsD
-X-Authority-Analysis: v=2.4 cv=bNIm5v+Z c=1 sm=1 tr=0 ts=6a1d45ad cx=c_pps
- a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=785Dn-WPAAAA:8 a=TmxWA70rf8N71SPJt34A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=2VI0MkxyNR6bbpdq8BZq:22 a=b7-gl1MdSEcY02uTy1GE:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAxMDA4NiBTYWx0ZWRfX7FSTyalzeLc2
- N9Pe2NtnJiDQDAZMpiAUZcvGqo7JoS+D8G/TVEFhJYLfIOr8uu6rljbYDWCRYMfBxh7u6tFGOS/
- 8k8yez0qrpxWj3Bv2iOT9UH2Tpu+jyA4hGKY1ITLpOF+HrSTWTApzp/+C7V2ZLY6NC5f0Vf6xjE
- mQUrnYbD7xN6xuDZLAcGmLLWPrZMYCY8Sg1ul3PftSCf6xysIVHd9d9AK/JlTkGD3DTXXiXxLhR
- 2rFfbn2daIlzxKNI8CihJccX3FXo/QwfEpOm/hCJ86IYth1UsjY2lqpsvBJP3FpqDjg5hobZoql
- 2qAizc/xDgYMn71GvpDFVGrm2OsdRlvFthJMM/ofxSoiHg/QyeX1CLYZqRA8BJK3ycJ2cJdLDIa
- YKE9xLk73fWP1MHckcyTdPc0lNOXtVrLoPaGq9ewwoQmkkFLti5xBc3HhU3AtLU6cOAi0aillL9
- X1pROssaeyVBAqN2Ijw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-01_02,2026-05-28_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 impostorscore=0 phishscore=0 adultscore=0 malwarescore=0
- bulkscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606010086
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-MBO-RS-META: 3ism9n1pwksnxia1e8r9xncusxhxj974
+X-MBO-RS-ID: 388db5ec2fecad88473
+X-Spamd-Result: default: False [-0.56 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MAILLIST(-0.15)[generic];
+	MIME_BASE64_TEXT(0.10)[];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:dkim,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo];
+	TAGGED_FROM(0.00)[bounces-63221-lists,linux-media=lfdr.de];
+	REPLYTO_DOM_EQ_TO_DOM(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63220-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	FROM_NEQ_ENVFROM(0.00)[vikash.garodia@oss.qualcomm.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[38];
+	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,linaro.org,amd.com,nvidia.com,joshtriplett.org,gmail.com,goodmis.org,efficios.com,linux.dev,collabora.com,linuxfoundation.org,pitsidianak.is,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
+	FROM_HAS_DN(0.00)[];
+	HAS_REPLYTO(0.00)[phasta@kernel.org];
+	NEURAL_HAM(-0.00)[-1.000];
 	MID_RHS_MATCH_FROM(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: 8867661BADB
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:mid,mailbox.org:dkim,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: A363461BC07
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-
-On 6/1/2026 11:22 AM, Wangao Wang wrote:
-> 
-> 
-> On 2026/5/29 21:25, Neil Armstrong wrote:
->> On 5/29/26 12:33, Wangao Wang wrote:
->>>
->>>
->>> On 2026/5/29 17:55, Neil Armstrong wrote:
->>>> Hi,
->>>>
->>>> On 5/29/26 10:21, Wangao Wang wrote:
->>>>>
->>>>>
->>>>> On 2026/5/28 21:26, Neil Armstrong wrote:
->>>>>> Hi Wangao,
->>>>>>
->>>>>> On 5/27/26 06:15, Wangao Wang wrote:
->>>>>>> I tested the v4 patch using the gst command you provided earlier. 
->>>>>>> The decoded output still has the previous plane misalignment 
->>>>>>> issue, but all frames are decoded successfully. When viewing the 
->>>>>>> raw data with an image player at 1920x1080 resolution, the first 
->>>>>>> frame looks correct but subsequent frames appear shifted. If 
->>>>>>> viewed at 1920x1088 resolution, there are artifacts at the bottom 
->>>>>>> of each frame. I've attached the images.
->>>>>>>
->>>>>>> Also, have you tested the 720p case? I can't get it to run on my 
->>>>>>> end.
->>>>>>
->>>>>> Thanks for the report but I don't have access to the Purwa 
->>>>>> platform you use,
->>>>>> I've run test with multiple resolutions with display using P010
->>>>>> and QC10, and ran fluster aswell and all passed on SM8550 and SM8650.
->>>>>>
->>>>>> I'll test it on the Hamoa T14S I have which should be the closest 
->>>>>> to purwa,
->>>>>> but it uses the same driver setup as SM8550 so I expected it to 
->>>>>> work the same.
->>>>>>
->>>>>> Could you indicate which iris firmware you're using ?
->>>>>>
->>>>>> Could you try passing the fluster h265 main10 test suite with 
->>>>>> gstreamer ?
->>>>>>
->>>>>> fluster download -c h.265
->>>>>> fluster run -d GStreamer-H.265-V4L2 -ts JCT-VC-HEVC_V1 -q -s -j1
->>>>>>
->>>>>> The picture you send looks like there's a mismatch with the kernel
->>>>>> and firmware setup of planes offsets.
->>>>>> Could you check if there's a Purwa specific firmware property
->>>>>> to set for 10bit decoding ?
->>>>>>
->>>>>> Neil
->>>>>>
->>>>>>>
->>>>>
->>>>> Hi Neil,
->>>>>
->>>>> I also tested on hamoa, and it has the same issue as purwa. The 
->>>>> firmware used on purwa is vpu30_p1_s7.mbn.
->>>>>
->>>>> This is the result of fluster:
->>>>> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) 
->>>>> WP_MAIN10_B_Toshiba_3       ... Success
->>>>> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) 
->>>>> WPP_A_ericsson_MAIN10_2       ... Success
->>>>> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) 
->>>>> WPP_A_ericsson_MAIN_2       ... Success
->>>>> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) 
->>>>> WPP_B_ericsson_MAIN10_2       ... Success
->>>>> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) 
->>>>> WPP_B_ericsson_MAIN_2       ... Success
->>>>> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) 
->>>>> WPP_C_ericsson_MAIN10_2       ... Success
->>>>> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) 
->>>>> WPP_C_ericsson_MAIN_2       ... Success
->>>>> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) 
->>>>> WPP_D_ericsson_MAIN10_2       ... Error
->>>>> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) 
->>>>> WPP_D_ericsson_MAIN_2       ... Error
->>>>> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) 
->>>>> WPP_E_ericsson_MAIN10_2       ... Success
->>>>> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) 
->>>>> WPP_E_ericsson_MAIN_2       ... Success
->>>>> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) 
->>>>> WPP_F_ericsson_MAIN10_2       ... Success
->>>>> [JCT-VC-HEVC_V1] (GStreamer-H.265-V4L2-Gst1.0) 
->>>>> WPP_F_ericsson_MAIN_2       ... Success
->>>>>
->>>>
->>>> Ok so this works fine, so I'm really wondering if your main10 HEVC 
->>>> is not properly encoded.
->>>>
->>>> Could you try playing a well know HEVC main10 files ?
->>>>
->>>> For example I just tried the 1080p and 4k 10bit files on Hamoa + 
->>>> fluster and it just worked as expected:
->>>> https://larmoire.org/jellyfish/
->>>> https://larmoire.org/jellyfish/media/jellyfish-10-mbps-hd- 
->>>> hevc-10bit.mkv
->>>> https://larmoire.org/jellyfish/media/jellyfish-120-mbps-4k-uhd- 
->>>> hevc-10bit.mkv
->>>>
->>>> Neil
->>>
->>> Could you provide the test commands? I tried both files and the 
->>> results from gst still show anomalies, but the results from 
->>> iris_test_app are normal. I'm wondering if there are any additional 
->>> settings needed on the client side.
->>>
->>> Here are my test commands:
->>> gst-launch-1.0 -v -m filesrc location=jellyfish-10-mbps-hd- 
->>> hevc-10bit.mkv ! matroskademux ! h265parse ! v4l2h265dec ! filesink 
->>> location=1080P_out.yuv
->>> gst-launch-1.0 -v -m filesrc location=jellyfish-120-mbps-4k-uhd- 
->>> hevc-10bit.mkv ! matroskademux ! h265parse ! v4l2h265dec ! filesink 
->>> location=4K_out.yuv
->>>
->>
->> If I run those exact commands, I can correctly visualize the files with:
->> gst-launch-1.0 -v -m filesrc location=1080P_out.yuv ! rawvideoparse 
->> format=p010-10le width=1920 height=1080 frame-size=6266880 ! waylandsink
->> gst-launch-1.0 -v -m filesrc location=4K_out.yuv ! rawvideoparse 
->> format=p010-10le width=3840 height=2160 frame-size=25067520 ! waylandsink
->>
->> I have to use the decoder full aligned buffer size because gst just 
->> dumps the whole v4l2 buffer into filesink and frames are not tighly 
->> packed together.
->>
->> If you want to output tighly packed frames, this worked for me:
->> gst-launch-1.0 -v -m filesrc location=jellyfish-10-mbps-hd- 
->> hevc-10bit.mkv ! matroskademux ! h265parse ! v4l2h265dec ! 
->> rawvideoparse format=p010-10le width=1920 height=1080 frame- 
->> size=6266880 ! filesink location=1080P_out.yuv
->> gst-launch-1.0 -v -m filesrc location=jellyfish-120-mbps-4k-uhd- 
->> hevc-10bit.mkv.1 ! matroskademux ! h265parse ! v4l2h265dec ! 
->> rawvideoparse format=p010-10le width=3840 height=2160 frame- 
->> size=25067520 ! filesink location=4K_out.yuv
->>
->> There's probably a better way I don't know, but in any case gstreamer 
->> will only use the "frame-size" portion of each frame and process it.
->>
->> For example, you can convert it nv12 and dump to file, it will then 
->> dump only the nv12 data:
->> gst-launch-1.0 -v -m filesrc location=jellyfish-10-mbps-hd- 
->> hevc-10bit.mkv ! matroskademux ! h265parse ! v4l2h265dec ! 
->> videoconvert ! video/x-raw, format=NV12 ! filesink location=1080P_out.yuv
->> gst-launch-1.0 -v -m filesrc location=1080P_out.yuv ! rawvideoparse 
->> format=nv12 width=1920 height=1080 ! waylandsink
->>
->> If the plane offset/alignment was wrong, the convert frames would be 
->> wrong and playback would also be wrong.
->>
->> Neil
-> 
-> Thanks. Using the commands you provided, the output file no longer has 
-> the previous issues.
-> 
-
-Thanks Wangao and Neil.
-
-Wangao, pls add your tested-by.
-
+T24gU2F0LCAyMDI2LTA1LTMwIGF0IDE3OjE2ICswMjAwLCBEYW5pbG8gS3J1bW1yaWNoIHdyb3Rl
+Ogo+IChOb3QgYSBmdWxsIHJldmlldywgYnV0IGEgZmV3IGRyaXZlLWJ5IGNvbW1lbnRzLikKPiAK
+PiBPbiBTYXQgTWF5IDMwLCAyMDI2IGF0IDQ6MzUgUE0gQ0VTVCwgUGhpbGlwcCBTdGFubmVyIHdy
+b3RlOgo+ID4gKyNbYWxsb3codW51c2VkX3Vuc2FmZSldCj4gCj4gV2hhdCBpcyB0aGlzIG5lZWRl
+ZCBmb3I/CgpZb3Uga25vdyB0aGF0IDotUAoKPiAKPiA+ICtpbXBsPEY6IFNlbmQgKyBTeW5jICsg
+RHJpdmVyRmVuY2VBbGxvd2VkRGF0YSwgQzogU2VuZCArIFN5bmM+IEZlbmNlQ3R4PEYsIEM+IHsK
+PiAKPiA8c25pcD4KPiAKPiA+ICtpbXBsPEY6IFNlbmQgKyBTeW5jLCBDOiBTZW5kICsgU3luYz4g
+UGlubmVkRHJvcCBmb3IgRmVuY2VDdHg8RiwgQz4gewo+ID4gK8KgwqDCoCBmbiBkcm9wKHNlbGY6
+IFBpbjwmbXV0IFNlbGY+KSB7Cj4gPiArwqDCoMKgwqDCoMKgwqAgLy8gU0FGRVRZOiBgcmN1X2Jh
+cnJpZXIoKWAgaXMgYWx3YXlzIHNhZmUgdG8gYmUgY2FsbGVkLgo+ID4gK8KgwqDCoMKgwqDCoMKg
+IHVuc2FmZSB7IGJpbmRpbmdzOjpyY3VfYmFycmllcigpIH07Cj4gCj4gV2Ugc2hvdWxkIHByb2Jh
+Ymx5IGFkZCBhIHNhZmUgZnVuY3Rpb24gZm9yIHRoaXMuCgpBQ0suCgo+IAo+ID4gK2ltcGw8VDog
+RmVuY2VDYj4gRmVuY2VDYlJlZ2lzdHJhdGlvbjxUPiB7Cj4gPiArwqDCoMKgIC8vLyBSZWdpc3Rl
+ciBhIGNhbGxiYWNrIG9uIGEgZmVuY2UuCj4gPiArwqDCoMKgIC8vLwo+ID4gK8KgwqDCoCAvLy8g
+T24gc3VjY2VzcyB0aGUgY2FsbGJhY2sgaXMgcGlubmVkIGluIHBsYWNlIGFuZCB3aWxsIGZpcmUg
+d2hlbiB0aGUgZmVuY2UKPiA+ICvCoMKgwqAgLy8vIHNpZ25hbHMuIE9uIGBBbHJlYWR5U2lnbmFs
+ZWRgIHRoZSBjYWxsYmFjayBpcyByZXR1cm5lZCB0byB0aGUgY2FsbGVyIHNvCj4gPiArwqDCoMKg
+IC8vLyB0aGF0IG93bmVkIHJlc291cmNlcyBjYW4gYmUgcmVjbGFpbWVkLgo+ID4gK8KgwqDCoCBw
+dWIgZm4gbmV3PCdhPihmZW5jZTogJidhIEZlbmNlLCBjYWxsYmFjazogVCkgLT4gaW1wbCBQaW5J
+bml0PFNlbGYsIENhbGxiYWNrRXJyb3I8VD4+ICsgJ2EKPiA+ICvCoMKgwqAgd2hlcmUKPiA+ICvC
+oMKgwqDCoMKgwqDCoCBUOiAnYSwKPiA+ICvCoMKgwqAgewo+ID4gK8KgwqDCoMKgwqDCoMKgIC8v
+IFVzZXMgYHBpbl9pbml0X2Zyb21fY2xvc3VyZWAgaW5zdGVhZCBvZiBgdHJ5X3Bpbl9pbml0IWAg
+c28gdGhhdCBvbgo+ID4gK8KgwqDCoMKgwqDCoMKgIC8vIGAtRU5PRU5UYCAoYWxyZWFkeSBzaWdu
+YWxlZCkgdGhlIGNhbGxiYWNrIGNhbiBiZSByZWFkIGJhY2sgZnJvbSB0aGUKPiA+ICvCoMKgwqDC
+oMKgwqDCoCAvLyBwYXJ0aWFsbHktaW5pdGlhbGl6ZWQgc2xvdCBhbmQgcmV0dXJuZWQgdGhyb3Vn
+aCB0aGUgZXJyb3IuCj4gCj4gU2VlbXMgYSBiaXQgb2RkIHRoYXQgdGhpcyBuZWVkcyBwaW5faW5p
+dF9mcm9tX2Nsb3N1cmUoKS4gWW91IGNhbiBzdGlsbCB1c2UKPiB0cnlfcGluX2luaXQhKCkgd2l0
+aCAmdGhpcyBpbiBTZWxmIGFuIGEgXzogaW5pdGlhbGl6ZXIgYXQgdGhlIGVuZCBpbiB0aGUgd29y
+c3QKPiBjYXNlLiBCdXQgdGhlIGZlbmNlIGFuZCBjYWxsYmFjayBmaWVsZHMgc2hvdWxkIGJlIGZp
+bmUgdG8gaW5pdGlhbGl6ZSAibm9ybWFsbHkiPwoKSSdsbCBpbnZlc3RpZ2F0ZSB0aGF0LgoKPiAK
+PiA+ICvCoMKgwqDCoMKgwqDCoCAvLwo+ID4gK8KgwqDCoMKgwqDCoMKgIC8vIFNBRkVUWTogYHBp
+bl9pbml0X2Zyb21fY2xvc3VyZWAgcmVxdWlyZXM6Cj4gPiArwqDCoMKgwqDCoMKgwqAgLy8gLSBP
+biBgT2soKCkpYDogdGhlIHNsb3QgaXMgZnVsbHkgaW5pdGlhbGl6ZWQgYW5kIHZhbGlkIGZvciBg
+RHJvcGAuCj4gPiArwqDCoMKgwqDCoMKgwqAgLy8gLSBPbiBgRXJyKF8pYDogdGhlIHNsb3QgaXMg
+Y2xlYW4sIGkuZS46IG5vIHBhcnRpYWxseS1pbml0aWFsaXplZCBmaWVsZHMKPiA+ICvCoMKgwqDC
+oMKgwqDCoCAvL8KgwqAgcmVtYWluLCBhbmQgdGhlIHNsb3QgY2FuIGJlIGRlYWxsb2NhdGVkIHdp
+dGhvdXQgZHJvcHBpbmcuCj4gPiArwqDCoMKgwqDCoMKgwqAgLy8KPiA+ICvCoMKgwqDCoMKgwqDC
+oCAvLyBXZSB1cGhvbGQgdGhpcyBhcyBmb2xsb3dzOgo+ID4gK8KgwqDCoMKgwqDCoMKgIC8vIC0g
+T24gc3VjY2VzczogYWxsIHRocmVlIGZpZWxkcyBhcmUgaW5pdGlhbGl6ZWQuIE9rKCgpKSBpcyBy
+ZXR1cm5lZC4KPiA+ICvCoMKgwqDCoMKgwqDCoCAvLyAtIE9uIEVOT0VOVCAoYWxyZWFkeSBzaWdu
+YWxlZCk6IGBjYWxsYmFja2AgYW5kIGBmZW5jZWAgYXJlIHJlYWQgYmFjawo+ID4gK8KgwqDCoMKg
+wqDCoMKgIC8vwqDCoCBmcm9tIHRoZSBzbG90IHZpYSBgcHRyOjpyZWFkYCwgbGVhdmluZyB0aGUg
+c2xvdCBjbGVhbi4gYGNiYCB3YXMKPiA+ICvCoMKgwqDCoMKgwqDCoCAvL8KgwqAgaW5pdGlhbGl6
+ZWQgYnkgYGRtYV9mZW5jZV9hZGRfY2FsbGJhY2tgIChpdCBjYWxscwo+ID4gK8KgwqDCoMKgwqDC
+oMKgIC8vwqDCoCBgSU5JVF9MSVNUX0hFQUQoJmNiLT5ub2RlKWAgZXZlbiBvbiBlcnJvciksIGJ1
+dCBgY2JgIGlzCj4gPiArwqDCoMKgwqDCoMKgwqAgLy/CoMKgIGBPcGFxdWU8ZG1hX2ZlbmNlX2Ni
+PmAgd2hpY2ggaGFzIG5vIGBEcm9wYCwgc28gbm90IGRyb3BwaW5nIGl0IGlzCj4gPiArwqDCoMKg
+wqDCoMKgwqAgLy/CoMKgIGZpbmUuIFRoZSBjYWxsYmFjayBpcyByZXR1cm5lZCB0aHJvdWdoIGBB
+bHJlYWR5U2lnbmFsZWQoVClgLgo+ID4gK8KgwqDCoMKgwqDCoMKgIC8vIC0gT24gb3RoZXIgZXJy
+b3JzOiBzYW1lIGNsZWFudXAgYXMgRU5PRU5ULCBlcnJvciByZXR1cm5lZCBhcwo+ID4gK8KgwqDC
+oMKgwqDCoMKgIC8vwqDCoCBgT3RoZXIoZSlgLgo+ID4gK8KgwqDCoMKgwqDCoMKgIHVuc2FmZSB7
+Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwaW5faW5pdF9mcm9tX2Nsb3N1cmUobW92ZSB8
+c2xvdDogKm11dCBTZWxmfCB7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGxl
+dCBzbG90X2NhbGxiYWNrID0gJnJhdyBtdXQgKCpzbG90KS5jYWxsYmFjazsKPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbGV0IHNsb3RfZmVuY2UgPSAmcmF3IG11dCAoKnNsb3Qp
+LmZlbmNlOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBsZXQgc2xvdF9jYiA9
+ICZyYXcgbXV0ICgqc2xvdCkuY2I7Cj4gPiArCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIC8vIFdyaXRlIGNhbGxiYWNrIGFuZCBmZW5jZSBmaXJzdCDigJQgbXVzdCBiZSB2aXNp
+YmxlIGJlZm9yZQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAvLyBkbWFfZmVu
+Y2VfYWRkX2NhbGxiYWNrIG1ha2VzIHRoZSByZWdpc3RyYXRpb24gbGl2ZS4KPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29yZTo6cHRyOjp3cml0ZShzbG90X2NhbGxiYWNrLCBj
+YWxsYmFjayk7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNvcmU6OnB0cjo6
+d3JpdGUoc2xvdF9mZW5jZSwgQVJlZjo6ZnJvbShmZW5jZSkpOwo+ID4gKwo+ID4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBsZXQgcmV0ID0gdG9fcmVzdWx0KGJpbmRpbmdzOjpkbWFf
+ZmVuY2VfYWRkX2NhbGxiYWNrKAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgIGZlbmNlLmlubmVyLmdldCgpLAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIE9wYXF1ZTo6Y2FzdF9pbnRvKHNsb3RfY2IpLAo+ID4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFNvbWUoU2VsZjo6ZG1hX2ZlbmNlX2NhbGxiYWNr
+KSwKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKSk7Cj4gPiArCj4gPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG1hdGNoIHJldCB7Cj4gPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgT2soKCkpID0+IE9rKCgpKSwKPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBFcnIoZSkgPT4gewo+ID4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgLy8gUmVhZCBiYWNrIHdoYXQg
+d2Ugd3JvdGUgdG8gbGVhdmUgdGhlIHNsb3QgY2xlYW4uCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBsZXQgY2JfYmFjayA9IGNvcmU6OnB0cjo6cmVh
+ZChzbG90X2NhbGxiYWNrKTsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgIGxldCBfZmVuY2VfYmFjayA9IGNvcmU6OnB0cjo6cmVhZChzbG90X2ZlbmNl
+KTsKPiAKPiBXaGF0J3MgdGhlIHB1cnBvc2Ugb2YgX2ZlbmNlX2JhY2s/CgpSZWxpYy4gV2lsbCBy
+ZXdvcmsuCgo+IAo+ID4gKwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgaWYgZS50b19lcnJubygpID09IEVOT0VOVC50b19lcnJubygpIHsKPiA+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgRXJy
+KENhbGxiYWNrRXJyb3I6OkFscmVhZHlTaWduYWxlZChjYl9iYWNrKSkKPiA+ICvCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIH0gZWxzZSB7Cj4gPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIEVycihDYWxs
+YmFja0Vycm9yOjpPdGhlcihlKSkKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIH0KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoCB9Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIH0KPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIH0pCj4gPiArwqDCoMKgwqDCoMKgwqAgfQo+ID4gK8KgwqDCoCB9Cj4g
+PiArwqDCoMKgIC8vLyBTaWduYWwgdGhlIGZlbmNlLiBUaGlzIHdpbGwgaW52b2tlIGFsbCByZWdp
+c3RlcmVkIGNhbGxiYWNrcy4KPiA+ICvCoMKgwqAgcHViIGZuIHNpZ25hbChzZWxmLCByZXM6IFJl
+c3VsdCkgewo+ID4gK8KgwqDCoMKgwqDCoMKgIGxldCBmZW5jZSA9IHNlbGYuYXNfcmF3KCk7Cj4g
+PiArwqDCoMKgwqDCoMKgwqAgbGV0IG11dCBmZW5jZV9mbGFnczogdXNpemUgPSAwOwo+ID4gK8Kg
+wqDCoMKgwqDCoMKgIGxldCBmbGFnX3B0ciA9ICZyYXcgbXV0IGZlbmNlX2ZsYWdzOwo+ID4gKwo+
+ID4gK8KgwqDCoMKgwqDCoMKgIC8vIFNBRkVUWTogT25jZSBhIGBEcml2ZXJGZW5jZWAgaXMgaW5p
+dGlhbGl6ZWQsIHRoZSBpbm5lciBgZmVuY2VgIGlzCj4gPiArwqDCoMKgwqDCoMKgwqAgLy8gdmFs
+aWQgYW5kIGluaXRpYWxpemVkLiBJdCBpcyB2YWxpZCB1bnRpbCB0aGUgcmVmY291bnQgZHJvcHMK
+PiA+ICvCoMKgwqDCoMKgwqDCoCAvLyB0byAwLCB3aGljaCBjYW4gZWFybGllc3QgaGFwcGVuIG9u
+Y2UgdGhlIGBEcml2ZXJGZW5jZWAgaGFzIGJlZW4gZHJvcHBlZC4KPiA+ICvCoMKgwqDCoMKgwqDC
+oCB1bnNhZmUgewo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgYmluZGluZ3M6OmRtYV9mZW5j
+ZV9sb2NrX2lycXNhdmUoZmVuY2UsIGZsYWdfcHRyKTsKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgIGlmICFiaW5kaW5nczo6ZG1hX2ZlbmNlX2lzX3NpZ25hbGVkX2xvY2tlZChmZW5jZSkgewo+
+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiBsZXQgRXJyKGVycikgPSByZXMg
+ewo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJpbmRpbmdzOjpk
+bWFfZmVuY2Vfc2V0X2Vycm9yKGZlbmNlLCBlcnIudG9fZXJybm8oKSk7Cj4gPiArwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIH0KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgYmluZGluZ3M6OmRtYV9mZW5jZV9zaWduYWxfbG9ja2VkKGZlbmNlKTsKPiA+ICvCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgIH0KPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGJpbmRpbmdzOjpk
+bWFfZmVuY2VfdW5sb2NrX2lycXJlc3RvcmUoZmVuY2UsIGZsYWdfcHRyKTsKPiA+ICvCoMKgwqDC
+oMKgwqDCoCB9Cj4gCj4gUGxlYXNlIHVzZSBhIHNpbmdsZSB1bnNhZmUgYmxvY2sgcGVyIHVuc2Fm
+ZSBmdW5jdGlvbiBjYWxsLCBoZXJlIGFuZCBpbiBhIGZldwo+IG90aGVyIHBsYWNlcy4KCklzIHRo
+YXQgYW4gb2ZmaWNpYWwgcnVsZT8gSWYgc28sIHRoZSBsaW50ZXJzIHNob3VsZCBpbmZvcm0gYWJv
+dXQgaXQuCgpBdCBmaXJzdCBnbGFuY2UsIEkgZG9uJ3Qgc2VlIGFueSBhZHZhbnRhZ2UgdG8gaXQg
+YW5kIHRoZSBkaXNhZHZhbnRhZ2UKb2YgZ3JlYXRseSByZWR1Y2luZyByZWFkYWJpbGl0eS4KCj4g
+Cj4gPiArwqDCoMKgIH0KPiA+ICt9Cj4gPiArCj4gPiArLy8gU0FGRVRZOiBGZW5jZXMgYXJlIGxp
+dGVyYWxseSBkZXNpZ25lZCB0byBiZSBzaGFyZWQgYmV0d2VlbiB0aHJlYWRzLgo+ID4gK3Vuc2Fm
+ZSBpbXBsPEY6IFNlbmQgKyBTeW5jLCBDOiBTZW5kICsgU3luYz4gU2VuZCBmb3IgRHJpdmVyRmVu
+Y2U8RiwgQz4ge30KPiA+ICsKPiA+ICtpbXBsPEY6IFNlbmQgKyBTeW5jLCBDOiBTZW5kICsgU3lu
+Yz4gRGVyZWYgZm9yIERyaXZlckZlbmNlPEYsIEM+IHsKPiA+ICvCoMKgwqAgdHlwZSBUYXJnZXQg
+PSBGOwo+ID4gKwo+ID4gK8KgwqDCoCBmbiBkZXJlZigmc2VsZikgLT4gJlNlbGY6OlRhcmdldCB7
+Cj4gPiArwqDCoMKgwqDCoMKgwqAgLy8gU0FGRVRZOiBUaGFua3MgdG8gcmVmY291bnRpbmcsIGBk
+YXRhYCBpcyBhbHdheXMgdmFsaWQgYXMgbG9uZyBhcyBgc2VsZmAgaXMuCj4gPiArwqDCoMKgwqDC
+oMKgwqAgbGV0IGRhdGEgPSB1bnNhZmUgeyAmKnNlbGYuZGF0YS5hc19wdHIoKSB9Owo+ID4gKwo+
+ID4gK8KgwqDCoMKgwqDCoMKgICZkYXRhLmRhdGEKPiA+ICvCoMKgwqAgfQo+ID4gK30KPiA+ICsK
+PiA+ICsvLy8gQSBib3Jyb3dlZCBbYERyaXZlckZlbmNlYF0uIEFsbCB5b3UgY2FuIGRvIHdpdGgg
+aXQgaXMgYWNjZXNzIHlvdXIgdXNlciBkYXRhCj4gPiArLy8vIGFuZCBvYnRhaW4gYSBbYEZlbmNl
+YF0uCj4gPiArcHViIHN0cnVjdCBEcml2ZXJGZW5jZUJvcnJvdzxGOiBTZW5kICsgU3luYywgQzog
+U2VuZCArIFN5bmM+IHsKPiAKPiBUaGlzIG1pc3NlcyB0aGUgbGlmZXRpbWUgYm91bmQsIHdoaWNo
+IGlzIHRoZSBwdXJwb3NlIG9mIHRoaXMgc3RydWN0Lgo+IAo+ID4gK8KgwqDCoCAvLy8gVGhlIGFj
+dHVhbCBjb250ZW50IG9mIHRoZSBmZW5jZS4gTGl2ZXMgaW4gYSByYXcgcG9pbnRlciBzbyB0aGF0
+IGl0cwo+ID4gK8KgwqDCoCAvLy8gbWVtb3J5IGNhbiBiZSBtYW5hZ2VkIGluZGVwZW5kZW50bHku
+IFZhbGlkIHVudGlsIGJvdGggdGhlIFtgRHJpdmVyRmVuY2VgXQo+ID4gK8KgwqDCoCAvLy8gYW5k
+IGFsbCBhc3NvY2lhdGVkIFtgRmVuY2VgXXMgaGF2ZSBkaXNhcHBlYXJlZC4KPiA+ICvCoMKgwqAg
+ZGF0YTogTm9uTnVsbDxEcml2ZXJGZW5jZURhdGE8RiwgQz4+LAo+IAo+IFdoeSBub3QgdXNlIE1h
+bnVhbGx5RHJvcDxEcml2ZXJGZW5jZT4/IFRoaXMgd2F5IHlvdSB3b3VsZCBvbmx5IG5lZWQgYSBE
+ZXJlZiBpbXBsCj4gdG8gJidhIERyaXZlckZlbmNlLgo+IAo+IFRoaXMgd2F5IHlvdSBiYXNpY2Fs
+bHkgcmVpbXBsZW1lbnQgdGhlIERyaXZlckZlbmNlIHR5cGUganVzdCB3aXRob3V0IHRoZQo+IGRl
+c3RydWN0b3IuCgpHb29kIGlkZWEsIHdpbGwgZG8uCgpQLgo=
 
 
