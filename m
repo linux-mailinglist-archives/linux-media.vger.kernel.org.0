@@ -1,175 +1,262 @@
-Return-Path: <linux-media+bounces-63313-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63314-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wn0ALXjHHWrieAkAu9opvQ
-	(envelope-from <linux-media+bounces-63313-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 19:55:04 +0200
+	id asokI1jRHWowfAkAu9opvQ
+	(envelope-from <linux-media+bounces-63314-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 20:37:12 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B4AE623898
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 19:55:04 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E31262415C
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 20:37:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4A6713056DDA
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 17:53:03 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id ABD0A30241BD
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 18:22:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B1923E1230;
-	Mon,  1 Jun 2026 17:52:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39EEA3EA979;
+	Mon,  1 Jun 2026 18:22:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="KwF7uc1C"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HdGkWpk6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E6D3DC87B
-	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 17:52:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62C2E3E866C
+	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 18:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780336376; cv=none; b=GE4l1vz5A8nmHbnBCDAoGtUcREv7AO5G06RAdVlis0PzXI3a5AVbShH5HcWZBI3OzoibRqVo7CICQF+k6IBWboYZ4uk753m3qk3knbr3HUgu501gxKEiCogcejCpJ+cX5vQcaNIUZtVMcCnaH4zhoHirK7mQasCGdOXGfCN/ZQk=
+	t=1780338134; cv=none; b=KsNsM9R8Yd3k+lUxJ250ZrugW55CZTwWxFIsy65+hMJ4Xl+TQmS8nJOOMHPHtUCsgIKwgbOPkvc4r7Il5ZzbCpXJnN6zj09yhHmPNON3tlQYHTqTAZc8CKOoX0+XUUwbiwSIZqezLOcHHbggl0bWabucxKNeU7CLwGQG0fpxg3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780336376; c=relaxed/simple;
-	bh=xCSmiTgW2gp0UZZcRgch+bSYZxNYHdqPa15p3QyPPNQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sNtfwzWU9BUZzTxKj2nvYqmgORTe1wl83i8Jp4OGpUIHJV3hwzfd4iJ8HW5pREw0+4oB6u69+ESM6w5WkcMTToO2KMJCfngYNGplpDHRb3GeGxkl4Qyx2KJ2XeQiVvlAjHQF1VZ5YC62uji7X9x8+WP1i2gAaDW8xdbv4IqQvRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=KwF7uc1C; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-914bfa75911so1114509585a.1
-        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 10:52:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1780336373; x=1780941173; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ajzqlQYEAeycmyed8yu6upDmFOo140vP8s+rqI6MeM4=;
-        b=KwF7uc1C0EDYQ61nhF93rVhA0bqtAx73msjzRBzrBDEbe81L/xHDF6f+VW6dSE3Ufg
-         Vl0XmTuNjXehaCS9SjnZW4f2xAZeKtIdE6lcbq806hV/aoV49126yyXWFoFy2ZxEWm8R
-         9uXcFVpdp2UJ1U+EKyESL5NFk2JwVwzM/9+sKVzWF0aZOm/ikyeOaiBsqSvsc84Coojl
-         5jxAkApUh/Z5ZoDFUWZ0l/P98cuu2TXGAnyMEdqCR9MkeT30KMyV9OxxyQTkregpkh1z
-         lq/9AHebWG9oCOLfvj495dYXOyrvbEb9pfqTtzewdXD/w+zxf6UTvm4GCOYtsxbqYW4J
-         6u7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780336373; x=1780941173;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ajzqlQYEAeycmyed8yu6upDmFOo140vP8s+rqI6MeM4=;
-        b=Qq3WhlwKbGdqERXdwr1dNA2BhGGMa/ftgEkrR6lRHg810MSifH5vJzEQLO+Wh08bt4
-         Iwr5gItAHWtNCGHkEwW5Xqzg7ZueFViWW2aL9fakjJZwrKwbEHN75WT5s7jZZbGR3tvD
-         SLoIwiym8MsX6WS8cT03sogv4ET1Mx+8lXkrfMRBGB3eCmGGFCNCwsEWbtOZEZYOqh9X
-         Fp3U5G9zWAxiUS/wbhSVal2/LRg/r4PTPxC7QfO/z/CiPRz/HA2XxE1pcccs5Uz50leN
-         Dy5KDMTGJEGhEnULurY6wWqK4sHE9y9h/8otFxPrrdMUXCtauEL/C/U6PYEeWs04XEBG
-         Ap4Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/Ue4ivWvotAhgP1y618gXfrcbOGTaFwF92+y4VsrgPY+mc/Ml/2yufczoyzTxZDGXqVP2verdajJ0CFA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTQ3RizOb3tIfKaSAZHLdsfQ66Tqiy1FMxszQ4IcgiYrc6FFwy
-	eIa9V2+/ycWKV6Z8n4NkyK/tRKNloEpZXJVAfEWd7D+AjcnCwsGyH7uWzCN6rJrVNHo=
-X-Gm-Gg: Acq92OFJnXWZwxbXNAWW5iDns1HVGxrdIj7aWAl2ywuENVu4SaYhNrOzTc3sfBodaTR
-	Va7lQRonayaIKMIPpxY3KVAAfPm4x8JMxtdvNZKCQicMjbRyPWFjHGuL92XXgYatnnX5SpOPl9u
-	99nloIn9lj+1/i+SfKvWxzVIvS3NdXELKlv+ZkVoEYd8rUO61AcEknJoQxERmzlF/izzDWGyX0T
-	zVq545wMvSjP2TBSISlEsdbAXteEgH8EkL2ddxzQKP9bIJnhp+NMswvkdQRhxm+JSP7+xDxFKEX
-	NYcb5ltmBtFg7o12anXKZiLzdFpQ2YyVOIsNVsYTLWpqdK7vt4gCo1iA9CjUSdBRZ7mtTqebrVi
-	3AfnfaAMj7/cAVaw4WFHPpNF1boa2DvvBZgbisjbIMg1gCIOg0yM3x8gqn6M10pxo+d9y2DHJ2n
-	i9bx2ayxgbYTW4meS0x5wOEUniefpp6r8/TmgiBbRnSnVZQi4ZUFptaTFfQbFh7yjtaYnWmNLW9
-	NmgHqOzbSZu1/Cv
-X-Received: by 2002:a05:620a:2202:b0:915:4c9b:4120 with SMTP id af79cd13be357-91578006ac3mr63386685a.37.1780336373342;
-        Mon, 01 Jun 2026 10:52:53 -0700 (PDT)
-Received: from ziepe.ca (crbknf0213w-47-54-130-67.pppoe-dynamic.high-speed.nl.bellaliant.net. [47.54.130.67])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9153265126asm1064337685a.45.2026.06.01.10.52.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2026 10:52:52 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1wU6om-000000027gs-1lLx;
-	Mon, 01 Jun 2026 14:52:52 -0300
-Date: Mon, 1 Jun 2026 14:52:52 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: David Hu <xuehaohu@google.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org, jmoroni@google.com, praan@google.com,
-	stable@vger.kernel.org, iommu@lists.linux.dev
-Subject: Re: [PATCH v4] dma-buf: Fix silent overflow for phys vec to sgt
-Message-ID: <20260601175252.GD2487554@ziepe.ca>
-References: <20260528191658.2506362-1-xuehaohu@google.com>
+	s=arc-20240116; t=1780338134; c=relaxed/simple;
+	bh=VQuKlvwV4eZQyrRRUuM+4HRf2g3sBNyVBOZ4hFC+pQ8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dx7I8TVMpc8zGyaPQ5AadqZLedNtINeNsKmeghn3OCCAMGHJ79cdmI3qikQ8M+pEyNsHO3Nhm+WaxFNdsOqqo+ILDMhEN62VzsMKM591T7YSfMhk9WDvdvseOh/MaTljOTVin49CukRdGtxz6xySPjfuedmvvzC454FbiVFR3dU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HdGkWpk6; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21B361F0089A
+	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 18:22:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780338133;
+	bh=r48NnIlVqXZufhNNAi2X29vwzl6BbMVh195TUth/lGI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=HdGkWpk6WogYcl021MQVs+Qf2DGiLNMMtnGcrvcLYC9aMaxax0eclZtii12vl5BEc
+	 zYJ4/sqJ6RN7Az4/UMh75ONCHkyccJnI+eJsa2D4ylgGXXrInXHDE2OVUX7x7oVgQs
+	 BTacTKW0btrEkxPEDePin4gjsv+y5gZehi86mIn8CUfrJlo8+qkwnD7/B2tYNva9Ql
+	 a3aVeROkjAtcoAXNmSUsqTEdFsJscO1FxawhbdSDTy8fkjkwV7NHBuF/vTpveItbJt
+	 S0iGpx9CL0CkFuzvPyK4HiZ5EojyRRT/Sn/d72X1GSgpC55GKJ0uL10sdIb+AN9UZX
+	 CbGV0ehB2hNFA==
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-3966c0d5ac9so22118131fa.2
+        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 11:22:13 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8b3Udy+NC2w/9vlwmARvfMwEhZCvvtBIk9bShoU+3T4w9D5vT5gfCmU0tWaGG+dSmR3BBbtH09D6mRQQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwrMvb6q+ogSrczDsdl5r2A385ZJ3uE4fpoFo/XeqCtVK/3OoqD
+	LM0jueKoAs+qZE/lQ/eLXzQVdo4opukdcZl2IYq6s2htM/vl6PaL382Q/NxmAaHghdutxWGxYbl
+	4r5bR0WgRJjyDDpeTZGhH6O8KpRRBi1M=
+X-Received: by 2002:a05:6512:33c1:b0:5a8:64fd:142 with SMTP id
+ 2adb3069b0e04-5aa73eaac3amr358116e87.15.1780338131589; Mon, 01 Jun 2026
+ 11:22:11 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260528191658.2506362-1-xuehaohu@google.com>
-X-Spamd-Result: default: False [-1.66 / 15.00];
+References: <20260428080513.1833515-1-tuhaowen@uniontech.com>
+ <20260528081840.3528089-1-tuhaowen@uniontech.com> <20260528081840.3528089-2-tuhaowen@uniontech.com>
+In-Reply-To: <20260528081840.3528089-2-tuhaowen@uniontech.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 1 Jun 2026 20:22:00 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0gvcsowJL0oqKqaG-VFinpb9Rj06KNOkG9XaQ+6wp0Ygg@mail.gmail.com>
+X-Gm-Features: AVHnY4I3h_nJVfbBOZ_6CvZ4PvSQtQmTMcd-7ar70x3H_wF8Ob5BeP9NyY_c7dI
+Message-ID: <CAJZ5v0gvcsowJL0oqKqaG-VFinpb9Rj06KNOkG9XaQ+6wp0Ygg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] PM: hibernate: add pm_hibernation_snapshot_done() helper
+To: Haowen Tu <tuhaowen@uniontech.com>
+Cc: rafael@kernel.org, lenb@kernel.org, pavel@kernel.org, 
+	linux-pm@vger.kernel.org, laurent.pinchart@ideasonboard.com, hansg@kernel.org, 
+	mchehab@kernel.org, linux-media@vger.kernel.org, gregkh@linuxfoundation.org, 
+	stern@rowland.harvard.edu, oneukum@suse.com, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kernel@uniontech.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63313-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[ziepe.ca:+];
-	DMARC_NA(0.00)[ziepe.ca];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63314-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_TWELVE(0.00)[15];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
+	FROM_NEQ_ENVFROM(0.00)[rafael@kernel.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[5];
 	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,ziepe.ca:mid,ziepe.ca:dkim]
-X-Rspamd-Queue-Id: 2B4AE623898
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 8E31262415C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Thu, May 28, 2026 at 07:16:58PM +0000, David Hu wrote:
-> diff --git a/drivers/dma-buf/dma-buf-mapping.c b/drivers/dma-buf/dma-buf-mapping.c
-> index 794acff2546a..1aabc0ee70bb 100644
-> --- a/drivers/dma-buf/dma-buf-mapping.c
-> +++ b/drivers/dma-buf/dma-buf-mapping.c
-> @@ -10,7 +10,7 @@ static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, size_t length,
->  					 dma_addr_t addr)
+On Thu, May 28, 2026 at 10:19=E2=80=AFAM Haowen Tu <tuhaowen@uniontech.com>=
+ wrote:
+>
+> During hibernation, after create_image() saves the memory snapshot, the
+> kernel resumes devices with PMSG_THAW solely to write the hibernation
+> image to storage, then powers off.  Drivers for hardware not involved in
+> storage I/O have no reason to reinitialize during this transient phase.
+
+They do have a reason for doing it.
+
+Their poweroff (or shutdown) callbacks will be called while preparing
+to power off the system subsequently and they need to be ready for
+that.  The most straightforward way to achieve this is to resume so
+they can "suspend" again.
+
+> Some subsystems, such as USB, do not expose the hibernation PM message
+> to driver resume callbacks, so drivers there need an explicit query to
+> distinguish the image-write phase from the final restore path.  Export
+> pm_hibernation_snapshot_done() for this purpose.
+>
+> The implementation returns !!in_suspend, which is set to 1 in
+> create_image() just before swsusp_arch_suspend().  Because in_suspend is
+> marked __nosavedata, it is not saved into the hibernation image; on the
+> restore path the variable remains 0, so the helper correctly returns
+> false during PMSG_RESTORE device resume.
+>
+> Clear in_suspend before releasing snapshot memory on hibernation failure
+> paths and after swsusp_write() returns, so the helper does not report a
+> stale snapshot after the snapshot pages have been released.
+
+This last piece needs to be split off into a separate patch.
+
+> Signed-off-by: Haowen Tu <tuhaowen@uniontech.com>
+> ---
+> Changes in v2:
+> - Rename pm_hibernation_storing_image() to
+>   pm_hibernation_snapshot_done().
+> - Clear in_suspend before releasing snapshot memory on failure paths and
+>   after swsusp_write() returns.
+>
+>  include/linux/suspend.h  |  2 ++
+>  kernel/power/hibernate.c | 31 +++++++++++++++++++++++++++----
+>  2 files changed, 29 insertions(+), 4 deletions(-)
+>
+> diff --git a/include/linux/suspend.h b/include/linux/suspend.h
+> index b02876f1ae38..78e7e33c3d19 100644
+> --- a/include/linux/suspend.h
+> +++ b/include/linux/suspend.h
+> @@ -393,6 +393,7 @@ extern void hibernation_set_ops(const struct platform=
+_hibernation_ops *ops);
+>  extern int hibernate(void);
+>  extern bool system_entering_hibernation(void);
+>  extern bool hibernation_available(void);
+> +extern bool pm_hibernation_snapshot_done(void);
+>  asmlinkage int swsusp_save(void);
+>  extern struct pbe *restore_pblist;
+>  int pfn_is_nosave(unsigned long pfn);
+> @@ -412,6 +413,7 @@ static inline void hibernation_set_ops(const struct p=
+latform_hibernation_ops *op
+>  static inline int hibernate(void) { return -ENOSYS; }
+>  static inline bool system_entering_hibernation(void) { return false; }
+>  static inline bool hibernation_available(void) { return false; }
+> +static inline bool pm_hibernation_snapshot_done(void) { return false; }
+>
+>  static inline int hibernate_quiet_exec(int (*func)(void *data), void *da=
+ta) {
+>         return -ENOTSUPP;
+> diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
+> index af8d07bafe02..47047937e262 100644
+> --- a/kernel/power/hibernate.c
+> +++ b/kernel/power/hibernate.c
+> @@ -113,6 +113,25 @@ bool hibernation_available(void)
+>                 !secretmem_active() && !cxl_mem_active();
+>  }
+>
+> +/**
+> + * pm_hibernation_snapshot_done - check if a hibernation snapshot is ava=
+ilable
+> + *
+> + * After create_image() saves a memory snapshot, the kernel briefly resu=
+mes
+> + * devices with PMSG_THAW to write the image to storage before final pow=
+erdown.
+> + * Drivers that do not need to participate in image writing may call thi=
+s
+> + * helper from their resume callbacks to skip unnecessary hardware
+> + * initialization during that transient phase.
+> + *
+> + * Context: May be called from device PM callbacks.
+> + * Return: %true if a hibernation snapshot has been taken and has not be=
+en
+> + *         released yet.
+> + */
+> +bool pm_hibernation_snapshot_done(void)
+> +{
+> +       return !!in_suspend;
+> +}
+> +EXPORT_SYMBOL_GPL(pm_hibernation_snapshot_done);
+> +
+>  /**
+>   * hibernation_set_ops - Set the global hibernate operations.
+>   * @ops: Hibernation operations to use in subsequent hibernation transit=
+ions.
+> @@ -418,6 +437,7 @@ static void shrink_shmem_memory(void)
+>  int hibernation_snapshot(int platform_mode)
 >  {
->  	unsigned int len, nents;
-> -	int i;
-> +	unsigned int i;
->  
->  	nents = DIV_ROUND_UP(length, UINT_MAX);
->  	for (i = 0; i < nents; i++) {
-> @@ -36,7 +36,7 @@ static unsigned int calc_sg_nents(struct dma_iova_state *state,
->  				  struct phys_vec *phys_vec, size_t nr_ranges,
->  				  size_t size)
->  {
-> -	unsigned int nents = 0;
-> +	size_t nents = 0;
->  	size_t i;
->  
->  	if (!state || !dma_use_iova(state)) {
-> @@ -51,6 +51,9 @@ static unsigned int calc_sg_nents(struct dma_iova_state *state,
->  		nents = DIV_ROUND_UP(size, UINT_MAX);
->  	}
->  
-> +	if (WARN_ON_ONCE(nents > UINT_MAX))
-> +		return 0;
-
-The WARN seems a bit much, but if you have it then it should be
-arranged so the caller ultimately fails.
-
-But otherwise I think correcting the types is a good idea
-
-Jason
+>         pm_message_t msg;
+> +       bool snapshot_done;
+>         int error;
+>
+>         pm_suspend_clear_flags();
+> @@ -474,15 +494,18 @@ int hibernation_snapshot(int platform_mode)
+>          * returns here (1) after the image has been created or the
+>          * image creation has failed and (2) after a successful restore.
+>          */
+> +       snapshot_done =3D in_suspend;
+>
+>         /* We may need to release the preallocated image pages here. */
+> -       if (error || !in_suspend)
+> +       if (error || !snapshot_done) {
+> +               in_suspend =3D 0;
+>                 swsusp_free();
+> +       }
+>
+> -       msg =3D in_suspend ? (error ? PMSG_RECOVER : PMSG_THAW) : PMSG_RE=
+STORE;
+> +       msg =3D snapshot_done ? (error ? PMSG_RECOVER : PMSG_THAW) : PMSG=
+_RESTORE;
+>         dpm_resume(msg);
+>
+> -       if (error || !in_suspend)
+> +       if (error || !snapshot_done)
+>                 pm_restore_gfp_mask();
+>
+>         console_resume_all();
+> @@ -865,6 +888,7 @@ int hibernate(void)
+>
+>                 pm_pr_dbg("Writing hibernation image.\n");
+>                 error =3D swsusp_write(flags);
+> +               in_suspend =3D 0;
+>                 swsusp_free();
+>                 if (!error) {
+>                         if (hibernation_mode =3D=3D HIBERNATION_TEST_RESU=
+ME)
+> @@ -872,7 +896,6 @@ int hibernate(void)
+>                         else
+>                                 power_down();
+>                 }
+> -               in_suspend =3D 0;
+>                 pm_restore_gfp_mask();
+>         } else {
+>                 pm_pr_dbg("Hibernation image restored successfully.\n");
+> --
+> 2.20.1
 
