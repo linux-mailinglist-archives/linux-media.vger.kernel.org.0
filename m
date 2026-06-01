@@ -1,353 +1,197 @@
-Return-Path: <linux-media+bounces-63205-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63206-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YD0BFgInHWq6VwkAu9opvQ
-	(envelope-from <linux-media+bounces-63205-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 08:30:26 +0200
+	id WHMlKF4oHWq6VwkAu9opvQ
+	(envelope-from <linux-media+bounces-63206-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 08:36:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE3C161A2EF
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 08:30:25 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id F179761A3CD
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 08:36:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4E6CE300A120
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 06:30:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C2D7A301D69D
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 06:34:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA25D351C25;
-	Mon,  1 Jun 2026 06:30:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55D4D366DD3;
+	Mon,  1 Jun 2026 06:34:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="5A4BxPQ4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bJLrG9Kk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011018.outbound.protection.outlook.com [52.101.57.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0A9B351C2A
-	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 06:30:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780295418; cv=fail; b=EvBCjylOApgols49okR24CfcT5OUNkhueWEmvlzE651YmTjzwuKWPUSj+Q8QMU0QqHyfxXXbtcjOaBj2MR0cYXcHae3NlE2/lsG5Ij6InYgGh4fxuqn/ouviIQjZzpkqMNUtsv3Y0xp4ikE+bSZtaJ50JuUtoYEitx6dFQCNgG0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780295418; c=relaxed/simple;
-	bh=DNO4h0m/M5k3Q77bjDD5wfX7RyBTc7oAPlqEb7/Ab+Q=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ndCmuPe7E9BVt0CJKPCgKMd4uFrPil1OnayOTbhZG0YqQM+Qs+0fFv8VX2vgPLr+b2L3OzosiWAWNY9OOl3ZPELUmjML/Rj4tH+cSZe0JObDCbXY1pR+Fijz0jpp0FM2fp0SoP0DeB4eqU+3UdNvNm8f5VWEoaNq5UFk7kcLfPo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=5A4BxPQ4; arc=fail smtp.client-ip=52.101.57.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TkLtE6PiQY20TLuPDBmGeEBjmqrhie+thuAZpx0UCaqLF7eKH9kSGXwLItfPrhVgW6E3QzKtOgqRlv113HegEsBxVDMnmG12txb6v7q+2FP01w0FQ6uBBvA2gDEQnDiLJMnRvdAlTqynL58374R6WnusCqUnVYn4+SnDd7ueFJQBXQ02dZoWo5A9Cm8n70STLA3jHtEVwfxgJePqGdyv8YYs0/6Qaaz4+6E2uRzrJG3CqjfzKaSat1BfZqpJ8kvrSuX8ktcB9HewPbb/QdLDSp4DJzd+z0D/XqgwcOCxB5CncQJcL7VmcELKhuEpIBTbLwiKU5gbZ0A8/JToycRRhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JHzbvgk2iGzBDryDCB0LdObkhvga14FXJVqbLmGeQ9o=;
- b=n1P4mLlC/vQKgwIrkxDRd16BehysYAeBsV16ePSXhK0DbO2j6Ce7pPD7nn96EdDoAjTEn+ur5n1yuti3v3z6izSUUswFN8cGcf4atcCEEYpXO5apB3JeZssNevyM5P99VYN+w8VA4f1FpFXMflDt9vm5KIjV41WmObnqbQb6R4dt2ggMBOxhnK7W8wYRdFg4mhC44wMc/GogijG4IF8yGRhsPIb5E9KAVetD2IFWTvM5ohggaxZ9k5opayuA4ar5NTHXYbfdL2tTlHSVGvVmzED8V7RxOMkTsXPNsp0DhieKYYukh46qRY16ha9knjhkQ3xJk1xGzDbheUNk4xcgjA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JHzbvgk2iGzBDryDCB0LdObkhvga14FXJVqbLmGeQ9o=;
- b=5A4BxPQ4ByqGjBQUpVgouic9PvQp3IXpnXluGX4dJsyuTvymV0Apqp2Oz595gHW9zErO0yvPgraTzmik06SMt4drbUxYJIjtFKlLWEj5bzOQFmXNP+2y/6X+hRHwGUJu/1EtpLnQzkzF3rVXT1nHemeU2q2HvQISANef+4zu2qo=
-Received: from DSSP221CA0011.NAMP221.PROD.OUTLOOK.COM (2603:10b6:8:3d5::8) by
- CH3PR12MB9316.namprd12.prod.outlook.com (2603:10b6:610:1ce::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.16; Mon, 1 Jun 2026
- 06:30:09 +0000
-Received: from DS3PEPF0000C37A.namprd04.prod.outlook.com
- (2603:10b6:8:3d5:cafe::2d) by DSSP221CA0011.outlook.office365.com
- (2603:10b6:8:3d5::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.71.17 via Frontend Transport; Mon, 1
- Jun 2026 06:30:07 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- DS3PEPF0000C37A.mail.protection.outlook.com (10.167.23.4) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.92.5 via Frontend Transport; Mon, 1 Jun 2026 06:30:07 +0000
-Received: from BJGBICAO01.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Mon, 1 Jun
- 2026 01:30:05 -0500
-From: Bingbu Cao <bingbu.cao@amd.com>
-To: <linux-media@vger.kernel.org>, <sakari.ailus@linux.intel.com>,
-	<laurent.pinchart@ideasonboard.com>
-CC: <mchehab@kernel.org>, <tfiga@google.com>, <ribalda@chromium.org>, "Bingbu
- Cao" <bingbu.cao@amd.com>
-Subject: [PATCH] media: update contact email of Bingbu Cao
-Date: Mon, 1 Jun 2026 14:29:41 +0800
-Message-ID: <20260601062950.131642-1-bingbu.cao@amd.com>
-X-Mailer: git-send-email 2.53.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65F2352037
+	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 06:34:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780295641; cv=none; b=UqSD5gIMdl3oVj86NgqldfYFYVyP2iUPVLJE30Xx1qkRKpFgUES46dNgtG4eSoClbWVnVlZ0dpzyutH1liGJTK0Dk3uFBHBXX3kleTSHFPPYBse/yIiGAlVE8I8SPwoy7qca1u00vqzygONuGVIKhuToc5587QIJlBZ0taGs1jw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780295641; c=relaxed/simple;
+	bh=gRcpob78a4XBt+XKxZN9W4AkpYYwTu9MoPTqn2KkEJY=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=Zd85LvMIYaGE9mVHJodsFSqTQCePVwFMigYISCaOOwdoW4z0TSEMU3RueosjJklpq0D1shAMMaynmHptrhefW3ajen/THjJRB9MucUMB7Bi77IPTTTg2nBiLUPC8uHBJ1nB+Ak3d5T7kI8aImV/JOnkVsCop+xfYrFbXS/Pnleo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bJLrG9Kk; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B5211F00898;
+	Mon,  1 Jun 2026 06:34:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780295640;
+	bh=fdqTFwvIkBP4JJVTcasKDBEM/5UlxxHcSfdtRGvM9Ao=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=bJLrG9Kk2gob1gXE+xxxVGl+k4jr8EaqQLY3U6i24UOA5Omphjfqg4fJIvT63yNyq
+	 MPyX4ZEJQkNhxAkLKh1PAFr33H6O9HvRJIUOEizKN3HygryDoZvojr9ZQ4xS0FTn/s
+	 OC+U7rpFYV8ZI4UhN3A0h+1SlOcNOaWUy8+egHP2qo4PdB0Jt9vDSGh5wa/dN/x/Ln
+	 NLVWnrycP8lFWZC2qGelVyuMhfrvpfF9C7vwIrzBRHP378Tg4YsEWQdh6ckFnWNUmV
+	 muwA7WWvYihQEYx+m1FlpipLJs73WD1CpbzfgCjzDxKadofGbVEicQWgzIATQelCiT
+	 bCT6FhHNBrD9Q==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] media: usb: siano: initialize URB work once
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Rohith Matam" <rohithmatham@gmail.com>
+Cc: linux-media@vger.kernel.org
+In-Reply-To: <20260601061855.47423-1-rohithmatham@gmail.com>
+References: <20260601061855.47423-1-rohithmatham@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 01 Jun 2026 06:34:00 +0000
+Message-Id: <20260601063400.5B5211F00898@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF0000C37A:EE_|CH3PR12MB9316:EE_
-X-MS-Office365-Filtering-Correlation-Id: 06893cd7-dad4-4a53-ef47-08debfa7398d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|82310400026|376014|1800799024|56012099006|11063799006|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	cRVoSsShIRDpmsFCReDTTWYeVjKyazmlFOGvvQjuW4qWebqyAtiaJ5F+61BvxlKUGLpUAB0/7EWfnXXg0UEuHRTdxeMcHcBC2QCMdwVZyGASchovsSIgykrq2wyhyQFZs1U5/tJpgXYkFbnszTZk8cqVnnSFfw62+x+pUves83L31a9dk4mCDgNF1bxEruD/GutY378GynpUvoKoNQt4KpcTy8UxIqiKwQM1wn0G4MdfOGk3d6P7djokU/LcFyBVPCDkEBmr5T5lY7ir31NZrkgYT0Ghx3t391ORuBf215FInb7m5WZPdjaNE2ISIALxvrgstsFgjZRKWMdgQXiZOEY/TOSurRFaVHh51bO5bd75mo4jlVtAzzDBjfCyJ0r2AHHaU9LxDZweISneJh3KIPOyF1t0e38ibYWG8ZxlV5cpfpyyERheJTV0hLBf7BfmbJryhPRM3GqO6/1N0emItOdftJjDWH3+69/P9wIuGxvpMTV2QP3sgpD+dMuw9uWN811V44ZNYffOjlUj3ejF+1y0EHzeb9MzGjINYRF3eux8iLLwg2jJODFD+NUuVJBV+JUpRbsARLRbwEJW6vEg4PlpRKIJJbFN42KlaK0Ig3BB2fSCERvrDx1fkhRq8VZFGyc+lFymGbCRI9tjcKXFwz+nvRPFb9MriYoRH7WGYHqg0g0I1gqZcI1CTzBwzccA6A+TDRjgSFQO7DspzLidPReIdoPYRUk6e9+YXwzXKdc=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(376014)(1800799024)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	jRQUpKBk+PTdEsyOGkVllz1xf38Nhpe+TLrATz+zpF9poqk61Ltz3cIaby3NEFXAgtrW8+lYGtQl0DHZJqWsLJBFwniZIxeFw+Dcj8OY7i+/nBOZu/FBXDetfcnkbjU4zPCSgmouGlQKQLlnFOuoxDeET4H1mVxYXtgT48p6XKv7Znd08Bv1klV4p+vWSnZqFjn8r6vKyQS9sD1umNTOXeiK1Gks7HjcEoZeK2P/EdWuVz6BSSX0sxf1aAyoWM0fs1oe/ziZDP8Br5WQfCDoYumWgcIhc0OCEreR9HyT+ttGWYFUlcdOfaSTZvIUWldqlyujeNwFfp9KKOh9wgfor9Nj244/SOKA+D40evv2csedCrdPhlts9s4BI7cIenivNiKEQIAYuP5ic0FUwi6xsVrNf0MLZsSUNNVzC1kvrEOJed46r8Pi/xUoeyBrdwZW
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2026 06:30:07.8486
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06893cd7-dad4-4a53-ef47-08debfa7398d
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS3PEPF0000C37A.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9316
-X-Spamd-Result: default: False [1.34 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	MISSING_MIME_VERSION(2.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63205-lists,linux-media=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,amd.com:email,amd.com:mid,amd.com:dkim,intel.com:email];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63206-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[amd.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	REPLYTO_DN_EQ_FROM_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
+	FREEMAIL_TO(0.00)[gmail.com];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bingbu.cao@amd.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	NEURAL_HAM(-0.00)[-0.999];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: BE3C161A2EF
+	NEURAL_HAM(-0.00)[-1.000];
+	PRECEDENCE_BULK(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NO_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,lists.linux.dev:replyto]
+X-Rspamd-Queue-Id: F179761A3CD
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-I left Intel and joined AMD, so update my email in the MAINTAINERS.
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
 
-For the Intel IPU3, IPU6 and IPU7 staging drivers, I am not able to
-continue the code review from now, so remove me from the MAINTAINERS
-and remove the invalid email in MODULE_AUTHOR.
+New issues:
+- [Medium] Unconditional cancel_work_sync() on uninitialized work items dur=
+ing device initialization error paths triggers a kernel warning (WARN_ON(!w=
+ork->func)).
 
-Signed-off-by: Bingbu Cao <bingbu.cao@amd.com>
----
- MAINTAINERS                            | 13 ++++---------
- drivers/media/i2c/ak7375.c             |  2 +-
- drivers/media/i2c/imx319.c             |  2 +-
- drivers/media/i2c/imx355.c             |  2 +-
- drivers/media/i2c/ov01a10.c            |  2 +-
- drivers/media/i2c/ov2740.c             |  2 +-
- drivers/media/i2c/ov9734.c             |  2 +-
- drivers/staging/media/ipu7/ipu7-isys.c |  2 +-
- drivers/staging/media/ipu7/ipu7.c      |  2 +-
- 9 files changed, 12 insertions(+), 17 deletions(-)
+Pre-existing issues:
+- [Critical] Slab corruption occurs during device teardown due to the `URB_=
+FREE_BUFFER` flag being incorrectly set on an interior pointer.
+- [Critical] A race condition between `usb_kill_urb()` and `cancel_work_syn=
+c()` allows an URB to be submitted after teardown has completed, leading to=
+ a Use-After-Free of the device.
+--
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 461a3eed6129..da53dec5cc6a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -13016,7 +13016,6 @@ F:	drivers/iommu/intel/
- INTEL IPU3 CSI-2 CIO2 DRIVER
- M:	Yong Zhi <yong.zhi@intel.com>
- M:	Sakari Ailus <sakari.ailus@linux.intel.com>
--M:	Bingbu Cao <bingbu.cao@intel.com>
- M:	Dan Scally <dan.scally@ideasonboard.com>
- R:	Tianshu Qiu <tian.shu.qiu@intel.com>
- L:	linux-media@vger.kernel.org
-@@ -13027,7 +13026,6 @@ F:	drivers/media/pci/intel/ipu3/
- 
- INTEL IPU3 CSI-2 IMGU DRIVER
- M:	Sakari Ailus <sakari.ailus@linux.intel.com>
--R:	Bingbu Cao <bingbu.cao@intel.com>
- R:	Tianshu Qiu <tian.shu.qiu@intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
-@@ -13038,7 +13036,6 @@ F:	drivers/staging/media/ipu3/
- 
- INTEL IPU6 INPUT SYSTEM DRIVER
- M:	Sakari Ailus <sakari.ailus@linux.intel.com>
--M:	Bingbu Cao <bingbu.cao@intel.com>
- R:	Tianshu Qiu <tian.shu.qiu@intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
-@@ -13048,7 +13045,6 @@ F:	drivers/media/pci/intel/ipu6/
- 
- INTEL IPU7 INPUT SYSTEM DRIVER
- M:	Sakari Ailus <sakari.ailus@linux.intel.com>
--R:	Bingbu Cao <bingbu.cao@intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-@@ -13350,7 +13346,6 @@ F:	drivers/net/wireless/intel/iwlwifi/
- 
- INTEL VISION SENSING CONTROLLER DRIVER
- M:	Sakari Ailus <sakari.ailus@linux.intel.com>
--R:	Bingbu Cao <bingbu.cao@intel.com>
- R:	Lixu Zhang <lixu.zhang@intel.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
-@@ -19671,7 +19666,7 @@ F:	Documentation/devicetree/bindings/media/i2c/ovti,os05b10.yaml
- F:	drivers/media/i2c/os05b10.c
- 
- OMNIVISION OV01A10 SENSOR DRIVER
--M:	Bingbu Cao <bingbu.cao@intel.com>
-+M:	Bingbu Cao <bingbu.cao@amd.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-@@ -19766,7 +19761,7 @@ F:	drivers/media/i2c/ov2735.c
- OMNIVISION OV2740 SENSOR DRIVER
- M:	Tianshu Qiu <tian.shu.qiu@intel.com>
- R:	Sakari Ailus <sakari.ailus@linux.intel.com>
--R:	Bingbu Cao <bingbu.cao@intel.com>
-+R:	Bingbu Cao <bingbu.cao@amd.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-@@ -19909,7 +19904,7 @@ F:	drivers/media/i2c/ov9650.c
- 
- OMNIVISION OV9734 SENSOR DRIVER
- M:	Tianshu Qiu <tian.shu.qiu@intel.com>
--R:	Bingbu Cao <bingbu.cao@intel.com>
-+R:	Bingbu Cao <bingbu.cao@amd.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-@@ -24919,7 +24914,7 @@ F:	Documentation/devicetree/bindings/media/i2c/sony,imx296.yaml
- F:	drivers/media/i2c/imx296.c
- 
- SONY IMX319 SENSOR DRIVER
--M:	Bingbu Cao <bingbu.cao@intel.com>
-+M:	Bingbu Cao <bingbu.cao@amd.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-diff --git a/drivers/media/i2c/ak7375.c b/drivers/media/i2c/ak7375.c
-index 9a2432cea3ff..bb73cc1ef991 100644
---- a/drivers/media/i2c/ak7375.c
-+++ b/drivers/media/i2c/ak7375.c
-@@ -352,6 +352,6 @@ static struct i2c_driver ak7375_i2c_driver = {
- module_i2c_driver(ak7375_i2c_driver);
- 
- MODULE_AUTHOR("Tianshu Qiu <tian.shu.qiu@intel.com>");
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao <bingbu.cao@amd.com>");
- MODULE_DESCRIPTION("AK7375 VCM driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/media/i2c/imx319.c b/drivers/media/i2c/imx319.c
-index 953310ef3046..87301d62eb8d 100644
---- a/drivers/media/i2c/imx319.c
-+++ b/drivers/media/i2c/imx319.c
-@@ -2499,7 +2499,7 @@ module_i2c_driver(imx319_i2c_driver);
- 
- MODULE_AUTHOR("Qiu, Tianshu <tian.shu.qiu@intel.com>");
- MODULE_AUTHOR("Rapolu, Chiranjeevi");
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao <bingbu.cao@amd.com>");
- MODULE_AUTHOR("Yang, Hyungwoo");
- MODULE_DESCRIPTION("Sony imx319 sensor driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
-index 27a5c212a527..9969c61f1ec4 100644
---- a/drivers/media/i2c/imx355.c
-+++ b/drivers/media/i2c/imx355.c
-@@ -1892,7 +1892,7 @@ module_i2c_driver(imx355_i2c_driver);
- 
- MODULE_AUTHOR("Qiu, Tianshu <tian.shu.qiu@intel.com>");
- MODULE_AUTHOR("Rapolu, Chiranjeevi");
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao <bingbu.cao@amd.com>");
- MODULE_AUTHOR("Yang, Hyungwoo");
- MODULE_DESCRIPTION("Sony imx355 sensor driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
-index 8a29e5b4b6ba..f857d3dd8ec5 100644
---- a/drivers/media/i2c/ov01a10.c
-+++ b/drivers/media/i2c/ov01a10.c
-@@ -1131,7 +1131,7 @@ static struct i2c_driver ov01a10_i2c_driver = {
- 
- module_i2c_driver(ov01a10_i2c_driver);
- 
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao <bingbu.cao@amd.com>");
- MODULE_AUTHOR("Wang Yating <yating.wang@intel.com>");
- MODULE_DESCRIPTION("OmniVision OV01A10 sensor driver");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-index fb590dfadda1..f5d5a3b8f87f 100644
---- a/drivers/media/i2c/ov2740.c
-+++ b/drivers/media/i2c/ov2740.c
-@@ -1481,6 +1481,6 @@ module_i2c_driver(ov2740_i2c_driver);
- 
- MODULE_AUTHOR("Qiu, Tianshu <tian.shu.qiu@intel.com>");
- MODULE_AUTHOR("Shawn Tu");
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao <bingbu.cao@amd.com>");
- MODULE_DESCRIPTION("OmniVision OV2740 sensor driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/media/i2c/ov9734.c b/drivers/media/i2c/ov9734.c
-index 0eaf33807fc9..2c94691741d8 100644
---- a/drivers/media/i2c/ov9734.c
-+++ b/drivers/media/i2c/ov9734.c
-@@ -989,6 +989,6 @@ static struct i2c_driver ov9734_i2c_driver = {
- module_i2c_driver(ov9734_i2c_driver);
- 
- MODULE_AUTHOR("Qiu, Tianshu <tian.shu.qiu@intel.com>");
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao <bingbu.cao@amd.com>");
- MODULE_DESCRIPTION("OmniVision OV9734 sensor driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/staging/media/ipu7/ipu7-isys.c b/drivers/staging/media/ipu7/ipu7-isys.c
-index cb2f49f3e0fa..78f6c52dc1bf 100644
---- a/drivers/staging/media/ipu7/ipu7-isys.c
-+++ b/drivers/staging/media/ipu7/ipu7-isys.c
-@@ -1157,7 +1157,7 @@ static struct auxiliary_driver isys_driver = {
- 
- module_auxiliary_driver(isys_driver);
- 
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao");
- MODULE_AUTHOR("Tianshu Qiu <tian.shu.qiu@intel.com>");
- MODULE_AUTHOR("Qingwu Zhang <qingwu.zhang@intel.com>");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/staging/media/ipu7/ipu7.c b/drivers/staging/media/ipu7/ipu7.c
-index c771e763f8c5..c990a95aa59a 100644
---- a/drivers/staging/media/ipu7/ipu7.c
-+++ b/drivers/staging/media/ipu7/ipu7.c
-@@ -2774,7 +2774,7 @@ static struct pci_driver ipu7_pci_driver = {
- module_pci_driver(ipu7_pci_driver);
- 
- MODULE_IMPORT_NS("INTEL_IPU_BRIDGE");
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao");
- MODULE_AUTHOR("Tianshu Qiu <tian.shu.qiu@intel.com>");
- MODULE_AUTHOR("Qingwu Zhang <qingwu.zhang@intel.com>");
- MODULE_AUTHOR("Intel");
--- 
-2.53.0
+commit e5db1a18a599b8f6972c2ba7a73f82dde8e97661
+Author: Rohith Matam <rohithmatham@gmail.com>
 
+media: usb: siano: initialize URB work once
+
+This commit initializes each work item once when the URB is allocated,
+and removes the conditional check before cancelling the work in
+smsusb_stop_streaming().
+
+> diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/s=
+msusb.c
+> index 0fdc2e0950b77..4e80ccc20e3eb 100644
+> --- a/drivers/media/usb/siano/smsusb.c
+> +++ b/drivers/media/usb/siano/smsusb.c
+[ ... ]
+> @@ -179,8 +178,7 @@ static void smsusb_stop_streaming(struct smsusb_devic=
+e_t *dev)
+> =20
+>  	for (i =3D 0; i < MAX_URBS; i++) {
+>  		usb_kill_urb(dev->surbs[i].urb);
+
+[Severity: Critical]
+This is a pre-existing issue, but does this sequence cause slab corruption
+during device teardown?
+
+In smsusb_submit_urb(), the URB's transfer_buffer is assigned to surb->cb->=
+p,
+and URB_FREE_BUFFER is added to transfer_flags. The pointer surb->cb->p
+addresses an interior chunk inside a larger allocated block. During teardow=
+n,
+smsusb_term_device() calls usb_free_urb(), which respects the URB_FREE_BUFF=
+ER
+flag and executes kfree() on this interior pointer, causing slab corruption.
+
+[Severity: Critical]
+This is a pre-existing issue, but does this ordering allow an URB to be
+submitted after teardown has completed?
+
+If the do_submit_urb work is concurrently executing and blocked (for example
+inside smscore_getbuffer()), usb_kill_urb() sees no active URB submission,
+temporarily increments and then decrements urb->reject, and returns
+immediately.
+
+> -		if (dev->surbs[i].wq.func)
+> -			cancel_work_sync(&dev->surbs[i].wq);
+> +		cancel_work_sync(&dev->surbs[i].wq);
+
+Next, cancel_work_sync() blocks waiting for the work to finish. The work
+thread unblocks, successfully submits the URB via usb_submit_urb() (since
+urb->reject is now 0), and exits. cancel_work_sync() then unblocks, teardown
+completes, and the device structure is freed. However, the URB is actively
+in-flight and will dereference the freed device structure in
+smsusb_onresponse() upon completion.
+
+[ ... ]
+> @@ -471,6 +469,7 @@ static int smsusb_init_device(struct usb_interface *i=
+ntf, int board_id)
+>  		dev->surbs[i].urb =3D usb_alloc_urb(0, GFP_KERNEL);
+>  		if (!dev->surbs[i].urb)
+>  			goto err_unregister_device;
+> +		INIT_WORK(&dev->surbs[i].wq, do_submit_urb);
+>  	}
+
+[Severity: Medium]
+Can this unconditional execution of cancel_work_sync() trigger a warning
+splat in the error path?
+
+By removing the if (dev->surbs[i].wq.func) check in smsusb_stop_streaming(),
+uninitialized work items will now be passed to cancel_work_sync(). If
+usb_alloc_urb() fails on an early loop iteration here, it jumps to teardown
+before initializing the work structures for the remaining URBs.
+
+When the teardown path calls smsusb_term_device() -> smsusb_stop_streaming(=
+),
+cancel_work_sync() is unconditionally called on these zero-filled structure=
+s,
+which encounters a WARN_ON(!work->func) condition in __flush_work().
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260601061855.4742=
+3-1-rohithmatham@gmail.com?part=3D1
 
