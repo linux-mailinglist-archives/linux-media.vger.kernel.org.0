@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-63197-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63198-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id wOYmIyneHGpKTgkAu9opvQ
-	(envelope-from <linux-media+bounces-63197-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 03:19:37 +0200
+	id YFZML9P+HGoYUwkAu9opvQ
+	(envelope-from <linux-media+bounces-63198-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 05:38:59 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7C1E61899B
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 03:19:36 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAFEF61944D
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 05:38:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7122A3019B9C
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 01:18:47 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6A0C030104BA
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 03:38:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAEDF1A6831;
-	Mon,  1 Jun 2026 01:18:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C50A282F2A;
+	Mon,  1 Jun 2026 03:38:52 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637D5846F;
-	Mon,  1 Jun 2026 01:18:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF8B27F75C;
+	Mon,  1 Jun 2026 03:38:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780276726; cv=none; b=gFHp9GiNRwpIlMk6IQblwj5JLwD4khh4ES3xq92bF4qWgknjBwyORImaZ7xd5WHanDPwmw0O0TNczxhZcpCm7NcS2iG/U0jkVRM1K/kvgKXfIIhQMa/fqjfZL3ol59aG+jyS2bbpyNLPTCFjdXXoJW0FrSih4omPz9jAtHlX6n8=
+	t=1780285132; cv=none; b=JZF25759SGI96EV6BOSYIil5kOwO0NS736wPGRhDCTaZSGJkmi/yct0+/ehv4Wxr5WGNpck2I0nBGP2LlT2AivCvJ5fdE5218cmtk79+NWapLvy1GT5C/4fMB+GRpI3m+v7lik7NKUvkyL4Kf6aerpfofAMXwEYJ93tH1GOqbIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780276726; c=relaxed/simple;
-	bh=h8S6nfJrh1qp5dMB9muvuGIgZOv2SmNIXaVaxq8+BmE=;
+	s=arc-20240116; t=1780285132; c=relaxed/simple;
+	bh=zNdfLa+QXCVArwNdz/J1K9BH1ezk7fPnqIrW0fWfptw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O8Tgc/t9eA6L5MSsK2THPf+9+9WDgCn/6h3r0kkVh/eGbnzOTrw0p1lGzXeGLhb2gUQeXTxRqw73iZybajx9jTVUMj4HiqTbEG7Tkc8DaJqseYGutfAGMmxogb8jGTuwTZU4nYSV6qYmVuiYzkN+YqcElx5OZbL9YEVaCdF5Aq8=
+	 In-Reply-To:Content-Type; b=mKrKnf/uygU2Y00y7Z1UamCF+fmrBpF8r+oisYTnmp/EjL4o6OMyOD8tYAlx8YNXSpDg1mBv4iNCKH/cDlcfo5nHxclY/WttdcuPh5yO+Aq/3k7b9Lc2PbwCG11rB6QFsOm9fhzl/L9TXv2e33AZQrYYJzl1HfefThLNGyFLgac=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: d1f038945d5711f1aa26b74ffac11d73-20260601
+X-UUID: 62df68da5d6b11f1aa26b74ffac11d73-20260601
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.12,REQID:097b545c-78f8-4ceb-978d-4b541a185325,IP:0,U
+X-CID-O-INFO: VERSION:1.3.12,REQID:566d10ce-5558-413a-8358-b55c18a88c33,IP:0,U
 	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
 	release,TS:0
-X-CID-META: VersionHash:e7bac3a,CLOUDID:9da9e84c18f7fee39851eaa65a35bd5d,BulkI
+X-CID-META: VersionHash:e7bac3a,CLOUDID:3865acc9a14458812d97d66108dc9489,BulkI
 	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|865|898,TC:nil,Content:0
 	|15|52,EDM:-3,IP:nil,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,O
 	SI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: d1f038945d5711f1aa26b74ffac11d73-20260601
+X-UUID: 62df68da5d6b11f1aa26b74ffac11d73-20260601
 X-User: xiaopei01@kylinos.cn
 Received: from [10.42.12.251] [(10.44.16.150)] by mailgw.kylinos.cn
 	(envelope-from <xiaopei01@kylinos.cn>)
 	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 11550814; Mon, 01 Jun 2026 09:18:39 +0800
-Message-ID: <3e600207-7feb-40b1-90c5-6d1c2893fcb8@kylinos.cn>
-Date: Mon, 1 Jun 2026 09:18:36 +0800
+	with ESMTP id 1484930785; Mon, 01 Jun 2026 11:38:42 +0800
+Message-ID: <79734bf1-a6cd-45a3-af8b-a0d930f27041@kylinos.cn>
+Date: Mon, 1 Jun 2026 11:38:39 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,12 +75,12 @@ Content-Transfer-Encoding: 8bit
 X-Spamd-Result: default: False [0.04 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63197-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63198-lists,linux-media=lfdr.de];
 	DMARC_NA(0.00)[kylinos.cn];
 	FREEMAIL_TO(0.00)[gmail.com,foxmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -92,13 +92,13 @@ X-Spamd-Result: default: False [0.04 / 15.00];
 	NEURAL_HAM(-0.00)[-0.988];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[xiaopei01@kylinos.cn,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	R_DKIM_NA(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[9];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:mid,kylinos.cn:email,foxmail.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: D7C1E61899B
+	DBL_BLOCKED_OPENRESOLVER(0.00)[kylinos.cn:mid,kylinos.cn:email,foxmail.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: CAFEF61944D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
@@ -132,7 +132,55 @@ X-Rspamd-Server: lfdr
 >
 >> Please help post all the logs, thank you!
 > Thank you for taking a look. All terminal outputs after running the reproducer:
->
+ au0828_usb_probe
+         au0828_dvb_register
+            dvb_attach(xc5000_attach, dvb->frontend,
+            dvb_register  
+                   if (dvb->frontend->ops.release)
+                        dvb->frontend->ops.release(dvb->frontend);
+
+dvb_register 
+    result = dvb_register_frontend(&dvb->adapter, dvb->frontend);
+        pr_err("dvb_register_frontend failed (errno = %d)\n",//-12,  no kref_init(&fe->refcount);，fe->frontend_priv is NULL
+                       result);
+        goto fail_frontend
+
+fail_frontend:
+dvb_frontend_detach(dvb->frontend);
+
+dvb_frontend_detach:
+    dvb_frontend_put  
+        __dvb_frontend_free
+            dvb_frontend_invoke_release(fe, fe->ops.release);
+ 
+ 
+static void dvb_frontend_invoke_release(struct dvb_frontend *fe,
+                                        void (*release)(struct dvb_frontend *fe))
+{
+        if (release) {
+                release(fe);
+#ifdef CONFIG_MEDIA_ATTACH
+                dvb_detach(release);
+#endif  
+        }
+}  
+
+au8522_attach
+.release              = au8522_release,
+    au8522_release_state
+        kfree(state);//have free
+
+How did this problem occur, and is the probability of it occurring high?
+so we can remove in au0828_dvb_register function follow lines to fix this UAF bug? 
+
+ret = dvb_register(dev);
+        if (ret < 0) {
+               // if (dvb->frontend->ops.release)
+               //        dvb->frontend->ops.release(dvb->frontend);
+               //  dvb->frontend = NULL;
+                return ret;
+        }
+Could you please help test this modified code?
 > [   64.807294][   T42] usb 3-1: new high-speed USB device number 2 using dummy_hcd
 > [   64.958989][   T42] usb 3-1: New USB device found, idVendor=0fe9, idProduct=d620, bcdDevice= 1.00
 > [   64.961560][   T42] usb 3-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
@@ -141,14 +189,6 @@ X-Rspamd-Server: lfdr
 > [   65.655406][   T42] DVB: Unable to find symbol xc5000_attach()
 > [   65.656022][   T42] dvbdev: DVB: registering new adapter (au0828)
 > [   65.656632][   T42] au0828: dvb_register_frontend failed (errno = -12)
-Why print  dvb_register_frontend failed (errno = -12)
-        fe->frontend_priv = kzalloc_obj(struct dvb_frontend_private);
-        if (!fe->frontend_priv) {
-                mutex_unlock(&frontend_mutex);
-                return -ENOMEM;
-        }
-
--12 is out of memory,  very strange
 > [   65.658957][   T42] au8522 1-0047: destroying instance
 > [   65.659499][   T42] ==================================================================
 > [   65.660261][   T42] BUG: KASAN: slab-use-after-free in au0828_dvb_register+0x1280/0x15f0
