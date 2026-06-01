@@ -1,143 +1,203 @@
-Return-Path: <linux-media+bounces-63207-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63208-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id MKt/E9ooHWq6VwkAu9opvQ
-	(envelope-from <linux-media+bounces-63207-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 08:38:18 +0200
+	id kMCODG0oHWq6VwkAu9opvQ
+	(envelope-from <linux-media+bounces-63208-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 08:36:29 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A13A361A416
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 08:38:17 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D3F861A3E2
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 08:36:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 03259303E4B7
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 06:35:29 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0678C3004681
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 06:36:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8079F367292;
-	Mon,  1 Jun 2026 06:35:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABE72370D7C;
+	Mon,  1 Jun 2026 06:36:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bkFxOOf5"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Vj1GX+oO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17EC529D26E
-	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 06:35:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A9D367B82
+	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 06:36:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780295728; cv=none; b=qTpsbNDgb6WYfsf2ok7uHh+UOpUNj6znVW/QPOS255hvEaAomr789vh5Q6SvJGpQjxKYQhwTIr8PlXmw2PV4tiSPwUoTyS9SRf8PZgkDxtdoWWQxxOn+snIjl4roU/sG3sAOMpAzY5jq4QiFHmcyZQCIsCCspdpJXDF6bZsKxa4=
+	t=1780295781; cv=none; b=GZJb3K+HhySSXkax6QW1WJn+ne4G2MR0vLTwzCyyo4X0SFRb4daD6Ztm8qTsPjJatH+OiwYSUUOYSTsv0VFR9sv8HgYOooawPX0uyvb6YAn2d272Opp/kSih2s5/I8e7spRolez7A8Hv73BSjtevJ/vR9np7IdGW6bO/Lx6Rr8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780295728; c=relaxed/simple;
-	bh=eawJtJgmaLr6ARaQuua3ouKiQwPOpdcSnU71Jqoma7o=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=AF7p6CTgfgVyvZ1UeYmEEnSmZbcxLfW52vp3vraYK22BXBjuh+y5rUxkjpxY7qj/2ms5quJFPLuaYhyXKod4+LkzS53oB50C7iPvyKfbpOtZAgpj7KHy/RmhsHDD6LX73wYVHY9a8QtTzrLo+k/5aqlZ03PEu/mYlHXuP+Xbz/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bkFxOOf5; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 905E81F00893;
-	Mon,  1 Jun 2026 06:35:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780295726;
-	bh=eawJtJgmaLr6ARaQuua3ouKiQwPOpdcSnU71Jqoma7o=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=bkFxOOf5tm24VXF82NmOckKt6hhYlFk7GnMFM5aC5O3wran3jm1hLGtoaIGh/9MdF
-	 e33rQ+X+sehHpBSIrTjacDnxuWMj4dp7u307Bu8hojLDloS6MJCvLS5A2JL2iwDWSi
-	 mnbKsMpEbOZf6vbjzoVRZzf07ZBXiq65W6qs6jmb5hvCBM59NX1gvU3uOGlpCvgmfO
-	 /FEsOkUTjzzHerAvVXwU2J2O1Ej+Xn5O6CtCCbC8EXs7wk/mtdBBz9fLED476pzZXK
-	 v6HZlhg+rbHkTAr+bpQVDhDlHzpMdhBTZtmvciOkA4TFWD6algM9R/WO2MhFjOICLH
-	 +8zRBKFRPe35Q==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] media: update contact email of Bingbu Cao
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Bingbu Cao" <bingbu.cao@amd.com>
-Cc: linux-media@vger.kernel.org
-In-Reply-To: <20260601062950.131642-1-bingbu.cao@amd.com>
-References: <20260601062950.131642-1-bingbu.cao@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 01 Jun 2026 06:35:26 +0000
-Message-Id: <20260601063526.905E81F00893@smtp.kernel.org>
+	s=arc-20240116; t=1780295781; c=relaxed/simple;
+	bh=y4GKVfH2JQeuqjvflWYfOWAYA1kmZFJDg/A9ORaS3UU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fk4B7Ffho2apnhKFRif1Pj615cR3dNz4pvM1sJE3XilyBZo8PmC5hMeTK8okgA5J419yPJ514Zivz+S0Urs4uBHNE/OyqtatHLAoRZzPhWTysHq9YrrmpkhosFpUDxf+wnLUnTrQK/8yr2sg3Im8QXktnxsxr+pm1VG26PZK3rU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Vj1GX+oO; arc=none smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-68c08bfe5afso4951789a12.2
+        for <linux-media@vger.kernel.org>; Sun, 31 May 2026 23:36:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1780295778; x=1780900578; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=cu+lUD0AJcyduTbR8bo4KdmmgIOlIKzQTx5RzeA9hE4=;
+        b=Vj1GX+oOVZgtlMvPmYy9rg/7WcZurJaE/eHzG8iAfKRTFKdwNXYgtEXobJxU7fTXSd
+         hgmJyeCeFDddJc2EHVR9aCHX3A5Gv7EA/uyg51G9Gq1bnK2XhLoo3ZmTE3oCiR1bJuLb
+         MrwHXqiafyhVstqt8bP6lUaGRTrzBbjFxK/Vo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780295778; x=1780900578;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cu+lUD0AJcyduTbR8bo4KdmmgIOlIKzQTx5RzeA9hE4=;
+        b=EouH2KCm257CLeUCvvrQyraNvhlaIOH2Sb4HNbtosnvUUrQ9BU7xYhorDPcNnp76/w
+         NhHb5W98pbxAmJ6DFeuyswNhW8i+UntoyqDL7gR+Zxi2z8Y2dWDmaLpsPLbG47nUOdBN
+         hKe76Lvplqa9wiwsPAou+Y2V5AkO8PjNDIREqpqHLXNR0n5OKCBZGuCM38+NlUoyvUlY
+         8Bn4J7Hd/4unF01SxzhAX4ltT6NwSNCIXBfKUyZIrIy28ItGGVL2JZN532c2kfpESBuj
+         S4XB96fGnjviqglC/kn5zcxh0m27k0B96wI0e5pYrx6Ry+9VEaNRc500A1HSASpfYn7o
+         G1QQ==
+X-Gm-Message-State: AOJu0YwzM+JZ2hV0/KYY0zVXT4NirdyKbB+MELd4MSVZjJrUzkss9ndK
+	tKxKnQ84LEWsDXl/ztNfksMSKRTX69WO+DCXfLEDPzuwFkSdR9l582w/vXoIXt1BOO4p3rdn8cL
+	mEAan3Q==
+X-Gm-Gg: Acq92OH0GeVlpLLIgNQTL2PyQieFQpRGBjRYkcWVv2fcPWaeScXCJm+abk+EPsHWgQz
+	svJVi8zH5K7E10z+bgBhCDj7wAz2jAMp2D01xALXHST2jmuUkSP0bb98wwIcPhHomyqucxgx63D
+	LXtbgIPg3VujKO6jheykwDiQwUGSToEDVBfCPO+Gx4YoyxlveLHVtj+nifo2PJ9ZRTNhSYohuuD
+	zeTZLkN+r6duEipMAZkq5u3z6O6iTV0ZW03Rlkf4YoOsFnxhg6OhvxzOVyJxJyfQBW5KlFNGwPk
+	CuFrkyePO1pRKqpxcbIhMiBLolgayH7cgK/ALiQrb/70zG/3qSfDoWh8XhPLD2bdUtMxC1oucgk
+	w4TM9NJ1Kyc575pkOmSQVVIvlKNAjsTYPBomXZQyYWdVXGcabSxiOvRFzgvewGMoPpshNrRcrLB
+	hvx8z51mgCwoM80SI3zXxhrIJO2vlSCsc4XTXKkSIvpCSFZ5VqpJ6c4CfFJVRQghOdSbBdC3E=
+X-Received: by 2002:a05:6402:2112:b0:68b:117b:215d with SMTP id 4fb4d7f45d1cf-68c8ab31605mr4615061a12.15.1780295777943;
+        Sun, 31 May 2026 23:36:17 -0700 (PDT)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com. [209.85.218.48])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-68ceb79176asm1619730a12.4.2026.05.31.23.36.15
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 31 May 2026 23:36:16 -0700 (PDT)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-beb44f97561so140765666b.0
+        for <linux-media@vger.kernel.org>; Sun, 31 May 2026 23:36:15 -0700 (PDT)
+X-Received: by 2002:a17:906:fd87:b0:bea:2fbc:4ef5 with SMTP id
+ a640c23a62f3a-beab394ad93mr598245766b.44.1780295774343; Sun, 31 May 2026
+ 23:36:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	MISSING_MIME_VERSION(2.00)[];
+MIME-Version: 1.0
+References: <20260522225402.247080-1-sakari.ailus@linux.intel.com>
+ <CANiDSCtH7treRe_2Y7h9YoiAfRGXZoX9pHNpLhcaoT2qS5+mFA@mail.gmail.com>
+ <ahVZAJrW8RxpWe8U@kekkonen.localdomain> <CANiDSCufMS4b14QJxaC0vs2joy1r4y04AFDMOphFObwUOLasRA@mail.gmail.com>
+ <ahycERlz_hbEiY1p@kekkonen.localdomain>
+In-Reply-To: <ahycERlz_hbEiY1p@kekkonen.localdomain>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 1 Jun 2026 08:36:02 +0200
+X-Gmail-Original-Message-ID: <CANiDSCuoj1Ke60W4Rf-aaFZM-to_VqHp98tKHBCY_XgAv=3npQ@mail.gmail.com>
+X-Gm-Features: AVHnY4JT27cHwPtWlHISTFWbqGW9qKbU2jhGomzrz8y-7SBIggqPRm0SAN_qFQE
+Message-ID: <CANiDSCuoj1Ke60W4Rf-aaFZM-to_VqHp98tKHBCY_XgAv=3npQ@mail.gmail.com>
+Subject: Re: [PATCH 1/1] staging: media: ipu3-imgu: Ensure correct binary selection
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63207-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63208-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	RCPT_COUNT_TWO(0.00)[2];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[chromium.org:+];
 	MIME_TRACE(0.00)[0:+];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-0.999];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_NO_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
+	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,intel.com:email,lists.linux.dev:replyto,sashiko.dev:url,amd.com:email,smtp.kernel.org:mid]
-X-Rspamd-Queue-Id: A13A361A416
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-0.998];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,intel.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 2D3F861A3E2
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
+Hi Sakari
 
-Pre-existing issues:
-- [Medium] Incomplete implementation / Commit message discrepancy: invalid =
-email left in MODULE_AUTHOR for IPU6 drivers
---
+On Sun, 31 May 2026 at 22:37, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Ricardo,
+>
+> On Tue, May 26, 2026 at 10:32:56AM +0200, Ricardo Ribalda wrote:
+> > Hi Sakari
+> >
+> > On Tue, 26 May 2026 at 10:25, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+> > >
+> > > Hi Ricardo,
+> > >
+> > > On Mon, May 25, 2026 at 05:08:51PM +0200, Ricardo Ribalda wrote:
+> > > > Hi Sakari
+> > > >
+> > > >
+> > > >
+> > > > On Sat, 23 May 2026 at 00:55, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+> > > > >
+> > > > > The ImgU has two sets of binaries, those that support striping (fixed at
+> > > > > 2) and those that don't. There's overlap between the stripes and so that
+> > > > > implies a minimum width for the images themselves, or the Bayer downscale
+> > > > > rectangle in particular.
+> > > > >
+> > > > > Take this account in binary selection.
+> > > > >
+> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > ---
+> > > > > Hi Ricardo,
+> > > > >
+> > > > > I'm not sure if this makes smatch happy but it somehow addresses the issue
+> > > > > it found. In the end it's up to the userspace to configure this
+> > > > > correctly...
+> > > >
+> > > > Smatch should be calmed now:
+> > > >
+> > > > https://gitlab.freedesktop.org/linux-media/media-committers/-/commit/c32fe4c4918c9aa49f61359e3b42619c4d8686de
+> > >
+> > > I dislike that because it's written simply to appease smatch and does not
+> > > properly even try to address a problem. Can you try to revert it once
+> > > this patch is merged? At the very least we need a comment on why that check
+> > > is there.
+> >
+> > I think instead of reverting the patch, I think it would make more sense to do:
+> >
+> > - if (offset > 65535)
+> > + if (WARN_ON(offset > 65535))
+> >
+> > I believe it would be safer, that way if the condition changes in the
+> > caller we will catch this error earlier.
+>
+> Is there a need for an extra check in the code if smatch can perform it at
+> build time?
 
-commit 5bf7bb0779b516dd1f8a081259395db55403d57c
-Author: Bingbu Cao <bingbu.cao@amd.com>
+There are no guarantees regarding how smatch will behave in future versions.
 
-media: update contact email of Bingbu Cao
+Also, smatch stops testing the code after some "effort", if the code
+is more complex it will not test it.
 
-The author has moved from Intel to AMD and is updating their contact
-information in the MAINTAINERS file. The commit also removes the author from
-maintainer roles for Intel IPU3, IPU6, and IPU7 staging drivers, while
-intending to clean up invalid email addresses in MODULE_AUTHOR declarations.
+The only way to be sure there are no errors is with asserts.
 
-> I left Intel and joined AMD, so update my email in the MAINTAINERS.
->=20
-> For the Intel IPU3, IPU6 and IPU7 staging drivers, I am not able to
-> continue the code review from now, so remove me from the MAINTAINERS
-> and remove the invalid email in MODULE_AUTHOR.
+>
+> --
+> Regards,
+>
+> Sakari Ailus
 
-[Severity: Medium]
-This is a pre-existing issue, but the commit message states the invalid ema=
-il
-in MODULE_AUTHOR is being removed for the IPU6 drivers.
 
-The old email still remains in the following IPU6 files:
 
-drivers/media/pci/intel/ipu6/ipu6-isys.c:
-MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-
-drivers/media/pci/intel/ipu6/ipu6.c:
-MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-
-Should this patch also include the updates to the MODULE_AUTHOR lines in th=
-ese
-IPU6 files to match the description in the commit message?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260601062950.1316=
-42-1-bingbu.cao@amd.com?part=3D1
+-- 
+Ricardo Ribalda
 
