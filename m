@@ -1,360 +1,305 @@
-Return-Path: <linux-media+bounces-63321-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63322-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kN3UA/PnHWp0fwkAu9opvQ
-	(envelope-from <linux-media+bounces-63321-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 22:13:39 +0200
+	id uPK3JJToHWp0fwkAu9opvQ
+	(envelope-from <linux-media+bounces-63322-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 22:16:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF3A624F1C
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 22:13:37 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A799624F98
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 22:16:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id E13503014B3D
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 20:13:34 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0138230297A5
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 20:15:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEB0C39EF3D;
-	Mon,  1 Jun 2026 20:13:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hgtwgt/x"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B1073EFD09;
+	Mon,  1 Jun 2026 20:15:35 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f80.google.com (mail-oa1-f80.google.com [209.85.160.80])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B979384248
-	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 20:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560AC346ADC
+	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 20:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.80
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780344812; cv=none; b=uKNqlXVH8tGznqaMeOpmphrmUrnK8/87Xhlfzdjt3REgm2FLHA4W6nfC0KjZY0L/8vjeko07d0ZXw48KkDLd8cE+IsTTK+r/oQwYsMOcdGkezIytppF2MUql9GkJUj/XX4GlSfDgMVDTuGzrDH5MjYrh8p2lPDMyeVGvT5hzOHY=
+	t=1780344934; cv=none; b=plwGMyzk0beVVyJsfhCiXEYIvnRD+bzIaiNASQTa49bromT3BagkbwwXr588ehFiBELbm65C8ETHxjxa7InejC/u4m/Z2rAF1VeZogS4ujb5mPHIyU80lnETgfS3i6tbqkTCuD+zf6a+0LhF/DqhbCjI1m7dvrwfW3p04XcqzAU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780344812; c=relaxed/simple;
-	bh=u0rX3sKGf4C5jo5LQEf/2FBOuXxAQYeVc8y1nGDtWDE=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=fql2JAQjc6Hd0kcJQSWYv4YN/9VAl9n2yls1GUYxDQyEQakeDB+PjB+dFt/Am2Fwk55ma3qGq7HNnan11zj+3QFL/txb1eEVU1KuDdFpiutWvfm2PPFEe93dN0U2o10Fj37YYHSy3fxsXeeY3ZStd89nu9YzlVBM3PMbq/U8Rzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hgtwgt/x; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6C191F00899;
-	Mon,  1 Jun 2026 20:13:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780344810;
-	bh=HWSPUBgngLhAY4SKqiAft6otrSrP1TLfmSB7ZiEjRvg=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Hgtwgt/xqMez/9dmDPHHMVkR9nwyTTo3RZfbnBFo3jvuCwdH/VgIxM9ldu2aEaDFn
-	 1OLv8Eu6hr6zxmshnWHn3OCzBKmahLaif0Z2SMUPwbpBtroHMPsP0nF9uEacd7ROlP
-	 PtqBHBaNqlqeY43CtgfbgI+yllxA7aw2uYgS1MUKvcm3k+NipJWaPk6XTOq2icraNB
-	 JwrVKe69aYRreVmKngL8+8zlnbBkO+nRalmIG4QIZe0wF8JFNCWfF/Hv6axwCxFRUA
-	 U/HU4G7mirxpc7Fjsa3bKVxmId4ReG09kU3e4gpo0TTqmrxQWyMzediEnLR55tMkji
-	 m2M3eYjowxO0A==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5] dma-buf: Fix silent overflow for phys vec to sgt
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "David Hu" <xuehaohu@google.com>
-Cc: linux-media@vger.kernel.org
-In-Reply-To: <20260601200012.3872274-1-xuehaohu@google.com>
-References: <20260601200012.3872274-1-xuehaohu@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 01 Jun 2026 20:13:30 +0000
-Message-Id: <20260601201330.B6C191F00899@smtp.kernel.org>
+	s=arc-20240116; t=1780344934; c=relaxed/simple;
+	bh=+g254+7Qgx5n0xq8L9o1RNi399Qkf1w8zvUZZsEy6s8=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=OMkQ7WYQVXYkMWhmG8l5+ZGg5mrU04Tb98mjb8Ujnt9oLQ5Jb/vvU4jhxK7eAN2mYolL9EzqTWVTOprKuDd5dUobsOmJMDfpNy0rGRiqbJ0w5hqWtJbkorqavncEOyX+V9ZlWh1dEoZJFFkdOU1or+ckJm137uaD9HyzHO/5tNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.80
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f80.google.com with SMTP id 586e51a60fabf-43cce4dad3aso1473838fac.2
+        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 13:15:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780344932; x=1780949732;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AbgNU9wV917JpgLW/r9KQyAbvW8yrBt6zmKcheEeKv0=;
+        b=CA5TUJlT97XMNt9t4KPK0ukW4AUu+yDWA7DtydRdJajPnK/1PkK9InEQOXV8ZdSy/a
+         DdyXruEh6h71oEUgWL0h4h3JDDm+pVXBZDFeUM5KQv9bc2DYIXWxLd0RrTP5BjGLS5aP
+         OzowIUEiJUNlrtqDOHH0KF7SOJVvYaMjlTKcGL9YJVEcrW9rcOiA/vLN9i7hqzqQhFB0
+         Cdswz8a4sdN91VqK0sGye6ZMl+E1RUGrhor7kJ2FxWhO8wyqX/JKSUcaiM/40MFkY+sk
+         oAfbOheQ6JuyzNCyEXcz58zipD2ruHQFwFzD1Agy7bEDWXQ9r3j9VB0W5j+t8pVASGcH
+         vo3Q==
+X-Forwarded-Encrypted: i=1; AFNElJ/ki64QyFChdFJJpxdoOow4SXM4gOF42zKQufC44MTP39TpiY7Y0j1e2ep8xT6Y6iMx9gmAzOLw5iiMIw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQvp22TtBBTurplmS1Ihn1vcw99nBB2ug7IpEGbyix3pfcHgL/
+	szjlJO+VXO4R8sCFolBKg0OvV7DmAUr9r1+KpVUojzTdcT4fg6Tyvlhw6ZyoOnILYuGaPU8hV0q
+	7x47g3kkmQK6Bpr0VefS+NkCr5yQjOCan+cC6U4Fu10YXVzUWw5bI0mnHmx4=
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	MISSING_MIME_VERSION(2.00)[];
+MIME-Version: 1.0
+X-Received: by 2002:a4a:edc7:0:b0:69d:96c5:4e58 with SMTP id
+ 006d021491bc7-69e1059eea5mr6241565eaf.28.1780344932373; Mon, 01 Jun 2026
+ 13:15:32 -0700 (PDT)
+Date: Mon, 01 Jun 2026 13:15:32 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a1de864.278b5b03.2bcf39.003b.GAE@google.com>
+Subject: [syzbot] [media?] KASAN: slab-use-after-free Read in em28xx_v4l2_open
+From: syzbot <syzbot+39ff299961a7c07f00f0@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spamd-Result: default: False [-0.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=4caf64b1ee83dac0];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63321-lists,linux-media=lfdr.de];
-	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWO(0.00)[2];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-63322-lists,linux-media=lfdr.de,39ff299961a7c07f00f0];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	NEURAL_HAM(-0.00)[-0.999];
+	RCVD_TLS_LAST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_NONE(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	NEURAL_HAM(-0.00)[-0.996];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_NO_DN(0.00)[];
-	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev]
-X-Rspamd-Queue-Id: 3EF3A624F1C
+	R_DKIM_NA(0.00)[];
+	REDIRECTOR_URL(0.00)[goo.gl];
+	SUBJECT_HAS_QUESTION(0.00)[]
+X-Rspamd-Queue-Id: 0A799624F98
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Thank you for your contribution! Sashiko AI review found 8 potential issue(=
-s) to consider:
+Hello,
 
-Pre-existing issues:
-- [High] The error path `err_unmap_dma` overwrites the failure loop index `=
-i` and unmaps uninitialized scatterlist entries.
-- [High] IOVA space allocated by `dma_iova_try_alloc()` is persistently lea=
-ked on multiple error paths.
-- [High] DIV_ROUND_UP(length, UINT_MAX) silently evaluates to 0 on 32-bit a=
-rchitectures for any length >=3D 2, completely breaking mappings.
-- [High] The error unmap path illegally calls `dma_unmap_phys` on split sca=
-tterlist chunks rather than the original contiguous mapped regions.
-- [High] dma_iova_link() is repeatedly called with a hardcoded offset of 0,=
- causing all physical ranges to be mapped overlapping at the start of the I=
-OVA space.
-- [High] Setting `orig_nents =3D 0` fundamentally breaks `sg_free_table()`,=
- permanently leaking the scatterlist array.
-- [High] Mismatch between accumulated `mapped_len` and provided `size` lead=
-s to SG table overflow and NULL pointer dereference.
-- [High] Splitting physical ranges exactly at `UINT_MAX` generates unaligne=
-d intermediate DMA segments.
---
+syzbot found the following issue on:
 
-commit e199cb367b5da0ba616a053228a5bf5567f3d335
-Author: David Hu <xuehaohu@google.com>
+HEAD commit:    6916d5703ddf Merge tag 'drm-fixes-2026-05-16' of https://g..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14c53a73980000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4caf64b1ee83dac0
+dashboard link: https://syzkaller.appspot.com/bug?extid=39ff299961a7c07f00f0
+compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+userspace arch: i386
 
-dma-buf: Fix silent overflow for phys vec to sgt
+Unfortunately, I don't have any reproducer for this issue yet.
 
-This commit changes mapped_len and nents to size_t to prevent silent=20
-wrap-around when accumulating lengths larger than 4G. It ensures sizes
-are correctly calculated and guards against UINT_MAX overflows.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/9b209d2c169e/disk-6916d570.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/260ba2c4b438/vmlinux-6916d570.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/f62bb45b9b7e/bzImage-6916d570.xz
 
-> diff --git a/drivers/dma-buf/dma-buf-mapping.c b/drivers/dma-buf/dma-buf-=
-mapping.c
-> index 794acff2546a3..607b7998463d0 100644
-> --- a/drivers/dma-buf/dma-buf-mapping.c
-> +++ b/drivers/dma-buf/dma-buf-mapping.c
-> @@ -10,7 +10,7 @@ static struct scatterlist *fill_sg_entry(struct scatter=
-list *sgl, size_t length,
->  					 dma_addr_t addr)
->  {
->  	unsigned int len, nents;
-> -	int i;
-> +	unsigned int i;
-> =20
->  	nents =3D DIV_ROUND_UP(length, UINT_MAX);
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+39ff299961a7c07f00f0@syzkaller.appspotmail.com
 
-[Severity: High]
-This is a pre-existing issue, but does DIV_ROUND_UP evaluate to 0 on 32-bit
-architectures?
+==================================================================
+BUG: KASAN: slab-use-after-free in dev_get_drvdata include/linux/device.h:927 [inline]
+BUG: KASAN: slab-use-after-free in video_get_drvdata include/media/v4l2-dev.h:491 [inline]
+BUG: KASAN: slab-use-after-free in video_drvdata include/media/v4l2-dev.h:523 [inline]
+BUG: KASAN: slab-use-after-free in em28xx_v4l2_open+0x57/0xa20 drivers/media/usb/em28xx/em28xx-video.c:2297
+Read of size 8 at addr ffff8880655d8330 by task v4l_id/11714
 
-On 32-bit systems, size_t is 32-bit. The macro DIV_ROUND_UP(length, UINT_MA=
-X)
-expands to (length + 0xFFFFFFFF - 1) / 0xFFFFFFFF. For any length >=3D 2, t=
-he
-addition overflows the 32-bit limit, wrapping around to a small value.
-Dividing this wrapped value by 0xFFFFFFFF yields 0.
+CPU: 0 UID: 0 PID: 11714 Comm: v4l_id Tainted: G             L      syzkaller #0 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/18/2026
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ dev_get_drvdata include/linux/device.h:927 [inline]
+ video_get_drvdata include/media/v4l2-dev.h:491 [inline]
+ video_drvdata include/media/v4l2-dev.h:523 [inline]
+ em28xx_v4l2_open+0x57/0xa20 drivers/media/usb/em28xx/em28xx-video.c:2297
+ v4l2_open+0x1bf/0x3a0 drivers/media/v4l2-core/v4l2-dev.c:433
+ chrdev_open+0x4cd/0x5e0 fs/char_dev.c:411
+ do_dentry_open+0x785/0x14e0 fs/open.c:947
+ vfs_open+0x3b/0x340 fs/open.c:1079
+ do_open fs/namei.c:4699 [inline]
+ path_openat+0x2e08/0x3860 fs/namei.c:4858
+ do_file_open+0x23e/0x4a0 fs/namei.c:4887
+ do_sys_openat2+0x113/0x200 fs/open.c:1364
+ do_sys_open fs/open.c:1370 [inline]
+ __do_sys_openat fs/open.c:1386 [inline]
+ __se_sys_openat fs/open.c:1381 [inline]
+ __x64_sys_openat+0x138/0x170 fs/open.c:1381
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f23334a7407
+Code: 48 89 fa 4c 89 df e8 38 aa 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
+RSP: 002b:00007ffc786a3720 EFLAGS: 00000202 ORIG_RAX: 0000000000000101
+RAX: ffffffffffffffda RBX: 00007f2333bc1880 RCX: 00007f23334a7407
+RDX: 0000000000000000 RSI: 00007ffc786a4f1a RDI: ffffffffffffff9c
+RBP: 0000000000000002 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000000
+R13: 00007ffc786a3970 R14: 00007f2333d28000 R15: 000055bf73e474d8
+ </TASK>
 
-Could this evaluate nents to 0 and skip the loop entirely?
+Allocated by task 24475:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __kmalloc_cache_noprof+0x31c/0x660 mm/slub.c:5419
+ kmalloc_noprof include/linux/slab.h:950 [inline]
+ kzalloc_noprof include/linux/slab.h:1188 [inline]
+ em28xx_v4l2_init+0x10b/0x2eb0 drivers/media/usb/em28xx/em28xx-video.c:2707
+ em28xx_init_extension+0x120/0x1c0 drivers/media/usb/em28xx/em28xx-core.c:1248
+ process_one_work kernel/workqueue.c:3314 [inline]
+ process_scheduled_works+0xb5d/0x1860 kernel/workqueue.c:3397
+ worker_thread+0xa53/0xfc0 kernel/workqueue.c:3478
+ kthread+0x389/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
 
->  	for (i =3D 0; i < nents; i++) {
->  		len =3D min_t(size_t, length, UINT_MAX);
+Freed by task 24475:
+ kasan_save_stack mm/kasan/common.c:57 [inline]
+ kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
+ kasan_save_free_info+0x46/0x50 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2689 [inline]
+ slab_free mm/slub.c:6250 [inline]
+ kfree+0x1c5/0x640 mm/slub.c:6565
+ em28xx_free_v4l2 drivers/media/usb/em28xx/em28xx-video.c:2287 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ em28xx_v4l2_init+0x1685/0x2eb0 drivers/media/usb/em28xx/em28xx-video.c:3078
+ em28xx_init_extension+0x120/0x1c0 drivers/media/usb/em28xx/em28xx-core.c:1248
+ process_one_work kernel/workqueue.c:3314 [inline]
+ process_scheduled_works+0xb5d/0x1860 kernel/workqueue.c:3397
+ worker_thread+0xa53/0xfc0 kernel/workqueue.c:3478
+ kthread+0x389/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
 
-[Severity: High]
-This isn't a bug introduced by this patch, but does splitting physical rang=
-es
-exactly at UINT_MAX generate unaligned intermediate DMA segments?
+The buggy address belongs to the object at ffff8880655d8000
+ which belongs to the cache kmalloc-8k of size 8192
+The buggy address is located 816 bytes inside of
+ freed 8192-byte region [ffff8880655d8000, ffff8880655da000)
 
-When a physical range exceeds UINT_MAX (4GB - 1 bytes), this loop splits it
-into multiple scatterlist entries. Because UINT_MAX is an odd number
-(0xFFFFFFFF), the first segment receives an unaligned length, and the next
-segment begins at an unaligned address (addr + 0xFFFFFFFF).
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff8880655dc000 pfn:0x655d8
+head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0xfff00000000240(workingset|head|node=0|zone=1|lastcpupid=0x7ff)
+page_type: f5(slab)
+raw: 00fff00000000240 ffff88813fe1b280 ffffea0001ddbc10 ffff88813fe19ac8
+raw: ffff8880655dc000 0000000800020001 00000000f5000000 0000000000000000
+head: 00fff00000000240 ffff88813fe1b280 ffffea0001ddbc10 ffff88813fe19ac8
+head: ffff8880655dc000 0000000800020001 00000000f5000000 0000000000000000
+head: 00fff00000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
+head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 24475, tgid 24475 (kworker/0:1), ts 2367631693947, free_ts 2367608772413
+ set_page_owner include/linux/page_owner.h:32 [inline]
+ post_alloc_hook+0x231/0x280 mm/page_alloc.c:1858
+ prep_new_page mm/page_alloc.c:1866 [inline]
+ get_page_from_freelist+0x24ba/0x2540 mm/page_alloc.c:3946
+ __alloc_frozen_pages_noprof+0x18d/0x380 mm/page_alloc.c:5226
+ alloc_slab_page mm/slub.c:3278 [inline]
+ allocate_slab+0x77/0x660 mm/slub.c:3467
+ new_slab mm/slub.c:3525 [inline]
+ refill_objects+0x339/0x3d0 mm/slub.c:7271
+ refill_sheaf mm/slub.c:2816 [inline]
+ __pcs_replace_empty_main+0x321/0x720 mm/slub.c:4651
+ alloc_from_pcs mm/slub.c:4749 [inline]
+ slab_alloc_node mm/slub.c:4883 [inline]
+ __kmalloc_cache_noprof+0x392/0x660 mm/slub.c:5414
+ kmalloc_noprof include/linux/slab.h:950 [inline]
+ kzalloc_noprof include/linux/slab.h:1188 [inline]
+ em28xx_v4l2_init+0x10b/0x2eb0 drivers/media/usb/em28xx/em28xx-video.c:2707
+ em28xx_init_extension+0x120/0x1c0 drivers/media/usb/em28xx/em28xx-core.c:1248
+ process_one_work kernel/workqueue.c:3314 [inline]
+ process_scheduled_works+0xb5d/0x1860 kernel/workqueue.c:3397
+ worker_thread+0xa53/0xfc0 kernel/workqueue.c:3478
+ kthread+0x389/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+page last free pid 19335 tgid 19335 stack trace:
+ reset_page_owner include/linux/page_owner.h:25 [inline]
+ __free_pages_prepare mm/page_alloc.c:1402 [inline]
+ __free_frozen_pages+0xbc7/0xd30 mm/page_alloc.c:2943
+ __slab_free+0x274/0x2c0 mm/slub.c:5612
+ qlink_free mm/kasan/quarantine.c:163 [inline]
+ qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
+ kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
+ __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:350
+ kasan_slab_alloc include/linux/kasan.h:253 [inline]
+ slab_post_alloc_hook mm/slub.c:4569 [inline]
+ slab_alloc_node mm/slub.c:4898 [inline]
+ __kmalloc_cache_noprof+0x2ba/0x660 mm/slub.c:5414
+ kmalloc_noprof include/linux/slab.h:950 [inline]
+ kzalloc_noprof include/linux/slab.h:1188 [inline]
+ vidtv_s302m_access_unit_init drivers/media/test-drivers/vidtv/vidtv_s302m.c:151 [inline]
+ vidtv_s302m_alloc_au drivers/media/test-drivers/vidtv/vidtv_s302m.c:198 [inline]
+ vidtv_s302m_encode+0x367/0x1880 drivers/media/test-drivers/vidtv/vidtv_s302m.c:408
+ vidtv_mux_poll_encoders drivers/media/test-drivers/vidtv/vidtv_mux.c:333 [inline]
+ vidtv_mux_tick+0x1358/0x24e0 drivers/media/test-drivers/vidtv/vidtv_mux.c:410
+ process_one_work kernel/workqueue.c:3314 [inline]
+ process_scheduled_works+0xb5d/0x1860 kernel/workqueue.c:3397
+ worker_thread+0xa53/0xfc0 kernel/workqueue.c:3478
+ kthread+0x389/0x470 kernel/kthread.c:436
+ ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
 
-Since hardware DMA controllers often require segment lengths and addresses =
-to
-be properly aligned, could submitting an odd-aligned DMA segment trigger
-hardware DMA faults?
+Memory state around the buggy address:
+ ffff8880655d8200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff8880655d8280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>ffff8880655d8300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                     ^
+ ffff8880655d8380: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff8880655d8400: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
 
-[ ... ]
-> @@ -36,7 +36,7 @@ static unsigned int calc_sg_nents(struct dma_iova_state=
- *state,
->  				  struct phys_vec *phys_vec, size_t nr_ranges,
->  				  size_t size)
->  {
-> -	unsigned int nents =3D 0;
-> +	size_t nents =3D 0;
->  	size_t i;
-> =20
->  	if (!state || !dma_use_iova(state)) {
-> @@ -51,6 +51,9 @@ static unsigned int calc_sg_nents(struct dma_iova_state=
- *state,
->  		nents =3D DIV_ROUND_UP(size, UINT_MAX);
 
-[Severity: High]
-This is a pre-existing issue, but on 32-bit architectures, will this also w=
-rap
-around to 0 for any size >=3D 2 due to the DIV_ROUND_UP macro?
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-This would evaluate nents to 0, which immediately fails the mapping with
--EINVAL in the new patch code, potentially breaking DMA mappings for buffers
->=3D 2 bytes on 32-bit platforms.
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
->  	}
-> =20
-> +	if (nents > UINT_MAX)
-> +		return 0;
-> +
->  	return nents;
->  }
-[ ... ]
-> @@ -133,6 +137,11 @@ struct sg_table *dma_buf_phys_vec_to_sgt(struct dma_=
-buf_attachment *attach,
->  	}
-> =20
->  	nents =3D calc_sg_nents(dma->state, phys_vec, nr_ranges, size);
-> +	if (!nents) {
-> +		ret =3D -EINVAL;
-> +		goto err_free_state;
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-[Severity: High]
-This isn't a bug introduced by this patch, but does jumping to
-err_free_state leak the IOVA space?
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
-When using PCI_P2PDMA_MAP_THRU_HOST_BRIDGE, an IOVA region is
-pre-allocated. The err_free_state path frees dma->state but never calls
-dma_iova_destroy().
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
 
-Could this persistently leak the IOVA space allocated by
-dma_iova_try_alloc()?
-
-> +	}
-> +
->  	ret =3D sg_alloc_table(&dma->sgt, nents, GFP_KERNEL | __GFP_ZERO);
->  	if (ret)
->  		goto err_free_state;
->
->  	sgl =3D dma->sgt.sgl;
-> =20
->  	for (i =3D 0; i < nr_ranges; i++) {
->  		if (!dma->state) {
->  			addr =3D pci_p2pdma_bus_addr_map(provider,
->  						       phys_vec[i].paddr);
->  		} else if (dma_use_iova(dma->state)) {
->  			ret =3D dma_iova_link(attach->dev, dma->state,
->  					    phys_vec[i].paddr, 0,
-
-[Severity: High]
-This is a pre-existing issue, but does passing a hardcoded 0 for the offset
-cause all physical ranges to overlap?
-
-Inside the mapping loop, physical ranges are linked into the IOVA space via
-dma_iova_link(). The fourth parameter expects the offset within the IOVA sp=
-ace.
-Passing a hardcoded 0 instead of the accumulated mapped_len causes every
-subsequent physical range to overwrite the exact same starting region.
-
-Could this corrupt the DMA mapping arrangement and break DMA isolation?
-
->  					    phys_vec[i].len, dir,
->  					    DMA_ATTR_MMIO);
-[ ... ]
->  	if (dma->state && dma_use_iova(dma->state)) {
->  		WARN_ON_ONCE(mapped_len !=3D size);
-
-[Severity: High]
-This is a pre-existing issue, but what happens if mapped_len exceeds size?
-
-The function emits a warning but does not abort execution, passing the larg=
-er
-mapped_len to fill_sg_entry(). Because the iteration count inside
-fill_sg_entry will exceed the allocated SGL nents, sg_next(sgl) will
-eventually return NULL.
-
-Could this lead to a NULL pointer dereference in the next iteration?
-
->  		ret =3D dma_iova_sync(attach->dev, dma->state, 0, mapped_len);
->  		if (ret)
->  			goto err_unmap_dma;
-[ ... ]
->  	/*
->  	 * No CPU list included =E2=80=94 set orig_nents =3D 0 so others can de=
-tect
->  	 * this via SG table (use nents only).
->  	 */
->  	dma->sgt.orig_nents =3D 0;
-
-[Severity: High]
-This is a pre-existing issue, but does manually zeroing out orig_nents
-break sg_free_table()?
-
-When the mapping is later destroyed, the code calls sg_free_table().
-Internally, __sg_free_table() relies on table->orig_nents as the loop
-condition to free the underlying scatterlist chunks.
-
-Because it is 0, will the internal while (table->orig_nents) loop immediate=
-ly
-exit without executing kfree(), silently leaking the entire SG table
-allocation?
-
-> =20
->  	/*
->  	 * SGL must be NULL to indicate that SGL is the last one
->  	 * and we allocated correct number of entries in sg_alloc_table()
->  	 */
->  	WARN_ON_ONCE(sgl);
->  	return &dma->sgt;
-> =20
->  err_unmap_dma:
->  	if (!i || !dma->state) {
->  		; /* Do nothing */
-
-[Severity: High]
-This is a pre-existing issue, but does the !i check incorrectly skip IOVA
-cleanup if linking fails on the very first physical range?
-
-If the mapping loop fails on its first iteration (i =3D=3D 0), the err_unma=
-p_dma
-handler hits this condition and skips dma_iova_destroy, leaking the space.
-
->  	} else if (dma_use_iova(dma->state)) {
->  		dma_iova_destroy(attach->dev, dma->state, mapped_len, dir,
->  				 DMA_ATTR_MMIO);
->  	} else {
->  		for_each_sgtable_dma_sg(&dma->sgt, sgl, i)
->  			dma_unmap_phys(attach->dev, sg_dma_address(sgl),
->  				       sg_dma_len(sgl), dir, DMA_ATTR_MMIO);
-
-[Severity: High]
-This is a pre-existing issue, but does this loop overwrite the failure loop
-index i and unmap uninitialized scatterlist entries?
-
-The error handling loop for_each_sgtable_dma_sg resets the index i to 0 and
-iterates up to (sgt)->nents. Because the scatterlist table was allocated at
-full capacity with __GFP_ZERO, unpopulated SGL entries have
-sg_dma_address =3D=3D 0 and sg_dma_len =3D=3D 0.
-
-Could calling dma_unmap_phys on these uninitialized entries violate the DMA=
- API
-and trigger IOMMU faults?
-
-[Severity: High]
-This isn't a bug introduced by this patch, but does calling dma_unmap_phys
-on split scatterlist chunks violate the DMA API?
-
-The code maps the full physical memory range dynamically using dma_map_phys=
-()
-as a single contiguous mapping. The helper fill_sg_entry() then splits this
-mapping into multiple SG list entries.
-
-If an error occurs, the cleanup path iterates over the scattered pieces and
-calls dma_unmap_phys() on the individual split chunks.
-
-Since the DMA API requires that unmapping must be performed using the exact
-contiguous address and length originally returned by the map function, could
-unmapping sub-ranges cause IOMMU state corruption?
-
->  	}
->  	sg_free_table(&dma->sgt);
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260601200012.3872=
-274-1-xuehaohu@google.com?part=3D1
+If you want to undo deduplication, reply with:
+#syz undup
 
