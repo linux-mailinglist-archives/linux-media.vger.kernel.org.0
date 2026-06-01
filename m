@@ -1,192 +1,235 @@
-Return-Path: <linux-media+bounces-63257-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63258-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iGxjL8+GHWrAbQkAu9opvQ
-	(envelope-from <linux-media+bounces-63257-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 15:19:11 +0200
+	id AL86M2eIHWrAbQkAu9opvQ
+	(envelope-from <linux-media+bounces-63258-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 15:25:59 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223E461FE49
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 15:19:11 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1135762001C
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 15:25:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3C5CB301015F
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 13:17:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 61694306E53D
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 13:22:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8E7B3A5456;
-	Mon,  1 Jun 2026 13:17:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7496C3A719C;
+	Mon,  1 Jun 2026 13:22:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ROGKoqDy"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="RpZTmavo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF99C365A0F
-	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 13:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780319848; cv=none; b=ns1dxujtkmaTHMrmPOj8PdoK1nQtmvjXOio2SBidD1kvIvlCNOrRHo0HILmWNlCNCxEKwCZf3X3+i7fovaWGCJmeXUoYFQF95HF6hEsXSvqc4ThCF/Kwy7BCTPx0qtgcygwUK7dB35h4NQO51Uvuu6LyJd8+pyPrPqzVYpU92Io=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780319848; c=relaxed/simple;
-	bh=kBOEceX6nlfs6Pp3Zd3F/KbshONwt373j4oBkiLw1pI=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C7533A48ED
+	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 13:22:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780320140; cv=pass; b=BRkKKbz/u5gaA/27a3t+PZlKJ2h6DSvBRTSNw3vlJ9IBrhM+oOK4FZXsCDft6jgPkU+zm8GLJXui+gjwNSQMI32AnxdHY9QCT7EdZbMuzl23Tn6YMbSg8z98ljyElINMRAxClpZKhbznrEmXKOENfnQXxeh5Q/bDwIEjI4ZRBzA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780320140; c=relaxed/simple;
+	bh=hooQptWzIagr10ERwCvMM3wIaAqGBRqHrg5Oq8PcGtU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RypABxTMDJreN16+ySj2sLeeH+U/NrvS2O4xCYq2B2a5byA5uKMAUmeiRImBkRvTQQE8L8feKL1dar0E8czmFnkPiqLb7+0frytDBeyI5vzjnT4dXHYCFcnmhG8MR+nsTzwWltC5rFe6kR1iP04YKYCYBOp4gq9n1GkLn4OqK44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ROGKoqDy; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-bed2b9bfa02so124396266b.1
-        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 06:17:26 -0700 (PDT)
+	 To:Cc:Content-Type; b=nweP5ZOpElsWWmyqlLL0D++jURD2/bn/WyR2oeROYpuy+pgjHQWPb95UNSn86Jtfvyd2FtXJD871nuKT9W7fNRlyFtUm+ENjVFgV2KXUN63IWKMs8eB75XDG9NuigSb3+Xystd7znbR9FreU9eUrIN+lyr9CHsNmyEjPzsizeY0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=RpZTmavo; arc=pass smtp.client-ip=74.125.82.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-137bd9ed2b1so984784c88.1
+        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 06:22:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780320139; cv=none;
+        d=google.com; s=arc-20240605;
+        b=hUBeU67dzELGRrno3cI7monQaO/Hj8jsAxQpCSA8RUfOW9EKDbaDtTa/M1L3bjKmKm
+         7H7CVsOODEI8R6Y0RmtXJZwUTX3+/IOZD6NLHrz3B0aVZPTjWl/VONER2idx389aMi7g
+         37+8lPRlBoa4j9seHqD22UhBM8UJ7AGRNXzp+aHIbShMakkDr4IP9PDnzVJuREZG5N0I
+         OQ/vCoNJndnScuNC5LgsnnjVmx7a29ubmHgryLhvq1YO0USebLgrm2zvRzurL3+7bDl3
+         gCD56Bp1PuvPhIR9wZM7SJg+/wbKsJx7WkhH7x8nL4gVVCmkdy+TApai1Rwss/djTQnS
+         LUUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=GdkOBdEWo+k8nIccYq3ePCwKTGzhNT9vQ5Dk5zhGNHg=;
+        fh=VDsr/UZaFMh1ipMOr758YTT8cmd0dEZEYK2NvOP/NLw=;
+        b=CUhIsevuXQP04aDs3y+E31tM5vQS60Y/cUkCGQHssfxOxWBfrXeVrPB2nwVHd0Sf+5
+         lebnfzYBBXDBp1Bn0u/c7dVoSnQsHjCgFSNsoePXIW3XZ4ZfepB90/puV5AXDrdoPK7S
+         UyYpMZHccoWtnsW3SO0tMUyKZHWiFgA5gEuDRj/eIt4qfITnnRhCce6AIOKVFGx2SP75
+         KpW0btUpDEKWnCQPotClGLsm+jfT2ic2Dh/b7a1kFv2ppR42bei77FlZ9kY70f9QlY/U
+         wyjS9hszcFShTqsKe+h4qZ9mdGas4ALMiyKWXJiT8YQOp4bdmKfU1nyU5Q1oy+5Kxfnv
+         gyXQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1780319845; x=1780924645; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=uoMWqAZZBMlv9sgOU55XmFaR14es/tLA5YGeL9J/rb0=;
-        b=ROGKoqDy0wvesC4e0pO5knOfaplb2nE1/nsyP0X5qdyQnsYXL+cteHdHSwbPQXk40R
-         EEME8/QmVCP66+K0Uh5wKqGHipLRl3qCRAM7DEIzDqi46yIZ5LFGxheORuyqT9afJg7+
-         7F7RlTwKC/zdRpFhgKj7NB3Cmh4W+hagbj1qk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780319845; x=1780924645;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20251104; t=1780320139; x=1780924939; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uoMWqAZZBMlv9sgOU55XmFaR14es/tLA5YGeL9J/rb0=;
-        b=aK2VXx9PLEeb8IUkwRFvwMSM5K+yCMVgYe/LfeMpEbp2Gp0/UQnQG/eCI961W0VU04
-         bKNCsmFJMOiD8KB8GMJIkQdV1Tiw8zaixxdLlcpRM2hFgY9QzN8oKQNjKJRwGpvcbx6t
-         4sYnuKQDQvXp3paQWeMKfJAf2zzIt5iMebiKB75rds96yGbTtTIbk2BVEAQcAxzBwV95
-         yrOW8iyaw9b2IZQxSSOspM3QhzJMpMIIz7Qi1k/1eywwT+YkqseFwZGQj3tXIn/b24qU
-         IQ2abpFGcckBN6J5kMT5AOS9MLuv7xCcjIHcenY/mNfsIZPciVZDy1B9RNiPjEx/nyek
-         G7eg==
-X-Forwarded-Encrypted: i=1; AFNElJ8RqdCECIDiPpsfojyILgdCMOrmmIvtjmiwTc0FlqAZxOsS4UJ4xv3VnPEtNNhWutHV69UF2xoFztggWQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxyz0biuTHInrow5jVmqTg2ZLN49498WomeVOaWu1OYs43aFwkB
-	NAnoKZisEBjCZLt179pO4O+0qDzVsBIOg1m4dEmRK5m44pEUf0OdeUKJFeazZl/nNFvHqxWDJ2r
-	fWCBnRQ==
-X-Gm-Gg: Acq92OHaM+zbAuxKjChvJLllDhUHhitN5gqSSdwsAkqvnjYdfm9cuypIfOPFkh/mKuj
-	Brvih3fHbDUvuw95YNLHPUgOoNYqHUquhDXrTmgAJVv6wi/teOErY6Kr7pq4UObt6wgRRw4uakQ
-	GrePxblLRg/lrvo9h1wTEq5RCwegJ9CqUEZ0JNT1/T32f7Gz4S9E6vtMCCfKcXjuqqR5Q/U1h25
-	YHBY6hTDVSiTzt1R+CaqqkHZvI1Fpmt9Z0xf4gTXN75yae+ZsgQ8mf6tDCBUFHk6AJ3DKKdwQ6Y
-	1XvBZoof07m3r/XjAAi41BlJ+SmGKS+N42IxDrzb+B9wgyKIUtd8Gp8Qyc4VSFRdSbzZVJWCr8x
-	vHpK9lyd4P2ZMo2/60RBbHjuGVM3VlzrkCt4j+h2bOFVtHWKHrrWB0QUbn8m1SiwO7IAFs8D0ud
-	SjeBBpMiyJ6/84Vle0XGWLr0SI4eJ4LeZwZTXrDvvrluCLafDHUK9GAOJ0R0OooT3v0YCRr9Q=
-X-Received: by 2002:a17:906:5a59:b0:bcc:e8f:c3a8 with SMTP id a640c23a62f3a-beab4f1ebfemr445945666b.29.1780319845018;
-        Mon, 01 Jun 2026 06:17:25 -0700 (PDT)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com. [209.85.218.44])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bec5e5be0d4sm166367766b.52.2026.06.01.06.17.23
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jun 2026 06:17:24 -0700 (PDT)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-beeba001887so16992266b.3
-        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 06:17:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+Vt82/AQ5YD5t3xGdm40IzofwRX/WmHsjgziW/vPiviqzl/llRvVsbwV1pAsmFxSNPAmtshko7smbNTA==@vger.kernel.org
-X-Received: by 2002:a17:906:ef02:b0:bdc:55dc:dd85 with SMTP id
- a640c23a62f3a-beab4f1fc2bmr628995566b.28.1780319841873; Mon, 01 Jun 2026
- 06:17:21 -0700 (PDT)
+        bh=GdkOBdEWo+k8nIccYq3ePCwKTGzhNT9vQ5Dk5zhGNHg=;
+        b=RpZTmavo956ZtrGLBURxCdltm1uxys/CS5K1PB0r4jhT7F96+mUxnJ3+lMLnZYb5Av
+         Irh2F5CUNfBgfqsiCT1AEjX4AW2bzdK74kDWDBwlAAkKQci1k68eGNxHUsqlM3jcluJm
+         pR46bhe7O0aDXbw9PDH9sRuNj0FswOj8FTSOoF9VgBfoivGejXTuUT0Sxj7Cq34MUB2k
+         Ork7aJk1CzHfJpqpcmImi8tmWTcDDRXAD0CUU6wbniiMDUbuppc9bu7vLe5seDIJYv8E
+         HlVPkcuAPfaD71oPjEMkDqhq9yZzCZK7mPFIECZnDToFl4XBNg4BD2091SA35pV+X+MJ
+         DHUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780320139; x=1780924939;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=GdkOBdEWo+k8nIccYq3ePCwKTGzhNT9vQ5Dk5zhGNHg=;
+        b=INdj80k1yWFof0WWMOaeU2739PapGl24hlf/8krcM52nTAmq7SZxq8sG5vPnNYveVk
+         exqIcgA9AMLIo81GojDVLs+4kCd781qwiBBeeDonmbWPaRAskRDUbZiCJ0DcYDonZ+jY
+         oIa+9zLpgwXW9gr8i/QW2wkLQ8ft8d65+0kOW8Yja+8OlsnF9GGtaSr2Ud65tZ17y1XY
+         cJXi/MTARCvDrOMJ6We2k9RMcRmqRkS+exINh29P4vPXwhNrb6B/BF0rS+ypBYEuc+bo
+         psSr4dxNnaD+duEvz5lESPi5x+V8LsewF6HD8qZFmYMjh98Ppm3Eo6qhtvv8O/uXc5uA
+         PbOA==
+X-Forwarded-Encrypted: i=1; AFNElJ9DqY1mc57eDXOAgOH5theqT73yIvuRWRvIvaRDq5lytA6Dy1IFbSqTqVwRLsppn8MkYanq3OR8SAn3gA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzX+hrQ5qhPrDrItdK2DRa7IJutFCvsyHpvxXBszJXc+feC/xc/
+	1i1XSQWlCyt0jkb3aJsPeM/fXawAp+5C2dl0pByu5AuFBlrut+lUpfK7GvuKARI49w05sA0AY6H
+	U7q9aHrRFjSyVzOexjtQDopW7vwrT6mvFg1F3D7xx
+X-Gm-Gg: Acq92OGqvl6HCnRw9DPluxPG80oTsKRKuuG7Tplc7Bft3c5NPXACKchvSvK2ijGP8uV
+	ii9vyPgabW4BaHfP6BD9Nke+DZf1AGJ0ZZPH1dfcR2GTfs8uMz/sGuFPa8sny2x2b/sT9bD/G1T
+	TcrA17VJ007hyKPenEHe8jw1gyhThmQZWpl3g0Mgc92saf/kqx9BNHM2goZBOOv3ESVaPKK+Glp
+	OGVrlBy6+qsM5/wL9YxqRjVkcjOFqcKQ3UCZWFCq7SdxgApzOD14F6cLWiw1yv6w7EsUy1sEomC
+	gi5PN6Z3ZNozfNWmRU08badV35xOBshHWzwPZ8Di5yMp3XhERMP8l7L1yc52IojxDox7AnaIKW2
+	dBWY=
+X-Received: by 2002:a05:693c:2c86:b0:2de:cc07:e99 with SMTP id
+ 5a478bee46e88-304fa49ce00mr5489017eec.7.1780320137881; Mon, 01 Jun 2026
+ 06:22:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <18d5b476-72d0-4a1b-9004-1669866f0d28@kernel.org>
-In-Reply-To: <18d5b476-72d0-4a1b-9004-1669866f0d28@kernel.org>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 1 Jun 2026 15:17:09 +0200
-X-Gmail-Original-Message-ID: <CANiDSCutbX-xxk8wkUBzkM6-6bR9JhkXY6D30dT5witRHtWDZQ@mail.gmail.com>
-X-Gm-Features: AVHnY4JRcRZ8cCQNlKpAHnc84MCTxQbtkj0t3YzmBabZ1jBmZLuG8EHK8_ypwOk
-Message-ID: <CANiDSCutbX-xxk8wkUBzkM6-6bR9JhkXY6D30dT5witRHtWDZQ@mail.gmail.com>
-Subject: Re: Fixes and CC to stable: proposal
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: media-committers@linuxtv.org, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+References: <20260530143541.229628-2-phasta@kernel.org> <20260530143541.229628-5-phasta@kernel.org>
+ <ah1glmXDM-OAKa5h@google.com> <0ea6b6fdd1e3f1e07445f17c0bf672524938dc85.camel@mailbox.org>
+ <ah19ZVkr7b3m7V_u@google.com> <3b216f24afb406b797b8bbb73b3f5c0eec2fdc6c.camel@mailbox.org>
+In-Reply-To: <3b216f24afb406b797b8bbb73b3f5c0eec2fdc6c.camel@mailbox.org>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Mon, 1 Jun 2026 15:22:02 +0200
+X-Gm-Features: AVHnY4LWfDXXY2MTx1DqLyh8Hxwl3ZS8C8Evk9p1Nisz1mt4W-Tdk9DBxhQXUfk
+Message-ID: <CAH5fLgiZb5fqfXGQMicPp+UbBi3JMN8ZNG_Ldt5KiSk+btVCSA@mail.gmail.com>
+Subject: Re: [PATCH 3/4] rust: Add dma_fence abstractions
+To: phasta@kernel.org
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, 
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>, 
+	Josh Triplett <josh@joshtriplett.org>, Uladzislau Rezki <urezki@gmail.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Igor Korotin <igor.korotin@linux.dev>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>, 
+	FUJITA Tomonori <fujita.tomonori@gmail.com>, Krishna Ketan Rai <prafulrai522@gmail.com>, 
+	Shankari Anand <shankari.ak0208@gmail.com>, manos@pitsidianak.is, 
+	Boris Brezillon <boris.brezillon@collabora.com>, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	rcu@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63257-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63258-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[37];
+	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,linaro.org,amd.com,nvidia.com,joshtriplett.org,gmail.com,goodmis.org,efficios.com,linux.dev,collabora.com,linuxfoundation.org,pitsidianak.is,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
 	NEURAL_HAM(-0.00)[-0.999];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 223E461FE49
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mailbox.org:email,zulipchat.com:url]
+X-Rspamd-Queue-Id: 1135762001C
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Hans
+On Mon, Jun 1, 2026 at 2:47=E2=80=AFPM Philipp Stanner <phasta@mailbox.org>=
+ wrote:
+>
+> On Mon, 2026-06-01 at 12:39 +0000, Alice Ryhl wrote:
+> > On Mon, Jun 01, 2026 at 02:26:17PM +0200, Philipp Stanner wrote:
+> > > On Mon, 2026-06-01 at 10:36 +0000, Alice Ryhl wrote:
+> > > > On Sat, May 30, 2026 at 04:35:11PM +0200, Philipp Stanner wrote:
+> > > > > +/// A trait to enforce that all data in a [`DriverFence`] either=
+ does not need
+> > > > > +/// drop, or lives in a [`RcuBox`].
+> > > > > +pub trait DriverFenceAllowedData: private::Sealed {}
+> > > > > +
+> > > > > +mod private {
+> > > > > +    pub trait Sealed {}
+> > > > > +}
+> > > > > +
+> > > > > +impl<F: Copy> DriverFenceAllowedData for F {}
+> > > > > +impl<F: Send> DriverFenceAllowedData for RcuBox<F> {}
+> > > > > +
+> > > > > +impl<F: Copy> private::Sealed for F {}
+> > > > > +impl<F: Send> private::Sealed for RcuBox<F> {}
+> > > >
+> > > > Why sealed? Just make the trait unsafe and require the things you
+> > > > require from the user.
+> > >
+> > > This is far better. We definitely only allow the user to pass A or B,
+> > > and only then it compiles.
+> >
+> > What if I have another type that I want to use here? For example, maybe
+> > I have a struct containing a copy field and an RcuBox. Or maybe I have
+> > an ARef<_> of some C type that uses rcu for cleanup. Then I must edit
+> > this file to add support for it?
+> >
+> > > The unsafe implementation could be messed up.
+> > >
+> > > I thought that's what Sealed is for. Or isn't it?
+> >
+> > Sealed is for making 100% sure that downstream crates/drivers cannot
+> > provide their own implementations. But I don't see why you need that.
+> > All you require is that the value remains valid for one grace period
+> > after cleanup begins. As long as the type satisfies that, you are happy=
+.
+> > An unsafe trait can require that sort of requirement from the user.
+> >
+> > I think what you want is expressed well by `RcuFreeSafe` from this
+> > thread:
+> > https://rust-for-linux.zulipchat.com/#narrow/channel/291566-Library/top=
+ic/Consolidate.20.60PollCondVarBox.60.20into.20.60Rcu.2ABox.60/near/5987267=
+24
+> >
+>
+> I guess this is a question of design principles. If you demand an
+> RcuBox, you have a guarantee that it's safe.
+>
+> If you demand an unsafe trait, you open the possibility for people
+> messing up.
+>
+> Due to the unsafe-contract you'd have moved the responsibility for the
+> soundness to the driver.
+>
+> I would not want to block your suggestion, but I am not sure whether
+> that's really the better design idea.
 
+Yes, it's a design principle. You are saying that if someone needs to
+do X but might get it wrong, we should take away the ability to do X?
+I fundamentally disagree with that principle. Unsafe traits is the
+tool Rust created for the exact problem you have; marking places where
+you should be careful is the entire point of 'unsafe'.
 
-On Mon, 1 Jun 2026 at 15:10, Hans Verkuil <hverkuil+cisco@kernel.org> wrote:
->
-> Hi all,
->
-> I talked to Greg K-H about whether or not a CC to stable is needed for a patch with a Fixes:
-> tag, and yes, if you want to get it into stable, then such a CC is required.
->
-> Since we never did that he just went through those patches himself and picked which should
-> go to stable, but obviously that's not how it should work.
->
-> There is no need for a CC to stable for fixes to patches that are not yet in the stable tree.
-
-Media-CI is already doing that. It checks if patches are o not in the
-the stable tree and block CI if needed:
-
-https://gitlab.freedesktop.org/linux-media/media-ci/-/blob/main/test-media-patchstyle.sh?ref_type=heads#L118
-
-
-> There is also typically no need for a CC to stable for e.g. Documentation fixes, or other
-> minor fixes.
->
-> In general in all other cases you do need to add a CC to stable.
->
-> So I propose that media CI just warns if there is no CC to stable for a patch with a Fixes
-> tag and if that tag points to a patch in the stable tree. And that it is the responsibility
-> of the media committers to check if the CC to stable is missing and add it.
-
-By warn you mean making this check optional (like checkpatch) instead
-of mandatory (media-patchstyle)?
-
->
-> Now, one problem is that it is very easy to fail to check the Media CI output if it passes.
->
-> I use a small check script (attached) that runs checkpatch and performs a bunch of sanity checks.
-> I run it over the patches I am about to push to gitlab and go through the results. First are the
-> checkpatch results, then at the end are the extra sanity checks. This avoids mixing the sanity
-> checks with the checkpatch results, which would make it easy to miss warning like a missing CC
-> to stable.
->
-> It's very efficient to be able to do these checks locally before you pass it to the CI.
->
-> You probably need to edit the script a bit since it checks if my Signed-off-by is present (I'm
-> embarrassed to admit I've forgotten that once or twice...). Obviously, as committer that
-> should change to your name.
->
-> Comments/questions?
->
-> Regards,
->
->         Hans
-
-
-
--- 
-Ricardo Ribalda
+Alice
 
