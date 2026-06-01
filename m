@@ -1,927 +1,258 @@
-Return-Path: <linux-media+bounces-63242-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63243-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gGVVEAt9HWrEbAkAu9opvQ
-	(envelope-from <linux-media+bounces-63242-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 14:37:31 +0200
+	id IMggGjp9HWrEbAkAu9opvQ
+	(envelope-from <linux-media+bounces-63243-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 14:38:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78A8D61F5C0
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 14:37:29 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id D57ED61F604
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 14:38:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 439EC3024C85
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 12:26:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 189B83066648
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 12:33:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 433D0377ED4;
-	Mon,  1 Jun 2026 12:26:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEB553793C5;
+	Mon,  1 Jun 2026 12:33:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="stI48f5M"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="FrmGa0Ia"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from SY5PR01CU010.outbound.protection.outlook.com (mail-australiaeastazolkn19012012.outbound.protection.outlook.com [52.103.72.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C011E157A5A;
-	Mon,  1 Jun 2026 12:26:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780316801; cv=none; b=WjXsvwie/SN3VCJEOVH3dAKpIl0r09Gb6ZfB9B26DN0kAMxf44LWfb88YFaNUW5DWaQdorTPbJW2WeAkSPLqi5e3oV1BvRYbj8NSrL4PtqOgZF1/JiyZX0D7XnS8AeWAuta3DpPAmNenVmXWxYAWl76FTFnLJ9VU7rUYPXtVhqE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780316801; c=relaxed/simple;
-	bh=LS+slmgO5HZ0Y3DTP8mjTOSFx/DFx25e5GzMD3WZ44I=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=YMcoxElLWgIZLxslGzaHnOkz6sEJtnCSUcG9hJ8ENvQC18e8YH45nyHy/cs7Bm+OgNa6X3oC8GOMtamAr6WRSDLHGkgOPLjruQrxAllAASwJ3U9cwluMXxmMaWXpFflTZQ0kcQuwTOKi5OcM7GHQxcEZjQkjcQ12W4dmKNDSXYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=stI48f5M; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gTY9Q1x1Cz9vGh;
-	Mon,  1 Jun 2026 14:26:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1780316794; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=avIxQUvlEWX3JSCUpU9paY49lx8qTyAL3uSCpzVZXao=;
-	b=stI48f5M72U6Ji4QPECnByaBhxMM7+0lrb+jI8biRiUq7aN3KB26UhqC/L02WfTqDqS7CJ
-	2AAbZnydrRhSAzF6IqWHSXl/bm6e2tDzFkz/QBvcSuVK9JuYbl2g4opU7ylVL/tShgx8lT
-	R4Y4WGf9ILdA4UR3cwnueUWWHVAwMzh/QVv53a+OUea5DbBS0irAuDZhsTG5PFKyfjzqoF
-	cIkGtiAPm9m2LNEm5LAQV+iJkUrPKoMC4OJ52M7lrmUUd9/OF5bpfUtRdrIHuVE7wL/wOt
-	f8dHMwawcz89ybjcvZ2avef2s4XbcNP/zZotTgv/afjRFlsZhpWMSilpn5W5Sw==
-Message-ID: <0ea6b6fdd1e3f1e07445f17c0bf672524938dc85.camel@mailbox.org>
-Subject: Re: [PATCH 3/4] rust: Add dma_fence abstractions
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Alice Ryhl <aliceryhl@google.com>, Philipp Stanner <phasta@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo
-	 <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron	
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
- Hindborg	 <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, Danilo
- Krummrich	 <dakr@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?ISO-8859-1?Q?K=F6nig?=	 <christian.koenig@amd.com>, "Paul E.
- McKenney" <paulmck@kernel.org>,  Frederic Weisbecker	
- <frederic@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Joel
- Fernandes <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>,
- Uladzislau Rezki	 <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
- Mathieu Desnoyers	 <mathieu.desnoyers@efficios.com>, Lai Jiangshan
- <jiangshanlai@gmail.com>,  Zqiang <qiang.zhang@linux.dev>, Daniel Almeida
- <daniel.almeida@collabora.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Igor Korotin <igor.korotin@linux.dev>,
- Lorenzo Stoakes	 <ljs@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
- FUJITA Tomonori	 <fujita.tomonori@gmail.com>, Krishna Ketan Rai
- <prafulrai522@gmail.com>,  Shankari Anand <shankari.ak0208@gmail.com>,
- manos@pitsidianak.is, Boris Brezillon <boris.brezillon@collabora.com>, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, rcu@vger.kernel.org
-Date: Mon, 01 Jun 2026 14:26:17 +0200
-In-Reply-To: <ah1glmXDM-OAKa5h@google.com>
-References: <20260530143541.229628-2-phasta@kernel.org>
-	 <20260530143541.229628-5-phasta@kernel.org> <ah1glmXDM-OAKa5h@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C03D835FF5B;
+	Mon,  1 Jun 2026 12:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.72.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780317226; cv=fail; b=gn2LGTOu/9r6RodYMdEkVqCHi5t/FVwwQMntve4AO1IoynKAZ4JXWKxsiVIc0pUPQe5FfFETxtRvOVsaY6NeACJDaG0St1pH4GTMouyvHrCDR/p+kq7TYNEGeGCjjnqpfdtTYj+MJMC5YSJ/GV2gGEg5VkDRM3GmyOcYv/uQmnE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780317226; c=relaxed/simple;
+	bh=P8CBGXJh4eQoXgCCKj/JKMrR47OiY9z6al6rITHl5ss=;
+	h=From:Date:Subject:Content-Type:Message-ID:To:Cc:MIME-Version; b=doSxyeDyXAeNX5sJvGRiK8Lx+m2qmukag3qyfW+RkW50lR+jh2tj0ZvzH1GOuQEfjewbk5tz1R/FaU73q7xGpcMu4Xrk+T3qEiQ8rDdMGY+r9lziA+5xTFIZawe2ts1cAXw2neqHc0axFOJOhaLQg2ljYcm5bnIlSzfv+sTTNNk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=FrmGa0Ia; arc=fail smtp.client-ip=52.103.72.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gy/RcVR26OolG+3+ToB0ZUoEC9aoHjRWVrVyTrB0MRmpXRb+H6WHvDbyMdwf02IHbXNJAkoo+aUsQzrKYVl054H+L8sGmXrStmg+2Pg5e145AduYSud4JPpUDU+NFtBeM7Z7kfkawwt6T38y1/Jpk51R8+RTnM0NE2Yyxw5AUMTM8+YUPcvKYoczv80mZDsT5qkblpAjbUMe+Q48qTaIDgd7OxESZ+vcOFZUji5iqKZ/0YYoPhIEY9Zkubc0aVbdy6FrOz8KZHUbFb+9q/RuG8fH1n3TC6zmzrT2fJyJXMNS5jZsNEHf2ezF6QmwPUfcyefZJoRKpHs4pGLNgHrmAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sk3bUb3Y2XkS3LvYZw9ZH4aiWxDT35xKsqXIHS41Cu0=;
+ b=tG17VN7/WpJDGeuFqLcvnL9SDVfkL2fxpfEOsyi3HPdf0xaC+X9OeJL+MBY8mmNbSkzpJtHnrIamZRNw1+CrkQqNRcGGCT+rlMH/eYtDEg/Rt8QAuMz2wcvnK+XEa26rB77TR+UdyAzRxr7y4hfD31KapjVSGEnuw6OHg1Qh/gHpDHWGhKCP/Q39hCzxKj03/73MvPLjXsCIlwbEB6ZN+5YglWmqQNE6OE0c1CpWuYKuxHkfY9TyC8FN8H5qxedAJA+ubJR3GsaCP/4l54ICpulImK7KrebCI/fCn/6Oivizlftn22aVqHIHmd6KrWKgsEAW+KnFSmXBD+URh5aPVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sk3bUb3Y2XkS3LvYZw9ZH4aiWxDT35xKsqXIHS41Cu0=;
+ b=FrmGa0Ia8+10bw7oksuOqnS+7iAvrahpTiHHx6T6qWUb7UwnlhprHeHs/XfFTEs2ZD+ZknudM3lopjrONFDxCHojWCXtiapSSIPuqFzmhngHKIr6JhTrOrlseKMQhUuske+m7fpwSMo6lR12so3TqyfgRvMR+tyKQ99/oQXsQyN7fHf2IXHvgQvZWXeaEuQDfz0qwMcUn2EnPvNU0K/e/8x3DDKgtgvGGeBYVgsAindSHflhrePqtQJo1XII0JovPxoKbe9HPUkgvJxa6HufCbUb9udeGU1Y2m70I55/F45wFzKHhiEC1P1Zb4INYXRxd3pOxjeWEaxP2c5YukyGWg==
+Received: from SYBPR01MB7881.ausprd01.prod.outlook.com (2603:10c6:10:1b0::5)
+ by MEYPR01MB6328.ausprd01.prod.outlook.com (2603:10c6:220:106::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.17; Mon, 1 Jun 2026
+ 12:33:39 +0000
+Received: from SYBPR01MB7881.ausprd01.prod.outlook.com
+ ([fe80::7cd2:d6e8:3fa0:5f0c]) by SYBPR01MB7881.ausprd01.prod.outlook.com
+ ([fe80::7cd2:d6e8:3fa0:5f0c%3]) with mapi id 15.21.0071.015; Mon, 1 Jun 2026
+ 12:33:39 +0000
+From: Junrui Luo <moonafterrain@outlook.com>
+Date: Mon, 01 Jun 2026 20:30:58 +0800
+Subject: [PATCH] media: vicodec: fix out-of-bounds write on capture buffer
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID:
+ <SYBPR01MB7881A4E2AC434488ABFA775CAF152@SYBPR01MB7881.ausprd01.prod.outlook.com>
+X-B4-Tracking: v=1; b=H4sIAIF7HWoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDMwND3bTMitRiXRNTo+RUS4sUc7MUCyWg2oKiVLAEUGl0bG0tACnyDFp
+ XAAAA
+X-Change-ID: 20260601-fixes-452ce98d76d8
+To: Hans Verkuil <hverkuil@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Dafna Hirschfeld <dafna3@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, 
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Yuhao Jiang <danisjiang@gmail.com>, stable@vger.kernel.org, 
+ Junrui Luo <moonafterrain@outlook.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2052;
+ i=moonafterrain@outlook.com; h=from:subject:message-id;
+ bh=P8CBGXJh4eQoXgCCKj/JKMrR47OiY9z6al6rITHl5ss=;
+ b=owJ4nJvAy8zAJVb4wiKgu++DA+NptSSGLNnqxqKnq5cI7vv+8ydzwfJ8F5NPH4oWLankTTDgy
+ ZiX/c+sOrejlIVBjItBVkyR5XjBpW8Wvlt0t/hsSYaZw8oEMoSBi1MAJvL5BcP/mo8h8/bnPLVV
+ 85nKLVJX+a9U7enVzT/2iyxZz+nrMN99J8P/gKtzfnHe+bet5nnuTUan9VOe/l3ydFPRl41Z+Rl
+ pGwUDuAC/gFDV
+X-Developer-Key: i=moonafterrain@outlook.com; a=openpgp;
+ fpr=C770D2F6384DB42DB44CB46371E838508B8EF040
+X-ClientProxiedBy: TP0P295CA0022.TWNP295.PROD.OUTLOOK.COM
+ (2603:1096:910:5::18) To SYBPR01MB7881.ausprd01.prod.outlook.com
+ (2603:10c6:10:1b0::5)
+X-Microsoft-Original-Message-ID:
+ <20260601-fixes-v1-1-288c3958249b@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: qrmakmejsetibj5wsyabmf9ktj44dn6u
-X-MBO-RS-ID: d412ede241c30a33045
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SYBPR01MB7881:EE_|MEYPR01MB6328:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1bbd5634-b1b9-4d3a-28d5-08debfda0229
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|5072599009|6090799003|15080799012|23021999003|5062599005|55001999006|41001999006|24021099003|24121999003|22091999003|8060799015|19110799012|3412199025|440099028|52005399003|40105399003|1710799026;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?a2E4T1FUWERjSjh2dWNwY3J6aWt4VjhMRWdMSlZ0c1RzQXhGaWs2L3ZtTU10?=
+ =?utf-8?B?RWg5RWVLakhuUWlib09iREV3UGJET21JbVZCdTVQbFBROGE2SFdaL1pwVzdw?=
+ =?utf-8?B?cjVoQzVUR2pKZm4vdzZ3VU9Qa2lqeTRGd2w1emwrdTFhV2lNK2dDd3M4NFp5?=
+ =?utf-8?B?Ny9hMVRQT3RzU3lVOW1vTWlpUXdYTmZnR1g4TlpCNm5jNGVWbTlRZ3N6Wjhr?=
+ =?utf-8?B?Q29vSTdxa01zSkNvVUVyV0QwUmk0eUowaENoTVlONENwWnFOY2dqNUV1cFhK?=
+ =?utf-8?B?cVgvMDBjMkt4U0xlSElINzdzYmUxamg5RURDMytxTnZ6Um1HNGQ4NEI4VEpH?=
+ =?utf-8?B?R09sUURlK01CZlFZZTRzcWkremlyUU1oSURDS21MWjM0aVUvY2t4VTlHQy9r?=
+ =?utf-8?B?WGt2TjE3V0wyR1FMZUppZzdBY1N4S0JUbXlMWGhLZjVnMnd3bFczTzEzbXk3?=
+ =?utf-8?B?SGJ0Q0xha2MwbkNhemk0UGxHcXd3TXB4eEduRGpHbFc1Ymk3dGhYNngvL3I3?=
+ =?utf-8?B?RzZ0VVpYWE42UUJHMGJHdEVLTFhxYmI4a1c1cFRZdTB5QTlUOVY3SjhuK2Vw?=
+ =?utf-8?B?ZTRLbUZQVTlranlOVUtDdHZiMmg5eHpwaE5XRitQOSszeHNLV2RDUStPeHk0?=
+ =?utf-8?B?bHYxQ1JwS094Y2QxZURlRlg4VUFOUzBEcGU1dm9HYmdpcmZLR3Y4bndKdWZW?=
+ =?utf-8?B?QllydzBSY3Jvd0xtQ3JTbUpoWjRvNUxua1NWVkxjVWhTVUNOVDN5RzNJQ2ZW?=
+ =?utf-8?B?UWd4eURBWWtLaWVuV0IvZUJZUXJweGZYWC9DV0E3TWVzZ0QzblpJNXBnZkIr?=
+ =?utf-8?B?Zld4OTRWeGoraUxJQkZ2bThjYnhFT1cxaGZrYjgzMStkcW84bXozVHhpbmhE?=
+ =?utf-8?B?MVhBanFGZXZteWx5aDlNc3phZnlJVDVpTHFIR1lzOTFaTHkrSzByWE9WTWpm?=
+ =?utf-8?B?bjRyRFAzS0JlekE5V3llNmduODYzRUYzS3Z0MzdQSjBlWmc0NHR1cTJYSDFX?=
+ =?utf-8?B?c3M1aXR6MW1wbCtXS3ZzRVJQM25WdG16ZC80aCtRMmsxSmFjOXViaHZpc3g1?=
+ =?utf-8?B?MEhJS21RTzJxTEpkUFVicnYyYUV0YklRZU9DbStCcTRiMnA3QXFCZk1pcXRX?=
+ =?utf-8?B?WndxVmU2bjlxMEt6dkg3bkgxeHpwT1VLNzcwK0Y1cXdwMGlOL1o2K0JlcDRR?=
+ =?utf-8?B?TVhyVy9SQUVXSHQ0K1gyRmJxSzRaY0tzaGYrUnpvRmxKQWxDTjlqbVI5VG1h?=
+ =?utf-8?B?UFB5SjUvZXo5cnJkSk5DVEthd09yZTA4QWtYZDdKRTZubjhFMk04bkw3dlRq?=
+ =?utf-8?B?a1lXM2NMYjJyYnJEUnkvSzl6SW9EMGpsbXNNcVlTTkF4OVpKSkFpd29GR0FY?=
+ =?utf-8?B?SGwrUVlqUkErWFNBYWcvdWZ1RXpIeGtYT01odWZvYnRDQjNsenp4VWg5NkYv?=
+ =?utf-8?B?ZFFvclRwdlhIODVYY3F0Zi9taUZ0RGFsZ1Jia3VlTlI4TEZyaXFpSm1jRnQr?=
+ =?utf-8?B?OEFCdGRLUHhOc0ZJblRUWStnODJnWVlMbUlKSVVJdE5vZ0p3d3VhMmQ2OEEr?=
+ =?utf-8?B?SUpQZz09?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QnNIbFZxZEZ4YnVQTm1wL2J2a2lEMTZybHNFY2M4U3pRSjRlOEJSMUlQTzlm?=
+ =?utf-8?B?amNUT2kxVHlGTmRmOVdiS1g5YXBXMDFFNUp3QUk0d1NBT1hPWXcvcHNWN1Nj?=
+ =?utf-8?B?aXhFZDF1b0ZsTTNuNm0xNmVQVExnQVlSNG5neWJWNjNTUjVyUmRLd1VLQUtK?=
+ =?utf-8?B?c2hEY3ZPL3h1dTRRVk8zVUZmWEMyT0hBRjBwNXN1OGlBUVc0YmlCYmk5T1lv?=
+ =?utf-8?B?cDhNNjR1b2dPM3FzMnZtWWRXSFFTdWNIZy85dW8rOTFlYTJ1L1IzL0paMTZZ?=
+ =?utf-8?B?aHBIS0Y2cEUveGloTDI1TTVIZXd0a1IydHBNVWNXNUI3UFRRRXlQOCtzbVpz?=
+ =?utf-8?B?YTZ6eCszMktwQ1B6TzdGOGJyNlZpMUJkcTd4bjNkNHBHeUFhZXoyTmxNdk5z?=
+ =?utf-8?B?L0VCNXdBR01rcWYzMHYyMWk1RW9iay9QUGYwaGlrWWU5bGtrRWdEL2RZUEFq?=
+ =?utf-8?B?cWduM3NzZzBhanR5Q3ErV3hQZXloczhCQjllSEFNNzRxVGtYSGxiVURxU1Zl?=
+ =?utf-8?B?WXBVMmo5TlpGYk1KN1UxVTJJTEV2Zk1Wemp0SnZ3ZG5WbTFrOWdXKyt1L08r?=
+ =?utf-8?B?ZGo2cElUanlyeDRhL0RpeHNiaUt4VlhSbjU4T29qbHFsRkdLa3dHNUx1djFX?=
+ =?utf-8?B?b1k0aFFvODE2VEYzQTE1OXBCelBqSnFrQ01lTm83WEdadHNKTDZCaGlrZDZw?=
+ =?utf-8?B?VE9FRmZhMlFZaXoyZS9yQ3Bmbm9OSkhHM2ZuTXY2Y1FxakV6eUZQaGdCaHVY?=
+ =?utf-8?B?WjBqNHhBaHlTMERSSmZnM0lHMnE3UHlMY1U2c0V2djZsOStYbnl0MHBiTVpE?=
+ =?utf-8?B?enZoK0NSMVIwOGk0UVVicEdtNU9oMlFNSDE1Qm1ucHU2eFBaQ2FJSS9PMTJn?=
+ =?utf-8?B?dHdJUmhKV0laS0YyRzUvTE1iK3RsOWVpREp3MElQYmV5bk5VcmtZOThEOUVh?=
+ =?utf-8?B?MXNSenRIZDZtQnRlRERsaVpLQ3lseTVXVGlJcDNkRjVtUzhYb3hnWWtlU2FC?=
+ =?utf-8?B?dHFWaTV5NCtNbjZxR0VEZzk3Q2hPQXYrWUZWUldaK2xZTElJeHlqZDFoUitr?=
+ =?utf-8?B?cWpSQk9QZFRqRkkzdkZORHNqa2lDWGVXeDNpc2pjWW0wMktSZlJYVnl4NjFH?=
+ =?utf-8?B?SEdZLzAvVDBYVnJNMFRRbHgvcmhWUzF5Q1NqTGZidGtKNlpHUlczNXRmVmxu?=
+ =?utf-8?B?SStSWlVKdjNEd21zU1RyMzgyd2J2c0IzazRiMFFXWXZwcUU2b0lWUm9vU3h2?=
+ =?utf-8?B?VEo3NEViSWs4NXBlTDF6QW5oM3VQdWFRQlpSVHB2WTlMUEdPZmJ2WUJwMnNh?=
+ =?utf-8?B?eHJoNzhPbTljNlZCR21WQkNDYVN5Tnk2VFBkOVFucDVrZFE0M2R6N1MzdEFl?=
+ =?utf-8?B?aUcwZVQxVmsxN3pDQjJaYU56SGFYMEFSdUNoTkY2aDJVMGJYRG9sWmEwcC92?=
+ =?utf-8?B?dUxVbVh0bTRhbXZiaXF0em1GejBFSytERUl1U0d2SHUvRVJQQXRUcUM5aWlp?=
+ =?utf-8?B?SUZpZ1hmRXZsRmQ3YjllWW5qdU1RblJXbFNYRkdoeFd3VWpRellUd3BQODRk?=
+ =?utf-8?B?enU4U2JMVkJBdndFTTZ0TWFVRE5HQnQydFp0c0J4cjFMbXIwNWlOaHF3WUg5?=
+ =?utf-8?B?c2tKU29kN0FXTU9QejdqRjRzVVJUYSs0MlREaXQxZ3hwanBWL0NrOU4xWm92?=
+ =?utf-8?B?TjA4dXpES1IzUHZOMUhNbGNSZVliaG1RVk9uS1k1ZmIzZ2Z6MXNJeFJsOXhG?=
+ =?utf-8?B?V1JJbFBqVktEZTR3ZU9sRzg5SVhHOW9ZS29RSVhvSDh0ZDYzamx2RHZLL0lh?=
+ =?utf-8?B?Y3dVQVdVN2RTcU13d253NERzZG1TanVEYlRWb1NidGo4cVRFa1dWUVBNbGE0?=
+ =?utf-8?B?a1QzTUhiMUxmV3hNTmwxay9UWGgvM3MzanNQeTFmazc0T2c9PQ==?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1bbd5634-b1b9-4d3a-28d5-08debfda0229
+X-MS-Exchange-CrossTenant-AuthSource: SYBPR01MB7881.ausprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2026 12:33:39.6613
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MEYPR01MB6328
+X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[outlook.com,none];
+	R_DKIM_ALLOW(-0.20)[outlook.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-63243-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63242-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,gmail.com,outlook.com];
 	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[38];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,linaro.org,amd.com,nvidia.com,joshtriplett.org,gmail.com,goodmis.org,efficios.com,linux.dev,collabora.com,linuxfoundation.org,pitsidianak.is,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	MID_RHS_MATCH_FROM(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	HAS_REPLYTO(0.00)[phasta@kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mailbox.org:mid,mailbox.org:dkim]
-X-Rspamd-Queue-Id: 78A8D61F5C0
+	FREEMAIL_FROM(0.00)[outlook.com];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[moonafterrain@outlook.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[outlook.com:+];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,samsung];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,outlook.com:email,outlook.com:dkim,SYBPR01MB7881.ausprd01.prod.outlook.com:mid]
+X-Rspamd-Queue-Id: D57ED61F604
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Mon, 2026-06-01 at 10:36 +0000, Alice Ryhl wrote:
-> On Sat, May 30, 2026 at 04:35:11PM +0200, Philipp Stanner wrote:
-> >=20
+The vicodec stateful decoder handles its first resolution change in
+vicodec_buf_queue(), which calls update_capture_data_from_header() to
+set q_dst->sizeimage to the new, possibly larger, format. Unlike a
+subsequent change in job_ready(), it does not set ctx->source_changed,
+so the m2m scheduler still runs a job. buf_prepare() validates queued
+CAPTURE buffers against q_dst->vb2_sizeimage.
 
-[=E2=80=A6]
+A CAPTURE buffer allocated before the source change still passes
+buf_prepare(), and device_process() then decodes q_dst->sizeimage bytes
+into it with no clamp to the buffer's actual size, leading to a
+controlled-content out-of-bounds write past the vmalloc-backed capture
+buffer.
 
-> > +use pin_init::pin_init_from_closure;
-> > +
-> > +use core::{
-> > +=C2=A0=C2=A0=C2=A0 marker::PhantomData, //
-> > +=C2=A0=C2=A0=C2=A0 ops::Deref,
-> > +=C2=A0=C2=A0=C2=A0 ptr,
-> > +=C2=A0=C2=A0=C2=A0 ptr::{
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 drop_in_place,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 NonNull, //
-> > +=C2=A0=C2=A0=C2=A0 },
-> > +=C2=A0=C2=A0=C2=A0 sync::atomic::{
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AtomicU64,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ordering, //
-> > +=C2=A0=C2=A0=C2=A0 },
->=20
-> Use atomics from the kernel crate instead.
+Guard the write at the decode site in device_process() against
+q_dst->sizeimage, the number of bytes the decode actually writes. The
+destination buffer is completed with VB2_BUF_STATE_ERROR by the existing
+device_run() error path.
 
-OK.
+Fixes: 3b15f68e19c2 ("media: vicodec: Add support for resolution change event.")
+Reported-by: Yuhao Jiang <danisjiang@gmail.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Junrui Luo <moonafterrain@outlook.com>
+---
+ drivers/media/test-drivers/vicodec/vicodec-core.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
->=20
-> > +};
-> > +
-> > +use bindings::ECANCELED;
-> > +
-> > +use kernel::str::CString;
-> > +use kernel::sync::{
-> > +=C2=A0=C2=A0=C2=A0 aref::{
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ARef,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 AlwaysRefCounted, //
-> > +=C2=A0=C2=A0=C2=A0 },
-> > +=C2=A0=C2=A0=C2=A0 Arc,
-> > +=C2=A0=C2=A0=C2=A0 ArcBorrow, //
-> > +};
-> > +
-> > +/// VTable for dma_fence backend_ops callbacks.
-> > +//
-> > +// Mandatory dma_fence backend_ops are implemented implicitly through
-> > +// [`FenceCtx`]. Additional ones shall get implemented on this trait, =
-which then
-> > +// shall be demanded for the fence context data.
-> > +pub trait FenceCtxOps {}
->=20
-> This empty trait is unused.
+diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
+index 318e8330f16a..2950d42c8c63 100644
+--- a/drivers/media/test-drivers/vicodec/vicodec-core.c
++++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
+@@ -321,6 +321,8 @@ static int device_process(struct vicodec_ctx *ctx,
+ 		q_dst = get_q_data(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+ 		if (comp_frame_size > ctx->comp_max_size)
+ 			return -EINVAL;
++		if (vb2_plane_size(&dst_vb->vb2_buf, 0) < q_dst->sizeimage)
++			return -EINVAL;
+ 		state->info = q_dst->info;
+ 		ret = v4l2_fwht_decode(state, p_src, p_dst);
+ 		if (ret < 0)
 
-(discussed in the other thread with Boris)
+---
+base-commit: e43ffb69e0438cddd72aaa30898b4dc446f664f8
+change-id: 20260601-fixes-452ce98d76d8
 
->=20
-> > +/// A dma-fence context. A fence context takes care of associating rel=
-ated fences with each other,
-> > +/// providing each with raising sequence numbers and a common identifi=
-er.
-> > +#[pin_data(PinnedDrop)]
-> > +pub struct FenceCtx<F: Send + Sync, C: Send + Sync> {
->=20
-> No need to list any trait bounds here. You can list them on `impl`
-> blocks only.
+Best regards,
+-- 
+Junrui Luo <moonafterrain@outlook.com>
 
-ACK.
-
->=20
-> >=20
-
-[=E2=80=A6]
-
-> > +=C2=A0=C2=A0=C2=A0 {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Uses `pin_init_from_clos=
-ure` instead of `try_pin_init!` so that on
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // `-ENOENT` (already signa=
-led) the callback can be read back from the
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // partially-initialized sl=
-ot and returned through the error.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: `pin_init_from_c=
-losure` requires:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // - On `Ok(())`: the slot =
-is fully initialized and valid for `Drop`.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // - On `Err(_)`: the slot =
-is clean, i.e.: no partially-initialized fields
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //=C2=A0=C2=A0 remain, and =
-the slot can be deallocated without dropping.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // We uphold this as follow=
-s:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // - On success: all three =
-fields are initialized. Ok(()) is returned.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // - On ENOENT (already sig=
-naled): `callback` and `fence` are read back
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //=C2=A0=C2=A0 from the slo=
-t via `ptr::read`, leaving the slot clean. `cb` was
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //=C2=A0=C2=A0 initialized =
-by `dma_fence_add_callback` (it calls
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //=C2=A0=C2=A0 `INIT_LIST_H=
-EAD(&cb->node)` even on error), but `cb` is
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //=C2=A0=C2=A0 `Opaque<dma_=
-fence_cb>` which has no `Drop`, so not dropping it is
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //=C2=A0=C2=A0 fine. The ca=
-llback is returned through `AlreadySignaled(T)`.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // - On other errors: same =
-cleanup as ENOENT, error returned as
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //=C2=A0=C2=A0 `Other(e)`.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsafe {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pin=
-_init_from_closure(move |slot: *mut Self| {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 let slot_callback =3D &raw mut (*slot).callback;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 let slot_fence =3D &raw mut (*slot).fence;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 let slot_cb =3D &raw mut (*slot).cb;
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 // Write callback and fence first =E2=80=94 must be v=
-isible before
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 // dma_fence_add_callback makes the registration live=
-.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 core::ptr::write(slot_callback, callback);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 core::ptr::write(slot_fence, ARef::from(fence));
->=20
-> Here you are incrementing the fence refcount. It's better to change the
-> function argument to ARef<Fence> so that the user can avoid this
-> increment if they happen to own a refcount they're willing to give up.
-
-Agreed, will do
-
->=20
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 let ret =3D to_result(bindings::dma_fence_add_callbac=
-k(
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fence.inner.get(),
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Opaque::cast_into(slot_cb),
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Some(Self::dma_fence_callback=
-),
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 ));
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 match ret {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ok(()) =3D> Ok(()),
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Err(e) =3D> {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Re=
-ad back what we wrote to leave the slot clean.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let c=
-b_back =3D core::ptr::read(slot_callback);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let _=
-fence_back =3D core::ptr::read(slot_fence);
->=20
-> This can be drop_in_place().
->=20
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if e.=
-to_errno() =3D=3D ENOENT.to_errno() {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 Err(CallbackError::AlreadySignaled(cb_back))
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } els=
-e {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 Err(CallbackError::Other(e))
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 }
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 })
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 /// Raw dma fence callback that is called by the C =
-code.
-> > +=C2=A0=C2=A0=C2=A0 ///
-> > +=C2=A0=C2=A0=C2=A0 /// # Safety
-> > +=C2=A0=C2=A0=C2=A0 ///
-> > +=C2=A0=C2=A0=C2=A0 /// This is only called by the dma_fence subsystem =
-with valid pointers.
-> > +=C2=A0=C2=A0=C2=A0 unsafe extern "C" fn dma_fence_callback(
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 _fence: *mut bindings::dma_=
-fence,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 cb: *mut bindings::dma_fenc=
-e_cb,
-> > +=C2=A0=C2=A0=C2=A0 ) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let ptr =3D Opaque::cast_fr=
-om(cb).cast_mut();
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: All `cb` we can =
-receive here have been created in such a way
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // that they are embedded i=
-nto a `FenceCbRegistration`. The backend
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // ensures synchronisation =
-so whoever holds the registration object
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // cannot drop it while thi=
-s code is running. See `FenceCbRegistration::drop`.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsafe {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let=
- reg: *mut Self =3D container_of!(ptr, Self, cb);
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (*r=
-eg).callback.called();
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 /// Returns a reference to the fence this callback =
-is registered on.
-> > +=C2=A0=C2=A0=C2=A0 pub fn fence(self: Pin<&Self>) -> &Fence {
->=20
-> Can be simplified to `fn fence(&self) -> &Fence`.
->=20
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &self.get_ref().fence
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +}
-> > +
-> > +#[pinned_drop]
-> > +impl<T: FenceCb> PinnedDrop for FenceCbRegistration<T> {
-> > +=C2=A0=C2=A0=C2=A0 fn drop(self: Pin<&mut Self>) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Always call dma_fence_re=
-move_callback, even if `callback` has already
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // been taken by `dma_fence=
-_callback`.=C2=A0 This is necessary for
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // synchronization: `dma_fe=
-nce_remove_callback` acquires `fence->lock`,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // which ensures that any i=
-n-flight `dma_fence_signal` (which calls our
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // callback while holding t=
-he same lock) has completed before we free
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // the struct.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Without this, Drop can r=
-ace with a concurrent signal:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //=C2=A0=C2=A0 CPU0 (signal=
-, lock held): take() -> signaled(fence_ref) (in progress)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //=C2=A0=C2=A0 CPU1 (drop):=
- sees is_some()=3D=3Dfalse -> skips lock -> frees struct
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //=C2=A0=C2=A0 CPU0: access=
-es fence_ref -> use-after-free
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // When the callback has al=
-ready fired, the signal path detached the
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // list node via INIT_LIST_=
-HEAD, so dma_fence_remove_callback just sees
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // an empty node and return=
-s false =E2=80=94 the lock acquisition is the only
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // thing that matters.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: The fence pointe=
-r is valid and the cb was initialized by
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // dma_fence_add_callback d=
-uring construction.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsafe {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bin=
-dings::dma_fence_remove_callback(self.fence.as_raw(), self.cb.get());
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->=20
-> Formatting nit: Usually the ; goes outside the unsafe block.
-
-I could have sworn that it was rustfmt who did that? Maybe because the
-; was inside to begin with.
-
->=20
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +}
-> > +
-> > +// SAFETY: FenceCbRegistration can be sent between threads
-> > +unsafe impl<T: FenceCb> Send for FenceCbRegistration<T> {}
-> > +
-> > +// SAFETY: &FenceCbRegistration can be shared between threads if &T ca=
-n.
-> > +unsafe impl<T: FenceCb> Sync for FenceCbRegistration<T> where T: Sync =
-{}
->=20
-> There's no &FenceCbRegistration<T> -> &T accessor, so I don't think this
-> bound is required.
->=20
-> 	unsafe impl<T: FenceCb> Sync for FenceCbRegistration<T> {}
->=20
-> There also can't be such an accessor in the future because the closure
-> takes a &mut T.
-
-Hm, very correct. The entire design only allows serial access.
-
->=20
-> > +/// The receiving counterpart of a [`DriverFence`], designed to regist=
-er callbacks
-> > +/// on, check the signalled state etc. A [`Fence`] cannot be signalled=
-.
-> > +/// A [`Fence`] is always refcounted.
-> > +pub struct Fence {
-> > +=C2=A0=C2=A0=C2=A0 /// The actual dma_fence passed to C.
-> > +=C2=A0=C2=A0=C2=A0 inner: Opaque<bindings::dma_fence>,
-> > +}
-> > +
-> > +// SAFETY: Fences are literally designed to be shared between threads.
-> > +unsafe impl Send for Fence {}
-> > +// SAFETY: Fences are literally designed to be shared between threads.
-> > +unsafe impl Sync for Fence {}
-> > +
-> > +impl Fence {
-> > +=C2=A0=C2=A0=C2=A0 /// Check whether the fence was signalled at the mo=
-ment of the function call.
-> > +=C2=A0=C2=A0=C2=A0 pub fn is_signaled(&self) -> bool {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: self is by defin=
-ition still valid. The backend ensures proper
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // locking.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsafe { bindings::dma_fenc=
-e_is_signaled(self.as_raw()) }
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 fn as_raw(&self) -> *mut bindings::dma_fence {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.inner.get()
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 /// Create a [`Fence`] from a raw C [`bindings::dma=
-_fence`].
-> > +=C2=A0=C2=A0=C2=A0 ///
-> > +=C2=A0=C2=A0=C2=A0 /// # Safety
-> > +=C2=A0=C2=A0=C2=A0 ///
-> > +=C2=A0=C2=A0=C2=A0 /// `ptr` must point to an initialized fence that i=
-s embedded into a [`Fence`].
-> > +=C2=A0=C2=A0=C2=A0 pub unsafe fn from_raw<'a>(ptr: *mut bindings::dma_=
-fence) -> &'a Self {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: Safe as per the =
-function's overall safety requirements.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsafe { &*ptr.cast() }
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +}
-> > +
-> > +// SAFETY: These implement the C backends refcounting methods which ar=
-e proven to work correctly.
-> > +unsafe impl AlwaysRefCounted for Fence {
-> > +=C2=A0=C2=A0=C2=A0 fn inc_ref(&self) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: `self.as_raw()` =
-is a pointer to a valid `struct dma_fence`.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsafe { bindings::dma_fenc=
-e_get(self.as_raw()) }
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 /// # Safety
-> > +=C2=A0=C2=A0=C2=A0 ///
-> > +=C2=A0=C2=A0=C2=A0 /// `ptr`must be a valid pointer to a [`DriverFence=
-`].
-> > +=C2=A0=C2=A0=C2=A0 unsafe fn dec_ref(ptr: NonNull<Self>) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: `ptr` is never a=
- NULL pointer; and when `dec_ref()` is called
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // the fence is by definiti=
-on still valid.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence =3D unsafe { (*pt=
-r.as_ptr()).inner.get() };
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: Valid because `f=
-ence` was created validly above.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsafe { bindings::dma_fenc=
-e_put(fence) }
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +}
-> > +
-> > +#[repr(C)] // Necessary to guarantee that `inner` always comes first s=
-o that we can cast.
-> > +#[pin_data]
-> > +struct DriverFenceData<F: Send + Sync, C: Send + Sync> {
->=20
-> Ditto here about trait bounds. (And everywhere else.)
->=20
-> > +=C2=A0=C2=A0=C2=A0 #[pin]
-> > +=C2=A0=C2=A0=C2=A0 /// The inner fence.
-> > +=C2=A0=C2=A0=C2=A0 inner: Fence,
-> > +=C2=A0=C2=A0=C2=A0 /// Pointer to access the FenceCtx. Useful for obta=
-ining name parameters.
-> > +=C2=A0=C2=A0=C2=A0 // The FenceCtx lives as long as at least all its f=
-ences, hence this is safe.
-> > +=C2=A0=C2=A0=C2=A0 fctx: Arc<FenceCtx<F, C>>,
-> > +=C2=A0=C2=A0=C2=A0 /// The API user's data. As required by [`DriverFen=
-ceAllowedData`], this either
-> > +=C2=A0=C2=A0=C2=A0 /// does not need drop, or must live in a [`rcu::Rc=
-uBox`]. It is essential
-> > +=C2=A0=C2=A0=C2=A0 /// that the data only performs operations legal in=
- atomic context in its
-> > +=C2=A0=C2=A0=C2=A0 /// [`Drop`] implementation.
-> > +=C2=A0=C2=A0=C2=A0 #[pin]
-> > +=C2=A0=C2=A0=C2=A0 data: F,
-> > +}
-> > +
-> > +/// A trait to enforce that all data in a [`DriverFence`] either does =
-not need
-> > +/// drop, or lives in a [`RcuBox`].
-> > +pub trait DriverFenceAllowedData: private::Sealed {}
-> > +
-> > +mod private {
-> > +=C2=A0=C2=A0=C2=A0 pub trait Sealed {}
-> > +}
-> > +
-> > +impl<F: Copy> DriverFenceAllowedData for F {}
-> > +impl<F: Send> DriverFenceAllowedData for RcuBox<F> {}
-> > +
-> > +impl<F: Copy> private::Sealed for F {}
-> > +impl<F: Send> private::Sealed for RcuBox<F> {}
->=20
-> Why sealed? Just make the trait unsafe and require the things you
-> require from the user.
-
-This is far better. We definitely only allow the user to pass A or B,
-and only then it compiles.
-
-The unsafe implementation could be messed up.
-
-I thought that's what Sealed is for. Or isn't it?
-
->=20
-> > +/// A synchronization primitive mainly for GPU drivers.
-> > +///
-> > +/// Fences are always reference counted. The typical use case is that =
-one side registers
-> > +/// callbacks on the fence which will perform a certain action (such a=
-s queueing work) once the
-> > +/// other side signals the fence.
-> > +///
-> > +/// # Examples
-> > +///
-> > +/// ```
-> > +/// use kernel::dma_buf::{DriverFence, FenceCtx, FenceCb, FenceCbRegis=
-tration};
-> > +/// use kernel::str::CString;
-> > +/// use kernel::sync::{
-> > +///=C2=A0=C2=A0=C2=A0=C2=A0 aref::ARef,
-> > +///=C2=A0=C2=A0=C2=A0=C2=A0 rcu::RcuBox, //
-> > +/// };
-> > +/// use core::ops::Deref;
-> > +/// use core::fmt::Display;
->=20
-> Use fmt traits from kernel instead. (Actually, I don't think you use
-> Display at all here?)
-
-I tried, see a few lines below:
-
->=20
-> > +/// struct CallbackData { }
-> > +///
-> > +/// impl FenceCb for CallbackData {
-> > +///=C2=A0=C2=A0=C2=A0=C2=A0 fn called(&mut self) {
-> > +///=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 pr_info!("DmaFence=
- callback executed.\n");
-> > +///=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > +/// }
-> > +///
-> > +/// let driver_name =3D CString::try_from_fmt(fmt!("dummy_driver"))?;
-> > +/// let timeline_name =3D CString::try_from_fmt(fmt!("dummy_timeline")=
-)?;
-> > +///
-> > +/// let fctx =3D FenceCtx::new(driver_name, timeline_name, ())?;
-> > +///
-> > +/// let fence_data =3D CString::try_from_fmt(fmt!("dummy_data"))?;
-> > +/// // DriverFence::data must either not need drop, or live in an RcuB=
-ox.
-> > +/// let fence_data =3D RcuBox::new(fence_data, GFP_KERNEL)?;
-> > +///
-> > +/// let fence_alloc =3D fctx.as_arc_borrow().new_fence_allocation(fenc=
-e_data)?;
-> > +/// let mut fence =3D fctx.new_fence(fence_alloc);
-> > +///
-> > +/// let cb_data =3D CallbackData { };
-> > +/// let waiting_fence =3D ARef::from(fence.as_fence());
-> > +/// let cb_reg =3D FenceCbRegistration::new(&waiting_fence, cb_data);
-> > +/// let cb_reg =3D KBox::pin_init(cb_reg, GFP_KERNEL)?;
-> > +///
-> > +/// // DriverFence implements Deref.
-> > +/// // FIXME: unit test claims that CString does not implement Display=
-. Why?
-> > +/// // pr_info!("Fence's inner data is: {}", fence.deref().deref());
-
-Lazily, I was hoping that someone here will tell me how that is
-supposed to be done correctly 8-)
-
-> > +///
-> > +/// // TODO begin_signalling
-> > +/// fence.signal(Ok(()));
-> > +/// assert_eq!(waiting_fence.is_signaled(), true);
-> > +///
-> > +/// Ok::<(), Error>(())
-> > +/// ```
-> > +pub struct DriverFence<F: Send + Sync, C: Send + Sync> {
-> > +=C2=A0=C2=A0=C2=A0 /// The actual content of the fence. Lives in a raw=
- pointer so that its
-> > +=C2=A0=C2=A0=C2=A0 /// memory can be managed independently. Valid unti=
-l both the [`DriverFence`]
-> > +=C2=A0=C2=A0=C2=A0 /// and all associated [`Fence`]s have disappeared.
-> > +=C2=A0=C2=A0=C2=A0 data: NonNull<DriverFenceData<F, C>>,
-> > +}
-> > +
-> > +/// A pre-prepared DMA fence, carrying the user's data and the memory =
-it and the
-> > +/// fence reside in. Only useful for creating a [`DriverFence`]. Split=
-ting
-> > +/// allocation and full initialization is necessary because fences can=
-not be
-> > +/// allocated dynamically in some circumstances (deadlock).
-> > +pub struct DriverFenceAllocation<F: Send + Sync, C: Send + Sync> {
-> > +=C2=A0=C2=A0=C2=A0 /// The memory for the actual content of the fence.
-> > +=C2=A0=C2=A0=C2=A0 /// Handed over to a [`DriverFence`], or deallocate=
-d once the
-> > +=C2=A0=C2=A0=C2=A0 /// [`DriverFenceAllocation`] drops.
-> > +=C2=A0=C2=A0=C2=A0 data: KBox<DriverFenceData<F, C>>,
-> > +}
-> > +
-> > +impl<F: Send + Sync + DriverFenceAllowedData, C: Send + Sync> DriverFe=
-nceAllocation<F, C> {
-> > +=C2=A0=C2=A0=C2=A0 /// Create a new allocation slot that can later be =
-used to create a fully
-> > +=C2=A0=C2=A0=C2=A0 /// initialized [`DriverFence`] without the need to=
- allocate.
-> > +=C2=A0=C2=A0=C2=A0 pub fn new(fctx: Arc<FenceCtx<F, C>>, data: F) -> R=
-esult<Self> {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence_data =3D DriverFe=
-nceData {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // =
-`inner` remains uninitialized until a [`DriverFence`] takes over.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 inn=
-er: Fence {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 inner: Opaque::uninit(),
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 },
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fct=
-x,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dat=
-a,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // In order to support the =
-C dma_fence callbacks, it is necessary for
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // a `Fence` and a `DriverF=
-ence` to live in the same allocation,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // because the C backend pa=
-sses a dma_fence, from which the driver most
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // likely wants to be able =
-to access its `data` in `DriverFence`.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Hence, we need the manag=
-e the memory manually. It will be freed by the
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // C backend automatically =
-once the refcount within `Fence` drops to 0.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let data =3D KBox::new(fenc=
-e_data, GFP_KERNEL | __GFP_ZERO)?;
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ok(Self { data })
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 fn as_raw(&self) -> *mut bindings::dma_fence {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.data.inner.inner.get()
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +}
-> > +
-> > +impl<F: Send + Sync, C: Send + Sync> DriverFence<F, C> {
-> > +=C2=A0=C2=A0=C2=A0 fn as_raw(&self) -> *mut bindings::dma_fence {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: Valid because `s=
-elf` is valid.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence_data =3D unsafe {=
- &mut *self.data.as_ptr() };
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fence_data.inner.inner.get(=
-)
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 /// Create a [`DriverFence`] from a raw pointer to =
-a [`bindings::dma_fence`].
-> > +=C2=A0=C2=A0=C2=A0 ///
-> > +=C2=A0=C2=A0=C2=A0 /// # Safety
-> > +=C2=A0=C2=A0=C2=A0 ///
-> > +=C2=A0=C2=A0=C2=A0 /// `ptr` must be a valid pointer to a `dma_fence` =
-that was obtained through
-> > +=C2=A0=C2=A0=C2=A0 /// a [`DriverFence`] with matching generic data fo=
-r both fence and associated
-> > +=C2=A0=C2=A0=C2=A0 /// [`FenceCtx`].
-> > +=C2=A0=C2=A0=C2=A0 unsafe fn from_raw(ptr: *mut bindings::dma_fence) -=
-> Self {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let opaque_fence =3D Opaque=
-::cast_from(ptr);
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: Safe due to the =
-function's overall safety requirements.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence_ptr =3D unsafe { =
-container_of!(opaque_fence, Fence, inner) };
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // DriverFenceData is repr(=
-C) and a Fence is its first member.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence_data_ptr =3D fenc=
-e_ptr as *mut DriverFenceData<F, C>;
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: `fence_data_ptr`=
- was created validly above.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let data =3D unsafe { NonNu=
-ll::new_unchecked(fence_data_ptr) };
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Self { data }
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 /// Return the underlying [`Fence`].
-> > +=C2=A0=C2=A0=C2=A0 pub fn as_fence(&self) -> &Fence {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: `self` is by def=
-inition still valid, and it cannot drop until
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // this new reference is go=
-ne.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsafe { Fence::from_raw(se=
-lf.as_raw()) }
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 /// Signal the fence. This will invoke all register=
-ed callbacks.
-> > +=C2=A0=C2=A0=C2=A0 pub fn signal(self, res: Result) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence =3D self.as_raw()=
-;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let mut fence_flags: usize =
-=3D 0;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let flag_ptr =3D &raw mut f=
-ence_flags;
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: Once a `DriverFe=
-nce` is initialized, the inner `fence` is
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // valid and initialized. I=
-t is valid until the refcount drops
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // to 0, which can earliest=
- happen once the `DriverFence` has been dropped.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsafe {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bin=
-dings::dma_fence_lock_irqsave(fence, flag_ptr);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if =
-!bindings::dma_fence_is_signaled_locked(fence) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 if let Err(err) =3D res {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bindings::dma_fence_set_error=
-(fence, err.to_errno());
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 }
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 bindings::dma_fence_signal_locked(fence);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bin=
-dings::dma_fence_unlock_irqrestore(fence, flag_ptr);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->=20
-> This single unsafe blocks spans five different unsafe operations.
-
-Same discussion with Danilo. I'd prefer it this way, but I guess
-separate blocks also have some advantages.
-
->=20
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +}
-> > +
-> > +// SAFETY: Fences are literally designed to be shared between threads.
-> > +unsafe impl<F: Send + Sync, C: Send + Sync> Send for DriverFence<F, C>=
- {}
-> > +
-> > +impl<F: Send + Sync, C: Send + Sync> Deref for DriverFence<F, C> {
-> > +=C2=A0=C2=A0=C2=A0 type Target =3D F;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 fn deref(&self) -> &Self::Target {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: Thanks to refcou=
-nting, `data` is always valid as long as `self` is.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let data =3D unsafe { &*sel=
-f.data.as_ptr() };
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &data.data
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +}
-> > +
-> > +/// A borrowed [`DriverFence`]. All you can do with it is access your =
-user data
-> > +/// and obtain a [`Fence`].
-> > +pub struct DriverFenceBorrow<F: Send + Sync, C: Send + Sync> {
-> > +=C2=A0=C2=A0=C2=A0 /// The actual content of the fence. Lives in a raw=
- pointer so that its
-> > +=C2=A0=C2=A0=C2=A0 /// memory can be managed independently. Valid unti=
-l both the [`DriverFence`]
-> > +=C2=A0=C2=A0=C2=A0 /// and all associated [`Fence`]s have disappeared.
-> > +=C2=A0=C2=A0=C2=A0 data: NonNull<DriverFenceData<F, C>>,
-> > +}
-> > +
-> > +impl<F: Send + Sync, C: Send + Sync> Deref for DriverFenceBorrow<F, C>=
- {
-> > +=C2=A0=C2=A0=C2=A0 type Target =3D F;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 fn deref(&self) -> &Self::Target {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: Thanks to refcou=
-nting, `data` is always valid as long as `self` is.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let data =3D unsafe { &*sel=
-f.data.as_ptr() };
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &data.data
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +}
-> > +
-> > +impl<F: Send + Sync, C: Send + Sync> DriverFenceBorrow<F, C> {
-> > +=C2=A0=C2=A0=C2=A0 fn as_raw(&self) -> *mut bindings::dma_fence {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: Valid because `s=
-elf` is valid.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence_data =3D unsafe {=
- &mut *self.data.as_ptr() };
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fence_data.inner.inner.get(=
-)
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 /// Return the underlying [`Fence`].
-> > +=C2=A0=C2=A0=C2=A0 pub fn as_fence(&self) -> &Fence {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: `self` is by def=
-inition still valid, and it cannot drop until
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // this new reference is go=
-ne.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsafe { Fence::from_raw(se=
-lf.as_raw()) }
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 /// Get a [`DriverFenceBorrow`] from a raw pointer.
-> > +=C2=A0=C2=A0=C2=A0 ///
-> > +=C2=A0=C2=A0=C2=A0 /// # Safety
-> > +=C2=A0=C2=A0=C2=A0 ///
-> > +=C2=A0=C2=A0=C2=A0 /// `ptr` must point to a raw dma_fence within a [`=
-Fence`] within a [`DriverFenceData`].
-> > +=C2=A0=C2=A0=C2=A0 unsafe fn from_raw(ptr: *mut bindings::dma_fence) -=
-> Self {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let opaque_fence =3D Opaque=
-::cast_from(ptr);
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: Safe due to the =
-function's overall safety requirements.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence_ptr =3D unsafe { =
-container_of!(opaque_fence, Fence, inner) };
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // DriverFenceData is repr(=
-C) and a Fence is its first member.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence_data_ptr =3D fenc=
-e_ptr as *mut DriverFenceData<F, C>;
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: `fence_data_ptr`=
- was created validly above.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let data =3D unsafe { NonNu=
-ll::new_unchecked(fence_data_ptr) };
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Self { data }
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +}
-> > +
-> > +// SAFETY: The Rust dma_fence abstractions are already designed around=
- the inner
-> > +// C `dma_fence`, which can serve safely as the identification point w=
-hen being
-> > +// owned by C. Moreover, safety is ensured by not dropping `DriverFenc=
-e` and by
-> > +// only allowing operations without side effects on the Borrowed type.
-> > +unsafe impl<F: Send + Sync + 'static, C: Send + Sync + 'static> Foreig=
-nOwnable
-> > +=C2=A0=C2=A0=C2=A0 for DriverFence<F, C>
-> > +{
-> > +=C2=A0=C2=A0=C2=A0 // `DriverFence` is merely a wrapper around a raw p=
-ointer. Thus, we can just
-> > +=C2=A0=C2=A0=C2=A0 // use it directly.
-> > +=C2=A0=C2=A0=C2=A0 type Borrowed<'a> =3D DriverFenceBorrow<F, C>;
-> > +=C2=A0=C2=A0=C2=A0 type BorrowedMut<'a> =3D DriverFenceBorrow<F, C>;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 const FOREIGN_ALIGN: usize =3D core::mem::align_of:=
-:<bindings::dma_fence>();
-> > +
-> > +=C2=A0=C2=A0=C2=A0 fn into_foreign(self) -> *mut c_void {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence =3D self;
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let ptr =3D fence.as_raw();
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // DriverFence must not dro=
-p.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 core::mem::forget(fence);
->=20
-> Nit: Modern Rust uses ManuallyDrop instead of forget().
-
-You mean still take `self` here, then stuff it into ManuallyDrop and
-let it go out of scope, aye?
-
-
-
-Thx for the review,
-P.
 
