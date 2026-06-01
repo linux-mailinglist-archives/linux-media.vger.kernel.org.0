@@ -1,148 +1,164 @@
-Return-Path: <linux-media+bounces-63357-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63367-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
-	by lfdr with LMTP
-	id 2DKvGF2cHmpVCgAAu9opvQ
-	(envelope-from <linux-media+bounces-63357-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 11:03:25 +0200
+	by mail.lfdr.de with LMTP
+	id rsVzGCnJHmpYVAAAu9opvQ
+	(envelope-from <linux-media+bounces-63367-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 14:14:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6529C62B05D
-	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 11:03:23 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id C80C462DE3B
+	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 14:14:32 +0200 (CEST)
+Authentication-Results: mail.lfdr.de;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=ACGTTxa8;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63367-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-63367-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id B7D773035674
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2026 08:56:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 560B430F547F
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2026 12:07:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8FCB3BED27;
-	Tue,  2 Jun 2026 08:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZZfmyi1a"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C28BD3DD528;
+	Tue,  2 Jun 2026 12:07:33 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26AF946A;
-	Tue,  2 Jun 2026 08:55:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514713D301B;
+	Tue,  2 Jun 2026 12:07:32 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780390558; cv=none; b=Sa8n2C8oXrD7VU85eQ9lALqeqFJe/JCcBQj0xXwf6bM3chgkg0Gs0qsnHviQahvO9YJ8Gg50IyKL/rwVVx/K/scC9AM7DGGBwRN4NB4H2vidXNMryOQezOFYv1yqVwDmzQfkmn9e/PCvqTfObXM5pPVclLJlWc4GbEW0uBAL/NQ=
+	t=1780402053; cv=none; b=E6UWE5Y01QCE+ouje0IGeLRc0eN60kva0tKoYN3vCNBFc+GaPHBfF7RRrl8E/LObKwsioo1X74IX09MPgODllzbTgJqU3foz30lgiQJLAcmV3fj9ucCai06HZtRqH502Zvl8sNdH3vVtodwP8Dp3I2fFr3ZQvzXCBzX4OrBH4jQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780390558; c=relaxed/simple;
-	bh=KQ73qwK5IiveHVPsdWHAUZ10+xlrciJvCLssA2NROiQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WS6pfznxRSiJWLy8GuW+HcMIldwaBjpUMxSfpabUy0HjW9GHpjoPIENC4SDFcRNbTwbu6d+pVvtg3txeTZsd4zuapiKyt6KoIFdIUnILIC5S6LgNktSKMFiuilZe2vTt9MEzccew3it1ajhM8pPnpxl2MW0dHYJaTw0+lCZmyMo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZZfmyi1a; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from killaraus.ideasonboard.com (unknown [IPv6:2a01:e0a:e80:2e70:a22d:ffa9:436b:a9db])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6FA6A802;
-	Tue,  2 Jun 2026 10:55:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1780390529;
-	bh=KQ73qwK5IiveHVPsdWHAUZ10+xlrciJvCLssA2NROiQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZZfmyi1a3rk5lH7G0xXSaIznRMBSNnbujvQxC8sIBzDA74Dqe/74nzLszygtam6bL
-	 pFOGDNym1iL1/Q7WY4Nvw8fiRnpGlnzjrJO3Qnd+UlkWohj/OLr8ahHpCsKPhlRxS0
-	 lUXhKWFrhfMm7Yj9jdXy1YDkCBLOffG8oD0tjjAw=
-Date: Tue, 2 Jun 2026 10:55:51 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: bod@kernel.org
-Cc: p.zabel@pengutronix.de, xavier.roumegue@oss.nxp.com, hverkuil@xs4all.nl,
-	mchehab@kernel.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Stefan Klug <stefan.klug@ideasonboard.com>
-Subject: Re: [PATCH 2/2] MAINTAINERS: Add myself to dw100 as reviewer
-Message-ID: <20260602085551.GA850227@killaraus.ideasonboard.com>
-References: <20260601155059.1332290-1-bod@kernel.org>
- <20260601155059.1332290-2-bod@kernel.org>
+	s=arc-20240116; t=1780402053; c=relaxed/simple;
+	bh=CXeJ9bvnJoexsr0ZqogM4Dl8ae1EzlAlaa7aCsJn7q8=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=ThUjn+MYNvAb8xFxb26p60nguLUXk95j5HbUJhzBNhu3CG0JJrmg1cYUDe+bO0gVH53RXzlstPEqBE574gixPFt4uXOGZPt9Wqbl+NNHa8LiY/zdYooQueiaVc81xgqB6ZhZr4PZOAnD+DvKxtLplDmrUCX8myVoZmJPQ7+Y8Kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ACGTTxa8; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C2DF1F00893;
+	Tue,  2 Jun 2026 12:07:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780402051;
+	bh=yf9fztpSi4K+ljlndUdAbTgpH8FO9UBENIcySmefiuo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=ACGTTxa8FbXBbbfTxT10geybgu/iGCQ5gAPvgGW65pwToitHKMb7oXIvmJwag/Gl9
+	 7+Tz6MWHzmRjkbVhxq7H7CY1ekgHUKDFDvqts6yhC4KPN9pbt4W0DDnvGn2BeJEgE/
+	 NQ6TYrDN1EndBuecSRzsbbGV8VvQqGaRoDi/PLx1GzGNzPEZq8D7kWHmo5/Lan8Rcy
+	 6mGAQmbNWcZbrkR2CmvqVo2j+F2q79QB1IF38Pf6DeY2xyMYugYYxB7ILjPzTw0dGw
+	 4GY2pVtyDg41+ZprebAb0wvC1wAPMg23p0L3JL3wIZ2hjKhPe5o8c4PF9bQK3ZmZSq
+	 +PRLqakkNBakw==
+From: Mark Brown <broonie@kernel.org>
+To: Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, 
+ Sowjanya Komatineni <skomatineni@nvidia.com>, 
+ Laxman Dewangan <ldewangan@nvidia.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Aaron Kling <webgeek1234@gmail.com>
+Cc: linux-tegra@vger.kernel.org, linux-spi@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ devicetree@vger.kernel.org, Thierry Reding <treding@nvidia.com>
+In-Reply-To: <20260525-tegra194-qspi-iommu-v2-0-a11c53f804b2@gmail.com>
+References: <20260525-tegra194-qspi-iommu-v2-0-a11c53f804b2@gmail.com>
+Subject: Re: (subset) [PATCH v2 0/2] arm64: tegra: Enable DMA Support on
+ Tegra194 QSPI
+Message-Id: <178032313909.44654.17999841515127150550.b4-ty@b4>
+Date: Mon, 01 Jun 2026 15:12:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260601155059.1332290-2-bod@kernel.org>
-X-Rspamd-Queue-Id: 6529C62B05D
-X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1428; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=CXeJ9bvnJoexsr0ZqogM4Dl8ae1EzlAlaa7aCsJn7q8=;
+ b=owGbwMvMwMWocq27KDak/QLjabUkhiy54/XyPcEnBT53/v2Y89Ssy7P91+LkqBPJnziq4yQyu
+ iZ4yRp2MhqzMDByMciKKbKsfZaxKj1cYuv8R/NfwQxiZQKZwsDFKQATSWpg/ytzi/0SS/F8eY6S
+ 3m9uifbs2fVZW8VOv5hQMd9/DnuY1L/MNR71RQK+z3+nXEiPKnc+L1pikeIVnFhT4eOz8F/TksV
+ 87Admvej7Y/ch/mZrUChvkZaTUOe9tDs8zlKdhTt19YqZOcrkq9o8/6TL8Avu/HHn6/oTwS3KK6
+ 2+PqhP57GbesA2+bzLmnthiy/liPeqmp3/E3OCh++/85nFD7eeDNo/galh569m8z0LRFPvPXr/Q
+ yOOR8np1tNvWyMtzWbbvlda2BZ12EHlYaVAwKFEvlV3+B89rF9/p9bpbMn1dRcNHD1kMtg0ypYu
+ O71tRtGTxFJX1YiVSfvVH3qteJJuH8D8xUb46NN96v+LAA==
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63357-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[pengutronix.de,oss.nxp.com,xs4all.nl,kernel.org,vger.kernel.org,ideasonboard.com];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:thierry.reding@kernel.org,m:jonathanh@nvidia.com,m:skomatineni@nvidia.com,m:ldewangan@nvidia.com,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:webgeek1234@gmail.com,m:linux-tegra@vger.kernel.org,m:linux-spi@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:devicetree@vger.kernel.org,m:treding@nvidia.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[kernel.org,nvidia.com,linaro.org,amd.com,gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FORGED_SENDER(0.00)[broonie@kernel.org,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,i.mx:url,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,ideasonboard.com:dkim,killaraus.ideasonboard.com:mid]
-X-Rspamd-Action: no action
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[broonie@kernel.org,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-63367-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+X-Rspamd-Server: lfdr
+X-Rspamd-Queue-Id: C80C462DE3B
 
-Hi Bryan,
-
-On Mon, Jun 01, 2026 at 04:50:59PM +0100, bod@kernel.org wrote:
-> From: Bryan O'Donoghue <bod@kernel.org>
+On Mon, 25 May 2026 01:47:43 -0500, Aaron Kling wrote:
+> arm64: tegra: Enable DMA Support on Tegra194 QSPI
 > 
-> To facilitate cross-pollination between one arch and another I'd like to
-> add myself as reviewer to the dw100. We discussed @ Nice it would be
-> beneficial to have different maintainers reading/reviewing things not
-> directly inside of their remit. This driver was mentioned, I'd be happy to
-> join in.
-
-Thanks for volunteering :-)
-
-This may however not be the best candidate. The dw100 driver is well
-maintained today, by Xavier as well as Stefan, as Ideas on Board makes
-active use of it (Stefan, you could also volunteer as a reviewer).
-
-Drivers that I think would most benefit from your reviews would be
-imx8mq-mipi-csi2, dw-mipi-csi2rx (technically a Synopsys driver, but
-used in NXP SoCs), and the new imx95-csi-formatter driver ([1]).
-
-Other candidates could be imx7-media-csi and imx-mipi-csis, but those
-see little activity as they support older hardware. The imx media
-staging drivers could also do with some love, but that would be active
-development and not just review.
-
-[1] https://lore.kernel.org/20260525-csi_formatter-v8-0-6b646231224b@oss.nxp.com
-
-> Signed-off-by: Bryan O'Donoghue <bod@kernel.org>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
+> The reason for this is to properly support the spi nor chip on the
+> Jetson Xavier NX module. Prior to this, it would time out on all
+> transfers and sometimes even trigger a cbb fault, locking up the entire
+> unit. With this, reading and writing to the flash memory works as
+> expected.
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ec0743b41a463..35368c2ff0ca6 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -19243,6 +19243,7 @@ F:	drivers/media/platform/nxp/imx8-isi/
->  
->  NXP i.MX 8MP DW100 V4L2 DRIVER
->  M:	Xavier Roumegue <xavier.roumegue@oss.nxp.com>
-> +R:	Bryan O'Donoghue <bod@kernel.org>
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
->  F:	Documentation/devicetree/bindings/media/nxp,dw100.yaml
+> [...]
 
--- 
-Regards,
+Applied to
 
-Laurent Pinchart
+   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-7.2
+
+Thanks!
+
+[1/2] spi: tegra210-quad: Allocate DMA memory for DMA engine
+      https://git.kernel.org/broonie/spi/c/f469138a77ac
+
+All being well this means that it will be integrated into the linux-next
+tree (usually sometime in the next 24 hours) and sent to Linus during
+the next merge window (or sooner if it is a bug fix), however if
+problems are discovered then the patch may be dropped or reverted.
+
+You may get further e-mails resulting from automated or manual testing
+and review of the tree, please engage with people reporting problems and
+send followup patches addressing any issues that are reported if needed.
+
+If any updates are required or you are submitting further changes they
+should be sent as incremental updates against current git, existing
+patches will not be replaced.
+
+Please add any relevant lists and maintainers to the CCs when replying
+to this mail.
+
+Thanks,
+Mark
+
 
