@@ -1,349 +1,212 @@
-Return-Path: <linux-media+bounces-63261-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63262-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YMdEB8iJHWrAbQkAu9opvQ
-	(envelope-from <linux-media+bounces-63261-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 15:31:52 +0200
+	id KEsVLIuJHWrAbQkAu9opvQ
+	(envelope-from <linux-media+bounces-63262-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 15:30:51 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60478620107
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 15:31:50 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2296200E6
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 15:30:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9DE44303EF77
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 13:30:04 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 3B54E3012B0C
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 13:30:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A114B3A7D6F;
-	Mon,  1 Jun 2026 13:30:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED3613ACF1C;
+	Mon,  1 Jun 2026 13:30:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="F+8s80m3"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SMm++gvs";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Do1XWa0u"
 X-Original-To: linux-media@vger.kernel.org
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013056.outbound.protection.outlook.com [52.101.83.56])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A1D13A5E9E;
-	Mon,  1 Jun 2026 13:30:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780320603; cv=fail; b=gJGnhvb7n/tpfBKC9zDJQjeKYx+MBBseQXMa3ycjhKzYI0laPPLEdv79GT9T37Sd6DHUshUBNIFJXmgfCG9YJhoNSc9dSfLDg8Ea0+nhLgZAQhz5IC1mJ2GedT1ctgHIzuivOl0AGs9x54lw8shgG9tKkWwK4GKjJmvGxBWVSzM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780320603; c=relaxed/simple;
-	bh=VShuKga6C3Z7AT2CkrHDDmGKpdQLW2AP1oevKfVj98c=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=g8KHvTMyLkqWURvo399ywzMgXr+a274o+460kq8oFYpnUstiosb4gn9A05yAjsPOZ69G71hDmcKRjTw3Sf95BejeyKCiF9Cs79Tp2tTgQ4k3uc8eyVnMdnq4CN/9Gz/7UZr+0/iBUYAgMANvA8EuXXoW/zpAfAplgggBhzYAVWU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=F+8s80m3; arc=fail smtp.client-ip=52.101.83.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kAkVUnxLqjwMHR3F4admDiqbk8AKZV2o6rtzzuvA0GNVEmAZ+t9brntyWxV1DBk/HbJk+eyy7h1/iEuezBLTpU1gvzbZwW08qZhtrNITdE+VGPxXPhFTY/MYSfx14KyLJ7GC377UPL1MIsbCKz11btnMsjDl2gvgskx9NBorbZuZrSDIINBSu95Yf64WuoCPwzykd+jOVIu0xHfsAk1hqbaKirhpPg0ZvlrhnYaMf2GAK3hx+9UPhFzKxKHd9Qf2TFhC1w+A6KeBA8FDx9HP9KmcBZccz7CUBXzXcEeVWOam6SKK/n6cq30N0eM/6D8InIo/LIXPCpM+k5MELRF32A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=naGnPgtUUOpD51SGVM0xlrhKfkBxTGnzftFcZlO9SSw=;
- b=rQOeTOEZeASEB5WAxnzeB/TzdzHARXU1w8jIScbowG4Vhps+FhL/wv2uUW5NLuTXTDYHm+N+NVlIli/FFrqa4P2Lj4K0asVesSHbBQmrK5MMLPTx+how6PUA+A9EaZ6i1O5Yus5ins3OT//8D4RfB9M6hyNTe3bI0OmW5vMqQgnaZ8cYPcTCuLS+eyGUICuM7A8bv01UOcAM4WH6earJCMVxadeeD7K9rF/jXihgEh+GLfzsJCAXzjflT7P4aQGq9bkXTx1aHmkkuVcftKRSYKk2QVa+wM7guxpMlII5c0A2C9NuDhYEV2I3SJRDDei/iPt4GmxNXII1rXN9GT3ugA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=naGnPgtUUOpD51SGVM0xlrhKfkBxTGnzftFcZlO9SSw=;
- b=F+8s80m33JVSfP+Z6fc0Vtd5Vik4UWTOSzP/2aRM7hz6ok/E873tTAnCVWw3LVR3iTvBDI+5JR8U8FzEMRAedSsKy3jnnw49THtB0suFGfCtYCEJZJ1FH7ODXMaVo08yny+mXMtGm+5CwaJvfIrvfdIRnYQogXgtZo1YNkPdUPkEAeODd0LyNgwJEnN3j2tg3JE2wn70QlbAqiJEVJD0tu/7WDLFiPVF6i2fqOuClBzZozFAQEHbo++qP4P7P6xCu6H5D3YDYsg5nD1jqKNss9UAYFb2VrRQngKFa816hG9RhOtMvzc1gEbV5q1+qYSO1uOOTgnBPRFle2upmw5AQA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
- (2603:10a6:102:516::16) by AS8PR04MB7605.eurprd04.prod.outlook.com
- (2603:10a6:20b:292::6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.16; Mon, 1 Jun 2026
- 13:29:56 +0000
-Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
- ([fe80::d3f0:3c24:f717:4989]) by PA6PR04MB11910.eurprd04.prod.outlook.com
- ([fe80::d3f0:3c24:f717:4989%4]) with mapi id 15.21.0071.015; Mon, 1 Jun 2026
- 13:29:56 +0000
-Message-ID: <9557605d-ac07-404f-b53f-63357898f2e2@nxp.com>
-Date: Mon, 1 Jun 2026 15:29:54 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] media: v4l2-isp: Add support for extensible
- statistics
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Keke Li <keke.li@amlogic.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Daniel Scally <dan.scally@ideasonboard.com>,
- Jai Luthra <jai.luthra@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260505-extensible-stats-v1-0-e16f326b8dad@ideasonboard.com>
- <777ea8b5-b00a-40e0-b649-59324ff0188a@nxp.com>
- <e1bb04b0-025a-44a6-91ab-edfa6edc1f64@nxp.com>
- <b97f4da9-7df7-4bfd-990e-28a23ec7a236@amlogic.com> <agcaSwdqauzuQSl5@zed>
- <ahbeR6-noMhnU_l5@zed>
-Content-Language: en-US
-From: Antoine Bouyer <antoine.bouyer@nxp.com>
-In-Reply-To: <ahbeR6-noMhnU_l5@zed>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0300.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:e7::11) To PA6PR04MB11910.eurprd04.prod.outlook.com
- (2603:10a6:102:516::16)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62D5E3ACA74
+	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 13:30:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780320647; cv=none; b=KZenCAjzQjCCNKEAX13hkbx0PB9jfXSK/y5eq3TOxl5NCMahtZ0WSORPQ+IIIzp6KuE/BjuTdNOr0c0dBGjtqE9WmpXgFvFtdqxtWFuiwGYMBZF5S3O5ht1qhl2FshJtvWIgKIFfzcoGN4bY8NBL8h5T2t0IlTvF/sTUhRIe5Dg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780320647; c=relaxed/simple;
+	bh=UDmJ1k1aLBInIvFNqEcNOlLzi9eOR2sEjPHpu1oXk5o=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=BR13W44Z4NZpA4Xoe6n6gQ2tJURzsZ2HPZzkvzQH1cVFqA6Gba7xDATnY+hAI07E1OB+OgblM9yocoPs9gp96ZXBPuXsRPi68FJUChgxqpxpbVESiBayE/s5etUWzZeBpehdpSOI4VZX4jpcJKzdDsAs/w5QT/AM/dXQh60R31A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SMm++gvs; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Do1XWa0u; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 651AxGGu334647
+	for <linux-media@vger.kernel.org>; Mon, 1 Jun 2026 13:30:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Bhd58qYV5qQ5sfvU/qA2szyY/a3HbSOfNKYbjuYIxdU=; b=SMm++gvsFKSE5wBA
+	g5VS7Jqcx7dcNO2P86vhYJWGVcerVWx0P9ivsVJ/5bPFjCoumIJr0oItSxwxL+Co
+	MliHmyCSqwUR1fNrtr6SMp1xY07Xy3ydfng1lpyPXatpimcb7npllGgqe7pQ4aKt
+	7h7cwcYwO5gbtd3kLiHku4DB5teQvOdbC8bsG0kEkAYzy/TyHZwXV8Vy2Yj+u3YR
+	f3IiuxovmzbWED14m3FJkiUEiKMRcWCID7ajSWFnS/xr+zTZQ0C7ONhgPE+2Of68
+	GrGxcFcnBZDVFMsN43OPuf0LQT3/5ffZWftqpJ7hayxl40W0qA4NOM7hFPdjLvFt
+	oRJ51A==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eh8tfrkjm-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 13:30:43 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2c0bfcd629eso18133565ad.2
+        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 06:30:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1780320643; x=1780925443; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Bhd58qYV5qQ5sfvU/qA2szyY/a3HbSOfNKYbjuYIxdU=;
+        b=Do1XWa0ujBw20wCGTbZPGqOUBbAcsTsMYh5eB9cm0AK7GRJCVUY7BvYxUOVU+Q0QKZ
+         6TS0UtoYuUCwWEZkDwgCqolgbNjNakz0LyGVuE4TXwMRKc2yFSmWzqFIQ2nGRYa7Xv4p
+         y7CqOQnDmzaMsaIAniXs+2kTg52dbnaobtHtf06I5rCCRvJJSPDcCLxyk+XevugpCvGG
+         AdW2hJ3fBdeyNVqfW59b3xsRdS/I7roQrrJfBmyk3W4fa/6huiXeLn29QMUso2LpgpKY
+         uqGf7ZrTEozTpmOfhCOp6InR0+P0EI+BHkPMj0Vijf12p0VGdlY4/uA8l96xUTf5/wyn
+         jLLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780320643; x=1780925443;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Bhd58qYV5qQ5sfvU/qA2szyY/a3HbSOfNKYbjuYIxdU=;
+        b=EaVIBTJFWt2Qo1STRlQgLwV+scBJsfqF+JHBy7WYVXnMbDEqcyNLVJVasEsllVObgQ
+         VoT+CBPJKZFSp/JA7nceItngxtiNBT0ev8PTptDzls4hFom0BMUngG2b+bIUUPQ9N2At
+         hggbxrzs6INyZXfvzsy0W9+kK3q1U4y/0Gqszdh/Lc7eo8sUlAViZVOYALERSi+8Sg0I
+         KPHq7HOu7uZlBGQONLTI8fvfdDRXjDgYpuEnFNVkomyVOQf3ODoRC/9FvURaxdOClwIg
+         lYsIEXDrcZKbUFntsRO+83OKlH1kYxaQGJr2Z7FB+BDxDeRNzZdKAk3X0AUS/7WOzwQI
+         azpQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/4spNCUfgFbKCGXgYKOsdQPvmxHVH5bbh2hJ+AntgWqw91AlhMgrY58oU4eu5fKS2078oXdX+jmZ3pTw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw30rpivaLYzNcCHS9ZMni/XEMJpd5S91IRVQtNQxiML4OnkIV0
+	dk/aS76MUoIxfkXlu7n1Ba5llyidRSYskGN7KKvW4b7OOFyAgQe+ldBcHx7t+Xhr1VzO6dWwBjh
+	SIvGb+RC5efneKspx0moxv3GhAMTEZKLPalpOUgLTa4E2qONr5dbvwv6IdaneON6shg==
+X-Gm-Gg: Acq92OFmhuztHvgWJEzsfEP/Pf7XF6bIGGMPO+q2e/p/jtVabnUUHWfSh+t23d5y4fJ
+	RJdCfmroAg3OdnjXZvXvdUvukO8dgivEnhPJ0EnGHlA+QQiSW6qdnqGUEDLAqE+A6zvdajXeogQ
+	MGDSCCTjOTd8FRTOEXWKz4PXMq2D3ABvxCsvus0Z6tNl6tLD5+9IypTZbl5rF0fSmnaCrnQFe+S
+	YxZv5l/SGRQla1Oo1Kl+tB8SHkKzSdvKZu962q6ED12UNP7K1Mb4pvTxdHW3N4W6T6A9ppRjeYu
+	A0Q31YxtmlLFnNc5f7dH9oI0rueZZD/eUcxXrPu3zq+gpOZ3C+hC+aAwg925/TgNvIJF0RRF0eC
+	jkRpHdjr4M/rLTE/4cnf8mrhJzMcnNXjHlJ13HRN9mg7bChsCq1hGYLte+Klqpw==
+X-Received: by 2002:a17:902:d58d:b0:2bf:2e28:db28 with SMTP id d9443c01a7336-2bf368263d0mr123080455ad.29.1780320642768;
+        Mon, 01 Jun 2026 06:30:42 -0700 (PDT)
+X-Received: by 2002:a17:902:d58d:b0:2bf:2e28:db28 with SMTP id d9443c01a7336-2bf368263d0mr123079815ad.29.1780320642277;
+        Mon, 01 Jun 2026 06:30:42 -0700 (PDT)
+Received: from [10.206.103.106] ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2bf239e6ff5sm143718315ad.7.2026.06.01.06.30.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 01 Jun 2026 06:30:41 -0700 (PDT)
+Message-ID: <c1d1a8db-9cd2-462c-ab6b-d14eb97c644c@oss.qualcomm.com>
+Date: Mon, 1 Jun 2026 19:00:33 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA6PR04MB11910:EE_|AS8PR04MB7605:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc0d90d4-cd4f-42b8-134b-08debfe1ded9
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|7416014|19092799006|376014|366016|13003099007|22082099003|18002099003|4133799003|4143699003|56012099006|6133799003|11063799006|3023799007;
-X-Microsoft-Antispam-Message-Info:
- aM0Y2UpUuUIbb9DufC9zRNbEFwfVB3nXGmmcURqAZDpSpvYkeVciDz/IQzShe3FNBBuHsZlKdy0zKNemv2wFCQQbBu+qKr3puyHT+USOAzYDzWwzma7qsnzzPSPz106ZyBsrlFFUGzM+cvA+PLGqNcoUAML06/zouNbHvC2P6kGRUBgQ7XSnU0fH4INzL5KU/i/jUvwX1JeoMbB2BfPGbb3oKGvo947I8SFyfj9dZt4tlq18tqSH2fY8S4GdEQc9GVbhk2bdoRIqn49zn7NpWpb5h/amWtDAyFX9UNdJUVzpDEunoJBF3Av/lSgIkJXwRdd5bgOl1mfuwFQUgV49RvslxXr1q3pzflPzhL1V8IlNxCYfty0xMQVuIRBMNv3vxT0EGcdnnJ/5EAh9D4XcIEnle+u8yDxCFF/Qf352wh288McCAR373g7LwT7Cyq1vol7pFnmE1yD5t/S2WjiTT81JnDAe1Ok1y2nu9NTB8xe2077kw1//z255nJiy19yvMA4yi6Sip+wbCGcNo9tEC5U7fJrJF2T94XaJrMCULqr6WgAbuyQmmY4mInoy3CvAez5+lJwf+5y80dQWkkOLPP8qMt4xBb1P6oQ5Gg/68elEKei7m3OHUh1xLN6DAAiV5kYPU5nZEHii7xqfkKL1eg==
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA6PR04MB11910.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(19092799006)(376014)(366016)(13003099007)(22082099003)(18002099003)(4133799003)(4143699003)(56012099006)(6133799003)(11063799006)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?cXZXMkhva1BUd1BtNElKa0x6eEM5SDJZTE1LK0VONDVRTHQwa2ljRFZSSWNS?=
- =?utf-8?B?VlVoK2lUTFpTcUZQU3VoVmU3YVVEUVNOVUN0SEJEVFVhUUZvYlVYbnZaMFhB?=
- =?utf-8?B?dS85a3ZEbDkxUnh4TWtpZUhnMzdZeStoTFYvUjBicXcrdGtiaXNVbE9yY3BD?=
- =?utf-8?B?VGFYM3BpOFp6ZVZGdU5RNmNGZ3RxMDJpNnhoRWh0WWx0NkRuczAvZVpzT1JW?=
- =?utf-8?B?T0diKzBOUjFvOG1lRWhOMkVZaXA1T0NadTY0bjFqYjArZU9WeVNFNFdhYkU1?=
- =?utf-8?B?ZXltQWl3blFpbTYyZk8yTU9iUnBybjNYZVFrcmJZSFVhN2lwZ3Z3RkpjVFda?=
- =?utf-8?B?N3c3NzdtUFowS0ZCVTh6YkpicjIvKzM1MkdPS0hjUWlqbUFkaXRqVzNmZldX?=
- =?utf-8?B?bHdwNVdSa0I1NHc5QjZoVzZWVmVwOUU5dkI5QWVWdE5uQm1hRlhPN1Uwa09z?=
- =?utf-8?B?cmIyMU1URDN0THR1K2V5ZXNzaEVFb2F6VEhMdEhEZGVKeDU4UFIzZWlKcStV?=
- =?utf-8?B?bE5BVVVYRXBsakYza0tLd3J2SEIyeFUwMTBKWllzc1VQNW04U00xNVhteVJP?=
- =?utf-8?B?cDNLSkRERGRtZXNZVEZKRm9QOHFjT2ZiYVdEVCtLVFZkOHphVnBIejk5aUwx?=
- =?utf-8?B?VUM1WkQ3WjYreGJyWmR0THUrZzRIallTYktiUzM4ZURieWlDK2VWWEh2bi9q?=
- =?utf-8?B?b2MxMFV2M3ZUdjNnakJ2TUswbDFod3VkaDdkeWdCQUEwUVVkQ2R6Qlh6UEZi?=
- =?utf-8?B?eGxRbHJjc1Q0Y1duenJNK3Q2VDdCc0MveDZ4ZVUxK284Z3pUVUxyNjZYZnVN?=
- =?utf-8?B?NDZOUXNSa3pCelRyaEVjNGVHbkI4Z1JZaXNLUDZRRGtqbk95REo3Z1NRTHhX?=
- =?utf-8?B?YjhJR3plRW1uN1AxL2J6YVFPREV0NWJXZzNDVWVBS1d4RmxEemEwTXNnMUwx?=
- =?utf-8?B?N0M2c3dYQTlDQjFkOHBrS2FUZkhDNkFWMjVOUG51SUxCeXF0TXRuNi9MeXNs?=
- =?utf-8?B?Zmd0VmZCRzRtdmMvNU1LaXQySlhJemc2bjBIMXZkWUZEdjdWNVowUXpPKzQr?=
- =?utf-8?B?cjFGM0hxODI4MlhEZzc3Umw2UGRxci9YVzQ4VldrRDE5M0NGb2NyOFc5aVBn?=
- =?utf-8?B?WmE1SERISi82enc5THpNOWNnUFdxZ1E1RW9IUkRGMFlFVkRLZURDZktUc2VD?=
- =?utf-8?B?WWhuQnJQSk52NzJjZWQ0Vk1EeEVNWTV1K01ZQ256YW9HUEJRdG9mOXdzSnJs?=
- =?utf-8?B?S3VXWVp1L0syVEQ0QlQrWEFmMk4zaWUvd1NxaDUrekV3VzFsUmpMREZvOE1D?=
- =?utf-8?B?dS9JcEFab0tkdjQ5emRxR1UrVGFySTUyTmVvOCtpdmJCNUpMd0IzQjRsTW1Z?=
- =?utf-8?B?Zmtud0RkNDYvZXVQT2dVNE8wZjVMTkp3YXhrNW82TnZTR1Z2YlRmL2FMKy82?=
- =?utf-8?B?ZVB2cjVodmN2SllrQVRVVE5iVFlpeTRtRjBvSUJ1dFFZK2hUSjJiV0ZJNE84?=
- =?utf-8?B?bVB0WDhrYm1HUTV3eVpmRDBGSU1YUUwvMFFCbThaSlloc1FlaksyMlJBbTRX?=
- =?utf-8?B?ei9PUGo1N083NW5jSWVabU1lK3JXSVVPQm5pZjhkY1hobWd5b29FZktIVXVK?=
- =?utf-8?B?bEt5cmYxOThEYlluSFB0dDBtRURDdVlmckZvNGdyY2gzWXVLVmRiTzMweW5V?=
- =?utf-8?B?c1pPWitWWEVrTmlqY1FxUGltWUw2QTdmMjFPQ0pkeDNlaXJzdjBnTmlJeWND?=
- =?utf-8?B?TEYwTkJEc0R1cEp6OTVQZDJzaURYSDllcnM5d0x5eGcxWEt0bGpQOUtJNkto?=
- =?utf-8?B?ZXVUQmg1L0pyTTJvMDNNOFpBNUtTTmI4ZU5OL3pTN3NvYkZwN3RqeDRXQzNZ?=
- =?utf-8?B?K21PZlZUM1VZQWJNWW9MMDlTT1huNEliUUozK3JZOHFLdjR0YkpWaGpITHFJ?=
- =?utf-8?B?NUg0ME5iTGt4UVp5UVEzeThlb202VnFUM0hRdGo1Z3BXUzVGMXNZalU3dmxz?=
- =?utf-8?B?dE9odmppNEswKy9BOHRWNzZsSWRHQXROL3poNFMzN0U3WW9UZk9QTm9hYVg2?=
- =?utf-8?B?Y21RbndhdGhVOHd4K2l0ZnRzUGdyTkVTTDNVTWtRQkNtYVV3SGZCY3VBSzV1?=
- =?utf-8?B?NmhoVTZPRzZWYVlsbFB5TGxuTVh4T1NZbENRdGM5MVgwanlKWnJjNzZDN1hP?=
- =?utf-8?B?blArZ01rUi9xZ3JMZWhhVDlUajRJUEFpTXZpenBjQjZzUXlDMGt4TUw2Mm9a?=
- =?utf-8?B?RE5hcUMxeFFTYTkwNTEycmVoNG5QSWhQZFd2eHlpVzFBLzc3MGxqZC9CWnRi?=
- =?utf-8?B?K2dlcHpyVGpHMng4VS9xMm5xeVlFbkFzMGhoNnVVSHhyamJDWC9RQT09?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc0d90d4-cd4f-42b8-134b-08debfe1ded9
-X-MS-Exchange-CrossTenant-AuthSource: PA6PR04MB11910.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jun 2026 13:29:56.1621
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3VlxQGLtCn7sAtwU/hVtdRkxb2MvmfRBgcJgIBgeePyXzDa054k/JGzq4fLSijdVQUytDE3t/kO+EJHxFWA2RA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7605
-X-Spamd-Result: default: False [1.34 / 15.00];
+User-Agent: Mozilla Thunderbird
+From: Nihal Kumar Gupta <nihal.gupta@oss.qualcomm.com>
+Subject: Re: [PATCH 3/8] media: qcom: camss: add support for QCM2390 camss
+To: bod@kernel.org
+Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Loic Poulain <loic.poulain@oss.qualcomm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+        Suresh Vankadara <quic_svankada@quicinc.com>,
+        Vikram Sharma <vikram.sharma@oss.qualcomm.com>,
+        Prashant Shrotriya <pshrotri@qti.qualcomm.com>
+References: <20260526-shikra-camss-review-v1-0-645d2c8c75a7@qti.qualcomm.com>
+ <20260526-shikra-camss-review-v1-3-645d2c8c75a7@qti.qualcomm.com>
+ <178000641103.4557.14582699057810501776.b4-reply@b4>
+Content-Language: en-US
+In-Reply-To: <178000641103.4557.14582699057810501776.b4-reply@b4>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: xbjME1JdBWprUpH4PmzTClx2dwGo0a1E
+X-Proofpoint-ORIG-GUID: xbjME1JdBWprUpH4PmzTClx2dwGo0a1E
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAxMDEzNSBTYWx0ZWRfXz84uOYFyXsWa
+ OEetCEg8Q43TrA3zTIsCFsPWeQj8woCvpVLBym9gk+tEhbgLpG7gc8lnIQW+tLNOsODZEGsTIVG
+ QZMxJu0dQAOO5VJ2dxNi8n2BmyCm+SLOuHd05UmI0Uljqq3H8LXLkjAYHPo7ybAKCaEyd00QIxx
+ TbvejqLk1Lx3SZ74BRBMw9RZCto62dpLzaQLkmiOCXlbO0BJpRYVE9S573SCi+vjMoZXLKZz3id
+ D5WWqShtNst/VjEgvrh03MMvgxtmnhtfGpRa7cpFrqVYTMz9trMFuvoZF8nV7iKvNE2+J9MaX3O
+ SvGuqSvFOWS8OAoArSznd9bOulhNydNzYD0cAbpqxd8bacKvh4ZkAFIA/tDQCftY6iC/5VXEwBK
+ RDwHm0motuHj37TqYoIciexuA5QN4ejEVLiOQ+G5VBo2ABS+n/y1HtENCLc/JyOsB/6wBCGdsEl
+ oG9FjorJSh4RtRxGBmg==
+X-Authority-Analysis: v=2.4 cv=P4YKQCAu c=1 sm=1 tr=0 ts=6a1d8983 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=VwQbUJbxAAAA:8 a=FPLoCuxg6rETm2Q1RYYA:9 a=QEXdDO2ut3YA:10
+ a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-01_04,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 suspectscore=0 impostorscore=0
+ clxscore=1015 spamscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605210000
+ definitions=main-2606010135
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	TAGGED_FROM(0.00)[bounces-63261-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[linaro.org,oss.qualcomm.com,kernel.org,nxp.com,pengutronix.de,gmail.com,vger.kernel.org,lists.linux.dev,lists.infradead.org,quicinc.com,qti.qualcomm.com];
+	TAGGED_FROM(0.00)[bounces-63262-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,oss.qualcomm.com:mid,oss.qualcomm.com:dkim];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nihal.gupta@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[antoine.bouyer@nxp.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[nxp.com:+];
-	NEURAL_HAM(-0.00)[-0.998];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
+	NEURAL_HAM(-0.00)[-1.000];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[outlook.com:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 60478620107
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 2D2296200E6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 5/27/26 2:09 PM, Jacopo Mondi wrote:
+
+
+On 29-05-2026 03:43, bod@kernel.org wrote:
+> NAK - what is the point of this identifier ? It literally just adds a new
+> define and a new string.
 > 
-> 
-> Hi Sakari,
-> 
-> On Fri, May 15, 2026 at 03:11:18PM +0200, Jacopo Mondi wrote:
->> Hi Antoine, Keke
->>
->> On Wed, May 13, 2026 at 09:04:27AM +0800, Keke Li wrote:
->>>
->>> On 5/12/26 17:26, Antoine Bouyer wrote:
->>>> [ EXTERNAL EMAIL ]
->>>>
->>>> Le 05/05/2026 à 18:49, Antoine Bouyer a écrit :
->>>>> On 5/5/26 4:12 PM, Jacopo Mondi wrote:
->>>>>>
->>>>>>
->>>>>> This series breaks out from Antonie's
->>>>>> https://eur01.safelinks.protection.outlook.com/?
->>>>>> url=https%3A%2F%2Fpatchwork.linuxtv.org%2Fproject%2Flinux-
->>>>>> media%2Flist%2F%3Fseries%3D24043&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605732002%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=FXaz7QYQvS3s%2B4l9AFMrGgE7kmXlEil%2FKD6DibB0%2FJY%3D&reserved=0
->>>>>>
->>>>>> the extensible stats support and adds a few more patches on top to:
->>>>>>
->>>>>> - add support for per-block validation as suggested during the
->>>>>> review of
->>>>>>     Ricardo's
->>>>>>     https://eur01.safelinks.protection.outlook.com/?
->>>>>> url=https%3A%2F%2Fpatchwork.linuxtv.org%2Fproject%2Flinux-
->>>>>> media%2Fpatch%2F20260504-smatch-7-1-v3-6-
->>>>>> fda125c30058%40chromium.org%2F&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605751612%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=AiRH8MhIbXt3dr%2B2r3I6STE6TJAChylnH%2Fz3tLdS36k%3D&reserved=0
->>>>>>
->>>>>>
->>>>>> - add two helper functions to v4l2-isp to ease handling of extensible
->>>>>>     statistics for drivers. An early user, based on a preliminary
->>>>>> version
->>>>>>     of the patches is available here as a reference:
->>>>>>     https://eur01.safelinks.protection.outlook.com/?
->>>>>> url=https%3A%2F%2Fpatchwork.linuxtv.org%2Fproject%2Flinux-
->>>>>> media%2Flist%2F%3Fseries%3D24703&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605763086%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=%2Fpsb7Z3lb8ingDILxc3LoEWKTojl5BGMbk6FiR%2FcO9I%3D&reserved=0
->>>>>>
->>>>>>
->>>>>> Antonie: I took the liberty to fold in your patches changes to address
->>>>>> my comments on your v1. I pushed an un-squased version of the patches
->>>>>> here:
->>>>>> https://eur01.safelinks.protection.outlook.com/?
->>>>>> url=https%3A%2F%2Fgitlab.freedesktop.org%2Flinux-
->>>>>> media%2Fusers%2Fjmondi%2F-%2Ftree%2Fb4%2Fextensible-stats-
->>>>>> unsquashed&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605775020%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=iF2BE0GZ8HcVPmOJDhbmLsXQDOXV9JvqfMK6DRPPvrg%3D&reserved=0
->>>>>>
->>>>>> so you can easily get the diff from this and your version. Please feel
->>>>>> free to comment on these as you're the original author.
->>>>>
->>>>> Hi Jacopo
->>>>>
->>>>> Thanks for the rework and the links. I'm fine with your [SQUASH]
->>>>> commits.
->>>>>
->>>>> If there are no other comments, I assume I can reuse the common patches
->>>>> in my v2 then, and also apply the new helpers to neoisp driver changes.
->>>>> They look very useful (especially to prevent out-of-bounds crashes I
->>>>> observed when data_size was not set before filling stats :( ). I'll
->>>>> check in your user example.
->>>>>
->>>>> BR
->>>>> Antoine
->>>>
->>>> Hi Jacopo
->>>>
->>>> Do you think it would make sense to create a new generic V4L2_META_FMT
->>>> too ? which can be used by all user of v4l2-isp extensible params a/o
->>>> stats. To avoid each driver creating its own meta fmt with same purpose.
->>>>
->>>> Or do you think it could have side effects ?
->>>>
->>>> BR
->>>> Antoine
->>>>
->>>>>
->>> I think this proposal is excellent.
->>> 🙂
->>
->> To me, platform-specific formats mostly serve for documenting the ISP blocks.
->> In example
->> https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/metafmt-rkisp1.html
->>
->> There might be ways to handle it without defining a dedicated format
->> indeed.
->>
->> Sakari Laurent and Hans are in cc, what do they think ?
->>
-> 
-> We briefly discussed it on irc and a few days ago again.
-> 
-> Am I correct you think this is a good idea ?
-> 
-> Antonie, do you plan to include the two new generic formts in your new
-> version ? Should we have a single format for STATS and PARAMS too ? I
-> see merit in both ways, to be hones two formats sound better to me as
-> they apply to two different queue types (output for params and capture
-> for stats)
+> Unless there is an actual difference with 2290 which thus far we haven't
+> see, this new type is not required.
+Understood.
 
-Hi Jacopo
+As mentioned by Vikram, Shikra will use a new compatible string with 
+fallback to qcm2290, similar to CCI approach. 
+The CAMSS_2390 identifier and the driver changes will be dropped in v2.
 
-I would personally prefer using a single format for both params and stats.
-
-In my view, the format describes how the meta buffer is structured 
-(header, size, version, flags, etc.), and it should not depend on the 
-queue type. Since both stats and params will use the exact same 
-structure, then it makes sense to me to share a single format. Similar 
-to how a pixel format applies to both source and sink queues.
-
-That said, if there is a consensus in favor of defining 2 separate 
-formats, I am fine with following that direction.
-
-For now, I don't plan to integrate the new generic format in my patch 
-series. I would prefer to wait for converging on a solution (1 or 2 
-formats) first. Then, depending on timeline, yes I can integrate it.
-
-BR
-Antoine
-
-> 
->>
->>
->>>>>>
->>>>>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>>>>> ---
->>>>>> Antoine Bouyer (2):
->>>>>>         media: uapi: v4l2-isp: Add extensible statistics
->>>>>>         media: Documentation: uapi: Update V4L2 ISP for extensible stats
->>>>>>
->>>>>> Jacopo Mondi (4):
->>>>>>         media: v4l2-isp: Rename v4l2_isp_params_buffer_size
->>>>>>         media: v4l2-isp: Add per-block validation callback
->>>>>>         media: amlogic-c3: Implement per-block validation
->>>>>>         media: v4l2-isp: Add helpers for stats buffer
->>>>>>
->>>>>>    Documentation/userspace-api/media/v4l/v4l2-isp.rst |  45 ++++++--
->>>>>>    .../media/platform/amlogic/c3/isp/c3-isp-params.c  |  42 ++++++-
->>>>>>    .../media/platform/arm/mali-c55/mali-c55-params.c  |  12 +-
->>>>>>    drivers/media/v4l2-core/v4l2-isp.c                 |  56 +++++++++
->>>>>>    include/media/v4l2-isp.h                           |  94 +++++++++++
->>>>>> ++---
->>>>>>    include/uapi/linux/media/v4l2-isp.h                | 125 +++++++++++
->>>>>> ++--------
->>>>>>    6 files changed, 294 insertions(+), 80 deletions(-)
->>>>>> ---
->>>>>> base-commit: d9c8c4adf23d17549c0ec9c85b99d85a0ee6cf18
->>>>>> change-id: 20260504-extensible-stats-f2d6befcc1ce
->>>>>>
->>>>>> Best regards,
->>>>>> --
->>>>>> Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>>>>>
->>>>>
->>>>
->>>
-
+--
+Regards,
+Nihal Kumar Gupta
 
