@@ -1,81 +1,84 @@
-Return-Path: <linux-media+bounces-63269-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63270-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cOAbKpOTHWqmcQkAu9opvQ
-	(envelope-from <linux-media+bounces-63269-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 16:13:39 +0200
+	id ECFSMWyWHWoXcgkAu9opvQ
+	(envelope-from <linux-media+bounces-63270-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 16:25:48 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3028A62099D
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 16:13:38 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09F1C620D35
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 16:25:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 844543086994
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 14:06:38 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 2F2D2302E2C9
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 14:15:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD3D83AF640;
-	Mon,  1 Jun 2026 14:06:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5447C3B8BCB;
+	Mon,  1 Jun 2026 14:15:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DaMZv8cP"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="k1vJM7tB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE1683ACEF3
-	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 14:06:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 745B03B8BD8
+	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 14:15:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780322797; cv=none; b=KmXsjkrD1ppezs5RtlJuXHehgWHrGet3YY9TSr7z1znNGerrj6ODthDunPAvJHYNQb5Z22ZKxQXtHB7aNfzMRMmBjrM/sEt1Tf+CbXIUs7Wn1ir25p15sj/fhYIkf7qKCHaHrPdDJUGLlzhq4n4Xkl1x2Hr2e4B6PMk21HBs1AU=
+	t=1780323337; cv=none; b=lyL3GoBxlliW9AlPwynOVwoYuZ+kdsXH3JzyCvfWE+U1nIqcLX1wo8b2GSMKfSENCGrro2OK0ibE91kZRZFZlDmiK2oKBiQy7N3FGpRaB5LP3Wu077iJItDFDQcRFF01YyADlJllWj/xqbSN57l1/u53lyCQvorTNM7+uSLyIKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780322797; c=relaxed/simple;
-	bh=k9DY2eKAq43fDbUXhY0ndixpVAYu6LqK3b0B59oV4N8=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=WxjlbLxO093ZW0RCXfAh6LSeSJgO1jSGXUf9nrYQ9EYXejDBdeBTp+rKKBYU9HAJjicJScXD+bw4iDYRdRjNPnzcS26smpXNrmkSCodHZQzB8OnuQq8dt7en2H8X1aoRfDQR3y5RV4GMg++7c35FgoVVx/t6XN80Kxa6flaw0Ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DaMZv8cP; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aa68cf9123so1405274e87.0
-        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 07:06:35 -0700 (PDT)
+	s=arc-20240116; t=1780323337; c=relaxed/simple;
+	bh=IxB7Fd79A3gZ1r/a8Cr3tbT307HV68s4njAYnRINXlo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hA6mFNzh6+WtvrkjYvFTewABRVnKUainaCpWdp2yvy6SnS4oEh5L3pId2cQmgIs3Ll0m1dD0UlGj3XGHxcpwkeZVtTQenYB1SZdbzQnUKQWIloLRUqX3Ov/+vYU2pnVmxCDBi95ZzJzOSwaf4+RnY1iDqvKIcIPVST6RBx3TewQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=k1vJM7tB; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-45ef41adbc1so1904281f8f.0
+        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 07:15:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780322794; x=1780927594; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-language:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nOc7BFAMb/Y9gmJ/GTgJ6m/JbBQ6Da1YwZ1MJKOchbg=;
-        b=DaMZv8cPcXe5r4xytjMG3kWwmY+bZjHUpBzWL0x5fDnSa6KdnF7kg+Mf5eVxOGmFaI
-         iWWejdsvROzWxnh9d0thQmwcsp+At6l/8knTpG/opX3R5/NENmgbOZkLazSO5VGoDL1s
-         995xUAfDDnGmgyvJ/xJpKpGi+W+2aALd9OymlsdGfrQs3bz5Cy0iYy0xP9MXmF25jOxY
-         jEd176R6B7Q+BJK+r6shqMU6fr6EhnTXS1uxhv6p8DcBBfmN3gQih3Iqy9NoCU73P2xV
-         x4l0iFPwaTqypDUrOh0JZljpLQyaRVtZg6U9WAweiQjY4811ipHhM6wAoSga6KY+3kKI
-         87jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780322794; x=1780927594;
-        h=content-transfer-encoding:content-language:cc:to:subject:from
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+        d=linaro.org; s=google; t=1780323335; x=1780928135; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=nOc7BFAMb/Y9gmJ/GTgJ6m/JbBQ6Da1YwZ1MJKOchbg=;
-        b=QnfUhcaVm8QVAau1DLZ6hSpB3EY7vxgSOyJGq4Ox8QhyQKgub0qlS7ADyaLzFGa6X0
-         lNs6z2Cu3Pogg41QgB0Zx7J3e4XFVv2w6L+m7AaAvbNCFm05FxhlSFlgzZTKW0Uvg6Fz
-         70w3V8wXSL7FuIyV2BVtkjDVQqxApKCiYpSxrDmbDvPIZ13ViaesRlZg+vXzew50KHVv
-         pXOiud1LAzvSJ97sLSqc+FZ+IH9GnJlIw0N4HxqQP2Wgdkg4aLif1INW9YdLZcWZvby6
-         aXKJa0mjK/AXs+VK4xDQ5AJ3EPn2fbvUljIvG/ayfx2MI/3NLDvuVh+BijQSVQPntSlX
-         u4GQ==
-X-Gm-Message-State: AOJu0YxenOJjhhiWIjrM8Xm9ikG7nSE9H9/y40BxdM/ZKCM284hFy7il
-	9POzqXbCSH+VPzZe9thy2JJ3kFipL5w1Pjc7VcQf3XeDFI5m/U7odxom2fvhiBDK
-X-Gm-Gg: Acq92OH3QkYtSJazywX1dt9Xm8yllxUXbGy2DfgsRdVugqyv8RIek/NmzZuhNHjf74n
-	0ofZLpeRKm8xAgJRlskd4E7hYB2zOqzfScfSb+t2E5h5sorkaHj8W/njTURV5Ya6rZNu1uRTFXH
-	hofBcbQgXK5P706XTSDSKdVGjrRC6BOuAhYy1vomJCL5Rfl4RXeh57sZ6U7g7iWeijTSrGI0M+L
-	SomIMwr/on+9+5UOhOLM4gNS5xnWZJoazmNYiBPY0zxVaLriwqjDDHcJa+KJUcpUjAWQu6zjepU
-	/G1WxbM7+Uq+ATpcUkcWo4CEXwUErjaUQtYTLVQT82E8Fzl2TPaFH553lU3D4noXX1MPo1B1Yeg
-	Q9g/QF5IL456JyNz1ivD6SfNgZd7MAGY40TMJUrX8Ry2ECEojcCx/iGMXgO6jzuNlLtFMmYsTD7
-	JL9p7mZFL+RLtxzX7gm3rhGMbn2eR3HsbNHFA9SF1UfYb+dA==
-X-Received: by 2002:a05:6512:1252:b0:5aa:678f:5646 with SMTP id 2adb3069b0e04-5aa678f5ademr2666938e87.8.1780322793547;
-        Mon, 01 Jun 2026 07:06:33 -0700 (PDT)
-Received: from [192.168.7.105] ([83.136.105.81])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef356b129sm32078117f8f.32.2026.06.01.07.06.30
+        bh=vaUY+wznT6I0Vd1tbKHFAPphi09g/5Uz9b/r1spWPtc=;
+        b=k1vJM7tBtva4X1Eo4pUIcjiPrNX/aL/a48xSdtVgurZlbveyp9kTVF9eG0QiOYn680
+         Cbh8OkJHXi+D8D2Ts6lpLB/ncxDzo5kzXJgvH5LGoEocqFfWf/omi9252A7HAopwBl1c
+         08OFY0NG/zPCCpIZ7Z8tCKKM12Zmd+yBNpDBH6t0hvu+CL5+Wy0j/PohhGHyRTYvI2UA
+         bv/P9AjjhOOi2s1M379z2rrOTdKttYlDCavlOgnGDDrbeW9jUBI6cKOn8c8G6QNNIz57
+         SuJZXa6D092R/pnlJP6LGzZEz+Ren9BSfsCaFlWtctwVi7OUl8ovinbDayrGc/x8gna0
+         O11A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780323335; x=1780928135;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vaUY+wznT6I0Vd1tbKHFAPphi09g/5Uz9b/r1spWPtc=;
+        b=L0psAY4rwhMq0GxkQOVrYqXMnNJXPCQx3o9bNax5Ee2bobIPm8K7N9oD9QbC9L4ago
+         vQqlk0jZ5JsqM4QsI/EoCHc4Q9lhv1AIIV7NNhgIa39L8zrHWY1igWBI18AKHxfjoDnR
+         g70IF+s8T7nXnZDWReiGYWN0DFnjxPzG1fNCsFtN9vIiixR2wlV+1oqa7Ag/jFv9/RPq
+         JSX8FgCg3tFHRnSK7Zk64fnIeJmXwBiH+zCzw5I9GspM1XeztpxhRV6MEgq2lj+Gg+uA
+         l890Iv9uFHiloF7S7A8c/pJfLMZPbeSg4M8XlKku3MZ6eAs9mX3svTgT+5T+0ZeORfum
+         7tsg==
+X-Forwarded-Encrypted: i=1; AFNElJ+hrLATYaFicSL9WfG6P7t/Gy3fqF3gR9p4dIJmVOkXhKtMg5LEOrHviXOCDRZ7/aqa+ns2B3WkchhcPw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwR/R7bvNKCKsYaADf370f3chgokle9RL+s9Xe4ztjTwzIQWiGW
+	H59KC+3qLhvAQF2Lgra3z51ARc0eG0l2KAhJxYRNoEsSsqLqjrNksA0QP5/I54gHvlY=
+X-Gm-Gg: Acq92OEnQF5l+BGLFqWF5EYSO8Ad/IGV+xwIdIaKF8ncEtFLG2dc2v0okI19/kjA5Ax
+	7BReCtRxG/49xhwrYD6Jph+bTpMcOdpT1jHLC0KvL52+QYXBcZdJ+vIS/hrF2RavdF1e2Z0a37c
+	CBm8lLVV7N6bJ35eznx5KbzX/PAuWOsJLfrlYzHyR0DidvCovEQIOp+/Rk9cVqJMhUBN8RyMGko
+	6Wd8Mx53JE6Ej17l4R7KLHuE7Fzd7PARsUi5ykvDSafKdh2CnMZJA9R873gwq50cyJ99rPLmEdw
+	TLFkdU2TLvOTpqWzs1uxT5WchA/7LYIh+4Nseyhq1BFpR0uXrHPXbJ764ESM/XArcyFJI6sFYxD
+	JEcFXMIIGpqQQ/XDDl/ItzM3JZne/ivqZpPHAyNE/y39MnAUQhnB1bVT7hzSB87Nith/Vdy9yoj
+	/cDecLwPgg/cCniuvTqDS5J4kCvPZcCEmc++aoTt/mqJ7KGWa0oM8vUyYJ
+X-Received: by 2002:a05:6000:4610:b0:43d:50c:6f33 with SMTP id ffacd0b85a97d-45ef6b670e1mr21405913f8f.26.1780323334783;
+        Mon, 01 Jun 2026 07:15:34 -0700 (PDT)
+Received: from [192.168.0.101] ([109.76.233.76])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45ef34b47eesm27847640f8f.9.2026.06.01.07.15.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jun 2026 07:06:32 -0700 (PDT)
-Message-ID: <abeb9142-16a7-417b-be0f-b929234de6db@gmail.com>
-Date: Mon, 1 Jun 2026 16:06:29 +0200
+        Mon, 01 Jun 2026 07:15:33 -0700 (PDT)
+Message-ID: <203e09db-ba37-4d75-b984-227298f55d80@linaro.org>
+Date: Mon, 1 Jun 2026 15:15:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,170 +86,115 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: "Angioli Samuele (gmail)" <angioli.samuele@gmail.com>
-Subject: [BUG] OV02C10 on Dell 16 Premium DA16250 (ARL): INT3472
- handshake-derived "dvdd" regulator registered but never linked to sensor,
- sensor probe fails with -EREMOTEIO
-To: linux-media@vger.kernel.org
-Cc: Hans de Goede <hansg@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Marco Nenciarini <mnencia@kcore.it>,
- Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
- linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Content-Language: it
+Subject: Re: [PATCH 4/8] arm64: dts: qcom: shikra: Add CAMSS node
+To: Nihal Kumar Gupta <nihal.gupta@oss.qualcomm.com>,
+ Vikram Sharma <vikram.sharma@oss.qualcomm.com>, bod@kernel.org
+Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Andi Shyti <andi.shyti@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, linux-arm-msm@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ Suresh Vankadara <quic_svankada@quicinc.com>
+References: <20260526-shikra-camss-review-v1-0-645d2c8c75a7@qti.qualcomm.com>
+ <20260526-shikra-camss-review-v1-4-645d2c8c75a7@qti.qualcomm.com>
+ <178000689150.4557.11759359941436928903.b4-reply@b4>
+ <df00e8d8-21ab-415f-815e-608eb7ab0967@oss.qualcomm.com>
+ <23d2a824-e894-4c26-8bd1-02bbb8a7c6d1@linaro.org>
+ <f7403443-3c0c-45d2-8235-46c70883a296@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <f7403443-3c0c-45d2-8235-46c70883a296@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	TAGGED_FROM(0.00)[bounces-63269-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[linaro.org,oss.qualcomm.com,kernel.org,nxp.com,pengutronix.de,gmail.com,vger.kernel.org,lists.linux.dev,lists.infradead.org,quicinc.com];
+	TAGGED_FROM(0.00)[bounces-63270-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[25];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[angiolisamuele@gmail.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-0.996];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 3028A62099D
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,linaro.org:mid,linaro.org:dkim]
+X-Rspamd-Queue-Id: 09F1C620D35
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi all,
+On 01/06/2026 07:42, Nihal Kumar Gupta wrote:
+> Here is the full IOMMU SID list for both platforms:
+> Agatti (QCM2290):
+> - 0x0400 0x00 — VFE non-protected
+> - 0x0800 0x00 — CDM non-protected
+> - 0x0820 0x00 — OPE read non-protected
+> - 0x0840 0x00 — OPE write non-protected
+> 
+> Shikra:
+> - 0x0400 0x00 — VFE non-protected
+> - 0x0600 0x00 — CDM non-protected
+> - 0x0620 0x00 — OPE read non-protected
+> - 0x0640 0x00 — OPE write non-protected
 
-On a Dell 16 Premium (DA16250, Intel Core Ultra 7 255H, Arrow Lake-H)
-with an OV02C10 IR camera sensor behind a Lattice NX33 USB-IO bridge
-(2ac1:20c9), the integrated webcam does not work on a vanilla
-v7.1-rc5 kernel. All required drivers are in-tree (usbio, gpio-usbio,
-int3472-discrete with strobe / handshake support, ov02c10, ipu-bridge),
-yet the sensor probe consistently fails with -EREMOTEIO at the
-chip-ID read because its supplies fall back to dummy regulators.
+What this tells me is that the Agatti binding is incorrect for addition 
+of OPE as a separate device.
 
-Summary
-=======
+> Only VFE SID (0x0400) is shared between the two platforms.
 
-* INT3472:0c declares (among others) a HANDSHAKE GPIO (type 0x12) on
-\_SB.PC00.XHCI.RHUB.HS09.VGPO pin 1 (USB-IO bridge gpiochip,
-INTC10B2:00, 128 lines).
-* int3472-discrete successfully acquires that pin (gpioinfo shows
-`line 1: output consumer="dvdd"`) and registers a regulator named
-`INT3472:0c-dvdd` with init_data.consumer_supplies set such that
-`dev_name == "i2c-OVTI02C1:00"` and `supply == "dvdd"` (lower- and
-upper-case forms, per
-drivers/platform/x86/intel/int3472/clk_and_regulator.c:219).
-* The OV02C10 sensor (ACPI HID OVTI02C1, i2c device dev_name
-`i2c-OVTI02C1:00`) calls devm_regulator_bulk_get() for
-"avdd"/"dvdd"/"dovdd" and gets the dummy regulator for *all three*,
-including "dvdd". The chip-ID read at register 0x300a then returns
--EREMOTEIO and probe is aborted.
+Both platforms have the same IOMMU list, its just that you are 
+correcting a bug in Agatti's defintion.
 
-In other words: the regulator is correctly registered and the consumer
-device exists with the matching dev_name, but the regulator core does
-not link them; `regulator_summary` shows `INT3472:0c-dvdd` with
-`use=0 open=0` and no children, while the sensor stays on dummy.
+Again only IFE SIDs should be included in CAMSS...
 
-Hardware / software
-===================
+> The current Shikra submission enumerates only the VFE SID.
 
-Machine : Dell 16 Premium DA16250
-CPU : Intel Ultra 9 285H × 16
-Camera sensor : OmniVision OV02C10 (ACPI HID OVTI02C1),
-module id 'CJFME322D'
-Power controller : INT3472:0c (discrete), ACPI status 15
-GPIO provider : Lattice NX33 USB-IO bridge (USB 2ac1:20c9),
-auxiliary HID INTC10B2 → gpiochip1, 128 lines
-Distro / kernel : Manjaro Linux, kernel 7.1.0-rc5-1-MANJARO
-(vanilla 7.1-rc5, no out-of-tree DKMS modules)
+Great, this is what we want.
 
-Relevant log excerpts
-=====================
+I think for future submissions we need to be commenting, naming, 
+something each IOMMU entry as we have a problem now in Agatti and a 
+legacy problem - already - in VIDC as a result of misallocated IOMMU 
+entries.
+> Should CDM and OPE each get a separate YAML binding like [1], or
+> should both be part of the CAMSS YAML binding? If part of CAMSS,
+> please confirm and we will add their SIDs in the DTS in the next revision.
+> [1]https://lore.kernel.org/all/20260508-camss-isp-ope-v3-9- 
+> bb1055274603@oss.qualcomm.com/
 
-dmesg (initial failure):
+Yes I think CDM should be a standalone block and BTW use standard DMA 
+APIs with its own IOMMU entry.
 
-ov02c10 i2c-OVTI02C1:00: supply dovdd not found, using dummy regulator
-ov02c10 i2c-OVTI02C1:00: supply avdd not found, using dummy regulator
-ov02c10 i2c-OVTI02C1:00: supply dvdd not found, using dummy regulator
-ov02c10 i2c-OVTI02C1:00: Error reading reg 0x300a: -121
-ov02c10 i2c-OVTI02C1:00: failed to find sensor: -121
-ov02c10 i2c-OVTI02C1:00: probe with driver ov02c10 failed with error -121
+Similarly so OPE.
 
-dmesg with `module intel_skl_int3472_discrete dyndbg=+p` (selected,
-duplicate retries during probe-deferral elided):
+The CAMSS node should only contain the IFE SIDs.
 
-int3472-discrete INT3472:0c: Sensor module id: 'CJFME322D'
-int3472-discrete INT3472:0c: dvdd \_SB.PC00.XHCI.RHUB.HS09.VGPO pin 1 
-active-high
-[... ~30 deferral retries while gpio_usbio finishes coming up ...]
-gpio_usbio.usbio-gpio usbio.usbio-gpio.0: [Firmware Bug]: GPIO 4 is not 
-in FW pins bitmap
-int3472-discrete INT3472:0c: [Firmware Bug]: ir_flood \_SB.GPI0 pin 
-number mismatch _DSM 0 resource 352
-int3472-discrete INT3472:0c: ir_flood \_SB.GPI0 pin 352 active-high
+So, actually I think your IOMMU defintion is correct but Agatti is not.
 
-After int3472 finishes (probe returns 0):
+Sigh.
 
-$ sudo gpiodetect
-gpiochip0 [INTC105E:00] (451 lines) # SoC GPIO
-gpiochip1 [INTC10B2:00] (128 lines) # USB-IO bridge (Lattice NX33)
-gpiochip2 [cs42l43-pinctrl] (3 lines)
-
-$ sudo gpioinfo --chip gpiochip1 | head -3
-gpiochip1 - 128 lines:
-line 0: unnamed input
-line 1: unnamed output consumer="dvdd"
-
-$ sudo cat /sys/kernel/debug/regulator/regulator_summary | grep -A1 dvdd
-INT3472:0c-dvdd 0 0 0 unknown 0mV 0mA 0mV 0mV
-
-No consumers under INT3472:0c-dvdd. The ov02c10 i2c device exists at
-the matching dev_name but gets the dummy regulator instead.
-
-Suspected cause
-===============
-
-The HANDSHAKE case in int3472 was added (commit history under
-drivers/platform/x86/intel/int3472/) on the assumption that registering
-a regulator with init_data.consumer_supplies[].dev_name set to the
-constructed i2c sensor name ("i2c-<ACPI HID>:<inst>") would be enough
-for an ACPI-instantiated sensor i2c_client of that exact dev_name to
-match via regulator_get(). On this DA16250 the device naming matches
-(the dev_err prefix on ov02c10 is literally "i2c-OVTI02C1:00"), yet
-the supply_map entry never fires and the consumer ends up bound to
-the dummy supply.
-
-Possible explanations:
-
-(a) fwnode/of-based supply matching in the regulator core now takes
-precedence over the legacy dev_name-based supply_map lookups, and
-the sensor's fwnode (a software_node created by ipu-bridge) does
-not reference the INT3472:0c regulator -> the supply_map is
-shadowed and dummy is selected.
-
-(b) The sensor i2c_client created via ipu-bridge has a slightly
-different dev_name than what int3472 constructed via
-I2C_DEV_NAME_FORMAT ("i2c-%s") at probe time (possibly due to
-sw-fwnode instantiation differing from acpi_i2c enumeration).
-
-I am happy to provide any further data — DSDT extract for INT3472:0c
-(both _CRS and the _DSM result for the GPIO at \_SB.PC00.XHCI.RHUB.HS09.VGPO
-pin 1), full dmesg, lsusb -v for 2ac1:20c9, and any patch test results.
-
-Thanks,
-Samuele
+---
+bod
 
