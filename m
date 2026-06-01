@@ -1,477 +1,286 @@
-Return-Path: <linux-media+bounces-63277-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63278-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cDsVOimhHWqncgkAu9opvQ
-	(envelope-from <linux-media+bounces-63277-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 17:11:37 +0200
+	id wPknCiagHWqncgkAu9opvQ
+	(envelope-from <linux-media+bounces-63278-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 17:07:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6103962167C
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 17:11:37 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D5A4621571
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 17:07:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id EA6AD30C89C3
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 15:03:56 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 341643017CE6
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 15:04:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 608BC3D8137;
-	Mon,  1 Jun 2026 15:03:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 450943D7D84;
+	Mon,  1 Jun 2026 15:04:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BOarpfYt"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="YRqFYGB+";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="amJsCmDn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723D93BED5C;
-	Mon,  1 Jun 2026 15:03:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780326213; cv=none; b=INgCe82L7iURKbD3bzVJL4nKXpni4UDlPBZGLv21c/MsKj5Eyz6bLvT7IcyoHxSQ2qNntiOVOR73vmlsR6jMM2jvz0AF+CHriBLKnFhw53bVLX0yKvcQAL14YMyeB+kQi/XQPukHWtFiLM07uZHYY1MEclmeNx+4CqhMQuqjgEE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780326213; c=relaxed/simple;
-	bh=nJO4vOcXb1PMyMD3uuvwW7Eu4iwEqxP2+Czmf4VdgcA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sJvOkFunP6j+/wo1IHbjRLh2i8ubZhzb6/DNvzQxhiSQoMhAbkF88xp0jU+5DjL9mXcMILmR1TYv5TC9W/yEJi9nKtBWL2MK82VDIDayMZJaSZoDk2l/8OQYuP3jlH12sFT+hMBMCqWUOZn2Vf6OO6GM7PWXFpL+J03MYIIYOJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BOarpfYt; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 358FC1F00898;
-	Mon,  1 Jun 2026 15:03:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780326212;
-	bh=+GdZNh9nypazEACywDjergp6kU0pITs/92TrBD2Yydw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=BOarpfYt3NLRErRwvrz+DT6cEkQiE4gLhK5NtdACkatGrc9SMYyAFDoKVqEG7jLTM
-	 AKqmPeWXeArjxnf8ACMoOR/J3sOJMPHrQ8mQaRjRQLdRE3tXrAEHNvKPh+aAiQuawA
-	 3Y5GHTNIS5DW6qqcPhyQplOuJwSHzTru1oaymyN85KQnB0lOYpFKp2Ax3jvQurVPQ/
-	 qLvwYTM9L+3RP3sQvwr/y5QuqTdTddFQ8LUHdE1XZOhZocM6pSYktQNMhKhIWdGNz5
-	 Gwxd9ws81cMkZ8DNn7ZIJQH53HjHa2PU9KL3j+Y6jH3RjM31pzhgKzGgUQdaWNRuNj
-	 tAzYel7/U+y5Q==
-Message-ID: <2b61a13d-a117-4357-896b-1231990ef5ba@kernel.org>
-Date: Mon, 1 Jun 2026 16:03:28 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941013D79E3
+	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 15:04:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=205.220.168.131
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780326274; cv=pass; b=jiUIx6Uy69SDbf8KtwqqAhW00XRc4o6aTJjpuXDdxyaXwg/cc+NFiBi7znDoK7xmlqejKlKkYW2YB5Hoa2H+DgY0Wy5jfMs18BULW6lMYYKmlZajbLcEoeRGlZ4EgqcgZr6l+/SRjwcCl94en5Zkw5ZB55ezgb6nqIBhtylKZ2Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780326274; c=relaxed/simple;
+	bh=Mp60gJ55zo9v3Xom2jfl8sCdLl+dNBb3b7eef/UakmU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OaQVy5IKHdIs0Rq7T9GQtOyGcRfmXLbO8vHI4n345tn2A+wk2JZb3EBWQamANtOFODa3pnO2pp59oYBMAKsyYZcuxy4R2rKlBMzs0eqDA7PKDKYjYW120EoJA33qzemjTBng7EKPMASc96M0PvZBbShlMIk0HSJHJ+SJhFalcSw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=YRqFYGB+; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=amJsCmDn; arc=pass smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 651EeBGU2740401
+	for <linux-media@vger.kernel.org>; Mon, 1 Jun 2026 15:04:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	6TniDMWPlC5wJVCKXeX8vLCzRav1MdaXlzFFmaU889I=; b=YRqFYGB+4FypsnYO
+	TRl3tBiMCsYeT4GesNcXs3gpR/la+dLrGP5tmmOOc1htBjljzs+so4Ngq4r+u0ny
+	PU4zWUeRpSbzURkIu7RJGCUB4ABe/EZlZYyDsgVSk2iZZMuAcOezY20zBHb0X9EY
+	+/FHTa8uISnaO2D4O/lsz6LgNZ8TOgBDIHa0riODqBMdEAnNVvmx7cyUc79S6mih
+	u9Wpxmi3XjejkVAi2voS11s88885vR09F2TO1EvbyroGvidLYa9+4EK1k9XgduRQ
+	czdcT34xqcDy65IguEqXl2LjAx+Tp4PkCcVP5RsESoORjmJ9r3oVUb9pbieuyuK4
+	TbPbRQ==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eh6sqhm5h-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 15:04:32 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-915767b341eso26991585a.3
+        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 08:04:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780326272; cv=none;
+        d=google.com; s=arc-20240605;
+        b=DawZxZXQGLurqbblg3im+m/ghK6ZwXw9HrVKs6cqd2mVZmaWx4hQUp9dYQ2QhOlI4v
+         T4iEnu0o4TCvGRK8XceAOM4GrUvppqBC8W0Gg9iddsv1l7gmXAcS58xnP6TI6jvuZIhW
+         Qj56w6SmtOIEo1/ozGU9Av0/yOrJ5YNynG3fe9XdZqpXecC/CNz+B85whO0NIfxbGk1q
+         8tqLrizjXl0aMFZeD5+6grNFnOY0dxsjZmi+MtqHPtr04e0TdXsUhe60da3S5rLcxyzM
+         +zS7cNjTGHGhYQwPsTIZOib/Nr45+5T6za30c3S/hzhJioEKXEizDaaK+TQR8qTZ1Qtb
+         w+Hg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=6TniDMWPlC5wJVCKXeX8vLCzRav1MdaXlzFFmaU889I=;
+        fh=ZqorUD0A9XkA1lsJglInFDkWDIYMFry6v/slc1qRsyc=;
+        b=AxhcKsKoC4Sw+2j2m6ajKehC0H/ZSGjhajOHv3Z4J69YK0vZys440RR6+Z3MZgpMe3
+         2NTi7l0pHUxDsmc145T52EUEzO5eVok6lZl2LLNqB/3qgdale2ywChO0iOWdHo8QcUwd
+         r6ImoTdzKjH56o1ygchC6iOPuuR5jfOedrudjwoK/UntjygwNwCztP8oHLM8fGPzKwMe
+         bXh/jduiVf34JXniy1cyNGxejxY/gq7HGqbUPcgWAopL09hbq5TzlUWJDs7dM3JAEoSK
+         qodvBAFFM+1312rOoEQjIreaucKD0TjoSSjHJtuOj3WeS9+LAIT49jgkgiQtwG18L6xh
+         ILFQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1780326272; x=1780931072; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6TniDMWPlC5wJVCKXeX8vLCzRav1MdaXlzFFmaU889I=;
+        b=amJsCmDnqKN05q6OstVd08lQerQjQNn94+wVmyRHZc9HaBsjbCqC7FCgy1b96PsI0R
+         LhEL0moTyWkGI5dwE6qh+rw6mkDE6kUU4Q/0scr8jZzMGV4R3FkFCo3u5fxxx5XE/9i8
+         UjhPLcajR5d9rPQ/HGke0Fe10yXfQfNRCBjx4V8G+J4gzatByvpTv5K8MJQcbhBohwXj
+         wpF113Kf+3Nj1bkMNxlGJ4uwLJlXN9+zIhUNIPLVIHcxohCJHKjPr3xQbeNuYmn/BwIo
+         uPAkk+NB422o5fK6LPYTElwx/M3CE+geTanR5gBOCrVLG+0F+EhnU3g88jZIofKzfiQX
+         Xwwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780326272; x=1780931072;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=6TniDMWPlC5wJVCKXeX8vLCzRav1MdaXlzFFmaU889I=;
+        b=KFQ27FAJcBlLKRuQUcWmqzgH/bGFWxOc57MbCLyLH7Hgutslxf2anwpzt8EL3X0Tqm
+         OrLBcEIrm1B5j/D/p+3hkde4sLG5A5lsjOQj932tBf2vUepwjrrb2qPD7b2yvQayiZYd
+         ARiASbO4it+KCUwykHxj+ymqaOP5dyeXAFilWI5vX8G5KetKpWErC1VrNijP/QycTgda
+         5IzSz3TKRX0VDg/pLcDoDELozZL7zudg326zIQUFz3F3M2gywZ2XpEIe2XPQW6QQUOnI
+         AiUNuQ2kO/uLJks8vs/dZMYec/ukSPdjt3xsZgs83xN6bIOS3MwHZmdlGOryCua7IJNo
+         692w==
+X-Forwarded-Encrypted: i=1; AFNElJ9ZVbfx9ix6d+kFqS1p8xR+I4t0ioOkCpLwxUdbR3JmhckoqGk/nDHOb1/xi8cssiXSnmOoSqKY69xuPw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9+KNd7Pu/j4WCMxE0i7lKnh1fc4VU8b7yYt8Z6xHn4n+dpIwq
+	Iu0KW0KoT0mZubZkMcuNyWwxli6Ns6EMzdEzsnA3KTWKZsQx3ccT4dSrDf9hzhIaNfdvGiAVxHH
+	m9/3kKrKcv53dFZrnAhGnxBxztHZ13wrycAAy9YaOorXJ6f8LepjpxmPghv+dCCgUmJAOf0XERq
+	QLWndbCVKNZxZ9fj4fiNskLmrr52uJaZLbjY4NFqus
+X-Gm-Gg: Acq92OHU3H1reXSKWEX7UaatqZt1VqZMMFPtbnSRRA9KBza02DE+anAyWuosfgGFPBz
+	oduDi/jELRfjDqVo0VgARhLSKTiarjKWONK9NfdtiR+N4Hb8f5eglNqpcIXdE09HZNCOogw8lzX
+	Af0rlJIsI0PwRr6/aelReZUgDhsCAAQyCxHUK+Os/WFOFPJzYBB58J4woewCDtt0+1cjl6XkP1s
+	6VsqnxWWFNzOZaJqj3CODsxVkrzo24GfqUsSZd9b2F14LI2+w==
+X-Received: by 2002:a05:620a:6f05:b0:915:673a:61e9 with SMTP id af79cd13be357-915673a6392mr539173585a.16.1780326271716;
+        Mon, 01 Jun 2026 08:04:31 -0700 (PDT)
+X-Received: by 2002:a05:620a:6f05:b0:915:673a:61e9 with SMTP id
+ af79cd13be357-915673a6392mr539163785a.16.1780326271192; Mon, 01 Jun 2026
+ 08:04:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/6] media: qcom: iris: add support for decoding 10bit
- formats
-To: Wangao Wang <wangao.wang@oss.qualcomm.com>,
- Neil Armstrong <neil.armstrong@linaro.org>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-References: <20260521-topic-sm8x50-iris-10bit-decoding-v4-0-8ff8fce3f904@linaro.org>
- <VPcNqxZEz2n3TKSiFdgaAEw4dFMQ2ES9_aCYCrKg97eRr6zflHIpe2JTGQ3S-sBGtyzOnDIODCcvKQMfYQ0GHQ==@protonmail.internalid>
- <ff2e9b4f-57c2-4fcb-b5f5-66f8f07b7b02@oss.qualcomm.com>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=bod@kernel.org; keydata=
- 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
-In-Reply-To: <ff2e9b4f-57c2-4fcb-b5f5-66f8f07b7b02@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20260601-camss-macro-v1-1-cabf1fb99241@oss.qualcomm.com>
+In-Reply-To: <20260601-camss-macro-v1-1-cabf1fb99241@oss.qualcomm.com>
+From: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Date: Mon, 1 Jun 2026 17:04:19 +0200
+X-Gm-Features: AVHnY4KYMxjyyMWv1Bu50VoFEOCEofBd1PrQpAowlfJQ4fix9OAfbKu1CK-FZqc
+Message-ID: <CAFEp6-3a_ZRvCBiATwT594KOMH3DOMoQA_=qj0WW7iiZHTWABw@mail.gmail.com>
+Subject: Re: [PATCH] media: qcom: camss: csid: Consolidate CSI2_RX_CFG0_PHY_SEL_BASE_IDX
+ definition
+To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-ORIG-GUID: bXN6MT6dPl2UXeqe-2DMjIlCJexEXHgV
+X-Proofpoint-GUID: bXN6MT6dPl2UXeqe-2DMjIlCJexEXHgV
+X-Authority-Analysis: v=2.4 cv=eqnvCIpX c=1 sm=1 tr=0 ts=6a1d9f80 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8 a=Wyjbxgov4yX43DM-SYUA:9
+ a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAxMDE1MCBTYWx0ZWRfXzJvxN3TUHEx7
+ 3PoR4RdOXGQjGY8/R8mNs15ZyDJXltTz8xUp3ThTK4auFdoCI9TotCG478RGwOcZHOXGNQGvQ8N
+ JDEbnLua6W+oBypArO7hDhKMSLOUDmewFQOAhgBLVmO6k98/LRUPvDxLQFIm7imN3OtuknzWKAV
+ myyhQUPLL6nybnCcZFk7Z3bmepMyd7k/TDTsxuKiiouboMAMvhx9yd9VOR2tfnxn36MAXL81QUC
+ qIU+5YB9BxP9Q+VHVmjNtsONDwTRFUrJFbzaLLkSMMp7p2GWm0nSprx1/AE/jHjk4npwgrXBeJw
+ aNLmMjFR5u2mswwmHZcZShUlFg4gSMdZWOQONJn/lTKJYJv7WMRFykRzb9BW0hN5GWUQIoIyiUP
+ u+o8Ps+KGO/ykleWNiTM5ICeuZm79dR/PL7BboAEsKgOb41r1RRTY9XNa485mrLTze1c8WOqMK0
+ ziL8kBQmsmnxX5MyTYA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-01_04,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 impostorscore=0 spamscore=0 malwarescore=0 priorityscore=1501
+ suspectscore=0 adultscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606010150
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63277-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linaro.org,vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	TAGGED_FROM(0.00)[bounces-63278-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[loic.poulain@oss.qualcomm.com,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	NEURAL_HAM(-0.00)[-1.000];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,linaro.org:email,msgid.link:url,gitlab.freedesktop.org:url,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 6103962167C
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,qualcomm.com:email,qualcomm.com:dkim,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,oss.qualcomm.com:dkim]
+X-Rspamd-Queue-Id: 7D5A4621571
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 01/06/2026 10:01, Wangao Wang wrote:
-> 
-> 
-> On 2026/5/21 17:24, Neil Armstrong wrote:
->> This adds the plumbing to support decoding HEVC, VP9 and AV1
->> streams into 10bit pixel formats, linear and compressed.
->>
->> This has only been tested on SM8550 & SM8650 with HEVC, and was
->> inspired by Venus, DRM MSM and the downstream vidc driver for the
->> buffer calculations and HFI messages.
->>
->> Gstreamer support for QC08 and QC10 need the MR at [1] to be applied,
->> but NV12 and P010 works out of the box with mainline Gstreamer.
->>
->> Fluster HEVC results on SM8650 using Gstreamer:
->>
->> ./fluster.py run -ts JCT-VC-HEVC_V1 -d GStreamer-H.265-V4L2-Gst1.0 - 141/147
->> The failing test case:
->> - Pixel Format mismatch
->>    - TSUNEQBD_A_MAIN10_Technicolor_2 - Gstreamer waits NV12 but decoder returns P010
->> - Unsupported resolution
->>    - PICSIZE_A_Bossen_1 - resolution is higher than max supported
->>    - PICSIZE_B_Bossen_1 - resolution is higher than max supported
->>    - WPP_D_ericsson_MAIN_2 - resolution is lower than min supported
->>    - WPP_D_ericsson_MAIN10_2 - resolution is lower than min supported
->> - CRC mismatch
->>    - RAP_A_docomo_6
->>
->> v4l2-compliance results on SM8550 & SM8650:
->>
->> $ v4l2-compliance -d /dev/video1 -s
->> v4l2-compliance 1.33.0-5456, 64 bits, 64-bit time_t
->> v4l2-compliance SHA: 8aa593bda182 2026-04-11 10:54:25
->>
->> Compliance test for iris_driver device /dev/video1:
->>
->> Driver Info:
->> 	Driver name      : iris_driver
->> 	Card type        : Iris Encoder
->> 	Bus info         : platform:aa00000.video-codec
->> 	Driver version   : 7.0.0
->> 	Capabilities     : 0x84204000
->> 		Video Memory-to-Memory Multiplanar
->> 		Streaming
->> 		Extended Pix Format
->> 		Device Capabilities
->> 	Device Caps      : 0x04204000
->> 		Video Memory-to-Memory Multiplanar
->> 		Streaming
->> 		Extended Pix Format
->> 	Detected Stateful Encoder
->>
->> Required ioctls:
->> 	test VIDIOC_QUERYCAP: OK
->> 	test invalid ioctls: OK
->>
->> Allow for multiple opens:
->> 	test second /dev/video1 open: OK
->> 	test VIDIOC_QUERYCAP: OK
->> 	test VIDIOC_G/S_PRIORITY: OK
->> 	test for unlimited opens: OK
->>
->> Debug ioctls:
->> 	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->> 	test VIDIOC_LOG_STATUS: OK (Not Supported)
->>
->> Input ioctls:
->> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
->> 	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
->> 	Inputs: 0 Audio Inputs: 0 Tuners: 0
->>
->> Output ioctls:
->> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
->>
->> Input/Output configuration ioctls:
->> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->> 	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->> 	test VIDIOC_G/S_EDID: OK (Not Supported)
->>
->> Control ioctls:
->> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->> 	test VIDIOC_QUERYCTRL: OK
->> 	test VIDIOC_G/S_CTRL: OK
->> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->> 	Standard Controls: 43 Private Controls: 0
->>
->> Format ioctls:
->> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->> 	test VIDIOC_G/S_PARM: OK
->> 	test VIDIOC_G_FBUF: OK (Not Supported)
->> 	test VIDIOC_G_FMT: OK
->> 	test VIDIOC_TRY_FMT: OK
->> 	test VIDIOC_S_FMT: OK
->> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->> 	test Cropping: OK
->> 	test Composing: OK (Not Supported)
->> 	test Scaling: OK (Not Supported)
->>
->> Codec ioctls:
->> 	test VIDIOC_(TRY_)ENCODER_CMD: OK
->> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->> 	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
->>
->> Buffer ioctls:
->> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->> 	test CREATE_BUFS maximum buffers: OK
->> 	test VIDIOC_REMOVE_BUFS: OK
->> 	test VIDIOC_EXPBUF: OK
->> 	test Requests: OK (Not Supported)
->> 	test blocking wait: OK
->>
->> Test input 0:
->>
->> Streaming ioctls:
->> 	test read/write: OK (Not Supported)
->> 	Video Capture Multiplanar: Captured 61 buffers
->> 	test MMAP (select, REQBUFS): OK
->> 	Video Capture Multiplanar: Captured 61 buffers
->> 	test MMAP (epoll, REQBUFS): OK
->> 	Video Capture Multiplanar: Captured 61 buffers
->> 	test MMAP (select, CREATE_BUFS): OK
->> 	Video Capture Multiplanar: Captured 61 buffers
->> 	test MMAP (epoll, CREATE_BUFS): OK
->> 	test USERPTR (select): OK (Not Supported)
->> 	test DMABUF: Cannot test, specify --expbuf-device
->>
->> Total for iris_driver device /dev/video1: 54, Succeeded: 54, Failed: 0, Warnings: 0
->>
->> $ v4l2-compliance -d /dev/video0 -s5 --stream-from=test_video_10s.h264
->> v4l2-compliance 1.33.0-5456, 64 bits, 64-bit time_t
->> v4l2-compliance SHA: 8aa593bda182 2026-04-11 10:54:25
->>
->> Compliance test for iris_driver device /dev/video0:
->>
->> Driver Info:
->> 	Driver name      : iris_driver
->> 	Card type        : Iris Decoder
->> 	Bus info         : platform:aa00000.video-codec
->> 	Driver version   : 7.0.0
->> 	Capabilities     : 0x84204000
->> 		Video Memory-to-Memory Multiplanar
->> 		Streaming
->> 		Extended Pix Format
->> 		Device Capabilities
->> 	Device Caps      : 0x04204000
->> 		Video Memory-to-Memory Multiplanar
->> 		Streaming
->> 		Extended Pix Format
->> 	Detected Stateful Decoder
->>
->> Required ioctls:
->> 	test VIDIOC_QUERYCAP: OK
->> 	test invalid ioctls: OK
->>
->> Allow for multiple opens:
->> 	test second /dev/video0 open: OK
->> 	test VIDIOC_QUERYCAP: OK
->> 	test VIDIOC_G/S_PRIORITY: OK
->> 	test for unlimited opens: OK
->>
->> Debug ioctls:
->> 	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->> 	test VIDIOC_LOG_STATUS: OK (Not Supported)
->>
->> Input ioctls:
->> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
->> 	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
->> 	Inputs: 0 Audio Inputs: 0 Tuners: 0
->>
->> Output ioctls:
->> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
->>
->> Input/Output configuration ioctls:
->> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->> 	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->> 	test VIDIOC_G/S_EDID: OK (Not Supported)
->>
->> Control ioctls:
->> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->> 	test VIDIOC_QUERYCTRL: OK
->> 	test VIDIOC_G/S_CTRL: OK
->> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->> 	Standard Controls: 12 Private Controls: 0
->>
->> Format ioctls:
->> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->> 	test VIDIOC_G/S_PARM: OK (Not Supported)
->> 	test VIDIOC_G_FBUF: OK (Not Supported)
->> 	test VIDIOC_G_FMT: OK
->> 	test VIDIOC_TRY_FMT: OK
->> 	test VIDIOC_S_FMT: OK
->> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->> 	test Cropping: OK
->> 	test Composing: OK
->> 	test Scaling: OK (Not Supported)
->>
->> Codec ioctls:
->> 	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->> 	test VIDIOC_(TRY_)DECODER_CMD: OK
->>
->> Buffer ioctls:
->> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->> 	test CREATE_BUFS maximum buffers: OK
->> 	test VIDIOC_REMOVE_BUFS: OK
->> 	test VIDIOC_EXPBUF: OK
->> 	test Requests: OK (Not Supported)
->> 	test blocking wait: OK
->>
->> Test input 0:
->>
->> Streaming ioctls:
->> 	test read/write: OK (Not Supported)
->> the input file is smaller than 7077888 bytes
->> 	Video Capture Multiplanar: Captured 601 buffers
->> 	test MMAP (select, REQBUFS): OK
->> the input file is smaller than 7077888 bytes
->> 	Video Capture Multiplanar: Captured 601 buffers
->> 	test MMAP (epoll, REQBUFS): OK
->> the input file is smaller than 7077888 bytes
->> 	Video Capture Multiplanar: Captured 601 buffers
->> 	test MMAP (select, CREATE_BUFS): OK
->> the input file is smaller than 7077888 bytes
->> 	Video Capture Multiplanar: Captured 601 buffers
->> 	test MMAP (epoll, CREATE_BUFS): OK
->> 	test USERPTR (select): OK (Not Supported)
->> 	test DMABUF: Cannot test, specify --expbuf-device
->>
->> Total for iris_driver device /dev/video0: 54, Succeeded: 54, Failed: 0, Warnings: 0
->>
->> [1] https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8195
->>
->> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->> ---
->> Changes in v4:
->> - Picked review tags
->> - Use u32 instead of __u32
->> - Explicit DPB
->> - Drop NULL and use >>1 in q10c buffer calc
->> - Drop selicolon after switch statementr
->> - Correctly align HFI_PROP_UBWC_STRIDE_SCANLINE entry
->> - Rebase on media next tree after the file split
->> - Link to v3: https://patch.msgid.link/20260511-topic-sm8x50-iris-10bit-decoding-v3-0-7fc049b93042@linaro.org
->>
->> Changes in v3:
->> - Added review tag on patch 1
->> - Limited stride command to AV1 decoding only
->> - Link to v2: https://patch.msgid.link/20260417-topic-sm8x50-iris-10bit-decoding-v2-0-c987b65a31d5@linaro.org
->>
->> Changes in v2:
->> - Fixed bug breaking 8bit decoding
->> - Dropped filtering on G_FMT while waiting for soure change
->> - Dropped format filtering on ENUMFMT
->> - Switched ALIGN(x, 192) to roundup(x, 192) because ALIGN works only with Power Of Two numbers
->> - Cleaned and refactors the width/height/stride calculations
->> - Cleaned and redesigned the buffer calculations functions with proper comments and var names
->> - Passed fluster and v4l2-compliance to check for non regression
->> - Tested on SM8550
->> - Added missing V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10 with made gstreamer fail decoding
->> - Link to v1: https://patch.msgid.link/20260408-topic-sm8x50-iris-10bit-decoding-v1-0-428c1ec2e3f3@linaro.org
->>
->> ---
->> Neil Armstrong (6):
->>         media: qcom: iris: add helpers for 8bit and 10bit formats
->>         media: qcom: iris: add QC10C & P010 buffer size calculations
->>         media: qcom: iris: gen2: add support for 10bit decoding
->>         media: qcom: iris: vdec: update size and stride calculations for 10bit formats
->>         media: qcom: iris: vdec: update find_format to handle 8bit and 10bit formats
->>         media: qcom: iris: vdec: allow GEN2 decoding into 10bit format
->>
->>    drivers/media/platform/qcom/iris/iris_buffer.c     | 195 ++++++++++++++++++++-
->>    drivers/media/platform/qcom/iris/iris_hfi_gen2.c   |   8 +-
->>    .../platform/qcom/iris/iris_hfi_gen2_command.c     |  75 +++++++-
->>    .../platform/qcom/iris/iris_hfi_gen2_defines.h     |   1 +
->>    .../platform/qcom/iris/iris_hfi_gen2_response.c    |  37 +++-
->>    drivers/media/platform/qcom/iris/iris_instance.h   |   2 +
->>    .../platform/qcom/iris/iris_platform_common.h      |   1 +
->>    drivers/media/platform/qcom/iris/iris_utils.c      |  16 +-
->>    drivers/media/platform/qcom/iris/iris_utils.h      |   2 +
->>    drivers/media/platform/qcom/iris/iris_vdec.c       |  42 ++++-
->>    10 files changed, 364 insertions(+), 15 deletions(-)
->> ---
->> base-commit: 86693e86019a7466be961fd4f45d407cc0b0ba0a
->> change-id: 20260408-topic-sm8x50-iris-10bit-decoding-074c3ac7975c
->>
->> Best regards,
->> --
->> Neil Armstrong <neil.armstrong@linaro.org>
->>
->>
-> 
-> Tested-by: Wangao Wang <wangao.wang@oss.qualcomm.com>
-> 
+On Mon, Jun 1, 2026 at 4:44=E2=80=AFPM Hangxiang Ma
+<hangxiang.ma@oss.qualcomm.com> wrote:
+>
+> Move the duplicate CSI2_RX_CFG0_PHY_SEL_BASE_IDX definition from
+> camss-csid-680.c and camss-csid-gen3.c into the shared camss-csid.h
+> header. This eliminates redundancy and makes the constant available
+> to future CSID implementations.
+
+Taking that direction, I don=E2=80=99t think this is the only instance of
+redundancy, so why single out this one in particular? Should we
+consider one-line cleanups across all similar cases? Also, other CSID
+drivers follow the same pattern but use different identifiers for that
+define (e.g. csid-340).
+
+Also, introducing such low-level, register-aligned naming
+(CSI2_RX_CFG0_PHY...)  in what is supposed to be a generic
+CSID header doesn=E2=80=99t seem appropriate.
+
+Regards,
+Loic
+
+
+
+>
+> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+> ---
+> Move the duplicate CSI2_RX_CFG0_PHY_SEL_BASE_IDX definition from
+> camss-csid-680.c and camss-csid-gen3.c into the shared camss-csid.h
+> header. This eliminates redundancy and makes the constant available
+> to future CSID implementations.
+> ---
+>  drivers/media/platform/qcom/camss/camss-csid-680.c  | 1 -
+>  drivers/media/platform/qcom/camss/camss-csid-gen3.c | 1 -
+>  drivers/media/platform/qcom/camss/camss-csid.h      | 2 ++
+>  3 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/media/platform/qcom/camss/camss-csid-680.c b/drivers=
+/media/platform/qcom/camss/camss-csid-680.c
+> index 345a67c8fb94..bf7164085ddb 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csid-680.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csid-680.c
+> @@ -101,7 +101,6 @@
+>  #define                CSI2_RX_CFG0_DL2_INPUT_SEL                      1=
+2
+>  #define                CSI2_RX_CFG0_DL3_INPUT_SEL                      1=
+6
+>  #define                CSI2_RX_CFG0_PHY_NUM_SEL                        2=
+0
+> -#define                CSI2_RX_CFG0_PHY_SEL_BASE_IDX                   1
+>  #define                CSI2_RX_CFG0_PHY_TYPE_SEL                       2=
+4
+>  #define                CSI2_RX_CFG0_TPG_MUX_EN                         B=
+IT(27)
+>  #define                CSI2_RX_CFG0_TPG_MUX_SEL                        G=
+ENMASK(29, 28)
+> diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen3.c b/driver=
+s/media/platform/qcom/camss/camss-csid-gen3.c
+> index 0fdbf75fb27d..da9458cd178b 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csid-gen3.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
+> @@ -105,7 +105,6 @@
+>  #define CSID_RDI_IRQ_SUBSAMPLE_PERIOD(rdi)     (csid_is_lite(csid) && IS=
+_CSID_690(csid) ?\
+>                                                         (0x34C + 0x100 * =
+(rdi)) :\
+>                                                         (0x54C + 0x100 * =
+(rdi)))
+> -#define CSI2_RX_CFG0_PHY_SEL_BASE_IDX  1
+>
+>  static void __csid_configure_rx(struct csid_device *csid,
+>                                 struct csid_phy_config *phy, int vc)
+> diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/med=
+ia/platform/qcom/camss/camss-csid.h
+> index 5296b10f6bac..059ac94ad1be 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csid.h
+> +++ b/drivers/media/platform/qcom/camss/camss-csid.h
+> @@ -27,6 +27,8 @@
+>  /* CSID hardware can demultiplex up to 4 outputs */
+>  #define MSM_CSID_MAX_SRC_STREAMS       4
+>
+> +/* CSIPHY to hardware PHY selector mapping */
+> +#define CSI2_RX_CFG0_PHY_SEL_BASE_IDX 1
+>  #define CSID_RESET_TIMEOUT_MS 500
+>
+>  enum csid_testgen_mode {
+>
+> ---
+> base-commit: 697a0e31ee66f5ddb929c09895139779fff33f20
+> change-id: 20260601-camss-macro-3d40c4d4e90d
+>
+> Best regards,
 > --
-> Best Regards,
-> Wangao
-> 
-
-Neil can you rebase this - I can pick it up once you are happy.
-
-https://gitlab.freedesktop.org/linux-media/users/bodonoghue/-/tree/next-smoketest?ref_type=heads
-
----
-bod
+> Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+>
 
