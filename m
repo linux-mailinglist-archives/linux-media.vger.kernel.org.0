@@ -1,305 +1,365 @@
-Return-Path: <linux-media+bounces-63322-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63323-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id uPK3JJToHWp0fwkAu9opvQ
-	(envelope-from <linux-media+bounces-63322-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 22:16:20 +0200
+	id uO3HHmvpHWp0fwkAu9opvQ
+	(envelope-from <linux-media+bounces-63323-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 22:19:55 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A799624F98
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 22:16:20 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id D23CA624FE4
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 22:19:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0138230297A5
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 20:15:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0581D30131C8
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 20:16:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B1073EFD09;
-	Mon,  1 Jun 2026 20:15:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 892313EFD35;
+	Mon,  1 Jun 2026 20:16:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LTOGtOZ4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oa1-f80.google.com (mail-oa1-f80.google.com [209.85.160.80])
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560AC346ADC
-	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 20:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.80
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80011346ADC
+	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 20:16:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780344934; cv=none; b=plwGMyzk0beVVyJsfhCiXEYIvnRD+bzIaiNASQTa49bromT3BagkbwwXr588ehFiBELbm65C8ETHxjxa7InejC/u4m/Z2rAF1VeZogS4ujb5mPHIyU80lnETgfS3i6tbqkTCuD+zf6a+0LhF/DqhbCjI1m7dvrwfW3p04XcqzAU=
+	t=1780345007; cv=none; b=PGlMdi6etCCxDoFNiCFD3OPYoZnB/t0uULbjJhAt6A3cYML5QIZWBbWRv4OTnd0/oNipfybfl42lxUdkKfgrpRjaj1zk1zSCfGNW1lnasXqUZWHRgNAwqBEg45ZpxLyByL+5j12K1c5BZOo1i75SoC+E6CYn18BoOeUJk3dzcF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780344934; c=relaxed/simple;
-	bh=+g254+7Qgx5n0xq8L9o1RNi399Qkf1w8zvUZZsEy6s8=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=OMkQ7WYQVXYkMWhmG8l5+ZGg5mrU04Tb98mjb8Ujnt9oLQ5Jb/vvU4jhxK7eAN2mYolL9EzqTWVTOprKuDd5dUobsOmJMDfpNy0rGRiqbJ0w5hqWtJbkorqavncEOyX+V9ZlWh1dEoZJFFkdOU1or+ckJm137uaD9HyzHO/5tNs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.160.80
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oa1-f80.google.com with SMTP id 586e51a60fabf-43cce4dad3aso1473838fac.2
-        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 13:15:33 -0700 (PDT)
+	s=arc-20240116; t=1780345007; c=relaxed/simple;
+	bh=/EnxGHEeNEocOb+vZCdZEOodrWB95vFpILdqMyb7S4c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=c0P1SI5h0w2GemYONlApMQKmdHRN73Jv7mjuhKvKoKa0KgIfrmkWWkfHmmmyeFIufK1ZtxwJUYnyrXHHFCsW26fPOgimWFiFCgB1wDmj0hnYK7J8omla74OxZheg2KkGxVKeLuBPCHie7K5w/lQogYGKc5LO+j8XU8RIGDaT6rU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LTOGtOZ4; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-915671abde5so109950085a.3
+        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 13:16:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780345003; x=1780949803; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CeR4WL59kTXKD/bHwazItpYL/nCmf40guV4oSdZazAQ=;
+        b=LTOGtOZ4QW98BuL8T3j4II0Ayxrb8GqDHSJ73+r5e7pER/sgkSan8AIOLyrt+qG3zb
+         cnM39P6pUJiJxvmkP+l4jdhv0HY6QKw3pXaykQuhJ28JxnHXjaPQJPH9SY1iXfXI4QTO
+         IVYQch8sE+hOqCZ1w1u59eQATf4PPHz47z9PUCYLg9d6rop29+ncXd0N1D51F3UfsckJ
+         0dXme52BdDppwIIsJYOw796/MorO+F8z44+dhiLHvCM5Fjr/3KVgSeHNRpr62O8aQ+S+
+         NuDWdVmLMZyZcZorlaj/t6zCO5Z3m0xGpLcg7kSspcFoYN1IMVzo/HqhDovvPiK2Lgls
+         8HMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780344932; x=1780949732;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AbgNU9wV917JpgLW/r9KQyAbvW8yrBt6zmKcheEeKv0=;
-        b=CA5TUJlT97XMNt9t4KPK0ukW4AUu+yDWA7DtydRdJajPnK/1PkK9InEQOXV8ZdSy/a
-         DdyXruEh6h71oEUgWL0h4h3JDDm+pVXBZDFeUM5KQv9bc2DYIXWxLd0RrTP5BjGLS5aP
-         OzowIUEiJUNlrtqDOHH0KF7SOJVvYaMjlTKcGL9YJVEcrW9rcOiA/vLN9i7hqzqQhFB0
-         Cdswz8a4sdN91VqK0sGye6ZMl+E1RUGrhor7kJ2FxWhO8wyqX/JKSUcaiM/40MFkY+sk
-         oAfbOheQ6JuyzNCyEXcz58zipD2ruHQFwFzD1Agy7bEDWXQ9r3j9VB0W5j+t8pVASGcH
-         vo3Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/ki64QyFChdFJJpxdoOow4SXM4gOF42zKQufC44MTP39TpiY7Y0j1e2ep8xT6Y6iMx9gmAzOLw5iiMIw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQvp22TtBBTurplmS1Ihn1vcw99nBB2ug7IpEGbyix3pfcHgL/
-	szjlJO+VXO4R8sCFolBKg0OvV7DmAUr9r1+KpVUojzTdcT4fg6Tyvlhw6ZyoOnILYuGaPU8hV0q
-	7x47g3kkmQK6Bpr0VefS+NkCr5yQjOCan+cC6U4Fu10YXVzUWw5bI0mnHmx4=
+        d=1e100.net; s=20251104; t=1780345003; x=1780949803;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=CeR4WL59kTXKD/bHwazItpYL/nCmf40guV4oSdZazAQ=;
+        b=IjaWBpNApPgR1SyMfOOf+VY6mz1Eofy7z/5kFIJvDyn7iF29GJAEtCzUAkEysfwE+f
+         4e56nq1OPa4wjJbusAOIbbaW8PYeeYcB8/PCO49gPE6+uRjCywtGLmm+XhkCE0MDTRrN
+         2RUBYV9lSZInfzrYGyTVdTQg7Vtyd9AHUL2DHSE25fJlhwf5TCneSGccpRbBgAVjQIs3
+         uuUfMGDFO9xuWzgPYVtUiTGMrEV013Po8sKMzSwyD5gyL17LWWLPkfVj/21DZ0HYNDWq
+         q18Y4uULoAtGACnAms76NI+sCk2KBQe+fQJy1jYeLKs+gYhHOsbABrw3kZkJqc12IYef
+         059Q==
+X-Forwarded-Encrypted: i=1; AFNElJ/iPS4Yq60jahTyn9iP/TwekYxc6aEQqV6UxDWlBgkg3LMbkxYrikbWCWM+KlYjDBhdiWitBDjdtJHtdg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyh6GmnFD4ZCZZHq5K3AzKYHDDFIX4DnyhRVQrWsyX5wN9/cRcw
+	vN53tZeHpu7AKpxthZUBcs04a3jhA34xIztPiP+lcMXLgSgRCG+KEaSe
+X-Gm-Gg: Acq92OFNT94AweRI0gbUEepU8TvF1otl9/OZ00/vKlAdBpT5fTkcFIuLW284EnDB7uU
+	9YmJIjL0qH1JUcu3UBIYO+pr9xkF0ugfgZTUSOfoaTMv2uJGoJlXPui+KffJn1dPsWptRBrSzQE
+	9QDIJdxHgRiJ0o7/MSrIYdaWweWXsWw8NoNTl9BHhHo7H9uub3al1VhBPKh94M/keXlvUXsOny0
+	gZtcbF1aarzHQHjmopG5Y2Vv+M2r+wR9J0Gy91w4VfVdGJt2uKkkWdVIYRn9fgjv0fF7JnWQeih
+	jh5FfLBdqUo8kz41IbPOf7AYsU1De6B0fpvTI+wc2Xwo4sijKfk0hpefH1Y+A1C5brnltDu90+8
+	eKvw9fkVIU4JOdhGPg0aHqEhtwlKJSyVUnr0gkeaGD+rYRzykI0e1al7eyk5hm7MA2rmAb9eHpf
+	pCj77+TA0c7MQj26EOkW012Linmyz0/RE9DxrtKo4pPtOE0RaRmc84RrX/Y9KzmquASS+bgqoiG
+	5vtqX767g==
+X-Received: by 2002:a05:620a:6481:b0:915:769d:554 with SMTP id af79cd13be357-915769d0fefmr296852485a.46.1780345003477;
+        Mon, 01 Jun 2026 13:16:43 -0700 (PDT)
+Received: from Mac.mynetworksettings.com ([2600:4041:42f2:d000:5598:1322:a565:857b])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-91532473bb9sm1095732785a.11.2026.06.01.13.16.42
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 01 Jun 2026 13:16:43 -0700 (PDT)
+From: Rohith Matam <rohithmatham@gmail.com>
+To: mchehab@kernel.org
+Cc: duoming@zju.edu.cn,
+	hverkuil@kernel.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Rohith Matam <rohithmatham@gmail.com>,
+	syzbot+0d6ef2b7ceb6014d756c@syzkaller.appspotmail.com
+Subject: [PATCH v6] media: siano: fix URB work teardown
+Date: Mon,  1 Jun 2026 16:16:39 -0400
+Message-ID: <20260601201639.63171-1-rohithmatham@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260601160447.59917-1-rohithmatham@gmail.com>
+References: <20260601160447.59917-1-rohithmatham@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a4a:edc7:0:b0:69d:96c5:4e58 with SMTP id
- 006d021491bc7-69e1059eea5mr6241565eaf.28.1780344932373; Mon, 01 Jun 2026
- 13:15:32 -0700 (PDT)
-Date: Mon, 01 Jun 2026 13:15:32 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6a1de864.278b5b03.2bcf39.003b.GAE@google.com>
-Subject: [syzbot] [media?] KASAN: slab-use-after-free Read in em28xx_v4l2_open
-From: syzbot <syzbot+39ff299961a7c07f00f0@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	mchehab@kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spamd-Result: default: False [-0.36 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=4caf64b1ee83dac0];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-63322-lists,linux-media=lfdr.de,39ff299961a7c07f00f0];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[zju.edu.cn,kernel.org,vger.kernel.org,gmail.com,syzkaller.appspotmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63323-lists,linux-media=lfdr.de];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_NONE(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	NEURAL_HAM(-0.00)[-0.996];
-	TAGGED_RCPT(0.00)[linux-media];
-	R_DKIM_NA(0.00)[];
-	REDIRECTOR_URL(0.00)[goo.gl];
-	SUBJECT_HAS_QUESTION(0.00)[]
-X-Rspamd-Queue-Id: 0A799624F98
+	FROM_NEQ_ENVFROM(0.00)[rohithmatham@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	NEURAL_HAM(-0.00)[-0.999];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,0d6ef2b7ceb6014d756c];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,appspotmail.com:email]
+X-Rspamd-Queue-Id: D23CA624FE4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hello,
+smsusb_onresponse() reinitializes the URB work item immediately before
+scheduling it. If teardown races with a queued work item,
+cancel_work_sync() can observe workqueue state with WORK_STRUCT_PWQ
+still set and trip the workqueue warning reported by syzbot.
 
-syzbot found the following issue on:
+The teardown path also has related lifetime bugs. URB_FREE_BUFFER makes
+USB core free a smscore-owned buffer, and a work item can submit an URB
+after usb_kill_urb() has already returned. If that submission fails, the
+worker keeps ownership of the smscore buffer and the streaming pipeline
+loses an URB.
 
-HEAD commit:    6916d5703ddf Merge tag 'drm-fixes-2026-05-16' of https://g..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=14c53a73980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=4caf64b1ee83dac0
-dashboard link: https://syzkaller.appspot.com/bug?extid=39ff299961a7c07f00f0
-compiler:       Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
-userspace arch: i386
+Initialize each work item before any error path can tear down the device,
+remove URB_FREE_BUFFER, stop resubmission before killing URBs, and kill
+URBs again after canceling work so any URB submitted by an already-running
+worker is completed before buffers and the device are freed. Return the
+smscore buffer if URB submission fails.
 
-Unfortunately, I don't have any reproducer for this issue yet.
+During teardown, wake workers blocked in smscore_getbuffer() by adding an
+abortable buffer wait. Then cancel work before returning any URB-owned
+buffer to avoid racing with workers that are still using surb->cb. Guard
+the wakeup because early probe failure can call teardown before coredev is
+registered.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/9b209d2c169e/disk-6916d570.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/260ba2c4b438/vmlinux-6916d570.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/f62bb45b9b7e/bzImage-6916d570.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+39ff299961a7c07f00f0@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: slab-use-after-free in dev_get_drvdata include/linux/device.h:927 [inline]
-BUG: KASAN: slab-use-after-free in video_get_drvdata include/media/v4l2-dev.h:491 [inline]
-BUG: KASAN: slab-use-after-free in video_drvdata include/media/v4l2-dev.h:523 [inline]
-BUG: KASAN: slab-use-after-free in em28xx_v4l2_open+0x57/0xa20 drivers/media/usb/em28xx/em28xx-video.c:2297
-Read of size 8 at addr ffff8880655d8330 by task v4l_id/11714
-
-CPU: 0 UID: 0 PID: 11714 Comm: v4l_id Tainted: G             L      syzkaller #0 PREEMPT(full) 
-Tainted: [L]=SOFTLOCKUP
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/18/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x58/0x70 mm/kasan/report.c:482
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- dev_get_drvdata include/linux/device.h:927 [inline]
- video_get_drvdata include/media/v4l2-dev.h:491 [inline]
- video_drvdata include/media/v4l2-dev.h:523 [inline]
- em28xx_v4l2_open+0x57/0xa20 drivers/media/usb/em28xx/em28xx-video.c:2297
- v4l2_open+0x1bf/0x3a0 drivers/media/v4l2-core/v4l2-dev.c:433
- chrdev_open+0x4cd/0x5e0 fs/char_dev.c:411
- do_dentry_open+0x785/0x14e0 fs/open.c:947
- vfs_open+0x3b/0x340 fs/open.c:1079
- do_open fs/namei.c:4699 [inline]
- path_openat+0x2e08/0x3860 fs/namei.c:4858
- do_file_open+0x23e/0x4a0 fs/namei.c:4887
- do_sys_openat2+0x113/0x200 fs/open.c:1364
- do_sys_open fs/open.c:1370 [inline]
- __do_sys_openat fs/open.c:1386 [inline]
- __se_sys_openat fs/open.c:1381 [inline]
- __x64_sys_openat+0x138/0x170 fs/open.c:1381
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f23334a7407
-Code: 48 89 fa 4c 89 df e8 38 aa 00 00 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 1a 5b c3 0f 1f 84 00 00 00 00 00 48 8b 44 24 10 0f 05 <5b> c3 0f 1f 80 00 00 00 00 83 e2 39 83 fa 08 75 de e8 23 ff ff ff
-RSP: 002b:00007ffc786a3720 EFLAGS: 00000202 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 00007f2333bc1880 RCX: 00007f23334a7407
-RDX: 0000000000000000 RSI: 00007ffc786a4f1a RDI: ffffffffffffff9c
-RBP: 0000000000000002 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000202 R12: 0000000000000000
-R13: 00007ffc786a3970 R14: 00007f2333d28000 R15: 000055bf73e474d8
- </TASK>
-
-Allocated by task 24475:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __kmalloc_cache_noprof+0x31c/0x660 mm/slub.c:5419
- kmalloc_noprof include/linux/slab.h:950 [inline]
- kzalloc_noprof include/linux/slab.h:1188 [inline]
- em28xx_v4l2_init+0x10b/0x2eb0 drivers/media/usb/em28xx/em28xx-video.c:2707
- em28xx_init_extension+0x120/0x1c0 drivers/media/usb/em28xx/em28xx-core.c:1248
- process_one_work kernel/workqueue.c:3314 [inline]
- process_scheduled_works+0xb5d/0x1860 kernel/workqueue.c:3397
- worker_thread+0xa53/0xfc0 kernel/workqueue.c:3478
- kthread+0x389/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-Freed by task 24475:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- kasan_save_free_info+0x46/0x50 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:253 [inline]
- __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:285
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2689 [inline]
- slab_free mm/slub.c:6250 [inline]
- kfree+0x1c5/0x640 mm/slub.c:6565
- em28xx_free_v4l2 drivers/media/usb/em28xx/em28xx-video.c:2287 [inline]
- kref_put include/linux/kref.h:65 [inline]
- em28xx_v4l2_init+0x1685/0x2eb0 drivers/media/usb/em28xx/em28xx-video.c:3078
- em28xx_init_extension+0x120/0x1c0 drivers/media/usb/em28xx/em28xx-core.c:1248
- process_one_work kernel/workqueue.c:3314 [inline]
- process_scheduled_works+0xb5d/0x1860 kernel/workqueue.c:3397
- worker_thread+0xa53/0xfc0 kernel/workqueue.c:3478
- kthread+0x389/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-The buggy address belongs to the object at ffff8880655d8000
- which belongs to the cache kmalloc-8k of size 8192
-The buggy address is located 816 bytes inside of
- freed 8192-byte region [ffff8880655d8000, ffff8880655da000)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0xffff8880655dc000 pfn:0x655d8
-head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-flags: 0xfff00000000240(workingset|head|node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000240 ffff88813fe1b280 ffffea0001ddbc10 ffff88813fe19ac8
-raw: ffff8880655dc000 0000000800020001 00000000f5000000 0000000000000000
-head: 00fff00000000240 ffff88813fe1b280 ffffea0001ddbc10 ffff88813fe19ac8
-head: ffff8880655dc000 0000000800020001 00000000f5000000 0000000000000000
-head: 00fff00000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
-head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 24475, tgid 24475 (kworker/0:1), ts 2367631693947, free_ts 2367608772413
- set_page_owner include/linux/page_owner.h:32 [inline]
- post_alloc_hook+0x231/0x280 mm/page_alloc.c:1858
- prep_new_page mm/page_alloc.c:1866 [inline]
- get_page_from_freelist+0x24ba/0x2540 mm/page_alloc.c:3946
- __alloc_frozen_pages_noprof+0x18d/0x380 mm/page_alloc.c:5226
- alloc_slab_page mm/slub.c:3278 [inline]
- allocate_slab+0x77/0x660 mm/slub.c:3467
- new_slab mm/slub.c:3525 [inline]
- refill_objects+0x339/0x3d0 mm/slub.c:7271
- refill_sheaf mm/slub.c:2816 [inline]
- __pcs_replace_empty_main+0x321/0x720 mm/slub.c:4651
- alloc_from_pcs mm/slub.c:4749 [inline]
- slab_alloc_node mm/slub.c:4883 [inline]
- __kmalloc_cache_noprof+0x392/0x660 mm/slub.c:5414
- kmalloc_noprof include/linux/slab.h:950 [inline]
- kzalloc_noprof include/linux/slab.h:1188 [inline]
- em28xx_v4l2_init+0x10b/0x2eb0 drivers/media/usb/em28xx/em28xx-video.c:2707
- em28xx_init_extension+0x120/0x1c0 drivers/media/usb/em28xx/em28xx-core.c:1248
- process_one_work kernel/workqueue.c:3314 [inline]
- process_scheduled_works+0xb5d/0x1860 kernel/workqueue.c:3397
- worker_thread+0xa53/0xfc0 kernel/workqueue.c:3478
- kthread+0x389/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-page last free pid 19335 tgid 19335 stack trace:
- reset_page_owner include/linux/page_owner.h:25 [inline]
- __free_pages_prepare mm/page_alloc.c:1402 [inline]
- __free_frozen_pages+0xbc7/0xd30 mm/page_alloc.c:2943
- __slab_free+0x274/0x2c0 mm/slub.c:5612
- qlink_free mm/kasan/quarantine.c:163 [inline]
- qlist_free_all+0x99/0x100 mm/kasan/quarantine.c:179
- kasan_quarantine_reduce+0x148/0x160 mm/kasan/quarantine.c:286
- __kasan_slab_alloc+0x22/0x80 mm/kasan/common.c:350
- kasan_slab_alloc include/linux/kasan.h:253 [inline]
- slab_post_alloc_hook mm/slub.c:4569 [inline]
- slab_alloc_node mm/slub.c:4898 [inline]
- __kmalloc_cache_noprof+0x2ba/0x660 mm/slub.c:5414
- kmalloc_noprof include/linux/slab.h:950 [inline]
- kzalloc_noprof include/linux/slab.h:1188 [inline]
- vidtv_s302m_access_unit_init drivers/media/test-drivers/vidtv/vidtv_s302m.c:151 [inline]
- vidtv_s302m_alloc_au drivers/media/test-drivers/vidtv/vidtv_s302m.c:198 [inline]
- vidtv_s302m_encode+0x367/0x1880 drivers/media/test-drivers/vidtv/vidtv_s302m.c:408
- vidtv_mux_poll_encoders drivers/media/test-drivers/vidtv/vidtv_mux.c:333 [inline]
- vidtv_mux_tick+0x1358/0x24e0 drivers/media/test-drivers/vidtv/vidtv_mux.c:410
- process_one_work kernel/workqueue.c:3314 [inline]
- process_scheduled_works+0xb5d/0x1860 kernel/workqueue.c:3397
- worker_thread+0xa53/0xfc0 kernel/workqueue.c:3478
- kthread+0x389/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
-
-Memory state around the buggy address:
- ffff8880655d8200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff8880655d8280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff8880655d8300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                     ^
- ffff8880655d8380: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff8880655d8400: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
-
+Fixes: ebad8e731c1c ("media: usb: siano: Fix use after free bugs caused by do_submit_urb")
+Reported-by: syzbot+0d6ef2b7ceb6014d756c@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=0d6ef2b7ceb6014d756c
+Signed-off-by: Rohith Matam <rohithmatham@gmail.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Changes in v6:
+- Guard the buffer waitqueue wakeup for early probe failures before
+  coredev has been registered.
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Changes in v5:
+- Replace the v4 early-buffer-return ordering with an abortable smscore
+  buffer wait so workers can exit before teardown returns surb->cb.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+Changes in v4:
+- During teardown, kill all URBs and return held buffers before canceling
+  workers so smscore_getbuffer() waiters can wake and exit.
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+Changes in v3:
+- Initialize work items before early probe error paths can call teardown.
+- Return the smscore buffer when URB submission fails.
+- Wake buffer waiters after returning the buffer, and use wake_up().
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+Changes in v2:
+- Initialize all work items before allocating URBs.
+- Remove URB_FREE_BUFFER from smscore-owned buffers.
+- Stop resubmission before teardown and kill URBs again after canceling work.
 
-If you want to undo deduplication, reply with:
-#syz undup
+ drivers/media/common/siano/smscoreapi.c | 14 ++++++-
+ drivers/media/common/siano/smscoreapi.h |  2 +
+ drivers/media/usb/siano/smsusb.c        | 56 +++++++++++++++++++------
+ 3 files changed, 59 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/media/common/siano/smscoreapi.c b/drivers/media/common/siano/smscoreapi.c
+index 017629e3c..23be7347d 100644
+--- a/drivers/media/common/siano/smscoreapi.c
++++ b/drivers/media/common/siano/smscoreapi.c
+@@ -1644,6 +1644,18 @@ struct smscore_buffer_t *smscore_getbuffer(struct smscore_device_t *coredev)
+ }
+ EXPORT_SYMBOL_GPL(smscore_getbuffer);
+ 
++struct smscore_buffer_t *
++smscore_getbuffer_abortable(struct smscore_device_t *coredev, bool *abort)
++{
++	struct smscore_buffer_t *cb = NULL;
++
++	wait_event(coredev->buffer_mng_waitq,
++		   READ_ONCE(*abort) || (cb = get_entry(coredev)));
++
++	return cb;
++}
++EXPORT_SYMBOL_GPL(smscore_getbuffer_abortable);
++
+ /*
+  * return buffer descriptor to a pool
+  *
+@@ -1654,8 +1666,8 @@ EXPORT_SYMBOL_GPL(smscore_getbuffer);
+  */
+ void smscore_putbuffer(struct smscore_device_t *coredev,
+ 		struct smscore_buffer_t *cb) {
+-	wake_up_interruptible(&coredev->buffer_mng_waitq);
+ 	list_add_locked(&cb->entry, &coredev->buffers, &coredev->bufferslock);
++	wake_up(&coredev->buffer_mng_waitq);
+ }
+ EXPORT_SYMBOL_GPL(smscore_putbuffer);
+ 
+diff --git a/drivers/media/common/siano/smscoreapi.h b/drivers/media/common/siano/smscoreapi.h
+index d945a2d6d..f8a9e6ef7 100644
+--- a/drivers/media/common/siano/smscoreapi.h
++++ b/drivers/media/common/siano/smscoreapi.h
+@@ -1117,6 +1117,8 @@ extern void smscore_onresponse(struct smscore_device_t *coredev,
+ 
+ extern
+ struct smscore_buffer_t *smscore_getbuffer(struct smscore_device_t *coredev);
++struct smscore_buffer_t *
++smscore_getbuffer_abortable(struct smscore_device_t *coredev, bool *abort);
+ extern void smscore_putbuffer(struct smscore_device_t *coredev,
+ 			      struct smscore_buffer_t *cb);
+ 
+diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
+index 0fdc2e095..98ae94e19 100644
+--- a/drivers/media/usb/siano/smsusb.c
++++ b/drivers/media/usb/siano/smsusb.c
+@@ -58,6 +58,8 @@ struct smsusb_device_t {
+ 	unsigned char in_ep;
+ 	unsigned char out_ep;
+ 	enum smsusb_state state;
++	bool streaming;
++	bool stopping;
+ };
+ 
+ static int smsusb_submit_urb(struct smsusb_device_t *dev,
+@@ -71,8 +73,14 @@ static void do_submit_urb(struct work_struct *work)
+ {
+ 	struct smsusb_urb_t *surb = container_of(work, struct smsusb_urb_t, wq);
+ 	struct smsusb_device_t *dev = surb->dev;
++	int rc;
+ 
+-	smsusb_submit_urb(dev, surb);
++	if (!READ_ONCE(dev->streaming))
++		return;
++
++	rc = smsusb_submit_urb(dev, surb);
++	if (rc < 0 && READ_ONCE(dev->streaming))
++		pr_err("smsusb_submit_urb(...) failed\n");
+ }
+ 
+ /*
+@@ -143,19 +151,22 @@ static void smsusb_onresponse(struct urb *urb)
+ 
+ 
+ exit_and_resubmit:
+-	INIT_WORK(&surb->wq, do_submit_urb);
+-	schedule_work(&surb->wq);
++	if (READ_ONCE(dev->streaming))
++		schedule_work(&surb->wq);
+ }
+ 
+ static int smsusb_submit_urb(struct smsusb_device_t *dev,
+ 			     struct smsusb_urb_t *surb)
+ {
++	int rc;
++
+ 	if (!surb->cb) {
+ 		/* This function can sleep */
+-		surb->cb = smscore_getbuffer(dev->coredev);
++		surb->cb = smscore_getbuffer_abortable(dev->coredev,
++						       &dev->stopping);
+ 		if (!surb->cb) {
+-			pr_err("smscore_getbuffer(...) returned NULL\n");
+-			return -ENOMEM;
++			pr_debug("device is stopping\n");
++			return -ESHUTDOWN;
+ 		}
+ 	}
+ 
+@@ -168,20 +179,34 @@ static int smsusb_submit_urb(struct smsusb_device_t *dev,
+ 		smsusb_onresponse,
+ 		surb
+ 	);
+-	surb->urb->transfer_flags |= URB_FREE_BUFFER;
++	rc = usb_submit_urb(surb->urb, GFP_ATOMIC);
++	if (rc) {
++		smscore_putbuffer(dev->coredev, surb->cb);
++		surb->cb = NULL;
++	}
+ 
+-	return usb_submit_urb(surb->urb, GFP_ATOMIC);
++	return rc;
+ }
+ 
+ static void smsusb_stop_streaming(struct smsusb_device_t *dev)
+ {
+ 	int i;
+ 
+-	for (i = 0; i < MAX_URBS; i++) {
++	WRITE_ONCE(dev->streaming, false);
++	WRITE_ONCE(dev->stopping, true);
++	if (dev->coredev)
++		wake_up(&dev->coredev->buffer_mng_waitq);
++
++	for (i = 0; i < MAX_URBS; i++)
+ 		usb_kill_urb(dev->surbs[i].urb);
+-		if (dev->surbs[i].wq.func)
+-			cancel_work_sync(&dev->surbs[i].wq);
+ 
++	for (i = 0; i < MAX_URBS; i++)
++		cancel_work_sync(&dev->surbs[i].wq);
++
++	for (i = 0; i < MAX_URBS; i++)
++		usb_kill_urb(dev->surbs[i].urb);
++
++	for (i = 0; i < MAX_URBS; i++) {
+ 		if (dev->surbs[i].cb) {
+ 			smscore_putbuffer(dev->coredev, dev->surbs[i].cb);
+ 			dev->surbs[i].cb = NULL;
+@@ -193,6 +218,9 @@ static int smsusb_start_streaming(struct smsusb_device_t *dev)
+ {
+ 	int i, rc;
+ 
++	WRITE_ONCE(dev->stopping, false);
++	WRITE_ONCE(dev->streaming, true);
++
+ 	for (i = 0; i < MAX_URBS; i++) {
+ 		rc = smsusb_submit_urb(dev, &dev->surbs[i]);
+ 		if (rc < 0) {
+@@ -401,6 +429,11 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
+ 	if (!dev)
+ 		return -ENOMEM;
+ 
++	for (i = 0; i < MAX_URBS; i++) {
++		dev->surbs[i].dev = dev;
++		INIT_WORK(&dev->surbs[i].wq, do_submit_urb);
++	}
++
+ 	memset(&params, 0, sizeof(params));
+ 	usb_set_intfdata(intf, dev);
+ 	dev->udev = interface_to_usbdev(intf);
+@@ -467,7 +500,6 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
+ 
+ 	/* initialize urbs */
+ 	for (i = 0; i < MAX_URBS; i++) {
+-		dev->surbs[i].dev = dev;
+ 		dev->surbs[i].urb = usb_alloc_urb(0, GFP_KERNEL);
+ 		if (!dev->surbs[i].urb)
+ 			goto err_unregister_device;
+-- 
+2.54.0
 
