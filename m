@@ -1,180 +1,295 @@
-Return-Path: <linux-media+bounces-63255-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63256-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id gF6CIRyFHWqjbQkAu9opvQ
-	(envelope-from <linux-media+bounces-63255-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 15:11:56 +0200
+	id mH7FAN6FHWq5bQkAu9opvQ
+	(envelope-from <linux-media+bounces-63256-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 15:15:10 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D833E61FDA6
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 15:11:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 539B361FDDB
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 15:15:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A1C84301ECEA
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 13:10:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 51EC9300EAAA
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 13:14:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51D4F39D6E8;
-	Mon,  1 Jun 2026 13:10:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8EA2374E47;
+	Mon,  1 Jun 2026 13:14:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hvmyb9+a"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="W3Rs9bQd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05E2372B50
-	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 13:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BF336F434
+	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 13:14:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780319400; cv=none; b=YLB+bxbvAWt/SBj9lZcMZ1X41C1yVUcCSN72D3LDFGL45o8kQEO9CtDalWYmMaH7kO+UF/tsJCHbFUBa2HyEs4pLSCXqx8vV9OXKwV0DtAwZY+kYZX0ipj9hS58tu7IjUpZvhzJ3DKGw2Gh0bYp9sss1RHts48ZpgFS53+IpBbw=
+	t=1780319654; cv=none; b=OHUXKwzsKSuhNRQmdzftQCJ4ktcpwhSmB+mApLegudumE+XT1sClVVhGQepxQUHlEwkvVSVw++B5XEIb1wMbmYLtK8H6YMt2Uld+FPidn36QCuOZmLPvn0uL2WVUL7TDr1arIQA5raNYKMIPNMi3Et2Ng1rOUypmKwE+/mpyy8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780319400; c=relaxed/simple;
-	bh=y1qthJVZiBKj676hYK58SLxoY8rPkB7gN0+ra9SKSZI=;
-	h=Content-Type:Message-ID:Date:MIME-Version:From:To:Subject; b=DyjnX983qmyrkXhSwIK71oGKPkR1cyQovPs3STSaI+SlgpRbarUL9P5hm3otMBNAHRXBkaRurvWIPywMlxj7AeHQ5CfztKiWIkOsRxy25LLGlk7UfL948nfJjezKvphYL4H8rND015Cf0lCaCa7a4vyEK2TYv4t6kQTwlXCOeWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hvmyb9+a; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35B211F00898;
-	Mon,  1 Jun 2026 13:09:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780319399;
-	bh=uQ5tlIjCCfWd6QxsEA3OeqB5s0PDbB69RcmXjvdliXk=;
-	h=Date:From:To:Subject;
-	b=Hvmyb9+a960s7yi6FEv66YFw3pIEraC7fBpgl5CFkv7HXO8vLHaqAuTmkFmLMiLLc
-	 MSxBuE+N4vLk0EP9rXYKQsGu24XXdO5jxLQWFHm+l2ZA8BpQORTbkTEfjh2ge2pxgQ
-	 VmD/P6bl50Ij6MGCex1F+9UA1UO8meieN3qROy5fI5Iy0ZzXqP+cuYRUKr6eX3kgOF
-	 3vch+vgeMoAeTIGTKP2it2ISIpFOkrcApvRsE9zsB9gLSwOFEZQz/K3Hpc9dUH1wco
-	 Mqg0RIAVsOhnA+og8RV4zX8nmOmmGBrq9QOOrRyn3wt2wlFy1yuXyABd2HqufLtp3K
-	 VDrbhAjwRq2Bg==
-Content-Type: multipart/mixed; boundary="------------L5PxckFDv5a7OHrX0bpuCRFY"
-Message-ID: <18d5b476-72d0-4a1b-9004-1669866f0d28@kernel.org>
-Date: Mon, 1 Jun 2026 15:09:56 +0200
+	s=arc-20240116; t=1780319654; c=relaxed/simple;
+	bh=kWYr/sGOlkYaP/IlGre85FljeKIYxmCT+ALZVyn3QeA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=PAxCQT+U2qyfUh//k55GkJTMccDA12mo23SGyav0htBv//Vc2FFgH/UzeNrKkMCEJjHZGhaV3Rb3ilt1AFKg9c0yBG4UyrFYRYImkdyWwdguKCM/7N95x+sGQ+BMsS/NHs7v0XgFYIiREMgtVKaKYIcEQiZFGNp6z9a0jITji0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=W3Rs9bQd; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gTZDK2kNZz9v4J;
+	Mon,  1 Jun 2026 15:14:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1780319649; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=vjq3QYgmmGW0ARK3lBSeF5oGty5b95jocBxlOKmuats=;
+	b=W3Rs9bQd/XTXflkXGpzTyAkCMyvpu0cygl35d5gsPDoLZ0kPMW20/I+Fw+CGoMAxv2MZlO
+	vIj4bJJKT4MB8gPs8D7aVfSkGdZgQkualRnBkCoxOUjn5VR+B7t8GUN1Q2taNea1CuK2Vi
+	i6NB5HFq41ZBGk1vv45SCaKScOq8v8u0wip8jmPt1xyfAI3FcK9ZZrTbHB6jMsFJP2CSjd
+	71/tM/EvZyj5w6JXD6ZGkzbP6wXvda9q9DQnsk+PI/Drkxx6iOsWjeePiRf+2l+ueVDqyW
+	tcQny9hztsXLWJn1tofa3O+IBhZWRYkqgpJSYm4Hgk9hUwm+jyRiRtpXzD+1gw==
+Message-ID: <24ef07ed85d9e7aa7f9d3a96301c4c15bc0f2315.camel@mailbox.org>
+Subject: Re: [PATCH 3/4] rust: Add dma_fence abstractions
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Alice Ryhl <aliceryhl@google.com>, phasta@kernel.org
+Cc: sashiko-reviews@lists.linux.dev, linux-media@vger.kernel.org, 
+	ojeda@kernel.org, Boris Brezillon <boris.brezillon@collabora.com>
+Date: Mon, 01 Jun 2026 15:14:05 +0200
+In-Reply-To: <CAH5fLggvxGwJkAp+VqG7pA-e2zM-T8_DR0DeCiZiJyM+o51DuQ@mail.gmail.com>
+References: <20260530143541.229628-5-phasta@kernel.org>
+	 <20260530150622.393FC1F00893@smtp.kernel.org> <ah1c3NSU-4UkdUhb@google.com>
+	 <a3d09b270e6effb6f2bfb5d7ba8de48e3c2c4081.camel@mailbox.org>
+	 <CAH5fLggvxGwJkAp+VqG7pA-e2zM-T8_DR0DeCiZiJyM+o51DuQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Content-Language: en-US, nl
-To: media-committers@linuxtv.org,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Ricardo Ribalda <ribalda@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: Fixes and CC to stable: proposal
-X-Spamd-Result: default: False [-0.46 / 15.00];
-	MIME_BAD_ATTACHMENT(1.60)[sh:application/x-shellscript];
+X-MBO-RS-META: 8hdtzsz1s1i1ubgfi9hbuz1octpwn1co
+X-MBO-RS-ID: a47d8c8860d6ee95f43
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[multipart/mixed,text/plain];
-	MIME_UNKNOWN(0.10)[application/x-shellscript];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63255-lists,linux-media=lfdr.de,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mailbox.org:email,mailbox.org:mid,mailbox.org:dkim];
+	TAGGED_FROM(0.00)[bounces-63256-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	TO_DN_SOME(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
-	HAS_ATTACHMENT(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	NEURAL_HAM(-0.00)[-0.999];
 	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[6];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: D833E61FDA6
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	HAS_REPLYTO(0.00)[phasta@kernel.org]
+X-Rspamd-Queue-Id: 539B361FDDB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-This is a multi-part message in MIME format.
---------------L5PxckFDv5a7OHrX0bpuCRFY
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
++Cc Boris
 
-Hi all,
+On Mon, 2026-06-01 at 14:55 +0200, Alice Ryhl wrote:
+> On Mon, Jun 1, 2026 at 2:34=E2=80=AFPM Philipp Stanner <phasta@mailbox.or=
+g> wrote:
+> >=20
+> > On Mon, 2026-06-01 at 10:20 +0000, Alice Ryhl wrote:
+> > > On Sat, May 30, 2026 at 03:06:21PM +0000, sashiko-bot@kernel.org=C2=
+=A0wrote:
+> > > > > +impl<F: Send + Sync, C: Send + Sync> DriverFence<F, C> {
+> > > > > +=C2=A0=C2=A0=C2=A0 fn as_raw(&self) -> *mut bindings::dma_fence =
+{
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: Valid beca=
+use `self` is valid.
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence_data =3D un=
+safe { &mut *self.data.as_ptr() };
+> > > >=20
+> > > > [Severity: High]
+> > > > Does this create an exclusive mutable reference to actively shared =
+memory?
+> > > >=20
+> > > > DriverFenceData can be accessed concurrently by other threads holdi=
+ng Fence
+> > > > references (for instance, when checking if the fence is signaled). =
+Creating
+> > > > a mutable reference (&mut) in Rust asserts exclusive access and vio=
+lates
+> > > > aliasing rules, which allows the compiler to make invalid optimizat=
+ion
+> > > > assumptions.
+> > > >=20
+> > > > Could this use an immutable reference &*self.data.as_ptr() instead?
+> > >=20
+> > > Yes, please use an immutable reference here.
+> > >=20
+> > > > > +
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fence_data.inner.inne=
+r.get()
+> > > > > +=C2=A0=C2=A0=C2=A0 }
+> > > >=20
+> > > > [ ... ]
+> > > >=20
+> > > > > +impl<F: Send + Sync, C: Send + Sync> DriverFenceBorrow<F, C> {
+> > > > > +=C2=A0=C2=A0=C2=A0 fn as_raw(&self) -> *mut bindings::dma_fence =
+{
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: Valid beca=
+use `self` is valid.
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence_data =3D un=
+safe { &mut *self.data.as_ptr() };
+> > > >=20
+> > > > [Severity: High]
+> > > > Similar to DriverFence::as_raw(), does this also incorrectly create=
+ a
+> > > > mutable reference to shared data?
+> > >=20
+> > > Here as well.
+> >=20
+> > `data` is not shared. By design there is only ever one DriverFence, and
+> > the driver's data (`data.data`) is `Sync`.
+> >=20
+> > But I guess an immutable one should do the trick, too.
+>=20
+> There's only one DriverFence, but I can perform shared access to that
+> one DriverFence from two threads in parallel. You made the type Sync,
+> and this is what you are allowing when you do so.
 
-I talked to Greg K-H about whether or not a CC to stable is needed for a patch with a Fixes:
-tag, and yes, if you want to get it into stable, then such a CC is required.
+Nope, DriverFence is just Send, not Sync.
 
-Since we never did that he just went through those patches himself and picked which should
-go to stable, but obviously that's not how it should work.
+data.data is Sync, but `data` in the code above is not the actual user
+data, but the memory backing it up.
 
-There is no need for a CC to stable for fixes to patches that are not yet in the stable tree.
-There is also typically no need for a CC to stable for e.g. Documentation fixes, or other
-minor fixes.
+>=20
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 bindings::dma_fence_signal_locked(fence);
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 }
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 bindings::dma_fence_unlock_irqrestore(fence, flag_ptr);
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > > +
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: `self.data=
+` is owned by the DriverFence, but could be accessed
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // through some dma_f=
+ence callbacks right now. Access is being revoked
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // above by signallin=
+g the fence. The DriverFenceAllowedData trait
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // ensures that the d=
+ata either does not need drop, or if it does it
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // lives in a RcuBox =
+which will delay dropping by one grace period, hence
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // ensuring that all =
+readers have disappeared.
+> > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsafe { drop_in_plac=
+e(self.data.as_ptr()) };
+> > > >=20
+> > > > [Severity: Critical]
+> > > > Could this eagerly drop FenceCtx and user data before the C dma_fen=
+ce
+> > > > refcount reaches 0?
+> > > >=20
+> > > > The C dma_fence object can remain alive as long as consumers (like =
+sync_file
+> > > > or the GPU scheduler) hold references to it. If the backend later i=
+nvokes
+> > > > callbacks like ops->get_driver_name(), FenceCtx::get_driver_name() =
+would
+> > > > attempt to read fctx.driver_name from the already-dropped FenceCtx:
+> > > >=20
+> > > > FenceCtx::get_driver_name() {
+> > > > =C2=A0=C2=A0=C2=A0 ...
+> > > > =C2=A0=C2=A0=C2=A0 fctx.driver_name.as_char_ptr()
+> > > > }
+> > > >=20
+> > > > Can this result in a use-after-free?
+> > >=20
+> > > Hmm, I don't know about what sahisko said, but I don't think this is =
+the
+> > > right way to do rcu freeing. I think the type's destructor should be
+> > > reserved for cases where the value becomes immediately unusable.
+> >=20
+> > We could guard the strings with RcuBox, but we could not then guard the
+> > FenceCtx code against code UAF if we don't have the rcu_barrier().
+> >=20
+> > Or could we?
+> >=20
+> > If a rust module unloads, module::remove() should contain an
+> > rcu_barrier() (right??). Would that be enough to guard against the
+> > FenceCtx code being unloaded?
+> >=20
+> > >=20
+> > > For example, let's say I'm using RcuBox<_> here. Yes, the data you ge=
+t
+> > > from dereferencing the RcuBox will stay alive for a grace period, but
+> > > IMO once you run the destructor of the box itself, the *pointer* beco=
+mes
+> > > immediately unusable.
+> >=20
+> > I don't know why you're stressing the pointer?
+> >=20
+> > The trick above is simply that drop / dealloc *and* code unloading is
+> > delayed by a grace period.
+>=20
+> Sorry let me try to rephrase. I'm not worried about the stuff behind
+> the pointer. After all, you're using RcuBox to protect that stuff.
+> What I'm worried about is the pointer itself. You invoked
+> drop_in_place() on the pointer to the fence context,
+>=20
 
-In general in all other cases you do need to add a CC to stable.
+on the pointer to DriverFenceData, which contains a refcount to the
+FenceCtx, which might then want to drop.
 
-So I propose that media CI just warns if there is no CC to stable for a patch with a Fixes
-tag and if that tag points to a patch in the stable tree. And that it is the responsibility
-of the media committers to check if the CC to stable is missing and add it.
+>  so even though
+> the fence context may be valid for another grace period, the *pointer*
+> to the fence context is not. The pointer could have been zeroed by the
+> destructor.
 
-Now, one problem is that it is very easy to fail to check the Media CI output if it passes.
+That particular pointer to the DriverFenceData could have been zeroed.
+But potential other accessors have already crafted themselves a new
+pointer to the, by the power of RCU, still valid data. That new pointer
+is container-of-ed from struct dma_fence *f.
 
-I use a small check script (attached) that runs checkpatch and performs a bunch of sanity checks.
-I run it over the patches I am about to push to gitlab and go through the results. First are the
-checkpatch results, then at the end are the extra sanity checks. This avoids mixing the sanity
-checks with the checkpatch results, which would make it easy to miss warning like a missing CC
-to stable.
+>=20
+> Actually maybe I am worried about the strings too. Let's say that one
+> thread does:
+>=20
+> rcu_read_lock()
+> get_driver_name()
+> // .. read the driver name
+> rcu_read_unlock()
+>=20
+> and another thread signals the fence. If there are no queued
+> call_rcu() callbacks right now, then the rcu_barrier() could be a
+> no-op and the rcu reader will UAF on the driver name. It looks like
+> you need synchronize_rcu() rather than rcu_barrier() here?
 
-It's very efficient to be able to do these checks locally before you pass it to the CI.
+It would seem to me that you are right.
 
-You probably need to edit the script a bit since it checks if my Signed-off-by is present (I'm
-embarrassed to admit I've forgotten that once or twice...). Obviously, as committer that
-should change to your name.
+Boris, do you have an opinion on that?
 
-Comments/questions?
 
-Regards,
+P.
 
-	Hans
-
---------------L5PxckFDv5a7OHrX0bpuCRFY
-Content-Type: application/x-shellscript; name="checkp.sh"
-Content-Disposition: attachment; filename="checkp.sh"
-Content-Transfer-Encoding: base64
-
-c2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tc3RyaWN0ICQqCgplY2hvCmVjaG8gJy0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLScKCmZhaWw9ZmFsc2UKCmZvciBwIGlu
-ICQqOyBkbwoJaWYgISBgZ3JlcCAtcWkgJ15TaWduZWQtb2ZmLWJ5OiBIYW5zIFZlcmt1aWwg
-PGh2ZXJrdWlsK2Npc2NvQGtlcm5lbC5vcmc+JyAkcGAgOyB0aGVuCgkJZWNobwoJCWVjaG8g
-IkVSUk9SOiAkcDogTWlzc2luZyBTaWduZWQtb2ZmLWJ5OiBIYW5zIFZlcmt1aWwgPGh2ZXJr
-dWlsK2Npc2NvQGtlcm5lbC5vcmc+IgoJCWZhaWw9dHJ1ZQoJZmkKCWlmICEgYGdyZXAgLXFp
-ICdeU3ViamVjdDouKk1BSU5UQUlORVJTJyAkcGAgOyB0aGVuCgkJaWYgISBgZ3JlcCAtcWkg
-J15TdWJqZWN0Oi4qW15hLXpBLVowLTlfXW1lZGlhOicgJHBgIDsgdGhlbgoJCQllY2hvCgkJ
-CWVjaG8gIldBUk5JTkc6ICRwOiBNaXNzaW5nICdtZWRpYTonIHByZWZpeCBpbiBTdWJqZWN0
-IgoJCQlmYWlsPXRydWUKCQlmaQoJZmkKCWlmIGBncmVwIC1xaSAnXkNoYW5nZS1JZDonICRw
-YCA7IHRoZW4KCQllY2hvCgkJZWNobyAiRVJST1I6ICRwOiBEb24ndCB1c2UgQ2hhbmdlLUlk
-IgoJCWZhaWw9dHJ1ZQoJZmkKCWlmICEgYGdyZXAgLXFpICdeTGluazogaHR0cHM6Ly9wYXRj
-aC5tc2dpZC5saW5rLycgJHBgIDsgdGhlbgoJCWlmIGBncmVwIC1xaSAnXkxpbms6JyAkcGAg
-OyB0aGVuCgkJCWVjaG8KCQkJZWNobyAiV0FSTklORzogJHA6IFVzZSBvZiBMaW5rIHRhZyIK
-CQkJZmFpbD10cnVlCgkJZmkKCWZpCglpZiBgZ3JlcCAtcWkgJ15DYzouKmxpbnV4LW1lZGlh
-JyAkcGAgOyB0aGVuCgkJZWNobwoJCWVjaG8gIkVSUk9SOiAkcDogRG9uJ3QgQ2MgbGludXgt
-bWVkaWEiCgkJZmFpbD10cnVlCglmaQoJaWYgYGdyZXAgLXFpICdeQ2M6LipodmVya3VpbCcg
-JHBgIDsgdGhlbgoJCWVjaG8KCQllY2hvICJXQVJOSU5HOiAkcDogRG9uJ3QgQ2MgSGFucyBW
-ZXJrdWlsIgoJCWZhaWw9dHJ1ZQoJZmkKCWlmIGBncmVwIC1xaSAnXkNjOi4qbWNoZWhhYicg
-JHBgIDsgdGhlbgoJCWVjaG8KCQllY2hvICJXQVJOSU5HOiAkcDogRG9uJ3QgQ2MgTWF1cm8g
-Q2FydmFsaG8gQ2hlaGFiIgoJCWZhaWw9dHJ1ZQoJZmkKCWlmICEgYGdyZXAgLXFpICdeRml4
-ZXM6JyAkcGAgOyB0aGVuCgkJaWYgYGdyZXAgLXFpICdeY2M6LipzdGFibGUnICRwYCA7IHRo
-ZW4KCQkJZWNobwoJCQllY2hvICJFUlJPUjogJHA6IENjIHRvIHN0YWJsZSwgYnV0IG5vIEZp
-eGVzOiB0YWciCgkJCWZhaWw9dHJ1ZQoJCWZpCglmaQoJaWYgISBgZ3JlcCAtcWkgJ15jYzou
-KnN0YWJsZScgJHBgIDsgdGhlbgoJCWlmIGBncmVwIC1xaSAnXkZpeGVzOicgJHBgIDsgdGhl
-bgoJCQllY2hvCgkJCWVjaG8gIldBUk5JTkc6ICRwOiBGaXhlczogdGFnLCBidXQgbm8gQ2M6
-IHN0YWJsZUB2Z2VyLmtlcm5lbC5vcmciCgkJCWZhaWw9dHJ1ZQoJCWZpCglmaQoJaWYgYGdy
-ZXAgLXFpICJeZGlmZiAuKi9ib290L2R0cy8iICRwYCA7IHRoZW4KCQllY2hvCgkJZWNobyAi
-V0FSTklORzogJHA6IERldmljZSB0cmVlIGNoYW5nZXMgc2hvdWxkIG5vdCBiZSBwYXJ0IG9m
-IHRoZSBtZWRpYSBzdWJzeXN0ZW0iCgkJZmFpbD10cnVlCglmaQpkb25lCgppZiAkZmFpbDsg
-dGhlbgoJZWNobwoJZWNobyAnLS0tLS0tLS0tLS0tIEZBSUxVUkVTISAtLS0tLS0tLS0tLS0t
-LS0tJwpmaQo=
-
---------------L5PxckFDv5a7OHrX0bpuCRFY--
+>=20
+> Alice
 
