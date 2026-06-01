@@ -1,404 +1,313 @@
-Return-Path: <linux-media+bounces-63295-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63297-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id GLquOO2oHWp+cwkAu9opvQ
-	(envelope-from <linux-media+bounces-63295-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 17:44:45 +0200
+	id cNUtD1mpHWq+cwkAu9opvQ
+	(envelope-from <linux-media+bounces-63297-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 17:46:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E29DC621F93
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 17:44:44 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50C5962201B
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 17:46:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 6D82E3025262
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 15:43:07 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id D4177302FF7B
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 15:43:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CB022773F7;
-	Mon,  1 Jun 2026 15:42:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B03C73DB65D;
+	Mon,  1 Jun 2026 15:43:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="espKNAT6";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UbHelrnS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pbsZmkK3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65CE43DC4D1
-	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 15:42:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B480D3DA5CC
+	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 15:43:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780328548; cv=none; b=fahSVxZv05dN7gHpq6dxOtJUg8Ke4O0Emn+89cpJ364bcX4ZqhwjEtiYtDrxAFwMvIFuZTuf6uwzR8JHmfqlMefsdVekflV3vjR3gsF6B9cYIU3U5CILwv9KSY7M1RxEVJPpaEMM7TpZZJQXUh+110SYTjKOuKnRP+pi2p4D3E4=
+	t=1780328600; cv=none; b=NH0vFNJxHY23vtkZx00czrTQsau22NJuH25ozAYDLnG1WE3apQ10UkW1LKU9Ure2jmzfa006DU+2Fwf/vu5mwfUf2bhKU0GUNufr8K2AahA8b/GP00Ejc50RzZthvXNdvaT41jdG3hki34Z4AGXRa83w6dJba2qD6hU04seRR/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780328548; c=relaxed/simple;
-	bh=iPScbSltF8/cuPWN2KBgNJ3WGrtroA5TrI0yo46SgRw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Y6kfkmhTasSj4OUJQQO7+G00xN0/dl9FodmqzUcKsjT/5fR2SwdB/P0Isl51HrePNfCgTwsVEXeGaR5UwDsxvWRhDsmkuppY9GVi1FKEttG12KQFC9z31aKA9YRkvgkdj/yj5l2rRDwtoZPoklszNjS8s0XuvBOwB8BvIgBpNgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=espKNAT6; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=UbHelrnS; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 651AxDJH334622
-	for <linux-media@vger.kernel.org>; Mon, 1 Jun 2026 15:42:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	+mZxV21KQ3tL9oFzLvCHMLnrJSP5MCm1mDXaNoEH23U=; b=espKNAT6x//SoipT
-	e5ZXh5vsfNMdPw2jt9fyycow7x09wLYwmzt1tRgFa3PLXqZUFH7CSx98C9HmKJKL
-	I9DKNOs0ZQy46ub3pYhYB+4n6PVNjx6NubvtPLkVP5efEdfKFfU2deI8knXsh81p
-	Fib5ebQYsP99IWmjsn0SwfKSa2nZtBuOMwVNTktoIFvZ97TqHfeBunujSn0O04QB
-	qdTL1+xd1CJT8UYhW89otS/cKvxf/Gp3PJ0lRCPDXtT5QAC6C2dISLo1RZKpV2SS
-	0ylieXWlQe6KAta2cIgURgwre9iBN1M1jMxXCFnjqddDwKklrIUQeHKddUiYrRjx
-	iw/Azg==
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eh8tfs81m-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 15:42:24 +0000 (GMT)
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-304ed777a96so1769372eec.1
-        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 08:42:24 -0700 (PDT)
+	s=arc-20240116; t=1780328600; c=relaxed/simple;
+	bh=gjRGSuHTFaMpWrg/aj9gtDO3Px00ekN2KTlN3bmjMC8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=QUQbhZmn4CaNyec8wpvpR95Kh1ZdKooqmLf6xsSFIV3WxIzM+1V3FZrmW9P0sVx1AecVkuveJsz7WEf+yhhSBqo0RL+KipVYERnyXZnNgS7HiSLAfXVqkPHL1SGTA8kjup+FrfxJHRoxxamqKg0ogH4Ed+30SgiHdO3Mr3Om/Mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pbsZmkK3; arc=none smtp.client-ip=209.85.219.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-8cce87d7995so41671316d6.0
+        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 08:43:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1780328543; x=1780933343; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+mZxV21KQ3tL9oFzLvCHMLnrJSP5MCm1mDXaNoEH23U=;
-        b=UbHelrnS7qWxNP/a2JrmaCx85p7xlqfFJONu4HJC5KCxH4AMB56gajwl36sx++qeKX
-         edllV2aMKI5gTk9DXm06eTkpqVw/BqyjyCjZB5osU95fyrJ0YFJsZmhjOp+1LXp1XvrI
-         fZ9FD1x2Z9clg9v0vpVAcatCf4PcOyKiJ0Cu5kSp9LWvWsE/lG2VmSgMXCcd+7duTGuL
-         n2dlj8ZwRjNLbpBoj865prBXu6xKkq5sbtz22Ak3YG0qJTRkZqGBji/hDKBGHobuwU8V
-         gh3X+dEM8TNEgVCQCDj7DWz0xO0dMZwqC1I47sNUefe48ctFefp3ye3JDFBl2uT66eOb
-         Noug==
+        d=gmail.com; s=20251104; t=1780328598; x=1780933398; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yNnTDOSD25WnJEqdpyi7uEMknZ0Iy/maLAUEpuwj10s=;
+        b=pbsZmkK3t2XXA4yTICxdttI0BzTWTftw4vaO1qQXEkIOcBo7yJPscFqbL0E9Citovc
+         nTNAQZzKAeN7piNja4rDcyPHC/A8Lbs0usX9zzbbeg+JQXbNkwdUsXPjxbdVzme0f7L0
+         d8YjEf6rbjKr8Uw5c+KshUQvbxNzZCNnRoPkCE5ZyUv+Nhu7tpoYSMxud+L9j2yWOeQH
+         MXuqQlkkGEFB2xtaz8l3+Wbmf4Rq7MjY+bG2gjeC316ZdszczlQ+2aKZbgXw+Jrkl5Ch
+         93z4+W6ThDSX/AZ3N0QozY0zf9E810mnDCTGkem14M5rss7WykSWT+ncYRFxq2R8MaBU
+         R/XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780328543; x=1780933343;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=+mZxV21KQ3tL9oFzLvCHMLnrJSP5MCm1mDXaNoEH23U=;
-        b=lIwJnv5M/tE8pW9uGMPqDDrKPSS11W8nA81gB53wwDKbzcmf1DRkISYJBEatOMMiYt
-         aKloa1lTbVxQf4fdnof/4UZkZq7yDtANph4ybV8VvPV4/RhCcqB7sPCmWOQdeV6oyERN
-         uVPwewkyxr3I7uVCRgNyJXA/bxGzGYOI4QkXqTLWvzpMfkmUTsjuKQDr0lVriayKXYDV
-         omSFQ2B4US8VjqtbupZJBkN11iJxP7zYCb7XJAM082B03BxMpYRj9797KzqxnK27E6LL
-         HGM5bexQT8EmDWveNu+zPSby+CFllSXJw5gaIossknxztT6NSoVzqbHoBb4tKIR6n0S5
-         3GeA==
-X-Gm-Message-State: AOJu0YyP574gnMWM/w8kcA8qfI1B9eiihxZY9OpeTUMigvHWVG0J1jRQ
-	flHpCJvmy2NiX5Bpb7LN2/JTeFNUvXijfcyf8zaK5ZbVX4A3pB4SlGPy8CjtYVQocQ6toGU5CXo
-	J07lkfOBP2qMb6DGF3qFHK3hjZd27hKJmckPs6xhclc5u85hW9DdG1fBB8glgWx0WkQ==
-X-Gm-Gg: Acq92OGNnLiqzocvCOMoG92YVWRPnIDxQFpD/MGXZSSHGrFos+O72FVGBzNeojm+Dd5
-	+LJr+wZKMvsnLIm80AAExzhBi6EiDnhPTXt9Fi0NTnhiLM6iiop/p5JufBpn16UubcPQzegRiq5
-	DwwE+HEiXOqLctx11TydMZYXtgzAenkosSW7GCHWOtkRju3kq8CcjzGttXE/q8UNTAapO1UadTL
-	Qk4aJkAqIot1rF23bY59y09cR2+8GlZ99Xx9jEckp1I/y4K4yyeZiGG518fWCjC+bfXus6EfokA
-	o/XltT6y2ofM9yF78+Xl1JdOFIDgXz1k31DZpahlhp6i2oNh94D0oLY8HjognmxLRpogL4J9UVO
-	Ji3KBo+H9NoG7NH9BQS4vXzetB/sUd0v77k7mg7wb3OXmRC2ns0WuFdrPuH6SRfS0YqskFYtjAD
-	96j6l2nrBEXqE=
-X-Received: by 2002:a05:693c:3017:b0:2e7:190:41d6 with SMTP id 5a478bee46e88-30734a3fcfdmr28915eec.2.1780328543390;
-        Mon, 01 Jun 2026 08:42:23 -0700 (PDT)
-X-Received: by 2002:a05:693c:3017:b0:2e7:190:41d6 with SMTP id 5a478bee46e88-30734a3fcfdmr28885eec.2.1780328542679;
-        Mon, 01 Jun 2026 08:42:22 -0700 (PDT)
-Received: from hu-hangxian-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-304ed53f002sm9430371eec.18.2026.06.01.08.42.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2026 08:42:22 -0700 (PDT)
-From: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
-Date: Mon, 01 Jun 2026 08:42:18 -0700
-Subject: [PATCH v4 5/5] media: qcom: camss: vfe: Add support for VFE 980
+        d=1e100.net; s=20251104; t=1780328598; x=1780933398;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=yNnTDOSD25WnJEqdpyi7uEMknZ0Iy/maLAUEpuwj10s=;
+        b=UbuHBCc+BqbKsLGBwlTtk4wNG5BlpRT7sS8vz5c04NPGVo1Jo8Z8px3Kj6tl4GsA6w
+         1H6YU9zevwasP92LYJzSjB0BxPZKuvIjhATBPoEayQ6YJ2bbo8mOIlJktABLNYuyt76E
+         L41hjTlK3Ur3Ao9HmN+QFgArlsxkoFQVH69ZOuv4MENACBi7U4xVnoED9Q1/qKARY/fO
+         7WP6T9zd6F8qJ57qo3l31DkCVzFtNHg/l+v0wiDyKI9eZCljFJ/hr6dAd2JMkjl0NBUL
+         6qnzv6Fq7XiA3AXjfFwU0pAknY/0Gk/JLy4ugDd/+XlZkCdDncGOB9gYpFIRz44GPIwS
+         eJrg==
+X-Forwarded-Encrypted: i=1; AFNElJ9qnu4skOfgMp6k22Vq/lnI3sy1khxHZlm5ESBHvuL/Vm0Ct6Ku1ZbWSG26dsb53akCMdsT//6RRf6zvQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4HXwSRkDdi2xpvtGDDsgjujlQOxWOXfafHrvgJIkb3hxb4A/I
+	bEcfFl8DEQc3AJSOA5zmc4L3dyW4rLoKj299dEM3qgm+cyuXttA35fYb
+X-Gm-Gg: Acq92OGrjis1Or6XwHWsqZ+AJh8vqG9CFYG4Nh/FiRa2ue62bFUfghSnwk5ZUPQeuXA
+	1TW5cGMyn9iKxtPoDombqhXbgL7kHTAlxBr3qr8fi2Fz9XyFj51E2G1sX00SMDy1N7mL8yejYCO
+	8pzmCGfbf1XUn4NvRrHqw9sRREXRNEua8JxBNh9HeCWsIAJCg6RCwxH2mqgwyO7dLZhy2jaO6tu
+	2/HMkkTWZZkDarugvXJPoahegs0PIJ+2kmQqAw910s37ybwjEb5cAmrlfomYq4N/EtHFnWObRDy
+	KBTotKCRnrnIkgy5Q7qIPgyaePHF29an4v9ObkG27+nV5CW+INPRnfJHFwSFuSV5TFl7uJK1lrv
+	SxnHTNUuWLLi36jc5t85ePbBZ/Jh7m/+Jf4BTUt3p4jKWpgOw4pUXHkeDDZCv7L10cD0oDrO2Mf
+	ZJeJbwXHIdFzpQBrvzls3dzEErHmEmDgmGnUE0XHj1fy9WpH8/iwp/lntJm8pvtL6jTtA5piHAX
+	J2A
+X-Received: by 2002:ad4:5cc9:0:b0:89c:e4c3:dc1a with SMTP id 6a1803df08f44-8ccefb1e7femr207925136d6.1.1780328597571;
+        Mon, 01 Jun 2026 08:43:17 -0700 (PDT)
+Received: from localhost.localdomain ([2600:4041:42f2:d000:5598:1322:a565:857b])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ccea1c384esm95315146d6.28.2026.06.01.08.43.16
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 01 Jun 2026 08:43:17 -0700 (PDT)
+From: Rohith Matam <rohithmatham@gmail.com>
+To: mchehab@kernel.org
+Cc: duoming@zju.edu.cn,
+	hverkuil@kernel.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Rohith Matam <rohithmatham@gmail.com>,
+	syzbot+0d6ef2b7ceb6014d756c@syzkaller.appspotmail.com
+Subject: [PATCH v4] media: siano: fix URB work teardown
+Date: Mon,  1 Jun 2026 11:43:14 -0400
+Message-ID: <20260601154314.56784-1-rohithmatham@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260601152642.55313-1-rohithmatham@gmail.com>
+References: <20260601152642.55313-1-rohithmatham@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260601-add-support-for-camss-on-sm8750-v4-5-1eb6f432cfd1@oss.qualcomm.com>
-References: <20260601-add-support-for-camss-on-sm8750-v4-0-1eb6f432cfd1@oss.qualcomm.com>
-In-Reply-To: <20260601-add-support-for-camss-on-sm8750-v4-0-1eb6f432cfd1@oss.qualcomm.com>
-To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Bryan O'Donoghue <bod@kernel.org>,
-        Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
-        Atiya Kailany <atiya.kailany@oss.qualcomm.com>
-X-Mailer: b4 0.14.3
-X-Proofpoint-GUID: MgYUN_jgu6-dZ7Vmp1gY6kPPQKDh6U59
-X-Proofpoint-ORIG-GUID: MgYUN_jgu6-dZ7Vmp1gY6kPPQKDh6U59
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAxMDE1NyBTYWx0ZWRfX0TkdjcsGEIJr
- vLDOoZmB3cbl4jXgaBTXhHiks2lGhJk/+MM3Io98s8V0sHzlZcen58L18f50mAmPbzmmrjWnSlw
- 1leYPrYY6PonpkOwxc2b1Vi3SgesY2id12uhLKgyq3/ph7MfISnZqPk6oOPTRvRQcaGfACsKnhC
- Uuc8NFQIRICPfzanoqiwMPV/phE6WXmqITooJZxuYUwTAvCN++sveWyT36jHI9CJCDvhs6h7MVS
- 9jXWLizBpLV8xNytP3kidr5aQfe0YCbIKq8VFG3K0VPKxV4ItHP/QBe4me3SUnl3ER53T8cU1K0
- 6zyJFP6r6VfVDl5Hr2XJA8LqhFRC8cdoZ+ZQ2OVn+rfeQZ9Q3KMD6ZdfE68iAFkQJNVbdXHhNfn
- gpVF1cSQfKQyxFDY03NgzpM72Htg/HDXiSUs0FBs3M3cLzSNfnwhNwMre5mVp+E2GLcfw10k3Sq
- 5ZweneBRGfxOaQrYpOg==
-X-Authority-Analysis: v=2.4 cv=P4YKQCAu c=1 sm=1 tr=0 ts=6a1da860 cx=c_pps
- a=Uww141gWH0fZj/3QKPojxA==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
- a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=3rR15nC7HOTWOJgZU7UA:9 a=QEXdDO2ut3YA:10
- a=PxkB5W3o20Ba91AHUih5:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-01_04,2026-05-28_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 suspectscore=0 impostorscore=0
- clxscore=1015 spamscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605210000
- definitions=main-2606010157
-X-Spamd-Result: default: False [-2.16 / 15.00];
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63295-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[zju.edu.cn,kernel.org,vger.kernel.org,gmail.com,syzkaller.appspotmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,oss.qualcomm.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:mid,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim,linaro.org:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo];
+	TAGGED_FROM(0.00)[bounces-63297-lists,linux-media=lfdr.de];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hangxiang.ma@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[rohithmatham@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	NEURAL_HAM(-0.00)[-1.000];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	NEURAL_HAM(-0.00)[-0.999];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: E29DC621F93
+	TAGGED_RCPT(0.00)[linux-media,0d6ef2b7ceb6014d756c];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[appspotmail.com:email,syzkaller.appspot.com:url,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: 50C5962201B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Add support for Video Front End (VFE) that is on the SM8750 SoCs. VFE
-gen4 has support for VFE 980. This change limits SM8750 VFE output lines
-to 3 for now as constrained by the CAMSS driver framework.
+smsusb_onresponse() reinitializes the URB work item immediately before
+scheduling it. If teardown races with a queued work item,
+cancel_work_sync() can observe workqueue state with WORK_STRUCT_PWQ
+still set and trip the workqueue warning reported by syzbot.
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Co-developed-by: Atiya Kailany <atiya.kailany@oss.qualcomm.com>
-Signed-off-by: Atiya Kailany <atiya.kailany@oss.qualcomm.com>
-Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+The teardown path also has related lifetime bugs. URB_FREE_BUFFER makes
+USB core free a smscore-owned buffer, and a work item can submit an URB
+after usb_kill_urb() has already returned. If that submission fails, the
+worker keeps ownership of the smscore buffer and the streaming pipeline
+loses an URB.
+
+Initialize each work item before any error path can tear down the device,
+remove URB_FREE_BUFFER, stop resubmission before killing URBs, and kill
+URBs again after canceling work so any URB submitted by an already-running
+worker is completed before buffers and the device are freed. Return the
+smscore buffer if URB submission fails.
+
+During teardown, kill all URBs first and return all held buffers before
+canceling work so a worker blocked in smscore_getbuffer() can make
+progress and exit. smscore_getbuffer() waits in TASK_UNINTERRUPTIBLE, so
+return buffers to the pool before waking waiters and use wake_up()
+instead of wake_up_interruptible().
+
+Fixes: ebad8e731c1c ("media: usb: siano: Fix use after free bugs caused by do_submit_urb")
+Reported-by: syzbot+0d6ef2b7ceb6014d756c@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=0d6ef2b7ceb6014d756c
+Signed-off-by: Rohith Matam <rohithmatham@gmail.com>
 ---
- drivers/media/platform/qcom/camss/camss-vfe-gen4.c |  10 +-
- drivers/media/platform/qcom/camss/camss-vfe.c      |   2 +
- drivers/media/platform/qcom/camss/camss.c          | 135 +++++++++++++++++++++
- 3 files changed, 144 insertions(+), 3 deletions(-)
+Changes in v4:
+- During teardown, kill all URBs and return held buffers before canceling
+  workers so smscore_getbuffer() waiters can wake and exit.
 
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe-gen4.c b/drivers/media/platform/qcom/camss/camss-vfe-gen4.c
-index d73d70898710..46d8e61b9bac 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe-gen4.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe-gen4.c
-@@ -13,8 +13,12 @@
- #include "camss.h"
- #include "camss-vfe.h"
+Changes in v3:
+- Initialize work items before early probe error paths can call teardown.
+- Return the smscore buffer when URB submission fails.
+- Wake buffer waiters after returning the buffer, and use wake_up().
+
+Changes in v2:
+- Initialize all work items before allocating URBs.
+- Remove URB_FREE_BUFFER from smscore-owned buffers.
+- Stop resubmission before teardown and kill URBs again after canceling work.
+
+ drivers/media/common/siano/smscoreapi.c |  2 +-
+ drivers/media/usb/siano/smsusb.c        | 44 ++++++++++++++++++++-----
+ 2 files changed, 36 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/media/common/siano/smscoreapi.c b/drivers/media/common/siano/smscoreapi.c
+index 017629e3c..e256344eb 100644
+--- a/drivers/media/common/siano/smscoreapi.c
++++ b/drivers/media/common/siano/smscoreapi.c
+@@ -1654,8 +1654,8 @@ EXPORT_SYMBOL_GPL(smscore_getbuffer);
+  */
+ void smscore_putbuffer(struct smscore_device_t *coredev,
+ 		struct smscore_buffer_t *cb) {
+-	wake_up_interruptible(&coredev->buffer_mng_waitq);
+ 	list_add_locked(&cb->entry, &coredev->buffers, &coredev->bufferslock);
++	wake_up(&coredev->buffer_mng_waitq);
+ }
+ EXPORT_SYMBOL_GPL(smscore_putbuffer);
  
--/* VFE-gen4 Bus Register Base Addresses */
--#define BUS_REG_BASE				(vfe_is_lite(vfe) ? 0x800 : 0x1000)
-+#define IS_VFE_980(vfe)		((vfe)->camss->res->version == CAMSS_8750)
-+
-+#define BUS_REG_BASE_980	(vfe_is_lite(vfe) ? 0x200 : 0x800)
-+#define BUS_REG_BASE_1080	(vfe_is_lite(vfe) ? 0x800 : 0x1000)
-+#define BUS_REG_BASE \
-+	    (IS_VFE_980(vfe) ? BUS_REG_BASE_980 : BUS_REG_BASE_1080)
- 
- #define VFE_BUS_WM_CGC_OVERRIDE			(BUS_REG_BASE + 0x08)
- #define		WM_CGC_OVERRIDE_ALL			(0x7FFFFFF)
-@@ -55,7 +59,7 @@
-  * DISPLAY_DS2_C		6
-  * FD_Y				7
-  * FD_C				8
-- * PIXEL_RAW			9
-+ * RAW_OUT(1080)/IR_OUT(980)	9
-  * STATS_AEC_BG			10
-  * STATS_AEC_BHIST		11
-  * STATS_TINTLESS_BG		12
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-index 826ab85a44a1..ffa61ce021b4 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-@@ -352,6 +352,7 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
- 	case CAMSS_845:
- 	case CAMSS_8550:
- 	case CAMSS_8650:
-+	case CAMSS_8750:
- 	case CAMSS_8775P:
- 	case CAMSS_KAANAPALI:
- 	case CAMSS_X1E80100:
-@@ -2016,6 +2017,7 @@ static int vfe_bpl_align_rdi(struct vfe_device *vfe)
- 	case CAMSS_845:
- 	case CAMSS_8550:
- 	case CAMSS_8650:
-+	case CAMSS_8750:
- 	case CAMSS_8775P:
- 	case CAMSS_KAANAPALI:
- 	case CAMSS_X1E80100:
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index ce1a9bbff203..f262a5135fb1 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -4729,6 +4729,139 @@ static const struct camss_subdev_resources csid_res_8750[] = {
- 	}
+diff --git a/drivers/media/usb/siano/smsusb.c b/drivers/media/usb/siano/smsusb.c
+index 0fdc2e095..c941a05a4 100644
+--- a/drivers/media/usb/siano/smsusb.c
++++ b/drivers/media/usb/siano/smsusb.c
+@@ -58,6 +58,7 @@ struct smsusb_device_t {
+ 	unsigned char in_ep;
+ 	unsigned char out_ep;
+ 	enum smsusb_state state;
++	bool streaming;
  };
  
-+static const struct camss_subdev_resources vfe_res_8750[] = {
-+	/* VFE0 - TFE Full */
-+	{
-+		.clock = { "gcc_axi_hf", "vfe0_fast_ahb", "vfe0",
-+			   "cpas_vfe0", "cpas_vfe1", "cpas_vfe2",
-+			   "camnoc_rt_axi", "camnoc_nrt_axi", "qdss_debug_xo" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 360280000, 480000000, 630000000, 716000000,
-+				  833000000 },
-+				{ 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 200000000, 300000000, 400000000, 480000000 },
-+				{ 0 },
-+				{ 0 } },
-+		.reg = { "vfe0" },
-+		.interrupt = { "vfe0" },
-+		.vfe = {
-+			.line_num = 3,
-+			.is_lite = false,
-+			.reg_update_after_csid_config = true,
-+			.has_pd = true,
-+			.pd_name = "ife0",
-+			.hw_ops = &vfe_ops_gen4,
-+			.formats_rdi = &vfe_formats_rdi_845,
-+			.formats_pix = &vfe_formats_pix_845
-+		}
-+	},
-+	/* VFE1 - TFE Full */
-+	{
-+		.clock = { "gcc_axi_hf", "vfe1_fast_ahb", "vfe1",
-+			   "cpas_vfe0", "cpas_vfe1", "cpas_vfe2",
-+			   "camnoc_rt_axi", "camnoc_nrt_axi", "qdss_debug_xo" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 360280000, 480000000, 630000000, 716000000,
-+				  833000000 },
-+				{ 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 200000000, 300000000, 400000000, 480000000 },
-+				{ 0 },
-+				{ 0 } },
-+		.reg = { "vfe1" },
-+		.interrupt = { "vfe1" },
-+		.vfe = {
-+			.line_num = 3,
-+			.is_lite = false,
-+			.reg_update_after_csid_config = true,
-+			.has_pd = true,
-+			.pd_name = "ife1",
-+			.hw_ops = &vfe_ops_gen4,
-+			.formats_rdi = &vfe_formats_rdi_845,
-+			.formats_pix = &vfe_formats_pix_845
-+		}
-+	},
-+	/* VFE2 - TFE Full */
-+	{
-+		.clock = { "gcc_axi_hf", "vfe2_fast_ahb", "vfe2",
-+			   "cpas_vfe0", "cpas_vfe1", "cpas_vfe2",
-+			   "camnoc_rt_axi", "camnoc_nrt_axi", "qdss_debug_xo" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 360280000, 480000000, 630000000, 716000000,
-+				  833000000 },
-+				{ 0 },
-+				{ 0 },
-+				{ 0 },
-+				{ 200000000, 300000000, 400000000, 480000000 },
-+				{ 0 },
-+				{ 0 } },
-+		.reg = { "vfe2" },
-+		.interrupt = { "vfe2" },
-+		.vfe = {
-+			.line_num = 3,
-+			.is_lite = false,
-+			.reg_update_after_csid_config = true,
-+			.has_pd = true,
-+			.pd_name = "ife2",
-+			.hw_ops = &vfe_ops_gen4,
-+			.formats_rdi = &vfe_formats_rdi_845,
-+			.formats_pix = &vfe_formats_pix_845
-+		}
-+	},
-+	/* VFE_LITE0 */
-+	{
-+		.clock = { "gcc_axi_hf", "vfe_lite_ahb", "vfe_lite",
-+			   "cpas_vfe_lite", "camnoc_rt_axi",
-+			   "camnoc_nrt_axi", "qdss_debug_xo" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 266666667, 400000000, 480000000 },
-+				{ 0 },
-+				{ 200000000, 300000000, 400000000, 480000000 },
-+				{ 0 },
-+				{ 0 } },
-+		.reg = { "vfe_lite0" },
-+		.interrupt = { "vfe_lite0" },
-+		.vfe = {
-+			.line_num = 4,
-+			.is_lite = true,
-+			.reg_update_after_csid_config = true,
-+			.hw_ops = &vfe_ops_gen4,
-+			.formats_rdi = &vfe_formats_rdi_845,
-+			.formats_pix = &vfe_formats_pix_845
-+		}
-+	},
-+	/* VFE_LITE1 */
-+	{
-+		.clock = { "gcc_axi_hf", "vfe_lite_ahb", "vfe_lite",
-+			   "cpas_vfe_lite", "camnoc_rt_axi",
-+			   "camnoc_nrt_axi", "qdss_debug_xo" },
-+		.clock_rate = { { 0 },
-+				{ 0 },
-+				{ 266666667, 400000000, 480000000 },
-+				{ 0 },
-+				{ 200000000, 300000000, 400000000, 480000000 },
-+				{ 0 },
-+				{ 0 } },
-+		.reg = { "vfe_lite1" },
-+		.interrupt = { "vfe_lite1" },
-+		.vfe = {
-+			.line_num = 4,
-+			.is_lite = true,
-+			.reg_update_after_csid_config = true,
-+			.hw_ops = &vfe_ops_gen4,
-+			.formats_rdi = &vfe_formats_rdi_845,
-+			.formats_pix = &vfe_formats_pix_845
-+		}
+ static int smsusb_submit_urb(struct smsusb_device_t *dev,
+@@ -71,8 +72,14 @@ static void do_submit_urb(struct work_struct *work)
+ {
+ 	struct smsusb_urb_t *surb = container_of(work, struct smsusb_urb_t, wq);
+ 	struct smsusb_device_t *dev = surb->dev;
++	int rc;
+ 
+-	smsusb_submit_urb(dev, surb);
++	if (!READ_ONCE(dev->streaming))
++		return;
++
++	rc = smsusb_submit_urb(dev, surb);
++	if (rc < 0 && READ_ONCE(dev->streaming))
++		pr_err("smsusb_submit_urb(...) failed\n");
+ }
+ 
+ /*
+@@ -143,13 +150,15 @@ static void smsusb_onresponse(struct urb *urb)
+ 
+ 
+ exit_and_resubmit:
+-	INIT_WORK(&surb->wq, do_submit_urb);
+-	schedule_work(&surb->wq);
++	if (READ_ONCE(dev->streaming))
++		schedule_work(&surb->wq);
+ }
+ 
+ static int smsusb_submit_urb(struct smsusb_device_t *dev,
+ 			     struct smsusb_urb_t *surb)
+ {
++	int rc;
++
+ 	if (!surb->cb) {
+ 		/* This function can sleep */
+ 		surb->cb = smscore_getbuffer(dev->coredev);
+@@ -168,31 +177,44 @@ static int smsusb_submit_urb(struct smsusb_device_t *dev,
+ 		smsusb_onresponse,
+ 		surb
+ 	);
+-	surb->urb->transfer_flags |= URB_FREE_BUFFER;
++	rc = usb_submit_urb(surb->urb, GFP_ATOMIC);
++	if (rc) {
++		smscore_putbuffer(dev->coredev, surb->cb);
++		surb->cb = NULL;
 +	}
-+};
-+
- static const struct resources_icc icc_res_sm8750[] = {
- 	{
- 		.name = "ahb",
-@@ -6297,9 +6430,11 @@ static const struct camss_resources sm8750_resources = {
- 	.pd_name = "top",
- 	.csiphy_res = csiphy_res_8750,
- 	.csid_res = csid_res_8750,
-+	.vfe_res = vfe_res_8750,
- 	.icc_res = icc_res_sm8750,
- 	.csiphy_num = ARRAY_SIZE(csiphy_res_8750),
- 	.csid_num = ARRAY_SIZE(csid_res_8750),
-+	.vfe_num = ARRAY_SIZE(vfe_res_8750),
- 	.icc_path_num = ARRAY_SIZE(icc_res_sm8750),
- };
  
-
+-	return usb_submit_urb(surb->urb, GFP_ATOMIC);
++	return rc;
+ }
+ 
+ static void smsusb_stop_streaming(struct smsusb_device_t *dev)
+ {
+ 	int i;
+ 
+-	for (i = 0; i < MAX_URBS; i++) {
++	WRITE_ONCE(dev->streaming, false);
++
++	for (i = 0; i < MAX_URBS; i++)
+ 		usb_kill_urb(dev->surbs[i].urb);
+-		if (dev->surbs[i].wq.func)
+-			cancel_work_sync(&dev->surbs[i].wq);
+ 
++	for (i = 0; i < MAX_URBS; i++) {
+ 		if (dev->surbs[i].cb) {
+ 			smscore_putbuffer(dev->coredev, dev->surbs[i].cb);
+ 			dev->surbs[i].cb = NULL;
+ 		}
+ 	}
++
++	for (i = 0; i < MAX_URBS; i++)
++		cancel_work_sync(&dev->surbs[i].wq);
++
++	for (i = 0; i < MAX_URBS; i++)
++		usb_kill_urb(dev->surbs[i].urb);
+ }
+ 
+ static int smsusb_start_streaming(struct smsusb_device_t *dev)
+ {
+ 	int i, rc;
+ 
++	WRITE_ONCE(dev->streaming, true);
++
+ 	for (i = 0; i < MAX_URBS; i++) {
+ 		rc = smsusb_submit_urb(dev, &dev->surbs[i]);
+ 		if (rc < 0) {
+@@ -401,6 +423,11 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
+ 	if (!dev)
+ 		return -ENOMEM;
+ 
++	for (i = 0; i < MAX_URBS; i++) {
++		dev->surbs[i].dev = dev;
++		INIT_WORK(&dev->surbs[i].wq, do_submit_urb);
++	}
++
+ 	memset(&params, 0, sizeof(params));
+ 	usb_set_intfdata(intf, dev);
+ 	dev->udev = interface_to_usbdev(intf);
+@@ -467,7 +494,6 @@ static int smsusb_init_device(struct usb_interface *intf, int board_id)
+ 
+ 	/* initialize urbs */
+ 	for (i = 0; i < MAX_URBS; i++) {
+-		dev->surbs[i].dev = dev;
+ 		dev->surbs[i].urb = usb_alloc_urb(0, GFP_KERNEL);
+ 		if (!dev->surbs[i].urb)
+ 			goto err_unregister_device;
 -- 
-2.34.1
-
+2.54.0
 
