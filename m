@@ -1,172 +1,201 @@
-Return-Path: <linux-media+bounces-63318-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63319-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id YBFQEbrhHWqefgkAu9opvQ
-	(envelope-from <linux-media+bounces-63318-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 21:47:06 +0200
+	id SCxrOQjlHWoPfwkAu9opvQ
+	(envelope-from <linux-media+bounces-63319-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 22:01:12 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 869D4624C3C
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 21:47:05 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 844C4624DD4
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 22:01:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 22B57302D95D
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 19:44:53 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 46F063067FBE
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 20:00:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED2C737F73D;
-	Mon,  1 Jun 2026 19:44:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88C4A3CF663;
+	Mon,  1 Jun 2026 19:59:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hafTxt39"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jPPf1HSE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE4B637204C;
-	Mon,  1 Jun 2026 19:44:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D035E3ADBAF;
+	Mon,  1 Jun 2026 19:59:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780343091; cv=none; b=Xf1TgohfJduDJlSg637Tifx8ZZiKl7AQ6O3kL8UnexJXHRMFZtGiOJjzgtMhUspVMm/vpjBmpQWU1HzX9smNQCFikynSRew+WzvhnpM6sWJslgDe3xh0ypRzk9ieeMAR8pyr8wOUJsK44eEfuY4wUXIoXHb8L2lgCrfaEYOK5Ec=
+	t=1780343993; cv=none; b=d/14E24sRTgRlzKDWGaFYz0V+XwfPEEaJwl5JrCtVY2iNwg69bHOkp5icX6CPL93fSDtqtgTfv+O0le9Lk2Tu2ljUt8f6gnPbx3GPBMa+ExV5kR2QiK15egkD5xDsLg+3NLRow5HNOTcQ/oGtpZJbT7wCLyxJ7sgryM1yTQCJEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780343091; c=relaxed/simple;
-	bh=VTlcwuaW4RDLr0BJhr9F06LVLxfFJWSD1KWH4T38YyU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dES38GiqnJPPNogomYeR7hls93ErEeKhDPr7BBAz+0tOkfUGB+vopsaUtaJ1EJ9ETjsJXjJlU8cD+T4mMe7vElsFNKOWmpAj6KKVCRvivl48an348+f+OduRu6KSfgRxhRv4SLm/mKuTfzTkO2PwJ0jzQ46wnytDgRxFUbPOWLI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hafTxt39; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780343090; x=1811879090;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=VTlcwuaW4RDLr0BJhr9F06LVLxfFJWSD1KWH4T38YyU=;
-  b=hafTxt3907aRlaPXPtjMkqO9xxPkEbsTt8ENhsUULxVY8XDElrgNoIkm
-   mVVnl0ube2YomBQWZ9JDzJOvSURfOMWkzjDqWwnWPEYzOoXUUfRvYHDrb
-   iPE6omm/Z3LcihKEOADmAaEeQbqJR7RrqwpY99r2TP4/TzcuAY68g4Tka
-   lRaH+Kf6JcKyf7jpLHNjbMQ/1ZY2G2VwOzZBoUSPTQFBmt7Xi2JfL8sLi
-   YFturOq69Ujbe9YTW/yYWcws8U2gcqLziUYlMEbduw2fjXEiRvKKA2hm7
-   50o35x6fa9Yu5zBuNlkJKDLVG0Cnc3LIwUe49MBPxSwgVKOtNMZTDIHu5
-   g==;
-X-CSE-ConnectionGUID: pareK+fUT3C+CAu0dwAq7w==
-X-CSE-MsgGUID: /AkxUtJFSxiQMZhODNo4WA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="83689310"
-X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="83689310"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 12:44:49 -0700
-X-CSE-ConnectionGUID: 3UDHrJozQZWnILd3RZ4GgQ==
-X-CSE-MsgGUID: vmnRNMtKQOCC4bIgfn4TFw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,181,1774335600"; 
-   d="scan'208";a="239504840"
-Received: from ubuntu.jf.intel.com ([10.54.60.90])
-  by fmviesa010.fm.intel.com with ESMTP; 01 Jun 2026 12:44:49 -0700
-From: Miguel Vadillo <miguel.vadillo@intel.com>
-To: linux-acpi@vger.kernel.org
-Cc: rafael@kernel.org,
-	lenb@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	sakari.ailus@linux.intel.com,
-	mehdi.djait@linux.intel.com,
-	wei.a.xu@intel.com,
-	atul.raut@intel.com,
-	miguel.vadillo@intel.com
-Subject: [PATCH] ACPI: scan: Honor _DEP for Intel CVS devices
-Date: Mon,  1 Jun 2026 12:40:40 -0700
-Message-ID: <20260601194040.18223-1-miguel.vadillo@intel.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1780343993; c=relaxed/simple;
+	bh=mqezQcqx9istaPeCmmXZaMwR719orDM1w23ry+SfsJU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XhtjzjjnZCvHpCBSexyKH1ukDjjZx+ob50B13ShpY/D5MJad40tq/6eMrxGF/3zDBprT/rTURA2QSZD9uQUvOTuGvJwC57gwawuTZuuAYsdCa3e9mMUCSNvdPKQhh1GFxwomn2ucfeJrw86MECp49KuOcRvKBd0ZbxrwGHbmsiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jPPf1HSE; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D6831F00893;
+	Mon,  1 Jun 2026 19:59:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780343990;
+	bh=XNCn/hiuq2TSQD0/7268qMBjDGPldqx55TcTTgULBQo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jPPf1HSEtTmrOkKgXG7yZ4L4yWlXriv9f4UInH3EUjfr7uRqEixqsswHEVJD66e/i
+	 UYMnZm3AwHRFYgRV2ih8KtH9UMVsaXegF2blXd/AV6FabDLb+h4l5NmMOw9ZVrD++N
+	 KcX2jHWXOHM02LWFJzDj4MfNwHTR6omd404TzjNZvpI6ZIAf59Yvhv/clTseKbIOtO
+	 ETM1funcq4ukCXv67pvcGJzgYBqL/gNfgi123wCjIaYqeaTkJBGmaBAvvqiI5vVIDR
+	 F9G7b/Sg9jjyGT7K98XQKfJ06MeRLxen4rImVcQChLpFwv+lALs23w52eL46/a7lq6
+	 WVHwgppy+tSkw==
+Date: Mon, 1 Jun 2026 12:59:49 -0700
+From: Kees Cook <kees@kernel.org>
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>,
+	Pengpeng Hou <pengpeng@iscas.ac.cn>,
+	Richard Weinberger <richard@nod.at>,
+	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Corey Minyard <corey@minyard.net>,
+	Gabriel Somlo <somlo@cmu.edu>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Bart Van Assche <bvanassche@acm.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, Hannes Reinecke <hare@suse.de>,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Jason Wang <jasowang@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>,
+	Tiwei Bie <tiwei.btw@antgroup.com>,
+	Benjamin Berg <benjamin.berg@intel.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	"David E. Box" <david.e.box@linux.intel.com>,
+	"Maciej W. Rozycki" <macro@orcam.me.uk>,
+	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Vinod Koul <vkoul@kernel.org>,
+	Frank Li <Frank.Li@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Alexander Potapenko <glider@google.com>,
+	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	John Johansen <john.johansen@canonical.com>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Georgia Garcia <georgia.garcia@canonical.com>, kvm@vger.kernel.org,
+	dmaengine@vger.kernel.org, linux-modules@vger.kernel.org,
+	kasan-dev@googlegroups.com, linux-mm@kvack.org,
+	apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
+	linux-um@lists.infradead.org, linux-acpi@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net, qemu-devel@nongnu.org,
+	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-pci@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-pm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
+	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-arch@vger.kernel.org, netdev@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-hardening@vger.kernel.org
+Subject: Re: [PATCH 00/11] Convert moduleparams to seq_buf
+Message-ID: <202606011259.CE6E74CE@keescook>
+References: <20260521133315.work.845-kees@kernel.org>
+ <88c5ca1d-eeda-4023-bc7a-397b92780db9@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <88c5ca1d-eeda-4023-bc7a-397b92780db9@suse.com>
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_NEQ_ENVFROM(0.00)[miguel.vadillo@intel.com,linux-media@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-63318-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,iscas.ac.cn,nod.at,cambridgegreys.com,sipsolutions.net,minyard.net,cmu.edu,redhat.com,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,acm.org,ziepe.ca,ideasonboard.com,google.com,suse.de,hansenpartnership.com,oracle.com,arm.com,linuxfoundation.org,rowland.harvard.edu,linux.alibaba.com,akamai.com,antgroup.com,orcam.me.uk,infradead.org,linux.ibm.com,alien8.de,zytor.com,atomlin.com,linux-foundation.org,canonical.com,paul-moore.com,namei.org,hallyn.com,vger.kernel.org,googlegroups.com,kvack.org,lists.ubuntu.com,lists.infradead.org,lists.sourceforge.net,nongnu.org,lists.freedesktop.org,lists.ozlabs.org,lists.one-eyed-alien.net,lists.linux.dev];
 	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-63319-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	NEURAL_HAM(-0.00)[-0.987];
-	TO_DN_NONE(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCVD_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MISSING_XM_UA(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,intel.com:mid,intel.com:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 869D4624C3C
+	RCPT_COUNT_GT_50(0.00)[98];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kees@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	NEURAL_HAM(-0.00)[-1.000];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TO_DN_SOME(0.00)[]
+X-Rspamd-Queue-Id: 844C4624DD4
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-CVS (Computer Vision Sensing) is an ACPI-enumerated device that sits
-inline in the CSI-2 path between the camera sensor and Intel IPU.
-On platforms where CVS is present, the camera sensor's ACPI node
-declares a _DEP dependency on the CVS device.
+On Tue, May 26, 2026 at 08:53:06AM +0200, Petr Pavlu wrote:
+> On 5/21/26 3:33 PM, Kees Cook wrote:
+> > Hi,
+> > 
+> > I tried to trim the CC list here, but it's still pretty huge...
+> > 
+> > We've had a long-standing issue with "write to a string pointer" callbacks
+> > that don't bounds check the destination (and for which the bounds is
+> > also not part of the callback prototype, even if it is "known" to be
+> > PAGE_SIZE, which sysfs_emit() depends on). Both moduleparams and sysfs
+> > use this pattern. As a first step, and to test the migration method,
+> > migrate moduleparams first.
+> > 
+> > There are 2 "mechanical" treewide patches that are handled by Coccinelle:
+> > - treewide: Convert struct kernel_param_ops initializers to DEFINE_KERNEL_PARAM_OPS
+> > - treewide: Convert custom kernel_param_ops .get callbacks to seq_buf via cocci
+> > 
+> > The last treewide patch is manual, and may need to be broken up into
+> > per-subsystem patches, though I'd prefer to avoid this, as it would
+> > extend the migration from 1 relase to at least 2 releases. (1 to
+> > release the migration infrastructure, then 1 release to collect all the
+> > subsystem changes, and possibly 1 more release to remove the migration
+> > infrastructure.)
+> > 
+> > Thoughts, questions?
+> 
+> This looks reasonable to me. I added a few minor comments on the patches
+> but they already look solid.
 
-The CVS driver must be fully initialized before camera sensor drivers
-probe, because CVS controls the CSI-2 link ownership handshake (via
-GPIO REQ/RESP), the MIPI/CSI-2 lane configuration, and the camera
-power domain. Without CVS ready, the sensor driver can bind but the
-CSI-2 stream will not function correctly.
+Thanks for the review! I'll get a v2 prepared with your notes addressed. :)
 
-The CVS driver calls acpi_dev_clear_dependencies() at the end of its
-probe() to unblock waiting consumers once it is ready.
+-Kees
 
-Move the CVS HIDs from acpi_ignore_dep_ids[] to acpi_honor_dep_ids[]
-so that camera sensor enumeration is deferred until the CVS driver has
-finished probing, matching the behavior already in place for IVSC.
-
-Signed-off-by: Miguel Vadillo <miguel.vadillo@intel.com>
----
-Note: this patch has a functional dependency on the CVS driver and its
-IPU bridge support, which are queued in media-next for v7.2. Without
-those drivers, no code will call acpi_dev_clear_dependencies() for the
-CVS HIDs and camera sensors will remain deferred indefinitely.
-
-The CVS driver series (v5) can be found at:
-  https://lore.kernel.org/linux-media/20260527170531.383871-1-miguel.vadillo@intel.com/
-
- drivers/acpi/scan.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/acpi/scan.c b/drivers/acpi/scan.c
-index 530547cda8b2..1463eb3a4f6e 100644
---- a/drivers/acpi/scan.c
-+++ b/drivers/acpi/scan.c
-@@ -848,8 +848,6 @@ static bool acpi_info_matches_ids(struct acpi_device_info *info,
- static const char * const acpi_ignore_dep_ids[] = {
- 	"PNP0D80", /* Windows-compatible System Power Management Controller */
- 	"INT33BD", /* Intel Baytrail Mailbox Device */
--	"INTC10DE", /* Intel CVS LNL */
--	"INTC10E0", /* Intel CVS ARL */
- 	"LATT2021", /* Lattice FW Update Client Driver */
- 	NULL
- };
-@@ -861,6 +859,9 @@ static const char * const acpi_honor_dep_ids[] = {
- 	"INTC1095", /* IVSC (ADL) driver must be loaded to allow i2c access to camera sensors */
- 	"INTC100A", /* IVSC (RPL) driver must be loaded to allow i2c access to camera sensors */
- 	"INTC10CF", /* IVSC (MTL) driver must be loaded to allow i2c access to camera sensors */
-+	"INTC10DE", /* CVS (LNL) driver must be loaded to allow camera streaming */
-+	"INTC10E0", /* CVS (ARL) driver must be loaded to allow camera streaming */
-+	"INTC10E1", /* CVS (PTL) driver must be loaded to allow camera streaming */
- 	"RSCV0001", /* RISC-V PLIC */
- 	"RSCV0002", /* RISC-V APLIC */
- 	"RSCV0005", /* RISC-V SBI MPXY MBOX */
 -- 
-2.43.0
-
+Kees Cook
 
