@@ -1,48 +1,49 @@
-Return-Path: <linux-media+bounces-63298-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63299-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id yCIBI4GqHWq+cwkAu9opvQ
-	(envelope-from <linux-media+bounces-63298-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 17:51:29 +0200
+	id 0O7UNKWqHWq+cwkAu9opvQ
+	(envelope-from <linux-media+bounces-63299-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 17:52:05 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3663B6220FF
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 17:51:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F6E1622115
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 17:52:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 160B8301954B
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 15:51:18 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 606083017EF1
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 15:51:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2ECB3DB30E;
-	Mon,  1 Jun 2026 15:51:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F20DF3DC4D9;
+	Mon,  1 Jun 2026 15:51:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KxEUpnrP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RT5n8EJc"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53AB33DA5A5;
-	Mon,  1 Jun 2026 15:51:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4D53D9DBF;
+	Mon,  1 Jun 2026 15:51:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780329074; cv=none; b=CZluvA1UdclCBLIl8Jqn3LlRy98irZqRFargKuKyjqvujqO/Gx+cftOGhOgIjgn90MUNf4LLHiI9TIN8rudymaEjoFUMvqB9Wg719dqOfbGr8T6P+Y3bHvu70yNu81lBgxVuyPx2L/r1VU7pZfJTKXybuu5x72JThWQlgv7AhaQ=
+	t=1780329076; cv=none; b=DOtAJ9JPsklu27zSu36Pr64K27iAgynsJNsydalKARCqfiBRfvTW8M2wGn6T8iDFBoltti1vkIqaBrTLSnBG3bSPlrPiVLAnNKdEV5tNHttw28uXJVhEWpi8UTAA3N0k43AfHkcAv5skiq/nnfWUbhcs1Lvrs06mS9WdfRn9Fh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780329074; c=relaxed/simple;
-	bh=HHWTC+r+cyP3n7QXyqzBK7oC1U3IpIF2L7kzFKk7RQM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ky0jhPXhfQE3k0satvLPNNNlfuBg/fiENO+4ZFAU8Pq5+1I1C/Kz/WNCJVlmv50jT5tF5dVN4/aJwsUfSOg0FLBjqhcEXgRDBIGs+5KGBkqLvT8S3NabAhi9WOD7n63DPZY/p2nJItA7v34VF3QNCgc53fvMkvnfZEX4whic4Og=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KxEUpnrP; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43BC81F00893;
-	Mon,  1 Jun 2026 15:51:11 +0000 (UTC)
+	s=arc-20240116; t=1780329076; c=relaxed/simple;
+	bh=JY7zz9NJCKHNUNvZCrb4k5So6BkQETIZwSljPbC24sc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DdQYC8rQDUKdMQ6nDwH7afOvJlKcHZoXILjBcTFABukSfiWdyxb3UQJRkocY56Qlk8snDVQ5fuvqS2r/LHDbdxCTxFyskqDfHcS3QUBZHTBx5oSYCkcqiIIiXq1+77u223hATyKRQRbE3tbzsKDVpSKCGMDYFWQNiVhNd2bt/Q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RT5n8EJc; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68AB71F00898;
+	Mon,  1 Jun 2026 15:51:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780329073;
-	bh=5uAcEHbEKk6ioPO7d/CfxHr1XmEEHtQLx8OM2DUt0t0=;
-	h=From:To:Cc:Subject:Date;
-	b=KxEUpnrPHmgAcVfD5pYnrcWJkLT04x3zxEmUTfqzD0cHyPROz0XKn0oLyIqhfTjn5
-	 JdrL7s/CgXRTMibaHiVNunBfB+R/XTPpJ7t1QAzibxcP1R4yI238yp4pDmlgAYFx/7
-	 UpJo7Zv3xHCScIAEz64vpc2zMvRtGkR1ca1yKeeN2icfE0TRcnaA2tTHww15gDuQeC
-	 eRz4ZOx/hcuPkFNLfVbqdMhUaSPdaQEXFZ87DnKE+yF5Qx3DbCfwcnSjnDWMmcL9JF
-	 QJHWxc25HeAksq3peL+Pb8lcOo7/w3/J1jGv4ZwkIN4iUNpehhfJpi+zUA8PicSliB
-	 dDTIdNgNKb5Ug==
+	s=k20260515; t=1780329075;
+	bh=O1KiAelcSpQZLy5k4bHkmZ4TfiHTuYkSg2fvs8aERzU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=RT5n8EJcoKJnQghYPSYA1NlQNbR1NDePAnFDDOZGobE7OaYUjYGIT/Upr/o3jmHBo
+	 7CWeoJg3NdxpQXrzKEHyMK72yRrGdMi/IRaL49HC0mZyavti6Q0NXeIz7YUA33Kr1R
+	 D8b446jq0n3bThHZxDxTYlu+G0wMYAACNi2aI1/8en8gRQ7S9y/grsXwTAcFwcKxZg
+	 3akJmUOvKkg6gMmU1blPvGgjsRAblXEp647FghOqXoc0inSfEBOy2KMgC3S1u03xVW
+	 n0PyuF0QFmg2biaPm79CpXb9lv2pEkoPB20h8jjLVLAALvzT6eqtNK2mZWUgkMfXsl
+	 TGQeUH3rw819Q==
 From: bod@kernel.org
 To: p.zabel@pengutronix.de,
 	xavier.roumegue@oss.nxp.com,
@@ -52,10 +53,12 @@ Cc: mchehab@kernel.org,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Bryan O'Donoghue <bod@kernel.org>
-Subject: [PATCH 1/2] MAINTAINERS: Add myself to imx-pip as reviewer
-Date: Mon,  1 Jun 2026 16:50:58 +0100
-Message-ID: <20260601155059.1332290-1-bod@kernel.org>
+Subject: [PATCH 2/2] MAINTAINERS: Add myself to dw100 as reviewer
+Date: Mon,  1 Jun 2026 16:50:59 +0100
+Message-ID: <20260601155059.1332290-2-bod@kernel.org>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260601155059.1332290-1-bod@kernel.org>
+References: <20260601155059.1332290-1-bod@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -73,7 +76,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63298-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63299-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -90,16 +93,18 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 3663B6220FF
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,nxp.com:email,i.mx:url]
+X-Rspamd-Queue-Id: 6F6E1622115
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
 From: Bryan O'Donoghue <bod@kernel.org>
 
-As discussed @ the media-summit in Nice this year I'd like to volunteer to
-do some review on this driver, mostly as a learning exercise and because
-more eyeballs equals hopefully less bugs. Mostly for the learning though.
+To facilitate cross-pollination between one arch and another I'd like to
+add myself as reviewer to the dw100. We discussed @ Nice it would be
+beneficial to have different maintainers reading/reviewing things not
+directly inside of their remit. This driver was mentioned, I'd be happy to
+join in.
 
 Signed-off-by: Bryan O'Donoghue <bod@kernel.org>
 ---
@@ -107,17 +112,17 @@ Signed-off-by: Bryan O'Donoghue <bod@kernel.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index efbf808063e50..ec0743b41a463 100644
+index ec0743b41a463..35368c2ff0ca6 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -16027,6 +16027,7 @@ F:	include/uapi/linux/media.h
+@@ -19243,6 +19243,7 @@ F:	drivers/media/platform/nxp/imx8-isi/
  
- MEDIA DRIVER FOR FREESCALE IMX PXP
- M:	Philipp Zabel <p.zabel@pengutronix.de>
+ NXP i.MX 8MP DW100 V4L2 DRIVER
+ M:	Xavier Roumegue <xavier.roumegue@oss.nxp.com>
 +R:	Bryan O'Donoghue <bod@kernel.org>
  L:	linux-media@vger.kernel.org
  S:	Maintained
- T:	git git://linuxtv.org/media.git
+ F:	Documentation/devicetree/bindings/media/nxp,dw100.yaml
 -- 
 2.54.0
 
