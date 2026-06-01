@@ -1,230 +1,206 @@
-Return-Path: <linux-media+bounces-63248-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63249-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QDPAF/B+HWotbQkAu9opvQ
-	(envelope-from <linux-media+bounces-63248-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 14:45:36 +0200
+	id cDIcBZ5/HWotbQkAu9opvQ
+	(envelope-from <linux-media+bounces-63249-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 14:48:30 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB4261F7D5
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 14:45:34 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F25A161F855
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 14:48:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BC08F304C345
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 12:42:38 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 30DC93021D1E
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 12:47:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CD8937CD2F;
-	Mon,  1 Jun 2026 12:42:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E3583793CA;
+	Mon,  1 Jun 2026 12:47:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="izel4IX6"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="JG6hvLtd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880B1376475
-	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 12:42:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B2628287E;
+	Mon,  1 Jun 2026 12:47:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780317756; cv=none; b=IfnNt+tEqyfgbUXBW6RqV1YDiCCBrLdUkudnYDQauYJ4y52VXTXaAp0cfhUzpHUXFDQP4FJQB9sxODZIfn7b4kX8jJg58njVnAS1nR+XJgWJoinqiGOFN6KzTENO9nK3XndBygfwdXJvNucQq03ckd1hvnUraWNg7Ut6080IUlA=
+	t=1780318075; cv=none; b=LFhCG9mXJ7g3OfDWmN4qs5EE9sqDSOe6YoA7+2FT9BEeMcPk6qrFji+j309uGfzd3SHoGSHPzj7ss6pLfAurJK4yciFPdOZrzqgq2JUK1VM7115mSCtuGKMZ0x1euW+qmzStXYltL1hgZAKTX1Z9RLYk+Xmuvtb939McBK1knbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780317756; c=relaxed/simple;
-	bh=IvkgtxQ7+PbfrfoOIbEdPZVhBBEbjZfA1Dx2gvNgz84=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=CHWPg66ZQxSqOgQVTSCaj6HLZSg1d/NhAcLxFQ/81vpRU2o3OZIl7SMAgCzG2CXMq1/Y3DbJ6ehnWVA/jpOrR7GQYL8FvsZ0pyVoPZqwb2JKFNwc/2V5OQTvspapacRw0Xl1jH9EGuqXrIOCbRcOG2Eit6DyRfHUcMqGjjyT0Gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=izel4IX6; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A04C1F00893;
-	Mon,  1 Jun 2026 12:42:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780317755;
-	bh=qWz+k/HyawiYYlvM7cwLwFl6FkVRIxKivYsLq6O08o0=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=izel4IX6b+vpsvUSoF20XmRXo3E9W18bVtX1x7xpH+4q5Y+3g1lvk+L2PKHht3YaS
-	 0k3aauqOV05r5EmvCU714AIWZ0Lfm+G5vDffYsDbmyAc0qv1OQrojQzlue6BAcsj2c
-	 zmqfcmPO7LkB5oVxn/9GCqZGwFkmyyB0Bt/SslH2CYMOCcthmNbeJsl+X4vmkXoI1n
-	 h1/B62ymNmfm/Eg7+SlfMuiK6XfvDryzIT/k1z3uUEu7EV0UUXey409nuOCBfzlryH
-	 REggRB/rL4jHG1w3IEkV5dWv4lccr4dtNvoHGZto7VEh1vOKuLAPLjoqUgTnYhzI9E
-	 tB8AWSnZ5IfKA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] media: as102: fix memory leak on probe failure
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Guangshuo Li" <lgs201920130244@gmail.com>
-Cc: linux-media@vger.kernel.org
-In-Reply-To: <20260601122215.1330897-1-lgs201920130244@gmail.com>
-References: <20260601122215.1330897-1-lgs201920130244@gmail.com>
-Content-Type: text/plain; charset=utf-8
+	s=arc-20240116; t=1780318075; c=relaxed/simple;
+	bh=5YOffrb6TuISTmHSo0qRYfjsVC3kJaH+9CwYeMAL1Oc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=cXODelSXf5kqFXrTfSHnW5fsrIlhAuywlzgVI4xGPBa6tOsNpkWgvgmvheAuylJe5cLOqAGW68QfmSzyXcM3Ikk6372lwEASA4xohh31fVCK0jEqVOz8zP1h74Q5QeDCJLxvP9BJ9v/VcCc73wy3tGFIYISWLo6vBLj0pGy8GU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=JG6hvLtd; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gTYdx5kN3z9svK;
+	Mon,  1 Jun 2026 14:47:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1780318069; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=5YOffrb6TuISTmHSo0qRYfjsVC3kJaH+9CwYeMAL1Oc=;
+	b=JG6hvLtdgAJuiXUOzLhugnRCckVKHn4IG120YlvzT92cVxFT5/AynE7XGq4r1kGzAAE8mq
+	SJVoCZJ/wt05vCn324jWIGjDg6Xs32LVjBKk+scs4B1Rv2UXckNg/ZBgUNK2JsrQz9XpFo
+	nhYaeXhmvi7qhCjAcNx+nQFXm4DnmJr5mfbyhiZ06oaK2RTSPliLhsvH66i8ba8DJahHo+
+	5xXrVvEZogcNtJRjwmVq9Qd1FKhKI/ZxBo3ZIiDQLGOkskEfse3i7Q99dTCQYJ3aHguTtE
+	FzDxZeXbI8StRbe6a5MXWLP//c+SgmyEO9imq7DCxco4h0IaCTbpD7iQwZKmhg==
+Message-ID: <3b216f24afb406b797b8bbb73b3f5c0eec2fdc6c.camel@mailbox.org>
+Subject: Re: [PATCH 3/4] rust: Add dma_fence abstractions
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Alice Ryhl <aliceryhl@google.com>, phasta@kernel.org
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo
+	 <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron	
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
+ Hindborg	 <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, Danilo
+ Krummrich	 <dakr@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?=	 <christian.koenig@amd.com>, "Paul E.
+ McKenney" <paulmck@kernel.org>,  Frederic Weisbecker	
+ <frederic@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Joel
+ Fernandes <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>,
+ Uladzislau Rezki	 <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Mathieu Desnoyers	 <mathieu.desnoyers@efficios.com>, Lai Jiangshan
+ <jiangshanlai@gmail.com>,  Zqiang <qiang.zhang@linux.dev>, Daniel Almeida
+ <daniel.almeida@collabora.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Igor Korotin <igor.korotin@linux.dev>,
+ Lorenzo Stoakes	 <ljs@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
+ FUJITA Tomonori	 <fujita.tomonori@gmail.com>, Krishna Ketan Rai
+ <prafulrai522@gmail.com>,  Shankari Anand <shankari.ak0208@gmail.com>,
+ manos@pitsidianak.is, Boris Brezillon <boris.brezillon@collabora.com>, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, rcu@vger.kernel.org
+Date: Mon, 01 Jun 2026 14:47:37 +0200
+In-Reply-To: <ah19ZVkr7b3m7V_u@google.com>
+References: <20260530143541.229628-2-phasta@kernel.org>
+	 <20260530143541.229628-5-phasta@kernel.org> <ah1glmXDM-OAKa5h@google.com>
+	 <0ea6b6fdd1e3f1e07445f17c0bf672524938dc85.camel@mailbox.org>
+	 <ah19ZVkr7b3m7V_u@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 01 Jun 2026 12:42:34 +0000
-Message-Id: <20260601124235.1A04C1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	MISSING_MIME_VERSION(2.00)[];
+MIME-Version: 1.0
+X-MBO-RS-META: bspshuqdn1yjkm5ampzssxemt6wdpphn
+X-MBO-RS-ID: 3aa08b834777349d892
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63248-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63249-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[38];
+	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,umich.edu,linaro.org,amd.com,nvidia.com,joshtriplett.org,gmail.com,goodmis.org,efficios.com,linux.dev,collabora.com,linuxfoundation.org,pitsidianak.is,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
 	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	DKIM_TRACE(0.00)[mailbox.org:+];
 	NEURAL_HAM(-0.00)[-1.000];
+	MID_RHS_MATCH_FROM(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_NO_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,lists.linux.dev:replyto,smtp.kernel.org:mid,sashiko.dev:url]
-X-Rspamd-Queue-Id: CEB4261F7D5
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	HAS_REPLYTO(0.00)[phasta@kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:mid,mailbox.org:dkim,zulipchat.com:url]
+X-Rspamd-Queue-Id: F25A161F855
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
+On Mon, 2026-06-01 at 12:39 +0000, Alice Ryhl wrote:
+> On Mon, Jun 01, 2026 at 02:26:17PM +0200, Philipp Stanner wrote:
+> > On Mon, 2026-06-01 at 10:36 +0000, Alice Ryhl wrote:
+> > > On Sat, May 30, 2026 at 04:35:11PM +0200, Philipp Stanner wrote:
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsafe {
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ bindings::dma_fence_remove_callback(self.fence.as_raw(), self.cb.get());
+> > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > >=20
+> > > Formatting nit: Usually the ; goes outside the unsafe block.
+> >=20
+> > I could have sworn that it was rustfmt who did that? Maybe because the
+> > ; was inside to begin with.
+>=20
+> Indeed, rustfmt will not change whether the ; is inside or outside the
+> unsafe block.
+>=20
+> > > > +/// A trait to enforce that all data in a [`DriverFence`] either d=
+oes not need
+> > > > +/// drop, or lives in a [`RcuBox`].
+> > > > +pub trait DriverFenceAllowedData: private::Sealed {}
+> > > > +
+> > > > +mod private {
+> > > > +=C2=A0=C2=A0=C2=A0 pub trait Sealed {}
+> > > > +}
+> > > > +
+> > > > +impl<F: Copy> DriverFenceAllowedData for F {}
+> > > > +impl<F: Send> DriverFenceAllowedData for RcuBox<F> {}
+> > > > +
+> > > > +impl<F: Copy> private::Sealed for F {}
+> > > > +impl<F: Send> private::Sealed for RcuBox<F> {}
+> > >=20
+> > > Why sealed? Just make the trait unsafe and require the things you
+> > > require from the user.
+> >=20
+> > This is far better. We definitely only allow the user to pass A or B,
+> > and only then it compiles.
+>=20
+> What if I have another type that I want to use here? For example, maybe
+> I have a struct containing a copy field and an RcuBox. Or maybe I have
+> an ARef<_> of some C type that uses rcu for cleanup. Then I must edit
+> this file to add support for it?
+>=20
+> > The unsafe implementation could be messed up.
+> >=20
+> > I thought that's what Sealed is for. Or isn't it?
+>=20
+> Sealed is for making 100% sure that downstream crates/drivers cannot
+> provide their own implementations. But I don't see why you need that.
+> All you require is that the value remains valid for one grace period
+> after cleanup begins. As long as the type satisfies that, you are happy.
+> An unsafe trait can require that sort of requirement from the user.
+>=20
+> I think what you want is expressed well by `RcuFreeSafe` from this
+> thread:
+> https://rust-for-linux.zulipchat.com/#narrow/channel/291566-Library/topic=
+/Consolidate.20.60PollCondVarBox.60.20into.20.60Rcu.2ABox.60/near/598726724
+>=20
 
-Pre-existing issues:
-- [High] Preexisting Use-After-Free of `as102_dev` due to concurrent DVB fr=
-ontend operations and USB device disconnection.
-- [High] Mutexes are used before they are initialized, causing a potential =
-crash when DVB devices are opened immediately after registration.
-- [Medium] Missing `dvb_frontend_detach()` on `dvb_register_frontend()` fai=
-lure leads to memory leak of the frontend structure.
---
+I guess this is a question of design principles. If you demand an
+RcuBox, you have a guarantee that it's safe.
 
-commit d8c0092bf722801bd5c98a890b9cfff26add7e94
-Author: Guangshuo Li <lgs201920130244@gmail.com>
+If you demand an unsafe trait, you open the possibility for people
+messing up.
 
-media: as102: fix memory leak on probe failure
+Due to the unsafe-contract you'd have moved the responsibility for the
+soundness to the driver.
 
-This commit fixes a memory leak in as102_usb_probe() that occurs when
-usb_register_dev() succeeds but subsequent stream buffer allocation or
-DVB registration fails. It drops the initial reference with kref_put()
-in the error paths instead of leaving the device leaked.
+I would not want to block your suggestion, but I am not sure whether
+that's really the better design idea.
 
-> diff --git a/drivers/media/usb/as102/as102_usb_drv.c b/drivers/media/usb/=
-as102/as102_usb_drv.c
-> index a11024451cebd..dfe5a6b3f97b3 100644
-> --- a/drivers/media/usb/as102/as102_usb_drv.c
-> +++ b/drivers/media/usb/as102/as102_usb_drv.c
-> @@ -405,11 +405,11 @@ static int as102_usb_probe(struct usb_interface *in=
-tf,
->  failed_stream:
->  	usb_set_intfdata(intf, NULL);
->  	usb_deregister_dev(intf, &as102_usb_class_driver);
-> +	kref_put(&as102_dev->kref, as102_usb_release);
->  	return ret;
->  failed:
-> -	usb_put_dev(as102_dev->bus_adap.usb_dev);
->  	usb_set_intfdata(intf, NULL);
-> -	kfree(as102_dev);
-> +	kref_put(&as102_dev->kref, as102_usb_release);
->  	return ret;
->  }
+> > >=20
 
-[Severity: High]
-This is a pre-existing issue, but there appears to be a use-after-free
-when the USB device is disconnected during active DVB frontend operations.
-
-The as102 driver increments the kref when the USB character device is
-opened, but the DVB subsystem doesn't increment it when userspace opens
-DVB device nodes. When physically disconnected:
-
-drivers/media/usb/as102/as102_usb_drv.c:as102_usb_disconnect() {
-    ...
-    dvb_unregister_frontend();
-    ...
-	/* decrement usage counter */
-	kref_put(&as102_dev->kref, as102_usb_release);
-}
-
-Since dvb_unregister_frontend() does not block waiting for active frontend
-file descriptors to close, the final kref is dropped and as102_dev is freed.
-
-If an ioctl like FE_SET_FRONTEND is currently executing:
-
-drivers/media/usb/as102/as102_drv.c:as102_set_tune() {
-    ...
-	/* Set frontend arguments */
-	if (mutex_lock_interruptible(&bus_adap->lock))
-		return -EBUSY;
-    ...
-}
-
-Does this concurrent access to bus_adap->lock and bus_adap->usb_dev from a
-freed structure allow memory corruption or a panic?
-
-[Severity: Medium]
-This isn't a bug introduced by this patch, but there seems to be a memory
-leak in the frontend registration error path.
-
-In as102_dvb_register(), if dvb_register_frontend() fails, the error
-path cleans up the demux and adapter:
-
-drivers/media/usb/as102/as102_drv.c:as102_dvb_register() {
-    ...
-efereg:
-	dvb_dmxdev_release(&as102_dev->dvb_dmxdev);
-edmxdinit:
-    ...
-}
-
-This misses calling dvb_frontend_detach(as102_dev->dvb_fe). Does this
-cause the dynamically allocated frontend state to leak and fail to
-decrement the frontend module reference count?
-
-[Severity: High]
-This is a pre-existing issue, but the mutexes in the DVB registration
-path appear to be initialized too late.
-
-In as102_dvb_register(), the device nodes are exposed to userspace before
-the mutexes are initialized:
-
-drivers/media/usb/as102/as102_drv.c:as102_dvb_register() {
-    ...
-    dvb_dmxdev_init();
-    dvb_register_frontend();
-    ...
-	/* init bus mutex for token locking */
-	mutex_init(&as102_dev->bus_adap.lock);
-
-	/* init start / stop stream mutex */
-	mutex_init(&as102_dev->sem);
-    ...
-}
-
-If a user program or udev script immediately opens the demux node and
-triggers a callback:
-
-drivers/media/usb/as102/as102_drv.c:as102_dvb_dmx_start_feed() {
-    ...
-	if (mutex_lock_interruptible(&as102_dev->sem))
-		return -ERESTARTSYS;
-    ...
-}
-
-Will this attempt to lock an uninitialized, zero-filled mutex,
-potentially triggering a kernel panic under contention or with lock
-debugging enabled?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260601122215.1330=
-897-1-lgs201920130244@gmail.com?part=3D1
+P.
 
