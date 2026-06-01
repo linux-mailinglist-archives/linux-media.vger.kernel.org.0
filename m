@@ -1,145 +1,147 @@
-Return-Path: <linux-media+bounces-63217-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63218-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id QMDtFsxBHWosXwkAu9opvQ
-	(envelope-from <linux-media+bounces-63217-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 10:24:44 +0200
+	id wHSfEgtCHWpBXwkAu9opvQ
+	(envelope-from <linux-media+bounces-63218-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 10:25:47 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6E0661B6C5
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 10:24:43 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 493D361B6FB
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 10:25:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3CD0F3005E9F
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 08:21:34 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A7F00300A267
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 08:25:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67442388899;
-	Mon,  1 Jun 2026 08:21:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C8E138A736;
+	Mon,  1 Jun 2026 08:25:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZR+eNK9b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QVUpgzNM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 046022E7389
-	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 08:21:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915E7388E66
+	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 08:25:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780302092; cv=none; b=abI/VdPzXNjtQqIMmei0rwCg8d8/d4tV/yi+EfkGKaUV/0Qpn03xFg2gUEbVKo0ok25wAtm1umMMicLk63Y0cnET30rcFWKnYwaG5r9krcKgS5jVJC1DN1cZOPK2cmMYeXnbfB4PL5w5rOhuzl0zFPjDCnTVMt99TaQMhgzlWVM=
+	t=1780302337; cv=none; b=KMVxHrZDXeWI0iTBx2TcU8YqNaBtj+dqiLF1koBzUFyWIVdJRSjQ2LoePbxTWSVfPnh50eq/UrSiNnSLIwcc43+AO5vFOpftkIyrRlSCm0GHjp4+mAZO+96pXGt46ugrqbUyaRugM+qy7MNdbzRMVyrkLFvB3uxtXABEV9o21+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780302092; c=relaxed/simple;
-	bh=X4HXKkza6qm34wyGRX/t3pZxO/seqMGdJIRtthfI+UQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eGoulpJeyX8ZYW3IWcU/DUiXIzNDOSqxUM2jOlbdptWJXv6x7yC+/HUp3xv3xyhpyyT/eCel5GGLM6UJXKxST5qdP1iQ7pUI2rTuxlrhIzrhiuN6OckbpO8rT1Ci2WDKPvF5GHtbTVcnmTpCXjtsBRez6dvflzuVrsSiyaKE8IM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZR+eNK9b; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 797911F00898;
-	Mon,  1 Jun 2026 08:21:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780302091;
-	bh=CwEAGxXWqzXTH+DkpRzEwVpZWn6aikmRbVLgEKQAukM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=ZR+eNK9b9Jmc11qj0zbF5NnJS3FkDEQ/D8YkChjKBwLST7yPYO2s6UQf1ir4qZ3lt
-	 58LvNsUEcbKFmGLNd4sL0Qz8kJxm022xztt61oFo59WI19fe2yp+0rrh1yJ26Eo9U9
-	 sSvlu+ctBgi4l6VUeGIDfIXqQqreyDYTiX4KmeEtekM3n+1Ve6AnM7R7++OsF7wuaB
-	 9t4kZHy8iLR/oPbHLsA/mILz8Sj7477K2FF0mGfq0ZMXbEVueBGwq5jkxaJPVdWVms
-	 p6zP7ATbu3HO11Whlm9ZjDyHTr8ZN//hesIKVyDHXuje1IYF29zspgOW6+MlKu+F04
-	 AVjakFxCq+rPA==
-Date: Mon, 1 Jun 2026 10:21:27 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- linux-media@vger.kernel.org, media-committers@linuxtv.org, Bryan O'Donoghue
- <bod@kernel.org>
-Subject: Re: media-comitters next vs fixes trees
-Message-ID: <20260601102127.625ed568@foz.lan>
-In-Reply-To: <2d1e7167-2cf4-4998-9005-5d18a45c0144@kernel.org>
-References: <CAO9ioeW5mv9bQjKbd3KOx6V4GB2xKgmDcLrbLowc=j0agwWMag@mail.gmail.com>
-	<2d1e7167-2cf4-4998-9005-5d18a45c0144@kernel.org>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1780302337; c=relaxed/simple;
+	bh=xOiPzQG5hpo01bvySTc7sb1vRe23TGOx0iZgdr6X/oY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nc200BVpofXo+xtRPI2axs6xGQZTZSD3fFqxFix/udcmBiExpvR75FZISBSD82Ajs4IrtkaEiCmF1kbEdM8lLdyskgmjC/nc87mwtpqtw9OlxBeNJCwKi4c5ZpOW8DGHPL6bYppjDn589RfQC6hFTZLdFvg7geQTH6RB9fysb5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QVUpgzNM; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780302335; x=1811838335;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xOiPzQG5hpo01bvySTc7sb1vRe23TGOx0iZgdr6X/oY=;
+  b=QVUpgzNM9SPGqbkBVrmY0ouw5OYOJQep+gpZhiM88zXtAr+02WqXjaEH
+   1eAIxppQUImC8oNzX1f6Ff+7Zz/VMcMB1T3QvJmYCKit6CTpGiGkFUHv6
+   vSUUtTNgashbMNGxqpYKKX0pUOpZyyKW+LMGgbNdg8cWyEYPy7nvn8WgP
+   RaiVkxj1J1/JKs5r2JxP5mnd0+GIwxJJ6GMQvv3xQ49Kp01sVeQAqZzyw
+   5YgQSiYAzHe4pPa9NtKCn/VuGbNKbAsCii0Qzr5AFSN9/7wXoRuK7LL2U
+   MBMXBCQVZXgcCfy6kjydZJlz4yAX809wf5HUm4yTr72EXE9hSSNWOyZsb
+   A==;
+X-CSE-ConnectionGUID: fwhcyf4lRiiZscqoyMRiCw==
+X-CSE-MsgGUID: TY84Tbx8TG+5leZIEwc1VQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11803"; a="81087004"
+X-IronPort-AV: E=Sophos;i="6.24,180,1774335600"; 
+   d="scan'208";a="81087004"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 01:25:35 -0700
+X-CSE-ConnectionGUID: oJVBwrTUR0qRWAdKDleM4g==
+X-CSE-MsgGUID: yW3UcSluQSmgHyxYpbHP5w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,180,1774335600"; 
+   d="scan'208";a="239329691"
+Received: from amilburn-desk.amilburn-desk (HELO kekkonen.fi.intel.com) ([10.245.245.108])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2026 01:25:33 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id CF7E811FC2D;
+	Mon, 01 Jun 2026 11:25:26 +0300 (EEST)
+Date: Mon, 1 Jun 2026 11:25:26 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Bingbu Cao <bingbu.cao@amd.com>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+	mchehab@kernel.org, tfiga@google.com, ribalda@chromium.org
+Subject: Re: [PATCH v2] media: update contact email of Bingbu Cao
+Message-ID: <ah1B9h8baqGqZ8Zj@kekkonen.localdomain>
+References: <20260601065555.150536-1-bingbu.cao@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260601065555.150536-1-bingbu.cao@amd.com>
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-63218-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63217-lists,linux-media=lfdr.de,huawei];
-	RCVD_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	NEURAL_HAM(-0.00)[-1.000];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,foz.lan:mid]
-X-Rspamd-Queue-Id: C6E0661B6C5
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-0.999];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,intel.com:dkim]
+X-Rspamd-Queue-Id: 493D361B6FB
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On Sun, 31 May 2026 15:24:48 +0200
-Hans Verkuil <hverkuil+cisco@kernel.org> wrote:
+Hi Bingbu,
 
-> Hi Dmitry,
+Good to see you're staying in the Linux media circles! 8-)
+
+On Mon, Jun 01, 2026 at 02:55:07PM +0800, Bingbu Cao wrote:
+> I left Intel and joined AMD, so update my email in the MAINTAINERS.
 > 
-> On 31/05/2026 11:13, Dmitry Baryshkov wrote:
-> > Hi,
-> > 
-> > Is there any current rule or plan about submerging the fixes branch of
-> > media-comitters to the enxt branch? For example, I have several
-> > patchsets which apply perfectly to the linux-next, but fail to apply
-> > (and function correctly) on top of media-comitters/next because it
-> > depends on the commits which are only a part of -fixes.
-> >   
+> For the Intel IPU3, IPU6 and IPU7 staging drivers, I am not able to
+> continue the code review from now, so remove me from the MAINTAINERS
+> and remove the invalid email in MODULE_AUTHOR.
 > 
-> By default we (and with 'we' I mean Mauro and myself as media maintainers) do
-> not merge the patches in the fixes branch into the next branch, unless we are
-> asked to.
-> 
-> Most of the time the fixes are independent of work in the -next branch, so we
-> do this only if there is a good reason for it.
+> Signed-off-by: Bingbu Cao <bingbu.cao@amd.com>
 
-Please also notice that we only merge upstream tags into "next" branch (e.g.,
-currently we only merge from a 7.x-rc? tag).
+Dave posted a patch related to this:
+<URL:https://lore.kernel.org/linux-media/ahiSOvQ2zQuHDHWI@kekkonen.localdomain/T/#t>;
+I'm planning to post v2 based on the discussion and I can take this patch
+into account as well.
 
-> 
-> It's a bit late in the cycle to do something like that, though. In the meantime,
-> just mention in your cover letter that the series depends on patches in the
-> -fixes branch.
+That patch however is just for MAINTAINERS and I think it'd be best kept
+that way. Can you post a patch to address this for the media tree? I think
+I'd keep the ipu7 (staging) and Documentation/ changes as separate patches,
+too. Tian Shu's e-mail isn't valid either, could you drop the address while
+at it?
 
-A "good reason" means that you need to submit a patch that will be merged
-in time for the next merge window which depends on a fix already merged
-upstream.
+It looks like the ov9734 driver will be left without a maintainer, would
+you be interested in maintaining it? I'd also add myself as maintainer for
+the imx319 and the ov01a10 drivers.
 
-Just to give you a concrete example: we're now at 7.1-rc6, which is a
-late -rc, as this is the last week where media subsystem is opened for 
-non-critical merges. We usually don't expect big/complex patches anymore
-on a late -rc kernel cycle. Most of patches on this time are supposed to
-be fixing issues.
+-- 
+Kind regards,
 
-So, on this specific case, a "good reason" means that you have a fix that 
-must go to 7.2-rc, but depends on merging fixes from 7.1-rc6.
-
-If this is not the case, better to just wait for 7.2-rc1.
-
-
-Thanks,
-Mauro
+Sakari Ailus
 
