@@ -1,385 +1,285 @@
-Return-Path: <linux-media+bounces-63252-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63253-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id kJATDS6CHWqTbQkAu9opvQ
-	(envelope-from <linux-media+bounces-63252-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 14:59:26 +0200
+	id 0A3mGCaDHWqcbQkAu9opvQ
+	(envelope-from <linux-media+bounces-63253-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 15:03:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34CA061FB2C
-	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 14:59:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D440A61FC3B
+	for <lists+linux-media@lfdr.de>; Mon, 01 Jun 2026 15:03:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5C7313023531
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 12:52:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9EDC130B32B4
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2026 12:55:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7180C36BCF2;
-	Mon,  1 Jun 2026 12:52:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA8B837F8D3;
+	Mon,  1 Jun 2026 12:55:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="QBuRn8wS"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lt2HIab5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ixit.cz (ixit.cz [185.100.197.86])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C90375AAB;
-	Mon,  1 Jun 2026 12:52:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.100.197.86
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780318342; cv=none; b=Wi1XULBO2KnR4F9apKf+qlM7E+4p0KjTA/OAKhkEmHg5dyj/MshwCqnsPqh9Z2RqEoOo/x1WaYnDgs6IO18pFf+nluxRbFaKvmA03T/F3iIxMx7jOXZn8Z/SlDNnodu+llbGuj9pG0POAYEmK74RcL92D3Y9SImRPETypbDzCSo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780318342; c=relaxed/simple;
-	bh=uASAkkWBuy7TVQlmssSLMlaamHgz3OsmdxP3AluMlPU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kJv72oLBtrVJsFJrGa77OGPqVvM9TP1POmkEro4FzNKc2WdTPjGc7sYMBIte6QuLGWSxzqpxCWy4VWZiZpzQVL6NlYIq/v+qINUdbefD5Jikdk90Zk+qG+VFMbBmGUff92+mtFjp8s1bmZzNOTp9hhtdmZNqtMTFrEdRmkRW4Ak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=QBuRn8wS; arc=none smtp.client-ip=185.100.197.86
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
-Received: from [172.20.10.2] (78-80-16-54.customers.tmcz.cz [78.80.16.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id 3B4065341082;
-	Mon, 01 Jun 2026 14:52:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1780318337;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=fWt5ujZPTFFktwcOPAvnxBrtudIIrdMy5aPzWyXLRaY=;
-	b=QBuRn8wSCeWV7YLbmwKxR3v/GvmGVreARQld4JjtUsIXEc847RXmof+wnvxOsbVQlmUe+W
-	f6DvNivtZxJFoV0idGkS77+6J/e40i2cOl/qAZXmDHLLNHMlNur1nlI/6teIBs67Qbo+Wg
-	EWHfe92YEQ/WbKravEgTJZk1qxaGg24=
-Message-ID: <e101e3a6-643b-4a3a-ac54-ca381db633a3@ixit.cz>
-Date: Mon, 1 Jun 2026 14:52:15 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09D937D114
+	for <linux-media@vger.kernel.org>; Mon,  1 Jun 2026 12:55:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.175
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780318534; cv=pass; b=dVQtZIdup5N/yRfAt5JSdEXrxKJhnpQBrbGzUX7YGl5lmBlBdtWaET4Yu5UVPphBtfNc/iJPcstb5deHoBZqS/DnSaRZC6c6CLTD+NK156B90rPxwmBVoXuVnUS+SGZFUtH48vKtK/sXKjtch9tL5uwa0DJIsLoF1davC90E3k4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780318534; c=relaxed/simple;
+	bh=Ujk44KgH2bVgDe92f5eRLoMsj9ATbd2139QiPmqQ0u8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=A7ANiULVnJ9Jx4gd1o0kkPEMzhkD1qk30o2YFqO5ohHcdd4ClnAnawBlcmCFvmPCQv11liXnC7qONaCH6y+HAzH2nUj6hh4qx4bHMGhDUbZatFIzB9KGLzw1WA1We39sFl3tgw2Bd+f8OTqN5lirhc/RGf5ZASCvGROzZlgsGyU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lt2HIab5; arc=pass smtp.client-ip=74.125.82.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-304d8362a58so2600387eec.1
+        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 05:55:32 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780318532; cv=none;
+        d=google.com; s=arc-20240605;
+        b=H0gxHz9vUzoXtpNgoGVFXrFEHdlrjENfNcFWzN9tzHtKEHtt360A/vd3Tryi9D0aro
+         BdxvD7WkqiBwXCuhYGTVBM+Bne949IHfAjzK5jAR/GIvc70qZyM9zYkkE1Qs/7y1NO3W
+         5jG3trXq0BGustWIxZRzKp6LP/kGeAMPvbbAN3YYGE97ouIqYwDHkYxSZuUso42AAX1S
+         dxw2DKHZFfHbDeTuz06+tJ7SS8Ah6e3NuczvZlzNQNHGXDMP7WNxpsk6LbUmRIXYOweg
+         vhdcV1UdZvcltDJBLa8L/15LjzqD2u3aSow26IFPB2RkTuSYG0Numq5agbA5nR3k9khd
+         eZow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=WNejM85KWAcefPz6v9xEkmaQJmPlaeAZyMFSHUG5YSM=;
+        fh=aLeRe5hmQD1bbbV7WkUmx4DKYM0mQfEx/YqGae7WIhA=;
+        b=UWR9D3agyrE+tEkU7nANoJQm4KUIKodLzNzWMrYNd21iqWJV5+PktsYOktBsLUh5a1
+         sKL2xAbHfkTeNDyTVd1llM+nOtNTnjSy5cbokZ2Vab1lF1NrbuHiM3j3h0uijArlg2tl
+         AYtYSCvPFEcaSMDcS7UqqFmzXgGzPlQTiXoFTMZVvbGfndpq/wonn1CKZSt9KCDkSbMT
+         1uluVy+4PhR7JX1g54YozUzkEK0XQtfjB5NAHKo9vFcpOztRbCdJLlZqnTunzRqKc8FG
+         m+cl5TWKrsBMqSU06McE+Gfx7UzzSj5fobrF0X9uJmXndJDKHzz/4zQU404aT7/+Pq9y
+         4HAQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1780318532; x=1780923332; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WNejM85KWAcefPz6v9xEkmaQJmPlaeAZyMFSHUG5YSM=;
+        b=lt2HIab5Z4HTbpb2EpX62hWMtJmBQTFM0FPgLrupvqWHCjOn8kwtxgctoplwZMt3eS
+         T+nKUpl3TMFVvMHOiK8798Ao5Tdoenqup1/W5xDObdms0iEqqTozHGZSmOyUheHZlhx5
+         Eb+69DTuhyh4fqgfo2hDqWmYoBM429fKk7n1ry3Cp+QtF1KXOcnzPUL2Wdx9l1TRIRiq
+         RIafjIn8uXxezhrdqEpPrf5pojtyo1f45QSVg54GHtcHil03BZfBEm2wqwBTAPH0f/qL
+         KlQbMLG5KjG9m/MhQ2ghM3HQwo3t3+P9M6gtQ2St1k+9JhY/XJCt5dQyPwIkv2sT+Ygi
+         YGOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780318532; x=1780923332;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WNejM85KWAcefPz6v9xEkmaQJmPlaeAZyMFSHUG5YSM=;
+        b=CMGPyF9FFVongMarcXcT8wkG41LokD0k2Dk5Mswi9OonBQdLAvz8of7HBaxAHSZtZv
+         RJqHg9Te2eTS0olPaNNUZ1gyANDf+TAjdNZwjzUW1S+wUFKf3YkH07OLP6dUEKqCQZxS
+         pjs3ivrpxBhw9Th89Y+TFEVMnhRAiHin82SAfUQdGHcOcvu05/AapATKxhIXN61w0u8j
+         IZs5Jozqq+xIHhk3w8O3ZsL+ig4s4U8b/oC6eQ49OvnGfvsKKuHUCA1gvtSYnJhAHnN7
+         94jyBCQyMUYmcNWbvHaHLAD19w/ezkOLbmUZkokTBOFkOauEMP/RgcxAcRp2YJSSWU4f
+         sQgA==
+X-Forwarded-Encrypted: i=1; AFNElJ+DDNH7YQy5Ov6AKp9A/lfh7BUvQ1ISEDxmEBLvMlxDJLPmA+FqpCOJqdQoRScw7hw8GfwPgN4xbrSflg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx39koVWQlG4YLciDmcGQbt4VMwk/Az6sUeR/qcQmqUPeIOLBFl
+	G7lx/PsV/RhhgtVaWtp1drrwL9MuLsAn8P77SKn7uBXjTAVsz8+wmSuEYA82Nl98kIgJ/uxbHUd
+	UVtkjhBW1Lv5jO3ZOmyzg+xahcmCxa0cCOdttZ3FKMrj/fR9mUxci2+TM
+X-Gm-Gg: Acq92OEgZOiVKPXe6lAaPo1GpKZktyh6Qm+zJiwWRUhNtbobvMir36BrXFpeKtAfw2v
+	3uPRn253Uls8p91hK6pu44y0fZLXOHpD0xRAoGd3F3LZGn1yV6yCdC8VxMzi9nxEm3xySzp1H4N
+	WXlmMSjHjWt7g/eKVkTyj4R6pi2bwvh6RzFpSNlUnIHtd3SvDyAf9a385kFho+w+f01LKz0cfL9
+	DUf/0FpjAbsTeaQfksjX3q7f3KvKW8eMz44ymtS2T8V4PkiqPhSGHBfJtVzC1efjkrh5pK96VvZ
+	JbNTCnZUSqfDLRbnjDGY+5m0SquyMsGJTwQj065rmxJwF+TI31gvC3gMtSrVnTeEyaA4KMH6czy
+	pask=
+X-Received: by 2002:a05:7300:6d05:b0:304:56fc:775 with SMTP id
+ 5a478bee46e88-304eb22df94mr5484000eec.21.1780318531224; Mon, 01 Jun 2026
+ 05:55:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH WIP v5 4/9] media: qcom: camss: Initialize lanes after
- lane configuration is available
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Luca Weiss <luca.weiss@fairphone.com>, Petr Hodina <phodina@protonmail.com>,
- Casey Connolly <casey.connolly@linaro.org>, "Dr. Git" <drgitx@gmail.com>,
- Cory Keitz <ckeitz@amazon.com>, Loic Poulain
- <loic.poulain@oss.qualcomm.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Joel Selvaraj <foss@joelselvaraj.com>, Kieran Bingham <kbingham@kernel.org>,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org
-References: <20260531-qcom-cphy-v5-0-6be0f62b4d65@ixit.cz>
- <20260531-qcom-cphy-v5-4-6be0f62b4d65@ixit.cz>
- <ah1KS63aOL4wzhvb@kekkonen.localdomain>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <ah1KS63aOL4wzhvb@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ixit.cz,quarantine];
-	R_DKIM_ALLOW(-0.20)[ixit.cz:s=dkim];
+References: <20260530143541.229628-5-phasta@kernel.org> <20260530150622.393FC1F00893@smtp.kernel.org>
+ <ah1c3NSU-4UkdUhb@google.com> <a3d09b270e6effb6f2bfb5d7ba8de48e3c2c4081.camel@mailbox.org>
+In-Reply-To: <a3d09b270e6effb6f2bfb5d7ba8de48e3c2c4081.camel@mailbox.org>
+From: Alice Ryhl <aliceryhl@google.com>
+Date: Mon, 1 Jun 2026 14:55:13 +0200
+X-Gm-Features: AVHnY4J-ueyqGc_G8kHaNFpi7cKxrffiRlZb66bvjWAY4qKfjT8pJ87FnvEaeD4
+Message-ID: <CAH5fLggvxGwJkAp+VqG7pA-e2zM-T8_DR0DeCiZiJyM+o51DuQ@mail.gmail.com>
+Subject: Re: [PATCH 3/4] rust: Add dma_fence abstractions
+To: phasta@kernel.org
+Cc: sashiko-reviews@lists.linux.dev, linux-media@vger.kernel.org, 
+	ojeda@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63252-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linaro.org,fairphone.com,protonmail.com,amazon.com,oss.qualcomm.com,joelselvaraj.com,vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[google.com:+];
+	TAGGED_FROM(0.00)[bounces-63253-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[david@ixit.cz,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ixit.cz:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[protonmail.com:email,ixit.cz:email,ixit.cz:mid,ixit.cz:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
-X-Rspamd-Queue-Id: 34CA061FB2C
+	MISSING_XM_UA(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_NONE(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	NEURAL_HAM(-0.00)[-1.000];
+	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mailbox.org:email,mail.gmail.com:mid]
+X-Rspamd-Queue-Id: D440A61FC3B
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-On 01/06/2026 11:00, Sakari Ailus wrote:
-> Hi David,
-> 
-> On Sun, May 31, 2026 at 03:08:12PM +0200, David Heidelberg via B4 Relay wrote:
->> From: David Heidelberg <david@ixit.cz>
->>
->> The lanes must not be initialized before the driver has access to
->> the lane configuration, as it depends on whether D-PHY or C-PHY mode
->> is in use. Move the lane initialization to csiphy_lanes_enable which is
->> called when the configuration structures are available.
->>
->> Co-developed-by: Petr Hodina <phodina@protonmail.com>
->> Signed-off-by: Petr Hodina <phodina@protonmail.com>
->> Signed-off-by: David Heidelberg <david@ixit.cz>
->> ---
->>   .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 133 +++++++++++++++------
->>   1 file changed, 95 insertions(+), 38 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
->> index d4624417a7424..8bcba6107471f 100644
->> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
->> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
->> @@ -1164,16 +1164,110 @@ static int csiphy_lanes_enable(struct csiphy_device *csiphy,
->>   {
->>   	struct device *dev = csiphy->camss->dev;
->>   	struct csiphy_lanes_cfg *c = &cfg->csi2->lane_cfg;
->>   	struct csiphy_device_regs *regs = csiphy->regs;
->>   	u8 settle_cnt;
->>   	u8 val;
->>   	int i;
->>   
->> +	switch (csiphy->camss->res->version) {
->> +	case CAMSS_845:
->> +		if (c->phy_cfg == V4L2_MBUS_CSI2_CPHY) {
->> +			regs->lane_regs = NULL;
->> +			regs->lane_array_size = 0;
-> 
-> Aren't these fields already initialised to 0?
+On Mon, Jun 1, 2026 at 2:34=E2=80=AFPM Philipp Stanner <phasta@mailbox.org>=
+ wrote:
+>
+> On Mon, 2026-06-01 at 10:20 +0000, Alice Ryhl wrote:
+> > On Sat, May 30, 2026 at 03:06:21PM +0000, sashiko-bot@kernel.org wrote:
+> > > > +impl<F: Send + Sync, C: Send + Sync> DriverFence<F, C> {
+> > > > +    fn as_raw(&self) -> *mut bindings::dma_fence {
+> > > > +        // SAFETY: Valid because `self` is valid.
+> > > > +        let fence_data =3D unsafe { &mut *self.data.as_ptr() };
+> > >
+> > > [Severity: High]
+> > > Does this create an exclusive mutable reference to actively shared me=
+mory?
+> > >
+> > > DriverFenceData can be accessed concurrently by other threads holding=
+ Fence
+> > > references (for instance, when checking if the fence is signaled). Cr=
+eating
+> > > a mutable reference (&mut) in Rust asserts exclusive access and viola=
+tes
+> > > aliasing rules, which allows the compiler to make invalid optimizatio=
+n
+> > > assumptions.
+> > >
+> > > Could this use an immutable reference &*self.data.as_ptr() instead?
+> >
+> > Yes, please use an immutable reference here.
+> >
+> > > > +
+> > > > +        fence_data.inner.inner.get()
+> > > > +    }
+> > >
+> > > [ ... ]
+> > >
+> > > > +impl<F: Send + Sync, C: Send + Sync> DriverFenceBorrow<F, C> {
+> > > > +    fn as_raw(&self) -> *mut bindings::dma_fence {
+> > > > +        // SAFETY: Valid because `self` is valid.
+> > > > +        let fence_data =3D unsafe { &mut *self.data.as_ptr() };
+> > >
+> > > [Severity: High]
+> > > Similar to DriverFence::as_raw(), does this also incorrectly create a
+> > > mutable reference to shared data?
+> >
+> > Here as well.
+>
+> `data` is not shared. By design there is only ever one DriverFence, and
+> the driver's data (`data.data`) is `Sync`.
+>
+> But I guess an immutable one should do the trick, too.
 
-I assume yes, but I wanted to be more explicit here so it's more obvious that 
-C-PHY sequences are missing (until these get filled in by users).
+There's only one DriverFence, but I can perform shared access to that
+one DriverFence from two threads in parallel. You made the type Sync,
+and this is what you are allowing when you do so.
 
-> 
-> Using the compatible string to assign these using device matching would be
-> nice if possible.
+> > > > +                bindings::dma_fence_signal_locked(fence);
+> > > > +            }
+> > > > +            bindings::dma_fence_unlock_irqrestore(fence, flag_ptr)=
+;
+> > > > +        }
+> > > > +
+> > > > +        // SAFETY: `self.data` is owned by the DriverFence, but co=
+uld be accessed
+> > > > +        // through some dma_fence callbacks right now. Access is b=
+eing revoked
+> > > > +        // above by signalling the fence. The DriverFenceAllowedDa=
+ta trait
+> > > > +        // ensures that the data either does not need drop, or if =
+it does it
+> > > > +        // lives in a RcuBox which will delay dropping by one grac=
+e period, hence
+> > > > +        // ensuring that all readers have disappeared.
+> > > > +        unsafe { drop_in_place(self.data.as_ptr()) };
+> > >
+> > > [Severity: Critical]
+> > > Could this eagerly drop FenceCtx and user data before the C dma_fence
+> > > refcount reaches 0?
+> > >
+> > > The C dma_fence object can remain alive as long as consumers (like sy=
+nc_file
+> > > or the GPU scheduler) hold references to it. If the backend later inv=
+okes
+> > > callbacks like ops->get_driver_name(), FenceCtx::get_driver_name() wo=
+uld
+> > > attempt to read fctx.driver_name from the already-dropped FenceCtx:
+> > >
+> > > FenceCtx::get_driver_name() {
+> > >     ...
+> > >     fctx.driver_name.as_char_ptr()
+> > > }
+> > >
+> > > Can this result in a use-after-free?
+> >
+> > Hmm, I don't know about what sahisko said, but I don't think this is th=
+e
+> > right way to do rcu freeing. I think the type's destructor should be
+> > reserved for cases where the value becomes immediately unusable.
+>
+> We could guard the strings with RcuBox, but we could not then guard the
+> FenceCtx code against code UAF if we don't have the rcu_barrier().
+>
+> Or could we?
+>
+> If a rust module unloads, module::remove() should contain an
+> rcu_barrier() (right??). Would that be enough to guard against the
+> FenceCtx code being unloaded?
+>
+> >
+> > For example, let's say I'm using RcuBox<_> here. Yes, the data you get
+> > from dereferencing the RcuBox will stay alive for a grace period, but
+> > IMO once you run the destructor of the box itself, the *pointer* become=
+s
+> > immediately unusable.
+>
+> I don't know why you're stressing the pointer?
+>
+> The trick above is simply that drop / dealloc *and* code unloading is
+> delayed by a grace period.
 
-Sure, thou if not explicitly requested, I would prefer to do minimal changes 
-above the C-PHY itself introduction (it's pretty much breaking with every CAMSS 
-version addition). I can do it as follow up, if wanted.
+Sorry let me try to rephrase. I'm not worried about the stuff behind
+the pointer. After all, you're using RcuBox to protect that stuff.
+What I'm worried about is the pointer itself. You invoked
+drop_in_place() on the pointer to the fence context, so even though
+the fence context may be valid for another grace period, the *pointer*
+to the fence context is not. The pointer could have been zeroed by the
+destructor.
 
-David
+Actually maybe I am worried about the strings too. Let's say that one
+thread does:
 
-> 
->> +		} else {
->> +			regs->lane_regs = &lane_regs_sdm845[0];
->> +			regs->lane_array_size = ARRAY_SIZE(lane_regs_sdm845);
->> +		}
->> +		break;
->> +	case CAMSS_2290:
->> +	case CAMSS_6150:
->> +		if (c->phy_cfg == V4L2_MBUS_CSI2_CPHY) {
->> +			regs->lane_regs = NULL;
->> +			regs->lane_array_size = 0;
->> +		} else {
->> +			regs->lane_regs = &lane_regs_qcm2290[0];
->> +			regs->lane_array_size = ARRAY_SIZE(lane_regs_qcm2290);
->> +		}
->> +		break;
->> +	case CAMSS_6350:
->> +		if (c->phy_cfg == V4L2_MBUS_CSI2_CPHY) {
->> +			regs->lane_regs = NULL;
->> +			regs->lane_array_size = 0;
->> +		} else {
->> +			regs->lane_regs = &lane_regs_sm6350[0];
->> +			regs->lane_array_size = ARRAY_SIZE(lane_regs_sm6350);
->> +		}
->> +		break;
->> +	case CAMSS_7280:
->> +	case CAMSS_8250:
->> +		if (c->phy_cfg == V4L2_MBUS_CSI2_CPHY) {
->> +			regs->lane_regs = NULL;
->> +			regs->lane_array_size = 0;
->> +		} else {
->> +			regs->lane_regs = &lane_regs_sm8250[0];
->> +			regs->lane_array_size = ARRAY_SIZE(lane_regs_sm8250);
->> +		}
->> +		break;
->> +	case CAMSS_8280XP:
->> +		if (c->phy_cfg == V4L2_MBUS_CSI2_CPHY) {
->> +			regs->lane_regs = NULL;
->> +			regs->lane_array_size = 0;
->> +		} else {
->> +			regs->lane_regs = &lane_regs_sc8280xp[0];
->> +			regs->lane_array_size = ARRAY_SIZE(lane_regs_sc8280xp);
->> +		}
->> +		break;
->> +	case CAMSS_X1E80100:
->> +		if (c->phy_cfg == V4L2_MBUS_CSI2_CPHY) {
->> +			regs->lane_regs = NULL;
->> +			regs->lane_array_size = 0;
->> +		} else {
->> +			regs->lane_regs = &lane_regs_x1e80100[0];
->> +			regs->lane_array_size = ARRAY_SIZE(lane_regs_x1e80100);
->> +		}
->> +		break;
->> +	case CAMSS_8550:
->> +		if (c->phy_cfg == V4L2_MBUS_CSI2_CPHY) {
->> +			regs->lane_regs = NULL;
->> +			regs->lane_array_size = 0;
->> +		} else {
->> +			regs->lane_regs = &lane_regs_sm8550[0];
->> +			regs->lane_array_size = ARRAY_SIZE(lane_regs_sm8550);
->> +		}
->> +		break;
->> +	case CAMSS_8650:
->> +		if (c->phy_cfg == V4L2_MBUS_CSI2_CPHY) {
->> +			regs->lane_regs = NULL;
->> +			regs->lane_array_size = 0;
->> +		} else {
->> +			regs->lane_regs = &lane_regs_sm8650[0];
->> +			regs->lane_array_size = ARRAY_SIZE(lane_regs_sm8650);
->> +		}
->> +		break;
->> +	case CAMSS_8300:
->> +	case CAMSS_8775P:
->> +		if (c->phy_cfg == V4L2_MBUS_CSI2_CPHY) {
->> +			regs->lane_regs = NULL;
->> +			regs->lane_array_size = 0;
->> +		} else {
->> +			regs->lane_regs = &lane_regs_sa8775p[0];
->> +			regs->lane_array_size = ARRAY_SIZE(lane_regs_sa8775p);
->> +		}
->> +		break;
->> +	default:
->> +		break;
->> +	}
->> +
->> +	if (!regs->lane_regs && c->phy_cfg == V4L2_MBUS_CSI2_CPHY) {
->> +		dev_err(dev, "Missing lane_regs definition for C-PHY\n");
->> +		return -EINVAL;
->> +	}
->> +
->>   	settle_cnt = csiphy_settle_cnt_calc(link_freq, csiphy->timer_clk_rate);
->>   
->>   	val = 0;
->>   
->>   	switch (c->phy_cfg) {
->>   	case V4L2_MBUS_CSI2_CPHY:
->>   		for (i = 0; i < c->num_data; i++)
->>   			val |= BIT((c->data[i].pos * 2) + 1);
->> @@ -1235,63 +1329,26 @@ static int csiphy_init(struct csiphy_device *csiphy)
->>   	struct device *dev = csiphy->camss->dev;
->>   	struct csiphy_device_regs *regs;
->>   
->>   	regs = devm_kmalloc(dev, sizeof(*regs), GFP_KERNEL);
->>   	if (!regs)
->>   		return -ENOMEM;
->>   
->>   	csiphy->regs = regs;
->> -	regs->offset = 0x800;
->>   	regs->common_status_offset = 0xb0;
->>   
->>   	switch (csiphy->camss->res->version) {
->> -	case CAMSS_845:
->> -		regs->lane_regs = &lane_regs_sdm845[0];
->> -		regs->lane_array_size = ARRAY_SIZE(lane_regs_sdm845);
->> -		break;
->> -	case CAMSS_2290:
->> -	case CAMSS_6150:
->> -		regs->lane_regs = &lane_regs_qcm2290[0];
->> -		regs->lane_array_size = ARRAY_SIZE(lane_regs_qcm2290);
->> -		break;
->> -	case CAMSS_6350:
->> -		regs->lane_regs = &lane_regs_sm6350[0];
->> -		regs->lane_array_size = ARRAY_SIZE(lane_regs_sm6350);
->> -		break;
->> -	case CAMSS_7280:
->> -	case CAMSS_8250:
->> -		regs->lane_regs = &lane_regs_sm8250[0];
->> -		regs->lane_array_size = ARRAY_SIZE(lane_regs_sm8250);
->> -		break;
->> -	case CAMSS_8280XP:
->> -		regs->lane_regs = &lane_regs_sc8280xp[0];
->> -		regs->lane_array_size = ARRAY_SIZE(lane_regs_sc8280xp);
->> -		break;
->>   	case CAMSS_X1E80100:
->> -		regs->lane_regs = &lane_regs_x1e80100[0];
->> -		regs->lane_array_size = ARRAY_SIZE(lane_regs_x1e80100);
->> -		regs->offset = 0x1000;
->> -		break;
->>   	case CAMSS_8550:
->> -		regs->lane_regs = &lane_regs_sm8550[0];
->> -		regs->lane_array_size = ARRAY_SIZE(lane_regs_sm8550);
->> -		regs->offset = 0x1000;
->> -		break;
->>   	case CAMSS_8650:
->> -		regs->lane_regs = &lane_regs_sm8650[0];
->> -		regs->lane_array_size = ARRAY_SIZE(lane_regs_sm8650);
->>   		regs->offset = 0x1000;
->>   		break;
->> -	case CAMSS_8300:
->> -	case CAMSS_8775P:
->> -		regs->lane_regs = &lane_regs_sa8775p[0];
->> -		regs->lane_array_size = ARRAY_SIZE(lane_regs_sa8775p);
->> -		break;
->>   	default:
->> +		regs->offset = 0x800;
->>   		break;
->>   	}
->>   
->>   	return 0;
->>   }
->>   
->>   const struct csiphy_hw_ops csiphy_ops_3ph_1_0 = {
->>   	.get_lane_mask = csiphy_get_lane_mask,
->>
->> -- 
->> 2.53.0
->>
->>
-> 
+rcu_read_lock()
+get_driver_name()
+// .. read the driver name
+rcu_read_unlock()
 
--- 
-David Heidelberg
+and another thread signals the fence. If there are no queued
+call_rcu() callbacks right now, then the rcu_barrier() could be a
+no-op and the rcu reader will UAF on the driver name. It looks like
+you need synchronize_rcu() rather than rcu_barrier() here?
 
+Alice
 
