@@ -1,177 +1,193 @@
-Return-Path: <linux-media+bounces-63406-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63407-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id dqdIJkL5HmrhbAAAu9opvQ
-	(envelope-from <linux-media+bounces-63406-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 17:39:46 +0200
+	id png2A9D9Hmr5bwAAu9opvQ
+	(envelope-from <linux-media+bounces-63407-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 17:59:12 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 339D862FDF5
-	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 17:39:46 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F987630082
+	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 17:59:11 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=quora.org header.s=google header.b=nTWtNnAk;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63406-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63406-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=none;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=TvfgkTMO;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63407-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63407-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=redhat.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6EC69303126B
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2026 15:35:51 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6B38E309D896
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2026 15:51:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 195E53ED5CC;
-	Tue,  2 Jun 2026 15:35:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76FCD3EFFCA;
+	Tue,  2 Jun 2026 15:51:53 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2403EDAD8
-	for <linux-media@vger.kernel.org>; Tue,  2 Jun 2026 15:35:45 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780414546; cv=pass; b=tSsvocE7IKG1jRIiimzcviXmTAs6ToPRz+WQddZAMjJp+odXKgLPfG7C4jgu3LaxcYoqn/GoY/DjQ8r4iLnsUv2IQUYTbUNVPItFG7XJc4oYdE2/unEFtdRrR5Z7T2No9824Ox3Kc4al/6XEjBY/xqJ9zeZvYSz/W0rJd6fMzf4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780414546; c=relaxed/simple;
-	bh=oKhZRKSNDQsRxVT0JGr6nA+dxNnWA37kOR8/qGg6Q1I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VTuRZ5kCyuWo0Fml8hq4wNVmj54ot3Lj4qlnwdNidc6tUVpuWguqHCBdbK3IioXB4izf+Y56HXMpglSkGX2lCePK08u5UzfX8p3H8dFe9srGh2l2CxhdONJzzZoie+8wOgXBwweNNOiTGQKVdaMmGIg6yBbsx1n78GF36DZN72E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=quora.org; spf=pass smtp.mailfrom=quora.org; dkim=pass (1024-bit key) header.d=quora.org header.i=@quora.org header.b=nTWtNnAk; arc=pass smtp.client-ip=209.85.210.181
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-84232e83ca9so1238454b3a.2
-        for <linux-media@vger.kernel.org>; Tue, 02 Jun 2026 08:35:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780414545; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ZUiwQbADEpCM8cbvW7DuJAHwel90EiPaxo87geLWlXn0O8WafUjYbe0SZ+J2ZNEusc
-         7tEIhW6QpqBcYtRmerKq3xGg6McH/S8uAKIoOEQjgyGAXUWibSZYJH6NeYB6E/Kt38V3
-         RcIP7P+QVENcc1vbgQ9NKgOk/dLfd1xGOATZeCqxiXrtfEZFc9NWehT9aaCD5pfj4DPY
-         f2naiBUarSGRzw8nHSafyo1kNd//3/pbu7b0vg8zhNoae0d8GucXx2CpuP5jaumjpzB2
-         0tPK7h6Wawx9zTx5G1z22TPK+RgAOqN1+GsTvhAMGjUM3JQHzHpird7/DdcHLSRRxgWV
-         Jx9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=xIH2uRX8VoTWmyY9T8w1tKTf1uWV1y+wbUzLia8/LPI=;
-        fh=r5tqsLJzR+GwvwqqfZgowjJbi8GEX7+mjijK7tR1TRk=;
-        b=JAFdsniJs3jNGBRX5iQP8ZMVMR2LUY7k/QbsI6j0EAPH7j+YPRObPj+PBe+HrSkeuG
-         5tmw/95yscDJVlOhteAldZVJYoWtkRKFfzsdw/8GKxCOeaQ+owM3qSsA3hrHPyHVF5NI
-         9KquhcvQj48u6KVV+UxmeuYi5noKq4XkxrkAXz/c9eM3jl9LR1t5nEeu7LIUVns0Dtaj
-         BcGpQZXzM8NkqDmb5kqjma9rgNsI14gge3gb7UNZ3mDxsrWqsg/TL1SFLQYSp4keiKJK
-         fYTjfztI1R7X2cXozAxCG53wLsZGsowxztlMRdaOS/YffadvhvTyRc8DI46mm1lGaf8u
-         k/AQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=quora.org; s=google; t=1780414545; x=1781019345; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=xIH2uRX8VoTWmyY9T8w1tKTf1uWV1y+wbUzLia8/LPI=;
-        b=nTWtNnAkx2IZWX2abNaxi39nj78ERcYHOQaia/o9AT0DuOcSJkDKIYJ4VnHqmaFVu3
-         LfRcqexPGednanrxMWijK6dQdeuj7Pi5A3nx9YKv/CQclRE//vE6DIKj6d62tR4D0wuw
-         zpFx2j9j+Re94WhP7QfWxYNIH03BJfbG/Q24E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780414545; x=1781019345;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xIH2uRX8VoTWmyY9T8w1tKTf1uWV1y+wbUzLia8/LPI=;
-        b=TvjBj36aHUqsLkcV0hXycn3fEbR6H3wG0xnky5xRwcyDLIVBoai39COty/ROONvV/T
-         hrs6qKoY2wgwIqhZy+ZRUxq1iBrET0+dkY9lgdSrAmxYbPQbrwHN+xCacxEwk2UCDAjd
-         DWsMCBEcLOxu4cphLjdv+x4OXVr1p/5r4VLw9l9h1LT52eiE8PUgLJelFxckdtcJVK5i
-         CKDBkeEkgxf5tmSWZwNPF+jtHEfh/KuUMJqcK4KkD+asAvkXg9E7fF0VBrUeHAdafMnC
-         aVy2hv70bBknsw/wjJfDCBh8olGhI+sNx/mrrzuGdL13JS3Bz43DzlFpPM7Btd0pLvJc
-         HnWA==
-X-Forwarded-Encrypted: i=1; AFNElJ8Qv44ws8uLhvpTYUdSfysxDO0xaVGGaph77FBy4O0UatcQBF5O9FdVT1SayEtXG8XfIyZxhdkdqfDFLw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQ5bpC/IGp0zuO1r7QO3dA/SCPosu1t29+pNnsHCT7JjOIV7eh
-	L25qT++qG/4qL73Xgh9sn7bcLle3DR9g83DdFvVgR8lrN4IDfGJiauUzCHDWNVgwHCw0IYRco4h
-	eKUXOJz8DDcAyV6s8+Vsof0soIB5H5Au7s9S7BlMr/w==
-X-Gm-Gg: Acq92OECKfFGDreUing8hIQxexHh52O0XHDvpuGb6L3srlAExUIR803LCBgeRxdeelf
-	3iGMtA6jKrH71d9bY/Aj6boUCgiHntX04miN/jrDk0VG+J1T2lWP/qEKGed25ZXrA4020h4QB7X
-	20qu40gkhOUpNIU/We9ro6yusd62nuIA2INRGJ2QgeO+UNilxpaQIocdeghQj65dA2r8cj4CQGf
-	KxB6lPY5dTY8syL0SxyWRl91ZrhOQ57WgeXvkO/Cx8pQIBhZe6OVsd5SKO3rWIdR345z1Vg2scN
-	VzFOT1vJwS/sONEx9NuGqPwm1Ts3PyWwqe29VGfXM+VwihK23nlfe2j+aaCU5f5/WCUOseRxQ3D
-	fkneKLGFAgGhpDvzrzVPqqcgKcLSLj6scwXBj7r4hzVmD6YQr6jPXq6F6jn/byb2OljU3wZMoPE
-	FM5E6U3VmYJA+kMztLKMNEwIG/PIKdTE9wqbt0pqigEEtZY0zqig75O+SI67o=
-X-Received: by 2002:a05:6a00:1bc5:b0:82f:9985:d4a1 with SMTP id
- d2e1a72fcca58-84282f4be9emr114808b3a.24.1780414544733; Tue, 02 Jun 2026
- 08:35:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5DA3E5A2E
+	for <linux-media@vger.kernel.org>; Tue,  2 Jun 2026 15:51:51 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780415512; cv=none; b=Ujthurm2pAtZ3hXcZ5Peugyw11k9YCDdL0+fnhWTDGUov+r/6oE0kb9/Hif27zlOg+RCbdd+xx6f9FdIxNgeuGYhYRkqtUUp117aVExMbr5RFwY14jrT2PESh0SpvnvRl6hrsMjWG8Cnvy1OHi1nZc8PZlktBysWRJRdV0XD1o8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780415512; c=relaxed/simple;
+	bh=RlvSw/Cn65kMSZSDi7nFvoSYU1V8dh32MgyR1XMwkww=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b0b4wjqKlnwweq+tvQvXZP+KFd3rbZGIzddl8OjWBCSWepC5lj1b4u0vH+MVVi5xsrG4fd01Vjskk7owl/fsLA1qkn3rx1Iwruu5iB8exLJ+k0PS10uXMqOAei/+WByqI2NGcdSwbiqMq1QGqk3wNyFVTSFrF89ZdQm7R5jeejM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=TvfgkTMO; arc=none smtp.client-ip=170.10.129.124
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1780415510;
+	h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:in-reply-to:in-reply-to:  references:references;
+	bh=ue6Ua2uOgN+ZiOMD0n2tZtnQGEVnfG9xdRtXgO7Bw+0=;
+	b=TvfgkTMOyTv5+CVNsdjnCC42TZmBoEE9qyEZpIoEm7ODCcRRUOM32qbmV9a1RUqVXs8kNn
+	FvLkdEEHujaAx4MGiYmYI5Q3S1cyaZrVH/q7LimTYgJBrktYgU1xjYzTdg5aRu3aPIymjI
+	z6pJo0s3+8eekvR0v2RGhU/AOVbJw/U=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-493-aRIsSNYRPTiGXR0SDGIoaA-1; Tue,
+ 02 Jun 2026 11:51:45 -0400
+X-MC-Unique: aRIsSNYRPTiGXR0SDGIoaA-1
+X-Mimecast-MFC-AGG-ID: aRIsSNYRPTiGXR0SDGIoaA_1780415504
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 00495195608B;
+	Tue,  2 Jun 2026 15:51:44 +0000 (UTC)
+Received: from localhost (unknown [10.22.80.60])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 461C61800347;
+	Tue,  2 Jun 2026 15:51:43 +0000 (UTC)
+Date: Tue, 2 Jun 2026 11:51:42 -0400
+From: Derek Barbosa <debarbos@redhat.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Roman Gushchin <roman.gushchin@linux.dev>, 
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Steven Rostedt <rostedt@goodmis.org>, users@kernel.org, 
+	Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: Linking Patchwork with Sashiko?
+Message-ID: <ah7dpsLKd0Jf1Ir0@debarbos-thinkpadt14gen5.rmtusma.csb>
+Reply-To: debarbos@redhat.com
+References: <20260530103004.6fe2ffa7@foz.lan>
+ <7E971C76-0568-43EF-9EE7-C8DB78C45CA1@linux.dev>
+ <20260530200017.0fe7f685@foz.lan>
+ <20260530204945.22ac92c6@foz.lan>
+ <20260530205351.19847fc8@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260601041336.9497-1-daniel@quora.org> <ecavEnqJTDXvfFykc9uJb5No7ioighpjrCdw2CFZ4c8Izr5DxpTs-606Bg7K0RtHTaOqksWivHxWQLzMBP6qow==@protonmail.internalid>
- <20260601041336.9497-2-daniel@quora.org> <ec7c564e-745a-4998-af9a-e9632fe063f7@kernel.org>
-In-Reply-To: <ec7c564e-745a-4998-af9a-e9632fe063f7@kernel.org>
-From: Daniel J Blueman <daniel@quora.org>
-Date: Tue, 2 Jun 2026 23:35:32 +0800
-X-Gm-Features: AVHnY4Jsj6RGlQW4Ea0C-JB6jRZRFbYG2MvxlnfYpmwEKpWeXFNaNH003Nh9F4U
-Message-ID: <CAMVG2ssnyH=KUKrdfnUOtPYU7p17inyzcYWcKhT4EAZxDzDjfg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: qcom: hamoa: Reserve low IOVA range for Iris
-To: Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>, 
-	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, Abhinav Kumar <abhinav.kumar@linux.dev>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
-	"Bryan O'Donoghue" <bod@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260530205351.19847fc8@foz.lan>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	R_DKIM_ALLOW(-0.20)[quora.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	SUBJECT_ENDS_QUESTION(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:quic_vgarodia@quicinc.com,m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:andersson@kernel.org,m:konradybcio@kernel.org,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:bod@kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63407-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[daniel@quora.org,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	DMARC_NA(0.00)[quora.org];
+	FORGED_RECIPIENTS(0.00)[m:mchehab+huawei@kernel.org,m:roman.gushchin@linux.dev,m:konstantin@linuxfoundation.org,m:jgg@ziepe.ca,m:rostedt@goodmis.org,m:users@kernel.org,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-63406-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[daniel@quora.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[quora.org:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[debarbos@redhat.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[redhat.com:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[debarbos@redhat.com,linux-media@vger.kernel.org];
+	REPLYTO_ADDR_EQ_FROM(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,huawei];
+	HAS_REPLYTO(0.00)[debarbos@redhat.com];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,quora.org:from_mime,quora.org:dkim]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 339D862FDF5
+X-Rspamd-Queue-Id: 5F987630082
 
-On Tue, 2 Jun 2026 at 18:27, Bryan O'Donoghue <bod@kernel.org> wrote:
->
-> On 01/06/2026 05:13, Daniel J Blueman wrote:
-> > On X1-family hamoa platforms, Iris DMA below IOVA 0x25800000 (600MB)
-> > triggers unhandled SMMU page faults
->
-> How do we know that is a correct address - does it come from qcom
-> documentation or trial and error ?
+On Sat, May 30, 2026 at 08:53:51PM +0200, Mauro Carvalho Chehab wrote:
+> 
+> In time: problematic in the sense that the first project that
+> picked it is likely the patch "owner": the token will require
+> maintainership on such project.
+> 
+> In practice it would mean that the token used on patchwork instances
+> with multiple Kernel projects may need maintainers permission on all
+> such projects, as otherwise patchwork update will fail.
+> 
+> Thanks,
+> Mauro
+> 
 
-@Vikash, beyond your comment I linked in the patch [1] kindly cite a
-source for the different stream-ID <600MB behaviour, and share
-specifics, eg if silicon, firmware, or driver and constraint, defect
-or otherwise, so I can include a definitive description.
+Hi Mauro,
 
-Also good to know if my workaround is good for long-term, or on the
-other hand handling streams <600MB is important/useful.
+Just to recap the the thread, to confirm that I am following it correctly:
 
-Thanks,
-  Dan
+- Patchwork only supports a single URL mask for message-ID lookup (lore or
+  sashiko). Adding a sashiko link would require diverging from upstream.
 
-[1] https://github.com/qualcomm-linux/kernel-topics/issues/1157#issuecomment-4458933574
+- pw_tools is a workaround solution to get/set status on patchwork via bot-mail
+  parsing. pw tokens also have broad permission scope.
 
---
-Daniel J Blueman
+which that leaves us with two "methods" of integration:
+
+1. The Sashiko daemon calls the pw_tools script directly to update the status.
+2. Sashiko sends a single-per-patch-email with parseable "status" to a mailing
+list, where some running daemon will pickup the mail.
+
+please correct me if I am wrong here :)
+
+Roman, for 1, do we want to dip our toes into FFI for the provided pw_tools
+python script, or would a more general std::process::* subprocess suffice?
+
+Alternatively, we could just translate the logic into Rust, gated behind a
+config. I will have to think about how we would like to implement retry-queues.
+
+Thinking out loud: would it be simpler to "tag" the reviews that require a
+patchwork-status-update in the DB, and let a cronjob handle setting patchwork
+state? updating the candidates that have successfully posted?
+
+Anyway, Mauro, I think we have the capacity to tackle both patchwork integration
+methods. Would exposing a configuration in the email_policy file that allowed
+for mailing lists to specify what type of patchwork integration suffice?
+
+This way, a mailing list that would want patchwork integration can opt for
+either the single email approach (as you described) or through the API?
+
+something like:
+
+[subsystems.linux-media]
+lists = ["linux-media@vger.kernel.org"]
+reply_to_author = true
+cc = ["linux-media@vger.kernel.org"]
++ # optional value can be set to email or API
++ patchwork = "email"
+
+Roman is currently working through how "subsystems" are detected via Sashiko,
+taking inspiration from the get_maintainer.pl script. This may help with some of
+the concerns I saw with patches-meant-for-other mailing lists?
+
+Cheers,
+-- 
+Derek <debarbos@redhat.com>
+
 
