@@ -1,65 +1,65 @@
-Return-Path: <linux-media+bounces-63419-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63420-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id WSh8C70VH2oifQAAu9opvQ
-	(envelope-from <linux-media+bounces-63419-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 19:41:17 +0200
+	id ghQKKycWH2o8fQAAu9opvQ
+	(envelope-from <linux-media+bounces-63420-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 19:43:03 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26C21630C9E
-	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 19:41:16 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DCAD630CB1
+	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 19:42:52 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=IiOdh51P;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63419-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63419-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b="Ksk66/u3";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63420-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-63420-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=redhat.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 75F3F304FCA1
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2026 17:29:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 04F7F3076F38
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2026 17:29:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E9873FB077;
-	Tue,  2 Jun 2026 17:28:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76CFB3FE646;
+	Tue,  2 Jun 2026 17:28:43 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAA53FD14E
-	for <linux-media@vger.kernel.org>; Tue,  2 Jun 2026 17:28:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCBEC3FD14E
+	for <linux-media@vger.kernel.org>; Tue,  2 Jun 2026 17:28:41 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780421319; cv=none; b=glPp21pfC8IquNbiViFxIAoyGbzmHXwWJ3gVIvOfArLsIqWvci0MX+EGyIVRU3RD6AGbBhuxSzPo2tPaUX1hypJPUaBYhSqXsiaENfxHkp3kAP7W9QgTQS+5AwrTGlMgFJP/5wz8ofbMMUVmpohx3Bmav98afAZ7KbfP4qdMyCc=
+	t=1780421322; cv=none; b=Qmrgr0ugpr6AdCL/CNz0CJr2ZN5Dc6qNL7gBdvEJwwa655sLWT5P2Jj/mPnjsrRCeJpm07ma7cVZufnbwMapMhScedT7nYdDQA4bBvVek5EL6Nr0VTKSNnbtxTuFMNg5afS+TLqqBU86o4S8blwaetubYLjd7XGJ5/uFw3YUU0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780421319; c=relaxed/simple;
-	bh=umwawEzRaVqGQ58SmcAjEXQ5zooLJBV9oJWhj8xBmeY=;
+	s=arc-20240116; t=1780421322; c=relaxed/simple;
+	bh=niAHhGwKEZIiX6YNYm4W4nXlIqpIqpg+te/9jcaQdiU=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZsMzRZTo4ZzdSZgL8rEjHt7UR/ojp+GOsOuPULuyCLs+rrueAJMVqrhB6omUShpiJZEHv9w7OJANLtSksGqqmPYsSezsd9n/c2AqAMJe2tdXThFwuJOaNmlPeoDy/lrvQ3ZRDGU0kXHwbo7Xg3N6TcBx6OHY02mCUVfgWElMKVI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IiOdh51P; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=GRGJpqGdBrLwxy2HenKlGVG77G8YRu/1u8jLx13xyMQg5VAFd1S8lrt4ejeBPwi7zKhGESbXCf4p1z9og7q3zERk8ac/rlXEX80sXBuMuzvGEvH4AFeLb0pnRVPOP09LtBQs2N2409uG+koY7G4vefxcQoaiGTo14ZeD5Wken84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ksk66/u3; arc=none smtp.client-ip=170.10.133.124
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780421316;
+	s=mimecast20190719; t=1780421321;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ji3R873SgQHyxfzMQgkhE7LmK1MPE9r7ND0eG5Mf4OM=;
-	b=IiOdh51P58hY1xLb3pAvo+txez+QQ5bS/A2GfvMA7ZD7bXnT21WdvqaIeXfwtpAenHTsKp
-	3a4Cbz8n/MvSECWGtToNQ7DxiEWWA9Wv2csg8eZRKzQ8QkV820W7qRMj8j7ZGdSsuiri1A
-	uPD1PjVS2CpsTYUMWeSmT+VrAB9oyAA=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=n2gylv3DYJqAPYFDxLeYUmhNrr6JQO+YmoPANh0AXF0=;
+	b=Ksk66/u3xFrelCNG8ijc5ZEMBvw58GwQ9vhOIpLy9MjWoIeUKIQOgdUbwgjqGn27z6kJxB
+	jStCx/hkX5fBvRCDqfAmz3b2EF4zHtJkTjPm1T7jZqffTaZMoCE3CQ8fBOOOQWKxEBdYT4
+	Af+4pPq7pFfOIveNajI/ewZfMiOgFlA=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-630-hcXIVyfUOHO65GIIA9MZ-Q-1; Tue,
- 02 Jun 2026 13:28:31 -0400
-X-MC-Unique: hcXIVyfUOHO65GIIA9MZ-Q-1
-X-Mimecast-MFC-AGG-ID: hcXIVyfUOHO65GIIA9MZ-Q_1780421308
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-408-MVVaJtVhNfCOyC0yL5awjQ-1; Tue,
+ 02 Jun 2026 13:28:34 -0400
+X-MC-Unique: MVVaJtVhNfCOyC0yL5awjQ-1
+X-Mimecast-MFC-AGG-ID: MVVaJtVhNfCOyC0yL5awjQ_1780421311
 Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E0E1D18005B5;
-	Tue,  2 Jun 2026 17:28:27 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 76E7519560B5;
+	Tue,  2 Jun 2026 17:28:31 +0000 (UTC)
 Received: from GoldenWind.lan (unknown [10.22.81.216])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 90A7219560A7;
-	Tue,  2 Jun 2026 17:28:24 +0000 (UTC)
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1D2DE19560B0;
+	Tue,  2 Jun 2026 17:28:28 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org,
@@ -87,9 +87,9 @@ Cc: Alexandre Courbot <acourbot@nvidia.com>,
 	Daniel Almeida <daniel.almeida@collabora.com>,
 	Lyude Paul <lyude@redhat.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v16 3/6] rust: sync: Add SetOnce::reset()
-Date: Tue,  2 Jun 2026 13:25:02 -0400
-Message-ID: <20260602172807.1051806-4-lyude@redhat.com>
+Subject: [PATCH v16 4/6] rust: gem: shmem: Fix Default implementation for ObjectConfig
+Date: Tue,  2 Jun 2026 13:25:03 -0400
+Message-ID: <20260602172807.1051806-5-lyude@redhat.com>
 In-Reply-To: <20260602172807.1051806-1-lyude@redhat.com>
 References: <20260602172807.1051806-1-lyude@redhat.com>
 Precedence: bulk
@@ -107,7 +107,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -116,7 +116,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[26];
 	FREEMAIL_CC(0.00)[nvidia.com,garyguo.net,amd.com,lists.linux.dev,kernel.org,linux.intel.com,google.com,ffwll.ch,vger.kernel.org,linaro.org,suse.de,gmail.com,lists.linaro.org,asahilina.net,collabora.com,redhat.com,linuxfoundation.org];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-63419-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63420-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -132,103 +132,53 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,kernel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FROM_HAS_DN(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 26C21630C9E
+X-Rspamd-Queue-Id: 9DCAD630CB1
 
-This function simply drops the contents of the SetOnce, given a mutable
-reference - since that proves we have exclusive access to the SetOnce.
-Additionally, update the invariants for SetOnce to make it clear as to why
-this is safe.
+I completely forgot when coming up with this type that #[derive(Default)]
+only works if all generics mentioned in the type implement Default (and T
+usually doesn't). This being said: We don't use `T` for anything besides
+using it for a reference type, so whether or not it implements `Default`
+shouldn't actually need to matter.
+
+So, fix this by just manually implementing Default instead of deriving it.
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
 ---
- rust/kernel/sync/set_once.rs | 60 +++++++++++++++++++++++++++++++-----
- 1 file changed, 52 insertions(+), 8 deletions(-)
+ rust/kernel/drm/gem/shmem.rs | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/rust/kernel/sync/set_once.rs b/rust/kernel/sync/set_once.rs
-index 139cef05e935f..d6e4fc2695673 100644
---- a/rust/kernel/sync/set_once.rs
-+++ b/rust/kernel/sync/set_once.rs
-@@ -15,7 +15,7 @@
+diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
+index 843869056b1d7..d8bda8c8e2fb2 100644
+--- a/rust/kernel/drm/gem/shmem.rs
++++ b/rust/kernel/drm/gem/shmem.rs
+@@ -50,7 +50,6 @@
+ ///
+ /// This is used with [`Object::new()`] to control various properties that can only be set when
+ /// initially creating a shmem-backed GEM object.
+-#[derive(Default)]
+ pub struct ObjectConfig<'a, T: DriverObject> {
+     /// Whether to set the write-combine map flag.
+     pub map_wc: bool,
+@@ -61,6 +60,16 @@ pub struct ObjectConfig<'a, T: DriverObject> {
+     pub parent_resv_obj: Option<&'a Object<T>>,
+ }
+ 
++impl<'a, T: DriverObject> Default for ObjectConfig<'a, T> {
++    #[inline(always)]
++    fn default() -> Self {
++        Self {
++            map_wc: false,
++            parent_resv_obj: None,
++        }
++    }
++}
++
+ /// A shmem-backed GEM object.
  ///
  /// # Invariants
- ///
--/// - `init` may only increase in value.
-+/// - `init` may only increase in value, unless modified through a mutable reference.
- /// - `init` may only assume values in the range `0..=2`.
- /// - `init == 0` if and only if `value` is uninitialized.
- /// - `init == 1` if and only if there is exactly one thread with exclusive
-@@ -110,17 +110,61 @@ pub fn copy(&self) -> Option<T>
-     {
-         self.as_ref().copied()
-     }
-+
-+    /// # Safety
-+    ///
-+    /// If this function returns `true`, `self` must be freed or `init` must be reset to `0`.
-+    unsafe fn drop_val(&mut self) -> bool {
-+        if *self.init.get_mut() != 2 {
-+            return false;
-+        }
-+
-+        let value = self.value.get_mut();
-+        // SAFETY: Via our type invariants, `init` == 2 means `value` is initialized.
-+        unsafe { value.assume_init_drop() };
-+
-+        true
-+    }
-+
-+    /// Unset the [`SetOnce`].
-+    ///
-+    /// After this function is called, the [`SetOnce`] is empty and uninitialized. This function is
-+    /// mainly intended for usage in destructors.
-+    ///
-+    /// Returns `true` if `self` was previously initialized.
-+    ///
-+    /// # Example
-+    ///
-+    /// ```
-+    /// # use kernel::sync::SetOnce;
-+    /// let mut value = SetOnce::new();
-+    /// assert_eq!(value.populate(67), true);
-+    ///
-+    /// assert_eq!(value.reset(), true);
-+    /// assert!(value.as_ref().is_none());
-+    /// assert_eq!(value.reset(), false);
-+    ///
-+    /// assert_eq!(value.populate(69), true);
-+    /// ```
-+    pub fn reset(&mut self) -> bool {
-+        // SAFETY: We write `0` to init below if this returns true.
-+        let dropped = unsafe { self.drop_val() };
-+        if dropped {
-+            // INVARIANT:
-+            // - We set `init` back to 0 through a mutable reference.
-+            // - We dropped `value` above.
-+            *self.init.get_mut() = 0;
-+        }
-+
-+        dropped
-+    }
- }
- 
- impl<T> Drop for SetOnce<T> {
-+    #[inline(always)]
-     fn drop(&mut self) {
--        if *self.init.get_mut() == 2 {
--            let value = self.value.get_mut();
--            // SAFETY: By the type invariants of `Self`, `self.init == 2` means that `self.value`
--            // contains a valid value. We have exclusive access, as we hold a `mut` reference to
--            // `self`.
--            unsafe { value.assume_init_drop() };
--        }
-+        // SAFETY: We are dropping this value.
-+        unsafe { self.drop_val() };
-     }
- }
- 
 -- 
 2.54.0
 
