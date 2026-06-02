@@ -1,189 +1,142 @@
-Return-Path: <linux-media+bounces-63359-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63360-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id mF2vD7+uHmr7JAAAu9opvQ
-	(envelope-from <linux-media+bounces-63359-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 12:21:51 +0200
+	id OP/kENOvHmr7JAAAu9opvQ
+	(envelope-from <linux-media+bounces-63360-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 12:26:27 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9842462C768
-	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 12:21:50 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECBA762C847
+	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 12:26:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F384430E26C2
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2026 10:11:57 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 27C873045D21
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2026 10:19:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 723FA3DA5CD;
-	Tue,  2 Jun 2026 10:10:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73F8F3D75A2;
+	Tue,  2 Jun 2026 10:18:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YbtpfP6j"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UUVbMuGv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4243D45CF;
-	Tue,  2 Jun 2026 10:10:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A1E93D349A;
+	Tue,  2 Jun 2026 10:18:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780395037; cv=none; b=qoHG4rkseRwwkQ7ub4vdGCI5xv4kwZM3sOU8YYi5tygxkXcWi7W2gIl2XEYqaSgKukVwIBMIGXyRz4Qorq94BVT3dx7h8HJtWO3nIzUuSyC+iHo6gDuhBnd9Kf7/3rkECxdCAQLqILIqipVhdLm7WGpe9s+uIlEhSTQM66gvdiM=
+	t=1780395516; cv=none; b=icJAGs7RYjd+zMF7MmIH3OiNZF/WSszYlKV2kKfoTmEp+Xp8shEoCe20HP6x4z9x2XWFuOz5heVtOCGqXOOI4+96DErgSTWZBZ7XR7eRT16EPl3TafJbxg/zhju8KGk1HUlakujT67EVM+4t+LDCWE6CfWQPaIFXGVI+vtIQH/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780395037; c=relaxed/simple;
-	bh=wqY0A7t1N3S+3gj7fx0t3/nF8ruHOv481S6mwUW65Tk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VXAWuZEceTU2XXJjVid1k43LtgKQPGaczW4WGW8IGxmk0DmYX4Z/ybHawqf9Le/A3Jy3q5QK1VpPlgdoTKOF/0LrYz7ZXiKRimIOzYqBdLIRWgrsmMLwOMqMwN4hmB/4eFcmIww4cqpczv/9+UtPhvfMjZ2ijWifthK6fPEmMRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YbtpfP6j; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EB6F1F00898;
-	Tue,  2 Jun 2026 10:10:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780395036;
-	bh=EHIJSwVjjuWkJA7eDUJ3KyM4K566bIh0ciFgZVsYxTU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=YbtpfP6jKnCIFFtuEGggKvQexJ0uxWRi3dEXKaN0+1ipDzOHJjj5jiuhlcd6MJTew
-	 H36q3o6/Tfm29lOq1dujDRLfEvW0/ZeGSBsUzeLE6fJHa9TMS/qg02ls3ZyoxRV6Du
-	 WZC/CNJ1/e4PtQyjx8b9Mu3+oWh/pmPMO39qZVSlyaOKeffJygWxXARbSkdM7eFvoc
-	 01uwJjD6zPBmLQPvDFaEXpdYm02W5Zk8H04asK59wtTTbMNHsMlXJXVkHLdp/bSK+R
-	 0F/vLm75+G0hAKJCE/THsLBPoKM8T6EUmUSN4DDrPqihFfa6F9S3HWTkK0kdysBbs6
-	 YaDXXoVFGHUzw==
-Message-ID: <b19493de-5d39-49d8-a5f1-acfc613cfacf@kernel.org>
-Date: Tue, 2 Jun 2026 11:10:24 +0100
+	s=arc-20240116; t=1780395516; c=relaxed/simple;
+	bh=0CwGFvg6msXZHsPhvYki0SBF0WQtGa73wA83lE4DqsU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gl7DUPyDjzq9g5T5U0Wsq2RYSKYGzKHguXbNONI6iSE/Y0W8Y8GztvaLlzA8U8nLzS7Cis84bLFjEmLFHJwK9QcbvFkMP25ka2l6ECGUWS12gctTlVvTqALBMfG7HotN4pYqHh6mk5O4BjyAsmL8L9zBf0lsMaRO4Zqbmgo5FWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UUVbMuGv; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (unknown [IPv6:2001:b07:6462:5de2:520d:d7a3:63ca:99e8])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 48307802;
+	Tue,  2 Jun 2026 12:18:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1780395483;
+	bh=0CwGFvg6msXZHsPhvYki0SBF0WQtGa73wA83lE4DqsU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UUVbMuGv5ok3OC/BscovpMISUUR/RwkgrZx4eJmeOtddPzKNeJvgO9jmk5gsr9v2u
+	 3q4vlH4RKtudjte204arqRNXDz9fyl/P6BzgwolQyBpBMFtXVzuP2qJumCLUKxl3cZ
+	 gnWMgmom656pJZoM33ARQp0EpQMVWMxtsBwwNUco=
+Date: Tue, 2 Jun 2026 12:18:23 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: David CARLIER <devnexen@gmail.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Daniel Scally <dan.scally@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans Verkuil <hverkuil+cisco@kernel.org>, Nayden Kanchev <nayden.kanchev@arm.com>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] media: mali-c55: fix integer overflow in scaler
+ factor calculation
+Message-ID: <ah6seVCMzk0JODrf@zed>
+References: <20260529024429.6942-1-devnexen@gmail.com>
+ <20260529050649.14109-1-devnexen@gmail.com>
+ <ahqh3Zv8xXNENzHb@zed>
+ <CA+XhMqyhpn0kHgz=i9WUS+1rFN4kWW3DpUYubBN1k-qcKo+RpQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] MAINTAINERS: Add myself to dw100 as reviewer
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: p.zabel@pengutronix.de, xavier.roumegue@oss.nxp.com, hverkuil@xs4all.nl,
- mchehab@kernel.org, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, Stefan Klug <stefan.klug@ideasonboard.com>
-References: <20260601155059.1332290-1-bod@kernel.org>
- <20260601155059.1332290-2-bod@kernel.org>
- <gDn4RCB4gOUFyNFwqb1Z_PKSw6MZAJBkl09jatpSLYWEfXlHnTAeiOZuR08ssuKr3yWKuP-Bb21qRDbqy-8ceA==@protonmail.internalid>
- <20260602085551.GA850227@killaraus.ideasonboard.com>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=bod@kernel.org; keydata=
- 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
-In-Reply-To: <20260602085551.GA850227@killaraus.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 9842462C768
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CA+XhMqyhpn0kHgz=i9WUS+1rFN4kWW3DpUYubBN1k-qcKo+RpQ@mail.gmail.com>
+X-Rspamd-Queue-Id: ECBA762C847
 X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63359-lists,linux-media=lfdr.de];
-	FREEMAIL_CC(0.00)[pengutronix.de,oss.nxp.com,xs4all.nl,kernel.org,vger.kernel.org,ideasonboard.com];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-63360-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	FREEMAIL_TO(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[8];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,nxp.com:email]
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
 X-Rspamd-Action: no action
 
-On 02/06/2026 09:55, Laurent Pinchart wrote:
-> Thanks for volunteering 🙂
-> 
-> This may however not be the best candidate. The dw100 driver is well
-> maintained today, by Xavier as well as Stefan, as Ideas on Board makes
-> active use of it (Stefan, you could also volunteer as a reviewer).
-> 
-> Drivers that I think would most benefit from your reviews would be
-> imx8mq-mipi-csi2, dw-mipi-csi2rx (technically a Synopsys driver, but
-> used in NXP SoCs), and the new imx95-csi-formatter driver ([1]).
-> 
-> Other candidates could be imx7-media-csi and imx-mipi-csis, but those
-> see little activity as they support older hardware. The imx media
-> staging drivers could also do with some love, but that would be active
-> development and not just review.
-> 
-> [1]https://lore.kernel.org/20260525-csi_formatter-v8-0-6b646231224b@oss.nxp.com
-> 
->> Signed-off-by: Bryan O'Donoghue<bod@kernel.org>
->> ---
->>   MAINTAINERS | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index ec0743b41a463..35368c2ff0ca6 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -19243,6 +19243,7 @@ F:	drivers/media/platform/nxp/imx8-isi/
->>
->>   NXP i.MX 8MP DW100 V4L2 DRIVER
->>   M:	Xavier Roumegue<xavier.roumegue@oss.nxp.com>
->> +R:	Bryan O'Donoghue<bod@kernel.org>
->>   L:	linux-media@vger.kernel.org
->>   S:	Maintained
->>   F:	Documentation/devicetree/bindings/media/nxp,dw100.yaml
-> --
-> Regards,
-> 
-> Laurent Pinchart
+Hi David
 
-Ah, wrong set.
+On Sat, May 30, 2026 at 11:02:40AM +0100, David CARLIER wrote:
+> Hi Jacopo,
+>
+>   On Sat, May 30, 2026 at 10:55:59AM +0200, Jacopo Mondi wrote:
+>   > Have you hit this issue ?
+>
+>   Not on hardware, I found it by code analysis. The sink format is clamped to
+>   8192 and crop is clamped against the sink, so crop->width can reach
+>   4096+, where (crop << 20) overflows 32 bits before landing in the u64.
+>   I don't have a >=4096 source to reproduce on, but it's provable from the
+>   operand widths and the clamp. UHD (3840) is just under; 4096 gives a
+>   zero increment, wider values a garbage one.
+>
+>   > Could we maybe first do the crop/scale division and then do the Q4.20
+>   > conversion ? We could maybe save the below do_div() [...]
+>
+>   I don't think we can - dividing first loses the fraction the Q4.20
+>   factor is there to keep. E.g. crop=4096, scale=1920:
+>
+>     correct:      4096 * 2^20 / 1920 = 2236962  (~2.133)
+>     divide-first: (4096 / 1920) << 20 = 2097152  (2.0)   -> ~6.7% off
+>
+>   So the multiply has to come first, and that pushes the numerator up to
+>   8192 * 2^20 = 2^33, which needs a 64-bit divide either way. BIT_ULL()
+>   just does the existing multiply in 64-bit. Happy to switch do_div() to
+>   div_u64() if you prefer, but that's orthogonal.
 
-No problem, I'll v2 for the above instead.
+Oh yes you're right, I think using ULL is certainly better.
 
----
-bod
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
+Thanks
+  j
+
+
+
+>
+> Cheers !
 
