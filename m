@@ -1,77 +1,86 @@
-Return-Path: <linux-media+bounces-63342-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63343-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id OCXlCD5OHmrmiQkAu9opvQ
-	(envelope-from <linux-media+bounces-63342-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 05:30:06 +0200
+	id mPxoDIBOHmrmiQkAu9opvQ
+	(envelope-from <linux-media+bounces-63343-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 05:31:12 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A847A627C64
-	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 05:30:05 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB82627CA6
+	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 05:31:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6531F302003B
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2026 03:24:50 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CD344305E447
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2026 03:27:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9BB336922D;
-	Tue,  2 Jun 2026 03:24:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A8EC364047;
+	Tue,  2 Jun 2026 03:27:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="gAWqknYF"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="sVf9u0UJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012029.outbound.protection.outlook.com [52.101.43.29])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E6A83233E8;
-	Tue,  2 Jun 2026 03:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780370686; cv=none; b=VVMlChvbb02NepKVc/ZW1FxM+GaAAhwkoHkzKOdyMg+oQ/N8uDW8jqXrk8Z5gBe4aiKVTf2qK/RxQAPZGGyJvk7dWC0zODv1kKzuVs4B1Zq4nIQDgzzQWD4sYc/EdO38fRyYnBudGDGxMoziQVtnMFB+60ZyuUj6lgU4v1RaT8s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780370686; c=relaxed/simple;
-	bh=rcfAdu5JFRv9+PpxSEcJbPJNa2MF5dRJrCA4ua5wwCM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=hOChlArlFp7bB+Pau7d8MFfJoSWmzZ01U3PYl1K3j+HgWkJbrhekcDaBJzGendKujhmvVGgarubQ+fxd5RD8CE4nZOzQb5HcA3mmj0r5ZOqS0ms3jeeT085g+qsZAuWlMS7GC0I7lOeQi7intxkCjFszSN7MGTDI9yev5/nq2hY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=gAWqknYF; arc=none smtp.client-ip=54.204.34.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1780370678;
-	bh=dn8IPubHvNeXEKuaSdvnWy3G1wDEcbOyhaRuCaFScCU=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=gAWqknYFmAbwuWLhg58rFiASb2xteKDZCsspk+X+bLzXtYsjV6h28jMunRrexrs8n
-	 cSCsKH9Bwxy96DWIrc7O+lRAx+q7oEAOzLFcRAKpwA6IT/h1TVtWlGs1WUU403Yfwu
-	 y+8zuJoUAJXqwZ67AbBQ/4s0pguX671fjkOVQFxk=
-X-QQ-mid: zesmtpsz3t1780370660t3a9299aa
-X-QQ-Originating-IP: fmcuOrwsv3WsdBsngma3ziQrLiGuL1e1TVsH2hItIlk=
-Received: from localhost.localdomain ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 02 Jun 2026 11:24:17 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 18384957555402254008
-EX-QQ-RecipientCnt: 15
-From: Haowen Tu <tuhaowen@uniontech.com>
-To: rafael@kernel.org
-Cc: gregkh@linuxfoundation.org,
-	hansg@kernel.org,
-	kernel@uniontech.com,
-	laurent.pinchart@ideasonboard.com,
-	lenb@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	mchehab@kernel.org,
-	oneukum@suse.com,
-	pavel@kernel.org,
-	stern@rowland.harvard.edu,
-	tuhaowen@uniontech.com
-Subject: Re: [PATCH v2 1/2] PM: hibernate: add pm_hibernation_snapshot_done() helper
-Date: Tue,  2 Jun 2026 11:24:13 +0800
-Message-Id: <20260602032413.1540166-1-tuhaowen@uniontech.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <CAJZ5v0gvcsowJL0oqKqaG-VFinpb9Rj06KNOkG9XaQ+6wp0Ygg@mail.gmail.com>
-References: <20260528081840.3528089-2-tuhaowen@uniontech.com> <CAJZ5v0gvcsowJL0oqKqaG-VFinpb9Rj06KNOkG9XaQ+6wp0Ygg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF0D356768;
+	Tue,  2 Jun 2026 03:27:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.29
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780370844; cv=fail; b=dB+DBj2DQAONzjs036iDqWWvToRXhqxf7JGqltRpyAFO6GREnVpcaM/HCi0mcpkq9monTK8uyFhVhsJAyX7AEuWOCg0xVBaRr298PSjttVgoK0rGcB632ke+MwwsGgeMlU9Dho35B2MK5X03rbOlfP85yP0ZFHbMjW+BSvLqcyo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780370844; c=relaxed/simple;
+	bh=r36qpPIzHcS8miCHoB0T0/3CDzYNMc96bpYSUorw4PI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Uzoz+DI6Z0rx/HDuP9QnDV7w7KNY/4bKvqIeBXwm42hVXbCUvZhdbjS7Scj9nBjyX9qn45udU6mnA+peYlcTOdBmtpA+mPW97HbePuDYnstWGsPnSJCIykdltYmAVEZVNbYElyh0M5FJazOtdk02YwLACxr8+pGMsxgvywR6gOY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=sVf9u0UJ; arc=fail smtp.client-ip=52.101.43.29
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UHPBTMwUk5HEj6vKWNFtc86ELGBolsPprRZM1akE/ZBJJULwIA+lilctcriPnp3GZT6irOqdV/cmOmOkNls+1Vj8dUPrpIYKy4IusBGa1TUWGkpy3sakdkPjFQt4H3YgWOpFRun/j1lAnk0J0U6/EWwpEqm9zxG40TE3cS4cJEJZ9Xgt7bFWSbAiXtaFCJxjHhdA9z9hQUYL5+g6xWYOuUBieO/P3RDkOBkZnPWuWBndUzkLu2V66Rf+QxuwZdPm1tGBsN0S8g6B2VhObbs2sSJ63QC8Lifpu9K52YPJEnWrhMuoH8ufXyyBjQaRXTtba7XuB3zZ4QZ5vWpAyAtFpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=C78jvnjA36pFniJ04oCYQ1Z5LgS84znfdHriJNyaEiw=;
+ b=aLL7uXKBEd2BbfBvgP2WMCk/D03AhS8PN9E1YJDREbWNHF4zHnYM++s80/ozkKRVuhazwX0FmeDcn4yIVx7XBrPz62EdlPEdwX/OQNyBs5T+C+iQR/b0ysHNdujA/fM43ywgyI1uxw3+WRiuSnA7xxgAs/vXldRu4ta4+ahKGFSLhKwv1sRIBlBY/nyfToYv97H2Pj48dqhPxPYmu0+6vDNOZ34X5dPQzS4/rem3U8XkBpl24QoYRykDO3ZID9ZoFgsyfPm0erQEWU1pRH+/At/sNlvaYHHrgWBR6nWaX9fVQ+p46Xfh+o0nJVwYKfau/XfRTrWq10AJO/sFW729zw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=C78jvnjA36pFniJ04oCYQ1Z5LgS84znfdHriJNyaEiw=;
+ b=sVf9u0UJf20WU/M4oSaJhVjZVDuawEH5gV6azh+rdHiyzM9gPiTRoWM8uVlHPvV8UQDb4dVb/ZvHX98MJ6mLUwJpf8IfcYGugTxRpV3WOxCfPpWWNwEJhHR1y+2SBg7SpklvADEGIx2IXzqjBHBYvS57eEiJhdYFjQ7GVWOHmy4=
+Received: from BL1PR13CA0024.namprd13.prod.outlook.com (2603:10b6:208:256::29)
+ by SA1PR12MB6972.namprd12.prod.outlook.com (2603:10b6:806:24f::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.16; Tue, 2 Jun 2026
+ 03:27:19 +0000
+Received: from BN2PEPF000044AB.namprd04.prod.outlook.com
+ (2603:10b6:208:256:cafe::4c) by BL1PR13CA0024.outlook.office365.com
+ (2603:10b6:208:256::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.92.5 via Frontend Transport; Tue, 2
+ Jun 2026 03:27:19 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BN2PEPF000044AB.mail.protection.outlook.com (10.167.243.106) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.92.5 via Frontend Transport; Tue, 2 Jun 2026 03:27:19 +0000
+Received: from BJGBICAO01.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Mon, 1 Jun
+ 2026 22:27:17 -0500
+From: Bingbu Cao <bingbu.cao@amd.com>
+To: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: Bingbu Cao <bingbu.cao@amd.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>
+Subject: [PATCH 1/3] media: ipu6/ipu7-staging: drop Bingbu Cao's e-mail
+Date: Tue, 2 Jun 2026 11:26:51 +0800
+Message-ID: <20260602032658.5462-1-bingbu.cao@amd.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,117 +88,131 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3b-0
-X-QQ-XMAILINFO: MbBTNOOgGymjteoZkaQ8JswGfC+XpLjEY+MwtwKgppJfYH33yXSOzmdV
-	e1yd3ScvY4UDRzFvizRIkiQakvNmzVjMxJO2PxD0zrgCfAetqgpP2r2itPzm2rsJnMZxebq
-	W9AQjGBsO+DT2dPEasYoUoO+DcSyZyfSegMFzshcBQy3MHtAjVLvTawB4tMf/OA8mfQSAiC
-	uE/2YxwUHkmo/XCpHizuJT2SDKKWIizDSukaB67LclGBbnB8MUcAfzh++jhET/zxM9OLS+n
-	riX8KKCvLC4E9I4uS3Ik5LfR0HexsAPt7/5HIdiRlSBFzeKKvrVbryA6gql3m9WLrkiFXxg
-	gboZQPbjIL2nc0UhOs1RAypU7LrS1pFIDU8boPVj/JP409DdXjLaKTcBdPoS9CZaUXwaHXN
-	bt+fvGsL0Gyy3tFAsKSPs47hbD6sDx3FShVv8yQTe2ACIpakjLrN7Q5sj+ejuFHwsnWu5Ol
-	+FuYvhjBj9sWrI6MFQyvxJyJ9dpFeGwyBZ3ctSZj+PtCjCc9Qtytparpwm17tiucWG9A827
-	WggPn452dc/eXUMdgpmX9+XjibUeZV0mU+60DSYJTtyBDIZUQ33SSPom170vfHaWPskzuUK
-	EU2ZPLodRgBlc3P1jO805Z00KKvcfOTZ4RPt+chSFU4c1C3XIrGiBRjw1Ihe2e2knyLzfYj
-	nIU7rtG0Jyi6fIQN1gBcxwAdanoWGUHQZcUZLPqYVHgcOudHP70FJFnARv6kmWJ8hm7fnEE
-	XHiQsqMoeQmdVzclLdpIg6AGdIVOLJSH7KkKe6xCNyumotTx4KGEeaKIqFwCMWchQYFykUM
-	+kl1FuERC3ai52rHEw5twq/BUp1ZRF7CNN7XYqANBu3frjgrJ5SLZjn0LuYpslklR+nqKtz
-	C245w6lvbIujB13mUqdTwxJ8tysy52YWfUP/sVbdQjpw5kyCGXTcrEBvz2YrgYv9zSsAZvl
-	noOevTI4d8axBWoF6VF7hwaWeGtn0WWjJlHgbXOE9OdlpTN6rYJwrU6Gj+2p9Olume0yoLs
-	9J1GwzTCp4JP+z1RMTBJJc0pppzugBm6NXhVohCw==
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
-X-QQ-RECHKSPAM: 0
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF000044AB:EE_|SA1PR12MB6972:EE_
+X-MS-Office365-Filtering-Correlation-Id: 10e28684-58e5-416e-9989-08dec056da28
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|36860700016|82310400026|18002099003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	q+esSGQV0aC8XkB6ITeHGNJERkoEHJ4jdBUQqZaveuLfd5kRBt8/RMhPg76VLML1goHBGnL93v6ZQcTZibX9ztBdQ0TV1Dof2wkHwYHsUK4Z9BrVb8CdGqJCtvX7QenVVyiRTjWQmLnkC8ix5p7ijJVrZZdorcs9GUIzQ6n3zYK/5M3JHQwbeyCywNTJPVk+spqkSsBdo6z31PG2pUf/IfCQTNjMWFZ2GaYeN+ZdR9yZa5JMCy5vMzk+tNpj7Gqz/5F8aUbf7yr5urfGy9fAZWE+FwUs+hnlQhEOZIoZOQ97NqwtiJyJmEqGfOBXD7OMdJT2GCrSFycfCQga0jiAeK7S64Y/7ZrHhIzssZFTNXEdLYHmFlsNGesYv9O5nXLYXzgATMWf5ZIJ1x60fFRt9QsHdWID4duBzE0nvy9B4lQ5pd6omRfcj1qCaTbnmfqkG3Pgt49MFYauDHIz31MnIl3eNy8++NgBx4WRHOCtYBzqETURyraVgMIcXeJ0NMeOGUVu85aCf+1VlDjKIlAY4gXg0L1WQnfODKHBPNUiaZ+mcLZe1dHWq5W40G7djI9L/ZFjMMHFo4EyymbZkTl2oIfUYhWpny595AhvAwzcaSGiLcJKrOzfNzE+yHq59s46h7svL/Cph5HxpKzD4V6TK9uEVqeBNqdD/+Td8GIyDaMPizrrBx1dpsA4eMtIfq0JF9T0jBQ/qs369ZHJpjJV8JFqaiSkaGd3b7jTbAwhCns=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700016)(82310400026)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	6/8XCm5UIXaRAhSIiQ6HGdftl9MNZptf3P/mlvI+iyKjn2/OJVTyWJyzUhXcfE5Ks9n2rOa/3pv59wUgoh2fFnARTqv1SizIus22TSFedoFDcfeKaoUwGwz9WOI8im9KwOUAnuWLn5CJSlhkc9Ooun7nHOd7ssJIVIvfxZ91HsMXg8M4zayzP2z4ICuOXhFrPEclTScAAvRdDIWDip/NNnNm8zbG2IA2nDcLIjXpuNpH97LPlo+vyTRZjS3rkEF5cpLFEd4n27r44Mmcmu4EBE5Ay3X9HT0k37cFCBxms2ccWG4nzUbkl04Ox7e2kn1RDuubRe5HN9XLFOdVIRhSzNaPPHfJL4McTQatuSR0YCGG4sUo003gzlFDz0atZVlviOZ2zT23JVRlW+EEtGr3UCvll6HCM+vtG+xXytZAuVQcmQmv/pa8lqf3cRb49q+Z
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2026 03:27:19.2573
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10e28684-58e5-416e-9989-08dec056da28
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN2PEPF000044AB.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6972
+X-Spamd-Result: default: False [1.34 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[uniontech.com,none];
-	R_DKIM_ALLOW(-0.20)[uniontech.com:s=onoh2408];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63343-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63342-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[uniontech.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FROM_NEQ_ENVFROM(0.00)[tuhaowen@uniontech.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	NEURAL_HAM(-0.00)[-1.000];
-	TO_DN_NONE(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bingbu.cao@amd.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[amd.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,amd.com:mid,amd.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,intel.com:email];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,uniontech.com:email,uniontech.com:mid,uniontech.com:dkim]
-X-Rspamd-Queue-Id: A847A627C64
+	NEURAL_HAM(-0.00)[-0.999];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_COUNT_SEVEN(0.00)[7]
+X-Rspamd-Queue-Id: 9AB82627CA6
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Hi Rafael,
+My Intel e-mail in the MODULE_AUTHOR() entries of ipu6 and ipu7
+staging driver is not valid now , so drop the e-mail address.
 
-On Mon, Jun 01, 2026 at 08:22:00PM +0200, Rafael J. Wysocki wrote:
-> On Thu, May 28, 2026 at 10:19 AM Haowen Tu <tuhaowen@uniontech.com> wrote:
-> >
-> > During hibernation, after create_image() saves the memory snapshot, the
-> > kernel resumes devices with PMSG_THAW solely to write the hibernation
-> > image to storage, then powers off.  Drivers for hardware not involved in
-> > storage I/O have no reason to reinitialize during this transient phase.
->
-> They do have a reason for doing it.
->
-> Their poweroff (or shutdown) callbacks will be called while preparing
-> to power off the system subsequently and they need to be ready for
-> that.  The most straightforward way to achieve this is to resume so
-> they can "suspend" again.
+No functional change intended.
 
-Thanks for pointing this out.
+Signed-off-by: Bingbu Cao <bingbu.cao@amd.com>
+---
+ drivers/media/pci/intel/ipu6/ipu6-isys.c | 2 +-
+ drivers/media/pci/intel/ipu6/ipu6.c      | 2 +-
+ drivers/staging/media/ipu7/ipu7-isys.c   | 2 +-
+ drivers/staging/media/ipu7/ipu7.c        | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-My understanding is that the hibernation image contains the state from
-the snapshot point, that is before the subsequent THAW and image-write
-phase.  Therefore, on the later restore path, the kernel resumes from the
-state captured at the snapshot point and still goes through the normal
-PMSG_RESTORE resume path.  The THAW activity after the snapshot is not
-part of the restored image state.
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys.c b/drivers/media/pci/intel/ipu6/ipu6-isys.c
+index c9cdeb7054d7..f33a6da2f669 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys.c
+@@ -1356,7 +1356,7 @@ module_auxiliary_driver(isys_driver);
+ 
+ MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
+ MODULE_AUTHOR("Tianshu Qiu <tian.shu.qiu@intel.com>");
+-MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
++MODULE_AUTHOR("Bingbu Cao");
+ MODULE_AUTHOR("Yunliang Ding <yunliang.ding@intel.com>");
+ MODULE_AUTHOR("Hongju Wang");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/media/pci/intel/ipu6/ipu6.c b/drivers/media/pci/intel/ipu6/ipu6.c
+index d033d4618169..5b99cc4a419c 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6.c
++++ b/drivers/media/pci/intel/ipu6/ipu6.c
+@@ -840,7 +840,7 @@ module_pci_driver(ipu6_pci_driver);
+ MODULE_IMPORT_NS("INTEL_IPU_BRIDGE");
+ MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
+ MODULE_AUTHOR("Tianshu Qiu <tian.shu.qiu@intel.com>");
+-MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
++MODULE_AUTHOR("Bingbu Cao");
+ MODULE_AUTHOR("Qingwu Zhang <qingwu.zhang@intel.com>");
+ MODULE_AUTHOR("Yunliang Ding <yunliang.ding@intel.com>");
+ MODULE_AUTHOR("Hongju Wang");
+diff --git a/drivers/staging/media/ipu7/ipu7-isys.c b/drivers/staging/media/ipu7/ipu7-isys.c
+index cb2f49f3e0fa..78f6c52dc1bf 100644
+--- a/drivers/staging/media/ipu7/ipu7-isys.c
++++ b/drivers/staging/media/ipu7/ipu7-isys.c
+@@ -1157,7 +1157,7 @@ static struct auxiliary_driver isys_driver = {
+ 
+ module_auxiliary_driver(isys_driver);
+ 
+-MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
++MODULE_AUTHOR("Bingbu Cao");
+ MODULE_AUTHOR("Tianshu Qiu <tian.shu.qiu@intel.com>");
+ MODULE_AUTHOR("Qingwu Zhang <qingwu.zhang@intel.com>");
+ MODULE_LICENSE("GPL");
+diff --git a/drivers/staging/media/ipu7/ipu7.c b/drivers/staging/media/ipu7/ipu7.c
+index c771e763f8c5..c990a95aa59a 100644
+--- a/drivers/staging/media/ipu7/ipu7.c
++++ b/drivers/staging/media/ipu7/ipu7.c
+@@ -2774,7 +2774,7 @@ static struct pci_driver ipu7_pci_driver = {
+ module_pci_driver(ipu7_pci_driver);
+ 
+ MODULE_IMPORT_NS("INTEL_IPU_BRIDGE");
+-MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
++MODULE_AUTHOR("Bingbu Cao");
+ MODULE_AUTHOR("Tianshu Qiu <tian.shu.qiu@intel.com>");
+ MODULE_AUTHOR("Qingwu Zhang <qingwu.zhang@intel.com>");
+ MODULE_AUTHOR("Intel");
+-- 
+2.53.0
 
-That said, I agree that some devices may need to be resumed before the
-final poweroff/shutdown callbacks run, so the wording in the changelog is
-too broad.  I did not mean to suggest that all non-storage devices can or
-should skip THAW resume.
-
-The helper is meant to expose this PM state, not to prescribe that
-drivers should skip THAW resume.  Whether a driver uses it would remain a
-driver-specific decision, based on whether skipping the hardware
-reinitialization is safe for that device, including its subsequent
-poweroff/shutdown handling.  Drivers that need the normal THAW resume
-before poweroff/shutdown would simply not use it.
-
-In this series the user is uvcvideo.  For USB devices, and specifically
-for UVC cameras, the device is hotpluggable and the driver already needs
-to tolerate device removal and disconnect-like conditions.  The UVC
-driver also does not need the camera streaming engine to be restarted in
-order to write the hibernation image, while restarting it has a visible
-side effect by turning the camera LED back on.  The check is placed after
-the driver's frozen state is cleared, so if image writeout fails, the
-driver is not left in the frozen state.
-
-I will reword the changelog in the next version to avoid implying that
-non-storage devices generally have no reason to resume during THAW.
-
-> > Clear in_suspend before releasing snapshot memory on hibernation failure
-> > paths and after swsusp_write() returns, so the helper does not report a
-> > stale snapshot after the snapshot pages have been released.
->
-> This last piece needs to be split off into a separate patch.
-
-Sure, I will split the in_suspend cleanup into a separate patch in the
-next version.
-
-I will wait for your feedback before sending the next version.
-
-Thanks,
-Haowen
 
