@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-63391-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63392-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 0pqWEpHgHmpRXgAAu9opvQ
-	(envelope-from <linux-media+bounces-63391-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 15:54:25 +0200
+	id b2qFGznfHmpaXAAAu9opvQ
+	(envelope-from <linux-media+bounces-63392-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 15:48:41 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7AAF62EBFE
-	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 15:54:24 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D010F62EA5B
+	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 15:48:40 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=OCwZMBJh;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63391-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-63391-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=jXa4+j+0;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63392-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63392-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7DB7D312D640
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2026 13:38:58 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1EA8F30A82B3
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2026 13:39:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2373F3E5EC4;
-	Tue,  2 Jun 2026 13:38:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E37F03E1221;
+	Tue,  2 Jun 2026 13:39:49 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C6873E3167
-	for <linux-media@vger.kernel.org>; Tue,  2 Jun 2026 13:38:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D36B21B191
+	for <linux-media@vger.kernel.org>; Tue,  2 Jun 2026 13:39:48 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780407504; cv=none; b=YfMzilFDcPxkzh+jxkZbSbzs0vMGVcCduGnGsLr7nRcC+Zff4uijwzHehavhh82B5jfI8sRUMeCLlKmwN/+XCRs9CuyQOdzDPRGoyXVi3Yz0UMghByMPe/S1luo2KDSztKacz3PV+AOMVr+euKIkJd7ziUPkcjAU7jVsULvxgSk=
+	t=1780407589; cv=none; b=KfjIPy7Wq1r+AhXx7VAFKHQTlAqrdTddyxWPFx5Of+8GHViWOYRuqMAPgQHrsnz+Ey7YwBN11Cmo5t/dkW5xeXao6uthY5HGbLm+fbK8mv4Fem7hrPQbSQUFFSuop3AL20H+ukZjvZT5D9KJ14/G6tNbvMJrZsTvxHB/QDm4nXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780407504; c=relaxed/simple;
-	bh=RP2dmoi9/sNjlcle+OvL+HHS9/BBtyffLJJHucX6VRI=;
+	s=arc-20240116; t=1780407589; c=relaxed/simple;
+	bh=Ty6NEWpQk6gEC0kvftdpoCpZckNK5SL2CtR6Lao1iPI=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=iOhWx/F6NbWSJw0krpIWpFcem7oERQG4oAAW2SbXNxIbpr629e5su21aF6up1deXdeBsj1XmWCkuAFDQjIGnkX+1WruitTYrOmGkj8MptqjOHrcuLvEzzVnmHTARqn4DaUPop0In43ihr8vpSO/jmpIVEp1x1GjwnoOzpzbk8hA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OCwZMBJh; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82FD51F00893;
-	Tue,  2 Jun 2026 13:38:22 +0000 (UTC)
+	 Message-Id; b=Lo5YyESJqf6gLS7IfqRR6j8Hy75A0TwmuPFvRjOx9+rvOSj5WHv66qNaCCbyD8yBx6wR4zymERKhyb9gu3YlXn72Zud24bk5o0rpFpDxT+Wj9KV7mXnb4fAFwWPtyBEpdue3/prC03sm6mFiDOJ+F42i61K8qEQs+BjXhTOx7i8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jXa4+j+0; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BABDF1F00898;
+	Tue,  2 Jun 2026 13:39:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780407503;
-	bh=g9GCYtPsERYGqI6orixdTl1JVx7YhWm456JB2HRw9RQ=;
+	s=k20260515; t=1780407587;
+	bh=cC81pZMK1s68vV6MYLdgWX+Rs3lmKgjQvn2RrTHZTf0=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=OCwZMBJhvo4yLI4cQrEqc2CwDaD1eP8AYTKW7D+CjoExM8nDPQrlPmd/gfNOTSkp8
-	 usssVclmp+02JugCy1y+6NfE6zsa7hmCpXvCRlyTEfdYB2OoaVnFkVvnJt8ulczeRh
-	 ktvXc9GRF9WwfE1M/JxuoZq5bGoVLDRCyKZgaxVT2oXQ9bmhQ/oncFmfZ7067bU5/q
-	 O6TrwaxdwPaqxzOnY3pGhQi4pfLqCWqi67QueJZ9nAgpjjd+ht06F9i5wEL/Mq7Y/p
-	 cd/uKC4qRHYVaDCx7iaC8LKw6kcbl27DqbQ3y5BGzpK5Y8m8mBM920fuqZFHtzFHHZ
-	 G+GAU24v46w0w==
+	b=jXa4+j+0TR0kKtYowGz9ctIkUilPPHVqbtXralAklHVtU3ktpWsJ2vnoT+hqwc3zU
+	 M2AJWrOiLf8hnUPn/jNGmvnxHui0CX4Js3cFfrgeeeBtZTr46XLqvJyVWfubcrpSec
+	 yhI1M9RanpYSyaLzS+OBStzO6LJnnXlDtpEHkMFR5lrosI7odTwJS9cpGd5x463FTT
+	 wZ1v/m0NWZVFL8uDtx8N8YdMdwln5ubwkuY59nxIMMUjLi3wU04DSEwcWP0oxlTEs+
+	 nlc34uI6EtE2iEAJLS9L8SDCGu1P9K3AwUooj82792Yre2fNUNRGBOE1c8eDdD+C8W
+	 6RM6yAg38ExMQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 02/13] media: stm32: dcmipp: make dcmipp_state &
- cmsr2 read common
+Subject: Re: [PATCH v2 13/13] media: stm32: dcmipp: instantiate & link
+ stm32mp25 subdevs
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Alain Volmat" <alain.volmat@foss.st.com>
 Cc: linux-media@vger.kernel.org
-In-Reply-To: <20260602-stm32-dcmipp-pixel-pipes-support-v2-2-3c76b5f93157@foss.st.com>
-References: <20260602-stm32-dcmipp-pixel-pipes-support-v2-2-3c76b5f93157@foss.st.com>
+In-Reply-To: <20260602-stm32-dcmipp-pixel-pipes-support-v2-13-3c76b5f93157@foss.st.com>
+References: <20260602-stm32-dcmipp-pixel-pipes-support-v2-13-3c76b5f93157@foss.st.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 02 Jun 2026 13:38:22 +0000
-Message-Id: <20260602133822.82FD51F00893@smtp.kernel.org>
+Date: Tue, 02 Jun 2026 13:39:47 +0000
+Message-Id: <20260602133947.BABDF1F00898@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -69,13 +69,13 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-63391-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63392-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:alain.volmat@foss.st.com,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
@@ -97,84 +97,75 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_NO_DN(0.00)[];
 	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.linux.dev:replyto,sashiko.dev:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,st.com:email,vger.kernel.org:from_smtp,smtp.kernel.org:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sashiko.dev:url,smtp.kernel.org:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,st.com:email,lists.linux.dev:replyto]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A7AAF62EBFE
+X-Rspamd-Queue-Id: D010F62EA5B
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-
-Pre-existing issues:
-- [High] The interrupt handler `dcmipp_irq_callback` is subject to a teardo=
-wn and initialization lifecycle mismatch that causes a NULL pointer derefer=
-ence during probe and a Use-After-Free during removal.
+- [High] Removing the ENABLED flag from the default link between dcmipp_inp=
+ut and dcmipp_dump_postproc breaks existing userspace applications.
 --
 
-commit 57156bb8e4502a74fba0baeca5a498fc6151d274
+commit 3794e6b46e60dac386934ce0ec55d3958f228d85
 Author: Alain Volmat <alain.volmat@foss.st.com>
 
-media: stm32: dcmipp: make dcmipp_state & cmsr2 read common
+media: stm32: dcmipp: instantiate & link stm32mp25 subdevs
 
-This commit moves the dcmipp_state enum into a common header and centralizes
-the reading of the CMSR2 interrupt status register. The core interrupt
-handler now reads the register and shares the value with each subdevice.
+Add topology of the two pixel pipes (main & aux) of the stm32mp25.
+This also changes the link from dcmipp_input to not be immutable and
+enabled by default to allow proper pipeline validation when a pipeline
+is not being used.
 
 > diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c b=
 /drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
-> index dd784cfcaac82..b06a4931ae951 100644
 > --- a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
 > +++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
+
 [ ... ]
-> @@ -251,10 +253,15 @@ static irqreturn_t dcmipp_irq_callback(int irq, voi=
-d *arg)
->  	struct dcmipp_ent_device *ved;
->  	irqreturn_t ret =3D IRQ_HANDLED;
->  	unsigned int i;
-> +	u32 cmsr2;
-> +
-> +	/* Centralized read of CMSR2 */
-> +	cmsr2 =3D reg_read(dcmipp, DCMIPP_CMSR2);
-> =20
->  	/* Call irq handler of each entities of pipeline */
->  	for (i =3D 0; i < dcmipp->pipe_cfg->num_ents; i++) {
->  		ved =3D dcmipp->entity[i];
-> +		ved->cmsr2 =3D cmsr2;
+
+> @@ -91,13 +96,46 @@ static const struct dcmipp_ent_config stm32mp25_ent_c=
+onfig[] =3D {
+
+[ ... ]
+
+>  static const struct dcmipp_ent_link stm32mp25_ent_links[] =3D {
+> -	DCMIPP_ENT_LINK(ID_INPUT, 1, ID_DUMP_BYTEPROC, 0,
+> -			MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
+> +	DCMIPP_ENT_LINK(ID_INPUT, 1, ID_DUMP_BYTEPROC, 0, 0),
 
 [Severity: High]
-This is a pre-existing issue, but does this create a risk of a NULL pointer
-dereference during probe or a use-after-free during removal?
+Will removing the MEDIA_LNK_FL_ENABLED flag here break existing userspace
+applications?
 
-In dcmipp_probe(), devm_request_threaded_irq() is called and unmasks the IRQ
-before the dcmipp->entity array is allocated via devm_kcalloc():
+Prior to this commit, the stm32mp25 topology exposed an active, immutable
+link between the input and the dump byteproc. This allowed applications like
+simple v4l2-ctl scripts to stream directly from the dump video node without
+requiring explicit Media Controller link configuration.
 
-	ret =3D devm_request_threaded_irq(&pdev->dev, irq, dcmipp_irq_callback,
-					dcmipp_irq_thread, IRQF_ONESHOT,
-					dev_name(&pdev->dev), dcmipp);
-	...
-	dcmipp->entity =3D devm_kcalloc(&pdev->dev, dcmipp->pipe_cfg->num_ents,
-				      ...);
+By changing the link flags to 0 (mutable and disabled), the link is
+disconnected by default. If userspace does not explicitly enable the link
+via media-ctl, VIDIOC_STREAMON will fail with -EPIPE because pipeline
+validation will find no active path from the sensor source.
 
-If an interrupt fires immediately, dcmipp->entity will be NULL, causing a c=
-rash
-when evaluating dcmipp->entity[i].
+Would it be better to just remove MEDIA_LNK_FL_IMMUTABLE but retain
+MEDIA_LNK_FL_ENABLED?
 
-Similarly, in dcmipp_remove(), the subdevice entities are released and their
-memory freed while the devres-managed IRQ is still active:
+This would allow legacy applications to continue working out-of-the-box,
+while still permitting new applications to explicitly disable the dump
+link to avoid format validation errors when configuring the new main or
+aux pipes.
 
-	for (i =3D 0; i < dcmipp->pipe_cfg->num_ents; i++)
-		dcmipp->pipe_cfg->ents[i].release(dcmipp->entity[i]);
+>  	DCMIPP_ENT_LINK(ID_DUMP_BYTEPROC, 1, ID_DUMP_CAPTURE,  0,
+>  			MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE),
+> +	DCMIPP_ENT_LINK(ID_INPUT,	2, ID_MAIN_ISP,  0, 0),
 
-If a spurious interrupt fires during or after this teardown loop, could this
-assignment to ved->cmsr2 corrupt freed memory?
-
->  		if (ved->handler)
->  			ved->handler_ret =3D ved->handler(irq, ved);
->  		else if (ved->thread_fn)
+[ ... ]
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260602-stm32-dcmi=
-pp-pixel-pipes-support-v2-0-3c76b5f93157@foss.st.com?part=3D2
+pp-pixel-pipes-support-v2-0-3c76b5f93157@foss.st.com?part=3D13
 
