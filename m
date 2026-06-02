@@ -1,249 +1,381 @@
-Return-Path: <linux-media+bounces-63362-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63363-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
-	by lfdr with LMTP
-	id MJE1J0W+Hmr1KAAAu9opvQ
-	(envelope-from <linux-media+bounces-63362-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 13:28:05 +0200
+	by mail.lfdr.de with LMTP
+	id a5cTAizBHmrMUgAAu9opvQ
+	(envelope-from <linux-media+bounces-63363-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 13:40:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34BDA62D7F4
-	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 13:28:05 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46AFC62D9BF
+	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 13:40:27 +0200 (CEST)
+Authentication-Results: mail.lfdr.de;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=FLhE2XMP;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63363-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-63363-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=mailbox.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id E57B730298D5
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2026 11:27:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B424030834E4
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2026 11:32:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0A183DA7FF;
-	Tue,  2 Jun 2026 11:27:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OpuvB+TC"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 270D53DB30C;
+	Tue,  2 Jun 2026 11:32:10 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C4B36A03A;
-	Tue,  2 Jun 2026 11:27:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B488D3DB33E
+	for <linux-media@vger.kernel.org>; Tue,  2 Jun 2026 11:32:04 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780399631; cv=none; b=YGSKUDZVmOvrSjOK37t8/orP7PGEimetOYIVjhZTXRwprO81+zT5ZhH+pEsysVq8bF/O76rMGd+JJKO8h6mc1yopRItik2yxTvHO7MVqf6/iESuWJV/oEFiI5/P0bI8+B34GlQNSg85fYw5jlDv8Oe9lMiCB4XPWDgryfyKnKFc=
+	t=1780399929; cv=none; b=Y+YOY4wF0aPdxoxuaCZlTecCJycFHSffPxPqMY//EMIoavZxl8FwF8gx9e7C/KMQB1SgQSmDBi0dzT5VKNea30GbqAJgsfLw/GVunm7cok+2khmkhZ66XBTc1Qig+WGpeTQhHgAXe9KvZ3/TYmkW2j4vq5wF3WeosXGnowRfxgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780399631; c=relaxed/simple;
-	bh=vFe0YHJbZeLES+sUauMUh5hZ46dD8ew9Ej6lDFLoT9Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rr6jO1fByXYRx+tKEK7oTG4goSfF7waXcXdlLuctriRPjvmmYXgrxRRMfeZmLjnhcsB26z04C5zk7rXis6u4wOAZSP+LWrbDBXU493YwRtXD1OrEKJ9qdFg/28FfxBFreuc3DLPZS1xXWQ44/bD7tNJ5VtEr6kS4PNen2nqbcK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OpuvB+TC; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780399630; x=1811935630;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vFe0YHJbZeLES+sUauMUh5hZ46dD8ew9Ej6lDFLoT9Q=;
-  b=OpuvB+TCFOlrTj1dTsQq4IO6bT0RYvhdqKiNi7guAfItcI40qmxJuR+2
-   JxfSI7H8Vs0pb6lSzui2MNNzEWzxhK2dqWRYpbiEiVo05UowkhP/brLIc
-   ZVeqrXsY/GHqe3VM+ZWp1v4ClJFL3WOZdAoNffJszSxQymB3W2SmL0kdn
-   EoTQOQCHyRV6IH4CmL1hEzveBQPF06YlAMtiXnjfxI7VYYLoSP3+xGnlr
-   LFm/IXvUvXoEkVqVbja68afnmQGU98K68zOP52EZcPPPHvMGyw+ljzTra
-   1vViH6ezFD00NvPoMZN+e9EIaC8+Q8JOgg1j4bdpBSO6q8EyVZiF5BWXP
-   A==;
-X-CSE-ConnectionGUID: oIlO4b2fRxuCw2x5D/ONOg==
-X-CSE-MsgGUID: uezSZkyoSk+dL6kVsxakLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11804"; a="84804995"
-X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="84804995"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 04:27:07 -0700
-X-CSE-ConnectionGUID: 57WJuzJhQk+bJIT4F8AZnw==
-X-CSE-MsgGUID: InV+5AxmRSKrEz4WoNh7bQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,183,1774335600"; 
-   d="scan'208";a="240879149"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.229])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 04:26:48 -0700
-Date: Tue, 2 Jun 2026 14:26:46 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Kees Cook <kees@kernel.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>,
-	Pengpeng Hou <pengpeng@iscas.ac.cn>, stable@vger.kernel.org,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Richard Weinberger <richard@nod.at>,
-	Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Corey Minyard <corey@minyard.net>,
-	Gabriel Somlo <somlo@cmu.edu>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Hannes Reinecke <hare@suse.de>,
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-	"Martin K. Petersen" <martin.petersen@oracle.com>,
-	Daniel Lezcano <daniel.lezcano@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Jason Wang <jasowang@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Jason Baron <jbaron@akamai.com>, Jim Cromie <jim.cromie@gmail.com>,
-	Tiwei Bie <tiwei.btw@antgroup.com>,
-	Benjamin Berg <benjamin.berg@intel.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	"David E. Box" <david.e.box@linux.intel.com>,
-	"Maciej W. Rozycki" <macro@orcam.me.uk>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Vinod Koul <vkoul@kernel.org>,
-	Frank Li <Frank.Li@kernel.org>, Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Alexander Potapenko <glider@google.com>,
-	Marco Elver <elver@google.com>, Dmitry Vyukov <dvyukov@google.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	John Johansen <john.johansen@canonical.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Georgia Garcia <georgia.garcia@canonical.com>, kvm@vger.kernel.org,
-	dmaengine@vger.kernel.org, linux-modules@vger.kernel.org,
-	kasan-dev@googlegroups.com, linux-mm@kvack.org,
-	apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
-	linux-um@lists.infradead.org, linux-acpi@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net, qemu-devel@nongnu.org,
-	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-rdma@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-pm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net,
-	virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-arch@vger.kernel.org, netdev@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 01/11] params: bound array element output to the caller's
- page buffer
-Message-ID: <ah699hwLxIIOZ0-7@ashevche-desk.local>
-References: <20260521133315.work.845-kees@kernel.org>
- <20260521133326.2465264-1-kees@kernel.org>
+	s=arc-20240116; t=1780399929; c=relaxed/simple;
+	bh=XhHy/IWy6kTwNLmjNRHkIa4p7PtlLKE9owiDZxygnvc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=P61rUG2BONkZ5HBgDEcgKKPw04Exrgi9iWRNa3QEX539dfmS4iNB15MNN5rSA0kjob2mQA7PbADCloGqhOpyhjbi2jNpOwEx2ah5213BC2Cxcg1LQNOQjidEPiLbJSVBO1YpMI1To1yMcon8+0px7bG+6XW5ZbcBRPxjgKh3dl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=FLhE2XMP; arc=none smtp.client-ip=80.241.56.151
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gV7vv0Mtvz9tdq;
+	Tue,  2 Jun 2026 13:31:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1780399915; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Gh6B3U6dBt0aF/rQSRW2mVkz5IX/aevKD3VkLFcdUe8=;
+	b=FLhE2XMP49yP7msh5QjQBGZtZIsa4e60laJ8dQAt55iUDVyNatjE+zlzBoKuN7VUFxNk0T
+	clYn8D9gVfJCYIiB+BcKPf1OUQXkm5wf9UsAf4DhsXllr2hL22h4yC7z7E6djHXJghbXEb
+	zqEqSAcmkWAEXktd0mQiZZ/I/zLsa4ShuqgMsUsfQ9QFigwJK4pDu0lV98ix4iD8LMZ3Dy
+	FV5vX/BuXFOxDC/TgHqEjCzupQFntn2hitcm5knV+TkjLYPlmrUiciUhfIETScsF7DLRtz
+	haiKQey8PPjn+amIBJQP9TGYxcycXBV0qtydIoTEfRPa5uAEHOfrsEg+uuOBtA==
+Message-ID: <16dff07d28fca94749f14e9c91e6f812f605d6e5.camel@mailbox.org>
+Subject: Re: [PATCH 3/4] rust: Add dma_fence abstractions
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Alice Ryhl <aliceryhl@google.com>, phasta@kernel.org
+Cc: sashiko-reviews@lists.linux.dev, linux-media@vger.kernel.org, 
+	ojeda@kernel.org, Boris Brezillon <boris.brezillon@collabora.com>
+Date: Tue, 02 Jun 2026 13:31:52 +0200
+In-Reply-To: <ah2M2a_4PneZpjTS@google.com>
+References: <20260530143541.229628-5-phasta@kernel.org>
+	 <20260530150622.393FC1F00893@smtp.kernel.org> <ah1c3NSU-4UkdUhb@google.com>
+	 <a3d09b270e6effb6f2bfb5d7ba8de48e3c2c4081.camel@mailbox.org>
+	 <CAH5fLggvxGwJkAp+VqG7pA-e2zM-T8_DR0DeCiZiJyM+o51DuQ@mail.gmail.com>
+	 <24ef07ed85d9e7aa7f9d3a96301c4c15bc0f2315.camel@mailbox.org>
+	 <ah2M2a_4PneZpjTS@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260521133326.2465264-1-kees@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
-X-Rspamd-Queue-Id: 34BDA62D7F4
-X-Rspamd-Server: lfdr
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-MBO-RS-ID: 2315616bdee0d2aadcb
+X-MBO-RS-META: m5fefcnef8xzpjy9xmfaiofyz4m8zbp8
+X-Rspamd-Action: no action
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63362-lists,linux-media=lfdr.de];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:mid,mailbox.org:dkim,mailbox.org:from_mime,mailbox.org:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,data.data:url];
+	TAGGED_FROM(0.00)[bounces-63363-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,iscas.ac.cn,vger.kernel.org,suse.com,nod.at,cambridgegreys.com,sipsolutions.net,minyard.net,cmu.edu,redhat.com,linux.intel.com,intel.com,ursulin.net,gmail.com,ffwll.ch,acm.org,ziepe.ca,ideasonboard.com,google.com,suse.de,hansenpartnership.com,oracle.com,arm.com,linuxfoundation.org,rowland.harvard.edu,linux.alibaba.com,akamai.com,antgroup.com,orcam.me.uk,infradead.org,linux.ibm.com,alien8.de,zytor.com,atomlin.com,linux-foundation.org,canonical.com,paul-moore.com,namei.org,hallyn.com,googlegroups.com,kvack.org,lists.ubuntu.com,lists.infradead.org,lists.sourceforge.net,nongnu.org,lists.freedesktop.org,lists.ozlabs.org,lists.one-eyed-alien.net,lists.linux.dev];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	RCPT_COUNT_GT_50(0.00)[99];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:phasta@kernel.org,m:sashiko-reviews@lists.linux.dev,m:linux-media@vger.kernel.org,m:ojeda@kernel.org,m:boris.brezillon@collabora.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,ashevche-desk.local:mid,intel.com:dkim]
-X-Rspamd-Action: no action
+	FORWARDED(0.00)[lists@lfdr.de];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	ALIAS_RESOLVED(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	HAS_REPLYTO(0.00)[phasta@kernel.org]
+X-Rspamd-Server: lfdr
+X-Rspamd-Queue-Id: 46AFC62D9BF
 
-On Thu, May 21, 2026 at 06:33:14AM -0700, Kees Cook wrote:
-> 
-> param_array_get() appends each element's string representation into the
-> shared sysfs page buffer by passing buffer + off to the element getter.
-> 
-> That works for getters that only write a small bounded string, but
-> param_get_charp() and similar helpers format against PAGE_SIZE from the
-> pointer they receive. Once off is non-zero, an element getter can
-> therefore write past the end of the original sysfs page buffer.
-> 
-> Collect each element into a temporary PAGE_SIZE buffer first and then
-> copy only the remaining space into the caller's page buffer.
+On Mon, 2026-06-01 at 13:44 +0000, Alice Ryhl wrote:
+> On Mon, Jun 01, 2026 at 03:14:05PM +0200, Philipp Stanner wrote:
+> > +Cc Boris
+> >=20
+> > On Mon, 2026-06-01 at 14:55 +0200, Alice Ryhl wrote:
+> > > On Mon, Jun 1, 2026 at 2:34=E2=80=AFPM Philipp Stanner <phasta@mailbo=
+x.org> wrote:
+> > > >=20
+> > > > On Mon, 2026-06-01 at 10:20 +0000, Alice Ryhl wrote:
+> > > > > On Sat, May 30, 2026 at 03:06:21PM +0000, sashiko-bot@kernel.org=
+=C2=A0wrote:
+> > > > > > > +impl<F: Send + Sync, C: Send + Sync> DriverFence<F, C> {
+> > > > > > > +=C2=A0=C2=A0=C2=A0 fn as_raw(&self) -> *mut bindings::dma_fe=
+nce {
+> > > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: Valid =
+because `self` is valid.
+> > > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence_data =
+=3D unsafe { &mut *self.data.as_ptr() };
+> > > > > >=20
+> > > > > > [Severity: High]
+> > > > > > Does this create an exclusive mutable reference to actively sha=
+red memory?
+> > > > > >=20
+> > > > > > DriverFenceData can be accessed concurrently by other threads h=
+olding Fence
+> > > > > > references (for instance, when checking if the fence is signale=
+d). Creating
+> > > > > > a mutable reference (&mut) in Rust asserts exclusive access and=
+ violates
+> > > > > > aliasing rules, which allows the compiler to make invalid optim=
+ization
+> > > > > > assumptions.
+> > > > > >=20
+> > > > > > Could this use an immutable reference &*self.data.as_ptr() inst=
+ead?
+> > > > >=20
+> > > > > Yes, please use an immutable reference here.
+> > > > >=20
+> > > > > > > +
+> > > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fence_data.inner.=
+inner.get()
+> > > > > > > +=C2=A0=C2=A0=C2=A0 }
+> > > > > >=20
+> > > > > > [ ... ]
+> > > > > >=20
+> > > > > > > +impl<F: Send + Sync, C: Send + Sync> DriverFenceBorrow<F, C>=
+ {
+> > > > > > > +=C2=A0=C2=A0=C2=A0 fn as_raw(&self) -> *mut bindings::dma_fe=
+nce {
+> > > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: Valid =
+because `self` is valid.
+> > > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence_data =
+=3D unsafe { &mut *self.data.as_ptr() };
+> > > > > >=20
+> > > > > > [Severity: High]
+> > > > > > Similar to DriverFence::as_raw(), does this also incorrectly cr=
+eate a
+> > > > > > mutable reference to shared data?
+> > > > >=20
+> > > > > Here as well.
+> > > >=20
+> > > > `data` is not shared. By design there is only ever one DriverFence,=
+ and
+> > > > the driver's data (`data.data`) is `Sync`.
+> > > >=20
+> > > > But I guess an immutable one should do the trick, too.
+> > >=20
+> > > There's only one DriverFence, but I can perform shared access to that
+> > > one DriverFence from two threads in parallel. You made the type Sync,
+> > > and this is what you are allowing when you do so.
+> >=20
+> > Nope, DriverFence is just Send, not Sync.
+> >=20
+> > data.data is Sync, but `data` in the code above is not the actual user
+> > data, but the memory backing it up.
+>=20
+> Ok, well, it probably should be Sync. I don't see any &self methods that
+> can't be called from multiple threads in parallel.
 
-...
+No. Why?
 
-> +	elem_buf = kmalloc(PAGE_SIZE, GFP_KERNEL);
+There can only be one owner of DriverFence.
 
-get_free_page() (or how it is called)?
+Regarding the backend_ops that might access DriverFence::data, we take
+care to guard that.
 
-> +	if (!elem_buf)
-> +		return -ENOMEM;
-> +
->  	for (i = off = 0; i < (arr->num ? *arr->num : arr->max); i++) {
-> -		/* Replace \n with comma */
-> -		if (i)
-> -			buffer[off - 1] = ',';
->  		p.arg = arr->elem + arr->elemsize * i;
->  		check_kparam_locked(p.mod);
-> -		ret = arr->ops->get(buffer + off, &p);
-> +		ret = arr->ops->get(elem_buf, &p);
->  		if (ret < 0)
-> -			return ret;
-> +			goto out;
-> +		ret = min(ret, (int)(PAGE_SIZE - 1 - off));
+And DriverFence itself can only be owned by one party. That can only be
+accessed by many threads if the driver stuffs that fence into something
+that implements Sync.
 
-It's usually discouraged to use castings in min/max/clamp. Can we make ret long
-or do something different here?
+>=20
+> > > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bindings::dma_fence_signal_locked(fence);
+> > > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 }
+> > > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 bindings::dma_fence_unlock_irqrestore(fence, flag_ptr);
+> > > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> > > > > > > +
+> > > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: `self.=
+data` is owned by the DriverFence, but could be accessed
+> > > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // through some d=
+ma_fence callbacks right now. Access is being revoked
+> > > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // above by signa=
+lling the fence. The DriverFenceAllowedData trait
+> > > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // ensures that t=
+he data either does not need drop, or if it does it
+> > > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // lives in a Rcu=
+Box which will delay dropping by one grace period, hence
+> > > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // ensuring that =
+all readers have disappeared.
+> > > > > > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsafe { drop_in_=
+place(self.data.as_ptr()) };
+> > > > > >=20
+> > > > > > [Severity: Critical]
+> > > > > > Could this eagerly drop FenceCtx and user data before the C dma=
+_fence
+> > > > > > refcount reaches 0?
+> > > > > >=20
+> > > > > > The C dma_fence object can remain alive as long as consumers (l=
+ike sync_file
+> > > > > > or the GPU scheduler) hold references to it. If the backend lat=
+er invokes
+> > > > > > callbacks like ops->get_driver_name(), FenceCtx::get_driver_nam=
+e() would
+> > > > > > attempt to read fctx.driver_name from the already-dropped Fence=
+Ctx:
+> > > > > >=20
+> > > > > > FenceCtx::get_driver_name() {
+> > > > > > =C2=A0=C2=A0=C2=A0 ...
+> > > > > > =C2=A0=C2=A0=C2=A0 fctx.driver_name.as_char_ptr()
+> > > > > > }
+> > > > > >=20
+> > > > > > Can this result in a use-after-free?
+> > > > >=20
+> > > > > Hmm, I don't know about what sahisko said, but I don't think this=
+ is the
+> > > > > right way to do rcu freeing. I think the type's destructor should=
+ be
+> > > > > reserved for cases where the value becomes immediately unusable.
+> > > >=20
+> > > > We could guard the strings with RcuBox, but we could not then guard=
+ the
+> > > > FenceCtx code against code UAF if we don't have the rcu_barrier().
+> > > >=20
+> > > > Or could we?
+> > > >=20
+> > > > If a rust module unloads, module::remove() should contain an
+> > > > rcu_barrier() (right??). Would that be enough to guard against the
+> > > > FenceCtx code being unloaded?
+> > > >=20
+> > > > >=20
+> > > > > For example, let's say I'm using RcuBox<_> here. Yes, the data yo=
+u get
+> > > > > from dereferencing the RcuBox will stay alive for a grace period,=
+ but
+> > > > > IMO once you run the destructor of the box itself, the *pointer* =
+becomes
+> > > > > immediately unusable.
+> > > >=20
+> > > > I don't know why you're stressing the pointer?
+> > > >=20
+> > > > The trick above is simply that drop / dealloc *and* code unloading =
+is
+> > > > delayed by a grace period.
+> > >=20
+> > > Sorry let me try to rephrase. I'm not worried about the stuff behind
+> > > the pointer. After all, you're using RcuBox to protect that stuff.
+> > > What I'm worried about is the pointer itself. You invoked
+> > > drop_in_place() on the pointer to the fence context,
+> > >=20
+> >=20
+> > on the pointer to DriverFenceData, which contains a refcount to the
+> > FenceCtx, which might then want to drop.
+>=20
+> Let me clarify.
+>=20
+> You invoked drop_in_place on DriverFenceData which is effectively this
+> method:
+>=20
+> fn drop_in_place::<DriverFenceData<F,C>>(self: *mut DriverFenceData) {
+> =C2=A0=C2=A0=C2=A0 drop_in_place::<Fence>(&raw mut (*self).fence);
+> =C2=A0=C2=A0=C2=A0 drop_in_place::<Arc<FenceCtx<F,C>>>(&raw mut (*self).f=
+ctx);
+> =C2=A0=C2=A0=C2=A0 drop_in_place::<F>(&raw mut (*self).data);
+> }
+>=20
+> So yes you did indirectly invoke `drop_in_place` on Arc<FenceCtx<F,C>>.
 
-> +		if (!ret)
-> +			break;
+Yes.
 
-> +		/* Replace the previous element's trailing newline with a comma. */
-> +		if (i)
-> +			buffer[off - 1] = ',';
+>=20
+> > > =C2=A0so even though
+> > > the fence context may be valid for another grace period, the *pointer=
+*
+> > > to the fence context is not. The pointer could have been zeroed by th=
+e
+> > > destructor.
+> >=20
+> > That particular pointer to the DriverFenceData could have been zeroed.
+> > But potential other accessors have already crafted themselves a new
+> > pointer to the, by the power of RCU, still valid data. That new pointer
+> > is container-of-ed from struct dma_fence *f.
+>=20
+> I'm not talking about the pointer to DriverFenceData, I'm talking about
+> the pointer to the FenceCtx, or the pointer to the data (if F is
+> RcuBox).
 
-Can't we do this after with help of strreplace()?
+Yeah, but the backing memory is still alive. And new pointers to that
+memory get crafted by the accessors. If a callback accesses the data
+through `container_of(Fence)`, it gets a new pointer.
 
-> +		memcpy(buffer + off, elem_buf, ret);
->  		off += ret;
-> +		if (off == PAGE_SIZE - 1)
-> +			break;
->  	}
->  	buffer[off] = '\0';
-> -	return off;
-> +	ret = off;
-> +out:
-> +	kfree(elem_buf);
-> +	return ret;
+So what's the problem?
 
--- 
-With Best Regards,
-Andy Shevchenko
+Where is the invalid pointer that someone is accessing?
+
+>=20
+> The Arc type is not a type that opts-out of &mut =3D=3D exclusive, so the
+> second drop_in_place() above is assumed exclusive access to the
+> Arc<FenceCtx<F,C>> field.
+
+OK, so I think I see the problem. So the invalid pointer is
+Arc<FenceCtx=E2=80=A6>? And potentially the <F> pointer (although we don't =
+have
+a picture yet as to how that would be accessed through other callbacks.
+
+>  If another thread obtains a pointer to the
+> FenceCtx via reading the fctx field of the DriverFence in parallel with
+> this, then that's not allowed because the drop_in_place() call has
+> exclusive access to that field.
+
+I think I have been asking in several of our meetings in the past
+whether it is actually a problem to access data that has been dropped()
+IF we know that drop does not cause UAF and the answer was kind of like
+a "well if it does not actually get freed=E2=80=A6"
+
+Anyways.
+
+It would seem the way to get this right is then
+
+synchronize_rcu();
+drop_in_palace(data);
 
 
+Agreed?
+
+This would then mean, however, that every time a fence drops, you have
+to wait a grace period.
+
+Or maybe stuff DriverFenceData into an RcuBox, too, and defer its
+dropping.
+
+P.
+
+>=20
+> This is why Boqun's RcuFreeSafe has a drop_in_place_before_gp() method
+> that can be used instead of drop_in_place() for this kind of use-case.
+> You must leave the fctx and data fields in a state where they contain
+> data that's safe to use for at least one grace period, and drop_in_place(=
+)
+> fundamentally does not leave the value in a usable state.
+>=20
+> Alice
 
