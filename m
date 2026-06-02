@@ -1,248 +1,742 @@
-Return-Path: <linux-media+bounces-63345-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63346-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id +H0YEqVOHmrmiQkAu9opvQ
-	(envelope-from <linux-media+bounces-63345-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 05:31:49 +0200
+	id UBy9Na1THmqDigkAu9opvQ
+	(envelope-from <linux-media+bounces-63346-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 05:53:17 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1951627CCC
-	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 05:31:48 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB928627E73
+	for <lists+linux-media@lfdr.de>; Tue, 02 Jun 2026 05:53:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A670230816F8
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2026 03:27:42 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 36C913019DBE
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2026 03:52:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28AA7368D72;
-	Tue,  2 Jun 2026 03:27:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09B9B369D7A;
+	Tue,  2 Jun 2026 03:52:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="FYNCd0Ws"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Onu9lw4X"
 X-Original-To: linux-media@vger.kernel.org
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011050.outbound.protection.outlook.com [52.101.57.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358803672B1;
-	Tue,  2 Jun 2026 03:27:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780370857; cv=fail; b=eoVZWTDWm/d9hwq1wHgouaERbbTFVdeaOiXzf67wa5398Oi4IQkfoz5TAJQAdOzLW1z80MTo25jq624MSOYUuvf2WQuzn1NQ7tfJSSj0naMoMKySU/mywn1UOxYfSyQp2OIgeVDKiW91sNPuECM737A5MNRAN4wzEzxhzHFv93Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780370857; c=relaxed/simple;
-	bh=+OkulKElNVZK93J9+BBilJaUxpCruqz1yXOqRNqwt8I=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TjiUmAXe3WAjwXCScreGHsQg3Ghk12t0ZiEQvxmhJpCeywRLKunF0r9DsdK48kvDyl7doBjiVi5DdNwWyRDAhp2JVpunsVHglnv6WYOyDkVDZXLPFY4aAKv49sqDdwcJFJoWvkk7DSeoOAHIkgVmTQ5vw4WSEMg6+w8ExePCKDw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=FYNCd0Ws; arc=fail smtp.client-ip=52.101.57.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aIFsqq692U30uNhEaeItnWHpYbbdEz8NkWchhF6MGUr+MUE1wBnFU7S9J/WEy4ZNVfgNLE5r4OiaBvQJiLEIqhuzO/TWazqQ0CPymuDW85S0cCyW3Zp48e+530TP4SwB6lNEQqESnV3ND9pvnPwP7JCPAHI+Qoc0GoAiiLZFOo5OPv0T7SjWXQd2bQGWzZJsam+9KppBBiboLCNj//aGNlc07aZimRN4wv+ggHZAjqgfDHnakzKoBAmePJ+JAOfRJNDQg3v+5+wV4zMimxIOWvfSzLsl8bgtbyleWullyMpwxUhvq678Z4iZygKlVVM4l5oX4OCDVHwIBl2NLEe9dA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8vMNe7l6KePYO1isdTAI3F/VdDiogfImk+Tqk8XQnVs=;
- b=hgDwTsrfhJBHyzUasqs2CDlQKzWLs/JESTFbq53sDqwHqQp9V18kQ6Yor5eoKfjo6Fi3xzqETPm+Fah45EADxzQM1ENsuB20tzaBdY3/v8t+axOSYKPnNVfattPYycyslu9Vc3ZCHgs0JIfDkENDJ1irVMlPiszSl5BiOmFWPRjZCV/eDwIYlTM2gEWPwzhdJG2aFN1cp2jG+lzz14NlEztl/YgLiUPxaTn2DrYNuOqgLSew9USCouQG/+IVeiudX3zoCDn+FaHaaqTeGjJMoNDQe3jY/cT2bc+rPFn3cv00G+SROGhfWZp7ymBI1N0bwOrTzzLwh4YPE9aQfEp0Vg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8vMNe7l6KePYO1isdTAI3F/VdDiogfImk+Tqk8XQnVs=;
- b=FYNCd0WsLgxW7FRgPq1mgoRhTgFz86Ba0s9PcYrJmKJSiWxfPjIbU7Ynfv9Fr4o+MCLzFKj7JzQLwHPZoSkV4xtkzNGGuH180Sdue34u6umW5XZNmWp2wwsCUtRgM8NIBwlWVu83wu/MRQad9//HPifRRPxrIlHTpw+bvng2HrI=
-Received: from BN0PR04CA0155.namprd04.prod.outlook.com (2603:10b6:408:eb::10)
- by DM4PR12MB9733.namprd12.prod.outlook.com (2603:10b6:8:225::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.16; Tue, 2 Jun 2026
- 03:27:32 +0000
-Received: from BN2PEPF000044A7.namprd04.prod.outlook.com
- (2603:10b6:408:eb:cafe::a6) by BN0PR04CA0155.outlook.office365.com
- (2603:10b6:408:eb::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.71.16 via Frontend Transport; Tue, 2
- Jun 2026 03:27:32 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BN2PEPF000044A7.mail.protection.outlook.com (10.167.243.101) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.92.5 via Frontend Transport; Tue, 2 Jun 2026 03:27:32 +0000
-Received: from BJGBICAO01.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.41; Mon, 1 Jun
- 2026 22:27:30 -0500
-From: Bingbu Cao <bingbu.cao@amd.com>
-To: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Sakari
- Ailus" <sakari.ailus@linux.intel.com>
-CC: Bingbu Cao <bingbu.cao@amd.com>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>
-Subject: [PATCH 3/3] media: i2c: update Bingbu Cao's e-mail address
-Date: Tue, 2 Jun 2026 11:26:53 +0800
-Message-ID: <20260602032658.5462-3-bingbu.cao@amd.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260602032658.5462-1-bingbu.cao@amd.com>
-References: <20260602032658.5462-1-bingbu.cao@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F40623ED6A
+	for <linux-media@vger.kernel.org>; Tue,  2 Jun 2026 03:52:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780372329; cv=none; b=Y9M1pWSv2xodGEZdeVpluKSLs+8cINoqFp1ygArITkM5eaodFfhAwpUnyXA/RGlN2lJNhsNmvQ6JLpkgCuYdBJzow3VWF9Na+ICH7ytJqv+jvUb/i6QfJKVQIW6wP3ZulZScsEYan9rIDVR/QeU7UG0vwk5EV7+2Usl4mHof6lA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780372329; c=relaxed/simple;
+	bh=pEx76D1kHkssaA4Mc+DFJyFkX+eGNB8H3KgaSVMKyas=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=lIhHwPvrMMFFjQsWiNyGJz0VfFZoDUD5/U3elrfywRrvCQJaDAymoBeuGMFI+pk3JYoJZ5Nu848iD9cc3wza28xSskbmUVOIKfJqRjt2zDsZnjVZzSKIsJyT6vpkYtznbjv63mK+TPwP6K2SwFk4mGK+TUYzf3K+T+5FKI6NEos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Onu9lw4X; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-8cebfb15413so5330466d6.0
+        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2026 20:52:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780372326; x=1780977126; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J5Kc1TGaFiZXi+8aLl+nbkl8I0xSTi5CiU5d0c1Xfak=;
+        b=Onu9lw4X0W4Jm2As5SSePBiYbI2XXu2oy+667L5ZJ81HX5aq1f2EjFk6JPVTRxMZXs
+         17xd/VSX9Mg32NWcXvkc2xvTnPM3llhFOKBRB+26WYm8dgdIywwaVIZg68CT1QkyA19x
+         VbVdKSM021cVuTxZBRav0S3RiBuIu5E07Vmzj82IRxxcxpGHhKi3DdNmewX2z2UyxU70
+         PbB7FtwchvqCClrL+XnmswMv19hKTyclHNSonsPo/YXtnFDrkQqSKV5dtn58YrwRehhk
+         Rds7751z06IgRPux63UWcalRC2Nu5zNLwQgclWraSo74FMmjtFjWOehGyN1gcI8nDrHM
+         FltQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780372326; x=1780977126;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=J5Kc1TGaFiZXi+8aLl+nbkl8I0xSTi5CiU5d0c1Xfak=;
+        b=TEDnCTfTP8SIW675JI/hlj6NMShwRJ7vJ8scRotpgfSqtc3LYqs7QRQK2xfq935aAL
+         qlKRaLDbgCfJA3iW3kgpmZl1IPmg7vd/TwMOLEGMHM/TQRz9AQIpcb/oxEmAGDYvNVAc
+         sdZNNiwyTmvaXsMlqLhCGwn/CWj5mcW1hwZy2iWLMRz1ntp6cM/aexUwxwsN0e+b68Vv
+         qrsE7E7gE72rLGjWkLeKpIZMHTgnVmEfrbPPZcrfFz4l1b6grOI3z/adyiAoFXZaunwp
+         1knVN8wySkBBFevvoEChdrv5Wjwys38EANl4hDkQ67SAFgFXJKCkPxRhchHUaP3AxMHy
+         mfwA==
+X-Forwarded-Encrypted: i=1; AFNElJ+vg/0chXh7r8cJNdtDSwnbP/QJ4Dr+ZG96ayfNFHGQiFTIGNS//PI1GZvGxNqDidtpHp4cvzpeHz7yiA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7LB5tDfM4z4tm1cZKFesrfcEs23N+GWJRbicBi15yOJtI6fnr
+	Q20Yw+yY5dlNxtFqGxz5Rvr4LO3Q9sPm58+TXtuOeGap+pNg8xl9v+f/
+X-Gm-Gg: Acq92OGoE3ePSkcoKhHb/RkpGWDr29bSjqZaA4BycYCmX7SLFTmEqh+VlkHAkAmL+ZE
+	CizvrlZVToi6YApF9M9iDmhfIWUntpDa4QD2S3ehjcRacmypfK0zqfKT66PKLO+4cAVEOCf99Hd
+	Ontyqecui94HyaXlcDn4pueROlusPqg6AdlFwrG5Ci+LvFwa/QQnHwcQjwn5XGQjxHu1+SRU4Z/
+	aJdpmVOYkLO1cRE5b+1ygTb3CiCfRX/AlD3WPMhpO1zt7FwUw4TZf0atuYdY4YqYP3D5WJ7Jb8m
+	wpqdFKJAur/D03sRkBpDfgGFzAXsyeRY6m0IAipVPpiFxtefGg3EYv2KdWvAbKv+boIUkqbZmKL
+	r+PPaXYIFmRdkms+g4PeEhuKiP/4sNfjAAX0Z/1JIsRa07B8hPl133HrQula/JfPOgCuu2ssHAf
+	Kl0BvnfRoJwiDXg3ujfzkhdPd2m7gE6/R51mX5mTuRkZp/19unLK84GpJEGSFug6Qvw9Mv6Sb7R
+	9s=
+X-Received: by 2002:ad4:5c47:0:b0:8cb:e63e:2a4e with SMTP id 6a1803df08f44-8ccefd33624mr238246036d6.6.1780372325849;
+        Mon, 01 Jun 2026 20:52:05 -0700 (PDT)
+Received: from smtpclient.apple ([2601:985:4601:5df0:b9fd:5075:4c49:f34a])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ccea1c30ecsm108468636d6.25.2026.06.01.20.52.04
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 01 Jun 2026 20:52:05 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000044A7:EE_|DM4PR12MB9733:EE_
-X-MS-Office365-Filtering-Correlation-Id: 117a1ede-2407-48c0-ec3c-08dec056e20e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|376014|82310400026|1800799024|56012099006|11063799006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	RYOjYMBsFLenomyMslrC/VwvB/b8aIvRtqDZion8JN7H5Xh/KxkRsItPYWzpmX0PDrUpLNB5QPkawNC/QZZizm4ZwFFuhq0zTDFzi7r/luq4Zg8tJIiyKtZmCFpDpSBli10pcGp1FpGGUOtqFBppIc3OAHU0IDJSywi6Dov9LcUtG/fkg07iB3edcqMLPf6S0fu+z4SH0lAEjqoT6f7/0fmfrZPxCyKCjTC86qt0IeLVhkSfzyNePsIjHyBtpj0EZVbFVvUQ9pyhViTdGfbLA2q2bb9NZX5jLY4QIQ3t3hxktinWrGtRsiwN5oOG275b+hQ667niBzKtDszf7bbAYhQAxyrCbJhy12EuAvhbnMjnzsdGvcqHI34F7LMcQwGkA2Kt8byViVes22M3wo1JvlIrxzeknVVHmmdroLaXb09PIohwul6poex7bjeddfxgKaKLAcHvWBzbLO+sR7Gb0vXqLYgJ9OylXri4IXeMLKx/JAJxD/g8c4W99ZumfZ/ptjImSyoeUkzRC0Ek/tvY/VwFfiHSX+7OHydCVdcL7RgcvtenwTg6TisPkv3W/0EZWW6wQAAUABagWl3wzKwo0sCLnFXAdmkQjod4/s9/IacIg7qXlAbHOJZ+OvhxtSKFuml2fvrgs1eLmwMBnG+rMRUs8sG+2IJtPYkx14s0RU/U6e+K/+/odbcIRyGoImhBUzLK88b61ieX4c4kJtpMsL4+RLl/EcyDFHuE6DPV938=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(82310400026)(1800799024)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	qIdwH1ts3AjWw3Lj3iOa+syKBT7NdvgxeRCM3936t6ndRInW7ZniNXBhpJqJ5yyMLusLFNCao8TJdBhjp/iXRk6QOyHulY5gLvmIgCL4WUTHx2LcFO39OM/BslyCudlj10/Ol33OARo9SgeFWX1FxMqwAJ3bVc1Tk0FNCU941vEQBEajRizRMRl0t4Un7RvZR293h5clZ84nlPg6k3cpMWvIsxNgqjYWxjldMS7ThVcMAk4ATS7BQFMcZwTdgqqHwz+yLZlOEe86h2ubfwoB2sqMwTzyFSUIrYOYGMp4s9nJqo7Z2HieQl4snvmVWmIDKLYKkziaRCUXJ8rb1g9fRsznTkDBHK0YNWrsNjA/2O3uZbkjsiQWWIy2viyUtEWuUW/0snDGgvBZ6GPgdVvadE5mOwS1X/ay9GKHq4otUfUCBsRL3zBtwcI1qNUfCnmH
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Jun 2026 03:27:32.5118
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 117a1ede-2407-48c0-ec3c-08dec056e20e
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF000044A7.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB9733
-X-Spamd-Result: default: False [1.34 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.600.51.1.1\))
+Subject: Re: [BUG] KASAN: slab-use-after-free in au0828_dvb_register
+From: Shuangpeng <shuangpeng.kernel@gmail.com>
+In-Reply-To: <f5ebb4bc-13e2-4145-bc1a-53950d899a89@kylinos.cn>
+Date: Mon, 1 Jun 2026 23:51:54 -0400
+Cc: xiaopeitux@foxmail.com,
+ brad@nextdimension.cc,
+ hverkuil+cisco@kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org,
+ mchehab@kernel.org,
+ mingo@kernel.org,
+ tglx@kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <EC32FEF7-2F64-42EF-A505-220F5A76E0FC@gmail.com>
+References: <AAC17221-93BF-436F-92AC-906A18F882F0@gmail.com>
+ <tencent_6DDC3554CD90D85E21277073C6AE67116F08@qq.com>
+ <2EBF1AF0-ED21-4B11-87DB-9E40AD082F7F@gmail.com>
+ <79734bf1-a6cd-45a3-af8b-a0d930f27041@kylinos.cn>
+ <85EEDF0E-FBF5-4395-9BF4-45CE7BD5F139@gmail.com>
+ <f5ebb4bc-13e2-4145-bc1a-53950d899a89@kylinos.cn>
+To: Pei Xiao <xiaopei01@kylinos.cn>
+X-Mailer: Apple Mail (2.3864.600.51.1.1)
+X-Spamd-Result: default: False [3.44 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	SUSPICIOUS_URL_IN_SUSPICIOUS_MESSAGE(1.00)[];
+	MV_CASE(0.50)[];
+	URIBL_RED(0.50)[kylinos.cn:email];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	BAD_REP_POLICIES(0.10)[];
+	HAS_ANON_DOMAIN(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
+	FROM_HAS_DN(0.00)[];
+	DMARC_POLICY_ALLOW(0.00)[gmail.com,none];
+	FREEMAIL_CC(0.00)[foxmail.com,nextdimension.cc,kernel.org,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-63346-lists,linux-media=lfdr.de];
+	R_DKIM_ALLOW(0.00)[gmail.com:s=20251104];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63345-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	NEURAL_HAM(-0.00)[-0.559];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bingbu.cao@amd.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:url,amd.com:email,amd.com:mid,amd.com:dkim,intel.com:url,intel.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo];
-	TAGGED_RCPT(0.00)[linux-media];
-	NEURAL_HAM(-0.00)[-0.995];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[7]
-X-Rspamd-Queue-Id: D1951627CCC
+	FROM_NEQ_ENVFROM(0.00)[shuangpengkernel@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	R_SPF_ALLOW(0.00)[+ip6:2600:3c15:e001:75::/64:c];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	ARC_ALLOW(0.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[foxmail.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+X-Rspamd-Queue-Id: DB928627E73
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-I left Intel and join AMD now, so update my e-mail address from
-intel.com to amd.com in MODULE_AUTHOR() entries of several sensor
-drivers.
 
-Just update the author contact information and no functional change
-intended.
 
-Signed-off-by: Bingbu Cao <bingbu.cao@amd.com>
----
- drivers/media/i2c/ak7375.c  | 2 +-
- drivers/media/i2c/imx319.c  | 2 +-
- drivers/media/i2c/imx355.c  | 2 +-
- drivers/media/i2c/ov01a10.c | 2 +-
- drivers/media/i2c/ov2740.c  | 2 +-
- drivers/media/i2c/ov9734.c  | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+> On Jun 1, 2026, at 22:44, Pei Xiao <xiaopei01@kylinos.cn> wrote:
+>=20
+>=20
+>=20
+> =E5=9C=A8 2026/6/2 04:35, Shuangpeng =E5=86=99=E9=81=93:
+>>=20
+>>> On May 31, 2026, at 23:38, Pei Xiao <xiaopei01@kylinos.cn> wrote:
+>>>=20
+>>>=20
+>>>=20
+>>> =E5=9C=A8 2026/5/30 03:22, Shuangpeng =E5=86=99=E9=81=93:
+>>>>> On May 29, 2026, at 04:30, xiaopeitux@foxmail.com wrote:
+>>>>>=20
+>>>>> From: Pei Xiao <xiaopei01@kylinos.cn>
+>>>>>=20
+>>>>>> Hi Kernel Maintainers,
+>>>>>>=20
+>>>>>> We hit the following KASAN report while testing current upstream =
+kernel:
+>>>>>>=20
+>>>>>> KASAN: slab-use-after-free in au0828_dvb_register
+>>>>>>=20
+>>>>>> on commit: e8c2f9fdadee7cbc75134dc463c1e0d856d6e5c7 (May 25 2026)
+>>>>>>=20
+>>>>>> The reproducer and .config files are here.
+>>>>>> =
+https://gist.github.com/shuangpengbai/c31163f8ef234ba4fe85038c2f97f9cc
+>>>>>>=20
+>>>>>> I=E2=80=99m happy to test debug patches or provide additional =
+information.
+>>>>>>=20
+>>>>>> Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+>>>>> Can you help post all the crash logs?=20
+>>>>> Does the kernel log have this print:=20
+>>>>> "The frontend of your DVB/ATSC card isn't supported yet."
+>>>> I did not see this message in log.
+>>>>=20
+>>>>=20
+>>>>> Please help post all the logs, thank you!
+>>>> Thank you for taking a look. All terminal outputs after running the =
+reproducer:
+>>> au0828_usb_probe
+>>>         au0828_dvb_register
+>>>            dvb_attach(xc5000_attach, dvb->frontend,
+>>>            dvb_register =20
+>>>                   if (dvb->frontend->ops.release)
+>>>                        dvb->frontend->ops.release(dvb->frontend);
+>>>=20
+>>> dvb_register=20
+>>>    result =3D dvb_register_frontend(&dvb->adapter, dvb->frontend);
+>>>        pr_err("dvb_register_frontend failed (errno =3D %d)\n",//-12, =
+ no kref_init(&fe->refcount);=EF=BC=8Cfe->frontend_priv is NULL
+>>>                       result);
+>>>        goto fail_frontend
+>>>=20
+>>> fail_frontend:
+>>> dvb_frontend_detach(dvb->frontend);
+>>>=20
+>>> dvb_frontend_detach:
+>>>    dvb_frontend_put =20
+>>>        __dvb_frontend_free
+>>>            dvb_frontend_invoke_release(fe, fe->ops.release);
+>>>=20
+>>>=20
+>>> static void dvb_frontend_invoke_release(struct dvb_frontend *fe,
+>>>                                        void (*release)(struct =
+dvb_frontend *fe))
+>>> {
+>>>        if (release) {
+>>>                release(fe);
+>>> #ifdef CONFIG_MEDIA_ATTACH
+>>>                dvb_detach(release);
+>>> #endif =20
+>>>        }
+>>> } =20
+>>>=20
+>>> au8522_attach
+>>> .release              =3D au8522_release,
+>>>    au8522_release_state
+>>>        kfree(state);//have free
+>>>=20
+>>> How did this problem occur, and is the probability of it occurring =
+high?
+>> I found this issue during testing kernel with our tool. This bug can =
+be reliably reproduced.
+>>=20
+>>> so we can remove in au0828_dvb_register function follow lines to fix =
+this UAF bug?=20
+>>>=20
+>>> ret =3D dvb_register(dev);
+>>>        if (ret < 0) {
+>>>               // if (dvb->frontend->ops.release)
+>>>               //        dvb->frontend->ops.release(dvb->frontend);
+>>>               //  dvb->frontend =3D NULL;
+>>>                return ret;
+>>>        }
+>>> Could you please help test this modified code?
+>> Could you please confirm whether the following is the intended =
+change?
+>>=20
+>> I locally tested it by commenting out the three lines in the error =
+path of
+>> au0828_dvb_register():
+>>=20
+>> diff --git a/drivers/media/usb/au0828/au0828-dvb.c =
+b/drivers/media/usb/au0828/au0828-dvb.c
+>> index 31123e6f9fc3..f3d5a2b0de71 100644
+>> --- a/drivers/media/usb/au0828/au0828-dvb.c
+>> +++ b/drivers/media/usb/au0828/au0828-dvb.c
+>> @@ -633,9 +633,9 @@ int au0828_dvb_register(struct au0828_dev *dev)
+>>        /* register everything */
+>>        ret =3D dvb_register(dev);
+>>        if (ret < 0) {
+>> -               if (dvb->frontend->ops.release)
+>> -                       dvb->frontend->ops.release(dvb->frontend);
+>> -               dvb->frontend =3D NULL;
+>> +               // if (dvb->frontend->ops.release)
+>> +               //      dvb->frontend->ops.release(dvb->frontend);
+>> +               // dvb->frontend =3D NULL;
+>>                return ret;
+>>        }
+>>=20
+>> With this change, I reran the reproducer and hit a NULL pointer
+>> dereference:
+>>=20
+>> [ 90.096547][ T10] BUG: kernel NULL pointer dereference, address: =
+0000000000000000
+>> [ 90.107156][ T10] au0828_dvb_unregister =
+(drivers/media/usb/au0828/au0828-dvb.c:543)
+>> [ 90.107518][ T10] au0828_usb_disconnect =
+(drivers/media/usb/au0828/au0828-core.c:179)
+>> [ 90.107875][ T10] usb_unbind_interface =
+(drivers/usb/core/driver.c:458)
+>> [ 90.108965][ T10] device_release_driver_internal =
+(drivers/base/dd.c:621 drivers/base/dd.c:1352 drivers/base/dd.c:1375)
+>> [ 90.109384][ T10] bus_remove_device (drivers/base/bus.c:657)
+>> [ 90.110494][ T10] device_del (drivers/base/core.c:3895)
+>> [ 90.111787][ T10] usb_disable_device =
+(drivers/usb/core/message.c:1478)
+>> [ 90.112134][ T10] usb_disconnect (drivers/input/misc/yealink.c:421)
+>> [ 90.112460][ T10] hub_event (drivers/usb/core/hub.c:5407 =
+drivers/usb/core/hub.c:5707 drivers/usb/core/hub.c:5871 =
+drivers/usb/core/hub.c:5953)
+>> [ 90.114436][ T10] process_scheduled_works (kernel/workqueue.c:3314 =
+kernel/workqueue.c:3397)
+>> [ 90.114817][ T10] worker_thread (kernel/workqueue.c:3478)
+>> [ 90.115490][ T10] kthread (kernel/kthread.c:436)
+>> [ 90.116448][ T10] ret_from_fork (arch/x86/kernel/process.c:158)
+>> [ 90.117759][ T10] ret_from_fork_asm (arch/x86/entry/entry_64.S:245)
+>>=20
+>> The crash happens in au0828_dvb_unregister() at:
+>> dvb->demux.dmx.remove_frontend(&dvb->demux.dmx, &dvb->fe_mem);
+>>=20
+>> So if this is the intended change, it seems to avoid the original =
+release path,
+>> but it also leaves the device in a partially initialized state and =
+triggers a
+>> NULL pointer dereference during disconnect.
+> Hi Shuangpeng:
+>   please test this patch:=20
+> diff --git a/drivers/media/usb/au0828/au0828-dvb.c =
+b/drivers/media/usb/au0828/au0828-dvb.c
+> index 31123e6f9fc3..052637429d8a 100644
+> --- a/drivers/media/usb/au0828/au0828-dvb.c
+> +++ b/drivers/media/usb/au0828/au0828-dvb.c
+> @@ -633,8 +633,8 @@ int au0828_dvb_register(struct au0828_dev *dev)
+>         /* register everything */
+>         ret =3D dvb_register(dev);
+>         if (ret < 0) {
+> -               if (dvb->frontend->ops.release)
+> -                       dvb->frontend->ops.release(dvb->frontend);
+> +               /* dvb->frontend freed in dvb_frontend_put, now we can =
+set
+> +                * frontent to NULL */
+>                 dvb->frontend =3D NULL;
+>                 return ret;
+>         }
+>=20
 
-diff --git a/drivers/media/i2c/ak7375.c b/drivers/media/i2c/ak7375.c
-index 9a2432cea3ff..bb73cc1ef991 100644
---- a/drivers/media/i2c/ak7375.c
-+++ b/drivers/media/i2c/ak7375.c
-@@ -352,6 +352,6 @@ static struct i2c_driver ak7375_i2c_driver = {
- module_i2c_driver(ak7375_i2c_driver);
- 
- MODULE_AUTHOR("Tianshu Qiu <tian.shu.qiu@intel.com>");
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao <bingbu.cao@amd.com>");
- MODULE_DESCRIPTION("AK7375 VCM driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/media/i2c/imx319.c b/drivers/media/i2c/imx319.c
-index 953310ef3046..87301d62eb8d 100644
---- a/drivers/media/i2c/imx319.c
-+++ b/drivers/media/i2c/imx319.c
-@@ -2499,7 +2499,7 @@ module_i2c_driver(imx319_i2c_driver);
- 
- MODULE_AUTHOR("Qiu, Tianshu <tian.shu.qiu@intel.com>");
- MODULE_AUTHOR("Rapolu, Chiranjeevi");
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao <bingbu.cao@amd.com>");
- MODULE_AUTHOR("Yang, Hyungwoo");
- MODULE_DESCRIPTION("Sony imx319 sensor driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
-index 27a5c212a527..9969c61f1ec4 100644
---- a/drivers/media/i2c/imx355.c
-+++ b/drivers/media/i2c/imx355.c
-@@ -1892,7 +1892,7 @@ module_i2c_driver(imx355_i2c_driver);
- 
- MODULE_AUTHOR("Qiu, Tianshu <tian.shu.qiu@intel.com>");
- MODULE_AUTHOR("Rapolu, Chiranjeevi");
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao <bingbu.cao@amd.com>");
- MODULE_AUTHOR("Yang, Hyungwoo");
- MODULE_DESCRIPTION("Sony imx355 sensor driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
-index 8a29e5b4b6ba..f857d3dd8ec5 100644
---- a/drivers/media/i2c/ov01a10.c
-+++ b/drivers/media/i2c/ov01a10.c
-@@ -1131,7 +1131,7 @@ static struct i2c_driver ov01a10_i2c_driver = {
- 
- module_i2c_driver(ov01a10_i2c_driver);
- 
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao <bingbu.cao@amd.com>");
- MODULE_AUTHOR("Wang Yating <yating.wang@intel.com>");
- MODULE_DESCRIPTION("OmniVision OV01A10 sensor driver");
- MODULE_LICENSE("GPL");
-diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-index fb590dfadda1..f5d5a3b8f87f 100644
---- a/drivers/media/i2c/ov2740.c
-+++ b/drivers/media/i2c/ov2740.c
-@@ -1481,6 +1481,6 @@ module_i2c_driver(ov2740_i2c_driver);
- 
- MODULE_AUTHOR("Qiu, Tianshu <tian.shu.qiu@intel.com>");
- MODULE_AUTHOR("Shawn Tu");
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao <bingbu.cao@amd.com>");
- MODULE_DESCRIPTION("OmniVision OV2740 sensor driver");
- MODULE_LICENSE("GPL v2");
-diff --git a/drivers/media/i2c/ov9734.c b/drivers/media/i2c/ov9734.c
-index 0eaf33807fc9..2c94691741d8 100644
---- a/drivers/media/i2c/ov9734.c
-+++ b/drivers/media/i2c/ov9734.c
-@@ -989,6 +989,6 @@ static struct i2c_driver ov9734_i2c_driver = {
- module_i2c_driver(ov9734_i2c_driver);
- 
- MODULE_AUTHOR("Qiu, Tianshu <tian.shu.qiu@intel.com>");
--MODULE_AUTHOR("Bingbu Cao <bingbu.cao@intel.com>");
-+MODULE_AUTHOR("Bingbu Cao <bingbu.cao@amd.com>");
- MODULE_DESCRIPTION("OmniVision OV9734 sensor driver");
- MODULE_LICENSE("GPL v2");
--- 
-2.53.0
+I tested this patch with my reproducer, and I could no longer trigger =
+the bug.
+
+The fix works on my side.
+
+One minor nit: there is a typo in the comment: "frontent" should be =
+"frontend".
+
+Please feel free to add:
+
+Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+
+Thanks for the fix!
+Shuangpeng
+
+> thank you so much!
+> Pei.
+>> Please let me know if there is a new patch you would like me to test.
+>>=20
+>>=20
+>>>> [   64.807294][   T42] usb 3-1: new high-speed USB device number 2 =
+using dummy_hcd
+>>>> [   64.958989][   T42] usb 3-1: New USB device found, =
+idVendor=3D0fe9, idProduct=3Dd620, bcdDevice=3D 1.00
+>>>> [   64.961560][   T42] usb 3-1: New USB device strings: Mfr=3D0, =
+Product=3D0, SerialNumber=3D0
+>>>> [   65.351442][   T42] au0828: i2c bus registered
+>>>> [   65.634777][   T42] au8522 1-0047: creating new instance
+>>>> [   65.655406][   T42] DVB: Unable to find symbol xc5000_attach()
+>>>> [   65.656022][   T42] dvbdev: DVB: registering new adapter =
+(au0828)
+>>>> [   65.656632][   T42] au0828: dvb_register_frontend failed (errno =
+=3D -12)
+>>>> [   65.658957][   T42] au8522 1-0047: destroying instance
+>>>> [   65.659499][   T42] =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>>> [   65.660261][   T42] BUG: KASAN: slab-use-after-free in =
+au0828_dvb_register+0x1280/0x15f0
+>>>> [   65.661023][   T42] Read of size 8 at addr ffff8881685f4118 by =
+task kworker/1:1/42
+>>>> [   65.661742][   T42]
+>>>> [   65.661973][   T42] CPU: 1 UID: 0 PID: 42 Comm: kworker/1:1 Not =
+tainted 7.1.0-rc5-00006-ge8c2f9fdadee #16 PREEMPT(
+>>>> [   65.661978][   T42] Hardware name: QEMU Ubuntu 24.04 PC v2 =
+(i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debia4
+>>>> [   65.661981][   T42] Workqueue: usb_hub_wq hub_event
+>>>> [   65.661988][   T42] Call Trace:
+>>>> [   65.661991][   T42]  <TASK>
+>>>> [   65.661993][   T42]  dump_stack_lvl+0x26/0x80
+>>>> [   65.661999][   T42]  print_report+0x16a/0x5d0
+>>>> [   65.662013][   T42]  kasan_report+0xc3/0x100
+>>>> [   65.662019][   T42]  au0828_dvb_register+0x1280/0x15f0
+>>>> [   65.662026][   T42]  au0828_usb_probe+0x353/0x4b0
+>>>> [   65.662029][   T42]  usb_probe_interface+0x4aa/0xa40
+>>>> [   65.662034][   T42]  really_probe+0x259/0x9a0
+>>>> [   65.662041][   T42]  __driver_probe_device+0x18b/0x370
+>>>> [   65.662045][   T42]  driver_probe_device+0x4b/0x1e0
+>>>> [   65.662049][   T42]  __device_attach_driver+0x1d0/0x2f0
+>>>> [   65.662055][   T42]  bus_for_each_drv+0x22a/0x260
+>>>> [   65.663294][   T42]  __device_attach+0x25a/0x480
+>>>> [   65.663321][   T42]  device_initial_probe+0x68/0xa0
+>>>> [   65.663324][   T42]  bus_probe_device+0x10a/0x1d0
+>>>> [   65.663328][   T42]  device_add+0x56b/0x9c0
+>>>> [   65.663332][   T42]  usb_set_configuration+0x1775/0x1d80
+>>>> [   65.663337][   T42]  usb_generic_driver_probe+0x61/0xf0
+>>>> [   65.663343][   T42]  usb_probe_device+0xd3/0x2a0
+>>>> [   65.663346][   T42]  really_probe+0x259/0x9a0
+>>>> [   65.663350][   T42]  __driver_probe_device+0x18b/0x370
+>>>> [   65.663354][   T42]  driver_probe_device+0x4b/0x1e0
+>>>> [   65.663357][   T42]  __device_attach_driver+0x1d0/0x2f0
+>>>> [   65.663363][   T42]  bus_for_each_drv+0x22a/0x260
+>>>> [   65.663381][   T42]  __device_attach+0x25a/0x480
+>>>> [   65.663403][   T42]  device_initial_probe+0x68/0xa0
+>>>> [   65.663405][   T42]  bus_probe_device+0x10a/0x1d0
+>>>> [   65.663409][   T42]  device_add+0x56b/0x9c0
+>>>> [   65.663412][   T42]  usb_new_device+0xbdd/0x1830
+>>>> [   65.663423][   T42]  hub_event+0x2358/0x4090
+>>>> [   65.663443][   T42]  process_scheduled_works+0x73d/0xed0
+>>>> [   65.663451][   T42]  worker_thread+0x7d6/0xb60
+>>>> [   65.663459][   T42]  kthread+0x322/0x410
+>>>> [   65.663470][   T42]  ret_from_fork+0x285/0x750
+>>>> [   65.663485][   T42]  ret_from_fork_asm+0x1a/0x30
+>>>> [   65.663491][   T42]  </TASK>
+>>>> [   65.663493][   T42]
+>>>> [   65.702422][   T42] Freed by task 42 on cpu 1 at 65.659497s:
+>>>> [   65.702994][   T42]  kasan_save_track+0x2e/0x90
+>>>> [   65.703471][   T42]  kasan_save_free_info+0x3c/0x50
+>>>> [   65.703965][   T42]  __kasan_slab_free+0x36/0x60
+>>>> [   65.704450][   T42]  kfree+0x154/0x450
+>>>> [   65.704839][   T42]  au8522_release_state+0x1b6/0x210
+>>>> [   65.705364][   T42]  dvb_frontend_put+0x12a/0x170
+>>>> [   65.705848][   T42]  au0828_dvb_register+0xfd9/0x15f0
+>>>> [   65.706373][   T42]  au0828_usb_probe+0x353/0x4b0
+>>>> [   65.706854][   T42]  usb_probe_interface+0x4aa/0xa40
+>>>> [   65.707373][   T42]  really_probe+0x259/0x9a0
+>>>> [   65.707822][   T42]  __driver_probe_device+0x18b/0x370
+>>>> [   65.708347][   T42]  driver_probe_device+0x4b/0x1e0
+>>>> [   65.708845][   T42]  __device_attach_driver+0x1d0/0x2f0
+>>>> [   65.709383][   T42]  bus_for_each_drv+0x22a/0x260
+>>>> [   65.709864][   T42]  __device_attach+0x25a/0x480
+>>>> [   65.710339][   T42]  device_initial_probe+0x68/0xa0
+>>>> [   65.710836][   T42]  bus_probe_device+0x10a/0x1d0
+>>>> [   65.711323][   T42]  device_add+0x56b/0x9c0
+>>>> [   65.711750][   T42]  usb_set_configuration+0x1775/0x1d80
+>>>> [   65.712294][   T42]  usb_generic_driver_probe+0x61/0xf0
+>>>> [   65.712822][   T42]  usb_probe_device+0xd3/0x2a0
+>>>> [   65.713305][   T42]  really_probe+0x259/0x9a0
+>>>> [   65.713752][   T42]  __driver_probe_device+0x18b/0x370
+>>>> [   65.714282][   T42]  driver_probe_device+0x4b/0x1e0
+>>>> [   65.714779][   T42]  __device_attach_driver+0x1d0/0x2f0
+>>>> [   65.715313][   T42]  bus_for_each_drv+0x22a/0x260
+>>>> [   65.715794][   T42]  __device_attach+0x25a/0x480
+>>>> [   65.716271][   T42]  device_initial_probe+0x68/0xa0
+>>>> [   65.716767][   T42]  bus_probe_device+0x10a/0x1d0
+>>>> [   65.717262][   T42]  device_add+0x56b/0x9c0
+>>>> [   65.717690][   T42]  usb_new_device+0xbdd/0x1830
+>>>> [   65.717869][    C0] clocksource: Watchdog remote CPU 1 read =
+timed out
+>>>> [   65.718172][   T42]  hub_event+0x2358/0x4090
+>>>> [   65.718177][   T42]  process_scheduled_works+0x73d/0xed0
+>>>> [   65.718180][   T42]  worker_thread+0x7d6/0xb60
+>>>> [   65.718183][   T42]  kthread+0x322/0x410
+>>>> [   65.718187][   T42]  ret_from_fork+0x285/0x750
+>>>> [   65.718189][   T42]  ret_from_fork_asm+0x1a/0x30
+>>>> [   65.718192][   T42]
+>>>> [   65.718194][   T42] The buggy address belongs to the object at =
+ffff8881685f4000
+>>>> [   65.718194][   T42]  which belongs to the cache kmalloc-4k of =
+size 4096
+>>>> [   65.718197][   T42] The buggy address is located 280 bytes =
+inside of
+>>>> [   65.718197][   T42]  freed 4096-byte region [ffff8881685f4000, =
+ffff8881685f5000)
+>>>> [   65.718200][   T42]
+>>>> [   65.718201][   T42] The buggy address belongs to the physical =
+page:
+>>>> [   65.718204][   T42] page: refcount:0 mapcount:0 =
+mapping:0000000000000000 index:0x0 pfn:0x1685f0
+>>>> [   65.718209][   T42] head: order:3 mapcount:0 entire_mapcount:0 =
+nr_pages_mapped:0 pincount:0
+>>>> [   65.718212][   T42] flags: =
+0x17ff00000000040(head|node=3D0|zone=3D2|lastcpupid=3D0x7ff)
+>>>> [   65.729357][   T42] page_type: f5(slab)
+>>>> [   65.729757][   T42] raw: 017ff00000000040 ffff888100042140 =
+dead000000000100 dead000000000122
+>>>> [   65.730603][   T42] raw: 0000000000000000 0000000800040004 =
+00000000f5000000 0000000000000000
+>>>> [   65.731450][   T42] head: 017ff00000000040 ffff888100042140 =
+dead000000000100 dead000000000122
+>>>> [   65.732301][   T42] head: 0000000000000000 0000000800040004 =
+00000000f5000000 0000000000000000
+>>>> [   65.733211][   T42] head: 017ff00000000003 fffffffffffffe01 =
+00000000ffffffff 00000000ffffffff
+>>>> [   65.734064][   T42] head: ffffffffffffffff 0000000000000000 =
+00000000ffffffff 0000000000000008
+>>>> [   65.734922][   T42] page dumped because: kasan: bad access =
+detected
+>>>> [   65.735562][   T42] page_owner tracks the page as allocated
+>>>> [   65.736133][   T42] page last allocated via order 3, migratetype =
+Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__G2
+>>>> [   65.738177][   T42]  post_alloc_hook+0x152/0x180
+>>>> [   65.738654][   T42]  get_page_from_freelist+0x3996/0x3b50
+>>>> [   65.739207][   T42]  __alloc_frozen_pages_noprof+0x243/0x750
+>>>> [   65.739783][   T42]  allocate_slab+0x76/0x5e0
+>>>> [   65.740242][   T42]  refill_objects+0x2e1/0x360
+>>>> [   65.740706][   T42]  __pcs_replace_empty_main+0x233/0x440
+>>>> [   65.741262][   T42]  __kmalloc_cache_noprof+0x2d0/0x490
+>>>> [   65.741791][   T42]  au8522_get_state+0x266/0x4c0
+>>>> [   65.742280][   T42]  au8522_attach+0xba/0x2d0
+>>>> [   65.742728][   T42]  au0828_dvb_register+0xcc/0x15f0
+>>>> [   65.743241][   T42]  au0828_usb_probe+0x353/0x4b0
+>>>> [   65.743723][   T42]  usb_probe_interface+0x4aa/0xa40
+>>>> [   65.744264][   T42]  really_probe+0x259/0x9a0
+>>>> [   65.744713][   T42]  __driver_probe_device+0x18b/0x370
+>>>> [   65.745246][   T42]  driver_probe_device+0x4b/0x1e0
+>>>> [   65.745745][   T42]  __device_attach_driver+0x1d0/0x2f0
+>>>> [   65.746284][   T42] page last free pid 4578 tgid 4578 stack =
+trace:
+>>>> [   65.746909][   T42]  __free_frozen_pages+0xb8c/0xcb0
+>>>> [   65.747427][   T42]  __slab_free+0x219/0x260
+>>>> [   65.747870][   T42]  qlist_free_all+0x33/0x120
+>>>> [   65.748339][   T42]  kasan_quarantine_reduce+0x152/0x170
+>>>> [   65.748877][   T42]  __kasan_slab_alloc+0x1f/0x60
+>>>> [   65.749368][   T42]  kmem_cache_alloc_noprof+0x1f0/0x480
+>>>> [   65.749908][   T42]  do_getname+0x2a/0x1c0
+>>>> [   65.750337][   T42]  do_sys_openat2+0x99/0x190
+>>>> [   65.750798][   T42]  __x64_sys_openat+0x20b/0x260
+>>>> [   65.751287][   T42]  do_syscall_64+0x125/0x590
+>>>> [   65.751744][   T42]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+>>>> [   65.752334][   T42]
+>>>> [   65.752572][   T42] Memory state around the buggy address:
+>>>> [   65.753132][   T42]  ffff8881685f4000: fa fb fb fb fb fb fb fb =
+fb fb fb fb fb fb fb fb
+>>>> [   65.753918][   T42]  ffff8881685f4080: fb fb fb fb fb fb fb fb =
+fb fb fb fb fb fb fb fb
+>>>> [   65.754712][   T42] >ffff8881685f4100: fb fb fb fb fb fb fb fb =
+fb fb fb fb fb fb fb fb
+>>>> [   65.755504][   T42]                             ^
+>>>> [   65.755985][   T42]  ffff8881685f4180: fb fb fb fb fb fb fb fb =
+fb fb fb fb fb fb fb fb
+>>>> [   65.756775][   T42]  ffff8881685f4200: fb fb fb fb fb fb fb fb =
+fb fb fb fb fb fb fb fb
+>>>> [   65.757575][   T42] =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>>> [   65.758570][   T42] Kernel panic - not syncing: KASAN: =
+panic_on_warn set ...
+>>>> [   65.759306][   T42] CPU: 1 UID: 0 PID: 42 Comm: kworker/1:1 Not =
+tainted 7.1.0-rc5-00006-ge8c2f9fdadee #16 PREEMPT(
+>>>> [   65.760402][   T42] Hardware name: QEMU Ubuntu 24.04 PC v2 =
+(i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debia4
+>>>> [   65.761615][   T42] Workqueue: usb_hub_wq hub_event
+>>>> [   65.762263][   T42] Call Trace:
+>>>> [   65.762658][   T42]  <TASK>
+>>>> [   65.762956][   T42]  dump_stack_lvl+0x26/0x80
+>>>> [   65.763420][   T42]  vpanic+0x37d/0x710
+>>>> [   65.764686][   T42]  panic+0x9f/0xa0
+>>>> [   65.767120][   T42]  check_panic_on_warn+0x58/0x70
+>>>> [   65.768155][   T42]  end_report+0x44/0xe0
+>>>> [   65.769116][   T42]  kasan_report+0xd4/0x100
+>>>> [   65.770092][   T42]  au0828_dvb_register+0x1280/0x15f0
+>>>> [   65.771097][   T42]  au0828_usb_probe+0x353/0x4b0
+>>>> [   65.771586][   T42]  usb_probe_interface+0x4aa/0xa40
+>>>> [   65.772089][   T42]  really_probe+0x259/0x9a0
+>>>> [   65.772549][   T42]  __driver_probe_device+0x18b/0x370
+>>>> [   65.773069][   T42]  driver_probe_device+0x4b/0x1e0
+>>>> [   65.773576][   T42]  __device_attach_driver+0x1d0/0x2f0
+>>>> [   65.774692][   T42]  bus_for_each_drv+0x22a/0x260
+>>>> [   65.777453][   T42]  __device_attach+0x25a/0x480
+>>>> [   65.780818][   T42]  device_initial_probe+0x68/0xa0
+>>>> [   65.781322][   T42]  bus_probe_device+0x10a/0x1d0
+>>>> [   65.781800][   T42]  device_add+0x56b/0x9c0
+>>>> [   65.782284][   T42]  usb_set_configuration+0x1775/0x1d80
+>>>> [   65.782822][   T42]  usb_generic_driver_probe+0x61/0xf0
+>>>> [   65.783361][   T42]  usb_probe_device+0xd3/0x2a0
+>>>> [   65.783832][   T42]  really_probe+0x259/0x9a0
+>>>> [   65.784286][   T42]  __driver_probe_device+0x18b/0x370
+>>>> [   65.784804][   T42]  driver_probe_device+0x4b/0x1e0
+>>>> [   65.785304][   T42]  __device_attach_driver+0x1d0/0x2f0
+>>>> [   65.786416][   T42]  bus_for_each_drv+0x22a/0x260
+>>>> [   65.789198][   T42]  __device_attach+0x25a/0x480
+>>>> [   65.792606][   T42]  device_initial_probe+0x68/0xa0
+>>>> [   65.793101][   T42]  bus_probe_device+0x10a/0x1d0
+>>>> [   65.793602][   T42]  device_add+0x56b/0x9c0
+>>>> [   65.794028][   T42]  usb_new_device+0xbdd/0x1830
+>>>> [   65.795025][   T42]  hub_event+0x2358/0x4090
+>>>> [   65.797580][   T42]  process_scheduled_works+0x73d/0xed0
+>>>> [   65.798124][   T42]  worker_thread+0x7d6/0xb60
+>>>> [   65.799085][   T42]  kthread+0x322/0x410
+>>>> [   65.800465][   T42]  ret_from_fork+0x285/0x750
+>>>> [   65.802356][   T42]  ret_from_fork_asm+0x1a/0x30
+>>>> [   65.802830][   T42]  </TASK>
+>>>> [   65.803886][   T42] Kernel Offset: disabled
+>>>> [   65.804329][   T42] ---[ end Kernel panic - not syncing: KASAN: =
+panic_on_warn set ... ]=E2=80=94
+>>>>=20
+>>>>>> [  141.481576][   T48] =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>>>>> [  141.482348][   T48] BUG: KASAN: slab-use-after-free in =
+au0828_dvb_register (drivers/media/usb/au0828/au0828-dvb.c:636)
+>>>>>> [  141.483148][   T48] Read of size 8 at addr ffff888171d4a118 by =
+task kworker/1:1/48
+>>>>>> [  141.483903][   T48]
+>>>>>> [  141.484144][   T48] Hardware name: QEMU Ubuntu 24.04 PC v2 =
+(i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.34
+>>>>>> [  141.484148][   T48] Workqueue: usb_hub_wq hub_event
+>>>>>> [  141.484154][   T48] Call Trace:
+>>>>>> [  141.484157][   T48]  <TASK>
+>>>>>> [  141.484159][   T48]  dump_stack_lvl (lib/dump_stack.c:94 =
+lib/dump_stack.c:120)
+>>>>>> [  141.484164][   T48]  print_report (mm/kasan/report.c:378 =
+mm/kasan/report.c:482)
+>>>>>> [  141.484177][   T48]  kasan_report (mm/kasan/report.c:595)
+>>>>>> [  141.484183][   T48]  au0828_dvb_register =
+(drivers/media/usb/au0828/au0828-dvb.c:636)
+>>>>>> [  141.484190][   T48]  au0828_usb_probe =
+(drivers/media/usb/au0828/au0828-core.c:733)
+>>>>>> [  141.484193][   T48]  usb_probe_interface =
+(drivers/usb/core/driver.c:396)
+>>>>>> [  141.484198][   T48]  really_probe (drivers/base/dd.c:? =
+drivers/base/dd.c:709)
+>>>>>> [  141.484204][   T48]  __driver_probe_device =
+(drivers/base/dd.c:871)
+>>>>>> [  141.484207][   T48]  driver_probe_device =
+(drivers/base/dd.c:901)
+>>>>>> [  141.484211][   T48]  __device_attach_driver =
+(drivers/base/dd.c:1029)
+>>>>>> [  141.484217][   T48]  bus_for_each_drv (drivers/base/bus.c:500)
+>>>>>> [  141.484264][   T48]  __device_attach (drivers/base/dd.c:1101)
+>>>>>> [  141.484289][   T48]  device_initial_probe =
+(drivers/base/dd.c:1156)
+>>>>>> [  141.484292][   T48]  bus_probe_device (drivers/base/bus.c:613)
+>>>>>> [  141.484296][   T48]  device_add (drivers/base/core.c:3706)
+>>>>>> [  141.484299][   T48]  usb_set_configuration =
+(drivers/usb/core/message.c:2268)
+>>>>>> [  141.484303][   T48]  usb_generic_driver_probe =
+(drivers/usb/core/generic.c:250)
+>>>>>> [  141.484308][   T48]  usb_probe_device =
+(drivers/usb/core/driver.c:291)
+>>>>>> [  141.484311][   T48]  really_probe (drivers/base/dd.c:? =
+drivers/base/dd.c:709)
+>>>>>> [  141.484315][   T48]  __driver_probe_device =
+(drivers/base/dd.c:871)
+>>>>>> [  141.484318][   T48]  driver_probe_device =
+(drivers/base/dd.c:901)
+>>>>>> [  141.484321][   T48]  __device_attach_driver =
+(drivers/base/dd.c:1029)
+>>>>>> [  141.484328][   T48]  bus_for_each_drv (drivers/base/bus.c:500)
+>>>>>> [  141.484346][   T48]  __device_attach (drivers/base/dd.c:1101)
+>>>>>> [  141.484367][   T48]  device_initial_probe =
+(drivers/base/dd.c:1156)
+>>>>>> [  141.484370][   T48]  bus_probe_device (drivers/base/bus.c:613)
+>>>>>> [  141.484374][   T48]  device_add (drivers/base/core.c:3706)
+>>>>>> [  141.484376][   T48]  usb_new_device =
+(drivers/usb/core/hub.c:2695)
+>>>>>> [  141.484386][   T48]  hub_event (drivers/usb/core/hub.c:5567 =
+drivers/usb/core/hub.c:5707 drivers/usb/core/hub.c:5871 =
+drivers/usb/core/hub.c:5953)
+>>>>>> [  141.484406][   T48]  process_scheduled_works =
+(kernel/workqueue.c:3314 kernel/workqueue.c:3397)
+>>>>>> [  141.484412][   T48]  worker_thread (kernel/workqueue.c:3478)
+>>>>>> [  141.484420][   T48]  kthread (kernel/kthread.c:436)
+>>>>>> [  141.484431][   T48]  ret_from_fork =
+(arch/x86/kernel/process.c:158)
+>>>>>> [  141.484445][   T48]  ret_from_fork_asm =
+(arch/x86/entry/entry_64.S:245)
+>>>>>> [  141.484450][   T48]  </TASK>
+>>>>>> [  141.484451][   T48]
+>>>>>> [  141.523531][   T48] Freed by task 48 on cpu 1 at 141.481575s:
+>>>>>> [  141.524120][   T48]  kasan_save_track (mm/kasan/common.c:57 =
+mm/kasan/common.c:78)
+>>>>>> [  141.524594][   T48]  kasan_save_free_info =
+(mm/kasan/generic.c:584)
+>>>>>> [  141.525089][   T48]  __kasan_slab_free (mm/kasan/common.c:253 =
+mm/kasan/common.c:285)
+>>>>>> [  141.525570][   T48]  kfree (./include/linux/kasan.h:235 =
+mm/slub.c:2689 mm/slub.c:6251 mm/slub.c:6566)
+>>>>>> [  141.525957][   T48]  au8522_release_state =
+(drivers/media/dvb-frontends/au8522_common.c:124)
+>>>>>> [  141.526467][   T48]  dvb_frontend_put =
+(drivers/media/dvb-core/dvb_frontend.c:3093 =
+drivers/media/dvb-core/dvb_frontend.c:141 =
+drivers/media/dvb-core/dvb_frontend.c:166)
+>>>>>> [  141.526957][   T48]  au0828_dvb_register =
+(drivers/media/usb/au0828/au0828-dvb.c:518 =
+drivers/media/usb/au0828/au0828-dvb.c:634)
+>>>>>> [  141.527469][   T48]  au0828_usb_probe =
+(drivers/media/usb/au0828/au0828-core.c:733)
+>>>>>> [  141.527952][   T48]  usb_probe_interface =
+(drivers/usb/core/driver.c:396)
+>>>>>> [  141.528455][   T48]  really_probe (drivers/base/dd.c:? =
+drivers/base/dd.c:709)
+>>>>>> [  141.528908][   T48]  __driver_probe_device =
+(drivers/base/dd.c:871)
+>>>>>> [  141.529426][   T48]  driver_probe_device =
+(drivers/base/dd.c:901)
+>>>>>> [  141.529932][   T48]  __device_attach_driver =
+(drivers/base/dd.c:1029)
+>>>>>> [  141.530459][   T48]  bus_for_each_drv (drivers/base/bus.c:500)
+>>>>>> [  141.530949][   T48]  __device_attach (drivers/base/dd.c:1101)
+>>>>>> [  141.531419][   T48]  device_initial_probe =
+(drivers/base/dd.c:1156)
+>>>>>> [  141.531923][   T48]  bus_probe_device (drivers/base/bus.c:613)
+>>>>>> [  141.532404][   T48]  device_add (drivers/base/core.c:3706)
+>>>>>> [  141.532840][   T48]  usb_set_configuration =
+(drivers/usb/core/message.c:2268)
+>>>>>> [  141.533373][   T48]  usb_generic_driver_probe =
+(drivers/usb/core/generic.c:250)
+>>>>>> [  141.533907][   T48]  usb_probe_device =
+(drivers/usb/core/driver.c:291)
+>>>>>> [  141.534377][   T48]  really_probe (drivers/base/dd.c:? =
+drivers/base/dd.c:709)
+>>>>>> [  141.534833][   T48]  __driver_probe_device =
+(drivers/base/dd.c:871)
+>>>>>> [  141.535352][   T48]  driver_probe_device =
+(drivers/base/dd.c:901)
+>>>>>> [  141.535856][   T48]  __device_attach_driver =
+(drivers/base/dd.c:1029)
+>>>>>> [  141.536384][   T48]  bus_for_each_drv (drivers/base/bus.c:500)
+>>>>>> [  141.536869][   T48]  __device_attach (drivers/base/dd.c:1101)
+>>>>>> [  141.537340][   T48]  device_initial_probe =
+(drivers/base/dd.c:1156)
+>>>>>> [  141.537839][   T48]  bus_probe_device (drivers/base/bus.c:613)
+>>>>>> [  141.538320][   T48]  device_add (drivers/base/core.c:3706)
+>>>>>> [  141.538753][   T48]  usb_new_device =
+(drivers/usb/core/hub.c:2695)
+>>>>>> [  141.539226][   T48]  hub_event (drivers/usb/core/hub.c:5567 =
+drivers/usb/core/hub.c:5707 drivers/usb/core/hub.c:5871 =
+drivers/usb/core/hub.c:5953)
+>>>>>> [  141.539672][   T48]  process_scheduled_works =
+(kernel/workqueue.c:3314 kernel/workqueue.c:3397)
+>>>>>> [  141.540205][   T48]  worker_thread (kernel/workqueue.c:3478)
+>>>>>> [  141.540666][   T48]  kthread (kernel/kthread.c:436)
+>>>>>> [  141.541069][   T48]  ret_from_fork =
+(arch/x86/kernel/process.c:158)
+>>>>>> [  141.541524][   T48]  ret_from_fork_asm =
+(arch/x86/entry/entry_64.S:245)
+>>>>>> [  141.541999][   T48]
+>>>>>> [  141.542236][   T48] The buggy address belongs to the object at =
+ffff888171d4a000
+>>>>>> [  141.542236][   T48]  which belongs to the cache kmalloc-4k of =
+size 4096
+>>>>>> [  141.543602][   T48] The buggy address is located 280 bytes =
+inside of
+>>>>>> [  141.543602][   T48]  freed 4096-byte region [ffff888171d4a000, =
+ffff888171d4b000)
+>=20
 
 
