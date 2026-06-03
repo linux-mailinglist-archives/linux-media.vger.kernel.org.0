@@ -1,619 +1,1289 @@
-Return-Path: <linux-media+bounces-63571-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63572-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id oou9N6T+H2rvtgAAu9opvQ
-	(envelope-from <linux-media+bounces-63571-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 12:15:00 +0200
+	id XtjuCSn/H2oYtwAAu9opvQ
+	(envelope-from <linux-media+bounces-63572-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 12:17:13 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D8FA63674D
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 12:15:00 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A5B36367BF
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 12:17:12 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=yqNDWCbZ;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63571-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63571-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=mailbox.org;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=gcOwAv9I;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=Nx+Zhoxo;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63572-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-63572-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=qualcomm.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8381A3037986
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 10:07:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F293930CED7B
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 10:10:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E71F3AB293;
-	Wed,  3 Jun 2026 10:07:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2045841B346;
+	Wed,  3 Jun 2026 10:10:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBFDA3438AA
-	for <linux-media@vger.kernel.org>; Wed,  3 Jun 2026 10:07:48 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780481271; cv=none; b=NJ14hmuKL2sBM3elskJGIoZvAa4CXoyEEPy4BmF7IPYIKuvoMVIIxwGKWAuMY6Wke8JK7/Wh1T5eC9ii0m8KSh8UM+kE/ID2FlOmT5/cTKwNlVYrbKAtABttfScQCIq9b5NwTH/xBFuFOUvkReiUmBOgG3xOb0brCGMHF65SUGY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780481271; c=relaxed/simple;
-	bh=kKJDpJnypl9eiyMh9uJOOIItBLmH8xNGHq9czBYH5TM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=uvnv9CTvSyr8uKFevj5D6MZsGVDK5wXEslu8k19afzQ/iEd7CPEk+K4/ygU6NiydxETchTZvjcjY7D91pWMQGtb1VjSeLZiCna8Q8hNIL9AH8scObqGBu3giac67FB+rTjg8evupts1cqhKPURaeuhus8Ca1HHwwEHuKLTeE67Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=yqNDWCbZ; arc=none smtp.client-ip=80.241.56.151
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gVk0K2Mhjz9t4F;
-	Wed,  3 Jun 2026 12:07:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1780481265; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ekxSFDjq7Osk3OW+A64X9wRDpyix7j8jxgqv1DuCLho=;
-	b=yqNDWCbZlqRZr1J8XPtwyw1K+vSiJe0PugdfsoDQRc3zlbVJ7MawCeF5moHhOtDmEfrBZ+
-	xtPjwkdyxiMt+TaxAxZ0esD/AsCflJcbKrBfu6iZxeQr/KWg9gK9ZbgdTlzEVoZ2lIWzDk
-	inpKfb3jBaKZLMuh7DRXBATEYp8EA+JLsm50oq3MkioHTExptv6kVCyYttI56Chorymt6q
-	fwCkcaLY2KV8cgYjpv+VJseC+a8oEKABFbzYze9yuMGbHxCGUNVIHuA1DK5gwZx3NjSC+2
-	RIjFjJrYbSQ/jvTRg/38G+D1eWjzlo9Hm6+UV2Ytgn+rv6fXg68ZDStx0NSJDw==
-Message-ID: <5e710e0bffd21eded77f060ae34e641449325c73.camel@mailbox.org>
-Subject: Re: [PATCH 3/4] rust: Add dma_fence abstractions
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: phasta@kernel.org, Alice Ryhl <aliceryhl@google.com>, 
-	sashiko-reviews@lists.linux.dev, linux-media@vger.kernel.org,
- ojeda@kernel.org,  Danilo Krummrich	 <dakr@kernel.org>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,  Gary Guo
- <gary@garyguo.net>, Daniel Almeida <daniel.almeida@collabora.com>
-Date: Wed, 03 Jun 2026 12:07:42 +0200
-In-Reply-To: <20260603115804.29eb8f7d@fedora-2.home>
-References: <ah1c3NSU-4UkdUhb@google.com>
-		<a3d09b270e6effb6f2bfb5d7ba8de48e3c2c4081.camel@mailbox.org>
-		<CAH5fLggvxGwJkAp+VqG7pA-e2zM-T8_DR0DeCiZiJyM+o51DuQ@mail.gmail.com>
-		<24ef07ed85d9e7aa7f9d3a96301c4c15bc0f2315.camel@mailbox.org>
-		<ah2M2a_4PneZpjTS@google.com>
-		<16dff07d28fca94749f14e9c91e6f812f605d6e5.camel@mailbox.org>
-		<ah7CGySkyE7mSM8a@google.com>
-		<7a978596279eca99cd41ca46606c7e5a6a38e801.camel@mailbox.org>
-		<ah7FjDdU6zt65qId@google.com>
-		<4bf6e916efe54bab66defda6fffea8c41358b3cc.camel@mailbox.org>
-		<ah72Bi2Q5Wpgo2kE@google.com>
-		<3c7e4db139df7cea18bc683d6dd33da2d00f0358.camel@mailbox.org>
-		<20260603084805.5e0e23ea@fedora-2.home>
-		<aa11e74f419b02c0e4fe417face43e7d05e62783.camel@mailbox.org>
-		<20260603115247.21ee5d1d@fedora-2.home>
-	 <20260603115804.29eb8f7d@fedora-2.home>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22AFE405869
+	for <linux-media@vger.kernel.org>; Wed,  3 Jun 2026 10:10:21 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780481424; cv=pass; b=qBaG2OT7iOYtOSJNCr0cGpPV9acnxOR+xFy/ho95nm5iwNKzWgV7cn+VBKMX80m/BlRrQDTBg9vgV7aVe0ExLZ3v/rImT8mdHAaPfIcMJfkvIm/VmziSndzUNIPz+0oVnLi0lfmmX6hD5jOJVuqZzhc0JI0mD+ELLoPtsVEIVi4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780481424; c=relaxed/simple;
+	bh=TN8jQ2rYtfBVeDhDTR9XxQHiFijvdwqisBmqMfcnkhA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FKpEPkMmqiL9Ey63WrTnPbdFHRxk6SCL0hkaiQDCdZhvu3Fs0AJihFVp/cFPd82OGHYiY4dyvmIulcPWrESj/afnKNAdfdJrX15eDMhJDmIYu1mFtew4u97Gn3R2pH51pbOlSmEIZJ5e93NTk7MQ/Ol9yKHSp5OwIQvTi1o4KUo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gcOwAv9I; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Nx+Zhoxo; arc=pass smtp.client-ip=205.220.168.131
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6536RLiq873749
+	for <linux-media@vger.kernel.org>; Wed, 3 Jun 2026 10:10:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	A57FRVyepdJD+r72mdd0cfLEcrgY5/kD+SnDpI1g1OI=; b=gcOwAv9IQL6zfsUe
+	UCLh0dtyRYz/bpTTtYc6H3u2L3G++Mt1rQcnUHkMYqcwuqUfNyTyi7L8731idNYQ
+	kc3qXRRb9bNX9dy+/tZhoKy0w0oR06poFx0MiSKUDnZSAXFJHa4rUvcXIC0R3W/R
+	oyAibs5bdX9U2diW83puuxGXHF8fY4m1YUh8EiBQF0Lj0Fq6VqNeKKhEa5aDKuo6
+	wC609h88ezTp5KJGvlLcSTKVXhj3iflyUdFn+D/F1sWJxjsjK3svCQCz+qvdU1bZ
+	//Jm8tSNKF7CS0ceRz8zaUBwkjdbxukQCSVylatepG0pjWEJ10kWGvAYiHw4Gy6+
+	HqVJ7A==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ej6a9jwtq-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 03 Jun 2026 10:10:21 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-5174d1b326eso12031551cf.3
+        for <linux-media@vger.kernel.org>; Wed, 03 Jun 2026 03:10:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780481420; cv=none;
+        d=google.com; s=arc-20240605;
+        b=fnNI6hwMTnztc6ZvycrjXhN1b+1FPnFwNwhrfRYgbGUGwVw3OTwJzzpwrjcu6+BUHR
+         DBPZhEocQUCbMuggL55lKcnqE2Bj6sSRd5zswREZspdpOMuOZe0Lk9SNeobZNxX5+OcW
+         8TU6VFkKxxTJFvqH9Kx0URMtXpHiz0w+o+GhPQed9Sy5BN47mZ+lS/VLWLHUA2w9py9t
+         OpSLJn8i4ZMnLdmtrk38rRkTvDRNko7TgeqVlrPDZyFVxysxZW/sU2oK/897m/+40qID
+         B4bw9+zXgw+/FkOuQGaUG6TFTNZIg/Vs+Mjrcz8raOiYZ4q7OKxejy3Ip6vo8PQYdiCO
+         dF9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=A57FRVyepdJD+r72mdd0cfLEcrgY5/kD+SnDpI1g1OI=;
+        fh=MtZR8E98HcGg1lkw9R/YP/poyUqXsXQRpVl0r6vgpS4=;
+        b=Niev7dYXIRpfjABM57dz+ye3C+0IkDsia/NIa26f6LkviLszVjHnH4FWVDg36V9xJz
+         bCkmdooaw/bDU/2U8eykRdbTOQOzgase1Qlyv/5cszLvPUXq/fUxC7HKAxcO7R/QsQJj
+         YwQXqwlypVUHNdcK8mf8ofCdgtgHy7V2hH1EtzPwZs0zFHRRxYexKpYyPsccTxHPloHa
+         jLZEPLZc1GFsLIc9drHaJaNZOizVcc1W56qC8hlOFpvBjqQdEJfrNMzN6R8ik8eOTfXc
+         PTyKMNnIXQHQ+ptXL+LUdVKOPGpfCOjHnwuEkeSR/EItH0rCHMpZOCVhDKFgEbOhbBMy
+         2Cag==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1780481420; x=1781086220; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=A57FRVyepdJD+r72mdd0cfLEcrgY5/kD+SnDpI1g1OI=;
+        b=Nx+ZhoxoBwaQ+SzlsjAvIybXe2jHPqDEOmgVJbv9xm01GnPeZgG1e0bwGL0gQ941XT
+         Oi8sv6DVa3mBUYk7U0+xGSpfPuZuql4oYdWaJ1W9cS9qllwR+AXdfh7ptk4peCng9o+w
+         hKrCHyTAtjg7zhL/4+1FtI8uJXKsImsZdUYFN0nltiLE1FjMmf/X0lW+jKZTDUPQIp2a
+         X7GXdCWesQGcQO2Rh0gCE2kiOUe5/7NVL6goptVfv2cELmQmbBh2171FSy/9K0DQB1p5
+         B+7+WomON8PH4XKe2btpI7E222Js5LTB01EBCKO+L+ljRB9jVtDh04Ldz2PcMu/8U84i
+         /QPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780481420; x=1781086220;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=A57FRVyepdJD+r72mdd0cfLEcrgY5/kD+SnDpI1g1OI=;
+        b=Y6iXJUEcYeR/+x286A8M+yQD4pn2RliiJQoHneywWbA7lJD/plXsSIeAh1nw60HIem
+         Iy1e5ukbTjuIzKSb3tqmT0MJpGdTmd7J4W+wOHHMGH8dTvFdD15CQCcbL9DdP5CAH6O6
+         G2MUCuMvMqMt1v8m15j/paSJte+3egZZq0Mai+sLbyUSUyn9i1I/5+fSHqR+QOnHzfzb
+         HtYBeb69IYKQi0cEBRE9ireG5d6zTu69rP485DtvSUcN3YIlMU8i5XtUYNTulVve5x5/
+         cBDoYiiGlXOBEH9lO/UUXuSoeAThDeeTugSqKnAutcR3FS5sfSIpdT9pWPXYyn8aOihU
+         Hm/g==
+X-Forwarded-Encrypted: i=1; AFNElJ8TUaaQechZc7K2FwwpZ59q4xi427YgLOQ6+YVd1Ymlzm4fkIi1vxAJP3JgLFTLq94rsBP+pUDZUPId1Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBhLWw58FX4XHlkr3NPmroyg2jlKJfQLfcLjzn0exbizVkKPnH
+	90LBsRtooJphOb/QfdbUXEVlmBapvSyM5BE9bW7KTChnLMMGKGwt+ntsSSQUiM4MbVPlGKS0BVO
+	XnILw37ogXOm88LWcH2Z1+3FsNI9cxVmnYguzDevEMbSkWybRACT/Li1pkk71W3qo6IjGVXjAhO
+	R+9tlX8iJj85+kscPZby+yLFWviKsBZWOjiQvKmWhK
+X-Gm-Gg: Acq92OHpltmZsQhVFPgBSFLMEy1RbESWTjzmjrF/wnkaAOX0qD0RnfsoESHb2fy74ke
+	MiW2wyyM3YuXnmHOi5vBz/xNd4Sm8v6daEx+0j5z2zMQUmYPJUynMTbg85++LdYii+BL4gKtlq6
+	J4nDeyfTTP+FUrRz7sy49S/GQ7bO+zhcFufAV0U7P6/bR50wfdXIV+rWXrq4eww5p+MqJQuieUX
+	GM0PD8lu1hjyR38zScESO5dVyLupAgO8Sxkctqlh/wIw21ZWw0=
+X-Received: by 2002:a05:620a:178b:b0:90e:6dd4:5d6d with SMTP id af79cd13be357-9158a6716fbmr453238885a.10.1780481419923;
+        Wed, 03 Jun 2026 03:10:19 -0700 (PDT)
+X-Received: by 2002:a05:620a:178b:b0:90e:6dd4:5d6d with SMTP id
+ af79cd13be357-9158a6716fbmr453233785a.10.1780481419324; Wed, 03 Jun 2026
+ 03:10:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: x7f7m6na4b49ztrmomq7oo18hhjd5mcr
-X-MBO-RS-ID: 4b1d18f5316550ef3d9
+References: <20260523-x1e-csi2-phy-v8-0-a85668459521@linaro.org>
+ <20260523-x1e-csi2-phy-v8-2-a85668459521@linaro.org> <nPKObdEU4vGXN4cIJ2TeSqOrGXXY7Q9dGgI7asCA6Lht3X7rU6TPn79u1ypwtrq7yoEjOgg6dpcXUxoxvfbiGw==@protonmail.internalid>
+ <CAFEp6-13Nr7GGB2_pXDsonFRq2Afd1oLna_MvXqkswrH5o2g+w@mail.gmail.com> <47a00bf8-dad3-449b-8881-93606fe33c81@kernel.org>
+In-Reply-To: <47a00bf8-dad3-449b-8881-93606fe33c81@kernel.org>
+From: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Date: Wed, 3 Jun 2026 12:10:07 +0200
+X-Gm-Features: AVHnY4K7rF8Hri8O48RcPgZ-WWhjBW41tlMM5gH6RjmQ4W08cnvsGwt8SAunjEw
+Message-ID: <CAFEp6-1aRTHC7PaCnGAfoRmoTWy1JFk6LWoidaY77CZOa3=+Ww@mail.gmail.com>
+Subject: Re: [PATCH v8 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI DPHY driver
+To: "Bryan O'Donoghue" <bod@kernel.org>
+Cc: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+        Vinod Koul <vkoul@kernel.org>,
+        Kishon Vijay Abraham I <kishon@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-GUID: 1Z5xsZuvKhqU3rVWdGOQ1xef-gtS9Mpw
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAzMDA5NyBTYWx0ZWRfX4gLHiakn0LRt
+ zes4EGovEKsD7FMfCjsFH+fTXbapHXYUvTi3FxUymzKY14BIYNWtTlsUwSHuCIhTXI46Swvs39y
+ LJgiNA46K27PNgXSRJBrYpMQ9pQ0tGQEH46ZV3ZW6VRzxi5lA2nyM1WlGmuTMQp94tyYg2iRLIn
+ sMDoanE0ul5ZFt4M8lpYhSg/cRtGHh17XFA4lcuZ2TMI3bjnWdoRW4yLYvsMoE5MaEjFb5YSJ69
+ tRoIfHXVwQtS6m85/mzBxixaaNER0Vlz/jmcZZ81iOt05ToaJaxdxu+DSDxu4CzRvDBA9gV880d
+ x0j3mF1KMVDSRbuAxDZYGEa/cJGv/ZYFkETPWgt8a/xJCSndpa6YLd5McOVRms+RDhPoX6oUcOm
+ uKqBT1t9gYQHZdvag3f5f9RQZxcK3jxVduMol3sqb5AY2O57geSDgCF1P1jktBXh+WpI/D9i7x1
+ CmfyjFJUp+l/ZRu8dWw==
+X-Authority-Analysis: v=2.4 cv=I/9Vgtgg c=1 sm=1 tr=0 ts=6a1ffd8d cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10
+ a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=YMgV9FUhrdKAYTUUvYB2:22 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=JfrnYn6hAAAA:8
+ a=2T3gY05ITgbrtby71ucA:9 a=Y-2aVhWGhNiY3n2I:21 a=QEXdDO2ut3YA:10
+ a=uxP6HrT_eTzRwkO_Te1X:22 a=cvBusfyB2V15izCimMoJ:22 a=1CNFftbPRP8L7MoqJWF3:22
+X-Proofpoint-ORIG-GUID: 1Z5xsZuvKhqU3rVWdGOQ1xef-gtS9Mpw
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-03_03,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0 impostorscore=0 adultscore=0 suspectscore=0
+ malwarescore=0 lowpriorityscore=0 phishscore=0 priorityscore=1501 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606030097
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63571-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:phasta@kernel.org,m:aliceryhl@google.com,m:sashiko-reviews@lists.linux.dev,m:linux-media@vger.kernel.org,m:ojeda@kernel.org,m:dakr@kernel.org,m:christian.koenig@amd.com,m:gary@garyguo.net,m:daniel.almeida@collabora.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-63572-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:bod@kernel.org,m:bryan.odonoghue@linaro.org,m:vkoul@kernel.org,m:kishon@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:neil.armstrong@linaro.org,m:vladimir.zapolskiy@linaro.org,m:linux-arm-msm@vger.kernel.org,m:linux-phy@lists.infradead.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_SENDER(0.00)[loic.poulain@oss.qualcomm.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	HAS_REPLYTO(0.00)[phasta@kernel.org];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TAGGED_RCPT(0.00)[linux-media];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,collabora.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mailbox.org:mid,mailbox.org:dkim,mailbox.org:from_mime,mailbox.org:email,gitlab.freedesktop.org:url]
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[loic.poulain@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[infradead.org:email,mail.gmail.com:mid,vger.kernel.org:from_smtp,linaro.org:email,qualcomm.com:dkim,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3D8FA63674D
+X-Rspamd-Queue-Id: 4A5B36367BF
 
-On Wed, 2026-06-03 at 11:58 +0200, Boris Brezillon wrote:
-> On Wed, 3 Jun 2026 11:52:47 +0200
-> Boris Brezillon <boris.brezillon@collabora.com> wrote:
->=20
-> > On Wed, 03 Jun 2026 09:43:55 +0200
-> > Philipp Stanner <phasta@mailbox.org> wrote:
-> >=20
-> > > On Wed, 2026-06-03 at 08:48 +0200, Boris Brezillon wrote:=C2=A0=20
-> > > > On Wed, 03 Jun 2026 08:10:51 +0200
-> > > > Philipp Stanner <phasta@mailbox.org> wrote:
-> > > > =C2=A0=C2=A0=C2=A0=20
-> > > > > +Cc Danilo, Gary, Daniel, Christian
-> > > > > (who seem to have been lost because Sashiko dropped them and this=
- thread is a reply to that tool)
-> > > > >=20
-> > > > >=20
-> > > > > On Tue, 2026-06-02 at 15:25 +0000, Alice Ryhl wrote:=C2=A0=C2=A0=
-=C2=A0=20
-> > > > > > On Tue, Jun 02, 2026 at 02:06:43PM +0200, Philipp Stanner wrote=
-:=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > > On Tue, 2026-06-02 at 11:59 +0000, Alice Ryhl wrote:=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0
-> > > > > > > > On=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > >=20
-> > > > > > > [=E2=80=A6]
-> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > > > > >=20
-> > > > > > > > > > If you don't implement Sync, then DriverFence cannot be=
- stored in an
-> > > > > > > > > > Arc. I wouldn't take away that ability unless you have =
-to, and I don't
-> > > > > > > > > > see anything in the DriverFence API that would mean you=
- can't do that.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > > > >=20
-> > > > > > > > > Nope. We explicitly agreed on this design.
-> > > > > > > > >=20
-> > > > > > > > > Just 1 DriverFence. Just 1 party that can signal it.
-> > > > > > > > > Note that we also agreed upon the Driverfence disappearin=
-g with
-> > > > > > > > > .signal(), which certainly prevents several from existing=
-, unless you
-> > > > > > > > > do an Option.take()=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > > >=20
-> > > > > > > > I would like to clarify that I'm not suggesting any changes=
- to the
-> > > > > > > > design. Implementing Sync is not the same as having multipl=
-e driver
-> > > > > > > > fences.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > >=20
-> > > > > > > I mean, I guess one can do that. But it's up to the driver th=
-en to see how it can signal its fence.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > >=20
-> > > > > > I don't believe Sync changes anything with that regard. The sig=
-nal
-> > > > > > method takes 'self', but the Sync trait only affects how '&self=
-' methods
-> > > > > > can be called.
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > > > > > > > > > =C2=A0so even though
-> > > > > > > > > > > > > > the fence context may be valid for another grac=
-e period, the *pointer*
-> > > > > > > > > > > > > > to the fence context is not. The pointer could =
-have been zeroed by the
-> > > > > > > > > > > > > > destructor.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > > > > > > > >=20
-> > > > > > > > > > > > > That particular pointer to the DriverFenceData co=
-uld have been zeroed.
-> > > > > > > > > > > > > But potential other accessors have already crafte=
-d themselves a new
-> > > > > > > > > > > > > pointer to the, by the power of RCU, still valid =
-data. That new pointer
-> > > > > > > > > > > > > is container-of-ed from struct dma_fence *f.=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > I'm not talking about the pointer to DriverFenceDat=
-a, I'm talking about
-> > > > > > > > > > > > the pointer to the FenceCtx, or the pointer to the =
-data (if F is
-> > > > > > > > > > > > RcuBox).=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > > > > > >=20
-> > > > > > > > > > > Yeah, but the backing memory is still alive. And new =
-pointers to that
-> > > > > > > > > > > memory get crafted by the accessors. If a callback ac=
-cesses the data
-> > > > > > > > > > > through `container_of(Fence)`, it gets a new pointer.
-> > > > > > > > > > >=20
-> > > > > > > > > > > So what's the problem?
-> > > > > > > > > > >=20
-> > > > > > > > > > > Where is the invalid pointer that someone is accessin=
-g?
-> > > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > The Arc type is not a type that opts-out of &mut =
-=3D=3D exclusive, so the
-> > > > > > > > > > > > second drop_in_place() above is assumed exclusive a=
-ccess to the
-> > > > > > > > > > > > Arc<FenceCtx<F,C>> field.=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=20
-> > > > > > > > > > >=20
-> > > > > > > > > > > OK, so I think I see the problem. So the invalid poin=
-ter is
-> > > > > > > > > > > Arc<FenceCtx=E2=80=A6>? And potentially the <F> point=
-er (although we don't have
-> > > > > > > > > > > a picture yet as to how that would be accessed throug=
-h other callbacks.
-> > > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > > > > > > > =C2=A0If another thread obtains a pointer to the
-> > > > > > > > > > > > FenceCtx via reading the fctx field of the DriverFe=
-nce in parallel with
-> > > > > > > > > > > > this, then that's not allowed because the drop_in_p=
-lace() call has
-> > > > > > > > > > > > exclusive access to that field.=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=20
-> > > > > > > > > > >=20
-> > > > > > > > > > > I think I have been asking in several of our meetings=
- in the past
-> > > > > > > > > > > whether it is actually a problem to access data that =
-has been dropped()
-> > > > > > > > > > > IF we know that drop does not cause UAF and the answe=
-r was kind of like
-> > > > > > > > > > > a "well if it does not actually get freed=E2=80=A6"=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > > > > >=20
-> > > > > > > > > > Ok, well, IMO the simplest approach is to say you can't=
-. There may be
-> > > > > > > > > > roundabout ways to do it, but I would suggest that we j=
-ust ... don't.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > > > >=20
-> > > > > > > > > Ack.
-> > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > > > > > > Anyways.
-> > > > > > > > > > >=20
-> > > > > > > > > > > It would seem the way to get this right is then
-> > > > > > > > > > >=20
-> > > > > > > > > > > synchronize_rcu();
-> > > > > > > > > > > drop_in_palace(data);
-> > > > > > > > > > >=20
-> > > > > > > > > > >=20
-> > > > > > > > > > > Agreed?
-> > > > > > > > > > >=20
-> > > > > > > > > > > This would then mean, however, that every time a fenc=
-e drops, you have
-> > > > > > > > > > > to wait a grace period.
-> > > > > > > > > > >=20
-> > > > > > > > > > > Or maybe stuff DriverFenceData into an RcuBox, too, a=
-nd defer its
-> > > > > > > > > > > dropping.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > > > > >=20
-> > > > > > > > > > That would work, but I think we can do better and avoid=
- the
-> > > > > > > > > > synchronize_rcu() along these lines:
-> > > > > > > > > >=20
-> > > > > > > > > > unsafe trait RcuRevocable {
-> > > > > > > > > > =C2=A0=C2=A0=C2=A0 unsafe fn rcu_revoke_in_place(ptr: *=
-mut Self);
-> > > > > > > > > > }
-> > > > > > > > > >=20
-> > > > > > > > > > This trait provides a method that's like drop_in_place(=
-), except that
-> > > > > > > > > > when you use this destructor, the value remains usable =
-for one grace
-> > > > > > > > > > period. You could implement it for RcuBox, and for any =
-Copy type, and
-> > > > > > > > > > for ARef<T> when T is cleaned up with rcu, and probably=
- also other
-> > > > > > > > > > stuff.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > > > >=20
-> > > > > > > > > I mean, this cannot be magic. It also boils down to execu=
-ting one RCU
-> > > > > > > > > callback per DriverFence dropping.
-> > > > > > > > >=20
-> > > > > > > > > Is there a significant difference to stuffing DriverFence=
-Data into an
-> > > > > > > > > RcuBox?=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > > >=20
-> > > > > > > > Do you mean hard-coding that the user-data of a driver fenc=
-e is always
-> > > > > > > > stored in an RcuBox?=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > > I'm talking about this:
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > > impl<F: Send + Sync + DriverFenceAllowedData, C: Send + Sync>=
- DriverFenceAllocation<F, C> {
-> > > > > > > =C2=A0=C2=A0=C2=A0 /// Create a new allocation slot that can =
-later be used to create a fully
-> > > > > > > =C2=A0=C2=A0=C2=A0 /// initialized [`DriverFence`] without th=
-e need to allocate.
-> > > > > > > =C2=A0=C2=A0=C2=A0 pub fn new(fctx: Arc<FenceCtx<F, C>>, data=
-: F) -> Result<Self> {
-> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence_data =3D=
- DriverFenceData {
-> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 // `inner` remains uninitialized until a [`DriverFence`] takes over.
-> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 inner: Fence {
-> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 inner: Opaque::uninit(),
-> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 },
-> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 fctx,
-> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 data,
-> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
-> > > > > > >=20
-> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // In order to sup=
-port the C dma_fence callbacks, it is necessary for
-> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // a `Fence` and a=
- `DriverFence` to live in the same allocation,
-> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // because the C b=
-ackend passes a dma_fence, from which the driver most
-> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // likely wants to=
- be able to access its `data` in `DriverFence`.
-> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //
-> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Hence, we need =
-the manage the memory manually. It will be freed by the
-> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // C backend autom=
-atically once the refcount within `Fence` drops to 0.
-> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let data =3D RcuBo=
-x::new(fence_data, GFP_KERNEL | __GFP_ZERO)?;
-> > > > > > >=20
-> > > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ok(Self { data })
-> > > > > > > =C2=A0=C2=A0=C2=A0 }
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > > This way, the entire DriverFenceData will remain valid for an
-> > > > > > > additional grace period. I suppose this would solve your poin=
-ter-
-> > > > > > > invalid concern.
-> > > > > > >=20
-> > > > > > > However, it appears like overkill to me because the refcounti=
-ng + C
-> > > > > > > backend already ensure that nothing drops too soon, and the b=
-ackend
-> > > > > > > frees with kfree_rcu(), so=E2=80=A6=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=20
-> > > > > >=20
-> > > > > > I agree that it doesn't sound like we want RcuBox here.
-> > > > > >=20
-> > > > > > What kind of metadata are we actually planning to store in the
-> > > > > > DriverFence in practice?=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> > > > >=20
-> > > > > I suppose it might be GPUVM payloads. IIRC in Tyr it's currently =
-just
-> > > > > empty structs as some sort of identifier. I guess copies of the a=
-ctual
-> > > > > command buffers will also reside in their associated fences.
-> > > > >=20
-> > > > > But Boris, Daniel and Danilo probably have something smart to say=
- about
-> > > > > that.=C2=A0=C2=A0=C2=A0=20
-> > > >=20
-> > > > In Tyr we don't need any, because we're using SW signalling: we get=
- an
-> > > > interrupt, look at our HW fence seqno, and walk the set of pending
-> > > > fences to signal them with the ::signal() method (that's an
-> > > > over-simplified view of it, but functionally that's how it works).
-> > > >=20
-> > > > Now, the question is more, what drivers planning to support HW
-> > > > signaling want attached to the DriverFence. My gut feeling is that =
-now
-> > > > that we have a way to get back to the FenceCtx, and given that Fenc=
-eCtx
-> > > > also has driver-specific data attached to it, most common use cases
-> > > > where the fence contains a backpointer to its timeline/creator are
-> > > > covered. If I look at nouveau_fence [1] (I intentionally looked at =
-the
-> > > > most likely next user of this) for instance:
-> > > >=20
-> > > > struct nouveau_fence {
-> > > > 	struct dma_fence base;
-> > > >=20
-> > > > 	struct list_head head;
-> > > >=20
-> > > > 	struct nouveau_channel __rcu *channel;
-> > > > 	unsigned long timeout;
-> > > > };=C2=A0=C2=A0=C2=A0=20
-> > >=20
-> > > Thx for the explanation
-> > > =C2=A0=20
-> > > >=20
-> > > > - channel is basically the FenceCtx in your new design
-> > > > - head is used to insert the fence in the fence context list. Not t=
-oo
-> > > > =C2=A0 sure how it translates in rust (insertion in an XArray inste=
-ad?).
-> > > > =C2=A0 Anyway, that's just stuff you need to make your fence part o=
-f the
-> > > > =C2=A0 context timeline, so it's again related to how you link a fe=
-nce to
-> > > > =C2=A0 its context and let the context walk back pending fences whe=
-n it
-> > > > =C2=A0 needs to. Feels like my original FenceTimeline abstract prop=
-osal [2]
-> > > > =C2=A0 could help make this thing generic, but let's reconsider thi=
-s once
-> > > > =C2=A0 we've got the basics sorted out, please
-> > > > - timeout is probably the only thing of interest here, assuming thi=
-ngs
-> > > > =C2=A0 can be signaled out of order (if they are signaled in order,=
- like is
-> > > > =C2=A0 the case in Tyr, the timeout can just be on the FenceCtxData=
- and
-> > > > =C2=A0 represent the timeout of the first fence in the set). Anyway=
-, that's a
-> > > > =C2=A0 scalar, so no fancy ::drop() needed if that's what you're wo=
-rried
-> > > > =C2=A0 about=C2=A0=C2=A0=C2=A0=20
-> > >=20
-> > > What we / Alice are worried about is multiple things.
-> > >=20
-> > > One issue is that Alice believes that=20
-> > >=20
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // SAFETY: `self.data` is =
-owned by the DriverFence, but could be accessed
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // through some dma_fence =
-callbacks right now. Access is being revoked
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // above by signalling the=
- fence. The DriverFenceSafeToDrop trait
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // ensures that the data e=
-ither does not need drop, or if it does it
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // lives in a RcuBox which=
- will delay dropping by one grace period, hence
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // ensuring that all reade=
-rs have disappeared.
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsafe { drop_in_place(sel=
-f.data.as_ptr()) };
-> > >=20
-> > >=20
-> > > from DriverFence::drop() invalidates the pointers that thread A
-> > > accesses, even if DriverFence::data.data's drop is delayed with RCU.
-> > >=20
-> > > Now if thread B drops DriverFence, thread A could use invalid pointer=
-s,
-> > > but while still operating on non-deallocated memory (because our
-> > > refcounting guards against that).=C2=A0=20
-> >=20
-> > This is where I think our very permissive dma_fence callback design is
-> > hitting us in the face. There are callbacks that are called with the
-> > fence lock held (::enable_signalling(), ::signaled()), and because we
-> > forcibly signal on DriverFence::drop() (which requires locking as well)
-> > and then drop the DriverFenceData::data (I'd expect
-> > DriverFenceData::fctx to be manually dropped too, but I don't see
-> > that done in the current version), the problem you're describing doesn'=
-t
-> > exist, I think.
-
-The problem of *nominally* those Rust pointers / references in
-DriverFenceData becoming invalid does exist.
-
-But I tend to believe that this is a syntactic theoretical problem. All
-the memory is still valid.
-
-The FenceCtx cannot disappear because its drop is delayed with
-synchronize_rcu() (previously rcu_barrier()).
-
-It's really just about the question whether
-
-rcu_read_lock()
-let ptr =3D something_valid_for_a_grace_period;
-drop(something_valid_for_a_grace_period); // delayed by a GP
-do_stuff_with_(ptr);
-rcu_read_unlock()
-
-is dangerous or not.
-
-Alice doesn't like it =E2=80=93 but I do point out that the memory cannot g=
+On Tue, Jun 2, 2026 at 3:58=E2=80=AFPM Bryan O'Donoghue <bod@kernel.org> wr=
+ote:
+>
+> On 02/06/2026 09:18, Loic Poulain wrote:
+> > Hi Bryan,
+> >
+> > On Sat, May 23, 2026 at 4:53=E2=80=AFAM Bryan O'Donoghue
+> > <bryan.odonoghue@linaro.org> wrote:
+> >>
+> >> Add a new MIPI CSI2 driver in DPHY mode initially. The entire set of
+> >> existing CAMSS CSI PHY init sequences are imported in order to save ti=
+me
+> >> and effort in later patches.
+> >>
+> >> The following devices are supported in this drop:
+> >> "qcom,x1e80100-csi2-phy"
+> >>
+> >> In-line with other PHY drivers the process node is included in the nam=
+e.
+> >> Data-lane and clock lane positioning and polarity selection via newly
+> >> amended struct phy_configure_opts_mipi_dphy{} is supported.
+> >>
+> >> The Qualcomm 3PH class of PHYs can do both DPHY and CPHY mode. For now=
+ only
+> >> DPHY is supported.
+> >>
+> >> In porting some of the logic over from camss-csiphy*.c to here its als=
 o
-away. So in C this is perfectly safe.
+> >> possible to rationalise some of the code.
+> >>
+> >> In particular use of regulator_bulk and clk_bulk as well as dropping t=
+he
+> >> seemingly useless and unused interrupt handler.
+> >>
+> >> The PHY sequences and a lot of the logic that goes with them are well
+> >> proven in CAMSS and mature so the main thing to watch out for here is =
+how
+> >> to get the right sequencing of regulators, clocks and register-writes.
+> >>
+> >> The register init sequence table is imported verbatim from the existin=
+g
+> >> CAMSS csiphy driver. A follow-up series will rework the table to extra=
+ct
+> >> the repetitive per-lane pattern into a loop.
+> >>
+> >> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> >> ---
+> >>   MAINTAINERS                                        |  10 +
+> >>   drivers/phy/qualcomm/Kconfig                       |  14 +
+> >>   drivers/phy/qualcomm/Makefile                      |   5 +
+> >>   drivers/phy/qualcomm/phy-qcom-mipi-csi2-3ph-dphy.c | 376 +++++++++++=
+++++++++
+> >>   drivers/phy/qualcomm/phy-qcom-mipi-csi2-core.c     | 402 +++++++++++=
+++++++++++
+> >>   drivers/phy/qualcomm/phy-qcom-mipi-csi2.h          |  95 +++++
+> >>   6 files changed, 902 insertions(+)
+> >>
+> >> diff --git a/MAINTAINERS b/MAINTAINERS
+> >> index 63389fea5d150..3b5da8a40383f 100644
+> >> --- a/MAINTAINERS
+> >> +++ b/MAINTAINERS
+> >> @@ -22018,6 +22018,16 @@ S:     Maintained
+> >>   F:     Documentation/devicetree/bindings/media/qcom,*-iris.yaml
+> >>   F:     drivers/media/platform/qcom/iris/
+> >>
+> >> +QUALCOMM MIPI CSI2 PHY DRIVER
+> >> +M:     Bryan O'Donoghue <bod@kernel.org>
+> >> +L:     linux-phy@lists.infradead.org
+> >> +L:     linux-media@vger.kernel.org
+> >> +L:     linux-arm-msm@vger.kernel.org
+> >> +S:     Maintained
+> >> +F:     Documentation/devicetree/bindings/phy/qcom,*-csi2-phy.yaml
+> >> +F:     drivers/phy/qualcomm/phy-qcom-mipi-csi2*.c
+> >> +F:     drivers/phy/qualcomm/phy-qcom-mipi-csi2*.h
+> >> +
+> >>   QUALCOMM NAND CONTROLLER DRIVER
+> >>   M:     Manivannan Sadhasivam <mani@kernel.org>
+> >>   L:     linux-mtd@lists.infradead.org
+> >> diff --git a/drivers/phy/qualcomm/Kconfig b/drivers/phy/qualcomm/Kconf=
+ig
+> >> index 60a0ead127fa9..779a3511ba852 100644
+> >> --- a/drivers/phy/qualcomm/Kconfig
+> >> +++ b/drivers/phy/qualcomm/Kconfig
+> >> @@ -28,6 +28,20 @@ config PHY_QCOM_EDP
+> >>            Enable this driver to support the Qualcomm eDP PHY found in=
+ various
+> >>            Qualcomm chipsets.
+> >>
+> >> +config PHY_QCOM_MIPI_CSI2
+> >> +       tristate "Qualcomm MIPI CSI2 PHY driver"
+> >> +       depends on ARCH_QCOM || COMPILE_TEST
+> >> +       depends on OF
+> >> +       depends on PM
+> >> +       depends on COMMON_CLK
+> >> +       select GENERIC_PHY
+> >> +       select GENERIC_PHY_MIPI_DPHY
+> >> +       help
+> >> +         Enable this to support the MIPI CSI2 PHY driver found in var=
+ious
+> >> +         Qualcomm chipsets. This PHY is used to connect MIPI CSI2
+> >> +         camera sensors to the CSI Decoder in the Qualcomm Camera Sub=
+system
+> >> +         CAMSS.
+> >> +
+> >>   config PHY_QCOM_IPQ4019_USB
+> >>          tristate "Qualcomm IPQ4019 USB PHY driver"
+> >>          depends on OF && (ARCH_QCOM || COMPILE_TEST)
+> >> diff --git a/drivers/phy/qualcomm/Makefile b/drivers/phy/qualcomm/Make=
+file
+> >> index b71a6a0bed3f1..382cb594b06b6 100644
+> >> --- a/drivers/phy/qualcomm/Makefile
+> >> +++ b/drivers/phy/qualcomm/Makefile
+> >> @@ -6,6 +6,11 @@ obj-$(CONFIG_PHY_QCOM_IPQ4019_USB)     +=3D phy-qcom-=
+ipq4019-usb.o
+> >>   obj-$(CONFIG_PHY_QCOM_IPQ806X_SATA)    +=3D phy-qcom-ipq806x-sata.o
+> >>   obj-$(CONFIG_PHY_QCOM_M31_USB)         +=3D phy-qcom-m31.o
+> >>   obj-$(CONFIG_PHY_QCOM_M31_EUSB)                +=3D phy-qcom-m31-eus=
+b2.o
+> >> +
+> >> +phy-qcom-mipi-csi2-objs                        +=3D phy-qcom-mipi-csi=
+2-core.o \
+> >> +                                          phy-qcom-mipi-csi2-3ph-dphy=
+.o
+> >> +obj-$(CONFIG_PHY_QCOM_MIPI_CSI2)       +=3D phy-qcom-mipi-csi2.o
+> >> +
+> >>   obj-$(CONFIG_PHY_QCOM_PCIE2)           +=3D phy-qcom-pcie2.o
+> >>
+> >>   obj-$(CONFIG_PHY_QCOM_QMP_COMBO)       +=3D phy-qcom-qmp-combo.o phy=
+-qcom-qmp-usbc.o
+> >> diff --git a/drivers/phy/qualcomm/phy-qcom-mipi-csi2-3ph-dphy.c b/driv=
+ers/phy/qualcomm/phy-qcom-mipi-csi2-3ph-dphy.c
+> >> new file mode 100644
+> >> index 0000000000000..86ec405820e62
+> >> --- /dev/null
+> >> +++ b/drivers/phy/qualcomm/phy-qcom-mipi-csi2-3ph-dphy.c
+> >> @@ -0,0 +1,376 @@
+> >> +// SPDX-License-Identifier: GPL-2.0
+> >> +/*
+> >> + * Qualcomm MSM Camera Subsystem - CSIPHY Module 3phase v1.0
+> >> + *
+> >> + * Copyright (c) 2011-2015, The Linux Foundation. All rights reserved=
+.
+> >> + * Copyright (C) 2016-2025 Linaro Ltd.
+> >> + */
+> >> +
+> >> +#include <linux/delay.h>
+> >> +#include <linux/interrupt.h>
+> >> +#include <linux/io.h>
+> >> +#include <linux/time64.h>
+> >> +
+> >> +#include "phy-qcom-mipi-csi2.h"
+> >> +
+> >> +#define CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(offset, n)     ((offset) + 0x=
+4 * (n))
+> >> +#define CSIPHY_3PH_CMN_CSI_COMMON_CTRL0_PHY_SW_RESET   BIT(0)
+> >> +#define CSIPHY_3PH_CMN_CSI_COMMON_CTRL5_CLK_ENABLE     BIT(7)
+> >> +#define CSIPHY_3PH_CMN_CSI_COMMON_CTRL6_COMMON_PWRDN_B BIT(0)
+> >> +#define CSIPHY_3PH_CMN_CSI_COMMON_CTRL6_SHOW_REV_ID    BIT(1)
+> >> +#define CSIPHY_3PH_CMN_CSI_COMMON_CTRL10_IRQ_CLEAR_CMD BIT(0)
+> >> +#define CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(offset, n)   ((offset) + 0x=
+b0 + 0x4 * (n))
+> >> +
+> >> +#define CSIPHY_2PH_LN_CSI_2PHASE_CTRL9n(n)             ((0x200 * (n))=
+ + 0x24)
+> >> +
+> >> +/*
+> >> + * 3 phase CSI has 19 common status regs with only 0-10 being used
+> >> + * and 11-18 being reserved.
+> >> + */
+> >> +#define CSI_COMMON_STATUS_NUM                          11
+> >> +/*
+> >> + * There are a number of common control registers
+> >> + * The offset to clear the CSIPHY IRQ status starts @ 22
+> >> + * So to clear CSI_COMMON_STATUS0 this is CSI_COMMON_CONTROL22, STATU=
+S1 is
+> >> + * CONTROL23 and so on
+> >> + */
+> >> +#define CSI_CTRL_STATUS_INDEX                          22
+> >> +
+> >> +/*
+> >> + * There are 43 COMMON_CTRL registers with regs after # 33 being rese=
+rved
+> >> + */
+> >> +#define CSI_CTRL_MAX                                   33
+> >> +
+> >> +#define CSIPHY_DEFAULT_PARAMS                          0
+> >> +#define CSIPHY_SETTLE_CNT_LOWER_BYTE                   2
+> >> +#define CSIPHY_SKEW_CAL                                        7
+> >> +
+> >> +/* 4nm 2PH v 2.1.2 2p5Gbps 4 lane DPHY mode */
+> >> +static const struct
+> >> +mipi_csi2phy_lane_regs lane_regs_x1e80100[] =3D {
+> >> +       /* Power up lanes 2ph mode */
+> >> +       {.reg_addr =3D 0x1014, .reg_data =3D 0xd5, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x101c, .reg_data =3D 0x7a, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x1018, .reg_data =3D 0x01, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +
+> >> +       {.reg_addr =3D 0x0094, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x00a0, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0090, .reg_data =3D 0x0f, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0098, .reg_data =3D 0x08, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0094, .reg_data =3D 0x07, .delay_us =3D 0x01,=
+ .param_type =3D CSIPHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0030, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0000, .reg_data =3D 0x8e, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0038, .reg_data =3D 0xfe, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x002c, .reg_data =3D 0x01, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0034, .reg_data =3D 0x0f, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x001c, .reg_data =3D 0x0a, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0014, .reg_data =3D 0x60, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x003c, .reg_data =3D 0xb8, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0004, .reg_data =3D 0x0c, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0020, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0008, .reg_data =3D 0x10, .param_type =3D CSI=
+PHY_SETTLE_CNT_LOWER_BYTE},
+> >> +       {.reg_addr =3D 0x0010, .reg_data =3D 0x52, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0094, .reg_data =3D 0xd7, .param_type =3D CSI=
+PHY_SKEW_CAL},
+> >> +       {.reg_addr =3D 0x005c, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_SKEW_CAL},
+> >> +       {.reg_addr =3D 0x0060, .reg_data =3D 0xbd, .param_type =3D CSI=
+PHY_SKEW_CAL},
+> >> +       {.reg_addr =3D 0x0064, .reg_data =3D 0x7f, .param_type =3D CSI=
+PHY_SKEW_CAL},
+> >> +
+> >> +       {.reg_addr =3D 0x0e94, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0ea0, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0e90, .reg_data =3D 0x0f, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0e98, .reg_data =3D 0x08, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0e94, .reg_data =3D 0x07, .delay_us =3D  0x01=
+, .param_type =3D CSIPHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0e30, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0e28, .reg_data =3D 0x04, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0e00, .reg_data =3D 0x80, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0e0c, .reg_data =3D 0xff, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0e38, .reg_data =3D 0x1f, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0e2c, .reg_data =3D 0x01, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0e34, .reg_data =3D 0x0f, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0e1c, .reg_data =3D 0x0a, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0e14, .reg_data =3D 0x60, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0e3c, .reg_data =3D 0xb8, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0e04, .reg_data =3D 0x0c, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0e20, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0e08, .reg_data =3D 0x10, .param_type =3D CSI=
+PHY_SETTLE_CNT_LOWER_BYTE},
+> >> +       {.reg_addr =3D 0x0e10, .reg_data =3D 0x52, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +
+> >> +       {.reg_addr =3D 0x0494, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x04a0, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0490, .reg_data =3D 0x0f, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0498, .reg_data =3D 0x08, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0494, .reg_data =3D 0x07, .delay_us =3D  0x01=
+, .param_type =3D CSIPHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0430, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0400, .reg_data =3D 0x8e, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0438, .reg_data =3D 0xfe, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x042c, .reg_data =3D 0x01, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0434, .reg_data =3D 0x0f, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x041c, .reg_data =3D 0x0a, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0414, .reg_data =3D 0x60, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x043c, .reg_data =3D 0xb8, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0404, .reg_data =3D 0x0c, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0420, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0408, .reg_data =3D 0x10, .param_type =3D CSI=
+PHY_SETTLE_CNT_LOWER_BYTE},
+> >> +       {.reg_addr =3D 0x0410, .reg_data =3D 0x52, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0494, .reg_data =3D 0xd7, .param_type =3D CSI=
+PHY_SKEW_CAL},
+> >> +       {.reg_addr =3D 0x045c, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_SKEW_CAL},
+> >> +       {.reg_addr =3D 0x0460, .reg_data =3D 0xbd, .param_type =3D CSI=
+PHY_SKEW_CAL},
+> >> +       {.reg_addr =3D 0x0464, .reg_data =3D 0x7f, .param_type =3D CSI=
+PHY_SKEW_CAL},
+> >> +
+> >> +       {.reg_addr =3D 0x0894, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x08a0, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0890, .reg_data =3D 0x0f, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0898, .reg_data =3D 0x08, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0894, .reg_data =3D 0x07, .delay_us =3D  0x01=
+, .param_type =3D CSIPHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0830, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0800, .reg_data =3D 0x8e, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0838, .reg_data =3D 0xfe, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x082c, .reg_data =3D 0x01, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0834, .reg_data =3D 0x0f, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x081c, .reg_data =3D 0x0a, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0814, .reg_data =3D 0x60, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x083c, .reg_data =3D 0xb8, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0804, .reg_data =3D 0x0c, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0820, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0808, .reg_data =3D 0x10, .param_type =3D CSI=
+PHY_SETTLE_CNT_LOWER_BYTE},
+> >> +       {.reg_addr =3D 0x0810, .reg_data =3D 0x52, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0894, .reg_data =3D 0xd7, .param_type =3D CSI=
+PHY_SKEW_CAL},
+> >> +       {.reg_addr =3D 0x085c, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_SKEW_CAL},
+> >> +       {.reg_addr =3D 0x0860, .reg_data =3D 0xbd, .param_type =3D CSI=
+PHY_SKEW_CAL},
+> >> +       {.reg_addr =3D 0x0864, .reg_data =3D 0x7f, .param_type =3D CSI=
+PHY_SKEW_CAL},
+> >> +
+> >> +       {.reg_addr =3D 0x0c94, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0ca0, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0c90, .reg_data =3D 0x0f, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0c98, .reg_data =3D 0x08, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0c94, .reg_data =3D 0x07, .delay_us =3D  0x01=
+, .param_type =3D CSIPHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0c30, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0c00, .reg_data =3D 0x8e, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0c38, .reg_data =3D 0xfe, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0c2c, .reg_data =3D 0x01, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0c34, .reg_data =3D 0x0f, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0c1c, .reg_data =3D 0x0a, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0c14, .reg_data =3D 0x60, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0c3c, .reg_data =3D 0xb8, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0c04, .reg_data =3D 0x0c, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0c20, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0c08, .reg_data =3D 0x10, .param_type =3D CSI=
+PHY_SETTLE_CNT_LOWER_BYTE},
+> >> +       {.reg_addr =3D 0x0c10, .reg_data =3D 0x52, .param_type =3D CSI=
+PHY_DEFAULT_PARAMS},
+> >> +       {.reg_addr =3D 0x0c94, .reg_data =3D 0xd7, .param_type =3D CSI=
+PHY_SKEW_CAL},
+> >> +       {.reg_addr =3D 0x0c5c, .reg_data =3D 0x00, .param_type =3D CSI=
+PHY_SKEW_CAL},
+> >> +       {.reg_addr =3D 0x0c60, .reg_data =3D 0xbd, .param_type =3D CSI=
+PHY_SKEW_CAL},
+> >> +       {.reg_addr =3D 0x0c64, .reg_data =3D 0x7f, .param_type =3D CSI=
+PHY_SKEW_CAL},
+> >> +};
+> >> +
+> >> +static inline const struct mipi_csi2phy_device_regs *
+> >> +csi2phy_dev_to_regs(struct mipi_csi2phy_device *csi2phy)
+> >> +{
+> >> +       return &csi2phy->soc_cfg->reg_info;
+> >> +}
+> >> +
+> >> +static void phy_qcom_mipi_csi2_hw_version_read(struct mipi_csi2phy_de=
+vice *csi2phy)
+> >> +{
+> >> +       const struct mipi_csi2phy_device_regs *regs =3D csi2phy_dev_to=
+_regs(csi2phy);
+> >> +       u32 tmp;
+> >> +
+> >> +       writel(CSIPHY_3PH_CMN_CSI_COMMON_CTRL6_SHOW_REV_ID, csi2phy->b=
+ase +
+> >> +              CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->common_regs_offse=
+t, 6));
+> >> +
+> >> +       tmp =3D readl_relaxed(csi2phy->base +
+> >> +                           CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->co=
+mmon_regs_offset, 12));
+> >> +       csi2phy->hw_version =3D tmp;
+> >> +
+> >> +       tmp =3D readl_relaxed(csi2phy->base +
+> >> +                           CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->co=
+mmon_regs_offset, 13));
+> >> +       csi2phy->hw_version |=3D (tmp << 8) & 0xFF00;
+> >> +
+> >> +       tmp =3D readl_relaxed(csi2phy->base +
+> >> +                           CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->co=
+mmon_regs_offset, 14));
+> >> +       csi2phy->hw_version |=3D (tmp << 16) & 0xFF0000;
+> >> +
+> >> +       tmp =3D readl_relaxed(csi2phy->base +
+> >> +                           CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->co=
+mmon_regs_offset, 15));
+> >> +       csi2phy->hw_version |=3D (tmp << 24) & 0xFF000000;
+> >> +
+> >> +       dev_dbg_once(csi2phy->dev, "CSIPHY 3PH HW Version =3D 0x%08x\n=
+", csi2phy->hw_version);
+> >> +}
+> >> +
+> >> +/*
+> >> + * phy_qcom_mipi_csi2_reset - Perform software reset on CSIPHY module
+> >> + * @phy_qcom_mipi_csi2: CSIPHY device
+> >> + */
+> >> +static void phy_qcom_mipi_csi2_reset(struct mipi_csi2phy_device *csi2=
+phy)
+> >> +{
+> >> +       const struct mipi_csi2phy_device_regs *regs =3D csi2phy_dev_to=
+_regs(csi2phy);
+> >> +
+> >> +       writel(CSIPHY_3PH_CMN_CSI_COMMON_CTRL0_PHY_SW_RESET,
+> >> +              csi2phy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->c=
+ommon_regs_offset, 0));
+> >> +       usleep_range(5000, 8000);
+> >> +       writel(0x0, csi2phy->base +
+> >> +              CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->common_regs_offse=
+t, 0));
+> >> +}
+> >> +
+> >> +/*
+> >> + * phy_qcom_mipi_csi2_settle_cnt_calc - Calculate settle count value
+> >> + *
+> >> + * Helper function to calculate settle count value. This is
+> >> + * based on the CSI2 T_hs_settle parameter which in turn
+> >> + * is calculated based on the CSI2 transmitter link frequency.
+> >> + *
+> >> + * Return settle count value or 0 if the CSI2 link frequency
+> >> + * is not available
+> >> + */
+> >> +static u8 phy_qcom_mipi_csi2_settle_cnt_calc(s64 link_freq, u32 timer=
+_clk_rate)
+> >> +{
+> >> +       u32 t_hs_prepare_max_ps;
+> >> +       u32 timer_period_ps;
+> >> +       u32 t_hs_settle_ps;
+> >> +       u8 settle_cnt;
+> >> +       u32 ui_ps;
+> >> +
+> >> +       if (link_freq <=3D 0)
+> >> +               return 0;
+> >> +
+> >> +       ui_ps =3D div_u64(PSEC_PER_SEC, link_freq);
+> >> +       ui_ps /=3D 2;
+> >> +       t_hs_prepare_max_ps =3D 85000 + 6 * ui_ps;
+> >> +       t_hs_settle_ps =3D t_hs_prepare_max_ps;
+> >> +
+> >> +       timer_period_ps =3D div_u64(PSEC_PER_SEC, timer_clk_rate);
+> >> +       settle_cnt =3D t_hs_settle_ps / timer_period_ps - 6;
+> >> +
+> >> +       return settle_cnt;
+> >> +}
+> >> +
+> >> +static void
+> >> +phy_qcom_mipi_csi2_gen2_config_lanes(struct mipi_csi2phy_device *csi2=
+phy,
+> >> +                                    u8 settle_cnt)
+> >> +{
+> >> +       const struct mipi_csi2phy_device_regs *regs =3D csi2phy_dev_to=
+_regs(csi2phy);
+> >> +       const struct mipi_csi2phy_lane_regs *r =3D regs->init_seq;
+> >> +       int i, array_size =3D regs->lane_array_size;
+> >> +       u32 val;
+> >> +
+> >> +       for (i =3D 0; i < array_size; i++, r++) {
+> >> +               switch (r->param_type) {
+> >> +               case CSIPHY_SETTLE_CNT_LOWER_BYTE:
+> >> +                       val =3D settle_cnt & 0xff;
+> >> +                       break;
+> >> +               case CSIPHY_SKEW_CAL:
+> >> +                       /* TODO: support application of skew from dt f=
+lag */
+> >> +                       continue;
+> >> +               default:
+> >> +                       val =3D r->reg_data;
+> >> +                       break;
+> >> +               }
+> >> +               writel(val, csi2phy->base + r->reg_addr);
+> >> +               if (r->delay_us)
+> >> +                       udelay(r->delay_us);
+> >> +       }
+> >> +}
+> >> +
+> >> +static int phy_qcom_mipi_csi2_lanes_enable(struct mipi_csi2phy_device=
+ *csi2phy,
+> >> +                                          struct mipi_csi2phy_stream_=
+cfg *cfg)
+> >> +{
+> >> +       const struct mipi_csi2phy_device_regs *regs =3D csi2phy_dev_to=
+_regs(csi2phy);
+> >> +       struct mipi_csi2phy_lanes_cfg *lane_cfg =3D &cfg->lane_cfg;
+> >> +       u8 settle_cnt;
+> >> +       u8 val;
+> >> +       int i;
+> >> +
+> >> +       settle_cnt =3D phy_qcom_mipi_csi2_settle_cnt_calc(cfg->link_fr=
+eq, csi2phy->timer_clk_rate);
+> >> +
+> >> +       /* Lane position enable in common reg offset */
+> >> +       val =3D BIT(lane_cfg->clk.pos);
+> >> +       for (i =3D 0; i < cfg->num_data_lanes; i++)
+> >> +               val |=3D BIT(lane_cfg->data[i].pos);
+> >> +
+> >> +       writel(val, csi2phy->base +
+> >> +              CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->common_regs_offse=
+t, 5));
+> >> +
+> >> +       /* Lane configuration for polarity @ CSIPHY-base + CTRL9 */
+> >> +       for (i =3D 0; i < cfg->num_data_lanes; i++) {
+> >> +               if (lane_cfg->data[i].pol) {
+> >> +                       u8 pos =3D lane_cfg->data[i].pos;
+> >> +
+> >> +                       writel(BIT(2), csi2phy->base + CSIPHY_2PH_LN_C=
+SI_2PHASE_CTRL9n(pos));
+> >> +               }
+> >> +       }
+> >> +
+> >> +       if (lane_cfg->clk.pol)
+> >> +               writel(BIT(2), csi2phy->base + CSIPHY_2PH_LN_CSI_2PHAS=
+E_CTRL9n(lane_cfg->clk.pos));
+> >> +
+> >> +       val =3D CSIPHY_3PH_CMN_CSI_COMMON_CTRL6_COMMON_PWRDN_B;
+> >> +       writel(val, csi2phy->base +
+> >> +              CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->common_regs_offse=
+t, 6));
+> >> +
+> >> +       val =3D 0x02;
+> >> +       writel(val, csi2phy->base +
+> >> +              CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->common_regs_offse=
+t, 7));
+> >> +
+> >> +       val =3D 0x00;
+> >> +       writel(val, csi2phy->base +
+> >> +              CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->common_regs_offse=
+t, 0));
+> >> +
+> >> +       phy_qcom_mipi_csi2_gen2_config_lanes(csi2phy, settle_cnt);
+> >> +
+> >> +       /* IRQ_MASK registers - disable all interrupts */
+> >> +       for (i =3D CSI_COMMON_STATUS_NUM; i < CSI_CTRL_STATUS_INDEX; i=
+++) {
+> >> +               writel(0, csi2phy->base +
+> >> +                      CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->common_re=
+gs_offset, i));
+> >> +       }
+> >> +
+> >> +       return 0;
+> >> +}
+> >> +
+> >> +static void
+> >> +phy_qcom_mipi_csi2_lanes_disable(struct mipi_csi2phy_device *csi2phy,
+> >> +                                struct mipi_csi2phy_stream_cfg *cfg)
+> >> +{
+> >> +       const struct mipi_csi2phy_device_regs *regs =3D csi2phy_dev_to=
+_regs(csi2phy);
+> >> +
+> >> +       writel(0, csi2phy->base +
+> >> +              CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->common_regs_offse=
+t, 5));
+> >> +
+> >> +       writel(0, csi2phy->base +
+> >> +              CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->common_regs_offse=
+t, 6));
+> >> +}
+> >> +
+> >> +static const struct mipi_csi2phy_hw_ops phy_qcom_mipi_csi2_ops_3ph_1_=
+0 =3D {
+> >> +       .hw_version_read =3D phy_qcom_mipi_csi2_hw_version_read,
+> >> +       .reset =3D phy_qcom_mipi_csi2_reset,
+> >> +       .lanes_enable =3D phy_qcom_mipi_csi2_lanes_enable,
+> >> +       .lanes_disable =3D phy_qcom_mipi_csi2_lanes_disable,
+> >> +};
+> >> +
+> >> +static const char * const x1e_clks[] =3D {
+> >> +       "core",
+> >> +       "timer"
+> >> +};
+> >> +
+> >> +static const char * const x1e_supplies[] =3D {
+> >> +       "vdda-0p9",
+> >> +       "vdda-1p2"
+> >> +};
+> >> +
+> >> +static const char * const x1e_genpd_names[] =3D {
+> >> +       "mmcx",
+> >> +       "mx",
+> >> +};
+> >> +
+> >> +const struct mipi_csi2phy_soc_cfg mipi_csi2_dphy_4nm_x1e =3D {
+> >> +       .ops =3D &phy_qcom_mipi_csi2_ops_3ph_1_0,
+> >> +       .reg_info =3D {
+> >> +               .init_seq =3D lane_regs_x1e80100,
+> >> +               .lane_array_size =3D ARRAY_SIZE(lane_regs_x1e80100),
+> >> +               .common_regs_offset =3D 0x1000,
+> >> +       },
+> >> +       .supply_names =3D (const char **)x1e_supplies,
+> >> +       .num_supplies =3D ARRAY_SIZE(x1e_supplies),
+> >> +       .clk_names =3D (const char **)x1e_clks,
+> >> +       .num_clk =3D ARRAY_SIZE(x1e_clks),
+> >> +       .opp_clk =3D x1e_clks[0],
+> >> +       .timer_clk =3D x1e_clks[1],
+> >> +       .genpd_names =3D (const char **)x1e_genpd_names,
+> >> +       .num_genpd_names =3D ARRAY_SIZE(x1e_genpd_names),
+> >> +};
+> >> diff --git a/drivers/phy/qualcomm/phy-qcom-mipi-csi2-core.c b/drivers/=
+phy/qualcomm/phy-qcom-mipi-csi2-core.c
+> >> new file mode 100644
+> >> index 0000000000000..dfeff863a406f
+> >> --- /dev/null
+> >> +++ b/drivers/phy/qualcomm/phy-qcom-mipi-csi2-core.c
+> >> @@ -0,0 +1,402 @@
+> >> +// SPDX-License-Identifier: GPL-2.0
+> >> +/*
+> >> + * Copyright (c) 2025, Linaro Ltd.
+> >> + */
+> >> +#include <dt-bindings/phy/phy.h>
+> >> +#include <linux/clk.h>
+> >> +#include <linux/delay.h>
+> >> +#include <linux/err.h>
+> >> +#include <linux/io.h>
+> >> +#include <linux/kernel.h>
+> >> +#include <linux/module.h>
+> >> +#include <linux/of.h>
+> >> +#include <linux/pm_opp.h>
+> >> +#include <linux/phy/phy.h>
+> >> +#include <linux/phy/phy-mipi-dphy.h>
+> >> +#include <linux/platform_device.h>
+> >> +#include <linux/pm_domain.h>
+> >> +#include <linux/pm_runtime.h>
+> >> +#include <linux/regmap.h>
+> >> +#include <linux/regulator/consumer.h>
+> >> +#include <linux/reset.h>
+> >> +#include <linux/slab.h>
+> >> +
+> >> +#include "phy-qcom-mipi-csi2.h"
+> >> +
+> >> +static int
+> >> +phy_qcom_mipi_csi2_set_clock_rates(struct mipi_csi2phy_device *csi2ph=
+y,
+> >> +                                  s64 link_freq)
+> >> +{
+> >> +       struct device *dev =3D csi2phy->dev;
+> >> +       unsigned long opp_rate =3D link_freq / 4;
+> >> +       struct dev_pm_opp *opp;
+> >> +       long timer_rate;
+> >> +       int i, ret;
+> >> +
+> >> +       opp =3D dev_pm_opp_find_freq_ceil(dev, &opp_rate);
+> >> +       if (IS_ERR(opp)) {
+> >> +               dev_err(csi2phy->dev, "Couldn't find ceiling for %lld =
+Hz\n",
+> >> +                       link_freq);
+> >> +               return PTR_ERR(opp);
+> >> +       }
+> >> +
+> >> +       for (i =3D 0; i < csi2phy->pd_list->num_pds; i++) {
+> >> +               unsigned int perf =3D dev_pm_opp_get_required_pstate(o=
+pp, i);
+> >> +
+> >> +               ret =3D dev_pm_genpd_set_performance_state(csi2phy->pd=
+_list->pd_devs[i], perf);
+> >> +               if (ret) {
+> >> +                       dev_err(csi2phy->dev, "Couldn't set perf state=
+ %u\n",
+> >> +                               perf);
+> >> +                       dev_pm_opp_put(opp);
+> >> +                       goto unset_pstate;
+> >> +               }
+> >> +       }
+> >> +       dev_pm_opp_put(opp);
+> >> +
+> >> +       ret =3D dev_pm_opp_set_rate(dev, opp_rate);
+> >> +       if (ret) {
+> >> +               dev_err(csi2phy->dev, "dev_pm_opp_set_rate() fail\n");
+> >> +               goto unset_opp_rate;
+> >> +       }
+> >> +
+> >> +       timer_rate =3D clk_round_rate(csi2phy->timer_clk, link_freq / =
+4);
+> >> +       if (timer_rate <=3D 0) {
+> >> +               ret =3D -ENODEV;
+> >> +               goto unset_opp_rate;
+> >> +       }
+> >> +
+> >> +       ret =3D clk_set_rate(csi2phy->timer_clk, timer_rate);
+> >> +       if (ret)
+> >> +               goto unset_opp_rate;
+> >> +
+> >> +       csi2phy->timer_clk_rate =3D timer_rate;
+> >> +
+> >> +       return 0;
+> >> +
+> >> +unset_opp_rate:
+> >> +       dev_pm_opp_set_rate(dev, 0);
+> >> +
+> >> +unset_pstate:
+> >> +       while (i--)
+> >> +               dev_pm_genpd_set_performance_state(csi2phy->pd_list->p=
+d_devs[i], 0);
+> >> +
+> >> +       return ret;
+> >> +}
+> >> +
+> >> +static int phy_qcom_mipi_csi2_configure(struct phy *phy,
+> >> +                                       union phy_configure_opts *opts=
+)
+> >> +{
+> >> +       struct mipi_csi2phy_device *csi2phy =3D phy_get_drvdata(phy);
+> >> +       struct phy_configure_opts_mipi_dphy *dphy_cfg =3D &opts->mipi_=
+dphy;
+> >> +       struct mipi_csi2phy_stream_cfg *stream_cfg =3D &csi2phy->strea=
+m_cfg;
+> >> +       int ret;
+> >> +
+> >> +       ret =3D phy_mipi_dphy_config_validate(dphy_cfg);
+> >> +       if (ret)
+> >> +               return ret;
+> >> +
+> >> +       if (dphy_cfg->lanes < 1 || dphy_cfg->lanes > CSI2_MAX_DATA_LAN=
+ES)
+> >> +               return -EINVAL;
+> >> +
+> >> +       stream_cfg->link_freq =3D dphy_cfg->hs_clk_rate;
+> >> +
+> >> +       return 0;
+> >> +}
+> >> +
+> >> +static int phy_qcom_mipi_csi2_power_on(struct phy *phy)
+> >> +{
+> >> +       struct mipi_csi2phy_device *csi2phy =3D phy_get_drvdata(phy);
+> >> +       const struct mipi_csi2phy_hw_ops *ops =3D csi2phy->soc_cfg->op=
+s;
+> >> +       struct device *dev =3D &phy->dev;
+> >> +       int i, ret;
+> >> +
+> >> +       ret =3D regulator_bulk_enable(csi2phy->soc_cfg->num_supplies,
+> >> +                                   csi2phy->supplies);
+> >> +       if (ret)
+> >> +               return ret;
+> >> +
+> >> +       ret =3D pm_runtime_resume_and_get(csi2phy->dev);
+> >> +       if (ret < 0)
+> >> +               goto disable_regulators;
+> >> +
+> >> +       ret =3D phy_qcom_mipi_csi2_set_clock_rates(csi2phy, csi2phy->s=
+tream_cfg.link_freq);
+> >> +       if (ret)
+> >> +               goto poweroff_phy;
+> >> +
+> >> +       ret =3D clk_bulk_prepare_enable(csi2phy->soc_cfg->num_clk,
+> >> +                                     csi2phy->clks);
+> >> +       if (ret) {
+> >> +               dev_err(dev, "failed to enable clocks, %d\n", ret);
+> >> +               goto unset_rate;
+> >> +       }
+> >> +
+> >> +       ops->reset(csi2phy);
+> >> +
+> >> +       ops->hw_version_read(csi2phy);
+> >> +
+> >> +       return ops->lanes_enable(csi2phy, &csi2phy->stream_cfg);
+> >> +
+> >> +unset_rate:
+> >> +       for (i =3D 0; i < csi2phy->pd_list->num_pds; i++)
+> >> +               dev_pm_genpd_set_performance_state(csi2phy->pd_list->p=
+d_devs[i], 0);
+> >> +
+> >> +       dev_pm_opp_set_rate(csi2phy->dev, 0);
+> >> +
+> >> +poweroff_phy:
+> >> +       pm_runtime_put_sync(csi2phy->dev);
+> >> +
+> >> +disable_regulators:
+> >> +       regulator_bulk_disable(csi2phy->soc_cfg->num_supplies,
+> >> +                              csi2phy->supplies);
+> >> +
+> >> +       return ret;
+> >> +}
+> >> +
+> >> +static int phy_qcom_mipi_csi2_power_off(struct phy *phy)
+> >> +{
+> >> +       struct mipi_csi2phy_device *csi2phy =3D phy_get_drvdata(phy);
+> >> +       const struct mipi_csi2phy_hw_ops *ops =3D csi2phy->soc_cfg->op=
+s;
+> >> +       int i;
+> >> +
+> >> +       ops->lanes_disable(csi2phy, &csi2phy->stream_cfg);
+> >> +
+> >> +       clk_bulk_disable_unprepare(csi2phy->soc_cfg->num_clk,
+> >> +                                  csi2phy->clks);
+> >> +
+> >> +       for (i =3D 0; i < csi2phy->pd_list->num_pds; i++)
+> >> +               dev_pm_genpd_set_performance_state(csi2phy->pd_list->p=
+d_devs[i], 0);
+> >> +
+> >> +       dev_pm_opp_set_rate(csi2phy->dev, 0);
+> >> +
+> >> +       pm_runtime_put_sync(csi2phy->dev);
+> >> +
+> >> +       regulator_bulk_disable(csi2phy->soc_cfg->num_supplies,
+> >> +                              csi2phy->supplies);
+> >> +
+> >> +       return 0;
+> >> +}
+> >> +
+> >> +static const struct phy_ops phy_qcom_mipi_csi2_ops =3D {
+> >> +       .configure      =3D phy_qcom_mipi_csi2_configure,
+> >> +       .power_on       =3D phy_qcom_mipi_csi2_power_on,
+> >> +       .power_off      =3D phy_qcom_mipi_csi2_power_off,
+> >> +       .owner          =3D THIS_MODULE,
+> >> +};
+> >> +
+> >> +static struct phy *qcom_csi2_phy_xlate(struct device *dev,
+> >> +                                      const struct of_phandle_args *a=
+rgs)
+> >> +{
+> >> +       struct mipi_csi2phy_device *csi2phy =3D dev_get_drvdata(dev);
+> >> +
+> >> +       if (args->args[0] !=3D PHY_TYPE_DPHY) {
+> >> +               dev_err(csi2phy->dev, "mode %d -EOPNOTSUPP\n", args->a=
+rgs[0]);
+> >> +               return ERR_PTR(-EOPNOTSUPP);
+> >> +       }
+> >> +
+> >> +       csi2phy->phy_mode =3D args->args[0];
+> >> +
+> >> +       return csi2phy->phy;
+> >> +}
+> >> +
+> >> +static int phy_qcom_mipi_csi2_attach_pm_domains(struct mipi_csi2phy_d=
+evice *csi2phy)
+> >> +{
+> >> +       const struct dev_pm_domain_attach_data pd_data =3D {
+> >> +               .pd_names =3D csi2phy->soc_cfg->genpd_names,
+> >> +               .num_pd_names =3D csi2phy->soc_cfg->num_genpd_names,
+> >> +       };
+> >> +
+> >> +       return devm_pm_domain_attach_list(csi2phy->dev, &pd_data, &csi=
+2phy->pd_list);
+> >
+> > If strict domain/name checking isn=E2=80=99t required (is there a reaso=
+n it
+> > would be?), we could simplify the soc_cfg struct and pass NULL instead
+> > of pd_data in the above call.
+>
+> Naming is a nice feature as it means you can mix RPMPD and GDSC
+> power-domains attaching opps to RPMPD only.
+>
+> >
+> >> +}
+> >> +
+> >> +static int phy_qcom_mipi_csi2_parse_routing(struct mipi_csi2phy_devic=
+e *csi2phy)
+> >> +{
+> >> +       struct mipi_csi2phy_stream_cfg *stream_cfg =3D &csi2phy->strea=
+m_cfg;
+> >> +       u32 lane_polarities[CSI2_MAX_DATA_LANES + 1];
+> >> +       u32 data_lanes[CSI2_MAX_DATA_LANES];
+> >> +       struct device *dev =3D csi2phy->dev;
+> >> +       struct fwnode_handle *ep;
+> >> +       int num_polarities;
+> >> +       int num_data_lanes;
+> >> +       u32 clock_lane;
+> >> +       int i, ret;
+> >> +
+> >> +       ep =3D fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 1, 0,
+> >> +                                            FWNODE_GRAPH_ENDPOINT_NEX=
+T);
+> >> +       if (ep) {
+> >> +               fwnode_handle_put(ep);
+> >> +               dev_err(dev, "DPHY split mode is not supported\n");
+> >> +               return -EOPNOTSUPP;
+> >> +       }
+> >> +
+> >> +       ep =3D fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0, =
+0);
+> >> +       if (!ep) {
+> >> +               dev_err(dev, "Missing port@0\n");
+> >> +               return -ENODEV;
+> >> +       }
+> >> +
+> >> +       num_data_lanes =3D fwnode_property_count_u32(ep, "data-lanes")=
+;
+> >> +       if (num_data_lanes < 1 || num_data_lanes > CSI2_MAX_DATA_LANES=
+) {
+> >> +               ret =3D -EINVAL;
+> >> +               dev_err(dev, "Invalid data-lanes count: %d\n", num_dat=
+a_lanes);
+> >> +               goto out_put;
+> >> +       }
+> >> +       stream_cfg->num_data_lanes =3D num_data_lanes;
+> >> +
+> >> +       ret =3D fwnode_property_read_u32_array(ep, "data-lanes", data_=
+lanes,
+> >> +                                            stream_cfg->num_data_lane=
+s);
+> >> +       if (ret) {
+> >> +               dev_err(dev, "Failed to read data-lanes: %d\n", ret);
+> >> +               goto out_put;
+> >> +       }
+> >> +
+> >> +       ret =3D fwnode_property_read_u32(ep, "clock-lanes", &clock_lan=
+e);
+> >> +       if (ret) {
+> >> +               clock_lane =3D CSI2_DEFAULT_CLK_LN;
+> >> +               dev_info(dev, "Using default clock-lane %d\n",
+> >> +                        CSI2_DEFAULT_CLK_LN);
+> >> +       }
+> >> +
+> >> +       /* lane-polarities: optional, up to num_data_lanes + 1 entries=
+ */
+> >> +       memset(lane_polarities, 0x00, sizeof(lane_polarities));
+> >> +       num_polarities =3D fwnode_property_count_u32(ep, "lane-polarit=
+ies");
+> >> +       if (num_polarities > 0) {
+> >> +               if (num_polarities !=3D stream_cfg->num_data_lanes + 1=
+) {
+> >> +                       ret =3D -EINVAL;
+> >> +                       dev_err(dev, "clock+data-lane %d/polarities %d=
+ mismatch\n",
+> >> +                               stream_cfg->num_data_lanes + 1, num_po=
+larities);
+> >> +                       goto out_put;
+> >> +               }
+> >> +
+> >> +               ret =3D fwnode_property_read_u32_array(ep, "lane-polar=
+ities", lane_polarities,
+> >> +                                                    num_polarities);
+> >> +               if (ret) {
+> >> +                       dev_err(dev, "Failed to read lane-polarities: =
+%d\n", ret);
+> >> +                       goto out_put;
+> >> +               }
+> >> +       }
+> >> +
+> >> +       for (i =3D 0; i < csi2phy->stream_cfg.num_data_lanes; i++) {
+> >> +               csi2phy->stream_cfg.lane_cfg.data[i].pos =3D data_lane=
+s[i];
+> >> +               csi2phy->stream_cfg.lane_cfg.data[i].pol =3D lane_pola=
+rities[i + 1];
+> >> +       }
+> >> +       csi2phy->stream_cfg.lane_cfg.clk.pos =3D clock_lane;
+> >> +       csi2phy->stream_cfg.lane_cfg.clk.pol =3D lane_polarities[0];
+> >> +
+> >> +       ret =3D 0;
+> >> +
+> >> +out_put:
+> >> +       fwnode_handle_put(ep);
+> >> +
+> >> +       return ret;
+> >> +}
+> >> +
+> >> +static int phy_qcom_mipi_csi2_probe(struct platform_device *pdev)
+> >> +{
+> >> +       unsigned int i, num_clk, num_supplies;
+> >> +       struct mipi_csi2phy_device *csi2phy;
+> >> +       struct phy_provider *phy_provider;
+> >> +       struct device *dev =3D &pdev->dev;
+> >> +       struct phy *generic_phy;
+> >> +       int ret;
+> >> +
+> >> +       csi2phy =3D devm_kzalloc(dev, sizeof(*csi2phy), GFP_KERNEL);
+> >> +       if (!csi2phy)
+> >> +               return -ENOMEM;
+> >> +
+> >> +       csi2phy->dev =3D dev;
+> >> +       dev_set_drvdata(dev, csi2phy);
+> >> +
+> >> +       csi2phy->soc_cfg =3D device_get_match_data(&pdev->dev);
+> >> +
+> >> +       if (!csi2phy->soc_cfg)
+> >> +               return -EINVAL;
+> >> +
+> >> +       num_clk =3D csi2phy->soc_cfg->num_clk;
+> >> +       csi2phy->clks =3D devm_kzalloc(dev, sizeof(*csi2phy->clks) * n=
+um_clk, GFP_KERNEL);
+> >> +       if (!csi2phy->clks)
+> >> +               return -ENOMEM;
+> >> +
+> >> +       ret =3D phy_qcom_mipi_csi2_parse_routing(csi2phy);
+> >> +       if (ret)
+> >> +               return ret;
+> >> +
+> >> +       ret =3D phy_qcom_mipi_csi2_attach_pm_domains(csi2phy);
+> >> +       if (ret < 0)
+> >> +               return dev_err_probe(dev, ret, "Failed to attach power=
+-domain list\n");
+> >> +
+> >> +       devm_pm_runtime_enable(dev);
+> >> +
+> >> +       for (i =3D 0; i < num_clk; i++)
+> >> +               csi2phy->clks[i].id =3D csi2phy->soc_cfg->clk_names[i]=
+;
+> >> +
+> >> +       ret =3D devm_clk_bulk_get(dev, num_clk, csi2phy->clks);
+> >> +       if (ret)
+> >> +               return dev_err_probe(dev, ret, "Failed to get clocks\n=
+");
+> >
+> > Maybe it would be simpler to use devm_pm_clk_create +
+> > of_pm_clk_add_clks ? then the clocks would be automatically handled
+> > from the PM core on suspend/resume. And you wouldn't have to specify
+> > and handle per-platform specific clock names/count (if such strict
+> > checking is not necessary).
+>
+> I think TBH, I'd rather keep control of the ordering of voting /
+> clock-enables in the driver.
+>
+> >> +
+> >> +       csi2phy->timer_clk =3D devm_clk_get(dev, csi2phy->soc_cfg->tim=
+er_clk);
+> >> +       if (IS_ERR(csi2phy->timer_clk)) {
+> >> +               return dev_err_probe(dev, PTR_ERR(csi2phy->timer_clk),
+> >> +                                    "Failed to get timer clock\n");
+> >> +       }
+> >> +
+> >> +       ret =3D devm_pm_opp_set_clkname(dev, csi2phy->soc_cfg->opp_clk=
+);
+> >
+> > Is there any reason for the clock name to differ from "core"? Since
+> > you're introducing a fresh driver and binding, it might be better to
+> > avoid making the clock naming explicitly dependent on the SoC or
+> > platform.
+>
+> This is the correct call though. The YAML mandates the name, so
+> hard-coding in the driver is just an expression of that mandate or
+> rather a restatement of it.
+>
+> I'll use core and timer directly.
 
-About Rust, I don't know.
-
-> >=20
-> > That leaves those that are not called with the lock held, and for
-> > which we rely on the RCU lock:
-> >=20
-> > - ::get_{driver,timeline}_name() get back to the FenceCtx to get those
-> > =C2=A0 names, and if the Arc<FenceCtx> inside the DriverFenceData is dr=
-opped,
-> > =C2=A0 I guess it can't be trusted
-> > - ::set_deadline() is problematic as well
-> > - ::wait() and ::release() are deprecated
-> >=20
-> > >=20
-> > > The only way I can see to make that bullet proof would be to do
-> > > synchronize_rcu() before the drop_in_place() above =E2=80=93 but that=
- would
-> > > mean that we delay each fence drop by one grace period.=C2=A0=20
-> >=20
-> > synchronize_rcu() in the DriverFence::drop() path is indeed not a great
-> > idea. Not only because it adds an heavy synchronization point in a
-> > potentially hot-path, but also because you're back to a situation where
-> > DriverFence users need to be very careful about the context they are
-> > when they drop these objects, and because drop() is an implicit
-> > operation most of the time, it becomes super fragile.
-
-We declared it illegal to drop a fence without signalling it. So it's
-not thaaat implicit.
-
-Moreover, the current suggestion for v2 is that we force the user to
-obey to our safety requirements:
-
-
-/// Trait to ensure that the fence implementation can safely drop the user =
-data
-/// passed in [`FenceCtx::new_fence_allocation()`].
-///
-/// # Safety
-///
-/// You must only implement this trait for your type if the following rules=
- are
-/// obeyed to:
-///
-/// 1. Your type either does not need [`Drop`] at all, OR drops only after =
-1 RCU
-///    grace period has passed.
-/// 2. If present, your [`Drop`] implementation performs no operations ille=
-gal in
-///    atomic context, such as allocating with GFP_KERNEL.
-pub unsafe trait DriverFenceSafeToDrop {}
-
-https://gitlab.freedesktop.org/pstanner/linux-drm-work/-/blob/jobqueue-dma-=
-fence-v2/rust/kernel/dma_buf/dma_fence.rs?ref_type=3Dheads#L512
-
-
-That way we hit several birds with one stone. We get our delayed-by-a-
-grace-period drop, *and* we can very explicitly document: "you must not
-do atomic-hostile stuff in drop()".
-
-Pretty cool, right? :]
-
-> >=20
-> > If we're going to force this synchronize_rcu(), I think it should be
-> > done when the FenceCtx is dropped, meaning we're back to a situation
-> > where DriverFenceData::data is also RCU-deferred with an rcu_call(),
-> > which, IIRC, was the original idea.
-
-See the trait, yes.
-
-> >=20
-> > >=20
-> > > I'm still not sure how real the problem really is, though. Because
-> > > refcounting guards, and drop() doesn't actually *do* something to the
-> > > pointers, or does it?=C2=A0=20
-> >=20
-> > It doesn't do anything to the dma_fence part of the DriverFenceData,
-> > but it can touch the driver-specific part, and most importantly, it
-> > might leave it with stale information that are then re-interpreted by
-> > the dma_fence_ops callback that's still in-flight.
-
-Hmm no, I think this is all safe.
-
-It's really about the question whether you are allowed to access a
-pointer in Rust that has been dropped, even if you can guarantee that
-it is still valid after dropping (for a grace period).
-
-
-P.
-
-> >=20
-> > >=20
-> > >=20
-> > > --
-> > >=20
-> > > Another, related issue would be
-> > > - thread A accesses DriverFence::data through a backend_ops
-> > > - thread B drops DriverFence
-> > > - there are no RCU callbacks (call_rcu()) pending
-> > > - thus, the rcu_barrier() in FenceCtx::drop() takes no effect. We wou=
-ld
-> > > actually need synchronize_rcu() there.
-> > >=20
-> > >=20
-> > > So would seem we still didn't get fence and fence_ctx teardown
-> > > completely right.=C2=A0=20
-> >=20
-> > Nope, indeed. The driver_name/timeline_name retrieval is already
-> > problematic. You probably get away with it because you're leaking the
-> > context (no drop on DriverFenceData::fctx AFAICT).
->=20
-> My bad, it's the whole DriverFenceData you drop_in_place(), so there's
-> no leak, but DriverFenceData::fctx becomes invalid, and any in-flight
-> get_{driver,timeline}_name() will trigger the issue you were reporting
-> (access to stale fctx).
+Yes, that=E2=80=99s what I meant, this can be hardcoded here, as SoC-specif=
+ic
+clock naming will likely never be needed.
 
