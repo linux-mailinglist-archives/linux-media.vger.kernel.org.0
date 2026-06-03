@@ -1,213 +1,207 @@
-Return-Path: <linux-media+bounces-63645-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63646-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Ig7zIi+EIGpZ4gAAu9opvQ
-	(envelope-from <linux-media+bounces-63645-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 21:44:47 +0200
+	id v3jQIk6EIGpf4gAAu9opvQ
+	(envelope-from <linux-media+bounces-63646-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 21:45:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F308B63AF3D
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 21:44:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F420663AF4A
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 21:45:17 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=nxp.com header.s=selector1 header.b="JJhl2T/A";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63645-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63645-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=nxp.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=AaAdScBU;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63646-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63646-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=mailbox.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 889AD301FAA7
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 19:43:10 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 5FD7E3025E7A
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 19:43:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9FB948BD5E;
-	Wed,  3 Jun 2026 19:43:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7F0948C415;
+	Wed,  3 Jun 2026 19:43:49 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011008.outbound.protection.outlook.com [40.107.130.8])
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A1D37DE9B;
-	Wed,  3 Jun 2026 19:43:06 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780515788; cv=fail; b=NiF1Ane22E86unAWsgL0XeFkO8euCmAsvjj1jiV2RKfKK7zZ9srK48CgjeoSioBlQLOnR9ENZqLehnALWriativVtuu1NYlbNMGcImRV3K/47Q+EEQ6NwbqtQVf8dGOrBfbOW9FYsQpBP6Vs1LH/+uKu56KupDriRh2Fjyiv094=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780515788; c=relaxed/simple;
-	bh=aB13LgVq/L2DWo0Ekuvdvi4g8/M3R7VwwsF4+qquw34=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=THqc3RReR19V38fKx6SoxcByfSIeyukBUIh9pYBU4KFzlN5tVxT5QbYuYEMDautWoeXyrfGbDsLX/Rz933Q1dXlmGYuiJH6Moq3MNq03ENM6TIvA0bYPetVqAJ/RNV6NOEhpELexjW6J9PqkehlWw35isodJbAY0iI4dDN+HsgA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=JJhl2T/A; arc=fail smtp.client-ip=40.107.130.8
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vHlgF30iZXmiVMUQ5V9B2lgTtUy+WMYjcXqMORIqBN3Az0g//lJSkC59PcRkBbn5Euc1+pBSFzDnRtBWD5bSeypB0oG2YQtvdoEma9e7Vl81707twTRa6ICV0dOFkale45eY/tx07peg9fHduAJQC1frJJCoXbaAZGun0fgvpCnnqpC960NgsQrr2C1WUa4yr04zUnKR4CrxCyjlLVxrjUJBc7wlBuGyFr79Dk8q3v/jAjeGDvENV8lb8y1/TnyYuQdC8u7LqoLJj/jazoRB54RNrxm1DL5dD4hF8+e0mdSxGYz+3EIlGgST+1HUchVGjRwWc4NOjGtsVQzKQmDcMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yduLVxmi2GLphC9IxM2vMmrnnn8YFAzxNdAvoes5T4c=;
- b=ab4V+2EZyDnfWJ++Iq0rxR57kxf9Qh4Da3g5KxccfDlKNoIWmT0Fgu5gAOoK+3MB6IcsBADKpT2uas3jwOFhWv8U+YxEYiRB9sY961KT4fnd/PQOMR9Au1PRLzaNJhGUBtFDYlXEmxuDKWFlZPgxirHSnwIbZa+GpiKrxWDjHuRxQ2Q1ny2GnU/SEpEgwBfj7hXRH6pUKKiUj1KvXFO0d0wlfFlcmT3Sw6OtRgtQMDjsK337k3ThcBCpoWi5hihOdZanl96DpCgXzuj4gamHm35m3xw2g7FLVi3Ln7kCbKvXim1DIROh+J7MWWmDlb5YXGeFmisqQLZhkNuv8kBSaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yduLVxmi2GLphC9IxM2vMmrnnn8YFAzxNdAvoes5T4c=;
- b=JJhl2T/AXk3E93bc/lxc9CIQkh6zCB/TGPQfS9OTBDm+5/V8Y/NL6WZGAq56o7evolxwu8mXuNSnXh0OkvuXXMkYM16UvKDpAgZyvF4oa7Dm9F+0foelB/aDGeQJ17jBUGiN5BF+C7bsFoBuqERldY+3Wnzq7nB6KuClpJvXdKqi7RmkMWWtDaumS5uWqFoS0fKRO9chMtMu+/l0S3by/K9IhTVHg00ipKDmhLH4lsRrNqXF6HRLUUcn3NE8ucrIiKn5o1Fy6xXog94FpPhWbFDTW4OfmRNcggTko04zd7keMTegBWZkB62SatXt/2s2MG/nXCus/wgq6WyF9U8msA==
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com (2603:10a6:102:2a9::8)
- by AS8PR04MB7559.eurprd04.prod.outlook.com (2603:10a6:20b:295::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.7; Wed, 3 Jun 2026
- 19:43:03 +0000
-Received: from PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588]) by PA4PR04MB9366.eurprd04.prod.outlook.com
- ([fe80::75e4:8143:ddbc:6588%3]) with mapi id 15.21.0092.006; Wed, 3 Jun 2026
- 19:43:03 +0000
-Date: Wed, 3 Jun 2026 15:42:58 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Bryan O'Donoghue <bod@kernel.org>
-Cc: linux-kernel@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-	hverkuil+cisco@kernel.org, michael.riesch@collabora.com,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: imx: imx8mq-mipi-csi2: Add myself as reviewer
- to imx8mq-mipi-csi2
-Message-ID: <aiCDwpd9rsPf1FxR@lizhi-Precision-Tower-5810>
-References: <20260603-dphy-params-extension-v1-0-22e0e1ed8bf2@kernel.org>
- <20260603-dphy-params-extension-v1-1-22e0e1ed8bf2@kernel.org>
- <aiBqGVR11AZ-QI26@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aiBqGVR11AZ-QI26@lizhi-Precision-Tower-5810>
-X-ClientProxiedBy: SN7PR04CA0165.namprd04.prod.outlook.com
- (2603:10b6:806:125::20) To PA4PR04MB9366.eurprd04.prod.outlook.com
- (2603:10a6:102:2a9::8)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B6F3F4134
+	for <linux-media@vger.kernel.org>; Wed,  3 Jun 2026 19:43:46 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780515829; cv=none; b=hdr3k9rpdVmT9FRql9oqIM/g0hggrybb2iRnsIR0l46NR+MRY0tNztpn1UNvG+T6CpVJ6/M/8/i0rwjyCquu4GYLnI7KW0bAzHTJD3EgmcCdYyKY5c/CI+HJw1nvTlB2tF2qBopePMn3WbO5E9btKO5Peqx3Q+RlPiu2aVr8xpk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780515829; c=relaxed/simple;
+	bh=3aYo/ev6hWbpdnajg8XRbsQo9rMs3p7erOe9olX+d14=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=QIvULsRKg0wO4rz80qw+MfV5jD3Zb4X8CBmrmeDWW6nobqJBYuIjgwfm2+32WxoV8t8JiuRx7TlbT6lAMi3l6z1IT788w/cw/NciYVhhD0zJ1kxteduhmYrvMRDX/yZTdRsLCelVR1rTdTxs2HEauOFwExEBlaVDc7denUJs0Kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=AaAdScBU; arc=none smtp.client-ip=80.241.56.172
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gVymv7185z9v1m;
+	Wed,  3 Jun 2026 21:43:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1780515824; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3aYo/ev6hWbpdnajg8XRbsQo9rMs3p7erOe9olX+d14=;
+	b=AaAdScBUQs94C3Bm1VfQ+ASJbsJboa/qPgeCZBvPID+IYAljOKfeOPUn2UxoefHOD7CsQg
+	gdFrbtrCeWW/vvuB/Dck5ISSyXhIYJo616keHxzXNdlHDPPurdGYxI8UW1BP5LUt4m/TzP
+	MwaIHvsu0+rVtkCLI1dwZZTAIouPs5IzLyftFDi4iSTN1mSBu92FMMvkwrDyHbBSGcv8UW
+	H9+bxlJU4T8J5o6NuZTOUC3ckMwm9IWD0Vi1H0sTk6uT6iDvFoa+ERI50KaqhMUCoeu5de
+	0qkbP10iUNE5YdenXjSYuTRce7lxW2lpKNh1ynFYxszz4trssMxLMK7rqkFqsQ==
+Message-ID: <844b17bf90c3623694c242649878651cb4e19de3.camel@mailbox.org>
+Subject: Re: [PATCH 3/4] rust: Add dma_fence abstractions
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Boris Brezillon <boris.brezillon@collabora.com>, Danilo Krummrich
+	 <dakr@kernel.org>
+Cc: phasta@kernel.org, Alice Ryhl <aliceryhl@google.com>, 
+	sashiko-reviews@lists.linux.dev, linux-media@vger.kernel.org,
+ ojeda@kernel.org,  Christian =?ISO-8859-1?Q?K=F6nig?=	
+ <christian.koenig@amd.com>, Gary Guo <gary@garyguo.net>, Daniel Almeida	
+ <daniel.almeida@collabora.com>
+Date: Wed, 03 Jun 2026 21:43:40 +0200
+In-Reply-To: <20260603183421.06c04082@fedora-2.home>
+References: <ah1c3NSU-4UkdUhb@google.com>
+		<a3d09b270e6effb6f2bfb5d7ba8de48e3c2c4081.camel@mailbox.org>
+		<CAH5fLggvxGwJkAp+VqG7pA-e2zM-T8_DR0DeCiZiJyM+o51DuQ@mail.gmail.com>
+		<24ef07ed85d9e7aa7f9d3a96301c4c15bc0f2315.camel@mailbox.org>
+		<ah2M2a_4PneZpjTS@google.com>
+		<16dff07d28fca94749f14e9c91e6f812f605d6e5.camel@mailbox.org>
+		<ah7CGySkyE7mSM8a@google.com>
+		<7a978596279eca99cd41ca46606c7e5a6a38e801.camel@mailbox.org>
+		<ah7FjDdU6zt65qId@google.com>
+		<4bf6e916efe54bab66defda6fffea8c41358b3cc.camel@mailbox.org>
+		<ah72Bi2Q5Wpgo2kE@google.com>
+		<3c7e4db139df7cea18bc683d6dd33da2d00f0358.camel@mailbox.org>
+		<20260603084805.5e0e23ea@fedora-2.home>
+		<aa11e74f419b02c0e4fe417face43e7d05e62783.camel@mailbox.org>
+		<20260603115247.21ee5d1d@fedora-2.home>
+		<20260603115804.29eb8f7d@fedora-2.home>
+		<5e710e0bffd21eded77f060ae34e641449325c73.camel@mailbox.org>
+		<20260603132259.42184da0@fedora-2.home>
+		<DIZJD7DXYF5L.2Z7JGH55EMNU2@kernel.org>
+	 <20260603183421.06c04082@fedora-2.home>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA4PR04MB9366:EE_|AS8PR04MB7559:EE_
-X-MS-Office365-Filtering-Correlation-Id: cbef7c54-56ed-4239-fdfc-08dec1a8536a
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|366016|376014|52116014|1800799024|19092799006|22082099003|18002099003|38350700014|56012099006|4143699003|11063799006;
-X-Microsoft-Antispam-Message-Info:
- nUPT1SRAOCDHx02EXrSk0EkAy0wwgI0pkZsHpvZCjIMGI9Pmvx0mVIpAm9dW3rNhIjo3pdchUwTJ0EjHb06Y1tFgoknepocipTIpzSoeusX7z9RNQDEi0j/xHRpCvWhhdda/71y6QAG0Q3IoxJGNom3lfxBzSD5TVHrSE888GcmKLdots/mIJvqB3MpjADv13dSUQRex5ecikQuWxMVYt+N6NohtOG2meZAiSchpCe/DetiKm7UOy4uYcXbGKpXSR/sWsPrfRKDoO70Hou1iWRN/LD3yLqcRw15e0fYyQUj2EYSaWFn2tnuxTg6mdE3swobuE4Up2PQYTJQvT7LLtpUAvqXHu+TzH3ttoBeb8Q9ovf3aJY2pYXuYssnhx9DqWtDeVO3+6XNR48yLfbKwubVCwuMicNYLMfNz8l/6thuJ64sVx/oNTK0AkU1ZQBGluOrK81mUbl9+TgYjadakh9StP26zkyBQgit6y8VZmuhRdEgcn2ae6o9bujkfxEf+neHhHWWGMM9P5E7iSgnEWQI2aC71T4AQBgkwVC6vLrEHlJiIWVcfJ3lZ9tLDwDD11IBzJNX6F+iwPknnJiubZUjplg+APNNzI5P0+vCRBohweNJF/Y3lAfMTE7dMl9m8DjfGGs/236L9asH7z9buTtbZjBcxP9pmJX2UZJ5lq/kRNnAjl/WoCb25lxqI+lDcNhVKFMOIiG4xBlbdHmwdOAo8Pd6coinm+whkUDew81dhX1x2V6D6LSSUljXXi9+q
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR04MB9366.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(1800799024)(19092799006)(22082099003)(18002099003)(38350700014)(56012099006)(4143699003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?uHWcGGTqrRpWPf8CYSJcEvA3WGgzyVLe9XcNUWpCr2Lvg7yGVGL07IMCUVu/?=
- =?us-ascii?Q?4HbgiXfYFJ1smuFcAo8JOsaK7B33je6p0Y4RWv6gbOXp1GyRc7NrQkZmx1RD?=
- =?us-ascii?Q?vgiN4WtBCQMh2EXP7ZBBsEfKPGVH5NyAhCuDzRHZ8GsjhJo6err/bzYNzSre?=
- =?us-ascii?Q?xendYUEMCpDQ8wAR0z/hQlU7Iq+w4+1nYLVQa8AjoRUH9kN3QHI8cX4DLNNy?=
- =?us-ascii?Q?Jgd9UH65RzcBbdb2Yg2eukaQQRDCucMUCl6oSQgDW6orVE8DxmJnC1GBTC5A?=
- =?us-ascii?Q?Wp0zFGKBxqXxnRKZ51RgGN00Xgj/OafP0Plb47yCRWbj/hXL112lJwzcPwhL?=
- =?us-ascii?Q?ppGqGTIc0B8GJrIbgi+Ay/Mpp9j95zSw7ULTyU8YBVxcGS7zown/F4/UnMyl?=
- =?us-ascii?Q?Gbt+HV6MuSPsiMNdmlvbW8amRuNcb2EgsCiU76ivmob7IDcUnoUoxq/IBF78?=
- =?us-ascii?Q?pDaPwEJfDotr357FnWffwS79DQr2ZwkAi6mlFlHB8FDZA+oibBihV8Vl4ab0?=
- =?us-ascii?Q?MNA9PAAb+kaJLtDYkzzmVA/uZafZi/UZbro2a8sBsH/WaqZ6TwgoCjuDEeDO?=
- =?us-ascii?Q?zbPTTx+QceVv9wzIzMDxmBn5q/R5RVj1Gct/jNTvhYjfWQyTZEN4Dc3YFMSf?=
- =?us-ascii?Q?lZujHrJbD1dKDUEnS5ICoPJUP+xMjaXoewu407lobh/S05M5U/ALfpmJYiAh?=
- =?us-ascii?Q?XZ99WOQgT/ykStl+2lbWkc1t1YnnYKn0iqWT2DsTzf864qLDnVmg5K84yHpm?=
- =?us-ascii?Q?C339xTvtu3pIltl5fRItMllWtuyInQtj5TGOL2/6Hd8CFE3QJn5Uus5oylXC?=
- =?us-ascii?Q?B6zZv7VFNqQRRzEiCB0j+CICYfwP3gWoGTGiHBk6g/qiFKb+5b5zm00qdGeL?=
- =?us-ascii?Q?kGjj6QA/vIhFkWe77gpdaFMGvWhXdWcMLnoYiCQXDhIBFqmB1jnaD9iYGog5?=
- =?us-ascii?Q?/gPcKswLjEXQwvUnrq0DdRrvupOyTV4hJHBZIdpXR8pZSMCx2IginII+91+Y?=
- =?us-ascii?Q?LCdeyagzLwr32znNDXTyihHP+vLQPjPMsdFmHn6scfDmhjN3lymVYbAu7kL1?=
- =?us-ascii?Q?gxn0BrqZdLkVkKewpSdlfkpjNkcNy2KtvwPmXWGS4/UDquzuPJHF2isUzfGc?=
- =?us-ascii?Q?J1Cw1DHqVRXkDTJ+a5Xs9iSc+GPJgaJ2XVsHIZFlNVNvYUbITdYfZltwD7Mv?=
- =?us-ascii?Q?KGOg+Wy2w7LS0wORIq0llIGfCcrjEa5cbEzIqqycqcgKe2+odt7SvAlzVCOC?=
- =?us-ascii?Q?8sL5TxQcaHSUnmxmnegFjbfxYSx2I6pvkCrhuuqqe+ZaMbgHjCX7jReT7v/O?=
- =?us-ascii?Q?kUxqcZ1kKFiig2iVTJFSUnI1CUiSMukee1aN0G7AyKpGHGg875aS8ePxsP+H?=
- =?us-ascii?Q?1liIs/b2tlzjCobG/eAEwZq2iUme1kgYy0AW/PPvepkNmNL2NErWl+Z/aitu?=
- =?us-ascii?Q?vixd1uUNwibWKhsATVDE3zsVfOMJLc/zaAYWPRoesGkOa3WTaR3dC1FcbD15?=
- =?us-ascii?Q?BCD1pNyBSRQUIb1VoeNEOE7yJj4a9wxAuHkt/rFcczbHa5faCIGkkWLNZSgO?=
- =?us-ascii?Q?mI/8EEpo97EVozDmwULdDgosUv01mb4aoZcDAchZv/cwZuBj72mfBQphGTZa?=
- =?us-ascii?Q?PAsXYajud6xfmoulSpQzXyCADxWz5cSHefzG+XRgL36JTjrUiwmbwT2+eFaH?=
- =?us-ascii?Q?dRVvABfxeQ6cAklDMAq2/ZHbftHwN6S+aOfcr4a4cSyLxuj2?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cbef7c54-56ed-4239-fdfc-08dec1a8536a
-X-MS-Exchange-CrossTenant-AuthSource: PA4PR04MB9366.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Jun 2026 19:43:03.2248
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 42G7gMEziClagU5ZZMzi+t6YWjir0K5VETIF0Zsrvrkpx44vyTozjceTSjVswoAttX54gUYHsRwdAzFcb2qqSg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB7559
+X-MBO-RS-ID: 25f01775bd12ea2495e
+X-MBO-RS-META: dif45xwnyzkj7fuqm8ag8utx3o6y9nac
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
-	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63645-lists,linux-media=lfdr.de];
-	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63646-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[Frank.li@nxp.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:dakr@kernel.org,m:phasta@kernel.org,m:aliceryhl@google.com,m:sashiko-reviews@lists.linux.dev,m:linux-media@vger.kernel.org,m:ojeda@kernel.org,m:christian.koenig@amd.com,m:gary@garyguo.net,m:daniel.almeida@collabora.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:bod@kernel.org,m:linux-kernel@vger.kernel.org,m:laurent.pinchart@ideasonboard.com,m:hverkuil+cisco@kernel.org,m:michael.riesch@collabora.com,m:linux-media@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[nxp.com:+];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	HAS_REPLYTO(0.00)[phasta@kernel.org];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[Frank.li@nxp.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_FIVE(0.00)[6];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:dkim,nxp.com:from_mime,nxp.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,posteo.de:email,linux.dev:email,lizhi-Precision-Tower-5810:mid,puri.sm:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mailbox.org:mid,mailbox.org:from_mime,mailbox.org:dkim,dma_fence.rs:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F308B63AF3D
+X-Rspamd-Queue-Id: F420663AF4A
 
-On Wed, Jun 03, 2026 at 01:53:29PM -0400, Frank Li wrote:
-> On Wed, Jun 03, 2026 at 12:15:40AM +0100, Bryan O'Donoghue wrote:
-> > At the media summit in Nice this year we discussed that cross reviewing
-> > from different people on LKML was lacking and desirable. Laurent suggested
-> > NXP/Qcom do some cross pollination.
-> >
-> > Happy to read and review NXP stuff in that spirit.
-> >
-> > Signed-off-by: Bryan O'Donoghue <bod@kernel.org>
-> > ---
->
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+On Wed, 2026-06-03 at 18:34 +0200, Boris Brezillon wrote:
+> On Wed, 03 Jun 2026 17:57:16 +0200
+> "Danilo Krummrich" <dakr@kernel.org> wrote:
+>=20
+> > On Wed Jun 3, 2026 at 1:22 PM CEST, Boris Brezillon wrote:
+> > > Honestly, the more I think about it, the more I believe we should def=
+er the
+> > > drop unconditionally and call it a day.=C2=A0=20
+> >=20
+> > I think deferring is fine, a hard synchronization with synchronize_rcu(=
+) in
+> > DriverFence::drop() seems very undesirable though.
+> >=20
+> > Another option would be to change dma_fence_is_signaled() to take the f=
+ence lock
+> > already for signaled(), which should be fine given that drivers should =
+only ever
+> > check a sequence number.
+> >=20
+> > It would account for the fact that the same race is possible on the C s=
+ide.
+> > While the memory allocation is protected by RCU, the contents are not, =
+and it
+> > seems realistic a driver could invalidate the contents of its private d=
+ata after
+> > signaling the fence while signaled() callbacks are still in flight.
+> >=20
+> > Note that there are no new constraints, signaled() is already called wi=
+th RCU
+> > read lock held, plus there's also dma_fence_is_signaled_locked() which =
+also
+> > calls signaled() with the fence lock held.
+> >=20
+> > With this, the problem goes away, as it would guarantee that once we re=
+ach
+> > drop_in_place() in DriverFence::drop() it is impossible that there are =
+still
+> > callback in flight.
+>=20
+> If we can guarantee that no dma_fence_ops we ever consider implementing
+> in dma_fence.rs will be called after we've signaled the fence, that's
+> even better, but it's not that clear to me that it works just for the
+> callbacks we already implement (get_{driver,timeline}_name()). Take
+> dma_fence_describe() for instance, with your solution the
+> dma_fence_is_signaled() call in there would take/release the fence lock
+> unconditionally, but it's still racy, because the fence might be
+> signaled just after the lock is released and we would consider it valid
+> to call ->get_{driver,timeline}_name() and use the returned strings even
+> though the fence was effectively signaled in the meantime. We can of
+> course fix that by forcing dma_fence_describe() to take the fence lock
+> around the whole section where it's retrieving/using the driver/timeline
+> strings, but I'm pretty sure this has been considered and dismissed by
+> Christian.
 
-Laurent and Bryan O'Donoghue,
+Then I would like to hear the reasons because what Danilo suggests
+sounds like an incredible clean thing to do. We'd get a bullet-proof
+synchronisation point.
 
-	which qcom part I can help review, I can add myself as reviewer also.
+It would solve all our problems regarding UAF. Only thing left to do
+would be to ensure atomic-friendly dropping of data.
 
-Frank
 
->
-> >  MAINTAINERS | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index efbf808063e50..8436428865aac 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -16094,6 +16094,7 @@ M:	Frank Li <Frank.Li@nxp.com>
-> >  M:	Martin Kepplinger-Novakovic <martink@posteo.de>
-> >  R:	Rui Miguel Silva <rmfrfs@gmail.com>
-> >  R:	Purism Kernel Team <kernel@puri.sm>
-> > +R:	Bryan O'Donoghue <bod@kernel.org>
-> >  L:	imx@lists.linux.dev
-> >  L:	linux-media@vger.kernel.org
-> >  S:	Maintained
-> >
-> > --
-> > 2.54.0
-> >
+P.
+
+>=20
+> I think we can't have it all, either we consider RCU deferral cheap
+> enough that we can live with the scheduling overhead + the fact we
+> might hold on system resources a bit longer. Or we consider DriverFence
+> release a hot-path where resources should be returned as soon as
+> possible, and we need to protect dma_fence::ops with a dedicated
+> rwlock_t.
 
