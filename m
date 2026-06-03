@@ -1,62 +1,63 @@
-Return-Path: <linux-media+bounces-63658-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63659-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id FMIJMluKIGp44wAAu9opvQ
-	(envelope-from <linux-media+bounces-63658-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 22:11:07 +0200
+	id VvEaMLWKIGqB4wAAu9opvQ
+	(envelope-from <linux-media+bounces-63659-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 22:12:37 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6295563B0E7
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 22:11:07 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E91763B0ED
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 22:12:37 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="Z/m6aOe2";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63658-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63658-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=I4KvvT4m;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63659-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-63659-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id ACC4C307C6F3
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 20:11:06 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 1C61930621A7
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 20:12:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCA74402B86;
-	Wed,  3 Jun 2026 20:11:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF371400E07;
+	Wed,  3 Jun 2026 20:12:08 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AC0E1D5AD4
-	for <linux-media@vger.kernel.org>; Wed,  3 Jun 2026 20:11:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595F92FC898
+	for <linux-media@vger.kernel.org>; Wed,  3 Jun 2026 20:12:07 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780517462; cv=none; b=CQpE74dD9WxFwt7C2dm3rPOj/A0cz0UVTYkPouTFy4JzHS7Kh3l44CDF3Z/hM5IPtCCc/1lq3mRRKCNdLIMcdXf3SnhRnfGPhWNd/bLQGqtN1TTWuYGAPu3rF8GXfSfWFWPFxx04FdG50by1K8bYaQbypoFCrseD9bWZMyAbbWo=
+	t=1780517528; cv=none; b=C5NQR9PlTacfderT2qnLPpWFLFpcVfh2tx9bjJOK/1cy1zuYmAGxKwyWnWibkyJ/Rq3TF6fv7QjDn53D2fl3m/HLq3ioU5sQMxn55DFy8z78mPiitZ/YehbOkNTbiQcl1dnpKAMo/jArnTrTywZbn7NRtZYSqSX3EmeedSg/apo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780517462; c=relaxed/simple;
-	bh=INQsvqT5G/g4c/9feNZEskmee/eukg+a7BO3+Oz3xsg=;
+	s=arc-20240116; t=1780517528; c=relaxed/simple;
+	bh=Sj52kvC3qySkOiFqvGX7DcZ0jiCbUArH0p1n7RwwIlc=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=q2c24XIIxYvKFHWV04eE64l6+/qp4NeqqZnlx/VNxNZO4RauKGmqkyfY24Af/IPvxu6WlhlRbAeGFItiy9AHuSXyFw37Pmq4/oKy4cgpsYMx29iBFbnu8E2rwrOLqLFkKsPPHsLGObPTmG6cQ62yGaxQXcIt8DpGBOtRMkIEs8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z/m6aOe2; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C52DE1F00893;
-	Wed,  3 Jun 2026 20:11:00 +0000 (UTC)
+	 Message-Id; b=oA9s8qJ4nGw3ILXQxV+x/H8qeUqPaG+sYMsETdBp5d92f5meTwQNAxAGOlv3E6sJdVfZKZFlhhwNjEzKkoa0OATKEUdJNd7V0+BSwrcsZDvH83Fox8biJGL6ECc6tIMtUAsS0B51uLfRqyFIO48fkLba4XTwjlP0C4Vofl/UWVY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I4KvvT4m; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C95721F00893;
+	Wed,  3 Jun 2026 20:12:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780517461;
-	bh=aVOpVkMNC/am4wsav+pCYYReOKw/ESjC7Sm+mlyTAQE=;
+	s=k20260515; t=1780517527;
+	bh=uTmkFJOI5OW01oTAbxR1CUU7b0YJAbjQdmCctl5t3SU=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Z/m6aOe24GWl2I1yi+ZSHsWbsbdFSBIfzjgv81TJ69xXAjAvQNJtOd26TAdUv3I9I
-	 6CFgZeVvkuYWkDaaVo55fgT3gbxPKPjjhZZZuhw3hCBEIuKKAqieYyB2Shqj7JAC0a
-	 UfxbGCDWJmJ/gia9QzbO4y0rDJGtMiuxd8IQ4BwfMLSe3Wk5CynUVdXZHB+G8NeX09
-	 xTTP5Atk/t4S6iczBZkvn2Cy04d7yyKNdLebq3FcI86Waw0KypQp13f/fTRqQiYYk6
-	 v/79vOiSWjvBo7sFgHWRPixK+xc1PZAjV+fWmGcmmo2N7UCoafOEhHDAAue2egN1XG
-	 FfamdOhH7+zJg==
+	b=I4KvvT4mWTKHd8IULlwhyEAkp+rOpNiroanrATpwWc9if0yBLsMrX2/cfBnBm33Jh
+	 KJlZWJvLZFAdI9m2MHeeyLu1jkDGyPOON0uhBIFP6CXq7xJPSFXObw39EQryR/+3tU
+	 NNf79npkTlfAOs8AgZodMsueAo6Rvv3cdMtvbpB8gHxn3r38D8PzWieBH910jZylNG
+	 +ZgR8HQPdkDHiAM5RNYlrhH6Wq4mZT7K0m7X5L0V+6m0hRTx+Lzb74Pm6+vIvBfHIJ
+	 bQNlvi+i2KJUlkTLjCcgB+ne8RcNln/Mfw9FScDlmYyPBTyGAhOeyS3mHwveODIsdT
+	 284AYNrGGV1iA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v17 3/6] rust: drm: gem: shmem: Add vmap functions
+Subject: Re: [PATCH v17 6/6] rust: drm: gem: Introduce
+ shmem::Object::sg_table()
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Lyude Paul" <lyude@redhat.com>
-Cc: linux-media@vger.kernel.org, ojeda@kernel.org
-In-Reply-To: <20260603195210.693856-4-lyude@redhat.com>
-References: <20260603195210.693856-4-lyude@redhat.com>
+Cc: ojeda@kernel.org, linux-media@vger.kernel.org
+In-Reply-To: <20260603195210.693856-7-lyude@redhat.com>
+References: <20260603195210.693856-7-lyude@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 03 Jun 2026 20:11:00 +0000
-Message-Id: <20260603201100.C52DE1F00893@smtp.kernel.org>
+Date: Wed, 03 Jun 2026 20:12:06 +0000
+Message-Id: <20260603201206.C95721F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,7 +69,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -76,11 +77,11 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-63658-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63659-lists,linux-media=lfdr.de];
 	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
 	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:lyude@redhat.com,m:linux-media@vger.kernel.org,m:ojeda@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:lyude@redhat.com,m:ojeda@kernel.org,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -96,217 +97,151 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_NO_DN(0.00)[];
 	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,vger.kernel.org:from_smtp,smtp.kernel.org:mid,lists.linux.dev:replyto]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6295563B0E7
+X-Rspamd-Queue-Id: 5E91763B0ED
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
 s) to consider:
-- [High] Missing volatile memory accesses in `IoCapable` implementation for=
- `VMap`.
-- [Medium] Unconditional reservation lock acquisition causes runtime deadlo=
-cks when vmapping from locked contexts.
-- [Low] Missing `// INVARIANT:` comment when constructing `VMap`.
-- [Low] Incorrect safety comment referencing `ARef` in `raw_vunmap`.
+- [Critical] `SGTableMap::drop` unconditionally frees the scatter/gather ta=
+ble, which corrupts memory for imported dma-buf GEM objects.
+- [Critical] Concurrent device unbind and GEM object destruction causes a U=
+se-After-Free of the GEM object and its dma_resv lock in `SGTableMap::drop`.
+- [High] `SGTableMap` fails to pin the shmem GEM object backing pages, expo=
+sing the SG table to being purged by the shrinker and causing a NULL pointe=
+r dereference. It also leaks the `pages_use_count` on drop.
 --
 
-commit c7d123d2fcea8aeccc045288b1eb2a5cc650d43c
+commit 8870abbe2654a7715fcd51335a14b62f57e22680
 Author: Lyude Paul <lyude@redhat.com>
+rust: drm: gem: Introduce shmem::Object::sg_table()
 
-rust: drm: gem: shmem: Add vmap functions
-
-This commit adds vmap bindings for GEM shmem objects in Rust. It introduces
-functions to create and manage virtual memory mappings for these objects,
-including IoCapable implementations for the VMap structure.
+This commit introduces a Devres-managed SGTableMap to ensure that
+scatterlist mappings for GEM shmem objects are released upon driver
+unbind. It adds the sg_table() method to shmem::Object which is intended
+to pin the object and return its scatter/gather table.
 
 > diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
-> index 650c34dd8b7a4..1f05a5bc5fe66 100644
+> index 1f05a5bc5fe66..dff90771eb34a 100644
 > --- a/rust/kernel/drm/gem/shmem.rs
 > +++ b/rust/kernel/drm/gem/shmem.rs
-
 [ ... ]
+> @@ -189,18 +210,25 @@ extern "C" fn free_callback(obj: *mut bindings::drm=
+_gem_object) {
+>          // - DRM always passes a valid gem object here
+>          // - We used drm_gem_shmem_create() in our create_gem_object cal=
+lback, so we know that
+>          //   `obj` is contained within a drm_gem_shmem_object
+> -        let this =3D unsafe { container_of!(obj, bindings::drm_gem_shmem=
+_object, base) };
+> -
+> -        // SAFETY:
+> -        // - We're in free_callback - so this function is safe to call.
+> -        // - We won't be using the gem resources on `this` after this ca=
+ll.
+> -        unsafe { bindings::drm_gem_shmem_release(this) };
+> +        let base =3D unsafe { container_of!(obj, bindings::drm_gem_shmem=
+_object, base) };
+> =20
+>          // SAFETY:
+>          // - We verified above that `obj` is valid, which makes `this` v=
+alid
+>          // - This function is set in AllocOps, so we know that `this` is=
+ contained within a
+>          //   `Object<T, C>`
+> -        let this =3D unsafe { container_of!(Opaque::cast_from(this), Sel=
+f, obj) }.cast_mut();
+> +        let this =3D unsafe { container_of!(Opaque::cast_from(base), Sel=
+f, obj) }.cast_mut();
+> +
+> +        // We need to drop `sgt_res` first, since doing so requires that=
+ the GEM object is still
+> +        // alive.
+> +        // SAFETY:
+> +        // - We verified above that `this` is valid.
+> +        // - We are in free_callback, guaranteeing we have exclusive acc=
+ess to `this`.
+> +        unsafe { &mut (*this).sgt_res }.reset();
 
-> @@ -197,6 +205,80 @@ extern "C" fn free_callback(obj: *mut bindings::drm_=
-gem_object) {
->          // SAFETY: We're recovering the Kbox<> we created in gem_create_=
-object()
->          let _ =3D unsafe { KBox::from_raw(this) };
->      }
-> +
-> +    /// Attempt to create a vmap from the gem object, and confirm the si=
-ze of said vmap.
-> +    fn make_vmap<'a, R, const SIZE: usize>(&'a self) -> Result<VMap<T, R=
-, C, SIZE>>
-> +    where
-> +        R: Deref<Target =3D Self> + From<&'a Self>,
-> +    {
-> +        // INVARIANT: We check here that the gem object is at least as l=
-arge as `SIZE`.
-> +        if self.size() < SIZE {
-> +            return Err(ENOSPC);
-> +        }
-> +
-> +        let mut map: MaybeUninit<bindings::iosys_map> =3D MaybeUninit::u=
-ninit();
-> +        let guard =3D DmaResvGuard::new(self);
+[Severity: Critical]
+Does this leave a window for a use-after-free if the device unbinds
+concurrently?
 
-[Severity: Medium]
-Could unconditionally acquiring the DMA reservation lock here lead to a dea=
-dlock
-if make_vmap() is called while the lock is already held? In the DRM subsyst=
-em,
-it is common to vmap a GEM object while its lock is already held, such as
-during a commit pipeline or inside drm_exec().
-
-> +
-> +        // SAFETY: drm_gem_shmem_vmap can be called with the DMA reserva=
-tion lock held
-> +        to_result(unsafe {
-> +            bindings::drm_gem_shmem_vmap_locked(self.as_raw_shmem(), map=
-.as_mut_ptr())
-> +        })?;
-> +
-> +        // Drop the guard explicitly here, since we may need to call raw=
-_vunmap() (which re-acquires
-> +        // the lock).
-> +        drop(guard);
-> +
-> +        // SAFETY: The call to drm_gem_shmem_vmap_locked succeeded above=
-, so we are guaranteed that
-> +        // map is properly initialized.
-> +        let map =3D unsafe { map.assume_init() };
-> +
-> +        // XXX: We don't currently support iomem allocations
-> +        if map.is_iomem {
-> +            // SAFETY:
-> +            // - The vmap operation above succeeded, guaranteeing that `=
-map` points to a valid
-> +            //   memory mapping.
-> +            // - We checked that this is an iomem allocation, making it =
-safe to read vaddr_iomem
-> +            unsafe { self.raw_vunmap(map) };
-> +
-> +            Err(ENOTSUPP)
-> +        } else {
-> +            Ok(VMap {
-
-[Severity: Low]
-Should there be an INVARIANT comment here explaining why the memory validity
-invariant is satisfied? The VMap struct documentation has an Invariants sec=
-tion
-stating that the memory remains valid until dropped, so constructing it req=
-uires
-an explanation of how the invariant is met.
-
-> +                // SAFETY: We checked that this is not an iomem allocati=
-on, making it safe to read
-> +                // vaddr
-> +                addr: unsafe { map.__bindgen_anon_1.vaddr },
-> +                owner: self.into(),
-> +            })
-> +        }
-> +    }
-> +
-> +    /// Unmap a vmap from the gem object.
-> +    ///
-> +    /// # Safety
-> +    ///
-> +    /// - The caller promises that `map` is a valid vmap on this gem obj=
-ect.
-> +    /// - The caller promises that the memory pointed to by map will no =
-longer be accesed through
-> +    ///   this instance.
-> +    unsafe fn raw_vunmap(&self, mut map: bindings::iosys_map) {
-> +        let _guard =3D DmaResvGuard::new(self);
-
-[Severity: Medium]
-Will unconditionally acquiring the lock here cause a deadlock if a VMap obj=
-ect
-is dropped while the reservation lock is already held?
+If the devres subsystem is already running SGTableMap::drop() in another
+thread during device unbind, sgt_res.reset() could silently fail to remove
+the action. The callback would then proceed to free the GEM object while
+SGTableMap::drop() is still dereferencing and locking it.
 
 > +
 > +        // SAFETY:
-> +        // - This function is safe to call with the DMA reservation lock=
- held.
-> +        // - Our `ARef` is proof that the underlying gem object here is =
-initialized and thus safe to
-> +        //   dereference.
-
-[Severity: Low]
-Does this safety comment incorrectly reference an ARef? The raw_vunmap func=
-tion
-takes a standard shared reference to self, so there is no ARef involved in =
-its
-signature, and the safety actually relies on the reference itself guarantee=
-ing
-the object is alive.
-
-> +        unsafe { bindings::drm_gem_shmem_vunmap_locked(self.as_raw_shmem=
-(), &mut map) };
-> +    }
-
+> +        // - We're in free_callback - so this function is safe to call.
+> +        // - We won't be using the gem resources on `this` after this ca=
+ll.
+> +        unsafe { bindings::drm_gem_shmem_release(base) };
 [ ... ]
-
-> +macro_rules! impl_vmap_io_capable {
-> +    ($impl:ident, $ty:ty) =3D> {
-> +        impl<D, R, C, const SIZE: usize> IoCapable<$ty> for $impl<D, R, =
-C, SIZE>
-> +        where
-> +            D: DriverObject,
-> +            C: DeviceContext,
-> +            R: Deref<Target =3D Object<D, C>>,
-> +        {
-> +            #[inline(always)]
-> +            unsafe fn io_read(&self, address: usize) -> $ty {
-> +                let ptr =3D address as *mut $ty;
+> +impl<T: DriverObject, C: DeviceContext> Drop for SGTableMap<T, C> {
+> +    fn drop(&mut self) {
+> +        // SAFETY: `obj` is always valid via our type invariants
+> +        let obj =3D unsafe { self.obj.as_ref() };
+> +        let _lock =3D DmaResvGuard::new(obj);
 > +
-> +                // SAFETY: The safety contract of `io_read` guarantees t=
-hat address is a valid
-> +                // address within the bounds of `Self` of at least the s=
-ize of $ty, and is properly
-> +                // aligned.
-> +                unsafe { ptr::read(ptr) }
+> +        // SAFETY: We acquired the lock needed for calling this function=
+ above
+> +        unsafe { bindings::__drm_gem_shmem_free_sgt_locked(obj.as_raw_sh=
+mem()) };
+
+[Severity: Critical]
+Is it safe to unconditionally free the scatter/gather table here?
+
+If the GEM object was imported from a dma-buf, the scatter/gather table
+belongs to the exporter. Calling __drm_gem_shmem_free_sgt_locked() directly
+without checking drm_gem_is_imported() seems like it might illegally free
+the exporter's memory.
 
 [Severity: High]
-Since GEM shmem buffers are mapped into both CPU and GPU address spaces, ca=
-n the
-compiler optimize away or reorder these standard non-volatile memory access=
-es?
+Could this drop implementation also leak the pages_use_count?
 
-The equivalent C API uses READ_ONCE for system memory. Would using
-ptr::read_volatile enforce the necessary volatile semantics to prevent
-potential issues when interacting with the GPU?
+Calling __drm_gem_shmem_free_sgt_locked() alone doesn't seem to drop the
+page use count acquired during SGTableMap::new(). Should this also call
+drm_gem_shmem_put_pages_locked() to balance the counts?
 
-> +            }
+> +    }
+> +}
 > +
-> +            #[inline(always)]
-> +            unsafe fn io_write(&self, value: $ty, address: usize) {
-> +                let ptr =3D address as *mut $ty;
-> +
-> +                // SAFETY: The safety contract of `io_write` guarantees =
-that address is a valid
-> +                // address within the bounds of `Self` of at least the s=
-ize of $ty, and is properly
-> +                // aligned.
-> +                unsafe { ptr::write(ptr, value) }
+> +impl<T: DriverObject, C: DeviceContext> SGTableMap<T, C> {
+> +    fn new(obj: &Object<T, C>) -> impl Init<Self, Error> {
+> +        // INVARIANT:
+> +        // - We call drm_gem_shmem_get_pages_sgt_locked below and check =
+whether or not it
+> +        //   succeeds, fulfilling the invariant of SGTableMap that the o=
+bject's `sgt` field is
+> +        //   initialized.
+> +        // SAFETY:
+> +        // - `obj` is fully initialized, making this function safe to ca=
+ll.
+> +        from_err_ptr(unsafe { bindings::drm_gem_shmem_get_pages_sgt(obj.=
+as_raw_shmem()) })?;
 
 [Severity: High]
-Similarly to io_read, can the compiler optimize or delay this non-volatile
-write?
+Does this expose the object to being purged by the DRM LRU shrinker?
 
-Would using ptr::write_volatile match the WRITE_ONCE semantics from the C A=
-PI
-and prevent the compiler from caching values or reordering the accesses?
+The Object::sg_table() documentation mentions this will pin the object in
+memory, but drm_gem_shmem_get_pages_sgt() only increments the
+pages_use_count, not the pages_pin_count. If userspace marks the object as
+MADV_DONTNEED, the shrinker could purge it and set shmem->sgt to NULL.
 
-> +            }
-> +        }
-> +    };
+Could this lead to a NULL pointer dereference later in SGTableMap::drop()
+when it passes the pointer to __drm_gem_shmem_free_sgt_locked()?
+
+> +
+> +        Ok(Self { obj: obj.into() })
+> +    }
 > +}
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260603195210.6938=
-56-1-lyude@redhat.com?part=3D3
+56-1-lyude@redhat.com?part=3D6
 
