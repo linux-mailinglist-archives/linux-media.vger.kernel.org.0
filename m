@@ -1,76 +1,75 @@
-Return-Path: <linux-media+bounces-63691-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63692-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id EcgcNtipIGrO6QAAu9opvQ
-	(envelope-from <linux-media+bounces-63691-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 00:25:28 +0200
+	id kFoGNSupIGqy6QAAu9opvQ
+	(envelope-from <linux-media+bounces-63692-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 00:22:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CA0763B911
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 00:25:28 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0CD863B8CD
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 00:22:34 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=BeAvQ7WQ;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63691-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-63691-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=k3GeO6pF;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63692-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-63692-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 452B330ACF1A
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 22:20:40 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 37E0B3025905
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 22:21:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2B434D2ED2;
-	Wed,  3 Jun 2026 22:20:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC7744D2ECE;
+	Wed,  3 Jun 2026 22:21:49 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EABF438FEF;
-	Wed,  3 Jun 2026 22:20:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50A8F472776;
+	Wed,  3 Jun 2026 22:21:48 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780525237; cv=none; b=m3flSFx1lvvcW9HJxc7BZP50GuSea9xW7VPR35Owcingd+sOxVvhYhU3mm0gKcZkdvcTYzlrzCph7CX4Z0bEkuDRCFK2R+WqgtGtQ6/dNgAInjhCsTPj1YlDdSXlK/DqUXM4Lp/IWP8UshW2dqUqBet9ykjquIkLK8qW4OMOxe4=
+	t=1780525309; cv=none; b=PANItH5NSuLYbkDMYx+CGV+Wvik8KMrb2VBlciIWhzkDC6hC/mw5nqxXXZ560BTNPFg4JoW+cs8tr1erFo82Dn+Bi0yfRsqXEMcRzP+06Gbew6cXyrXeRUqNYzk3OkrKsebC/BKv4tS2+HgJ+7GqqcSdpzDuhUGRTsIIwktS/hU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780525237; c=relaxed/simple;
-	bh=+tqJ7VvjI0EpIZ4rEOJSSD0tYpFIFV80Tae3omoKZ04=;
+	s=arc-20240116; t=1780525309; c=relaxed/simple;
+	bh=cbcrkyAVo7R7YIrTwCIYoGljOff0/0nntSX8Png87Rk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QqitJRqqPWG4L2dGyTpW5Dno9MqDhXIQAFSqA/LZLjfENOstofAMhBkn5UFjaJS88vE9oIzFJPoRUR6ECdUgyZNCxqINReh0j2L8VxfeL7Gk5gtyqYapToLrDadsCzyF85oRCc/MKAwxXipN6PoL4RL4K5+2f+Hp9vdlf3u0Xyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BeAvQ7WQ; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A683E1F00893;
-	Wed,  3 Jun 2026 22:20:35 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=H0QdAR5rMQQriTq5kIovZ3AWrZVOuZSXBMmv+8ytCdvgZFOwEsRC1oZS0yclYt1jQ0xm0zy/MZ0Sf2Ve7dGyupolSdSCzA9eg6XlFW0goGVGoxkBeQEZ/4gHAJpR3xLRYj71tMr3/+dy0GS0kWwj43xi26p4c9KAwMaaPGXz7Zk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k3GeO6pF; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B12131F00893;
+	Wed,  3 Jun 2026 22:21:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780525235;
-	bh=JGNHTQ73RJVqb1W0KyxoFGA1Bc+H2MChRkwAq6lU+c8=;
+	s=k20260515; t=1780525307;
+	bh=7ZiwdJjSjUT++FcwvQEJub8dg8X972gmC/QxoFtYMik=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BeAvQ7WQY/o5EULWLEjuO8FLWOpB3WvIY9XeUH7PumxbW7XSJPDxJWSfdF1A791l4
-	 oqDPA0yekJZxdqPprxK4B/EFVYHsNc41fGRSODAtOxZB+anpRYMRitraeCPeXSxs+k
-	 VdpAtUQJDJQoAIwHSCczuBWSP6tVnVuk/mfdXyupMAs5MvxauinnqEm9f4eZTlQ2M/
-	 PoFH6qHkcp7wTBae4D6iQ1PfQsuzlV9ohOz4XT6pXJvatnHYK69YHkfCTozdZ9HGmd
-	 gZcZrbuKqGoqqw3MGOAYEmJNFBAYoeimCL0zjC/DGJ/tp9xJww6y8R1crMRG37fr75
-	 aEuoMh31nhfUg==
-Date: Wed, 3 Jun 2026 17:20:34 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
+	b=k3GeO6pF8HGEGNPckQC1LsicotRrfZ8rR3azmj32PCdJJi25UETIuUML2Hht2ZgPS
+	 LgDOPrcq3YUmSrhnM/6GjnAuiQEhX+URjgP21JQUA+uRj6a8At9wlNZO0TBhjzMfWh
+	 Z06ruTT0zhUahfnNGh0LMCT4UqNGE+r4kl/fkmOHUc+uoomDMOKsoKmzbN58jJobKE
+	 w6rGUKLwlZ0PvxN29EtFjscE2AHw4hSdainVuv3+Kw0Twh823/ftcD5ZEybLUDBekR
+	 rfkf7i/MXw/FYLUwTExMyqgjhathkdaj2eV3BSvESev2uMM/LEqQYspWplk6Rb7Vjs
+	 qeRhayafgEQNg==
+Date: Wed, 3 Jun 2026 17:21:46 -0500
+From: Rob Herring <robh@kernel.org>
 To: Akash Sukhavasi <akash.sukhavasi@gmail.com>
-Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	linux-media@vger.kernel.org,
-	Thierry Reding <thierry.reding@kernel.org>,
-	linux-input@vger.kernel.org, Eric Dumazet <edumazet@google.com>,
-	linux-tegra@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>, Simon Horman <horms@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jonathan Hunter <jonathanh@nvidia.com>, Lee Jones <lee@kernel.org>,
+Cc: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
 	Russell King <linux@armlinux.org.uk>,
-	Paolo Abeni <pabeni@redhat.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Vladimir Oltean <olteanv@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 3/4] dt-bindings: net: dsa: remove obsolete dsa.txt
-Message-ID: <178052523336.2284212.2212106139200660430.robh@kernel.org>
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>, Lee Jones <lee@kernel.org>,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] dt-bindings: remove redundant .txt redirect stubs
+Message-ID: <20260603222146.GA2285556-robh@kernel.org>
 References: <20260603-b4-remove-redirect-stubs-v2-0-c8c19876ab64@gmail.com>
- <20260603-b4-remove-redirect-stubs-v2-3-c8c19876ab64@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,25 +78,25 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260603-b4-remove-redirect-stubs-v2-3-c8c19876ab64@gmail.com>
+In-Reply-To: <20260603-b4-remove-redirect-stubs-v2-0-c8c19876ab64@gmail.com>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [0.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63691-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63692-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER(0.00)[robh@kernel.org,linux-media@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[26];
-	FORGED_RECIPIENTS(0.00)[m:akash.sukhavasi@gmail.com,m:dmitry.torokhov@gmail.com,m:linux-media@vger.kernel.org,m:thierry.reding@kernel.org,m:linux-input@vger.kernel.org,m:edumazet@google.com,m:linux-tegra@vger.kernel.org,m:skhan@linuxfoundation.org,m:davem@davemloft.net,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:mchehab@kernel.org,m:hkallweit1@gmail.com,m:andrew@lunn.ch,m:horms@kernel.org,m:kuba@kernel.org,m:netdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jonathanh@nvidia.com,m:lee@kernel.org,m:linux@armlinux.org.uk,m:pabeni@redhat.com,m:olteanv@gmail.com,m:corbet@lwn.net,m:linux-doc@vger.kernel.org,m:akashsukhavasi@gmail.com,m:dmitrytorokhov@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:akash.sukhavasi@gmail.com,m:andrew@lunn.ch,m:hkallweit1@gmail.com,m:linux@armlinux.org.uk,m:davem@davemloft.net,m:edumazet@google.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:mchehab@kernel.org,m:olteanv@gmail.com,m:horms@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:dmitry.torokhov@gmail.com,m:thierry.reding@kernel.org,m:jonathanh@nvidia.com,m:lee@kernel.org,m:netdev@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-doc@vger.kernel.org,m:linux-input@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:akashsukhavasi@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:dmitrytorokhov@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -108,38 +107,68 @@ X-Spamd-Result: default: False [0.34 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[robh@kernel.org,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,kernel.org,google.com,linuxfoundation.org,davemloft.net,lunn.ch,nvidia.com,armlinux.org.uk,redhat.com,lwn.net];
+	FREEMAIL_CC(0.00)[lunn.ch,gmail.com,armlinux.org.uk,davemloft.net,google.com,kernel.org,redhat.com,lwn.net,linuxfoundation.org,nvidia.com,vger.kernel.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2CA0763B911
+X-Rspamd-Queue-Id: F0CD863B8CD
 
-
-On Wed, 03 Jun 2026 15:42:20 -0500, Akash Sukhavasi wrote:
-> dsa.txt has been a redirect to dsa.yaml since commit bce58590d1bd
-> ("dt-bindings: net: dsa: Add DSA yaml binding") introduced the .yaml
-> schema. The .yaml has the same filename in the same directory, making
-> this redirect unnecessary for discoverability.
+On Wed, Jun 03, 2026 at 03:42:17PM -0500, Akash Sukhavasi wrote:
+> Several .txt files under Documentation/devicetree/bindings/ contain
+> only a redirect notice pointing to a .yaml schema with the same base
+> filename in the same directory. These stubs were useful during the
+> .txt to .yaml transition but are now redundant, since the .yaml is
+> discoverable by name. Meanwhile, other documentation still references
+> some of these stubs, forcing readers through an unnecessary extra hop
+> to reach the actual schema.
 > 
-> Two files still reference dsa.txt, forcing readers through an extra
-> hop to reach the .yaml. The stub has not been touched since August
-> 2020. Update references in lan9303.txt and
-> Documentation/networking/dsa/dsa.rst to point directly to dsa.yaml
-> and remove the stub.
+> This series removes four such stubs and updates all remaining
+> cross-references to point directly to the .yaml schemas.
+> 
+> Other redirect stubs in the tree were evaluated and intentionally
+> kept:
+> 
+>  - Stubs pointing to .yaml files with different names (e.g.,
+>    spi-bus.txt -> spi-controller.yaml) serve as breadcrumbs for
+>    the renamed schema.
+> 
+>  - Stubs pointing to multiple .yaml files (e.g., nvmem.txt ->
+>    nvmem.yaml and nvmem-consumer.yaml) convey that the content
+>    was split.
+> 
+>  - Stubs pointing to .yaml files in a different directory (e.g.,
+>    reset/st,stm32-rcc.txt -> clock/st,stm32-rcc.yaml) serve as
+>    cross-directory pointers.
+> 
+> Two additional same-name, same-directory stubs (leds/common.txt,
+> regulator/regulator.txt) have significantly more cross references
+> and will be addressed in a follow-up series.
+> 
+> v2:
+> - Patch 4/4: corrected commit message (eight references in six files, not
+>   eight files), Sashiko review.
+>   https://sashiko.dev/#/patchset/20260529052246.4934-1-akash.sukhavasi@gmail.com?part=4
+> 
+> v1: https://lore.kernel.org/all/20260529052246.4934-1-akash.sukhavasi@gmail.com/
+> 
+> Patch 1 supersedes my earlier standalone submission:
+> https://lore.kernel.org/all/20260523004223.3045-1-akash.sukhavasi@gmail.com/
 > 
 > Signed-off-by: Akash Sukhavasi <akash.sukhavasi@gmail.com>
 > ---
->  Documentation/devicetree/bindings/net/dsa/dsa.txt     | 4 ----
->  Documentation/devicetree/bindings/net/dsa/lan9303.txt | 2 +-
->  Documentation/networking/dsa/dsa.rst                  | 2 +-
->  3 files changed, 2 insertions(+), 6 deletions(-)
-> 
+> Akash Sukhavasi (4):
+>       dt-bindings: net: remove obsolete mdio.txt
+>       dt-bindings: media: remove obsolete rc.txt
+>       dt-bindings: net: dsa: remove obsolete dsa.txt
+>       dt-bindings: input: remove obsolete matrix-keymap.txt
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+This goes to 3 different subsystems, so it should be 3 different series. 
+No need to resend just for that.
 
+Rob
 
