@@ -1,459 +1,302 @@
-Return-Path: <linux-media+bounces-63523-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63524-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 5H0cBUHdH2qCrQAAu9opvQ
-	(envelope-from <linux-media+bounces-63523-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 09:52:33 +0200
+	id Z1cTLkviH2oZrwAAu9opvQ
+	(envelope-from <linux-media+bounces-63524-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:14:03 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC0D635664
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 09:52:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27F9F63594B
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:14:03 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=OhnIPUpG;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63523-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63523-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=mailbox.org;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=lA+PPhyo;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63524-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63524-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5F7EA3057620
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 07:44:35 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id DDC093020E87
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 08:13:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 255F83FC5A1;
-	Wed,  3 Jun 2026 07:44:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEC3E409128;
+	Wed,  3 Jun 2026 08:13:41 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 585D83264D8
-	for <linux-media@vger.kernel.org>; Wed,  3 Jun 2026 07:44:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79FF4409602;
+	Wed,  3 Jun 2026 08:13:36 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780472673; cv=none; b=QRFfs7+Mr6pLUEvI+e2V2Qju08+a8zYZSc0bj9cmZcPstDS/Q6vMFGgNo1AYSsQDGaSnjF8KcLT80zYxFK2fv2u+E+vB0EkVSUAZGjrC7Sah29LWeEt2cuMGF10kQXOgj8xLEjU1Ezvcf/loernHZUAZ0AkoXQFX4DSwk9EABr4=
+	t=1780474420; cv=none; b=qHEvYN0NfTmYH3/Lpihfds3dFOAEOWDUEKYU0YgirqGRf2LoavrZZt/CRh04j0h4Pj00RJ2H9UkvV8hAOtDj4NOdu6y5ztoEt0P5yu/CkBO9WwKn3PUlDSS7sP8NkUcMtj8gbS1FlbpY6uSjrbAZW2syju2PxKhh6VqGQkLr4s4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780472673; c=relaxed/simple;
-	bh=FInFCZp5JdEDEId0cpFw2roJAdAGQBu3UtuRjxnRZwU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=c1dqT8pEH5jarR/Vgh45Jh+E73DKivmyEGZsgOimq4nB6Gp7FsFxa3Kr1jL6k94aEYKi7K2WRTklgcJPp1OfgLHjFvmNIfl7iUyrlopQcWm4Z1RVM3ik6Xj8H5Og0KeuFR/ERmhNAZxWX5lIywHx5Vt9wt8GkdqCH+o6GwraXjI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=OhnIPUpG; arc=none smtp.client-ip=80.241.56.172
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gVfps2z7Cz9tdd;
-	Wed,  3 Jun 2026 09:44:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1780472661; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=e40s91ntwLqLMeGdPwemMCcTxYJBHtEnfrPHsc/Dqc8=;
-	b=OhnIPUpGdJZ8rZch4GWDNxKRAnY0Nd0oaGyPEfZXXt9s0CcQtS6Ffn6poUFmTvYeA3aJVo
-	igMZ2A4h2CQQ8Glr0uwYF/cgrKKYaB9WBlVjXqidKHJ2e6j7HGKZCHHhWc0kvIjpfMakF/
-	c8lAbVSp8cgtdORkf7oYCJWdQZUlFaywQuuLIXjUEJMsA+XBdXWLFQtpJCtk/AG/YR1iBO
-	dC6XcykrADwIMp2xrv5J4bHtWrJWjUHissnMj/OdCsGSmRADQhQ7NE9eyooEkPoRzNPWB7
-	6/5x8nWcPDxdSV8TrsVYopoq6pqdJnkPcjZKjuJnw5me383TBK3GeM2dko5q5g==
-Message-ID: <aa11e74f419b02c0e4fe417face43e7d05e62783.camel@mailbox.org>
-Subject: Re: [PATCH 3/4] rust: Add dma_fence abstractions
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: phasta@kernel.org, Alice Ryhl <aliceryhl@google.com>, 
-	sashiko-reviews@lists.linux.dev, linux-media@vger.kernel.org,
- ojeda@kernel.org,  Danilo Krummrich	 <dakr@kernel.org>, Christian
- =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,  Gary Guo
- <gary@garyguo.net>, Daniel Almeida <daniel.almeida@collabora.com>
-Date: Wed, 03 Jun 2026 09:43:55 +0200
-In-Reply-To: <20260603084805.5e0e23ea@fedora-2.home>
-References: <ah1c3NSU-4UkdUhb@google.com>
-		<a3d09b270e6effb6f2bfb5d7ba8de48e3c2c4081.camel@mailbox.org>
-		<CAH5fLggvxGwJkAp+VqG7pA-e2zM-T8_DR0DeCiZiJyM+o51DuQ@mail.gmail.com>
-		<24ef07ed85d9e7aa7f9d3a96301c4c15bc0f2315.camel@mailbox.org>
-		<ah2M2a_4PneZpjTS@google.com>
-		<16dff07d28fca94749f14e9c91e6f812f605d6e5.camel@mailbox.org>
-		<ah7CGySkyE7mSM8a@google.com>
-		<7a978596279eca99cd41ca46606c7e5a6a38e801.camel@mailbox.org>
-		<ah7FjDdU6zt65qId@google.com>
-		<4bf6e916efe54bab66defda6fffea8c41358b3cc.camel@mailbox.org>
-		<ah72Bi2Q5Wpgo2kE@google.com>
-		<3c7e4db139df7cea18bc683d6dd33da2d00f0358.camel@mailbox.org>
-	 <20260603084805.5e0e23ea@fedora-2.home>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1780474420; c=relaxed/simple;
+	bh=XpwWDS3xiGIhnM+QfyAorJpcOID8lVHKAGNhGyVyZMM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ukdzl4ycCTcaCV2Zo8kb+kUO01IYPaqXFzlnogjirTNt5Y4Osx2mKkO2HmcygbdP0c2+wqwOdCgY6gebKqxgxhjdQyCnH8ibMSYckmR81ZWjGJFA431SpdATtn4ghe2x31k+QwIKTLCpRLLdV5W5OHOPfxKf3iToQN5rjvaRywY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lA+PPhyo; arc=none smtp.client-ip=213.167.242.64
+Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 465CEDF3;
+	Wed,  3 Jun 2026 10:13:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1780474390;
+	bh=XpwWDS3xiGIhnM+QfyAorJpcOID8lVHKAGNhGyVyZMM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lA+PPhyo0iJ7wx58ivH7nadyWZSnwJiZSz9hqeFOHtZehnOsIZjHD4k8JIOFzP2Ma
+	 PfKWilAZKyRJ/7O/2dGGH4BENOhRJrbvVzcQeBd9mMZ6TnfQ0tZflywhPSqyKTAEy1
+	 bAH1MZnGXHDH+W6RP6Ans75fhQkyUSXsY2ih+ufw=
+Date: Wed, 3 Jun 2026 10:13:31 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Daniel Scally <dan.scally@ideasonboard.com>, 
+	Keke Li <keke.li@amlogic.com>, Antoine Bouyer <antoine.bouyer@nxp.com>, 
+	Jai Luthra <jai.luthra@ideasonboard.com>, Ricardo Ribalda <ribalda@chromium.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 6/6] media: v4l2-isp: Add helpers for stats buffer
+Message-ID: <ah_h4ggSeOc2fUOB@zed>
+References: <20260505-extensible-stats-v1-0-e16f326b8dad@ideasonboard.com>
+ <20260505-extensible-stats-v1-6-e16f326b8dad@ideasonboard.com>
+ <20260515182907.GU332351@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: 4hu7ca54fk814cz1beot1jw3xmcnzfmn
-X-MBO-RS-ID: ba65a39fcaf9090ec19
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260515182907.GU332351@ragnatech.se>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63523-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63524-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:niklas.soderlund@ragnatech.se,m:jacopo.mondi@ideasonboard.com,m:mchehab@kernel.org,m:dan.scally@ideasonboard.com,m:keke.li@amlogic.com,m:antoine.bouyer@nxp.com,m:jai.luthra@ideasonboard.com,m:ribalda@chromium.org,m:laurent.pinchart@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:hverkuil+cisco@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:phasta@kernel.org,m:aliceryhl@google.com,m:sashiko-reviews@lists.linux.dev,m:linux-media@vger.kernel.org,m:ojeda@kernel.org,m:dakr@kernel.org,m:christian.koenig@amd.com,m:gary@garyguo.net,m:daniel.almeida@collabora.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[mailbox.org:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	HAS_REPLYTO(0.00)[phasta@kernel.org];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mailbox.org:mid,mailbox.org:dkim,mailbox.org:from_mime,mailbox.org:email,bootlin.com:url,gitlab.freedesktop.org:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:from_mime,ideasonboard.com:email,ragnatech.se:email,zed:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7CC0D635664
+X-Rspamd-Queue-Id: 27F9F63594B
 
-On Wed, 2026-06-03 at 08:48 +0200, Boris Brezillon wrote:
-> On Wed, 03 Jun 2026 08:10:51 +0200
-> Philipp Stanner <phasta@mailbox.org> wrote:
->=20
-> > +Cc Danilo, Gary, Daniel, Christian
-> > (who seem to have been lost because Sashiko dropped them and this threa=
-d is a reply to that tool)
-> >=20
-> >=20
-> > On Tue, 2026-06-02 at 15:25 +0000, Alice Ryhl wrote:
-> > > On Tue, Jun 02, 2026 at 02:06:43PM +0200, Philipp Stanner wrote:=C2=
-=A0
-> > > > On Tue, 2026-06-02 at 11:59 +0000, Alice Ryhl wrote:=C2=A0=20
-> > > > > On=C2=A0=C2=A0=20
-> > > >=20
-> > > > [=E2=80=A6]
-> > > > =C2=A0=20
-> > > > > > >=20
-> > > > > > > If you don't implement Sync, then DriverFence cannot be store=
-d in an
-> > > > > > > Arc. I wouldn't take away that ability unless you have to, an=
-d I don't
-> > > > > > > see anything in the DriverFence API that would mean you can't=
- do that.=C2=A0=20
-> > > > > >=20
-> > > > > > Nope. We explicitly agreed on this design.
-> > > > > >=20
-> > > > > > Just 1 DriverFence. Just 1 party that can signal it.
-> > > > > > Note that we also agreed upon the Driverfence disappearing with
-> > > > > > .signal(), which certainly prevents several from existing, unle=
-ss you
-> > > > > > do an Option.take()=C2=A0=20
-> > > > >=20
-> > > > > I would like to clarify that I'm not suggesting any changes to th=
-e
-> > > > > design. Implementing Sync is not the same as having multiple driv=
-er
-> > > > > fences.=C2=A0=20
-> > > >=20
-> > > > I mean, I guess one can do that. But it's up to the driver then to =
-see how it can signal its fence.=C2=A0=20
-> > >=20
-> > > I don't believe Sync changes anything with that regard. The signal
-> > > method takes 'self', but the Sync trait only affects how '&self' meth=
-ods
-> > > can be called.
-> > > =C2=A0=20
-> > > > > > > > > > > =C2=A0so even though
-> > > > > > > > > > > the fence context may be valid for another grace peri=
-od, the *pointer*
-> > > > > > > > > > > to the fence context is not. The pointer could have b=
-een zeroed by the
-> > > > > > > > > > > destructor.=C2=A0=20
-> > > > > > > > > >=20
-> > > > > > > > > > That particular pointer to the DriverFenceData could ha=
-ve been zeroed.
-> > > > > > > > > > But potential other accessors have already crafted them=
-selves a new
-> > > > > > > > > > pointer to the, by the power of RCU, still valid data. =
-That new pointer
-> > > > > > > > > > is container-of-ed from struct dma_fence *f.=C2=A0=20
-> > > > > > > > >=20
-> > > > > > > > > I'm not talking about the pointer to DriverFenceData, I'm=
- talking about
-> > > > > > > > > the pointer to the FenceCtx, or the pointer to the data (=
-if F is
-> > > > > > > > > RcuBox).=C2=A0=20
-> > > > > > > >=20
-> > > > > > > > Yeah, but the backing memory is still alive. And new pointe=
-rs to that
-> > > > > > > > memory get crafted by the accessors. If a callback accesses=
- the data
-> > > > > > > > through `container_of(Fence)`, it gets a new pointer.
-> > > > > > > >=20
-> > > > > > > > So what's the problem?
-> > > > > > > >=20
-> > > > > > > > Where is the invalid pointer that someone is accessing?
-> > > > > > > > =C2=A0=20
-> > > > > > > > >=20
-> > > > > > > > > The Arc type is not a type that opts-out of &mut =3D=3D e=
-xclusive, so the
-> > > > > > > > > second drop_in_place() above is assumed exclusive access =
-to the
-> > > > > > > > > Arc<FenceCtx<F,C>> field.=C2=A0=20
-> > > > > > > >=20
-> > > > > > > > OK, so I think I see the problem. So the invalid pointer is
-> > > > > > > > Arc<FenceCtx=E2=80=A6>? And potentially the <F> pointer (al=
-though we don't have
-> > > > > > > > a picture yet as to how that would be accessed through othe=
-r callbacks.
-> > > > > > > > =C2=A0=20
-> > > > > > > > > =C2=A0If another thread obtains a pointer to the
-> > > > > > > > > FenceCtx via reading the fctx field of the DriverFence in=
- parallel with
-> > > > > > > > > this, then that's not allowed because the drop_in_place()=
- call has
-> > > > > > > > > exclusive access to that field.=C2=A0=20
-> > > > > > > >=20
-> > > > > > > > I think I have been asking in several of our meetings in th=
-e past
-> > > > > > > > whether it is actually a problem to access data that has be=
-en dropped()
-> > > > > > > > IF we know that drop does not cause UAF and the answer was =
-kind of like
-> > > > > > > > a "well if it does not actually get freed=E2=80=A6"=C2=A0=
-=20
-> > > > > > >=20
-> > > > > > > Ok, well, IMO the simplest approach is to say you can't. Ther=
-e may be
-> > > > > > > roundabout ways to do it, but I would suggest that we just ..=
-. don't.=C2=A0=20
-> > > > > >=20
-> > > > > > Ack.
-> > > > > > =C2=A0=20
-> > > > > > > =C2=A0=20
-> > > > > > > > Anyways.
-> > > > > > > >=20
-> > > > > > > > It would seem the way to get this right is then
-> > > > > > > >=20
-> > > > > > > > synchronize_rcu();
-> > > > > > > > drop_in_palace(data);
-> > > > > > > >=20
-> > > > > > > >=20
-> > > > > > > > Agreed?
-> > > > > > > >=20
-> > > > > > > > This would then mean, however, that every time a fence drop=
-s, you have
-> > > > > > > > to wait a grace period.
-> > > > > > > >=20
-> > > > > > > > Or maybe stuff DriverFenceData into an RcuBox, too, and def=
-er its
-> > > > > > > > dropping.=C2=A0=20
-> > > > > > >=20
-> > > > > > > That would work, but I think we can do better and avoid the
-> > > > > > > synchronize_rcu() along these lines:
-> > > > > > >=20
-> > > > > > > unsafe trait RcuRevocable {
-> > > > > > > =C2=A0=C2=A0=C2=A0 unsafe fn rcu_revoke_in_place(ptr: *mut Se=
-lf);
-> > > > > > > }
-> > > > > > >=20
-> > > > > > > This trait provides a method that's like drop_in_place(), exc=
-ept that
-> > > > > > > when you use this destructor, the value remains usable for on=
-e grace
-> > > > > > > period. You could implement it for RcuBox, and for any Copy t=
-ype, and
-> > > > > > > for ARef<T> when T is cleaned up with rcu, and probably also =
-other
-> > > > > > > stuff.=C2=A0=20
-> > > > > >=20
-> > > > > > I mean, this cannot be magic. It also boils down to executing o=
-ne RCU
-> > > > > > callback per DriverFence dropping.
-> > > > > >=20
-> > > > > > Is there a significant difference to stuffing DriverFenceData i=
-nto an
-> > > > > > RcuBox?=C2=A0=20
-> > > > >=20
-> > > > > Do you mean hard-coding that the user-data of a driver fence is a=
-lways
-> > > > > stored in an RcuBox?=C2=A0=20
-> > > >=20
-> > > >=20
-> > > > I'm talking about this:
-> > > >=20
-> > > >=20
-> > > >=20
-> > > > impl<F: Send + Sync + DriverFenceAllowedData, C: Send + Sync> Drive=
-rFenceAllocation<F, C> {
-> > > > =C2=A0=C2=A0=C2=A0 /// Create a new allocation slot that can later =
-be used to create a fully
-> > > > =C2=A0=C2=A0=C2=A0 /// initialized [`DriverFence`] without the need=
- to allocate.
-> > > > =C2=A0=C2=A0=C2=A0 pub fn new(fctx: Arc<FenceCtx<F, C>>, data: F) -=
-> Result<Self> {
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence_data =3D Drive=
-rFenceData {
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-// `inner` remains uninitialized until a [`DriverFence`] takes over.
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-inner: Fence {
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 inner: Opaque::uninit(),
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-},
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-fctx,
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-data,
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
-> > > >=20
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // In order to support t=
-he C dma_fence callbacks, it is necessary for
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // a `Fence` and a `Driv=
-erFence` to live in the same allocation,
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // because the C backend=
- passes a dma_fence, from which the driver most
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // likely wants to be ab=
-le to access its `data` in `DriverFence`.
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Hence, we need the ma=
-nage the memory manually. It will be freed by the
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // C backend automatical=
-ly once the refcount within `Fence` drops to 0.
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let data =3D RcuBox::new=
-(fence_data, GFP_KERNEL | __GFP_ZERO)?;
-> > > >=20
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ok(Self { data })
-> > > > =C2=A0=C2=A0=C2=A0 }
-> > > >=20
-> > > >=20
-> > > > This way, the entire DriverFenceData will remain valid for an
-> > > > additional grace period. I suppose this would solve your pointer-
-> > > > invalid concern.
-> > > >=20
-> > > > However, it appears like overkill to me because the refcounting + C
-> > > > backend already ensure that nothing drops too soon, and the backend
-> > > > frees with kfree_rcu(), so=E2=80=A6=C2=A0=20
-> > >=20
-> > > I agree that it doesn't sound like we want RcuBox here.
-> > >=20
-> > > What kind of metadata are we actually planning to store in the
-> > > DriverFence in practice?=C2=A0=20
-> >=20
-> > I suppose it might be GPUVM payloads. IIRC in Tyr it's currently just
-> > empty structs as some sort of identifier. I guess copies of the actual
-> > command buffers will also reside in their associated fences.
-> >=20
-> > But Boris, Daniel and Danilo probably have something smart to say about
-> > that.
->=20
-> In Tyr we don't need any, because we're using SW signalling: we get an
-> interrupt, look at our HW fence seqno, and walk the set of pending
-> fences to signal them with the ::signal() method (that's an
-> over-simplified view of it, but functionally that's how it works).
->=20
-> Now, the question is more, what drivers planning to support HW
-> signaling want attached to the DriverFence. My gut feeling is that now
-> that we have a way to get back to the FenceCtx, and given that FenceCtx
-> also has driver-specific data attached to it, most common use cases
-> where the fence contains a backpointer to its timeline/creator are
-> covered. If I look at nouveau_fence [1] (I intentionally looked at the
-> most likely next user of this) for instance:
->=20
-> struct nouveau_fence {
-> 	struct dma_fence base;
->=20
-> 	struct list_head head;
->=20
-> 	struct nouveau_channel __rcu *channel;
-> 	unsigned long timeout;
-> };
+Hi Niklas
 
-Thx for the explanation
+On Fri, May 15, 2026 at 08:29:07PM +0200, Niklas Söderlund wrote:
+> Hello Jacopo,
+>
+> Thanks for your work.
+>
+> On 2026-05-05 16:12:17 +0200, Jacopo Mondi wrote:
+> > Add two helper functions to v4l2-isp to handle statistics:
+> >
+> > - v4l2_isp_stats_init_buffer() to initialize a statistics buffer
+> > - v4l2_isp_stats_init_block() to initialize a statistics block in the
+> >   next available memory location of a buffer
+> >
+> > The v4l2_isp_stats_init_buffer() resets the data size counter of the
+> > buffer and initializes its 'version' field.
+> >
+> > The v4l2_isp_stats_init_block() helper accepts the type of the stats
+> > block about to be populated, an array of per-block-type information and
+> > the maximum size of the v4l2-isp buffer. If enough space for the new
+> > block is available, the function increments the
+> > v4l2_isp_buffer.data_size counter, initializes the new stats block
+> > header and returns a pointer to the block for the driver to populate it.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-isp.c | 52 +++++++++++++++++++++++++++++++++
+> >  include/media/v4l2-isp.h           | 59 +++++++++++++++++++++++++++++++++++++-
+> >  2 files changed, 110 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/v4l2-core/v4l2-isp.c b/drivers/media/v4l2-core/v4l2-isp.c
+> > index 10760659f8a3..8482010776d4 100644
+> > --- a/drivers/media/v4l2-core/v4l2-isp.c
+> > +++ b/drivers/media/v4l2-core/v4l2-isp.c
+> > @@ -131,6 +131,58 @@ int v4l2_isp_params_validate_buffer(struct device *dev, struct vb2_buffer *vb,
+> >  }
+> >  EXPORT_SYMBOL_GPL(v4l2_isp_params_validate_buffer);
+> >
+> > +void v4l2_isp_stats_init_buffer(struct v4l2_isp_buffer *buf,
+> > +				enum v4l2_isp_version version)
+> > +{
+> > +	if (WARN_ON(!buf))
+> > +		return;
+> > +
+> > +	if (WARN_ON(version > V4L2_ISP_VERSION_V1))
+> > +		return;
+> > +
+> > +	buf->version = version;
+> > +	buf->data_size = 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(v4l2_isp_stats_init_buffer);
+> > +
+> > +struct v4l2_isp_block_header *
+> > +v4l2_isp_stats_init_block(struct device *dev, struct v4l2_isp_buffer *buf,
+> > +			  const struct v4l2_isp_stats_block_type_info *type_info,
+> > +			  size_t num_block_types, unsigned int block_type,
+> > +			  size_t max_size)
+> > +{
+> > +	const struct v4l2_isp_stats_block_type_info *block_info;
+> > +	struct v4l2_isp_block_header *header;
+> > +	size_t used;
+> > +
+> > +	if (WARN_ON(!dev || !buf || !type_info))
+> > +		return ERR_PTR(-EINVAL);
+> > +
+> > +	if (block_type >= num_block_types) {
+> > +		dev_err(dev, "Invalid block type %u\n", block_type);
+> > +		return ERR_PTR(-EINVAL);
+> > +	}
+> > +
+> > +	block_info = &type_info[block_type];
+> > +	used = buf->data_size;
+> > +
+> > +	if (used + block_info->size > max_size) {
+> > +		dev_err(dev, "No space for stats block type %u of size %zu\n",
+> > +			block_type, block_info->size);
+> > +		return ERR_PTR(-ENOMEM);
+> > +	}
+> > +
+> > +	buf->data_size += block_info->size;
+> > +
+> > +	header = (struct v4l2_isp_block_header *)&buf->data[used];
+> > +	header->type = block_type;
+> > +	header->size = block_info->size;
+> > +	header->flags = 0;
+> > +
+> > +	return header;
+> > +}
+> > +EXPORT_SYMBOL_GPL(v4l2_isp_stats_init_block);
+> > +
+> >  MODULE_LICENSE("GPL");
+> >  MODULE_AUTHOR("Jacopo Mondi <jacopo.mondi@ideasonboard.com");
+> >  MODULE_DESCRIPTION("V4L2 generic ISP parameters and statistics helpers");
+> > diff --git a/include/media/v4l2-isp.h b/include/media/v4l2-isp.h
+> > index 1f35a52f978a..7a54cf98c79a 100644
+> > --- a/include/media/v4l2-isp.h
+> > +++ b/include/media/v4l2-isp.h
+> > @@ -53,7 +53,7 @@ int v4l2_isp_params_validate_buffer_size(struct device *dev,
+> >  					 size_t max_size);
+> >
+> >  /**
+> > - * struct v4l2_isp_params_block_type_info - V4L2 ISP per-block-type info
+> > + * struct v4l2_isp_params_block_type_info - V4L2 ISP params per-block-type info
+>
+> nit: This could perhaps go in patch 4/6 as it at least also touch this
+> struct?
 
->=20
-> - channel is basically the FenceCtx in your new design
-> - head is used to insert the fence in the fence context list. Not too
-> =C2=A0 sure how it translates in rust (insertion in an XArray instead?).
-> =C2=A0 Anyway, that's just stuff you need to make your fence part of the
-> =C2=A0 context timeline, so it's again related to how you link a fence to
-> =C2=A0 its context and let the context walk back pending fences when it
-> =C2=A0 needs to. Feels like my original FenceTimeline abstract proposal [=
-2]
-> =C2=A0 could help make this thing generic, but let's reconsider this once
-> =C2=A0 we've got the basics sorted out, please
-> - timeout is probably the only thing of interest here, assuming things
-> =C2=A0 can be signaled out of order (if they are signaled in order, like =
-is
-> =C2=A0 the case in Tyr, the timeout can just be on the FenceCtxData and
-> =C2=A0 represent the timeout of the first fence in the set). Anyway, that=
-'s a
-> =C2=A0 scalar, so no fancy ::drop() needed if that's what you're worried
-> =C2=A0 about
+It could, but I added it here because with the introduction of
 
-What we / Alice are worried about is multiple things.
+ * struct v4l2_isp_stats_block_type_info - V4L2 ISP stats per-block-type info
 
-One issue is that Alice believes that=20
+I wanted to have a similar description for
+v4l2_isp_params_block_type_info.
 
-        // SAFETY: `self.data` is owned by the DriverFence, but could be ac=
-cessed
-        // through some dma_fence callbacks right now. Access is being revo=
-ked
-        // above by signalling the fence. The DriverFenceSafeToDrop trait
-        // ensures that the data either does not need drop, or if it does i=
-t
-        // lives in a RcuBox which will delay dropping by one grace period,=
- hence
-        // ensuring that all readers have disappeared.
-        unsafe { drop_in_place(self.data.as_ptr()) };
+If it's ok I'll keep the change here!
 
-
-from DriverFence::drop() invalidates the pointers that thread A
-accesses, even if DriverFence::data.data's drop is delayed with RCU.
-
-Now if thread B drops DriverFence, thread A could use invalid pointers,
-but while still operating on non-deallocated memory (because our
-refcounting guards against that).
-
-The only way I can see to make that bullet proof would be to do
-synchronize_rcu() before the drop_in_place() above =E2=80=93 but that would
-mean that we delay each fence drop by one grace period.
-
-I'm still not sure how real the problem really is, though. Because
-refcounting guards, and drop() doesn't actually *do* something to the
-pointers, or does it?
-
-
---
-
-Another, related issue would be
-- thread A accesses DriverFence::data through a backend_ops
-- thread B drops DriverFence
-- there are no RCU callbacks (call_rcu()) pending
-- thus, the rcu_barrier() in FenceCtx::drop() takes no effect. We would
-actually need synchronize_rcu() there.
-
-
-So would seem we still didn't get fence and fence_ctx teardown
-completely right.
-
-
-P.
-
->=20
->=20
-> [1]https://elixir.bootlin.com/linux/v7.1-rc5/source/drivers/gpu/drm/nouve=
-au/nouveau_fence.h#L11
-> [2]https://gitlab.freedesktop.org/bbrezillon/linux/-/blob/8bec931a3a22287=
-3bf93cd8111d88c2f79df30cd/rust/kernel/sync/dma_fence.rs#L836
+>
+> With or without this moved,
+>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+>
+> >   * @size: the block type expected size
+> >   * @block_validate: driver's callback to implement per-block validation
+> >   *
+> > @@ -97,4 +97,61 @@ int v4l2_isp_params_validate_buffer(struct device *dev, struct vb2_buffer *vb,
+> >  				    const struct v4l2_isp_params_block_type_info *type_info,
+> >  				    size_t num_block_types);
+> >
+> > +/**
+> > + * struct v4l2_isp_stats_block_type_info - V4L2 ISP stats per-block-type info
+> > + * @size: the block type expected size
+> > + *
+> > + * The v4l2_isp_stats_block_type_info collects information of the ISP
+> > + * statistics block types for validation purposes. It currently only contains
+> > + * the expected block size.
+> > + *
+> > + * Drivers shall prepare a list of statistics block type info, indexed by block
+> > + * type, one for each supported ISP statistics block type and correctly populate
+> > + * them with the expected block size.
+> > + */
+> > +struct v4l2_isp_stats_block_type_info {
+> > +	size_t size;
+> > +};
+> > +
+> > +/**
+> > + * v4l2_isp_stats_init_buffer - Initialize a statistics buffer
+> > + *
+> > + * Initialize a buffer of statistics. Only set the 'version' field and reset
+> > + * 'data_size' to 0.
+> > + *
+> > + * @buf: the v4l2_isp_buffer to initialize
+> > + * @version: the v4l2-isp serialization format version used by the driver
+> > + */
+> > +void v4l2_isp_stats_init_buffer(struct v4l2_isp_buffer *buf,
+> > +				enum v4l2_isp_version version);
+> > +
+> > +/**
+> > + * v4l2_isp_stats_init_block - Create and initialize a new block in a statistics
+> > + *			       buffer
+> > + * @dev: the driver's device pointer
+> > + * @buf: the v4l2_isp_buffer where statistics are serialized
+> > + * @type_info: the array of per-block-type validation info
+> > + * @num_block_types: the number of block types in the type_info array
+> > + * @block_type: the type of the statistics block to initialize
+> > + * @max_size: the maximum size of the data[] member of @buf
+> > + *
+> > + * This function locates and initialize a new statistics block in @buf for the
+> > + * driver to populate its content. The function checks that enough space for the
+> > + * requested @block_type is available in @buf and increments the 'data_size'
+> > + * member of @buf. The newly created statistics block's header is initialized
+> > + * with the size and type information provided by the caller in @type_info.
+> > + *
+> > + * Drivers should call this function before populating a new statistics block
+> > + * content.
+> > + *
+> > + * Returns a pointer to the next available location in @buf, or an error pointer
+> > + * if the requested @block_size is not available in @buf or @block_type is not
+> > + * valid.
+> > + */
+> > +struct v4l2_isp_block_header *
+> > +v4l2_isp_stats_init_block(struct device *dev, struct v4l2_isp_buffer *buf,
+> > +			  const struct v4l2_isp_stats_block_type_info *type_info,
+> > +			  size_t num_block_types, unsigned int block_type,
+> > +			  size_t max_size);
+> > +
+> >  #endif /* _V4L2_ISP_H_ */
+> >
+> > --
+> > 2.53.0
+> >
+>
+> --
+> Kind Regards,
+> Niklas Söderlund
 
