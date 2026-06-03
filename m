@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-63538-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63539-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Ebw5LBTqH2pasQAAu9opvQ
-	(envelope-from <linux-media+bounces-63538-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:47:16 +0200
+	id bj3GED/qH2pesQAAu9opvQ
+	(envelope-from <linux-media+bounces-63539-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:47:59 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25419635D87
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:47:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2898635D96
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:47:58 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mediatek.com header.s=dk header.b="IC/tYyyF";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63538-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63538-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=mediatek.com header.s=dk header.b=eitq0gT1;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63539-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63539-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=mediatek.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D1D703012BFC
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 08:42:35 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8BB94317DEFA
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 08:42:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78CED44A701;
-	Wed,  3 Jun 2026 08:41:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 850D542EEAD;
+	Wed,  3 Jun 2026 08:41:32 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2156943DA40;
-	Wed,  3 Jun 2026 08:41:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7AC344104F;
+	Wed,  3 Jun 2026 08:41:29 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780476090; cv=none; b=f6zPMoVqHZ/RRYBna5CF3qNkTC9MYXpAwEzx7mcab8LRvnYf3AWvDbQBJEEjzoNLX4Gwu5fu/5z86Ei7VyfVcFm+qPGURg10WEba6vhWkc4MI2Bx37wpw6zDoRH9SmcolV45oP0eH7nDWqUV+Bt3Jtl7KgIhWLCXJkCKlB5ja6Y=
+	t=1780476091; cv=none; b=i9egVgsbglUR+lrKtFMCUUKSwlEjgcWaeLGlSRiCu8LBjO1tZNflRM2Fqse3NqNb3f6QD/UXKWBgXnorfWvUOu1Wnfrj1q+qa/8dyWlk5qQKQ9/3y7KYMsV8xpUE6oriXJgUifG2G/YmBqecZssVyRkiK+8yFoIC6GLDvV7w/Lg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780476090; c=relaxed/simple;
-	bh=Ean/nYusHJjLWGnitL57RbCFUMpSfQkKQT8dXoEAjow=;
+	s=arc-20240116; t=1780476091; c=relaxed/simple;
+	bh=hhps8W3Z0gY25uT5oOWHxPMhTEO+3FA4gymBw81tYEE=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=to38aKwnSAWYQgJSxK9tAK1YOZY+UMXeM6gcvTX2pmGKkhOL6sIe8q9wHbDJGDNvDFz7Ki52UrPEfTxyXEoxZ/SRwK6Vyk03y5E4dgzoKNZGML8bvRhytpDz8B+d0YwGUMkeUxCB13ZqNrsM9XmxGgd4kRE4gh1nXp1gsDRsTgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=IC/tYyyF; arc=none smtp.client-ip=60.244.123.138
-X-UUID: 0011a1dc5f2811f1b1788b6acf885367-20260603
+	 MIME-Version:Content-Type; b=rIPLvB0mtaVO4gMXSqRAy+8ibwJiMuCjjTGJP2pnaYIrlGwZ+tc7ArGZgK5gqKmSHcFdMbYeMTZeAnV91byOOKhEifgj264re2TcKAEMY/WqrqBT6gv1jbRqdfmVPr1R2rbyJg9cXH2xBbIRdL5ziCyEaCHEOwfDanHWwIwsCeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=eitq0gT1; arc=none smtp.client-ip=60.244.123.138
+X-UUID: 00d78b725f2811f1b1788b6acf885367-20260603
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=uM0w+DpVYOcmujWW/kaHUf1dKYapStU849BeDAiDQw4=;
-	b=IC/tYyyFGJ1PYl4Wigi+hCdhZht1T38LoyU24pPfP5tLUbaQbILyU9Wu0d3MW5tSj8w5unYt0Xf0ISWnwgAAAcMsUy5enykCtPX6PnbgKdyiNjNx9msT+K46gG6t3aenVbO92fjKHmWOtO7YExqkrtyiGThM7gs1W4Y8O+tKIQo=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=QadHVqW4HXdyHDFY76RE4EIAM90t0l9QU+NocZYR71A=;
+	b=eitq0gT1jfAHlORDyBMWlrG3TM2yj6L1OtI/DCgliBXnQyDFoE1WvEM2Dx6lWzAgSq9j1vuKiP2JySANLtuZi9aHGHIjP6UgZmnljLZFZFm0oomcTrNpb8g75/j1LAc88gIIvskkOh0Pa+ioYjyKxLrkQjh+TpgEZBV4BFR2eEU=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.15,REQID:fcdf94c3-2a54-4ab5-af6f-3c687bccb457,IP:0,U
+X-CID-O-INFO: VERSION:1.3.15,REQID:ae4e7ea7-c24a-480a-8185-335c0d6b5816,IP:0,U
 	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
 	release,TS:0
-X-CID-META: VersionHash:e276073,CLOUDID:90b62e8f-2d9b-4560-8147-1122f58e041c,B
+X-CID-META: VersionHash:e276073,CLOUDID:e8180a50-23b6-41e0-a310-51c498ab6908,B
 	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|836|865|888|898,TC:-5,Cont
 	ent:0|15|50,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:-1,COL:0
 	,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
@@ -50,18 +50,18 @@ X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 0011a1dc5f2811f1b1788b6acf885367-20260603
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+X-UUID: 00d78b725f2811f1b1788b6acf885367-20260603
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
 	(envelope-from <kyrie.wu@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 446413901; Wed, 03 Jun 2026 16:41:22 +0800
+	with ESMTP id 1097292263; Wed, 03 Jun 2026 16:41:24 +0800
 Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- MTKMBS09N1.mediatek.inc (172.21.101.35) with Microsoft SMTP Server
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 3 Jun 2026 16:41:21 +0800
+ 15.2.2562.29; Wed, 3 Jun 2026 16:41:23 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.2562.29 via Frontend Transport; Wed, 3 Jun 2026 16:41:20 +0800
+ 15.2.2562.29 via Frontend Transport; Wed, 3 Jun 2026 16:41:21 +0800
 From: Kyrie Wu <kyrie.wu@mediatek.com>
 To: Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen
 	<andrew-ct.chen@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>, Mauro
@@ -84,9 +84,9 @@ To: Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen
 	Kyrie Wu <kyrie.wu@mediatek.com>
 CC: Sakari Ailus <sakari.ailus@linux.intel.com>, Tzung-Bi Shih
 	<tzungbi@kernel.org>, Tomasz Figa <tfiga@chromium.org>
-Subject: [PATCH v5 10/14] media: mediatek: vcodec: send share memory address to vcp
-Date: Wed, 3 Jun 2026 16:40:40 +0800
-Message-ID: <20260603084045.17488-11-kyrie.wu@mediatek.com>
+Subject: [PATCH v5 11/14] dt-bindings: media: mediatek: vcodec: add decoder dt-bindings for mt8196
+Date: Wed, 3 Jun 2026 16:40:41 +0800
+Message-ID: <20260603084045.17488-12-kyrie.wu@mediatek.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20260603084045.17488-1-kyrie.wu@mediatek.com>
 References: <20260603084045.17488-1-kyrie.wu@mediatek.com>
@@ -112,7 +112,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63538-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63539-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[33];
 	FREEMAIL_TO(0.00)[mediatek.com,kernel.org,gmail.com,collabora.com,chromium.org,163.com,ideasonboard.com,pengutronix.de,vivo.com,zju.edu.cn,vger.kernel.org,lists.infradead.org];
 	MIME_TRACE(0.00)[0:+];
@@ -133,53 +133,39 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,dt,cisco,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mediatek.com:mid,mediatek.com:dkim,mediatek.com:from_mime,mediatek.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,mediatek.com:mid,mediatek.com:dkim,mediatek.com:from_mime,mediatek.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 25419635D87
+X-Rspamd-Queue-Id: A2898635D96
 
 From: Yunfei Dong <yunfei.dong@mediatek.com>
 
-The share memory is allocated in kernel for vcp architecture, it's
-different with vpu which share memors is reserved in vpu micro
-processor. Need to send share memory address to vcp.
+The MT8196 decoder differs from previous generations in several
+key aspects, most notably in its use of VCP instead of SCP.
+Additionally, the MT8196 enhances codec capabilities by supporting
+HEVC Main10 profile decoding. To accommodate these hardware changes,
+the binding constraints specify a total of 12 clock inputs,
+consisting of 9 decoder clocks and 3 VCP interface clocks,
+along with 2 power domains covering both the decoder and VCP
+subsystems.
 
 Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 ---
- drivers/media/platform/mediatek/vcodec/decoder/vdec_ipi_msg.h | 2 ++
- drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c  | 2 ++
- 2 files changed, 4 insertions(+)
+ .../bindings/media/mediatek,vcodec-subdev-decoder.yaml           | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_ipi_msg.h b/drivers/media/platform/mediatek/vcodec/decoder/vdec_ipi_msg.h
-index 47070be2a991..097561a1efdc 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_ipi_msg.h
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_ipi_msg.h
-@@ -67,11 +67,13 @@ struct vdec_vpu_ipi_ack {
-  * @msg_id	: AP_IPIMSG_DEC_INIT
-  * @codec_type	: codec fourcc
-  * @ap_inst_addr	: AP video decoder instance address
-+ * @shared_iova	: reserved share memory address
-  */
- struct vdec_ap_ipi_init {
- 	uint32_t msg_id;
- 	u32 codec_type;
- 	uint64_t ap_inst_addr;
-+	u64 shared_iova;
- };
+diff --git a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+index bf8082d87ac0..74e1d88d3056 100644
+--- a/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
++++ b/Documentation/devicetree/bindings/media/mediatek,vcodec-subdev-decoder.yaml
+@@ -76,6 +76,7 @@ properties:
+       - mediatek,mt8186-vcodec-dec
+       - mediatek,mt8188-vcodec-dec
+       - mediatek,mt8195-vcodec-dec
++      - mediatek,mt8196-vcodec-dec
  
- /**
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-index cdb673e6b477..3a10b32be094 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-@@ -236,6 +236,8 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
- 	msg.msg_id = AP_IPIMSG_DEC_INIT;
- 	msg.ap_inst_addr = (unsigned long)vpu;
- 	msg.codec_type = vpu->codec_type;
-+	if (mtk_vcodec_fw_get_type(vpu->ctx->dev->fw_handler) == VCP)
-+		msg.shared_iova = vpu->ctx->dev->fw_handler->vcp->iova_addr;
- 
- 	mtk_vdec_debug(vpu->ctx, "vdec_inst=%p", vpu);
- 
+   reg:
+     minItems: 1
 -- 
 2.45.2
 
