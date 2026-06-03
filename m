@@ -1,520 +1,283 @@
-Return-Path: <linux-media+bounces-63569-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63570-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id wWtMKbj6H2o1tgAAu9opvQ
-	(envelope-from <linux-media+bounces-63569-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 11:58:16 +0200
+	id wRJALlr9H2q0tgAAu9opvQ
+	(envelope-from <linux-media+bounces-63570-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 12:09:30 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FEC46365DB
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 11:58:16 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A0E6366C6
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 12:09:30 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=collabora.com header.s=mail header.b=nMI2cUw9;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63569-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-63569-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=collabora.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=JKQ2P70O;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63570-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63570-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id AEAAD3015897
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 09:58:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E596F30BD92E
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 10:03:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA58143D4E3;
-	Wed,  3 Jun 2026 09:58:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14E3D44B69C;
+	Wed,  3 Jun 2026 10:03:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 897643FF899
-	for <linux-media@vger.kernel.org>; Wed,  3 Jun 2026 09:58:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6DC1FC8;
+	Wed,  3 Jun 2026 10:03:05 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780480693; cv=none; b=s1R/YMcroqBvCW5ChLskg7KJTTiNyvFKxn/xYAzPvcGiK5vy38OSEw/ML4nDXuLoFU93cAk6rW7A18sJ4QhtuEXPQp/Yc1OsNJoexIzS3hYDclAKgSMoDN83qACQyvR4fzBhQrwkknEQ+60KrS9tvniXW1baW2wlW+kXVu8fsI4=
+	t=1780480986; cv=none; b=NUfgUdFOXCYamB4oDpAoILCMq2s1CNIohG+0xjLRWJeo5Ylt/mhP8CCHlk+oKNqxotef2QHmD8wod9omIfZ/nbvfW8v05yR04Vi71p6IVRAAHdCGtmGkrP+pufByog24r7B046s1h0ibxs7dtonNbAw5xAcV7rSUomtSHzvexHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780480693; c=relaxed/simple;
-	bh=/hqCXhQ2FJhY/VmIcJ9a4p1g3ILU+fdSEB/D0/b7A08=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oW0OqlxtQFA8QuI53F1RsSHnfslMzgL6/cZQGohlovrTpzGUuvHprwb7rnqUxC1PkZ9jSe1QU8yxMGFAnFdiTxWwhmYez/VhDHpBjpFVCUwofEfo0O/fej8wYSUJQ4yhe6O79hSKSFsmiq9gIqrxo3oMkb6KGtBe3PlneE/2ujU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=nMI2cUw9; arc=none smtp.client-ip=148.251.105.195
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1780480689;
-	bh=/hqCXhQ2FJhY/VmIcJ9a4p1g3ILU+fdSEB/D0/b7A08=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=nMI2cUw9uJRbAiCjDQ3vqM1w5OtquZFJX6wLRWHDSzF5ZqpfYkO4PKrEbIeTlopnX
-	 4ix0SCxX2pZMezpWZ0S6USrgnHDbaraNNBJGWP6VAZOulVzmCxJ/N8yUz2Nxb6w9Rz
-	 YHfIt8AfO6k/tGqDMUlpSLnwSGfcIlBpeRdz2JiP5GBhtjr2eIGKGAGu31OvEQ2DBn
-	 70GJ7UZIJqdeDAj8JPcXZQy0B9GO9p42aTVznlYK8Qf6Pj18tHcBnpN9F8UptNyAja
-	 lUU/AtNFWRFR3V2sft5SbA6cwL0Lz6n259/HYlDsQcHQ05s/TKRv2rNA+rXiuMR2ng
-	 bmo4L7zWBZFUA==
-Received: from fedora-2.home (unknown [100.64.0.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7762717E0625;
-	Wed,  3 Jun 2026 11:58:09 +0200 (CEST)
-Date: Wed, 3 Jun 2026 11:58:04 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Philipp Stanner <phasta@mailbox.org>
-Cc: phasta@kernel.org, Alice Ryhl <aliceryhl@google.com>,
- sashiko-reviews@lists.linux.dev, linux-media@vger.kernel.org,
- ojeda@kernel.org, Danilo Krummrich	 <dakr@kernel.org>, Christian
- =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Gary Guo
- <gary@garyguo.net>, Daniel Almeida <daniel.almeida@collabora.com>
-Subject: Re: [PATCH 3/4] rust: Add dma_fence abstractions
-Message-ID: <20260603115804.29eb8f7d@fedora-2.home>
-In-Reply-To: <20260603115247.21ee5d1d@fedora-2.home>
-References: <ah1c3NSU-4UkdUhb@google.com>
-	<a3d09b270e6effb6f2bfb5d7ba8de48e3c2c4081.camel@mailbox.org>
-	<CAH5fLggvxGwJkAp+VqG7pA-e2zM-T8_DR0DeCiZiJyM+o51DuQ@mail.gmail.com>
-	<24ef07ed85d9e7aa7f9d3a96301c4c15bc0f2315.camel@mailbox.org>
-	<ah2M2a_4PneZpjTS@google.com>
-	<16dff07d28fca94749f14e9c91e6f812f605d6e5.camel@mailbox.org>
-	<ah7CGySkyE7mSM8a@google.com>
-	<7a978596279eca99cd41ca46606c7e5a6a38e801.camel@mailbox.org>
-	<ah7FjDdU6zt65qId@google.com>
-	<4bf6e916efe54bab66defda6fffea8c41358b3cc.camel@mailbox.org>
-	<ah72Bi2Q5Wpgo2kE@google.com>
-	<3c7e4db139df7cea18bc683d6dd33da2d00f0358.camel@mailbox.org>
-	<20260603084805.5e0e23ea@fedora-2.home>
-	<aa11e74f419b02c0e4fe417face43e7d05e62783.camel@mailbox.org>
-	<20260603115247.21ee5d1d@fedora-2.home>
-Organization: Collabora
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1780480986; c=relaxed/simple;
+	bh=rd/XJCLeGutAP6vdv4HQbc/zX0TFcCi8MS1cMvpS+qA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g+pgU16T+4YvC1rWFbrGCOXU6Yb3Pc2xrBNv5uFtZjaNfqWhNGoT9+miIxgB4liUEeAH8xpDEor9sz7sY01+8xikwQNzjImB5igFQLuiu9qGkdT0wEiUS0EN8JgjZnR/iIM/bBD10B3UNAeVR1aWeIx85AdqWzJoE35P8O996zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JKQ2P70O; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7C6D1F00893;
+	Wed,  3 Jun 2026 10:03:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780480985;
+	bh=ACwX1eA04+1ASs8+AUZM9OwlIkHtK3XNcCJgkbAhMwo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=JKQ2P70OeXVvmbAmsD2p6whOHUqY0yERjAJ3N8YonPJgMlZa+CdTzFUHYzsSRIcBx
+	 g5XhoSr3gk7j7AN3FiF5qdRCr10scOxrzPi7FY88G0aUmAuGND23oRLOffMIv1kaIx
+	 ipdw7Nttnh2qCBynEjisTnqfyJXDanHflIh21kL8gzX/DacW6tB0n9DMI7jl0X0OLm
+	 hp9DNRDd16dTZPdu9AnREHoq264xlRMN90ILUCiVgHwhJswS5rAIvGes8Y9x3562ti
+	 uVolNK8BR0tzakwkKB809xNNeIHwxGyzoJXJXTlKb38CWWFOjYFOjpVZuKUYC+s8GP
+	 Yy1dQ6s5nGXhg==
+Message-ID: <22807003-2b9a-4a28-982e-8c432cb9b9a1@kernel.org>
+Date: Wed, 3 Jun 2026 11:03:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 0/8] media: camss: Add support for C-PHY configuration
+ on Qualcomm platforms
+To: david@ixit.cz, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Bryan O'Donoghue <bod@kernel.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Luca Weiss <luca.weiss@fairphone.com>, Petr Hodina <phodina@protonmail.com>,
+ "Dr. Git" <drgitx@gmail.com>, Cory Keitz <ckeitz@amazon.com>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Kieran Bingham <kbingham@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ phone-devel@vger.kernel.org
+References: <20260603-qcom-cphy-v6-0-e50de0b557a8@ixit.cz>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=bod@kernel.org; keydata=
+ xsFNBGRJNSgBEADD7Vm2ZFa+v+JGJ2QYTJqQAkqis/uOHkhdFNXqpBarVBd47QU/DMNU5Rxg
+ jedMQEmHoeDbJ6UOpjbrUQ63c5sgG1JbroHJJctwsEI75OOlekMuebEbjIJBLfgENGwPBMHv
+ piv5TgCWr0VgYaXfp2eh2LINFywzqj823HiDPibQAXDrjzvF1ogksi/6cQZs8d4if8YQkLOr
+ YISFouG+eR0nN1I7mUfIddXOWu6lJeTyqbWVurv58k2ekIXKaOC9ixLHFbcfYV0hOgRaTwQC
+ B8CYF9nfqZla19iItfsN9QxN+ZdQjcRoYipp6HPCMfJlKH7GfaFcW93LKc4DKJ2lVL+pg/OQ
+ lythZbjRPY492NG9kZ65aYstCs90uhMUEVVPuGUw7wBEku+6IEwZfrbMVKeWzLlPyM4Hv9hM
+ 8ktxSmxWsPTPqpBC8eyeAQLalMELAyVcZlkaCtEcbj7w4l/JkYz+4l37obG8ZD+B34udBUUz
+ MsAJ8foDFrBh2MOFA3hxD6G90D23mmWsri7pnKA2tZs92aQX7Ee+FbCyg6g5ln62Sq83ZDbf
+ 53DdBs55EVpBadeInWmXhzCHPQx06H+CwTEjShTYIaMmBfrewvYUDKvFTC5iKQhAEUgt6i94
+ JsbG7NoeqcxkUMcBOEUQ3uCQG1D70ugspgXc0wd3Rimiq6535wARAQABzSFCcnlhbiBPJ0Rv
+ bm9naHVlIDxib2RAa2VybmVsLm9yZz7CwZEEEwEIADsWIQTmk/sqq6Nt4Rerb7QicTuzoY3I
+ OgUCZ+R+mwIbAwULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgAAKCRAicTuzoY3IOimUD/94
+ BwVEJX31JRe2sxbB/e1w2p8x1bxvTw5AeIzpV3ox7coJg1bSU2mnGuj1V4o0Yxf/3zmcJzCN
+ VfVjwRF8Ii3GnC7uUXk2t+87piQfKTyJAYQABhZUKgoVJbjJq/S+C3XCKIyBA+EiezoUsgsA
+ jTzwU+FzV7zVWIXFPJNtBERLwboE9w9U3KjAExOa1kSY8eLrsg6kOwlOHWy5UsQqYOjrS96M
+ mzm2xuc1+RCjrndAyYhCnrOKvJ67HsPnBeJCjw7ImGD/U1GchwYbX8o3DO3JNHm3qfC86ZqX
+ 2sCouENg4OzgPTtLKUrueM6xsu6KMM7gj17vxsiR3KQEoJnnMB8D1xtBofN3mFZE0wD9M24m
+ 8yGunZbtntMCUHzIrlJgAPwKWKuGOYtA8UgMTFkccnUJtQrg9KotKtEF/FuftG9zLG9XEkt4
+ 5ZdNgbSoLWgelu3T47mbOJ8LHhiLaCWP7yrovtVAvLUQ1BsiA42u8ECrFCFvQj9nrejE/ICv
+ kP+uqcKtdDvP9HrIGycF1WZyfZLp0RvopKW92FLvI4I1QFWJ+wenk6+LGyJ5bzlrWzevjxmf
+ nHcXE6sJBHrE7eijlbbImDAi3uLYN8Nd9Dm11IDAy4GAIQxSiQn0yblDhPiyGtchy80EVkCm
+ g9k17Wol+2E2mC4DKgVdCkyUtTRSLgsJCs7BTQRkSTUoARAAuTnmWHBS6izRcEE93ajpzI7h
+ dgQO4U3IRvOEsvIKR5NGcNEs0ngGebwsZ/lVULjN4vYU0LleqVhPBidNXUoZCN3A0F0Z2Ov8
+ NZdef+2EhQPBVWxFO7JBzhe8Z3ALj+wFtlg8akJjBzU56azW/iJzAobqHVrudzKoO2b1/CMg
+ VbiAQ+RXjgfN5kY/HqYDU7mw+hXuUV9PbtX1L8xqQQac95oM9rHzKHHpiVwxTeJnGQsa+THi
+ Kze+YET3rCoGHMvOQEJhdrucTv5FpAakKdkOFNel9FFckLRKEuWgCzhpFsjQ7xbirQgFUxG9
+ vlk1+q4hMRGNyEqoD6svYEeqbiUSd0oPUJeioiC3rNMRCNHLVrfZ2J6SCPkxfda08uzSdDQU
+ 1/YPjOh8ZtQDMu7WctZ3XO288Z1gyBR49V7fbFs2w4sQxG+h/enlxqP7fdw1mjUlZjU5huCJ
+ ielS0oEaIpmUpkugli7x4WhwLnhK2EbSoz7nLBC0y+ALUOdMlz/Y1l9xRt+bkDhpmf4O4IcI
+ MxgZ0QMLq8rHDkGaEbsgZZHQPS58T0XE3IP30Q9SNxsruCMXtd2hYtBssf/wohc6JVsTtMg2
+ VYTPDPIFNZFSXupEJB7jlqpDWJ8ooJfJRLBatbjT5+mVQaMYB7Hs/t+zWYWaJKHyc8O6WLEC
+ NUV5Tdt5EkkAEQEAAcLBdgQYAQoAIBYhBOaT+yqro23hF6tvtCJxO7Ohjcg6BQJkSTUoAhsM
+ AAoJECJxO7Ohjcg6LuIQALnXt36OUuK43wqw6UYt0cnN6EbUqJHApAF5eNFn0jCCB2XELjSz
+ JKJwuNAweowBdabiBniJ+501WIW+ewEsz1uby5fUQjZuCEsIkuaIluyfUFPb73qrQyAGuusd
+ 7teA4WT+/jUku9g7lX5sVoRCrKQPkd16f6Bzfztyqyjcn43/X5yQI+wlboQ6HuKe/3I3yiOx
+ OgmCHzOawpC9PvhEcKj79RLM3Zz5Ts5AuHpRX70Jz8Be76LwVFLp5Msx3S24ZTU1lBo2uiJ3
+ xSkay2lTpyVWRPx9vgcwzxGguOPJQJwsQeLb7wpoJMPpD3ERoaRii7Q7hvmxklpZjhKYWB3d
+ t6nQ497Ek9loCrp3MIjRCSDN5xEGffiHks9yTeGMUQwO4tX8RE04uOJPkUY7uCFzFqN6/qey
+ X3oFfPgkULMdiHofPAL1OskZSTzGPSfTYRE46NCJw8yoZBQ/oOyWeqaUQbK0wmW/g81wm8p7
+ LKSGEglMpiX07M1AotgvylN5C8fjbouoK+/RAMsXkk8jba6rPfuuXPaDjCyyKn6zSVHETnHW
+ 3AJbgVY50T8STpnxayBQvWbCvu+6NOEjXCbyaOJig+5l0zlGN9XHjdANXC5HnwmyaGRL9YDq
+ Jh2nVXVJDincOdQRdKcJjYLqaOAoWrYWSDi1iZGspHBTDrnOvfMQzzHY
+In-Reply-To: <20260603-qcom-cphy-v6-0-e50de0b557a8@ixit.cz>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:phasta@mailbox.org,m:phasta@kernel.org,m:aliceryhl@google.com,m:sashiko-reviews@lists.linux.dev,m:linux-media@vger.kernel.org,m:ojeda@kernel.org,m:dakr@kernel.org,m:christian.koenig@amd.com,m:gary@garyguo.net,m:daniel.almeida@collabora.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63570-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63569-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[ixit.cz,kernel.org,gmail.com,linaro.org,fairphone.com,protonmail.com,amazon.com,oss.qualcomm.com];
+	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	FORGED_RECIPIENTS(0.00)[m:david@ixit.cz,m:rfoss@kernel.org,m:todor.too@gmail.com,m:bod@kernel.org,m:vladimir.zapolskiy@linaro.org,m:mchehab@kernel.org,m:luca.weiss@fairphone.com,m:phodina@protonmail.com,m:drgitx@gmail.com,m:ckeitz@amazon.com,m:loic.poulain@oss.qualcomm.com,m:konrad.dybcio@oss.qualcomm.com,m:kbingham@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:phone-devel@vger.kernel.org,m:todortoo@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,collabora.com:from_mime,collabora.com:email,vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mailbox.org:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,codeberg.org:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3FEC46365DB
+X-Rspamd-Queue-Id: 16A0E6366C6
 
-On Wed, 3 Jun 2026 11:52:47 +0200
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
+On 03/06/2026 00:30, David Heidelberg via B4 Relay wrote:
+> Note: WIP tag added, as not everything from the previous review round has
+> been addressed.
+> 
+> # Short summary
+> 
+> This patch series extends the Qualcomm CAMSS (Camera Subsystem),
+> including CSID and CSIPHY components, to support C-PHY mode configuration.
+> 
+> # Background and motivation
+> 
+> Modern smartphone cameras increasingly rely on MIPI C-PHY rather than
+> D-PHY, thanks to its higher data throughput and signal efficiency.
+> As a result, many OEMs adopt C-PHY interfaces for main (rear) cameras on
+> Qualcomm-based devices.
+> 
+> Until now, mainline Linux lacked C-PHY configuration support for Qualcomm
+> chipsets, preventing bring-up of primary camera sensors on several
+> Snapdragon platforms. This series closes that gap.
+> 
+>   - Introduces C-PHY configuration support for the CAMSS driver stack,
+>     covering both CSID and CSIPHY blocks.
+>   - Successfully enables C-PHY operation on the Snapdragon 845 platform.
+>   - Tested on OnePlus 6 and 6T phones running mainline Linux,
+>     using the Sony IMX519 main camera sensor.
+>   - The new configuration allows other chipsets versionsto enable C-PHY by
+>     simply adding corresponding sensor driver support and csiphy
+>     initialization data, following the example set for sdm845.
+> 
+> With this patch series, mainline Linux gains working C-PHY support for
+> Snapdragon 845, paving the way for improved main camera functionality
+> across many Qualcomm-based devices. The groundwork also simplifies
+> future enablement efforts for additional SoCs and sensors.
+> 
+> Until merged, the series will be also available at:
+>    https://codeberg.org/sdm845/linux/commits/branch/b4/qcom-cphy
+> 
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+> Changes in v6:
+> - lanes_enable now uses WARN_ONCE instead of return values. (Sakari)
+> - Dropped Kodiak patch until it gets better documented.
+> - Document the 3ph C-PHY sdm845 registers a bit.
+> - Link to v5: https://lore.kernel.org/r/20260531-qcom-cphy-v5-0-6be0f62b4d65@ixit.cz
+> 
+> Changes in v5:
+> - Split first patch enabling C-PHY part into last patch. (Bryan)
+> - Fix the camss_get_link_freq crash. (Cory)
+> - Dropped patch whitelisting C-PHY, instead use nullptr check. (Bryan)
+> - Dropped A-b/R-b from
+>   "media: qcom: camss: Initialize lanes after lane configuration is available"
+>   and changed Petr to Co-developed by and owned the patch.
+> - Link to v4: https://lore.kernel.org/r/20260301-qcom-cphy-v4-0-e53316d2cc65@ixit.cz
+> 
+> Changes in v4:
+> - Documented cphy parametr to camss_get_link_freq.
+> - Use BIT() macro for lane_mask. (Bryan)
+> - Correct lane_mask calculation. (Kieran + me)
+> - Removed comment for the D/C-PHY sequences init. (Bryan)
+> - Pass &csid->phy for calculate freq. (Bryan)
+> - Added missing cphy description to camss_get_link_freq. (kernel test robot)
+> - Gen2 v1.1 MIPI CSI-2 CPHY init hex to lowercase.
+> - Added back missed commit with improved electrical for sdm845 3ph.
+> - NOT addressed yet:
+>    - Proliferating special cases in switch statements on a per-SoC basis is verboten.
+>    - is it possible to set clock_lane to say 0xff in DT ?
+> - Link to v3: https://lore.kernel.org/r/20260117-qcom-cphy-v3-0-8ce76a06f7db@ixit.cz
+> 
+> Changes in v3:
+> - Make lanes_enable return sucess or error, since I couldn't move the
+>    configuration to the _init.
+> - Dropped R-b tags on
+>    "media: qcom: camss: Initialize lanes after lane configuration is available"
+>    as I changed formatting.
+> - Link to v2: https://lore.kernel.org/r/20251204-qcom-cphy-v2-0-6b35ef8b071e@ixit.cz
+> 
+> Changes in v2:
+> - This is still WIP patch series, thus I wanted to publish already
+>    changed parts to get feedback regarding to the direction of patchset.
+> - When switch to using odd bits, zeroed val which was left unitialized in v1.
+> - Accidentally missed archs added back in the commit moving lane regs to
+>    new location.
+> - Remove commit with reverting check for only D-PHY is supported and
+>    adjusted the check to also account for C-PHY.
+> - Documented link frequency calculation with defines. (Casey)
+> - Changed the cphy boolean to phy_cfg enum in the camss/camss-csiphy.
+>    (Brian)
+> - Added patch for csiphy-3ph enablement for sm7280 from Luca as I'm
+>    meanwhile trying to bring up the C-PHY sensor on FairPhone 5.
+> - Merged these two commits together
+>      csiphy-3ph: Enable sdm845 C-PHY sequence
+>      csiphy-3ph: Add Gen2 v1.1 MIPI CSI-2 CPHY init
+>    merged R-b.
+> - Link to v1: https://lore.kernel.org/r/20251109-qcom-cphy-v1-0-165f7e79b0e1@ixit.cz
+> 
+> ---
+> David Heidelberg (8):
+>        media: qcom: camss: csiphy: Introduce PHY configuration
+>        media: qcom: camss: csiphy-3ph: Use odd bits for configuring C-PHY lanes
+>        media: qcom: camss: Prepare CSID for C-PHY support
+>        media: qcom: camss: Initialize lanes after lane configuration is available
+>        media: qcom: camss: csiphy-3ph: Add Gen2 v1.1 MIPI CSI-2 C-PHY init
+>        media: qcom: camss: csiphy-3ph: Update Gen2 v1.1 MIPI CSI-2 C-PHY init
+>        media: qcom: camss: Account for C-PHY when calculating link frequency
+>        media: qcom: camss: Enable C-PHY where available
+> 
+>   .../media/platform/qcom/camss/camss-csid-gen2.c    |   1 +
+>   drivers/media/platform/qcom/camss/camss-csid.c     |   8 +-
+>   drivers/media/platform/qcom/camss/camss-csid.h     |   1 +
+>   .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 243 +++++++++++++++++----
+>   drivers/media/platform/qcom/camss/camss-csiphy.c   |   6 +-
+>   drivers/media/platform/qcom/camss/camss-csiphy.h   |   2 +
+>   drivers/media/platform/qcom/camss/camss.c          |  36 ++-
+>   drivers/media/platform/qcom/camss/camss.h          |   2 +-
+>   8 files changed, 236 insertions(+), 63 deletions(-)
+> ---
+> base-commit: b7bee4ca5688e30ca50fbc87b1b8f7eed7006c17
+> change-id: 20251109-qcom-cphy-bb8cbda1c644
+> 
+> Best regards,
 
-> On Wed, 03 Jun 2026 09:43:55 +0200
-> Philipp Stanner <phasta@mailbox.org> wrote:
->=20
-> > On Wed, 2026-06-03 at 08:48 +0200, Boris Brezillon wrote: =20
-> > > On Wed, 03 Jun 2026 08:10:51 +0200
-> > > Philipp Stanner <phasta@mailbox.org> wrote:
-> > >    =20
-> > > > +Cc Danilo, Gary, Daniel, Christian
-> > > > (who seem to have been lost because Sashiko dropped them and this t=
-hread is a reply to that tool)
-> > > >=20
-> > > >=20
-> > > > On Tue, 2026-06-02 at 15:25 +0000, Alice Ryhl wrote:   =20
-> > > > > On Tue, Jun 02, 2026 at 02:06:43PM +0200, Philipp Stanner wrote:=
-=C2=A0   =20
-> > > > > > On Tue, 2026-06-02 at 11:59 +0000, Alice Ryhl wrote:=C2=A0    =
-=20
-> > > > > > > On=C2=A0=C2=A0    =20
-> > > > > >=20
-> > > > > > [=E2=80=A6]
-> > > > > > =C2=A0    =20
-> > > > > > > > >=20
-> > > > > > > > > If you don't implement Sync, then DriverFence cannot be s=
-tored in an
-> > > > > > > > > Arc. I wouldn't take away that ability unless you have to=
-, and I don't
-> > > > > > > > > see anything in the DriverFence API that would mean you c=
-an't do that.=C2=A0    =20
-> > > > > > > >=20
-> > > > > > > > Nope. We explicitly agreed on this design.
-> > > > > > > >=20
-> > > > > > > > Just 1 DriverFence. Just 1 party that can signal it.
-> > > > > > > > Note that we also agreed upon the Driverfence disappearing =
-with
-> > > > > > > > .signal(), which certainly prevents several from existing, =
-unless you
-> > > > > > > > do an Option.take()=C2=A0    =20
-> > > > > > >=20
-> > > > > > > I would like to clarify that I'm not suggesting any changes t=
-o the
-> > > > > > > design. Implementing Sync is not the same as having multiple =
-driver
-> > > > > > > fences.=C2=A0    =20
-> > > > > >=20
-> > > > > > I mean, I guess one can do that. But it's up to the driver then=
- to see how it can signal its fence.=C2=A0    =20
-> > > > >=20
-> > > > > I don't believe Sync changes anything with that regard. The signal
-> > > > > method takes 'self', but the Sync trait only affects how '&self' =
-methods
-> > > > > can be called.
-> > > > > =C2=A0    =20
-> > > > > > > > > > > > > =C2=A0so even though
-> > > > > > > > > > > > > the fence context may be valid for another grace =
-period, the *pointer*
-> > > > > > > > > > > > > to the fence context is not. The pointer could ha=
-ve been zeroed by the
-> > > > > > > > > > > > > destructor.=C2=A0    =20
-> > > > > > > > > > > >=20
-> > > > > > > > > > > > That particular pointer to the DriverFenceData coul=
-d have been zeroed.
-> > > > > > > > > > > > But potential other accessors have already crafted =
-themselves a new
-> > > > > > > > > > > > pointer to the, by the power of RCU, still valid da=
-ta. That new pointer
-> > > > > > > > > > > > is container-of-ed from struct dma_fence *f.=C2=A0 =
-   =20
-> > > > > > > > > > >=20
-> > > > > > > > > > > I'm not talking about the pointer to DriverFenceData,=
- I'm talking about
-> > > > > > > > > > > the pointer to the FenceCtx, or the pointer to the da=
-ta (if F is
-> > > > > > > > > > > RcuBox).=C2=A0    =20
-> > > > > > > > > >=20
-> > > > > > > > > > Yeah, but the backing memory is still alive. And new po=
-inters to that
-> > > > > > > > > > memory get crafted by the accessors. If a callback acce=
-sses the data
-> > > > > > > > > > through `container_of(Fence)`, it gets a new pointer.
-> > > > > > > > > >=20
-> > > > > > > > > > So what's the problem?
-> > > > > > > > > >=20
-> > > > > > > > > > Where is the invalid pointer that someone is accessing?
-> > > > > > > > > > =C2=A0    =20
-> > > > > > > > > > >=20
-> > > > > > > > > > > The Arc type is not a type that opts-out of &mut =3D=
-=3D exclusive, so the
-> > > > > > > > > > > second drop_in_place() above is assumed exclusive acc=
-ess to the
-> > > > > > > > > > > Arc<FenceCtx<F,C>> field.=C2=A0    =20
-> > > > > > > > > >=20
-> > > > > > > > > > OK, so I think I see the problem. So the invalid pointe=
-r is
-> > > > > > > > > > Arc<FenceCtx=E2=80=A6>? And potentially the <F> pointer=
- (although we don't have
-> > > > > > > > > > a picture yet as to how that would be accessed through =
-other callbacks.
-> > > > > > > > > > =C2=A0    =20
-> > > > > > > > > > > =C2=A0If another thread obtains a pointer to the
-> > > > > > > > > > > FenceCtx via reading the fctx field of the DriverFenc=
-e in parallel with
-> > > > > > > > > > > this, then that's not allowed because the drop_in_pla=
-ce() call has
-> > > > > > > > > > > exclusive access to that field.=C2=A0    =20
-> > > > > > > > > >=20
-> > > > > > > > > > I think I have been asking in several of our meetings i=
-n the past
-> > > > > > > > > > whether it is actually a problem to access data that ha=
-s been dropped()
-> > > > > > > > > > IF we know that drop does not cause UAF and the answer =
-was kind of like
-> > > > > > > > > > a "well if it does not actually get freed=E2=80=A6"=C2=
-=A0    =20
-> > > > > > > > >=20
-> > > > > > > > > Ok, well, IMO the simplest approach is to say you can't. =
-There may be
-> > > > > > > > > roundabout ways to do it, but I would suggest that we jus=
-t ... don't.=C2=A0    =20
-> > > > > > > >=20
-> > > > > > > > Ack.
-> > > > > > > > =C2=A0    =20
-> > > > > > > > > =C2=A0    =20
-> > > > > > > > > > Anyways.
-> > > > > > > > > >=20
-> > > > > > > > > > It would seem the way to get this right is then
-> > > > > > > > > >=20
-> > > > > > > > > > synchronize_rcu();
-> > > > > > > > > > drop_in_palace(data);
-> > > > > > > > > >=20
-> > > > > > > > > >=20
-> > > > > > > > > > Agreed?
-> > > > > > > > > >=20
-> > > > > > > > > > This would then mean, however, that every time a fence =
-drops, you have
-> > > > > > > > > > to wait a grace period.
-> > > > > > > > > >=20
-> > > > > > > > > > Or maybe stuff DriverFenceData into an RcuBox, too, and=
- defer its
-> > > > > > > > > > dropping.=C2=A0    =20
-> > > > > > > > >=20
-> > > > > > > > > That would work, but I think we can do better and avoid t=
-he
-> > > > > > > > > synchronize_rcu() along these lines:
-> > > > > > > > >=20
-> > > > > > > > > unsafe trait RcuRevocable {
-> > > > > > > > > =C2=A0=C2=A0=C2=A0 unsafe fn rcu_revoke_in_place(ptr: *mu=
-t Self);
-> > > > > > > > > }
-> > > > > > > > >=20
-> > > > > > > > > This trait provides a method that's like drop_in_place(),=
- except that
-> > > > > > > > > when you use this destructor, the value remains usable fo=
-r one grace
-> > > > > > > > > period. You could implement it for RcuBox, and for any Co=
-py type, and
-> > > > > > > > > for ARef<T> when T is cleaned up with rcu, and probably a=
-lso other
-> > > > > > > > > stuff.=C2=A0    =20
-> > > > > > > >=20
-> > > > > > > > I mean, this cannot be magic. It also boils down to executi=
-ng one RCU
-> > > > > > > > callback per DriverFence dropping.
-> > > > > > > >=20
-> > > > > > > > Is there a significant difference to stuffing DriverFenceDa=
-ta into an
-> > > > > > > > RcuBox?=C2=A0    =20
-> > > > > > >=20
-> > > > > > > Do you mean hard-coding that the user-data of a driver fence =
-is always
-> > > > > > > stored in an RcuBox?=C2=A0    =20
-> > > > > >=20
-> > > > > >=20
-> > > > > > I'm talking about this:
-> > > > > >=20
-> > > > > >=20
-> > > > > >=20
-> > > > > > impl<F: Send + Sync + DriverFenceAllowedData, C: Send + Sync> D=
-riverFenceAllocation<F, C> {
-> > > > > > =C2=A0=C2=A0=C2=A0 /// Create a new allocation slot that can la=
-ter be used to create a fully
-> > > > > > =C2=A0=C2=A0=C2=A0 /// initialized [`DriverFence`] without the =
-need to allocate.
-> > > > > > =C2=A0=C2=A0=C2=A0 pub fn new(fctx: Arc<FenceCtx<F, C>>, data: =
-F) -> Result<Self> {
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence_data =3D D=
-riverFenceData {
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 // `inner` remains uninitialized until a [`DriverFence`] takes over.
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 inner: Fence {
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 inner: Opaque::uninit(),
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 },
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 fctx,
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 data,
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
-> > > > > >=20
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // In order to suppo=
-rt the C dma_fence callbacks, it is necessary for
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // a `Fence` and a `=
-DriverFence` to live in the same allocation,
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // because the C bac=
-kend passes a dma_fence, from which the driver most
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // likely wants to b=
-e able to access its `data` in `DriverFence`.
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Hence, we need th=
-e manage the memory manually. It will be freed by the
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // C backend automat=
-ically once the refcount within `Fence` drops to 0.
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let data =3D RcuBox:=
-:new(fence_data, GFP_KERNEL | __GFP_ZERO)?;
-> > > > > >=20
-> > > > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ok(Self { data })
-> > > > > > =C2=A0=C2=A0=C2=A0 }
-> > > > > >=20
-> > > > > >=20
-> > > > > > This way, the entire DriverFenceData will remain valid for an
-> > > > > > additional grace period. I suppose this would solve your pointe=
-r-
-> > > > > > invalid concern.
-> > > > > >=20
-> > > > > > However, it appears like overkill to me because the refcounting=
- + C
-> > > > > > backend already ensure that nothing drops too soon, and the bac=
-kend
-> > > > > > frees with kfree_rcu(), so=E2=80=A6=C2=A0    =20
-> > > > >=20
-> > > > > I agree that it doesn't sound like we want RcuBox here.
-> > > > >=20
-> > > > > What kind of metadata are we actually planning to store in the
-> > > > > DriverFence in practice?=C2=A0    =20
-> > > >=20
-> > > > I suppose it might be GPUVM payloads. IIRC in Tyr it's currently ju=
-st
-> > > > empty structs as some sort of identifier. I guess copies of the act=
-ual
-> > > > command buffers will also reside in their associated fences.
-> > > >=20
-> > > > But Boris, Daniel and Danilo probably have something smart to say a=
-bout
-> > > > that.   =20
-> > >=20
-> > > In Tyr we don't need any, because we're using SW signalling: we get an
-> > > interrupt, look at our HW fence seqno, and walk the set of pending
-> > > fences to signal them with the ::signal() method (that's an
-> > > over-simplified view of it, but functionally that's how it works).
-> > >=20
-> > > Now, the question is more, what drivers planning to support HW
-> > > signaling want attached to the DriverFence. My gut feeling is that now
-> > > that we have a way to get back to the FenceCtx, and given that FenceC=
-tx
-> > > also has driver-specific data attached to it, most common use cases
-> > > where the fence contains a backpointer to its timeline/creator are
-> > > covered. If I look at nouveau_fence [1] (I intentionally looked at the
-> > > most likely next user of this) for instance:
-> > >=20
-> > > struct nouveau_fence {
-> > > 	struct dma_fence base;
-> > >=20
-> > > 	struct list_head head;
-> > >=20
-> > > 	struct nouveau_channel __rcu *channel;
-> > > 	unsigned long timeout;
-> > > };   =20
-> >=20
-> > Thx for the explanation
-> >  =20
-> > >=20
-> > > - channel is basically the FenceCtx in your new design
-> > > - head is used to insert the fence in the fence context list. Not too
-> > > =C2=A0 sure how it translates in rust (insertion in an XArray instead=
-?).
-> > > =C2=A0 Anyway, that's just stuff you need to make your fence part of =
-the
-> > > =C2=A0 context timeline, so it's again related to how you link a fenc=
-e to
-> > > =C2=A0 its context and let the context walk back pending fences when =
-it
-> > > =C2=A0 needs to. Feels like my original FenceTimeline abstract propos=
-al [2]
-> > > =C2=A0 could help make this thing generic, but let's reconsider this =
-once
-> > > =C2=A0 we've got the basics sorted out, please
-> > > - timeout is probably the only thing of interest here, assuming things
-> > > =C2=A0 can be signaled out of order (if they are signaled in order, l=
-ike is
-> > > =C2=A0 the case in Tyr, the timeout can just be on the FenceCtxData a=
-nd
-> > > =C2=A0 represent the timeout of the first fence in the set). Anyway, =
-that's a
-> > > =C2=A0 scalar, so no fancy ::drop() needed if that's what you're worr=
-ied
-> > > =C2=A0 about   =20
-> >=20
-> > What we / Alice are worried about is multiple things.
-> >=20
-> > One issue is that Alice believes that=20
-> >=20
-> >         // SAFETY: `self.data` is owned by the DriverFence, but could b=
-e accessed
-> >         // through some dma_fence callbacks right now. Access is being =
-revoked
-> >         // above by signalling the fence. The DriverFenceSafeToDrop tra=
-it
-> >         // ensures that the data either does not need drop, or if it do=
-es it
-> >         // lives in a RcuBox which will delay dropping by one grace per=
-iod, hence
-> >         // ensuring that all readers have disappeared.
-> >         unsafe { drop_in_place(self.data.as_ptr()) };
-> >=20
-> >=20
-> > from DriverFence::drop() invalidates the pointers that thread A
-> > accesses, even if DriverFence::data.data's drop is delayed with RCU.
-> >=20
-> > Now if thread B drops DriverFence, thread A could use invalid pointers,
-> > but while still operating on non-deallocated memory (because our
-> > refcounting guards against that). =20
->=20
-> This is where I think our very permissive dma_fence callback design is
-> hitting us in the face. There are callbacks that are called with the
-> fence lock held (::enable_signalling(), ::signaled()), and because we
-> forcibly signal on DriverFence::drop() (which requires locking as well)
-> and then drop the DriverFenceData::data (I'd expect
-> DriverFenceData::fctx to be manually dropped too, but I don't see
-> that done in the current version), the problem you're describing doesn't
-> exist, I think.
->=20
-> That leaves those that are not called with the lock held, and for
-> which we rely on the RCU lock:
->=20
-> - ::get_{driver,timeline}_name() get back to the FenceCtx to get those
->   names, and if the Arc<FenceCtx> inside the DriverFenceData is dropped,
->   I guess it can't be trusted
-> - ::set_deadline() is problematic as well
-> - ::wait() and ::release() are deprecated
->=20
-> >=20
-> > The only way I can see to make that bullet proof would be to do
-> > synchronize_rcu() before the drop_in_place() above =E2=80=93 but that w=
-ould
-> > mean that we delay each fence drop by one grace period. =20
->=20
-> synchronize_rcu() in the DriverFence::drop() path is indeed not a great
-> idea. Not only because it adds an heavy synchronization point in a
-> potentially hot-path, but also because you're back to a situation where
-> DriverFence users need to be very careful about the context they are
-> when they drop these objects, and because drop() is an implicit
-> operation most of the time, it becomes super fragile.
->=20
-> If we're going to force this synchronize_rcu(), I think it should be
-> done when the FenceCtx is dropped, meaning we're back to a situation
-> where DriverFenceData::data is also RCU-deferred with an rcu_call(),
-> which, IIRC, was the original idea.
->=20
-> >=20
-> > I'm still not sure how real the problem really is, though. Because
-> > refcounting guards, and drop() doesn't actually *do* something to the
-> > pointers, or does it? =20
->=20
-> It doesn't do anything to the dma_fence part of the DriverFenceData,
-> but it can touch the driver-specific part, and most importantly, it
-> might leave it with stale information that are then re-interpreted by
-> the dma_fence_ops callback that's still in-flight.
->=20
-> >=20
-> >=20
-> > --
-> >=20
-> > Another, related issue would be
-> > - thread A accesses DriverFence::data through a backend_ops
-> > - thread B drops DriverFence
-> > - there are no RCU callbacks (call_rcu()) pending
-> > - thus, the rcu_barrier() in FenceCtx::drop() takes no effect. We would
-> > actually need synchronize_rcu() there.
-> >=20
-> >=20
-> > So would seem we still didn't get fence and fence_ctx teardown
-> > completely right. =20
->=20
-> Nope, indeed. The driver_name/timeline_name retrieval is already
-> problematic. You probably get away with it because you're leaking the
-> context (no drop on DriverFenceData::fctx AFAICT).
+I'd like to see a dts to go with this ideally for upstream ...
 
-My bad, it's the whole DriverFenceData you drop_in_place(), so there's
-no leak, but DriverFenceData::fctx becomes invalid, and any in-flight
-get_{driver,timeline}_name() will trigger the issue you were reporting
-(access to stale fctx).
+---
+bod
 
