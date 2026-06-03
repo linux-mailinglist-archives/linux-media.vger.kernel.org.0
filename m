@@ -1,71 +1,63 @@
-Return-Path: <linux-media+bounces-63525-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63526-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id BSHaMdPjH2qDrwAAu9opvQ
-	(envelope-from <linux-media+bounces-63525-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:20:35 +0200
+	id qnVyN27mH2o/sAAAu9opvQ
+	(envelope-from <linux-media+bounces-63526-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:31:42 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF77635A2F
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:20:35 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CB59635B86
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:31:42 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=Av8uiCyt;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63525-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-63525-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=M5sgPR7G;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63526-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63526-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9FA4F3013027
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 08:17:35 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id A3B383062185
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 08:27:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD9414218AE;
-	Wed,  3 Jun 2026 08:17:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06AE941B37D;
+	Wed,  3 Jun 2026 08:27:54 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5552A3FFAB4;
-	Wed,  3 Jun 2026 08:17:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C29413220;
+	Wed,  3 Jun 2026 08:27:51 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780474648; cv=none; b=M16FfdaEgzkBYXdc7HHX5EyaovVSBHd7/ni8n1d93u+FuXG0IjuNeSNNJTqA6dHe9uVYJVWpKg2ZLmvFcU3wD7nAWfobINYH8oF5B24kBzr9kz1UAw83VuDK4lfoWKhgSLijePcN1sOOoiCjNhIWL5aiN1FcAodx3t/XSrrzDVk=
+	t=1780475273; cv=none; b=khjTkD5NuNUgYdHR97CJjRwkgd2jXL7RIn0oIg6y0WqOug7IQczS4Kwzm3srIcGyl3kLvAMx0WR2kFYJhjVs9+sTMy/Lqb74Yl+CeyvMvfqRcZs26F76qugfcWf3j/BcTrTxHLueaNu5fxU1TOhGf1cogluksaKTusWOVNREA8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780474648; c=relaxed/simple;
-	bh=EPLy3XqXCc7EfMN9aYS4eCXgGaJCpUwUR8LKoAr7sf4=;
+	s=arc-20240116; t=1780475273; c=relaxed/simple;
+	bh=ckLt37X2YPy6N/1CHjV5B6UynNBgU0FukrXwnhP9jxU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wot6v7dADxjubVSxfZ+Kud64KxmGc/b5zYMHtyoUFgBkS36eWRE416JImCTEGmoDgJoktZVh1u4pwSdsvteG9U2yeIuYkse7fThsTJwBMB9lfouSRaWwkqrs041C9rfd1agKE3ZUpiEeempXn5PuiVnAuWzxuswQ6BGSPch838U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Av8uiCyt; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=qaVCQaGregh5OPhrZYA8tNlJfnFPcX1C2ZCWslk73YRM3tNhA8GHbAP05jeGofbuQGOhxkJ1IGNBsT8n+XtNijLH3E1nwBlIN/qk9tX5HY9xdSuLl26Hx/FBwmBnNaKt9W9AqKVZgbFI8MGv2uzlBo2Pa0bI2VAPR6V/GomMCq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=M5sgPR7G; arc=none smtp.client-ip=213.167.242.64
 Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5A423DF3;
-	Wed,  3 Jun 2026 10:16:58 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AFEE6DF3;
+	Wed,  3 Jun 2026 10:27:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1780474618;
-	bh=EPLy3XqXCc7EfMN9aYS4eCXgGaJCpUwUR8LKoAr7sf4=;
+	s=mail; t=1780475245;
+	bh=ckLt37X2YPy6N/1CHjV5B6UynNBgU0FukrXwnhP9jxU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Av8uiCytxlhwBtK7HJIoYOvxVUb9ZFE/iqJOJ5/V9D7S9WBa+TDr3M2u1+9hxleID
-	 Xar3ERCaxokLczeMgUw5WeGXQrhcmbWwNYMKgR9WZ40A8Lem+I3e+wRqH0TVaDAqxl
-	 +QHFudAvgnUF9ytsu1eW3TQ/12lCpsQ2F9jNoKWs=
-Date: Wed, 3 Jun 2026 10:17:19 +0200
+	b=M5sgPR7GUonaQ7WjVm4Y/nBlafJHotXXmwzjwyr59sb2dN5Ghr68sDIYh4UYUUkpK
+	 cf3bo8m8BQ4hmGNyJ1/I1Sxqe94dLxoX3ypANH7pK0OsrWUfXjMk5IjGyTjr2fT695
+	 4UjBf3CXerGbfBkwsCzLeky+rpiPnQeQMUI55elM=
+Date: Wed, 3 Jun 2026 10:27:46 +0200
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Antoine Bouyer <antoine.bouyer@nxp.com>, 
-	Hans Verkuil <hverkuil+cisco@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Keke Li <keke.li@amlogic.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Daniel Scally <dan.scally@ideasonboard.com>, 
-	Jai Luthra <jai.luthra@ideasonboard.com>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, Ricardo Ribalda <ribalda@chromium.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil+cisco@kernel.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/6] media: v4l2-isp: Add support for extensible
- statistics
-Message-ID: <ah_iVT1d5U4-9g-0@zed>
-References: <20260505-extensible-stats-v1-0-e16f326b8dad@ideasonboard.com>
- <777ea8b5-b00a-40e0-b649-59324ff0188a@nxp.com>
- <e1bb04b0-025a-44a6-91ab-edfa6edc1f64@nxp.com>
- <b97f4da9-7df7-4bfd-990e-28a23ec7a236@amlogic.com>
- <agcaSwdqauzuQSl5@zed>
- <ahbeR6-noMhnU_l5@zed>
- <9557605d-ac07-404f-b53f-63357898f2e2@nxp.com>
+	Jai Luthra <jai.luthra+renesas@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [v8 02/14] media: rppx1: Add framework to support Dreamchip
+ RPPX1 ISP
+Message-ID: <ah_kud7fRe_DN7Mx@zed>
+References: <20260504010556.2796398-1-niklas.soderlund+renesas@ragnatech.se>
+ <20260504010556.2796398-3-niklas.soderlund+renesas@ragnatech.se>
+ <afrxmrw2BZLT1tRJ@zed>
+ <20260516151718.GV332351@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,219 +67,427 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9557605d-ac07-404f-b53f-63357898f2e2@nxp.com>
+In-Reply-To: <20260516151718.GV332351@ragnatech.se>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-63526-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63525-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:antoine.bouyer@nxp.com,m:hverkuil+cisco@kernel.org,m:sakari.ailus@linux.intel.com,m:laurent.pinchart@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:keke.li@amlogic.com,m:mchehab@kernel.org,m:dan.scally@ideasonboard.com,m:jai.luthra@ideasonboard.com,m:niklas.soderlund@ragnatech.se,m:ribalda@chromium.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
 	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:niklas.soderlund+renesas@ragnatech.se,m:jacopo.mondi@ideasonboard.com,m:jai.luthra+renesas@ideasonboard.com,m:mchehab@kernel.org,m:kuninori.morimoto.gx@renesas.com,m:laurent.pinchart@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:niklas.soderlund@ragnatech.se,m:jai.luthra@ideasonboard.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	TO_DN_SOME(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,outlook.com:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,zed:mid,ideasonboard.com:dkim,ideasonboard.com:from_mime,ideasonboard.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:from_mime,ideasonboard.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,zed:mid,ragnatech.se:email,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3EF77635A2F
+X-Rspamd-Queue-Id: 6CB59635B86
 
-Hi Antoine
+Hi Niklas
 
-On Mon, Jun 01, 2026 at 03:29:54PM +0200, Antoine Bouyer wrote:
-> On 5/27/26 2:09 PM, Jacopo Mondi wrote:
-> >
-> >
-> > Hi Sakari,
-> >
-> > On Fri, May 15, 2026 at 03:11:18PM +0200, Jacopo Mondi wrote:
-> > > Hi Antoine, Keke
-> > >
-> > > On Wed, May 13, 2026 at 09:04:27AM +0800, Keke Li wrote:
-> > > >
-> > > > On 5/12/26 17:26, Antoine Bouyer wrote:
-> > > > > [ EXTERNAL EMAIL ]
-> > > > >
-> > > > > Le 05/05/2026 à 18:49, Antoine Bouyer a écrit :
-> > > > > > On 5/5/26 4:12 PM, Jacopo Mondi wrote:
-> > > > > > >
-> > > > > > >
-> > > > > > > This series breaks out from Antonie's
-> > > > > > > https://eur01.safelinks.protection.outlook.com/?
-> > > > > > > url=https%3A%2F%2Fpatchwork.linuxtv.org%2Fproject%2Flinux-
-> > > > > > > media%2Flist%2F%3Fseries%3D24043&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605732002%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=FXaz7QYQvS3s%2B4l9AFMrGgE7kmXlEil%2FKD6DibB0%2FJY%3D&reserved=0
-> > > > > > >
-> > > > > > > the extensible stats support and adds a few more patches on top to:
-> > > > > > >
-> > > > > > > - add support for per-block validation as suggested during the
-> > > > > > > review of
-> > > > > > >     Ricardo's
-> > > > > > >     https://eur01.safelinks.protection.outlook.com/?
-> > > > > > > url=https%3A%2F%2Fpatchwork.linuxtv.org%2Fproject%2Flinux-
-> > > > > > > media%2Fpatch%2F20260504-smatch-7-1-v3-6-
-> > > > > > > fda125c30058%40chromium.org%2F&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605751612%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=AiRH8MhIbXt3dr%2B2r3I6STE6TJAChylnH%2Fz3tLdS36k%3D&reserved=0
-> > > > > > >
-> > > > > > >
-> > > > > > > - add two helper functions to v4l2-isp to ease handling of extensible
-> > > > > > >     statistics for drivers. An early user, based on a preliminary
-> > > > > > > version
-> > > > > > >     of the patches is available here as a reference:
-> > > > > > >     https://eur01.safelinks.protection.outlook.com/?
-> > > > > > > url=https%3A%2F%2Fpatchwork.linuxtv.org%2Fproject%2Flinux-
-> > > > > > > media%2Flist%2F%3Fseries%3D24703&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605763086%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=%2Fpsb7Z3lb8ingDILxc3LoEWKTojl5BGMbk6FiR%2FcO9I%3D&reserved=0
-> > > > > > >
-> > > > > > >
-> > > > > > > Antonie: I took the liberty to fold in your patches changes to address
-> > > > > > > my comments on your v1. I pushed an un-squased version of the patches
-> > > > > > > here:
-> > > > > > > https://eur01.safelinks.protection.outlook.com/?
-> > > > > > > url=https%3A%2F%2Fgitlab.freedesktop.org%2Flinux-
-> > > > > > > media%2Fusers%2Fjmondi%2F-%2Ftree%2Fb4%2Fextensible-stats-
-> > > > > > > unsquashed&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605775020%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=iF2BE0GZ8HcVPmOJDhbmLsXQDOXV9JvqfMK6DRPPvrg%3D&reserved=0
-> > > > > > >
-> > > > > > > so you can easily get the diff from this and your version. Please feel
-> > > > > > > free to comment on these as you're the original author.
-> > > > > >
-> > > > > > Hi Jacopo
-> > > > > >
-> > > > > > Thanks for the rework and the links. I'm fine with your [SQUASH]
-> > > > > > commits.
-> > > > > >
-> > > > > > If there are no other comments, I assume I can reuse the common patches
-> > > > > > in my v2 then, and also apply the new helpers to neoisp driver changes.
-> > > > > > They look very useful (especially to prevent out-of-bounds crashes I
-> > > > > > observed when data_size was not set before filling stats :( ). I'll
-> > > > > > check in your user example.
-> > > > > >
-> > > > > > BR
-> > > > > > Antoine
-> > > > >
-> > > > > Hi Jacopo
-> > > > >
-> > > > > Do you think it would make sense to create a new generic V4L2_META_FMT
-> > > > > too ? which can be used by all user of v4l2-isp extensible params a/o
-> > > > > stats. To avoid each driver creating its own meta fmt with same purpose.
-> > > > >
-> > > > > Or do you think it could have side effects ?
-> > > > >
-> > > > > BR
-> > > > > Antoine
-> > > > >
-> > > > > >
-> > > > I think this proposal is excellent.
-> > > > 🙂
-> > >
-> > > To me, platform-specific formats mostly serve for documenting the ISP blocks.
-> > > In example
-> > > https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/metafmt-rkisp1.html
-> > >
-> > > There might be ways to handle it without defining a dedicated format
-> > > indeed.
-> > >
-> > > Sakari Laurent and Hans are in cc, what do they think ?
-> > >
-> >
-> > We briefly discussed it on irc and a few days ago again.
-> >
-> > Am I correct you think this is a good idea ?
-> >
-> > Antonie, do you plan to include the two new generic formts in your new
-> > version ? Should we have a single format for STATS and PARAMS too ? I
-> > see merit in both ways, to be hones two formats sound better to me as
-> > they apply to two different queue types (output for params and capture
-> > for stats)
+On Sat, May 16, 2026 at 05:17:18PM +0200, Niklas Söderlund wrote:
+> Hello Jacopo,
 >
-> Hi Jacopo
+
+[snip]
+
+> > > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_shrp.c b/drivers/media/platform/dreamchip/rppx1/rppx1_shrp.c
+> > > new file mode 100644
+> > > index 000000000000..5bec022e8f05
+> > > --- /dev/null
+> > > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_shrp.c
+> > > @@ -0,0 +1,64 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + * Copyright 2025 Renesas Electronics Corp.
+> > > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > > + */
+> > > +
+> > > +#include "rpp_module.h"
+> > > +
+> > > +#define SHRPCNR_VERSION_REG				0x0000
+> > > +
+> > > +#define SHRPCNR_CTRL_REG				0x0004
+> > > +#define SHRPCNR_CTRL_CAD_EN				BIT(3)
+> > > +#define SHRPCNR_CTRL_DESAT_EN				BIT(2)
+> > > +#define SHRPCNR_CTRL_CNR_EN				BIT(1)
+> > > +#define SHRPCNR_CTRL_SHARPEN_EN				BIT(0)
+> > > +
+> > > +#define SHRPCNR_PARAM_REG				0x0008
+> > > +#define SHRPCNR_PARAM_SHARP_FACTOR_MASK			GENMASK(19, 12)
+> > > +#define SHRPCNR_PARAM_CORING_THR_MASK			GENMASK(11, 0)
+> > > +
+> > > +#define SHRPCNR_MAT_1_REG				0x000c
+> > > +#define SHRPCNR_MAT_2_REG				0x0010
+> > > +#define SHRPCNR_CLB_LINESIZE_REG			0x0014
+> > > +#define SHRPCNR_YUV2RGB_CCOR_COEFF_0_REG		0x0018
+> > > +#define SHRPCNR_YUV2RGB_CCOR_COEFF_1_REG		0x001c
+> > > +#define SHRPCNR_YUV2RGB_CCOR_COEFF_2_REG		0x0020
+> > > +#define SHRPCNR_YUV2RGB_CCOR_COEFF_3_REG		0x0024
+> > > +#define SHRPCNR_YUV2RGB_CCOR_COEFF_4_REG		0x0028
+> > > +#define SHRPCNR_YUV2RGB_CCOR_COEFF_5_REG		0x002c
+> > > +#define SHRPCNR_YUV2RGB_CCOR_COEFF_6_REG		0x0030
+> > > +#define SHRPCNR_YUV2RGB_CCOR_COEFF_7_REG		0x0034
+> > > +#define SHRPCNR_YUV2RGB_CCOR_COEFF_8_REG		0x0038
+> > > +#define SHRPCNR_YUV2RGB_CCOR_OFFSET_R_REG		0x003c
+> > > +#define SHRPCNR_YUV2RGB_CCOR_OFFSET_G_REG		0x0040
+> > > +#define SHRPCNR_YUV2RGB_CCOR_OFFSET_B_REG		0x0044
+> > > +
+> > > +#define SHRPCNR_CNR_THRES_REG				0x0048
+> > > +#define SHRPCNR_CNR_THRES_CNR_THRES_CR_MASK		GENMASK(27, 16)
+> > > +#define SHRPCNR_CNR_THRES_CNR_THRES_CB_MASK		GENMASK(11, 0)
+> > > +
+> > > +#define SHRPCNR_CRED_THRES_REG				0x004c
+> > > +#define SHRPCNR_CRED_SLOPE_REG				0x0050
+> > > +#define SHRPCNR_CAD_RESTORE_LVL_REG			0x0054
+> > > +#define SHRPCNR_CAD_THRESH_V_UNEG_REG			0x0058
+> > > +#define SHRPCNR_CAD_THRESH_V_UPOS_REG			0x005c
+> > > +#define SHRPCNR_CAD_THRESH_U_REG			0x0060
+> > > +
+> > > +static int rppx1_shrp_probe(struct rpp_module *mod)
+> > > +{
+> > > +	/* Version check. */
+> > > +	switch (rpp_module_read(mod, SHRPCNR_VERSION_REG)) {
+> > > +	case 2:
+> > > +		mod->info.shrp.colorbits = 12;
+> > > +		break;
+> > > +	default:
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +const struct rpp_module_ops rppx1_shrp_ops = {
+> > > +	.probe = rppx1_shrp_probe,
+> > > +};
+> >
+> > There are quite some modules here that have no corresponding user in
+> > libcamera and which are not exercized.
+> >
+> > As long as we don't have a userspace user, I would refrein from adding
+> > them to the driver to avoid committing to a uAPI before anyone
+> > actually uses it.
 >
-> I would personally prefer using a single format for both params and stats.
+> I do have user-space that exercise each uAPI exposed by this series in
+> the form of unit-tests. But I know you feel strongly about libcamera
+> support so I will drop the uAPI from the ones not used by libcamera from
+> this series.
 >
-> In my view, the format describes how the meta buffer is structured (header,
-> size, version, flags, etc.), and it should not depend on the queue type.
-> Since both stats and params will use the exact same structure, then it makes
-> sense to me to share a single format. Similar to how a pixel format applies
-> to both source and sink queues.
 
-You certainly have a point here!
+More than libcamera itself, I think it's safer to make sure we can
+exercize the user API before committing to them. The best way to do
+that is to have an algorithm in libcamera indeed
+
+> Before the switch to the RPPX1 dedicated format the RkISP1 IPA in
+> libcamera did use more of the enabled blocks together with some sensors.
+
+yeah, but thinking about denoise in example, I wouldn't fully commit
+to that yet as we know that algorithm is just very basic
+
+
+> So for my core use-cases dropping them will not lose me much
+> functionality. And as this series now structures uAPI together with the
+> code moving modules in out is easy :-)
+>
+> I will drop the following blocks:
+>
+> - BLS - statistics reporting.
+> - DB
+> - BD
+>
+> >
+> > If you want to keep the kernel module, fine, but no ABI for blocks
+> > without a userspace user.
+>
+> The probe and static init config (that instructs the ISP pipeline to
+> bypass the module) I will keep. I will drop all logic and uAPU
+> structures.
+
+Thank you!
 
 >
-> That said, if there is a consensus in favor of defining 2 separate formats,
-> I am fine with following that direction.
-
-Let's see if we can get feedback from Sakari/Hans/Laurent.
-I'll re-ping them!
-
+> >
+> > > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c b/drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c
+> > > new file mode 100644
+> > > index 000000000000..3d197d914d07
+> > > --- /dev/null
+> > > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c
+> > > @@ -0,0 +1,61 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + * Copyright 2025 Renesas Electronics Corp.
+> > > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > > + */
+> > > +
+> > > +#include "rpp_module.h"
+> > > +
+> > > +#define AWB_MEAS_VERSION_REG			0x0000
+> > > +
+> > > +#define AWB_MEAS_PROP_REG			0x0004
+> > > +#define AWB_MEAS_PROP_MEAS_MODE_RGB		BIT(16) /* 0: YCbCr 1: RGB */
+> > > +#define AWB_MEAS_PROP_YMAX			BIT(2)
+> > > +#define AWB_MEAS_PROP_AWB_MODE_ON		BIT(1)
+> > > +
+> > > +#define AWB_MEAS_H_OFFS_REG			0x0008
+> > > +#define AWB_MEAS_V_OFFS_REG			0x000c
+> > > +#define AWB_MEAS_H_SIZE_REG			0x0010
+> > > +#define AWB_MEAS_V_SIZE_REG			0x0014
+> > > +#define AWB_MEAS_FRAMES_REG			0x0018
+> > > +#define AWB_MEAS_REF_CB_MAX_B_REG		0x001c
+> > > +#define AWB_MEAS_REF_CR_MAX_R_REG		0x0020
+> > > +#define AWB_MEAS_MAX_Y_REG			0x0024
+> > > +#define AWB_MEAS_MIN_Y_MAX_G_REG		0x0028
+> > > +#define AWB_MEAS_MAX_CSUM_REG			0x002c
+> > > +#define AWB_MEAS_MIN_C_REG			0x0030
+> > > +#define AWB_MEAS_WHITE_CNT_REG			0x0034
+> > > +#define AWB_MEAS_MEAN_Y_G_REG			0x0038
+> > > +#define AWB_MEAS_MEAN_CB_B_REG			0x003c
+> > > +#define AWB_MEAS_MEAN_CR_R_REG			0x0040
+> > > +
+> > > +#define AWB_MEAS_CCOR_COEFF_NUM			9
+> > > +#define AWB_MEAS_CCOR_COEFF_REG(n)		(0x0044 + (4 * (n)))
+> > > +
+> > > +#define AWB_MEAS_CCOR_OFFSET_R_REG		0x0068
+> > > +#define AWB_MEAS_CCOR_OFFSET_G_REG		0x006c
+> > > +#define AWB_MEAS_CCOR_OFFSET_B_REG		0x0070
+> > > +
+> > > +static int rppx1_wbmeas_probe(struct rpp_module *mod)
+> > > +{
+> > > +	/* Version check. */
+> > > +	switch (rpp_module_read(mod, AWB_MEAS_VERSION_REG)) {
+> > > +	case 1:
+> > > +		mod->info.wbmeas.colorbits = 8;
+> > > +		break;
+> > > +	case 2:
+> > > +		mod->info.wbmeas.colorbits = 20;
+> > > +		break;
+> > > +	case 3:
+> > > +		mod->info.wbmeas.colorbits = 24;
+> > > +		break;
+> > > +	default:
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +const struct rpp_module_ops rppx1_wbmeas_ops = {
+> > > +	.probe = rppx1_wbmeas_probe,
+> > > +};
+> > > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_xyz2luv.c b/drivers/media/platform/dreamchip/rppx1/rppx1_xyz2luv.c
+> > > new file mode 100644
+> > > index 000000000000..73789c48c057
+> > > --- /dev/null
+> > > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_xyz2luv.c
+> > > @@ -0,0 +1,26 @@
+> > > +// SPDX-License-Identifier: GPL-2.0
+> > > +/*
+> > > + * Copyright 2025 Renesas Electronics Corp.
+> > > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > > + */
+> > > +
+> > > +#include "rpp_module.h"
+> > > +
+> > > +#define XYZ2LUV_VERSION_REG			0x0000
+> > > +#define XYZ2LUV_U_REF_REG			0x0004
+> > > +#define XYZ2LUV_V_REF_REG			0x0008
+> > > +#define XYZ2LUV_LUMA_OUT_FAC_REG		0x000c
+> > > +#define XYZ2LUV_CHROMA_OUT_FAC_REG		0x0010
+> > > +
+> > > +static int rppx1_xyz2luv_probe(struct rpp_module *mod)
+> > > +{
+> > > +	/* Version check. */
+> > > +	if (rpp_module_read(mod, XYZ2LUV_VERSION_REG) != 4)
+> > > +		return -EINVAL;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +const struct rpp_module_ops rppx1_xyz2luv_ops = {
+> > > +	.probe = rppx1_xyz2luv_probe,
+> > > +};
+> > > diff --git a/include/media/rppx1.h b/include/media/rppx1.h
+> > > new file mode 100644
+> > > index 000000000000..cb3470c27ceb
+> > > --- /dev/null
+> > > +++ b/include/media/rppx1.h
+> > > @@ -0,0 +1,34 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +/*
+> > > + * Copyright 2025 Renesas Electronics Corp.
+> > > + * Copyright 2025 Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> > > + */
+> > > +#ifndef __MEDIA_DCT_RPPX1_H__
+> > > +#define __MEDIA_DCT_RPPX1_H__
+> > > +
+> > > +#include <linux/v4l2-mediabus.h>
+> > > +#include <linux/media/dreamchip/rppx1-config.h>
+> > > +
+> > > +#include <media/videobuf2-core.h>
+> > > +
+> > > +struct rppx1;
+> > > +
+> > > +struct rppx1 *rppx1_create(void __iomem *base, struct device *dev);
+> > > +
+> > > +void rppx1_destroy(struct rppx1 *rpp);
+> > > +
+> > > +int rppx1_start(struct rppx1 *rpp, const struct v4l2_mbus_framefmt *input,
+> > > +		const struct v4l2_mbus_framefmt *hv,
+> > > +		const struct v4l2_mbus_framefmt *mv);
+> > > +
+> > > +int rppx1_stop(struct rppx1 *rpp);
+> > > +
+> > > +bool rppx1_interrupt(struct rppx1 *rpp, u32 *isc);
+> > > +
+> > > +typedef int (*rppx1_reg_write)(void *priv, u32 offset, u32 value);
+> > > +int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
+> > > +		 rppx1_reg_write write, void *priv);
+> > > +
+> > > +void rppx1_stats_fill_isr(struct rppx1 *rpp, u32 isc, void *buf);
+> > > +
+> > > +#endif /* __MEDIA_DCT_RPPX1_H__ */
+> > > diff --git a/include/uapi/linux/media/dreamchip/rppx1-config.h b/include/uapi/linux/media/dreamchip/rppx1-config.h
+> > > new file mode 100644
+> > > index 000000000000..26627be6f483
+> > > --- /dev/null
+> > > +++ b/include/uapi/linux/media/dreamchip/rppx1-config.h
+> >
+> > As said, I don't think it makes much sense to add an almost empty uapi
+> > file.
+> >
+> > I would add it in one commit.
+> >
+> > Please retain Jai's authorship and add my Co-developed-by tag as I
+> > rewrote most of the documentation and reworked most blocks.
 >
-> For now, I don't plan to integrate the new generic format in my patch
-> series. I would prefer to wait for converging on a solution (1 or 2 formats)
-> first. Then, depending on timeline, yes I can integrate it.
+> As discussed above, I really like adding the uAPI together with the
+> logic. I will retain the scaffolding as a separate commit from Jai and
+> add the Co-developed tags.
 
-If you want to re-send a new version out quickly feel free to use any
-format. I hope we can sort this out quickly so you can rebase on
-easily.
+Fine with me then!
 
 Thanks
   j
 
 >
-> BR
-> Antoine
+> >
+> > > @@ -0,0 +1,66 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> > > +/*
+> > > + * Dreamchip RPP-X1 ISP Driver - Userspace API
+> > > + *
+> > > + * Copyright (C) 2026 Renesas Electronics Corp.
+> > > + * Copyright (C) 2026 Ideas on Board Oy
+> > > + * Copyright (C) 2026 Ragnatech AB
+> > > + */
+> > > +
+> > > +#ifndef __UAPI_RPP_X1_CONFIG_H
+> > > +#define __UAPI_RPP_X1_CONFIG_H
+> > > +
+> > > +#include <linux/types.h>
+> > > +#include <linux/media/v4l2-isp.h>
+> > > +
+> > > +/**
+> > > + * struct rppx1_window - Measurement window
+> > > + *
+> > > + * RPP-X1 measurement window. Different blocks use a window or multiple
+> > > + * windows for measurement purposes. This defines a common type for all of
+> > > + * them. The number of relevant bits depends on the block where the window is
+> > > + * used and is specified in the per-block description
+> > > + *
+> > > + * @h_offs: horizontal offset from the left of the frame in pixels
+> > > + * @v_offs: vertical offset from the top of the frame in pixels
+> > > + * @h_size: horizontal size of the window in pixels
+> > > + * @v_size: vertical size of the window in pixels
+> > > + */
+> > > +struct rppx1_window {
+> > > +	__u16 h_offs;
+> > > +	__u16 v_offs;
+> > > +	__u16 h_size;
+> > > +	__u16 v_size;
+> > > +};
+> > > +
+> > > +/* ---------------------------------------------------------------------------
+> > > + * Parameter Structures
+> > > + *
+> > > + * Native RPP-X1 precision. Fields use __u32 where the hardware provides
+> > > + * wider-than-8-bit results.
+> >
+> > I think you could drop the first part: of course the RPP-X1 uAPI
+> > header uses the RPP-X1 precision. You could add:
+> >
+> >       The same ISP block might be instantiated in multiple pipeliness
+> >       and operate on a different bitdepth/precision. For fields of
+> >       varying length among different instances of the same block, use
+> >       a data type that can accommodate the larger bitdepth/precision.
+> >
+> > Or something similar
+>
+> Thanks, this should of course be updated now that we have a native RPPX1
+> format.
 >
 > >
+> > > + */
+> > > +
+> > > +/**
+> > > + * RPPX1_PARAMS_MAX_SIZE - Maximum size of all RPP-X1 parameter blocks
+> > > + *
+> > > + * Some types are reported twice as the same block might be instantiated in
+> > > + * multiple pipes.
+> > > + */
+> > > +#define RPPX1_PARAMS_MAX_SIZE 0
+> > > +
+> > > +/* ---------------------------------------------------------------------------
+> > > + * Statistics Structures
+> > > + *
+> > > + * Native RPP-X1 precision. Fields use __u32 where the hardware provides
+> > > + * wider-than-8-bit results.
+> >
+> > Same here
+>
+> Ditto.
+>
+> >
+> > > + */
+> > > +
+> > > +/**
+> > > + * RPPX1_STATS_MAX_SIZE - Maximum size of all RPP-X1 statistics
+> > > + *
+> > > + * Some types are reported twice as the same block might be instantiated in
+> > > + * multiple pipes.
+> > > + */
+> > > +#define RPPX1_STATS_MAX_SIZE 0
+> > > +
+> > > +#endif /* __UAPI_RPP_X1_CONFIG_H */
+> > > --
+> > > 2.54.0
 > > >
-> > >
-> > > > > > >
-> > > > > > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > > > > > ---
-> > > > > > > Antoine Bouyer (2):
-> > > > > > >         media: uapi: v4l2-isp: Add extensible statistics
-> > > > > > >         media: Documentation: uapi: Update V4L2 ISP for extensible stats
-> > > > > > >
-> > > > > > > Jacopo Mondi (4):
-> > > > > > >         media: v4l2-isp: Rename v4l2_isp_params_buffer_size
-> > > > > > >         media: v4l2-isp: Add per-block validation callback
-> > > > > > >         media: amlogic-c3: Implement per-block validation
-> > > > > > >         media: v4l2-isp: Add helpers for stats buffer
-> > > > > > >
-> > > > > > >    Documentation/userspace-api/media/v4l/v4l2-isp.rst |  45 ++++++--
-> > > > > > >    .../media/platform/amlogic/c3/isp/c3-isp-params.c  |  42 ++++++-
-> > > > > > >    .../media/platform/arm/mali-c55/mali-c55-params.c  |  12 +-
-> > > > > > >    drivers/media/v4l2-core/v4l2-isp.c                 |  56 +++++++++
-> > > > > > >    include/media/v4l2-isp.h                           |  94 +++++++++++
-> > > > > > > ++---
-> > > > > > >    include/uapi/linux/media/v4l2-isp.h                | 125 +++++++++++
-> > > > > > > ++--------
-> > > > > > >    6 files changed, 294 insertions(+), 80 deletions(-)
-> > > > > > > ---
-> > > > > > > base-commit: d9c8c4adf23d17549c0ec9c85b99d85a0ee6cf18
-> > > > > > > change-id: 20260504-extensible-stats-f2d6befcc1ce
-> > > > > > >
-> > > > > > > Best regards,
-> > > > > > > --
-> > > > > > > Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > > > > >
-> > > > > >
-> > > > >
-> > > >
+>
+> --
+> Kind Regards,
+> Niklas Söderlund
 >
 
