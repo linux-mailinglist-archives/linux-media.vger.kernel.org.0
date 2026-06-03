@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-63536-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63537-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id F05VLpnpH2o0sQAAu9opvQ
-	(envelope-from <linux-media+bounces-63536-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:45:13 +0200
+	id 3A/wHqDpH2o3sQAAu9opvQ
+	(envelope-from <linux-media+bounces-63537-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:45:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54BE1635D30
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:45:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44785635D33
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:45:20 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mediatek.com header.s=dk header.b=bwtR636M;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63536-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63536-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=mediatek.com header.s=dk header.b=JQNoE8Mj;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63537-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63537-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=mediatek.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id A90E7307F175
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 08:42:23 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4E2323080EAC
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 08:42:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EA5E43E9FE;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB2F9441054;
 	Wed,  3 Jun 2026 08:41:29 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0EC042E00B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F8D042EEC7;
 	Wed,  3 Jun 2026 08:41:26 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780476088; cv=none; b=dbUYVfGYbGM3nxeKBMhRajoWpBa9bTX4EueP4ECqV4Hs62Ogjp9WsbYmVem9rETTtp+6fuMALqXjdDY/9tfvpirC32LgtCKGgOXdQnaNUga2U2Dam/kH6wRAX3O9YStJt3snL06K61/9k9Jamomcbu3oz4MvywGxIr5/9wnXygw=
+	t=1780476089; cv=none; b=NR4gdw8viKWtnnRoD/8g7kld8ScuqjDHo8zRsqa9J/UX3p9Tg3Z10EcUOYteHkGq7whAzF4wyZd2J3gtPGKyIY0U/pmyx3KIHu9w2JzerZmwcJJYBG261Q4zfgKb2Gx216JgHYahPFEKK9E1AF7Fw3vBUa/yhsuemAxv/3CC0Ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780476088; c=relaxed/simple;
-	bh=kIjUJqC8FrjKT3wvBwif52KEmvzM9Q//Xl2xvRA+zvA=;
+	s=arc-20240116; t=1780476089; c=relaxed/simple;
+	bh=ylZ61oyNpbw61kivcqFYaAPDyoA87B8qw91rVsT+3Nk=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KkhHHmMSEDp4wpbLR9kTrRWA98y1D7YpmwqwGfoCR77WfwHcp88OeUSdhlOXoPyEHdJWo7ElNQGpYPCBE1+JMBpA3TZylFskpZLcTqwx3617AmnG07Knru1Kpo77jmbTBSVlgfnoCNWk2ctOSKqUppgmO5CL80im3EyiU0bax24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=bwtR636M; arc=none smtp.client-ip=60.244.123.138
-X-UUID: fe1471485f2711f1b1788b6acf885367-20260603
+	 MIME-Version:Content-Type; b=TZ7stb+jdcgge5iLlpf9VwG7oxqRo8mo19F43+KfI1EkXSKdkO7tnamJ/l2re95gOITPKQNPO7bFFz5Dasuk2WXw640jp/4dkKfT5HzibJegnOyjUMauZHIyNcEHyCOve3mj6OqCFNkvr7dE6Q6thWqVfKDZfPZcCHWo4XbXFow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=JQNoE8Mj; arc=none smtp.client-ip=210.61.82.184
+X-UUID: feff44205f2711f18dc8c9802ae25ab1-20260603
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=lzmgDv9sE6PSViPwSemiCEZvqH9OBLYu3f0c1nD8mzs=;
-	b=bwtR636Maqha73r7QRxpWtQ1s+vL1fR+h8TswiQQLWMN3G5kx1fhDHkVRcP3EwfvSa/IjSWvXAf2QxD+gIt2Dm/Ptt9LGNKuk/5FikHKfDFYqtfkGfrv1hdWfoUGqT1xVCDDxxKD3C6GYWtCl2uxeBxWuPnhwfUt4y4cWykBJoU=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=0K5JThWpC3fqXT+AoR7Wq3+fYcg4R/qjeOJu0zJ4oYg=;
+	b=JQNoE8Mju+ew8UgwWTdqHuWs2ZnTAvDa1dFOoX9uolwUVYMPOVrRe8WNbf6rZNQG3M3uw9Yy/UomYCZA+viF1f3CjEpxEkyh113Pkx9Luv01SpOH7NDO+3RLpC9b+rE5aepWSvpMc7HIeMjwfp/l0+w1jlBjPkcgvjrdVOJRTI4=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.15,REQID:b8516718-0127-49c1-b6c0-1253be3d429d,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e276073,CLOUDID:79634f20-87a8-421b-982c-f5939dba7cba,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|136|836|865|888|898,TC:-5,
-	Content:0|15|50,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:-1,C
-	OL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-O-INFO: VERSION:1.3.15,REQID:5ef5ed71-62aa-4b2b-a4a2-26c2a9225288,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:e276073,CLOUDID:78b62e8f-2d9b-4560-8147-1122f58e041c,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|836|865|888|898,TC:-5,Cont
+	ent:0|15|50,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:-1,COL:0
+	,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: fe1471485f2711f1b1788b6acf885367-20260603
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+X-UUID: feff44205f2711f18dc8c9802ae25ab1-20260603
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw02.mediatek.com
 	(envelope-from <kyrie.wu@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 441847901; Wed, 03 Jun 2026 16:41:19 +0800
+	with ESMTP id 139532022; Wed, 03 Jun 2026 16:41:21 +0800
 Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 3 Jun 2026 16:41:18 +0800
+ 15.2.2562.29; Wed, 3 Jun 2026 16:41:19 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.2562.29 via Frontend Transport; Wed, 3 Jun 2026 16:41:16 +0800
+ 15.2.2562.29 via Frontend Transport; Wed, 3 Jun 2026 16:41:18 +0800
 From: Kyrie Wu <kyrie.wu@mediatek.com>
 To: Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen
 	<andrew-ct.chen@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>, Mauro
@@ -84,9 +84,9 @@ To: Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen
 	Kyrie Wu <kyrie.wu@mediatek.com>
 CC: Sakari Ailus <sakari.ailus@linux.intel.com>, Tzung-Bi Shih
 	<tzungbi@kernel.org>, Tomasz Figa <tfiga@chromium.org>
-Subject: [PATCH v5 08/14] media: mediatek: vcodec: clean xpc status
-Date: Wed, 3 Jun 2026 16:40:38 +0800
-Message-ID: <20260603084045.17488-9-kyrie.wu@mediatek.com>
+Subject: [PATCH v5 09/14] media: mediatek: vcodec: add debug information
+Date: Wed, 3 Jun 2026 16:40:39 +0800
+Message-ID: <20260603084045.17488-10-kyrie.wu@mediatek.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20260603084045.17488-1-kyrie.wu@mediatek.com>
 References: <20260603084045.17488-1-kyrie.wu@mediatek.com>
@@ -112,7 +112,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63536-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63537-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[33];
 	FREEMAIL_TO(0.00)[mediatek.com,kernel.org,gmail.com,collabora.com,chromium.org,163.com,ideasonboard.com,pengutronix.de,vivo.com,zju.edu.cn,vger.kernel.org,lists.infradead.org];
 	MIME_TRACE(0.00)[0:+];
@@ -133,107 +133,67 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,dt,cisco,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mediatek.com:mid,mediatek.com:dkim,mediatek.com:from_mime,mediatek.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mediatek.com:mid,mediatek.com:dkim,mediatek.com:from_mime,mediatek.com:email,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 54BE1635D30
+X-Rspamd-Queue-Id: 44785635D33
 
 From: Yunfei Dong <yunfei.dong@mediatek.com>
 
-The driver need to clean xpc status when receive decoder hardware
-interrupt for mt8196 platform.
+Print hevc/av1 output format and 10bit capture format
+information to debug.
 
 Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 ---
- .../vcodec/decoder/mtk_vcodec_dec_hw.c        | 28 +++++++++++++++++++
- .../vcodec/decoder/mtk_vcodec_dec_hw.h        | 13 +++++++--
- 2 files changed, 39 insertions(+), 2 deletions(-)
+ .../mediatek/vcodec/common/mtk_vcodec_dbgfs.c | 21 +++++++++++++++++--
+ 1 file changed, 19 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_hw.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_hw.c
-index 881d5de41e05..e4e527fe54dc 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_hw.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_hw.c
-@@ -61,6 +61,31 @@ static int mtk_vdec_hw_prob_done(struct mtk_vcodec_dec_dev *vdec_dev)
- 	return 0;
- }
+diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_dbgfs.c b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_dbgfs.c
+index 2da11521fc7b..b3c69c46240c 100644
+--- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_dbgfs.c
++++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_dbgfs.c
+@@ -29,6 +29,14 @@ static void mtk_vdec_dbgfs_get_format_type(struct mtk_vcodec_dec_ctx *ctx, char
+ 		curr_len = snprintf(buf + *used, total - *used,
+ 				    "\toutput format: vp9 slice\n");
+ 		break;
++	case V4L2_PIX_FMT_HEVC_SLICE:
++		curr_len = snprintf(buf + *used, total - *used,
++				    "\toutput format: hevc slice\n");
++		break;
++	case V4L2_PIX_FMT_AV1_FRAME:
++		curr_len = snprintf(buf + *used, total - *used,
++				    "\toutput format: av1 slice\n");
++		break;
+ 	default:
+ 		curr_len = snprintf(buf + *used, total - *used,
+ 				    "\tunsupported output format: 0x%x\n",
+@@ -45,6 +53,14 @@ static void mtk_vdec_dbgfs_get_format_type(struct mtk_vcodec_dec_ctx *ctx, char
+ 		curr_len = snprintf(buf + *used, total - *used,
+ 				    "\tcapture format: MT21C\n");
+ 		break;
++	case V4L2_PIX_FMT_MT2110T:
++		curr_len = snprintf(buf + *used, total - *used,
++				    "\tcapture format: MT2110T (10bit tile mode)\n");
++		break;
++	case V4L2_PIX_FMT_MT2110R:
++		curr_len = snprintf(buf + *used, total - *used,
++				    "\tcapture format: MT2110T (10bit raster mode)\n");
++		break;
+ 	default:
+ 		curr_len = snprintf(buf + *used, total - *used,
+ 				    "\tunsupported capture format: 0x%x\n",
+@@ -122,9 +138,10 @@ static ssize_t mtk_vdec_dbgfs_read(struct file *filp, char __user *ubuf,
  
-+static void mtk_vdec_hw_write_reg_mask(void __iomem *reg_base, u32 reg_offset, u32 val, u32 mask)
-+{
-+	void __iomem *reg_addr = reg_base + reg_offset;
-+	u32 reg_val;
-+
-+	reg_val =  readl(reg_addr);
-+	reg_val &= ~mask;
-+	reg_val |= (val & mask);
-+	writel(reg_val, reg_addr);
-+}
-+
-+static void mtk_vdec_hw_clean_xpc(struct mtk_vdec_hw_dev *dev)
-+{
-+	u32 val, mask, addr = VDEC_XPC_CLEAN_ADDR;
-+
-+	if (dev->main_dev->chip_name != MTK_VDEC_MT8196)
-+		return;
-+
-+	val = dev->hw_idx == MTK_VDEC_LAT0 ? VDEC_XPC_LAT_VAL : VDEC_XPC_CORE_VAL;
-+	mask = dev->hw_idx == MTK_VDEC_LAT0 ? VDEC_XPC_LAT_MASK : VDEC_XPC_CORE_MASK;
-+
-+	mtk_vdec_hw_write_reg_mask(dev->reg_base[VDEC_HW_XPC], addr, val, mask);
-+	mtk_vdec_hw_write_reg_mask(dev->reg_base[VDEC_HW_XPC], addr, 0, mask);
-+}
-+
- static irqreturn_t mtk_vdec_hw_irq_handler(int irq, void *priv)
- {
- 	struct mtk_vdec_hw_dev *dev = priv;
-@@ -88,6 +113,8 @@ static irqreturn_t mtk_vdec_hw_irq_handler(int irq, void *priv)
- 	writel(dec_done_status | VDEC_IRQ_CFG, vdec_misc_addr);
- 	writel(dec_done_status & ~VDEC_IRQ_CLR, vdec_misc_addr);
- 
-+	mtk_vdec_hw_clean_xpc(dev);
-+
- 	wake_up_dec_ctx(ctx, MTK_INST_IRQ_RECEIVED, dev->hw_idx);
- 
- 	mtk_v4l2_vdec_dbg(3, ctx, "wake up ctx %d, dec_done_status=%x",
-@@ -166,6 +193,7 @@ static int mtk_vdec_hw_probe(struct platform_device *pdev)
- 	subdev_dev->hw_idx = hw_idx;
- 	subdev_dev->main_dev = main_dev;
- 	subdev_dev->reg_base[VDEC_HW_SYS] = main_dev->reg_base[VDEC_HW_SYS];
-+	subdev_dev->reg_base[VDEC_HW_XPC] = main_dev->reg_base[VDEC_HW_MISC];
- 	set_bit(subdev_dev->hw_idx, main_dev->subdev_bitmap);
- 
- 	if (IS_SUPPORT_VDEC_HW_IRQ(hw_idx)) {
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_hw.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_hw.h
-index 83fe8b9428e6..5c906143c9af 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_hw.h
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_hw.h
-@@ -18,17 +18,26 @@
- #define VDEC_IRQ_CLR 0x10
- #define VDEC_IRQ_CFG_REG 0xa4
- 
-+#define VDEC_XPC_CLEAN_ADDR 0xc
-+#define VDEC_XPC_LAT_VAL BIT(0)
-+#define VDEC_XPC_LAT_MASK BIT(0)
-+
-+#define VDEC_XPC_CORE_VAL BIT(4)
-+#define VDEC_XPC_CORE_MASK BIT(4)
-+
- #define IS_SUPPORT_VDEC_HW_IRQ(hw_idx) ((hw_idx) != MTK_VDEC_LAT_SOC)
- 
- /**
-  * enum mtk_vdec_hw_reg_idx - subdev hardware register base index
-- * @VDEC_HW_SYS : vdec soc register index
-+ * @VDEC_HW_SYS:  vdec soc register index
-  * @VDEC_HW_MISC: vdec misc register index
-- * @VDEC_HW_MAX : vdec supported max register index
-+ * @VDEC_HW_XPC:  vdec xpc register index
-+ * @VDEC_HW_MAX:  vdec supported max register index
-  */
- enum mtk_vdec_hw_reg_idx {
- 	VDEC_HW_SYS,
- 	VDEC_HW_MISC,
-+	VDEC_HW_XPC,
- 	VDEC_HW_MAX
- };
+ 		if (dbgfs_index[MTK_VDEC_DBGFS_PICINFO]) {
+ 			curr_len = snprintf(buf + used_len, total_len - used_len,
+-					    "\treal(%dx%d)=>align(%dx%d)\n",
++					    "\treal(%dx%d)=>align(%dx%d) 10bit(%d)\n",
+ 					    ctx->picinfo.pic_w, ctx->picinfo.pic_h,
+-					    ctx->picinfo.buf_w, ctx->picinfo.buf_h);
++					    ctx->picinfo.buf_w, ctx->picinfo.buf_h,
++					    ctx->is_10bit_bitstream);
+ 			used_len += curr_len;
+ 		}
  
 -- 
 2.45.2
