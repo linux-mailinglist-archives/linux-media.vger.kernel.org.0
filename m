@@ -1,333 +1,394 @@
-Return-Path: <linux-media+bounces-63624-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63625-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id A+usCiI/IGq6zAAAu9opvQ
-	(envelope-from <linux-media+bounces-63624-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 16:50:10 +0200
+	id 7UTcDV5AIGoezQAAu9opvQ
+	(envelope-from <linux-media+bounces-63625-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 16:55:26 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6B7B638C66
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 16:50:09 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CED1638D5E
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 16:55:25 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=hd0ht3Vv;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63624-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63624-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=me5hK6y1;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63625-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63625-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 777E6301066A
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 14:38:58 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 39262311D39F
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 14:40:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C329D33B6E8;
-	Wed,  3 Jun 2026 14:37:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1893C44E05B;
+	Wed,  3 Jun 2026 14:37:21 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D848B3D5656;
-	Wed,  3 Jun 2026 14:36:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEEE399D0D;
+	Wed,  3 Jun 2026 14:37:19 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780497420; cv=none; b=tCxiU3gNiVpNfOTo7vySjVBADcCw9gB/RFGsk6CtG1phUYQns3XtqvjGMNtJK5e3sBptWvJbTzWEdOAsFyVdZcWuL066CdS4SYp2VuWjU2ucHzGY+20VW+/+UV5gZYxOAYUA95Y6tUDFNCqawjLA+DqzVc1zw8Msi1gHTgBCFGk=
+	t=1780497440; cv=none; b=b+DvFqbJExHluFec7Fbu8qXdkkXX1nfogDpoglXD8mF1WOTGBgO+jS2LBUxOuMez+PKKUY/P6XGzQ2A3XDgc1imFnnUORAz1q+dwwAV8worN44ATtd6leoD38G1j8rbflJE8UVnCTHICwYHqTM+Jk08DdDle9clkqYXFneww5uY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780497420; c=relaxed/simple;
-	bh=CgKn3OdnfOwNEonAEFPcK4mhMQO9SC84zlDDuAxpR2Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XJWG6eiQcFVRbAaIXXJQiSWG41fpxcjIcWRixiD1COfgAzoZqT4VAtF5bEsG335xZ41OmIeRBADmNiNR1Seva9CKyn4FRGO5HQY0ICLvBw+1Lhfr2wSqHLrIEznRUnwR/YrjBs9GxE2Aqs0+yhEJ/o5jTOFzUzBkuDyMmVcH3rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hd0ht3Vv; arc=none smtp.client-ip=213.167.242.64
-Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DEA14929;
-	Wed,  3 Jun 2026 16:36:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1780497392;
-	bh=CgKn3OdnfOwNEonAEFPcK4mhMQO9SC84zlDDuAxpR2Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hd0ht3VvSuOhshJWXkHo/B2ftUzAXu++R2FNlWutqgQEpjV+POyMkhd5ernGPlobL
-	 MWeD3PTwh2K1XucEhdwf//4kUYTWsRk0hgJjUuLi0Avkcffvq3M51YcOfx7bq75oyP
-	 iY1VNslEa1XQatp6dr+TAwrRGJJOKEbzV0SLQGU0=
-Date: Wed, 3 Jun 2026 16:36:52 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Jai Luthra <jai.luthra+renesas@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jai Luthra <jai.luthra@ideasonboard.com>
-Subject: Re: [PATCH v9 13/13] media: rppx1: lin: Add support for gamma sensor
- linearization
-Message-ID: <aiA7sxSVeARebisR@zed>
-References: <20260516211320.3041412-1-niklas.soderlund+renesas@ragnatech.se>
- <20260516211320.3041412-14-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1780497440; c=relaxed/simple;
+	bh=pWl1/RmqvpHcUDVI2tAuWXrcc8d66tisk1KWVRZbg5Y=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=DZL9Tq75rQwqDwoVyhxnbRvWwFP9//Aavo3ZiQr9BSllP9HtjIkve4n18L1rNiZo50w2SPUlibHz4ZNSweehp1xwMpjOtfY+PN3V/PHhxyYhupoVAnSzAgCBsuBYa/ZrYNf8SvX2jPiYSNQ98i4B9tHaI48kxVXVc146um5o4MQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=me5hK6y1; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A65981F00893;
+	Wed,  3 Jun 2026 14:37:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780497438;
+	bh=Bn56UH32ISeuaPasJihJWuyrFveRoM6qFNTcEtrTq1Q=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=me5hK6y1FSev3el2M9/ar60cWRtOMPhXgdaNRjGm0GSQfjkADGehXEHueQzwM9yiw
+	 ozdav3GsEkA9i8GmATva4FYkclCLf8ShbRTu8fdpy6yOh7AlwGDLHMlkVkItmqSqQb
+	 maZr5J7sY72Elt8mmZ6hcKcpZH5Ir5ykQkkvN6CvpnIg7yYLO8n5SGeB0pW+PRlK51
+	 hAmKXXgJXm9yaOZ0e9jbPT9tok652dt3xdKZGPX/Fj5LCTIKMgEZFHB9GYUV9HYUlC
+	 T9tdtT7ev+6YaaupqjpDMvgeEDdl7IDs+x5mdN3EkDPySi5HjWCdopuHTLDcWRiqFB
+	 H+ZJ9yafRnbRA==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v7 06/12] media: iris: Replace enum-indexed clock and
+ power domain tables with per-block structures
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Vishnu Reddy" <busanna.reddy@oss.qualcomm.com>
+Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, linux-media@vger.kernel.org, robh@kernel.org
+In-Reply-To: <20260603-glymur-v7-6-afaa55d11fe0@oss.qualcomm.com>
+References: <20260603-glymur-v7-6-afaa55d11fe0@oss.qualcomm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 03 Jun 2026 14:37:18 +0000
+Message-Id: <20260603143718.A65981F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260516211320.3041412-14-niklas.soderlund+renesas@ragnatech.se>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+	MISSING_MIME_VERSION(2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63624-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,lists.linux.dev:replyto,qualcomm.com:email,sashiko.dev:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp];
+	TAGGED_FROM(0.00)[bounces-63625-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:busanna.reddy@oss.qualcomm.com,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:linux-media@vger.kernel.org,m:robh@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:niklas.soderlund+renesas@ragnatech.se,m:jacopo.mondi@ideasonboard.com,m:jai.luthra+renesas@ideasonboard.com,m:mchehab@kernel.org,m:kuninori.morimoto.gx@renesas.com,m:laurent.pinchart@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jai.luthra@ideasonboard.com,m:niklas.soderlund@ragnatech.se,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCPT_COUNT_FIVE(0.00)[5];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,ragnatech.se:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:from_mime,ideasonboard.com:email,zed:mid]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FROM_NO_DN(0.00)[];
+	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B6B7B638C66
+X-Rspamd-Queue-Id: 2CED1638D5E
 
-Hi Niklas
+Thank you for your contribution! Sashiko AI review found 7 potential issue(=
+s) to consider:
 
-On Sat, May 16, 2026 at 11:13:20PM +0200, Niklas Söderlund wrote:
-> From: Jai Luthra <jai.luthra@ideasonboard.com>
->
-> Extend the RPPX1 driver to allow setting the gamma sensor linearization
-> configuration parameters. It uses the RPPX1 framework for parameters and
-> its writer abstraction to allow the user to control how, and when,
-> configuration is applied to the RPPX1.
->
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
-> * Changes since v8
-> - Move declaration of dx_lo and dx_hi to top of function.
-> ---
->  .../platform/dreamchip/rppx1/rpp_module.h     |  1 +
->  .../platform/dreamchip/rppx1/rpp_params.c     |  5 ++
->  .../platform/dreamchip/rppx1/rppx1_lin.c      | 54 +++++++++++++++++++
->  .../uapi/linux/media/dreamchip/rppx1-config.h | 48 ++++++++++++++++-
->  4 files changed, 107 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_module.h b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-> index 948e26d7361d..072309d8662d 100644
-> --- a/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-> +++ b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-> @@ -48,6 +48,7 @@ void rpp_module_clrset(struct rpp_module *mod, u32 offset, u32 mask, u32 value);
->  union rppx1_params_block {
->  	struct v4l2_isp_block_header header;
->  	struct rppx1_bls_params bls;
-> +	struct rppx1_lin_params lin;
->  	struct rppx1_lsc_params lsc;
->  	struct rppx1_awbg_params awbg;
->  	struct rppx1_ccor_params ccor;
-> diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-> index 86d445b52504..a75a27a8afd0 100644
-> --- a/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-> +++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-> @@ -19,6 +19,8 @@ static const struct v4l2_isp_params_block_type_info
->  rppx1_ext_params_blocks_info[] = {
->  	RPPX1_PARAMS_BLOCK_INFO(BLS_PRE1, bls),
->  	RPPX1_PARAMS_BLOCK_INFO(BLS_PRE2, bls),
-> +	RPPX1_PARAMS_BLOCK_INFO(LIN_PRE1, lin),
-> +	RPPX1_PARAMS_BLOCK_INFO(LIN_PRE2, lin),
->  	RPPX1_PARAMS_BLOCK_INFO(LSC_PRE1, lsc),
->  	RPPX1_PARAMS_BLOCK_INFO(LSC_PRE2, lsc),
->  	RPPX1_PARAMS_BLOCK_INFO(AWBG_PRE1, awbg),
-> @@ -68,6 +70,9 @@ int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
->  		case RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE1:
->  			module = &rpp->pre1.bls;
->  			break;
-> +		case RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1:
-> +			module = &rpp->pre1.lin;
-> +			break;
->  		case RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE1:
->  			module = &rpp->pre1.lsc;
->  			break;
-> diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c b/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
-> index 0a0e7ab2d1d6..04a92f24ab49 100644
-> --- a/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
-> +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
-> @@ -25,6 +25,11 @@
->  #define LIN_B_Y_REG_NUM				17
->  #define LIN_B_Y_REG(n)				(0x0098 + (4 * (n)))
->
-> +#define LIN_PRE1_DEGAMMA_CURVE_MASK		GENMASK(23, 0)
-> +#define LIN_PRE1_SAMPLE_POINTS_MASK		GENMASK(3, 0)
-> +#define LIN_PRE2_DEGAMMA_CURVE_MASK		GENMASK(11, 0)
-> +#define LIN_PRE2_SAMPLE_POINTS_MASK		GENMASK(2, 0)
-> +
->  static int rppx1_lin_probe(struct rpp_module *mod)
->  {
->  	/* Version check. */
-> @@ -53,7 +58,56 @@ static int rppx1_lin_start(struct rpp_module *mod,
->  	return 0;
+New issues:
+- [High] Uninitialized stack pointer dereference when a hardware block has =
+0 power domains.
+- [High] Secondary hardware cores are left unpowered due to missing iterati=
+on over `num_cores`.
+- [High] NULL pointer dereference when optional hardware blocks are enabled=
+ in hardware but missing from platform data.
+- [High] Premature OPP voltage drop causes DVFS sequence violation.
+- [High] Uninitialized fields in `struct dev_pm_domain_attach_data` result =
+in arbitrary behavior.
+- [Medium] API mismatch silently discards additional power domains if `pd_c=
+nt > 1`.
+
+Pre-existing issues:
+- [High] Resource leak of Runtime PM usage counter and OPP rate on error pa=
+th.
+--
+
+commit 569dbace99d0eb806398e44f1f3dd0f46e77e155
+Author: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+
+media: iris: Replace enum-indexed clock and power domain tables with per-bl=
+ock structures
+
+This patch replaces flat, enum-indexed tables for clocks and power domains =
+with=20
+per-hardware block structures in the iris driver. It groups devices, power=
+=20
+domains, and clocks together logically in the iris_power_domain struct, and=
+=20
+removes index lookups at runtime.
+
+> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/medi=
+a/platform/qcom/iris/iris_probe.c
+> index c2dcb50a27824..681db1da9559a 100644
+> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+> @@ -39,15 +39,32 @@ static int iris_init_icc(struct iris_core *core)
+>  	return devm_of_icc_bulk_get(core->dev, core->icc_count, core->icc_tbl);
 >  }
->
-> +static int rppx1_lin_fill_params(struct rpp_module *mod,
-> +				 const union rppx1_params_block *block,
-> +				 rppx1_reg_write write, void *priv)
-> +{
-> +	const struct rppx1_lin_params *cfg = &block->lin;
-> +	u8 sample_mask;
-> +	u32 dx_lo = 0;
-> +	u32 dx_hi = 0;
-> +	u32 mask;
-> +
-> +	if (cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_DISABLE) {
-> +		write(priv, mod->base + LIN_ENABLE_REG, 0);
-> +		return 0;
-> +	}
-> +
-> +	switch (cfg->header.type) {
-> +	case RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1:
-> +		mask = LIN_PRE1_DEGAMMA_CURVE_MASK;
-> +		sample_mask = LIN_PRE1_SAMPLE_POINTS_MASK;
-> +		break;
-> +	case RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2:
-> +		mask = LIN_PRE2_DEGAMMA_CURVE_MASK;
-> +		sample_mask = LIN_PRE2_SAMPLE_POINTS_MASK;
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	for (unsigned int i = 0; i < 8; ++i) {
-> +		dx_lo |= (cfg->dx[i] & sample_mask) << 4 * i;
-> +		dx_hi |= (cfg->dx[i + 8] & sample_mask) << 4 * i;
-> +	}
-> +
-> +	write(priv, mod->base + LIN_DX_LO_REG, dx_lo);
-> +	write(priv, mod->base + LIN_DX_HI_REG, dx_hi);
-> +
-> +	for (unsigned int i = 0; i < RPPX1_LIN_DEGAMMA_CURVE_NUM; i++) {
-> +		write(priv, mod->base + LIN_R_Y_REG(i), cfg->curve_r[i] & mask);
-> +		write(priv, mod->base + LIN_G_Y_REG(i), cfg->curve_g[i] & mask);
-> +		write(priv, mod->base + LIN_B_Y_REG(i), cfg->curve_b[i] & mask);
-> +	}
-> +
-> +	if ((cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_ENABLE))
+> =20
+> -static int iris_init_power_domains(struct iris_core *core)
+> +static int iris_init_power_domains_per_block(struct iris_core *core,
+> +					     struct iris_power_domain *pd,
+> +					     const struct iris_power_domain_data *pd_data)
+>  {
+> +	struct dev_pm_domain_attach_data iris_pd_data;
 
-Why is this conditional ?
+[Severity: High]
+Does this leave fields in iris_pd_data uninitialized? Since it's allocated =
+on the
+stack without zero-initialization, any fields added to struct
+dev_pm_domain_attach_data (like link_flags) could contain stack garbage when
+passed to devm_pm_domain_attach_list().
 
-Do you think it could be enabled unconditionally ? the "disable" case
-is handled already above, isn't it ?
+> +	struct dev_pm_domain_list *pmdomain_tbl;
+>  	int ret;
+> =20
+> +	iris_pd_data.pd_names =3D pd_data->pd_names;
+> +	iris_pd_data.num_pd_names =3D pd_data->pd_cnt;
+> +	iris_pd_data.pd_flags =3D PD_FLAG_NO_DEV_LINK;
+> +
+> +	ret =3D devm_pm_domain_attach_list(core->dev, &iris_pd_data, &pmdomain_=
+tbl);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	pd->dev =3D pmdomain_tbl->pd_devs[0];
 
+[Severity: High]
+If pd_data->pd_cnt is 0, devm_pm_domain_attach_list() returns 0 but does not
+modify pmdomain_tbl. Does this result in an uninitialized pointer dereferen=
+ce
+when accessing pmdomain_tbl->pd_devs[0]?
 
-> +		write(priv, mod->base + LIN_ENABLE_REG, LIN_ENABLE_GAMMA_IN_EN);
+[Severity: Medium]
+Also, if the platform data specifies multiple power domains (pd_cnt > 1), d=
+oes
+this logic silently discard all but the first power domain? Since
+PD_FLAG_NO_DEV_LINK is used, the driver has to power them on manually, which
+means secondary domains might never be powered on.
+
 > +
 > +	return 0;
 > +}
-> +
->  const struct rpp_module_ops rppx1_lin_ops = {
->  	.probe = rppx1_lin_probe,
->  	.start = rppx1_lin_start,
-> +	.fill_params = rppx1_lin_fill_params,
->  };
-> diff --git a/include/uapi/linux/media/dreamchip/rppx1-config.h b/include/uapi/linux/media/dreamchip/rppx1-config.h
-> index 05faec2f68e3..72f3fd836f41 100644
-> --- a/include/uapi/linux/media/dreamchip/rppx1-config.h
-> +++ b/include/uapi/linux/media/dreamchip/rppx1-config.h
-> @@ -93,6 +93,8 @@ enum rppx1_meas_chan {
->   * @RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE2: PRE2 Lens Shading Correction
->   * @RPPX1_PARAMS_BLOCK_TYPE_GA_HV: Human Vision Pipe Gamma Out Correction
->   * @RPPX1_PARAMS_BLOCK_TYPE_GA_MV: Machine Vision Gamma Out Correction
-> + * @RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1: PRE1 pipe Linearization (Sensor De-gamma)
-> + * @RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2: PRE2 pipe Linearization (Sensor De-gamma)
->   */
->  enum rppx1_params_block_type {
->  	RPPX1_PARAMS_BLOCK_TYPE_WBMEAS_POST,
-> @@ -111,6 +113,8 @@ enum rppx1_params_block_type {
->  	RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE2,
->  	RPPX1_PARAMS_BLOCK_TYPE_GA_HV,
->  	RPPX1_PARAMS_BLOCK_TYPE_GA_MV,
-> +	RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1,
-> +	RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2,
->  };
->
->  /**
-> @@ -546,6 +550,46 @@ struct rppx1_ga_params {
->  	__u32 gamma_y[RPPX1_GA_MAX_SAMPLES];
->  };
->
-> +/* Linearization (Sensor De-gamma) */
-> +#define RPPX1_LIN_SAMPLE_POINTS_NUM 16
-> +#define RPPX1_LIN_DEGAMMA_CURVE_NUM 17
-> +
-> +/**
-> + * struct rppx1_lin_params - Linearization (Sensor De-gamma) configuration
-> + *
-> + * The RPP-X1 linearization module is available on the PRE1 and PRE2 pre-fusion
-> + * pipes. Userspace selects which pipe to operate by setting the @header.type
-> + * field to RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1 or
-> + * RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2.
-> + *
-> + * The LIN module applies the per-color channel de-gamma linearization curves
-> + * @curve_r, @curve_g and @curve_b defined on the input sampling points @dx.
-> + *
-> + * For the PRE1 pipe the de-gamma curves values are 24-bits, for the PRE2 pipe
-> + * the de-gamma curve values are 12-bits.
-> + *
-> + * For the PRE1 pipe de-gamma module sampling points @dx values are in the range
-> + * [0, 15] (4 bits). For the PRE2 pipe de-gamma module sampling points values
-> + * are in the range [0, 7] (3 bits).
-> + *
-> + * Userspace is expected to provide the curve values and sampling points with a
-> + * bit-depth matching the one of pipe in use.
-> + *
-> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1 or
-> + *	    RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2)
-> + * @curve_r: de-gamma linearization curve for red channel
-> + * @curve_g: de-gamma linearization curve for green channel
-> + * @curve_b: de-gamma linearization curve for blue channel
-> + * @dx: input sampling points
-> + */
-> +struct rppx1_lin_params {
-> +	struct v4l2_isp_params_block_header header;
-> +	__u32 curve_r[RPPX1_LIN_DEGAMMA_CURVE_NUM];
-> +	__u32 curve_g[RPPX1_LIN_DEGAMMA_CURVE_NUM];
-> +	__u32 curve_b[RPPX1_LIN_DEGAMMA_CURVE_NUM];
-> +	__u8 dx[RPPX1_LIN_SAMPLE_POINTS_NUM];
-> +};
-> +
->  /**
->   * RPPX1_PARAMS_MAX_SIZE - Maximum size of all RPP-X1 parameter blocks
->   *
-> @@ -568,7 +612,9 @@ struct rppx1_ga_params {
->  	sizeof(struct rppx1_lsc_params)				+	\
->  	sizeof(struct rppx1_lsc_params)				+	\
->  	sizeof(struct rppx1_ga_params)				+	\
-> -	sizeof(struct rppx1_ga_params))
-> +	sizeof(struct rppx1_ga_params)				+	\
-> +	sizeof(struct rppx1_lin_params)				+	\
-> +	sizeof(struct rppx1_lin_params))
+[ ... ]
+> diff --git a/drivers/media/platform/qcom/iris/iris_resources.c b/drivers/=
+media/platform/qcom/iris/iris_resources.c
+> index 773f6548370a2..fdc6eb68e5c78 100644
+> --- a/drivers/media/platform/qcom/iris/iris_resources.c
+> +++ b/drivers/media/platform/qcom/iris/iris_resources.c
+[ ... ]
+> @@ -70,7 +69,7 @@ int iris_opp_set_rate(struct device *dev, unsigned long=
+ freq)
+>  	return dev_pm_opp_set_opp(dev, opp);
+>  }
+> =20
+> -int iris_enable_power_domains(struct iris_core *core, struct device *pd_=
+dev)
+> +int iris_enable_power_domain_and_clocks(struct iris_core *core, struct i=
+ris_power_domain *pd)
+>  {
+>  	int ret;
+> =20
+> @@ -78,66 +77,20 @@ int iris_enable_power_domains(struct iris_core *core,=
+ struct device *pd_dev)
+>  	if (ret)
+>  		return ret;
+> =20
+> -	ret =3D pm_runtime_get_sync(pd_dev);
+> +	ret =3D pm_runtime_get_sync(pd->dev);
+>  	if (ret < 0)
+>  		return ret;
+> =20
 
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+[Severity: High]
+This is a pre-existing issue, but does this error path permanently leak the
+runtime PM usage counter and leave the global core device forced to its hig=
+hest
+performance state? If pm_runtime_get_sync() fails, there is no
+pm_runtime_put_noidle() or iris_opp_set_rate(core->dev, 0) called before
+returning.
 
-Thanks
-  j
+> -	return ret;
+> -}
+> -
+> -int iris_disable_power_domains(struct iris_core *core, struct device *pd=
+_dev)
+> -{
+> -	int ret;
+> -
+> -	ret =3D iris_opp_set_rate(core->dev, 0);
+> +	ret =3D clk_bulk_prepare_enable(pd->clk_cnt, pd->clocks);
+>  	if (ret)
+> -		return ret;
+> -
+> -	pm_runtime_put_sync(pd_dev);
+> -
+> -	return 0;
+> -}
+> +		pm_runtime_put_sync(pd->dev);
+> =20
+> -static struct clk *iris_get_clk_by_type(struct iris_core *core, enum pla=
+tform_clk_type clk_type)
+> -{
+[ ... ]
+> +	return ret;
+>  }
+> =20
+> -int iris_disable_unprepare_clock(struct iris_core *core, enum platform_c=
+lk_type clk_type)
+> +void iris_disable_power_domain_and_clocks(struct iris_core *core, struct=
+ iris_power_domain *pd)
+>  {
+> -	struct clk *clock;
+> -
+> -	clock =3D iris_get_clk_by_type(core, clk_type);
+> -	if (!clock)
+> -		return -EINVAL;
+> -
+> -	clk_disable_unprepare(clock);
+> -
+> -	return 0;
+> +	clk_bulk_disable_unprepare(pd->clk_cnt, pd->clocks);
+> +	iris_opp_set_rate(core->dev, 0);
+> +	pm_runtime_put_sync(pd->dev);
+>  }
 
->
->  /* ---------------------------------------------------------------------------
->   * Statistics Structures
-> --
-> 2.54.0
->
+[Severity: High]
+Could dropping the OPP rate to 0 inside a block-specific helper cause issue=
+s?
+If multiple blocks are being torn down (for example, in
+iris_vpu4x_power_off_hardware() which shuts down VPP1, VPP0, then VCODEC), =
+this
+would instantly drop the global controller OPP to 0 when the first block is
+disabled, while other blocks' clocks are still running. Does this violate D=
+VFS
+constraints?
+
+[ ... ]
+> diff --git a/drivers/media/platform/qcom/iris/iris_vpu4x.c b/drivers/medi=
+a/platform/qcom/iris/iris_vpu4x.c
+> index 02e100a4045fc..0feb5eaa544f9 100644
+> --- a/drivers/media/platform/qcom/iris/iris_vpu4x.c
+> +++ b/drivers/media/platform/qcom/iris/iris_vpu4x.c
+[ ... ]
+> @@ -158,116 +136,43 @@ static void iris_vpu4x_ahb_sync_reset_hardware(str=
+uct iris_core *core)
+>  	writel(0x0, core->reg_base + CPU_CS_AHB_BRIDGE_SYNC_RESET);
+>  }
+> =20
+> -static int iris_vpu4x_enable_hardware_clocks(struct iris_core *core, u32=
+ efuse_value)
+> -{
+[ ... ]
+> -}
+> -
+>  static int iris_vpu4x_power_on_hardware(struct iris_core *core)
+>  {
+>  	u32 efuse_value =3D readl(core->reg_base + WRAPPER_EFUSE_MONITOR);
+>  	int ret;
+> =20
+> -	ret =3D iris_enable_power_domains(core, core->pmdomain_tbl->pd_devs[IRI=
+S_HW_POWER_DOMAIN]);
+> +	ret =3D iris_enable_power_domain_and_clocks(core, core->vcodec);
+>  	if (ret)
+>  		return ret;
+> =20
+>  	if (!(efuse_value & DISABLE_VIDEO_VPP0_BIT)) {
+> -		ret =3D iris_enable_power_domains(core, core->pmdomain_tbl->pd_devs
+> -						[IRIS_VPP0_HW_POWER_DOMAIN]);
+> +		ret =3D iris_enable_power_domain_and_clocks(core, core->vcodec_vpp0);
+
+[Severity: High]
+If the hardware efuse indicates VPP0 is present, but the platform data omits
+vcodec_vpp0_data, core->vcodec_vpp0 will not be allocated during probe. Does
+this result in a NULL pointer dereference here since
+iris_enable_power_domain_and_clocks() accesses pd->dev?
+
+>  		if (ret)
+>  			goto disable_hw_power_domain;
+>  	}
+> =20
+[ ... ]
+> diff --git a/drivers/media/platform/qcom/iris/iris_vpu_common.c b/drivers=
+/media/platform/qcom/iris/iris_vpu_common.c
+> index 23a7ce3ecb2d0..f35754ef53ed1 100644
+> --- a/drivers/media/platform/qcom/iris/iris_vpu_common.c
+> +++ b/drivers/media/platform/qcom/iris/iris_vpu_common.c
+[ ... ]
+>  int iris_vpu_power_on_hw(struct iris_core *core)
+>  {
+> -	int ret;
+> -
+> -	ret =3D iris_enable_power_domains(core, core->pmdomain_tbl->pd_devs[IRI=
+S_HW_POWER_DOMAIN]);
+> -	if (ret)
+> -		return ret;
+> -
+> -	ret =3D iris_prepare_enable_clock(core, IRIS_HW_CLK);
+> -	if (ret)
+> -		goto err_disable_power;
+> -
+> -	ret =3D iris_prepare_enable_clock(core, IRIS_HW_AHB_CLK);
+> -	if (ret && ret !=3D -ENOENT)
+> -		goto err_disable_hw_clock;
+> -
+> -	ret =3D iris_prepare_enable_clock(core, IRIS_BSE_HW_CLK);
+> -	if (ret && ret !=3D -ENOENT)
+> -		goto err_disable_hw_ahb_clock;
+> -
+> -	return 0;
+> -
+> -err_disable_hw_ahb_clock:
+> -	iris_disable_unprepare_clock(core, IRIS_HW_AHB_CLK);
+> -err_disable_hw_clock:
+> -	iris_disable_unprepare_clock(core, IRIS_HW_CLK);
+> -err_disable_power:
+> -	iris_disable_power_domains(core, core->pmdomain_tbl->pd_devs[IRIS_HW_PO=
+WER_DOMAIN]);
+> -
+> -	return ret;
+> +	return iris_enable_power_domain_and_clocks(core, core->vcodec);
+>  }
+
+[Severity: High]
+Does this fail to power on any secondary hardware cores? The probe function
+dynamically allocates core->vcodec as an array based on num_cores, but this=
+ only
+passes the pointer to the first element to
+iris_enable_power_domain_and_clocks(), without iterating over the remaining
+cores.
+
+> =20
+>  int iris_vpu_set_hwmode(struct iris_core *core)
+>  {
+> -	return dev_pm_genpd_set_hwmode(core->pmdomain_tbl->pd_devs[IRIS_HW_POWE=
+R_DOMAIN], true);
+> +	return dev_pm_genpd_set_hwmode(core->vcodec->dev, true);
+>  }
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260603-glymur-v7-=
+0-afaa55d11fe0@oss.qualcomm.com?part=3D6
 
