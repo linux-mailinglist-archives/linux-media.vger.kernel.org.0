@@ -1,63 +1,71 @@
-Return-Path: <linux-media+bounces-63524-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63525-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Z1cTLkviH2oZrwAAu9opvQ
-	(envelope-from <linux-media+bounces-63524-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:14:03 +0200
+	id BSHaMdPjH2qDrwAAu9opvQ
+	(envelope-from <linux-media+bounces-63525-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:20:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27F9F63594B
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:14:03 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF77635A2F
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:20:35 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=lA+PPhyo;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63524-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63524-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=Av8uiCyt;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63525-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-63525-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DDC093020E87
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 08:13:47 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9FA4F3013027
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 08:17:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEC3E409128;
-	Wed,  3 Jun 2026 08:13:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD9414218AE;
+	Wed,  3 Jun 2026 08:17:29 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79FF4409602;
-	Wed,  3 Jun 2026 08:13:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5552A3FFAB4;
+	Wed,  3 Jun 2026 08:17:24 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780474420; cv=none; b=qHEvYN0NfTmYH3/Lpihfds3dFOAEOWDUEKYU0YgirqGRf2LoavrZZt/CRh04j0h4Pj00RJ2H9UkvV8hAOtDj4NOdu6y5ztoEt0P5yu/CkBO9WwKn3PUlDSS7sP8NkUcMtj8gbS1FlbpY6uSjrbAZW2syju2PxKhh6VqGQkLr4s4=
+	t=1780474648; cv=none; b=M16FfdaEgzkBYXdc7HHX5EyaovVSBHd7/ni8n1d93u+FuXG0IjuNeSNNJTqA6dHe9uVYJVWpKg2ZLmvFcU3wD7nAWfobINYH8oF5B24kBzr9kz1UAw83VuDK4lfoWKhgSLijePcN1sOOoiCjNhIWL5aiN1FcAodx3t/XSrrzDVk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780474420; c=relaxed/simple;
-	bh=XpwWDS3xiGIhnM+QfyAorJpcOID8lVHKAGNhGyVyZMM=;
+	s=arc-20240116; t=1780474648; c=relaxed/simple;
+	bh=EPLy3XqXCc7EfMN9aYS4eCXgGaJCpUwUR8LKoAr7sf4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ukdzl4ycCTcaCV2Zo8kb+kUO01IYPaqXFzlnogjirTNt5Y4Osx2mKkO2HmcygbdP0c2+wqwOdCgY6gebKqxgxhjdQyCnH8ibMSYckmR81ZWjGJFA431SpdATtn4ghe2x31k+QwIKTLCpRLLdV5W5OHOPfxKf3iToQN5rjvaRywY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lA+PPhyo; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wot6v7dADxjubVSxfZ+Kud64KxmGc/b5zYMHtyoUFgBkS36eWRE416JImCTEGmoDgJoktZVh1u4pwSdsvteG9U2yeIuYkse7fThsTJwBMB9lfouSRaWwkqrs041C9rfd1agKE3ZUpiEeempXn5PuiVnAuWzxuswQ6BGSPch838U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Av8uiCyt; arc=none smtp.client-ip=213.167.242.64
 Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 465CEDF3;
-	Wed,  3 Jun 2026 10:13:10 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5A423DF3;
+	Wed,  3 Jun 2026 10:16:58 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1780474390;
-	bh=XpwWDS3xiGIhnM+QfyAorJpcOID8lVHKAGNhGyVyZMM=;
+	s=mail; t=1780474618;
+	bh=EPLy3XqXCc7EfMN9aYS4eCXgGaJCpUwUR8LKoAr7sf4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lA+PPhyo0iJ7wx58ivH7nadyWZSnwJiZSz9hqeFOHtZehnOsIZjHD4k8JIOFzP2Ma
-	 PfKWilAZKyRJ/7O/2dGGH4BENOhRJrbvVzcQeBd9mMZ6TnfQ0tZflywhPSqyKTAEy1
-	 bAH1MZnGXHDH+W6RP6Ans75fhQkyUSXsY2ih+ufw=
-Date: Wed, 3 Jun 2026 10:13:31 +0200
+	b=Av8uiCytxlhwBtK7HJIoYOvxVUb9ZFE/iqJOJ5/V9D7S9WBa+TDr3M2u1+9hxleID
+	 Xar3ERCaxokLczeMgUw5WeGXQrhcmbWwNYMKgR9WZ40A8Lem+I3e+wRqH0TVaDAqxl
+	 +QHFudAvgnUF9ytsu1eW3TQ/12lCpsQ2F9jNoKWs=
+Date: Wed, 3 Jun 2026 10:17:19 +0200
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To: Antoine Bouyer <antoine.bouyer@nxp.com>, 
+	Hans Verkuil <hverkuil+cisco@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Keke Li <keke.li@amlogic.com>, 
 	Mauro Carvalho Chehab <mchehab@kernel.org>, Daniel Scally <dan.scally@ideasonboard.com>, 
-	Keke Li <keke.li@amlogic.com>, Antoine Bouyer <antoine.bouyer@nxp.com>, 
-	Jai Luthra <jai.luthra@ideasonboard.com>, Ricardo Ribalda <ribalda@chromium.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 6/6] media: v4l2-isp: Add helpers for stats buffer
-Message-ID: <ah_h4ggSeOc2fUOB@zed>
+	Jai Luthra <jai.luthra@ideasonboard.com>, 
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, Ricardo Ribalda <ribalda@chromium.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil+cisco@kernel.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/6] media: v4l2-isp: Add support for extensible
+ statistics
+Message-ID: <ah_iVT1d5U4-9g-0@zed>
 References: <20260505-extensible-stats-v1-0-e16f326b8dad@ideasonboard.com>
- <20260505-extensible-stats-v1-6-e16f326b8dad@ideasonboard.com>
- <20260515182907.GU332351@ragnatech.se>
+ <777ea8b5-b00a-40e0-b649-59324ff0188a@nxp.com>
+ <e1bb04b0-025a-44a6-91ab-edfa6edc1f64@nxp.com>
+ <b97f4da9-7df7-4bfd-990e-28a23ec7a236@amlogic.com>
+ <agcaSwdqauzuQSl5@zed>
+ <ahbeR6-noMhnU_l5@zed>
+ <9557605d-ac07-404f-b53f-63357898f2e2@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,24 +75,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260515182907.GU332351@ragnatech.se>
+In-Reply-To: <9557605d-ac07-404f-b53f-63357898f2e2@nxp.com>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63524-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:niklas.soderlund@ragnatech.se,m:jacopo.mondi@ideasonboard.com,m:mchehab@kernel.org,m:dan.scally@ideasonboard.com,m:keke.li@amlogic.com,m:antoine.bouyer@nxp.com,m:jai.luthra@ideasonboard.com,m:ribalda@chromium.org,m:laurent.pinchart@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:hverkuil+cisco@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63525-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:antoine.bouyer@nxp.com,m:hverkuil+cisco@kernel.org,m:sakari.ailus@linux.intel.com,m:laurent.pinchart@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:keke.li@amlogic.com,m:mchehab@kernel.org,m:dan.scally@ideasonboard.com,m:jai.luthra@ideasonboard.com,m:niklas.soderlund@ragnatech.se,m:ribalda@chromium.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -100,203 +108,186 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,ideasonboard.com:dkim,ideasonboard.com:from_mime,ideasonboard.com:email,ragnatech.se:email,zed:mid]
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,outlook.com:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,zed:mid,ideasonboard.com:dkim,ideasonboard.com:from_mime,ideasonboard.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 27F9F63594B
+X-Rspamd-Queue-Id: 3EF77635A2F
 
-Hi Niklas
+Hi Antoine
 
-On Fri, May 15, 2026 at 08:29:07PM +0200, Niklas Söderlund wrote:
-> Hello Jacopo,
+On Mon, Jun 01, 2026 at 03:29:54PM +0200, Antoine Bouyer wrote:
+> On 5/27/26 2:09 PM, Jacopo Mondi wrote:
+> >
+> >
+> > Hi Sakari,
+> >
+> > On Fri, May 15, 2026 at 03:11:18PM +0200, Jacopo Mondi wrote:
+> > > Hi Antoine, Keke
+> > >
+> > > On Wed, May 13, 2026 at 09:04:27AM +0800, Keke Li wrote:
+> > > >
+> > > > On 5/12/26 17:26, Antoine Bouyer wrote:
+> > > > > [ EXTERNAL EMAIL ]
+> > > > >
+> > > > > Le 05/05/2026 à 18:49, Antoine Bouyer a écrit :
+> > > > > > On 5/5/26 4:12 PM, Jacopo Mondi wrote:
+> > > > > > >
+> > > > > > >
+> > > > > > > This series breaks out from Antonie's
+> > > > > > > https://eur01.safelinks.protection.outlook.com/?
+> > > > > > > url=https%3A%2F%2Fpatchwork.linuxtv.org%2Fproject%2Flinux-
+> > > > > > > media%2Flist%2F%3Fseries%3D24043&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605732002%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=FXaz7QYQvS3s%2B4l9AFMrGgE7kmXlEil%2FKD6DibB0%2FJY%3D&reserved=0
+> > > > > > >
+> > > > > > > the extensible stats support and adds a few more patches on top to:
+> > > > > > >
+> > > > > > > - add support for per-block validation as suggested during the
+> > > > > > > review of
+> > > > > > >     Ricardo's
+> > > > > > >     https://eur01.safelinks.protection.outlook.com/?
+> > > > > > > url=https%3A%2F%2Fpatchwork.linuxtv.org%2Fproject%2Flinux-
+> > > > > > > media%2Fpatch%2F20260504-smatch-7-1-v3-6-
+> > > > > > > fda125c30058%40chromium.org%2F&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605751612%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=AiRH8MhIbXt3dr%2B2r3I6STE6TJAChylnH%2Fz3tLdS36k%3D&reserved=0
+> > > > > > >
+> > > > > > >
+> > > > > > > - add two helper functions to v4l2-isp to ease handling of extensible
+> > > > > > >     statistics for drivers. An early user, based on a preliminary
+> > > > > > > version
+> > > > > > >     of the patches is available here as a reference:
+> > > > > > >     https://eur01.safelinks.protection.outlook.com/?
+> > > > > > > url=https%3A%2F%2Fpatchwork.linuxtv.org%2Fproject%2Flinux-
+> > > > > > > media%2Flist%2F%3Fseries%3D24703&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605763086%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=%2Fpsb7Z3lb8ingDILxc3LoEWKTojl5BGMbk6FiR%2FcO9I%3D&reserved=0
+> > > > > > >
+> > > > > > >
+> > > > > > > Antonie: I took the liberty to fold in your patches changes to address
+> > > > > > > my comments on your v1. I pushed an un-squased version of the patches
+> > > > > > > here:
+> > > > > > > https://eur01.safelinks.protection.outlook.com/?
+> > > > > > > url=https%3A%2F%2Fgitlab.freedesktop.org%2Flinux-
+> > > > > > > media%2Fusers%2Fjmondi%2F-%2Ftree%2Fb4%2Fextensible-stats-
+> > > > > > > unsquashed&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605775020%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=iF2BE0GZ8HcVPmOJDhbmLsXQDOXV9JvqfMK6DRPPvrg%3D&reserved=0
+> > > > > > >
+> > > > > > > so you can easily get the diff from this and your version. Please feel
+> > > > > > > free to comment on these as you're the original author.
+> > > > > >
+> > > > > > Hi Jacopo
+> > > > > >
+> > > > > > Thanks for the rework and the links. I'm fine with your [SQUASH]
+> > > > > > commits.
+> > > > > >
+> > > > > > If there are no other comments, I assume I can reuse the common patches
+> > > > > > in my v2 then, and also apply the new helpers to neoisp driver changes.
+> > > > > > They look very useful (especially to prevent out-of-bounds crashes I
+> > > > > > observed when data_size was not set before filling stats :( ). I'll
+> > > > > > check in your user example.
+> > > > > >
+> > > > > > BR
+> > > > > > Antoine
+> > > > >
+> > > > > Hi Jacopo
+> > > > >
+> > > > > Do you think it would make sense to create a new generic V4L2_META_FMT
+> > > > > too ? which can be used by all user of v4l2-isp extensible params a/o
+> > > > > stats. To avoid each driver creating its own meta fmt with same purpose.
+> > > > >
+> > > > > Or do you think it could have side effects ?
+> > > > >
+> > > > > BR
+> > > > > Antoine
+> > > > >
+> > > > > >
+> > > > I think this proposal is excellent.
+> > > > 🙂
+> > >
+> > > To me, platform-specific formats mostly serve for documenting the ISP blocks.
+> > > In example
+> > > https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/metafmt-rkisp1.html
+> > >
+> > > There might be ways to handle it without defining a dedicated format
+> > > indeed.
+> > >
+> > > Sakari Laurent and Hans are in cc, what do they think ?
+> > >
+> >
+> > We briefly discussed it on irc and a few days ago again.
+> >
+> > Am I correct you think this is a good idea ?
+> >
+> > Antonie, do you plan to include the two new generic formts in your new
+> > version ? Should we have a single format for STATS and PARAMS too ? I
+> > see merit in both ways, to be hones two formats sound better to me as
+> > they apply to two different queue types (output for params and capture
+> > for stats)
 >
-> Thanks for your work.
+> Hi Jacopo
 >
-> On 2026-05-05 16:12:17 +0200, Jacopo Mondi wrote:
-> > Add two helper functions to v4l2-isp to handle statistics:
-> >
-> > - v4l2_isp_stats_init_buffer() to initialize a statistics buffer
-> > - v4l2_isp_stats_init_block() to initialize a statistics block in the
-> >   next available memory location of a buffer
-> >
-> > The v4l2_isp_stats_init_buffer() resets the data size counter of the
-> > buffer and initializes its 'version' field.
-> >
-> > The v4l2_isp_stats_init_block() helper accepts the type of the stats
-> > block about to be populated, an array of per-block-type information and
-> > the maximum size of the v4l2-isp buffer. If enough space for the new
-> > block is available, the function increments the
-> > v4l2_isp_buffer.data_size counter, initializes the new stats block
-> > header and returns a pointer to the block for the driver to populate it.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-isp.c | 52 +++++++++++++++++++++++++++++++++
-> >  include/media/v4l2-isp.h           | 59 +++++++++++++++++++++++++++++++++++++-
-> >  2 files changed, 110 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/v4l2-core/v4l2-isp.c b/drivers/media/v4l2-core/v4l2-isp.c
-> > index 10760659f8a3..8482010776d4 100644
-> > --- a/drivers/media/v4l2-core/v4l2-isp.c
-> > +++ b/drivers/media/v4l2-core/v4l2-isp.c
-> > @@ -131,6 +131,58 @@ int v4l2_isp_params_validate_buffer(struct device *dev, struct vb2_buffer *vb,
-> >  }
-> >  EXPORT_SYMBOL_GPL(v4l2_isp_params_validate_buffer);
-> >
-> > +void v4l2_isp_stats_init_buffer(struct v4l2_isp_buffer *buf,
-> > +				enum v4l2_isp_version version)
-> > +{
-> > +	if (WARN_ON(!buf))
-> > +		return;
-> > +
-> > +	if (WARN_ON(version > V4L2_ISP_VERSION_V1))
-> > +		return;
-> > +
-> > +	buf->version = version;
-> > +	buf->data_size = 0;
-> > +}
-> > +EXPORT_SYMBOL_GPL(v4l2_isp_stats_init_buffer);
-> > +
-> > +struct v4l2_isp_block_header *
-> > +v4l2_isp_stats_init_block(struct device *dev, struct v4l2_isp_buffer *buf,
-> > +			  const struct v4l2_isp_stats_block_type_info *type_info,
-> > +			  size_t num_block_types, unsigned int block_type,
-> > +			  size_t max_size)
-> > +{
-> > +	const struct v4l2_isp_stats_block_type_info *block_info;
-> > +	struct v4l2_isp_block_header *header;
-> > +	size_t used;
-> > +
-> > +	if (WARN_ON(!dev || !buf || !type_info))
-> > +		return ERR_PTR(-EINVAL);
-> > +
-> > +	if (block_type >= num_block_types) {
-> > +		dev_err(dev, "Invalid block type %u\n", block_type);
-> > +		return ERR_PTR(-EINVAL);
-> > +	}
-> > +
-> > +	block_info = &type_info[block_type];
-> > +	used = buf->data_size;
-> > +
-> > +	if (used + block_info->size > max_size) {
-> > +		dev_err(dev, "No space for stats block type %u of size %zu\n",
-> > +			block_type, block_info->size);
-> > +		return ERR_PTR(-ENOMEM);
-> > +	}
-> > +
-> > +	buf->data_size += block_info->size;
-> > +
-> > +	header = (struct v4l2_isp_block_header *)&buf->data[used];
-> > +	header->type = block_type;
-> > +	header->size = block_info->size;
-> > +	header->flags = 0;
-> > +
-> > +	return header;
-> > +}
-> > +EXPORT_SYMBOL_GPL(v4l2_isp_stats_init_block);
-> > +
-> >  MODULE_LICENSE("GPL");
-> >  MODULE_AUTHOR("Jacopo Mondi <jacopo.mondi@ideasonboard.com");
-> >  MODULE_DESCRIPTION("V4L2 generic ISP parameters and statistics helpers");
-> > diff --git a/include/media/v4l2-isp.h b/include/media/v4l2-isp.h
-> > index 1f35a52f978a..7a54cf98c79a 100644
-> > --- a/include/media/v4l2-isp.h
-> > +++ b/include/media/v4l2-isp.h
-> > @@ -53,7 +53,7 @@ int v4l2_isp_params_validate_buffer_size(struct device *dev,
-> >  					 size_t max_size);
-> >
-> >  /**
-> > - * struct v4l2_isp_params_block_type_info - V4L2 ISP per-block-type info
-> > + * struct v4l2_isp_params_block_type_info - V4L2 ISP params per-block-type info
+> I would personally prefer using a single format for both params and stats.
 >
-> nit: This could perhaps go in patch 4/6 as it at least also touch this
-> struct?
+> In my view, the format describes how the meta buffer is structured (header,
+> size, version, flags, etc.), and it should not depend on the queue type.
+> Since both stats and params will use the exact same structure, then it makes
+> sense to me to share a single format. Similar to how a pixel format applies
+> to both source and sink queues.
 
-It could, but I added it here because with the introduction of
-
- * struct v4l2_isp_stats_block_type_info - V4L2 ISP stats per-block-type info
-
-I wanted to have a similar description for
-v4l2_isp_params_block_type_info.
-
-If it's ok I'll keep the change here!
+You certainly have a point here!
 
 >
-> With or without this moved,
+> That said, if there is a consensus in favor of defining 2 separate formats,
+> I am fine with following that direction.
+
+Let's see if we can get feedback from Sakari/Hans/Laurent.
+I'll re-ping them!
+
 >
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> For now, I don't plan to integrate the new generic format in my patch
+> series. I would prefer to wait for converging on a solution (1 or 2 formats)
+> first. Then, depending on timeline, yes I can integrate it.
+
+If you want to re-send a new version out quickly feel free to use any
+format. I hope we can sort this out quickly so you can rebase on
+easily.
+
+Thanks
+  j
+
 >
-> >   * @size: the block type expected size
-> >   * @block_validate: driver's callback to implement per-block validation
-> >   *
-> > @@ -97,4 +97,61 @@ int v4l2_isp_params_validate_buffer(struct device *dev, struct vb2_buffer *vb,
-> >  				    const struct v4l2_isp_params_block_type_info *type_info,
-> >  				    size_t num_block_types);
+> BR
+> Antoine
+>
 > >
-> > +/**
-> > + * struct v4l2_isp_stats_block_type_info - V4L2 ISP stats per-block-type info
-> > + * @size: the block type expected size
-> > + *
-> > + * The v4l2_isp_stats_block_type_info collects information of the ISP
-> > + * statistics block types for validation purposes. It currently only contains
-> > + * the expected block size.
-> > + *
-> > + * Drivers shall prepare a list of statistics block type info, indexed by block
-> > + * type, one for each supported ISP statistics block type and correctly populate
-> > + * them with the expected block size.
-> > + */
-> > +struct v4l2_isp_stats_block_type_info {
-> > +	size_t size;
-> > +};
-> > +
-> > +/**
-> > + * v4l2_isp_stats_init_buffer - Initialize a statistics buffer
-> > + *
-> > + * Initialize a buffer of statistics. Only set the 'version' field and reset
-> > + * 'data_size' to 0.
-> > + *
-> > + * @buf: the v4l2_isp_buffer to initialize
-> > + * @version: the v4l2-isp serialization format version used by the driver
-> > + */
-> > +void v4l2_isp_stats_init_buffer(struct v4l2_isp_buffer *buf,
-> > +				enum v4l2_isp_version version);
-> > +
-> > +/**
-> > + * v4l2_isp_stats_init_block - Create and initialize a new block in a statistics
-> > + *			       buffer
-> > + * @dev: the driver's device pointer
-> > + * @buf: the v4l2_isp_buffer where statistics are serialized
-> > + * @type_info: the array of per-block-type validation info
-> > + * @num_block_types: the number of block types in the type_info array
-> > + * @block_type: the type of the statistics block to initialize
-> > + * @max_size: the maximum size of the data[] member of @buf
-> > + *
-> > + * This function locates and initialize a new statistics block in @buf for the
-> > + * driver to populate its content. The function checks that enough space for the
-> > + * requested @block_type is available in @buf and increments the 'data_size'
-> > + * member of @buf. The newly created statistics block's header is initialized
-> > + * with the size and type information provided by the caller in @type_info.
-> > + *
-> > + * Drivers should call this function before populating a new statistics block
-> > + * content.
-> > + *
-> > + * Returns a pointer to the next available location in @buf, or an error pointer
-> > + * if the requested @block_size is not available in @buf or @block_type is not
-> > + * valid.
-> > + */
-> > +struct v4l2_isp_block_header *
-> > +v4l2_isp_stats_init_block(struct device *dev, struct v4l2_isp_buffer *buf,
-> > +			  const struct v4l2_isp_stats_block_type_info *type_info,
-> > +			  size_t num_block_types, unsigned int block_type,
-> > +			  size_t max_size);
-> > +
-> >  #endif /* _V4L2_ISP_H_ */
-> >
-> > --
-> > 2.53.0
-> >
+> > >
+> > >
+> > > > > > >
+> > > > > > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > > > > > ---
+> > > > > > > Antoine Bouyer (2):
+> > > > > > >         media: uapi: v4l2-isp: Add extensible statistics
+> > > > > > >         media: Documentation: uapi: Update V4L2 ISP for extensible stats
+> > > > > > >
+> > > > > > > Jacopo Mondi (4):
+> > > > > > >         media: v4l2-isp: Rename v4l2_isp_params_buffer_size
+> > > > > > >         media: v4l2-isp: Add per-block validation callback
+> > > > > > >         media: amlogic-c3: Implement per-block validation
+> > > > > > >         media: v4l2-isp: Add helpers for stats buffer
+> > > > > > >
+> > > > > > >    Documentation/userspace-api/media/v4l/v4l2-isp.rst |  45 ++++++--
+> > > > > > >    .../media/platform/amlogic/c3/isp/c3-isp-params.c  |  42 ++++++-
+> > > > > > >    .../media/platform/arm/mali-c55/mali-c55-params.c  |  12 +-
+> > > > > > >    drivers/media/v4l2-core/v4l2-isp.c                 |  56 +++++++++
+> > > > > > >    include/media/v4l2-isp.h                           |  94 +++++++++++
+> > > > > > > ++---
+> > > > > > >    include/uapi/linux/media/v4l2-isp.h                | 125 +++++++++++
+> > > > > > > ++--------
+> > > > > > >    6 files changed, 294 insertions(+), 80 deletions(-)
+> > > > > > > ---
+> > > > > > > base-commit: d9c8c4adf23d17549c0ec9c85b99d85a0ee6cf18
+> > > > > > > change-id: 20260504-extensible-stats-f2d6befcc1ce
+> > > > > > >
+> > > > > > > Best regards,
+> > > > > > > --
+> > > > > > > Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > > > > >
+> > > > > >
+> > > > >
+> > > >
 >
-> --
-> Kind Regards,
-> Niklas Söderlund
 
