@@ -1,138 +1,246 @@
-Return-Path: <linux-media+bounces-63496-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63497-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id yJeUCAXPH2qoqAAAu9opvQ
-	(envelope-from <linux-media+bounces-63496-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 08:51:49 +0200
+	id 8ncSDZHSH2q9qQAAu9opvQ
+	(envelope-from <linux-media+bounces-63497-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 09:06:57 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6C6E634D60
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 08:51:48 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FCEF634FC6
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 09:06:56 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b="d0/RtgBZ";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63496-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-63496-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=microchip.com header.s=mchp header.b=vIXjNdyk;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63497-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-63497-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=microchip.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 5C00E3028DFC
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 06:51:31 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E6E2E3155A83
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 07:00:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D5EB3955DE;
-	Wed,  3 Jun 2026 06:51:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EE6C3F660E;
+	Wed,  3 Jun 2026 06:58:58 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565DF3064B5;
-	Wed,  3 Jun 2026 06:51:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79A1B3955FC;
+	Wed,  3 Jun 2026 06:58:56 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780469488; cv=none; b=q1RuFU4HOUBrDE63o+0HveoxjCzndwHZLWSKZyxCeTqrUtoPFrD+Ta/8Nf0xi0NrrtejjDSMJnMxRdyNAVCH1qW8L/rrK+0FHb25upF/KSbdEKDVwGyUr1qM/JcvoWDA0f/ryHo9QjRpuw9jc+13LaG0tmZ+D9anRek1UZKBDUE=
+	t=1780469938; cv=none; b=kKez9QkRodhpJLxD7DM2aefojVTq9aclxfThOCsMvfhW0NqHJ/Nt41YsCUXNGC8wFT6i9W3zsufuXgTcwBsd8vI1ctimr5EJIFk/eZLJ4AFNCofQKd841uN0KJjvWPOABgnUrlH53+Ie3zj3RNWMKiz231+GdI4MhT6Jx9VyOrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780469488; c=relaxed/simple;
-	bh=37wavJyg6SyRdh6uzGTnJBIV1BDGJHxKUDF92QE7Q6Y=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=McpeXMeBVUko2sarwNeinZwsymBTwvQSkqsntRP5jvBBomshZg9rIQP7U5D8IW1xasALUiQCAykPb3/1USFI5wKVsdz7HnfvElVl10gMm2uajFfUp2b22d/eUknrIdLMC02zqeZiynVpYtwPJW6o6+SJztdywQ6Lh1dq1GFO/kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=d0/RtgBZ; arc=none smtp.client-ip=213.167.242.64
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c66:476d:c684:fe78:389f:7375])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 755CA12D6;
-	Wed,  3 Jun 2026 08:51:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1780469460;
-	bh=37wavJyg6SyRdh6uzGTnJBIV1BDGJHxKUDF92QE7Q6Y=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=d0/RtgBZUkCQ7kmP+mo1Ttv+Pq6rT82bsC0HVjAR/JlJDtZWxmcE4UW3taxOPW+ye
-	 zOxQBpmcYLR7rNQKegn+4vKuKUNjC3XLkmjeBfFLIoS8d83QkkAKqFuTobzCuTuIX6
-	 sJkiSqS5vN1NRoqEnunNO95OX3C2MuRM/DAH+1rY=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1780469938; c=relaxed/simple;
+	bh=OJdQgi5K0uqHlvSWlhh1m+RffYk3s+iID/ZZcHa2Qig=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=AR4jcnsHipufQqvflevqFSAE62athBuYc5Rc/CBzfDPmd1t4yqjmQjqoMOKgoHIXA34nwfbt0zihVcPVaSNiZWNlS1G5GB0rPgcwEldQxECLZCVgOuY8wbkSm5YzUAPJCbJEVO15p8VM997ThZeQP0IYEBbbfYOCr8wUxr8BjdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=vIXjNdyk; arc=none smtp.client-ip=68.232.153.233
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1780469937; x=1812005937;
+  h=from:subject:date:message-id:mime-version:
+   content-transfer-encoding:to:cc;
+  bh=OJdQgi5K0uqHlvSWlhh1m+RffYk3s+iID/ZZcHa2Qig=;
+  b=vIXjNdykgzOJizkdPXKTctAv/SijU/PbRAwSzTa09q8R0gDLHXr2pD96
+   IPwANvz6K+8POoEW/2Zo0lEP6HOpdPAHYJBGQYSyKUdOdRd1TBp3uQuPs
+   U8TmGAwXuOlxS/j6jN10ojEZhvU9bCJPAIQ9GT/Nuq2qb+roPGWftF73u
+   DL/4Mx9pVXowwcs9OZLiCXXrGy22Xw7687UFgVm6+hdP+y0v9Hh1ntXzh
+   RVUgu5M0NZYrV1QgcpqjHrebKvfmRq7gg20LDr4BEEJj7+h73rA6LcB6I
+   S3zeKc7ByBk9CKxm4JfIZsucBRUADVxB9pGA72hcgDIhzye2jfBmBMx6J
+   w==;
+X-CSE-ConnectionGUID: V2/zMLj8SO298T7k/EOQZQ==
+X-CSE-MsgGUID: B9hCFxwsRQKB25UBc4iGjQ==
+X-IronPort-AV: E=Sophos;i="6.24,184,1774335600"; 
+   d="scan'208";a="58510240"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2026 23:58:51 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.87.71) by
+ chn-vm-ex3.mchp-main.com (10.10.87.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.41; Tue, 2 Jun 2026 23:58:50 -0700
+Received: from [127.0.0.1] (10.10.85.11) by chn-vm-ex01.mchp-main.com
+ (10.10.85.143) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
+ Transport; Tue, 2 Jun 2026 23:58:46 -0700
+From: Balakrishnan Sambath <balakrishnan.s@microchip.com>
+Subject: [PATCH v6 00/12] media: microchip-isc: fixes and enhancements
+Date: Wed, 3 Jun 2026 12:28:43 +0530
+Message-ID: <20260603-microchip-isc-fixes-v6-0-8c3d7474a768@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260522065548.2438545-1-nichen@iscas.ac.cn>
-References: <20260522065548.2438545-1-nichen@iscas.ac.cn>
-Subject: Re: [PATCH] media: rockchip: rkcif: Fix error handling for media_entity_remote_source_pad_unique()
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: mchehab@kernel.org, heiko@sntech.de, hverkuil+cisco@kernel.org, gerald.loacker@wolfvision.net, bryan.odonoghue@linaro.org, linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, Chen Ni <nichen@iscas.ac.cn>
-To: Chen Ni <nichen@iscas.ac.cn>, mehdi.djait@linux.intel.com, michael.riesch@collabora.com
-Date: Wed, 03 Jun 2026 12:21:18 +0530
-Message-ID: <178046947892.1525445.1023288239828130272@freya>
-User-Agent: alot/0.13.dev20+g31692a239
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKTQH2oC/22NSw7CIBCGr9LM2jGIQqMr72G6KNOpzKKlAUM0D
+ XcXm+jK5fc/V0gchRNcmhUiZ0kS5gp21wD5fr4zylAZtNJWGW1wEoqBvCwoiXCUJyfsNQ08tnQ
+ cLENtLpE3oxZvXWUv6RHiazvJ5qN+99q/e9mgQqeYDs6dzcnx9ZfaU5igK6W8AWUcfiS6AAAA
+X-Change-ID: 20260525-microchip-isc-fixes-a2cdef7c3d6e
+To: Eugen Hristev <ehristev@kernel.org>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Kieran Bingham
+	<kieran.bingham@ideasonboard.com>, Sakari Ailus
+	<sakari.ailus@linux.intel.com>, Balamanikandan Gunasundar
+	<balamanikandan.gunasundar@microchip.com>, <stable@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Balakrishnan
+ Sambath" <balakrishnan.s@microchip.com>
+X-Mailer: b4 0.14.3
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[microchip.com,reject];
+	R_DKIM_ALLOW(-0.20)[microchip.com:s=mchp];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:heiko@sntech.de,m:hverkuil+cisco@kernel.org,m:gerald.loacker@wolfvision.net,m:bryan.odonoghue@linaro.org,m:linux-media@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:nichen@iscas.ac.cn,m:mehdi.djait@linux.intel.com,m:michael.riesch@collabora.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORGED_SENDER(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-63497-lists,linux-media=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[balakrishnan.s@microchip.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:ehristev@kernel.org,m:mchehab@kernel.org,m:hverkuil@kernel.org,m:laurent.pinchart@ideasonboard.com,m:kieran.bingham@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:balamanikandan.gunasundar@microchip.com,m:stable@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:balakrishnan.s@microchip.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-63496-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[microchip.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:from_mime,ideasonboard.com:email,freya:mid,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,iscas.ac.cn:email]
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[balakrishnan.s@microchip.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[microchip.com:mid,microchip.com:dkim,microchip.com:from_mime,microchip.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A6C6E634D60
+X-Rspamd-Queue-Id: 8FCEF634FC6
 
-Quoting Chen Ni (2026-05-22 12:25:48)
-> The media_entity_remote_source_pad_unique() function returns an error
-> pointer on failure, not NULL. Fix the check to use IS_ERR() and return
-> PTR_ERR() to correctly handle allocation failures.
->=20
-> Fixes: 501802e2ad51 ("media: rockchip: rkcif: add abstraction for dma blo=
-cks")
-> Signed-off-by: Chen Ni <nichen@iscas.ac.cn>
+Bug fixes and feature additions for the Microchip ISC/XISC driver.
 
-Reviewed-by: Jai Luthra <jai.luthra@ideasonboard.com>
+Fixes:
+ - SBGGR10 Bayer pattern was mapped incorrectly (red/blue swap)
+ - WB register fields corrupted by sign extension
+ - Race between histogram IRQ and stream stop
+ - PM runtime reference leak in AWB work handler
 
-Thanks,
-    Jai
+Features:
+ - Driver documentation
+ - Gamma 1.8/2.4 preset curves
+ - Hue/saturation controls for SAMA7G5
+ - Grey World AWB with EMA smoothing
 
-> ---
->  drivers/media/platform/rockchip/rkcif/rkcif-stream.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-stream.c b/drive=
-rs/media/platform/rockchip/rkcif/rkcif-stream.c
-> index 3130d420ad55..542aa877919d 100644
-> --- a/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
-> +++ b/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
-> @@ -466,7 +466,7 @@ static int rkcif_stream_link_validate(struct media_li=
-nk *link)
->         struct rkcif_stream *stream =3D to_rkcif_stream(vdev);
->         int ret =3D -EINVAL;
-> =20
-> -       if (!media_entity_remote_source_pad_unique(link->sink->entity))
-> +       if (IS_ERR(media_entity_remote_source_pad_unique(link->sink->enti=
-ty)))
->                 return -ENOTCONN;
-> =20
->         sd =3D media_entity_to_v4l2_subdev(link->source->entity);
-> --=20
-> 2.25.1
->=20
->
+Split from v1 per review. Histogram statistics support is being sent
+as a separate follow-up series.
+
+Tested on SAMA7G5-EK with IMX219 (RAW10 Bayer capture, AWB, controls
+verified across multiple pixel formats and resolutions up to 3264x2464).
+
+Based on v6.19 (e9ec05addd1a).
+
+v1: https://lore.kernel.org/linux-media/20251009155251.102472-1-balamanikandan.gunasundar@microchip.com/
+v2: https://lore.kernel.org/linux-media/20260512154339.210444-1-balakrishnan.s@microchip.com/
+v3: https://lore.kernel.org/linux-media/20260513071742.97263-1-balakrishnan.s@microchip.com/
+v4: https://lore.kernel.org/linux-media/20260518-balki-isc-series1-v4-v4-0-97f189185b7e@microchip.com/
+v5: https://lore.kernel.org/linux-media/20260527-microchip-isc-fixes-v5-0-b0ec1bb954be@microchip.com/
+
+v6:
+ - Picked up Eugen's Reviewed-by on the SBGGR10 fix
+ - Rename isc_format_has_chroma() to isc_format_is_yuv() and
+   isc_update_cbc_ctrl_activity() to isc_update_cbhs_ctrls()
+ - Store the CBHS control pointers in struct isc_device and use them
+   instead of v4l2_ctrl_find()
+ - Drop a stale comment in isc_s_ctrl()
+ - Fold gain_smooth[] back into gain[]
+ - Drop DPC_DPCENABLE from the SAMA7G5 pipeline mask, no format sets it
+ - Fix the DPC black level BPS comment
+ - Fix the documented pipeline order (CSC before CBHS) and contrast
+   default
+
+v5:
+ - Picked up Eugen's Reviewed-by on the PM runtime leak fix.
+   The SBGGR10 fix is extended to SAMA5D2 in v5, so dropped his
+   Reviewed-by from that patch pending re-review.
+ - Fix SAMA7G5 pipeline mask: CBHS_ENABLE, not CBC_ENABLE
+ - Per-platform gamma_default. v4 used 1 for both SoCs, which picks
+   the wrong curve on SAMA5D2 (1/2.2 is at index 2 there, index 1
+   on SAMA7G5)
+ - Fix V4L2_CID_SATURATION range to 0..127 (Q4); update docs to match
+ - Initialise hue/saturation at probe to avoid a grayscale first frame
+ - Reset histogram stats and gain_smooth in isc_reset_awb_ctrls() so
+   AWB does not consume stale state from a previous stream
+ - Reword WB masking subject; expand commit bodies on the feature
+   patches
+
+v4:
+ - Drop gamma LUT controls and CC matrix V4L2 controls patches (move
+   to parameter buffer follow-up per Sakari's review)
+ - Drop AWB enable pipeline reset patch (cleanup for the dropped
+   controls, will return with the follow-up series)
+ - Update documentation patch to remove references to dropped controls
+ - Rebase on v6.19
+
+v3:
+ - Fix bisect failures (regmap declaration, gamma LUT macro ordering)
+ - Fix Fixes: tag (use mainline commit, not staging)
+ - Add Co-developed-by trailers for Balamanikandan Gunasundar
+
+v2:
+ - Split series (histogram stats moved to a separate follow-up series)
+ - Reorder: bug fixes first, then features
+ - Commit message cleanups
+ - Rebase on v6.19-rc8
+
+Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
+
+---
+Changes in v6:
+- Picked up Eugen's Reviewed-by on the SBGGR10 fix
+- Rename isc_format_has_chroma() to isc_format_is_yuv() and
+  isc_update_cbc_ctrl_activity() to isc_update_cbhs_ctrls()
+- Store the CBHS control pointers in struct isc_device, use them
+  instead of v4l2_ctrl_find()
+- Drop a stale comment in isc_s_ctrl()
+- Fold gain_smooth[] back into gain[]
+- Drop DPC_DPCENABLE from the SAMA7G5 pipeline mask, no format sets it
+- Fix the DPC black level BPS comment
+- Fix the documented pipeline order (CSC before CBHS) and contrast default
+- Link to v5: https://lore.kernel.org/r/20260527-microchip-isc-fixes-v5-0-b0ec1bb954be@microchip.com
+
+---
+Balakrishnan Sambath (12):
+      media: microchip-isc: fix SBGGR10 Bayer pattern
+      media: microchip-isc: fix WB offset and gain register field masking
+      media: microchip-isc: fix race condition on stream stop
+      media: microchip-isc: fix PM runtime leak in AWB work handler
+      media: microchip-isc: add driver documentation
+      media: microchip-isc: set SAM9X7 maximum resolution to 2560x1920
+      media: microchip-isc: configure DPC and pipeline for SAMA7G5
+      media: microchip-isc: add gamma 1.8 and 2.4 correction curves
+      media: microchip-isc: add SAMA7G5 hue and saturation controls
+      media: microchip-isc: use weighted averages for Grey World AWB
+      media: microchip-isc: smooth AWB gains with EMA filter
+      media: microchip-isc: scale DPC black level to sensor bit depth
+
+ .../userspace-api/media/drivers/index.rst          |   1 +
+ .../userspace-api/media/drivers/microchip-isc.rst  |  69 +++++
+ MAINTAINERS                                        |   1 +
+ .../media/platform/microchip/microchip-isc-base.c  | 319 ++++++++++++++++-----
+ .../media/platform/microchip/microchip-isc-regs.h  |  11 +-
+ drivers/media/platform/microchip/microchip-isc.h   |  12 +-
+ .../platform/microchip/microchip-sama5d2-isc.c     |   9 +-
+ .../platform/microchip/microchip-sama7g5-isc.c     | 105 +++++--
+ 8 files changed, 424 insertions(+), 103 deletions(-)
+---
+base-commit: 05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
+change-id: 20260525-microchip-isc-fixes-a2cdef7c3d6e
+
+Best regards,
+-- 
+Balakrishnan Sambath <balakrishnan.s@microchip.com>
+
 
