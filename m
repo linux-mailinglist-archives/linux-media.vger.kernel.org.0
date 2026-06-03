@@ -1,84 +1,53 @@
-Return-Path: <linux-media+bounces-63668-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63669-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 6UTPEhuVIGqo5QAAu9opvQ
-	(envelope-from <linux-media+bounces-63668-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 22:56:59 +0200
+	id 77u1EW+UIGqC5QAAu9opvQ
+	(envelope-from <linux-media+bounces-63669-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 22:54:07 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D7963B4AF
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 22:56:58 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0EEE63B456
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 22:54:06 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linaro.org header.s=google header.b=wsYplK3L;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63668-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-63668-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=linaro.org;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=UDwfgTj0;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63669-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63669-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 581D4303EF54
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 20:51:48 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 9D5E83029CB1
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 20:52:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7B0B3F99F2;
-	Wed,  3 Jun 2026 20:51:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D9C2402B92;
+	Wed,  3 Jun 2026 20:52:27 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EFC53E16B8
-	for <linux-media@vger.kernel.org>; Wed,  3 Jun 2026 20:51:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED763A3816;
+	Wed,  3 Jun 2026 20:52:24 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780519905; cv=none; b=l57+sJmkXR2wgGNMl0FZayIwWocl9MuLwx4i8miVPso6ZsF/12I8DFq+iIcNsVeyPf7AOu9zaV2XZT9g4bnbyFlRbeo/L2mR9PmCUClqv3e5M/a0yhuh/efyaDjAyw/oC/PqpQVrnDR23ReLiijeX2F5oOf5Has45Byi/NfvgdY=
+	t=1780519946; cv=none; b=kRzC7cQ8ds+51VCda/jcse7LKDRjUNEwjPKgsyS56oi7KSPxh8ViYceE5I9ZoXUwNtjOGLfh65Yw5CdV3oDQ/q4nSmWFfZ3PpQvuijvLKR3D9IbMlmpakFDdP3xwb20N8+FYzrghf7X/8gpeLPv1wE9INQkAign9aEuuBnSG/wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780519905; c=relaxed/simple;
-	bh=1uMm2Rcqu1NNpytvjug438SGSw/P+tCIxmIUvjiUo1E=;
+	s=arc-20240116; t=1780519946; c=relaxed/simple;
+	bh=FqcZgc7ZIjoBwbbu4FAv9SlB9aWsVxht2QXmUv0T4z4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hJYQpl6cee6OyBKUw5fhuuvjdyBJNCA8wvHni2Aqis8NKD73Zn9V2olhwGQyDzTSd8hrNMAfJQQbXP74ZBykiR/LMOorjbswVnhhNK9dD5JKh0xGOuP0oPSrQPswroojTxcJO6f1yU9F3e9B2/3rvpKFK4FgvWUHG/3SUsUFXYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wsYplK3L; arc=none smtp.client-ip=209.85.167.42
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5aa68da4e45so271571e87.2
-        for <linux-media@vger.kernel.org>; Wed, 03 Jun 2026 13:51:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1780519901; x=1781124701; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SnGt4OfgecwyI8Q97acu9yV/LdmjE+6r9fX+VlxJVhw=;
-        b=wsYplK3LoRCuw/vnjsnT9sflkVQJPWVPNXjbXF5fJuOR7aEqNpTnoew7Wfcn1Uv/g4
-         w9VWuMnJW43kOg9XfXtZ7VmTxrggER7BMM6PSg9Tt6zBpD7NIZrljUdhlvPMv4E0S+QY
-         iyA+AwwN1Mrx3dgjdoPcRoxvOBgGD6DIijOzqWqWf2okfrD4ZJRlIJvVC42kTmkBbiKY
-         m94XOWZFUkfOwdXLPiy19dCnDfg0ZGWUfs42v5wXFEyuQLnbClyeRBkMTx/plRPZjHRR
-         V7pC/X97UkssknNMgpIzHU7RvvN+cq0aIt3eeqyIUDMmhCWlXG6hZO7Zb+Gn+piunF8x
-         +EHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780519901; x=1781124701;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SnGt4OfgecwyI8Q97acu9yV/LdmjE+6r9fX+VlxJVhw=;
-        b=ad7ORlACEyaRc+7yL53IeMyUKSin5FRmFU//rqSv71FsJ4xuMvNWEhzTFWaKs4DucA
-         iSQbr1qG33aruMQIZHR6HQuMX/NXx3KmhmxzFYNxsMwcG0CRsosyRtSbGN3bSlLnGdi/
-         szYv6PvQhqPV1AeTmdY1gBAcEEo30hyOZFoAgegG/chRCHbWnuB5DYTmgwThRgYt0onF
-         hfooalMGTyvmYWocMQ5SSdavr4uwjf4UAYYuzObNLdhkwdsSpT4+qwZ00F8uAWqyp69a
-         YecboFXu77ms0TbDNaBgl9fre56KtCoctBcbNmx97N51H7fmRn3qjf6DmkB17/jMZqal
-         GcRA==
-X-Forwarded-Encrypted: i=1; AFNElJ9LdO/w/D2JDn3W9r+WhE34sdouE6neainXUAeoZrRUknH5bgt4ToCobrAaTWhvjAJPemz1nn2FlXeA0Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxZ9CyYmP9g9CTgxqHrugsyt7w4DDuEIG7KXfWIZ+QRsfA5EGn
-	l6U+lwgapGXKajSDc+jzcrhHPPzm+jfoHJN2TQCRGE5VzFILIJDNEVGVfyccnHzwpGo=
-X-Gm-Gg: Acq92OFD2KvwWvtUDE00l0qxAPmNIgl218bFvxBZHCQNUTwgg687jTwLYFzkzC+oYJU
-	h1NKyOr4KETeQ6bTNA2hlWfe8DRNwoWJLBeusKD3Ouz8qzUSP/yYDRp0yVNI25GXBUclKenyDOg
-	1NFdmZ/8E5URN4k5MbEnGbtTQ8Z6d+aLezFlnfIAtt9X+fjmW5y7MvgCa4AD8ELfRWb9OKNxxHO
-	mx2++isXZgbE/NrGi+1YvyEZbpm2zkumL2pK/LE54TN+ZynoGNMy1cciITaDe9HzuHVYXe1V3ui
-	zCVM+JD/Nf98ISud2LEtk2P8GjGbWsSgJrCbnAXrjUWqX2PK03sfCj2WqmSM4BE/FZPIeTz5J/3
-	Weg7JbO650abjaYO3ZVl1qR4IdNkSg6Ii28GDRTFTgURuBrA76UuJwhgx2qJKapmvHoPjc7xnmU
-	w9iX0pF6j0OpYCeTUSMO+PIceohcLIVeTRR8U0ZGMzoyfg2wOWZNcPF7ygzOu3O5jUMJIbWHT8b
-	NriomMS81ap2AH6
-X-Received: by 2002:a05:6512:3c9a:b0:5aa:7779:8946 with SMTP id 2adb3069b0e04-5aa81f428bdmr1972e87.8.1780519901179;
-        Wed, 03 Jun 2026 13:51:41 -0700 (PDT)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa7b8fbcd3sm833651e87.25.2026.06.03.13.51.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jun 2026 13:51:40 -0700 (PDT)
-Message-ID: <f01c0e22-4e5c-44e7-9ea4-4bc8d53aea2e@linaro.org>
-Date: Wed, 3 Jun 2026 23:51:40 +0300
+	 In-Reply-To:Content-Type; b=MVvlTb4yz0zdio0QKU5//FJrvf9iKZBB0hGcjirQ1h1zFM03bhIzxPpo18bdY4cfBiTfjjRStQsvoIwZ7UGKF52Q9T2dfaUZP0R+Pm/erpkk3zmLIMDRFRqtRdNfuman1Tzx1V6R7CXR/UkdxA08/nHW8POUvaw4XFstob0t6Gw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UDwfgTj0; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FE2E1F00893;
+	Wed,  3 Jun 2026 20:52:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780519944;
+	bh=YS+6UAe3eWKQ6I/deKGAHEi/uKiRdTdYTAK7SD/sfio=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=UDwfgTj062Fo7wFHvKZQYtGqjCmabLdXZ4HVexYOR8i3cJ87e2XFQTupOuS41Sy4H
+	 zYl3rZ9akqFhCQp7cEvu00YKk3NAqZ2j0/XiavWJuo7nNR0/gffUAo1oRvI2ej1KUr
+	 Rle04Hcy5dHDw4rNVs4anzzA2rdNJlCSrIRTvPc+5fdenJuM4VNBx4pvB5kzn5X1ZF
+	 OgQSZgKMEhu5CWo8ZsQ3a5OFQU33DAqdb7BJ1b9zTGNnI1m3bxlGYhftBCP4/UEwe+
+	 SiVA4YjlfIM8uJ3gvwCBRenLSliNG0udrwvRrQtFMqob/Uv12LcHvpNKQ2slXQkI6l
+	 DxfdAdpZcjWVA==
+Message-ID: <dbc4b9b9-5c7a-4426-85bb-e99ad6be6ac6@kernel.org>
+Date: Wed, 3 Jun 2026 21:52:19 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -88,7 +57,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v8 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
 To: Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>,
- Bryan O'Donoghue <bod@kernel.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Vinod Koul
  <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -103,8 +72,53 @@ References: <20260523-x1e-csi2-phy-v8-0-a85668459521@linaro.org>
  <dda32577-04e0-4507-acaf-a5694f4f31b3@linaro.org>
  <478df3ed-d4ef-43aa-bb84-e2075798542b@kernel.org>
  <ec98ef2f-02b4-4086-8b4b-07b6953dbd20@oss.qualcomm.com>
+ <tgG0QPGHUXMOoExQ9gjtNbUKbFpoiuWPHWCsh5vpGqFRGIeTcWiiNC1okUddn3T6nCfDzNbLlYkpSMdhfFVxmA==@protonmail.internalid>
  <514cf213-5778-45e1-8d70-d3fe27991fcc@oss.qualcomm.com>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=bod@kernel.org; keydata=
+ xsFNBGRJNSgBEADD7Vm2ZFa+v+JGJ2QYTJqQAkqis/uOHkhdFNXqpBarVBd47QU/DMNU5Rxg
+ jedMQEmHoeDbJ6UOpjbrUQ63c5sgG1JbroHJJctwsEI75OOlekMuebEbjIJBLfgENGwPBMHv
+ piv5TgCWr0VgYaXfp2eh2LINFywzqj823HiDPibQAXDrjzvF1ogksi/6cQZs8d4if8YQkLOr
+ YISFouG+eR0nN1I7mUfIddXOWu6lJeTyqbWVurv58k2ekIXKaOC9ixLHFbcfYV0hOgRaTwQC
+ B8CYF9nfqZla19iItfsN9QxN+ZdQjcRoYipp6HPCMfJlKH7GfaFcW93LKc4DKJ2lVL+pg/OQ
+ lythZbjRPY492NG9kZ65aYstCs90uhMUEVVPuGUw7wBEku+6IEwZfrbMVKeWzLlPyM4Hv9hM
+ 8ktxSmxWsPTPqpBC8eyeAQLalMELAyVcZlkaCtEcbj7w4l/JkYz+4l37obG8ZD+B34udBUUz
+ MsAJ8foDFrBh2MOFA3hxD6G90D23mmWsri7pnKA2tZs92aQX7Ee+FbCyg6g5ln62Sq83ZDbf
+ 53DdBs55EVpBadeInWmXhzCHPQx06H+CwTEjShTYIaMmBfrewvYUDKvFTC5iKQhAEUgt6i94
+ JsbG7NoeqcxkUMcBOEUQ3uCQG1D70ugspgXc0wd3Rimiq6535wARAQABzSFCcnlhbiBPJ0Rv
+ bm9naHVlIDxib2RAa2VybmVsLm9yZz7CwZEEEwEIADsWIQTmk/sqq6Nt4Rerb7QicTuzoY3I
+ OgUCZ+R+mwIbAwULCQgHAgIiAgYVCgkICwIEFgIDAQIeBwIXgAAKCRAicTuzoY3IOimUD/94
+ BwVEJX31JRe2sxbB/e1w2p8x1bxvTw5AeIzpV3ox7coJg1bSU2mnGuj1V4o0Yxf/3zmcJzCN
+ VfVjwRF8Ii3GnC7uUXk2t+87piQfKTyJAYQABhZUKgoVJbjJq/S+C3XCKIyBA+EiezoUsgsA
+ jTzwU+FzV7zVWIXFPJNtBERLwboE9w9U3KjAExOa1kSY8eLrsg6kOwlOHWy5UsQqYOjrS96M
+ mzm2xuc1+RCjrndAyYhCnrOKvJ67HsPnBeJCjw7ImGD/U1GchwYbX8o3DO3JNHm3qfC86ZqX
+ 2sCouENg4OzgPTtLKUrueM6xsu6KMM7gj17vxsiR3KQEoJnnMB8D1xtBofN3mFZE0wD9M24m
+ 8yGunZbtntMCUHzIrlJgAPwKWKuGOYtA8UgMTFkccnUJtQrg9KotKtEF/FuftG9zLG9XEkt4
+ 5ZdNgbSoLWgelu3T47mbOJ8LHhiLaCWP7yrovtVAvLUQ1BsiA42u8ECrFCFvQj9nrejE/ICv
+ kP+uqcKtdDvP9HrIGycF1WZyfZLp0RvopKW92FLvI4I1QFWJ+wenk6+LGyJ5bzlrWzevjxmf
+ nHcXE6sJBHrE7eijlbbImDAi3uLYN8Nd9Dm11IDAy4GAIQxSiQn0yblDhPiyGtchy80EVkCm
+ g9k17Wol+2E2mC4DKgVdCkyUtTRSLgsJCs7BTQRkSTUoARAAuTnmWHBS6izRcEE93ajpzI7h
+ dgQO4U3IRvOEsvIKR5NGcNEs0ngGebwsZ/lVULjN4vYU0LleqVhPBidNXUoZCN3A0F0Z2Ov8
+ NZdef+2EhQPBVWxFO7JBzhe8Z3ALj+wFtlg8akJjBzU56azW/iJzAobqHVrudzKoO2b1/CMg
+ VbiAQ+RXjgfN5kY/HqYDU7mw+hXuUV9PbtX1L8xqQQac95oM9rHzKHHpiVwxTeJnGQsa+THi
+ Kze+YET3rCoGHMvOQEJhdrucTv5FpAakKdkOFNel9FFckLRKEuWgCzhpFsjQ7xbirQgFUxG9
+ vlk1+q4hMRGNyEqoD6svYEeqbiUSd0oPUJeioiC3rNMRCNHLVrfZ2J6SCPkxfda08uzSdDQU
+ 1/YPjOh8ZtQDMu7WctZ3XO288Z1gyBR49V7fbFs2w4sQxG+h/enlxqP7fdw1mjUlZjU5huCJ
+ ielS0oEaIpmUpkugli7x4WhwLnhK2EbSoz7nLBC0y+ALUOdMlz/Y1l9xRt+bkDhpmf4O4IcI
+ MxgZ0QMLq8rHDkGaEbsgZZHQPS58T0XE3IP30Q9SNxsruCMXtd2hYtBssf/wohc6JVsTtMg2
+ VYTPDPIFNZFSXupEJB7jlqpDWJ8ooJfJRLBatbjT5+mVQaMYB7Hs/t+zWYWaJKHyc8O6WLEC
+ NUV5Tdt5EkkAEQEAAcLBdgQYAQoAIBYhBOaT+yqro23hF6tvtCJxO7Ohjcg6BQJkSTUoAhsM
+ AAoJECJxO7Ohjcg6LuIQALnXt36OUuK43wqw6UYt0cnN6EbUqJHApAF5eNFn0jCCB2XELjSz
+ JKJwuNAweowBdabiBniJ+501WIW+ewEsz1uby5fUQjZuCEsIkuaIluyfUFPb73qrQyAGuusd
+ 7teA4WT+/jUku9g7lX5sVoRCrKQPkd16f6Bzfztyqyjcn43/X5yQI+wlboQ6HuKe/3I3yiOx
+ OgmCHzOawpC9PvhEcKj79RLM3Zz5Ts5AuHpRX70Jz8Be76LwVFLp5Msx3S24ZTU1lBo2uiJ3
+ xSkay2lTpyVWRPx9vgcwzxGguOPJQJwsQeLb7wpoJMPpD3ERoaRii7Q7hvmxklpZjhKYWB3d
+ t6nQ497Ek9loCrp3MIjRCSDN5xEGffiHks9yTeGMUQwO4tX8RE04uOJPkUY7uCFzFqN6/qey
+ X3oFfPgkULMdiHofPAL1OskZSTzGPSfTYRE46NCJw8yoZBQ/oOyWeqaUQbK0wmW/g81wm8p7
+ LKSGEglMpiX07M1AotgvylN5C8fjbouoK+/RAMsXkk8jba6rPfuuXPaDjCyyKn6zSVHETnHW
+ 3AJbgVY50T8STpnxayBQvWbCvu+6NOEjXCbyaOJig+5l0zlGN9XHjdANXC5HnwmyaGRL9YDq
+ Jh2nVXVJDincOdQRdKcJjYLqaOAoWrYWSDi1iZGspHBTDrnOvfMQzzHY
 In-Reply-To: <514cf213-5778-45e1-8d70-d3fe27991fcc@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
@@ -112,39 +126,39 @@ X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63668-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_RECIPIENTS(0.00)[m:vijay.tumati@oss.qualcomm.com,m:bod@kernel.org,m:bryan.odonoghue@linaro.org,m:vkoul@kernel.org,m:kishon@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:neil.armstrong@linaro.org,m:linux-arm-msm@vger.kernel.org,m:linux-phy@lists.infradead.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-63669-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:vijay.tumati@oss.qualcomm.com,m:vladimir.zapolskiy@linaro.org,m:bryan.odonoghue@linaro.org,m:vkoul@kernel.org,m:kishon@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:neil.armstrong@linaro.org,m:linux-arm-msm@vger.kernel.org,m:linux-phy@lists.infradead.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,linaro.org:mid,linaro.org:dkim,linaro.org:from_mime,linaro.org:email]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,devicetree.org:url,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C3D7963B4AF
+X-Rspamd-Queue-Id: C0EEE63B456
 
-On 6/3/26 23:24, Vijay Kumar Tumati wrote:
+On 03/06/2026 21:24, Vijay Kumar Tumati wrote:
 > 
 > 
 > On 6/3/2026 1:16 PM, Vijay Kumar Tumati wrote:
@@ -208,7 +222,11 @@ On 6/3/26 23:24, Vijay Kumar Tumati wrote:
 >>> This works for me BTW.
 >> Either way, do we need to document the constraint of using port@0 or
 >> endpoint@0 'only' for the 4+1 or 2+1 mode and the other one is for the
->> 1+1 mode? Or is it implicit from this bindings for a developer?>
+>> 1+1 mode? Or is it implicit from this bindings for a developer?
+
+The binding mandates it with an if / else structure
+
+>
 >>>>> The CSIPHY devices have their own pinouts on the SoC as well as
 >>>>> their own
 >>>>> individual voltage rails.
@@ -315,6 +333,15 @@ On 6/3/26 23:24, Vijay Kumar Tumati wrote:
 >> well, share the RCG, which requires all 3 power domains. So
 >> fundamentally, you need to enable all of those from each PHY. You can
 >> make it constant 3 power domains.>
+
+Hmm do you mean the GDSC which I omitted form the example and shouldn't 
+have TITAN_TOP_GDSC or do you mean MMCX, MXC and MXA are required ?
+
+I don't believe the clock definitions say that. Also not what you said 
+in the previous cycle.
+
+I'd be obliged if you could be precise and clear since as you know the 
+PHY as a separate thing is important to release new SoC additions.
 >>>>> +
 >>>>> +  power-domain-names:
 >>>>> +    items:
@@ -438,12 +465,19 @@ On 6/3/26 23:24, Vijay Kumar Tumati wrote:
 >>>>> +                             "mx";
 > Actually, one more thing, Why isn't TITAN TOP GDSC here?>>>> +
 
-If CSIPHYs are true subdevices under the umbrella CAMSS device and well
-described as subnodes, then likely none of power domains are needed to be
-repeatedly described in the children device nodes, since this information
-can be obtained from the parent device by the driver.
+Yes the DTSI has TITAN_TOP_GDSC I haven't updated the YAML to capture that.
 
-Technically 'power-domains' property can be safely removed, I believe.
+So it should be
+
+top
+mmcx
+mx
+
+With obviously on mmcx and mx scalable. We established that CSIPHY4 had 
+MXA whereas the other CSIPHYs had MXC in v5 or v4 - can you be clear if 
+you agreeing with that still or saying something different. Per my 
+memory of reading the docs, there was nothing in the clock tree to 
+indicate both MXA and MXC were required for all PHYs.
 
 >>>>> +        vdda-0p9-supply = <&vreg_l2c_0p8>;
 >>>>> +        vdda-1p2-supply = <&vreg_l1c_1p2>;
@@ -476,10 +510,30 @@ Technically 'power-domains' property can be safely removed, I believe.
 >>>>> +        opp-300000000 {
 >>>>> +            opp-hz = /bits/ 64 <300000000>;
 >> I wonder why you would have only one clock here. You should be setting
->> the rate for both the core and timer, isn't it?>>> + required-opps =
+>> the rate for both the core and timer, isn't it?
+
+Yes the dtsi has it, the example does not. I had pushback from others 
+about the example being too complex - you can't please all of the people 
+all of the time.
+
+I will drop the full table @ v9
+
+>>> + required-opps =
 >> <&rpmhpd_opp_low_svs_d1>,
 >>>>> +                            <&rpmhpd_opp_low_svs_d1>;
 >> Same here, it should 3 power domains set.>>> +        };
+
+Two power domains scaled, one set at least I hope that's what you mean 
+i.e. add the GDSC, already in my code I just didn't add it here as I 
+should have.
+
+- GDSC enabled
+- MMCX scaled
+- MX scaled
+
+When MX points to MXA the scaling is a NOP @ rpmhpd_opp_low_svs_d1.
+
+Agreed ?
 >>>>> +
 >>>>> +        opp-400000000 {
 >>>>> +            opp-hz = /bits/ 64 <400000000>;
@@ -496,8 +550,14 @@ Technically 'power-domains' property can be safely removed, I believe.
 >>>>> +    };
 >>>>>
 >>>>
+>>>> --
+>>>> Best wishes,
+>>>> Vladimir
+>>>
+>>>
+>> Thanks,
+>> Vijay.
+>>
+> 
 
--- 
-Best wishes,
-Vladimir
 
