@@ -1,223 +1,221 @@
-Return-Path: <linux-media+bounces-63519-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63520-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id cbkiHkrYH2rIqwAAu9opvQ
-	(envelope-from <linux-media+bounces-63519-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 09:31:22 +0200
+	id Cf9QBjvbH2rqrAAAu9opvQ
+	(envelope-from <linux-media+bounces-63520-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 09:43:55 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44CC6353A6
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 09:31:21 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61765635559
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 09:43:54 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=GTVA94GQ;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63519-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63519-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=fail ("headers rsa verify failed") header.d=kcore.it header.s=spark header.b=VWI28U66;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63520-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63520-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C790D309C9FA
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 07:23:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B447E322913D
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 07:34:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 822393A3830;
-	Wed,  3 Jun 2026 07:22:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16EAD407569;
+	Wed,  3 Jun 2026 07:31:41 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from spark.kcore.it (spark.kcore.it [49.13.27.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF0F3A382B
-	for <linux-media@vger.kernel.org>; Wed,  3 Jun 2026 07:22:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24507388885;
+	Wed,  3 Jun 2026 07:31:38 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780471377; cv=none; b=qSVgJKf7EVGncQCOPwx8+WRPOST1dMeH2xW17fmhQjysLuAvd7zIAqB7eXKu7rcaH4sY7DsPdlKUlFAZHlUTdIdXAXimtMQAWUTkMXFjw6ulExdHS/hJBP38vTJFFQKBV49j6sU0VPY2PAvUy7Y1dSDAPFmfNEtgcgt7SvxSFk4=
+	t=1780471900; cv=none; b=Mrh2dLlYhyFnKlGR64zQ+m7HCUUrS0iG+URRdW/VRio+qN8ZU6pXnQ8h8/r6Sg4ukHmRmpp5atS2yoVOqQ08IihB5BKJPElEb+uZ+WT/+Dta/GP/EU1nfGpQvK60tkaLvw07d3xPqIEWjdXIBye4YIiY4iE1cIUgMDmpK3vnXag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780471377; c=relaxed/simple;
-	bh=MvvSqnkFdyWUR5ambE4XzUX+MN8NNAFyl42IZQVD7CQ=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=U1OEjNCCHAyNoarN8gko2y+RwmGHctZi3mACkw7PDh1e952eofdoJD+yzvYNfGO0krvMY8jWJgQcjyQQUFZPoKSRhEvCGLFK6cVBHFb2f4X6M/1teuqVEcGUYwWH5FiZMSRr+qorcSh89Kc8AIbVXzdA8LFcdfR4KuMFUlX2D8E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GTVA94GQ; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 136481F00893;
-	Wed,  3 Jun 2026 07:22:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780471375;
-	bh=+73oTgNYFcON+sf2k9Zug8JwqTvNtx994eITOlkln/g=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=GTVA94GQXE1EdGJRuMu8ENecw2r5xJr9+N8Bes5up09lHOcz0d3fGRfKBjh+SrXuh
-	 VtyJ1+H1wlEOeq8ygfvOe481UO1oAQyART005wHXegWLfdFx1sF1n+5miproiwc9w0
-	 eoZcyXkURzQgdm/kZMYtmYo7ZPJyTxv0hsoASjxuYsig9DP0VFE81bZZSBwf3nFOvX
-	 Wtod+gCVXfhQLOZT7wUTp3rABNEwJGJQgsj116WOuQ8yojV67cVH1rVCHKt9JzXHPs
-	 mh2i99PgalveksIZmaM4IXy6lvps/EhYv7kL+/VrtgADY9EZ9QiAjVzxQAu7B2ITfE
-	 6nfMYkhFG0Jhg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 03/12] media: microchip-isc: fix race condition on
- stream stop
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Balakrishnan Sambath" <balakrishnan.s@microchip.com>
-Cc: linux-media@vger.kernel.org
-In-Reply-To: <20260603-microchip-isc-fixes-v6-3-8c3d7474a768@microchip.com>
-References: <20260603-microchip-isc-fixes-v6-3-8c3d7474a768@microchip.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 03 Jun 2026 07:22:54 +0000
-Message-Id: <20260603072255.136481F00893@smtp.kernel.org>
+	s=arc-20240116; t=1780471900; c=relaxed/simple;
+	bh=xl/ZL+LeNQ/HTL6YIqdsWIM82xmbUsNRR2IZA2aRTHA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:References; b=r1YIwy3E/oCfY0qE2cwNHSfAR8N9HXO7kMWTIlFRLrOhXnFxxuLbCD0v9I9HnUox3Vet9xxRS0Rb9+upYukn4Q+hVMhDSCJFsjBiKsvKiSEG5UwzymcsfYUzBlolOfN+vdr1ubdBxBEOnPXKY8Cwmmc1WbyjBi/1NrC0GDWQ4K8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kcore.it; spf=pass smtp.mailfrom=kcore.it; dkim=pass (1024-bit key) header.d=kcore.it header.i=@kcore.it header.b=VWI28U66; arc=none smtp.client-ip=49.13.27.68
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kcore.it;
+	s=spark; h=References:In-Reply-To:Content-Type:MIME-Version:Message-ID:
+	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=a4Wy9+o9dxmFYGHL+31TQ2z0lah9y8fKNCooOaR+Ews=; b=VWI28U66X4UW8Fo/AACRtUlDHz
+	mnJKSDMHWxO8mD8wp9PHL+uo1Pfd8lCojT2ngatNPc1VZ6IjPSSG4mL2+CD/S37ArGDtm6ImMePU1
+	GBFPbucOwN6eS13R8Tz18QqaTryu6rN6ehjI9Wa3zPTTdyf/Kx3EAa7b0JCUzvyiPlps=;
+Received: from mnencia by spark.kcore.it with local (Exim 4.96)
+	(envelope-from <mnencia@kcore.it>)
+	id 1wUfzo-000gP1-2Z;
+	Wed, 03 Jun 2026 09:26:36 +0200
+Date: Wed, 3 Jun 2026 09:26:36 +0200
+From: Marco Nenciarini <mnencia@kcore.it>
+To: Angioli Samuele <angioli.samuele@gmail.com>,
+	linux-media@vger.kernel.org
+Cc: Hans de Goede <hansg@kernel.org>, ilpo.jarvinen@linux.intel.com,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
+	linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
+Subject: Re: [BUG] OV02C10 on Dell 16 Premium DA16250 (ARL): INT3472
+ handshake-derived "dvdd" regulator registered but never linked to sensor,
+ sensor probe fails with -EREMOTEIO
+Message-ID: <ah_XLEAkqjV9HkSE@spark.kcore.it>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <abeb9142-16a7-417b-be0f-b929234de6db@gmail.com>
+References: <abeb9142-16a7-417b-be0f-b929234de6db@gmail.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	MISSING_MIME_VERSION(2.00)[];
+X-Spamd-Result: default: False [1.04 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_REJECT(1.00)[kcore.it:s=spark];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-63519-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:balakrishnan.s@microchip.com,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
-	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_NO_DN(0.00)[];
-	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63520-lists,linux-media=lfdr.de];
+	FORGED_SENDER(0.00)[mnencia@kcore.it,linux-media@vger.kernel.org];
+	DMARC_NA(0.00)[kcore.it];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:angioli.samuele@gmail.com,m:linux-media@vger.kernel.org,m:hansg@kernel.org,m:ilpo.jarvinen@linux.intel.com,m:sakari.ailus@linux.intel.com,m:israel.a.cepeda.lopez@intel.com,m:linux-kernel@vger.kernel.org,m:platform-driver-x86@vger.kernel.org,m:angiolisamuele@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mnencia@kcore.it,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kcore.it:-];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.linux.dev:replyto,sashiko.dev:url,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,microchip.com:email]
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,spark.kcore.it:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E44CC6353A6
+X-Rspamd-Queue-Id: 61765635559
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA256
 
-Pre-existing issues:
-- [High] Use-after-destroy in `isc_async_unbind()` due to incorrect teardow=
-n ordering.
-- [High] Missing histogram disable and workqueue cancellation in the `isc_s=
-tart_streaming` error path leads to a kernel panic.
-- [High] Missing IRQ synchronization in `isc_stop_streaming()` leads to a s=
-ynchronous external abort.
---
+Hi Samuele,
 
-commit 9cf229b57997c74f4db26f1539c0b73c428dd501
-Author: Balakrishnan Sambath <balakrishnan.s@microchip.com>
+Thanks for the thorough report, the dmesg and the detail you included
+made this easy to trace.
 
-media: microchip-isc: fix race condition on stream stop
+Both of your hypotheses turn out not to be the mechanism. The naming is
+fine and the fwnode path is not shadowing anything. The dummy dvdd in
+your log is real and is the key clue, but the interesting question is
+how the sensor reached a regulator_get for dvdd at all.
 
-Disable histogram and drain AWB work queue before releasing DMA
-buffers to prevent use-after-free if histogram IRQ fires during
-stream stop.
+> (a) fwnode/of-based supply matching in the regulator core now takes
+> precedence over the legacy dev_name-based supply_map lookups
 
-Cc: stable@vger.kernel.org
+It does not shadow it. regulator_dev_lookup() tries the DT/fwnode path
+first, but regulator_dt_lookup() only does anything when
+dev_of_node(dev) is non-NULL. On ACPI there is no of_node, so it
+returns NULL and the function falls through to the legacy
+regulator_map_list walk. A software_node sensor with no regulator
+phandle is therefore fine, provided the map entry exists at lookup
+time.
 
-> diff --git a/drivers/media/platform/microchip/microchip-isc-base.c b/driv=
-ers/media/platform/microchip/microchip-isc-base.c
-> index 45b94f1e89d86..b19c5a63b4bdc 100644
-> --- a/drivers/media/platform/microchip/microchip-isc-base.c
-> +++ b/drivers/media/platform/microchip/microchip-isc-base.c
-> @@ -427,6 +427,14 @@ static void isc_stop_streaming(struct vb2_queue *vq)
-> =20
->  	mutex_unlock(&isc->awb_mutex);
-> =20
-> +	/*
-> +	 * Disable the histogram so the ISR stops firing HISREQ, then drain
-> +	 * any work that was already queued before returning.  This must happen
-> +	 * after releasing awb_mutex because isc_awb_work also takes it.
-> +	 */
-> +	isc_set_histogram(isc, false);
-> +	cancel_work_sync(&isc->awb_work);
-> +
->  	/* Disable DMA interrupt */
->  	regmap_write(isc->regmap, ISC_INTDIS, ISC_INT_DDONE);
-> =20
->  	pm_runtime_put_sync(isc->dev);
+> (b) The sensor i2c_client created via ipu-bridge has a slightly
+> different dev_name
 
-[Severity: High]
-This isn't a bug introduced by this patch, but I noticed that device power =
-is
-synchronously disabled here without waiting for in-flight IRQs to finish
-executing.
+It does not. int3472->sensor_name is built as "i2c-" +
+acpi_dev_name(sensor), i.e. "i2c-OVTI02C1:00", and that exact string
+is planted into supply_map[].dev_name in
+skl_int3472_register_regulator(). ACPI-enumerated i2c clients are named
+the same way (dev_set_name(&client->dev, "i2c-%s", acpi_dev_name(adev))),
+so the consumer dev_name is byte-identical. No mismatch.
 
-Because the interrupt is registered via devm_request_irq() without a call to
-synchronize_irq() here, microchip_isc_interrupt() may already be executing =
-on
-another CPU when the clocks are disabled.
+What the log actually tells us. The line
 
-The ISR performs a regmap_read() on ISC_INTSR, which will crash the system
-with a bus fault/external abort when attempting to read the unclocked
-memory-mapped registers. Could we add a call to synchronize_irq() before
-shutting down power?
+  ov02c10 i2c-OVTI02C1:00: supply dvdd not found, using dummy regulator
 
-[ ... ]
+is emitted from a single site in _regulator_get_common(), on the
+have_full_constraints() == true, NORMAL_GET path, and only after the
+dummy_regulator_rdev existence check. So it means precisely this: at
+the instant ov02c10 called devm_regulator_bulk_get(), the lookup for
+"i2c-OVTI02C1:00"/dvdd returned -ENODEV, i.e. no INT3472:0c-dvdd
+consumer map entry existed yet. int3472 publishes that map while
+registering the regulator, during its own probe, and its whole probe
+defers (the ~30 retries in your log) until the USB-IO bridge gpiochip
+appears, because the dvdd HANDSHAKE GPIO lives on that chip. So
+ov02c10 took a dummy dvdd before int3472 had registered the real one.
+Under NORMAL_GET with full constraints that dummy is permanent, the
+no-op enable leaves the rail unpowered, and the 0x300a read fails
+with -EREMOTEIO, a hard error that is not placed on the deferred-probe
+list and so is never retried when the real regulator appears later. It
+is also consistent with regulator_summary showing INT3472:0c-dvdd with
+no children after the fact.
 
-While reviewing this file, I noticed a couple of other pre-existing issues:
+(avdd and dovdd also fall back to dummies. If those rails are
+always-on in hardware that is probably benign. dvdd is the one
+INT3472:0c is meant to gate through the handshake pin, so that is the
+one that matters here.)
 
-drivers/media/platform/microchip/microchip-isc-base.c:isc_start_streaming()=
- {
-...
-	ret =3D isc_configure(isc);
-	if (unlikely(ret))
-		goto err_configure;
-...
-err_configure:
-	pm_runtime_put_sync(isc->dev);
-...
-}
+Here is the part that needs your input, because it should not be
+possible. INT3472 is in acpi_honor_dep_ids, so a sensor whose _DEP
+references the INT3472 device is held out of enumeration entirely
+(acpi_dev_ready_for_enumeration() returns false, the i2c client is not
+even created) until int3472 clears the dependency. int3472-discrete
+clears it with acpi_dev_clear_dependencies() as the last step of its
+probe, after int3472_discrete_parse_crs() has registered every
+regulator including dvdd. So in the normal flow, by the time OVTI02C1
+can be enumerated at all, the dvdd map is already published and the
+sensor binds the real rail. The fact that you got a dummy means that
+gate did not serialize them on this board.
 
-[Severity: High]
-This is a pre-existing issue, but the error path fails to call
-isc_set_histogram(isc, false) and cancel_work_sync(), leaving the hardware
-enabled and the workqueue vulnerable to accessing unpowered registers.
+The most likely explanation is that OVTI02C1's _DEP does not carry an
+honored dependency on the INT3472:0c instance that registers dvdd (or
+there is more than one INT3472 instance and the depended-on one is not
+the dvdd provider). To confirm, could you send:
 
-If isc_configure() succeeds (enabling the histogram hardware and its
-ISC_INT_HISDONE interrupt) but a subsequent step times out, the error path
-calls pm_runtime_put_sync() to power down the device clocks. It fails to
-disable the histogram interrupt or cancel isc->awb_work.
+  - the OVTI02C1 _DEP (an acpidump or DSDT extract), so we can see
+    whether INT3472:0c is actually listed;
+  - a dmesg with timestamps showing the order of the int3472-discrete
+    bind, the i2c-OVTI02C1:00 device creation, and the dummy-regulator
+    warning;
+  - the INT3472:0c _CRS plus the _DSM result for the GPIO at
+    \_SB.PC00.XHCI.RHUB.HS09.VGPO pin 1, as you offered.
 
-The hardware can trigger the interrupt before or during shutdown, scheduling
-the work. When isc_awb_work() runs, it bypasses the enabled check and calls
-isc_hist_count(), which performs a regmap_bulk_read() on unpowered register=
-s.
-This causes a synchronous external abort (bus fault) and crashes the system.
-Should this error path be updated to clean up the histogram state and
-workqueue?
+Hans, Sakari, this is where I would like your read. If the _DEP on
+this board is indeed missing the INT3472:0c instance, is the right fix
+a board quirk, or is it worth giving the ACPI consumer path a "supply
+coming later" signal the way the DT path has one?
+of_regulator_dev_lookup() returns -EPROBE_DEFER when the phandle
+target is not registered yet; the legacy consumer_supplies/dev_name
+map has no equivalent, so once the _DEP gate is out of the picture
+there is nothing left to make the sensor wait.
 
+Thanks,
+Marco
+-----BEGIN PGP SIGNATURE-----
 
-drivers/media/platform/microchip/microchip-isc-base.c:isc_async_unbind() {
-...
-	mutex_destroy(&isc->awb_mutex);
-	cancel_work_sync(&isc->awb_work);
-...
-}
-
-[Severity: High]
-This is a pre-existing issue, but the mutex is incorrectly destroyed before
-the asynchronous work using it is definitively flushed and cancelled.
-
-The isc_awb_work handler fundamentally relies on isc->awb_mutex to serialize
-its execution. If the work is running or scheduled when unbind is triggered,
-the worker thread will attempt to lock a destroyed/poisoned mutex. Would it=
- be
-safer to call cancel_work_sync() before mutex_destroy()?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260603-microchip-=
-isc-fixes-v6-0-8c3d7474a768@microchip.com?part=3D3
+iQIzBAEBCAAdFiEEfCO4BD5l0pgKIbbiWJ8D8BulUDgFAmof1vIACgkQWJ8D8Bul
+UDhKsxAAhvXDzdrZLmLC+7kV5ORVVl0oEZxv/ylThq8xzkiPdkkkdCYcf0cF/Xgp
+rH2LvTr/lqJjCL8P8S7ytzJ+8DCX7UpjnFy5AsyTJZGBa312eG9Ksrf9GMOJ5slL
+r4KqKu8feyuQNgkaYKsxO342OSlPas5aAKVUIQeEUB+1Q2eQ4ffe5MR+Rdub9a5q
+1SKIfmuAzs7DJc86gBYmA6wz7FEpmXNH3ugu3QLFLB7NlEQEHQIl8Jo3w5yt5GCi
+Gs+0JgmydKkTmNpUJ4c13tXk+G3G8Um2fg6sgwIX/pOhjbPrrzpgZgwVGI/eZdfM
+MKQ2qWYiMuDFsd3ZnXMyHrffIVMj2q/UB+ye2bAP3a9QsxubuvCaCGk+ksBRvtUk
+4GE1MQ+yFVakru93ADfTJ+ASuyaVI6fVG9H4zt46up5z04DzGYSYhXAJSOfBCz6A
+CRAkKBkTga8bHeqdt289kzgES+OIkX2XeE7eOl8JX+LoDIfQiLD7cbGynHNjR4mf
+fjfBVwTmwRES+KC5+KLbsgrdCfpX0RCb8iBmQto7jxTUImKI3xMgmHYf51PYyqmA
+/uSpYW1G4YwBGn8/9aI2P9FiQyQXdt6LTqBz+Ld9CxGiKUNvfj078lcZoa7Dq22n
+5S14yapsNfoJbEyYhIshu2exu9rcW30DGSnloS1gTuIvz+e72hc=
+=egB7
+-----END PGP SIGNATURE-----
 
