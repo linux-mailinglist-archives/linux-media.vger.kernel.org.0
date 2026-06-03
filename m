@@ -1,204 +1,198 @@
-Return-Path: <linux-media+bounces-63642-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63643-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id kgdODGRhIGpA2QAAu9opvQ
-	(envelope-from <linux-media+bounces-63642-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 19:16:20 +0200
+	id JtMVJpxmIGoD2wAAu9opvQ
+	(envelope-from <linux-media+bounces-63643-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 19:38:36 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B3EA63A19B
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 19:16:19 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09F8963A358
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 19:38:36 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=collabora.com header.s=mail header.b=axVI2v1o;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63642-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-63642-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=collabora.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=XZ067zuT;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63643-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63643-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 41F7D308493E
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 17:14:48 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id B9C5B3019105
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 17:36:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51A804779B3;
-	Wed,  3 Jun 2026 17:14:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA49943E4B1;
+	Wed,  3 Jun 2026 17:36:24 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6361F3D25AD;
-	Wed,  3 Jun 2026 17:14:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27ABD3783C1;
+	Wed,  3 Jun 2026 17:36:21 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780506853; cv=none; b=arZ5mNDbjMCShiOLhBmemznRKirTF00w1swLyeZRACo6FXYm7TJ8tgkgF786458vV8slK8M2TOeDfYlw0m0JQ9dKHCDXMt4RD9gwkCy3sXM+FSkZoLgTgKoKy1M+xARehqFNczykF0q+/Q9QVK2x7YSf7ncx4atel3y0mTEOttA=
+	t=1780508183; cv=none; b=cObdSbl9VtUuNaJ49etSpqlz5ED+Zl+2guWVcCPziGA33Jh39eEDaIGMtHOcda7rKweRxt0NCjeVwvcxouLnH+xIF7iveI7XUbh7Z6OGVZWeG1bQOYBFoVJYb/B4g32y9W35+MIKB3YvAx46HKTxBHKpy4pqcWSEwA0HNIRifHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780506853; c=relaxed/simple;
-	bh=TLmekHM3EmmxpFvVf0s2ub+Xb1oU8p/GBNRtuqGNaWI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JktrVO84nGZ/lvIYRW2FvxerIsqTYGDl+IOhwkMMdDpWRbC1kgoblhiidtulOydwhyztXyH+pYx1khii6N7LPdguKuDG8MyEgxoAanXn4PxA8tgqQPgvMokkAv0Z0Lpp4Ngvgs/V2nqsJEveQ1oCpb3D8hHbQ1P99PhneFVjFbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=axVI2v1o; arc=none smtp.client-ip=148.251.105.195
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1780506850;
-	bh=TLmekHM3EmmxpFvVf0s2ub+Xb1oU8p/GBNRtuqGNaWI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=axVI2v1oU/IIMKtn8X01EBEvuFuOLnOM54apTBHtHP2lQNaDvDltdf3Mde3xDboLu
-	 5PF0kH4s8L9VjNDKIawb74LfJJWXmGaOzeF1zLQf4paiY1MU9Fg48onr55L+Ak3C8G
-	 mLbg4vgV0L5ufHjNtLWU3GzDo6UkwI9PvIt+0xKtW27/6moaWiv9Qo5SkzMTQHK52Y
-	 O32VNGIJ/wbtBBB+ckEX1eAnQHOFLsSxhilyZSaDEAE2C/GvXsM7p35rQDSGVxOI57
-	 xFXL5sgkzS5K99/iAAf5x62loT1VeTEz8pFwcAjtBNpiPOAnYassMd6yX+qgWAQAwS
-	 Vnti14waWdv6w==
-Received: from fedora-2.home (unknown [100.64.0.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 57F2317E05FC;
-	Wed,  3 Jun 2026 19:14:09 +0200 (CEST)
-Date: Wed, 3 Jun 2026 19:14:05 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Daniel Almeida <dwlsalmeida@gmail.com>
-Cc: Philipp Stanner <phasta@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin
- <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl
- <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich
- <dakr@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
- =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, "Paul E. McKenney"
- <paulmck@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, Neeraj
- Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes
- <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>, Uladzislau
- Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, Mathieu
- Desnoyers <mathieu.desnoyers@efficios.com>, Lai Jiangshan
- <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Igor Korotin
- <igor.korotin@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, Alexandre
- Courbot <acourbot@nvidia.com>, FUJITA Tomonori <fujita.tomonori@gmail.com>,
- Krishna Ketan Rai <prafulrai522@gmail.com>, Shankari Anand
- <shankari.ak0208@gmail.com>, manos@pitsidianak.is,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, rcu@vger.kernel.org
-Subject: Re: [PATCH 3/4] rust: Add dma_fence abstractions
-Message-ID: <20260603191405.4c75badb@fedora-2.home>
-In-Reply-To: <4F8E8E04-5AB5-4E6B-9194-5FC467E2313F@collabora.com>
+	s=arc-20240116; t=1780508183; c=relaxed/simple;
+	bh=5kE1Z86aEccF8JZhurwzjiMhwyWBy34jLUiIDgWMOtk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rXnjjSVweAuMmXej1tNFJG2B0f4vUeGW4P22GndG6xpDzuoQ45dUpk3WxLoB+SEz4S48xoIXxqedv2JiaYcX89jxuGrurKi9mgsSpPaJP734XcZy2Pokfvg0V/RI6+2cN96lKIkloBzWYXD8Pbq9r+ripQBUGk50hJ+OkKecnao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XZ067zuT; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF9C61F00893;
+	Wed,  3 Jun 2026 17:36:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780508180;
+	bh=W0atkC16En4IZdbZdsjQCqRJTQ/DFbwkWu7nB7JU7rQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=XZ067zuT+zSmlyt0tNWWWAEVuaJn7eTw7avNuL3/EmI7L9S1qYOEJMmbxyRWKf4/+
+	 72RW1kYzkbFCwPm8Qv2V2g3ZWizE9yxMLJdT7eQYc06e3zURBiPjwkQFnUnngfBncS
+	 fL0jjihTX/tcRtfA5oCT/ucF3Xx/a/hJutUrCB9oySrWa4fMW2//yzHkFf0kKs3RWS
+	 vv+M/tJ/RMHF3uDbTVttVpEaQ/6pTZgLVg33mnGLYAqrSqFObJsGSSSlgnDDi49QAo
+	 5Afv3HdavgVTi+IYD7GzlGAINWmb35tZthHr7ZFE70As1Mz+GZldi3k8WJrrsk9USK
+	 r19J54EdelY2g==
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 00F26F40076;
+	Wed,  3 Jun 2026 13:36:19 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-07.internal (MEProxy); Wed, 03 Jun 2026 13:36:19 -0400
+X-ME-Sender: <xms:EmYgakmDEdhpTVl_WevR5FD2XgK8yHnavi6_-lejRvlqtVxcyrD34A>
+    <xme:EmYgagmmGa__kdlLlByW8q9iaLSrjoYHsMhpnRzkuG7P0k6XN_CFBBvKbU1s0TSeL
+    CaIc_OYk7q_w-GpKeUVhe6xLQf25U34QEpZpAOdZ5bBhtaadDL-7A>
+X-ME-Received: <xmr:EmYgaiOShT93iIwSlKdA5xiXK4_XcvBxd28PYRZ8vs5RYoKsNuacHoO-Fvo>
+X-ME-Proxy-Cause: dmFkZTExiAM4S4b6rbDBhYcsipt+WIcQ6U92Lpa8QXEozbKBUuNKniuqF8nLee6VGz/1IM
+    wH6MVeq3StWv5bWz4ExZ/72JO0pdsE/ERKzl1Iak6MH3IHVKCisb2zKFOiWyK1VU3RoKDM
+    9OnABto/ClwFrxe0LbbCc/Urw/R6p8Xjq28WIPem4wxbpq1/FJ3pE+iZS5/fH9BBNpEK0k
+    Py0InZHQ+GCPlEffJv06Lhqaxtlhb82z+KTZACF67znSkQXHpsH9PhF/f5iO6JCaXaJL9C
+    mfpvi8h/iV12rJIfTbMWXQgJ8TrK2rnhiX7vmT/FZMuXUIsxVNaxup2eCLx9K5GzlGY9bq
+    7W0aE11bk31uSLtt0kamnoXI/FseX6YWbA0HCpgFi/yp2k1iT5hz5rZQVW/vNPaHZsa+Gk
+    Gi2rQ1Pjw/iWKAb0VSccByuRxHo58Y0r4u6Ra9htuCzrz7kflCTBMjnwhg88aPL4AHDFSM
+    UxNFI3WeQPpPzCEzDf2pOCWqB475UqLzKUu7a9dVnSOX2v/yF87QF3iLuhU45iwjLslLkY
+    EdkAKhG5/QK/aWZjzR0NQ+M6lBaaPVpzjcr+q+RfYtHue87beXg7Q2cOJeZYMpL+Sdc5EX
+    pFXxEXoo5A6YDWE1fAsvBcpZQigub9OcACkAIUgZPkJJnKUqWpchmmlv5KuQ
+X-ME-Proxy: <xmx:EmYgapMF0_L7rcF8njCmaB8Np2WhsRwIUyPwh8tsG9nkbplnj7HguQ>
+    <xmx:EmYganHUyR9F7eLuQ6I1T3DUUgWD3flki5o_JNttRj4Jaqqc0WelqQ>
+    <xmx:EmYgano-0gjNnHZcUEHJRktEzt6deD11ds10nYaz0fK8UP8h29_wNQ>
+    <xmx:EmYgak8ksADbxYFMj44ImNygib9jFYCpnzUlT_eoPSlHJWElAY9pEg>
+    <xmx:EmYgaoQZqpT6gnp3USQITMG_I8BoTGRAa-cNGbBns6qS8R3RaX6VCDT7>
+Feedback-ID: i8dbe485b:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 3 Jun 2026 13:36:18 -0400 (EDT)
+Date: Wed, 3 Jun 2026 10:36:16 -0700
+From: Boqun Feng <boqun@kernel.org>
+To: phasta@kernel.org
+Cc: Miguel Ojeda <ojeda@kernel.org>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,	Zqiang <qiang.zhang@linux.dev>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Igor Korotin <igor.korotin@linux.dev>,	Lorenzo Stoakes <ljs@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	FUJITA Tomonori <fujita.tomonori@gmail.com>,
+	Krishna Ketan Rai <prafulrai522@gmail.com>,
+	Shankari Anand <shankari.ak0208@gmail.com>, manos@pitsidianak.is,
+	Boris Brezillon <boris.brezillon@collabora.com>,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, rcu@vger.kernel.org
+Subject: Re: [PATCH 2/4] rust: rcu: add RcuBox type
+Message-ID: <aiBmELaetTWXcmhu@tardis-2.local>
 References: <20260530143541.229628-2-phasta@kernel.org>
-	<20260530143541.229628-5-phasta@kernel.org>
-	<4F8E8E04-5AB5-4E6B-9194-5FC467E2313F@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+ <20260530143541.229628-4-phasta@kernel.org>
+ <ahr9gtzQLSbPeBx_@tardis.local>
+ <e8b16f3b40d42f3b0a8814180fa9b06f82c9d901.camel@mailbox.org>
+ <ah2L-TMT5UHSd_Hs@tardis-2.local>
+ <441fccce521857ab82b84bb8e5ab539ee3810a36.camel@mailbox.org>
+ <aiBH95n4HqrNtgtz@tardis-2.local>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aiBH95n4HqrNtgtz@tardis-2.local>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:dwlsalmeida@gmail.com,m:phasta@kernel.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:paulmck@kernel.org,m:frederic@kernel.org,m:neeraj.upadhyay@kernel.org,m:joelagnelf@nvidia.com,m:josh@joshtriplett.org,m:urezki@gmail.com,m:rostedt@goodmis.org,m:mathieu.desnoyers@efficios.com,m:jiangshanlai@gmail.com,m:qiang.zhang@linux.dev,m:gregkh@linuxfoundation.org,m:igor.korotin@linux.dev,m:ljs@kernel.org,m:acourbot@nvidia.com,m:fujita.tomonori@gmail.com,m:prafulrai522@gmail.com,m:shankari.ak0208@gmail.com,m:manos@pitsidianak.is,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:rcu@vger.kernel.org,m:fujitatomonori@gmail.com,m:shankariak0208@gmail.com,s:lists@lf
- dr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63642-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[37];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63643-lists,linux-media=lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:ojeda@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:paulmck@kernel.org,m:frederic@kernel.org,m:neeraj.upadhyay@kernel.org,m:joelagnelf@nvidia.com,m:josh@joshtriplett.org,m:urezki@gmail.com,m:rostedt@goodmis.org,m:mathieu.desnoyers@efficios.com,m:jiangshanlai@gmail.com,m:qiang.zhang@linux.dev,m:daniel.almeida@collabora.com,m:gregkh@linuxfoundation.org,m:igor.korotin@linux.dev,m:ljs@kernel.org,m:acourbot@nvidia.com,m:fujita.tomonori@gmail.com,m:prafulrai522@gmail.com,m:shankari.ak0208@gmail.com,m:manos@pitsidianak.is,m:boris.brezillon@collabora.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:rcu@vger.kernel.org,m:fujitatomonori@gmail.com,m:shankariak0208@
+ gmail.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
-	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[boqun@kernel.org,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,linaro.org,amd.com,nvidia.com,joshtriplett.org,gmail.com,goodmis.org,efficios.com,linux.dev,collabora.com,linuxfoundation.org,pitsidianak.is,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tardis-2.local:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[boqun@kernel.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,linaro.org,amd.com,nvidia.com,joshtriplett.org,gmail.com,goodmis.org,efficios.com,linux.dev,linuxfoundation.org,pitsidianak.is,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,collabora.com:from_mime,collabora.com:dkim]
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0B3EA63A19B
+X-Rspamd-Queue-Id: 09F8963A358
 
-On Wed, 3 Jun 2026 13:41:02 -0300
-Daniel Almeida <dwlsalmeida@gmail.com> wrote:
-
-> > +    /// Called when the fence is signaled.
-> > +    ///
-> > +    /// This is called from the fence signaling path, which may be in interrupt
-> > +    /// context or with locks held, which is why `self` is only borrowed, so that
-> > +    /// it cannot drop. Implementations must not sleep or perform
-> > +    /// long-running operations.
-> > +    ///
-> > +    /// An implementation likely wants to inform itself (e.g., through a work item)
-> > +    /// within this callback that the associated [`FenceCbRegistration`] can now be
-> > +    /// dropped.
-> > +    fn called(&mut self);  
+On Wed, Jun 03, 2026 at 08:27:51AM -0700, Boqun Feng wrote:
+> On Wed, Jun 03, 2026 at 11:33:27AM +0200, Philipp Stanner wrote:
+> > > > > and Philipp can use the `RcuKBox` in this patchset. We also need to impl
+> > > > > InPlaceInit for RcuBox, but that can be added later.
+> > > > 
+> > > > So shall we merge my series with Alice's patch, and later we add your
+> > > > patch and other features, or would you prefer to have the additional
+> > > > boxes from your patch from the get-go?
+> > > > 
+> > > 
+> > > I would like to have it from the get-go mainly because of RcuBox vs
+> > > RcuKBox naming. Thank you!
+> > 
+> > Fine by me. Just process-wise: how should we do it?
+> > 
+> > I could include your patch on top of Alice's. Would be a bit more
+> > consistent regarding the git-workflow if we'd squash the two patches,
+> > but then you two would have to agree on authorship.
+> > 
 > 
-> This is a central point. We ideally would want this to consume self, because we
-> may want to move things out of the callback.  
-
-This one comes from me. The rationale being that ::called() is called
-from an atomic context, and the resources attached to the callback data
-might require acquiring other sleeping locks to be released, and
-sometimes you don't even notice immediately because said resources are
-refcounted, and the lock is only acquired when you happen to be the
-last owner. Yes, those can be caught at runtime if the C side is
-properly annotated with might_sleep(), but that's not always the case.
-
-If we defer the drop of the data only when the FenceCb is
-dropped/recycled, we're at least not constrained by this "runs in
-atomic context" thing.
-
+> Keeping it as a separate patch is fine by me.
 > 
-> Consider a fence design where signal() consumes self. Now consider this:
-> 
-> ```
-> impl FenceCb for MyCallback {
->  fn called(&mut self) {
->    // Can't move the fence out, so we have to put an Option<T> just to be able
->    // to move.
->    if let Some(f) = self.some_fence.take() {
->      f.signal();
->    }
-> }
-> ```
-> 
-> This used to be the case when our version of the job queue used the "proxy
-> fence" design:
-> 
-> 
-> ```
-> // Callback on the hw fence
-> impl FenceCb for MyCallback {
->  fn called(&mut self) {
->    if let Some(f) = self.submit_fence.take() {
->      f.signal();
->    }
 
-I'm pretty sure lockdep won't like it anyway, because this is nested
-locking of the same lock class. For such proxies, we'll need to teach
-lockdep about the nesting like has been recently done on
-dma_fence_array & co. But I'm digressing.
+So is squashing ;-) Whichever is easy for you.
 
-> }
-> ```
+Regards,
+Boqun
+
+> Regards,
+> Boqun
 > 
-> Although this is not the case anymore, since we phased out this design given
-> Christian's recent work. Still, we should ideally not require Option<T> here in
-> general just to make resource transfer possible.
-
-I see. OTOH, don't we need to make this inner data movable if we want
-to cancel the FenceCb before the fence is signaled anyway? And that's
-most certainly a case we have in the teardown path.
+> > All is fine by me, but I wanted to ask instead of just do A or B.
+> > 
+> > 
+> [...]
 
