@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-63468-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63469-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id txUTHYtyH2oTmAAAu9opvQ
-	(envelope-from <linux-media+bounces-63468-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 02:17:15 +0200
+	id Ltm0K9h0H2p6mAAAu9opvQ
+	(envelope-from <linux-media+bounces-63469-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 02:27:04 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCBF9633245
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 02:17:14 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 244FC633324
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 02:27:04 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="FQkn/9VC";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63468-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-63468-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=d2mEDmDO;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63469-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63469-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 822E1308888D
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 00:13:53 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3996C30258BE
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 00:27:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 123FC1474CC;
-	Wed,  3 Jun 2026 00:13:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA70D223DE9;
+	Wed,  3 Jun 2026 00:26:57 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 900B07E105
-	for <linux-media@vger.kernel.org>; Wed,  3 Jun 2026 00:13:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FEAB18BBAE
+	for <linux-media@vger.kernel.org>; Wed,  3 Jun 2026 00:26:56 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780445632; cv=none; b=KElFwX6MUt6QNgGczqAcb3NBzn4NXEQaYjxVbGWvIfLaGrAdjDduPPJbdBRYI0wfEIzOpJVYUVrHvtYOD+dceixT9/VmHsXq/FJTZjVGpUbfXc2yyWmVHSG+3bPgSgBMTKLsgVexvQOzaAHtFFqhuuhR2pfcAh6heeSFo+E1ipc=
+	t=1780446417; cv=none; b=GvuokcNUshhF/zto8aB/g5yP2xvvbCo6XOlN5WjR2UfV3Dqr87PztOVF/iswAe4q4pmM2v33B+eoeqkxnwkVKuHG+fF2DBBp/2p/7P8SFxn/T46Q7/D0KSbirncAfzQt1qB6eRidVvrC9pm+KbXF2mTsLXwHMmLzW8x8iUXiFDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780445632; c=relaxed/simple;
-	bh=Ij5AlUn3kLgLzPJL40KNFQuV8/HGTi46/4jD2ciUm7U=;
+	s=arc-20240116; t=1780446417; c=relaxed/simple;
+	bh=wPe29ZcqIIa6vxYNWIHN2qtPjQy6lk7rGtLHlp2D148=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=Zaxx55il8mKgNGqxhyOeBraBPL22eKcOpyK6KfmMLtOMEHex+xd+Xp5qYg6xFzlpFwn3yVR4bUpx/PzA29/6Gd2Ck25CYneV2DcSCrjgUh9a823Fz2GunxUHb9hXQHjxb3G5kPY8YG8ufUB3gDu+MzZb2k6evybhXhI1v3iDSSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FQkn/9VC; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 126A91F00893;
-	Wed,  3 Jun 2026 00:13:51 +0000 (UTC)
+	 Message-Id; b=FLZPdd1eyModvkZEF2McCOgjfj90rdISX0uvsP/zgIHQmYksrZN6TlwjldQZuLM+QbZL8FhZUIZrFghKDepVS+f3izsOS6gWNT/q7RWtdA2nq6VSKUB284corlzoWOhdkB/bboWPrIwq6ZeEhVuWpXqPwOTXUBm7xd/7S78m3IM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d2mEDmDO; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4729D1F00893;
+	Wed,  3 Jun 2026 00:26:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780445631;
-	bh=vgHGYbC+22EDodcb7j+X9k/BVwtZ0R8aLGYD27P8pYE=;
+	s=k20260515; t=1780446416;
+	bh=jy+h/sosdtYwkuWdHW3uH2xHGiU3gVppku29f+SqI8c=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=FQkn/9VC6ZtGvDYiTgPVCdq1RqT7h1t3Rt0ML/BuMo2VWiEqHY1VtCUI1Y86Deqhd
-	 dl/Tu/TGpqT7Wt6lK1y+eO4vgj0pk7HJxhcqrAEHT8iO3Z92te+p7VAsgEodhFggsR
-	 eoHXZ3M2IvtWO+YMR6+z7+IxY3weCjsLG0K92rhvIpPzvizmwsu2CW7+L4J9FxcmTz
-	 QAKTDxq7SPUIlOD7QkGagjMgxTRUUA/9Px9EWY32JVX0p86lQLCmPfSPpipfID7nzq
-	 xrhirBojGarkp2an74Mg95jI8hS6SjL4y+EuMrhx1Vlc2mzwN5tIE3NHps5oLMmpWs
-	 0FNM4BnBqQzzg==
+	b=d2mEDmDOTaIwV25iWvWIfJS6cXi1O6jC8QZ81tsCRwmR2bkJ8iF92hRVM2jDSyJ18
+	 Q6S/Ybc269rqotsU8fD0X04NPlMY+wDsYaCkuaSXq12WYTEs1u6ySL9DQghIvj32Nd
+	 A2aLY/pxUA1/FScyrhlyFr8EYisbB/i9y+Ts+4NB3ZAYw4K610OV/Qp2oGz54p9PTM
+	 3bajhLrwZz5sINmwFlC8zscT7EbIrwhDCdl4QhtYesP9DxwtY4iMVqKtdu93cEyk5z
+	 RHyLPm+/MP9FVB0TDeZTB3KVpv3z+NfdCeEv6DITRR7GR7iROKFFiE9DA/lsxsaMBi
+	 EMhoa5OJdgJlg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 4/8] media: qcom: camss: Initialize lanes after lane
- configuration is available
+Subject: Re: [PATCH v6 5/8] media: qcom: camss: csiphy-3ph: Add Gen2 v1.1
+ MIPI CSI-2 C-PHY init
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "David Heidelberg via B4 Relay" <devnull+david.ixit.cz@kernel.org>
 Cc: linux-media@vger.kernel.org
-In-Reply-To: <20260603-qcom-cphy-v6-4-e50de0b557a8@ixit.cz>
-References: <20260603-qcom-cphy-v6-4-e50de0b557a8@ixit.cz>
+In-Reply-To: <20260603-qcom-cphy-v6-5-e50de0b557a8@ixit.cz>
+References: <20260603-qcom-cphy-v6-5-e50de0b557a8@ixit.cz>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 03 Jun 2026 00:13:50 +0000
-Message-Id: <20260603001351.126A91F00893@smtp.kernel.org>
+Date: Wed, 03 Jun 2026 00:26:54 +0000
+Message-Id: <20260603002655.4729D1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -69,13 +69,13 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-63468-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63469-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:devnull+david.ixit.cz@kernel.org,m:linux-media@vger.kernel.org,m:devnull@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
@@ -97,79 +97,87 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_NO_DN(0.00)[];
 	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,lists.linux.dev:replyto,vger.kernel.org:from_smtp,sashiko.dev:url,ixit.cz:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,lists.linux.dev:replyto,vger.kernel.org:from_smtp,ixit.cz:email,sashiko.dev:url,smtp.kernel.org:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: BCBF9633245
+X-Rspamd-Queue-Id: 244FC633324
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] The patch introduces an unconditional read of uninitialized heap=
- memory (`regs->lane_regs`) for Gen1 platforms in `csiphy_lanes_enable()`.
+- [Low] The patch introduces the use of `CSIPHY_SETTLE_CNT_HIGHER_BYTE` in =
+`lane_regs_sdm845_3ph`, but the driver lacks support for it in `csiphy_gen2=
+_config_lanes()`, creating a brittle hidden fallback.
 --
 
-commit 55583036179e2bfc17906697e5da8e0e61d94891
+commit 58f98987d0e532a5cd22b2d977566527a7e3b7b9
 Author: David Heidelberg <david@ixit.cz>
 
-media: qcom: camss: Initialize lanes after lane configuration is available
+media: qcom: camss: csiphy-3ph: Add Gen2 v1.1 MIPI CSI-2 C-PHY init
 
-This commit delays lane initialization until after the lane configuration
-is available, as it depends on whether D-PHY or C-PHY mode is in use. It
-moves the lane initialization switch statement into csiphy_lanes_enable().
+Add a PHY configuration sequence for the sdm845 which uses a Qualcomm
+Gen 2 version 1.1 CSI-2 PHY. The PHY can be configured as two phase or
+three phase in C-PHY or D-PHY mode. This configuration supports three-phase
+C-PHY mode.
 
 > diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/d=
 rivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> index 15876eb973718..938c365eb352f 100644
+> index 938c365eb352f..13d7372bd225d 100644
 > --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
 > +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> @@ -1168,6 +1168,98 @@ static void csiphy_lanes_enable(struct csiphy_devi=
-ce *csiphy,
 [ ... ]
-> +	case CAMSS_8300:
-> +	case CAMSS_8775P:
-> +		if (c->phy_cfg =3D=3D V4L2_MBUS_CSI2_CPHY) {
-> +			regs->lane_regs =3D NULL;
-> +			regs->lane_array_size =3D 0;
-> +		} else {
-> +			regs->lane_regs =3D &lane_regs_sa8775p[0];
-> +			regs->lane_array_size =3D ARRAY_SIZE(lane_regs_sa8775p);
-> +		}
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	if (!regs->lane_regs && c->phy_cfg =3D=3D V4L2_MBUS_CSI2_CPHY)
+> @@ -220,6 +228,72 @@ csiphy_lane_regs lane_regs_sdm845[] =3D {
+>  	{0x0664, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
+>  };
+> =20
+> +/* GEN2 1.0 3PH */
+> +/* 3 entries: 3 lanes (C-PHY) */
+> +static const struct
+> +csiphy_lane_regs lane_regs_sdm845_3ph[] =3D {
+> +	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(23), 0x43, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(26), 0xa0, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(27), 0x25, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(1),  0x06, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(3),  0x12, 0x00, CSIPHY_SETTLE_CNT_LOWER=
+_BYTE},
+> +	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(2),  0x00, 0x00, CSIPHY_SETTLE_CNT_HIGHE=
+R_BYTE},
 
-[Severity: Medium]
-Will this evaluate uninitialized heap memory for Gen1 platforms?
+[Severity: Low]
+Does the driver actually support writing the higher byte of the settle count
+here?
 
-Looking at csiphy_init(), regs is allocated using devm_kmalloc(), which
-does not zero-initialize memory:
+Looking at csiphy_gen2_config_lanes() in this file, the switch statement
+doesn't handle CSIPHY_SETTLE_CNT_HIGHER_BYTE:
 
-drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c:csiphy_init() {
-    ...
-	regs =3D devm_kmalloc(dev, sizeof(*regs), GFP_KERNEL);
-	if (!regs)
-		return -ENOMEM;
+		switch (r->csiphy_param_type) {
+		case CSIPHY_SETTLE_CNT_LOWER_BYTE:
+			val =3D settle_cnt & 0xff;
+			break;
+		case CSIPHY_SKEW_CAL:
+			/* TODO: support application of skew from dt flag */
+			continue;
+		case CSIPHY_DNP_PARAMS:
+			continue;
+		default:
+			val =3D r->reg_data;
+			break;
+		}
 
-	csiphy->regs =3D regs;
-    ...
-}
+Since the case is missing, it falls through to the default case and writes
+the hardcoded 0x00 value from the array instead of actively evaluating the
+higher byte of the calculated settle count.
 
-For platforms that fall through to the default case in the switch block
-above, regs->lane_regs remains uninitialized when it is subsequently
-evaluated here. Could this regression lead to undefined behavior and
-potential false positives or negatives for the C-PHY warning?
+This happens to work right now because csiphy_settle_cnt_calc() returns a u=
+8,
+so the higher byte would always be zero anyway, but it renders the
+CSIPHY_SETTLE_CNT_HIGHER_BYTE tag meaningless.
 
-> +		WARN_ONCE(1, "Missing lane_regs definition for C-PHY!\n");
-> +
->  	settle_cnt =3D csiphy_settle_cnt_calc(link_freq, csiphy->timer_clk_rate=
-);
+> +	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(5),  0x20, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(20), 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260603-qcom-cphy-=
-v6-0-e50de0b557a8@ixit.cz?part=3D4
+v6-0-e50de0b557a8@ixit.cz?part=3D5
 
