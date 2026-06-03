@@ -1,65 +1,65 @@
-Return-Path: <linux-media+bounces-63652-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63653-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id aKe+McWHIGoC4wAAu9opvQ
-	(envelope-from <linux-media+bounces-63652-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 22:00:05 +0200
+	id uBy6G52GIGrW4gAAu9opvQ
+	(envelope-from <linux-media+bounces-63653-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 21:55:09 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C74063B06D
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 22:00:05 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD29263B023
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 21:55:08 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=elVAscaC;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63652-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-63652-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=ONn27zDN;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63653-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63653-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=redhat.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5520A30D298F
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 19:52:55 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CCE313080109
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 19:53:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E9873A5E8D;
-	Wed,  3 Jun 2026 19:52:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31C773A2544;
+	Wed,  3 Jun 2026 19:52:48 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B1239EF38
-	for <linux-media@vger.kernel.org>; Wed,  3 Jun 2026 19:52:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50053A7D6F
+	for <linux-media@vger.kernel.org>; Wed,  3 Jun 2026 19:52:44 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780516363; cv=none; b=tErsVx/GtAS+eH6awObFl37XruwOFBL/1nM/nhu9kGcv7zj8a/tIZQZBn8iD4rbsQ2CryRqZR84MK0zfcFBb/Bg7DJpg7RuEnOvNBZJhaVcpkDH3xwjCBgdZr+L6m3P9o+Lg0YcoMLRY0tw4JeUgXgLBH6sAYqBTER9ETBh5ig8=
+	t=1780516367; cv=none; b=m2l0KfaIF+gW/pnYBmA79fTDDMEEOfMM7z84EiijyMOn8pyy184KC9A4u/QaIa2ZxVSyq4bl40Lzp6Y3Gi5FVG965ca/6b6m3lQiVL+DnMwxwZhNI5TZhapILU4TPhTrNOrkYru+gSjLj7xbb1tfyYejIK3VZJrdEPXS12vdjr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780516363; c=relaxed/simple;
-	bh=umwawEzRaVqGQ58SmcAjEXQ5zooLJBV9oJWhj8xBmeY=;
+	s=arc-20240116; t=1780516367; c=relaxed/simple;
+	bh=eHHfnZVqVtVvzrXbOkr4FCVAebNMUG4+hS9sPsRcVRE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TQKnuhpTlghsyAoZQx1409oZSGvMiRUy72yxEC7svCikCQM+1funVAFhMXDjB9caTVgN2yncn3HdohrhXgr3Qv64P7KdPQXPfYZi3kwRTMzJiPJHdQU10GMDEh5k8J0Wa+Tv9YMcaaDJSyRGyr5axvyCImjqeJdarDQ+JJuXu5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=elVAscaC; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=ihQbP5HyGoDRi/fIvCM+Zgjfzgsj8qPA4ryVr4V8/iOherWVItI6/6kU8XZauhCTc7NKSxTHpM2n3YB7ZmyiOH2wAMyl7wX/ORoHRC6vzzPP5U/IUq89QhY2xXOpccyLxHrtz3WSOfEZMyCEsQPyTveBi5/klB6q502eKkqopyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ONn27zDN; arc=none smtp.client-ip=170.10.129.124
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1780516360;
+	s=mimecast20190719; t=1780516364;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=ji3R873SgQHyxfzMQgkhE7LmK1MPE9r7ND0eG5Mf4OM=;
-	b=elVAscaCpuaDawbTzxohPGXtgEV5IDuoydqJun7ZZBGiAoNTvl4rtP5+AIrQvxRTA/8UcX
-	EdD5j8Rq6qIHAv1wd8COYejVVBEGrR2VmuuVwMNeL0N1roc94KeeDcfy7hk+q/vaUvC/cf
-	5dlwSzBPQbGB9lGJHU7XybPyuI40i3k=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+	bh=GVITabHFaiXEpM9NcxPN2gSYPs96UTRYW/D9VFzedxk=;
+	b=ONn27zDN0LK9kH0J46ov9AVfmRjne8KoILP0EDAEcM5uuyGQvDyYh6wg6FwEWeC1GqM10r
+	yLWxPmcfaiL7C8nsp5qv3JLI0ZfPBAivSIFv6LManeBv32wXe73Lb49s6qEU+Nmo6rOLvB
+	pIGqo0CXEM1uWoPyc9FVAL6frfT72k4=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-488-ThXfEKrpPjuaMtoOn4dIWA-1; Wed,
- 03 Jun 2026 15:52:39 -0400
-X-MC-Unique: ThXfEKrpPjuaMtoOn4dIWA-1
-X-Mimecast-MFC-AGG-ID: ThXfEKrpPjuaMtoOn4dIWA_1780516356
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-601-DhnIDEKSOMKlT7XNGLSDcw-1; Wed,
+ 03 Jun 2026 15:52:42 -0400
+X-MC-Unique: DhnIDEKSOMKlT7XNGLSDcw-1
+X-Mimecast-MFC-AGG-ID: DhnIDEKSOMKlT7XNGLSDcw_1780516359
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 146EF1800370;
-	Wed,  3 Jun 2026 19:52:36 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8855E1800586;
+	Wed,  3 Jun 2026 19:52:39 +0000 (UTC)
 Received: from GoldenWind.lan (unknown [10.22.81.203])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E7CF61800591;
-	Wed,  3 Jun 2026 19:52:32 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 45F3B1800347;
+	Wed,  3 Jun 2026 19:52:36 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org,
@@ -87,9 +87,9 @@ Cc: Alexandre Courbot <acourbot@nvidia.com>,
 	Daniel Almeida <daniel.almeida@collabora.com>,
 	Lyude Paul <lyude@redhat.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v17 5/6] rust: sync: Add SetOnce::reset()
-Date: Wed,  3 Jun 2026 15:42:34 -0400
-Message-ID: <20260603195210.693856-6-lyude@redhat.com>
+Subject: [PATCH v17 6/6] rust: drm: gem: Introduce shmem::Object::sg_table()
+Date: Wed,  3 Jun 2026 15:42:35 -0400
+Message-ID: <20260603195210.693856-7-lyude@redhat.com>
 In-Reply-To: <20260603195210.693856-1-lyude@redhat.com>
 References: <20260603195210.693856-1-lyude@redhat.com>
 Precedence: bulk
@@ -108,11 +108,11 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
 	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63652-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63653-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[26];
 	FREEMAIL_CC(0.00)[nvidia.com,garyguo.net,amd.com,lists.linux.dev,kernel.org,linux.intel.com,google.com,ffwll.ch,vger.kernel.org,linaro.org,suse.de,gmail.com,lists.linaro.org,asahilina.net,collabora.com,redhat.com,linuxfoundation.org];
 	MIME_TRACE(0.00)[0:+];
@@ -132,104 +132,325 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,kernel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4C74063B06D
+X-Rspamd-Queue-Id: DD29263B023
 
-This function simply drops the contents of the SetOnce, given a mutable
-reference - since that proves we have exclusive access to the SetOnce.
-Additionally, update the invariants for SetOnce to make it clear as to why
-this is safe.
+In order to do this, we need to be careful to ensure that any interface we
+expose for scatterlists ensures that any mappings created from one are
+destroyed on driver-unbind. To do this, we introduce a Devres resource into
+shmem::Object that we use in order to ensure that we release any SGTable
+mappings on driver-unbind.
+
+There's some other slightly unfortunate caveats of this:
+
+* Drivers don't have explicit control at the moment over when unmapping
+  happens (which is exactly the same as the C side atm, so it might not be
+  a problem).
+* We can't just return `SGTableMap` to the user through an Arc to attempt
+  to fix the last caveat - because that implies the gem object would need
+  to hold a reference count to the scatterlist mapping, which just leaves
+  us with the same problem.
 
 Signed-off-by: Lyude Paul <lyude@redhat.com>
----
- rust/kernel/sync/set_once.rs | 60 +++++++++++++++++++++++++++++++-----
- 1 file changed, 52 insertions(+), 8 deletions(-)
 
-diff --git a/rust/kernel/sync/set_once.rs b/rust/kernel/sync/set_once.rs
-index 139cef05e935f..d6e4fc2695673 100644
---- a/rust/kernel/sync/set_once.rs
-+++ b/rust/kernel/sync/set_once.rs
-@@ -15,7 +15,7 @@
- ///
- /// # Invariants
- ///
--/// - `init` may only increase in value.
-+/// - `init` may only increase in value, unless modified through a mutable reference.
- /// - `init` may only assume values in the range `0..=2`.
- /// - `init == 0` if and only if `value` is uninitialized.
- /// - `init == 1` if and only if there is exactly one thread with exclusive
-@@ -110,17 +110,61 @@ pub fn copy(&self) -> Option<T>
-     {
-         self.as_ref().copied()
+---
+V3:
+* Rename OwnedSGTable to shmem::SGTable. Since the current version of the
+  SGTable abstractions now has a `Owned` and `Borrowed` variant, I think
+  renaming this to shmem::SGTable makes things less confusing.
+  We do however, keep the name of owned_sg_table() as-is.
+V4:
+* Clarify safety comments for SGTable to explain why the object is
+  thread-safe.
+* Rename from SGTableRef to SGTable
+V10:
+* Use Devres in order to ensure that SGTables are revocable, and are
+  unmapped on driver-unbind.
+V11:
+* s/create_sg_table()/get_sg_table()
+* Get rid of extraneous `ret = ` in shmem::Object::get_sg_table()
+V12:
+* Actually move sgt_res in this patch and not the next one
+V13:
+* Use DmaResvGuard suggestion from Alexander
+* Use Alexander's (much better) solution for get_sg_table()
+* Use SetOnce instead of UnsafeCell
+* s/SGTableRef/SGTableMap
+* Fix typo in SGTableMap documentation
+* Create fallible constructor for SGTableMap
+* Don't reuse dma_resv lock for protecting Object contents, just use Mutex
+  + SetOnce
+* Drop use of drm_gem_shmem_get_pages_sgt_locked(), since we don't need to
+  hold the dma_resv lock ourselves for anything but this function.
+* Check that the device we receive in the bounds for sg_table() and
+  owned_sg_table() that said Device is in fact, the correct device.
+* Remove redundant docs in owned_sg_table(), just point it back to
+  sg_table().
+* Implement Deborah's suggestion to fix double-free in
+  free_callback()
+* Restore original order of Object<T>
+* Fix doc typo for SGTableMap
+V14:
+* Use new InitOnce container over the Mutex/SetOnce horror show we had
+  before.
+* Start using LazyInit container for storing Devres for sgt unmap
+* Add some kunit tests for sg_table (not sure why I didn't do this before)
+  using some of the boilerplate code leftover from the vmap bindings
+* Get rid of the owned SGTable variant for now, we'll add it back in a
+  future patch if people actually need it.
+* Use new LazyInit container from me to get rid of the horrid
+  Mutex<SetOnce<>> mess.
+* Add the best we can do for unit tests w/r/t SGTable at the moment
+V16:
+* Get rid of LazyInit, go back to SetOnce, use trick that Alice recommended
+  that is a lot cleaner.
+* Fix horrid rebasing mistake
+V17:
+* Rebase
+* Fix missing safety comment in free_callback() (we forgot to justify why
+  &mut is safe in `unsafe { &mut (*this).sgt_res }.reset()`)
+
+ rust/kernel/drm/gem/shmem.rs | 166 +++++++++++++++++++++++++++++++++--
+ 1 file changed, 157 insertions(+), 9 deletions(-)
+
+diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
+index 1f05a5bc5fe66..dff90771eb34a 100644
+--- a/rust/kernel/drm/gem/shmem.rs
++++ b/rust/kernel/drm/gem/shmem.rs
+@@ -11,6 +11,11 @@
+ 
+ use crate::{
+     container_of,
++    device::{
++        self,
++        Bound, //
++    },
++    devres::*,
+     drm::{
+         driver,
+         gem,
+@@ -19,14 +24,23 @@
+         DeviceContext,
+         Registered, //
+     },
+-    error::to_result,
++    error::{
++        from_err_ptr,
++        to_result, //
++    },
+     io::{
+         Io,
+         IoCapable,
+         IoKnownSize, //
+     },
+     prelude::*,
+-    sync::aref::ARef,
++    scatterlist,
++    sync::{
++        aref::ARef,
++        new_mutex,
++        Mutex,
++        SetOnce, //
++    },
+     types::Opaque, //
+ };
+ use core::{
+@@ -87,6 +101,11 @@ pub struct Object<T: DriverObject, C: DeviceContext = Registered> {
+     obj: Opaque<bindings::drm_gem_shmem_object>,
+     /// Parent object that owns this object's DMA reservation object.
+     parent_resv_obj: Option<ARef<Object<T, C>>>,
++    /// Devres object for unmapping any SGTable on driver-unbind.
++    sgt_res: SetOnce<Devres<SGTableMap<T, C>>>,
++    #[pin]
++    /// Lock for protecting initialization of `sgt_res`.
++    sgt_lock: Mutex<()>,
+     #[pin]
+     inner: T,
+     _ctx: PhantomData<C>,
+@@ -145,6 +164,8 @@ pub fn new(
+             try_pin_init!(Self {
+                 obj <- Opaque::init_zeroed(),
+                 parent_resv_obj: config.parent_resv_obj.map(|p| p.into()),
++                sgt_res: SetOnce::new(),
++                sgt_lock <- new_mutex!(()),
+                 inner <- T::new(dev, size, args),
+                 _ctx: PhantomData::<C>,
+             }),
+@@ -189,18 +210,25 @@ extern "C" fn free_callback(obj: *mut bindings::drm_gem_object) {
+         // - DRM always passes a valid gem object here
+         // - We used drm_gem_shmem_create() in our create_gem_object callback, so we know that
+         //   `obj` is contained within a drm_gem_shmem_object
+-        let this = unsafe { container_of!(obj, bindings::drm_gem_shmem_object, base) };
+-
+-        // SAFETY:
+-        // - We're in free_callback - so this function is safe to call.
+-        // - We won't be using the gem resources on `this` after this call.
+-        unsafe { bindings::drm_gem_shmem_release(this) };
++        let base = unsafe { container_of!(obj, bindings::drm_gem_shmem_object, base) };
+ 
+         // SAFETY:
+         // - We verified above that `obj` is valid, which makes `this` valid
+         // - This function is set in AllocOps, so we know that `this` is contained within a
+         //   `Object<T, C>`
+-        let this = unsafe { container_of!(Opaque::cast_from(this), Self, obj) }.cast_mut();
++        let this = unsafe { container_of!(Opaque::cast_from(base), Self, obj) }.cast_mut();
++
++        // We need to drop `sgt_res` first, since doing so requires that the GEM object is still
++        // alive.
++        // SAFETY:
++        // - We verified above that `this` is valid.
++        // - We are in free_callback, guaranteeing we have exclusive access to `this`.
++        unsafe { &mut (*this).sgt_res }.reset();
++
++        // SAFETY:
++        // - We're in free_callback - so this function is safe to call.
++        // - We won't be using the gem resources on `this` after this call.
++        unsafe { bindings::drm_gem_shmem_release(base) };
+ 
+         // SAFETY: We're recovering the Kbox<> we created in gem_create_object()
+         let _ = unsafe { KBox::from_raw(this) };
+@@ -279,6 +307,45 @@ pub fn vmap<const SIZE: usize>(&self) -> Result<VMapRef<'_, T, C, SIZE>> {
+     pub fn owned_vmap<const SIZE: usize>(&self) -> Result<VMapOwned<T, C, SIZE>> {
+         self.make_vmap()
      }
 +
-+    /// # Safety
++    /// Creates (if necessary) and returns an immutable reference to a scatter-gather table of DMA
++    /// pages for this object.
 +    ///
-+    /// If this function returns `true`, `self` must be freed or `init` must be reset to `0`.
-+    unsafe fn drop_val(&mut self) -> bool {
-+        if *self.init.get_mut() != 2 {
-+            return false;
++    /// This will pin the object in memory. It is expected that `dev` should be a pointer to the
++    /// same [`device::Device`] which `self` belongs to, otherwise this function will return
++    /// `Err(EINVAL)`.
++    pub fn sg_table<'a>(
++        &'a self,
++        dev: &'a device::Device<Bound>,
++    ) -> Result<&'a scatterlist::SGTable> {
++        if dev.as_raw() != self.dev().as_ref().as_raw() {
++            return Err(EINVAL);
 +        }
 +
-+        let value = self.value.get_mut();
-+        // SAFETY: Via our type invariants, `init` == 2 means `value` is initialized.
-+        unsafe { value.assume_init_drop() };
++        let sgt_res = 'out: {
++            // Fast path: sgt_res is already initialized
++            if let Some(sgt_res) = self.sgt_res.as_ref() {
++                break 'out sgt_res;
++            }
 +
-+        true
-+    }
++            // Slow path: Grab the lock and see if we need to initialize sgt_res.
++            let _guard = self.sgt_lock.lock();
 +
-+    /// Unset the [`SetOnce`].
-+    ///
-+    /// After this function is called, the [`SetOnce`] is empty and uninitialized. This function is
-+    /// mainly intended for usage in destructors.
-+    ///
-+    /// Returns `true` if `self` was previously initialized.
-+    ///
-+    /// # Example
-+    ///
-+    /// ```
-+    /// # use kernel::sync::SetOnce;
-+    /// let mut value = SetOnce::new();
-+    /// assert_eq!(value.populate(67), true);
-+    ///
-+    /// assert_eq!(value.reset(), true);
-+    /// assert!(value.as_ref().is_none());
-+    /// assert_eq!(value.reset(), false);
-+    ///
-+    /// assert_eq!(value.populate(69), true);
-+    /// ```
-+    pub fn reset(&mut self) -> bool {
-+        // SAFETY: We write `0` to init below if this returns true.
-+        let dropped = unsafe { self.drop_val() };
-+        if dropped {
-+            // INVARIANT:
-+            // - We set `init` back to 0 through a mutable reference.
-+            // - We dropped `value` above.
-+            *self.init.get_mut() = 0;
-+        }
++            // If someone initialized it while we were waiting, we can exit early.
++            if let Some(sgt_res) = self.sgt_res.as_ref() {
++                break 'out sgt_res;
++            }
 +
-+        dropped
++            // If not, finish initializing and return.
++            self.sgt_res
++                .populate(Devres::new(dev, SGTableMap::new(self))?);
++
++            // SAFETY: We just populated sgt_res above.
++            unsafe { self.sgt_res.as_ref().unwrap_unchecked() }
++        };
++
++        Ok(sgt_res.access(dev)?)
 +    }
  }
  
- impl<T> Drop for SetOnce<T> {
-+    #[inline(always)]
-     fn drop(&mut self) {
--        if *self.init.get_mut() == 2 {
--            let value = self.value.get_mut();
--            // SAFETY: By the type invariants of `Self`, `self.init == 2` means that `self.value`
--            // contains a valid value. We have exclusive access, as we hold a `mut` reference to
--            // `self`.
--            unsafe { value.assume_init_drop() };
--        }
-+        // SAFETY: We are dropping this value.
-+        unsafe { self.drop_val() };
-     }
- }
+ impl<T: DriverObject, C: DeviceContext> Deref for Object<T, C> {
+@@ -474,6 +541,63 @@ impl<D, R, C, const SIZE: usize> IoKnownSize for VMap<D, R, C, SIZE>
+ #[cfg(CONFIG_64BIT)]
+ impl_vmap_io_capable!(VMap, u64);
  
++/// A reference to a GEM object that is known to have a mapped [`SGTable`].
++///
++/// This is used by the Rust bindings with [`Devres`] in order to ensure that mappings for SGTables
++/// on GEM shmem objects are revoked on driver-unbind.
++///
++/// # Invariants
++///
++/// - `self.obj` always points to a valid GEM object.
++/// - This object is proof that `self.obj.owner.sgt` has an initialized and valid
++///   [`scatterlist::SGTable`].
++pub struct SGTableMap<T: DriverObject, C: DeviceContext> {
++    obj: NonNull<Object<T, C>>,
++}
++
++impl<T: DriverObject, C: DeviceContext> Deref for SGTableMap<T, C> {
++    type Target = scatterlist::SGTable;
++
++    fn deref(&self) -> &Self::Target {
++        // SAFETY:
++        // - The NonNull is guaranteed to be valid via our type invariants.
++        // - The sgt field is guaranteed to be initialized and valid via our type invariants.
++        unsafe { scatterlist::SGTable::from_raw((*self.obj.as_ref().as_raw_shmem()).sgt) }
++    }
++}
++
++impl<T: DriverObject, C: DeviceContext> Drop for SGTableMap<T, C> {
++    fn drop(&mut self) {
++        // SAFETY: `obj` is always valid via our type invariants
++        let obj = unsafe { self.obj.as_ref() };
++        let _lock = DmaResvGuard::new(obj);
++
++        // SAFETY: We acquired the lock needed for calling this function above
++        unsafe { bindings::__drm_gem_shmem_free_sgt_locked(obj.as_raw_shmem()) };
++    }
++}
++
++impl<T: DriverObject, C: DeviceContext> SGTableMap<T, C> {
++    fn new(obj: &Object<T, C>) -> impl Init<Self, Error> {
++        // INVARIANT:
++        // - We call drm_gem_shmem_get_pages_sgt_locked below and check whether or not it
++        //   succeeds, fulfilling the invariant of SGTableMap that the object's `sgt` field is
++        //   initialized.
++        // SAFETY:
++        // - `obj` is fully initialized, making this function safe to call.
++        from_err_ptr(unsafe { bindings::drm_gem_shmem_get_pages_sgt(obj.as_raw_shmem()) })?;
++
++        Ok(Self { obj: obj.into() })
++    }
++}
++
++// SAFETY: The NonNull in SGTableMap is guaranteed valid by our type invariants, and the GEM object
++// it points to is guaranteed to be thread-safe.
++unsafe impl<T: DriverObject, C: DeviceContext> Send for SGTableMap<T, C> {}
++// SAFETY: The NonNull in SGTableMap is guaranteed valid by our type invariants, and the GEM object
++// it points to is guaranteed to be thread-safe.
++unsafe impl<T: DriverObject, C: DeviceContext> Sync for SGTableMap<T, C> {}
++
+ #[kunit_tests(rust_drm_gem_shmem)]
+ mod tests {
+     use super::*;
+@@ -582,4 +706,28 @@ fn vmap_io() -> Result {
+ 
+         Ok(())
+     }
++
++    // TODO: I would love to actually test the success paths of sg_table(), but that would require
++    // also implementing dummy dma_ops so that trying to create a mapping doesn't explode. So, leave
++    // that for someone else.
++
++    // Ensures that passing the wrong device to sg_table() fails as we expect, and also ensure it
++    // skips initializing `sgt_res` since we could otherwise create `sgt_res` with the wrong device
++    // bound to it.
++    #[test]
++    fn fail_sg_table_on_wrong_dev() -> Result {
++        let (_dev, drm) = create_drm_dev()?;
++        let wrong_dev = faux::Registration::new(c"EvilKunit", None)?;
++
++        let obj = Object::<KunitObject, _>::new(&drm, PAGE_SIZE, ObjectConfig::default(), ())?;
++
++        assert_eq!(obj.sg_table(wrong_dev.as_ref()).err().unwrap(), EINVAL);
++
++        // If sgt_res was not initialized mistakenly with the wrong device, this should still fail.
++        assert_eq!(obj.sg_table(wrong_dev.as_ref()).err().unwrap(), EINVAL);
++
++        // TODO: Someday, we should test that creating an sg_table here still succeeds.
++
++        Ok(())
++    }
+ }
 -- 
 2.54.0
 
