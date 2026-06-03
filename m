@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-63625-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63626-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 7UTcDV5AIGoezQAAu9opvQ
-	(envelope-from <linux-media+bounces-63625-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 16:55:26 +0200
+	id +7/pM+dFIGpEzwAAu9opvQ
+	(envelope-from <linux-media+bounces-63626-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 17:19:03 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CED1638D5E
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 16:55:25 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA18E639109
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 17:19:02 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=me5hK6y1;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63625-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63625-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=DVUiDpun;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63626-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-63626-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 39262311D39F
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 14:40:41 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 5C6F530A3515
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 14:45:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1893C44E05B;
-	Wed,  3 Jun 2026 14:37:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5351391855;
+	Wed,  3 Jun 2026 14:39:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEEE399D0D;
-	Wed,  3 Jun 2026 14:37:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0018346A1E;
+	Wed,  3 Jun 2026 14:39:23 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780497440; cv=none; b=b+DvFqbJExHluFec7Fbu8qXdkkXX1nfogDpoglXD8mF1WOTGBgO+jS2LBUxOuMez+PKKUY/P6XGzQ2A3XDgc1imFnnUORAz1q+dwwAV8worN44ATtd6leoD38G1j8rbflJE8UVnCTHICwYHqTM+Jk08DdDle9clkqYXFneww5uY=
+	t=1780497565; cv=none; b=TsYPl63uiVyLo12QvW/wjM8LWlprrXKXOVEkiS5k2BA157B8emZUbCUVjDBn8/oHC6SVIdkLq4kr2K0jNdU7eYOBZtPcFqskrym3Lz1IOGbazQJrIjMiCEqhZybJvMXSyg4kLkw95Pc0HoxVk53jeuv0KXPr1hbqQYI2E5BwWWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780497440; c=relaxed/simple;
-	bh=pWl1/RmqvpHcUDVI2tAuWXrcc8d66tisk1KWVRZbg5Y=;
+	s=arc-20240116; t=1780497565; c=relaxed/simple;
+	bh=F37+84OPHLgri3lzv/+vjUaGfjeQZRQhdnN8AYEzO2Q=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=DZL9Tq75rQwqDwoVyhxnbRvWwFP9//Aavo3ZiQr9BSllP9HtjIkve4n18L1rNiZo50w2SPUlibHz4ZNSweehp1xwMpjOtfY+PN3V/PHhxyYhupoVAnSzAgCBsuBYa/ZrYNf8SvX2jPiYSNQ98i4B9tHaI48kxVXVc146um5o4MQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=me5hK6y1; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A65981F00893;
-	Wed,  3 Jun 2026 14:37:18 +0000 (UTC)
+	 Message-Id; b=XZ1ujgA/tzEIdhLPydSP5YHddfjmu67g5vkqm2wYtgMZDXgPrRClWtjHbjeV51KYIZ+qYI96DgkkMBAc9TpBKthiNg9Br6frwakLuv7SD4UrQeryki8AcU6xpxT+dJtA/1vyY8zfIomPjSVd+Bzrn4SwGdwkTdEx+3kNMP+Zos0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DVUiDpun; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58E1E1F00893;
+	Wed,  3 Jun 2026 14:39:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780497438;
-	bh=Bn56UH32ISeuaPasJihJWuyrFveRoM6qFNTcEtrTq1Q=;
+	s=k20260515; t=1780497563;
+	bh=kmImnxP6p8j/9w7MJ2J14WM4Q/TEsNPPlUi1alFraKM=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=me5hK6y1FSev3el2M9/ar60cWRtOMPhXgdaNRjGm0GSQfjkADGehXEHueQzwM9yiw
-	 ozdav3GsEkA9i8GmATva4FYkclCLf8ShbRTu8fdpy6yOh7AlwGDLHMlkVkItmqSqQb
-	 maZr5J7sY72Elt8mmZ6hcKcpZH5Ir5ykQkkvN6CvpnIg7yYLO8n5SGeB0pW+PRlK51
-	 hAmKXXgJXm9yaOZ0e9jbPT9tok652dt3xdKZGPX/Fj5LCTIKMgEZFHB9GYUV9HYUlC
-	 T9tdtT7ev+6YaaupqjpDMvgeEDdl7IDs+x5mdN3EkDPySi5HjWCdopuHTLDcWRiqFB
-	 H+ZJ9yafRnbRA==
+	b=DVUiDpunh30RZwYt0895qeC6EIg8TmxLOOoy6Twot3GWBGGAdTBepUUL8XAR7zR6F
+	 w9/E+P5m2+h3D3dtA/MwIHLjeeE+og5MZLigfEi1NCUQAZjTElGhUytze6ZzLxUvc/
+	 IZzG5O7dxIQTBuk9UNDzaTaMrzcPZcXs1WxY+49IrXv6evX4HK2XVLtEddHjcrhItF
+	 H68Z851VBv1uYhDkjljUbaZRthR90STscY+25AVwmEjy10f6Kx8nklnKk+3xEm1T49
+	 F3XKnyeavzUjY30PmYhiWfqLzboCNJqDOKrE15nU6mU5bvklMq0DnqRxs1WzreOthP
+	 OxeEhbiEo2i7Q==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 06/12] media: iris: Replace enum-indexed clock and
- power domain tables with per-block structures
+Subject: Re: [PATCH v7 05/12] media: iris: Enable Secure PAS support with
+ IOMMU managed by Linux
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Vishnu Reddy" <busanna.reddy@oss.qualcomm.com>
-Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, linux-media@vger.kernel.org, robh@kernel.org
-In-Reply-To: <20260603-glymur-v7-6-afaa55d11fe0@oss.qualcomm.com>
-References: <20260603-glymur-v7-6-afaa55d11fe0@oss.qualcomm.com>
+Cc: robh@kernel.org, conor+dt@kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org
+In-Reply-To: <20260603-glymur-v7-5-afaa55d11fe0@oss.qualcomm.com>
+References: <20260603-glymur-v7-5-afaa55d11fe0@oss.qualcomm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 03 Jun 2026 14:37:18 +0000
-Message-Id: <20260603143718.A65981F00893@smtp.kernel.org>
+Date: Wed, 03 Jun 2026 14:39:22 +0000
+Message-Id: <20260603143923.58E1E1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,17 +68,17 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	MISSING_MIME_VERSION(2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,lists.linux.dev:replyto,qualcomm.com:email,sashiko.dev:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp];
-	TAGGED_FROM(0.00)[bounces-63625-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sashiko.dev:url,vger.kernel.org:from_smtp,lists.linux.dev:replyto,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,smtp.kernel.org:mid];
+	TAGGED_FROM(0.00)[bounces-63626-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:busanna.reddy@oss.qualcomm.com,m:conor+dt@kernel.org,m:devicetree@vger.kernel.org,m:linux-media@vger.kernel.org,m:robh@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:busanna.reddy@oss.qualcomm.com,m:robh@kernel.org,m:conor+dt@kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
 	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
@@ -95,300 +95,213 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCPT_COUNT_FIVE(0.00)[5];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FROM_NO_DN(0.00)[];
 	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2CED1638D5E
+X-Rspamd-Queue-Id: DA18E639109
 
-Thank you for your contribution! Sashiko AI review found 7 potential issue(=
+Thank you for your contribution! Sashiko AI review found 5 potential issue(=
 s) to consider:
 
 New issues:
-- [High] Uninitialized stack pointer dereference when a hardware block has =
-0 power domains.
-- [High] Secondary hardware cores are left unpowered due to missing iterati=
-on over `num_cores`.
-- [High] NULL pointer dereference when optional hardware blocks are enabled=
- in hardware but missing from platform data.
-- [High] Premature OPP voltage drop causes DVFS sequence violation.
-- [High] Uninitialized fields in `struct dev_pm_domain_attach_data` result =
-in arbitrary behavior.
-- [Medium] API mismatch silently discards additional power domains if `pd_c=
-nt > 1`.
+- [High] Unconditional devm_qcom_scm_pas_context_alloc of pas_ctx causes a =
+memory leak during repeated iris_core_init failures.
+- [High] Double invocation of qcom_scm_pas_shutdown in the qcom_scm_mem_pro=
+tect_video_var error path.
+- [High] PAS metadata memory is permanently leaked upon every firmware load.
+- [Medium] iris_fw_unload() skips iris_fw_iommu_unmap() if qcom_scm_pas_shu=
+tdown() fails, leaking the IOMMU mapping.
 
 Pre-existing issues:
-- [High] Resource leak of Runtime PM usage counter and OPP rate on error pa=
-th.
+- [High] The sys_error_handler delayed work is never canceled during driver=
+ removal, risking use-after-free and locking crashes.
 --
 
-commit 569dbace99d0eb806398e44f1f3dd0f46e77e155
-Author: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+commit 85711dbb43a8f02c3f39064784fe37381f80c2c5
+Author: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
 
-media: iris: Replace enum-indexed clock and power domain tables with per-bl=
-ock structures
+media: iris: Enable Secure PAS support with IOMMU managed by Linux
 
-This patch replaces flat, enum-indexed tables for clocks and power domains =
-with=20
-per-hardware block structures in the iris driver. It groups devices, power=
-=20
-domains, and clocks together logically in the iris_power_domain struct, and=
-=20
-removes index lookups at runtime.
+On platforms without a hypervisor, Linux drives the firmware loading and
+authentication steps directly. This commit extends the Iris driver to suppo=
+rt
+Secure Peripheral Authentication Service (PAS) on such platforms by creating
+the firmware context device and mapping the IOMMU when the firmware device
+SID is present.
 
-> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/medi=
-a/platform/qcom/iris/iris_probe.c
-> index c2dcb50a27824..681db1da9559a 100644
-> --- a/drivers/media/platform/qcom/iris/iris_probe.c
-> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
-> @@ -39,15 +39,32 @@ static int iris_init_icc(struct iris_core *core)
->  	return devm_of_icc_bulk_get(core->dev, core->icc_count, core->icc_tbl);
->  }
+Link: https://lore.kernel.org/lkml/20260105-kvmrprocv10-v10-0-022e96815380@=
+oss.qualcomm.com/
+
+> diff --git a/drivers/media/platform/qcom/iris/iris_firmware.c b/drivers/m=
+edia/platform/qcom/iris/iris_firmware.c
+> index 1a476146d7580..8bdc9273036ce 100644
+> --- a/drivers/media/platform/qcom/iris/iris_firmware.c
+> +++ b/drivers/media/platform/qcom/iris/iris_firmware.c
+
+[ ... ]
+
+> @@ -30,14 +34,18 @@ static int iris_load_fw_to_memory(struct iris_core *c=
+ore, const char *fw_name)
+>  	if (strlen(fw_name) >=3D MAX_FIRMWARE_NAME_SIZE - 4)
+>  		return -EINVAL;
 > =20
-> -static int iris_init_power_domains(struct iris_core *core)
-> +static int iris_init_power_domains_per_block(struct iris_core *core,
-> +					     struct iris_power_domain *pd,
-> +					     const struct iris_power_domain_data *pd_data)
->  {
-> +	struct dev_pm_domain_attach_data iris_pd_data;
+> -	ret =3D of_reserved_mem_region_to_resource(dev->of_node, 0, &res);
+> +	ret =3D of_reserved_mem_region_to_resource(core->dev->of_node, 0, &res);
+>  	if (ret)
+>  		return ret;
+> =20
+>  	mem_phys =3D res.start;
+>  	res_size =3D resource_size(&res);
+> =20
+> -	ret =3D request_firmware(&firmware, fw_name, dev);
+> +	pas_ctx =3D devm_qcom_scm_pas_context_alloc(fw_dev, IRIS_PAS_ID, mem_ph=
+ys, res_size);
 
 [Severity: High]
-Does this leave fields in iris_pd_data uninitialized? Since it's allocated =
-on the
-stack without zero-initialization, any fields added to struct
-dev_pm_domain_attach_data (like link_flags) could contain stack garbage when
-passed to devm_pm_domain_attach_list().
+Does this unconditional devm_qcom_scm_pas_context_alloc() cause a memory le=
+ak
+during repeated iris_core_init() failures?
 
-> +	struct dev_pm_domain_list *pmdomain_tbl;
->  	int ret;
-> =20
-> +	iris_pd_data.pd_names =3D pd_data->pd_names;
-> +	iris_pd_data.num_pd_names =3D pd_data->pd_cnt;
-> +	iris_pd_data.pd_flags =3D PD_FLAG_NO_DEV_LINK;
+If a subsequent step in the firmware load fails (e.g., request_firmware()
+returning an error), iris_core_init() returns an error, but the device rema=
+ins
+bound.
+
+Because iris_core_init() is called upon opening the V4L2 device, userspace
+could repeatedly open the device, failing each time and allocating a new
+pas_ctx without freeing the previous one.
+
+> +	if (IS_ERR(pas_ctx))
+> +		return PTR_ERR(pas_ctx);
 > +
-> +	ret =3D devm_pm_domain_attach_list(core->dev, &iris_pd_data, &pmdomain_=
-tbl);
-> +	if (ret < 0)
+> +	ret =3D request_firmware(&firmware, fw_name, fw_dev);
+>  	if (ret)
+>  		return ret;
+
+[ ... ]
+
+> @@ -77,13 +115,13 @@ int iris_fw_load(struct iris_core *core)
+>  	ret =3D iris_load_fw_to_memory(core, fwpath);
+>  	if (ret) {
+>  		dev_err(core->dev, "firmware download failed\n");
+> -		return -ENOMEM;
 > +		return ret;
-> +
-> +	pd->dev =3D pmdomain_tbl->pd_devs[0];
-
-[Severity: High]
-If pd_data->pd_cnt is 0, devm_pm_domain_attach_list() returns 0 but does not
-modify pmdomain_tbl. Does this result in an uninitialized pointer dereferen=
-ce
-when accessing pmdomain_tbl->pd_devs[0]?
-
-[Severity: Medium]
-Also, if the platform data specifies multiple power domains (pd_cnt > 1), d=
-oes
-this logic silently discard all but the first power domain? Since
-PD_FLAG_NO_DEV_LINK is used, the driver has to power them on manually, which
-means secondary domains might never be powered on.
-
-> +
-> +	return 0;
-> +}
-[ ... ]
-> diff --git a/drivers/media/platform/qcom/iris/iris_resources.c b/drivers/=
-media/platform/qcom/iris/iris_resources.c
-> index 773f6548370a2..fdc6eb68e5c78 100644
-> --- a/drivers/media/platform/qcom/iris/iris_resources.c
-> +++ b/drivers/media/platform/qcom/iris/iris_resources.c
-[ ... ]
-> @@ -70,7 +69,7 @@ int iris_opp_set_rate(struct device *dev, unsigned long=
- freq)
->  	return dev_pm_opp_set_opp(dev, opp);
->  }
-> =20
-> -int iris_enable_power_domains(struct iris_core *core, struct device *pd_=
-dev)
-> +int iris_enable_power_domain_and_clocks(struct iris_core *core, struct i=
-ris_power_domain *pd)
->  {
->  	int ret;
-> =20
-> @@ -78,66 +77,20 @@ int iris_enable_power_domains(struct iris_core *core,=
- struct device *pd_dev)
->  	if (ret)
->  		return ret;
-> =20
-> -	ret =3D pm_runtime_get_sync(pd_dev);
-> +	ret =3D pm_runtime_get_sync(pd->dev);
->  	if (ret < 0)
->  		return ret;
-> =20
-
-[Severity: High]
-This is a pre-existing issue, but does this error path permanently leak the
-runtime PM usage counter and leave the global core device forced to its hig=
-hest
-performance state? If pm_runtime_get_sync() fails, there is no
-pm_runtime_put_noidle() or iris_opp_set_rate(core->dev, 0) called before
-returning.
-
-> -	return ret;
-> -}
-> -
-> -int iris_disable_power_domains(struct iris_core *core, struct device *pd=
-_dev)
-> -{
-> -	int ret;
-> -
-> -	ret =3D iris_opp_set_rate(core->dev, 0);
-> +	ret =3D clk_bulk_prepare_enable(pd->clk_cnt, pd->clocks);
->  	if (ret)
-> -		return ret;
-> -
-> -	pm_runtime_put_sync(pd_dev);
-> -
-> -	return 0;
-> -}
-> +		pm_runtime_put_sync(pd->dev);
-> =20
-> -static struct clk *iris_get_clk_by_type(struct iris_core *core, enum pla=
-tform_clk_type clk_type)
-> -{
-[ ... ]
-> +	return ret;
->  }
-> =20
-> -int iris_disable_unprepare_clock(struct iris_core *core, enum platform_c=
-lk_type clk_type)
-> +void iris_disable_power_domain_and_clocks(struct iris_core *core, struct=
- iris_power_domain *pd)
->  {
-> -	struct clk *clock;
-> -
-> -	clock =3D iris_get_clk_by_type(core, clk_type);
-> -	if (!clock)
-> -		return -EINVAL;
-> -
-> -	clk_disable_unprepare(clock);
-> -
-> -	return 0;
-> +	clk_bulk_disable_unprepare(pd->clk_cnt, pd->clocks);
-> +	iris_opp_set_rate(core->dev, 0);
-> +	pm_runtime_put_sync(pd->dev);
->  }
-
-[Severity: High]
-Could dropping the OPP rate to 0 inside a block-specific helper cause issue=
-s?
-If multiple blocks are being torn down (for example, in
-iris_vpu4x_power_off_hardware() which shuts down VPP1, VPP0, then VCODEC), =
-this
-would instantly drop the global controller OPP to 0 when the first block is
-disabled, while other blocks' clocks are still running. Does this violate D=
-VFS
-constraints?
-
-[ ... ]
-> diff --git a/drivers/media/platform/qcom/iris/iris_vpu4x.c b/drivers/medi=
-a/platform/qcom/iris/iris_vpu4x.c
-> index 02e100a4045fc..0feb5eaa544f9 100644
-> --- a/drivers/media/platform/qcom/iris/iris_vpu4x.c
-> +++ b/drivers/media/platform/qcom/iris/iris_vpu4x.c
-[ ... ]
-> @@ -158,116 +136,43 @@ static void iris_vpu4x_ahb_sync_reset_hardware(str=
-uct iris_core *core)
->  	writel(0x0, core->reg_base + CPU_CS_AHB_BRIDGE_SYNC_RESET);
->  }
-> =20
-> -static int iris_vpu4x_enable_hardware_clocks(struct iris_core *core, u32=
- efuse_value)
-> -{
-[ ... ]
-> -}
-> -
->  static int iris_vpu4x_power_on_hardware(struct iris_core *core)
->  {
->  	u32 efuse_value =3D readl(core->reg_base + WRAPPER_EFUSE_MONITOR);
->  	int ret;
-> =20
-> -	ret =3D iris_enable_power_domains(core, core->pmdomain_tbl->pd_devs[IRI=
-S_HW_POWER_DOMAIN]);
-> +	ret =3D iris_enable_power_domain_and_clocks(core, core->vcodec);
->  	if (ret)
->  		return ret;
-> =20
->  	if (!(efuse_value & DISABLE_VIDEO_VPP0_BIT)) {
-> -		ret =3D iris_enable_power_domains(core, core->pmdomain_tbl->pd_devs
-> -						[IRIS_VPP0_HW_POWER_DOMAIN]);
-> +		ret =3D iris_enable_power_domain_and_clocks(core, core->vcodec_vpp0);
-
-[Severity: High]
-If the hardware efuse indicates VPP0 is present, but the platform data omits
-vcodec_vpp0_data, core->vcodec_vpp0 will not be allocated during probe. Does
-this result in a NULL pointer dereference here since
-iris_enable_power_domain_and_clocks() accesses pd->dev?
-
->  		if (ret)
->  			goto disable_hw_power_domain;
 >  	}
 > =20
-[ ... ]
-> diff --git a/drivers/media/platform/qcom/iris/iris_vpu_common.c b/drivers=
-/media/platform/qcom/iris/iris_vpu_common.c
-> index 23a7ce3ecb2d0..f35754ef53ed1 100644
-> --- a/drivers/media/platform/qcom/iris/iris_vpu_common.c
-> +++ b/drivers/media/platform/qcom/iris/iris_vpu_common.c
-[ ... ]
->  int iris_vpu_power_on_hw(struct iris_core *core)
->  {
-> -	int ret;
-> -
-> -	ret =3D iris_enable_power_domains(core, core->pmdomain_tbl->pd_devs[IRI=
-S_HW_POWER_DOMAIN]);
-> -	if (ret)
+> -	ret =3D qcom_scm_pas_auth_and_reset(IRIS_PAS_ID);
+> +	ret =3D qcom_scm_pas_prepare_and_auth_reset(core->pas_ctx);
+
+[Severity: High]
+Does this permanently leak the PAS metadata memory upon every successful
+firmware load?
+
+qcom_mdt_pas_load() delegates to qcom_scm_pas_init_image(), which allocates
+DMA or TZ memory for the firmware metadata (ELF header and hashes).
+
+The SCM API requires the caller to free this memory using
+qcom_scm_pas_metadata_release() once authentication is complete.=20
+
+It appears the iris driver never invokes this release function.
+
+>  	if (ret)  {
+>  		dev_err(core->dev, "auth and reset failed: %d\n", ret);
 > -		return ret;
-> -
-> -	ret =3D iris_prepare_enable_clock(core, IRIS_HW_CLK);
-> -	if (ret)
-> -		goto err_disable_power;
-> -
-> -	ret =3D iris_prepare_enable_clock(core, IRIS_HW_AHB_CLK);
-> -	if (ret && ret !=3D -ENOENT)
-> -		goto err_disable_hw_clock;
-> -
-> -	ret =3D iris_prepare_enable_clock(core, IRIS_BSE_HW_CLK);
-> -	if (ret && ret !=3D -ENOENT)
-> -		goto err_disable_hw_ahb_clock;
-> -
-> -	return 0;
-> -
-> -err_disable_hw_ahb_clock:
-> -	iris_disable_unprepare_clock(core, IRIS_HW_AHB_CLK);
-> -err_disable_hw_clock:
-> -	iris_disable_unprepare_clock(core, IRIS_HW_CLK);
-> -err_disable_power:
-> -	iris_disable_power_domains(core, core->pmdomain_tbl->pd_devs[IRIS_HW_PO=
-WER_DOMAIN]);
-> -
-> -	return ret;
-> +	return iris_enable_power_domain_and_clocks(core, core->vcodec);
+> +		goto err_unmap;
+>  	}
+> =20
+>  	for (i =3D 0; i < core->iris_platform_data->tz_cp_config_data_size; i++=
+) {
+
+[ ... ]
+
+> @@ -95,16 +133,31 @@ int iris_fw_load(struct iris_core *core)
+>  		if (ret) {
+>  			dev_err(core->dev, "qcom_scm_mem_protect_video_var failed: %d\n", ret=
+);
+>  			qcom_scm_pas_shutdown(IRIS_PAS_ID);
+> -			return ret;
+> +			goto err_pas_shutdown;
+>  		}
+>  	}
+> =20
+> +	return 0;
+> +
+> +err_pas_shutdown:
+> +	qcom_scm_pas_shutdown(core->pas_ctx->pas_id);
+
+[Severity: High]
+Does this result in a double invocation of qcom_scm_pas_shutdown() on the
+qcom_scm_mem_protect_video_var() error path?
+
+The code calls qcom_scm_pas_shutdown(IRIS_PAS_ID) explicitly before jumping=
+ to
+the err_pas_shutdown label, which calls qcom_scm_pas_shutdown() again.
+
+Since core->pas_ctx->pas_id is initialized to IRIS_PAS_ID, this results in =
+the
+shutdown function being called twice consecutively for the same PAS ID, whi=
+ch
+could trigger TrustZone errors or corrupt Secure Monitor state.
+
+> +err_unmap:
+> +	iris_fw_iommu_unmap(core);
+> +
+>  	return ret;
+>  }
+> =20
+>  int iris_fw_unload(struct iris_core *core)
+>  {
+> -	return qcom_scm_pas_shutdown(IRIS_PAS_ID);
+> +	int ret;
+> +
+> +	ret =3D qcom_scm_pas_shutdown(core->pas_ctx->pas_id);
+> +	if (ret)
+> +		return ret;
+
+[Severity: Medium]
+Will this early return skip the required IOMMU unmap logic if
+qcom_scm_pas_shutdown() fails?
+
+Since the caller (iris_core_deinit()) ignores the return value of
+iris_fw_unload(), the driver proceeds with teardown while permanently leaki=
+ng
+the firmware's IOMMU IOVA mapping.
+
+Software resource cleanup should likely continue even if a hardware/SCM
+command fails.
+
+> +
+> +	iris_fw_iommu_unmap(core);
+> +
+> +	return ret;
 >  }
 
 [Severity: High]
-Does this fail to power on any secondary hardware cores? The probe function
-dynamically allocates core->vcodec as an array based on num_cores, but this=
- only
-passes the pointer to the first element to
-iris_enable_power_domain_and_clocks(), without iterating over the remaining
-cores.
+This is a pre-existing issue, but I noticed that the sys_error_handler dela=
+yed
+work is never canceled during driver removal.
 
-> =20
->  int iris_vpu_set_hwmode(struct iris_core *core)
->  {
-> -	return dev_pm_genpd_set_hwmode(core->pmdomain_tbl->pd_devs[IRIS_HW_POWE=
-R_DOMAIN], true);
-> +	return dev_pm_genpd_set_hwmode(core->vcodec->dev, true);
->  }
+Looking at iris_remove() in drivers/media/platform/qcom/iris/iris_probe.c:
+
+static void iris_remove(struct platform_device *pdev)
+{
+    ...
+
+The driver initializes core->sys_error_handler on a delayed workqueue in
+iris_probe(), but iris_remove() unregisters devices and destroys core->lock
+without calling cancel_delayed_work_sync(&core->sys_error_handler).
+
+If the delayed work executes concurrently with or after iris_remove(), will=
+ it
+access freed driver state and attempt to acquire the destroyed mutex, leadi=
+ng
+to a use-after-free?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260603-glymur-v7-=
-0-afaa55d11fe0@oss.qualcomm.com?part=3D6
+0-afaa55d11fe0@oss.qualcomm.com?part=3D5
 
