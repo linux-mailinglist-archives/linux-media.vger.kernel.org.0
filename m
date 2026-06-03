@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-63655-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63656-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id vszzGfyJIGpi4wAAu9opvQ
-	(envelope-from <linux-media+bounces-63655-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 22:09:32 +0200
+	id p91gAa2JIGpR4wAAu9opvQ
+	(envelope-from <linux-media+bounces-63656-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 22:08:13 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B81D363B0D6
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 22:09:31 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0266263B0BA
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 22:08:12 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=kurd6kWA;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63655-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63655-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=JSukIaqG;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63656-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-63656-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C94C53046E85
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 20:07:11 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 257B8301B300
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 20:08:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C519402BAE;
-	Wed,  3 Jun 2026 20:07:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE0C33FCB3E;
+	Wed,  3 Jun 2026 20:08:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DD4E37C0FE
-	for <linux-media@vger.kernel.org>; Wed,  3 Jun 2026 20:07:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0454028D1
+	for <linux-media@vger.kernel.org>; Wed,  3 Jun 2026 20:08:02 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780517227; cv=none; b=HjWnUaAcoX1qvR8fYJmWnQ3juAeFNUUGu9I+6xUXTpsdhIbeoaKlNDrREQwWOXj6JFqJzCGDSlj+t6qT1dwUxf/uhOQ/udumZ6RmTLTrBGi7OaxrRdF2R14gbIcU4yzzSGRwQYfCj4rgqPsS8UCWdxu+rgIR3DrLfukUnyNHCd4=
+	t=1780517285; cv=none; b=Di+kz9rq3zuEu2VjxFh7zw9BQwcCSv9fpGpJffiIQkjb7G7LpYH3PWU9GGSTrHoYQrhYeaaIjB3UzMJGVkbHk6gRkc7SZjq2EmEQzjAMHyB+USn27SHaLo4jlUWLGoUpBMa23VdcJYp7gy2APJNY/6aO6lIyMAgdOHuNL6UMDNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780517227; c=relaxed/simple;
-	bh=kkP7/N2KzJxp+G0D/7QLQRQyC+ILRlddwcRDWNiCgGE=;
+	s=arc-20240116; t=1780517285; c=relaxed/simple;
+	bh=nEDeT2G5pDn0Aa9f9UmyJwGRZqGbHpJfcLl/tnO7IzY=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=KxJU6zDciy7HaRxtSRvTK1o3iKlrwbVGZnSRIYrX77wDkbGmqUzyI5VzuNR0DmcQGUymPjDCjf/WYvNlClNhjVFwMy8buIKqtGuuyLc+hQhIy/4hwdbaIo3ByV01Yup9L4lpoWm3wggrwOsJVoGzM2XeTQ3pemWxeqSFFOE/O1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kurd6kWA; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18CB21F00893;
-	Wed,  3 Jun 2026 20:07:06 +0000 (UTC)
+	 Message-Id; b=drB6rOgApfie1acDeAVd1gg8Vc+46Iq2tMjrm/W77wUGupFpsjKvqRebYrlp4AiNwGVzfMmhZiqsFyLNZG6rPVxmu3cn0khk9XVgExglmdpC75JqyFz2+Ft4hdE5Xkb67TN9/9SanFkrOc75LyxYNN8cHr30+7fW3RaH2o9lZig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JSukIaqG; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA33F1F00893;
+	Wed,  3 Jun 2026 20:08:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780517226;
-	bh=yghsa0hjEwEirBB5gl0hVOLDV3trofVlReWLQ9p+5g0=;
+	s=k20260515; t=1780517282;
+	bh=uQSPaZlgJmI6XFx/JJegYrSbYMwFyKt38QNFbl9JLxw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=kurd6kWA+NOgRiM9ntE9yHqFCFtN6cYdDi+RpDkdaJyx2iCb2NU8PZT83vrfgBPdp
-	 aPNC2cwbfjcdEHEuUi9x0rIPqJfTTgrmC8aMI+DLxp0+86BanJi7faLxbwgNcMSJsU
-	 5H+pGT+W7cwxo2Pu7sQ2vt9q74Gah8XG6kmTgr/Y+zHjKfl5/x2dE2jxs4kk4y8vKK
-	 y3asbuhJKjS9zA3PyRfrMwrxZxKNDmtjEUXIq4ddox1glHK7d6P4xza/ZK4/h6UXJC
-	 g6B5xvezdiNdWckKscd/gg8WJxVsM80gbM1oSuMHvJpMldt1jHGWmgmpQ1lmoqqdnR
-	 JWTWXfhjb5FgA==
+	b=JSukIaqG1j8qO/okjkVoE1QJOayRq/wiNyxFLRzi3msWL6OjWlO4P1ARmQLT+irBb
+	 LaphjHqGafCp8wik1VvoIbpo3XGU0D8qZXfW19UvtsBiZn+pzkWBHZbSjMubenwudN
+	 HjUlUrmqOhnte7xp4aIv8fFuxNz5H+8psEk3XGF86lxe5r4UdUkx2SOmPaZtkvoxaM
+	 DpYQwqn5/Kbr+Sc5ZKJnsuGp+rO3DnYwAjDW6soHGgZXs4bwmfS05VAqlJLoRgP2eQ
+	 hCsiBv1ncLuN8b+WyQ56x4ocy35TsoPPkoACryZ8nyzKhde7ZDXoaXK8RDmxh8wsKE
+	 pkuNuaQ/EHwGA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v17 5/6] rust: sync: Add SetOnce::reset()
+Subject: Re: [PATCH v17 4/6] rust: faux: Allow retrieving a bound Device
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Lyude Paul" <lyude@redhat.com>
-Cc: ojeda@kernel.org, linux-media@vger.kernel.org
-In-Reply-To: <20260603195210.693856-6-lyude@redhat.com>
-References: <20260603195210.693856-6-lyude@redhat.com>
+Cc: linux-media@vger.kernel.org, ojeda@kernel.org
+In-Reply-To: <20260603195210.693856-5-lyude@redhat.com>
+References: <20260603195210.693856-5-lyude@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 03 Jun 2026 20:07:05 +0000
-Message-Id: <20260603200706.18CB21F00893@smtp.kernel.org>
+Date: Wed, 03 Jun 2026 20:08:01 +0000
+Message-Id: <20260603200801.DA33F1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,7 +68,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -76,11 +76,11 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-63655-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63656-lists,linux-media=lfdr.de];
 	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
 	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:lyude@redhat.com,m:ojeda@kernel.org,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:lyude@redhat.com,m:linux-media@vger.kernel.org,m:ojeda@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -96,147 +96,98 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_NO_DN(0.00)[];
 	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,smtp.kernel.org:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sashiko.dev:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B81D363B0D6
+X-Rspamd-Queue-Id: 0266263B0BA
 
 Thank you for your contribution! Sashiko AI review found 3 potential issue(=
 s) to consider:
-- [High] Potential double-drop vulnerability (Use-After-Free) if the inner =
-value's Drop implementation panics.
-- [Low] Incorrect use of inline annotations for abstraction functions.
-- [Low] The top-level docstring for `SetOnce` is contradicted by the newly =
-added `reset` function.
+- [Low] The patch adds a new invariant but fails to provide a corresponding=
+ `// INVARIANT:` comment in the constructor `Registration::new`.
+- [Low] The newly added invariant text incorrectly states that the object i=
+s 'bound to a device'.
+- [Low] The `SAFETY` comment in `as_ref` fails to address the new `Device<B=
+ound>` guarantee.
 --
 
-commit 7a51e89f6588dab952d801924de16b34983e224f
+commit dc0de65744def0c2e91abb89c0b847d0fc4819f1
 Author: Lyude Paul <lyude@redhat.com>
 
-rust: sync: Add SetOnce::reset()
+rust: faux: Allow retrieving a bound Device
 
-This function simply drops the contents of the SetOnce, given a mutable
-reference - since that proves we have exclusive access to the SetOnce.
-Additionally, update the invariants for SetOnce to make it clear as to why
-this is safe.
+This commit updates the Registration's AsRef implementation to return a
+device::Device<device::Bound> instead of device::Device. This reflects
+the guarantee that the Registration object acts as proof that a driver
+is bound to the device.
 
-> diff --git a/rust/kernel/sync/set_once.rs b/rust/kernel/sync/set_once.rs
-> index 139cef05e935f..d6e4fc2695673 100644
-> --- a/rust/kernel/sync/set_once.rs
-> +++ b/rust/kernel/sync/set_once.rs
-> @@ -15,7 +15,7 @@
+> diff --git a/rust/kernel/faux.rs b/rust/kernel/faux.rs
+> index 43b4974f48cd2..e0856b2964a2c 100644
+> --- a/rust/kernel/faux.rs
+> +++ b/rust/kernel/faux.rs
+> @@ -25,7 +25,8 @@
 >  ///
 >  /// # Invariants
 >  ///
-> -/// - `init` may only increase in value.
-> +/// - `init` may only increase in value, unless modified through a mutab=
-le reference.
->  /// - `init` may only assume values in the range `0..=3D2`.
+> -/// `self.0` always holds a valid pointer to an initialized and register=
+ed [`struct faux_device`].
+> +/// - `self.0` always holds a valid pointer to an initialized and regist=
+ered [`struct faux_device`].
+> +/// - This object is proof that the object described by this `Registrati=
+on` is bound to a device.
 
 [Severity: Low]
-Since this patch adds the ability to reset and repopulate the container,
-does the top-level struct documentation for SetOnce also need updating?
+Is this description completely accurate? Conceptually, devices are bound
+to drivers, not to devices. The commit message states "a driver is bound
+to the device," so could this comment be updated to say "bound to a driver"
+instead?
 
-The struct docstring guarantees that the container can be populated at most
-once and remains populated by the same object for its lifetime, which
-appears to be contradicted by the new reset() method.
+[Severity: Low]
+Since a new invariant was added here, does Registration::new() also need a
+new // INVARIANT: comment explaining why this condition holds, to match
+the Rust subsystem coding guidelines?
+
+rust/kernel/faux.rs:Registration::new() {
+        ...
+        // The above function will return either a valid device, or NULL on=
+ failure
+        // INVARIANT: The device will remain registered until faux_device_d=
+estroy() is called, which
+        // happens in our Drop implementation.
+        ...
+}
 
 [ ... ]
 
-> @@ -110,17 +110,61 @@ pub fn copy(&self) -> Option<T>
->      {
->          self.as_ref().copied()
->      }
-> +
-> +    /// # Safety
-> +    ///
-> +    /// If this function returns `true`, `self` must be freed or `init` =
-must be reset to `0`.
-> +    unsafe fn drop_val(&mut self) -> bool {
-
-[Severity: Low]
-This isn't a bug, but according to the Rust subsystem coding guidelines,
-should small abstraction functions like drop_val() be annotated with
-the #[inline] attribute?
-
-> +        if *self.init.get_mut() !=3D 2 {
-> +            return false;
-> +        }
-> +
-> +        let value =3D self.value.get_mut();
-> +        // SAFETY: Via our type invariants, `init` =3D=3D 2 means `value=
-` is initialized.
-> +        unsafe { value.assume_init_drop() };
-> +
-> +        true
-> +    }
-> +
-> +    /// Unset the [`SetOnce`].
-> +    ///
-> +    /// After this function is called, the [`SetOnce`] is empty and unin=
-itialized. This function is
-[ ... ]
-> +    pub fn reset(&mut self) -> bool {
-
-[Severity: Low]
-This isn't a bug, but should reset() also have an #[inline] annotation
-following the subsystem guidelines for small abstraction functions?
-
-> +        // SAFETY: We write `0` to init below if this returns true.
-> +        let dropped =3D unsafe { self.drop_val() };
-> +        if dropped {
-> +            // INVARIANT:
-> +            // - We set `init` back to 0 through a mutable reference.
-> +            // - We dropped `value` above.
-> +            *self.init.get_mut() =3D 0;
-> +        }
-> +
-> +        dropped
-> +    }
-
-[Severity: High]
-Could this code sequence lead to a double-drop use-after-free if the
-inner value's drop implementation panics?
-
-If drop_val() is called and value.assume_init_drop() panics, the process
-will unwind. Because *self.init.get_mut() =3D 0 is only executed after
-drop_val() returns successfully, init will remain 2.
-
-During the unwind, the SetOnce drop implementation would execute:
-
-SetOnce::drop() -> drop_val()
-
-Since init is still 2, drop_val() would call value.assume_init_drop()
-again on the already-dropped memory.
-
->  impl<T> Drop for SetOnce<T> {
-> +    #[inline(always)]
->      fn drop(&mut self) {
-
-[Severity: Low]
-This isn't a bug, but the Rust subsystem guidelines note that
-#[inline(always)] should only be used for functions utilizing
-build_assert!() that depend on function parameters.
-
-Should this just be a standard #[inline] attribute instead?
-
-> -        if *self.init.get_mut() =3D=3D 2 {
-> -            let value =3D self.value.get_mut();
-> -            // SAFETY: By the type invariants of `Self`, `self.init =3D=
-=3D 2` means that `self.value`
-> -            // contains a valid value. We have exclusive access, as we h=
-old a `mut` reference to
-> -            // `self`.
-> -            unsafe { value.assume_init_drop() };
-> -        }
-> +        // SAFETY: We are dropping this value.
-> +        unsafe { self.drop_val() };
+> @@ -59,8 +60,8 @@ fn as_raw(&self) -> *mut bindings::faux_device {
 >      }
 >  }
+> =20
+> -impl AsRef<device::Device> for Registration {
+> -    fn as_ref(&self) -> &device::Device {
+> +impl AsRef<device::Device<device::Bound>> for Registration {
+> +    fn as_ref(&self) -> &device::Device<device::Bound> {
+>          // SAFETY: The underlying `device` in `faux_device` is guarantee=
+d by the C API to be
+>          // a valid initialized `device`.
+
+[Severity: Low]
+Does this safety comment need to be updated to address the new Bound contex=
+t?
+
+The device::Device::from_raw() documentation requires the caller to justify
+the chosen DeviceContext (Bound), ensuring the device is bound to a driver
+for the duration of the reference. While faux_device_create() in C guarante=
+es
+driver binding upon success, the safety comment currently doesn't document
+why this new requirement is met.
+
+>          unsafe { device::Device::from_raw(addr_of_mut!((*self.as_raw()).=
+dev)) }
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260603195210.6938=
-56-1-lyude@redhat.com?part=3D5
+56-1-lyude@redhat.com?part=3D4
 
