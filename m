@@ -1,221 +1,202 @@
-Return-Path: <linux-media+bounces-63520-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63521-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Cf9QBjvbH2rqrAAAu9opvQ
-	(envelope-from <linux-media+bounces-63520-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 09:43:55 +0200
+	id yHQyOEHbH2rtrAAAu9opvQ
+	(envelope-from <linux-media+bounces-63521-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 09:44:01 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61765635559
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 09:43:54 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BF13635568
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 09:44:01 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=fail ("headers rsa verify failed") header.d=kcore.it header.s=spark header.b=VWI28U66;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63520-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63520-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=none;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=qh4xtAy+;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63521-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-63521-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B447E322913D
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 07:34:08 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 0ED55303A02A
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 07:42:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16EAD407569;
-	Wed,  3 Jun 2026 07:31:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ADA93F58E9;
+	Wed,  3 Jun 2026 07:42:26 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from spark.kcore.it (spark.kcore.it [49.13.27.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24507388885;
-	Wed,  3 Jun 2026 07:31:38 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780471900; cv=none; b=Mrh2dLlYhyFnKlGR64zQ+m7HCUUrS0iG+URRdW/VRio+qN8ZU6pXnQ8h8/r6Sg4ukHmRmpp5atS2yoVOqQ08IihB5BKJPElEb+uZ+WT/+Dta/GP/EU1nfGpQvK60tkaLvw07d3xPqIEWjdXIBye4YIiY4iE1cIUgMDmpK3vnXag=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780471900; c=relaxed/simple;
-	bh=xl/ZL+LeNQ/HTL6YIqdsWIM82xmbUsNRR2IZA2aRTHA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:References; b=r1YIwy3E/oCfY0qE2cwNHSfAR8N9HXO7kMWTIlFRLrOhXnFxxuLbCD0v9I9HnUox3Vet9xxRS0Rb9+upYukn4Q+hVMhDSCJFsjBiKsvKiSEG5UwzymcsfYUzBlolOfN+vdr1ubdBxBEOnPXKY8Cwmmc1WbyjBi/1NrC0GDWQ4K8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kcore.it; spf=pass smtp.mailfrom=kcore.it; dkim=pass (1024-bit key) header.d=kcore.it header.i=@kcore.it header.b=VWI28U66; arc=none smtp.client-ip=49.13.27.68
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kcore.it;
-	s=spark; h=References:In-Reply-To:Content-Type:MIME-Version:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=a4Wy9+o9dxmFYGHL+31TQ2z0lah9y8fKNCooOaR+Ews=; b=VWI28U66X4UW8Fo/AACRtUlDHz
-	mnJKSDMHWxO8mD8wp9PHL+uo1Pfd8lCojT2ngatNPc1VZ6IjPSSG4mL2+CD/S37ArGDtm6ImMePU1
-	GBFPbucOwN6eS13R8Tz18QqaTryu6rN6ehjI9Wa3zPTTdyf/Kx3EAa7b0JCUzvyiPlps=;
-Received: from mnencia by spark.kcore.it with local (Exim 4.96)
-	(envelope-from <mnencia@kcore.it>)
-	id 1wUfzo-000gP1-2Z;
-	Wed, 03 Jun 2026 09:26:36 +0200
-Date: Wed, 3 Jun 2026 09:26:36 +0200
-From: Marco Nenciarini <mnencia@kcore.it>
-To: Angioli Samuele <angioli.samuele@gmail.com>,
-	linux-media@vger.kernel.org
-Cc: Hans de Goede <hansg@kernel.org>, ilpo.jarvinen@linux.intel.com,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Israel Cepeda <israel.a.cepeda.lopez@intel.com>,
-	linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [BUG] OV02C10 on Dell 16 Premium DA16250 (ARL): INT3472
- handshake-derived "dvdd" regulator registered but never linked to sensor,
- sensor probe fails with -EREMOTEIO
-Message-ID: <ah_XLEAkqjV9HkSE@spark.kcore.it>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E22773A6410
+	for <linux-media@vger.kernel.org>; Wed,  3 Jun 2026 07:42:24 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780472546; cv=pass; b=RXv4k76+Urw8uSzjsRWyeHC0eXXGBOoxIPGIY4SasK/lsyx9yMyZLgApGxHIYMo2uucxn15sLu2Ch1IvVKJNoJcnBNFgDIfoEY7b8SsX/8objp78DxYosjAzxo24kbZt7X/c20C9oKad2WHqdFrNrydPMd4i6kkDEuGFBVgqJzg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780472546; c=relaxed/simple;
+	bh=kPEaoQ8OjP+EXnYI8JRzPvxllsKR3GiBChaozvD7CNU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hk98LXoXl8pzK3a1efolLMQaQj1BAq+7WVqqPElzs/opV41AUwEjkpJzeak/opGrKlNuUXuF21szCzWmr/xOd6RxBWkqWWkrU0EP1mcpR/UZlC875Okh/rCNOGDD+ft/VFGWvutEMqzSalAzKA79Y+5Tq500FhsJ+xTSnmxGRhw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qh4xtAy+; arc=pass smtp.client-ip=74.125.82.47
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-137dd523634so5397437c88.1
+        for <linux-media@vger.kernel.org>; Wed, 03 Jun 2026 00:42:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780472544; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NqCDCV2zVIeAJQNtJ3AFAdZDKKR/dskKhHEkqj7KZB7AzO/IkKMWA06t1cUwfpw3KY
+         XWI8DcYayk1RRbZgk0Y9O8MScJAhLTaF8TvpvQtSU/j2sp+VZZ5jzQ35zAntV7Wm5V+l
+         hKaKMKKz4ZQNHdN4mrUq9RExczjut/QZfoQdCjz5F3Myc+rnz0b6845VRhulJbs5b0f7
+         H1Fa73o1CINd3Za/LPzTDjgH+x7V6ff3+itpUjxD2f3nJTJ2HbPUiXDt8kjS3Sq8RI6j
+         686cWXLg354r4e8/IgLmRzdB5JbiOAYfwqfK42144MMwIeBHgiPdbDNK4eVx7wNR3w9T
+         s8Rw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=a7XYs6K6ZH353PwGbbI2rOqTKDPXN26s6rlYcbF9OO8=;
+        fh=rSsdBn6Diokju6KRPWANRi5x+3KnR5dxVEciMrM5HJo=;
+        b=byWij7vQBZGg2dnC2VqvPZqtBaJKIF4dqzyR8B+7/SAZKfOseZsrhYeZ0OkQTa2CIh
+         aBtNbSHYK0P/YJSV9EXYMrHrw8irkDg15G1kpYXOcd2rDNizAiveWtm8ClZUF0CITjU7
+         yEe0EO9quCKbSWipEcrrbls8XU2t3s4aYMwPMP6iH+7g7p17wgE3yX7LyKfdscP+zbI6
+         tfA2oJ1hp/xCLROzTQzpoJUgUD1lYqk9LjHfLngU6GVGe8X81oNH5YplaLr9w90AmYGn
+         +dyQL8sJZD+l8JwbpOxA0qy3bDfShPd4p62RdiNEZJPu4Jkcl0y/2NaokTC2b8uQl7KN
+         IsTw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780472544; x=1781077344; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=a7XYs6K6ZH353PwGbbI2rOqTKDPXN26s6rlYcbF9OO8=;
+        b=qh4xtAy+sTSvNUJcGqNqTqb8ubhlk6Nx4W0oPyijq71XdjrCwRoEGtv/xa9e7Sg2Xe
+         +It0GQIQOFZoYXXm99XudycaVZ1e0FWurvdFt0YTqdz0eKe4j4xANbag939vyOjzPEe+
+         Bk3CtpxB3DdQrjjkNUJE1kjnEr4DR8oCNPkgJT9x0KQD/pFE5IhxLbPI5G5sGapJyUm+
+         GGmKFBqWU51moK3lhIxHUryM/CzgZDeLMAaiG8gXuT6LkArtE8QlWQd4s6MtyY1GmQc7
+         xXkK1dn8TEQb1PWCGEZzcjo5bygwOeib6SD+TpCBndHTisPdUrxiu0rsPtvwzHMTEUSG
+         QMZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780472544; x=1781077344;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=a7XYs6K6ZH353PwGbbI2rOqTKDPXN26s6rlYcbF9OO8=;
+        b=sUf1JznKIAZhXHqFOSqvw9+Wn8uHNqg0/jszICj7p0gRwBSSYxwgBLuEi9RJ8DYW4o
+         B6Cj80J2lACS5YeuqxqRp2XsOLd+PiE8wmHTuZnhfH0/4a5qKFVpDak3ccIOpJnEp4Tw
+         jtzC680FOaMtN3FCh8JLP95YMxv34pJ4cQCbOTcckJ7lbtdcqLoX+gHQZQ70DwO7KIHQ
+         JjOnt1djQA2GMbarrOe0MOo2Nwn00M1c1ixuPLM2Jx6lbkRFBKVjy5ntrFTtEmmVut4U
+         m3JknUYa0jExQB3zv+WGMK24YJH12zMT/NRJ7K/D4yQ0+EuSnenksooHDjMD2MRDmYCa
+         LDJA==
+X-Gm-Message-State: AOJu0YxYZIT3zHiZLEOf23eKWlUZXV3FBWKM80mGHhZmUv1lXaOwxfFS
+	Kshc+dvWeXUl/nMDQlg5+fZp8LcYdFzrSTPBwblKZTxix/x/pWCKkoID3IUAL17E7OLaQYI+uKS
+	HXgS0O09l2laIrfzz0A9m2jm3X/JNWSU=
+X-Gm-Gg: Acq92OFD2EBFfayIsDAwgLuFBop7utHcbK/+MEQ1ptnKZGO+g6qD6ACZFu0iuwOHySo
+	WKxWD8aiXYqO6mAoCz0VoAL+tsIBPgZMPQDPw59xqdrsdUZtf7h9Xu5k58YQtLBEt4VH6AGoGGD
+	o7Wk56nCwj/5jjNfNwVUEJwWcwM5P9L1+vEXt2xw7LUKZMFzCAVxctoLLjRy5NhIYdAPQytZKtc
+	iBVOo6AMjeEbqYhmO+Yx+JVSJtyw/qXCmPqUrhfr+YF0NpTYzXVXa6HfAvi7Ma8uVrrsL7FusL1
+	FgcF9tmC+O09jnPkGj9bsrUJwmYDmw==
+X-Received: by 2002:a05:693c:300a:b0:304:4f23:457e with SMTP id
+ 5a478bee46e88-3074fb684ffmr1181310eec.22.1780472543899; Wed, 03 Jun 2026
+ 00:42:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <abeb9142-16a7-417b-be0f-b929234de6db@gmail.com>
-References: <abeb9142-16a7-417b-be0f-b929234de6db@gmail.com>
+References: <20260531092924.12929-1-clamor95@gmail.com> <20260531092924.12929-2-clamor95@gmail.com>
+In-Reply-To: <20260531092924.12929-2-clamor95@gmail.com>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Wed, 3 Jun 2026 10:42:12 +0300
+X-Gm-Features: AVHnY4Ieen8ZoYHKJxqaa_bowmUWca3QV_nYMrOeqjf0cKthQQdJ7zZR2Kop0oE
+Message-ID: <CAPVz0n12a5XjoFbCYDuwa8gzYeyg9jcjOzKRArqFZBSgMkjCkg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1 RESEND] dt-bindings: media: mt9m114: document
+ common video device properties
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Svyatoslav Ryhel <clamor95@gmail.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.04 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_REJECT(1.00)[kcore.it:s=spark];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63520-lists,linux-media=lfdr.de];
-	FORGED_SENDER(0.00)[mnencia@kcore.it,linux-media@vger.kernel.org];
-	DMARC_NA(0.00)[kcore.it];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:angioli.samuele@gmail.com,m:linux-media@vger.kernel.org,m:hansg@kernel.org,m:ilpo.jarvinen@linux.intel.com,m:sakari.ailus@linux.intel.com,m:israel.a.cepeda.lopez@intel.com,m:linux-kernel@vger.kernel.org,m:platform-driver-x86@vger.kernel.org,m:angiolisamuele@gmail.com,s:lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mnencia@kcore.it,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kcore.it:-];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63521-lists,linux-media=lfdr.de];
 	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,spark.kcore.it:mid]
+	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart@ideasonboard.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:clamor95@gmail.com,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[clamor95@gmail.com,linux-media@vger.kernel.org];
+	FREEMAIL_TO(0.00)[ideasonboard.com,kernel.org,gmail.com,linux.intel.com];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,vger.kernel.org:from_smtp,mail.gmail.com:mid,ideasonboard.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 61765635559
+X-Rspamd-Queue-Id: 9BF13635568
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA256
+=D0=BD=D0=B4, 31 =D1=82=D1=80=D0=B0=D0=B2. 2026=E2=80=AF=D1=80. =D0=BE 12:2=
+9 Svyatoslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> Document common video interface device properties, such as rotation and
+> orientation.
+>
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
 
-Hi Samuele,
+I have forgot to include ack and review tags from pre-resend patch.
 
-Thanks for the thorough report, the dmesg and the detail you included
-made this easy to trace.
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Both of your hypotheses turn out not to be the mechanism. The naming is
-fine and the fwnode path is not shadowing anything. The dummy dvdd in
-your log is real and is the key clue, but the interesting question is
-how the sensor reached a regulator_get for dvdd at all.
+Hopefully, these can be added without resending.
 
-> (a) fwnode/of-based supply matching in the regulator core now takes
-> precedence over the legacy dev_name-based supply_map lookups
-
-It does not shadow it. regulator_dev_lookup() tries the DT/fwnode path
-first, but regulator_dt_lookup() only does anything when
-dev_of_node(dev) is non-NULL. On ACPI there is no of_node, so it
-returns NULL and the function falls through to the legacy
-regulator_map_list walk. A software_node sensor with no regulator
-phandle is therefore fine, provided the map entry exists at lookup
-time.
-
-> (b) The sensor i2c_client created via ipu-bridge has a slightly
-> different dev_name
-
-It does not. int3472->sensor_name is built as "i2c-" +
-acpi_dev_name(sensor), i.e. "i2c-OVTI02C1:00", and that exact string
-is planted into supply_map[].dev_name in
-skl_int3472_register_regulator(). ACPI-enumerated i2c clients are named
-the same way (dev_set_name(&client->dev, "i2c-%s", acpi_dev_name(adev))),
-so the consumer dev_name is byte-identical. No mismatch.
-
-What the log actually tells us. The line
-
-  ov02c10 i2c-OVTI02C1:00: supply dvdd not found, using dummy regulator
-
-is emitted from a single site in _regulator_get_common(), on the
-have_full_constraints() == true, NORMAL_GET path, and only after the
-dummy_regulator_rdev existence check. So it means precisely this: at
-the instant ov02c10 called devm_regulator_bulk_get(), the lookup for
-"i2c-OVTI02C1:00"/dvdd returned -ENODEV, i.e. no INT3472:0c-dvdd
-consumer map entry existed yet. int3472 publishes that map while
-registering the regulator, during its own probe, and its whole probe
-defers (the ~30 retries in your log) until the USB-IO bridge gpiochip
-appears, because the dvdd HANDSHAKE GPIO lives on that chip. So
-ov02c10 took a dummy dvdd before int3472 had registered the real one.
-Under NORMAL_GET with full constraints that dummy is permanent, the
-no-op enable leaves the rail unpowered, and the 0x300a read fails
-with -EREMOTEIO, a hard error that is not placed on the deferred-probe
-list and so is never retried when the real regulator appears later. It
-is also consistent with regulator_summary showing INT3472:0c-dvdd with
-no children after the fact.
-
-(avdd and dovdd also fall back to dummies. If those rails are
-always-on in hardware that is probably benign. dvdd is the one
-INT3472:0c is meant to gate through the handshake pin, so that is the
-one that matters here.)
-
-Here is the part that needs your input, because it should not be
-possible. INT3472 is in acpi_honor_dep_ids, so a sensor whose _DEP
-references the INT3472 device is held out of enumeration entirely
-(acpi_dev_ready_for_enumeration() returns false, the i2c client is not
-even created) until int3472 clears the dependency. int3472-discrete
-clears it with acpi_dev_clear_dependencies() as the last step of its
-probe, after int3472_discrete_parse_crs() has registered every
-regulator including dvdd. So in the normal flow, by the time OVTI02C1
-can be enumerated at all, the dvdd map is already published and the
-sensor binds the real rail. The fact that you got a dummy means that
-gate did not serialize them on this board.
-
-The most likely explanation is that OVTI02C1's _DEP does not carry an
-honored dependency on the INT3472:0c instance that registers dvdd (or
-there is more than one INT3472 instance and the depended-on one is not
-the dvdd provider). To confirm, could you send:
-
-  - the OVTI02C1 _DEP (an acpidump or DSDT extract), so we can see
-    whether INT3472:0c is actually listed;
-  - a dmesg with timestamps showing the order of the int3472-discrete
-    bind, the i2c-OVTI02C1:00 device creation, and the dummy-regulator
-    warning;
-  - the INT3472:0c _CRS plus the _DSM result for the GPIO at
-    \_SB.PC00.XHCI.RHUB.HS09.VGPO pin 1, as you offered.
-
-Hans, Sakari, this is where I would like your read. If the _DEP on
-this board is indeed missing the INT3472:0c instance, is the right fix
-a board quirk, or is it worth giving the ACPI consumer path a "supply
-coming later" signal the way the DT path has one?
-of_regulator_dev_lookup() returns -EPROBE_DEFER when the phandle
-target is not registered yet; the legacy consumer_supplies/dev_name
-map has no equivalent, so once the _DEP gate is out of the picture
-there is nothing left to make the sensor wait.
-
-Thanks,
-Marco
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEfCO4BD5l0pgKIbbiWJ8D8BulUDgFAmof1vIACgkQWJ8D8Bul
-UDhKsxAAhvXDzdrZLmLC+7kV5ORVVl0oEZxv/ylThq8xzkiPdkkkdCYcf0cF/Xgp
-rH2LvTr/lqJjCL8P8S7ytzJ+8DCX7UpjnFy5AsyTJZGBa312eG9Ksrf9GMOJ5slL
-r4KqKu8feyuQNgkaYKsxO342OSlPas5aAKVUIQeEUB+1Q2eQ4ffe5MR+Rdub9a5q
-1SKIfmuAzs7DJc86gBYmA6wz7FEpmXNH3ugu3QLFLB7NlEQEHQIl8Jo3w5yt5GCi
-Gs+0JgmydKkTmNpUJ4c13tXk+G3G8Um2fg6sgwIX/pOhjbPrrzpgZgwVGI/eZdfM
-MKQ2qWYiMuDFsd3ZnXMyHrffIVMj2q/UB+ye2bAP3a9QsxubuvCaCGk+ksBRvtUk
-4GE1MQ+yFVakru93ADfTJ+ASuyaVI6fVG9H4zt46up5z04DzGYSYhXAJSOfBCz6A
-CRAkKBkTga8bHeqdt289kzgES+OIkX2XeE7eOl8JX+LoDIfQiLD7cbGynHNjR4mf
-fjfBVwTmwRES+KC5+KLbsgrdCfpX0RCb8iBmQto7jxTUImKI3xMgmHYf51PYyqmA
-/uSpYW1G4YwBGn8/9aI2P9FiQyQXdt6LTqBz+Ld9CxGiKUNvfj078lcZoa7Dq22n
-5S14yapsNfoJbEyYhIshu2exu9rcW30DGSnloS1gTuIvz+e72hc=
-=egB7
------END PGP SIGNATURE-----
+>  .../devicetree/bindings/media/i2c/onnn,mt9m114.yaml          | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yam=
+l b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
+> index e896f4db2421..2b39614f5cbf 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
+> @@ -15,6 +15,9 @@ description: |-
+>    an I2C interface and outputs image data over a 8-bit parallel or 1-lan=
+e MIPI
+>    CSI-2 connection.
+>
+> +allOf:
+> +  - $ref: /schemas/media/video-interface-devices.yaml#
+> +
+>  properties:
+>    compatible:
+>      enum:
+> @@ -90,7 +93,7 @@ required:
+>    - vaa-supply
+>    - port
+>
+> -additionalProperties: false
+> +unevaluatedProperties: false
+>
+>  examples:
+>    - |
+> --
+> 2.51.0
+>
 
