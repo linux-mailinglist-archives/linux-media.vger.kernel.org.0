@@ -1,546 +1,772 @@
-Return-Path: <linux-media+bounces-63604-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63605-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id A2D9NdQ3IGrXygAAu9opvQ
-	(envelope-from <linux-media+bounces-63604-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 16:19:00 +0200
+	id KdQ1Bx05IGolywAAu9opvQ
+	(envelope-from <linux-media+bounces-63605-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 16:24:29 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CAA56387AF
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 16:19:00 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9BF0638869
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 16:24:28 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=chVhGGJC;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63604-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63604-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=ZixTz+tE;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=bIjYQi5w;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63605-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-63605-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=qualcomm.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8959A303CE8C
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 14:12:06 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 7A6BE30675F7
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 14:20:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 461F147D92D;
-	Wed,  3 Jun 2026 14:11:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB23B38D3EE;
+	Wed,  3 Jun 2026 14:20:22 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8326382F31;
-	Wed,  3 Jun 2026 14:11:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B082385530
+	for <linux-media@vger.kernel.org>; Wed,  3 Jun 2026 14:20:20 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780495873; cv=none; b=kux7HOh3SEKBDsBtrxPPgDHwzBWuZFN0fRubWi7B0YpkysdOyLG4au56XU1zC/xEhlj94oeY/SWQHtpRPp9xTfn2GTbyRPH4bynqf3lMhdDr33BBd+MwRI+23dIzHE4i8KfJ0S3eVALJULY9Mo37f+UQpJY1sAo3wSfvs66Woo0=
+	t=1780496422; cv=none; b=UDnn/aawkK8csoJGFmJCsl8ZctWKsKrmghfgBJBnTET6tWzQC1jiKfLpXd9jSLpWdni4sLXc2hqGg23a0/n9enD/O3lM62TH+Koy470P4gpgx+suhUC1BApXG1Z2IgIDkY42nDxYFoULnAHoaZxrXKOJzdDyMlYvhBqYQ72hblI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780495873; c=relaxed/simple;
-	bh=0oW/NB2Qll/8gKaDW680i6MIDNMaIjm6Rrxhf81Uc+I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ULttbcr6QaDwImZUHbjMLP3m+BQCy2qRaFfi2ebygjbL5XTmMft+y9J0Xc1VlibQyGJ8gAg9deVI5YhsVtEcHvPIWBxqvbXqMD9GxqgyqZrzJfKpmDulLu63uFYVCbgJXZXDksgnvN1mS1NuKUAuoj3sHBx3PGHdlmteC0SuTbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=chVhGGJC; arc=none smtp.client-ip=213.167.242.64
-Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C3999929;
-	Wed,  3 Jun 2026 16:10:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1780495845;
-	bh=0oW/NB2Qll/8gKaDW680i6MIDNMaIjm6Rrxhf81Uc+I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=chVhGGJCSV1VkL/gld9pnT/wIP61OHFCE18dEl9QLCh1yzt9vrYPi55FEpf32VFMg
-	 uDzabT+eBpKlBCtfHE6Ba099TvUpRsfiXtJKytbxO0oEhPBSXASgJOcJUiGEx6uTsi
-	 Rs6nJmq9juFhwZ4RlMd4BgYa2t7GCRu5T8mItiYw=
-Date: Wed, 3 Jun 2026 16:11:06 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Jai Luthra <jai.luthra+renesas@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Subject: Re: [PATCH v9 08/13] media: rppx1: hist: Add support histogram
- measurement
-Message-ID: <aiA0DAEHX6bP1Zc3@zed>
-References: <20260516211320.3041412-1-niklas.soderlund+renesas@ragnatech.se>
- <20260516211320.3041412-9-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1780496422; c=relaxed/simple;
+	bh=FDAzsmEE2zc+BuFG741ZVHzpSEdRCVr7ejgVW73hl4M=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=blJZwLZhE13T2MzRouFFmfcmJP8AduTeS939c7fhVaaq02ycGeKCSK+KUsDTRJbPlBhmIu9kRZBzoJav2jb7ExlF1NTdjMWdRXWqg8qGTTRa9kZy49/M2AtZzfH2rnhJJCadDK396tSgBY9+tNwlG2zZJbdCdpLF5e/fcUwV7sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ZixTz+tE; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=bIjYQi5w; arc=none smtp.client-ip=205.220.180.131
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 653DYjEM1755356
+	for <linux-media@vger.kernel.org>; Wed, 3 Jun 2026 14:20:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=yP0SuaathGS8qLgUwv7Oko
+	TxT2aPpWgP+sw3RTOZ69A=; b=ZixTz+tE1j9nNGj7iQGqt3VDsc7d3jV20AVm7M
+	CkBEOmXdpJr+8O3qZT9paOlIpuYLDfPo6PczoTxwlZpb56xn5hEhY9dxc/wWmWw0
+	fVbAUV0T5iwj6wSRX+UcUoexx87dijXMynhWWn7gKAbeUb1PffBub0BMvLAS77Ad
+	cc48+ypG4GkGgkkewy6MsVtpAE4wZJAYBrQP94rycMFw046mr6cQw9gvdR16Rp2Y
+	6FEKLvUS0M/S9Gs8/0911OAXrCMRoxZ3l8wLSsM6aliSigkQzUTaU3h2iho/zuhM
+	oU5ZyTr/wQbiBN6sAu40zb579MCxD3z2XQVeYlR7wu3/zXGQ==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ejff01r1b-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 03 Jun 2026 14:20:19 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2c0c32faa62so68532105ad.2
+        for <linux-media@vger.kernel.org>; Wed, 03 Jun 2026 07:20:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1780496418; x=1781101218; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=yP0SuaathGS8qLgUwv7OkoTxT2aPpWgP+sw3RTOZ69A=;
+        b=bIjYQi5wBRroPTYMoKyFaKoE3ZxSBZk/4/paXxIhg7dhv26rJFdD6kYrOCE7iNrjot
+         lL5sUJH1ylP/3q3gNbjfLYDSlgwBqOLdYFT/cr0uqi2QNed03j/fk9Sabvf50TbpGRym
+         enHos6YtmOEUofKeqxM5EmD88re5x+FdAaJtMJJpvXp1qfCVxs/0VKBHYoSfuw1OLqmT
+         4rC5nPAkm0vzfK/Vu/e1odWk0qv/O69kz9jlJcaP+4BPbsGb+9dPik2lVDoC++7QcWAa
+         0c19JewfMRj4I3JP5Cl5ruLMAaJQp8wwXtpqxfdfJXOxFWAnR7X3uDKOtRYvO8wSo/Bt
+         zOyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780496418; x=1781101218;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yP0SuaathGS8qLgUwv7OkoTxT2aPpWgP+sw3RTOZ69A=;
+        b=k4zi0J+7jKpArRoYe/g7PTTmfXb9QT5NWqrQxy41NwFtkaHHB024Gy8+3A5Ys0qj43
+         8zkmEztm6pXbCdves+U0zycAqeBhIWpNI98gyBraFefyoDLP6JHb3erddBMuTRuz+6Rc
+         Qp+UUSjXoHqUNO9x8V3V1GKq0s0/HYHV6AxneMD+Q604VCF6hHhmUZhycxYbG61REaMU
+         qU7dzdRphO7FIJXkgP7ZrGj3ahc06G9uyJBH7mBhI2viwFF5IKxdUMFIGJWkURDaD9+Y
+         43oTupQd6lntMxTu5D40/k1n6tsQHxjME75fgAT2zMPRp6DY0EFsNbL5wU7jqY/LFon8
+         KUzQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8rnhMyyBPzlC5EHddpbvWwFTQyQhJfYimpyrs6ylZZ3Io+6rqLZcF2sHoiQICawHC87Pi34H9OvosK0g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEWFzggiRuJzOko/d5lgSIxb0UTKP2N7LdbtOtgtJltTD+Jb33
+	qu4xKrArYIX4hEu10v0xKeZqB9Nnw5KxPAsK1+gMhM/nXLRMrFhpbzYj8zRO06rFcTZ0jhoKQzJ
+	FK0ISIYPfcQ8puN9vivARsnL9wXhbF2w0NjwTbCH0kkfoQ6DMxt4jXyt+TP1fewSVFQ==
+X-Gm-Gg: Acq92OFFtHF/O38Nhs7bMBXaowvpTtQ5dc6rbODn8KFN+i6g00CV4RI16Q9sDd1lvL7
+	UdU13atk34QoPBVb0Qt3QJt19g1Z0XmcC4NH+9rtrx3d94qtEBg5VqIiqxr/NArdKNSgRdX9M78
+	mm1Ztu6AAOSbzeGeJFEs+u36y3uVcwWKu1r10TLNXm0URqv7/wB33HAN3jpn3KU4ORnncVo/F+R
+	p3POZI6d9MlYpKaSWK4L6dQ07XqFkLHR549ZCeiEeLR7yJRl4iotP62fKfgRppgW9uFIdcgVIjZ
+	nZQSvfkV+4v9H3kfdzRu6fTJt0nkj3h/95hd9JHmqDJdL6sPZFCO24zQ73iQ3DtFGXfI/e2YO+h
+	/4ZYSjmK3yhryDuaz32p9nZ/ZG7ZmT3oaBPDgESMkhj+z2LbNLqXQ175zGeyYw0VRjQ==
+X-Received: by 2002:a17:903:2bcb:b0:2c0:abd3:32fc with SMTP id d9443c01a7336-2c1644c9b31mr41439035ad.34.1780496417899;
+        Wed, 03 Jun 2026 07:20:17 -0700 (PDT)
+X-Received: by 2002:a17:903:2bcb:b0:2c0:abd3:32fc with SMTP id d9443c01a7336-2c1644c9b31mr41438335ad.34.1780496417302;
+        Wed, 03 Jun 2026 07:20:17 -0700 (PDT)
+Received: from hu-bvisredd-hyd.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f6d37esm41514955ad.9.2026.06.03.07.20.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jun 2026 07:20:16 -0700 (PDT)
+From: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+Subject: [PATCH v7 00/12] media: iris: Add support for glymur platform
+Date: Wed, 03 Jun 2026 19:48:38 +0530
+Message-Id: <20260603-glymur-v7-0-afaa55d11fe0@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260516211320.3041412-9-niklas.soderlund+renesas@ragnatech.se>
+X-B4-Tracking: v=1; b=H4sIAL83IGoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyzHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDMwND3fScytzSIl2TtOQUkxQLY6PU5GQloOKCotS0zAqwQdGxtbUAYLJ
+ 1flgAAAA=
+X-Change-ID: 20260601-glymur-4fcd4d832ecc
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev,
+        devicetree@vger.kernel.org,
+        Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+        Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780496410; l=21269;
+ i=busanna.reddy@oss.qualcomm.com; s=20260216; h=from:subject:message-id;
+ bh=FDAzsmEE2zc+BuFG741ZVHzpSEdRCVr7ejgVW73hl4M=;
+ b=ceYlg5YwfmNUAFu/nGWbJx41yfYI7LckQjOhFlZk+dPaV6qlJZNFWrgU+laM6SKsOHqGZWJmd
+ EE2DMpeSrC3Ao/GeLP7bljfh4q9nppbquseSmYINIfy+U0g504a0GGZ
+X-Developer-Key: i=busanna.reddy@oss.qualcomm.com; a=ed25519;
+ pk=9vmy9HahBKVAa+GBFj1yHVbz0ey/ucIs1hrlfx+qtok=
+X-Proofpoint-GUID: HWfKkpUucF555ZnKQnwNktRlmDRtn2nY
+X-Proofpoint-ORIG-GUID: HWfKkpUucF555ZnKQnwNktRlmDRtn2nY
+X-Authority-Analysis: v=2.4 cv=LYwMLDfi c=1 sm=1 tr=0 ts=6a203823 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=VwQbUJbxAAAA:8 a=apL-334RAAAA:8 a=e5mUnYsNAAAA:8 a=EUspDBNiAAAA:8
+ a=vz760iHb5DeATwUEMbMA:9 a=xbSHLHFuQnTRpLWc:21 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22 a=eWIHaOtA_ULHaMmHwLHW:22
+ a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjAzMDEzNyBTYWx0ZWRfX+qelyyvYAx9S
+ Ly0TqH92jt5LdHZb4XXq952rorGvZPRE8PU7D3VRMzbIEb4ARblIx0u/JykkrrpelfifhE5fk0z
+ 4mkfVajEkYXA+T3ZrWjtByA5r1HEQDfVnWUFsq+WU4UoAKE6g5O3nnaP3ntc3CpSrh30IFvD6A9
+ hsSuVKjeSzOF9RVxNnn6tMFU15AxvnhDxWUF6uUS42UBDY5aRi3xtrckS0CFug3x6EAYdqQc55Y
+ pzl9MjvsJN+AnqECOJiWqo9sRV+EgJqgU3ZV4ab6u/rXl/LeudEyOzcbmZ4tdjM1Z1sZWIBmTw2
+ 6XRdc2qnG7wcsa+REctAdo7+GctIf0W3T5knbunO19E8sNyhBKa7zvPJu3o9HSsoKJSphLYYs6y
+ lGrzxeHLxbEyGiqn519KX+rHIUUigCbuJassvny42eyUZftCnuBWc3br7cKvn/u5R+G9DzxR+2D
+ mqrqGKVgOYN2ksNXM4Q==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-03_05,2026-05-28_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 malwarescore=0 phishscore=0 lowpriorityscore=0
+ adultscore=0 impostorscore=0 suspectscore=0 spamscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606030137
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63604-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:niklas.soderlund+renesas@ragnatech.se,m:jacopo.mondi@ideasonboard.com,m:jai.luthra+renesas@ideasonboard.com,m:mchehab@kernel.org,m:kuninori.morimoto.gx@renesas.com,m:laurent.pinchart@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi+renesas@ideasonboard.com,m:niklas.soderlund@ragnatech.se,m:jai.luthra@ideasonboard.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63605-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,linux.dev,kernel.org,8bytes.org,arm.com,gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:bod@kernel.org,m:mchehab@kernel.org,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:stanimir.k.varbanov@gmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:iommu@lists.linux.dev,m:devicetree@vger.kernel.org,m:busanna.reddy@oss.qualcomm.com,m:dmitry.baryshkov@oss.qualcomm.com,m:krzysztof.kozlowski@oss.qualcomm.com,m:mukesh.ojha@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,m:stanimirkvarbanov@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[busanna.reddy@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,vger.kernel.org:from_smtp,oss.qualcomm.com:mid,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,qualcomm.com:email,qualcomm.com:dkim,gitlab.freedesktop.org:url];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[busanna.reddy@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:from_mime,ideasonboard.com:email,ragnatech.se:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3CAA56387AF
+X-Rspamd-Queue-Id: A9BF0638869
 
-Hi Niklas
+Glymur is a new generation video codec that supports dual hardware cores
+along with additional power domains and clocks.
 
-On Sat, May 16, 2026 at 11:13:15PM +0200, Niklas Söderlund wrote:
-> Extend the RPPX1 driver to allow setting the histogram measurement
-> configuration and consuming the resulting statistics. It uses the RPPX1
-> framework for parameters and its writer abstraction to allow the user to
-> control how, and when, configuration is applied to the RPPX1.
->
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Co-developed-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
-> Signed-off-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
-> Co-developed-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> ---
-> * Changes since v8
-> - Use IS_ERR to check rppx1_init_stats_block() return code.
-> ---
->  .../platform/dreamchip/rppx1/rpp_module.h     |   2 +
->  .../platform/dreamchip/rppx1/rpp_params.c     |   6 +
->  .../platform/dreamchip/rppx1/rpp_stats.c      |  10 ++
->  .../platform/dreamchip/rppx1/rppx1_hist.c     | 115 +++++++++++++++++-
->  .../uapi/linux/media/dreamchip/rppx1-config.h | 115 +++++++++++++++++-
->  5 files changed, 245 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_module.h b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-> index e968ec67b9f5..b134d140fe22 100644
-> --- a/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-> +++ b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-> @@ -48,12 +48,14 @@ void rpp_module_clrset(struct rpp_module *mod, u32 offset, u32 mask, u32 value);
->  union rppx1_params_block {
->  	struct v4l2_isp_block_header header;
->  	struct rppx1_awbg_params awbg;
-> +	struct rppx1_hist_params hist;
->  	struct rppx1_exm_params exm;
->  	struct rppx1_wbmeas_params wbmeas;
->  };
->
->  union rppx1_stats_block {
->  	struct v4l2_isp_block_header header;
-> +	struct rppx1_hist_stats hist;
->  	struct rppx1_exm_stats exm;
->  	struct rppx1_wbmeas_stats wbmeas;
->  };
-> diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-> index 8c0f45e8066a..975ce3a42fb5 100644
-> --- a/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-> +++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-> @@ -19,6 +19,9 @@ static const struct v4l2_isp_params_block_type_info
->  rppx1_ext_params_blocks_info[] = {
->  	RPPX1_PARAMS_BLOCK_INFO(AWBG_PRE1, awbg),
->  	RPPX1_PARAMS_BLOCK_INFO(AWBG_PRE2, awbg),
-> +	RPPX1_PARAMS_BLOCK_INFO(HIST_PRE1, hist),
-> +	RPPX1_PARAMS_BLOCK_INFO(HIST_PRE2, hist),
-> +	RPPX1_PARAMS_BLOCK_INFO(HIST_POST, hist),
->  	RPPX1_PARAMS_BLOCK_INFO(EXM_PRE1, exm),
->  	RPPX1_PARAMS_BLOCK_INFO(EXM_PRE2, exm),
->  	RPPX1_PARAMS_BLOCK_INFO(WBMEAS_POST, wbmeas),
-> @@ -58,6 +61,9 @@ int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
->  		case RPPX1_PARAMS_BLOCK_TYPE_AWBG_PRE1:
->  			module = &rpp->pre1.awbg;
->  			break;
-> +		case RPPX1_PARAMS_BLOCK_TYPE_HIST_POST:
-> +			module = &rpp->post.hist;
-> +			break;
->  		case RPPX1_PARAMS_BLOCK_TYPE_EXM_PRE1:
->  			module = &rpp->pre1.exm;
->  			break;
-> diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_stats.c b/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
-> index 388c758d805d..4c7fe611d004 100644
-> --- a/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
-> +++ b/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
-> @@ -17,6 +17,7 @@
->
->  static const struct v4l2_isp_stats_block_type_info
->  rppx1_stats_blocks_info[] = {
-> +	RPPX1_STATS_BLOCK_INFO(HIST_POST, hist),
->  	RPPX1_STATS_BLOCK_INFO(EXM_PRE1, exm),
->  	RPPX1_STATS_BLOCK_INFO(WBMEAS_POST, wbmeas),
->  };
-> @@ -35,6 +36,15 @@ void rppx1_stats_fill_isr(struct rppx1 *rpp, u32 isc, void *buf)
->
->  	v4l2_isp_stats_init_buffer(stats, V4L2_ISP_VERSION_V1);
->
-> +	if (isc & RPPX1_IRQ_ID_POST_HIST_MEAS) {
-> +		block = rppx1_init_stats_block(rpp, stats,
-> +					       RPPX1_STATS_BLOCK_TYPE_HIST_POST);
-> +		if (IS_ERR(block))
-> +			return;
-> +
-> +		rpp_module_call(&rpp->post.hist, fill_stats, block);
-> +	}
-> +
->  	if (isc & RPPX1_IRQ_ID_PRE1_EXM) {
->  		block = rppx1_init_stats_block(rpp, stats,
->  					       RPPX1_STATS_BLOCK_TYPE_EXM_PRE1);
-> diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c b/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
-> index 7c1b42e96b96..475e78b0d06a 100644
-> --- a/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
-> +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
-> @@ -26,6 +26,9 @@
->
->  #define HIST_LAST_MEAS_LINE_REG			0x0010
->  #define HIST_SUBSAMPLING_REG			0x0014
-> +#define HIST_SUBSAMPLING_V_STEPSIZE(x)		(((x) & 0x7f) << 24)
-> +#define HIST_SUBSAMPLING_H_STEP_INC(x)		(((x) & 0x1ffff))
-> +
->  #define HIST_COEFF_R_REG			0x0018
->  #define HIST_COEFF_G_REG			0x001c
->  #define HIST_COEFF_B_REG			0x0020
-> @@ -49,7 +52,6 @@
->  #define HIST_FORCED_UPDATE_REG			0x0058
->  #define HIST_VSTART_STATUS_REG			0x005c
->
-> -#define HIST_BIN_REG_NUM			32
->  #define HIST_BIN_REG(n)				(0x0060 + (4 * (n)))
->
->  static int rppx1_hist_probe(struct rpp_module *mod)
-> @@ -72,6 +74,117 @@ static int rppx1_hist_probe(struct rpp_module *mod)
->  	return 0;
->  }
->
-> +#define RPPX1_HIST_WEIGHT(v0, v1, v2, v3) \
-> +	(((v0) & 0x1f) | (((v1) & 0x1f) << 8)  | \
-> +	(((v2) & 0x1f) << 16) | \
-> +	(((v3) & 0x1f) << 24))
-> +
-> +static int rppx1_hist_fill_params(struct rpp_module *mod,
-> +				  const union rppx1_params_block *block,
-> +				  rppx1_reg_write write, void *priv)
-> +{
-> +	const struct rppx1_hist_params *cfg = &block->hist;
-> +	u32 h_offs, v_offs, h_size, v_size;
-> +
-> +	/* If the modules is disabled, simply bypass it. */
-> +	if (cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_DISABLE) {
-> +		write(priv, mod->base + HIST_MODE_REG,
-> +		      HIST_MODE_HIST_MODE_DISABLE);
-> +		return 0;
-> +	}
-> +
-> +	/* Select sample point */
-> +	write(priv, mod->base + HIST_CHANNEL_SEL_REG,
-> +	      cfg->channel_sel & HIST_CHANNEL_SEL_CHANNEL_SELECT_MASK);
-> +
-> +	/*
-> +	 * Configure the input subsampling.
-> +	 *
-> +	 * v_stepsize controls which lines are processed. In Bayer mode the
-> +	 * effective value is double to account for the 2x2 macro-pixel size.
+This series adds platform specific support in the iris driver to handle
+the extra cores, power domains, and clock requirements introduced by
+glymur. Add support for firmware loading through context bank firmware
+device.
 
-Now that I read I find the part about Bayer a bit confusing, as I
-don't get if it's something the HW does automatically or userspace has
-to take into account. Should we drop it ?
+Dependencies and merge strategy:
 
-> +	 *
-> +	 * h_step_inc is the horizontal pixel increment counter. The subsampling
-> +	 * counter is incremented by h_step_inc. When the result of the
-> +	 * increment overflows 2^16 a sampling is performed. In Bayer mode the
-> +	 * subsampling counter is only incremented for color channels selected
-> +	 * by hist_mode.
+Patch[1-2]: IOMMU maintainer need to apply and provide an immutable tag
+which can merged into media tree.
 
-Or use the above, in a separate paragraph here.
+Patch[3-9]: Media maintainer can pick them independently.
 
-         * In Bayer mode the vertical and horizontal subsampling
-         * counters are only incremented for color channels selected
-         * by hist_mode.
+Patch[10]: Media maintainer can apply this once tag for patch[1-2] is available.
 
-> +	 */
-> +	write(priv, mod->base + HIST_SUBSAMPLING_REG,
-> +	      HIST_SUBSAMPLING_V_STEPSIZE(cfg->v_stepsize) |
-> +	      HIST_SUBSAMPLING_H_STEP_INC(cfg->h_step_inc));
-> +
-> +	/*
-> +	 * Adjust and set measurement window to hardware limitations,
-> +	 * - Offsets must be even.
-> +	 * - Width and height must be divisible by 10.
+Patch[11-12]: Glymur iris DT node, depends on patch[3].
 
-Same as per the exm module I would say "even and divisible in 5
-windows"
+v4l2-compliance report for decoder including streaming tests:
 
-> +	 */
-> +	h_offs = cfg->wnd.h_offs & 0x1ffe;
-> +	v_offs = cfg->wnd.v_offs & 0x1ffe;
-> +	h_size = cfg->wnd.h_size - cfg->wnd.h_size % 10;
-> +	v_size = cfg->wnd.v_size - cfg->wnd.v_size % 10;
-> +
-> +	write(priv, mod->base + HIST_H_OFFS_REG, h_offs);
-> +	write(priv, mod->base + HIST_V_OFFS_REG, v_offs);
-> +	write(priv, mod->base + HIST_H_SIZE_REG, h_size / 5);
-> +	write(priv, mod->base + HIST_V_SIZE_REG, v_size / 5);
-> +
-> +	/*
-> +	 * Set last measurement line for ready interrupt. Ignore the value
-> +	 * from the parameters as it is only useful for fast-channel switching.
+v4l2-compliance 1.33.0-5441, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 4310f15610f4 2026-01-18 22:09:17
 
-Same question as per the EXM module here. Should we ignore it ?
+Compliance test for iris_driver device /dev/video0:
 
-> +	 */
-> +	write(priv, mod->base + HIST_LAST_MEAS_LINE_REG, v_offs + v_size + 1);
-> +
-> +	/* Set measurement window weights. */
-> +	write(priv, mod->base + HIST_WEIGHT_00TO30_REG,
-> +	      RPPX1_HIST_WEIGHT(cfg->weights[0], cfg->weights[1],
-> +				cfg->weights[2], cfg->weights[3]));
-> +	write(priv, mod->base + HIST_WEIGHT_40TO21_REG,
-> +	      RPPX1_HIST_WEIGHT(cfg->weights[4], cfg->weights[5],
-> +				cfg->weights[6], cfg->weights[7]));
-> +	write(priv, mod->base + HIST_WEIGHT_31TO12_REG,
-> +	      RPPX1_HIST_WEIGHT(cfg->weights[8], cfg->weights[9],
-> +				cfg->weights[10], cfg->weights[11]));
-> +	write(priv, mod->base + HIST_WEIGHT_22TO03_REG,
-> +	      RPPX1_HIST_WEIGHT(cfg->weights[12], cfg->weights[13],
-> +				cfg->weights[14], cfg->weights[15]));
-> +	write(priv, mod->base + HIST_WEIGHT_13TO43_REG,
-> +	      RPPX1_HIST_WEIGHT(cfg->weights[16], cfg->weights[17],
-> +				cfg->weights[18], cfg->weights[19]));
-> +	write(priv, mod->base + HIST_WEIGHT_04TO34_REG,
-> +	      RPPX1_HIST_WEIGHT(cfg->weights[20], cfg->weights[21],
-> +				cfg->weights[22], cfg->weights[23]));
-> +	write(priv, mod->base + HIST_WEIGHT_44_REG,
-> +	      RPPX1_HIST_WEIGHT(cfg->weights[24], 0, 0, 0));
-> +
-> +	write(priv, mod->base + HIST_MODE_REG, cfg->mode);
-> +	write(priv, mod->base + HIST_COEFF_R_REG, cfg->coeff[0]);
-> +	write(priv, mod->base + HIST_COEFF_G_REG, cfg->coeff[1]);
-> +	write(priv, mod->base + HIST_COEFF_B_REG, cfg->coeff[2]);
-> +
-> +	u32 sample_reg = FIELD_PREP(HIST_SAMPLE_RANGE_SAMPLE_SHIFT_MASK,
-> +				    cfg->sample_shift) |
-> +			 FIELD_PREP(HIST_SAMPLE_RANGE_SAMPLE_OFFSET_MASK,
-> +				    cfg->sample_offs);
-> +	write(priv, mod->base + HIST_SAMPLE_RANGE_REG, sample_reg);
-> +
-> +	write(priv, mod->base + HIST_FORCED_UPDATE_REG, 1);
-> +
-> +	return 0;
-> +}
-> +
-> +static int rppx1_hist_fill_stats(struct rpp_module *mod,
-> +				 union rppx1_stats_block *block)
-> +{
-> +	struct rppx1_hist_stats *stats = &block->hist;
-> +
-> +	for (unsigned int i = 0; i < RPPX1_HIST_NUM_BINS; i++)
-> +		stats->hist_bins[i] = rpp_module_read(mod, HIST_BIN_REG(i)) & 0xfffff;
+Driver Info:
+        Driver name      : iris_driver
+        Card type        : Iris Decoder
+        Bus info         : platform:aa00000.video-codec
+        Driver version   : 7.1.0
+        Capabilities     : 0x84204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+        Detected Stateful Decoder
 
-I wonder if we actually need the 0xfffff mask the hardware shall
-provide 20-bit values already
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
 
-> +
-> +	return 0;
-> +}
-> +
->  const struct rpp_module_ops rppx1_hist_ops = {
->  	.probe = rppx1_hist_probe,
-> +	.fill_params = rppx1_hist_fill_params,
-> +	.fill_stats = rppx1_hist_fill_stats,
->  };
-> diff --git a/include/uapi/linux/media/dreamchip/rppx1-config.h b/include/uapi/linux/media/dreamchip/rppx1-config.h
-> index dbc1e116fdf5..50aba160c6cd 100644
-> --- a/include/uapi/linux/media/dreamchip/rppx1-config.h
-> +++ b/include/uapi/linux/media/dreamchip/rppx1-config.h
-> @@ -83,6 +83,9 @@ enum rppx1_meas_chan {
->   * @RPPX1_PARAMS_BLOCK_TYPE_AWBG_POST: MAIN_POST White Balance Gains
->   * @RPPX1_PARAMS_BLOCK_TYPE_EXM_PRE1: PRE1 pipe Exposure Measurement
->   * @RPPX1_PARAMS_BLOCK_TYPE_EXM_PRE2: PRE2 pipe Exposure Measurement
-> + * @RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE1: PRE1 pipe Histogram Measurement
-> + * @RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE2: PRE2 pipe Histogram Measurement
-> + * @RPPX1_PARAMS_BLOCK_TYPE_HIST_POST: POST pipe Histogram Measurement
->   */
->  enum rppx1_params_block_type {
->  	RPPX1_PARAMS_BLOCK_TYPE_WBMEAS_POST,
-> @@ -91,6 +94,9 @@ enum rppx1_params_block_type {
->  	RPPX1_PARAMS_BLOCK_TYPE_AWBG_POST,
->  	RPPX1_PARAMS_BLOCK_TYPE_EXM_PRE1,
->  	RPPX1_PARAMS_BLOCK_TYPE_EXM_PRE2,
-> +	RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE1,
-> +	RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE2,
-> +	RPPX1_PARAMS_BLOCK_TYPE_HIST_POST,
->  };
->
->  /**
-> @@ -236,6 +242,85 @@ struct rppx1_exm_params {
->  	__u8 coeff_gb;
->  };
->
-> +/* Histogram */
-> +#define RPPX1_HIST_WEIGHT_GRIDS_SIZE 25
-> +
-> +/**
-> + * enum rppx1_hist_mode - Histogram measurement mode
-> + *
-> + * Histogram measurement mode. Select which channel or combination of channels
-> + * the histogram measurement is performed on.
-> + *
-> + * @RPPX1_HIST_MODE_DISABLE: histogram disabled
-> + * @RPPX1_HIST_MODE_RGB_COMBINED: combined RGB histogram
-> + * @RPPX1_HIST_MODE_R_HISTOGRAM: red channel histogram
-> + * @RPPX1_HIST_MODE_GR_HISTOGRAM: green/red channel histogram
-> + * @RPPX1_HIST_MODE_B_HISTOGRAM: blue channel histogram
-> + * @RPPX1_HIST_MODE_GB_HISTOGRAM: green/blue histogram
-> + */
-> +enum rppx1_hist_mode {
-> +	RPPX1_HIST_MODE_DISABLE,
-> +	RPPX1_HIST_MODE_RGB_COMBINED,
-> +	RPPX1_HIST_MODE_R_HISTOGRAM,
-> +	RPPX1_HIST_MODE_GR_HISTOGRAM,
-> +	RPPX1_HIST_MODE_B_HISTOGRAM,
-> +	RPPX1_HIST_MODE_GB_HISTOGRAM,
-> +};
-> +
-> +/**
-> + * struct rppx1_hist_params - Histogram measurement configuration
-> + *
-> + * The RPP-X1 Histogram measurement unit is available on the PRE1, PRE2 and
-> + * MAIN_POST pipes. Userspace selects which pipe to operate by setting the
-> + * @header.type field to RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE1,
-> + * RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE2 or
-> + * RPPX1_PARAMS_BLOCK_TYPE_HIST_POST.
-> + *
-> + * The histogram measurement point is selected using the @channel field while
-> + * histogram measurement mode is selected using the @mode field.
-> + *
-> + * Histogram measurement is performed by programming subsampling factors using
-> + * the @v_stepsize and @h_step_inc fields and by weighted windowing, by
-> + * programming the size of the measurement window @wnd with @weights associated
-> + * to each cell of the 5x5 measurement grid. Weights are represented as 5 bits
-> + * integer values ranging from 0 to 16.
-> + *
-> + * The @last_line fields controls when the histogram measurement completes. It
-> + * is usually programmed to the value of (@wnd.v_offs + @wnd.v_size - 1).
-> + *
-> + * Histogram values are calculated by applying a per-color channel coefficient
-> + * represented as an 8 bits unsigned Q1.7 integer value. The @sample_offs and
-> + * @sample_shift fields allow to reduce the color dynamic range on which
-> + * histogram data are produced.
-> + *
-> + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE1,
-> + *	    type = RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE2 or
-> + *	    type = RPPX1_PARAMS_BLOCK_TYPE_HIST_POST)
-> + * @mode: histogram measurement mode (from enum rppx1_hist_mode)
-> + * @channel_sel: histogram measurement point (see enum rppx1_meas_chan)
-> + * @wnd: measurement window coordinates
-> + * @weights: weighting factors for each sub-window (5x5 grid)
-> + * @last_line: line number for which the histogram measurement completes
-> + * @v_stepsize: vertical subsampling divider, 7 bits
-> + * @h_step_inc: horizontal subsampling step counter, 17 bits
-> + * @coeff: R-G-B coefficients, 8 bits unsigned Q1.7
-> + * @sample_offs: sample offset, 24 bits
-> + * @sample_shift: sample shift, 4 bits
-> + */
-> +struct rppx1_hist_params {
-> +	struct v4l2_isp_params_block_header header;
-> +	__u8 mode;
-> +	__u8 channel_sel;
-> +	struct rppx1_window wnd;
-> +	__u8 weights[RPPX1_HIST_WEIGHT_GRIDS_SIZE];
-> +	__u32 last_line;
-> +	__u32 v_stepsize;
-> +	__u32 h_step_inc;
-> +	__u8 coeff[3];
-> +	__u32 sample_offs;
-> +	__u8 sample_shift;
-> +};
-> +
->  /**
->   * RPPX1_PARAMS_MAX_SIZE - Maximum size of all RPP-X1 parameter blocks
->   *
-> @@ -248,7 +333,10 @@ struct rppx1_exm_params {
->  	sizeof(struct rppx1_awbg_params)			+	\
->  	sizeof(struct rppx1_awbg_params)			+	\
->  	sizeof(struct rppx1_exm_params)				+	\
-> -	sizeof(struct rppx1_exm_params))
-> +	sizeof(struct rppx1_exm_params)				+	\
-> +	sizeof(struct rppx1_hist_params)			+	\
-> +	sizeof(struct rppx1_hist_params)			+	\
-> +	sizeof(struct rppx1_hist_params))
->
->  /* ---------------------------------------------------------------------------
->   * Statistics Structures
-> @@ -267,11 +355,17 @@ struct rppx1_exm_params {
->   * @RPPX1_STATS_BLOCK_TYPE_WBMEAS_POST: post-fusion white-balance measurement
->   * @RPPX1_STATS_BLOCK_TYPE_EXM_PRE1: pre-fusion pipe1 exposure measurement
->   * @RPPX1_STATS_BLOCK_TYPE_EXM_PRE2: pre-fusion pipe2 exposure measurement
-> + * @RPPX1_STATS_BLOCK_TYPE_HIST_PRE1: pre-fusion pipe1 histogram
-> + * @RPPX1_STATS_BLOCK_TYPE_HIST_PRE2: pre-fusion pipe2 histogram
-> + * @RPPX1_STATS_BLOCK_TYPE_HIST_POST: post-fusion histogram
->   */
->  enum rppx1_stats_block_type {
->  	RPPX1_STATS_BLOCK_TYPE_WBMEAS_POST,
->  	RPPX1_STATS_BLOCK_TYPE_EXM_PRE1,
->  	RPPX1_STATS_BLOCK_TYPE_EXM_PRE2,
-> +	RPPX1_STATS_BLOCK_TYPE_HIST_PRE1,
-> +	RPPX1_STATS_BLOCK_TYPE_HIST_PRE2,
-> +	RPPX1_STATS_BLOCK_TYPE_HIST_POST,
->  };
->
->  /**
-> @@ -308,6 +402,20 @@ struct rppx1_exm_stats {
->  	__u32 exp_mean[RPPX1_EXM_NUM_WIN];
->  };
->
-> +/* Histogram */
-> +#define RPPX1_HIST_NUM_BINS 32
-> +
-> +/**
-> + * struct rppx1_hist_stats - Histogram statistics
-> + *
-> + * @header: block header (type = RPPX1_STATS_BLOCK_TYPE_HIST_POST)
-> + * @hist_bins: accumulation histogram results in unsigned 20-bit Q16.4 format
-> + */
-> +struct rppx1_hist_stats {
-> +	struct v4l2_isp_block_header header;
-> +	__u32 hist_bins[RPPX1_HIST_NUM_BINS];
-> +};
-> +
->  /**
->   * RPPX1_STATS_MAX_SIZE - Maximum size of all RPP-X1 statistics
->   *
-> @@ -317,6 +425,9 @@ struct rppx1_exm_stats {
->  #define RPPX1_STATS_MAX_SIZE						\
->  	(sizeof(struct rppx1_wbmeas_stats)			+	\
->  	sizeof(struct rppx1_exm_stats)				+	\
-> -	sizeof(struct rppx1_exm_stats))
-> +	sizeof(struct rppx1_exm_stats)				+	\
-> +	sizeof(struct rppx1_hist_stats)				+	\
-> +	sizeof(struct rppx1_hist_stats)				+	\
-> +	sizeof(struct rppx1_hist_stats))
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
 
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
 
-Thanks
-  j
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
 
->
->  #endif /* __UAPI_RPP_X1_CONFIG_H */
-> --
-> 2.54.0
->
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 12 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK
+        test Composing: OK
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+        test blocking wait: OK
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+the input file is smaller than 7077888 bytes
+        Video Capture Multiplanar: Captured 465 buffers
+        test MMAP (select, REQBUFS): OK
+the input file is smaller than 7077888 bytes
+        Video Capture Multiplanar: Captured 465 buffers
+        test MMAP (epoll, REQBUFS): OK
+the input file is smaller than 7077888 bytes
+        Video Capture Multiplanar: Captured 465 buffers
+        test MMAP (select, CREATE_BUFS): OK
+the input file is smaller than 7077888 bytes
+        Video Capture Multiplanar: Captured 465 buffers
+        test MMAP (epoll, CREATE_BUFS): OK
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for iris_driver device /dev/video0: 54, Succeeded: 54, Failed: 0, Warnings: 0
+
+v4l2-compliance report for encoder including streaming tests:
+
+v4l2-compliance 1.33.0-5441, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 4310f15610f4 2026-01-18 22:09:17
+
+Compliance test for iris_driver device /dev/video1:
+
+Driver Info:
+        Driver name      : iris_driver
+        Card type        : Iris Encoder
+        Bus info         : platform:aa00000.video-codec
+        Driver version   : 7.1.0
+        Capabilities     : 0x84204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+        Detected Stateful Encoder
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video1 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 43 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+        test blocking wait: OK
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (select, REQBUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (epoll, REQBUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (select, CREATE_BUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (epoll, CREATE_BUFS): OK
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for iris_driver device /dev/video1: 54, Succeeded: 54, Failed: 0, Warnings: 0
+
+Fluster test report:
+
+77/135 while testing JVT-AVC_V1 with 
+GStreamer-H.264-V4L2-Gst1.0.JVT-AVC_V1
+
+The failing tests are:
+- 52 test vectors failed due to interlaced clips: Interlaced decoding
+is not supported.
+- cabac_mot_fld0_full
+- cabac_mot_mbaff0_full
+- cabac_mot_picaff0_full
+- CABREF3_Sand_D
+- CAFI1_SVA_C
+- CAMA1_Sony_C
+- CAMA1_TOSHIBA_B
+- cama1_vtc_c
+- cama2_vtc_b
+- CAMA3_Sand_E
+- cama3_vtc_b
+- CAMACI3_Sony_C
+- CAMANL1_TOSHIBA_B
+- CAMANL2_TOSHIBA_B
+- CAMANL3_Sand_E
+- CAMASL3_Sony_B
+- CAMP_MOT_MBAFF_L30
+- CAMP_MOT_MBAFF_L31
+- CANLMA2_Sony_C
+- CANLMA3_Sony_C
+- CAPA1_TOSHIBA_B
+- CAPAMA3_Sand_F
+- cavlc_mot_fld0_full_B
+- cavlc_mot_mbaff0_full_B
+- cavlc_mot_picaff0_full_B
+- CVCANLMA2_Sony_C
+- CVFI1_Sony_D
+- CVFI1_SVA_C
+- CVFI2_Sony_H
+- CVFI2_SVA_C
+- CVMA1_Sony_D
+- CVMA1_TOSHIBA_B
+- CVMANL1_TOSHIBA_B
+- CVMANL2_TOSHIBA_B
+- CVMAPAQP3_Sony_E
+- CVMAQP2_Sony_G
+- CVMAQP3_Sony_D
+- CVMP_MOT_FLD_L30_B
+- CVNLFI1_Sony_C
+- CVNLFI2_Sony_H
+- CVPA1_TOSHIBA_B
+- FI1_Sony_E
+- MR6_BT_B
+- MR7_BT_B
+- MR8_BT_B
+- MR9_BT_B
+- Sharp_MP_Field_1_B
+- Sharp_MP_Field_2_B
+- Sharp_MP_Field_3_B
+- Sharp_MP_PAFF_1r2
+- Sharp_MP_PAFF_2r
+- CVMP_MOT_FRM_L31_B
+
+3 test case failed due to unsupported bitstream.
+num_slice_groups_minus1 greater than zero is not supported.
+- FM1_BT_B
+- FM1_FT_E
+- FM2_SVA_C
+
+2 test case failed because SP_SLICE type is not supported.
+- SP1_BT_A
+- sp2_bt_b
+
+1 test case failed due to unsupported profile.
+- BA3_SVA_C
+
+131/147 testcases passed while testing JCT-VC-HEVC_V1 with 
+GStreamer-H.265-V4L2-Gst1.0
+
+10 testcases failed due to unsupported 10 bit format.
+- DBLK_A_MAIN10_VIXS_4
+- INITQP_B_Main10_Sony_1
+- TSUNEQBD_A_MAIN10_Technicolor_2
+- WP_A_MAIN10_Toshiba_3
+- WP_MAIN10_B_Toshiba_3
+- WPP_A_ericsson_MAIN10_2
+- WPP_B_ericsson_MAIN10_2
+- WPP_C_ericsson_MAIN10_2
+- WPP_E_ericsson_MAIN10_2
+- WPP_F_ericsson_MAIN10_2
+
+4 testcase failed due to unsupported resolution.
+- PICSIZE_A_Bossen_1
+- PICSIZE_B_Bossen_1
+- WPP_D_ericsson_MAIN10_2
+- WPP_D_ericsson_MAIN_2
+
+2 testcase failed due to CRC mismatch.
+- VPSSPSPPS_A_MainConcept_1
+This fails with software decoder as well. Refer the below link for the
+discussion happened for earlier platform.
+https://lore.kernel.org/all/63ca375440c4ff2f55ea0aa4e19458f775552d88.camel@ndufresne.ca/
+- RAP_A_docomo_6
+This was discussed on bug report
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4392
+Based on above discussion, the initial error frames need to be dropped in
+the firmware or driver. Discussion ongoing with video firmware team on a
+way to handle such case. This issue is not specific to this platform, and
+its there on other platforms also.
+
+235/305 testcases passed while testing VP9-TEST-VECTORS with GStreamer-VP9-V4L2-Gst1.0
+64 testcases failed due to unsupported resolution
+- vp90-2-02-size-08x08.webm
+- vp90-2-02-size-08x10.webm
+- vp90-2-02-size-08x16.webm
+- vp90-2-02-size-08x18.webm
+- vp90-2-02-size-08x32.webm
+- vp90-2-02-size-08x34.webm
+- vp90-2-02-size-08x64.webm
+- vp90-2-02-size-08x66.webm
+- vp90-2-02-size-10x08.webm
+- vp90-2-02-size-10x10.webm
+- vp90-2-02-size-10x16.webm
+- vp90-2-02-size-10x18.webm
+- vp90-2-02-size-10x32.webm
+- vp90-2-02-size-10x34.webm
+- vp90-2-02-size-10x64.webm
+- vp90-2-02-size-10x66.webm
+- vp90-2-02-size-16x08.webm
+- vp90-2-02-size-16x10.webm
+- vp90-2-02-size-16x16.webm
+- vp90-2-02-size-16x18.webm
+- vp90-2-02-size-16x32.webm
+- vp90-2-02-size-16x34.webm
+- vp90-2-02-size-16x64.webm
+- vp90-2-02-size-16x66.webm
+- vp90-2-02-size-18x08.webm
+- vp90-2-02-size-18x10.webm
+- vp90-2-02-size-18x16.webm
+- vp90-2-02-size-18x18.webm
+- vp90-2-02-size-18x32.webm
+- vp90-2-02-size-18x34.webm
+- vp90-2-02-size-18x64.webm
+- vp90-2-02-size-18x66.webm
+- vp90-2-02-size-32x08.webm
+- vp90-2-02-size-32x10.webm
+- vp90-2-02-size-32x16.webm
+- vp90-2-02-size-32x18.webm
+- vp90-2-02-size-32x32.webm
+- vp90-2-02-size-32x34.webm
+- vp90-2-02-size-32x64.webm
+- vp90-2-02-size-32x66.webm
+- vp90-2-02-size-34x08.webm
+- vp90-2-02-size-34x10.webm
+- vp90-2-02-size-34x16.webm
+- vp90-2-02-size-34x18.webm
+- vp90-2-02-size-34x32.webm
+- vp90-2-02-size-34x34.webm
+- vp90-2-02-size-34x64.webm
+- vp90-2-02-size-34x66.webm
+- vp90-2-02-size-64x08.webm
+- vp90-2-02-size-64x10.webm
+- vp90-2-02-size-64x16.webm
+- vp90-2-02-size-64x18.webm
+- vp90-2-02-size-64x32.webm
+- vp90-2-02-size-64x34.webm
+- vp90-2-02-size-64x64.webm
+- vp90-2-02-size-64x66.webm
+- vp90-2-02-size-66x08.webm
+- vp90-2-02-size-66x10.webm
+- vp90-2-02-size-66x16.webm
+- vp90-2-02-size-66x18.webm
+- vp90-2-02-size-66x32.webm
+- vp90-2-02-size-66x34.webm
+- vp90-2-02-size-66x64.webm
+- vp90-2-02-size-66x66.webm
+
+2 testcases failed due to unsupported format.
+- vp91-2-04-yuv422.webm
+- vp91-2-04-yuv444.webm
+
+2 testcase failed due to unsupported resolution after DRC.
+- vp90-2-21-resize_inter_320x180_5_1-2.webm
+- vp90-2-21-resize_inter_320x180_7_1-2.webm
+
+1 testcase failed with CRC mismatch.
+- vp90-2-22-svc_1280x720_3.ivf
+This VP9 bitstream contains 20 superframes, and each superframe consists
+of three subframes in the following order:
+• 180p subframe
+• 360p subframe
+• 720p subframe
+Each superframe is submitted to the driver and firmware as a single input
+buffer, with one common timestamp attached to it. For every such input
+buffer, the hardware decoder produces three corresponding output buffers,
+one for each resolution (180p, 360p, and 720p), and all three output
+buffers carry the same timestamp. When these output buffers are returned
+to the client (GStreamer, in this case), the first buffer returned is
+displayed, while the remaining two buffers are dropped due to having
+identical timestamps. As a result, only one frame per superframe is
+rendered. Here the expectation of the test result is with 720p, last
+decoded frame in each super frame.
+Discussion ongoing with firmware team and gst maintainer on how to handle
+this case. This is not specific to glymur, and its there for the other
+platforms also.
+
+1 testcase failed due to unsupported stream.
+- vp90-2-16-intra-only.webm
+
+Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+---
+Changes in v7:
+- Replaced enum-indexed clock and power domain tables with per-block structures (Dmitry)
+- Combined venus common schema update patch and glymur video binding patch (Krzysztof)
+- Updated CPU_CS_SCIACMDARG3 write value as zero specific to glymur platform (Dmitry)
+- Updated the clock and reset names (Dmitry)
+- Link to v6: https://lore.kernel.org/r/20260515-glymur-v6-0-f6a99cb43a24@oss.qualcomm.com
+
+Changes in v6:
+- Rename function names in iris_vpu_bus (Dmitry)
+- Update the venus-common schema (Dmitry, Krzysztof)
+- Add dual core related functions into platform specific vpu ops (Dmitry)
+- Update power domain enum names (Vikash)
+- Remove unused macro
+- Link to v5: https://lore.kernel.org/r/20260509-glymur-v5-0-7fbb340c5dbd@oss.qualcomm.com/
+
+Changes in v5:
+- Remove clocks, clock-names, power-domains from the required list in
+  venus-common schema (Krzysztof)
+- Update core selection logic (Vikash)
+- Add macros for power status bits instead of magical values (Vikash)
+- Add new config for iris vpu bus instead of using the iris driver
+  config.
+- Re-arrage the patches (Krzysztof)
+- Link to v4: https://lore.kernel.org/r/20260505-glymur-v4-0-17571dbd1caa@oss.qualcomm.com
+
+Changes in v4:
+- Update existing venus common binding.
+- Update glymur DT binding required properties.
+- Patches are rebased and resolved merge conflicts.
+- Link to v3: https://lore.kernel.org/r/20260428-glymur-v3-0-8f28930f47d3@oss.qualcomm.com
+
+Changes in v3:
+- Drop generic dma context bus and moved to iris vpu bus (Greg)
+- Update commit message for platform data patch (Dmitry)
+- Link to v2: https://lore.kernel.org/r/20260423-glymur-v2-0-0296bccb9f4e@oss.qualcomm.com
+
+Changes in v2:
+- Update the clock and reset names in DT binding (Krzysztof)
+- Update firmware device names (Mukesh, Konrad)
+- Update the selection of core for dual core platforms
+- Add new generic dma context bus instead of own iris vpu bus (Dmitry)
+- Add patch to get power domain type to look up pd_devs index
+- Update glymur platform data (Dmitry)
+- Link to v1: https://lore.kernel.org/r/20260414-glymur-v1-0-7d3d1cf57b16@oss.qualcomm.com
+
+---
+Mukesh Ojha (1):
+      media: iris: Enable Secure PAS support with IOMMU managed by Linux
+
+Vikash Garodia (2):
+      media: iris: Add iris vpu bus support
+      iommu: Add iris-vpu-bus to iommu_buses
+
+Vishnu Reddy (9):
+      dt-bindings: media: qcom,glymur-iris: Add glymur video codec
+      media: iris: Add context bank hooks for platform specific initialization
+      media: iris: Replace enum-indexed clock and power domain tables with per-block structures
+      media: iris: Add power sequence for glymur
+      media: iris: Handle CPU_CS_SCIACMDARG3 register write via program bootup registers hook
+      media: iris: Add support to select core for dual core platforms
+      media: iris: Add platform data for glymur
+      arm64: dts: qcom: glymur: Add iris video node
+      arm64: dts: qcom: glymur-crd: Enable iris video codec node
+
+ .../bindings/media/qcom,glymur-iris.yaml           | 208 +++++++++++++++++++++
+ .../bindings/media/qcom,venus-common.yaml          |   8 +-
+ MAINTAINERS                                        |   1 +
+ arch/arm64/boot/dts/qcom/glymur-crd.dts            |   6 +
+ arch/arm64/boot/dts/qcom/glymur.dtsi               | 118 ++++++++++++
+ drivers/iommu/iommu.c                              |   4 +
+ drivers/media/platform/qcom/iris/Kconfig           |   4 +
+ drivers/media/platform/qcom/iris/Makefile          |   2 +
+ drivers/media/platform/qcom/iris/iris_common.c     |  10 +
+ drivers/media/platform/qcom/iris/iris_common.h     |   1 +
+ drivers/media/platform/qcom/iris/iris_core.c       |   9 +-
+ drivers/media/platform/qcom/iris/iris_core.h       |  31 ++-
+ drivers/media/platform/qcom/iris/iris_firmware.c   |  73 +++++++-
+ drivers/media/platform/qcom/iris/iris_hfi_common.h |   1 +
+ .../platform/qcom/iris/iris_hfi_gen2_command.c     |  19 ++
+ .../platform/qcom/iris/iris_hfi_gen2_defines.h     |   1 +
+ drivers/media/platform/qcom/iris/iris_instance.h   |   2 +
+ .../platform/qcom/iris/iris_platform_common.h      |  46 ++---
+ .../platform/qcom/iris/iris_platform_glymur.c      | 106 +++++++++++
+ .../platform/qcom/iris/iris_platform_glymur.h      |  17 ++
+ .../platform/qcom/iris/iris_platform_sc7280.h      |  28 ++-
+ .../platform/qcom/iris/iris_platform_sm8250.h      |  26 ++-
+ .../platform/qcom/iris/iris_platform_sm8550.h      |  26 ++-
+ .../platform/qcom/iris/iris_platform_sm8750.h      |  29 ++-
+ .../media/platform/qcom/iris/iris_platform_vpu2.c  |  14 +-
+ .../media/platform/qcom/iris/iris_platform_vpu3x.c |  67 ++++---
+ .../platform/qcom/iris/iris_platform_x1p42100.h    |  27 ++-
+ drivers/media/platform/qcom/iris/iris_power.c      |  20 +-
+ drivers/media/platform/qcom/iris/iris_probe.c      | 126 +++++++++++--
+ drivers/media/platform/qcom/iris/iris_resources.c  |  65 +------
+ drivers/media/platform/qcom/iris/iris_resources.h  |   7 +-
+ drivers/media/platform/qcom/iris/iris_utils.c      |  58 ++++--
+ drivers/media/platform/qcom/iris/iris_utils.h      |   3 +-
+ drivers/media/platform/qcom/iris/iris_vb2.c        |   4 +
+ drivers/media/platform/qcom/iris/iris_vidc.c       |   6 +-
+ drivers/media/platform/qcom/iris/iris_vpu3x.c      | 200 +++++++++++++++++---
+ drivers/media/platform/qcom/iris/iris_vpu4x.c      | 137 ++------------
+ drivers/media/platform/qcom/iris/iris_vpu_bus.c    |  61 ++++++
+ drivers/media/platform/qcom/iris/iris_vpu_common.c | 116 +++---------
+ drivers/media/platform/qcom/iris/iris_vpu_common.h |   7 +
+ .../platform/qcom/iris/iris_vpu_register_defines.h |  11 ++
+ include/dt-bindings/media/qcom,glymur-iris.h       |  11 ++
+ include/linux/iris_vpu_bus.h                       |  25 +++
+ 43 files changed, 1297 insertions(+), 444 deletions(-)
+---
+base-commit: b7bee4ca5688e30ca50fbc87b1b8f7eed7006c17
+change-id: 20260601-glymur-4fcd4d832ecc
+
+Best regards,
+-- 
+Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+
 
