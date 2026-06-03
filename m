@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-63534-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63535-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id z262LI3pH2otsQAAu9opvQ
-	(envelope-from <linux-media+bounces-63534-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:45:01 +0200
+	id 7bU/MnfpH2opsQAAu9opvQ
+	(envelope-from <linux-media+bounces-63535-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:44:39 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2044C635D22
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:45:01 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 683A2635D1C
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 10:44:39 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mediatek.com header.s=dk header.b=lHRSCraE;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63534-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63534-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=mediatek.com header.s=dk header.b=itE9LoLw;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63535-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63535-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=mediatek.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E4D743100F72
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 08:42:00 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 6297930721AD
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 08:42:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DCCF43DA35;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7E2F43E488;
 	Wed,  3 Jun 2026 08:41:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F42439006;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51958426ECD;
 	Wed,  3 Jun 2026 08:41:20 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780476082; cv=none; b=qDlqCpd94uUTzIHyf54+k96wXZcdhMmzEA1keVmVYFaGO+qjcBq/bAOvR0SUaVDeaVVjbF8GhyPEuKTCauPOk5ZX3mDmTupQe+AqjcoCFMM5RIstJAxK1OpYD9Fd8rQoYKN0Xm8k7y3fI9RcTjy+eJrnKpC2tWhRJOUwDVgTDhg=
+	t=1780476083; cv=none; b=r6N79yWKuJN85uWeNdTqG6wOcKzYJnHgV2g3xGecZqCJRvKH8AjimfxKWEzReweSz2q3F7/jmBIAgYQEFI3FLEJhR9cIhvwsi9IGVl6V4EC7GXEALEMGWMPhUbLSu8F5ymb2bIe6S0+fYo69b0js2EsrahP83M5ZOmZKO6BuTWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780476082; c=relaxed/simple;
-	bh=w7vgjI7V9AwuFXKZKqL01bCG++PYYdSpW6mrswvZlks=;
+	s=arc-20240116; t=1780476083; c=relaxed/simple;
+	bh=ALKXkvCtY5nCbhcGMpZm9Vvx6gYNJqTZNduyvEqDKQ0=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QYOMW6lFguSQbL+/BuMnBVH0UXL8/nHE69wP2T/xJN+IPqAqwo1iDY6csRVDp2NQcQkVjVr+UmyMUmkxTpi5M/kAQnT4hDS0plmBZcGJqnBPg6W8ABg5LZRFITt21m8NFDPJiwCRBmOx04i9WNOU6e/SgIbvRmGEfVzbnbf09Uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=lHRSCraE; arc=none smtp.client-ip=60.244.123.138
-X-UUID: fb457caa5f2711f1b1788b6acf885367-20260603
+	 MIME-Version:Content-Type; b=hsSxB0j5a6thwpO3G16OiKflNHO/29wZe/Hu8SuBZoBnlJ1EoiA3cDQnl2Xff8jzqMKuz2JnfoyGeUxhgqdJUsgVmKHOfUf8pb8eb7EMtfZ4i2/ecRkpCS3DYhMVckATZ8nQv3NFRzdtFYjm2m3hKUyb7mdbHzXVz4TCR4GJlAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=itE9LoLw; arc=none smtp.client-ip=210.61.82.184
+X-UUID: fc61828c5f2711f18dc8c9802ae25ab1-20260603
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=jdsA1dYcBOuBbRlzpOzaRab30/ie645RjVNbM36NGRI=;
-	b=lHRSCraE27UdRnXHYYocpXz2LJTyTTvGnBPr3efeWZYdxLoSzQ1RjMxeZE+EEJJ03dGxf6TteFvJ9wB4y6Su3aiS39yKAlWvs/kbRmzZWKacHlx9j79i3aSaDAw3LdHE6Uemj+Z8StogQTgbXCUThC7J+XOCqcx/VjyEGiYZ5gE=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=tfF4YK51SvhR+CheeaCqlUmQp6B+ie0palnZ+m853AI=;
+	b=itE9LoLw94vjoBsm/ZUdZ4EahLCiKL00gZqo+rlo77Lcro1+18fHci0vAYYq/da1RGcUGnlQOwRWH1LQUlJLJ5UnuuDU+qE728A7ipj/ieY6GQqR3bUiPepUMdtw4hZSsG2HKPEKmt0n3pNgbmTwhovgVbglsfZhAJMrMVF5WhI=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.15,REQID:f3852144-7292-4282-985f-8cfd84d51afc,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:e276073,CLOUDID:73180a50-23b6-41e0-a310-51c498ab6908,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|836|865|888|898,TC:-5,Cont
-	ent:0|15|50,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:-1,COL:0
-	,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-O-INFO: VERSION:1.3.15,REQID:8911f91a-1dda-45e1-a184-15e60bd0db26,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:e276073,CLOUDID:4eb62e8f-2d9b-4560-8147-1122f58e041c,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|136|836|865|888|898,TC:-5,
+	Content:0|15|50,EDM:-3,IP:nil,URL:0,File:130,RT:0,Bulk:nil,QS:nil,BEC:-1,C
+	OL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: fb457caa5f2711f1b1788b6acf885367-20260603
-Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by mailgw01.mediatek.com
+X-UUID: fc61828c5f2711f18dc8c9802ae25ab1-20260603
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw02.mediatek.com
 	(envelope-from <kyrie.wu@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1567115090; Wed, 03 Jun 2026 16:41:14 +0800
+	with ESMTP id 1505915947; Wed, 03 Jun 2026 16:41:16 +0800
 Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.29; Wed, 3 Jun 2026 16:41:14 +0800
+ 15.2.2562.29; Wed, 3 Jun 2026 16:41:16 +0800
 Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
  mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.2562.29 via Frontend Transport; Wed, 3 Jun 2026 16:41:13 +0800
+ 15.2.2562.29 via Frontend Transport; Wed, 3 Jun 2026 16:41:14 +0800
 From: Kyrie Wu <kyrie.wu@mediatek.com>
 To: Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen
 	<andrew-ct.chen@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>, Mauro
@@ -84,9 +84,9 @@ To: Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen
 	Kyrie Wu <kyrie.wu@mediatek.com>
 CC: Sakari Ailus <sakari.ailus@linux.intel.com>, Tzung-Bi Shih
 	<tzungbi@kernel.org>, Tomasz Figa <tfiga@chromium.org>
-Subject: [PATCH v5 06/14] media: mediatek: vcodec: define MT8196 vcodec levels.
-Date: Wed, 3 Jun 2026 16:40:36 +0800
-Message-ID: <20260603084045.17488-7-kyrie.wu@mediatek.com>
+Subject: [PATCH v5 07/14] media: mediatek: vcodec: support 36bit iova address
+Date: Wed, 3 Jun 2026 16:40:37 +0800
+Message-ID: <20260603084045.17488-8-kyrie.wu@mediatek.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20260603084045.17488-1-kyrie.wu@mediatek.com>
 References: <20260603084045.17488-1-kyrie.wu@mediatek.com>
@@ -107,12 +107,12 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[mediatek.com,quarantine];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[mediatek.com:s=dk];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63534-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63535-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[33];
 	FREEMAIL_TO(0.00)[mediatek.com,kernel.org,gmail.com,collabora.com,chromium.org,163.com,ideasonboard.com,pengutronix.de,vivo.com,zju.edu.cn,vger.kernel.org,lists.infradead.org];
 	MIME_TRACE(0.00)[0:+];
@@ -131,75 +131,41 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,dt,cisco,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,mediatek.com:mid,mediatek.com:dkim,mediatek.com:from_mime,mediatek.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,mediatek.com:mid,mediatek.com:dkim,mediatek.com:from_mime,mediatek.com:email,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2044C635D22
+X-Rspamd-Queue-Id: 683A2635D1C
 
 From: Yunfei Dong <yunfei.dong@mediatek.com>
 
-The supported level and profile are not the same for different
-codecs and architecture. Select the correct one.
+Need to set dma mask to support 36bit iova address for decoder
+hardware can use 36bit address to decode for mt8196.
 
 Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
 Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 ---
- .../mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c      | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c  | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-index ab1894fba0d9..472ece5713a5 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-@@ -577,6 +577,7 @@ static void mtk_vcodec_dec_fill_h264_level(struct v4l2_ctrl_config *cfg,
- 		cfg->max = V4L2_MPEG_VIDEO_H264_LEVEL_5_2;
- 		break;
- 	case MTK_VDEC_MT8195:
-+	case MTK_VDEC_MT8196:
- 		cfg->max = V4L2_MPEG_VIDEO_H264_LEVEL_6_0;
- 		break;
- 	case MTK_VDEC_MT8183:
-@@ -595,6 +596,7 @@ static void mtk_vcodec_dec_fill_h264_profile(struct v4l2_ctrl_config *cfg,
- 	switch (ctx->dev->chip_name) {
- 	case MTK_VDEC_MT8188:
- 	case MTK_VDEC_MT8195:
-+	case MTK_VDEC_MT8196:
- 		cfg->max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_10;
- 		break;
- 	default:
-@@ -611,6 +613,7 @@ static void mtk_vcodec_dec_fill_h265_level(struct v4l2_ctrl_config *cfg,
- 		cfg->max = V4L2_MPEG_VIDEO_HEVC_LEVEL_5_1;
- 		break;
- 	case MTK_VDEC_MT8195:
-+	case MTK_VDEC_MT8196:
- 		cfg->max = V4L2_MPEG_VIDEO_HEVC_LEVEL_5_2;
- 		break;
- 	default:
-@@ -625,6 +628,7 @@ static void mtk_vcodec_dec_fill_h265_profile(struct v4l2_ctrl_config *cfg,
- 	switch (ctx->dev->chip_name) {
- 	case MTK_VDEC_MT8188:
- 	case MTK_VDEC_MT8195:
-+	case MTK_VDEC_MT8196:
- 		cfg->max = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10;
- 		break;
- 	default:
-@@ -642,6 +646,7 @@ static void mtk_vcodec_dec_fill_vp9_level(struct v4l2_ctrl_config *cfg,
- 		cfg->max = V4L2_MPEG_VIDEO_VP9_LEVEL_5_1;
- 		break;
- 	case MTK_VDEC_MT8195:
-+	case MTK_VDEC_MT8196:
- 		cfg->max = V4L2_MPEG_VIDEO_VP9_LEVEL_5_2;
- 		break;
- 	case MTK_VDEC_MT8186:
-@@ -659,6 +664,7 @@ static void mtk_vcodec_dec_fill_vp9_profile(struct v4l2_ctrl_config *cfg,
- 	switch (ctx->dev->chip_name) {
- 	case MTK_VDEC_MT8188:
- 	case MTK_VDEC_MT8195:
-+	case MTK_VDEC_MT8196:
- 		cfg->max = V4L2_MPEG_VIDEO_VP9_PROFILE_2;
- 		break;
- 	default:
+diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
+index ce17b649022f..68759db6f8d1 100644
+--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
++++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
+@@ -390,6 +390,13 @@ static int mtk_vcodec_probe(struct platform_device *pdev)
+ 		return -ENODEV;
+ 	}
+ 	dma_set_max_seg_size(&pdev->dev, UINT_MAX);
++	if (dev->chip_name == MTK_VDEC_MT8196) {
++		ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(36));
++		if (ret) {
++			dev_err(&pdev->dev, "Failed to enable 36-bit DMA: %d\n", ret);
++			return ret;
++		}
++	}
+ 
+ 	dev->fw_handler = mtk_vcodec_fw_select(dev, fw_type, DECODER);
+ 	if (IS_ERR(dev->fw_handler))
 -- 
 2.45.2
 
