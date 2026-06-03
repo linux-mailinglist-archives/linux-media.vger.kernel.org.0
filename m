@@ -1,178 +1,141 @@
-Return-Path: <linux-media+bounces-63578-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63579-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id +lbNMVENIGp+vAAAu9opvQ
-	(envelope-from <linux-media+bounces-63578-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 13:17:37 +0200
+	id 4KNkKs8RIGq3vQAAu9opvQ
+	(envelope-from <linux-media+bounces-63579-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 13:36:47 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id A925E636F3F
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 13:17:37 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F27B36371E4
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 13:36:46 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=npE87eNG;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63578-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-63578-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=intel.com header.s=Intel header.b=Ib5En+cC;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63579-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63579-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 11D9C30C8B88
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 11:09:22 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7CAC73165232
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 11:17:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2D253CCA11;
-	Wed,  3 Jun 2026 11:09:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4491E44CF22;
+	Wed,  3 Jun 2026 11:17:30 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 241A844B690;
-	Wed,  3 Jun 2026 11:09:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C3B4379C5E;
+	Wed,  3 Jun 2026 11:17:28 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780484947; cv=none; b=ryF63Qx3BZT0pfguT6TG/EwlYzDpHayY/ujUz92GynoFJKA/g8K/pB/6yeaLFxJIT4qcJ1nJBmx/beuwo4qgIxx+0Z1f1TbDk6T7IELE+6NQTMkCcGWNVj8KRABn+48SeoNH8TNguakNBi6+GuvcfuZGg5igboiSr5654Yhz3d8=
+	t=1780485449; cv=none; b=HT0sFGH2w4IeO7Et/5ZT7VZNCMgCSHFJ+4DdKuZM/omaub57EebmPa9acuW0dHs4HqlR1cn3yAeHvhFujx607EHRu3GgP3FRqe4NZ7qkBdrJ5BAJDT88F+BvxVwfaFNgln6G8UUMhNxazphlpT2Zf5EReN4qczsadHoXVo/j1CI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780484947; c=relaxed/simple;
-	bh=ftvyRYpjB8pmum990nt0hD6Bkg4iBVaLWkdOHWYhp7U=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=XLcLPkjB9Fi0/iAUhIhE5bRmxLNSuPJhqdauqqUgWB1wPmRcrmdtqN/weydZQ1lGDJNKFFz6LUIk/6+5kaVcoWP7WKjdYDjGMfbtDc1xcbLHeMOM6VbO9XPHp0hFi2+PKAF4H/IOQfZCm3TfDIzBvlOG9ToiSaHAVSLZutTv4rI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=npE87eNG; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B95F51F00898;
-	Wed,  3 Jun 2026 11:09:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780484946;
-	bh=I1sOp6ei3cqXa+Ch7w1tvEjmu/Vw+u2/cm+0L3vGR18=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=npE87eNGhY4KCdv0n7XD4M/lWlPngb7Ws9dAQYSR0u6vo/PBai7J7agKJKDpsP6bj
-	 /uW7j/ygf/vueLnJ6S0YJRxVTVkpZVaDactR6BTGyxqkxQXq1J9HrLdZ8Hxj2Ky/GS
-	 UepXqGxmEt1LNYKnPSuwilllEyIbfUsvmyjoiwUus5eQANPJZTLzogssiHSB+SuSy9
-	 OLbKfQnGc+7vFpkxipLn5uLjVQC7YqbDcEzTWjziKD03F5UJLkzxpcVDbOquUQlDwc
-	 mXxLrk4RTU8/RsjPJ1FYM/MzaBIWfqcz7j3CtSh0dJRuCLHe5DZsDL3ElKM4x8TuWi
-	 nAxC2aPbFbaZg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 10/14] media: mediatek: vcodec: send share memory
- address to vcp
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Kyrie Wu" <kyrie.wu@mediatek.com>
-Cc: devicetree@vger.kernel.org, conor+dt@kernel.org, robh@kernel.org, linux-media@vger.kernel.org
-In-Reply-To: <20260603084045.17488-11-kyrie.wu@mediatek.com>
-References: <20260603084045.17488-11-kyrie.wu@mediatek.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 03 Jun 2026 11:09:05 +0000
-Message-Id: <20260603110905.B95F51F00898@smtp.kernel.org>
+	s=arc-20240116; t=1780485449; c=relaxed/simple;
+	bh=zBbikzSZIUTBkaivxy482PwxDSAMd8xKxabQ4txfnVg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FQlm2DoP0iAnujvhhHoOEnhfyuQ5pYOCYK2LQM2d6322zZYIa8qAFNYZmGOfZNMt4MGvnh5FJqRK2YWVprnexcMXsE4DJfmeTdqZKUZzAHlkEADaR9jsNWsWZcMLO6ZjotQ2pEgrqhWtcFwfpJ+8huA/Oc1OrpjyJS8uQJkRBK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ib5En+cC; arc=none smtp.client-ip=198.175.65.12
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780485448; x=1812021448;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zBbikzSZIUTBkaivxy482PwxDSAMd8xKxabQ4txfnVg=;
+  b=Ib5En+cCUqS5GWtg9bcq8VR4GQKyZbaZOTMkm+8Vnb32rq11AFV8JRY0
+   6sDu2HkC/kUzqX7YIpCwjKkVKt6A3JwVe6C4rs6AOdEhnkFg2veOQbgsT
+   hxOKtk63sB/lIdD0QuZ+eI0xWOXCoynYIFRfAbfaX5v/OsgMCLJEd8UjZ
+   BXbGHmqEjWpiyulx+2ITEoCEhCR3v4RYtSVrF9fouPU1XxG1UpGkHJO8i
+   eCwlPeMJVhQ0l1ljl2EcSNS9xeguF/Gq6dB7P5RYMqgzosvw/lsxpa/4D
+   NFy65SOqO4or3fHfmj9B3zmkAGVnrZvSdOxR7mBt9Rxxymol6q/A5bPaw
+   g==;
+X-CSE-ConnectionGUID: Qis7DKULSrmN0xxbqa0N+g==
+X-CSE-MsgGUID: z6KnC4BPR/6UvQ1a+G9hKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11805"; a="92772206"
+X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
+   d="scan'208";a="92772206"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2026 04:17:27 -0700
+X-CSE-ConnectionGUID: fhD7pkCcQ0OpS2+CvxoiGw==
+X-CSE-MsgGUID: 8G5N5x7pREaQMvO5VPdVhw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,185,1774335600"; 
+   d="scan'208";a="243142672"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa006.jf.intel.com with ESMTP; 03 Jun 2026 04:17:26 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1003)
+	id 5447695; Wed, 03 Jun 2026 13:17:25 +0200 (CEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Olli Salonen <olli.salonen@iki.fi>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1 1/1] media: tda18250: Use %*ph to print small buffer
+Date: Wed,  3 Jun 2026 13:17:24 +0200
+Message-ID: <20260603111724.230522-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	MISSING_MIME_VERSION(2.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,smtp.kernel.org:mid,mediatek.com:email,sashiko.dev:url,vger.kernel.org:from_smtp];
-	TAGGED_FROM(0.00)[bounces-63578-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:kyrie.wu@mediatek.com,m:devicetree@vger.kernel.org,m:conor+dt@kernel.org,m:robh@kernel.org,m:linux-media@vger.kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-63579-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER(0.00)[andriy.shevchenko@linux.intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:olli.salonen@iki.fi,m:mchehab@kernel.org,m:andriy.shevchenko@linux.intel.com,s:lists@lfdr.de];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FROM_NO_DN(0.00)[];
-	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev]
+	ALIAS_RESOLVED(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,intel.com:email,intel.com:dkim,linux.intel.com:from_mime,linux.intel.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A925E636F3F
+X-Rspamd-Queue-Id: F27B36371E4
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] The size of `struct vdec_ap_ipi_init` is increased from 16 to 24 b=
-ytes, and this larger size is unconditionally sent to all firmware architec=
-tures, risking backward compatibility breakage and firmware buffer overflow=
-s for older VPU/SCP implementations.
---
+Use %*ph format to print small buffer as hex string.
 
-commit d463b7b0f56f0354049dbd8919b4208b451e2182
-Author: Yunfei Dong <yunfei.dong@mediatek.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/media/tuners/tda18250.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-media: mediatek: vcodec: send share memory address to vcp
+diff --git a/drivers/media/tuners/tda18250.c b/drivers/media/tuners/tda18250.c
+index 7bb945ba0989..9dbb5ea3b487 100644
+--- a/drivers/media/tuners/tda18250.c
++++ b/drivers/media/tuners/tda18250.c
+@@ -804,8 +804,7 @@ static int tda18250_probe(struct i2c_client *client)
+ 
+ 	/* read the three chip ID registers */
+ 	regmap_bulk_read(dev->regmap, R00_ID1, &chip_id, 3);
+-	dev_dbg(&client->dev, "chip_id=%02x:%02x:%02x",
+-			chip_id[0], chip_id[1], chip_id[2]);
++	dev_dbg(&client->dev, "chip_id=%3phC", chip_id);
+ 
+ 	switch (chip_id[0]) {
+ 	case 0xc7:
+-- 
+2.50.1
 
-The share memory is allocated in kernel for vcp architecture, it's
-different with vpu which share memors is reserved in vpu micro
-processor. Need to send share memory address to vcp.
-
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_ipi_msg.=
-h b/drivers/media/platform/mediatek/vcodec/decoder/vdec_ipi_msg.h
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_ipi_msg.h
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_ipi_msg.h
-> @@ -67,11 +67,13 @@ struct vdec_vpu_ipi_ack {
->   * @msg_id	: AP_IPIMSG_DEC_INIT
->   * @codec_type	: codec fourcc
->   * @ap_inst_addr	: AP video decoder instance address
-> + * @shared_iova	: reserved share memory address
->   */
->  struct vdec_ap_ipi_init {
->  	uint32_t msg_id;
->  	u32 codec_type;
->  	uint64_t ap_inst_addr;
-> +	u64 shared_iova;
->  };
-
-[ ... ]
-
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c=
- b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-> @@ -236,6 +236,8 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
->  	msg.msg_id =3D AP_IPIMSG_DEC_INIT;
->  	msg.ap_inst_addr =3D (unsigned long)vpu;
->  	msg.codec_type =3D vpu->codec_type;
-> +	if (mtk_vcodec_fw_get_type(vpu->ctx->dev->fw_handler) =3D=3D VCP)
-> +		msg.shared_iova =3D vpu->ctx->dev->fw_handler->vcp->iova_addr;
-> =20
->  	mtk_vdec_debug(vpu->ctx, "vdec_inst=3D%p", vpu);
-
-[Severity: High]
-Could this structure size increase break compatibility with legacy VPU and =
-SCP
-firmwares?
-
-Adding shared_iova to struct vdec_ap_ipi_init increases the message size
-from 16 to 24 bytes. A few lines later in vpu_dec_init(), the message is
-sent unconditionally using the new larger size:
-
-    err =3D vcodec_vpu_send_msg(vpu, (void *)&msg, sizeof(msg));
-
-If legacy firmware implementations expect exactly 16 bytes for
-AP_IPIMSG_DEC_INIT, could sending a 24-byte payload cause initialization
-failures or stack buffer overflows in the legacy firmware?
-
-Perhaps the driver should only send the expanded length when communicating
-with the VCP architecture, or use offsetof() to send the original 16-byte
-size to older targets.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260603084045.1748=
-8-1-kyrie.wu@mediatek.com?part=3D10
 
