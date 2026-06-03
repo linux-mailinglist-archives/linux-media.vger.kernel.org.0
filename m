@@ -1,205 +1,354 @@
-Return-Path: <linux-media+bounces-63489-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63490-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id NVbOJu7DH2qKpgAAu9opvQ
-	(envelope-from <linux-media+bounces-63489-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 08:04:30 +0200
+	id aW14IZrFH2rtpgAAu9opvQ
+	(envelope-from <linux-media+bounces-63490-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 08:11:38 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1B61634801
-	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 08:04:29 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1E7A6348FA
+	for <lists+linux-media@lfdr.de>; Wed, 03 Jun 2026 08:11:37 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=jkCQ3ucD;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63489-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-63489-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=lN9uIBKh;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63490-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63490-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=mailbox.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 924B4301F191
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 05:58:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CE23A303E4EE
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2026 06:11:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8E093F4DD3;
-	Wed,  3 Jun 2026 05:58:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 807393F58F6;
+	Wed,  3 Jun 2026 06:11:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354FC314B8F
-	for <linux-media@vger.kernel.org>; Wed,  3 Jun 2026 05:58:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E1638B7B1
+	for <linux-media@vger.kernel.org>; Wed,  3 Jun 2026 06:11:02 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780466314; cv=none; b=ECQujxDBoGHID7MMoilMr54tr23M/krb0sqCSNB6u3czlcdejq6cOAseonWwiLLdq4pxHHr278Fi2eRThBN045WtjzY9n+SOHzHydUeCV5hgUXEE2pEe2P92CjcYX1VVkT0vyi8M2aGsswy2/8EeGnAXsYgQH9NS7ul5Ic9UrMI=
+	t=1780467064; cv=none; b=a6IJSV0vrnPWTMFA3joQ19J5m3+Q8xR09VLWPYyUwcIKsRJr/RU5C7h/AzegvlV+hJ3YSCvyEFCxwZ3NWFOafuHz7g4LpQyKrwI/mpsu9Grq9vEyGxQZ+MTJTn8GN2MDk9gGHIOCs+6A301ywIy86QwvrUHTJG30zc9YC2jRd0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780466314; c=relaxed/simple;
-	bh=H3iqtrw+2BParPONBP5c8uTdS0dxVvtTQh8AgenNjbM=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=ldoueF2NHdyBKtSI9fWTPQTf6k6h+tLZ9XZY+ARJfPywFm2oCp473/X+bWnf4IHeErNeOHvgtFPX6o17ZLPPWL5zDTcIY3WTX9DNqhxTP20JX8vylZ4dElP9W4pgsl/w4lBP1QtTVdRATlG8/R3KrG1k2jiBOOmI6IPnTQbfd4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jkCQ3ucD; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE2B61F00893;
-	Wed,  3 Jun 2026 05:58:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780466312;
-	bh=2SQOMEGF3GxXHksa6PWY8tGoxw2JIfix2JjBEne5PIY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=jkCQ3ucDPLPNVlF5+IMERBUKKv5kfVjNXv5x3s8I6IskLHjwy2Fz/1fTGPAsLa5Oz
-	 NWgerg4zsQLlvXGf4dr3ChQ74+XZy0mQoX0XUB0vk3eGXsofMHon8nEBe6PyzUotjo
-	 IU7Utd18Y0wv94dfifOLbQVzk7m2jO2zytSDWUwUEgsyZZF221WnMEDhlFFErMinS0
-	 SIsNW2nwnHh8614Jnja6QMvFKbcTljCqSySnmRwRcqX0WDH5v98yn06bj+p78JLrdj
-	 iT8qyp5C2tW+5COQjN/Y7fYpJJSj7O/niSG0XyqA3Uio+4aVEgOJYrvNe4cyg/toGA
-	 hrnTZJz1nEEPw==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/2] media: qcom: camss: vfe-17x: dispatch wm_done per
- write master
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Herman van Hazendonk" <github.com@herrie.org>
-Cc: linux-media@vger.kernel.org
-In-Reply-To: <20260603054238.562902-2-github.com@herrie.org>
-References: <20260603054238.562902-2-github.com@herrie.org>
-Content-Type: text/plain; charset=utf-8
+	s=arc-20240116; t=1780467064; c=relaxed/simple;
+	bh=MgFGoieA09VC7boxOE12n2Ui/MDrXsUJ6s84z7JMIkI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=nvWJZxGaObdks6sxH3KKlQ38rf1BalfWOlzzQdGtfIXPW7T99Yeo0wB5C7JCbGEVk/TOWhrgMbxz5STN2SZAod4fJtOS7YUcKDdxhoz/gMaGyQH8sLcbfK04zqLL3ZjIAdDPEVBXfBa5IUNDjsDpzzUFQaQyEHcoa1NVygBdAx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=lN9uIBKh; arc=none smtp.client-ip=80.241.56.151
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gVcl74BpLz9v2x;
+	Wed,  3 Jun 2026 08:10:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1780467059; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MgFGoieA09VC7boxOE12n2Ui/MDrXsUJ6s84z7JMIkI=;
+	b=lN9uIBKhIb3dqJ/N69cPZ6Rqm3k5czCdXd/VjTz72tn8qn2iXbIbrPFFIuxz3KSjHWbFbp
+	gtADfahT3nMdrQZaEpDcM51974Kuc5I/B9bAsQgwmDMGklHdU5BJ+0KuGIFM7Ap707YNe9
+	eOMgBkR2n9MzS34WI3gwiOZe3Ap8wFfjMzYbBArRL5OVREpYEbH1v6P7X2OVk3gCIA73dl
+	zFlAH69lA4Lr1ZPPhBboWIzO05cRgRyrso6Jq2UWNth1+5fvEQVeAKE1hclbOz/rnebfzg
+	6U5+sQZJYQaw7mujUexqOMJpYCWd7ctv6ZARtYxSQ9QIHuT/ew/4dKi0Ho2wdQ==
+Message-ID: <3c7e4db139df7cea18bc683d6dd33da2d00f0358.camel@mailbox.org>
+Subject: Re: [PATCH 3/4] rust: Add dma_fence abstractions
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Alice Ryhl <aliceryhl@google.com>, phasta@kernel.org
+Cc: sashiko-reviews@lists.linux.dev, linux-media@vger.kernel.org, 
+	ojeda@kernel.org, Boris Brezillon <boris.brezillon@collabora.com>, Danilo
+ Krummrich <dakr@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <christian.koenig@amd.com>, Gary Guo	 <gary@garyguo.net>, Daniel Almeida
+ <daniel.almeida@collabora.com>
+Date: Wed, 03 Jun 2026 08:10:51 +0200
+In-Reply-To: <ah72Bi2Q5Wpgo2kE@google.com>
+References: <ah1c3NSU-4UkdUhb@google.com>
+	 <a3d09b270e6effb6f2bfb5d7ba8de48e3c2c4081.camel@mailbox.org>
+	 <CAH5fLggvxGwJkAp+VqG7pA-e2zM-T8_DR0DeCiZiJyM+o51DuQ@mail.gmail.com>
+	 <24ef07ed85d9e7aa7f9d3a96301c4c15bc0f2315.camel@mailbox.org>
+	 <ah2M2a_4PneZpjTS@google.com>
+	 <16dff07d28fca94749f14e9c91e6f812f605d6e5.camel@mailbox.org>
+	 <ah7CGySkyE7mSM8a@google.com>
+	 <7a978596279eca99cd41ca46606c7e5a6a38e801.camel@mailbox.org>
+	 <ah7FjDdU6zt65qId@google.com>
+	 <4bf6e916efe54bab66defda6fffea8c41358b3cc.camel@mailbox.org>
+	 <ah72Bi2Q5Wpgo2kE@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 03 Jun 2026 05:58:32 +0000
-Message-Id: <20260603055832.AE2B61F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-MBO-RS-ID: 6a1e69e9dd4ca6c585e
+X-MBO-RS-META: a4i8sc36uy15x9hmj8adidc6hobdrj3h
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	MISSING_MIME_VERSION(2.00)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-63489-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:github.com@herrie.org,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63490-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
-	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:phasta@kernel.org,m:sashiko-reviews@lists.linux.dev,m:linux-media@vger.kernel.org,m:ojeda@kernel.org,m:boris.brezillon@collabora.com,m:dakr@kernel.org,m:christian.koenig@amd.com,m:gary@garyguo.net,m:daniel.almeida@collabora.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	HAS_REPLYTO(0.00)[phasta@kernel.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_NO_DN(0.00)[];
-	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,sashiko.dev:url,lists.linux.dev:replyto,herrie.org:email,smtp.kernel.org:mid]
+	MID_RHS_MATCH_FROM(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mailbox.org:mid,mailbox.org:from_mime,mailbox.org:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F1B61634801
+X-Rspamd-Queue-Id: E1E7A6348FA
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-
-Pre-existing issues:
-- [High] The VFE ISR mistakenly checks the `STATUS_1_RDI_SOF(i)` bitmask ag=
-ainst the `status0` register instead of `status1`, missing actual SOF inter=
-rupts and ignoring `status1` entirely.
-- [High] The loop reading `VFE_BUS_IRQ_STATUS` registers is incorrectly bou=
-nded by `vfe->res->line_num`, leading to out-of-bounds bus IRQ register rea=
-ds and writes.
-- [High] Bit collision occurs between `STATUS_0_RDI_REG_UPDATE(VFE_LINE_PIX=
-)` and `STATUS_0_IMAGE_MASTER_PING_PONG(0)` as both evaluate to `BIT(8)`.
---
-
-commit 53bcc62d295e9993945dc677a919dd6bb05592da
-Author: Herman van Hazendonk <github.com@herrie.org>
-Subject: media: qcom: camss: vfe-17x: dispatch wm_done per write master
-
-This commit updates the wm_done dispatch loop to correctly use the
-STATUS_0_IMAGE_MASTER_PING_PONG macro with the loop iterator. Previously,
-it checked a constant BIT(9) which caused interrupts for other write
-masters to be dropped and stalled their video streams.
-
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-17x.c b/drivers/=
-media/platform/qcom/camss/camss-vfe-17x.c
-> index e5ee7e717b3bc..3ad0c3be005f3 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe-17x.c
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe-17x.c
-> @@ -364,7 +364,7 @@ static irqreturn_t vfe_isr(int irq, void *dev)
->  			vfe->isr_ops.comp_done(vfe, i);
-> =20
->  	for (wm =3D 0; wm < MSM_VFE_IMAGE_MASTERS_NUM; wm++)
-> -		if (status0 & BIT(9))
-
-[Severity: High]
-This isn't a bug introduced by this patch, but while reviewing the ISR,
-is status1 read but subsequently ignored?
-
-In vfe_isr():
-
-	status1 =3D readl_relaxed(vfe->base + VFE_IRQ_STATUS_1);
-	...
-	for (i =3D VFE_LINE_RDI0; i < vfe->res->line_num; i++)
-		if (status0 & STATUS_1_RDI_SOF(i))
-			vfe->isr_ops.sof(vfe, i);
-
-The STATUS_1_RDI_SOF(i) bitmask is checked against status0 instead of
-status1. Does this missed evaluation of status1 cause genuine SOF
-events and critical system interrupts to be permanently ignored?
++Cc Danilo, Gary, Daniel, Christian
+(who seem to have been lost because Sashiko dropped them and this thread is=
+ a reply to that tool)
 
 
-[Severity: High]
-This is a pre-existing issue, but does the loop reading
-VFE_BUS_IRQ_STATUS registers go out of bounds?
+On Tue, 2026-06-02 at 15:25 +0000, Alice Ryhl wrote:
+> On Tue, Jun 02, 2026 at 02:06:43PM +0200, Philipp Stanner wrote:
+> > On Tue, 2026-06-02 at 11:59 +0000, Alice Ryhl wrote:
+> > > On=20
+> >=20
+> > [=E2=80=A6]
+> >=20
+> > > > >=20
+> > > > > If you don't implement Sync, then DriverFence cannot be stored in=
+ an
+> > > > > Arc. I wouldn't take away that ability unless you have to, and I =
+don't
+> > > > > see anything in the DriverFence API that would mean you can't do =
+that.
+> > > >=20
+> > > > Nope. We explicitly agreed on this design.
+> > > >=20
+> > > > Just 1 DriverFence. Just 1 party that can signal it.
+> > > > Note that we also agreed upon the Driverfence disappearing with
+> > > > .signal(), which certainly prevents several from existing, unless y=
+ou
+> > > > do an Option.take()
+> > >=20
+> > > I would like to clarify that I'm not suggesting any changes to the
+> > > design. Implementing Sync is not the same as having multiple driver
+> > > fences.
+> >=20
+> > I mean, I guess one can do that. But it's up to the driver then to see =
+how it can signal its fence.
+>=20
+> I don't believe Sync changes anything with that regard. The signal
+> method takes 'self', but the Sync trait only affects how '&self' methods
+> can be called.
+>=20
+> > > > > > > > > =C2=A0so even though
+> > > > > > > > > the fence context may be valid for another grace period, =
+the *pointer*
+> > > > > > > > > to the fence context is not. The pointer could have been =
+zeroed by the
+> > > > > > > > > destructor.
+> > > > > > > >=20
+> > > > > > > > That particular pointer to the DriverFenceData could have b=
+een zeroed.
+> > > > > > > > But potential other accessors have already crafted themselv=
+es a new
+> > > > > > > > pointer to the, by the power of RCU, still valid data. That=
+ new pointer
+> > > > > > > > is container-of-ed from struct dma_fence *f.
+> > > > > > >=20
+> > > > > > > I'm not talking about the pointer to DriverFenceData, I'm tal=
+king about
+> > > > > > > the pointer to the FenceCtx, or the pointer to the data (if F=
+ is
+> > > > > > > RcuBox).
+> > > > > >=20
+> > > > > > Yeah, but the backing memory is still alive. And new pointers t=
+o that
+> > > > > > memory get crafted by the accessors. If a callback accesses the=
+ data
+> > > > > > through `container_of(Fence)`, it gets a new pointer.
+> > > > > >=20
+> > > > > > So what's the problem?
+> > > > > >=20
+> > > > > > Where is the invalid pointer that someone is accessing?
+> > > > > >=20
+> > > > > > >=20
+> > > > > > > The Arc type is not a type that opts-out of &mut =3D=3D exclu=
+sive, so the
+> > > > > > > second drop_in_place() above is assumed exclusive access to t=
+he
+> > > > > > > Arc<FenceCtx<F,C>> field.
+> > > > > >=20
+> > > > > > OK, so I think I see the problem. So the invalid pointer is
+> > > > > > Arc<FenceCtx=E2=80=A6>? And potentially the <F> pointer (althou=
+gh we don't have
+> > > > > > a picture yet as to how that would be accessed through other ca=
+llbacks.
+> > > > > >=20
+> > > > > > > =C2=A0If another thread obtains a pointer to the
+> > > > > > > FenceCtx via reading the fctx field of the DriverFence in par=
+allel with
+> > > > > > > this, then that's not allowed because the drop_in_place() cal=
+l has
+> > > > > > > exclusive access to that field.
+> > > > > >=20
+> > > > > > I think I have been asking in several of our meetings in the pa=
+st
+> > > > > > whether it is actually a problem to access data that has been d=
+ropped()
+> > > > > > IF we know that drop does not cause UAF and the answer was kind=
+ of like
+> > > > > > a "well if it does not actually get freed=E2=80=A6"
+> > > > >=20
+> > > > > Ok, well, IMO the simplest approach is to say you can't. There ma=
+y be
+> > > > > roundabout ways to do it, but I would suggest that we just ... do=
+n't.
+> > > >=20
+> > > > Ack.
+> > > >=20
+> > > > >=20
+> > > > > > Anyways.
+> > > > > >=20
+> > > > > > It would seem the way to get this right is then
+> > > > > >=20
+> > > > > > synchronize_rcu();
+> > > > > > drop_in_palace(data);
+> > > > > >=20
+> > > > > >=20
+> > > > > > Agreed?
+> > > > > >=20
+> > > > > > This would then mean, however, that every time a fence drops, y=
+ou have
+> > > > > > to wait a grace period.
+> > > > > >=20
+> > > > > > Or maybe stuff DriverFenceData into an RcuBox, too, and defer i=
+ts
+> > > > > > dropping.
+> > > > >=20
+> > > > > That would work, but I think we can do better and avoid the
+> > > > > synchronize_rcu() along these lines:
+> > > > >=20
+> > > > > unsafe trait RcuRevocable {
+> > > > > =C2=A0=C2=A0=C2=A0 unsafe fn rcu_revoke_in_place(ptr: *mut Self);
+> > > > > }
+> > > > >=20
+> > > > > This trait provides a method that's like drop_in_place(), except =
+that
+> > > > > when you use this destructor, the value remains usable for one gr=
+ace
+> > > > > period. You could implement it for RcuBox, and for any Copy type,=
+ and
+> > > > > for ARef<T> when T is cleaned up with rcu, and probably also othe=
+r
+> > > > > stuff.
+> > > >=20
+> > > > I mean, this cannot be magic. It also boils down to executing one R=
+CU
+> > > > callback per DriverFence dropping.
+> > > >=20
+> > > > Is there a significant difference to stuffing DriverFenceData into =
+an
+> > > > RcuBox?
+> > >=20
+> > > Do you mean hard-coding that the user-data of a driver fence is alway=
+s
+> > > stored in an RcuBox?
+> >=20
+> >=20
+> > I'm talking about this:
+> >=20
+> >=20
+> >=20
+> > impl<F: Send + Sync + DriverFenceAllowedData, C: Send + Sync> DriverFen=
+ceAllocation<F, C> {
+> > =C2=A0=C2=A0=C2=A0 /// Create a new allocation slot that can later be u=
+sed to create a fully
+> > =C2=A0=C2=A0=C2=A0 /// initialized [`DriverFence`] without the need to =
+allocate.
+> > =C2=A0=C2=A0=C2=A0 pub fn new(fctx: Arc<FenceCtx<F, C>>, data: F) -> Re=
+sult<Self> {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence_data =3D DriverFen=
+ceData {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // `=
+inner` remains uninitialized until a [`DriverFence`] takes over.
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 inne=
+r: Fence {
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 inner: Opaque::uninit(),
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 },
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fctx=
+,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 data=
+,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
+> >=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // In order to support the C=
+ dma_fence callbacks, it is necessary for
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // a `Fence` and a `DriverFe=
+nce` to live in the same allocation,
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // because the C backend pas=
+ses a dma_fence, from which the driver most
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // likely wants to be able t=
+o access its `data` in `DriverFence`.
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 //
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // Hence, we need the manage=
+ the memory manually. It will be freed by the
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // C backend automatically o=
+nce the refcount within `Fence` drops to 0.
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let data =3D RcuBox::new(fen=
+ce_data, GFP_KERNEL | __GFP_ZERO)?;
+> >=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Ok(Self { data })
+> > =C2=A0=C2=A0=C2=A0 }
+> >=20
+> >=20
+> > This way, the entire DriverFenceData will remain valid for an
+> > additional grace period. I suppose this would solve your pointer-
+> > invalid concern.
+> >=20
+> > However, it appears like overkill to me because the refcounting + C
+> > backend already ensure that nothing drops too soon, and the backend
+> > frees with kfree_rcu(), so=E2=80=A6
+>=20
+> I agree that it doesn't sound like we want RcuBox here.
+>=20
+> What kind of metadata are we actually planning to store in the
+> DriverFence in practice?
 
-In vfe_isr():
+I suppose it might be GPUVM payloads. IIRC in Tyr it's currently just
+empty structs as some sort of identifier. I guess copies of the actual
+command buffers will also reside in their associated fences.
 
-	for (i =3D VFE_LINE_RDI0; i < vfe->res->line_num; i++) {
-		vfe_bus_status[i] =3D readl_relaxed(vfe->base + VFE_BUS_IRQ_STATUS(i));
-		writel_relaxed(vfe_bus_status[i], vfe->base + VFE_BUS_IRQ_CLEAR(i));
-	}
-
-For VFE 170 configurations where line_num can be 4, does this loop exceed
-the 3 available bus IRQ status registers?
-
-If i =3D 3, VFE_BUS_IRQ_STATUS(3) calculates to offset 0x2068
-(VFE_BUS_IRQ_CLEAR_GLOBAL), and VFE_BUS_IRQ_CLEAR(3) maps back to
-VFE_BUS_IRQ_STATUS(0).
-
-Can this lead to reading the global clear register and illegally writing
-its value directly into the hardware status register STATUS(0)?
+But Boris, Daniel and Danilo probably have something smart to say about
+that.
 
 
-[Severity: High]
-This is a pre-existing issue, but could we have a bit collision between
-STATUS_0_RDI_REG_UPDATE() and STATUS_0_IMAGE_MASTER_PING_PONG()?
+P.
 
-Looking at the macro definitions:
 
-#define		STATUS_0_RDI_REG_UPDATE(n)		BIT((n) + 5)
-#define		STATUS_0_IMAGE_MASTER_PING_PONG(n)	BIT((n) + 8)
 
-For VFE_LINE_PIX (which maps to 3), STATUS_0_RDI_REG_UPDATE(3) evaluates
-to BIT(8). Concurrently, STATUS_0_IMAGE_MASTER_PING_PONG(0) also maps to
-BIT(8) for Write Master 0.
-
-When a WM0 ping-pong interrupt asserts BIT(8) in status0, does the ISR
-misinterpret it as a register update for line 3 and trigger a spurious
-vfe->isr_ops.reg_update(vfe, 3) call?
-
-> +		if (status0 & STATUS_0_IMAGE_MASTER_PING_PONG(wm))
->  			if (vfe_bus_status[1] & STATUS1_WM_CLIENT_BUF_DONE(wm))
->  				vfe->isr_ops.wm_done(vfe, wm);
->
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260603054238.5629=
-02-1-github.com@herrie.org?part=3D1
+>=20
+> Alice
 
