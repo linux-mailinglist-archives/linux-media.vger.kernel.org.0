@@ -1,136 +1,161 @@
-Return-Path: <linux-media+bounces-63770-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63771-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id /d3EOZhAIWr6BwEAu9opvQ
-	(envelope-from <linux-media+bounces-63770-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 11:08:40 +0200
+	id PjDLD2U/IWqVBwEAu9opvQ
+	(envelope-from <linux-media+bounces-63771-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 11:03:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D18963E5BC
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 11:08:40 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB47663E4B8
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 11:03:32 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b="fSrp6UK/";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63770-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-63770-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=intel.com;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=PfetxW1V;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63771-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-63771-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 85C32315E6BF
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 08:59:34 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 74935307D855
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 09:01:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 067D53F44F9;
-	Thu,  4 Jun 2026 08:58:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B44373F6603;
+	Thu,  4 Jun 2026 09:01:50 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f193.google.com (mail-dy1-f193.google.com [74.125.82.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1A03F4125
-	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 08:58:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F0063988F8
+	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 09:01:48 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780563536; cv=none; b=Sgvoh9W9oEVPj6yWlMGTB5c0iFtD7cmAISiYilxmhEC6rqxxQHg0mTWeWZmzfSpnUemtCJJzmAQkQKYmqOYHbQkMxdqjn02cdtpwYOCz4gv5pmC3IXU5IK9qrO0/8DxbEPF9HTkg0a9nuQHF/c9xUWAKwWXzHnsNQ+EvlEUIP2c=
+	t=1780563710; cv=none; b=V8n5FpA3s0xdvqBZhzl7xE6bn+QjwKh2yS+eLXihlMNWud2fE2Hg7JCxL5P+D1i26E1KU6HE4yDsaqQV0tfIjvgNmUCsL554U1UHsusu9sdkoO+eqQcsGe+n4B5WINP6Yn/mWlV5tTM840qf+C5dBvp9Iacajj+qeEttPAfwD5I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780563536; c=relaxed/simple;
-	bh=SplngXoaeQ81cpLAw2TiZ8FbLsWFJft9FDC5UCN/I1k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kcu7vJkzJfNn84MB4lxZjDiHrNGvjvxIzNrNobYvqgvZIFFMkvpNwOgoogCt/yukcRq9ZoVs03r78hWIQGaguPqBj31iEStLvRKsD5EwwV3c3+jQ1xCrBSncWz2N4Bm1Mu0c4jAIetLMBhVRDyghvAcSJRxCXMOpeQs7GxvkdBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fSrp6UK/; arc=none smtp.client-ip=198.175.65.15
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780563536; x=1812099536;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=SplngXoaeQ81cpLAw2TiZ8FbLsWFJft9FDC5UCN/I1k=;
-  b=fSrp6UK/uNZPKwGd2wvd6jjuzdhCUbj/k0f5kBIiwanKe29xGtKYZjta
-   gSpi+PbWd1V6F7DfGHanEg4LqdVL+RcpvDyXEA9mmh6U3dKiLM1bep/4d
-   L5VZLsIjQ3ihOKs8Drz5Rb+//VR0QAzBqf1vQ2UBI24qcdfDVdm3Z9Uxl
-   4HzvaGurqSbRqhGjM0OMR+GE1f3FjsQcnn2Z5N6j8YkGnSlpV2mXJcFd+
-   R0510oUNDw8k0QTU7TJyo2HZcmBMl2vlkv2A2dWcKWXb/TVK0eatJILDq
-   ou5eZ/w8b+mP/QGWI14wzCmi/NOnpGv4O7Rrp2E4Kf6LE4c71lW6s4QZd
-   g==;
-X-CSE-ConnectionGUID: A3w5HMXsQ6iwwWm6cjQ1QQ==
-X-CSE-MsgGUID: oB8nAMKbQnq9aOyMI6focg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="85010672"
-X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
-   d="scan'208";a="85010672"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 01:58:56 -0700
-X-CSE-ConnectionGUID: xk44/viaRNCr8OP02H68lg==
-X-CSE-MsgGUID: m6hfGbT5RY65CONSe4VhNQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
-   d="scan'208";a="268158557"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.47])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 01:58:54 -0700
-Date: Thu, 4 Jun 2026 11:58:52 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-media@vger.kernel.org
-Subject: Re: [PATCH v1 1/1] media: tda18250: Use %*ph to print small buffer
-Message-ID: <aiE-TFU2UdzB1x4p@ashevche-desk.local>
-References: <20260603111724.230522-1-andriy.shevchenko@linux.intel.com>
- <20260603113538.2772E1F00893@smtp.kernel.org>
+	s=arc-20240116; t=1780563710; c=relaxed/simple;
+	bh=A+ONAJcpATPpdKzRx9vVYq0qKONGPEkY1AwbFWAF32g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NThsr6BXgvMXlrTD7Qm8n06H8E+UqNHxqaLEWuWqaa2I5dYELajosm4Ps1SzRLlMBC4iFb/ewX578STEY9kOVHySatdS17Xi/UMITn5jGeeK+oIm+wuEjMW6SOlUg2Pni2jANjmMIXn45W4FIr1Httejwd02NMIOa85NTtlIlKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PfetxW1V; arc=none smtp.client-ip=74.125.82.193
+Received: by mail-dy1-f193.google.com with SMTP id 5a478bee46e88-304ddfcf72cso463525eec.0
+        for <linux-media@vger.kernel.org>; Thu, 04 Jun 2026 02:01:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780563708; x=1781168508; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eJ/sx7/ltcdaqGki6/rt6gC1u0dQybWtjhniKzJFM0g=;
+        b=PfetxW1VAoL0/VzBFs3wfWleOAVbCRp/1yBwrft/JaU2uWcYR5QUFapUKqozj76J+R
+         9Yq5fT2bFnX7Dhd6JB5elpn7frbSnX3mq9QRg4XfyIv+13N7W8IEYS3AxwDUSI87KALt
+         aNYnAqlqrd1Li8QCcnPqbxMfLAlD9cS15yauuslmHOv2LjuTcCf/RwxmPddx/QSWtoEI
+         VDQOWGCU+W8K7IWnPIMzLTDiveU5EhQPrbNn6GE4lvCr1iItqAQQvrHysVL+isORB4fy
+         PXFtxK4b5DjtN1pK2+eNkW5ipTxNeTbMmQbQ20xqYd1dB8QfqBBjHQxriDOdCgBnLTgF
+         hEvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780563708; x=1781168508;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eJ/sx7/ltcdaqGki6/rt6gC1u0dQybWtjhniKzJFM0g=;
+        b=HTsm2eY78F+yLDQU7GjRipPZTBOb5L+jEm6a2WVLKoOzu/tIuFAqNa7+xfpvqmac9S
+         PHzTFN2JiMEl23veQkrzwUqSRuRD9TFpVWBZEWccAEsPof3vgYMjLyNCRplJZ5xETbdd
+         5wkZNqfekJNG+oVxN/QJfJDVmQv/oC2qaVMx4KNjuYmQhHquFefZpWCjrKWu+4YDO3yR
+         JVEaplsJxLJLgoYMJK7k9sV1y90VxT6f4HrMMvBCj9h48uz+H5hReQFaLAnPghyRAlax
+         6QtZsquUD5oE30R7y4QkejJX8TREmngmGT431RAG5MJ+DBfvNODGgNTUk+XHEknAXiiH
+         M/aQ==
+X-Gm-Message-State: AOJu0Yy/kvtciG4/Sc/rAlFp4uW8In2HjxFYxGGTrKPawcRDmQXKWpJr
+	fYlCmyPESMdPJO7IjlfS0Cn1g/06EOGQa2TxSnivbMArs5/qjqZS/hXVpfyasBJ8
+X-Gm-Gg: Acq92OHpf6JDqnxPTHWlohDHWgu3jH/ceDUHxwRfD0MAhjvbxNk9re17r1j4EfB8LPN
+	fLt2SZIVAXbpOtpaRWHR8AFr8AmnOJxYJNPRBGErnZPLf9zQJtLMh4LJrFbKs//uyNtLsEaHKYa
+	+nbDKxBlnOp5y+ZzFjt8hHMFjobwOH1iGDa0c7MrtIfzDQi+BJpUlwR2PEuKHGYk/klli3Q4MUa
+	64gGseZQ2MqRs9cRXeGYVZ89oLKe/T2vBEnHlC9QRMqiXYKkAboN8x5Dx3EGK2wg/NQS0X80tr0
+	SDKnhs9urJuNpRcgOJuakIZCsOQvVBYjv1iOwRI8U/MwJ64OvtjIiE24zjZsNAqKvdxKWq04TU9
+	gA97VhVnnHs0jqQ0GjpfF0EcO4KwfZjUYVS03p3bfQLF5M8aAxvYqTcuKWwDpJPlM+6+TCOOE5Z
+	cqwVk5HgbPWOMOefdz7uSQxKyn8kkERqbsdzZfmfLJXLtI1KYDGGlEqFstYsGa6zVzQg==
+X-Received: by 2002:a05:7301:6006:b0:304:e7c9:b528 with SMTP id 5a478bee46e88-3074fbfe7dfmr3677659eec.30.1780563708109;
+        Thu, 04 Jun 2026 02:01:48 -0700 (PDT)
+Received: from localhost.localdomain ([76.32.119.210])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074df8076csm4892717eec.29.2026.06.04.02.01.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2026 02:01:47 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: vikash.garodia@oss.qualcomm.com,
+	dikshita.agarwal@oss.qualcomm.com,
+	abhinav.kumar@linux.dev,
+	bod@kernel.org,
+	mchehab@kernel.org,
+	hverkuil@kernel.org,
+	stefan.schmidt@linaro.org,
+	Hungyu Lin <dennylin0707@gmail.com>
+Subject: [PATCH v3 0/2] media: qcom: iris: fix runtime PM reference handling
+Date: Thu,  4 Jun 2026 09:00:57 +0000
+Message-Id: <20260604090059.46355-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260603113538.2772E1F00893@smtp.kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63770-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:sashiko-reviews@lists.linux.dev,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[andriy.shevchenko@linux.intel.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWO(0.00)[2];
 	FORWARDED(0.00)[lists@lfdr.de];
-	HAS_ORG_HEADER(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_NONE(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,linux.dev,kernel.org,linaro.org,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-63771-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:bod@kernel.org,m:mchehab@kernel.org,m:hverkuil@kernel.org,m:stefan.schmidt@linaro.org,m:dennylin0707@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[dennylin0707@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dennylin0707@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,ashevche-desk.local:mid,intel.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 1D18963E5BC
+X-Rspamd-Queue-Id: CB47663E4B8
 
-On Wed, Jun 03, 2026 at 11:35:37AM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s)
-> to consider:
-> 
-> Pre-existing issues:
+This series fixes runtime PM handling in the iris driver.
 
-^^^ Exactly, but thanks!
+Patch 1 fixes runtime PM reference leaks and balances runtime PM
+usage counts in the power domain enable/disable paths.
 
-To the maintainers, I'm not going to address this report even if it's valid.
+Patch 2 complements the first patch by rolling back the OPP vote
+when pm_runtime_resume_and_get() fails in
+iris_enable_power_domains().
 
-> - [High] This problem wasn't introduced by this patch, but an unconditional
-> dereference of `client->dev.platform_data` can cause a kernel Oops.
+Changes since v2:
+- Convert the runtime PM fixes into a 2-patch series.
+- Add a follow-up fix to roll back the OPP vote on
+  pm_runtime_resume_and_get() failure.
+
+Hungyu Lin (2):
+  media: qcom: iris: fix runtime PM reference leaks
+  media: qcom: iris: rollback OPP vote on PM resume failure
+
+ drivers/media/platform/qcom/iris/iris_resources.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.34.1
 
 
