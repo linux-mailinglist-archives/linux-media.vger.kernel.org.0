@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-63802-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63801-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 5qJQH+uKIWovIgEAu9opvQ
-	(envelope-from <linux-media+bounces-63802-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 16:25:47 +0200
+	id 7gTAOOWKIWotIgEAu9opvQ
+	(envelope-from <linux-media+bounces-63801-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 16:25:41 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A905640DA8
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 16:25:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57276640DA1
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 16:25:41 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20201202 header.b="GzSs/Adb";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63802-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63802-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20201202 header.b=tweW4p1y;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63801-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63801-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 957A1317BF4D
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 14:16:08 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0E7C4317AB86
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 14:16:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F4B449550B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71232495501;
 	Thu,  4 Jun 2026 14:14:14 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F35481221;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64CB8481A96;
 	Thu,  4 Jun 2026 14:14:04 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780582444; cv=none; b=jyeuP1j1d+CzWcKZCD2y3AgrpCaSeVWD9kaLhPgP8ldPcBohNLKol59S1MxeaalnCtYNgqmMGAxi7yf+S36RinOT5ZMpYYXK9zCYfIYvQGP0cnCUPnrDZUFZTXkfkMEgEqpq1i6sZgongQ1vJlJZPrT8qD7B6M8wVTjYMoyI+Qs=
+	t=1780582444; cv=none; b=HY0DCdIVN9A8rI1x+LZo8abJwK/dFoOheTSwTi6lh+neqap+zDGhwVflarEWDKKJi++VWPczWbVcsM08IbsMcu0eePMh8llKsTWTxZrWRGJBe6O+pTNVwnl2K+MYGL9/n2ocjw8w8sGcS5Go/ftc69H/GfBnEm5tGl/C/PTCfQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780582444; c=relaxed/simple;
-	bh=oRQbdno+uMhuHFTbdmanYF8cim3BHh4wpJplXog8vQk=;
+	bh=uqnWPcYuomOdK+CZnQbIn/W5p1Thhpmu4YbDCuYmLeQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Xr7OX3rNvy2VL6Cn3rYQ/AMFrap1FR5afsu6rODs1evpeo5zEUkJdaKxFMQ6oDOcb1Hi/GXZCfYOARNXGfsbJjHNzeknX4/HOyZyICOX4sGVQV8l4+T3CInody2QPK4WV92hgHjQN0CDA5r5sVTV+bHSKEP2pGXg4aaXxJWhf5I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GzSs/Adb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CAFC6C2BCF6;
+	 In-Reply-To:To:Cc; b=iNfgOyVfvc7s1sqvshzZ2+DVaBM1jEcRC4UlPiQbKMtGHUJAn5hdy+SxcH3Nwn8CLZ7lqlu1JV6ABZHrcbPlCOPYsB+jT059l5/vwHO0+YW50UfUX/A9oA+pEflj1dRI3xFGn6lTGYHXoJlCSmrzFwGI0lxGP4hqbZhmDNP9CJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tweW4p1y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DACBEC2BCFF;
 	Thu,  4 Jun 2026 14:14:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1780582443;
-	bh=oRQbdno+uMhuHFTbdmanYF8cim3BHh4wpJplXog8vQk=;
+	bh=uqnWPcYuomOdK+CZnQbIn/W5p1Thhpmu4YbDCuYmLeQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=GzSs/AdbEX7W0tL012Wf98cs1/dO/+D/ADtvfqNsmHP5ly48CeDQdTeAxbNn4NRY9
-	 ukmcFzbMD7fBcw81rkSLj1o2fkxv1SCOIWVHpD+EsmWM/Vpo8Ztv/DfWS6++XgzzUb
-	 CmWyYOhh1+knI04Xd3X5OI+UwVLevchxoo895o2E7uCdzncS076ovubSa3p9kjaEY8
-	 829vgntBn/yQWH9ALwSP+eC0wjls28y4UEJBfJ1B51OOc/NG3S/LI5Cl8jIdpmtjEu
-	 cfENLj7PAEhD/6x7JO2fLsfEP3wWK+YBVt7/L1ySa7I8WPw62mm0dY3h61fsyRpJqh
-	 LLZrZxD5BCYHA==
+	b=tweW4p1yrZ0gRVEyTtW9HGBe0tFdFoGCYTB247f2ub7tHdXcciuDZX0Eih6hglZ2b
+	 yCaP3zJ781es/gtYzW3nMIUq0vbT//X4beiyZ0HCgAOHGd+KiG64KPtAX/tUf0IrpX
+	 a3X5FDwidfwNP4KQHuhbm55K8cbRUW3kneuoan+ZFKi+TgV9WlgG3Cr8aQBrHOcv9C
+	 H1Dk+s8RKziHyUnDtDQCITApIz4907luXpBkbBabdQsFRLy1a41ZtURCy71z/yUHLB
+	 TPeRrd3Zg8YBcm7T7Y4KltitDE8RQ/nvImcZUiohxSiiaLugA+/0i0LpCHX/RzM6yk
+	 e5N2mp/4WJXIQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C43D6CD6E6D;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D3E50CD6E4A;
 	Thu,  4 Jun 2026 14:14:03 +0000 (UTC)
 From: Dumitru Ceclan via B4 Relay <devnull+dumitru.ceclan.analog.com@kernel.org>
-Date: Thu, 04 Jun 2026 17:13:54 +0300
-Subject: [PATCH v13 07/22] dt-bindings: media: i2c: max96712: add support
- for I2C ATR
+Date: Thu, 04 Jun 2026 17:13:55 +0300
+Subject: [PATCH v13 08/22] dt-bindings: media: i2c: max96712: add support
+ for POC supplies
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,8 +60,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260604-gmsl2-3_serdes-v13-7-9d8a4919983b@analog.com>
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260604-gmsl2-3_serdes-v13-8-9d8a4919983b@analog.com>
 References: <20260604-gmsl2-3_serdes-v13-0-9d8a4919983b@analog.com>
 In-Reply-To: <20260604-gmsl2-3_serdes-v13-0-9d8a4919983b@analog.com>
 To: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
@@ -78,11 +78,11 @@ Cc: mitrutzceclan@gmail.com, linux-media@vger.kernel.org,
  Martin Hecht <Martin.Hecht@avnet.eu>, 
  Cosmin Tanislav <demonsingur@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780582440; l=1871;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780582440; l=998;
  i=dumitru.ceclan@analog.com; s=20240313; h=from:subject:message-id;
- bh=Wtq87WP6HuN2ExCP/a1ucfnQWkLmzlzMjUynofXhUVc=;
- b=7D1lIA/b6cuXbRaSP6zlww9P0Y/yQrtfWU0DZtREZSSJrEUiRK40bIWGT6j9a4ET9RTpGWl5R
- s9jKS4qfF2ZA1B0KSrE3dPT9vkg8R7/Tj0s0feZmikQKZyLuXoy0nIv
+ bh=4ZvMQ1EkeJ2w8dRWwF+03VM9oahvM+Q5lLU48mndSLo=;
+ b=DQdpc2xvtfbqDM90Tr1iTV9vBbwdnhE0Re1os6EPDvq5HfjMgS6AHltjHJXuR+tA+zHbgFnJV
+ Rd405O7NCrKCBvDKQTORwTTaPWS3JmHD3JouVPGLwKMVn21PYj7V0pv
 X-Developer-Key: i=dumitru.ceclan@analog.com; a=ed25519;
  pk=HdqMlVyrcazwoiai7oN6ghU+Bj1pusGUFRl30jhS7Bo=
 X-Endpoint-Received: by B4 Relay for dumitru.ceclan@analog.com/20240313
@@ -95,11 +95,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63802-lists,linux-media=lfdr.de,dumitru.ceclan.analog.com];
+	TAGGED_FROM(0.00)[bounces-63801-lists,linux-media=lfdr.de,dumitru.ceclan.analog.com];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
@@ -123,78 +123,39 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[analog.com:mid,analog.com:replyto,vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ragnatech.se:email,analog.com:mid,analog.com:replyto,vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2A905640DA8
+X-Rspamd-Queue-Id: 57276640DA1
 
 From: Cosmin Tanislav <demonsingur@gmail.com>
 
-MAX96712 and MAX96724 have more than one GMSL2 link, and each link is
-capable of connecting to a separate serializer. If these serializers
-have the same CFG pins configuration, they will also have the same I2C
-address, causing conflicts unless the deserializer changes the address
-of the connected serializers.
-
-The MAX96712 and MAX96724 support changing the I2C address of the
-connected serializers.
+The GMSL links can carry power to the serializer when using coaxial
+cables.
 
 Document this capability.
 
 Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
 Acked-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- .../bindings/media/i2c/maxim,max96712.yaml         | 31 ++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-index 583bbd60157c..abacc3c874a9 100644
+index abacc3c874a9..d2dd72f2e924 100644
 --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
 +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
-@@ -36,6 +36,30 @@ properties:
+@@ -95,6 +95,10 @@ properties:
+       - required: [port@6]
+       - required: [port@7]
  
-   enable-gpios: true
- 
-+  i2c-alias-pool:
-+    maxItems: 4
++patternProperties:
++  '^port[0-3]-poc-supply$':
++    description: Regulator providing Power over Coax for GMSL ports
 +
-+  i2c-atr:
-+    type: object
-+    additionalProperties: false
-+
-+    properties:
-+      '#address-cells':
-+        const: 1
-+
-+      '#size-cells':
-+        const: 0
-+
-+    patternProperties:
-+      '^i2c@[0-3]$':
-+        $ref: /schemas/i2c/i2c-controller.yaml#
-+        unevaluatedProperties: false
-+        properties:
-+          reg:
-+            items:
-+              minimum: 0
-+              maximum: 3
-+
-   ports:
-     $ref: /schemas/graph.yaml#/properties/ports
- 
-@@ -78,6 +102,13 @@ required:
- 
- additionalProperties: false
- 
-+allOf:
-+  - $ref: /schemas/i2c/i2c-atr.yaml#
-+
-+dependentRequired:
-+  i2c-atr: [i2c-alias-pool]
-+  i2c-alias-pool: [i2c-atr]
-+
- examples:
-   - |
-     #include <dt-bindings/gpio/gpio.h>
+ required:
+   - compatible
+   - reg
 
 -- 
 2.53.0
