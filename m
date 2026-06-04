@@ -1,145 +1,191 @@
-Return-Path: <linux-media+bounces-63784-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63785-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id feCkJaFqIWp1GAEAu9opvQ
-	(envelope-from <linux-media+bounces-63784-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 14:08:01 +0200
+	id vuGxK9VrIWrHGAEAu9opvQ
+	(envelope-from <linux-media+bounces-63785-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 14:13:09 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FA1A63FB69
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 14:08:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA6B63FC11
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 14:13:09 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=google.com header.s=20251104 header.b=KpP0bCD2;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63784-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-63784-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=google.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=Pu2HwOE9;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63785-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-63785-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2338F302A7C0
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 11:58:22 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 033DD306B512
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 12:06:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69328421F10;
-	Thu,  4 Jun 2026 11:58:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7ADD142DFE8;
+	Thu,  4 Jun 2026 12:06:32 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com [209.85.210.67])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80AF9425CC9
-	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 11:58:12 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780574294; cv=none; b=Jtwn16BH7Ve/HqXvQJJJNpJhsQhzMDHeME2epTzklUHu66DiUa2svAgDqR9BV6G2kCHCAD3/Sg/TSPqcYBZ5uYugHx8KGVlMP7d3JkEHHYsCa5MYVp4gfGOC3YG082SPPZls19SxFnsJ1+4X3fJo//iRYksOfGPzAp9p6SxPwEE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780574294; c=relaxed/simple;
-	bh=UVIqVMclZDr4qxCyNWMZ/qWloEXWIhQNsmxjFg/How8=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=ftSIXn0rXzNbCLhADKORHveWz7zJr9u4eDMowiciSQ0o1fEUMnlN7OuMTgf5swu2YEAeQy4XEGLeqrG0eyozMKX9cYte0YLJUBIhsoXPn9W6yrCOj/cZhTCQBML6EoeJf70+tVWmTwqc9lcPZdSq+T0nAXJJed1mEb4PRDjrQf0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KpP0bCD2; arc=none smtp.client-ip=209.85.208.73
-Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-68ae236d5fcso746180a12.2
-        for <linux-media@vger.kernel.org>; Thu, 04 Jun 2026 04:58:12 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C662840802B
+	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 12:06:30 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780574792; cv=pass; b=Mc9hSDC+YpBupswJpBWrDhqSmA4SRR08zIDeZCNBW7viuSlM25AwOElWFzpfpV9uvjlpRVCXZD+DJ2oRPy1pUG86RT8C9wfos3XE5CcS6iRWlktbt+4tuJPvXPWA74GE0oH2QQt3PBUwnDklsnrbUfp2ecsA90IgTqgolfw/ZPQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780574792; c=relaxed/simple;
+	bh=psiNZeRpdW/gorqeI/gic7CNMwrLW9ZL/7lIFL+qkZ4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gge81KXE3woTmq2dDOPrSmJu1pH2x8qekN2wvIIkr5Lcndm9dYPToOS74npBDeJnXrbhIEMgxZX4yJbtGS+GkoWH3neKzBrcoNVMJSrffvH1rvcbXmbr5zmmjolf9Hn03vk62AKBuFAVdogNrkzdIANU4p4nju3Vc+BnO9l5RQo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pu2HwOE9; arc=pass smtp.client-ip=209.85.210.67
+Received: by mail-ot1-f67.google.com with SMTP id 46e09a7af769-7e6b5c374e5so664848a34.0
+        for <linux-media@vger.kernel.org>; Thu, 04 Jun 2026 05:06:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780574790; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Pm3xcmqli1NYpPSrE89md7oRmoVkRTqwVd3EsCrKpBzgZrmT8taYpU+rNjAY+nBbDv
+         wG/a1XzqUlduvehAQ8RMewApyVvQyz6ym5stZEAVcCJQmnjb8WN5j6wvOxjYlyzzuIuA
+         9QaIxD5qfzCIIyszhAK5KNHgDd5uBCC3bMaV+x7qF2bq/geOOZ9v2cz37SKqJP7ERA2D
+         sUCfYkLT+1QYL+BXSgCq1h2PzNH5zorJsugvGJB/hglBHfcgGAX+FslcPHLoLFW6dc0L
+         1S1YxJiFIvvAWWyb9NTWu5nX+OZAQaCGAUWi/dNpme0Y9J2XPNkLtDG72RfdYXbqGWGC
+         +prw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=psiNZeRpdW/gorqeI/gic7CNMwrLW9ZL/7lIFL+qkZ4=;
+        fh=suRTnhPdKlgugas3rA8TTv3vIH4GPChQMk+C5iwc2Dg=;
+        b=Jb/a1MAP8bqmUVBb82hAkXFCBB+mxQCTQqZ2dC+lPUNpY4oZZrxerxwIISgj92fX5a
+         yWUqhULAkqrOvF2xazCr+qzW6pxFtCMr+oFmmJ2SNUKbr0g7WNPNmeBqBNaHuZHoBSBV
+         fMbzXwOdU6gJ1KL1AdkFd33y3FNj1OqfKsD+5qZSNykyFeFG4PknNdXXwncQY67y64Gb
+         yBlZuQTUiOGMQ1P7+w//3mlwsM5y97+RzYwD7n0/U/wWj8ZvyU5cRA8xR5REagj8bRZC
+         mHlHI/DrG5SomwO3KxWadWYcM8ToI/Hplix7ZmTgGRPtypuStdJO80Kpeo0Di0+28NbI
+         72vQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1780574291; x=1781179091; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tsDBf51o8QHp6SAQ5/8ziLKktk7y3LjUQBohqdmyxqM=;
-        b=KpP0bCD2b/xDSQtHVikC8bBAVEkCDL8VxDlAKFX+lHSFzR0z81IFlJ+4uzRY/2Hgdh
-         2inHTu+MDyzjmAaaTOzIWGTkU1fXI5fI3HBEuaXTBUMwvIRRJ+4ekBhknPlqKD37mxGx
-         Le3XPZ5kcn1uVcxkXfDzMhg8LvjCM3c+7p6Bly6Pt3MpzHjj0wmaJYDbLkEkS2vWU2bV
-         7i+QERjYZPVCQkqgiRkLy7ucx6Ln5Ss9F2TY5VL2t4eTx4j2/W9qzKt64/tmrN69UK/w
-         6YD296c1YccmGZ3pvIeyU9oeaLG2h1YIlDzmbZfWfati3tijexUr+megDrQB24YwjofU
-         y0Yg==
+        d=gmail.com; s=20251104; t=1780574790; x=1781179590; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=psiNZeRpdW/gorqeI/gic7CNMwrLW9ZL/7lIFL+qkZ4=;
+        b=Pu2HwOE96F4WdollMIJZkpVXesWUbstwgRladxo4aeOomSIT73SvYT7C39KimD8hYJ
+         pw2RLr3cWhJY1tBnAKk3/F5YLEkXGHvHlPw79S0OY/9sR1HkBhnXw8+g6YYLu0FJY9Xc
+         A95ty7sRS+HHSa9rzfQF94mQHzECqBqZAOMXVkzB4SbjT9E6FM5q3MljS3fKUPyE1P3y
+         0tDCmfd8GXcrEDn68sVnYp1CCXe4LQ0IU/4Q2f2unMZKswTtNXXLiVTwm9dj4DlkgBcW
+         RyE+b/wclf9f2p56TJidMuXq+WVOWCm/eixGftD8aT4bMwi1/pxJGqMTwBL7Z5zjytWt
+         mzSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780574291; x=1781179091;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tsDBf51o8QHp6SAQ5/8ziLKktk7y3LjUQBohqdmyxqM=;
-        b=mdSxYK8yuPPmP3+jMd3aQetNWDyPp1pf8FuXzSe/UzVdIa9tSA3wVAGHv0VaArKIwc
-         GBHQGaH4qAeUp/xgU+muMRksiUA2tZrHIkZMo0v3MR8Zmj4f2Z8/M1j2vmg7Cm8fFcvU
-         e1H79ejsG8FAJkBrUNx3yP1XlReeGsj10z9ka2Hm16ZaJ2kMfVpRbogMm4PagLP9gdAo
-         pGQ4a6eHJzJb5cLByBnymTiL5qVIsldiL5Pjsgzcc6DqdSQBzAoWPbClsSgjTkhqUWWm
-         FO6XJ+gicLrLg+p/As2cN6lLc6xFh21agkqp9hoIPqDte7jnHVTtUUiNGHulAtkNm1TI
-         lxkg==
-X-Forwarded-Encrypted: i=1; AFNElJ+XaT/oMfvlQUYaJbefXCEE5AkluBI+SuFXmUiSogv2v/cH+SYgRckdorsRZaLEyjF0VPfxUAI1yb0saw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YypwksVm/6eHmob0Kqkx56193yq2h9FQTken3hMi6RAoguME+Gx
-	TnP5Sntp1rjsPm4wrH4WpMPpPbezLPQw1e1bYyp2bYmGVHVbBH3qLV7psPD2PLgi4nNpNSM1Gth
-	1I1hPqbfRKZcjknteBA==
-X-Received: from edrm6.prod.google.com ([2002:aa7:d346:0:b0:68b:163d:99f3])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:27cf:b0:688:1d5:44c5 with SMTP id 4fb4d7f45d1cf-68e6f79352amr4016032a12.2.1780574290900;
- Thu, 04 Jun 2026 04:58:10 -0700 (PDT)
-Date: Thu, 4 Jun 2026 11:58:09 +0000
-In-Reply-To: <20260603195210.693856-6-lyude@redhat.com>
+        d=1e100.net; s=20251104; t=1780574790; x=1781179590;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=psiNZeRpdW/gorqeI/gic7CNMwrLW9ZL/7lIFL+qkZ4=;
+        b=iV8aZnPgpqdy+JVZz7u/iJ/uM6cEQz/MhhOBu1U9WgMTL/Eus/LAa8hYHItcveBcRk
+         21hwrliBL21XHM+dev0x58lEpYZ/ZNXqsf8yZqgTSMV7pOlwarJlKhot1aoJwyL1D6yA
+         nmLyqYn8WeSwicMBpMiNhwumfmI8M1LJvoM2zltnIDlY4BV2Ywnvab2G9+eM6w+uzLdx
+         oTGwEebOeDvqXYAf88hmtDNNtrq5NFRZrwOvqICP5rDALo6Wgkuxuv0EtS61XTKfMPDU
+         2MaVbDDVeItXWB3LT8teXDVoLr17FphvfWAZjERevOJj1GoR6hKaDgM1bF5Wo6cHyPnT
+         b7Pw==
+X-Forwarded-Encrypted: i=1; AFNElJ9t8jAiYr6fztr1EpK+WNLh3Rq29B/S2AqEGayPoARR3/kqL1FdbiIZNGqKO9Ozd5w+cx2J3n/iwJnAXA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YznJM7+0MhyogJtJDHLbNBsRWAJE0wio3b0VBiLbYU+foWdtN0p
+	++JPn3YLskjQCGwiBE+jEiJFKR2WCdJIM069+aPCDskXKT3IKBvcYUqREOKCXKBtl87X3ph3cTO
+	3sDXXj4mBwf7tkAX1ObfgIZM0YIGPd6N51/FQAqM=
+X-Gm-Gg: Acq92OHwYCl/h1tPB9NgGL+su+5oKqepb043BJ4zMNiyNT5f/m8QUg0pwRM6WvTYvu7
+	aZLb/mVExe+93ngApKyetbKEWI+TzhgiXiA7PLx6YzA2PV4xJEqk6K/2eGRwXunWrytGaXeu8D5
+	/Io0xRfeqVM5vaVmzytj3gKPqz0pGPHfb0GlR0+7aXrSocgAZEAhme0I6JXvdqiY+RVjQjUSfXG
+	2bzaNOTearTMjdNfHPn5wNzsvidpGya2IlHXHpRjdqevYO/mVx0NGF1v5ZyePeKkPEskIJDwL19
+	rgqAU7V0CzvsgOM1buO+s/9RuOyDCneEBNQb6Gy4XUMg1Yd80XU=
+X-Received: by 2002:a05:6830:84c6:b0:7e6:cbd2:fb49 with SMTP id
+ 46e09a7af769-7e6f9528140mr982383a34.18.1780574789873; Thu, 04 Jun 2026
+ 05:06:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260603195210.693856-1-lyude@redhat.com> <20260603195210.693856-6-lyude@redhat.com>
-Message-ID: <aiFoUauWYLz-Oyrx@google.com>
-Subject: Re: [PATCH v17 5/6] rust: sync: Add SetOnce::reset()
-From: Alice Ryhl <aliceryhl@google.com>
-To: Lyude Paul <lyude@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
-	nouveau@lists.freedesktop.org, Alexandre Courbot <acourbot@nvidia.com>, 
-	Gary Guo <gary@garyguo.net>, 
-	"Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>, driver-core@lists.linux.dev, 
-	Miguel Ojeda <ojeda@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org, 
-	Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Maxime Ripard <mripard@kernel.org>, Benno Lossin <lossin@kernel.org>, 
-	linaro-mm-sig@lists.linaro.org, Danilo Krummrich <dakr@kernel.org>, 
-	Mukesh Kumar Chaurasiya <mkchauras@gmail.com>, Asahi Lina <lina+kernel@asahilina.net>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+References: <oB5ie3iMXIF3Y880tV7tN8clu84kWmIaS84q29ShnUs0QVv21y1IOyXqc55FGzHfG9JIDlcIrhQh30TaZpC3vw==@protonmail.internalid>
+ <20260604082510.45733-1-dennylin0707@gmail.com> <76b46788-0cf1-469b-93be-b7788be2bd71@kernel.org>
+ <4htHiZldk82hJK1J9t6Pkm9ZuRUEHNsAt4V_ohuABF9uzAngCz0jLFLh6VknH3O5bX00hDZjIPKNUybrZ8M0AA==@protonmail.internalid>
+ <CAGEkeHeFJC_eMZnDbbjXZs+Gy424YdCNH-HswPgE3zyYrEnoDA@mail.gmail.com> <acdd8e10-ed52-4dcc-9c1c-3665f7193a20@kernel.org>
+In-Reply-To: <acdd8e10-ed52-4dcc-9c1c-3665f7193a20@kernel.org>
+From: Denny Lin <dennylin0707@gmail.com>
+Date: Thu, 4 Jun 2026 05:06:18 -0700
+X-Gm-Features: AVHnY4JrEQQPVEvOWWG7pcd5K1oWkvVn6E_4zxTifecobh8MFIFfUaT-felo_q8
+Message-ID: <CAGEkeHfSgk+EQRHdko7bOwv8rSm8qQPo=osTFvjuHusU5wYa2g@mail.gmail.com>
+Subject: Re: [PATCH v3] media: qcom: iris: guard IRQ handler with runtime PM check
+To: "Bryan O'Donoghue" <bod@kernel.org>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>, 
+	Abhinav Kumar <abhinav.kumar@linux.dev>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MV_CASE(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63784-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[aliceryhl@google.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-63785-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:bod@kernel.org,m:vikash.garodia@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	FORGED_RECIPIENTS(0.00)[m:lyude@redhat.com,m:dri-devel@lists.freedesktop.org,m:rust-for-linux@vger.kernel.org,m:nouveau@lists.freedesktop.org,m:acourbot@nvidia.com,m:gary@garyguo.net,m:christian.koenig@amd.com,m:driver-core@lists.linux.dev,m:ojeda@kernel.org,m:maarten.lankhorst@linux.intel.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:sumit.semwal@linaro.org,m:linux-media@vger.kernel.org,m:rafael@kernel.org,m:mripard@kernel.org,m:lossin@kernel.org,m:linaro-mm-sig@lists.linaro.org,m:dakr@kernel.org,m:mkchauras@gmail.com,m:lina+kernel@asahilina.net,m:daniel.almeida@collabora.com,m:gregkh@linuxfoundation.org,m:lina@asahilina.net,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,nvidia.com,garyguo.net,amd.com,lists.linux.dev,kernel.org,linux.intel.com,ffwll.ch,linaro.org,lists.linaro.org,gmail.com,asahilina.net,collabora.com,linuxfoundation.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[dennylin0707@gmail.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[aliceryhl@google.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,kernel];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dennylin0707@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0FA1A63FB69
+X-Rspamd-Queue-Id: 1FA6B63FC11
 
-On Wed, Jun 03, 2026 at 03:42:34PM -0400, Lyude Paul wrote:
-> This function simply drops the contents of the SetOnce, given a mutable
-> reference - since that proves we have exclusive access to the SetOnce.
-> Additionally, update the invariants for SetOnce to make it clear as to why
-> this is safe.
-> 
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
+Thanks, I'll slow down the pace a bit and make future submissions
+easier to follow.
 
-This isn't needed, you can just do:
+Thanks,
+Hungyu
 
-unsafe { (*this).sgt_res = SetOnce::new() };
-
+On Thu, Jun 4, 2026 at 4:12=E2=80=AFAM Bryan O'Donoghue <bod@kernel.org> wr=
+ote:
+>
+> On 04/06/2026 10:07, Denny Lin wrote:
+> >> Could you please put your series of individual patches but group them
+> >> into a consistent list - so that I/we don't have to figure our how to
+> >> apply them and in which order.
+> > Sure. If patches are related or have an intended application order,
+> > I'll group them into a patch series in future submissions to make that
+> > clearer.
+> >
+> > Thanks,
+> > Hungyu
+>
+> Its just a bit confusing what you are doing here v1, v2, v3 in quick
+> succession over a few topics in the same driver.
+>
+> This feels like an aggregate fixes series. If the patches are
+> individually applicable - great that's exactly what we want but,
+> separating a series of fixes into individual bits and sending them out
+> in quick succession is a bit of a mess in patchwork.
+>
+> So could you _please_ just aggregate your fixes into a series so that
+> the ordering is implicit - if ordering matters and the history of the
+> reworking is contained in the series overview.
+>
+> ty
+>
+> ---
+> bod
 
