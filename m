@@ -1,285 +1,186 @@
-Return-Path: <linux-media+bounces-63788-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63789-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id wWU4LpVxIWoQGgEAu9opvQ
-	(envelope-from <linux-media+bounces-63788-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 14:37:41 +0200
+	id E9S5Ea+AIWo+HgEAu9opvQ
+	(envelope-from <linux-media+bounces-63789-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 15:42:07 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 485D263FEEB
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 14:37:41 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2A216406D4
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 15:42:06 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ixit.cz header.s=dkim header.b=LjK2y7ug;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63788-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-63788-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=ixit.cz;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=IBHe1fmA;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63789-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-63789-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 5E39C30D37F5
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 12:35:06 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6BEE330D8AA6
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 13:26:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C2A546AEDF;
-	Thu,  4 Jun 2026 12:34:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8939B47D95E;
+	Thu,  4 Jun 2026 13:25:27 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from ixit.cz (ixit.cz [185.100.197.86])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306D1472784;
-	Thu,  4 Jun 2026 12:34:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 053D443DA4E;
+	Thu,  4 Jun 2026 13:25:25 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780576495; cv=none; b=egMqGFy1o6vet+NMovGgJbsflTNskJwmuY1yROKyFp+fj/75303ydmeGWBadBtijzkzCCJZ20BYehTBAFiXiZVV7KVEojLQ46+sF9jDC7ejX8/51g7o1xa6cb59jtrhJrr/DKs93om7ugeHpQBa3DIEFz9lPjaWHx5GQwEIcmKw=
+	t=1780579527; cv=none; b=np1MutBbkNrm3ZqvOQgciwsnn83MxEBj5fcAyu21O+cIt0gZz76AJgqdZX18IV+1t16yHjrlLTLKiA1SFttzN8wGu6mLNfHZNGA+voDhPzE/tODwxL53ZEDL28dQIxqR/HGiInRUkExB24YsFHWielbu/57taGdtWEKFZcf+2v0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780576495; c=relaxed/simple;
-	bh=2ZVHVO43AQ0rzTwmrn7t63oTTdMEF5KVYB3LA+l3sQM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qVRRQDVwVSl6mcnib8cZhrtxWlMAsNlRo+n5xK3O2fkVxdR/mSEgvyx4NWQnQojZz/IkgtLcdru2LKhh0wzLADLwm21cKQmwc67Ac86ZLoNb5u7pmxB5bVXLXffG0fzZ/apdGzpW95LPfv3ywfU00NdGFTTrIcOIfP5VOAgfMZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=LjK2y7ug; arc=none smtp.client-ip=185.100.197.86
-Received: from [192.168.88.252] (ip-94-112-34-59.bb.vodafone.cz [94.112.34.59])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id CA600534115B;
-	Thu, 04 Jun 2026 14:34:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1780576490;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=5ASx0Xe07YL+lNVAT9zg4eH04/+yRp7+fD+gmiJvLXE=;
-	b=LjK2y7ugk2G+iuF+ywrfaT/R+j0Q7SRSsHwVUuKaSp2S7nx6BWL/7C2MKpTlC4HJaIt7pF
-	C7FIUn2laRryIwAsl0wFE6K2vINMS9c3ZXKwSqjDYWGdgMQihiUrCA9HYLe/UIZoe4HDAu
-	2RVL0+Vu7NcZEU+i12ggf4rTr0uPDzQ=
-Message-ID: <43b7da84-3390-4094-a61f-9e887660eb10@ixit.cz>
-Date: Thu, 4 Jun 2026 14:34:49 +0200
+	s=arc-20240116; t=1780579527; c=relaxed/simple;
+	bh=HKeFVD8lwilJ61/9ZkSoF6Z6KRBZUndwbAzNV/sw3IY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=US7dR/2tS0Tc6qYeaodobriuZxESxCbl497Wh5JVqxTN88YZbGmp/w+PiWHgxKNRax+3sBdhbz0PG4ImZe0YoKWrzWLPvmAAh0T5CRjNgcjysGHCjIIq4vomVMVbTmznP1Aa2byZo0YEery5m71lGSy+ijTSntMesFE9StVxPoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IBHe1fmA; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22D971F00898;
+	Thu,  4 Jun 2026 13:25:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780579525;
+	bh=qlQij+VDTTP3ZvbjE5k4vvhLH/DNgI7reApsvnTxVoc=;
+	h=Date:To:From:Subject:Cc:References:In-Reply-To;
+	b=IBHe1fmAC8iMdLdxYgxl0M78EObVs/QYGXWdc/WCHfEPWbw1ChvNh/EyOWM/D0n2k
+	 7iNFkgMAD0XIJIn62sEB+Add4oUz5TAmRdRlN+67wLd+kvtGWPATKCg09p9H52gU5R
+	 OajUnykzwUUb9D3lq3r4nkPfoD4Hg93s6mxCBVkJikFg5IpwK3SNa8d4MlrF64idXF
+	 jpuw35iKLfMvyEwWnwhAFwW/9nLubnmwzLoADPwofPCbAUj37hqnEuj70SlHQ1BrEh
+	 nPQ3mlcFDmpzShJ10qBkP30hZJdUdHL9TGGUkiKV4B5Ao+Cn21G0kNJlcHBpT5Mgdo
+	 k9sotwcAGqjcw==
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/8] media: qcom: camss: Prepare CSID for C-PHY support
-To: Frank Li <Frank.li@nxp.com>, Bryan O'Donoghue <bod@kernel.org>
-Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Luca Weiss <luca.weiss@fairphone.com>, Petr Hodina <phodina@protonmail.com>,
- "Dr. Git" <drgitx@gmail.com>, Cory Keitz <ckeitz@amazon.com>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Kieran Bingham <kbingham@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org
-References: <20260603-qcom-cphy-v6-0-e50de0b557a8@ixit.cz>
- <20260603-qcom-cphy-v6-3-e50de0b557a8@ixit.cz>
- <aiChDyKleAYuzjMg@lizhi-Precision-Tower-5810>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <aiChDyKleAYuzjMg@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 04 Jun 2026 15:25:19 +0200
+Message-Id: <DJ0AREWNNJPT.9XEZC98B76II@kernel.org>
+To: "Lyude Paul" <lyude@redhat.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v17 4/6] rust: faux: Allow retrieving a bound Device
+Cc: <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
+ <nouveau@lists.freedesktop.org>, "Alexandre Courbot" <acourbot@nvidia.com>,
+ "Gary Guo" <gary@garyguo.net>, =?utf-8?q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, <driver-core@lists.linux.dev>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Simona Vetter" <simona@ffwll.ch>, <linux-kernel@vger.kernel.org>, "Sumit
+ Semwal" <sumit.semwal@linaro.org>, <linux-media@vger.kernel.org>, "Rafael J
+ . Wysocki" <rafael@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "Maxime Ripard" <mripard@kernel.org>, "David Airlie" <airlied@gmail.com>,
+ "Benno Lossin" <lossin@kernel.org>, <linaro-mm-sig@lists.linaro.org>,
+ "Mukesh Kumar Chaurasiya" <mkchauras@gmail.com>, "Asahi Lina"
+ <lina+kernel@asahilina.net>, "Daniel Almeida"
+ <daniel.almeida@collabora.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>
+References: <20260603195210.693856-1-lyude@redhat.com>
+ <20260603195210.693856-5-lyude@redhat.com>
+In-Reply-To: <20260603195210.693856-5-lyude@redhat.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ixit.cz,quarantine];
-	R_DKIM_ALLOW(-0.20)[ixit.cz:s=dkim];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	MV_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63788-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63789-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[david@ixit.cz,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FORGED_RECIPIENTS(0.00)[m:Frank.li@nxp.com,m:bod@kernel.org,m:rfoss@kernel.org,m:todor.too@gmail.com,m:bryan.odonoghue@linaro.org,m:vladimir.zapolskiy@linaro.org,m:mchehab@kernel.org,m:luca.weiss@fairphone.com,m:phodina@protonmail.com,m:drgitx@gmail.com,m:ckeitz@amazon.com,m:loic.poulain@oss.qualcomm.com,m:konrad.dybcio@oss.qualcomm.com,m:kbingham@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:phone-devel@vger.kernel.org,m:todortoo@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[dakr@kernel.org,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,nvidia.com,garyguo.net,amd.com,lists.linux.dev,kernel.org,linux.intel.com,google.com,ffwll.ch,linaro.org,suse.de,gmail.com,lists.linaro.org,asahilina.net,collabora.com,linuxfoundation.org];
+	RCPT_COUNT_TWELVE(0.00)[25];
+	FORGED_RECIPIENTS(0.00)[m:lyude@redhat.com,m:dri-devel@lists.freedesktop.org,m:rust-for-linux@vger.kernel.org,m:nouveau@lists.freedesktop.org,m:acourbot@nvidia.com,m:gary@garyguo.net,m:christian.koenig@amd.com,m:driver-core@lists.linux.dev,m:ojeda@kernel.org,m:maarten.lankhorst@linux.intel.com,m:aliceryhl@google.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:sumit.semwal@linaro.org,m:linux-media@vger.kernel.org,m:rafael@kernel.org,m:tzimmermann@suse.de,m:mripard@kernel.org,m:airlied@gmail.com,m:lossin@kernel.org,m:linaro-mm-sig@lists.linaro.org,m:mkchauras@gmail.com,m:lina+kernel@asahilina.net,m:daniel.almeida@collabora.com,m:gregkh@linuxfoundation.org,m:lina@asahilina.net,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linaro.org,fairphone.com,protonmail.com,amazon.com,oss.qualcomm.com,linux.intel.com,vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[david@ixit.cz,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ixit.cz:+];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	TAGGED_RCPT(0.00)[linux-media,kernel];
+	TO_DN_SOME(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ixit.cz:mid,ixit.cz:dkim,ixit.cz:from_mime,ixit.cz:email,linaro.org:email,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 485D263FEEB
+X-Rspamd-Queue-Id: B2A216406D4
 
-On 03/06/2026 23:47, Frank Li wrote:
-> On Wed, Jun 03, 2026 at 01:30:41AM +0200, David Heidelberg wrote:
->> Inherit C-PHY information from CSIPHY, so we can configure CSID
->> properly.
->>
->> CSI2_RX_CFG0_PHY_TYPE_SEL must be set to 1, when C-PHY mode is used.
->>
->> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> Acked-by: Cory Keitz <ckeitz@amazon.com>
->> Signed-off-by: David Heidelberg <david@ixit.cz>
->> ---
->>   drivers/media/platform/qcom/camss/camss-csid-gen2.c | 1 +
->>   drivers/media/platform/qcom/camss/camss-csid.c      | 1 +
->>   drivers/media/platform/qcom/camss/camss-csid.h      | 1 +
->>   3 files changed, 3 insertions(+)
->>
->> diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
->> index eadcb2f7e3aaa..52ef730b10553 100644
->> --- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
->> +++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
->> @@ -178,16 +178,17 @@ static void __csid_configure_rx(struct csid_device *csid,
->>   	int val;
->>
->>   	if (!lane_cnt)
->>   		lane_cnt = 4;
->>
->>   	val = (lane_cnt - 1) << CSI2_RX_CFG0_NUM_ACTIVE_LANES;
->>   	val |= phy->lane_assign << CSI2_RX_CFG0_DL0_INPUT_SEL;
->>   	val |= phy->csiphy_id << CSI2_RX_CFG0_PHY_NUM_SEL;
->> +	val |= csid->phy.cphy << CSI2_RX_CFG0_PHY_TYPE_SEL;
-> 
-> shift a bool type is not good habbit. some compiler may treat as undefine
-> beheavor.
-> 
-> Frank
+On Wed Jun 3, 2026 at 9:42 PM CEST, Lyude Paul wrote:
+> When writing up some rust code that used faux devices for unit testing, I
+> noticed that we never actually added the Bound device context to
+> faux::Registration's AsRef<device::Device> implementation. This being sai=
+d:
+> the Registration object itself is proof that a driver is bound to the
+> device - so this should be safe.
 
-Oh I found out Bryan commented on the older revisions about the boolean usage.
+Yes, it should be, but the reasons are non-trivial and should be part of th=
+e
+safety comment below.
 
-So idea is convert this to:
+  - faux_match() always returns 1, and probe runs synchronously
+    (PROBE_FORCE_SYNCHRONOUS)
 
-+enum csid_phy_sel {
-+       CSID_PHY_SEL_DPHY = 0,
-+       CSID_PHY_SEL_CPHY = 1
-+};
-+
+  - suppress_bind_attrs =3D true on faux_driver prevents userspace-triggere=
+d
+    unbind via sysfs
 
-[...]
+  - mem::forget(Registration) is not a problem; if the Registration is leak=
+ed,
+    the faux device stays bound forever
 
-  struct csid_phy_config {
-         u8 csiphy_id;
-         u8 lane_cnt;
-         u32 lane_assign;
-         u32 en_vc;
-         u8 need_vc_update;
--       bool cphy;
-+       enum csid_phy_sel phy_sel;
-  };
+> Signed-off-by: Lyude Paul <lyude@redhat.com>
 
-Frank, Bryan, snds good?
+I can pick this through the driver-core tree already, as it seems this it n=
+ot
+needed by this series. Feel free to resend as individual patch for thus pur=
+pose.
 
-> 
->>   	writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG0);
->>
->>   	val = 1 << CSI2_RX_CFG1_PACKET_ECC_CORRECTION_EN;
->>   	if (vc > 3)
->>   		val |= 1 << CSI2_RX_CFG1_VC_MODE;
->>   	val |= 1 << CSI2_RX_CFG1_MISR_EN;
->>   	writel_relaxed(val, csid->base + CSID_CSI2_RX_CFG1);
->>   }
->> diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
->> index 48459b46a981b..8d5c872f84ed5 100644
->> --- a/drivers/media/platform/qcom/camss/camss-csid.c
->> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
->> @@ -1286,16 +1286,17 @@ static int csid_link_setup(struct media_entity *entity,
->>   			/* do no allow a link from CSIPHY to CSID */
->>   			if (!csiphy->cfg.csi2)
->>   				return -EPERM;
->>
->>   			csid->phy.csiphy_id = csiphy->id;
->>
->>   			lane_cfg = &csiphy->cfg.csi2->lane_cfg;
->>   			csid->phy.lane_cnt = lane_cfg->num_data;
->> +			csid->phy.cphy = (lane_cfg->phy_cfg == V4L2_MBUS_CSI2_CPHY);
->>   			csid->phy.lane_assign = csid_get_lane_assign(lane_cfg, lane_cfg->num_data);
->>   			csid->tpg_linked = false;
->>   		}
->>   	}
->>   	/* Decide which virtual channels to enable based on which source pads are enabled */
->>   	if (local->flags & MEDIA_PAD_FL_SOURCE) {
->>   		struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
->>   		struct csid_device *csid = v4l2_get_subdevdata(sd);
->> diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
->> index 5296b10f6bac8..00e2669db64c9 100644
->> --- a/drivers/media/platform/qcom/camss/camss-csid.h
->> +++ b/drivers/media/platform/qcom/camss/camss-csid.h
->> @@ -65,16 +65,17 @@ struct csid_testgen_config {
->>   };
->>
->>   struct csid_phy_config {
->>   	u8 csiphy_id;
->>   	u8 lane_cnt;
->>   	u32 lane_assign;
->>   	u32 en_vc;
->>   	u8 need_vc_update;
->> +	bool cphy;
->>   };
->>
->>   struct csid_device;
->>
->>   struct csid_hw_ops {
->>   	/*
->>   	 * configure_stream - Configures and starts CSID input stream
->>   	 * @csid: CSID device
->>
->> --
->> 2.53.0
->>
-
--- 
-David Heidelberg
+> ---
+>  rust/kernel/faux.rs | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/rust/kernel/faux.rs b/rust/kernel/faux.rs
+> index 43b4974f48cd2..e0856b2964a2c 100644
+> --- a/rust/kernel/faux.rs
+> +++ b/rust/kernel/faux.rs
+> @@ -25,7 +25,8 @@
+>  ///
+>  /// # Invariants
+>  ///
+> -/// `self.0` always holds a valid pointer to an initialized and register=
+ed [`struct faux_device`].
+> +/// - `self.0` always holds a valid pointer to an initialized and regist=
+ered [`struct faux_device`].
+> +/// - This object is proof that the object described by this `Registrati=
+on` is bound to a device.
+>  ///
+>  /// [`struct faux_device`]: srctree/include/linux/device/faux.h
+>  pub struct Registration(NonNull<bindings::faux_device>);
+> @@ -59,8 +60,8 @@ fn as_raw(&self) -> *mut bindings::faux_device {
+>      }
+>  }
+> =20
+> -impl AsRef<device::Device> for Registration {
+> -    fn as_ref(&self) -> &device::Device {
+> +impl AsRef<device::Device<device::Bound>> for Registration {
+> +    fn as_ref(&self) -> &device::Device<device::Bound> {
+>          // SAFETY: The underlying `device` in `faux_device` is guarantee=
+d by the C API to be
+>          // a valid initialized `device`.
+>          unsafe { device::Device::from_raw(addr_of_mut!((*self.as_raw()).=
+dev)) }
+> --=20
+> 2.54.0
 
 
