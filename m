@@ -1,224 +1,136 @@
-Return-Path: <linux-media+bounces-63769-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63770-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id z0Z2EKs/IWqvBwEAu9opvQ
-	(envelope-from <linux-media+bounces-63769-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 11:04:43 +0200
+	id /d3EOZhAIWr6BwEAu9opvQ
+	(envelope-from <linux-media+bounces-63770-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 11:08:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C4763E503
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 11:04:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D18963E5BC
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 11:08:40 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linaro.org header.s=google header.b=TrGhWNKe;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63769-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-63769-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=linaro.org;
+	dkim=pass header.d=intel.com header.s=Intel header.b="fSrp6UK/";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63770-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-63770-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1A66530B8DC3
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 08:47:42 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 85C32315E6BF
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 08:59:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D2523FD152;
-	Thu,  4 Jun 2026 08:46:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 067D53F44F9;
+	Thu,  4 Jun 2026 08:58:57 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF543E63B3
-	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 08:46:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C1A03F4125
+	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 08:58:55 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780562778; cv=none; b=W3Nkir9oQTc5OKk2Z5h9uwRcy6Uo+u/YmkwmsOO2aaydCLWsbwoXNUWk/am+SUrP7l5zQQ70m+X5JzFbHGgOq8rqzIb5I39mNKVNBDKZBBRFR4lTUhNMsypSfVvCSt/tYykwDdI++xsne4yilmwLnWtZYT5oa470Fon1y5hcjNw=
+	t=1780563536; cv=none; b=Sgvoh9W9oEVPj6yWlMGTB5c0iFtD7cmAISiYilxmhEC6rqxxQHg0mTWeWZmzfSpnUemtCJJzmAQkQKYmqOYHbQkMxdqjn02cdtpwYOCz4gv5pmC3IXU5IK9qrO0/8DxbEPF9HTkg0a9nuQHF/c9xUWAKwWXzHnsNQ+EvlEUIP2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780562778; c=relaxed/simple;
-	bh=DKBAaG/N5R4rrztzGTcNqmxNSYvmbc4YOW44ZQWDhZg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bEODKf29socC529tcWxXRayfneABkWFfZ+O9O5pHGahLdboSWq+MJdsHZICA7qke1FuDQ2Tb1JDkQEuBJmSDplRbR1HnNTxd7yEKXM7Wfcsq41/c15ofRk5J4K93KjabfmZE9yNQx50zoiqKocMOrH0IAbtvqVnnt2FTTpzjPZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TrGhWNKe; arc=none smtp.client-ip=209.85.167.53
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5aa68daa847so11458e87.2
-        for <linux-media@vger.kernel.org>; Thu, 04 Jun 2026 01:46:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1780562776; x=1781167576; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ysCy4i0ZuZGHTLV0NNKNvTSVjrjWNaqQ7rMKNBVAW0s=;
-        b=TrGhWNKesFMoOF8eV2aRD6QPSe1hm37sPWKH58MN2wL4Rmi+DbKnafC1zFjBDFHVWu
-         DsNfED04TBlgLFeQypnahib8eiuR4MSfTKMv/jrXfO8ZiNZwt90wlL0Vddcr0m7Bub1g
-         kKbSmtBVFVT0yfwKWZGYakYf+2F0IicrJmB9SUhK8g6JDEfSfDsyZ/qniDdyqpiSWBUK
-         P5fU8kjwYG9IRTklbFraqBMqPccMRVlxWCx2inALca4ceIzwHTJJHnN6ikvrtezk8Uxi
-         mpsRp8GMqKIEvw42y7o2CeDoxk13g5Hh3sICBkzR35g9UaFLBZ9/syaz9mXsiYCAscVI
-         ZmoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780562776; x=1781167576;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ysCy4i0ZuZGHTLV0NNKNvTSVjrjWNaqQ7rMKNBVAW0s=;
-        b=r7fprSKgvmfh/k4xZA9ep/xoOe2WFXdseD6ft4P7ljJ3XeEu7ciHR/I3J//ca/k7GK
-         SRHYEuAHkoUXJcc81Z9vlg2Xs6Dz4Dz7xs3spIRFQu5jvNVzB+yVFQpEZKgZPXBK9va7
-         snnVrh3c7G98lNs41hS+O6p5L/pdpMCVHAHICq+oJ6ho0HVnco3bNcBwcHlOvIsIP7ZZ
-         c77KUkqwDfuaoAbe22YJlt2xIzN+mVJmZkn+48nhaFB7lkKZo7Ofrv39HzXe1OGO9+ru
-         ogrJ0QZ0u9IqXrYGgsUc9nL5NwvbMXJSdJXwW1zx/QiTVJYW2ZgbZQqfCKzBcUYR0VML
-         9oUA==
-X-Forwarded-Encrypted: i=1; AFNElJ9ExHtDFh5u0V+YbbNRcvUBaRH4aR4UFiR5wCknX281gBHiVYM+TR00vs72tRgSYdvRXuorZwEibbIqnQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywlzha4P9OxTgWxCETYjkhTEDpEUmTjiPaELbfdkYnrxOZYeSM7
-	ITgu1FnmrwcidB6+dh4awVf4VAVwO9IWcWYMIW33ZLgpeKyPtdHkKE4fBPG27VGzZcrXYo4BvKL
-	uvVrueSw=
-X-Gm-Gg: Acq92OE0/p36AQj8yLYFLtr+sNcI2pA0wyh5MuqqiVcv3+APSsIP9TJCoS40Ie/Ypr8
-	FIb4x2X+maaV5kht/XFmBcpZrV76KZrN9sbOAdtYCLbgRzZXfYhjfWM6xEdSO99gIj0+wN9TL49
-	YLHs0sMms/VwYCUNMDnoBRZhvnWhdmhM4w/E2gPXTSTNSKPhF+JubakWMl+4KfZe2hoy8OxhAYr
-	PU1WTX9Dusz+axerzJZsCwInqh4hOH2tWpE+Rsr0uTv3lJmuwAE/PaDqLPIhkgGIiPTvowpFCz6
-	NfXcfDO2CjtYZ7Am8/x4H2U48ytVMv4AIdphqJKeNtIQp3Vff6Hl5VXj+1cFoPf25rsJTF1I/B+
-	+Deq8ALGx2Qkb9CIU86BUObKHL8RtbnS5RvgI+ug6V7/Ebj/Ok3yPcvFHjfyJ4yDAbVkSErxtli
-	SgP1ABMp5SEYb1xgELzcs7viujIYJpwrsqgaNQOtGn34jhJXTFvCg7zWg1DQHWiDEzh+G+eqprX
-	wFSIoqM9qhD4lVS
-X-Received: by 2002:a05:6512:24d8:10b0:5a8:7317:540b with SMTP id 2adb3069b0e04-5aa81f36e3dmr159818e87.7.1780562775465;
-        Thu, 04 Jun 2026 01:46:15 -0700 (PDT)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa7b99c74esm1075006e87.81.2026.06.04.01.46.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2026 01:46:14 -0700 (PDT)
-Message-ID: <1b107aca-a857-4e58-a763-39c82af67747@linaro.org>
-Date: Thu, 4 Jun 2026 11:46:14 +0300
+	s=arc-20240116; t=1780563536; c=relaxed/simple;
+	bh=SplngXoaeQ81cpLAw2TiZ8FbLsWFJft9FDC5UCN/I1k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kcu7vJkzJfNn84MB4lxZjDiHrNGvjvxIzNrNobYvqgvZIFFMkvpNwOgoogCt/yukcRq9ZoVs03r78hWIQGaguPqBj31iEStLvRKsD5EwwV3c3+jQ1xCrBSncWz2N4Bm1Mu0c4jAIetLMBhVRDyghvAcSJRxCXMOpeQs7GxvkdBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fSrp6UK/; arc=none smtp.client-ip=198.175.65.15
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780563536; x=1812099536;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SplngXoaeQ81cpLAw2TiZ8FbLsWFJft9FDC5UCN/I1k=;
+  b=fSrp6UK/uNZPKwGd2wvd6jjuzdhCUbj/k0f5kBIiwanKe29xGtKYZjta
+   gSpi+PbWd1V6F7DfGHanEg4LqdVL+RcpvDyXEA9mmh6U3dKiLM1bep/4d
+   L5VZLsIjQ3ihOKs8Drz5Rb+//VR0QAzBqf1vQ2UBI24qcdfDVdm3Z9Uxl
+   4HzvaGurqSbRqhGjM0OMR+GE1f3FjsQcnn2Z5N6j8YkGnSlpV2mXJcFd+
+   R0510oUNDw8k0QTU7TJyo2HZcmBMl2vlkv2A2dWcKWXb/TVK0eatJILDq
+   ou5eZ/w8b+mP/QGWI14wzCmi/NOnpGv4O7Rrp2E4Kf6LE4c71lW6s4QZd
+   g==;
+X-CSE-ConnectionGUID: A3w5HMXsQ6iwwWm6cjQ1QQ==
+X-CSE-MsgGUID: oB8nAMKbQnq9aOyMI6focg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11806"; a="85010672"
+X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
+   d="scan'208";a="85010672"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 01:58:56 -0700
+X-CSE-ConnectionGUID: xk44/viaRNCr8OP02H68lg==
+X-CSE-MsgGUID: m6hfGbT5RY65CONSe4VhNQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,186,1774335600"; 
+   d="scan'208";a="268158557"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.47])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2026 01:58:54 -0700
+Date: Thu, 4 Jun 2026 11:58:52 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-media@vger.kernel.org
+Subject: Re: [PATCH v1 1/1] media: tda18250: Use %*ph to print small buffer
+Message-ID: <aiE-TFU2UdzB1x4p@ashevche-desk.local>
+References: <20260603111724.230522-1-andriy.shevchenko@linux.intel.com>
+ <20260603113538.2772E1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Bryan O'Donoghue <bod@kernel.org>,
- Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260523-x1e-csi2-phy-v8-0-a85668459521@linaro.org>
- <20260523-x1e-csi2-phy-v8-1-a85668459521@linaro.org>
- <rpnNMsR9GY8gbynzeBO8Zm61JAOq3ubt6sp0x3WDPPwkMAJzlcofECD1kabN-IUoK6sSwP5P6l28UIZLFCOpjQ==@protonmail.internalid>
- <dda32577-04e0-4507-acaf-a5694f4f31b3@linaro.org>
- <478df3ed-d4ef-43aa-bb84-e2075798542b@kernel.org>
- <ec98ef2f-02b4-4086-8b4b-07b6953dbd20@oss.qualcomm.com>
- <514cf213-5778-45e1-8d70-d3fe27991fcc@oss.qualcomm.com>
- <7JNJ4dUNz4ennJ5dkzhfLSuVo72JpfZAbprICPRqlRYnSzVDJw6x3h-1nESd_PK-3us9f1V3qOiLiywsTqP8vQ==@protonmail.internalid>
- <f01c0e22-4e5c-44e7-9ea4-4bc8d53aea2e@linaro.org>
- <29e8491f-20e8-4082-8943-66bee7e3af1d@kernel.org>
- <5ca611b1-0663-4975-bd56-b1343851e5fd@linaro.org>
- <83c12dc5-fcb4-4089-9917-9f0fcc4f940d@linaro.org>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <83c12dc5-fcb4-4089-9917-9f0fcc4f940d@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260603113538.2772E1F00893@smtp.kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63769-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63770-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_RECIPIENTS(0.00)[m:bryan.odonoghue@linaro.org,m:bod@kernel.org,m:vijay.tumati@oss.qualcomm.com,m:vkoul@kernel.org,m:kishon@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:neil.armstrong@linaro.org,m:linux-arm-msm@vger.kernel.org,m:linux-phy@lists.infradead.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:sashiko-reviews@lists.linux.dev,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[andriy.shevchenko@linux.intel.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[linaro.org:+];
+	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@linux.intel.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	TO_DN_NONE(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,linaro.org:mid,linaro.org:from_mime,linaro.org:dkim]
+	ALIAS_RESOLVED(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,ashevche-desk.local:mid,intel.com:dkim,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C4C4763E503
+X-Rspamd-Queue-Id: 1D18963E5BC
 
-On 6/4/26 03:30, Bryan O'Donoghue wrote:
-> On 04/06/2026 01:07, Vladimir Zapolskiy wrote:
->> On 6/4/26 00:18, Bryan O'Donoghue wrote:
->>> On 03/06/2026 21:51, Vladimir Zapolskiy wrote:
->>>>> Actually, one more thing, Why isn't TITAN TOP GDSC here?>>>> +
->>>> If CSIPHYs are true subdevices under the umbrella CAMSS device and well
->>>> described as subnodes, then likely none of power domains are needed
->>>> to be
->>>> repeatedly described in the children device nodes, since this
->>>> information
->>>> can be obtained from the parent device by the driver.
->>>>
->>>> Technically 'power-domains' property can be safely removed, I believe.
->>>
->>> The policy is to describe the power-domain dependency fully since DT
->>> describes hardware not software architecture.
->>
->> It brings no contardiction to the statement I've given above, the needed
->> power domans will be properly described in the parent device, and there
->> is no
->> sense to repeat the properties it again and again in every child subdevice.
->>
->>> Also for a very practical reason a sub-devices can probe/run
->>> asynchronously of the parent device being active so in fact we do need
->>> to describe the PDs fully.
->>
->> In opposite to the above this one is precisely a software centric argument,
->> which should be excluded from the consideration, as well it's not a big
->> deal to make a proper async initialization, removing excessive dt
->> properties
->> is worth it.
->>
+On Wed, Jun 03, 2026 at 11:35:37AM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s)
+> to consider:
 > 
-> Right look forget about that.
-> 
-> - DT requires you to describe your hardware. You're not entitled to have
->     some other device vote for a clock or a PD you rely on.
-> 
+> Pre-existing issues:
 
-Above are two uncorrelated between each other sentences.
+^^^ Exactly, but thanks!
 
-A device ("consumer") can ask another device ("provider") to behave in
-one or another way, this is the only possible and thus natually selected
-system design, and nothing behind it was asked. There is no justification
-for the proposed flood of multiply repeated data, it's avoidable.
+To the maintainers, I'm not going to address this report even if it's valid.
 
->     That's exactly the type of downstream short cut we are trying to zap.
-> 
-> - In our case we also need to vote on PDs individually when the PHY
->     is active.
-> 
-> In extremis say we are only running the TPG then we have no reason to
-> vote for CSIPHY specific rails or operating points in the parent device.
-
-So, TPG shall communicate with CAMSS, there is no CSIPHY in the equation.
-
-> We could make the parent power-domain argument for CAMSS and CCI but we
-> have TITAN_TOP_GDSC in CCI specifically because we have to model the
-> hardware - including the PDs for that device.
-
-CCI is not described as a child of CAMSS, here the situation is different.
-
-> If tomorrow we put CCI as a sub-device of top-level CAMSS, that won't
-> negate the need to include that GDSC.
-
-Of course in this case a phandle to Titan GDSC will be marked as obsolete
-or unused for CCI, no problem here.
+> - [High] This problem wasn't introduced by this patch, but an unconditional
+> dereference of `client->dev.platform_data` can cause a kernel Oops.
 
 -- 
-Best wishes,
-Vladimir
+With Best Regards,
+Andy Shevchenko
+
+
 
