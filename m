@@ -1,62 +1,63 @@
-Return-Path: <linux-media+bounces-63846-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63847-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id sn8DK+LVIWq5PQEAu9opvQ
-	(envelope-from <linux-media+bounces-63846-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 21:45:38 +0200
+	id 7ZltJvjXIWodPgEAu9opvQ
+	(envelope-from <linux-media+bounces-63847-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 21:54:32 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19AB1643009
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 21:45:38 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B4316430BC
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 21:54:31 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Ah7oufMl;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63846-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-63846-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Fxrgdhi+;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63847-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-63847-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 53BE8303E8C4
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 19:41:26 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 6D3ED3020A94
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 19:54:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1838E3C09E2;
-	Thu,  4 Jun 2026 19:41:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7E6B3C1974;
+	Thu,  4 Jun 2026 19:54:19 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7697639936D
-	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 19:41:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B4439DBF9
+	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 19:54:17 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780602084; cv=none; b=mfpGVNKxUAiRtzJ/ZLkcFtyiE2909y5JJaI4wRJjOfFIYQeIxEOnde09IlEOCc6DNbgJIXs2+VK30WKnnqWhvp/iXF/gSDGBxOwCN4XSTBsXHY5Q/Ee5XEuUyb5VCNSarZlHAsqSvYNuV0FoUqqh95jHYY6jBzIdGKgL9xiDXsc=
+	t=1780602859; cv=none; b=SkAfyG4J4cjNodT+zOWdfCjeSlbGQieGUMZGVkcky5/RFTml5R4efL79B7iZul39KLtBWWfBIAGcymxiaAkIB9tzVEenf4a3jRY/e+IFl3Cj6eywbVY+848TCq1hu3YXMJaGgw95fJ6evk/Q/mOcVpTzlL+wZIken6OYhdazPx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780602084; c=relaxed/simple;
-	bh=9mntJ7PVtRYL/4BYfUtMIoR8+UUrhdLcVbB159Hmmb0=;
+	s=arc-20240116; t=1780602859; c=relaxed/simple;
+	bh=fq1FZq6OMSl+Xc4txOb7aVus/4gyFDWSAry+1woJ86A=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=PObPc6nONGzQGvv+fyDSSSOBYHfzRGhhOIKXyf8LBJn3pFGlbie6I8ffOQGSVK/SXiN/DbqZYXtgP9o4BqldnXQgovrz8SJpvh4IE0RA4ltzuT1iNtWlF2q/ioGpIHsxspVKRbCPmYDMNvLqQ5KaYrlqajoioMJ7+F50Nlg8neE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ah7oufMl; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 155B11F00893;
-	Thu,  4 Jun 2026 19:41:23 +0000 (UTC)
+	 Message-Id; b=twWyUV3yI+vl3HSKXgYjEKe8HW0IdncXetLJRDxNI4T7H8USkTVjL048ThWiTTyVWoqhYFng9IJlIrU35ZVT23wE5EDJswBX5g6/6bpVTibPlmP69U3czhSZlX/aMFD0TLecz6jY9plXQVBrfaipFq7asTwwOyyrhgpw5PUAk40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fxrgdhi+; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88EEA1F00893;
+	Thu,  4 Jun 2026 19:54:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780602083;
-	bh=ShuVlLWC5FgBtDaDVnuK31drZ5jQl97zhyIfpyaIgJ4=;
+	s=k20260515; t=1780602857;
+	bh=VlNCEx7fSXTvxEos14U11YA6V7bI6hyrbU6QtXchtsI=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Ah7oufMlAxcMhs/B68reBXMm0ou7AOmSOo3Q6clR34dNTXfdFsuN9xUEKa8axgXli
-	 XAqKcU1PKU3ggJG+QOdFVwC3Z7S+g4F4UHRwIFS8ZAkPqDvN2FfBnKyd66cUmgfZrw
-	 /6PNMWPH1YJlwGBnasYvrDkHx5txsNbtwLDcaXblEUieBi2E67cNZp2MgrZH69Ipe3
-	 ZIvmlXF3uadTSQbfXNbFnD2WY6ExhUkAYLS8yQdjLPldOnVLepZv6lBgaCVliwNeaF
-	 IqTMazO/XUtJdJEqFc9k4RLEKNt6w0xrij0dK+bpm6XO980qwHGLVH/CJ210A51N+v
-	 MfZ7ks0Mlb0VQ==
+	b=Fxrgdhi+2p3vS6hQdItpxa9NGAEaPheM/rSuxOVOVuna7NoQFoVhwv3Ln5CxXzfM8
+	 mFBe5KqHDT3zNmkNJZa+px6SyKNP7UShF1L9V6ud5m0r1DrtIlXimYbRFZvTNuEAfb
+	 ZboxQBaTMZtnulrHfRDadGApwSPHUEs5TG0rF1fnVP+POATrYvaFAIMy2+gRxeq+Uc
+	 dmq5atuDNRGs1w8OhwTkzpsY1uthCTQwEYUkC4fnTqIN+jJ573MQA3XtNsByacf+Ej
+	 p9PeV0Ub0QQQc2PWpwHaLqF4tWVUj2pFediWbL7Z5COjq9QX0jWcVQjaXmCKGMcpFv
+	 DwdvbSkF6g/Vg==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v18 2/4] rust: drm: gem: shmem: Add vmap functions
+Subject: Re: [PATCH v18 4/4] rust: drm: gem: Introduce
+ shmem::Object::sg_table()
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Lyude Paul" <lyude@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, ojeda@kernel.org
-In-Reply-To: <20260604192740.659240-3-lyude@redhat.com>
-References: <20260604192740.659240-3-lyude@redhat.com>
+Cc: linux-media@vger.kernel.org, ojeda@kernel.org, dri-devel@lists.freedesktop.org
+In-Reply-To: <20260604192740.659240-5-lyude@redhat.com>
+References: <20260604192740.659240-5-lyude@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 04 Jun 2026 19:41:22 +0000
-Message-Id: <20260604194123.155B11F00893@smtp.kernel.org>
+Date: Thu, 04 Jun 2026 19:54:17 +0000
+Message-Id: <20260604195417.88EEA1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,7 +69,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -76,11 +77,11 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-63846-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63847-lists,linux-media=lfdr.de];
 	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
 	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:lyude@redhat.com,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:ojeda@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:lyude@redhat.com,m:linux-media@vger.kernel.org,m:ojeda@kernel.org,m:dri-devel@lists.freedesktop.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -96,187 +97,115 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_NO_DN(0.00)[];
 	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,smtp.kernel.org:mid,lists.linux.dev:replyto]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.linux.dev:replyto,vger.kernel.org:from_smtp,sashiko.dev:url,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,smtp.kernel.org:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 19AB1643009
+X-Rspamd-Queue-Id: 9B4316430BC
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] The `IoCapable` implementation for `VMap` uses non-volatile `ptr::=
-read` and `ptr::write`, allowing the compiler to optimize away or reorder m=
-emory accesses to shared device memory.
-- [Medium] `VMap` and `VMapOwned` are implicitly `!Send` and `!Sync` due to=
- the `*mut c_void` field, artificially restricting the mapping to the threa=
-d that created it.
-- [Low] Missing `// INVARIANT:` comment explaining `VMap` memory validity a=
-t its construction site, violating subsystem guidelines.
+- [Medium] SGTableMap::drop frees the scatter-gather table without decremen=
+ting the backing pages reference count, causing a permanent memory leak if =
+Devres initialization fails.
 --
 
-commit b418d73acbe560c4eda85331900333d19c6ae108
+commit 28826d4b9c036cf868c70bbd1c12d628314a0735
 Author: Lyude Paul <lyude@redhat.com>
 
-rust: drm: gem: shmem: Add vmap functions
+rust: drm: gem: Introduce shmem::Object::sg_table()
 
-One of the more obvious use cases for gem shmem objects is the ability to
-create mappings into their contents. So, let's hook this up in our rust
-bindings.
+This commit introduces sg_table() to shmem::Object and utilizes a Devres
+resource to ensure SGTable mappings are released on driver-unbind.
 
 > diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
-> index 4cf038f7afb71..a20b0c0dac6bd 100644
+> index a20b0c0dac6bd..f3c893c7fbf4f 100644
 > --- a/rust/kernel/drm/gem/shmem.rs
 > +++ b/rust/kernel/drm/gem/shmem.rs
 
 [ ... ]
 
-> @@ -188,6 +196,80 @@ extern "C" fn free_callback(obj: *mut bindings::drm_=
-gem_object) {
->          // SAFETY: We're recovering the Kbox<> we created in gem_create_=
-object()
->          let _ =3D unsafe { KBox::from_raw(this) };
+> @@ -270,6 +302,45 @@ pub fn vmap<const SIZE: usize>(&self) -> Result<VMap=
+Ref<'_, T, C, SIZE>> {
+>      pub fn owned_vmap<const SIZE: usize>(&self) -> Result<VMapOwned<T, C=
+, SIZE>> {
+>          self.make_vmap()
 >      }
 > +
-> +    /// Attempt to create a vmap from the gem object, and confirm the si=
-ze of said vmap.
-> +    fn make_vmap<'a, R, const SIZE: usize>(&'a self) -> Result<VMap<T, R=
-, C, SIZE>>
-> +    where
-> +        R: Deref<Target =3D Self> + From<&'a Self>,
-> +    {
+> +    /// Creates (if necessary) and returns an immutable reference to a s=
+catter-gather table of DMA
+> +    /// pages for this object.
+> +    ///
+> +    /// This will pin the object in memory. It is expected that `dev` sh=
+ould be a pointer to the
+> +    /// same [`device::Device`] which `self` belongs to, otherwise this =
+function will return
+> +    /// `Err(EINVAL)`.
+> +    pub fn sg_table<'a>(
+> +        &'a self,
+> +        dev: &'a device::Device<Bound>,
+> +    ) -> Result<&'a scatterlist::SGTable> {
+> +        if dev.as_raw() !=3D self.dev().as_ref().as_raw() {
+> +            return Err(EINVAL);
+> +        }
+> +
+> +        let sgt_res =3D 'out: {
 
 [ ... ]
 
-> +        // XXX: We don't currently support iomem allocations
-> +        if map.is_iomem {
-> +            // SAFETY:
-> +            // - The vmap operation above succeeded, guaranteeing that `=
-map` points to a valid
-> +            //   memory mapping.
-> +            // - We checked that this is an iomem allocation, making it =
-safe to read vaddr_iomem
-> +            unsafe { self.raw_vunmap(map) };
-> +
-> +            Err(ENOTSUPP)
-> +        } else {
-> +            Ok(VMap {
-> +                // SAFETY: We checked that this is not an iomem allocati=
-on, making it safe to read
-> +                // vaddr
-> +                addr: unsafe { map.__bindgen_anon_1.vaddr },
-> +                owner: self.into(),
-> +            })
-
-[Severity: Low]
-This isn't a bug, but there's a missing invariant comment here.
-
-The Rust subsystem guidelines mention that when a struct with an
-# Invariants documentation section is constructed, the code should have an
-// INVARIANT: comment explaining why the invariants are satisfied.
-
-Would it make sense to add a comment here explaining why the memory remains
-valid until dropped?
-
-> +        }
-> +    }
-
-[ ... ]
-
-> @@ -264,3 +345,232 @@ fn drop(&mut self) {
->          unsafe { bindings::dma_resv_unlock(self.0.raw_dma_resv()) };
->      }
->  }
-> +
-> +macro_rules! impl_vmap_io_capable {
-> +    ($impl:ident, $ty:ty) =3D> {
-> +        impl<D, R, C, const SIZE: usize> IoCapable<$ty> for $impl<D, R, =
-C, SIZE>
-> +        where
-> +            D: DriverObject,
-> +            C: DeviceContext,
-> +            R: Deref<Target =3D Object<D, C>>,
-> +        {
-> +            #[inline(always)]
-> +            unsafe fn io_read(&self, address: usize) -> $ty {
-> +                let ptr =3D address as *mut $ty;
-> +
-> +                // SAFETY: The safety contract of `io_read` guarantees t=
-hat address is a valid
-> +                // address within the bounds of `Self` of at least the s=
-ize of $ty, and is properly
-> +                // aligned.
-> +                unsafe { ptr::read(ptr) }
-> +            }
-
-[Severity: High]
-Can this allow the compiler to improperly optimize these memory accesses?
-
-Since VMap represents GEM shmem objects mapped into the kernel virtual
-address space, this memory might be concurrently accessed by hardware or
-userspace.
-
-Using standard non-volatile ptr::read and ptr::write allows the compiler
-to cache values in registers, coalesce writes, or elide them entirely. The C
-equivalent (iosys_map_rd and iosys_map_wr) uses READ_ONCE() and
-WRITE_ONCE() for this reason.
-
-Should this use ptr::read_volatile() to safely access the shared memory?
-
-> +
-> +            #[inline(always)]
-> +            unsafe fn io_write(&self, value: $ty, address: usize) {
-> +                let ptr =3D address as *mut $ty;
-> +
-> +                // SAFETY: The safety contract of `io_write` guarantees =
-that address is a valid
-> +                // address within the bounds of `Self` of at least the s=
-ize of $ty, and is properly
-> +                // aligned.
-> +                unsafe { ptr::write(ptr, value) }
-> +            }
-
-[Severity: High]
-Similar to the io_read() implementation above, does this write need to use
-ptr::write_volatile() to prevent the compiler from caching or coalescing
-these shared memory writes?
-
-> +        }
-> +    };
-> +}
-> +
-> +/// A reference to a virtual mapping for an shmem-based GEM object in ke=
-rnel address space.
-> +///
-> +/// # Invariants
-> +///
-> +/// - The size of `owner` is >=3D SIZE.
-> +/// - The memory pointed to by addr remains valid at least until this ob=
-ject is dropped.
-> +pub struct VMap<D, R, C =3D Registered, const SIZE: usize =3D 0>
-> +where
-> +    D: DriverObject,
-> +    C: DeviceContext,
-> +    R: Deref<Target =3D Object<D, C>>,
-> +{
-> +    addr: *mut c_void,
-> +    owner: R,
-> +}
+> +            // If not, finish initializing and return.
+> +            self.sgt_res
+> +                .populate(Devres::new(dev, SGTableMap::new(self))?);
 
 [Severity: Medium]
-Does this unintentionally restrict the mapping to the thread that created i=
-t?
+If Devres::new() returns an error here, will the newly created SGTableMap
+be immediately dropped?
 
-Because VMap stores its mapping address as a raw pointer
-addr: *mut c_void, it implicitly lacks the Send and Sync traits in Rust.
-This means VMap and VMapOwned cannot be safely transferred or shared
-across concurrency boundaries.
+When SGTableMap::new() calls drm_gem_shmem_get_pages_sgt(), it pins the
+backing pages by incrementing pages_use_count and caches the new sgt. If the
+SGTableMap is dropped during this error path, it frees the SGT without
+decrementing pages_use_count, leading to a permanent memory leak of the
+backing pages.
 
-Since the kernel's virtual mapping should be globally valid as long as the
-underlying owner object provides safe concurrent access, should explicit
-unsafe impl Send and unsafe impl Sync be provided for this struct?
+> +
+> +            // SAFETY: We just populated sgt_res above.
+> +            unsafe { self.sgt_res.as_ref().unwrap_unchecked() }
+> +        };
+
+[ ... ]
+
+> +impl<T: DriverObject, C: DeviceContext> Drop for SGTableMap<T, C> {
+> +    fn drop(&mut self) {
+> +        // SAFETY: `obj` is always valid via our type invariants
+> +        let obj =3D unsafe { self.obj.as_ref() };
+> +        let _lock =3D DmaResvGuard::new(obj);
+> +
+> +        // SAFETY: We acquired the lock needed for calling this function=
+ above
+> +        unsafe { bindings::__drm_gem_shmem_free_sgt_locked(obj.as_raw_sh=
+mem()) };
+
+[Severity: Medium]
+Does this code leak the backing pages?
+
+This function frees the SGT and sets shmem->sgt =3D NULL, but it omits a pa=
+ired
+call to drm_gem_shmem_put_pages_locked(). If this drop is triggered early
+(such as when Devres::new() fails in Object::sg_table()), pages_use_count is
+permanently incremented.
+
+If the caller retries sg_table() after the failure, it will see
+shmem->sgt =3D=3D NULL and increment pages_use_count a second time. When th=
+e GEM
+object is eventually released, drm_gem_shmem_release() will only decrement =
+it
+once, failing to reach 0 and triggering a drm_WARN_ON.
+
+> +    }
+> +}
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260604192740.6592=
-40-1-lyude@redhat.com?part=3D2
+40-1-lyude@redhat.com?part=3D4
 
