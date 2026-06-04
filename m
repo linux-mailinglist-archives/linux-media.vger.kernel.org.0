@@ -1,193 +1,183 @@
-Return-Path: <linux-media+bounces-63754-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63755-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id +OWeARAkIWpx/gAAu9opvQ
-	(envelope-from <linux-media+bounces-63754-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 09:06:56 +0200
+	id NmTxML0pIWq4/wAAu9opvQ
+	(envelope-from <linux-media+bounces-63755-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 09:31:09 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 677C063D840
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 09:06:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D1EF63DA45
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 09:31:09 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=mkQQM5BT;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63754-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-63754-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=JJSXRrni;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63755-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-63755-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 20DA3306DF88
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 07:00:28 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C4ACF306048A
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 07:28:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D04513DD510;
-	Thu,  4 Jun 2026 07:00:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0856D397E8D;
+	Thu,  4 Jun 2026 07:28:47 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f194.google.com (mail-dy1-f194.google.com [74.125.82.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338EF37F8BC
-	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 07:00:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8AB3BE17E
+	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 07:28:45 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780556425; cv=none; b=fCDqZuQM833sHDdLQkzB35ZHmjSk+uevNtVHGY98jfwflucqBccr01Nzqkdqp35dEmGjnMCSazdC0Ob3DxI/wl5Dng9UDN+GiEe7pFhDupaT3LFhafVLxDN0/ie5ErVaa7I/kmsZD6nkkz0zJv/p2uJeIap6Tt4jVbL94pwqVOA=
+	t=1780558126; cv=none; b=uYAaij3Je0wSB1rcjc9bQltYgmOTC6l5Zw090DjX7qbXM3yKzlGGhw+TgVTRU5m93wKKRqZNspLvQEAjlJIsb0Rvlon8GYJqzvNtXqcZJY5h6NSDrscDuwvceKoPU9h+C5Tq0Qy4ELp3qZDljAu63hEcqfS6bXuhIN/XVPvusWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780556425; c=relaxed/simple;
-	bh=x9I0C3+n5Zno1/Fioru3iVdK1+vKYlxTrDIKLkpRsT8=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=qomGb35A+vRq0dI+DtUHsTMVnDOBHflkDp6GV6ay9PvWXKSIboS4aCsRhUOWo1tOTJrUMFUJ5N4dXN8xt8qUvbSjP4+9Iv3NvXPJ3TBYci17mQOUzuqeQwyP1GQhRyIB0ksz2X5NXEX5ZarfH3NTbXShxllLhzRcNSNN+FsJiHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mkQQM5BT; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FBB71F00893;
-	Thu,  4 Jun 2026 07:00:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780556414;
-	bh=wBt0a2bIS2+GSbG9Hg9BYse8/ZP68oFjSo++w4RDs94=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=mkQQM5BTBVNsB71/48y5RZPHBvHd9jynXRm+S284T4Ef9wnRuQVE09mEniT6aC2p3
-	 A5Dx23wRz/K+cBJdYNFvwdXsGasfiFi1XunRJhTHzh/fOUydkNuwFy7UizoK4EVpfS
-	 Wga47JNCGVACbCIGtqC+JolpMREKCW+Qoi4nGLZiXFUps7e2hSf9i06HsN66mlcxa2
-	 ofTd92ovoEl2urqNffLsWzmR2ybkpvs0mFlxWMcF/ZA+7TgRkWnpIcNjTk0Kcy1Nlf
-	 00BF5AV5473eYlkxPb6RglrCYPKFaWhjMOhI5g1JbiLbSeo9X+aWeqSDij1QyimSrz
-	 VzkLG6O/Kg1xQ==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] media: qcom: iris: guard IRQ handler with runtime PM
- check
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Hungyu Lin" <dennylin0707@gmail.com>
-Cc: linux-media@vger.kernel.org
-In-Reply-To: <20260604064957.44597-1-dennylin0707@gmail.com>
-References: <20260604064957.44597-1-dennylin0707@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 04 Jun 2026 07:00:14 +0000
-Message-Id: <20260604070014.9FBB71F00893@smtp.kernel.org>
+	s=arc-20240116; t=1780558126; c=relaxed/simple;
+	bh=vEj8EI5oExPm7tMbsZS/Ju8S071XB3QnI2EedtVwxa0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=bAUGYZIwlF5EfOsmd9OTxjHsjr+6M4GGdQl0G/z4tCG0FbW0O0o3naV6EeR5yTsIRYvb111IVFr6UlKLxGy6Oso80/KuEL9kOSCgdcPNPqPGMCRwFIWZgVD7MYI27kjQ3O2NpmYdJHx0LGdQI/7goE2LuH5yRssNnJr2hlLUx5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JJSXRrni; arc=none smtp.client-ip=74.125.82.194
+Received: by mail-dy1-f194.google.com with SMTP id 5a478bee46e88-304545f5206so443347eec.0
+        for <linux-media@vger.kernel.org>; Thu, 04 Jun 2026 00:28:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780558124; x=1781162924; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EUjaUGFNcoZHdC3YZeiMHCy05kdsPltvsJJXov2Ftec=;
+        b=JJSXRrniQd7Xp1fx6hze/t/bk2uZ6xnRSlNTRU1EiAT283ysYfAF+D0xckGmTrOzkP
+         eXb1V5Qm2S1P8s6LV8bWAANThiJGPBSRvwYgJsN01SBj74Lnbu2Bc/xhMhvwgq+yyVu2
+         K/4V7o6WuaDN0OFhNdYYMegdnW7cra6wO9/1gJ1tVDJLjD6HBN64rfTR5Qaig9+LVpZr
+         k0HUsFY3cwd7RAApzdBT5gcZOCnO21o1RtzAcdLxbRAr+ZMAbgQ7xa21KK1mlec6uPal
+         WycN5f1MtQ6xtGEQAiOcAcS+M3QFuoQjx8bdMJG/i4Nqs32aD0KW+ImWkbqsrzaSTqvN
+         UGwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780558124; x=1781162924;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EUjaUGFNcoZHdC3YZeiMHCy05kdsPltvsJJXov2Ftec=;
+        b=eDnEcWes+XHHo2WfiAkJB1wNPURNpHCgHjAMZol1zsCi46PkaE1kExIzv0n7T8Sf1l
+         0uoisR/GNbQYIaIYp0BvfUp/WW1+thDij1q1SEfwYW55WQ6c8IrG/mx1KIBCl6Tba+bi
+         /h+ZZAfuDm2h0T2A3vG2eBfqyHeX/V/+wmd253Y7wE3nmjomSLedsENf5exfx5EI9QM0
+         p7ZmcTUq1OESMCg//mPaBZdvYAIsiNziXGRUquzDaWgZ1EKRIZtzZ9fN0zfc2j58VNAt
+         mETOcjpM1Rrm3JPrBvXrwTZl3ZcUw3UopWrw2cU3Md2izlULTTcWp2n1icwAjGahaW+0
+         p8og==
+X-Forwarded-Encrypted: i=1; AFNElJ/REurWBbaOLKbVYMMfrQIfVcM1UX3g9+LO8qaH+oLJ0fZiI+lkCy1i/wcBul4jiiOgN/6jNN7jramg7A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIUmnfKLvzPpMJPyS96znO+R1aHPWof4RlVSPUor2SGcuTSS/0
+	Duek1hCUvjErMnZx7Ww4+YuZ0VCMjf76S6b70RyrdIYomdjPxGh1SQ17P8Fn2EXa
+X-Gm-Gg: Acq92OG9DiJAOSrbC94qRMNdJmW/mVg+ND48UhfVgkSoqRV+3cLAtUJs+qCmhCmZuXX
+	sfM+LLGLCCe0DA7NCM6nNY+KVQ5pZpT3hPzEfg23gmxyra8Lg/bQlKBCCcIJMAhdftEnsQNNEJ2
+	YqfkCwQ7+i3JGKNwAEyUJu0LtHTMYfisCpoOf8QXeCuicKOIpTzyTbxSbNIhGcPb6Ft0mLSofRs
+	D+H2scklqH6MR6xZPMH4fCawNhroHgCDkM9y7dSZbXFrbdUbp9LBim7iuzVnLe8VeABvLQCgOAX
+	0deSTzbb7uZHVQJBOUBwo+nWX6U1BBxK9gScz/ehSvYUmkKK9uJJNok7XF0M76+L1p5UGkSmvIs
+	Fayf7peIhdcjedlO5LpE5XQ/Wyn+4tr5NndQ0AEYR0pN9lGONIk1SUhhKsCxtoQyKjEd08XfVKw
+	wQ0W0ZjKYMVmz4CXB7QYsVYvJrb5MTU6ZpxmdAnOu4KZ3nnsofPzd7WQ7TDsMD4Kxifg==
+X-Received: by 2002:a05:7301:6787:b0:303:a1af:5042 with SMTP id 5a478bee46e88-3074f703362mr4245372eec.0.1780558124494;
+        Thu, 04 Jun 2026 00:28:44 -0700 (PDT)
+Received: from localhost.localdomain ([76.32.119.210])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074db55f60sm5797164eec.6.2026.06.04.00.28.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2026 00:28:44 -0700 (PDT)
+From: Hungyu Lin <dennylin0707@gmail.com>
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+Cc: Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Bryan O'Donoghue <bod@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hungyu Lin <dennylin0707@gmail.com>
+Subject: [PATCH v2] media: qcom: iris: guard IRQ handler with runtime PM check
+Date: Thu,  4 Jun 2026 07:28:24 +0000
+Message-Id: <20260604072824.45448-1-dennylin0707@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	MISSING_MIME_VERSION(2.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:dennylin0707@gmail.com,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63754-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	MIME_TRACE(0.00)[0:+];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[linux.dev,kernel.org,vger.kernel.org,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-63755-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
-	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:vikash.garodia@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:bod@kernel.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dennylin0707@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[dennylin0707@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_NO_DN(0.00)[];
-	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[dennylin0707@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,sashiko.dev:url,lists.linux.dev:replyto]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 677C063D840
+X-Rspamd-Queue-Id: 3D1EF63DA45
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [High] Using `pm_runtime_get_if_in_use()` instead of `pm_runtime_get_if_a=
-ctive()` in the IRQ handler causes missed interrupts and IRQ storms during =
-the autosuspend window.
-- [High] The boolean NOT operator (`!`) mishandles negative error returns f=
-rom the PM runtime API, leading to hardware access when suspended and usage=
- counter underflows.
-- [High] Returning `IRQ_HANDLED` when skipping interrupt processing on the =
-early exit path defeats the kernel's spurious interrupt detection mechanism.
---
+Use pm_runtime_get_if_active() before accessing hardware
+registers in the threaded IRQ handler. Skip interrupt processing
+when the device is not active.
 
-commit 576f1f875241104f6f3a35d723ea4b7f5bb6ff29
-Author: Hungyu Lin <dennylin0707@gmail.com>
+Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+---
+v2:
+- Use pm_runtime_get_if_active() instead of pm_runtime_get_if_in_use()
+- Handle negative runtime PM return values correctly
+- Return IRQ_NONE when interrupt processing is skipped
 
-media: qcom: iris: guard IRQ handler with runtime PM check
+ drivers/media/platform/qcom/iris/iris_hfi_common.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-This commit adds a runtime PM check before accessing hardware registers
-in the threaded IRQ handler, skipping processing when the device is not
-in use.
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_common.c b/drivers/media/platform/qcom/iris/iris_hfi_common.c
+index 621c66593d88..1c05f83986fe 100644
+--- a/drivers/media/platform/qcom/iris/iris_hfi_common.c
++++ b/drivers/media/platform/qcom/iris/iris_hfi_common.c
+@@ -100,10 +100,17 @@ irqreturn_t iris_hfi_isr(int irq, void *data)
+ irqreturn_t iris_hfi_isr_handler(int irq, void *data)
+ {
+ 	struct iris_core *core = data;
++	int ret;
+ 
+ 	if (!core)
+ 		return IRQ_NONE;
+ 
++	ret = pm_runtime_get_if_active(core->dev);
++	if (ret <= 0) {
++		enable_irq(irq);
++		return IRQ_NONE;
++	}
++
+ 	mutex_lock(&core->lock);
+ 	pm_runtime_mark_last_busy(core->dev);
+ 	iris_vpu_clear_interrupt(core);
+@@ -111,6 +118,8 @@ irqreturn_t iris_hfi_isr_handler(int irq, void *data)
+ 
+ 	core->hfi_response_ops->hfi_response_handler(core);
+ 
++	pm_runtime_put_autosuspend(core->dev);
++
+ 	if (!iris_vpu_watchdog(core, core->intr_status))
+ 		enable_irq(irq);
+ 
+-- 
+2.34.1
 
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_common.c b/drivers=
-/media/platform/qcom/iris/iris_hfi_common.c
-> index 621c66593d88d..ffb2e65f90f86 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_common.c
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_common.c
-> @@ -104,6 +104,11 @@ irqreturn_t iris_hfi_isr_handler(int irq, void *data)
->  	if (!core)
->  		return IRQ_NONE;
-> =20
-> +	if (!pm_runtime_get_if_in_use(core->dev)) {
-
-[Severity: High]
-Does the logical NOT operator correctly handle negative error codes here?
-
-If runtime PM is disabled (such as during system suspend or driver unbind),
-the API returns -EINVAL. Since !(-EINVAL) evaluates to false, wouldn't the
-handler bypass this early return entirely?
-
-This would cause the handler to proceed and access potentially unpowered
-hardware, and later cause a usage counter underflow when unconditionally
-calling pm_runtime_put_autosuspend() at the end of the function since the
-counter was never incremented.
-
-Could the return value be assigned to an integer and checked with <=3D 0
-instead?
-
-[Severity: High]
-Is pm_runtime_get_if_in_use() the right API here rather than
-pm_runtime_get_if_active()?
-
-The driver uses pm_runtime_put_autosuspend(), which drops the usage count
-to 0 but keeps the device in an active power state until the delay timer
-expires.
-
-If a valid hardware interrupt fires during this autosuspend window,
-pm_runtime_get_if_in_use() will return 0 because the usage count is 0.
-
-Would this cause the handler to incorrectly assume the device is inactive,
-skip clearing the interrupt, and exit? Because the interrupt is never
-cleared, wouldn't it immediately re-fire and cause an IRQ storm?
-
-> +		enable_irq(irq);
-> +		return IRQ_HANDLED;
-
-[Severity: High]
-Should this return IRQ_NONE instead of IRQ_HANDLED?
-
-If the PM check correctly determines that the device is inactive, the device
-could not have generated the interrupt.
-
-By returning IRQ_HANDLED, does this falsely claim ownership of a spurious
-interrupt, preventing the kernel's "nobody cared" mechanism from
-automatically disabling the faulty IRQ line?
-
-> +	}
-> +
->  	mutex_lock(&core->lock);
->  	pm_runtime_mark_last_busy(core->dev);
-
-[ ... ]
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260604064957.4459=
-7-1-dennylin0707@gmail.com?part=3D1
 
