@@ -1,206 +1,212 @@
-Return-Path: <linux-media+bounces-63704-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63705-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id OJxPAIXHIGpi7wAAu9opvQ
-	(envelope-from <linux-media+bounces-63704-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 02:32:05 +0200
+	id vSC2F7fKIGrM7wAAu9opvQ
+	(envelope-from <linux-media+bounces-63705-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 02:45:43 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 459E763C0F8
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 02:32:04 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C523563C171
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 02:45:42 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linaro.org header.s=google header.b=pacFqSn1;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63704-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63704-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=linaro.org;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=Ogj0RTpi;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63705-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-63705-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 04103302BE24
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 00:30:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F0BB4303C01B
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 00:43:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 351B920459A;
-	Thu,  4 Jun 2026 00:30:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DCC6222597;
+	Thu,  4 Jun 2026 00:43:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9B718BC3D
-	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 00:30:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 140A11397
+	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 00:43:06 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780533040; cv=none; b=pgfzsjFkOE2qqe5ftgRfg96DX2PJr5Upsp4dIHMKaeB7IigBHNLR9treFiigKa5Z43SVnrW9AnCXVUI1vOJWzAPDsbhM1OXN9+GFLBwAC3q9t29MjDMZVi2in5J1DzlUKBoBgwjEpnihtMARIJoKBIoeAyUFPhYNWw7pxJTXRcw=
+	t=1780533788; cv=none; b=N1Ph3umk/LGxs8TkSs/bI/CmUn53FeLXW2ZoDBpG6QyYH0mbMp9mHj3uBBkUBL3ULqJI7QCeImmJA1axr0BwwklbXUIsPZQ6jPZoYWqi0gqwui3Sj+P67885Yn9oWJIiuRjPiUOOihtLgeUXfr7qnE4GS20Jk0X/Ey4owJvcKVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780533040; c=relaxed/simple;
-	bh=JhiDwTV+ijp+Yldkrq2VgUruPnSxOK6hNGgkqkxKz+E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HKixaMwPYjOdrt9BVrK3CphE6MFqYXpY8Q60/ayYwWJEZNTl3FN/4CVV5XFs0yHQv6ilTVQIPopLG22ZOsRFRXiAzXKrVKXIyOWY+ff9VL0riPx22nnwvLltiHkfdBTMfnmXXVZw8y4FxWuE1Dy2qEfpUYMA+dJHbNkGL0vVk/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=pacFqSn1; arc=none smtp.client-ip=209.85.128.44
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-490b3e03939so610665e9.1
-        for <linux-media@vger.kernel.org>; Wed, 03 Jun 2026 17:30:39 -0700 (PDT)
+	s=arc-20240116; t=1780533788; c=relaxed/simple;
+	bh=pCtD5k7MvypEZUxpDcKQoAVqj5RgSw7ja09QgVIBbN4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=V7o7W+o/IBhgMM8fiaqBqDoSkscZklBV5KpDebJwRqxWndfgv8VjafK8ch9SRRIRifSqSyMWehXaz1F4Rz2+jiJeSNclVeAwwj44SF5/uEy1S9rDryZCSbr8GkNCcFqT2OmTnIgv1I/X08dTWFPs2RpUL1vqQ1i/32g0DG/dJBI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ogj0RTpi; arc=none smtp.client-ip=209.85.216.51
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-36b900f350fso112913a91.0
+        for <linux-media@vger.kernel.org>; Wed, 03 Jun 2026 17:43:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1780533038; x=1781137838; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vjGmXAmM+3Nn1KtSjLMnBrRs8nWD00igFoG8wE5QxV0=;
-        b=pacFqSn1c+5Kr0h+C2jMEkWno4MZEYn54CByYGggmS1GQfeh5amjJ8b1qsG83hwgQG
-         N74cUkqYYL2mjwaQSIlBVn/c+xZXEtgL+60f2qDzge/dfpOLoUhCmsZHeAj+7bJasNTV
-         EWxbVvzoriI2f/BAR0hAx34UQA8SUjDgxioQZXSNYXelr3+6TrVcLLp0lDkviJVjKvtF
-         hZkhStg7BHXorglVyQt9uWmkmUF47r2ZkeJofMSQ9H1RuWRNCGvnnETLRdBV6nB6xXpu
-         sKWV9kuEwqhRcEeW+bNdKW3OP/odonkdupdQE0G35/p3gArutgAsIhZ3LiRwc19O1ybj
-         ZW7g==
+        d=gmail.com; s=20251104; t=1780533786; x=1781138586; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gaSc57t4jmRqWa/tEAw7kwxJOfsrDztjZyVRXA4uTHc=;
+        b=Ogj0RTpivOJUvr8Zy0r+IPYIPQc1Bdl59jmYxy8eIm64cQ73dw59GBuHCWHyTKIbj6
+         l58ctYeDELnSZwJQ+IH38k1Wlht5Mei5r6/LlX0Zg06FyGs8JJG7E7jRA4MFwhjdYaUb
+         B372yyUXm/0ab2qklABS2uZOKObRlordKNhlkYyURBKlC7ytXLKvMpXFAVNZGs5+0IM0
+         17v7xYEKix4XOqdxOIhf2cI3bmly2bqEN1Zgsj096s7ckrbgNjRxWnVkCN7pHpjs+fYY
+         Ppr5c5mZkVvbjDqmwUpFgBeduOuchYeUDlKsp5YMhjhCh8z4g8xbXoZ78M6ixWIZGB5J
+         9o8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780533038; x=1781137838;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vjGmXAmM+3Nn1KtSjLMnBrRs8nWD00igFoG8wE5QxV0=;
-        b=C5MOdRX9E7/Ovbeh7Z8cfhY0ICeZ0raa/RD94/02DeNRopSvP2KI6zDFhjj2Et8tMK
-         bRe7mEJSBkZy1m6iUQINesOOQBjTyL1ycOvno3D9FbNrR7P+mUFnbr5FsIasG/RuIkDB
-         xShuSoO4lmE3tMus1ogdaX+ic6l+qu4tsmiEbbMqdHBcbMXnUf38eLENGnzAMxr0gfqD
-         wq/xuFDhZGeph5APSziGY6fOjtakkg4yBWcMJVQvyUxPEjY3GMcWv8ejeRaUoHwrmR5V
-         z9j2xdDprl6wW+PSMi7BnKSZhEQTwUTPM8IxtyO54pZXvnoC4BZbHJCwAR6eY50bQHoK
-         MquQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9+fORz5P3uN4DgTj9IAzr5zQUXZ4jCoLm3TfpG++Xf9Xcq2D8ASvXi4qUoETa1/qeuwwF7DqUj1J2x2Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YygkWIYskxGsN6oaC9YyvrF8sfCyxZBVCHN1b3fkqrbF0mRhJMf
-	BC2TASFcR/8KvSpVe6jo6RGnmcti/TF3OMb6riQq8NuCyu/kzZzqPzmjjvyNqBMS9Rg=
-X-Gm-Gg: Acq92OHhEvm9hnoQH5KnwoXrSpTqIFnM8BzwBfw479GiZgP6bLJOyCkHXRkBKKFil24
-	m5l46KMIT/gATjGOhnyHMRMTS2cvohVVXxP3L9tfm9vudlCA3JEo2YPWxl2LVoysSed7N41yTuq
-	v75Gl+TPlN6gbejhA/PN4kMapEltWAi8zEL0u0YKgrIsU5U+W6oKoSTDuzh/tG9rbw/BHD3Ygh3
-	3H0nKYemRkDt6vyqomFyvbt/9vL1Onnjj/Ht0mh0cEBupV7eIx3bvkscib6AypiFHzJhA+BbQAp
-	RpJRq8hgmclUhUkz1FoFwVmpbOoEjVYGTYgdgMVMHIot2GgpVXrusoo4nl6r1PuOIEZa/7VuC5v
-	WAvoAFJR5lohX2VUMhNbw5DFj0M+rPTIQT2zEKmBvi3GlBUwUAMHrFaI4bxlSYxQt/o/euoqKBC
-	kFC0pKjyMNXcBj6a10tqcu65Y4ykU3KmPWjgBXC3ek3sDMyw==
-X-Received: by 2002:a05:600c:4c19:b0:48a:5236:7f38 with SMTP id 5b1f17b1804b1-490bc5166a0mr12416105e9.14.1780533037608;
-        Wed, 03 Jun 2026 17:30:37 -0700 (PDT)
-Received: from [192.168.0.101] ([109.77.42.178])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2dc412sm11926549f8f.4.2026.06.03.17.30.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jun 2026 17:30:37 -0700 (PDT)
-Message-ID: <83c12dc5-fcb4-4089-9917-9f0fcc4f940d@linaro.org>
-Date: Thu, 4 Jun 2026 01:30:34 +0100
+        d=1e100.net; s=20251104; t=1780533786; x=1781138586;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gaSc57t4jmRqWa/tEAw7kwxJOfsrDztjZyVRXA4uTHc=;
+        b=hJfhTunRFk3GyXjlOMU1eVZ2w7Y7a0dtb4AkBK+frEprtCq60yAo3sMjrFfptfC0ra
+         yW7+mNadhyUvLcYkyVUexZFfyY+RDsY2b86bGQwj5MrQSpwUsH4AA3tUDAUOhtLyhw8d
+         ZukgsIDge3zzjuV/v8+hyBc6EjKsK3COlGj28Pi7R4f1ReyUGI0kCErdzKcV5sa22Jfg
+         33RRJXHWrau/DgVXfF/ATvPD9CMZu7aGxDle/1EfdJS4mF4tOFd2s84kmmrO0cuw1xo4
+         cH/X8aNMQfin91iNriwjExStl81pNbQyNwudlPA4p/zt91fIrV1HH3zGhS1VVzKeS40v
+         RBrw==
+X-Forwarded-Encrypted: i=1; AFNElJ8MHE2hIkqw8z9KpTpzIQLjJvcj2Cs1pAYUe5k8C2iN5XYhKhIv/sAkfWF23G18rdG2Nn5Gnk+qhwTA5w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YynXteks+UT/9LE5FmOad98IqDhzzuJeCthAvRkmcNYEYmGwm+y
+	OWxZK2drZ4G3H9jZEUpOKmgIj5TPIqHgFLkJQtp26OppWQybunGbxGSR
+X-Gm-Gg: Acq92OEIttu2OxsxOfC+xNhcq2AstTmUAFa234MFgmprpf1jIIWmS/BPIIm6ZE3+b4V
+	AhiQYVDssQ+/VKTVGoHop8X1e1gpNdVqhNqt1+kyaV5qLTqUQtzdlKD2O3w2FgVW3BfIcyIlidh
+	DKid3iLM5ILT7bCkemrKMGxUglALcPpJQY+QubU24zI8fgqw+2zRbvhfOjEaDi5fnADR/pdXc/b
+	Nv8lw3IkIpkTFfo79n0wXEL+D252ZKO3lo+GG0MouysdA6tLul/Ra3CYep5sqPoUdh4kqyo5AOK
+	H24PTi3dlpGIKdd/cc99drmVx5iec0YHBefQS4FhBD0wsLzJepY3rjlhPz2Ie0UiRpj/u+Ni6h7
+	lr5k/9Lx6Ndz6QapfVRl4zGYSXLPv/3FNOPemTe14MI1t8Vi+S/eVQZTP8yVC7Kug01JYKs8I4X
+	GYSoPVAl7xcAB8JhbNqnkHBt+RtjgA/cG4yPyv6CE=
+X-Received: by 2002:a17:90b:3d4e:b0:36b:b3f4:d578 with SMTP id 98e67ed59e1d1-36e30e17847mr5798820a91.15.1780533786256;
+        Wed, 03 Jun 2026 17:43:06 -0700 (PDT)
+Received: from localhost ([2a03:2880:ff:2::])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36f6c668f90sm1067665a91.6.2026.06.03.17.43.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jun 2026 17:43:05 -0700 (PDT)
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
+Subject: [PATCH net-next 0/4] net: devmem: allow rx-buf-size > PAGE_SIZE
+ per binding
+Date: Wed, 03 Jun 2026 17:42:57 -0700
+Message-Id: <20260603-tcpdm-large-niovs-v1-0-f37a4ac6726c@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Bryan O'Donoghue <bod@kernel.org>,
- Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260523-x1e-csi2-phy-v8-0-a85668459521@linaro.org>
- <20260523-x1e-csi2-phy-v8-1-a85668459521@linaro.org>
- <rpnNMsR9GY8gbynzeBO8Zm61JAOq3ubt6sp0x3WDPPwkMAJzlcofECD1kabN-IUoK6sSwP5P6l28UIZLFCOpjQ==@protonmail.internalid>
- <dda32577-04e0-4507-acaf-a5694f4f31b3@linaro.org>
- <478df3ed-d4ef-43aa-bb84-e2075798542b@kernel.org>
- <ec98ef2f-02b4-4086-8b4b-07b6953dbd20@oss.qualcomm.com>
- <514cf213-5778-45e1-8d70-d3fe27991fcc@oss.qualcomm.com>
- <7JNJ4dUNz4ennJ5dkzhfLSuVo72JpfZAbprICPRqlRYnSzVDJw6x3h-1nESd_PK-3us9f1V3qOiLiywsTqP8vQ==@protonmail.internalid>
- <f01c0e22-4e5c-44e7-9ea4-4bc8d53aea2e@linaro.org>
- <29e8491f-20e8-4082-8943-66bee7e3af1d@kernel.org>
- <5ca611b1-0663-4975-bd56-b1343851e5fd@linaro.org>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <5ca611b1-0663-4975-bd56-b1343851e5fd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABLKIGoC/x3MQQqEMAwF0KuEvzZQK1boVcRF0YwTmInSFhHEu
+ wu+A7wLRbJKQaQLWQ4tuhkitQ1h/iZbhXVBJHjngwvOc5335c+/lFdh0+0o3Ifed6lLrRsGNIQ
+ 9y0fP9xxhUtnkrJju+wGj3Y/WbQAAAA==
+X-Change-ID: 20260602-tcpdm-large-niovs-56523a3a1077
+To: Donald Hunter <donald.hunter@gmail.com>, 
+ Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Gerd Hoffmann <kraxel@redhat.com>, 
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Shuah Khan <shuah@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org, 
+ sdf@fomichev.me, razor@blackwall.org, daniel@iogearbox.net, 
+ almasrymina@google.com, matttbe@kernel.org, skhawaja@google.com, 
+ dw@davidwei.uk, Bobby Eshleman <bobbyeshleman@meta.com>
+X-Mailer: b4 0.14.3
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63704-lists,linux-media=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:donald.hunter@gmail.com,m:kuba@kernel.org,m:davem@davemloft.net,m:edumazet@google.com,m:pabeni@redhat.com,m:horms@kernel.org,m:andrew+netdev@lunn.ch,m:kraxel@redhat.com,m:vivek.kasireddy@intel.com,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:shuah@kernel.org,m:netdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kselftest@vger.kernel.org,m:sdf@fomichev.me,m:razor@blackwall.org,m:daniel@iogearbox.net,m:almasrymina@google.com,m:matttbe@kernel.org,m:skhawaja@google.com,m:dw@davidwei.uk,m:bobbyeshleman@meta.com,m:donaldhunter@gmail.com,m:andrew@lunn.ch,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_RECIPIENTS(0.00)[m:vladimir.zapolskiy@linaro.org,m:bod@kernel.org,m:vijay.tumati@oss.qualcomm.com,m:vkoul@kernel.org,m:kishon@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:neil.armstrong@linaro.org,m:linux-arm-msm@vger.kernel.org,m:linux-phy@lists.infradead.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[bobbyeshleman@gmail.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[gmail.com,kernel.org,davemloft.net,google.com,redhat.com,lunn.ch,intel.com,linaro.org,amd.com];
+	RCPT_COUNT_TWELVE(0.00)[26];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-63705-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bobbyeshleman@gmail.com,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,netdev];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,linaro.org:mid,linaro.org:from_mime,linaro.org:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 459E763C0F8
+X-Rspamd-Queue-Id: C523563C171
 
-On 04/06/2026 01:07, Vladimir Zapolskiy wrote:
-> On 6/4/26 00:18, Bryan O'Donoghue wrote:
->> On 03/06/2026 21:51, Vladimir Zapolskiy wrote:
->>>> Actually, one more thing, Why isn't TITAN TOP GDSC here?>>>> +
->>> If CSIPHYs are true subdevices under the umbrella CAMSS device and well
->>> described as subnodes, then likely none of power domains are needed 
->>> to be
->>> repeatedly described in the children device nodes, since this 
->>> information
->>> can be obtained from the parent device by the driver.
->>>
->>> Technically 'power-domains' property can be safely removed, I believe.
->>
->> The policy is to describe the power-domain dependency fully since DT
->> describes hardware not software architecture.
-> 
-> It brings no contardiction to the statement I've given above, the needed
-> power domans will be properly described in the parent device, and there 
-> is no
-> sense to repeat the properties it again and again in every child subdevice.
-> 
->> Also for a very practical reason a sub-devices can probe/run
->> asynchronously of the parent device being active so in fact we do need
->> to describe the PDs fully.
-> 
-> In opposite to the above this one is precisely a software centric argument,
-> which should be excluded from the consideration, as well it's not a big
-> deal to make a proper async initialization, removing excessive dt 
-> properties
-> is worth it.
-> 
+Every devmem dmabuf binding hands the page_pool PAGE_SIZE niovs today.
+On NICs that consume one descriptor per netmem, this caps a single RX
+descriptor at PAGE_SIZE and burns CPU on buffer churn.
 
-Right look forget about that.
+In this series, we add a bind-time netlink attribute,
+NETDEV_A_DMABUF_RX_BUF_SIZE, that lets userspace request a larger niov size
+(power of two >= PAGE_SIZE). Drivers must opt in via
+queue_mgmt_ops.QCFG_RX_PAGE_SIZE.
 
-- DT requires you to describe your hardware. You're not entitled to have
-   some other device vote for a clock or a PD you rely on.
+Selftests use udmabuf, but udmabuf sgtables were previously hardcoded to
+PAGE_SIZE. This series modifies udmabuf to respect folio sizes in its exported
+sgtable. The result is that when backing udmabuf with MFD_HUGETLB 2MB pages,
+the sgtable is populated with 2MB entries, allowing devmem's gen_pool to carve
+out large (eg. 64K) niovs.
 
-   That's exactly the type of downstream short cut we are trying to zap.
+Measurements
+------------
 
-- In our case we also need to vote on PDs individually when the PHY
-   is active.
+Setup: kperf devmem RX/TX cuda, 4 flows, 64 MB messages, 60s, dctcp,
+num-rx-queues=4, dmabuf-rx/tx-size-mb=2048, 10 runs per niov size,
+mlx5.
 
-In extremis say we are only running the TPG then we have no reason to 
-vote for CSIPHY specific rails or operating points in the parent device.
+   niov       RX dev Gbps   RX flow avg Gbps         app sys %
+  -----  ----------------  -----------------  ----------------
+     4K  300.63 +/- 53.21    75.16 +/- 13.30   54.15 +/- 10.23
+    16K  321.35 +/- 28.20    80.34 +/-  7.05   41.05 +/-  8.87
+    32K  347.63 +/-  2.20    86.91 +/-  0.55   44.54 +/-  3.51
+    64K  332.11 +/- 14.26    83.03 +/-  3.56   35.47 +/-  3.11
 
-We could make the parent power-domain argument for CAMSS and CCI but we 
-have TITAN_TOP_GDSC in CCI specifically because we have to model the 
-hardware - including the PDs for that device.
+RX app sys % drops ~19% from 4K to 64K.
 
-If tomorrow we put CCI as a sub-device of top-level CAMSS, that won't 
-negate the need to include that GDSC.
+kperf support (not yet merged):
+https://github.com/facebookexperimental/kperf/commit/8837577f920876bce6986ec18869ac04439ebcd2
 
+Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
 ---
-bod
+Bobby Eshleman (4):
+      net: devmem: allow rx-buf-size > PAGE_SIZE per dmabuf binding
+      udmabuf: emit one sg entry per pinned folio
+      selftests/net: ncdevmem: add -b option to set rx-buf-size on bind
+      selftests/net: devmem.py: add check_rx_large_niov
+
+ Documentation/netlink/specs/netdev.yaml            |  8 ++++
+ drivers/dma-buf/udmabuf.c                          | 47 ++++++++++++++++---
+ include/uapi/linux/netdev.h                        |  1 +
+ net/core/devmem.c                                  | 52 +++++++++++++---------
+ net/core/devmem.h                                  | 13 ++++--
+ net/core/netdev-genl-gen.c                         |  5 ++-
+ net/core/netdev-genl.c                             | 18 +++++++-
+ tools/include/uapi/linux/netdev.h                  |  1 +
+ tools/testing/selftests/drivers/net/hw/config      |  1 +
+ tools/testing/selftests/drivers/net/hw/devmem.py   | 12 ++++-
+ .../testing/selftests/drivers/net/hw/devmem_lib.py | 46 ++++++++++++++++++-
+ tools/testing/selftests/drivers/net/hw/ncdevmem.c  | 49 ++++++++++++++++++--
+ .../testing/selftests/drivers/net/hw/nk_devmem.py  | 11 ++++-
+ 13 files changed, 220 insertions(+), 44 deletions(-)
+---
+base-commit: dfcc2ff12925d99e858eaf539eaa4aaaf81fe2a6
+change-id: 20260602-tcpdm-large-niovs-56523a3a1077
+
+Best regards,
+-- 
+Bobby Eshleman <bobbyeshleman@meta.com>
+
 
