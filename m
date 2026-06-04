@@ -1,53 +1,54 @@
-Return-Path: <linux-media+bounces-63718-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63722-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id USanK+bdIGqP8gAAu9opvQ
-	(envelope-from <linux-media+bounces-63718-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 04:07:34 +0200
+	id d5NGHk7eIGqs8gAAu9opvQ
+	(envelope-from <linux-media+bounces-63722-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 04:09:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26AC563C5CA
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 04:07:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E248463C60B
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 04:09:17 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=chipsnmedia.com header.s=selector1 header.b=EH3fcFjM;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63718-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63718-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=chipsnmedia.com header.s=selector1 header.b=PHr64MAX;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63722-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63722-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=none;
 	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 14CDD30A8FB6
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 02:02:17 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3EB0A30D95E9
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 02:02:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 695652BDC2F;
-	Thu,  4 Jun 2026 02:02:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1E972F7EE5;
+	Thu,  4 Jun 2026 02:02:19 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from SLXP216CU001.outbound.protection.outlook.com (mail-koreacentralazon11021077.outbound.protection.outlook.com [40.107.42.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12B905B21A;
-	Thu,  4 Jun 2026 02:02:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 484672EC0A4;
+	Thu,  4 Jun 2026 02:02:17 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780538531; cv=fail; b=k9Kg3jocjiYf/wao/qMdBA/C48RtTzxDm2EWlJVVrJglPQBky2n4YdNGbrzR3qtntvLN+tSmmvEp4d3sdKjogZOW+4oA0ytAWOGCmlmtIWFPogZhHpuTWKFuSlVVGEFmmvTdQ68MNK7g4+3ePvvA274Y1iVxXlJSFTCQ5zGynTE=
+	t=1780538539; cv=fail; b=r/YgihER0yOtO6Y7Tl3e6fjy/LfnvPo1Gtmya2Kt+PA6aaXtnEvIJEMNkSUfoMDz3Mzn6TqqIBFLz85zCs2jM26PSYrlsH5kfTl+LNAzkMiE6D66EpmcC7G46y/yfeVO0ul07sHA9OXi8QsgNrY5SMG+3s87p+iFC4z6yOJJcio=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780538531; c=relaxed/simple;
-	bh=rdC+QJNYM8WCFc7Ig3TubGReSJbxbOpuMNEYMo20OxE=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=K7HV3SNFCNNTmj0pCI2/pxAbQHK/WW6oEnPY5X45mAM6adRC7v0RWMrvD3F9hSDBBHaCRbW3XyQgnfjpx5K0/UHvpXQC8C0GMkh/8QTNriqm8oNsYiZcnQBTwwhGsTjUt1oFpijysrfIm4RyGVfv2+HtgpE3OOvse6Vsl0VZgr8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=EH3fcFjM; arc=fail smtp.client-ip=40.107.42.77
+	s=arc-20240116; t=1780538539; c=relaxed/simple;
+	bh=m32EHftW5D9Nj37kbAF7GpsDLXeHTpsV8LSkdFQHdjM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=FEsTSN8fJJaMwQW8PmIm1IsbCG4e1xH+oZA9QgpcivRuxPBXmteVWH33aMbrJNeSQxCtTCdO/sOkrSFfE4vcwFlOtlkaaGhmSnlDjgMfFNAyk+nFXZisGSqsOeyZ0sB+ol2hno+38PDLTa12eY6nSHHpZtskuSWyXKXY/4UaxxI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=PHr64MAX; arc=fail smtp.client-ip=40.107.42.77
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mo6bebj5rOBTds9Qf2N/gRH3Npyk3JGQqI0Kmsg8Gba2INiLTkH79DNyoAqDnyeeT+CqtgJRUW7Ja7KouSwU1N9ECxX+YO87uez38OQ4WEaDqhqmshzqyC9wyIqIYLq4vB7D6OJzXJmrJoVgSrC6z1vQASN04eFJlyQ5u/F8zmVxcZ5cVPHVvWBYzbyimss5w8VhfSKbMopzZKXsBVRAZQn2SipjrqO/Vg0S+4kezeRYIEBIbQaOElZhyEv6cxEyEhwZiEl/l/oD3kXTWBOPnQd06q9+C2LmldE1g/i4AaSObcvrwPooj7J6UsoYHGMpXVhsSPd/ftA8yKth2Nnlyg==
+ b=C/AcQw2zj2+E46xvPM4/mS7I/zmT3kasopjrn2H6KgfREjVnixlqIqrqy1YKVzQFwHWVziPAVYG/Dl6fkWwA9QhNA/TLJyIhd4+ieuwtV3XQIWhtitTa2qwv02BN/jA7la8AdwqheMWBl9txj/Jc8CUsVYE0B/afRBzLpW/pbvRVwJCSmR7aPqhSHoimP0aA73Oh8nlMqv1cJ6jM5/bcBRqzPjyI28Q93jHKM6f5z2huQPKDQO3kmHf3Er1HOG9TM5oMi+3kn1jzHfHCqjPlEKGJGA7iytzCZNaJb+PI2SUh2RtptYqeYNbMKEdsl56x1VC9yO1AiU56lhz7Yy2f/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e+/vH+K/b+S+f5QNgGLPp7MNAhsjW8jLEGTitrfzsXM=;
- b=Iqzxx0GPr6HhzGgsLyKUCd3QSlQ9GOVdMH1rPsdRQutr8uGkpI43brGZAONrUUbADYl1dIagyd4VDvFB8xX6idjYoP0VWpMpFOE9yet2djLnfYfrJafREBzEA4+tqcAUOzfPmS6l/jtEjR/Ps/wDqBApPJK9xBDfDi8tjq3x9JpU1ZIxKvCy9xcNJ1uvCoLD+ch+dlDqxzecRNWR7uceWNVN5aheABCZGvU4TK86IS6DfgDCaou0nVk5XBZa1S1gf20nzr13/uWfi+Qj5HoV88imMjF3MzQ2ZwL3Ef28lzk63dh+gKORKrfhQyeCrikz0y9gZGQB81C5Lqa07GxR/w==
+ bh=0Hzd7yz77ca24/wR0auQx2gI4O205MuAlPRgseqmlpY=;
+ b=hm5e7+xHd5vompfAki9LKfUmTWvgdTzKC85LzOqbFHfxFBksagNM32o5tAwI33KX9d6KTVsF8xjktx97NZjWIZvKihUYsFI9L9fsGWcye0O8kJhFz8iOCVZr69KoLAxJe/Ep+tc2ge/k8Nxm/rIBekEm8jh4Y9d9LZfaCzpAPG+rutbK7/LG9Z+hbdOOGzDiC9GnI/Is/SaVpu4e51/GCyCXQ1NzofJZN0zUL7HvaZLQFNKlNg0cCUPVOgnRsDMhQinwHNX0IaNx3lj9f/Hn1bmG7E2r8U1sdiAx8CtVkuW29YsWhhNmNboCiOI+qqOjdoIwM1wyo270UbJDbBY20g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
  header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e+/vH+K/b+S+f5QNgGLPp7MNAhsjW8jLEGTitrfzsXM=;
- b=EH3fcFjMDRwE7c7Me3tMi8mdm85H8HUO97ijpF9UauIt9QERABu8cAb2gfJeGzSZ5fGs7u8xNCZqEUfFh75Do6JwHC2IY6MZjFYnyonkbqmjdZ2V2Qo95IN0lwIg97pGTqoedIYPu8LNm+6VzB11juFXpownC55SsgXqJ0c4r6I=
+ bh=0Hzd7yz77ca24/wR0auQx2gI4O205MuAlPRgseqmlpY=;
+ b=PHr64MAX+tfhxSfimSQGwA9S1K7bKQLY8w6jxV+IahWfIfQOO8p8hR0Sh9UMU0jmk15o/V6I8Olja+BJxMNX0RJwdnmxTnv5gKMK64zFHHQAohueJ8JqF1NuzowC8smSPobFa7BZ67sy4l8z6a44+dCLe7d3D2W9rxMTRK20D74=
 Received: from SLXP216MB1148.KORP216.PROD.OUTLOOK.COM (2603:1096:101:f::14) by
  SE5P216MB3229.KORP216.PROD.OUTLOOK.COM (2603:1096:101:2fe::23) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -67,11 +68,14 @@ Cc: linux-media@vger.kernel.org,
 	lafley.kim@chipsnmedia.com,
 	b-brnich@ti.com,
 	hverkuil@xs4all.nl,
-	nas.chung@chipsnmedia.com
-Subject: [PATCH v0 0/4] bug fixes
-Date: Thu,  4 Jun 2026 11:01:51 +0900
-Message-Id: <20260604020155.77-1-jackson.lee@chipsnmedia.com>
+	nas.chung@chipsnmedia.com,
+	stable@vger.kernel.org
+Subject: [PATCH v0 1/4] media: chips-media: wave5: Guard bit depth check with initial_info_obtained
+Date: Thu,  4 Jun 2026 11:01:52 +0900
+Message-Id: <20260604020155.77-2-jackson.lee@chipsnmedia.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260604020155.77-1-jackson.lee@chipsnmedia.com>
+References: <20260604020155.77-1-jackson.lee@chipsnmedia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: SEWP216CA0024.KORP216.PROD.OUTLOOK.COM
@@ -85,114 +89,153 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SLXP216MB1148:EE_|SE5P216MB3229:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1b3803fe-d49f-43b3-177a-08dec1dd472a
+X-MS-Office365-Filtering-Correlation-Id: 4a746d89-1d95-4432-8715-08dec1dd4761
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|366016|1800799024|38350700014|6133799003|18002099003|56012099006;
+	BCL:0;ARA:13230040|52116014|376014|366016|1800799024|38350700014|6133799003|18002099003|22082099003|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	y52CDQCkZZhr5iiJYr/wibpArpBbBPV3usLkciufR9inAhwv8Ea4xSHalkeowPWlzz2mWrg8WowwdQ3Q4o52qgREDcY66ZJjE7p3pM5L2DZNIMABo3UESIgcZXf6mcSz7O4flhEzbzNM1ga6MZlbwow+jVmSnm9ravOJGGhn5WEU/Ltgzv4Bgml4KEc07GwLk63agwGj1Rgp04VtC3OEB8ZZAh2dMzh7D2CewNeaKuDkLrW9NmHrTBA/2hUbyDJlaYVajyEKQiPAIt53jBhoh0T2gqNxQVY0uCr+cPF7p0UkIMP/zymol1d7+yFjI++8nZJ3mWOm9G4kOSmamHlA45nX/87og1NnqUey+Od5G/L+3q0kaVvW3jUvYUnbHEtMCIuMXC82iq9BLuwCbNX2m7mIUxLKbPCYWMQD6iQPE+CI00svAt0e1op4j2j1+8XplPbF6netDd2MZnNzUD4zXFErglce2bX7wGJK8EkHgxX2x9B9HI4W9qEiH0ruh2lcwQZA691Vhy1hSn6DnGi+iaH75f9grvuBJDrNQGKoCdLtLjR8TNMwj4JZA1Z18SLd/JJznTEmefz2A9IFltKARAcVGeuAFrnVXu2FevZsgqaqeD0ltotian9dLPh0v7fuK+ehtnvtCg3OETTzBZ7lJB3YUqYwMyIig/KgXoZnej5+uQIWFNmh7KV/9pon7jAzalx6zSLoBCMyfOQT4PNJHLKe5E/wquJ0lDVz+AvFRc6Xatc5Cb7TFHcCA38nr2Ym
+	PkeRbDe/h8cnLsu29rZLPzfUpVzDpIsc9ydppvVKAR7/UdJBLKjteAgEPVvqcf0gB5mXZa4crI/HDD+ITMB/Hy7Ycws6yqz7SRnDkJZa1oFNCXoTr5zPoAxKPHZatgWTzEJohxbHOIy1MyrxNjP2RPBEqz2tNTXk9zUKkLHCR/5VczmSNs2ZNzGB0lWiHrQlqrJE9mjbhW3s8Boi4UaDCQwJ6OAc2kh6Vo55z1sLNH46jqSagFj7HmM7aO0KBsmrXK25MQf3xstqAxpNFiuzcOr0P5lTOs2H9CYRnH8YoSd+8eBBmoyI8qsCvHNFzOsS29rRMPX4EJUvqFVLIEX33kqX/M6d659du2zIp2vh5ehCb9pyJJpy717pMHm6ccaLxtEbQwhTBmfqfPVCbInZ0Wa3I1CXUeBAezivg8rKy4GaGEg43FYHZCiJ9t+qFZw6Ujhzjgau7IIjk2B964NALh1QdVbI44OptAz+AOV+Zbjf7G2KSR3kLHXP9422ll3kLvX8CYkJ5kHMWyqBC/PEQDb+4t2xwJl+FFjPA+T3GP6EPiUEyJc6zX4TwHhMUSMTwCZfmuTbIETLPuvR4sND1CvDCex5An44+gSfZ753pJtqQK6wJZh2ZxlG1wmzdcYnOxZiEqHadbcKYIKFmw6oaPvm+kNq353EYGmvD8hnwPfJp8T/x+Y1QYOzA10Ms5jANV5gD2c/G2zmDs6+dyIiRw1nDP0ut7UvvvrHXj67jlQinWMYlSbarNPLSgx05VKi
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SLXP216MB1148.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(366016)(1800799024)(38350700014)(6133799003)(18002099003)(56012099006);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SLXP216MB1148.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(366016)(1800799024)(38350700014)(6133799003)(18002099003)(22082099003)(56012099006);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?L74yJeRQZmvMw8T08Yr9ggYhU/+J0JII8EFQmCBB4oKoXyJqDNopVLCWZFd/?=
- =?us-ascii?Q?JUWiNQc++YfUtu8Pmt6HgPtyPsVrQAxQXrQUwlPsJMmSs/+99rAbsaNuwl6o?=
- =?us-ascii?Q?Ro3QqQUe4cUMrHnXCREcVK0gvioFIwn+GvRsJn8vR6xvAtl2gANLWZepLxef?=
- =?us-ascii?Q?VtnlBz/w484dnbBCyWtmdhSMxYliGLW/S0Dh1fLItSVQMfpp98YwhJLXtOTP?=
- =?us-ascii?Q?oVW65dvtMDcVfAOUmFy+NlnmoEriBa3sSpiPIdOfEJHMRt4s8wGWQRApH2CU?=
- =?us-ascii?Q?cDuo9dX6uo16Eky9BD91YSBaEsyTdzki6MaNZhBOQi53wRQJjzuwF4cvR1UT?=
- =?us-ascii?Q?zyhNKMRJDK34C0DAt63RoOddUkECR4QB8eTRwOvi88bGUeKmINCyD/TNvDcG?=
- =?us-ascii?Q?bsXsKrpSZP29uB+UN/sBfI6H6y4QzsLhEtdMzHVY/UP5M9sBSZzdrpzozgSf?=
- =?us-ascii?Q?Q7CnAKfLTv729+4Az2duXIPv8KMeIFMrAYPaqYmvx+3yNz6Ba+p81GYGjcSu?=
- =?us-ascii?Q?Bj1nzytp1XJN1BFHEpD/pTiBNnF5FEid83EabXwTCS0l4AAF3Fyt++YsT44F?=
- =?us-ascii?Q?VI62Xo17HT0qMy7PUJ3DraqzLqjJpnFWth05vD4RVKBwY+F6r+PSvmKpKEV5?=
- =?us-ascii?Q?l23h8ceVIR3fFjcdh2QhXkjMUITcXZrt1rJUjrjZ02ViBJZrLLmLexx4ELbT?=
- =?us-ascii?Q?mkVKZn23nt4lM1abcvOQjTEu4D66WshmEs9DaxnH08+QdgHz/CrFaNFXbbWc?=
- =?us-ascii?Q?30QoAwM4Wgej/3VKHnjGHtPmJVbywCS8QRbApKH5uBAiB+2n9fAXJ2kzAMDt?=
- =?us-ascii?Q?LhRJ/5OrLvTDYDVBN2fzQ4grmvwRoa4mwUNmkUjH1sttzcICPxu3cQlU6GM6?=
- =?us-ascii?Q?Y8YqcMHHNwKNRds+IwCUXrO6nFB8HU6w5tn7Xz9EWB1xQeyhT58Japbhx6C/?=
- =?us-ascii?Q?Ii4ZXUm7NqweXbxiucMrts6ccr+2HZcFroe8VQWNusvaI50wDW7CQUZFFeNr?=
- =?us-ascii?Q?00XgMfAWT1503PaSebrFYGizJNPsgA34+QjF49p2Uhdfth0FYr5sex8n7+at?=
- =?us-ascii?Q?giYcyEmVlWklE28AvlnD7/cbNmKs13RhvYfUWo+XAvV+c6QLVto6ciCUYqw3?=
- =?us-ascii?Q?7m2MEkyt0Bz/B1A8wwrWdISHRs/1VMV1purE/f2FHubm2N2xZ5Dd74HzHyuE?=
- =?us-ascii?Q?ApzpH+9CWO9TBKX2w1VM5cZRZb8JbCi+Rxiw0lqguvmympc7YXPrVi3L/wuO?=
- =?us-ascii?Q?6vQRAisP0QghNzg5i8nzZSZLslM29JzsBwSCKF8VSgUio+Hl+0iY3tTAPtJc?=
- =?us-ascii?Q?eMFkIKqBW1d2ufNdfLBm7vAIbE0kZM+T3xpwLPfFoo9z3EYDy+yNQt8BjACY?=
- =?us-ascii?Q?hJy1eQedZbAPsBjS4VOaHdyrwfz6gyLW8ch6rM5r9OqfelydtARjUJ4+c3kl?=
- =?us-ascii?Q?d2scE78WTT3szmJM+MnqyX8e2DzZPWfhPOKyoFVToG2rx5Ju5LNmnzBmxJql?=
- =?us-ascii?Q?d9Do1NpOLMaHOn0b5h6QR7r+KWrNfmkV9wGWdgMofSTza7eHShUgnDRksvUh?=
- =?us-ascii?Q?csI5iXfFoattEEofEkrAkX7NfKnplNOuf1O6a5GDKss8KrrwrAOr3J5w8A+6?=
- =?us-ascii?Q?0PrlFq6Bzyc6nk/BGMyg3GV2husFxkwRvpHaRVOu6gqES4KhnGNJgk2roXRB?=
- =?us-ascii?Q?vXIWKyWskFpaygHy792k+3HVBxN/N+vYGBFb1oSQ4tpP4899yfM1Z0OspV0I?=
- =?us-ascii?Q?hCfVWJCbzheSL7Begj4aluZ0XVJc+gE=3D?=
+	=?us-ascii?Q?WdguLEwh7USCt7plaFXR7Vo1POCFnYzmobw4TebVanzzB/83LASmdlsXFKwp?=
+ =?us-ascii?Q?YyOaCvKVTQwY+QT/j1NsYhumYQZ0nTikKnIGXDZV0xIbl1MM4RoWyckWav/J?=
+ =?us-ascii?Q?b3KJXZFb2w0deBdnmZDoFe/I/HbOC2YU4AKbi6iWRuRXgkZPPEhFh5S8MT47?=
+ =?us-ascii?Q?18DlTnbSY2pGh9pEOVnbbFagidLdXcfSpEyUTx8X7ipkTEs6pXhT8bkkqNsY?=
+ =?us-ascii?Q?16CEvA+TNMEANNzgyi4Q5KWQlRrPvg8zQNiuXvd42SHpGwTpTnZJT3g9TRPv?=
+ =?us-ascii?Q?11CYXhuT8CvtvifVkH5FdTknGJxlApFJRBmyTcfFATAx8+5KNv1NhgepCChD?=
+ =?us-ascii?Q?RT/1/y2qhT9/p27qo7uiu43JHnEhPMIXIdvBGXGlz0MfzmipBC296sato6Pr?=
+ =?us-ascii?Q?bx1MtoBw/thWRRPMljfinRM/vRmWrx6uc+vzu7JovN7twYPwTWCHab0R6aHQ?=
+ =?us-ascii?Q?z6obqss6sd6NL9HsHHDDPGIbGhAfTXCuDd1wxj1Ko/UDOVGQYhu8NTIxNLF7?=
+ =?us-ascii?Q?tUEMy45nj2tMUUqAQUiY8tHWQ3DFY0kdMe0u4mfzo553qJ2CfLoh7rI6QJyH?=
+ =?us-ascii?Q?4CfL57OseKt/kHzNqLJDwTgZVmV+0mqt7/ad8rnoXNNFahxjBIdbb2eB5jO9?=
+ =?us-ascii?Q?qJnmHzoGYbAVQjfLjRxBrKR9H9ZSoWJRsnGdGAmElvhD5+ZUME9leM95atV2?=
+ =?us-ascii?Q?BfzXCrwpi+Ooog0Pdk5KDgALXPk6Fz+bi3rQDLh5NtNjyRPi7xFRyyBIG0Gv?=
+ =?us-ascii?Q?9PWih3RO3s+On2z13+ytNn7fPrcsFr49jGpcqygwbvYCR8vZp180IKkKWVfA?=
+ =?us-ascii?Q?fxHOyNPBjfRG1fjsVSAqZ5e5VF3LZHR38JVn6H+2eRv/A8c9n8Ui76ajbWXG?=
+ =?us-ascii?Q?n6ckaA3Sfs5k1PmK3wQbYGWi/AC1VTr0V9TzpU98cahGJsxUzFmHe9vF01WO?=
+ =?us-ascii?Q?YOIetfPKHonHnvEJdMQmh4WqiRqSAcr5E58lAzus48GxM1s/HMBDOrYQE/g3?=
+ =?us-ascii?Q?JrL6mwSXknO3WuTOxj2Ue8ejNJmClsA/Gya6zXlHDCFEh18L5jv4dSz84G2o?=
+ =?us-ascii?Q?CgMiTogwBOMcZ3qXkKIl2UASA0kGhJGYI54fDx1KbLTH7iprgtzKDjvWLB8C?=
+ =?us-ascii?Q?NdFQqpK4FOZ18WoCZS1thncurCrn/ZKrDiC4Iwfjr1mypxtB06JX6n1bRCYH?=
+ =?us-ascii?Q?ZVrWaml+uhFo83v/eVSa/NKOcZtK9GuFnTJLDlddn9VKiRTmgUHRGHP7UIgo?=
+ =?us-ascii?Q?3mnnQN/vzGQfFC+QCStatbbpmzMmJyBaJpLF7o5aQguZtF41GrwK0VW2C2Rk?=
+ =?us-ascii?Q?uhNOf53fXCKEvvAfmpwtxmiFKiHKu3uJwA/TqWoaOjidAQ8gGMPKLNGVsS6l?=
+ =?us-ascii?Q?11gGxqPBQdDseYg0S/0TE+Nin7of/MHM8BKnM99O0LSGdbjbRbaeAXzMCcRm?=
+ =?us-ascii?Q?9iE/vS+X1M8c4BZWtrKazoF+VVKZGmmtYuRtKlb3oHj6ndRYH3ID9Bfce+DU?=
+ =?us-ascii?Q?stDfwrVgP2EX6Of5echuNTSl7H1sQxtFUGcSDhYTRjdnClxVMIQg6ZNGCCNe?=
+ =?us-ascii?Q?pr+8U2zZnJRZSQELVpc9DvnR4dld/GYjwCm4toNdMlLe/U03SGxDX7mq0R7e?=
+ =?us-ascii?Q?c/XWTrC465IR5+XUhHCp9KfjfCsWvO3tvX2luKC/1mVHGAxJmK7Q9kPbJN3v?=
+ =?us-ascii?Q?+4GLKwu1lxVilcuWRGGPpjYXLO88mUFk+WdAyE5McOpYteDQHWJSw7sPop6N?=
+ =?us-ascii?Q?sK/ABHhX+GN+C/Ey902BzcVjmqlE9ic=3D?=
 X-OriginatorOrg: chipsnmedia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1b3803fe-d49f-43b3-177a-08dec1dd472a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4a746d89-1d95-4432-8715-08dec1dd4761
 X-MS-Exchange-CrossTenant-AuthSource: SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2026 02:02:06.0876
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2026 02:02:06.5051
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9Oc6j2+ptHzqHPpT0mn4wmMOQnTmQku78rsDcv/hn89F+FOtu7C/jGYaHfZbQLsFx392T71QTbWHnlcPe6Ld3XqTilogkbG5Rug56MEfmsM=
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZsjWjTLnFkazRkmra/s5Fcv5HKsfB5QzEQV2bM9lZdUA8gRW83AAjUUsg6KSYVciK8umxDXEBPhDlAY/2Po0eFAZEngWgi1kydoCMRaVw4Y=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE5P216MB3229
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [1.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[chipsnmedia.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[vger.kernel.org,chipsnmedia.com,ti.com,xs4all.nl];
-	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:hverkuil-cisco@xs4all.nl,m:nicolas.dufresne@collabora.com,m:bob.beckett@collabora.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jackson.lee@chipsnmedia.com,m:lafley.kim@chipsnmedia.com,m:b-brnich@ti.com,m:hverkuil@xs4all.nl,m:nas.chung@chipsnmedia.com,s:lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-63718-lists,linux-media=lfdr.de];
 	FORGED_SENDER(0.00)[jackson.lee@chipsnmedia.com,linux-media@vger.kernel.org];
-	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[chipsnmedia.com];
-	FREEMAIL_TO(0.00)[kernel.org,xs4all.nl,collabora.com];
-	DKIM_TRACE(0.00)[chipsnmedia.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_FROM(0.00)[bounces-63722-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[chipsnmedia.com];
+	RCVD_TLS_LAST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,xs4all.nl,collabora.com];
+	FREEMAIL_CC(0.00)[vger.kernel.org,chipsnmedia.com,ti.com,xs4all.nl];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:hverkuil-cisco@xs4all.nl,m:nicolas.dufresne@collabora.com,m:bob.beckett@collabora.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jackson.lee@chipsnmedia.com,m:lafley.kim@chipsnmedia.com,m:b-brnich@ti.com,m:hverkuil@xs4all.nl,m:nas.chung@chipsnmedia.com,m:stable@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[jackson.lee@chipsnmedia.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[chipsnmedia.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_NONE(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,chipsnmedia.com:mid,chipsnmedia.com:dkim,chipsnmedia.com:from_mime,chipsnmedia.com:email,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 26AC563C5CA
+X-Rspamd-Queue-Id: E248463C60B
 
 From: Jackson Lee <jackson.lee@chipsnmedia.com>
 
-A few independent fixes for the Wave5 VPU driver, covering decode
-setup, m2m scheduling and stop_streaming robustness.
+When CAPTURE STREAMON is called before the VPU has completed sequence
+initialization (initial_info_obtained == false), the initial_info fields
+contain uninitialized data. The driver checks
+luma_bitdepth and rejects anything other than 8-bit, so garbage values
+(e.g. 15) cause STREAMON to fail spuriously.
 
-Jackson Lee (4):
-  media: chips-media: wave5: Guard bit depth check with
-    initial_info_obtained
-  media: chips-media: wave5: Set inst->std during default format
-    initialization
-  media: chips-media: wave5: avoid skipping device_run while VPU has
-    work
-  media: chips-media: wave5: Add interrupt timeout while stop_streaming
+This is reproducible with the following multi-threaded test scenario:
+  1. Allocate 2 CAPTURE buffers.
+  2. Call STREAMON on the CAPTURE queue.
+  3. Call DQBUF, which blocks waiting for a decoded frame.
+  4. A second thread calls STREAMOFF on the CAPTURE queue.
+  5. The blocked DQBUF should be released, allowing graceful termination.
 
- .../chips-media/wave5/wave5-vpu-dec.c         | 20 +++++++++++++++----
- .../chips-media/wave5/wave5-vpu-enc.c         |  6 ++++--
- .../chips-media/wave5/wave5-vpuconfig.h       |  2 +-
- 3 files changed, 21 insertions(+), 7 deletions(-)
+At step 2, STREAMON reads uninitialized luma_bitdepth and rejects the
+stream, causing the test to fail.
 
+Fix this by checking initial_info_obtained before accessing the bit
+depth fields, so the validation is only performed when the sequence
+info has actually been parsed by the VPU.
+
+Fixes: 035371c9e509 ("media: chips-media: wave5: Fix timeout while testing 10bit hevc fluster")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jackson Lee <jackson.lee@chipsnmedia.com>
+Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
+---
+ drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+index bb2ba9204a83..01d1368b2965 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+@@ -1403,6 +1403,7 @@ static int wave5_vpu_dec_start_streaming(struct vb2_queue *q, unsigned int count
+ 	} else if (q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
+ 		struct dec_initial_info *initial_info =
+ 			&inst->codec_info->dec_info.initial_info;
++		struct dec_info *p_dec_info = &inst->codec_info->dec_info;
+ 
+ 		if (inst->state == VPU_INST_STATE_STOP)
+ 			ret = switch_state(inst, VPU_INST_STATE_INIT_SEQ);
+@@ -1410,6 +1411,7 @@ static int wave5_vpu_dec_start_streaming(struct vb2_queue *q, unsigned int count
+ 			goto return_buffers;
+ 
+ 		if (inst->state == VPU_INST_STATE_INIT_SEQ &&
++		    p_dec_info->initial_info_obtained &&
+ 		    inst->dev->product_code == WAVE521C_CODE) {
+ 			if (initial_info->luma_bitdepth != 8) {
+ 				dev_info(inst->dev->dev, "%s: no support for %d bit depth",
+@@ -1418,7 +1420,6 @@ static int wave5_vpu_dec_start_streaming(struct vb2_queue *q, unsigned int count
+ 				goto return_buffers;
+ 			}
+ 		}
+-
+ 	}
+ 	pm_runtime_put_autosuspend(inst->dev->dev);
+ 	return ret;
 -- 
 2.43.0
 
