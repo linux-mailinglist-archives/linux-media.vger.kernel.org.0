@@ -1,319 +1,207 @@
-Return-Path: <linux-media+bounces-63762-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63763-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id cpd+Bes0IWq6AwEAu9opvQ
-	(envelope-from <linux-media+bounces-63762-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 10:18:51 +0200
+	id oj+hLtM1IWpXBAEAu9opvQ
+	(envelope-from <linux-media+bounces-63763-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 10:22:43 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 693B663DF16
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 10:18:50 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36D3A63DF84
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 10:22:43 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=trailofbits.com header.s=google header.b=KOLKsnA3;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63762-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-63762-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=trailofbits.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=gBrssYru;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63763-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63763-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AF6F8301C3CA
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 08:10:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0C239303F7F7
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 08:14:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FD8A3BB11E;
-	Thu,  4 Jun 2026 08:10:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5BF038A734;
+	Thu,  4 Jun 2026 08:14:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DDC92E719C
-	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 08:10:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4823530E0F5
+	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 08:14:04 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780560646; cv=none; b=i2EomuBsWOi8UzXrX2SB2mCcfn1Ix639AwXERtopVCB97i8fiwlPmKV+6A+uXot0Ouz3C40lbWQcQNz4F6E9P7gpL48t0lLD40kOwQXW961RAzdJgsKdLMsjaxKaT5MkpXW45jSV8v8fn95XOi9qWUEZi8iogJw+DJMpS0/R6c8=
+	t=1780560845; cv=none; b=M3o59Z7iEBbfIPthA7krJl24VQ+j35Afl16iAA/7eUudJyyor3AeDkSyS/4UDZLvZ6UrhD/4bL764Ene7dRvVOVME7/9dlPB67y12/R3ixeXPUdempNn5z7tV7NHvnb8pzEoP4YG30gCjJlqN8ap6MGGqhgVTRRt+dPH64RceSA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780560646; c=relaxed/simple;
-	bh=H/gJPI5aCQFKHhkbQeKIwVwsxNvH400RIDckNYDvbHo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FIlx8vfJYBsxBiF0Sn59TIAMZQPjFSCO+fWFl8I1svZR84QCxtKXzXbMiH8wSEbF7au4EL6ETB/lntzaLyz0XQRXz2vC8bPV0TOukII0JrRAgIhJEd4+b0tGFd2Ty1RoZT6h4XJTW4QkSLQwEw17KJnHTp922gtF4zcx3aRGR/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=trailofbits.com; spf=pass smtp.mailfrom=trailofbits.com; dkim=pass (2048-bit key) header.d=trailofbits.com header.i=@trailofbits.com header.b=KOLKsnA3; arc=none smtp.client-ip=209.85.221.47
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-45ef41adbc1so323853f8f.0
-        for <linux-media@vger.kernel.org>; Thu, 04 Jun 2026 01:10:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=trailofbits.com; s=google; t=1780560644; x=1781165444; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=k8RhyzKK7A9KUq3VoV6Unn+5etWjgs4T3scj1SgNMio=;
-        b=KOLKsnA3wFQtN21Z02FOBVvhxTJ11MSGm5pykdpm3Xqm3WNFJV0kTKGKHAEXCsrHxy
-         KYfy6oaDZSUXz3DIOq1UY9M/6muvfcVeMfpJf9oZ2OnBz7MABJOMm5qz8XBJ+/5bskbt
-         /c7WWbXPvLHSmDNp7QIk4IYR44LLMIMJm9z/vgOFRcr6cteaUOiXyGV+t9jcgokfALMo
-         OGS33PsyYugmJ/ik0uqnvjTeWdEclQ4eA7PLeOsN78dBKoyota6TX1MhrTWMvGQw5x6v
-         PQ36kHGi1ggwzODmgrruQ538EMfFRUXXulvrDDVNgR2tALnhBTN8sxALnEBU/wATvUf4
-         y+Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780560644; x=1781165444;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=k8RhyzKK7A9KUq3VoV6Unn+5etWjgs4T3scj1SgNMio=;
-        b=eTh4UATWpCF6wJ5xO7qD58tvrTwFgESX0ewpmc4GFhzKiLDs6ft+F8XzBgR3MJjejz
-         LU9msvT/qspXe12tKl9xuujIpLXwf3CHB3UMc8+N1RvcP8idendtnA6GRi4KFLCslSAP
-         NrJ89MOxt6C8x9N6xqMhNPqrDCMJ5xq4RgOLg4avTj8nThRdvtKwGXL/RJ7cqT1x8imQ
-         XaY/IDRDyMeFx02/5loo9PGDxYuD8KHtL1drWA2O2cbT2DiZ6AN9OqgsbK3q15XsaEFG
-         O4mxvCCQbfOtHX3GTtEteFGSwwPJaDg6J/M2oxsBskBpmrb7LPYyhiDScUiuk/cRlW/v
-         wydg==
-X-Gm-Message-State: AOJu0Yy0PHa3XjNtTWdPnXsZ9XhqOF+V1sVt/U7UBv4x/usJwLHKERHQ
-	Z+XYoW9T3ncCWuiWtHiS5kyrJwcoMuN0Bdg/RFfjqubV8eOHkfgP88frGZMP50Qo8VBwjzPPMPc
-	Wftqy4/g=
-X-Gm-Gg: Acq92OG+IvTREi+kVocawLqgewhvdkgSz/ebMXP3/9lJnaDhb96kad3e/5ZtP6Oq81g
-	fTksK7J9zPVHmJJFVS+A/hyHVkfBwmeEV0+VvwpasTyTYagDw2TYFc9lrBhbGIlCdKX2ye7IRON
-	AS3oTADo/ggZykxuLYY5/al3cwgxsDRddhEDTuUJaDhvFiY8w4AkV15HL9+1kUqCPHsuhPbsJl4
-	nhFsQJRgFBFchHbdPwWBl8YuMTgr8IbyWQcaSLeTjCT2DL0lzqrqvP9Av75ZXOofP8YiFu79qxs
-	6FXOEy/44flaacFcZdzTft4e7PuT1RKurb0pl+Q+mYoSWNkoPnYTwhD55w7lruKhs4HiizTpNeq
-	RzxtVYXG0B3jCiSNVEei0HbPeGCGSehoJusXwYGSWqZ0K9zS2Da7UjWlcFvisMNRjldZl30tlnI
-	vqXBnzinfqCH7xttDE2CfT5RQNVHIinRH+rlJhgcsAng6ri9Yy8LgwUUclGWKBVHVtB0KcORvGj
-	9bSPA==
-X-Received: by 2002:a05:6000:71a:b0:45e:ea68:523b with SMTP id ffacd0b85a97d-460218c8df5mr10426345f8f.10.1780560643557;
-        Thu, 04 Jun 2026 01:10:43 -0700 (PDT)
-Received: from localhost ([46.101.197.76])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4601f351d40sm14206083f8f.26.2026.06.04.01.10.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2026 01:10:43 -0700 (PDT)
-From: Dominik 'Disconnect3d' Czarnota <dominik.czarnota@trailofbits.com>
-To: linux-media@vger.kernel.org
-Cc: "Dominik \"Disconnect3d\" Czarnota" <dominik.czarnota@trailofbits.com>,
-	mchehab@kernel.org,
-	hverkuil@xs4all.nl
-Subject: [PATCH v4l-utils] dvbv5-daemon: validate remote message lengths
-Date: Thu,  4 Jun 2026 08:10:32 +0000
-Message-ID: <20260604081034.2583971-1-dominik.czarnota@trailofbits.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1780560845; c=relaxed/simple;
+	bh=PH1MYNRl5dH8xfdBgZ6EKuE2WZMP8WBQkfh6FHZv9iE=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=TJ/HHpDfktcFuiDZrpPk33vWsotKu9/SoXjLIU+TumDTfixMOMT9DSzVMwjfE3JxUyFg8KO/hGBHENa4ZJQqyCFOv5lI7k8la3taykHwVygmDrX6E3KbksrNEw6WTgGZ5kd+vWCKnUmwBxbPItDExsUMbiTKlLf6aggtUjIl3NY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gBrssYru; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8E361F00893;
+	Thu,  4 Jun 2026 08:14:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780560843;
+	bh=va8lvu0uNFvl3t4JoLnFB7lzEpzCwbawKlxolhSBIc4=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=gBrssYruSNHX5uAQhhkc4ts4PmbcTY8sQ1V+hkMSISHuXIq7mjpPgUuJl3nDwPRdq
+	 YxEV3vmLi1zu8dojD9MJaHuPObHLxKwnZr/pJGetbr9lu13/HcxZ9kY2HDeclCrUa2
+	 jRbg9RkgmK/PiELInTboBOEAyskIDE/Ef6EfNmqwucMQYPijPRpG6y0swcVvRyF18k
+	 4uO65mQf/MRK/Qej1yDiglwg3I8QCWzNn/ntB6NB+fDUPLjxu7HeUrVHNnG75dQASi
+	 +yH7L8YHp6uErSzu1bdFZe7f7vpCNC2HZ9KXFfUSpoVukL/SZfZnlnW2wzKnLVNpOd
+	 n0uTeGngXM6Rg==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 1/2] media: qcom: iris: Add gop size support for gen1
+ encoder
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Wangao Wang" <wangao.wang@oss.qualcomm.com>
+Cc: linux-media@vger.kernel.org
+In-Reply-To: <20260604-dynamic_encode-v2-1-6e97df032482@oss.qualcomm.com>
+References: <20260604-dynamic_encode-v2-1-6e97df032482@oss.qualcomm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 04 Jun 2026 08:14:03 +0000
+Message-Id: <20260604081403.B8E361F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	MISSING_MIME_VERSION(2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[trailofbits.com,reject];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[trailofbits.com:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63762-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[trailofbits.com,kernel.org,xs4all.nl];
+	REPLYTO_DN_EQ_FROM_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-63763-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:wangao.wang@oss.qualcomm.com,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:dominik.czarnota@trailofbits.com,m:mchehab@kernel.org,m:hverkuil@xs4all.nl,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[dominik.czarnota@trailofbits.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[4];
+	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
+	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dominik.czarnota@trailofbits.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[trailofbits.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NO_DN(0.00)[];
+	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,lists.linux.dev:replyto,qualcomm.com:email,vger.kernel.org:from_smtp,sashiko.dev:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 693B663DF16
+X-Rspamd-Queue-Id: 36D3A63DF84
 
-From: "Dominik \"Disconnect3d\" Czarnota" <dominik.czarnota@trailofbits.com>
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
 
-dvbv5-daemon reads length-prefixed messages from TCP clients. The
-message length is used as the size argument to recv() before checking
-that it fits in the stack buffer.
+New issues:
+- [Medium] Undocumented addition of dynamic allowed flag to `IR_PERIOD` cap=
+ability.
 
-scan_data() also copies length-prefixed strings into caller-provided
-buffers without knowing their sizes. A remote client can use this to
-overflow fixed stack buffers such as cmd[80].
+Pre-existing issues:
+- [High] The driver lacks a `.try_ctrl` implementation to validate dependen=
+cies between controls, resulting in silent hardware configuration failures =
+for valid V4L2 inputs like `gop_size =3D=3D 0`.
+--
 
-Reject frames larger than the receive buffer before reading the frame
-body, and make scan_data() require a destination size for each string
-argument.
+commit 0331fb3580ba43928b379274c9bd300bf884fc44
+Author: Wangao Wang <wangao.wang@oss.qualcomm.com>
 
-The issues can be reproduced against an affected daemon listening on TCP
-port 1234 with:
+media: qcom: iris: Add gop size support for gen1 encoder
 
-python3 -c 'import sys,struct; p=b"B"*20000; sys.stdout.buffer.write(struct.pack(">I",len(p))+p)' | nc 127.0.0.1 1234
+This commit adds support for GOP size configuration on gen1 encoders by
+enabling V4L2_CID_MPEG_VIDEO_GOP_SIZE and routing it to the hardware handle=
+r.
 
-python3 -c 'import sys,struct; cmd=b"A"*50000; p=struct.pack(">I",1)+struct.pack(">I",len(cmd))+cmd;sys.stdout.buffer.write(struct.pack(">I",len(p))+p)' | nc -vvv 127.0.0.1 1234
+> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1.c b/drivers/m=
+edia/platform/qcom/iris/iris_hfi_gen1.c
+> index ca1545d28b531..eff9216bb5014 100644
+> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen1.c
+> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1.c
+> @@ -171,7 +171,9 @@ static const struct platform_inst_fw_cap inst_fw_cap_=
+sm8250_enc[] =3D {
+>  		.max =3D (1 << 16) - 1,
+>  		.step_or_mask =3D 1,
+>  		.value =3D 30,
+> -		.set =3D iris_set_u32
+> +		.hfi_id =3D HFI_PROPERTY_CONFIG_VENC_INTRA_PERIOD,
+> +		.flags =3D CAP_FLAG_OUTPUT_PORT,
+> +		.set =3D iris_set_intra_period,
+>  	},
 
-Assisted-by: Codex:gpt-5.5-cyber-preview
-Signed-off-by: Dominik "Disconnect3d" Czarnota <dominik.czarnota@trailofbits.com>
----
- utils/dvb/dvbv5-daemon.c | 65 ++++++++++++++++++++++++++--------------
- 1 file changed, 43 insertions(+), 22 deletions(-)
+[Severity: High]
+This isn't a bug introduced by this patch, but this patch explicitly wires =
+up
+the GOP_SIZE control to the hardware for Gen1, bringing a pre-existing sile=
+nt
+failure path into active use.
 
-diff --git a/utils/dvb/dvbv5-daemon.c b/utils/dvb/dvbv5-daemon.c
-index 669b3321..3311967f 100644
---- a/utils/dvb/dvbv5-daemon.c
-+++ b/utils/dvb/dvbv5-daemon.c
-@@ -475,13 +475,10 @@ static ssize_t send_data(int fd, const char *fmt, ...)
- 	return send_buf(fd, buf, ret);
- }
- 
--static ssize_t scan_data(char *buf, int buf_size, const char *fmt, ...)
--	__attribute__ (( format( scanf, 3, 4 )));
--
--static ssize_t scan_data(char *buf, int buf_size, const char *fmt, ...)
-+static ssize_t scan_data(char *buf, size_t buf_size, const char *fmt, ...)
- {
- 	char *p = buf, *endp = &buf[buf_size], *s;
--	int len;
-+	size_t len, max_len;
- 	int32_t *i32;
- 	uint64_t *u64;
- 	va_list ap;
-@@ -493,17 +490,24 @@ static ssize_t scan_data(char *buf, int buf_size, const char *fmt, ...)
- 		switch (*fmt++) {
- 		case 's':              /* string */
- 			s = va_arg(ap, char *);
-+			max_len = va_arg(ap, size_t);
- 			if (p + 4 > endp) {
- 				dbg("buffer to short for string length");
- 				stack_dump();
--				return -1;
-+				goto error;
- 			}
--			len = be32toh(*(int32_t *)p);
-+			len = be32toh(*(uint32_t *)p);
- 			p += 4;
--			if (p + len > endp) {
-+			if (len > (size_t)(endp - p)) {
- 				dbg("buffer to short for string");
- 				stack_dump();
--				return -1;
-+				goto error;
-+			}
-+			if (len >= max_len) {
-+				dbg("string length %zu exceeds destination size %zu",
-+				    len, max_len);
-+				stack_dump();
-+				goto error;
- 			}
- 
- 			memcpy(s, p, len);
-@@ -514,7 +518,7 @@ static ssize_t scan_data(char *buf, int buf_size, const char *fmt, ...)
- 			if (p + 4 > endp) {
- 				dbg("buffer to short for int32_t");
- 				stack_dump();
--				return -1;
-+				goto error;
- 			}
- 			i32 = va_arg(ap, int32_t *);
- 
-@@ -530,7 +534,7 @@ static ssize_t scan_data(char *buf, int buf_size, const char *fmt, ...)
- 			if (p + 8 > endp) {
- 				dbg("buffer to short for uint64_t");
- 				stack_dump();
--				return -1;
-+				goto error;
- 			}
- 			u64 = va_arg(ap, uint64_t *);
- 
-@@ -547,6 +551,10 @@ static ssize_t scan_data(char *buf, int buf_size, const char *fmt, ...)
- 	va_end(ap);
- 
- 	return p - buf;
-+
-+error:
-+	va_end(ap);
-+	return -1;
- }
- 
- /*
-@@ -652,7 +660,7 @@ static int dev_get_dev_info(uint32_t seq, char *cmd, int fd,
- 	char sysname[REMOTE_BUF_SIZE];
- 	int ret;
- 
--	ret = scan_data(buf, size, "%s", sysname);
-+	ret = scan_data(buf, size, "%s", sysname, sizeof(sysname));
- 	if (ret < 0)
- 		goto error;
- 
-@@ -788,7 +796,7 @@ static int dev_open(uint32_t seq, char *cmd, int fd, char *buf, ssize_t size)
- 		goto error;
- 	}
- 
--	ret = scan_data(buf, size, "%s%i", sysname, &flags);
-+	ret = scan_data(buf, size, "%s%i", sysname, sizeof(sysname), &flags);
- 	if (ret < 0) {
- 		free(desc);
- 		goto error;
-@@ -971,7 +979,10 @@ static int dev_dmx_set_section_filter(uint32_t seq, char *cmd, int fd,
- 	unsigned char filter[17], mask[17], mode[17];
- 
- 	ret = scan_data(buf, size, "%i%i%i%s%s%s%i",
--			&uid, &pid, &filtsize, filter, mask, mode, &flags);
-+			&uid, &pid, &filtsize,
-+			(char *)filter, sizeof(filter),
-+			(char *)mask, sizeof(mask),
-+			(char *)mode, sizeof(mode), &flags);
- 	if (ret < 0)
- 		goto error;
- 
-@@ -1168,9 +1179,11 @@ static int dev_set_parms(uint32_t seq, char *cmd, int fd,
- 		old_lnb = par->lnb->name;
- 
- 	ret = scan_data(p, size, "%i%i%s%i%i%i%i%s%s",
--			&par->abort, &par->lna, new_lnb,
-+			&par->abort, &par->lna, new_lnb, sizeof(new_lnb),
- 			&par->sat_number, &par->freq_bpf, &par->diseqc_wait,
--			&par->verbose, default_charset, output_charset);
-+			&par->verbose,
-+			default_charset, sizeof(default_charset),
-+			output_charset, sizeof(output_charset));
- 
- 	if (ret < 0)
- 		goto error;
-@@ -1341,7 +1354,7 @@ static void *start_server(void *fd_pointer)
- 	int fd = *(int *)fd_pointer, ret, flag = 1;
- 	char buf[REMOTE_BUF_SIZE + 8], cmd[CMD_SIZE], *p;
- 	ssize_t size;
--	uint32_t seq;
-+	uint32_t frame_size, seq;
- 	int bufsize;
- 
- 	if (verbose)
-@@ -1364,13 +1377,21 @@ static void *start_server(void *fd_pointer)
- 		size = recv(fd, buf, 4, MSG_WAITALL);
- 		if (size <= 0)
- 			break;
--		size = (uint32_t)buf[0] << 24 | (uint32_t)buf[1] << 16 |
--		       (uint32_t)buf[2] << 8 | (uint32_t)buf[3];
--		size = recv(fd, buf, size, MSG_WAITALL);
--		if (size <= 0)
-+		frame_size = (uint32_t)buf[0] << 24 | (uint32_t)buf[1] << 16 |
-+			     (uint32_t)buf[2] << 8 | (uint32_t)buf[3];
-+		if (frame_size > sizeof(buf)) {
-+			if (verbose)
-+				dbg("data length too big: %u", frame_size);
-+			send_data(fd, "%i%s%i%s", 0, "log", LOG_ERR,
-+				  "data length too big");
-+			break;
-+		}
-+
-+		size = recv(fd, buf, frame_size, MSG_WAITALL);
-+		if (size <= 0 || (uint32_t)size != frame_size)
- 			break;
- 
--		ret = scan_data(buf, size, "%i%s",  &seq, cmd);
-+		ret = scan_data(buf, size, "%i%s",  &seq, cmd, sizeof(cmd));
- 		if (ret < 0) {
- 			if (verbose)
- 				dbg("message too short: %ld", size);
--- 
-2.43.0
+The V4L2 specification defines V4L2_CID_MPEG_VIDEO_GOP_SIZE =3D 0 as meaning
+"only I-frames are used". The driver exposes .min =3D 0 for this control,
+allowing userspace to request it.
 
+However, the hardware handler explicitly rejects a 0 gop_size:
+
+iris_set_intra_period() {
+    ...
+    if (!gop_size || b_frame >=3D gop_size)
+        return -EINVAL;
+    ...
+}
+
+During streamon, the driver iterates over capabilities and applies them to
+the firmware, but ignores any returned errors:
+
+iris_set_properties() {
+    ...
+    if (cap->cap_id && cap->set)
+        cap->set(inst, i);
+    ...
+}
+
+Because the return value is ignored, the error is swallowed and user space
+receives a success response, but the property is never dispatched to the
+firmware. Could this cause the encoder hardware to operate with out-of-sync
+default GOP settings instead of the requested all-I-frames configuration?
+
+[ ... ]
+
+> @@ -240,7 +242,7 @@ static const struct platform_inst_fw_cap inst_fw_cap_=
+sm8250_enc[] =3D {
+>  		.step_or_mask =3D 1,
+>  		.value =3D 0,
+>  		.hfi_id =3D HFI_PROPERTY_PARAM_VENC_INTRA_REFRESH,
+> -		.flags =3D CAP_FLAG_OUTPUT_PORT,
+> +		.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_DYNAMIC_ALLOWED,
+>  		.set =3D iris_set_ir_period_gen1,
+>  	},
+
+[Severity: Medium]
+Does this modification belong in this patch?
+
+The commit message strictly states that it adds support for GOP size
+configuration on gen1 encoders. However, this line modifies the IR_PERIOD
+(Intra Refresh Period) capability to include the CAP_FLAG_DYNAMIC_ALLOWED
+flag.
+
+Modifying intra-refresh dynamic behavior appears to be a distinct functional
+change that isn't mentioned in the commit message. Could this be split into
+a separate commit or mentioned in the commit message?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260604-dynamic_en=
+code-v2-0-6e97df032482@oss.qualcomm.com?part=3D1
 
