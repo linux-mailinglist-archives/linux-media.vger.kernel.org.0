@@ -1,207 +1,305 @@
-Return-Path: <linux-media+bounces-63763-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63764-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id oj+hLtM1IWpXBAEAu9opvQ
-	(envelope-from <linux-media+bounces-63763-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 10:22:43 +0200
+	id mIorCPw0IWrAAwEAu9opvQ
+	(envelope-from <linux-media+bounces-63764-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 10:19:08 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36D3A63DF84
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 10:22:43 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C8763DF1F
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 10:19:07 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=gBrssYru;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63763-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63763-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=collabora.com header.s=mail header.b=ZNinGa1J;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63764-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63764-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=collabora.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0C239303F7F7
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 08:14:07 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 27696303101B
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 08:16:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5BF038A734;
-	Thu,  4 Jun 2026 08:14:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06F5039DBE1;
+	Thu,  4 Jun 2026 08:16:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4823530E0F5
-	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 08:14:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC1052DA762;
+	Thu,  4 Jun 2026 08:16:04 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780560845; cv=none; b=M3o59Z7iEBbfIPthA7krJl24VQ+j35Afl16iAA/7eUudJyyor3AeDkSyS/4UDZLvZ6UrhD/4bL764Ene7dRvVOVME7/9dlPB67y12/R3ixeXPUdempNn5z7tV7NHvnb8pzEoP4YG30gCjJlqN8ap6MGGqhgVTRRt+dPH64RceSA=
+	t=1780560966; cv=none; b=TpJbur0qGI6vt/VCa8N4emm7DLnE8lCdpw+J76x/CuN05Ml+nDcDli1oWraSaxMp88PkvQdNT4XPiA7kU3XDC26jNLH5ZXa/CQGJoP9KhhC9DHv8uU9MYk+j+j3RRkT7+FX5vzumRNQAoCNgo61ybhZRkndpPiuLzdKPgEVivSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780560845; c=relaxed/simple;
-	bh=PH1MYNRl5dH8xfdBgZ6EKuE2WZMP8WBQkfh6FHZv9iE=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=TJ/HHpDfktcFuiDZrpPk33vWsotKu9/SoXjLIU+TumDTfixMOMT9DSzVMwjfE3JxUyFg8KO/hGBHENa4ZJQqyCFOv5lI7k8la3taykHwVygmDrX6E3KbksrNEw6WTgGZ5kd+vWCKnUmwBxbPItDExsUMbiTKlLf6aggtUjIl3NY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gBrssYru; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8E361F00893;
-	Thu,  4 Jun 2026 08:14:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780560843;
-	bh=va8lvu0uNFvl3t4JoLnFB7lzEpzCwbawKlxolhSBIc4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=gBrssYruSNHX5uAQhhkc4ts4PmbcTY8sQ1V+hkMSISHuXIq7mjpPgUuJl3nDwPRdq
-	 YxEV3vmLi1zu8dojD9MJaHuPObHLxKwnZr/pJGetbr9lu13/HcxZ9kY2HDeclCrUa2
-	 jRbg9RkgmK/PiELInTboBOEAyskIDE/Ef6EfNmqwucMQYPijPRpG6y0swcVvRyF18k
-	 4uO65mQf/MRK/Qej1yDiglwg3I8QCWzNn/ntB6NB+fDUPLjxu7HeUrVHNnG75dQASi
-	 +yH7L8YHp6uErSzu1bdFZe7f7vpCNC2HZ9KXFfUSpoVukL/SZfZnlnW2wzKnLVNpOd
-	 n0uTeGngXM6Rg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 1/2] media: qcom: iris: Add gop size support for gen1
- encoder
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Wangao Wang" <wangao.wang@oss.qualcomm.com>
-Cc: linux-media@vger.kernel.org
-In-Reply-To: <20260604-dynamic_encode-v2-1-6e97df032482@oss.qualcomm.com>
-References: <20260604-dynamic_encode-v2-1-6e97df032482@oss.qualcomm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 04 Jun 2026 08:14:03 +0000
-Message-Id: <20260604081403.B8E361F00893@smtp.kernel.org>
+	s=arc-20240116; t=1780560966; c=relaxed/simple;
+	bh=0Y7Wgjd+88mbx6eBRrnHlgMIRq18/ldRsZrp3x6grII=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FaG6k6JQ3AxWM6f0PDxEltVbacQAfewowTPDLxPQL9LZN65S3bN+o/DLc+6Bp1O2IidNDIu2DVrGW8NQRPviPZyAdgnm6cF/8Uk6QXEdaystXH764vMnfEmsX3kN4fsfuW2y7oBrLDoynZjK26VLgkLprc51elCbLPFsPhly4A0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ZNinGa1J; arc=none smtp.client-ip=148.251.105.195
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1780560963;
+	bh=0Y7Wgjd+88mbx6eBRrnHlgMIRq18/ldRsZrp3x6grII=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ZNinGa1J0lLXQYyrBJR0buj+EVTZ80+2Uuh9nZXqO5DlLo5sEXIgohmA8VDsKAtoz
+	 UvCqtRX47RtYpxgOHrWo8+vktVHLFvnBvDW+E8Ko4K+xhPvTaH/nI/lejQf80lbqWm
+	 Qf9POeDLzHkMsjucLQavTvPNYR8Tr3Jlr6KSD2or4e8PqPTGjgy6DrUgHQIuUL3B+q
+	 JzkgS9DOAEszq/R8nHmx76Yu6iVGRNez/yOJPiT4sseUIitOTj/fezTTaeFWg6GsAc
+	 oMAUvO7JH3MpB05Q9sDx1vkCEmwLYRlQG801pUppqED/pS+btzqljwhf8djFJ1x0NG
+	 eZyz35pp1VL0A==
+Received: from fedora-2.home (unknown [100.64.0.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id E820317E0979;
+	Thu,  4 Jun 2026 10:16:01 +0200 (CEST)
+Date: Thu, 4 Jun 2026 10:15:52 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Daniel Almeida <dwlsalmeida@gmail.com>
+Cc: Philipp Stanner <phasta@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin
+ <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl
+ <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich
+ <dakr@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
+ =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, "Paul E. McKenney"
+ <paulmck@kernel.org>, Frederic Weisbecker <frederic@kernel.org>, Neeraj
+ Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes
+ <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>, Uladzislau
+ Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>, Lai Jiangshan
+ <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Igor Korotin
+ <igor.korotin@linux.dev>, Lorenzo Stoakes <ljs@kernel.org>, Alexandre
+ Courbot <acourbot@nvidia.com>, FUJITA Tomonori <fujita.tomonori@gmail.com>,
+ Krishna Ketan Rai <prafulrai522@gmail.com>, Shankari Anand
+ <shankari.ak0208@gmail.com>, manos@pitsidianak.is,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, rcu@vger.kernel.org
+Subject: Re: [PATCH 3/4] rust: Add dma_fence abstractions
+Message-ID: <20260604101552.4232733b@fedora-2.home>
+In-Reply-To: <09096455-BA79-4E61-AD88-44DA57C5BEA8@gmail.com>
+References: <20260530143541.229628-2-phasta@kernel.org>
+	<20260530143541.229628-5-phasta@kernel.org>
+	<4F8E8E04-5AB5-4E6B-9194-5FC467E2313F@collabora.com>
+	<20260603191405.4c75badb@fedora-2.home>
+	<09096455-BA79-4E61-AD88-44DA57C5BEA8@gmail.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	MISSING_MIME_VERSION(2.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-63763-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:wangao.wang@oss.qualcomm.com,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:dwlsalmeida@gmail.com,m:phasta@kernel.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:paulmck@kernel.org,m:frederic@kernel.org,m:neeraj.upadhyay@kernel.org,m:joelagnelf@nvidia.com,m:josh@joshtriplett.org,m:urezki@gmail.com,m:rostedt@goodmis.org,m:mathieu.desnoyers@efficios.com,m:jiangshanlai@gmail.com,m:qiang.zhang@linux.dev,m:gregkh@linuxfoundation.org,m:igor.korotin@linux.dev,m:ljs@kernel.org,m:acourbot@nvidia.com,m:fujita.tomonori@gmail.com,m:prafulrai522@gmail.com,m:shankari.ak0208@gmail.com,m:manos@pitsidianak.is,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:rcu@vger.kernel.org,m:fujitatomonori@gmail.com,m:shankariak0208@gmail.com,s:lists@lf
+ dr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
-	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
+	TAGGED_FROM(0.00)[bounces-63764-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[37];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ALIAS_RESOLVED(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_NO_DN(0.00)[];
-	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,linaro.org,amd.com,nvidia.com,joshtriplett.org,gmail.com,goodmis.org,efficios.com,linux.dev,linuxfoundation.org,pitsidianak.is,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,lists.linux.dev:replyto,qualcomm.com:email,vger.kernel.org:from_smtp,sashiko.dev:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,dma_fence.rs:url,vger.kernel.org:from_smtp,fedora-2.home:mid,collabora.com:dkim,collabora.com:from_mime,collabora.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 36D3A63DF84
+X-Rspamd-Queue-Id: 15C8763DF1F
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
+On Wed, 3 Jun 2026 21:43:05 -0300
+Daniel Almeida <dwlsalmeida@gmail.com> wrote:
 
-New issues:
-- [Medium] Undocumented addition of dynamic allowed flag to `IR_PERIOD` cap=
-ability.
+> > On 3 Jun 2026, at 14:14, Boris Brezillon <boris.brezillon@collabora.com=
+> wrote:
+> >=20
+> > On Wed, 3 Jun 2026 13:41:02 -0300
+> > Daniel Almeida <dwlsalmeida@gmail.com> wrote:
+> >  =20
+> >>> +    /// Called when the fence is signaled.
+> >>> +    ///
+> >>> +    /// This is called from the fence signaling path, which may be i=
+n interrupt
+> >>> +    /// context or with locks held, which is why `self` is only borr=
+owed, so that
+> >>> +    /// it cannot drop. Implementations must not sleep or perform
+> >>> +    /// long-running operations.
+> >>> +    ///
+> >>> +    /// An implementation likely wants to inform itself (e.g., throu=
+gh a work item)
+> >>> +    /// within this callback that the associated [`FenceCbRegistrati=
+on`] can now be
+> >>> +    /// dropped.
+> >>> +    fn called(&mut self);   =20
+> >>=20
+> >> This is a central point. We ideally would want this to consume self, b=
+ecause we
+> >> may want to move things out of the callback.   =20
+> >=20
+> > This one comes from me. The rationale being that ::called() is called
+> > from an atomic context, and the resources attached to the callback data
+> > might require acquiring other sleeping locks to be released, and
+> > sometimes you don't even notice immediately because said resources are
+> > refcounted, and the lock is only acquired when you happen to be the
+> > last owner. Yes, those can be caught at runtime if the C side is
+> > properly annotated with might_sleep(), but that's not always the case.
+> >=20
+> > If we defer the drop of the data only when the FenceCb is
+> > dropped/recycled, we're at least not constrained by this "runs in
+> > atomic context" thing.
+> >  =20
+>=20
+> This design does not solve it, because one can quite trivially get around=
+ this
+> restriction using Option<T> as I said. If your point is =E2=80=9Cdon=E2=
+=80=99t run any drop() here=E2=80=9D,
+> then &mut self doesn=E2=80=99t do it.
 
-Pre-existing issues:
-- [High] The driver lacks a `.try_ctrl` implementation to validate dependen=
-cies between controls, resulting in silent hardware configuration failures =
-for valid V4L2 inputs like `gop_size =3D=3D 0`.
---
+My bad, I thought you were talking about some Option<T> in
+FenceCbRegistration<T> (there was one at some point, but it's gone now),
+but you're talking about having an Option<X> inside the T. Yes, there's
+indeed nothing preventing a drop on X in that path, and it's just as
+bad as passing the fence back as value to the callback in that case.
 
-commit 0331fb3580ba43928b379274c9bd300bf884fc44
-Author: Wangao Wang <wangao.wang@oss.qualcomm.com>
+>=20
+> >>=20
+> >> Consider a fence design where signal() consumes self. Now consider thi=
+s:
+> >>=20
+> >> ```
+> >> impl FenceCb for MyCallback {
+> >> fn called(&mut self) {
+> >>   // Can't move the fence out, so we have to put an Option<T> just to =
+be able
+> >>   // to move.
+> >>   if let Some(f) =3D self.some_fence.take() {
+> >>     f.signal();
+> >>   }
+> >> }
+> >> ```
+> >>=20
+> >> This used to be the case when our version of the job queue used the "p=
+roxy
+> >> fence" design:
+> >>=20
+> >>=20
+> >> ```
+> >> // Callback on the hw fence
+> >> impl FenceCb for MyCallback {
+> >> fn called(&mut self) {
+> >>   if let Some(f) =3D self.submit_fence.take() {
+> >>     f.signal();
+> >>   } =20
+> >=20
+> > I'm pretty sure lockdep won't like it anyway, because this is nested
+> > locking of the same lock class. For such proxies, we'll need to teach
+> > lockdep about the nesting like has been recently done on
+> > dma_fence_array & co. But I'm digressing. =20
+>=20
+> Yeah, but this is more about resource transfer in general, not
+> this pattern specifically.
+>=20
+> I agree that this has issues, and yes, lockdep complained back
+> then :)
 
-media: qcom: iris: Add gop size support for gen1 encoder
+The thing is, there's so many aspects that could go wrong because of the
+context this callback is called in. Nested locking is one of them,
+the fact we can't sleep is another. And with rust it's even worse,
+because of the implicit drops that will happen when you take ownership
+of resources (taking sleeping locks to remove resources from a dataset
+for instance).
 
-This commit adds support for GOP size configuration on gen1 encoders by
-enabling V4L2_CID_MPEG_VIDEO_GOP_SIZE and routing it to the hardware handle=
-r.
+So, by passing self by value to the ::callback(), you're basically
+telling users "hey, BTW, don't forget to defer the drop to some
+workqueue if you think it's not atomic-safe". And how can users know
+that the thing they're about to drop can be dropped in atomic context?
+They basically have to audit the ::drop() of all the resources they
+embed in their type implementing FenceCb. Not only that, but they also
+have to design the thing so the deferral of this ::drop() doesn't
+allocate, because, obviously, allocating in atomic context is
+tricky/fallible. AFAIK, none of this can be spot at compile-time (I
+remember Gary/Danilo mentioning that we could teach the klint about
+some of these rules). This would leave us with runtime checks like
+might_sleep(), but most of the C putters (xxx_put(object)) don't have
+might_sleep() in the path where the decref doesn't lead to a refcnt=3D0
+situation.
 
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1.c b/drivers/m=
-edia/platform/qcom/iris/iris_hfi_gen1.c
-> index ca1545d28b531..eff9216bb5014 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen1.c
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1.c
-> @@ -171,7 +171,9 @@ static const struct platform_inst_fw_cap inst_fw_cap_=
-sm8250_enc[] =3D {
->  		.max =3D (1 << 16) - 1,
->  		.step_or_mask =3D 1,
->  		.value =3D 30,
-> -		.set =3D iris_set_u32
-> +		.hfi_id =3D HFI_PROPERTY_CONFIG_VENC_INTRA_PERIOD,
-> +		.flags =3D CAP_FLAG_OUTPUT_PORT,
-> +		.set =3D iris_set_intra_period,
->  	},
+TLDR; Call this PTSD if you want, but this is the sort of bugs I
+struggled with on the C side, and I can predict that the exact same
+will happen in rust drivers if we expose the FenceCb as it is designed
+here and we don't have a way to check the soundness of the FenceCb
+implementations at compile time.
 
-[Severity: High]
-This isn't a bug introduced by this patch, but this patch explicitly wires =
-up
-the GOP_SIZE control to the hardware for Gen1, bringing a pre-existing sile=
-nt
-failure path into active use.
+The other option (the one I've been advocating for from the start), is
+to not let drivers implement FenceCb (make it private), but instead
+have a bunch of implementations that we know are safe. Here's a list of
+implementations that I think would unblock most of the drivers use
+cases:
 
-The V4L2 specification defines V4L2_CID_MPEG_VIDEO_GOP_SIZE =3D 0 as meaning
-"only I-frames are used". The driver exposes .min =3D 0 for this control,
-allowing userspace to request it.
+- wakeup a thread
+- complete a completion object
+- schedule a WorkItem
+- schedule a kthread_worker (once we get a proper rust abstraction for
+  that)
 
-However, the hardware handler explicitly rejects a 0 gop_size:
+It doesn't mean we can't have optimized FenceCb implementations that do
+a lot more in the callback() path instead of deferring to a
+workqueue/thread, but at least those would have to be implemented in
+dma_fence.rs, and the dma_fence.rs maintainers can then carefully audit
+the code as part of the review process, which we know is not really the
+case when changes touch drivers code only.
 
-iris_set_intra_period() {
-    ...
-    if (!gop_size || b_frame >=3D gop_size)
-        return -EINVAL;
-    ...
-}
+FWIW, I think the FenceProxy design you were describing falls into
+this "must be carefully audited" bucket, and should be implemented in
+dma_fence.rs.
 
-During streamon, the driver iterates over capabilities and applies them to
-the firmware, but ignores any returned errors:
+>=20
+> >  =20
+> >> }
+> >> ```
+> >>=20
+> >> Although this is not the case anymore, since we phased out this design=
+ given
+> >> Christian's recent work. Still, we should ideally not require Option<T=
+> here in
+> >> general just to make resource transfer possible. =20
+> >=20
+> > I see. OTOH, don't we need to make this inner data movable if we want
+> > to cancel the FenceCb before the fence is signaled anyway? And that's
+> > most certainly a case we have in the teardown path. =20
+>=20
+> Can you expand a bit on what you mean here?
 
-iris_set_properties() {
-    ...
-    if (cap->cap_id && cap->set)
-        cap->set(inst, i);
-    ...
-}
-
-Because the return value is ignored, the error is swallowed and user space
-receives a success response, but the property is never dispatched to the
-firmware. Could this cause the encoder hardware to operate with out-of-sync
-default GOP settings instead of the requested all-I-frames configuration?
-
-[ ... ]
-
-> @@ -240,7 +242,7 @@ static const struct platform_inst_fw_cap inst_fw_cap_=
-sm8250_enc[] =3D {
->  		.step_or_mask =3D 1,
->  		.value =3D 0,
->  		.hfi_id =3D HFI_PROPERTY_PARAM_VENC_INTRA_REFRESH,
-> -		.flags =3D CAP_FLAG_OUTPUT_PORT,
-> +		.flags =3D CAP_FLAG_OUTPUT_PORT | CAP_FLAG_DYNAMIC_ALLOWED,
->  		.set =3D iris_set_ir_period_gen1,
->  	},
-
-[Severity: Medium]
-Does this modification belong in this patch?
-
-The commit message strictly states that it adds support for GOP size
-configuration on gen1 encoders. However, this line modifies the IR_PERIOD
-(Intra Refresh Period) capability to include the CAP_FLAG_DYNAMIC_ALLOWED
-flag.
-
-Modifying intra-refresh dynamic behavior appears to be a distinct functional
-change that isn't mentioned in the commit message. Could this be split into
-a separate commit or mentioned in the commit message?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260604-dynamic_en=
-code-v2-0-6e97df032482@oss.qualcomm.com?part=3D1
+Never mind, I was confusing two different iterations of the code here.
+I thought the Option<T> you were mentioning was in
+FenceCbRegistration<T>, with some explicit ::cancel() function that
+would return Option<T> so the user can get its resources back when it
+cancels the registration, and also know whether the callback was called
+or not. But this is all gone now, and all we can do is drop the
+registration, which will automatically drop the inner T.
 
