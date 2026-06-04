@@ -1,174 +1,203 @@
-Return-Path: <linux-media+bounces-63751-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63752-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id D3tJOm4gIWpt/QAAu9opvQ
-	(envelope-from <linux-media+bounces-63751-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 08:51:26 +0200
+	id yTgnG4shIWrS/QAAu9opvQ
+	(envelope-from <linux-media+bounces-63752-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 08:56:11 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B1AA63D599
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 08:51:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE83763D666
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 08:56:10 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=JJvJjW8w;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63751-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63751-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=K4ZJAzwI;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63752-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63752-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 49CC630347C5
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 06:50:23 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A03F530866F2
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 06:52:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A298E3CC7FB;
-	Thu,  4 Jun 2026 06:50:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F1393D34A6;
+	Thu,  4 Jun 2026 06:52:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dl1-f66.google.com (mail-dl1-f66.google.com [74.125.82.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C0E3CC9E8
-	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 06:50:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30A03C09EC
+	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 06:52:05 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780555818; cv=none; b=hLBGvQfvgvRbRMKILcJ/SpUGy8v3FuAzO3JPbLlsi35soaWCgaezeFUjW/Nx1BXG4YrL1iFuPGQ9q71vIYGEPUAkyYL+3Y3zF2IkeFzo9BfjT7QR7jyLRbtUhofMsy5SNel9aLtv+ngfVImyRECEbDFY7KeQHHRIJ2cT7U0xdBE=
+	t=1780555926; cv=none; b=kdf4X8fyVdm4IIi4ighi1cehvWjrsW5fjdOjJAJaP28hzOXpyyvTDpslEo9g2CDD9IOhgZRW1vaygZ4Okmn5SPU1jwQZUFWM6HNSR45nT8LTSLueOFVmL+VzK/zErbVeF2AQlIFaDYI4WGcrYpOvKp9ProFTvZgD4k2PisT+d3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780555818; c=relaxed/simple;
-	bh=+Ly4pYV3+TJcfbNfIE1LR83GXUcV4sFL4Pbtrp10kBU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=b9R5PF+3efd4JzjkSQ81Vi/r1vUCEGEwFXD4ahOQGOx4AgTcY9elGeDYciGebxceFOA/+h/Ts0zgnYHI8Rh0QnkCis3guxslxU1aJX2ilSsSh1qdTzkm31ayXDaPT6uEgVkcQqcP+h7stoaGkl8ttzloPzVUXSY+uxBGobbOYJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JJvJjW8w; arc=none smtp.client-ip=74.125.82.66
-Received: by mail-dl1-f66.google.com with SMTP id a92af1059eb24-137f0aa125bso982831c88.0
-        for <linux-media@vger.kernel.org>; Wed, 03 Jun 2026 23:50:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780555816; x=1781160616; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=s2BtRX6nWtdx+uHNReHkv6D9mlZBbHexReuAALl41Kk=;
-        b=JJvJjW8wVVAftXF1iPleDSINC8QxFGIIfqeGejV/WeHIdqNf6UKegaVJomSIB1K0ac
-         uwX3XL36eUc5gNqL647Tr0d85LbXE0iP/zOinHwrg7hjS8ZHu9LnluPjPXd5oUUSNkVL
-         VXvGgQ/0lEVtcERKFfGmf6cN2qvCkpMW29gmusHxz3bV/ofrwgA5dVBtXiA6M2+5KLbI
-         nBrAuvAdfCKXHkdUUQLcrtu8cnB4kw5GU50yIxZi3yEl/JRjdDW92oj/mCrfb+SB7IUe
-         9Gz6/7Mq18SNsVi78E9jTy0AyQ7s/+15qr4kiJtKQh7AGi3M+6mcYEW7YxMG1JMLP8nP
-         KYsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780555816; x=1781160616;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s2BtRX6nWtdx+uHNReHkv6D9mlZBbHexReuAALl41Kk=;
-        b=kk0idEu61vB8vyaTbJOvHGLgGa2Ky10luHP1ZcJ+gtDuI60oTO75BtYoTRcKFi4iq+
-         bKWsyABndKRPHmxx9VV9fN/pCDH8uP66e0FaRLoA9mWBCgzbxJDGocHJu3YuObiDWFCn
-         0Ge8d81Pp4JtyMaBBlSoJk+G9CJup70ruyCZUY1j5T4IjdTOkVmUQ2LI8BcLuXiSYgmi
-         mAtc5zxXZSD6Md/E+Ujc2YBCb2HltqtJZ+Y77G1ctSPqtMKoJKkbl23hfwikehwPzrax
-         8nKPLDvpyw9GjyAq4iZJxDQgNJjx0O4EUSanl/QI7cfvR7svofir6qzGAQuM3Fzw2ETv
-         O1Hw==
-X-Forwarded-Encrypted: i=1; AFNElJ/y5pc+rxujfh04ogGKmiN+RjaLPHorVCqQWuRVnSiII8ZKA6/wlBXUX+Z+7TZjlMbORsttMv1OT4L83w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVWmHugjo+yAJgUDJtYGjJ9/5FZBVP9jE2ADNecF+ccjL2INui
-	VRJn8J5rKUSnJGMrQHOJAaWdB6g2zHrZt451MmZ4oXswaan8wnorgHvdwZZzWpi3
-X-Gm-Gg: Acq92OH/ffMJQesiU+uctI9BgbZc0I3k6eCLPefC6tmuRdZHQkQuH83QF8hIx+WnBej
-	DBooPO6jl4xE1vPQHCsxzHs314bKPX9j7oCnxb6QjlQXWm1QrAeK9WBvtWrueLPaLb8fQh/U/AJ
-	zUsXXRL3lN6RPCWBDdLh1qjD4miZyTNWRKNaAEesMAh1g/RwSfyOFX429J+q9Lom7RMCAeak5dW
-	4J1VkvYSzk/6JKuMlhyEjjoeoWterQOADuSc6O8yahaSLKycf8KtjARi3sPkxe4DP81miK4LF9V
-	zI7rOPZl/jto8wvfETbDWrUj0WVIXliYUOvzH24l08sYjJ+SCgugrNDyQs1oN3+MY5UuAMhDkAg
-	F53MsK4TCT9MnLLLDVTo3+MQ/bm1DP7z0ij+Be3AsKWkZmntXsorOlVk/0E2zgvOLmmU2ubAVwn
-	L7JmKbeVNM4fNwhQnWVSkjolzSpRhHofY9CgPs6TrZcMngo6UqBdfSnHxu4HM1jfAg6cC/5Ssfb
-	BaV
-X-Received: by 2002:a05:7022:117:b0:137:f49d:3388 with SMTP id a92af1059eb24-137f6bbb075mr3161829c88.21.1780555816143;
-        Wed, 03 Jun 2026 23:50:16 -0700 (PDT)
-Received: from localhost.localdomain ([76.32.119.210])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-137f5539432sm4109780c88.9.2026.06.03.23.50.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2026 23:50:15 -0700 (PDT)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: vikash.garodia@oss.qualcomm.com,
-	dikshita.agarwal@oss.qualcomm.com
-Cc: abhinav.kumar@linux.dev,
-	bod@kernel.org,
-	mchehab@kernel.org,
-	linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH] media: qcom: iris: guard IRQ handler with runtime PM check
-Date: Thu,  4 Jun 2026 06:49:57 +0000
-Message-Id: <20260604064957.44597-1-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1780555926; c=relaxed/simple;
+	bh=Rn86CgN7l7bAlkm4Smst4I5O6nfTULlK4fHc9Y8kq4M=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pzff0IDNE/OwFD8HTItg+J1u1J0bj3nQG/yyw71n/UZ7LdGaCDUS6r3h1Ora9//ExRAuxffml62yWAqMK9GN3JCSGurOBNRUgx0zJd49no5Y0j5/4nzVXQzia9Y5U3FgXozsVAckj51Bwi7WCMxM1N35ZOLLiuLTTYJj5Z89sMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K4ZJAzwI; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C49A21F00893;
+	Thu,  4 Jun 2026 06:52:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780555925;
+	bh=Eauo2JMuJMYxPFLQ7sCMCKIbfvH6HGsfjTY1C2+AWi8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=K4ZJAzwI5LTNTeTGLGXgFhc/cIMhTpFrsxl6TT54Alb0vEeTU8/TbMgCfTxKNG5z9
+	 2cpoz2YXwQyKL5n7fdBqHkZ1d1peKxjEac7+BnZ8BSbFL40f8SQHBdVgGVm3cEtBfZ
+	 BXHWBOlqRVAbTtWeUZ3B2MEvRn3Y9CkgtO8e38JGDWIfT6ZN0qa6EGNf6zvD8z4hU2
+	 lM3xKy0YLzCVODX7ezHwScLJZeJwVSyBekeGCQFsgZZpMdx+kdgU+Tb1keu7R6m1y3
+	 Rc8xl543WkVxr92t6Hp0yhX4DRt/FZAMSKCWD95UGa6PK9Phe1kcTP7lM+bF3DN/XX
+	 eFw29HsnCfFyg==
+Date: Thu, 4 Jun 2026 08:52:01 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Matthieu Baerts <matttbe@kernel.org>
+Cc: Derek Barbosa <debarbos@redhat.com>, Roman Gushchin
+ <roman.gushchin@linux.dev>, Konstantin Ryabitsev
+ <konstantin@linuxfoundation.org>, Jason Gunthorpe <jgg@ziepe.ca>, Steven
+ Rostedt <rostedt@goodmis.org>, users@kernel.org, Linux Media Mailing List
+ <linux-media@vger.kernel.org>
+Subject: Re: Linking Patchwork with Sashiko?
+Message-ID: <20260604085201.177ad537@foz.lan>
+In-Reply-To: <b9f7ca3a-fa72-4a8e-94bd-9991a0882f10@kernel.org>
+References: <20260530103004.6fe2ffa7@foz.lan>
+	<7E971C76-0568-43EF-9EE7-C8DB78C45CA1@linux.dev>
+	<20260530200017.0fe7f685@foz.lan>
+	<20260530204945.22ac92c6@foz.lan>
+	<20260530205351.19847fc8@foz.lan>
+	<ah7dpsLKd0Jf1Ir0@debarbos-thinkpadt14gen5.rmtusma.csb>
+	<7ia4tsrkn1k4.fsf@castle.c.googlers.com>
+	<20260602223936.27def657@foz.lan>
+	<b9f7ca3a-fa72-4a8e-94bd-9991a0882f10@kernel.org>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	SUBJECT_ENDS_QUESTION(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[linux.dev,kernel.org,vger.kernel.org,gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-63751-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63752-lists,linux-media=lfdr.de,huawei];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:bod@kernel.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dennylin0707@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[dennylin0707@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dennylin0707@gmail.com,linux-media@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:matttbe@kernel.org,m:debarbos@redhat.com,m:roman.gushchin@linux.dev,m:konstantin@linuxfoundation.org,m:jgg@ziepe.ca,m:rostedt@goodmis.org,m:users@kernel.org,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[mchehab@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linux.dev:email,vger.kernel.org:from_smtp,djangoproject.com:url,foz.lan:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9B1AA63D599
+X-Rspamd-Queue-Id: CE83763D666
 
-Use pm_runtime_get_if_in_use() before accessing hardware
-registers in the threaded IRQ handler. Skip interrupt processing
-when the device is not in use.
+On Wed, 3 Jun 2026 09:50:06 +1000
+Matthieu Baerts <matttbe@kernel.org> wrote:
 
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
----
- drivers/media/platform/qcom/iris/iris_hfi_common.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+> Hi Mauro, Derek, Roman,
+> 
+> On 03/06/2026 06:39, Mauro Carvalho Chehab wrote:
+> > On Tue, 02 Jun 2026 20:13:15 +0000
+> > Roman Gushchin <roman.gushchin@linux.dev> wrote:  
+> >> Derek Barbosa <debarbos@redhat.com> writes:  
+> >>> On Sat, May 30, 2026 at 08:53:51PM +0200, Mauro Carvalho Chehab wrote:    
+> 
+> (...)
+> 
+> >>> - pw_tools is a workaround solution to get/set status on patchwork via bot-mail
+> >>>   parsing. pw tokens also have broad permission scope.
+> >>>
+> >>> which that leaves us with two "methods" of integration:
+> >>>
+> >>> 1. The Sashiko daemon calls the pw_tools script directly to update the status.
+> >>> 2. Sashiko sends a single-per-patch-email with parseable "status" to a mailing
+> >>> list, where some running daemon will pickup the mail.    
+> >>
+> >> This feels a bit hacky.  
+> > 
+> > The alternative that would be acceptable, at least on media, is if 
+> > one would add support on patchwork to have a separate permission just
+> > for checks update.  
+> 
+> Indeed. It looks like there is an old feature request about that:
+> 
+>   https://github.com/getpatchwork/patchwork/issues/14
+> 
+> Linked to Mauro's email from Dec 2015 :)
 
-diff --git a/drivers/media/platform/qcom/iris/iris_hfi_common.c b/drivers/media/platform/qcom/iris/iris_hfi_common.c
-index 621c66593d88..ffb2e65f90f8 100644
---- a/drivers/media/platform/qcom/iris/iris_hfi_common.c
-+++ b/drivers/media/platform/qcom/iris/iris_hfi_common.c
-@@ -104,6 +104,11 @@ irqreturn_t iris_hfi_isr_handler(int irq, void *data)
- 	if (!core)
- 		return IRQ_NONE;
+If it is OK to have a global CI permission, I think this patch
+would do the trick (currently untested):
+
+diff --git a/patchwork/api/check.py b/patchwork/api/check.py
+index 74bbc19e0078..79326a96a5bb 100644
+--- a/patchwork/api/check.py
++++ b/patchwork/api/check.py
+@@ -108,9 +108,23 @@ class CheckListCreate(CheckMixin, ListCreateAPIView):
+     lookup_url_kwarg = 'patch_id'
+     ordering = 'id'
  
-+	if (!pm_runtime_get_if_in_use(core->dev)) {
-+		enable_irq(irq);
-+		return IRQ_HANDLED;
-+	}
++    def is_editable(self, user):
++        if not user.is_authenticated:
++            return False
 +
- 	mutex_lock(&core->lock);
- 	pm_runtime_mark_last_busy(core->dev);
- 	iris_vpu_clear_interrupt(core);
-@@ -111,6 +116,8 @@ irqreturn_t iris_hfi_isr_handler(int irq, void *data)
- 
- 	core->hfi_response_ops->hfi_response_handler(core);
- 
-+	pm_runtime_put_autosuspend(core->dev);
++        # Only users with add_check permission can do it.
++        # Notice that this is a global permission: it allows
++        # adding checks to any project inside Patchwork.
++        if user.has_perm('patchwork.add_check'):
++            patch._edited_by = user
++            return True
 +
- 	if (!iris_vpu_watchdog(core, core->intr_status))
- 		enable_irq(irq);
- 
--- 
-2.34.1
++        # Being maintainer doesn't grant rights to create checks.
++        return False
++
+     def create(self, request, patch_id, *args, **kwargs):
+         p = get_object_or_404(Patch, id=patch_id)
+-        if not p.is_editable(request.user):
++        if not self.is_editable(request.user):
+             raise PermissionDenied()
+         request.patch = p
+         return super(CheckListCreate, self).create(request, *args, **kwargs)
 
+The idea here is to use Patchwork Django's admin screen, at
+Users section, setting:
+
+	"patchwork | check | Can add check"
+
+Created by Django's default_permissions[1] for class Check(models.Model)
+(at patchwork/models.py).
+
+[1] https://docs.djangoproject.com/en/6.0/topics/auth/default/#default-permissions
+
+The only issue is that the permission would be granted patchwork-wide. 
+I suspect that this is probably ok for Kernel.org.
+
+On media, we have a VDR project with is not a kernel tree and has
+separate maintainers, but we don't use CI there. So, it can work
+for us as well.
+
+I'm not a django expert, but perhaps there's a way to create also
+a set of per-project permissions to allow to either set this globally
+or per project.
+
+Thanks,
+Mauro
 
