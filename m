@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-63844-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63846-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id BCrsAiXVIWqGPQEAu9opvQ
-	(envelope-from <linux-media+bounces-63844-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 21:42:29 +0200
+	id sn8DK+LVIWq5PQEAu9opvQ
+	(envelope-from <linux-media+bounces-63846-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 21:45:38 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CF1F642FB2
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 21:42:28 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19AB1643009
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 21:45:38 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="iw8f/6Gl";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63844-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63844-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Ah7oufMl;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63846-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-63846-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7353B303FF0F
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 19:40:02 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 53BE8303E8C4
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 19:41:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37E6D3BFAD3;
-	Thu,  4 Jun 2026 19:40:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1838E3C09E2;
+	Thu,  4 Jun 2026 19:41:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4B713A7F72
-	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 19:40:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7697639936D
+	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 19:41:23 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780602001; cv=none; b=KH06oKluSIsxgd7quHkrN2GgI7Edt5xoP3CBsg+gs7oz7dl5y2uDoyEhkIuJqGgkBacBPCD45NNk6YA1T3Rlh9MDAiFZfaTtzT6DDHtRwvA91DEhEv/lR1adXX/pFVQiwUeo4nV1NFf2ZU9IHsvbmBFmOvKtT+d+1U9EbhEb1Zw=
+	t=1780602084; cv=none; b=mfpGVNKxUAiRtzJ/ZLkcFtyiE2909y5JJaI4wRJjOfFIYQeIxEOnde09IlEOCc6DNbgJIXs2+VK30WKnnqWhvp/iXF/gSDGBxOwCN4XSTBsXHY5Q/Ee5XEuUyb5VCNSarZlHAsqSvYNuV0FoUqqh95jHYY6jBzIdGKgL9xiDXsc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780602001; c=relaxed/simple;
-	bh=XAAru9+CjZE4Gdlvlt4EdVshQ3FTxYs+HQYWcWMEul4=;
+	s=arc-20240116; t=1780602084; c=relaxed/simple;
+	bh=9mntJ7PVtRYL/4BYfUtMIoR8+UUrhdLcVbB159Hmmb0=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=EiyZHNMsbv1lv6FJkrIhmDU3P5WwKYZ3vrvU0v7gDHr86/p6mmrjvg9HazDo9ScU6lnkp8v1lbvAn/e0/bvveBenUSpDVFNvo9iXOqDHhwxFIZgdf5/idAx0vVEuUceFOv6oMZT8TyXr25Y6VlvK8M5TACOl/N7S6s6ZjMrsIIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iw8f/6Gl; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F1061F00898;
-	Thu,  4 Jun 2026 19:40:00 +0000 (UTC)
+	 Message-Id; b=PObPc6nONGzQGvv+fyDSSSOBYHfzRGhhOIKXyf8LBJn3pFGlbie6I8ffOQGSVK/SXiN/DbqZYXtgP9o4BqldnXQgovrz8SJpvh4IE0RA4ltzuT1iNtWlF2q/ioGpIHsxspVKRbCPmYDMNvLqQ5KaYrlqajoioMJ7+F50Nlg8neE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ah7oufMl; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 155B11F00893;
+	Thu,  4 Jun 2026 19:41:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780602000;
-	bh=JUZGVwwj4HQZStIJDtddQfc5ylHGqjVREYOjtLPaXRg=;
+	s=k20260515; t=1780602083;
+	bh=ShuVlLWC5FgBtDaDVnuK31drZ5jQl97zhyIfpyaIgJ4=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=iw8f/6GlvMuFSLrZJ89zyVjBcqd9EsmTKjn+ytycT7Ij5oWhuvkaR/itO7ELGTYyD
-	 vzYdVKbTQpzBl+T7H/52KMq68K3GEKqktO2PkhjLPQFLaCkr5J0b1oG4VjuvLsGEaB
-	 EN6VsXXtI//a2UtPEFTKdJL/CLex4VED0Gq/6GGXsz22hCQ+mQgnAvT37Dvb2FuLht
-	 UjjTxMpUgDLfovIMIvjM85lZBX0bPTpMVO1M7cfFkZ0OQliuechBC7bvHLqCbsBkVz
-	 pVWTED0GLdDZ6K2QpKXVu2Rar+ZYsve4YNPp0Kckbx4LdMuC1AYiqfoIy68+XNFoX0
-	 VWsITjHIAyNyQ==
+	b=Ah7oufMlAxcMhs/B68reBXMm0ou7AOmSOo3Q6clR34dNTXfdFsuN9xUEKa8axgXli
+	 XAqKcU1PKU3ggJG+QOdFVwC3Z7S+g4F4UHRwIFS8ZAkPqDvN2FfBnKyd66cUmgfZrw
+	 /6PNMWPH1YJlwGBnasYvrDkHx5txsNbtwLDcaXblEUieBi2E67cNZp2MgrZH69Ipe3
+	 ZIvmlXF3uadTSQbfXNbFnD2WY6ExhUkAYLS8yQdjLPldOnVLepZv6lBgaCVliwNeaF
+	 IqTMazO/XUtJdJEqFc9k4RLEKNt6w0xrij0dK+bpm6XO980qwHGLVH/CJ210A51N+v
+	 MfZ7ks0Mlb0VQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v18 3/4] rust: faux: Allow retrieving a bound Device
+Subject: Re: [PATCH v18 2/4] rust: drm: gem: shmem: Add vmap functions
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Lyude Paul" <lyude@redhat.com>
-Cc: linux-media@vger.kernel.org, ojeda@kernel.org, dri-devel@lists.freedesktop.org
-In-Reply-To: <20260604192740.659240-4-lyude@redhat.com>
-References: <20260604192740.659240-4-lyude@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, ojeda@kernel.org
+In-Reply-To: <20260604192740.659240-3-lyude@redhat.com>
+References: <20260604192740.659240-3-lyude@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 04 Jun 2026 19:39:59 +0000
-Message-Id: <20260604194000.3F1061F00898@smtp.kernel.org>
+Date: Thu, 04 Jun 2026 19:41:22 +0000
+Message-Id: <20260604194123.155B11F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,7 +68,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -76,89 +76,207 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-63844-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63846-lists,linux-media=lfdr.de];
 	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
 	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:lyude@redhat.com,m:linux-media@vger.kernel.org,m:ojeda@kernel.org,m:dri-devel@lists.freedesktop.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:lyude@redhat.com,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:ojeda@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	RCPT_COUNT_THREE(0.00)[4];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_NO_DN(0.00)[];
 	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,lists.linux.dev:replyto,sashiko.dev:url,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,smtp.kernel.org:mid,lists.linux.dev:replyto]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5CF1F642FB2
+X-Rspamd-Queue-Id: 19AB1643009
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
 s) to consider:
-- [Low] The `Registration` struct's `# Invariants` documentation was update=
-d with a new invariant, but the `// INVARIANT:` comment in the `Registratio=
-n::new` constructor was not updated to explain why this new invariant is sa=
-tisfied.
-- [Low] Typo in the new type invariant comment: it incorrectly states the o=
-bject is 'bound to a device' instead of 'bound to a driver'.
+- [High] The `IoCapable` implementation for `VMap` uses non-volatile `ptr::=
+read` and `ptr::write`, allowing the compiler to optimize away or reorder m=
+emory accesses to shared device memory.
+- [Medium] `VMap` and `VMapOwned` are implicitly `!Send` and `!Sync` due to=
+ the `*mut c_void` field, artificially restricting the mapping to the threa=
+d that created it.
+- [Low] Missing `// INVARIANT:` comment explaining `VMap` memory validity a=
+t its construction site, violating subsystem guidelines.
 --
 
-commit d541fc9c1199eb4e3a390c6348b6b03f9492aacc
+commit b418d73acbe560c4eda85331900333d19c6ae108
 Author: Lyude Paul <lyude@redhat.com>
 
-rust: faux: Allow retrieving a bound Device
+rust: drm: gem: shmem: Add vmap functions
 
-This commit updates faux::Registration to implement AsRef for a bound
-device instead of a generic device. It also adds a new invariant to the
-Registration struct to document that the object is proof of a driver being
-bound to the device.
+One of the more obvious use cases for gem shmem objects is the ability to
+create mappings into their contents. So, let's hook this up in our rust
+bindings.
 
-> diff --git a/rust/kernel/faux.rs b/rust/kernel/faux.rs
-> index 43b4974f48cd2..20ab638885354 100644
-> --- a/rust/kernel/faux.rs
-> +++ b/rust/kernel/faux.rs
-> @@ -25,7 +25,8 @@
->  ///
->  /// # Invariants
->  ///
-> -/// `self.0` always holds a valid pointer to an initialized and register=
-ed [`struct faux_device`].
-> +/// - `self.0` always holds a valid pointer to an initialized and regist=
-ered [`struct faux_device`].
-> +/// - This object is proof that the object described by this `Registrati=
-on` is bound to a device.
-
-[Severity: Low]
-This isn't a bug, but there appears to be a typo here. The commit message
-states that the Registration object is proof that "a driver is bound to the
-device". Should this invariant say it is bound to a "driver" instead of
-a "device"?
-
-[Severity: Low]
-Since a new invariant was added to the documentation here, does the
-// INVARIANT: comment in Registration::new() also need to be updated to
-explain why this new invariant is satisfied?
-
-Currently, the comment in Registration::new() only explains the first
-invariant:
-
-    // INVARIANT: The device will remain registered until faux_device_destr=
-oy()
-    // is called, which happens in our Drop implementation.
+> diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
+> index 4cf038f7afb71..a20b0c0dac6bd 100644
+> --- a/rust/kernel/drm/gem/shmem.rs
+> +++ b/rust/kernel/drm/gem/shmem.rs
 
 [ ... ]
 
+> @@ -188,6 +196,80 @@ extern "C" fn free_callback(obj: *mut bindings::drm_=
+gem_object) {
+>          // SAFETY: We're recovering the Kbox<> we created in gem_create_=
+object()
+>          let _ =3D unsafe { KBox::from_raw(this) };
+>      }
+> +
+> +    /// Attempt to create a vmap from the gem object, and confirm the si=
+ze of said vmap.
+> +    fn make_vmap<'a, R, const SIZE: usize>(&'a self) -> Result<VMap<T, R=
+, C, SIZE>>
+> +    where
+> +        R: Deref<Target =3D Self> + From<&'a Self>,
+> +    {
+
+[ ... ]
+
+> +        // XXX: We don't currently support iomem allocations
+> +        if map.is_iomem {
+> +            // SAFETY:
+> +            // - The vmap operation above succeeded, guaranteeing that `=
+map` points to a valid
+> +            //   memory mapping.
+> +            // - We checked that this is an iomem allocation, making it =
+safe to read vaddr_iomem
+> +            unsafe { self.raw_vunmap(map) };
+> +
+> +            Err(ENOTSUPP)
+> +        } else {
+> +            Ok(VMap {
+> +                // SAFETY: We checked that this is not an iomem allocati=
+on, making it safe to read
+> +                // vaddr
+> +                addr: unsafe { map.__bindgen_anon_1.vaddr },
+> +                owner: self.into(),
+> +            })
+
+[Severity: Low]
+This isn't a bug, but there's a missing invariant comment here.
+
+The Rust subsystem guidelines mention that when a struct with an
+# Invariants documentation section is constructed, the code should have an
+// INVARIANT: comment explaining why the invariants are satisfied.
+
+Would it make sense to add a comment here explaining why the memory remains
+valid until dropped?
+
+> +        }
+> +    }
+
+[ ... ]
+
+> @@ -264,3 +345,232 @@ fn drop(&mut self) {
+>          unsafe { bindings::dma_resv_unlock(self.0.raw_dma_resv()) };
+>      }
+>  }
+> +
+> +macro_rules! impl_vmap_io_capable {
+> +    ($impl:ident, $ty:ty) =3D> {
+> +        impl<D, R, C, const SIZE: usize> IoCapable<$ty> for $impl<D, R, =
+C, SIZE>
+> +        where
+> +            D: DriverObject,
+> +            C: DeviceContext,
+> +            R: Deref<Target =3D Object<D, C>>,
+> +        {
+> +            #[inline(always)]
+> +            unsafe fn io_read(&self, address: usize) -> $ty {
+> +                let ptr =3D address as *mut $ty;
+> +
+> +                // SAFETY: The safety contract of `io_read` guarantees t=
+hat address is a valid
+> +                // address within the bounds of `Self` of at least the s=
+ize of $ty, and is properly
+> +                // aligned.
+> +                unsafe { ptr::read(ptr) }
+> +            }
+
+[Severity: High]
+Can this allow the compiler to improperly optimize these memory accesses?
+
+Since VMap represents GEM shmem objects mapped into the kernel virtual
+address space, this memory might be concurrently accessed by hardware or
+userspace.
+
+Using standard non-volatile ptr::read and ptr::write allows the compiler
+to cache values in registers, coalesce writes, or elide them entirely. The C
+equivalent (iosys_map_rd and iosys_map_wr) uses READ_ONCE() and
+WRITE_ONCE() for this reason.
+
+Should this use ptr::read_volatile() to safely access the shared memory?
+
+> +
+> +            #[inline(always)]
+> +            unsafe fn io_write(&self, value: $ty, address: usize) {
+> +                let ptr =3D address as *mut $ty;
+> +
+> +                // SAFETY: The safety contract of `io_write` guarantees =
+that address is a valid
+> +                // address within the bounds of `Self` of at least the s=
+ize of $ty, and is properly
+> +                // aligned.
+> +                unsafe { ptr::write(ptr, value) }
+> +            }
+
+[Severity: High]
+Similar to the io_read() implementation above, does this write need to use
+ptr::write_volatile() to prevent the compiler from caching or coalescing
+these shared memory writes?
+
+> +        }
+> +    };
+> +}
+> +
+> +/// A reference to a virtual mapping for an shmem-based GEM object in ke=
+rnel address space.
+> +///
+> +/// # Invariants
+> +///
+> +/// - The size of `owner` is >=3D SIZE.
+> +/// - The memory pointed to by addr remains valid at least until this ob=
+ject is dropped.
+> +pub struct VMap<D, R, C =3D Registered, const SIZE: usize =3D 0>
+> +where
+> +    D: DriverObject,
+> +    C: DeviceContext,
+> +    R: Deref<Target =3D Object<D, C>>,
+> +{
+> +    addr: *mut c_void,
+> +    owner: R,
+> +}
+
+[Severity: Medium]
+Does this unintentionally restrict the mapping to the thread that created i=
+t?
+
+Because VMap stores its mapping address as a raw pointer
+addr: *mut c_void, it implicitly lacks the Send and Sync traits in Rust.
+This means VMap and VMapOwned cannot be safely transferred or shared
+across concurrency boundaries.
+
+Since the kernel's virtual mapping should be globally valid as long as the
+underlying owner object provides safe concurrent access, should explicit
+unsafe impl Send and unsafe impl Sync be provided for this struct?
+
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260604192740.6592=
-40-1-lyude@redhat.com?part=3D3
+40-1-lyude@redhat.com?part=3D2
 
