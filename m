@@ -1,84 +1,53 @@
-Return-Path: <linux-media+bounces-63781-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63782-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id nvALNUFdIWqMFAEAu9opvQ
-	(envelope-from <linux-media+bounces-63781-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 13:10:57 +0200
+	id JHm8KYBfIWocFQEAu9opvQ
+	(envelope-from <linux-media+bounces-63782-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 13:20:32 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3433463F509
-	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 13:10:57 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43FF963F5E4
+	for <lists+linux-media@lfdr.de>; Thu, 04 Jun 2026 13:20:32 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linaro.org header.s=google header.b=egzYeACY;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63781-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63781-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=linaro.org;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=EHmkbDXW;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63782-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63782-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8B51D30A4942
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 11:04:06 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A1785308D6AE
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2026 11:12:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A3462AD35;
-	Thu,  4 Jun 2026 11:04:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BBE640FDB6;
+	Thu,  4 Jun 2026 11:12:48 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A040E3DD869
-	for <linux-media@vger.kernel.org>; Thu,  4 Jun 2026 11:04:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9080D40B6F9;
+	Thu,  4 Jun 2026 11:12:45 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780571045; cv=none; b=aDaAn/O01eukpgS5o/b+NU9RZIAiXasNnvnFwwC0L2ohhLwxYcKblU51nVZ9l2/kcqZUPB5EIj/9h/wft7fJNxLI52JEz0HUb3aShjnTXy3jWmO/NdhdqLKT3AlKDDsjgnYU6CBiF4MEopzQFiRDfbchEcpEhTA2Pgmk1kBhZhY=
+	t=1780571566; cv=none; b=AHD5JQo0t2sK1nwWQk9zkip2GrxfNkXhp05gPzrbpbfujKQ/JBPm7vEB4z4ut3iEFlQzzSA0OoEO3idGKIt6jA8MGhbPyev0bdwG+11Oge36YpN6n2lvc/aZ3MZGP26rQfaJWIeBDt4dQEJroiTPcE+zU03m7LsvV2K065y773M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780571045; c=relaxed/simple;
-	bh=B/gjocXEAZZGmLbh3FhqexUI+meJYXHmU7OgkVbES/w=;
+	s=arc-20240116; t=1780571566; c=relaxed/simple;
+	bh=KeTJWJdWk6aKI8g1d6yIPRSUzvDWwlMWXAKeH+7uBeU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WUycPdT/SyewWmJP/oOeeDBD4C0Wyp7Swkw1nvTDIcqz2CWFpxvyHt5BA6sVYzY9v1qImOaTN2GBiPqX+vzZ9Bcs47auli9z0DJrSjghejPzH2+cs5eFCorzbpcmFkkXHHilzIm4V+uC/dBl5JEki5hdf4PlEs3VxI+fNOAhfkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=egzYeACY; arc=none smtp.client-ip=209.85.208.45
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-68852a4fc68so967472a12.3
-        for <linux-media@vger.kernel.org>; Thu, 04 Jun 2026 04:04:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1780571042; x=1781175842; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qrF+chW03A8IR47Oi/Ih5ziYJf7j0S60VPCDD4Eshmo=;
-        b=egzYeACY/cONw7OtjXY7yu5siA2UTWV/K0rYaoBh+KK42Bt4hbXMaTSmyvSURtFfl6
-         8HfdqpDHtDDGic9XQmrWdJ7bwiR0xoCClRtjhwZQO9gNDRkAg/tXOkrVo32JWGeS9DSo
-         GE0Tv/6gSbU1xM1SwBptsp6UxopG3cnoJGbFuhonWKkWOzd9DLinpT5GeWi8XOWN2AAf
-         uF3UESuyavQuhU2UgqNYyE+PxDI3m8BvKPBUCn3lf4KPFj7AXmGA3JDkjzqpMSo8A7cq
-         wSb3I7Sb+/3FHmLIM51JAZSBY0qnHJuaftxSW9gy+EEtoVCtUeB/T9YPZf1NSYYpD9no
-         oT7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780571042; x=1781175842;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qrF+chW03A8IR47Oi/Ih5ziYJf7j0S60VPCDD4Eshmo=;
-        b=lBBiEaeEQI0CRqZw5vSjhlFgPnYz4GSww4fyY8lMp2nOD59nKDF2UR+rAp5sro7Dl7
-         VPpLTKt07rpOyu0sU4pV+gbdxIz/qWl/cKXk9XOzmyAWvcL3lXLJ5XjEQVaNAIv2W7lq
-         dskjx+Su5RG8s24ZGu3KaKzXO7V1eQje3cfmwfKdlrZJyqqWXjM6VQVpqFeKyy8MOXrP
-         C8dyc7clSK87A6QcDV1uNKJlaOrEcij5TvAoq/t8dgxM04X409o40UeQ72WkuSBsjS1E
-         Oa45QU5+q9iuevvYEB4cXi2oVidwWIIZDbxszWJvrFypTFlT1LECUSEupfH+a5oWPAb7
-         RB/Q==
-X-Forwarded-Encrypted: i=1; AFNElJ++g0ElYpYC6DPcbsnkDXBttRh68OI7wUT+ZsSPveVT75bbqBbtqiQWioqDhIMSUORVmBNTdh3u/5sFBA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4/eyMDP43s2M0G5Dr/Hj7ItUogithTGAm5lDF9DgMu6XHtjta
-	G6T+nNvZu2IDgSuFpjg8SO+lWzd58uXxdnIfw//TDHdqhaHSRa0QF8d1hjZzgzeoTMc=
-X-Gm-Gg: Acq92OHo7b5rLV4XqGiqxBNAAU+VSeGVWYJ/KEGHJLOG0rDM52ME/pP726acvREI7bo
-	+x/VKNlFUbjQFLTLUqz7kKjVIX1sG1W7CVHj6DeKHfvy7pEb6Ts5fyXOTniYG/PQScXrzRuLNgx
-	cmW4cueVK6yW2+Dn8mu46+X3yDF7I0bZQ9xFM3bOZByUtc4CNZM02DtYkFiMwCLYeHywZqdkc8b
-	fxq1WHC+nlJdF3ZeEyrKlpkjtvfybrT+xLXjbD0lfMyoBz605cBmzzLrslVrgJQxGLl/+yNzVqQ
-	5JEAwSW2+PG3uk2eW1sbDi0jgLidKzPeB50L/hd39ADxoGnrRdDan4wo2c80se+MBhAmX/l0sn0
-	+1TQ4FIcGOngomcwUoN1Izk8sylzJ51OMFrw36F7qW8IF/HVwsr2OcZfyMAVVL1MkSnNjjZ2vSx
-	1CEVthyN3HYQuYPHBFZVgIOo354Em+LXFKPeub/3AUpqLn4Gc=
-X-Received: by 2002:a17:907:6092:b0:bd2:bd3:1ef8 with SMTP id a640c23a62f3a-bf0ab021c93mr446755866b.35.1780571041852;
-        Thu, 04 Jun 2026 04:04:01 -0700 (PDT)
-Received: from [192.168.0.101] ([109.76.175.228])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf05228a16csm287937966b.28.2026.06.04.04.04.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2026 04:04:01 -0700 (PDT)
-Message-ID: <139130d0-1f59-49aa-b174-9e1860eb8465@linaro.org>
-Date: Thu, 4 Jun 2026 12:04:00 +0100
+	 In-Reply-To:Content-Type; b=MAW00iH+47HW6Od9w30aeegEDH0x7WaZ2j4jJ1mr3wKQrhyHNo3twvFHLWzZkiS9a5zp77aUskmfb3GmJyzj3HOml1q4FHACMiipu4LX67u9SWTmdbF3P8j0TNa70u4CzZBCTc12Ghtov0CH8DSWayMCI/NKDw57k+CQ06MXr/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EHmkbDXW; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B821F00893;
+	Thu,  4 Jun 2026 11:12:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780571565;
+	bh=NmQu7zjcjX2fRI2Ll3wlh9zhzonrcbHxc/gm8AsPHwI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=EHmkbDXWhNff6bEX3VHOITq7sQbjKU82nYOWMA8phvjcet74HQkcvVxv9jYjqzDQT
+	 t8Qg/Q/4FDJfCXSXx3w5kjH4Aec4XRbOEnmL5NTbejL1iI3W+7o3qkd/J+c1qByPyZ
+	 u0LA4WgXFExFnwSKZfoTuYFs4dXkFPyn6O26D7NNsl2Nk2VVbwS7o1yQun/lTZRwhS
+	 naK4LYXBwOdla9ezFJAG+IdadSI1TWDgftp8mnTk7KoRC+i3AV6/GzkGGdt7ZFUwU8
+	 TQrvAEvuRFs9hKvTSOd/hHP8kEb9gkWTqNv/yX0u8EIZHN7mxrGWjLHTjdCRwq9Mhk
+	 o4lAjuHBMXGmA==
+Message-ID: <acdd8e10-ed52-4dcc-9c1c-3665f7193a20@kernel.org>
+Date: Thu, 4 Jun 2026 12:12:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,174 +55,126 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 1/2] dt-bindings: phy: qcom: Add CSI2 C-PHY/DPHY schema
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Bryan O'Donoghue <bod@kernel.org>,
- Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-phy@lists.infradead.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260523-x1e-csi2-phy-v8-0-a85668459521@linaro.org>
- <20260523-x1e-csi2-phy-v8-1-a85668459521@linaro.org>
- <rpnNMsR9GY8gbynzeBO8Zm61JAOq3ubt6sp0x3WDPPwkMAJzlcofECD1kabN-IUoK6sSwP5P6l28UIZLFCOpjQ==@protonmail.internalid>
- <dda32577-04e0-4507-acaf-a5694f4f31b3@linaro.org>
- <478df3ed-d4ef-43aa-bb84-e2075798542b@kernel.org>
- <ec98ef2f-02b4-4086-8b4b-07b6953dbd20@oss.qualcomm.com>
- <514cf213-5778-45e1-8d70-d3fe27991fcc@oss.qualcomm.com>
- <7JNJ4dUNz4ennJ5dkzhfLSuVo72JpfZAbprICPRqlRYnSzVDJw6x3h-1nESd_PK-3us9f1V3qOiLiywsTqP8vQ==@protonmail.internalid>
- <f01c0e22-4e5c-44e7-9ea4-4bc8d53aea2e@linaro.org>
- <29e8491f-20e8-4082-8943-66bee7e3af1d@kernel.org>
- <5ca611b1-0663-4975-bd56-b1343851e5fd@linaro.org>
- <83c12dc5-fcb4-4089-9917-9f0fcc4f940d@linaro.org>
- <1b107aca-a857-4e58-a763-39c82af67747@linaro.org>
- <67b6f6ae-bfca-4afd-adfb-6ec1741105d8@linaro.org>
- <9ab0d8f4-e1b6-415b-976b-721ab7a29194@linaro.org>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: Re: [PATCH v3] media: qcom: iris: guard IRQ handler with runtime PM
+ check
+To: Denny Lin <dennylin0707@gmail.com>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <oB5ie3iMXIF3Y880tV7tN8clu84kWmIaS84q29ShnUs0QVv21y1IOyXqc55FGzHfG9JIDlcIrhQh30TaZpC3vw==@protonmail.internalid>
+ <20260604082510.45733-1-dennylin0707@gmail.com>
+ <76b46788-0cf1-469b-93be-b7788be2bd71@kernel.org>
+ <4htHiZldk82hJK1J9t6Pkm9ZuRUEHNsAt4V_ohuABF9uzAngCz0jLFLh6VknH3O5bX00hDZjIPKNUybrZ8M0AA==@protonmail.internalid>
+ <CAGEkeHeFJC_eMZnDbbjXZs+Gy424YdCNH-HswPgE3zyYrEnoDA@mail.gmail.com>
+From: Bryan O'Donoghue <bod@kernel.org>
 Content-Language: en-US
-In-Reply-To: <9ab0d8f4-e1b6-415b-976b-721ab7a29194@linaro.org>
+Autocrypt: addr=bod@kernel.org; keydata=
+ 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
+In-Reply-To: <CAGEkeHeFJC_eMZnDbbjXZs+Gy424YdCNH-HswPgE3zyYrEnoDA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-63781-lists,linux-media=lfdr.de];
-	FORGED_SENDER(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:vladimir.zapolskiy@linaro.org,m:bod@kernel.org,m:vijay.tumati@oss.qualcomm.com,m:vkoul@kernel.org,m:kishon@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:neil.armstrong@linaro.org,m:linux-arm-msm@vger.kernel.org,m:linux-phy@lists.infradead.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	ALIAS_RESOLVED(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63782-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:dennylin0707@gmail.com,m:vikash.garodia@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TAGGED_RCPT(0.00)[linux-media];
 	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	TO_DN_SOME(0.00)[]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3433463F509
+X-Rspamd-Queue-Id: 43FF963F5E4
 
-On 04/06/2026 10:20, Vladimir Zapolskiy wrote:
-> On 6/4/26 12:06, Bryan O'Donoghue wrote:
->> On 04/06/2026 09:46, Vladimir Zapolskiy wrote:
->>> On 6/4/26 03:30, Bryan O'Donoghue wrote:
->>>> On 04/06/2026 01:07, Vladimir Zapolskiy wrote:
->>>>> On 6/4/26 00:18, Bryan O'Donoghue wrote:
->>>>>> On 03/06/2026 21:51, Vladimir Zapolskiy wrote:
->>>>>>>> Actually, one more thing, Why isn't TITAN TOP GDSC here?>>>> +
->>>>>>> If CSIPHYs are true subdevices under the umbrella CAMSS device and
->>>>>>> well
->>>>>>> described as subnodes, then likely none of power domains are needed
->>>>>>> to be
->>>>>>> repeatedly described in the children device nodes, since this
->>>>>>> information
->>>>>>> can be obtained from the parent device by the driver.
->>>>>>>
->>>>>>> Technically 'power-domains' property can be safely removed, I 
->>>>>>> believe.
->>>>>>
->>>>>> The policy is to describe the power-domain dependency fully since DT
->>>>>> describes hardware not software architecture.
->>>>>
->>>>> It brings no contardiction to the statement I've given above, the 
->>>>> needed
->>>>> power domans will be properly described in the parent device, and 
->>>>> there
->>>>> is no
->>>>> sense to repeat the properties it again and again in every child
->>>>> subdevice.
->>>>>
->>>>>> Also for a very practical reason a sub-devices can probe/run
->>>>>> asynchronously of the parent device being active so in fact we do 
->>>>>> need
->>>>>> to describe the PDs fully.
->>>>>
->>>>> In opposite to the above this one is precisely a software centric
->>>>> argument,
->>>>> which should be excluded from the consideration, as well it's not a 
->>>>> big
->>>>> deal to make a proper async initialization, removing excessive dt
->>>>> properties
->>>>> is worth it.
->>>>>
->>>>
->>>> Right look forget about that.
->>>>
->>>> - DT requires you to describe your hardware. You're not entitled to 
->>>> have
->>>>      some other device vote for a clock or a PD you rely on.
->>>>
->>>
->>> Above are two uncorrelated between each other sentences.
->>>
->>> A device ("consumer") can ask another device ("provider") to behave in
->>> one or another way, this is the only possible and thus natually selected
->>> system design, and nothing behind it was asked. There is no 
->>> justification
->>> for the proposed flood of multiply repeated data, it's avoidable.
->>
->> CAMSS or rather the components of CAMSS modelled in the current node,
->> is/are not the provider of the GDSCs or the power-domains, it/they are
->> consumers themselves from CAMCC.
+On 04/06/2026 10:07, Denny Lin wrote:
+>> Could you please put your series of individual patches but group them
+>> into a consistent list - so that I/we don't have to figure our how to
+>> apply them and in which order.
+> Sure. If patches are related or have an intended application order,
+> I'll group them into a patch series in future submissions to make that
+> clearer.
 > 
-> Well, this is the argument about software, and software can be changed.
-> 
->> The producer/consumer model is CAMCC to components within the Camera
->> block. Some components depend on say MXA, MXC, some do not. Nothing in
->> CAMSS itself is a power-domain provider.
->>>>      That's exactly the type of downstream short cut we are trying 
->>>> to zap.
->>>>
->>>> - In our case we also need to vote on PDs individually when the PHY
->>>>      is active.
->>>>
->>>> In extremis say we are only running the TPG then we have no reason to
->>>> vote for CSIPHY specific rails or operating points in the parent 
->>>> device.
->>>
->>> So, TPG shall communicate with CAMSS, there is no CSIPHY in the 
->>> equation.
->>
->> Right but it would be inappropriate to enable all of the PDs for all of
->> the components in the CAMSS block when we can do so more granularly.
-> 
-> Whenever it is actually necessary, it should be possible to split PDs into
-> generic/parent and subdevice specific groups, it's a part of software
-> implementation. In some cases there might be no need to define any child
-> side PDs, likely CSIPHY falls into this category.
+> Thanks,
+> Hungyu
 
+Its just a bit confusing what you are doing here v1, v2, v3 in quick 
+succession over a few topics in the same driver.
 
-Completely not a discussion about software. DT needs to represent 
-hardware. Its a different mindset.
+This feels like an aggregate fixes series. If the patches are 
+individually applicable - great that's exactly what we want but, 
+separating a series of fixes into individual bits and sending them out 
+in quick succession is a bit of a mess in patchwork.
 
-I don't think we are going to resolve this debating the same thing again.
+So could you _please_ just aggregate your fixes into a series so that 
+the ordering is implicit - if ordering matters and the history of the 
+reworking is contained in the series overview.
 
-My position is the CSIPHY should list the set of power-domain 
-dependencies it has. The PDs don't come from any other thing in the 
-CAMSS block so the producer/consumer model is CSIPHY to CAMCC and CSIPHY 
-to RPMPD respectively.
-
-I'll just ask @Rob, @Krzysztof or @Conor to offer up their opinion as DT 
-maintainers and work from there.
+ty
 
 ---
 bod
