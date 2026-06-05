@@ -1,63 +1,62 @@
-Return-Path: <linux-media+bounces-63980-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63981-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id S6UPEvVLI2oPoQEAu9opvQ
-	(envelope-from <linux-media+bounces-63980-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 00:21:41 +0200
+	id CbujCrpMI2qIoQEAu9opvQ
+	(envelope-from <linux-media+bounces-63981-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 00:24:58 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id B49EA64B9DF
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 00:21:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6C164B9FB
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 00:24:57 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="Xgdo5/O8";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63980-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-63980-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=N7hadlv8;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63981-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-63981-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4D7AE304E27F
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 22:20:19 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6865C30323B2
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 22:20:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D650F37BE74;
-	Fri,  5 Jun 2026 22:20:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 340E03947AB;
+	Fri,  5 Jun 2026 22:20:54 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F76935E1B8
-	for <linux-media@vger.kernel.org>; Fri,  5 Jun 2026 22:20:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B269C282F1A
+	for <linux-media@vger.kernel.org>; Fri,  5 Jun 2026 22:20:52 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780698018; cv=none; b=sNu7jKLlnlYUa83VJcIcX2UtZmzfCcQT6dcS3hP80V3Dm/KHDVeynKH9WsxKT/cX4I3wZBJgz27Fi8tCjMHEogtl3BeuCvgbDETnxN7pzWrsmIs8XnaPaCqr31ZJOSlJZj8IqF6+SlB1wSi39ryTpxW0mo9yThgJ9GB15Zu8zvk=
+	t=1780698053; cv=none; b=PY7NscFxV1pLseLc3KuePHaWW7xpBUFcyR9teA8fGPM9NAfTb5up2vf5Nmp5ewkweX0FAFiW85X+u/U1uZRxo2mU90mFYsP/ZLS6STgXrzbqEOKF9AYItF2UO4uUOI5CHw8vIf5E99E/gmOL+fc0gJc5PDgiAP0V1/7XaU+FLak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780698018; c=relaxed/simple;
-	bh=sDWtZ/NnsTwLfnf8R5SJiBl7HxoCwLbTgjyrKEqm5EU=;
+	s=arc-20240116; t=1780698053; c=relaxed/simple;
+	bh=hUX47/vd81Hn3F7CGApSzzkzxQj9GtWgcq+ixJ5SnWw=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=LdDxgS4k5g+8zgWK1iXaK9WB2weZw/Gg/JqiqUAfvE5u92b8ss+EIr40nd2XhackrSqH+acQG3vaDy1dCS2n0KvAouDJ07giuEzbjvMT4XOSpA3BJAULFB8BUd+r7SgbEufDqLmCNnVoshV3Dlzz3jlZOSALNeXul4z8XUnzHiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xgdo5/O8; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84C581F00893;
-	Fri,  5 Jun 2026 22:20:16 +0000 (UTC)
+	 Message-Id; b=DadcZiHVmG+ufBsrVWu1SGBmRFp7ReG+NIeMLhET6XZp4xCV6IeQX0UgFc9YOA/zChmmC6Yl/qjZu1tYks+loVTXb1DQA7WGlzbhbQiSAuTiP5YvAI4F2ONk4pL123o+Df75wOSbNDRm9/UShAPIcPymcuEmU/NCzK4eGQBC28w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N7hadlv8; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AAAD1F00893;
+	Fri,  5 Jun 2026 22:20:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780698016;
-	bh=sl08Apc0ZHFfu7c1F4x437umL1bF/bV9KRv8iqVxsEM=;
+	s=k20260515; t=1780698052;
+	bh=YawAfIM7oh8jhrMm9sBgOzfR/u1AbZlm2iGMac7oUAs=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Xgdo5/O8Al4xv5cp5Ayn7fSfEwi6AZsB0YIbLZ5oH/i8TlhRAsWrCfOgG6S+ha6kj
-	 l+rW9/P+HLTMas/DRepuBJ8kBqyA4JqxVrO99TCKVUJo0tvlAqi7U/Q008zt05N3gs
-	 NYl/Ug1M2TiQAW9eg61ojoNlJ+YhOSQH6YDSxmPAZzsGyufKDobFAMsZBCAaFE6emf
-	 18dsBO+X1brk91NqlcKYyU6eE6jpuI5Uc8XuHEtkKC6R98IFs354Js73J7/ezl/EQg
-	 FkvtqMyMGY+j366uS40SByoBG2cWxehsAejiXvqsg9KETxDfZ7NJYdAXRpN2iiOBEC
-	 ZTYm/Qbkyjn2w==
+	b=N7hadlv8Q8WAQEelx4V/MOpyRSo0+vPPavDC5jWcHN+KcWCvEFdnmHjTn7K72Orw1
+	 aomjU/f03VZjfYUx/GZRRXizV0qbQozopRvXgOqBhgusgWb+M/3p+tqv3iL68AYtnr
+	 Rm0fDHX7U34SdfH5wm1ScYgG6XRdVvCkGm3yUqdUaK3yIxJlsGulm+zngu8lnjdPKw
+	 It6jgu7V6D+r7nGx9+MKGK2/blY/VpH8q6GZlPQSHNveWuW26fzLKmw4mQA/7/wbPq
+	 /P8He9jdjJ39BEtM7/eIUfeCO9DkMIO2HvYDaQe/H0pMqbl9N/+OtLbtOHXrVWxsD7
+	 A0Kp3rpsmflPA==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 12/17] media: rockchip: rga: move core initialization
- from bind to probe
+Subject: Re: [PATCH 01/17] media: rockchip: rga: zero cmdbuf in shared code
 Reply-To: sashiko-reviews@lists.linux.dev
 To: =?utf-8?b?U3ZlbiBQw7xzY2hlbA==?= <s.pueschel@pengutronix.de>
 Cc: linux-media@vger.kernel.org
-In-Reply-To: <20260606-spu-rga3multicore-v1-12-3ec2b15675f7@pengutronix.de>
-References: <20260606-spu-rga3multicore-v1-12-3ec2b15675f7@pengutronix.de>
+In-Reply-To: <20260606-spu-rga3multicore-v1-1-3ec2b15675f7@pengutronix.de>
+References: <20260606-spu-rga3multicore-v1-1-3ec2b15675f7@pengutronix.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 05 Jun 2026 22:20:16 +0000
-Message-Id: <20260605222016.84C581F00893@smtp.kernel.org>
+Date: Fri, 05 Jun 2026 22:20:51 +0000
+Message-Id: <20260605222052.2AAAD1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,7 +74,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-63980-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63981-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:s.pueschel@pengutronix.de,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
@@ -87,171 +86,101 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	FORWARDED(0.00)[lists@lfdr.de];
 	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_NO_DN(0.00)[];
 	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
 	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pengutronix.de:email,sashiko.dev:url,lists.linux.dev:replyto,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,smtp.kernel.org:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,vger.kernel.org:from_smtp,lists.linux.dev:replyto,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,pengutronix.de:email,sashiko.dev:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B49EA64B9DF
+X-Rspamd-Queue-Id: 8E6C164B9FB
 
-Thank you for your contribution! Sashiko AI review found 6 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
 
-New issues:
-- [High] NULL pointer dereference in `rga_isr()` due to early shared IRQ re=
-gistration.
-- [Medium] Missing `pm_runtime_disable()` on `component_add()` error path.
-
 Pre-existing issues:
-- [High] Unprotected hardware access in shared interrupt handler.
-- [High] Missing `synchronize_irq()` in runtime suspend for shared IRQs.
-- [High] Use-After-Free when the master device is unbound.
-- [High] Missing NULL check for `devm_kzalloc` allocation.
+- [High] Concurrent lockless modification of f->crop and ctx->cmdbuf_dirty =
+in vidioc_s_selection races with device_run.
 --
 
-commit 8a3476b206ac8426da5cf08410222d4a74238c92
+commit d338e595cb9fb0b46d00f7fc398fe05c4adbac84
 Author: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
 
-media: rockchip: rga: move core initialization from bind to probe
+media: rockchip: rga: zero cmdbuf in shared code
 
-This commit moves the core initialization from the core binding function to
-the core probing function to better match the actual initialization sequenc=
-e.
+This commit centralizes the zeroing of the command buffer into the shared r=
+ga
+code instead of individual implementations. It also uses the cmdbuf_size me=
+mber
+for the memset operation.
 
 > diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/pl=
 atform/rockchip/rga/rga.c
-> index 952377ae467f5..0413b8518dfc8 100644
+> index b3cb6bf8eb863..bd0afd33affe4 100644
 > --- a/drivers/media/platform/rockchip/rga/rga.c
 > +++ b/drivers/media/platform/rockchip/rga/rga.c
-
-[ ... ]
-
-> @@ -740,21 +740,49 @@ static int rga_parse_dt(struct rga_core *core)
-> =20
->  static int rga_core_probe(struct platform_device *pdev)
->  {
->  	struct rga_core *core;
->  	const struct rga_hw *hw;
->  	int ret =3D 0;
->  	int irq;
-> =20
->  	if (!pdev->dev.of_node)
->  		return -ENODEV;
-> =20
-> +	hw =3D of_device_get_match_data(&pdev->dev);
-> +	if (!hw)
-> +		return dev_err_probe(&pdev->dev, -ENODEV, "failed to get match data\n"=
-);
-> +
->  	core =3D devm_kzalloc(&pdev->dev, sizeof(*core), GFP_KERNEL);
-> -	core->rga =3D rga;
->  	core->dev =3D &pdev->dev;
+> @@ -41,6 +41,7 @@ static void device_run(void *prv)
+>  	spin_lock_irqsave(&rga->ctrl_lock, flags);
+>  	if (ctx->cmdbuf_dirty) {
+>  		ctx->cmdbuf_dirty =3D false;
+> +		memset(ctx->cmdbuf_virt, 0, rga->hw->cmdbuf_size);
+>  		rga->hw->setup_cmdbuf(ctx);
 
 [Severity: High]
-This isn't a bug introduced by this patch, but does this devm_kzalloc()
-allocation need a null pointer check?
+This is a pre-existing issue, but can the lockless modification of f->crop
+and ctx->cmdbuf_dirty in vidioc_s_selection race with this execution of
+device_run?
 
-If the allocation fails under memory pressure, the immediate assignment to
-core->dev =3D &pdev->dev will cause a null pointer dereference.
+In vidioc_s_selection, the crop dimensions and dirty flag are updated witho=
+ut
+acquiring the rga->ctrl_lock spinlock:
 
-[ ... ]
+drivers/media/platform/rockchip/rga/rga.c:vidioc_s_selection() {
+    ...
+    f->crop =3D s->r;
+    ctx->cmdbuf_dirty =3D true;
+    ...
+}
 
-> @@ -775,7 +803,7 @@ static int rga_core_bind(struct device *dev, struct d=
-evice *master, void *data)
+Because vidioc_s_selection runs with only rga->mutex held and allows
+modifications while streaming, it can execute concurrently with the v4l2_m2m
+worker thread running device_run.
+
+Since vidioc_s_selection does not acquire rga->ctrl_lock, hardware
+configuration functions like rga_cmd_set_dst_info can read a torn f->crop=20
+state during rga->hw->setup_cmdbuf:
+
+drivers/media/platform/rockchip/rga/rga-hw.c:rga_cmd_set_dst_info() {
+    ...
+    dst_h =3D ctx->out.crop.height;
+    dst_w =3D ctx->out.crop.width;
+    dst_x =3D ctx->out.crop.left;
+    dst_y =3D ctx->out.crop.top;
+    ...
+    corner_addrs =3D rga_get_corner_addrs(&ctx->out, addrs, dst_x, dst_y,
+                                        dst_w, dst_h);
+    ...
+}
+
+If a torn read mixes an old, large left and top offset with a new, large
+width and height, it bypasses the validation done in vidioc_s_selection.
+
+Does this cause rga_get_corner_addrs to calculate out-of-bounds DMA base
+addresses, resulting in the RGA hardware performing out-of-bounds DMA writes
+past the allocated video buffers?
+
 >  	}
-> =20
->  	ret =3D devm_request_irq(core->dev, irq, rga_isr,
-> -			       rga_has_internal_iommu(rga) ? 0 : IRQF_SHARED,
-> +			       hw->has_internal_iommu ? 0 : IRQF_SHARED,
->  			       dev_name(core->dev), core);
-
-[Severity: High]
-Since devm_request_irq() is now called here in rga_core_probe(), could this
-trigger an early null pointer dereference in rga_isr()?
-
-When hw->has_internal_iommu is false, the interrupt is registered as
-IRQF_SHARED. For shared interrupts, the handler can be invoked immediately =
-by
-another device sharing the line. However, core->rga is not initialized until
-rga_core_bind() runs later.
-
-If the interrupt service routine fires early, it will evaluate
-rga->hw->handle_irq(core) and unconditionally dereference the null core->rga
-pointer.
-
-[Severity: High]
-This is a pre-existing issue, but does the shared interrupt handler safely
-access hardware registers?
-
-Because rga_isr() is registered as IRQF_SHARED, it can be invoked by another
-device while this device is runtime-suspended and unclocked. The handler
-unconditionally calls rga->hw->handle_irq(core), which accesses registers.
-Reading powered-off registers typically causes a synchronous external abort.
-
-Should the interrupt service routine use pm_runtime_get_if_active() before
-accessing registers?
-
-[Severity: High]
-This is another pre-existing issue related to the shared interrupt, but is
-there a missing synchronize_irq() in the runtime suspend path?
-
-In rga_runtime_suspend(), clocks are disabled without synchronizing the
-interrupt. If an interrupt fires on another CPU just before clocks are
-disabled, the handler could actively read registers exactly when the hardwa=
-re
-is powered down.
-
-[Severity: High]
-This is a pre-existing issue, but could tying the shared interrupt to the
-core device lifetime cause a use-after-free when the master device is
-unbound?
-
-The shared interrupt is requested via devm_request_irq(core->dev, ...). When
-the master device is unbound, its rga structure is freed. Since the core
-device is not removed during unbind, the devm-managed interrupt is not free=
-d,
-leaving the shared handler active.
-
-A subsequent interrupt will execute rga_isr(), which dereferences the
-freed core->rga pointer.
-
-[ ... ]
-
-> @@ -833,11 +825,20 @@ static int rga_core_probe(struct platform_device *p=
-dev)
-> =20
->  	ret =3D component_add(&pdev->dev, &rga_core_ops);
->  	if (ret < 0) {
->  		dev_err(&pdev->dev, "failed to register component: %d", ret);
->  		return ret;
->  	}
-
-[Severity: Medium]
-If component_add() fails, does this bypass the pm_runtime_disable() cleanup
-at the err_put_clk label?
-
-Returning directly instead of using a goto would leak the device's Runtime
-PM usage counter.
-
->  	return 0;
-> +
-> +err_put_clk:
-> +	pm_runtime_disable(core->dev);
-> +
-> +	return ret;
->  }
+>  	spin_unlock_irqrestore(&rga->ctrl_lock, flags);
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260606-spu-rga3mu=
-lticore-v1-0-3ec2b15675f7@pengutronix.de?part=3D12
+lticore-v1-0-3ec2b15675f7@pengutronix.de?part=3D1
 
