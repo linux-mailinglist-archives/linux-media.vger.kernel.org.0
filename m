@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-63984-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63985-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id VAH0Nd5MI2qeoQEAu9opvQ
-	(envelope-from <linux-media+bounces-63984-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 00:25:34 +0200
+	id xQp6O0FNI2rdoQEAu9opvQ
+	(envelope-from <linux-media+bounces-63985-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 00:27:14 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DC9964BA0A
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 00:25:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5395364BA21
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 00:27:13 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=aTv+Z62X;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63984-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63984-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b="EbXY/P8/";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63985-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63985-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4AA99301F9F8
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 22:22:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8419C303CF98
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 22:23:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FB373AFB14;
-	Fri,  5 Jun 2026 22:22:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1CD93BB130;
+	Fri,  5 Jun 2026 22:23:08 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD749256C84
-	for <linux-media@vger.kernel.org>; Fri,  5 Jun 2026 22:22:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BAFE33D51A
+	for <linux-media@vger.kernel.org>; Fri,  5 Jun 2026 22:23:06 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780698166; cv=none; b=dz4MLump8UxW1a1cI3xqKuwNZtDtkfqxXG9hscE1fjbvqIV3AB5Q6hWB+m4cFJq+ShNYwVzNatx8ZdSA85R3QW3ZKqPU0D5PgHZQxaHuneNAZF//BwxUixGXAMLgBoUUvepmbF34o7dlJ7A6gKH1NkMH6d5DKi9IpY3DwMj5Qdo=
+	t=1780698188; cv=none; b=OZww9lMC0Ogf0HAyElS2TAjui7v03eGpJgAcFwiGBgtxj26d/mYANYA0V2qL0pUUudS5cxcj8daSkRlof57uGlSQ6cFm1O1e8SNl5nbECOINAijdpM6UQ4LBFryzFJVytaQRcOGuyCf3WkYuW0qe7B0k5htCY0Jt/7aUZZcc0EU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780698166; c=relaxed/simple;
-	bh=LjRJp4GwOMKgolPCTXJig1RUGpHU/uRPw5kDzh+KzZM=;
+	s=arc-20240116; t=1780698188; c=relaxed/simple;
+	bh=iXc8xjwb3BNK8AeAE0FObf/v9N5K4Q1z4tOYpmmf9fc=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=ciCKAADIGixLwiG9/Vgws+34jLhR3B16qBWS758rDdtbLrjYGtF0IIut7jA6FIh+LqTkYiVlH3Vvj9n9xpQ6QPLAWo64c1FfF8PAF1qq5oIPOP+wmNq55IohM7vtud79dBDGuo0WPC80N9/WyN8c5O8Pda+SUxDKqpt0AdlH7v4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aTv+Z62X; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35A3C1F00893;
-	Fri,  5 Jun 2026 22:22:45 +0000 (UTC)
+	 Message-Id; b=VyP0qGbfdaL8YW97EOcFJYRhj4LabFGnMwNinay4OLCwRlUCZlD4ToAc0Or7/czLSMay90pRptAuWy45p08+9sgJSF5wEqdL2MKtqB11v40Vg23KzqUfBTJEJpqGKwCtlLp4a8KlP5rIVusoAS1NJL+oD6jPb6IWGH2BdTMQarE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EbXY/P8/; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B76D41F00898;
+	Fri,  5 Jun 2026 22:23:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780698165;
-	bh=Sl4IjkLMubrwtC1sv1caPU0xIFKAPeEn1aVDryHzkHY=;
+	s=k20260515; t=1780698186;
+	bh=o+QYJSWu2D8aSPH/lpN/8MDQN2QyZVuA0Ek0Ink0PZw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=aTv+Z62XzdSQkucmrEZeF525HpKJsjH56lx+rx9tLCpSxBYQWj1DzrDxP7snsLjRn
-	 p/wBLhu/DC71kjIkNGERWCKxxg7hJtPLF9xCV82uuSoRrnl8Rz8Kr4S6M6nP0Y/qiE
-	 Akpk+kjIr8QAmLH90QIm1WEluGLmgaDkNLoLmkx1XOPtJ0eUqWIWtLs3fNF2+Pz9wL
-	 fr+C3BfAmxggbMv23OAYN7ftIKvBDQb2gry9rCTNC7aoAReRO7EE2s6RMlWwmjAkyS
-	 qfGYj57gvesm7fQ4QJ6GAqOJs4ivwXCNyl9FixQobiC+YoByB5v3yQebLUwkJYcj42
-	 fLw3C9tXwyVSw==
+	b=EbXY/P8/bTsWm9oHfR8hwnhX1m15MI1VQ81HubgNq99fJh2UCdwmTlsCfVQAgOp1e
+	 EO/wz8Qhr6HUWl0kQ+J80IZTL+CyMqsl7vszJ7mKwemGs0gzrz374mxdI/TQgi3c/X
+	 377SfeKmAiP48scfsotdXAav+9Xcywt4weibbTYztGkMnWxj7gqY3hsAVTauXw613x
+	 ZdK9k8HnIGk+I4x0wBn+mbliM9JUOET8l8qw9YL5cSKOSPojsBwoRt2j8H/jzs69ny
+	 +U+KYqjf3kkzJA/zenuavwbd85Ozm6BtwUUHTHnNZGT4yR+/cYqDCCnWpX9V8lZ4b1
+	 E40kaFBkzHYjw==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 06/17] media: rockchip: rga: move power handling to
- device_run
+Subject: Re: [PATCH 13/17] media: rockchip: rga: bind all cores to the
+ master
 Reply-To: sashiko-reviews@lists.linux.dev
 To: =?utf-8?b?U3ZlbiBQw7xzY2hlbA==?= <s.pueschel@pengutronix.de>
 Cc: linux-media@vger.kernel.org
-In-Reply-To: <20260606-spu-rga3multicore-v1-6-3ec2b15675f7@pengutronix.de>
-References: <20260606-spu-rga3multicore-v1-6-3ec2b15675f7@pengutronix.de>
+In-Reply-To: <20260606-spu-rga3multicore-v1-13-3ec2b15675f7@pengutronix.de>
+References: <20260606-spu-rga3multicore-v1-13-3ec2b15675f7@pengutronix.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 05 Jun 2026 22:22:44 +0000
-Message-Id: <20260605222245.35A3C1F00893@smtp.kernel.org>
+Date: Fri, 05 Jun 2026 22:23:06 +0000
+Message-Id: <20260605222306.B76D41F00898@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,7 +75,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-63984-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63985-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:s.pueschel@pengutronix.de,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
@@ -100,160 +100,132 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,lists.linux.dev:replyto,vger.kernel.org:from_smtp,pengutronix.de:email,sashiko.dev:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,lists.linux.dev:replyto,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,pengutronix.de:email,sashiko.dev:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2DC9964BA0A
+X-Rspamd-Queue-Id: 5395364BA21
 
-Thank you for your contribution! Sashiko AI review found 7 potential issue(=
+Thank you for your contribution! Sashiko AI review found 5 potential issue(=
 s) to consider:
 
 New issues:
-- [Medium] Autosuspend is configured but never enabled, causing `pm_runtime=
-_put_autosuspend()` to act like an immediate `pm_runtime_put()`.
+- [High] Unbounded increment of `rga->num_cores` during component re-bindin=
+g leads to a heap out-of-bounds write on `rga->cores`.
+- [High] Missing `component_unbind_all()` in the error paths of `rga_bind()=
+`.
+- [Medium] Missing `pm_runtime_disable()` when `component_add()` fails in `=
+rga_core_probe()`.
 
 Pre-existing issues:
-- [Critical] The `rga` structure is freed by devres on device removal but a=
-ccessed via V4L2 file ops later.
-- [High] Missing hardware state validation in shared interrupt handler allo=
-ws register access on powered-off device.
-- [High] Missing IRQ synchronization during runtime suspend allows hardware=
- power-down while IRQ handler is mid-flight.
-- [High] Asynchronous pm_runtime_put() is dangerously canceled by an immedi=
-ate pm_runtime_disable() during module removal, leaking power.
-- [High] Missing return after WARN_ON(!ctx) leads to immediate NULL pointer=
- dereference.
-- [High] `dma_sync_single_for_device()` is illegally called on coherent mem=
-ory.
+- [High] Missing protection against shared interrupts while the device is r=
+untime-suspended causes invalid hardware accesses.
+- [High] Prematurely freeing `m2m_dev` in `rga_unbind` causes a use-after-f=
+ree when open file descriptors are subsequently closed or used concurrently.
 --
 
-commit ed159a0b6bc2e424a0e4c721a5d6723c23fc3c3e
+commit 89fd9460c00f5ff4577ab76e9bec7d1677f60844
 Author: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
 
-media: rockchip: rga: move power handling to device_run
+media: rockchip: rga: bind all cores to the master
 
-Move the power handling to the device_run function in preparation for
-enabling multiple cores. Switch to autosuspend to avoid powering down
-the core when the next frame is scheduled in the next 50ms.
+This commit modifies the RGA driver to bind all core components to the
+master device instead of only the first one. It ensures all added cores
+report the same hardware version before initialization.
 
-> diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/pl=
-atform/rockchip/rga/rga.c
-> index 8c03422d669cf..0eff558d7f133 100644
 > --- a/drivers/media/platform/rockchip/rga/rga.c
 > +++ b/drivers/media/platform/rockchip/rga/rga.c
+> @@ -750,14 +751,21 @@ static int rga_core_bind(struct device *dev, struct=
+ device *master, void *data)
+[ ... ]
+>  	pm_runtime_put(core->dev);
+> =20
+> -	rga->cores[0] =3D core;
+> +	rga->cores[rga->num_cores++] =3D core;
+
+[Severity: High]
+If the master device is unbound and then re-bound, does this continuously
+increment rga->num_cores without bounds checking?
+
+Looking at rga_unbind(), rga->num_cores is never reset to 0. If a re-bind
+occurs, could this write the core pointer out-of-bounds into adjacent heap
+memory?
 
 [ ... ]
 
-> @@ -81,6 +89,8 @@ static irqreturn_t rga_isr(int irq, void *prv)
->  		v4l2_m2m_buf_done(src, VB2_BUF_STATE_DONE);
->  		v4l2_m2m_buf_done(dst, VB2_BUF_STATE_DONE);
->  		v4l2_m2m_job_finish(rga->m2m_dev, ctx->fh.m2m_ctx);
-> +
-> +		pm_runtime_put_autosuspend(rga->dev);
+[Severity: High]
+If component_bind_all() succeeds in rga_bind(), but a subsequent step like
+v4l2_device_register() fails, the function returns the error directly:
+
+rga_bind() {
+    ...
+    ret =3D v4l2_device_register(dev, &rga->v4l2_dev);
+    if (ret)
+        return ret;
+    ...
+}
+
+Does this skip calling component_unbind_all()? If so, could this permanently
+leak the component bindings, and if retried, cause rga_core_bind() to execu=
+te
+again and increment rga->num_cores out-of-bounds?
 
 [Severity: Medium]
-Is the idle timer being reset properly here?
+In rga_core_probe(), pm_runtime_enable() is called, but if component_add()
+fails:
 
-It appears we are missing a call to pm_runtime_mark_last_busy() before the
-put operation. Without it, the idle timer might not be reset, defeating the
-intended autosuspend optimization.
+rga_core_probe() {
+    ...
+    ret =3D component_add(&pdev->dev, &rga_core_ops);
+    if (ret < 0) {
+        dev_err(&pdev->dev, "failed to register component: %d", ret);
+        return ret;
+    }
+    ...
+}
 
-[Severity: High]
-This is a pre-existing issue, but I noticed the shared interrupt handler
-might execute hardware operations blindly. Does rga_isr() need to verify
-the device is powered on before touching hardware?
-
-Since the device can use shared IRQs, rga_isr() can be invoked
-asynchronously if another device on the same line triggers an interrupt,
-even when the RGA device is suspended. Should we use
-pm_runtime_get_if_active() to ensure we don't read from powered-down
-registers?
-
-[Severity: High]
-This is also a pre-existing issue, but looking at rga_isr(), if ctx is NULL,
-does the code fall through to a NULL pointer dereference?
-
-rga_isr() checks for a NULL context:
-
-WARN_ON(!ctx);
-core->curr =3D NULL;
-src =3D v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
-
-Should there be a return statement after the WARN_ON(!ctx) to prevent
-dereferencing ctx in the subsequent calls?
-
->  	}
-> =20
->  	return IRQ_HANDLED;
-> @@ -797,6 +807,7 @@ static int rga_probe(struct platform_device *pdev)
->  	if (ret)
->  		return dev_err_probe(&pdev->dev, ret, "Unable to parse OF data\n");
-> =20
-> +	pm_runtime_set_autosuspend_delay(rga->dev, 50);
->  	pm_runtime_enable(rga->dev);
-
-[Severity: Medium]
-Are we missing a call to pm_runtime_use_autosuspend() here?
-
-Without enabling the autosuspend flag, the PM core might ignore the 50ms
-delay, causing pm_runtime_put_autosuspend() to fall back to an immediate
-suspend behavior.
-
-[ ... ]
-
-I also noticed a few other pre-existing issues in the driver while reviewing
-this patch:
+Will returning directly here instead of jumping to the err_put_clk cleanup
+label leak the runtime PM enablement state for the device?
 
 [Severity: High]
-This isn't a bug introduced by this patch, but does the driver need to
-synchronize IRQs during runtime suspend?
+This is a pre-existing issue, but the driver uses a shared IRQ (IRQF_SHARED)
+when lacking an internal IOMMU. The interrupt handler rga_isr() accesses
+hardware registers without checking if the device is active:
 
-In rga_runtime_suspend(), the driver disables clocks using
-clk_bulk_disable_unprepare(). Because the driver uses shared IRQs, could
-the hardware be powered down while an executing rga_isr() is mid-flight on
-another CPU? Should synchronize_irq() be called before shutting down the
-hardware?
+rga_isr() {
+    ...
+    if (rga->hw->handle_irq(core)) {
+    ...
+}
 
-[Severity: High]
-This is a pre-existing issue, but does device removal safely cancel pending
-suspend operations?
+Additionally, rga_runtime_suspend() disables clocks without synchronizing:
 
-During module removal, rga_core_remove() calls pm_runtime_disable().
-Because the driver uses pm_runtime_put_autosuspend(), an asynchronous
-suspend might be pending. Could this immediate disable cancel the pending
-work without executing it, leaving the hardware active and leaking power?
-Would using pm_runtime_put_sync() ensure the suspend completes before
-removal?
+rga_runtime_suspend() {
+    ...
+    clk_bulk_disable_unprepare(core->num_clks, core->clks);
+    ...
+}
 
-[Severity: Critical]
-This is a pre-existing issue, but is there a potential use-after-free
-related to the rga structure lifecycle?
-
-The rga structure is allocated using devm_kzalloc() during probe, meaning
-it is freed automatically on device removal. However, if a user process
-holds the video device open, the V4L2 file descriptor remains valid. When
-the process later closes the file, rga_release() is called and accesses the
-freed memory, for example by acquiring the mutex:
-
-mutex_lock(&rga->mutex);
-
-Should the allocation be tied to the v4l2_device or video_device lifecycle
-instead of devres?
+Should rga_isr() use pm_runtime_get_if_active() before access, and should
+rga_runtime_suspend() call synchronize_irq() to prevent unclocked hardware
+access if a shared interrupt fires while the device is suspended?
 
 [Severity: High]
-This is a pre-existing issue, but I noticed a potential DMA API violation in
-rga_hw_start().
+This isn't a bug introduced by this patch, but rga_unbind() frees the
+memory-to-memory device structure prematurely:
 
-The command buffer is allocated as write-combined coherent memory using
-dma_alloc_attrs() with DMA_ATTR_WRITE_COMBINE. Later, the driver attempts
-to sync this buffer to the device:
+rga_unbind() {
+    ...
+    v4l2_m2m_release(rga->m2m_dev);
+    video_unregister_device(rga->vfd);
+    ...
+}
 
-dma_sync_single_for_device(..., ctx->cmdbuf_phy, ...);
-
-Since the sync functions are intended for streaming DMA mappings and not
-coherent allocations, could this corrupt internal state or trigger DMA API
-debug warnings?
+If userspace applications still hold open file descriptors, closing them
+later triggers rga_release() which calls v4l2_m2m_ctx_release(). Can this
+lead to a use-after-free when dereferencing the already freed m2m_dev?
+Might it be safer to defer the release of m2m_dev until the final V4L2
+release callback?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260606-spu-rga3mu=
-lticore-v1-0-3ec2b15675f7@pengutronix.de?part=3D6
+lticore-v1-0-3ec2b15675f7@pengutronix.de?part=3D13
 
