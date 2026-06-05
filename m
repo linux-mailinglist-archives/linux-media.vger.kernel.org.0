@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-63868-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63869-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id SXJ3Cvd2ImpoXwEAu9opvQ
-	(envelope-from <linux-media+bounces-63868-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 09:12:55 +0200
+	id JXAxE214ImroXwEAu9opvQ
+	(envelope-from <linux-media+bounces-63869-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 09:19:09 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71A5C645D1A
-	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 09:12:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93A97645E0F
+	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 09:19:08 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=FVw2+DsW;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63868-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-63868-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=TVpqH1Qv;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63869-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-63869-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 165FA3112254
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 07:04:38 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5C6A330548AD
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 07:04:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A377477983;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF55147798A;
 	Fri,  5 Jun 2026 07:03:55 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C7A453486
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F25345349A
 	for <linux-media@vger.kernel.org>; Fri,  5 Jun 2026 07:03:51 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780643034; cv=none; b=fyslMVtZrN3FHQWDesMVJMurIrg13cTUsoFlrrKULYfFYStBVjKut1Dbt5DVHxaVaMIlby0izYWVlc+qrvHKLrQ4SuQcoYzWTEEgYhf6eH5pTzXxrGVNV0l2BSRTTkDh7s1gkuFzhGUJfsAMPGZn6ar/19qJT02Se5oUgn5Lvdk=
+	t=1780643034; cv=none; b=UJwD3AczbAhrl4D0flxciWiDS0EYKDKCzJ7nTuFGQa4ctZUAcWGzk8Fu5oAkBpFadWBYOuIUNeSb9a6iQxEEz1M4B25glpOq9H3ARKccKZkZMDmA/Nym8kfFSQgfX5Dp9adOZUqB9fC62l8pljnmFGpdcpiYcoqyMSQNRYNY3S0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780643034; c=relaxed/simple;
-	bh=pJ1O6zeqzB+QdEQwhuMD3IHNudrYqlzztAJlLNKZuAQ=;
+	bh=hrsSMsHe9WSvP0v/JhP7L5JAh4ICmr4rgG2ibRudbQk=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=J+eQ3d9+9lIlK8iyK+IjjITSv+GGuGTBMGyi9Y3Z7/hkHHisxyBG8ELSjjNvePOjQxi5uKlH3SxBrL2RdHlkw2HKnlfa4EZvDINjGkE6yrag29poqxtFoJHAUjJMnMPstnq/fEa2pNpYRFClGya9Ua7QTTgt0Qu/qB0N1KqxrcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FVw2+DsW; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2234B1F00899;
-	Fri,  5 Jun 2026 07:03:51 +0000 (UTC)
+	 Message-Id; b=UaOMj4hheuVZKJK2Q47axu7u7EBQEZE69dF4AaFtAEsZLslE3ZOvzdM0JUj2a9RKiTgq1gEXAu98tDlIM0KbH88J406Fy3N0ueAPejvhiarV3r62DMAgh92ZNwt/GO7yVozdd6EeDb/hc1rT1NqT6TlqeO7b8iwTAYbf5ZyKDFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TVpqH1Qv; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E33F1F00898;
+	Fri,  5 Jun 2026 07:03:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780643031;
-	bh=thH+xSmRJ1p6dFMBZ3hCjI7fi88DZ7AkWXao4AYRp8s=;
+	s=k20260515; t=1780643030;
+	bh=h2xwZQW682m/lc+RgTVbyQzaLz4+QD4JGz2IG59VZaw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=FVw2+DsWpy2wK5av9l0leoiIWq6JhOKhGJXx/JjScaMOGqxnT7j6hvVswF5wLgyfF
-	 4craqBz0YKoGO3RIJnyUgFrGG9Q1XthDP19ot7lQtvG0iLqA9spK9Z87affEcrG+Zj
-	 a18uBES1hpo/SmP1+DvtsxBx6TVedhSIRRlmSd/wEzNkzGo2n1AIj/eP490MY421jx
-	 n+UUVe2kioiMuxVi9r8J+b3a0lLoGQ5y6qUHNLkkBVvSCjp3fF1WBE33Ix7aPbTV/c
-	 jkDkCM+CobAg1pseVlyiRcJvbw3Mg2Ri9kIZv0Gl1tsV3ZaTt0/wPFhA1Y/PBYE5lt
-	 HeMyo8dZb7wuw==
+	b=TVpqH1QvQcJvHOAwE184MccNwmTte/P7TW1V2LSU9Z9ENobTH2dYlZhGFnjQDM4JW
+	 0d90bXUGKWsdQs9DWkkmWuuK4dPRQNNh+U1gPUPe5TkdMkj6Jtd3ugcag5Za2PqJAm
+	 yd8TL++jrvjS+pptmhjhRRg56fc8D9gj601U768cqHXW3fnop6yEpnGwTQxs+52m9a
+	 jdKqS28u8EjB+wYN1/F6TSsSkg3gEmjapaWrx9bdjvf0rmkS1lIFlHqO080/MAsX6U
+	 1nigfnAe2jC3mG+SnPYmqdwkFbcBMACW2lQJgpFPYwmnB4a1OoXwNN7Py9GMl/V8nM
+	 I9P5sooXaJG5g==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next 2/4] udmabuf: emit one sg entry per pinned
- folio
+Subject: Re: [PATCH net-next 1/4] net: devmem: allow rx-buf-size > PAGE_SIZE
+ per dmabuf binding
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Bobby Eshleman" <bobbyeshleman@gmail.com>
 Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-In-Reply-To: <20260603-tcpdm-large-niovs-v1-2-f37a4ac6726c@meta.com>
-References: <20260603-tcpdm-large-niovs-v1-2-f37a4ac6726c@meta.com>
+In-Reply-To: <20260603-tcpdm-large-niovs-v1-1-f37a4ac6726c@meta.com>
+References: <20260603-tcpdm-large-niovs-v1-1-f37a4ac6726c@meta.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Date: Fri, 05 Jun 2026 07:03:50 +0000
-Message-Id: <20260605070351.2234B1F00899@smtp.kernel.org>
+Message-Id: <20260605070350.7E33F1F00898@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,7 +77,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63868-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63869-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:bobbyeshleman@gmail.com,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -101,89 +101,74 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	RCPT_COUNT_THREE(0.00)[3];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,smtp.kernel.org:mid,lists.linux.dev:replyto,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[lists.linux.dev:replyto,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,sashiko.dev:url,meta.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 71A5C645D1A
+X-Rspamd-Queue-Id: 93A97645E0F
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [High] The scatterlist construction merges contiguous pages into a single=
- segment without respecting the importing device's DMA maximum segment size=
- constraints, which can also overflow the 32-bit SG length field for gigaby=
-te-sized folios.
+
+Pre-existing issues:
+- [Critical] The `tx_vec` array is allocated without zero-initialization, l=
+eading to dereferencing uninitialized pointers if the mapped SG table is sm=
+aller than the dmabuf.
+- [Critical] The `tx_vec` array can be overflowed if a dmabuf exporter retu=
+rns an SG table whose total mapped length exceeds `dmabuf->size`.
 --
 
-commit 0cf8c9573968c851d2a1981909f322167f021ced
+commit 19418ca41b5b75f8c09b7526af4fcb2ea506b0fa
 Author: Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: net: devmem: allow rx-buf-size > PAGE_SIZE per dmabuf binding
 
-udmabuf: emit one sg entry per pinned folio
+This patch adds a bind-time netlink attribute, NETDEV_A_DMABUF_RX_BUF_SIZE,
+that lets userspace request a larger niov size for devmem dmabuf bindings,
+allowing rx-buf-size > PAGE_SIZE.
 
-This commit updates get_sg_table() to walk folios and emit one scatterlist
-entry per contiguous run of pages in a folio. It coalesces entries for large
-folios instead of emitting strictly one sg entry per PAGE_SIZE.
+> diff --git a/net/core/devmem.c b/net/core/devmem.c
+> --- a/net/core/devmem.c
+> +++ b/net/core/devmem.c
+> @@ -248,18 +256,14 @@ net_devmem_bind_dmabuf(struct net_device *dev, void=
+ *vdev,
+>  			goto err_unmap;
+>  		}
+>  		binding->tx_vec =3D kvmalloc_objs(struct net_iov *,
+> -						dmabuf->size / PAGE_SIZE);
+> +						dmabuf->size >> niov_shift);
 
-> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> index 94b8ecb892bb1..f28dd3788adad 100644
-> --- a/drivers/dma-buf/udmabuf.c
-> +++ b/drivers/dma-buf/udmabuf.c
+[Severity: Critical]
+This isn't a bug introduced by this patch, but since kvmalloc_objs() doesn't
+zero-initialize the memory, is it possible for uninitialized pointers to be
+returned later?
 
-[ ... ]
-
-> +/* Count the contiguous folio runs in @ubuf, one sg entry per run. */
-> +static unsigned int udmabuf_sg_nents(struct udmabuf *ubuf)
-> +{
-> +	unsigned int nents =3D 0;
-> +	pgoff_t i;
-> +
-> +	for (i =3D 0; i < ubuf->pagecount; i +=3D udmabuf_folio_nr_pages(ubuf, =
-i))
-> +		nents++;
-
-[Severity: High]
-Does this count assume each contiguous run can always fit into a single
-scatterlist entry?
-
-If the importing device has a restrictive DMA maximum segment size, will th=
-is
-under-allocate the sg_table since large runs might need to be split across
-multiple entries?
-
-> +	return nents;
-> +}
-> +
->  static struct sg_table *get_sg_table(struct device *dev, struct dma_buf =
-*buf,
->  				     enum dma_data_direction direction)
->  {
+If a dmabuf exporter returns an SG table whose total mapped length is less
+than dmabuf->size, the trailing elements of the tx_vec array would remain
+uninitialized. When userspace requests transmission with an offset beyond
+the mapped length but within dmabuf->size, net_devmem_get_niov_at() would
+read from this uninitialized memory and return a garbage pointer to the
+datapath.
 
 [ ... ]
 
-> -	for_each_sg(sg->sgl, sgl, ubuf->pagecount, i)
-> -		sg_set_folio(sgl, ubuf->folios[i], PAGE_SIZE,
-> +	sgl =3D sg->sgl;
-> +	for (i =3D 0; i < ubuf->pagecount; i +=3D run) {
-> +		run =3D udmabuf_folio_nr_pages(ubuf, i);
-> +		sg_set_folio(sgl, ubuf->folios[i], run << PAGE_SHIFT,
->  			     ubuf->offsets[i]);
+> @@ -313,7 +319,7 @@ net_devmem_bind_dmabuf(struct net_device *dev, void *=
+vdev,
+>  			page_pool_set_dma_addr_netmem(net_iov_to_netmem(niov),
+>  						      net_devmem_get_dma_addr(niov));
+>  			if (direction =3D=3D DMA_TO_DEVICE)
+> -				binding->tx_vec[owner->area.base_virtual / PAGE_SIZE + i] =3D niov;
+> +				binding->tx_vec[(owner->area.base_virtual >> niov_shift) + i] =3D ni=
+ov;
 
-[Severity: High]
-Can run << PAGE_SHIFT exceed the importing device's maximum DMA segment
-size (dma_get_max_seg_size(dev))?
+[Severity: Critical]
+This is a pre-existing issue, but does this loop lack bounds checking
+against the actual allocated size of tx_vec?
 
-If the hardware descriptors are limited (e.g. to 64KB), a large merged
-segment might get truncated during I/O by the importing driver.
-
-Also, if a system supports gigantic folios (e.g., 16GB HugeTLB), could
-run << PAGE_SHIFT exceed UINT_MAX? sg_set_folio() stores the length in the
-32-bit sg->length field, which would silently truncate the value.
-
-> +		sgl =3D sg_next(sgl);
-> +	}
-> =20
->  	ret =3D dma_map_sgtable(dev, sg, direction, 0);
->  	if (ret < 0)
+The tx_vec array is allocated to hold dmabuf->size >> niov_shift elements.
+If a buggy or malicious dmabuf exporter returns an SG table that maps more
+data than expected (exceeding dmabuf->size), this loop will write pointers
+past the end of the dynamically allocated tx_vec array, corrupting adjacent
+kernel memory.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260603-tcpdm-larg=
-e-niovs-v1-0-f37a4ac6726c@meta.com?part=3D2
+e-niovs-v1-0-f37a4ac6726c@meta.com?part=3D1
 
