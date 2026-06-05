@@ -1,310 +1,426 @@
-Return-Path: <linux-media+bounces-63950-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63951-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Q7a/B876ImorgAEAu9opvQ
-	(envelope-from <linux-media+bounces-63950-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 18:35:26 +0200
+	id TImEKOX4ImrUfwEAu9opvQ
+	(envelope-from <linux-media+bounces-63951-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 18:27:17 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7717C649D27
-	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 18:35:25 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1933B649C28
+	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 18:27:17 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=kG6cau87;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63950-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63950-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=EF8O5wdl;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63951-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-63951-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DB63C31A274D
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 16:23:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 82B7A3067F85
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 16:24:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55A5040682D;
-	Fri,  5 Jun 2026 16:19:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18FA03EDE64;
+	Fri,  5 Jun 2026 16:20:41 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA1C3D0C03;
-	Fri,  5 Jun 2026 16:19:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B0130C610
+	for <linux-media@vger.kernel.org>; Fri,  5 Jun 2026 16:20:38 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780676370; cv=none; b=kFh+hCAu0qaioNn2L4UP2wnBmmFcnMhw5ixGtjDaDbCdb/ZseVAnw0Ck7x4itFu3YwkJXYUgyoOCGiyGIpLvLbGuMBIp5mpKw/xI7FjvSQNuC/opj3xAa7ltCjEK4xHfLreV1oO+VsnwWO6YaBHxir7s0/xBF7hYrMSBniRjN88=
+	t=1780676440; cv=none; b=j3jRWpJhp8lRUJST1bvJ1D8d+PVJvLNeVUBeOnd+hxOV0UaA8Sr251Ab/yiBky1+PaKFC/omJAXRqI//VUdptYLMHabrGpUXX+kfO/DFPOfEvQ8cDIOSBnFQ+ccaXw9MFquprxxy5kFz1zTA4n4FMvp1MqMbS/swwHMWVKwnuDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780676370; c=relaxed/simple;
-	bh=quUvbrbQS6eQO0S4eiPyUkmNpOyPkr78jFdRIWWJaYw=;
+	s=arc-20240116; t=1780676440; c=relaxed/simple;
+	bh=SsQfeurk4ed9hQnsOPWLl1nA8N6jtyUDvGh7S2vpuFY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ksaTJRlPjTlT9wNQxX3ZwQeT0EfRG/blT7Yt3bdsk99cOoofooZbcX9v686Lqj93y8ODoJOl0DFJX0bm/rlGokPEDGHRTme1Y+6MX7Vix2h4P4/7jK2V0kex5lw7zIopEaMgwhSb5zpu+J2a9fBjhQ/seucvPYXeG+rrV27Tomo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kG6cau87; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12F741F00893;
-	Fri,  5 Jun 2026 16:19:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780676369;
-	bh=6XPdyKlrYLRF2LuR4cgLG7ew10Pc1XXxtdKbYANh+8c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=kG6cau87cGrPuJrY9MBw4/CBgkK3+TLK7blYTt3Oje9b3woxotsMTDYKcg0UkYaik
-	 PlQ9tcoJzpMBXjLWF7fZTVcBRY19+f21wiC61mGkTCS/ODxTzxmkILyeC6ma+LH/YE
-	 khMDFDLB2WD34WkNNNkOsuQCAVhVFIpQnUvnZ2pz+lALGDLaqKhHfH6ENzK+KujjJe
-	 Tt75tSRIy9T50EoSFebyaEkS2GyyybKJL9CTJW9CYLfdRj6UgecpRTzo0S7VE/8MKu
-	 3uIwhDnt2G8oBt5JUJ5SUlGA/u5cIBRUBW1ZYLY+Aon1oso+vrlNR/0nnXdP9kYNEg
-	 /ivi+adxrkZwQ==
-Date: Fri, 5 Jun 2026 17:19:25 +0100
-From: Conor Dooley <conor@kernel.org>
-To: github.com@herrie.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: media: i2c: add aptina,mt9m113
-Message-ID: <20260605-idly-geek-23c0459b2445@spud>
-References: <20260605-submit-media-mt9m113-v2-0-de1cc807f4cf@herrie.org>
- <20260605-submit-media-mt9m113-v2-1-de1cc807f4cf@herrie.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=HA/aD/hUwN3B7vtEe7A7t4jq6mdVHbfrbkND6+d3HHITQQyueoGQVTsX2XMu/CAVR4JaNN0BrEy2uH+XmOrhx95MNNwlYgiQiED+tsOQcOK75z3XXjuD0ROJ+VMraA4Ueknsx6jg5PEVBISElLNJ7Xmi9vcLbKlEmljesvSMTJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EF8O5wdl; arc=none smtp.client-ip=209.85.214.178
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2bf2247e38eso21919255ad.3
+        for <linux-media@vger.kernel.org>; Fri, 05 Jun 2026 09:20:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780676437; x=1781281237; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mql6HNKVt0P+1uPegRUW8zlGYKpmXHvNpDN0uRKtg58=;
+        b=EF8O5wdlEzY6OBlkhry+7oUoAvDlT+f+Fhe+3NJ7Ug+OQ8c85+fP1wWZA9b1TCeS+8
+         e6+c/EgcUQ0q0LkR5x2Yu5rgddrrdz5RmLV83V/2nSi9LxdcWQ7fubrMeMzig+L3gY+6
+         jx34sSAzyxiXqY8GcU4b4s//gJ96dH0Xp4YbVujrZMP0dlDByvSEm2uBXbX+Gbjn7dKt
+         F6y5gzO1MiEaSt0efIo4wqlOfHiHY2ZN1fPitd88NMGooE9VMTzuGtuCOjseGVVUhkM/
+         Tcg3f+b1a2l/eqqR9+ezRSxzyLXTOAxLNDoBVMe11Ai0NDbeoKqpQUETvcrkwSLTdwIa
+         R5xA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780676437; x=1781281237;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mql6HNKVt0P+1uPegRUW8zlGYKpmXHvNpDN0uRKtg58=;
+        b=Mj5bBvci0vAQ9QdOvg3p617Fpypnqw71JbBNfCaButCmbXJ3t3g0Yz+udiv3HpCEvp
+         QgSp/IqKUz/AQK3QAJKVbm7grg0jQUBX6KcU1XxHFOOCHFt8FwDAq4cXIbqZ/XKja1Pb
+         4qlauIoAw7F52OvFe61+cXVYJ3ynnD6r0fCU2fuIj/PhTnfGmZezm3XnE88DHvEGZj8X
+         CMD92rZmia5xk9ruIJFn/EzTEmGwGTaVv2i9tQ9n5LzUJpuUWtgTLO4Cu5w4q4CkAxPs
+         sPumiNxxzWza5iiG3PQmiDb0iHAXHXW0kn9PL9bYtVNJa/7X5ah0wKPnv8p8cGobzB+q
+         UXAA==
+X-Forwarded-Encrypted: i=1; AFNElJ/ARAFCR/xepeLeK26SaDy/PpaQcFQMnp+T7A2JvOX17AyjJIUul7TwER4NbaeH0hw9VCMJwZjHhGKlWQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDO+aFsZVQmU8OCwRsLMlmieTnVy7Jb8wXUhc3yjJUtR2Ai0Oh
+	z8RM+GFSqXlUe4/wrwbcAw7rHvbC6p5U3QxXXhPljruMANdRq56KB/1Z
+X-Gm-Gg: Acq92OFrvrcBNmB9THLZl/nS7M6ypCcJh2z2aAsyXVvebKnQngNSERZWHPwAPF18clQ
+	FJv4QpMMquYNzwU3KrdsOHYbFMpOIU+cd4nrLCNbTvxEWoMLIjuJ+2O6qPH3CNx80UPyOehxrNC
+	O+3e8ps7WIixcKpq+9SRAwwa3/DySkdZuIeSRGkvkMsgCxOt9cf7CKhJCIwfhV1XPvNzKAJYPo+
+	caarwxQHRRWvABQ9i2R3KSqvPRp2QddJmHnnvpLc+G99EfVxP8UoqsHSCYFmwesL3uBtAjk489n
+	X6dUUmWuWpd+032r5Q4/IuT62uU0WFI7BdWf34szHGVfyM3tawUn5S5sdMe9y872J1LRBzyQnx/
+	ETyqXIe3X+EMj6MDGchSWENuEkEJ3jNiKazwSGyRjKcLok2JsR927itXNC2SJWK0nLcFsnNv1Db
+	7CYS1XuxfkQ+PPcVpGXBIphwi5WpFURDMeXr9zYNmlks25lzlhZshyNV8=
+X-Received: by 2002:a17:903:2c0e:b0:2bf:356f:4e17 with SMTP id d9443c01a7336-2c1e821d398mr55753675ad.13.1780676437322;
+        Fri, 05 Jun 2026 09:20:37 -0700 (PDT)
+Received: from devvm29614.prn0.facebook.com ([2a03:2880:ff:72::])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164fa404fsm97497065ad.37.2026.06.05.09.20.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jun 2026 09:20:36 -0700 (PDT)
+Date: Fri, 5 Jun 2026 09:20:32 -0700
+From: Bobby Eshleman <bobbyeshleman@gmail.com>
+To: Stanislav Fomichev <sdf.kernel@gmail.com>
+Cc: Donald Hunter <donald.hunter@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	linux-kselftest@vger.kernel.org, sdf@fomichev.me,
+	razor@blackwall.org, daniel@iogearbox.net, almasrymina@google.com,
+	matttbe@kernel.org, skhawaja@google.com, dw@davidwei.uk,
+	Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next 1/4] net: devmem: allow rx-buf-size > PAGE_SIZE
+ per dmabuf binding
+Message-ID: <aiL3UM9aULBypEk7@devvm29614.prn0.facebook.com>
+References: <20260603-tcpdm-large-niovs-v1-0-f37a4ac6726c@meta.com>
+ <20260603-tcpdm-large-niovs-v1-1-f37a4ac6726c@meta.com>
+ <aiLrsLM8N0VzrNMe@devvm7509.cco0.facebook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Ja9qjb5S9bUXbDpX"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260605-submit-media-mt9m113-v2-1-de1cc807f4cf@herrie.org>
+In-Reply-To: <aiLrsLM8N0VzrNMe@devvm7509.cco0.facebook.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.26 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63950-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:github.com@herrie.org,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:konrad.dybcio@oss.qualcomm.com,m:hverkuil+cisco@kernel.org,m:laurent.pinchart@ideasonboard.com,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[conor@kernel.org,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
-	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:sdf.kernel@gmail.com,m:donald.hunter@gmail.com,m:kuba@kernel.org,m:davem@davemloft.net,m:edumazet@google.com,m:pabeni@redhat.com,m:horms@kernel.org,m:andrew+netdev@lunn.ch,m:kraxel@redhat.com,m:vivek.kasireddy@intel.com,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:shuah@kernel.org,m:netdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kselftest@vger.kernel.org,m:sdf@fomichev.me,m:razor@blackwall.org,m:daniel@iogearbox.net,m:almasrymina@google.com,m:matttbe@kernel.org,m:skhawaja@google.com,m:dw@davidwei.uk,m:bobbyeshleman@meta.com,m:sdfkernel@gmail.com,m:donaldhunter@gmail.com,m:andrew@lunn.ch,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63951-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[bobbyeshleman@gmail.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,davemloft.net,google.com,redhat.com,lunn.ch,intel.com,linaro.org,amd.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,fomichev.me,blackwall.org,iogearbox.net,davidwei.uk,meta.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[conor@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	FROM_NEQ_ENVFROM(0.00)[bobbyeshleman@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,netdev];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,spud:mid,herrie.org:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,devicetree.org:url]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,devvm29614.prn0.facebook.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7717C649D27
+X-Rspamd-Queue-Id: 1933B649C28
 
+On Fri, Jun 05, 2026 at 08:33:04AM -0700, Stanislav Fomichev wrote:
+> On 06/03, Bobby Eshleman wrote:
+> > From: Bobby Eshleman <bobbyeshleman@meta.com>
+> > 
+> > Every devmem dmabuf binding today hands the page_pool PAGE_SIZE niovs.
+> > This caps a single RX descriptor at PAGE_SIZE, burning CPU on buffer
+> > churn for large flows.
+> > 
+> > Add a bind-time netlink attribute, NETDEV_A_DMABUF_RX_BUF_SIZE, that
+> > lets userspace request a larger niov size. The value must be a power of
+> > two >= PAGE_SIZE.
+> > 
+> > Measurements
+> > ------------
+> > Setup: kperf in devmem RX/TX cuda mode, 4 flows, 64 MB messages, 60s,
+> > dctcp, num-rx-queues=4, dmabuf-rx/tx-size-mb=2048, 10 runs per niov
+> > size, mlx5.
+> > 
+> > CPU Util:
+> > 
+> >    niov        net sirq %        net idle %         app sys %        app idle %
+> >   -----  ----------------  ----------------  ----------------  ----------------
+> >      4K   62.38 +/-  8.27   33.40 +/-  7.51   54.15 +/- 10.23   43.67 +/- 10.53
+> >     16K   58.91 +/-  5.35   35.23 +/-  5.88   41.05 +/-  8.87   56.42 +/-  9.24
+> >     32K   64.12 +/-  0.68   31.09 +/-  1.48   44.54 +/-  3.51   52.63 +/-  3.65
+> >     64K   54.69 +/-  5.54   39.67 +/-  5.81   35.47 +/-  3.11   61.97 +/-  3.27
+> > 
+> > RX app sys % drops ~19% from 4K to 64K.
+> > 
+> > Throughput:
+> > 
+> >    niov       RX dev Gbps   RX flow avg Gbps
+> >   -----  ----------------  -----------------
+> >      4K  300.63 +/- 53.21    75.16 +/- 13.30
+> >     16K  321.35 +/- 28.20    80.34 +/-  7.05
+> >     32K  347.63 +/-  2.20    86.91 +/-  0.55
+> >     64K  332.11 +/- 14.26    83.03 +/-  3.56
+> > 
+> > Throughput seems to increase, but the stdev is pretty wide so could just
+> > be noise.
+> > 
+> > kperf support (not yet merged):
+> > https://github.com/facebookexperimental/kperf/commit/8837577f920876bce6986ec18869ac04439ebcd2
+> > 
+> > Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+> > ---
+> >  Documentation/netlink/specs/netdev.yaml |  8 +++++
+> >  include/uapi/linux/netdev.h             |  1 +
+> >  net/core/devmem.c                       | 52 +++++++++++++++++++--------------
+> >  net/core/devmem.h                       | 13 ++++++---
+> >  net/core/netdev-genl-gen.c              |  5 ++--
+> >  net/core/netdev-genl.c                  | 18 ++++++++++--
+> >  tools/include/uapi/linux/netdev.h       |  1 +
+> >  7 files changed, 68 insertions(+), 30 deletions(-)
+> > 
+> > diff --git a/Documentation/netlink/specs/netdev.yaml b/Documentation/netlink/specs/netdev.yaml
+> > index a1f4c5a561e9..063119907983 100644
+> > --- a/Documentation/netlink/specs/netdev.yaml
+> > +++ b/Documentation/netlink/specs/netdev.yaml
+> > @@ -591,6 +591,13 @@ attribute-sets:
+> >          type: u32
+> >          checks:
+> >            min: 1
+> > +      -
+> > +        name: rx-buf-size
+> > +        doc: |
+> > +          Size in bytes of each RX buffer the NIC writes into from the bound
+> > +          dmabuf. Must be a power of two and >= PAGE_SIZE; defaults to
+> > +          PAGE_SIZE.
+> > +        type: u32
+> >  
+> >  operations:
+> >    list:
+> > @@ -805,6 +812,7 @@ operations:
+> >              - ifindex
+> >              - fd
+> >              - queues
+> > +            - rx-buf-size
+> >          reply:
+> >            attributes:
+> >              - id
+> > diff --git a/include/uapi/linux/netdev.h b/include/uapi/linux/netdev.h
+> > index 7df1056a35fd..180a4ffffd60 100644
+> > --- a/include/uapi/linux/netdev.h
+> > +++ b/include/uapi/linux/netdev.h
+> > @@ -217,6 +217,7 @@ enum {
+> >  	NETDEV_A_DMABUF_QUEUES,
+> >  	NETDEV_A_DMABUF_FD,
+> >  	NETDEV_A_DMABUF_ID,
+> > +	NETDEV_A_DMABUF_RX_BUF_SIZE,
+> >  
+> >  	__NETDEV_A_DMABUF_MAX,
+> >  	NETDEV_A_DMABUF_MAX = (__NETDEV_A_DMABUF_MAX - 1)
+> > diff --git a/net/core/devmem.c b/net/core/devmem.c
+> > index 957d6b96216b..5a1c0d7984a8 100644
+> > --- a/net/core/devmem.c
+> > +++ b/net/core/devmem.c
+> > @@ -46,7 +46,7 @@ static dma_addr_t net_devmem_get_dma_addr(const struct net_iov *niov)
+> >  
+> >  	owner = net_devmem_iov_to_chunk_owner(niov);
+> >  	return owner->base_dma_addr +
+> > -	       ((dma_addr_t)net_iov_idx(niov) << PAGE_SHIFT);
+> > +	       ((dma_addr_t)net_iov_idx(niov) << owner->binding->niov_shift);
+> >  }
+> >  
+> >  static void net_devmem_dmabuf_binding_release(struct percpu_ref *ref)
+> > @@ -93,13 +93,14 @@ net_devmem_alloc_dmabuf(struct net_devmem_dmabuf_binding *binding)
+> >  	ssize_t offset;
+> >  	ssize_t index;
+> >  
+> > -	dma_addr = gen_pool_alloc_owner(binding->chunk_pool, PAGE_SIZE,
+> > +	dma_addr = gen_pool_alloc_owner(binding->chunk_pool,
+> > +					1UL << binding->niov_shift,
+> >  					(void **)&owner);
+> >  	if (!dma_addr)
+> >  		return NULL;
+> >  
+> >  	offset = dma_addr - owner->base_dma_addr;
+> > -	index = offset / PAGE_SIZE;
+> > +	index = offset >> binding->niov_shift;
+> >  	niov = &owner->area.niovs[index];
+> >  
+> >  	niov->desc.pp_magic = 0;
+> > @@ -113,12 +114,13 @@ void net_devmem_free_dmabuf(struct net_iov *niov)
+> >  {
+> >  	struct net_devmem_dmabuf_binding *binding = net_devmem_iov_binding(niov);
+> >  	unsigned long dma_addr = net_devmem_get_dma_addr(niov);
+> > +	size_t niov_size = 1UL << binding->niov_shift;
+> >  
+> >  	if (WARN_ON(!gen_pool_has_addr(binding->chunk_pool, dma_addr,
+> > -				       PAGE_SIZE)))
+> > +				       niov_size)))
+> >  		return;
+> >  
+> > -	gen_pool_free(binding->chunk_pool, dma_addr, PAGE_SIZE);
+> > +	gen_pool_free(binding->chunk_pool, dma_addr, niov_size);
+> >  }
+> >  
+> >  void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding)
+> > @@ -163,6 +165,9 @@ int net_devmem_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
+> >  	u32 xa_idx;
+> >  	int err;
+> >  
+> > +	if (binding->niov_shift != PAGE_SHIFT)
+> > +		mp_params.rx_page_size = 1U << binding->niov_shift;
+> > +
+> >  	err = netif_mp_open_rxq(dev, rxq_idx, &mp_params, extack);
+> >  	if (err)
+> >  		return err;
+> > @@ -184,14 +189,16 @@ struct net_devmem_dmabuf_binding *
+> >  net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
+> >  		       struct device *dma_dev,
+> >  		       enum dma_data_direction direction,
+> > -		       unsigned int dmabuf_fd, struct netdev_nl_sock *priv,
+> > +		       unsigned int dmabuf_fd, unsigned int niov_shift,
+> > +		       struct netdev_nl_sock *priv,
+> >  		       struct netlink_ext_ack *extack)
+> >  {
+> >  	struct net_devmem_dmabuf_binding *binding;
+> > +	size_t niov_size = 1UL << niov_shift;
+> >  	static u32 id_alloc_next;
+> > +	unsigned int sg_idx, i;
+> >  	struct scatterlist *sg;
+> >  	struct dma_buf *dmabuf;
+> > -	unsigned int sg_idx, i;
+> >  	unsigned long virtual;
+> >  	int err;
+> >  
+> > @@ -213,6 +220,7 @@ net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
+> >  
+> >  	binding->dev = dev;
+> >  	binding->vdev = vdev;
+> > +	binding->niov_shift = niov_shift;
+> >  	xa_init_flags(&binding->bound_rxqs, XA_FLAGS_ALLOC);
+> >  
+> >  	err = percpu_ref_init(&binding->ref,
+> > @@ -248,18 +256,14 @@ net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
+> >  			goto err_unmap;
+> >  		}
+> >  		binding->tx_vec = kvmalloc_objs(struct net_iov *,
+> > -						dmabuf->size / PAGE_SIZE);
+> > +						dmabuf->size >> niov_shift);
+> >  		if (!binding->tx_vec) {
+> >  			err = -ENOMEM;
+> >  			goto err_unmap;
+> >  		}
+> >  	}
+> >  
+> > -	/* For simplicity we expect to make PAGE_SIZE allocations, but the
+> > -	 * binding can be much more flexible than that. We may be able to
+> > -	 * allocate MTU sized chunks here. Leave that for future work...
+> > -	 */
+> > -	binding->chunk_pool = gen_pool_create(PAGE_SHIFT,
+> > +	binding->chunk_pool = gen_pool_create(niov_shift,
+> >  					      dev_to_node(&dev->dev));
+> >  	if (!binding->chunk_pool) {
+> >  		err = -ENOMEM;
+> > @@ -273,9 +277,11 @@ net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
+> >  		size_t len = sg_dma_len(sg);
+> >  		struct net_iov *niov;
+> >  
+> > -		if (!IS_ALIGNED(len, PAGE_SIZE)) {
+> > +		if (!IS_ALIGNED(dma_addr, niov_size) ||
+> > +		    !IS_ALIGNED(len, niov_size)) {
+> >  			err = -EINVAL;
+> > -			NL_SET_ERR_MSG(extack, "dma-buf SG length must be PAGE_SIZE aligned");
+> > +			NL_SET_ERR_MSG(extack,
+> > +				       "dmabuf sg entry not aligned to niov size");
+> 
+> nit: should we NL_SET_ERR_MSG_FMT here and export chunk len and expected
+> alignment?
 
---Ja9qjb5S9bUXbDpX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+sgtm!
 
-On Fri, Jun 05, 2026 at 05:38:55AM +0200, Herman van Hazendonk via B4 Relay=
- wrote:
-> From: Herman van Hazendonk <github.com@herrie.org>
->=20
-> Add the binding for the Aptina (now ON Semiconductor) MT9M113 1.3
-> megapixel SoC image sensor with on-die ISP. The chip is used as the
-> front (user-facing) camera on the HP TouchPad tablet and connects
-> to the host SoC over MIPI CSI-2.
->=20
-> The binding describes the chip's i2c address, optional reset and
-> standby GPIOs, the per-supply regulators (VDD, VDD_IO, VDDA), the
-> external clock input, and the CSI-2 endpoint pads exposed via the
-> "port" subnode.
->=20
-> Signed-off-by: Herman van Hazendonk <github.com@herrie.org>
-> ---
->  .../bindings/media/i2c/aptina,mt9m113.yaml         | 127 +++++++++++++++=
-++++++
->  1 file changed, 127 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/i2c/aptina,mt9m113.y=
-aml b/Documentation/devicetree/bindings/media/i2c/aptina,mt9m113.yaml
-> new file mode 100644
-> index 000000000000..7fa7cb2fedf9
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/aptina,mt9m113.yaml
-> @@ -0,0 +1,127 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/aptina,mt9m113.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Aptina MT9M113 1.3 Megapixel CMOS Digital Image Sensor
-> +
-> +maintainers:
-> +  - Herman van Hazendonk <github.com@herrie.org>
-> +
-> +description: |-
-> +  The Aptina MT9M113 is a 1.3 Megapixel CMOS digital image sensor with
-> +  1280x1024 active pixels. It supports dual context operation:
-> +  Context A (640x480 preview mode with binning) and Context B (1280x1024
-> +  capture mode). It is programmable through an I2C interface and outputs
-> +  image data over a 1-lane MIPI CSI-2 connection.
-> +
-> +properties:
-> +  compatible:
-> +    const: aptina,mt9m113
-> +
-> +  reg:
-> +    description: I2C device address
-> +    enum:
-> +      - 0x3c
-> +      - 0x48
-> +      - 0x5d
-> +
-> +  clocks:
-> +    description: EXTCLK clock signal (24 MHz typical)
-> +    maxItems: 1
-> +
-> +  vdd-supply:
-> +    description:
-> +      Core digital voltage supply, 1.8V
-> +
-> +  vddio-supply:
-> +    description:
-> +      I/O digital voltage supply, 1.8V or 2.8V
-> +
-> +  vaa-supply:
-> +    description:
-> +      Analog voltage supply, 2.8V
-> +
-> +  reset-gpios:
-> +    description: |-
+> >  			goto err_free_chunks;
+> >  		}
+> >  
+> > @@ -288,7 +294,7 @@ net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
+> >  
+> >  		owner->area.base_virtual = virtual;
+> >  		owner->base_dma_addr = dma_addr;
+> > -		owner->area.num_niovs = len / PAGE_SIZE;
+> > +		owner->area.num_niovs = len >> niov_shift;
+> >  		owner->binding = binding;
+> >  
+> >  		err = gen_pool_add_owner(binding->chunk_pool, dma_addr,
+> > @@ -313,7 +319,7 @@ net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
+> >  			page_pool_set_dma_addr_netmem(net_iov_to_netmem(niov),
+> >  						      net_devmem_get_dma_addr(niov));
+> >  			if (direction == DMA_TO_DEVICE)
+> > -				binding->tx_vec[owner->area.base_virtual / PAGE_SIZE + i] = niov;
+> > +				binding->tx_vec[(owner->area.base_virtual >> niov_shift) + i] = niov;
+> >  		}
+> >  
+> >  		virtual += len;
+> > @@ -430,13 +436,15 @@ struct net_iov *
+> >  net_devmem_get_niov_at(struct net_devmem_dmabuf_binding *binding,
+> >  		       size_t virt_addr, size_t *off, size_t *size)
+> >  {
+> > +	size_t niov_size = 1UL << binding->niov_shift;
+> > +
+> >  	if (virt_addr >= binding->dmabuf->size)
+> >  		return NULL;
+> >  
+> > -	*off = virt_addr % PAGE_SIZE;
+> > -	*size = PAGE_SIZE - *off;
+> > +	*off = virt_addr & (niov_size - 1);
+> > +	*size = niov_size - *off;
+> >  
+> > -	return binding->tx_vec[virt_addr / PAGE_SIZE];
+> > +	return binding->tx_vec[virt_addr >> binding->niov_shift];
+> >  }
+> >  
+> >  /*** "Dmabuf devmem memory provider" ***/
+> > @@ -454,8 +462,8 @@ int mp_dmabuf_devmem_init(struct page_pool *pool)
+> >  	pool->dma_sync = false;
+> >  	pool->dma_sync_for_cpu = false;
+> >  
+> > -	if (pool->p.order != 0)
+> > -		return -E2BIG;
+> > +	if (pool->p.order != binding->niov_shift - PAGE_SHIFT)
+> > +		return -EINVAL;
+> 
+> Any specific reason you change E2BIG to EINVAL?
 
-Neither this or powerdown should need the |-, there's no formatting here
-that needs preservation.
+It seemed to reflect the new conditional more accurately, as in the case
+of order < niov_shift the pool order is too small, not too big. TBH, I'm
+not sure if that case is actually ever hit though, at least with current
+drivers... 
 
-> +      Reference to the GPIO connected to the RESET_BAR pin, if any (acti=
-ve
-> +      low).
-> +
-> +  powerdown-gpios:
-> +    description: |-
-> +      Reference to the GPIO connected to the STANDBY/PWDN pin, if any (a=
-ctive
-> +      high). When asserted, the sensor enters low-power standby mode.
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          bus-type:
-> +            const: 4
-> +            description: MIPI CSI-2 D-PHY
-> +
-> +          link-frequencies: true
-> +          remote-endpoint: true
-> +          data-lanes:
-> +            minItems: 1
+Not married to it, open to go back to E2BIG.
 
-This minItems shouldn't be needed, the maxItems should suffice.
-
-> +            maxItems: 1
-> +
-> +        required:
-> +          - bus-type
-> +          - link-frequencies
-> +          - data-lanes
-> +
-> +    required:
-> +      - endpoint
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - vdd-supply
-> +  - vddio-supply
-> +  - vaa-supply
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/media/video-interfaces.h>
-> +
-> +    i2c0 {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        camera@3c {
-> +            compatible =3D "aptina,mt9m113";
-> +            reg =3D <0x3c>;
-> +
-> +            clocks =3D <&mmcc 48>;
-> +
-> +            reset-gpios =3D <&pm8058_gpio 29 GPIO_ACTIVE_LOW>;
-> +            powerdown-gpios =3D <&pm8058_gpio 30 GPIO_ACTIVE_HIGH>;
-> +
-> +            vddio-supply =3D <&pm8058_l15>;
-> +            vdd-supply =3D <&pm8058_l15>;
-> +            vaa-supply =3D <&pm8058_l14>;
-> +
-> +            port {
-> +                mt9m113_ep: endpoint {
-
-This label here should be dropped, cos it has nothing referencing it.
-
-Otherwise, this looks good to me.
-pw-bot: changes-requested
-
-Cheers,
-Conor.
-
-> +                    bus-type =3D <MEDIA_BUS_TYPE_CSI2_DPHY>;
-> +                    link-frequencies =3D /bits/ 64 <384000000>;
-> +                    data-lanes =3D <1>;
-> +                    remote-endpoint =3D <&csiphy1_ep>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
->=20
-> --=20
-> 2.43.0
->=20
->=20
-
---Ja9qjb5S9bUXbDpX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaiL3DAAKCRB4tDGHoIJi
-0vWsAP440L+Na/zMGpzrygNLT5yUo7eG6BQJaXb1Oyjv8J6NqgD/bR9dJZy3kbXt
-Otf1cVDeum6Hxyqc+OVM4/B7mJ0oxQI=
-=vpwu
------END PGP SIGNATURE-----
-
---Ja9qjb5S9bUXbDpX--
+Best,
+Bobby
 
