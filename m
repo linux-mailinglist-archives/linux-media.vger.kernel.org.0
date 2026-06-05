@@ -1,153 +1,150 @@
-Return-Path: <linux-media+bounces-63874-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63875-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id pDl4GBN/ImowYwEAu9opvQ
-	(envelope-from <linux-media+bounces-63874-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 09:47:31 +0200
+	id bJy9MxGEImpbZgEAu9opvQ
+	(envelope-from <linux-media+bounces-63875-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 10:08:49 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 901B36461DB
-	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 09:47:30 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF5F646461
+	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 10:08:48 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=f+EI+0yq;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63874-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63874-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=intel.com;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=oqHeSE8R;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63875-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-63875-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 0F887307EA29
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 07:39:15 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id BF79B302861D
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 07:46:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67687426EAD;
-	Fri,  5 Jun 2026 07:39:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45B84481FA5;
+	Fri,  5 Jun 2026 07:44:56 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8EB47AF6D
-	for <linux-media@vger.kernel.org>; Fri,  5 Jun 2026 07:39:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7BE47DFA3;
+	Fri,  5 Jun 2026 07:44:54 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780645151; cv=none; b=kgxKlZ9RZotb8OHW8o2EueIb6po+u8zvsy3qhVGPWWUb8QUTD7ofTYDSw8Ry02ZQcUvxuF8+QZ3jV2Njbnd4Z9SNOStozBV+du+5DNLd+/Xv5qCyleVyLp43Fsz+5wPBHG5227CfxsOrbqbgUvQYsTtXfAl08Z8KwKZ3aBtUv3U=
+	t=1780645495; cv=none; b=CmMHxNn0M0xnvpvj8FyAdpADsGDG/UN7Qy1pYLRHPWjKrZlGAMiqfuLDk6kcO2Icrj/0kplMliTyrQgz1hGxRep61N2PloS+3M0bghbyAqrdRsyo2tp1miFJXzedcALUYf0SvO/ZUk9/IKqd3QFDCfezkII0AP9gdkPj89FxxFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780645151; c=relaxed/simple;
-	bh=rNMB8kxn0OUrsy60C3NPa30RzdU1wBclSSfW0FUzHQc=;
+	s=arc-20240116; t=1780645495; c=relaxed/simple;
+	bh=LZAWbIwQBwcwHTwBHwzYT3w1immcTj1YOZWFgudxjwM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JcuZaO7kE/FISL+pei5LerVjnjHmAKs0Q20bLi4hUPiEOATLVuC8QgsMJ7MHXJqTDMQ8u6A7e2sS2Z2r7GymaRMvXQa9rbXqWrSuyVM4F2R0RouOa7NEXm/WAe+35DUVsnqB9029B8YRe45yWzj9d/RLX9k1RiPqScv7zhn1ovU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f+EI+0yq; arc=none smtp.client-ip=192.198.163.14
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780645150; x=1812181150;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rNMB8kxn0OUrsy60C3NPa30RzdU1wBclSSfW0FUzHQc=;
-  b=f+EI+0yq3dpkDPlxWS3pZ+qe6gvSMyezD37aenU8POHoOflVcn0DpuyM
-   fbw0OUs3eCea3sNaSfDPRXF6KmhPPLZwgFsmSgQ6AlrpXTbtz/Cw5tbRf
-   2pM+6sRy6ok09P7S7jjaN5Kbd44jxvcGgKZ33J/f8L0gKyyctj95L2K7O
-   K/+DQyndir26Uor3ZBTNGw0VEWdbNOlSFVPTvkyMB7PxzBg9iSKcpzBxl
-   LVYlFmN12ZL2JutXfA2z8nTXxYcShWE+AADon5E9aataUIAZq3yBfOfmV
-   bCZt36vi+0Xi0xY0dyIqvk+cmTJgL/9fjErhJJl6Mx7H1C7FktxNP1GOJ
-   Q==;
-X-CSE-ConnectionGUID: ze1v5TUdR6mBbyEDmBr3Hg==
-X-CSE-MsgGUID: bByJYu2KTk6HqnW92VTHdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="81509627"
-X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="81509627"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 00:39:04 -0700
-X-CSE-ConnectionGUID: ahE34fx3QTayJmI+YYX9rA==
-X-CSE-MsgGUID: QpzCmYu/Q0Cku6+Zhp6WFw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="275020930"
-Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.207])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 00:39:02 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 1333B1206D5;
-	Fri, 05 Jun 2026 10:39:01 +0300 (EEST)
-Date: Fri, 5 Jun 2026 10:39:00 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: "Cao, Bingbu" <Bingbu.Cao@amd.com>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>,
-	"tfiga@google.com" <tfiga@google.com>,
-	"ribalda@chromium.org" <ribalda@chromium.org>
-Subject: Re: [PATCH v2] media: update contact email of Bingbu Cao
-Message-ID: <aiJ9FE1mhTlPRXI3@kekkonen.localdomain>
-References: <20260601065555.150536-1-bingbu.cao@amd.com>
- <ah1B9h8baqGqZ8Zj@kekkonen.localdomain>
- <BN3PR12MB95698640E1B433B04559BD438B152@BN3PR12MB9569.namprd12.prod.outlook.com>
- <ah1WLSwptKxFrHkN@kekkonen.localdomain>
- <BN3PR12MB956901A268C35C90BD53E2208B152@BN3PR12MB9569.namprd12.prod.outlook.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=rF69GWsGuppiTThkWlV0Y+1XwSQtPVcvCDkupGENsOFkWRDY/+/ekho5DCSPuiuQr2RA3QgkjBAtNTY3iZhHR8K014Yi3/oc9Q/Ov2Dn2I/gQGHPBrEGVu3l2U7fiyY+rwa6cMzjvOKK7L6J3fJgw5fd/g0obDn2cZ8U1l39YE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oqHeSE8R; arc=none smtp.client-ip=213.167.242.64
+Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6BA138E0;
+	Fri,  5 Jun 2026 09:44:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1780645467;
+	bh=LZAWbIwQBwcwHTwBHwzYT3w1immcTj1YOZWFgudxjwM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oqHeSE8RKerDEHRAM/4FlPVypt7XVLuuD+fvAF25XCfS1xQK2GYP+8SAZBt0nYPq/
+	 JLIoD8fF6goCE5qwDG4jZ78O4J7fM/Czrv2yMkFkdkIOXo1KifwODuPTQEmhnBdK76
+	 B3pPB29kA3jShvVU+oqzxksZ9S1bnmN0VfC7xsdA=
+Date: Fri, 5 Jun 2026 09:44:49 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Ethan Tidmore <ethantidmore06@gmail.com>
+Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Hans Verkuil <hverkuil+cisco@kernel.org>, Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
+	Daniel Scally <dan.scally+renesas@ideasonboard.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: rzg2l-cru: Fix error pointer dereference
+Message-ID: <aiJ-K9B9Eifcfg57@zed>
+References: <20260217041055.88912-1-ethantidmore06@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <BN3PR12MB956901A268C35C90BD53E2208B152@BN3PR12MB9569.namprd12.prod.outlook.com>
+In-Reply-To: <20260217041055.88912-1-ethantidmore06@gmail.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63874-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:Bingbu.Cao@amd.com,m:linux-media@vger.kernel.org,m:laurent.pinchart@ideasonboard.com,m:mchehab@kernel.org,m:tfiga@google.com,m:ribalda@chromium.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:ethantidmore06@gmail.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:mchehab@kernel.org,m:laurent.pinchart+renesas@ideasonboard.com,m:hverkuil+cisco@kernel.org,m:tommaso.merciai.xr@bp.renesas.com,m:dan.scally+renesas@ideasonboard.com,m:biju.das.jz@bp.renesas.com,m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:laurent.pinchart@ideasonboard.com,m:hverkuil@kernel.org,m:dan.scally@ideasonboard.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-63875-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:dkim,vger.kernel.org:from_smtp,linux.intel.com:from_mime,kekkonen.localdomain:mid]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TAGGED_RCPT(0.00)[linux-media,renesas,cisco];
+	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[zed:mid,vger.kernel.org:from_smtp,ideasonboard.com:from_mime,ideasonboard.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 901B36461DB
+X-Rspamd-Queue-Id: CCF5F646461
 
-Hi Bingbu,
+Hi Ethan
 
-On Mon, Jun 01, 2026 at 10:00:15AM +0000, Cao, Bingbu wrote:
-> > > > It looks like the ov9734 driver will be left without a maintainer,
-> > > > would
-> > > > you be interested in maintaining it? I'd also add myself as
-> > maintainer
-> > > > for
-> > > > the imx319 and the ov01a10 drivers.
-> > >
-> > > I would like to be reviewer for ov9734, could you take the
-> > maintainer?
-> >
-> > I don't have access to the sensor nor I know where it can be found. :-
-> > ( Any
-> > idea?
-> 
-> I think the Intel camera team on Chrome(in India now) could help you.
+On Mon, Feb 16, 2026 at 10:10:55PM -0600, Ethan Tidmore wrote:
+> The function media_pad_remote_pad_unique() can return an error pointer
+> and is not checked. Add check for error pointer.
+>
+> Detected by Smatch:
+> drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c:414 rzg2l_cru_get_virtual_channel() error:
+> 'remote_pad' dereferencing possible ERR_PTR()
+>
+> Fixes: d7d72dae81d5d ("media: rzg2l-cru: Retrieve virtual channel information")
+> Signed-off-by: Ethan Tidmore <ethantidmore06@gmail.com>
 
-Thanks. I'll put M: there for now at least.
+This really fell into the cracks and you've not been given any
+feedback. Sorry about this.
 
--- 
-Regards,
+> ---
+>  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> index 162e2ace6931..bf7d96841c78 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> @@ -411,6 +411,9 @@ static int rzg2l_cru_get_virtual_channel(struct rzg2l_cru_dev *cru)
+>  	int ret;
+>
+>  	remote_pad = media_pad_remote_pad_unique(&cru->ip.pads[RZG2L_CRU_IP_SINK]);
+> +	if (IS_ERR(remote_pad))
+> +		return PTR_ERR(remote_pad);
+> +
 
-Sakari Ailus
+As far as I can tell the link on the cru->ip sink pad is created with
+IMMUTABLE flag, so we're sure it always is there.
+
+I don't think the check is required.
+
+Thanks
+  j
+>  	ret = v4l2_subdev_call(cru->ip.remote, pad, get_frame_desc, remote_pad->index, &fd);
+>  	if (ret < 0 && ret != -ENOIOCTLCMD) {
+>  		dev_err(cru->dev, "get_frame_desc failed on IP remote subdev\n");
+> --
+> 2.53.0
+>
+>
 
