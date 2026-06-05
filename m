@@ -1,235 +1,202 @@
-Return-Path: <linux-media+bounces-63886-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63888-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id wGZjDw6YImqkagEAu9opvQ
-	(envelope-from <linux-media+bounces-63886-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 11:34:06 +0200
+	id 3wKHO7WYImrJagEAu9opvQ
+	(envelope-from <linux-media+bounces-63888-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 11:36:54 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D350646E30
-	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 11:34:05 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69665646E94
+	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 11:36:53 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=siliconsignals.io header.s=selector1 header.b=FqxKQ9c0;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63886-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63886-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=siliconsignals.io;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=mediatek.com header.s=dk header.b=BkTGdhpy;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63888-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-63888-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=mediatek.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 21D18303AF25
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 09:32:47 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id EEF0F3023A41
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 09:35:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0C353B71DC;
-	Fri,  5 Jun 2026 09:32:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE42F3BF699;
+	Fri,  5 Jun 2026 09:35:43 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11020078.outbound.protection.outlook.com [52.101.225.78])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4119D3B71A6;
-	Fri,  5 Jun 2026 09:32:36 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780651958; cv=fail; b=GZYZE6S310q8dT9TYNaZUbzloxblZv7etCv9+VJugxvCamOTlPRvEGZIIEtAXRQvSSF++qws+IP/X/gQyr6Rs1DhmuZ0UHMsOsUAh30HHxQebtZkSboMV0IjO2ihZ5Y7HJLWG3wU9pyEfj9MOZvtRT56jlv4nPBzOx6chtOLqqA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780651958; c=relaxed/simple;
-	bh=b8f+mnqxMBlu5Ny2zsNU8h5wiUGjhrsUGtcc61MLRa4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=TGMu8nNp2H+CQJYz1wGZBMWUD3xl4ymCSiL0hF35jD5Fz5NROS//4gcSbi3A2eOGDEk8yov+Ts35qCFL0T8Qrdxx+FEt2DisMxYhsKcQ95q9dfnOevOQO6EFltpALMd80A4Lc7jxmc5ynrtJCC1G41GyGLdBOThUQcXB1MYlEDM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=FqxKQ9c0; arc=fail smtp.client-ip=52.101.225.78
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gNtr1WZKQkbSmrrnIugeCKPWNj5OuehCv9O6N2CyJNEdS88kb/h55fcbCcxuoHhHlBRKezcy9GGYGV+Oed5lIOF4f4c1HKdVvPLvsgzADqr1MaQBsaGDmiREoG/EuMtH4OIGsYd+0+6qfcCqb7Wb3/ObFNkl9egnuwAFycdJea8pc+EvhtvlNT8JDwFuP5fmXd3wNgAdELR6C+2nEN89VoA5QjWOwTfRA2ZhS0xSCiR8zbllYkFTnIwGWOEQF30RYOOXOA73iUwLAawSQQRFmDpKosTHqfYH//LKlgjhJfv7y8vRCdMgsG+Q/NBnWpCoZpBGK/dZX4QHydqj+iSe8A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b8f+mnqxMBlu5Ny2zsNU8h5wiUGjhrsUGtcc61MLRa4=;
- b=EgYslvu/0DynbqwffSi3xOtroEvyibLdmKeS58jrE6yVYGAPfB8XRmGIVut/AxjbPYlrjGfOGmJ+XM2q2TcUnqHG6va/YhNBane79SsrXT0IJ12btpanR1YFGT/8u7lnd2OzFgU10SrSVaxvPnnUNkMOtVRvIZFk5p92bN+a/EdGVoZ3j4NkLL8f6cggX5XgnfQ3+drhIDGhouliAaNNfa7kPr5q7wGd99hNr1OOWARxhB/8CP4RiBNcSoUUd9VvkBUAOZPVGOJWZFp3SgqtrrF2IvM6Hr5ct8QOZJ17qhWcW3xPxB1tS0wwQ6Yinb8yewthkJJr7zAVwVYwa2KbQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
- header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b8f+mnqxMBlu5Ny2zsNU8h5wiUGjhrsUGtcc61MLRa4=;
- b=FqxKQ9c00zaj9xLi7vJYD5nZbbvpC//mWTmvTfzSMV5oTZSPvqvKmG1buphMZH5XuTkuRIkjEso6OmXXleCkbqEEGq/ESL3v4AkQ53EkNrKAJOeeefKkbSETDLGm6EhvtWjgngkErdA8olmvDRlSEnZxSYFY/VUZD03A1qUjSItczXcsnFYNls0JLhHlGZgnR7PJsQfTUe/A89ACdt8RrrUc467/nvpUggKppbeXAGKe3rUNlwg6hapoo6D1s7M+RkFeLc9oVFV+L3rzOJIBu4B+xzNzsd5PRbsaZWP+jKtfc/bOMA5V5yBt2Xs+Qdski35IvgTUa9hJpEDuf9qLBg==
-Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
- by MA0P287MB0965.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:e2::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.8; Fri, 5 Jun 2026
- 09:32:30 +0000
-Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- ([fe80::ce63:5749:b390:508b]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- ([fe80::ce63:5749:b390:508b%6]) with mapi id 15.21.0092.007; Fri, 5 Jun 2026
- 09:32:30 +0000
-From: Tarang Raval <tarang.raval@siliconsignals.io>
-To: Kate Hsuan <hpa@redhat.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans de Goede
-	<johannes.goede@oss.qualcomm.com>, Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Serin Yeh <serin.yeh@intel.com>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 2/3] media: i2c: imx471: Add Sony IMX471 image sensor
- driver
-Thread-Topic: [PATCH v3 2/3] media: i2c: imx471: Add Sony IMX471 image sensor
- driver
-Thread-Index: AQHc6ZnV8EzqZpFcuUOHpM8Iev0rOrYapvWAgAbF+ACAAFuogIAN8tmAgAAKGp0=
-Date: Fri, 5 Jun 2026 09:32:30 +0000
-Message-ID:
- <PN3P287MB18299B4251956273620C610D8B112@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
-References: <20260522031121.11968-1-hpa@redhat.com>
- <20260522031121.11968-3-hpa@redhat.com>
- <ahDdMZjID07dRDhZ@kekkonen.localdomain>
- <CAEth8oGWfYpC2umZ49g5qEp_QoZXNKNJ6vMu2EtmnOy6BxZGBg@mail.gmail.com>
- <ahbYo3CSzkYI3jF9@kekkonen.localdomain>
- <CAEth8oHOgPXWGFp9OYa3VGUK3p10Rnx=Kv-zPJRAS4k-rR-DFg@mail.gmail.com>
-In-Reply-To:
- <CAEth8oHOgPXWGFp9OYa3VGUK3p10Rnx=Kv-zPJRAS4k-rR-DFg@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3P287MB1829:EE_|MA0P287MB0965:EE_
-x-ms-office365-filtering-correlation-id: 8f661b22-0aef-40ac-28ad-08dec2e55d5e
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|376014|18002099003|38070700021|22082099003|4143699003|5023799004|56012099006;
-x-microsoft-antispam-message-info:
- PnjOSShdALe1+/hbzSWg6ylDmGyHttCKRGvNwS61aYKzpOWtqpZXiMhQqo7QxKmhR62AxsE1EwzbAh2Gr5cmhAjG4EZCXCuKdk5i/1q6AH7st4L/we6h2rxV0EUJJwd9r1+CEMUaZUxQ4NFinzTEI6DWHrLNaAPXqq4KHTjl9EhwTYdodjJM/VepjJe4TtHk17HhhmY43Zg7e5unYBuiPwhk1Bz6+YN3TfN5FrbUrqNrNVQleEbows83mL/EaTHKx7NQ900upnd/j1mtZ4hDbFaVHmlDI8+E5++oVWJm9tnvDNq+bWEWxqhjUeNsJTFE5uR+ze2pJgS+4G3+CA3ENTTVcGi/BevYQGfDAkRb0ZTTL4P5ekNIk23VfY3U3OjBp4oo52dqcEcdw3xyVBwaii1gZ6j646ooy6YbhYOrGrPQkfsg3bmKiWxR0sVIe+1nGyH43iOKOb6Zqhp1AZxYm+jUT88N1/Cl9KuOjQeT1UxtnTE4mS08UWproIHx7QVcosCO+pT6C9A0pkbEJ13ro64Aavs8Hl1NJWTs/pAwKkPx9i0Nm+0uBANJz2M1yw9VU+CGp7UrJANccMDmXP2USe2ZcB2rwUFFN9DElnx13U2BuAEHB03Mia/kZZJ6bVZmfhsB8/YbBOY6gpSPhTsswjmiS0mcsmo1LB70SEND2pOGYgjVV6H+t/RxaD/Z8AO+fahjMgB/+z/9ceXdnblRyQ==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(18002099003)(38070700021)(22082099003)(4143699003)(5023799004)(56012099006);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?anpPcS93cUxvdkQ1bzR0Z1lBYm01TGJOK3dOZHQxaW11WEFsMWlzVmhCOXNE?=
- =?utf-8?B?bXRJRExnRW1iNjE0WEowSkVXM2R3SzdVdlBPb00yL1phalBFSVl3akVZSjha?=
- =?utf-8?B?bUVZRUg3bTVZdHlyWUNOeUtuOVRvSFpvU2F3WnRpYTdwL2YvK2xyL0YwM2Fp?=
- =?utf-8?B?WW9UV3I3eTk0UWc4YUI2cVNtRWpvMlQyNnp0MFlPN1kyU3BOdUE5RUZPbXgw?=
- =?utf-8?B?c0gzdGo0YWpEb2dNWitmcEZackE2YlRSUjBacHNzZDVJQVRNZ0xkT3JhdXVK?=
- =?utf-8?B?K0tIeEdzS1VRbU1IN1FkaE0rYmQ4aEpMM2JueU0xRjBKMEtFTkg2d2NuUDVS?=
- =?utf-8?B?TGhzQjQ2WGhtbXlnazRVRGYyUzVncWVBRzRiWVR4S01pc1kweURoVzhuRnpH?=
- =?utf-8?B?bm5hUm5iSmlrTStqOWtIU2xadGFSaDRhZ1ZLUC9CUXBFNnVhSkFmMEcwRjJp?=
- =?utf-8?B?MGZya25wcjN6eTFxL3dIMWF3ZU1iTlBtaTIvbUMzbm5JK0V5UHFkcWVURXBM?=
- =?utf-8?B?R0VTdUNoSkxaQ1ZKcXNRd2RGc0dSSjFLUmhPYytFaFVDaExRemtWSUE4bjFh?=
- =?utf-8?B?RzljSHkydGs2dGpxMStELzl2TXRjQ29DZGx3cloyenpYK0laRTNnempjWU5r?=
- =?utf-8?B?dkVrMVVZM1J5RjdIN1lzNHY5Zk5HejJ6MDM3S2FvWi9VQUVRdnArYXQxYzFU?=
- =?utf-8?B?OThUN3Fhd0xFVzNrM2JKM0pWMjRnWG9uQmpURyt4T3hick1VcVkyUWZ0Nms5?=
- =?utf-8?B?eU9zQlc5WXRyZUsxYmFMVlpsK0pXR29Hb282V1hGNkowZEg5N2tiNmZweDJH?=
- =?utf-8?B?M0RTa3IyTHEvV1lSNVdGY2RmMnNvRGZFb2dGSHpnTjNBa3hVOGt0U2F5SERH?=
- =?utf-8?B?eFI3V1o0VVNoekM1S1drWDRKVmFuSGFCUHFFazNlaVQ5cE80YTVkQWVRQ2Fv?=
- =?utf-8?B?TXFFMFZFZVU1L3B5N1N0cFhLcmttVWFZNnJpYnMwWng0cjFKOUVFZTVMUUhS?=
- =?utf-8?B?OVh2NkJPTVAzZWZNVkllQWl3NjNaQlV2N1ZDcnZJMExiN0pURmJLTmFjc3k5?=
- =?utf-8?B?L2xibWlnbjV1OXVDMldsdTFzR2ZHNHFNWWlVN29YS1g0NnlFbVd3TzV2clNT?=
- =?utf-8?B?OTVJQXZCMkVjSjQzVGMvbnJGc2tBc3c2UElRa2JaM2hOK2lmTnh6RURWREtM?=
- =?utf-8?B?cVdVWXpwRXdMWHBTNnNOWjhIWDBHVVNuQ0dWejhlOU9mL0dONFJKM291OTlU?=
- =?utf-8?B?ajFFVUhyZTBSTHJZUGxHUUdnakFrbW1vQTVtVkdabWFwc2taeFdkWTMvMUxC?=
- =?utf-8?B?T3dKWm5TSHk1KzlVR253bmVnVldwRXJDOGVobnFBYmx0VGtJRXllWVJlV0N0?=
- =?utf-8?B?ZG9MR1N1Y0xYTUp0bW5xMWJEQ0tGMTFvL1NuVk5nYVByTmZvK3VhT1J5QmhF?=
- =?utf-8?B?ZlNEYnp6Vm91VzRHRjFCK3hyT3huZWNhRVlZN0ZFT0hjbzg1RXVIQmNNUlVU?=
- =?utf-8?B?Y3ZnYlpyZ3BrREJBbmg1aDhFbWpnYWNDUHF3RXhFNWFZNWQ1ZDA3ZkcwQXRG?=
- =?utf-8?B?NmszZHdLUHdMb1RNWm5XZFk1bFlqK2pZbkJDb0lSTmh6ZlRGTGlyWEx5Z0hY?=
- =?utf-8?B?dStyTk9zYjZsOE9ITHVjQlU1cmk2V0grUyt1TlZXZTZ3ZEVseXJRaWQ1bTZL?=
- =?utf-8?B?VUxwUmE5RS9FVjFmRkNnU1NNZDcrdEVvNEZUT0ZvOEx5amVneHF4YzRaeVRF?=
- =?utf-8?B?RzlCSnBhRVY3TE83dDFTdHRDbFlRbzN3RFdyNTA4NnZiOGVpRnNRUHpWcVdj?=
- =?utf-8?B?bDIrZnY0NmVIZ29paEVHT08rUXFDdU1nYkFwOG85bGNKdVpzeFhMaXlZcVQv?=
- =?utf-8?B?cEtrZjg0WG15OGppNHNCa3puT28xSVArd01IM2c5MmNxdE1kWHVRazlucVFa?=
- =?utf-8?B?dUhOdnRyeVpuOWZibmY2d1NnTWk4NWQ3Q1IwcE9jSWFFTlV2Z3lPeG9uc1pw?=
- =?utf-8?B?dWo0ai9lTzRFUHhzMkRPcGZKby9xQUFoUVFmampSVXcxUURnOTF1TmhMenpm?=
- =?utf-8?B?bGdFMU9zUWJzaUdoL2RCanY2RTRjeS9mb3AyTVg3S3lDOG15TWRXVUVMVGZ0?=
- =?utf-8?B?eXFSVktLTDBPWlNxdEVWaGR0Wmw5Z0pJcjhMUUdPa1U1UkNrR01GWndZTlMx?=
- =?utf-8?B?RGlMajhDWmlBem5yRVlBMzArQmhJVXpoc3B1N0FRSjNHUVIwTjROazRwOUl3?=
- =?utf-8?B?TC9ZbHlNSVV6L0VZVk9VMHNVaC9NTW5hM2ZoRmxVZTF0NEJmemxuKzVIU3F6?=
- =?utf-8?B?ekpHWlc5Vko2YmZHN09vdEdDdjBnU01xaDRwMmdCZTZwWFo1Q1pZMVBscnN4?=
- =?utf-8?Q?PDLBPkyz+UfcJ0Fc=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6E0D3A4F5E;
+	Fri,  5 Jun 2026 09:35:40 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780652143; cv=none; b=GN16CArCwk5qJrA4U07p7EIu8T9W2BmyPmZvSHdAIhiQwTOTwB77OjU2+h0A/72Zabuyqv0jCbOE4X3/QCosQ5XLxYXjV5VaW3t8Lkp3PCFM31vLTlCgbI62CYEprS3XoIb/PSVqZ8OAqj4BEkVqf50+By2GIIkpcvRPhVz2mjg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780652143; c=relaxed/simple;
+	bh=nO09VhZg7HLB11lLMiUr6sh+81v/cPYvsSsc/nNizx8=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=U8iQ3Ep7seVBIqn0FnB5tjkmJr3ApMqtuYkcmJ9CKRZLRQ8gHydJYZMv3qCpfbrOjO0ezUUgNZdrh8q7xiwrH6fMRhiIbIA/klz8v1vFVqwNfzQg+o76p26RA+pqBM8IO/HkPnFR9uypUIktsb/lPHYTvbbeTnAKXta50IDP4xI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=BkTGdhpy; arc=none smtp.client-ip=210.61.82.184
+X-UUID: e6cfdb4e60c111f18dc8c9802ae25ab1-20260605
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=7S10PuVpqSDCEbfsieH240FkICWT3yr53mF/yHr2S3k=;
+	b=BkTGdhpyqilCXrnM71WJwy3Z25j2gfW1yyCx/E2VvtCQ/ivEY6+XM5RNB++E+U0dB4eLV9UTZFKQ2Up6KIBydzNUGF3FerhKFMKSQ05MxONiVv7CCb+lGPu3k3RHoRwmLZ8FG3y4e8CbZhE1C26H7drlbVDFZh8zd9ugkZVDCfc=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.15,REQID:c4b450b7-8871-4e83-86c5-c032e7d7d4c9,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e276073,CLOUDID:8daa8503-5b7c-4de7-bc39-cc187eea3c57,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102|136|836|865|888|898,TC:-5,Conten
+	t:0|15|50,EDM:-3,IP:nil,URL:99|1,File:130,RT:0,Bulk:nil,QS:nil,BEC:-1,COL:
+	0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: e6cfdb4e60c111f18dc8c9802ae25ab1-20260605
+Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by mailgw02.mediatek.com
+	(envelope-from <irui.wang@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 825854466; Fri, 05 Jun 2026 17:35:34 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.29; Fri, 5 Jun 2026 17:35:32 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.2562.29 via Frontend Transport; Fri, 5 Jun 2026 17:35:31 +0800
+From: Irui Wang <irui.wang@mediatek.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Matthias Brugger
+	<matthias.bgg@gmail.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	<angelogioacchino.delregno@collabora.com>, <nicolas.dufresne@collabora.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>, kyrie wu <kyrie.wu@mediatek.com>
+CC: Yunfei Dong <yunfei.dong@mediatek.com>, Maoguang Meng
+	<maoguang.meng@mediatek.com>, Longfei Wang <longfei.wang@mediatek.com>, Irui
+ Wang <irui.wang@mediatek.com>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	<linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>
+Subject: [PATCH v7 0/6] Add support for MT8196 video encoder
+Date: Fri, 5 Jun 2026 17:35:12 +0800
+Message-ID: <20260605093519.13695-1-irui.wang@mediatek.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f661b22-0aef-40ac-28ad-08dec2e55d5e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Jun 2026 09:32:30.2180
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QySExdzBGMplrZ+Wxou0OvjMHqXPfb87yWY41hLtzL0gNNG5k5LNROVgc0h8kFF4Eu4CdkOKMkVigqZ+ehjKkHPXR4IGWQsSkKJvJxX+I8I=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0P287MB0965
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.44 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[siliconsignals.io,quarantine];
-	R_DKIM_ALLOW(-0.20)[siliconsignals.io:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[mediatek.com,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[mediatek.com:s=dk];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	MIME_BASE64_TEXT(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63886-lists,linux-media=lfdr.de];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63888-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:hverkuil-cisco@xs4all.nl,m:mchehab@kernel.org,m:robh+dt@kernel.org,m:matthias.bgg@gmail.com,m:krzk+dt@kernel.org,m:angelogioacchino.delregno@collabora.com,m:nicolas.dufresne@collabora.com,m:tiffany.lin@mediatek.com,m:kyrie.wu@mediatek.com,m:yunfei.dong@mediatek.com,m:maoguang.meng@mediatek.com,m:longfei.wang@mediatek.com,m:irui.wang@mediatek.com,m:Project_Global_Chrome_Upstream_Group@mediatek.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-mediatek@lists.infradead.org,m:robh@kernel.org,m:matthiasbgg@gmail.com,m:krzk@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[tarang.raval@siliconsignals.io,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:hpa@redhat.com,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:johannes.goede@oss.qualcomm.com,m:hverkuil+cisco@kernel.org,m:serin.yeh@intel.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[irui.wang@mediatek.com,linux-media@vger.kernel.org];
+	FREEMAIL_TO(0.00)[xs4all.nl,kernel.org,gmail.com,collabora.com,mediatek.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tarang.raval@siliconsignals.io,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[siliconsignals.io:+];
-	ALIAS_RESOLVED(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[irui.wang@mediatek.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[mediatek.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mediatek.com:mid,mediatek.com:from_mime,mediatek.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8D350646E30
+X-Rspamd-Queue-Id: 69665646E94
 
-SGkgS2F0ZSwKCj4gT24gV2VkLCBNYXkgMjcsIDIwMjYgYXQgNzo0MuKAr1BNIFNha2FyaSBBaWx1
-cwo+IDxzYWthcmkuYWlsdXNAbGludXguaW50ZWwuY29tPiB3cm90ZToKPiA+Cj4gPiBIaSBLYXRl
-LAo+ID4KPiA+IE9uIFdlZCwgTWF5IDI3LCAyMDI2IGF0IDAyOjE0OjI0UE0gKzA4MDAsIEthdGUg
-SHN1YW4gd3JvdGU6Cj4gPiA+ID4gPiArc3RydWN0IGlteDQ3MSB7Cj4gPiA+ID4gPiArICAgICBz
-dHJ1Y3QgdjRsMl9zdWJkZXYgc2Q7Cj4gPiA+ID4gPiArICAgICBzdHJ1Y3QgbWVkaWFfcGFkIHBh
-ZDsKPiA+ID4gPiA+ICsKPiA+ID4gPiA+ICsgICAgIHN0cnVjdCB2NGwyX2N0cmxfaGFuZGxlciBj
-dHJsX2hhbmRsZXI7Cj4gPiA+ID4gPiArICAgICAvKiBWNEwyIENvbnRyb2xzICovCj4gPiA+ID4g
-PiArICAgICBzdHJ1Y3QgdjRsMl9jdHJsICpsaW5rX2ZyZXE7Cj4gPiA+ID4gPiArICAgICBzdHJ1
-Y3QgdjRsMl9jdHJsICpwaXhlbF9yYXRlOwo+ID4gPiA+ID4gKyAgICAgc3RydWN0IHY0bDJfY3Ry
-bCAqdmJsYW5rOwo+ID4gPiA+ID4gKyAgICAgc3RydWN0IHY0bDJfY3RybCAqaGJsYW5rOwo+ID4g
-PiA+ID4gKyAgICAgc3RydWN0IHY0bDJfY3RybCAqdmZsaXA7Cj4gPiA+ID4gPiArICAgICBzdHJ1
-Y3QgdjRsMl9jdHJsICpoZmxpcDsKPiA+ID4gPiA+ICsgICAgIHN0cnVjdCB2NGwyX2N0cmwgKmV4
-cG9zdXJlOwo+ID4gPiA+Cj4gPiA+ID4gRG8geW91IG5lZWQgYWxsIHRoZXNlPyBBdCBsZWFzdCBs
-aW5rX2ZyZXEgcmVtYWlucyBlZmZlY3RpdmVseSB1bnVzZWQuCj4gPiA+IEknbGwgdHdlYWsgdGhl
-c2UgY3RybCBiYXNlZCBvbgo+ID4gPiBodHRwczovL2xpYmNhbWVyYS5vcmcvc2Vuc29yX2RyaXZl
-cl9yZXF1aXJlbWVudHMuaHRtbC4KPiA+Cj4gPiBJIHJhdGhlciBtZWFudCB0aGF0IHlvdSdyZSBh
-c3NpZ25pbmcgYWxsIG9mIHRoZXNlIGZpZWxkcyBidXQgdGhlbiBub3QgdXNpbmcKPiA+IHRoZW0u
-IFlvdSBjb3VsZCB0aHVzIHJlbW92ZSB0aGUgZmllbGRzIGFuZCB0aGUgYXNzaWdubWVudHMuIEJ1
-dCBJIGNhbid0IHNheQo+ID4gd2hpY2ggb25lcywgYXBhcnQgZnJvbSBsaW5rX2ZyZXEuCj4KPiBJ
-IGRyb3BwZWQgbGlua19mcmVxIGZyb20gdGhlIGRyaXZlciBidXQgaXB1NyBjb21wbGFpbnMgb2Yg
-ZXJyb3JzCj4gcmVnYXJkaW5nIGxpbmtfZnJlcSwgc2hvd24gYXMgZm9sbG93cy4KPgo+IFsgMzYy
-OC4xOTU3MjJdIGludGVsX2lwdTdfaXN5cy5pc3lzIGludGVsX2lwdTcuaXN5cy40MDogYmluZCBp
-bXg0NzEKPiAwLTAwMTAgbmxhbmVzIGlzIDQgcG9ydCBpcyAwCj4gWyAzNjI4LjE5NjIwN10gaW50
-ZWxfaXB1N19pc3lzLmlzeXMgaW50ZWxfaXB1Ny5pc3lzLjQwOiBBbGwgc2Vuc29yCj4gcmVnaXN0
-cmF0aW9uIGNvbXBsZXRlZC4KPiBbIDM2MzEuNzU0NTUwXSBpbnRlbF9pcHU3X2lzeXMuaXN5cyBp
-bnRlbF9pcHU3LmlzeXMuNDA6IGdldCBsaW5rIGZyZXEKPiBmYWlsZWQgKC0yKQo+IFsgMzYzMS43
-NTQ1NjJdIGludGVsX2lwdTdfaXN5cy5pc3lzIGludGVsX2lwdTcuaXN5cy40MDogQ1NJLTAgUEhZ
-Cj4gcG93ZXIgdXAgZmFpbGVkIC0yCj4gWyAzNjMxLjc1NDU2NV0gaW50ZWxfaXB1N19pc3lzLmlz
-eXMgaW50ZWxfaXB1Ny5pc3lzLjQwOiBlbmFibGUgc3RyZWFtcwo+IEludGVsIElQVTcgQ1NJMiAw
-IGZhaWxlZCB3aXRoIC0yCj4KPiBTbywgSSdsbCBrZWVwIGxpbmtfZnJlcS4gOikKCkkgYmVsaWV2
-ZSBTYWthcmkncyBzdWdnZXN0aW9uIHdhcyB0byByZW1vdmUgb25seSB0aGUgc3RydWN0IHY0bDJf
-Y3RybCAqbGlua19mcmVxIG1lbWJlci4KClNpbmNlIHRoZSBkcml2ZXIgZG9lcyBub3QgdXNlIHRo
-ZSBjb250cm9sIHBvaW50ZXIgbGF0ZXIsIHRoZXJlIGlzIG5vIG5lZWQKdG8gc3RvcmUgdGhlIHJl
-dHVybmVkIHBvaW50ZXIgaW4gc3RydWN0IGlteDQ3MS4KCkluIG90aGVyIHdvcmRzLCB0aGUgc3Vn
-Z2VzdGlvbiB3YXMgdG8gcmVtb3ZlIHRoZSB1bnVzZWQgbGlua19mcmVxIGZpZWxkLCAKcmF0aGVy
-IHRoYW4gdGhlIFY0TDJfQ0lEX0xJTktfRlJFUSBjb250cm9sIGl0c2VsZi4KCkJlc3QgUmVnYXJk
-cywKVGFyYW5nCg==
+This patch series add support for MT8196 video encoder.
+patch 1: Add dt-bindings.
+patch 2: Add new encoder driver platform data.
+patch 3~5: Add a new encoder driver interface for new VCP firmware.
+patch 6: Add compatible data.
+
+About adding new driver support, the v4l2-compliance report shows:
+"Total for mtk-vcodec-enc device /dev/video3: 47, Succeeded: 46, Failed: 1, Warnings: 0"
+The 1 Failed case is not caused by current patch set:
+                fail: v4l2-test-controls.cpp(1171): node->codec_mask & STATEFUL_ENCODER
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: FAIL
+
+This patch set depends on "media: mediatek: vcodec: support video decoder in mt8196"[1]
+
+[1] https://patchwork.linuxtv.org/project/linux-media/list/?series=25981
+
+Change in v7:
+ - patch 2: New pdata members for remove if-else device tree parsing statement.
+ - Rebase patch onto decoder's patch set.
+ - Link to v6: https://patchwork.linuxtv.org/project/linux-media/cover/20260423073345.27402-1-irui.wang@mediatek.com/
+
+Change in v6:
+ - Move dt-bindings to patch 1.
+ - Rebase patch onto decoder's patch set.
+ - Link to v5: https://patchwork.linuxtv.org/project/linux-media/cover/20260302035244.8994-1-irui.wang@mediatek.com/
+
+Change in v5:
+ - Rewrite patch5 commit subject.
+ - Add else statement in patch5.
+ - Link to v4: https://patchwork.linuxtv.org/project/linux-media/list/?series=21757
+
+Change in v4:
+ - Rework patch3 commit message.
+ - Rework patch5 commit with more details.
+ - Rebase patch onto decoder's patch set.
+ - Link to v3: https://patchwork.linuxtv.org/project/linux-media/cover/20250814085642.17343-1-kyrie.wu@mediatek.com/
+
+Change in v3:
+ - Add venc rc buffer alloc failure error handling.
+ - Add mediatek,vcp property definition in dt-bindning.
+
+Change in v2:
+ - Add support for VCP encode process.
+ - Add MT8196 encoder driver platform data.
+ - Rebase encoder patch onto decoder's patch set.
+ - Fix some review comments in v1.
+
+Irui Wang (6):
+  media: dt-bindings: mediatek,vcodec-encoder: Add MT8196
+  media: mediatek: encoder: Add new platform data members
+  media: mediatek: encoder: Add a new encoder driver interface
+  media: mediatek: encoder: Add support for common firmware interface
+  media: mediatek: encoder: Add support for VCP encode process
+  media: mediatek: encoder: Add MT8196 encoder compatible data
+
+ .../media/mediatek,vcodec-encoder.yaml        |  22 +
+ .../mediatek/vcodec/common/mtk_vcodec_fw.c    |   9 +-
+ .../mediatek/vcodec/common/mtk_vcodec_fw.h    |   1 +
+ .../vcodec/common/mtk_vcodec_fw_priv.h        |   1 +
+ .../vcodec/common/mtk_vcodec_fw_vcp.c         |   6 +
+ .../platform/mediatek/vcodec/encoder/Makefile |   1 +
+ .../mediatek/vcodec/encoder/mtk_vcodec_enc.c  |  36 +-
+ .../vcodec/encoder/mtk_vcodec_enc_drv.c       |  62 +-
+ .../vcodec/encoder/mtk_vcodec_enc_drv.h       |  23 +-
+ .../vcodec/encoder/venc/venc_common_if.c      | 684 ++++++++++++++++++
+ .../vcodec/encoder/venc/venc_h264_if.c        |   8 +-
+ .../mediatek/vcodec/encoder/venc_drv_if.c     |   3 +-
+ .../mediatek/vcodec/encoder/venc_drv_if.h     |  11 +-
+ .../mediatek/vcodec/encoder/venc_ipi_msg.h    |  26 +
+ .../mediatek/vcodec/encoder/venc_vpu_if.c     |  47 +-
+ 15 files changed, 869 insertions(+), 71 deletions(-)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c
+
+-- 
+2.45.2
+
 
