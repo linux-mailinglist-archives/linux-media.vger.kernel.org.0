@@ -1,163 +1,248 @@
-Return-Path: <linux-media+bounces-63940-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63942-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id KIlvO2jwImryfQEAu9opvQ
-	(envelope-from <linux-media+bounces-63940-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 17:51:05 +0200
+	id dInKIhrwImrlfQEAu9opvQ
+	(envelope-from <linux-media+bounces-63942-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 17:49:46 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FBC36497C3
-	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 17:51:04 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2AE364978F
+	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 17:49:45 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=fzWzVea7;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63940-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63940-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=fiJts0aO;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63942-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63942-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B589A3056862
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 15:35:54 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A93C63087D2D
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 15:37:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EECB43D524D;
-	Fri,  5 Jun 2026 15:35:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 738F139C63D;
+	Fri,  5 Jun 2026 15:37:30 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 906493B7B7A
-	for <linux-media@vger.kernel.org>; Fri,  5 Jun 2026 15:35:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1F652FF17A;
+	Fri,  5 Jun 2026 15:37:28 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780673739; cv=none; b=DsfmxaE7mQBn5hUaIj3aMJ/7trk2VZ6fmbE4J21o1PTwXtENcxFn1d8QHX51FxIp4r6eeZ8fGct6hrD9pceCOwPkb3QZmI5ifm7t7dARG7dxN1CahF4DmsBIlWw8N4s9SbFne9kJy46is/0vhF66Q2YJRAAoDbXIoRj5BZ0vkq8=
+	t=1780673849; cv=none; b=BdL+uwNxr2m4zfbCLX+AoFDAs9bPh5fCum3e8XzOGohycS6yER4oRF4aJinl4xAgUNT49g9wgiD629bV4bnjncstCIxseb7iaOR69WoS9UGLfsU7Ez5eV63MFq+9ieiIQEwP/YxR0f7OrMt5VRF+df7wHgX5qwDjQ2n7Xh09GnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780673739; c=relaxed/simple;
-	bh=PAnC4mLvyUUp9MLzPMbRT//DSkE3Dk1mXOL/7klrM+0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I8gkg3lOK5UZYNjdgx8vrxmMgRMfnljBywkWOkIvobp9+46PiGZAA8cluHjfvK//DUJwXmup5SXIQqUr+EF/p5DvRlOIsG3dFcDgnXG08wG15ih8WFEkl5Lxb2pWQW2mGDuyRDj9x6Y9PMRpIPc8V92fs7pPrH6Uf5RXFdKweuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fzWzVea7; arc=none smtp.client-ip=209.85.214.195
-Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-2c132ac5ec2so20094205ad.1
-        for <linux-media@vger.kernel.org>; Fri, 05 Jun 2026 08:35:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780673736; x=1781278536; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fcdauWu6kB0J8jFGQyoE+3xe804PkmDYTAOAHNlgs3o=;
-        b=fzWzVea7k6W62mlqRIwb3r7DPjksGcTZ3e4wD0vz72AcgLjseAZadyANrwv87Bkr2B
-         5WaKcZ2NaMnhu0MnEU26d/84dFKc1oBQCSKnfAt/0P90xhhyz0bl0NuwgZng/XttdAa/
-         HI+ZaneUtepfXkmuB2PSYvxrKK+aToUU+i0jE6dImZmhZcEE25XgCGT4Dl88FVqvpNYF
-         /oDBSKqmuGmzB9A7ne4khJwf60b6uckm0uI+e0jUOltvGW6QBfKWigETOOu5gaaIoKQT
-         Z2RzKuBamM+PNBAl0lnODRS/2H3eK7Bz+W5nBZh8AcTODbhAjRhIt9AnEFz+7SdaUt6I
-         AhBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780673736; x=1781278536;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fcdauWu6kB0J8jFGQyoE+3xe804PkmDYTAOAHNlgs3o=;
-        b=HOr/4QfONBX5haXDtI/rBwrksdde51X73uUucvWY37eyddJEfr8XZYt8SNlof2nTKb
-         KATRqX7gcims/90ywpC8ZA1Fg3P6ZzoBGFhUWSo78wxBXh9lIHLhqY0UWOzpTZkyNpfw
-         PuYmjMxTp68zowRvR0KJD755LrBn5tso8dvC7is8+Gm1INC9WCpNRLxklCbfZUx3SUFN
-         rTGjx5LPsCuuECNqptW3ufe7FCbJK26OVVi7fQdPevZ3tgZLav6any5ANIittWMj/ecw
-         VF0UxXNfRXk0QEC6XGQFi0F2OIGdSRmxj5HYqwxtqjuY/1dXWhgUrQtUsQWhHRfTN40m
-         nU0A==
-X-Forwarded-Encrypted: i=1; AFNElJ8DGTsdHCiL6Ad3qOEbHYezRk3KxZ/jsh66QeZF4fhZDyFdVEc3JSAHswT7wuXRnckt4pbJMlYkyJkfkw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxRlNiuGp25fiJRkIpT7F7PbzYVdfhfUB750JrI7x+VYOBMcAz
-	2xXga18qZzPW8UDSl3kWQo376apAZ34JdbRCMKKq/WcS63/T2bPgje8s
-X-Gm-Gg: Acq92OE7U5HpNi0vmPE2X3kc5RLDQ806NLIz0dQl4xBUeiXQuGZgLO4bo59iCU36gWt
-	CYmNDlgUvq5PGTdpJY8qE4e+QawcZtle2cj4QQmRdnmKlb7XNVmZCJCWaEhuo9oYSmke4LVKE3z
-	ZLwrErUTCRcNpfTtneM+gzVEfPr3LR7ynEpV+jPTfWgK0E/P1WgS/l781pUTkDL8H0Uq4Y1IxhV
-	jnuq98YXQpMZVZik0yJJJ962w3XLDxAYK9KewFpm6BDcUTXamEMthCkGOODR6dbo65PVdCZGOVH
-	KEkUfy8+cIjpwZYHHGeH+yd8atlZsYQGCS5fEB1sLVTWmDDOE4k7hA1Wg0/5AYNuiSfSQPmaEm6
-	zscigfhgs4vNxXXf+wN/YL6ntu0QLwZFub1FyELydvyJu1yOO3fEk/F81xf8/mT65a3h4wDhHOP
-	2oO1YRYZUOmqvk/PDTuB2X12ZIVtI=
-X-Received: by 2002:a17:902:d4cb:b0:2ba:7749:f89a with SMTP id d9443c01a7336-2c1e7e55623mr43588465ad.11.1780673735644;
-        Fri, 05 Jun 2026 08:35:35 -0700 (PDT)
-Received: from localhost ([2a03:2880:2ff:5e::])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c166391d53sm127920285ad.65.2026.06.05.08.35.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2026 08:35:34 -0700 (PDT)
-Date: Fri, 5 Jun 2026 08:35:25 -0700
-From: Stanislav Fomichev <sdf.kernel@gmail.com>
-To: Bobby Eshleman <bobbyeshleman@gmail.com>
-Cc: Donald Hunter <donald.hunter@gmail.com>, 
-	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, Gerd Hoffmann <kraxel@redhat.com>, 
-	Vivek Kasireddy <vivek.kasireddy@intel.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org, sdf@fomichev.me, 
-	razor@blackwall.org, daniel@iogearbox.net, almasrymina@google.com, matttbe@kernel.org, 
-	skhawaja@google.com, dw@davidwei.uk, Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next 3/4] selftests/net: ncdevmem: add -b option to
- set rx-buf-size on bind
-Message-ID: <aiLsegSEGviNluv1@devvm7509.cco0.facebook.com>
-References: <20260603-tcpdm-large-niovs-v1-0-f37a4ac6726c@meta.com>
- <20260603-tcpdm-large-niovs-v1-3-f37a4ac6726c@meta.com>
+	s=arc-20240116; t=1780673849; c=relaxed/simple;
+	bh=Ia3OmfQkRg229yhgyXh0R1VI2VXlBYz1hzswS/rxZHE=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=sN5joUKAcren7lx5rOfjhTQ1jBTgGl1TQH5LsweCBDpJG4p7tM3eN7Ye4Los5WuN2Z7COhikGx2N8n9BZJFABSIJAgM8xKRHpkQnDdqx+g259P54DVPu6y3nam9SyY2JoVcYhoHm4nAmIKiI/VeG41/G6iXp8yEZR/SWOn3nGU4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fiJts0aO; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BD4B1F00893;
+	Fri,  5 Jun 2026 15:37:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780673848;
+	bh=4Cbi9og2jszaDLJIh83+7TVoXinJPiUS+nFYSzC5rQg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=fiJts0aOPpH/z5HAxuoSfX/vAQBa8GTDYPovAIJJUH3YACsmDJhiJv5uu/wOJrYvW
+	 vLfWUbwS62M//PugDzQFxXFwSQ9J+pILz45fEhm5/wfcqFT+NBWLpXoDkEyxFCIRJx
+	 PfSygkQd3cENdC9DXD0szO2UdnKGTAL2dZcCUTH7E6v6LlMSi2AHnIDYpvaPE4abim
+	 Hc3rrwSvax16+Kymr1TWR4FWc8MMIq1Idb0Bq+WowXkNXHNDu8WNl2/PPwLGrOaewS
+	 YY4GfGw8BF2H/jsfsqBVnDmARTcR9wd1a7MlliOkvWuLupQLdksCJVUSSzWcCwA3yj
+	 T21RBOKzdyw3A==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v4 2/2] media: i2c: imx678: Add driver for Sony IMX678
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Jai Luthra" <jai.luthra@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, conor+dt@kernel.org, robh@kernel.org, devicetree@vger.kernel.org
+In-Reply-To: <20260605-imx678-v4-2-58e57c67143d@ideasonboard.com>
+References: <20260605-imx678-v4-2-58e57c67143d@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 05 Jun 2026 15:37:27 +0000
+Message-Id: <20260605153728.3BD4B1F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260603-tcpdm-large-niovs-v1-3-f37a4ac6726c@meta.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	MISSING_MIME_VERSION(2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,sashiko.dev:url,ideasonboard.com:email,lists.linux.dev:replyto];
+	TAGGED_FROM(0.00)[bounces-63942-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63940-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:bobbyeshleman@gmail.com,m:donald.hunter@gmail.com,m:kuba@kernel.org,m:davem@davemloft.net,m:edumazet@google.com,m:pabeni@redhat.com,m:horms@kernel.org,m:andrew+netdev@lunn.ch,m:kraxel@redhat.com,m:vivek.kasireddy@intel.com,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:shuah@kernel.org,m:netdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kselftest@vger.kernel.org,m:sdf@fomichev.me,m:razor@blackwall.org,m:daniel@iogearbox.net,m:almasrymina@google.com,m:matttbe@kernel.org,m:skhawaja@google.com,m:dw@davidwei.uk,m:bobbyeshleman@meta.com,m:donaldhunter@gmail.com,m:andrew@lunn.ch,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[sdfkernel@gmail.com,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	FORWARDED(0.00)[lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	REPLYTO_DN_EQ_FROM_DN(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:jai.luthra@ideasonboard.com,m:linux-media@vger.kernel.org,m:conor+dt@kernel.org,m:robh@kernel.org,m:devicetree@vger.kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sdfkernel@gmail.com,linux-media@vger.kernel.org];
-	PRECEDENCE_BULK(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,davemloft.net,google.com,redhat.com,lunn.ch,intel.com,linaro.org,amd.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,fomichev.me,blackwall.org,iogearbox.net,davidwei.uk,meta.com];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,netdev];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,devvm7509.cco0.facebook.com:mid,meta.com:email]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FROM_NO_DN(0.00)[];
+	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4FBC36497C3
+X-Rspamd-Queue-Id: F2AE364978F
 
-On 06/03, Bobby Eshleman wrote:
-> From: Bobby Eshleman <bobbyeshleman@meta.com>
-> 
-> Add -b <bytes> to request a non-default niov size via
-> NETDEV_A_DMABUF_RX_BUF_SIZE. When the value exceeds PAGE_SIZE,
-> udmabuf_alloc() switches to an MFD_HUGETLB-backed memfd so each 2 MB
-> hugepage produces one naturally-aligned sg entry.
-> 
-> Reject values > 2 MB up front: MFD_HUGETLB + udmabuf can only guarantee
-> 2 MB per sg entry (one hugepage), so a larger rx_buf_size would fail the
-> per-sg length/alignment check.
-> 
-> Add CONFIG_HUGETLBFS=y to drivers/net/hw/config so the new path is
-> reachable in the CI kernels built for these tests.
+Thank you for your contribution! Sashiko AI review found 4 potential issue(=
+s) to consider:
+- [High] The sensor is inadvertently left in STREAMING mode after reading t=
+he module ID during driver probe.
+- [High] Bitwise OR is incorrectly used to accumulate negative error codes,=
+ corrupting the returned errno.
+- [High] Use-After-Free or NULL pointer dereference of `sd->active_state` d=
+ue to incorrect cleanup ordering in `imx678_remove()`.
+- [Medium] Possible incorrect power-on sequence: clock is enabled after rel=
+easing reset.
+--
 
-I vaguely remember there was also some kernel cmdline argument to
-reserve these? Do we need to also do something to NIPA to reserve 2MB
-pages for this test? Or was it for 1GB pages?
+commit 1ad323ded3946b2792a6c7a76f8ee5e9e8fb96df
+Author: Jai Luthra <jai.luthra@ideasonboard.com>
+
+media: i2c: imx678: Add driver for Sony IMX678
+
+This commit adds a V4L2 subdev driver for the Sony IMX678 image sensor. It
+provides support for MIPI RAW12 output, framerate control, flip, analog
+gain, exposure control, and test patterns.
+
+> diff --git a/drivers/media/i2c/imx678.c b/drivers/media/i2c/imx678.c
+> new file mode 100644
+> index 0000000000000..a5bdf15c503ef
+> --- /dev/null
+> +++ b/drivers/media/i2c/imx678.c
+[ ... ]
+> +static int imx678_set_framing_limits(struct imx678 *imx678,
+> +				     const struct v4l2_mbus_framefmt *format)
+> +{
+[ ... ]
+> +	ret =3D __v4l2_ctrl_modify_range(imx678->hblank, hblank, max_hblank,
+> +				       IMX678_PIX_PER_CLK, hblank);
+> +	ret |=3D __v4l2_ctrl_s_ctrl(imx678->hblank, hblank);
+> +
+> +	vblank =3D imx678->vmax - format->height;
+> +	ret |=3D __v4l2_ctrl_modify_range(imx678->vblank, vblank,
+> +					IMX678_VMAX_MAX - format->height, 2,
+> +					vblank);
+> +	ret |=3D __v4l2_ctrl_s_ctrl(imx678->vblank,
+> +				  IMX678_VMAX_DEFAULT - format->height);
+> +
+> +	ret |=3D __v4l2_ctrl_modify_range(imx678->exposure, IMX678_EXPOSURE_MIN,
+> +					imx678->vmax - IMX678_SHR_MIN, 1,
+> +					IMX678_EXPOSURE_DEFAULT);
+
+[Severity: High]
+Does this code incorrectly accumulate negative error codes using a bitwise =
+OR?
+
+Since V4L2 control functions return standard errnos like -EINVAL, using
+bitwise OR corrupts the returned errno. This could cause VIDIOC_S_FMT to
+return nonsensical error codes to userspace instead of the intended errno.
+
+[ ... ]
+> +static int imx678_power_on(struct device *dev)
+> +{
+> +	struct i2c_client *client =3D to_i2c_client(dev);
+> +	struct v4l2_subdev *sd =3D i2c_get_clientdata(client);
+> +	struct imx678 *imx678 =3D to_imx678(sd);
+> +	int ret;
+> +
+> +	ret =3D regulator_bulk_enable(ARRAY_SIZE(imx678_supply_name),
+> +				    imx678->supplies);
+> +	if (ret) {
+> +		dev_err(&client->dev, "%s: failed to enable regulators\n",
+> +			__func__);
+> +		return ret;
+> +	}
+> +
+> +	fsleep(1); /* Tlow > 500ns */
+> +
+> +	gpiod_set_value_cansleep(imx678->reset_gpio, 0);
+> +
+> +	fsleep(1); /* T3 > 1us */
+> +
+> +	ret =3D clk_prepare_enable(imx678->xclk);
+
+[Severity: Medium]
+Is this power-on sequence enabling the clock after releasing the reset?
+
+Standard initialization for IMX sensors generally requires the external clo=
+ck
+to be stable before de-asserting the reset line. Could releasing reset
+without an active clock place the sensor into an undefined state?
+
+[ ... ]
+> +static int imx678_identify_model(struct imx678 *imx678)
+> +{
+> +	struct i2c_client *client =3D v4l2_get_subdevdata(&imx678->sd);
+> +	const struct imx678_model_info *info;
+> +	enum imx678_type detected;
+> +	int ret =3D 0;
+> +	u64 val =3D 0;
+> +
+> +	info =3D device_get_match_data(&client->dev);
+> +
+> +	/*
+> +	 * This sensor's ID registers become accessible 80ms after coming out
+> +	 * of STANDBY mode.
+> +	 */
+> +	cci_write(imx678->cci, IMX678_REG_MODE_SELECT, 0, &ret);
+> +	fsleep(IMX678_MODULE_ID_DELAY);
+> +
+> +	cci_read(imx678->cci, IMX678_REG_MODULE_ID, &val, &ret);
+
+[Severity: High]
+Does this leave the sensor inadvertently in STREAMING mode after reading
+the module ID?
+
+The code writes 0 (IMX678_MODE_STREAMING) to wake the sensor, but does
+not restore IMX678_MODE_STANDBY before returning. If PM runtime is
+disabled, the sensor might stream unconditionally over the MIPI bus after
+probe.
+
+[ ... ]
+> +static void imx678_remove(struct i2c_client *client)
+> +{
+> +	struct v4l2_subdev *sd =3D i2c_get_clientdata(client);
+> +	struct imx678 *imx678 =3D to_imx678(sd);
+> +
+> +	v4l2_async_unregister_subdev(sd);
+> +	v4l2_subdev_cleanup(sd);
+> +	media_entity_cleanup(&sd->entity);
+> +	v4l2_ctrl_handler_free(imx678->sd.ctrl_handler);
+
+[Severity: High]
+Could this cleanup ordering lead to a use-after-free or NULL pointer
+dereference?
+
+Calling v4l2_subdev_cleanup() destroys sd->active_state without acquiring
+the control handler lock. Since v4l2_ctrl_handler_free() is called after,
+V4L2 controls remain accessible.=20
+
+If a concurrent VIDIOC_S_CTRL ioctl invokes imx678_set_ctrl(), it might fet=
+ch
+the freed or NULL active_state and dereference it in
+v4l2_subdev_state_get_format().
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260605-imx678-v4-=
+0-58e57c67143d@ideasonboard.com?part=3D2
 
