@@ -1,154 +1,261 @@
-Return-Path: <linux-media+bounces-63927-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63928-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 3rchOXDcImodegEAu9opvQ
-	(envelope-from <linux-media+bounces-63927-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 16:25:52 +0200
+	id BYe/LKnbImr1eQEAu9opvQ
+	(envelope-from <linux-media+bounces-63928-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 16:22:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A8D4648D3D
-	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 16:25:52 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1679D648CDB
+	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 16:22:33 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b="j6XOuu/G";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63927-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-63927-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=intel.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=d6bDNQUP;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63928-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63928-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 146A63046FE8
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 14:18:56 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 30CE23036CFF
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 14:21:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D24A4330B2E;
-	Fri,  5 Jun 2026 14:18:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BDB837472D;
+	Fri,  5 Jun 2026 14:20:53 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F7A36CDF3
-	for <linux-media@vger.kernel.org>; Fri,  5 Jun 2026 14:18:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3342A382390;
+	Fri,  5 Jun 2026 14:20:45 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780669135; cv=none; b=vEOu3WL+GOwAyyUl9PLXyFZ0MlCUvpTXOiJECN2mEvGL1KUCvOIBMiH7xmUpZwSnPvOijy2JUtxOMzpPVVEBMbgtrcmW4qpZuZ2rnPPjrTdou/hfPwOvRaKr05dUgyQQA290fppp/T2KcLSSRY/OV307Mimr3/bxaawiS7gxiJg=
+	t=1780669252; cv=none; b=bGLBKnGRgWizMBg8SkypPTvoFGm+AcKRpSdgdtvi0m44GuXd+LeRBgMUucUvqD/AJsPPNzYB3JbPgkox5EeFTFOq0+8O2KteArrhwsM8jXHQWOdpLQjXjTU63a2/AnS4/oxnheQud6sabTD8nRRAtgZm+votD73+kmMprAiPqM0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780669135; c=relaxed/simple;
-	bh=6j6Kbr3PTBz4Ce08nM4gCYJRDe0clylusP7FpmuwSPQ=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=XvOV7Ae0Wgv58SVIYeCjMDQM/CjmnrPyZK6JJuO8GUEeSNfz2NJQfOAs7ZnHCGEu1iPd/byRPLl1du+ZiE0BtbX+3nEdlWuaTszEjk349xj9XPrJQ2azlRRZ8AUAds25SEDn1r6Kj0qX80sWpd95cHus1Xg7ga0KikYKGPGI930=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j6XOuu/G; arc=none smtp.client-ip=198.175.65.21
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1780669128; x=1812205128;
-  h=date:from:to:cc:subject:message-id;
-  bh=6j6Kbr3PTBz4Ce08nM4gCYJRDe0clylusP7FpmuwSPQ=;
-  b=j6XOuu/GWlc8KgxWujNIcYWgRGSmUe8q1AWkGBUbzYYKxbYKeAWArepQ
-   N2NjHFenEQd9s7hjJohtG1jmzefFvHPNX/bmBU0eL5eiKYY9DCPHOaD5W
-   UBidY2mUtsgNY14kqCpLE80D2FdktwOToyiHb1X7LCnFzwdVezqXUcq/s
-   90SERWkd9maNFF1+g+Rv/z13ZShAGhtvNdjRj2H2b/G4SrJRu8CP54Gst
-   OwcLa+Bs4luTe4kU0pKd5UZ19ahHNTVggqhoq3FkNmPyVSBMmOfGXIP7A
-   TkH5zgqN4fgtFNEiJ+Zsu6+v6ZFEKySHKAoylN7Cpz8vic5b5TKR9G8tB
-   Q==;
-X-CSE-ConnectionGUID: 80JmApH7QkKBfd3mhxddcQ==
-X-CSE-MsgGUID: GEd9D104Rz6CcDQTi2FBeQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="81411663"
-X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="81411663"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 07:18:48 -0700
-X-CSE-ConnectionGUID: GPiRgkVvRLqU/obW3K9mGw==
-X-CSE-MsgGUID: /3+SwIOpTQCe212hiyW2LQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
-   d="scan'208";a="249960226"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 05 Jun 2026 07:18:46 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wVVNj-00000000G78-3I2t;
-	Fri, 05 Jun 2026 14:18:43 +0000
-Date: Fri, 05 Jun 2026 22:18:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-media@vger.kernel.org
-Subject: [sailus-media-tree:partial-reg 5/9]
- drivers/media/v4l2-core/v4l2-event.c:81:41: warning: variable 'evspec' is
- uninitialized when used within its own initialization
-Message-ID: <202606052235.rM24ifzS-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1780669252; c=relaxed/simple;
+	bh=vHxWGiABXfRZX/nTj9f8+kR/kRQsP11gYHu2xJvMhqA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=foiz5RyqihaW+zOBBXLbABV9YODudVdeKKJ2bUrXHc2KXQdiIxFuryba9qwJeiqF1S9kdBf+d4EsP51tM/zKGD8kUpzEwE2MsElO/7u73PBNsLociElCMdEXtap83r5VTq253sMxHk5ejOwenrfL0yJJ6ky3EAOFZD2FR+a7r40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d6bDNQUP; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBBD41F0089A;
+	Fri,  5 Jun 2026 14:20:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780669244;
+	bh=rZm80SCqfNzEoYvnBtG8GQgboPdoaSiQU7oZ5wE97mI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=d6bDNQUPgpcbZgQiqdR7qpbaVpZqpX22yPzIfuJ+X+GJfUbzwzTmhRuFueQZrfIRJ
+	 qxAYnTx7PSD0kxAIrvwBFLS0tADeNc8ISDI/ttUfp3PuPFPJm1KN14jN4sB6gBG/3Y
+	 D3bUHFjFi4zKYwkXGsgm7mJvlUoXjGzzhmsJ67QqBI1WH64oZLV3DALzl2SrJvt56j
+	 4rt427WTisuUzs/KQveAhMuNFDFthyZOV9ep9fxi4DeqU/w1vvIQQ3NTAGZ5xtpgMt
+	 sCnlDWere+e/wn3rpGd8BEgRxwFmJ5ECnsmG0x5jGfDZrRX7d48ldKejKhWolQuCEk
+	 NxT4/9TkH5ojA==
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 11C11F4007E;
+	Fri,  5 Jun 2026 10:20:43 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Fri, 05 Jun 2026 10:20:43 -0400
+X-ME-Sender: <xms:Otsiakb3VgscOwQzObb9TnmCmdWfqsPbh1aKv6Ob1Gd4GnMm7g45cg>
+    <xme:OtsiaswjOPU2H6OSi5TRRzTWJN1oxdosSHMWKU_xFLsbRBHQpEW6NqVq9E3l47Ar_
+    _lgTF2cByW95QA75xv5ldkBLiujDQu1BJ0vYDNKrvTVE-_5bXKSjw>
+X-ME-Received: <xmr:Otsiaq96ApZ9LuO6DemZFypZXDeykSN9R4ZWEMcOu325AV7T_b7aEirzjVs>
+X-ME-Proxy-Cause: dmFkZTGmnYP5N/Y3347uBlTz0c7MclhskUD680CYIEvbldBBZOlbo8Ym/SOIKA+wnzZwqu
+    zergSXkVsymVPFOH0pDne+qgzS+nkBAu5N0axf3sYZRo2nvTNCUjtPm1MMQssycnGEvk2z
+    yaI544/RtZ8irsNtuXAmHJZIpjSaeCpLMs7XgEV+/rn1pCm2lHwIKR5NxoLv/Kp7KTgG1Z
+    lLY1vZh76vKJ+oN17gUDdN0Th/LrUAsJPcjSsE776bPWq7CPgQxyXYzm+Vjk8Dm/1y02fb
+    puunQqufAKdZiWOXFH4RfjlNHdhu4yzA3qQXzyuuNqM/+68+zvAuDsnJfYTo4B5CI11KSz
+    0Z/h4GuSIxa5oqGjjmyx76Enz2u2eUx7GXT1PNjs4iwrlg39TUG6FjeYF87UoM4WeCLG/r
+    xouuK/m/Gk1nqyzUOYDGO2U+yhP3S8w2gDavQX3jstdmU+W0AE2r+P4S3TBS1qziQ3CO5x
+    8+wy91h1pK5gBNMtQgKVrEL+9GPYeWmYLnGblXrzWiFcUFuEJ8RjuWpZ2Roa3wu45wsPGh
+    j2ArhLYXf5wYyOqLiXH6+dkO55yhJCVHrgy+4O67SQ6ZWH6nc5ZcdT7S5//okCwxaE7/Mt
+    4OEXVNhzWwVZuRMC7T+q6xEjTLQdr8IO4/n51Tj/DiPrTPnbPzY2g+Kmowwg
+X-ME-Proxy: <xmx:OtsiaiX5ZZYYUUWBD0GFrR8lNA7Remyu638zwCJRWBzviig9GfKXew>
+    <xmx:O9siarOe-qdwbCXDYWcMKzCkwHhGyJk4yeG00Y1xAGgqgVNz9avZTQ>
+    <xmx:O9siaszJbtt1LQ2ng-3qPyR_1TRzEwSqe6XFTozbY0hJbDwn4etASw>
+    <xmx:O9siajPKFsXAgrpE11c85DtWGygRvW1UO8lxWAUqZ5z_ine-CUmJow>
+    <xmx:O9siaii1Yx2gN81YC7CB5PuXo-Q7xO6ltrA6zbuXUtHBh_gZiER7_fFK>
+Feedback-ID: i8dbe485b:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 5 Jun 2026 10:20:42 -0400 (EDT)
+Date: Fri, 5 Jun 2026 07:20:41 -0700
+From: Boqun Feng <boqun@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+Cc: linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	rcu@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Trevor Gross <tmgross@umich.edu>,	Danilo Krummrich <dakr@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Andrew Ballance <andrewjballance@gmail.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,	Zqiang <qiang.zhang@linux.dev>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	maple-tree@lists.infradead.org, linux-mm@kvack.org,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	Philipp Stanner <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>
+Subject: Re: [RFC PATCH 3/3] rust: rcu: Introduce RcuFreeBox
+Message-ID: <aiLbOd9BkRrrzauk@tardis-2.local>
+References: <20260605133541.22569-1-boqun@kernel.org>
+ <20260605133541.22569-6-boqun@kernel.org>
+ <aiLXWHg22P6OTb7O@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aiLXWHg22P6OTb7O@google.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-63927-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63928-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[vger.kernel.org,kernel.org,garyguo.net,protonmail.com,umich.edu,infradead.org,gmail.com,nvidia.com,joshtriplett.org,goodmis.org,efficios.com,linux.dev,linaro.org,amd.com,lists.infradead.org,kvack.org,lists.freedesktop.org,redhat.com,collabora.com,onurozkan.dev];
 	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,tardis-2.local:mid];
+	FORGED_SENDER(0.00)[boqun@kernel.org,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[33];
+	FORGED_RECIPIENTS(0.00)[m:aliceryhl@google.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:rcu@vger.kernel.org,m:ojeda@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:tmgross@umich.edu,m:dakr@kernel.org,m:liam@infradead.org,m:andrewjballance@gmail.com,m:paulmck@kernel.org,m:frederic@kernel.org,m:neeraj.upadhyay@kernel.org,m:joelagnelf@nvidia.com,m:josh@joshtriplett.org,m:urezki@gmail.com,m:rostedt@goodmis.org,m:mathieu.desnoyers@efficios.com,m:jiangshanlai@gmail.com,m:qiang.zhang@linux.dev,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:maple-tree@lists.infradead.org,m:linux-mm@kvack.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:phasta@kernel.org,m:lyude@redhat.com,m:daniel.almeida@collabora.com,m:work@onurozkan.dev,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:llvm@lists.linux.dev,m:oe-kbuild-all@lists.linux.dev,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCPT_COUNT_THREE(0.00)[4];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[boqun@kernel.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	TO_DN_SOME(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:mid,intel.com:dkim,intel.com:from_mime,intel.com:email,vger.kernel.org:from_smtp,01.org:url]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2A8D4648D3D
+X-Rspamd-Queue-Id: 1679D648CDB
 
-tree:   git://linuxtv.org/sailus/media_tree.git partial-reg
-head:   b7d01dab7d47849d483b459ff2abf50497b52149
-commit: 0258a2c8b5c7b9a6a0adce2059f2ecd12046776d [5/9] v4l: event: Split the event framework into generic and V4L2 bits
-config: arm64-randconfig-004-20260605 (https://download.01.org/0day-ci/archive/20260605/202606052235.rM24ifzS-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 7917772d7d61384696c61102c08c2ea158e610fa)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260605/202606052235.rM24ifzS-lkp@intel.com/reproduce)
+On Fri, Jun 05, 2026 at 02:04:08PM +0000, Alice Ryhl wrote:
+> On Fri, Jun 05, 2026 at 06:35:41AM -0700, Boqun Feng wrote:
+> > The current RcuBox will call the `drop()` function after a grace period
+> > inside an RCU callback. This suffices for maintaining a RCU-protected
+> > object:
+> > 
+> >   RcuBox::drop():
+> >     call_rcu(
+> >       |..| { // <- call back after one grace period.
+> >         T::drop(); // <- call the destructor of the inner object.
+> >       }
+> >     )
+> > 
+> > However, to support a different RCU usage pattern as below we need to
+> > extend RcuBox:
+> > 
+> > 1. clean up the object, and unshare it from future RCU readers.
+> > 2. wait for an RCU grace period.
+> > 3. no other RCU readers, we can free the memory.
+> > 
+> > An `RcuFreeBox<T: RcuFreeSafe>` is introduced to provide support for
+> > this:
+> > 
+> >   RcuFreeBox::drop():
+> >     T::drop_before_gp(); // clean up and ushare.
+> >     kfree_call_rcu(..);  // free it after one grace period.
+> > 
+> > Signed-off-by: Boqun Feng <boqun@kernel.org>
+> > ---
+> >  rust/kernel/sync/rcu.rs         | 31 +++++++++++++++
+> >  rust/kernel/sync/rcu/rcu_box.rs | 68 +++++++++++++++++++++++++++++++--
+> >  2 files changed, 95 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/rust/kernel/sync/rcu.rs b/rust/kernel/sync/rcu.rs
+> > index 7da6b8d22277..7c26591bb318 100644
+> > --- a/rust/kernel/sync/rcu.rs
+> > +++ b/rust/kernel/sync/rcu.rs
+> > @@ -4,6 +4,8 @@
+> >  //!
+> >  //! C header: [`include/linux/rcupdate.h`](srctree/include/linux/rcupdate.h)
+> >  
+> > +use core::pin::Pin;
+> > +
+> >  use crate::{
+> >      bindings,
+> >      types::{
+> > @@ -82,3 +84,32 @@ pub trait ForeignOwnableRcu: ForeignOwnable {
+> >      /// [`from_foreign`]: ForeignOwnable::from_foreign
+> >      unsafe fn rcu_borrow<'a>(ptr: *mut ffi::c_void) -> Self::RcuBorrowed<'a>;
+> >  }
+> > +
+> > +/// Declares a struct is safe to free after a grace period if all readers are guarded by RCU.
+> > +///
+> > +/// # Safety
+> > +///
+> > +/// Implementation must guarantee `drop_before_gp()` makes sure no future RCU reader will access
+> > +/// any part of [`Self`], as a result, after `drop_before_gp()` return + one grace period, no RCU
+> > +/// reader will be on the object, and it's safe to free it.
+> > +///
+> > +/// Notes for implementators: implementing this trait in general requires `Self` being a
+> > +/// [`UnsafePinned`], i.e. a `&mut Self` is not a noalias reference if `Self` has non-trivial
+> > +/// `drop()` function.
+> > +pub unsafe trait RcuFreeSafe {
+> > +    fn drop_before_gp(self: Pin<&mut Self>);
+> > +}
+> 
+> Should this have an associated type for the rcu-safe view?
+> 
+> pub unsafe trait RcuFreeSafe {
+>     type RcuView<'a>;
+> 
+>     /// Access this value in a manner that is safe after
+>     /// `drop_before_gp` for one grace period.
+>     fn rcu_view<'a>(self: Pin<&'a Self>, _rcu: &'a RcuGuard) -> Self::RcuView<'a>;
+> 
+>     /// Drop this value in a manner where it may still be accessed via
+>     /// `rcu_view` for one grace period.
+>     ///
+>     /// # Safety
+>     ///
+>     /// All other accesses to this value must happen before the call to this
+>     /// method, except for accesses using `rcu_view`.
+>     fn drop_before_gp(self: Pin<&mut Self>);
+> }
+> 
+> The idea being that once you call `drop_before_gp()`, the value
+> immediately becomes unusable as the type itself, but you can still use
+> it via `rcu_view`. The `RcuView` type can then be a type that has a
+> subset of the type's methods that is safe to use for one grace period
+> after `drop_before_gp`.
+> 
+> If you define the trait like this, then PollCondVar becomes RcuFreeSafe.
+> It can't be RcuFreeSafe today because you must not create new waiters after
+> `drop_before_gp()` is called. With this modified trait, it can simply
+> not provide methods for registering new waiters from the RcuView type.
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606052235.rM24ifzS-lkp@intel.com/
+Good point! But I guess I could keep RcuFreeSafe as it is but remove the
+`RcuFreeSafe::with_rcu()`, and this should be sufficient for
+PollCondVar. I do want to wait for a meaningful usage of `rcu_view()` to
+add that, but I think your idea of that is great. Or maybe you have a
+potential usage in mind?
 
-All warnings (new ones prefixed by >>):
+Regards,
+Boqun
 
->> drivers/media/v4l2-core/v4l2-event.c:81:41: warning: variable 'evspec' is uninitialized when used within its own initialization [-Wuninitialized]
-      81 |         const struct v4l2_event_spec *evspec = evspec;
-         |                                       ~~~~~~   ^~~~~~
-   1 warning generated.
-
-
-vim +/evspec +81 drivers/media/v4l2-core/v4l2-event.c
-
-    77	
-    78	static bool v4l2_evop_is_subscribed(struct media_subscribed_evbase *mse,
-    79					    const void *__evspec)
-    80	{
-  > 81		const struct v4l2_event_spec *evspec = evspec;
-    82		struct v4l2_subscribed_event *sev = to_v4l2_subscribed_event(mse);
-    83	
-    84		return sev->evspec.type == evspec->type &&
-    85			sev->evspec.id == evspec->id;
-    86	}
-    87	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Alice
 
