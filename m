@@ -1,180 +1,155 @@
-Return-Path: <linux-media+bounces-63895-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63896-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id vvnLH72mImoXbgEAu9opvQ
-	(envelope-from <linux-media+bounces-63895-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 12:36:45 +0200
+	id iQBeIcfCImpXdQEAu9opvQ
+	(envelope-from <linux-media+bounces-63896-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 14:36:23 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F92B647646
-	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 12:36:45 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0061C64837E
+	for <lists+linux-media@lfdr.de>; Fri, 05 Jun 2026 14:36:22 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linaro.org header.s=google header.b=Y4NuGziS;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63895-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-63895-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=linaro.org;
+	dkim=pass header.d=intel.com header.s=Intel header.b="D/0S3EMg";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63896-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-63896-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9027830AF5DD
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 10:30:30 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A47663073D35
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 12:33:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3791040B370;
-	Fri,  5 Jun 2026 10:30:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 074B0389460;
+	Fri,  5 Jun 2026 12:33:45 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDD2940B36F
-	for <linux-media@vger.kernel.org>; Fri,  5 Jun 2026 10:30:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E4938F931
+	for <linux-media@vger.kernel.org>; Fri,  5 Jun 2026 12:33:42 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780655427; cv=none; b=Jkl1fhYDEOnhOffIx+VvFL1eS1jfxCVlR/5wnQDfRVxmS8pReYyHvXu18g20yTsoTfY3yvBoki+zv7jKDl3uUJNzGH6PhxwrcZaTJWQaq32KcbAmYcFmWcc6e3xXRVAe2MuvH3nMUcktZ99mZqAhOHuobZ0JU7KtsokZr1iGWzo=
+	t=1780662824; cv=none; b=kVLURzBKwtLAY4k348olJsSlGsOipgL8DIcMrdOBHHD3M/wD+c4j6m6/txH6cQlzm6FUfHl34L8UrENLESfVP39C7EZ1P+cxpReWfTMF5cUaqzrswfniTS4J3e6AFgj5CYx9Brvf3FLgNFG3bFOzmjRgf9NIowMVI9YT3NW5iZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780655427; c=relaxed/simple;
-	bh=gnS8iRTedo9sLWcRxLMg15lZgLFIOaXZiTRitU221LY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z/gCVczmyQ1wf0e1quVSjUekr88Q6TrYRGSvx9BAhbnXDhKyN1UyckUz55iEs1ARCxsNGOD84qzBtldkq1rJjNZ9pKANPq8HkbaZcoPidVhNyoN4K3eG+L0s+j+Y3tew4kfAlrEg23J8ZtmTNJTi0EOWqPqCCWSjZy8P7s+Xt5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Y4NuGziS; arc=none smtp.client-ip=209.85.208.46
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-687e7edaafeso3447994a12.1
-        for <linux-media@vger.kernel.org>; Fri, 05 Jun 2026 03:30:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1780655424; x=1781260224; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0KPVu9xlZpg9ZdiY7RZ3Kuoe5dMqAtDeJAk4rvD4TuY=;
-        b=Y4NuGziSZTd03acHFiarntfV/G7Rprv34WsD0NKPje0O1n1Cw7vvGX3EDgDMjr8qyp
-         SJp80SDGMabrgaAyYZmBIRk+V2+PVVMcYAs/RIUKfXOi6jR7Ke6+ORxe2gRnYNlbTS6y
-         2neN0CFItu2Zi546iBEH7JfGuzHNDjE4Yousi2WFPs0V59HE8qFyvQWp3bTNthfJtF9v
-         N3YmLXHjlkKf0T4RcjsHw0yC7UuhtZVjRV+GMTwTCJV6DsMunxLdJTE0n67EwEI41mKd
-         Gkq97NDeqP/+TsnkbZ6ebdPDrrCfQKjwHElubmoNQLQReS6klrNOOTOZ0enBR9MBua+u
-         Wjkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780655424; x=1781260224;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0KPVu9xlZpg9ZdiY7RZ3Kuoe5dMqAtDeJAk4rvD4TuY=;
-        b=oC6rlbbGboJjgI6l50Q8gCHHKUKFOlyJf4fu+i1/4BzwwqFtVzX3GVzSQjKJ/yqz/1
-         wssHucLwGAzGAgZtGru9oLl6qI4N/aJlEyNDztoVYu4oJrQGYPMe6KG8NCU92FJA9EkN
-         12BIbRBlPcDoh4dtOO/JS9DHJEl7qt7eNm8qEzqQ/tuNWkgp8amj5W0ZhMtEn0SlvXLD
-         TJSqcdVBbRujo8mtrIp5jJ9rnnxsI+7dO1Q4lUSPmjBtetPaNkxQc8MfEZYr3OXKhKfv
-         CEIJlDbbKkjwFVh41t+7OHiuHXpPEkW92Pesb3xZsOeyzbbbrUPIqYEQ1WBYaOke+0SG
-         pIGA==
-X-Forwarded-Encrypted: i=1; AFNElJ8lEbrRU7dTc8f1pTw4owHMYRWRznL9/uiCq3oohxMEL5LfNo1IdOnwuAL6cUX3FgiB1ultetDWyRZLxg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpKXxt00fN1eSpqvGfL7x9vtkFv1+Ar/N369gwkoz00s8B16Eu
-	3u0GCqJYtr8cOHE61Fqqpr4wE0N1To2f5IhTYEzCA5B0e0MKiUO3kCJwKeXyH4cO2vE=
-X-Gm-Gg: Acq92OFfX0rplk4sDvTYaN3L+ZXJ4NvarYKDhi3NiBdK3eMEKY9LcijX9NoyUryrprB
-	P5zoJoZMnHx0THhKjGZ0itl+05NBqI8/Y/O8q2XYxC/P2bK3+MaeZxifnG+xUilrNUKQ77TGxeU
-	gF+Vdcc6/bqpfGObd1J5jHfB8M0JVRecs53zXvRYxJVVXGGwPeKPLhU1vqCu92MVImCUZCVRvKG
-	w2M1ZlNf1Qegxx0w93uHZdzURoMhUmeaKdHLb1gGJBWICSxVxqt3eSaDe4W/f/sLTDO4XHIythj
-	g+tssNNBZIImpJgXD+y+lK2DC20d11BgEYubRLLF6YZkDL5CJwgVsEzdm5ivNdvkJyR3ePGLJIX
-	N1VyOtx5KAUCxWXAVIYgdH3jSVs16Ht/Z6/R0Blh7+LEv1MUWo3/YHhel/MRXez+vwzbFQVzZbo
-	Rkqg0AnDrVD6rMFTH2JaqCpKKfv4VD3HZ7uv+jVeXyMGSf
-X-Received: by 2002:a17:907:7b82:b0:bd2:bd3:1ef8 with SMTP id a640c23a62f3a-bf372d28df7mr147592166b.35.1780655424300;
-        Fri, 05 Jun 2026 03:30:24 -0700 (PDT)
-Received: from [192.168.0.101] ([109.77.32.74])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf055303fc6sm446486166b.42.2026.06.05.03.30.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 05 Jun 2026 03:30:23 -0700 (PDT)
-Message-ID: <33989515-322d-4189-bf84-1d62a0c2d294@linaro.org>
-Date: Fri, 5 Jun 2026 11:30:22 +0100
+	s=arc-20240116; t=1780662824; c=relaxed/simple;
+	bh=MUJoif134ARHegV9T8Yl2vrZgXr8aFbYLKqhmDgVYak=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=cHNcFtHwwr5EGTIDghqnJIFhbF//Tgbq5O67Um4kMPdnxyfaQJutpe1IiK/j/K1NPVNDMMrsU66Sjmid0SppG8zT5KB/z7D2UsncktL8Mz6H2H3HtxA1NBx3U79kwZTrK6pJxEq7XgkvG6gA7PMlKwrIOJUQ78+FZ+mRe4lLRuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D/0S3EMg; arc=none smtp.client-ip=192.198.163.13
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780662822; x=1812198822;
+  h=date:from:to:cc:subject:message-id;
+  bh=MUJoif134ARHegV9T8Yl2vrZgXr8aFbYLKqhmDgVYak=;
+  b=D/0S3EMgTzufLwIA7vlJ3GMQ1K1K1OldwzI2w8B31HPzEQE7crDRReEm
+   N4tpoQ8t1ThcGNSx9cbzfuknxq9ZUwym/gbNaoPf9mC4ilpqOUWNjKcjV
+   QTbJ07WMlgIzww2b4VgVPc7V01iVvGIP7M1MKUZaLpnyy3aX1lAMprY6N
+   i0LFfieQOXrC+vKC9pffPfQD+fjNyGJzW2nykmywpk9g3qhwaPxNJYukw
+   QmRw6AESSeCQ5uIvTXjk/dpgGhgxFZY+2MCG1cr6r9Nv3KMc6290/Tv09
+   7d7SKE5y5CH6ara9VbXhr37YTF4RXwzQvsLvsUBWS1jGHyAK4hiOdA4Nd
+   Q==;
+X-CSE-ConnectionGUID: Maz3MEbGSCC3aSYpelX5rg==
+X-CSE-MsgGUID: YoKWhq1MTXmPqEnncm65Bg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11807"; a="84075133"
+X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
+   d="scan'208";a="84075133"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 05:33:42 -0700
+X-CSE-ConnectionGUID: 4sSKngXnTfWrArDBw2unwQ==
+X-CSE-MsgGUID: InVIJakoQuyjWv32BD+k/Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,188,1774335600"; 
+   d="scan'208";a="243740653"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 05 Jun 2026 05:33:40 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wVTk1-00000000FyU-2Ls5;
+	Fri, 05 Jun 2026 12:33:37 +0000
+Date: Fri, 05 Jun 2026 20:32:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:partial-reg 7/9]
+ drivers/media/mc/mc-device.c:26:10: fatal error: media/media-event.h: No such
+ file or directory
+Message-ID: <202606052044.b4pvupEW-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 2/2] phy: qcom-mipi-csi2: Add a CSI2 MIPI DPHY driver
-To: Nihal Kumar Gupta <nihal.gupta@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>
-Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, Bryan O'Donoghue
- <bod@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-phy@lists.infradead.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260523-x1e-csi2-phy-v8-0-a85668459521@linaro.org>
- <20260523-x1e-csi2-phy-v8-2-a85668459521@linaro.org>
- <54904b61-222d-4600-ad4c-c03a9952d337@linaro.org>
- <be3e1abe-5148-4247-930b-2e23164eea73@linaro.org>
- <c6aetoiz3dcedlxwjmt5cqh2mngswtmanf6p4s2molemnviwdc@btotpaqwcsoy>
- <f6c91099-0002-4580-a5e8-5611b089024b@linaro.org>
- <v4vz7cistjb2iuzha4oykglar7duw4y2uuyhumzs33yvpwrxcu@i5tsg4uzpuwc>
- <8eb709ce-3469-4303-9c3d-8d1a221cb8de@linaro.org>
- <b6a8c860-8b47-4250-a428-5225d0e64a1c@oss.qualcomm.com>
- <htxqjgwjczsghunsbvo44lwkadzeg2kp6wfcksf3hkmcubvs2d@cw5r67uxskvu>
- <59331aa7-8430-4754-861c-4ba6a4810ccd@oss.qualcomm.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <59331aa7-8430-4754-861c-4ba6a4810ccd@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-63895-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[16];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-63896-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:nihal.gupta@oss.qualcomm.com,m:dmitry.baryshkov@oss.qualcomm.com,m:vijay.tumati@oss.qualcomm.com,m:vladimir.zapolskiy@linaro.org,m:vkoul@kernel.org,m:kishon@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:neil.armstrong@linaro.org,m:bod@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-phy@lists.infradead.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:oe-kbuild-all@lists.linux.dev,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCPT_COUNT_THREE(0.00)[3];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	ALIAS_RESOLVED(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:mid,linaro.org:dkim,linaro.org:from_mime,linaro.org:email,vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	ALIAS_RESOLVED(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,intel.com:mid,intel.com:dkim,intel.com:from_mime,intel.com:email,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2F92B647646
+X-Rspamd-Queue-Id: 0061C64837E
 
-On 05/06/2026 10:31, Nihal Kumar Gupta wrote:
->> Having clock-names property doesn't mean that all values are valid.
->>
-> CSI_COMMON_CTRL5 is a physical lane power-up bitmap:
-> - Bits [0,2,4,6] → D-PHY data lanes(LN0, LN2, LN4, LN6)
-> - Bits [1,3,5] → C-PHY trio lanes(LN1, LN3, LN5)
-> - Bit [7] → D-PHY clock lane(LNCK) dedicated clock enable
-> 
-> In combo mode, only LN6 can be configurable as a clock lane.
-> 
-> The lane-enable computation in phy_qcom_mipi_csi2_lanes_enable() uses
-> BIT(data[i].pos) directly, assuming physical bit positions <0 2 4 6>,
-> but the DT [1] uses conventional indices <0 1 2 3>, producing 0x8F
-> instead of the correct 0xD5.
-> 
-> This goes unnoticed because the wrong value is immediately overwritten by the
-> hardcoded 0xD5 in lane_regs_x1e80100, making the dynamic computation effectively dead.
-> 
-> Could you please fix the driver to map logical lane indices, consistent with the gen2 camss convention.
-> 
-> [1]https://lore.kernel.org/all/20260326-x1e-camss-csi2-phy-dtsi- 
-> v3-5-1d5a9306116a@linaro.org
+tree:   git://linuxtv.org/sailus/media_tree.git partial-reg
+head:   b7d01dab7d47849d483b459ff2abf50497b52149
+commit: 4d67653aa3bd15cbaf60bbe6f4d0dce10d0dccbc [7/9] media: mc: Add MEDIA_IOC_DQEVENT
+config: arm-randconfig-r073-20260605 (https://download.01.org/0day-ci/archive/20260605/202606052044.b4pvupEW-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+smatch: v0.5.0-9185-gbcc58b9c
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260605/202606052044.b4pvupEW-lkp@intel.com/reproduce)
 
-That's great, thank you for sharing this information, it moves us from 
-"I think" to "the documentation says"
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202606052044.b4pvupEW-lkp@intel.com/
 
----
-bod
+All errors (new ones prefixed by >>):
+
+>> drivers/media/mc/mc-device.c:26:10: fatal error: media/media-event.h: No such file or directory
+    #include <media/media-event.h>
+             ^~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+--
+>> drivers/media/mc/mc-event.c:17:10: fatal error: media/media-event.h: No such file or directory
+    #include <media/media-event.h>
+             ^~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+
+
+vim +26 drivers/media/mc/mc-device.c
+
+    22	
+    23	#include <media/media-device.h>
+    24	#include <media/media-devnode.h>
+    25	#include <media/media-entity.h>
+  > 26	#include <media/media-event.h>
+    27	#include <media/media-fh.h>
+    28	#include <media/media-request.h>
+    29	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
