@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-63988-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63989-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id vKJTAZpMI2pzoQEAu9opvQ
-	(envelope-from <linux-media+bounces-63988-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 00:24:26 +0200
+	id 1MZrL1ZNI2rtoQEAu9opvQ
+	(envelope-from <linux-media+bounces-63989-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 00:27:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88CD664B9F0
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 00:24:25 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2389964BA2E
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 00:27:34 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=CyXeSDCt;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63988-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-63988-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Ab+iLkrM;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63989-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-63989-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id D67A73035858
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 22:24:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2A4643019F35
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2026 22:25:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C25733B9D8B;
-	Fri,  5 Jun 2026 22:24:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D8D13C3787;
+	Fri,  5 Jun 2026 22:25:51 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE434071F3
-	for <linux-media@vger.kernel.org>; Fri,  5 Jun 2026 22:24:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB3543B71BA
+	for <linux-media@vger.kernel.org>; Fri,  5 Jun 2026 22:25:49 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780698260; cv=none; b=m2Zb8YGmKMm7FVswdlwDkFrC4QZzWnT17myTJ7ndaNHTDYLiJNPAdG2lJeLOc69vHL3DEzA2dt9k44k2+QDQ6sA4p2VPwGhw/9cnplfyCGQOKNV3YcO/VrFa6QUiaVlQvY94pgrSNwZ6Exepc1YPd1l3X+meEL9yyXIbNzDJS1U=
+	t=1780698351; cv=none; b=H8SvRAPNBxtaheFa2DnMJVWkHVtfjamo4paLgrR60dk184/gkbLAYFo09kPthFvajMQXLWruy569yniL/AFbowcP0BZ3wdRLTXquKZUDetjjv80wCnSflQeYOYY7Wmxi9OkesslBKt7WF3Mmsp0VnpqcSEGE6WdQELyVMRbn8IM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780698260; c=relaxed/simple;
-	bh=T4ZQrznC84VfOU/54+JykLyt976N+EsM8VOCsSZT8sg=;
+	s=arc-20240116; t=1780698351; c=relaxed/simple;
+	bh=0qshCgHiS1JLJOEweaJkpW57BZ02Bh8K16IQuMDiXb0=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=fS6emdfMC8ZYRFjAXTGfxkfLFXU/y5Xc85U0xGmRfsYNgezbGxXQUbt3vIGpVxsjTHg5RonkC6KyG7JafyNH87YEQ9k2/kw9onDJuipOP28m4d98SYhOIJj83erE9KtyKy/fVeDz3FfTnomqf1FgrNjcl9Qua+MWnVs+wLyk8/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CyXeSDCt; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C97DF1F00893;
-	Fri,  5 Jun 2026 22:24:18 +0000 (UTC)
+	 Message-Id; b=iq1ItK0dOB/Ad4jCLK3wJzkXtyQQV9AzDXDpcsq8yyrXjvBOrMCSRXt/qn81ZePELA70ommQVDZzsiOHLcSaG7OLU8Pn8NqVwjbi5Jlbt29gbxcwAnTGxh6uORd+LBtrQoVE+cRvGAY3yH/MYF9Sj55KhobbArkFf6uBjDtk9mg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ab+iLkrM; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80D521F00898;
+	Fri,  5 Jun 2026 22:25:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780698258;
-	bh=RUGooYrQLeBrMi+xNUJ2IFdfWCYxmbo+ZQKYoxUQuQc=;
+	s=k20260515; t=1780698349;
+	bh=a5hpfllqBjrTsTtCL3N6Wr1RzM9H3bZZXWc+LYBmDx0=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=CyXeSDCtf7eabfrU1hSvHv60vXUm0Eg+oLWhKTv3aX/bmvhSH5CifipiS+aP1JxDn
-	 zr+zeSpuqeH0g0qTyeUtBoGMjKH2S/jafhCXlDImaSzYBSYwl4tuKmjgbXRKU5pv3q
-	 1RYtXbFUQPu4Afv0KGY2L9KM9fF0/JgAzKGy4azgFNxUa2Sq+wPIces97zfp0azY/0
-	 J76OW+IG7VefMCBG/HjtR7sKsBrknV6y7PTbHlBFUeCGX+mIp1NBVYtrbQ0vXLOtaF
-	 1WuYgwEDj9QOnskCVuoQLZH4W5xySOagbeqrexKZo+MpHgas9C7F7wzu2g454oIhjW
-	 5Z3xSjWW6xB+g==
+	b=Ab+iLkrMZkdN39CnlwCEJPnycnfwdB/aN87YyEEyL35yaeRuuqRu3vRQ1gMumUZUo
+	 7HfW0vQG4OMk1woM5Hx/tMr6WnnPdRGpuRDhmRgsrAwEseOQVB06Ce5Oxr23zdiN0v
+	 rZhWnSHujJGmBzChvwi1g2KC1OcsU2jJIU2iuEgykSN4fc68j3vJMw3N7aAfLNZMCZ
+	 DKxBXgWQ3zI8w++ifHBEojFyBkHt4vbR0Yki1qAWM/MmsSCumFi9b2/maffqUneU2o
+	 QaV/z040syJNXG+fWkQ4JnQ/kYT+ZFgSo6ffkcP9r1frozyzrIWL2zLjXkIH7J3ou3
+	 KECaFt/owCuoQ==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 09/17] media: rockchip: rga: use components to manage
- multiple cores
+Subject: Re: [PATCH 15/17] media: rockchip: rga: schedule jobs to multiple
+ cores
 Reply-To: sashiko-reviews@lists.linux.dev
 To: =?utf-8?b?U3ZlbiBQw7xzY2hlbA==?= <s.pueschel@pengutronix.de>
 Cc: linux-media@vger.kernel.org
-In-Reply-To: <20260606-spu-rga3multicore-v1-9-3ec2b15675f7@pengutronix.de>
-References: <20260606-spu-rga3multicore-v1-9-3ec2b15675f7@pengutronix.de>
+In-Reply-To: <20260606-spu-rga3multicore-v1-15-3ec2b15675f7@pengutronix.de>
+References: <20260606-spu-rga3multicore-v1-15-3ec2b15675f7@pengutronix.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 05 Jun 2026 22:24:18 +0000
-Message-Id: <20260605222418.C97DF1F00893@smtp.kernel.org>
+Date: Fri, 05 Jun 2026 22:25:49 +0000
+Message-Id: <20260605222549.80D521F00898@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -69,13 +69,13 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-63988-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-63989-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:s.pueschel@pengutronix.de,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
@@ -87,154 +87,200 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	FORWARDED(0.00)[lists@lfdr.de];
 	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_NO_DN(0.00)[];
 	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,lists.linux.dev:replyto,vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,pengutronix.de:email,sashiko.dev:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,lists.linux.dev:replyto,vger.kernel.org:from_smtp,pengutronix.de:email,sashiko.dev:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 88CD664B9F0
+X-Rspamd-Queue-Id: 2389964BA2E
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+Thank you for your contribution! Sashiko AI review found 5 potential issue(=
 s) to consider:
 
 New issues:
-- [Critical] v4l2 `m2m_dev` is freed while the shared interrupt handler rem=
-ains active, causing a use-after-free.
+- [High] Race condition in device_run() error path and unhandled early retu=
+rn permanently deadlock the mem2mem queue.
+- [Medium] Data race on core->curr pointer when clearing job assignments.
 
 Pre-existing issues:
-- [High] Missing `synchronize_irq()` in runtime suspend and unsafe hardware=
- access in shared IRQ handler.
-- [High] Out-of-order `pm_runtime_enable` and `platform_set_drvdata` causes=
- a NULL pointer dereference in `rga_runtime_resume`.
+- [High] Out-of-bounds array write on unbind/rebind of components because r=
+ga->num_cores is never reset.
+- [High] Missing pm_runtime_get_if_active() before hardware access in share=
+d IRQ handler.
+- [High] Missing synchronize_irq() in runtime suspend callback for shared I=
+RQ.
 --
 
-commit 56522d85947daeaf3327877b7e9e7555910847ab
+commit f03021dff03be4350cbe7b0ab4ce4a9a54a7602f
 Author: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
 
-media: rockchip: rga: use components to manage multiple cores
+media: rockchip: rga: schedule jobs to multiple cores
 
-Use component helpers to manage multiple cores and aggregate them into a
-central master device. This gives us a dedicated master device and
-ensures that all cores (components) are properly set up before creating
-the video device.
+This commit modifies the Rockchip RGA driver to schedule jobs across
+multiple cores to better utilize hardware. A dedicated spinlock is added
+to protect the selection of the next free core from race conditions.
 
 > diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/pl=
 atform/rockchip/rga/rga.c
-> index 15d095a1d1973..178f45b8da940 100644
+> index 9cebb461b3fd2..f00b7f99f2521 100644
 > --- a/drivers/media/platform/rockchip/rga/rga.c
 > +++ b/drivers/media/platform/rockchip/rga/rga.c
-[ ... ]
-> +static int rga_core_probe(struct platform_device *pdev)
-> +{
-> +	int ret =3D 0;
-> +
-> +	ret =3D component_add(&pdev->dev, &rga_core_ops);
-> +	if (ret < 0) {
-> +		dev_err(&pdev->dev, "failed to register component: %d", ret);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-
-[Severity: High]
-This is a pre-existing issue, but can the initialization order leave the
-driver vulnerable to sysfs-triggered PM transitions?
-
-During probe, pm_runtime_enable() is called before the driver data is set:
-
-drivers/media/platform/rockchip/rga/rga.c:
-	pm_runtime_set_autosuspend_delay(core->dev, 50);
-	pm_runtime_enable(core->dev);
-	...
-	platform_set_drvdata(pdev, core);
-
-If a concurrent PM state transition to 'on' occurs (e.g., via a sysfs write)
-before platform_set_drvdata() runs, the PM core will trigger
-rga_runtime_resume().
-
-Will this result in a NULL pointer dereference when dev_get_drvdata() is
-called?
-
-drivers/media/platform/rockchip/rga/rga.c:rga_runtime_resume() {
-	struct rga_core *core =3D dev_get_drvdata(dev);
-
-	return clk_bulk_prepare_enable(core->num_clks, core->clks);
-}
-
-[ ... ]
->  static int __maybe_unused rga_runtime_suspend(struct device *dev)
+> @@ -38,15 +38,31 @@ static void device_run(void *prv)
 >  {
->  	struct rga_core *core =3D dev_get_drvdata(dev);
-> @@ -933,7 +912,7 @@ static int __maybe_unused rga_runtime_resume(struct d=
-evice *dev)
->  	return clk_bulk_prepare_enable(core->num_clks, core->clks);
->  }
+>  	struct rga_ctx *ctx =3D prv;
+>  	struct rockchip_rga *rga =3D ctx->rga;
+> -	struct rga_core *core =3D rga->cores[0];
+> +	struct rga_core *core =3D NULL;
+>  	struct vb2_v4l2_buffer *src, *dst;
+>  	unsigned long flags;
+>  	int ret;
+> +	unsigned int i;
+> +
+> +	spin_lock_irqsave(&rga->cores_lock, flags);
+> +	for (i =3D 0; i < rga->num_cores; i++) {
+> +		if (!rga->cores[i]->curr) {
+> +			core =3D rga->cores[i];
+> +			core->curr =3D ctx;
+> +			break;
+> +		}
+> +	}
+> +	spin_unlock_irqrestore(&rga->cores_lock, flags);
+> +
+> +	WARN_ONCE(!core, "No free core although max parallel jobs matches the c=
+ore count!\n");
+> +	if (!core)
+> +		return;
 > =20
-> -static const struct dev_pm_ops rga_pm =3D {
-> +static const struct dev_pm_ops rga_core_pm =3D {
->  	SET_RUNTIME_PM_OPS(rga_runtime_suspend,
->  			   rga_runtime_resume, NULL)
->  };
+>  	ret =3D pm_runtime_resume_and_get(core->dev);
+>  	if (ret < 0) {
+>  		v4l2_m2m_buf_done_and_job_finish(rga->m2m_dev, ctx->fh.m2m_ctx,
+>  						 VB2_BUF_STATE_ERROR);
+> +		core->curr =3D NULL;
 
 [Severity: High]
-This is a pre-existing issue, but does this runtime suspend callback lack
-a synchronize_irq() call?
+Could this error path introduce a race condition that permanently deadlocks=
+ the
+mem2mem queue?
 
-When the hardware lacks an internal IOMMU, the driver requests a shared
-interrupt line (IRQF_SHARED). If a shared interrupt fires while the device
-is runtime-suspended, the interrupt handler rga_isr() unconditionally
-reads hardware registers via rga_handle_irq() without verifying if the
-device is powered on using pm_runtime_get_if_active().
+v4l2_m2m_buf_done_and_job_finish() is called before core->curr is cleared,
+which asynchronously schedules the next job via a workqueue.
 
-Does disabling clocks here in rga_runtime_suspend():
+If the worker executes device_run() on another CPU before the current CPU m=
+arks
+the core as free, the worker will see the core as busy. If no other core is
+free, device_run() will trigger the WARN_ONCE and return early without
+notifying the v4l2 mem2mem framework:
 
-drivers/media/platform/rockchip/rga/rga.c:rga_runtime_suspend() {
+    if (!core)
+        return;
+
+Because the new job is already marked as TRANS_RUNNING, returning early wit=
+hout
+signaling job completion permanently hangs the job queue, and can cause a
+D-state deadlock if userspace attempts to close the device file descriptor.
+
+[Severity: Medium]
+Additionally, could there be a data race when clearing core->curr here?
+
+While cores_lock is acquired when scanning and assigning a core earlier in
+device_run(), it is not held when releasing the core in this error path.
+Concurrent unprotected reads and writes to core->curr across CPUs could lea=
+d to
+undefined behavior.
+
+>  		return;
+>  	}
+
+[ ... ]
+
+[Severity: Medium]
+This isn't a bug introduced by this patch, but does modifying core->curr in
+rga_isr() without holding cores_lock introduce a data race?
+
+Since cores_lock was introduced to protect against concurrent selections,
+shouldn't it also be held when releasing the core in the interrupt handler?
+
+drivers/media/platform/rockchip/rga/rga.c:rga_isr() {
     ...
-	clk_bulk_disable_unprepare(core->num_clks, core->clks);
+    core->curr =3D NULL;
     ...
 }
 
-allow the interrupt handler to execute mid-flight while the hardware is
-powered down, potentially leading to a synchronous external abort?
+[Severity: High]
+This isn't a bug introduced by this patch, but does the unbind/rebind path
+cause an out-of-bounds array write in rga->cores[]?
 
-[ ... ]
-> +static void rga_unbind(struct device *dev)
-> +{
-> +	component_unbind_all(dev, NULL);
-> +}
+During component bind, rga_core_bind() appends to the rga->cores array:
 
-[Severity: Critical]
-Does unbinding the master device cause a use-after-free in the active
-interrupt handler?
+drivers/media/platform/rockchip/rga/rga.c:rga_core_bind() {
+    ...
+    rga->cores[rga->num_cores++] =3D core;
+    ...
+}
 
-Because the componentization moved the v4l2 m2m_dev allocation to the master
-device, but the devres-managed IRQ request is on the core component device,
-the shared interrupt handler rga_isr() remains active indefinitely.
-
-When the master device is unbound, rga->m2m_dev is freed:
+However, the master unbind callback and the component system do not reset
+rga->num_cores to 0:
 
 drivers/media/platform/rockchip/rga/rga.c:rga_unbind() {
     ...
-	v4l2_m2m_release(rga->m2m_dev);
+    component_unbind_all(dev, NULL);
+}
+
+The struct rockchip_rga structure is not freed when a component is unbound.=
+ If
+a component is unbound and subsequently re-bound, rga_core_bind() will cont=
+inue
+incrementing rga->num_cores past the initially allocated length, corrupting
+memory.
+
+[Severity: High]
+This isn't a bug introduced by this patch, but is the driver missing a
+pm_runtime_get_if_active() check before accessing hardware in the shared IRQ
+handler?
+
+The driver registers rga_isr() with IRQF_SHARED if there is no internal IOM=
+MU.
+When an interrupt is triggered by another device on the shared line, rga_is=
+r()
+blindly calls handle_irq(), which reads hardware registers:
+
+drivers/media/platform/rockchip/rga/rga.c:rga_isr() {
+    ...
+    if (rga->hw->handle_irq(core)) {
     ...
 }
 
-If a shared interrupt fires after the master is unbound, will rga_isr()
-access the freed m2m_dev and rga structures when calling
-v4l2_m2m_job_finish()?
+If the RGA core is runtime-suspended and its clocks are disabled, accessing=
+ its
+registers will cause an external abort / SError.
+
+[Severity: High]
+This isn't a bug introduced by this patch, but is there a missing
+synchronize_irq() in the runtime suspend callback for shared IRQs?
+
+In rga_runtime_suspend(), the driver disables clocks unconditionally:
+
+drivers/media/platform/rockchip/rga/rga.c:rga_runtime_suspend() {
+    ...
+    clk_bulk_disable_unprepare(core->num_clks, core->clks);
+    ...
+}
+
+Because the driver can use a shared IRQ, an interrupt handler could be
+mid-flight on another CPU when the clocks are disabled, causing an external
+abort when the handler accesses the now-unclocked hardware.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260606-spu-rga3mu=
-lticore-v1-0-3ec2b15675f7@pengutronix.de?part=3D9
+lticore-v1-0-3ec2b15675f7@pengutronix.de?part=3D15
 
