@@ -1,153 +1,300 @@
-Return-Path: <linux-media+bounces-64004-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64005-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 0O+7JEjnI2pq0AEAu9opvQ
-	(envelope-from <linux-media+bounces-64004-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 11:24:24 +0200
+	id k7j3BJjoI2qQ0AEAu9opvQ
+	(envelope-from <linux-media+bounces-64005-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 11:30:00 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF79064CFFC
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 11:24:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B4B364D03C
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 11:29:59 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=FhAcSub2;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64004-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64004-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=tumelty-co-uk.20251104.gappssmtp.com header.s=20251104 header.b=btT9Pazl;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64005-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64005-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 542E23028F0E
-	for <lists+linux-media@lfdr.de>; Sat,  6 Jun 2026 09:23:52 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7BFE9303CC38
+	for <lists+linux-media@lfdr.de>; Sat,  6 Jun 2026 09:28:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4566318EF0;
-	Sat,  6 Jun 2026 09:23:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8406531B80D;
+	Sat,  6 Jun 2026 09:28:55 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 202804204E
-	for <linux-media@vger.kernel.org>; Sat,  6 Jun 2026 09:23:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C191D5170
+	for <linux-media@vger.kernel.org>; Sat,  6 Jun 2026 09:28:53 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780737831; cv=none; b=DFtm8pHF9MuAigH2SOUon8ileeP0UtHOExBy1o29iOP0tgaFO/e8rcRHj1v30SLB1xemAaxPT2wqm/ejjuitbqpWe7E/zJVYElmfxuTXtNGMZP3QB53jVqDnRlXDy5f52Eov3I+JnNPyByzAL1mHgNTK1OlMm7nKpBiz+C4A9To=
+	t=1780738135; cv=none; b=fXXKyX4oCx1dDi80PaeppPr1s5XInM2x4u2SGpSS6DDsVd1j/dV+zHvpIpEhkmSxedSN814GeKoEbYCxTKmhHxX5gO4Rz3bV+tpPtfRuq0sLrVPQVTAvSbHwhmjT15cUUSDuf+cibKFWvi7kj/h10a2elK3TiGv/o9zdTtnMA/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780737831; c=relaxed/simple;
-	bh=BwhE7xdI5+5inoubbMFMEgTrsdY/m7GE7gSoGyMgy0w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GWuM7c4weUTe9s04sypGkzpOjb9uxzxTxhJzhvfzuvBgev2DFsPcMLGGvm4ZCHyToHdjc5nyK9Z9sM6kL5y39vlxeF30ZxWa/CDtrexFa6yRp1hg3OVOFArvAYAfECMfyOqJhwYf5agzsIi9Pul21QOvup+/AIIO3spqiHSyAY0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FhAcSub2; arc=none smtp.client-ip=209.85.128.49
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490b613a17bso25825765e9.3
-        for <linux-media@vger.kernel.org>; Sat, 06 Jun 2026 02:23:49 -0700 (PDT)
+	s=arc-20240116; t=1780738135; c=relaxed/simple;
+	bh=AeLpxBAivccqYk14/n6xZcJ2Fnnbo21VpBoS40sPoaQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BahP2b1ChNFQkNNYVvOlQxKet9lyRCLpnQfvv9dpNbWKtBzRXiuRykepqA9+VRj0T1ogn6328jtPCGEcQpjyD2exeSQA/cWUkexLP1m2g7YcZXRzUXFulVMwP9akIuEV/2CMeTj1ZigZJUPS65NHfffusISOGx2xsYA8r0pq7xQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tumelty.co.uk; spf=none smtp.mailfrom=tumelty.co.uk; dkim=pass (2048-bit key) header.d=tumelty-co-uk.20251104.gappssmtp.com header.i=@tumelty-co-uk.20251104.gappssmtp.com header.b=btT9Pazl; arc=none smtp.client-ip=209.85.128.48
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-490b211ee6aso19894425e9.3
+        for <linux-media@vger.kernel.org>; Sat, 06 Jun 2026 02:28:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780737828; x=1781342628; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=o3AECBOGH+bhiXvCtacqMdiArKuJwpVAkabTm5OFjxQ=;
-        b=FhAcSub2FfhjWGfqL3Bdr9r4pcBiQCHYG4E7Div64s9BQJMLNVgJkrCwkjAY8Au5Y+
-         ylCyr8T5tqTdpJ6MAYxsD12yYof/9UGvArjzs+L66OxRZB9r+uLLyH5au/ikdOhjjO2E
-         EbKC9NYimspoYIswt8vU7tx5mRSjitYkN2qTlgR3bIxlzC+b5kRqjYCA/7Tgm3AnmmDl
-         aNhRVH7NPfvPWPnwcaESAXpgoAKusqt/AyZEXgpRKvvnCrwVkFlQSgcDWdNdvbeYW3t2
-         FZIUSVctpgMFVhHmH28SaBScakqVkWmpvBN9fJ9A7CzxfxH43bWPwYqfkVK2W4ZqDYbC
-         xHfA==
+        d=tumelty-co-uk.20251104.gappssmtp.com; s=20251104; t=1780738132; x=1781342932; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=52D5Me9x0J5hn+BdfKj6pTEMPbVUH7bHHg17ADO+b/o=;
+        b=btT9PazliD/q788Zr/3X6vcu0Lrc5b/70CNTm/kEb9TCQuAG3xrjvxUWkQAhGcgX7G
+         HbtWtbmIq+HPxKAHiSXQwMlG2tdDsKlNoPsqWWKCXD9op+WvOnRpagqx7FpxbQLpxa5T
+         IKDHEqaOh4BHIwQFElzXmd8QDQ0laA+EEMms1FE2t3GNSdicR+q8W5ZaDolHQqlvgGYu
+         kYE4eyLwte2NsootTs81/V6LruV7KIRRq8t3xHKsCrQehzhnCCLnwV7XjSGXwrBykAgh
+         KvrTmQGb1r5S3ZLDgDSM424M9t2Q8GhrbylSem5/1+gdhECihrr6VYo8Q2hR64Gu6ki3
+         mgdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780737828; x=1781342628;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o3AECBOGH+bhiXvCtacqMdiArKuJwpVAkabTm5OFjxQ=;
-        b=DLjE4nYfkOv4JiXSRMJ+Ycp7ocn6egnzvVe+CdHC5kkDja1WgZAW/lMGL/E5xdYnUG
-         hHm26TmOlvPEMyBf2jFBV1e5RhVM7BF0y2CYzty3noBfFiIsbrn+bLkquX4t5n48kTVL
-         3ovAxpvLCKFiKZPGNd9IX2pVNoSNB42TZFcN4VFYxwHVrIrCpphqe4I2W8F1BTNCAaMv
-         E7OQbHXP2Hcj3g4HX6QWNaaVeYDrUrG4ntqj16gTxh/p0is9Kujwea0BUGO9b02K257v
-         p/UXZ3tXoqzZ4sC4JbKa0TAK2HOqvoxKnQlv5CPmgsx1P70d49P6eS/uHzCsUxTsqNz/
-         MCbg==
-X-Forwarded-Encrypted: i=1; AFNElJ+2J/mM00Ra1ntKqriKHezZTn5WZCbx0lR6pOfxwouXlhvgamgXn7lDRBEBJn3Z5TCu1uoO3cbGr6/fDA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTWmv8wCJKgGTMXLa88BYRVe1R5pudaqYDnUWo49lxvi2k850z
-	qu3pzc1wKuSaQdrds1iBKsZu7soB83pi2IE0+8Up31Ve6cYbULI9dToK
-X-Gm-Gg: Acq92OF6Uy4cw34ItFLWdTG22JbQ0hd9LvfB44671q2DuonNqcCgj9pPvURxYQiWQEK
-	zm319A/DmsMzZruFwA7gUlAGRugi56Jm94YXfa2zJyUOSJhw21Obnpec84Q6vgQOG7Fsbe32qSU
-	KQd6ttAaFWWc7Ld2FoloPHQATP2fmmld4jsVEoj7M70Ls2R78EN6qlRcwvoaXTq0t4kganOqKTF
-	kLQLEfy9oDcXqXnVfDoxQe2XbbXFyNrbmTUS0U+O0IdqQ8yEUMsAbuC5dNcuKauu1U0AljlaD+T
-	RVkdgVD3PZ9PFAeHuNXH/3Ekst7vV6zbVx6hPm6ITwZkWsK9rWhEDaR/X4OQZLd+cccpPLdab8R
-	NlDJNaWp9J1QBf5ECQvSHjC1Cgeeafvu8qXKZ7CqUcsAulZZ04aKNwNeBlUTwT32olWbaB9mYVe
-	jRje3kLMvvNxtT8XVuUu/UnvGCipLNsw==
-X-Received: by 2002:a05:600c:468a:b0:490:c2a2:e91e with SMTP id 5b1f17b1804b1-490c2a2ea2fmr119883895e9.34.1780737828479;
-        Sat, 06 Jun 2026 02:23:48 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc40716bsm230650815e9.12.2026.06.06.02.23.47
+        d=1e100.net; s=20251104; t=1780738132; x=1781342932;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=52D5Me9x0J5hn+BdfKj6pTEMPbVUH7bHHg17ADO+b/o=;
+        b=RPiChL/CBcOWfUIsTrd2bQZAD3sARv8yotew654DTre/xjIPu+zujE7QdvAaaYOLSR
+         wdnxN0pZUAq5l5p0K33/BWuP7jzQ7dqMuyerJWGlqBSCYpC+K85sNgT1C8vDqIFRNLeX
+         RgfnkOXXtU09NN0f5mT1IWMmk5rEHl662AaKCtZWrUmDz3DJqk96rE11MJfncQk9qo1B
+         O3nqtbkjXoMxKhtyoCk7G22jSvP3I8Z4Z3MoCsIFt6L81cLQzanq0U/s4UVLHvi3d/0w
+         iJtdIx+Yyn+Y3ipevdbVBQ8yaSg1KSi61zbSTd8BvkYXDJplqicX/BWFl0+DBkxLR4EG
+         /p2g==
+X-Forwarded-Encrypted: i=1; AFNElJ8krOW6p1BUMJFqdySycOurlgSC7ZMmFhK91aT9zN7BGJmK0vRDb0ALNCgfWiJER7KGHnyXuyyo3DdRtw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqEoEpj3aKMZzLQImb+ApM2g8CSInPezMz/jb+H9bzUi3m/m8Y
+	0XpWgVr0dY+uBj0iXzAn1xL62EamL39fUsky4cZqSo/k0r+Ev4qpiXdg/mQxpsKca5k=
+X-Gm-Gg: Acq92OHjkj0Ov2TnslU18ayW7uDCA39uhuO4lofNpsCd2Y6Qt07K0hP/M1SA/pVa0tU
+	8evKMUpWF1UVm+l4tiIZseBbFmqFDqwdHOrSUcBd9nsodSN4MWX2W3vzrFoLdTwPFiwaYj4tO+b
+	Is3AaJ5TiJdopyW8gUuiv4zoxvwS7mBmYVKoLpQ97pQoUVM27R6/rPhJFD8oPuCbRmqstVBcR4/
+	Kd19memB6zaMzQOmvCOoxZjdkfNLZEbklzQzrxd8GhUUCs1s1boRbty/ObvMSMn2T3lYJbbg1fM
+	IwrBsNZgP7nPH2DkHScMLz5qH/62JTXGc+DnqWo3+AaB2u2gi7+SDCxOeuq3Daw1SYViUIyBkjr
+	F1m62ULX9k925RFAt8IjphJYLpKXKaWci7FGIj85UMy0FHhDd7temf++vWAS6mu0BbyIjiHOcBd
+	Rwh9Cr7dx2ccOTdLTmU8XMGT8k
+X-Received: by 2002:a05:600c:34cb:b0:48e:6db3:ff3a with SMTP id 5b1f17b1804b1-490c25b09a2mr124843875e9.16.1780738131894;
+        Sat, 06 Jun 2026 02:28:51 -0700 (PDT)
+Received: from nixos ([83.217.168.175])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3cc140sm266862195e9.9.2026.06.06.02.28.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Jun 2026 02:23:47 -0700 (PDT)
-Date: Sat, 6 Jun 2026 12:23:44 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Rhys Tumelty <rhys@tumelty.co.uk>
-Cc: hansg@kernel.org, mchehab@kernel.org, gregkh@linuxfoundation.org,
-	sakari.ailus@linux.intel.com, andy@kernel.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: atomisp: remove unused macros
-Message-ID: <aiPnIDHmJlplnoRh@stanley.mountain>
-References: <20260606091447.168262-1-rhys@tumelty.co.uk>
+        Sat, 06 Jun 2026 02:28:51 -0700 (PDT)
+From: Rhys Tumelty <rhys@tumelty.co.uk>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: error27@gmail.com,
+	sakari.ailus@linux.intel.com,
+	andy@kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Rhys Tumelty <rhys@tumelty.co.uk>
+Subject: [PATCH v2] staging: media: atomisp: remove unused macros
+Date: Sat,  6 Jun 2026 10:28:42 +0100
+Message-ID: <20260606092842.179826-1-rhys@tumelty.co.uk>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260606091447.168262-1-rhys@tumelty.co.uk>
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[tumelty-co-uk.20251104.gappssmtp.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64004-lists,linux-media=lfdr.de];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:rhys@tumelty.co.uk,m:hansg@kernel.org,m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:sakari.ailus@linux.intel.com,m:andy@kernel.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-64005-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:hansg@kernel.org,m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:error27@gmail.com,m:sakari.ailus@linux.intel.com,m:andy@kernel.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:rhys@tumelty.co.uk,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[rhys@tumelty.co.uk,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,kernel.org,vger.kernel.org,lists.linux.dev,tumelty.co.uk];
+	MIME_TRACE(0.00)[0:+];
+	DMARC_NA(0.00)[tumelty.co.uk];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rhys@tumelty.co.uk,linux-media@vger.kernel.org];
 	ALIAS_RESOLVED(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	DKIM_TRACE(0.00)[tumelty-co-uk.20251104.gappssmtp.com:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:email,vger.kernel.org:from_smtp,tumelty.co.uk:mid,tumelty.co.uk:from_mime,tumelty.co.uk:email,tumelty-co-uk.20251104.gappssmtp.com:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DF79064CFFC
+X-Rspamd-Queue-Id: 5B4B364D03C
 
-On Sat, Jun 06, 2026 at 10:14:47AM +0100, Rhys Tumelty wrote:
-> diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/debug.c b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/debug.c
-> index 8513e78856b2..d05832e7f337 100644
-> --- a/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/debug.c
-> +++ b/drivers/staging/media/atomisp/pci/hive_isp_css_common/host/debug.c
-> @@ -12,7 +12,6 @@
->  #include "debug_private.h"
->  #endif /* __INLINE_DEBUG__ */
->  
-> -#define __INLINE_SP__
->  #include "sp.h"
->  
+removed unused macros across the atomisp driver that are defined
+in .c files, but never used, which was flagged as errors in a
+W=2 build, due to -Werror=unused-macros.
 
-This is used.  It should eventually be cleaned up, but not by randomly
-deleting stuff.
+Signed-off-by: Rhys Tumelty <rhys@tumelty.co.uk>
+---
+ .../media/atomisp/pci/atomisp_compat_css20.c       |  3 ---
+ .../media/atomisp/pci/atomisp_gmin_platform.c      |  3 ---
+ drivers/staging/media/atomisp/pci/atomisp_v4l2.c   |  7 -------
+ drivers/staging/media/atomisp/pci/mmu/isp_mmu.c    | 14 --------------
+ .../atomisp/pci/runtime/inputfifo/src/inputfifo.c  |  3 ---
+ drivers/staging/media/atomisp/pci/sh_css.c         |  3 ---
+ drivers/staging/media/atomisp/pci/sh_css_hrt.c     |  2 --
+ drivers/staging/media/atomisp/pci/sh_css_metrics.c |  6 ------
+ 8 files changed, 41 deletions(-)
 
-regards,
-dan carpenter
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index be5f37f4a6fd..95edc98137cc 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -28,9 +28,6 @@
+ #include <linux/io.h>
+ #include <linux/pm_runtime.h>
+ 
+-/* Assume max number of ACC stages */
+-#define MAX_ACC_STAGES	20
+-
+ /* Ideally, this should come from CSS headers */
+ #define NO_LINK -1
+ 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index 4026e98c5845..0eafd81c44cd 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -48,7 +48,6 @@ enum clock_rate {
+ /* TI SND9039 PMIC register set */
+ #define LDO9_REG	0x49
+ #define LDO10_REG	0x4a
+-#define LDO11_REG	0x4b
+ 
+ #define LDO_2P8V_ON	0x2f /* 0x2e selects 2.85V ...      */
+ #define LDO_2P8V_OFF	0x2e /* ... bottom bit is "enabled" */
+@@ -99,8 +98,6 @@ static struct gmin_subdev gmin_subdevs[MAX_SUBDEVS];
+ #define PMIC_ACPI_TI		"INT33F5"	/* Dollar Cove TI PMIC */
+ #define PMIC_ACPI_CRYSTALCOVE	"INT33FD"	/* Crystal Cove PMIC */
+ 
+-#define PMIC_PLATFORM_TI	"intel_soc_pmic_chtdc_ti"
+-
+ static enum {
+ 	PMIC_UNSET = 0,
+ 	PMIC_REGULATOR,
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index 900a67552d6a..eaaa3753abf9 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -36,13 +36,6 @@
+ 
+ #include "device_access.h"
+ 
+-/* Timeouts to wait for all subdevs to be registered */
+-#define SUBDEV_WAIT_TIMEOUT		50 /* ms */
+-#define SUBDEV_WAIT_TIMEOUT_MAX_COUNT	40 /* up to 2 seconds */
+-
+-/* G-Min addition: pull this in from intel_mid_pm.h */
+-#define CSTATE_EXIT_LATENCY_C1  1
+-
+ /* cross component debug message flag */
+ int dbg_level;
+ module_param(dbg_level, int, 0644);
+diff --git a/drivers/staging/media/atomisp/pci/mmu/isp_mmu.c b/drivers/staging/media/atomisp/pci/mmu/isp_mmu.c
+index 5193a7eb7d9f..6a8c5ba27b02 100644
+--- a/drivers/staging/media/atomisp/pci/mmu/isp_mmu.c
++++ b/drivers/staging/media/atomisp/pci/mmu/isp_mmu.c
+@@ -29,20 +29,6 @@
+ #include "atomisp_internal.h"
+ #include "mmu/isp_mmu.h"
+ 
+-/*
+- * 64-bit x86 processor physical address layout:
+- * 0		- 0x7fffffff		DDR RAM	(2GB)
+- * 0x80000000	- 0xffffffff		MMIO	(2GB)
+- * 0x100000000	- 0x3fffffffffff	DDR RAM	(64TB)
+- * So if the system has more than 2GB DDR memory, the lower 2GB occupies the
+- * physical address 0 - 0x7fffffff and the rest will start from 0x100000000.
+- * We have to make sure memory is allocated from the lower 2GB for devices
+- * that are only 32-bit capable(e.g. the ISP MMU).
+- *
+- * For any confusion, contact bin.gao@intel.com.
+- */
+-#define NR_PAGES_2GB	(SZ_2G / PAGE_SIZE)
+-
+ static void free_mmu_map(struct isp_mmu *mmu, unsigned int start_isp_virt,
+ 			 unsigned int end_isp_virt);
+ 
+diff --git a/drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c b/drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c
+index 8e1efeb6372c..b084f9edb8a7 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c
++++ b/drivers/staging/media/atomisp/pci/runtime/inputfifo/src/inputfifo.c
+@@ -10,9 +10,7 @@
+ 
+ #include "device_access.h"
+ 
+-#define __INLINE_SP__
+ #include "sp.h"
+-#define __INLINE_ISP__
+ #include "isp.h"
+ #define __INLINE_IRQ__
+ #include "irq.h"
+@@ -21,7 +19,6 @@
+ 
+ #define __INLINE_EVENT__
+ #include "event_fifo.h"
+-#define __INLINE_SP__
+ 
+ #include "input_system.h"	/* MIPI_PREDICTOR_NONE,... */
+ 
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index 6cda5925fa45..ec3ff31f76e0 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -61,9 +61,6 @@
+ #include <gpio_private.h>
+ #include "timed_ctrl.h"
+ #include "ia_css_inputfifo.h"
+-#define WITH_PC_MONITORING  0
+-
+-#define SH_CSS_VIDEO_BUFFER_ALIGNMENT 0
+ 
+ 
+ #include "ia_css_spctrl.h"
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_hrt.c b/drivers/staging/media/atomisp/pci/sh_css_hrt.c
+index d4633572f8f3..1ef95308bd48 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_hrt.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_hrt.c
+@@ -13,9 +13,7 @@
+ 
+ #define __INLINE_EVENT__
+ #include "event_fifo.h"
+-#define __INLINE_SP__
+ #include "sp.h"
+-#define __INLINE_ISP__
+ #include "isp.h"
+ #define __INLINE_IRQ__
+ #include "irq.h"
+diff --git a/drivers/staging/media/atomisp/pci/sh_css_metrics.c b/drivers/staging/media/atomisp/pci/sh_css_metrics.c
+index edf473dd86ca..24cdd52283ba 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css_metrics.c
++++ b/drivers/staging/media/atomisp/pci/sh_css_metrics.c
+@@ -12,12 +12,6 @@
+ 
+ #include "sh_css_internal.h"
+ 
+-#define MULTIPLE_PCS 0
+-#define SUSPEND      0
+-#define NOF_PCS      1
+-#define RESUME_MASK  0x8
+-#define STOP_MASK    0x0
+-
+ static bool pc_histogram_enabled;
+ static struct sh_css_pc_histogram *isp_histogram;
+ static struct sh_css_pc_histogram *sp_histogram;
+-- 
+2.54.0
 
 
