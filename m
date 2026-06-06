@@ -1,273 +1,880 @@
-Return-Path: <linux-media+bounces-64014-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64015-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id fj/gANoIJGpN2AEAu9opvQ
-	(envelope-from <linux-media+bounces-64014-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 13:47:38 +0200
+	id g152BtYIJGpM2AEAu9opvQ
+	(envelope-from <linux-media+bounces-64015-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 13:47:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C2F64D484
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 13:47:37 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1CD264D47F
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 13:47:33 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=mzbhuPCv;
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=Jbm8uBMy;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64014-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64014-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=qualcomm.com;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=pEyimEt0;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64015-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64015-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D1D8D301CA50
-	for <lists+linux-media@lfdr.de>; Sat,  6 Jun 2026 11:46:13 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id A3D973017AD4
+	for <lists+linux-media@lfdr.de>; Sat,  6 Jun 2026 11:47:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6ADAC260580;
-	Sat,  6 Jun 2026 11:46:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B6F63932C5;
+	Sat,  6 Jun 2026 11:47:15 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F942C2374
-	for <linux-media@vger.kernel.org>; Sat,  6 Jun 2026 11:46:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCBA383C94
+	for <linux-media@vger.kernel.org>; Sat,  6 Jun 2026 11:47:10 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780746371; cv=none; b=iin3ReJUsh4D6akX8+SHVEjDjq2OqTCiuFUKdnoBRRt0AJ+FEhtcTAVE9vlUJS1fFwHdEGUSRruXXY5xNssAFXJNym+2e+gbjdWqNdUlFC3PK1NOw0gvAdA5Axl1x0fy11QSlK6NDtYb7oRY+qbD9OX8u3ZydvdlcVRISqd/Xdc=
+	t=1780746434; cv=none; b=uu9nfPsdm/Q+FZP4dbhcvGgN7VZ2LzX/DFZ27AqN8zPGU5s4DIyNf5AxbRT7wirQk40XPQULDC8tjUewbDmky8+mBsIBlNIFqi5mM+pYOwPW9EXTH+q+EsUaZJamNmulQSeSoLvOA8fMDPqPI9swR4ahsWPEQ4Dd/a2JfEA+Wdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780746371; c=relaxed/simple;
-	bh=kyklGlKBFnqqU+8BNeqYZ1+Hz3RwuvngDAdXguh2sbw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ld2HV0Kov72VVbMIO9ftN3IjmB3tyWG+MTThqywlsS55+UYohRtStyOWIxRF0vKtyQgUNRnBcxG6jUmxvbAw/NAazfWS2qZqAPHiAAV1Er2Ph2uU3gUz9cPoAIb4Lzry+egJ4BR7LaCHZOBt+DUgC9LyVwfKNxHy6fzXnxwo/io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mzbhuPCv; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Jbm8uBMy; arc=none smtp.client-ip=205.220.180.131
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 656BHxPF1252284
-	for <linux-media@vger.kernel.org>; Sat, 6 Jun 2026 11:46:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=AcNNTy3cYXoNukMB2SWAG0F+
-	QJHWPle8StilZf2axr4=; b=mzbhuPCvuL0zTE4YYunNBE40OkfWu9oG9enoIbg6
-	EL1tKWV+ozCppXianzeyAkyX6bL+cmMBWhiLIU4BSmnQdS4fwHbX2MkcJnKVG9q7
-	EI2v0NAyFazq7ayMtbXNl/dWaSQRSse/3mjHzoZFH/D9WkryEDxw7W1qXu2QePB0
-	/Hve0vRUheIm/Z0wGo3tf2zA4oHaQ7Gqi2BLtmBDCwvqQ1ouZOhLSOS69kvApEaB
-	oFKGjrtrRDzS8es1ctAnIGBr4UkiLuOdVm6L6ozRzBg4jbwR+C/ZGMMk8B6dCHif
-	4wPkzA/l7+0WmYjTmz3/MA8s2aT32+zMlM5rDhWfyg723Q==
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com [209.85.222.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4emavf15jh-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Sat, 06 Jun 2026 11:46:09 +0000 (GMT)
-Received: by mail-ua1-f72.google.com with SMTP id a1e0cc1a2514c-963eeb6f2baso3047762241.0
-        for <linux-media@vger.kernel.org>; Sat, 06 Jun 2026 04:46:09 -0700 (PDT)
+	s=arc-20240116; t=1780746434; c=relaxed/simple;
+	bh=Ud+L8RX0/ONTx9AN+SCwYHws8tWaBfr63/tQ2nKJTtM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ldyD3skCTERxbLwrGNGeluABuxzGSZ2Wh1p6r27cG9Iub+qCn1z0cx+j7YEr7aIRWi1jKQF3aD9DKAh+CTcXJ6eFxUnan14enNVeT+Uv21Cr0DnR4Bt26N22gLGjoqVbI+RzUTQppO5KsYvPXNEjauF8qoszgxfKnZDCQfOH8mg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pEyimEt0; arc=none smtp.client-ip=209.85.214.171
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2c0c35980fdso28189575ad.2
+        for <linux-media@vger.kernel.org>; Sat, 06 Jun 2026 04:47:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1780746369; x=1781351169; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AcNNTy3cYXoNukMB2SWAG0F+QJHWPle8StilZf2axr4=;
-        b=Jbm8uBMyf9h92T8b8NFstr/Tw+uN1P29iDXaNLz2s4MqOkZRaIV7IxAFmYnSGWR1xT
-         pdvzCfdsSuLbItOZQMKi7WmCAKfvPyzfbOqdHzlZ+uWqqK9ptEJLt+NoDorgLYjOpqEt
-         BpkWFWQ53xN5MKsKwihp+tGcwR6fCo/e4TwWEE5mMXE9vI86rLt7cYDC6W9/Ca6GA6+R
-         mV7eAIeAdJiXnoNU3iG2CaOAI2xhTQLXKmVweea+X4QfaR+RqsvOtC8oYX80fwUsEXNK
-         98GbnaKG6jUpAxRSOMo5XP09AKMYpuAwcn/gjHIfZ09zUCgaynAIg4WwevCz1aHs64sm
-         k1IQ==
+        d=gmail.com; s=20251104; t=1780746430; x=1781351230; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=sIR/QbzXK+b8Jr6rPykOzMarQ8n0SX4F6p7WAI1P/lE=;
+        b=pEyimEt0TXlDJFMvwS4bfmgvAZxLZ+VHmNAEYSAmJjMW/yjg2dXQZBHL76n4r3aPQ3
+         A4q9R5txxYU+OLvu/ZwgMVKVtgPMOAp0SF8KSSK43l60w3VDgvtbbxVpU+tzh3tLnq6a
+         27/WXEJcS2mY29AKGHqHsIFdG35IAx1a7bB1Pu8wa7Ygp+gPG6X2E2M1xudLwNmZf1N8
+         wfdylZw6RufDd2sy8mJ35MfUWIJXsOZbTRj0xiL7dmZve56+QVqk2AbWjqN0iZwMCyUb
+         ILAXK0tB13EpNGG4yeyDQvC7tLb/SF9uMtDpBw0ysjSXC7Lup/ek886qvwcVHVwasf4Z
+         OCqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780746369; x=1781351169;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AcNNTy3cYXoNukMB2SWAG0F+QJHWPle8StilZf2axr4=;
-        b=nhirIyHYgo20u4f8H3HFPBQ8xFNMX/mKhyd9DzQoHN2vW3BaIhmtfXbqHTl+YoOeNg
-         sVARmUsEhkubOCFisV5EyGeVgrvU1TEGR/BOdwUMeScC3fuP7petn/l5Mm1UT6dkgZ4U
-         AUlWfqq5xH3Lkt4/KNWVmFfTBnDTzPpjmaPaUmkLESVtMvU1Brvp8nCALkXaidbXGfqH
-         bPz7cbBW6ULYN5zCW5gmSIqN4NYsJfk9cAI5bBzguGPCCeWG5DlCAQ3hRCU74n0lLZTV
-         Hw68iXnr3m52/ek5Yd7cAYx3NGy+b0R42BUr/N2MqXcvEm6WtkFPPqkWc5v1SD+Lrs0J
-         v0QQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8dC9XGHRbDh9TLHJsWCKGpufyBq976dmOZded9jo8S/bnZk4DdqbVScfBmdBu2WNQpGWhbSTKTvg+Fhw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxL2vuthdSC43bw7BVH7LmcWqounhLNTRbRkskMMbgooK+y2GUF
-	d7Dl9TGblOPZ7q2WgwHZjqUoBwsGVXH3BGbVY7740wxSD3d2t1kPcoGu0QlQ8bco8kMlenKocCS
-	5VxpFtA4OnM3n7/K517nJvhhbOTO29nXGnUMGqcAH/OPJhJyVM4tNX6n7xQjNz16kzA==
-X-Gm-Gg: Acq92OFG7vMZtGCglbWnANXS0005fBzVwZoaM0dnTpbKLxDPtuSTe9103Ov+bRT12GR
-	7ZwIpdYvjTwmMOSJSe6TCfRhy6yoRtrSWziRvc4oe94O0tYImyJYeg4QcIzyPMMi8jXPKm3iJ6p
-	CTtvsRSUw5U7IzmGMfGjUwqHxqauPruaR749oDEolMdJeHxrsgLCJ3hxS1OyqlaGJc2EqKHkI9i
-	25B517OCeQ7SkPm+XKqNNI0k4dhQeZlD6MM51l4kV4n9uRJhNqiXKZEWG4LXHeVqK3undVm7ydH
-	f/PMR19lg+RQkibxE6OVLXMG5nzktIEr/BVyL7y5fWskJ2slwP1UmUnMBTYQzQo0aPuzvPxH9V3
-	iIrzXLQV5S8p6cb4HVzaOMyW1BMOOxBGvx/LdvChYQ6nNHGpfvKJMCMthAJcMmKld/n2QA8PgPM
-	2+X9J0L1FZAdm2oux1DG+C0Il8mn5I+BRjkej9OYs1RqaeTg==
-X-Received: by 2002:a05:6102:80a0:b0:631:ec2d:12bd with SMTP id ada2fe7eead31-6fefc010482mr4156727137.5.1780746368675;
-        Sat, 06 Jun 2026 04:46:08 -0700 (PDT)
-X-Received: by 2002:a05:6102:80a0:b0:631:ec2d:12bd with SMTP id ada2fe7eead31-6fefc010482mr4156716137.5.1780746368288;
-        Sat, 06 Jun 2026 04:46:08 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa7b8ed684sm2406286e87.8.2026.06.06.04.46.06
+        d=1e100.net; s=20251104; t=1780746430; x=1781351230;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sIR/QbzXK+b8Jr6rPykOzMarQ8n0SX4F6p7WAI1P/lE=;
+        b=R9nMqFp4IPNR2/EcwJDRsWfl8l7pbfqkN5ogmk45QeD85ZxnPUTCowNl311pthNqCP
+         FOJeTGLrw2yygDaS1jLyItSE0ewHNcQ5/ZrChTN1qGjt04lzO9VWN6e+rUcGSB2SPCyV
+         XR2Uycv9SEJYDK424chZOvuHcICQagrjG+Sh9AT4m6jQd5L9aEmU+DUDpLmMGs3+LmbL
+         CqXQy0xV1bg4JKdSXLZ6b8dECulraU+Nf5dCZAH19I6tziPG5GgNCOU5ssJ5j0zfkYZO
+         XdIVF18I8+onB2qj6kHz7hrwVcubDPSMFkEMv50i62e5PH3ctOyZvMU12MdnAsQcDGEH
+         ngYQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9SxMUjrscftTss9Ns3+TSXXevKWELbky3MJ9MNVUOIKcS5P9rgayuiZ31tRqhU2KIHZTqyRRgccqnLew==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbhPNGqYzfPxO6RDeF+y20HTkZMb9yBU3pXkO+LAx5t4DnEQpZ
+	YkEvMvSvkx2UITk0z9vAI54OCGiXpDFJAJ1OPOBs1fv+kIxqZwmYdmhH
+X-Gm-Gg: Acq92OFGYhXCapKnRfJuzIcmSQuCKdKD9NEHAymtGDQYlbxT/KBnW1+rgMhU9ExCLxh
+	yHquQxs8OQU4XIM/qbNQNoFPj4WQCGA+Nk5OOjVX1aJoS0OUQ9Gt2XulRt32n6GEVoourJVTTYw
+	0JlwdXWjTxIFpmISUN1klVCikooNWLykyeXDHbC0Px1Xt1yAsTVfEqVhJzP8ZdOY7NhyIktSqph
+	RIJlif2A6iN99nkK2J0WIz/WpDNMbDIZK3PX3oo1grb4G2j14EyvT7BTjbDmVHGH78Ijs8ngHW+
+	9o4Yr1DMVrMzBjIPdmjhPT/KmUxYe8onot/tO78q2ohM1NpM9MWv/IYnDSw0cOv37uV1ylh9axT
+	brfBERJaz0qvq6YyAYSJ80nn96+9uAEAs70Hv/JN5Pdc7mWbBjzwMGn1/BQ+HqPguI7uxIRDftk
+	+YRVrdDOlJGoL1zN1izYsNxUa3BOxerh0kaH7oypRqtA0HY0aSDYmZ4A==
+X-Received: by 2002:a17:902:c94c:b0:2c2:33a4:aa8f with SMTP id d9443c01a7336-2c233a4ade9mr13876565ad.13.1780746430022;
+        Sat, 06 Jun 2026 04:47:10 -0700 (PDT)
+Received: from haichao.tail057a43.ts.net ([2001:da8:e000:1206:967f:7ce4:ec98:f08b])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c166391d53sm160933745ad.65.2026.06.06.04.47.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Jun 2026 04:46:07 -0700 (PDT)
-Date: Sat, 6 Jun 2026 14:46:05 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Bryan O'Donoghue <bod@kernel.org>
-Cc: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
-        Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 3/3] media: iris: Add Gen2 firmware autodetect and
- fallback
-Message-ID: <ux4gh4l7hqukv6wzxlekali7fcxaqd5ommroeikwwdr4xd46kc@iz4lcfos5por>
-References: <20260429-kodiak-gen2-support-v4-v4-0-1b607d13f9b8@oss.qualcomm.com>
- <20260429-kodiak-gen2-support-v4-v4-3-1b607d13f9b8@oss.qualcomm.com>
- <178018459824.10222.12026103622148092471.b4-reply@b4>
- <lk2_NG3ZPmJGxkPAgJPHsaI5mSDVmyNg_F7uPV1IH0fcLt-Rorghk8cWfVpGbP9jP4m3atcdEssZGr1gaAhH6A==@protonmail.internalid>
- <khlmf7hv4xcpe3zmcz3bfogexq53vlvur234d466jhggvbodpb@pk4yzijflfij>
- <537d4aa4-789b-4962-ab0f-78602d2b5f1a@kernel.org>
+        Sat, 06 Jun 2026 04:47:09 -0700 (PDT)
+From: Ruoyu Wang <ruoyuw560@gmail.com>
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Dikshita Agarwal <quic_dikshita@quicinc.com>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ruoyu Wang <ruoyuw560@gmail.com>
+Subject: [PATCH v3] media: iris: store formats in the instance
+Date: Sat,  6 Jun 2026 19:47:03 +0800
+Message-ID: <20260606114703.5-1-ruoyuw560@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <537d4aa4-789b-4962-ab0f-78602d2b5f1a@kernel.org>
-X-Authority-Analysis: v=2.4 cv=I4JVgtgg c=1 sm=1 tr=0 ts=6a240881 cx=c_pps
- a=ULNsgckmlI/WJG3HAyAuOQ==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=66T8V502dp4jJM6qndQA:9
- a=CjuIK1q_8ugA:10 a=1WsBpfsz9X-RYQiigVTh:22
-X-Proofpoint-ORIG-GUID: v2ha-L9WytfM55R1K5ez8veqO24skH13
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA2MDExNyBTYWx0ZWRfX29LurvnUyuOF
- cenb7a+4L2ER2oKUnQVDBkmrXeItZqcA1JTnsM9WsymlVaASpmN4Jj2xpmQwps6J+02Ok5G9d8a
- 5mvdQ0wixhBI6NXAhI+jxUtw/4b8oZmnnZeg/NlNgqft3sRzjdHQvfEYGW74aOvzsJO8jcb62IA
- Fg7dRGKPkiaky6dtEdEwKlm8Ri/G+hZsfCk3Ryw95DE5Df6Bzwe5RZmYjVNpxJi2rr5hQaE7MOd
- Wdtqxjh0BMMN8DsJhfL5/VbxK4axWG9w/HYI91fhyp24BBfaW8e4nYWbNrGTjRLHORtG5mPjBym
- eT0drM/mnVgIMkP2qOF4sR/mm5kCe76tdlje7z00Q+6KRWWZeqY2N11fne99JRbWeggG89CN49C
- iuqHipqTVlJp1sHz7C50D0JT2WVA1XZA1CJ34BKqSKrTjXT1h0qZtsNZF5dDUX+kF8u3BctKuYF
- POuCpWDbSjeHL02PcXA==
-X-Proofpoint-GUID: v2ha-L9WytfM55R1K5ez8veqO24skH13
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-06_03,2026-06-05_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
- bulkscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606060117
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-64014-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,vger.kernel.org:from_smtp,iz4lcfos5por:mid,qualcomm.com:dkim];
-	FORGED_RECIPIENTS(0.00)[m:bod@kernel.org,m:dikshita.agarwal@oss.qualcomm.com,m:vikash.garodia@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:mchehab@kernel.org,m:busanna.reddy@oss.qualcomm.com,m:hverkuil+cisco@kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[oss.qualcomm.com,linux.dev,linaro.org,kernel.org,vger.kernel.org,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-64015-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:quic_vgarodia@quicinc.com,m:quic_dikshita@quicinc.com,m:dmitry.baryshkov@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:bryan.odonoghue@linaro.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:ruoyuw560@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[ruoyuw560@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[ruoyuw560@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,qualcomm.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 51C2F64D484
+X-Rspamd-Queue-Id: A1CD264D47F
 
-On Sat, Jun 06, 2026 at 12:13:46PM +0100, Bryan O'Donoghue wrote:
-> On 06/06/2026 11:51, Dmitry Baryshkov wrote:
-> > > version = strnstr(data, marker, size);
-> > strnstr is defined to search for the substring in another string. There
-> > is no promise that it will work if data contains \0 chars (which would
-> > terminate the string).
-> 
-> I mean... we'd want to terminate on a NULL here I'd have thought. The
-> subsequent strscpy, strncmp and sscanf in this routine would imply NULL
-> termination.
-> 
-> No wait I see - the strscpy() in the original creates a putatively NULL
-> terminated string from potentially non-NULL terminated data.
+The source and destination v4l2_format objects are per-instance state
+with the same lifetime as struct iris_inst, but iris allocates them
+separately during decoder and encoder instance initialization.
 
-No, it is documented to create a NULL-terminated string from a
-NULL-terminated string.
+Keeping the formats as separate allocations adds failure paths before
+all users can safely dereference them. It also requires every later
+initialization failure to remember to free both objects before the
+instance is released.
 
-> 
-> The key question is if this is a NULL terminated string or not. If not we
-> would expect a header somewhere telling us the field length.
+Store the formats directly in struct iris_inst and update users to take
+the address of the embedded objects where a pointer is needed. This
+removes the allocation failure path and the matching close-time frees.
 
-ELF file definitely is not a NULL-terminated string.
+Suggested-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Signed-off-by: Ruoyu Wang <ruoyuw560@gmail.com>
+---
+v3:
+- Embed source and destination formats in struct iris_inst.
+- Remove separate decoder and encoder format allocations and frees.
+- Update users to take addresses of the embedded formats.
 
-> 
-> > > if (version) {
-> > > 	marker_off = version - data;
-> > > 	version += marker_len;
-> > > 	size -= marker_off + marker_len;
-> > > 
-> > > 	if (version < terminator-3) {
-> > > 		/* This is safe because we bounds check */
-> > > 		if (strncmp("vfw", version, size) == 0)
-> > > 			return true;
-> > > 	}
-> > > 
-> > > 	/* To do your sscanf() you need to create a zeorised buffer */
-> > > 	fat_buf = kzalloc(size+1, GFP_KERNEL);
-> > > 	if (!fat_buf)
-> > > 		return false;
-> > > 
-> > > 	memcpy(fat_buf, version, size);
-> > Creating a copy of about the half of the image is definitely an
-> > overkill.
-> 
-> The image size part I wasn't sure about - were we dealing with a defined
-> header or the _entire_ image with the given size.
-> 
-> That said - why are we scanning the entire image if size == sizeof(fw)
-> anyway ?
-> 
-> There must be a maximum header size and if not a maximum we would be
-> prepared to parse in-kernel - say the first 1k or 4k at max.
+v2:
+- Allocate source and destination formats into local variables first.
+- Assign them to the instance only after both allocations succeed.
+- Free any partial allocation on failure.
 
-Because nobody has expected that we'd need to parse firmware version
-from it. So it's not a header. It is a string in the middle of the
-firmware blob.
+ .../media/platform/qcom/iris/iris_buffer.c    | 16 ++++-----
+ drivers/media/platform/qcom/iris/iris_ctrls.c |  2 +-
+ .../qcom/iris/iris_hfi_gen1_command.c         | 22 ++++++------
+ .../qcom/iris/iris_hfi_gen1_response.c        |  4 +--
+ .../qcom/iris/iris_hfi_gen2_command.c         | 30 ++++++++--------
+ .../qcom/iris/iris_hfi_gen2_response.c        |  8 ++---
+ .../media/platform/qcom/iris/iris_instance.h  |  4 +--
+ drivers/media/platform/qcom/iris/iris_power.c |  2 +-
+ drivers/media/platform/qcom/iris/iris_utils.c |  6 ++--
+ drivers/media/platform/qcom/iris/iris_vb2.c   |  6 ++--
+ drivers/media/platform/qcom/iris/iris_vdec.c  | 19 +++++-----
+ drivers/media/platform/qcom/iris/iris_venc.c  | 36 ++++++++-----------
+ drivers/media/platform/qcom/iris/iris_vidc.c  | 10 +++---
+ drivers/media/platform/qcom/iris/iris_vpu2.c  |  2 +-
+ .../platform/qcom/iris/iris_vpu_buffer.c      | 28 +++++++--------
+ .../platform/qcom/iris/iris_vpu_common.c      |  2 +-
+ 16 files changed, 92 insertions(+), 105 deletions(-)
 
-> 
-> ...
-> > > 	/* sscanf is now guaranteed to terminate on NULL */
-> > > 	if (sscanf(fat_buf, "video-firmware.%d.%d", &major, &minor) == 2) {
-> > I think we can replace this with string comparisons too. No need to
-> > sscanf it.
-> > 
-> > WDYT?
-> 
-> I'm just as happy with that. It was really this code "looked wrong" and so I
-> dug into it a little bit.
-> 
-> The overflow is real. The size you pointed out is true. Take the suggested
-> changes with a pinch of salt.
-> 
-> This is the part that really pinged me
-> 
-> +	for (size_t i = 0; i < max; i++) {
-> +		if (!memcmp(data + i, marker, mlen)) {
-> 
-> Iterating a string for a memcmp() instead of using standard string libs,
-> only then when I looked did I see the overflow.
-> 
-> So long as that gets fixed I'm sanguine about the rest.
-
-Ack
-
-
+diff --git a/drivers/media/platform/qcom/iris/iris_buffer.c b/drivers/media/platform/qcom/iris/iris_buffer.c
+index 1d53c7414b754..95e77f4fb14e4 100644
+--- a/drivers/media/platform/qcom/iris/iris_buffer.c
++++ b/drivers/media/platform/qcom/iris/iris_buffer.c
+@@ -66,9 +66,9 @@ static u32 iris_yuv_buffer_size_nv12(struct iris_inst *inst)
+ 	struct v4l2_format *f;
+ 
+ 	if (inst->domain == DECODER)
+-		f = inst->fmt_dst;
++		f = &inst->fmt_dst;
+ 	else
+-		f = inst->fmt_src;
++		f = &inst->fmt_src;
+ 
+ 	y_stride = ALIGN(f->fmt.pix_mp.width, Y_STRIDE_ALIGN);
+ 	uv_stride = ALIGN(f->fmt.pix_mp.width, UV_STRIDE_ALIGN);
+@@ -173,12 +173,12 @@ static u32 iris_yuv_buffer_size_qc08c(struct iris_inst *inst)
+ 	u32 y_plane, uv_plane, y_stride, uv_stride;
+ 	u32 uv_meta_stride, uv_meta_plane;
+ 	u32 y_meta_stride, y_meta_plane;
+-	struct v4l2_format *f = NULL;
++	struct v4l2_format *f;
+ 
+ 	if (inst->domain == DECODER)
+-		f = inst->fmt_dst;
++		f = &inst->fmt_dst;
+ 	else
+-		f = inst->fmt_src;
++		f = &inst->fmt_src;
+ 
+ 	y_meta_stride = ALIGN(DIV_ROUND_UP(f->fmt.pix_mp.width, META_STRIDE_ALIGNED >> 1),
+ 			      META_STRIDE_ALIGNED);
+@@ -235,7 +235,7 @@ static u32 iris_enc_bitstream_buffer_size(struct iris_inst *inst)
+ 	int bitrate_mode, frame_rc;
+ 	struct v4l2_format *f;
+ 
+-	f = inst->fmt_dst;
++	f = &inst->fmt_dst;
+ 
+ 	bitrate_mode = inst->fw_caps[BITRATE_MODE].value;
+ 	frame_rc = inst->fw_caps[FRAME_RC_ENABLE].value;
+@@ -266,7 +266,7 @@ int iris_get_buffer_size(struct iris_inst *inst,
+ 		case BUF_INPUT:
+ 			return iris_dec_bitstream_buffer_size(inst);
+ 		case BUF_OUTPUT:
+-			if (inst->fmt_dst->fmt.pix_mp.pixelformat == V4L2_PIX_FMT_QC08C)
++			if (inst->fmt_dst.fmt.pix_mp.pixelformat == V4L2_PIX_FMT_QC08C)
+ 				return iris_yuv_buffer_size_qc08c(inst);
+ 			else
+ 				return iris_yuv_buffer_size_nv12(inst);
+@@ -278,7 +278,7 @@ int iris_get_buffer_size(struct iris_inst *inst,
+ 	} else {
+ 		switch (buffer_type) {
+ 		case BUF_INPUT:
+-			if (inst->fmt_src->fmt.pix_mp.pixelformat == V4L2_PIX_FMT_QC08C)
++			if (inst->fmt_src.fmt.pix_mp.pixelformat == V4L2_PIX_FMT_QC08C)
+ 				return iris_yuv_buffer_size_qc08c(inst);
+ 			else
+ 				return iris_yuv_buffer_size_nv12(inst);
+diff --git a/drivers/media/platform/qcom/iris/iris_ctrls.c b/drivers/media/platform/qcom/iris/iris_ctrls.c
+index 3cec957580f5e..fad64d95a413d 100644
+--- a/drivers/media/platform/qcom/iris/iris_ctrls.c
++++ b/drivers/media/platform/qcom/iris/iris_ctrls.c
+@@ -426,7 +426,7 @@ int iris_set_u32(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id)
+ int iris_set_stage(struct iris_inst *inst, enum platform_inst_fw_cap_type cap_id)
+ {
+ 	const struct iris_hfi_command_ops *hfi_ops = inst->core->hfi_ops;
+-	struct v4l2_format *inp_f = inst->fmt_src;
++	struct v4l2_format *inp_f = &inst->fmt_src;
+ 	u32 hfi_id = inst->fw_caps[cap_id].hfi_id;
+ 	u32 height = inp_f->fmt.pix_mp.height;
+ 	u32 width = inp_f->fmt.pix_mp.width;
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+index e42d17653c2c3..c9dba69e9c891 100644
+--- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
++++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+@@ -737,8 +737,8 @@ static int iris_hfi_gen1_set_resolution(struct iris_inst *inst, u32 plane)
+ 
+ 	if (!iris_drc_pending(inst) && !(inst->sub_state & IRIS_INST_SUB_FIRST_IPSC)) {
+ 		fs.buffer_type = HFI_BUFFER_INPUT;
+-		fs.width = inst->fmt_src->fmt.pix_mp.width;
+-		fs.height = inst->fmt_src->fmt.pix_mp.height;
++		fs.width = inst->fmt_src.fmt.pix_mp.width;
++		fs.height = inst->fmt_src.fmt.pix_mp.height;
+ 
+ 		ret = hfi_gen1_set_property(inst, ptype, &fs, sizeof(fs));
+ 		if (ret)
+@@ -749,8 +749,8 @@ static int iris_hfi_gen1_set_resolution(struct iris_inst *inst, u32 plane)
+ 	else
+ 		fs.buffer_type = HFI_BUFFER_OUTPUT;
+ 
+-	fs.width = inst->fmt_dst->fmt.pix_mp.width;
+-	fs.height = inst->fmt_dst->fmt.pix_mp.height;
++	fs.width = inst->fmt_dst.fmt.pix_mp.width;
++	fs.height = inst->fmt_dst.fmt.pix_mp.height;
+ 
+ 	return hfi_gen1_set_property(inst, ptype, &fs, sizeof(fs));
+ }
+@@ -773,7 +773,7 @@ static int iris_hfi_gen1_set_raw_format(struct iris_inst *inst, u32 plane)
+ 	int ret;
+ 
+ 	if (inst->domain == DECODER) {
+-		pixelformat = inst->fmt_dst->fmt.pix_mp.pixelformat;
++		pixelformat = inst->fmt_dst.fmt.pix_mp.pixelformat;
+ 		if (iris_split_mode_enabled(inst)) {
+ 			fmt.buffer_type = HFI_BUFFER_OUTPUT;
+ 			fmt.format = HFI_COLOR_FORMAT_NV12_UBWC;
+@@ -795,7 +795,7 @@ static int iris_hfi_gen1_set_raw_format(struct iris_inst *inst, u32 plane)
+ 			ret = hfi_gen1_set_property(inst, ptype, &fmt, sizeof(fmt));
+ 		}
+ 	} else {
+-		pixelformat = inst->fmt_src->fmt.pix_mp.pixelformat;
++		pixelformat = inst->fmt_src.fmt.pix_mp.pixelformat;
+ 		fmt.buffer_type = HFI_BUFFER_INPUT;
+ 		fmt.format = pixelformat == V4L2_PIX_FMT_NV12 ?
+ 			HFI_COLOR_FORMAT_NV12 : HFI_COLOR_FORMAT_NV12_UBWC;
+@@ -810,7 +810,7 @@ static int iris_hfi_gen1_set_format_constraints(struct iris_inst *inst, u32 plan
+ 	const u32 ptype = HFI_PROPERTY_PARAM_UNCOMPRESSED_PLANE_ACTUAL_CONSTRAINTS_INFO;
+ 	struct hfi_uncompressed_plane_actual_constraints_info pconstraint;
+ 
+-	if (inst->fmt_dst->fmt.pix_mp.pixelformat == V4L2_PIX_FMT_QC08C)
++	if (inst->fmt_dst.fmt.pix_mp.pixelformat == V4L2_PIX_FMT_QC08C)
+ 		return 0;
+ 
+ 	pconstraint.buffer_type = HFI_BUFFER_OUTPUT2;
+@@ -967,13 +967,13 @@ static int iris_hfi_gen1_set_stride(struct iris_inst *inst, u32 plane)
+ 	plane_actual_info.buffer_type = HFI_BUFFER_INPUT;
+ 	plane_actual_info.num_planes = 2;
+ 	plane_actual_info.plane_format[0].actual_stride =
+-		ALIGN(inst->fmt_src->fmt.pix_mp.width, 128);
++		ALIGN(inst->fmt_src.fmt.pix_mp.width, 128);
+ 	plane_actual_info.plane_format[0].actual_plane_buffer_height =
+-		ALIGN(inst->fmt_src->fmt.pix_mp.height, 32);
++		ALIGN(inst->fmt_src.fmt.pix_mp.height, 32);
+ 	plane_actual_info.plane_format[1].actual_stride =
+-		ALIGN(inst->fmt_src->fmt.pix_mp.width, 128);
++		ALIGN(inst->fmt_src.fmt.pix_mp.width, 128);
+ 	plane_actual_info.plane_format[1].actual_plane_buffer_height =
+-		(ALIGN(inst->fmt_src->fmt.pix_mp.height, 32)) / 2;
++		(ALIGN(inst->fmt_src.fmt.pix_mp.height, 32)) / 2;
+ 
+ 	return hfi_gen1_set_property(inst, ptype, &plane_actual_info, sizeof(plane_actual_info));
+ }
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_response.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_response.c
+index 8e864c239e293..e1aea0fc78608 100644
+--- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_response.c
++++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_response.c
+@@ -15,8 +15,8 @@
+ static void iris_hfi_gen1_read_changed_params(struct iris_inst *inst,
+ 					      struct hfi_msg_event_notify_pkt *pkt)
+ {
+-	struct v4l2_pix_format_mplane *pixmp_ip = &inst->fmt_src->fmt.pix_mp;
+-	struct v4l2_pix_format_mplane *pixmp_op = &inst->fmt_dst->fmt.pix_mp;
++	struct v4l2_pix_format_mplane *pixmp_ip = &inst->fmt_src.fmt.pix_mp;
++	struct v4l2_pix_format_mplane *pixmp_op = &inst->fmt_dst.fmt.pix_mp;
+ 	u32 num_properties_changed = pkt->event_data2;
+ 	u8 *data_ptr = (u8 *)&pkt->ext_event_data[0];
+ 	u32 primaries, matrix_coeff, transfer_char;
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+index 30bfd90d423ba..9b55d188ee58d 100644
+--- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
++++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+@@ -198,8 +198,8 @@ static int iris_hfi_gen2_set_bitstream_resolution(struct iris_inst *inst, u32 pl
+ 	u32 resolution;
+ 
+ 	if (inst->domain == DECODER) {
+-		width = inst->fmt_src->fmt.pix_mp.width;
+-		height = inst->fmt_src->fmt.pix_mp.height;
++		width = inst->fmt_src.fmt.pix_mp.width;
++		height = inst->fmt_src.fmt.pix_mp.height;
+ 		resolution = iris_hfi_get_aligned_resolution(inst, width, height);
+ 		inst_hfi_gen2->src_subcr_params.bitstream_resolution = resolution;
+ 		payload_type = HFI_PAYLOAD_U32;
+@@ -235,13 +235,13 @@ static int iris_hfi_gen2_set_crop_offsets(struct iris_inst *inst, u32 plane)
+ 
+ 	if (inst->domain == DECODER) {
+ 		if (V4L2_TYPE_IS_OUTPUT(plane)) {
+-			bottom_offset = (inst->fmt_src->fmt.pix_mp.height - inst->crop.height);
+-			right_offset = (inst->fmt_src->fmt.pix_mp.width - inst->crop.width);
++			bottom_offset = (inst->fmt_src.fmt.pix_mp.height - inst->crop.height);
++			right_offset = (inst->fmt_src.fmt.pix_mp.width - inst->crop.width);
+ 			left_offset = inst->crop.left;
+ 			top_offset = inst->crop.top;
+ 		} else {
+-			bottom_offset = (inst->fmt_dst->fmt.pix_mp.height - inst->compose.height);
+-			right_offset = (inst->fmt_dst->fmt.pix_mp.width - inst->compose.width);
++			bottom_offset = (inst->fmt_dst.fmt.pix_mp.height - inst->compose.height);
++			right_offset = (inst->fmt_dst.fmt.pix_mp.width - inst->compose.width);
+ 			left_offset = inst->compose.left;
+ 			top_offset = inst->compose.top;
+ 		}
+@@ -356,7 +356,7 @@ static int iris_hfi_gen2_set_picture_order_count(struct iris_inst *inst, u32 pla
+ static int iris_hfi_gen2_set_colorspace(struct iris_inst *inst, u32 plane)
+ {
+ 	struct iris_inst_hfi_gen2 *inst_hfi_gen2 = to_iris_inst_hfi_gen2(inst);
+-	struct v4l2_pix_format_mplane *pixmp = &inst->fmt_src->fmt.pix_mp;
++	struct v4l2_pix_format_mplane *pixmp = &inst->fmt_src.fmt.pix_mp;
+ 	u32 video_signal_type_present_flag = 0, color_info;
+ 	u32 matrix_coeff = HFI_MATRIX_COEFF_RESERVED;
+ 	u32 video_format = UNSPECIFIED_COLOR_FORMAT;
+@@ -480,11 +480,11 @@ static int iris_hfi_gen2_set_colorformat(struct iris_inst *inst, u32 plane)
+ 	u32 hfi_colorformat, pixelformat;
+ 
+ 	if (inst->domain == DECODER) {
+-		pixelformat = inst->fmt_dst->fmt.pix_mp.pixelformat;
++		pixelformat = inst->fmt_dst.fmt.pix_mp.pixelformat;
+ 		hfi_colorformat = pixelformat == V4L2_PIX_FMT_NV12 ?
+ 			HFI_COLOR_FMT_NV12 : HFI_COLOR_FMT_NV12_UBWC;
+ 	} else {
+-		pixelformat = inst->fmt_src->fmt.pix_mp.pixelformat;
++		pixelformat = inst->fmt_src.fmt.pix_mp.pixelformat;
+ 		hfi_colorformat = pixelformat == V4L2_PIX_FMT_NV12 ?
+ 			HFI_COLOR_FMT_NV12 : HFI_COLOR_FMT_NV12_UBWC;
+ 	}
+@@ -505,13 +505,13 @@ static int iris_hfi_gen2_set_linear_stride_scanline(struct iris_inst *inst, u32
+ 	u32 payload[2];
+ 
+ 	if (inst->domain == DECODER) {
+-		pixelformat = inst->fmt_dst->fmt.pix_mp.pixelformat;
+-		stride_y = inst->fmt_dst->fmt.pix_mp.width;
+-		scanline_y = inst->fmt_dst->fmt.pix_mp.height;
++		pixelformat = inst->fmt_dst.fmt.pix_mp.pixelformat;
++		stride_y = inst->fmt_dst.fmt.pix_mp.width;
++		scanline_y = inst->fmt_dst.fmt.pix_mp.height;
+ 	} else {
+-		pixelformat = inst->fmt_src->fmt.pix_mp.pixelformat;
+-		stride_y = ALIGN(inst->fmt_src->fmt.pix_mp.width, 128);
+-		scanline_y = ALIGN(inst->fmt_src->fmt.pix_mp.height, 32);
++		pixelformat = inst->fmt_src.fmt.pix_mp.pixelformat;
++		stride_y = ALIGN(inst->fmt_src.fmt.pix_mp.width, 128);
++		scanline_y = ALIGN(inst->fmt_src.fmt.pix_mp.height, 32);
+ 	}
+ 
+ 	stride_uv = stride_y;
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+index 8e19f61bbbf9e..726e6af777034 100644
+--- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
++++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+@@ -522,8 +522,8 @@ static int iris_hfi_gen2_handle_session_drain(struct iris_inst *inst,
+ static void iris_hfi_gen2_read_input_subcr_params(struct iris_inst *inst)
+ {
+ 	struct iris_inst_hfi_gen2 *inst_hfi_gen2 = to_iris_inst_hfi_gen2(inst);
+-	struct v4l2_pix_format_mplane *pixmp_ip = &inst->fmt_src->fmt.pix_mp;
+-	struct v4l2_pix_format_mplane *pixmp_op = &inst->fmt_dst->fmt.pix_mp;
++	struct v4l2_pix_format_mplane *pixmp_ip = &inst->fmt_src.fmt.pix_mp;
++	struct v4l2_pix_format_mplane *pixmp_op = &inst->fmt_dst.fmt.pix_mp;
+ 	u32 primaries, matrix_coeff, transfer_char;
+ 	struct hfi_subscription_params subsc_params;
+ 	u32 colour_description_present_flag;
+@@ -817,8 +817,8 @@ static int iris_hfi_gen2_handle_system_response(struct iris_core *core,
+ static void iris_hfi_gen2_init_src_change_param(struct iris_inst *inst)
+ {
+ 	struct iris_inst_hfi_gen2 *inst_hfi_gen2 = to_iris_inst_hfi_gen2(inst);
+-	struct v4l2_pix_format_mplane *pixmp_ip = &inst->fmt_src->fmt.pix_mp;
+-	struct v4l2_pix_format_mplane *pixmp_op = &inst->fmt_dst->fmt.pix_mp;
++	struct v4l2_pix_format_mplane *pixmp_ip = &inst->fmt_src.fmt.pix_mp;
++	struct v4l2_pix_format_mplane *pixmp_op = &inst->fmt_dst.fmt.pix_mp;
+ 	u32 bottom_offset = (pixmp_ip->height - inst->crop.height);
+ 	u32 right_offset = (pixmp_ip->width - inst->crop.width);
+ 	struct hfi_subscription_params *subsc_params;
+diff --git a/drivers/media/platform/qcom/iris/iris_instance.h b/drivers/media/platform/qcom/iris/iris_instance.h
+index 16965150f427b..996f724ed20a5 100644
+--- a/drivers/media/platform/qcom/iris/iris_instance.h
++++ b/drivers/media/platform/qcom/iris/iris_instance.h
+@@ -83,8 +83,8 @@ struct iris_inst {
+ 	struct mutex			ctx_q_lock;/* lock to serialize queues related ioctls */
+ 	struct mutex			lock; /* lock to serialize forward and reverse threads */
+ 	struct v4l2_fh			fh;
+-	struct v4l2_format		*fmt_src;
+-	struct v4l2_format		*fmt_dst;
++	struct v4l2_format		fmt_src;
++	struct v4l2_format		fmt_dst;
+ 	struct v4l2_ctrl_handler	ctrl_handler;
+ 	enum domain_type		domain;
+ 	struct iris_hfi_rect_desc	crop;
+diff --git a/drivers/media/platform/qcom/iris/iris_power.c b/drivers/media/platform/qcom/iris/iris_power.c
+index 91aa21d4070eb..369ce43a103cd 100644
+--- a/drivers/media/platform/qcom/iris/iris_power.c
++++ b/drivers/media/platform/qcom/iris/iris_power.c
+@@ -64,7 +64,7 @@ static int iris_set_interconnects(struct iris_inst *inst)
+ static int iris_vote_interconnects(struct iris_inst *inst)
+ {
+ 	struct icc_vote_data *vote_data = &inst->icc_data;
+-	struct v4l2_format *inp_f = inst->fmt_src;
++	struct v4l2_format *inp_f = &inst->fmt_src;
+ 
+ 	vote_data->width = inp_f->fmt.pix_mp.width;
+ 	vote_data->height = inp_f->fmt.pix_mp.height;
+diff --git a/drivers/media/platform/qcom/iris/iris_utils.c b/drivers/media/platform/qcom/iris/iris_utils.c
+index cfc5b576ec56b..a694eb32edb6e 100644
+--- a/drivers/media/platform/qcom/iris/iris_utils.c
++++ b/drivers/media/platform/qcom/iris/iris_utils.c
+@@ -25,7 +25,7 @@ bool iris_res_is_less_than(u32 width, u32 height,
+ 
+ int iris_get_mbpf(struct iris_inst *inst)
+ {
+-	struct v4l2_format *inp_f = inst->fmt_src;
++	struct v4l2_format *inp_f = &inst->fmt_src;
+ 	u32 height = max(inp_f->fmt.pix_mp.height, inst->crop.height);
+ 	u32 width = max(inp_f->fmt.pix_mp.width, inst->crop.width);
+ 
+@@ -34,8 +34,8 @@ int iris_get_mbpf(struct iris_inst *inst)
+ 
+ bool iris_split_mode_enabled(struct iris_inst *inst)
+ {
+-	return inst->fmt_dst->fmt.pix_mp.pixelformat == V4L2_PIX_FMT_NV12 ||
+-		inst->fmt_dst->fmt.pix_mp.pixelformat == V4L2_PIX_FMT_QC08C;
++	return inst->fmt_dst.fmt.pix_mp.pixelformat == V4L2_PIX_FMT_NV12 ||
++		inst->fmt_dst.fmt.pix_mp.pixelformat == V4L2_PIX_FMT_QC08C;
+ }
+ 
+ void iris_helper_buffers_done(struct iris_inst *inst, unsigned int type,
+diff --git a/drivers/media/platform/qcom/iris/iris_vb2.c b/drivers/media/platform/qcom/iris/iris_vb2.c
+index bf0b8400996ec..5d2528d4e0aba 100644
+--- a/drivers/media/platform/qcom/iris/iris_vb2.c
++++ b/drivers/media/platform/qcom/iris/iris_vb2.c
+@@ -34,8 +34,8 @@ static int iris_check_resolution_supported(struct iris_inst *inst)
+ 	struct platform_inst_caps *caps;
+ 
+ 	caps = inst->core->iris_platform_data->inst_caps;
+-	width = inst->fmt_src->fmt.pix_mp.width;
+-	height = inst->fmt_src->fmt.pix_mp.height;
++	width = inst->fmt_src.fmt.pix_mp.width;
++	height = inst->fmt_src.fmt.pix_mp.height;
+ 
+ 	min_width = caps->min_frame_width;
+ 	max_width = caps->max_frame_width;
+@@ -113,7 +113,7 @@ int iris_vb2_queue_setup(struct vb2_queue *q,
+ 	}
+ 
+ 	core = inst->core;
+-	f = V4L2_TYPE_IS_OUTPUT(q->type) ? inst->fmt_src : inst->fmt_dst;
++	f = V4L2_TYPE_IS_OUTPUT(q->type) ? &inst->fmt_src : &inst->fmt_dst;
+ 
+ 	if (*num_planes) {
+ 		if (*num_planes != f->fmt.pix_mp.num_planes ||
+diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
+index 99d544e2af4f9..2f001302efc3e 100644
+--- a/drivers/media/platform/qcom/iris/iris_vdec.c
++++ b/drivers/media/platform/qcom/iris/iris_vdec.c
+@@ -21,12 +21,9 @@ int iris_vdec_inst_init(struct iris_inst *inst)
+ 	struct iris_core *core = inst->core;
+ 	struct v4l2_format *f;
+ 
+-	inst->fmt_src = kzalloc_obj(*inst->fmt_src);
+-	inst->fmt_dst = kzalloc_obj(*inst->fmt_dst);
+-
+ 	inst->fw_min_count = MIN_BUFFERS;
+ 
+-	f = inst->fmt_src;
++	f = &inst->fmt_src;
+ 	f->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+ 	f->fmt.pix_mp.width = DEFAULT_WIDTH;
+ 	f->fmt.pix_mp.height = DEFAULT_HEIGHT;
+@@ -39,7 +36,7 @@ int iris_vdec_inst_init(struct iris_inst *inst)
+ 	inst->buffers[BUF_INPUT].min_count = iris_vpu_buf_count(inst, BUF_INPUT);
+ 	inst->buffers[BUF_INPUT].size = f->fmt.pix_mp.plane_fmt[0].sizeimage;
+ 
+-	f = inst->fmt_dst;
++	f = &inst->fmt_dst;
+ 	f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+ 	f->fmt.pix_mp.pixelformat = V4L2_PIX_FMT_NV12;
+ 	f->fmt.pix_mp.width = ALIGN(DEFAULT_WIDTH, 128);
+@@ -166,7 +163,7 @@ int iris_vdec_try_fmt(struct iris_inst *inst, struct v4l2_format *f)
+ 	switch (f->type) {
+ 	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+ 		if (!fmt) {
+-			f_inst = inst->fmt_src;
++			f_inst = &inst->fmt_src;
+ 			f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
+ 			f->fmt.pix_mp.height = f_inst->fmt.pix_mp.height;
+ 			f->fmt.pix_mp.pixelformat = f_inst->fmt.pix_mp.pixelformat;
+@@ -174,7 +171,7 @@ int iris_vdec_try_fmt(struct iris_inst *inst, struct v4l2_format *f)
+ 		break;
+ 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+ 		if (!fmt) {
+-			f_inst = inst->fmt_dst;
++			f_inst = &inst->fmt_dst;
+ 			f->fmt.pix_mp.pixelformat = f_inst->fmt.pix_mp.pixelformat;
+ 			f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
+ 			f->fmt.pix_mp.height = f_inst->fmt.pix_mp.height;
+@@ -182,7 +179,7 @@ int iris_vdec_try_fmt(struct iris_inst *inst, struct v4l2_format *f)
+ 
+ 		src_q = v4l2_m2m_get_src_vq(m2m_ctx);
+ 		if (vb2_is_streaming(src_q)) {
+-			f_inst = inst->fmt_src;
++			f_inst = &inst->fmt_src;
+ 			f->fmt.pix_mp.height = f_inst->fmt.pix_mp.height;
+ 			f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
+ 		}
+@@ -225,7 +222,7 @@ int iris_vdec_s_fmt(struct iris_inst *inst, struct v4l2_format *f)
+ 		if (!(find_format(inst, f->fmt.pix_mp.pixelformat, f->type)))
+ 			return -EINVAL;
+ 
+-		fmt = inst->fmt_src;
++		fmt = &inst->fmt_src;
+ 		fmt->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+ 		fmt->fmt.pix_mp.pixelformat = f->fmt.pix_mp.pixelformat;
+ 		inst->codec = fmt->fmt.pix_mp.pixelformat;
+@@ -243,7 +240,7 @@ int iris_vdec_s_fmt(struct iris_inst *inst, struct v4l2_format *f)
+ 		fmt->fmt.pix_mp.ycbcr_enc = f->fmt.pix_mp.ycbcr_enc;
+ 		fmt->fmt.pix_mp.quantization = f->fmt.pix_mp.quantization;
+ 
+-		output_fmt = inst->fmt_dst;
++		output_fmt = &inst->fmt_dst;
+ 		output_fmt->fmt.pix_mp.colorspace = f->fmt.pix_mp.colorspace;
+ 		output_fmt->fmt.pix_mp.xfer_func = f->fmt.pix_mp.xfer_func;
+ 		output_fmt->fmt.pix_mp.ycbcr_enc = f->fmt.pix_mp.ycbcr_enc;
+@@ -263,7 +260,7 @@ int iris_vdec_s_fmt(struct iris_inst *inst, struct v4l2_format *f)
+ 		if (!(find_format(inst, f->fmt.pix_mp.pixelformat, f->type)))
+ 			return -EINVAL;
+ 
+-		fmt = inst->fmt_dst;
++		fmt = &inst->fmt_dst;
+ 		fmt->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+ 		fmt->fmt.pix_mp.pixelformat = f->fmt.pix_mp.pixelformat;
+ 		fmt->fmt.pix_mp.width = ALIGN(f->fmt.pix_mp.width, 128);
+diff --git a/drivers/media/platform/qcom/iris/iris_venc.c b/drivers/media/platform/qcom/iris/iris_venc.c
+index 4d886769d958b..1efcf0fe80d58 100644
+--- a/drivers/media/platform/qcom/iris/iris_venc.c
++++ b/drivers/media/platform/qcom/iris/iris_venc.c
+@@ -19,15 +19,7 @@ int iris_venc_inst_init(struct iris_inst *inst)
+ 	struct iris_core *core = inst->core;
+ 	struct v4l2_format *f;
+ 
+-	inst->fmt_src = kzalloc_obj(*inst->fmt_src);
+-	inst->fmt_dst = kzalloc_obj(*inst->fmt_dst);
+-	if (!inst->fmt_src || !inst->fmt_dst) {
+-		kfree(inst->fmt_src);
+-		kfree(inst->fmt_dst);
+-		return -ENOMEM;
+-	}
+-
+-	f = inst->fmt_dst;
++	f = &inst->fmt_dst;
+ 	f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+ 	f->fmt.pix_mp.width = DEFAULT_WIDTH;
+ 	f->fmt.pix_mp.height = DEFAULT_HEIGHT;
+@@ -44,7 +36,7 @@ int iris_venc_inst_init(struct iris_inst *inst)
+ 	inst->buffers[BUF_OUTPUT].min_count = iris_vpu_buf_count(inst, BUF_OUTPUT);
+ 	inst->buffers[BUF_OUTPUT].size = f->fmt.pix_mp.plane_fmt[0].sizeimage;
+ 
+-	f = inst->fmt_src;
++	f = &inst->fmt_src;
+ 	f->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+ 	f->fmt.pix_mp.pixelformat = V4L2_PIX_FMT_NV12;
+ 	f->fmt.pix_mp.width = ALIGN(DEFAULT_WIDTH, 128);
+@@ -194,7 +186,7 @@ int iris_venc_try_fmt(struct iris_inst *inst, struct v4l2_format *f)
+ 	switch (f->type) {
+ 	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+ 		if (!fmt) {
+-			f_inst = inst->fmt_src;
++			f_inst = &inst->fmt_src;
+ 			f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
+ 			f->fmt.pix_mp.height = f_inst->fmt.pix_mp.height;
+ 			f->fmt.pix_mp.pixelformat = f_inst->fmt.pix_mp.pixelformat;
+@@ -202,7 +194,7 @@ int iris_venc_try_fmt(struct iris_inst *inst, struct v4l2_format *f)
+ 		break;
+ 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+ 		if (!fmt) {
+-			f_inst = inst->fmt_dst;
++			f_inst = &inst->fmt_dst;
+ 			f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
+ 			f->fmt.pix_mp.height = f_inst->fmt.pix_mp.height;
+ 			f->fmt.pix_mp.pixelformat = f_inst->fmt.pix_mp.pixelformat;
+@@ -234,15 +226,15 @@ static int iris_venc_s_fmt_output(struct iris_inst *inst, struct v4l2_format *f)
+ 
+ 	codec_align = venc_fmt->pixfmt == V4L2_PIX_FMT_HEVC ? 32 : 16;
+ 
+-	fmt = inst->fmt_dst;
++	fmt = &inst->fmt_dst;
+ 	fmt->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+ 	/*
+ 	 * If output format size != input format size,
+ 	 * it is considered a scaling case,
+ 	 * and the scaled size needs to be saved.
+ 	 */
+-	if (f->fmt.pix_mp.width != inst->fmt_src->fmt.pix_mp.width ||
+-	    f->fmt.pix_mp.height != inst->fmt_src->fmt.pix_mp.height) {
++	if (f->fmt.pix_mp.width != inst->fmt_src.fmt.pix_mp.width ||
++	    f->fmt.pix_mp.height != inst->fmt_src.fmt.pix_mp.height) {
+ 		inst->enc_scale_width = f->fmt.pix_mp.width;
+ 		inst->enc_scale_height = f->fmt.pix_mp.height;
+ 		fmt->fmt.pix_mp.width = ALIGN(f->fmt.pix_mp.width, codec_align);
+@@ -278,7 +270,7 @@ static int iris_venc_s_fmt_input(struct iris_inst *inst, struct v4l2_format *f)
+ 	if (!(find_format(inst, f->fmt.pix_mp.pixelformat, f->type)))
+ 		return -EINVAL;
+ 
+-	fmt = inst->fmt_src;
++	fmt = &inst->fmt_src;
+ 	fmt->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+ 	fmt->fmt.pix_mp.width = ALIGN(f->fmt.pix_mp.width, 128);
+ 	fmt->fmt.pix_mp.height = ALIGN(f->fmt.pix_mp.height, 32);
+@@ -292,7 +284,7 @@ static int iris_venc_s_fmt_input(struct iris_inst *inst, struct v4l2_format *f)
+ 	fmt->fmt.pix_mp.ycbcr_enc = f->fmt.pix_mp.ycbcr_enc;
+ 	fmt->fmt.pix_mp.quantization = f->fmt.pix_mp.quantization;
+ 
+-	output_fmt = inst->fmt_dst;
++	output_fmt = &inst->fmt_dst;
+ 	output_fmt->fmt.pix_mp.width = fmt->fmt.pix_mp.width;
+ 	output_fmt->fmt.pix_mp.height = fmt->fmt.pix_mp.height;
+ 	output_fmt->fmt.pix_mp.colorspace = fmt->fmt.pix_mp.colorspace;
+@@ -379,17 +371,17 @@ int iris_venc_s_selection(struct iris_inst *inst, struct v4l2_selection *s)
+ 		s->r.left = 0;
+ 		s->r.top = 0;
+ 
+-		if (s->r.width > inst->fmt_src->fmt.pix_mp.width ||
+-		    s->r.height > inst->fmt_src->fmt.pix_mp.height)
++		if (s->r.width > inst->fmt_src.fmt.pix_mp.width ||
++		    s->r.height > inst->fmt_src.fmt.pix_mp.height)
+ 			return -EINVAL;
+ 
+ 		inst->crop.left = s->r.left;
+ 		inst->crop.top = s->r.top;
+ 		inst->crop.width = s->r.width;
+ 		inst->crop.height = s->r.height;
+-		inst->fmt_dst->fmt.pix_mp.width = inst->crop.width;
+-		inst->fmt_dst->fmt.pix_mp.height = inst->crop.height;
+-		return iris_venc_s_fmt_output(inst, inst->fmt_dst);
++		inst->fmt_dst.fmt.pix_mp.width = inst->crop.width;
++		inst->fmt_dst.fmt.pix_mp.height = inst->crop.height;
++		return iris_venc_s_fmt_output(inst, &inst->fmt_dst);
+ 	default:
+ 		return -EINVAL;
+ 	}
+diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
+index 5eb1786b07371..cfd95e8c57a3a 100644
+--- a/drivers/media/platform/qcom/iris/iris_vidc.c
++++ b/drivers/media/platform/qcom/iris/iris_vidc.c
+@@ -300,8 +300,6 @@ int iris_close(struct file *filp)
+ 	mutex_unlock(&inst->lock);
+ 	mutex_destroy(&inst->ctx_q_lock);
+ 	mutex_destroy(&inst->lock);
+-	kfree(inst->fmt_src);
+-	kfree(inst->fmt_dst);
+ 	kfree(inst);
+ 
+ 	return 0;
+@@ -360,9 +358,9 @@ static int iris_g_fmt_vid_mplane(struct file *filp, void *fh, struct v4l2_format
+ 
+ 	mutex_lock(&inst->lock);
+ 	if (V4L2_TYPE_IS_OUTPUT(f->type))
+-		*f = *inst->fmt_src;
++		*f = inst->fmt_src;
+ 	else if (V4L2_TYPE_IS_CAPTURE(f->type))
+-		*f = *inst->fmt_dst;
++		*f = inst->fmt_dst;
+ 	else
+ 		ret = -EINVAL;
+ 
+@@ -494,8 +492,8 @@ static int iris_g_selection(struct file *filp, void *fh, struct v4l2_selection *
+ 		switch (s->target) {
+ 		case V4L2_SEL_TGT_CROP_BOUNDS:
+ 		case V4L2_SEL_TGT_CROP_DEFAULT:
+-			s->r.width = inst->fmt_src->fmt.pix_mp.width;
+-			s->r.height = inst->fmt_src->fmt.pix_mp.height;
++			s->r.width = inst->fmt_src.fmt.pix_mp.width;
++			s->r.height = inst->fmt_src.fmt.pix_mp.height;
+ 			break;
+ 		case V4L2_SEL_TGT_CROP:
+ 			s->r.width = inst->crop.width;
+diff --git a/drivers/media/platform/qcom/iris/iris_vpu2.c b/drivers/media/platform/qcom/iris/iris_vpu2.c
+index 01ef40f389574..574ff24ced0f5 100644
+--- a/drivers/media/platform/qcom/iris/iris_vpu2.c
++++ b/drivers/media/platform/qcom/iris/iris_vpu2.c
+@@ -15,7 +15,7 @@
+ static u64 iris_vpu2_calc_freq(struct iris_inst *inst, size_t data_size)
+ {
+ 	struct platform_inst_caps *caps = inst->core->iris_platform_data->inst_caps;
+-	struct v4l2_format *inp_f = inst->fmt_src;
++	struct v4l2_format *inp_f = &inst->fmt_src;
+ 	u32 mbs_per_second, mbpf, height, width;
+ 	unsigned long vpp_freq, vsp_freq;
+ 	u32 fps = DEFAULT_FPS;
+diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+index 9270422c16019..bea3d4ed874a4 100644
+--- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
++++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+@@ -708,7 +708,7 @@ static u32 hfi_buffer_ibc_av1d(u32 frame_width, u32 frame_height)
+ static u32 iris_vpu_dec_bin_size(struct iris_inst *inst)
+ {
+ 	u32 num_vpp_pipes = inst->core->iris_platform_data->num_vpp_pipe;
+-	struct v4l2_format *f = inst->fmt_src;
++	struct v4l2_format *f = &inst->fmt_src;
+ 	u32 height = f->fmt.pix_mp.height;
+ 	u32 width = f->fmt.pix_mp.width;
+ 
+@@ -727,7 +727,7 @@ static u32 iris_vpu_dec_bin_size(struct iris_inst *inst)
+ static u32 iris_vpu_dec_comv_size(struct iris_inst *inst)
+ {
+ 	u32 num_comv = VIDEO_MAX_FRAME;
+-	struct v4l2_format *f = inst->fmt_src;
++	struct v4l2_format *f = &inst->fmt_src;
+ 	u32 height = f->fmt.pix_mp.height;
+ 	u32 width = f->fmt.pix_mp.width;
+ 
+@@ -778,7 +778,7 @@ static u32 iris_vpu_dec_dpb_size(struct iris_inst *inst)
+ static u32 iris_vpu_dec_non_comv_size(struct iris_inst *inst)
+ {
+ 	u32 num_vpp_pipes = inst->core->iris_platform_data->num_vpp_pipe;
+-	struct v4l2_format *f = inst->fmt_src;
++	struct v4l2_format *f = &inst->fmt_src;
+ 	u32 height = f->fmt.pix_mp.height;
+ 	u32 width = f->fmt.pix_mp.width;
+ 
+@@ -793,7 +793,7 @@ static u32 iris_vpu_dec_non_comv_size(struct iris_inst *inst)
+ static u32 iris_vpu_dec_line_size(struct iris_inst *inst)
+ {
+ 	u32 num_vpp_pipes = inst->core->iris_platform_data->num_vpp_pipe;
+-	struct v4l2_format *f = inst->fmt_src;
++	struct v4l2_format *f = &inst->fmt_src;
+ 	u32 height = f->fmt.pix_mp.height;
+ 	u32 width = f->fmt.pix_mp.width;
+ 	bool is_opb = false;
+@@ -825,17 +825,17 @@ static u32 iris_vpu_dec_scratch1_size(struct iris_inst *inst)
+ static inline u32 iris_vpu_enc_get_bitstream_width(struct iris_inst *inst)
+ {
+ 	if (is_rotation_90_or_270(inst))
+-		return inst->fmt_dst->fmt.pix_mp.height;
++		return inst->fmt_dst.fmt.pix_mp.height;
+ 	else
+-		return inst->fmt_dst->fmt.pix_mp.width;
++		return inst->fmt_dst.fmt.pix_mp.width;
+ }
+ 
+ static inline u32 iris_vpu_enc_get_bitstream_height(struct iris_inst *inst)
+ {
+ 	if (is_rotation_90_or_270(inst))
+-		return inst->fmt_dst->fmt.pix_mp.width;
++		return inst->fmt_dst.fmt.pix_mp.width;
+ 	else
+-		return inst->fmt_dst->fmt.pix_mp.height;
++		return inst->fmt_dst.fmt.pix_mp.height;
+ }
+ 
+ static inline u32 size_bin_bitstream_enc(u32 width, u32 height,
+@@ -936,7 +936,7 @@ static u32 iris_vpu_enc_bin_size(struct iris_inst *inst)
+ 
+ static u32 iris_vpu_dec_partial_size(struct iris_inst *inst)
+ {
+-	struct v4l2_format *f = inst->fmt_src;
++	struct v4l2_format *f = &inst->fmt_src;
+ 	u32 height = f->fmt.pix_mp.height;
+ 	u32 width = f->fmt.pix_mp.width;
+ 
+@@ -1417,8 +1417,8 @@ static u32 iris_vpu_enc_arp_size(struct iris_inst *inst)
+ 
+ inline bool is_scaling_enabled(struct iris_inst *inst)
+ {
+-	struct v4l2_pix_format_mplane *dst_fmt = &inst->fmt_dst->fmt.pix_mp;
+-	struct v4l2_pix_format_mplane *src_fmt = &inst->fmt_src->fmt.pix_mp;
++	struct v4l2_pix_format_mplane *dst_fmt = &inst->fmt_dst.fmt.pix_mp;
++	struct v4l2_pix_format_mplane *src_fmt = &inst->fmt_src.fmt.pix_mp;
+ 
+ 	return dst_fmt->width != src_fmt->width ||
+ 		dst_fmt->height != src_fmt->height;
+@@ -1686,7 +1686,7 @@ static u32 iris_vpu_enc_scratch2_size(struct iris_inst *inst)
+ static u32 iris_vpu_enc_vpss_size(struct iris_inst *inst)
+ {
+ 	u32 ds_enable = is_scaling_enabled(inst);
+-	struct v4l2_format *f = inst->fmt_dst;
++	struct v4l2_format *f = &inst->fmt_dst;
+ 	u32 height = f->fmt.pix_mp.height;
+ 	u32 width = f->fmt.pix_mp.width;
+ 
+@@ -1759,7 +1759,7 @@ static u32 iris_vpu4x_dec_line_size(struct iris_inst *inst)
+ {
+ 	u32 num_vpp_pipes = inst->core->iris_platform_data->num_vpp_pipe;
+ 	u32 out_min_count = inst->buffers[BUF_OUTPUT].min_count;
+-	struct v4l2_format *f = inst->fmt_src;
++	struct v4l2_format *f = &inst->fmt_src;
+ 	u32 height = f->fmt.pix_mp.height;
+ 	u32 width = f->fmt.pix_mp.width;
+ 	bool is_opb = false;
+@@ -1983,7 +1983,7 @@ static u32 iris_vpu4x_enc_line_size(struct iris_inst *inst)
+ {
+ 	u32 num_vpp_pipes = inst->core->iris_platform_data->num_vpp_pipe;
+ 	u32 lcu_size = inst->codec == V4L2_PIX_FMT_HEVC ? 32 : 16;
+-	struct v4l2_format *f = inst->fmt_dst;
++	struct v4l2_format *f = &inst->fmt_dst;
+ 	u32 height = f->fmt.pix_mp.height;
+ 	u32 width = f->fmt.pix_mp.width;
+ 
+diff --git a/drivers/media/platform/qcom/iris/iris_vpu_common.c b/drivers/media/platform/qcom/iris/iris_vpu_common.c
+index 69e6126dc4d95..8e68990afa73e 100644
+--- a/drivers/media/platform/qcom/iris/iris_vpu_common.c
++++ b/drivers/media/platform/qcom/iris/iris_vpu_common.c
+@@ -416,7 +416,7 @@ void iris_vpu35_vpu4x_program_bootup_registers(struct iris_core *core)
+ u64 iris_vpu3x_vpu4x_calculate_frequency(struct iris_inst *inst, size_t data_size)
+ {
+ 	struct platform_inst_caps *caps = inst->core->iris_platform_data->inst_caps;
+-	struct v4l2_format *inp_f = inst->fmt_src;
++	struct v4l2_format *inp_f = &inst->fmt_src;
+ 	u32 height, width, mbs_per_second, mbpf;
+ 	u64 fw_cycles, fw_vpp_cycles;
+ 	u64 vsp_cycles, vpp_cycles;
 -- 
-With best wishes
-Dmitry
+2.51.0
+
 
