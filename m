@@ -1,119 +1,118 @@
-Return-Path: <linux-media+bounces-64010-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64011-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id btJzAEj3I2pm0gEAu9opvQ
-	(envelope-from <linux-media+bounces-64010-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 12:32:40 +0200
+	id hKp7BLH7I2r30wEAu9opvQ
+	(envelope-from <linux-media+bounces-64011-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 12:51:29 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F35AD64D17F
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 12:32:38 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9157264D1F3
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 12:51:28 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b="j2gdFxe/";
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=exjYU3C6;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64010-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64010-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=TNPNEFr5;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b="PGa6zW/D";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64011-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-64011-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=reject) header.from=qualcomm.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 7EB4130118EA
-	for <lists+linux-media@lfdr.de>; Sat,  6 Jun 2026 10:32:33 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 57451301B250
+	for <lists+linux-media@lfdr.de>; Sat,  6 Jun 2026 10:51:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CC6136DA04;
-	Sat,  6 Jun 2026 10:32:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D94ED348C7C;
+	Sat,  6 Jun 2026 10:51:22 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 643A232ED58
-	for <linux-media@vger.kernel.org>; Sat,  6 Jun 2026 10:32:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03F93793A5
+	for <linux-media@vger.kernel.org>; Sat,  6 Jun 2026 10:51:20 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780741947; cv=none; b=g1tAurnmf9EzHovImpxyXGyQTMkPtPlU2f4noVZZ7A+SQllUCXa+qLvvpZQ1Yt3+eYVnTKkuXnvW2ecBD2o0enX5Nb8jEvFaxPVct5mDgbZVSPlWDhtccFa4+a9UB68bkoUzVKmeZX7t7q+VfEgkOql3aHbhrpz9fM80Fk+IsII=
+	t=1780743082; cv=none; b=L0JYLquguIdirISAFmaA9YU45U3T2jRQrkQh0/yRlheO+MIj+7oFbbLBtfMf2siiWwPf+qeLCFDnRHulXaRYQfCnJ2aE727LZrXcCyaZKwNIpDOmhEnJqiMVtVW4N+7A1CJTp3DTi5Y909fYxEp2VsUdYOyT8o7X5kzUT4p6mZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780741947; c=relaxed/simple;
-	bh=FzxI5w9QD2SQBxqq26jVHJS/oLhhQiEEBm/pi8tMfXg=;
+	s=arc-20240116; t=1780743082; c=relaxed/simple;
+	bh=FgZ+ZrTnhh7OuAj2zsyJ273O/6yeQj+759aWaMBG5KU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mslmV3CX+trQU04qYntXsn5mhV7LN1vAgN3DOg+k49jRZvY86uAtaQzx0MAgSAczxPjWwcdiL6/oI3amUfju6IuLaTMTkr4JM87CJGiD8qm3oQdrwC8FCDZmnQ9hydIySvbPfAIH6dE2K6ouUJL9dru1w60gVtsRdbeL91vDaaQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=j2gdFxe/; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=exjYU3C6; arc=none smtp.client-ip=205.220.180.131
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 656631fC613029
-	for <linux-media@vger.kernel.org>; Sat, 6 Jun 2026 10:32:25 GMT
+	 Content-Type:Content-Disposition:In-Reply-To; b=p22jSHCPqm0L/hOygSwbCC43Vfbh/xOT69+xjgLjIJ4LcL/xePMFMBI+3TWh9RAxiCS+myG9hHVGTnFTiQ3UxpObliboqtCxgshG8yHDGRYDt39yntd4nzy94ji8Vi7DuHZID3BMyzSiGVVZUoF19riAXkE/faLyP8TLsydwV+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=TNPNEFr5; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=PGa6zW/D; arc=none smtp.client-ip=205.220.180.131
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65661bjO654169
+	for <linux-media@vger.kernel.org>; Sat, 6 Jun 2026 10:51:20 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	qJbWT+g+ox/SKUfsxyo1grtZkTIsHeMqa4vO6ou8UMI=; b=j2gdFxe/8jORS44Z
-	8Ye+c83fa+qHdD1UXfUHy+/GUsUOLehKNXxK6w4F9qOMeGA4BAEjRfIrFtQxxrx3
-	88NHDZb2gywIIgDKvpvMdOVZ+DBspocsswSSeq+rAf9u82XmrG9bsBQrFuaWMI4O
-	0bL4tIHNnelucXkvm933CBgb2OLqgdA1d4NjTpTz20i5g70llXoCMERJ4TQd8/Ck
-	wxEzpWscoLO2r0xIW7zJ63M0mKAn3I+3OKN0/GFZytBwyaoGswMASPI96+J2IV2o
-	rbk6KqTYMLWB1/mMVLFU9CS3WSfk0uYJ8q+ZTOymWQh2m6fjIROHjM7Bo1rS4Xau
-	ZC5ZWw==
-Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com [209.85.217.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4emavf11k7-1
+	R42CTx9K02TKpWorRCxESayzwJpEaeGnUGeyUGCOKLk=; b=TNPNEFr5ZKH/VYxq
+	sSiDNWPYgmdjJD+KTLBD1OoV5lnF5U+Lj/Dws+xZb2TGJ+rFhZfqjGEG7YjlocHg
+	Z4yk019Z9RZzbCrOjogCzKhpW4VOv/Ze5CdD7gVA2uMgpXytxz7IGZSAr9wicMCT
+	rCKGH8TkQqjHGik3UYPhjmV37Kg5oCvrW1YNVBA+1RVbKIqHBGk7Nmh73AER8+MP
+	s8bG9pXgy57GMxWgWUv2/CNIA9vBH5h3LHgCmzbL9UZaNJbBeLZhWiQyNHiv+ylw
+	gqcCkyPiY++Xs+72xrWts2zNu4+l5K+oQ/rr6fCJkzB1QhLjBvX6Y0EMBYW3kOq7
+	ChVY4Q==
+Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com [209.85.221.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4em9k3ha6k-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Sat, 06 Jun 2026 10:32:25 +0000 (GMT)
-Received: by mail-vs1-f71.google.com with SMTP id ada2fe7eead31-6c6dc39a6afso1708709137.3
-        for <linux-media@vger.kernel.org>; Sat, 06 Jun 2026 03:32:25 -0700 (PDT)
+	for <linux-media@vger.kernel.org>; Sat, 06 Jun 2026 10:51:19 +0000 (GMT)
+Received: by mail-vk1-f199.google.com with SMTP id 71dfb90a1353d-5ab02fb4f39so1703127e0c.1
+        for <linux-media@vger.kernel.org>; Sat, 06 Jun 2026 03:51:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1780741944; x=1781346744; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1780743079; x=1781347879; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=qJbWT+g+ox/SKUfsxyo1grtZkTIsHeMqa4vO6ou8UMI=;
-        b=exjYU3C6woNNAM4/ZOBhDRH5wQ8aHT739SiziOJ9HUojx3yJtyhXC5UVQwoZX6z855
-         PGOa3/3b6cnDUHc+e/maFTqNOYsA3l138sMgWtV6loCn2yYj+f9sTH1udfTSIrFBgbzt
-         JIrbhkZ5PZMqsDUpvqaUWm+Xnptd1i0BXUqanhBTcBYmxcr6I0ywx0NAykpvR4+P5wW/
-         6kcdfG+47tWtMHdY7fwv/6PYFW6lVjhRo6aRG1xdT09WFUQ5mSU5gGsoMnDJBuLUy677
-         j58Dt0/TaodDNdtzbfeoYh9MkZKlJPv9MeI/CmMT8O0Yiyz9tnocj9uolmk1DrGfhSud
-         tW8Q==
+        bh=R42CTx9K02TKpWorRCxESayzwJpEaeGnUGeyUGCOKLk=;
+        b=PGa6zW/DHCCkQv7WSWIxeE2h4G5rL6OWyl7++Zdo5Fj0V7v9aorXHbdrig400XHGoj
+         oeJLZh+/kPgvnhPYFO6hcqwO8VxYVRilJ5icmdNYDAE3O+d53qsfOd87W/SE9iAxeaQO
+         T+acZ/uIk/oPfce537ovbM6JtS/PkBaPVDygoxgjxtQ2Y2ZybMJ/s1/V2uclvlVyGj20
+         MuxnrQutLxcUs+MZ5agdr+VghqNbPUgoRCcNDo1yr1cJiSA0+cFe4aQajWNW87MGrjFz
+         1Vjqriee/6IW8cJ28esZMnJ0aCwb4G/qHVMoUt8taoihB2ztmyvzi1maLzBV3qn/cUO+
+         BrZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780741944; x=1781346744;
+        d=1e100.net; s=20251104; t=1780743079; x=1781347879;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qJbWT+g+ox/SKUfsxyo1grtZkTIsHeMqa4vO6ou8UMI=;
-        b=rcfGY0bQ0mhPjzjqlTO4SThlYuQsjL4UPj+EiDOw3NAABh9mROkw234tsYhZYmAh07
-         vhhM439utxAqyqTiNq6yjZWiRYwSNS/5y78WKAoiwLPIaUsn20IBS/Fit5srvOiSMpQ+
-         kNuFFUgBPUL5CSIOiWdejGm3pW3uqjwbasI0PSRIPMjfKokwrZzru6DSQNzG+rH/fUfR
-         fHyhb1xrYUHVnFPzI6asebkZcqLgrij1i9r8b3noImjSpiqA4D43xd5ufLh39LT3xxSW
-         bIwEBcGlVGDmXk5rUu1scHiVXFwDdMWflZ1YG5khMdVRgZl6DOOcqyzIjOvK3b2XCWJG
-         uiLQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/aWQihQAlVGf+52mCcUM7Fb8IEAudrwXdq7a+bThMV0/m9e8D7Zzk8Az8HRpW+J8O+9l0H/AK4kdZ7+A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzdssBFw2iCjNpHbm+gFnI8AaFrKt0sfFVqth/LSDZlAUiFpUMM
-	fsPiPROLhWxFDTCRkfAtqoetygS0WM7r8vB+ir3/w7yyBJecM71MsKVu7DaV6SGz9HGloI4uE5O
-	wTTRCjHMBIhQBGI9j9Jqp9wrvzss4OlrsvjEiIoICLVcVGGrGCJhqV4QkwjfvMJ9fFpvIHdnefA
-	==
-X-Gm-Gg: Acq92OEmo5423/R/oQC8wQ1/EX1/WfNy+q3Rh/YXlRyhM6TtIszb2TW1kD8UNolk694
-	JCAVs8NOJ9jjPHWVigrt8vsIeI/a7ZCEmIkz4bmFvy6hCfYHsKq8hkGIxtY7SkGN+ghE+rIrDUR
-	YKhWwzI+yrbEka/ztIUX8mnIbaQY3qFs0o0QXhEvhyRWywQmQb7DRWvJeSyACNzDy5wyOPp4ZHY
-	wBiuc8CihLrNMlDkVqWCMJmWCL+zrO3HdPCSFvE/fDE14MvRoXVxjFXLvUKD4eU99CblVajpjAo
-	YCnXCeg5mWAaXvFDwY4hz/tcGV87K/KEt5F6VEtpDa6UmXrUcnr/gqhXz8fNK7QnF5aVozbG9FM
-	O8arH8mPC1SF5ocVSxc3nnMEwamEz6AVk0gmm5C615Ex/IyYvVdW3Np91HgnKCgOrIolotuuuhS
-	deHVPt6KvYj+jXVbAHDFZRP4avtZqp7JGbzPLZot0ZpKtzWg==
-X-Received: by 2002:a05:6102:3e27:b0:65a:fcea:5a8 with SMTP id ada2fe7eead31-6fef75ccdf8mr3719406137.3.1780741944572;
-        Sat, 06 Jun 2026 03:32:24 -0700 (PDT)
-X-Received: by 2002:a05:6102:3e27:b0:65a:fcea:5a8 with SMTP id ada2fe7eead31-6fef75ccdf8mr3719394137.3.1780741944123;
-        Sat, 06 Jun 2026 03:32:24 -0700 (PDT)
+        bh=R42CTx9K02TKpWorRCxESayzwJpEaeGnUGeyUGCOKLk=;
+        b=pPTYP7DnGNqO++1kF9y+rOp41JfU8L5vBpoGwK5G2QDVgXwDwPkBorzmt+lSXcgreu
+         YWurliX9Hp72SbnJQ8CywrHtSMCXFvbxv0aU7Sqyf16hHKQZKQK2FcxD/3jVjirIdzTO
+         U5gg/yamFy9YSoh1ARWOXmutujkkvGuSrjZZGOSLqJFP9LnQP1iNtq8T+ZqDuPW5toRS
+         9+h7SudrA83O18f2A5ddEWlnwN1PTpCGeJfQMSqTDHlR3SNKVQgorUw9GrEW9OEecFs7
+         6fEI3wDA59/NIhcP2EkAjVLqN9Wa2W6PkcOwNV1XzszFaP79fUipnLOrzzogVQLd4G4A
+         bQEg==
+X-Forwarded-Encrypted: i=1; AFNElJ/nqtDJ8EcaUpknEyOFfApezQCQLJ9HrjcfXoPFe/MddmQphtD4RLwiPCrukmnUvdYo2eliufNJtt06+A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxlltcNpsRRARxm7YteDPMUuJEzgbz0PRWN31hYM29gU7K5NZU
+	7nDCgo6BGpny5eufvHU4JWeJreG14j9FWhKtEHPSqywY1ZnKkwUx3rSwUQ6Tpa/4Tr+AJDLbodj
+	iVPecKLPExs/EusGX8LBZfRNrCAUt9Qpp8ZNpgESej7+IWkP+whXJf3jSzeVQiLYsAQ==
+X-Gm-Gg: Acq92OHibNG0fSBKVNkCWbD/wrJGxtqsqxiG7MrvIJbNJkK1IWgZa6kusNW5Ns/wEhf
+	PInhs7Hn35n2xM1iOXL8OdAF2C22ZKxjOe1+R7npK5oPpAZ6Whqrknqj28uEGE6ku3Nw3qNUlvQ
+	YAw/+k2Qsac+Kc51AFcha01i4yL5oIjauGUP/zzIWpYcttoP+tvXXqzqRlNOur9kKh5vTa1LL3a
+	78/pmL87QewBNuggbpsj+49c/5TTzxaUFDXoGZhwmsABI0mzNh9yQPRFvPMSFf6xURsgiTvBohI
+	22oo5M3io4BRHo3Pm0Zqg6FTFPLU/+JmlFOWb5HhCBhcRdMAiBLd3+l+IkiSvche/80QtxhHZtE
+	O9OqbR0ZU7apyARlv0/tb2717VlR9a7x4LXaeGNXZtnr4tv+zvn7aRcfKqK9sHBqtZGGiYz/Q7d
+	URszD/Jy05lY0F8uYuDUnLgh2gpJgY65KtO1QfEGckS9b5Lw==
+X-Received: by 2002:a05:6102:2906:b0:6ef:db57:ed3d with SMTP id ada2fe7eead31-6ff1180a154mr3664283137.23.1780743079094;
+        Sat, 06 Jun 2026 03:51:19 -0700 (PDT)
+X-Received: by 2002:a05:6102:2906:b0:6ef:db57:ed3d with SMTP id ada2fe7eead31-6ff1180a154mr3664278137.23.1780743078692;
+        Sat, 06 Jun 2026 03:51:18 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa7b97afbasm2435813e87.50.2026.06.06.03.32.21
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa7b97a71fsm2415218e87.46.2026.06.06.03.51.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 06 Jun 2026 03:32:21 -0700 (PDT)
-Date: Sat, 6 Jun 2026 13:32:19 +0300
+        Sat, 06 Jun 2026 03:51:17 -0700 (PDT)
+Date: Sat, 6 Jun 2026 13:51:14 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Xilin Wu <sophon@radxa.com>
-Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+To: bod@kernel.org
+Cc: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
         Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: Re: [PATCH v6 0/2] media: qcom: iris: Add generic Gen2 firmware
- detection and loading
-Message-ID: <2kgn2p5rxb5h5jdcao6cogr6ey74ugo5diryb2xciwwirugynw@ighc5hhhkopx>
-References: <20260529-kodiak-gen2-support-v4-v6-0-9a81bfa797d9@oss.qualcomm.com>
- <DFFF81C905044BF8+c830d1b4-7f26-45f7-9c4f-17409cf24fb8@radxa.com>
+        Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
+        Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 3/3] media: iris: Add Gen2 firmware autodetect and
+ fallback
+Message-ID: <khlmf7hv4xcpe3zmcz3bfogexq53vlvur234d466jhggvbodpb@pk4yzijflfij>
+References: <20260429-kodiak-gen2-support-v4-v4-0-1b607d13f9b8@oss.qualcomm.com>
+ <20260429-kodiak-gen2-support-v4-v4-3-1b607d13f9b8@oss.qualcomm.com>
+ <178018459824.10222.12026103622148092471.b4-reply@b4>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -123,52 +122,52 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <DFFF81C905044BF8+c830d1b4-7f26-45f7-9c4f-17409cf24fb8@radxa.com>
-X-Authority-Analysis: v=2.4 cv=I4JVgtgg c=1 sm=1 tr=0 ts=6a23f739 cx=c_pps
- a=P2rfLEam3zuxRRdjJWA2cw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+In-Reply-To: <178018459824.10222.12026103622148092471.b4-reply@b4>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA2MDEwNyBTYWx0ZWRfX2YWSj7EUSAh2
+ GJhFRWhn8YgTAMwUqTxF6r0j24kTctFCvePHITLgVUP+ZDfy7WodU4doEbeevUojpgHhUysWwVA
+ MNwixERticna/VKRQ25hpayu7sXDNvsJnvOwb59lWInYkn88pbryd08OdLGxAz0NoQ0JTkJ7SAz
+ LUAxV1j1j2P4HkjVZM/ji3R/Sh9dn+8G4KksCN5uWW29vqAI6LcdN5Z4ettQiMd46oTG0+dttrh
+ vUo7g/e1PXgR5kMJlB5Gd4u4LrJY55AnPj2pmxcso6IZbSURGex4ZECMzlpZigUivVnLOA/taEl
+ jqWfxp5xsKt/HnoUSIWMqFE1Kdfq7Up1nWWVU2JTMaR3v4/7OGiqeTv035ablQTCVeI079MBmut
+ pKv1rvspWkRivtrunQoxBjoHirgvHTxYdi0Z0C5yPMRN939CIk72M0FHE/OeV7MMMFI2yH/P8oW
+ 8DsVr94zF6cBOuKmfAQ==
+X-Proofpoint-ORIG-GUID: k3UP146tsDLObRerx709TkOWk4jTnRZ3
+X-Proofpoint-GUID: k3UP146tsDLObRerx709TkOWk4jTnRZ3
+X-Authority-Analysis: v=2.4 cv=TIB1jVla c=1 sm=1 tr=0 ts=6a23fba7 cx=c_pps
+ a=+D9SDfe9YZWTjADjLiQY5g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
  a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22 a=NEAV23lmAAAA:8
- a=MIauP2APLdJUIETRUMYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=ODZdjJIeia2B_SHc_B0f:22
-X-Proofpoint-ORIG-GUID: HEeyfQ5t8fzcr07_34BNqiRNpzX64RPw
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA2MDEwMyBTYWx0ZWRfX6Gm8wFuBLLDz
- 1UBhzc0qdbwwC2GwBufIqZ//YFfz/RZ6/a5ndkkHFei3H+6iidADdQ2RpQ5CVh/IHHaMYPDgWru
- UN3OeSrx0MiHShOCu61tobcPJGMaVMspi1BCqiaaQvTkv0TWytvxaMQ/TMOqQDCMbSQaZa4TrMo
- qP4CLPIcaAJaMPHITM40BowaAZcwMpqmjTDyTaFqKMbhswe3jCryFdBtmY18P2t3e60iFryMNdk
- CxJgJIIjeKj43ycYzAJZbcEuEDcN58RU25wRP9no5r2ZUx8K6HIPEY8hY6uY26Hdpz7+/F3/8eC
- GKZPrr02/wa/oaYtNVdNtHXLF1SujeXzskv1xPorV0Z43jXpT75jdYY0R+pRWr7wMXmAMl4yV61
- kWqsulaD0ns696xZHwwLKkoRJkViF++HuQWL2G0kQr/diaP6eCJlw3dh5xr8DESA3uEX8YO5aIB
- mqTtHUkXGfgVGuMlTTA==
-X-Proofpoint-GUID: HEeyfQ5t8fzcr07_34BNqiRNpzX64RPw
+ a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=HuUhzj3AFe8N5SHolFIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=vmgOmaN-Xu0dpDh8OwbV:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-06-06_02,2026-06-05_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
- bulkscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015 spamscore=0
+ lowpriorityscore=0 phishscore=0 clxscore=1015 adultscore=0 priorityscore=1501
+ bulkscore=0 malwarescore=0 suspectscore=0 spamscore=0 impostorscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606060103
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606060107
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
 	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-64010-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64011-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,vger.kernel.org:from_smtp];
-	FORGED_RECIPIENTS(0.00)[m:sophon@radxa.com,m:vikash.garodia@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:bod@kernel.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dikshita.agarwal@oss.qualcomm.com,m:bryan.odonoghue@linaro.org,s:lists@lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,pk4yzijflfij:mid];
+	FORGED_RECIPIENTS(0.00)[m:bod@kernel.org,m:dikshita.agarwal@oss.qualcomm.com,m:vikash.garodia@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:mchehab@kernel.org,m:busanna.reddy@oss.qualcomm.com,m:hverkuil+cisco@kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -179,53 +178,185 @@ X-Spamd-Result: default: False [-1.66 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
 	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F35AD64D17F
+X-Rspamd-Queue-Id: 9157264D1F3
 
-On Thu, Jun 04, 2026 at 05:45:35PM +0800, Xilin Wu wrote:
-> On 5/29/2026 10:36 PM, Dmitry Baryshkov wrote:
-> > This series enhances the Iris driver to support platforms that provide both
-> > Gen1 and Gen2 HFI firmware by adding generic runtime firmware generation
-> > detection and selection logic.
+On Sun, May 31, 2026 at 12:43:18AM +0100, bod@kernel.org wrote:
+> On 2026-04-29 17:39 +0530, Dikshita Agarwal wrote:
+> > Some Iris platforms support both Gen1 and Gen2 HFI firmware images.
+> > Update the firmware loading logic to handle this generically by
+> > preferring Gen2 when available, while safely falling back to Gen1
+> > when required.
 > > 
-> > Some Iris platforms are capable of running either Gen1 or Gen2 HFI‑based
-> > firmware, but the driver has historically assumed a single firmware
-> > generation selected at build or platform‑definition time. This series
-> > updates the firmware loading mechanism to dynamically determine the
-> > firmware generation at runtime and select the appropriate HFI
-> > implementation accordingly.
+> > The firmware loading logic is updated with the following priority:
+> > 1. Device Tree (`firmware-name`): If specified, load unconditionally.
+> > 2. Gen2 default : If no DT override exists, select the Gen2 firmware
+> >    descriptor when present and attempt to load the corresponding
+> >    firmware image.
+> > 3. Gen1 Fallback: If loading the Gen2 firmware fails and a Gen1
+> >    descriptor is available, retry with the Gen1 firmware image.
 > > 
-> > When no Device Tree firmware override is present, the driver now prefers
-> > Gen2 firmware when available and falls back to Gen1 if loading Gen2
-> > fails. When a firmware name is explicitly provided via Device Tree and
-> > both Gen1 and Gen2 descriptors are available, the loaded firmware image
-> > is inspected prior to authentication to determine its generation. Based
-> > on this detection, the driver updates its firmware descriptor and
-> > platform data so that the correct HFI implementation is used.
+> > When a platform provides both Gen1 and Gen2 firmware descriptors and the
+> > firmware is loaded via a DT override, the driver detects the
+> > firmware generation at runtime before authentication by inspecting
+> > the firmware data. The firmware is classified as Gen2 if the
+> > QC_IMAGE_VERSION_STRING starts with "vfw" or matches the
+> > "video-firmware.N.M" format with N >= 2.
 > > 
+> > If a Gen1 firmware image is detected in this case, the driver switches
+> > to the Gen1 firmware descriptor and associated platform data so that
+> > the correct HFI implementation is used.
+> > 
+> > This change makes firmware generation detection platform‑agnostic,
+> > preserves DT overrides, prefers newer Gen2 firmware when available,
+> > and maintains compatibility with platforms that only support Gen1.
+> > 
+> > Co-developed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> > Signed-off-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+> > ---
+> >  drivers/media/platform/qcom/iris/iris_firmware.c   | 105 +++++++++++++++++----
+> >  .../platform/qcom/iris/iris_platform_common.h      |   6 +-
+> >  .../media/platform/qcom/iris/iris_platform_vpu2.c  |  11 ++-
+> >  .../media/platform/qcom/iris/iris_platform_vpu3x.c |   8 +-
+> >  drivers/media/platform/qcom/iris/iris_probe.c      |   4 -
+> >  drivers/media/platform/qcom/iris/iris_vidc.c       |   3 +
+> >  6 files changed, 105 insertions(+), 32 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/qcom/iris/iris_firmware.c b/drivers/media/platform/qcom/iris/iris_firmware.c
+> > index 1a476146d7580849d7b68c7c15dd7f82f89a680b..64a2170bf538a6d291b3d909f5563408a3a75e50 100644
+> > --- a/drivers/media/platform/qcom/iris/iris_firmware.c
+> > +++ b/drivers/media/platform/qcom/iris/iris_firmware.c
+> > @@ -16,20 +16,95 @@
+> >  
+> >  #define MAX_FIRMWARE_NAME_SIZE	128
+> >  
+> > -static int iris_load_fw_to_memory(struct iris_core *core, const char *fw_name)
+> > +/* Detect Gen2 firmware by scanning the blob for:
+> > + *   QC_IMAGE_VERSION_STRING=<version>
+> > + * and then checking:
+> > + *   - version starts with "vfw", OR
+> > + *   - version matches "video-firmware.N.M" with N >= 2
+> > + */
+> > +
+> > +static bool iris_detect_gen2_from_fwdata(const u8 *data, size_t size)
+> > +{
+> > +	const char *marker = "QC_IMAGE_VERSION_STRING=";
+> > +	const size_t mlen = strlen(marker);
+> > +	int major = 0, minor = 0;
+> > +	char version_buf[64];
+> > +	size_t max;
+> > +
+> > +	max = (size > mlen) ? size - mlen : 0;
+> > +	for (size_t i = 0; i < max; i++) {
 > 
-> [...]
+> Iterating character by character through the string is boilerplate you
+> don't need.
 > 
-> FWIW, I am testing the Gen2 firmware on sc8280xp, although it is supposed to
-> be used on sm8350 (lahaina). The original filename is vpu20_4v.mbn.
+> size = 27;
+> mlen = 24;
+> max = 3;
+> 
+> for (i = 0; i < max = 3; i++)
+> 
+> i = 2;
+> 
+> =>
+> 
+> 
+> > +		if (!memcmp(data + i, marker, mlen)) {
+> > +			const char *found = (const char *)(data + i + mlen);
+> > +
+> > +			strscpy(version_buf, found, sizeof(version_buf));
+> 
+> This strscpy can exceed the extent of the data buffer here because the
+> bounds check is the sizeof(version_buf) and all you've bounds checked is
+> the start of the string not its extent by this point.
+> 
+> found = data + 2 + mlen - strscpy copies from data+2 to data+64 which is an
+> overflow.
 
-I think SM8350 was shipped with Gen1 firmware. Most likely you are
-looking at the firmware file for SM8450?
+This can be made more robust, but I think it would be enough to stop
+scanning sizeof(version_buf) + strlen(marker) bytes before the end.
 
 > 
-> It actually works quite well on sc8280xp with some Device Tree changes [1].
-> So far, I have not observed any crashes or reboots. Could someone from
-> Qualcomm clarify whether the Gen2 firmware is expected to work on targets
-> such as sm8250, sm8350, and sc8280xp?
+> > +			if (!strncmp(version_buf, "vfw", 3))
+> > +				return true;
+> > +			if (sscanf(version_buf, "video-firmware.%d.%d", &major, &minor) == 2 &&
+> > +			    major >= 2)
+> > +				return true;
+> > +			break;
+> 
+> Right so it is valid to find maker only once with this break
 
-The changes look reasonable. Please submit them upstream. Consider
-expanding them to SM8250 and SM8350, I will be able to verify those
-platforms.
+Yes, there is just one version per firmware file.
 
 > 
-> [1] https://github.com/strongtz/linux-radxa-qcom/commits/v7.0.11-qcom/arch/arm64/boot/dts/qcom
+> > +		}
+> > +	}
+> > +
+> > +	return false;
+> > +}
+> 
+> const char * const marker = "QC_IMAGE_VERSION_STRING=";
+> const char * const terminator = data + size;
+> size_t marker_len = strlen(marker);
+> size_t marker_off;
+> char *fat_buf;
+> char *version;
+> bool ret = false;
+> 
+> version = strnstr(data, marker, size);
+
+strnstr is defined to search for the substring in another string. There
+is no promise that it will work if data contains \0 chars (which would
+terminate the string). And the memmem is not defined for the Linux
+kernel.
+
+> if (version) {
+> 	marker_off = version - data;
+> 	version += marker_len;
+> 	size -= marker_off + marker_len;
+> 
+> 	if (version < terminator-3) {
+> 		/* This is safe because we bounds check */
+> 		if (strncmp("vfw", version, size) == 0)
+> 			return true;
+> 	}
+> 
+> 	/* To do your sscanf() you need to create a zeorised buffer */
+> 	fat_buf = kzalloc(size+1, GFP_KERNEL);
+> 	if (!fat_buf)
+> 		return false;
+> 
+> 	memcpy(fat_buf, version, size);
+
+Creating a copy of about the half of the image is definitely an
+overkill.
+
+> 
+> 	/* sscanf is now guaranteed to terminate on NULL */
+> 	if (sscanf(fat_buf, "video-firmware.%d.%d", &major, &minor) == 2) {
+
+I think we can replace this with string comparisons too. No need to
+sscanf it.
+
+WDYT?
+
+> 		if (major >= 2) {
+> 			ret = true;
+> 			goto free_mem;
+> 		}
+> 	}
+> }
+> 
+> free_mem:
+> 	if (fat_buf)
+> 		kfree(fat_buf);
+> 	return ret;
+> 
 
 -- 
 With best wishes
