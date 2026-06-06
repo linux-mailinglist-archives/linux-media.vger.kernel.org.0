@@ -1,57 +1,57 @@
-Return-Path: <linux-media+bounces-64026-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64027-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id w/q0NDhvJGqO6QEAu9opvQ
-	(envelope-from <linux-media+bounces-64026-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 21:04:24 +0200
+	id DHQVC4xuJGo46QEAu9opvQ
+	(envelope-from <linux-media+bounces-64027-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 21:01:32 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DCE764E14B
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 21:04:24 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id B401364E126
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 21:01:31 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20201202 header.b=aFj1mFmH;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64026-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64026-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20201202 header.b=I3FvY+Rd;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64027-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64027-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F2E0E3056629
-	for <lists+linux-media@lfdr.de>; Sat,  6 Jun 2026 19:01:05 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3F64D301C111
+	for <lists+linux-media@lfdr.de>; Sat,  6 Jun 2026 19:01:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D89A03BC68A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE89E3BC69E;
 	Sat,  6 Jun 2026 19:01:03 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37473305679;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5113831196F;
 	Sat,  6 Jun 2026 19:01:03 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780772463; cv=none; b=EHyFWi2EI1H0irqYhCBnN2sroUbl1BKXiaLZHAADPC1aEMGrmSqb/C8RZ1bxMhjQZVAfyc22Yojl48a55w5jlB/JpQuPdiiORhD/8mJeFSkBHO59ki/oHZa+zFXnUUTWzW6N1FDZvZaVrTkXuradi/GnSJPOiu6ouIGY9ndGPdQ=
+	t=1780772463; cv=none; b=LfmkKAklWBmlR6D/fjezvH1fdqHualf9LF/cnOl9N/VOd3nFEu4/E5LrCTZHZj79V5Rmbp02pMPYrN+5L99Uoc0/QMdPdbGSZb1PH4z7Q7GhyQoznO4gqNnTwX9b0mH3N2bomVbAunAXqnH/TPJkgKKflelcblf79h+tezjxaD4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1780772463; c=relaxed/simple;
-	bh=DSa14s7IlKy5l6imkMxGi9Jlaiiz6kT2d/sCqrs7tVw=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=MzN8mKL+7iYvx6nULYSRuLKFaymT2SexaitZRRmYGKJFeJZCfHWc8sW/WwL76MIqhHQIJRboiqE73d5SDwGw8IWCJ9xSsya9xLTxquPpTDCJrNcLFlVrPhjCv0cX0bq2XsUCrDK3egHnueorq8j+0IANIKDSK1RzZfgdwd1fS3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aFj1mFmH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id DB00BC2BCC4;
+	bh=o//ml2WjPWJn3fo6M6Z2AyE5vu/Wk06yU0UjepcEADs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=e0/4qOnURrNlTAmoU88wYbYOX/sicgXENDXEDcArd9x7S3I4N2nC9wbziwrKpWP+IeM7tSp1OgapE9DoT9B+0r92Eb2AINT5XlTvYW+abQcUmSimI8jXMdU+9CX0P3R3BOGh2RnpqL8Xx9oJu3qAepHwZZs1Pj0bt+vmxhIzdPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I3FvY+Rd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id F1E34C2BCB0;
 	Sat,  6 Jun 2026 19:01:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1780772463;
-	bh=DSa14s7IlKy5l6imkMxGi9Jlaiiz6kT2d/sCqrs7tVw=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=aFj1mFmHnIDGacV2E1WmcPO05yCczgiDSQWSMhRxqUz0g9UIfQ4Y5+7loFIvQAdp9
-	 yFmO/DrlhxxiWVoR9JupPfYFB11+tKlSMSUpmgET6anI5TF2D+y/8fBwbDuurDZAuq
-	 fRiIXL1W+REuD77XOoLlxLN0q24oK3yJ2ZUteToLXHE0nxkXBm1ALdUb7x1O1yWZmq
-	 FB4l12SjfvXb6LlTeSP1uqTJGShjfnjYU8bWcc+966IvSjSQass5kzkl8JIcx6eBQW
-	 +u4kQOEzAhkvmSqizJ0u7qkCyHVwiNq9/1Y7AR57iMln4bLILfOPs92zre6QqXEttP
-	 xcn/10JY71RAA==
+	bh=o//ml2WjPWJn3fo6M6Z2AyE5vu/Wk06yU0UjepcEADs=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=I3FvY+Rd98V+AZ2w+G12Ydt1VdFPYbjxJtC5oF31vEyWafk8VLX1GQMasXiryqcBp
+	 1uSnUqXrjXEr7PLZ+Hf1EMB2NDlTg1iPA98jZIZdh0yv8Y5s/AHLu5T1y8WHWNFSIM
+	 NaJKGvN8KMyY3+oie7UbIVQRc7S8/w8P0UoLkoFbw9swZC17oLNdbxkJs2lwMNwzGO
+	 ys/Bhg53xwjuQjbf3/6Sb9fX7IqoN20XKi8MfjgHya37wshyitWB2myNTt+vi00u+E
+	 nYpkJEf/JsoPBXBEVouX9Ug2ay7jz5nq8LcuEt7BwGcqQu5CxEOVtkXJsbV1an5029
+	 8SQ4BY414wOcw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BD89BCD8C85;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD857CD8C88;
 	Sat,  6 Jun 2026 19:01:02 +0000 (UTC)
 From: Herman van Hazendonk via B4 Relay <devnull+github.com.herrie.org@kernel.org>
-Subject: [PATCH v6 0/2] media: i2c: add Aptina MT9M113 image sensor driver
-Date: Sat, 06 Jun 2026 21:01:00 +0200
-Message-Id: <20260606-submit-media-mt9m113-v6-0-8f6d0f79f4d1@herrie.org>
+Date: Sat, 06 Jun 2026 21:01:01 +0200
+Subject: [PATCH v6 1/2] dt-bindings: media: i2c: add aptina,mt9m113
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,11 +59,10 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAG1uJGoC/43OsQ6DIBAG4FcxzKUBRIROfY+mg+CpN6ANUNLG+
- O5Ft05tbvov+b+7lUQICJFcqpUEyBhxmUtQp4q4qZtHoNiXTAQTipWh8Wk9Juqhx476ZDznNRV
- SOG1BGTCMlOojwICvg73dS54wpiW8jytZ7tsfYJaUUSaVlc66djDyOkEoj56XMJJdzM0/SlMUw
- bR2bd1o4PxL2bbtA2ly6DT/AAAA
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260606-submit-media-mt9m113-v6-1-8f6d0f79f4d1@herrie.org>
+References: <20260606-submit-media-mt9m113-v6-0-8f6d0f79f4d1@herrie.org>
+In-Reply-To: <20260606-submit-media-mt9m113-v6-0-8f6d0f79f4d1@herrie.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
  Conor Dooley <conor+dt@kernel.org>, 
@@ -71,11 +70,11 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Herman van Hazendonk <github.com@herrie.org>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1780772461; l=8920;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780772461; l=4184;
  i=github.com@herrie.org; s=20240417; h=from:subject:message-id;
- bh=DSa14s7IlKy5l6imkMxGi9Jlaiiz6kT2d/sCqrs7tVw=;
- b=XWe0ZqloDRCUU7Tg/etvfPFjnEwjPH3cP4ZjYi0/LLFCA0M7e+zw3fe3ZzOnZ78UUsMpFfnZC
- 8IGYA1uqRvFDKjZpv2QBUy9VToFbfFuCPPmhi0s/gf3muERjNbltMtL
+ bh=35DQlR0Pg5rIt3kaI9IOLCic3MJQYDWRefh6BtAw1CY=;
+ b=fXCnuviS8g8xsGnt8z3ORj4EWanR2pA4VzipHeR8uQLa+cS7KO51tOnzjBTixRvuvsm+3g/jF
+ +98Bx5Z5NDLAGRtFmnTGlepA+1K7g1/X9RW59khRQJ9pbDDnYHgjgab
 X-Developer-Key: i=github.com@herrie.org; a=ed25519;
  pk=YYxdq8fb5O9vhkW3n2dCH044FPZZO5718v/du7fRhFw=
 X-Endpoint-Received: by B4 Relay for github.com@herrie.org/20240417 with
@@ -88,11 +87,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-64026-lists,linux-media=lfdr.de,github.com.herrie.org];
+	TAGGED_FROM(0.00)[bounces-64027-lists,linux-media=lfdr.de,github.com.herrie.org];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
@@ -113,189 +112,161 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	HAS_REPLYTO(0.00)[github.com@herrie.org];
 	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,herrie.org:mid,herrie.org:email,herrie.org:replyto,vger.kernel.org:from_smtp,pre-send-check.sh:url,test-camera.sh:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,herrie.org:mid,herrie.org:email,herrie.org:replyto,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,devicetree.org:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2DCE764E14B
+X-Rspamd-Queue-Id: B401364E126
 
-Add a V4L2 subdev driver for the Aptina (now ON Semiconductor) MT9M113
-1.3 megapixel SoC image sensor with embedded ISP, as used on the HP
-TouchPad (apq8060) front camera. The sensor is programmed over I2C and
-streams YUV / RGB / monochrome over a 1-lane MIPI CSI-2 D-PHY link.
+From: Herman van Hazendonk <github.com@herrie.org>
 
-v6 addresses six Sashiko Gemini 3.1 findings raised on the v5 patchset,
-all of which are real bugs introduced (or exposed) by the v3-r2 release-
-callback restructure. One of them — the use-after-free in mt9m113_remove()
-during sysfs unbind — was reproduced on hardware as a NULL-pointer
-dereference in regulator_bulk_disable() and is fixed by the v6 reorder.
+Add the binding for the Aptina (now ON Semiconductor) MT9M113 1.3
+megapixel SoC image sensor with on-die ISP. The chip is used as the
+front (user-facing) camera on the HP TouchPad tablet and connects
+to the host SoC over MIPI CSI-2.
 
+The binding describes the chip's i2c address, optional reset and
+standby GPIOs, the per-supply regulators (VDD, VDD_IO, VDDA), the
+external clock input, and the CSI-2 endpoint pads exposed via the
+"port" subnode.
+
+Assisted-by: Claude:claude-opus-4-7 Sashiko:claude-haiku-4-5 Sparse:0.6.4 Coccinelle:1.1.1
 Signed-off-by: Herman van Hazendonk <github.com@herrie.org>
 ---
-Changes in v6:
+ .../bindings/media/i2c/aptina,mt9m113.yaml         | 122 +++++++++++++++++++++
+ 1 file changed, 122 insertions(+)
 
-  - [High] mt9m113_start_streaming() failure path: drop the
-    pm_runtime_set_suspended() call. It fails with -EAGAIN while
-    runtime PM is still enabled, leaving the PM core in RPM_ACTIVE
-    while the chip is in fact off; the next autosuspend would then
-    fire mt9m113_runtime_suspend() and call mt9m113_power_off() a
-    second time, underflowing both the clk prepare/enable refcount
-    and the regulator enable count. Track the chip-off state via a
-    new 'bool chip_off' on the sensor; mt9m113_runtime_suspend()
-    consumes it to skip its own power_off when start_streaming has
-    already collapsed the rail, and mt9m113_runtime_resume() clears
-    it after a successful power_on().
+diff --git a/Documentation/devicetree/bindings/media/i2c/aptina,mt9m113.yaml b/Documentation/devicetree/bindings/media/i2c/aptina,mt9m113.yaml
+new file mode 100644
+index 000000000000..72b827c47b1d
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/aptina,mt9m113.yaml
+@@ -0,0 +1,122 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/aptina,mt9m113.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Aptina MT9M113 1.3 Megapixel CMOS Digital Image Sensor
++
++maintainers:
++  - Herman van Hazendonk <github.com@herrie.org>
++
++description:
++  The Aptina MT9M113 is a 1.3 Megapixel CMOS digital image sensor with
++  1280x1024 active pixels. It supports dual context operation
++  Context A (640x480 preview mode with binning) and Context B (1280x1024
++  capture mode). It is programmable through an I2C interface and outputs
++  image data over a 1-lane MIPI CSI-2 connection.
++
++properties:
++  compatible:
++    const: aptina,mt9m113
++
++  reg:
++    description: I2C device address
++    enum:
++      - 0x3c
++      - 0x48
++      - 0x5d
++
++  clocks:
++    description: EXTCLK clock signal (24 MHz typical)
++    maxItems: 1
++
++  vdd-supply:
++    description:
++      Core digital voltage supply, 1.8V
++
++  vddio-supply:
++    description:
++      I/O digital voltage supply, 1.8V or 2.8V
++
++  vaa-supply:
++    description:
++      Analog voltage supply, 2.8V
++
++  reset-gpios:
++    maxItems: 1
++    description:
++      GPIO connected to the RESET_BAR pin, if any (active low). The MT9M113
++      has a single RESET_BAR pin.
++
++  powerdown-gpios:
++    maxItems: 1
++    description:
++      GPIO connected to the STANDBY/PWDN pin, if any (active high). When
++      asserted, the sensor enters low-power standby mode. The MT9M113 has
++      a single STANDBY/PWDN pin.
++
++  port:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    additionalProperties: false
++
++    properties:
++      endpoint:
++        $ref: /schemas/media/video-interfaces.yaml#
++        unevaluatedProperties: false
++
++        properties:
++          bus-type:
++            const: 4
++            description: MIPI CSI-2 D-PHY
++
++        required:
++          - bus-type
++          - link-frequencies
++
++    required:
++      - endpoint
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - vdd-supply
++  - vddio-supply
++  - vaa-supply
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/media/video-interfaces.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        camera@3c {
++            compatible = "aptina,mt9m113";
++            reg = <0x3c>;
++
++            clocks = <&mmcc 48>;
++
++            reset-gpios = <&pm8058_gpio 29 GPIO_ACTIVE_LOW>;
++            powerdown-gpios = <&pm8058_gpio 30 GPIO_ACTIVE_HIGH>;
++
++            vddio-supply = <&pm8058_l15>;
++            vdd-supply = <&pm8058_l15>;
++            vaa-supply = <&pm8058_l14>;
++
++            port {
++                mt9m113_ep: endpoint {
++                    bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
++                    link-frequencies = /bits/ 64 <384000000>;
++                    remote-endpoint = <&csiphy1_ep>;
++                };
++            };
++        };
++    };
++...
 
-  - [High] mt9m113_s_ctrl(): pm_runtime_get_if_in_use() return-code
-    check changed from "pm_ret == 0" to "pm_ret <= 0". The old test
-    misses any negative return -- in particular -EINVAL after
-    pm_runtime_disable() has been called from mt9m113_remove(). With
-    a still-open /dev/v4l-subdev* file descriptor, a control set
-    issued after unbind would slip past the gate and dereference the
-    devm-managed regmap that the driver core has already freed.
-
-  - [High] mt9m113_probe(): early-error paths after kzalloc(sensor)
-    but before error_ep_free now goto error_kfree so the sensor
-    struct is freed on devm_cci_regmap_init_i2c() or mt9m113_parse_dt()
-    failure. Without it those returns leaked the kzalloc.
-
-  - [High] mt9m113_remove(): reorder so PM disable +
-    mt9m113_power_off() + pm_runtime_set_suspended() all run BEFORE
-    v4l2_async_unregister_subdev(). When no userspace fd is open on
-    /dev/v4l-subdev*, async_unregister synchronously fires the per-
-    subdev .release callbacks, the last of which runs kfree(sensor);
-    every subsequent use of @sensor or @dev (v4l2_fwnode_endpoint_free,
-    mt9m113_power_off) was a use-after-free.
-
-    Reproduced on hardware (HP TouchPad / APQ8060): a plain
-       echo 3-003c > /sys/bus/i2c/drivers/mt9m113/unbind
-    produces a kernel panic with
-       Unable to handle kernel NULL pointer dereference at 0x00000058
-       PC is at regulator_bulk_disable+0x4c/0x108
-       LR is at mt9m113_power_off+0x78/0x7c
-    on the v5 kernel. v6 reorders cleanly survives the same unbind
-    plus a 60 s concurrent VIDIOC_QUERYCTRL / S_CTRL spammer.
-
-  - [High] v4l2_fwnode_endpoint_free(&sensor->bus_cfg) moved from
-    mt9m113_remove() into mt9m113_release_sensor() (the
-    release_count == 0 finalizer). bus_cfg.link_frequencies is
-    referenced by the IFP control handler's qmenu_int (stored by
-    v4l2_ctrl_new_int_menu(V4L2_CID_LINK_FREQ) in probe). The
-    control handler outlives remove() under the deferred-release
-    model; freeing the endpoint in remove() would leave qmenu_int
-    dangling and turn a later VIDIOC_QUERYMENU into a UAF.
-
-  - [Med] mt9m113_ifp_set_fmt(): "if (sensor->streaming) return
-    -EBUSY" narrowed to fire only when fmt->which ==
-    V4L2_SUBDEV_FORMAT_ACTIVE. V4L2_SUBDEV_FORMAT_TRY queries are
-    scratchpad probes by definition and must always be allowed,
-    including while the pipeline is live.
-
-  - [Low] dt-bindings: endpoint properties gain
-    data-lanes: { maxItems: 1 } so DT entries that try to assign
-    more than one lane fail dt_binding_check at validation time
-    rather than only at probe time when the driver enforces
-    num_data_lanes == 1.
-
-  - [Prep] mt9m113_start_streaming(): add __must_hold(state->lock)
-    annotation so sparse -Wcontext can verify the caller of
-    s_stream(1) really did acquire the V4L2 subdev-state lock
-    via v4l2_subdev_lock_and_get_active_state() before getting
-    here. Today sparse cannot fully prove this (the v4l2-subdev
-    framework helpers are not yet __acquires/__releases-tagged
-    in include/media/v4l2-subdev.h), but the annotation is
-    correct on our side and Just Works once core picks them up.
-
-Changes since v4 (already in v5):
-
-  - 5 findings from Sashiko's review of v4: Kconfig select V4L2_FWNODE;
-    stream_context_a propagates SEQ_CMD_RUN poll timeout; start_streaming
-    retry loop bypasses runtime-PM (bridge device-link blocks normal
-    suspend) by toggling power directly; V4L2_CID_TEST_PATTERN rolls
-    back test_pattern_active on apply failure; per-subdev .release
-    callbacks defer ctrl handler / entity / sensor-struct teardown past
-    v4l2_async_unregister_subdev so in-flight VIDIOC_S_CTRL ioctls do
-    not unlock freed memory.
-
-  - 1 regression caught during HW unbind/rebind race testing of the
-    above: trailing mt9m113_power_off() in the retry loop double-called
-    power_off (each break path already powered the chip down), which
-    underflowed clk + regulator refcounts. Dropped the redundant
-    trailing call; every break path is now responsible for its own
-    final-state.
-
-Changes since v3 (already in v4):
-
-  - Context B (1280x1024 capture) stream-start regression fix: the
-    MT9M113_SEQ_STATE_PREVIEW constant was 0x04 (datasheet's "Leave
-    preview" transient state); the actual stable preview state is 0x03.
-
-  - Forensic NOTE comment above MODE_TEST_MODE documenting the IFP
-    test-pattern generator silicon-removal investigation.
-    V4L2_CID_TEST_PATTERN plumbing is retained on the chance a different
-    silicon variant or vendor SROM patch enables the TPG block.
-
-Changes since v2 (already in v3):
-
-  - Krzysztof + Sakari binding feedback: maxItems on reset-gpios /
-    powerdown-gpios; drop |- from descriptions; drop redundant
-    link-frequencies / remote-endpoint / data-lanes; rename i2c0 -> i2c.
-
-  - MAINTAINERS entry per patchwork checkpatch.
-
-Pre-send verification (v6, HP TouchPad APQ8060, kernel
-7.1.0-rc1-luneos-geba82cc2ec7a):
-
-  - pre-send-check.sh 8/8 PASS, including:
-      * sparse on drivers/media/i2c/mt9m113.c -- clean
-      * coccinelle scans for the three regression patterns we just
-        fixed (pm_runtime_get_if_in_use() == 0; v4l2_fwnode_endpoint_free
-        in remove(); sensor deref after v4l2_async_unregister_subdev)
-        -- no matches.
-
-  - Sashiko AI preflight (claude-haiku-4-5): 0 actionable findings;
-    16 of 16 prior-stage concerns self-dismissed.
-
-  - HP TouchPad on-HW sweep:
-      * test-camera.sh PIX 640x480 + 1280x1024 capture -- PASS
-      * 10x rapid pix640 stream-start stress -- 10/10 ok
-      * 10x rapid pix1280 stream-start stress (Context B path) -- 10/10 ok
-      * 60s mt9m113 sysfs unbind/rebind cycle racing concurrent
-        VIDIOC_QUERYCTRL / S_CTRL spammers on /dev/v4l-subdev10 +
-        /dev/v4l-subdev11 -- driver survives, re-binds cleanly,
-        zero Oops / BUG / null-pointer-deref. This is the exact
-        scenario that produced the regulator_bulk_disable NULL deref
-        on the v5 kernel; v6 is silent.
-      * 120s concurrent multi-subsystem load (camera stream loop +
-        dd to eMMC + /dev/urandom + filesystem walk) -- clean.
-      * dmesg post-sweep totals: 0 WARN, 0 BUG, 0 Oops, 0 clk-refcount
-        underflow, 0 regulator-refcount underflow.
-
-  - Kernel build clean (ARCH=arm cross-compile, CONFIG_VIDEO_MT9M113=y).
-  - dt_binding_check clean (0 warnings) after the data-lanes maxItems
-    constraint was added.
-
-- Link to v4: https://lore.kernel.org/r/20260606-submit-media-mt9m113-v4-0-046b4cbc7f94@herrie.org
-- Link to v5: https://lore.kernel.org/r/20260606-submit-media-mt9m113-v5-0-2088c7358e11@herrie.org
-
----
-Herman van Hazendonk (2):
-      dt-bindings: media: i2c: add aptina,mt9m113
-      media: i2c: add Aptina MT9M113 1.3 Mpx SoC sensor driver
-
- .../bindings/media/i2c/aptina,mt9m113.yaml         |  130 +
- MAINTAINERS                                        |    8 +
- drivers/media/i2c/Kconfig                          |   13 +
- drivers/media/i2c/Makefile                         |    1 +
- drivers/media/i2c/mt9m113.c                        | 3306 ++++++++++++++++++++
- 5 files changed, 3458 insertions(+)
----
-base-commit: 944125b4c454b58d2fe6e35f1087a932b2050dff
-change-id: 20260606-submit-media-mt9m113-242c8be69e90
-
-Best regards,
 -- 
-Herman van Hazendonk <github.com@herrie.org>
+2.43.0
 
 
 
