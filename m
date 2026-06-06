@@ -1,647 +1,453 @@
-Return-Path: <linux-media+bounces-64022-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64023-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id uf0TBAYgJGq53QEAu9opvQ
-	(envelope-from <linux-media+bounces-64022-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 15:26:30 +0200
+	id WBjPCK8yJGox4AEAu9opvQ
+	(envelope-from <linux-media+bounces-64023-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 16:46:07 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A16A64D9DB
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 15:26:29 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7593864DBF5
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 16:46:06 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b="i587/LT3";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64022-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64022-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=siliconsignals.io header.s=selector1 header.b=jnno3L9s;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64023-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64023-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=siliconsignals.io;
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5B7E23051D65
-	for <lists+linux-media@lfdr.de>; Sat,  6 Jun 2026 13:23:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 6D8C2302EE81
+	for <lists+linux-media@lfdr.de>; Sat,  6 Jun 2026 14:45:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84CC73B0AC4;
-	Sat,  6 Jun 2026 13:23:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED83D3B42CC;
+	Sat,  6 Jun 2026 14:45:55 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11021130.outbound.protection.outlook.com [40.107.51.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5125C22D781;
-	Sat,  6 Jun 2026 13:23:05 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780752189; cv=none; b=UtSp3kjCzo83CcagN52c9pG3O7cFJqMui/r3aL+M95WrYTNTX0BcQ/iRrtKw/UEYV55Kzf0WpB+MK5LPYKjG+1KHKZ6gA8WYKPlAz6qEcN1ddQGwk6a11bec3C50W+3CuZR+nqRvBjnyWqTEJnr9Cd98XP8CNzwgYISd0cgLM6M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780752189; c=relaxed/simple;
-	bh=RLIAVCK//KrMS+pM+b/MVl5xFIl2q8enEjIUDkU6NOk=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=is9GGjwpEpO9Ktdy0FmXOaV/0RCJvj0aytHfJq2WZUu/mR72xwF9VUOkWPH2XKBTDTJdBctqWmOziD0bSfTW84T7UBCs7ah9UzC4zfLZf2smaYbhfqp9P9ITy9EU9IkH2VYtMkPK+Va/V9jO5fXOvyzdSTO7snA8SkPf/FFCpPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=i587/LT3; arc=none smtp.client-ip=213.167.242.64
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c66:476d:c684:fe78:389f:7375])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B7E4063C;
-	Sat,  6 Jun 2026 15:22:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1780752151;
-	bh=RLIAVCK//KrMS+pM+b/MVl5xFIl2q8enEjIUDkU6NOk=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=i587/LT3vt+e/MY439X4JyUTGMUChOhIuiNACrMO3olA91vzHDXilvGzVDGdrldj3
-	 2xTykk/1wCQFHCbppUP0tNcLDM6vBhhlaatcg9ioQYP33/bFeUV6FjV1O3/czSRQVV
-	 H5fl5ldQB1gcSdRZKoQGMZSMfIwAvj1U372pVK2k=
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 228072773D3;
+	Sat,  6 Jun 2026 14:45:52 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780757155; cv=fail; b=egyxwhRLn+CLTdzm0JH64IThdaBtmeIR9+G87LKSIzCuCViXCjXnweQEK7OMlguRpW5j0eInw+Cl5E7mvmTcjtqXbv7BrzqRfpXhui7SrARKc0D4pD7f0346gv+IgsoG/VpmPIiGNyG6unueDvBNeWMK7pYA/bdcEDvVYcV5Rjs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780757155; c=relaxed/simple;
+	bh=r1EBneCeRS+mpYHy4jZdlRbsNYm7eMArSUNF8dMj8hc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=CkquRLlTfR6vePeBzmcyCV+92kpTs4xRunjC68gF72+6HnadTcV2bZjaDcOnZgF8sn2ATm41+QLh08AgDBEvse8nbPZz4ZrSMi+jn0w71Q62SlgbRF8AymBfcnE1Vy0JbpCacANNK1sszPkbO8QF+QewKmK37w4xL4Hh1cbRBMA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=jnno3L9s; arc=fail smtp.client-ip=40.107.51.130
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=svTEJ2zEmyqyQRegitIM/m9FlQVKJnSqdrCvdPLFRLsuiaztHbIezQsxl5FQiA+xCW3//3IyqiOb71XpnyWmwqTYbgBv8caSYZLkD+HSzsBcqvLyLttGlTQSN8VuU8IIk/36vxEoZVe/nhwqQnLsPIq7kzqCmxdCo7+9iLYVBhcrJv3pip9p2PUdANmf1UMVP3D+LKBrC56O87bBwu5vEXqksMUG7paOwUq5Dp+XF4C3ix7T3o+pfBodk0zizh6qrKY/vaM0yzjTV0vSP72J/v5BJvb+0SgDOm3jifdUsxIu2fILLAYeOsOwZ9b+NFo7BJGHw5MvnjdrEclp+badrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=B8Kgd2UP6F3kJeKxM8DXxwOBxHAmTWqzXaftJJnGlnQ=;
+ b=QNz38bE+4mq+huSqZT2J8wJHDMQ5g0WlG5bGoiIiJjF1hjjnrPzi2u8/pSbyuGjPjE0QugShdzSERaeA907xlw8MxPVhG8NBbF5YQMeePNZKwgA8TDI3x0k67N245C5VR0gsgzWlDSmsriQDJ3ZbwRDGDFZa2qq6pJh0Wi9SnAs97prUEAaha7yqhnsyxxAUf4CaEV/MlGpcBHBr91QahyhwaPIZNah/HXjcDm9+VIxK/K0yqLUwTb6R/jP0hqIgHYFn3bw3wrQ1R9TApNKmSdagS81lO6xd32o8F2yXfSg5chKVQG2tTFFLRzBD3bEzm33oJxXJfEnuLt19wUt/fg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=B8Kgd2UP6F3kJeKxM8DXxwOBxHAmTWqzXaftJJnGlnQ=;
+ b=jnno3L9sU2rXCQtLdErx1T8K0MQo3YVNLxthZlVoMczSLsu5vw7AUOjz/t90hhPcY+LB/C5sc1qPtQTzE7Lexksf5mP1pmkcV7ELA7LfZiNVmiwONL6KVDn09L8ztbUKCdNb/1BWJOSrOvp5kjmDj0fM/B0zdq/3Mgz27wBAe/QaCKttInYA8VJeLvoaRTtkqHC0HL9OLQqB7He+kvxlsQcJ/VedV06i9gjBWFOIDOsOGYvWqgOvcqq7Px16xo4GNLdKEXhRCsDBZq577F91In52AsyyeAAlNV7aBZr0/92LSDKblEp6OCQXdTIg/86QsPkeN92rAVfV4/f6CfMR+A==
+Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
+ by MAUP287MB5604.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:1f9::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.71.15; Sat, 6 Jun 2026
+ 14:45:49 +0000
+Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ce63:5749:b390:508b]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ce63:5749:b390:508b%6]) with mapi id 15.21.0092.007; Sat, 6 Jun 2026
+ 14:45:48 +0000
+From: Tarang Raval <tarang.raval@siliconsignals.io>
+To: Jai Luthra <jai.luthra@ideasonboard.com>, Conor Dooley
+	<conor+dt@kernel.org>, Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Sakari Ailus
+	<sakari.ailus@linux.intel.com>
+CC: Lachlan Michael <Lachlan.Michael@sony.com>, Ryuichi Tadano
+	<Ryuichi.Tadano@sony.com>, Kengo Hayasaka <Kengo.Hayasaka@sony.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 2/2] media: i2c: imx678: Add driver for Sony IMX678
+Thread-Topic: [PATCH v4 2/2] media: i2c: imx678: Add driver for Sony IMX678
+Thread-Index: AQHc9QDxR/cbdD8AmEyAZncD5gOfZLYw/V86gACHxYCAAAc0YA==
+Date: Sat, 6 Jun 2026 14:45:48 +0000
+Message-ID:
+ <PN3P287MB18292FBAEABB556C051434848B1E2@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+References: <20260605-imx678-v4-0-58e57c67143d@ideasonboard.com>
+ <20260605-imx678-v4-2-58e57c67143d@ideasonboard.com>
+ <PN3P287MB1829593C2DF9AFF8F24A39AF8B1E2@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+ <178075217188.9570.14789474340505402551@freya>
+In-Reply-To: <178075217188.9570.14789474340505402551@freya>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN3P287MB1829:EE_|MAUP287MB5604:EE_
+x-ms-office365-filtering-correlation-id: bed04f3c-5264-4830-9c8e-08dec3da4c65
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|366016|1800799024|7416014|38070700021|6133799003|4143699003|3023799007|18002099003|56012099006|22082099003;
+x-microsoft-antispam-message-info:
+ 6hr6SYoBD8WtzeYjf48l+/PFzuCMHonocq9uCDMbcwcwG9YC4oXKJrLdGo1xhSXeMIDwrxwhsF0+n9CtGgXjdEYSbUxSE2nMIdcxqha2R481J6iVoJ3QMXfPQyEEU4ICCWsyGgdAFsWrjahdrCfRDQUOB9TGEJSwpgXJLVmx9sQiTHNTGNmVU/J74JYRR0Hg0w/4170H4wrjzleho4xLAqx6qvm5WYfkwxEOUOdygqZpD3wdH9JwZ/+7JwT66/aFn+v83na2tU5uZTKxbQNWDwA0UDmR904pgvw9nQ9mudEmkaw2b2SEhKWrzxkfigkTvbVd+E0xkeMPutyXWYAgaZ6RYPFdX/rxNf8zEwhlc+9klzaa/aw7j10JZMUu5iNnOx6ydL+v3cnxOjlehkjeEEYmtL7XcKQpa6NsWu8fYQlFiKdKh86YT6c0R3LvmFBnYEdkYCTW1R6rKcIAclTT2t8vsp6ZE3Jne6Ba9S85XZGkMCMZQ+0oeJXnTcHyjO1Yosch/6KqiOcfTC80e55G2yqxOF/EPNQ/AwBfkdl0lg47F+6hGBkJ2Q3BmBNYLWEMBrL0GU0Sq43yEewAI8cl9rIdS24EpJ7+IzxUtBDin38uIQumHsrqDozcO6swsGYdfUWhe7aKUy40Hhr1vRpCxz/urf38vsiRJX7fP2F2RO1rCTjmXtS5P5iFIfYqTtaxmj+FD3gLIz2nlMsi9pecJA==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7416014)(38070700021)(6133799003)(4143699003)(3023799007)(18002099003)(56012099006)(22082099003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?R/pH+3pD2mH0Dj0JF10A6vAHVqfGuDnlo8dh2qsJ2m74bcJDl98sTooHr+?=
+ =?iso-8859-1?Q?Iu1ll5cOoZLOmMQulFDTKH1iITHyXa71bK17FUKxJ3gUlaPfNNTG/jpasR?=
+ =?iso-8859-1?Q?tDpDDRzH08CQeAIt8nEpLXno5soiXDTtvj/8pIzGNzBVwZ7ip4BQ5LnRQy?=
+ =?iso-8859-1?Q?/e835Y26oNsZTuJasHciyW2eTAnuWrGhEKxKHeOj76quPX88my4cLJf66g?=
+ =?iso-8859-1?Q?kFZHRmA4aKLbfLzqgHpgawdCoJ6700YjzOmKDAFbsXiay1/WkhjxACvA21?=
+ =?iso-8859-1?Q?tEXw87lbLCVxP9yUVlxVglHM+xUSaoekECkdwyiZ+Ofcqnq4Cz3QhEcUI2?=
+ =?iso-8859-1?Q?4nR47Bh3D2shqKN6ZnQRHnBFV0rHM83h91kx9WsXyOKxArzfwqflGxgujZ?=
+ =?iso-8859-1?Q?hZnX7brg6P/cDcZfJlh1S6DgyjPL0Rs+5015lFqKy09hvzvoo4+1K7Vhol?=
+ =?iso-8859-1?Q?sYa4hw6vlUBoitRn/hhDrxWZGZOJcYej5elcgrt8nXOtYtaMYDT8c23Kt4?=
+ =?iso-8859-1?Q?j2nTyuax658NFc8lg0kd7/u+fL+N66DbbSrZ2d9UL39T3wKlkoydXJziHm?=
+ =?iso-8859-1?Q?SNJx5VFD0OOEKtnLUTZvo7VusLf43YOl75p+PjHVDSh/sm3hEbYSCgn+q0?=
+ =?iso-8859-1?Q?x+c4okbzGOiNZ92vOTyaIWp2pWg0d3nwxdD4Zwfsc/90vaUGO77NUADK+p?=
+ =?iso-8859-1?Q?OE1x6JdDKOw4eDpsXQQDliESo+vze4IjwNYQJ/b6+PfZPD31GUB9ofsAks?=
+ =?iso-8859-1?Q?0ze8FCm+KQlSHftLZ068G36TgXPIw2ow8sDZ4tTqWUR1i2Fh43o9p4Z7aO?=
+ =?iso-8859-1?Q?BkEF1p6kNAx/u5DHjSNAQygOKIOHDEGNSRfrPuhUWsNnBu708N1w/QaIGH?=
+ =?iso-8859-1?Q?X/FGy+OASJwI6ftjdVcdUVaysAmu01ILiK5Eo70T4wkSQ7CA/bKWmtqyHd?=
+ =?iso-8859-1?Q?NoMU0fw7q+Nn2iBpJr3gdxJJjU5zHNAN8emx4q8rrC1YyshRWL9RrX3fft?=
+ =?iso-8859-1?Q?+IJ4T8EviB0buqcnl33PP7NDCCOAjjg4kbQmz6Uv58jrKcbC7Jzwj2Ot/j?=
+ =?iso-8859-1?Q?0G/IsNoIve5KIr+fI0g1vO+fBLdviDLkPJwcXDdri8Zhxuvn+Cgvf384yg?=
+ =?iso-8859-1?Q?n99er+jMTJ0n8ZsTcHdKJbyetgvj2q9Fr2swQ82g7AzcmsARxLl6BcdZWG?=
+ =?iso-8859-1?Q?VUAZkpOwlgJX8/1XYCFI/8xoYq8n2vIKrXxh1jSrvb2mKDsG85aoUOZ+G/?=
+ =?iso-8859-1?Q?8hqRwLvZaESVW06ItgIOGAqQzCGidKYxTE9YfHobQDC6GJ6Dvg1/IwhtZJ?=
+ =?iso-8859-1?Q?/pL9MoS67hRbz7LRZLuJqDybPdCANhJA53bUq5SwpMTql+5StPiqhRC+XP?=
+ =?iso-8859-1?Q?xex2PkdaAOuJqiSmsi9dBqeSG9A+lSxSnEN3oFAatwEEuhygm/5O6TdZ4q?=
+ =?iso-8859-1?Q?Ds3eotzL+MvY4OrQDWI6Srpiep5K+ObRir3gy+FM93Yuu5lpEjLcEyb5PF?=
+ =?iso-8859-1?Q?Fa6mkHenoB+vqPiRVrl2nWQOC2+Y7njLk1Rh09IZBDGrOZSkRDGsuelBpS?=
+ =?iso-8859-1?Q?4DSNPr6YIkN/FpUvXaHd34/5zXjGcaBmXSvR+QD1vCkmEXHyeUDRub27Sc?=
+ =?iso-8859-1?Q?rmHjlejBULXPSmDEgKjP9DEoVOCIfDGlzZhKg2Xkdnc2U9A4Pq0JcO+xbP?=
+ =?iso-8859-1?Q?VrKl8yPDG1xE1k7ASvhkdX56oq5BGY+08BiCfG1VUAXeObUJ6BYaBlH3qb?=
+ =?iso-8859-1?Q?rtoUmnCRRVYvAy8BNai27rRz/yrP/kl8ifZv/UCBGR3By5ljdn3xwgB/4G?=
+ =?iso-8859-1?Q?7yx7tD9yNw=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <PN3P287MB1829593C2DF9AFF8F24A39AF8B1E2@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
-References: <20260605-imx678-v4-0-58e57c67143d@ideasonboard.com> <20260605-imx678-v4-2-58e57c67143d@ideasonboard.com> <PN3P287MB1829593C2DF9AFF8F24A39AF8B1E2@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
-Subject: Re: [PATCH v4 2/2] media: i2c: imx678: Add driver for Sony IMX678
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Lachlan Michael <Lachlan.Michael@sony.com>, Ryuichi Tadano <Ryuichi.Tadano@sony.com>, Kengo Hayasaka <Kengo.Hayasaka@sony.com>, "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-To: Conor Dooley <conor+dt@kernel.org>, Kieran Bingham <kieran.bingham@ideasonboard.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Tarang Raval <tarang.raval@siliconsignals.io>
-Date: Sat, 06 Jun 2026 18:52:51 +0530
-Message-ID: <178075217188.9570.14789474340505402551@freya>
-User-Agent: alot/0.13.dev35+g4a69c46ca
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: bed04f3c-5264-4830-9c8e-08dec3da4c65
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jun 2026 14:45:48.4626
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: stp3zrOPXZzFg0fytuo/VlLB7RX2w2uecwlvpE4aoeQTCuiA6KS6JK2Hi9NySrxvh5ZNCT0Y3vm2U//94Q6fxE7d7FyiaAcgwRJ06YGfCbs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAUP287MB5604
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[siliconsignals.io,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[siliconsignals.io:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-64022-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-64023-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:jai.luthra@ideasonboard.com,m:conor+dt@kernel.org,m:kieran.bingham@ideasonboard.com,m:krzk+dt@kernel.org,m:laurent.pinchart@ideasonboard.com,m:mchehab@kernel.org,m:robh@kernel.org,m:sakari.ailus@linux.intel.com,m:Lachlan.Michael@sony.com,m:Ryuichi.Tadano@sony.com,m:Kengo.Hayasaka@sony.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:conor@kernel.org,m:krzk@kernel.org,s:lists@lfdr.de];
 	TO_DN_EQ_ADDR_SOME(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_RECIPIENTS(0.00)[m:Lachlan.Michael@sony.com,m:Ryuichi.Tadano@sony.com,m:Kengo.Hayasaka@sony.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:conor+dt@kernel.org,m:kieran.bingham@ideasonboard.com,m:krzk+dt@kernel.org,m:laurent.pinchart@ideasonboard.com,m:mchehab@kernel.org,m:robh@kernel.org,m:sakari.ailus@linux.intel.com,m:tarang.raval@siliconsignals.io,m:conor@kernel.org,m:krzk@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[tarang.raval@siliconsignals.io,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[siliconsignals.io:+];
+	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[tarang.raval@siliconsignals.io,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,freya:mid,ideasonboard.com:dkim,ideasonboard.com:from_mime,ideasonboard.com:email]
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,PN3P287MB1829.INDP287.PROD.OUTLOOK.COM:mid,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5A16A64D9DB
+X-Rspamd-Queue-Id: 7593864DBF5
 
-Hi Tarang,
-
-Quoting Tarang Raval (2026-06-06 13:47:36)
-> Hi Jai,
->=20
-> Sorry, in my first review I missed a few minor issues listed below.
->=20
-
-No worries, thank you for the reviews.
-
-> I also noticed one major issue in the driver. Please check the comments b=
-elow.
->=20
-> Other than that, the driver looks perfect.
->=20
-> > Add a V4L2 subdev driver for the Sony IMX678 image sensor.
-> >
-> > IMX678 is a diagonal 8.86 mm (Type 1/1.8) CMOS active pixel type
-> > solid-state image sensor with a square pixel array and 8.40 M effective
-> > pixels.
-> >
-> > The following features are supported by this driver:
-> > - MIPI RAW12 output
-> > - Monochrome and Color (Bayer filter) variants
-> > - Multiple input clock frequencies
-> > - Multiple link frequencies
-> > - VBLANK and HBLANK control for variable framerate
-> > - VFLIP and HFLIP control for flipping readout
-> > - Exposure and analogue gain control
-> > - Test pattern control
-> >
-> > Following features are not currently supported:
-> > - MIPI RAW10 output
-> > - Pixel-perfect crop reporting, accounting for the shift-by-1 when
-> >   doing HFLIP/VFLIP where the sensor maintains RGGB bayer ordering
-> >
-> > Along with the ones below which depend on the new raw sensor model:
-> > - Embedded data stream
-> > - Freely configurable cropping
-> > - Increased framerate when cropping
-> > - 2x2 binning support
-> >
-> > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
->=20
-> ...
->=20
-> > +static const u32 codes_bayer[] =3D {
-> > +       MEDIA_BUS_FMT_SRGGB12_1X12,
-> > +};
-> > +
-> > +static const u32 codes_monochrome[] =3D {
-> > +       MEDIA_BUS_FMT_Y12_1X12,   /* 12-bit mono */
->=20
-> Above comment adds no useful information and can be dropped.
->=20
-> > +};
-> > +
-> > +static const struct imx678_model_info imx678_aaqr_info =3D {
-> > +       .type =3D IMX678_COLOR,
-> > +       .codes =3D codes_bayer,
-> > +       .num_codes =3D ARRAY_SIZE(codes_bayer),
-> > +};
-> > +
-> > +static const struct imx678_model_info imx678_aamr_info =3D {
-> > +       .type =3D IMX678_MONOCHROME,
-> > +       .codes =3D codes_monochrome,
-> > +       .num_codes =3D ARRAY_SIZE(codes_monochrome),
-> > +};
-> > +
-> > +static const char * const imx678_supply_name[] =3D {
-> > +       "avdd",  /* Analog (3.3V) supply */
-> > +       "dvdd",  /* Digital Core (1.1V) supply */
-> > +       "ovdd",  /* IF (1.8V) supply */
-> > +};
-> > +
-> > +struct imx678 {
-> > +       struct v4l2_subdev sd;
-> > +       struct media_pad pad;
-> > +       struct regmap *cci;
-> > +
-> > +       const struct imx678_model_info *info;
-> > +
-> > +       struct clk *xclk;
-> > +       u32 xclk_freq;
-> > +
-> > +       /* chosen INCK_SEL register value */
-> > +       u8  inck_sel_val;
-> > +
-> > +       /* Link configurations */
-> > +       enum imx678_lanemode lane_mode;
-> > +       unsigned long link_freq_bitmap;
-> > +
-> > +       struct gpio_desc *reset_gpio;
-> > +       struct regulator_bulk_data supplies[ARRAY_SIZE(imx678_supply_na=
-me)];
-> > +
-> > +       struct v4l2_ctrl_handler ctrl_handler;
-> > +
-> > +       /* V4L2 Controls */
-> > +       struct v4l2_ctrl *exposure;
-> > +       struct v4l2_ctrl *vblank;
-> > +       struct v4l2_ctrl *hblank;
-> > +
-> > +       /* Tracking sensor VMAX/HMAX value */
-> > +       u32 vmax;
-> > +};
-> > +
-> > +static inline struct imx678 *to_imx678(struct v4l2_subdev *_sd)
-> > +{
-> > +       return container_of(_sd, struct imx678, sd);
->=20
-> Use container_of_const.
->=20
-
-Why is that necessary?
-
-> > +}
->=20
-> ...
->=20
-> > +static int imx678_set_ctrl(struct v4l2_ctrl *ctrl)
-> > +{
-> > +       struct imx678 *imx678 =3D container_of(ctrl->handler, struct im=
-x678,
-> > +                                            ctrl_handler);
->=20
-> Use container_of_const.
->=20
-> > +       struct i2c_client *client =3D v4l2_get_subdevdata(&imx678->sd);
-> > +       const struct v4l2_mbus_framefmt *format;
-> > +       struct v4l2_subdev_state *state;
-> > +       int rpm_in_use;
-> > +       int ret =3D 0;
-> > +
-> > +       state =3D v4l2_subdev_get_locked_active_state(&imx678->sd);
-> > +       format =3D v4l2_subdev_state_get_format(state, IMX678_SOURCE_PA=
-D);
-> > +
-> > +       if (ctrl->id =3D=3D V4L2_CID_VBLANK) {
-> > +               u32 current_exposure =3D imx678->exposure->cur.val;
-> > +
-> > +               imx678->vmax =3D format->height + ctrl->val;
->=20
-> ........(1)
->=20
-> > +
-> > +               current_exposure =3D clamp_t(u32, current_exposure,
-> > +                                          IMX678_EXPOSURE_MIN,
-> > +                                          imx678->vmax - IMX678_SHR_MI=
-N);
-> > +               ret =3D __v4l2_ctrl_modify_range(imx678->exposure,
-> > +                                              IMX678_EXPOSURE_MIN,
-> > +                                              imx678->vmax - IMX678_SH=
-R_MIN,
-> > +                                              1, current_exposure);
-> > +               if (ret)
-> > +                       return ret;
-> > +       }
-> > +
-> > +       /*
-> > +        * Applying V4L2 control value only happens when power is up for
-> > +        * streaming
-> > +        */
-> > +       rpm_in_use =3D pm_runtime_get_if_in_use(&client->dev);
-> > +       if (!rpm_in_use)
-> > +               return 0;
->=20
-> As in the last revision, as I suggested before, I will again suggest using
-> pm_runtime_get_if_active() here instead of pm_runtime_get_if_in_use().
->=20
-> This does not seem to align with the comment above:
-> Applying V4L2 control value only happens when power is up for streaming
->=20
-> "Power is up" implies that the device is in the runtime PM ACTIVE state,
-> rather than simply having a non-zero usage count.
->=20
-
-I agree with the comment being slightly misleading, but same as the last
-revision, I still don't fully buy your argument here :-)
-
-In the case you talk about, where PM is ACTIVE but usage count =3D=3D 0, we
-anyway know that the count will only increase when .enable_streams is
-called, at which point the driver will anyway write *all* the registers
-including calling set_ctrl for each control with the cached values.
-
-So why should we do (redundant) writes here?
-
-> I also don't understand why we need to be strict here and require the
-> runtime PM usage count to be greater than zero. What matters before acces=
-sing
-> the hardware registers is that the device is powered and accessible, not
-> whether there is an active user holding a runtime PM reference.
->=20
-> Anyway, rpm_in_use does not seem necessary here. The check could be simpl=
-ified to:
-> if (pm_runtime_get_if_active(&client->dev) <=3D 0)
-
-The rpm_in_use value is used below in this function to ensure we don't do
-pm_runtime_put() in case of a negative retval. This is not really handled
-by most drivers today, but I wanted to fix it here given recent discussion
-[1] and annoying Sashiko reports.
-
-[1]: https://lore.kernel.org/all/ahyh0ZlwlZqr7VNa%40kekkonen.localdomain
-
->=20
-> > +
-> > +       switch (ctrl->id) {
-> > +       case V4L2_CID_VBLANK:
-> > +               cci_write(imx678->cci, IMX678_REG_VMAX, imx678->vmax, &=
-ret);
-> > +               fallthrough; /* SHR =3D VMAX - exposure, so update it */
-> > +       case V4L2_CID_EXPOSURE: {
-> > +               u32 shr =3D imx678->vmax - imx678->exposure->val;
-> > +
-> > +               cci_write(imx678->cci, IMX678_REG_SHR, shr, &ret);
-> > +               break;
-> > +       }
-> > +       case V4L2_CID_ANALOGUE_GAIN:
-> > +               cci_write(imx678->cci, IMX678_REG_GAIN, ctrl->val, &ret=
-);
-> > +               break;
-> > +       case V4L2_CID_HBLANK: {
-> > +               u32 hmax =3D (format->width + ctrl->val) / IMX678_PIX_P=
-ER_CLK;
-> > +
-> > +               cci_write(imx678->cci, IMX678_REG_HMAX, hmax, &ret);
-> > +               break;
-> > +       }
-> > +       case V4L2_CID_TEST_PATTERN: {
-> > +               cci_write(imx678->cci, IMX678_REG_TPG_COLORWIDTH,
-> > +                         IMX678_TPG_COLORWIDTH_160PIX, &ret);
-> > +               cci_write(imx678->cci, IMX678_REG_TPG_PATSEL_DUOUT,
-> > +                         imx678_tpg_val[ctrl->val], &ret);
-> > +               cci_write(imx678->cci, IMX678_REG_TPG_EN_DUOUT,
-> > +                         (ctrl->val) ? 1 : 0,
-> > +                         &ret);
-> > +               break;
-> > +       }
-> > +       case V4L2_CID_HFLIP:
-> > +               cci_write(imx678->cci, IMX678_REG_WINMODEH, ctrl->val, =
-&ret);
-> > +               break;
-> > +       case V4L2_CID_VFLIP:
-> > +               cci_write(imx678->cci, IMX678_REG_WINMODEV, ctrl->val, =
-&ret);
-> > +               break;
-> > +       default:
-> > +               dev_warn(&client->dev,
-> > +                        "ctrl(id:0x%x,val:0x%x) is not handled\n",
-> > +                        ctrl->id, ctrl->val);
-> > +               break;
-> > +       }
-> > +
-> > +       if (rpm_in_use > 0)
-> > +               pm_runtime_put(&client->dev);
-> > +
-> > +       return ret;
-> > +}
-> > +
->=20
-> ...
->=20
-> > +static int imx678_set_pad_format(struct v4l2_subdev *sd,
-> > +                                struct v4l2_subdev_state *sd_state,
-> > +                                struct v4l2_subdev_format *fmt)
-> > +{
-> > +       struct imx678 *imx678 =3D to_imx678(sd);
-> > +       struct v4l2_mbus_framefmt *format;
-> > +       const struct v4l2_rect *crop;
-> > +       int ret =3D 0;
-> > +
-> > +       if (fmt->which =3D=3D V4L2_SUBDEV_FORMAT_ACTIVE &&
-> > +           v4l2_subdev_is_streaming(sd))
-> > +               return -EBUSY;
-> > +
-> > +       crop =3D v4l2_subdev_state_get_crop(sd_state, fmt->pad);
-> > +
-> > +       fmt->format.width =3D crop->width;
-> > +       fmt->format.height =3D crop->height;
-> > +       fmt->format.code =3D imx678_get_format_code(imx678, fmt->format=
-.code);
-> > +       fmt->format.field =3D V4L2_FIELD_NONE;
-> > +       fmt->format.colorspace =3D V4L2_COLORSPACE_RAW;
-> > +       fmt->format.ycbcr_enc =3D V4L2_YCBCR_ENC_DEFAULT;
-> > +       fmt->format.quantization =3D V4L2_QUANTIZATION_FULL_RANGE;
-> > +       fmt->format.xfer_func =3D V4L2_XFER_FUNC_NONE;
-> > +
-> > +       format =3D v4l2_subdev_state_get_format(sd_state, fmt->pad);
-> > +
-> > +       if (fmt->which =3D=3D V4L2_SUBDEV_FORMAT_ACTIVE)
-> > +               ret =3D imx678_set_framing_limits(imx678, &fmt->format);
-> > +
-> > +       if (!ret)
-> > +               *format =3D fmt->format;
->=20
-> Update the ACTIVE format before adjusting the framing controls so that co=
-ntrol
-> callbacks operate on the correct frame dimensions.
->=20
-> Currently, the VBLANK control handler recalculates the exposure limits us=
-ing
-> the previous height value.
->=20
-> You can verify this by adding a debug print at (1) (In imx678_set_ctrl) f=
-or format->height.
->=20
-
-Yikes, my bad. I updated this function at the last moment to not mess with
-the active format in case set_framing_limit gives an error, but missed that
-the active state format is used by s_ctrl.
-
-> For example:
-> Streaming is running with a format of 3856 =C3=97 2160.
-> Streaming is stopped.
-> The media link is reconfigured to 1920 =C3=97 1080.
->=20
-> At this point, the ACTIVE format has not yet been updated. As a result, t=
-he
-> debug print at (1) will still show 2160 instead of 1080.
->=20
-
-Although it shouldn't cause issues as we don't allow changing resolution at
-all.. at least not in this patch. I'll still fix it in my branch with crop
-and binning support.
-
-I just realized though that we don't need to call set_framing_limits at all
-in a fixed-resolution driver. I'll drop it in next revision.
-
-> > +
-> > +       return ret;
-> > +}
-> > +
-> > +static int imx678_get_selection(struct v4l2_subdev *sd,
-> > +                               struct v4l2_subdev_state *sd_state,
-> > +                               struct v4l2_subdev_selection *sel)
-> > +{
-> > +       switch (sel->target) {
-> > +       case V4L2_SEL_TGT_CROP:
-> > +               sel->r =3D *v4l2_subdev_state_get_crop(sd_state, sel->p=
-ad);
-> > +               return 0;
-> > +
-> > +       case V4L2_SEL_TGT_NATIVE_SIZE:
-> > +               sel->r =3D imx678_native_area;
-> > +               return 0;
-> > +
-> > +       case V4L2_SEL_TGT_CROP_DEFAULT:
-> > +       case V4L2_SEL_TGT_CROP_BOUNDS:
-> > +               sel->r =3D imx678_active_area;
-> > +               return 0;
-> > +       }
-> > +
-> > +       return -EINVAL;
-> > +}
-> > +
-> > +static int imx678_init_state(struct v4l2_subdev *sd,
-> > +                            struct v4l2_subdev_state *state)
-> > +{
-> > +       struct imx678 *imx678 =3D to_imx678(sd);
-> > +       struct v4l2_rect *crop;
-> > +       struct v4l2_subdev_format fmt =3D {
-> > +               .which =3D V4L2_SUBDEV_FORMAT_TRY,
-> > +               .pad =3D IMX678_SOURCE_PAD,
-> > +               .format =3D {
-> > +                       .code =3D imx678_default_mbus_code(imx678),
-> > +                       .width =3D imx678_active_area.width,
-> > +                       .height =3D imx678_active_area.height,
-> > +               },
-> > +       };
-> > +
-> > +       crop =3D v4l2_subdev_state_get_crop(state, IMX678_SOURCE_PAD);
-> > +       *crop =3D imx678_active_area;
-> > +       imx678_set_pad_format(sd, state, &fmt);
-> > +
-> > +       return 0;
->=20
-> return imx678_set_pad_format(..).
->=20
-> > +}
->=20
-> ...
->=20
-> > +static int imx678_identify_model(struct imx678 *imx678)
-> > +{
-> > +       struct i2c_client *client =3D v4l2_get_subdevdata(&imx678->sd);
-> > +       const struct imx678_model_info *info;
-> > +       enum imx678_type detected;
-> > +       int ret =3D 0;
-> > +       u64 val =3D 0;
->=20
-> val =3D 0 initialization is unnecessary, as val is populated by cci_read()
-> before it is used.
->=20
-
-Similar to ret, I personally find it easier to read when values that are
-used but not explicitly written to within the same function, are
-initialized to 0.
-
-> > +
-> > +       info =3D device_get_match_data(&client->dev);
-> > +
-> > +       /*
-> > +        * This sensor's ID registers become accessible 80ms after comi=
-ng out
-> > +        * of STANDBY mode.
-> > +        */
-> > +       cci_write(imx678->cci, IMX678_REG_MODE_SELECT, 0, &ret);
-> > +       fsleep(IMX678_MODULE_ID_DELAY);
-> > +
-> > +       cci_read(imx678->cci, IMX678_REG_MODULE_ID, &val, &ret);
-> > +
-> > +       if (ret) {
-> > +               dev_err(&client->dev,
-> > +                       "I2C transaction failed ret =3D %d\n", ret);
-> > +               return ret;
-> > +       }
-> > +
-> > +       if (val !=3D IMX678_ID) {
-> > +               dev_err(&client->dev,
-> > +                       "Chip ID mismatch: %x!=3D%llx\n", IMX678_ID, va=
-l);
-> > +               return -ENXIO;
-> > +       }
-> > +
-> > +       cci_read(imx678->cci, IMX678_REG_MONOCHROME, &val, &ret);
-> > +
-> > +       if (ret) {
-> > +               dev_err(&client->dev,
-> > +                       "I2C transaction failed ret =3D %d\n", ret);
-> > +               return ret;
-> > +       }
-> > +
-> > +       detected =3D val & IMX678_TYPE;
-> > +
-> > +       /* Prefer to use sensor type specified in device tree */
-> > +       if (info) {
-> > +               imx678->info =3D info;
-> > +               if (detected !=3D info->type)
-> > +                       dev_err(&client->dev,
-> > +                               "detected %s sensor, DT specifies %s; u=
-sing DT value\n",
-> > +                               detected =3D=3D IMX678_COLOR ? "color" =
-: "mono",
-> > +                               info->type =3D=3D IMX678_COLOR ? "color=
-" : "mono");
-> > +       } else {
-> > +               imx678->info =3D detected =3D=3D IMX678_MONOCHROME ?
-> > +                              &imx678_aamr_info : &imx678_aaqr_info;
-> > +               dev_info(&client->dev,
-> > +                        "sensor type missing in DT; detected %s sensor=
-\n",
-> > +                        detected =3D=3D IMX678_MONOCHROME ? "mono" : "=
-color");
-> > +       }
-> > +
-> > +       return 0;
-> > +}
->=20
-> ...
->=20
-> > +static int imx678_probe(struct i2c_client *client)
-> > +{
-> > +       struct device *dev =3D &client->dev;
-> > +       struct imx678 *imx678;
-> > +       int ret, i;
-> > +
-> > +       imx678 =3D devm_kzalloc(&client->dev, sizeof(*imx678), GFP_KERN=
-EL);
-> > +       if (!imx678)
-> > +               return -ENOMEM;
-> > +
-> > +       v4l2_i2c_subdev_init(&imx678->sd, client, &imx678_subdev_ops);
-> > +
-> > +       imx678->cci =3D devm_cci_regmap_init_i2c(client, 16);
-> > +       if (IS_ERR(imx678->cci))
-> > +               return dev_err_probe(dev, PTR_ERR(imx678->cci),
-> > +                                    "failed to init CCI\n");
-> > +
-> > +       if (imx678_check_hwcfg(dev, imx678))
-> > +               return -EINVAL;
-> > +
-> > +       imx678->xclk =3D devm_v4l2_sensor_clk_get(dev, NULL);
-> > +       if (IS_ERR(imx678->xclk))
-> > +               return dev_err_probe(dev, PTR_ERR(imx678->xclk),
-> > +                                    "failed to get xclk\n");
-> > +
-> > +       imx678->xclk_freq =3D clk_get_rate(imx678->xclk);
-> > +
-> > +       for (i =3D 0; i < ARRAY_SIZE(imx678_inck_table); ++i) {
-> > +               if (imx678_inck_table[i].xclk_hz =3D=3D imx678->xclk_fr=
-eq) {
-> > +                       imx678->inck_sel_val =3D imx678_inck_table[i].i=
-nck_sel;
-> > +                       break;
-> > +               }
-> > +       }
-> > +
-> > +       if (i =3D=3D ARRAY_SIZE(imx678_inck_table))
-> > +               return dev_err_probe(dev, -EINVAL,
-> > +                                    "unsupported XCLK rate %u Hz\n",
-> > +                                    imx678->xclk_freq);
-> > +
-> > +       for (i =3D 0; i < ARRAY_SIZE(imx678_supply_name); i++)
-> > +               imx678->supplies[i].supply =3D imx678_supply_name[i];
-> > +
-> > +       ret =3D devm_regulator_bulk_get(&client->dev,
-> > +                                     ARRAY_SIZE(imx678_supply_name),
-> > +                                     imx678->supplies);
-> > +       if (ret)
-> > +               return dev_err_probe(dev, ret, "failed to get regulator=
-s\n");
-> > +
-> > +       imx678->reset_gpio =3D devm_gpiod_get_optional(dev, "reset",
-> > +                                                    GPIOD_OUT_HIGH);
-> > +       if (IS_ERR(imx678->reset_gpio))
-> > +               return dev_err_probe(dev, PTR_ERR(imx678->reset_gpio),
-> > +                                    "failed to get reset GPIO\n");
-> > +
-> > +       ret =3D imx678_power_on(dev);
-> > +       if (ret)
-> > +               return ret;
-> > +
-> > +       ret =3D imx678_identify_model(imx678);
-> > +       if (ret)
-> > +               goto error_power_off;
-> > +
-> > +       pm_runtime_set_active(dev);
-> > +       pm_runtime_enable(dev);
-> > +
-> > +       ret =3D imx678_init_controls(imx678);
-> > +       if (ret)
-> > +               goto error_pm_runtime;
-> > +
-> > +       imx678->sd.internal_ops =3D &imx678_internal_ops;
-> > +       imx678->sd.flags |=3D V4L2_SUBDEV_FL_HAS_DEVNODE |
-> > +                               V4L2_SUBDEV_FL_HAS_EVENTS;
->=20
-> Drop V4L2_SUBDEV_FL_HAS_EVENTS flag.
->=20
-
-Ack.
-
-[snip]
-
-Thanks,
-    Jai
+Hi Jai.=0A=
+=0A=
+> Quoting Tarang Raval (2026-06-06 13:47:36)=0A=
+> > Hi Jai,=0A=
+> >=0A=
+> > Sorry, in my first review I missed a few minor issues listed below.=0A=
+> >=0A=
+>=0A=
+> No worries, thank you for the reviews.=0A=
+>=0A=
+> > I also noticed one major issue in the driver. Please check the comments=
+ below.=0A=
+> >=0A=
+> > Other than that, the driver looks perfect.=0A=
+> >=0A=
+> > > Add a V4L2 subdev driver for the Sony IMX678 image sensor.=0A=
+> > >=0A=
+> > > IMX678 is a diagonal 8.86 mm (Type 1/1.8) CMOS active pixel type=0A=
+> > > solid-state image sensor with a square pixel array and 8.40 M effecti=
+ve=0A=
+> > > pixels.=0A=
+> > >=0A=
+> > > The following features are supported by this driver:=0A=
+> > > - MIPI RAW12 output=0A=
+> > > - Monochrome and Color (Bayer filter) variants=0A=
+> > > - Multiple input clock frequencies=0A=
+> > > - Multiple link frequencies=0A=
+> > > - VBLANK and HBLANK control for variable framerate=0A=
+> > > - VFLIP and HFLIP control for flipping readout=0A=
+> > > - Exposure and analogue gain control=0A=
+> > > - Test pattern control=0A=
+> > >=0A=
+> > > Following features are not currently supported:=0A=
+> > > - MIPI RAW10 output=0A=
+> > > - Pixel-perfect crop reporting, accounting for the shift-by-1 when=0A=
+> > >   doing HFLIP/VFLIP where the sensor maintains RGGB bayer ordering=0A=
+> > >=0A=
+> > > Along with the ones below which depend on the new raw sensor model:=
+=0A=
+> > > - Embedded data stream=0A=
+> > > - Freely configurable cropping=0A=
+> > > - Increased framerate when cropping=0A=
+> > > - 2x2 binning support=0A=
+> > >=0A=
+> > > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>=0A=
+> >=0A=
+> > ...=0A=
+> >=0A=
+> > > +static const u32 codes_bayer[] =3D {=0A=
+> > > +       MEDIA_BUS_FMT_SRGGB12_1X12,=0A=
+> > > +};=0A=
+> > > +=0A=
+> > > +static const u32 codes_monochrome[] =3D {=0A=
+> > > +       MEDIA_BUS_FMT_Y12_1X12,   /* 12-bit mono */=0A=
+> >=0A=
+> > Above comment adds no useful information and can be dropped.=0A=
+> >=0A=
+> > > +};=0A=
+> > > +=0A=
+> > > +static const struct imx678_model_info imx678_aaqr_info =3D {=0A=
+> > > +       .type =3D IMX678_COLOR,=0A=
+> > > +       .codes =3D codes_bayer,=0A=
+> > > +       .num_codes =3D ARRAY_SIZE(codes_bayer),=0A=
+> > > +};=0A=
+> > > +=0A=
+> > > +static const struct imx678_model_info imx678_aamr_info =3D {=0A=
+> > > +       .type =3D IMX678_MONOCHROME,=0A=
+> > > +       .codes =3D codes_monochrome,=0A=
+> > > +       .num_codes =3D ARRAY_SIZE(codes_monochrome),=0A=
+> > > +};=0A=
+> > > +=0A=
+> > > +static const char * const imx678_supply_name[] =3D {=0A=
+> > > +       "avdd",  /* Analog (3.3V) supply */=0A=
+> > > +       "dvdd",  /* Digital Core (1.1V) supply */=0A=
+> > > +       "ovdd",  /* IF (1.8V) supply */=0A=
+> > > +};=0A=
+> > > +=0A=
+> > > +struct imx678 {=0A=
+> > > +       struct v4l2_subdev sd;=0A=
+> > > +       struct media_pad pad;=0A=
+> > > +       struct regmap *cci;=0A=
+> > > +=0A=
+> > > +       const struct imx678_model_info *info;=0A=
+> > > +=0A=
+> > > +       struct clk *xclk;=0A=
+> > > +       u32 xclk_freq;=0A=
+> > > +=0A=
+> > > +       /* chosen INCK_SEL register value */=0A=
+> > > +       u8  inck_sel_val;=0A=
+> > > +=0A=
+> > > +       /* Link configurations */=0A=
+> > > +       enum imx678_lanemode lane_mode;=0A=
+> > > +       unsigned long link_freq_bitmap;=0A=
+> > > +=0A=
+> > > +       struct gpio_desc *reset_gpio;=0A=
+> > > +       struct regulator_bulk_data supplies[ARRAY_SIZE(imx678_supply_=
+name)];=0A=
+> > > +=0A=
+> > > +       struct v4l2_ctrl_handler ctrl_handler;=0A=
+> > > +=0A=
+> > > +       /* V4L2 Controls */=0A=
+> > > +       struct v4l2_ctrl *exposure;=0A=
+> > > +       struct v4l2_ctrl *vblank;=0A=
+> > > +       struct v4l2_ctrl *hblank;=0A=
+> > > +=0A=
+> > > +       /* Tracking sensor VMAX/HMAX value */=0A=
+> > > +       u32 vmax;=0A=
+> > > +};=0A=
+> > > +=0A=
+> > > +static inline struct imx678 *to_imx678(struct v4l2_subdev *_sd)=0A=
+> > > +{=0A=
+> > > +       return container_of(_sd, struct imx678, sd);=0A=
+> >=0A=
+> > Use container_of_const.=0A=
+> >=0A=
+>=0A=
+> Why is that necessary?=0A=
+=0A=
+container_of_const() preserves const and avoids accidentally casting it awa=
+y.=0A=
+For non-const pointers it behaves the same as container_of(), while for con=
+st=0A=
+pointers it preserves constness.=0A=
+=0A=
+>=0A=
+> > > +}=0A=
+> >=0A=
+> > ...=0A=
+> >=0A=
+> > > +static int imx678_set_ctrl(struct v4l2_ctrl *ctrl)=0A=
+> > > +{=0A=
+> > > +       struct imx678 *imx678 =3D container_of(ctrl->handler, struct =
+imx678,=0A=
+> > > +                                            ctrl_handler);=0A=
+> >=0A=
+> > Use container_of_const.=0A=
+> >=0A=
+> > > +       struct i2c_client *client =3D v4l2_get_subdevdata(&imx678->sd=
+);=0A=
+> > > +       const struct v4l2_mbus_framefmt *format;=0A=
+> > > +       struct v4l2_subdev_state *state;=0A=
+> > > +       int rpm_in_use;=0A=
+> > > +       int ret =3D 0;=0A=
+> > > +=0A=
+> > > +       state =3D v4l2_subdev_get_locked_active_state(&imx678->sd);=
+=0A=
+> > > +       format =3D v4l2_subdev_state_get_format(state, IMX678_SOURCE_=
+PAD);=0A=
+> > > +=0A=
+> > > +       if (ctrl->id =3D=3D V4L2_CID_VBLANK) {=0A=
+> > > +               u32 current_exposure =3D imx678->exposure->cur.val;=
+=0A=
+> > > +=0A=
+> > > +               imx678->vmax =3D format->height + ctrl->val;=0A=
+> >=0A=
+> > ........(1)=0A=
+> >=0A=
+> > > +=0A=
+> > > +               current_exposure =3D clamp_t(u32, current_exposure,=
+=0A=
+> > > +                                          IMX678_EXPOSURE_MIN,=0A=
+> > > +                                          imx678->vmax - IMX678_SHR_=
+MIN);=0A=
+> > > +               ret =3D __v4l2_ctrl_modify_range(imx678->exposure,=0A=
+> > > +                                              IMX678_EXPOSURE_MIN,=
+=0A=
+> > > +                                              imx678->vmax - IMX678_=
+SHR_MIN,=0A=
+> > > +                                              1, current_exposure);=
+=0A=
+> > > +               if (ret)=0A=
+> > > +                       return ret;=0A=
+> > > +       }=0A=
+> > > +=0A=
+> > > +       /*=0A=
+> > > +        * Applying V4L2 control value only happens when power is up =
+for=0A=
+> > > +        * streaming=0A=
+> > > +        */=0A=
+> > > +       rpm_in_use =3D pm_runtime_get_if_in_use(&client->dev);=0A=
+> > > +       if (!rpm_in_use)=0A=
+> > > +               return 0;=0A=
+> >=0A=
+> > As in the last revision, as I suggested before, I will again suggest us=
+ing=0A=
+> > pm_runtime_get_if_active() here instead of pm_runtime_get_if_in_use().=
+=0A=
+> >=0A=
+> > This does not seem to align with the comment above:=0A=
+> > Applying V4L2 control value only happens when power is up for streaming=
+=0A=
+> >=0A=
+> > "Power is up" implies that the device is in the runtime PM ACTIVE state=
+,=0A=
+> > rather than simply having a non-zero usage count.=0A=
+> >=0A=
+>=0A=
+> I agree with the comment being slightly misleading, but same as the last=
+=0A=
+> revision, I still don't fully buy your argument here :-)=0A=
+>=0A=
+> In the case you talk about, where PM is ACTIVE but usage count =3D=3D 0, =
+we=0A=
+> anyway know that the count will only increase when .enable_streams is=0A=
+> called, at which point the driver will anyway write *all* the registers=
+=0A=
+> including calling set_ctrl for each control with the cached values.=0A=
+>=0A=
+> So why should we do (redundant) writes here?=0A=
+=0A=
+I think this is mostly a difference in expectations.=0A=
+=0A=
+My view is that if the device is runtime PM ACTIVE, the hardware is accessi=
+ble=0A=
+and register writes can be performed. In that case, I would expect a contro=
+l=0A=
+change to be applied to hardware immediately.=0A=
+=0A=
+With pm_runtime_get_if_in_use(), there is a state where the device is still=
+=0A=
+ACTIVE but control changes are only cached in software and not written to=
+=0A=
+hardware until streaming starts again. While the value is not lost, I would=
+=0A=
+expect hardware and control state to remain synchronized whenever the devic=
+e=0A=
+is already active.=0A=
+=0A=
+So I understand the cached-control argument, but if the hardware is accessi=
+ble,=0A=
+I would prefer applying the control immediately rather than deferring it.=
+=0A=
+=0A=
+> > I also don't understand why we need to be strict here and require the=
+=0A=
+> > runtime PM usage count to be greater than zero. What matters before acc=
+essing=0A=
+> > the hardware registers is that the device is powered and accessible, no=
+t=0A=
+> > whether there is an active user holding a runtime PM reference.=0A=
+> >=0A=
+> > Anyway, rpm_in_use does not seem necessary here. The check could be sim=
+plified to:=0A=
+> > if (pm_runtime_get_if_active(&client->dev) <=3D 0)=0A=
+>=0A=
+> The rpm_in_use value is used below in this function to ensure we don't do=
+=0A=
+> pm_runtime_put() in case of a negative retval. This is not really handled=
+=0A=
+> by most drivers today, but I wanted to fix it here given recent discussio=
+n=0A=
+> [1] and annoying Sashiko reports.=0A=
+>=0A=
+> [1]: https://lore.kernel.org/all/ahyh0ZlwlZqr7VNa%40kekkonen.localdomain=
+=0A=
+=0A=
+Thats my understanding as well. With:=0A=
+if (pm_runtime_get_if_active(&client->dev) <=3D 0)=0A=
+	return 0;=0A=
+=0A=
+both the 0 and negative return paths exit immediately, so neither the switc=
+h=0A=
+statement nor pm_runtime_put() can be reached.=0A=
+=0A=
+Best Regards,=0A=
+Tarang=
 
