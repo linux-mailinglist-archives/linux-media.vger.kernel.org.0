@@ -1,494 +1,301 @@
-Return-Path: <linux-media+bounces-64025-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64026-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id l6dvBCtJJGq14wEAu9opvQ
-	(envelope-from <linux-media+bounces-64025-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 18:22:03 +0200
+	id w/q0NDhvJGqO6QEAu9opvQ
+	(envelope-from <linux-media+bounces-64026-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 21:04:24 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64A1D64DEB6
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 18:22:02 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DCE764E14B
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 21:04:24 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=siliconsignals.io header.s=selector1 header.b=gePH9Wr5;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64025-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64025-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=siliconsignals.io;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=kernel.org header.s=k20201202 header.b=aFj1mFmH;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64026-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64026-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 07FCE30209D5
-	for <lists+linux-media@lfdr.de>; Sat,  6 Jun 2026 16:21:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F2E0E3056629
+	for <lists+linux-media@lfdr.de>; Sat,  6 Jun 2026 19:01:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F9BD3AE190;
-	Sat,  6 Jun 2026 16:21:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D89A03BC68A;
+	Sat,  6 Jun 2026 19:01:03 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021072.outbound.protection.outlook.com [40.107.57.72])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434152FC01B;
-	Sat,  6 Jun 2026 16:21:41 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780762905; cv=fail; b=Wds4HDzkY7E6XZ10xZeUbEPPMaKaebBAIg/MxGbyfWyYxkBBXoWbTCnwlbRyaiIcgjaKQMcfhIHln6IJnYRjlon5mjZEk+qGD1H2JREfUA2IfC8Jam/wYEWxA8GFhtY2HHOC2+OMkqI2ImtbAEW/ix5j+7beUiP3ki/y/7oGBdU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780762905; c=relaxed/simple;
-	bh=Kr4hNKaxXC0D/CQ3rJpLWpWjNu71dXnfzUQvzp4orhk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=dTlVXxdF+sAI48ZML5i67tEDuP1w5w/aDfK9+kMUV8MHcDdYOkczLDQxiZ0HlkKwE23+wNLkZOQBNmrP4y3tDN+vRbHwkLglrxzw60g7tppMSbKxD5HKRNuTw+5/ciO8f8G07D6t4AnY3zCyOFdL9TaXbgkyQmM5JIrzIoSC4OU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=pass (2048-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=gePH9Wr5; arc=fail smtp.client-ip=40.107.57.72
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KrgDnszLFBDOnrJGdRaoRehscsAXsNkE3cdEQlxqcwbjX54eXUAEMuNuzbwid2qBubGDkI5IujmwO0kNg2eRYWjC3UMeZ4mjz1JI/uzbdNB1rOXh1PaCe9N6NjQAg1HgOVkdRnZBIxtrmNsDiFAUuzsL5h+D8xepNk9saX1+W3aya3rQLioTY+6YlA6Wu/Y7xxQX0VyLICWdbVOIjqi0LWnO92XXybl9avloyZXKbIrzIDascPQv1zlrfN+STAP0i1G6U/80gFs8O4HfnFwqYkNDCWSO7SZvUDYHLFvo0GbU4DDlXJJW1MHLAnHgzorV5XO5gNnG/WP9+2KnZO+Jcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Hl+t+KtZQLCtCmdgeVy3OG3tF/O02ti45zt4TaRPUo8=;
- b=hkYzB21iOEs4FnvFhCs1ylM4CfQQKvAHCIkTad1MMbJs/JLgWUFN/Y9Qc9PIIFYV9StVlxvGrFEo75lw+wSzgkS2hsZ4Y1B0LMdOst2nssllFQwPWm/RK09hrP/7ihUnViiPqsp0uYSiE7SveoSq96gkEtkiDaOUDB5qQBEE4S1z6dqjCuRy+A1PvAXQ8Adf9L1vvI8bTXpvO/A4saUQewdMnG7UZrXJej4CtnA1Aq9a5y/JLa695FTwXx1aMD1R971bpIgwoX/Sq08kV7RFoLB4HWPwTYP2XoeUdENy/6LGc2btD3TnL/d9MGq9cDBfkefajQEzU4WLAOEyd7gZhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
- header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hl+t+KtZQLCtCmdgeVy3OG3tF/O02ti45zt4TaRPUo8=;
- b=gePH9Wr56THYyCr/vKYx5IYup78YCoDm9ti1YHb8nFVKnF/JBv8QvqvDwNvPmhhD2TmSPi9sU+P5w5Nc/fXbjsnWsRq+UT8rjFfFE4+MJgTSGTDL7EB8jvE/9Ov3ZbWbpnQuKKkN+AkkqmiRwkB5QfFBkJEmHVAw9bP4Rsba2sE2kCFuIOWtXRjMrTSZo88WS7OWmER9gL6oVapbvjbwACfnjpz5XtZm6bW9/G9myKtzR/sme37mtscLgOkAs7P22HVp2PXBwyuKY+GIKoX5yrrUDJ+wMHi1+e+4MWGqxIj8WbJnGb9z74NoSySKW3UaMOONs4JZwdM0WJRwWDaqCA==
-Received: from PN0P287MB1828.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:18b::12)
- by PN3P287MB1607.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:19a::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.10; Sat, 6 Jun 2026
- 16:21:38 +0000
-Received: from PN0P287MB1828.INDP287.PROD.OUTLOOK.COM
- ([fe80::2e4e:1a44:6d5:1565]) by PN0P287MB1828.INDP287.PROD.OUTLOOK.COM
- ([fe80::2e4e:1a44:6d5:1565%6]) with mapi id 15.21.0092.007; Sat, 6 Jun 2026
- 16:21:38 +0000
-From: Tarang Raval <tarang.raval@siliconsignals.io>
-To: Jai Luthra <jai.luthra@ideasonboard.com>, Conor Dooley
-	<conor+dt@kernel.org>, Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Laurent Pinchart
-	<laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Sakari Ailus
-	<sakari.ailus@linux.intel.com>
-CC: Lachlan Michael <Lachlan.Michael@sony.com>, Ryuichi Tadano
-	<Ryuichi.Tadano@sony.com>, Kengo Hayasaka <Kengo.Hayasaka@sony.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 2/2] media: i2c: imx678: Add driver for Sony IMX678
-Thread-Topic: [PATCH v4 2/2] media: i2c: imx678: Add driver for Sony IMX678
-Thread-Index: AQHc9QDxR/cbdD8AmEyAZncD5gOfZLYw/V86gACHxYCAAAc0YIAAHBQAgAALeNw=
-Date: Sat, 6 Jun 2026 16:21:38 +0000
-Message-ID:
- <PN0P287MB1828B9AF2057CE964675318E8B1E2@PN0P287MB1828.INDP287.PROD.OUTLOOK.COM>
-References: <20260605-imx678-v4-0-58e57c67143d@ideasonboard.com>
- <20260605-imx678-v4-2-58e57c67143d@ideasonboard.com>
- <PN3P287MB1829593C2DF9AFF8F24A39AF8B1E2@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
- <178075217188.9570.14789474340505402551@freya>
- <PN3P287MB18292FBAEABB556C051434848B1E2@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
- <178075974823.9570.15829300390679437100@freya>
-In-Reply-To: <178075974823.9570.15829300390679437100@freya>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN0P287MB1828:EE_|PN3P287MB1607:EE_
-x-ms-office365-filtering-correlation-id: 27cbe7f3-8c53-426c-13ae-08dec3e7af75
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|7416014|366016|376014|10070799003|18002099003|22082099003|38070700021|3023799007|6133799003|56012099006|4143699003;
-x-microsoft-antispam-message-info:
- A8l4yxr1T9qqmWe6bXv4j6vt01o380Ikx/bdy9s2Bl/osZ75WOG4HFF6QnTPUk3bh9klOc8taZG0hMhbrl1l3UMj4VwvRroeb8HkxzYeaxLwRT3yY01lx4LxKvnmS/boYtKykxfbl3KD1al2mIaGuGVrRzSd7bXvP8QPPfWUFfjAPEomcWFBquNqWPEzr+0gmRhyHm4rRnOoO/Ga64l38EelG6e/3yojPwvc9OsurL9QYW5g7y1YtYj+DSDRWTYrKsmfzPQ0E8FPO19jbU7zrU/3w5/9i7J8+Hkd7gZe+QNbCQ/jRBadJelkvfxy8O8nz98HQDQjOg78s9UeDtEpyjwNDTEwrXU+QicdYLGUtrFv5jMuJOkCinHQ1WsjWR3uYz6sJOenOHJ/cUOU+hwvVzQEqO4sBvIQ+srVV5U1CoXU4uUNEYEqOLxsmQNzfwivYSkKxYJB4duq+KrnKj2AIm6ll4l3AHaV5bLdgkhbQT2qu1sPRk75DrJvwZqXbnsbNiFvfApdeinODXhFQrWiLBSqkeaH7Lgr+ApcMrdbZKhLZNQz2sGi49VFlInctcVvlgDCI1GQidBa4vEWj0w9I/8L4Ifj5kc0ij1i8uYCzz5lh5Ts4v3LMa1PiA1N6pCh1XCiGr8N5GAQbjUr3r0MQ2kqrnmaL/O3pv0gIQME4FYjAd6tzbDNGQUHVWSMJ2UlbP4SgOaKRIbEp7C98ZxcrQ==
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN0P287MB1828.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(366016)(376014)(10070799003)(18002099003)(22082099003)(38070700021)(3023799007)(6133799003)(56012099006)(4143699003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?idWeIlAvDw0OeypfPvIZ9/dD7/JI6Byf1fl5Ad10jggKJKL6aC9hGW13Z5?=
- =?iso-8859-1?Q?uRxxz1MLZuEPSU5b3m41wKKbW9ibfqmJSGm88x4AnMw+mZAs/mt78es0Cw?=
- =?iso-8859-1?Q?9WLSkeic0ygOsxTGZBF77Cq6+mhuRJTM1bdvzi1ztM/qe/J1r2XwjvbYDf?=
- =?iso-8859-1?Q?Bc4tyXjNRiM4em3ZQqfvmn6eaqXkJUBVxVwDWMty8kedm3v9Gj2tj98PNW?=
- =?iso-8859-1?Q?RDZ5EteLp5hkjQArsOvoQGzB+9HQroo+D/5013mYIrsJHlTGI/XhCkL8P0?=
- =?iso-8859-1?Q?yRlQLM83Ec1vHx0SKICm/WIC5UqiO1uEHbIpk9qnRtabk5tf5EvUG7u6BZ?=
- =?iso-8859-1?Q?QnBZUR/2tZpPWyFexMLKgf3Y+glYBX5GS24pe+uacgRw59lrzrb16DI3Zb?=
- =?iso-8859-1?Q?eM1E1wjWMkIjbM/TPYRq/mX62XkfNJsoG4nIDAeBwrbDy6N8hbek+8WsTg?=
- =?iso-8859-1?Q?iMyYYb6TX3A4WJV2Wl4+MELxJf/OGhmvOkWbVuczXQ/JuqXCw0gnagOPZn?=
- =?iso-8859-1?Q?JNVx1PWe84IeV2NmbcxaWKr3kw6NkKS+xrHFI0WE4MedddYMeMyzyPjtxJ?=
- =?iso-8859-1?Q?K4pccKuUmmjgyRk+hOZOhuq4vkuXrI2NVSB3ZjbfccBlG1GT/f8nJA/+OD?=
- =?iso-8859-1?Q?IsxROhAI6PBQaVFFu65KRjbhbDzZcnVEEjyneKFa4cqMrxc4fFI+ZZkTcN?=
- =?iso-8859-1?Q?d3GAJVpDcClMeHYSXOA6mi6NK8wuF2+itoxypxl6JZNThar/wS3HWSyUH1?=
- =?iso-8859-1?Q?8pb+44yryGG9vg88bYDK2KWUIDsaauyZKM6VV8UsrDOigqJqmmJaOTKb8B?=
- =?iso-8859-1?Q?ylV5aRZnHvmVe5TGHMi6eU0srdeqELPs/rw5q6AgBOaHRld4JCoq9ROYvO?=
- =?iso-8859-1?Q?LZUN7IME9w9FeW+2Jd16Nz8mUYWmfKzVzApi0rOKcPJHABmAaGVsI/oUTe?=
- =?iso-8859-1?Q?1GyZXuMkRfTSpYotKZ1zvpK4Qa0stegFLQYYxXeAFT4SDpVwBFTo+lxhCh?=
- =?iso-8859-1?Q?u9azyN+SRimaFOfxH88aVD8+o5uL39qgZjG6bgAvbLfMQtwBx8wOnYDP7b?=
- =?iso-8859-1?Q?pmauxKPVaUK1u3y0rFa4P6bRCD7TNJk9p0We+P2XxXEz83L0QdR3gFl9sZ?=
- =?iso-8859-1?Q?3QSW61lWN9Q11SfNMyxX3hqvnIqDp+p4nCHWsSXv/wBg6Qz6YWYUQ/Tol4?=
- =?iso-8859-1?Q?V8ySHCnYYYA2ehUc34Ix12744IpcPCIVjb8S1ywG2M96q8bZAxb8cVh8C5?=
- =?iso-8859-1?Q?NG8xJ+Sv8rLfI9j+vzE0Yah/hPyAB1hBQSMaXUQQ5Vuo/EUsY+sQ7dYtuh?=
- =?iso-8859-1?Q?7+a3V4qua00efp9KYDYwqf8Pyv32jskvaNzHi99xqR7MQ5l886/aAhyDdF?=
- =?iso-8859-1?Q?AiCbj7iUiU8Y8MmxRUcSHsKkoV5PSKlzd5F2Tj7G8UDv7cP03ATokVRH7G?=
- =?iso-8859-1?Q?iLvezWnMfJ/MIszpgkQCfjgi/99ebU52mfxROR1E3+/IQXy5vMeyPq1fl5?=
- =?iso-8859-1?Q?FxYv6joxQk2ct6cdtbnQrz+O7XeE2omVLev/YFK/cuNpdXiAgb61HSCi77?=
- =?iso-8859-1?Q?pEc5nRgeGT3ypEGwoIeiq1QRispVnoNPw7XvIH946FON3FolL40GuujRQx?=
- =?iso-8859-1?Q?cUo08ZgzpnUup35d2UeU6eVm3OiDOeuvbzLg5IvMvSZRXuUsV2+rhyHhTb?=
- =?iso-8859-1?Q?ebg60k9MP7Kl4JVWEHzXthuCcXgLpH5c4gfBJau8tw8wkA5/QZQdy2RtBs?=
- =?iso-8859-1?Q?5sMKc9712zzCWmtrMP7tIQIVU/DEfMRT6gO5VCdm59lTE4QBZMoTv1qfpT?=
- =?iso-8859-1?Q?WdFY3Xm2BzZQkECG84p3yXQvi2kys1dNH81m81HCc5TgJdmpJznqdiOWdf?=
- =?iso-8859-1?Q?sO?=
-x-ms-exchange-antispam-messagedata-1: 7+OW6hjudy4YWC+Uc95zxHap8AA3nTYSTQ4=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37473305679;
+	Sat,  6 Jun 2026 19:01:03 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780772463; cv=none; b=EHyFWi2EI1H0irqYhCBnN2sroUbl1BKXiaLZHAADPC1aEMGrmSqb/C8RZ1bxMhjQZVAfyc22Yojl48a55w5jlB/JpQuPdiiORhD/8mJeFSkBHO59ki/oHZa+zFXnUUTWzW6N1FDZvZaVrTkXuradi/GnSJPOiu6ouIGY9ndGPdQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780772463; c=relaxed/simple;
+	bh=DSa14s7IlKy5l6imkMxGi9Jlaiiz6kT2d/sCqrs7tVw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=MzN8mKL+7iYvx6nULYSRuLKFaymT2SexaitZRRmYGKJFeJZCfHWc8sW/WwL76MIqhHQIJRboiqE73d5SDwGw8IWCJ9xSsya9xLTxquPpTDCJrNcLFlVrPhjCv0cX0bq2XsUCrDK3egHnueorq8j+0IANIKDSK1RzZfgdwd1fS3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aFj1mFmH; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DB00BC2BCC4;
+	Sat,  6 Jun 2026 19:01:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1780772463;
+	bh=DSa14s7IlKy5l6imkMxGi9Jlaiiz6kT2d/sCqrs7tVw=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=aFj1mFmHnIDGacV2E1WmcPO05yCczgiDSQWSMhRxqUz0g9UIfQ4Y5+7loFIvQAdp9
+	 yFmO/DrlhxxiWVoR9JupPfYFB11+tKlSMSUpmgET6anI5TF2D+y/8fBwbDuurDZAuq
+	 fRiIXL1W+REuD77XOoLlxLN0q24oK3yJ2ZUteToLXHE0nxkXBm1ALdUb7x1O1yWZmq
+	 FB4l12SjfvXb6LlTeSP1uqTJGShjfnjYU8bWcc+966IvSjSQass5kzkl8JIcx6eBQW
+	 +u4kQOEzAhkvmSqizJ0u7qkCyHVwiNq9/1Y7AR57iMln4bLILfOPs92zre6QqXEttP
+	 xcn/10JY71RAA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD89BCD8C85;
+	Sat,  6 Jun 2026 19:01:02 +0000 (UTC)
+From: Herman van Hazendonk via B4 Relay <devnull+github.com.herrie.org@kernel.org>
+Subject: [PATCH v6 0/2] media: i2c: add Aptina MT9M113 image sensor driver
+Date: Sat, 06 Jun 2026 21:01:00 +0200
+Message-Id: <20260606-submit-media-mt9m113-v6-0-8f6d0f79f4d1@herrie.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN0P287MB1828.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27cbe7f3-8c53-426c-13ae-08dec3e7af75
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jun 2026 16:21:38.1444
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7lK0+bcDCkEa0188W/BefyvRECOw7nLe13DTY77p3aPNay2dF8RE4u4nWDu4KA4xU3fJEST/rOTzULfLGnOX0WRn5y3c0BI2SHsqq9vypzg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3P287MB1607
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAG1uJGoC/43OsQ6DIBAG4FcxzKUBRIROfY+mg+CpN6ANUNLG+
+ O5Ft05tbvov+b+7lUQICJFcqpUEyBhxmUtQp4q4qZtHoNiXTAQTipWh8Wk9Juqhx476ZDznNRV
+ SOG1BGTCMlOojwICvg73dS54wpiW8jytZ7tsfYJaUUSaVlc66djDyOkEoj56XMJJdzM0/SlMUw
+ bR2bd1o4PxL2bbtA2ly6DT/AAAA
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Herman van Hazendonk <github.com@herrie.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1780772461; l=8920;
+ i=github.com@herrie.org; s=20240417; h=from:subject:message-id;
+ bh=DSa14s7IlKy5l6imkMxGi9Jlaiiz6kT2d/sCqrs7tVw=;
+ b=XWe0ZqloDRCUU7Tg/etvfPFjnEwjPH3cP4ZjYi0/LLFCA0M7e+zw3fe3ZzOnZ78UUsMpFfnZC
+ 8IGYA1uqRvFDKjZpv2QBUy9VToFbfFuCPPmhi0s/gf3muERjNbltMtL
+X-Developer-Key: i=github.com@herrie.org; a=ed25519;
+ pk=YYxdq8fb5O9vhkW3n2dCH044FPZZO5718v/du7fRhFw=
+X-Endpoint-Received: by B4 Relay for github.com@herrie.org/20240417 with
+ auth_id=809
+X-Original-From: Herman van Hazendonk <github.com@herrie.org>
+Reply-To: github.com@herrie.org
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[siliconsignals.io,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[siliconsignals.io:s=selector1];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-64026-lists,linux-media=lfdr.de,github.com.herrie.org];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64025-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:jai.luthra@ideasonboard.com,m:conor+dt@kernel.org,m:kieran.bingham@ideasonboard.com,m:krzk+dt@kernel.org,m:laurent.pinchart@ideasonboard.com,m:mchehab@kernel.org,m:robh@kernel.org,m:sakari.ailus@linux.intel.com,m:Lachlan.Michael@sony.com,m:Ryuichi.Tadano@sony.com,m:Kengo.Hayasaka@sony.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:conor@kernel.org,m:krzk@kernel.org,s:lists@lfdr.de];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FORGED_SENDER(0.00)[tarang.raval@siliconsignals.io,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[siliconsignals.io:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tarang.raval@siliconsignals.io,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:github.com@herrie.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	HAS_REPLYTO(0.00)[github.com@herrie.org];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,siliconsignals.io:from_mime,siliconsignals.io:dkim,PN0P287MB1828.INDP287.PROD.OUTLOOK.COM:mid,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,herrie.org:mid,herrie.org:email,herrie.org:replyto,vger.kernel.org:from_smtp,pre-send-check.sh:url,test-camera.sh:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 64A1D64DEB6
+X-Rspamd-Queue-Id: 2DCE764E14B
 
-> Quoting Tarang Raval (2026-06-06 20:15:48)=0A=
-> > Hi Jai.=0A=
-> >=0A=
-> > > Quoting Tarang Raval (2026-06-06 13:47:36)=0A=
-> > > > Hi Jai,=0A=
-> > > >=0A=
-> > > > Sorry, in my first review I missed a few minor issues listed below.=
-=0A=
-> > > >=0A=
-> > >=0A=
-> > > No worries, thank you for the reviews.=0A=
-> > >=0A=
-> > > > I also noticed one major issue in the driver. Please check the comm=
-ents below.=0A=
-> > > >=0A=
-> > > > Other than that, the driver looks perfect.=0A=
-> > > >=0A=
-> > > > > Add a V4L2 subdev driver for the Sony IMX678 image sensor.=0A=
-> > > > >=0A=
-> > > > > IMX678 is a diagonal 8.86 mm (Type 1/1.8) CMOS active pixel type=
-=0A=
-> > > > > solid-state image sensor with a square pixel array and 8.40 M eff=
-ective=0A=
-> > > > > pixels.=0A=
-> > > > >=0A=
-> > > > > The following features are supported by this driver:=0A=
-> > > > > - MIPI RAW12 output=0A=
-> > > > > - Monochrome and Color (Bayer filter) variants=0A=
-> > > > > - Multiple input clock frequencies=0A=
-> > > > > - Multiple link frequencies=0A=
-> > > > > - VBLANK and HBLANK control for variable framerate=0A=
-> > > > > - VFLIP and HFLIP control for flipping readout=0A=
-> > > > > - Exposure and analogue gain control=0A=
-> > > > > - Test pattern control=0A=
-> > > > >=0A=
-> > > > > Following features are not currently supported:=0A=
-> > > > > - MIPI RAW10 output=0A=
-> > > > > - Pixel-perfect crop reporting, accounting for the shift-by-1 whe=
-n=0A=
-> > > > >   doing HFLIP/VFLIP where the sensor maintains RGGB bayer orderin=
-g=0A=
-> > > > >=0A=
-> > > > > Along with the ones below which depend on the new raw sensor mode=
-l:=0A=
-> > > > > - Embedded data stream=0A=
-> > > > > - Freely configurable cropping=0A=
-> > > > > - Increased framerate when cropping=0A=
-> > > > > - 2x2 binning support=0A=
-> > > > >=0A=
-> > > > > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>=0A=
-> > > >=0A=
-> > > > ...=0A=
-> > > >=0A=
-> > > > > +static const u32 codes_bayer[] =3D {=0A=
-> > > > > +       MEDIA_BUS_FMT_SRGGB12_1X12,=0A=
-> > > > > +};=0A=
-> > > > > +=0A=
-> > > > > +static const u32 codes_monochrome[] =3D {=0A=
-> > > > > +       MEDIA_BUS_FMT_Y12_1X12,   /* 12-bit mono */=0A=
-> > > >=0A=
-> > > > Above comment adds no useful information and can be dropped.=0A=
-> > > >=0A=
-> > > > > +};=0A=
-> > > > > +=0A=
-> > > > > +static const struct imx678_model_info imx678_aaqr_info =3D {=0A=
-> > > > > +       .type =3D IMX678_COLOR,=0A=
-> > > > > +       .codes =3D codes_bayer,=0A=
-> > > > > +       .num_codes =3D ARRAY_SIZE(codes_bayer),=0A=
-> > > > > +};=0A=
-> > > > > +=0A=
-> > > > > +static const struct imx678_model_info imx678_aamr_info =3D {=0A=
-> > > > > +       .type =3D IMX678_MONOCHROME,=0A=
-> > > > > +       .codes =3D codes_monochrome,=0A=
-> > > > > +       .num_codes =3D ARRAY_SIZE(codes_monochrome),=0A=
-> > > > > +};=0A=
-> > > > > +=0A=
-> > > > > +static const char * const imx678_supply_name[] =3D {=0A=
-> > > > > +       "avdd",  /* Analog (3.3V) supply */=0A=
-> > > > > +       "dvdd",  /* Digital Core (1.1V) supply */=0A=
-> > > > > +       "ovdd",  /* IF (1.8V) supply */=0A=
-> > > > > +};=0A=
-> > > > > +=0A=
-> > > > > +struct imx678 {=0A=
-> > > > > +       struct v4l2_subdev sd;=0A=
-> > > > > +       struct media_pad pad;=0A=
-> > > > > +       struct regmap *cci;=0A=
-> > > > > +=0A=
-> > > > > +       const struct imx678_model_info *info;=0A=
-> > > > > +=0A=
-> > > > > +       struct clk *xclk;=0A=
-> > > > > +       u32 xclk_freq;=0A=
-> > > > > +=0A=
-> > > > > +       /* chosen INCK_SEL register value */=0A=
-> > > > > +       u8  inck_sel_val;=0A=
-> > > > > +=0A=
-> > > > > +       /* Link configurations */=0A=
-> > > > > +       enum imx678_lanemode lane_mode;=0A=
-> > > > > +       unsigned long link_freq_bitmap;=0A=
-> > > > > +=0A=
-> > > > > +       struct gpio_desc *reset_gpio;=0A=
-> > > > > +       struct regulator_bulk_data supplies[ARRAY_SIZE(imx678_sup=
-ply_name)];=0A=
-> > > > > +=0A=
-> > > > > +       struct v4l2_ctrl_handler ctrl_handler;=0A=
-> > > > > +=0A=
-> > > > > +       /* V4L2 Controls */=0A=
-> > > > > +       struct v4l2_ctrl *exposure;=0A=
-> > > > > +       struct v4l2_ctrl *vblank;=0A=
-> > > > > +       struct v4l2_ctrl *hblank;=0A=
-> > > > > +=0A=
-> > > > > +       /* Tracking sensor VMAX/HMAX value */=0A=
-> > > > > +       u32 vmax;=0A=
-> > > > > +};=0A=
-> > > > > +=0A=
-> > > > > +static inline struct imx678 *to_imx678(struct v4l2_subdev *_sd)=
-=0A=
-> > > > > +{=0A=
-> > > > > +       return container_of(_sd, struct imx678, sd);=0A=
-> > > >=0A=
-> > > > Use container_of_const.=0A=
-> > > >=0A=
-> > >=0A=
-> > > Why is that necessary?=0A=
-> >=0A=
-> > container_of_const() preserves const and avoids accidentally casting it=
- away.=0A=
-> > For non-const pointers it behaves the same as container_of(), while for=
- const=0A=
-> > pointers it preserves constness.=0A=
-> >=0A=
-> > >=0A=
-> > > > > +}=0A=
-> > > >=0A=
-> > > > ...=0A=
-> > > >=0A=
-> > > > > +static int imx678_set_ctrl(struct v4l2_ctrl *ctrl)=0A=
-> > > > > +{=0A=
-> > > > > +       struct imx678 *imx678 =3D container_of(ctrl->handler, str=
-uct imx678,=0A=
-> > > > > +                                            ctrl_handler);=0A=
-> > > >=0A=
-> > > > Use container_of_const.=0A=
-> > > >=0A=
-> > > > > +       struct i2c_client *client =3D v4l2_get_subdevdata(&imx678=
-->sd);=0A=
-> > > > > +       const struct v4l2_mbus_framefmt *format;=0A=
-> > > > > +       struct v4l2_subdev_state *state;=0A=
-> > > > > +       int rpm_in_use;=0A=
-> > > > > +       int ret =3D 0;=0A=
-> > > > > +=0A=
-> > > > > +       state =3D v4l2_subdev_get_locked_active_state(&imx678->sd=
-);=0A=
-> > > > > +       format =3D v4l2_subdev_state_get_format(state, IMX678_SOU=
-RCE_PAD);=0A=
-> > > > > +=0A=
-> > > > > +       if (ctrl->id =3D=3D V4L2_CID_VBLANK) {=0A=
-> > > > > +               u32 current_exposure =3D imx678->exposure->cur.va=
-l;=0A=
-> > > > > +=0A=
-> > > > > +               imx678->vmax =3D format->height + ctrl->val;=0A=
-> > > >=0A=
-> > > > ........(1)=0A=
-> > > >=0A=
-> > > > > +=0A=
-> > > > > +               current_exposure =3D clamp_t(u32, current_exposur=
-e,=0A=
-> > > > > +                                          IMX678_EXPOSURE_MIN,=
-=0A=
-> > > > > +                                          imx678->vmax - IMX678_=
-SHR_MIN);=0A=
-> > > > > +               ret =3D __v4l2_ctrl_modify_range(imx678->exposure=
-,=0A=
-> > > > > +                                              IMX678_EXPOSURE_MI=
-N,=0A=
-> > > > > +                                              imx678->vmax - IMX=
-678_SHR_MIN,=0A=
-> > > > > +                                              1, current_exposur=
-e);=0A=
-> > > > > +               if (ret)=0A=
-> > > > > +                       return ret;=0A=
-> > > > > +       }=0A=
-> > > > > +=0A=
-> > > > > +       /*=0A=
-> > > > > +        * Applying V4L2 control value only happens when power is=
- up for=0A=
-> > > > > +        * streaming=0A=
-> > > > > +        */=0A=
-> > > > > +       rpm_in_use =3D pm_runtime_get_if_in_use(&client->dev);=0A=
-> > > > > +       if (!rpm_in_use)=0A=
-> > > > > +               return 0;=0A=
-> > > >=0A=
-> > > > As in the last revision, as I suggested before, I will again sugges=
-t using=0A=
-> > > > pm_runtime_get_if_active() here instead of pm_runtime_get_if_in_use=
-().=0A=
-> > > >=0A=
-> > > > This does not seem to align with the comment above:=0A=
-> > > > Applying V4L2 control value only happens when power is up for strea=
-ming=0A=
-> > > >=0A=
-> > > > "Power is up" implies that the device is in the runtime PM ACTIVE s=
-tate,=0A=
-> > > > rather than simply having a non-zero usage count.=0A=
-> > > >=0A=
-> > >=0A=
-> > > I agree with the comment being slightly misleading, but same as the l=
-ast=0A=
-> > > revision, I still don't fully buy your argument here :-)=0A=
-> > >=0A=
-> > > In the case you talk about, where PM is ACTIVE but usage count =3D=3D=
- 0, we=0A=
-> > > anyway know that the count will only increase when .enable_streams is=
-=0A=
-> > > called, at which point the driver will anyway write *all* the registe=
-rs=0A=
-> > > including calling set_ctrl for each control with the cached values.=
-=0A=
-> > >=0A=
-> > > So why should we do (redundant) writes here?=0A=
-> >=0A=
-> > I think this is mostly a difference in expectations.=0A=
-> >=0A=
-> > My view is that if the device is runtime PM ACTIVE, the hardware is acc=
-essible=0A=
-> > and register writes can be performed. In that case, I would expect a co=
-ntrol=0A=
-> > change to be applied to hardware immediately.=0A=
-> >=0A=
-> > With pm_runtime_get_if_in_use(), there is a state where the device is s=
-till=0A=
-> > ACTIVE but control changes are only cached in software and not written =
-to=0A=
-> > hardware until streaming starts again. While the value is not lost, I w=
-ould=0A=
-> > expect hardware and control state to remain synchronized whenever the d=
-evice=0A=
-> > is already active.=0A=
-> >=0A=
-> > So I understand the cached-control argument, but if the hardware is acc=
-essible,=0A=
-> > I would prefer applying the control immediately rather than deferring i=
-t.=0A=
-> >=0A=
->=0A=
-> Why does it matter if some sensor register doesn't match the value in the=
-=0A=
-> cached controls for a brief period after streaming stopped and sensor is=
-=0A=
-> powered off? We don't have autosuspend timer here like other drivers.=0A=
->=0A=
-> I'll update the comment in v5 for future readers/developers in case that=
-=0A=
-> changes.=0A=
-=0A=
-=0A=
-Fair enough for me.=0A=
-=0A=
-=0A=
-> > > > I also don't understand why we need to be strict here and require t=
-he=0A=
-> > > > runtime PM usage count to be greater than zero. What matters before=
- accessing=0A=
-> > > > the hardware registers is that the device is powered and accessible=
-, not=0A=
-> > > > whether there is an active user holding a runtime PM reference.=0A=
-> > > >=0A=
-> > > > Anyway, rpm_in_use does not seem necessary here. The check could be=
- simplified to:=0A=
-> > > > if (pm_runtime_get_if_active(&client->dev) <=3D 0)=0A=
-> > >=0A=
-> > > The rpm_in_use value is used below in this function to ensure we don'=
-t do=0A=
-> > > pm_runtime_put() in case of a negative retval. This is not really han=
-dled=0A=
-> > > by most drivers today, but I wanted to fix it here given recent discu=
-ssion=0A=
-> > > [1] and annoying Sashiko reports.=0A=
-> > >=0A=
-> > > [1]: https://lore.kernel.org/all/ahyh0ZlwlZqr7VNa%40kekkonen.localdom=
-ain=0A=
-> >=0A=
-> > Thats my understanding as well. With:=0A=
-> > if (pm_runtime_get_if_active(&client->dev) <=3D 0)=0A=
-> >         return 0;=0A=
-> >=0A=
-> > both the 0 and negative return paths exit immediately, so neither the s=
-witch=0A=
-> > statement nor pm_runtime_put() can be reached.=0A=
->=0A=
-> If we do that no controls will be written to the hardware if userspace ha=
-s=0A=
-> disabled runtime.=0A=
-=0A=
-Do you mean the case where userspace disables runtime PM via sysfs while =
-=0A=
-streaming is still running?=0A=
-=0A=
-In that scenario, shouldn't the device usage count remain non-zero due to t=
-he=0A=
-active stream?=0A=
-=0A=
-Best Regards,=0A=
-Tarang=
+Add a V4L2 subdev driver for the Aptina (now ON Semiconductor) MT9M113
+1.3 megapixel SoC image sensor with embedded ISP, as used on the HP
+TouchPad (apq8060) front camera. The sensor is programmed over I2C and
+streams YUV / RGB / monochrome over a 1-lane MIPI CSI-2 D-PHY link.
+
+v6 addresses six Sashiko Gemini 3.1 findings raised on the v5 patchset,
+all of which are real bugs introduced (or exposed) by the v3-r2 release-
+callback restructure. One of them — the use-after-free in mt9m113_remove()
+during sysfs unbind — was reproduced on hardware as a NULL-pointer
+dereference in regulator_bulk_disable() and is fixed by the v6 reorder.
+
+Signed-off-by: Herman van Hazendonk <github.com@herrie.org>
+---
+Changes in v6:
+
+  - [High] mt9m113_start_streaming() failure path: drop the
+    pm_runtime_set_suspended() call. It fails with -EAGAIN while
+    runtime PM is still enabled, leaving the PM core in RPM_ACTIVE
+    while the chip is in fact off; the next autosuspend would then
+    fire mt9m113_runtime_suspend() and call mt9m113_power_off() a
+    second time, underflowing both the clk prepare/enable refcount
+    and the regulator enable count. Track the chip-off state via a
+    new 'bool chip_off' on the sensor; mt9m113_runtime_suspend()
+    consumes it to skip its own power_off when start_streaming has
+    already collapsed the rail, and mt9m113_runtime_resume() clears
+    it after a successful power_on().
+
+  - [High] mt9m113_s_ctrl(): pm_runtime_get_if_in_use() return-code
+    check changed from "pm_ret == 0" to "pm_ret <= 0". The old test
+    misses any negative return -- in particular -EINVAL after
+    pm_runtime_disable() has been called from mt9m113_remove(). With
+    a still-open /dev/v4l-subdev* file descriptor, a control set
+    issued after unbind would slip past the gate and dereference the
+    devm-managed regmap that the driver core has already freed.
+
+  - [High] mt9m113_probe(): early-error paths after kzalloc(sensor)
+    but before error_ep_free now goto error_kfree so the sensor
+    struct is freed on devm_cci_regmap_init_i2c() or mt9m113_parse_dt()
+    failure. Without it those returns leaked the kzalloc.
+
+  - [High] mt9m113_remove(): reorder so PM disable +
+    mt9m113_power_off() + pm_runtime_set_suspended() all run BEFORE
+    v4l2_async_unregister_subdev(). When no userspace fd is open on
+    /dev/v4l-subdev*, async_unregister synchronously fires the per-
+    subdev .release callbacks, the last of which runs kfree(sensor);
+    every subsequent use of @sensor or @dev (v4l2_fwnode_endpoint_free,
+    mt9m113_power_off) was a use-after-free.
+
+    Reproduced on hardware (HP TouchPad / APQ8060): a plain
+       echo 3-003c > /sys/bus/i2c/drivers/mt9m113/unbind
+    produces a kernel panic with
+       Unable to handle kernel NULL pointer dereference at 0x00000058
+       PC is at regulator_bulk_disable+0x4c/0x108
+       LR is at mt9m113_power_off+0x78/0x7c
+    on the v5 kernel. v6 reorders cleanly survives the same unbind
+    plus a 60 s concurrent VIDIOC_QUERYCTRL / S_CTRL spammer.
+
+  - [High] v4l2_fwnode_endpoint_free(&sensor->bus_cfg) moved from
+    mt9m113_remove() into mt9m113_release_sensor() (the
+    release_count == 0 finalizer). bus_cfg.link_frequencies is
+    referenced by the IFP control handler's qmenu_int (stored by
+    v4l2_ctrl_new_int_menu(V4L2_CID_LINK_FREQ) in probe). The
+    control handler outlives remove() under the deferred-release
+    model; freeing the endpoint in remove() would leave qmenu_int
+    dangling and turn a later VIDIOC_QUERYMENU into a UAF.
+
+  - [Med] mt9m113_ifp_set_fmt(): "if (sensor->streaming) return
+    -EBUSY" narrowed to fire only when fmt->which ==
+    V4L2_SUBDEV_FORMAT_ACTIVE. V4L2_SUBDEV_FORMAT_TRY queries are
+    scratchpad probes by definition and must always be allowed,
+    including while the pipeline is live.
+
+  - [Low] dt-bindings: endpoint properties gain
+    data-lanes: { maxItems: 1 } so DT entries that try to assign
+    more than one lane fail dt_binding_check at validation time
+    rather than only at probe time when the driver enforces
+    num_data_lanes == 1.
+
+  - [Prep] mt9m113_start_streaming(): add __must_hold(state->lock)
+    annotation so sparse -Wcontext can verify the caller of
+    s_stream(1) really did acquire the V4L2 subdev-state lock
+    via v4l2_subdev_lock_and_get_active_state() before getting
+    here. Today sparse cannot fully prove this (the v4l2-subdev
+    framework helpers are not yet __acquires/__releases-tagged
+    in include/media/v4l2-subdev.h), but the annotation is
+    correct on our side and Just Works once core picks them up.
+
+Changes since v4 (already in v5):
+
+  - 5 findings from Sashiko's review of v4: Kconfig select V4L2_FWNODE;
+    stream_context_a propagates SEQ_CMD_RUN poll timeout; start_streaming
+    retry loop bypasses runtime-PM (bridge device-link blocks normal
+    suspend) by toggling power directly; V4L2_CID_TEST_PATTERN rolls
+    back test_pattern_active on apply failure; per-subdev .release
+    callbacks defer ctrl handler / entity / sensor-struct teardown past
+    v4l2_async_unregister_subdev so in-flight VIDIOC_S_CTRL ioctls do
+    not unlock freed memory.
+
+  - 1 regression caught during HW unbind/rebind race testing of the
+    above: trailing mt9m113_power_off() in the retry loop double-called
+    power_off (each break path already powered the chip down), which
+    underflowed clk + regulator refcounts. Dropped the redundant
+    trailing call; every break path is now responsible for its own
+    final-state.
+
+Changes since v3 (already in v4):
+
+  - Context B (1280x1024 capture) stream-start regression fix: the
+    MT9M113_SEQ_STATE_PREVIEW constant was 0x04 (datasheet's "Leave
+    preview" transient state); the actual stable preview state is 0x03.
+
+  - Forensic NOTE comment above MODE_TEST_MODE documenting the IFP
+    test-pattern generator silicon-removal investigation.
+    V4L2_CID_TEST_PATTERN plumbing is retained on the chance a different
+    silicon variant or vendor SROM patch enables the TPG block.
+
+Changes since v2 (already in v3):
+
+  - Krzysztof + Sakari binding feedback: maxItems on reset-gpios /
+    powerdown-gpios; drop |- from descriptions; drop redundant
+    link-frequencies / remote-endpoint / data-lanes; rename i2c0 -> i2c.
+
+  - MAINTAINERS entry per patchwork checkpatch.
+
+Pre-send verification (v6, HP TouchPad APQ8060, kernel
+7.1.0-rc1-luneos-geba82cc2ec7a):
+
+  - pre-send-check.sh 8/8 PASS, including:
+      * sparse on drivers/media/i2c/mt9m113.c -- clean
+      * coccinelle scans for the three regression patterns we just
+        fixed (pm_runtime_get_if_in_use() == 0; v4l2_fwnode_endpoint_free
+        in remove(); sensor deref after v4l2_async_unregister_subdev)
+        -- no matches.
+
+  - Sashiko AI preflight (claude-haiku-4-5): 0 actionable findings;
+    16 of 16 prior-stage concerns self-dismissed.
+
+  - HP TouchPad on-HW sweep:
+      * test-camera.sh PIX 640x480 + 1280x1024 capture -- PASS
+      * 10x rapid pix640 stream-start stress -- 10/10 ok
+      * 10x rapid pix1280 stream-start stress (Context B path) -- 10/10 ok
+      * 60s mt9m113 sysfs unbind/rebind cycle racing concurrent
+        VIDIOC_QUERYCTRL / S_CTRL spammers on /dev/v4l-subdev10 +
+        /dev/v4l-subdev11 -- driver survives, re-binds cleanly,
+        zero Oops / BUG / null-pointer-deref. This is the exact
+        scenario that produced the regulator_bulk_disable NULL deref
+        on the v5 kernel; v6 is silent.
+      * 120s concurrent multi-subsystem load (camera stream loop +
+        dd to eMMC + /dev/urandom + filesystem walk) -- clean.
+      * dmesg post-sweep totals: 0 WARN, 0 BUG, 0 Oops, 0 clk-refcount
+        underflow, 0 regulator-refcount underflow.
+
+  - Kernel build clean (ARCH=arm cross-compile, CONFIG_VIDEO_MT9M113=y).
+  - dt_binding_check clean (0 warnings) after the data-lanes maxItems
+    constraint was added.
+
+- Link to v4: https://lore.kernel.org/r/20260606-submit-media-mt9m113-v4-0-046b4cbc7f94@herrie.org
+- Link to v5: https://lore.kernel.org/r/20260606-submit-media-mt9m113-v5-0-2088c7358e11@herrie.org
+
+---
+Herman van Hazendonk (2):
+      dt-bindings: media: i2c: add aptina,mt9m113
+      media: i2c: add Aptina MT9M113 1.3 Mpx SoC sensor driver
+
+ .../bindings/media/i2c/aptina,mt9m113.yaml         |  130 +
+ MAINTAINERS                                        |    8 +
+ drivers/media/i2c/Kconfig                          |   13 +
+ drivers/media/i2c/Makefile                         |    1 +
+ drivers/media/i2c/mt9m113.c                        | 3306 ++++++++++++++++++++
+ 5 files changed, 3458 insertions(+)
+---
+base-commit: 944125b4c454b58d2fe6e35f1087a932b2050dff
+change-id: 20260606-submit-media-mt9m113-242c8be69e90
+
+Best regards,
+-- 
+Herman van Hazendonk <github.com@herrie.org>
+
+
 
