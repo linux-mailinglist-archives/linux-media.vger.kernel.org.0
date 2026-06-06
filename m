@@ -1,189 +1,580 @@
-Return-Path: <linux-media+bounces-63994-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63995-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id EFn+GPSfI2olwAEAu9opvQ
-	(envelope-from <linux-media+bounces-63994-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 06:20:04 +0200
+	id kJYoLCjDI2pfxwEAu9opvQ
+	(envelope-from <linux-media+bounces-63995-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 08:50:16 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id C39BA64C5AA
-	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 06:20:03 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D57364CBE1
+	for <lists+linux-media@lfdr.de>; Sat, 06 Jun 2026 08:50:16 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Nhc6Z4gN;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63994-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-63994-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=intel.com header.s=Intel header.b=FvquZ0nS;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-63995-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-63995-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 0C01A302688B
-	for <lists+linux-media@lfdr.de>; Sat,  6 Jun 2026 04:20:01 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 585E030427CF
+	for <lists+linux-media@lfdr.de>; Sat,  6 Jun 2026 06:48:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FD75274B23;
-	Sat,  6 Jun 2026 04:19:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 652B630DEBA;
+	Sat,  6 Jun 2026 06:48:35 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB6578F39
-	for <linux-media@vger.kernel.org>; Sat,  6 Jun 2026 04:19:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E4F531327F
+	for <linux-media@vger.kernel.org>; Sat,  6 Jun 2026 06:48:32 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780719597; cv=none; b=mF+wLVWKUUICDc/ht1n5BeWUqIwv1LgP5Ljnvp/1KvddgvZE67BF8QoCollRVL4g1i7BpEOj4bQ9KH8su6klhg4yiuswUHHNpYFbGtXp76/GJtEnJknCOQjyL7bRLFph5vspLjzDetz1a6wJuqwXGFj/CoS65fPBlva8PHv5lCE=
+	t=1780728514; cv=none; b=t58dUFGONuarUq8MuIrG9h/4rXbq9VKe0MXAUGh/YXf08Ul48DopNVrBG1GHhlziF4Qy4wU4w6Qto4wyR3ChiJOxomxV/Z1kj74BaM7h9K6eo3DNXsV/mxmPMux7gVlWDO/WEYyj3Yiv7SutdrXmZLCe7gU5lxX+DT8QB54+89I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780719597; c=relaxed/simple;
-	bh=Rui95FKPdRomTbE7X6+6Gu1WbbukY/Lo2vKQjlnn2ZI=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=jd+TegJMDsY7xC3QLBwrzmvwutOiCoW5WBHfJhKu4rheX+5kN/5Lk3fJxluee1HM1pSZ5fsOQoUCG63VQPX1lShdGDOGHC3ZBTMG0biklh/UcSyloXTTTNVT0vSaYLn6WY0hyQhrV6l8BBYZRzPR18eRQPgslxhjOX+AEJdrKo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nhc6Z4gN; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 898021F00893;
-	Sat,  6 Jun 2026 04:19:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780719595;
-	bh=tTz7DQ0Q4a0v0SJE52pjTGyKD2c1EfCUHY3qxuiRSV0=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Nhc6Z4gNq9md86mIvzoLsIq0MtgsJ2omZvAydgfemkxsh8V4cOnsarfU3+jBgA0g8
-	 jzEQl4Mauady4SMcGpcs+Ti8jT65yajMflbJn1YbmLLJH2Uv5zi/Tjar6fD7hlsdC1
-	 vnfstRnMEDxnv6iBIk3NUTuyfDTSPIV4MQAVEZoiNmKkDINMbg1o5z5J6LNwVkrW9g
-	 LLdOCJLEcs5iu7HUD38TEViqAemhUVMkFPcbbyFmw9tV1Nw1duWnFxRrso0gwSqJu4
-	 5eeQzqkm7zQ9TplfBU7NhyaEfLH/pHqV9WpsLNzlhRBGc3eh64XRsnM6ZGwdsofeco
-	 V1fi9lYqundKA==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] media: iris: check decoder format allocations
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Ruoyu Wang" <ruoyuw560@gmail.com>
+	s=arc-20240116; t=1780728514; c=relaxed/simple;
+	bh=H32zAq2UW7Wazag35koFyGjp5LLFxfC1/FfgEjBeje8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=up+aotZGpZBSsVuplHQV/VHstK8vcf8KTc7Y5jPVE+c4OoStEeZvksB3ljhYOi6BWmRrEP+ArlmD6Z0jfYPptBaao6pA01ARXyc88vSgGsz5QVGdB8NiZBNIU+4exBs0x2qv0kXaKeZ0qmH2aQhko1DRga9dmawMVVuLIG6vgJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FvquZ0nS; arc=none smtp.client-ip=192.198.163.13
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1780728513; x=1812264513;
+  h=date:from:to:cc:subject:message-id;
+  bh=H32zAq2UW7Wazag35koFyGjp5LLFxfC1/FfgEjBeje8=;
+  b=FvquZ0nSVv8GxLzKxKlx/bxE21yiv9FB6hxEaSMEfmqPICkyrWCOq6sL
+   0nFHR41lvig/C+vXAQPNJNHXi9uQWEFopxEWheQC4YWNUx8KhPIRnfCds
+   ZT3970UUDPhrglrZzU+Mpl94DVR6hSFjveOrVmwQrFIp6nekwTjCSuYZ1
+   9nPY5uiKUu3UCJzPjx6qA2+gI0WY5AVc4d8ICx1/xWUE5L34bDSBQ0qWz
+   EOXbQu/1EAQ1HvaC2kOrzwxQ52jE2ToLn9bRQf2aAuw3o5+yjeMDaCfBz
+   WMNNg0mUvqqkE2ihpzqioXOgb2SZ/PUwZeDxcfxbPyI/h07PKnfHEGfzG
+   w==;
+X-CSE-ConnectionGUID: l+b/2Ye/RfWqolExpfO/BA==
+X-CSE-MsgGUID: VaQtlupcTVmzOTVcwT9dgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11808"; a="84130331"
+X-IronPort-AV: E=Sophos;i="6.24,190,1774335600"; 
+   d="scan'208";a="84130331"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2026 23:48:32 -0700
+X-CSE-ConnectionGUID: iKDNefSXSXSEwi1+M7P3Xw==
+X-CSE-MsgGUID: i483mQLPSyGRubi7V9xqBg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,190,1774335600"; 
+   d="scan'208";a="275253311"
+Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 05 Jun 2026 23:48:30 -0700
+Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wVkpX-00000000GoY-2cLp;
+	Sat, 06 Jun 2026 06:48:27 +0000
+Date: Sat, 06 Jun 2026 14:48:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org
-In-Reply-To: <20260606040736.13-1-ruoyuw560@gmail.com>
-References: <20260606040736.13-1-ruoyuw560@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 06 Jun 2026 04:19:55 +0000
-Message-Id: <20260606041955.898021F00893@smtp.kernel.org>
+Subject: [sailus-media-tree:partial-reg] BUILD REGRESSION
+ b7d01dab7d47849d483b459ff2abf50497b52149
+Message-ID: <202606061438.fpiiiub8-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	MISSING_MIME_VERSION(2.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-63994-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:ruoyuw560@gmail.com,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
-	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWO(0.00)[2];
+	TAGGED_FROM(0.00)[bounces-63995-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_NO_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MISSING_XM_UA(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev]
+	ALIAS_RESOLVED(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,intel.com:mid,intel.com:from_mime,intel.com:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C39BA64C5AA
+X-Rspamd-Queue-Id: 0D57364CBE1
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
+tree/branch: git://linuxtv.org/sailus/media_tree.git partial-reg
+branch HEAD: b7d01dab7d47849d483b459ff2abf50497b52149  Documentation: media: Add Media controller event documentation
 
-Pre-existing issues:
-- [High] When max_session_count is reached, iris_add_session() silently dro=
-ps the new instance, but iris_open() successfully returns, creating an untr=
-acked session.
+Error/Warning (recently discovered and may have been fixed):
+
+    https://lore.kernel.org/oe-kbuild-all/202606052044.b4pvupEW-lkp@intel.com
+    https://lore.kernel.org/oe-kbuild-all/202606052235.rM24ifzS-lkp@intel.com
+    https://lore.kernel.org/oe-kbuild-all/202606052349.bOSyAnNd-lkp@intel.com
+
+    drivers/media/mc/mc-device.c:26:10: fatal error: 'media/media-event.h' file not found
+    drivers/media/mc/mc-device.c:26:10: fatal error: media/media-event.h: No such file or directory
+    drivers/media/mc/mc-event.c:17:10: fatal error: 'media/media-event.h' file not found
+    drivers/media/mc/mc-event.c:17:10: fatal error: media/media-event.h: No such file or directory
+    drivers/media/v4l2-core/v4l2-event.c:81:41: warning: variable 'evspec' is uninitialized when used within its own initialization [-Wuninitialized]
+
+Unverified Error/Warning (likely false positive, kindly check if interested):
+
+    https://lore.kernel.org/oe-kbuild/202606061203.fuAY215y-lkp@intel.com
+
+    drivers/media/v4l2-core/v4l2-event.c:81:38-39: WARNING this kind of initialization is deprecated
+
+Error/Warning ids grouped by kconfigs:
+
+recent_errors
+|-- alpha-allyesconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- arc-allmodconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- arc-allyesconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- arc-randconfig-001-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- arm-allyesconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- arm-defconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- arm-randconfig-004-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- arm-randconfig-r073-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- arm64-allmodconfig
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- arm64-defconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- arm64-randconfig-003-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- arm64-randconfig-004-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- csky-allmodconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- csky-randconfig-r062-20260606
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-v4l2-core-v4l2-event.c:WARNING-this-kind-of-initialization-is-deprecated
+|-- hexagon-allmodconfig
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- i386-buildonly-randconfig-001-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- i386-buildonly-randconfig-002
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- i386-buildonly-randconfig-002-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- i386-buildonly-randconfig-003
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- i386-buildonly-randconfig-003-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- i386-buildonly-randconfig-005
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- i386-buildonly-randconfig-006
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- i386-randconfig-002-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- i386-randconfig-005-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- i386-randconfig-006-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- i386-randconfig-007-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- i386-randconfig-011-20260606
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- i386-randconfig-014-20260606
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- i386-randconfig-015-20260606
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- i386-randconfig-016-20260606
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- i386-randconfig-017-20260606
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- i386-randconfig-141-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- i386-randconfig-r052-20260606
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|-- loongarch-defconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- loongarch-randconfig-002-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- m68k-allmodconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- m68k-allyesconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- microblaze-allyesconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- mips-allmodconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- mips-allyesconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- nios2-allmodconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- nios2-randconfig-001-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- nios2-randconfig-002-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- openrisc-allmodconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- parisc-allmodconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- parisc-allyesconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- powerpc-allmodconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- powerpc64-randconfig-002-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- powerpc64-randconfig-r061-20260606
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- riscv-allmodconfig
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- riscv-defconfig
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- s390-allmodconfig
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- s390-allyesconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- s390-randconfig-r063-20260606
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- sh-allmodconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- sh-allyesconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- sh-randconfig-001-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- sh-randconfig-002-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- sparc-randconfig-002-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- um-allmodconfig
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- um-allyesconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- x86_64-buildonly-randconfig-001
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- x86_64-buildonly-randconfig-001-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- x86_64-buildonly-randconfig-002
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- x86_64-buildonly-randconfig-004-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- x86_64-buildonly-randconfig-006
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- x86_64-buildonly-randconfig-006-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- x86_64-randconfig-001-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- x86_64-randconfig-002-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- x86_64-randconfig-006-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- x86_64-randconfig-011-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- x86_64-randconfig-013-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- x86_64-randconfig-014-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- x86_64-randconfig-015-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- x86_64-randconfig-016-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- x86_64-randconfig-072-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- x86_64-randconfig-073-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h-file-not-found
+|   |-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h-file-not-found
+|   `-- drivers-media-v4l2-core-v4l2-event.c:warning:variable-evspec-is-uninitialized-when-used-within-its-own-initialization
+|-- x86_64-randconfig-074-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- x86_64-randconfig-075-20260605
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|-- xtensa-allyesconfig
+|   |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+|   `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+`-- xtensa-randconfig-002-20260605
+    |-- drivers-media-mc-mc-device.c:fatal-error:media-media-event.h:No-such-file-or-directory
+    `-- drivers-media-mc-mc-event.c:fatal-error:media-media-event.h:No-such-file-or-directory
+
+elapsed time: 1970m
+
+configs tested: 168
+configs skipped: 15
+
+tested configs:
+alpha                             allnoconfig    gcc-15.2.0
+alpha                            allyesconfig    gcc-15.2.0
+alpha                               defconfig    gcc-16.1.0
+arc                              allmodconfig    gcc-15.2.0
+arc                               allnoconfig    gcc-15.2.0
+arc                              allyesconfig    gcc-16.1.0
+arc                                 defconfig    gcc-16.1.0
+arc                   randconfig-001-20260605    gcc-8.5.0
+arc                   randconfig-002-20260605    gcc-8.5.0
+arm                               allnoconfig    clang-23
+arm                              allyesconfig    gcc-15.2.0
+arm                                 defconfig    clang-23
+arm                   randconfig-001-20260605    gcc-10.5.0
+arm                   randconfig-002-20260605    gcc-13.4.0
+arm                   randconfig-003-20260605    clang-23
+arm                   randconfig-004-20260605    gcc-8.5.0
+arm64                            allmodconfig    clang-23
+arm64                             allnoconfig    gcc-15.2.0
+arm64                               defconfig    gcc-16.1.0
+arm64                 randconfig-001-20260605    gcc-9.5.0
+arm64                 randconfig-002-20260605    gcc-10.5.0
+arm64                 randconfig-003-20260605    gcc-11.5.0
+arm64                 randconfig-004-20260605    clang-23
+csky                             allmodconfig    gcc-15.2.0
+csky                              allnoconfig    gcc-15.2.0
+csky                                defconfig    gcc-16.1.0
+csky                  randconfig-001-20260605    gcc-16.1.0
+csky                  randconfig-002-20260605    gcc-9.5.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-23
+hexagon                             defconfig    clang-23
+hexagon               randconfig-001-20260605    clang-20
+hexagon               randconfig-002-20260605    clang-23
+i386                              allnoconfig    gcc-14
+i386                 buildonly-randconfig-001    gcc-14
+i386        buildonly-randconfig-001-20260605    clang-22
+i386                 buildonly-randconfig-002    clang-22
+i386        buildonly-randconfig-002-20260605    clang-22
+i386                 buildonly-randconfig-003    clang-22
+i386        buildonly-randconfig-003-20260605    clang-22
+i386                 buildonly-randconfig-004    gcc-14
+i386        buildonly-randconfig-004-20260605    clang-22
+i386                 buildonly-randconfig-005    gcc-14
+i386        buildonly-randconfig-005-20260605    gcc-12
+i386                 buildonly-randconfig-006    gcc-14
+i386        buildonly-randconfig-006-20260605    gcc-14
+i386                                defconfig    clang-22
+i386                  randconfig-001-20260605    clang-20
+i386                  randconfig-002-20260605    clang-20
+i386                  randconfig-003-20260605    gcc-14
+i386                  randconfig-004-20260605    gcc-14
+i386                  randconfig-005-20260605    clang-20
+i386                  randconfig-006-20260605    gcc-14
+i386                  randconfig-007-20260605    clang-20
+i386                  randconfig-011-20260606    clang-22
+i386                  randconfig-012-20260606    gcc-14
+i386                  randconfig-013-20260606    gcc-12
+i386                  randconfig-014-20260606    clang-22
+i386                  randconfig-015-20260606    clang-22
+i386                  randconfig-016-20260606    gcc-14
+i386                  randconfig-017-20260606    gcc-14
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-23
+loongarch                           defconfig    clang-23
+loongarch             randconfig-001-20260605    clang-18
+loongarch             randconfig-002-20260605    gcc-16.1.0
+m68k                             allmodconfig    gcc-15.2.0
+m68k                              allnoconfig    gcc-15.2.0
+m68k                             allyesconfig    gcc-15.2.0
+m68k                                defconfig    gcc-16.1.0
+microblaze                        allnoconfig    gcc-15.2.0
+microblaze                       allyesconfig    gcc-15.2.0
+microblaze                          defconfig    gcc-16.1.0
+mips                             allmodconfig    gcc-15.2.0
+mips                              allnoconfig    gcc-15.2.0
+mips                             allyesconfig    gcc-15.2.0
+nios2                            allmodconfig    gcc-11.5.0
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20260605    gcc-8.5.0
+nios2                 randconfig-002-20260605    gcc-11.5.0
+openrisc                         allmodconfig    gcc-15.2.0
+openrisc                          allnoconfig    gcc-15.2.0
+openrisc                            defconfig    gcc-16.1.0
+parisc                           allmodconfig    gcc-15.2.0
+parisc                            allnoconfig    gcc-15.2.0
+parisc                           allyesconfig    gcc-16.1.0
+parisc                              defconfig    gcc-16.1.0
+parisc                randconfig-001-20260605    gcc-8.5.0
+parisc                randconfig-002-20260605    gcc-11.5.0
+parisc64                            defconfig    gcc-16.1.0
+powerpc                          allmodconfig    gcc-15.2.0
+powerpc                           allnoconfig    gcc-15.2.0
+powerpc                     powernv_defconfig    gcc-16.1.0
+powerpc               randconfig-001-20260605    gcc-8.5.0
+powerpc               randconfig-002-20260605    gcc-9.5.0
+powerpc64             randconfig-001-20260605    clang-23
+powerpc64             randconfig-002-20260605    gcc-13.4.0
+riscv                            allmodconfig    clang-23
+riscv                             allnoconfig    gcc-15.2.0
+riscv                            allyesconfig    clang-16
+riscv                               defconfig    clang-23
+riscv                 randconfig-001-20260605    gcc-8.5.0
+riscv                 randconfig-002-20260605    clang-18
+s390                             allmodconfig    clang-23
+s390                              allnoconfig    clang-23
+s390                             allyesconfig    gcc-15.2.0
+s390                                defconfig    clang-18
+s390                  randconfig-001-20260605    clang-23
+s390                  randconfig-002-20260605    clang-18
+sh                               allmodconfig    gcc-15.2.0
+sh                                allnoconfig    gcc-15.2.0
+sh                               allyesconfig    gcc-16.1.0
+sh                                  defconfig    gcc-16.1.0
+sh                    randconfig-001-20260605    gcc-16.1.0
+sh                    randconfig-002-20260605    gcc-15.2.0
+sparc                             allnoconfig    gcc-15.2.0
+sparc                               defconfig    gcc-16.1.0
+sparc                 randconfig-001-20260605    gcc-15.2.0
+sparc                 randconfig-002-20260605    gcc-16.1.0
+sparc64                          allmodconfig    clang-23
+sparc64                             defconfig    clang-23
+sparc64               randconfig-001-20260605    clang-23
+sparc64               randconfig-002-20260605    clang-23
+um                               allmodconfig    clang-23
+um                                allnoconfig    clang-23
+um                               allyesconfig    gcc-14
+um                                  defconfig    clang-23
+um                             i386_defconfig    gcc-14
+um                    randconfig-001-20260605    clang-19
+um                    randconfig-002-20260605    clang-23
+um                           x86_64_defconfig    clang-23
+x86_64                            allnoconfig    clang-20
+x86_64               buildonly-randconfig-001    gcc-12
+x86_64      buildonly-randconfig-001-20260605    gcc-14
+x86_64               buildonly-randconfig-002    clang-20
+x86_64      buildonly-randconfig-002-20260605    gcc-14
+x86_64               buildonly-randconfig-003    gcc-14
+x86_64      buildonly-randconfig-003-20260605    gcc-14
+x86_64               buildonly-randconfig-004    gcc-14
+x86_64      buildonly-randconfig-004-20260605    gcc-14
+x86_64               buildonly-randconfig-005    gcc-14
+x86_64      buildonly-randconfig-005-20260605    gcc-14
+x86_64               buildonly-randconfig-006    clang-20
+x86_64      buildonly-randconfig-006-20260605    gcc-14
+x86_64                              defconfig    gcc-14
+x86_64                randconfig-001-20260605    clang-22
+x86_64                randconfig-002-20260605    clang-22
+x86_64                randconfig-003-20260605    clang-22
+x86_64                randconfig-004-20260605    gcc-13
+x86_64                randconfig-005-20260605    clang-22
+x86_64                randconfig-006-20260605    gcc-14
+x86_64                randconfig-011-20260605    clang-22
+x86_64                randconfig-012-20260605    gcc-14
+x86_64                randconfig-013-20260605    clang-22
+x86_64                randconfig-014-20260605    clang-22
+x86_64                randconfig-015-20260605    gcc-14
+x86_64                randconfig-016-20260605    clang-22
+x86_64                randconfig-071-20260605    gcc-14
+x86_64                randconfig-072-20260605    gcc-14
+x86_64                randconfig-073-20260605    clang-20
+x86_64                randconfig-074-20260605    gcc-14
+x86_64                randconfig-075-20260605    gcc-12
+x86_64                randconfig-076-20260605    gcc-14
+xtensa                            allnoconfig    gcc-15.2.0
+xtensa                           allyesconfig    gcc-15.2.0
+xtensa                randconfig-001-20260605    gcc-8.5.0
+xtensa                randconfig-002-20260605    gcc-8.5.0
+
 --
-
-commit 0059fb169f9cd49b702675622f4a0ad32fd2392e
-Author: Ruoyu Wang <ruoyuw560@gmail.com>
-
-media: iris: check decoder format allocations
-
-This commit adds checks for v4l2_format allocations in iris_vdec_inst_init()
-to prevent NULL pointer dereferences. It properly frees any partial
-allocations and returns -ENOMEM to allow the open path to unwind.
-
-> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media=
-/platform/qcom/iris/iris_vdec.c
-> index 99d544e2af4f9..dd18079a9ea5f 100644
-> --- a/drivers/media/platform/qcom/iris/iris_vdec.c
-> +++ b/drivers/media/platform/qcom/iris/iris_vdec.c
-[ ... ]
-> @@ -23,6 +23,13 @@ int iris_vdec_inst_init(struct iris_inst *inst)
-> =20
->  	inst->fmt_src =3D kzalloc_obj(*inst->fmt_src);
->  	inst->fmt_dst =3D kzalloc_obj(*inst->fmt_dst);
-> +	if (!inst->fmt_src || !inst->fmt_dst) {
-> +		kfree(inst->fmt_src);
-> +		kfree(inst->fmt_dst);
-> +		inst->fmt_src =3D NULL;
-> +		inst->fmt_dst =3D NULL;
-> +		return -ENOMEM;
-> +	}
-> =20
->  	inst->fw_min_count =3D MIN_BUFFERS;
-
-While reviewing the unwinding logic in the open path, I noticed a separate
-issue in drivers/media/platform/qcom/iris/iris_vidc.c:
-
-drivers/media/platform/qcom/iris/iris_vidc.c:iris_add_session() {
-    ...
-		count++;
-
-	if (count < core->iris_platform_data->max_session_count)
-		list_add_tail(&inst->list, &core->instances);
-    ...
-}
-
-drivers/media/platform/qcom/iris/iris_vidc.c:iris_open() {
-    ...
-	iris_add_session(inst);
-
-	inst->fh.m2m_ctx =3D inst->m2m_ctx;
-
-	return 0;
-}
-
-[Severity: High]
-This isn't a bug introduced by this patch, but does this logic allow
-userspace to bypass the session limit and create an untracked session?
-
-When the current session count reaches max_session_count, iris_add_session()
-silently drops the new instance without returning an error. Since iris_open=
-()
-does not verify if the instance was successfully added to the core instances
-list, it returns 0 and provides userspace with a valid file descriptor.
-
-Could this cause problems during streaming when resource management functio=
-ns
-like iris_scale_power() and iris_check_core_mbps() iterate over the instanc=
-es
-list to calculate total bandwidth and clock requirements? Since the untrack=
-ed
-instance is missing from the list, its requirements are ignored, which might
-leave the hardware under-clocked or starved of bandwidth, potentially leadi=
-ng
-to hardware timeouts or watchdog resets.
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260606040736.13-1=
--ruoyuw560@gmail.com?part=3D1
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
