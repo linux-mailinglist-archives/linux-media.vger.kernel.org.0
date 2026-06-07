@@ -1,281 +1,428 @@
-Return-Path: <linux-media+bounces-64034-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64035-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id chUFKpLSJGpmAAIAu9opvQ
-	(envelope-from <linux-media+bounces-64034-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 07 Jun 2026 04:08:18 +0200
+	id xmhHEdjmJGqcBQIAu9opvQ
+	(envelope-from <linux-media+bounces-64035-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 07 Jun 2026 05:34:48 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD1E64EAB5
-	for <lists+linux-media@lfdr.de>; Sun, 07 Jun 2026 04:08:18 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E18964EBF7
+	for <lists+linux-media@lfdr.de>; Sun, 07 Jun 2026 05:34:47 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=Nvidia.com header.s=selector2 header.b=E8edBwXz;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64034-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64034-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=nvidia.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=dGDahu2H;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64035-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64035-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BD88D301842B
-	for <lists+linux-media@lfdr.de>; Sun,  7 Jun 2026 02:08:11 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2162E3010B86
+	for <lists+linux-media@lfdr.de>; Sun,  7 Jun 2026 03:34:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 637CF246774;
-	Sun,  7 Jun 2026 02:08:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C481F348C61;
+	Sun,  7 Jun 2026 03:34:44 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012057.outbound.protection.outlook.com [40.107.209.57])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E5B1EA65;
-	Sun,  7 Jun 2026 02:08:04 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780798085; cv=fail; b=Pvf9ByuseMEOrVlomHj6cboKOzfzlElKx23FjS8GDGN27ZtkOxcv1Z7oJB2F801AgyGFdQouyCw3jSbI+rfecfXEKGfZFQIYMjhgWPwXmg917BbDUQQ8bMcH7qwF7I9/391k60HV0PTuE71obovrcL12Zv7r1xitbxRL8nDMdxc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780798085; c=relaxed/simple;
-	bh=zpp5mluARQmT4JeWIAiExUmOgKZQSAgVOMC4brH2tgc=;
-	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
-	 In-Reply-To:MIME-Version; b=sDaIwnLTcELWkHWaUmKEFn/5XGSmBsdTKFP94H/FUql0iXpYf+PNydui1gf4Imz3UMWDfv0GVuHDZynUZvJ8UeWuDrc0OnNy1HMfKSUAhMUklVL6DJMlXXby87pZLH2YVG9z/Z0o+nNiw10ZXxkPs+sWVWvrcz4/mMyPzvNJoLA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=E8edBwXz; arc=fail smtp.client-ip=40.107.209.57
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jN2C1gLxWaUAvueW5BsjFVE0+ViUWfesGnWr9lx6n7xoysZG0B8uK0NLHxVeASMzuQ9oYUssdmT5LUn7NS9BAdmnjKdnexBAIlqPCnMszrkqsHADcisUAcIWKMWtamURcXOHlaVMje7wS5BmyEYJHfEuCHbdrUoZCbxI+HQ8WceMKnpePQwK5CGebst2zpsPROgGWpCl2VxeeA4rTZC5sodcAsEp+IbeqcqbLnbyygKh6RXKHTbksHCUJ0R1em6mKhlYP+fiVS1Z/It7O6aJmZSbddEGBVQ0yM6tTNhaSxCfs3wcDT0iCoQK/mG7zCO6QggUj8xbhVsZkjhtVsZWjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Cgia69ft9TVk0pwbC09ySYu2gYb0KEnOYVnNofwaJYQ=;
- b=M6iZovi603Sz2HvpuIJ7BY5AlA118VTOsRUjjvm5gxuirQTT7JdQeneXmQ069Fu/VT6NMprvYm+jk1sGJD36rTviHt+VVfPLNJ5+NwMohQ1JOYBUXm/0cw0Mw1vO2iKnlGYLnjRKJG/sW225G7LHOgh2CEXlnrRcUZRt9wV39Vw5UQxBcaT6d2g7hkDkU/+NcsNDhytvBRyK0C4jkR+Y1MVGXiihaA+Vua5k/tOxKdQkYo4wdiovYN/ViblOiMcD6/Ioo+FB6sepfE671cnbKJ8Ij0E4icp4OJ3z1T3Bw6q/8VIc1brwMM+HbTQjsGPDaX3bM06fhKYOVbb8JQq2Ww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Cgia69ft9TVk0pwbC09ySYu2gYb0KEnOYVnNofwaJYQ=;
- b=E8edBwXzMXrcANhVv6bVeHpgPHW8bFihcPJuG6yjzfsubyZfEiphRUnjgTYiQd42G/JP2GpfQ5nJhG1gASoVbLfaAg2+AO3/FPBMqvFGX6xWujFOULNXUTWMb9V9eYPLhAamYhPlz0SPqCYrREj5LPHh37MQhKWy8lP1dOEo/0PAtk+z1A3VIzM6+3FbXoHJlTUBJdgMnN1iyOLAaHjFSwtAcAVHopPNwjAwNKvMCJEazmQez7t0492BFBphLwqTgVqIGXAK648RCnXrwU/zPgFgKUui/LYYN2pJcgTS6swOFaQB6ISD8Ytv0gV8TtuI3y9tP+lbh3aZG/wYNvjVDQ==
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by CH3PR12MB8533.namprd12.prod.outlook.com (2603:10b6:610:159::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.11; Sun, 7 Jun 2026
- 02:07:57 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0092.010; Sun, 7 Jun 2026
- 02:07:57 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 07 Jun 2026 11:07:53 +0900
-Message-Id: <DJ2G8D0N6EK7.2PDDSC28O8K4P@nvidia.com>
-To: "Lyude Paul" <lyude@redhat.com>, "Miguel Ojeda" <ojeda@kernel.org>
-Cc: <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- <driver-core@lists.linux.dev>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Alice Ryhl" <aliceryhl@google.com>,
- "Simona Vetter" <simona@ffwll.ch>, <linux-kernel@vger.kernel.org>, "Sumit
- Semwal" <sumit.semwal@linaro.org>, <linux-media@vger.kernel.org>, "Rafael J
- . Wysocki" <rafael@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>,
- "Maxime Ripard" <mripard@kernel.org>, "David Airlie" <airlied@gmail.com>,
- "Benno Lossin" <lossin@kernel.org>, <linaro-mm-sig@lists.linaro.org>,
- "Danilo Krummrich" <dakr@kernel.org>, "Mukesh Kumar Chaurasiya"
- <mkchauras@gmail.com>, "Asahi Lina" <lina+kernel@asahilina.net>, "Daniel
- Almeida" <daniel.almeida@collabora.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v18 0/4] Rust bindings for gem shmem
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-References: <20260604192740.659240-1-lyude@redhat.com>
-In-Reply-To: <20260604192740.659240-1-lyude@redhat.com>
-X-ClientProxiedBy: OSTPR01CA0003.jpnprd01.prod.outlook.com
- (2603:1096:604:220::13) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385444071DA;
+	Sun,  7 Jun 2026 03:34:42 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780803284; cv=none; b=RkC7LN3jrqYeunax1c3S2dgkNAB1wefVUR4Lk2w9IIoLiziDHk+u8gSBgrn0UmxdJ/aAhOVlsTvKCiSpinSEJrJcjBRgGJATtV7CC79hASoceZKyXgbe3NEwExzOjdOAokYbnqTUdnA8vcU+/DOfocT99NsaTkPItm+l/aZ8AK0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780803284; c=relaxed/simple;
+	bh=m9+EXGQ2189+pWi7+qm/GPNsrwU0aGu5PWmyLqwSDHM=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=drsT3xd5Bw+fa0uXgtZmSQS9BwZRkbqA7wRmK5OU644jletlx2360JyflM8URm+VcIY2y4yRVpMs5mce6KheWTcFbcbACbC6uI1arVXf8Mj70JI2VdnW9y/led9TDo8o0N9ThrrvMQlP2N0l7Achd+7MhsVu5cDPqUO51UqzhDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dGDahu2H; arc=none smtp.client-ip=213.167.242.64
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c66:476d:c684:fe78:389f:7375])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1A163497;
+	Sun,  7 Jun 2026 05:34:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1780803253;
+	bh=m9+EXGQ2189+pWi7+qm/GPNsrwU0aGu5PWmyLqwSDHM=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=dGDahu2HMw/0fAcImtYLNCHDT2Z6ppPFzo61XRXuRsCuvCcOR++//W/MK+s0ExztH
+	 GIp2a5GMBDsz4wdYgS8zIXUW/z3qmWmcZYyRV0CGn+gVe/MTa99Bzhqd/LLT+NA+sA
+	 syvHFdFr96xRQmWQfJLtqSjwGOU0ebaf7AC2GPM0=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CH3PR12MB8533:EE_
-X-MS-Office365-Filtering-Correlation-Id: fce2cb8d-f22c-4699-b16a-08dec439979f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|10070799003|11063799006|56012099006|6133799003|18002099003|22082099003|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	6aqiNRSld8iewhgbPwg4iRgxt/D/AH7/429zXC2ouBXOK8sdeGyAIQzMifO8oqP7JODDH50AYqb7Yv67zpQqOWFM2mitaOKbmR/zj1vnF1U1cOOqkvEGC0jwW70/2Fg8XyybcfoTsLsVVmgkr8HqMd/LYEQQ2Efm1VFBdRCEOoQoARsS5vCmlsO+aGS6+92cal8y/UidQspYGLvq2ZltiKvjE+dMS0N8ZMs5MfcE+7vryE0gQ4Mub7mIZDfam8qz+k3G4RHEtZOURVecIcl5gH8USlXvDdzZwkDIJtIaloeATO0zkb6sjIg9zR3rYZ1A5fYhz9fAT+wzaYQdVHyVDzJ7B5Qkl+5gU7/thHa3wMlGVy8eEtMS2tbYhJfHy4NSnzN/i882d2EfYPZIYhrLr83jZ+DX6WreOq4fjK8AHHfmD3XKpF1LMfcY9Dnk7OIKZfmeLXPgh9HhGnUB3ifHPOIRa/+XW5V6RMQDV8dZ8v9W2UPDZJ1WH1J3GVj6zNk0pcqcr904a1zpB3ELzGOnmrcqD1WVNHudfRsfFa2ilAneraAgV7QBn9kEG1XZQDgjQDLqD4toeOswvqonov19Qm1B5N+iKnFHO4Syl7BxQxVH0SAUTrOQhwbj8oN1IRDSMX3f21z6Wn6ChSyuUVPI7Ud9LaP++s3T7iEqbYDESgKQj27eL/kqX4E1vk3M/E1K
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(10070799003)(11063799006)(56012099006)(6133799003)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OFFLdUFsTkkwRFg2VUJ1dHRoWXVicnJJQUFUSmNJMHpQQTJaV1hMT0NpT2dB?=
- =?utf-8?B?cVdJWG9Lemx0TUg1WFBsaldZTytRNGNxSEFHWUdmN09hU3M1U3ZYbC9sMFJL?=
- =?utf-8?B?U1NHdEJGam01dzFwOGNnUlRCT0dDN1F1ZkVtSHNLZ0lMR3hMWCtiUU1BaENT?=
- =?utf-8?B?NmlaRjlON2lJMmJSQXQ1aXBZZHVsOTJyVDhKekNiTUtiT1Z6aDhzMjNKbW9h?=
- =?utf-8?B?dkg2R0hOeDMxTHVsZ3ExcGlEdWI4SXN4ZnQvc2djOCt3MmdxUXRqSjhlVkFt?=
- =?utf-8?B?VFlhdzhlZHh0bFk1MzJSZTlXNmkvQ2VGQzFyVktiNlRxM0x2N1RlYjVFTkxi?=
- =?utf-8?B?ZHR0UE1wOHZXWEpJR2pUWk1ocFJtYWJkTTNsN0VyYmJacWJLUG52WTF3eHJC?=
- =?utf-8?B?S1FHS2NCWEsvSGVZc0kzdmtxT1VBTGZjb2ZLcGxQQVYyMlhtdjFsMzNsaUZ0?=
- =?utf-8?B?S0lkRGRUendvcmY3SUhqZHVPY0JGQVp1WFc1U0h4cVloRVRGNkdyVDlpT1B3?=
- =?utf-8?B?Q0hvQW1tSEYxS2MzNzNPZWkzaGJOd1kxTEw1ZnVkVlNpalhSY3BadWNhVUti?=
- =?utf-8?B?UlZZWm40Zk9MNVpDMTZsQ2lhemdVRk1oaE1sS3dEOVNnNnBvYXVRV2ptbWtW?=
- =?utf-8?B?dDViK1lnVmppcWlIVlJmc1VQZXBIRjQxWmhuMlhXZFRLcW1qcFBmREVkWklY?=
- =?utf-8?B?K09kVFFQY011MGk4N3RBTkJSS21qV2VjNS9tbjNzM2hXeUdUVUcwelRWcHh0?=
- =?utf-8?B?d3N0QzJ4Vmk0WndUVGlsZEZQZVE0cG9sUStiQ0Qyb2drNHlrM3Q2Wko3NGg1?=
- =?utf-8?B?anBjWncxeFlqb21VMnk2QkM1WTd3dmFUdSs5NEI5NlVFTUVQdGJzYVBzQmZx?=
- =?utf-8?B?VGtYNDBMc3FQS0paZlJuYTZQQlB0dXdHdG1TUWJHdjJvQ05pSnZxUjhpYTFq?=
- =?utf-8?B?dEZjTThjRkJxRUxUT3BVVWIvRGhqTmg3VzdkSlF6SDhyZGgvM1dBNm5RVmo1?=
- =?utf-8?B?Y3pNbzhPUm9LMmZseTFyUEVuazRSanhQb0xZQ0xQeGJvZmRzNXdFUDZTUWI4?=
- =?utf-8?B?Vm5CYVJOT2xwd1hLVm54K0hDbUxJbkNBM0k2QkErZFJPQldLeEtwd1JmVWVK?=
- =?utf-8?B?Ukp0NHJFQ2g3QXNuSTZaelN3WXFhc3V3ajlBMG9Yalo4M2ZSd3k0QW1IVDk4?=
- =?utf-8?B?empCTFVCdHRwQW9yZWNjMUZmVVNMWWlpZU4rMWN1ZVRsbUh4K2NDR25mV2hy?=
- =?utf-8?B?aUtySStCdFhJV01uN1c5dUk1dm9kZjNBcytpbkNpNDJXSWxBSW50UGxCdTJn?=
- =?utf-8?B?cVg3VXowYmlMWTE1OVd0UWh5bHYySTRvblE4T01kTnBUcGdLV2QrbjNIYU41?=
- =?utf-8?B?dmtYRjRaMFMyTnl0Q3l6M3dCNVd2OUlOUDRjaHlOcEVPdmM5MHE2QzBOd1NZ?=
- =?utf-8?B?cWwxTUY2aW4vaWNaZU50MnJSbFpmU3VYVDNKQU13eTV6YmJ2cWZCa2RpVUIx?=
- =?utf-8?B?SVBDNGR1Y0pwaU1ld0RGeWhWdVNrRHpjMjZXRE9HMTlOYjVZYjNlb09UWmlh?=
- =?utf-8?B?Mm04MHlaeFpodTRiaTdXUGRVYm96dC95VWtJNkVTZEw2UFFjNWRIaWNXZXVq?=
- =?utf-8?B?WHV4MkIxVUUvRUlQSE9aeGZtWUMrQ3NxVjQvUURFZlpHb1ZLbVAyOUZ5czhH?=
- =?utf-8?B?RkJvQ01VdFFkWHJkamFOSnFDQm1lczdvbVNVZUtEZ0VnczJockZxdkRyVXVQ?=
- =?utf-8?B?ZTNKZ3BGTTlJRVo2YzZFZDVwdUk1dmRzd1ZMZm14OVAzZU4vekJIcG92ay9E?=
- =?utf-8?B?UitkZUpKY2tmYUMzZFR2Szc5eFJGV3lZTzVUdG5uNXpyMDhUdllGQ04xcmVs?=
- =?utf-8?B?SitIY1p3dWtDbndlMjM0K2NzSjhhS0VIeEpBM3R3b2lGL3loSVNDeHE2WnhK?=
- =?utf-8?B?b1RPVHVSdFpLbC9mc1MrcWxsNUZTeTdaemVXT0FGOUVDSEVDMm11RmYyQzNl?=
- =?utf-8?B?QjhLQ1piOG1tTVFzaS8zZTlrMWx3bVZjODF6OXpUZHdJY3dERjNaLzBkdUFo?=
- =?utf-8?B?MHdQK3lZeHAvRXlxZ1NYOTZaQ1d3MkpOVmJWVEFhWGNua3hya3gyemFtRXU4?=
- =?utf-8?B?VUxjOS9HRkwybWVGNmpPRzNucnEvNGpZdXBUU09KcktaYmErd001cCtNcDdz?=
- =?utf-8?B?MFM3OWZMcnVrZ3pxazFaL21lakNUVEN1eGZmb0xOV0JDS002U3hBRm5XZHBO?=
- =?utf-8?B?Yy9kRVZrbURuQzIyVG13V0lMQllUcVlta3VKMmZLMWJDdEQzWWxPMno1WVJV?=
- =?utf-8?B?T2lHOXIvRTlFTkYzeFdjYnBRdnRmTlZJWFhhVkl6Sm0vQXYxTm10aUV0ZUdu?=
- =?utf-8?Q?26XN1+lXeG1SIPYK1cmul35+f0DKE+oagNKnPtyh1WbLh?=
-X-MS-Exchange-AntiSpam-MessageData-1: EcLDATRyfpF9pg==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fce2cb8d-f22c-4699-b16a-08dec439979f
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2026 02:07:57.1786
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oBiL9rYz4bv7xOEC7Hy4pY9AiuXtn937OSLLuimBno6En/xZPcrhkKqjB7bOg78FejFSeaRGoktBT+hZJqRUyg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8533
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <PN0P287MB1828B9AF2057CE964675318E8B1E2@PN0P287MB1828.INDP287.PROD.OUTLOOK.COM>
+References: <20260605-imx678-v4-0-58e57c67143d@ideasonboard.com> <20260605-imx678-v4-2-58e57c67143d@ideasonboard.com> <PN3P287MB1829593C2DF9AFF8F24A39AF8B1E2@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM> <178075217188.9570.14789474340505402551@freya> <PN3P287MB18292FBAEABB556C051434848B1E2@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM> <178075974823.9570.15829300390679437100@freya> <PN0P287MB1828B9AF2057CE964675318E8B1E2@PN0P287MB1828.INDP287.PROD.OUTLOOK.COM>
+Subject: Re: [PATCH v4 2/2] media: i2c: imx678: Add driver for Sony IMX678
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Lachlan Michael <Lachlan.Michael@sony.com>, Ryuichi Tadano <Ryuichi.Tadano@sony.com>, Kengo Hayasaka <Kengo.Hayasaka@sony.com>, "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>, Kieran Bingham <kieran.bingham@ideasonboard.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Tarang Raval <tarang.raval@siliconsignals.io>
+Date: Sun, 07 Jun 2026 09:04:34 +0530
+Message-ID: <178080327481.9570.13702566645856478041@freya>
+User-Agent: alot/0.13.dev35+g4a69c46ca
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.34 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	TAGGED_FROM(0.00)[bounces-64034-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-64035-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:lyude@redhat.com,m:ojeda@kernel.org,m:dri-devel@lists.freedesktop.org,m:rust-for-linux@vger.kernel.org,m:nouveau@lists.freedesktop.org,m:gary@garyguo.net,m:christian.koenig@amd.com,m:driver-core@lists.linux.dev,m:maarten.lankhorst@linux.intel.com,m:aliceryhl@google.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:sumit.semwal@linaro.org,m:linux-media@vger.kernel.org,m:rafael@kernel.org,m:tzimmermann@suse.de,m:mripard@kernel.org,m:airlied@gmail.com,m:lossin@kernel.org,m:linaro-mm-sig@lists.linaro.org,m:dakr@kernel.org,m:mkchauras@gmail.com,m:lina+kernel@asahilina.net,m:daniel.almeida@collabora.com,m:gregkh@linuxfoundation.org,m:lina@asahilina.net,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_RECIPIENTS(0.00)[m:Lachlan.Michael@sony.com,m:Ryuichi.Tadano@sony.com,m:Kengo.Hayasaka@sony.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:conor+dt@kernel.org,m:kieran.bingham@ideasonboard.com,m:krzk+dt@kernel.org,m:laurent.pinchart@ideasonboard.com,m:mchehab@kernel.org,m:robh@kernel.org,m:sakari.ailus@linux.intel.com,m:tarang.raval@siliconsignals.io,m:conor@kernel.org,m:krzk@kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[acourbot@nvidia.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,garyguo.net,amd.com,lists.linux.dev,linux.intel.com,google.com,ffwll.ch,linaro.org,kernel.org,suse.de,gmail.com,lists.linaro.org,asahilina.net,collabora.com,linuxfoundation.org];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[acourbot@nvidia.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,kernel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,patchwork.freedesktop.org:url,Nvidia.com:dkim,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,nvidia.com:from_mime,nvidia.com:mid]
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp,freya:mid,ideasonboard.com:dkim,ideasonboard.com:from_mime,ideasonboard.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0BD1E64EAB5
+X-Rspamd-Queue-Id: 9E18964EBF7
 
-On Fri Jun 5, 2026 at 4:24 AM JST, Lyude Paul wrote:
-> Most of this patch series has already been pushed upstream, this is just
-> the second half of the patch series that has not been pushed yet + some
-> additional changes which were required to implement changes requested by
-> the mailing list. This patch series is originally from Asahi, previously
-> posted by Daniel Almeida.
->
-> The previous version of the patch series can be found here:
->
-> 	https://patchwork.freedesktop.org/series/164580/
->
-> Branch with patches applied available here:
->
-> 	https://gitlab.freedesktop.org/lyudess/linux/-/commits/rust/gem-shmem
->
-> This patch series applies on top of drm-rust-next
->
-> Patch-series wide changes since V15:
-> * Fix some major rebasing errors I somehow didn't notice :(
-> * Drop the dependency on LazyInit, use the trick that Alice suggested
->   instead.
-> * Fix dependency ordering so that Tyr can get the vmap stuff first
->   without the other bits.
-> Patch-series wide changes since V16:
-> * Fix ordering one more time (SetOnce::reset() doesn't need to come
->   before adding vmap functions)
-> * Rebase against the latest DeviceContext changes from me that got
->   pushed.
->
+Quoting Tarang Raval (2026-06-06 21:51:38)
+> > Quoting Tarang Raval (2026-06-06 20:15:48)
+> > > Hi Jai.
+> > >
+> > > > Quoting Tarang Raval (2026-06-06 13:47:36)
+> > > > > Hi Jai,
+> > > > >
+> > > > > Sorry, in my first review I missed a few minor issues listed belo=
+w.
+> > > > >
+> > > >
+> > > > No worries, thank you for the reviews.
+> > > >
+> > > > > I also noticed one major issue in the driver. Please check the co=
+mments below.
+> > > > >
+> > > > > Other than that, the driver looks perfect.
+> > > > >
+> > > > > > Add a V4L2 subdev driver for the Sony IMX678 image sensor.
+> > > > > >
+> > > > > > IMX678 is a diagonal 8.86 mm (Type 1/1.8) CMOS active pixel type
+> > > > > > solid-state image sensor with a square pixel array and 8.40 M e=
+ffective
+> > > > > > pixels.
+> > > > > >
+> > > > > > The following features are supported by this driver:
+> > > > > > - MIPI RAW12 output
+> > > > > > - Monochrome and Color (Bayer filter) variants
+> > > > > > - Multiple input clock frequencies
+> > > > > > - Multiple link frequencies
+> > > > > > - VBLANK and HBLANK control for variable framerate
+> > > > > > - VFLIP and HFLIP control for flipping readout
+> > > > > > - Exposure and analogue gain control
+> > > > > > - Test pattern control
+> > > > > >
+> > > > > > Following features are not currently supported:
+> > > > > > - MIPI RAW10 output
+> > > > > > - Pixel-perfect crop reporting, accounting for the shift-by-1 w=
+hen
+> > > > > >   doing HFLIP/VFLIP where the sensor maintains RGGB bayer order=
+ing
+> > > > > >
+> > > > > > Along with the ones below which depend on the new raw sensor mo=
+del:
+> > > > > > - Embedded data stream
+> > > > > > - Freely configurable cropping
+> > > > > > - Increased framerate when cropping
+> > > > > > - 2x2 binning support
+> > > > > >
+> > > > > > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> > > > >
+> > > > > ...
+> > > > >
+> > > > > > +static const u32 codes_bayer[] =3D {
+> > > > > > +       MEDIA_BUS_FMT_SRGGB12_1X12,
+> > > > > > +};
+> > > > > > +
+> > > > > > +static const u32 codes_monochrome[] =3D {
+> > > > > > +       MEDIA_BUS_FMT_Y12_1X12,   /* 12-bit mono */
+> > > > >
+> > > > > Above comment adds no useful information and can be dropped.
+> > > > >
+> > > > > > +};
+> > > > > > +
+> > > > > > +static const struct imx678_model_info imx678_aaqr_info =3D {
+> > > > > > +       .type =3D IMX678_COLOR,
+> > > > > > +       .codes =3D codes_bayer,
+> > > > > > +       .num_codes =3D ARRAY_SIZE(codes_bayer),
+> > > > > > +};
+> > > > > > +
+> > > > > > +static const struct imx678_model_info imx678_aamr_info =3D {
+> > > > > > +       .type =3D IMX678_MONOCHROME,
+> > > > > > +       .codes =3D codes_monochrome,
+> > > > > > +       .num_codes =3D ARRAY_SIZE(codes_monochrome),
+> > > > > > +};
+> > > > > > +
+> > > > > > +static const char * const imx678_supply_name[] =3D {
+> > > > > > +       "avdd",  /* Analog (3.3V) supply */
+> > > > > > +       "dvdd",  /* Digital Core (1.1V) supply */
+> > > > > > +       "ovdd",  /* IF (1.8V) supply */
+> > > > > > +};
+> > > > > > +
+> > > > > > +struct imx678 {
+> > > > > > +       struct v4l2_subdev sd;
+> > > > > > +       struct media_pad pad;
+> > > > > > +       struct regmap *cci;
+> > > > > > +
+> > > > > > +       const struct imx678_model_info *info;
+> > > > > > +
+> > > > > > +       struct clk *xclk;
+> > > > > > +       u32 xclk_freq;
+> > > > > > +
+> > > > > > +       /* chosen INCK_SEL register value */
+> > > > > > +       u8  inck_sel_val;
+> > > > > > +
+> > > > > > +       /* Link configurations */
+> > > > > > +       enum imx678_lanemode lane_mode;
+> > > > > > +       unsigned long link_freq_bitmap;
+> > > > > > +
+> > > > > > +       struct gpio_desc *reset_gpio;
+> > > > > > +       struct regulator_bulk_data supplies[ARRAY_SIZE(imx678_s=
+upply_name)];
+> > > > > > +
+> > > > > > +       struct v4l2_ctrl_handler ctrl_handler;
+> > > > > > +
+> > > > > > +       /* V4L2 Controls */
+> > > > > > +       struct v4l2_ctrl *exposure;
+> > > > > > +       struct v4l2_ctrl *vblank;
+> > > > > > +       struct v4l2_ctrl *hblank;
+> > > > > > +
+> > > > > > +       /* Tracking sensor VMAX/HMAX value */
+> > > > > > +       u32 vmax;
+> > > > > > +};
+> > > > > > +
+> > > > > > +static inline struct imx678 *to_imx678(struct v4l2_subdev *_sd)
+> > > > > > +{
+> > > > > > +       return container_of(_sd, struct imx678, sd);
+> > > > >
+> > > > > Use container_of_const.
+> > > > >
+> > > >
+> > > > Why is that necessary?
+> > >
+> > > container_of_const() preserves const and avoids accidentally casting =
+it away.
+> > > For non-const pointers it behaves the same as container_of(), while f=
+or const
+> > > pointers it preserves constness.
+> > >
+> > > >
+> > > > > > +}
+> > > > >
+> > > > > ...
+> > > > >
+> > > > > > +static int imx678_set_ctrl(struct v4l2_ctrl *ctrl)
+> > > > > > +{
+> > > > > > +       struct imx678 *imx678 =3D container_of(ctrl->handler, s=
+truct imx678,
+> > > > > > +                                            ctrl_handler);
+> > > > >
+> > > > > Use container_of_const.
+> > > > >
+> > > > > > +       struct i2c_client *client =3D v4l2_get_subdevdata(&imx6=
+78->sd);
+> > > > > > +       const struct v4l2_mbus_framefmt *format;
+> > > > > > +       struct v4l2_subdev_state *state;
+> > > > > > +       int rpm_in_use;
+> > > > > > +       int ret =3D 0;
+> > > > > > +
+> > > > > > +       state =3D v4l2_subdev_get_locked_active_state(&imx678->=
+sd);
+> > > > > > +       format =3D v4l2_subdev_state_get_format(state, IMX678_S=
+OURCE_PAD);
+> > > > > > +
+> > > > > > +       if (ctrl->id =3D=3D V4L2_CID_VBLANK) {
+> > > > > > +               u32 current_exposure =3D imx678->exposure->cur.=
+val;
+> > > > > > +
+> > > > > > +               imx678->vmax =3D format->height + ctrl->val;
+> > > > >
+> > > > > ........(1)
+> > > > >
+> > > > > > +
+> > > > > > +               current_exposure =3D clamp_t(u32, current_expos=
+ure,
+> > > > > > +                                          IMX678_EXPOSURE_MIN,
+> > > > > > +                                          imx678->vmax - IMX67=
+8_SHR_MIN);
+> > > > > > +               ret =3D __v4l2_ctrl_modify_range(imx678->exposu=
+re,
+> > > > > > +                                              IMX678_EXPOSURE_=
+MIN,
+> > > > > > +                                              imx678->vmax - I=
+MX678_SHR_MIN,
+> > > > > > +                                              1, current_expos=
+ure);
+> > > > > > +               if (ret)
+> > > > > > +                       return ret;
+> > > > > > +       }
+> > > > > > +
+> > > > > > +       /*
+> > > > > > +        * Applying V4L2 control value only happens when power =
+is up for
+> > > > > > +        * streaming
+> > > > > > +        */
+> > > > > > +       rpm_in_use =3D pm_runtime_get_if_in_use(&client->dev);
+> > > > > > +       if (!rpm_in_use)
+> > > > > > +               return 0;
+> > > > >
+> > > > > As in the last revision, as I suggested before, I will again sugg=
+est using
+> > > > > pm_runtime_get_if_active() here instead of pm_runtime_get_if_in_u=
+se().
+> > > > >
+> > > > > This does not seem to align with the comment above:
+> > > > > Applying V4L2 control value only happens when power is up for str=
+eaming
+> > > > >
+> > > > > "Power is up" implies that the device is in the runtime PM ACTIVE=
+ state,
+> > > > > rather than simply having a non-zero usage count.
+> > > > >
+> > > >
+> > > > I agree with the comment being slightly misleading, but same as the=
+ last
+> > > > revision, I still don't fully buy your argument here :-)
+> > > >
+> > > > In the case you talk about, where PM is ACTIVE but usage count =3D=
+=3D 0, we
+> > > > anyway know that the count will only increase when .enable_streams =
+is
+> > > > called, at which point the driver will anyway write *all* the regis=
+ters
+> > > > including calling set_ctrl for each control with the cached values.
+> > > >
+> > > > So why should we do (redundant) writes here?
+> > >
+> > > I think this is mostly a difference in expectations.
+> > >
+> > > My view is that if the device is runtime PM ACTIVE, the hardware is a=
+ccessible
+> > > and register writes can be performed. In that case, I would expect a =
+control
+> > > change to be applied to hardware immediately.
+> > >
+> > > With pm_runtime_get_if_in_use(), there is a state where the device is=
+ still
+> > > ACTIVE but control changes are only cached in software and not writte=
+n to
+> > > hardware until streaming starts again. While the value is not lost, I=
+ would
+> > > expect hardware and control state to remain synchronized whenever the=
+ device
+> > > is already active.
+> > >
+> > > So I understand the cached-control argument, but if the hardware is a=
+ccessible,
+> > > I would prefer applying the control immediately rather than deferring=
+ it.
+> > >
+> >
+> > Why does it matter if some sensor register doesn't match the value in t=
+he
+> > cached controls for a brief period after streaming stopped and sensor is
+> > powered off? We don't have autosuspend timer here like other drivers.
+> >
+> > I'll update the comment in v5 for future readers/developers in case that
+> > changes.
+>=20
+>=20
+> Fair enough for me.
+>=20
+>=20
+> > > > > I also don't understand why we need to be strict here and require=
+ the
+> > > > > runtime PM usage count to be greater than zero. What matters befo=
+re accessing
+> > > > > the hardware registers is that the device is powered and accessib=
+le, not
+> > > > > whether there is an active user holding a runtime PM reference.
+> > > > >
+> > > > > Anyway, rpm_in_use does not seem necessary here. The check could =
+be simplified to:
+> > > > > if (pm_runtime_get_if_active(&client->dev) <=3D 0)
+> > > >
+> > > > The rpm_in_use value is used below in this function to ensure we do=
+n't do
+> > > > pm_runtime_put() in case of a negative retval. This is not really h=
+andled
+> > > > by most drivers today, but I wanted to fix it here given recent dis=
+cussion
+> > > > [1] and annoying Sashiko reports.
+> > > >
+> > > > [1]: https://lore.kernel.org/all/ahyh0ZlwlZqr7VNa%40kekkonen.locald=
+omain
+> > >
+> > > Thats my understanding as well. With:
+> > > if (pm_runtime_get_if_active(&client->dev) <=3D 0)
+> > >         return 0;
+> > >
+> > > both the 0 and negative return paths exit immediately, so neither the=
+ switch
+> > > statement nor pm_runtime_put() can be reached.
+> >
+> > If we do that no controls will be written to the hardware if userspace =
+has
+> > disabled runtime.
+>=20
+> Do you mean the case where userspace disables runtime PM via sysfs while =
 
-Not a problem of this series, but when trying to build it I initially
-got these warnings/errors:
+> streaming is still running?
+>=20
+> In that scenario, shouldn't the device usage count remain non-zero due to=
+ the
+> active stream?
 
-CLIPPY L rust/kernel.o
-warning: gendwarfksyms: symbol_print_versions: no information for symbol _R=
-NvMs1_NtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninitINtB5_11MaybeUninitINtNtCsbu=
-TvttuFvbr_6kernel6devres6DevresINtNtNtNtB18_3drm3gem5shmem10SGTableMapNtNtB=
-1K_5tests11KunitObjectNtNtB1O_6device6UninitEEE16assume_init_dropB18_
-...
-.vmlinux.export.c:8577:500: warning: null character ignored [-Wnull-charact=
-er]
- 8577 |   ...<U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+000=
-0><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000>...
-      |      ^
-.vmlinux.export.c:8577:501: warning: null character ignored [-Wnull-charact=
-er]
- 8577 |   ...<U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+000=
-0><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000>...
-      |      ^
-.vmlinux.export.c:8577:502: warning: null character ignored [-Wnull-charact=
-er]
- 8577 |   ...<U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+000=
-0><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000>...
-      |      ^
-.vmlinux.export.c:8577:503: warning: null character ignored [-Wnull-charact=
-er]
- 8577 |   ...<U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+000=
-0><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000><U+0000>...
-      |      ^
-...
-.vmlinux.export.c:24529:2: error: embedding a #include directive within mac=
-ro arguments is not supported
- 24529 | #include <linux/module.h>
-       |  ^
-.vmlinux.export.c:8577:1: note: expansion of macro 'KSYMTAB_FUNC' requested=
- here
- 8577 | KSYMTAB_FUNC(_RINvXsi_NtNtCsbuTvttuFvbr_6kernel4sync3arcINtB6_9Uniq=
-ueArcINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitIN...
-      | ^
-.vmlinux.export.c:8577:1: error: unterminated function-like macro invocatio=
-n
- 8577 | KSYMTAB_FUNC(_RINvXsi_NtNtCsbuTvttuFvbr_6kernel4sync3arcINtB6_9Uniq=
-ueArcINtNtNtCsjYlAz7NZ3Sw_4core3mem12maybe_uninit11MaybeUninitIN...
-      | ^
-../include/linux/export-internal.h:62:9: note: macro 'KSYMTAB_FUNC' defined=
- here
-   62 | #define KSYMTAB_FUNC(name, ns)  __KSYMTAB(name, KSYM_FUNC(name), ns=
-)
-      |         ^
+Ah no, I meant if userspace disabled it through sysfs while streaming is
+not running. But I checked on my board and it always returns 1 in that
+case. There is no way to trigger a pm_runtime_disable() from userspace, all
+you can do is force the device to always be on.
 
-This is fixed by [1]. Maybe we should merge that one patch separately
-and before the rest? I seem to be seeing these long symbol problems more
-often recently.
+So it only returns -EINVAL if CONFIG_PM=3Dn, in which case we should still
+write registers. Thus I don't agree with:
 
-[1] https://lore.kernel.org/all/20260605-nova-exports-v4-1-e948c287407c@nvi=
-dia.com/
+    if (pm_runtime_get_if_active(&client->dev) <=3D 0)
+            return 0;
+
+On testing the CONFIG_PM=3Dn case though, I see that pm_runtime_put will
+always return -ENOSYS due to being stubbed out... so the original code flow
+was correct:
+
+    if (!pm_runtime_get_if_active(&client->dev))
+            return 0;
+
+    /* write registers */
+
+    /* unconditional put */
+    pm_runtime_put(&client->dev)
+
+I'll switch back to it in next revision.
+
+>=20
+> Best Regards,
+> Tarang
+
+Thanks,
+Jai
 
