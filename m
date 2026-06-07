@@ -1,171 +1,173 @@
-Return-Path: <linux-media+bounces-64045-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64046-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id YEl/LLMlJWrdDwIAu9opvQ
-	(envelope-from <linux-media+bounces-64045-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 07 Jun 2026 10:02:59 +0200
+	id RuFaCAA8JWo4EwIAu9opvQ
+	(envelope-from <linux-media+bounces-64046-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 07 Jun 2026 11:38:08 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2761164F0ED
-	for <lists+linux-media@lfdr.de>; Sun, 07 Jun 2026 10:02:59 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2BB764F3CC
+	for <lists+linux-media@lfdr.de>; Sun, 07 Jun 2026 11:38:07 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=aE1SY8r9;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64045-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64045-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=JjoYRAeX;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64046-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64046-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 305FE301548A
-	for <lists+linux-media@lfdr.de>; Sun,  7 Jun 2026 08:02:54 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2776830154AA
+	for <lists+linux-media@lfdr.de>; Sun,  7 Jun 2026 09:35:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFE4436D510;
-	Sun,  7 Jun 2026 08:02:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14E72386422;
+	Sun,  7 Jun 2026 09:35:37 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4141A2E6CC0;
-	Sun,  7 Jun 2026 08:02:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C76377EC5
+	for <linux-media@vger.kernel.org>; Sun,  7 Jun 2026 09:35:35 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780819371; cv=none; b=aM9f5zf2lSSMeTDVbNBm7ByoRri5zk8l7ukjK5nsl2rvNTtqQ0A0M/L3lARVoIkeUOMdGC9W9u7n+ettAmN6qy15WXQ3wEAeQau1W3vsFSk+ME0E5fqGP5qOaQ8vqkogP9FJgNenjztq8m5uPbwuRmKnqW3ozs3ch7qqvAJiFmw=
+	t=1780824936; cv=none; b=qXvWf2oOrtWVQov7CZf/IsPkDRTNl8t0L4Pm8AUNDGltPrpPI0tlPG2nZTaDY/f4wGizBFgbgytAKIxZ39nYGq6xgnH8KK/lxbsxzrlL4N1REnpnG3OkY9dIrQMSosPsZ5IeeT/SGcdOj1JhILHHfkiZOEYka3sTfnH2fJh12n8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780819371; c=relaxed/simple;
-	bh=fK33aw+FsNr4Lb4q2rl/jIj5PcYXk9p91/x81Ou+R/8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Yfe9wYALfRbA1BMOzCD9aKRD/+pgaYd1iMXfZ/QsNMUuomMV7MG3K30w5D+PkHorXhIMXiiFABTtXFJ1ezIbskJ0b4WFa285ecicE2xh/xkjRckjXx5Hpmd8tVWTgOBQTj15v1pIDakS5FiYWrCDDIyFuu5Cs2gaXAIjvdyGp+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aE1SY8r9; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32A9B1F00893;
-	Sun,  7 Jun 2026 08:02:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780819369;
-	bh=743mquA8eUU6nXfjkJF2bDmypYOyMCpDQhfZo28zoc8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aE1SY8r9jkNr36mu/YYJAsW8bfiM7zw1BjgwI5hH9xzAqeIuvpxF5a5xHVcykvRhE
-	 5rv4zb7l0fL/AVhPq95kRC309GpG2LYn9Tk0LfK0EftcbiMuP0mz7jwTgGkVUiskib
-	 FsdBfriQjkjAOSaoOuF08eSIjgEI606M97YlP4uHMmQ2uHpzNScMRGEPVja8VRAJvY
-	 PNxXin2R+XTuVfb00frIhDpIHsfV00jTfMFLAAGOUorTUFWPoAM25MVttHHa4l78o7
-	 2BvhsE3Q4tELG3Xi5Wreq/lCyzxgWM6T3E3A4pyK+yA89GXQXm4j8JddNoJQxLgi0i
-	 ymCQKza5mtMTA==
-Date: Sun, 7 Jun 2026 11:02:44 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: David Hu <xuehaohu@google.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Nicolin Chen <nicolinc@nvidia.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-	jmoroni@google.com, praan@google.com, stable@vger.kernel.org
-Subject: Re: [PATCH v5] dma-buf: Fix silent overflow for phys vec to sgt
-Message-ID: <20260607080244.GA327369@unreal>
-References: <20260601200012.3872274-1-xuehaohu@google.com>
- <20260604094344.GB245424@unreal>
- <CAPd9Lg_JkRdtNa=n+HE9SP+NFCSB+X_97eiPBqiONVLwV0pHwQ@mail.gmail.com>
+	s=arc-20240116; t=1780824936; c=relaxed/simple;
+	bh=zLCqfI2KUraSLz9KH/5Y26s/yPLc/CEzNqtohR4IRGw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ClfDjy6DbtwOe3fxC6ny2KsTjT7Z/WH84sSGAmt68AswOgUXjv9znMB5RqHhMTnRdMpJ4IYj1jEEUa0R+s1l/FIrz2xYfKQilxlwweiWh3nIHnvsL52awpuobhnxtEn3D1mRlo2MgIGIlAOarWahGJxUMyokaoKP+qFzyPrHQE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JjoYRAeX; arc=none smtp.client-ip=209.85.214.175
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2bf30d530bdso34388265ad.3
+        for <linux-media@vger.kernel.org>; Sun, 07 Jun 2026 02:35:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780824935; x=1781429735; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=vXqLiv0ryX+iiE206r6yDGnu8izLUzYrW1MXuiWNlgg=;
+        b=JjoYRAeX747mNq+tudHCTVgGJjHYO5BxvBu4mjyaDP3v5iTRv+L0hIZX4cSbdoThxz
+         YeLOf8egpQFGH7mhIiC14dQ30KCWczitaetYZCEi/a2UVLmKHbVvQlvGbGcuY7toqacL
+         x0GMI+FsudFP+GBPZjPmUmFsSZw6/fHhnZHXVgD2AsF75GzrhNkklM3ljE+XUewZ/Dit
+         FWzQa/z7XWSfRssHTMiClCKe1lJCH0yvB1pbRAWyNJwRfRYw4hVyqRDY+YXRLUapU+gb
+         TdgO3vUreXGxH2KJ69EfItgmC5U1OJW4evO/4FBhR2KtpF5MQf3IrEwUZ+/rlugkZy9f
+         Bh2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780824935; x=1781429735;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vXqLiv0ryX+iiE206r6yDGnu8izLUzYrW1MXuiWNlgg=;
+        b=T/2zgN0dNfB7kzgxq0BeVE+ysVy7aJV7AMa/WLOqGEU7yxqlNB3COA4lGdAQ9yvMLJ
+         luyhVYzC6i9RcUTPl9eWlTGNPoHW7VzPtShtCO9GJ4h75Fsmg3+W4QiB4IUtHqDiuhSs
+         GU+GI8txeimhmEwYW0cn3TR1EcNNpFwvX5Qw2ndDkIZkmwx/OuLoOvjyUI2AqpWpW26g
+         hdsbZ3UUb3NDa2L8v/OqJjVy6zONosQIkqTVRP4V/T2Cv1l/LipozPyk7dbfO3BKV+F2
+         1rsLARdg1Vi/II6HoGGWFsI9Y/5Y7GmUlVV6LK9IX0DHbJpZLSStNCJ//rP8DMDtkNTC
+         K62w==
+X-Gm-Message-State: AOJu0YyT7nVD3VDz3z96+5zt8q8uNOw5uN/G9N9yfmYYFs180WO48V0d
+	lTmU2M4bRf1OYbuCRR4Gr/c3UfJgsdvaYgllPKVD0JOZj+354E3sQDrl
+X-Gm-Gg: Acq92OFxOpLNJHLJYJfNI0HMojhQcnB1YdzPhFEeNMb8xl4tXwgYdhsyY6iimUCltCD
+	8PyPV96CEoq5Xo0Sb9IeSiKk4C2w6cgjXjoJRURmZUScTYn1AqQkzSQDqNSjed2H4pxcBgoWYov
+	TjAiTDSJO786eUD9wTFZC44PdUVhqLmpIYQZuUswS1BVST3BdRMGQTWcTHMj1c2tizzBytRzfBH
+	mtgnsMST8r3u0fnYVsOQ+gS8mEZhHc0G6/SIiNRIhRPTVzO2ewBYu2Dl70ecLAu21z6odWJRCK9
+	bhjdo0X1CwDO2DO1XvSLxct6v6L5WFjNYKL1mtC1gWyqHsXTVNopXF9u8B7nLAuFYAdiDpiC+ex
+	XUJbDXfidaJH4kP9twyQDVQzM7IU7S4PGVJCqkDBCs8bIBIFRiQscZtk92TmIiTwwGGC767C3Jb
+	R8kDs53J0iJnk5pq8KADpk1zqbT51Y3adtBc3QBdRTqaBZxbXFGsF2
+X-Received: by 2002:a17:903:2389:b0:2bf:305a:312a with SMTP id d9443c01a7336-2c1e820985amr130015775ad.22.1780824934589;
+        Sun, 07 Jun 2026 02:35:34 -0700 (PDT)
+Received: from haichao.tail057a43.ts.net ([2001:da8:e000:1206:5d57:2cec:64ac:50a])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f96b3fsm150845545ad.29.2026.06.07.02.35.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 Jun 2026 02:35:34 -0700 (PDT)
+From: Ruoyu Wang <ruoyuw560@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ruoyu Wang <ruoyuw560@gmail.com>
+Subject: [PATCH] media: bt878: check register mapping in probe
+Date: Sun,  7 Jun 2026 17:35:30 +0800
+Message-ID: <20260607093530.3-1-ruoyuw560@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPd9Lg_JkRdtNa=n+HE9SP+NFCSB+X_97eiPBqiONVLwV0pHwQ@mail.gmail.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[leon@kernel.org,linux-media@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-64045-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FORGED_RECIPIENTS(0.00)[m:xuehaohu@google.com,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:jgg@ziepe.ca,m:nicolinc@nvidia.com,m:kevin.tian@intel.com,m:ankita@nvidia.com,m:alex@shazbot.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:iommu@lists.linux.dev,m:jmoroni@google.com,m:praan@google.com,m:stable@vger.kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	TAGGED_FROM(0.00)[bounces-64046-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[ruoyuw560@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:ruoyuw560@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[leon@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ruoyuw560@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[unreal:mid,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2761164F0ED
+X-Rspamd-Queue-Id: B2BB764F3CC
 
-On Thu, Jun 04, 2026 at 03:36:48PM -0400, David Hu wrote:
-> On Thu, Jun 4, 2026 at 5:43 AM Leon Romanovsky <leon@kernel.org> wrote:
-> >
-> > On Mon, Jun 01, 2026 at 08:00:12PM +0000, David Hu wrote:
-> > > @@ -36,7 +36,7 @@ static unsigned int calc_sg_nents(struct dma_iova_state *state,
-> > >                                 struct phys_vec *phys_vec, size_t nr_ranges,
-> > >                                 size_t size)
-> > >  {
-> > > -     unsigned int nents = 0;
-> > > +     size_t nents = 0;
-> > >       size_t i;
-> > >
-> > >       if (!state || !dma_use_iova(state)) {
-> > > @@ -51,6 +51,9 @@ static unsigned int calc_sg_nents(struct dma_iova_state *state,
-> > >               nents = DIV_ROUND_UP(size, UINT_MAX);
-> > >       }
-> > >
-> > > +     if (nents > UINT_MAX)
-> >
-> > I would suggest to use check_add_overflow() while calculating nents
-> > instead of this check.
-> 
-> Hi Leon,
-> 
-> Thank you for the review. Using `check_add_overflow()` is a great
-> suggestion and definitely
-> cleaner for the accumulation loop. I'll update this for v6.
-> 
-> > > @@ -133,6 +137,11 @@ struct sg_table *dma_buf_phys_vec_to_sgt(struct dma_buf_attachment *attach,
-> > >       }
-> > >
-> > >       nents = calc_sg_nents(dma->state, phys_vec, nr_ranges, size);
-> > > +     if (!nents) {
-> > > +             ret = -EINVAL;
-> > > +             goto err_free_state;
-> > > +     }
-> >
-> > Technically, this hunk is not necessary, since sg_alloc_table() will
-> > return -EINVAL when nents == 0. At least, that is the behavior I relied on.
-> 
-> I originally added this explicit check in v5 to address Jason's
-> feedback, and to make the
-> failure explicit rather than relying on `sg_alloc_table()` failing
-> silently on `nents=0`.
+bt878_probe() maps the device register window and then immediately clears
+the interrupt mask through btwrite(). If ioremap() fails, the register
+write dereferences a NULL mapping.
 
-I prefer explicit checks, but I am not in favor of duplicating them.
-Since sg_alloc_table() already validates this condition, we do not need
-to repeat the same check in dma-buf. A comment should be sufficient to
-inform future reviewers that nents == 0 is already handled.
+Check the mapping before touching the registers, and unmap it again on
+later probe failures after the IRQ or DMA buffer allocation paths fail.
 
-Thanks
+Signed-off-by: Ruoyu Wang <ruoyuw560@gmail.com>
+---
+ drivers/media/pci/bt8xx/bt878.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-> 
-> Jason, do you have a strong preference here? I am happy to drop the
-> hunk and rely on
-> `sg_alloc_table()` returning `-EINVAL` if you are both comfortable with that.
-> 
-> Thanks,
-> David
+diff --git a/drivers/media/pci/bt8xx/bt878.c b/drivers/media/pci/bt8xx/bt878.c
+index 62a6c4a80..245a5f0ef 100644
+--- a/drivers/media/pci/bt8xx/bt878.c
++++ b/drivers/media/pci/bt8xx/bt878.c
+@@ -445,6 +445,10 @@ static int bt878_probe(struct pci_dev *dev, const struct pci_device_id *pci_id)
+ 	bt->bt878_mem = (unsigned char *) bt->bt878_adr;
+ #else
+ 	bt->bt878_mem = ioremap(bt->bt878_adr, 0x1000);
++	if (!bt->bt878_mem) {
++		result = -ENOMEM;
++		goto fail1;
++	}
+ #endif
+ 
+ 	/* clear interrupt mask */
+@@ -486,6 +490,12 @@ static int bt878_probe(struct pci_dev *dev, const struct pci_device_id *pci_id)
+       fail2:
+ 	free_irq(bt->irq, bt);
+       fail1:
++#ifndef __sparc__
++	if (bt->bt878_mem) {
++		iounmap(bt->bt878_mem);
++		bt->bt878_mem = NULL;
++	}
++#endif
+ 	release_mem_region(pci_resource_start(bt->dev, 0),
+ 			   pci_resource_len(bt->dev, 0));
+       fail0:
+-- 
+2.51.0
+
 
