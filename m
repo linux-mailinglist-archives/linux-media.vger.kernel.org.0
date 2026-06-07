@@ -1,178 +1,295 @@
-Return-Path: <linux-media+bounces-64050-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64051-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id c7iDHHlWJWq7HAIAu9opvQ
-	(envelope-from <linux-media+bounces-64050-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 07 Jun 2026 13:31:05 +0200
+	id P3CKFYxXJWrnHAIAu9opvQ
+	(envelope-from <linux-media+bounces-64051-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 07 Jun 2026 13:35:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4DA1650749
-	for <lists+linux-media@lfdr.de>; Sun, 07 Jun 2026 13:31:04 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9607F650757
+	for <lists+linux-media@lfdr.de>; Sun, 07 Jun 2026 13:35:39 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=j4jAzcDJ;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64050-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64050-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=LlA9kTtC;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64051-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64051-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4E515300DDCB
-	for <lists+linux-media@lfdr.de>; Sun,  7 Jun 2026 11:30:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 628EB300E3BF
+	for <lists+linux-media@lfdr.de>; Sun,  7 Jun 2026 11:35:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84BD03A1D01;
-	Sun,  7 Jun 2026 11:30:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2921D388E5A;
+	Sun,  7 Jun 2026 11:35:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF28732D45B
-	for <linux-media@vger.kernel.org>; Sun,  7 Jun 2026 11:30:36 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780831838; cv=pass; b=ZB70B60KeIG6Q8L/nrIrG7SJ9djb4FiVY9ZS4Yt1qojv46c2jTf6Wpdtl54xuWwD9tDB9fHTq6rWcK0CN7GbKHT6z66yNLIj+Uhn+AAm9MpBUKYYAJZu1bHA76sx3+vX4xtKgAv0MH3ekNK4uPmsJp0YY7tFVWKwaefJQDynPYw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780831838; c=relaxed/simple;
-	bh=MRySgiTWfJabjMicfD7hcpZ6ySYoQUNxJP9qu6eB8rg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J5OmggISCgMwxt2ovy32m44IbN4GWKrps/ykwKRHS6JAQjn9Ka5rWx/ldaEjKIwKE99xf2ckT+gw2pvMC+M4Gx4an9mNN6erDlD20Y8/CHgt1J5buYeQhAzxiQ30qRaYtDbKytrh1ygPAHG54UNaDQOmGL8Fv9LQDJHekMlMa3w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j4jAzcDJ; arc=pass smtp.client-ip=74.125.82.179
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-304da3b4508so333515eec.2
-        for <linux-media@vger.kernel.org>; Sun, 07 Jun 2026 04:30:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780831836; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Kbb1N+nejs18mha05/PruwslLTAbDhC5Ru4yaORFHMLmA0KPGSHg95nFjl7h0bE7gR
-         grca0MmFY29srZpmnqk/iJqwDHIWoI1u7JvSTf7jt4eVK+/c2C5pK0sZ0Hh13t9MW/x5
-         gvJ9TguD5MNRQa9fDXw2JeBiRdhS8JEDhy+MqBJwXMgVsvziXwBly22L2fzNLvZx+63j
-         T5LMd2k5hQMqQbE2PmlVu5m3GmF8gAiu1FsMkKpsNrxc+pHgM6vQkclVvpHhhfxGpqAq
-         dlh+g8K0VCJsVMAoEQWsZe4i78fZCPKven7zeBxkUKVwiEE9txX/cHs51vtrMR4kyVqa
-         XwpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=MRySgiTWfJabjMicfD7hcpZ6ySYoQUNxJP9qu6eB8rg=;
-        fh=IJgYH4fgLotvj86s1mBozFgM36oQSufCyO84AMrmDEA=;
-        b=eeKmPVE40RJkOdnn7FvcorE5byPt5Hq4HnNOXBkNC0p1GLkM4bm3xaCWI6olUbFU/y
-         2Ph+JcPi6pE9RQjq+XZI3NojoKGXaOSJXb7rnmWUoAJKZctsqDqKEbJeh9RZThIwCgjK
-         qAFKRmoy1/a6ugk1cz9Bu7hKDjgYpvntBxyGNV1MyVdGG0Qsdh9iOIrydwIWxtUnK92v
-         JJI6AD1kjXgdzLPSG/dDuFWG/GvD/wxNqZDmrFPdZ+wFCDAs0w9Xj6f3P4BvDongFYdx
-         AEfc06xrIh6E6FtPDI1jl1rd5lrQcqH9mijISlDZQ2GI8ZHRqt8dPaEWgeZ0CjQDLn9o
-         4fkw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780831836; x=1781436636; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MRySgiTWfJabjMicfD7hcpZ6ySYoQUNxJP9qu6eB8rg=;
-        b=j4jAzcDJhPeaPxXuOLnlLRSCO8GEcQ4wJpRFQnifY6tk+3aKHD396CzU1fnNkDXumU
-         dqhHmQHdfUO4i3O9A/5Bg8Dls9NnFQFM49l4ttYS2ru2vvoDATahtjGnXtIpXYGYjdwm
-         JmeXQh8iKsRoktA5mhfEr03jxk849oZC0khw3plVfxRfU3G1faykqsGEYGNG2TVkGS3K
-         UxoNFG3KEUPeiwq9d1eTITy402AAK/V+jAQQ4P6jQCway01rGOwWYdx4gtbIOCPeOerR
-         UFSKYr9r+yIwHQ0EumY0v5T8ofKqpYQI2l1TP7xzL8bwd+xr3ANHNw8r0dygp13Karft
-         KfJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780831836; x=1781436636;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=MRySgiTWfJabjMicfD7hcpZ6ySYoQUNxJP9qu6eB8rg=;
-        b=bcrH06zGXk3P4R83kJvKU2fNjEqGDuZ3ALb9nFRWf3qIT3Gk1cZJRfRTMKW5U6c3+h
-         XUgZFckrtjEqdgYzKP1n3qL7NeMcZt3HVYO0iWABP0jEVLaBWH2VqG5RpgysP4hpO/fm
-         LPHxaE9YSTTrwrSwXC+GJCYzDsHkTc20lP+iIp8aXvpHH5kUGVIGmq12ai/OClBGx3NP
-         TeiasuQwa/+k3oKgvOWVGTGlqKuts+hwtIloGzQB9ynItnCn5Zmy7S2V+xA7ju9Bq96m
-         Ph9m0DUHiGHmcY8W+O+7O02KqMjQ9IfbCEDtxp3a10oGAh6Vvh8okFWVs2AQOilC3gSx
-         8kQQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+d/jHXoavwqkmigcmfsZd+wPPJFZC/IW8/KGb+S1czA35BsnqIWvxV6FRkplrq6sQ/mr0T4bYWj+8efA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4kbfQjh2ARJva40Nowt/dm44D4CeqL4SUjo7c+jZ8OI7Q9u/7
-	wmYCasNr/Z293hUhXI1rz8BG7SujcBvM7/pP7gG2Stui+nPH5KE9fUd+qRc7z32CFq3V8/Hk6Qj
-	2ck/kWdIrlNqShP7M3W63bv4schhQGyM=
-X-Gm-Gg: Acq92OEQB6XNCMrnWqAKc6QVvgM5yGQzuc75Jwr5RAiKrwXX6xbKYjAesVtaGH3Xeqv
-	99n0vIkQRkL2PE4j5Rzpl51gXi3yP4+cCT/DD0xYTkmEtL4vTmnZwIpYJd3bAFyzVZj+jEdYjJs
-	vC6ZiYAZSgCCtbj4xsmka3iswIddiSfz2gvHd1MkWqjEKfNOQ3UIIlcXoHDSlqu7lpv9xY3+kk+
-	YbBvrVDlLDvv4vIAU38vUsB8q5H+LqfO6/WvPdRl5MtPuJXQdCK8vbjpohLLQWKGf8MprBJ37rs
-	RpJqqUBYlcQhEBkBVFMqmptjKr3lzc0DLDpkJMvrRWGriQb7qMcfCv0y0L/nFqRKGLze2KlR2Ty
-	dG7pPhL9rDlL5oRgFGYnLayyMmq9m5Md+tg==
-X-Received: by 2002:a05:7300:5723:b0:2ea:5057:a320 with SMTP id
- 5a478bee46e88-3077af4a612mr2921241eec.2.1780831835929; Sun, 07 Jun 2026
- 04:30:35 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AEFE3264DA
+	for <linux-media@vger.kernel.org>; Sun,  7 Jun 2026 11:35:32 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780832133; cv=none; b=GRkjjRe/hdcbW2Gu+cyT9OBgAw4Q5HD/cX11rmVYhGIojRpKrbFVa4Y21Q0NFfBOuYPlAGwn6LAqgj0/WkHuUT8dwNpgzq9b0eiSkABFWvcDyyR1M7GrlooOvm2vQqTf5DanaRqYMdPce+SsBLDeziea1w2QhWR+InfI55lphYU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780832133; c=relaxed/simple;
+	bh=z9nV6o1CLjmQF566t7NPHTYxQDifWhN1JWM5637E3zE=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=cdZQLezFf7pT4oHGSrK5ld9yFS8kouZALJALey75eo7c7BQO8u+r9LtpeGxesV1AdidYXJfuACktqRXeFUr2dEczfEJfZ9xGaUjA0Io3Fn9gYz3Y+XDxeyJVTSwE0LIqGC1rDVrvlYVQ7F3fC+lZq+dvovr40TunIpQPBz0n1M8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LlA9kTtC; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CF801F00893;
+	Sun,  7 Jun 2026 11:35:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780832132;
+	bh=ojRx6wp1adgvMqg+PJsGZn1wqIZ/W2+cHikg/UdbFGI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=LlA9kTtC7B6Z2o8RzaINmtb/1N2eaV2bTJnX7KvIldYHko9LULJAMl7J0pTlVe0GE
+	 Fv7WW0B3lXvcUFN1TAVXQtOB1NPiUp1oRp7xDsaer5CRkPrKOZgVG5fYssilCtSfjy
+	 g40KEwOK7IG6q+q10EaufSIEmMbs6Yn2em9e2JIKrbCyt3ire9MgMRaIdjZ2MJE6EY
+	 OQzBV56PaMgN37FXqwKalsae9aHfEAebMUPHl7yxGTQF7AHwqaR4wn5YFYhLWz2Lgq
+	 2LHtg2Ttn5T0QeGip7+OjjZX5Jaaaxmap6NMO8LIAkTyFTc7AISeOIw0udpn3b9cPo
+	 qU84E60Aj9lcg==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] media: venus: Annotate flex arrays with
+ __counted_by()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Mohammed EL Kadiri" <med08elkadiri@gmail.com>
+Cc: linux-media@vger.kernel.org
+In-Reply-To: <20260607111933.6398-1-med08elkadiri@gmail.com>
+References: <20260607111933.6398-1-med08elkadiri@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 07 Jun 2026 11:35:31 +0000
+Message-Id: <20260607113532.0CF801F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260604192740.659240-1-lyude@redhat.com> <DJ2G8D0N6EK7.2PDDSC28O8K4P@nvidia.com>
-In-Reply-To: <DJ2G8D0N6EK7.2PDDSC28O8K4P@nvidia.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 7 Jun 2026 13:30:23 +0200
-X-Gm-Features: AVVi8CdeC5gDKTC7duruJvRpgjli4FYxW2S1H8-VJsB3l-jVir5nc-87EthTwdQ
-Message-ID: <CANiq72==HqQnNdemJOrDwP6dCzz1KBs977MmgjLbssDstAG-Sg@mail.gmail.com>
-Subject: Re: [PATCH v18 0/4] Rust bindings for gem shmem
-To: Alexandre Courbot <acourbot@nvidia.com>, Danilo Krummrich <dakr@kernel.org>
-Cc: Lyude Paul <lyude@redhat.com>, Miguel Ojeda <ojeda@kernel.org>, dri-devel@lists.freedesktop.org, 
-	rust-for-linux@vger.kernel.org, nouveau@lists.freedesktop.org, 
-	Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	driver-core@lists.linux.dev, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Simona Vetter <simona@ffwll.ch>, linux-kernel@vger.kernel.org, 
-	Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org, 
-	"Rafael J . Wysocki" <rafael@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>, Benno Lossin <lossin@kernel.org>, 
-	linaro-mm-sig@lists.linaro.org, Mukesh Kumar Chaurasiya <mkchauras@gmail.com>, 
-	Asahi Lina <lina+kernel@asahilina.net>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	MISSING_MIME_VERSION(2.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:med08elkadiri@gmail.com,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:acourbot@nvidia.com,m:dakr@kernel.org,m:lyude@redhat.com,m:ojeda@kernel.org,m:dri-devel@lists.freedesktop.org,m:rust-for-linux@vger.kernel.org,m:nouveau@lists.freedesktop.org,m:gary@garyguo.net,m:christian.koenig@amd.com,m:driver-core@lists.linux.dev,m:maarten.lankhorst@linux.intel.com,m:aliceryhl@google.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:sumit.semwal@linaro.org,m:linux-media@vger.kernel.org,m:rafael@kernel.org,m:tzimmermann@suse.de,m:mripard@kernel.org,m:airlied@gmail.com,m:lossin@kernel.org,m:linaro-mm-sig@lists.linaro.org,m:mkchauras@gmail.com,m:lina+kernel@asahilina.net,m:daniel.almeida@collabora.com,m:gregkh@linuxfoundation.org,m:lina@asahilina.net,s:lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-64050-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[miguelojedasandonis@gmail.com,linux-media@vger.kernel.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	TAGGED_FROM(0.00)[bounces-64051-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
+	MIME_TRACE(0.00)[0:+];
+	REPLYTO_DN_EQ_FROM_DN(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[miguelojedasandonis@gmail.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[redhat.com,kernel.org,lists.freedesktop.org,vger.kernel.org,garyguo.net,amd.com,lists.linux.dev,linux.intel.com,google.com,ffwll.ch,linaro.org,suse.de,gmail.com,lists.linaro.org,asahilina.net,collabora.com,linuxfoundation.org];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NO_DN(0.00)[];
+	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,kernel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,mail.gmail.com:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,sashiko.dev:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C4DA1650749
+X-Rspamd-Queue-Id: 9607F650757
 
-On Sun, Jun 7, 2026 at 4:08=E2=80=AFAM Alexandre Courbot <acourbot@nvidia.c=
-om> wrote:
->
-> This is fixed by [1]. Maybe we should merge that one patch separately
-> and before the rest? I seem to be seeing these long symbol problems more
-> often recently.
->
-> [1] https://lore.kernel.org/all/20260605-nova-exports-v4-1-e948c287407c@n=
-vidia.com/
+Thank you for your contribution! Sashiko AI review found 4 potential issue(=
+s) to consider:
 
-I can take that one via `rust-next` unless someone shouts -- Ack's apprecia=
-ted.
+New issues:
+- [High] Applying `__counted_by` to structs that directly overlay unvalidat=
+ed, untrusted firmware messages defeats compiler-based bounds checking.
 
-Cheers,
-Miguel
+Pre-existing issues:
+- [High] The Venus HFI parser does not validate that the remaining buffer b=
+ytes are sufficient to hold the variable-length flexible array payloads ind=
+icated by the firmware, leading to severe out-of-bounds reads during memcpy=
+().
+- [High] Several parsing functions return an incorrect consumed payload siz=
+e, causing the parser loop to desynchronize and misinterpret flexible array=
+ data as new property headers.
+- [High] `parse_raw_formats()` calculates the total payload size incorrectl=
+y by assuming all elements have the same number of planes as the final elem=
+ent.
+--
+
+commit 475f2f7188ec43f866da689f1e919b2cf914c64a
+Author: Mohammed EL Kadiri <med08elkadiri@gmail.com>
+
+media: venus: Annotate flex arrays with __counted_by()
+
+Add __counted_by() annotations to flexible array members in Venus HFI helper
+structures. This aims to improve run-time bounds checking and compile-time
+object size resolution.
+
+> diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/med=
+ia/platform/qcom/venus/hfi_helper.h
+> index f44059f19505a..e96d458c52fa2 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_helper.h
+> +++ b/drivers/media/platform/qcom/venus/hfi_helper.h
+> @@ -616,7 +616,7 @@ struct hfi_capability {
+> =20
+>  struct hfi_capabilities {
+>  	u32 num_capabilities;
+> -	struct hfi_capability data[];
+> +	struct hfi_capability data[] __counted_by(num_capabilities);
+>  };
+
+[Severity: High]
+Does applying __counted_by() to the data array here defeat compiler-based
+bounds checking?
+
+Since num_capabilities is read directly from untrusted firmware packets wit=
+hout
+first being validated against the actual packet allocation size (rem_bytes),
+applying __counted_by() could cause the compiler to wrongly trust the
+attacker-controlled count.
+
+This isn't a bug introduced by this patch, but the Venus HFI parser does not
+validate that the remaining buffer bytes are sufficient to hold the
+variable-length flexible array payloads:
+
+drivers/media/platform/qcom/venus/hfi_parser.c:hfi_parser() {
+	...
+		case HFI_PROPERTY_PARAM_CAPABILITY_SUPPORTED:
+			if (rem_bytes <=3D sizeof(struct hfi_capabilities))
+				return HFI_ERR_SYS_INSUFFICIENT_RESOURCES;
+
+			ret =3D parse_caps(core, codecs, domain, payload);
+	...
+}
+
+drivers/media/platform/qcom/venus/hfi_parser.c:parse_caps() {
+	...
+	struct hfi_capabilities *caps =3D data;
+	struct hfi_capability *cap =3D caps->data;
+	u32 num_caps =3D caps->num_capabilities;
+	struct hfi_capability caps_arr[MAX_CAP_ENTRIES] =3D {};
+
+	if (num_caps > MAX_CAP_ENTRIES)
+		return -EINVAL;
+
+	memcpy(caps_arr, cap, num_caps * sizeof(*cap));
+	...
+}
+
+This is a pre-existing issue, but parse_caps() returns the static header si=
+ze
+instead of the dynamic array size:
+
+drivers/media/platform/qcom/venus/hfi_parser.c:parse_caps() {
+	...
+	return sizeof(*caps);
+}
+
+This causes the parser loop in hfi_parser() to incorrectly advance into the
+middle of the flexible array data payload, leading to parsing desynchroniza=
+tion:
+
+drivers/media/platform/qcom/venus/hfi_parser.c:hfi_parser() {
+	...
+		words +=3D ret / sizeof(u32);
+		rem_bytes -=3D ret;
+	}
+	...
+}
+
+[ ... ]
+
+> @@ -802,7 +802,7 @@ struct hfi_profile_level {
+> =20
+>  struct hfi_profile_level_supported {
+>  	u32 profile_count;
+> -	struct hfi_profile_level profile_level[];
+> +	struct hfi_profile_level profile_level[] __counted_by(profile_count);
+>  };
+
+[Severity: High]
+Does applying __counted_by() to the profile_level array here also defeat
+compiler bounds checking for the same reasons? profile_count is read from
+untrusted firmware without validation against rem_bytes.
+
+This is a pre-existing issue, but parse_profile_level() performs an
+out-of-bounds memcpy() by blindly trusting the unvalidated profile_count
+field against the unchecked remainder:
+
+drivers/media/platform/qcom/venus/hfi_parser.c:parse_profile_level() {
+	struct hfi_profile_level_supported *pl =3D data;
+	struct hfi_profile_level *proflevel =3D pl->profile_level;
+	struct hfi_profile_level pl_arr[HFI_MAX_PROFILE_COUNT] =3D {};
+
+	if (pl->profile_count > HFI_MAX_PROFILE_COUNT)
+		return -EINVAL;
+
+	memcpy(pl_arr, proflevel, pl->profile_count * sizeof(*proflevel));
+	...
+}
+
+[ ... ]
+
+> @@ -1085,7 +1085,7 @@ struct hfi_resource_ocmem_requirement {
+> =20
+>  struct hfi_resource_ocmem_requirement_info {
+>  	u32 num_entries;
+> -	struct hfi_resource_ocmem_requirement requirements[];
+> +	struct hfi_resource_ocmem_requirement requirements[] __counted_by(num_e=
+ntries);
+>  };
+
+[Severity: High]
+Can applying __counted_by() to the requirements array here lead to similar
+bounds checking bypasses if num_entries is untrusted?
+
+This isn't a bug introduced by this patch, but similar payload size
+miscalculations occur in other parsing functions, such as parse_raw_formats=
+().
+The total payload size is calculated incorrectly by assuming all elements h=
+ave
+the same number of planes as the final element:
+
+drivers/media/platform/qcom/venus/hfi_parser.c:parse_raw_formats() {
+	...
+	while (entries) {
+		num_planes =3D pinfo->num_planes;
+		...
+		pinfo =3D (void *)pinfo + sizeof(*constr) * num_planes +
+			2 * sizeof(u32);
+		entries--;
+	}
+	...
+	size =3D fmt->format_entries * (sizeof(*constr) * num_planes + 2 * sizeof(=
+u32))
+		+ 2 * sizeof(u32);
+
+	return size;
+}
+
+Can this cause hfi_parser() to either advance its pointer too far or too li=
+ttle
+if the firmware provides entries with varying plane counts?
+
+Also a pre-existing issue, parse_alloc_mode() returns the static header size
+instead of the dynamic array size:
+
+drivers/media/platform/qcom/venus/hfi_parser.c:parse_alloc_mode() {
+	struct hfi_buffer_alloc_mode_supported *mode =3D data;
+	...
+	return sizeof(*mode);
+}
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260607111933.6398=
+-1-med08elkadiri@gmail.com?part=3D1
 
