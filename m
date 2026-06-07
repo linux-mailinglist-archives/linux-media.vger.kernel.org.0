@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-64098-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64099-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id SZcFNUvrJWrVNgIAu9opvQ
-	(envelope-from <linux-media+bounces-64098-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 00:06:03 +0200
+	id wGg/AJXrJWrdNgIAu9opvQ
+	(envelope-from <linux-media+bounces-64099-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 00:07:17 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34CAB651C84
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 00:06:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4994A651C8A
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 00:07:16 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="U/xN3LAS";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64098-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64098-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=WSCgnIar;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64099-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64099-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 29EF4300F516
-	for <lists+linux-media@lfdr.de>; Sun,  7 Jun 2026 22:05:59 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 11F33300E715
+	for <lists+linux-media@lfdr.de>; Sun,  7 Jun 2026 22:07:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4E4533B6DA;
-	Sun,  7 Jun 2026 22:05:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EA4433B6DA;
+	Sun,  7 Jun 2026 22:07:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4997C2DF68
-	for <linux-media@vger.kernel.org>; Sun,  7 Jun 2026 22:05:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ECD76FC5
+	for <linux-media@vger.kernel.org>; Sun,  7 Jun 2026 22:07:05 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780869956; cv=none; b=hJpgaJPFzFTYR5ArG+KYRSsjYennzowF5n4JE7KrQ/t8P5y9FId4Q7x4yfmrYWtTl5R2L22ZpN9bVzr9DS91ebYLskCcw0KuWpFO1l5Eps8lgKXzlo02ORNzDM8EmVPftP13xIpMt0GP08Bv0gOSe334+YtMqisL8Ihutx3RUL8=
+	t=1780870027; cv=none; b=VnJ0ML/OSEHbTCACcDWCBTr9Zyxg4MWtIPFZqc2yko4DUS5ByBKmgovsK6QDswg9tDQ61AB9EuuioSFKoUkccs8XgKczYXj0q3CoyB11e0WYzlyh49CMlvDF7TdT0+STauunwEnMrGwCQqa8jO+4u+mNZo68zn19mK5TtI4OWas=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780869956; c=relaxed/simple;
-	bh=GFY6EjKGrURjx7So87D0YA9jPPc0vKpx0asyimwmgAU=;
+	s=arc-20240116; t=1780870027; c=relaxed/simple;
+	bh=AJPf56RXk8I/8fuvddf8HakxidGpxsvpD79uVlrklQM=;
 	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=bISbclDBT/4h9HZSZkYJ0iApLI6zlIPhjnrSFOGThKxfDItERreBjrqf5bpl25T9yyA5aNYIZy71U2SaJ3gaINxPS61Xkvt2JXQNSu9Yt/VVDtjD8YlKkgUAE7Xvi/JMK6RFmXfon0S08fsDjWfIvUW7xCwMhvwehMKYBZDMCIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U/xN3LAS; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4F711F00893;
-	Sun,  7 Jun 2026 22:05:54 +0000 (UTC)
+	 Message-Id; b=VmnP+HCE+0YSUAstSHxgAhN4+YS/WJR/6b7VZg1OK6qaJzpACkmhe1LEFhO35fTVM/Pn9rkkiq0ALB/RWMr96sTQiXlUDeFdj0ZWN8vFITcOz/Aj4FroudhtDmS2HlV2PzB8X3YR6VjJx7fXICh2sFDTxX1OgpH0RgpL96WOkv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WSCgnIar; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AA751F00893;
+	Sun,  7 Jun 2026 22:07:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780869954;
-	bh=vppzKEgci5FhGfOKQlY7w8GbgbSmD6tsz5/TRwH4v+4=;
+	s=k20260515; t=1780870025;
+	bh=mPZqdNKS2UpywiGGJBE766IPUrevveDbf5M17VKm/bU=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=U/xN3LAS7aATLZRYiCgQqLfqdYoZRUyMNn/DopqljIvvxJOAF6JwhPTzef0VHebjR
-	 eds6kcluU17IhQHwjkCpW3qtmYFCdu6QVrLHdVrpnZ1nRsTQzEtql6PgY8Ecqb6Jmm
-	 RnFZzoySzF+o5LL1NW/gmWtpG3OrDryNFhFNacg18dbgCinYzgIJdHWLjoUhiZfHsB
-	 gEWcbfBgy5ZL33qc2rLFfnRhypXS9JFbofJMnuBBDs5zTIaEuomtv0ERlBNAlJn0uW
-	 yzQWbm6r+eN9UkT0pv68nsJHPcp8fwf1JEzhOJ5oRE0QfW4DkqrXieB6tVHyXpZpDM
-	 k9t798ckTUGNQ==
+	b=WSCgnIar83bNEchdXMyUPvIhP8mit/FdzothzuipDd7D9aFyULABHGh6GjX05CY7Z
+	 ELoZ77ZC6cxcyqT0EoKy6+JGpJuxDPsJeo0v0ffZQPO+4CDbkgwQuRlPpldNsR+8Pb
+	 QumjPvrKWYsEerM5djQEv5QREYC5VgpN7iVaPAYMO83dkhEjoeBoyu/QVOib+w7lD0
+	 Dhovp/oYxZY6B+REEba+gxJj9juGd6WGZiCD616PPthvbPkxDKCVFO/sNpWjrYEn3L
+	 pTgyp1rWCdZc2dxN33mUxhUws6REWGogF4yF6m+kTmgnxsKJSFhodqc0NtULPFZJ+0
+	 t9Amw7OYKrv7Q==
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 03/10] media: imx219: Account rate_factor in setting
- upper exposure limit
+Subject: Re: [PATCH v5 06/10] media: imx219: Fix vertical blanking and
+ exposure for analogue binning
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Sakari Ailus" <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org
-In-Reply-To: <20260607215356.842932-4-sakari.ailus@linux.intel.com>
-References: <20260607215356.842932-4-sakari.ailus@linux.intel.com>
+In-Reply-To: <20260607215356.842932-7-sakari.ailus@linux.intel.com>
+References: <20260607215356.842932-7-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 07 Jun 2026 22:05:54 +0000
-Message-Id: <20260607220554.B4F711F00893@smtp.kernel.org>
+Date: Sun, 07 Jun 2026 22:07:05 +0000
+Message-Id: <20260607220705.8AA751F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,7 +75,7 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	HAS_LIST_UNSUB(-0.01)[];
 	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-64098-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64099-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
@@ -87,75 +87,84 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	FORWARDED(0.00)[lists@lfdr.de];
 	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FROM_NO_DN(0.00)[];
 	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,intel.com:email,sashiko.dev:url,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[smtp.kernel.org:mid,intel.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,sashiko.dev:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 34CAB651C84
+X-Rspamd-Queue-Id: 4994A651C8A
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-
-Pre-existing issues:
-- [High] The patch updates the exposure maximum limit calculation in `imx21=
-9_set_ctrl()` to account for analog binning (initially via `rate_factor`, l=
-ater rewritten using `bin_hv` in commit "media: imx219: Fix vertical blanki=
-ng and exposure for analogue binning"), but misses the identical calculatio=
-n in `imx219_set_pad_format()`. This logic error persists through the end o=
-f the series. When a binned format is set, `__v4l2_ctrl_s_ctrl(vblank)` cor=
-rectly updates the exposure limit via `imx219_set_ctrl()`. However, immedia=
-tely afterward, `imx219_set_pad_format()` recalculates and overwrites `expo=
-sure_max` using the unscaled formula `mode->fll_def - IMX219_EXPOSURE_OFFSE=
-T` (instead of `(mode->fll_def / bin_hv) - IMX219_EXPOSURE_OFFSET`). This a=
-llows userspace to set an exposure time greater than the frame length, viol=
-ating sensor hardware constraints.
+- [High] Unscaled `exposure_max` allows userspace to request exposure times=
+ that exceed the physical frame length during analog binning.
 --
 
-commit 5813edc0a3e8ed48f469607d03f8489ba7a6eb19
+commit 5bb0595912a9dcd70c3d849b873e9a213a70ec05
 Author: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-media: imx219: Account rate_factor in setting upper exposure limit
+media: imx219: Fix vertical blanking and exposure for analogue binning
 
-This commit modifies the maximum exposure time calculation in imx219_set_ct=
-rl()
-to account for the rate_factor multiplier when analog binning is used. This
-ensures the sensor's exposure time margin is correctly respected.
+This commit removes a workaround that doubled the pixel rate, frame length
+in lines, and exposure time for analog binning. It updates the minimum, max=
+imum,
+and step values for the control.
 
 > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index d8fe7db18b6cd..e681f80f9e3ef 100644
+> index 3aebcbaa3fcd6..3cee31758b7e9 100644
 > --- a/drivers/media/i2c/imx219.c
 > +++ b/drivers/media/i2c/imx219.c
-> @@ -451,7 +451,8 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
->  		int exposure_max, exposure_def;
+[ ... ]
+> @@ -879,23 +868,25 @@ static int imx219_set_pad_format(struct v4l2_subdev=
+ *sd,
+>  	crop->top =3D (IMX219_NATIVE_HEIGHT - crop->height) / 2;
 > =20
->  		/* Update max exposure while meeting expected vblanking */
-> -		exposure_max =3D format->height + ctrl->val - IMX219_EXPOSURE_OFFSET;
-> +		exposure_max =3D format->height + ctrl->val -
-> +			IMX219_EXPOSURE_OFFSET * rate_factor;
+>  	if (fmt->which =3D=3D V4L2_SUBDEV_FORMAT_ACTIVE) {
+[ ... ]
+>  		/* Update limits and set FPS to default */
+> +		int vblank_min =3D ((int)mode->height * (1 - bin_hv) / bin_hv) +
+> +			IMX219_VBLANK_MIN;
+>  		ret =3D __v4l2_ctrl_modify_range(imx219->vblank,
+> -					       IMX219_VBLANK_MIN * rate_factor,
+> -					       (IMX219_FLL_MAX - mode->height) *
+> -					       rate_factor, rate_factor,
+> -					       mode->fll_def - mode->height);
+> +					       vblank_min,
+> +					       IMX219_FLL_MAX - mode->height, 1,
+> +					       (int)(mode->fll_def / bin_hv) -
+> +					       (int)mode->height);
+>  		if (ret)
+>  			return ret;
+> =20
+>  		ret =3D __v4l2_ctrl_s_ctrl(imx219->vblank,
+> -					 mode->fll_def - mode->height);
+> +					 (int)(mode->fll_def / bin_hv) -
+> +					 (int)mode->height);
+>  		if (ret)
+>  			return ret;
 
 [Severity: High]
-This is a pre-existing issue, but does imx219_set_pad_format() also need to
-be updated to apply scaling to its exposure maximum calculation?
+Does this code allow userspace to request an exposure time that exceeds the
+physical frame length?
 
-When a binned format is set, __v4l2_ctrl_s_ctrl(vblank) correctly updates
-the exposure limit here in imx219_set_ctrl(). However, immediately afterwar=
-d,
-imx219_set_pad_format() recalculates and overwrites exposure_max using the
-unscaled formula:
+When vblank is initialized via __v4l2_ctrl_s_ctrl() above, it dynamically
+computes and sets the correct upper limit for the exposure control under
+the hood.
 
-drivers/media/i2c/imx219.c:imx219_set_pad_format() {
-	...
+However, immediately following this in imx219_set_pad_format(), the code us=
+es
+the unscaled mode->fll_def to modify the exposure limits:
+
 		/* Update max exposure while meeting expected vblanking */
 		exposure_max =3D mode->fll_def - IMX219_EXPOSURE_OFFSET;
 		exposure_def =3D (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
@@ -165,23 +174,20 @@ drivers/media/i2c/imx219.c:imx219_set_pad_format() {
 					       exposure_max,
 					       imx219->exposure->step,
 					       exposure_def);
-	...
-}
 
-It appears this logic error persists until it is rewritten using bin_hv in
-the later commit "media: imx219: Fix vertical blanking and exposure for
-analogue binning".
+Since this patch removes the rate_factor division when writing V4L2_CID_EXP=
+OSURE
+to the sensor hardware in imx219_set_ctrl(), and exposure_max is not scaled
+by bin_hv here, could this overwrite the safely computed hardware bound wit=
+h an
+unscaled maximum?
 
-Until then, does this allow userspace to set an exposure time greater than
-the actual programmed frame length, violating sensor hardware constraints a=
-nd
-potentially resulting in sensor streaming failures or I2C timeouts?
-
->  		exposure_def =3D (exposure_max < IMX219_EXPOSURE_DEFAULT) ?
->  				exposure_max : IMX219_EXPOSURE_DEFAULT;
->  		ret =3D __v4l2_ctrl_modify_range(imx219->exposure,
+If so, userspace could successfully request an exposure value (e.g., 1703) =
+while
+the physical frame length is only 853, which might violate the fundamental
+sensor constraint that exposure time must be less than the frame length.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260607215356.8429=
-32-1-sakari.ailus@linux.intel.com?part=3D3
+32-1-sakari.ailus@linux.intel.com?part=3D6
 
