@@ -1,166 +1,190 @@
-Return-Path: <linux-media+bounces-64048-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64049-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id kwt+LXI+JWqWEwIAu9opvQ
-	(envelope-from <linux-media+bounces-64048-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 07 Jun 2026 11:48:34 +0200
+	id jbjpMyRVJWpZHAIAu9opvQ
+	(envelope-from <linux-media+bounces-64049-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 07 Jun 2026 13:25:24 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F17A664F3FC
-	for <lists+linux-media@lfdr.de>; Sun, 07 Jun 2026 11:48:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A881650690
+	for <lists+linux-media@lfdr.de>; Sun, 07 Jun 2026 13:25:24 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=VjtNVXWe;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64048-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64048-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=BfwjCMVa;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64049-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64049-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1535D301159C
-	for <lists+linux-media@lfdr.de>; Sun,  7 Jun 2026 09:46:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5857E305BB7F
+	for <lists+linux-media@lfdr.de>; Sun,  7 Jun 2026 11:19:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D53D30E0EC;
-	Sun,  7 Jun 2026 09:46:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64ECB3A1A54;
+	Sun,  7 Jun 2026 11:19:42 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 332484071CE
-	for <linux-media@vger.kernel.org>; Sun,  7 Jun 2026 09:46:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E67D2E7390
+	for <linux-media@vger.kernel.org>; Sun,  7 Jun 2026 11:19:40 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780825578; cv=none; b=SveaMSwtxvO99/RltSdVarhV7YDzAFtAdPBq++HSS8ixBemmWwxnRA0YHxYHjoGrv+PX+di62H6Q5frkYkbtjCa+uwjUi/YDYuygz8d92x59Mf+QHWHxqCj6fpo8vLpPIu7FpUVJN4uSs0ZNHbgNENS7WTpL+i7xZ273xbIpubI=
+	t=1780831181; cv=none; b=evlzK4ZlC89xwfFkWFwNmwZiq9w9wmDoen4hJy7q8mzZ1seA3DHk1U54VI90GW9j51nZOiG48uGWUhljzGS3nBOlNKpIZfpRxwbJzvrBUXIixsRpqNsDG9TMWdqqvLiWZC65xr2hmMUUc5/dZBLqhxMdI8O0IWWglgcWZaolCRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780825578; c=relaxed/simple;
-	bh=20jwyUnyWsnQLHuLSIWEkq1IKChpSz8jYv2wDAm5hec=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=MemtGzPQgBzmZwnNuNfr81yTCBTHhHlOccG0qjtLN2ZmmJpIVOVImY2QaCmh2i4Ffyp4HkYtE34C1CWPS6o8Qfam1mi9P80zzr69CIu2QYK+7JcnYbiiQePecME3OURIRguah7390ZpggQJJAV2uU2vpWYH/QDD7o5znS4XBlxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VjtNVXWe; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F1081F00893;
-	Sun,  7 Jun 2026 09:46:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780825576;
-	bh=vUiTTFO6XoegkGUWVW88+vJkLifZh8YVUGMxaxfAJ+8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=VjtNVXWeN4bbDtYCAZ4SGQGotuRnWLNSluYMbhnR4t6abcHQO9AZGncDEQa5SBkXy
-	 pD0+8uC4bedgmd1WhSpMBruwtHORhCI958gNYU/cOYXgx/s1YUD6G91wDz5YcZ8f/p
-	 jy5ND/RjzpMcxWv6ylWBdHDqPFMT+52BJP/TNKKXIkU6qTWqm/4g0cmZzWB7TKXuKc
-	 YxobxISLtDYlsc4SyKmeni0ZX/Okp8XvLKdF1z0VSeM9Z0BopjXxfNL+Y1QpjJVbMs
-	 pbHkTFZzH5iKsJFa3/nWyoZn8Na4SEyhb50T69NdAwILbbm3Rk5dEKEXL5j+heAO5i
-	 HmHKt3nxLN98A==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] media: bt878: check register mapping in probe
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Ruoyu Wang" <ruoyuw560@gmail.com>
-Cc: linux-media@vger.kernel.org
-In-Reply-To: <20260607093530.3-1-ruoyuw560@gmail.com>
-References: <20260607093530.3-1-ruoyuw560@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 07 Jun 2026 09:46:16 +0000
-Message-Id: <20260607094616.9F1081F00893@smtp.kernel.org>
+	s=arc-20240116; t=1780831181; c=relaxed/simple;
+	bh=0uDYtqRBUzvLjwC3Lb+glSfRN5HCu+ot/eZzvgKdnq8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TgtT7g3l0es/xly3BNea7jG7c7++dL74SnT6h8qgbwa9T05PQshQgZ1/2wwPWj9O4WrmMO8+VFBLGmPFunKy9VEsrb3gpaRXIpZg0yN+2gaNZflsvqDTlM5MLiSeSTf1nA+EVb/2ZSGvlWhATMgBKvSAAv+14fxrQ6c1cAv+7tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BfwjCMVa; arc=none smtp.client-ip=209.85.128.42
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-490b3637b90so28501125e9.3
+        for <linux-media@vger.kernel.org>; Sun, 07 Jun 2026 04:19:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780831179; x=1781435979; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nrYQAlpfe/R8hKzBRpiJvT6OU8qSP87xKaeg9At/5s8=;
+        b=BfwjCMVa5kQOBFZ/v5rs91TcX6t9R+J+RUXTI6y4v6M2e6nY2c19BviZ0hLBQABya5
+         jy7N1orx4sQjjn4wAkIMJ8gJkGI2u7QnZiwJpNQAZOCFR95I+xN8rGw/fP+mTHLZUj/p
+         44sswKTGeTHCkARHGPQMu6p6Izzz1LM1orHNpLHFt1HNJ83GampZthLmkv1003riHEmw
+         aJPcdgWyEfhRdwLoDuyLYRiGx+v/Zt73O3ftGBMgfRHxr/1+YPbc1uO8DXifmQEZ7WTf
+         jxsXmV1GsPWlKkBOAJWyv8e3VfY2ZfFTlFwUj9mZwH62YKAsbXyh2YuzJsn0ql0jyrDV
+         Wwyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780831179; x=1781435979;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nrYQAlpfe/R8hKzBRpiJvT6OU8qSP87xKaeg9At/5s8=;
+        b=EnaovD81uxCMDU/827LZBeWQNv2jfw5kUwPheNtaiNFQt0YaY+Sig0rvAp4is8GZLQ
+         nzhbu6YzECGLF3mh6/iLWY/b1C+HF7Onqvif4YEeZJwZncN2bUiVtl0Jplr9Z9CzmQO9
+         xyMriNhwXRiTUL5elSVT9OtSKiMcVjhl3LDTbgok6giYR7FTnoeLxqElzrGx182CLfSE
+         5Fu+IjZewyEen9kOURPXnWaiy5SdfqDViPiULvRdix3YV3S0R4ZnRwuT1xpUdSBXYcta
+         bqFmCmacPXo6I3fhMDCvcg+nwgYfm4YfXUkL7vzIEtN8sKkKdEhqP9beNCaUgM67M/Hd
+         3fZw==
+X-Forwarded-Encrypted: i=1; AFNElJ96DugPRr2Ce0gCVRcznhSTkPtwjwWjnoScKTIxxsMlHSlkqEfBXiOaKjC19q0uVlIAsJ1zWiMbYZNIMw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbOWFX8TBKSekkfQ9CX1VAv2UyyIkdZ8h6p9Q34+5XLSW9gdqk
+	TeCEf6pVrYZPaynnT1/u9lwZ3jVXnKg3pEFqmvRN7Vn3GK6bZC9DGao=
+X-Gm-Gg: Acq92OGV37lIHxsc+Bs2nJfL+lB9o2x7ZxvvUeew/Lek8cCbbZ3e+BNckJBCB82Rn8U
+	P7Iy2kKf1eZl2t62n4EnoVRaiLBE+CdUe69imNhp9+0G7z5nMxKb88GCbkUJwtLzs+hXprmQaSX
+	VuaBX0XvcnK9ScKonRqmBVA5R4WBbAt6mk6rOvh2oCenCjkOHClZdwJGhFtT3vZJKXOrjpBEgjr
+	q0KZC9VsACrmjWC6o6CLadw7BD+HxWL/ciMB3xsvkvZ40by4Q1g/s5Ux+5Rbuk4Jv2DqcRthYWB
+	w9ILbJJzDb3+n4vi+3vuZf8f1ma+fZMmZ/dRYuJYUMDpPyjIwLxVTwmI8SdZ5DmTaD4yYqYwUXZ
+	pitmpRXzzLgpz3ZHdjJfKjFbTlls+Z0Uc/d6EdoXkfXXbV7+vBcK6OP9nZQ/IBs7LBLOUPTCL7h
+	2dddy2z1xzQNYboV9dU+r9e9Lla0C+FSp3Iv7++SC0G9m3DnCMDC8Xx4zbXGyzRzOGYTeTwUtnX
+	g4smBheoCn7eTyvwIJJfPaUZmEFRJyY6wrAHO13yQ==
+X-Received: by 2002:a05:600c:818c:b0:490:6237:521d with SMTP id 5b1f17b1804b1-490c25b3ca5mr196207925e9.13.1780831178838;
+        Sun, 07 Jun 2026 04:19:38 -0700 (PDT)
+Received: from hp-ubuntu.. ([196.74.199.190])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490bc3918d7sm282234195e9.2.2026.06.07.04.19.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 07 Jun 2026 04:19:38 -0700 (PDT)
+From: Mohammed EL Kadiri <med08elkadiri@gmail.com>
+To: quic_vgarodia@quicinc.com,
+	quic_dikshita@quicinc.com,
+	bryan.odonoghue@linaro.org,
+	mchehab@kernel.org
+Cc: kees@kernel.org,
+	gustavoars@kernel.org,
+	dmitry.baryshkov@oss.qualcomm.com,
+	linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mohammed EL Kadiri <med08elkadiri@gmail.com>
+Subject: [PATCH v2] media: venus: Annotate flex arrays with __counted_by()
+Date: Sun,  7 Jun 2026 12:19:33 +0100
+Message-ID: <20260607111933.6398-1-med08elkadiri@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	MISSING_MIME_VERSION(2.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:ruoyuw560@gmail.com,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64048-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	MIME_TRACE(0.00)[0:+];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[kernel.org,oss.qualcomm.com,vger.kernel.org,gmail.com];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-64049-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
-	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ALIAS_RESOLVED(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:quic_vgarodia@quicinc.com,m:quic_dikshita@quicinc.com,m:bryan.odonoghue@linaro.org,m:mchehab@kernel.org,m:kees@kernel.org,m:gustavoars@kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-hardening@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:med08elkadiri@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[med08elkadiri@gmail.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_NO_DN(0.00)[];
-	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[med08elkadiri@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,smtp.kernel.org:mid]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ALIAS_RESOLVED(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,qualcomm.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F17A664F3FC
+X-Rspamd-Queue-Id: 2A881650690
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
+Add __counted_by() annotations to flexible array members:
 
-Pre-existing issues:
-- [High] Race condition in bt878_probe due to unprotected global variable b=
-t878_num
---
+- hfi_capabilities::data, counted by num_capabilities
+- hfi_profile_level_supported::profile_level, counted by profile_count
+- hfi_resource_ocmem_requirement_info::requirements, counted by num_entries
 
-commit 5c524e09ca816b9e46cc6d10e5292d06fb75ca23
-Author: Ruoyu Wang <ruoyuw560@gmail.com>
+This improves run-time bounds checking via CONFIG_UBSAN_BOUNDS and
+compile-time object size resolution via __builtin_dynamic_object_size().
 
-media: bt878: check register mapping in probe
-   =20
-bt878_probe() maps the device register window and then immediately clears
-the interrupt mask through btwrite(). If ioremap() fails, the register
-write dereferences a NULL mapping. This patch adds a check for the mapping
-before touching the registers, and unmaps it on later probe failures.
+Assisted-by: Claude:claude-opus-4
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Signed-off-by: Mohammed EL Kadiri <med08elkadiri@gmail.com>
+---
+ drivers/media/platform/qcom/venus/hfi_helper.h | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> diff --git a/drivers/media/pci/bt8xx/bt878.c b/drivers/media/pci/bt8xx/bt=
-878.c
-> index 62a6c4a80bed2..245a5f0ef4fec 100644
-> --- a/drivers/media/pci/bt8xx/bt878.c
-> +++ b/drivers/media/pci/bt8xx/bt878.c
-> @@ -445,6 +445,10 @@ static int bt878_probe(struct pci_dev *dev, const st=
-ruct pci_device_id *pci_id)
->  	bt->bt878_mem =3D (unsigned char *) bt->bt878_adr;
->  #else
->  	bt->bt878_mem =3D ioremap(bt->bt878_adr, 0x1000);
+diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
+index f44059f19505..e96d458c52fa 100644
+--- a/drivers/media/platform/qcom/venus/hfi_helper.h
++++ b/drivers/media/platform/qcom/venus/hfi_helper.h
+@@ -616,7 +616,7 @@ struct hfi_capability {
+ 
+ struct hfi_capabilities {
+ 	u32 num_capabilities;
+-	struct hfi_capability data[];
++	struct hfi_capability data[] __counted_by(num_capabilities);
+ };
+ 
+ #define HFI_DEBUG_MSG_LOW	0x01
+@@ -802,7 +802,7 @@ struct hfi_profile_level {
+ 
+ struct hfi_profile_level_supported {
+ 	u32 profile_count;
+-	struct hfi_profile_level profile_level[];
++	struct hfi_profile_level profile_level[] __counted_by(profile_count);
+ };
+ 
+ struct hfi_quality_vs_speed {
+@@ -1085,7 +1085,7 @@ struct hfi_resource_ocmem_requirement {
+ 
+ struct hfi_resource_ocmem_requirement_info {
+ 	u32 num_entries;
+-	struct hfi_resource_ocmem_requirement requirements[];
++	struct hfi_resource_ocmem_requirement requirements[] __counted_by(num_entries);
+ };
+ 
+ struct hfi_property_sys_image_version_info_type {
+-- 
+2.43.0
 
-[Severity: High]
-This isn't a bug introduced by this patch, but looking at how bt is
-assigned earlier in bt878_probe():
-
-	bt =3D &bt878[bt878_num];
-	bt->dev =3D dev;
-	bt->nr =3D bt878_num;
-
-Could this cause a race condition since the global bt878_num counter and
-bt878 array are modified without any locking?
-
-If multiple bt878 devices are bound simultaneously (e.g. via concurrent
-userspace sysfs bind writes), multiple threads could read the same bt878_num
-index and concurrently overwrite the same bt878[bt878_num] element.
-
-Could this lead to resource leaks (like losing the ioremap pointer assigned
-here) or memory corruption when devices process interrupts using clobbered
-state?
-
-> +	if (!bt->bt878_mem) {
-> +		result =3D -ENOMEM;
-> +		goto fail1;
-> +	}
->  #endif
-> =20
->  	/* clear interrupt mask */
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260607093530.3-1-=
-ruoyuw560@gmail.com?part=3D1
 
