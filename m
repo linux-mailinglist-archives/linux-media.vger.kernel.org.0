@@ -1,207 +1,203 @@
-Return-Path: <linux-media+bounces-64224-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64225-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id c9K0AwLtJmpWnQIAu9opvQ
-	(envelope-from <linux-media+bounces-64224-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 18:25:38 +0200
+	id o65FCbTsJmobnQIAu9opvQ
+	(envelope-from <linux-media+bounces-64225-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 18:24:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3A2F658ADD
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 18:25:36 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C4B7658AAA
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 18:24:19 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=raspberrypi.com header.s=google header.b=HFptEpE4;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64224-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-64224-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=raspberrypi.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=collabora.com header.s=mail header.b="GQfwQ9/3";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64225-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64225-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=collabora.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 5C4C93297BCA
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 15:47:32 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 9965730AA12F
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 16:16:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B51EA3D6CAB;
-	Mon,  8 Jun 2026 15:45:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0638433A70F;
+	Mon,  8 Jun 2026 16:16:40 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E726A3D5676
-	for <linux-media@vger.kernel.org>; Mon,  8 Jun 2026 15:45:17 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780933519; cv=pass; b=VyiNZiOAyKGEFzaBY3GdmMOkKPMbjfvO5ISvl8oDLvj6TqNhrrvD9mzZvtZF5LnxaOTes4m8n8mW1hOVdLifM+1ieSF0Gf4AfYJU1khDlbCdou/nqcFkfQx+QhfmSt2lrhKqdBv1X8E911qidPw6yRvSZgMjFYsEfpd0F9A09Tw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780933519; c=relaxed/simple;
-	bh=YVNNQmM2+NURr+DmmZb+XKoqzewZOt4WrXPI0y+13Hc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Aqhv10Zlroow8Ycf8vFFj1Xj/BTSw2z1DTPKF1xiWbEoKOpEk/CTo10kvAE2RaKkocdhoDhuVospAVMt79yPjvoaJAHT//Nybw6UHHbDP8DXUcOAWVsrIuLJ7zukzA17tuKwKJ6eByZP+nE5tCWTMGHi5pA6q4CjKmreMvp7QQc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=HFptEpE4; arc=pass smtp.client-ip=209.85.128.177
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-7de68222e96so44343157b3.2
-        for <linux-media@vger.kernel.org>; Mon, 08 Jun 2026 08:45:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1780933517; cv=none;
-        d=google.com; s=arc-20240605;
-        b=O+Wescox4/Y2o+JaBRnsBuG0mMDVqj4vZL+dYIoGhC83fEyYid71jOYmdYhxTcZGvy
-         rks4m1cCQ/2OOgRBRlAJMsXLLj+Vvfa7g6y5f3L5d/qOPaB4CXD74iBIZOCm2Pa7ij1y
-         QhbfFMgdalT+s9ZoxhmOV6Uq6/yym9RzTV8DNTDEYd9ULyaMPCEOSLMBFONxVCaiEs9w
-         yUP7al1MDDbYm0WhzNHL2J9OdcUH0YIGRn6wX5ASoZ6cULe9LU1wHx3HbUCHsREUo5Tx
-         kCjyVy5vIYhxGjf+I172bc6Im/FVPUQi6RlbW7Fl7ppHpdDTn0VDHaDHK0Aj2csXbRQ6
-         nO/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=PEExMcy9UryCqZUp+zT2BAVO8vaOh7PT8QhYk24DmcI=;
-        fh=wCgf29w5Tfiwiv5ySPc/k82f0CcZCa01Bp13MVBRgUA=;
-        b=D8rhyGt3ar8uo4u2c2NRXvHRcfhiZnWU4cBqCslO3OFpU6MVUILo747hcUR3VCAnPl
-         sf70U+nHC6ZX3+mjwQNYZsx3bZ5jm7SUJ88QDw77rEkZRvFwpb7tWvW2SoXHQllA2GLL
-         iNuK6YIlL/iea9KqA5JVRsSHcHsUYIZcnAghF/sCwd8y26kALg9I5MpLzn1tmY+hd3iv
-         NFBIeeT97eQfQkFM+K6midxNo2b4g+abNmFYldWDImZMdSTDrxpxN38fitd5bxz1EHWD
-         +umeund+oaTWUOowPvQ0mLSDH5pa2IQdqBthSnCDfdNPlLz6fgND8rV5XRzYX8CEFdi9
-         818Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1780933517; x=1781538317; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=PEExMcy9UryCqZUp+zT2BAVO8vaOh7PT8QhYk24DmcI=;
-        b=HFptEpE4enl5CbvV3620/uxShQRibSuGYkPza9yYktFHCr9KW3//hjEAIVrVDZHAu4
-         pPSuqWxNoovwnJNXunrhjJAy7iVTzUBtF9tvwXzpEGeiAaj4j8O2R3cGOVeZO8WwSM/V
-         h1q/cGzA9dHhhsFvS5qHIYLX2SniGYG8iKMCvHenEqVZ5s9O0emyVt8n207qcrZIr5yD
-         U0Fs6/xtdmIJKg/dwLN6CoyTFxiaZucuqh0oVmM+aMvppBp4/fmQVkULzq1OcYyhF+Eo
-         kJ0vLGQZ+bkvmZEVi2LQZVjBFnRsAxuBCegtld5knjZnhcbB0c/z2N8WM7g7uW4KJudP
-         V7cA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780933517; x=1781538317;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PEExMcy9UryCqZUp+zT2BAVO8vaOh7PT8QhYk24DmcI=;
-        b=KAkEKgR0aTJCG1uH+6Oe0JeY3igrrcUnZkkqjQYGe5kjimA9YhqToh5W7YevL6M38O
-         giknRccnjPjdx1T+BI2WmUOvKlfwDu7eUPsMv5e0kEnXu7ckUPghw+bHtz08CbR360lO
-         X9ukag34nGzOo/VHsyBhDS47ksB8QfR+U8JbZChEp8rEiSYicPq/jS4VWjA7EFESH5wu
-         o/5WXWE+KcDOp8AuCDZVFOse8J8cX/TuCBZEN7y/LgxUeVczOsmMbwBtZ4TGM6dk/yyU
-         sYQgxYC5EtgFijmLuYA10T8vtQInraY+6r5AMbkc+Yy/eDkTQX8B0nbkEL6lFKoTy+th
-         hvxw==
-X-Gm-Message-State: AOJu0Yy3PSus/lXMiNZM9mO2SEPaC67rFwBsWkI+We5tL/Tyc18Z1vju
-	jPnYzCV+xJstgCWcpo4BnppOrFDN+Hi/xew4iqqUCweFXQKimRLsPg1/P5gcHmEs55wkpo28QDF
-	PBmSRUEU2oFroJxd3TKhEbvm55/9/Qk/tMJzESHvbQQ==
-X-Gm-Gg: Acq92OFz6m2GTSadidC+REQJG/ERI8rsVaIYR9dPQqACchUyiPkmukbn+SjUAFKKA8F
-	tdoQFsmuGB4wtmSbBXZXSLNINeiteuBXmecHo+SshUK7XlZ3BF+sWiIdG2KjcPkaShysXGKo+El
-	LUkTDJni9acu3ZcsfeqaTMLx3TkC3X81Jt3ePIFR10hCydV6/n6e79xO991j3IJNNxvrVPIojEF
-	boHbwZEYWa6F2xjCuc4g8tIkSV4Vhhfr8iB4xq+HdNkEFyLPLKk//B7p9fNFsHE6IdRfzOvilYt
-	cAYJ3taOZ5PRLw90ECmNMacCSXH4TUPIi4H0iS1Sz6mRZ0XbN9lgLnCSJmXdwgZPWG5ErVBrLP0
-	llo1gZ6rEAK29e8DGUg+6eymXU8tBl+ONqhQ=
-X-Received: by 2002:a05:690c:6d01:b0:7de:700a:8eb5 with SMTP id
- 00721157ae682-7ed0ed50f25mr168573337b3.32.1780933516925; Mon, 08 Jun 2026
- 08:45:16 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E316330B3F;
+	Mon,  8 Jun 2026 16:16:37 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780935399; cv=none; b=StmSrOJ9P6WY/Wn69n7ZQyblxVBQNOX36lFETITyyXVGY2Y9WDrrXNC+jNT+0iWFIw86XNawQwj4Md6f1uFQ81VzXWb768oOtN4PoDmg9NKK9eX2dvOk2ORXuTzF8k3ZqGPtSojFPKMIKXHH9qRaDDQcxUn6hfQpEnpgZ48fFp4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780935399; c=relaxed/simple;
+	bh=xGGWdFLEngPDMXFB2PFmBpS6BJSHuwn10nktdwKZ0R8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TVP9M1wKFqUq++QDPRdgSnPCrrZ/iy75Iqvp4OYPOivhdFb7PYgYn/dERmt+Sh6n8bpr3xRXaauKoCddG2e7IEt4rXfszTxCzNQuQsfCN95jscdpcLfz4yb1v9oZ/SN4QWZKHfkKHvv6T9TqcBfo4QGxZzJ5yMVsD6C3rkLCVGs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=GQfwQ9/3; arc=none smtp.client-ip=148.251.105.195
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1780935396;
+	bh=xGGWdFLEngPDMXFB2PFmBpS6BJSHuwn10nktdwKZ0R8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GQfwQ9/3qb1vkjn6+So3RU7ndSWdedP0nXu2OGh6mS4xaGNYDlGTtcYkA9mz3rLxI
+	 vTsZZYMLOpjwwl+/qNO1Ja6r+wVYK82CYJaOWigjgReqcNpFSPVoFUQCBh7NMzmhzR
+	 biASTZtd3l9gzRI+6keIxCRPat1Vgjn0riTs4LRzAYQN3zsS0DTo3pCNKjmsHxbtdU
+	 N/HL1Fui8m8MYxljwhPeujev+0GqdrJMdOy0N6dDy+iPTRBc6v3brDbJFubyjKLlHH
+	 JuEHZt+blaz8RW0o/NsESyKiITLp5VI+JZ9lB2BtrCY1qGnE7kjJbtgOKpjkM6hHvB
+	 0IUslWtm8JH+A==
+Received: from fedora-2.home (unknown [100.64.0.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id B16D617E0416;
+	Mon,  8 Jun 2026 18:16:35 +0200 (CEST)
+Date: Mon, 8 Jun 2026 18:16:30 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Philipp Stanner <phasta@mailbox.org>
+Cc: phasta@kernel.org, Danilo Krummrich <dakr@kernel.org>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Alice Ryhl <aliceryhl@google.com>, Daniel
+ Almeida <dwlsalmeida@gmail.com>, Gary Guo <gary@garyguo.net>, Tvrtko
+ Ursulin <tvrtko.ursulin@igalia.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] dma-fence: Fix races of fence callbacks versus
+ destructors by locking
+Message-ID: <20260608181630.20145d1c@fedora-2.home>
+In-Reply-To: <256dc5ae3529e2548c4151af34a540476ac928c1.camel@mailbox.org>
+References: <20260608142436.265820-2-phasta@kernel.org>
+	<20260608170112.24fd92df@fedora-2.home>
+	<6bdbdb6541392c6ea58e0035f0b20ac3c8f3e54e.camel@mailbox.org>
+	<DJ3RRRX6JY4M.LCRKJ074W9DQ@kernel.org>
+	<256dc5ae3529e2548c4151af34a540476ac928c1.camel@mailbox.org>
+Organization: Collabora
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260607215356.842932-1-sakari.ailus@linux.intel.com> <20260607215356.842932-6-sakari.ailus@linux.intel.com>
-In-Reply-To: <20260607215356.842932-6-sakari.ailus@linux.intel.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Mon, 8 Jun 2026 16:45:01 +0100
-X-Gm-Features: AVVi8CcW9mR-W8XMZSVmDwFiqnIistWvBXz17nHOdGDOmcOqxQ1II9W6hDAhsQA
-Message-ID: <CAPY8ntAZTpabaRu3cCg9oncpdZFqpm2tkE7uCzJ9sBb66ecmLw@mail.gmail.com>
-Subject: Re: [PATCH v5 05/10] media: imx219: Rename "binning" as "bin_hv" in imx219_set_pad_format
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
-	laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, 
-	Kate Hsuan <hpa@redhat.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, 
-	Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, 
-	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
-	=?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
-	Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	David Plowman <david.plowman@raspberrypi.com>, "Yu, Ong Hock" <ong.hock.yu@intel.com>, 
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>, Jai Luthra <jai.luthra@ideasonboard.com>, 
-	Rishikesh Donadkar <r-donadkar@ti.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64224-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:hans@jjverkuil.nl,m:laurent.pinchart@ideasonboard.com,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:dongcheng.yan@intel.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:jacopo.mondi@ideasonboard.com,m:tomi.valkeinen@ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:jai.luthra@ideasonboard.com,m:r-donadkar@ti.com,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64225-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
+	HAS_ORG_HEADER(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:phasta@mailbox.org,m:phasta@kernel.org,m:dakr@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:aliceryhl@google.com,m:dwlsalmeida@gmail.com,m:gary@garyguo.net,m:tvrtko.ursulin@igalia.com,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[kernel.org,linaro.org,amd.com,google.com,gmail.com,garyguo.net,igalia.com,vger.kernel.org,lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,foss.st.com,wanadoo.fr,collabora.com,raspberrypi.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[raspberrypi.com:+];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D3A2F658ADD
+X-Rspamd-Queue-Id: 8C4B7658AAA
 
-On Sun, 7 Jun 2026 at 22:54, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
->
-> Rename "binning" as "bin_hv" in anticipation of having a variable called
-> "binning" for another purpose.
->
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+On Mon, 08 Jun 2026 17:30:58 +0200
+Philipp Stanner <phasta@mailbox.org> wrote:
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> On Mon, 2026-06-08 at 17:23 +0200, Danilo Krummrich wrote:
+> > On Mon Jun 8, 2026 at 5:17 PM CEST, Philipp Stanner wrote: =20
+> > > On Mon, 2026-06-08 at 17:01 +0200, Boris Brezillon wrote: =20
+> > > > On Mon,=C2=A0 8 Jun 2026 16:24:37 +0200
+> > > > Philipp Stanner <phasta@kernel.org> wrote:
+> > > >  =20
+> > > > > @@ -1020,11 +1024,20 @@ EXPORT_SYMBOL(dma_fence_wait_any_timeout);
+> > > > > =C2=A0void dma_fence_set_deadline(struct dma_fence *fence, ktime_=
+t deadline)
+> > > > > =C2=A0{
+> > > > > =C2=A0	const struct dma_fence_ops *ops;
+> > > > > +	unsigned long flags;
+> > > > > =C2=A0
+> > > > > =C2=A0	rcu_read_lock();
+> > > > > =C2=A0	ops =3D rcu_dereference(fence->ops);
+> > > > > -	if (ops && ops->set_deadline && !dma_fence_is_signaled(fence))
+> > > > > +	if (!ops || !ops->set_deadline) {
+> > > > > +		rcu_read_unlock();
+> > > > > +		return;
+> > > > > +	}
+> > > > > +
+> > > > > +	dma_fence_lock_irqsave(fence, flags);
+> > > > > +	if (!dma_fence_is_signaled_locked(fence))
+> > > > > =C2=A0		ops->set_deadline(fence, deadline); =20
+> > > >=20
+> > > > You can't take the fence lock around ->set_deadline(), otherwise yo=
+u'll
+> > > > deadlock here [1] or here [2].
+> > > >  =20
+> > > > > +
+> > > > > +	dma_fence_unlock_irqrestore(fence, flags);
+> > > > > =C2=A0	rcu_read_unlock();
+> > > > > =C2=A0} =20
+> > > >=20
+> > > >=20
+> > > > [1]https://elixir.bootlin.com/linux/v7.0.11/source/drivers/dma-buf/=
+sw_sync.c#L182
+> > > > [2]https://elixir.bootlin.com/linux/v7.0.11/source/drivers/gpu/drm/=
+msm/msm_fence.c#L139 =20
+>=20
+> Oh, MSM actually doesn't btw, that's a false positive. That's a
+> distinct spinlock on their fence context object.
 
-> ---
->  drivers/media/i2c/imx219.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index 86683fe8a79e..3aebcbaa3fcd 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -837,7 +837,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->         const struct imx219_mode *mode;
->         struct v4l2_mbus_framefmt *format;
->         struct v4l2_rect *crop;
-> -       u8 bin_h, bin_v, binning;
-> +       u8 bin_h, bin_v, bin_hv;
->         int ret;
->
->         format = v4l2_subdev_state_get_format(state, 0);
-> @@ -870,11 +870,11 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->         bin_v = min(IMX219_ACTIVE_AREA_HEIGHT / format->height, 2U);
->
->         /* Ensure bin_h and bin_v are same to avoid 1:2 or 2:1 stretching */
-> -       binning = min(bin_h, bin_v);
-> +       bin_hv = min(bin_h, bin_v);
->
->         crop = v4l2_subdev_state_get_crop(state, 0);
-> -       crop->width = format->width * binning;
-> -       crop->height = format->height * binning;
-> +       crop->width = format->width * bin_hv;
-> +       crop->height = format->height * bin_hv;
->         crop->left = (IMX219_NATIVE_WIDTH - crop->width) / 2;
->         crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
->
-> --
-> 2.47.3
->
+It's not, it's the same lock they attach to all their fences coming
+from this context. It's just that this lock appears to be per-context,
+like is the case for basically every driver, since the inline lock was
+introduced only in this release cycle.
+
+Anyway, this is all stuff we can fix if people think it's okay to
+protect dma_fence_ops calls with the fence lock. But my point remains:
+each op has its own locking-rules, some are called with the fence lock
+held (enable_signaling(), signaled()), others are not (set_deadline(),
+get_xxx_name()), so we need to carefully audit each of those to make
+sure:
+
+- calling with the lock held in the new places is not causing a
+  deadlock
+- the returned data, if not a scalar, is protected by the RCU read lock
+- any driver implementing ops that can be called without the lock held
+  need to hold on the device data for an RCU grace period
+
+The last bullet is probably the one I'm the most worried about, because
+instead of a single rule that applies to all ops, we have various cases
+based on whether some ops are implemented or not, but that's already
+the case with deprecated ops like .release() or .wait(), so maybe
+that's okay with the proper doc.
+
+If I were to choose, I'd probably go for a dedicated rwlock_t to
+protect dma_fence_ops, so we can:
+
+- protect all dma_buf_ops::xx() consistently no matter the kind of op
+- protect returned data (get_xxx_name()) with this lock instead of the
+  RCU read lock
+
+But the overhead of this extra lock might not be acceptable, dunno.
+
+>=20
+>=20
+> But yes, before we could upstream this, we would go through all the
+> implementors like Danilo did, to find all the others.
+
+There's the two I pointed out, plus the array/chain containers I
+mentioned, which are not problematic.
 
