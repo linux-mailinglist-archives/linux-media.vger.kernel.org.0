@@ -1,62 +1,63 @@
-Return-Path: <linux-media+bounces-64135-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64136-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id BCcgGwVpJmpfWAIAu9opvQ
-	(envelope-from <linux-media+bounces-64135-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 09:02:29 +0200
+	id ik3OMQ1qJmqnWAIAu9opvQ
+	(envelope-from <linux-media+bounces-64136-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 09:06:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D84D653575
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 09:02:29 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F95D65362F
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 09:06:53 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="nBS/7M4C";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64135-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-64135-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=cXE8vzkd;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64136-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64136-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6065730055AB
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 07:02:22 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3D611302BCD3
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 07:03:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BB0138F654;
-	Mon,  8 Jun 2026 07:02:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D21338F646;
+	Mon,  8 Jun 2026 07:03:02 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3652835E1C5;
-	Mon,  8 Jun 2026 07:02:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C33DD3254A9;
+	Mon,  8 Jun 2026 07:03:00 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780902140; cv=none; b=hi///6qxdDUqXOfeCLirCi9Ex1AbBJvA0XRDaK0IftXbRc1F/GPyyYSKr1V6sFQBNfQW2NGfBQp8qKxZDEew9EB/3FsUcKqf0VLbSqTlnlwaZPCZbmGN7Fso03yi2hJ13jB/xG7X9+CZOKBAaYm1fLZpINxWttOxFYvXsZ/2FTk=
+	t=1780902181; cv=none; b=Qrshm8uYa8FM4mOaO0aLp9+dIs+JQtu0b6HOpOmfSRHIpZqX0TNhyDVWObcC5mhvlq+kCEivjdxZk3Jt78fcTPOELGwNxJHYkGaUYFrbG8lKvBxU0C7JkjLKEWeJqsdb5hrHfXMQOVBG+WJ1VrXZB2ziLNw4aaFomTTQS8h7gxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780902140; c=relaxed/simple;
-	bh=tZrj9eLBvzRRcM6HT0FeOdIB8ecGY5WrVP53mjUljls=;
+	s=arc-20240116; t=1780902181; c=relaxed/simple;
+	bh=BMjFzNBoAGngJ0hCOmcrg7I3zkNFzTNBG3ZjqL53oMs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ooodsiEmFt4o2SAbi9ivKs1OrWv1UFSVgqU0Ya9vlubiNBZT8CkZBP7WwUCQVh1CXoVjCDZNPD5Zh2iteKaCFwGS25CakMyk+L6LjByvjySKwSQx/qLutIR4y6hlXwLsiag3lRy+Orbpux2xtld0FpuHlgkeGmrIMgap1w8FC7g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nBS/7M4C; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F5D71F00899;
-	Mon,  8 Jun 2026 07:02:17 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=idwb3qFc9w1zZIAQNHTEITURDAnpLdFCQDdqyVD8FIuogQSTsCQgop6BXu9s28vMOxRkHC1muQFx5rjCrU8l4rMUsBfyEo3kn5VaribETEpBkeK1gWDnDIXN/KcMjx9pJCpW3vpiaBsDYMUaxeQbCOY/JbgW8lXiPYlvUmobVac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cXE8vzkd; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 547DD1F00893;
+	Mon,  8 Jun 2026 07:02:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780902138;
-	bh=XHHLj5Mh1orkQVPCuQezuHasEYiWXohNYryPE8VxcMk=;
+	s=k20260515; t=1780902180;
+	bh=sC/NJlKydMkj+Y9yfiR3+x1I6jBmsagpXNDi38GetMg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nBS/7M4C2ph6rkZ6DDBV7/vdGjFODsZV8yyjFfDFgInQPp1jvJdUWtdOgwvL5iM3/
-	 6GiDX1U+acRP2mjUn9jVMiSHOProAzGoTeChQbFPpjyW9MafSFRYb1BdliaD4yPQJM
-	 8MCgpcE+LejdaYK4MQnS7t2UcNsGvHaO3iA6bZhASjutdivwEjc8eQfrpIOfyUwd4N
-	 DGLBMC8KPUGjNsaOCrw0cQrs/V+cn9b6IQe2KgwJKcpV0HJZ5Ml8V4iV6u9hnbFBqA
-	 ZsYHWukLkNIVEKyWBaHrPLsPgkbvN9bjWvGlY1tKkIDh4ToS/87wdcfHU2aWu2dZ+w
-	 bX0QrjferTosA==
-Date: Mon, 8 Jun 2026 09:02:15 +0200
+	b=cXE8vzkdo3y3nBwueO3NFR2c9fkxUxELfMg/ceK54WfkCIT/cAVZ9cN9sjD9ooPBy
+	 2mQl1Npy1SiK6qr3U+pEMC2sJU08DJ0trJinQT1xdruW33XMTW3xfgDtjzmRrpoNKt
+	 WdEq31dQXxTtInOMV5f/b6sLvJZgOanV3+NkE2E+Tl8fwNi/S1p39cv+ZseRzFG3ZG
+	 9r36zELmr1ZnsLSzJ00AIVdN6XDx7yFDNOspmZA7BX1pf3WTxQZUaCpqymMVWpg2XT
+	 z5u6hXu+tCU+FhmmzdUQdHREjGV8RTWul7NXTXITAP9phoIh2C38PZJFOmENTT5yW9
+	 W1JkmyDaFTq9Q==
+Date: Mon, 8 Jun 2026 09:02:56 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Herman van Hazendonk <github.com@herrie.org>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
 	Conor Dooley <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 1/2] dt-bindings: media: i2c: add aptina,mt9m113
-Message-ID: <20260608-nondescript-organic-jacamar-fc2ac9@quoll>
+Subject: Re: [PATCH v7 2/2] media: i2c: add Aptina MT9M113 1.3 Mpx SoC sensor
+ driver
+Message-ID: <20260608-exuberant-ingenious-macaw-9c6145@quoll>
 References: <20260607-submit-media-mt9m113-v7-0-5da397a3d2a5@herrie.org>
- <20260607-submit-media-mt9m113-v7-1-5da397a3d2a5@herrie.org>
+ <20260607-submit-media-mt9m113-v7-2-5da397a3d2a5@herrie.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,19 +66,19 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260607-submit-media-mt9m113-v7-1-5da397a3d2a5@herrie.org>
+In-Reply-To: <20260607-submit-media-mt9m113-v7-2-5da397a3d2a5@herrie.org>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-64135-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64136-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
@@ -97,33 +98,76 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	TO_DN_SOME(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns,herrie.org:email,qualcomm.com:email,quoll:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,quoll:mid,herrie.org:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 1D84D653575
+X-Rspamd-Queue-Id: 3F95D65362F
 
-On Sun, Jun 07, 2026 at 07:34:04AM +0200, Herman van Hazendonk wrote:
-> Add the binding for the Aptina (now ON Semiconductor) MT9M113 1.3
-> megapixel SoC image sensor with on-die ISP. The chip is used as the
-> front (user-facing) camera on the HP TouchPad tablet and connects
-> to the host SoC over MIPI CSI-2.
+On Sun, Jun 07, 2026 at 07:34:05AM +0200, Herman van Hazendonk wrote:
+> Add a V4L2 subdev driver for the Aptina MT9M113 1.3 Megapixel SoC
+> image sensor (1280x1024 active pixel array) with on-chip ISP. The
+> sensor exposes:
 > 
-> The binding describes the chip's i2c address, optional reset and
-> standby GPIOs, the per-supply regulators (VDD, VDD_IO, VDDA), the
-> external clock input, and the CSI-2 endpoint pads exposed via the
-> "port" subnode.
+>   - dual context operation: Context A (640x480 preview, binned) and
+>     Context B (1280x1024 capture) selectable at runtime;
+>   - single-lane MIPI CSI-2 output, YUV422 in UYVY or YUYV byte order
+>     (the byte order is selected via the chroma/luma swap bit in
+>     MODE_OUTPUT_FORMAT_{A,B});
+>   - I2C MCU-indirect register access through the 0x098C/0x0990 page
+>     indirection pair, in addition to the directly addressable
+>     register space;
+>   - V4L2 controls: H/V flip, color effects (none / mono / sepia /
+>     negative / solarization), power-line frequency, saturation,
+>     manual or auto exposure, analog gain, auto white balance, and
+>     a four-entry test pattern selector;
+>   - a 24 MHz EXTCLK and 1.8/2.8 V supplies.
+> 
+> The MT9M113 MCU intermittently wedges on stream start (SEQ_CMD
+> stuck, SEQ_STATE never reaching preview/capture; only a full power
+> cycle recovers it). The driver works around this in two layers:
+> runtime-PM resume always performs a full power-cycle plus init-table
+> replay - matching the legacy vendor kernel's per-open behaviour -
+> so a wedged MCU is recovered each session; and the s_stream(1) path
+> retries a bounded number of times with a runtime-PM power cycle
+> between attempts as fallback insurance for the residual failure
+> rate.
+> 
+> Found on the HP TouchPad (Tenderloin) as the front-facing camera
+> and on a number of other 1280x1024 mobile/embedded boards.
 > 
 > Assisted-by: Claude:claude-opus-4-7 Sashiko:claude-haiku-4-5 Sparse:0.6.4 Coccinelle:1.1.1
 > Signed-off-by: Herman van Hazendonk <github.com@herrie.org>
 > ---
->  .../bindings/media/i2c/aptina,mt9m113.yaml         | 122 +++++++++++++++++++++
->  1 file changed, 122 insertions(+)
+>  .../bindings/media/i2c/aptina,mt9m113.yaml         |    8 +
+>  MAINTAINERS                                        |    8 +
+>  drivers/media/i2c/Kconfig                          |   13 +
+>  drivers/media/i2c/Makefile                         |    1 +
+>  drivers/media/i2c/mt9m113.c                        | 3394 ++++++++++++++++++++
+>  5 files changed, 3424 insertions(+)
 > 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/aptina,mt9m113.yaml b/Documentation/devicetree/bindings/media/i2c/aptina,mt9m113.yaml
+> index 72b827c47b1d..cfd6711e8250 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/aptina,mt9m113.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/aptina,mt9m113.yaml
+> @@ -70,6 +70,14 @@ properties:
+>              const: 4
+>              description: MIPI CSI-2 D-PHY
+>  
+> +          data-lanes:
+> +            description:
+> +              The MT9M113 has a single CSI-2 data lane. Reject DT entries
+> +              that try to assign more than one lane so a misconfiguration
+> +              is caught at schema-validation time rather than at runtime
+> +              when the driver enforces num_data_lanes == 1.
+> +            maxItems: 1
+> +
 
-Please slow down your submissions. One patchset per 24h.
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Please run scripts/checkpatch.pl on the patches and fix reported
+warnings. After that, run also 'scripts/checkpatch.pl --strict' on the
+patches and (probably) fix more warnings. Some warnings can be ignored,
+especially from --strict run, but the code here looks like it needs a
+fix. Feel free to get in touch if the warning is not clear.
 
 Best regards,
 Krzysztof
