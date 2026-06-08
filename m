@@ -1,160 +1,247 @@
-Return-Path: <linux-media+bounces-64216-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64217-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id WFZ0MbnlJmp+mgIAu9opvQ
-	(envelope-from <linux-media+bounces-64216-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 17:54:33 +0200
+	id 4S4TFWvmJmrjmgIAu9opvQ
+	(envelope-from <linux-media+bounces-64217-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 17:57:31 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310A165862A
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 17:54:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBF26586AF
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 17:57:30 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="ZN3TL//e";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64216-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64216-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=raspberrypi.com header.s=google header.b=C7fE+QTZ;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64217-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64217-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=raspberrypi.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1DBAD35378B2
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 15:37:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 567D035848F3
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 15:40:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D8EF3F9296;
-	Mon,  8 Jun 2026 15:23:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 754D7318ED6;
+	Mon,  8 Jun 2026 15:30:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7623F5BE7;
-	Mon,  8 Jun 2026 15:23:10 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780932191; cv=none; b=Wj6sfFDbY+54wqwwLXj391UxlDUTZXjx5uosSdziSzvNxT/wwMBEiblVZzeyRQENh0qaq3wtW1O9MMhFrzcosPQqpZ2dVbQs783oaH8+QVbTmQU5svj83eXpK0i8D3m39FZvgX+j85BdQNUazI6LP7CzBXXaGsqCrK86PEuFyow=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780932191; c=relaxed/simple;
-	bh=4L7ItEH1javTtrHKhZK3KyX6e8JpjNfi2YzsK+EH9/Y=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=a6VjuaxvP2EebnXb82fYezyVEK5E0/ccp9uf2es5V0bSdiIwQS6oV6af5xtLof0RyEIb3f/4RLJczmXXQmYuzn8U7sKa3sX+6TNuWr2iHdsZ3Rx9INUuI8PUgemstWILZbXeO9J9cVGdJxoPA9fsPsQQYXHb1fjhsrKBeAitLI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZN3TL//e; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 291301F00893;
-	Mon,  8 Jun 2026 15:23:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780932190;
-	bh=ncrCACTkUNfpMUjm6+cmxSyvVwJrnjrLOEWj6i6HgS0=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=ZN3TL//euvdAQwQDgxiVPv21Aw4q89ZhitkD/YVtPRSaYl0lSBgj49DySlUYKfJ+n
-	 Oqe1OVsOF2J63uXbWvS6giHwvAp86wM9KkINGd4GgzC+Fh8DzTU+dYj6pGqmmEm0Pl
-	 ekRS94DBLtMaFVbcTLXkIFIJAjzx0glePdVQgBDPMh7qpTsn92ncyb4FslfbVKNd2z
-	 hCq+09a4u9mGttY8IhVw70vZxvJ4ThN9gHiSLfmnvwpOpAMnIqL2iXfS+Ybpr4SvKn
-	 q10xOpKfiPbQu5muBc7tSUrAfkMT5en8N6DO2I1F8bui1exLPuTGT4qGy1gCacN6Ej
-	 y3V3NCPaQUX7g==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CADF32A3FE
+	for <linux-media@vger.kernel.org>; Mon,  8 Jun 2026 15:30:04 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780932606; cv=pass; b=iaxPZhRhBRmwPUvVrB3NBhM0YHl4vz/xDt1C6ILFdnDxPPX2JYThNa9Y9fk19eZ+Jy5xvWnph5awHPVQ0gdL/DMYx0H5q2rlsQt97co0GXPf/K1X0p1ok11hlreO8waWDtGYr4XgPBMqwJ/HE8+mYEgusfhRvcWtA9ywJHUkgbk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780932606; c=relaxed/simple;
+	bh=RU9WeSvIr0Bek8KpTc6aNmHYOTcDpuX5+ym/4yUtZWY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QGe3/ds3ESRJWmI7medzYdo3mbE0vgVZgR0+zYR6AzcVwhlkv/asLij/pA+dgMkZPY/2XQmX2eAVKGhcIYdlaNsewdHtNaCKqVLrTkpqWhD89FUUrjejKM5KzdFzqgfdYmGjkuAketDJSE/Kh1ISc4FFUIxbVaTLGzsuB5EVXw4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=C7fE+QTZ; arc=pass smtp.client-ip=209.85.128.175
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-7e0fc8ead7eso49355747b3.2
+        for <linux-media@vger.kernel.org>; Mon, 08 Jun 2026 08:30:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1780932604; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dCPXIMpVriITL9c67MhG140uTuAQClTk1ZsYPSyY7SXw4uWauGFiTcJd+xw0adK+ga
+         +3LdaQd/2pkhyRaERmok6gZ1mm4xoED0H9fDppK+R/1FzWJXjC30roTGjXWR1/zVj54E
+         Frpke0Dgu+qg67pkxedrNzHAVSUnBfHe86gIFKhuV/ZxAW8+pqOr5uy2YAhfyZUf31NF
+         fWwTdWgHJW1/zgNTi4tvipaDkJ0awTfWSpAN0hIX6+UKHkLPgnJJazJqBgCY9hQYTW2s
+         zUZgIOeCf/1a5/ITBV4GM9prXFJzpXn6a7UDCiVswjf6MaxpH3Z202ttGgyX5GITzBSK
+         +/qQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=nZnr4qHJKRkc27ksTNcwokDqqL+i/SWYFdv/VCh7o3c=;
+        fh=wCgf29w5Tfiwiv5ySPc/k82f0CcZCa01Bp13MVBRgUA=;
+        b=iExnEgIpDgF85EAehvz3Q3UoRnVhH02L+XieUy7aITrN9/07YATKLWKAxRv8uVLn+w
+         QfzVS0Ej3q7+3IyLjNM0PcOzGt/nfjbn1wnyROpVZrq7KkRvb23YlNk1b9pLMrLy7gGY
+         mxcOGBf8GRXYwPz6NYKs5eXpNXwPzjzb5LcQaPnD7M3m6VrpgMPt63Z/LMI0xJYVH04L
+         4g8YAfjjjGugaaBzOx+LPOYN2Ab/ELDpG3E7IemzUR1L48EysxuDCuCL55HdIm4jaBQf
+         WI71gJEhmBKRxcRsjt0z+9w1d8n/ZfEe1wcsRVHCQd67/OUPZGTQrVg6byjU4eIluldo
+         i38w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1780932604; x=1781537404; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=nZnr4qHJKRkc27ksTNcwokDqqL+i/SWYFdv/VCh7o3c=;
+        b=C7fE+QTZqPTvpfLwwiKUkVJwvduhCZtsrmJJfbMTNpOPaQ6a3Ql0t3y2lhnv4+KDzM
+         KiUup0PPRSSggzdQfA7AMqn2zxo1oNfTP7EGm9qVv15z/dnawHCmbJfwui/y1ZZczl3D
+         Spw6kU6hpEgqU6hkxveTWntqIZA0ZRJY3mYFrPtxLKVMC4eeaMQY5+gDN+4YeT+6b6WB
+         JgihAskmydiUvSk4liib2p6TufRy0QloMrcliUsgZIQ+2ThRFH30pefAWMceLjiyC8ba
+         OU4fMjGGf0B5w28qWmdrhHEBQltobXl75TERw1iduQ2ph/lP6f1FhUgnnwE40qcl1bRw
+         drHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780932604; x=1781537404;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nZnr4qHJKRkc27ksTNcwokDqqL+i/SWYFdv/VCh7o3c=;
+        b=hYSNTfjVcqPrTm55ACwcQHlGACC4aq3OGW08t+9xsUhvyPt2tVIW+q9y9Boz39fsmN
+         4vCcQxeysehNEVNycMw3WUYzNBnstL0+/bpj2FWdiNTrl69GmFpe7GZgCS+To8SWW3of
+         9/fIOUiI2kwECDBiipkPx+i/HDoQSCoL+ak5ykjBsrJofDlnCd0GB0OaUOBw82WHJeo7
+         wg3JWSS7yZ+2i03pO7EKi4u9qRAigCZVnfT1cozjfDFqfglSU066eFvNgDO5oTLVoPy2
+         PbuJv4mziS0960UcKpGLbms29gbAg3NrZanIPkyMtuKDyCOyinhSm3TbfPbuSmoZAAFH
+         j19w==
+X-Gm-Message-State: AOJu0YyGPvNtYaHHNDU4tzef3hOkvU48YwwD4vaHbx3msvWlfhdtmlKt
+	Xxiun6pmkhhc8W28A/rI1X2rUK1kznQcXiw086NBkF7r3KOp4aZiS8fac/aa1/If/oWaub88PlL
+	LEJqWR7iMSoVrZPl3dF7WGT8FnepzXKbULYVPF5USWg==
+X-Gm-Gg: Acq92OETdHqKu/2Yibshim31FDyOepZzUTqPiiKqHTFd36KiDtX61+7SYYUE1NkWuTC
+	Unqn3bW51f8EvppiuhBoCdZykbIPhWpmxTBcufD2mTKE0QQgkWBh2R8Cn7czBJjGzMU982Q97eY
+	6Fk3aOUzITfubmggRwT+tYohNvbUYaJqWmoUsm4RRdA6FK/FPWckTqSOdN4GmUMky/ujU5VOjs1
+	a5TTDHT2IpGs+EHoS/TKmSUa+ykMfbbPX4HhU1t6KmpduyXOg4gppX1Y1dRNV1ynfJF13wCiEhB
+	HJKriwQnnhLQ0gyYmcqvZGSi6YFaiBAzxnXV/SGRxxecFOUHtu0CluSioRZ51NYgNZTOx1t3qgr
+	c+KPVWYjaLd5RrhfEpeFBFr2AemZnOwkofuQ=
+X-Received: by 2002:a05:690c:6706:b0:7db:bff4:f086 with SMTP id
+ 00721157ae682-7ed0c32cd8amr147193487b3.12.1780932603976; Mon, 08 Jun 2026
+ 08:30:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 08 Jun 2026 17:23:06 +0200
-Message-Id: <DJ3RRRX6JY4M.LCRKJ074W9DQ@kernel.org>
-Subject: Re: [RFC PATCH] dma-fence: Fix races of fence callbacks versus
- destructors by locking
-Cc: <phasta@kernel.org>, "Boris Brezillon" <boris.brezillon@collabora.com>,
- "Sumit Semwal" <sumit.semwal@linaro.org>, =?utf-8?q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, "Alice Ryhl" <aliceryhl@google.com>, "Daniel
- Almeida" <dwlsalmeida@gmail.com>, "Gary Guo" <gary@garyguo.net>, "Tvrtko
- Ursulin" <tvrtko.ursulin@igalia.com>, <linux-media@vger.kernel.org>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>
-To: "Philipp Stanner" <phasta@mailbox.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20260608142436.265820-2-phasta@kernel.org>
- <20260608170112.24fd92df@fedora-2.home>
- <6bdbdb6541392c6ea58e0035f0b20ac3c8f3e54e.camel@mailbox.org>
-In-Reply-To: <6bdbdb6541392c6ea58e0035f0b20ac3c8f3e54e.camel@mailbox.org>
+MIME-Version: 1.0
+References: <20260607215356.842932-1-sakari.ailus@linux.intel.com> <20260607215356.842932-3-sakari.ailus@linux.intel.com>
+In-Reply-To: <20260607215356.842932-3-sakari.ailus@linux.intel.com>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Mon, 8 Jun 2026 16:29:46 +0100
+X-Gm-Features: AVVi8CeJDRDrMbqvWQ-ksjYj6aizyBK5pwz61YOQ8wmhWCDT52cVH-bD6xMRcNs
+Message-ID: <CAPY8ntDvpP8Nuc2VFOFgp+5HSDNWmJCika5in=pjZJVry=J7RQ@mail.gmail.com>
+Subject: Re: [PATCH v5 02/10] media: imx219: Scale the vblank limits according
+ to rate_factor
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
+	laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, 
+	Kate Hsuan <hpa@redhat.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, 
+	Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, 
+	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
+	=?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
+	Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	David Plowman <david.plowman@raspberrypi.com>, "Yu, Ong Hock" <ong.hock.yu@intel.com>, 
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>, Jai Luthra <jai.luthra@ideasonboard.com>, 
+	Rishikesh Donadkar <r-donadkar@ti.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	MV_CASE(0.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
+	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:hans@jjverkuil.nl,m:laurent.pinchart@ideasonboard.com,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:dongcheng.yan@intel.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:jacopo.mondi@ideasonboard.com,m:tomi.valkeinen@ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:jai.luthra@ideasonboard.com,m:r-donadkar@ti.com,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64217-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64216-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:boris.brezillon@collabora.com,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:aliceryhl@google.com,m:dwlsalmeida@gmail.com,m:gary@garyguo.net,m:tvrtko.ursulin@igalia.com,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:phasta@mailbox.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[dakr@kernel.org,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,collabora.com,linaro.org,amd.com,google.com,gmail.com,garyguo.net,igalia.com,vger.kernel.org,lists.freedesktop.org];
-	RCPT_COUNT_TWELVE(0.00)[12];
+	FORGED_SENDER(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[28];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[raspberrypi.com:+];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,foss.st.com,wanadoo.fr,collabora.com,raspberrypi.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,bootlin.com:url]
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,mail.gmail.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,intel.com:email,raspberrypi.com:dkim,raspberrypi.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 310A165862A
+X-Rspamd-Queue-Id: AEBF26586AF
 
-On Mon Jun 8, 2026 at 5:17 PM CEST, Philipp Stanner wrote:
-> On Mon, 2026-06-08 at 17:01 +0200, Boris Brezillon wrote:
->> On Mon,=C2=A0 8 Jun 2026 16:24:37 +0200
->> Philipp Stanner <phasta@kernel.org> wrote:
->>=20
->> > @@ -1020,11 +1024,20 @@ EXPORT_SYMBOL(dma_fence_wait_any_timeout);
->> > =C2=A0void dma_fence_set_deadline(struct dma_fence *fence, ktime_t dea=
-dline)
->> > =C2=A0{
->> > =C2=A0	const struct dma_fence_ops *ops;
->> > +	unsigned long flags;
->> > =C2=A0
->> > =C2=A0	rcu_read_lock();
->> > =C2=A0	ops =3D rcu_dereference(fence->ops);
->> > -	if (ops && ops->set_deadline && !dma_fence_is_signaled(fence))
->> > +	if (!ops || !ops->set_deadline) {
->> > +		rcu_read_unlock();
->> > +		return;
->> > +	}
->> > +
->> > +	dma_fence_lock_irqsave(fence, flags);
->> > +	if (!dma_fence_is_signaled_locked(fence))
->> > =C2=A0		ops->set_deadline(fence, deadline);
->>=20
->> You can't take the fence lock around ->set_deadline(), otherwise you'll
->> deadlock here [1] or here [2].
->>=20
->> > +
->> > +	dma_fence_unlock_irqrestore(fence, flags);
->> > =C2=A0	rcu_read_unlock();
->> > =C2=A0}
->>=20
->>=20
->> [1]https://elixir.bootlin.com/linux/v7.0.11/source/drivers/dma-buf/sw_sy=
-nc.c#L182
->> [2]https://elixir.bootlin.com/linux/v7.0.11/source/drivers/gpu/drm/msm/m=
-sm_fence.c#L139
->
->
-> If we'd port these (and maybe some we have overlooked) simultaneously,
-> they could completely drop their separate locking.
->
-> The fact that other parties were forced to take the fence lock in their
-> callbacks (and even 100% of the functions' code) actually proves that
-> this RFC is probably a good idea and callback-calls should be guarded
-> by the fence lock :]
+Hi Sakari
 
-I think I looked into this recently and IIRC it indeed seems like all
-implementors of set_deadline() take the lock within their callback.
+On Sun, 7 Jun 2026 at 22:54, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+>
+> The limits for vertical blanking (and frame length in pixels) is related
+> to the properties of the hardware, it's not in half-line units the driver
+> uses. Multiply the vertical blanking limits by the rate_factor to satisty
+> hardware requirements.
+
+Whilst that would be a logical interpretation, it doesn't match with
+how the hardware performs, nor the docs.
+
+The datasheet for register FRM_LENGTH_A 0x160 says
+frame_length_lines
+BINNING_MODE = 0,1,2
+Unit: 1Lines
+BINNING_MODE = 3
+Units: 2Lines
+
+That's not units of 2 lines for active lines only, that is units of 2
+lines for ALL lines.
+
+I have tested it, and the sensor works fine with FRM_LENGTH_A being
+0x278 in the 1640x1232 mode, and 0x100 in 640x480 modes with all the
+tests I've thrown at it. Drop them any lower and it does stall or give
+corrupt horizontal lines.
+(Please note that the sensor extends the frame length automatically to
+accommodate the exposure time requested, so do ensure the exposure
+time doesn't interact with the frame length if you're testing).
+
+This patch drops the maximum frame rate from 81.07 to 79.07fps in
+1640x1232 (2.5%), and 200.1 to 188.39fps in 640x480 (6%) for no good
+reason that I can see.
+Unless anyone can produce a genuine situation where they see the
+sensor behave incorrectly with the old setup, I'll be very sad to see
+this merged.
+
+  Dave
+
+> Fixes: f513997119f4 ("media: i2c: imx219: Scale the pixel rate for analog binning")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/i2c/imx219.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index 223d3753cc93..d8fe7db18b6c 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -878,14 +878,17 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>         crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
+>
+>         if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> +               unsigned int rate_factor = imx219_get_rate_factor(state);
+>                 int exposure_max;
+>                 int exposure_def;
+>                 int llp_min;
+>                 int pixel_rate;
+>
+>                 /* Update limits and set FPS to default */
+> -               ret = __v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
+> -                                              IMX219_FLL_MAX - mode->height, 1,
+> +               ret = __v4l2_ctrl_modify_range(imx219->vblank,
+> +                                              IMX219_VBLANK_MIN * rate_factor,
+> +                                              (IMX219_FLL_MAX - mode->height) *
+> +                                              rate_factor, rate_factor,
+>                                                mode->fll_def - mode->height);
+>                 if (ret)
+>                         return ret;
+> @@ -928,8 +931,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+>                         return ret;
+>
+>                 /* Scale the pixel rate based on the mode specific factor */
+> -               pixel_rate = imx219_get_pixel_rate(imx219) *
+> -                            imx219_get_rate_factor(state);
+> +               pixel_rate = imx219_get_pixel_rate(imx219) * rate_factor;
+>                 ret = __v4l2_ctrl_modify_range(imx219->pixel_rate, pixel_rate,
+>                                                pixel_rate, 1, pixel_rate);
+>                 if (ret)
+> --
+> 2.47.3
+>
 
