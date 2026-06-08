@@ -1,180 +1,183 @@
-Return-Path: <linux-media+bounces-64152-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64153-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id dhjLC/56JmqUXAIAu9opvQ
-	(envelope-from <linux-media+bounces-64152-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 10:19:10 +0200
+	id 6FnZGAx/JmrsXQIAu9opvQ
+	(envelope-from <linux-media+bounces-64153-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 10:36:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F2D0653EF5
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 10:19:09 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B30B96541EA
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 10:36:27 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=Y2ssxnLf;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64152-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64152-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=vx9lb2D1;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64153-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64153-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3B25C3021678
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 08:18:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BD5B8305B013
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 08:24:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E24FC3A9D9F;
-	Mon,  8 Jun 2026 08:17:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3C7F3AC0D3;
+	Mon,  8 Jun 2026 08:24:31 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dl1-f67.google.com (mail-dl1-f67.google.com [74.125.82.67])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A93B3A8721
-	for <linux-media@vger.kernel.org>; Mon,  8 Jun 2026 08:17:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7DC3955D0
+	for <linux-media@vger.kernel.org>; Mon,  8 Jun 2026 08:24:30 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780906674; cv=none; b=YNVRORNzow05oevCm6WG36uOHvcuZeqbnmHPg2tqgwvk9f8fqgeOmtmb5peY7nQWpZqnEegFlNwIMWHqijkZ7FB29anOUUimXNmALZa+nIoaSL6i05erDrb0hp/vEZlADH2HNLDYKP3Lp26c9mcC4YErW2oYW9im/+63I6+rQgw=
+	t=1780907071; cv=none; b=FsgRhLTxZgk55ttUl3HFauO+QFRxWTKMzCtP8ep+3B2rbDz3XN1zmFcaRQUhFJrOdy2F502MnQXPq44hMZOK1gDHNhPHbGv0wzIPEDaIrKhIV/RZTRe40xijFsV3RcFLhT6cEPN1eRanbaklG82ODIZWSTdGj7N6hCACWYcVhfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780906674; c=relaxed/simple;
-	bh=40ZxnyrUaAHdcI+eTW6aNV5PfIertlPm7WF8EsDZzB8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=g4qgwg9VH+uJwz9oYLwcF55MY/7n7QHgz4Vxs5lA4qLHi7MSZWZ1AZoU3e/3GEdbMokQO9JYW6R2ET7EHOEEi9H8E3iVf4pWyemn6KzhvMA9GMRUZXXmMQy6q6yTLC24Zv8+yfa/IgFQNodutvU6XPOVTs9jFZ/KrGOyRfIgNAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y2ssxnLf; arc=none smtp.client-ip=74.125.82.67
-Received: by mail-dl1-f67.google.com with SMTP id a92af1059eb24-1370417c01cso5256012c88.1
-        for <linux-media@vger.kernel.org>; Mon, 08 Jun 2026 01:17:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1780906672; x=1781511472; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=12KJd8jmEDNc3peQBhWeVZHFv/dyQimGIps+u7jJr2M=;
-        b=Y2ssxnLfDWJhLo6docOppjn2apJEyLp+mJOeh/XcEOBlSKnZ/Hy2LYtSik6zNlBfer
-         R1Xxm86NG37KKKya1g5MZCqao0p49ZzMSxQUP7VsAM4JIHrPebd2XBkdcxKBA7n7LlVU
-         d01YllFyKazgebpmSovIM2Nl6ZyNUPmvgimqyFYfoAnCKjCXVkdkbOQy2G+OE7d0mql8
-         OrBOdVGPgxsa5TRFHQOvEzo4fG9AXCZajoLcKMb0fqhT04Zd41ivSMjgK3DLE7+/kR4d
-         31luDdHY0sBOuJ+xHVEmzpuTWhwleLCVq+29kMfXbdFkIJR1257XTVOzzHCA4lo50xIM
-         uogQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780906672; x=1781511472;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=12KJd8jmEDNc3peQBhWeVZHFv/dyQimGIps+u7jJr2M=;
-        b=SkGIH7/kgoLnCUjD37WQeYOsPdwmZjH8+a/UhJ+zF82giHfsVuX+ugXTT9GQxQH/Xr
-         G3ptSWokwGoAEUmxbojdb8nos8s8NKbGd8k6m2EjeL570pm9JSJt4LJuMNLogX6pbxE/
-         sJZCcpxSvBFS7bNPF4wAg7PlkvXo1Nj+5LRl76/XO5fdS9tNaBSgVzX/c1ss/FPa0BlQ
-         OXYIMA3Q9ydXIhjyNtnGOd/xlDSp4eFp2+4aiH817EFEXratyF+DNAeTSNAjQ7QBlx8W
-         kWHMWyj3KeH0n7+f1QtrDP0B0KSixEmjrsaEcwjkjUiOfc/JM6dQuvzZbe4L1Wd6ALqn
-         Pf1Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/UM8ks121mL0a1P4GZ8KG3et3EnM3OlrDlQdPBwyn519GLSnFROiZmtEGEcAPIwqlA5LAZcBxNPZqSQw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwGQ3au5KecEi/8rcfSB+1ayra32Pt64DoBeS0Zl6mhcITjFli
-	kW5lslbArlrmZFuyKQllpywoC+e4fUvT+rNDBSKuMNKI/X+MNytPKsIz
-X-Gm-Gg: Acq92OEFaCwY8hdmtIq0KNfZJQOiEJvfg7zzaEifT4TataP3BUNp5exdsHlUHbifdus
-	ijYLevdOt0sOCElCeswFQ+Rxt+7X2m9Jh9rxMgG9YopZ1MbJMik9NyZjLMejukmhc9keHjssn0m
-	uDqMgz8+JzHeLKnZp6YmpMGVs2CDDXns8j7M2l/HQNBhesUn7KcdlD/vnT9uQPMA6lITQ2sYQnP
-	HBuFG2pSfyXCQMJ/6Tykt2Lfj6EyYyFDR64/Z4LvfOSeYQKqb5fu6yk6Myv0MO8DQZuHWjhwWHo
-	MP1trUfiC3Ny24ajvaJhoS1ELAFI11iM/w3Y7D+c1IwirBhdiDMRAwaqzcrzbGRxdQqJCz8rl9E
-	iYRgjB9dEoiSAGy6sCZqAYqstArJrQxBTrrQisPuKnhjN2EEPEriYdngukc8LeELee6ypRgiupL
-	B9i8tGEvUBlc4NKSbPQN8zQhPM5aTTMiWGU+L8JsXIKO2yoENYzPU6sbmF0QhVG+/qRA==
-X-Received: by 2002:a05:7022:98e:b0:136:b370:64c5 with SMTP id a92af1059eb24-138066fdb24mr6558060c88.30.1780906672171;
-        Mon, 08 Jun 2026 01:17:52 -0700 (PDT)
-Received: from localhost.localdomain ([76.32.119.210])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-138063de4a5sm7678245c88.13.2026.06.08.01.17.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 01:17:51 -0700 (PDT)
-From: Hungyu Lin <dennylin0707@gmail.com>
-To: vikash.garodia@oss.qualcomm.com,
-	dikshita.agarwal@oss.qualcomm.com
-Cc: abhinav.kumar@linux.dev,
-	bod@kernel.org,
-	mchehab@kernel.org,
-	dmitry.baryshkov@oss.qualcomm.com,
-	konrad.dybcio@oss.qualcomm.com,
-	busanna.reddy@oss.qualcomm.com,
-	linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Hungyu Lin <dennylin0707@gmail.com>
-Subject: [PATCH v5 2/2] media: qcom: iris: rollback OPP vote on PM resume failure
-Date: Mon,  8 Jun 2026 08:17:21 +0000
-Message-Id: <20260608081721.82846-3-dennylin0707@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260608081721.82846-1-dennylin0707@gmail.com>
-References: <20260608081721.82846-1-dennylin0707@gmail.com>
+	s=arc-20240116; t=1780907071; c=relaxed/simple;
+	bh=Fru/wbvUCaO7RJRuiupaEpUIU4u/ZkewzVQ2BVpufeo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r7gqyJubd5bzXicc9tE4ObVabWC9t7J0p1HeBC00R2HbZn9NAKhSgop8LrTD5FVcj5aQwsazNtWxXDWYUxhSARAsW8kSDBk7dFBPkVLebNz3yeUiyK8AUOaqDsZhTShIYNgU50Iy8gS8NDzAPXC10U53cAUJIrRdDyNGJ5BtebM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vx9lb2D1; arc=none smtp.client-ip=213.167.242.64
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DEF5A289;
+	Mon,  8 Jun 2026 10:23:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1780907040;
+	bh=Fru/wbvUCaO7RJRuiupaEpUIU4u/ZkewzVQ2BVpufeo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vx9lb2D16C25sPpfQE9GhLlJxLSRJj4dtgPyi5Dm1XV50pDFXJsnrJ8DLGOItbset
+	 wwBUm/B1yiMp2c6xTHP7ot54HBOgEi7M83elPH8JrX6f3cC9XHSDTXo+AWnpU7Itz/
+	 2nSfyhiRIDqIjxUCYGj9j+8OjKFKnFDZA4EYMNEo=
+Date: Mon, 8 Jun 2026 11:24:26 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
+	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	Rishikesh Donadkar <r-donadkar@ti.com>
+Subject: Re: [PATCH v5 04/10] media: imx219: Make control handler ops for
+ PIXEL_RATE NULL
+Message-ID: <20260608082426.GA380394@killaraus.ideasonboard.com>
+References: <20260607215356.842932-1-sakari.ailus@linux.intel.com>
+ <20260607215356.842932-5-sakari.ailus@linux.intel.com>
+ <20260608073653.GD370380@killaraus.ideasonboard.com>
+ <aiZ0a3nGqp6N7GD3@zed>
+ <20260608080338.GF370380@killaraus.ideasonboard.com>
+ <aiZ56IgNJ2FeXN0o@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aiZ56IgNJ2FeXN0o@kekkonen.localdomain>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[linux.dev,kernel.org,oss.qualcomm.com,vger.kernel.org,gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64152-lists,linux-media=lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:bod@kernel.org,m:mchehab@kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,m:konrad.dybcio@oss.qualcomm.com,m:busanna.reddy@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dennylin0707@gmail.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64153-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:hans@jjverkuil.nl,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:dave.stevenson@raspberrypi.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:dongcheng.yan@intel.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:tomi.valkeinen@ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:jai.luthra@ideasonboard.com,m:r-donadkar@ti.com,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	FREEMAIL_CC(0.00)[ideasonboard.com,vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FORGED_SENDER(0.00)[dennylin0707@gmail.com,linux-media@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dennylin0707@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_HAS_DN(0.00)[]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,killaraus.ideasonboard.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8F2D0653EF5
+X-Rspamd-Queue-Id: B30B96541EA
 
-Rollback the maximum OPP vote when
-pm_runtime_resume_and_get() fails in
-iris_enable_power_domains().
+On Mon, Jun 08, 2026 at 11:14:32AM +0300, Sakari Ailus wrote:
+> On Mon, Jun 08, 2026 at 11:03:38AM +0300, Laurent Pinchart wrote:
+> > On Mon, Jun 08, 2026 at 09:53:17AM +0200, Jacopo Mondi wrote:
+> > > Hi Laurent
+> > >   sorry if I reply in place of Sakari but I got this fresh
+> > 
+> > Thanks :-)
+> > 
+> > > On Mon, Jun 08, 2026 at 10:36:53AM +0300, Laurent Pinchart wrote:
+> > > > On Mon, Jun 08, 2026 at 12:53:50AM +0300, Sakari Ailus wrote:
+> > > > > The PIXEL_RATE control exists to convey the value to the userspace and has
+> > > > > no configuration that would need to be programmed to the sensor. Make the
+> > > > > control handler ops for the PIXEL_RATE control NULL and avoid a warning
+> > > > > (as well as returning an error) from the driver.
+> > > >
+> > > > I thought the standard way to handle pixel rate being read only was to
+> > > > set the V4L2_CTRL_FLAG_READ_ONLY flag, like we do for e.g.
+> > > > V4L2_CID_LINK_FREQ. Is that not correct ?
+> > > 
+> > > PIXEL_RATE is RO by default
+> > > 
+> > > drivers/media/v4l2-core/v4l2-ctrls-defs.c:      case V4L2_CID_PIXEL_RATE:
+> > > drivers/media/v4l2-core/v4l2-ctrls-defs.c-              *type = V4L2_CTRL_TYPE_INTEGER64;
+> > > drivers/media/v4l2-core/v4l2-ctrls-defs.c-              *flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> > > drivers/media/v4l2-core/v4l2-ctrls-defs.c-              break;
+> > > 
+> > > The purpose of setting the ctrl_ops member to NULL is to avoid having
+> > > to handle RO controls in the driver implementation of .s_ctrl().
+> > 
+> > Shouldn't the V4L2 control framework avoid .s_ctrl() calls for read-only
+> > controls ? I thought it did already.
+> 
+> The control may be read-only on the UAPI but the driver could still do
+> something about it in its s_ctrl() callback. I don't know if any driver
+> depends on this though.
 
-Use a standard rollback path to release the OPP vote when
-power domain enablement does not complete successfully.
+It seems to be one of the many areas where control handling should be
+simplified for drivers.
 
-Fixes: bb8a95aa038e ("media: iris: implement power management")
-Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
----
- drivers/media/platform/qcom/iris/iris_resources.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+In any case, the imx219 driver creates the V4L2_CID_LINK_FREQ control
+with a non-NULL ops pointer, sets the V4L2_CTRL_FLAG_READ_ONLY flag, and
+does not handle V4L2_CID_LINK_FREQ in imx219_set_ctrl(). If there's an
+issue for V4L2_CID_PIXEL_RATE there is also an issue for
+V4L2_CID_LINK_FREQ.
 
-diff --git a/drivers/media/platform/qcom/iris/iris_resources.c b/drivers/media/platform/qcom/iris/iris_resources.c
-index 6d3339423eec..3e18c6998f92 100644
---- a/drivers/media/platform/qcom/iris/iris_resources.c
-+++ b/drivers/media/platform/qcom/iris/iris_resources.c
-@@ -78,7 +78,16 @@ int iris_enable_power_domains(struct iris_core *core, struct device *pd_dev)
- 	if (ret)
- 		return ret;
- 
--	return pm_runtime_resume_and_get(pd_dev);
-+	ret = pm_runtime_resume_and_get(pd_dev);
-+	if (ret)
-+		goto err_opp;
-+
-+	return 0;
-+
-+err_opp:
-+	iris_opp_set_rate(core->dev, 0);
-+
-+	return ret;
- }
- 
- int iris_disable_power_domains(struct iris_core *core, struct device *pd_dev)
+Maybe the best short term fix would be to drop the dev_info() in the
+default case of the ctrl->id switch in imx219_set_ctrl() ?
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
 
