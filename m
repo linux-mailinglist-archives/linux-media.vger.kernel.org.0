@@ -1,207 +1,169 @@
-Return-Path: <linux-media+bounces-64213-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64214-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id axq7NTfkJmr8mQIAu9opvQ
-	(envelope-from <linux-media+bounces-64213-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 17:48:07 +0200
+	id v6SwA0flJmpcmgIAu9opvQ
+	(envelope-from <linux-media+bounces-64214-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 17:52:39 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CD696584C7
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 17:48:07 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ACEF6585DF
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 17:52:38 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=tumelty-co-uk.20251104.gappssmtp.com header.s=20251104 header.b=IOLpcz2t;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64213-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64213-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=none;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=t6p5kcq4;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64214-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64214-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=mailbox.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D6BEF3144BDB
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 15:35:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 62B5535097E3
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 15:35:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3267A33CEB0;
-	Mon,  8 Jun 2026 15:16:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DE9D3F0AAC;
+	Mon,  8 Jun 2026 15:18:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56291330D35
-	for <linux-media@vger.kernel.org>; Mon,  8 Jun 2026 15:16:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399223AA9F4;
+	Mon,  8 Jun 2026 15:18:05 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780931802; cv=none; b=H2MOaNjdnFa+4GqKVLNAL5bSty8yYi6lM7Vgu+wLtyExArDqmQtfQ8dSmXXanrVPTQoCZfZYqRSMlsOpBFvJSexlABtWy+HRIFlw3JQ1oXapmN4kmMFkZjXvEUhcrSarXSvR8tux4Zyvfoqcqi1siiFM3zD9j0CnVjPIkXjhFtg=
+	t=1780931887; cv=none; b=bcuMcvy0fNPOpXHKGq7mltOjLI1qtbDqskvDHqjpM+w2ujJVOmWoCu83EqvyZLHPEMVTX+cBvn+zFN4poKNSzaFo2zpDrMy7p9oJ47sgBgN1kzM969udhd5pbLzjtdE10ujbx5ijTSeF8dzEDuBhiiyAPitVIxplL2j0Er3dqJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780931802; c=relaxed/simple;
-	bh=+Adic+T2znQgdxxRgMuzaFBipB4oYX5M3eDjZE8lqw0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rDQz5PomsT/YX0Cl2Ou+PWSq7E3JaGZeRh4X9Sv3coAmVJGBhA277bjRarSMYiAEUAYa5UTA5OyUVkS1HEMWI3m2E1h/7FK0pxSrhjGBJvuLd79tU58s0e67c0p5WtKYVj37xW6OQ1JhXmcNVSbqmJDDyxRQ8MAPFyN2QEII4tA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tumelty.co.uk; spf=none smtp.mailfrom=tumelty.co.uk; dkim=pass (2048-bit key) header.d=tumelty-co-uk.20251104.gappssmtp.com header.i=@tumelty-co-uk.20251104.gappssmtp.com header.b=IOLpcz2t; arc=none smtp.client-ip=209.85.128.47
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490be29c1c5so57684265e9.2
-        for <linux-media@vger.kernel.org>; Mon, 08 Jun 2026 08:16:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tumelty-co-uk.20251104.gappssmtp.com; s=20251104; t=1780931799; x=1781536599; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=eVHQVd8Cibi1FnHd10mOaHGzwUNox/elwnpPYgAowKg=;
-        b=IOLpcz2tVIL24+bIrc2TfFrURulFH8YRSssokXKG7VPmEzya9P4POnuZBezN/1Cp9O
-         VXSb/WAoA/Aok10CBld4jevsOdM7s4o8xy3JAlOm7/hW4zgyJ/nCyyxvEL6NlqlVEmJ7
-         xAnoniMBwRXdEVFis+n2WBLMjSBbcEgGWI76EHyPzu+QTI2Q8VaN3PQNM3/39PVqmtsU
-         Is9LZbBeRkY18wjlu/I3egPc8CqkQc/EWTAlh4Dhczfu8ThjWm3Ke216Vk8wIoqtbJt8
-         pYDyZAZmkmn9vRmbDAOJy0x+V3KkfoG2UvuejqOvxTvP/GEGSPOZrk+Lzv/GcG9vFdbz
-         abKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780931799; x=1781536599;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eVHQVd8Cibi1FnHd10mOaHGzwUNox/elwnpPYgAowKg=;
-        b=Hc8/GLp2XGnNviefVaOhBbGZVVb552InNlDxVOxYnJdS6KO9eOFyuvp76a4JyvWYLY
-         CMQ/rZlK3FwdXWA084VT3XPQP/P2ZNvqkyBCZlU2byWRotVOa02NKwRVZ4himgIufxkC
-         t1s3z/S6YnMG2B1d7hloCaWpI+ekrxhT+w9wCkyYx6VOp5IT46p+c+R4M/uGRNZf0TVe
-         6ckkXr+sz5sazinH7DcPkuDuwYreL5qPebumlsEpcv70jgSX8GHy99ar5o6X5i83YpXP
-         YJcwDR8tcHR+0vo8WTWAEYMYXx2B/2rvwxr9r44WQEopjIm+bx8dcbOWvsOv/V34x1ib
-         NbHg==
-X-Forwarded-Encrypted: i=1; AFNElJ9KM6fWTHdjjW5Bngmwv2Y/ZxDBmM0Utw2w0a46FN7dCF5h35UTTcNcFWPkffQEzZfbwru2eWAC8GBlyw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxS5wztmBQH7PMmE5qBTEtxrYhlaE0VKkGabKbcOGNGdV7lVwYf
-	EBiNb6majTC8F/sxWl6C01+RgXi4OD+PrtheutXELYiAGiJy3kOTcMzTW032gzaiqis=
-X-Gm-Gg: Acq92OHgBmXR3343J04vtX2R639pyqbunrbbqSBVVhhzsiqKFlka3NXfttw6eN5iaKR
-	0c/ucAlYVrAHiLb+JnAGxPnLGyBiT7XNgGXs2ABS/J8NsIBP/p1i321nrrs3Ym7b8WvJL+DayKV
-	3F2m/UDycw+3jdjBtL2U42EvNE7y79TuKIfLxzHHn1UfDTvhDZ7hxmaeUmHh6FBaU31MFED2LSU
-	50XKuXPkx0KDdm+vLDezqs5CGJ5JX5s5YfMYPcSuVxkbUrCRtgXls723vHkI2CAhgJ8E1hrLFAo
-	3MCu1mZ/yUADGqNHBHNPmL5ZBUJ1unOjL8OkLliG/kXRzyB6rQm4hZNsTLXUKGevX9jheqTDVFW
-	qmeEygnyJoeN5OCNReno1/TMd+ViLE5iy1NvdfrC78Qj/UZrzBN3t462WIyRJfWpMqVBTJaNzcC
-	8nKVNxD1nCKmwJaehKeLMnDRA=
-X-Received: by 2002:a05:600c:a302:b0:490:c2a3:1781 with SMTP id 5b1f17b1804b1-490c2a317c3mr208748495e9.34.1780931798525;
-        Mon, 08 Jun 2026 08:16:38 -0700 (PDT)
-Received: from nixos ([83.217.168.175])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f35fd33sm58630734f8f.35.2026.06.08.08.16.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2026 08:16:38 -0700 (PDT)
-From: Rhys Tumelty <rhys@tumelty.co.uk>
-To: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andy Shevchenko <andy@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Rhys Tumelty <rhys@tumelty.co.uk>
-Subject: [PATCH] staging: media: atomisp: fix variable shadowing warnings
-Date: Mon,  8 Jun 2026 16:16:17 +0100
-Message-ID: <20260608151617.3393471-1-rhys@tumelty.co.uk>
-X-Mailer: git-send-email 2.54.0
+	s=arc-20240116; t=1780931887; c=relaxed/simple;
+	bh=2prRoDT/nsKKhIt2dQ3M9bNyzIozuR0cCELNvku2q2Y=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=H05eNRyL5pDyFdjQy8Xrpixa0SjbL5rayXfHq2qQ6tPi+KRwRFtbXG1wkM8QxvvpDc8lZ50+WoNryKD/ao7k3cIKQu8v1Blyf4rC3+AIGEfDUkDkPLUsPBYAS9BQihQGUYhKkA6bG3njGbo/k6+8Cim60TctYo7E3oNbX9N3NZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=t6p5kcq4; arc=none smtp.client-ip=80.241.56.151
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4gYwf06RW0z9t2V;
+	Mon,  8 Jun 2026 17:18:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1780931880; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MvgHNmO3IxC6FXq47XwMRXs/rO7p6vxeZKZs8DURXVw=;
+	b=t6p5kcq4GEPZGEBmrYJd5WjDVKQDmd/x+E1K3DdHytPDxNbcqknDyjyuhQHcAfV2NSrBhe
+	nSvqr5gFQvWu749rsfgAqGdcLMPphK4gfu3xsTVIQnzP2cOQXcdjvNYUeL6EMyGDx+6I3f
+	iEpo/nkHHG70UXXBwkp/YXHUaftkIv3Uqr6iuOIX+D8/CITL5vbIWtLjfjpeON6EORLB2w
+	op5eLLM8rRo7vU0aiUn0cSHZPVqTH/V5B8C3VNtmrN8pyFDfmtPSURZmaLDXOaaEvP2lQM
+	8hHgZhkSra8TL+1ZswdsGbvGROxZ19ItM4ndpTxwuo/uocUU0gcxWAh2aN018w==
+Message-ID: <6bdbdb6541392c6ea58e0035f0b20ac3c8f3e54e.camel@mailbox.org>
+Subject: Re: [RFC PATCH] dma-fence: Fix races of fence callbacks versus
+ destructors by locking
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Boris Brezillon <boris.brezillon@collabora.com>, Philipp Stanner
+	 <phasta@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, Christian
+ =?ISO-8859-1?Q?K=F6nig?=	 <christian.koenig@amd.com>, Alice Ryhl
+ <aliceryhl@google.com>, Daniel Almeida	 <dwlsalmeida@gmail.com>, Gary Guo
+ <gary@garyguo.net>, Tvrtko Ursulin	 <tvrtko.ursulin@igalia.com>,
+ linux-media@vger.kernel.org, 	dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Danilo Krummrich	 <dakr@kernel.org>
+Date: Mon, 08 Jun 2026 17:17:57 +0200
+In-Reply-To: <20260608170112.24fd92df@fedora-2.home>
+References: <20260608142436.265820-2-phasta@kernel.org>
+	 <20260608170112.24fd92df@fedora-2.home>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 59bc9e339d8aa4148f6
+X-MBO-RS-META: 87wtwfwi7qid9a3otercu8yt7yiyc6zx
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[tumelty-co-uk.20251104.gappssmtp.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	PRECEDENCE_BULK(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64213-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-64214-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:hansg@kernel.org,m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:andy@kernel.org,m:sakari.ailus@linux.intel.com,m:dan.carpenter@linaro.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:rhys@tumelty.co.uk,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[rhys@tumelty.co.uk,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	DMARC_NA(0.00)[tumelty.co.uk];
-	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[tumelty-co-uk.20251104.gappssmtp.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FROM_NEQ_ENVFROM(0.00)[rhys@tumelty.co.uk,linux-media@vger.kernel.org];
-	ALIAS_RESOLVED(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TAGGED_RCPT(0.00)[linux-media];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,tumelty.co.uk:email,tumelty.co.uk:mid,tumelty.co.uk:from_mime]
+	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:phasta@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:aliceryhl@google.com,m:dwlsalmeida@gmail.com,m:gary@garyguo.net,m:tvrtko.ursulin@igalia.com,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:dakr@kernel.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[linaro.org,amd.com,google.com,gmail.com,garyguo.net,igalia.com,vger.kernel.org,lists.freedesktop.org,kernel.org];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	HAS_REPLYTO(0.00)[phasta@kernel.org];
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[bootlin.com:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mailbox.org:dkim,mailbox.org:mid,mailbox.org:from_mime,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3CD696584C7
+X-Rspamd-Queue-Id: 7ACEF6585DF
 
-Fix local variable shadowing warnings, flagged by a W=2
-kernel build, due to -Werror=shadow.
+On Mon, 2026-06-08 at 17:01 +0200, Boris Brezillon wrote:
+> On Mon,=C2=A0 8 Jun 2026 16:24:37 +0200
+> Philipp Stanner <phasta@kernel.org> wrote:
+>=20
+> > @@ -1020,11 +1024,20 @@ EXPORT_SYMBOL(dma_fence_wait_any_timeout);
+> > =C2=A0void dma_fence_set_deadline(struct dma_fence *fence, ktime_t dead=
+line)
+> > =C2=A0{
+> > =C2=A0	const struct dma_fence_ops *ops;
+> > +	unsigned long flags;
+> > =C2=A0
+> > =C2=A0	rcu_read_lock();
+> > =C2=A0	ops =3D rcu_dereference(fence->ops);
+> > -	if (ops && ops->set_deadline && !dma_fence_is_signaled(fence))
+> > +	if (!ops || !ops->set_deadline) {
+> > +		rcu_read_unlock();
+> > +		return;
+> > +	}
+> > +
+> > +	dma_fence_lock_irqsave(fence, flags);
+> > +	if (!dma_fence_is_signaled_locked(fence))
+> > =C2=A0		ops->set_deadline(fence, deadline);
+>=20
+> You can't take the fence lock around ->set_deadline(), otherwise you'll
+> deadlock here [1] or here [2].
+>=20
+> > +
+> > +	dma_fence_unlock_irqrestore(fence, flags);
+> > =C2=A0	rcu_read_unlock();
+> > =C2=A0}
+>=20
+>=20
+> [1]https://elixir.bootlin.com/linux/v7.0.11/source/drivers/dma-buf/sw_syn=
+c.c#L182
+> [2]https://elixir.bootlin.com/linux/v7.0.11/source/drivers/gpu/drm/msm/ms=
+m_fence.c#L139
 
-In atomisp_css_stop(), an inner loop 'i' index shadows
-an outer unsigned int i. Rename the inner loop index to 'k'
 
-In ia_css_stream_create(), the block-local 'effective_res'
-struct shadows an outer local declaration. Rename the
-block scoped instance in the loop over pipes to
-'pipe_effective_res' to clearly show context.
+If we'd port these (and maybe some we have overlooked) simultaneously,
+they could completely drop their separate locking.
 
-Signed-off-by: Rhys Tumelty <rhys@tumelty.co.uk>
----
- .../media/atomisp/pci/atomisp_compat_css20.c       |  6 +++---
- drivers/staging/media/atomisp/pci/sh_css.c         | 14 +++++++-------
- 2 files changed, 10 insertions(+), 10 deletions(-)
+The fact that other parties were forced to take the fence lock in their
+callbacks (and even 100% of the functions' code) actually proves that
+this RFC is probably a good idea and callback-calls should be guarded
+by the fence lock :]
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index be5f37f4a6fd..da945fddb5ea 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -1775,10 +1775,10 @@ void atomisp_css_stop(struct atomisp_sub_device *asd, bool in_reset)
- 
- 	if (!in_reset) {
- 		struct atomisp_stream_env *stream_env;
--		int i, j;
-+		int k, j;
- 
--		for (i = 0; i < ATOMISP_INPUT_STREAM_NUM; i++) {
--			stream_env = &asd->stream_env[i];
-+		for (k = 0; k < ATOMISP_INPUT_STREAM_NUM; k++) {
-+			stream_env = &asd->stream_env[k];
- 			for (j = 0; j < IA_CSS_PIPE_ID_NUM; j++) {
- 				ia_css_pipe_config_defaults(
- 				    &stream_env->pipe_configs[j]);
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index cd1be313c758..44c77179abb8 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -7971,22 +7971,22 @@ ia_css_stream_create(const struct ia_css_stream_config *stream_config,
- 	}
- 
- 	for (i = 0; i < num_pipes; i++) {
--		struct ia_css_resolution effective_res;
-+		struct ia_css_resolution pipe_effective_res;
- 
- 		curr_pipe = pipes[i];
- 		/* set current stream */
- 		curr_pipe->stream = curr_stream;
- 		/* take over effective info */
- 
--		effective_res = curr_pipe->config.input_effective_res;
--		if (effective_res.height == 0 || effective_res.width == 0) {
--			effective_res = curr_pipe->stream->config.input_config.effective_res;
-+		pipe_effective_res = curr_pipe->config.input_effective_res;
-+		if (pipe_effective_res.height == 0 || pipe_effective_res.width == 0) {
-+			pipe_effective_res = curr_pipe->stream->config.input_config.effective_res;
- 
--			curr_pipe->config.input_effective_res = effective_res;
-+			curr_pipe->config.input_effective_res = pipe_effective_res;
- 		}
- 		IA_CSS_LOG("effective_res=%dx%d",
--			   effective_res.width,
--			   effective_res.height);
-+			   pipe_effective_res.width,
-+			   pipe_effective_res.height);
- 	}
- 
- 	err = ia_css_stream_isp_parameters_init(curr_stream);
--- 
-2.54.0
 
+P.
 
