@@ -1,127 +1,71 @@
-Return-Path: <linux-media+bounces-64162-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64163-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id O+SiDdaFJmonYAIAu9opvQ
-	(envelope-from <linux-media+bounces-64162-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 11:05:26 +0200
+	id b/f2OIeFJmoJYAIAu9opvQ
+	(envelope-from <linux-media+bounces-64163-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 11:04:07 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 961CB6545D4
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 11:05:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 415EC654593
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 11:04:07 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=K51igrXX;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64162-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64162-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=nH0F36IE;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64163-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64163-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BCE073051D49
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 08:56:34 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DF9F33067F00
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 08:57:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 595023B3BE6;
-	Mon,  8 Jun 2026 08:56:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE0713B3887;
+	Mon,  8 Jun 2026 08:57:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AAC3B27FA;
-	Mon,  8 Jun 2026 08:56:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA1030FF36
+	for <linux-media@vger.kernel.org>; Mon,  8 Jun 2026 08:57:10 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780908990; cv=none; b=k3u21qY5s7yesoP1EsJLVpTYpEEEhhqUHv5h+92QboG0301q8XmKHASuqT5yMQX0TJoF9CO6TjYhlQWGD1qua73D16yaa7mhw3Iyt+Ql4zOFUkYq+InzpqntVJ1MgAP4F5szosZf3NSS8bFA+26iCBWy30zZuVa+d1SoTHI1YQs=
+	t=1780909032; cv=none; b=Lv5NC9ik8ZZXJ2DQXZWDj9+a6y7s6z2V097SHERYPRM9SNxX/bOWEhn/axDzom43GwEh+pshcJvVVGf/HfSRliqdkXB85Kn+09TxX0Yd/0642gFuIFlh70gpg3YCOoZNjB9uojDulkOW27rcpPTZDqpzopYQJSGg7JrhA8qMhS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780908990; c=relaxed/simple;
-	bh=uE3q7lOQhX6TD1NljIu5EQpKW9yfTOM+EJ637Tuqsek=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bVY3AZLMcnv6w1xF1VQ5krP5IhJSKDXl1J12mVoff8iYi0AQSBHqtJASyNTtL+V4wPx47R95x8fDkohBXrY+iq9RhmRcAdtxrbkT8r+9HBSM92Rc5N4Vg4/htYM+VXF1cFBJVsxmA2JpOUJmoBeH3gDtyyfHZSZ/mvF5Ou+vUR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K51igrXX; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BF5D1F00893;
-	Mon,  8 Jun 2026 08:56:26 +0000 (UTC)
+	s=arc-20240116; t=1780909032; c=relaxed/simple;
+	bh=uHwx7oWoa4XTCheIbH7hojpCwRp+2b5anJ2JJDHBHqw=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=jY7JLccy4DwEp3jzbE0NJdIhdJgEeaQ35ZlMRz+5loojGN440wrGKzT7nRBTc6NVWvINqOT/GNkoY0MYPbCgT6WYDQS4DI14PLKsx2UE2K332xgpvRJffBtr1Uav5n7ZQwXMWwVV5+rvylFnLhsyf0CVa4jRgvDLTxPSOTcqhn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nH0F36IE; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04EB81F00893;
+	Mon,  8 Jun 2026 08:57:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780908989;
-	bh=7TaSkqVM8tNNbUj9Lkas7kKacOO87VVrmRgpxX7eEsE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=K51igrXXDrmyfIC9RopwvgKi/HRJ2pT7LIslbueCwWdyWgMnE698304ErVsCul9BX
-	 QUrIwAXbCEK7qcGOUu+b5FeLObu7ltjgktgcK20MaRywoTQxGHtsZclIVDGK37xDwI
-	 YTchxvoj7tae5wZ7sRMpBfNJ58cETHQJzSjvrYEOQu5R0qg8KQ+8efN9CBPvOew6X6
-	 zQUB8HScAi9UX66Cg/XvcuFqj+/ZDKxZAYpabCskiXpnqbcsYfCW/3T9lZJMu3fNfL
-	 P9gDOoQKRIxO8wdEhR0xTAvZnadZ7qF8nR7zBCRZQBCoR+CUl7J7Dy2uHk6/vkAO1S
-	 Y/z1vOAuAm6dg==
-Message-ID: <1715df23-044a-4ebe-bf24-e0299b32e4ae@kernel.org>
-Date: Mon, 8 Jun 2026 09:56:24 +0100
+	s=k20260515; t=1780909030;
+	bh=1qlEzQ6jeemq4KP5+jOxeD4JPbn/N6MC38Ewn5nzhoI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=nH0F36IEJ/egvsfkg2cBACgl9xiWQN8YiQJdtmWTxgSE4Krvgirhuyhfk7qQf79W/
+	 /9teVS9VDaMl5ZUm6ZLZpSbOO5ShW4ZXdOcOAbWWIpmjUuwmp2x/JwK5JzoIFH7Iqa
+	 t/taH16/flLm09P7VTJK38jYDTZowIkr4Vn5GX4Hq9WKK9oJylv/zugn3S8L9X7WKO
+	 vwhZ/UEtRywSgiW7f/42YpxifgMgkJTBylZ/QViHlitcFHDfNGvvDPkuSpJ2Kn4eHO
+	 jEZc8FIdr27VHEEK8NWsTblSIACnieBOcc1NptfxLR8CRcYhiUwQ8/fZYkFvEvXEWn
+	 BWuu/R1wNsfnQ==
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] media: atomisp: Fix resource leak in
+ atomisp_pci_probe()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Dawei Feng" <dawei.feng@seu.edu.cn>
+Cc: linux-media@vger.kernel.org
+In-Reply-To: <20260608082706.3287831-1-dawei.feng@seu.edu.cn>
+References: <20260608082706.3287831-1-dawei.feng@seu.edu.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 08 Jun 2026 08:57:09 +0000
+Message-Id: <20260608085710.04EB81F00893@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 0/8] media: camss: Add support for C-PHY configuration
- on Qualcomm platforms
-To: david@ixit.cz, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Bryan O'Donoghue <bod@kernel.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Luca Weiss <luca.weiss@fairphone.com>, Petr Hodina <phodina@protonmail.com>,
- "Dr. Git" <drgitx@gmail.com>, Cory Keitz <ckeitz@amazon.com>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: Frank Li <Frank.Li@nxp.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Kieran Bingham <kbingham@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org
-References: <20260605-qcom-cphy-v7-0-426c37e9008f@ixit.cz>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=bod@kernel.org; keydata=
- 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
-In-Reply-To: <20260605-qcom-cphy-v7-0-426c37e9008f@ixit.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	MISSING_MIME_VERSION(2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
@@ -129,85 +73,106 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-64162-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:david@ixit.cz,m:rfoss@kernel.org,m:todor.too@gmail.com,m:bod@kernel.org,m:vladimir.zapolskiy@linaro.org,m:mchehab@kernel.org,m:luca.weiss@fairphone.com,m:phodina@protonmail.com,m:drgitx@gmail.com,m:ckeitz@amazon.com,m:loic.poulain@oss.qualcomm.com,m:Frank.Li@nxp.com,m:konrad.dybcio@oss.qualcomm.com,m:kbingham@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:phone-devel@vger.kernel.org,m:todortoo@gmail.com,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[ixit.cz,kernel.org,gmail.com,linaro.org,fairphone.com,protonmail.com,amazon.com,oss.qualcomm.com];
-	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	REPLYTO_DN_EQ_FROM_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-64163-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:dawei.feng@seu.edu.cn,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
+	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWO(0.00)[2];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[codeberg.org:url,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	FROM_NO_DN(0.00)[];
+	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[seu.edu.cn:email,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,lists.linux.dev:replyto,smtp.kernel.org:mid,sashiko.dev:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 961CB6545D4
+X-Rspamd-Queue-Id: 415EC654593
 
-On 05/06/2026 14:14, David Heidelberg via B4 Relay wrote:
-> Note: WIP tag added, as not everything from the previous review round has
-> been addressed.
-> 
-> # Short summary
-> 
-> This patch series extends the Qualcomm CAMSS (Camera Subsystem),
-> including CSID and CSIPHY components, to support C-PHY mode configuration.
-> 
-> # Background and motivation
-> 
-> Modern smartphone cameras increasingly rely on MIPI C-PHY rather than
-> D-PHY, thanks to its higher data throughput and signal efficiency.
-> As a result, many OEMs adopt C-PHY interfaces for main (rear) cameras on
-> Qualcomm-based devices.
-> 
-> Until now, mainline Linux lacked C-PHY configuration support for Qualcomm
-> chipsets, preventing bring-up of primary camera sensors on several
-> Snapdragon platforms. This series closes that gap.
-> 
->   - Introduces C-PHY configuration support for the CAMSS driver stack,
->     covering both CSID and CSIPHY blocks.
->   - Successfully enables C-PHY operation on the Snapdragon 845 platform.
->   - Tested on OnePlus 6 and 6T phones running mainline Linux,
->     using the Sony IMX519 main camera sensor.
->   - The new configuration allows other chipsets versionsto enable C-PHY by
->     simply adding corresponding sensor driver support and csiphy
->     initialization data, following the example set for sdm845.
-> 
-> With this patch series, mainline Linux gains working C-PHY support for
-> Snapdragon 845, paving the way for improved main camera functionality
-> across many Qualcomm-based devices. The groundwork also simplifies
-> future enablement efforts for additional SoCs and sensors.
-> 
-> Until merged, the series will be also available at:
->    https://codeberg.org/sdm845/linux/commits/branch/b4/qcom-cphy
-> 
-> Signed-off-by: David Heidelberg <david@ixit.cz>
-> ---
-> Changes in v7:
-> - Move logic out of switch. (Frank)
-> - Change csid cphy knob to phy_sel using enum. (Bryan, Frank)
-> - Link to v6: https://lore.kernel.org/r/20260603-qcom-cphy-v6-0-e50de0b557a8@ixit.cz
-So I was asking you previously about a dts to support this in some way 
-in effect to prove it works.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
 
-I had a meeting with some qcom guys on Friday and the informed me they 
-have based work on top of yours, which is inference enough that it works.
+Pre-existing issues:
+- [High] The v4l2 async notifier is never unregistered or cleaned up, leadi=
+ng to a memory leak of async subdevice connection objects and dangling noti=
+fiers resulting in a Use-After-Free.
+--
 
-Some Tested-by: from others interested in this work, would be greatly 
-appreciated at this stage.
+commit b7444e6b542badbafff9a7d15d5037c35782ba7c
+Author: Dawei Feng <dawei.feng@seu.edu.cn>
 
----
-bod
+media: atomisp: Fix resource leak in atomisp_pci_probe()
+
+This commit fixes a resource leak by unregistering subdev entities if
+atomisp_register_entities() fails during atomisp_pci_probe().
+
+> diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/s=
+taging/media/atomisp/pci/atomisp_v4l2.c
+> index 900a67552d6a0..d4e4e845f66e6 100644
+> --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+> @@ -1401,6 +1401,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, =
+const struct pci_device_id *i
+>  	err =3D atomisp_register_entities(isp);
+>  	if (err < 0) {
+>  		dev_err(&pdev->dev, "atomisp_register_entities failed (%d)\n", err);
+> +		atomisp_subdev_unregister_entities(&isp->asd);
+>  		goto error_uninitialize_modules;
+>  	}
+
+[Severity: High]
+This is a pre-existing issue, but while looking at the error paths being
+fixed here, is there also a memory leak and use-after-free risk related to
+the async notifier?
+
+In atomisp_pci_probe(), the notifier is registered via
+v4l2_async_nf_register(), adding it to the global notifier_list. However,
+the error paths and the driver teardown function atomisp_pci_remove()
+appear to entirely omit v4l2_async_nf_unregister() and
+v4l2_async_nf_cleanup():
+
+drivers/staging/media/atomisp/pci/atomisp_v4l2.c:atomisp_pci_probe() {
+    ...
+	err =3D v4l2_async_nf_register(&isp->notifier);
+	if (err) {
+		dev_err(isp->dev, "failed to register async notifier : %d\n", err);
+		goto error_unload_firmware;
+	}
+
+	return 0;
+
+error_unload_firmware:
+	atomisp_pm_uninit(isp);
+	ia_css_unload_firmware();
+    ...
+}
+
+Does this code permanently leak the memory allocated for async subdevices v=
+ia
+v4l2_async_nf_add_fwnode_remote() because cleanup is never called?
+
+Additionally, since the isp struct is allocated via devm_kzalloc(), could
+omitting the unregister call leave a dangling pointer in the global
+notifier_list when the driver is unloaded or when the probe fails, potentia=
+lly
+causing a use-after-free on subsequent list iterations?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260608082706.3287=
+831-1-dawei.feng@seu.edu.cn?part=3D1
 
