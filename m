@@ -1,103 +1,103 @@
-Return-Path: <linux-media+bounces-64123-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64124-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Hf+vE51VJmoEVAIAu9opvQ
-	(envelope-from <linux-media+bounces-64123-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 07:39:41 +0200
+	id J3AzGLtVJmoTVAIAu9opvQ
+	(envelope-from <linux-media+bounces-64124-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 07:40:11 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E822652DA8
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 07:39:41 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DB96652DC6
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 07:40:10 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=Aux8Bjki;
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=f4JQ9de1;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64123-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-64123-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=ZW08KphT;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=Sd1MZgG6;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64124-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-64124-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=reject) header.from=qualcomm.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 172C730041D5
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 05:39:39 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id E2C39300406B
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 05:39:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F29F37B014;
-	Mon,  8 Jun 2026 05:39:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B501E379C20;
+	Mon,  8 Jun 2026 05:39:49 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F51378D64
-	for <linux-media@vger.kernel.org>; Mon,  8 Jun 2026 05:39:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03DB235DA40
+	for <linux-media@vger.kernel.org>; Mon,  8 Jun 2026 05:39:47 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780897173; cv=none; b=NRiMl+Epp66vyZVwGfwh4CBLklvnefBDBjiqC0YwY7k235AGxHLdewXLfhldk6yGFWYHVw2JH0ddyj1ptN7b+qLgIdbXUGx/7RD8MSs+5CbCBPFmjVDTuzFrgIc1h2cZiVNKxTC7U6Fi+rDtRYzrf/qu+Kof2W5PXDDxKDloYNQ=
+	t=1780897189; cv=none; b=BOEy/tJGGaOngRVAiw+/9UZvsXoHQHQSyfuGyx2eHoiWUY/oqn/DCdjMtTDaZ40s93BJN+96T+kWgJ6OOJfLulRcUmF7nS6ufGB7favBQZV7eQcPKRirXJR88eXHiC9+BWljxch7GHvtxPIdHqbV4/6NMhmHnyLC3QnIdODPQaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780897173; c=relaxed/simple;
-	bh=cMCkxruPB0+/BzQoZuFiIbm/OEHgsUhSYjlGeEC+JAM=;
+	s=arc-20240116; t=1780897189; c=relaxed/simple;
+	bh=JpoZHFk7B+FNKCUvCv8J0gju7j04clYLRSjUZtit+yk=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=po1tUfbpknFKeEsAnnxSEy+TxlxcSHvxjh03d03Gm2fM+gS27TZi1YpaGq1iga0+kNlNz9fu48IkjhpkeTdJObmvbupgpmLzvq0cLdftZ1kZZU36fSAsBSZZnlFwivOCQ3KHch4+y3eTB3a/0Xce3alHnwnAZitpyxEc4jejDoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Aux8Bjki; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=f4JQ9de1; arc=none smtp.client-ip=205.220.168.131
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6580EMvV1575350
-	for <linux-media@vger.kernel.org>; Mon, 8 Jun 2026 05:39:31 GMT
+	 In-Reply-To:Content-Type; b=u4Dji27HyzHNGdgJS9VQfGGGEwof/vyEM3AoEPdV/nvoOFWrmawdJjOQ8ADRbVRN4zYhdYopoSYEwsnv5+auPvtVCWU6ay2d8Ze5wF0edl1xY4se2TkgAsPZPWCCsuweSSg+GeiWDWYq7ygrNIAWCG/Ku53KfNvQM3R+92odEYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ZW08KphT; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Sd1MZgG6; arc=none smtp.client-ip=205.220.168.131
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6580ENq41511230
+	for <linux-media@vger.kernel.org>; Mon, 8 Jun 2026 05:39:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	0HUAabhh/cNwlZD3LTk55FqmkLMmZVgRrQqnCafWe2g=; b=Aux8BjkioW1WDjDC
-	fiEEiqjE79eRs9GyMm9EA+dmldhCR5bCbUFu+lz8UOy9hlUWW88+WrcujAF365p8
-	Lqf9vwGHMkWekA/kQtBM3bO20YYIdLDkn+ZaCpSRTeV+eAJ2MYbZKDoVjeihkzOM
-	tFMGttspDZOdqccrwqmKzNqmaJ8KapXcE3qFy+eHM8etnIJ3Xhq1Mp1ME7CJ+glT
-	RaZomr6hDzH+JydZ5acKIPaEWfMuBZ/Rw7ckBOEYXzmPlog2TstOQNY5FhEO/eU2
-	UOZsxN3N0Vq+KqN1i15kIfW6wECKDBytGdpmiZnKW2HgOuidvcZzNn+ROL56jzC2
-	qaIVRw==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4embs1dv1r-1
+	/LumdMRl3N4whwwMsWXm6IkVbxduPsWVFlMKwRHEwLo=; b=ZW08KphTphXnC36N
+	GUzk0MrtCx+iw/2JCZfN8FeZf0/NRqINvL6ngXFroi7t+Un5TeQiztt/Ec/wUHX5
+	0yoSUJSPjHuJf/8M1nl9nP1gPUnJpFGHnZsHEO4zPA5P6bmP6oAN8LHpitWK8b7w
+	rI3XvkKgLtyeLzoj2MWCuNCpxp+cWud0aO/UbNqwXc9jPjClzRSpTlbhqu3Pvos5
+	WiifpslfGwVriPt9ZRIAvt/n8t1ZKvdaXEWY/wwVGc92CLmWfD4i4H9c16v9ko+a
+	un8MXP1KdZbi8LZ24S6gKudBhZI0Ter3IEPkCpQl2j6oX9PTfNs5jt7sU0ghKbvs
+	+KN9lQ==
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4emcadwpt0-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 08 Jun 2026 05:39:31 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-36d98b74447so2956174a91.2
-        for <linux-media@vger.kernel.org>; Sun, 07 Jun 2026 22:39:31 -0700 (PDT)
+	for <linux-media@vger.kernel.org>; Mon, 08 Jun 2026 05:39:47 +0000 (GMT)
+Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-c8581f7723aso2280340a12.0
+        for <linux-media@vger.kernel.org>; Sun, 07 Jun 2026 22:39:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1780897170; x=1781501970; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1780897186; x=1781501986; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=0HUAabhh/cNwlZD3LTk55FqmkLMmZVgRrQqnCafWe2g=;
-        b=f4JQ9de1o+A8hrutcn4BXxXC+QrVb+3ks+9ZzKPxEyTgwfQwIaiFdASax9qigdrMNh
-         wnqBgBu9zyN4AO7ZqqShh2FZlj4UZ+MeZXSTsC8dkG/TPk+w+XD1IkPQqOMlSPXeb/k5
-         riORXHd3wCWXkZLrb8b+YCkODTg3jYBvFhx/F4LSBVwjxGfXAk5bur0LtTUr+lfDtKhA
-         gnojzVeiWQfo2fCuv5Sjo9JJR3GS+lNVhuoposaPUOtjHIvcartK9tcBYzMX0bc7oOwZ
-         nTitc+GBagUil498DZ/rAJIS2nu/bkTJ83m6cc7Y11IFqdq29b6zfDLiorfQ7VRzpmA7
-         E/vA==
+        bh=/LumdMRl3N4whwwMsWXm6IkVbxduPsWVFlMKwRHEwLo=;
+        b=Sd1MZgG62E5FFWfxasDf/jWMNxYDE/1HZwx13I2SfMT4IqXCvpxWDj4W8yOKzIhOHf
+         S7vxJ1mylylJPjEG03uPkrTo+U1lDxMuYmidweNuLZzLgkTraqG20JCk2b6gxQeVm5Yo
+         7qFUkHPQ9eAcE/91u2QzFcmkWnM6M7YlzxkzP7GTVRmym81qP2qDPRHbMwoyjgB9q2q4
+         I4BBir/Ei9CpsCexeLB1HbfnLA2109/fm0HgMo/61FtobCpGsHJrYXy7XlWDE72kB3Fd
+         rqvGlU0ml4GztmX2rDpwc8t6UydWKUFnRcKIdk7eIB3BWmzn1oLJbEXQmNxVIm6wFwE6
+         NqfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780897170; x=1781501970;
+        d=1e100.net; s=20251104; t=1780897186; x=1781501986;
         h=content-transfer-encoding:in-reply-to:content-language:references
          :cc:to:subject:from:user-agent:mime-version:date:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0HUAabhh/cNwlZD3LTk55FqmkLMmZVgRrQqnCafWe2g=;
-        b=LU0TeGnLO6KF3FUii+tB0Ua2OvjuFV96ml3vdggdY0DHVl3BYOpm11px1XTydIOLjZ
-         9/GkqqkgC9zh0ThHzl2XqW5FWQ3injKAXU4hcU26uUiHI/UzRjpEohTgSPYPaUCt8n+v
-         6mzh1YocbuaPs9xTn85e1NTdwqSg2DYZV10/F5Yl3so4Ba45sML5zIByKwGyknRlgW5g
-         1RdY0cGXB2SB9+4If4P0h7hqC3aZPiWf8CPPxuw/E7aHVHtvsQphQZ2qRlVCBXq7sd3J
-         BKk+T6V7QAkdCmBoeX6upBtXSmSvJfXumoJvSqMZPzBWRLeJkaWfKiGLr2lqL1rxnXwW
-         9iIw==
-X-Forwarded-Encrypted: i=1; AFNElJ+F2e3hcAEPcsQfceUvN7GJIo3v+IZbv4xgZIFfeXx6wPKrfmhSrP7ZTH6+xQDlAjxbJRFVUasX8+mi1w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyz7K4xMWPsYLeEiEzqwIDs8ypupgpGcvPvZcJueIupCehexZKU
-	qV6hSgsNhA2XVl62vbu5CULrbt5m8xG1YYu7bnTcF8A5lX3n99JECS4IMUkFjUZjqpmF8Slozot
-	GL6R45ONzO8EjMMUsYTPAMWuNB5YCPqOXd9FMlZDBLRMjkD6W85he2qOozIUx7DZMGA==
-X-Gm-Gg: Acq92OGvWBXWVrFzqcbjSPxnnRwjYmDwVSSY7UJx5j4fPIbluTANxrsPC7xxLDQphov
-	SNBf/QB6wRS18ewXBhY7pW6AkDWZqOuElTrPaISs5v2l9GK2qfc6lDyRvYGgf1CzisHmQH8En3u
-	7wCtArHT5GRBGe6ux67EaZzJerC5e+6iObY4bZLqrG8GngfI1u89LS/VIIlzqSDdFiJ/yA47/Cv
-	CMGrNF61EZFbWmE1ySp0f1sSYUgBIemXwi5BZ+oYp+GTD6Wjzs+ub+6fOUBw6fDQMhWUNPkqY2w
-	DG8xGHEX9/oMsXQ15fDaok7gCkehrL1CTn96AJzyLnQBfMQ058AeZ86nnmmR1VbaCreIx2PHbZo
-	wcJ1DijfsnkdP6WC7ulFKoksnOr12HEgcOAiq8D/McipuuS+17u2A1mUMui4iym0R
-X-Received: by 2002:a17:90b:548e:b0:369:e4d4:79c6 with SMTP id 98e67ed59e1d1-370f0b55fbemr14256600a91.20.1780897170485;
-        Sun, 07 Jun 2026 22:39:30 -0700 (PDT)
-X-Received: by 2002:a17:90b:548e:b0:369:e4d4:79c6 with SMTP id 98e67ed59e1d1-370f0b55fbemr14256589a91.20.1780897170005;
-        Sun, 07 Jun 2026 22:39:30 -0700 (PDT)
+        bh=/LumdMRl3N4whwwMsWXm6IkVbxduPsWVFlMKwRHEwLo=;
+        b=cZphIewWyXqEbx4udqaQnsvECm8ya6WRzt8eCtA5+f5WrpPilAnDdUNWBUcdT475Bo
+         gxN+8sw/3W9WnhZyokbHavWvRXdJvOC9K5hoMepFVt3P6cvpbTwAR+0GKI8ciNOm1dkC
+         ecUsq1uO+FgISYSDhywlb6CO5EJ2FYRDx9tGtuCSYrglXhQQjjm8E9Dtxr78NAJHW37b
+         kdWgAzTzgQzFwptGW4oVBI5pbeixhbpaZdPi21LMrAO2Bt816Jr6r21bxSds6yUCMJ1n
+         c9tYVuH7neVyxYwOCMj7Lu/gUHQXUiTMd6WUbLP1jkPdeGMxw56uLnHCWawEUu5wjwKi
+         ZthA==
+X-Forwarded-Encrypted: i=1; AFNElJ87MPYUctIHihcKFU7jIZimrq577fz+6OMh553XkjeIdnfuX+vTSqqwuoD9ipYi1wwe1dLSBKmH+k90WA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPr4Z7XjW1PnfBN7E1VGVTn9rhXwkZ5XomglNTu/4PZ9Yn3E2x
+	vM98cBA4ACma0sIFELrZI/yZAhAtI5nJH6l5cVGGY0j2ym24KG2lXFTRF0+Y44VDduNHlQQg0Xk
+	HpzDoWQnDi0/k8edeQHDE477tqxBCE2TFIltfvPi89EjPiVgpkHtQRzC1q6KUQCkiBg==
+X-Gm-Gg: Acq92OFZ10DCFcIVM0WUbLPb/Wxs8aPhMVgo7aVReBYZCByy8EVeg7vH2oz1IiFZNDu
+	G2WRRQINv2qU5zRdncN1G7vaT6XM9DXa+CdJcjd5qqZ/xxqyK6unnqXG1Y6g9eDRblE6r7he2V5
+	YxmlNobmlpObbYthdCwfyNhWKT9HapBrxApupBw3Pi/4/mSNytsvAJqK6InOos5LSxDl7DKAgBP
+	kotXTH5WbSQQFFSxrbO/DKu6NzabhZojWoZbxVImIYUwsXtNMCWNal1vldJLIYBIVepCl/ktY97
+	RKRl2cEfTkMhvv4lE/P0VhZ15u9KBw5R0NeEDwHx4qzt48oThOtyJiqsiaH9hAQUWxwjI9xpwr2
+	JZvYTVdiCMSSutEGxyZa7b+noCjpgLmuPC3ElRRqPEtYf9PlJW/SLfsyn4rwe/vuo
+X-Received: by 2002:a05:6a21:6e04:b0:3b3:2703:110 with SMTP id adf61e73a8af0-3b4ccd1b49cmr16495568637.4.1780897186469;
+        Sun, 07 Jun 2026 22:39:46 -0700 (PDT)
+X-Received: by 2002:a05:6a21:6e04:b0:3b3:2703:110 with SMTP id adf61e73a8af0-3b4ccd1b49cmr16495533637.4.1780897185956;
+        Sun, 07 Jun 2026 22:39:45 -0700 (PDT)
 Received: from [10.206.105.200] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3712ef0add7sm8612386a91.0.2026.06.07.22.39.24
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c85df0a505fsm14522572a12.20.2026.06.07.22.39.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 07 Jun 2026 22:39:29 -0700 (PDT)
-Message-ID: <b9a11d38-13f7-ee33-0537-2557050afdfa@oss.qualcomm.com>
-Date: Mon, 8 Jun 2026 11:09:22 +0530
+        Sun, 07 Jun 2026 22:39:45 -0700 (PDT)
+Message-ID: <6fb0c372-d77c-da95-5cad-c620b68c2bd3@oss.qualcomm.com>
+Date: Mon, 8 Jun 2026 11:09:42 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -107,230 +107,168 @@ MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.8.0
 From: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-Subject: Re: [PATCH v7 07/12] media: iris: Add power sequence for glymur
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        iommu@lists.linux.dev, devicetree@vger.kernel.org
-References: <20260603-glymur-v7-0-afaa55d11fe0@oss.qualcomm.com>
- <20260603-glymur-v7-7-afaa55d11fe0@oss.qualcomm.com>
- <g5fpxwtlajz4p6gn55pjtgb2czjkbjyjlii2zkznle6lbtdgzb@zsiafc57gaco>
+Subject: Re: [PATCH v7 09/12] media: iris: Add support to select core for dual
+ core platforms
+To: sashiko-reviews@lists.linux.dev
+Cc: robh@kernel.org, conor+dt@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+References: <20260603-glymur-v7-9-afaa55d11fe0@oss.qualcomm.com>
+ <20260603144434.928EF1F00898@smtp.kernel.org>
 Content-Language: en-US
-In-Reply-To: <g5fpxwtlajz4p6gn55pjtgb2czjkbjyjlii2zkznle6lbtdgzb@zsiafc57gaco>
+In-Reply-To: <20260603144434.928EF1F00898@smtp.kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA4MDA0OSBTYWx0ZWRfX2YGazvKtW24U
- OTW/fXmAhRbPt27JH7I3wAxixBS6DEplLopBwiqe53D9RJim8eNyXW72giiILprbC8YxT+V9rxc
- SbGBG4ERG0/P9OpZr9uBbveGMvmr7F3Yn35m4ZSCKj1STwBELNQ12XkgwPnqUDbpPwB6SD9axTE
- GSxr8UbKlCWCrWMbdIM8ULSK1GxzOa8skfkd/DxDXmru1NzZgLjS+LJkL8s0/FoktWdyNwq16HC
- /B/CfVneulzDq3X7PifDbsRZh25y67huHgtQ5bjX4JVmbbmKhV85dzmg28NB8zwcgNQHhCd6TXK
- 2xKMRUCLXqDAZU1WPXIvW22nDNwkCeDaIF6MVyT7l6JtK3WBXqK9ESUbFuRWVtyNS/r1nL7+p50
- sQErgkQIcog+16YjSXJaA0Mam/7nE4tmXzKuzoslo+aZ99Uzdkh/K4JIlo9T0FleU1aRoQAIm9Y
- kJup2TAAEsHCzsDo2RA==
-X-Authority-Analysis: v=2.4 cv=CeY4Irrl c=1 sm=1 tr=0 ts=6a265593 cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Authority-Analysis: v=2.4 cv=DIa/JSNb c=1 sm=1 tr=0 ts=6a2655a3 cx=c_pps
+ a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=EUspDBNiAAAA:8 a=XOSsvO-zd5c9LZtoon0A:9 a=QEXdDO2ut3YA:10
- a=iS9zxrgQBfv6-_F4QbHw:22
-X-Proofpoint-ORIG-GUID: v3olESzunGSNHdViHZcEw7Qbryvt2lrN
-X-Proofpoint-GUID: v3olESzunGSNHdViHZcEw7Qbryvt2lrN
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=8D1nwKgvKgv7XXS0Yz0A:9 a=QEXdDO2ut3YA:10
+ a=3WC7DwWrALyhR5TkjVHa:22
+X-Proofpoint-GUID: _37dnTLTw6vPqBc5A6tTGE9t84RtyRaT
+X-Proofpoint-ORIG-GUID: _37dnTLTw6vPqBc5A6tTGE9t84RtyRaT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA4MDA0OSBTYWx0ZWRfXzK4M/7KkjI0M
+ RrjvlBYWe2ILDLSeWeDEonvGD2jE3pUbFcMReGP2d3SGIiUknX1ntrqn3eN7ZUiU5Y3wkjYJgfw
+ Tr0Xo2LqrEc7W3RUoOgjgvIX1+QrF58rP0i/whNjVbfZRsoOzrV4u2iCdac2L57RsD2iOEcPNGc
+ yJJhDN1CN/mID3u5tHzMFG4H0d8uNFqRGcl77JSwfJ9lmUxhjKTaouL1uL2I/hO+VFRqaVPU9qc
+ 66gyVPi6jSn481oa7Gs6pcmxPA5MmsYBXhMVBlWUJVot+xB1BZ/0cp1WI9bj2l+ux1NdIZ3baGa
+ vvSF1Cbokl6ZZmxmqn5J/ENGokgzYquaoKdGec8YjOwMEu2K7KLMye4SNQ10IIZw/L+uhKWSEtB
+ wtlzei6NnEX+1ox3cUIUpdC1taaMpkkPioeb4H1tJH/5EhlgjOyEPK843ISLoa5tNsw6yDayKSv
+ TTLajoQz3B6h2X5WNgQ==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
  definitions=2026-06-08_01,2026-06-05_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 impostorscore=0 suspectscore=0 adultscore=0
- priorityscore=1501 spamscore=0 malwarescore=0 phishscore=0 clxscore=1015
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2605210000
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 clxscore=1015 spamscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2605210000
  definitions=main-2606080049
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	TAGGED_FROM(0.00)[bounces-64123-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:bod@kernel.org,m:mchehab@kernel.org,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:stanimir.k.varbanov@gmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:iommu@lists.linux.dev,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:stanimirkvarbanov@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-64124-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,qualcomm.com:email,qualcomm.com:dkim,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,oss.qualcomm.com:mid,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim];
 	FORGED_SENDER(0.00)[busanna.reddy@oss.qualcomm.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[oss.qualcomm.com,linux.dev,kernel.org,8bytes.org,arm.com,gmail.com,vger.kernel.org,lists.linux.dev];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,qualcomm.com:email,qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:from_mime,oss.qualcomm.com:dkim,sto.lore.kernel.org:helo,sto.lore.kernel.org:rdns];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:sashiko-reviews@lists.linux.dev,m:robh@kernel.org,m:conor+dt@kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[busanna.reddy@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TO_DN_NONE(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 1E822652DA8
+X-Rspamd-Queue-Id: 5DB96652DC6
 
 
-On 6/8/2026 3:17 AM, Dmitry Baryshkov wrote:
-> On Wed, Jun 03, 2026 at 07:48:45PM +0530, Vishnu Reddy wrote:
->> Glymur platform has two video codec cores: vcodec0 and vcodec1.
->>
->> Both cores share a common clock source (video_cc_mvs0_clk_src) and the
->> same power rails. The clock dividers between the source and the branch
->> clocks are fixed. So when both cores are running, the source clock always
->> runs at the highest frequency requested by either core.
->>
->> Since both cores share the same power rails, the power corner cannot be
->> voted independently. Scaling one core's power corner up or down would
->> directly affect the other, leading to under or over-voting.
->>
->> For these reasons, both cores should voted the clock and power rail must
->> be based on the workload of both cores.
->>
->> Reviewed-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
->> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
->> ---
->>  drivers/media/platform/qcom/iris/iris_vpu3x.c      | 111 ++++++++++++++++++++-
->>  drivers/media/platform/qcom/iris/iris_vpu_common.h |   1 +
->>  .../platform/qcom/iris/iris_vpu_register_defines.h |  10 ++
->>  3 files changed, 117 insertions(+), 5 deletions(-)
->>
+On 6/3/2026 8:14 PM, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
+> - [High] Dynamic core assignment logic mutates `inst->core_id` during streaming without firmware notification and without holding `inst->lock`.
+> - [Medium] Initial core assignment bypasses MBPS constraints.
+> --
+>
+> commit 2b81abf719d22ec30cd3764b2bba16be2af15168
+> Author: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+>
+> media: iris: Add support to select core for dual core platforms
+>
+> On platforms with two video codec cores, select the hardware core for
+> a new session based on the current Macroblocks Per Frame (MBPF) and
+> Macroblocks Per Second (MBPS) load on each core. The selected core is
+> communicated to the firmware via the HFI_PROP_CORE_ID property at
+> stream-on time.
+>
+>> diff --git a/drivers/media/platform/qcom/iris/iris_vb2.c b/drivers/media/platform/qcom/iris/iris_vb2.c
+>> index a2ea2d67f60d0..dbb89396e6514 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_vb2.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_vb2.c
+>> @@ -176,6 +176,10 @@ int iris_vb2_start_streaming(struct vb2_queue *q, unsigned int count)
+>>  	if (ret)
+>>  		goto error;
+>>  
+>> +	ret = iris_set_core_id(inst);
+> [Severity: Medium]
+> Since this initial core assignment is driven by iris_check_session_supported()
+> called just before this, does that function need to check both MBPF and MBPS
+> limits?
+>
+> Currently, iris_check_session_supported() only calls iris_check_core_mbpf() to
+> verify Macroblocks Per Frame limits. The complementary MBPS constraint check
+> via iris_check_core_mbps() appears to be entirely omitted.
+>
+> Could this allow a session to be successfully assigned to a core that meets
+> the MBPF limit but vastly exceeds its maximum processing capability (MBPS)?
+
+Decoder doesn't know the FPS at this stage to validate MBPS.
+
+>> +	if (ret)
+>> +		goto error;
+>> +
+>>  	if (V4L2_TYPE_IS_OUTPUT(q->type)) {
+>>  		if (inst->domain == DECODER)
+>>  			ret = iris_vdec_streamon_input(inst);
+> [ ... ]
+>
 >> diff --git a/drivers/media/platform/qcom/iris/iris_vpu3x.c b/drivers/media/platform/qcom/iris/iris_vpu3x.c
->> index 7cda94601555..f07eaf4b3be2 100644
+>> index 65896d0c1f16b..9f8dacfa768d8 100644
 >> --- a/drivers/media/platform/qcom/iris/iris_vpu3x.c
 >> +++ b/drivers/media/platform/qcom/iris/iris_vpu3x.c
->> @@ -17,14 +17,14 @@
->>  #define NOC_HALT				BIT(0)
->>  #define AON_WRAPPER_SPARE			(AON_BASE_OFFS + 0x28)
->>  
->> -static bool iris_vpu3x_hw_power_collapsed(struct iris_core *core)
->> +static bool iris_vpu3x_hw_power_collapsed(struct iris_core *core, u32 pwr_status_bit)
->>  {
->>  	u32 value, pwr_status;
->>  
->>  	value = readl(core->reg_base + WRAPPER_CORE_POWER_STATUS);
->> -	pwr_status = value & BIT(1);
->> +	pwr_status = value & pwr_status_bit;
->>  
->> -	return pwr_status ? false : true;
->> +	return !pwr_status;
+>> @@ -318,6 +318,67 @@ static void iris_vpu36_program_bootup_registers(struct iris_core *core)
+>>  	writel(0x0, core->reg_base + CPU_CS_SCIACMDARG3);
 >>  }
 >>  
->>  static void iris_vpu3_power_off_hardware(struct iris_core *core)
->> @@ -32,7 +32,7 @@ static void iris_vpu3_power_off_hardware(struct iris_core *core)
->>  	u32 reg_val = 0, value, i;
->>  	int ret;
->>  
->> -	if (iris_vpu3x_hw_power_collapsed(core))
->> +	if (iris_vpu3x_hw_power_collapsed(core, VCODEC0_POWER_STATUS))
->>  		goto disable_power;
->>  
->>  	dev_err(core->dev, "video hw is power on\n");
->> @@ -78,7 +78,7 @@ static void iris_vpu33_power_off_hardware(struct iris_core *core)
->>  	u32 count = 0;
->>  	int ret;
->>  
->> -	if (iris_vpu3x_hw_power_collapsed(core))
->> +	if (iris_vpu3x_hw_power_collapsed(core, VCODEC0_POWER_STATUS))
->>  		goto disable_power;
->>  
->>  	dev_err(core->dev, "video hw is power on\n");
->> @@ -221,6 +221,98 @@ static void iris_vpu35_power_off_hw(struct iris_core *core)
->>  	iris_vpu33_power_off_hardware(core);
->>  }
->>  
->> +static void iris_vpu36_power_off_vcodec(struct iris_core *core, u32 core_id)
+>> +static int iris_vpu36_check_core_load(struct iris_inst *inst, bool mbpf)
 >> +{
->> +	u32 value, i;
->> +	int ret;
+>> +	const struct iris_platform_data *platform_data = inst->core->iris_platform_data;
+>> +	u32 max_load = mbpf ? platform_data->max_core_mbpf : platform_data->max_core_mbps;
+>> +	u32 max_session_cnt = platform_data->max_session_count;
+>> +	u32 core0_session_cnt = 0, core1_session_cnt = 0;
+>> +	u32 core0_load = 0, core1_load = 0;
+>> +	bool select_core0, select_core1;
+>> +	struct iris_inst *instance;
+>> +	u32 load, new_load;
 >> +
->> +	if (iris_vpu3x_hw_power_collapsed(core,
->> +					  core_id ? VCODEC1_POWER_STATUS : VCODEC0_POWER_STATUS))
->> +		goto disable_power;
->> +
->> +	value = readl(core->reg_base + WRAPPER_CORE_CLOCK_CONFIG);
->> +	if (value)
->> +		writel(CORE_CLK_RUN, core->reg_base + WRAPPER_CORE_CLOCK_CONFIG);
->> +
->> +	for (i = 0; i < core->iris_platform_data->num_vpp_pipe; i++) {
->> +		ret = readl_poll_timeout(core->reg_base + (core_id ? VCODEC1_SS_IDLE_STATUSN :
->> +					 VCODEC_SS_IDLE_STATUSN) + 4 * i, value,
->> +					 value & DMA_NOC_IDLE, 2000, 20000);
-> Unreadable. Extract register addresses to separate variables.
+>> +	inst->core_id = 0;
+> [Severity: High]
+> Is it safe to mutate inst->core_id here during active streaming without
+> holding inst->lock?
 
-Ack
+core->lock is already acquired before control reaching here, so additional
+inst->lock not required.
 
->> +		if (ret)
->> +			goto disable_power;
->> +	}
+> This function can be reached mid-stream if a concurrent s_parm call triggers
+> iris_venc_s_param() -> iris_check_core_mbpf(). Since iris_venc_s_param()
+> executes without holding inst->lock, a concurrent call can clear
+> inst->core_id to 0 right before iris_set_core_id() reads it during
+> iris_vb2_start_streaming().
+>
+> Additionally, altering inst->core_id mid-stream without notifying the
+> firmware (which only receives HFI_PROP_CORE_ID at stream-on) permanently
+> desynchronizes the driver from the firmware.
+>
+> This could cause iris_vpu36_get_required_freq() to incorrectly shift the
+> session's power votes to the new core while the firmware continues executing
+> on the old core, potentially leading to hardware underclocking and system hangs.
+>
 >> +
->> +	writel(core_id ? REQ_VCODEC1_POWER_DOWN_PREP : REQ_POWER_DOWN_PREP,
->> +	       core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
->> +	ret = readl_poll_timeout(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS, value,
->> +				 value & (core_id ? NOC_LPI_VCODEC1_STATUS_DONE :
->> +				 NOC_LPI_STATUS_DONE), 2000, 20000);
->> +	if (ret)
->> +		goto disable_power;
->> +
->> +	writel(0, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
->> +
->> +	writel((core_id ? VCODEC1_BRIDGE_SW_RESET | VCODEC1_BRIDGE_HW_RESET_DISABLE :
->> +	       CORE_BRIDGE_SW_RESET | CORE_BRIDGE_HW_RESET_DISABLE),
->> +	       core->reg_base + CPU_CS_AHB_BRIDGE_SYNC_RESET);
->> +	writel(core_id ? VCODEC1_BRIDGE_HW_RESET_DISABLE : CORE_BRIDGE_HW_RESET_DISABLE,
->> +	       core->reg_base + CPU_CS_AHB_BRIDGE_SYNC_RESET);
->> +	writel(0x0, core->reg_base + CPU_CS_AHB_BRIDGE_SYNC_RESET);
->> +
->> +disable_power:
->> +	dev_pm_genpd_set_hwmode(core->vcodec[core_id].dev, false);
->> +	iris_disable_power_domain_and_clocks(core, &core->vcodec[core_id]);
->> +}
->> +
->> +static void iris_vpu36_power_off_hw(struct iris_core *core)
->> +{
->> +	u32 num_cores = max(core->iris_platform_data->num_cores, 1);
-> Can we trust the patch authors that VPU3.6 hardware data will have at
-> least 1 core?
-
-On Glymur (VPU3.6), num_cores is 2. The max() guard is unnecessary.
-Will access num_cores directly.
-
->> +	int i;
->> +
->> +	for (i = 0; i < num_cores; i++)
->> +		iris_vpu36_power_off_vcodec(core, i);
->> +}
->> +
->>  #define WRAPPER_DEBUG_BRIDGE_LPI_STATUS		(WRAPPER_BASE_OFFS + 0x58)
->>  #define WRAPPER_IRIS_CPU_NOC_LPI_CONTROL	(WRAPPER_BASE_OFFS + 0x5C)
-> Lowercase hex.
-
-Ack
-
->>  #define REQ_POWER_DOWN_PREP			BIT(0)
->> +#define REQ_VCODEC1_POWER_DOWN_PREP		BIT(1)
->>  
+>> +	list_for_each_entry(instance, &inst->core->instances, list) {
+>> +		load = mbpf ? iris_get_mbpf(instance) : iris_get_mbps(instance);
 
