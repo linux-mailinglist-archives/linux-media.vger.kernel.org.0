@@ -1,354 +1,135 @@
-Return-Path: <linux-media+bounces-64185-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64186-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id cVR3ARnNJmohkwIAu9opvQ
-	(envelope-from <linux-media+bounces-64185-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 16:09:29 +0200
+	id Ih2NNo/OJmqHkwIAu9opvQ
+	(envelope-from <linux-media+bounces-64186-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 16:15:43 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA92656F53
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 16:09:28 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4424E657099
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 16:15:43 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=amd.com header.s=selector1 header.b=ylwqYdsA;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64185-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64185-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=amd.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=seu.edu.cn header.s=default header.b=nkZ9vGae;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64186-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64186-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=seu.edu.cn;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 373713124B8C
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 14:00:52 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 8BCF13076F20
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 14:05:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 193E53CB2D2;
-	Mon,  8 Jun 2026 13:59:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF01C3C4573;
+	Mon,  8 Jun 2026 14:05:50 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011022.outbound.protection.outlook.com [52.101.52.22])
+Received: from mail-m93248.xmail.ntesmail.com (mail-m93248.xmail.ntesmail.com [103.126.93.248])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45B13C3420;
-	Mon,  8 Jun 2026 13:59:23 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780927165; cv=fail; b=BLLeKM0vWCuxvwYvsiI0XWPTYuEhSv1OFrKZQH52rY0p7nQzAlabRquYy895A3laWN3NQRelKynzNGl5Fn+67bTyWyBq2bUA6hp5yufPwMqs1ZcpPQ/Rj4aBIL7K0+hY9VF33un0aakjykv7c/wyY6u+oRi8SgPkUFxlMeizcgE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780927165; c=relaxed/simple;
-	bh=PwAbTkNKmZLRZ26x8YPN6/S1mI8Tvo/7RHMvHHVYL/k=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=n7ytFGQoE0MrImBG5NXiuxdU0vtH63trC4FGiUlL9/Y/ZzI5v2RsPgZJGZtEY6Vn3PW4fPCvHppaFnJ55qTVDYmnjk6CgcXrIEWj3dsD+feVmQ+dindsN5wlAfyD6ZDOevN84mCtslaDuBQgEvBAyPWI5jtUSwXfHkDEjnch9Dw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ylwqYdsA; arc=fail smtp.client-ip=52.101.52.22
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ep+UUQAuaqq2VCW4LUTEZ+jlyWORGDnKrROma4RaV4qy7i+cMHky/CeqbqjhCmn43I8GLNe8uqSI7YQGUN0TwTm4UZYxLOiVb28IaGH3VTIduLirc/hUFQ/ehLV70NaJAT0661iA2g3/fjJGa5GIqPL2j+SL6RB+i+SBF1aW9gfjxAznxstelX9Z26uLgTQEObQnFPPbf5MWS42nNnHqzdPCS+2R3ffsojGsq48PJMzj25Ge0BbCPX9FAIlIaUQU3RNXAkxrHEU/UE1ySqotVSpl+P/IMP0d+qQI+hV+qvOdcjrS8ti96Alo/eEPmJVUzB5HZJoK8T83lo/V0xP0Tg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=f9NUUiuF5j2bb81QIuz36SJ/RBj8+AGOvNYmi59zTw4=;
- b=PimhVdxJfJWGuZBqADoZ5LF+j8AB0QSlfICt5SzoEqD35p7gPP1/O3VJvP6dwsfThg9aN3o1QMZy8PEsTa1tb4/vY0QzJll8w3QnAoyBaDUGeqGgxkeRjpbUy5s5hjkutJ3UYmzoRSnsK+KMaCTcBEM8MSVAsLxKffL/4MtfMlRPb9OwQxcIf2O0eel1u9ya9B/5H5bWqhRFw6AK/dYim5PxB2Ovl31nSa4Of823hQF/1AyS/99sDMcp6eXMJpCavOcl3JsOxhPluh83gNPvJ3M7+xB4TyAdtWwz879N/SkccSZPjd5KnbpDWOCCS6v8JrbaR1dTEJxC0KG7GFjMPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=f9NUUiuF5j2bb81QIuz36SJ/RBj8+AGOvNYmi59zTw4=;
- b=ylwqYdsAmJIkEdwueIDzqIm7KF39CcdQoCe5lfrfJqRUvOXBIun2zwXdkZsMazoJ7a2bbqYHSi6+wu23kOnGValkjok7dd0tyha/C2+Ai23zsuSQRqmKR1adf/OUxis7YqERT76Qr4VuXTxOn7kK+KskrYzgM/OglCYX6wIhNVw=
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ0PR12MB6878.namprd12.prod.outlook.com (2603:10b6:a03:483::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.13; Mon, 8 Jun 2026
- 13:59:17 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0092.006; Mon, 8 Jun 2026
- 13:59:17 +0000
-Message-ID: <a51e97bd-39dc-492f-bd7d-f137423277df@amd.com>
-Date: Mon, 8 Jun 2026 15:59:04 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 2/4] udmabuf: emit one sg entry per pinned folio
-To: Bobby Eshleman <bobbyeshleman@gmail.com>
-Cc: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski
- <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Shuah Khan <shuah@kernel.org>,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org,
- sdf@fomichev.me, razor@blackwall.org, daniel@iogearbox.net,
- almasrymina@google.com, matttbe@kernel.org, skhawaja@google.com,
- dw@davidwei.uk, Bobby Eshleman <bobbyeshleman@meta.com>
-References: <20260603-tcpdm-large-niovs-v1-0-f37a4ac6726c@meta.com>
- <20260603-tcpdm-large-niovs-v1-2-f37a4ac6726c@meta.com>
- <bdce2488-fe77-4f36-9ed6-dd2c785fa7c1@amd.com>
- <aiMY8CpckM8Jav0g@devvm29614.prn0.facebook.com>
- <0c86f5d3-b5e9-4cac-aa9d-30c5c8ecca66@amd.com>
- <CAKB00G3opAoAYswsq2uz0Q6jgku8u4NthKOzCbSumZ0qK7QxcQ@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <CAKB00G3opAoAYswsq2uz0Q6jgku8u4NthKOzCbSumZ0qK7QxcQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BLAPR03CA0145.namprd03.prod.outlook.com
- (2603:10b6:208:32e::30) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3DE3C3798;
+	Mon,  8 Jun 2026 14:05:47 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780927550; cv=none; b=CYZTukv2lC1O0pkeMiftuKL0pfVrxx9w9IleGURDEPW4hfvpbb4F1LP7m6UQYuQez9+GnVJQNMPHerQSer78EmnGVxepZWlfv6ge6x2LID7v+exiwQNbS/ZpWGvPOKOtMDkh+xcDAzzCP6sED/FjI+ialKLqSBmBTQq0LwN4EEM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780927550; c=relaxed/simple;
+	bh=j7XbVsDgIrZJQKAukPtnQ9tKrn8RPWGeRFOLIqQ201A=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=HdJbb6d+/WLW3HAQi1a6pMNmQa1BTjM1zEm9BKc1bg5IKI4ifwaXuj1Ht6la5v61jISV+UzQMhj3wGb8LVMvzgdeUUfJYWoBZGCylMnxTprUSOUpVHn06mL/Eo81nKJNkFJCXRR5Vwov8+10kFZ24TKurJdrKYa1aERdASidbDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=nkZ9vGae; arc=none smtp.client-ip=103.126.93.248
+Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [223.112.146.162])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 41880eb98;
+	Mon, 8 Jun 2026 22:05:39 +0800 (GMT+08:00)
+From: Dawei Feng <dawei.feng@seu.edu.cn>
+To: error27@gmail.com
+Cc: abdelrahmanfekry375@gmail.com,
+	andy@kernel.org,
+	dawei.feng@seu.edu.cn,
+	gregkh@linuxfoundation.org,
+	hansg@kernel.org,
+	jianhao.xu@seu.edu.cn,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	zilin@seu.edu.cn
+Subject: Re: [PATCH] media: atomisp: Fix resource leak in atomisp_pci_probe()
+Date: Mon,  8 Jun 2026 22:05:40 +0800
+Message-Id: <20260608140540.3421356-1-dawei.feng@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <aiaCoV1DQKBx4ph6@stanley.mountain>
+References: <aiaCoV1DQKBx4ph6@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ0PR12MB6878:EE_
-X-MS-Office365-Filtering-Correlation-Id: b38fb79d-df85-40fa-3e40-08dec566214a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|10063799003|22082099003|18002099003|6133799003|4143699003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	sowkkH5VJNgpxW0cbgb7TBleErXgSgCN+YosuSKXQZi2tW5oYouxuvGqXxqCg+tfv3Md81Nvob6w1CQrlbOIQmUxp8QiQrF9+yET3ehts3DjCLXe4nSur/YAJy6UJMhFWBoZLfVu2UZTAildwfjEhNPNOzNj0UADq4KqImVVzjLV3xHO5XqQovwEQr36nGlHw+TVSpyRGyMAaNUXCRvXGhl2pdZCvd+sm0kHJNlYfnAbbrX53/qVXhLU9mxWj+HNJmM1yfndtAV/eLstiTMYl786U2WuGWLsP5xe2Y4rOhRgRf4Vfuk1kZ5ED+PQBtt3tZq876JhI6lafz5a1wIr40sOBIsF+23w3cjRAwJHpayBSaDNp6DFrXwKk9AB83YLUx+tfUsSZ6ta1Hn8/RiLUA28i6kuIYhfjeXo5NaXAceRZ8BVfOJdCr/T9aoUdPzqzz79Bzcd57PC0G57Df//dACXThWXVHKKlYkLj2TNem43YPTnD6of9ehD6MCOs3gVSL/r1HETjjZwLwXuqK+BqPlPRu2UqrZ7R/3LYXUlbRnqi5aYFCztE0eH/UhX5JxLMlrulrdXf9Ojuxvv/y7VwsOR+D/jdjcYy4a0sRJUQhIYJVuB31aXOpP/3j4DymtGCSPx/ZzbhSgdxW2EDeJirb1b9OsKlaB83KAhn+IcHkQZSgs78Syiqa20FYJJ3Rpa
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(10063799003)(22082099003)(18002099003)(6133799003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MDNLRGZCMThncjlIbHkrQjRldXFoMFpENVRyU1NkdjgzaSt0L3RtMXlMdU5W?=
- =?utf-8?B?SWdsL0NkYk9Hb1VNZWpQenFHdEJpR0ZwUHN0MGg0Tml5Q0dESi9JVkVteW9v?=
- =?utf-8?B?OTFPZ2I5VXkrdHNpQXdiaUQzOTlaOVNZS2FERWw5eDRQUzJLVVp1dy9CaHhJ?=
- =?utf-8?B?UTVFSWRRWWhxYUVWY0dGQndDTVJTaktTb3pyUmFqVTlORGFoaEo4S1lERnF4?=
- =?utf-8?B?L084OCtNeTdqSW43N2gzZXF1VDdUbEtJNUhkY0NCWEFwbENPNitleW9OQUdU?=
- =?utf-8?B?N1o0VmhpWW5BU0RIQ1ZrbktmYkNNWWZhWmwzVFRVRzFjYnhIOHlPdDRQaUE0?=
- =?utf-8?B?aEN1R3EwQlloaDIwQzE0MHdiczhsODFOMmYyVmpSMXNrM0pZdm5oT3crSVlU?=
- =?utf-8?B?U2tWY0RmbkdQYmFRczhPaHVxRmE1UysvSUNPZEZyU3B4YzZpejJON1ppM1RG?=
- =?utf-8?B?TUYyV1pTejFUSlBld0t0aXdWSjcybldPTnBEb3l2QXE0aEdFazdPVDA5dmd5?=
- =?utf-8?B?bXFLcndLOU9maXpTWkFGS216MEhJc3ZSdG90ejhSU2U4WmVSdUs3M21oMzRo?=
- =?utf-8?B?Q1ErZG83WlFadUNQYXIwUmx0Z0RjSTBDZnIwYUdEdncrRzcxdDhaVFFrVlRR?=
- =?utf-8?B?elhJQUc5U09BUTNvcUt3disrSWFTQU54R0liYmxSdGpEM0tKeE1FSWVwR1hH?=
- =?utf-8?B?ai8zUml1YS9rOWoyeExxbUFWREx2ckZHbEdMTmZwZ3NudnZOMlZIeFFwSkhh?=
- =?utf-8?B?OE9FNlE3MStYSHdWblk2dy84Q3FtQlorOFJ0aGVaZitSekNzbkl3VmE0SEdr?=
- =?utf-8?B?L2R4VHhEKzIvYmRyVFFzZnNmUHZkWERtL2ZTcE8rOVcyRGlpQTRya0h5ZUcr?=
- =?utf-8?B?akRFODhud1I2OUF2bGx4ZHgwVFhERTNmeU4vSGMwYU9Da2xtMmpJeEJPWkNG?=
- =?utf-8?B?VmFBZEhjaGRObWJWcVZ4S3IrcVBPbERsT2ZldVR0bFNiS1pRQm8wUlpFbHhj?=
- =?utf-8?B?OHRDbXdETElCQ1I3bjhXaFVmbnhmbHU5dzFBa0N3ckR5dVNYOTNDdmpkcHNh?=
- =?utf-8?B?QUtJditLc284QVBRRjkxU2k2SVcvalh4d2MzZENTdVd4WHQxYnV5ckVMd1BZ?=
- =?utf-8?B?V3RxSFdZT3NhRGVrNno5RkR3NnAzU3FWQTlCVC9TdS9VWEk2eGxjVmRaOXBw?=
- =?utf-8?B?QmJiWkd5ZlhkL2I4bmgvd045Y3JmSkhYUGF1U0ZDT0VibDlKU1IrK2tTVFZo?=
- =?utf-8?B?aVdqZXZhck9wSTNHTlU3Kzd2OUE2RDNlN2xhYXpEWUdESExRK2FpK3RqNHND?=
- =?utf-8?B?Vi9XRHc5MURzdzNoR09xdW1mTDlBWnBja0RUczRVN2JoaDFKUkxqT2gvWkVs?=
- =?utf-8?B?eHVxZEYrL05CbVVicG5reklIVzhlZWE0UDBsOUJhT2dZMHZUOXpOOU0rU2V5?=
- =?utf-8?B?RURWNCtGbWprUkpHSWVIeHhiREpobHlVeTA4UkQxYmEvWk5PaTZ6c25TeXhT?=
- =?utf-8?B?a01YKzlWNG5xR2h0SXBBVkhtVWhYZ3lyQWU1YkU5WmY3T1FLeEVxQ0V4ejNt?=
- =?utf-8?B?QXA3dnJ2c0s3Y3ltRmJhbERGeE1zWkM3Vm5YbFYzRkducmN6OWlub2EvalRO?=
- =?utf-8?B?by81c2dZUEJhaHZOb2Y3WlA4Q1EyeFRhbUdUOWlsdkk1VzVkVG8xS0tObloz?=
- =?utf-8?B?NG1weDlMZytnZHdNaDFqTEU0c3kzMTZmdDVsWGZpMzdlam12Z3llczQzNXAw?=
- =?utf-8?B?a0V3T2NaMWE3WWVWSmZKdkM1TU0wYncyYTJIaFhaUE9nN2lGZXlvWmtGWUt1?=
- =?utf-8?B?NU9iRlgrUytrVWI3NmxRckQvTVJHNGpMTllzZWV3Rmd2ZlJEKzFSY3Q5TVY3?=
- =?utf-8?B?UHhJQXkzakFPZENvU0svSE53OG5nYnhGVE52eTRkU2FYdnVPOVlQbUh4UnBh?=
- =?utf-8?B?ODFxUmw3MGJpYXlGT1l3ZXQ5TjlMK3lxNWZWTEx6ZzY0WUE2VFordnczZHha?=
- =?utf-8?B?dU5qbTVaVGNjUFJOWGpGWldHK0RSL1dEb0VINFY4ZEpSZkxuOTBSQzArQkR4?=
- =?utf-8?B?WkhQZGNOZW54VHBWMXAvb2tybW9kcG51NnpLOWxxL0xYeWw2dXpMamV3TmxB?=
- =?utf-8?B?TUl5K2g1SGRBcnhMNXExWG4vblhWbFBKRHpMTzdXSlh6OHZpOElPalIralRO?=
- =?utf-8?B?WXk3Y05ZZzVOYkYvMEMxMFY2Q3ZidzA1aVN6dlN1UUxkdjVjaUl2dXBDUGpD?=
- =?utf-8?B?bTdHMy92VEh1V2l4MEdvYnAzOThwOE8xN0wwKzJKZVVrNU9kMEMvb2VuUlkr?=
- =?utf-8?Q?PdsqcNFJ0NuxrrF4q5?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b38fb79d-df85-40fa-3e40-08dec566214a
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2026 13:59:17.2139
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LayaBdD/cYOWVZImWkl8CxH4yZCvqOtvYxYU4HMkb9l2Xtpo9PMeB7WUm8lajznT
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6878
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9ea78da8dd03a2kunmefd9f784f5cbe
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlDSRhOVkIaSxoaQk0eQ0tLSVYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUhVSkpJVUpPTVVKTUlZV1kWGg8SFR0UWUFZT0tIVUpLSE
+	pPSExVSktLVUpCS0tZBg++
+DKIM-Signature: a=rsa-sha256;
+	b=nkZ9vGae4v9MCJyiqGJ12XxQ2ZdTSalZ5Ic3EBfWYCCKhRcYbAGsJ+kdqHofEe1L6rm7oYjy3brO0swSrMxzbYj4HgeF49Krsy39ehpShzvq5oUMMoMl2zV0+pQuJsPYoaWAsCWxY6NDDkIov5JfL6G/WXeGRZhxmHJSf1/1MZw=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
+	bh=Z3g2cl3TMpovuwvwFtB/vkeHmGjMWbYYVXHcg9LD9WE=;
+	h=date:mime-version:subject:message-id:from;
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[seu.edu.cn,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[seu.edu.cn:s=default];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-64185-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:bobbyeshleman@gmail.com,m:donald.hunter@gmail.com,m:kuba@kernel.org,m:davem@davemloft.net,m:edumazet@google.com,m:pabeni@redhat.com,m:horms@kernel.org,m:andrew+netdev@lunn.ch,m:kraxel@redhat.com,m:vivek.kasireddy@intel.com,m:sumit.semwal@linaro.org,m:shuah@kernel.org,m:netdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kselftest@vger.kernel.org,m:sdf@fomichev.me,m:razor@blackwall.org,m:daniel@iogearbox.net,m:almasrymina@google.com,m:matttbe@kernel.org,m:skhawaja@google.com,m:dw@davidwei.uk,m:bobbyeshleman@meta.com,m:donaldhunter@gmail.com,m:andrew@lunn.ch,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,seu.edu.cn,linuxfoundation.org,vger.kernel.org,lists.linux.dev,linux.intel.com];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-64186-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:error27@gmail.com,m:abdelrahmanfekry375@gmail.com,m:andy@kernel.org,m:dawei.feng@seu.edu.cn,m:gregkh@linuxfoundation.org,m:hansg@kernel.org,m:jianhao.xu@seu.edu.cn,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:zilin@seu.edu.cn,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,davemloft.net,google.com,redhat.com,lunn.ch,intel.com,linaro.org,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,fomichev.me,blackwall.org,iogearbox.net,davidwei.uk,meta.com];
-	DKIM_TRACE(0.00)[amd.com:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[dawei.feng@seu.edu.cn,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	ALIAS_RESOLVED(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dawei.feng@seu.edu.cn,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[seu.edu.cn:+];
+	TO_DN_NONE(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,netdev];
-	TO_DN_SOME(0.00)[]
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,seu.edu.cn:dkim,seu.edu.cn:mid,seu.edu.cn:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6BA92656F53
+X-Rspamd-Queue-Id: 4424E657099
 
-On 6/8/26 15:55, Bobby Eshleman wrote:
-> 
-> On Sun, Jun 7, 2026 at 11:42 PM Christian König <christian.koenig@amd.com <mailto:christian.koenig@amd.com>> wrote:
-> 
->     On 6/5/26 20:44, Bobby Eshleman wrote:
->     > On Fri, Jun 05, 2026 at 11:30:07AM +0200, Christian König wrote:
->     >> On 6/4/26 02:42, Bobby Eshleman wrote:
->     >>> From: Bobby Eshleman <bobbyeshleman@meta.com <mailto:bobbyeshleman@meta.com>>
->     >>>
->     >>> get_sg_table() emitted one PAGE_SIZE sg entry per page even when the
->     >>> underlying folio was larger.
->     >>>
->     >>> Instead, walk folios[] and emit one sg entry per folio. When folios
->     >>> represent large pages (as is for MFD_HUGETLB), each sg entry is a large
->     >>> page. Normal PAGE_SIZE sg tables are unchanged.
->     >>>
->     >>> Required by net/core/devmem to support rx-buf-size > PAGE_SIZE with
->     >>> udmabuf.
->     >>
->     >> That doesn't explain why this is required.
->     >
->     > Sure, can definitely add. Devmem currently requires dmabuf sg entries to
->     > be length and size aligned when it allocates niovs for NIC page pools.
->     > Though udmabuf is not violating any dmabuf contract by emitting
->     > PAGE_SIZE entries and the above restriction is probably more a
->     > shortfalling of devmem, by emitting a single entry per folio this patch
->     > allows udmabuf to be used by devmem for large pages.
->     >
->     >>
->     >> Please note that accessing the pages/folio of an sg-table returned by DMA-buf is illegal and strictly forbidden!
->     >>
->     >> Regards,
->     >> Christian.
->     >
->     > It seems both devmem and io_uring zcrx at least introspect through to
->     > the sg-table to build NIC page pools (not accessing the memory itself,
->     > however). Is there a better way?
-> 
->     That's an absolute NO-GO! We need to stop that immediately.
-> 
->     Touching the underlying struct page of an DMA-buf exported sg-table is strictly forbidden.
-> 
->     We even have code to wrap the sg_table and hide the struct pages on debug builds to catch those issues, see function dma_buf_wrap_sg_table().
-> 
->     My last status is that the NIC page pools are build directly from the DMA addresses exposed by the sg_table.
-> 
->     Was there any change I'm not aware of?
-> 
->     Regards,
->     Christian.
-> 
-> 
-> Oh no change, your mental model is still current.
-> They just go through each sg and use sg_dma_address() on each.
+Hi Dan,
 
-Ah, thanks! That was a near heart attack :D
-
-Yeah that is perfectly correct, question is do you then still really need this udmabuf change? I mean the DMA API usually merges together contiguous DMA addresses.
-
-Regards,
-Christian.
-
+On Mon, Jun 08, 2026 at 11:51:45 +0300, Dan Carpenter wrote:
+> The code is buggy, but this isn't the right fix.
 > 
-> Best,
-> Bobby
+> Here is generally the standard way to do error handling.
+> https://staticthinking.wordpress.com/2022/04/28/free-the-last-thing-style/
 > 
+> 1. An allocation should clean up it's own partial allocations.  That
+> should not be handled in the caller.  2.  Every allocation function should
+> have a mirror cleanup function.
 > 
->     >
->     > Best,
->     > Bobby
->     >
->     >>
->     >>> Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com <mailto:bobbyeshleman@meta.com>>
->     >>> ---
->     >>>  drivers/dma-buf/udmabuf.c | 47 ++++++++++++++++++++++++++++++++++++++++++-----
->     >>>  1 file changed, 42 insertions(+), 5 deletions(-)
->     >>>
->     >>> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
->     >>> index 94b8ecb892bb..f28dd3788ada 100644
->     >>> --- a/drivers/dma-buf/udmabuf.c
->     >>> +++ b/drivers/dma-buf/udmabuf.c
->     >>> @@ -141,26 +141,63 @@ static void vunmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
->     >>>         vm_unmap_ram(map->vaddr, ubuf->pagecount);
->     >>>  }
->     >>>
->     >>> +/* Return the number of contiguous pages backed by the folio at @i.
->     >>> + * A udmabuf may map only part of a folio, or reference the same folio
->     >>> + * in multiple non-contiguous runs, so folio_nr_pages() can't be used.
->     >>> + */
->     >>> +static pgoff_t udmabuf_folio_nr_pages(struct udmabuf *ubuf, pgoff_t i)
->     >>> +{
->     >>> +       struct folio *f = ubuf->folios[i];
->     >>> +       pgoff_t j;
->     >>> +
->     >>> +       for (j = 1; i + j < ubuf->pagecount; j++) {
->     >>> +               if (ubuf->folios[i + j] != f)
->     >>> +                       break;
->     >>> +               /* Same folio, but not a sequential offset within it. */
->     >>> +               if (ubuf->offsets[i + j] != ubuf->offsets[i] + j * PAGE_SIZE)
->     >>> +                       break;
->     >>> +       }
->     >>> +       return j;
->     >>> +}
->     >>> +
->     >>> +/* Count the contiguous folio runs in @ubuf, one sg entry per run. */
->     >>> +static unsigned int udmabuf_sg_nents(struct udmabuf *ubuf)
->     >>> +{
->     >>> +       unsigned int nents = 0;
->     >>> +       pgoff_t i;
->     >>> +
->     >>> +       for (i = 0; i < ubuf->pagecount; i += udmabuf_folio_nr_pages(ubuf, i))
->     >>> +               nents++;
->     >>> +       return nents;
->     >>> +}
->     >>> +
->     >>>  static struct sg_table *get_sg_table(struct device *dev, struct dma_buf *buf,
->     >>>                                      enum dma_data_direction direction)
->     >>>  {
->     >>>         struct udmabuf *ubuf = buf->priv;
->     >>> -       struct sg_table *sg;
->     >>>         struct scatterlist *sgl;
->     >>> -       unsigned int i = 0;
->     >>> +       struct sg_table *sg;
->     >>> +       pgoff_t i, run;
->     >>> +       unsigned int nents;
->     >>>         int ret;
->     >>>
->     >>> +       nents = udmabuf_sg_nents(ubuf);
->     >>> +
->     >>>         sg = kzalloc_obj(*sg);
->     >>>         if (!sg)
->     >>>                 return ERR_PTR(-ENOMEM);
->     >>>
->     >>> -       ret = sg_alloc_table(sg, ubuf->pagecount, GFP_KERNEL);
->     >>> +       ret = sg_alloc_table(sg, nents, GFP_KERNEL);
->     >>>         if (ret < 0)
->     >>>                 goto err_alloc;
->     >>>
->     >>> -       for_each_sg(sg->sgl, sgl, ubuf->pagecount, i)
->     >>> -               sg_set_folio(sgl, ubuf->folios[i], PAGE_SIZE,
->     >>> +       sgl = sg->sgl;
->     >>> +       for (i = 0; i < ubuf->pagecount; i += run) {
->     >>> +               run = udmabuf_folio_nr_pages(ubuf, i);
->     >>> +               sg_set_folio(sgl, ubuf->folios[i], run << PAGE_SHIFT,
->     >>>                              ubuf->offsets[i]);
->     >>> +               sgl = sg_next(sgl);
->     >>> +       }
->     >>>
->     >>>         ret = dma_map_sgtable(dev, sg, direction, 0);
->     >>>         if (ret < 0)
->     >>>
->     >>> --
->     >>> 2.53.0-Meta
->     >>>
->     >>
-> 
+> The atomisp_uninitialize_modules() function is just a dummy and was never
+> actually implemented.  The correct thing is to implement it.
 
+Thanks for the review and the link to the error handling guidelines. 
+
+Thanks for the pointer. I'll update it in v2.
+
+Thanks,
+Dawei
 
