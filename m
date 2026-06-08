@@ -1,321 +1,300 @@
-Return-Path: <linux-media+bounces-64209-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64210-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id XqgAMdbiJmqjmQIAu9opvQ
-	(envelope-from <linux-media+bounces-64209-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 17:42:14 +0200
+	id LMv3MKvzJmppogIAu9opvQ
+	(envelope-from <linux-media+bounces-64210-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 18:54:03 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13A796583B4
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 17:42:14 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21393658F54
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 18:54:03 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=AwUNjCWr;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64209-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64209-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=fail ("headers rsa verify failed") header.d=igalia.com header.s=20170329 header.b=OIet9hEz;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64210-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64210-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed)" header.from=igalia.com (policy=none);
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9DC463110672
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 15:28:47 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E7D6733A417F
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 15:30:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28FAE42189A;
-	Mon,  8 Jun 2026 15:04:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E79833D301A;
+	Mon,  8 Jun 2026 15:08:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53BE141C2E1
-	for <linux-media@vger.kernel.org>; Mon,  8 Jun 2026 15:04:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD333D1A82;
+	Mon,  8 Jun 2026 15:08:08 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780931042; cv=none; b=ivKXCDkUS5MP5p354YsShd6cgOM57LdSyrWHCSN9rHf7z8A7PVbSj2RGXA3Xo3qIq878u0ngzeuwmQv2DBSfsdaVCUhUbVACs80do1y40zLIYaE3xEVKc0VzyWkBbBAc43RhV83imt9S8tpfUCQHJFpQb1eb6PnoKlFiz0wte00=
+	t=1780931292; cv=none; b=Khxci/jEuXZRv1zs2W0ZWZkt2zwdxzMD07apydneuh6uKhBv5q2E4kQZ6qBCsSs2ZCfBInvkToU0Anl7wrqbYIm2Q3zn/AVGGYc9x3HruLZMopoD5jKpIrHyp85RKRruDWd+EDeZNHEg38K0UrgtDwY9LIb84K38FiW1fsYIbaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780931042; c=relaxed/simple;
-	bh=wQwYXiPNycYPDd+XcLpAhsmvbPvHskTcbXRags0mZ1I=;
-	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
-	 Message-Id; b=IKqxchD/g35mK7CBmodBsPs8arPkKYNvKDFkfhDz4alPUEhVsTjs/VS7FY9giNER5TTB4yVWbCVH1EXBSCQG53+W1bMHiNVj6RHVks9TdPMOGonN5QB77Ac9K+N1mUFcvd3o3+eJxDEgLfF/BEUJf1EiiTu4ueC/J2zKE+r/h2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AwUNjCWr; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 226891F00893;
-	Mon,  8 Jun 2026 15:04:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780931041;
-	bh=yAW2++smjZmUZvws9v+YofUkXIIzbUwOPv4VCJpC0t8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=AwUNjCWrP+ZsJDlMd9W6I5gSgcxMnVh+lj/yQzKxynokWRyXregvbAtT1Umsx0Vkp
-	 I1auYGUnyHZTxHwofHSL3cdE/ONvVNkqXowQyHcw+KQbQr49XdVpBBk5esJOaqPZO5
-	 PRwVRivnNIOHBePwIu6feW7IwBwCUpe+Ipx6/G4eg0ccAyh74EkB/n9AiQAlKN8xbk
-	 pWgJY8TjajstnFlsvITG+uQ+prlz2ExLF2sWuZ6oDzjH9bJKygBSFhxVT6lBJvIw4A
-	 yKqfGdXVLvWplbrnVEuwcrT3P4zDnVE7TnLtMLtGYL8T4yrFGqxMUYSuB2pDlEQ4rV
-	 ZvqRf/ffJ5Geg==
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/4] media: i2c: ds90ub960: Support multi-channel
- sensors
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Rishikesh Donadkar" <r-donadkar@ti.com>
-Cc: linux-media@vger.kernel.org
-In-Reply-To: <20260608142901.3971821-3-r-donadkar@ti.com>
-References: <20260608142901.3971821-3-r-donadkar@ti.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 08 Jun 2026 15:04:00 +0000
-Message-Id: <20260608150401.226891F00893@smtp.kernel.org>
+	s=arc-20240116; t=1780931292; c=relaxed/simple;
+	bh=EjWNyqijRUm1Grv7vMrE8dSACWMmnPtVdgGhFlwnicA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CtXnbjZv648gV6UPW2IUe11JFWnmWCG51y7nIndITqeB6cNitB1F7aNDXFqDfhPxwXZS+ze0CSYRkrpe560tgSuKCO2P/4oO53zgxVE4gDhLDxWY08dZGeBXSi/Q6ZX03stxxlE0zImFaXUFaIWV6FJMYKEgR37jgMBAPVCywbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=OIet9hEz; arc=none smtp.client-ip=213.97.179.56
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=wEyDNt4clqv72U15Tb1FHIQoyXiS2jCZCCn0zuuUGIA=; b=OIet9hEzSIgHcXTyfTd5m7imO1
+	rceksU21aTlUuIN01B7ojUvJI2IwRAaK4lvpV0VnYH35rgSzrPk8anJxSBjpaznvma0JCzbuEVHQb
+	loLIMEA7d4Pg4j6NKzUmeCYeKRUbe2LeifutrnOSRxUZSa3bV4n8BpB0pgkdtrkcqSI8sWZXIDYVz
+	RdZgsgTK6Ilv49/e39XzSG8iRF5vCAhDDwosILoiN1mY+q8AZwrm1b7/F3yxARPgqFvx8WtDFIBd7
+	kso9IC4l8u+bLqxBbDu0Ge2vJNbPXpH0teGOgvvgoNe5Z/7QGq5MqR7D7IJ+kW4YlO4KP7OYItyNP
+	48GxHtMw==;
+Received: from [90.240.106.137] (helo=[192.168.0.116])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1wWba0-00ER94-LY; Mon, 08 Jun 2026 17:07:56 +0200
+Message-ID: <e5f81f4f-ac0c-49c0-a9d1-85f372d65971@igalia.com>
+Date: Mon, 8 Jun 2026 16:07:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] dma-fence: Fix races of fence callbacks versus
+ destructors by locking
+To: Philipp Stanner <phasta@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Alice Ryhl <aliceryhl@google.com>, Daniel Almeida <dwlsalmeida@gmail.com>,
+ Gary Guo <gary@garyguo.net>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>
+References: <20260608142436.265820-2-phasta@kernel.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20260608142436.265820-2-phasta@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	MISSING_MIME_VERSION(2.00)[];
+X-Spamd-Result: default: False [-0.36 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	REPLYTO_DN_EQ_FROM_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-64209-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:r-donadkar@ti.com,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-64210-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
-	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWO(0.00)[2];
+	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:boris.brezillon@collabora.com,m:aliceryhl@google.com,m:dwlsalmeida@gmail.com,m:gary@garyguo.net,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:dakr@kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,linaro.org,amd.com,collabora.com,google.com,gmail.com,garyguo.net];
+	FORGED_SENDER(0.00)[tvrtko.ursulin@igalia.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[lists@lfdr.de];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FROM_NO_DN(0.00)[];
-	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[igalia.com:-];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,lists.linux.dev:replyto,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,sashiko.dev:url]
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tvrtko.ursulin@igalia.com,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,igalia.com:mid,igalia.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 13A796583B4
+X-Rspamd-Queue-Id: 21393658F54
 
-Thank you for your contribution! Sashiko AI review found 8 potential issue(=
-s) to consider:
 
-New issues:
-- [Critical] The `ret` variable in `ub960_configure_ports_for_streaming` is=
- used as an error accumulator without being initialized to 0.
-- [High] If virtual channel exhaustion occurs, `ub960_get_vc_maps` logs an =
-error but silently continues without propagating the error, causing silent =
-stream collisions.
-- [High] For `RXPORT_MODE_RAW10`, the hardware VC is incorrectly hardcoded =
-to `nport`, diverging from the dynamically computed `vc_map` and breaking p=
-ipeline negotiation.
-- [High] The patch breaks support for the DS90UB954 chip by improperly rout=
-ing it to UB9702-specific registers, and writes improperly formatted VC map=
-s.
-- [Medium] Shift out of bounds in `ub960_get_frame_desc` due to an unvalida=
-ted virtual channel index.
+On 08/06/2026 15:24, Philipp Stanner wrote:
+> The dma_fence backend_ops can access a fence. Hereby, a driver callback
+> will be running which likely will access driver specific data through
+> container_of(). If now, simultaneously, a driver signals the fence and
+> afterwards expects to run a driver specific destructor (using the same
+> data accessed through container_of()), there can be a race.
+> 
+> A driver very likely trusts that once it has signaled a fence, no one
+> will be accessing it anymore. Moreover, it might already want to free up
+> resources, making UAF bugs possible.
 
-Pre-existing issues:
-- [High] Kernel crash in `ub960_get_frame_desc` when handling an active rou=
-te with a disconnected hardware port.
-- [High] Stack buffer overflow in `ub960_get_frame_desc` due to unbounded i=
-ncrement of `fd->num_entries`.
-- [High] Uninitialized stack structure `source_fd` is passed to the subdev =
-`get_frame_desc` operation.
---
+Can you explain this race a bit differently? I am struggling to 
+understand the scenario.
 
-commit 5bded5d411560eeba33b8d2d67265fa39cdba2ca
-Author: Jai Luthra <me@jailuthra.in>
-Subject: media: i2c: ds90ub960: Support multi-channel sensors
+Are you talking about driver freeing the data immediately after 
+signalling? That is not allowed as per the "DOC: Safe external access to 
+driver provided object members", ie. divers must ensure a RCU grace 
+period between signalling and freeing any data which can be reached by 
+any external caller.
 
-This commit updates the DS90UB960 driver to dynamically map incoming streams
-with different virtual channels to unique VCs on the CSI TX0 port. It repla=
-ces
-the previous behavior of ignoring the incoming virtual channel ID and setti=
-ng
-it to the RX port number.
+Regards,
 
-> diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-> --- a/drivers/media/i2c/ds90ub960.c
-> +++ b/drivers/media/i2c/ds90ub960.c
-> @@ -3471,40 +3472,76 @@ static int ub960_rxport_handle_events(struct ub96=
-0_data *priv, u8 nport)
-[ ... ]
-> -static void ub960_get_vc_maps(struct ub960_data *priv,
-> -			      struct v4l2_subdev_state *state, u8 *vc)
-> +static void ub960_get_vc_maps(struct ub960_data *priv, u8 *vc_map)
->  {
-[ ... ]
-> +	for (nport =3D 0;
-> +	     nport < priv->hw_data->num_rxports && priv->rxports[nport];
-> +	     ++nport) {
-> +		struct v4l2_mbus_frame_desc source_fd;
-> +		bool used_vc[UB960_MAX_VC] =3D {false};
+Tvrtko
 
-[Severity: High]
-Does this code pass an uninitialized stack structure to the subdev
-get_frame_desc operation?
+> The race occurs because there are only pragmatic checks for the signaled
+> flag of a fence, without taking the fence lock. RCU guards exist, but
+> their purpose is to guard accesses through the backend_ops callbacks
+> against the driver (which implements the TEXT segment these callbacks
+> live in) from unloading.
+> 
+> Proper synchronization can be ensured by taking the fence lock. RCU is
+> still simultaneously required to guard against the unload.
+> 
+> Fix the races by taking the lock for all non-deprecated backend_ops
+> callbacks.
+> 
+> Conveniently, this also fixes a race where backend_ops->set_deadline()
+> might try to set a deadline for an already signaled fence.
+> 
+> Suggested-by: Danilo Krummrich <dakr@kernel.org>
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> ---
+> We discovered this problem through our Rust abstractions, but it can
+> also occur in C.
+> 
+> The by far cleanest solution seems to be to use the fence lock. This RFC
+> serves to discuss whether there is anything preventing that.
+> 
+> (Patch so far just compile tested, to have some groundlayer for the
+> rough idea, to discuss it first)
+> ---
+>   drivers/dma-buf/dma-fence.c | 39 ++++++++++++++++++++++++++++---------
+>   include/linux/dma-fence.h   | 17 ++++++++++++----
+>   2 files changed, 43 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index c7ea1e75d38a..b74f02f3cca8 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -629,7 +629,8 @@ EXPORT_SYMBOL(dma_fence_free);
+>   static bool __dma_fence_enable_signaling(struct dma_fence *fence)
+>   {
+>   	const struct dma_fence_ops *ops;
+> -	bool was_set;
+> +	bool was_set, success;
+> +	unsigned long flags;
+>   
+>   	dma_fence_assert_held(fence);
+>   
+> @@ -644,7 +645,10 @@ static bool __dma_fence_enable_signaling(struct dma_fence *fence)
+>   	if (!was_set && ops && ops->enable_signaling) {
+>   		trace_dma_fence_enable_signal(fence);
+>   
+> -		if (!ops->enable_signaling(fence)) {
+> +		dma_fence_lock_irqsave(fence, flags);
+> +		success = ops->enable_signaling(fence);
+> +		dma_fence_unlock_irqrestore(fence, flags);
+> +		if (!success) {
+>   			rcu_read_unlock();
+>   			dma_fence_signal_locked(fence);
+>   			return false;
+> @@ -1020,11 +1024,20 @@ EXPORT_SYMBOL(dma_fence_wait_any_timeout);
+>   void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
+>   {
+>   	const struct dma_fence_ops *ops;
+> +	unsigned long flags;
+>   
+>   	rcu_read_lock();
+>   	ops = rcu_dereference(fence->ops);
+> -	if (ops && ops->set_deadline && !dma_fence_is_signaled(fence))
+> +	if (!ops || !ops->set_deadline) {
+> +		rcu_read_unlock();
+> +		return;
+> +	}
+> +
+> +	dma_fence_lock_irqsave(fence, flags);
+> +	if (!dma_fence_is_signaled_locked(fence))
+>   		ops->set_deadline(fence, deadline);
+> +
+> +	dma_fence_unlock_irqrestore(fence, flags);
+>   	rcu_read_unlock();
+>   }
+>   EXPORT_SYMBOL(dma_fence_set_deadline);
+> @@ -1166,14 +1179,18 @@ EXPORT_SYMBOL(dma_fence_init64);
+>    */
+>   const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
+>   {
+> +	const char __rcu *name = "detached-driver";
+>   	const struct dma_fence_ops *ops;
+> +	unsigned long flags;
+>   
+>   	/* RCU protection is required for safe access to returned string */
+>   	ops = rcu_dereference(fence->ops);
+> +	dma_fence_lock_irqsave(fence, flags);
+>   	if (!dma_fence_test_signaled_flag(fence))
+> -		return (const char __rcu *)ops->get_driver_name(fence);
+> -	else
+> -		return (const char __rcu *)"detached-driver";
+> +		name = ops->get_driver_name(fence);
+> +	dma_fence_unlock_irqrestore(fence, flags);
+> +
+> +	return name;
+>   }
+>   EXPORT_SYMBOL(dma_fence_driver_name);
+>   
+> @@ -1199,13 +1216,17 @@ EXPORT_SYMBOL(dma_fence_driver_name);
+>    */
+>   const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
+>   {
+> +	const char __rcu *name = "signaled-timeline";
+>   	const struct dma_fence_ops *ops;
+> +	unsigned long flags;
+>   
+>   	/* RCU protection is required for safe access to returned string */
+>   	ops = rcu_dereference(fence->ops);
+> +	dma_fence_lock_irqsave(fence, flags);
+>   	if (!dma_fence_test_signaled_flag(fence))
+> -		return (const char __rcu *)ops->get_driver_name(fence);
+> -	else
+> -		return (const char __rcu *)"signaled-timeline";
+> +		name = ops->get_driver_name(fence);
+> +	dma_fence_unlock_irqrestore(fence, flags);
+> +
+> +	return name;
+>   }
+>   EXPORT_SYMBOL(dma_fence_timeline_name);
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index b52ab692b22e..b93c3f7f69fb 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -547,20 +547,29 @@ static inline bool
+>   dma_fence_is_signaled(struct dma_fence *fence)
+>   {
+>   	const struct dma_fence_ops *ops;
+> +	unsigned long flags;
+> +	bool signaled;
+>   
+>   	if (dma_fence_test_signaled_flag(fence))
+>   		return true;
+>   
+>   	rcu_read_lock();
+>   	ops = rcu_dereference(fence->ops);
+> -	if (ops && ops->signaled && ops->signaled(fence)) {
+> +	if (!ops || !ops->signaled) {
+>   		rcu_read_unlock();
+> -		dma_fence_signal(fence);
+> -		return true;
+> +		return false;
+>   	}
+> +
+> +	dma_fence_lock_irqsave(fence, flags);
+> +	signaled = ops->signaled(fence);
+> +
+> +	if (signaled)
+> +		dma_fence_signal_locked(fence);
+> +
+> +	dma_fence_unlock_irqrestore(fence, flags);
+>   	rcu_read_unlock();
+>   
+> -	return false;
+> +	return signaled;
+>   }
+>   
+>   /**
 
-Many subdev drivers append to the frame descriptor assuming fd->num_entries
-is initially 0. Since it contains uninitialized stack garbage, could this
-lead to an out-of-bounds array access inside the callee subdev, and cause
-the later loop to read uninitialized array elements?
-
-> +		/* Don't enable port if we ran out of available channels */
-> +		if (cur_vc > UB960_MAX_VC) {
-> +			dev_err(dev,
-> +				"No VCs available for RX port %d\n",
-> +				nport);
-> +			continue;
-> +		}
-
-[Severity: High]
-Does continuing here leave the VC mapping at 0 without aborting the
-overarching configuration?
-
-Since ub960_get_vc_maps() returns void, the caller is unaware of the failure
-and proceeds to program the hardware with a VC mapping of 0. Will this force
-the port to forward streams on VC 0 and silently corrupt any other active
-stream legitimately mapped to VC 0?
-
-> @@ -3606,11 +3604,7 @@ static int ub960_configure_ports_for_streaming(str=
-uct ub960_data *priv,
->  	struct v4l2_subdev_route *route;
->  	int ret;
-> =20
-> -	ret =3D ub960_validate_stream_vcs(priv);
-> -	if (ret)
-> -		return ret;
-> -
-> -	ub960_get_vc_maps(priv, state, vc_map);
-> +	ub960_get_vc_maps(priv, vc_map);
-
-[Severity: Critical]
-Is the ret variable used as an error accumulator without being initialized?
-
-The removal of the ub960_validate_stream_vcs() call leaves ret uninitialize=
-d.
-Its first use is passing &ret to ub960_rxport_write(). Inside that function,
-the pointer is immediately dereferenced to short-circuit on previous errors.
-Since ret contains random stack garbage, will it evaluate to a non-zero val=
-ue,
-causing the register writes to be silently aborted?
-
-> @@ -3676,16 +3670,14 @@ static int ub960_configure_ports_for_streaming(st=
-ruct ub960_data *priv,
->  	for_each_active_rxport(priv, it) {
->  		unsigned long nport =3D it.nport;
-> =20
-> -		u8 vc =3D vc_map[nport];
-> -
->  		if (rx_data[nport].num_streams =3D=3D 0)
->  			continue;
-> =20
->  		switch (it.rxport->rx_mode) {
->  		case RXPORT_MODE_RAW10:
->  			ub960_rxport_write(priv, nport, UB960_RR_RAW10_ID,
-> -				rx_data[nport].pixel_dt | (vc << UB960_RR_RAW10_ID_VC_SHIFT),
-> -				&ret);
-> +				rx_data[nport].pixel_dt | (nport << UB960_RR_RAW10_ID_VC_SHIFT),
-> +					&ret);
-
-[Severity: High]
-Does this hardcode the hardware VC to nport, diverging from the dynamically
-computed vc_map?
-
-In ub960_get_frame_desc(), the software V4L2 frame descriptor's virtual
-channel is computed dynamically via vc_map[nport]. Will this mismatch cause
-downstream CSI-2 receivers to listen on the wrong virtual channel and fail
-to capture the stream?
-
->  		case RXPORT_MODE_CSI2_SYNC:
->  		case RXPORT_MODE_CSI2_NONSYNC:
-> -			if (priv->hw_data->chip_type =3D=3D UB960 ||
-> -			    priv->hw_data->chip_type =3D=3D UB954) {
-[ ... ]
-> +			if (priv->hw_data->chip_type =3D=3D UB960) {
-> +				ub960_rxport_write(priv, nport,
-> +						   UB960_RR_CSI_VC_MAP,
-> +						   vc_map[nport], &ret);
-
-[Severity: High]
-Does narrowing this check to strictly UB960 break support for the DS90UB954
-chip?
-
-This forces UB954 chips into the else branch, which writes to UB9702
-registers using a 4-bit map format. Since the UB954 chip utilizes the
-standard UB960_RR_CSI_VC_MAP with 2-bit map formats, could this improperly
-format VC maps and break hardware stream forwarding for UB954?
-
-> @@ -3982,7 +3974,7 @@ static int ub960_get_frame_desc(struct v4l2_subdev =
-*sd, unsigned int pad,
-[ ... ]
->  	state =3D v4l2_subdev_lock_and_get_active_state(&priv->sd);
-> =20
-> -	ub960_get_vc_maps(priv, state, vc_map);
-> +	ub960_get_vc_maps(priv, vc_map);
-> =20
->  	for_each_active_route(&state->routing, route) {
->  		struct v4l2_mbus_frame_desc_entry *source_entry =3D NULL;
-
-[Severity: High]
-This is a pre-existing issue, but is the source_fd structure declared on the
-stack earlier in this loop and used without initialization?
-
-Many subdev drivers append to the frame descriptor assuming fd->num_entries
-is initially 0. Since it contains uninitialized stack garbage, could passing
-it to the source subdev's get_frame_desc operation lead to an immediate
-out-of-bounds array access inside the callee subdev?
-
-[Severity: High]
-This is a pre-existing issue, but can this function crash when handling an
-active route with a disconnected hardware port?
-
-Userspace can configure the routing table with valid sink pads that have no
-hardware source connected. When iterating over active routes here, could
-v4l2_subdev_call(priv->rxports[nport]->source.sd, ...) unconditionally
-dereference rxports[nport] while it is NULL?
-
-> @@ -4025,7 +4017,12 @@ static int ub960_get_frame_desc(struct v4l2_subdev=
- *sd, unsigned int pad,
->  		fd->entry[fd->num_entries].length =3D source_entry->length;
->  		fd->entry[fd->num_entries].pixelcode =3D source_entry->pixelcode;
-> =20
-> -		fd->entry[fd->num_entries].bus.csi2.vc =3D vc_map[nport];
-> +		fd->entry[fd->num_entries].bus.csi2.vc =3D
-> +			ub960_get_output_vc(vc_map[nport],
-> +					    source_entry->bus.csi2.vc);
-> +		dev_dbg(dev, "Mapping sink %d/%d to output VC %d",
-> +			route->sink_pad, route->sink_stream,
-> +			fd->entry[fd->num_entries].bus.csi2.vc);
-
-[Severity: Medium]
-Could this shift operation cause undefined behavior if the virtual channel
-index is unvalidated?
-
-The ub960_get_output_vc() helper shifts the 8-bit map by
-2 * source_entry->bus.csi2.vc. If the source subdev driver reports a virtual
-channel >=3D 16, could the computed shift amount trigger undefined behavior
-for a promoted 32-bit integer?
-
-[Severity: High]
-This is a pre-existing issue, but does the code later in this function
-write to fd->entry[fd->num_entries] and increment it without bounds checkin=
-g?
-
-When mapping routes to the fd->entry array, fd->num_entries is incremented
-for each active route. Since there is no bounds check against
-V4L2_FRAME_DESC_ENTRY_MAX, could a malicious userspace application
-multiplexing more than 8 active streams trigger a stack buffer overflow?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260608142901.3971=
-821-1-r-donadkar@ti.com?part=3D2
 
