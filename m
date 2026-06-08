@@ -1,203 +1,178 @@
-Return-Path: <linux-media+bounces-64225-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64226-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id o65FCbTsJmobnQIAu9opvQ
-	(envelope-from <linux-media+bounces-64225-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 18:24:20 +0200
+	id fEJ7HBnzJmoaogIAu9opvQ
+	(envelope-from <linux-media+bounces-64226-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 18:51:37 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C4B7658AAA
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 18:24:19 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 757B4658EF5
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 18:51:36 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=collabora.com header.s=mail header.b="GQfwQ9/3";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64225-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64225-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=collabora.com;
+	dkim=fail ("headers rsa verify failed") header.d=ideasonboard.com header.s=mail header.b=F+5kv98J;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64226-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64226-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed)" header.from=ideasonboard.com (policy=none);
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9965730AA12F
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 16:16:45 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 4A2AE30D9844
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 16:24:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0638433A70F;
-	Mon,  8 Jun 2026 16:16:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D33E436BCE8;
+	Mon,  8 Jun 2026 16:24:00 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E316330B3F;
-	Mon,  8 Jun 2026 16:16:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A88F532B9A8
+	for <linux-media@vger.kernel.org>; Mon,  8 Jun 2026 16:23:55 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780935399; cv=none; b=StmSrOJ9P6WY/Wn69n7ZQyblxVBQNOX36lFETITyyXVGY2Y9WDrrXNC+jNT+0iWFIw86XNawQwj4Md6f1uFQ81VzXWb768oOtN4PoDmg9NKK9eX2dvOk2ORXuTzF8k3ZqGPtSojFPKMIKXHH9qRaDDQcxUn6hfQpEnpgZ48fFp4=
+	t=1780935839; cv=none; b=mQ0G47fmRGGXt3Fgd2iaJ13F9r6hCD2cZzlpoc36pkBvo3e5qhROemOwyzI/7Kn6uWpR+74QvNjrE40tpSQugERrOeRz4h+85nl6lTC7fBxzWqd0E4GU1/A3gjScl/5XsZInu8p89YRrDVFsM6h4Ivs82iY6SngZF9Py/eAVU4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780935399; c=relaxed/simple;
-	bh=xGGWdFLEngPDMXFB2PFmBpS6BJSHuwn10nktdwKZ0R8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TVP9M1wKFqUq++QDPRdgSnPCrrZ/iy75Iqvp4OYPOivhdFb7PYgYn/dERmt+Sh6n8bpr3xRXaauKoCddG2e7IEt4rXfszTxCzNQuQsfCN95jscdpcLfz4yb1v9oZ/SN4QWZKHfkKHvv6T9TqcBfo4QGxZzJ5yMVsD6C3rkLCVGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=GQfwQ9/3; arc=none smtp.client-ip=148.251.105.195
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1780935396;
-	bh=xGGWdFLEngPDMXFB2PFmBpS6BJSHuwn10nktdwKZ0R8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=GQfwQ9/3qb1vkjn6+So3RU7ndSWdedP0nXu2OGh6mS4xaGNYDlGTtcYkA9mz3rLxI
-	 vTsZZYMLOpjwwl+/qNO1Ja6r+wVYK82CYJaOWigjgReqcNpFSPVoFUQCBh7NMzmhzR
-	 biASTZtd3l9gzRI+6keIxCRPat1Vgjn0riTs4LRzAYQN3zsS0DTo3pCNKjmsHxbtdU
-	 N/HL1Fui8m8MYxljwhPeujev+0GqdrJMdOy0N6dDy+iPTRBc6v3brDbJFubyjKLlHH
-	 JuEHZt+blaz8RW0o/NsESyKiITLp5VI+JZ9lB2BtrCY1qGnE7kjJbtgOKpjkM6hHvB
-	 0IUslWtm8JH+A==
-Received: from fedora-2.home (unknown [100.64.0.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B16D617E0416;
-	Mon,  8 Jun 2026 18:16:35 +0200 (CEST)
-Date: Mon, 8 Jun 2026 18:16:30 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Philipp Stanner <phasta@mailbox.org>
-Cc: phasta@kernel.org, Danilo Krummrich <dakr@kernel.org>, Sumit Semwal
- <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, Alice Ryhl <aliceryhl@google.com>, Daniel
- Almeida <dwlsalmeida@gmail.com>, Gary Guo <gary@garyguo.net>, Tvrtko
- Ursulin <tvrtko.ursulin@igalia.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] dma-fence: Fix races of fence callbacks versus
- destructors by locking
-Message-ID: <20260608181630.20145d1c@fedora-2.home>
-In-Reply-To: <256dc5ae3529e2548c4151af34a540476ac928c1.camel@mailbox.org>
-References: <20260608142436.265820-2-phasta@kernel.org>
-	<20260608170112.24fd92df@fedora-2.home>
-	<6bdbdb6541392c6ea58e0035f0b20ac3c8f3e54e.camel@mailbox.org>
-	<DJ3RRRX6JY4M.LCRKJ074W9DQ@kernel.org>
-	<256dc5ae3529e2548c4151af34a540476ac928c1.camel@mailbox.org>
-Organization: Collabora
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1780935839; c=relaxed/simple;
+	bh=I1XHThktTXIRh1FAfZcDReTWAiYwfTW2z62bpicxKCs=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=n3dh5zAs5AM9PqLADPWjcvA104e1/2nWNo0lwolP3cKmJw1k4hfxajifJr81mH6K6uhqF2BpF4a0TNFmudZvDZCkE1LT+564aF95QDy2hQY1RIIaeeNOLtlmlBpea64+jBOUoivHa87FwtTTYTdPBWYMsM/RJfiHRBwn3sy5zLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=F+5kv98J reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:bcf2:9325:a9bd:32b:e71])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1C5EF267;
+	Mon,  8 Jun 2026 18:23:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1780935803;
+	bh=I1XHThktTXIRh1FAfZcDReTWAiYwfTW2z62bpicxKCs=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=F+5kv98JBSKyBwSUgg7Y+SJ2vxCnWm76h+kSFPZXl7ec+80rYwlqjCs6RoX9WZdRS
+	 rvl8n6bLCm6Yp5rY70RadZ0AFggxPt4s9FvsDKuSmBnjceXk9gvljODW8SjxnEPFKt
+	 kXFEXIVAsx36Hg8v5LocYKjjvjR6nHkQUoudBwJE=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <aibMpvdVNraURHIE@kekkonen.localdomain>
+References: <20260607215356.842932-1-sakari.ailus@linux.intel.com> <20260607215356.842932-7-sakari.ailus@linux.intel.com> <aiZnQgyEBkZH7er0@zed> <20260608091026.GB772117@killaraus.ideasonboard.com> <aibMpvdVNraURHIE@kekkonen.localdomain>
+Subject: Re: [PATCH v5 06/10] media: imx219: Fix vertical blanking and exposure for analogue binning
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org, hans@jjverkuil.nl, Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, =?utf-8?q?Andr=C3=A9?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, "Yu
+ , Ong Hock" <ong.hock.yu@intel.com>, "Ng, Khai Wen" <khai.wen.ng@intel.com>, Rishikesh Donadkar <r-donadkar@ti.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
+Date: Mon, 08 Jun 2026 21:53:46 +0530
+Message-ID: <178093582619.19620.15016359616261234139@freya>
+User-Agent: alot/0.13.dev35+g4a69c46ca
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [1.64 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	R_DKIM_REJECT(1.00)[ideasonboard.com:s=mail];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[ideasonboard.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-64225-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	HAS_ORG_HEADER(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:phasta@mailbox.org,m:phasta@kernel.org,m:dakr@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:aliceryhl@google.com,m:dwlsalmeida@gmail.com,m:gary@garyguo.net,m:tvrtko.ursulin@igalia.com,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-64226-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:hans@jjverkuil.nl,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:dave.stevenson@raspberrypi.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:dongcheng.yan@intel.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:tomi.valkeinen@ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:r-donadkar@ti.com,m:laurent.pinchart@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_CC(0.00)[kernel.org,linaro.org,amd.com,google.com,gmail.com,garyguo.net,igalia.com,vger.kernel.org,lists.freedesktop.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	FORGED_SENDER(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	DKIM_TRACE(0.00)[ideasonboard.com:-];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	FREEMAIL_CC(0.00)[ideasonboard.com,vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8C4B7658AAA
+X-Rspamd-Queue-Id: 757B4658EF5
 
-On Mon, 08 Jun 2026 17:30:58 +0200
-Philipp Stanner <phasta@mailbox.org> wrote:
+Hi Sakari,
 
-> On Mon, 2026-06-08 at 17:23 +0200, Danilo Krummrich wrote:
-> > On Mon Jun 8, 2026 at 5:17 PM CEST, Philipp Stanner wrote: =20
-> > > On Mon, 2026-06-08 at 17:01 +0200, Boris Brezillon wrote: =20
-> > > > On Mon,=C2=A0 8 Jun 2026 16:24:37 +0200
-> > > > Philipp Stanner <phasta@kernel.org> wrote:
-> > > >  =20
-> > > > > @@ -1020,11 +1024,20 @@ EXPORT_SYMBOL(dma_fence_wait_any_timeout);
-> > > > > =C2=A0void dma_fence_set_deadline(struct dma_fence *fence, ktime_=
-t deadline)
-> > > > > =C2=A0{
-> > > > > =C2=A0	const struct dma_fence_ops *ops;
-> > > > > +	unsigned long flags;
-> > > > > =C2=A0
-> > > > > =C2=A0	rcu_read_lock();
-> > > > > =C2=A0	ops =3D rcu_dereference(fence->ops);
-> > > > > -	if (ops && ops->set_deadline && !dma_fence_is_signaled(fence))
-> > > > > +	if (!ops || !ops->set_deadline) {
-> > > > > +		rcu_read_unlock();
-> > > > > +		return;
-> > > > > +	}
-> > > > > +
-> > > > > +	dma_fence_lock_irqsave(fence, flags);
-> > > > > +	if (!dma_fence_is_signaled_locked(fence))
-> > > > > =C2=A0		ops->set_deadline(fence, deadline); =20
-> > > >=20
-> > > > You can't take the fence lock around ->set_deadline(), otherwise yo=
-u'll
-> > > > deadlock here [1] or here [2].
-> > > >  =20
-> > > > > +
-> > > > > +	dma_fence_unlock_irqrestore(fence, flags);
-> > > > > =C2=A0	rcu_read_unlock();
-> > > > > =C2=A0} =20
-> > > >=20
-> > > >=20
-> > > > [1]https://elixir.bootlin.com/linux/v7.0.11/source/drivers/dma-buf/=
-sw_sync.c#L182
-> > > > [2]https://elixir.bootlin.com/linux/v7.0.11/source/drivers/gpu/drm/=
-msm/msm_fence.c#L139 =20
+Quoting Sakari Ailus (2026-06-08 19:37:34)
+> Hi Laurent, Jacopo,
 >=20
-> Oh, MSM actually doesn't btw, that's a false positive. That's a
-> distinct spinlock on their fence context object.
+> On Mon, Jun 08, 2026 at 12:10:26PM +0300, Laurent Pinchart wrote:
+> > On Mon, Jun 08, 2026 at 08:58:46AM +0200, Jacopo Mondi wrote:
+> > > Hi Sakari
+> > >=20
+> > > On Mon, Jun 08, 2026 at 12:53:52AM +0300, Sakari Ailus wrote:
+> > > > When vertical analogue binning is in use, the minimum frame length =
+in
+> > > > lines decreases to around half of the normal. In relation to the se=
+nsor's
+> > > > output size this means vertical blanking can be negative but that's=
+ not an
+> > > > issue as control values are signed. Remove the workaround for this
+> > >=20
+> > > Didn't we just discussed two weeks ago in media summit how negative
+> > > blankings are a bad idea, and of all drivers one could decide to play
+> > > with imx219 is probably the worse due it's large use base and the fact
+> > > libcamera doesn't support negative blankings ?
+> >=20
+> > I also think that negative blanking values are a bad idea, for this
+> > driver or any other driver. I still haven't seen any compelling
+> > argument.
+>=20
+> Note that the blanking controls haven't expressed blanking in other
+> configurations than those that do not use binning, either analogue or
+> digital, or cropping. The fact that negative values would result due to
+> sensor configuration does not mean the values would be somehow incorrect,
+> they simply do not reflect actual blanking configuration on the sensor.
 
-It's not, it's the same lock they attach to all their fences coming
-from this context. It's just that this lock appears to be per-context,
-like is the case for basically every driver, since the inline lock was
-introduced only in this release cycle.
+I agree.. although what is the actual blanking configuration on the sensor
+in this case?
 
-Anyway, this is all stuff we can fix if people think it's okay to
-protect dma_fence_ops calls with the fence lock. But my point remains:
-each op has its own locking-rules, some are called with the fence lock
-held (enable_signaling(), signaled()), others are not (set_deadline(),
-get_xxx_name()), so we need to carefully audit each of those to make
-sure:
-
-- calling with the lock held in the new places is not causing a
-  deadlock
-- the returned data, if not a scalar, is protected by the RCU read lock
-- any driver implementing ops that can be called without the lock held
-  need to hold on the device data for an RCU grace period
-
-The last bullet is probably the one I'm the most worried about, because
-instead of a single rule that applies to all ops, we have various cases
-based on whether some ops are implemented or not, but that's already
-the case with deprecated ops like .release() or .wait(), so maybe
-that's okay with the proper doc.
-
-If I were to choose, I'd probably go for a dedicated rwlock_t to
-protect dma_fence_ops, so we can:
-
-- protect all dma_buf_ops::xx() consistently no matter the kind of op
-- protect returned data (get_xxx_name()) with this lock instead of the
-  RCU read lock
-
-But the overhead of this extra lock might not be acceptable, dunno.
+I've been banging my head for a while to figure it out (my best guess in
+the sibling thread)
 
 >=20
+> In retrospect, we should have always had frame length in lines and line
+> length in pixels controls instead, or possibly besides the blanking
+> controls. But as the two blanking controls have been in use for conveying
+> frame length in lines and line length in pixels, relative to a reference
+> size, we can't re-purpose them for something else anymore without breaking
+> pretty much all userspace.
 >=20
-> But yes, before we could upstream this, we would go through all the
-> implementors like Danilo did, to find all the others.
+> Multiplying the pixel rate and either frame length in lines or line length
+> in pixels by a constant does not make the blanking controls magically
+> correct.
+>=20
 
-There's the two I pointed out, plus the array/chain containers I
-mentioned, which are not problematic.
+Sure.. but the sensor must be reading out pixels along with non-negative
+blanking internally. If that happens to not match the register values, do
+you object to multiplying LLP or FLL with a constant?
+
+Also what do you think of sensors like IMX678/IMX283 where the HTOT (LLP)
+register is not in units of pixels at all?
+
+> I hope the above summarises my position in an understandable way.
+>=20
+> I believe removing the rate_factor is necesary if we want to add support
+> for the Common Raw Sensor Model to the imx219 driver. Otherwise, we'll be
+> left with a single example driver only, the ov2740, which is an entirely
+> register list based driver.
+>=20
+
+Agreed.
+
+Thanks,
+    Jai
+
+> --=20
+> Kind regards,
+>=20
+> Sakari Ailus
 
