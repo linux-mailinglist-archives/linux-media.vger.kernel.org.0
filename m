@@ -1,183 +1,151 @@
-Return-Path: <linux-media+bounces-64153-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64159-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 6FnZGAx/JmrsXQIAu9opvQ
-	(envelope-from <linux-media+bounces-64153-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 10:36:28 +0200
+	id e69uJVmFJmr7XwIAu9opvQ
+	(envelope-from <linux-media+bounces-64159-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 11:03:21 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B30B96541EA
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 10:36:27 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 784CA65457C
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 11:03:20 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=vx9lb2D1;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64153-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64153-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=seu.edu.cn header.s=default header.b=nFTMg4EI;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64159-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64159-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=seu.edu.cn;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BD5B8305B013
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 08:24:32 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 33AFC30C565E
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 08:45:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E3C7F3AC0D3;
-	Mon,  8 Jun 2026 08:24:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 482E33B47CC;
+	Mon,  8 Jun 2026 08:42:41 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail-m49197.qiye.163.com (mail-m49197.qiye.163.com [45.254.49.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7DC3955D0
-	for <linux-media@vger.kernel.org>; Mon,  8 Jun 2026 08:24:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2054A286D7D;
+	Mon,  8 Jun 2026 08:42:36 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780907071; cv=none; b=FsgRhLTxZgk55ttUl3HFauO+QFRxWTKMzCtP8ep+3B2rbDz3XN1zmFcaRQUhFJrOdy2F502MnQXPq44hMZOK1gDHNhPHbGv0wzIPEDaIrKhIV/RZTRe40xijFsV3RcFLhT6cEPN1eRanbaklG82ODIZWSTdGj7N6hCACWYcVhfw=
+	t=1780908160; cv=none; b=pr3dLz8QdnavEAIF21u1RzahUIg/wtM9vze9/dYDQWMHY5nzfRc+w4ip2U5C083aB3hsWmYGMDezYTqho6nPrmi+72lxZbKFDT2ABjY5d9SD7WiLIPWahz/LmTYoY1wsWAE8nUC3KKZ93Acpn2s+g0oihPmZhV6WQXF8a+JlkyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780907071; c=relaxed/simple;
-	bh=Fru/wbvUCaO7RJRuiupaEpUIU4u/ZkewzVQ2BVpufeo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=r7gqyJubd5bzXicc9tE4ObVabWC9t7J0p1HeBC00R2HbZn9NAKhSgop8LrTD5FVcj5aQwsazNtWxXDWYUxhSARAsW8kSDBk7dFBPkVLebNz3yeUiyK8AUOaqDsZhTShIYNgU50Iy8gS8NDzAPXC10U53cAUJIrRdDyNGJ5BtebM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vx9lb2D1; arc=none smtp.client-ip=213.167.242.64
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DEF5A289;
-	Mon,  8 Jun 2026 10:23:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1780907040;
-	bh=Fru/wbvUCaO7RJRuiupaEpUIU4u/ZkewzVQ2BVpufeo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vx9lb2D16C25sPpfQE9GhLlJxLSRJj4dtgPyi5Dm1XV50pDFXJsnrJ8DLGOItbset
-	 wwBUm/B1yiMp2c6xTHP7ot54HBOgEi7M83elPH8JrX6f3cC9XHSDTXo+AWnpU7Itz/
-	 2nSfyhiRIDqIjxUCYGj9j+8OjKFKnFDZA4EYMNEo=
-Date: Mon, 8 Jun 2026 11:24:26 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v5 04/10] media: imx219: Make control handler ops for
- PIXEL_RATE NULL
-Message-ID: <20260608082426.GA380394@killaraus.ideasonboard.com>
-References: <20260607215356.842932-1-sakari.ailus@linux.intel.com>
- <20260607215356.842932-5-sakari.ailus@linux.intel.com>
- <20260608073653.GD370380@killaraus.ideasonboard.com>
- <aiZ0a3nGqp6N7GD3@zed>
- <20260608080338.GF370380@killaraus.ideasonboard.com>
- <aiZ56IgNJ2FeXN0o@kekkonen.localdomain>
+	s=arc-20240116; t=1780908160; c=relaxed/simple;
+	bh=si2ebiu2bDHgdCYLqsoKLsLRmQmG982ZvPTVe5jAsiU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Cw8mCebsfD/M4Gq0WpKHSMFXaA23SjoI0mI2RzLie3TNI+0KV4MGiO2ZgujjSsy6wk9dj9XdoNXuQmNDV+csib0AZAapcPYEA3OPmTAmtMhQiLTe70+OletgsGCfo3kt8fcQ+GjmOYvoktpONEVbK8HXbYJfOFh2BZh3vGQ2ru4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=seu.edu.cn; spf=pass smtp.mailfrom=seu.edu.cn; dkim=pass (1024-bit key) header.d=seu.edu.cn header.i=@seu.edu.cn header.b=nFTMg4EI; arc=none smtp.client-ip=45.254.49.197
+Received: from DESKTOP-SUEFNF9.taila7e912.ts.net (unknown [221.228.238.82])
+	by smtp.qiye.163.com (Hmail) with ESMTP id 417c4ff68;
+	Mon, 8 Jun 2026 16:27:08 +0800 (GMT+08:00)
+From: Dawei Feng <dawei.feng@seu.edu.cn>
+To: andy@kernel.org
+Cc: hansg@kernel.org,
+	mchehab@kernel.org,
+	sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	abdelrahmanfekry375@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	jianhao.xu@seu.edu.cn,
+	Dawei Feng <dawei.feng@seu.edu.cn>,
+	Zilin Guan <zilin@seu.edu.cn>
+Subject: [PATCH] media: atomisp: Fix resource leak in atomisp_pci_probe()
+Date: Mon,  8 Jun 2026 16:27:06 +0800
+Message-Id: <20260608082706.3287831-1-dawei.feng@seu.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aiZ56IgNJ2FeXN0o@kekkonen.localdomain>
+Content-Transfer-Encoding: 8bit
+X-HM-Tid: 0a9ea657be1e03a2kunm16811e9be6e94
+X-HM-MType: 10
+X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
+	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCGkIfVk4ZTUpCSx1PS0sfTVYeHw
+	5VEwETFhoSFyQUDg9ZV1kYEgtZQVlJSUpVSUlDVUlIQ1VDSVlXWRYaDxIVHRRZQVlPS0hVSktISk
+	9ITFVKS0tVSkJLS1kG
+DKIM-Signature: a=rsa-sha256;
+	b=nFTMg4EIkb/OQqo4Q0yDmnvnKTtjOHv5kUIdixXdek/N60q6Ki6T24N+dDNX5MgODcXolD777cXiy82/trpTHpUlDg9UVwbpHi1ZiLumeV64tLO1kkGBPz7qWpmT+DaLZ1dWfTAIzQ8jpxSvjuufLqzeTsIVJ65KArJyuzF8Eco=; c=relaxed/relaxed; s=default; d=seu.edu.cn; v=1;
+	bh=W2RbCHX5ggtfcHqnc5ufIp0FeZZQMQa5I9HAGMwivaM=;
+	h=date:mime-version:subject:message-id:from;
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[seu.edu.cn,none];
+	R_DKIM_ALLOW(-0.20)[seu.edu.cn:s=default];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-64159-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64153-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:hans@jjverkuil.nl,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:dave.stevenson@raspberrypi.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:dongcheng.yan@intel.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:tomi.valkeinen@ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:jai.luthra@ideasonboard.com,m:r-donadkar@ti.com,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FREEMAIL_CC(0.00)[ideasonboard.com,vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
+	FORGED_SENDER(0.00)[dawei.feng@seu.edu.cn,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FORGED_RECIPIENTS(0.00)[m:andy@kernel.org,m:hansg@kernel.org,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:gregkh@linuxfoundation.org,m:abdelrahmanfekry375@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:jianhao.xu@seu.edu.cn,m:dawei.feng@seu.edu.cn,m:zilin@seu.edu.cn,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,linuxfoundation.org,gmail.com,vger.kernel.org,lists.linux.dev,seu.edu.cn];
+	DKIM_TRACE(0.00)[seu.edu.cn:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dawei.feng@seu.edu.cn,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,killaraus.ideasonboard.com:mid,sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,seu.edu.cn:mid,seu.edu.cn:dkim,seu.edu.cn:from_mime,seu.edu.cn:email,sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B30B96541EA
+X-Rspamd-Queue-Id: 784CA65457C
 
-On Mon, Jun 08, 2026 at 11:14:32AM +0300, Sakari Ailus wrote:
-> On Mon, Jun 08, 2026 at 11:03:38AM +0300, Laurent Pinchart wrote:
-> > On Mon, Jun 08, 2026 at 09:53:17AM +0200, Jacopo Mondi wrote:
-> > > Hi Laurent
-> > >   sorry if I reply in place of Sakari but I got this fresh
-> > 
-> > Thanks :-)
-> > 
-> > > On Mon, Jun 08, 2026 at 10:36:53AM +0300, Laurent Pinchart wrote:
-> > > > On Mon, Jun 08, 2026 at 12:53:50AM +0300, Sakari Ailus wrote:
-> > > > > The PIXEL_RATE control exists to convey the value to the userspace and has
-> > > > > no configuration that would need to be programmed to the sensor. Make the
-> > > > > control handler ops for the PIXEL_RATE control NULL and avoid a warning
-> > > > > (as well as returning an error) from the driver.
-> > > >
-> > > > I thought the standard way to handle pixel rate being read only was to
-> > > > set the V4L2_CTRL_FLAG_READ_ONLY flag, like we do for e.g.
-> > > > V4L2_CID_LINK_FREQ. Is that not correct ?
-> > > 
-> > > PIXEL_RATE is RO by default
-> > > 
-> > > drivers/media/v4l2-core/v4l2-ctrls-defs.c:      case V4L2_CID_PIXEL_RATE:
-> > > drivers/media/v4l2-core/v4l2-ctrls-defs.c-              *type = V4L2_CTRL_TYPE_INTEGER64;
-> > > drivers/media/v4l2-core/v4l2-ctrls-defs.c-              *flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> > > drivers/media/v4l2-core/v4l2-ctrls-defs.c-              break;
-> > > 
-> > > The purpose of setting the ctrl_ops member to NULL is to avoid having
-> > > to handle RO controls in the driver implementation of .s_ctrl().
-> > 
-> > Shouldn't the V4L2 control framework avoid .s_ctrl() calls for read-only
-> > controls ? I thought it did already.
-> 
-> The control may be read-only on the UAPI but the driver could still do
-> something about it in its s_ctrl() callback. I don't know if any driver
-> depends on this though.
+During atomisp_pci_probe(), the ISP subdev is initialized via
+atomisp_initialize_modules() prior to entity registration. If
+atomisp_register_entities() fails, the current error path only
+uninitializes the CSI2 modules. This leaks the subdev entity and control
+handler that were previously set up by atomisp_subdev_init().
 
-It seems to be one of the many areas where control handling should be
-simplified for drivers.
+Fix this by calling atomisp_subdev_unregister_entities() to properly
+release the subdev state on this specific error path. Later error paths
+remain unchanged, as they correctly use atomisp_unregister_entities() to
+handle broader cleanup after successful registration.
 
-In any case, the imx219 driver creates the V4L2_CID_LINK_FREQ control
-with a non-NULL ops pointer, sets the V4L2_CTRL_FLAG_READ_ONLY flag, and
-does not handle V4L2_CID_LINK_FREQ in imx219_set_ctrl(). If there's an
-issue for V4L2_CID_PIXEL_RATE there is also an issue for
-V4L2_CID_LINK_FREQ.
+The bug was first flagged by an experimental analysis tool we are
+developing for kernel memory-management bugs while analyzing v6.13-rc1.
+The tool is still under development and is not yet publicly available.
+Manual inspection confirms that the bug is still present in v7.1-rc5.
 
-Maybe the best short term fix would be to drop the dev_info() in the
-default case of the ctrl->id switch in imx219_set_ctrl() ?
+An x86_64 allyesconfig build showed no new warnings. As we do not have an
+Intel Atom ISP platform to test with, no runtime testing was able to be
+performed.
 
+Fixes: 9d4fa1a16b28 ("media: atomisp: cleanup directory hierarchy")
+Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
+Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
+---
+ drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+index 900a67552d6a..d4e4e845f66e 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
+@@ -1401,6 +1401,7 @@ static int atomisp_pci_probe(struct pci_dev *pdev, const struct pci_device_id *i
+ 	err = atomisp_register_entities(isp);
+ 	if (err < 0) {
+ 		dev_err(&pdev->dev, "atomisp_register_entities failed (%d)\n", err);
++		atomisp_subdev_unregister_entities(&isp->asd);
+ 		goto error_uninitialize_modules;
+ 	}
+ 
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
 
