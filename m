@@ -1,214 +1,184 @@
-Return-Path: <linux-media+bounces-64170-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64171-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id WLSeBKaVJmp5ZAIAu9opvQ
-	(envelope-from <linux-media+bounces-64170-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 12:12:54 +0200
+	id o7CRMtuZJmoXZgIAu9opvQ
+	(envelope-from <linux-media+bounces-64171-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 12:30:51 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66CA4654E6E
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 12:12:53 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 434946551C3
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 12:30:51 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=uniontech.com header.s=onoh2408 header.b=Cj6UgT0u;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64170-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64170-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=uniontech.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=PDu4qtMD;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64171-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64171-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6BE92308431E
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 10:06:17 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id AD9623151018
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 10:17:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26DBB3CDBBF;
-	Mon,  8 Jun 2026 10:02:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EFBC3C8182;
+	Mon,  8 Jun 2026 10:13:37 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtpbg150.qq.com (smtpbg150.qq.com [18.132.163.193])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB3B2E7F0A;
-	Mon,  8 Jun 2026 10:02:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2059E3B7763;
+	Mon,  8 Jun 2026 10:13:35 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780912952; cv=none; b=GlPCa3oAthUhkfv3l8S++HxPww1LVSXUq6jO5+cuywO1MAem0C4escPsjQ7Gi3dn4IoXBBgk1HUjFyvWD8lqn5WCEGGbam0ibegYUaPd6sJ1J2E3K7p+Av4ZcD1V5e0cHzpYhxn3wnw02agg2eEFDDAssLVngVrY50XE51NkZWY=
+	t=1780913617; cv=none; b=Xa4Bs30gWnxe1BrSi6BIq4fYE4Z5mQe0A19AnlEmukJBALtNmWDq06j49HoiY+rsIxMbbGBEGLyLaKM4MReUq5Be/PEiCfkq6h2++b5LkziGEB83esH+YNwdkmoQ7qc8vX9Uwmwnb9zYIm2qKzgTJKCx05xs8o3pQbXg7ns0/dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780912952; c=relaxed/simple;
-	bh=pdGFzKrUBk946S/n5bevKh1Q1UI/o0CEXK2FVjN3ZPU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=VKDAWlXbfNagkj54yl+YKJ2CCqxOLZuSN6bIKiP5qoJhEwI4tef7odWzncQJ1lSVFPlQWqi0dGRTBBFvVHAGHOef2qzOfPORT7LjGgQ7pJnIamvy7I5M9nPmNSVvdyeekSJxZoHpGHbuv4LAvowBgbGWv1tesCewqQ2DTQaRjS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Cj6UgT0u; arc=none smtp.client-ip=18.132.163.193
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1780912874;
-	bh=xjnPQf7GAoyFUyGY5zxvgjv4eM33qSIDMbKW2dSfDqo=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=Cj6UgT0up/7NZ2IOzesleYJhlJ1X3Cu6q2AI5LsYpwSZnNnajV2G0OZe6nFfTjMxg
-	 XiRZKBtNQI1oD22oATXNi2T83SCgzTPw9MVd1ehki6rsRGsoGr71fZlXbgSd7LJRvf
-	 Z8g69AAHiardvDCT20kVck1C4abozYNW/KiK8vbw=
-X-QQ-mid: zesmtpgz3t1780912854tae9d0c57
-X-QQ-Originating-IP: 4E4RYRX91c4laM26UrRIuLa53EZJzKOeKvUr8D6DNiU=
-Received: from localhost.localdomain ( [1.202.39.170])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 08 Jun 2026 18:00:45 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 280074594800750850
-EX-QQ-RecipientCnt: 11
-From: ZhaoJinming <zhaojinming@uniontech.com>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
-	Oded Gabbay <ogabbay@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	ZhaoJinming <zhaojinming@uniontech.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] accel/rocket: Fix fence leak, runtime PM leak and WARN in rocket_job_run() error paths
-Date: Mon,  8 Jun 2026 18:00:40 +0800
-Message-Id: <20260608100040.985526-1-zhaojinming@uniontech.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20260608085043.688141F00893@smtp.kernel.org>
-References: <20260608085043.688141F00893@smtp.kernel.org>
+	s=arc-20240116; t=1780913617; c=relaxed/simple;
+	bh=S6ccQ6CgKsaOiVfiSsBjuog/vjVhx80+Rt8gJW9/hZA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kaYDivVJhYLR/4o26lYB/mC0B2tUIDwJPowj5da2qO2pVMjdCKsyK+fte8YIjZzLlW79v4ACxR9DARqTaR0gu6A8E3iczbgpdRB816w8uHUUZOH2F8xD/BA1ZB0KZfUNQpF9zMJGawMfzhChu28linbIyQPS3hMOV8hUZ1FP/nQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PDu4qtMD; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D4591F00893;
+	Mon,  8 Jun 2026 10:13:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780913615;
+	bh=yV8IDNrUQjDFzglCn0ApLLC7pS23VkxOG9zv5g7yTfk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=PDu4qtMDG7B+OIfVglPfaTUl9jwmZ1YoF2hpIHrX8SPH2m1ee5Z4ZKFc5iiqnU7/p
+	 A14vkK2XwHoA5lIOu1g9uYa4O5mSQeXAjNrvtiIlPF8H+Abj/XwvW9IHX9tv7EkpVP
+	 hA0Y9DethrhLoibQeNuE4nBYzYTBdX6Rx9TiCjvpb16C4tstkHNDF+ojZWwVXl3E3D
+	 MOuPrYTs8iw5pAWXQxTM5YiWZ1FuG/L6+NGaLdYJZ3v8IlJpdGotbi3u6kW4b02Emd
+	 55ziE0eOHQgL22og8VJ8Ob9Ja49a1aAYOLDuXhLMKULT4z/VSj+mzgaDpwSDIh3kXL
+	 L08kBG81D6Sxw==
+Message-ID: <33fb108d-97c1-4d10-8740-3376b47b9937@kernel.org>
+Date: Mon, 8 Jun 2026 11:13:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz4b-0
-X-QQ-XMAILINFO: M0qzrJwwKu7j73n+BV2qAyDzZMdEDff17lz0uFmcxVqRR1ZZmNLV8wPh
-	+/pLOGOdFES5xY/Kbj8kDaZlD5WJqByR1vcZZHNp7MW/sgOZbjuoaZTeUskKNjA+LQH4n7q
-	AMI0ddFZiCYikit98QLv44NqnRUaOpKNFjbUr6qGYmMmKWm5zfA2g5C6l/syFF01Os/rok9
-	nL34xp25mDYep+XXURSCb2QZAPyS5em02/XXgGfZicjUgxxFyS15D6Hw/1nscklPwZpE81/
-	rYibbwhm3NUbdpRAyjNJl3rHCurRD1812SkCwh4SgQZnYFuNssXZuUmwVUdws2qrtYDpnWt
-	RtruDtivMyVp8hXGuq4mBdsDJFBWi/cr7g60nN7Yo0hBfi3locTQhEjqJHWhORvei0IxfVl
-	LjoLeRvaZ2D5jpR1X+/TLJJgccyXZ6zs0mzyjj4wcgbDU4uSIhxthuNxzLwNuGgnISC0E/d
-	ijZfAYNG4fGEDfHShFGDQV1jPl/MkfrJtG3PCEKaArjB7zQmXV6/rwlYeVMd9xNKD88eGja
-	GqZ+iaPR9rSMM4YodGJUMCPAE4h/Exy9X0QSWfns2opg9JZZOK9HXc0Atlzv1Qnwck3bsoD
-	Epj4g2XeVYtBHnbUrAoJBYBAQHIXZaqVY1YoNyLnjQGQm9utQ3ilJ9A/Q5yeZXy70y+yPyg
-	uoJAiFKJCHvCbo/P2QzNlRnai0RZbKml8EJ0xADqkGKWyuwj0jeCNurZT3r2hF6cwyI3WZx
-	nAG4Z0IS3jUDhHAsggHcDLyZieM8jLDcSSUNo6hxSXCJKN0R1Jn39wc2OvjHmUN0iarxbFc
-	DS2XtJuRsfyAe0Bd2vr04nt8EnBdY9AdH5/qpc7pkYtBiuJCRfj8Iq1yHdt71h+6za1J8Xx
-	lBp9xjzFyseixmzuqFNzJ59y4vZCMTUuiBMhIVxf0nQ7WhHGXV9xBzXTDixgu+V/+xoHhtx
-	9/9xWV5lec2koLZJXkfhP1Tsv0WtEeVAcKGAmTR/Egq69PDTUdYgFByj5qpXTvk86CI6qRn
-	w9rikvQqpJcIKgi5DyBqQbEJxkw/t73XThlDDkuQ==
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
-X-QQ-RECHKSPAM: 0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: qcom: iris: initialize managed OPP pointer
+To: Hungyu Lin <dennylin0707@gmail.com>, vikash.garodia@oss.qualcomm.com
+Cc: dikshita.agarwal@oss.qualcomm.com, abhinav.kumar@linux.dev,
+ mchehab@kernel.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <adh8nAvf7xr--5KPtVFALkSnS3fjqr_6gPpV_hWfp_WYNh-qUCry-pXc6jgUGMkNzs-8EfSp2TQFsB2lWga0gg==@protonmail.internalid>
+ <20260604000414.32530-1-dennylin0707@gmail.com>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=bod@kernel.org; keydata=
+ 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
+In-Reply-To: <20260604000414.32530-1-dennylin0707@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[uniontech.com,none];
-	R_DKIM_ALLOW(-0.20)[uniontech.com:s=onoh2408];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-64170-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tomeu@tomeuvizoso.net,m:ogabbay@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:jeff.hugo@oss.qualcomm.com,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:zhaojinming@uniontech.com,m:stable@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[zhaojinming@uniontech.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[zhaojinming@uniontech.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[uniontech.com:+];
-	ALIAS_RESOLVED(0.00)[];
+	TAGGED_FROM(0.00)[bounces-64171-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[gmail.com,oss.qualcomm.com];
+	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:dennylin0707@gmail.com,m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
 	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:helo,sea.lore.kernel.org:rdns,vger.kernel.org:from_smtp,uniontech.com:mid,uniontech.com:dkim,uniontech.com:from_mime,uniontech.com:email]
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 66CA4654E6E
+X-Rspamd-Queue-Id: 434946551C3
 
-Three issues exist in the error paths of rocket_job_run():
+On 04/06/2026 01:04, Hungyu Lin wrote:
+> Initialize the __free(put_opp) managed OPP pointer to NULL.
+> 
+> This ensures the cleanup handler always sees a defined value and
+> avoids leaving the managed pointer uninitialized before assignment.
+> 
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
+> ---
+>   drivers/media/platform/qcom/iris/iris_resources.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/qcom/iris/iris_resources.c b/drivers/media/platform/qcom/iris/iris_resources.c
+> index 773f6548370a..6b22f5cc88ca 100644
+> --- a/drivers/media/platform/qcom/iris/iris_resources.c
+> +++ b/drivers/media/platform/qcom/iris/iris_resources.c
+> @@ -61,7 +61,7 @@ int iris_unset_icc_bw(struct iris_core *core)
+> 
+>   int iris_opp_set_rate(struct device *dev, unsigned long freq)
+>   {
+> -	struct dev_pm_opp *opp __free(put_opp);
+> +	struct dev_pm_opp *opp __free(put_opp) = NULL;
+> 
+>   	opp = devfreq_recommended_opp(dev, &freq, 0);
+>   	if (IS_ERR(opp))
+> --
+> 2.34.1
+> 
+> 
 
-1) dma_fence reference leak: After creating a fence and taking an extra
-   reference for job->done_fence via dma_fence_get(), the error paths
-   return without releasing the extra reference held by job->done_fence.
-   The leaked reference prevents the fence from being freed, causing
-   resource accumulation on repeated failures.
+Requires a Fixes:
 
-2) pm_runtime_get_sync() usage counter leak: pm_runtime_get_sync()
-   increments the runtime PM usage counter before attempting to resume
-   the device. If the resume fails and returns an error, the usage
-   counter remains incremented. The original error path does not call
-   pm_runtime_put_noidle() to balance it. Repeated failures will
-   permanently prevent the NPU from entering suspend.
++ Cc: stable@vger.kernel.org
 
-3) Unsignaled fence returned on failure: The error paths return a valid
-   but unsignaled dma_fence to the DRM scheduler. Since the hardware
-   was never submitted, the fence is never signaled. When the scheduler
-   eventually drops its reference, dma_fence_release() detects the
-   unsignaled fence and triggers:
-     WARN(1, "Fence ... released with pending signals!")
-   and forcibly signals it with -EDEADLK.
-
-Fix all three issues by:
-
-- Replace pm_runtime_get_sync() with pm_runtime_resume_and_get(), which
-  automatically decrements the usage counter on failure, eliminating
-  the need for a manual pm_runtime_put_noidle() call and avoiding the
-  usage counter leak. The pm_runtime_get_sync() documentation itself
-  recommends pm_runtime_resume_and_get() as the preferred alternative
-  when the return value is checked by the caller.
-
-- Release both fence references (job->done_fence and the local fence)
-  before returning ERR_PTR(ret) so the DRM scheduler cleanly aborts
-  the job without triggering the unsignaled fence WARN.
-
-- Add pm_runtime_put() on the iommu_attach_group error path to release
-  the runtime PM reference that was successfully acquired.
-
-Cc: stable@vger.kernel.org
-Fixes: 0810d5ad88a1 ("accel/rocket: Add job submission IOCTL")
-Signed-off-by: ZhaoJinming <zhaojinming@uniontech.com>
 ---
- drivers/accel/rocket/rocket_job.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
-index ac51bff39833..e8a073e22ac2 100644
---- a/drivers/accel/rocket/rocket_job.c
-+++ b/drivers/accel/rocket/rocket_job.c
-@@ -310,13 +310,22 @@ static struct dma_fence *rocket_job_run(struct drm_sched_job *sched_job)
- 		dma_fence_put(job->done_fence);
- 	job->done_fence = dma_fence_get(fence);
- 
--	ret = pm_runtime_get_sync(core->dev);
--	if (ret < 0)
--		return fence;
-+	ret = pm_runtime_resume_and_get(core->dev);
-+	if (ret < 0) {
-+		dma_fence_put(job->done_fence);
-+		job->done_fence = NULL;
-+		dma_fence_put(fence);
-+		return ERR_PTR(ret);
-+	}
- 
- 	ret = iommu_attach_group(job->domain->domain, core->iommu_group);
--	if (ret < 0)
--		return fence;
-+	if (ret < 0) {
-+		pm_runtime_put(core->dev);
-+		dma_fence_put(job->done_fence);
-+		job->done_fence = NULL;
-+		dma_fence_put(fence);
-+		return ERR_PTR(ret);
-+	}
- 
- 	scoped_guard(mutex, &core->job_lock) {
- 		core->in_flight_job = job;
--- 
-2.20.1
-
+bod
 
