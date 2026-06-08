@@ -1,208 +1,186 @@
-Return-Path: <linux-media+bounces-64156-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64158-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 8d+FGMV/JmokXgIAu9opvQ
-	(envelope-from <linux-media+bounces-64156-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 10:39:33 +0200
+	id 7puSKaKDJmpkXwIAu9opvQ
+	(envelope-from <linux-media+bounces-64158-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 10:56:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61FCE65423D
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 10:39:32 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id A83C865443A
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 10:56:01 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=Nvidia.com header.s=selector2 header.b=rCyY24hg;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64156-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-64156-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=nvidia.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=uniontech.com header.s=onoh2408 header.b=Po3xp9d8;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64158-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64158-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=uniontech.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id BDE76303ABD5
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 08:31:09 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0987430A84B0
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 08:43:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A67893AA1A6;
-	Mon,  8 Jun 2026 08:31:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E5A73C2B8F;
+	Mon,  8 Jun 2026 08:40:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012014.outbound.protection.outlook.com [52.101.53.14])
+Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB6C38E5CC;
-	Mon,  8 Jun 2026 08:31:02 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780907464; cv=fail; b=WylrOjujRXiyNlSYVpxafRTaFt3X+7NCqfq7DFDJ1cilm3Eyu97j6XBsg6SXPjkaqWcRMnPPq3Ys4hiLauPqG+9IIAHzPfZxhQ5AcDYg4qyky688+Pggb1RVcPGa/SkChPGWGh1WApijcgAKNNgb5GaLzCI+2nSduG0D7AAN5Vc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780907464; c=relaxed/simple;
-	bh=Rmaf/Wll3uf0MlDFPIUnZsTqrNE7ymawUAMqChDcXfA=;
-	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
-	 In-Reply-To:MIME-Version; b=VXKIo+71Pem7lomQ6QiTmsfO8uYpeV6U8mlzRdQU7e7xwzuG59C445sDA1DWqYkX5r3Y/8jM3BTPT3B37JNR9IpGTkc/mqJO71bXljbBBToyd48EOmt43GX74yoaH2vAjxZ6j1nBO8fWgbas2+lZ300/7TNGtcGfmYB4TH4LFDk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rCyY24hg; arc=fail smtp.client-ip=52.101.53.14
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vjSw5OjGYZugmWspXCxIpVv3UA6cxk0FR/aL8V68R3TlRgZTa8fr+BzOTrgdU+d9uXkGVifHvL6XUANy0vO0guRmZE7SwIAnHW4s2F38KOaR2/AbYTZB0Dmg6YQAU/2fh1nnHHIx7aMN95Qb9TI9QdUda0paUPgS5ykePvsI1wvHH8dJZ2cqTVGiXlaBaeUie8CzyJf1StXjItcbQONP+9WT6NyWmcvlPICX3hLHy/Sw2JeOBs3LMPodfaWQ2ejwodA8oFZgP/Qhh7CGYLeRINkEp101zSBMTk2rcBRYRxK3IWmDn/aY71zXGaCVJFR2dOqQGimnl1nHVMV8xl+P6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Rmaf/Wll3uf0MlDFPIUnZsTqrNE7ymawUAMqChDcXfA=;
- b=Uxord7CB8EBWHqSVj2Im66UOTltxYn7DqtH5XIroscvCN46m+6ZF7hMUKZCbCjHl4bKXLISuwQBJXgzwAVs+ho887fHA+BVxxsbmY32W/DgS1lxiOMdg1TOCSZ1QAc0nLsPpp9VmeVlUFtET3D9x4S+oX2s1WN23hPOWya+Q72zQGmKEXn39m5YK0403eoDi9QhJRzQkkUmX3oJF3X3Wx7ry4mD9uG9U4UKt/dy8ObBbsE3mylb7RGYIwji1lcfk2+2QVn0Z5+0DFpHTZ5n/KwuXRwCUCOBUJ17a17gnNGxAeFRIXNAMU5XmXQFWkFVxiTcQBxnxhRI/1yVn2DzB1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Rmaf/Wll3uf0MlDFPIUnZsTqrNE7ymawUAMqChDcXfA=;
- b=rCyY24hg62Wcvf4dEjJE0HfF7YEuqKVc/j8GuSldLdV2UJ15jEvA3MNv92uMoD0jcVJe//pRF5h+N/cpq7f7LwDlXk+XaoWOS0dqEfxit6puSdug9rCU/tRHvuFEDF0MhhDUKBNl3vsCP/qdLUkj44Mo8VzYmH0SVNc3M4iijnWwgEYBPW83IfDey2UGg1EHRR/S/rezGzQGrvskd8JVxmJqmQdPW875+H4VbO3Q3jvE1qMp1UmDoRl+v2RrDdES/1dvNrqTKQPf5FrjybT5HR64TvciX04mS2ueAYP+Z/bQmTmhZpgnGClPRRk0EstvD9Qgw+oqgYFPE7Lmst9JGw==
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by CY8PR12MB7658.namprd12.prod.outlook.com (2603:10b6:930:9e::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.13; Mon, 8 Jun 2026
- 08:30:57 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.21.0092.011; Mon, 8 Jun 2026
- 08:30:57 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 08 Jun 2026 17:30:53 +0900
-Message-Id: <DJ3J05KYZ0TO.1O4R56QTR8NOG@nvidia.com>
-To: "Lyude Paul" <lyude@redhat.com>
-Cc: <dri-devel@lists.freedesktop.org>, <rust-for-linux@vger.kernel.org>,
- <nouveau@lists.freedesktop.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- <driver-core@lists.linux.dev>, "Miguel Ojeda" <ojeda@kernel.org>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, "Alice Ryhl"
- <aliceryhl@google.com>, "Simona Vetter" <simona@ffwll.ch>,
- <linux-kernel@vger.kernel.org>, "Sumit Semwal" <sumit.semwal@linaro.org>,
- <linux-media@vger.kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "Maxime Ripard"
- <mripard@kernel.org>, "David Airlie" <airlied@gmail.com>, "Benno Lossin"
- <lossin@kernel.org>, <linaro-mm-sig@lists.linaro.org>, "Danilo Krummrich"
- <dakr@kernel.org>, "Mukesh Kumar Chaurasiya" <mkchauras@gmail.com>, "Asahi
- Lina" <lina+kernel@asahilina.net>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v18 3/4] rust: faux: Allow retrieving a bound Device
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-References: <20260604192740.659240-1-lyude@redhat.com>
- <20260604192740.659240-4-lyude@redhat.com>
-In-Reply-To: <20260604192740.659240-4-lyude@redhat.com>
-X-ClientProxiedBy: TY4P301CA0041.JPNP301.PROD.OUTLOOK.COM
- (2603:1096:405:2be::15) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F15CF3B47EB;
+	Mon,  8 Jun 2026 08:39:58 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1780908007; cv=none; b=RyxEpQ1T1mFHLZScb5qj5opHqqraXNjmDZPSztKj04YcujULtOC+zgDSY+LKGbdScAm4E+LOH5U56kxD7ILzcS/twGUNcHkvrhD6rQXOO/v9WERiwUE4k8qCtaB3XKBNQczWuwyBdjhKT+/qaW6e7fKOx5XSLqrIcaK17RJwHBA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1780908007; c=relaxed/simple;
+	bh=xi88rL4G15fuzvZFceKK6FGjELi+t7SXLh+2RdLSMpU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=pYdqkMwiW8O4zshmxYjWbihiwGlXuMp/z6eyerUNoAkLhm5PFoYaCFkBEChxtXnenaX06GLaUmcYfe9zBGk5krpD07BU66qt61/jFhrzPcqiAxnFotqTgi0lKT3CF2OPjmGjpbfCuTBkAEeYz2pnMrPfnEvku4cg0Xpu/6GCn+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Po3xp9d8; arc=none smtp.client-ip=52.59.177.22
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1780907942;
+	bh=vh3Y7BnNL0KNAVUUItSrK29bMof+p1LbCi2NyecGDPQ=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=Po3xp9d8iQ5Xcqu/YhSIby/F4dSCkBAlAvADnvFRq7pRUGg8GS40iBMwDm+HkFFOa
+	 zCQp4UkWIz92HIAMgzw+5R5FLtBD9JuV0PG+vAxRFnskT7bXLkG6PSRHQRFW9MftYX
+	 uFMa32NWFQWg6emVV9GW2g1pgZSRe5YKd+dTDR9Y=
+X-QQ-mid: esmtpgz15t1780907923tcb38a38e
+X-QQ-Originating-IP: GMbYBnF2GdFa2AUIpaC8/3TV0lWFeYQghvO0MOwDoaY=
+Received: from localhost.localdomain ( [1.202.39.170])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Mon, 08 Jun 2026 16:38:29 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 15237671978310835776
+EX-QQ-RecipientCnt: 11
+From: ZhaoJinming <zhaojinming@uniontech.com>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+	Oded Gabbay <ogabbay@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	ZhaoJinming <zhaojinming@uniontech.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] accel/rocket: Fix dma_fence reference leak on error paths in rocket_job_run()
+Date: Mon,  8 Jun 2026 16:38:24 +0800
+Message-Id: <20260608083824.775261-1-zhaojinming@uniontech.com>
+X-Mailer: git-send-email 2.20.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|CY8PR12MB7658:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6e5d8307-2a99-4407-7278-08dec538430e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|10070799003|22082099003|18002099003|56012099006|11063799006|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	V8ud9wF3ZakJJ60wX8U3khQJKVDQwdPoJyXVqfJEbVWtyOmPyPCQmDLZhY1dxzwi2rzt2jx+61SguLc11S5h4X/YYt+npZirkFs+0IPNAG6BR9hiW9NI5ICdZehAmIT9+p4003b6ptaOetJZ4VtAe8tCj63eaWkfZAqUhd7Fz1vUOwnX8IEu9AHPiGUlo0b7FJzWOIP2WS7wTq5I1bQBNigCII0gBy0PAoiJ5N/1MMQ1NVOTPZ1ARUraGetK6owWmbV7pAptX5IxFxcR5w5EAhn7/H8AmOgbcqrlHaPUCJAaKYFHotIAV5sztjHCOGEKyH8bAsloFiazBsgkFqPxsdVOGL4v2fj2RElvx8PHcnJG0mVc2zrBT92nXk1KkywI5t3v11gQRvrV11JaR91+F63v/6Xi1SsR/BliYrxub1g18fcBm/MmnpacNaufMp1CcJjqYql+ICUwLGwD1k9Wx+bJDe2oCjXxbB8VfNyV0di5SM7ylZxkyMiAg8mlz0jOxJLnUhS/F3WunHIfOwWq6bQlKl4cGMrr3MfxkUt/UPbOix0xopJVUSIbCv0CFGn830z82INdJTDGWsTYcUG5BFddQSBeTmxVFVjzpqRORe3j59zRk6NCBNM4JKrvlMAqgKevCPRZ6cpcri1Ifte2a2I3m1JOTNZDH0wr7S0yZBw3aVwtQ38t/ml8fyZA5yBP
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(10070799003)(22082099003)(18002099003)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?em1Dck52U2FvRVhQV3hXN3FDWWR0V2R0UWhJdjdoMy95YlVOZWVyd2pDVXFI?=
- =?utf-8?B?R2ZCQmoxaHdnbmRKVTJMNFcxYlBmSTZ6L1MwUjlnaEUrV2VCWVRtNjlxeWtU?=
- =?utf-8?B?S2FhbjBhd2JsSEF6R28xSmV2Tm1kbnZ1Y2lLM20wa0l2dGc3dTJmdGZWbG1n?=
- =?utf-8?B?VGJ3Vi9SRjVjVlFPdHhwaHdZaUV3VEVSeG1iMnA3VHhCUGxIdjROTHFNM0RT?=
- =?utf-8?B?SFk5SHZOQ2VFNlgxQUcyZnkxcGMrYUtnbGtvUEpUa09SNjJRaHovbGFVZThV?=
- =?utf-8?B?MFdaR1o3TW5qS0tTbXV0WmhzbDhFamhBT05IOCtGMVArOUVmRFphQnpwNkZM?=
- =?utf-8?B?RUJQZlVvZlExMXVJQ2pzaW1idmlyM1BtMEllUmJIMmltK0JlYXc0T3gvcFhz?=
- =?utf-8?B?ZHZkeHVzWFlzVFVvOXF6RUdaelpxWGNEVUpHUjZxbE0yUWZrV0VjYWtXL2h1?=
- =?utf-8?B?RDh0Z2Nic0NlclUrM2RsQno5dEZ2SDVtK1A4cFROQzQzeVpVQkFCVGw3ZW8x?=
- =?utf-8?B?RkZPRHlkQXFtWXNDSVdBbFlqSDVmUGY2Vm9POG4yYis2OXhCN0o5RVpvbnhs?=
- =?utf-8?B?ZGZmQysySkZpTmhSUFZCQzBGQ2xGbk5tVk5VZjhHaXdaaytoODUyYUg0N2xN?=
- =?utf-8?B?UmVOdnZ1Zk5HZ1ZRZy9HUnFiNU5mUkNud3F6c24xbGtVYWNUbkFNeXFFMklk?=
- =?utf-8?B?YkRDQWVDcW9GOHVOaGhlUXdNaU9tYlFNZWlkekgrRXJwbGVoUUV3ckVBZWVU?=
- =?utf-8?B?RytQeEZaaWtxSk1ZSXBWMTl5QXMvcDdpNXVXaVJwZktZL1JGNVRibzIxOG1E?=
- =?utf-8?B?NUxmMkIzRmQrbkdrUm9KeVEybk9MTmlaUWp6WHZaNEtPbzIrRXpqc3BUUm9X?=
- =?utf-8?B?MWtxMld6WjNRS0d4TUh4QytLM055MTlMVDEzYzFyZC80Si9IZzRjUnFIUGw1?=
- =?utf-8?B?Skx6Qkd1QVJUWHdPSVlib1RRcjV3MFhXZ0d0dll2YXY4U01KdE5pUzQ1eDl0?=
- =?utf-8?B?alZMdVJZbkUyNW5zWmRaU1JkUDNHWDR6d003K1dzNUxnOExjV2dvNEN6eEdn?=
- =?utf-8?B?YWxic0MwazUyenJMbXI4cTJWRzBJWVJvV3lYRmJiM2QwV0J2ZFhjeU90c1lo?=
- =?utf-8?B?MUFqbUh4RWc2TVdoVTg2UmVPL1lZYnl3NjIrOEZpMDNZcmJJa2ZwNzFIU1Er?=
- =?utf-8?B?TGdCaVdyOHhNTTdlYUV0cmJaRzZrL2xGc2oyMGJIS1U3ZlM2MWRJTVdYak5a?=
- =?utf-8?B?RU5kVGphZlh4TGpFby9KMDQ2bW45Yk4xby91b3V1Q0hsY0FJdTI5dm5TTS9t?=
- =?utf-8?B?Y3Irek9YaWRGVE9sSmF2T1lvMXE4c1VqYzNJbFY1OTc1T3pXbG5lMHpUU09Q?=
- =?utf-8?B?MWNzSGsxMWRmSGhLRCtLZ1lsRzFaN3AvdUtzQkFsNk1BQk1oU1lETlg4VlN6?=
- =?utf-8?B?amlzSS84S2NrSGJHVjJ5UE54elJFWFN4VVk4dWlnbEw5SC9mYWd5MUF1Lzcv?=
- =?utf-8?B?S0p1TmI0YThkdjltcWQxNDVCdzFqK0N6Zk1vTUc3ditCVGRFUjV2eFg0NUdD?=
- =?utf-8?B?Q0tkeHZBRGNpcWIycDZqNmpRVUljOUtvODdYbEFETEhpVXdtNkREd3BQby9v?=
- =?utf-8?B?OFF5NW54ZmdaUGF4c3c5NWdPR01EWWZXM0QwNHJySG9zUFBYZlprU1lMajFh?=
- =?utf-8?B?Mk9uZWo1UkpPd0tQSGpPMTdSQWhSODQyN05xL3IwcU1DWjJVNUZPMVRPVENU?=
- =?utf-8?B?cHZxL09UdkVDby9Bd3AreFJWdEhrRWFzSEVhdWdPNXBXeEwvUDJ2R1N2elJs?=
- =?utf-8?B?MkdBSTlXMWNNWGVmSEpQVnRhOVhsOGFndHdFa2dyVlNPT1ZkWDEyQStrYzFN?=
- =?utf-8?B?cXZadlI3bGY4bnlCa2JBbERiUWFlcmU1OE5iZVVsSE5JbE8rVkovZ2JsZjRl?=
- =?utf-8?B?NFhlMms5UERSWFBCQ04yWVJSM3FiakFwQzQyV2ZvWEJqdDZTSktkakJqTnIy?=
- =?utf-8?B?T1hDS0c4YTlxZ2c2QlhHNWtRYTVKbmhpYzUvTndLSTViemdsS3loYURZRXRu?=
- =?utf-8?B?RmxqNW9Ka2ZlNVhBN1pMWXFLdHRmN1Q4bk5zQmFteEpHZFB3cm95TjlxNHFE?=
- =?utf-8?B?bnRyZHpkR1pONkZzMjFwbnZ0cktyakxmQ216VE5TRisvQkFDKzd0S0pDQVZ2?=
- =?utf-8?B?UW4rYkI1TUgvb2p5d2JLeVdQSXRiaVlFSloxaWtLbGNQTXZsSkZoNGFLUXln?=
- =?utf-8?B?LzRRaVdnUHVndHBocXlJRGZWWmhwdGJxaWhyeDE5cjVzbWNYOFBzZ2lXdnQ4?=
- =?utf-8?B?OVpxM2hCa0Z2ZVV5d0x4MWNDZVBWaVVrYUZ5NUNTZSszalAyTDhQejRxN1hs?=
- =?utf-8?Q?Yk1vDB1igJqzz5la57Cu9SOgR545VFT6A4V9bUj0KLN9j?=
-X-MS-Exchange-AntiSpam-MessageData-1: dxG1zWeNfJXQDQ==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e5d8307-2a99-4407-7278-08dec538430e
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2026 08:30:57.0295
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8TacqNG/w9aTh2CJJvCZb+5tDA6fbvC+N0VY/o5ACSC1Oq+2Jd0h4RwYNlINOlbqCrY55TtSa4VMY8cEntG8iw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7658
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz4b-0
+X-QQ-XMAILINFO: NQUKSFCHyTwkLQRJTVbP9k8ORZLuNn7VwLZ6NHZ9lzNCQ2YWidj0Yznm
+	O8jBEb34cHrMctBE09y+mm1WJf4IvJL9DeUW7x8mRC+2FmcEoVutqoLp5gHElVHbhgOuR7W
+	qf0BI1AqpP1N1TGSbWSS6MrruGP3bxyPH5FEv5XADwvNRGAT09mpGJlYEAgaTunhzKnqIwL
+	9RPHVuvbEAvxT0z60u34AdukyK4ljYKVDKMom8Zoz9CS4DqSPbm4/Wc5OWaDZ0ESfyyKacr
+	CaN93sh3SsTof5Y+nhSbEcAAPOvPOeWMYN6pbSiW2LJ2BHKqoFtzFPiM7WN4dMoE4IO545q
+	7D3ovkeMEkTgEnwkUMORNXh2tHRPDVUkZQkUMUuqky75foI/lfC18WHxcmgf/VF26pggJIK
+	EVspUoLORmgeQw8NIsMPlxfcsDysyqa9Fk4diUeN8MLEPJaEWEa9RKDDrcdqbQ1sUKhbxsT
+	bBHAVf9Po7IdUOMECKRc9naXnY2AKGM9b18my3RHN8CL4XdxxDNTQWSkRt7tr/zCR1q8Nqj
+	GY5WA1nUqZWkqklWFyyAfjPu07EaZsgtQy2OKCSaA53DwenHcV6LGKZ12z/+Hwz5+u7T6MJ
+	iHoYGFxSMveJrqZvFdHftZ5ZZ4o4WsF/ez6vvMsPzfy9Dyw2+w2R27GV90CwvZZOHLzzlid
+	RYLOfqRztPVD+QjwJ7iJIHpbKDHSMSAABs6uTyJp0MGD1CzoYNr5jT94krCFnJo7Ve0QkOV
+	Ppbf7dyU4APDY8NwT8iZqgcrj7w2U4LVAOODQZwpzMvQ+5qFVqb/TdbcWu4zDqK3DbplMzd
+	wPpAcO7OtlqYTqmoeW5zx8KGC+rUTfAOp5M2NcL+vZOeiMmyTacVXAU41U2w5XW/JU77k3X
+	/PVG8s/l2bFrwm0WChnwuLxWa5dxp2p+l33jgjBatNWSKcqbcF383feFKE7aBH3rsPIA3BX
+	+Nn6QkQK5+oK06pXb8egcmLS6VEO8MBewso1EPg/1Kaj6M6c9Efck6CEujlDmfba1heOjaP
+	n6cVIj++ZNrkikVAWXlliaf8EFGs4=
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+X-QQ-RECHKSPAM: 0
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[nvidia.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[Nvidia.com:s=selector2];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[uniontech.com,none];
+	R_DKIM_ALLOW(-0.20)[uniontech.com:s=onoh2408];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[25];
-	TAGGED_FROM(0.00)[bounces-64156-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-64158-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:lyude@redhat.com,m:dri-devel@lists.freedesktop.org,m:rust-for-linux@vger.kernel.org,m:nouveau@lists.freedesktop.org,m:gary@garyguo.net,m:christian.koenig@amd.com,m:driver-core@lists.linux.dev,m:ojeda@kernel.org,m:maarten.lankhorst@linux.intel.com,m:aliceryhl@google.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:sumit.semwal@linaro.org,m:linux-media@vger.kernel.org,m:rafael@kernel.org,m:tzimmermann@suse.de,m:mripard@kernel.org,m:airlied@gmail.com,m:lossin@kernel.org,m:linaro-mm-sig@lists.linaro.org,m:dakr@kernel.org,m:mkchauras@gmail.com,m:lina+kernel@asahilina.net,m:daniel.almeida@collabora.com,m:gregkh@linuxfoundation.org,m:lina@asahilina.net,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:tomeu@tomeuvizoso.net,m:ogabbay@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:jeff.hugo@oss.qualcomm.com,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:zhaojinming@uniontech.com,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[acourbot@nvidia.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,garyguo.net,amd.com,lists.linux.dev,kernel.org,linux.intel.com,google.com,ffwll.ch,linaro.org,suse.de,gmail.com,lists.linaro.org,asahilina.net,collabora.com,linuxfoundation.org];
-	FROM_HAS_DN(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[zhaojinming@uniontech.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[acourbot@nvidia.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[Nvidia.com:+];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[zhaojinming@uniontech.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[uniontech.com:+];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,kernel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp]
+	RCPT_COUNT_SEVEN(0.00)[11];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 61FCE65423D
+X-Rspamd-Queue-Id: A83C865443A
 
-On Fri Jun 5, 2026 at 4:24 AM JST, Lyude Paul wrote:
-> When writing up some rust code that used faux devices for unit testing, I
-> noticed that we never actually added the Bound device context to
-> faux::Registration's AsRef<device::Device> implementation. This being sai=
-d:
-> the Registration object itself is proof that a driver is bound to the
-> device - so this should be safe.
->
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
+In rocket_job_run(), after creating a fence at line 305 and taking an
+extra reference for job->done_fence at line 311 via dma_fence_get(),
+two error paths fail to release that extra reference before returning:
 
-Reviewed-by: Alexandre Courbot <acourbot@nvidia.com>
+  - Line 314: When pm_runtime_get_sync() fails, returns fence without
+    putting job->done_fence.
+
+  - Line 318: When iommu_attach_group() fails, returns fence without
+    putting job->done_fence, and also omits pm_runtime_put() to balance
+    the successful pm_runtime_get_sync() at line 313.
+
+The leaked fence reference prevents the fence and its underlying rocket
+device from being freed while job->done_fence still points to it.
+Repeated failures will accumulate leaked fences, consuming kernel memory
+and holding device resources indefinitely.
+
+Fix both error paths by calling dma_fence_put(job->done_fence) and
+setting job->done_fence to NULL before returning. Also add the missing
+pm_runtime_put() on the iommu_attach_group error path.
+
+Cc: stable@vger.kernel.org
+Fixes: 0810d5ad88a1 ("accel/rocket: Add job submission IOCTL")
+Signed-off-by: ZhaoJinming <zhaojinming@uniontech.com>
+---
+ drivers/accel/rocket/rocket_job.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
+index ac51bff39833..66e4a1d57842 100644
+--- a/drivers/accel/rocket/rocket_job.c
++++ b/drivers/accel/rocket/rocket_job.c
+@@ -311,12 +311,19 @@ static struct dma_fence *rocket_job_run(struct drm_sched_job *sched_job)
+ 	job->done_fence = dma_fence_get(fence);
+ 
+ 	ret = pm_runtime_get_sync(core->dev);
+-	if (ret < 0)
++	if (ret < 0) {
++		dma_fence_put(job->done_fence);
++		job->done_fence = NULL;
+ 		return fence;
++	}
+ 
+ 	ret = iommu_attach_group(job->domain->domain, core->iommu_group);
+-	if (ret < 0)
++	if (ret < 0) {
++		pm_runtime_put(core->dev);
++		dma_fence_put(job->done_fence);
++		job->done_fence = NULL;
+ 		return fence;
++	}
+ 
+ 	scoped_guard(mutex, &core->job_lock) {
+ 		core->in_flight_job = job;
+-- 
+2.20.1
+
 
