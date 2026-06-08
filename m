@@ -1,217 +1,178 @@
-Return-Path: <linux-media+bounces-64205-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64206-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id nEY6NCXaJmphlwIAu9opvQ
-	(envelope-from <linux-media+bounces-64205-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 17:05:09 +0200
+	id xeBHFszbJmrPlwIAu9opvQ
+	(envelope-from <linux-media+bounces-64206-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 17:12:12 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA90E657CC1
-	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 17:05:08 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7EB8657E19
+	for <lists+linux-media@lfdr.de>; Mon, 08 Jun 2026 17:12:11 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=pQe3JKux;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64205-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-64205-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b="mX/JpbM3";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64206-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64206-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 75BAA31012E4
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 14:48:54 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 280E93371E3E
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2026 14:52:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C03D3EE1DB;
-	Mon,  8 Jun 2026 14:42:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60FF73DA5C7;
+	Mon,  8 Jun 2026 14:43:29 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E753EC2F7
-	for <linux-media@vger.kernel.org>; Mon,  8 Jun 2026 14:42:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 926423F074A
+	for <linux-media@vger.kernel.org>; Mon,  8 Jun 2026 14:43:18 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780929727; cv=none; b=r9qkK8THrqzNxsJd5oTtKgZ1AUh8GOGdxpVHTHBu5TJ3MgzutbeF5fXa+IWmTnl7S6Bub7NTIt97s7wjzySE6kHFTysDtWk8BiqQiEiK1CJ+zNnL/EV1MJwyg2rdoWHVb1HomyRb7d5H1CPmDR4oIAAIXIsqmTstvrLPwWkh5Ek=
+	t=1780929805; cv=none; b=Az3S7XV+LJR4e54/OVhavaFWE564WIfROqRkwTaqSzR5EK3S1bL0ySvyWgrJ5Jzt78VDrxvX4aV2dusX1yjWQSN+8HgHGPAgpMg1PdBVYkgxwVfEJ26+cH++uhoRbh0HiVGmABmOhtvoIW23H8i1tUk6bQs8k1HxaPJI45t7GJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780929727; c=relaxed/simple;
-	bh=YHxid97Kffr9RKo3SboMCIdkuqcCSOevLEackEJCrGI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HQcg5Dkr1yXOZ1jZ9MnCuJWiIieBl/zxkdkpsCkmi9+hhpWf9Sx0BGZg2DJ9EWUz92SEaiZJLb4c/bclwcaimEZFSVwZHcIl6O48NIpA+4XOHOs99i010zcZjDaajPiq9pUdGKFunq+e4edrw4bfvapVuN7iTEVkw+Py/jS0K/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pQe3JKux; arc=none smtp.client-ip=213.167.242.64
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F2B5FD0;
-	Mon,  8 Jun 2026 16:41:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1780929694;
-	bh=YHxid97Kffr9RKo3SboMCIdkuqcCSOevLEackEJCrGI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pQe3JKux/0dF+p3mIhy563ygiS9EThWkNZMCus1ckbgA4RkNqhddxXFIyOTVaO65l
-	 faS6BWd5KWA4kpij1HCH6iFfPrLfgIUPzfObGKnWnWoTazjleBFXzZGNSHpvVENhLW
-	 jy4ngg9+oEdhz1T4Zh1sx5Moxyw7Ni6U6yjyN4TI=
-Date: Mon, 8 Jun 2026 17:42:00 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v5 04/10] media: imx219: Make control handler ops for
- PIXEL_RATE NULL
-Message-ID: <20260608144200.GB380394@killaraus.ideasonboard.com>
-References: <20260607215356.842932-1-sakari.ailus@linux.intel.com>
- <20260607215356.842932-5-sakari.ailus@linux.intel.com>
- <20260608073653.GD370380@killaraus.ideasonboard.com>
- <aiZ0a3nGqp6N7GD3@zed>
- <20260608080338.GF370380@killaraus.ideasonboard.com>
- <aiZ56IgNJ2FeXN0o@kekkonen.localdomain>
- <20260608082426.GA380394@killaraus.ideasonboard.com>
- <aiaXotTu4l4ZWzkd@kekkonen.localdomain>
- <20260608102755.GF772117@killaraus.ideasonboard.com>
- <aibH1-5PxiHpVdsf@kekkonen.localdomain>
+	s=arc-20240116; t=1780929805; c=relaxed/simple;
+	bh=0M/wop0v95SHUASaDEv81290Buwc1hbSTX3e6J5XV6I=;
+	h=From:Subject:To:Cc:In-Reply-To:References:Content-Type:Date:
+	 Message-Id; b=CKXl0yzm3BwaYubp0NSZ262mx2d2u+mje4jruJIAA8spWSA5qZK9qo2RKGczsactgIc+W1YxXDOXYPMI0Ijd7FZdrfVw6KIMYZIUeYOz5Z9iIQgEqI21uzLdto4UfVAyB/nv2hnPnAO23I+ZkjSytK3hATLn14H0pPPvTwtT26c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mX/JpbM3; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E94611F00A05;
+	Mon,  8 Jun 2026 14:43:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1780929798;
+	bh=SiOz+EaWQLpTNnWUBed/5uaugQ1N9TW/odXdDg4bV4M=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=mX/JpbM3gF+YZWlzAZb/nNlVGDn3xt6Bc3QW++Hb/LOntTh+SH0RpDUGWKuLaV41N
+	 lmiHjBSiq9daZtI7WOtZ0V4pamMjzuz4bCj9ud7D8RwiYCEAI5nOIpr/Qzz/G+aloZ
+	 g2gWhOA2Fhjp8r25Ok4Jhe8c+K3wpiaymfkVDPOo9ZH3CAhej8mGfjlDPuocSTz3V0
+	 iCfYivr9Yy0Q76a2JnsG4dkKowkKPSYYfdZ+oyakmHJIdZ5OTNwC/7tK8lclvDzpGc
+	 Wzi0bQJKVM4YTw8LdcJQJ/fw+Da144+ZhimC6jrW3ta954aEkkofFEuBYInDtojt7o
+	 1cyv6u9MH1d7w==
+From: sashiko-bot@kernel.org
+Subject: Re: [RFC PATCH] dma-fence: Fix races of fence callbacks versus
+ destructors by locking
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Philipp Stanner" <phasta@kernel.org>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+In-Reply-To: <20260608142436.265820-2-phasta@kernel.org>
+References: <20260608142436.265820-2-phasta@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 08 Jun 2026 14:43:17 +0000
+Message-Id: <20260608144317.E94611F00A05@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aibH1-5PxiHpVdsf@kekkonen.localdomain>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	MISSING_MIME_VERSION(2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64205-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:hans@jjverkuil.nl,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:dave.stevenson@raspberrypi.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:dongcheng.yan@intel.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:tomi.valkeinen@ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:jai.luthra@ideasonboard.com,m:r-donadkar@ti.com,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FREEMAIL_CC(0.00)[ideasonboard.com,vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-64206-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	REPLYTO_DN_EQ_FROM_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[sashiko-bot@kernel.org,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	RCPT_COUNT_THREE(0.00)[3];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NO_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:from_mime,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	HAS_REPLYTO(0.00)[sashiko-reviews@lists.linux.dev]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CA90E657CC1
+X-Rspamd-Queue-Id: B7EB8657E19
 
-On Mon, Jun 08, 2026 at 04:47:03PM +0300, Sakari Ailus wrote:
-> On Mon, Jun 08, 2026 at 01:27:55PM +0300, Laurent Pinchart wrote:
-> > On Mon, Jun 08, 2026 at 01:21:22PM +0300, Sakari Ailus wrote:
-> > > On Mon, Jun 08, 2026 at 11:24:26AM +0300, Laurent Pinchart wrote:
-> > > > On Mon, Jun 08, 2026 at 11:14:32AM +0300, Sakari Ailus wrote:
-> > > > > On Mon, Jun 08, 2026 at 11:03:38AM +0300, Laurent Pinchart wrote:
-> > > > > > On Mon, Jun 08, 2026 at 09:53:17AM +0200, Jacopo Mondi wrote:
-> > > > > > > Hi Laurent
-> > > > > > >   sorry if I reply in place of Sakari but I got this fresh
-> > > > > > 
-> > > > > > Thanks :-)
-> > > > > > 
-> > > > > > > On Mon, Jun 08, 2026 at 10:36:53AM +0300, Laurent Pinchart wrote:
-> > > > > > > > On Mon, Jun 08, 2026 at 12:53:50AM +0300, Sakari Ailus wrote:
-> > > > > > > > > The PIXEL_RATE control exists to convey the value to the userspace and has
-> > > > > > > > > no configuration that would need to be programmed to the sensor. Make the
-> > > > > > > > > control handler ops for the PIXEL_RATE control NULL and avoid a warning
-> > > > > > > > > (as well as returning an error) from the driver.
-> > > > > > > >
-> > > > > > > > I thought the standard way to handle pixel rate being read only was to
-> > > > > > > > set the V4L2_CTRL_FLAG_READ_ONLY flag, like we do for e.g.
-> > > > > > > > V4L2_CID_LINK_FREQ. Is that not correct ?
-> > > > > > > 
-> > > > > > > PIXEL_RATE is RO by default
-> > > > > > > 
-> > > > > > > drivers/media/v4l2-core/v4l2-ctrls-defs.c:      case V4L2_CID_PIXEL_RATE:
-> > > > > > > drivers/media/v4l2-core/v4l2-ctrls-defs.c-              *type = V4L2_CTRL_TYPE_INTEGER64;
-> > > > > > > drivers/media/v4l2-core/v4l2-ctrls-defs.c-              *flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> > > > > > > drivers/media/v4l2-core/v4l2-ctrls-defs.c-              break;
-> > > > > > > 
-> > > > > > > The purpose of setting the ctrl_ops member to NULL is to avoid having
-> > > > > > > to handle RO controls in the driver implementation of .s_ctrl().
-> > > > > > 
-> > > > > > Shouldn't the V4L2 control framework avoid .s_ctrl() calls for read-only
-> > > > > > controls ? I thought it did already.
-> > > > > 
-> > > > > The control may be read-only on the UAPI but the driver could still do
-> > > > > something about it in its s_ctrl() callback. I don't know if any driver
-> > > > > depends on this though.
-> > > > 
-> > > > It seems to be one of the many areas where control handling should be
-> > > > simplified for drivers.
-> > > > 
-> > > > In any case, the imx219 driver creates the V4L2_CID_LINK_FREQ control
-> > > > with a non-NULL ops pointer, sets the V4L2_CTRL_FLAG_READ_ONLY flag, and
-> > > > does not handle V4L2_CID_LINK_FREQ in imx219_set_ctrl(). If there's an
-> > > > issue for V4L2_CID_PIXEL_RATE there is also an issue for
-> > > > V4L2_CID_LINK_FREQ.
-> > > 
-> > > The ops should be set to NULL for link_freq as well.
-> > > 
-> > > > Maybe the best short term fix would be to drop the dev_info() in the
-> > > > default case of the ctrl->id switch in imx219_set_ctrl() ?
-> > > 
-> > > Any reason why not to set ops NULL instead?
-> > 
-> > Because that seems to be a hack. Drivers shouldn't have to set a NULL
-> > ops pointer for read-only controls, when there's already a read-only
-> > flag. I'd like to simplify the code on the driver side and handle this
-> > in the control framework, not adding yet another arcane rule that most
-> > driver authors will not be aware of.
-> 
-> I don't think I'd necessarily call it a hack.
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] Double acquisition of the fence spinlock in `__dma_fence_enable_si=
+gnaling` causes an unconditional self-deadlock.
+- [High] Acquiring the fence spinlock in `dma_fence_set_deadline` causes de=
+adlocks with backend drivers.
+--
 
-It's still yet another undocumented behaviour to will be copied through
-cargo-cult in a subset of drivers, making the code base more difficult
-to understand and maintain. The fact that this patch addressed the
-PIXEL_RATE control but not the LINK_FREQUENCY control proves my concerns
-are valid :-)
+commit a0ed8f208472e7d15328c05be3bdfe3b20342e3b
+Author: Philipp Stanner <phasta@kernel.org>
 
-I'd like to see one scheme clearly documented, and used by all drivers.
-Let's first focus on selecting one scheme and documenting it. Hans'
-opinion would be useful.
+dma-fence: Fix races of fence callbacks versus destructors by locking
 
-> The control may be changeable, but not by the user. If the driver is just
-> setting the value without going through the control framework, control
-> events will be omitted.
+This patch modifies dma-fence backend operations to take the fence lock
+before executing callbacks. This aims to prevent races between a driver
+signaling a fence and freeing its resources while a callback is accessing
+driver-specific data.
 
--- 
-Regards,
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+[ ... ]
+> @@ -629,7 +629,8 @@ EXPORT_SYMBOL(dma_fence_free);
+>  static bool __dma_fence_enable_signaling(struct dma_fence *fence)
+>  {
+[ ... ]
+>  	if (!was_set && ops && ops->enable_signaling) {
+>  		trace_dma_fence_enable_signal(fence);
+> =20
+> -		if (!ops->enable_signaling(fence)) {
+> +		dma_fence_lock_irqsave(fence, flags);
+> +		success =3D ops->enable_signaling(fence);
+> +		dma_fence_unlock_irqrestore(fence, flags);
+> +		if (!success) {
 
-Laurent Pinchart
+[Severity: High]
+Will this cause an unconditional deadlock?
+
+Looking at the beginning of __dma_fence_enable_signaling(), there is a
+dma_fence_assert_held(fence) check, meaning the fence spinlock is already
+held when entering this function.
+
+Since standard Linux spinlocks are not recursive, won't attempting to
+acquire the same lock a second time here immediately deadlock the CPU?
+
+[ ... ]
+> @@ -1020,11 +1024,20 @@ EXPORT_SYMBOL(dma_fence_wait_any_timeout);
+>  void dma_fence_set_deadline(struct dma_fence *fence, ktime_t deadline)
+>  {
+[ ... ]
+> +	dma_fence_lock_irqsave(fence, flags);
+> +	if (!dma_fence_is_signaled_locked(fence))
+>  		ops->set_deadline(fence, deadline);
+> +
+> +	dma_fence_unlock_irqrestore(fence, flags);
+>  	rcu_read_unlock();
+>  }
+
+[Severity: High]
+Could taking the lock around this callback cause deadlocks with backend
+drivers?
+
+Historically this callback was invoked unlocked, and multiple backend
+implementations (such as drm_sched_fence_set_deadline_finished or
+msm_fence_set_deadline) explicitly acquire the fence spinlock internally.
+
+If the core now calls them with the lock already held, it appears they will
+deadlock trying to acquire the non-recursive lock again.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260608142436.2658=
+20-2-phasta@kernel.org?part=3D1
 
