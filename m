@@ -1,91 +1,92 @@
-Return-Path: <linux-media+bounces-64307-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64308-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id kgsmBysfKGpI+QIAu9opvQ
-	(envelope-from <linux-media+bounces-64307-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 16:11:55 +0200
+	id UOqsLQwwKGo2/wIAu9opvQ
+	(envelope-from <linux-media+bounces-64308-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 17:23:56 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 885E9660DEB
-	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 16:11:54 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id B66C6661B31
+	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 17:23:55 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=amd.com header.s=selector1 header.b=FJpt+XRl;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64307-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64307-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=amd.com;
+	dkim=pass header.d=nxp.com header.s=selector1 header.b=mHvWoCnR;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64308-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-64308-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=nxp.com;
 	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id BD3FE30048FD
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2026 14:03:57 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 3605E3025F9B
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2026 14:54:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E1FC30E82C;
-	Tue,  9 Jun 2026 14:03:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DCED35DA6F;
+	Tue,  9 Jun 2026 14:54:41 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010003.outbound.protection.outlook.com [52.101.201.3])
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013048.outbound.protection.outlook.com [52.101.72.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EF2E27FB37;
-	Tue,  9 Jun 2026 14:03:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E8B53D333E;
+	Tue,  9 Jun 2026 14:54:36 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781013831; cv=fail; b=L2mkQzYGc+/4EGzzyQ21pAONeziUrRbAIWcYrMNfzAK9TMO+Ge5TqkaQUrpVjaOyr067+n4vFhK8ZTrZ1n1D/wpBq9LV78L+ded3a/UIc1E/becHGQ9fC2gVsqkmHftGLy00JYuc3SCwRl1DDFyGJ7eCPLf8JRUsCUtWsAxnWkI=
+	t=1781016880; cv=fail; b=F11fE5eO9jhOpvGb6xu44do+cuf94RnEOZB9nxN+oH70GhiuYT9CqAO0Y758Q2jguVTLIcE84uhO5vQwE/N7z/VNY6LVBdT8YY2LzxcKe5lfjRBeUydzZw5Pplfbqez4Y3s8XnRBAAorp4z0Pr/l7eW5E6gDzjq03U3vcPb08xo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781013831; c=relaxed/simple;
-	bh=/KRm/h+Pe7YrJuMqzBZ4P9UgXY5TN96qR+OYgFEL0KI=;
+	s=arc-20240116; t=1781016880; c=relaxed/simple;
+	bh=TlTTq1rjuVtZLS8rqLC5GLBfsxzMzjjWXQ6LUqBTFBM=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=kHtg4PBRg9O7+YgBpEiKMMMjbxqdCQY7Kw3GHPXCFXY2nbyDqBkDBGLUl2mvp6wmDZOKl9ME7F0XpZPSWdyjbUHBYm33qz2RjR/JonPiCh/z2dDi+tq7vmce/m8BeXRfdvCbKV8LCCd9iffuud+KemCQ0i+js5YJWlgysavNQ+M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=FJpt+XRl; arc=fail smtp.client-ip=52.101.201.3
+	 Content-Type:MIME-Version; b=epwgqlhw0BGCqyX4tJ3Z4l/wDep2dZLDkqxKsTkb78WCEAXNw/TPzhnYjRvB1XOP25gNo4uoAcNyYlR0/mQ4AG+p4qyluOw4m1vIV09nsngnD2obtm9xUwLizQ9BIrSTyWZLqGZFiQlLCN53JD3THAOeFm2c05pUBi86Nc4X0k8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=mHvWoCnR; arc=fail smtp.client-ip=52.101.72.48
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=drxyKcftM25K4tGQ7c7tRbSlkTANd6EnnqmKUWlPOO73Fnwsxv7kL+i2JHGSRBF8CO5KTVrp7dClWtgDSZfJD179lZoKtzr01mA20xyzavQlW2i57XQINlPiU6YhBt8/xVRutWljH9z6iL1mao8Pclu0fKwQqf0c86X8g3QU7bO5le2rtHE5P4zJmTutZ9RR3f/gk1HK9t7I8x2KgwbWGyabOBCy2su7bWOWwtdQOVEvu8QWaejwNIl0qXyJ4Bh7dQds/WGLRsVWFHsAgcVbRTLwqOWZBrf8cOXZtPK6L7hzy6dgLm9ppQ39LvyEiMBoFONkrMQ0IEd/uPwZlodGqA==
+ b=KdzzZ9te+0vVUStBvJXZgAiuqlkJfg8pQ9IcaOl7qE7cnRPYLcnv/d7y9nXwGpo82GJi2uljPavmBsPEdt60xrkKCrnSGqwuLWrm+Ql8CcG+6Nc9vg4SyxWHWHK0D4ZWOQmMLue24P4p5jBv0IIumUmAu6C4Ec2pBKigAvqQLOdNfZTeoiMMwgpM0uyOuZ6uH4w9KIAyPlLePRRF5d3h7s/ikhy5JZC+qeC4Zor2HKukNa8pHwBvnpsuJPbXTJymaN48tVCkc1mb7U0vFOiwAwsh2o1OnsehU7mhgcHSxyl4Ksmrh5CoQKyOoiPcZjlVWg3S/6Mkuq75JYbE3XxVhQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SPQp16ipUfkxDvXV7pp7ZmJ3jcN+rr5FOgqubToxWNE=;
- b=mc+yPCZk6WT9UIoX3TbBUbmFfEwCDBUh6ZsuawNpiQYWNGolT/P8rGdM1jndPySG1Ci76JVPEWRID9lwNY/9T45pUtVOIajZ2ZsHtHu0qEHyjUm50Ij+6bje4tTIoqRW/IfyFwaeBcTDle3K+sfvvpAoRqKJgZBQH0Un20OP/zz+TxUC6UqKZtzt/otOLrUvsP4arIx2LpfFryH2FGQyMBlDsYRzj3n4zKz0asgNsD2V49bRFU6Lif8bzI4BdZl+oPSTTV50DodHc75FzrBX0q6wkgOFmmz5G5LuYtEeIvnDdBSAGSjN12mRbdjTWbOvdkK+KTheaRHqBCLXB0BEwA==
+ bh=zmtr3pmg+kNhKR8h+zUIslc23AL9v8UVDJYGb962i/c=;
+ b=ScxEOgiercOzufaiMnTrNV8pirFUnE6kVAU+56RbCfRU9UC2OZjG5JgEA5MmMkmi8UIdLMITj09ltOHR6tE7/VVF4s6YTlPFIct5QaX/OuseQE7oS9BomeQOfSldIO6brvb4dZkBZrgWnDd/RjkCBa5Y8fsAwSkCopXPeBBmAWu8X+TSMgDQsKEogOFVFjkF30iMMzrXU6xm9SXXPYna/KhDtFufhgQVTXkheCt+VTcMQX7jB/Q36BzkiYNDfAwkotPhXTNo1shkoAWOr0Sutf/+k+CjHdy0lV59tYQxDxfhV/WmhJ1Q34GECkkWa7newh3Ze+Oi4EicVChbw68T3A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SPQp16ipUfkxDvXV7pp7ZmJ3jcN+rr5FOgqubToxWNE=;
- b=FJpt+XRl6FozYr9+vb5hI1PfK9syUJqJMjLRLGm1CJAMexSpt7lei1ag8kPY/t2S5izTHoi4XicQlq0KD+gss0b9cIS0ArGZiq5RGz8pM3mqPPlBp2WmJHWCzFk5kle+wa2UGNZ1F7HmgPa0elhJSBDe/sbNQV58SGzUnXAE33s=
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DM4PR12MB6349.namprd12.prod.outlook.com (2603:10b6:8:a4::8) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.92.13; Tue, 9 Jun 2026 14:03:44 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0092.006; Tue, 9 Jun 2026
- 14:03:44 +0000
-Message-ID: <c5aa9dbb-79b5-4d97-b46f-31c28af0aafb@amd.com>
-Date: Tue, 9 Jun 2026 16:03:39 +0200
+ bh=zmtr3pmg+kNhKR8h+zUIslc23AL9v8UVDJYGb962i/c=;
+ b=mHvWoCnRWxL0AT3UupnZacevS5dmTd91xv4WIjVEuy2GZq1iu3i20Tz8+huHWXlIRvYFYEUkpVWPCKTCD3JyPFVvyQJPrahdn4sTwNcu7WBmwxVJuwtiPqoWprA4QHcSxcXmKia9Vi2AW65hKOtGfq9/ZrZlqLO1lwIQK3wqqvxaXhJApnnhkvhVUvDy6ZX3fJg9TEXibSOYW1Yan+GffW7E+Cv0wISvcY+2vB+lNKjbRLHJFVp0YnhlCIbBhWkNA2fMXhPNuMX7DwKKgwATJ6JIwrIyicKf3N0CayuZ1TPL2GwDI53bslw10sczgQIE3krL4L9m3oMkhlXXCNxAwQ==
+Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
+ (2603:10a6:102:516::16) by DUZPR04MB9899.eurprd04.prod.outlook.com
+ (2603:10a6:10:4de::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.14; Tue, 9 Jun 2026
+ 14:54:32 +0000
+Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
+ ([fe80::d3f0:3c24:f717:4989]) by PA6PR04MB11910.eurprd04.prod.outlook.com
+ ([fe80::d3f0:3c24:f717:4989%4]) with mapi id 15.21.0092.011; Tue, 9 Jun 2026
+ 14:54:32 +0000
+Message-ID: <cb1b9fc5-1227-41b6-9ca4-6a99d3204019@nxp.com>
+Date: Tue, 9 Jun 2026 16:54:31 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] dma-fence: Fix races of fence callbacks versus
- destructors by locking
-To: phasta@kernel.org, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Danilo Krummrich <dakr@kernel.org>, airlied@gmail.com
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Alice Ryhl <aliceryhl@google.com>, Daniel Almeida <dwlsalmeida@gmail.com>,
- Gary Guo <gary@garyguo.net>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-References: <20260608142436.265820-2-phasta@kernel.org>
- <95f4ae6b-9dec-4122-84e0-fbb0cdee9cb5@amd.com>
- <fa9a335196525adbc03ec21b2e05bb526e4fc174.camel@mailbox.org>
- <9d49c901-fcdf-487a-a733-0320d0bdf94c@amd.com>
- <DJ3V3OCLIK2K.3CYKWYNHYU6JQ@kernel.org>
- <ea4e0541-3702-4014-b8f6-0746a148df86@amd.com>
- <DJ3VYD71HDQ2.3C8GG983Z2YCM@kernel.org>
- <c8564ea0-8ff4-4049-996d-bd978c478372@amd.com>
- <aebe759117cd65004510946e39bd02e4c903e1e3.camel@mailbox.org>
- <dbda178c-bf02-448b-a88d-5a094adea5c0@igalia.com>
- <6b7bcc667f294b248f51e890964c707f4545cf92.camel@mailbox.org>
+Subject: Re: [PATCH 0/6] media: v4l2-isp: Add support for extensible
+ statistics
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Keke Li <keke.li@amlogic.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Daniel Scally <dan.scally@ideasonboard.com>,
+ Jai Luthra <jai.luthra@ideasonboard.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260505-extensible-stats-v1-0-e16f326b8dad@ideasonboard.com>
+ <777ea8b5-b00a-40e0-b649-59324ff0188a@nxp.com>
+ <e1bb04b0-025a-44a6-91ab-edfa6edc1f64@nxp.com>
+ <b97f4da9-7df7-4bfd-990e-28a23ec7a236@amlogic.com> <agcaSwdqauzuQSl5@zed>
+ <ahbeR6-noMhnU_l5@zed> <9557605d-ac07-404f-b53f-63357898f2e2@nxp.com>
+ <ah_iVT1d5U4-9g-0@zed> <5778ba10-22a8-42fd-b2a8-6b69c78e6d52@kernel.org>
+ <aiA-jERhh0xgW2K3@zed>
 Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <6b7bcc667f294b248f51e890964c707f4545cf92.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FRYP281CA0010.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10::20)
- To PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+From: Antoine Bouyer <antoine.bouyer@nxp.com>
+In-Reply-To: <aiA-jERhh0xgW2K3@zed>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0339.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ea::13) To PA6PR04MB11910.eurprd04.prod.outlook.com
+ (2603:10a6:102:516::16)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -93,124 +94,356 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB6349:EE_
-X-MS-Office365-Filtering-Correlation-Id: fec05535-59a5-4db2-0cd1-08dec62feaef
+X-MS-TrafficTypeDiagnostic: PA6PR04MB11910:EE_|DUZPR04MB9899:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3ba4ede8-6bb6-4e73-17d2-08dec63703fa
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|18002099003|22082099003|3023799007|56012099006|11063799006|4143699003;
+ BCL:0;ARA:13230040|7416014|376014|1800799024|19092799006|366016|3023799007|4133799003|18002099003|22082099003|11063799006|56012099006|6133799003|4143699003|13003099007;
 X-Microsoft-Antispam-Message-Info:
-	87NLgvqwTgrFZYOL/v9bu9pFrug/AeQU1IyKmj98qCK43vGA9Drx547RRfE5XlaVMYq7RRjeSlBLDSJovkSszG0imWXx/x4FhDmH4UteJ4Ydg1B0xTHt93wQpSszXRfucgnCZsLe1lJAOsWI/S/OwDBPMy/+QlFhHCUHNcUrl9gt3k5xUJyxayn1cT3Muxn7ZGl+kbE4DmpRGlLPxB3ftXgqWnFtne7Zl5ipYhws/Wuu31eS3j4e4A+DaQa1WmmOS8m/H48ZQ/oH+TS5/HOZRb0SVjXlWgTC4VutBd7v4qpvFjrApcXKiPYGyly5h/5IQ0brqDMKQXOy9KTi4N1Pi18pXqMShndyGWKx/M+drkUHlCoRkNZ7KtmTT+6AM9ibl8JdYchoAwsM+pbYpEEnuOfWnPSu95L6S4uEuOeuVE4gVBUId88a4X7IidRNqq9k1UazwMAKyPjtZDHnqdiQ/qEQNBD5QGoPQ4dVoTnLiP3tdiSlkAtTKTHYLfC9U+1cAFkcM3NQCB27vuXBgl3UbJJX0LJRwDFTiDizdzzB1uuGOuoANv6dtcUrTqegr2I+qXiUnj20Aqu99yfeoxGyDji02AOeeVkwKrQ5w6n9VUf541xCWGhmueCPXtb2ZQmtVODgMp4zcPJOJTlNqnZfc7nY+P1Fi9RrgbpqljAtYGrk4RK9+rQ9LabPC+Bh805R
+ VIq4d6jNqDqPq90ksVWalaPHtTWeUTAd74YBvIZeytaUd33bJMncE9r80rCqRrZmE0LHiFT6r01Mejuj/VRUnWAAZi8WNO7AwNwf+bNnxRNZl1JqTmYlOOWPan0uFY3dfA8HJZPUCGgdd6BzTnUsexcUocWssQ8lm49JPg4SJFVUi7tZipyvs80SxA1lYGPXTa5Oay//klFBOPW56olxV9/kbFSmBYJRTHGk5pLypsHdmR7hhXDWsKJr67JSJ2U8c7SPTTJjPDpnkgwDigj1VpcdEfQ7DeHBZSw5ZYGiEztuiCGLMMEtzwUqNcKGZRcKt4L5Bl3kO45/Ln3QDITdK6wHv59624FdEu60qHVyh0TxnywvgMRLySPFn5fahT1lukPykBnUun11Tc4LueiZEpviC/hxfVMBX6+PzsCCYi1ugvxEWoC2DsOF5QUS8haYzinxlkNSNHGhQ9FlxSsoZfBj9T/Uf4AVtRrOAvls3fdJlh3tMHIjeeUIltOOc2Gyt+jQ8usXui+EV833sCkoJ7SFO+KUtCfHKp04QNuPX6MOkMgULJDLG0BAWjMIsiRBFNzyN8HpBAiNBi23QCqe8lmXjE5RuGmnbAqDnvp9a+N1H9OpEGxIOhZAZP/mU4V/Ssem7VYwO88tE4q0Tn+UKw==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(18002099003)(22082099003)(3023799007)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA6PR04MB11910.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(19092799006)(366016)(3023799007)(4133799003)(18002099003)(22082099003)(11063799006)(56012099006)(6133799003)(4143699003)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TXFLUzI4SkVPcXMyTUpzNUZGZFhMV3JDTXRqUGV5NmRhaE9oeVJTd2NaMThq?=
- =?utf-8?B?SjVtcC9WczdUckkrSDFoc1M0aUt5N1RLWTgyOURleFVUSmd0ZGZwRlBma3hq?=
- =?utf-8?B?ZEEzMEhJR3VxY05TT3l5T0dvaHhseXh4Q0dmeUZ1TUoyb0R0d1N6SDcvUjF2?=
- =?utf-8?B?OFUybVRHUzlBQ21OWllOVHVKYVJBWnFIK1NGY1BmS2lyT1YvT0g1My9YeHRw?=
- =?utf-8?B?NW84WEo1U1orYVJvejFBMUROS2JUMVJ6eXdlSXVLbC9WM2xmT2YzOUhiSk1w?=
- =?utf-8?B?TXJBR1pFNW5Pc3ZDMW1yaFJZYnlpUGtQdS9Ka0RDY0RwckU1YnpUd3RTWFpk?=
- =?utf-8?B?czNvVXZTbDJtWE53QWg1UlBnVE93LzdxbHo3OHZpUVNNeUNMcENRM2ZvSWIv?=
- =?utf-8?B?V3lnbWtUWkd1U0hqNnlDSnFpMEMvZlVCTWRtM2VBdmlpLzR0QU5UTm4vRVZN?=
- =?utf-8?B?UzdZWkdCeG5IOHA4eUJ4dDQvc1RDVXJqbFAxWldManBCSHdJZDFCeE1sK29R?=
- =?utf-8?B?Z3p5elU5RTlVVmNZSzlBNTd0Z1N6UGZxSmR1UnM4Qkx6QnREYXErbFpBSGFI?=
- =?utf-8?B?citLR1FtY1RtNnRTak9MUkV1YjVZZ3hCUXprL3l0eTY2M0k5ZHVwUEw4ZHJC?=
- =?utf-8?B?Nks3MHhLcmdXWFhTcGF1Z2IyMmdodko4WHE2RW5NdjUyV2J3LzcwSFB4MFlC?=
- =?utf-8?B?dk53d3NoVnpIdVppcUwrZ0lzaStYaXRwaEVEdkZWdFJRcHVvMmZvYTdFMXRl?=
- =?utf-8?B?R3hGYitLQ1Q4NXNuVWRlbXdoS1pwZHF5M3IzWnFoSHBNVnFIOEE2a1JUUVVk?=
- =?utf-8?B?cWVENzhQV1VtaURrNUdDUzF4S1NlMlU3T2djaXdXM2E2VDVCNGVRQldQd2Uz?=
- =?utf-8?B?VFloWjR4a2RyKzF4NmticXMwR0RlTDBjYWJHalZuYUFCQThUNEk2K0lyMGJI?=
- =?utf-8?B?b1JHRmhBQnhjeGZXTjBFTC9wZ1pIemZ6T2o4a1BuaU5KalNaMWtPZFEzK1c0?=
- =?utf-8?B?L3ZOcVZXQmRjbVBqU2JoQjZIem8xNmY4c081d29zczRJNXg3Q0Y0L2ErSjVI?=
- =?utf-8?B?OXVaTlUrUm9pNzRMZmowMG9VR2JxK0xTa1VmYlB6L1BTRUV5RWp3Qk9xOEo3?=
- =?utf-8?B?aW9HbUtiRkkwaUJ0ejJUTTRjYTRpdEVEaDdQeVBHWUoxcHZqaUl2aDNPV0lH?=
- =?utf-8?B?c3BGNjVmaFJCYWhOOWlTcHJSUVNsVVBvelVYRkZWVDAvRU5maHZESkdhdmpw?=
- =?utf-8?B?WVJiUzZhU0c2eGlTSmk1SW5lMzE0TVpmS3ZIc05sZmc3Y1VhR3g3SWwwSWxX?=
- =?utf-8?B?NmxaZnhSM0lkVWVUOVd6M1FKYzZvUzlrdEFhSVY0dGphWHdPVTdjUE1NL0Nt?=
- =?utf-8?B?eU1CSFdFUnZMUGJ3blhGU3JDUjYrcllQeWl3Q3FUQjQ0V1BNUk8wSlluWEdp?=
- =?utf-8?B?NENxZGxDcDFrUVJxSkd6cXdha05XdXJ2UFZhNWhIT2JySDUxbFJvQjVZRVNv?=
- =?utf-8?B?aWYzd2dvTHN5VUU4ZmZSUkczY2NEVDZWVTdaVE1yMllGa251SkN6Z3FhRHVM?=
- =?utf-8?B?Z2taUTI2ampmaTk5czhYQ3BtUStUV0pmZ2czOUlZWGY4WlJ6OFEvelVKWitU?=
- =?utf-8?B?ODh2WmRxTFNJVTk2M0RZcyt1b1plVG9mNGM4QUwxOUdwSEVxdTM4UGhvdk9H?=
- =?utf-8?B?MGY1R3JCTmZNUmhqTmJCZllmVDJaZXJuM01taTZ6TlAzeGgxekszdXhDd3JG?=
- =?utf-8?B?dmN4SStUVForU1lXV0xIMVlkQlNwSjRxNUR5UDVjYXZXYkRvTjNCYnNtdVFV?=
- =?utf-8?B?MW8yU0x0aTZPNjFPZkkrZ25HaHJEKzcwY3AzTUVvVWJ1SFBpbU1jYkx1dTRu?=
- =?utf-8?B?dEhOVm5la2hYbitQdGlMNXArWXloeUI4bTZDOElhK2V6MDlYWE4xTHNhbXdK?=
- =?utf-8?B?ZXlvWTh6Y3diYnpPMWdWNHNSQlZZNG4wS1VlOHY2WGQ5R0dyY3lnTlRkZlA3?=
- =?utf-8?B?QjdCZ2FWbkwzcE9oYlFZRVdJWnNtODlmWmFSN0ZRRklUczZPSk5NQm00R3J1?=
- =?utf-8?B?bFFzSGd6ZjR5RXM1Y012UWdudFZJK2pVdWxLSVJoc0JOYWVFbmg0ejZJbUta?=
- =?utf-8?B?VTZHSXRvK0NVL0lRc1dEOWowMGp1L2tEOHZWS0E1WXFZT2Uyek9xc3FqWjBU?=
- =?utf-8?B?MHpiSE5qSzhwL2ZtNkRkOGdBQWJSeXhtd0xQMmxadEt3MFN5Q0hOOXRSbllN?=
- =?utf-8?B?RFROS1VCZXlrNDMzVWhpUmZoUTVqcnE5SFJOaExVSjJDN3Z0bFBYdUVPYlA2?=
- =?utf-8?Q?T7GN4gYaQtCY0u9ABr?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fec05535-59a5-4db2-0cd1-08dec62feaef
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+ =?utf-8?B?WjV0MFZYYzlZbGJUdHI2VUVRTjA5NVlqZ05KRWlEb3FUbDMrMnBERHFCTDdu?=
+ =?utf-8?B?Q1dwYmpUZzJJOENYSytROGl0OHJSSDZVNXlQSzVGdlNlMlpFWHZjZjNmSGhP?=
+ =?utf-8?B?OWdsaFdRNmtkMVdUalZFS2E3TS9keGFkcGVEM3ZjSklDZENvRXpSRDJBRVRk?=
+ =?utf-8?B?QUZpV1lodHpLbXJSaENaeUVxUW1kT281NUQwaytWSVp6YlZDV0hkRm1PRjRF?=
+ =?utf-8?B?ZGVZLzRlUjNjYjBxKzVpZzFjcHdsZUg1ODRLZHZpTS90NWRvR1FseFc5R0U0?=
+ =?utf-8?B?aERmY2lSNE5BUWw4d1B6K3Z6cHBSaUFmMzZaYjg3UEFKT0tZZkkxdHZZd21x?=
+ =?utf-8?B?WFJhNjBSZUZIQ3ZGMDY4cGU4a1VtVlBuSWtrRDRJaytRbnpTRFNReitrb0J2?=
+ =?utf-8?B?cWlTUEdpR3hBR1dEUkwrK2xxaDlYYmlhK2syU0Y0OFNLa2RsWFhqZU83NjJT?=
+ =?utf-8?B?TFE5eEdReC9HMnRlR08wSFBYcExqdlVRcmJyZHlndGZEZ3NGYXZhN1JSUFh6?=
+ =?utf-8?B?WTJXZ1ZMb3U3MGZSN0E4S0hURXg1NXBEbVk2em1kcHhNMDFQcks3VTBPeGY5?=
+ =?utf-8?B?THBnSE1jU0NIM3VMUDVMZDFPa3VodGh0bVZ6L29WWXNlQmtpRjU2ajhzZVFn?=
+ =?utf-8?B?M1l4TnJmWWJlN2RneTZ3RE1aZlBuQ0gxVFpmU0lBMjgzYUs2MC9QVlR0ZmxK?=
+ =?utf-8?B?UTV5eFh2b0VNdEMyeXJyd0o1Mkx6M3BWSzlXOXh1elUwUGcrQ1BrWEhOanFI?=
+ =?utf-8?B?VGZ0UUVpQ0lqdVJBV29GVVVpZVFIV3JzL0I1OTZocW53R0piSzF6N29NakxD?=
+ =?utf-8?B?akhrN1JIMStNZjNzTTkyMlgyS25xZElLWnhPUFFxUVFmNnZQN052bXcwQWo3?=
+ =?utf-8?B?NElsTzluS01adjFjMURjR1YvTFFuSU8xam5sZlJyZ1hhRzFGRlQrYng5cUZ5?=
+ =?utf-8?B?N3RFNzhheGJxb3JhNURQcDluSVVFVUt5SU9PLzk3dmJOS01tRzlwRVNDRDFs?=
+ =?utf-8?B?aEFTMjZtOFd6aW92NjhBdVg3Q2hoeTVWeUV0T0FTVnZuQ2QzTlNEQk5JeDhR?=
+ =?utf-8?B?MWZ4aEd2azlFaXY1KzcvM1NqYUd3YjZOQVpRZlI0RENFdE5CaUJ1K0Q0QTA1?=
+ =?utf-8?B?U25ibjRmRE5pRVdVVC9MbGVjbmVGK1c3a05RUFYxd1dJekhWVENScTFONUJG?=
+ =?utf-8?B?L0JWbFpXOXVKc0R3ZHhtVHVKN3NlRzlNc1RrVER4dG5xOU1WM0lDU3pBM0Yw?=
+ =?utf-8?B?VTlXVStWcDB6YlovSnlZMDZ2TlN4NzdYOHhJVC94YzUxZG95MU1KVXJWckZz?=
+ =?utf-8?B?Nzg1bDFZNlQ0NGFlRHl1LzcxMFB4emowVnR6MVoreDRwOTE2aElQdWxpWUNC?=
+ =?utf-8?B?THFFZGw0R1NxZHlSM3dBTWZVY1h1WWtlOHVrMjRSR2c5a3FXSjNYYjFWWGND?=
+ =?utf-8?B?MVlJc0crT1NFMWpWNWZsTXdneTRKam1VamVMRllCOHBFeVlhQlhEZlFLU2VT?=
+ =?utf-8?B?cjRGWkhadDljYjFHS0lGSFVDRk5xOHVyeExpN29ySUFRNnlnRStuQkdSbmNT?=
+ =?utf-8?B?WVV5NElkYXJueWV3VU9GcWlCbXo2RExCKzFaa0FEbngyVHhneWJ6NHV2WHpv?=
+ =?utf-8?B?YlNFSTU4aE1INTB4NHJxMm5pSnQyMkNROGNvY3pTMXNZL2s1aUo2S3VvS3lj?=
+ =?utf-8?B?a2M0WlcraGloSnFBWkdLMFV0TGhITEVNaXpOWmxyUjdkSUFTV0c4TW5yL0lt?=
+ =?utf-8?B?VHBPekR0cnBKblF5N1VLSEJ4Q1BBbTEyRHVsUjJWckhndkZZK2tGT2srRDJ1?=
+ =?utf-8?B?QmFEaGxYMmFmdDRod0Z0cTFlOVd2bGhNTlhweUVpb2ZFYkcxVEo4dDczekN3?=
+ =?utf-8?B?VUsxMDkvSlRsU2tvVnlPT0FLellodDlKemt1am0rSnliL0VBaU93c1I3R2Zi?=
+ =?utf-8?B?ZXZHNnFqN24xWEV6WklsTVY3dmpnMCsyQmQrS3YvTkZMZUxYT254Q252dGth?=
+ =?utf-8?B?K1hXbWhmaW45TzFlRDcyNmlXTTRSeGJocnJTM3lYRnkzbHFybFdGR1ZlWDhq?=
+ =?utf-8?B?ZTJ5Zkk3Y1hlL004RmpGRUtHYkVBSW9vaThPUzQrSkYzdjRxREFoVUpRZi84?=
+ =?utf-8?B?WGVkLzV0L3kxTVUxSXhkZWFaTk9BV2VZRU5VNy84aHlpbzZmelo0aTl1Y0dU?=
+ =?utf-8?B?MTQ2V011ZnpvQnRWaEEvQzkzSXNkOXZsOGNqQ3plSjRnZmxqRTJwbG96Y2Zt?=
+ =?utf-8?B?MFF1R1BMSGFjV3I4eENGakZ1aGdVQ2VOWFZReTd0VVF4WFRxMFJtcGdWRVVo?=
+ =?utf-8?B?eWptcUtvMmNQYUxjUlFycjFvRFVJU1ljT3E3aTJaeVozM0xheXQrUT09?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3ba4ede8-6bb6-4e73-17d2-08dec63703fa
+X-MS-Exchange-CrossTenant-AuthSource: PA6PR04MB11910.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2026 14:03:44.2903
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2026 14:54:32.7651
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LF313uCVgdqDCxVouD57jtSL4uUPRMjxXyZhqbMi8wJkgh6a40SPoEbfYOf4LW/f
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6349
+X-MS-Exchange-CrossTenant-UserPrincipalName: rVbNwEgvDODu9yajizdSCSbtB688qrmgyPPM1tcRipgNwzSWyMUCZ2jw9HLQtzixYvSROUDHgpWllI/5r/JxsA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUZPR04MB9899
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64307-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:tvrtko.ursulin@igalia.com,m:dakr@kernel.org,m:airlied@gmail.com,m:sumit.semwal@linaro.org,m:boris.brezillon@collabora.com,m:aliceryhl@google.com,m:dwlsalmeida@gmail.com,m:gary@garyguo.net,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_TO(0.00)[kernel.org,igalia.com,gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	TAGGED_FROM(0.00)[bounces-64308-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:hverkuil+cisco@kernel.org,m:sakari.ailus@linux.intel.com,m:laurent.pinchart@ideasonboard.com,m:keke.li@amlogic.com,m:mchehab@kernel.org,m:dan.scally@ideasonboard.com,m:jai.luthra@ideasonboard.com,m:niklas.soderlund@ragnatech.se,m:ribalda@chromium.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[linaro.org,collabora.com,google.com,gmail.com,garyguo.net,vger.kernel.org,lists.freedesktop.org];
-	DKIM_TRACE(0.00)[amd.com:+];
+	FORGED_SENDER(0.00)[antoine.bouyer@nxp.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[antoine.bouyer@nxp.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[nxp.com:+];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,amd.com:dkim,amd.com:mid,amd.com:from_mime,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,nxp.com:dkim,nxp.com:mid,nxp.com:from_mime,outlook.com:url,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,ideasonboard.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 885E9660DEB
+X-Rspamd-Queue-Id: B66C6661B31
 
-On 6/9/26 15:57, Philipp Stanner wrote:
-> On Tue, 2026-06-09 at 14:36 +0100, Tvrtko Ursulin wrote:
->> I wanted to ask something else.
->> What happened to the idea to remove opportunistic signalling from 
->> dma_fence_is_signaled?
+On 6/3/26 4:53 PM, Jacopo Mondi wrote:
 > 
-> AFAIAR that was declared impossible because some system setups like
-> mobile devices don't signal the fences with an interrupt handler, but
-> have some sort of daemon (in userspace) who peridiocally wakes up to
-> update the graphics output. It wakes up every T milliseconds and
-> opportunistically asks through dma_fence_is_signaled() (and that
-> through ops->signaled() which fences are already signaled.
+> Hi Hans
+> 
+> On Wed, Jun 03, 2026 at 10:41:09AM +0200, Hans Verkuil wrote:
+>> On 6/3/26 10:17, Jacopo Mondi wrote:
+>>> Hi Antoine
+>>>
+>>> On Mon, Jun 01, 2026 at 03:29:54PM +0200, Antoine Bouyer wrote:
+>>>> On 5/27/26 2:09 PM, Jacopo Mondi wrote:
+>>>>>
+>>>>>
+>>>>> Hi Sakari,
+>>>>>
+>>>>> On Fri, May 15, 2026 at 03:11:18PM +0200, Jacopo Mondi wrote:
+>>>>>> Hi Antoine, Keke
+>>>>>>
+>>>>>> On Wed, May 13, 2026 at 09:04:27AM +0800, Keke Li wrote:
+>>>>>>>
+>>>>>>> On 5/12/26 17:26, Antoine Bouyer wrote:
+>>>>>>>> [ EXTERNAL EMAIL ]
+>>>>>>>>
+>>>>>>>> Le 05/05/2026 à 18:49, Antoine Bouyer a écrit :
+>>>>>>>>> On 5/5/26 4:12 PM, Jacopo Mondi wrote:
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> This series breaks out from Antonie's
+>>>>>>>>>> https://eur01.safelinks.protection.outlook.com/?
+>>>>>>>>>> url=https%3A%2F%2Fpatchwork.linuxtv.org%2Fproject%2Flinux-
+>>>>>>>>>> media%2Flist%2F%3Fseries%3D24043&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605732002%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=FXaz7QYQvS3s%2B4l9AFMrGgE7kmXlEil%2FKD6DibB0%2FJY%3D&reserved=0
+>>>>>>>>>>
+>>>>>>>>>> the extensible stats support and adds a few more patches on top to:
+>>>>>>>>>>
+>>>>>>>>>> - add support for per-block validation as suggested during the
+>>>>>>>>>> review of
+>>>>>>>>>>      Ricardo's
+>>>>>>>>>>      https://eur01.safelinks.protection.outlook.com/?
+>>>>>>>>>> url=https%3A%2F%2Fpatchwork.linuxtv.org%2Fproject%2Flinux-
+>>>>>>>>>> media%2Fpatch%2F20260504-smatch-7-1-v3-6-
+>>>>>>>>>> fda125c30058%40chromium.org%2F&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605751612%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=AiRH8MhIbXt3dr%2B2r3I6STE6TJAChylnH%2Fz3tLdS36k%3D&reserved=0
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> - add two helper functions to v4l2-isp to ease handling of extensible
+>>>>>>>>>>      statistics for drivers. An early user, based on a preliminary
+>>>>>>>>>> version
+>>>>>>>>>>      of the patches is available here as a reference:
+>>>>>>>>>>      https://eur01.safelinks.protection.outlook.com/?
+>>>>>>>>>> url=https%3A%2F%2Fpatchwork.linuxtv.org%2Fproject%2Flinux-
+>>>>>>>>>> media%2Flist%2F%3Fseries%3D24703&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605763086%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=%2Fpsb7Z3lb8ingDILxc3LoEWKTojl5BGMbk6FiR%2FcO9I%3D&reserved=0
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> Antonie: I took the liberty to fold in your patches changes to address
+>>>>>>>>>> my comments on your v1. I pushed an un-squased version of the patches
+>>>>>>>>>> here:
+>>>>>>>>>> https://eur01.safelinks.protection.outlook.com/?
+>>>>>>>>>> url=https%3A%2F%2Fgitlab.freedesktop.org%2Flinux-
+>>>>>>>>>> media%2Fusers%2Fjmondi%2F-%2Ftree%2Fb4%2Fextensible-stats-
+>>>>>>>>>> unsquashed&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605775020%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=iF2BE0GZ8HcVPmOJDhbmLsXQDOXV9JvqfMK6DRPPvrg%3D&reserved=0
+>>>>>>>>>>
+>>>>>>>>>> so you can easily get the diff from this and your version. Please feel
+>>>>>>>>>> free to comment on these as you're the original author.
+>>>>>>>>>
+>>>>>>>>> Hi Jacopo
+>>>>>>>>>
+>>>>>>>>> Thanks for the rework and the links. I'm fine with your [SQUASH]
+>>>>>>>>> commits.
+>>>>>>>>>
+>>>>>>>>> If there are no other comments, I assume I can reuse the common patches
+>>>>>>>>> in my v2 then, and also apply the new helpers to neoisp driver changes.
+>>>>>>>>> They look very useful (especially to prevent out-of-bounds crashes I
+>>>>>>>>> observed when data_size was not set before filling stats :( ). I'll
+>>>>>>>>> check in your user example.
+>>>>>>>>>
+>>>>>>>>> BR
+>>>>>>>>> Antoine
+>>>>>>>>
+>>>>>>>> Hi Jacopo
+>>>>>>>>
+>>>>>>>> Do you think it would make sense to create a new generic V4L2_META_FMT
+>>>>>>>> too ? which can be used by all user of v4l2-isp extensible params a/o
+>>>>>>>> stats. To avoid each driver creating its own meta fmt with same purpose.
+>>>>>>>>
+>>>>>>>> Or do you think it could have side effects ?
+>>>>>>>>
+>>>>>>>> BR
+>>>>>>>> Antoine
+>>>>>>>>
+>>>>>>>>>
+>>>>>>> I think this proposal is excellent.
+>>>>>>> 🙂
+>>>>>>
+>>>>>> To me, platform-specific formats mostly serve for documenting the ISP blocks.
+>>>>>> In example
+>>>>>> https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/metafmt-rkisp1.html
+>>>>>>
+>>>>>> There might be ways to handle it without defining a dedicated format
+>>>>>> indeed.
+>>>>>>
+>>>>>> Sakari Laurent and Hans are in cc, what do they think ?
+>>>>>>
+>>>>>
+>>>>> We briefly discussed it on irc and a few days ago again.
+>>>>>
+>>>>> Am I correct you think this is a good idea ?
+>>>>>
+>>>>> Antonie, do you plan to include the two new generic formts in your new
+>>>>> version ? Should we have a single format for STATS and PARAMS too ? I
+>>>>> see merit in both ways, to be hones two formats sound better to me as
+>>>>> they apply to two different queue types (output for params and capture
+>>>>> for stats)
+>>>>
+>>>> Hi Jacopo
+>>>>
+>>>> I would personally prefer using a single format for both params and stats.
+>>>>
+>>>> In my view, the format describes how the meta buffer is structured (header,
+>>>> size, version, flags, etc.), and it should not depend on the queue type.
+>>>> Since both stats and params will use the exact same structure, then it makes
+>>>> sense to me to share a single format. Similar to how a pixel format applies
+>>>> to both source and sink queues.
+>>>
+>>> You certainly have a point here!
+>>
+>> Even though how the content is structured in the buffer is the same for both
+>> parameters and statistics, the actual content is quite different. So the format
+>> description in v4l2_fmtdesc is also different. When you list available formats
+>> for a video device it is nice if you can see what the format actually contains.
+>>
+>> A V4L2 format has always specified both the structure of the data and what the
+>> content is (with the odd exception like V4L2_META_FMT_GENERIC_8), and I think
+>> that should be done here as well.
+>>
+>> Interpreting the content of the buffers is quite different for parameters and
+>> statistics, so just because the high-level structure is the same does IMHO not
+>> make this a good enough reason to use a single pixelformat. So I recommend
+>> sticking with two formats.
+>>
+>> Unless I'm missing something?
+> 
+> To summarize the day-long discussions on irc (quoting here your
+> messages)
+> 
+> -------------------------------------------------------------------------------
+>   1) I think we should have separate pixelformats for parameters and
+>   statistics (and whatever else we will need in the future). I think
+>   that makes sense. That way you can also give a sane pixelformat
+>   description.
+> 
+>   2) If we go for a generic pixelformat rather than a per-platform one,
+>   then it has to be documented how the application discovers which
+>   driver it is. It is one of those things that I don't think is
+>   explicitly stated anywhere. Taking it from the media controller makes
+>   sense, but it needs to be documented. It also means that the media
+>   device driver name is part of the ABI. Changing it would break lots
+>   of things. That too must be documented.
+> -------------------------------------------------------------------------------
+> 
+> This seems to suggest we're fine with  V4L2_META_FMT_ISP_PARAMS and
+> one V4L2_META_FTM_ISP_STATS formats, provided we clearly tell
+> userspace how to identify which platforms it is running on.
 
-That's a pretty good summary we should probably add it to the documentation.
+Hi Jacopo, Hans
 
-Just one additional note: The userspace deamon is usually the compositor who is in control of the CRTCs and the interrupt is the periodical refresh timer, usually vblank.
+Thanks for your inputs.
 
-Christian.
+Then I will prepare a v3 of my series with these 2 meta formats, as 
+separated patches. Actually, I feel like main update is about 
+Documentation. So I created dedicated doc for these formats, but 
+MAINTAINER is impacted too. Please feel free to review/comment, or 
+cherry pick the patches in your own series with extended stats if you 
+prefer. I will always rebase anyway.
+
+Best regards
+Antoine
 
 > 
-> P.
+> I suggested that libcamera matches on the media device driver's name
+> and from there we know on which platform we're on.
+> 
+> However you made a good point on the fact we discussed about allowing
+> multiple drivers to register in a single media graphs to support
+> complex topologies. In this case we should clarify how this would
+> work. If I'm not mistaken Ricardo had a similar point when talking
+> about media device names ?
+> 
+>>
+>> Regards,
+>>
+>>        Hans
+>>
+>>>
+>>>>
+>>>> That said, if there is a consensus in favor of defining 2 separate formats,
+>>>> I am fine with following that direction.
+>>>
+>>> Let's see if we can get feedback from Sakari/Hans/Laurent.
+>>> I'll re-ping them!
+>>>
+>>>>
+>>>> For now, I don't plan to integrate the new generic format in my patch
+>>>> series. I would prefer to wait for converging on a solution (1 or 2 formats)
+>>>> first. Then, depending on timeline, yes I can integrate it.
+>>>
+>>> If you want to re-send a new version out quickly feel free to use any
+>>> format. I hope we can sort this out quickly so you can rebase on
+>>> easily.
+>>>
+>>> Thanks
+>>>    j
+>>>
+>>>>
+>>>> BR
+>>>> Antoine
+>>>>
+>>>>>
+>>>>>>
+>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>>>>>>>>>> ---
+>>>>>>>>>> Antoine Bouyer (2):
+>>>>>>>>>>          media: uapi: v4l2-isp: Add extensible statistics
+>>>>>>>>>>          media: Documentation: uapi: Update V4L2 ISP for extensible stats
+>>>>>>>>>>
+>>>>>>>>>> Jacopo Mondi (4):
+>>>>>>>>>>          media: v4l2-isp: Rename v4l2_isp_params_buffer_size
+>>>>>>>>>>          media: v4l2-isp: Add per-block validation callback
+>>>>>>>>>>          media: amlogic-c3: Implement per-block validation
+>>>>>>>>>>          media: v4l2-isp: Add helpers for stats buffer
+>>>>>>>>>>
+>>>>>>>>>>     Documentation/userspace-api/media/v4l/v4l2-isp.rst |  45 ++++++--
+>>>>>>>>>>     .../media/platform/amlogic/c3/isp/c3-isp-params.c  |  42 ++++++-
+>>>>>>>>>>     .../media/platform/arm/mali-c55/mali-c55-params.c  |  12 +-
+>>>>>>>>>>     drivers/media/v4l2-core/v4l2-isp.c                 |  56 +++++++++
+>>>>>>>>>>     include/media/v4l2-isp.h                           |  94 +++++++++++
+>>>>>>>>>> ++---
+>>>>>>>>>>     include/uapi/linux/media/v4l2-isp.h                | 125 +++++++++++
+>>>>>>>>>> ++--------
+>>>>>>>>>>     6 files changed, 294 insertions(+), 80 deletions(-)
+>>>>>>>>>> ---
+>>>>>>>>>> base-commit: d9c8c4adf23d17549c0ec9c85b99d85a0ee6cf18
+>>>>>>>>>> change-id: 20260504-extensible-stats-f2d6befcc1ce
+>>>>>>>>>>
+>>>>>>>>>> Best regards,
+>>>>>>>>>> --
+>>>>>>>>>> Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>
+>>>>
+>>>
+>>
 
 
