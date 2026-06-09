@@ -1,156 +1,154 @@
-Return-Path: <linux-media+bounces-64331-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64332-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id hWnEDiZwKGrgEgMAu9opvQ
-	(envelope-from <linux-media+bounces-64331-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 21:57:26 +0200
+	id m9pmNA1zKGqgEwMAu9opvQ
+	(envelope-from <linux-media+bounces-64332-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 22:09:49 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9351A663F79
-	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 21:57:25 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67CB8664064
+	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 22:09:49 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=k8x8EDtQ;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64331-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64331-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=tumelty-co-uk.20251104.gappssmtp.com header.s=20251104 header.b=y3zjQ0Op;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64332-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64332-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2B65E30D6CC2
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2026 19:52:09 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 6FB8B3014A8E
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2026 20:09:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E35B4BCAD7;
-	Tue,  9 Jun 2026 19:51:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D60A737D11F;
+	Tue,  9 Jun 2026 20:09:41 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dy1-f193.google.com (mail-dy1-f193.google.com [74.125.82.193])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6CB6411667
-	for <linux-media@vger.kernel.org>; Tue,  9 Jun 2026 19:51:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F22370AFF
+	for <linux-media@vger.kernel.org>; Tue,  9 Jun 2026 20:09:39 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781034690; cv=none; b=sEw3BIesgqODVjp2c0IgI6V0o9igCZxzu4ARQDEdeVdtpbBvo7JuCIXLNSHIn/X9F9sYwBQs6mgocSHZwo8/pIWjBtGSgBwaZopHDYxcWJDWjbJOa4i2Mc4jbLuYd37YSaD8yKMlLyLHZePK9fqHUATUSIlSazLVmpEmcA872rU=
+	t=1781035781; cv=none; b=UTAqPd7mHaQgJuR/Dm5TQps3ptgl6bp6T13fwPcumIQe2pgvz/yvjznK7n/3xxqomjrt0iRzFv+W761BqegdKaKGVenICB8knFW8H9OCByCetLZb3b7BaWKEpanl8GFM+MJwtX7k9KwYfWb1/tP/z5Woyl4+xNi12M3pG0bUrI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781034690; c=relaxed/simple;
-	bh=qMSDC8LaJJ6uxmMZnG/6yy5eUEN3C6idsWxWIj73qUI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VAiq+ib7iaugkn/yn3GF8C6xl+qSyqrJ2HFnti7+5wXfNXUp/+R7hPvpk61o6MDdfjEqJsm8HRWSgHALjkEi4e/eB3kEqFN8ix9V32aho2JS+TAaeULb3hb9L6o4RP9WfDHTpgFSoH7AgdGda1bUWg59lhAvGplaW4lYgSv6ogo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k8x8EDtQ; arc=none smtp.client-ip=74.125.82.193
-Received: by mail-dy1-f193.google.com with SMTP id 5a478bee46e88-304cf518c9dso7394424eec.1
-        for <linux-media@vger.kernel.org>; Tue, 09 Jun 2026 12:51:24 -0700 (PDT)
+	s=arc-20240116; t=1781035781; c=relaxed/simple;
+	bh=lx5ZWUquywreDi2B6SPS6Ydj3h0qvxn3nGLGXsMAt9c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qaniwKIH9HjLEhFH5QxX1amMHa7BJyhqqI+v0y7LjoAaEl6dy82tb98if4M9gFW4XUyLZRNOvMrFho/4PuVcmfGbct5IJaCAHjqtDu57C/PqcXtgb3/3J46jWX076bzdS+HzBOKtVY28HCHg8sUUjPk7HaXIjpBjA7rhwiYQBiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tumelty.co.uk; spf=none smtp.mailfrom=tumelty.co.uk; dkim=pass (2048-bit key) header.d=tumelty-co-uk.20251104.gappssmtp.com header.i=@tumelty-co-uk.20251104.gappssmtp.com header.b=y3zjQ0Op; arc=none smtp.client-ip=209.85.221.53
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-45fd45e596cso2970020f8f.1
+        for <linux-media@vger.kernel.org>; Tue, 09 Jun 2026 13:09:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781034684; x=1781639484; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LX6a2e9EdQz5MAjUwwyjvP6/Tr8doN8n3cPlP/rAx0M=;
-        b=k8x8EDtQrtjABDIZunjGFL0/qDg7XuO/6JbM+phw0MOlBR356+VFsGfdWPA9GAl1NW
-         9GwUQZfdqFk6xeCZ0NySyW0RlWiWYjTU9eDNyhARhiAKfSNvNdKuU7pemwqeu+3xB6zf
-         g8oxPpC7hGMER5EgHo1UG5ZIhArMcZUC+hwYElm+Y8fC+/IrhibF/7BQcGXdmam18Ovp
-         nZSIxBISd0cvsNxzPTKMQ6+KQgEDe9uQuDy1JxKpH+h0FmJMuYI96pt5R5TpYHZPKHpU
-         IFvlQKUDyIygJbueuC+4BJMC+M98VXB49Qxutnl3zx2imhLlnrtN83NUXd9TyagDIrRd
-         XQMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781034684; x=1781639484;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=tumelty-co-uk.20251104.gappssmtp.com; s=20251104; t=1781035778; x=1781640578; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LX6a2e9EdQz5MAjUwwyjvP6/Tr8doN8n3cPlP/rAx0M=;
-        b=ZS5e0jLr7h1Qql4gV97arhtf0GgAs7zIHU9jH9ZuE/DxfvC8PgKBG4cjryvuRoaRgN
-         +S65mgfX6CRrTtBMSEpuxC5F3lifCwFbedYoTF6lMlCWgS41ko8hjKSm9cDTHVSj9mmo
-         jORcydKfq6e4jqlM7AM5iCpFoSsVPPUT1YBf6neePTzMjpfKENAPuvnERSA1o1WhIUuD
-         mxRUlMVklMQtO3kJXQmtksVVeOsKODfNay6yHJyP6O50UzUFp1x2Sr4EK7YrNSDbT/RG
-         Qf8gy0zkefvNrslSNOVvEPJe/yh27rQvCbkKfX5DAisItRa0B1I4yZCtAaL2JdRVd9/v
-         rSOA==
-X-Gm-Message-State: AOJu0YwwLjVBYghaGtDBoXnqC+y3679VtIt6rX/JUzbQyQg171n2ocKc
-	J9GsKNIL6Z5r9swSputMIctOv/lkNAiWGViEFFsRz43XfLnTRb3h+SYpmOgsv/LP
-X-Gm-Gg: Acq92OFk3B7F/jmIhCaTxfUfECxa1af3CMRSfm3rKpKRDQstn1gUFbJKc8f5MugqL8v
-	eG0RuDkTP6wVRAST6GYGvanJ8dbdGY72f0zdR/23lNd3qgQR3vXaGKQuP5NtA0Cenu5OrNixnIw
-	sKq+WjwMgpfRAZeCO4WUsIF125p7aJ2ZEgDE4d7k4COlrI0nTeMg0cBi9vzIN6kf265OT72AU2g
-	PdyaNB/PPBvWu0s3OZoI2suxHZ+sRzrU4n3EyduXX360tKimWBDRB3YMeLrA55mJlLayCS6d2d8
-	NR2U9Y05sorn/SbsbFU3SAINTop+kUJ6UboBDtio/QYKugK9ufnlBQfOw0w+UN1DXA85ruPpSkQ
-	po2zsqLnOGCLKXwRb84E5vS2YLswihLFC5vd9Hop1UdeXDwQbalhhk+nqUjFWN86MCaD+jBQ3KP
-	COfMjYNLylChkj8tKmbEGW9TLvS/Bu1T36LDFtL9TFjNKFXOgtsj931yr7oN4qjBPYrU8raRTIz
-	AW8j9iwcs4mxjU0U/xA0iqDuzHBi+zEhP4sBfHn0FLgxc4nay5hkc9pW1xZKP3ee8jydXb2Cgd7
-	xDaaic8PvTVLOERULFOXu7lCsO0L
-X-Received: by 2002:a05:693c:2d82:b0:304:9b48:53da with SMTP id 5a478bee46e88-3077b260fe3mr11348789eec.26.1781034683644;
-        Tue, 09 Jun 2026 12:51:23 -0700 (PDT)
-Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3074df349d8sm22524818eec.22.2026.06.09.12.51.23
+        bh=lx5ZWUquywreDi2B6SPS6Ydj3h0qvxn3nGLGXsMAt9c=;
+        b=y3zjQ0OpZw3c9jG9j8f3wn30N1LeytSOARnSUxmytznp+TLEWRfiTshLKEWGwUGrdi
+         WOTfO5YYNMszR+5OjlXYOL7lBaC1MbuF2Ait4a4OIJOeOYIBb+4xO99PcdctL+NZFlUs
+         pDS3bk0W/6T6bZ3oZGtroWh31btenqaFQe34Ja9XPz/ifl0I7bInQ4F2EHhFDoy7Drlf
+         VAo0qY1vr/0vg69ZjlYxCZH70jKFgnxJw8v51l1es8YgUMd9DVtShZFF9hOwibY7Tg/S
+         +0l2IsASjMoF1oNIP2eivBAupiOMmHYy8x3UHgBTokaVsw/EbdSaPaEou2iFJbqDlx9p
+         WrPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781035778; x=1781640578;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lx5ZWUquywreDi2B6SPS6Ydj3h0qvxn3nGLGXsMAt9c=;
+        b=YpzK0EMumlRJKrn4JJqOGl61QC26BX2mxOqXVeTSShDEvkDaJCVTtRk+pkFZP5KjTD
+         P5V3sbmI7MWy2pYvrgr5Sh5lE08DB4s1hjSDOxwuwrWqAMpEm5LlK80kbgRRic9qxubS
+         CGHF6OUsqyZ09H7DK7dmB25vwfnfTsQ+uxkBjfaKzQrjex2J1KWHB3AhwOH5TTvIqCzv
+         KNdiMgMJX9fWbV6AIrsVKEWHbx6mh+6OW5kwb9W8wQ2k2YfWAlfky8Q7wT7qxb96YFLb
+         pUh8/f9/sM5VYMF72Tm/jTmldMKgIY+HafiprT07oLvnOYoNm4TRwHZMyqi4fK3mgKrm
+         89bA==
+X-Forwarded-Encrypted: i=1; AFNElJ9LhJVysMtHG7d+Wbhj/Lkd+LnYlHfcqXNthUhxlA+zPb16pmmt8A01iVSZS3UZ5PFn/QOpayWSW+tTzQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwEcJEas4gffrsRc4zJoayqEQr76gpQ5yseSVzYPiKI85OM6Oz
+	zvO95DGKXP+VjmnKcsmLHo3MyE2SRHa7810LDywAtdT7ZzBcigdrSMp/HjBA0EBD4VQ=
+X-Gm-Gg: Acq92OGnqzGCshcUhYCkUJ0hd4LR+D4ibQADORWMBK6sQcEISSoO4+pLzptbkbxe6w3
+	GB3ACpTyPQ+kSs6mqRfwfBOJc3iX/MJnvKsTc9K80RSF50CUVjCV/hRQC8h5J1LqzUqfC+nMfah
+	hYbLde11tSjR91bil+6eDpjqSm7mKrO9oOdo4p6HW5I9yZWARvJb7ZmqtNN057vroGY5szGE5Nz
+	GafbroFj+966bHdgYuNbnWqNdTZ5dhfEdh0ZbpQsaXBgMLfx6wRVQM1ra1yE5uQoJR3myHc102J
+	4CB0+GZyVfmKeBncmagPm3zWyOBAmbeZ7rXb+whI4HFbi0Lav+9dE6WfaBCzY+eEqS/ULDyCCuy
+	byyIeZGs5vI6iZkxD2h8sqJhZjMV5il5NIYtMyF7nV2UjB26higeXL8/gytXaA2pzpLdG8rmIs+
+	zILetgdW2Ugd2C4+czpHShwfM=
+X-Received: by 2002:a05:6000:2912:b0:45e:e44b:3147 with SMTP id ffacd0b85a97d-46056680a66mr5598468f8f.5.1781035778244;
+        Tue, 09 Jun 2026 13:09:38 -0700 (PDT)
+Received: from nixos ([83.217.168.175])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2dcad5sm71280456f8f.5.2026.06.09.13.09.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 12:51:23 -0700 (PDT)
-From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH] media: dvb: correct CONFIG_DVB_S5H1432 macro name in #endif comment
-Date: Tue,  9 Jun 2026 12:51:15 -0700
-Message-ID: <20260609195118.148286-1-enelsonmoore@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Tue, 09 Jun 2026 13:09:37 -0700 (PDT)
+From: Rhys Tumelty <rhys@tumelty.co.uk>
+To: andy.shevchenko@gmail.com
+Cc: andy@kernel.org,
+	dan.carpenter@linaro.org,
+	gregkh@linuxfoundation.org,
+	hansg@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	mchehab@kernel.org,
+	rhys@tumelty.co.uk,
+	sakari.ailus@linux.intel.com
+Subject: Re: [PATCH] media: atomisp: Fix local variable shadowing warnings
+Date: Tue,  9 Jun 2026 21:09:29 +0100
+Message-ID: <20260609200931.670292-1-rhys@tumelty.co.uk>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <CAHp75Ve3Cs95e4CLHDfO0_T=gSDa2tDBS+eZTAJoHxWd_zWMAA@mail.gmail.com>
+References: <CAHp75Ve3Cs95e4CLHDfO0_T=gSDa2tDBS+eZTAJoHxWd_zWMAA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[tumelty-co-uk.20251104.gappssmtp.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64331-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-64332-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:andy.shevchenko@gmail.com,m:andy@kernel.org,m:dan.carpenter@linaro.org,m:gregkh@linuxfoundation.org,m:hansg@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:mchehab@kernel.org,m:rhys@tumelty.co.uk,m:sakari.ailus@linux.intel.com,m:andyshevchenko@gmail.com,s:lists@lfdr.de];
+	DMARC_NA(0.00)[tumelty.co.uk];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[enelsonmoore@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:enelsonmoore@gmail.com,m:mchehab@kernel.org,s:lists@lfdr.de];
+	DKIM_TRACE(0.00)[tumelty-co-uk.20251104.gappssmtp.com:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[enelsonmoore@gmail.com,linux-media@vger.kernel.org];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[rhys@tumelty.co.uk,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[rhys@tumelty.co.uk,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TO_DN_NONE(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,tumelty.co.uk:mid,tumelty.co.uk:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9351A663F79
+X-Rspamd-Queue-Id: 67CB8664064
 
-A comment in drivers/media/dvb-frontends/s5h1432.h incorrectly refers
-to CONFIG_DVB_s5h1432 (lowercase) instead of CONFIG_DVB_S5H1432.
-Correct it.
+On Tue, Jun 9, 2026 at 11:42 AM Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+> Before even looking towards (some of) the W=2 warnings, please pay
+> attention to the real issues the driver has.
 
-Discovered while searching for CONFIG_* symbols referenced in code but
-not defined in any Kconfig file.
----
- drivers/media/dvb-frontends/s5h1432.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks for the feedback. I'm quite new to kernel development,
+and I'm mainly just trying to get my footing on sending in
+patches, currently starting with W=2. I'll have a look
+at the TODOs or any known bugs to see if there are any minor
+issues I can trust myself to help with.
 
-diff --git a/drivers/media/dvb-frontends/s5h1432.h b/drivers/media/dvb-frontends/s5h1432.h
-index f031c0654e47..d61ccbf07910 100644
---- a/drivers/media/dvb-frontends/s5h1432.h
-+++ b/drivers/media/dvb-frontends/s5h1432.h
-@@ -71,6 +71,6 @@ static inline struct dvb_frontend *s5h1432_attach(const struct s5h1432_config
- 	printk(KERN_WARNING "%s: driver disabled by Kconfig\n", __func__);
- 	return NULL;
- }
--#endif /* CONFIG_DVB_s5h1432 */
-+#endif /* CONFIG_DVB_S5H1432 */
- 
- #endif /* __s5h1432_H__ */
--- 
-2.43.0
-
+Best regards,
+Rhys
 
