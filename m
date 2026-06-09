@@ -1,1151 +1,265 @@
-Return-Path: <linux-media+bounces-64299-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64300-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 7cY3NdENKGqW9AIAu9opvQ
-	(envelope-from <linux-media+bounces-64299-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 14:57:53 +0200
+	id T+UZLpERKGq49QIAu9opvQ
+	(envelope-from <linux-media+bounces-64300-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 15:13:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708796604B8
-	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 14:57:53 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C52386606F0
+	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 15:13:52 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=Pm8xVf6y;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64299-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64299-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=redhat.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=aQkxHNLK;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64300-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64300-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 362943096095
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2026 12:51:45 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 28F263057B0B
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2026 13:01:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E5054266A1;
-	Tue,  9 Jun 2026 12:50:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9E814183B7;
+	Tue,  9 Jun 2026 13:01:48 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B25F425CF2
-	for <linux-media@vger.kernel.org>; Tue,  9 Jun 2026 12:50:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A75841B366;
+	Tue,  9 Jun 2026 13:01:47 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781009423; cv=none; b=uhI9QtFq+FUf2+gQhIMk0vQR6YPGxLLq5xRf5rEFB8JwkUUVDisOopxrSaqkKvNtT+3memc+DqLnpcwyhd7+rhSg/RT7g5svDWEaQOEu/BKdmbi4P+OfvmuPg/oDZzHJfrpnmgMt1dS1hZDA+KuWyWJCItlnjg9D10GK76j7ohM=
+	t=1781010108; cv=none; b=HDyeDUy6Pv7lIxuy1zRh2mquAPJT+OPKhn0gYgmU3VgIF9u4AjkHoyYLurhuRT6JB97b4NvyfZ5QjxYrNGY0F6Ff7PuzXuj4xbWP1nuoUY2GtrIojk1xbOXvgEtXPtGrY7UT0HZa3PXn4SJ8y+GhSoTzdYJhNTAIaS+nNVOSOUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781009423; c=relaxed/simple;
-	bh=1usxeUa+lGQJWCtbmwcaISl3izaYUzbYCCTX0fBjhB8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cO+GhwKR4ziSBo9bP+98j7AioS0yiHJnltkLZBaUxxDLvaHhf3EFUZffLBBOstutVyddOMXKBjshcbrH+RH+NisCXqt0mTAYaVFd29uIVRlf9Limvjo0m+t+aI+CbJtPa2OjtGYg1AH9OzsYPRme4W3Mysh1G3I1Ny4OGPPkxBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Pm8xVf6y; arc=none smtp.client-ip=170.10.133.124
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781009420;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GZWbJBnH2QNwQ6bJc/vdfLzO6LPqoqrbc2cH4+pQThE=;
-	b=Pm8xVf6y2sd5mfU6dZsmzpxi0pkaP8u3tCfEK3tuH0WMLRZi6bIColDse6Li8jXWkZCbUO
-	3m1cUZLgM1KPihIKqOmnHmAVfCSDJEm0ETOwfrFUdxqj4aZgHmYKwURhpB78DSIAYRxWh0
-	yNbl+t78TOucUNpCIRJGPorasunZLWc=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-568-JL4TVbFKP6OoI-YOtSZ6OA-1; Tue,
- 09 Jun 2026 08:50:13 -0400
-X-MC-Unique: JL4TVbFKP6OoI-YOtSZ6OA-1
-X-Mimecast-MFC-AGG-ID: JL4TVbFKP6OoI-YOtSZ6OA_1781009411
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DE30F18501ED;
-	Tue,  9 Jun 2026 12:50:10 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.67.32.87])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 837283008B3B;
-	Tue,  9 Jun 2026 12:50:05 +0000 (UTC)
-From: Kate Hsuan <hpa@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <johannes.goede@oss.qualcomm.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Serin Yeh <serin.yeh@intel.com>,
-	Tarang Raval <tarang.raval@siliconsignals.io>,
-	Damjan Georgievski <gdamjan@gmail.com>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH v4 3/3] media: i2c: imx471: Add Sony IMX471 image sensor driver
-Date: Tue,  9 Jun 2026 20:49:26 +0800
-Message-ID: <20260609124926.1038981-4-hpa@redhat.com>
-In-Reply-To: <20260609124926.1038981-1-hpa@redhat.com>
-References: <20260609124926.1038981-1-hpa@redhat.com>
+	s=arc-20240116; t=1781010108; c=relaxed/simple;
+	bh=LiJUWpGWKAx0Tf/jqg9vvArnhY1/Nu+aqUFRkL4Y/Yk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LQlm/RSh79/iDYFcN5dGYBnveqCTVQRnntMfuuH7kNQ2DP5pq1O66XJ4vcufnCKhjQTrnPk074PG9aHIQyffjAV8tj+B+XpFIV0JEGgMnx0CfD0zC5hFwVKANN83zwFLT2xkb7nm84rtRbkXNUKMDFEepHi9xgbnR0l78NxOuzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aQkxHNLK; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E1A01F00893;
+	Tue,  9 Jun 2026 13:01:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781010106;
+	bh=m271X0iaJIiEixjjz+qpzyZhVPKE0vFCbZ7VXevgXfs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=aQkxHNLK21FNFWG2DNY1fxzKyPmUvknmZJhlGhpxrZlexee3JRKdqF9MEkgIoEbtV
+	 umCm1QOvx5nz4RTegCNVMejtvWaawL6Dl5lOqBkOgiFIFg33GrAlpF04TQFS1nWW1Z
+	 yCOaK4du7+DT/ofZ8t7SI6yg2TxbWdosC5L9fmoC6d+M0N+IqInar+1og3QyzlXLUQ
+	 ppIOUJ0kJnliwytE0IYF9zLgoBrxfZkSOIBwBaxuBonrIKzeQbd9JdDJnTYvAcmRi2
+	 vF42lec06+cDIlcunM29+1gMV95cndNj6uImxV3b9ad13gwOV9GD3bvT4tIAjFP2QM
+	 FuxMoItdevyrQ==
+Message-ID: <ccf4d126-c523-4ae4-8b17-a4cafab79b33@kernel.org>
+Date: Tue, 9 Jun 2026 14:01:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] arm64: dts: qcom: hamoa: Reserve low IOVA range for
+ Iris
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Daniel J Blueman <daniel@quora.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260601041336.9497-1-daniel@quora.org>
+ <ecavEnqJTDXvfFykc9uJb5No7ioighpjrCdw2CFZ4c8Izr5DxpTs-606Bg7K0RtHTaOqksWivHxWQLzMBP6qow==@protonmail.internalid>
+ <20260601041336.9497-2-daniel@quora.org>
+ <ec7c564e-745a-4998-af9a-e9632fe063f7@kernel.org>
+ <CAMVG2ssnyH=KUKrdfnUOtPYU7p17inyzcYWcKhT4EAZxDzDjfg@mail.gmail.com>
+ <h8UvMzNq5TseF22NyjmyrC5yZkO_5JsVGMVaIdLfdpMyfxxemlp0xulRAiylGHWdrq5D4NM1oUk9Jzyhj_UAsw==@protonmail.internalid>
+ <cb37e7cc-4fb0-4c24-8f89-f6f9eb08a107@oss.qualcomm.com>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=bod@kernel.org; keydata=
+ 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
+In-Reply-To: <cb37e7cc-4fb0-4c24-8f89-f6f9eb08a107@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:johannes.goede@oss.qualcomm.com,m:hverkuil+cisco@kernel.org,m:sakari.ailus@linux.intel.com,m:serin.yeh@intel.com,m:tarang.raval@siliconsignals.io,m:gdamjan@gmail.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hpa@redhat.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[hpa@redhat.com,linux-media@vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64299-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,oss.qualcomm.com,linux.intel.com,intel.com,siliconsignals.io,gmail.com];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hpa@redhat.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-64300-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:vikash.garodia@oss.qualcomm.com,m:daniel@quora.org,m:quic_vgarodia@quicinc.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:andersson@kernel.org,m:konradybcio@kernel.org,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 708796604B8
+X-Rspamd-Queue-Id: C52386606F0
 
-Add a new driver for Sony imx471 camera sensor. It is based on
-Jimmy Su <jimmy.su@intel.com> implementation and the driver can be found
-in the following URL.
-https://github.com/intel/ipu6-drivers/commits/master/drivers/media/i2c/imx471.c
+On 04/06/2026 07:38, Vikash Garodia wrote:
+> 
+> 
+> On 6/2/2026 9:05 PM, Daniel J Blueman wrote:
+>> On Tue, 2 Jun 2026 at 18:27, Bryan O'Donoghue <bod@kernel.org> wrote:
+>>>
+>>> On 01/06/2026 05:13, Daniel J Blueman wrote:
+>>>> On X1-family hamoa platforms, Iris DMA below IOVA 0x25800000 (600MB)
+>>>> triggers unhandled SMMU page faults
+>>>
+>>> How do we know that is a correct address - does it come from qcom
+>>> documentation or trial and error ?
+>>
+>> @Vikash, beyond your comment I linked in the patch [1] kindly cite a
+>> source for the different stream-ID <600MB behaviour, and share
+>> specifics, eg if silicon, firmware, or driver and constraint, defect
+>> or otherwise, so I can include a definitive description.
+>>
+>> Also good to know if my workaround is good for long-term, or on the
+>> other hand handling streams <600MB is important/useful.
+>>
+> 
+> Thanks Daniel for raising this patch. Did you also try the memory fix i
+> mentioned in the bug [1] discussion ?
+> 
+> Coming to 600MB, this have been the VPU hardware restriction all the
+> while since venus days, and since address could not go deeper all the
+> way lower than 600MB, the issue never popped up earlier.
+> 
+> Consider the memory layout split as below (Iris device range is capped
+> to 0xe0000000)
+> 
+> |-----600MB-----|-----(0xe0000000 - 600MB)-----|----IO reg--|
+> 
+> 0-600MB range, VPU hardware would reserve this to generate different
+> stream-IDs primarily for internal (non-pixel) buffers.
+> 
+> 0-600 --> VPU would generate *secure* stream ID for non-pixel buffers
+> 601 - 0xe0000000 --> VPU would generate non-secure stream ID for
+> non-pixel buffers.
+> 
+> When many concurrent sessions were tried, non-pixel buffers were mapped
+> into 0-600MB range, and VPU generated secure ID for those. Since those
+> were not associated with the iommus configured for iris node, it led to
+> USF (un-identified stream fault) and device would crash.
+> 
+> Keeping the region reserved, makes the non-pixel buffer always in the
+> non secure range (601-..) and avoids the crash.
+> 
+> Downside of this design - It would eventually reserve 0-600MB un-map
+> 'able for all buffer types, like pixel as well which do not have any
+> such restriction.
+> 
+> Forward looking design - create devices dynamically and set reserve
+> regions for those specific device using the api [1], instead of applying
+> one reserve for all.
+> 
+> [1]
+> https://lore.kernel.org/all/20260119054936.3350128-1-busanna.reddy@oss.qualcomm.com/
+The problem here is in the reponse to the email you linked:
 
-This sensor can be found on Lenovo X1 Carbon G14, X9-14 and X9-15 laptops
-and it is a part of IPU7 solution. The driver was tested on Lenovo X1
-Carbon G14, X9-14 and X9-15 laptops.
+https://lore.kernel.org/all/cfd23f75-8952-4463-abd5-815b995031b0@arm.com/
 
-Signed-off-by: Kate Hsuan <hpa@redhat.com>
+- Inheriting the parent's properties is wrong
+- We should just have a bus
+
+But that leads us to churning DT and we'd have to figure out how/why to 
+do it purely for the purpose of differentiating SIDs within Iris. There 
+is no separate hardware - its one VPU which needs to figure out its IOVA 
+for different SIDs.
+
+Krzysztof would rightly say no - again - to putting collateral into DT 
+to differentiate pixel streams based on SID, because that's not a 
+hardware property.
+
+- You have pixel and non-pixel SIDs that have to hit Linux
+- You have to keep non-pixel allocations >= 600 MB
+- You can allow pixel < 600mb =>
+   Daniel's patch is too restrictive
+
+But what we can do is add information to the iris platform descriptors 
+to enumerate what are the valid IOVA ranges for pixel and non-pixel data 
+and then change the allocation code to operate from those platform-code 
+described IOVAs.
+
+No new iommu properties, not arguing about plonking SID/pixel-path data 
+into DT.
+
+Just teach the driver what the valid ranges are and allocate IOVAs based 
+on those ranges.
+
+I think Daniel's patch should be taken as it fixes a real bug for users 
+right now but, I equally think its a NAK for any new SoC.
+
+This IOVA allocation needs to be tackled correctly and IMO that needs to 
+be and should be done via platform descriptors for valid ranges of IOVA.
+
+No mad stuff about SIDs in DT, no lengthy arguments about adding strange 
+iommu properties.
+
 ---
- MAINTAINERS                |   6 +
- drivers/media/i2c/Kconfig  |  10 +
- drivers/media/i2c/Makefile |   1 +
- drivers/media/i2c/imx471.c | 949 +++++++++++++++++++++++++++++++++++++
- 4 files changed, 966 insertions(+)
- create mode 100644 drivers/media/i2c/imx471.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9ec290e38b44..f4bb6b528fa1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -24963,6 +24963,12 @@ T:	git git://linuxtv.org/media.git
- F:	Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
- F:	drivers/media/i2c/imx415.c
- 
-+SONY IMX471 SENSOR DRIVER
-+M:	Kate Hsuan <hpa@redhat.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+F:	drivers/media/i2c/imx471.c
-+
- SONY MEMORYSTICK SUBSYSTEM
- M:	Maxim Levitsky <maximlevitsky@gmail.com>
- M:	Alex Dubov <oakad@yahoo.com>
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 8f2ba4121586..e1143579ae3d 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -287,6 +287,16 @@ config VIDEO_IMX415
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called imx415.
- 
-+config VIDEO_IMX471
-+	tristate "Sony IMX471 sensor support"
-+	select V4L2_CCI_I2C
-+	help
-+	  This is a Video4Linux2 sensor driver for the Sony
-+	  IMX471 camera.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called imx471.
-+
- config VIDEO_MAX9271_LIB
- 	tristate
- 
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index 90b276a7417a..f5c9fa93dc47 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -61,6 +61,7 @@ obj-$(CONFIG_VIDEO_IMX335) += imx335.o
- obj-$(CONFIG_VIDEO_IMX355) += imx355.o
- obj-$(CONFIG_VIDEO_IMX412) += imx412.o
- obj-$(CONFIG_VIDEO_IMX415) += imx415.o
-+obj-$(CONFIG_VIDEO_IMX471) += imx471.o
- obj-$(CONFIG_VIDEO_IR_I2C) += ir-kbd-i2c.o
- obj-$(CONFIG_VIDEO_ISL7998X) += isl7998x.o
- obj-$(CONFIG_VIDEO_KS0127) += ks0127.o
-diff --git a/drivers/media/i2c/imx471.c b/drivers/media/i2c/imx471.c
-new file mode 100644
-index 000000000000..4d570cf7a91d
---- /dev/null
-+++ b/drivers/media/i2c/imx471.c
-@@ -0,0 +1,949 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * imx471.c - imx471 sensor driver
-+ *
-+ * Copyright (C) 2025 Intel Corporation
-+ * Copyright (C) 2026 Kate Hsuan <hpa@redhat.com>
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/unaligned.h>
-+#include <media/v4l2-cci.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-event.h>
-+#include <media/v4l2-fwnode.h>
-+
-+#define IMX471_REG_MODE_SELECT			CCI_REG8(0x0100)
-+#define IMX471_MODE_STANDBY			0x00
-+#define IMX471_MODE_STREAMING			0x01
-+
-+/* Chip ID */
-+#define IMX471_REG_CHIP_ID			CCI_REG16(0x0016)
-+#define IMX471_CHIP_ID				0x0471
-+
-+/* V_TIMING internal */
-+#define IMX471_REG_FLL				CCI_REG16(0x0340)
-+#define IMX471_FLL_MAX				0xffff
-+
-+/* Exposure control */
-+#define IMX471_REG_EXPOSURE			CCI_REG16(0x0202)
-+#define IMX471_EXPOSURE_MIN			1
-+#define IMX471_EXPOSURE_STEP			1
-+#define IMX471_EXPOSURE_DEFAULT			1270
-+
-+/* Default exposure margin */
-+#define IMX471_EXPOSURE_MARGIN			18
-+
-+/* Analog gain control */
-+#define IMX471_REG_ANALOG_GAIN			CCI_REG16(0x0204)
-+#define IMX471_ANA_GAIN_MIN			0
-+#define IMX471_ANA_GAIN_MAX			800
-+#define IMX471_ANA_GAIN_STEP			1
-+#define IMX471_ANA_GAIN_DEFAULT			0
-+
-+/* Digital gain control */
-+#define IMX471_REG_DPGA_USE_GLOBAL_GAIN		CCI_REG16(0x3ff9)
-+#define IMX471_REG_DIG_GAIN_GLOBAL		CCI_REG16(0x020e)
-+#define IMX471_DGTL_GAIN_MIN			256
-+#define IMX471_DGTL_GAIN_MAX			4095
-+#define IMX471_DGTL_GAIN_STEP			1
-+#define IMX471_DGTL_GAIN_DEFAULT		256
-+
-+/* HFLIP and VFLIP control */
-+#define IMX471_REG_ORIENTATION			CCI_REG8(0x0101)
-+#define IMX471_HFLIP_BIT			BIT(0)
-+#define IMX471_VFLIP_BIT			BIT(1)
-+
-+/* Test Pattern Control */
-+#define IMX471_REG_TEST_PATTERN			CCI_REG8(0x0600)
-+#define IMX471_TEST_PATTERN_DISABLED		0
-+#define IMX471_TEST_PATTERN_SOLID_COLOR		1
-+#define IMX471_TEST_PATTERN_COLOR_BARS		2
-+#define IMX471_TEST_PATTERN_GRAY_COLOR_BARS	3
-+#define IMX471_TEST_PATTERN_PN9			4
-+
-+/* default link frequency and external clock */
-+#define IMX471_LINK_FREQ_DEFAULT		200000000LL
-+#define IMX471_EXT_CLK				19200000
-+#define IMX471_LINK_FREQ_INDEX			0
-+
-+/* IMX471 native and active pixel array size */
-+#define IMX471_NATIVE_WIDTH			4672
-+#define IMX471_NATIVE_HEIGHT			3512
-+#define IMX471_PIXEL_ARRAY_LEFT			8
-+#define IMX471_PIXEL_ARRAY_TOP			8
-+#define IMX471_PIXEL_ARRAY_WIDTH		4656
-+#define IMX471_PIXEL_ARRAY_HEIGHT		3496
-+
-+#define IMX471_REG_EXCK_FREQ			CCI_REG16(0x0136)
-+#define IMX471_EXCK_FREQ(n)			((n) * 256)	/* n in MHz */
-+
-+#define IMX471_REG_CSI_DATA_FORMAT		CCI_REG16(0x0112)
-+#define IMX471_CSI_DATA_FORMAT_RAW10		0x0a0a
-+
-+#define IMX471_REG_CSI_LANE_MODE		CCI_REG8(0x0114)
-+#define IMX471_CSI_2_LANE_MODE			1
-+#define IMX471_CSI_4_LANE_MODE			3
-+
-+#define IMX471_REG_X_ADD_STA			CCI_REG16(0x0344)
-+#define IMX471_REG_Y_ADD_STA			CCI_REG16(0x0346)
-+#define IMX471_REG_X_ADD_END			CCI_REG16(0x0348)
-+#define IMX471_REG_Y_ADD_END			CCI_REG16(0x034a)
-+#define IMX471_REG_X_OUTPUT_SIZE		CCI_REG16(0x034c)
-+#define IMX471_REG_Y_OUTPUT_SIZE		CCI_REG16(0x034e)
-+#define IMX471_REG_X_EVEN_INC			CCI_REG8(0x0381)
-+#define IMX471_REG_X_ODD_INC			CCI_REG8(0x0383)
-+#define IMX471_REG_Y_EVEN_INC			CCI_REG8(0x0385)
-+#define IMX471_REG_Y_ODD_INC			CCI_REG8(0x0387)
-+
-+#define IMX471_REG_DIG_CROP_X_OFFSET		CCI_REG16(0x0408)
-+#define IMX471_REG_DIG_CROP_Y_OFFSET		CCI_REG16(0x040a)
-+#define IMX471_REG_DIG_CROP_WIDTH		CCI_REG16(0x040c)
-+#define IMX471_REG_DIG_CROP_HEIGHT		CCI_REG16(0x040e)
-+
-+#define to_imx471(_sd) container_of_const(_sd, struct imx471, sd)
-+
-+static const char * const imx471_supply_name[] = {
-+	"avdd",
-+};
-+
-+struct imx471_mode {
-+	u32 width;
-+	u32 height;
-+
-+	/* V-timing */
-+	u32 fll_def;
-+	u32 fll_min;
-+
-+	/* H-timing */
-+	u32 llp;
-+
-+	u32 link_freq_index;
-+
-+	const struct cci_reg_sequence *default_mode_regs;
-+	unsigned int default_mode_regs_length;
-+};
-+
-+struct imx471 {
-+	struct v4l2_subdev sd;
-+	struct media_pad pad;
-+
-+	struct v4l2_ctrl_handler ctrl_handler;
-+	struct v4l2_ctrl *pixel_rate;
-+	struct v4l2_ctrl *vblank;
-+	struct v4l2_ctrl *hblank;
-+	struct v4l2_ctrl *vflip;
-+	struct v4l2_ctrl *hflip;
-+	struct v4l2_ctrl *exposure;
-+
-+	struct gpio_desc *reset_gpio;
-+	struct regulator_bulk_data supplies[ARRAY_SIZE(imx471_supply_name)];
-+	struct clk *img_clk;
-+
-+	struct device *dev;
-+	struct regmap *regmap;
-+};
-+
-+static const struct cci_reg_sequence imx471_global_regs[] = {
-+	{ IMX471_REG_EXCK_FREQ, IMX471_EXCK_FREQ(19.2) },
-+	{ CCI_REG8(0x3c7e), 0x08 },
-+	{ CCI_REG8(0x3c7f), 0x05 },
-+	{ CCI_REG8(0x3e35), 0x00 },
-+	{ CCI_REG8(0x3e36), 0x00 },
-+	{ CCI_REG8(0x3e37), 0x00 },
-+	{ CCI_REG8(0x3f7f), 0x01 },
-+	{ CCI_REG8(0x4431), 0x04 },
-+	{ CCI_REG8(0x531c), 0x01 },
-+	{ CCI_REG8(0x531d), 0x02 },
-+	{ CCI_REG8(0x531e), 0x04 },
-+	{ CCI_REG8(0x5928), 0x00 },
-+	{ CCI_REG8(0x5929), 0x2f },
-+	{ CCI_REG8(0x592a), 0x00 },
-+	{ CCI_REG8(0x592b), 0x85 },
-+	{ CCI_REG8(0x592c), 0x00 },
-+	{ CCI_REG8(0x592d), 0x32 },
-+	{ CCI_REG8(0x592e), 0x00 },
-+	{ CCI_REG8(0x592f), 0x88 },
-+	{ CCI_REG8(0x5930), 0x00 },
-+	{ CCI_REG8(0x5931), 0x3d },
-+	{ CCI_REG8(0x5932), 0x00 },
-+	{ CCI_REG8(0x5933), 0x93 },
-+	{ CCI_REG8(0x5938), 0x00 },
-+	{ CCI_REG8(0x5939), 0x24 },
-+	{ CCI_REG8(0x593a), 0x00 },
-+	{ CCI_REG8(0x593b), 0x7a },
-+	{ CCI_REG8(0x593c), 0x00 },
-+	{ CCI_REG8(0x593d), 0x24 },
-+	{ CCI_REG8(0x593e), 0x00 },
-+	{ CCI_REG8(0x593f), 0x7a },
-+	{ CCI_REG8(0x5940), 0x00 },
-+	{ CCI_REG8(0x5941), 0x2f },
-+	{ CCI_REG8(0x5942), 0x00 },
-+	{ CCI_REG8(0x5943), 0x85 },
-+	{ CCI_REG8(0x5f0e), 0x6e },
-+	{ CCI_REG8(0x5f11), 0xc6 },
-+	{ CCI_REG8(0x5f17), 0x5e },
-+	{ CCI_REG8(0x7990), 0x01 },
-+	{ CCI_REG8(0x7993), 0x5d },
-+	{ CCI_REG8(0x7994), 0x5d },
-+	{ CCI_REG8(0x7995), 0xa1 },
-+	{ CCI_REG8(0x799a), 0x01 },
-+	{ CCI_REG8(0x799d), 0x00 },
-+	{ CCI_REG8(0x8169), 0x01 },
-+	{ CCI_REG8(0x8359), 0x01 },
-+	{ CCI_REG8(0x9302), 0x1e },
-+	{ CCI_REG8(0x9306), 0x1f },
-+	{ CCI_REG8(0x930a), 0x26 },
-+	{ CCI_REG8(0x930e), 0x23 },
-+	{ CCI_REG8(0x9312), 0x23 },
-+	{ CCI_REG8(0x9316), 0x2c },
-+	{ CCI_REG8(0x9317), 0x19 },
-+	{ CCI_REG8(0xb046), 0x01 },
-+	{ CCI_REG8(0xb048), 0x01 },
-+};
-+
-+static const struct cci_reg_sequence mode_1928x1088_regs[] = {
-+	{ IMX471_REG_X_ADD_STA, 8 },
-+	{ IMX471_REG_Y_ADD_STA, 408 },
-+	{ IMX471_REG_X_ADD_END, 4647 },
-+	{ IMX471_REG_Y_ADD_END, 3051 },
-+	{ IMX471_REG_X_EVEN_INC, 1 },
-+	{ IMX471_REG_X_ODD_INC, 1 },
-+	{ IMX471_REG_Y_EVEN_INC, 1 },
-+	{ IMX471_REG_Y_ODD_INC, 1 },
-+	{ CCI_REG8(0x0900), 0x01 },
-+	{ CCI_REG8(0x0901), 0x22 },
-+	{ CCI_REG8(0x0902), 0x08 },
-+	{ IMX471_REG_DIG_CROP_X_OFFSET, 208 },
-+	{ IMX471_REG_DIG_CROP_Y_OFFSET, 108 },
-+	{ IMX471_REG_DIG_CROP_WIDTH, 1928 },
-+	{ IMX471_REG_DIG_CROP_HEIGHT, 1088 },
-+	{ IMX471_REG_X_OUTPUT_SIZE, 1928 },
-+	{ IMX471_REG_Y_OUTPUT_SIZE, 1088 },
-+	{ CCI_REG8(0x0301), 0x06 },
-+	{ CCI_REG8(0x0303), 0x02 },
-+	{ CCI_REG8(0x0305), 0x02 },
-+	{ CCI_REG8(0x0306), 0x00 },
-+	{ CCI_REG8(0x0307), 0x79 },
-+	{ CCI_REG8(0x030b), 0x01 },
-+	{ CCI_REG8(0x030d), 0x02 },
-+	{ CCI_REG8(0x030e), 0x00 },
-+	{ CCI_REG8(0x030f), 0x53 },
-+	{ CCI_REG8(0x0310), 0x01 },
-+	{ IMX471_REG_EXPOSURE, IMX471_EXPOSURE_DEFAULT },
-+	{ CCI_REG8(0x3f4c), 0x81 },
-+	{ CCI_REG8(0x3f4d), 0x81 },
-+	{ CCI_REG8(0x3f78), 0x01 },
-+	{ CCI_REG8(0x3f79), 0x31 },
-+	{ CCI_REG8(0x3ffe), 0x00 },
-+	{ CCI_REG8(0x3fff), 0x8a },
-+	{ CCI_REG8(0x5f0a), 0xb6 },
-+};
-+
-+static const char * const imx471_test_pattern_menu[] = {
-+	"Disabled",
-+	"Solid Colour",
-+	"Eight Vertical Colour Bars",
-+	"Colour Bars With Fade to Grey",
-+	"Pseudorandom Sequence (PN9)",
-+};
-+
-+static const s64 link_freq_menu_items[] = {
-+	IMX471_LINK_FREQ_DEFAULT,
-+};
-+
-+/*
-+ * The Bayer formats for the flipping.
-+ * - no flip
-+ * - h flip
-+ * - v flip
-+ * - h and v flips
-+ */
-+static const u32 imx471_hv_flips_bayer_order[] = {
-+	MEDIA_BUS_FMT_SRGGB10_1X10,
-+	MEDIA_BUS_FMT_SGRBG10_1X10,
-+	MEDIA_BUS_FMT_SGBRG10_1X10,
-+	MEDIA_BUS_FMT_SBGGR10_1X10,
-+};
-+
-+static const struct imx471_mode imx471_modes[] = {
-+	{
-+		.width = 1928,
-+		.height = 1088,
-+		.fll_def = 1308,
-+		.fll_min = 1308,
-+		.llp = 2328,
-+		.link_freq_index = IMX471_LINK_FREQ_INDEX,
-+		.default_mode_regs = mode_1928x1088_regs,
-+		.default_mode_regs_length = ARRAY_SIZE(mode_1928x1088_regs),
-+	},
-+};
-+
-+static int imx471_get_regulators(struct device *dev, struct imx471 *sensor)
-+{
-+	for (unsigned int i = 0; i < ARRAY_SIZE(imx471_supply_name); i++)
-+		sensor->supplies[i].supply = imx471_supply_name[i];
-+
-+	return devm_regulator_bulk_get(dev, ARRAY_SIZE(imx471_supply_name),
-+				       sensor->supplies);
-+}
-+
-+static int imx471_set_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct imx471 *sensor = container_of_const(ctrl->handler,
-+						   struct imx471,
-+						   ctrl_handler);
-+	struct v4l2_subdev_state *state =
-+			v4l2_subdev_get_locked_active_state(&sensor->sd);
-+	const struct v4l2_mbus_framefmt *format =
-+			v4l2_subdev_state_get_format(state, 0);
-+	s64 exposure_max;
-+	int ret;
-+
-+	if (ctrl->id == V4L2_CID_VBLANK) {
-+		exposure_max =
-+			format->height + ctrl->val - IMX471_EXPOSURE_MARGIN;
-+		ret = __v4l2_ctrl_modify_range(sensor->exposure,
-+					       sensor->exposure->minimum,
-+					       exposure_max,
-+					       sensor->exposure->step,
-+					       exposure_max);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	/* V4L2 controls values will be applied only when power is already up */
-+	if (!pm_runtime_get_if_in_use(sensor->dev))
-+		return 0;
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_ANALOGUE_GAIN:
-+		ret = cci_write(sensor->regmap, IMX471_REG_ANALOG_GAIN,
-+				ctrl->val, NULL);
-+		break;
-+	case V4L2_CID_DIGITAL_GAIN:
-+		ret = cci_write(sensor->regmap, IMX471_REG_DIG_GAIN_GLOBAL,
-+				ctrl->val, NULL);
-+		break;
-+	case V4L2_CID_EXPOSURE:
-+		ret = cci_write(sensor->regmap, IMX471_REG_EXPOSURE,
-+				ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_VBLANK:
-+		/* Update FLL that meets expected vertical blanking */
-+		ret = cci_write(sensor->regmap, IMX471_REG_FLL,
-+				format->height + ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_TEST_PATTERN:
-+		ret = cci_write(sensor->regmap, IMX471_REG_TEST_PATTERN,
-+				ctrl->val, NULL);
-+		break;
-+	case V4L2_CID_HFLIP:
-+	case V4L2_CID_VFLIP:
-+		ret = cci_write(sensor->regmap, IMX471_REG_ORIENTATION,
-+				sensor->hflip->val | sensor->vflip->val << 1, NULL);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		dev_info(sensor->dev, "ctrl(id:0x%x,val:0x%x) is not handled",
-+			 ctrl->id, ctrl->val);
-+		break;
-+	}
-+
-+	pm_runtime_put(sensor->dev);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_ctrl_ops imx471_ctrl_ops = {
-+	.s_ctrl = imx471_set_ctrl,
-+};
-+
-+static u32 imx471_get_format_code(struct imx471 *sensor)
-+{
-+	unsigned int i;
-+
-+	i = (sensor->vflip->val ? 2 : 0) | (sensor->hflip->val ? 1 : 0);
-+
-+	return imx471_hv_flips_bayer_order[i];
-+}
-+
-+static int imx471_enum_mbus_code(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *sd_state,
-+				 struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	struct imx471 *sensor = to_imx471(sd);
-+
-+	if (code->index >= (ARRAY_SIZE(imx471_hv_flips_bayer_order) / 4))
-+		return -EINVAL;
-+
-+	code->code = imx471_get_format_code(sensor);
-+
-+	return 0;
-+}
-+
-+static int imx471_enum_frame_size(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *sd_state,
-+				  struct v4l2_subdev_frame_size_enum *fse)
-+{
-+	if (fse->index >= ARRAY_SIZE(imx471_modes))
-+		return -EINVAL;
-+
-+	fse->min_width = imx471_modes[fse->index].width;
-+	fse->max_width = fse->min_width;
-+	fse->min_height = imx471_modes[fse->index].height;
-+	fse->max_height = fse->min_height;
-+
-+	return 0;
-+}
-+
-+static void imx471_update_pad_format(struct imx471 *sensor,
-+				     const struct imx471_mode *mode,
-+				     struct v4l2_subdev_format *fmt)
-+{
-+	fmt->format.code = imx471_get_format_code(sensor);
-+	fmt->format.width = mode->width;
-+	fmt->format.height = mode->height;
-+	fmt->format.field = V4L2_FIELD_NONE;
-+}
-+
-+static int imx471_set_pad_format(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *sd_state,
-+				 struct v4l2_subdev_format *fmt)
-+{
-+	struct imx471 *sensor = to_imx471(sd);
-+	const struct imx471_mode *mode;
-+	u64 pixel_rate;
-+	int h_blank;
-+	int ret;
-+
-+	mode = v4l2_find_nearest_size(imx471_modes,
-+				      ARRAY_SIZE(imx471_modes),
-+				      width, height,
-+				      fmt->format.width, fmt->format.height);
-+
-+	imx471_update_pad_format(sensor, mode, fmt);
-+
-+	*v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
-+
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-+		return 0;
-+
-+	if (media_entity_is_streaming(&sensor->sd.entity))
-+		return -EBUSY;
-+
-+	pixel_rate = div_u64(IMX471_LINK_FREQ_DEFAULT * 2 * 4, 10);
-+	ret = __v4l2_ctrl_modify_range(sensor->pixel_rate,
-+				       V4L2_CID_PIXEL_RATE,
-+				       pixel_rate, 1, pixel_rate);
-+	if (ret)
-+		return ret;
-+
-+	ret = __v4l2_ctrl_modify_range(sensor->vblank,
-+				       mode->fll_min - mode->height,
-+				       IMX471_FLL_MAX - mode->height,
-+				       1,
-+				       mode->fll_def - mode->height);
-+	if (ret)
-+		return ret;
-+
-+	h_blank = mode->llp - mode->width;
-+	/*
-+	 * Currently hblank is not changeable.
-+	 * So FPS control is done only by vblank.
-+	 */
-+	return __v4l2_ctrl_modify_range(sensor->hblank, h_blank,
-+					h_blank, 1, h_blank);
-+}
-+
-+static int imx471_get_selection(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_state *sd_state,
-+				struct v4l2_subdev_selection *sel)
-+{
-+	switch (sel->target) {
-+	case V4L2_SEL_TGT_CROP:
-+		sel->r = *v4l2_subdev_state_get_crop(sd_state, sel->pad);
-+		break;
-+
-+	case V4L2_SEL_TGT_NATIVE_SIZE:
-+		sel->r.top = 0;
-+		sel->r.left = 0;
-+		sel->r.width = IMX471_NATIVE_WIDTH;
-+		sel->r.height = IMX471_NATIVE_HEIGHT;
-+		return 0;
-+
-+	case V4L2_SEL_TGT_CROP_DEFAULT:
-+	case V4L2_SEL_TGT_CROP_BOUNDS:
-+		sel->r.top = IMX471_PIXEL_ARRAY_TOP;
-+		sel->r.left = IMX471_PIXEL_ARRAY_LEFT;
-+		sel->r.width = IMX471_PIXEL_ARRAY_WIDTH;
-+		sel->r.height = IMX471_PIXEL_ARRAY_HEIGHT;
-+		return 0;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static int imx471_init_state(struct v4l2_subdev *sd,
-+			     struct v4l2_subdev_state *sd_state)
-+{
-+	struct v4l2_subdev_format fmt = {
-+		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-+		.format = {
-+			.code = MEDIA_BUS_FMT_SRGGB10_1X10,
-+			.width = imx471_modes[0].width,
-+			.height = imx471_modes[0].height,
-+		},
-+	};
-+
-+	return imx471_set_pad_format(sd, sd_state, &fmt);
-+}
-+
-+static int imx471_identify_module(struct imx471 *sensor)
-+{
-+	int ret;
-+	u64 val;
-+
-+	ret = cci_read(sensor->regmap, IMX471_REG_CHIP_ID, &val, NULL);
-+	if (ret)
-+		return dev_err_probe(sensor->dev, ret,
-+				     "failed to read chip id\n");
-+
-+	if (val != IMX471_CHIP_ID)
-+		return dev_err_probe(sensor->dev, -EIO,
-+				     "chip id mismatch: %x!=%llx\n",
-+				     IMX471_CHIP_ID, val);
-+
-+	return 0;
-+}
-+
-+static int imx471_power_off(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct imx471 *sensor = to_imx471(sd);
-+
-+	clk_disable_unprepare(sensor->img_clk);
-+	gpiod_set_value_cansleep(sensor->reset_gpio, 1);
-+
-+	regulator_bulk_disable(ARRAY_SIZE(imx471_supply_name), sensor->supplies);
-+
-+	return 0;
-+}
-+
-+static int imx471_power_on(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct imx471 *sensor = to_imx471(sd);
-+	int ret;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(imx471_supply_name), sensor->supplies);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to enable regulators: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = clk_prepare_enable(sensor->img_clk);
-+	if (ret < 0) {
-+		regulator_bulk_disable(ARRAY_SIZE(imx471_supply_name), sensor->supplies);
-+		dev_err(dev, "failed to enable imaging clock: %d", ret);
-+		return ret;
-+	}
-+
-+	gpiod_set_value_cansleep(sensor->reset_gpio, 0);
-+
-+	usleep_range(10000, 15000);
-+
-+	return 0;
-+}
-+
-+static int imx471_enable_stream(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_state *state,
-+				u32 pad, u64 streams_mask)
-+{
-+	struct imx471 *sensor = to_imx471(sd);
-+	const struct imx471_mode *mode;
-+	struct v4l2_mbus_framefmt *fmt;
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(sensor->dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = imx471_identify_module(sensor);
-+	if (ret)
-+		return ret;
-+
-+	ret = cci_multi_reg_write(sensor->regmap, imx471_global_regs,
-+				  ARRAY_SIZE(imx471_global_regs), NULL);
-+	if (ret) {
-+		dev_err(sensor->dev, "failed to set global settings: %d", ret);
-+		goto error_powerdown;
-+	}
-+
-+	state = v4l2_subdev_get_locked_active_state(&sensor->sd);
-+	fmt = v4l2_subdev_state_get_format(state, 0);
-+	mode = v4l2_find_nearest_size(imx471_modes, ARRAY_SIZE(imx471_modes),
-+				      width, height, fmt->width, fmt->height);
-+
-+	ret = cci_multi_reg_write(sensor->regmap, mode->default_mode_regs,
-+				  mode->default_mode_regs_length, NULL);
-+	if (ret) {
-+		dev_err(sensor->dev, "failed to set mode: %d", ret);
-+		goto error_powerdown;
-+	}
-+
-+	ret = cci_write(sensor->regmap, IMX471_REG_DPGA_USE_GLOBAL_GAIN, 1, NULL);
-+	if (ret)
-+		goto error_powerdown;
-+
-+	ret = __v4l2_ctrl_handler_setup(&sensor->ctrl_handler);
-+	if (ret)
-+		goto error_powerdown;
-+
-+	ret = cci_write(sensor->regmap, IMX471_REG_MODE_SELECT,
-+			IMX471_MODE_STREAMING, NULL);
-+	if (ret)
-+		goto error_powerdown;
-+
-+	__v4l2_ctrl_grab(sensor->vflip, true);
-+	__v4l2_ctrl_grab(sensor->hflip, true);
-+
-+	return ret;
-+
-+error_powerdown:
-+	pm_runtime_put(sensor->dev);
-+
-+	return ret;
-+}
-+
-+static int imx471_disable_stream(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *state,
-+				 u32 pad, u64 streams_mask)
-+{
-+	struct imx471 *sensor = to_imx471(sd);
-+	int ret;
-+
-+	ret = cci_write(sensor->regmap, IMX471_REG_MODE_SELECT,
-+			IMX471_MODE_STANDBY, NULL);
-+	pm_runtime_put(sensor->dev);
-+
-+	if (ret)
-+		dev_err(sensor->dev,
-+			"failed to disable stream with return value: %d\n",
-+			ret);
-+
-+	__v4l2_ctrl_grab(sensor->vflip, false);
-+	__v4l2_ctrl_grab(sensor->hflip, false);
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_subdev_video_ops imx471_video_ops = {
-+	.s_stream = v4l2_subdev_s_stream_helper,
-+};
-+
-+static const struct v4l2_subdev_pad_ops imx471_pad_ops = {
-+	.enum_mbus_code = imx471_enum_mbus_code,
-+	.get_fmt = v4l2_subdev_get_fmt,
-+	.set_fmt = imx471_set_pad_format,
-+	.get_selection = imx471_get_selection,
-+	.enum_frame_size = imx471_enum_frame_size,
-+	.enable_streams = imx471_enable_stream,
-+	.disable_streams = imx471_disable_stream,
-+};
-+
-+static const struct v4l2_subdev_ops imx471_subdev_ops = {
-+	.video = &imx471_video_ops,
-+	.pad = &imx471_pad_ops,
-+};
-+
-+static const struct v4l2_subdev_internal_ops imx471_internal_ops = {
-+	.init_state = imx471_init_state,
-+};
-+
-+static int imx471_init_controls(struct imx471 *sensor)
-+{
-+	const struct imx471_mode *mode = &imx471_modes[0];
-+	struct v4l2_fwnode_device_properties props;
-+	struct v4l2_ctrl_handler *ctrl_hdlr;
-+	struct v4l2_ctrl *link_freq;
-+	s64 exposure_max, hblank;
-+	u64 pixel_rate;
-+	int ret;
-+
-+	ctrl_hdlr = &sensor->ctrl_handler;
-+	v4l2_ctrl_handler_init(ctrl_hdlr, 12);
-+
-+	ret = v4l2_fwnode_device_parse(sensor->dev, &props);
-+	if (ret) {
-+		dev_err(sensor->dev, "failed to parse fwnode: %d", ret);
-+		return ret;
-+	}
-+
-+	v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx471_ctrl_ops, &props);
-+
-+	link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr,
-+					   &imx471_ctrl_ops,
-+					   V4L2_CID_LINK_FREQ,
-+					   ARRAY_SIZE(link_freq_menu_items) - 1,
-+					   0,
-+					   link_freq_menu_items);
-+
-+	/* pixel_rate = link_freq * 2 * nr_of_lanes / bits_per_sample */
-+	pixel_rate = div_u64(IMX471_LINK_FREQ_DEFAULT * 2 * 4, 10);
-+
-+	sensor->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops,
-+					       V4L2_CID_PIXEL_RATE, pixel_rate,
-+					       pixel_rate, 1, pixel_rate);
-+
-+	sensor->vblank = v4l2_ctrl_new_std(ctrl_hdlr,
-+					   &imx471_ctrl_ops,
-+					   V4L2_CID_VBLANK,
-+					   mode->fll_min - mode->height,
-+					   IMX471_FLL_MAX - mode->height,
-+					   1,
-+					   mode->fll_def - mode->height);
-+
-+	hblank = mode->llp - mode->width;
-+	sensor->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops,
-+					   V4L2_CID_HBLANK, hblank, hblank,
-+					   1, hblank);
-+
-+	/* fll >= exposure time + adjust parameter (default value is 18) */
-+	exposure_max = mode->fll_def - IMX471_EXPOSURE_MARGIN;
-+	sensor->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops,
-+					     V4L2_CID_EXPOSURE,
-+					     IMX471_EXPOSURE_MIN, exposure_max,
-+					     IMX471_EXPOSURE_STEP,
-+					     IMX471_EXPOSURE_DEFAULT);
-+
-+	v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
-+			  IMX471_ANA_GAIN_MIN, IMX471_ANA_GAIN_MAX,
-+			  IMX471_ANA_GAIN_STEP, IMX471_ANA_GAIN_DEFAULT);
-+
-+	v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
-+			  IMX471_DGTL_GAIN_MIN, IMX471_DGTL_GAIN_MAX,
-+			  IMX471_DGTL_GAIN_STEP, IMX471_DGTL_GAIN_DEFAULT);
-+
-+	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &imx471_ctrl_ops,
-+				     V4L2_CID_TEST_PATTERN,
-+				     ARRAY_SIZE(imx471_test_pattern_menu) - 1,
-+				     0, 0, imx471_test_pattern_menu);
-+
-+	sensor->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops,
-+					  V4L2_CID_HFLIP, 0, 1, 1, 0);
-+
-+	sensor->vflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops,
-+					  V4L2_CID_VFLIP, 0, 1, 1, 0);
-+
-+	if (ctrl_hdlr->error) {
-+		dev_err(sensor->dev, "%s control init failed: %d",
-+			__func__, ctrl_hdlr->error);
-+		goto error;
-+	}
-+
-+	link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+	sensor->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+	sensor->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
-+	sensor->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
-+
-+	sensor->sd.ctrl_handler = ctrl_hdlr;
-+
-+	return 0;
-+
-+error:
-+	v4l2_ctrl_handler_free(ctrl_hdlr);
-+
-+	return ctrl_hdlr->error;
-+}
-+
-+static int imx471_check_hwcfg(struct imx471 *sensor)
-+{
-+	struct v4l2_fwnode_endpoint bus_cfg = {
-+		.bus_type = V4L2_MBUS_CSI2_DPHY,
-+	};
-+	struct fwnode_handle *ep, *fwnode = dev_fwnode(sensor->dev);
-+	unsigned long link_freq_bitmap;
-+	struct clk *clk;
-+	int ret;
-+
-+	clk = devm_v4l2_sensor_clk_get(sensor->dev, NULL);
-+	if (IS_ERR(clk))
-+		return dev_err_probe(sensor->dev, PTR_ERR(clk),
-+				     "can't get clock frequency\n");
-+
-+	if (clk_get_rate(clk) != IMX471_EXT_CLK)
-+		return dev_err_probe(sensor->dev, -EINVAL,
-+				     "external clock %lu is not supported\n",
-+				     clk_get_rate(clk));
-+
-+	ep = fwnode_graph_get_endpoint_by_id(fwnode, 0, 0, 0);
-+	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
-+	fwnode_handle_put(ep);
-+	if (ret)
-+		return dev_err_probe(sensor->dev, ret,
-+				     "parsing endpoint failed");
-+
-+	ret = v4l2_link_freq_to_bitmap(sensor->dev, bus_cfg.link_frequencies,
-+				       bus_cfg.nr_of_link_frequencies,
-+				       link_freq_menu_items,
-+				       ARRAY_SIZE(link_freq_menu_items),
-+				       &link_freq_bitmap);
-+
-+	v4l2_fwnode_endpoint_free(&bus_cfg);
-+
-+	return ret;
-+}
-+
-+static int imx471_probe(struct i2c_client *client)
-+{
-+	struct imx471 *sensor;
-+	int ret;
-+
-+	sensor = devm_kzalloc(&client->dev, sizeof(*sensor), GFP_KERNEL);
-+	if (!sensor)
-+		return dev_err_probe(&client->dev, -ENOMEM,
-+				     "failed to allocate memory\n");
-+
-+	sensor->dev = &client->dev;
-+
-+	ret = imx471_check_hwcfg(sensor);
-+	if (ret)
-+		return dev_err_probe(sensor->dev, ret,
-+				     "failed to check hwcfg: %d\n", ret);
-+
-+	ret = imx471_get_regulators(sensor->dev, sensor);
-+	if (ret)
-+		return dev_err_probe(sensor->dev, ret,
-+				     "failed to get regulators\n");
-+
-+	sensor->reset_gpio = devm_gpiod_get_optional(sensor->dev, "reset",
-+						     GPIOD_OUT_HIGH);
-+	if (IS_ERR(sensor->reset_gpio))
-+		return dev_err_probe(sensor->dev, PTR_ERR(sensor->reset_gpio),
-+				     "failed to get reset gpio\n");
-+
-+	sensor->img_clk = devm_clk_get_optional(sensor->dev, NULL);
-+	if (IS_ERR(sensor->img_clk))
-+		return dev_err_probe(sensor->dev, PTR_ERR(sensor->img_clk),
-+				     "failed to get imaging clock\n");
-+
-+	v4l2_i2c_subdev_init(&sensor->sd, client, &imx471_subdev_ops);
-+
-+	sensor->regmap = devm_cci_regmap_init_i2c(client, 16);
-+	if (IS_ERR(sensor->regmap))
-+		return dev_err_probe(sensor->dev, PTR_ERR(sensor->regmap),
-+				     "failed to initialize CCI\n");
-+
-+	ret = imx471_power_on(sensor->dev);
-+	if (ret)
-+		return dev_err_probe(sensor->dev, ret,
-+				     "failed to power on\n");
-+
-+	ret = imx471_identify_module(sensor);
-+	if (ret) {
-+		dev_err_probe(sensor->dev, ret, "failed to find sensor: %d", ret);
-+		goto error_power_off;
-+	}
-+
-+	ret = imx471_init_controls(sensor);
-+	if (ret) {
-+		dev_err_probe(sensor->dev, ret, "failed to init controls: %d", ret);
-+		goto error_power_off;
-+	}
-+
-+	sensor->sd.internal_ops = &imx471_internal_ops;
-+	sensor->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
-+	sensor->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-+
-+	ret = media_entity_pads_init(&sensor->sd.entity, 1, &sensor->pad);
-+	if (ret) {
-+		dev_err_probe(sensor->dev, ret, "failed to init entity pads: %d", ret);
-+		goto error_v4l2_ctrl_handler_free;
-+	}
-+
-+	sensor->sd.state_lock = sensor->ctrl_handler.lock;
-+	ret = v4l2_subdev_init_finalize(&sensor->sd);
-+	if (ret < 0) {
-+		dev_err_probe(sensor->dev, ret, "failed to init subdev: %d", ret);
-+		goto error_media_entity_pm;
-+	}
-+
-+	pm_runtime_set_active(sensor->dev);
-+	pm_runtime_enable(sensor->dev);
-+
-+	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
-+	if (ret < 0)
-+		goto error_v4l2_subdev_cleanup;
-+
-+	pm_runtime_idle(sensor->dev);
-+
-+	return 0;
-+
-+error_v4l2_subdev_cleanup:
-+	pm_runtime_disable(sensor->dev);
-+	pm_runtime_set_suspended(sensor->dev);
-+	v4l2_subdev_cleanup(&sensor->sd);
-+
-+error_media_entity_pm:
-+	media_entity_cleanup(&sensor->sd.entity);
-+
-+error_v4l2_ctrl_handler_free:
-+	v4l2_ctrl_handler_free(sensor->sd.ctrl_handler);
-+
-+error_power_off:
-+	imx471_power_off(sensor->dev);
-+
-+	return ret;
-+}
-+
-+static void imx471_remove(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+
-+	v4l2_async_unregister_subdev(sd);
-+	v4l2_subdev_cleanup(sd);
-+	media_entity_cleanup(&sd->entity);
-+	v4l2_ctrl_handler_free(sd->ctrl_handler);
-+
-+	pm_runtime_disable(&client->dev);
-+
-+	if (!pm_runtime_status_suspended(&client->dev)) {
-+		imx471_power_off(&client->dev);
-+		pm_runtime_set_suspended(&client->dev);
-+	}
-+}
-+
-+static DEFINE_RUNTIME_DEV_PM_OPS(imx471_pm_ops, imx471_power_off,
-+				 imx471_power_on, NULL);
-+
-+static const struct acpi_device_id imx471_acpi_ids[] __maybe_unused = {
-+	{ "SONY471A" },
-+	{ "TBE20A0" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(acpi, imx471_acpi_ids);
-+
-+static struct i2c_driver imx471_i2c_driver = {
-+	.driver = {
-+		.name = "imx471",
-+		.acpi_match_table = ACPI_PTR(imx471_acpi_ids),
-+		.pm = pm_sleep_ptr(&imx471_pm_ops),
-+	},
-+	.probe = imx471_probe,
-+	.remove = imx471_remove,
-+};
-+module_i2c_driver(imx471_i2c_driver);
-+
-+MODULE_AUTHOR("Jimmy Su <jimmy.su@intel.com>");
-+MODULE_AUTHOR("Serin Yeh <serin.yeh@intel.com>");
-+MODULE_AUTHOR("Kate Hsuan <hpa@redhat.com>");
-+MODULE_DESCRIPTION("Sony imx471 sensor driver");
-+MODULE_LICENSE("GPL");
--- 
-2.54.0
-
+bod
 
