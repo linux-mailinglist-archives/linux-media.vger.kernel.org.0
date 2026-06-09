@@ -1,175 +1,349 @@
-Return-Path: <linux-media+bounces-64326-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64327-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id nCYNK2xKKGrABgMAu9opvQ
-	(envelope-from <linux-media+bounces-64326-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 19:16:28 +0200
+	id WxfzJ3JXKGrlCQMAu9opvQ
+	(envelope-from <linux-media+bounces-64327-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 20:12:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 425F3662D54
-	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 19:16:28 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F4BB66337B
+	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 20:12:01 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=a4kH32iF;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64326-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64326-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=collabora.com header.s=mail header.b=Nu3K+jsy;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64327-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-64327-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=collabora.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E6A4C302F421
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2026 17:11:38 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A18DB305DBE8
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2026 18:00:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 514614BCABB;
-	Tue,  9 Jun 2026 17:11:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB68235200C;
+	Tue,  9 Jun 2026 18:00:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838764BC002;
-	Tue,  9 Jun 2026 17:11:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99A6637C11E;
+	Tue,  9 Jun 2026 18:00:07 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781025087; cv=none; b=dXHYPZAtAS+6PbctC4179js72w7a0Z/M3XfSoNNMrAyzj1YfKTYm90beEaEf0jcAt65QNYOm1Rve8yQhnw7cg0FphZ4RXEOjw8/AZLV23G6p/OTMp5kQgvFIFhzYP2L6dVGF2x1jDo3cKys8+2QbKnLVdmp5Urer5lY6pTWkAHA=
+	t=1781028009; cv=none; b=dVkf+kt7Jukw4QX/NfDO4Ys8ku7YMXqp7AUyBUXvufq6zA4FdgU3kcsIHOsagOd+YjaswWHt08Ynbm3MiElJx4xApuDSGi0XgBwdvVHGvnjhzVq8ubni5xmJLi/gPwjk1qzu70PquGrSyTAXw+krCufZEMQ6NzIhOAr/mJqz5sY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781025087; c=relaxed/simple;
-	bh=BzLLIM23M2A1UoG7u/RhKM9xyYs5pfGf/s4pqyRUtvk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=lGa9WEw799AqWR1i7bGPxGJrF6beoaOtsq51ubHyNQF0IH89D6rxtlAV4zdin6ENxBwzNd7wlrhUNh/Xuf/G/cKnrWMUrMu+Kv89yiwiF6kc/wDFjiNlgqfh7eDYc2NelnpBjGZnHhAhpX8Fo6yn0lkiMl/nLxUCVJA8tgVbCGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a4kH32iF; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E20E1F00893;
-	Tue,  9 Jun 2026 17:11:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781025084;
-	bh=8eDv60t59fij6+u3viH7XuZxXWmRapj5ScjYDalAZhI=;
-	h=From:Date:Subject:To:Cc;
-	b=a4kH32iFFZYBJ014WIRfA//0+3vbUCOXveTw2D8JHePmOxP9aTw8l0YT3ysWmv1Fe
-	 wbFEakxFIMKwZHJGw7nT0SLFU9PhtcDRaILcY6/rZgwXhjU0VrisDWrYElSo5SqPF/
-	 h7DgAr7Y2yzDPWatt5DABP0GBE5EoBbf/ncE0yGkIgP3vnXUCVYYMvbMHL14/sTIWn
-	 3YBfy96ew7blLPaMLMgFGMpvWipNdtUwxlYq6Xr0yY/1B6auzWuNF097zmMAvBxX2V
-	 FzTdEmGXvw54rsCCiXCdjv1OCc7d8k4keYi72hG13FfKD84rClgCkZpuOjxA+lwlHd
-	 lJJxOeMv3igPA==
-From: Eugen Hristev <ehristev@kernel.org>
-Date: Tue, 09 Jun 2026 20:05:23 +0300
-Subject: [PATCH] media: bcm2835-unicam: Fix asc leaked in error/remove path
+	s=arc-20240116; t=1781028009; c=relaxed/simple;
+	bh=LSU8uy9TIm+yPHCEgoK9Ye89/jZyx4/FHIz6pW3qNMA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Dh8+pSrVsXn23tC0JUQ4x1Zbg807JlwECX9kzv/Pc7sdB+4qcHFYO1U7ur5bvAS7hFPiC65gOHNUs2GROm0TykX8ZejgZgdRXYaMLws5b0roFPT82KgZBnx9024L8hO0jUjHjax/DKqoIFXt7ZyISmt53SA61k1I1ZWF4IHJeXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Nu3K+jsy; arc=none smtp.client-ip=148.251.105.195
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1781028006;
+	bh=LSU8uy9TIm+yPHCEgoK9Ye89/jZyx4/FHIz6pW3qNMA=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=Nu3K+jsy97Yy6S7tO7hMENFWubYbQuAVI/emRwDvCWnE6I+yV01Qz9nKG6ZpFmfty
+	 p4SdtYJ268TtFwfrIXkssCRIMZZvEaMdJMoaJaW6l4B+kX7g2CoB0+cQme6fO6e8Md
+	 pjUCWgC92OdgF0EwixX07V/qOLJI91hl40UgfadWHHXJB/00ujcDEluP9u6X+1HI4E
+	 2V+Q8Lr+pWsvnYnCqBGrPwbhY4wKseSZaIICYPvS7coXpHrBm1Sv2A7zmgFlUZT6w4
+	 Q3gy/tifTf25DA9ZkaOQ8BZ2B5fVVywEQ05L/Fp7bjBN3FtTI3c2w99bKxoWxA/ct7
+	 rtOkEfM00Wetw==
+Received: from [100.64.0.214] (unknown [100.64.0.214])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9CF3A17E013E;
+	Tue,  9 Jun 2026 20:00:04 +0200 (CEST)
+Message-ID: <e689df21c92861e35b6d11e391bea3404321484d.camel@collabora.com>
+Subject: Re: [PATCH RFC 1/2] media: docs: Clarify
+ V4L2_FMT_FLAG_DYN_RESOLUTION usage
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: "Ming Qian (OSS)" <ming.qian@oss.nxp.com>, 
+ "sashiko-reviews@lists.linux.dev"	 <sashiko-reviews@lists.linux.dev>,
+ "hverkuil@kernel.org" <hverkuil@kernel.org>,  "mchehab@kernel.org"	
+ <mchehab@kernel.org>
+Cc: "imx@lists.linux.dev" <imx@lists.linux.dev>, "Frank.Li@kernel.org"	
+ <Frank.Li@kernel.org>, "linux-media@vger.kernel.org"	
+ <linux-media@vger.kernel.org>, Eagle Zhou <eagle.zhou@nxp.com>, Elliot Chen
+	 <elliot.chen@nxp.com>, Frank Li <frank.li@nxp.com>, 
+ "linux-kernel@vger.kernel.org"	 <linux-kernel@vger.kernel.org>
+Date: Tue, 09 Jun 2026 14:00:02 -0400
+In-Reply-To: <AM9PR04MB857068E0FE59DD8ECB27A9AAE71C2@AM9PR04MB8570.eurprd04.prod.outlook.com>
+References: <20260608-flag-dyn-resolution-v1-1-44dc65516148@oss.nxp.com>
+	 <20260608040616.1A3EE1F00893@smtp.kernel.org>
+	 <AM9PR04MB857068E0FE59DD8ECB27A9AAE71C2@AM9PR04MB8570.eurprd04.prod.outlook.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-8m0gqXdWrn1Q4RBvIOn+"
+User-Agent: Evolution 3.60.2 (3.60.2-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260609-bcmpiclean-v1-1-23bdeb19caf6@kernel.org>
-X-B4-Tracking: v=1; b=H4sIANJHKGoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDMwNL3aTk3ILM5JzUxDxdM8tEi9RUY0NLoyQDJaCGgqLUtMwKsGHRsRB
- +cWlSVmpyCcgEpdpaAIgU7h9uAAAA
-X-Change-ID: 20260609-bcmpiclean-69a8ee3192b0
-To: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
- Hans Verkuil <hverkuil@kernel.org>, Naushir Patuck <naush@raspberrypi.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Eugen Hristev <ehristev@kernel.org>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1933; i=ehristev@kernel.org;
- h=from:subject:message-id; bh=BzLLIM23M2A1UoG7u/RhKM9xyYs5pfGf/s4pqyRUtvk=;
- b=owGbwMvMwCXWkjcnuXne3fmMp9WSGLI0PE3bqvuLAtnk7P21OB33B7Q5V9uKuMxbZV/9PpX33
- G3X+3wdpSwMYlwMsmKKLNUm/2qF+3e4n3S1VIGZw8oEMoSBi1MAJiJ4nOGfoUpuLJf12fZds/6F
- CL0oz0vdGHe1yyc7sMZGdr3Bsrxchn9W7//5vN0zMbJwHrPGyf9yx0/91Ek5yPVaMrTDcOemV62
- 8AA==
-X-Developer-Key: i=ehristev@kernel.org; a=openpgp;
- fpr=AB184498D27A77B65D7852C81EB31E020EAC2FC8
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-4.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:kernel-list@raspberrypi.com,m:mchehab@kernel.org,m:florian.fainelli@broadcom.com,m:bcm-kernel-feedback-list@broadcom.com,m:rjui@broadcom.com,m:sbranden@broadcom.com,m:hverkuil@kernel.org,m:naush@raspberrypi.com,m:sakari.ailus@linux.intel.com,m:dave.stevenson@raspberrypi.com,m:jeanmichel.hautbois@yoseli.org,m:laurent.pinchart@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-rpi-kernel@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:ehristev@kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64327-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[ehristev@kernel.org,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	TAGGED_FROM(0.00)[bounces-64326-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:ming.qian@oss.nxp.com,m:sashiko-reviews@lists.linux.dev,m:hverkuil@kernel.org,m:mchehab@kernel.org,m:imx@lists.linux.dev,m:Frank.Li@kernel.org,m:linux-media@vger.kernel.org,m:eagle.zhou@nxp.com,m:elliot.chen@nxp.com,m:frank.li@nxp.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	HAS_ORG_HEADER(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ehristev@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_SENDER(0.00)[nicolas.dufresne@collabora.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sashiko.dev:url,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,linux.dev:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 425F3662D54
+X-Rspamd-Queue-Id: 9F4BB66337B
 
-v4l2_async_nf_add_fwnode_remote() allocates the asc, which is freed when
-v4l2_async_nf_cleanup() is called.
 
-Call v4l2_async_nf_cleanup() properly in the driver paths.
+--=-8m0gqXdWrn1Q4RBvIOn+
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Discovered with kmemleak after rmmod:
+Hi Ming,
 
-unreferenced object 0xffff000084526b80 (size 64):
-  comm "modprobe", pid 185, jiffies 4295013512
-  hex dump (first 32 bytes):
-    01 00 00 00 00 00 00 00 e8 0d ff bf 00 00 ff ff  ................
-    40 83 bc 84 00 00 ff ff 60 83 bc 84 00 00 ff ff  @.......`.......
-  backtrace (crc ac584083):
-    [<00000000ffb081a7>] kmemleak_alloc+0x38/0x44
-    [<00000000d2fd9301>] __kmalloc+0x1b0/0x250
-    [<000000004dd5354d>] __v4l2_async_nf_add_fwnode+0x28/0x9c
-    [<0000000067587657>] __v4l2_async_nf_add_fwnode_remote+0x3c/0x64
+Le lundi 08 juin 2026 =C3=A0 06:26 +0000, Ming Qian (OSS) a =C3=A9crit=C2=
+=A0:
+>=20
+>=20
+> > -----Original Message-----
+> > From: sashiko-bot@kernel.org=C2=A0<sashiko-bot@kernel.org>
+> > Sent: Monday, June 8, 2026 12:06 PM
+> > To: Ming Qian (OSS) <ming.qian@oss.nxp.com>
+> > Cc: imx@lists.linux.dev; Frank.Li@kernel.org; linux-media@vger.kernel.o=
+rg
+> > Subject: Re: [PATCH RFC 1/2] media: docs: Clarify
+> > V4L2_FMT_FLAG_DYN_RESOLUTION usage
+> >=20
+> > Thank you for your contribution! Sashiko AI review found 1 potential
+> > issue(s)
+> > to consider:
+> > - [High] The added documentation conflates
+> > `V4L2_FMT_FLAG_DYN_RESOLUTION` (which designates mid-stream dynamic
+> > resolution switching capability) with the mandatory initial
+> > `V4L2_EVENT_SOURCE_CHANGE` event. By stating "Clients can use this flag=
+ to
+> > determine whether the decoder will signal the initial resolution", it
+> > explicitly
+> > legitimizes a flawed userspace heuristic that violates the V4L2 statefu=
+l
+> > decoder
+> > specification. The specification mandates that for coded formats contai=
+ning
+> > resolution info, the decoder MUST parse the stream and emit an initial
+> > `V4L2_EVENT_SOURCE_CHANGE` event (Initialization Step 4). Compliant dri=
+vers
+> > (e.g., `coda`) correctly emit this initial event but do NOT set
+> > `V4L2_FMT_FLAG_DYN_RESOLUTION` because they lack mid-stream switching
+> > capabilities. If userspace follows this documented advice, it will
+> > erroneously
+> > skip waiting for the initial event on these drivers, breaking Capture S=
+etup
+> > and
+> > stream decoding.
+> > --
+> >=20
+> > commit ec9c0583334c246f7813132b55724e42622e8edd
+> > Author: Ming Qian <ming.qian@oss.nxp.com>
+> >=20
+> > media: docs: Clarify V4L2_FMT_FLAG_DYN_RESOLUTION usage
+> >=20
+> > This commit updates the V4L2 stateful decoder documentation to clarify =
+the
+> > usage of the V4L2_FMT_FLAG_DYN_RESOLUTION flag. It adds a note stating
+> > that decoders setting this flag will always emit an initial source chan=
+ge
+> > event.
+> > The documentation suggests clients can use this flag to decide whether =
+to
+> > wait
+> > for the initial resolution signal.
+> >=20
+> > > diff --git a/Documentation/userspace-api/media/v4l/dev-decoder.rst
+> > > b/Documentation/userspace-api/media/v4l/dev-decoder.rst
+> > > --- a/Documentation/userspace-api/media/v4l/dev-decoder.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/dev-decoder.rst
+> > > @@ -361,6 +361,14 @@ Initialization
+> > [ ... ]
+> > > +=C2=A0=C2=A0=C2=A0 .. note::
+> > > +
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Decoders that set the ``V4L2_FM=
+T_FLAG_DYN_RESOLUTION`` flag for
+> > the
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 coded format will always emit a=
+n initial
+> > ``V4L2_EVENT_SOURCE_CHANGE``
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 event with ``V4L2_EVENT_SRC_CH_=
+RESOLUTION`` during this phase.
+> > Clients
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 can use this flag to determine =
+whether the decoder will signal the
+> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 initial resolution before produ=
+cing decoded frames.
+> >=20
+> > [Severity: High]
+> > Does this guidance conflate the V4L2_FMT_FLAG_DYN_RESOLUTION flag,
+> > which designates mid-stream dynamic resolution switching, with the
+> > mandatory initial V4L2_EVENT_SOURCE_CHANGE event?
+> >=20
+> > The V4L2 Stateful Decoder API requires an initial
+> > V4L2_EVENT_SOURCE_CHANGE event during the Initialization phase for stre=
+am
+> > parsing, irrespective of dynamic resolution support.
+> >=20
+> > Compliant drivers like coda correctly emit this initial event but do no=
+t set
+> > V4L2_FMT_FLAG_DYN_RESOLUTION because they lack mid-stream switching
+> > capabilities.
+> >=20
+> > If userspace follows this documented advice, wouldn't it erroneously sk=
+ip
+> > waiting for the initial event on these drivers, potentially breaking ca=
+pture
+> > setup
+> > and stream decoding?
+> >=20
+> > --
+> > Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260608-flag-d=
+yn-
+> > resolution-v1-0-44dc65516148@oss.nxp.com?part=3D1
+>=20
+> Hi,
+>=20
+> Thanks for the review.
+>=20
+> You are right that the V4L2 stateful decoder specification states the ini=
+tial
+> V4L2_EVENT_SOURCE_CHANGE is mandatory for coded formats that contain
+> resolution information in the stream (Initialization Step 4).
 
-Fixes: 392cd78d495f ("media: bcm2835-unicam: Add support for CCP2/CSI2 camera interface")
-Signed-off-by: Eugen Hristev <ehristev@kernel.org>
----
- drivers/media/platform/broadcom/bcm2835-unicam.c | 2 ++
- 1 file changed, 2 insertions(+)
+Be aware that Sashiko is an AI bot, llm words things with extreme convictio=
+n,
+and it this case forget about backward compatibility from pre-spec.
 
-diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
-index 8d28ba0b59a3..1508843ae58c 100644
---- a/drivers/media/platform/broadcom/bcm2835-unicam.c
-+++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
-@@ -2613,6 +2613,7 @@ static int unicam_async_nf_init(struct unicam_device *unicam)
- 	return 0;
- 
- error:
-+	v4l2_async_nf_cleanup(&unicam->notifier);
- 	fwnode_handle_put(ep_handle);
- 	return ret;
- }
-@@ -2745,6 +2746,7 @@ static void unicam_remove(struct platform_device *pdev)
- 	v4l2_device_unregister(&unicam->v4l2_dev);
- 	media_device_unregister(&unicam->mdev);
- 	v4l2_async_nf_unregister(&unicam->notifier);
-+	v4l2_async_nf_cleanup(&unicam->notifier);
- 
- 	unicam_subdev_cleanup(unicam);
- 
+>=20
+> However, in practice, GStreamer's v4l2 stateful decoder implementation us=
+es
+> V4L2_FMT_FLAG_DYN_RESOLUTION to determine whether to subscribe and wait f=
+or
+> the initial source change event. The reasoning from the GStreamer side, a=
+s
+> Nicolas explained [1]:
+>=20
+> =C2=A0=20
+> "
+> https://docs.kernel.org/userspace-api/media/v4l/dev-decoder.html#dynamic-=
+resolu
+> tion-change
+> =C2=A0=C2=A0=C2=A0 Says:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Not all decoders can detect re=
+solution changes. Those that do set the
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_FMT_FLAG_DYN_RESOLUTION f=
+lag.
+>=20
+> =C2=A0=C2=A0=C2=A0 So normally that wording should prevent requiring an i=
+nitial SRC_CH,
+> =C2=A0=C2=A0=C2=A0 or emitting later SRC_CH. Your driver don't have this =
+flag, then your
+> =C2=A0=C2=A0=C2=A0 driver can't emit this event. But a measure we should =
+take into
+> =C2=A0=C2=A0=C2=A0 GStreamer would be to not register (or mark) this even=
+t."
+>=20
+> @Nicolas, could you elaborate on why GStreamer needs
+> V4L2_FMT_FLAG_DYN_RESOLUTION to handle the initial source change event?
+> Is this something that should be fixed on the GStreamer side (i.e., alway=
+s
+> wait for the initial event), or is the current heuristic intentional due =
+to
+> legacy drivers that don't emit the event?
 
----
-base-commit: a87737435cfa134f9cdcc696ba3080759d04cf72
-change-id: 20260609-bcmpiclean-69a8ee3192b0
+The coda source_change notification is completely fake. It does not depende=
+nt on
+the bitstream content. So the event is left there, since its kind of part o=
+f the
+ABI, but it does not behave like other implementation, or pre-spec drivers.
 
-Best regards,
---  
-Eugen Hristev <ehristev@kernel.org>
+So what we do in GStreamer, is that for legacy driver (no
+V4L2_FMT_FLAG_DYN_RESOLUTION), we pre-allocate both queues, based on our gu=
+essed
+dimensions. If it happens that the conformance windows is small enough, it =
+often
+works. DRC will only work if the display dimension changes.
 
+For any modern driver, that implement V4L2_FMT_FLAG_DYN_RESOLUTION, we stri=
+ctly
+wait for the event, and on DRC, even if the display resolution changes, we =
+let
+the driver tell us when to actually reconfigure. The legacy method was kept=
+ to
+not break coda and older driver, the new method is a lot more reliable, and
+avoid allocating twice the capture queue (wrong guess).
+
+The userspace implementation is also a bit more flexible, as normally the l=
+egacy
+way should kind of work for any drivers, and we still subscribe it seems. B=
+ut
+the implication is just strange and shouldn't be needed in drivers with
+V4L2_FMT_FLAG_DYN_RESOLUTION support.
+
+Nicolas
+
+
+
+>=20
+> [1] https://gitlab.freedesktop.org/gstreamer/gstreamer/-/work_items/5126
+>=20
+> Best regards,
+> Ming
+
+--=-8m0gqXdWrn1Q4RBvIOn+
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaihUogAKCRDZQZRRKWBy
+9CHaAQCTKf/BSE24byAZnFSfSBREpFisA0YSFFZjDJESudzBagEA/dlVejAySVvK
+6ZcMw1myvBREc8mGAbj0RMD9fDt36Qc=
+=FpTM
+-----END PGP SIGNATURE-----
+
+--=-8m0gqXdWrn1Q4RBvIOn+--
 
