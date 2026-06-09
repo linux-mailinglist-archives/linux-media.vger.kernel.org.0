@@ -1,260 +1,461 @@
-Return-Path: <linux-media+bounces-64287-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64288-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id SLcjKt3kJ2r/4AIAu9opvQ
-	(envelope-from <linux-media+bounces-64287-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 12:03:09 +0200
+	id hv43OwLqJ2oK4wIAu9opvQ
+	(envelope-from <linux-media+bounces-64288-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 12:25:06 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC27B65EAE8
-	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 12:03:08 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CAE365ED71
+	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 12:25:06 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=N3wuP7ik;
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=clowVXH5;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64287-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64287-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=qualcomm.com;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=SiiHsY3G;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64288-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64288-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7917B305F584
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2026 09:59:43 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 2F3EB3044879
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2026 10:21:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 234C13E2750;
-	Tue,  9 Jun 2026 09:59:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BF583EFFB5;
+	Tue,  9 Jun 2026 10:21:17 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9D7226CFE
-	for <linux-media@vger.kernel.org>; Tue,  9 Jun 2026 09:59:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDA817BB21
+	for <linux-media@vger.kernel.org>; Tue,  9 Jun 2026 10:21:14 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780999181; cv=none; b=lIQXhJ49UNRGGD+f8RtpkHX0zCVxQnxz8/v0XppwNweLt8BUBoHzKXDevqivU6BjK5YKKIW9iYRXDB63vee98ug6WsMc1xjobk1dEOckY8Onjuc6qI2LEBgzbOoZwWH3gpz1HZR70Fj2kLq+2ZyeTP6BjJ7J1LroyOoCl14f/Qc=
+	t=1781000476; cv=none; b=qyMwKzM/eeoin9SOK4QcGBWRnWlDUOvgo2WV2nnLjxhX6NDMY4eYkMf1BjS6Qr1HOkHUk/LOWtApDDLG2cxZIpOCiBcC/SamXBQyqfOfwrjc+bFMiNtGANN/Qd32H7vDMsRWRUrjm5G4OT5BF6jQBZpjKuaB3r/hZ994kHc+ur4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780999181; c=relaxed/simple;
-	bh=BnrDNf0KyblpDzK8RL0uKrkJf8wwscJiCPoMZoRQgEE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ih8QyWfCTxOSw3aGYzW/Warw0N8WMSCm1yM9ozfTFUZNbCbGaEwZsVOCYRpL4/mY42rQLdABmceZLKoK6ytNLnA6GB66zH+Xq3Xq/R/e1fGhWSX+/2p5dGaR9olJkW/OWAXI4gLJLeBKf+M4SYTzQuS6DRUPhC18L+HDx8WQbc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=N3wuP7ik; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=clowVXH5; arc=none smtp.client-ip=205.220.168.131
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6599vD8u1868523
-	for <linux-media@vger.kernel.org>; Tue, 9 Jun 2026 09:59:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	mCRCXBCvtK+g4473pmA8flE8eK+i+w67FZXpAsMZxKU=; b=N3wuP7ikpeNn4yvM
-	y0oN9DfEotLoUMt6HJ06o0iGXDd2nxVSW9XV2lyETljaSvQHNfxD1LXoxl8yrPH9
-	LxbygrHDj8/PF15RlitMEZ1bUu3Bhgu3g+BvhoQkWPtJ4i4AhvSXa2dsKz/IWs7Q
-	mm8L8krl5fb1UfTQAdtgeBlR1wRIiJLJDwcUYWMgCef83GLrn6M8WCR1U9QUrenw
-	6YATZ5yWxMq8V2QB6zcZAnGLyIbsorNC4OITD4sy5mVC/pWzx4yb3eJlfhIi6TpZ
-	5l2llhF+aa0NshNZeKbRymhbkg7IeLn6EvLAW2k7rkaK/sYy7quGALY/DWjNl/yf
-	GPg3Wg==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4epg3wg4xx-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 09 Jun 2026 09:59:39 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2bf004bf8beso63610165ad.3
-        for <linux-media@vger.kernel.org>; Tue, 09 Jun 2026 02:59:39 -0700 (PDT)
+	s=arc-20240116; t=1781000476; c=relaxed/simple;
+	bh=ojLC0KM/vy4qphQcFZJDwBj9OzEE0h3nKChZd5WhFfM=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=d2ZTt3OQeFnq9Pj2J0URtf/z/Knt59f5nvTBcbuBeKQ8oxHphTaHaD10PNqtoyWNhsmpdItyerKEgVF4395qRpnQTEmkEu3iD3x2AX0SqikXLmZfBeqRB68OlNKefR2oZTZdJy7qfYrZTpmPRX1Iiej4rJ9ne5JExPGSfqbsoaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SiiHsY3G; arc=none smtp.client-ip=209.85.218.46
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-bef1e6423e7so586582066b.1
+        for <linux-media@vger.kernel.org>; Tue, 09 Jun 2026 03:21:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1780999179; x=1781603979; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mCRCXBCvtK+g4473pmA8flE8eK+i+w67FZXpAsMZxKU=;
-        b=clowVXH57ZBdSIp0ThuvUqp5FpAZ3Yl4Ad5X9zGU5UIflU1h8/sxTGWxEI2GQHWaIl
-         wD3yYsqU9cSJTSu2ZxwsjZ52lHYwg4Bj9oVnaa36XPJclPetFYsKom1isHljVRHlRFPt
-         k8h8d81Ox1aQ/FRN5ftpxByVYFeIDEqxtT1lAAYKJx3GFW1FpHr8XkYhCsfaC4XclxF3
-         eYBSLXeqnZCjfZRuWtnZMuzGXsON8aIK1hQF8b9jiaBoldcyZ+H6wLwU10BoVDbFZrGV
-         PEnJHuhut8a2aC3vYwb1JVHsd+mIgUc2InVNgKD85ADP4cPe2jug12RXcP+0QPVG4KKQ
-         ANcg==
+        d=gmail.com; s=20251104; t=1781000473; x=1781605273; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Egy4TrUR+gY6bcg2A7IogdParF/pDBDlgmLvRV6n53s=;
+        b=SiiHsY3GkchU+K8koH32l8aTaet0utwuCoX59zB4B1csDn4lrkQblGf7bXe56QLGwV
+         JtgRx1Y6E/gVP0r+iLVWQNPltvok6EvS+ilr65dAnXHK6I1xBGauQvwFUr/qy6/ewozC
+         W5RT4Du0OnVE7dzFZTz8BVGm/TAV0N1RVKGs+cJ5Z/3Vy1Ve2CeyAN8b0/rIT9Caa0Sa
+         YaIQJWMtqNzI3R8mxpWVi/H+5FHuQxmPq0kWygVlefsSpX7Ve1Z63YCHLtj4hFOpZk4H
+         9fN+7qSg3/TW+SCCwYk7ZnKgRW/5gzXVPp4kPbGqg3Lu6rf3Av4DyG1h6p92Ux4Q3jRt
+         P3LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1780999179; x=1781603979;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mCRCXBCvtK+g4473pmA8flE8eK+i+w67FZXpAsMZxKU=;
-        b=PX1Kg1p4UawsVIOtJaJT8SSf9VUVYerGitd1EnnYa3k1QMKeb22J46GweCd1lVzQW2
-         wHaxm56vYwfVd/aqEr4Z+f5L/LfMMNVMiidywbmjCCu6InpBzLU7bGJUrbnpXxlXKJml
-         8yGNyiSQwARl1TvbIatt5JtqhlMe8TG5GMJBFrMLwMuJa/vYYxDOwxgXXpRSsFz0Tibw
-         cMfdfid/tWRai/dqn6BbXv3oWRE4juWiAC2MaaKwxpeHq6XsG7qN3oLS2JTKy94WKlhz
-         MoZd0M3bifffw7BZNtSMS9Qv7tormXNOXNcBb4vlHNAc0d9ZOZI2wqBu7bPTrkecCwBa
-         xCRA==
-X-Forwarded-Encrypted: i=1; AFNElJ8ysuorb4u5ZXJpPKVmexHFGeIXW4Q5+iC1E1TJs5NfkG3OWmpPDjHB7Vb0qjYlNeZlDjpA1WUIM+WOqQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnX/BAPdGvFR4WmxKDv6P/F/406eG1J6+KUbm5gwOTWh6I+6On
-	E8W3vgJSaKL60EaEKcP05T/r5CQLdWfB7swHyZYF0e8FgJZeW/lydmiUNOQiPHn4g1ZMkVHNdWq
-	bVA5RoB2NcztFEeZ5hothqnO51eSHY2n1m72GPyeI4UjzAX77tO83E8GI/6T7/W8NxOkul8xDra
-	em
-X-Gm-Gg: Acq92OGEqOO9MQ2b4LXuKIO3oRbLp3xg9BjIEyCAmQEtEsg6MLl1+S6q1xUlYnA6yft
-	Fd97GnSLVTyVpJ3/HIeHVKdMMAid8CRjXSwLuDKHEioep4SHZEf1tnsd68BOQC9fg6DnyFiOfQg
-	7d2v811DD2DSpaEBHk+M6dlDiqkVo1wUssNiyNzpgsnt4e/SBBDFteloa/9b2ICoQElbJdHb+OW
-	C7O89g6ulAJ9+FB55fAlP+oK/QEtqi5s8oaBtLlg4Z5CtTCVhU+wT48Cz0o1LzAiu1EsoPV/GxH
-	hRPO7f5mxuhghpc0GTgJfU01Pi9B5Ta9VtS+ExmjVmK8cz2WkCY4/FWvEodXW110C0HnlgBgw+e
-	aTejww7RLd3K2oqGRXs1Tj5IY+Q27Y+QEVen4wB/vXNcKp/nolL0DUZw2xS3Jaw==
-X-Received: by 2002:a17:903:19e6:b0:2bf:21e6:baee with SMTP id d9443c01a7336-2c1e82324camr197066485ad.28.1780999179138;
-        Tue, 09 Jun 2026 02:59:39 -0700 (PDT)
-X-Received: by 2002:a17:903:19e6:b0:2bf:21e6:baee with SMTP id d9443c01a7336-2c1e82324camr197066175ad.28.1780999178703;
-        Tue, 09 Jun 2026 02:59:38 -0700 (PDT)
-Received: from [10.206.103.106] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c1663981basm205544425ad.67.2026.06.09.02.59.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jun 2026 02:59:38 -0700 (PDT)
-Message-ID: <399bd375-235f-43a2-965e-e86e041a5a7f@oss.qualcomm.com>
-Date: Tue, 9 Jun 2026 15:29:31 +0530
+        d=1e100.net; s=20251104; t=1781000473; x=1781605273;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Egy4TrUR+gY6bcg2A7IogdParF/pDBDlgmLvRV6n53s=;
+        b=nSms/ZEWNrufaPtSUh5NJj6ZJe/QSZ2noTV34VW/IcKNo0ppzihDzGcBUNOqPbDG/s
+         +TsIjxG8YUyXHUr7iqRYA1beN5aEf2WulFESFmADZg8gpZN76LiDtkMg1Oy3uaxD/oPE
+         T9dXqF2KzpCq0fuGip2VOFQ9cK8II1lxZfxF8lF1sQRWpVbKImwf1N3ch6CPGratZScS
+         73YxsM0ssIPLaxxJz3ealYrLp8P0bLaMto5klHBPcaKAaTH5J9GKdBBbwB2FfVLa1Y/n
+         +NTvtWcfDrPbliAy3uzndp/8Z22YZUnk4nC4F8+xAUAlGSmwP/DejYnby8sGtYYscqos
+         MOVA==
+X-Gm-Message-State: AOJu0YysAPMr8Dnse1mbm4g00Q36h68NzRTzyq5E6d8cNB1LJmfvDXni
+	f93ezDs5Zekw0mXQvy5qydUO4auDhA17FSIMw67Zv0fkG+8ujgtdB69G2BqK+g==
+X-Gm-Gg: Acq92OE8NABsFaM9vp6UM2uLgRrqyW0u7RtCuIXuhBBrF+BByGzg/+FI9AmCf6DnT51
+	K78cqcPBBGDOMdiIPNTe/Uuus3krmXAJrvmnnznv4wcW0o6LYRcR9GB1iDqIkW7UWAPFXntB/H2
+	dHDufMKbqEQThDalKiknaAlLFwVTACk54InoEcZLvRm/NJ/y8VF4M8NHAL+G8FqK8AdkyYeHyPR
+	oT0iiagAYHk3ongpzVWyWzCNELAKVpuL9XDiHFU7Ok8tzZLNoymUdzc4dYSKGlm6Sfz6cvg7nxC
+	c1XKHNfkyL8CL1Wg48j+1CaFH2NH0oMzNjFbeO1B1rGLXhwKOvL3wqTjJ8917N5A7WoZAaz4ADZ
+	27SI1E18UWCHWA1p0B0nXgfh9dc1lEtQOUyZ3sqsVSFVmol1KTqTNAgfnZ4ctHB7Lf72ArGYGFd
+	BQ9YuJohmtR2YTu8xheLUax1AaHqrnFSIWcDsDLQyHOT4TcQP1O0L+0xBwedhIpE7/H39tIGbCo
+	xHarslsfsrF0sF0Hqhc
+X-Received: by 2002:a17:907:2d08:b0:bec:4b96:5fb4 with SMTP id a640c23a62f3a-bf37145c8d2mr1026677566b.11.1781000472520;
+        Tue, 09 Jun 2026 03:21:12 -0700 (PDT)
+Received: from smtpclient.apple (89-66-237-154.dynamic.play.pl. [89.66.237.154])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf41f05041esm608446866b.62.2026.06.09.03.21.11
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 09 Jun 2026 03:21:12 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/8] media: qcom: camss: csiphy-3ph: Use odd bits for
- configuring C-PHY lanes
-To: David Heidelberg <david@ixit.cz>, Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Luca Weiss <luca.weiss@fairphone.com>,
-        Petr Hodina <phodina@protonmail.com>, "Dr. Git" <drgitx@gmail.com>,
-        Cory Keitz <ckeitz@amazon.com>,
-        Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: Frank Li <Frank.Li@nxp.com>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        Kieran Bingham <kbingham@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, phone-devel@vger.kernel.org
-References: <20260605-qcom-cphy-v7-0-426c37e9008f@ixit.cz>
- <20260605-qcom-cphy-v7-2-426c37e9008f@ixit.cz>
-Content-Language: en-US
-From: Nihal Kumar Gupta <nihal.gupta@oss.qualcomm.com>
-In-Reply-To: <20260605-qcom-cphy-v7-2-426c37e9008f@ixit.cz>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjA5MDA5MiBTYWx0ZWRfX1zquhR1CQWoe
- EqL/0lxIgqKugHWwlEgTyhK2GGKDnlOkHOUDCQlagG9rdI8reU6qCHOi+fhfqVQSy2ROxxz6MI5
- yXi2qZHMqnsdVmmrEtBjwC/TgXM4UivCzwOYBsYNtw7RWZJpOukNxIHaAJfn+Hg9pTszEsUQY6R
- 5YFrl+NjR7W6Zv/J/5j/SuCvrbd84fY3ytgzSPx4HMdXnOZ8XTRsLBTIYGoezu3yRbJy2jCtTjH
- xvVdENiVE81D4I3zu6I3SlbProkmpPQNU8EsR7NTk/9BJPBwku3EJpZKh3DEXU6ZH3htcuy064J
- WP5F/CkubYD+MezIe7jb8W3ghTbSRAwYDaTXIjSKRlEsVYC5fE7Cph6UOjc4clXcLtvcVa7XSH2
- iX3V/+E7g22nXzTlgqa2DYiJHwRpA0EJ2htg458JgC9QC1m+TjeDYSBM9N+St7RdDS1A7NPuAlN
- pg64LR4IT6EfaTB2m1w==
-X-Authority-Analysis: v=2.4 cv=csWrVV4i c=1 sm=1 tr=0 ts=6a27e40b cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=Yq6uI0ozdmgzgeLbScEA:9 a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
-X-Proofpoint-GUID: aRLVxZq8wCHrg60QWNn_3a6sSH5_ZBzq
-X-Proofpoint-ORIG-GUID: aRLVxZq8wCHrg60QWNn_3a6sSH5_ZBzq
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-09_02,2026-06-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1015 spamscore=0 adultscore=0 lowpriorityscore=0
- malwarescore=0 impostorscore=0 phishscore=0 suspectscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606090092
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.600.51.1.1\))
+Subject: Re: [BUG] rkvdec-vdpu383-h264: wrong pixels at horizontal de-blocking
+ edges y=4 and y=12
+From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+In-Reply-To: <52a01f1f-5b36-429b-96cf-f1a0a1c8f5e4@symple.nz>
+Date: Tue, 9 Jun 2026 12:21:01 +0200
+Cc: linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org,
+ Detlev Casanova <detlev.casanova@collabora.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <5939C396-3A70-458F-8E6B-A55319929564@gmail.com>
+References: <52a01f1f-5b36-429b-96cf-f1a0a1c8f5e4@symple.nz>
+To: Simon Wright <Simon@symple.nz>
+X-Mailer: Apple Mail (2.3864.600.51.1.1)
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-64287-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_TO(0.00)[ixit.cz,kernel.org,gmail.com,linaro.org,fairphone.com,protonmail.com,amazon.com,oss.qualcomm.com];
-	FORGED_RECIPIENTS(0.00)[m:david@ixit.cz,m:rfoss@kernel.org,m:todor.too@gmail.com,m:bryan.odonoghue@linaro.org,m:bod@kernel.org,m:vladimir.zapolskiy@linaro.org,m:mchehab@kernel.org,m:luca.weiss@fairphone.com,m:phodina@protonmail.com,m:drgitx@gmail.com,m:ckeitz@amazon.com,m:loic.poulain@oss.qualcomm.com,m:Frank.Li@nxp.com,m:konrad.dybcio@oss.qualcomm.com,m:kbingham@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:phone-devel@vger.kernel.org,m:todortoo@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[nihal.gupta@oss.qualcomm.com,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:from_mime,qualcomm.com:dkim,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	TAGGED_FROM(0.00)[bounces-64288-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nihal.gupta@oss.qualcomm.com,linux-media@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:detlev.casanova@collabora.com,m:Simon@symple.nz,s:lists@lfdr.de];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[piotroniszczuk@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[piotroniszczuk@gmail.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_THREE(0.00)[4];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,symple.nz:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: EC27B65EAE8
+X-Rspamd-Queue-Id: 7CAE365ED71
+
+Simon,
+
+You done fantastic work with nailing this issue!
+
+In fact I suspect this issue is exact long time blocker for all on mine =
+rk3576 users wanting to use 3576 in media player use-case.
+
+I have 3 diff 3576 devices (nanopi-m5, nanopi-r76s and rock4d) and =
+really want to verify are mine h264 hw decoding issues on 3576 caused by =
+issue you discovered.
+
+Have you PoC patch for 7.1 to verify this?
 
 
 
-On 05-06-2026 18:44, David Heidelberg wrote:
-> +		offset = 1;
-> +		break;
-> +	case V4L2_MBUS_CSI2_DPHY:
-> +		lane_mask = CSIPHY_3PH_CMN_CSI_COMMON_CTRL5_CLK_ENABLE;
-> +		break;
-> +	default:
-> +		break;
-> +	}
->  
-> -	for (i = 0; i < lane_cfg->num_data; i++)
-> -		lane_mask |= 1 << lane_cfg->data[i].pos;
-> +	for (int i = 0; i < lane_cfg->num_data; i++)
-> +		lane_mask |= BIT(lane_cfg->data[i].pos + offset);
->  
->  	return lane_mask;
->  }
-
-csiphy_get_lane_mask() uses pos + offset but the 3PH hardware encodes lanes
-at pos*2 (D-PHY) or pos*2+1 (C-PHY). Fix it as:
-
-lane_mask |= BIT((lane_cfg->data[i].pos * 2) + offset);
-
->  static bool csiphy_is_gen2(u32 version)
->  {
->  	bool ret = false;
->  
-> @@ -1155,19 +1165,32 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
->  	struct csiphy_lanes_cfg *c = &cfg->csi2->lane_cfg;
->  	struct csiphy_device_regs *regs = csiphy->regs;
->  	u8 settle_cnt;
->  	u8 val;
->  	int i;
->  
->  	settle_cnt = csiphy_settle_cnt_calc(link_freq, csiphy->timer_clk_rate);
->  
-> -	val = CSIPHY_3PH_CMN_CSI_COMMON_CTRL5_CLK_ENABLE;
-> -	for (i = 0; i < c->num_data; i++)
-> -		val |= BIT(c->data[i].pos * 2);
-> +	val = 0;
-> +
-> +	switch (c->phy_cfg) {
-> +	case V4L2_MBUS_CSI2_CPHY:
-> +		for (i = 0; i < c->num_data; i++)
-> +			val |= BIT((c->data[i].pos * 2) + 1);
-> +		break;
-> +	case V4L2_MBUS_CSI2_DPHY:
-> +		val = CSIPHY_3PH_CMN_CSI_COMMON_CTRL5_CLK_ENABLE;
-> +
-> +		for (i = 0; i < c->num_data; i++)
-> +			val |= BIT(c->data[i].pos * 2);
-> +		break;
-> +	default:
-> +		WARN_ONCE(1, "Unsupported bus type %d!\n", c->phy_cfg);
-> +	}
-
-Also, with above fix in place, lanes_enable() can reuse csiphy_get_lane_mask()
-instead of open-coding the same logic.
-
----
-Regards,
-Nihal Kumar Gupta
+> Wiadomo=C5=9B=C4=87 napisana przez Simon Wright <Simon@symple.nz> w =
+dniu 15 maj 2026, o godz. 08:20:
+>=20
+> Hi Detlev,
+>=20
+> I'm seeing systematic pixel corruption on VDPU383 H.264 decodes on =
+RK3576 (NanoPi
+> R76S).  The decoded luma plane is correct for rows 0=E2=80=933 and row =
+8, but wrong for rows
+> 4 and 12 (and the corresponding rows in every subsequent macroblock =
+row).  The error
+> propagates to all following P-frames.
+>=20
+> I confirmed the mismatch is in the raw V4L2 CAPTURE buffer two =
+independent ways:
+>=20
+>   1. GStreamer v4l2slh264dec output compared to avdec_h264 with no =
+videoconvert step.
+>   2. A hand-written Rust V4L2 decoder that submits only =
+SPS+PPS+SCALING_MATRIX+
+>      DECODE_PARAMS (SLICE_PARAMS returns EINVAL on =
+VIDIOC_QUERY_EXT_CTRL on this BSP,
+>      so the control set is the same as GStreamer's actual submission) =
+=E2=80=94 identical
+>      20.3% mismatch at the identical first-diff byte.  This rules out =
+any GStreamer
+>      post-processing or control-submission effect as the cause.
+>=20
+> Hardware:
+>   Board:      NanoPi R76S (RK3576, VDPU383)
+>   Kernel:     Linux 7.0.1 (mainline rkvdec-vdpu383-h264.c, unmodified)
+>   GStreamer:  1.28.2 (with v4l2slh264dec from gst-plugins-bad)
+>   Content:    1920=C3=971080 Baseline H.264, SMPTE colour bars, =
+openh264enc
+>=20
+>=20
+> MINIMAL REPRODUCER
+> ------------------
+>=20
+> Generate a test file (any H.264 Annex-B with visible content works; I =
+used openh264enc
+> with SMPTE bars):
+>=20
+>   gst-launch-1.0 videotestsrc num-buffers=3D60 pattern=3Dsmpte \
+>     ! video/x-raw,width=3D1920,height=3D1080,framerate=3D30/1 \
+>     ! openh264enc ! h264parse ! filesink location=3Dtest.h264
+>=20
+> Decode via HW, capture raw NV12:
+>=20
+>   gst-launch-1.0 filesrc location=3Dtest.h264 num-buffers=3D60 \
+>     ! h264parse ! v4l2slh264dec ! 'video/x-raw' \
+>     ! filesink location=3Dhw.raw
+>=20
+> Decode via SW, capture raw NV12:
+>=20
+>   gst-launch-1.0 filesrc location=3Dtest.h264 num-buffers=3D60 \
+>     ! h264parse ! avdec_h264 ! videoconvert ! =
+'video/x-raw,format=3DNV12' \
+>     ! filesink location=3Dsw.raw
+>=20
+> For a 1920=C3=971080 NV12 frame (frame 0), compare the first 3,110,400 =
+bytes:
+>=20
+>   cmp hw.raw sw.raw
+>=20
+> Expected: identical.
+> Observed: first mismatch at byte 7680 (Y plane, row=3D4, col=3D0).
+>=20
+> With SMPTE bars (white region at the top), SW Y[row=3D3] =3D 0xe9 =
+(correct white-bar luma).
+> HW Y[row=3D4] =3D 0xaf instead of 0xe9; HW Y[row=3D3] =3D 0xe9 =
+(correct).
+> Overall mismatch rate: 20.3% of bytes in frame 0.
+>=20
+>=20
+> QUANTIFIED EVIDENCE (frame 0, IDR)
+> -----------------------------------
+>=20
+>   SW decode:  Y bytes [7680..7695] =3D e9 e9 e9 e9 e9 e9 e9 e9 e9 e9 =
+e9 e9 e9 e9 e9 e9
+>   HW decode:  Y bytes [7680..7695] =3D af af af af af af af af af af =
+af af af af af af
+>   First diff: byte 7680 =E2=86=92 Y plane row=3D4, col=3D0
+>=20
+> Error propagation:
+>   Frame 0 (IDR):  20.3% mismatch, first_diff =3D byte 7680 (Y row=3D4)
+>   Frame 1 (P):    23.0% mismatch, first_diff =3D byte 253 (error =
+propagated to row=3D0)
+>   Frames 5=E2=80=9330 (P): 25=E2=80=9326% mismatch, stable
+>=20
+> ANALYSIS
+> --------
+>=20
+> A diagnostic experiment implicates the filterd_rcb buffer (RCB index =
+6).  Redirecting
+> filterd_rcb buffers 6, 7, 8 to point at the output buffer produced =
+98.4% corruption
+> with first diff at row=3D1, which indicates the hardware reads p-side =
+pixel context from
+> filterd_rcb (rather than from the reconstruction buffer) when applying =
+horizontal
+> deblocking.
+>=20
+> Based on the error pattern, our hypothesis is that filterd_rcb uses an =
+8-row circular
+> index (slot =3D row mod 8).  If so, H.264's 4-row deblocking =
+boundaries within each
+> 16-row macroblock row would cause a slot collision that HEVC (with =
+8-row CTU boundaries)
+> does not encounter:
+>=20
+>   Edge y=3D4:  p0 from row 3  =E2=86=92 slot 3  (zero-initialised on =
+IDR =E2=86=92 wrong)
+>   Edge y=3D8:  p0 from row 7  =E2=86=92 slot 7  (written before this =
+edge is reached =E2=86=92 correct)
+>   Edge y=3D12: p0 from row 11 =E2=86=92 slot 3  (still holds row-3 =
+data from the y=3D4 pass =E2=86=92 wrong)
+>=20
+> This would explain why y=3D8 decodes correctly while y=3D4 and y=3D12 =
+do not.  We don't have
+> hardware documentation for VDPU383, so we can't confirm whether this =
+is the actual
+> mechanism.
+>=20
+> We tried several register adjustments hoping to change the filterd_rcb =
+update granularity:
+> ctu_align_wr_en (reg027), buf_empty_en (reg009), ref strides =
+(reg083=E2=80=93106), and
+> num_views in the SPS table.  None changed the corruption.
+>=20
+> Is there a known configuration difference for H.264's narrower =
+deblocking edges, or a
+> BSP-level fix we've missed?
+>=20
+>=20
+> ATTACHED REPRODUCER
+> -------------------
+>=20
+> The C program below (builds against GStreamer on-device, ~100 lines) =
+automates the
+> comparison and produces per-frame mismatch statistics:
+>=20
+>   gcc -O0 -g -o h264_hw_vs_sw_dump h264_hw_vs_sw_dump.c \
+>       $(pkg-config --cflags --libs gstreamer-1.0 gstreamer-video-1.0 =
+gstreamer-app-1.0)
+>=20
+>   ./h264_hw_vs_sw_dump /path/to/test.h264
+>=20
+> --- BEGIN h264_hw_vs_sw_dump.c ---
+> /*
+>  * H.264 HW vs SW byte-level comparison via GStreamer appsink.
+>  *
+>  * Decodes one frame of an H.264 Annex-B file via two paths:
+>  *   SW:  h264parse ! avdec_h264 ! videoconvert ! NV12 appsink
+>  *   HW:  h264parse ! v4l2slh264dec             ! NV12 appsink
+>  *
+>  * Reports first divergent byte, mismatch percentage, and unique Y =
+values for
+>  * both decoders.  If HW bytes differ from SW bytes, the bug is in the =
+kernel
+>  * rkvdec-vdpu383-h264.c driver.
+>  *
+>  * Build on device:
+>  *   gcc -O0 -g -o h264_hw_vs_sw_dump h264_hw_vs_sw_dump.c \
+>  *       $(pkg-config --cflags --libs gstreamer-1.0 =
+gstreamer-video-1.0 gstreamer-app-1.0)
+>  */
+>=20
+> #include <stdio.h>
+> #include <stdlib.h>
+> #include <string.h>
+> #include <stdint.h>
+> #include <unistd.h>
+> #include <gst/gst.h>
+> #include <gst/video/video.h>
+> #include <gst/app/gstappsink.h>
+>=20
+> typedef struct {
+>     uint8_t *data;
+>     int      width, height;
+>     size_t   y_size, uv_size, total;
+> } DecodedFrame;
+>=20
+> static void free_frame(DecodedFrame *f) { if (f) { free(f->data); =
+f->data =3D NULL; } }
+>=20
+> static DecodedFrame *run_pipeline(const char *pipeline_str, const char =
+*label)
+> {
+>     fprintf(stderr, "[%s] pipeline: %s\n", label, pipeline_str);
+>     GError *err =3D NULL;
+>     GstElement *pipeline =3D gst_parse_launch(pipeline_str, &err);
+>     if (!pipeline || err) {
+>         fprintf(stderr, "[%s] gst_parse_launch: %s\n", label, err ? =
+err->message : "unknown");
+>         return NULL;
+>     }
+>     GstElement *sink =3D gst_bin_get_by_name(GST_BIN(pipeline), =
+"sink");
+>     gst_app_sink_set_emit_signals(GST_APP_SINK(sink), FALSE);
+>     gst_app_sink_set_drop(GST_APP_SINK(sink), FALSE);
+>     gst_app_sink_set_max_buffers(GST_APP_SINK(sink), 1);
+>     gst_element_set_state(pipeline, GST_STATE_PLAYING);
+>=20
+>     GstSample *sample =3D =
+gst_app_sink_pull_sample(GST_APP_SINK(sink));
+>     if (!sample) {
+>         fprintf(stderr, "[%s] no sample\n", label);
+>         gst_element_set_state(pipeline, GST_STATE_NULL);
+>         gst_object_unref(sink); gst_object_unref(pipeline);
+>         return NULL;
+>     }
+>     GstBuffer *buf  =3D gst_sample_get_buffer(sample);
+>     GstCaps   *caps =3D gst_sample_get_caps(sample);
+>     GstVideoInfo vinfo;
+>     gst_video_info_from_caps(&vinfo, caps);
+>=20
+>     int w =3D GST_VIDEO_INFO_WIDTH(&vinfo);
+>     int h =3D GST_VIDEO_INFO_HEIGHT(&vinfo);
+>     GstVideoFrame vframe;
+>     gst_video_frame_map(&vframe, &vinfo, buf, GST_MAP_READ);
+>=20
+>     size_t y_size  =3D (size_t)w * h;
+>     size_t uv_size =3D (size_t)w * (h / 2);
+>     DecodedFrame *frame =3D calloc(1, sizeof(*frame));
+>     frame->data  =3D malloc(y_size + uv_size);
+>     frame->width =3D w; frame->height =3D h;
+>     frame->y_size =3D y_size; frame->uv_size =3D uv_size;
+>     frame->total =3D y_size + uv_size;
+>=20
+>     uint8_t *y_src =3D GST_VIDEO_FRAME_PLANE_DATA(&vframe, 0);
+>     int y_stride   =3D GST_VIDEO_FRAME_PLANE_STRIDE(&vframe, 0);
+>     for (int row =3D 0; row < h; row++)
+>         memcpy(frame->data + row * w, y_src + row * y_stride, w);
+>=20
+>     uint8_t *uv_src =3D GST_VIDEO_FRAME_PLANE_DATA(&vframe, 1);
+>     int uv_stride   =3D GST_VIDEO_FRAME_PLANE_STRIDE(&vframe, 1);
+>     uint8_t *uv_dst =3D frame->data + y_size;
+>     for (int row =3D 0; row < h / 2; row++)
+>         memcpy(uv_dst + row * w, uv_src + row * uv_stride, w);
+>=20
+>     gst_video_frame_unmap(&vframe);
+>     gst_sample_unref(sample);
+>     gst_element_set_state(pipeline, GST_STATE_NULL);
+>     gst_object_unref(sink); gst_object_unref(pipeline);
+>     return frame;
+> }
+>=20
+> static void compare_frames(DecodedFrame *sw, DecodedFrame *hw)
+> {
+>     size_t n =3D sw->total < hw->total ? sw->total : hw->total;
+>     size_t first_diff =3D (size_t)-1, diffs =3D 0;
+>     for (size_t i =3D 0; i < n; i++) {
+>         if (sw->data[i] !=3D hw->data[i]) {
+>             if (first_diff =3D=3D (size_t)-1) first_diff =3D i;
+>             diffs++;
+>         }
+>     }
+>     if (!diffs) {
+>         fprintf(stderr, "MATCH: HW =3D=3D SW (%zu bytes)\n", n);
+>         return;
+>     }
+>     size_t y_size  =3D (size_t)sw->width * sw->height;
+>     const char *plane =3D first_diff < y_size ? "Y" : "UV";
+>     size_t off =3D first_diff < y_size ? first_diff : first_diff - =
+y_size;
+>     fprintf(stderr, "MISMATCH: %zu/%zu bytes differ (%.1f%%)\n", =
+diffs, n, 100.0*diffs/n);
+>     fprintf(stderr, "  First diff: byte %zu -> %s plane offset %zu =
+(row=3D%zu col=3D%zu)\n",
+>             first_diff, plane, off, off / sw->width, off % sw->width);
+>     fprintf(stderr, "  SW[%zu..]: ", first_diff);
+>     for (size_t i =3D first_diff; i < first_diff+16 && i < n; i++)
+>         fprintf(stderr, "%02x ", sw->data[i]);
+>     fprintf(stderr, "\n  HW[%zu..]: ", first_diff);
+>     for (size_t i =3D first_diff; i < first_diff+16 && i < n; i++)
+>         fprintf(stderr, "%02x ", hw->data[i]);
+>     fprintf(stderr, "\n");
+> }
+>=20
+> int main(int argc, char **argv)
+> {
+>     if (argc < 2) { fprintf(stderr, "Usage: %s <h264_annex_b>\n", =
+argv[0]); return 1; }
+>     gst_init(NULL, NULL);
+>     char sw_pipe[1024], hw_pipe[1024];
+>     snprintf(sw_pipe, sizeof(sw_pipe),
+>         "filesrc location=3D%s ! h264parse ! avdec_h264 ! videoconvert =
+! "
+>         "video/x-raw,format=3DNV12 ! appsink name=3Dsink", argv[1]);
+>     snprintf(hw_pipe, sizeof(hw_pipe),
+>         "filesrc location=3D%s ! h264parse ! v4l2slh264dec ! "
+>         "video/x-raw,format=3DNV12 ! appsink name=3Dsink", argv[1]);
+>=20
+>     DecodedFrame *sw =3D run_pipeline(sw_pipe, "SW");
+>     DecodedFrame *hw =3D run_pipeline(hw_pipe, "HW");
+>     if (sw && hw) compare_frames(sw, hw);
+>     if (sw) { free_frame(sw); free(sw); }
+>     if (hw) { free_frame(hw); free(hw); }
+>     return 0;
+> }
+> --- END h264_hw_vs_sw_dump.c ---
+>=20
+> Thanks,
+> Simon Wright
+> Symple Solutions, Dunedin, New Zealand
+>=20
+>=20
 
 
