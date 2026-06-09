@@ -1,52 +1,92 @@
-Return-Path: <linux-media+bounces-64259-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64260-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id GJK6C6yQJ2rQywIAu9opvQ
-	(envelope-from <linux-media+bounces-64259-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 06:03:56 +0200
+	id 5rzoHaqlJ2qE0AIAu9opvQ
+	(envelope-from <linux-media+bounces-64260-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 07:33:30 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F4A365C24D
-	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 06:03:55 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65F5665C75E
+	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 07:33:27 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64259-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64259-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=kiKLuq9S;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64260-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64260-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8C94B30344C6
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2026 04:03:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2D0C73018BCB
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2026 05:32:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E81137267C;
-	Tue,  9 Jun 2026 04:03:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B26713C4553;
+	Tue,  9 Jun 2026 05:32:38 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93C59265CBE;
-	Tue,  9 Jun 2026 04:03:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE30D33F597
+	for <linux-media@vger.kernel.org>; Tue,  9 Jun 2026 05:32:36 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780977831; cv=none; b=kcdJK/fGCiwikzv0GNLOCfWPLgCr2eJYqeh41QVxaLdIYEcSZBvE7zrTJzPguqUb/Z8hAEqJ7KMKzIncZnsvg0OHyKZH478VJmjf1e0PGSAoN9DmyEhtpKCCN23JzTFHXya9seGlSokg71C8n33ncY1mo9BNa0uumJ+2virQ+X4=
+	t=1780983158; cv=none; b=jYFQfE6qi/ecfdGgqI2C96Rz2hIv9WRCSVyH+nUQeSIcuUcKq2X+dp0AoaKqpK/jkONgiBPWIhKlf2vFC6GPHrigL69focvqZqk8Z0BZCCjqz5DVSsWdGaqt4E6a6oWi6Y2kEjCBxl3oZHPQtsWPUxP1evS+IIrO46UpvvXu5cY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780977831; c=relaxed/simple;
-	bh=QE/gTtocO5p3/oxMZ5sqafT99WDMTLDcWsOb5PvjkQY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=UFzf69yrDEZQn3Q2X3WJ8rtKANXb4JPDHX4A34ZA7yvfqCfwrT9W5hU4RoP2Zh9MG7IQ+jgdgSk06UHG62+VlbIPFUUbrX1nve9xofzg25TllUlIUUw41LlzcH6sVXT/YQuUweiX2v1NtVdoPLPf6jbBWfAP6XLZO9hX+0ON2QU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
-Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-01 (Coremail) with SMTP id qwCowACnTNWikCdqd672AA--.11950S2;
-	Tue, 09 Jun 2026 12:03:46 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: mchehab@kernel.org
-Cc: kees@kernel.org,
+	s=arc-20240116; t=1780983158; c=relaxed/simple;
+	bh=35gDjdmqsR7jXpjDEeoZ07B3PvW2qd7CDguv1yQuW5Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=stWUS+zZdTxDIYc5UWMJY8f2XhflAPhSbBG0qHNNpCgLXrRCF9KFneb/KWRnHBgKhKJp7viipTda7YmFXVS8n/nijmYe9EJJm2rm9xWVWAj16/vI3bhkb9OmZaqrTpHN3ZwOsV85bKOIjDjARQHAn6hu/IGmwU1U2ar9pLODPgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kiKLuq9S; arc=none smtp.client-ip=209.85.128.50
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-490b4a8e28bso41792785e9.1
+        for <linux-media@vger.kernel.org>; Mon, 08 Jun 2026 22:32:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1780983155; x=1781587955; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Eb4Y81myTRhfZM02Lh/xiHfbbKBLaxr1bVcI9SRV4mw=;
+        b=kiKLuq9StChh9vB0KTWT6PqScj5yK/Kp3Y6WsNXeCpMNJBsZxkpkyQ58AnqSmraKaC
+         8Qmg8po+R4dOCaYIThP3qflD2n7pVY5jJSIx1e6oiR2Rz4RsO1bHCtTQ0C4pwZacDHSR
+         rE2OFqbjaJfDg8c3u9U6SmST8IpbxB2EyO+QR9UYvc7daGN+r2XA48lOTQG5oBnORxRz
+         eIkj8brjkNXme9dKE2yCH7J8DOUjJVd6UDTw1+XEyfIa37y4EfjOsQo7cp4F9hscdeWa
+         zT8E24OHGqIQF+KD0GJ4o0UHcsgB/SgkCdWTwdtnhVOFPIMnX217dg9ignrD1v11V+qf
+         5G3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1780983155; x=1781587955;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Eb4Y81myTRhfZM02Lh/xiHfbbKBLaxr1bVcI9SRV4mw=;
+        b=rmEJ5KcIBdcizSvUhqld+4p8MB+4YKOqn6lrjFryqXbHTzHWrBIvx2XsOlD49Fdk5N
+         XXQl0T+DwcSxAI6ZrWI4ZC93Aey/SE2sEw4ElT1MjwUuGKtZG07YfH+BFPiEJqCPuXCs
+         8uQ62scerCdeweng4vc54qD0MLMfxkxYn5TzIME/JC5UhWphAmEcsp2RKBQVsumMh41I
+         RrbkEzK4GCPD/hXnbhhNOkHK0234HNP4vncP2qEa5CPSxMd0ce+y3W0obyvZyppbgBz9
+         SJU3swz5Ty00fdIV6B4+oFMAIOJs+Nd63/i2XUJt0RT0hVYqld7nvAGBcQNoG0DOL6cE
+         UcQA==
+X-Forwarded-Encrypted: i=1; AFNElJ9L32+Awg8p0ryQx+bEx2B2YDJiMqRAFr18PM55FpyhpR0pkmlfZ/OC8Wm03ZD7OgvOO+w6NJ9LCKSOMA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxd0YoJR8/Bn/IJyrjuws8FtFoguKXbohx9Sck5WLFFp0xrE1BI
+	EjYkB8E/x0rQA8i0FnNZIWC7lx+Ha15aZsWdT5B2KtwMqXJPl70F1i2M
+X-Gm-Gg: Acq92OE0BlsXc1OZdRtwh9UaaN92a8+OlXg/g8cx29cKeOqeG5V5f6cxM3ZUbLo86x7
+	qgJ60TJSHj7M/8aGwO7fqrnp5LxeFOgLPtDwJ+FBwvJDNSRQ8c8Ok+Z156umWt/8CAIwZrp8ugy
+	kxc195ssyI7QlSQJKveAi4Jm6m2Q0II899Rnhf+JQ5GYLnPP8/wfA3zQ+MOIMyGvumAQ1vFjWNC
+	PYE35Ot//q2Hv/Rf85Ja39tVtmiJerEa088i4ZGLtTxGzFg02wpjIASxdApviZ6P41ESxq3UWvy
+	fpC9INZr9aJlO+XvBCXmBfz1pYZPrMIxSK4UjE/s1c3hzJUFJA5YDzdttcDHPeOHnYn6QQlNXbT
+	gqjbqzBVeBdwzKZxf8AKKhjr3ex4arvCbP69UsOZwsap+K1fQRq7gOW05aEPU6Ig7C2nfCvBUu7
+	Ed8u0fSxYa18AW0sSOj1253ntun8kh8c2l6LZhnjF7QHljCEYKwUqHZ6fEQBUXawvvittrmh73C
+	647t8TgRIJ64e5CNEmR0Mgyovxjfii2
+X-Received: by 2002:a05:600c:4ec7:b0:490:b8ee:d6a5 with SMTP id 5b1f17b1804b1-490c2589927mr303859555e9.6.1780983154876;
+        Mon, 08 Jun 2026 22:32:34 -0700 (PDT)
+Received: from dohko.chello.ie (188-141-5-72.dynamic.upc.ie. [188.141.5.72])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f35133csm56677372f8f.25.2026.06.08.22.32.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jun 2026 22:32:33 -0700 (PDT)
+From: David Carlier <devnexen@gmail.com>
+To: Daniel Scally <dan.scally@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Wentao Liang <vulab@iscas.ac.cn>,
+	David Carlier <devnexen@gmail.com>,
 	stable@vger.kernel.org
-Subject: [PATCH] media: dvb-usb: fix refcount leak in dvb_usb_adapter_frontend_init()
-Date: Tue,  9 Jun 2026 04:03:37 +0000
-Message-Id: <20260609040337.192589-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.34.1
+Subject: [PATCH] media: mali-c55: Fix AEXP IHIST disable bit shift
+Date: Tue,  9 Jun 2026 06:32:31 +0100
+Message-ID: <20260609053231.24855-1-devnexen@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -54,98 +94,78 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qwCowACnTNWikCdqd672AA--.11950S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7tFWrJr1kKr18AF48trW5Wrg_yoW8GFW3pa
-	n5KrWjkrWUt3Z7X3yUAwn8GFZ5Ga18KryrKa17CwsxuF48G342krWrKa47tF4kGw4xJa4q
-	qwsrXry7Kr1UCF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkK14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
-	6F4UM28EF7xvwVC2z280aVAFwI0_Cr1j6rxdM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
-	Cq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0
-	I7IYx2IY67AKxVWrXVW3AwAv7VC2z280aVAFwI0_Gr1j6F4UJwAm72CE4IkC6x0Yz7v_Jr
-	0_Gr1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v2
-	6r126r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrV
-	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_
-	Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7sRR_-Bt
-	UUUUU==
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCQ4NA2onY0fBWQAAs4
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.04 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DMARC_NA(0.00)[iscas.ac.cn];
-	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:kees@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:vulab@iscas.ac.cn,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-64259-lists,linux-media=lfdr.de];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,gmail.com];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-64260-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[vulab@iscas.ac.cn,linux-media@vger.kernel.org];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devnexen@gmail.com,m:stable@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[devnexen@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vulab@iscas.ac.cn,linux-media@vger.kernel.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[devnexen@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	R_DKIM_NA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[iscas.ac.cn:email,iscas.ac.cn:mid,iscas.ac.cn:from_mime,vger.kernel.org:from_smtp]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7F4A365C24D
+X-Rspamd-Queue-Id: 65F5665C75E
 
-After all frontends are registered via dvb_register_frontend(),
-if dvb_create_media_graph() or dvb_usb_media_device_register()
-fails, the function returns directly without calling
-dvb_unregister_frontend() and dvb_frontend_detach() for each
-frontend. This leaves them with a leaked reference count.
+The post-Iridix auto-exposure histogram disable bit in
+MALI_C55_REG_METERING_CONFIG is bit 16, but MALI_C55_AEXP_IHIST_DISABLE
+was defined with a shift of 12, copied from the AEXP_HIST definition
+above it. As the value is masked with the BIT(16) disable mask when it
+is programmed, the result is always zero and the disable bit is never
+set. The IHIST can therefore never be disabled, neither at ISP init nor
+via a parameters block flagged V4L2_ISP_PARAMS_FL_BLOCK_DISABLE, and the
+hardware keeps producing histogram statistics that userspace believes
+are switched off.
 
-The caller's error path calls dvb_usb_adapter_dvb_exit() which
-does not handle frontend cleanup. Add the missing cleanup by
-calling dvb_usb_adapter_frontend_exit() on the error path.
+Use a shift of 16 so the disable request takes effect.
 
-Fixes: 9f80679511b0 ("[media] usb: check media device errors")
+Fixes: d5f281f3dd29 ("media: mali-c55: Add Mali-C55 ISP driver")
 Cc: stable@vger.kernel.org
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+Assisted-by: Claude:claude-opus-4-8
+Signed-off-by: David Carlier <devnexen@gmail.com>
 ---
- drivers/media/usb/dvb-usb/dvb-usb-dvb.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/media/platform/arm/mali-c55/mali-c55-registers.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/dvb-usb/dvb-usb-dvb.c b/drivers/media/usb/dvb-usb/dvb-usb-dvb.c
-index 029dad86a059..923f25ccb1e8 100644
---- a/drivers/media/usb/dvb-usb/dvb-usb-dvb.c
-+++ b/drivers/media/usb/dvb-usb/dvb-usb-dvb.c
-@@ -326,10 +326,16 @@ int dvb_usb_adapter_frontend_init(struct dvb_usb_adapter *adap)
+diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-registers.h b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
+index f098effde..4cd13b702 100644
+--- a/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
++++ b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
+@@ -173,7 +173,7 @@ enum mali_c55_interrupts {
+ #define MALI_C55_AEXP_HIST_SWITCH_MASK			GENMASK(14, 13)
+ #define MALI_C55_AEXP_HIST_SWITCH(x)			((x) << 13)
+ #define MALI_C55_AEXP_IHIST_DISABLE_MASK		BIT(16)
+-#define MALI_C55_AEXP_IHIST_DISABLE			(0x01 << 12)
++#define MALI_C55_AEXP_IHIST_DISABLE			(0x01 << 16)
+ #define MALI_C55_AEXP_SRC_MASK				BIT(24)
  
- 	ret = dvb_create_media_graph(&adap->dvb_adap, true);
- 	if (ret)
--		return ret;
-+		goto err_fe_cleanup;
- 
- 	ret = dvb_usb_media_device_register(adap);
-+	if (ret)
-+		goto err_fe_cleanup;
-+
-+	return ret;
- 
-+err_fe_cleanup:
-+	dvb_usb_adapter_frontend_exit(adap);
- 	return ret;
- }
- 
+ #define MALI_C55_REG_TPG_CH0				0x18ed8
 -- 
-2.34.1
+2.53.0
 
 
