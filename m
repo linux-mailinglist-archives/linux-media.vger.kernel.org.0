@@ -1,151 +1,217 @@
-Return-Path: <linux-media+bounces-64273-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64274-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id iZ7iEQDUJ2of3AIAu9opvQ
-	(envelope-from <linux-media+bounces-64273-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 10:51:12 +0200
+	id lMoPOX3UJ2o13AIAu9opvQ
+	(envelope-from <linux-media+bounces-64274-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 10:53:17 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id C306965DFA4
-	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 10:51:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DD7665DFDF
+	for <lists+linux-media@lfdr.de>; Tue, 09 Jun 2026 10:53:17 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=I2+G7M7O;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64273-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64273-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=mailbox.org;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=iifc0pdL;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=EvEGavgP;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=y9Kd2cpH;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=8s7K2iF7;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64274-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64274-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E575630E0D4B
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2026 08:43:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9CA723051A6F
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2026 08:46:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B311371D00;
-	Tue,  9 Jun 2026 08:43:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA4393EDE42;
+	Tue,  9 Jun 2026 08:46:47 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A94682D8796;
-	Tue,  9 Jun 2026 08:43:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 091E63ACA77
+	for <linux-media@vger.kernel.org>; Tue,  9 Jun 2026 08:46:44 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780994627; cv=none; b=Mk8+jCfPjMbj2gM1oTrM0TSSr/Tqd1wkbZHdJCJ0f0kuWHZ9LRbZ2y9rQ3OWLmXW1btEl23Gr6pSyxHATe286L2YibORg9rnbIPdIlXVv1UeQ8n5wLOA3IrmAsPe5Vn3on3iimje+X2kG+1HsdhKubj+w8bTAaxNex7Z/UoEn04=
+	t=1780994807; cv=none; b=MlEl5SvAT3D8mkeot57RqLKCy6Iu85Ii3ZTXrSxYA2ooqEd49PKIG4T8rzA8pqGPkerlBCyUUOpFafroT4ycGqUFdJY6hYE3mwALeYGIpeNIua+dlInH/uP9ail5EbD0HHPgPGzWtAqBavYXUpW8tyOUU1GZy/JcBtZ1o5Q1t1k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780994627; c=relaxed/simple;
-	bh=LQR3SYdQSKJIq7EktnSCgv4axw3p+oqpyjcxCfjiFBY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VJNAN+R+Hm4RrSwjn5MGFKP9Jt5kNBqZLXuy7tCm+kifDfAWuaAZz0WELEk0C51DBTlLCLKFrTstEucOqj6KQfLxdPCwmgJnycxWU34lyFYBriWHrMLNEFiReWip2ltIJNLrx8sncVtVmlRc5DkZai3dLp+bw63NJ2Qzl+83klc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=I2+G7M7O; arc=none smtp.client-ip=80.241.56.161
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	s=arc-20240116; t=1780994807; c=relaxed/simple;
+	bh=LRvwKo+qnU53CopQyDWdwxmCysOcs2U49k8qwQikoYE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O/0TYUrgDSOfYVuMY1P/IJHI33+SBn/2ebliPwbJVFs4O/4dmJa9B7aUYIoLPTqLcFlNUSKgmrDKiMwyN0r6O5RGOzYMfr4Q/r8u74U6Q5nkMQl7LVSxC/TX1aAOn+nNjOand+AM1B0AqFjrlS/3duMJ99K5JLo1PKOOUMQ74mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=iifc0pdL; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=EvEGavgP; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=y9Kd2cpH; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=8s7K2iF7; arc=none smtp.client-ip=195.135.223.130
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4gZMrZ4qfYz9tyK;
-	Tue,  9 Jun 2026 10:43:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1780994622; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 409446A7D5;
+	Tue,  9 Jun 2026 08:46:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780994803; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TutrcWV4weLV63rn6DOTmO8rnOaAiET3qj78ShPmQNU=;
-	b=I2+G7M7O/nLScRZ49TGC3cmN5cfqPPb9zqKE76qw8auAsniWaqsyGncfeWPDO8CxwceK2n
-	j7kRkmv9Ahxkk+odKi1D/c9V+0YvLZ8I+2GmNykowMd5B/1v7myJmQWaMebf7ugwNUXO0C
-	Hywago82s9mMtYCVDD5RVhtaikIS93U8gDCPGYaYIA8FFMo2UpbeGBHx7kM+b2rWyeLifN
-	pKFz4o4mmB4O4jrvFoA+cptN4QxlKVV21PscK+aqtAMGBERJUDDav9bh3Tt/Qo2uZQhiYU
-	YV3nMRw1yvo2wi6tqueuuxh7mNkqbTA/ZsD2XGZZLmccvf4pMU9u5xklatzv7Q==
-Message-ID: <739df49a9c0fc54e3d096f95f7d738081f6fcfc2.camel@mailbox.org>
-Subject: Re: [RFC PATCH] dma-fence: Fix races of fence callbacks versus
- destructors by locking
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: phasta@kernel.org, Danilo Krummrich <dakr@kernel.org>, Sumit Semwal	
- <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=	
- <christian.koenig@amd.com>, Alice Ryhl <aliceryhl@google.com>, Daniel
- Almeida	 <dwlsalmeida@gmail.com>, Gary Guo <gary@garyguo.net>, Tvrtko
- Ursulin	 <tvrtko.ursulin@igalia.com>, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Tue, 09 Jun 2026 10:43:39 +0200
-In-Reply-To: <20260608181630.20145d1c@fedora-2.home>
-References: <20260608142436.265820-2-phasta@kernel.org>
-		<20260608170112.24fd92df@fedora-2.home>
-		<6bdbdb6541392c6ea58e0035f0b20ac3c8f3e54e.camel@mailbox.org>
-		<DJ3RRRX6JY4M.LCRKJ074W9DQ@kernel.org>
-		<256dc5ae3529e2548c4151af34a540476ac928c1.camel@mailbox.org>
-	 <20260608181630.20145d1c@fedora-2.home>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	bh=SkwgUno5OVjg29hLYJfsk0E2z8CzY6794Poai6l+Syg=;
+	b=iifc0pdLEJFFz7v/nTbIvZHa0aSmahb6nKmAc4JRUnbwNn9QaHqbdA0XFQj2oRrUVJ6Ywq
+	fXfttPOuSZO3+B6b2S/x/80dZYPGFCgWGcu4ok9kxKlxXZ+qKVJrXg3erC/3vxjJuz0QjR
+	smJS8VKQzCN/tGzKIds6ThXcFGQHOso=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780994803;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SkwgUno5OVjg29hLYJfsk0E2z8CzY6794Poai6l+Syg=;
+	b=EvEGavgPfqnRsj+bigCqM6Nre3O4jhxk2gVNy46rYQtMxClruQlhTfICwsRCfChXJxTSwn
+	kRA5R5H+A20BpcBA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1780994799; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SkwgUno5OVjg29hLYJfsk0E2z8CzY6794Poai6l+Syg=;
+	b=y9Kd2cpHerZ3l4p8U1BCmKTQtSyWENzbZAsreFaiCeAdtHXYhk/30v/l/qZDBQZUfyxbe9
+	RV6WLmQoKYEtlBwsBd7ZZvnXt1t3Kc6KiR5dMaoZIqNtE/u1kZKz75l9Z4nfleNzC7Pb2l
+	5Vzho73fdJ+7mSEiFfbl7DdNvWgUwIA=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1780994799;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=SkwgUno5OVjg29hLYJfsk0E2z8CzY6794Poai6l+Syg=;
+	b=8s7K2iF76Cm36PZHMJRIknZM58rOeOSYodxzyzZvuCd2izMaAMudwtzN4KAWHqUhNELa6M
+	TjDt8cHOL3HYDgDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 34C98779A7;
+	Tue,  9 Jun 2026 08:46:39 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id r93dDO/SJ2qNdQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 09 Jun 2026 08:46:39 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id BB4F5A0A90; Tue, 09 Jun 2026 10:46:38 +0200 (CEST)
+Date: Tue, 9 Jun 2026 10:46:38 +0200
+From: Jan Kara <jack@suse.cz>
+To: John Hubbard <jhubbard@nvidia.com>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Christoph Hellwig <hch@infradead.org>, 
+	Kees Cook <kees@kernel.org>, Cong Wang <xiyou.wangcong@gmail.com>, 
+	Chia-Lin Kao <acelan.kao@canonical.com>, Benjamin LaHaise <bcrl@kvack.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport <rppt@kernel.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Jens Axboe <axboe@kernel.dk>, linux-fsdevel@vger.kernel.org, 
+	linux-aio@kvack.org, linux-mm@kvack.org, kvm@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	LKML <linux-kernel@vger.kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] libfs: set SB_I_NOEXEC and SB_I_NODEV by default
+ in init_pseudo()
+Message-ID: <c2upjkd7boexrdqi4t2i7tcm36mdjo3nz6p4js4heyhb7xjp5e@pkhjld3pafvu>
+References: <20260604025315.245910-1-jhubbard@nvidia.com>
+ <20260604025315.245910-2-jhubbard@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: i8k4fmo6ne3hna7bsdyiqc4xaumfwd19
-X-MBO-RS-ID: 3aff6afd757c241ff74
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260604025315.245910-2-jhubbard@nvidia.com>
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spam-Score: -2.51
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [0.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64273-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:boris.brezillon@collabora.com,m:phasta@kernel.org,m:dakr@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:aliceryhl@google.com,m:dwlsalmeida@gmail.com,m:gary@garyguo.net,m:tvrtko.ursulin@igalia.com,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_CC(0.00)[kernel.org,linaro.org,amd.com,google.com,gmail.com,garyguo.net,igalia.com,vger.kernel.org,lists.freedesktop.org];
+	FORGED_RECIPIENTS(0.00)[m:jhubbard@nvidia.com,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:jack@suse.cz,m:hch@infradead.org,m:kees@kernel.org,m:xiyou.wangcong@gmail.com,m:acelan.kao@canonical.com,m:bcrl@kvack.org,m:akpm@linux-foundation.org,m:rppt@kernel.org,m:pbonzini@redhat.com,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:axboe@kernel.dk,m:linux-fsdevel@vger.kernel.org,m:linux-aio@kvack.org,m:linux-mm@kvack.org,m:kvm@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:xiyouwangcong@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[jack@suse.cz,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-64274-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	DMARC_NA(0.00)[suse.cz];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jack@suse.cz,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,infradead.org,gmail.com,canonical.com,kvack.org,linux-foundation.org,redhat.com,linaro.org,amd.com,kernel.dk,vger.kernel.org,lists.freedesktop.org,lists.linaro.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	HAS_REPLYTO(0.00)[phasta@kernel.org]
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C306965DFA4
+X-Rspamd-Queue-Id: 3DD7665DFDF
 
-On Mon, 2026-06-08 at 18:16 +0200, Boris Brezillon wrote:
-> If I were to choose, I'd probably go for a dedicated rwlock_t to
+On Wed 03-06-26 19:53:14, John Hubbard wrote:
+> Since commit 1e7ab6f67824 ("anon_inode: rework assertions"),
+> path_noexec() warns when an anonymous-inode file is mmap'd from a
+> superblock that has not set SB_I_NOEXEC. dma-buf backs its files this
+> way and never set the flag, so mmap of any exported buffer trips the
+> warning on a CONFIG_DEBUG_VFS=y kernel:
+> 
+>   WARNING: CPU: 11 PID: 121813 at fs/exec.c:118 path_noexec+0x47/0x50
+>    do_mmap+0x2b5/0x680
+>    vm_mmap_pgoff+0x129/0x210
+>    ksys_mmap_pgoff+0x177/0x240
+>    __x64_sys_mmap+0x33/0x70
+> 
+> init_pseudo() sets up internal SB_NOUSER mounts that are never
+> path-reachable. Set both flags here so every pseudo filesystem gets
+> them by default instead of each caller setting them.
+> 
+> SB_I_NODEV is inert for unreachable mounts. SB_I_NOEXEC has one
+> visible effect: an executable mapping of a pseudo-fs fd, such as a
+> dma-buf, now fails with -EPERM, which is the invariant the assertion
+> enforces. No in-tree caller maps these executable.
+> 
+> Reproduce on CONFIG_DEBUG_VFS=y:
+> 
+>   make -C tools/testing/selftests/dmabuf-heaps
+>   sudo ./tools/testing/selftests/dmabuf-heaps/dmabuf-heap -t system
+> 
+> Fixes: 1e7ab6f67824 ("anon_inode: rework assertions")
+> Suggested-by: Christoph Hellwig <hch@infradead.org>
+> Cc: stable@vger.kernel.org
+> Signed-off-by: John Hubbard <jhubbard@nvidia.com>
 
-side note:
-rw_locks are officially discouraged AFAIK. They utilize more of the
-expensive instructions than a spinlock and are only worth it if the
-read section is really long compared to the write section.
+Looks good. Feel free to add:
 
-> protect dma_fence_ops, so we can:
->=20
-> - protect all dma_buf_ops::xx() consistently no matter the kind of op
-> - protect returned data (get_xxx_name()) with this lock instead of the
-> =C2=A0 RCU read lock
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-That doesn't solve our Rust destructor problem though, does it?
+								Honza
 
-What we want to do is:
-
-   1. Signal the fence before it drops
-   2. Wait for all accessors to be gone
-   3. Run the destructor
-
-Step #2 by definition demands the signaled-state lock.
-
-Or would your plan be to take and release the ops-lock before the
-destructor to ensure all callbacks are gone?
-
-P.
+> ---
+>  fs/libfs.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/fs/libfs.c b/fs/libfs.c
+> index 1bbea5e7bae3..e8226b9e1bc8 100644
+> --- a/fs/libfs.c
+> +++ b/fs/libfs.c
+> @@ -736,6 +736,7 @@ struct pseudo_fs_context *init_pseudo(struct fs_context *fc,
+>  		fc->fs_private = ctx;
+>  		fc->ops = &pseudo_fs_context_ops;
+>  		fc->sb_flags |= SB_NOUSER;
+> +		fc->s_iflags |= SB_I_NOEXEC | SB_I_NODEV;
+>  		fc->global = true;
+>  	}
+>  	return ctx;
+> -- 
+> 2.54.0
+> 
+-- 
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
 
