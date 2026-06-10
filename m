@@ -1,59 +1,59 @@
-Return-Path: <linux-media+bounces-64462-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64463-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id tF3OADl4KWpeXQMAu9opvQ
-	(envelope-from <linux-media+bounces-64462-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 16:44:09 +0200
+	id NSZqBlF4KWpoXQMAu9opvQ
+	(envelope-from <linux-media+bounces-64463-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 16:44:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4590D66A581
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 16:44:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8097566A5A6
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 16:44:32 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=collabora.com header.s=mail header.b=KT1t72BX;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64462-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64462-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=collabora.com header.s=mail header.b=VjMSdNz6;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64463-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64463-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=collabora.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7F19E3492780
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 14:35:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 041BB34A765D
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 14:35:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31EDC41B354;
-	Wed, 10 Jun 2026 14:34:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CE17411682;
+	Wed, 10 Jun 2026 14:34:41 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6BF1372680;
-	Wed, 10 Jun 2026 14:34:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D9840B39C;
+	Wed, 10 Jun 2026 14:34:31 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781102075; cv=none; b=Lt9nB0Ef7yaNstGjg7QKsI++sXFwSKan8zlJvbcWqpRIJQT6ajFcwS4dIQmIfeCVedVsuK5GeaohR/g7V5ot9X1NlKmNtQI3DnZK6klw42ihAOv0RS6/h44o/3hWiDdMntFknIbG03ofzevPDJxzLBZLXsYc69i0O2a0NzTcJ2c=
+	t=1781102079; cv=none; b=oXqYNa21cR2+yJAhaU0EKihJyQ31MjQfzc6zh1WNHIK8H0+3LDF82YKR9CPhMAqMIXW1QQV9vIgAsrTZ7MijdASCxaj+Kz9xGzDJuu0sQ64pL8Bn9ndmqZ5/FfGI3/4gzVe9SFK2j+ZyaJykSrwr6xay0qWoCL+jQsQnELfxzJs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781102075; c=relaxed/simple;
-	bh=buWzY0LM2eBzVDux6FwBX3Iv5Uvnb04/g09QnKbCclg=;
+	s=arc-20240116; t=1781102079; c=relaxed/simple;
+	bh=1TSwrODXsBUB8IftPzx52C0XkF+RmnNXu0r6bl/vr2E=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=j7tFADJPNPdAOIYXASx6IPjH9q91CPU9Lcgi25xQGYrdGCbXhUXYk4z8Td8ia7/4I7fqz5O7nk+3vqYGgRBVJUCySa5XpKQp8D7VcMCQTLT9sWXOgDjF2IiNIGf5xmLLNZMxv/ANvZ+MSk/ST/O359vCJJmrM9o/DzLVTW+fV1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KT1t72BX; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:To:Cc; b=H7+j4268XesF0UqTS6tigsKgLTBWSeS4x4c2Sriy89HRlP7EX3YACcre2kPVP2dZZGBL0v8X/cvwoz2x9in7hOQrP73iNXzmbsQBnu1zZa2lcRpuZKgjjsa7BB5+Y9i6cEV/x2aVvIuyIJCLmzLNf5P/kSlc8TbdGK3mHP/sHPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=VjMSdNz6; arc=none smtp.client-ip=148.251.105.195
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1781102067;
-	bh=buWzY0LM2eBzVDux6FwBX3Iv5Uvnb04/g09QnKbCclg=;
+	s=mail; t=1781102070;
+	bh=1TSwrODXsBUB8IftPzx52C0XkF+RmnNXu0r6bl/vr2E=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=KT1t72BXfj58snpFIw5YXgBpFC2bpxE+moW/BmKWtzJ6XZc+ZolVxCWLP7OYiAOXJ
-	 +/Q8wXqCW4a4bROEJP+CqgSbsPquhTVm7038tDPxTfKIhQRINaV1Sw8yTr2mLgFexc
-	 4MPO2jN0wzqGNfsjtplSPsXiW2W25/9J6cYyZIeEAq9Z+jIw7eZovd+i64OMdYLr97
-	 OewOvLVHLhC7oOhYoldlkS9ELzFRwhBxy6fx7Kj0EY5+htLioBAQxlAhEah5SsL/Xe
-	 xXvSs1iRpYoRAMutPaaTUrsWuCR9zU0MchoPBNgSpufHqAykD7SXeUgHgV1wZwDuQ5
-	 1L3CgcqVdKOMQ==
+	b=VjMSdNz6BD8Oq562/yPJso2olso5XsJgxdmZIt3roVcZutcLfSD0Xq9LVLRkN/LF+
+	 qF2U+FYh1D35JeRxa/DwQSjF350JwZm3ZW2s2KUMmhxcJ1r5ohFdfzcbdigN5qeZtk
+	 eosueFvhvnwwTl4dl996mfO2jbMzv6sY3n6aEabl03bNk9t9m0jeg12B2q965trgJg
+	 xJRl504qRNDaQm8wNSgQHrMlTqtuUAvVUQxIEy43mZPa6ccC4khBS8fvDPFhuIGV/N
+	 8HyXaVCCyVAjaplM3MbevY7sisofSdjCfJ5eVzUAQy+g9ZMReUrhMBANdzI+m0EK00
+	 xuquzWrCZgSNg==
 Received: from [192.168.0.15] (unknown [100.64.0.170])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: detlev)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id E5E3F17E11FB;
-	Wed, 10 Jun 2026 16:34:25 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3CBF217E1221;
+	Wed, 10 Jun 2026 16:34:28 +0200 (CEST)
 From: Detlev Casanova <detlev.casanova@collabora.com>
-Date: Wed, 10 Jun 2026 10:33:38 -0400
-Subject: [PATCH v2 8/9] media: Add HW run/done trace events
+Date: Wed, 10 Jun 2026 10:33:39 -0400
+Subject: [PATCH v2 9/9] media: hantro: Add v4l2_hw run/done traces
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,7 +62,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260610-v4l2-add-ftrace-v2-8-9756edf72ac1@collabora.com>
+Message-Id: <20260610-v4l2-add-ftrace-v2-9-9756edf72ac1@collabora.com>
 References: <20260610-v4l2-add-ftrace-v2-0-9756edf72ac1@collabora.com>
 In-Reply-To: <20260610-v4l2-add-ftrace-v2-0-9756edf72ac1@collabora.com>
 To: Daniel Almeida <daniel.almeida@collabora.com>, 
@@ -93,7 +93,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FORGED_SENDER(0.00)[detlev.casanova@collabora.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[16];
-	TAGGED_FROM(0.00)[bounces-64462-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64463-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
@@ -109,88 +109,109 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,collabora.com:email,collabora.com:mid,collabora.com:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,collabora.com:dkim,collabora.com:email,collabora.com:mid,collabora.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4590D66A581
+X-Rspamd-Queue-Id: 8097566A5A6
 
-The events can be fired by drivers when the hardware is run and when it
-is done.
-That can be used by userspace tracers to see HW performance and usage.
-
-The hw_done event allows setting the number of clock cycles the HW needed
-to do the work, to help tools evaluate performances.
+Add the trace calls as well as retrieving the number of clock cycles for
+the rockchip_vpu core.
 
 Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 ---
- drivers/media/v4l2-core/v4l2-trace.c |  3 +++
- include/trace/events/v4l2.h          | 40 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 43 insertions(+)
+ drivers/media/platform/verisilicon/hantro.h               |  1 +
+ drivers/media/platform/verisilicon/hantro_drv.c           | 10 ++++++++++
+ drivers/media/platform/verisilicon/rockchip_vpu981_regs.h |  1 +
+ drivers/media/platform/verisilicon/rockchip_vpu_hw.c      |  4 ++++
+ 4 files changed, 16 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/v4l2-trace.c b/drivers/media/v4l2-core/v4l2-trace.c
-index 183d5ecb49c5..59cf6f8807ac 100644
---- a/drivers/media/v4l2-core/v4l2-trace.c
-+++ b/drivers/media/v4l2-core/v4l2-trace.c
-@@ -12,6 +12,9 @@ EXPORT_TRACEPOINT_SYMBOL_GPL(vb2_v4l2_buf_queue);
- EXPORT_TRACEPOINT_SYMBOL_GPL(vb2_v4l2_dqbuf);
- EXPORT_TRACEPOINT_SYMBOL_GPL(vb2_v4l2_qbuf);
+diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/platform/verisilicon/hantro.h
+index 0353de154a1e..d5cddc783688 100644
+--- a/drivers/media/platform/verisilicon/hantro.h
++++ b/drivers/media/platform/verisilicon/hantro.h
+@@ -253,6 +253,7 @@ struct hantro_ctx {
  
-+EXPORT_TRACEPOINT_SYMBOL_GPL(v4l2_hw_run);
-+EXPORT_TRACEPOINT_SYMBOL_GPL(v4l2_hw_done);
-+
- /* Export AV1 controls */
- EXPORT_TRACEPOINT_SYMBOL_GPL(v4l2_ctrl_av1_sequence);
- EXPORT_TRACEPOINT_SYMBOL_GPL(v4l2_ctrl_av1_frame);
-diff --git a/include/trace/events/v4l2.h b/include/trace/events/v4l2.h
-index e5b80aeecc30..6f1bbb085cb0 100644
---- a/include/trace/events/v4l2.h
-+++ b/include/trace/events/v4l2.h
-@@ -299,6 +299,46 @@ DEFINE_EVENT(v4l2_stream_class, v4l2_streamoff,
- 	TP_ARGS(tgid, fd)
- );
+ 	u32 sequence_cap;
+ 	u32 sequence_out;
++	u32 hw_cycles;
  
-+
-+/* Events for hardware run/done.
-+ *
-+ * These events will be fired respectively when the hardware is run (v4l2_hw_run) and done
-+ * (v4l2_hw_done).
-+ * As for other events, tgid and fd are used to identify the process that opened the video device.
-+ *
-+ * The v4l2_hw_done event also includes the number of hardware cycles taken by the hardware to
-+ * process the command.
-+ */
-+DEFINE_EVENT(v4l2_stream_class, v4l2_hw_run,
-+	TP_PROTO(u32 tgid, u32 fd),
-+	TP_ARGS(tgid, fd)
-+);
-+
-+DECLARE_EVENT_CLASS(v4l2_hw_done_class,
-+	TP_PROTO(u32 tgid, u32 fd, u32 hw_cycles),
-+	TP_ARGS(tgid, fd, hw_cycles),
-+
-+	TP_STRUCT__entry(
-+		__field(u32, tgid)
-+		__field(u32, fd)
-+		__field(u32, hw_cycles)
-+	),
-+
-+	TP_fast_assign(
-+		__entry->tgid = tgid;
-+		__entry->fd = fd;
-+		__entry->hw_cycles = hw_cycles;
-+	),
-+
-+	TP_printk("tgid = %u, fd = %u, hw_cycles = %u",
-+		  __entry->tgid, __entry->fd, __entry->hw_cycles)
-+);
-+
-+DEFINE_EVENT(v4l2_hw_done_class, v4l2_hw_done,
-+	TP_PROTO(u32 tgid, u32 fd, u32 hw_cycles),
-+	TP_ARGS(tgid, fd, hw_cycles)
-+);
-+
- #endif /* if !defined(_TRACE_V4L2_H) || defined(TRACE_HEADER_MULTI_READ) */
+ 	const struct hantro_fmt *vpu_src_fmt;
+ 	struct v4l2_pix_format_mplane src_fmt;
+diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+index 2e81877f640f..32855b14e0f1 100644
+--- a/drivers/media/platform/verisilicon/hantro_drv.c
++++ b/drivers/media/platform/verisilicon/hantro_drv.c
+@@ -25,6 +25,8 @@
+ #include <media/videobuf2-core.h>
+ #include <media/videobuf2-vmalloc.h>
  
- /* This part must be outside protection */
++#include <trace/events/v4l2.h>
++
+ #include "hantro_v4l2.h"
+ #include "hantro.h"
+ #include "hantro_hw.h"
+@@ -103,6 +105,9 @@ void hantro_irq_done(struct hantro_dev *vpu,
+ 	struct hantro_ctx *ctx =
+ 		v4l2_m2m_get_curr_priv(vpu->m2m_dev);
+ 
++	if (ctx)
++		trace_v4l2_hw_done(ctx->fh.tgid, ctx->fh.fd, ctx->hw_cycles);
++
+ 	/*
+ 	 * If cancel_delayed_work returns false
+ 	 * the timeout expired. The watchdog is running,
+@@ -125,6 +130,9 @@ void hantro_watchdog(struct work_struct *work)
+ 	ctx = v4l2_m2m_get_curr_priv(vpu->m2m_dev);
+ 	if (ctx) {
+ 		vpu_err("frame processing timed out!\n");
++
++		trace_v4l2_hw_done(ctx->fh.tgid, ctx->fh.fd, ctx->hw_cycles);
++
+ 		if (ctx->codec_ops->reset)
+ 			ctx->codec_ops->reset(ctx);
+ 		hantro_job_finish(vpu, ctx, VB2_BUF_STATE_ERROR);
+@@ -189,6 +197,8 @@ static void device_run(void *priv)
+ 	if (ctx->codec_ops->run(ctx))
+ 		goto err_cancel_job;
+ 
++	trace_v4l2_hw_run(ctx->fh.tgid, ctx->fh.fd);
++
+ 	return;
+ 
+ err_cancel_job:
+diff --git a/drivers/media/platform/verisilicon/rockchip_vpu981_regs.h b/drivers/media/platform/verisilicon/rockchip_vpu981_regs.h
+index e4008da64f19..96b85470208b 100644
+--- a/drivers/media/platform/verisilicon/rockchip_vpu981_regs.h
++++ b/drivers/media/platform/verisilicon/rockchip_vpu981_regs.h
+@@ -451,6 +451,7 @@
+ #define av1_pp0_dup_ver			AV1_DEC_REG(394, 16, 0xff)
+ #define av1_pp0_dup_hor			AV1_DEC_REG(394, 24, 0xff)
+ 
++#define AV1_CYCLE_COUNT			(AV1_SWREG(63))
+ #define AV1_TILE_OUT_LU			(AV1_SWREG(65))
+ #define AV1_REFERENCE_Y(i)		(AV1_SWREG(67) + ((i) * 0x8))
+ #define AV1_SEGMENTATION		(AV1_SWREG(81))
+diff --git a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
+index 02673be9878e..f959151b6645 100644
+--- a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
++++ b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
+@@ -424,6 +424,8 @@ static irqreturn_t rk3588_vpu981_irq(int irq, void *dev_id)
+ {
+ 	struct hantro_dev *vpu = dev_id;
+ 	enum vb2_buffer_state state;
++	struct hantro_ctx *ctx =
++		v4l2_m2m_get_curr_priv(vpu->m2m_dev);
+ 	u32 status;
+ 
+ 	status = vdpu_read(vpu, AV1_REG_INTERRUPT);
+@@ -433,6 +435,8 @@ static irqreturn_t rk3588_vpu981_irq(int irq, void *dev_id)
+ 	vdpu_write(vpu, 0, AV1_REG_INTERRUPT);
+ 	vdpu_write(vpu, AV1_REG_CONFIG_DEC_CLK_GATE_E, AV1_REG_CONFIG);
+ 
++	ctx->hw_cycles = vdpu_read(vpu, AV1_CYCLE_COUNT);
++
+ 	hantro_irq_done(vpu, state);
+ 
+ 	return IRQ_HANDLED;
 
 -- 
 2.54.0
