@@ -1,241 +1,447 @@
-Return-Path: <linux-media+bounces-64404-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64405-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id l8e7K5A7KWruSgMAu9opvQ
-	(envelope-from <linux-media+bounces-64404-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 12:25:20 +0200
+	id mNXZGlM9KWpVSwMAu9opvQ
+	(envelope-from <linux-media+bounces-64405-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 12:32:51 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FB176683CC
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 12:25:20 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F5C56684DD
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 12:32:51 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=gMZGnf14;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64404-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64404-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=fail ("headers rsa verify failed") header.d=ideasonboard.com header.s=mail header.b=WBVoTkGd;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64405-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-64405-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed)" header.from=ideasonboard.com (policy=none);
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 43CD4308D6BC
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 10:22:48 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id A1B7C308DC7B
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 10:31:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 050143EFD05;
-	Wed, 10 Jun 2026 10:22:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59B893FBB4E;
+	Wed, 10 Jun 2026 10:29:50 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10562F5337
-	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 10:22:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 830073F8241
+	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 10:29:45 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781086963; cv=none; b=evGFqQRVVkDV1yQYKka3004TnRLj+qKAPvkJyb5Ohn5oKmT1Y248qVKLa7UTNZVVxVOPAui5J8JVLgBac5cK7T0t67+rx4mgFOtMlKHO2C+lOehGoaLP3yYNwMyrsG8XcjCSP7eI7QziSY2jDm1zQ4Cw5m4lwST4BQ+M+PZ4U3g=
+	t=1781087389; cv=none; b=tzAFsME1+Dvk8M4boTz/sUYbiIdqbDCJOtb7qXgLfDYAhSeGdgtJXY5Bo2c/WfBkUCPXOrEIZ+5dcdWUkPc2V9UK9fa/BhQ20Rgs88BVBXnvVgG92cihOxQKP2DmCQ2DFhGFi8Dpo51EFkQCe5FQeE1qtkjcQyslo/8ypxEBnuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781086963; c=relaxed/simple;
-	bh=jtxCmEnyVZ7I4mybG5ysoMHIaJeBLKP0rlxXW5TM770=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pqlSTwibMKRFRunjRlbCwoTrgnyfjdwcT24qKs/RDG65E9dop9KFbYYDhdQUy63MTxD+feXuVCxiCv25ukdZR6t4YLrAqcPZzuseda8CmDwfdcOY6ApzzS0LYLTie2De+dpu6yH81Oh/7ySoNwVPSOFP3Ew6UUxD92hu4jSNX5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gMZGnf14; arc=none smtp.client-ip=209.85.128.45
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-490b8a97b11so73101705e9.0
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 03:22:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781086960; x=1781691760; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0SLaP4natyxsSyEsa4HE0hskJcWWNISJpoxCsB6+PCc=;
-        b=gMZGnf14s4fMiHSMMZXuPMp32e689/7e9jF7UNv94bYZnu1xwaUKaN61Jgplyb6JJv
-         ulF95zN7CcMW1V4o/QgdXZY4wExIGDUpzbC+8rbvdnGfXljRs9PdUwNB5nfUWPdzyZ9F
-         BKftKWJCOpy93wajRJrMzKeMJ3DjsUY+lLAEAXACXGjHfSi9pDgt/vLf4iPd3DJsS3Ja
-         C92O0S0lxcWnvA/Mh5n7CwocUX5+qF9PEBtFlMaQCoKMx5uYXH2khOlDHTyeTIpMfBgV
-         BO51NlvxZp7x1TEYl1e9lapntkVOxTbhyNHT8bwgPXC/yv3Zv/AtYceM7ZEKgU/RKOvn
-         5hlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781086960; x=1781691760;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0SLaP4natyxsSyEsa4HE0hskJcWWNISJpoxCsB6+PCc=;
-        b=RFdwz5oTTVOUolsQV0SaxaBr1DFfH7t4pSBBdDhCTaRzp6n9tz6vnf/9lrWSRDtGjr
-         RLLK2bF0h8OWuFM6L+nJF3A4S3X8oKSqidsCDN0YgD53U/4243vTZ5zkxYWC7jfMXOLv
-         ip6OPYaOhNW56b1zwyGDyUfOB+BY0enk81bLZICuqktB3k1snW1rituM4VHC6bHNfBN2
-         ULK08LlTmmNhCqeDA54u4Pg9OMuJL5ZRg4jfbYQbZTgZX2HVUqfFMHWdvJZVIqWL5agJ
-         oBI735pySJA2seKywJhwiNfh8nwlaMf0mpnKAoAk6l5YK9kQOmtKmwmf14FxFNPVjlxB
-         w7hw==
-X-Forwarded-Encrypted: i=1; AFNElJ9lRGejLfj1JJ7gvbo8lKzthgkf47rkBgp+ef0Mv7WozSGxh0PtVUN5FFmNh3VaOHw+kbzkzzjc+3NNmA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+QEtlfgJ1W6h2gyeTK7XLI07aZ7pnoyemwlhIjRpNIIqeSsDO
-	C7Jfg6ztiQByLtlLmlbWgBVsomMjzfFbz62YkvuWM6hapG30YVkbX1J9
-X-Gm-Gg: Acq92OGYLglxwkl+VuNHsK0yTaG4f38Rfjt+Z7FmjvABMVhNT+GU2ITaxj1+5K9Y4SO
-	Yx+HhOSzUUL1jxdntO8eCxGNY8qySmGANR01neJIws9pD3Qo/Gi0fvQTCm9Jb1q4amP4B552+Sw
-	nuIHvz/qIk127wNkMslGR+ES0obr8qlY/HPgPWNcRYSp6hsNbybW3KWExXi08u6uM2PwP7Alf+8
-	V3cefRZRYhjjFbBhwoZykTZPNY2eSuifvYTLPlpN/gZm9PFndtue3c1cXi+lOrRyhjqgV1m32Fw
-	z1FXs12Tk13qyX+nkCVvB+6RajTgN9HZuifLU00Pi+CeNrF2X2DDEqMnvTc1/pMZteQKAd3/3go
-	XmPT2CDddbGnzJlNhv2lkwAc/WLhNwyg/ceT+8qfAF6N6tKAHvjqQh587Jr5tBFXkJVByUXI3De
-	QqAUHqbSXl9q8p+T17hbpQID5TeYieYuCKCgt4tDkjcbV9OLcSbjmFenU35Cq6ZjitixJ2HW/PO
-	9U5GczA/4kT9LU=
-X-Received: by 2002:a05:600c:e548:10b0:490:d2a4:1b59 with SMTP id 5b1f17b1804b1-490d2a41c3bmr112751805e9.31.1781086960084;
-        Wed, 10 Jun 2026 03:22:40 -0700 (PDT)
-Received: from garuda ([79.106.123.139])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f35eae5sm71360831f8f.33.2026.06.10.03.22.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 03:22:39 -0700 (PDT)
-From: Jurison Murati <eng.juri@gmail.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Daniel Scally <dan.scally@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: [PATCH v2 2/2] media: i2c: ov8865: Program the sensor on stream start
-Date: Wed, 10 Jun 2026 12:22:37 +0200
-Message-ID: <fa341298dfd2ba9ce431e21c2cf45002efacf2cf.1781085860.git.eng.juri@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <6b764b77a7d78b8ae2cfb8a213a1e844a329db26.1781085860.git.eng.juri@gmail.com>
-References: <6b764b77a7d78b8ae2cfb8a213a1e844a329db26.1781085860.git.eng.juri@gmail.com>
+	s=arc-20240116; t=1781087389; c=relaxed/simple;
+	bh=zDpohfWtrGoYzwR+AzpyFjlhVqMP6LzrVUJzEy5u/B4=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=MZYqsrP8GvHVzsQkh5MQhNYECzltHlFBNnWtSTvU19Szix+DfyfcXlAJmzsIO4ImCm+9cfC/9UsvQlq9oIoXAjzdRNSIUExBMBkVCKgHoYWqXn0PsYMLjQkkNDTXot6OL/Jri6VAkpKP43y4hAispNd78UrVVmTjDJl+UCS5ewU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WBVoTkGd reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:bcf2:9325:a9bd:32b:e71])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 77E99524;
+	Wed, 10 Jun 2026 12:29:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1781087353;
+	bh=zDpohfWtrGoYzwR+AzpyFjlhVqMP6LzrVUJzEy5u/B4=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=WBVoTkGdWjHk6TlLfnxuQq8EqXk9cih3eaDYGO2Ja0KAhnHx/7+MN5B/m7tCvfjG+
+	 lKgsHARh36Bh6psNPkvVt9cbdgO8fy2qEEXJjyLcotixJmmHj93ZZgEIIq741Niu3I
+	 izGxBO7QjeXOR41n5EQUc5ckjNqUbBFSc05Cfq9Q=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <aikyqqC_BsYI5D2M@kekkonen.localdomain>
+References: <20260607215356.842932-1-sakari.ailus@linux.intel.com> <20260607215356.842932-7-sakari.ailus@linux.intel.com> <aiZnQgyEBkZH7er0@zed> <178091466607.16054.13972332068848565738@freya> <178091757893.16054.4583389270412251379@freya> <aikyqqC_BsYI5D2M@kekkonen.localdomain>
+Subject: Re: [PATCH v5 06/10] media: imx219: Fix vertical blanking and exposure for analogue binning
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, Hans Verkuil <hans@jjverkuil.nl>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, Tommaso Merciai <tomm.merciai@gmail.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, =?utf-8?q?Andr=C3=A9?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, Tomi Valkeinen <tomi.valkeinen@
+ ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, "Yu, Ong Hock" <ong.hock.yu@intel.com>, "Ng, Khai Wen" <khai.wen.ng@intel.com>, Rishikesh Donadkar <r-donadkar@ti.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Date: Wed, 10 Jun 2026 15:59:36 +0530
+Message-ID: <178108737654.1799417.12257128301401647481@freya>
+User-Agent: alot/0.13.dev35+g4a69c46ca
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [1.64 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	R_DKIM_REJECT(1.00)[ideasonboard.com:s=mail];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[ideasonboard.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:dan.scally@ideasonboard.com,m:hansg@kernel.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
-	PRECEDENCE_BULK(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[engjuri@gmail.com,linux-media@vger.kernel.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-64404-lists,linux-media=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-64405-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:dave.stevenson@raspberrypi.com,m:hans@jjverkuil.nl,m:jacopo.mondi@ideasonboard.com,m:laurent.pinchart@ideasonboard.com,m:linux-media@vger.kernel.org,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:dongcheng.yan@intel.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:tomi.valkeinen@ ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:r-donadkar@ti.com,m:sakari.ailus@linux.intel.com,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	FORGED_SENDER(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[engjuri@gmail.com,linux-media@vger.kernel.org];
-	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[ideasonboard.com:-];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	ALIAS_RESOLVED(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	FREEMAIL_CC(0.00)[raspberrypi.com,jjverkuil.nl,ideasonboard.com,vger.kernel.org,gmail.com,redhat.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org, ideasonboard.com,ti.com];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2FB176683CC
+X-Rspamd-Queue-Id: 1F5C56684DD
 
-The sensor registers are only written in the runtime PM resume
-handler; ov8865_set_fmt() merely stores the requested mode, relying on
-the sensor being runtime suspended between uses so that the next
-resume applies it.
+Hi Sakari,
 
-That assumption breaks when something keeps the sensor powered. On
-IPU3 platforms, ipu_bridge instantiates the VCM device with a
-DL_FLAG_PM_RUNTIME device link to the sensor, so a userspace process
-holding the VCM subdev open (e.g. wireplumber's camera monitor) pins
-the sensor runtime-active. A subsequent set_fmt() then never reaches
-the hardware: the sensor keeps streaming the mode programmed on the
-last resume while the CSI-2 receiver expects the newly negotiated
-format.
+Quoting Sakari Ailus (2026-06-10 15:17:22)
+> Hi Jai,
+>=20
+> On Mon, Jun 08, 2026 at 04:49:38PM +0530, Jai Luthra wrote:
+> > Quoting Jai Luthra (2026-06-08 16:01:06)
+> > > Hi Jacopo, Sakari,
+> > > ++ Dave, Hans and Laurent,
+> > >=20
+> > > Quoting Jacopo Mondi (2026-06-08 12:28:46)
+> > > > Hi Sakari
+> > > >=20
+> > > > On Mon, Jun 08, 2026 at 12:53:52AM +0300, Sakari Ailus wrote:
+> > > > > When vertical analogue binning is in use, the minimum frame lengt=
+h in
+> > > > > lines decreases to around half of the normal. In relation to the =
+sensor's
+> > > > > output size this means vertical blanking can be negative but that=
+'s not an
+> > > > > issue as control values are signed. Remove the workaround for this
+> > > >=20
+> > > > Didn't we just discussed two weeks ago in media summit how negative
+> > > > blankings are a bad idea, and of all drivers one could decide to pl=
+ay
+> > > > with imx219 is probably the worse due it's large use base and the f=
+act
+> > > > libcamera doesn't support negative blankings ?
+> > > >=20
+> > > > Have I missed something ?
+> > > >=20
+> > >=20
+> > > I think it would be helpful if I write down clearly how this sensor
+> > > operates (to the best of my knowledge) so we can decide on the correct
+> > > fix:
+> > >=20
+> > > --------------------
+> > >=20
+> > > IMX219 sensor has an active resolution of 3280x2464.
+> > >=20
+> > > The driver currently programs the sensor VT pixel clock as fixed for a
+> > > given lane configuration.
+> > >=20
+> > > In 2-lane mode it reads 182.4 MPixel/second:
+> > >=20
+> > >     #define IMX219_PIXEL_RATE           182400000
+> > >=20
+> > > And the framerate is given by:
+> > >=20
+> > >     PIXEL_RATE / (FRAME_LENGTH * LINE_LENGTH)
+> > >=20
+> > > where FRAME_LENGTH and LINE_LENGTH are registers that include the act=
+ive
+> > > height and width along with blankings.
+> > >=20
+> > > There are restrictions on the minimum of the LINE_LENGTH register and
+> > > minimum vertical blanking (32), which cap the framerate for the full =
+resolution
+> > > mode.
+> > >=20
+> > >     MIN_LINE_LENGTH: 0xd78 =3D> 3448 pixels
+> > >     MIN_FRAME_LENGTH: ACTIVE_HEIGHT + MIN_VBLANK (32) =3D 2464 + 32
+> > >                            =3D> 2496 lines
+> > >=20
+> > > The maximum frame rate is
+> > >=20
+> > >     182400000/(2496*3448) =3D> ~ 21.2 frames/second
+> > >=20
+> > > --------------------
+> > >=20
+> > > A user might want to stream a lower resolution with the full field-of=
+-view,
+> > > let's take 1640x1232 (which is exactly 1/2 of active area) as an exam=
+ple.
+> > >=20
+> > > The sensor hardware can achieve this using two different binning mode=
+s:
+> > >=20
+> > >     2x2-binning (regval: 0x1)
+> > >     2x2-analog-(special)-binning (regval: 0x3)
+> > >=20
+> > > The sensor pipeline looks like:
+> > >=20
+> > > active pixel array ->
+> > >     analogue crop (none) ->
+> > >         2x2 binning and ADC readout ->
+> > >                 output to CSI-2 bus
+> > >=20
+> > > The mode names suggest that binning can happen either before or after=
+ ADC,
+> > > but the datasheet is not very clear about the process. We can infer
+> > > some details though. See below..
+> > >=20
+> > > --------------------
+> > >=20
+> > > With the "normal" 2x2-binning mode the sensor allows programming
+> > > FRAME_LENGTH to a lower value. The driver still uses the min blanking=
+ of 32
+> > > lines, but the height is now 1232, half of the 2464 before.
+> > >=20
+> > >     MIN_LINE_LENGTH: 0xd78 =3D> 3448 pixels
+> > >     MIN_FRAME_LENGTH: READOUT_HEIGHT + MIN_VBLANK =3D 1232 + 32
+> > >                            =3D> 1264 lines
+> > >=20
+> > > The maximum frame rate is
+> > >=20
+> > >     182400000/(1264*3448) =3D> ~ 41.8 frames/second
+> > >=20
+> > > --------------------
+> > >=20
+> > > With the "special" 2x2-binning mode, the datasheet notes that FRAME_L=
+ENGTH
+> > > register should be in units of 2 Lines instead of 1 Line. This means
+> > > cutting it down by half once more:
+> > >=20
+> > >     MIN_FRAME_LENGTH: (READOUT_HEIGHT + MIN_VBLANK)/2 =3D (1232 + 32)=
+/2
+> > >                            =3D> 632 lines
+> > >=20
+> > > While there is a slightly higher minimum enforced for the line length:
+> > >=20
+> > >     MIN_LINE_LENGTH: 0xde8 =3D> 3560 pixels
+> > >=20
+> > > The maximum frame rate is
+> > >=20
+> > >     182400000/(632*3560) =3D> ~ 81.0 frames/second
+> > >=20
+> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > >=20
+> > > Through the minimum allowed values of the FRAME_LENGTH and LINE_LENGTH
+> > > registers and maximum possible framerate, I think it is safe to say t=
+hat:
+> > >=20
+> > >     2x2-binning =3D> Readout half the pixels (do vertical averaging i=
+n the
+> > >                                             analogue domain, before A=
+DC
+> > >                                             reads out the voltages)
+> > >=20
+> > >     2x2-special-binning =3D> Readout a quarter of the pixels (???)
+> > >=20
+> > > FRAME_LENGTH being 1/4th of normal would seem to suggest that it is a=
+ 4x1
+> > > binning (combining 4 lines instead of blocks of 2x2).. which does not=
+ make
+> > > sense to me.
+> > >=20
+> > > My best guess is that in 2x2-special-binning mode the sensor does *bo=
+th
+> > > horizontal and vertical* averaging in the analogue domain, before the=
+ ADC
+> > > reads out the voltages.
+> > >=20
+> > > A higher minimum LINE_LENGTH value for this mode is the best "hard"
+> > > evidence I have for this guess unfortunately, as the datasheet is qui=
+te
+> > > lacking on this topic.
+> > >=20
+> >=20
+> > Found another evidence for this, see "Table 16 Mode Example" in the
+> > datasheet.
+> >=20
+> > It mentions "H Binning =3D Analog" for x2 binning mode (with ~4x the FP=
+S)
+> > And "H Binning =3D Digital" for x4 binning mode
+> >=20
+> > It doesn't mention a ~2x FPS mode, which I assume is the normal 2x2-bin=
+ning
+> > mode, where I again assume that horizontal binning is done digitally.
+>=20
+> Most likely 4x vertical binning uses a combination of analogue and digital
+> binning. The type of the binning in general doesn't matter much, apart fr=
+om
+> affecting the minimum line length in pixels and frame length in lines
+> values.
+>=20
 
-On a Surface Book 2 (IPU3, ov8865 + dw9719 VCM), requesting the
-3264x2448 mode while the hardware was left programmed for the
-1632x1224 binned mode makes ipu3-cio2 report "frame sync error" and
-"payload length is 10340352, received 2585088" (exactly one binned
-frame) for every frame, and the inverse case stalls the stream after
-a single frame. Camera applications end up displaying one bogus frame
-forever.
+My understanding so far is:
 
-Program the sensor configuration and apply the control values on
-stream start instead, where the negotiated mode is always current,
-and only write the configuration in the runtime PM resume handler
-when resuming with the stream already started.
+x2-binning does digital binning horizontally but analogue binning
+vertically
 
-Signed-off-by: Jurison Murati <eng.juri@gmail.com>
----
-Changes in v2:
-- Drop the hw_mode/hw_mbus_code state tracking. Instead, program the
-  sensor unconditionally on stream start and move the configuration
-  writes in the runtime PM resume handler behind the streaming check,
-  as suggested by Dan, keeping mid-stream suspend working while not
-  adding state outside the sub-device state, as requested by Sakari.
-- Rebased on top of the runtime PM usage count fix (now 1/2), reusing
-  its unified error path. This was 1/2 in v1.
+x4-binning also does digital binning horizontally but analogue binning
+vertically
 
- drivers/media/i2c/ov8865.c | 34 +++++++++++++++++++++++++---------
- 1 file changed, 25 insertions(+), 9 deletions(-)
+x2-special-binning does analogue binning in both dimensions
 
-diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
-index 5b909a8..c6d53c3 100644
---- a/drivers/media/i2c/ov8865.c
-+++ b/drivers/media/i2c/ov8865.c
-@@ -2609,7 +2609,7 @@ static int ov8865_s_stream(struct v4l2_subdev *subdev, int enable)
- {
- 	struct ov8865_sensor *sensor = ov8865_subdev_sensor(subdev);
- 	struct ov8865_state *state = &sensor->state;
--	int ret;
-+	int ret = 0;
- 
- 	if (enable) {
- 		ret = pm_runtime_resume_and_get(sensor->dev);
-@@ -2618,7 +2618,23 @@ static int ov8865_s_stream(struct v4l2_subdev *subdev, int enable)
- 	}
- 
- 	mutex_lock(&sensor->mutex);
--	ret = ov8865_sw_standby(sensor, !enable);
-+
-+	/*
-+	 * The sensor may have been kept powered by something else (e.g. the
-+	 * VCM's runtime PM device link on IPU3 platforms), in which case
-+	 * runtime resume did not run and the hardware may still be
-+	 * configured for a previous mode. Always program the negotiated
-+	 * configuration on stream start.
-+	 */
-+	if (enable) {
-+		ret = ov8865_sensor_init(sensor);
-+		if (!ret)
-+			ret = __v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
-+	}
-+
-+	if (!ret)
-+		ret = ov8865_sw_standby(sensor, !enable);
-+
- 	mutex_unlock(&sensor->mutex);
- 
- 	if (ret || !enable)
-@@ -2914,15 +2930,15 @@ static int ov8865_resume(struct device *dev)
- 	if (ret)
- 		goto complete;
- 
--	ret = ov8865_sensor_init(sensor);
--	if (ret)
--		goto error_power;
-+	if (state->streaming) {
-+		ret = ov8865_sensor_init(sensor);
-+		if (ret)
-+			goto error_power;
- 
--	ret = __v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
--	if (ret)
--		goto error_power;
-+		ret = __v4l2_ctrl_handler_setup(&sensor->ctrls.handler);
-+		if (ret)
-+			goto error_power;
- 
--	if (state->streaming) {
- 		ret = ov8865_sw_standby(sensor, false);
- 		if (ret)
- 			goto error_power;
--- 
-2.54.0
+> >=20
+> >=20
+> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > >=20
+> > > The APIs before Sakari's series expose HBLANK and VBLANK controls ins=
+tead
+> > > of the actual FRAME_LENGTH/LINE_LENGTH registers to the userspace.
+> > >=20
+> > > The minimum value of FRAME_LENGTH is 632 when we are streaming 1640x1=
+232,
+> > > so the sensor registers would suggest that we have a *negative vertic=
+al
+> > > blanking*. Which as Jacopo and Laurent both point out, does not make =
+any
+> > > conceptual sense whatsoever.
+> > >=20
+> > > What the driver does today to avoid these negative values is to doubl=
+e the
+> > > PIXEL_RATE control value to 364800000 when using 2x2-special-binning =
+mode
+> > > (and thus userspace has no idea the FRAME_LENGTH/VBLANK is in units of
+> > >  2xLines)
+> > >=20
+> > > As Sakari pointed out, that does not make any sense either. The senso=
+r PLL
+> > > values are completely unchanged, so the pixel readout must still be
+> > > happening at the same rate. Moreover, the new raw sensor model will e=
+xpose
+> > > FRAME_LENGTH and LINE_LENGTH directly to userspace, and this hack of
+> > > doubling the PIXEL_RATE breaks those calculations.
+> > >=20
+> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > >=20
+> > > If we want to support the new raw sensor model (that mandates the new
+> > > FRAME_LENGTH and LINE_LENGTH controls) for this sensor we have to
+> > > fix the PIXEL_RATE for sure. I see two options going forward:
+> > >=20
+> > > OPTION 1 (as proposed by Sakari):
+> > >=20
+> > >     Fix PIXEL_RATE to 182400000 and allow **negative values** for HBL=
+ANK
+> > >     and VBLANK controls when using 2x2-special-binning mode.
+> > >=20
+> > >     This will break any userspace tools, many libcamera pipelines inc=
+luded,
+> > >     that never expected those control values to be negative (even tho=
+ugh
+> > >     the API has always permitted those)
+>=20
+> That's a clear bug, but it only becomes apparent when the sign bit is set.
+>=20
 
+Agreed, I'll try to send patches for that in libcamera regardless of what
+we do here.
+
+> > >=20
+> > > OPTION 2 (something that struck me today morning discussing with Jaco=
+po):
+> > >    =20
+> > >     Fix PIXEL_RATE to 182400000 but **adjust the HBLANK values** to go
+> > >     lower to compensate, which will diverge from the sensor registers=
+ which
+> > >     keep MIN_LINE_LENGTH fixed across both binning modes.
+> > >=20
+> > >     This will make the driver quite more complicated, but userspace
+> > >     expectations of non-negative blankings will be met. And it's like=
+ly
+> > >     that the sensor is internally doing pre-ADC averaging horizontall=
+y as
+> > >     well, or so my best guess is.
+> > >=20
+> >=20
+> > Which makes me lean more on OPTION 2 now.
+> >=20
+> > In our case above with 2x2-special-binning mode for 1640x1232, the regi=
+ster
+> > values are:
+> >=20
+> >     LINE_LENGTH =3D 3560 pixels
+> >     FRAME_LENGTH =3D 632 lines
+> >=20
+> >=20
+> > So OPTION 1 would give us:
+> >=20
+> >     HBLANK =3D 1920, VBLANK =3D -600
+> >=20
+> > When actually the datasheet's "H Binning =3D Analog" would suggest to m=
+e that
+> > reality looks more like:
+> >=20
+> >     LINE_LENGTH =3D 1780 pixels
+> >     FRAME_LENGTH =3D 1264 lines
+> >=20
+> > So OPTION 2 would give us:
+> >=20
+> >     HBLANK =3D 140, VBLANK =3D 32
+>=20
+> This approach has the downsides that 1) it doesn't reflect what the sensor
+> apparently does and 2) you lose one bit of granularity on line length in
+> pixels.
+>=20
+
+I agree with you on 2)
+
+On 1) though I don't think the sensor's register values are a good
+indicator of what the sensor apparently does.
+
+For example, FLL being programmed to ~ 1/4th of analogue crop height, while
+LLP being fixed to ~ analogue crop width would suggest the sensor is
+averaging 4 R/Gr/Gb/B pixels vertically in the analogue domain (possibly
+through common FD charge summing) before the ADC reads it out.
+
+But the table in the datasheet clearly mentions horizontal binning is
+(also) done in the analogue domain. Which makes more sense as well, given
+the output has an average of a 2x2 block of pixels and not a 4x1 block of
+pixels.
+
+> The advantage still is that it works around the sign bit issue. The new
+> controls still have their proper values but conversion between the two
+> becomes rather complicated. See
+> <URL:https://git.linuxtv.org/sailus/media_tree.git/commit/?h=3Dmetadata&i=
+d=3D366cb25c7d944ef2935668a07471e4576e7088ed>
+> for instance how it looks like without that.
+>=20
+
+I see.. well IMHO even the LLP and FLL controls should try to model what
+the sensor does (if it is known, at least) rather than being just a 1-to-1
+mapping of the sensor registers. Which as Dave and I have mentioned, is not
+the case in many sensors that scale the HMAX register units according to
+some lower frequency clock (so 1 clock cycle =3D> multiple pixels)
+
+In this particular case it would mean the new controls should scale like:
+
+FRAME_LENGTH =3D FLL_REG / 2
+LINE_LENGTH =3D LLP_REG * 2
+
+When analogue binning is used. Which should make your code slightly easier,
+even if not re-usable across all sensors.
+
+Thanks,
+    Jai
+
+> >=20
+> > > Of course, there are other options to just leave this highly used sen=
+sor
+> > > alone, or support embedded data and internal pads without mandating t=
+he new
+> > > FRAME_LENGTH and LINE_LENGTH controls. But I personally would leave t=
+hat as
+> > > a last resort.
+>=20
+> I agree. Especially because of its wide user base, it'd be really nice to
+> convert the imx219 to the Common Raw Sensor Model.
+>=20
+> --=20
+> Regards,
+>=20
+> Sakari Ailus
 
