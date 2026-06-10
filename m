@@ -1,322 +1,154 @@
-Return-Path: <linux-media+bounces-64380-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64381-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 5jMBOCAeKWrRQwMAu9opvQ
-	(envelope-from <linux-media+bounces-64380-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 10:19:44 +0200
+	id aLaZBoMfKWooRAMAu9opvQ
+	(envelope-from <linux-media+bounces-64381-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 10:25:39 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0DEE66711F
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 10:19:43 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AE6066720E
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 10:25:38 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=CHlWZRNh;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64380-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64380-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=NKJLD4un;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64381-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64381-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 4D0043066780
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 08:14:02 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DDD6F3294EAC
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 08:18:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D97FE3A4F30;
-	Wed, 10 Jun 2026 08:13:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52E5A3A544C;
+	Wed, 10 Jun 2026 08:18:49 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D67E53A453A
-	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 08:13:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912DE38D6A2;
+	Wed, 10 Jun 2026 08:18:47 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781079203; cv=none; b=E3yLjD/sk6nOeF7aR+FuNzHFQdzVSZA/jbfbSQXvwbdU5SJIIXM0iP9bmHnBi8k/pKxyq1WwgdpKiDKXbX0U4w51MNShBfxHKezEX7+CW95lCLp5350+0p3V9+LWYJEUSLpMNt1Gr2sOvNvnb2KD39c/+G1i1QZWEV3SQhNUQfc=
+	t=1781079528; cv=none; b=erg/dohq/F4kJADg4Q+N06YgwO79Za9o79dyR3zZFy0xX4EhZ1UGUSfxj/VTANltbyvMKc4KyIilWZ2oaK1LChV7KQev2UC88VoWmhEgjIEjqlBlEEOUYpiEylr5mAtl65Gkgvgkzwxbmv9hDohHUQs0KTaB/4rSy8I25Ud2teg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781079203; c=relaxed/simple;
-	bh=hSXXsMm7U84+UjpjNoJtem7oYfMuUHlezKlHf6C4XPA=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=dVYqHD+1h34sgEXbpbvHj53MMIjX9XlhCBjUjRs/r1tThpY9ArSXqfbz0tnWGkOHrlDCHeWLNZrDb9tAifrtcayIZNUWQ56OurhbbqR5rrSNw0eOzDJIXGrhPzLlJf9kTEo0JBEJmvyy5AV9AGy6omhC2x7HYyjxNEuD2jX5mDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CHlWZRNh; arc=none smtp.client-ip=213.167.242.64
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:bcf2:9325:a9bd:32b:e71])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 83B539D1;
-	Wed, 10 Jun 2026 10:12:50 +0200 (CEST)
+	s=arc-20240116; t=1781079528; c=relaxed/simple;
+	bh=dFWV170uGcGTNRXt5fX8cWxKq6oMa2XSGSL/KVli6B0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DR/bukXczLstFwE94nBuWgdsUBMZI7uvmg6eMD8itpC4LsTWBR/9Z5CoMdHPb7h3hcu47wIxawv4AvKJXCUi4KhWkDPXh6SJ0e8J+fDFTZ1bKq2Y/sfHWJBOBBaoc2bwqu1cEosPsntQ/V2zM/GBcvFq0oEiWKoIjsABtgzRLRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NKJLD4un; arc=none smtp.client-ip=213.167.242.64
+Received: from [192.168.0.43] (chfd-03-b2-v4wan-176392-cust229.vm15.cable.virginm.net [82.19.20.230])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 925EF9D1;
+	Wed, 10 Jun 2026 10:18:16 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781079171;
-	bh=hSXXsMm7U84+UjpjNoJtem7oYfMuUHlezKlHf6C4XPA=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=CHlWZRNh32gPxb6BcD5zp+mOzSNW8DvoPduC6mE+WVa990ZPRPX4+/DTd81aePEgl
-	 lMSHaDBaPvxzQEAWYQQmUGVN23nSXcwXI7xRZI/Mi8XUoXlyERDKlCYHEsXn7Eed7o
-	 MVKNhvJf3vLNBrY2IUowWwXeIpHI7wxD7Knwe4mI=
-Content-Type: text/plain; charset="utf-8"
+	s=mail; t=1781079496;
+	bh=dFWV170uGcGTNRXt5fX8cWxKq6oMa2XSGSL/KVli6B0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NKJLD4uncIgZ1+JbXL4rtTJDgyWQsF3iRP5htr28v3WaGDMXPK3L/dtO0E2y9DQQ8
+	 AKliG+f6E30Z90tnV7yXFLiTXhmqGqKRRLzFrC723tUBdO37TcRsaxE1FfhO2pkU9D
+	 UBfRkyG6AgaGG2uGaWOLRGrVShhPdOoe774xPnuo=
+Message-ID: <d327a464-6a8d-4f36-884e-52f3e396762a@ideasonboard.com>
+Date: Wed, 10 Jun 2026 09:18:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <PN3P287MB1829E36CF8A24535254A09D78B1A2@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
-References: <20260610-imx219-pixelrate-v2-1-45d1d201cd6b@ideasonboard.com> <PN3P287MB1829E36CF8A24535254A09D78B1A2@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
-Subject: Re: [PATCH v2] media: i2c: imx219: Fix PIXEL_RATE for special binning mode
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Tarang Raval <tarang.raval@siliconsignals.io>
-Date: Wed, 10 Jun 2026 13:43:14 +0530
-Message-ID: <178107919437.1799417.4860337502728861947@freya>
-User-Agent: alot/0.13.dev35+g4a69c46ca
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: mali-c55: Fix AEXP IHIST disable bit shift
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ David Carlier <devnexen@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260609053231.24855-1-devnexen@gmail.com> <aie1vqkd96-8uCmA@zed>
+Content-Language: en-US
+From: Dan Scally <dan.scally@ideasonboard.com>
+In-Reply-To: <aie1vqkd96-8uCmA@zed>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:dave.stevenson@raspberrypi.com,m:jacopo.mondi@ideasonboard.com,m:laurent.pinchart@ideasonboard.com,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:tarang.raval@siliconsignals.io,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-64380-lists,linux-media=lfdr.de];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:devnexen@gmail.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[dan.scally@ideasonboard.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-64381-lists,linux-media=lfdr.de];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[ideasonboard.com,gmail.com];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[dan.scally@ideasonboard.com,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	RCPT_COUNT_SEVEN(0.00)[7];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E0DEE66711F
+X-Rspamd-Queue-Id: 8AE6066720E
 
-Hi Tarang,
 
-Quoting Tarang Raval (2026-06-10 13:27:54)
-> Hi Jai,
->=20
-> > When using the special analog binning mode the sensor requires the frame
-> > length to be programmed in units of 2xLines, but it still produces the
-> > same number of lines overall.
-> >
-> > Earlier we used to double the pixel rate reported to userspace, to avoid
-> > negative values for the vertical blanking control. But in the new raw
-> > sensor model, we have to expose the sensor's frame length and line
-> > length directly to the userspace through new controls, which requires we
-> > keep the pixel rate value the same.
-> >
-> > There is sufficient range available in the line length register, so we
-> > can halve the value computed and passed to userspace as V4L2_CID_HBLANK
-> > instead, and thereby keep the same pixel rate.
-> >
-> > Whether the new controls for frame length and line length should also
-> > scale similarly to give userspace a consistent view, as opposed to the
-> > sensor's awkward register programming model, is left as a decision for
-> > later.
-> >
-> > While at it, also drop the pixel_rate member from struct imx219 as we no
-> > longer access or modify it. And simplify the hblank computation during
-> > mode changes to default to the minimum value instead of trying to retain
-> > the old line length. That would be unnecessarily complicated, and most
-> > applications anyway modify the blankings freely to achieve their desired
-> > framerate.
-> >
-> > Link: https://lore.kernel.org/all/178091757893.16054.458338927041225137=
-9@freya/
-> > Link: https://lore.kernel.org/all/20260409201501.975242-65-sakari.ailus=
-@linux.intel.com/
-> > Tested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> > ---
-> > This is a follow-up to the discussion done on Sakari's proposed fix for
-> > the same issue:
-> > https://lore.kernel.org/all/178091466607.16054.13972332068848565738@fre=
-ya/
-> >
-> > Tested on Raspberry Pi 5 with libcamera, which can still hit the same
-> > FPS ranges as before for both binned and non-binned modes.
-> > ---
-> > Changes in v2:
-> > - Set vblank step size to fll_factor
-> > - Drop pixel_rate variable as we don't scale it anymore
-> > - Use variables for new hblank and hblank_max values in set_pad_format
-> > - Fix commit message and code comments with Dave's suggestions
-> > - Set hblank to default value on mode change as opposed to retaining the
-> >   LLP value set by user (Dave, I've kept your Tested-by, but please feel
-> >                          free to drop it if you disagree)
-> > - Link to v1: https://lore.kernel.org/r/20260609-imx219-pixelrate-v1-1-=
-02359def6b41@ideasonboard.com
-> > ---
-> >  drivers/media/i2c/imx219.c | 104 ++++++++++++++++++++++++++-----------=
---------
-> >  1 file changed, 61 insertions(+), 43 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > index 7da02ce5da15..ec65349e63f9 100644
-> > --- a/drivers/media/i2c/imx219.c
-> > +++ b/drivers/media/i2c/imx219.c
-> > @@ -348,7 +348,6 @@ struct imx219 {
-> >
-> >         struct v4l2_ctrl_handler ctrl_handler;
-> >         /* V4L2 Controls */
-> > -       struct v4l2_ctrl *pixel_rate;
-> >         struct v4l2_ctrl *link_freq;
-> >         struct v4l2_ctrl *exposure;
-> >         struct v4l2_ctrl *vflip;
-> > @@ -420,7 +419,30 @@ static void imx219_get_binning(struct v4l2_subdev_=
-state *state, u8 *bin_h,
-> >
-> >  }
-> >
-> > -static inline u32 imx219_get_rate_factor(struct v4l2_subdev_state *sta=
-te)
-> > +/*
-> > + * When using the special binning mode the sensor requires the FRAME_L=
-ENGTH to
-> > + * be programmed in units of 2xLines, but it still outputs the same nu=
-mber of
-> > + * lines overall.
-> > + *
-> > + * FRAME_LENGTH =3D (output height + vblank) / 2
-> > + *
-> > + * If we go ahead with it and set `vblank =3D FRAME_LENGTH - height` i=
-t would
-> > + * make the control value negative.
-> > + *
-> > + * Instead we can compensate for it in the horizontal dimension, as LI=
-NE_LENGTH
-> > + * has enough room, so both blanking values stay positive.
-> > + *
-> > + * LINE_LENGTH =3D (output width + hblank) * 2
-> > + *
-> > + * So the blanking values when using the special binning mode are:
-> > + *
-> > + * vblank =3D FRAME_LENGTH * 2 - height
-> > + * hblank =3D LINE_LENGTH / 2 - width
-> > + *
-> > + * where FRAME_LENGTH and LINE_LENGTH are the values programmed in the=
- sensor
-> > + * registers.
-> > + */
-> > +static inline u32 imx219_get_fll_factor(struct v4l2_subdev_state *stat=
-e)
-> >  {
-> >         u8 bin_h, bin_v;
-> >
-> > @@ -440,12 +462,12 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> >         struct i2c_client *client =3D v4l2_get_subdevdata(&imx219->sd);
-> >         const struct v4l2_mbus_framefmt *format;
-> >         struct v4l2_subdev_state *state;
-> > -       u32 rate_factor;
-> > +       u32 fll_factor;
-> >         int ret =3D 0;
-> >
-> >         state =3D v4l2_subdev_get_locked_active_state(&imx219->sd);
-> >         format =3D v4l2_subdev_state_get_format(state, 0);
-> > -       rate_factor =3D imx219_get_rate_factor(state);
-> > +       fll_factor =3D imx219_get_fll_factor(state);
-> >
-> >         if (ctrl->id =3D=3D V4L2_CID_VBLANK) {
-> >                 int exposure_max, exposure_def;
-> > @@ -478,7 +500,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> >                 break;
-> >         case V4L2_CID_EXPOSURE:
-> >                 cci_write(imx219->regmap, IMX219_REG_EXPOSURE,
-> > -                         ctrl->val / rate_factor, &ret);
-> > +                         ctrl->val / fll_factor, &ret);
-> >                 break;
-> >         case V4L2_CID_DIGITAL_GAIN:
-> >                 cci_write(imx219->regmap, IMX219_REG_DIGITAL_GAIN,
-> > @@ -495,11 +517,11 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> >                 break;
-> >         case V4L2_CID_VBLANK:
-> >                 cci_write(imx219->regmap, IMX219_REG_FRM_LENGTH_A,
-> > -                         (format->height + ctrl->val) / rate_factor, &=
-ret);
-> > +                         (format->height + ctrl->val) / fll_factor, &r=
-et);
-> >                 break;
-> >         case V4L2_CID_HBLANK:
-> >                 cci_write(imx219->regmap, IMX219_REG_LINE_LENGTH_A,
-> > -                         format->width + ctrl->val, &ret);
-> > +                         (format->width + ctrl->val) * fll_factor, &re=
-t);
-> >                 break;
-> >         case V4L2_CID_TEST_PATTERN_RED:
-> >                 cci_write(imx219->regmap, IMX219_REG_TESTP_RED,
-> > @@ -555,11 +577,10 @@ static int imx219_init_controls(struct imx219 *im=
-x219)
-> >                 return ret;
-> >
-> >         /* By default, PIXEL_RATE is read only */
-> > -       imx219->pixel_rate =3D v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctr=
-l_ops,
-> > -                                              V4L2_CID_PIXEL_RATE,
-> > -                                              imx219_get_pixel_rate(im=
-x219),
-> > -                                              imx219_get_pixel_rate(im=
-x219), 1,
-> > -                                              imx219_get_pixel_rate(im=
-x219));
-> > +       v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_ops, V4L2_CID_PIXEL_R=
-ATE,
-> > +                         imx219_get_pixel_rate(imx219),
-> > +                         imx219_get_pixel_rate(imx219), 1,
-> > +                         imx219_get_pixel_rate(imx219));
-> >
-> >         imx219->link_freq =3D
-> >                 v4l2_ctrl_new_int_menu(ctrl_hdlr, &imx219_ctrl_ops,
-> > @@ -880,15 +901,19 @@ static int imx219_set_pad_format(struct v4l2_subd=
-ev *sd,
-> >         crop->top =3D (IMX219_NATIVE_HEIGHT - crop->height) / 2;
-> >
-> >         if (fmt->which =3D=3D V4L2_SUBDEV_FORMAT_ACTIVE) {
-> > -               int exposure_max;
-> > -               int exposure_def;
-> > -               int hblank, llp_min;
-> > -               int pixel_rate;
-> > +               int exposure_max, exposure_def;
-> > +               int llp_min, hblank, hblank_max;
-> > +               u32 fll_factor =3D imx219_get_fll_factor(state);
-> >
-> > -               /* Update limits and set FPS to default */
-> > +               /*
-> > +                * Update VBLANK range and default value to match the m=
-ode.
-> > +                * Also fix the step-size to fll_factor, as we halve th=
-e values
-> > +                * before writing to the register when special binning =
-is used.
-> > +                */
-> >                 ret =3D __v4l2_ctrl_modify_range(imx219->vblank, IMX219=
-_VBLANK_MIN,
-> > -                                              IMX219_FLL_MAX - mode->h=
-eight, 1,
-> > -                                              mode->fll_def - mode->he=
-ight);
-> > +                                              IMX219_FLL_MAX - mode->h=
-eight,
-> > +                                              fll_factor, mode->fll_de=
-f -
-> > +                                              mode->height);
->=20
-> Do we need to update the exposure control step size to fll_factor as well?
->=20
 
-Argh, yes. I'll wait for a couple of days for more comments and then send a
-v3 with this fixed, and I also forgot to drop prev_line_len which is now
-unused.
+On 09/06/2026 07:42, Jacopo Mondi wrote:
+> Hi David
+> 
+> On Tue, Jun 09, 2026 at 06:32:31AM +0100, David Carlier wrote:
+>> The post-Iridix auto-exposure histogram disable bit in
+>> MALI_C55_REG_METERING_CONFIG is bit 16, but MALI_C55_AEXP_IHIST_DISABLE
+>> was defined with a shift of 12, copied from the AEXP_HIST definition
+>> above it. As the value is masked with the BIT(16) disable mask when it
+>> is programmed, the result is always zero and the disable bit is never
+>> set. The IHIST can therefore never be disabled, neither at ISP init nor
+>> via a parameters block flagged V4L2_ISP_PARAMS_FL_BLOCK_DISABLE, and the
+>> hardware keeps producing histogram statistics that userspace believes
+>> are switched off.
+>>
+>> Use a shift of 16 so the disable request takes effect.
+>>
+>> Fixes: d5f281f3dd29 ("media: mali-c55: Add Mali-C55 ISP driver")
+>> Cc: stable@vger.kernel.org
+>> Assisted-by: Claude:claude-opus-4-8
+>> Signed-off-by: David Carlier <devnexen@gmail.com>
+>> ---
+>>   drivers/media/platform/arm/mali-c55/mali-c55-registers.h | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-registers.h b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
+>> index f098effde..4cd13b702 100644
+>> --- a/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
+>> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
+>> @@ -173,7 +173,7 @@ enum mali_c55_interrupts {
+>>   #define MALI_C55_AEXP_HIST_SWITCH_MASK			GENMASK(14, 13)
+>>   #define MALI_C55_AEXP_HIST_SWITCH(x)			((x) << 13)
+>>   #define MALI_C55_AEXP_IHIST_DISABLE_MASK		BIT(16)
+>> -#define MALI_C55_AEXP_IHIST_DISABLE			(0x01 << 12)
+>> +#define MALI_C55_AEXP_IHIST_DISABLE			(0x01 << 16)
+> 
+> Thanks, this indeed was a bad copy and paste I presume
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-> Best Regards,
-> Tarang
-   =20
-Thanks,
-Jai
+Yup, looks like it to me
+
+Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+> 
+>>   #define MALI_C55_AEXP_SRC_MASK				BIT(24)
+>>
+>>   #define MALI_C55_REG_TPG_CH0				0x18ed8
+>> --
+>> 2.53.0
+>>
+
 
