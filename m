@@ -1,190 +1,402 @@
-Return-Path: <linux-media+bounces-64343-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64344-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Z7L1D6m6KGomIwMAu9opvQ
-	(envelope-from <linux-media+bounces-64343-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 03:15:21 +0200
+	id vd8uLr/QKGqfKAMAu9opvQ
+	(envelope-from <linux-media+bounces-64344-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 04:49:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC9C066526A
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 03:15:20 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11D06665814
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 04:49:35 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=quora.org header.s=google header.b=qMjegCCc;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64343-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64343-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=none;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b="D6Eb0c/J";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64344-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64344-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed), DKIM not aligned (relaxed)" header.from=nxp.com (policy=none);
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4A3DA301AA77
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 01:15:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2115C307ED80
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 02:49:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AEC625A642;
-	Wed, 10 Jun 2026 01:15:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8B46320A04;
+	Wed, 10 Jun 2026 02:49:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011067.outbound.protection.outlook.com [52.101.70.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38EF6248F57
-	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 01:15:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 838752FE566;
+	Wed, 10 Jun 2026 02:49:21 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781054108; cv=pass; b=GZKBoCRIt82jFpcUStHPuDSrdtWNPB8UThEGf9QZXnbyBKZAPXHZlfy31UDP+qQ3E96YxdPK5VmD65v5jQ8AK6PXo69zv5FIiZy6k0D9IqPlU1osG3lEvNUknYR6pDbqw+rEMvHcKwt9WGy4zcY75n/UX4Vbhjd3bbW4WtmKLKA=
+	t=1781059763; cv=fail; b=EvnUrIjPS7ZUfk0A3p+C8Bx0fy5TdiVMs/9FohkK5Tg8mF/quolhoBjD92Bx3/YhjkDqyjtxJ+na2UgzEhip9ok/PBEiMEOx2JzwxnaOhc6QOTOgi53E8uQvuNO750w6bdha9hXgy4xX8zPoosInJSKCpaDo4wxTq/qOeVEy6GM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781054108; c=relaxed/simple;
-	bh=UeAssUqYMd9I/hNomjKDWuBothPBNmM7nGphuECKV1Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e1hCBdohnHPef55KEtTsfHIVsohKHI3er19vs1FeIU9ics7ocwFREip0Cxk3TQ0dSW1rD8Jk9LVZppGkV1YOvcsHfDWpAy4aapkeSUfSLWrQjC7RaJ68i6yLXuZVctQcPi7KgR/YIooSJdaG4z4HDmdUzsng87k80og71KEPEiI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=quora.org; spf=pass smtp.mailfrom=quora.org; dkim=pass (1024-bit key) header.d=quora.org header.i=@quora.org header.b=qMjegCCc; arc=pass smtp.client-ip=209.85.214.172
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2c0b944f6edso63350125ad.2
-        for <linux-media@vger.kernel.org>; Tue, 09 Jun 2026 18:15:07 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781054106; cv=none;
-        d=google.com; s=arc-20240605;
-        b=KD0matgu26H3raDhSW5/lo5OaPUhPCfaQkIyWf+PyEZYiMytq2yaIwjeg9qtfbzy9m
-         V3/T0IqiOMva3tFC8Ct6yral4lZfCacuUYChsY+NaX6ufjsiOzNX1yFkBAVZA5N1WFtk
-         8EpdnqoXIBEPJawgHMq/fqyk00PW0b17Hb+cvLtlvZ8/t7bffx3fCtoL/znB74NILBaV
-         wZqZb5nAFVUR2iGabwUGUvISLQMF3zzu/LthvGCN+eE/Q9CiBJJQNbfUTirE+Ffs/BIt
-         BxkCpMlTaGwY/0H9koUEpObfLYwRs2IKD39Do+GjbHAUkQF1qR37cHY/vzPV5Sff7ahS
-         8voQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=2Bj40WPn3U8Z/ILKnmF/fVa3Ekp1JSrXZv/lmEeSBo0=;
-        fh=gOZ1ARDaOSBi7RoD0IFdpG6jSzKc99mPkqD+r1ND6mI=;
-        b=WLxgJ2+YuUwbK01GJk7b199anwt4hSN2qaAnu3Ev1GQDruxEBaxFTcLHVGMqH/ILMv
-         mnYt8qOiOeg6IbjAgpmBCYWcnCjSVSf8e/VKPpZ3wKFaqOs/UTzhWMDO5dKWPsiqDFim
-         FKYZKBYtfRv7wXrXGWEPIX+Y5NzvPb+vGyi+Ar4ac2wN3zq7b8o44DK2/zBEgpmmICgE
-         qgyPs5i9G+DURAPW7qw2hmfTjPIWMYexB6JT8xWWyRoKhjOPOiyW3JO9SOf25Oz6pYeK
-         MLj/pAsAtKufCcto0ZDgCiXy7hAaDscwLAi9hA9MsRWxezV+GWtsy89d8fKMT1cfypQr
-         7qZQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=quora.org; s=google; t=1781054106; x=1781658906; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2Bj40WPn3U8Z/ILKnmF/fVa3Ekp1JSrXZv/lmEeSBo0=;
-        b=qMjegCCcUBDxXDPpfJ9kUjrMc0PeKNq3qpNPV4QavlcRiZSK99bDy4G24FJO3temQ/
-         f7Zv3uYHOTUIwARONd/StE6tPPjor/oI5kCeJZ7TFLqJn5c/8P0M0BEh1vLajwJaYBUD
-         Myg4BfP5r5PX5ieSW2QJ6eVoar+LkRDgNl6GQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781054106; x=1781658906;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2Bj40WPn3U8Z/ILKnmF/fVa3Ekp1JSrXZv/lmEeSBo0=;
-        b=FLF8HyIlYaAKRuX2TX5hCeMnlPsCk++jBnQsZfeJKOkX0KBv3oU4QxVPQMMbwMa+L+
-         PkNva1UAwmKT1aUJW089HDKlL0VRSEjoX4e6pvo/ikQqc1LN642y/KnqeDPYBEJ4eUHW
-         2xIzOSJjpjme41wgxEWXvFg1Cn38L2H2RgfXlZy0Bs3za4tnNYjb57QtlEa9uo0CIYeY
-         hR2Q/W7edvDDzgUandqbKQPp722hBFsepr+V36cz9joNaO72tQ8EzF55rSmOMWUDFpSk
-         U0wWRLPBHZWw38pCmBkCg09VpEctfiknNgx8q5k7ZYxIQ4v0xVhkj5DNoF1Q1sbpkAlT
-         jvjw==
-X-Forwarded-Encrypted: i=1; AFNElJ91PnmjnY1FeK0/ujwxBD8Hr2frANVMDSZlo0SYBd969GJBWudfU7PiemDxj5HAU6zNjQT+ML8Cb0E4+g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6wn4O/Gnnjqw75U87waPBbDA/W+NVggLh5y38xq1XbQmUtTMx
-	Cp7rOMvIrMaQ1PIEDSH6UBVLRXPIIKtiB1XPgt4plv45mZU8UWykoh1xe+zOKaBrSUsA6M0sUm+
-	/a1+eaOV5cnNiT+4ayOvtyn/KqlG36ouqE6Zfx9Ehuw==
-X-Gm-Gg: Acq92OHgWaDTM1GxKpQCYqOtRzZsWEdYtxFkG1tm/l7WFYN7GT9TFMEPDBz/h8iuryv
-	ULLHdEMoy9RN3IPk8/EKPxbu0zkl8hB92+2OdnOlaocKQOCetylmb08HkyIei7wm8BPYmqQ1v6w
-	nZfW7r8maVLSSY1dL3yezTpc8oawyFbbtLVHltDH5n6KVEVkHVef+wUeSDlP4c/JM7dm6fap1jx
-	23wbrVt86mbf4If3h+2JnCOy+Z1pbUVG2PLRpcBdJHiV1PUZHTTdKvRg9Qo6xyDPCFf8/7Xia9r
-	BYCe28vf8nzMNEKaylMsbmxU81MVwjSim33gAZ4+SCHDOY11CFeDQjb5cAoDh9QTiBJt0ifJ7wT
-	dY1kjdBMMWDIEGsMYlDu765HCTyLUFvzJ2DbtHziu/pQzRtghoGz9jCeXYWudy0grta7TOB5fgY
-	/L+7t/uDqSD6gc1xcGtfN/66sOvILXK9s9iVM+yRcJY+2dM5JTfrkl3KJjxYXh
-X-Received: by 2002:a17:903:708:b0:2b7:abc0:3bd7 with SMTP id
- d9443c01a7336-2c1e7e3adb6mr148795125ad.9.1781054106527; Tue, 09 Jun 2026
- 18:15:06 -0700 (PDT)
+	s=arc-20240116; t=1781059763; c=relaxed/simple;
+	bh=8jmEAQl93u2CIZvmEs2SpzBMGSz3DS47WFPTN4r/zVw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=itwI16sYEwr26AK3xpVCJMxvHhlSJl6iZ1xyTKNPwA4EOupOBPSHZCFYALoBiIDhHEM/YsgNc/DceyUff3H0XJ+7u0vctgUnOas/h6+meptjV7SktaetZW8eqPkkAKptumYuGLVa/2bZYYOvlR3Vj2aFpK/7quCLJv+ycXuX0wU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=D6Eb0c/J; arc=fail smtp.client-ip=52.101.70.67
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Gny3xaBBTK3NON8Twkc1dr985Zs8gocTHiNPRf300uMnXTrBfrjOIFVrznQTj5MDyOGCUHknrCeCkdbhEWTPVJGwYKodJDy6m6shR0z/b3Tg44xTcL2bw4NtZf9EjpgNRgca/tUhb9b3OvlhJ8gkySoRpIEViVKwb+TLXxUzxQuS4pJR0cEU1TSsGbc8yl6E6Blbn6sn3gaIepvKCBVIo7omqZmqyQk019v1Ik8M+wK4YdQDkM7yC5C75voTGi8Gt25PzMze+1Xf0bW6WmQjD+wHFcs6MYiCrnbTOjypJfVsF42DPnjcY5KsFdj5Md1Js35MDpiopGy3L05Ro9BSmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lvNE1LTAn7Qb0T2wynKRiWNZAW4MRfY0pGmjAfYwpyU=;
+ b=M6OmFCoZlYHRil2B+n92RFJ/nSWYwodU6ArENh2m/wZFim5zEi8XYIgCKj8tdKB9z2uVIi2UjHwYvhEPeuZzQjzHhrQ68PSKhZ+5EcpN9Tgmbaa2AbrlwONig5A6g0oLlZWMykSOkNy8J40lzO9W/DBddHFiF7Qa7ESKIBq6/Ci6eUeQ85JH/5TzkwMAnztDgJCUNUdgBB8yW/eTN7LhuBDHVRDTbaSbl5QJOE7Hwj9RxnRE4wAEyOX4cuek9J7L72AIohgSmMXMX+DBDjm+fAaR4bgJrWqVjlVk8qp7NZLgXScssmz6tdb4wXNrefO6Wc8KnpyfkyU/jozd/VgmPw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lvNE1LTAn7Qb0T2wynKRiWNZAW4MRfY0pGmjAfYwpyU=;
+ b=D6Eb0c/Je5tC+K9c3DjsvCLaKyr6lBMTbIGBpEW1nn5kQeJSDDJ0qBCYYfQXAcB08pFE0KviY+9mrxUcgbu7HgAYhwamg/fpAAHL/DCkx+PkVlrTLpi1fLkSPD6vJpfRoRpDK7i8JQIzEEu3mnjRtGYcN85Vv0jYba31T2QBY6TL1DeSlbcS4yFocQETQa6bCpPIEXHk4QrsOl9XVGMCYVFE4F2wgGAsY4B+tikpL9g8eZ5WMTcYk8gxXn4fhbT1vwf7EptZIOkrsIkMUad/3krLY+wC66bTeBT1yW/HuITjfkfyyV6ACJTjLXTZb6xsI1B5ZYSe9jJCtKqfMUwGbA==
+Received: from AS8PR04MB8563.eurprd04.prod.outlook.com (2603:10a6:20b:422::14)
+ by DB9PR04MB11627.eurprd04.prod.outlook.com (2603:10a6:10:60c::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.14; Wed, 10 Jun
+ 2026 02:49:17 +0000
+Received: from AS8PR04MB8563.eurprd04.prod.outlook.com
+ ([fe80::3f00:4490:e559:74a4]) by AS8PR04MB8563.eurprd04.prod.outlook.com
+ ([fe80::3f00:4490:e559:74a4%4]) with mapi id 15.21.0113.011; Wed, 10 Jun 2026
+ 02:49:17 +0000
+Date: Wed, 10 Jun 2026 11:49:06 +0900
+From: "Ming Qian(OSS)" <ming.qian@oss.nxp.com>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: "sashiko-reviews@lists.linux.dev" <sashiko-reviews@lists.linux.dev>, 
+	"hverkuil@kernel.org" <hverkuil@kernel.org>, "mchehab@kernel.org" <mchehab@kernel.org>, 
+	"imx@lists.linux.dev" <imx@lists.linux.dev>, "Frank.Li@kernel.org" <Frank.Li@kernel.org>, 
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, Eagle Zhou <eagle.zhou@nxp.com>, 
+	Elliot Chen <elliot.chen@nxp.com>, Frank Li <frank.li@nxp.com>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH RFC 1/2] media: docs: Clarify
+ V4L2_FMT_FLAG_DYN_RESOLUTION usage
+Message-ID: <aijOPSFPEDsVlYFY@lsvm11u0000189.swis.ap-northeast-2.aws.nxp.com>
+References: <20260608-flag-dyn-resolution-v1-1-44dc65516148@oss.nxp.com>
+ <20260608040616.1A3EE1F00893@smtp.kernel.org>
+ <AM9PR04MB857068E0FE59DD8ECB27A9AAE71C2@AM9PR04MB8570.eurprd04.prod.outlook.com>
+ <e689df21c92861e35b6d11e391bea3404321484d.camel@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e689df21c92861e35b6d11e391bea3404321484d.camel@collabora.com>
+X-ClientProxiedBy: MA1PR01CA0151.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a00:71::21) To AS8PR04MB8563.eurprd04.prod.outlook.com
+ (2603:10a6:20b:422::14)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260601041336.9497-1-daniel@quora.org> <ecavEnqJTDXvfFykc9uJb5No7ioighpjrCdw2CFZ4c8Izr5DxpTs-606Bg7K0RtHTaOqksWivHxWQLzMBP6qow==@protonmail.internalid>
- <20260601041336.9497-2-daniel@quora.org> <ec7c564e-745a-4998-af9a-e9632fe063f7@kernel.org>
- <CAMVG2ssnyH=KUKrdfnUOtPYU7p17inyzcYWcKhT4EAZxDzDjfg@mail.gmail.com> <cb37e7cc-4fb0-4c24-8f89-f6f9eb08a107@oss.qualcomm.com>
-In-Reply-To: <cb37e7cc-4fb0-4c24-8f89-f6f9eb08a107@oss.qualcomm.com>
-From: Daniel J Blueman <daniel@quora.org>
-Date: Wed, 10 Jun 2026 09:14:55 +0800
-X-Gm-Features: AVVi8CdzfDox6mz_iOGKn72MQqEfSSNkYmI5x8N9Awxjs-n8z1eY5R0tOZeJjNw
-Message-ID: <CAMVG2svgnGKix5vSe8kG694Vm1dU=0Z=MZqR4M5LFOxCXoXYXQ@mail.gmail.com>
-Subject: Re: [PATCH 2/2] arm64: dts: qcom: hamoa: Reserve low IOVA range for Iris
-To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-Cc: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, 
-	Abhinav Kumar <abhinav.kumar@linux.dev>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org, "Bryan O'Donoghue" <bod@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB8563:EE_|DB9PR04MB11627:EE_
+X-MS-Office365-Filtering-Correlation-Id: bda7611a-56e8-4b17-3a0f-08dec69adcd8
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|19092799006|366016|1800799024|376014|56012099006|5023799004|11063799006|3023799007|4143699003|22082099003|18002099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	2tDxXxSxiIhF/ED3i/svWNXLH4LZKVcM3+TdvvTS+u1OpLpqakvIcTUaJpgqnG/QmVXKIBHEvzoDlQjrmwYS0denuJG7rOqi1u1M5C0g5X7Ea0BYkWQWh5FJeGRbJiAQDS6N5CdqoJA+0kTMMURBHNFqhAgwBPx6wYOkySslQGXMP58DjPThVq6wkpmnpLX2v1Luyyisrgg5eWQXMM1jS6uLchN3Yts1Ru/2FBE75EEDq2xBAjqrlwpeN8ZqUGteDyVevJ83NatUWLNjkaaHkxykcI6q8NXqr8nAeElMBZwedRHx+Uz2xugzjGSKGpp0jSMxS+dkjzmUpsPZKFGD/ONsoW8y8ROQA1+BvZuFw4cMHgtSZJNAbAUbbDUQQVYLoBNilqz2AJOIOaWUzAZH0XvK5WMt1FsrVrtjGhQCONSn2pEDsbUeXv6jN0nKrCXSD9ULR1buSjmf+9Wv/GN4efdzRQ9lEVRIYIhqe18EikkeEj4mXS06q1/Q2YUVmySRB1cyl8BHQ0bmQcY9nGoVhb8FUDAaHtPiFsf64JBY7l9zdJnxotibG01mqLUOybrFq6y1FxmU0oyAAcFN/4R3vguQAax+l0hCCSeBRyEnWVMlhplamqp8tnDqNK1D1Vfi3Q5m/JRteQsdExOSVLkD7w==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8563.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(19092799006)(366016)(1800799024)(376014)(56012099006)(5023799004)(11063799006)(3023799007)(4143699003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QnM5OUFkTG5YSGdZYWltWUo5M3NuQXhDMzRBc2RYb2VZWmJsKzR0QUlpRDFK?=
+ =?utf-8?B?MzhJUGd4MDk2Sm1uUjd0RFN3dTM0eDlqb05xVGx4SCszOWdraXNFckZ5NEFT?=
+ =?utf-8?B?ZlJSczcrb09kZnQ2eTY3TzYvZ0xiL1F1ZnFHWW9aVEpwYS9BTnJWNm5uSzhs?=
+ =?utf-8?B?clZRU2E2WHIvdGtsN3hhY3llSVMwNlhPNVJ4TFRiblNkVjhPWGhGUGcrOUgv?=
+ =?utf-8?B?ejMwbk8vQnhpa29qM21xbWRNV0cxQlAwWmJ3ZDd2c0NMMzRwZ1ZBNEZiTFlr?=
+ =?utf-8?B?cVd1Ylh4RTRMRGlqTmV1TjkrTWU2VWZsQ0ZpWERyQ3IyQzM0MHJ0Zlh3czFU?=
+ =?utf-8?B?Wk5MTG4xOVR6dlNBcEd0Vk9QSTNydEpzMW5mNGNwUW96aVlMMGh5UERiQ1hq?=
+ =?utf-8?B?aWhUcC9FUVdSVExFd3o4QTd6eVhWdk9VdXZYaUI5K01WRGI2N2x6ZWIvaW82?=
+ =?utf-8?B?NzZOeVlZOTdjemhxTW1PdGNjQUtEQnpvdmdDVWtoMUlxREZhbXkvZFN1NjJZ?=
+ =?utf-8?B?b1d4cG1aQTg3OUpYSi9UQTRCZ3VYU2UrVFkzeG42SC8xejlIWDV2LzI2Nnhh?=
+ =?utf-8?B?RHQ4dnNxdFdHR0lUV0tOcGhDTE9KTVh2VDczc0FDOHNFVElxU2hteFUzMjIx?=
+ =?utf-8?B?eEZwU1RBcTlOYzBrSTlaOEVZS2VxYkVoVkJkVmRBUFR2WnFlb0J1WElTK0xs?=
+ =?utf-8?B?RHdobXo3ZXB4NUZWNDIxZHNZbWhoMG1aUDQwdTVOeVpTNjVIV0xhV3JEU3kv?=
+ =?utf-8?B?QVErc3Vtak5sTTBaUGxueUxwMFdtNk5XRlFoaCtmQ3lTVnRycmEzUmkrS1FU?=
+ =?utf-8?B?c0dwL0pjb2hDaHpkbVorVyt0L3oyQmE4OHNRUytmV1dBWU5POW9ZdnAwTXFN?=
+ =?utf-8?B?aUx1dzc5TlY1LzRXa3hyZmppRVpyTENOM0NZSi9mVTc1b2dIeVVJN29raTl6?=
+ =?utf-8?B?Zi95QnJ1K2hOWlJSd0dpa2tteUR3MUtuRkFhWGpNYnlFRkEvTldZN3V0c3hz?=
+ =?utf-8?B?cXZpMzVTenZCdDFNcGhIYnQ3M21tcytxUGh2Vldpek94eHNWUTBmWGNqNU9o?=
+ =?utf-8?B?ZlVYMTZNRU8yVW1lWTJDK05KNHI2TisybE9abm5sS3IzTXprSUp1ZlBkN2ZD?=
+ =?utf-8?B?RWt0WVl3VzVWTmp1VFZWdVJpWGxZanN2MFpqL2c2TFM2eFRaWURMZUhVVHVO?=
+ =?utf-8?B?RXcxYTdXblhUV1ZPTkN2cjhOcVYwMktVbGlXeXVQU1VOV01sbVNPOFdNQkN4?=
+ =?utf-8?B?WmM4amlwSVF2bnRpdjl6RmpJeHdPQVZVSWlaRWx5N3lSc1pvSTBZcjhtenFy?=
+ =?utf-8?B?SU85SS9CRVIvMmFQeUowMmEwdURuSlBWeWMxYlJFMHk0ZWlGV3o3K3NqbUtp?=
+ =?utf-8?B?NlZkL3VwU1lGMWVuSWZXZUVidXZEdlN0SEVNQjRQVm5XSEhKb1RuVjJFZytB?=
+ =?utf-8?B?SG1LR1YwMk4vWlFMMm1kbkovZk1sTldhKzVmdlNUdENHb00rdm51T0JaUGRF?=
+ =?utf-8?B?Rko1cWt6NlR6ZGZHYUhwcDZsa0RQdGFmOVRWbWJPZ0R2S0gwWWJ2dHc5QVNO?=
+ =?utf-8?B?ZVVGR3d0ZlU4L1Q2ZUJJK1p0L0JITGdzS1RwWFl4emFCL3dUQ21NZmFpSG9L?=
+ =?utf-8?B?eXVsMTdsZ2cwQUc1ZzM0OGdaMVlBTEdqN05DRkpycVVRMWtSU0gzbThjUFN2?=
+ =?utf-8?B?RnR2QzdQR2svUGplK2g4QXJaRGdpMjgwSm40K1MxbGd4MnNyRStYR2p3cXV1?=
+ =?utf-8?B?UmcrMzFESEI4amdZaVJYN0ZDa29KV0t5L0NzMDN4R0N4OTFYOW9nbExGZTEv?=
+ =?utf-8?B?bVdycFlvNGxScmg0aVhNY0dkSlBsYjRjTmNadmgwV00zajBvV3FObEhrbHR6?=
+ =?utf-8?B?Q3FULytvSkNsZng0aVlLUmxQZWJYejNIbiszbzc2bWEzU2JHc3J1dVFTajRj?=
+ =?utf-8?B?aVhTT2ZsT0Z0ZzdldUJaK0FJdVh2L3FqRlhydlVXaEVwWE5HSXdFVlRjc21J?=
+ =?utf-8?B?MEhXWTZyTnMrTmZmdnMxMmVWL2FYdWxPZnJ1VzMzU1VlNmx5ZlcxWEVzNE55?=
+ =?utf-8?B?TWVwcTFLZTZ1MWZqOHJVamhKQW1EZnNERW95QWlZc2hiOFhRTCt3T3BpU09Z?=
+ =?utf-8?B?dEIyeWJlclhtaVFFVFlteHVzSDUwbHZkaTZmbTVmaG8yQWxWYkYyNlNwd3pU?=
+ =?utf-8?B?azM0MlVGajBYQTV3cTB3R0NjNzRDZk84KzFmQjNIWkJXL1k0YW1JSEZiRUhS?=
+ =?utf-8?B?MDhzZ09qZ3FEakVDVE5TME9OODhuaG9xaUdkR2haZ1U4T0RpNGpnMCsrV3R4?=
+ =?utf-8?B?djhwd3pxNjdQNGFySW1YdWRDUVM3b3hlWWZPVHBEcUFJdzQxdUVFZz09?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bda7611a-56e8-4b17-3a0f-08dec69adcd8
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8563.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2026 02:49:17.2345
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZC3ZJqYfkpHPo4l23QnxV+TSsMCD+A40X1S7Wq+QMqMkclHyKcVNJOfCaIFTZ0Am5rWzFGozdNKGsZMShk+Lyg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB11627
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[quora.org:s=google];
+X-Spamd-Result: default: False [0.44 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:andersson@kernel.org,m:konradybcio@kernel.org,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:bod@kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	DMARC_NA(0.00)[quora.org];
-	FORGED_SENDER(0.00)[daniel@quora.org,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
 	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:nicolas.dufresne@collabora.com,m:sashiko-reviews@lists.linux.dev,m:hverkuil@kernel.org,m:mchehab@kernel.org,m:imx@lists.linux.dev,m:Frank.Li@kernel.org,m:linux-media@vger.kernel.org,m:eagle.zhou@nxp.com,m:elliot.chen@nxp.com,m:frank.li@nxp.com,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64344-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[ming.qian@oss.nxp.com,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-64343-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[daniel@quora.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[quora.org:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ming.qian@oss.nxp.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,ui.com:url,vger.kernel.org:from_smtp,mail.gmail.com:mid]
+	RCPT_COUNT_SEVEN(0.00)[11];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[NXP1.onmicrosoft.com:dkim,sashiko.dev:url,vger.kernel.org:from_smtp,nxp.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,linux.dev:email,oss.nxp.com:from_mime,gitlab.freedesktop.org:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CC9C066526A
+X-Rspamd-Queue-Id: 11D06665814
 
-On Thu, 4 Jun 2026 at 14:39, Vikash Garodia
-<vikash.garodia@oss.qualcomm.com> wrote:
-> On 6/2/2026 9:05 PM, Daniel J Blueman wrote:
-> > On Tue, 2 Jun 2026 at 18:27, Bryan O'Donoghue <bod@kernel.org> wrote:
-> >> On 01/06/2026 05:13, Daniel J Blueman wrote:
-> >>> On X1-family hamoa platforms, Iris DMA below IOVA 0x25800000 (600MB)
-> >>> triggers unhandled SMMU page faults
-> >>
-> >> How do we know that is a correct address - does it come from qcom
-> >> documentation or trial and error ?
-> >
-> > @Vikash, beyond your comment I linked in the patch [1] kindly cite a
-> > source for the different stream-ID <600MB behaviour, and share
-> > specifics, eg if silicon, firmware, or driver and constraint, defect
-> > or otherwise, so I can include a definitive description.
-> >
-> > Also good to know if my workaround is good for long-term, or on the
-> > other hand handling streams <600MB is important/useful.
->
-> Thanks Daniel for raising this patch. Did you also try the memory fix i
-> mentioned in the bug [1] discussion ?
+On Tue, Jun 09, 2026 at 02:00:02PM -0400, Nicolas Dufresne wrote:
 
-With this patch, my Lenovo Slim 7x spontaneously rebooted after
-opening 3 tabs of https://ui.com rather than 1 without it. No
-crash/reboot is reproducible with the patch I proposed.
+Hi Nicolas,
+> Hi Ming,
+> 
+> Le lundi 08 juin 2026 à 06:26 +0000, Ming Qian (OSS) a écrit :
+> > 
+> > 
+> > > -----Original Message-----
+> > > From: sashiko-bot@kernel.org <sashiko-bot@kernel.org>
+> > > Sent: Monday, June 8, 2026 12:06 PM
+> > > To: Ming Qian (OSS) <ming.qian@oss.nxp.com>
+> > > Cc: imx@lists.linux.dev; Frank.Li@kernel.org; linux-media@vger.kernel.org
+> > > Subject: Re: [PATCH RFC 1/2] media: docs: Clarify
+> > > V4L2_FMT_FLAG_DYN_RESOLUTION usage
+> > > 
+> > > Thank you for your contribution! Sashiko AI review found 1 potential
+> > > issue(s)
+> > > to consider:
+> > > - [High] The added documentation conflates
+> > > `V4L2_FMT_FLAG_DYN_RESOLUTION` (which designates mid-stream dynamic
+> > > resolution switching capability) with the mandatory initial
+> > > `V4L2_EVENT_SOURCE_CHANGE` event. By stating "Clients can use this flag to
+> > > determine whether the decoder will signal the initial resolution", it
+> > > explicitly
+> > > legitimizes a flawed userspace heuristic that violates the V4L2 stateful
+> > > decoder
+> > > specification. The specification mandates that for coded formats containing
+> > > resolution info, the decoder MUST parse the stream and emit an initial
+> > > `V4L2_EVENT_SOURCE_CHANGE` event (Initialization Step 4). Compliant drivers
+> > > (e.g., `coda`) correctly emit this initial event but do NOT set
+> > > `V4L2_FMT_FLAG_DYN_RESOLUTION` because they lack mid-stream switching
+> > > capabilities. If userspace follows this documented advice, it will
+> > > erroneously
+> > > skip waiting for the initial event on these drivers, breaking Capture Setup
+> > > and
+> > > stream decoding.
+> > > --
+> > > 
+> > > commit ec9c0583334c246f7813132b55724e42622e8edd
+> > > Author: Ming Qian <ming.qian@oss.nxp.com>
+> > > 
+> > > media: docs: Clarify V4L2_FMT_FLAG_DYN_RESOLUTION usage
+> > > 
+> > > This commit updates the V4L2 stateful decoder documentation to clarify the
+> > > usage of the V4L2_FMT_FLAG_DYN_RESOLUTION flag. It adds a note stating
+> > > that decoders setting this flag will always emit an initial source change
+> > > event.
+> > > The documentation suggests clients can use this flag to decide whether to
+> > > wait
+> > > for the initial resolution signal.
+> > > 
+> > > > diff --git a/Documentation/userspace-api/media/v4l/dev-decoder.rst
+> > > > b/Documentation/userspace-api/media/v4l/dev-decoder.rst
+> > > > --- a/Documentation/userspace-api/media/v4l/dev-decoder.rst
+> > > > +++ b/Documentation/userspace-api/media/v4l/dev-decoder.rst
+> > > > @@ -361,6 +361,14 @@ Initialization
+> > > [ ... ]
+> > > > +    .. note::
+> > > > +
+> > > > +       Decoders that set the ``V4L2_FMT_FLAG_DYN_RESOLUTION`` flag for
+> > > the
+> > > > +       coded format will always emit an initial
+> > > ``V4L2_EVENT_SOURCE_CHANGE``
+> > > > +       event with ``V4L2_EVENT_SRC_CH_RESOLUTION`` during this phase.
+> > > Clients
+> > > > +       can use this flag to determine whether the decoder will signal the
+> > > > +       initial resolution before producing decoded frames.
+> > > 
+> > > [Severity: High]
+> > > Does this guidance conflate the V4L2_FMT_FLAG_DYN_RESOLUTION flag,
+> > > which designates mid-stream dynamic resolution switching, with the
+> > > mandatory initial V4L2_EVENT_SOURCE_CHANGE event?
+> > > 
+> > > The V4L2 Stateful Decoder API requires an initial
+> > > V4L2_EVENT_SOURCE_CHANGE event during the Initialization phase for stream
+> > > parsing, irrespective of dynamic resolution support.
+> > > 
+> > > Compliant drivers like coda correctly emit this initial event but do not set
+> > > V4L2_FMT_FLAG_DYN_RESOLUTION because they lack mid-stream switching
+> > > capabilities.
+> > > 
+> > > If userspace follows this documented advice, wouldn't it erroneously skip
+> > > waiting for the initial event on these drivers, potentially breaking capture
+> > > setup
+> > > and stream decoding?
+> > > 
+> > > --
+> > > Sashiko AI review · https://sashiko.dev/#/patchset/20260608-flag-dyn-
+> > > resolution-v1-0-44dc65516148@oss.nxp.com?part=1
+> > 
+> > Hi,
+> > 
+> > Thanks for the review.
+> > 
+> > You are right that the V4L2 stateful decoder specification states the initial
+> > V4L2_EVENT_SOURCE_CHANGE is mandatory for coded formats that contain
+> > resolution information in the stream (Initialization Step 4).
+> 
+> Be aware that Sashiko is an AI bot, llm words things with extreme conviction,
+> and it this case forget about backward compatibility from pre-spec.
+> 
+> > 
+> > However, in practice, GStreamer's v4l2 stateful decoder implementation uses
+> > V4L2_FMT_FLAG_DYN_RESOLUTION to determine whether to subscribe and wait for
+> > the initial source change event. The reasoning from the GStreamer side, as
+> > Nicolas explained [1]:
+> > 
+> >   
+> > "
+> > https://docs.kernel.org/userspace-api/media/v4l/dev-decoder.html#dynamic-resolu
+> > tion-change
+> >     Says:
+> >         Not all decoders can detect resolution changes. Those that do set the
+> >         V4L2_FMT_FLAG_DYN_RESOLUTION flag.
+> > 
+> >     So normally that wording should prevent requiring an initial SRC_CH,
+> >     or emitting later SRC_CH. Your driver don't have this flag, then your
+> >     driver can't emit this event. But a measure we should take into
+> >     GStreamer would be to not register (or mark) this event."
+> > 
+> > @Nicolas, could you elaborate on why GStreamer needs
+> > V4L2_FMT_FLAG_DYN_RESOLUTION to handle the initial source change event?
+> > Is this something that should be fixed on the GStreamer side (i.e., always
+> > wait for the initial event), or is the current heuristic intentional due to
+> > legacy drivers that don't emit the event?
+> 
+> The coda source_change notification is completely fake. It does not dependent on
+> the bitstream content. So the event is left there, since its kind of part of the
+> ABI, but it does not behave like other implementation, or pre-spec drivers.
+> 
+> So what we do in GStreamer, is that for legacy driver (no
+> V4L2_FMT_FLAG_DYN_RESOLUTION), we pre-allocate both queues, based on our guessed
+> dimensions. If it happens that the conformance windows is small enough, it often
+> works. DRC will only work if the display dimension changes.
+> 
+> For any modern driver, that implement V4L2_FMT_FLAG_DYN_RESOLUTION, we strictly
+> wait for the event, and on DRC, even if the display resolution changes, we let
+> the driver tell us when to actually reconfigure. The legacy method was kept to
+> not break coda and older driver, the new method is a lot more reliable, and
+> avoid allocating twice the capture queue (wrong guess).
+> 
+> The userspace implementation is also a bit more flexible, as normally the legacy
+> way should kind of work for any drivers, and we still subscribe it seems. But
+> the implication is just strange and shouldn't be needed in drivers with
+> V4L2_FMT_FLAG_DYN_RESOLUTION support.
+> 
+> Nicolas
+> 
+> 
 
-> 0-600MB range, VPU hardware would reserve this to generate different
-> stream-IDs primarily for internal (non-pixel) buffers.
+Thanks for the detailed explanation of GStreamer's approach.
 
-Thanks for the clearer description; I'll respin my patch with this and
-the DT fixes shortly to get the X1 user experience under control until
-a real fix.
+I have a couple of follow-up questions:
 
-@all I appreciate the ideas and discussion already ensured!
+1. Regarding coda's source change being "completely fake":
 
-Dan
--- 
-Daniel J Blueman
+   Looking at the coda driver code, its seq_init_work does parse the
+   bitstream via hardware (SEQ_INIT command), and the source change event
+   is only emitted after ctx->initialized is set — which requires the
+   hardware to successfully parse the stream headers. After the event,
+   userspace can call G_SELECTION to retrieve the actual display crop
+   rectangle parsed from the bitstream.
+
+   The limitation is that coda requires userspace to set a sufficiently
+   large resolution via S_FMT(OUTPUT) beforehand (since it validates
+   stream dimensions fit within the pre-configured buffer size rather
+   than updating G_FMT with parsed dimensions). But the event itself
+   does depend on bitstream content and carries useful information
+   (visible resolution via selection API).
+
+   So it seems coda could work with the standard init flow — the source
+   change event is real, just the information delivery is partial (crop
+   via G_SELECTION rather than full coded resolution via G_FMT). Would
+   you agree, or is there another reason GStreamer treats it as legacy?
+
+2. Regarding s5p-mfc:
+
+   Interestingly, s5p-mfc sets V4L2_FMT_FLAG_DYN_RESOLUTION but does
+   NOT emit an initial source change event. After SEQ_DONE, it simply
+   transitions to MFCINST_HEAD_PARSED state and wakes up waiters —
+   userspace discovers the resolution by calling G_FMT(CAPTURE) which
+   internally blocks until header parsing completes.
+
+   The source change event is only emitted during mid-stream resolution
+   changes (RES_CHANGE_FLUSH path). How does GStreamer handle this case?
+   Does it timeout waiting for the initial event and fall back, or does
+   it use some other mechanism?
+
+Overall, I agree that using V4L2_FMT_FLAG_DYN_RESOLUTION to unify the
+behavior (both initial source change and mid-stream DRC) is the right
+direction. But the current state has some inconsistencies:
+
+  - coda: emits initial source change, but does NOT set DYN_RESOLUTION
+  - s5p-mfc: sets DYN_RESOLUTION, but does NOT emit initial source change
+
+If we want to document that "DYN_RESOLUTION implies initial source change
+event will be emitted", s5p-mfc would need to be fixed to comply. Does
+that seem reasonable, or should we take a different approach?
+
+Regards,
+Ming
+
+> 
+> > 
+> > [1] https://gitlab.freedesktop.org/gstreamer/gstreamer/-/work_items/5126
+> > 
+> > Best regards,
+> > Ming
+
+
 
