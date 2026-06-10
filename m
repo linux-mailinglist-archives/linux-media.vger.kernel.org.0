@@ -1,219 +1,227 @@
-Return-Path: <linux-media+bounces-64346-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64347-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id NKyAAFjUKGpBKgMAu9opvQ
-	(envelope-from <linux-media+bounces-64346-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 05:04:56 +0200
+	id +wqkFNraKGqVKwMAu9opvQ
+	(envelope-from <linux-media+bounces-64347-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 05:32:42 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2D3A6658B0
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 05:04:54 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DCFD665A0A
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 05:32:41 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=uniontech.com header.s=onoh2408 header.b=BuNSqgCZ;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64346-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64346-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=uniontech.com;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b="COgO/iM/";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64347-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64347-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 8CAF63020FE0
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 03:04:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 15B863076B32
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 03:31:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB011343880;
-	Wed, 10 Jun 2026 03:04:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD67828850E;
+	Wed, 10 Jun 2026 03:31:55 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5A12FC00D;
-	Wed, 10 Jun 2026 03:04:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D818C224B15
+	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 03:31:53 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781060688; cv=none; b=KhbDvdDwC/jd7Ov7fHHvB6h2k6bkxSYMriJWvWXr3Jw7mo/NPFK777SB/OeRiR5AfUKClLyehBZnBnX4OqecXtivNx7AeQL2TZ8R4sa++DJdruTIXoANr78/Qa+HLw8ylPiYLAZ5DuEfWnHo3FUKjLRYlW7SJwM+olbWHAETtgI=
+	t=1781062315; cv=none; b=Q1aEmmQ7XzQ+gt4VISc2Bdabd+BNjI2pW3mBkl6CDHjV5PyXc2tXEz7/Mo1/beiTa+YF4tkNpDndeugaII1diYujn5UlH3YW4FHvl12fPtTC0cZoVq4l82kgUW7cyAXPPUPlHt56/i9S+sYVAuM6R96TCJ2zQJX/neOiEhM+KyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781060688; c=relaxed/simple;
-	bh=QQLbQMF0b4ShlRkjcMzhLYepWY99zgCTJPmzcMaBRiY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=VxWF2VpSE8O3zMNbvVyZ1M6+aLgCrHHE/SDOSl8WaOT+ZUJeQ9+mkbcP1eovBS31L3UnEWG7f74bytcNVMyu7kU4WRxH/r3R3L5eI9y6h3lhZyzJYVoBRZN/0p46GvtF36EWZJb/wsjnJqOJ+CkzEzeER9V6gNaGWIDgBaclmTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=BuNSqgCZ; arc=none smtp.client-ip=54.254.200.92
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1781060642;
-	bh=pPmroeQDHsA9ug2HnLTa8g6lPR2P7s9mi76pG8L8oJI=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=BuNSqgCZlJmnGmMVd/iPKDirBsV/5/yYjnlkefASCAi6aMqzs/z/bcIcKmsQZigQD
-	 Oma6S1YRLOeZUU8cMhU9ouyZMCreH0ySQ65XEzJ/n6P84VspTI36PMDGbshBBYzcbw
-	 3LkNp0z4Bc/jbviZTM/Vg+xVdylj8pwN5wt6gfFI=
-X-QQ-mid: esmtpgz13t1781060624tc1abae19
-X-QQ-Originating-IP: cLg5X++iDCAXLdBCZBxzRSN4dV8URO0z6d3AWbklGOE=
-Received: from localhost.localdomain ( [1.202.39.170])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 10 Jun 2026 11:03:38 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 2952194183593288770
-EX-QQ-RecipientCnt: 11
-From: ZhaoJinming <zhaojinming@uniontech.com>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
-	Oded Gabbay <ogabbay@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	ZhaoJinming <zhaojinming@uniontech.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v4 2/2] accel/rocket: Fix iommu_group leak and unsafe IRQ register access
-Date: Wed, 10 Jun 2026 11:03:22 +0800
-Message-Id: <20260610030322.2802744-2-zhaojinming@uniontech.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20260610030322.2802744-1-zhaojinming@uniontech.com>
-References: <20260609094756.8DDFD1F00893@smtp.kernel.org>
- <20260610030322.2802744-1-zhaojinming@uniontech.com>
+	s=arc-20240116; t=1781062315; c=relaxed/simple;
+	bh=oK0fuqvhIRC63Knx+gZh1qksAoIRk0FxbgtBcJABvZc=;
+	h=From:Content-Type:Mime-Version:Subject:Message-Id:Date:Cc:To; b=I79TLfOhpjgwfSrd116yTASQbRSFdQaKS9h7ZN0zYgjVvd2pLZ8x2mM+9OGPf5LTtKmHXp9521Pc5xtPtHBHZ9fvxDS7L+Ei0hdDSGlkGcrEOqNu2IkdtY71J0ftSBnF/Ofvj6AP/JOp2o59ewuVIHtS1Nlg3defhpumwmA+oOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=COgO/iM/; arc=none smtp.client-ip=209.85.160.175
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-5177ad0cc67so50330311cf.0
+        for <linux-media@vger.kernel.org>; Tue, 09 Jun 2026 20:31:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781062313; x=1781667113; darn=vger.kernel.org;
+        h=to:cc:date:message-id:subject:mime-version
+         :content-transfer-encoding:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eEDJjvJyCLMfky77N9ovA0qlg3zasavZZCkFBCpyxdw=;
+        b=COgO/iM/o0LhBKifpj/kpnmbGfHStZmPX/i7Sidx9Ssg3KDe20tHiqZMXv9kYUqwPw
+         8y50aUdUEzB+MKCFt+C8Z5wabVWGyLIoyR61Sx9r+GJI/FkYDBVSsalrSBo0oUP/mAZO
+         f/Lqe9ZutX2SXx/S01IWDziKODR8k16VbJunq1SlJ5wxMQM9Um2wVaDbGyxNmSiPfUGp
+         xqObFBMOdM2DsYDWJpoepWGdoBoSyradkiOkzOHNZfsxDShgRYgxNMxbQhXAo7O7FCoZ
+         RiieyM/RRdMvm1qTu5p8zgxVlvA37OeSFYJFUsKiSiR8PSuBzLFuyZ52wNDuJ7C4jjUW
+         8uBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781062313; x=1781667113;
+        h=to:cc:date:message-id:subject:mime-version
+         :content-transfer-encoding:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=eEDJjvJyCLMfky77N9ovA0qlg3zasavZZCkFBCpyxdw=;
+        b=c72AH/dsVFsn75CRjNzDbD90XvTmRJj6leW7iU2xwjcZsS/tS0hSkwhJFvLuQiAfgt
+         FzNxvn+Ycp/Qn83kt9RauY+eKvnX5X2gsgO4QH3ZcFT4oSeRr2SP6itEFBjmZQJbUFXE
+         dtnxb4dZd/fUGnVm3qJ/VgBfelslsEKL+ZuN1ewqDaHPRQlLEy4Rqqz9Tco8lTPKOlAQ
+         73ND9GA0U+J/RI/4pkM7L82cUlztRbfO8BIVSLXI1kiWa3WeqdkMH4hLG+W53sftLgWH
+         QdNzrVUx6Lz+qu6wtBVn6zgbCiJYlOLcB9EjEVyTUYASzRogjjJR/SrC3Yx4O4DgGHM2
+         1nKg==
+X-Gm-Message-State: AOJu0YxNpgE8erRlh9/HSpwf4xQGNCm8JgV6sunxceGPR1iXQqzwTrFr
+	mfEbreph8Rsc+4HD4fBshW46J34dPtsPMloV6V7q3e4VWDFwrhAKJjt9
+X-Gm-Gg: Acq92OHp2JRJoXdiwFukOG/LI8TBeYX96vi6bhoYCMDH25eDjSg8LYVzWc8HYsRJ5M5
+	UTatLhhfy6eP+qcXeET1tUuu/wc72QGSfSWyg07nBbOHQyO9/iOKaPmdmufgHAU6ZE33Amf0EDk
+	7v8mnxdvXRTStgEXase416y8sUgGwhnjj+VOqbkUrsmkYAlvU8P7RM5LGQKfHEKVbKS1hZWliYN
+	/N2bNXJgANA8vEO/mll/H+8iXNWMsseht3vWMxMofSkHVs0e3kHeCb/yOcb7BvS4VElVvF30K+8
+	mM+nwA+I5TIUeoJeFFH5+lVPdejCBptPF9wwVb+YpJ3OIQLIf5VRpa5V00jeZp5cnYKZqzSygvh
+	HkE52rXWr34E+JCO7xE6HE8fNcntBu0TaBg4qf9HKwbGqdpfHm3hrL/nkaIQgl9GHPdhTz7tMIm
+	ArxXzNdfFxV3xPH5y6U6uzCByVdVyODjzAnf31/3mRwGQW4C7Yi47yuDGnlz9c2bLjYhc9r+l6w
+	Bc=
+X-Received: by 2002:a05:622a:2515:b0:517:859b:b584 with SMTP id d75a77b69052e-51795a0909dmr328917231cf.1.1781062312953;
+        Tue, 09 Jun 2026 20:31:52 -0700 (PDT)
+Received: from smtpclient.apple ([2601:985:4601:5df0:21ff:7f24:219f:42ec])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-51775e25c5dsm204106401cf.30.2026.06.09.20.31.52
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 09 Jun 2026 20:31:52 -0700 (PDT)
+From: Shuangpeng <shuangpeng.kernel@gmail.com>
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpgz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz4b-0
-X-QQ-XMAILINFO: N7V5dvLk9gGfNKwaqmR804LFZSjywXn/11FfW7YtIkRsck2p2GyRkBHO
-	WuA0sPIcwR9KbL04RkBSCFOUz2uA1pc1F2KVRN82piJsoDkgQdy2QzSRCe12UVcFTPnuAOF
-	h41ba8t2XHLCCoyvUt3EzjcQpVSgKwgT5yuEgDQucmBTk2wXd2/Z38TgHQ0yz3NbfpZiE5M
-	5u1pQI26lnRsyBlJ3VAA/swO0KnYwdKRCiJP4fF6lboxEcE+QE6BhIfuqF1hfSxt1X25mr2
-	x+i0yPJLZVDwny5lLpxdzoW29blMqpdYemGqyDn0zuQ8bAFylHYpsY4Aik4MyuHJT//lfad
-	rqy3ZDFkgxviLXNdxiDE7S5OlslS0t4Our6O1V7Xx+k/Jq8B6Q04GjkQ+M3vF3z+HMjDt6T
-	eFU9QZFMYkhlsxkmT0Njs1hvSXt9OIddf8jFrwtKIXqAWPTxp8Z+qI6yxm/bkb4Z6l3+sYW
-	ls/kXdGvK+dC4guOTOgZIL6DeLldEHtvbO/fa2KorAwzQX5uP7Ie0t/zZnSOqklUWTPcSqV
-	nzLf4aC8zJySXhRD6LkioU8ljWr9mlmY+iktQ9YjZcq108FicZgJqyc4AWOrJm6X51pA8AV
-	lSo8RIga64z0PevFHPTgSXFsqZHpz+kcNI8RWrPt9ltU0/xmhQ1+jYiOpSn4IuiH0YqFbXN
-	fYfpOuseGXPsFWdBSAtUxCWxhIn6ivADa5wxFyHCO5G1buUIzmQ6pwNuWRdK1zUx1Pm5JN0
-	6G+qF/pVAN9kZVMrZfBDVLMF5tygGpr6bpRyLfBU0Cwrn8//VI2x9Y+9g+VctmVC1GslYSt
-	Uatp4AXtAEKadOdVxG1Rr0sBe2KW/eFa9A/ZfvhBzxxyw4hV/6FDJ8IlZsjM9z14SszeYg+
-	yZURZpARso0Svup2hZyQsZ0DSEZfTDeK6Y71mMPE6dBD4KVc/h5RPXMOSx0FOq5IkXWEKy9
-	MzNN4ZQyGQsGF4CfmXs8MVVX71Df335WUftB2RKBHSbkta/dhobKTojoSeNYffbLKWdJECG
-	2g3WutyIdy5GXLzy7vPu73bUnal7hUSeHMGvmJrvzR9pezlO8btFmFql77us+rvfvsbXNnu
-	UUfV1BplF7w
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
-X-QQ-RECHKSPAM: 0
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.600.51.1.1\))
+Subject: [BUG] media: dvb: KASAN slab-use-after-free in dvb_frontend_do_ioctl
+Message-Id: <0922F696-E044-488A-8281-1CDE8E054CF4@gmail.com>
+Date: Tue, 9 Jun 2026 23:31:21 -0400
+Cc: linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+To: mchehab@kernel.org,
+ dwlsalmeida@gmail.com
+X-Mailer: Apple Mail (2.3864.600.51.1.1)
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[uniontech.com,none];
-	R_DKIM_ALLOW(-0.20)[uniontech.com:s=onoh2408];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-64346-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tomeu@tomeuvizoso.net,m:ogabbay@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:jeff.hugo@oss.qualcomm.com,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:zhaojinming@uniontech.com,m:stable@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[zhaojinming@uniontech.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[zhaojinming@uniontech.com,linux-media@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-64347-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_SENDER(0.00)[shuangpengkernel@gmail.com,linux-media@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:mchehab@kernel.org,m:dwlsalmeida@gmail.com,s:lists@lfdr.de];
+	RCPT_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[uniontech.com:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[shuangpengkernel@gmail.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TO_DN_NONE(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	TO_DN_SOME(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp,uniontech.com:dkim,uniontech.com:email,uniontech.com:mid,uniontech.com:from_mime]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E2D3A6658B0
+X-Rspamd-Queue-Id: 9DCFD665A0A
 
-Two bugs in the IRQ handling path:
+Hi Kernel Maintainers,
 
-1) iommu_group reference leak in rocket_job_handle_irq():
-   iommu_group_get() increments the reference count but the returned
-   pointer is passed directly to iommu_detach_group() which does not
-   consume it. Since this runs on every completed job, the reference
-   count accumulates and prevents the group from being freed. Use
-   core->iommu_group instead, consistent with rocket_reset().
+I hit the following KASAN report while testing current upstream kernel:
 
-2) Unsafe hardware register access in shared IRQ handler:
-   rocket_job_irq_handler() is registered with IRQF_SHARED but accesses
-   hardware registers without checking runtime PM status. If another
-   device on the same IRQ line triggers an interrupt while the NPU is
-   suspended, register reads return 0xffffffff, spuriously triggering
-   WARN_ON macros and falsely returning IRQ_WAKE_THREAD.
+KASAN: slab-use-after-free in dvb_frontend_do_ioctl
 
-   Add pm_runtime_get_if_active() in the hardirq handler to atomically
-   verify the device is active before accessing registers. Each handler
-   (hardirq and threaded) independently acquires and releases its own
-   runtime PM reference to avoid coalescing-related leaks when the
-   IRQ core coalesces multiple wakeups into a single thread execution.
+on commit: e8c2f9fdadee7cbc75134dc463c1e0d856d6e5c7 (May 25 2026)
 
-Cc: stable@vger.kernel.org
-Fixes: 0810d5ad88a1 ("accel/rocket: Add job submission IOCTL")
-Signed-off-by: ZhaoJinming <zhaojinming@uniontech.com>
----
- drivers/accel/rocket/rocket_job.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+The reproducer and .config files are here.
+https://gist.github.com/shuangpengbai/56637725184e4b313cd7ce9a14bd04e8
 
-diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
-index e8a073e22ac2..f05043619169 100644
---- a/drivers/accel/rocket/rocket_job.c
-+++ b/drivers/accel/rocket/rocket_job.c
-@@ -349,7 +349,7 @@ static void rocket_job_handle_irq(struct rocket_core *core)
- 				return;
- 			}
- 
--			iommu_detach_group(NULL, iommu_group_get(core->dev));
-+			iommu_detach_group(NULL, core->iommu_group);
- 			dma_fence_signal(core->in_flight_job->done_fence);
- 			pm_runtime_put_autosuspend(core->dev);
- 			core->in_flight_job = NULL;
-@@ -420,7 +420,10 @@ static irqreturn_t rocket_job_irq_handler_thread(int irq, void *data)
- {
- 	struct rocket_core *core = data;
- 
--	rocket_job_handle_irq(core);
-+	if (pm_runtime_get_if_active(core->dev)) {
-+		rocket_job_handle_irq(core);
-+		pm_runtime_put(core->dev);
-+	}
- 
- 	return IRQ_HANDLED;
- }
-@@ -428,16 +431,24 @@ static irqreturn_t rocket_job_irq_handler_thread(int irq, void *data)
- static irqreturn_t rocket_job_irq_handler(int irq, void *data)
- {
- 	struct rocket_core *core = data;
--	u32 raw_status = rocket_pc_readl(core, INTERRUPT_RAW_STATUS);
-+	u32 raw_status;
-+
-+	if (pm_runtime_get_if_active(core->dev) != 1)
-+		return IRQ_NONE;
-+
-+	raw_status = rocket_pc_readl(core, INTERRUPT_RAW_STATUS);
- 
- 	WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_READ_ERROR);
- 	WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_WRITE_ERROR);
- 
- 	if (!(raw_status & PC_INTERRUPT_RAW_STATUS_DPU_0 ||
--	      raw_status & PC_INTERRUPT_RAW_STATUS_DPU_1))
-+	      raw_status & PC_INTERRUPT_RAW_STATUS_DPU_1)) {
-+		pm_runtime_put(core->dev);
- 		return IRQ_NONE;
-+	}
- 
- 	rocket_pc_writel(core, INTERRUPT_MASK, 0x0);
-+	pm_runtime_put(core->dev);
- 
- 	return IRQ_WAKE_THREAD;
- }
--- 
-2.20.1
+Although the report below was triggered with vidtv, I have reproduced=20
+the similar lifetime bug pattern across a broader series of DVB=20
+frontend drivers, like cxd2880-spi, smsdvb, DVBSky using si2168, and
+GL861/Friio using tc90522.
+
+I'm happy to test debug patches or provide additional information.
+
+Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+
+[  252.618007][ T8317] =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+[  252.618841][ T8317] BUG: KASAN: slab-use-after-free in =
+dvb_frontend_do_ioctl (drivers/media/dvb-core/dvb_frontend.c:2067)
+[  252.619807][ T8317] Read of size 8 at addr ffff88811be3c320 by task =
+vidtv_frontend_/8317
+[  252.620723][ T8317]
+[  252.621036][ T8317] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + =
+PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+[  252.621039][ T8317] Call Trace:
+[  252.621054][ T8317]  <TASK>
+[  252.621056][ T8317]  dump_stack_lvl (lib/dump_stack.c:94 =
+lib/dump_stack.c:120)
+[  252.621112][ T8317]  print_report (mm/kasan/report.c:378 =
+mm/kasan/report.c:482)
+[  252.621194][ T8317]  kasan_report (mm/kasan/report.c:595)
+[  252.621202][ T8317]  dvb_frontend_do_ioctl =
+(drivers/media/dvb-core/dvb_frontend.c:2067)
+[  252.621588][ T8317]  dvb_usercopy =
+(drivers/media/dvb-core/dvbdev.c:996)
+[  252.621611][ T8317]  dvb_frontend_ioctl =
+(drivers/media/dvb-core/dvb_frontend.c:2114)
+[  252.621614][ T8317]  __se_sys_ioctl (fs/ioctl.c:51 fs/ioctl.c:597 =
+fs/ioctl.c:583)
+[  252.621618][ T8317]  do_syscall_64 (arch/x86/entry/syscall_64.c:63 =
+arch/x86/entry/syscall_64.c:94)
+[  252.621621][ T8317]  entry_SYSCALL_64_after_hwframe =
+(arch/x86/entry/entry_64.S:121)
+[  252.621654][ T8317]  </TASK>
+[  252.621656][ T8317]
+[  252.669947][ T8317] Freed by task 8317 on cpu 0 at 252.606789s:
+[  252.670700][ T8317]  kasan_save_track (mm/kasan/common.c:57 =
+mm/kasan/common.c:78)
+[  252.671325][ T8317]  kasan_save_free_info (mm/kasan/generic.c:584)
+[  252.671904][ T8317]  __kasan_slab_free (mm/kasan/common.c:253 =
+mm/kasan/common.c:285)
+[  252.672463][ T8317]  kfree (include/linux/kasan.h:235 mm/slub.c:2689 =
+mm/slub.c:6251 mm/slub.c:6566)
+[  252.672970][ T8317]  i2c_device_remove =
+(drivers/i2c/i2c-core-base.c:630)
+[  252.673482][ T8317]  device_release_driver_internal =
+(drivers/base/dd.c:619 drivers/base/dd.c:1352 drivers/base/dd.c:1375)
+[  252.674139][ T8317]  bus_remove_device (drivers/base/bus.c:657)
+[  252.674721][ T8317]  device_del (drivers/base/core.c:3895)
+[  252.675233][ T8317]  device_unregister (drivers/base/core.c:3936)
+[  252.675673][ T8317]  vidtv_bridge_remove =
+(drivers/media/test-drivers/vidtv/vidtv_bridge.c:556)
+[  252.676187][ T8317]  device_release_driver_internal =
+(drivers/base/dd.c:619 drivers/base/dd.c:1352 drivers/base/dd.c:1375)
+[  252.676907][ T8317]  unbind_store (drivers/base/bus.c:244)
+[  252.677402][ T8317]  kernfs_fop_write_iter (fs/kernfs/file.c:352)
+[  252.678054][ T8317]  vfs_write (fs/read_write.c:595 =
+fs/read_write.c:688)
+[  252.678527][ T8317]  ksys_write (fs/read_write.c:740)
+[  252.678933][ T8317]  do_syscall_64 (arch/x86/entry/syscall_64.c:63 =
+arch/x86/entry/syscall_64.c:94)
+[  252.679374][ T8317]  entry_SYSCALL_64_after_hwframe =
+(arch/x86/entry/entry_64.S:121)
+[  252.680070][ T8317]
+[  252.680347][ T8317] The buggy address belongs to the object at =
+ffff88811be3c000
+[  252.680347][ T8317]  which belongs to the cache kmalloc-2k of size =
+2048
+[  252.681923][ T8317] The buggy address is located 800 bytes inside of
+[  252.681923][ T8317]  freed 2048-byte region [ffff88811be3c000, =
+ffff88811be3c800)
+
+
+Best,
+Shuangpeng
 
 
