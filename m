@@ -1,532 +1,421 @@
-Return-Path: <linux-media+bounces-64395-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64396-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id NhjhDisyKWriSAMAu9opvQ
-	(envelope-from <linux-media+bounces-64395-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 11:45:15 +0200
+	id +BpRJJMzKWovSQMAu9opvQ
+	(envelope-from <linux-media+bounces-64396-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 11:51:15 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE73667F57
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 11:45:14 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5DF7668027
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 11:51:14 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b="G0B0/CSr";
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b="Qebo7x/J";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64395-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64395-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=qualcomm.com;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=HiOXBj+S;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64396-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64396-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7C49231404DB
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 09:38:43 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 98C43316E54C
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 09:43:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72EB13E0233;
-	Wed, 10 Jun 2026 09:38:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44C023B71AC;
+	Wed, 10 Jun 2026 09:43:28 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF3D2368953
-	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 09:38:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5647358363;
+	Wed, 10 Jun 2026 09:43:25 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781084315; cv=none; b=Rnk66BHG+LtSl78mQBDGkqoqba5FwULg6ev+Jsk6R4ig3u4kf876OtezbZtLWV7YANjCs+rfiwY1bTEX/nUQiRL26nsVqhpzURrKDULK+COLcm3fKwJvpAt6Mzq2OoaEdByQe9l9jtSssrKXGmYZ19Ik7CrMUoEdejJ3+pSec4M=
+	t=1781084607; cv=none; b=QraJfTFrPcrNp6TpjPHLP5M/233HRyaPU2cJVmX6r9fG+mcy0WGm2LXWIG2zZrxp6r/ThhjZU2buYqqVgmb67d5qYImVwKn8F9zmU3Fut9ix3Z6KDRyppbAZeMwD2JgO3b5g2nq1AyZw9TG5tEqyZoQW3jcEXHXtrFdV+aCvGx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781084315; c=relaxed/simple;
-	bh=0WkxGCYcSYMAjpBAU3KfnACwHskqbBEptIR+MsEt90g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uyXhGiY5bdwe27rOt5VjZFH5gSngzDtMgWHjQjpahdeGXuBAR/T7snHLUCdrdokc1Jb17c0F9LuS2QN7g1eFdxUvGbTiE8CpZyGbLTV7wKK4XaSoVkuXXABiA+wbOZS80HIlRjYnhq/pQGayJuHifI1y1ldZVCMHfEa1ldyiwZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=G0B0/CSr; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Qebo7x/J; arc=none smtp.client-ip=205.220.180.131
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65A7iI9Q988894
-	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 09:38:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	fLahizlXX21JZl8j3A8UCWqbtcmXHv2dftjEyU0Kt2U=; b=G0B0/CSrpQkuFS4s
-	a7qfxcN0hGzlTeeLtQn7ZxFbd7BJ44iouWigMU3FyRBO5CvV1leqGfgXIUANKPfB
-	H4xA2PZ6Ph27nOAOBeI6Gp0IJQTBNxPiETVcGtpyuajkdnaPDkDI/F2KfuGeibzF
-	SA3afuC617MKr6lpneo8IA/cbIktCcR/Sf1Na5b0GXr4K7ZbQs9oIg9sO40UmLDx
-	FF3AJHxPjixGeBZEh2wAe9m1gp0j0KWoi2HI3JHFnwjAgccj9onPjDHJ9sZ4Tem/
-	9GeJ3U5d7ipAXOZRQf33GQ5yVUTaCTtNJTZybBwguakynoj35oJn2vN8xSIficxU
-	bcOB6w==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eq2segq79-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 09:38:29 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-36d98b74447so5172107a91.2
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 02:38:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1781084308; x=1781689108; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fLahizlXX21JZl8j3A8UCWqbtcmXHv2dftjEyU0Kt2U=;
-        b=Qebo7x/JNPhHxWWXrHDknLpE4+4OdcAdGnlGP97wKdWCdawkXprrrAkRVn9mBT0x7P
-         0nP32xbOPkqQsb6xH75S4oDOxPXyAlYcFDOjZy8Pie4JYH2UiiRoWiqhliUunxLQiGSR
-         owPzy87OQ0ZJu5xkfkqP5d6uRLEJu+zUmc6VpnKeJSqSF6GexPsrm+1Old6x8RMk/JGZ
-         BTjPqolvcmjdql+Ztidhpgeag/88Q23nNG6dWQLranq5usIAiAcw3x/Knhd2Jgm/yZld
-         VNcD8omqIKk+EXgO9rZr6dVn2v2kGyoULcCNiMHNzVppx4n7KX202Bv63gIByZ0JLSg2
-         U+eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781084308; x=1781689108;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fLahizlXX21JZl8j3A8UCWqbtcmXHv2dftjEyU0Kt2U=;
-        b=NlJU86XA4jyESrdEEKny6HDJyYf/ph0X2MyrvhUHeJxkvoW4pYmKazhZSAI/RL3Qpy
-         fSx3/ANiPVrviqASorm+RPyCKkxcd26urncne3EixW7moLMrQCxHYkeLtDIf4MUzJAXM
-         Ks/iCliOeXRio+baprQ6E/y88PSXr7RMgxTEE2RpuK7fNhN6fFwRQs2rHWAyHm5eMlym
-         W3jXf4A3urtSb1NvOYjf/pNnV2sfMBZnqceVlMe5a5XsYp+HnAthUWyhYouMTlAzb12z
-         Dn0LIgPOZ29zuBQ7JKJgv5UavoBhcFmNmkxQipFx6Olb0wZXS9o7ImCJgNCLeVuJhWYy
-         24Sw==
-X-Forwarded-Encrypted: i=1; AFNElJ8XKSK7Ez2crHvQr6ZPTK1STKEuBay6OT6gaI36QB984MsN0Cp6hJjXBU4HlUaJJOg8lLqzf4Mrer4I9Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy3/lds4NPkm9GpEw+Rvigck7q55I9/vCNrkI/EwVE/3vkXn0y9
-	z4MTDwP+Op/a9rSz6jHmvh/Q2yu7dvf4XjjILlS/HvDDXvjvoJo2Il1vZ1Lf0ctLlh76l0NTC5G
-	TpwjejNolROfnsIBxjvM5gYeJrmfGNswVJEJ2KCOTDQp6PoZWPjY1vUNPpKF81YNXHA==
-X-Gm-Gg: Acq92OFazto2n2suwcBE1qzm+b1jaaphJu6Dxbt4gZdfuT6xafqsBxZTm4UDHMNSS8S
-	EAe4LwQuPcDuYsqNQyEP6k18rAyLuD/rnabZkj7Da2UG+NRIkc0twp+ljRN57O6UInE9gqpQkSd
-	RVVeSqXWURrAEW9zqWCzTlfW8rfacpk9O1ZoDx0xjCpO0X7dV5O98ciphWXqmqxdVz1zxmbqBkF
-	JFoeY3WLRyB5jWbWOwuQpoxYW5qwjdzq23BYnhCFjFmxwAHiTDbA2M4IF+BsJ5q0dNZFKoocQNS
-	SEEpL2K3EsxL1zAMOdOLSRCsVlYjVmrTk2fBndgDgc3ZRdPKQm5ZQgpmAPCW3hlx9dmYb3sixY7
-	FzX5Dy3sa2yQ6okYwxJPaei/meNyVvVOuOvTR9jOtnK6FXLf+u6DdsnDvomPx2w==
-X-Received: by 2002:a17:90b:5145:b0:36d:81b3:61a1 with SMTP id 98e67ed59e1d1-370eed0b63bmr26327683a91.7.1781084308240;
-        Wed, 10 Jun 2026 02:38:28 -0700 (PDT)
-X-Received: by 2002:a17:90b:5145:b0:36d:81b3:61a1 with SMTP id 98e67ed59e1d1-370eed0b63bmr26327640a91.7.1781084307708;
-        Wed, 10 Jun 2026 02:38:27 -0700 (PDT)
-Received: from [10.204.78.173] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37624a8e76csm2773910a91.15.2026.06.10.02.38.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jun 2026 02:38:26 -0700 (PDT)
-Message-ID: <b22703d3-03f2-4835-9eee-c3d1fa50a5ce@oss.qualcomm.com>
-Date: Wed, 10 Jun 2026 15:08:17 +0530
+	s=arc-20240116; t=1781084607; c=relaxed/simple;
+	bh=i7DON7sLBMiRceKnRCoDj57meeTosu6ZO/OjURHmINw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dyxHxIHnQo+s1TCOk1hKyciojnGM4gurJZT6tgyPhyv8t1LQXegoJm/J11AlcmdUlt64/CKubpAxgP0Zb/COGoGcdwuMctJ8XraOtemTW1tV0yuro8zg3zMLANf5EhTavkMT3BWuEjh0fhFu2Jd34rxP+5DpTtztfpBHrmZUr6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HiOXBj+S; arc=none smtp.client-ip=213.167.242.64
+Received: from ideasonboard.com (mob-5-90-57-201.net.vodafone.it [5.90.57.201])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E7A82874;
+	Wed, 10 Jun 2026 11:42:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1781084574;
+	bh=i7DON7sLBMiRceKnRCoDj57meeTosu6ZO/OjURHmINw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HiOXBj+SsEw+WfMTuvZRBjnGzFBn9++f+kyvsWTeiL+8DsCCA7PcZ6KHj8XCVr0Gp
+	 f28J+UWRVZ2jlSqTnCgiEPIQZP2OF5lOvX+u+KnvVUmwjykp8YchXw3rbFEFDSClSx
+	 eL10i3evEoHjdf4W9PbF6OlIY+Kem+gN5tOuxJbA=
+Date: Wed, 10 Jun 2026 11:43:20 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Antoine Bouyer <antoine.bouyer@nxp.com>, 
+	Hans Verkuil <hverkuil+cisco@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Hans Verkuil <hverkuil+cisco@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Keke Li <keke.li@amlogic.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Daniel Scally <dan.scally@ideasonboard.com>, 
+	Jai Luthra <jai.luthra@ideasonboard.com>, 
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, Ricardo Ribalda <ribalda@chromium.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/6] media: v4l2-isp: Add support for extensible
+ statistics
+Message-ID: <aikukSj_9SK_IVbH@zed>
+References: <777ea8b5-b00a-40e0-b649-59324ff0188a@nxp.com>
+ <e1bb04b0-025a-44a6-91ab-edfa6edc1f64@nxp.com>
+ <b97f4da9-7df7-4bfd-990e-28a23ec7a236@amlogic.com>
+ <agcaSwdqauzuQSl5@zed>
+ <ahbeR6-noMhnU_l5@zed>
+ <9557605d-ac07-404f-b53f-63357898f2e2@nxp.com>
+ <ah_iVT1d5U4-9g-0@zed>
+ <5778ba10-22a8-42fd-b2a8-6b69c78e6d52@kernel.org>
+ <aiA-jERhh0xgW2K3@zed>
+ <cb1b9fc5-1227-41b6-9ca4-6a99d3204019@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 12/15] accel/qda: Add FastRPC invocation support
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
-        Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Bharath Kumar <quic_bkumar@quicinc.com>,
-        Chenna Kesava Raju <quic_chennak@quicinc.com>, srini@kernel.org,
-        andersson@kernel.org, konradybcio@kernel.org,
-        robin.clark@oss.qualcomm.com, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20260519-qda-series-v1-0-b2d984c297f8@oss.qualcomm.com>
- <20260519-qda-series-v1-12-b2d984c297f8@oss.qualcomm.com>
- <43a7laqb7mnrvleunnmbxwhvzr6w3au4ofjri4r4ap7clsx6mc@jxqlr4a2lw56>
- <ba003d7d-03f5-4572-8321-3d1f666c8c27@oss.qualcomm.com>
- <q2q6tfnas3kikapwehbp6q7mykvk2wbuvn6ypbzc5ta7azh65w@wdwphde7gcxc>
-Content-Language: en-US
-From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-In-Reply-To: <q2q6tfnas3kikapwehbp6q7mykvk2wbuvn6ypbzc5ta7azh65w@wdwphde7gcxc>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: Nfm-X7RRDWCIZWPOnvhnr5GRBwaQUIEK
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjEwMDA5MSBTYWx0ZWRfX1oKMXNC0ZxNP
- frO4S1TkNsaCqT8NE2oUb4CYrThiFN2GbUoUwmwVZa/IuVrj51cwYiCUdPDWHXP7lGkVm5gkI26
- +pY7JVWyAGBwtHEmw6mmGZwTnvE7//pjxgR1pPd0KHs3nMlqP6zGsIjVkLW8xnmIye9MVb08peb
- JCRUTSWvSZebo8H032Dy7fJjuvAQ1vfpK+hYf8PCD7L45mXmOhbwMKXIQw0a1bDV+IYoqTUKv7O
- 5D+qic1SCXIYthQwhW7Cg2DZwANLl3Cw16J0OrkEY//vGmzampRzmKQG7Tmk2ca++A5zig8RxmR
- VpMnR78dzwu8OjOcIrsIyiu1JUoX+jQC9CDAVPi8P4snXp2IFkGcy/OebXM5MzCHplgEtk7zOMn
- 5QsTG9siWvLXXypp0RmIzju1OxLzkchFVYZbexVGJufqG+NJzXb2MDhcZWq8TpBwoLGK3VwXVcY
- UTZkX0N6zOmVoZL7GGg==
-X-Proofpoint-ORIG-GUID: Nfm-X7RRDWCIZWPOnvhnr5GRBwaQUIEK
-X-Authority-Analysis: v=2.4 cv=Md1cfZ/f c=1 sm=1 tr=0 ts=6a293095 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=EUspDBNiAAAA:8 a=0tHIOXy_Vfvaqy0H-swA:9 a=QEXdDO2ut3YA:10
- a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-10_02,2026-06-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 phishscore=0 priorityscore=1501 adultscore=0 bulkscore=0
- impostorscore=0 spamscore=0 malwarescore=0 clxscore=1015 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606100091
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cb1b9fc5-1227-41b6-9ca4-6a99d3204019@nxp.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-64395-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,lwn.net,linuxfoundation.org,8bytes.org,arm.com,linux.intel.com,suse.de,gmail.com,ffwll.ch,linaro.org,amd.com,quicinc.com,oss.qualcomm.com,vger.kernel.org,lists.freedesktop.org,lists.linux.dev,lists.linaro.org];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:from_mime];
-	FORGED_SENDER(0.00)[ekansh.gupta@oss.qualcomm.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.baryshkov@oss.qualcomm.com,m:ogabbay@kernel.org,m:corbet@lwn.net,m:skhan@linuxfoundation.org,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:quic_bkumar@quicinc.com,m:quic_chennak@quicinc.com,m:srini@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robin.clark@oss.qualcomm.com,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-doc@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:iommu@lists.linux.dev,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-64396-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:antoine.bouyer@nxp.com,m:hverkuil+cisco@kernel.org,m:laurent.pinchart@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:keke.li@amlogic.com,m:mchehab@kernel.org,m:dan.scally@ideasonboard.com,m:jai.luthra@ideasonboard.com,m:niklas.soderlund@ragnatech.se,m:ribalda@chromium.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ekansh.gupta@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,zed:mid,vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:from_mime,outlook.com:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8AE73667F57
+X-Rspamd-Queue-Id: E5DF7668027
 
-On 08-06-2026 02:44, Dmitry Baryshkov wrote:
-> On Thu, Jun 04, 2026 at 10:39:14AM +0530, Ekansh Gupta wrote:
->> On 20-05-2026 19:26, Dmitry Baryshkov wrote:
->>> On Tue, May 19, 2026 at 11:46:02AM +0530, Ekansh Gupta via B4 Relay wrote:
->>>> From: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
->>>>
->>>> Implement the FastRPC remote procedure call path, allowing user-space
->>>> to invoke methods on the DSP via DRM_IOCTL_QDA_REMOTE_INVOKE.
->>>>
->>>> qda_fastrpc.c / qda_fastrpc.h
->>>>   Implements the FastRPC protocol layer: argument marshalling
->>>>   (qda_fastrpc_invoke_pack), response unmarshalling
->>>>   (qda_fastrpc_invoke_unpack), and invocation context lifecycle
->>>>   management. Each invocation allocates a fastrpc_invoke_context
->>>>   which tracks buffer descriptors, GEM objects, and the completion
->>>>   used to synchronise with the DSP response.
->>>>
->>>>   Buffer arguments are handled in three ways:
->>>>   - DMA-BUF fd: imported via PRIME, IOMMU-mapped dma_addr used
->>>>   - Direct (inline): copied into the GEM-backed message buffer
->>>>   - DMA handle: fd forwarded to DSP, physical page descriptor computed
->>>
->>> No. This needs to go away. The QDA should support only one way to pass
->>> data - via the GEM buffers. Everything else should be handled by the
->>> shim layer, etc.
->> each FD passed here is a GEM buffer. The reason to pass fd is that there
->> are some APIs on DSP side which takes fd as an argument and the user
->> might use the same on their skel implementation. So in this case the
->> remote call will take fd to DSP and the skel implementation will use the
->> FD.>
-> 
-> Then handle it all on the userspace side. In the end, bad library API is
-> not a reason to complicate kernel API and kernel driver.
-The problem is that the user passes the fd as an argument to the remote
-call which the fastrpc library cannot decrypt. So basically the user can
-allocate some fd buffer(say with FD1) and then call some remote method
-passing FD1 as an int argument to call HAP_mmap on the same at DSP side,
-this int argument cannot be differentiated by fastrpc library as
-FD/non-FD argument.
-> 
->>>> +#define FASTRPC_SCALARS(method, in, out) \
->>>> +		FASTRPC_BUILD_SCALARS(0, method, in, out, 0, 0)
->>>> +
->>>> +/**
->>>> + * struct fastrpc_buf_overlap - Buffer overlap tracking structure
->>>> + *
->>>> + * Tracks overlapping buffer regions to optimise memory mapping and avoid
->>>> + * redundant mappings of the same physical memory.
->>>
->>> WHat for? Even if this is a valid optimization, implement it as a
->>> subsequent patch. The first goal should be very simple - get GEM buffers
->>> from the app, pass them to the DSP, read the results.
->> yes, this implementation is mimicking the existing fastrpc design where
->> non-FD buffers are also supported. I am currently evaluating the
->> maintainance of such buffers from userspace side and trying to
->> understand the impacts of the same. I am planning to bring it as a
->> future enhancement if there is no regression.>
-> 
-> Other way around. Drop it for now and bring it back if it has any
-> positive impact.
-We did evaluation and don't see userspace side handling being feasible
-for non-FD buffers, I'll try to summarize the current design and the
-problem:
+Hi Antonie, Hans
 
-Currently a remote call can take up to 255 arguments and in many cases
-the user passes the buffers as non-FD arguments which is then copied to
-meta data and sent to DSP. Before copy there is an operation to identify
-if the buffers are overlapped so that it can be maintained efficiently.
+On Tue, Jun 09, 2026 at 04:54:31PM +0200, Antoine Bouyer wrote:
+> On 6/3/26 4:53 PM, Jacopo Mondi wrote:
+> >
+> > Hi Hans
+> >
+> > On Wed, Jun 03, 2026 at 10:41:09AM +0200, Hans Verkuil wrote:
+> > > On 6/3/26 10:17, Jacopo Mondi wrote:
+> > > > Hi Antoine
+> > > >
+> > > > On Mon, Jun 01, 2026 at 03:29:54PM +0200, Antoine Bouyer wrote:
+> > > > > On 5/27/26 2:09 PM, Jacopo Mondi wrote:
+> > > > > >
+> > > > > >
+> > > > > > Hi Sakari,
+> > > > > >
+> > > > > > On Fri, May 15, 2026 at 03:11:18PM +0200, Jacopo Mondi wrote:
+> > > > > > > Hi Antoine, Keke
+> > > > > > >
+> > > > > > > On Wed, May 13, 2026 at 09:04:27AM +0800, Keke Li wrote:
+> > > > > > > >
+> > > > > > > > On 5/12/26 17:26, Antoine Bouyer wrote:
+> > > > > > > > > [ EXTERNAL EMAIL ]
+> > > > > > > > >
+> > > > > > > > > Le 05/05/2026 à 18:49, Antoine Bouyer a écrit :
+> > > > > > > > > > On 5/5/26 4:12 PM, Jacopo Mondi wrote:
+> > > > > > > > > > >
+> > > > > > > > > > >
+> > > > > > > > > > > This series breaks out from Antonie's
+> > > > > > > > > > > https://eur01.safelinks.protection.outlook.com/?
+> > > > > > > > > > > url=https%3A%2F%2Fpatchwork.linuxtv.org%2Fproject%2Flinux-
+> > > > > > > > > > > media%2Flist%2F%3Fseries%3D24043&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605732002%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=FXaz7QYQvS3s%2B4l9AFMrGgE7kmXlEil%2FKD6DibB0%2FJY%3D&reserved=0
+> > > > > > > > > > >
+> > > > > > > > > > > the extensible stats support and adds a few more patches on top to:
+> > > > > > > > > > >
+> > > > > > > > > > > - add support for per-block validation as suggested during the
+> > > > > > > > > > > review of
+> > > > > > > > > > >      Ricardo's
+> > > > > > > > > > >      https://eur01.safelinks.protection.outlook.com/?
+> > > > > > > > > > > url=https%3A%2F%2Fpatchwork.linuxtv.org%2Fproject%2Flinux-
+> > > > > > > > > > > media%2Fpatch%2F20260504-smatch-7-1-v3-6-
+> > > > > > > > > > > fda125c30058%40chromium.org%2F&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605751612%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=AiRH8MhIbXt3dr%2B2r3I6STE6TJAChylnH%2Fz3tLdS36k%3D&reserved=0
+> > > > > > > > > > >
+> > > > > > > > > > >
+> > > > > > > > > > > - add two helper functions to v4l2-isp to ease handling of extensible
+> > > > > > > > > > >      statistics for drivers. An early user, based on a preliminary
+> > > > > > > > > > > version
+> > > > > > > > > > >      of the patches is available here as a reference:
+> > > > > > > > > > >      https://eur01.safelinks.protection.outlook.com/?
+> > > > > > > > > > > url=https%3A%2F%2Fpatchwork.linuxtv.org%2Fproject%2Flinux-
+> > > > > > > > > > > media%2Flist%2F%3Fseries%3D24703&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605763086%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=%2Fpsb7Z3lb8ingDILxc3LoEWKTojl5BGMbk6FiR%2FcO9I%3D&reserved=0
+> > > > > > > > > > >
+> > > > > > > > > > >
+> > > > > > > > > > > Antonie: I took the liberty to fold in your patches changes to address
+> > > > > > > > > > > my comments on your v1. I pushed an un-squased version of the patches
+> > > > > > > > > > > here:
+> > > > > > > > > > > https://eur01.safelinks.protection.outlook.com/?
+> > > > > > > > > > > url=https%3A%2F%2Fgitlab.freedesktop.org%2Flinux-
+> > > > > > > > > > > media%2Fusers%2Fjmondi%2F-%2Ftree%2Fb4%2Fextensible-stats-
+> > > > > > > > > > > unsquashed&data=05%7C02%7Cantoine.bouyer%40nxp.com%7Cd0e9f403856c4146996308deaab05cd1%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C639135871605775020%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=iF2BE0GZ8HcVPmOJDhbmLsXQDOXV9JvqfMK6DRPPvrg%3D&reserved=0
+> > > > > > > > > > >
+> > > > > > > > > > > so you can easily get the diff from this and your version. Please feel
+> > > > > > > > > > > free to comment on these as you're the original author.
+> > > > > > > > > >
+> > > > > > > > > > Hi Jacopo
+> > > > > > > > > >
+> > > > > > > > > > Thanks for the rework and the links. I'm fine with your [SQUASH]
+> > > > > > > > > > commits.
+> > > > > > > > > >
+> > > > > > > > > > If there are no other comments, I assume I can reuse the common patches
+> > > > > > > > > > in my v2 then, and also apply the new helpers to neoisp driver changes.
+> > > > > > > > > > They look very useful (especially to prevent out-of-bounds crashes I
+> > > > > > > > > > observed when data_size was not set before filling stats :( ). I'll
+> > > > > > > > > > check in your user example.
+> > > > > > > > > >
+> > > > > > > > > > BR
+> > > > > > > > > > Antoine
+> > > > > > > > >
+> > > > > > > > > Hi Jacopo
+> > > > > > > > >
+> > > > > > > > > Do you think it would make sense to create a new generic V4L2_META_FMT
+> > > > > > > > > too ? which can be used by all user of v4l2-isp extensible params a/o
+> > > > > > > > > stats. To avoid each driver creating its own meta fmt with same purpose.
+> > > > > > > > >
+> > > > > > > > > Or do you think it could have side effects ?
+> > > > > > > > >
+> > > > > > > > > BR
+> > > > > > > > > Antoine
+> > > > > > > > >
+> > > > > > > > > >
+> > > > > > > > I think this proposal is excellent.
+> > > > > > > > 🙂
+> > > > > > >
+> > > > > > > To me, platform-specific formats mostly serve for documenting the ISP blocks.
+> > > > > > > In example
+> > > > > > > https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/metafmt-rkisp1.html
+> > > > > > >
+> > > > > > > There might be ways to handle it without defining a dedicated format
+> > > > > > > indeed.
+> > > > > > >
+> > > > > > > Sakari Laurent and Hans are in cc, what do they think ?
+> > > > > > >
+> > > > > >
+> > > > > > We briefly discussed it on irc and a few days ago again.
+> > > > > >
+> > > > > > Am I correct you think this is a good idea ?
+> > > > > >
+> > > > > > Antonie, do you plan to include the two new generic formts in your new
+> > > > > > version ? Should we have a single format for STATS and PARAMS too ? I
+> > > > > > see merit in both ways, to be hones two formats sound better to me as
+> > > > > > they apply to two different queue types (output for params and capture
+> > > > > > for stats)
+> > > > >
+> > > > > Hi Jacopo
+> > > > >
+> > > > > I would personally prefer using a single format for both params and stats.
+> > > > >
+> > > > > In my view, the format describes how the meta buffer is structured (header,
+> > > > > size, version, flags, etc.), and it should not depend on the queue type.
+> > > > > Since both stats and params will use the exact same structure, then it makes
+> > > > > sense to me to share a single format. Similar to how a pixel format applies
+> > > > > to both source and sink queues.
+> > > >
+> > > > You certainly have a point here!
+> > >
+> > > Even though how the content is structured in the buffer is the same for both
+> > > parameters and statistics, the actual content is quite different. So the format
+> > > description in v4l2_fmtdesc is also different. When you list available formats
+> > > for a video device it is nice if you can see what the format actually contains.
+> > >
+> > > A V4L2 format has always specified both the structure of the data and what the
+> > > content is (with the odd exception like V4L2_META_FMT_GENERIC_8), and I think
+> > > that should be done here as well.
+> > >
+> > > Interpreting the content of the buffers is quite different for parameters and
+> > > statistics, so just because the high-level structure is the same does IMHO not
+> > > make this a good enough reason to use a single pixelformat. So I recommend
+> > > sticking with two formats.
+> > >
+> > > Unless I'm missing something?
+> >
+> > To summarize the day-long discussions on irc (quoting here your
+> > messages)
+> >
+> > -------------------------------------------------------------------------------
+> >   1) I think we should have separate pixelformats for parameters and
+> >   statistics (and whatever else we will need in the future). I think
+> >   that makes sense. That way you can also give a sane pixelformat
+> >   description.
+> >
+> >   2) If we go for a generic pixelformat rather than a per-platform one,
+> >   then it has to be documented how the application discovers which
+> >   driver it is. It is one of those things that I don't think is
+> >   explicitly stated anywhere. Taking it from the media controller makes
+> >   sense, but it needs to be documented. It also means that the media
+> >   device driver name is part of the ABI. Changing it would break lots
+> >   of things. That too must be documented.
+> > -------------------------------------------------------------------------------
+> >
+> > This seems to suggest we're fine with  V4L2_META_FMT_ISP_PARAMS and
+> > one V4L2_META_FTM_ISP_STATS formats, provided we clearly tell
+> > userspace how to identify which platforms it is running on.
+>
+> Hi Jacopo, Hans
+>
+> Thanks for your inputs.
+>
+> Then I will prepare a v3 of my series with these 2 meta formats, as
+> separated patches. Actually, I feel like main update is about Documentation.
+> So I created dedicated doc for these formats, but MAINTAINER is impacted
+> too. Please feel free to review/comment, or cherry pick the patches in your
+> own series with extended stats if you prefer. I will always rebase anyway.
+>
+> Best regards
+> Antoine
+>
+> >
+> > I suggested that libcamera matches on the media device driver's name
+> > and from there we know on which platform we're on.
+> >
+> > However you made a good point on the fact we discussed about allowing
+> > multiple drivers to register in a single media graphs to support
+> > complex topologies. In this case we should clarify how this would
+> > work. If I'm not mistaken Ricardo had a similar point when talking
+> > about media device names ?
 
-DSP understands this based on offset and maps it accordingly, so for
-multiple small sized arguments, there is a possibility that a single
-page is used. Now if we allocate GEM buffers for each of these small
-arguments, it would lead to creation of multiple pages(can go up to 255)
-and all these pages then are required to be mapped onto DSP which could
-also lead to DSP address space exhaustion. So the limitation is too many
-pages and that DSP cannot handling this as efficiently as overlapped
-copy buffers.>
->>>> + */
->>>> +struct fastrpc_buf_overlap {
->>>
->>> Stop clashing the names with the existing fastrpc driver.
->> ack.>
->>>> +	/** @start: Start address of the buffer in user virtual address space */
->>>> +	u64 start;
->>>> +	/** @end: End address of the buffer in user virtual address space */
->>>> +	u64 end;
->>>> +	/** @raix: Remote argument index associated with this overlap */
->>>> +	int raix;
->>>> +	/** @mstart: Start address of the mapped region */
->>>> +	u64 mstart;
->>>> +	/** @mend: End address of the mapped region */
->>>> +	u64 mend;
->>>> +	/** @offset: Offset within the mapped region */
->>>> +	u64 offset;
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct fastrpc_remote_dmahandle - Remote DMA handle descriptor
->>>> + */
->>>> +struct fastrpc_remote_dmahandle {
->>>> +	/** @fd: DMA-BUF file descriptor */
->>>> +	s32 fd;
->>>> +	/** @offset: Byte offset within the DMA-BUF */
->>>> +	u32 offset;
->>>> +	/** @len: Length of the region in bytes */
->>>> +	u32 len;
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct fastrpc_remote_buf - Remote buffer descriptor
->>>> + */
->>>> +struct fastrpc_remote_buf {
->>>> +	/** @pv: Buffer pointer (user virtual address) */
->>>> +	u64 pv;
->>>> +	/** @len: Length of the buffer in bytes */
->>>> +	u64 len;
->>>> +};
->>>> +
->>>> +/**
->>>> + * union fastrpc_remote_arg - Remote argument (buffer or DMA handle)
->>>> + */
->>>> +union fastrpc_remote_arg {
->>>> +	/** @buf: Inline buffer descriptor */
->>>> +	struct fastrpc_remote_buf buf;
->>>> +	/** @dma: DMA-BUF handle descriptor */
->>>> +	struct fastrpc_remote_dmahandle dma;
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct fastrpc_phy_page - Physical page descriptor
->>>> + */
->>>> +struct fastrpc_phy_page {
->>>> +	/** @addr: Physical (IOMMU) address of the page */
->>>> +	u64 addr;
->>>> +	/** @size: Size of the contiguous region in bytes */
->>>> +	u64 size;
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct fastrpc_invoke_buf - Invoke buffer descriptor
->>>> + */
->>>> +struct fastrpc_invoke_buf {
->>>> +	/** @num: Number of contiguous physical regions */
->>>> +	u32 num;
->>>> +	/** @pgidx: Index into the physical page array */
->>>> +	u32 pgidx;
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct fastrpc_msg - FastRPC wire message for remote invocations
->>>> + *
->>>> + * Sent to the remote processor via RPMsg. This is the exact layout
->>>> + * the DSP expects; do not reorder or add fields without DSP firmware
->>>> + * coordination.
->>>> + */
->>>> +struct fastrpc_msg {
->>>> +	/** @remote_session_id: Session identifier on the remote processor */
->>>> +	int remote_session_id;
->>>> +	/** @tid: Thread ID of the invoking thread */
->>>> +	int tid;
->>>> +	/** @ctx: Context identifier for matching request/response */
->>>> +	u64 ctx;
->>>> +	/** @handle: Handle of the remote method to invoke */
->>>> +	u32 handle;
->>>> +	/** @sc: Scalars value encoding in/out buffer counts */
->>>> +	u32 sc;
->>>> +	/** @addr: Physical address of the message payload buffer */
->>>> +	u64 addr;
->>>> +	/** @size: Size of the message payload in bytes */
->>>> +	u64 size;
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct qda_msg - FastRPC message with kernel-internal bookkeeping
->>>> + *
->>>> + * The wire-format portion is kept in the embedded @fastrpc member (must
->>>> + * be first) so that &qda_msg->fastrpc can be passed directly to
->>>> + * rpmsg_send() without a copy.
->>>> + */
->>>> +struct qda_msg {
->>>> +	/**
->>>> +	 * @fastrpc: Wire-format message sent to the DSP via RPMsg.
->>>> +	 * Must be the first member.
->>>> +	 */
->>>> +	struct fastrpc_msg fastrpc;
->>>> +	/** @buf: Kernel virtual address of the payload buffer */
->>>> +	void *buf;
->>>> +	/** @phys: Physical/DMA address of the payload buffer */
->>>> +	u64 phys;
->>>> +	/** @ret: Return value from the remote processor */
->>>> +	int ret;
->>>> +	/** @fastrpc_ctx: Back-pointer to the owning invocation context */
->>>> +	struct fastrpc_invoke_context *fastrpc_ctx;
->>>> +	/** @file_priv: DRM file private data for GEM object lookup */
->>>> +	struct drm_file *file_priv;
->>>> +};
->>>> +
->>>> +/**
->>>> + * struct fastrpc_invoke_context - Remote procedure call invocation context
->>>> + *
->>>> + * Maintains all state for a single remote procedure call, including buffer
->>>> + * management, synchronisation, and result handling.
->>>> + */
->>>> +struct fastrpc_invoke_context {
->>>> +	/** @node: List node for linking contexts in a queue */
->>>> +	struct list_head node;
->>>> +	/** @ctxid: Unique context identifier (XArray key shifted left by 4) */
->>>> +	u64 ctxid;
->>>> +	/** @inbufs: Number of input buffers */
->>>> +	int inbufs;
->>>> +	/** @outbufs: Number of output buffers */
->>>> +	int outbufs;
->>>> +	/** @handles: Number of DMA-BUF handle arguments */
->>>> +	int handles;
->>>> +	/** @nscalars: Total number of scalar arguments */
->>>> +	int nscalars;
->>>> +	/** @nbufs: Total number of buffer arguments (inbufs + outbufs) */
->>>> +	int nbufs;
->>>
->>> If it is inbufs + outbufs, why do you need it here?
->>>
->>>> +	/** @pid: Process ID of the calling process */
->>>> +	int pid;
->>>> +	/** @retval: Return value from the remote invocation */
->>>> +	int retval;
->>>> +	/** @metalen: Length of the FastRPC metadata header in bytes */
->>>> +	int metalen;
->>>
->>> size_t, also why do you need it?
->>>
->>>> +	/** @remote_session_id: Session identifier on the remote processor */
->>>> +	int remote_session_id;
->>>> +	/** @pd: Protection domain identifier encoded into the context ID */
->>>> +	int pd;
->>>> +	/** @type: Invocation type (e.g. FASTRPC_RMID_INVOKE_DYNAMIC) */
->>>> +	int type;
->>>> +	/** @sc: Scalars value encoding in/out buffer counts */
->>>> +	u32 sc;
->>>
->>> How is this different from the counts above?
->> sc carries the method id and handle counts. The reason to maintain count
->> separately is to avoid calculating it again and again.>
-> 
-> Is it just a sum of several values or something more complicated?
-just the sum, I'll drop it if it's not really useful.>
->>>> +	/** @handle: Handle of the remote method being invoked */
->>>> +	u32 handle;
->>>> +	/** @crc: Pointer to CRC values for data integrity checking */
->>>> +	u32 *crc;
->>>
->>> Add it later. It's unused. Drop all unused fields.
->> ack.>
->>>> +	/** @fdlist: Pointer to array of DMA-BUF file descriptors */
->>>> +	u64 *fdlist;
->>>
->>> Why do you need DMA-BUFs in the invocation context? They all should be
->>> GEM buffers.
->> the reason is that the users are dependent on FDs as they can import
->> buffers allocated from anywhere and there are DSP APIs which takes fd as
->> an argument, so they might end up using the same in there skel
->> implementation.>
-> 
-> No, DSP API can't take FD, they don't quite cross the OS and IOMMU
-> boundary. It's the userspace library API. Which might be improved,
-> rewritten, implemented underneath, etc. For the kernel side please,
-> pass _only_ GEM handles + offsets.
-Yes, but with the current DSP design, DSP APIs take FD just because of
-client/user design. On fastrpc, users could bring FD from any source,
-register it with fastrpc and pass it on to DSP. The major problem is
-what I mentioned above, where the user application passes the FD as an
-integer argument and the fastrpc library not able to identify if that
-int is an fd or some other data.>
->>>> +	/** @pkt_size: Total payload size in bytes */
->>>> +	u64 pkt_size;
->>>> +	/** @aligned_pkt_size: Page-aligned payload size for GEM allocation */
->>>> +	u64 aligned_pkt_size;
->>>> +	/** @list: Array of invoke buffer descriptors */
->>>> +	struct fastrpc_invoke_buf *list;
->>>> +	/** @pages: Array of physical page descriptors for all arguments */
->>>> +	struct fastrpc_phy_page *pages;
->>>> +	/** @input_pages: Array of physical page descriptors for input buffers */
->>>> +	struct fastrpc_phy_page *input_pages;
->>>
->>> I think you are trying to bring all the complexity from the old driver
->>> with no added benefit. Please don't. Use the existing memory manager.
->>> Let it handle all the gory details. If someting is not there, we should
->>> consider extending GEM instead.
->> I'm not changing the metadata format as the DSP might not understand the
->> messages if we modify it.
-> 
-> Well, it's up to you to know if DSP will understand the message or not.
-> The probability ("might not") is not suitable here. Anyway, let's get
-> rid of the various data formats first, then maybe some of the items will
-> go away on their own.
-ack>
->> Also, the fd is still being used because of
->> the client dependency on it. I'll check if there is any other logic that
->> needs alteration here.>
-> 
-> If the client keeps on passing FD to the library calls, you can map
-> FD to GEM handles in the library code.
-I hope the int argument part mentioned above answers this.>
->>>> +
->>>> +static int fastrpc_context_get_id(struct fastrpc_invoke_context *ctx, struct qda_dev *qdev)
->>>> +{
->>>> +	int ret;
->>>> +	u32 id;
->>>> +
->>>> +	if (!qdev)
->>>> +		return -EINVAL;
->>>> +
->>>> +	ret = xa_alloc(&qdev->ctx_xa, &id, ctx, xa_limit_32b, GFP_KERNEL);
->>>> +	if (ret)
->>>> +		return ret;
->>>> +
->>>> +	ctx->ctxid = id << 4;
->>>
->>> Why is it being shifted?
->> this is to accomodate PD type>
-> 
-> Not really an answer.
-Okay, let me bring the ctxid layout that DSP expects:
+There is still one point I would like to have clarified before
+committing to the two generic formats.
 
-[11:4] = CCCCCCCC (context ID)
-[3:0]  = PPPP (PD type)
+Specifically on the here below remark made by Hans
 
-Based on this PD type, DSP will decide where to queue the message.
-> 
->>>> +	return 0;
->>>> +}
->>>> +
->>>
->>
-> 
+   2) If we go for a generic pixelformat rather than a per-platform one,
+   then it has to be documented how the application discovers which
+   driver it is. It is one of those things that I don't think is
+   explicitly stated anywhere. Taking it from the media controller makes
+   sense, but it needs to be documented. It also means that the media
+   device driver name is part of the ABI. Changing it would break lots
+   of things. That too must be documented.
 
+My point here is that the stats/params video device in isolation
+cannot be operated, you need to configure the whole media graph to be
+able to write params and receive stats, so which platform the newly
+introduced generic format refers to is clear from the media device
+'driver' name (at least that's what libcamera matches on).
+
+Hans pointed out we should clarify this should be documented, and I
+think the platform discovery mechanism could be described in the
+formats documentation.
+
+It's not clear to me where "media device driver is part of the ABI"
+should be documented. I always assumed it was ABI anyway but we can
+add a line to the 'driver' field description of:
+
+Documentation/userspace-api/media/mediactl/media-ioc-device-info.rst:
+
+       -  ``driver``\ [16]
+       -  Name of the driver implementing the media API as a NUL-terminated
+	  ASCII string. The driver version is stored in the
+	  ``driver_version`` field.
+
+	  Driver specific applications can use this information to verify
+	  the driver identity. It is also useful to work around known bugs,
+	  or to identify drivers in error reports.
+
+Hans, would tha be enough for you ?
+
+Last but not least. We have discussed how we want to allow multiple
+drivers to register in the same media graph to accommodate complex
+graph topologies (like the imx95 one). How would generic formats work
+in the case multiple drivers register a stat/params node in the same
+media graph ??
+
+> >
+> > >
+> > > Regards,
+> > >
+> > >        Hans
+> > >
+> > > >
+> > > > >
+> > > > > That said, if there is a consensus in favor of defining 2 separate formats,
+> > > > > I am fine with following that direction.
+> > > >
+> > > > Let's see if we can get feedback from Sakari/Hans/Laurent.
+> > > > I'll re-ping them!
+> > > >
+> > > > >
+> > > > > For now, I don't plan to integrate the new generic format in my patch
+> > > > > series. I would prefer to wait for converging on a solution (1 or 2 formats)
+> > > > > first. Then, depending on timeline, yes I can integrate it.
+> > > >
+> > > > If you want to re-send a new version out quickly feel free to use any
+> > > > format. I hope we can sort this out quickly so you can rebase on
+> > > > easily.
+> > > >
+> > > > Thanks
+> > > >    j
+> > > >
+> > > > >
+> > > > > BR
+> > > > > Antoine
+> > > > >
+> > > > > >
+> > > > > > >
+> > > > > > >
+> > > > > > > > > > >
+> > > > > > > > > > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > > > > > > > > > ---
+> > > > > > > > > > > Antoine Bouyer (2):
+> > > > > > > > > > >          media: uapi: v4l2-isp: Add extensible statistics
+> > > > > > > > > > >          media: Documentation: uapi: Update V4L2 ISP for extensible stats
+> > > > > > > > > > >
+> > > > > > > > > > > Jacopo Mondi (4):
+> > > > > > > > > > >          media: v4l2-isp: Rename v4l2_isp_params_buffer_size
+> > > > > > > > > > >          media: v4l2-isp: Add per-block validation callback
+> > > > > > > > > > >          media: amlogic-c3: Implement per-block validation
+> > > > > > > > > > >          media: v4l2-isp: Add helpers for stats buffer
+> > > > > > > > > > >
+> > > > > > > > > > >     Documentation/userspace-api/media/v4l/v4l2-isp.rst |  45 ++++++--
+> > > > > > > > > > >     .../media/platform/amlogic/c3/isp/c3-isp-params.c  |  42 ++++++-
+> > > > > > > > > > >     .../media/platform/arm/mali-c55/mali-c55-params.c  |  12 +-
+> > > > > > > > > > >     drivers/media/v4l2-core/v4l2-isp.c                 |  56 +++++++++
+> > > > > > > > > > >     include/media/v4l2-isp.h                           |  94 +++++++++++
+> > > > > > > > > > > ++---
+> > > > > > > > > > >     include/uapi/linux/media/v4l2-isp.h                | 125 +++++++++++
+> > > > > > > > > > > ++--------
+> > > > > > > > > > >     6 files changed, 294 insertions(+), 80 deletions(-)
+> > > > > > > > > > > ---
+> > > > > > > > > > > base-commit: d9c8c4adf23d17549c0ec9c85b99d85a0ee6cf18
+> > > > > > > > > > > change-id: 20260504-extensible-stats-f2d6befcc1ce
+> > > > > > > > > > >
+> > > > > > > > > > > Best regards,
+> > > > > > > > > > > --
+> > > > > > > > > > > Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > > > > > > > > >
+> > > > > > > > > >
+> > > > > > > > >
+> > > > > > > >
+> > > > >
+> > > >
+> > >
+>
 
