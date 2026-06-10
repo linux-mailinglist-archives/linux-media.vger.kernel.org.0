@@ -1,58 +1,57 @@
-Return-Path: <linux-media+bounces-64514-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64515-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 6QtIAl2tKWqObwMAu9opvQ
-	(envelope-from <linux-media+bounces-64514-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 20:30:53 +0200
+	id WIOQHQCtKWp0bwMAu9opvQ
+	(envelope-from <linux-media+bounces-64515-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 20:29:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 705D666C445
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 20:30:52 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A5D666C40D
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 20:29:20 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20201202 header.b=H2qJYRRo;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64514-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64514-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20201202 header.b=QvX3e0yd;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64515-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-64515-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B425730F4AD9
+	by sto.lore.kernel.org (Postfix) with ESMTP id 7F343304E1CC
 	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 18:28:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DA45363C45;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23093363C46;
 	Wed, 10 Jun 2026 18:28:28 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5F7E357D0C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09D635839E;
 	Wed, 10 Jun 2026 18:28:26 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781116106; cv=none; b=RJaVnM+EkMyYdUDCTHN52iXwwUg+L4BmlgnTvVM+YajXcCvTg6JfI3LsuKh0jsbnhwUs6ztmPsZSiC07LaE6+5uj3z95SHI/kvf9FccSX1aPpzXOgWFXZT9mKQElsfe2NYhGFNwntOd7e+fCyzh1kO1sxMXQF0g4vSL2r3PBgNA=
+	t=1781116106; cv=none; b=GeR2wO/5j2orjPeMFOCIhNfvF81kykAPJKim/NiK1AGj7bmkrhiL7UmVlRJy+ZfqTmcTeRQw/yy2FXnaWO43mm9mCgVvHQXk4J1OJfxP+x04AFWPGZO2myz3TRH8aVWaTAiSmIp1rgVQk56F3Vv5v98GB76b0Qs2ywqFO10RVKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1781116106; c=relaxed/simple;
-	bh=23ujETeHyNMlyqF2CM9K0eByUZo1COTvzR1UvtGRCR8=;
+	bh=l3uzC5RqqxzM3n8/+39StV34+5jEjjflyVqKlx4xsuA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qjz2+hGlUXusgfwQYxn2Fj2Wh52e/EKMtcnMOxPEW+9dRgbSg72GaecEhOfKmhRDgFBSE5KMKKlSYOxLYWHRUoPER2KNCw5oviHD7umTs20wVQp5XXzr94ahQyUCiZbYnc1EwmnZSiVGNMFinY5gn6MrTW5K2wIYu6tJKO7OTj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H2qJYRRo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 87DABC2BCC7;
+	 In-Reply-To:To:Cc; b=lO3Bbfip7mQILhqPt/giOWw3zPgMdABnVxQHzKOnqJ8SloXYDlknjTi+Z5g5sh9VfN+aCoyw6qWZ4r9KvurPG9egJavW3TJXfAGnJBLQ3uuqTiiKiRe0aQIsbtbb6IXuSIsJr4Fzj/bq3GVK4NAVAbO2E1P85e/MmJcoBBR7k7M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QvX3e0yd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 99154C4AF14;
 	Wed, 10 Jun 2026 18:28:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1781116106;
-	bh=23ujETeHyNMlyqF2CM9K0eByUZo1COTvzR1UvtGRCR8=;
+	bh=l3uzC5RqqxzM3n8/+39StV34+5jEjjflyVqKlx4xsuA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=H2qJYRRoYNISRHVTZm8esfcOZ8pdUbq+xCncepSwj+FOLXpGVWeKX2T51e+m/cUTS
-	 K8qdc+YIoZaHf4epRNJqX52gEg9h1FKUD15SGXJdSpecMGWx2KqwrKjlMqRySlaU+M
-	 +tW7B1j3L308YEI84rlExiJP+amfYmGY3uAEmmJhw+NTsvRDGA1LCtFNe++GnvSNIh
-	 KWPsjB8/nJM38IIdQYK0MkeMhAuUpJxigw0tyhY2fAS1N7vSaddHrwgneFKXitqiJc
-	 /cqSx9qc3GopSz9II+f8hRlE8Z7UULjEFAO58YbvxOvIyZiypPWg53ge1HZQNffW/E
-	 4lY8GG37f2QAg==
+	b=QvX3e0yduywUUC4nm3Or2VNkToDEr91OeBKnpSRoFu7sJ+7AhaEv2UC0lJGLfj/sW
+	 h9na5xEnXX5ZU3uKrUc+TeVcpCZhVeJJczK9/htSBiH/B8C3iiZk7Qw/6PsvE4WICd
+	 bKGqZUD3hIEM8Wlg2U2C+goqEoyU6RLnoLnyw/+P3FcPzPq1lYKL/UCtVm9BIQn3gB
+	 GEtnTrSnNZpvdOJaHlr4Pv1zvXtA3sgaT8nWQYUDp4GjswUfSNJINDT0sgB84GwYCK
+	 XepLKkpcjLmZLHjJF6byMqxrUB2lL4FsgGcJmgY3LgXttJMqNqqIn8ViR6js5PDktG
+	 0YhFwOSquIFFg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8022BCD98CC;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 90123CD98CF;
 	Wed, 10 Jun 2026 18:28:26 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Wed, 10 Jun 2026 20:28:28 +0200
-Subject: [PATCH v8 8/9] media: qcom: camss: Account for C-PHY when
- calculating link frequency
+Date: Wed, 10 Jun 2026 20:28:29 +0200
+Subject: [PATCH v8 9/9] media: qcom: camss: Enable C-PHY where available
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,7 +60,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260610-qcom-cphy-v8-8-cd4387785179@ixit.cz>
+Message-Id: <20260610-qcom-cphy-v8-9-cd4387785179@ixit.cz>
 References: <20260610-qcom-cphy-v8-0-cd4387785179@ixit.cz>
 In-Reply-To: <20260610-qcom-cphy-v8-0-cd4387785179@ixit.cz>
 To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
@@ -81,21 +80,21 @@ Cc: Frank Li <Frank.Li@nxp.com>,
  linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
  phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7330; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1392; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=sVPrk/XzjkPG3qz+AM7isEZRhSTJ3CSoEJ0qxo3ZGDs=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBqKazHAF84d7nVkkgCE7VYGHj3ShNf3CZvAGanT
- qhWZbBezeaJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaimsxwAKCRBgAj/E00kg
- ctfdD/9uup5MR/5vJ2wVzy2nT67yAU42jTHrN3CT73F2VhWQ5vsa6PfhS0d4wd3x6wclYD+1IY4
- o6TwEQ7htBwJZuzTD5RNP+w+ET8ISY9d6eyZkuZiDQpa9sArSDdG7LC5UuYFtdy9iSgwlCftIwZ
- 1AcNclRByHQfQSNiDz4CPusabBaOkjPQg8/mwQv3Vq52JlP2mj9se5QPItbjPjMYSdhx+zPK3Y0
- 03fu5lI0nFicPSHlcNNtiDUee79dlToo4SJlGeIrJBFt9ODzBKjH4LAjrSVxYB9RDC8VvtAFrxj
- t8TVsucNRt6thw3KinsBUW0fPsLd6CV9bOAVRAbyJpNoeuFbdzRlojFJsCYN3MLPCFVYcu7BL+n
- kX/YWJFzhDYIphhOhSMzRQVPzqAERtK3ymmrnKsEfHT4Zhx9R0YvOgSSe69SLcE5XNtJM0PdKJI
- 0TrTbQiT1GEWlr5ik602Vx8/NHfKGk60VBX0g5UwH1VMnyUEUwyISK6EYXbDdkEAPvzt01T9svW
- kXMj4S3bf3jQfzBRbePJwjqawqCBfIFIcwuLl3llCUbkRhTNAMMl96xZUrFEIi06/JdsE0Z8OUB
- BRvEIEgUcFnAN3NU1Xbnd46fJdJomcTq6h0e5wucKFiXi69e08tueYALRCvE5hyzn3R632CLpA3
- WVUt4x3EVsGZrDQ==
+ bh=XCi14gM/uWIoK+pzO3oCf9ehRkiwcrxS49fsQobP0+s=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBqKazHPe7CrgTnpkmLrgbTun0CS0vFquYPcOBUc
+ KqlyD1M+sqJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaimsxwAKCRBgAj/E00kg
+ co6BD/9zJdywY/m3WkTsIDim0Q6DStBPZcAFcGNUAKlldtZmEaG79K/bXMT3ioLz/dFHToNqwxm
+ fzg75YJ1ZvElGmEW4rgRs2T+elX8zkgPfKCTqYIjxnSR7d7hrAPIPG1R9+jh3r8P4+i7GO0annI
+ /eFkigAtIAvCGWuK14B1Kx61rERze4Edi4wPrn3DPXhR4G+YMAFIRfRxndLW8vXR2zgAVdj3ys9
+ mQto3/EcRBNGt4aJ3zpvi5OQkpW04nsEyg6sycP6P/85ehBEv6Zic30ZIygbFW0pGfGzVJotNeU
+ InEEUsiWvaZJ0ryOTFLZGoux0qa6vV6oe/k/rTigEVS7Z/BsWab17gLsTCTXQcqEh7RvT3OIWMg
+ Lugm0moVOHaBvgvSrVnOz+YUln/JlfG1REKVevv7z36Ukn6i3grvhqoyNCejSMHXLJ5NlTUUAGi
+ bkwyleFIJl73/47s/XHVIAp5V/79HunTC/EMhC7RIQ6gGUceYhS0I4mMz9u8vlzCjLORZ0RtD4D
+ +o/YMG8a8mZt3fsTQg9c3yXIUDHwdmsqjBJ2hVAI4+kXcCgxx6utbYcbL3Cty47ZT6y5dJfdW12
+ y0i4NyC71Kp+1GLUkf6R0ulqT75lqNy7cNKEcCwgexMk/WMqAWBKlHVhDKqF9HOplnBEHaU+3c0
+ okxRp8ki8X8Jowg==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
@@ -108,12 +107,12 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64514-lists,linux-media=lfdr.de,david.ixit.cz];
+	TAGGED_FROM(0.00)[bounces-64515-lists,linux-media=lfdr.de,david.ixit.cz];
 	FORGED_RECIPIENTS(0.00)[m:rfoss@kernel.org,m:todor.too@gmail.com,m:bryan.odonoghue@linaro.org,m:bod@kernel.org,m:vladimir.zapolskiy@linaro.org,m:mchehab@kernel.org,m:luca.weiss@fairphone.com,m:phodina@protonmail.com,m:drgitx@gmail.com,m:ckeitz@amazon.com,m:loic.poulain@oss.qualcomm.com,m:hverkuil@kernel.org,m:nihal.gupta@oss.qualcomm.com,m:Frank.Li@nxp.com,m:konrad.dybcio@oss.qualcomm.com,m:kbingham@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:phone-devel@vger.kernel.org,m:david@ixit.cz,m:todortoo@gmail.com,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,fairphone.com,protonmail.com,amazon.com,oss.qualcomm.com];
 	FORGED_SENDER(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
@@ -135,197 +134,55 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,ixit.cz:replyto,ixit.cz:email,ixit.cz:mid,intel.com:email]
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,ixit.cz:replyto,ixit.cz:email,ixit.cz:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 705D666C445
+X-Rspamd-Queue-Id: 5A5D666C40D
 
 From: David Heidelberg <david@ixit.cz>
 
-Ensure that the link frequency divider correctly accounts for C-PHY
-operation. The divider differs between D-PHY and C-PHY, as described
-in the MIPI CSI-2 specification.
+After all the changes done we can now safely enable C-PHY for a SoC
+where it's available.
 
-For more details, see:
-https://docs.kernel.org/driver-api/media/tx-rx.html#pixel-rate
-
-Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Link: https://docs.kernel.org/driver-api/media/tx-rx.html#pixel-rate
+Acked-by: Cory Keitz <ckeitz@amazon.com>
+Reviewed-by: Bryan O'Donoghue <bod@kernel.org>
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- drivers/media/platform/qcom/camss/camss-csid.c   |  6 ++++--
- drivers/media/platform/qcom/camss/camss-csiphy.c |  6 ++++--
- drivers/media/platform/qcom/camss/camss.c        | 15 +++++++++++++--
- drivers/media/platform/qcom/camss/camss.h        |  2 +-
- 4 files changed, 22 insertions(+), 7 deletions(-)
+ drivers/media/platform/qcom/camss/camss.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-index bcc34ac9dd212..c8cb6f1a3d3bc 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid.c
-@@ -535,24 +535,26 @@ const struct csid_format_info *csid_get_fmt_entry(const struct csid_format_info
- /*
-  * csid_set_clock_rates - Calculate and set clock rates on CSID module
-  * @csiphy: CSID device
-  */
- static int csid_set_clock_rates(struct csid_device *csid)
- {
- 	struct device *dev = csid->camss->dev;
- 	const struct csid_format_info *fmt;
-+	const bool cphy = (csid->phy.phy_sel == CSID_PHY_SEL_CPHY);
-+
- 	s64 link_freq;
- 	int i, j;
+diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+index 66171069057f8..ebf8f21b5fa2e 100644
+--- a/drivers/media/platform/qcom/camss/camss.c
++++ b/drivers/media/platform/qcom/camss/camss.c
+@@ -4760,21 +4760,21 @@ static int camss_parse_endpoint_node(struct device *dev,
+ 	struct v4l2_fwnode_endpoint vep = { { 0 } };
+ 	unsigned int i;
  	int ret;
  
- 	fmt = csid_get_fmt_entry(csid->res->formats->formats, csid->res->formats->nformats,
- 				 csid->fmt[MSM_CSIPHY_PAD_SINK].code);
--	link_freq = camss_get_link_freq(&csid->subdev.entity, fmt->bpp,
--					csid->phy.lane_cnt);
-+
-+	link_freq = camss_get_link_freq(&csid->subdev.entity, fmt->bpp, csid->phy.lane_cnt, cphy);
- 	if (link_freq < 0)
- 		link_freq = 0;
+ 	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+ 	if (ret)
+ 		return ret;
  
- 	for (i = 0; i < csid->nclocks; i++) {
- 		struct camss_clock *clock = &csid->clock[i];
- 
- 		if (!strcmp(clock->name, "csi0") ||
- 		    !strcmp(clock->name, "csi1") ||
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-index 539ac4888b608..a136cd27880a6 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-@@ -139,18 +139,19 @@ static int csiphy_set_clock_rates(struct csiphy_device *csiphy)
- 	struct device *dev = csiphy->camss->dev;
- 	s64 link_freq;
- 	int i, j;
- 	int ret;
- 
- 	u8 bpp = csiphy_get_bpp(csiphy->res->formats->formats, csiphy->res->formats->nformats,
- 				csiphy->fmt[MSM_CSIPHY_PAD_SINK].code);
- 	u8 num_lanes = csiphy->cfg.csi2->lane_cfg.num_data;
-+	const bool cphy = (csiphy->cfg.csi2->lane_cfg.phy_cfg == V4L2_MBUS_CSI2_CPHY);
- 
--	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes);
-+	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes, cphy);
- 	if (link_freq < 0)
- 		link_freq  = 0;
- 
- 	for (i = 0; i < csiphy->nclocks; i++) {
- 		struct camss_clock *clock = &csiphy->clock[i];
- 
- 		if (csiphy->rate_set[i]) {
- 			u64 min_rate = link_freq / 4;
-@@ -265,19 +266,20 @@ static int csiphy_set_power(struct v4l2_subdev *sd, int on)
- static int csiphy_stream_on(struct csiphy_device *csiphy)
- {
- 	struct csiphy_config *cfg = &csiphy->cfg;
- 	s64 link_freq;
- 	u8 lane_mask = csiphy->res->hw_ops->get_lane_mask(&cfg->csi2->lane_cfg);
- 	u8 bpp = csiphy_get_bpp(csiphy->res->formats->formats, csiphy->res->formats->nformats,
- 				csiphy->fmt[MSM_CSIPHY_PAD_SINK].code);
- 	u8 num_lanes = csiphy->cfg.csi2->lane_cfg.num_data;
-+	const bool cphy = (csiphy->cfg.csi2->lane_cfg.phy_cfg == V4L2_MBUS_CSI2_CPHY);
- 	u8 val;
- 
--	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes);
-+	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes, cphy);
- 
- 	if (link_freq < 0) {
- 		dev_err(csiphy->camss->dev,
- 			"Cannot get CSI2 transmitter's link frequency\n");
+-	/*
+-	 * Most SoCs support both D-PHY and C-PHY standards, but currently only
+-	 * D-PHY is supported in the driver.
+-	 */
+-	if (vep.bus_type != V4L2_MBUS_CSI2_DPHY) {
++	switch (vep.bus_type) {
++	case V4L2_MBUS_CSI2_CPHY:
++	case V4L2_MBUS_CSI2_DPHY:
++		break;
++	default:
+ 		dev_err(dev, "Unsupported bus type %d\n", vep.bus_type);
  		return -EINVAL;
  	}
  
- 	if (csiphy->base_clk_mux) {
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 072c428e25166..66171069057f8 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -27,16 +27,24 @@
- #include <media/v4l2-mc.h>
- #include <media/v4l2-fwnode.h>
+ 	csd->interface.csiphy_id = vep.base.port;
  
- #include "camss.h"
- 
- #define CAMSS_CLOCK_MARGIN_NUMERATOR 105
- #define CAMSS_CLOCK_MARGIN_DENOMINATOR 100
- 
-+/*
-+ * C-PHY encodes data by 16/7 ~ 2.28 bits/symbol
-+ * D-PHY doesn't encode data, thus 16/16 = 1 b/s
-+ */
-+#define CAMSS_COMMON_PHY_DIVIDENT 16
-+#define CAMSS_CPHY_DIVISOR 7
-+#define CAMSS_DPHY_DIVISOR 16
-+
- static const struct parent_dev_ops vfe_parent_dev_ops;
- 
- static const struct camss_subdev_resources csiphy_res_8x16[] = {
- 	/* CSIPHY0 */
- 	{
- 		.regulators = {},
- 		.clock = { "top_ahb", "ispif_ahb", "ahb", "csiphy0_timer" },
- 		.clock_rate = { { 0 },
-@@ -4619,29 +4627,32 @@ struct media_pad *camss_find_sensor_pad(struct media_entity *entity)
- 	}
- }
- 
- /**
-  * camss_get_link_freq - Get link frequency from sensor
-  * @entity: Media entity in the current pipeline
-  * @bpp: Number of bits per pixel for the current format
-  * @lanes: Number of lanes in the link to the sensor
-+ * @cphy: If C-PHY encoding is used.
-  *
-  * Return link frequency on success or a negative error code otherwise
-  */
- s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
--			unsigned int lanes)
-+			unsigned int lanes, const bool cphy)
- {
- 	struct media_pad *sensor_pad;
-+	unsigned int div = lanes * 2 * (cphy ? CAMSS_CPHY_DIVISOR :
-+					       CAMSS_DPHY_DIVISOR);
- 
- 	sensor_pad = camss_find_sensor_pad(entity);
- 	if (!sensor_pad)
- 		return -ENODEV;
- 
--	return v4l2_get_link_freq(sensor_pad, bpp, 2 * lanes);
-+	return v4l2_get_link_freq(sensor_pad, CAMSS_COMMON_PHY_DIVIDENT * bpp, div);
- }
- 
- /*
-  * camss_get_pixel_clock - Get pixel clock rate from sensor
-  * @entity: Media entity in the current pipeline
-  * @pixel_clock: Received pixel clock value
-  *
-  * Return 0 on success or a negative error code otherwise
-diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-index 93d691c8ac63b..12b14ba8fcec3 100644
---- a/drivers/media/platform/qcom/camss/camss.h
-+++ b/drivers/media/platform/qcom/camss/camss.h
-@@ -164,17 +164,17 @@ struct parent_dev_ops {
- };
- 
- void camss_add_clock_margin(u64 *rate);
- int camss_enable_clocks(int nclocks, struct camss_clock *clock,
- 			struct device *dev);
- void camss_disable_clocks(int nclocks, struct camss_clock *clock);
- struct media_pad *camss_find_sensor_pad(struct media_entity *entity);
- s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
--			unsigned int lanes);
-+			unsigned int lanes, const bool cphy);
- int camss_get_pixel_clock(struct media_entity *entity, u64 *pixel_clock);
- int camss_pm_domain_on(struct camss *camss, int id);
- void camss_pm_domain_off(struct camss *camss, int id);
- int camss_vfe_get(struct camss *camss, int id);
- void camss_vfe_put(struct camss *camss, int id);
- void camss_delete(struct camss *camss);
- void camss_buf_done(struct camss *camss, int hw_id, int port_id);
- void camss_reg_update(struct camss *camss, int hw_id,
+ 	mipi_csi2 = &vep.bus.mipi_csi2;
+ 	lncfg->num_data = mipi_csi2->num_data_lanes;
 
 -- 
 2.53.0
