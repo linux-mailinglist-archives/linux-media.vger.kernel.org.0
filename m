@@ -1,84 +1,85 @@
-Return-Path: <linux-media+bounces-64409-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64410-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id aOOBBcpHKWoPTgMAu9opvQ
-	(envelope-from <linux-media+bounces-64409-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 13:17:30 +0200
+	id yV5hCjVHKWr9TQMAu9opvQ
+	(envelope-from <linux-media+bounces-64410-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 13:15:01 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A709668A6A
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 13:17:29 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1E32668A32
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 13:15:00 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=fhoVTNSX;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64409-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64409-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=GGoX7J+H;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64410-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-64410-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id EC7ED303DC90
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 11:10:34 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 8D96F3097220
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 11:10:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7238735FF6E;
-	Wed, 10 Jun 2026 11:10:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE228403146;
+	Wed, 10 Jun 2026 11:10:38 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0612C3FE373
-	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 11:10:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B9BD3FFADD
+	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 11:10:29 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781089825; cv=none; b=W/BstavnGrvuJWMq9sh114wfqMa3QTdTs4XhlhCYD/Z331BAffnWr2cqYO/nllcJd98cpEBL4NZibGpjcC4VuhNANxDKDBltf+hzifDInTligtLUAhoCB2fx81W64tEazcZbJlBpa2+OfuScsQMEuH/2H4Gyf3AnE+OVCSwo0Eg=
+	t=1781089837; cv=none; b=l0Tz/WIJJT4nyU/7NnHvaTWRnpIUVRptSrXg9NPbK5UI0kDPkmvHcBrw69qfWADLZxXsdxGVSrFz3UOMMAIlqelYXcv5s0dS+BtUCVu1icOUQhr5/x3Z1LkqcSXwker3zmcCPhM0ZpB/7mIWQN4ZfT6fRCqCIAII+xqMwbM5AWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781089825; c=relaxed/simple;
-	bh=AeMf5Wr6Pe7z04trz/jF9RfVqQlRMCsK6v0jvJ8gVWI=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fa/P25c36BdulAzGAmQps4YusGmdUWS1UR9UllmHLa25YWnr2uTkDEbGjYBDDg2vXO5CFKTdJ3mrhWTe+ckD3KON1GH9ReSIFfxopH67V1OCfp6Y5fSWyfx8Gp5h1kjpG8If1MQPeVc3wYmnMKxDTJHOe1msq7QVxGxBkDmBqaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fhoVTNSX; arc=none smtp.client-ip=209.85.214.179
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2c0c2c7d45eso59532365ad.1
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 04:10:19 -0700 (PDT)
+	s=arc-20240116; t=1781089837; c=relaxed/simple;
+	bh=8YxhAGTFZb0zJ+5hLjkmzRBQlB5GdZCVJR37ofmfwbo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=iwRJsl1LjRhHQolnacIxqwLF9iK1bWH4ijY2gUKpu4f3rQTPgP5lCIrCcqN86ne81TqB8/52WUiqAJfHcADsqTSnCCulUTor1QzyPFwzjamaiqcqM7V3akXq4ioWzbx/bYtgkaLOWMnAJdM/zz71SO7PoEePwJvKiYAx8WVGbYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GGoX7J+H; arc=none smtp.client-ip=209.85.214.171
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2bf55c39e16so29672315ad.0
+        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 04:10:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781089819; x=1781694619; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ONdaAz3lAyvZtpSLEpD0avPz3gy5OYFvenkxhDXGSww=;
-        b=fhoVTNSX6pMa9cZQ0lVHJDYBt7GzzofA9HeZ9YGJxJMVxetbCx0qWsndAFLNDp3g88
-         ILYlzLHkXr36UG+MzsC1Pon7F883xZ64PWKMyNN53sJqbql31806NnsH+oWo+bZAglji
-         /nhP3Wj2/ivAq+uwd2HVlEGhITf7hrV1Y8cu98KXdavePFybdn/dGTo+5kpgfrbp6Gpw
-         TiI2QvLFs8gyLa3aL+Z7jk1sS3Uocau7dhxyeI2xBoOQHGFuCT9nPyuyDcHue0cc2z11
-         luoy0mzmv0HDsc9VBKsM4tkzHbXze+EQAziBBkZ+S8TbVcGdACmYdzdtGo/q3YjrlsK5
-         5cPQ==
+        d=gmail.com; s=20251104; t=1781089828; x=1781694628; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dePUqSBzKVLV+PoQEp9b+Ylpu4iFynHLielBVDVr8q0=;
+        b=GGoX7J+HqPw01SHiw9alJlAwIPtoim/xDCiFREqTajKrDRCXKbXYGj7WPJlyj6ZFjT
+         SzFwCMJody6MmV6pfwD4rUis95kNmtwCSZPTtWM5nsbYQhbBitQdw5b34fsY9iy67ujj
+         AO9OorjXwVEF30UzvUCL3wiSoHeRl2BeCV+Sbgwv8sys8Dqu+Ev3VoaZGZ9jP+ntFyCh
+         ME2HvWvEF9gPF5Mv3qHo29V29Gl/Afw1qkf57vdIHannQErDeo+J90LS4b6i/GpIFPDn
+         9ZBWl3Vev13R56o5MtKRjedTQ5mGJd1amsX7g6GX0VxPcl0w2YVbVF7Qd7ClLtGPpsq3
+         OktQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781089819; x=1781694619;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ONdaAz3lAyvZtpSLEpD0avPz3gy5OYFvenkxhDXGSww=;
-        b=LSPLGXMiCTvT8B4W46voIrVXsqxF5FGaV0Y5OL0YTVDoZoLPvmz6bqV0H0V9uKRj4Y
-         xuWYwpSWrgMjbtAyN0JUMv/3dL9Z3n1YseArK5+F9WVV21vgjeCfap7uVWqakSHp8Cra
-         eLTkFub06zOWzlkg36GhcNxgaNxKoRcCqIr6Kqf3PIan5zAwx0TZFJ/CsMNiP4eYm/+7
-         KSRNxJPXdLX334gMEQ844cb5+uOzfKbSC6LarqWiyn3Hjcdcf7IM4JDQVIm5nqJ7KTGd
-         +X4jwn/MqBn4laHI32UXzviwdYuk7tXdnErxbm+L87+hYBz134YstBNqav+cQyHoFRCV
-         dXLA==
-X-Forwarded-Encrypted: i=1; AFNElJ9ih73T6am/g2ttg3QvOf5RBYmmoySKxXuarbNn8sSpoUFfT9dtiRCce4iO4V9qS+OwLkl+Byhqk1qFIg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3NJw3IPDUNsYGfUvHx28kIflQ3I9+ih1ZLbmi1bYEXK3lbHLj
-	oSKzw29+BhF5CDuRjAbj1H3UsutWDl1nHtVgGdalCzBc9QWyw2i9FIpe
-X-Gm-Gg: Acq92OFaPR98RuuVLRDjfSmBjQ9DA3OYFUNKiMY48MVAMjufMwiVZDKZEE/rmkoY7fr
-	WS7wlapZdKP8rvAxP9d5jYKzSYVGPFna6yYmnUXeM3+29DGyCqgFKoHvn3QgrtIvxfjQd/IlszD
-	Y7pQeVwebP+FnlOZoNaaopXngwZ0fykiwEqt3QyjaXQ0VPhmBPm3DU/WKKb1rTgj4lREGblqBWx
-	VhnRAZq9uNqHivV++DTcgYCp0pMqLnTpkYyO9n3Rs8ZdSyc1IeBRVldN7ao0QvA5x4GuYkGDKHf
-	1hEXY7M2MPLiDnRDsNHx8LvutTzo+2l0fRRbaynpLhK+7/7gu0PiqMnXSlHUR24VgTA/jpClB/Q
-	KV3N60/EXVbmFEAN43Tn27cJgw66VEO8DpF9h7eOjBaw5h/H5NpJZl05eyoYGnJ5d3gJJ+FcS7+
-	9kC0XNbA2f/QGVp3XrxiBainKxqJSaV0GbaChnHg==
-X-Received: by 2002:a17:903:94b:b0:2b2:4bf9:1766 with SMTP id d9443c01a7336-2c1e85c736bmr283708325ad.33.1781089818833;
-        Wed, 10 Jun 2026 04:10:18 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781089828; x=1781694628;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=dePUqSBzKVLV+PoQEp9b+Ylpu4iFynHLielBVDVr8q0=;
+        b=fp3RldH+DPIyWm8AevCs+5AclHd+6ykAPRTc41F/QFoPDrHdBYk+xJoe4iVvHOv07q
+         slNP1nhpDNfvDSGuuSaSLCgkAU5N5u3IADhS5Ukpr5ZgyT432Dasw+6Qo9MdXG/4b6iN
+         YmgQXAtHhurS83awqZf8mrZB019JH1/bTN3u6oTAM/aWaCLEEWNan5saCOWJ2jYxfVA8
+         BD1b/dk6EzejlXtOp7FZtOSWg+ZhjgPpMy3TomSQ8Hf/Wi5PVWSSzWu5trQzJt7QsG0+
+         iSwcJPUuSF/H1hgAafVem/o//IBwqG5NkMf11JyfH+4co7UrbAg2TiYuhB5tqiD35Ua3
+         ciPw==
+X-Forwarded-Encrypted: i=1; AFNElJ8gFt7OAoaab3d9HMGfIUvKu17CtvW17/2QTAOrDXKlC3q2AclzjIxOYsBHDA+HCSXx+3Qc0KqgvlBACw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxGD/Bw2ajv27vpU2p7LnupKzDL9hnj3WaEutwjScqF909gYeNj
+	moIlHnz1ixGfDRflHQ42nbj5BQsSfpKteMbOa8+U1LQdq/gyNxDrIH5w
+X-Gm-Gg: Acq92OEXyzhexh/lVhY5Mrc41xfJvfXJF3vFPUK4Tu+89x6z6Y8FQkalBEfgRJZEzZq
+	id1iNqqT8tr0Ly08fDTYmPzYli19bfgCkyYrFFvQrNjin79rllGMnHzSzFvpZnnzAkT7caKjtxh
+	V6EvCVMKKIKeTCubJmMiD2mN0ngce2hjaHHeSj5UHmU3CFwHQxObrNsqtgfQYeq3tLo7Qtn3TDV
+	rbdnMx3aaFTDLMSfb3bGOGoq8d0I/COZArMNuOz5pVXoe463n3ESfDXAWEea57p4NVCPYZK2JZt
+	rXvne5N+FUQ5CWtJWjxN4JuAhjvkr4v4aISo9FP4rk+Y8K5GlgiIzZ2Us9AKLARVA8Rlwy+ICnm
+	whSoQMyOOBE0e6eDJ912HgqiqfqIq7Bf31P+L5Tz/ViFaDd1HEWuSW85waFJqiyFpwoxl4nzayF
+	CQJ8IinskmgTmAWBS6GlER6y/UrxMsRWuGzQgUoEKUc651uFcZ
+X-Received: by 2002:a17:902:ecd0:b0:2c0:b31b:b19 with SMTP id d9443c01a7336-2c1ec7d946fmr212617895ad.21.1781089828462;
+        Wed, 10 Jun 2026 04:10:28 -0700 (PDT)
 Received: from [127.0.1.1] ([2409:40f4:4111:52c8:138e:8096:a8df:e68b])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f6d37esm317175205ad.9.2026.06.10.04.10.09
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f6d37esm317175205ad.9.2026.06.10.04.10.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 04:10:18 -0700 (PDT)
+        Wed, 10 Jun 2026 04:10:28 -0700 (PDT)
 From: Ramshouriesh <rshouriesh@gmail.com>
-Subject: [PATCH 0/9] media/arm64: HM1092 IR camera and ASUS Zenbook A14
- (X1P42100) camera support
-Date: Wed, 10 Jun 2026 16:39:25 +0530
-Message-Id: <20260610-a14-himax-hm1092-v1-0-0c9907da47ed@gmail.com>
+Date: Wed, 10 Jun 2026 16:39:26 +0530
+Subject: [PATCH 1/9] arm64: dts: qcom: x1-asus-zenbook-a14: Add on OV02C10
+ RGB sensor on CSIPHY4
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,15 +88,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WS3W6kMAyFX2XE9WYU549ktFr1Papq5SSmpCowJ
- TBlVfXd19De7E9vkAz2Od+xeWsqzYVqczm9NTPdSi3TyAV8OzWpx/GRRMlcN0oqJ50MAsGIvgy
- 4iX4AGZSIMUWSSgXsqOGx60xd2Q7J+4ePuq7xidKy63x2zPSystfy0dYMVCseXpfT98NKKyvyt
- f8lrjjjUAVtC407nLiBkCK53FkbgvIG757LiPN0nubHH4c8Lqk/pJQxyoAPEQATkZLGMWdog/T
- ZW5TUxais1PvUvwhWabEBiVSLEjvKzbMzeuucNzZYBX87/y+GE9EI7ls3MXIIwbmkFqBFXmrZ9
- b0EyYE4ZOVsezgbgzZgI7mcvw4X096nIIEyGHNwgAQdHwlkTsa1EnLyEtOfUy5r1xGiRsW2OnS
- +JTQtYsu70shjTN1F98VKmO+6zq/485NXMa7iDx5jAOXS3VTr+WXF5zQNw5kfB3TEymvkN2W5n
- Ezgv8V7SUmiT7r15AFiCnyRjOB9bpPjS6Xm4f39N7otzSKfAgAA
-X-Change-ID: 20260609-a14-himax-hm1092-bbcbe0229afe
+Message-Id: <20260610-a14-himax-hm1092-v1-1-0c9907da47ed@gmail.com>
+References: <20260610-a14-himax-hm1092-v1-0-0c9907da47ed@gmail.com>
+In-Reply-To: <20260610-a14-himax-hm1092-v1-0-0c9907da47ed@gmail.com>
 To: Bjorn Andersson <andersson@kernel.org>, 
  Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -111,20 +106,20 @@ Cc: Aleksandrs Vinarskis <alex@vinarskis.com>,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
  linux-phy@lists.infradead.org, Ramshouriesh <rshouriesh@gmail.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5829; i=rshouriesh@gmail.com;
- h=from:subject:message-id; bh=AeMf5Wr6Pe7z04trz/jF9RfVqQlRMCsK6v0jvJ8gVWI=;
- b=owEBbQKS/ZANAwAKARWVil4RHAXeAcsmYgBqKUYM2l5gT0Awhq5dKGACM7kdseuFqcEgj2gyc
- pzwu1jPtKiJAjMEAAEKAB0WIQS/0QuzNKVfvUNlNAkVlYpeERwF3gUCailGDAAKCRAVlYpeERwF
- 3oYxEAC5nHpEAyEA4fCAKgzeJ3lXKotkjbpCfMKRL1zBudNQMlIs/HN/H6t1AeZEM4KAJlukbyr
- Cf0bp+Clcv3fFxIMECzY0r7qGBa8BPsCFskwq5uUaTWeWSWwAbEXnIlhIE5xWZOy92UDR9rNICf
- Ozf87E/nTvTNcbyiX0/7cD03kS+Sxgg1uILpWdg4OP0QrM/sq/smE0utdPrII6qScg/ZofQPGIr
- vkasL+LeylBhPRUlIBKSsh+XKHtA95aKpGSEEH4WhBOXmFIA+W5KWofEFd6HFwez+XLa90Q3hhX
- fhD+NHC0QlnKCORmN16z3I09Ojb2ycpUuxMmJKxF4jRAckFsFbFFyxkZsVKoDnt73Xjo3xHlqKW
- lyArs1KCQQl7QxyQjB0zmiV+7TcpS/o8bZtqLIT7LcOGKkP7vh0qs2rosXKazXSmhjmjyamUYMK
- tonVC+6ztjPNK9zs28u18evTXJg799+tw7cL70XFcZfSUiSR9CeT4o9m11F26bNurs2ZMxVV+fn
- xWREw3eebSBnDuGAUIob+hIhzQ4f81vt+hAFxDJSG9WeMCO5eyDwj99fivDCDuc0rwzfoVxi2cN
- lI6LDH+LK2XP26lYxq/zgBTwA+/MfYcNNKmACnMcfIiE0AugLWSvInWnQLN+Km8aVGNnp+0LDcw
- 8qC2h4Fbj7ir0hQ==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4082; i=rshouriesh@gmail.com;
+ h=from:subject:message-id; bh=ExaW/CgRG0HAtMjfXaofM76A3HEZ9NweHa0eL8KHYN0=;
+ b=owEBbQKS/ZANAwAKARWVil4RHAXeAcsmYgBqKUYNHeRo8C16a/eQs+ObZDs5Xo5SL21lIPOY/
+ Tm3XHkc+cqJAjMEAAEKAB0WIQS/0QuzNKVfvUNlNAkVlYpeERwF3gUCailGDQAKCRAVlYpeERwF
+ 3mO/EACioDVqwwL0R5nMPC0+fQ3U6mxKkXRbIEJQwb17WeR8zy/5VJxVTVluMl9PWgVyD0Kveef
+ 6JnONYCqscivv0zqrj24Sw+JTk6SExuQkePDj7atKMZxFca2Nu5HXpQEAXWbqp5tKwiVWt7GWtj
+ FieXbKrSM4Yp3eyOYEIC2e3q+D13idPqfG4jqpExYg59pythhUI+gbgVIQB3dyZkMHtON85SaYX
+ zZfWZFoFsiFKDEzIAfh3g7TsU4J8/vp9jSA/J+7KXd3c5kMcyjUFRG2BW2wXcQhQZ3tV4qnfqkV
+ ZO4FkWbYzIs6arGWhIcrDRlEtaVDb9vLN0UC+RlOdiU4Lw645d91VQUhe0ImObf3c59rXdnfbU8
+ XPOdkVUYm8MPwDFnfWBIkWthblyaQ2hi/f+dBtXF1+5QFNb4Tq8jVkxVks2i1vfQJ2gTnlwB1u5
+ 2Af2VBTrQlm4TWu0S7LJ6fuhZn11d4carS1TTDUMvizNhqxkSy1MIxjb7vdhR9tje8O4uA4nBUQ
+ U8Si9Ijv54wF3PEanBQaAZcspl8xp8g62L09GbM8EYcBseVlXraavDBtj2qh6mW/lq5Ke8WqH0t
+ iOgoPxfbj4SUmw9+W2W3qJ2G/bqupsL+F5qCZB3YiJLCi1vQwEowDhfqoOd60T+wk5uvOjp60oW
+ XKHXeefssu7uD1g==
 X-Developer-Key: i=rshouriesh@gmail.com; a=openpgp;
  fpr=BFD10BB334A55FBD4365340915958A5E111C05DE
 X-Rspamd-Action: no action
@@ -133,11 +128,11 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-64409-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64410-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:mchehab@kernel.org,m:bryan.odonoghue@linaro.org,m:vladimir.zapolskiy@linaro.org,m:loic.poulain@oss.qualcomm.com,m:bod@kernel.org,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:alex@vinarskis.com,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-phy@lists.infradead.org,m:rshouriesh@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[rshouriesh@gmail.com,linux-media@vger.kernel.org];
@@ -157,113 +152,179 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,linaro.org:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vinarskis.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0A709668A6A
+X-Rspamd-Queue-Id: B1E32668A32
 
-The ASUS Zenbook A14 (Qualcomm X1P42100, "Purwa") has two front cameras
-behind the SoC CAMSS: an OV02C10 RGB sensor and a Himax HM1092 mono NIR
-sensor used for face unlock. This series adds a driver for the HM1092 and
-the device tree to wire both sensors up on the A14.
+From: Aleksandrs Vinarskis <alex@vinarskis.com>
 
-The HM1092 binding, driver and MAINTAINERS entry do not depend on the
-rest of the series and can go through the media tree on their own.
+The device uses Omnivision ov02c10 RGB sensor. Reset GPIO, privacy LED
+GPIO, LDOs are extracted from decompiled AeoB files.
 
-The remaining DTS and PHY patches are the A14 camera enablement. They sit
-on top of several series that are not in mainline yet, listed below. With
-those applied the series builds on next-20260609: the A14 dtb and every
-module it touches (hm1092, qcom-camss including csiphy, and the
-qcom-mipi-csi2 phy) compile and work: both sensors probe and stream
-frames on the A14.
-
-Prerequisites, in the order they apply:
-
-  1. phy: dphy: Extend phy_configure_opts_mipi_dphy to support position
-     and polarity (Bryan O'Donoghue, v1)
-     https://lore.kernel.org/all/20260325-dphy-params-extension-v1-0-c6df5599284a@linaro.org/
-  2. clk: qcom: videocc and camcc for X1P42100 (Jagadeesh Kona, v5)
-     https://lore.kernel.org/all/20260507-purwa-videocc-camcc-v5-0-fc3af4130282@oss.qualcomm.com/
-  3. phy: qcom-mipi-csi2: Add a CSI2 MIPI DPHY driver (Bryan O'Donoghue, v8)
-     https://lore.kernel.org/all/20260523-x1e-csi2-phy-v8-0-a85668459521@linaro.org/
-  4. media: dt-bindings and PHY updates for CAMSS on x1e80100 (Bryan O'Donoghue, v11)
-     https://lore.kernel.org/all/20260326-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v11-0-5b93415be6dd@linaro.org/
-  5. arm64: dts: qcom: x1e/Hamoa camera DTSI (Bryan O'Donoghue, v3)
-     https://lore.kernel.org/all/20260326-x1e-camss-csi2-phy-dtsi-v3-0-1d5a9306116a@linaro.org/
-  6. media: qcom: camss: Add support for X1P42100 camss (Wenmeng Liu, v2)
-     https://lore.kernel.org/all/20260511-purwa_camss-v2-0-22608ab9126c@oss.qualcomm.com/
-
-From the videocc/camcc series only the CAMCC block (patch 6/6) is still
-needed; its clock drivers and bindings are already in linux-next. That
-patch adds the camcc node and sets the Purwa camcc and videocc compatibles.
-
-From the x1e/Hamoa camera DTSI series only the CCI and CAMSS-block patches
-are needed; its CAMCC block duplicates the videocc/camcc series, and the
-x1e80100 board patches do not apply to the A14.
-
-Patch 1 adds the OV02C10 node. It is Aleksandrs Vinarskis' work, carried
-here with his Signed-off-by so the A14 camera support stays one chain.
-
+Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
 Signed-off-by: Ramshouriesh <rshouriesh@gmail.com>
 ---
-Aleksandrs Vinarskis (1):
-      arm64: dts: qcom: x1-asus-zenbook-a14: Add on OV02C10 RGB sensor on CSIPHY4
+ arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi | 109 +++++++++++++++++++++-
+ 1 file changed, 105 insertions(+), 4 deletions(-)
 
-Ramshouriesh (8):
-      media: dt-bindings: Add Himax HM1092 NIR sensor
-      media: i2c: hm1092: add Himax HM1092 mono NIR sensor driver
-      MAINTAINERS: add entry for the Himax HM1092 sensor driver
-      arm64: dts: qcom: x1-asus-zenbook-a14: add HM1092 IR camera and wire cameras to camss
-      arm64: dts/media: qcom: keep PLL8 out of Purwa camss hot path
-      arm64: dts: qcom: hamoa: reorder csiphy power-domains for v8 CSI2-PHY
-      dt-bindings: phy: qcom: add MIPI CSI2 mode constants
-      phy: qcom-mipi-csi2: accept PHY_QCOM_CSI2_MODE_DPHY phy-cell
+diff --git a/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi b/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
+index 66d566808f58..388737eaa624 100644
+--- a/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
++++ b/arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi
+@@ -8,6 +8,7 @@
+ #include <dt-bindings/input/gpio-keys.h>
+ #include <dt-bindings/input/input.h>
+ #include <dt-bindings/leds/common.h>
++#include <dt-bindings/phy/phy.h>
+ #include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
+ #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
+ 
+@@ -108,14 +109,11 @@ leds {
+ 		pinctrl-0 = <&cam_indicator_en>;
+ 		pinctrl-names = "default";
+ 
+-		led-camera-indicator {
+-			label = "white:camera-indicator";
++		privacy_led: privacy-led {
+ 			function = LED_FUNCTION_INDICATOR;
+ 			color = <LED_COLOR_ID_WHITE>;
+ 			gpios = <&tlmm 110 GPIO_ACTIVE_HIGH>;
+-			linux,default-trigger = "none";
+ 			default-state = "off";
+-			/* Reuse as a panic indicator until we get a "camera on" trigger */
+ 			panic-indicator;
+ 		};
+ 	};
+@@ -546,6 +544,13 @@ vreg_l6b_1p8: ldo6 {
+ 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+ 		};
+ 
++		vreg_l7b_2p8: ldo7 {
++			regulator-name = "vreg_l7b_2p8";
++			regulator-min-microvolt = <2800000>;
++			regulator-max-microvolt = <2800000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++
+ 		vreg_l8b_3p0: ldo8 {
+ 			regulator-name = "vreg_l8b_3p0";
+ 			regulator-min-microvolt = <3072000>;
+@@ -796,6 +801,86 @@ vreg_l3j_0p8: ldo3 {
+ 			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
+ 		};
+ 	};
++
++	regulators-8 {
++		compatible = "qcom,pm8010-rpmh-regulators";
++		qcom,pmic-id = "m";
++
++		vdd-l3-l4-supply = <&vreg_s4c_1p8>;
++		vdd-l7-supply = <&vreg_bob1>;
++
++		vreg_l3m_1p8: ldo3 {
++			regulator-name = "vreg_l3m_1p8";
++			regulator-min-microvolt = <1800000>;
++			regulator-max-microvolt = <1800000>;
++			regulator-initial-mode = <RPMH_REGULATOR_MODE_HPM>;
++		};
++	};
++};
++
++&camss {
++	status = "okay";
++
++	ports {
++		/*
++		 * port0 => csiphy0
++		 * port1 => csiphy1
++		 * port2 => csiphy2
++		 * port3 => csiphy4
++		 */
++		port@3 {
++			csiphy4_ep: endpoint@4 {
++				reg = <4>;
++				clock-lanes = <7>;
++				data-lanes = <0 1>;
++				remote-endpoint = <&ov02c10_ep>;
++			};
++		};
++	};
++};
++
++&cci1 {
++	status = "okay";
++};
++
++&cci1_i2c1 {
++	camera@36 {
++		compatible = "ovti,ov02c10";
++		reg = <0x36>;
++
++		reset-gpios = <&tlmm 237 GPIO_ACTIVE_LOW>;
++		pinctrl-0 = <&cam_rgb_default>;
++		pinctrl-names = "default";
++
++		leds = <&privacy_led>;
++		led-names = "privacy";
++
++		clocks = <&camcc CAM_CC_MCLK4_CLK>;
++		assigned-clocks = <&camcc CAM_CC_MCLK4_CLK>;
++		assigned-clock-rates = <19200000>;
++
++		orientation = <0>;
++
++		avdd-supply = <&vreg_l7b_2p8>;
++		dvdd-supply = <&vreg_l7b_2p8>;
++		dovdd-supply = <&vreg_l3m_1p8>;
++
++		port {
++			ov02c10_ep: endpoint {
++				data-lanes = <1 2>;
++				link-frequencies = /bits/ 64 <400000000>;
++				remote-endpoint = <&csiphy4_ep>;
++			};
++		};
++	};
++};
++
++&csiphy4 {
++	vdda-0p8-supply = <&vreg_l2c_0p8>;
++	vdda-1p2-supply = <&vreg_l1c_1p2>;
++	phy-type = <PHY_TYPE_DPHY>;
++
++	status = "okay";
+ };
+ 
+ &i2c0 {
+@@ -1283,6 +1368,22 @@ cam_indicator_en: cam-indicator-en-state {
+ 		bias-disable;
+ 	};
+ 
++	cam_rgb_default: cam-rgb-default-state {
++		mclk-pins {
++			pins = "gpio100";
++			function = "cam_aon";
++			drive-strength = <16>;
++			bias-disable;
++		};
++
++		reset-n-pins {
++			pins = "gpio237";
++			function = "gpio";
++			drive-strength = <2>;
++			bias-disable;
++		};
++	};
++
+ 	edp_reg_en: edp-reg-en-state {
+ 		pins = "gpio70";
+ 		function = "gpio";
 
- .../bindings/media/i2c/himax,hm1092.yaml           | 118 ++++
- MAINTAINERS                                        |   9 +
- arch/arm64/boot/dts/qcom/hamoa.dtsi                |  32 +-
- arch/arm64/boot/dts/qcom/purwa.dtsi                |  12 +
- arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi  | 227 ++++++-
- drivers/media/i2c/Kconfig                          |  14 +
- drivers/media/i2c/Makefile                         |   1 +
- drivers/media/i2c/hm1092.c                         | 685 +++++++++++++++++++++
- drivers/media/i2c/hm1092_regs.h                    | 223 +++++++
- drivers/media/platform/qcom/camss/camss.c          |  16 +-
- drivers/phy/qualcomm/phy-qcom-mipi-csi2-core.c     |   3 +-
- include/dt-bindings/phy/phy-qcom-mipi-csi2.h       |  15 +
- 12 files changed, 1326 insertions(+), 29 deletions(-)
----
-base-commit: 49e02880ec0a8c378e811bc9d85da188d7c6204c
-change-id: 20260609-a14-himax-hm1092-bbcbe0229afe
-prerequisite-message-id: <20260325-dphy-params-extension-v1-0-c6df5599284a@linaro.org>
-prerequisite-patch-id: 471e9403130bb3e65cea1d2365d75ef664662306
-prerequisite-patch-id: 075fa72fba3c4f51138b88972e6a5e240038d90c
-prerequisite-patch-id: 4edca361ad7d370a338641d1ebb5ca65b114a244
-prerequisite-patch-id: 32dd1b55ba678d00088b376e33e12d9da6241aca
-prerequisite-patch-id: 24424189b11acee204622997908d85a0efbb2503
-prerequisite-message-id: <20260523-x1e-csi2-phy-v8-0-a85668459521@linaro.org>
-prerequisite-patch-id: dc660c63d4382e84af51241381727954bd5ed013
-prerequisite-patch-id: 237410e8df475d80bede4590288b6b053b1483e5
-prerequisite-message-id: <20260326-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v11-0-5b93415be6dd@linaro.org>
-prerequisite-patch-id: 6e8e67cd3ab96a602971bbeeb7dfdeaf3f1426a2
-prerequisite-patch-id: bbf431fcabc17c30fa5e804eb4accb8275198b37
-prerequisite-patch-id: a7fbea14628b62a8de096dea420473b283010aba
-prerequisite-patch-id: b6b6c4e7a5818e1b93fe2758902bd32d2be48509
-prerequisite-patch-id: 4f11e3d079a484008a03ce750952d6e2933c0253
-prerequisite-patch-id: 5f5504fd7b5eee72c3fb8c045fa57219fd2f0456
-prerequisite-patch-id: 570b65b326f4c684d813f6ebeda152378dc2a47f
-prerequisite-patch-id: bc5b9321c124abd961ae1f60610dc46701dc80ac
-prerequisite-patch-id: 6d36feaa3a210039f87ea47aa74423a670260fb6
-prerequisite-message-id: <20260511-purwa_camss-v2-0-22608ab9126c@oss.qualcomm.com>
-prerequisite-patch-id: 9430f9db2ca3486da39606aa806db3c1973ad2d1
-prerequisite-patch-id: d90c86fbd38851530f9480562647703c32a86a91
-prerequisite-patch-id: baa498638bf0da1bdc25a3c5e827c351d3b78e79
-
-Best regards,
---  
-Ramshouriesh <rshouriesh@gmail.com>
+-- 
+2.53.0
 
 
