@@ -1,378 +1,768 @@
-Return-Path: <linux-media+bounces-64352-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64353-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id iyBpB9kDKWqCOwMAu9opvQ
-	(envelope-from <linux-media+bounces-64352-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 08:27:37 +0200
+	id /twQCg4FKWqpOwMAu9opvQ
+	(envelope-from <linux-media+bounces-64353-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 08:32:46 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8581C6663E5
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 08:27:36 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B14666456
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 08:32:45 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=Uu+k5BxJ;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64352-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64352-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=l8omIFcV;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=Zb65VCEH;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64353-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-64353-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=qualcomm.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DEB06301B912
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 06:27:33 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5B6913050120
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 06:30:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64FB5371CEE;
-	Wed, 10 Jun 2026 06:27:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 171B33750D5;
+	Wed, 10 Jun 2026 06:30:17 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66083019BA
-	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 06:27:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5D1374E71
+	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 06:30:13 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781072852; cv=none; b=D2bEBZZ98srf0+hGSHLR6JzSm2fgsv9tccoYUOL5KbIUltTi7yLtEhKPFvHhpJW02yFYfs3RMJkvh//4f/0r4muCqgHiXG3zIUJudtv0DLvOLxDPmM7Qyzf4Goxp+vetZWoUvFeZfUi69PetKvWO/ir0VncGagTrfpYeCeIquGk=
+	t=1781073016; cv=none; b=DTfxL9RX8z9U5W7HmyK5QecvvJZOTQjkrqVf+oO+e8fLbSN/WjVXcQYoRybxRFsxTfS5p/aKWK5lJMEvKx1n5y8MpzyVnJjj/O6RgN/APyZyYYHh9dy8I6xiTjQptYBWj5tz7jKFHUTB3DLOA7r6nVheHJVt5JojxZmUCQWiBsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781072852; c=relaxed/simple;
-	bh=sgMB4niC3pFhSIO/DCUP02jmUHPdmuH6E1ntFSiHUZA=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=TkS3Mc8Jr7lfk/JaHruau+MhHeTbRIjKYd1ljyNdk2unrN++MS+TSO9/Aq4INi26B/tk7JzuktFKccymtBA69PLb8Vs3Ix71IWI0EfICzicAsWrcYxTeWs4HCFDg5pYTlcS8dp9fQIcLHvZbHWZPWX4GobrtmsUgHuqGSd/2aDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Uu+k5BxJ; arc=none smtp.client-ip=213.167.242.64
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:bcf2:9325:a9bd:32b:e71])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 60A0D517;
-	Wed, 10 Jun 2026 08:26:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781072817;
-	bh=sgMB4niC3pFhSIO/DCUP02jmUHPdmuH6E1ntFSiHUZA=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=Uu+k5BxJfsHsINXOWaFM64kdAK7ZdEc3hmTQ3tkWMVrsqdwiRDvSntOBM7LrMiuGS
-	 oaKO8BxDPwmunG8zTkqIqUj5QIk5ixwuQWAw7LybUwY88TkIszRf9oCg+15FHvmyIf
-	 wMZM09ilquQmefXubc11/5QdS3V+ZZs/Yi/CKMWI=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1781073016; c=relaxed/simple;
+	bh=i2a/FZVjOyMEnUBiccRMxNpKMMbX6okDHkNl5JO1hL0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JDtmP3fzmC/ZVSo3nZ0hBJjFVQSB95MLypRVx+e/Kdlbnja8mI9Si7wLGLBGrrLJD9TaY7fFPUvf6TomHvAHWdJvIdtweQTVLshJvhPcBF7Q0kl2SBtDHrzDlvZXIU5QLFOxx5u8Oa2roHavzerAtJQNE+BkMzXFJDQ8CPYwHN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=l8omIFcV; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Zb65VCEH; arc=none smtp.client-ip=205.220.180.131
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65A45D6i387410
+	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 06:30:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=HZqDDyTUhl5eQkUR5Ywdfc
+	pzafkHuiYQxuTEumUyO+8=; b=l8omIFcVV04laetSoYIdxjMFZ2VJJbM2vCTP7P
+	LBaOzvnElYWCfxzugrnhSQmlFZCBjoRBHRV6B6G1gu+AewGsLnHk9vYVrllcQEm7
+	1yW0xe6zTnNznRj24lXjY3Iiu5Ojj2yOKzkagI7FglTA7Zzg6vZD3xnJ665a4dOJ
+	qMLkF0KmMJ7tc5Xdg38GLYuYbLUEoftVIhp8FMwoGWMcE4zfy8yiDE3Sf/JydX/v
+	doWeqnYyU9CUZMriMQHDBmivtaTOv8c24Suydp5HXsVwwnU59MXYtTROwSfEQ8zk
+	g3eshTe3+KgqSQkXmqy7FR8vFI2XoeqEE9esrRRYujc3/l3w==
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eq0kd8eev-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 06:30:12 +0000 (GMT)
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-36bc380fbf9so6288143a91.3
+        for <linux-media@vger.kernel.org>; Tue, 09 Jun 2026 23:30:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1781073010; x=1781677810; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HZqDDyTUhl5eQkUR5YwdfcpzafkHuiYQxuTEumUyO+8=;
+        b=Zb65VCEHUBL10DQ7xBOLUo0sFf6ZXJ5UBG7/CIlYbhGLJVudYNFHJOTEXsrGqr89/c
+         xqfoE5ZkOdgVT6Nnu6umNrdHKrwoxmxEhVqjTQCB7qZh/619LHuBCvHFDWBdUuAFK3ve
+         Vr/0ZONPfhaTO6pp5aAM7OXWvCWnCDA7tprUlLpNb4I8q5NCj5LZoFp1yK6U0mvBQY4L
+         hJtx4X52tQo2MRF0FF1kE9MTMCcaRThmx7CpnWUHsurRAtdZjpdC3AOVGufboYK7aJS7
+         Sy1gVMDOI9ad61ShUlaM3QFCevxDC9jhLDAQzhqWzKLhr0yoWl8ZpYMcMxY2bB2ZxDH+
+         DiQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781073010; x=1781677810;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HZqDDyTUhl5eQkUR5YwdfcpzafkHuiYQxuTEumUyO+8=;
+        b=DAvydEnMeSk1Rj4sRlCGFs1QZHbaPgwMl1w8Nus91l/uU0CXAe14O6EfkDlW1vUrJ3
+         RFjM0s65zTrs8TvmGqKsZArQQFENxyw9aAxeWSCJHJT3+tSlr+sfTtqhXYvuON4cJHFu
+         Ua2+fj7XxIuaeruHfw2ppAt9Z2cUfD6C8HNBjLXRQ8pcdPJFm+lZkRHuMSFSLksCBngr
+         xHzCgEY2G2kuKGqejB8yWOffGID2thEA2rn/LQ1Exbu8BiZ1ZQZi0GjJv3zzDrfMWreL
+         FpIOrIkfIWyPuAGLDL+lNzY8dQO7PW46CPWD4Eu6Rbdr58Nx7e6nWLxQLxh3SvPtD+H+
+         evgA==
+X-Forwarded-Encrypted: i=1; AFNElJ84ogmBEL1WTgVFbc/uQXTA+zFCql1LlDPRfVq1XvifQAProtL4xXKR0+HHDUQ8z75OlTqHb1Owk8neUA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZQBgahZjMb72ZB7YuY+YPT4p4q/yThR6SSMdbGgYBwo/sfO2p
+	ubfH0IRwR1QDOHKuOMFV7agR1ktqkZbzE+OC1YaEilDzPF8bgE/RnjlkbB2BgeptYz/hDZXoxNp
+	ABKqPsBBsN4tDB7gElYEKkIBJMoYcoOdlrOpxMNjj/D+aAAIGZWRhin4DlykCdW2oog==
+X-Gm-Gg: Acq92OE4oQPD/CZR4+u32RnhRwLYuP3bzBpvT0fZKGP5mat409KgbVwUKWTJAErFuiP
+	ljw1sfJkQaRKAOKexjW+dEiXheGIhY40LdyLlxhdtHBbn7AL0a1Sf6uatD8e3uJHqvvJy25V+Tr
+	BhRJNwP/Nhlys27PmvNBjT4n6/7F8nV8QwfkcONUBmdCi5CUhja77om0vVpkrNSeRNIN/beAX18
+	hZUJQ6lNaI7nfXc6+Mf9OMox2ksUZKOOwEzHRHaUFdwzYy1hv4OeZSr3Xe2MNAjh/YChjpMUxFQ
+	i8h9JiyrKLboW3SVD4PPJBSWHruTfHaM53gJoQMKdy2+VRyy7NrW5kkUGk+oirdMPYyR5hgKKcK
+	IQUyuoJj/a0srMi3mtAGjmAOSr0vyb4z1mT20GrI6nMx6rkYRPjsK5rweMQEbSuvf5g==
+X-Received: by 2002:a17:90b:48ce:b0:368:cefe:ddd0 with SMTP id 98e67ed59e1d1-370f0678f09mr28541363a91.15.1781073010166;
+        Tue, 09 Jun 2026 23:30:10 -0700 (PDT)
+X-Received: by 2002:a17:90b:48ce:b0:368:cefe:ddd0 with SMTP id 98e67ed59e1d1-370f0678f09mr28541255a91.15.1781073009280;
+        Tue, 09 Jun 2026 23:30:09 -0700 (PDT)
+Received: from hu-bvisredd-hyd.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36f70a2892esm21580420a91.10.2026.06.09.23.30.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jun 2026 23:30:08 -0700 (PDT)
+From: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+Subject: [PATCH v8 00/12] media: iris: Add support for glymur platform
+Date: Wed, 10 Jun 2026 11:59:36 +0530
+Message-Id: <20260610-glymur-v8-0-1c79b9d51fc0@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <CAPY8ntCcUgtmLxopBJncXJDXW-wp8Dupg0GdbDZhAv9Pe7S-tg@mail.gmail.com>
-References: <20260609-imx219-pixelrate-v1-1-02359def6b41@ideasonboard.com> <CAPY8ntCcUgtmLxopBJncXJDXW-wp8Dupg0GdbDZhAv9Pe7S-tg@mail.gmail.com>
-Subject: Re: [PATCH] media: i2c: imx219: Drop the hack of doubling PIXEL_RATE
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Wed, 10 Jun 2026 11:57:21 +0530
-Message-ID: <178107284167.1799417.15966261890414428461@freya>
-User-Agent: alot/0.13.dev35+g4a69c46ca
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAFAEKWoC/zXMTQrDIBCG4auEWddgzC9d9R4lC9ExEWJsnUYag
+ nevDWQz8A4fzwGEwSLBvTggYLRk/ZpjuBWgZrlOyKzODYKLjne8YtOyuy2wxijd6KEWqBTk8Su
+ gsd8Teo65Z0sfH/bTjf3/exH1RcSecSaNlG2rq8ogf3ii8r3JRXnnynxgTCn9AMMf4JOjAAAA
+X-Change-ID: 20260601-glymur-4fcd4d832ecc
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev,
+        devicetree@vger.kernel.org,
+        Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+        Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781073002; l=21287;
+ i=busanna.reddy@oss.qualcomm.com; s=20260216; h=from:subject:message-id;
+ bh=i2a/FZVjOyMEnUBiccRMxNpKMMbX6okDHkNl5JO1hL0=;
+ b=UN6bXENDpV608xIvOIlXRho+TqhVsY1/aMEb4dlarf0FNcBbhFEANfXSg5MLrkpuvndmGwjxl
+ H/z9n6hRmLgBcXiJuZHdtJ8AefWBz49/qJeABZmGSO9C55GRKGErt4S
+X-Developer-Key: i=busanna.reddy@oss.qualcomm.com; a=ed25519;
+ pk=9vmy9HahBKVAa+GBFj1yHVbz0ey/ucIs1hrlfx+qtok=
+X-Authority-Analysis: v=2.4 cv=TeamcxQh c=1 sm=1 tr=0 ts=6a290474 cx=c_pps
+ a=vVfyC5vLCtgYJKYeQD43oA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=VwQbUJbxAAAA:8 a=apL-334RAAAA:8 a=e5mUnYsNAAAA:8 a=EUspDBNiAAAA:8
+ a=vz760iHb5DeATwUEMbMA:9 a=kgd9FNOpIhZ4gwjP:21 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=rl5im9kqc5Lf4LNbBjHf:22 a=eWIHaOtA_ULHaMmHwLHW:22
+ a=Vxmtnl_E_bksehYqCbjh:22
+X-Proofpoint-GUID: pegB-ZC-O3g6bBYH0zEhsMl5-I0H1Ba4
+X-Proofpoint-ORIG-GUID: pegB-ZC-O3g6bBYH0zEhsMl5-I0H1Ba4
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjEwMDA1OSBTYWx0ZWRfX3jYpnL/EttHS
+ 4m+BOo8aDA7dyI3wrMKft1gHK4HloNSWe5BchrX3Dqlv4NnMutxJ6qe4LuZR1FPVRVy5L7Y4rZq
+ gcQoz4XG5p9L60X1oq0IRX6YjeB5jDsE/dz2CIabyPKhhHa0dD/Zkq8N6rOYV8BZDmOmZCU7kI6
+ Cq8D8QE19msYwkuUy+3eZiw4tcdNiDUQyNtNAp0T1EqeQhza8hxxkx9XY8EhtGVc5rp0BeEXFao
+ wNNhgdolu3nrR3wCFs4FXZIQUc/MH/B7btFwrnxMQjkTInrRaGv0wQQKcuF6p0+tC6a6PUBncSy
+ pieWgEPrE3EGEmmqbuyNCzR5UtGFaaOIXfp9nMJUw1MiDNU9Oz9i12JHqrimRjCm2a/8yHYWCeG
+ dHJaiUog8+HsWZYLQeki8pHQgKCecS/vDJmnWaJowbJo6r/UbFePr7ffBUu3O4/FlO3iTFR0rWQ
+ Z0ahQ5z8Sb5pXIeT7zg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-10_01,2026-06-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 suspectscore=0 malwarescore=0 phishscore=0 spamscore=0
+ impostorscore=0 clxscore=1015 priorityscore=1501 bulkscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2605210000 definitions=main-2606100059
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:laurent.pinchart@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:dave.stevenson@raspberrypi.com,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-64353-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-64352-lists,linux-media=lfdr.de];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,linux.dev,kernel.org,8bytes.org,arm.com,gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:bod@kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,m:mchehab@kernel.org,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:stanimir.k.varbanov@gmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:iommu@lists.linux.dev,m:devicetree@vger.kernel.org,m:busanna.reddy@oss.qualcomm.com,m:krzysztof.kozlowski@oss.qualcomm.com,m:mukesh.ojha@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,m:stanimirkvarbanov@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[busanna.reddy@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[gitlab.freedesktop.org:url,vger.kernel.org:from_smtp,qualcomm.com:dkim,qualcomm.com:email,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:from_mime,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[busanna.reddy@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,freya:mid]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8581C6663E5
+X-Rspamd-Queue-Id: D3B14666456
 
-Hi Dave
+Glymur is a new generation video codec that supports dual hardware cores
+along with additional power domains and clocks.
 
-Quoting Dave Stevenson (2026-06-09 23:51:09)
-> Hi Jai
->=20
-> Thanks for the patch
->=20
-> On Tue, 9 Jun 2026 at 08:03, Jai Luthra <jai.luthra@ideasonboard.com> wro=
-te:
-> >
-> > Doubling the PIXEL_RATE for the special analogue binning mode was always
-> > a hack done to make the userspace framerate calculations happy, as the
-> > sensor's PLL has always been unchanged.
-> >
-> > After analyzing the sensor behaviour with minimum possible values for
-> > frame and line length for different binning modes, it is likely that the
-> > sensor is doing averaging in the analogue domain for 4 pixels when the
-> > special binning mode is used. So use that to model the userspace
-> > blanking controls, instead of the hack of doubling the pixel rate.
->=20
-> "Averaging 4 pixels" doesn't actually explain what is being done in
-> order to make a model, and is very much educated guesswork as to what
-> is going on.
->=20
-> I'd suggest something like:
-> When using the special analog binning mode the sensor requires that
-> the Frame Length is programmed in units of 2lines, but it is still
-> producing the same number of lines overall.
-> The new raw sensor model requires that the pixel rate is fixed, so the
-> approach of doubling the pixel rate when binning can't be adopted.
->=20
-> There is sufficient range available in the Line Length register to
-> halve the value computed and passed to userspace as V4L2_CID_HBLANK
-> instead, and thereby keep the same pixel rate.
->=20
+This series adds platform specific support in the iris driver to handle
+the extra cores, power domains, and clock requirements introduced by
+glymur. Add support for firmware loading through context bank firmware
+device.
 
-Ack
+Dependencies and merge strategy:
 
-> > This has an additional benefit to make it easier to move to the new raw
-> > sensor model, where we have to expose the sensor's frame length and line
-> > length registers directly to the userspace through new controls, thus
-> > requiring the pixel rate control to match the sensor read out.
-> >
-> > Whether those new controls should also scale to give userspace a
-> > "correct" view of the sensor internals, as opposed to the sensor's
-> > register programming model is left as a decision for later.
-> >
-> > Link: https://lore.kernel.org/all/178091757893.16054.458338927041225137=
-9@freya/
-> > Link: https://lore.kernel.org/all/20260409201501.975242-65-sakari.ailus=
-@linux.intel.com/
-> > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> > ---
-> > This is a follow-up to the discussion done on Sakari's proposed fix for
-> > the same issue:
-> > https://lore.kernel.org/all/178091466607.16054.13972332068848565738@fre=
-ya/
-> >
-> > Tested on Raspberry Pi 5 with libcamera, which can still hit the same
-> > FPS ranges as before for both binned/non-binned modes.
-> > ---
-> >  drivers/media/i2c/imx219.c | 65 ++++++++++++++++++++++++++++++++++----=
---------
-> >  1 file changed, 49 insertions(+), 16 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > index 7da02ce5da15..534d9ba0588c 100644
-> > --- a/drivers/media/i2c/imx219.c
-> > +++ b/drivers/media/i2c/imx219.c
-> > @@ -420,7 +420,33 @@ static void imx219_get_binning(struct v4l2_subdev_=
-state *state, u8 *bin_h,
-> >
-> >  }
-> >
-> > -static inline u32 imx219_get_rate_factor(struct v4l2_subdev_state *sta=
-te)
-> > +/*
-> > + * When doing the special binning the sensor does the averaging in the=
- analogue
-> > + * domain (before ADC) for both H/V dimensions and reads out only a qu=
-arter of
-> > + * the pixels.
->=20
-> This is phrased as a statement of fact when we don't know what it's
-> actually doing.
->=20
+Patch[1-2]: IOMMU maintainer need to apply and provide an immutable tag
+which can merged into media tree.
 
-Fair enough, I'll switch it out in v2.
+Patch[3-9]: Media maintainer can pick them independently.
 
-> > The sensor programming model convolutes this by never changing
-> > + * the line length values and expecting frame length to be in units of=
- 2xLines.
-> > + *
-> > + * FLL =3D (output height + vblank) / 2
-> > + *
-> > + * If we go ahead with it and set `vblank =3D FLL - height` it would m=
-ake the
-> > + * control value negative.
-> > + *
-> > + * So we instead keep the userspace sane by adjusting the blanking con=
-trols to
-> > + * match the sensor read-out instead of the broken register model.
-> > + *
-> > + * Thus compensate LLP in the other direction,
-> > + *
-> > + * LLP =3D (output width + hblank) * 2
-> > + *
-> > + * So the blanking values are:
-> > + *
-> > + * vblank =3D FLL * 2 - height
-> > + * hblank =3D LLP / 2 - width
-> > + *
-> > + * where FLL and LLP are the values in the registers using the sensor
-> > + * programming model.
-> > + */
-> > +static inline u32 imx219_get_fll_factor(struct v4l2_subdev_state *stat=
-e)
-> >  {
-> >         u8 bin_h, bin_v;
-> >
-> > @@ -440,12 +466,12 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> >         struct i2c_client *client =3D v4l2_get_subdevdata(&imx219->sd);
-> >         const struct v4l2_mbus_framefmt *format;
-> >         struct v4l2_subdev_state *state;
-> > -       u32 rate_factor;
-> > +       u32 fll_factor;
-> >         int ret =3D 0;
-> >
-> >         state =3D v4l2_subdev_get_locked_active_state(&imx219->sd);
-> >         format =3D v4l2_subdev_state_get_format(state, 0);
-> > -       rate_factor =3D imx219_get_rate_factor(state);
-> > +       fll_factor =3D imx219_get_fll_factor(state);
-> >
-> >         if (ctrl->id =3D=3D V4L2_CID_VBLANK) {
-> >                 int exposure_max, exposure_def;
-> > @@ -478,7 +504,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> >                 break;
-> >         case V4L2_CID_EXPOSURE:
-> >                 cci_write(imx219->regmap, IMX219_REG_EXPOSURE,
-> > -                         ctrl->val / rate_factor, &ret);
-> > +                         ctrl->val / fll_factor, &ret);
-> >                 break;
-> >         case V4L2_CID_DIGITAL_GAIN:
-> >                 cci_write(imx219->regmap, IMX219_REG_DIGITAL_GAIN,
-> > @@ -495,11 +521,11 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
-> >                 break;
-> >         case V4L2_CID_VBLANK:
-> >                 cci_write(imx219->regmap, IMX219_REG_FRM_LENGTH_A,
-> > -                         (format->height + ctrl->val) / rate_factor, &=
-ret);
-> > +                         (format->height + ctrl->val) / fll_factor, &r=
-et);
-> >                 break;
-> >         case V4L2_CID_HBLANK:
-> >                 cci_write(imx219->regmap, IMX219_REG_LINE_LENGTH_A,
-> > -                         format->width + ctrl->val, &ret);
-> > +                         (format->width + ctrl->val) * fll_factor, &re=
-t);
-> >                 break;
-> >         case V4L2_CID_TEST_PATTERN_RED:
-> >                 cci_write(imx219->regmap, IMX219_REG_TESTP_RED,
-> > @@ -884,6 +910,7 @@ static int imx219_set_pad_format(struct v4l2_subdev=
- *sd,
-> >                 int exposure_def;
-> >                 int hblank, llp_min;
-> >                 int pixel_rate;
-> > +               int fll_factor;
-> >
-> >                 /* Update limits and set FPS to default */
-> >                 ret =3D __v4l2_ctrl_modify_range(imx219->vblank, IMX219=
-_VBLANK_MIN,
->=20
-> If being a real stickler, then vblank will have a step size of 2 when
-> binning, aka fll_factor.
->=20
+Patch[10]: Media maintainer can apply this once tag for patch[1-2] is available.
 
-Good catch, will do.
+Patch[11-12]: Glymur iris DT node, depends on patch[3].
 
-> > @@ -910,20 +937,28 @@ static int imx219_set_pad_format(struct v4l2_subd=
-ev *sd,
-> >                         return ret;
-> >
-> >                 /*
-> > -                * With analog binning the default minimum line length =
-of 3448
-> > -                * can cause artefacts with RAW10 formats, because the =
-ADC
-> > -                * operates on two lines together. So we switch to a hi=
-gher
-> > -                * minimum of 3560.
-> > +                * With special analog binning the default minimum line=
- length
-> > +                * of 3448 can cause artefacts with RAW10 formats becau=
-se the
-> > +                * sensor is averaging 4 pixels in analogue domain as o=
-pposed
-> > +                * to just 2, increasing the minimum time to read it ou=
-t.
-> > +                *
-> > +                * So we switch to a higher minimum of 3560.
-> >                  */
-> >                 imx219_get_binning(state, &bin_h, &bin_v);
-> >                 llp_min =3D (bin_h & bin_v) =3D=3D IMX219_BINNING_X2_AN=
-ALOG ?
-> >                                   IMX219_BINNED_LLP_MIN : IMX219_LLP_MI=
-N;
-> > +
-> > +               fll_factor =3D imx219_get_fll_factor(state);
-> >                 ret =3D __v4l2_ctrl_modify_range(imx219->hblank,
-> > -                                              llp_min - mode->width,
-> > -                                              IMX219_LLP_MAX - mode->w=
-idth, 1,
-> > -                                              llp_min - mode->width);
-> > +                                              (llp_min / fll_factor) -
-> > +                                              mode->width,
-> > +                                              (IMX219_LLP_MAX / fll_fa=
-ctor) -
-> > +                                              mode->width, 1,
-> > +                                              (llp_min / fll_factor) -
-> > +                                              mode->width);
-> >                 if (ret)
-> >                         return ret;
-> > +
-> >                 /*
-> >                  * Retain PPL setting from previous mode so that the
-> >                  * line time does not change on a mode change.
-> > @@ -936,9 +971,7 @@ static int imx219_set_pad_format(struct v4l2_subdev=
- *sd,
-> >                 if (ret)
-> >                         return ret;
-> >
-> > -               /* Scale the pixel rate based on the mode specific fact=
-or */
-> > -               pixel_rate =3D imx219_get_pixel_rate(imx219) *
-> > -                            imx219_get_rate_factor(state);
-> > +               pixel_rate =3D imx219_get_pixel_rate(imx219);
-> >                 ret =3D __v4l2_ctrl_modify_range(imx219->pixel_rate, pi=
-xel_rate,
-> >                                                pixel_rate, 1, pixel_rat=
-e);
->=20
-> pixel_rate now never changes, so there's no need to update it here.
->=20
+v4l2-compliance report for decoder including streaming tests:
 
-Will do, and drop the member from struct imx219 now that we don't modify
-it after init_controls.
+v4l2-compliance 1.33.0-5441, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 4310f15610f4 2026-01-18 22:09:17
 
-> Overall I think I prefer the approach to that of negative blanking
-> values, and it's pretty much the comments explaining it that are
-> slightly awkwardly worded.
->=20
-> Tested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
->=20
+Compliance test for iris_driver device /dev/video0:
 
-Thanks for the tests.
+Driver Info:
+        Driver name      : iris_driver
+        Card type        : Iris Decoder
+        Bus info         : platform:aa00000.video-codec
+        Driver version   : 7.1.0
+        Capabilities     : 0x84204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+        Detected Stateful Decoder
 
-> I do want to just confirm that the slowest frame rate hasn't been
-> altered, but I don't think it has.
->=20
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
 
-I checked on 3280x2464 and 1640x1232 and same FPS range is possible with
-libcamera on a Pi 5 even though the horizontal blanking range has changed
-for the binned mode.
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
 
-Thanks,
-    Jai
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
 
->   Dave
->=20
-> >                 if (ret)
-> >
-> > ---
-> > base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
-> > change-id: 20260609-imx219-pixelrate-d6cc96558482
-> >
-> > Best regards,
-> > --
-> > Jai Luthra <jai.luthra@ideasonboard.com>
-> >
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 12 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK
+        test Composing: OK
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+        test blocking wait: OK
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+the input file is smaller than 7077888 bytes
+        Video Capture Multiplanar: Captured 465 buffers
+        test MMAP (select, REQBUFS): OK
+the input file is smaller than 7077888 bytes
+        Video Capture Multiplanar: Captured 465 buffers
+        test MMAP (epoll, REQBUFS): OK
+the input file is smaller than 7077888 bytes
+        Video Capture Multiplanar: Captured 465 buffers
+        test MMAP (select, CREATE_BUFS): OK
+the input file is smaller than 7077888 bytes
+        Video Capture Multiplanar: Captured 465 buffers
+        test MMAP (epoll, CREATE_BUFS): OK
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for iris_driver device /dev/video0: 54, Succeeded: 54, Failed: 0, Warnings: 0
+
+v4l2-compliance report for encoder including streaming tests:
+
+v4l2-compliance 1.33.0-5441, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 4310f15610f4 2026-01-18 22:09:17
+
+Compliance test for iris_driver device /dev/video1:
+
+Driver Info:
+        Driver name      : iris_driver
+        Card type        : Iris Encoder
+        Bus info         : platform:aa00000.video-codec
+        Driver version   : 7.1.0
+        Capabilities     : 0x84204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04204000
+                Video Memory-to-Memory Multiplanar
+                Streaming
+                Extended Pix Format
+        Detected Stateful Encoder
+
+Required ioctls:
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video1 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 43 Private Controls: 0
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+        test blocking wait: OK
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK (Not Supported)
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (select, REQBUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (epoll, REQBUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (select, CREATE_BUFS): OK
+        Video Capture Multiplanar: Captured 61 buffers
+        test MMAP (epoll, CREATE_BUFS): OK
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for iris_driver device /dev/video1: 54, Succeeded: 54, Failed: 0, Warnings: 0
+
+Fluster test report:
+
+77/135 while testing JVT-AVC_V1 with 
+GStreamer-H.264-V4L2-Gst1.0.JVT-AVC_V1
+
+The failing tests are:
+- 52 test vectors failed due to interlaced clips: Interlaced decoding
+is not supported.
+- cabac_mot_fld0_full
+- cabac_mot_mbaff0_full
+- cabac_mot_picaff0_full
+- CABREF3_Sand_D
+- CAFI1_SVA_C
+- CAMA1_Sony_C
+- CAMA1_TOSHIBA_B
+- cama1_vtc_c
+- cama2_vtc_b
+- CAMA3_Sand_E
+- cama3_vtc_b
+- CAMACI3_Sony_C
+- CAMANL1_TOSHIBA_B
+- CAMANL2_TOSHIBA_B
+- CAMANL3_Sand_E
+- CAMASL3_Sony_B
+- CAMP_MOT_MBAFF_L30
+- CAMP_MOT_MBAFF_L31
+- CANLMA2_Sony_C
+- CANLMA3_Sony_C
+- CAPA1_TOSHIBA_B
+- CAPAMA3_Sand_F
+- cavlc_mot_fld0_full_B
+- cavlc_mot_mbaff0_full_B
+- cavlc_mot_picaff0_full_B
+- CVCANLMA2_Sony_C
+- CVFI1_Sony_D
+- CVFI1_SVA_C
+- CVFI2_Sony_H
+- CVFI2_SVA_C
+- CVMA1_Sony_D
+- CVMA1_TOSHIBA_B
+- CVMANL1_TOSHIBA_B
+- CVMANL2_TOSHIBA_B
+- CVMAPAQP3_Sony_E
+- CVMAQP2_Sony_G
+- CVMAQP3_Sony_D
+- CVMP_MOT_FLD_L30_B
+- CVNLFI1_Sony_C
+- CVNLFI2_Sony_H
+- CVPA1_TOSHIBA_B
+- FI1_Sony_E
+- MR6_BT_B
+- MR7_BT_B
+- MR8_BT_B
+- MR9_BT_B
+- Sharp_MP_Field_1_B
+- Sharp_MP_Field_2_B
+- Sharp_MP_Field_3_B
+- Sharp_MP_PAFF_1r2
+- Sharp_MP_PAFF_2r
+- CVMP_MOT_FRM_L31_B
+
+3 test case failed due to unsupported bitstream.
+num_slice_groups_minus1 greater than zero is not supported.
+- FM1_BT_B
+- FM1_FT_E
+- FM2_SVA_C
+
+2 test case failed because SP_SLICE type is not supported.
+- SP1_BT_A
+- sp2_bt_b
+
+1 test case failed due to unsupported profile.
+- BA3_SVA_C
+
+140/147 testcases passed while testing JCT-VC-HEVC_V1 with 
+GStreamer-H.265-V4L2-Gst1.0
+
+1 test case failed due to unsupported bitstream.
+- TSUNEQBD_A_MAIN10_Technicolor_2
+
+4 testcase failed due to unsupported resolution.
+- PICSIZE_A_Bossen_1
+- PICSIZE_B_Bossen_1
+- WPP_D_ericsson_MAIN10_2
+- WPP_D_ericsson_MAIN_2
+
+2 testcase failed due to CRC mismatch.
+- VPSSPSPPS_A_MainConcept_1
+This fails with software decoder as well. Refer the below link for the
+discussion happened for earlier platform.
+https://lore.kernel.org/all/63ca375440c4ff2f55ea0aa4e19458f775552d88.camel@ndufresne.ca/
+- RAP_A_docomo_6
+This was discussed on bug report
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/4392
+Based on above discussion, the initial error frames need to be dropped in
+the firmware or driver. Discussion ongoing with video firmware team on a
+way to handle such case. This issue is not specific to this platform, and
+its there on other platforms also.
+
+235/305 testcases passed while testing VP9-TEST-VECTORS with GStreamer-VP9-V4L2-Gst1.0
+64 testcases failed due to unsupported resolution
+- vp90-2-02-size-08x08.webm
+- vp90-2-02-size-08x10.webm
+- vp90-2-02-size-08x16.webm
+- vp90-2-02-size-08x18.webm
+- vp90-2-02-size-08x32.webm
+- vp90-2-02-size-08x34.webm
+- vp90-2-02-size-08x64.webm
+- vp90-2-02-size-08x66.webm
+- vp90-2-02-size-10x08.webm
+- vp90-2-02-size-10x10.webm
+- vp90-2-02-size-10x16.webm
+- vp90-2-02-size-10x18.webm
+- vp90-2-02-size-10x32.webm
+- vp90-2-02-size-10x34.webm
+- vp90-2-02-size-10x64.webm
+- vp90-2-02-size-10x66.webm
+- vp90-2-02-size-16x08.webm
+- vp90-2-02-size-16x10.webm
+- vp90-2-02-size-16x16.webm
+- vp90-2-02-size-16x18.webm
+- vp90-2-02-size-16x32.webm
+- vp90-2-02-size-16x34.webm
+- vp90-2-02-size-16x64.webm
+- vp90-2-02-size-16x66.webm
+- vp90-2-02-size-18x08.webm
+- vp90-2-02-size-18x10.webm
+- vp90-2-02-size-18x16.webm
+- vp90-2-02-size-18x18.webm
+- vp90-2-02-size-18x32.webm
+- vp90-2-02-size-18x34.webm
+- vp90-2-02-size-18x64.webm
+- vp90-2-02-size-18x66.webm
+- vp90-2-02-size-32x08.webm
+- vp90-2-02-size-32x10.webm
+- vp90-2-02-size-32x16.webm
+- vp90-2-02-size-32x18.webm
+- vp90-2-02-size-32x32.webm
+- vp90-2-02-size-32x34.webm
+- vp90-2-02-size-32x64.webm
+- vp90-2-02-size-32x66.webm
+- vp90-2-02-size-34x08.webm
+- vp90-2-02-size-34x10.webm
+- vp90-2-02-size-34x16.webm
+- vp90-2-02-size-34x18.webm
+- vp90-2-02-size-34x32.webm
+- vp90-2-02-size-34x34.webm
+- vp90-2-02-size-34x64.webm
+- vp90-2-02-size-34x66.webm
+- vp90-2-02-size-64x08.webm
+- vp90-2-02-size-64x10.webm
+- vp90-2-02-size-64x16.webm
+- vp90-2-02-size-64x18.webm
+- vp90-2-02-size-64x32.webm
+- vp90-2-02-size-64x34.webm
+- vp90-2-02-size-64x64.webm
+- vp90-2-02-size-64x66.webm
+- vp90-2-02-size-66x08.webm
+- vp90-2-02-size-66x10.webm
+- vp90-2-02-size-66x16.webm
+- vp90-2-02-size-66x18.webm
+- vp90-2-02-size-66x32.webm
+- vp90-2-02-size-66x34.webm
+- vp90-2-02-size-66x64.webm
+- vp90-2-02-size-66x66.webm
+
+2 testcases failed due to unsupported format.
+- vp91-2-04-yuv422.webm
+- vp91-2-04-yuv444.webm
+
+2 testcase failed due to unsupported resolution after DRC.
+- vp90-2-21-resize_inter_320x180_5_1-2.webm
+- vp90-2-21-resize_inter_320x180_7_1-2.webm
+
+1 testcase failed with CRC mismatch.
+- vp90-2-22-svc_1280x720_3.ivf
+This VP9 bitstream contains 20 superframes, and each superframe consists
+of three subframes in the following order:
+• 180p subframe
+• 360p subframe
+• 720p subframe
+Each superframe is submitted to the driver and firmware as a single input
+buffer, with one common timestamp attached to it. For every such input
+buffer, the hardware decoder produces three corresponding output buffers,
+one for each resolution (180p, 360p, and 720p), and all three output
+buffers carry the same timestamp. When these output buffers are returned
+to the client (GStreamer, in this case), the first buffer returned is
+displayed, while the remaining two buffers are dropped due to having
+identical timestamps. As a result, only one frame per superframe is
+rendered. Here the expectation of the test result is with 720p, last
+decoded frame in each super frame.
+Discussion ongoing with firmware team and gst maintainer on how to handle
+this case. This is not specific to glymur, and its there for the other
+platforms also.
+
+1 testcase failed due to unsupported stream.
+- vp90-2-16-intra-only.webm
+
+Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+---
+Changes in v8:
+- Extracted register addresses to separate variables in power sequence (Dmitry)
+- Fixed sashiko-bot reported issues some which are seems valid.
+- Link to v7: https://lore.kernel.org/r/20260603-glymur-v7-0-afaa55d11fe0@oss.qualcomm.com
+
+Changes in v7:
+- Replaced enum-indexed clock and power domain tables with per-block structures (Dmitry)
+- Combined venus common schema update patch and glymur video binding patch (Krzysztof)
+- Updated CPU_CS_SCIACMDARG3 write value as zero specific to glymur platform (Dmitry)
+- Updated the clock and reset names (Dmitry)
+- Link to v6: https://lore.kernel.org/r/20260515-glymur-v6-0-f6a99cb43a24@oss.qualcomm.com
+
+Changes in v6:
+- Rename function names in iris_vpu_bus (Dmitry)
+- Update the venus-common schema (Dmitry, Krzysztof)
+- Add dual core related functions into platform specific vpu ops (Dmitry)
+- Update power domain enum names (Vikash)
+- Remove unused macro
+- Link to v5: https://lore.kernel.org/r/20260509-glymur-v5-0-7fbb340c5dbd@oss.qualcomm.com/
+
+Changes in v5:
+- Remove clocks, clock-names, power-domains from the required list in
+  venus-common schema (Krzysztof)
+- Update core selection logic (Vikash)
+- Add macros for power status bits instead of magical values (Vikash)
+- Add new config for iris vpu bus instead of using the iris driver
+  config.
+- Re-arrage the patches (Krzysztof)
+- Link to v4: https://lore.kernel.org/r/20260505-glymur-v4-0-17571dbd1caa@oss.qualcomm.com
+
+Changes in v4:
+- Update existing venus common binding.
+- Update glymur DT binding required properties.
+- Patches are rebased and resolved merge conflicts.
+- Link to v3: https://lore.kernel.org/r/20260428-glymur-v3-0-8f28930f47d3@oss.qualcomm.com
+
+Changes in v3:
+- Drop generic dma context bus and moved to iris vpu bus (Greg)
+- Update commit message for platform data patch (Dmitry)
+- Link to v2: https://lore.kernel.org/r/20260423-glymur-v2-0-0296bccb9f4e@oss.qualcomm.com
+
+Changes in v2:
+- Update the clock and reset names in DT binding (Krzysztof)
+- Update firmware device names (Mukesh, Konrad)
+- Update the selection of core for dual core platforms
+- Add new generic dma context bus instead of own iris vpu bus (Dmitry)
+- Add patch to get power domain type to look up pd_devs index
+- Update glymur platform data (Dmitry)
+- Link to v1: https://lore.kernel.org/r/20260414-glymur-v1-0-7d3d1cf57b16@oss.qualcomm.com
+
+---
+Mukesh Ojha (1):
+      media: iris: Enable Secure PAS support with IOMMU managed by Linux
+
+Vikash Garodia (2):
+      media: iris: Add iris vpu bus support
+      iommu: Add iris-vpu-bus to iommu_buses
+
+Vishnu Reddy (9):
+      dt-bindings: media: qcom,glymur-iris: Add glymur video codec
+      media: iris: Add context bank hooks for platform specific initialization
+      media: iris: Replace enum-indexed clock and power domain tables with per-block structures
+      media: iris: Add power sequence for glymur
+      media: iris: Handle CPU_CS_SCIACMDARG3 register write via program bootup registers hook
+      media: iris: Add support to select core for dual core platforms
+      media: iris: Add platform data for glymur
+      arm64: dts: qcom: glymur: Add iris video node
+      arm64: dts: qcom: glymur-crd: Enable iris video codec node
+
+ .../bindings/media/qcom,glymur-iris.yaml           | 208 +++++++++++++++++++++
+ .../bindings/media/qcom,venus-common.yaml          |   8 +-
+ MAINTAINERS                                        |   1 +
+ arch/arm64/boot/dts/qcom/glymur-crd.dts            |   6 +
+ arch/arm64/boot/dts/qcom/glymur.dtsi               | 118 ++++++++++++
+ drivers/iommu/iommu.c                              |   4 +
+ drivers/media/platform/qcom/iris/Kconfig           |   4 +
+ drivers/media/platform/qcom/iris/Makefile          |   2 +
+ drivers/media/platform/qcom/iris/iris_common.c     |  10 +
+ drivers/media/platform/qcom/iris/iris_common.h     |   1 +
+ drivers/media/platform/qcom/iris/iris_core.c       |   9 +-
+ drivers/media/platform/qcom/iris/iris_core.h       |  32 +++-
+ drivers/media/platform/qcom/iris/iris_firmware.c   |  69 +++++--
+ drivers/media/platform/qcom/iris/iris_hfi_common.h |   1 +
+ .../platform/qcom/iris/iris_hfi_gen2_command.c     |  19 ++
+ .../platform/qcom/iris/iris_hfi_gen2_defines.h     |   1 +
+ drivers/media/platform/qcom/iris/iris_instance.h   |   2 +
+ .../platform/qcom/iris/iris_platform_common.h      |  46 ++---
+ .../platform/qcom/iris/iris_platform_glymur.c      | 106 +++++++++++
+ .../platform/qcom/iris/iris_platform_glymur.h      |  17 ++
+ .../platform/qcom/iris/iris_platform_sc7280.h      |  28 ++-
+ .../platform/qcom/iris/iris_platform_sm8250.h      |  26 ++-
+ .../platform/qcom/iris/iris_platform_sm8550.h      |  26 ++-
+ .../platform/qcom/iris/iris_platform_sm8750.h      |  29 ++-
+ .../media/platform/qcom/iris/iris_platform_vpu2.c  |  14 +-
+ .../media/platform/qcom/iris/iris_platform_vpu3x.c |  67 ++++---
+ .../platform/qcom/iris/iris_platform_x1p42100.h    |  27 ++-
+ drivers/media/platform/qcom/iris/iris_power.c      |  20 +-
+ drivers/media/platform/qcom/iris/iris_probe.c      | 138 ++++++++++++--
+ drivers/media/platform/qcom/iris/iris_resources.c  |  82 ++++----
+ drivers/media/platform/qcom/iris/iris_resources.h  |   8 +-
+ drivers/media/platform/qcom/iris/iris_utils.c      |  58 ++++--
+ drivers/media/platform/qcom/iris/iris_utils.h      |   3 +-
+ drivers/media/platform/qcom/iris/iris_vb2.c        |   4 +
+ drivers/media/platform/qcom/iris/iris_vidc.c       |   6 +-
+ drivers/media/platform/qcom/iris/iris_vpu3x.c      | 200 +++++++++++++++++---
+ drivers/media/platform/qcom/iris/iris_vpu4x.c      | 137 ++------------
+ drivers/media/platform/qcom/iris/iris_vpu_bus.c    |  61 ++++++
+ drivers/media/platform/qcom/iris/iris_vpu_common.c | 116 +++---------
+ drivers/media/platform/qcom/iris/iris_vpu_common.h |   7 +
+ .../platform/qcom/iris/iris_vpu_register_defines.h |  11 ++
+ include/dt-bindings/media/qcom,glymur-iris.h       |  11 ++
+ include/linux/iris_vpu_bus.h                       |  25 +++
+ 43 files changed, 1330 insertions(+), 438 deletions(-)
+---
+base-commit: 49e02880ec0a8c378e811bc9d85da188d7c6204c
+change-id: 20260601-glymur-4fcd4d832ecc
+
+Best regards,
+-- 
+Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+
 
