@@ -1,150 +1,187 @@
-Return-Path: <linux-media+bounces-64402-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64403-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id BK7DJYU7KWrsSgMAu9opvQ
-	(envelope-from <linux-media+bounces-64402-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 12:25:09 +0200
+	id ckEjFos7KWrtSgMAu9opvQ
+	(envelope-from <linux-media+bounces-64403-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 12:25:15 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33CD46683C2
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 12:25:09 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF73A6683C7
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 12:25:14 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=B5H8QNiZ;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64402-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64402-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=VBjWp3pC;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64403-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64403-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E399B30F7DA2
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 10:22:32 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E380330FA249
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 10:22:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFB2F3EFD05;
-	Wed, 10 Jun 2026 10:22:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 517A03DC4C4;
+	Wed, 10 Jun 2026 10:22:43 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD013EEAFE
-	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 10:22:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F9E3D8138
+	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 10:22:40 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781086940; cv=none; b=Nj0OgZnwWq6bsliGbi+t8tAFpWvwWRhtJYpm9q5YUkAWhf0dNLI86TbzLz5mDpceGXvdZ5/5+3jyyHSvq7rz3UWvKXQ8wFsaAde1JfzKrE8k/LwStLBUy/11iqsO0O3/J1fET37w3gi9tRrMD+fLDHajgyGhXmbXGtXC0ung9Sg=
+	t=1781086962; cv=none; b=t4qnUy2S8ZddN86YL4Xr1Du1l/gsD6oatnM2SosSSWm+rIgpNdricvI1YN7wXjbeDhqgv+G/i7Jdsb+jAbtGcLtnS66jm8Sg7/s+z7ptvHnmoVvPakflxPAjAyoGc9D0JlduKZkUhEZmuug84ebmV93/AXFkaMPm6fGdbOJQ4YA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781086940; c=relaxed/simple;
-	bh=rG4dRTjoDrL7Qas8vzDWb+OnyUEAvq8Ytsyy6PlZ7Zw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 Content-Type:MIME-Version; b=AADQ5Q9kVt3INoTWJPMsQ7GQ9MHPHCrY5Sg2mikwPyJUUk3OYPm7jMjpZdyNzGDfuDOuBg83w0OoLq7ZWOdnk0m0y1K25fiTVnkYX+5t4NgeWvkN39hrWQ9mR1+vDFmQ7csDuG73FB916Lt7bdxLF7ZnySL79B4d+7fhuT0F1ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=B5H8QNiZ; arc=none smtp.client-ip=209.85.167.48
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5aa61503fdaso6612072e87.0
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 03:22:18 -0700 (PDT)
+	s=arc-20240116; t=1781086962; c=relaxed/simple;
+	bh=f1iPtx0tm9wNKMKTdwutboVp/GgC+sJ9bk9bkhQd2bo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=l3oya1jGEWXPrFX9AfXSBnIFQBTGJ3CYL4SL4OhiQPPc11X064kZFpTr07gwCnKPIN5dUR+7FGZ1oTJK73ohZr8pbdnxuyoXtSB7iE7KnMrP+2K679/Aj8AXp7ph0PVRuS5lZkm8b+RYNXazOpx35i+M5Xp7ia22Vn9XtbQQ4kQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VBjWp3pC; arc=none smtp.client-ip=209.85.221.46
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-45efa80e0afso5131578f8f.2
+        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 03:22:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781086936; x=1781691736; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:message-id:date:references
-         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rG4dRTjoDrL7Qas8vzDWb+OnyUEAvq8Ytsyy6PlZ7Zw=;
-        b=B5H8QNiZ+E3BYED8QK6j17pLahDm67WdAarrZ1Gjrj3FrFUhwjfozGycT5YWWFZmO8
-         z5+WNvERLd/LJf0OXUq0u4KTac9EMlK8v0QgNcsZDktn67Kd3xEOgyHiexM7DVqGmE31
-         Ycd0NvHwopU9eOID1hdUwABCF1rplpkH1r+FD/U9gS2zjn8skx0JyijUFyc9u9H10Jbf
-         GWVc7i+BkHQ1OTyZ38PVt4zI7wYcdGCj920pH0fM7VMiMjQQIEGhVxMZVmw7CcelUsKT
-         BOFkQlRrCM8vGlftyLs2xT7LBAx2wqn3/PrSgjKUO7gS+g9Fy0ZHrWnltcwTm+nYX32S
-         ymXQ==
+        d=gmail.com; s=20251104; t=1781086959; x=1781691759; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BrxwLZxXKzJ/XclSGRqz6B9dkZuqXjbESIZFpynAdWU=;
+        b=VBjWp3pC6TvO/ktYDNsrKb8YF72WHj+f6RnUOlUvQML4mU4LCqtHL7Q8BAaKP6t7CD
+         3YBvTcg5r1sNEnyva4tHHYbas0ib1cX9eC7ofZ4bQ6t4QaKOHIVU16ly0fQNpdMn0p4I
+         QGBmHt/okuV7oMYIwSagywYNpOFI5/w/t9noAwoj6ZlTes7ogBBpPGMMVesOmYrNS8ve
+         IcKcXJ1A1tnncUh/7/VU2log+87CV4zFn+c5w6qTVGTqU8DBKHr17X+Vmuzzoa1JRZLW
+         df08vH5HDADaKaTwKim+KXK5hSqpaSiL9mgg8Dg/kQtD7xD7tKCiM5mtL3JykhgCSE0n
+         mUww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781086936; x=1781691736;
-        h=mime-version:content-transfer-encoding:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=rG4dRTjoDrL7Qas8vzDWb+OnyUEAvq8Ytsyy6PlZ7Zw=;
-        b=LPIRmsXTM5iGfAPv3Ibt0M5pna3PmRbWown3Jne9tw/7JgyV6VjGfoGBR8GJCfrRFI
-         VNcFBl9ay5rzJAQHi8R0dJiOOk/P1SEhI76KLApVQ+/LmzE2ovyeno9vrnbqdSbeAMK1
-         G4Ag1U9CzhU3NH8lYmcanvCayuwJzLKjYmYE8HMHFNo8t3SGdrmZk9lJTPPMUYbES5pQ
-         wXbXNdyXbuAWXG7lS9caRuKj1F7Neq8acA/xkInT5jwnTay0yZ36aK5foM3Zc2JgRhCS
-         dEjAFqP0Ut3H4XoygryJ5gaQcp1MxYlVLMndZ6AK/9IvFNaiw3miqPAsN8Pp3AS9E50+
-         r+dw==
-X-Forwarded-Encrypted: i=1; AFNElJ+fObXtfNiXKpemzskqwGscEnTwbIOjBU/MhA33et6sK4uQ2wFpntX+bmUQI3iIA4TBHRakVW0Lu9SIlw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyzv9udpOy/lQMVG1fyhrbTbP94qixFHtcZs67kzemvojneHrT7
-	LL1TmuIgLpG0NsCxuvQ0VtgP4rqLz5lMXMZEh3unAVTpRCMkIWmYockE
-X-Gm-Gg: Acq92OGQpbUBW3dtrOEkqWx5ZhP3GnWfGoNc1tzBoiUSJXFlx5JExoee8AlpRVvQviz
-	7V09r68dsrBNThnyiZiFCe1IkfUqcQdEkdLZRYAzJGUAThNc5/BrZUxH9A10zY8fAoVecKndYE5
-	hyUMpcXVD79sQHHFfXZtn93tYnkPn3XjVly67bWCAxdG3TPJ3jT5t5rCZ8TFolLSKhTMa7TGQk6
-	r6g/89C5dov/djug88LXYCDFUpPLMwgruSWFVSNG+w58/hDDM7dsfdRhv1bNSSpcoRwFnjpGElL
-	l54+x0BnenmXmCrdUCSNleaUm9ru1ijkaQKaG0GIkkhthauFSkFsCVYyhYWnyWDSiEzfI3fWQdy
-	Lt6neLMECN17Fc2iiU/wE1HlUZJwc9BfmTBcnc9BBXRijh5XuTOag5UJqjqXCUeWOPkkAd3ai72
-	sS/VQmWUNHntoZxvQZ3YpvvkbmMPpnX7VN2O019U9YzXTXTbS5GCaslpzgIt533N8i1Z0sb9Ue2
-	V25Ija4f/oRbq+In1L6Og==
-X-Received: by 2002:ac2:568d:0:b0:5aa:71e1:edab with SMTP id 2adb3069b0e04-5aa886fee66mr5875871e87.23.1781086936363;
-        Wed, 10 Jun 2026 03:22:16 -0700 (PDT)
-Received: from [127.0.1.1] ([79.106.123.139])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa7b8ed718sm5200547e87.14.2026.06.10.03.22.15
+        d=1e100.net; s=20251104; t=1781086959; x=1781691759;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BrxwLZxXKzJ/XclSGRqz6B9dkZuqXjbESIZFpynAdWU=;
+        b=CJkbxRhTsQpX+XbU9RFgy3b+nRtqhiw7x+LNVE8GiC66W22FYEOSOAzrYlQc1UiVP1
+         TJ4+GNSx+4bPVoUCJl7lmSbIX6N0fzfzX4lOLYn0Am4vEccmxR92XWSD+KH4wVzztgYj
+         rHmzwd8jXNJYQp0VgqRkVqcWAOqPSa+K5hs3H7U7aNuISww59lCOxstX1W8gH1wgyy8f
+         SvaDTjTjLzmtKmACYy/dVTibBdgNLjraWHAxPN1j5T1nXo7DzMf6wGhTwENMODb8/irr
+         kAL+bn+EW5/8UC7bCggH/C9yW+2xK2ySyt7preV/bHzVJbrMSUVVfnncnnwo5RFlpWtc
+         amjw==
+X-Forwarded-Encrypted: i=1; AFNElJ9Qo6ir+L5SJ/xeo6su2pKAKwQlJjVBbBxHCpAnR17ftUaB95kufpBirxoW9aqNDXI6VOHNw4kTLbSe1g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxsBUbBGa/SuYNeKTcgFTJxqArLE33p85B8YfNGYcpeK5d+jUgK
+	8D65oXIBuGGwuux0TETQnEWkEpLlg2sgaqSU7LNX+IZW8w9vk/eUPn62PH7wvm2V
+X-Gm-Gg: Acq92OHza4dfsN0ZF5xNWcsKxAwtqm4s5Aq4mTunY2bfqdoLZ+niiKD7iqzRQw/eRRt
+	H7bZY83sCm0ZadK7bg5JJT+KHiO78LpHQCQrgL1JXtroTYmUQi9wdrz+2i1Z0E7iuSN59Z94Pd1
+	qAerldY4BcmzXAk07PyDiKpn8dFaWKto1wiSkQ7pzzPvr5dkGFUTxBTGQWFaIs1fyKhdy0lF9nF
+	vwzFQRIlaMkruEDE0BgH/yBhFQNWmi12DRELvQIbMDUpdsybomzQKkywQxxrogL15oyWMnIyD0M
+	sy52IMJxysvwudisoxDHFXdKU+X/LOaXav6vODtAKJUyYKAka0gD0QtH4RD4pTh2BMS/MQPI5+C
+	ofzfwdsFZeD45OZizo1FAijPAppxDVfM/7mtlzt8z/H7pNrK8VeeXm3m6pc66I1KSssNbrGBi07
+	Rc9cIlu8eYFbwk3p8gVxkvxGNzLkGQMdIlLi1Sk/TaPBLdvD/JGIAmTaZbTD4u85TbqQ4vCch0G
+	Htb6LFnUoWYB00=
+X-Received: by 2002:a5d:4dcb:0:b0:43d:71b:204b with SMTP id ffacd0b85a97d-460307788d0mr28370907f8f.39.1781086959086;
+        Wed, 10 Jun 2026 03:22:39 -0700 (PDT)
+Received: from garuda ([79.106.123.139])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f35eae5sm71360831f8f.33.2026.06.10.03.22.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2026 03:22:16 -0700 (PDT)
+        Wed, 10 Jun 2026 03:22:38 -0700 (PDT)
 From: Jurison Murati <eng.juri@gmail.com>
-To: Daniel Scally <dan.scally@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: i2c: ov8865: Drop PM runtime reference if
- stream start fails
-In-Reply-To: <6a599060-0e44-45d1-8387-30d355233ee3@ideasonboard.com>
-References: <20260609232255.13559-2-eng.juri@gmail.com>
- <6a599060-0e44-45d1-8387-30d355233ee3@ideasonboard.com>
-Date: Wed, 10 Jun 2026 12:22:15 +0200
-Message-ID: <178108693532.7090.2464486265782818995@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Daniel Scally <dan.scally@ideasonboard.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Subject: [PATCH v2 1/2] media: i2c: ov8865: Drop the runtime PM usage count on stream failure
+Date: Wed, 10 Jun 2026 12:22:36 +0200
+Message-ID: <6b764b77a7d78b8ae2cfb8a213a1e844a329db26.1781085860.git.eng.juri@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260609232255.13559-1-eng.juri@gmail.com>
+References: <20260609232255.13559-1-eng.juri@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64402-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:dan.scally@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:hansg@kernel.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[engjuri@gmail.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:dan.scally@ideasonboard.com,m:hansg@kernel.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[engjuri@gmail.com,linux-media@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[engjuri@gmail.com,linux-media@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64403-lists,linux-media=lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[engjuri@gmail.com,linux-media@vger.kernel.org];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
 	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,ideasonboard.com:email]
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCPT_COUNT_FIVE(0.00)[5];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 33CD46683C2
+X-Rspamd-Queue-Id: BF73A6683C7
 
-Hi Dan,
+ov8865_s_stream() takes a runtime PM reference when enabling the
+stream, but returns without releasing it if ov8865_sw_standby()
+fails, leaving the reference unbalanced and the sensor powered
+indefinitely. The same applies to a failure while disabling the
+stream, in which case the reference acquired at stream start is
+never dropped.
 
-> Good spot, thanks:
->
-> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+Drop the reference in a single place, both when disabling the
+stream and on failure, and only update the streaming state on
+success.
 
-Thanks! Note that in v2 I restructured this per Sakari's suggestion
-(the runtime PM reference is now also dropped if disabling the stream
-fails), so I didn't carry your Reviewed-by over - please take another
-look when you get a chance.
+Signed-off-by: Jurison Murati <eng.juri@gmail.com>
+---
+Changes in v2:
+- Drop the runtime PM usage count in a single place as suggested by
+  Sakari, which now also covers a failure while disabling the stream.
+- Not carrying Dan's Reviewed-by from v1 over since the logic changed.
+- Reordered to 1/2 so the next patch can rely on the unified error
+  handling. This was 2/2 in v1.
 
-Regards,
-Jurison
+ drivers/media/i2c/ov8865.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
+index a8586df..5b909a8 100644
+--- a/drivers/media/i2c/ov8865.c
++++ b/drivers/media/i2c/ov8865.c
+@@ -2621,15 +2621,13 @@ static int ov8865_s_stream(struct v4l2_subdev *subdev, int enable)
+ 	ret = ov8865_sw_standby(sensor, !enable);
+ 	mutex_unlock(&sensor->mutex);
+ 
+-	if (ret)
+-		return ret;
+-
+-	state->streaming = !!enable;
+-
+-	if (!enable)
++	if (ret || !enable)
+ 		pm_runtime_put(sensor->dev);
+ 
+-	return 0;
++	if (!ret)
++		state->streaming = enable;
++
++	return ret;
+ }
+ 
+ static const struct v4l2_subdev_video_ops ov8865_subdev_video_ops = {
+-- 
+2.54.0
+
 
