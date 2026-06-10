@@ -1,472 +1,269 @@
-Return-Path: <linux-media+bounces-64408-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64409-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id HCqKArxFKWqqTQMAu9opvQ
-	(envelope-from <linux-media+bounces-64408-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 13:08:44 +0200
+	id aOOBBcpHKWoPTgMAu9opvQ
+	(envelope-from <linux-media+bounces-64409-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 13:17:30 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6291A66898B
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 13:08:43 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A709668A6A
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 13:17:29 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=fail ("headers rsa verify failed") header.d=ideasonboard.com header.s=mail header.b=oaeZgD0r;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64408-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64408-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=fail reason="SPF not aligned (relaxed)" header.from=ideasonboard.com (policy=none);
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=fhoVTNSX;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64409-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64409-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E0B5E3128477
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 10:59:05 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id EC7ED303DC90
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 11:10:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 910653FE352;
-	Wed, 10 Jun 2026 10:57:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7238735FF6E;
+	Wed, 10 Jun 2026 11:10:27 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3FA3FD13A
-	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 10:57:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0612C3FE373
+	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 11:10:19 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781089077; cv=none; b=VBFESgVdgTS08o6BGqt4WjCgJoQeICabJcUsWtFLF4iqp82iyjTcU2xi6rsiTxsGx6M9A7vqH8WxSz0RrwERwQaDcKx5DYtXbS0+W+9suOoBPYwSgzskeezidk8+Ik/Z5kytNihoOxlN8v2DOYDqrRq4GnbK/Fi764A3tlSsObk=
+	t=1781089825; cv=none; b=W/BstavnGrvuJWMq9sh114wfqMa3QTdTs4XhlhCYD/Z331BAffnWr2cqYO/nllcJd98cpEBL4NZibGpjcC4VuhNANxDKDBltf+hzifDInTligtLUAhoCB2fx81W64tEazcZbJlBpa2+OfuScsQMEuH/2H4Gyf3AnE+OVCSwo0Eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781089077; c=relaxed/simple;
-	bh=8J2W0ETC3p8njd9IO9dFqa2ymZdjBzftvnAKRl8dAVU=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=gqujNfPSV1PlYuqQLnIxsnXNx9r1HA/bdCYn8xyunePga3rGsPE8LVdNIkGXzcmJfjhekI8QOdSCPxZS9bXeJIZMAR1IFpRivTyXUTedk7i9shLGNY1OzZ1a5t2+6qaRf/Qa4c1JppGqRpzogqQfUdPzS1oY33Fj5wQteNR8y/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oaeZgD0r reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:bcf2:9325:a9bd:32b:e71])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B5900524;
-	Wed, 10 Jun 2026 12:57:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781089040;
-	bh=8J2W0ETC3p8njd9IO9dFqa2ymZdjBzftvnAKRl8dAVU=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=oaeZgD0rSR5Ya/AStqKWb9FUU8ijPsBaj90wGfzeEfQWKr+Vd9OuQn+5ZDKda5ydC
-	 nC0kntMdLjz+bNP/6zlC6UlCTU4vjDA91WVTNFmE41l23oxwU4Qj2EpE5Nm/Tl148t
-	 8kfObJMCA/MlysXKttVcwCmaX+O++Xv5GdOVQn6Y=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1781089825; c=relaxed/simple;
+	bh=AeMf5Wr6Pe7z04trz/jF9RfVqQlRMCsK6v0jvJ8gVWI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fa/P25c36BdulAzGAmQps4YusGmdUWS1UR9UllmHLa25YWnr2uTkDEbGjYBDDg2vXO5CFKTdJ3mrhWTe+ckD3KON1GH9ReSIFfxopH67V1OCfp6Y5fSWyfx8Gp5h1kjpG8If1MQPeVc3wYmnMKxDTJHOe1msq7QVxGxBkDmBqaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fhoVTNSX; arc=none smtp.client-ip=209.85.214.179
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2c0c2c7d45eso59532365ad.1
+        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 04:10:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781089819; x=1781694619; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ONdaAz3lAyvZtpSLEpD0avPz3gy5OYFvenkxhDXGSww=;
+        b=fhoVTNSX6pMa9cZQ0lVHJDYBt7GzzofA9HeZ9YGJxJMVxetbCx0qWsndAFLNDp3g88
+         ILYlzLHkXr36UG+MzsC1Pon7F883xZ64PWKMyNN53sJqbql31806NnsH+oWo+bZAglji
+         /nhP3Wj2/ivAq+uwd2HVlEGhITf7hrV1Y8cu98KXdavePFybdn/dGTo+5kpgfrbp6Gpw
+         TiI2QvLFs8gyLa3aL+Z7jk1sS3Uocau7dhxyeI2xBoOQHGFuCT9nPyuyDcHue0cc2z11
+         luoy0mzmv0HDsc9VBKsM4tkzHbXze+EQAziBBkZ+S8TbVcGdACmYdzdtGo/q3YjrlsK5
+         5cPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781089819; x=1781694619;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ONdaAz3lAyvZtpSLEpD0avPz3gy5OYFvenkxhDXGSww=;
+        b=LSPLGXMiCTvT8B4W46voIrVXsqxF5FGaV0Y5OL0YTVDoZoLPvmz6bqV0H0V9uKRj4Y
+         xuWYwpSWrgMjbtAyN0JUMv/3dL9Z3n1YseArK5+F9WVV21vgjeCfap7uVWqakSHp8Cra
+         eLTkFub06zOWzlkg36GhcNxgaNxKoRcCqIr6Kqf3PIan5zAwx0TZFJ/CsMNiP4eYm/+7
+         KSRNxJPXdLX334gMEQ844cb5+uOzfKbSC6LarqWiyn3Hjcdcf7IM4JDQVIm5nqJ7KTGd
+         +X4jwn/MqBn4laHI32UXzviwdYuk7tXdnErxbm+L87+hYBz134YstBNqav+cQyHoFRCV
+         dXLA==
+X-Forwarded-Encrypted: i=1; AFNElJ9ih73T6am/g2ttg3QvOf5RBYmmoySKxXuarbNn8sSpoUFfT9dtiRCce4iO4V9qS+OwLkl+Byhqk1qFIg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3NJw3IPDUNsYGfUvHx28kIflQ3I9+ih1ZLbmi1bYEXK3lbHLj
+	oSKzw29+BhF5CDuRjAbj1H3UsutWDl1nHtVgGdalCzBc9QWyw2i9FIpe
+X-Gm-Gg: Acq92OFaPR98RuuVLRDjfSmBjQ9DA3OYFUNKiMY48MVAMjufMwiVZDKZEE/rmkoY7fr
+	WS7wlapZdKP8rvAxP9d5jYKzSYVGPFna6yYmnUXeM3+29DGyCqgFKoHvn3QgrtIvxfjQd/IlszD
+	Y7pQeVwebP+FnlOZoNaaopXngwZ0fykiwEqt3QyjaXQ0VPhmBPm3DU/WKKb1rTgj4lREGblqBWx
+	VhnRAZq9uNqHivV++DTcgYCp0pMqLnTpkYyO9n3Rs8ZdSyc1IeBRVldN7ao0QvA5x4GuYkGDKHf
+	1hEXY7M2MPLiDnRDsNHx8LvutTzo+2l0fRRbaynpLhK+7/7gu0PiqMnXSlHUR24VgTA/jpClB/Q
+	KV3N60/EXVbmFEAN43Tn27cJgw66VEO8DpF9h7eOjBaw5h/H5NpJZl05eyoYGnJ5d3gJJ+FcS7+
+	9kC0XNbA2f/QGVp3XrxiBainKxqJSaV0GbaChnHg==
+X-Received: by 2002:a17:903:94b:b0:2b2:4bf9:1766 with SMTP id d9443c01a7336-2c1e85c736bmr283708325ad.33.1781089818833;
+        Wed, 10 Jun 2026 04:10:18 -0700 (PDT)
+Received: from [127.0.1.1] ([2409:40f4:4111:52c8:138e:8096:a8df:e68b])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c164f6d37esm317175205ad.9.2026.06.10.04.10.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jun 2026 04:10:18 -0700 (PDT)
+From: Ramshouriesh <rshouriesh@gmail.com>
+Subject: [PATCH 0/9] media/arm64: HM1092 IR camera and ASUS Zenbook A14
+ (X1P42100) camera support
+Date: Wed, 10 Jun 2026 16:39:25 +0530
+Message-Id: <20260610-a14-himax-hm1092-v1-0-0c9907da47ed@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <178108737654.1799417.12257128301401647481@freya>
-References: <20260607215356.842932-1-sakari.ailus@linux.intel.com> <20260607215356.842932-7-sakari.ailus@linux.intel.com> <aiZnQgyEBkZH7er0@zed> <178091466607.16054.13972332068848565738@freya> <178091757893.16054.4583389270412251379@freya> <aikyqqC_BsYI5D2M@kekkonen.localdomain> <178108737654.1799417.12257128301401647481@freya>
-Subject: Re: [PATCH v5 06/10] media: imx219: Fix vertical blanking and exposure for analogue binning
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, Hans Verkuil <hans@jjverkuil.nl>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, Tommaso Merciai <tomm.merciai@gmail.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, =?utf-8?q?Andr=C3=A9?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, Tomi Valkeinen <tomi.valkeinen@
- ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, "Yu, Ong Hock" <ong.hock.yu@intel.com>, "Ng, Khai Wen" <khai.wen.ng@intel.com>, Rishikesh Donadkar <r-donadkar@ti.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Wed, 10 Jun 2026 16:27:43 +0530
-Message-ID: <178108906380.1799417.14556725807061498193@freya>
-User-Agent: alot/0.13.dev35+g4a69c46ca
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3WS3W6kMAyFX2XE9WYU549ktFr1Papq5SSmpCowJ
+ TBlVfXd19De7E9vkAz2Od+xeWsqzYVqczm9NTPdSi3TyAV8OzWpx/GRRMlcN0oqJ50MAsGIvgy
+ 4iX4AGZSIMUWSSgXsqOGx60xd2Q7J+4ePuq7xidKy63x2zPSystfy0dYMVCseXpfT98NKKyvyt
+ f8lrjjjUAVtC407nLiBkCK53FkbgvIG757LiPN0nubHH4c8Lqk/pJQxyoAPEQATkZLGMWdog/T
+ ZW5TUxais1PvUvwhWabEBiVSLEjvKzbMzeuucNzZYBX87/y+GE9EI7ls3MXIIwbmkFqBFXmrZ9
+ b0EyYE4ZOVsezgbgzZgI7mcvw4X096nIIEyGHNwgAQdHwlkTsa1EnLyEtOfUy5r1xGiRsW2OnS
+ +JTQtYsu70shjTN1F98VKmO+6zq/485NXMa7iDx5jAOXS3VTr+WXF5zQNw5kfB3TEymvkN2W5n
+ Ezgv8V7SUmiT7r15AFiCnyRjOB9bpPjS6Xm4f39N7otzSKfAgAA
+X-Change-ID: 20260609-a14-himax-hm1092-bbcbe0229afe
+To: Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
+ Loic Poulain <loic.poulain@oss.qualcomm.com>, 
+ Bryan O'Donoghue <bod@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Aleksandrs Vinarskis <alex@vinarskis.com>, 
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-phy@lists.infradead.org, Ramshouriesh <rshouriesh@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5829; i=rshouriesh@gmail.com;
+ h=from:subject:message-id; bh=AeMf5Wr6Pe7z04trz/jF9RfVqQlRMCsK6v0jvJ8gVWI=;
+ b=owEBbQKS/ZANAwAKARWVil4RHAXeAcsmYgBqKUYM2l5gT0Awhq5dKGACM7kdseuFqcEgj2gyc
+ pzwu1jPtKiJAjMEAAEKAB0WIQS/0QuzNKVfvUNlNAkVlYpeERwF3gUCailGDAAKCRAVlYpeERwF
+ 3oYxEAC5nHpEAyEA4fCAKgzeJ3lXKotkjbpCfMKRL1zBudNQMlIs/HN/H6t1AeZEM4KAJlukbyr
+ Cf0bp+Clcv3fFxIMECzY0r7qGBa8BPsCFskwq5uUaTWeWSWwAbEXnIlhIE5xWZOy92UDR9rNICf
+ Ozf87E/nTvTNcbyiX0/7cD03kS+Sxgg1uILpWdg4OP0QrM/sq/smE0utdPrII6qScg/ZofQPGIr
+ vkasL+LeylBhPRUlIBKSsh+XKHtA95aKpGSEEH4WhBOXmFIA+W5KWofEFd6HFwez+XLa90Q3hhX
+ fhD+NHC0QlnKCORmN16z3I09Ojb2ycpUuxMmJKxF4jRAckFsFbFFyxkZsVKoDnt73Xjo3xHlqKW
+ lyArs1KCQQl7QxyQjB0zmiV+7TcpS/o8bZtqLIT7LcOGKkP7vh0qs2rosXKazXSmhjmjyamUYMK
+ tonVC+6ztjPNK9zs28u18evTXJg799+tw7cL70XFcZfSUiSR9CeT4o9m11F26bNurs2ZMxVV+fn
+ xWREw3eebSBnDuGAUIob+hIhzQ4f81vt+hAFxDJSG9WeMCO5eyDwj99fivDCDuc0rwzfoVxi2cN
+ lI6LDH+LK2XP26lYxq/zgBTwA+/MfYcNNKmACnMcfIiE0AugLWSvInWnQLN+Km8aVGNnp+0LDcw
+ 8qC2h4Fbj7ir0hQ==
+X-Developer-Key: i=rshouriesh@gmail.com; a=openpgp;
+ fpr=BFD10BB334A55FBD4365340915958A5E111C05DE
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.64 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	R_DKIM_REJECT(1.00)[ideasonboard.com:s=mail];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[ideasonboard.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-64409-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64408-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:dave.stevenson@raspberrypi.com,m:hans@jjverkuil.nl,m:jacopo.mondi@ideasonboard.com,m:laurent.pinchart@ideasonboard.com,m:linux-media@vger.kernel.org,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:dongcheng.yan@intel.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:tomi.valkeinen@ ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:r-donadkar@ti.com,m:sakari.ailus@linux.intel.com,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:mchehab@kernel.org,m:bryan.odonoghue@linaro.org,m:vladimir.zapolskiy@linaro.org,m:loic.poulain@oss.qualcomm.com,m:bod@kernel.org,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:alex@vinarskis.com,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-phy@lists.infradead.org,m:rshouriesh@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[rshouriesh@gmail.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FORGED_SENDER(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[vinarskis.com,vger.kernel.org,lists.infradead.org,gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[19];
 	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:-];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FREEMAIL_CC(0.00)[raspberrypi.com,jjverkuil.nl,ideasonboard.com,vger.kernel.org,gmail.com,redhat.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org, ideasonboard.com,ti.com];
+	FROM_NEQ_ENVFROM(0.00)[rshouriesh@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,ideasonboard.com:from_mime]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,linaro.org:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6291A66898B
+X-Rspamd-Queue-Id: 0A709668A6A
 
-Quoting Jai Luthra (2026-06-10 15:59:36)
-> Hi Sakari,
->=20
-> Quoting Sakari Ailus (2026-06-10 15:17:22)
-> > Hi Jai,
-> >=20
-> > On Mon, Jun 08, 2026 at 04:49:38PM +0530, Jai Luthra wrote:
-> > > Quoting Jai Luthra (2026-06-08 16:01:06)
-> > > > Hi Jacopo, Sakari,
-> > > > ++ Dave, Hans and Laurent,
-> > > >=20
-> > > > Quoting Jacopo Mondi (2026-06-08 12:28:46)
-> > > > > Hi Sakari
-> > > > >=20
-> > > > > On Mon, Jun 08, 2026 at 12:53:52AM +0300, Sakari Ailus wrote:
-> > > > > > When vertical analogue binning is in use, the minimum frame len=
-gth in
-> > > > > > lines decreases to around half of the normal. In relation to th=
-e sensor's
-> > > > > > output size this means vertical blanking can be negative but th=
-at's not an
-> > > > > > issue as control values are signed. Remove the workaround for t=
-his
-> > > > >=20
-> > > > > Didn't we just discussed two weeks ago in media summit how negati=
-ve
-> > > > > blankings are a bad idea, and of all drivers one could decide to =
-play
-> > > > > with imx219 is probably the worse due it's large use base and the=
- fact
-> > > > > libcamera doesn't support negative blankings ?
-> > > > >=20
-> > > > > Have I missed something ?
-> > > > >=20
-> > > >=20
-> > > > I think it would be helpful if I write down clearly how this sensor
-> > > > operates (to the best of my knowledge) so we can decide on the corr=
-ect
-> > > > fix:
-> > > >=20
-> > > > --------------------
-> > > >=20
-> > > > IMX219 sensor has an active resolution of 3280x2464.
-> > > >=20
-> > > > The driver currently programs the sensor VT pixel clock as fixed fo=
-r a
-> > > > given lane configuration.
-> > > >=20
-> > > > In 2-lane mode it reads 182.4 MPixel/second:
-> > > >=20
-> > > >     #define IMX219_PIXEL_RATE           182400000
-> > > >=20
-> > > > And the framerate is given by:
-> > > >=20
-> > > >     PIXEL_RATE / (FRAME_LENGTH * LINE_LENGTH)
-> > > >=20
-> > > > where FRAME_LENGTH and LINE_LENGTH are registers that include the a=
-ctive
-> > > > height and width along with blankings.
-> > > >=20
-> > > > There are restrictions on the minimum of the LINE_LENGTH register a=
-nd
-> > > > minimum vertical blanking (32), which cap the framerate for the ful=
-l resolution
-> > > > mode.
-> > > >=20
-> > > >     MIN_LINE_LENGTH: 0xd78 =3D> 3448 pixels
-> > > >     MIN_FRAME_LENGTH: ACTIVE_HEIGHT + MIN_VBLANK (32) =3D 2464 + 32
-> > > >                            =3D> 2496 lines
-> > > >=20
-> > > > The maximum frame rate is
-> > > >=20
-> > > >     182400000/(2496*3448) =3D> ~ 21.2 frames/second
-> > > >=20
-> > > > --------------------
-> > > >=20
-> > > > A user might want to stream a lower resolution with the full field-=
-of-view,
-> > > > let's take 1640x1232 (which is exactly 1/2 of active area) as an ex=
-ample.
-> > > >=20
-> > > > The sensor hardware can achieve this using two different binning mo=
-des:
-> > > >=20
-> > > >     2x2-binning (regval: 0x1)
-> > > >     2x2-analog-(special)-binning (regval: 0x3)
-> > > >=20
-> > > > The sensor pipeline looks like:
-> > > >=20
-> > > > active pixel array ->
-> > > >     analogue crop (none) ->
-> > > >         2x2 binning and ADC readout ->
-> > > >                 output to CSI-2 bus
-> > > >=20
-> > > > The mode names suggest that binning can happen either before or aft=
-er ADC,
-> > > > but the datasheet is not very clear about the process. We can infer
-> > > > some details though. See below..
-> > > >=20
-> > > > --------------------
-> > > >=20
-> > > > With the "normal" 2x2-binning mode the sensor allows programming
-> > > > FRAME_LENGTH to a lower value. The driver still uses the min blanki=
-ng of 32
-> > > > lines, but the height is now 1232, half of the 2464 before.
-> > > >=20
-> > > >     MIN_LINE_LENGTH: 0xd78 =3D> 3448 pixels
-> > > >     MIN_FRAME_LENGTH: READOUT_HEIGHT + MIN_VBLANK =3D 1232 + 32
-> > > >                            =3D> 1264 lines
-> > > >=20
-> > > > The maximum frame rate is
-> > > >=20
-> > > >     182400000/(1264*3448) =3D> ~ 41.8 frames/second
-> > > >=20
-> > > > --------------------
-> > > >=20
-> > > > With the "special" 2x2-binning mode, the datasheet notes that FRAME=
-_LENGTH
-> > > > register should be in units of 2 Lines instead of 1 Line. This means
-> > > > cutting it down by half once more:
-> > > >=20
-> > > >     MIN_FRAME_LENGTH: (READOUT_HEIGHT + MIN_VBLANK)/2 =3D (1232 + 3=
-2)/2
-> > > >                            =3D> 632 lines
-> > > >=20
-> > > > While there is a slightly higher minimum enforced for the line leng=
-th:
-> > > >=20
-> > > >     MIN_LINE_LENGTH: 0xde8 =3D> 3560 pixels
-> > > >=20
-> > > > The maximum frame rate is
-> > > >=20
-> > > >     182400000/(632*3560) =3D> ~ 81.0 frames/second
-> > > >=20
-> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > >=20
-> > > > Through the minimum allowed values of the FRAME_LENGTH and LINE_LEN=
-GTH
-> > > > registers and maximum possible framerate, I think it is safe to say=
- that:
-> > > >=20
-> > > >     2x2-binning =3D> Readout half the pixels (do vertical averaging=
- in the
-> > > >                                             analogue domain, before=
- ADC
-> > > >                                             reads out the voltages)
-> > > >=20
-> > > >     2x2-special-binning =3D> Readout a quarter of the pixels (???)
-> > > >=20
-> > > > FRAME_LENGTH being 1/4th of normal would seem to suggest that it is=
- a 4x1
-> > > > binning (combining 4 lines instead of blocks of 2x2).. which does n=
-ot make
-> > > > sense to me.
-> > > >=20
-> > > > My best guess is that in 2x2-special-binning mode the sensor does *=
-both
-> > > > horizontal and vertical* averaging in the analogue domain, before t=
-he ADC
-> > > > reads out the voltages.
-> > > >=20
-> > > > A higher minimum LINE_LENGTH value for this mode is the best "hard"
-> > > > evidence I have for this guess unfortunately, as the datasheet is q=
-uite
-> > > > lacking on this topic.
-> > > >=20
-> > >=20
-> > > Found another evidence for this, see "Table 16 Mode Example" in the
-> > > datasheet.
-> > >=20
-> > > It mentions "H Binning =3D Analog" for x2 binning mode (with ~4x the =
-FPS)
-> > > And "H Binning =3D Digital" for x4 binning mode
-> > >=20
-> > > It doesn't mention a ~2x FPS mode, which I assume is the normal 2x2-b=
-inning
-> > > mode, where I again assume that horizontal binning is done digitally.
-> >=20
-> > Most likely 4x vertical binning uses a combination of analogue and digi=
-tal
-> > binning. The type of the binning in general doesn't matter much, apart =
-from
-> > affecting the minimum line length in pixels and frame length in lines
-> > values.
-> >=20
->=20
-> My understanding so far is:
->=20
-> x2-binning does digital binning horizontally but analogue binning
-> vertically
->=20
-> x4-binning also does digital binning horizontally but analogue binning
-> vertically
->=20
-> x2-special-binning does analogue binning in both dimensions
->=20
-> > >=20
-> > >=20
-> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > >=20
-> > > > The APIs before Sakari's series expose HBLANK and VBLANK controls i=
-nstead
-> > > > of the actual FRAME_LENGTH/LINE_LENGTH registers to the userspace.
-> > > >=20
-> > > > The minimum value of FRAME_LENGTH is 632 when we are streaming 1640=
-x1232,
-> > > > so the sensor registers would suggest that we have a *negative vert=
-ical
-> > > > blanking*. Which as Jacopo and Laurent both point out, does not mak=
-e any
-> > > > conceptual sense whatsoever.
-> > > >=20
-> > > > What the driver does today to avoid these negative values is to dou=
-ble the
-> > > > PIXEL_RATE control value to 364800000 when using 2x2-special-binnin=
-g mode
-> > > > (and thus userspace has no idea the FRAME_LENGTH/VBLANK is in units=
- of
-> > > >  2xLines)
-> > > >=20
-> > > > As Sakari pointed out, that does not make any sense either. The sen=
-sor PLL
-> > > > values are completely unchanged, so the pixel readout must still be
-> > > > happening at the same rate. Moreover, the new raw sensor model will=
- expose
-> > > > FRAME_LENGTH and LINE_LENGTH directly to userspace, and this hack of
-> > > > doubling the PIXEL_RATE breaks those calculations.
-> > > >=20
-> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > >=20
-> > > > If we want to support the new raw sensor model (that mandates the n=
-ew
-> > > > FRAME_LENGTH and LINE_LENGTH controls) for this sensor we have to
-> > > > fix the PIXEL_RATE for sure. I see two options going forward:
-> > > >=20
-> > > > OPTION 1 (as proposed by Sakari):
-> > > >=20
-> > > >     Fix PIXEL_RATE to 182400000 and allow **negative values** for H=
-BLANK
-> > > >     and VBLANK controls when using 2x2-special-binning mode.
-> > > >=20
-> > > >     This will break any userspace tools, many libcamera pipelines i=
-ncluded,
-> > > >     that never expected those control values to be negative (even t=
-hough
-> > > >     the API has always permitted those)
-> >=20
-> > That's a clear bug, but it only becomes apparent when the sign bit is s=
-et.
-> >=20
->=20
-> Agreed, I'll try to send patches for that in libcamera regardless of what
-> we do here.
->=20
-> > > >=20
-> > > > OPTION 2 (something that struck me today morning discussing with Ja=
-copo):
-> > > >    =20
-> > > >     Fix PIXEL_RATE to 182400000 but **adjust the HBLANK values** to=
- go
-> > > >     lower to compensate, which will diverge from the sensor registe=
-rs which
-> > > >     keep MIN_LINE_LENGTH fixed across both binning modes.
-> > > >=20
-> > > >     This will make the driver quite more complicated, but userspace
-> > > >     expectations of non-negative blankings will be met. And it's li=
-kely
-> > > >     that the sensor is internally doing pre-ADC averaging horizonta=
-lly as
-> > > >     well, or so my best guess is.
-> > > >=20
-> > >=20
-> > > Which makes me lean more on OPTION 2 now.
-> > >=20
-> > > In our case above with 2x2-special-binning mode for 1640x1232, the re=
-gister
-> > > values are:
-> > >=20
-> > >     LINE_LENGTH =3D 3560 pixels
-> > >     FRAME_LENGTH =3D 632 lines
-> > >=20
-> > >=20
-> > > So OPTION 1 would give us:
-> > >=20
-> > >     HBLANK =3D 1920, VBLANK =3D -600
-> > >=20
-> > > When actually the datasheet's "H Binning =3D Analog" would suggest to=
- me that
-> > > reality looks more like:
-> > >=20
-> > >     LINE_LENGTH =3D 1780 pixels
-> > >     FRAME_LENGTH =3D 1264 lines
-> > >=20
-> > > So OPTION 2 would give us:
-> > >=20
-> > >     HBLANK =3D 140, VBLANK =3D 32
-> >=20
-> > This approach has the downsides that 1) it doesn't reflect what the sen=
-sor
-> > apparently does and 2) you lose one bit of granularity on line length in
-> > pixels.
-> >=20
->=20
-> I agree with you on 2)
->=20
-> On 1) though I don't think the sensor's register values are a good
-> indicator of what the sensor apparently does.
->=20
-> For example, FLL being programmed to ~ 1/4th of analogue crop height, whi=
-le
-> LLP being fixed to ~ analogue crop width would suggest the sensor is
-> averaging 4 R/Gr/Gb/B pixels vertically in the analogue domain (possibly
-> through common FD charge summing) before the ADC reads it out.
->=20
-> But the table in the datasheet clearly mentions horizontal binning is
-> (also) done in the analogue domain. Which makes more sense as well, given
-> the output has an average of a 2x2 block of pixels and not a 4x1 block of
-> pixels.
->=20
-> > The advantage still is that it works around the sign bit issue. The new
-> > controls still have their proper values but conversion between the two
-> > becomes rather complicated. See
-> > <URL:https://git.linuxtv.org/sailus/media_tree.git/commit/?h=3Dmetadata=
-&id=3D366cb25c7d944ef2935668a07471e4576e7088ed>
-> > for instance how it looks like without that.
-> >=20
->=20
-> I see.. well IMHO even the LLP and FLL controls should try to model what
-> the sensor does (if it is known, at least) rather than being just a 1-to-1
-> mapping of the sensor registers. Which as Dave and I have mentioned, is n=
-ot
-> the case in many sensors that scale the HMAX register units according to
-> some lower frequency clock (so 1 clock cycle =3D> multiple pixels)
->=20
-> In this particular case it would mean the new controls should scale like:
->=20
-> FRAME_LENGTH =3D FLL_REG / 2
-> LINE_LENGTH =3D LLP_REG * 2
+The ASUS Zenbook A14 (Qualcomm X1P42100, "Purwa") has two front cameras
+behind the SoC CAMSS: an OV02C10 RGB sensor and a Himax HM1092 mono NIR
+sensor used for face unlock. This series adds a driver for the HM1092 and
+the device tree to wire both sensors up on the A14.
 
-Sorry I need more coffee:
+The HM1092 binding, driver and MAINTAINERS entry do not depend on the
+rest of the series and can go through the media tree on their own.
 
-FRAME_LENGTH =3D FLL_REG * 2
-LINE_LENGTH =3D LLP_REG / 2
+The remaining DTS and PHY patches are the A14 camera enablement. They sit
+on top of several series that are not in mainline yet, listed below. With
+those applied the series builds on next-20260609: the A14 dtb and every
+module it touches (hm1092, qcom-camss including csiphy, and the
+qcom-mipi-csi2 phy) compile and work: both sensors probe and stream
+frames on the A14.
 
->=20
-> When analogue binning is used. Which should make your code slightly easie=
-r,
-> even if not re-usable across all sensors.
->=20
-> Thanks,
->     Jai
->=20
-> > >=20
-> > > > Of course, there are other options to just leave this highly used s=
-ensor
-> > > > alone, or support embedded data and internal pads without mandating=
- the new
-> > > > FRAME_LENGTH and LINE_LENGTH controls. But I personally would leave=
- that as
-> > > > a last resort.
-> >=20
-> > I agree. Especially because of its wide user base, it'd be really nice =
-to
-> > convert the imx219 to the Common Raw Sensor Model.
-> >=20
-> > --=20
-> > Regards,
-> >=20
-> > Sakari Ailus
->
+Prerequisites, in the order they apply:
+
+  1. phy: dphy: Extend phy_configure_opts_mipi_dphy to support position
+     and polarity (Bryan O'Donoghue, v1)
+     https://lore.kernel.org/all/20260325-dphy-params-extension-v1-0-c6df5599284a@linaro.org/
+  2. clk: qcom: videocc and camcc for X1P42100 (Jagadeesh Kona, v5)
+     https://lore.kernel.org/all/20260507-purwa-videocc-camcc-v5-0-fc3af4130282@oss.qualcomm.com/
+  3. phy: qcom-mipi-csi2: Add a CSI2 MIPI DPHY driver (Bryan O'Donoghue, v8)
+     https://lore.kernel.org/all/20260523-x1e-csi2-phy-v8-0-a85668459521@linaro.org/
+  4. media: dt-bindings and PHY updates for CAMSS on x1e80100 (Bryan O'Donoghue, v11)
+     https://lore.kernel.org/all/20260326-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v11-0-5b93415be6dd@linaro.org/
+  5. arm64: dts: qcom: x1e/Hamoa camera DTSI (Bryan O'Donoghue, v3)
+     https://lore.kernel.org/all/20260326-x1e-camss-csi2-phy-dtsi-v3-0-1d5a9306116a@linaro.org/
+  6. media: qcom: camss: Add support for X1P42100 camss (Wenmeng Liu, v2)
+     https://lore.kernel.org/all/20260511-purwa_camss-v2-0-22608ab9126c@oss.qualcomm.com/
+
+From the videocc/camcc series only the CAMCC block (patch 6/6) is still
+needed; its clock drivers and bindings are already in linux-next. That
+patch adds the camcc node and sets the Purwa camcc and videocc compatibles.
+
+From the x1e/Hamoa camera DTSI series only the CCI and CAMSS-block patches
+are needed; its CAMCC block duplicates the videocc/camcc series, and the
+x1e80100 board patches do not apply to the A14.
+
+Patch 1 adds the OV02C10 node. It is Aleksandrs Vinarskis' work, carried
+here with his Signed-off-by so the A14 camera support stays one chain.
+
+Signed-off-by: Ramshouriesh <rshouriesh@gmail.com>
+---
+Aleksandrs Vinarskis (1):
+      arm64: dts: qcom: x1-asus-zenbook-a14: Add on OV02C10 RGB sensor on CSIPHY4
+
+Ramshouriesh (8):
+      media: dt-bindings: Add Himax HM1092 NIR sensor
+      media: i2c: hm1092: add Himax HM1092 mono NIR sensor driver
+      MAINTAINERS: add entry for the Himax HM1092 sensor driver
+      arm64: dts: qcom: x1-asus-zenbook-a14: add HM1092 IR camera and wire cameras to camss
+      arm64: dts/media: qcom: keep PLL8 out of Purwa camss hot path
+      arm64: dts: qcom: hamoa: reorder csiphy power-domains for v8 CSI2-PHY
+      dt-bindings: phy: qcom: add MIPI CSI2 mode constants
+      phy: qcom-mipi-csi2: accept PHY_QCOM_CSI2_MODE_DPHY phy-cell
+
+ .../bindings/media/i2c/himax,hm1092.yaml           | 118 ++++
+ MAINTAINERS                                        |   9 +
+ arch/arm64/boot/dts/qcom/hamoa.dtsi                |  32 +-
+ arch/arm64/boot/dts/qcom/purwa.dtsi                |  12 +
+ arch/arm64/boot/dts/qcom/x1-asus-zenbook-a14.dtsi  | 227 ++++++-
+ drivers/media/i2c/Kconfig                          |  14 +
+ drivers/media/i2c/Makefile                         |   1 +
+ drivers/media/i2c/hm1092.c                         | 685 +++++++++++++++++++++
+ drivers/media/i2c/hm1092_regs.h                    | 223 +++++++
+ drivers/media/platform/qcom/camss/camss.c          |  16 +-
+ drivers/phy/qualcomm/phy-qcom-mipi-csi2-core.c     |   3 +-
+ include/dt-bindings/phy/phy-qcom-mipi-csi2.h       |  15 +
+ 12 files changed, 1326 insertions(+), 29 deletions(-)
+---
+base-commit: 49e02880ec0a8c378e811bc9d85da188d7c6204c
+change-id: 20260609-a14-himax-hm1092-bbcbe0229afe
+prerequisite-message-id: <20260325-dphy-params-extension-v1-0-c6df5599284a@linaro.org>
+prerequisite-patch-id: 471e9403130bb3e65cea1d2365d75ef664662306
+prerequisite-patch-id: 075fa72fba3c4f51138b88972e6a5e240038d90c
+prerequisite-patch-id: 4edca361ad7d370a338641d1ebb5ca65b114a244
+prerequisite-patch-id: 32dd1b55ba678d00088b376e33e12d9da6241aca
+prerequisite-patch-id: 24424189b11acee204622997908d85a0efbb2503
+prerequisite-message-id: <20260523-x1e-csi2-phy-v8-0-a85668459521@linaro.org>
+prerequisite-patch-id: dc660c63d4382e84af51241381727954bd5ed013
+prerequisite-patch-id: 237410e8df475d80bede4590288b6b053b1483e5
+prerequisite-message-id: <20260326-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v11-0-5b93415be6dd@linaro.org>
+prerequisite-patch-id: 6e8e67cd3ab96a602971bbeeb7dfdeaf3f1426a2
+prerequisite-patch-id: bbf431fcabc17c30fa5e804eb4accb8275198b37
+prerequisite-patch-id: a7fbea14628b62a8de096dea420473b283010aba
+prerequisite-patch-id: b6b6c4e7a5818e1b93fe2758902bd32d2be48509
+prerequisite-patch-id: 4f11e3d079a484008a03ce750952d6e2933c0253
+prerequisite-patch-id: 5f5504fd7b5eee72c3fb8c045fa57219fd2f0456
+prerequisite-patch-id: 570b65b326f4c684d813f6ebeda152378dc2a47f
+prerequisite-patch-id: bc5b9321c124abd961ae1f60610dc46701dc80ac
+prerequisite-patch-id: 6d36feaa3a210039f87ea47aa74423a670260fb6
+prerequisite-message-id: <20260511-purwa_camss-v2-0-22608ab9126c@oss.qualcomm.com>
+prerequisite-patch-id: 9430f9db2ca3486da39606aa806db3c1973ad2d1
+prerequisite-patch-id: d90c86fbd38851530f9480562647703c32a86a91
+prerequisite-patch-id: baa498638bf0da1bdc25a3c5e827c351d3b78e79
+
+Best regards,
+--  
+Ramshouriesh <rshouriesh@gmail.com>
+
 
