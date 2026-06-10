@@ -1,212 +1,202 @@
-Return-Path: <linux-media+bounces-64388-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64389-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id aGbPE+omKWpkRgMAu9opvQ
-	(envelope-from <linux-media+bounces-64388-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 10:57:14 +0200
+	id iKcZKwgnKWpxRgMAu9opvQ
+	(envelope-from <linux-media+bounces-64389-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 10:57:44 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1DF6667813
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 10:57:13 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id F22D7667832
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 10:57:43 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=K9fsCDu5;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64388-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64388-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=gIy88eYr;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64389-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64389-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E60F9313D24F
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 08:47:04 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 140CD31A4E5E
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 08:47:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77AC53BBFBD;
-	Wed, 10 Jun 2026 08:45:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A8BE3AD530;
+	Wed, 10 Jun 2026 08:47:40 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F74B3BB9EB
-	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 08:45:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F111371CEE
+	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 08:47:38 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781081124; cv=none; b=NOj3+MbizwEq+ftWsraFSzLy7yxtVIhCHu8RRRjCCFy6+w1NFF2EiZVYUZu6AEGnGD/npmNyIx5FS+WWkcP0nuTWa080jUu9dqOndbpSZyv/dNV+0Kn3Ack+z5HlhwFog4X6jSjHIQF1lB+Ketsod9PKLurEDFAJDhNzbQl4hFU=
+	t=1781081260; cv=none; b=eBO8HtsPP2JQKpbNVTE8uMVSFrrB20hKOpIAhA0/JaYfQq48Vu7E4Gj8xcFwHEqOXnr5IPlLFa+wewsPHmZx2u5QBXXl6+mLndB6mmIOkC4ahPwBw/xm4YR2mLdgYxqTv5fBvVGMHRaIMYLidQFHaU3emdUP32Dxzs8FoxZ565M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781081124; c=relaxed/simple;
-	bh=LqHSPc8aqGN9iG0zcMUEFnihDMnXSUtExGm1mwMvvl8=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=hb/5Pyym+yd0AoZTl3fCHWBSB29iiqE4g2XmFhvxKsg2p8VyYdX3KXAkHEh/n6brGeNDteTWeE4WEvQLPXiSfMbF39X6d7P5B8duonVL80asqLtJ+YIUXQo5RUUXprcUN/n8XRUwBWJlbMJDWjubcVb6hFnYrsWD139zc5370eg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=K9fsCDu5; arc=none smtp.client-ip=213.167.242.64
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:bcf2:9325:a9bd:32b:e71])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4F4909D1;
-	Wed, 10 Jun 2026 10:44:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781081090;
-	bh=LqHSPc8aqGN9iG0zcMUEFnihDMnXSUtExGm1mwMvvl8=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=K9fsCDu5to0F4ONSMIKwzzNRjgzsiJx8plqLOZYeRIB7gVTpM3T3jFrFyD9L5M2bn
-	 OU5sVu9qmyn0UfKNtQOLvczS8tp4BDx7OG/Kzzfp0473T/LJ+Qv6+HOPFgBEBdPHYY
-	 /dKw1lgh2LU+xRVEFg/J6X5TZ2H5kuFqhfaZorYM=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1781081260; c=relaxed/simple;
+	bh=HK15SMFGqGFB5dy9wkOYSIixsAG+ODoJmMn9s3DCY08=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=jd0IZsJQjJMcvj7JcgfWPVqooqWQ6xBjgXbJNHMPAMqqq5V1y5lNbR4KN0A4ws4iXio7CoosCPKL4aRdm/Kd3ClbPS/pA7pshzd/Y0ltTeuqVCcmrPiW7FhihjQmzEYrGxfc6rRq6NOesdb6Md12+ntC2/Kn2ksY8VvfWbZAuhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gIy88eYr; arc=none smtp.client-ip=209.85.221.53
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-45ef9df68bcso360776f8f.2
+        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 01:47:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781081257; x=1781686057; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=OERKqt1g2K8cSM2CQc683H+z2iXNM2E/sBMWVP8ew3Q=;
+        b=gIy88eYrpImcaDJ+G0nicql1XWrKgTEE7Vb0rQ6xGOzVGZWCebWcba/xjzqe5wVIbN
+         YGWPCLuhp7659qZWa+O9zsFQ30Q5w4Ghj4e0Z26ASX0CpyCLl677ejwRC4TxaSHzMOFI
+         haSlUrlLj/rhCkZkNlrAKhArwHlqVyr4PUGDZlNhWGl7wAJcasB9BkHPK5dm0fuhrFZP
+         v3XpHIeeqgSoaloey/baTIE+7goqhpuB+GJuPfbXEiLJ+sPsrH3hBkpzYAiWTNXdaIQ3
+         JtU9Hk3Flsw9C1HtLOc20wtM9rMJtRvUssidzR+mr5l6B+S8VfOZEIs8IBfM6jXacA5z
+         DS4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781081257; x=1781686057;
+        h=content-transfer-encoding:subject:from:cc:to:content-language
+         :mime-version:date:message-id:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OERKqt1g2K8cSM2CQc683H+z2iXNM2E/sBMWVP8ew3Q=;
+        b=Z9v4ALtETwvL5LADUGr3AmG7IU7MX8rjaZmUFKlzAVr60VFQTkjhq3wlUys797NrX4
+         RShZeuL5E6SW13bNIUEwBMUHSHALngSfCk0HzuU8u26jIMqiJEY1gPLjCIPaiB07w5bG
+         HUN09uYu4V+HJMXu5ccppozRssrnCxvK4TLsKS/f2Rjf8C+HE98Z22f5svE6kK/BBKGl
+         mICYBZrmyWvobudecgHR2JKor5FnfKnowC0aL5jqsdciX4UL85AklfiIqTEIBrUsdID7
+         eYoC4if4Q+ofFEvxME/75ScEZ1zDPQEm69jLdQLe3mnfagnxYS5M6ew6ccBxhqifi68n
+         95/g==
+X-Forwarded-Encrypted: i=1; AFNElJ8jUZ43eX8bESjwTs3gLHK9CvQP0Ju2TisQDb8WKPT1eSHhPa3eY9buEuVB2cIWCUiQjO2L+6UqYKEIKw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywwc3MnFA793S0idSTMn/RCVpE6mVp3GMd62i07AmPP8eSSaLvo
+	4Me/zC+TtsCpNPG5uSWcRlZkeuBeckNrmo7QO7c3SOksYTpYu6m3/oc=
+X-Gm-Gg: Acq92OH3KvE55rJFMHF/6snzldtTb/qGqB86vc3gKYQ6Yb9grYcz9lyHzLPWg3IwDrW
+	bTG9h5gVcjrFOJQLIfSiCgCFnXIzfxOL++e9LIpl+HNYksKI4jITNYB+JHCx2K8SUy+4BRuXy57
+	Ry95t/71kHGSOLOp0mIuiijVilyU4o8t8TV11zNIKaBHc9mMaE8vO4rNfj3tYK6JnwuhaZMPyHB
+	ZhP6a4HPrMExZx2ICKhahU+mckoj2yGSei1xH+Hs4Mfyb/MNYg2m2N6Z4LmjDwYuWq6CzJda78b
+	MkQilkQRAiYUlqGxIIwiQhPnrLa3MQZT8pxPCVn9fzwj4mbF24/9iIxEhY67aRqmLZlDldAnjHK
+	F2moAc2ZNDqbo6qi/rEiJD46cC1SIK3JgkW7f1i+VtGjhZdOED4mQLEG7LWLGhZJB3deMChsb8G
+	rcIBpVSjZw25iojpPl/USDu97/6gz8VigbV7KAKHkFkW+gaozNlgzyn0DUdqp9n3zMgRNSBUxwb
+	ds=
+X-Received: by 2002:a05:6000:2388:b0:451:51d6:5e24 with SMTP id ffacd0b85a97d-460566e8604mr3700520f8f.6.1781081256237;
+        Wed, 10 Jun 2026 01:47:36 -0700 (PDT)
+Received: from localhost (32.red-80-39-29.staticip.rima-tde.net. [80.39.29.32])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f351ac0sm123273485f8f.27.2026.06.10.01.47.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Jun 2026 01:47:35 -0700 (PDT)
+Message-ID: <d6c10dd0-daff-424e-bde4-8f47a036a8a0@gmail.com>
+Date: Wed, 10 Jun 2026 10:47:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <aikf5r1urSvVP1Jv@kekkonen.localdomain>
-References: <20260607215356.842932-1-sakari.ailus@linux.intel.com> <20260607215356.842932-7-sakari.ailus@linux.intel.com> <aiZnQgyEBkZH7er0@zed> <20260608091026.GB772117@killaraus.ideasonboard.com> <aibMpvdVNraURHIE@kekkonen.localdomain> <178093582619.19620.15016359616261234139@freya> <20260608215213.GC944266@killaraus.ideasonboard.com> <aikf5r1urSvVP1Jv@kekkonen.localdomain>
-Subject: Re: [PATCH v5 06/10] media: imx219: Fix vertical blanking and exposure for analogue binning
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org, hans@jjverkuil.nl, Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, =?utf-8?q?Andr=C3=A9?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, "Yu
-  , Ong Hock" <ong.hock.yu@intel.com>, "Ng, Khai Wen" <khai.wen.ng@intel.com>, Rishikesh Donadkar <r-donadkar@ti.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Wed, 10 Jun 2026 14:15:13 +0530
-Message-ID: <178108111316.1799417.9603858282315593116@freya>
-User-Agent: alot/0.13.dev35+g4a69c46ca
+Content-Language: en-US, en-GB, es-ES
+To: Mario Limonciello <superm1@kernel.org>
+Cc: linux-usb@vger.kernel.org, SOUND ML <linux-sound@vger.kernel.org>,
+ SCSI ML <linux-scsi@vger.kernel.org>, NETDEV ML <netdev@vger.kernel.org>,
+ linux-media@vger.kernel.org, KERNEL ML <linux-kernel@vger.kernel.org>
+From: Xose Vazquez Perez <xose.vazquez@gmail.com>
+Subject: [FYI] Several firmware files removed from linux-firmware.git (affects
+ multiple drivers)
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:hans@jjverkuil.nl,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:dave.stevenson@raspberrypi.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:dongcheng.yan@intel.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:tomi.valkeinen@ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:r-donadkar@ti.com,m:laurent.pinchart@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-64389-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	TAGGED_FROM(0.00)[bounces-64388-lists,linux-media=lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:superm1@kernel.org,m:linux-usb@vger.kernel.org,m:linux-sound@vger.kernel.org,m:linux-scsi@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[xosevazquez@gmail.com,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[ideasonboard.com,vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,ti.com];
+	FROM_NEQ_ENVFROM(0.00)[xosevazquez@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,linuxtv.org:url,ideasonboard.com:dkim,ideasonboard.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B1DF6667813
+X-Rspamd-Queue-Id: F22D7667832
 
-Quoting Sakari Ailus (2026-06-10 13:57:18)
-> Hi Laurent,
->=20
-> On Tue, Jun 09, 2026 at 12:52:13AM +0300, Laurent Pinchart wrote:
-> > On Mon, Jun 08, 2026 at 09:53:46PM +0530, Jai Luthra wrote:
-> > > Quoting Sakari Ailus (2026-06-08 19:37:34)
-> > > > On Mon, Jun 08, 2026 at 12:10:26PM +0300, Laurent Pinchart wrote:
-> > > > > On Mon, Jun 08, 2026 at 08:58:46AM +0200, Jacopo Mondi wrote:
-> > > > > > Hi Sakari
-> > > > > >=20
-> > > > > > On Mon, Jun 08, 2026 at 12:53:52AM +0300, Sakari Ailus wrote:
-> > > > > > > When vertical analogue binning is in use, the minimum frame l=
-ength in
-> > > > > > > lines decreases to around half of the normal. In relation to =
-the sensor's
-> > > > > > > output size this means vertical blanking can be negative but =
-that's not an
-> > > > > > > issue as control values are signed. Remove the workaround for=
- this
-> > > > > >=20
-> > > > > > Didn't we just discussed two weeks ago in media summit how nega=
-tive
-> > > > > > blankings are a bad idea, and of all drivers one could decide t=
-o play
-> > > > > > with imx219 is probably the worse due it's large use base and t=
-he fact
-> > > > > > libcamera doesn't support negative blankings ?
-> > > > >=20
-> > > > > I also think that negative blanking values are a bad idea, for th=
-is
-> > > > > driver or any other driver. I still haven't seen any compelling
-> > > > > argument.
-> > > >=20
-> > > > Note that the blanking controls haven't expressed blanking in other
-> > > > configurations than those that do not use binning, either analogue =
-or
-> > > > digital, or cropping. The fact that negative values would result du=
-e to
-> > > > sensor configuration does not mean the values would be somehow inco=
-rrect,
-> > > > they simply do not reflect actual blanking configuration on the sen=
-sor.
-> > >=20
-> > > I agree.. although what is the actual blanking configuration on the s=
-ensor
-> > > in this case?
-> > >=20
-> > > I've been banging my head for a while to figure it out (my best guess=
- in
-> > > the sibling thread)
-> > >=20
-> > > > In retrospect, we should have always had frame length in lines and =
-line
-> > > > length in pixels controls instead, or possibly besides the blanking
-> > > > controls. But as the two blanking controls have been in use for con=
-veying
-> > > > frame length in lines and line length in pixels, relative to a refe=
-rence
-> > > > size,
-> >=20
-> > What's the reference size ? The controls are documented as
-> >=20
-> > ``V4L2_CID_VBLANK (integer)``
-> >     Vertical blanking. The idle period after every frame during which no
-> >     image data is produced. The unit of vertical blanking is a line.
-> >     Every line has length of the image width plus horizontal blanking at
-> >     the pixel rate defined by ``V4L2_CID_PIXEL_RATE`` control in the
-> >     same sub-device.
-> >=20
-> > ``V4L2_CID_HBLANK (integer)``
-> >     Horizontal blanking. The idle period after every line of image data
-> >     during which no image data is produced. The unit of horizontal
-> >     blanking is pixels.
-> >=20
-> > This is compatible with usage of the output size as a reference. And
-> > doing so wouldn't require negative blanking, would it ?
->=20
-> That's not true: the reference of the blanking values in fact is the
-> analogue crop rectangle, not the output size or anything else. However, I
+Hi,
 
-That's one model of it, not a fact.
+In commit 1e6faaf837aea079582214c9c1382e5476175576 [1] of the
+linux-firmware.git repo, the following files were removed due
+to unknown licenses:
 
-We have multiple sensors that have a lower LINE_LENGTH than the analogue
-width or lower FRAME_LENGTH than the analogue height when binning. To say
-the sensor is doing negative blanking physically makes no sense at all.
+acenic/tg1.bin
+acenic/tg2.bin
+emi62/bitstream.fw
+emi62/loader.fw
+emi62/midi.fw
+emi62/spdif.fw
+ess/maestro3_assp_kernel.fw
+ess/maestro3_assp_minisrc.fw
+korg/k1212.dsp
+lgs8g75.fw
+mts_mt9234mu.fw
+mts_mt9234zba.fw
+myricom/lanai.bin
+qlogic/isp1000.bin
+sun/cassini.bin
+ttusb-budget/dspbootcode.bin
+vicam/firmware.fw
+yam/1200.bin
+yam/9600.bin
+yamaha/ds1_ctrl.fw
+yamaha/ds1_dsp.fw
+yamaha/ds1e_ctrl.fw
 
-Is the sensor going back in time to not send those pixels out?
 
-> believe we need to take the established usage on UAPI as a fact which is
-> why I wrote this
-> <URL:https://git.linuxtv.org/sailus/media_tree.git/commit/?h=3Dmetadata&i=
-d=3D5b470f2ed717705b51f4a799722dffb34a37f10a>.
->=20
+This affects, at least, the following drivers:
 
-I am fine with different maps of a territory, as both maps have their pros
-and cons. One is easier to handle in drivers and one is easier to make
-sense physically. But please don't confuse maps with territories.
+drivers/media/dvb-frontends/lgs8gxx.c:#define LGS8GXX_FIRMWARE "lgs8g75.fw"
+drivers/media/usb/gspca/vicam.c:#define VICAM_FIRMWARE "vicam/firmware.fw"
+drivers/media/usb/gspca/vicam.c:                pr_err("Failed to load \"vicam/firmware.fw\": %d\n", ret);
+drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:      err = request_firmware(&fw, "ttusb-budget/dspbootcode.bin",
+drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:MODULE_FIRMWARE("ttusb-budget/dspbootcode.bin");
+drivers/net/ethernet/sun/cassini.c:     const char fw_name[] = "sun/cassini.bin";
+drivers/net/ethernet/sun/cassini.c:MODULE_FIRMWARE("sun/cassini.bin");
+drivers/scsi/qlogicpti.c:       const char fwname[] = "qlogic/isp1000.bin";
+drivers/scsi/qlogicpti.c:MODULE_FIRMWARE("qlogic/isp1000.bin");
+drivers/usb/misc/emi62.c:#define FIRMWARE_FW "emi62/midi.fw"
+drivers/usb/misc/emi62.c:#define FIRMWARE_FW "emi62/spdif.fw"
+drivers/usb/misc/emi62.c:       err = request_ihex_firmware(&bitstream_fw, "emi62/bitstream.fw",
+drivers/usb/misc/emi62.c:       err = request_ihex_firmware(&loader_fw, "emi62/loader.fw", &dev->dev);
+drivers/usb/misc/emi62.c:MODULE_FIRMWARE("emi62/bitstream.fw");
+drivers/usb/misc/emi62.c:MODULE_FIRMWARE("emi62/loader.fw");
+drivers/usb/serial/ti_usb_3410_5052.c:MODULE_FIRMWARE("mts_mt9234mu.fw");
+drivers/usb/serial/ti_usb_3410_5052.c:MODULE_FIRMWARE("mts_mt9234zba.fw");
+drivers/usb/serial/ti_usb_3410_5052.c:                          strscpy(buf, "mts_mt9234mu.fw");
+drivers/usb/serial/ti_usb_3410_5052.c:                          strscpy(buf, "mts_mt9234zba.fw");
+drivers/usb/serial/ti_usb_3410_5052.c:                          strscpy(buf, "mts_mt9234zba.fw");
+sound/pci/korg1212/korg1212.c:  err = request_firmware(&dsp_code, "korg/k1212.dsp", &pci->dev);
+sound/pci/korg1212/korg1212.c:MODULE_FIRMWARE("korg/k1212.dsp");
+sound/pci/maestro3.c:                          "ess/maestro3_assp_kernel.fw", &pci->dev);
+sound/pci/maestro3.c:                          "ess/maestro3_assp_minisrc.fw", &pci->dev);
+sound/pci/maestro3.c:MODULE_FIRMWARE("ess/maestro3_assp_kernel.fw");
+sound/pci/maestro3.c:MODULE_FIRMWARE("ess/maestro3_assp_minisrc.fw");
+sound/pci/ymfpci/ymfpci_main.c: err = request_firmware(&chip->dsp_microcode, "yamaha/ds1_dsp.fw",
+sound/pci/ymfpci/ymfpci_main.c:MODULE_FIRMWARE("yamaha/ds1_ctrl.fw");
+sound/pci/ymfpci/ymfpci_main.c:MODULE_FIRMWARE("yamaha/ds1_dsp.fw");
+sound/pci/ymfpci/ymfpci_main.c:MODULE_FIRMWARE("yamaha/ds1e_ctrl.fw");
+sound/pci/ymfpci/ymfpci_main.c: name = is_1e ? "yamaha/ds1e_ctrl.fw" : "yamaha/ds1_ctrl.fw";
+sound/pci/ymfpci/ymfpci_main.c: name = is_1e ? "yamaha/ds1e_ctrl.fw" : "yamaha/ds1_ctrl.fw";
 
-We don't know how exactly the sensors implement binning, and only have
-competing educated guesses.
 
-> I haven't posted it to the list yet.
->=20
-> --=20
-> Regards,
->=20
-> Sakari Ailus
-
-Thanks,
-    Jai
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/?id=1e6faaf837aea079582214c9c1382e5476175576
 
