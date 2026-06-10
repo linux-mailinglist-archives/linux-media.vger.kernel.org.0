@@ -1,324 +1,152 @@
-Return-Path: <linux-media+bounces-64483-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64484-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 3nojAVeLKWpvZAMAu9opvQ
-	(envelope-from <linux-media+bounces-64483-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 18:05:43 +0200
+	id 38i6G36MKWroZAMAu9opvQ
+	(envelope-from <linux-media+bounces-64484-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 18:10:38 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0BD966B26C
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 18:05:42 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0907A66B354
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 18:10:38 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ozlabs.org header.s=201707 header.b=Y+ffWGv8;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64483-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64483-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ozlabs.org;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=MenOPSRW;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64484-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64484-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 059F530A2D89
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 15:51:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 79B8E3503E2E
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 15:55:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F6264BCACA;
-	Wed, 10 Jun 2026 15:45:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25D34478E55;
+	Wed, 10 Jun 2026 15:50:03 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FDB039E9D6;
-	Wed, 10 Jun 2026 15:45:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3600B43C063;
+	Wed, 10 Jun 2026 15:49:58 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781106306; cv=none; b=bne0Ji6U4DpAVctQCvbt7TkPxnM/ltZcs4LPM/Xbx2FSTjxreOapQgqZcNLvsQmsc3rho7a1ST428VEEIIh8IuLnIQ04q1guL6Anj6RFvm/MQLgsHQ+jmLUB0Z+U8yIQsMSenPc7j+dJyqjjYoybIW58aBk8yLv6XnY73Sx6zDc=
+	t=1781106602; cv=none; b=IbO9T2Li3RycG1AvFeDV7KI+/UTTDAtbEORkurec7hpGQq8hTL+MqDnSDawTrDxMHwVOuwdiAehCbYIC6Q9ddwZOQbntvMcq7wozgk0qRgkEDLwCxoHZCe23HOkmY2SisHznTRIoObYbQav1m84Q2WfmTqamlR1RtzqQDtDrlRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781106306; c=relaxed/simple;
-	bh=OTkUa/zGo32ZAgcw3U58zpcSoiBQxlo+aFvyuJ7oHSs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oL65+WltcjFSrM0GcxQxGEUqC6JjXcApxL9EaGY1SLN2/yC0LurMUtFfti7jv9sP5EGOmuOx6Jg8pQobvCoBLLXykQlsVMZMSvc2XGiXnCNBybmPIjHrUnLdQASpk/KnxY3/Cdpm8XQen/40hhx0uqjFJQ7u4wfDscHg7KeAoPw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ozlabs.org; spf=pass smtp.mailfrom=ozlabs.org; dkim=pass (2048-bit key) header.d=ozlabs.org header.i=@ozlabs.org header.b=Y+ffWGv8; arc=none smtp.client-ip=150.107.74.76
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ozlabs.org;
-	s=201707; t=1781106303;
-	bh=Y5kBW1vxNXDE6JRXBcV0sBowQzBU5fXbOfu7RYwBVRQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Y+ffWGv868slujFWV5zuulzhwGAZ1Q7EKf6Y6XNIJbaFt1u9yxffsBQ39HrQOX6+c
-	 KsDoBkSz4VxRFqLvhhuV4gGj90D10geNMa8k7tLgPDrOIEc/IolNDUEdkBnRBaVhFG
-	 oRXzTmhY8M2JapiGu8m9qjM7omF2pIK5F2vrNATXUQB5zW/jTOR3IsSSletWuLG3uR
-	 xX68poepfetCcscEVEgOSHevmtBSLBkknXbeZ+iYcv5lFPegkC1bQMpVul48HXICAI
-	 6bQBnf4PWaIN5phsfoB4KWtEKTiDS3oQr6/+0VG1YMTgNe60pPaDeE3yRN4loTWdGE
-	 ycrpjf7MGkCYw==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4gb98G16N4z4x98;
-	Thu, 11 Jun 2026 01:45:01 +1000 (AEST)
-From: Matt Evans <matt@ozlabs.org>
-To: Alex Williamson <alex@shazbot.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Alex Mastro <amastro@fb.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>
-Cc: Mahmoud Adam <mngyadam@amazon.de>,
-	David Matlack <dmatlack@google.com>,
-	=?UTF-8?q?Bj=C3=B6rn=20T=C3=B6pel?= <bjorn@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	kvm@vger.kernel.org,
-	linux-pci@vger.kernel.org
-Subject: [PATCH v3 9/9] vfio/pci: Add mmap() attributes to DMABUF feature
-Date: Wed, 10 Jun 2026 16:43:23 +0100
-Message-ID: <20260610154327.37758-10-matt@ozlabs.org>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260610154327.37758-1-matt@ozlabs.org>
-References: <20260610154327.37758-1-matt@ozlabs.org>
+	s=arc-20240116; t=1781106602; c=relaxed/simple;
+	bh=1HLHVotbcuXMCV9qhlxe/fp4cX8c46z4aJrEatBj7JM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D+0er24nIJCa1kWMPgFQdV0ZfgxAMOTDDmnlB0p8GoMWXEigRkfjr1nL+CqBXXP/REx5VlVNG96U3AhgNSFVftMbfG/qVqYNKlQIFGyZBGtQdte5WrIlBkEKqwHdlawI3mFfO95KI6lXFPJ3ZSyaXTMo9oIHXXQ/JRBukVZcDOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MenOPSRW; arc=none smtp.client-ip=213.167.242.64
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3DB3B6DF;
+	Wed, 10 Jun 2026 17:49:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1781106567;
+	bh=1HLHVotbcuXMCV9qhlxe/fp4cX8c46z4aJrEatBj7JM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MenOPSRWFuX3Je9PwZ1VrE10Dt5Hw6SyfZgi70H7epYacaBQ20LgOOo3UaHpjB+x7
+	 WG+ZiCK1Twbfn+Dzekt21xjOXo9dsyLkKxON01o9ChhYWv1Vdl/FybtVL8BIgVGUSM
+	 5afqTePVl4BJ7weA/XYA0dNzMxJ1g3V7csbjRsUo=
+Date: Wed, 10 Jun 2026 18:49:54 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Prabhakar <prabhakar.csengg@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Biju Das <biju.das.jz@bp.renesas.com>,
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH 3/3] media: renesas: vsp1: Make reset control optional to
+ support platforms without a reset line
+Message-ID: <20260610154954.GC1335994@killaraus.ideasonboard.com>
+References: <20260430100929.1088281-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20260430100929.1088281-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260430100929.1088281-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ozlabs.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[ozlabs.org:s=201707];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64483-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:alex@shazbot.org,m:leon@kernel.org,m:jgg@nvidia.com,m:amastro@fb.com,m:christian.koenig@amd.com,m:bhelgaas@google.com,m:logang@deltatee.com,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:kevin.tian@intel.com,m:ankita@nvidia.com,m:praan@google.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,m:linux-pci@vger.kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64484-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[matt@ozlabs.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	FORGED_RECIPIENTS(0.00)[m:prabhakar.csengg@gmail.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:kieran.bingham+renesas@ideasonboard.com,m:p.zabel@pengutronix.de,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:linux-media@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:fabrizio.castro.jz@renesas.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:prabhakarcsengg@gmail.com,m:krzk@kernel.org,m:conor@kernel.org,m:kieran.bingham@ideasonboard.com,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,ideasonboard.com,pengutronix.de,glider.be,gmail.com,vger.kernel.org,bp.renesas.com,renesas.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[matt@ozlabs.org,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ozlabs.org:+];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,ozlabs.org:dkim,ozlabs.org:email,ozlabs.org:mid,ozlabs.org:from_mime]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt,renesas];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:from_mime,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D0BD966B26C
+X-Rspamd-Queue-Id: 0907A66B354
 
-A new VFIO feature, VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR, is added to
-set CPU-facing memory type attributes for a DMABUF exported from
-vfio-pci.  These are used for subsequent mmap()s of the buffer.
+Hi Prabhakar,
 
-There are two attributes supported:
- - The default, VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR_NC
- - VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR_WC, which results in WC
-   PTEs for the DMABUF's BAR region.
+Thank you for the patch.
 
-Signed-off-by: Matt Evans <matt@ozlabs.org>
----
- drivers/vfio/pci/vfio_pci_core.c   |  2 ++
- drivers/vfio/pci/vfio_pci_dmabuf.c | 57 +++++++++++++++++++++++++++++-
- drivers/vfio/pci/vfio_pci_priv.h   | 14 ++++++++
- include/uapi/linux/vfio.h          | 27 ++++++++++++++
- 4 files changed, 99 insertions(+), 1 deletion(-)
+On Thu, Apr 30, 2026 at 11:09:29AM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> Switch the VSP1 driver to use devm_reset_control_get_optional_shared()
+> when requesting its reset control. Some newer Renesas SoCs integrating
+> VSP1 such as RZ/T2H do not provide a reset line for the VSP IP block.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-index 064906b25467..dc9c6f479e2c 100644
---- a/drivers/vfio/pci/vfio_pci_core.c
-+++ b/drivers/vfio/pci/vfio_pci_core.c
-@@ -1575,6 +1575,8 @@ int vfio_pci_core_ioctl_feature(struct vfio_device *device, u32 flags,
- 		return vfio_pci_core_feature_dma_buf(vdev, flags, arg, argsz);
- 	case VFIO_DEVICE_FEATURE_DMA_BUF_REVOKE:
- 		return vfio_pci_core_feature_dma_buf_revoke(vdev, flags, arg, argsz);
-+	case VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR:
-+		return vfio_pci_core_feature_dma_buf_memattr(vdev, flags, arg, argsz);
- 	default:
- 		return -ENOTTY;
- 	}
-diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
-index b47411992ab6..58b769e65ab8 100644
---- a/drivers/vfio/pci/vfio_pci_dmabuf.c
-+++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
-@@ -51,7 +51,10 @@ static int vfio_pci_dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *
- 	 * contained within the DMABUF size before calling this.
- 	 */
- 
--	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
-+	if (READ_ONCE(priv->memattr) == VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR_WC)
-+		vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
-+	else
-+		vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
- 	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
- 
- 	/* See comments in vfio_pci_core_mmap() re VM_ALLOW_ANY_UNCACHED. */
-@@ -468,6 +471,7 @@ int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
- 	priv->vdev = vdev;
- 	priv->nr_ranges = get_dma_buf.nr_ranges;
- 	priv->size = length;
-+	priv->memattr = VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR_NC;
- 	ret = vdev->pci_ops->get_dmabuf_phys(vdev, &priv->provider,
- 					     get_dma_buf.region_index,
- 					     priv->phys_vec, dma_ranges,
-@@ -755,6 +759,57 @@ int vfio_pci_core_feature_dma_buf_revoke(
- 		}
- 	}
- 
-+out_put_buf:
-+	dma_buf_put(dmabuf);
-+
-+	return ret;
-+}
-+
-+int vfio_pci_core_feature_dma_buf_memattr(
-+	struct vfio_pci_core_device *vdev, u32 flags,
-+	struct vfio_device_feature_dma_buf_memattr __user *arg,
-+	size_t argsz)
-+{
-+	struct vfio_device_feature_dma_buf_memattr db_attr;
-+	struct vfio_pci_dma_buf *priv;
-+	struct dma_buf *dmabuf;
-+	int ret;
-+
-+	if (!vdev->pci_ops || !vdev->pci_ops->get_dmabuf_phys)
-+		return -EOPNOTSUPP;
-+
-+	ret = vfio_check_feature(flags, argsz,
-+				 VFIO_DEVICE_FEATURE_SET,
-+				 sizeof(db_attr));
-+	if (ret != 1)
-+		return ret;
-+
-+	if (copy_from_user(&db_attr, arg, sizeof(db_attr)))
-+		return -EFAULT;
-+
-+	dmabuf = dma_buf_get(db_attr.dmabuf_fd);
-+	if (IS_ERR(dmabuf))
-+		return PTR_ERR(dmabuf);
-+
-+	/* Verify DMABUF: see comments in vfio_pci_dma_buf_revoke() */
-+	priv = dmabuf->priv;
-+	if (dmabuf->ops != &vfio_pci_dmabuf_ops ||
-+	    READ_ONCE(priv->vdev) != vdev) {
-+		ret = -ENODEV;
-+		goto out_put_buf;
-+	}
-+
-+	switch (db_attr.memattr) {
-+	case VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR_NC:
-+	case VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR_WC:
-+		WRITE_ONCE(priv->memattr, db_attr.memattr);
-+		ret = 0;
-+		break;
-+
-+	default:
-+		ret = -ENOENT;
-+	}
-+
- out_put_buf:
- 	dma_buf_put(dmabuf);
- 
-diff --git a/drivers/vfio/pci/vfio_pci_priv.h b/drivers/vfio/pci/vfio_pci_priv.h
-index 3c2f2575b670..3ec8b62194f3 100644
---- a/drivers/vfio/pci/vfio_pci_priv.h
-+++ b/drivers/vfio/pci/vfio_pci_priv.h
-@@ -41,6 +41,7 @@ struct vfio_pci_dma_buf {
- 	struct kref kref;
- 	struct completion comp;
- 	unsigned long vma_pgoff_adjust;
-+	u32 memattr;
- 	enum vfio_pci_dma_buf_status status;
- };
- 
-@@ -158,6 +159,10 @@ int vfio_pci_core_feature_dma_buf_revoke(
- 	struct vfio_pci_core_device *vdev, u32 flags,
- 	struct vfio_device_feature_dma_buf_revoke __user *arg,
- 	size_t argsz);
-+int vfio_pci_core_feature_dma_buf_memattr(
-+	struct vfio_pci_core_device *vdev, u32 flags,
-+	struct vfio_device_feature_dma_buf_memattr __user *arg,
-+	size_t argsz);
- #else
- static inline int
- vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
-@@ -166,6 +171,7 @@ vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
- {
- 	return -ENOTTY;
- }
-+
- static inline int vfio_pci_core_feature_dma_buf_revoke(
- 	struct vfio_pci_core_device *vdev, u32 flags,
- 	struct vfio_device_feature_dma_buf_revoke __user *arg,
-@@ -173,6 +179,14 @@ static inline int vfio_pci_core_feature_dma_buf_revoke(
- {
- 	return -ENOTTY;
- }
-+
-+static inline int vfio_pci_core_feature_dma_buf_memattr(
-+	struct vfio_pci_core_device *vdev, u32 flags,
-+	struct vfio_device_feature_dma_buf_memattr __user *arg,
-+	size_t argsz)
-+{
-+	return -ENOTTY;
-+}
- #endif
- 
- #endif
-diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
-index 697c0bb4b9bc..ab30b89399d0 100644
---- a/include/uapi/linux/vfio.h
-+++ b/include/uapi/linux/vfio.h
-@@ -1554,6 +1554,33 @@ struct vfio_device_feature_dma_buf_revoke {
- 	__s32	dmabuf_fd;
- };
- 
-+/**
-+ * Given a dma_buf fd previously created by
-+ * VFIO_DEVICE_FEATURE_DMA_BUF, SET the memory attribute that will be
-+ * used by future mmap()s of that fd.  SETting a new attribute does
-+ * not affect existing VMAs.
-+ *
-+ * The default, if no previous SET has been performed, is NC.
-+ *
-+ * Return: 0 on success, -1 and errno is set on failure:
-+ *
-+ *  EBADF, EINVAL: dmabuf_fd is not a DMABUF fd.
-+ *  ENODEV: The dmabuf_fd does not match this VFIO device.
-+ *  ENOENT: The given memattr is not supported.
-+ */
-+#define VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR 14
-+
-+/* Valid memory attributes for the memattr field */
-+enum vfio_device_dma_buf_memattr {
-+	VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR_NC = 0, /* pgprot_noncached */
-+	VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR_WC = 1, /* pgprot_writecombine */
-+};
-+
-+struct vfio_device_feature_dma_buf_memattr {
-+	__s32	dmabuf_fd;
-+	__u32	memattr;
-+};
-+
- /* -------- API for Type1 VFIO IOMMU -------- */
- 
- /**
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1_drv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> index 627b5046fa80..605fac57bd93 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+> @@ -947,7 +947,7 @@ static int vsp1_probe(struct platform_device *pdev)
+>  	if (irq < 0)
+>  		return irq;
+>  
+> -	vsp1->rstc = devm_reset_control_get_shared(&pdev->dev, NULL);
+> +	vsp1->rstc = devm_reset_control_get_optional_shared(&pdev->dev, NULL);
+>  	if (IS_ERR(vsp1->rstc))
+>  		return dev_err_probe(&pdev->dev, PTR_ERR(vsp1->rstc),
+>  				     "failed to get reset control\n");
+
 -- 
-2.50.1 (Apple Git-155)
+Regards,
 
+Laurent Pinchart
 
