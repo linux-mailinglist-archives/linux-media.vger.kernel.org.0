@@ -1,363 +1,287 @@
-Return-Path: <linux-media+bounces-64369-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64370-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id BRK9AucKKWr6PAMAu9opvQ
-	(envelope-from <linux-media+bounces-64369-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 08:57:43 +0200
+	id heKpMwoOKWrwPQMAu9opvQ
+	(envelope-from <linux-media+bounces-64370-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 09:11:06 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7334F6666CE
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 08:57:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70F1A6667F8
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 09:11:06 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=nWOIcwK8;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64369-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64369-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=amd.com header.s=selector1 header.b=xpRXs8Zt;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64370-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64370-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=amd.com;
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DD474313D5FA
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 06:56:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DB52D318F9C2
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 07:05:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44329383319;
-	Wed, 10 Jun 2026 06:56:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A58538425A;
+	Wed, 10 Jun 2026 07:05:28 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011018.outbound.protection.outlook.com [52.101.62.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 159583812F6
-	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 06:56:06 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781074568; cv=none; b=S5NOJjeTRLSiPPM3/UQSRJiCKHUowGYI41DCQ4H3q2ocS5kbTk4crldBgcVsyoKzz0L1vWzSO1aslaEhy/Iw0CY33u2k/FEjnGr4mAPZRt+8qweK83IOBym7nA86nLVFMhruYo319CoMDazD5je71TdJomehEuxzkyBalzwZTQc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781074568; c=relaxed/simple;
-	bh=4bfbk54eobez0nWMt6VBfNnYPVNo2Ianox68wNRDG/Q=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Oz7BPFCRkaXDrhO1iYk2uXadKoDtFCxTNFCILEpPy0aTVhKjb4UItBZ5xATUwC/x9ixcg7zblTB0sH7jNFGM5RCz4d0PLnYvklc7QYO+YsgLtHaycKEwuQstPovEITF2cIRdhk23r5OOKka7mcBTbEdi+qC5CvL15Akr0n+X4tE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=nWOIcwK8; arc=none smtp.client-ip=213.167.242.64
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:bcf2:9325:a9bd:32b:e71])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 93F35517;
-	Wed, 10 Jun 2026 08:55:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781074536;
-	bh=4bfbk54eobez0nWMt6VBfNnYPVNo2Ianox68wNRDG/Q=;
-	h=From:Date:Subject:To:Cc:From;
-	b=nWOIcwK82Rw58rlEmHQfkEFzAZoeWyiGNmcJc/hWkRXiQf8gamv4yWAgMRguvpiT/
-	 BFHoO8FacNMA9WSfDaBmZqOixoXJM52ssMy5Ep0hfXBxvAA+jDIFD7NG5AxpXgWkGf
-	 pN1TBuwOco5/lrTwoeNB52q39bm9jYNrrqSwodp0=
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Wed, 10 Jun 2026 12:24:38 +0530
-Subject: [PATCH v2] media: i2c: imx219: Fix PIXEL_RATE for special binning
- mode
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24F583839AF;
+	Wed, 10 Jun 2026 07:05:25 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781075127; cv=fail; b=jKa/KhVcOfJ9DRlOrfamYM5Gogo7IDBP+r5IiAK53KIgOEgnPn/jAplDwSaL8ZvdALeKEA2cO0l+P56tM+1otg4R4poy31G0Q9mN98FNPhBlH6PJWD/rY6Bc/jWdXYLqMcuHYbkSEN0IKJuz+j+0sgPuyOsadzAWMeRDDYB4lDo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781075127; c=relaxed/simple;
+	bh=G+EbitmvzWg5enhw6EjkHan96FhORwusgA6ldVWwCgU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=S8SPPmUcq/rO6hHvskk3CSf3gNirHAAY6o91YTfeWMMA4D3bNEpGpJFcSC2CyXLlsI9KY4k5Azntcl7D5h/Z1R/3c01APwnABVj69Fe9b41CiFN5WgJKJAIWT964lgO+NI7CJg3NwxUEBXxktMzjzfB45rt0F+CrDg8rVzYfPrA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=xpRXs8Zt; arc=fail smtp.client-ip=52.101.62.18
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wC5gaRwugFgobAoTCWdjnvaFw5ZahNuTM/nnOT6KX/MSD1G0vYricNY7y1vS99ava03T01XuqX6A454WYigeSyjhL38goLJhSBlQwlHK+KSN8GpU6BKrt2XTSy4WWOrCIPvN3u+9JHLfg1pwqMmpM0uA15RyJbeCVDhln5D1B45iYhlFiqxss8Iuzm0bGEO3jTCeUruww2TwIv1e7kk2Ukul5h2KypYga5Ioix5QwGGuMOZCajOM/xgafD51FpVDGWeKDAf6V4+g/4Q2yA/iJJr558wvmVLyJzrUo1w52HGC9q++7zMzcNT13w895i0VOlySJfu+RPVY4jwAAbVMpA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3UI3tncPTi8BPTuOtb0LYX0hQd3bu6+ZfrwFLx8wrcU=;
+ b=Dcf5wKXS9ot4tdy1yWhVeG8o4RS1ehsNjfusLSobe2+hCiCKlfng4P/sfdAp5lEW7HZV7kNpJmzWn21EvkOjm8T7aj7moePGCetehqiIDDwOIAsPkGb6Qnye6O6TaYQwhq3yNL/0vtvBls6e+MfUjlZTZTy3KRuJF92cgCP+3cFl++lAsULIkOlUV+Swt+01iLnVh5RpBpwrb7oA6DDu9HUW2M5HOo0t75UsCZXm+m2z+lLC5v68nkAMCFHBmfSRHpkAPjzzHImP9KcKCE7jnpdj03FcYxPf9B4Cy5dNg6IfQL0Sm8ylOXEhi+VOjsOh+DhDLxoeCZ3E/h9NW/Lldg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=3UI3tncPTi8BPTuOtb0LYX0hQd3bu6+ZfrwFLx8wrcU=;
+ b=xpRXs8ZtYT0DzY/FDERfvzMxQqgVOIXkAqu265cTbwjGbI6QPgb9RXnbue2uOTYiuaEZlA92tuVRMi3WQGAVVQelWxAVrhCCIP0pJHdMj/L2ueTapH/dL1APNXK/gITWYe8gTQJq4hDzomPaAXghwFNu30+J0ew2aiOCrePUL80=
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SA1PR12MB8598.namprd12.prod.outlook.com (2603:10b6:806:253::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.92.13; Wed, 10 Jun
+ 2026 07:05:22 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0092.006; Wed, 10 Jun 2026
+ 07:05:22 +0000
+Message-ID: <c78eec30-159f-41f6-b725-8402752f90dd@amd.com>
+Date: Wed, 10 Jun 2026 09:04:06 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 2/4] udmabuf: emit one sg entry per pinned folio
+To: Bobby Eshleman <bobbyeshleman@gmail.com>
+Cc: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski
+ <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Shuah Khan <shuah@kernel.org>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org,
+ sdf@fomichev.me, razor@blackwall.org, daniel@iogearbox.net,
+ almasrymina@google.com, matttbe@kernel.org, skhawaja@google.com,
+ dw@davidwei.uk, Bobby Eshleman <bobbyeshleman@meta.com>
+References: <20260603-tcpdm-large-niovs-v1-0-f37a4ac6726c@meta.com>
+ <20260603-tcpdm-large-niovs-v1-2-f37a4ac6726c@meta.com>
+ <bdce2488-fe77-4f36-9ed6-dd2c785fa7c1@amd.com>
+ <aiMY8CpckM8Jav0g@devvm29614.prn0.facebook.com>
+ <0c86f5d3-b5e9-4cac-aa9d-30c5c8ecca66@amd.com>
+ <CAKB00G3opAoAYswsq2uz0Q6jgku8u4NthKOzCbSumZ0qK7QxcQ@mail.gmail.com>
+ <a51e97bd-39dc-492f-bd7d-f137423277df@amd.com>
+ <aigqFQWzPkiSh3ie@devvm29614.prn0.facebook.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <aigqFQWzPkiSh3ie@devvm29614.prn0.facebook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0357.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f4::18) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260610-imx219-pixelrate-v2-1-45d1d201cd6b@ideasonboard.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/32NQQ6DIBREr2L+ujRAhUhXvUfjAuFbf1LFgCE2h
- rsXe4Au30zmzQEJI2GCe3NAxEyJwlJBXhpwk11eyMhXBsml5pobRvMuhWEr7fiOdkPmtXNGK9W
- 1nYQ6WyOOtTyVz77yRGkL8fN7yOJM/8iyYIJxeVPG46iHVjzIo01hGYKN/urCDH0p5Quw2fsat
- wAAAA==
-X-Change-ID: 20260609-imx219-pixelrate-d6cc96558482
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Jai Luthra <jai.luthra@ideasonboard.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9542;
- i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=4bfbk54eobez0nWMt6VBfNnYPVNo2Ianox68wNRDG/Q=;
- b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBqKQp++cuo1I09AKWv4KLoeOH9+316wUqvTbvuX
- NkHpdO5mB6JAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaikKfgAKCRBD3pH5JJpx
- ReY1EACLIqGpQqLfjbFQV4iD4BzL/mn9OBaDet5Yt+NTHlDIeK9csIKtQeeprsviWzBuk2yOt68
- mqfwtEidSHtj3z0byQkzf61pwiYRLu76o705INme91uAntPvpsTaiMDD/9FB3eXpkLyWc3bRwhy
- enET89Z9R8z+wN9dXPoW0JRz9f0YTGSLv/tBMoXzWODj7ticBsDHBim0jD3cYaTFNiZq1wGHjBE
- VhUs/5X/jJ+yGAL3gX8hGQIu9aAVVg7qkXtrYAJttlB1Anu3HS12eHyfztzXSY/Y5ZqSbXNK1xp
- Wl4aFlVknRG2GsllUQlfqdDxD2rS8wgyf1F/vlRAUI2ec0aCaQ+2yxUmrRK4CScOyZXhGdcDi9r
- mRtQBnHy8kDJh8dbtUMSnj7Jai6bNEnyxgdMQCyq4y2rdNCl00gA2SUvzvqJYSK9qj5oirdiA1D
- CdbUarjmeTzUsh12ifPrN8YD7qV4K0dIvfFjXnHAZK5JQVXbzbLqE94O5DjZZkVEn9LG5IGi7P/
- OgxHLl/rDp4g7Diu4fjtlJFGjb2TUE/HTsjH9oONW14Hfm0wFmCAZTpwyVh6iSPPjqX3cDyBywK
- YZeJhscNyvw+rN8hs+i5w3LaHTB2dVHf8mg/vp752s9Hyd4Dv4lS5l5M5Cl/RVE4N8fKY8fEL2u
- WWe2gf2cm+CfjHg==
-X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
- fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA1PR12MB8598:EE_
+X-MS-Office365-Filtering-Correlation-Id: c9f7bbaa-e450-4695-b251-08dec6bea395
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|366016|1800799024|7416014|376014|10063799003|11063799006|56012099006|4143699003|6133799003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	U9FM1uTIw9GGijuROFDG0oSAWEZO4ts2TW7shhHgPp0oo2WTeuuMJd4Pt6QU2y/O9zoJ5F4iGh+f+OMPTQT3HvOY5blUChNkKKQeWbUAflUfR0CBNWQ/nbsDZLVfGXEGoYkHP8aw+O9ysZPu9pz/d7dJhT04UBpwcta3cnwdtZrQLkFsTVIzjOxZMjhpzw5V4eyU2FC9qO07dsaLZWygI5EwEuNApX7XRF8/e0yrfJz2cTuyCikLEl1iH6ekoaXEBH+RhxEccmFVFPRTBagEdmHk20Y//2KBhnr8ZvzGsQwM+IqcMSwpqAmwceeNJaAjR1lBhiX2y8RLVk0mBrpvtSZzJJU0X6Eax3nUadZsSiR9aM3zZ2rsvYDLBBR/uO3bh4Yc0vqDklJy7eReNB81yttkmJEEDJ4okS9akL8prPKKTcLboAjtJruBA5/K+ayOp89VgEl3luPyLn66K+s8lXpoBPZG3LcEWxZuImKa024p9qZ3MgwiDw4hAQ+JICEmAT6A93r93zSCavUGpo89BHpYopGXV4iiv20P1Y79ERdbpz//jqdo4xE4sN+0xKzeyYpuBdYGGyDzVvj8dXHCH070z9KbqY2xnOv7f0Xke4Zf5FV5b1ImEITWbeuX5iyXzUSA8Ld5U+K0UYTsISc/gmY5IJ1OCZUTq0EmtAvB/aEJxt4twN9IKrvVNE3tJJw7
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(7416014)(376014)(10063799003)(11063799006)(56012099006)(4143699003)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WEJDNStCY3ZCZ2Q1b2k0cWxhVVdSMHBPcVBCODYxRlNBa2lDUCtadm1iRFNT?=
+ =?utf-8?B?Z2hMSUk2RTRTZ3hZUDdPc2xIcGQxTnZWbTRqblNVenZISER0dkpKSU83V2Uy?=
+ =?utf-8?B?cktIcGZDWVkrcHVpUi9abk5jajJEbGtWZWlHWG5NVnZFMjYxUTRoMjFOOW9T?=
+ =?utf-8?B?M25xdXFqMm0wY3QydUgxakw1UEdrUWN1WFR3emtMQXM0NnZGeEkwdXhlaVYv?=
+ =?utf-8?B?bnA1OHpHenRUWXpVYXpkcDJCOTdVMm0zQTdESGFDK3JHTUt6ZjlVaFVNRS96?=
+ =?utf-8?B?eUZNTXZoRHgwNk1Fc0ZwVTgyVmF1R0tKa29aaWd3RnZ3OUZMekJkTXY5NEJh?=
+ =?utf-8?B?enAydXZGZW5hUWtUbElSSnRGd2cybzBYUVBiZ3B3MEw1ZDRGdzNQV2tPbmdT?=
+ =?utf-8?B?U1U4cVc5dEZvaEVPYUtRL05haU5RL1dPRlVZK0pyMEtReUtnZTQvVFQ2MVBI?=
+ =?utf-8?B?NmZLYnlNZ01RQkFSY1JaWEN5RjJkc0pkWkxKZmJ1b2lXaitNMTNSOEtIaDUr?=
+ =?utf-8?B?blVpbzk5VnVOQWxHREhib2tvQ1pZZWJrOVh4RndqQjBoK0I0eVpGOXVBWGo1?=
+ =?utf-8?B?VCt6UDBZdGZRVWlWY3IrUHFHOUJqU3kwRVV1dzJTSTN5ZHB2b3VFbVlTRDZh?=
+ =?utf-8?B?cnNQWk1hMnhySmpWUURzOUU1ODNDdTlkVjZDZUJ4THZvN0tHUDhNVzRiZDhW?=
+ =?utf-8?B?UlM3S2gySGl4WE43STBWL3UrRXNFckZuLzlEVEFCbkg2YWw0QWdYdVF3RmVR?=
+ =?utf-8?B?TGNVV1M3MTVhREQrNDc0RVY4eXlIdTBYTnFLZE9Ybk5ndWptUEZiNldKaXor?=
+ =?utf-8?B?Q05hVS9tWVlhZEVaVGJhdzMwVHh1aHJtQWpWT0dHOEdzS0RySnNpVmxzMXB6?=
+ =?utf-8?B?UCtzeUJUbkozN2diNTVTemhFUEk4NExrWGY2Q3hJdXhjeTZ0UEQxUXB3M1oz?=
+ =?utf-8?B?M3Y4WEEraC9KMDYvOTUxdHRHMXltOCt1SmZ3Q0FRNTUyemlKY3loOUVkcnpR?=
+ =?utf-8?B?ZFNQQUgwMkptazIveU8xdTFqUWlxZXNVRU4yQmFSMDkvTXE5d2o1M0o1MTNM?=
+ =?utf-8?B?cWFYdEdPL2htbGlaUXQ3VUFtRkZjMFBueVJVakZ1azhSWENwTUVnK1h1OWw1?=
+ =?utf-8?B?OERTTmoydFgrbjZkUmNSdi9RRWZob2VCUU1ubEdoUU0reTJia3FHVm9RWGUv?=
+ =?utf-8?B?U2lZV3BVQU1lWXRwdjVIMzhBWnNyMloxTjZVMmJkUHFmcDVHOEZlL1Rnd2ls?=
+ =?utf-8?B?SzNUNUZZbHdyRjRxcEJydnA4MHF6Sk01VFhmcTdUR2pWeVA1eEV6ZmkveXVB?=
+ =?utf-8?B?ZUpKVjYxeUFBTzN1ZHFMcVpYQ3loeGNndDRleERrSWNJVTJHUnFIWkpSaEVj?=
+ =?utf-8?B?SW9ZYmk5dXdWcDQrMUVFZS9rRncyY1JLWjVYUjdtOUU3ZC9HYUNLK21PVHZr?=
+ =?utf-8?B?LzRWejVXV3E1NkNYYkpoWnBjZ2lMb0xudzZGTWI2SUZTQjVXWFYrY1dqUWZH?=
+ =?utf-8?B?NWZiTTc4QTV1UWFaR0MyTGM1NCs5b2dnejZsMlFkVDFycTMwdmNRdmNJcnp6?=
+ =?utf-8?B?VHdJSWdsU0I0SDlkZ3BqZFh1b2Q1djVSdTNobDMydXBkVWo1aGdneTZFcmxC?=
+ =?utf-8?B?SXVjT21BZjBWTFRkUlZaaDBiMHZiQ1lraHdaZEwyRnFZVnZnQ0xJUGl2ZVN6?=
+ =?utf-8?B?NDlxSDlrRmd1UWFjOW03RXl2NEJ5UEV5TmRkNk1BWTdMV0tCOUxodVdSQ0lT?=
+ =?utf-8?B?MUN0UHRMdE1WSDNyTHZsdDNYRytlUTFqWC9VOVUwci9xRHgxQ1BnanVXdkJ4?=
+ =?utf-8?B?RlYwSmlNclBGdzdTOHk1b2trOEZtcUxEakJweGhQVUVxdnhiWU02a3BPcDJy?=
+ =?utf-8?B?Y1RpQ2JJTFI0eERkaUQzVEp5c20wUFNDa09KcSt6R2dPVXB5a2xhWEE2WjI5?=
+ =?utf-8?B?Z09aTExnbUgrWVVoalp2YXBRbVJmODNuZEhWbzRnUkdBSkRaRlU4NVNUWTF3?=
+ =?utf-8?B?eUpydTkxY2xEdVNvK25SaUhyc3djNm9HV2p5TEV5ZXdjeUJnODFtOWhqbi9W?=
+ =?utf-8?B?NlV6N1RSSklzYzFsRkJkSk9mcEhadW5TWFRCR0dFb2JkaFdVZ3p3NFV3c2Ri?=
+ =?utf-8?B?MDZDZDBLTXBGT1BUYVRHM2NnY1BRQVRoMy9ldWlSZGVJdkNDNEdQWWRoTzlV?=
+ =?utf-8?B?K2ZwVEI3bjgzd1l0QmhLRzVRZ29QdHdNZTRyM0ZBUEFBeUZHV3g2dVZUYnB1?=
+ =?utf-8?B?NzRTV0JkT2ZZaE95QkxkN1Ewb1poa1dHaEJvclBHSUdnRXBONDA4SlpVQ29v?=
+ =?utf-8?Q?QC24X2X0/kQBnG5rJN?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c9f7bbaa-e450-4695-b251-08dec6bea395
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2026 07:05:22.5788
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +jcpW5n71EkJnjSrLpPbEVLknf/3YNE0O8pZQe0UKv4Ww45oXdr9BpIzkalxRg/j
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8598
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-64369-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:dave.stevenson@raspberrypi.com,m:mchehab@kernel.org,m:laurent.pinchart@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:jai.luthra@ideasonboard.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-64370-lists,linux-media=lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:bobbyeshleman@gmail.com,m:donald.hunter@gmail.com,m:kuba@kernel.org,m:davem@davemloft.net,m:edumazet@google.com,m:pabeni@redhat.com,m:horms@kernel.org,m:andrew+netdev@lunn.ch,m:kraxel@redhat.com,m:vivek.kasireddy@intel.com,m:sumit.semwal@linaro.org,m:shuah@kernel.org,m:netdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kselftest@vger.kernel.org,m:sdf@fomichev.me,m:razor@blackwall.org,m:daniel@iogearbox.net,m:almasrymina@google.com,m:matttbe@kernel.org,m:skhawaja@google.com,m:dw@davidwei.uk,m:bobbyeshleman@meta.com,m:donaldhunter@gmail.com,m:andrew@lunn.ch,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[amd.com:+];
 	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime,vger.kernel.org:from_smtp]
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,davemloft.net,google.com,redhat.com,lunn.ch,intel.com,linaro.org,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,fomichev.me,blackwall.org,iogearbox.net,davidwei.uk,meta.com];
+	ALIAS_RESOLVED(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,netdev];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,amd.com:dkim,amd.com:email,amd.com:mid,amd.com:from_mime,vger.kernel.org:from_smtp,meta.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7334F6666CE
+X-Rspamd-Queue-Id: 70F1A6667F8
 
-When using the special analog binning mode the sensor requires the frame
-length to be programmed in units of 2xLines, but it still produces the
-same number of lines overall.
+On 6/9/26 16:58, Bobby Eshleman wrote:
+> On Mon, Jun 08, 2026 at 03:59:04PM +0200, Christian König wrote:
+>> On 6/8/26 15:55, Bobby Eshleman wrote:
+>>>
+>>> On Sun, Jun 7, 2026 at 11:42 PM Christian König <christian.koenig@amd.com <mailto:christian.koenig@amd.com>> wrote:
+>>>
+>>>     On 6/5/26 20:44, Bobby Eshleman wrote:
+>>>     > On Fri, Jun 05, 2026 at 11:30:07AM +0200, Christian König wrote:
+>>>     >> On 6/4/26 02:42, Bobby Eshleman wrote:
+>>>     >>> From: Bobby Eshleman <bobbyeshleman@meta.com <mailto:bobbyeshleman@meta.com>>
+>>>     >>>
+>>>     >>> get_sg_table() emitted one PAGE_SIZE sg entry per page even when the
+>>>     >>> underlying folio was larger.
+>>>     >>>
+>>>     >>> Instead, walk folios[] and emit one sg entry per folio. When folios
+>>>     >>> represent large pages (as is for MFD_HUGETLB), each sg entry is a large
+>>>     >>> page. Normal PAGE_SIZE sg tables are unchanged.
+>>>     >>>
+>>>     >>> Required by net/core/devmem to support rx-buf-size > PAGE_SIZE with
+>>>     >>> udmabuf.
+>>>     >>
+>>>     >> That doesn't explain why this is required.
+>>>     >
+>>>     > Sure, can definitely add. Devmem currently requires dmabuf sg entries to
+>>>     > be length and size aligned when it allocates niovs for NIC page pools.
+>>>     > Though udmabuf is not violating any dmabuf contract by emitting
+>>>     > PAGE_SIZE entries and the above restriction is probably more a
+>>>     > shortfalling of devmem, by emitting a single entry per folio this patch
+>>>     > allows udmabuf to be used by devmem for large pages.
+>>>     >
+>>>     >>
+>>>     >> Please note that accessing the pages/folio of an sg-table returned by DMA-buf is illegal and strictly forbidden!
+>>>     >>
+>>>     >> Regards,
+>>>     >> Christian.
+>>>     >
+>>>     > It seems both devmem and io_uring zcrx at least introspect through to
+>>>     > the sg-table to build NIC page pools (not accessing the memory itself,
+>>>     > however). Is there a better way?
+>>>
+>>>     That's an absolute NO-GO! We need to stop that immediately.
+>>>
+>>>     Touching the underlying struct page of an DMA-buf exported sg-table is strictly forbidden.
+>>>
+>>>     We even have code to wrap the sg_table and hide the struct pages on debug builds to catch those issues, see function dma_buf_wrap_sg_table().
+>>>
+>>>     My last status is that the NIC page pools are build directly from the DMA addresses exposed by the sg_table.
+>>>
+>>>     Was there any change I'm not aware of?
+>>>
+>>>     Regards,
+>>>     Christian.
+>>>
+>>>
+>>> Oh no change, your mental model is still current.
+>>> They just go through each sg and use sg_dma_address() on each.
+>>
+>> Ah, thanks! That was a near heart attack :D
+>>
+>> Yeah that is perfectly correct, question is do you then still really need this udmabuf change? I mean the DMA API usually merges together contiguous DMA addresses.
+>>
+>> Regards,
+>> Christian.
+>>
+> 
+> Hey Christian, sorry for the delay I justed want to double check what
+> I'm seeing...
+> 
+> I reverted the udmabuf patch and confirmed devmem still runs into 4K
+> pages even for hugepage udmabuf. I see that the dma_map_direct() path is
+> being taken, which if I am reading the code correctly results in the
+> sg_dma_len(sg) inheriting sg->length directly (set by udmabuf's
+> sg_set_folio(..., PAGE_SIZE) call), compared to the iommu_dma_map_phys()
+> path which looks like it does merge when possible.
 
-Earlier we used to double the pixel rate reported to userspace, to avoid
-negative values for the vertical blanking control. But in the new raw
-sensor model, we have to expose the sensor's frame length and line
-length directly to the userspace through new controls, which requires we
-keep the pixel rate value the same.
 
-There is sufficient range available in the line length register, so we
-can halve the value computed and passed to userspace as V4L2_CID_HBLANK
-instead, and thereby keep the same pixel rate.
+Ok that makes more sense. Yeah something which could potentially be improved elsewhere.
 
-Whether the new controls for frame length and line length should also
-scale similarly to give userspace a consistent view, as opposed to the
-sensor's awkward register programming model, is left as a decision for
-later.
+Feel free to go ahead with this patch as a workaround, just adjust the commit message and maybe add a code comment why it is necessary and helpful.
 
-While at it, also drop the pixel_rate member from struct imx219 as we no
-longer access or modify it. And simplify the hblank computation during
-mode changes to default to the minimum value instead of trying to retain
-the old line length. That would be unnecessarily complicated, and most
-applications anyway modify the blankings freely to achieve their desired
-framerate.
+Thanks,
+Christian.
 
-Link: https://lore.kernel.org/all/178091757893.16054.4583389270412251379@freya/
-Link: https://lore.kernel.org/all/20260409201501.975242-65-sakari.ailus@linux.intel.com/
-Tested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
----
-This is a follow-up to the discussion done on Sakari's proposed fix for
-the same issue:
-https://lore.kernel.org/all/178091466607.16054.13972332068848565738@freya/
-
-Tested on Raspberry Pi 5 with libcamera, which can still hit the same
-FPS ranges as before for both binned and non-binned modes.
----
-Changes in v2:
-- Set vblank step size to fll_factor
-- Drop pixel_rate variable as we don't scale it anymore
-- Use variables for new hblank and hblank_max values in set_pad_format
-- Fix commit message and code comments with Dave's suggestions
-- Set hblank to default value on mode change as opposed to retaining the
-  LLP value set by user (Dave, I've kept your Tested-by, but please feel
-                         free to drop it if you disagree)
-- Link to v1: https://lore.kernel.org/r/20260609-imx219-pixelrate-v1-1-02359def6b41@ideasonboard.com
----
- drivers/media/i2c/imx219.c | 104 ++++++++++++++++++++++++++-------------------
- 1 file changed, 61 insertions(+), 43 deletions(-)
-
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index 7da02ce5da15..ec65349e63f9 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -348,7 +348,6 @@ struct imx219 {
- 
- 	struct v4l2_ctrl_handler ctrl_handler;
- 	/* V4L2 Controls */
--	struct v4l2_ctrl *pixel_rate;
- 	struct v4l2_ctrl *link_freq;
- 	struct v4l2_ctrl *exposure;
- 	struct v4l2_ctrl *vflip;
-@@ -420,7 +419,30 @@ static void imx219_get_binning(struct v4l2_subdev_state *state, u8 *bin_h,
- 
- }
- 
--static inline u32 imx219_get_rate_factor(struct v4l2_subdev_state *state)
-+/*
-+ * When using the special binning mode the sensor requires the FRAME_LENGTH to
-+ * be programmed in units of 2xLines, but it still outputs the same number of
-+ * lines overall.
-+ *
-+ * FRAME_LENGTH = (output height + vblank) / 2
-+ *
-+ * If we go ahead with it and set `vblank = FRAME_LENGTH - height` it would
-+ * make the control value negative.
-+ *
-+ * Instead we can compensate for it in the horizontal dimension, as LINE_LENGTH
-+ * has enough room, so both blanking values stay positive.
-+ *
-+ * LINE_LENGTH = (output width + hblank) * 2
-+ *
-+ * So the blanking values when using the special binning mode are:
-+ *
-+ * vblank = FRAME_LENGTH * 2 - height
-+ * hblank = LINE_LENGTH / 2 - width
-+ *
-+ * where FRAME_LENGTH and LINE_LENGTH are the values programmed in the sensor
-+ * registers.
-+ */
-+static inline u32 imx219_get_fll_factor(struct v4l2_subdev_state *state)
- {
- 	u8 bin_h, bin_v;
- 
-@@ -440,12 +462,12 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
- 	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
- 	const struct v4l2_mbus_framefmt *format;
- 	struct v4l2_subdev_state *state;
--	u32 rate_factor;
-+	u32 fll_factor;
- 	int ret = 0;
- 
- 	state = v4l2_subdev_get_locked_active_state(&imx219->sd);
- 	format = v4l2_subdev_state_get_format(state, 0);
--	rate_factor = imx219_get_rate_factor(state);
-+	fll_factor = imx219_get_fll_factor(state);
- 
- 	if (ctrl->id == V4L2_CID_VBLANK) {
- 		int exposure_max, exposure_def;
-@@ -478,7 +500,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	case V4L2_CID_EXPOSURE:
- 		cci_write(imx219->regmap, IMX219_REG_EXPOSURE,
--			  ctrl->val / rate_factor, &ret);
-+			  ctrl->val / fll_factor, &ret);
- 		break;
- 	case V4L2_CID_DIGITAL_GAIN:
- 		cci_write(imx219->regmap, IMX219_REG_DIGITAL_GAIN,
-@@ -495,11 +517,11 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	case V4L2_CID_VBLANK:
- 		cci_write(imx219->regmap, IMX219_REG_FRM_LENGTH_A,
--			  (format->height + ctrl->val) / rate_factor, &ret);
-+			  (format->height + ctrl->val) / fll_factor, &ret);
- 		break;
- 	case V4L2_CID_HBLANK:
- 		cci_write(imx219->regmap, IMX219_REG_LINE_LENGTH_A,
--			  format->width + ctrl->val, &ret);
-+			  (format->width + ctrl->val) * fll_factor, &ret);
- 		break;
- 	case V4L2_CID_TEST_PATTERN_RED:
- 		cci_write(imx219->regmap, IMX219_REG_TESTP_RED,
-@@ -555,11 +577,10 @@ static int imx219_init_controls(struct imx219 *imx219)
- 		return ret;
- 
- 	/* By default, PIXEL_RATE is read only */
--	imx219->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_ops,
--					       V4L2_CID_PIXEL_RATE,
--					       imx219_get_pixel_rate(imx219),
--					       imx219_get_pixel_rate(imx219), 1,
--					       imx219_get_pixel_rate(imx219));
-+	v4l2_ctrl_new_std(ctrl_hdlr, &imx219_ctrl_ops, V4L2_CID_PIXEL_RATE,
-+			  imx219_get_pixel_rate(imx219),
-+			  imx219_get_pixel_rate(imx219), 1,
-+			  imx219_get_pixel_rate(imx219));
- 
- 	imx219->link_freq =
- 		v4l2_ctrl_new_int_menu(ctrl_hdlr, &imx219_ctrl_ops,
-@@ -880,15 +901,19 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- 	crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
- 
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
--		int exposure_max;
--		int exposure_def;
--		int hblank, llp_min;
--		int pixel_rate;
-+		int exposure_max, exposure_def;
-+		int llp_min, hblank, hblank_max;
-+		u32 fll_factor = imx219_get_fll_factor(state);
- 
--		/* Update limits and set FPS to default */
-+		/*
-+		 * Update VBLANK range and default value to match the mode.
-+		 * Also fix the step-size to fll_factor, as we halve the values
-+		 * before writing to the register when special binning is used.
-+		 */
- 		ret = __v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
--					       IMX219_FLL_MAX - mode->height, 1,
--					       mode->fll_def - mode->height);
-+					       IMX219_FLL_MAX - mode->height,
-+					       fll_factor, mode->fll_def -
-+					       mode->height);
- 		if (ret)
- 			return ret;
- 
-@@ -910,37 +935,30 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
- 			return ret;
- 
- 		/*
--		 * With analog binning the default minimum line length of 3448
--		 * can cause artefacts with RAW10 formats, because the ADC
--		 * operates on two lines together. So we switch to a higher
--		 * minimum of 3560.
-+		 * With special analog binning the default minimum line length
-+		 * of 3448 can cause artefacts with RAW10 formats, possibly
-+		 * because the sensor is averaging 4 pixels in the analogue
-+		 * domain as opposed to just 2, but we don't know for sure.
-+		 *
-+		 * The datasheet is lacking on this topic but experimental
-+		 * results and some vendor tables point to using a higher
-+		 * minimum of 3560, which fixes the issue.
- 		 */
- 		imx219_get_binning(state, &bin_h, &bin_v);
- 		llp_min = (bin_h & bin_v) == IMX219_BINNING_X2_ANALOG ?
- 				  IMX219_BINNED_LLP_MIN : IMX219_LLP_MIN;
--		ret = __v4l2_ctrl_modify_range(imx219->hblank,
--					       llp_min - mode->width,
--					       IMX219_LLP_MAX - mode->width, 1,
--					       llp_min - mode->width);
--		if (ret)
--			return ret;
--		/*
--		 * Retain PPL setting from previous mode so that the
--		 * line time does not change on a mode change.
--		 * Limits have to be recomputed as the controls define
--		 * the blanking only, so PPL values need to have the
--		 * mode width subtracted.
--		 */
--		hblank = prev_line_len - mode->width;
--		ret = __v4l2_ctrl_s_ctrl(imx219->hblank, hblank);
-+
-+		hblank = (llp_min / fll_factor) - mode->width;
-+		hblank_max = (IMX219_LLP_MAX / fll_factor) - mode->width;
-+		ret = __v4l2_ctrl_modify_range(imx219->hblank, hblank,
-+					       hblank_max, 1, hblank);
- 		if (ret)
- 			return ret;
- 
--		/* Scale the pixel rate based on the mode specific factor */
--		pixel_rate = imx219_get_pixel_rate(imx219) *
--			     imx219_get_rate_factor(state);
--		ret = __v4l2_ctrl_modify_range(imx219->pixel_rate, pixel_rate,
--					       pixel_rate, 1, pixel_rate);
-+		/*
-+		 * Update HBLANK to default value.
-+		 */
-+		ret = __v4l2_ctrl_s_ctrl(imx219->hblank, hblank);
- 		if (ret)
- 			return ret;
- 	}
-
----
-base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
-change-id: 20260609-imx219-pixelrate-d6cc96558482
-
-Best regards,
--- 
-Jai Luthra <jai.luthra@ideasonboard.com>
+> 
+> Best,
+> Bobby
 
 
