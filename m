@@ -1,283 +1,172 @@
-Return-Path: <linux-media+bounces-64423-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64424-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id J6XhBGNQKWoGUwMAu9opvQ
-	(envelope-from <linux-media+bounces-64423-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 13:54:11 +0200
+	id OrPcJCBRKWo5UwMAu9opvQ
+	(envelope-from <linux-media+bounces-64424-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 13:57:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59517668FC8
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 13:54:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DED8B66901E
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 13:57:19 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=fJCGgxPv;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64423-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64423-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=snu.ac.kr header.s=google header.b=y1ZudF5Q;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64424-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64424-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=snu.ac.kr;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3C4D93290453
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 11:48:55 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D0A273315FD0
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 11:51:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 186B43F8EDA;
-	Wed, 10 Jun 2026 11:48:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 724023FADED;
+	Wed, 10 Jun 2026 11:51:10 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7183F23A6
-	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 11:48:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6A033F888F
+	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 11:51:07 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781092133; cv=none; b=ipSZRq6zo8fiW/o0byLGkFhj/CBc4NlDiKA6CDjgKD/lDMS2UlSSkhbkGngHE2fToensNBD1YqEkmvO0ghFFFgwx/7PiZa/+mYuwPZWCTj1QaOLQl200C2Vh2zssDPo09CD2EYvwZj5Ja/T3daQfa+4ilM38hT8SbQus7hKzWIQ=
+	t=1781092269; cv=none; b=Ai3ybw9pXzgnL2HAx71WM87pWFw0SX286oem6XJ8VjKj0vuf/4B86zECrbVC2eZP8xSb+mqT84wAUtieGmfgA9JsIFnvSuEbe5oB5Y6+Jmfy5UnBpsIJ4m3ot3DrCBzw7KSFl97l0BTpoYzty+2uVqnudo7q/AZd9IhSPziowVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781092133; c=relaxed/simple;
-	bh=+XFTG0yeNpYCuxAVmgAocFD0xLD0wb/I5WdwKuDQJ6U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j84KnAYM8F/ePvjD+McccVbyPz/8zADRpf7MzQ3OqUq7TEYfpJOHaLavvmbtcrzLaR3wbI6alIb42zAtno588gtXIy02Ucza/eZlfILiTl8t9RcJ3mxqS8ZK8QxGywVt9L8jQdyl9BC8VPfzIQBQr6Vi262jr+5VazKP2N3+w08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fJCGgxPv; arc=none smtp.client-ip=213.167.242.64
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7AD2D524;
-	Wed, 10 Jun 2026 13:48:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781092099;
-	bh=+XFTG0yeNpYCuxAVmgAocFD0xLD0wb/I5WdwKuDQJ6U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fJCGgxPvnZ/hyMlcf6AlpDk+rMMJ4Hta7PVGYtJJ/Je931ai9ZEm9FC/I+oB87QT+
-	 31lluT5pFtP1z0RJPUnZEZsZyXF6XPufZex/PT+YtkcIivdZ+f5eQwCPUpCEXWIbw1
-	 ZLsrGBkyK++OiRtjws7RNzwDhou/kreIQqgBjbwc=
-Date: Wed, 10 Jun 2026 14:48:46 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	David Plowman <david.plowman@raspberrypi.com>,
-	"Yu, On g Hock" <ong.hock.yu@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Rishikesh Donadkar <r-donadkar@ti.com>
-Subject: Re: [PATCH v5 02/10] media: imx219: Scale the vblank limits
- according to rate_factor
-Message-ID: <20260610114846.GC1209951@killaraus.ideasonboard.com>
-References: <20260607215356.842932-1-sakari.ailus@linux.intel.com>
- <20260607215356.842932-3-sakari.ailus@linux.intel.com>
- <CAPY8ntDvpP8Nuc2VFOFgp+5HSDNWmJCika5in=pjZJVry=J7RQ@mail.gmail.com>
- <20260608212856.GA944266@killaraus.ideasonboard.com>
- <178098472222.19620.1186662371886498871@freya>
- <178098491481.19620.16486648231434103823@freya>
+	s=arc-20240116; t=1781092269; c=relaxed/simple;
+	bh=pYgGppqJBjl7O9f0ZsR/3P9jK61RcTsDbxK59IzpasE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=JY/XqdPKhNfSecYUfqJ45JQPjGYmzSswcfwTYfZQ+dOsehK7T0cNr0SXT0pr4zI22dl97XX5Z6ospI6qYRTTZ0kS6YjRM/lN4nV74nabEgNsehLDcNb6IY8QIyQosdVq7Dw+sdHQE7zemxHrzjSgUjnVwMXkkCJIsuwAVsHb3Y0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=snu.ac.kr; spf=pass smtp.mailfrom=snu.ac.kr; dkim=pass (1024-bit key) header.d=snu.ac.kr header.i=@snu.ac.kr header.b=y1ZudF5Q; arc=none smtp.client-ip=209.85.216.49
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-36d5fd50d20so4337877a91.1
+        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 04:51:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=snu.ac.kr; s=google; t=1781092267; x=1781697067; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+blTcUrJKIlXgCL/CdRUN4lD5XyjCjVsFhKX65o82QM=;
+        b=y1ZudF5QVJZLExllWCUJOj85VilYTVglyuSlSteDugSJkwTxVU7XqlEjkEWz7zAYTy
+         nE/fCLUZXPj/WOXzJbo6Vyu0Ad+ZWZGrcjVMGfOSipIZBYmtS3VmNfJjl8SvhF21IQ3F
+         nfhIvLLV0y4f772USwdIM7k5uSIrhqrV4EY2U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781092267; x=1781697067;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+blTcUrJKIlXgCL/CdRUN4lD5XyjCjVsFhKX65o82QM=;
+        b=rT5+1yiws+gNRUPpgSXz7V3MmQ3tuNWj9K6q7slkw8wQbboIfSuVzpdOgAjnCLi8iG
+         MBSxmEKDd9ijeZuipe8gTI3ifUuMt4UQlbd7jqhR818Zy3qUXFFFuR2qQ/LIloL6T5sY
+         i3HJgBdcGmUApUQLfuF/i6LEGN2WmaTaQOj2m/GP3ajLEG0UiNidbiZHZ09dAyYBinzV
+         UruQfPDRwI3yEDqF71B1jskmZzbYPynSt5o1hn6Fasxq8aWqeLdlll+Zxu4FgBwVQyLr
+         wUZFC3HuCIwWN73yd1VGjPN1bQsuAh37GKVC2zxlpxfoPBSvMxCJZTXECGxDyk6GvNgq
+         5JqA==
+X-Forwarded-Encrypted: i=1; AFNElJ+iDKgrSM0fkK51rhxskcuwaWs5F0om1csxptP4IGPhdvZLpBdPYl1J3dIK4TsOWezVs54HzfwHsr/ZFg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSIslB7UhHDEUD+ONlzU9FUzkesXCcjJnaGxBruVG8yEaIAj6w
+	BEy72bsC3qh/yJ3pHUcWKOUIArU0vQWqIOY8kFNASKEaR+l2pbj2f69Z4uHhOrsYQ48=
+X-Gm-Gg: Acq92OE9g55occZfEF+zdS6g1oI5SniIzOj3vU1g0DnN/Mkz20riV6tvvbiwySyQjlw
+	fuK34DM7mll1PCuEiQ4sdUzSqXl5S9EX1k7R8kogzrelNvIry2gUTqj/Tkz+KVeW6Hd6NYs5fn8
+	h/Rz5O0GpnAVRlfgp2XKQso8x9OGfz3p3Pu9M2NMmJdWQww+HM3iIBywaEBcMu3Sc8e1Yr6QcPR
+	zWme3Qk9HzZzvUp339FQoFuN/2I+1VjOwyk8q1BwN2Nq3KQQ40nbpBTOY/jRX4I2pSPBun+Jydj
+	QliLQwSZBrM8fqe7uE7MNAYV3ZfyP34M15jNAtB48rficuIIySTTyOdY2OuVnNIyRe8jKZ2Tbdf
+	Q2xS54V0vWw/Q4C9SCEI1kyNp+ByYIeXAPW/mAwTZPeztZw+BWvMgQalW7LzM2hUUGWNwaPm+Rw
+	VRs3fPf4L5P08/Cy2DhL8hPPkwqOmN3GZBGkufawLN7OLcht3HfBTD7pYT+4KAdJTAAGE=
+X-Received: by 2002:a17:90b:38c8:b0:36d:b12f:613c with SMTP id 98e67ed59e1d1-370ef2f0208mr26384305a91.10.1781092267019;
+        Wed, 10 Jun 2026 04:51:07 -0700 (PDT)
+Received: from nunu.. (nunu.snu.ac.kr. [147.46.112.82])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-36f70a28c0esm23024847a91.12.2026.06.10.04.51.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jun 2026 04:51:05 -0700 (PDT)
+From: Jaeyoung Chung <jjy600901@snu.ac.kr>
+To: Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
+	Ismael Luceno <ismael@iodev.co.uk>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Jaeyoung Chung <jjy600901@snu.ac.kr>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sangyun Kim <sangyun.kim@snu.ac.kr>,
+	Kyungwook Boo <bookyungwook@gmail.com>
+Subject: media: solo6x10: KASAN wild-memory-access in complete() on early IRQ
+Date: Wed, 10 Jun 2026 20:51:00 +0900
+Message-Id: <20260610115100.758131-1-jjy600901@snu.ac.kr>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <178098491481.19620.16486648231434103823@freya>
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[snu.ac.kr,none];
+	R_MISSING_CHARSET(0.50)[];
 	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[snu.ac.kr:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64423-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:jai.luthra@ideasonboard.com,m:dave.stevenson@raspberrypi.com,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:hans@jjverkuil.nl,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:dongcheng.yan@intel.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:jacopo.mondi@ideasonboard.com,m:tomi.valkeinen@ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:r-donadkar@ti.com,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FREEMAIL_CC(0.00)[raspberrypi.com,linux.intel.com,vger.kernel.org,jjverkuil.nl,gmail.com,redhat.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,ideasonboard.com,nxp.com,apitzsch.eu,kernel.org,ti.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-64424-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[snu.ac.kr,vger.kernel.org,gmail.com];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	FORGED_SENDER(0.00)[jjy600901@snu.ac.kr,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:maintainers@bluecherrydvr.com,m:ismael@iodev.co.uk,m:mchehab@kernel.org,m:jjy600901@snu.ac.kr,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:sangyun.kim@snu.ac.kr,m:bookyungwook@gmail.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jjy600901@snu.ac.kr,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[snu.ac.kr:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:from_mime,killaraus.ideasonboard.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	TO_DN_SOME(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,snu.ac.kr:dkim,snu.ac.kr:email,snu.ac.kr:mid,snu.ac.kr:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 59517668FC8
+X-Rspamd-Queue-Id: DED8B66901E
 
-On Tue, Jun 09, 2026 at 11:31:54AM +0530, Jai Luthra wrote:
-> Quoting Jai Luthra (2026-06-09 11:28:42)
-> > Quoting Laurent Pinchart (2026-06-09 02:58:56)
-> > > Hi Dave,
-> > > 
-> > > Thanks a lot for taking the time to investigate and provide very
-> > > valuable insight. I really appreciate that.
-> > > 
-> > > On Mon, Jun 08, 2026 at 04:29:46PM +0100, Dave Stevenson wrote:
-> > > > On Sun, 7 Jun 2026 at 22:54, Sakari Ailus wrote:
-> > > > >
-> > > > > The limits for vertical blanking (and frame length in pixels) is related
-> > > > > to the properties of the hardware, it's not in half-line units the driver
-> > > > > uses. Multiply the vertical blanking limits by the rate_factor to satisty
-> > > > > hardware requirements.
-> > > > 
-> > > > Whilst that would be a logical interpretation, it doesn't match with
-> > > > how the hardware performs, nor the docs.
-> > > > 
-> > > > The datasheet for register FRM_LENGTH_A 0x160 says
-> > > > frame_length_lines
-> > > > BINNING_MODE = 0,1,2
-> > > > Unit: 1Lines
-> > > > BINNING_MODE = 3
-> > > > Units: 2Lines
-> > > > 
-> > > > That's not units of 2 lines for active lines only, that is units of 2
-> > > > lines for ALL lines.
-> > > > 
-> > > > I have tested it, and the sensor works fine with FRM_LENGTH_A being
-> > > > 0x278 in the 1640x1232 mode, and 0x100 in 640x480 modes with all the
-> > > > tests I've thrown at it. Drop them any lower and it does stall or give
-> > > > corrupt horizontal lines.
-> > > 
-> > > If I understand this correctly, it indicates that
-> > > 
-> > > - The frame length is expressed as a number of lines at the output of
-> > >   the sensor (after binning).
-> > > 
-> > > - The minimum margin between the output height (after binning) and the
-> > >   frame length is 32 lines.
-> > > 
-> > > - In special binning mode, the FRM_LENGTH_A register needs to be
-> > >   programmed with frame_length_lines / 2.
-> > > 
-> > > The last constraint is device-specific, and as far as I understand it
-> > > can be handled directly in the driver without affecting the userspace
-> > > API by simply dividing the frame length value by 2 before writing it to
-> > > the register.
-> > > 
-> > > It's getting a bit late, I'll test the "regular" binning mode
-> > > (BINNING_MODE = 1) tomorrow to see how it compares (unless someone beats
-> > > me to it). Unless I get very unexpected results, it seems that the
-> > > existing implementation is correct and the patch should be dropped.
-> > > 
-> > > One thing that may not be implemented correctly is different binning
-> > > modes horizontally and vertically. imx219_get_rate_factor() will return
-> > > 2 only when both the horizontal and vertical binning modes are "special
-> > > analog binning". When used to scale the frame length and exposure time,
-> > > I wonder if only vertical binning should be taken into account.
-> > > 
-> > 
-> > That does make sense.
-> > 
-> > When I was working on the binning and related issues in this driver, I had
-> > decided to always keep `bin_h == bin_v` everywhere after some brief tests
-> > with different values for them:
-> > 
-> > 1. Setting bin_h = 0x1 (normal x2 binning) and bin_v = 0x0 (or vice versa)
-> >    results in the output image being stretched/squeezed, which is expected
-> >    but not a typical usecase
-> > 
-> > 2. Setting bin_h = 0x3 (special x2 binning) and bin_v = 0x0 (or vice versa)
-> >    results in both dimensions getting binned as opposed to only one, which
-> 
-> Ah sorry it was: "none of the dimensions getting binned" but the output was
-> cropped. So in the above case (bin_h = 0x3), it would just drop the right
-> half of the image as opposed to squeezing it when bin_h = 0x1.
+Hi,
 
-If the sensor ignores horizontal special binning when vertical binning
-is disabled, then cropping is expected, as the driver sets the output
-size to the binned size.
+solo_pci_probe() in drivers/media/pci/solo6x10/solo6x10-core.c registers
+the interrupt handler solo_isr() with devm_request_irq() before it
+initializes each p2m_dev->completion with init_completion() in
+solo_p2m_init(). If an interrupt arrives after devm_request_irq() and
+before solo_p2m_init(), the handler calls complete() on an
+uninitialized completion, causing a kernel panic.
 
-> >    is unexpected, and it might be breaking other things with the sensor
-> >    timing too
-> > 
-> > My analysis on the other sub-thread also suggests special x2 binning means
-> > analogue-domain averaging in both horzizontal and vertical dimensions..
-> > which matches up with this behaviour, so maybe we can't really separate
-> > vertical and horizontal out for the "special" case even if the registers
-> > allow us to.
 
-Binning independently in the horizontal and vertical direction is a
-niche use case, so I'm fine not supporting it in the imx219 driver.
+The probe path, in solo_pci_probe():
 
-> > > > (Please note that the sensor extends the frame length automatically to
-> > > > accommodate the exposure time requested, so do ensure the exposure
-> > > > time doesn't interact with the frame length if you're testing).
-> > > > 
-> > > > This patch drops the maximum frame rate from 81.07 to 79.07fps in
-> > > > 1640x1232 (2.5%), and 200.1 to 188.39fps in 640x480 (6%) for no good
-> > > > reason that I can see.
-> > > > Unless anyone can produce a genuine situation where they see the
-> > > > sensor behave incorrectly with the old setup, I'll be very sad to see
-> > > > this merged.
-> > > > 
-> > > > > Fixes: f513997119f4 ("media: i2c: imx219: Scale the pixel rate for analog binning")
-> > > > > Cc: stable@vger.kernel.org
-> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > ---
-> > > > >  drivers/media/i2c/imx219.c | 10 ++++++----
-> > > > >  1 file changed, 6 insertions(+), 4 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > > > > index 223d3753cc93..d8fe7db18b6c 100644
-> > > > > --- a/drivers/media/i2c/imx219.c
-> > > > > +++ b/drivers/media/i2c/imx219.c
-> > > > > @@ -878,14 +878,17 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> > > > >         crop->top = (IMX219_NATIVE_HEIGHT - crop->height) / 2;
-> > > > >
-> > > > >         if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> > > > > +               unsigned int rate_factor = imx219_get_rate_factor(state);
-> > > > >                 int exposure_max;
-> > > > >                 int exposure_def;
-> > > > >                 int llp_min;
-> > > > >                 int pixel_rate;
-> > > > >
-> > > > >                 /* Update limits and set FPS to default */
-> > > > > -               ret = __v4l2_ctrl_modify_range(imx219->vblank, IMX219_VBLANK_MIN,
-> > > > > -                                              IMX219_FLL_MAX - mode->height, 1,
-> > > > > +               ret = __v4l2_ctrl_modify_range(imx219->vblank,
-> > > > > +                                              IMX219_VBLANK_MIN * rate_factor,
-> > > > > +                                              (IMX219_FLL_MAX - mode->height) *
-> > > > > +                                              rate_factor, rate_factor,
-> > > > >                                                mode->fll_def - mode->height);
-> > > > >                 if (ret)
-> > > > >                         return ret;
-> > > > > @@ -928,8 +931,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
-> > > > >                         return ret;
-> > > > >
-> > > > >                 /* Scale the pixel rate based on the mode specific factor */
-> > > > > -               pixel_rate = imx219_get_pixel_rate(imx219) *
-> > > > > -                            imx219_get_rate_factor(state);
-> > > > > +               pixel_rate = imx219_get_pixel_rate(imx219) * rate_factor;
-> > > > >                 ret = __v4l2_ctrl_modify_range(imx219->pixel_rate, pixel_rate,
-> > > > >                                                pixel_rate, 1, pixel_rate);
-> > > > >                 if (ret)
+    solo_dev = kzalloc_obj(*solo_dev);                /* completions zeroed */
+    ...
+    ret = devm_request_irq(&pdev->dev, pdev->irq, solo_isr, /* register handler */
+                           IRQF_SHARED, SOLO6X10_NAME, solo_dev);
+    ...
+    ret = solo_p2m_init(solo_dev);                    /* init_completion() */
 
--- 
-Regards,
+The interrupt handler path solo_isr() -> solo_p2m_error_isr() calls
+complete() on the uninitialized completion:
 
-Laurent Pinchart
+    for (i = 0; i < SOLO_NR_P2M; i++) {
+        ...
+        complete(&p2m_dev->completion);
+    }
+
+If the device raises an interrupt before solo_p2m_init() runs,
+complete() acquires the uninitialized wait.lock and walks the zeroed
+task_list in swake_up_locked(). The zeroed task_list makes list_empty()
+return false, so swake_up_locked() dereferences a NULL list entry,
+triggering a KASAN wild-memory-access.
+
+Suggested fix: move devm_request_irq() below solo_p2m_init(), so the
+completions are valid before the handler can run.
+
+Reported-by: Sangyun Kim <sangyun.kim@snu.ac.kr>
+Reported-by: Kyungwook Boo <bookyungwook@gmail.com>
+
+Thanks,
+Jaeyoung Chung
 
