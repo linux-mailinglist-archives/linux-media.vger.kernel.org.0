@@ -1,53 +1,51 @@
-Return-Path: <linux-media+bounces-64433-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64434-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id w8rQLs9XKWpbVQMAu9opvQ
-	(envelope-from <linux-media+bounces-64433-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 14:25:51 +0200
+	id Xa2gDq9bKWp+VgMAu9opvQ
+	(envelope-from <linux-media+bounces-64434-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 14:42:23 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6078B669424
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 14:25:51 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82FFD6695F9
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 14:42:22 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=iQmXobFh;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64433-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-64433-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=b6JP8vgP;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64434-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64434-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B145B3058ED4
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 12:25:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3B84030DA516
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 12:38:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0BD840758D;
-	Wed, 10 Jun 2026 12:25:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6E443DEFFE;
+	Wed, 10 Jun 2026 12:38:39 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED7B3B9DB6;
-	Wed, 10 Jun 2026 12:25:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C836E312826
+	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 12:38:37 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781094301; cv=none; b=IFRZJlxcvfZFq9RBpr/aDA0Bv1qSjZ1r3YEvS16Jo9DPBXXcKnkbEokwk6D2miAIf++VmM5VMMaDW+AXZxz/2WJD+3zOYpPD6BTg37kzCuZi0rcmn8EYu9ix3L9oVPj9HqyLk8zXfS6xEi00blalmHsX9GroBstq9AZux4GFX/A=
+	t=1781095119; cv=none; b=OKCxsZRIcYgNAHoAnB6slGIlF+vP/8a20vIuMblVhAyFnaD54SrINE865EV2H/Q00TZydfK4JHBIikIcTAk8KFYZpgnrBT5v/YXxCspR0OB+SUg/ZNa3g8/DbQEBudN3VK6Dd3C3JLfjs0Dc8EhvWbiWIblyy8A7/LmyBMUDBh8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781094301; c=relaxed/simple;
-	bh=1kOU6NEg2CoUQdUwA85btrDwjWC9Ghu3pzAeY3TiXWU=;
+	s=arc-20240116; t=1781095119; c=relaxed/simple;
+	bh=ZWro41jLRDdyy2GUsF5GnlqKAMNsO+ii7qVkOxvgEy8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EbMhdjpbLAhDeLoW2Eldo/sNDcNoBxrTz9yN/85HOeDiqjIs6Zd5sWSM/BbUW9JjM0FHBxOf54e2/nVb74Q40DcmDL+osy9W9+ugX4yp884pHkZNraLGp1jaMGxmXhT7WvFO5/KAWu2xVVQL8PC3pWZxsKI/PjffUYaW/3aDB+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iQmXobFh; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC1251F00898;
-	Wed, 10 Jun 2026 12:24:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781094300;
-	bh=1kOU6NEg2CoUQdUwA85btrDwjWC9Ghu3pzAeY3TiXWU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=iQmXobFh9+asgdhgjn3dG9alw9DB+C/BO/s5LrKpqh5PbsWszee99/FrytQIQviYa
-	 kkEvTmno1Byr5Tpz4ugbR9ZiOUTvyTz8ZvbiIHkUjfM6QILjPI6Yf1Eh0sx0MqyWwJ
-	 QGDPy2la87ZdCXa5tWaZ2zzdiraW3jjT0KAzpRFMKHKfj4vOURmKTj88rHGxhFjo/M
-	 h98k2XJnAX934CT6pq8i4Lpmh9hvJXMERd/k9FA584o2vwwCaPVspJGcpjvSAhjO6t
-	 gMGaUpmJmxzAs0Dpve+2pp+BVKkF1t/IgS6sDIfkw8L6rzAW35S0IvAI9JhyyITLAg
-	 BIneHGfCkuw4A==
-Message-ID: <717792fb-c577-4ffb-9da2-56cb5c92bbf6@kernel.org>
-Date: Wed, 10 Jun 2026 13:24:55 +0100
+	 In-Reply-To:Content-Type; b=C6VBrimrdXkfZEnI/e0HR9BplGjcujsOoxn8MpMHUb8oRppPloQETqEL8NgQVmnEshxUaTrqIVXbqiAOJya/oMUNKnLz8AM56VoDGh8sMid1s1JiB7uMSj9nye7OMcyg1NMTaKMG3mgPYkFoNDWXHSytfDBHJathuMyQyZqjXp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=b6JP8vgP; arc=none smtp.client-ip=213.167.242.64
+Received: from [192.168.0.43] (chfd-03-b2-v4wan-176392-cust229.vm15.cable.virginm.net [82.19.20.230])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 258746DF;
+	Wed, 10 Jun 2026 14:38:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1781095087;
+	bh=ZWro41jLRDdyy2GUsF5GnlqKAMNsO+ii7qVkOxvgEy8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=b6JP8vgPhfhFnORYSwn0HinQD8KRP/U0pg+q+4F6OoS9adc0oiW0AoBx0LT+R+l+A
+	 oTTIGPRVz1ORV9N9P9ixQW0IxmcbzWH9jKk2kmNXjIe2bmbJ0kjlzGNfRome5pduBr
+	 wYdy2aWflXSbKz34oQ/DhCpLQQxB6tWuJNV/Umts=
+Message-ID: <05bd6f5b-8f13-42b9-9023-ebe2133c0b99@ideasonboard.com>
+Date: Wed, 10 Jun 2026 13:38:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,117 +53,110 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/9] arm64: dts: qcom: hamoa: reorder csiphy power-domains
- for v8 CSI2-PHY
-To: Ramshouriesh <rshouriesh@gmail.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>, Vinod Koul <vkoul@kernel.org>,
- Neil Armstrong <neil.armstrong@linaro.org>
-Cc: Aleksandrs Vinarskis <alex@vinarskis.com>, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-phy@lists.infradead.org
-References: <20260610-a14-himax-hm1092-v1-0-0c9907da47ed@gmail.com>
- <TVP2LaJffMZ_-0R3db-ID9Mof0YjutY69iFhCmgVSHp7iecd_kgAdMJaP_fKUZZpr253-o1ydtdGmXKkNw4sVg==@protonmail.internalid>
- <20260610-a14-himax-hm1092-v1-7-0c9907da47ed@gmail.com>
-From: Bryan O'Donoghue <bod@kernel.org>
+Subject: Re: [PATCH v2 1/2] media: i2c: ov8865: Drop the runtime PM usage
+ count on stream failure
+To: Jurison Murati <eng.juri@gmail.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+References: <20260609232255.13559-1-eng.juri@gmail.com>
+ <6b764b77a7d78b8ae2cfb8a213a1e844a329db26.1781085860.git.eng.juri@gmail.com>
 Content-Language: en-US
-Autocrypt: addr=bod@kernel.org; keydata=
- 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
-In-Reply-To: <20260610-a14-himax-hm1092-v1-7-0c9907da47ed@gmail.com>
+From: Dan Scally <dan.scally@ideasonboard.com>
+In-Reply-To: <6b764b77a7d78b8ae2cfb8a213a1e844a329db26.1781085860.git.eng.juri@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:rshouriesh@gmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:mchehab@kernel.org,m:bryan.odonoghue@linaro.org,m:vladimir.zapolskiy@linaro.org,m:loic.poulain@oss.qualcomm.com,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:alex@vinarskis.com,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-phy@lists.infradead.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64434-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:eng.juri@gmail.com,m:sakari.ailus@linux.intel.com,m:hansg@kernel.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:engjuri@gmail.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com];
+	FORGED_SENDER(0.00)[dan.scally@ideasonboard.com,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org,linaro.org,oss.qualcomm.com];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-64433-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dan.scally@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6078B669424
+X-Rspamd-Queue-Id: 82FFD6695F9
 
-On 10/06/2026 12:09, Ramshouriesh wrote:
-> The v8 phy-qcom-mipi-csi2 binding mandates power-domain-names ordered
-> "mmcx", "mx" (MMCX first)
+Hi Jurison, thanks for the revision
 
-Feels like it probably shouldn't.
+On 10/06/2026 11:22, Jurison Murati wrote:
+> ov8865_s_stream() takes a runtime PM reference when enabling the
+> stream, but returns without releasing it if ov8865_sw_standby()
+> fails, leaving the reference unbalanced and the sensor powered
+> indefinitely. The same applies to a failure while disabling the
+> stream, in which case the reference acquired at stream start is
+> never dropped.
+> 
+> Drop the reference in a single place, both when disabling the
+> stream and on failure, and only update the streaming state on
+> success.
+> 
+> Signed-off-by: Jurison Murati <eng.juri@gmail.com>
+> ---
+> Changes in v2:
+> - Drop the runtime PM usage count in a single place as suggested by
+>    Sakari, which now also covers a failure while disabling the stream.
+> - Not carrying Dan's Reviewed-by from v1 over since the logic changed.
+> - Reordered to 1/2 so the next patch can rely on the unified error
+>    handling. This was 2/2 in v1.
+> 
+>   drivers/media/i2c/ov8865.c | 12 +++++-------
+>   1 file changed, 5 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov8865.c b/drivers/media/i2c/ov8865.c
+> index a8586df..5b909a8 100644
+> --- a/drivers/media/i2c/ov8865.c
+> +++ b/drivers/media/i2c/ov8865.c
+> @@ -2621,15 +2621,13 @@ static int ov8865_s_stream(struct v4l2_subdev *subdev, int enable)
+>   	ret = ov8865_sw_standby(sensor, !enable);
+>   	mutex_unlock(&sensor->mutex);
+>   
+> -	if (ret)
+> -		return ret;
+> -
+> -	state->streaming = !!enable;
+> -
+> -	if (!enable)
+> +	if (ret || !enable)
+>   		pm_runtime_put(sensor->dev);
+>   
+> -	return 0;
+> +	if (!ret)
+> +		state->streaming = enable;
 
-strings > magic indexes. Thanks for finding.
+I think this is ok, so you can have that tag back:
 
----
-bod
+Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+> +
+> +	return ret;
+>   }
+>   
+>   static const struct v4l2_subdev_video_ops ov8865_subdev_video_ops = {
+
 
