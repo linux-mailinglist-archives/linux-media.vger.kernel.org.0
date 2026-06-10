@@ -1,210 +1,168 @@
-Return-Path: <linux-media+bounces-64524-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64525-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id R4EEMdHhKWrIewMAu9opvQ
-	(envelope-from <linux-media+bounces-64524-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 00:14:41 +0200
+	id Ko/5FuzhKWrPewMAu9opvQ
+	(envelope-from <linux-media+bounces-64525-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 00:15:08 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3881866D2A4
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 00:14:41 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86A0E66D2AD
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 00:15:07 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=chromium.org header.s=google header.b=hFouPLr8;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64524-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64524-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=chromium.org;
+	dkim=pass header.d=intel.com header.s=Intel header.b=Oqf26ViI;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64525-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64525-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7171230331B5
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 22:14:39 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 3F24330347D3
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 22:15:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 086C6363C6A;
-	Wed, 10 Jun 2026 22:14:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F97233E348;
+	Wed, 10 Jun 2026 22:15:03 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF5B2C031E
-	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 22:14:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 495562E7F20;
+	Wed, 10 Jun 2026 22:15:00 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781129675; cv=none; b=n6BcBwnqUCWgpRxvU0gpbPlf1WpSxY7bvU8UeROmNvPQRW05U1bRtR1SXqqCa/5XzYKdFXw82OaN2LboBUvgMp7REPiickDq3iTYaftWjapvPRA7oUqUDR9QIzSz2mCRCHxzPCBr9gQ6lwpS3P3jjvutc0AEhAEwWACbDAk1lz4=
+	t=1781129702; cv=none; b=ECHAZGc/iQt6ZWc7n7LutDdJm+LkYiHYKAhfvafrIu5IE39rj7/q2ap5nK1XWcKWE6an2qnDmwwiL1S/NPgOcMM+cAhoCCQhkZF1KbDYtyMXNBFmAX/BKs9xjUrr0P63ZFF4g5lb5Np3IWf0lFT2u+l74ERwsVDBDC0Lmwm3Ovs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781129675; c=relaxed/simple;
-	bh=mTLDVINarZaJr5azCL8guqrK/oiTW8Ahtnhf4kDMrpk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=q5/CHfgHtVkMwIOhnKkOMMkWJCHG3ji73KmJbJzsSkTkToVNLXLAHwbbm6jKrqyLmH1Nj4SK+vKmVkn0JidEXaTHvUUfTaUC36cYA8X6C3iVZdpr5XsQDtaczfXnHR30Rd89OEcyYw344AfEYIRIpHKeveXXZ/fJNo5ZzsuuI/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hFouPLr8; arc=none smtp.client-ip=209.85.218.41
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-bf84a2b2077so428395366b.2
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 15:14:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1781129672; x=1781734472; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MBH4Ky0PfRH1lV1hmQ6CbTQcq6+3YnY1hBMssQPxZyU=;
-        b=hFouPLr8Jm8a5/778n9Y+6rC1nioKK6mstOVlbeFslgiBKWrXPmb8Jo/DMCvkYbIwX
-         Eh2WKHv8UtDclploy+m+UpRoN8cVFsT8ZqXhc/bFJOaT8SHF0+GvHPlIhefIHxfkcXkS
-         GV25AISFsNYLr0BqvpBK7RALIMpXUrxSS9brI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781129672; x=1781734472;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MBH4Ky0PfRH1lV1hmQ6CbTQcq6+3YnY1hBMssQPxZyU=;
-        b=Z0Sqfoa5JTTYrjx3yAzwHJXVh5ttqK4Prayr7tDL/7qZMYpBBd23UVyG/0Rg5of6Ma
-         SbsT+8psWU4Dm172XzES2n7O85ysghsCnHU+MO6DAgtYODnnlIdQr8UpizktcFFkRggx
-         LUJAZD6UL0sJ0u6bH6+K8Tbz45P1t8yxnJ8eZQlxI0gB/t+LUpmngRGA/r81TMHkWBDJ
-         6H0QzXbqZRfyovMXbJLeiLW9ndn3kPOYK7WdwIxuH4oVtuJV5A52UJ+fB0uC6+e3RnHd
-         wQK0cshRdBFDTjR2HpvRvZOVDeI6X8FSY3EaqMslDhhhOYam2OA20F7NNZkb6g9BA47N
-         nXeg==
-X-Forwarded-Encrypted: i=1; AFNElJ+HEaMia2D7L17FOHeIP9g8TlnaBwMJU7yYJcginEXjrQb7VTQDXXYbo93PJiCoTT8D/wnWeco4zMU67A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqwVaXpYmQXcemjQxAQPBdUbyxYcAy9rjZVqZ0FpsK56ZJoLUr
-	Yuq1uPlNQhlWV1btmiYMEsLEz5CJhrEo35jWSoNDIhAMUuwrOQ8KFgvnaciqJAH1fbkKAv9Y799
-	dTtZM7oEA
-X-Gm-Gg: Acq92OG5v2l2ByJma6qrQoYjmvJR3kKiQFADtRXEB7EQWhmKO0UkX2UPuTSAjlM0brk
-	u+wRRnnB1qUs3XuSPiWQCDgYZmxW7l9tX8iaS52yPVl7oFW3xcYJdv1ketWqfrHbdbywlyxIa3E
-	kMaMJWaZAI9QTem4tNsT8m1+20QC41dC9aYr2INDa9W66DuzpW2CIgQa89CihcOFlOB69zVX0wS
-	YdFc8FKsKjOXioNVCEQqnoZO5LDP8rGxNpeZ5AQSX+ndQBlCrtaQhxk7U5ODkIX5PEJZdpJGN8k
-	dHG1OIMugBdBmp+w0cUIjInNsBYv1zbgcCu9+mczHM7JI+6YkJYhAr6uccnqw0S/O8LChZuIhzw
-	eFUUtXzfz+ZNLkfO1D9j0NbcvHnKtf9f+g9EDlojhIg7PrZFFGq20uJEKsMg7pjbNZMsJZ57WPv
-	WIeK8uX5rRWg1U2Dr6KUabeZLaL/G1AdUVzGxfc8MGtHmqQXnaVe7gcR0by9KY4UV/0GrHEbybV
-	NNnHQvIjQ==
-X-Received: by 2002:a17:906:8a70:b0:beb:b53d:4839 with SMTP id a640c23a62f3a-bf3738f4334mr881995566b.33.1781129672505;
-        Wed, 10 Jun 2026 15:14:32 -0700 (PDT)
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com. [209.85.208.53])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf05176fd14sm1245456266b.11.2026.06.10.15.14.31
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jun 2026 15:14:32 -0700 (PDT)
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-68acf0a15b3so10475079a12.1
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 15:14:31 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ/Hid+cgjyg/xc7S/o9baRql4rvYJPgvB8TRlRpjhnqGzaJjNxGv2j4y5lP3X1zu/DXw1h1j0Gg8my8xQ==@vger.kernel.org
-X-Received: by 2002:a17:907:1988:b0:bec:203f:7466 with SMTP id
- a640c23a62f3a-bf370e629dfmr1399587966b.8.1781129670185; Wed, 10 Jun 2026
- 15:14:30 -0700 (PDT)
+	s=arc-20240116; t=1781129702; c=relaxed/simple;
+	bh=+wGoXEFaHcafBddGKyO6NNETIvSQ5NJvQscngG5PQ2g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D2HcIsOVntiXM1DHq579d2GILUCKrKgDd9VDOwockAvZqubVuL7Rb79nYIKkQ+p3104fh6f8q4rMbnHirnswHXNhuD1XmUbB9nn7FhhwP7fMEDWxWUGXLKHsWCYOIQ11Fk+8KpD7hYHVANQGx7/aAHEddIsp15kQ+ECN0JkHGL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Oqf26ViI; arc=none smtp.client-ip=198.175.65.16
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781129701; x=1812665701;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=+wGoXEFaHcafBddGKyO6NNETIvSQ5NJvQscngG5PQ2g=;
+  b=Oqf26ViIkMJjeD9bZ0lq5so1+d0TE42uUSaV2eUZi9jsZ5h4VWun0jBv
+   TPLmaTirLLlNIkenEJwqGprMlxkGJmxTGxdbtR7qtxXOVm/LQyA/s2Bbl
+   23JyJwXoglDgGU18sqwglxI0CjkXSevg2uCMQ+yFwuXU3QJ8dG5t/qCVI
+   CWeARY5bYiGvlG16vCYwlR8LiyhhxaleoPBEStmIfG3cEVTF9cMIT3bKG
+   htXtDOF5ol99asHAG6dVsilFBxRyG5gtGxcXRQ+M1TuSpMfLjcYguLUS8
+   om5NeGa6kjMgoSxcaf9LN48vEQ4DPIEeeo2y3Mz6hc1ToyHn7Re1chfAX
+   Q==;
+X-CSE-ConnectionGUID: OXFKjJEtQgqUAIVpwvPjEQ==
+X-CSE-MsgGUID: 3/06/U6nR1C/BK1CwwST/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82129505"
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="82129505"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 15:15:00 -0700
+X-CSE-ConnectionGUID: ll5Q+pUfQY6WhIp7GUUGmA==
+X-CSE-MsgGUID: ERb830NLTCeMKOL8cGZu8g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,197,1774335600"; 
+   d="scan'208";a="243830221"
+Received: from conormcd-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.102])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 15:14:58 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id BACF711F8DF;
+	Thu, 11 Jun 2026 01:14:54 +0300 (EEST)
+Date: Thu, 11 Jun 2026 01:14:54 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Tarang Raval <tarang.raval@siliconsignals.io>
+Cc: Kate Hsuan <hpa@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Serin Yeh <serin.yeh@intel.com>,
+	Damjan Georgievski <gdamjan@gmail.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 3/3] media: i2c: imx471: Add Sony IMX471 image sensor
+ driver
+Message-ID: <ainh3vUs_FWj4bLR@kekkonen.localdomain>
+References: <20260609124926.1038981-1-hpa@redhat.com>
+ <20260609124926.1038981-4-hpa@redhat.com>
+ <PN3P287MB1829693B81531B6333461AAE8B1A2@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260610-media-ci-7-2-v1-0-3c61a482a44e@chromium.org>
- <20260610-media-ci-7-2-v1-2-3c61a482a44e@chromium.org> <20260610202124.GB1384932@killaraus.ideasonboard.com>
-In-Reply-To: <20260610202124.GB1384932@killaraus.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 11 Jun 2026 00:14:18 +0200
-X-Gmail-Original-Message-ID: <CANiDSCsOdB7scqmLT01Ehe7gDaiy-5HX1NfPOtgQHi+vNbd-tQ@mail.gmail.com>
-X-Gm-Features: AVVi8CdTF4yTQJtqiEKlYfBQtnih2Y53iWj-G6zZEOegl5hWcbxzOEozFhI30IQ
-Message-ID: <CANiDSCsOdB7scqmLT01Ehe7gDaiy-5HX1NfPOtgQHi+vNbd-tQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] media: rzg2l-cru: Remove unused kerneldoc description
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Xiaolei Wang <xiaolei.wang@windriver.com>, Tarang Raval <tarang.raval@siliconsignals.io>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Daniel Scally <dan.scally@ideasonboard.com>, 
-	Hans Verkuil <hverkuil+cisco@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PN3P287MB1829693B81531B6333461AAE8B1A2@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-64524-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart@ideasonboard.com,m:dave.stevenson@raspberrypi.com,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:xiaolei.wang@windriver.com,m:tarang.raval@siliconsignals.io,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:jacopo.mondi@ideasonboard.com,m:dan.scally@ideasonboard.com,m:hverkuil+cisco@kernel.org,m:mchehab+huawei@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi+renesas@ideasonboard.com,m:linux-renesas-soc@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[chromium.org:+];
-	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-64525-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:tarang.raval@siliconsignals.io,m:hpa@redhat.com,m:mchehab@kernel.org,m:johannes.goede@oss.qualcomm.com,m:hverkuil+cisco@kernel.org,m:serin.yeh@intel.com,m:gdamjan@gmail.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	HAS_ORG_HEADER(0.00)[];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[redhat.com,kernel.org,oss.qualcomm.com,intel.com,gmail.com,vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco,huawei,renesas];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:from_mime,kekkonen.localdomain:mid,vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3881866D2A4
+X-Rspamd-Queue-Id: 86A0E66D2AD
 
-Hi Laurent
+Hi Tarang, Kate,
 
-On Wed, 10 Jun 2026 at 22:21, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Wed, Jun 10, 2026 at 04:20:07PM +0000, Ricardo Ribalda wrote:
-> > The variable has been previously removed but not its kerneldoc.
-> >
-> > Also remove the leftover reference to state in the description of qlock.
-> >
-> > This patch fixes the following warning:
-> >
-> > Warning: drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h:164
-> > Excess struct member 'state' description in 'rzg2l_cru_dev'
-> >
-> > Fixes: 85d8820d4869 ("media: rzg2l-cru: Remove the 'state' variable")
->
-> Does it mean that this patch was merged without going through CI ? Is
-> there something we need to improve in the process ?
+On Wed, Jun 10, 2026 at 07:11:39AM +0000, Tarang Raval wrote:
+> > +       /* V4L2 controls values will be applied only when power is already up */
+> > +       if (!pm_runtime_get_if_in_use(sensor->dev))
+> 
+> Use pm_runtime_get_if_active() or update the comment. With pm_runtime_get_if_in_use(),
+> the comment should say "applied only when the device is in use".
 
-Something has changed in the kenel-doc script. If you run this in
-media-commiters/next:
-scripts/kernel-doc -none -Wall
-drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+Using pm_runtime_get_if_active() would allow more sparing I²C writes, which
+I understand the driver always does in enable_streams(). It's not a bug
+though.
 
-There is no error.
+> > +static const struct acpi_device_id imx471_acpi_ids[] __maybe_unused = {
+> > +       { "SONY471A" },
+> > +       { "TBE20A0" },
+> > +       { /* sentinel */ }
+> > +};
+> > +MODULE_DEVICE_TABLE(acpi, imx471_acpi_ids);
+> > +
+> > +static struct i2c_driver imx471_i2c_driver = {
+> > +       .driver = {
+> > +               .name = "imx471",
+> > +               .acpi_match_table = ACPI_PTR(imx471_acpi_ids),
+> 
+> Could you please add .of_match_table as well? The driver can also be used
+> on DT-based systems.
 
+I'd leave this up to someone who needs this to work on DT. It'd require
+bindings, too, and the support wouldn't be testable at this time anyway.
 
->
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->
-> > ---
-> >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h | 2 --
-> >  1 file changed, 2 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > index 5bf334e173d2..b426bc7898bf 100644
-> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > @@ -116,11 +116,9 @@ struct rzg2l_cru_info {
-> >   * @scratch_phys:    physical address of the scratch buffer
-> >   *
-> >   * @qlock:           protects @queue_buf, @buf_list, @sequence
-> > - *                   @state
-> >   * @queue_buf:               Keeps track of buffers given to HW slot
-> >   * @buf_list:                list of queued buffers
-> >   * @sequence:                V4L2 buffers sequence number
-> > - * @state:           keeps track of operation state
-> >   *
-> >   * @format:          active V4L2 pixel format
-> >   */
-> >
->
-> --
-> Regards,
->
-> Laurent Pinchart
+-- 
+Regards,
 
-
-
---
-Ricardo Ribalda
+Sakari Ailus
 
