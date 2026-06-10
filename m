@@ -1,160 +1,181 @@
-Return-Path: <linux-media+bounces-64341-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64342-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id UVQXDpCgKGq9GwMAu9opvQ
-	(envelope-from <linux-media+bounces-64341-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 01:24:00 +0200
+	id +jRlMOitKGqPIAMAu9opvQ
+	(envelope-from <linux-media+bounces-64342-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 02:20:56 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA703664C51
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 01:23:59 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id AFCF2664F0B
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 02:20:55 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=mqZH4DNI;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64341-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64341-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=collabora.com header.s=zohomail header.b=kZOwsiH2;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64342-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-64342-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=collabora.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id E4DEE303F1D8
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2026 23:23:07 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 0E1CB3024B07
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 00:20:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFC453AC0E4;
-	Tue,  9 Jun 2026 23:23:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83FAB18DF80;
+	Wed, 10 Jun 2026 00:20:41 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB612E9729
-	for <linux-media@vger.kernel.org>; Tue,  9 Jun 2026 23:23:01 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781047382; cv=none; b=lhka5qG1Qj7g0OBawq50fWHhufCUjHWbdLUaU9ZJifr5hlsiRRp2hPGloVEhQWOsls7G7VdQC9rwuSp2cxq+tGAFPwQLywTsqRqGzQA34LlkRRYz23ufwnzEzcUKfkMpVvHT5p9VYPDUoEZnge1pNjeHG4WVJpXfKUkJPdMHfG4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781047382; c=relaxed/simple;
-	bh=JTBiL7yW58TwWN0fT2HYnWqUpYRrqVoYRFOznAXfkR4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=HOwCbpCZEgY0PKDeocGSsx43DOpNYuhwPEtI5OVxMo3LyyFSOMF7FOfF7v/vBPf1vWUBNVhVrHWOdk+i9CgFBwpdofARzY7vN+7PyHMd6F91cMpOy4Blyf2shI44BUR/0a9SSCWdBXCIoG2AjSnMgkkM4ntSVeW8/8G/18vi4Po=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mqZH4DNI; arc=none smtp.client-ip=209.85.221.46
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-45ef189aa1cso4395315f8f.0
-        for <linux-media@vger.kernel.org>; Tue, 09 Jun 2026 16:23:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781047380; x=1781652180; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2f+nd//ws4OlD5QskBmJ1j6z8Njs/3objpJlMHNbX00=;
-        b=mqZH4DNI33a5bMT+CbtB5MeDErWDxAgTB1C3lNcK1CMsB1+d0q14nOMRUldgd27cnD
-         kxCNjxeoN1aBfX0nHd5iMoA9mtQGRGqSN/NrgTJxEUbeay2XvVIcO/27r1JUrsNWUL9F
-         Kyp70Ry4wcC4+ftDdEguIrfGcYMCc3KKw2kTc8+AJ2Qb5NS7s5UZVq8/c3HYGUHxjeBp
-         C7HpYPGLeHcvoKGOK0qBtSDwjaZzUUuyKpwhf0Nqzk1/YoChrFKWfH9TMQf1HL8fX5eI
-         g9nbZ2qs/ay8PRoSON/UrJ1LHVRsB3/3PHGQEvPP2yBOO9wzBk24BCs+MzFpfYK5Ju9n
-         8Cng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781047380; x=1781652180;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2f+nd//ws4OlD5QskBmJ1j6z8Njs/3objpJlMHNbX00=;
-        b=qWx2sug5qP7qifx4s0ZrLjnccFbG3ePo0CwRb7TF34SZbFJEA0n29d3i4sYGcUmoMY
-         84dtctp95FtOfA/35N2QXWfDfbAoMAzX1WTyLIJXfsVZk44CLTMoc4rbQ4uew2EKGMFK
-         FYtShbSKXe5CGEsxekG3T4zLrlw26vocFR0UFwVcg6lOZwPmhXU2jzIWgL7zkhLCzgcZ
-         1jYTTpYLJKPYJODr8MFhNxtFSD5eyxM33VDuxdi840lbhpNbne+7E1bDBUffK02HN4vT
-         YmdlV8MUHCeDn603inWJ94ODjApqURZkBR77wiGblYw04A7HNopff8nKlhAh1TcGiKjL
-         78Mw==
-X-Forwarded-Encrypted: i=1; AFNElJ95+tWrjnV1/Xp75CYNHwhV8Haw9tuPskfaBuaJQZcXsyUdkY9kOE3XsjnH3nTBr5dZsWmzhvktn4nyYg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFryPPfpiOjEsSX5aTXCsb6Eaw2/bgxf5fm2ejx3W5GNVdnGd+
-	qo+hzo35npEmAKBNIL9HQD0UoBhE3KmL1b5oYTbi8jbV0IcFgG/LIg3r
-X-Gm-Gg: Acq92OESBEHru6YWzXT5UD5AMyiDeot7kWRd8qUUyDq5AhdIlVRG6TMyl23mtZeQF66
-	az3dkRr57L6RjWlK7dXlYosoJpYerDmy+CQh6xeI1852jUDZfunGlQJjVTrUWLOm++8woo/0OUq
-	vFLw9VVa84xvy4l0rQE5kwQvB5s0/ycb681/IhRnVBFpHwc5qOkNOwV0R9GgR1peJ9J2N7TZ/J0
-	Q/zmEGRUA2j22AjaHKqZVnOz2eOceRj5dRFbpzd5uvKCDNmQ00LnBkN/N9b6rVHFfnSw7/S5eF/
-	XGeWKkhdE/x6UGBU8/6iAcrrf+8R4/YD2ANsFnnYmY8hWhIUi4x29ZoZwoENpmRCBdR3l0QZuMY
-	37//sSUWyjGBNPbvWvnYC0rMmGlrxFjE8S6Q8qTbhTXMVurq9rufX6jERHWKZ3UOZVTlpPpFDn4
-	f6XNh0qeC95xAC00UB0kjV6BKS3tVt2IBUWj2k4IpmbtYr8oHfMzqAsTnMz6foYQB5qY6/8QbjN
-	Mh8khRK2C5qCeE=
-X-Received: by 2002:adf:f88c:0:b0:45a:e3dd:586b with SMTP id ffacd0b85a97d-4603063a9e2mr26087528f8f.18.1781047379680;
-        Tue, 09 Jun 2026 16:22:59 -0700 (PDT)
-Received: from garuda ([79.106.123.139])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4601f2f2710sm51994747f8f.14.2026.06.09.16.22.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2026 16:22:59 -0700 (PDT)
-From: Jurison Murati <eng.juri@gmail.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Daniel Scally <dan.scally@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: [PATCH 2/2] media: i2c: ov8865: Drop PM runtime reference if stream start fails
-Date: Wed, 10 Jun 2026 01:22:55 +0200
-Message-ID: <20260609232255.13559-2-eng.juri@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260609232255.13559-1-eng.juri@gmail.com>
-References: <20260609232255.13559-1-eng.juri@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D599240D573;
+	Wed, 10 Jun 2026 00:20:39 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781050841; cv=pass; b=Em8zvP138YEpjn3G+gtyU7gP256ihRmf4VvOqPhIRrNBdPH6iDH7nrivgklvOTpYDl2V6YoQ5nZci3n6Jt6Q823kOro01v6dXykeybRtZ1ldfwQJRsog9fOy1LfsnglTrA6HPoQMGRt4F+RKenurILtedztAmi6Au6jccQeKVz0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781050841; c=relaxed/simple;
+	bh=LcYzfnNvpPv4kOrLJLk/DY9+nUZ5MRaWOIev0xE1/To=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kdb9SBgyVAsAMdC4r9TeaqeSFhgA6U055C+J7v+KGBPmnXSvVAyGoIUyRtF60T5soZqV+LyE51Fx7mIa5srK+4yB8j+nIZlwGurFSQBD1AmEKKilx5qgZw/CsSHNdO+oXbsR6wjWqEm2WD14MAqds47UF/Tl0KiC0pvnpffyW94=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b=kZOwsiH2; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal: i=1; a=rsa-sha256; t=1781050811; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Md6nNVHOEmyf92T+nDS9CJqqPti1DRSk4EGTpu6C0HNPBqi7DA1DYIbBx6XVRwZKGYg+7FAMp+zRe7yCffEmmdzShm8ChVUIErNYfWJ2C0Z5rs+Jr8hsTWIn9J8BQuxRZb4sbMgl4VDNNe+Fp/YF9+TLnLcWHr/2HsETWIA/0Fs=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1781050811; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=O9fNTHv6wbBG42jHa8mAw6pvJNsDpQ9M5O3qhn0l1Vo=; 
+	b=CtLCFoN/HUmgdMdaKxivguNvewtVOqnOf/GU04aTbIVSPmsAiqq9UfL62Sh1qJdTXzHGhlCky8R8LX2pYa39GqhrE6Q5y6NWBjh3JAboYzSpnuOv/I0JcGJ2wxwR6L9BGZsTO/owZFYHVWFWX4701w6nqoN2HlVw+vD+Fu7sY3Q=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
+	dmarc=pass header.from=<deborah.brouwer@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1781050811;
+	s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=O9fNTHv6wbBG42jHa8mAw6pvJNsDpQ9M5O3qhn0l1Vo=;
+	b=kZOwsiH29/dAC81lSN65kYEuoTOcxiFWnRZI3eUfAzUyKksZvENO4jOoeUKfRUoY
+	DRrLnkZ+tvZiLYP+qTTiiMl8pibUI+SDHnj/H9Qez+JfTBfn21bbtaEiqZZVW628ZQS
+	t+lDFRobsq/ZdrPqaZCGglTpHn7wVk4iLg/THklE=
+Received: by mx.zohomail.com with SMTPS id 1781050810087120.3536602556942;
+	Tue, 9 Jun 2026 17:20:10 -0700 (PDT)
+Date: Tue, 9 Jun 2026 17:20:09 -0700
+From: Deborah Brouwer <deborah.brouwer@collabora.com>
+To: Lyude Paul <lyude@redhat.com>
+Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+	nouveau@lists.freedesktop.org,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Gary Guo <gary@garyguo.net>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	driver-core@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Alice Ryhl <aliceryhl@google.com>, Simona Vetter <simona@ffwll.ch>,
+	linux-kernel@vger.kernel.org,
+	Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Maxime Ripard <mripard@kernel.org>,
+	David Airlie <airlied@gmail.com>, Benno Lossin <lossin@kernel.org>,
+	linaro-mm-sig@lists.linaro.org, Danilo Krummrich <dakr@kernel.org>,
+	Mukesh Kumar Chaurasiya <mkchauras@gmail.com>,
+	Asahi Lina <lina+kernel@asahilina.net>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v19 0/4] Rust bindings for gem shmem
+Message-ID: <aiituaFg3i4Qpb-a@um790>
+References: <20260608183057.2001376-1-lyude@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260608183057.2001376-1-lyude@redhat.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:dan.scally@ideasonboard.com,m:hansg@kernel.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
-	PRECEDENCE_BULK(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:lyude@redhat.com,m:dri-devel@lists.freedesktop.org,m:rust-for-linux@vger.kernel.org,m:nouveau@lists.freedesktop.org,m:acourbot@nvidia.com,m:gary@garyguo.net,m:christian.koenig@amd.com,m:driver-core@lists.linux.dev,m:ojeda@kernel.org,m:maarten.lankhorst@linux.intel.com,m:aliceryhl@google.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:sumit.semwal@linaro.org,m:linux-media@vger.kernel.org,m:rafael@kernel.org,m:tzimmermann@suse.de,m:mripard@kernel.org,m:airlied@gmail.com,m:lossin@kernel.org,m:linaro-mm-sig@lists.linaro.org,m:dakr@kernel.org,m:mkchauras@gmail.com,m:lina+kernel@asahilina.net,m:daniel.almeida@collabora.com,m:gregkh@linuxfoundation.org,m:lina@asahilina.net,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[engjuri@gmail.com,linux-media@vger.kernel.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-64341-lists,linux-media=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[deborah.brouwer@collabora.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	TAGGED_FROM(0.00)[bounces-64342-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[engjuri@gmail.com,linux-media@vger.kernel.org];
-	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[deborah.brouwer@collabora.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,nvidia.com,garyguo.net,amd.com,lists.linux.dev,kernel.org,linux.intel.com,google.com,ffwll.ch,linaro.org,suse.de,gmail.com,lists.linaro.org,asahilina.net,collabora.com,linuxfoundation.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	RCPT_COUNT_FIVE(0.00)[5];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,kernel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,um790:mid,gitlab.freedesktop.org:url,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,patchwork.freedesktop.org:url,collabora.com:dkim,collabora.com:email,collabora.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CA703664C51
+X-Rspamd-Queue-Id: AFCF2664F0B
 
-ov8865_s_stream() takes a runtime PM reference when enabling the
-stream, but returns without releasing it if ov8865_sw_standby()
-fails, leaving the reference unbalanced and the sensor powered
-indefinitely.
+On Mon, Jun 08, 2026 at 02:29:00PM -0400, Lyude Paul wrote:
+> Most of this patch series has already been pushed upstream, this is just
+> the second half of the patch series that has not been pushed yet + some
+> additional changes which were required to implement changes requested by
+> the mailing list. This patch series is originally from Asahi, previously
+> posted by Daniel Almeida.
+> 
+> The previous version of the patch series can be found here:
+> 
+> 	https://patchwork.freedesktop.org/series/164580/
+> 
+> Branch with patches applied available here:
+> 
+> 	https://gitlab.freedesktop.org/lyudess/linux/-/commits/rust/gem-shmem
+> 
+> This patch series applies on top of drm-rust-next
+> 
+> Patch-series wide changes since V15:
+> * Fix some major rebasing errors I somehow didn't notice :(
+> * Drop the dependency on LazyInit, use the trick that Alice suggested
+>   instead.
+> * Fix dependency ordering so that Tyr can get the vmap stuff first
+>   without the other bits.
+> Patch-series wide changes since V16:
+> * Fix ordering one more time (SetOnce::reset() doesn't need to come
+>   before adding vmap functions)
+> * Rebase against the latest DeviceContext changes from me that got
+>   pushed.
+> 
+> Lyude Paul (4):
+>   rust: drm: gem: shmem: Add DmaResvGuard helper
+>   rust: drm: gem: shmem: Add vmap functions
+>   rust: faux: Allow retrieving a bound Device
+>   rust: drm: gem: Introduce shmem::Object::sg_table()
+> 
+>  rust/kernel/drm/gem/shmem.rs | 524 ++++++++++++++++++++++++++++++++++-
+>  rust/kernel/faux.rs          |  16 +-
+>  2 files changed, 524 insertions(+), 16 deletions(-)
+> 
+> 
+> base-commit: fea3a2dd7d3fc1936211ced5f84420e610435730
+> -- 
+> 2.54.0
+> 
+Thanks, it's working nicely with Tyr. To make this work with [1] I did
+have to make a few changes to the KunitDriver and tests, but that
+is a separate issue.
 
-Signed-off-by: Jurison Murati <eng.juri@gmail.com>
----
---- a/drivers/media/i2c/ov8865.c
-+++ b/drivers/media/i2c/ov8865.c
-@@ -2647,8 +2647,11 @@
- 	ret = ov8865_sw_standby(sensor, !enable);
- 	mutex_unlock(&sensor->mutex);
- 
--	if (ret)
-+	if (ret) {
-+		if (enable)
-+			pm_runtime_put(sensor->dev);
- 		return ret;
-+	}
- 
- 	state->streaming = !!enable;
- 
--- 
-2.49.0
+[1] [PATCH v2 0/7] rust: drm: Higher-Ranked Lifetime private data
+https://lore.kernel.org/rust-for-linux/20260603011711.2077361-1-dakr@kernel.org/
+
+Tested-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+
 
