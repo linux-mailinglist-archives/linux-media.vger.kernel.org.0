@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-64430-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64431-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id XBaOHexWKWoCVQMAu9opvQ
-	(envelope-from <linux-media+bounces-64430-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 14:22:04 +0200
+	id 7PtfBipZKWq9VQMAu9opvQ
+	(envelope-from <linux-media+bounces-64431-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 14:31:38 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0199669372
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 14:22:03 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE9436694D5
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 14:31:36 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Sd8rW3v9;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64430-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64430-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Q2J9xLcR;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64431-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-64431-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 25ED0307E352
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 12:21:31 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id A93BD301CEC7
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 12:24:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA1D0406828;
-	Wed, 10 Jun 2026 12:21:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55031406826;
+	Wed, 10 Jun 2026 12:24:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CC103EAC61;
-	Wed, 10 Jun 2026 12:21:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA3A93FCB03;
+	Wed, 10 Jun 2026 12:24:07 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781094085; cv=none; b=TWxLAHS2V1AWLLSW0jvyeQf3qxNd49qoKllDRrMDVwCLNrfR/DFsU564RMs4++NKPaM3G+NDzsu85LvylVMB1UzcLB+rUmYX7ec3H3awOP0Q/qrthmSgiyXbgCi/q3YcehTE6ZJ/Tm8AR8ZnISrq/06RYBP3TGLAKnX21wABiwI=
+	t=1781094248; cv=none; b=ZhRb7Sfc7nI5N3CiMErUrJkae0z6/ueuRR1AfTfP/4+VWFrVVZAgwv/5jjmrWHamnQjUrq7XbjQMsO373ruDbk3xZmGVS6IPQQbpI6AWzXTWmP2DBkGCnIJvjxmHi5W2wov9mtnsOKmRGlAX9Yc9xe7W+vICZs7AF2gd3hq78ws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781094085; c=relaxed/simple;
-	bh=sLvfvWud8dNrRny+O1b7RC5vWM+xSm9rWOQpNAgiEGs=;
+	s=arc-20240116; t=1781094248; c=relaxed/simple;
+	bh=dcquH8sYftv9fQgc0Gfu8oOPpjnYeC/Vsq9dfFU+ttw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=A7GmOxZgmaleP9jVvcVE7T3O4lWEKxRtUqFBcQORZmQHOdoFEZ1DMans3dOrzjDeoe+E/0StPnQP6HePQGGTnnKht6AcYbg+lkUGYfPXhb8WcEOeQQlf+LBubS2O5712k1NiOBx+sL47hvNSOZ/tO6Ygg4skKmPKqHMaP6WpMvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sd8rW3v9; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BDF61F00893;
-	Wed, 10 Jun 2026 12:21:20 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=rXf9euIdzwEecfv/z1az6NC7kjHsq7PVT1JmfJOlloXLTyBqNO7ngQjXDG5flMHHpdX/s02poMC1X4IH4iINFte5wA3uLycB3i7OVGXlEp3Pu15wyNC07lQ3ZU3GniN7/bAlWK7MKuZyFbDikMrO67rx9CGPa+G68dkckzsK1j4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q2J9xLcR; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 726541F00893;
+	Wed, 10 Jun 2026 12:24:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781094084;
-	bh=p4hwxJfXp6tyKt+/pBsLy96/1b/jfZ3bP3WR7Sxnlwc=;
+	s=k20260515; t=1781094247;
+	bh=mtvcuboUrlI0AQsrEOX/TZHrf9WeGic53kIp1kIHFUU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Sd8rW3v90SoV1gNIpAb/iMEohMdPNSjgJabsJk92wEiqL6bMe//SGFkfQ/RDjYzMw
-	 InTPpU2uqnmo57TuPo7taL8HPzTW0hU1u1AL7YUlUhmqcXj0YuRsH+5mVQ2pKVBI4r
-	 KdFd6SA9ssok2m1pLC9amAwzzQK4GDKWcFb1EC6omXlalXYdY23aAgchVWCXyrzIh1
-	 GvhJUpBGkQfc+gY20Ix71+DmJiCZA3oiqJ739KFGLWmREjf0xPTRVeSONKFpJDGlim
-	 wDDUGEwD8t+fVE602f89mjaQNiEKg2Ttn3UoUa2d0oZeNYdaZ0a5tCE0tzJSB0sAie
-	 W7fbu16oFUDdA==
-Message-ID: <8a620fdf-a459-469e-9397-9e42c5f46353@kernel.org>
-Date: Wed, 10 Jun 2026 13:21:19 +0100
+	b=Q2J9xLcRDeMtBiJAGyoR1JrBp7QriTckIB3WKeluy8JE57zoTOx7aP8ewr25cIyya
+	 bKJfGYxjm1s4oyemTKPAGsAB2X/XkLOOYrKR8v17sr1b+SRPGgmlKebNLhdD77bRKd
+	 Td/G8U31VIMaYO4+ev/toWo4wMzJw1+Os6AgA8+aOl6bmRffuhGOy5kWKxWeHmbiJR
+	 4XX8tvvZP1UPqR9NNIaCZ85bXXxvmFpSBMkH+w9udK9+lMJ7zK/qWmvznpocLr/ZET
+	 LOf2xwlYoBPr64zw6uBHyZDUF8BLZrfVBwatA/+Nj/xmATPC9u80Crwnd0Sb0KgFe3
+	 p9ETl3ONTeGRg==
+Message-ID: <0915cf12-a709-4777-aa5b-76c59d7e0cc4@kernel.org>
+Date: Wed, 10 Jun 2026 13:24:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +55,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/9] media: dt-bindings: Add Himax HM1092 NIR sensor
+Subject: Re: [PATCH 4/9] MAINTAINERS: add entry for the Himax HM1092 sensor
+ driver
 To: Ramshouriesh <rshouriesh@gmail.com>,
  Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -69,8 +70,8 @@ Cc: Aleksandrs Vinarskis <alex@vinarskis.com>, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-phy@lists.infradead.org
 References: <20260610-a14-himax-hm1092-v1-0-0c9907da47ed@gmail.com>
- <6IjAyuvf2a5XQe20keFGcEpYJWFVXWOCVz0mYrSYdSL3zssxs9WxBU3tCUY9aNuWh15VfpDDG75rfmMdHojf4A==@protonmail.internalid>
- <20260610-a14-himax-hm1092-v1-2-0c9907da47ed@gmail.com>
+ <7J-1gC8dgmINtnoLxjOKRYa-3oonvV1RdoNSv3yCbHn_nmRKnHuQdYoxEu3iNdC7CdylTpM_R3WgXSvtxNQGFg==@protonmail.internalid>
+ <20260610-a14-himax-hm1092-v1-4-0c9907da47ed@gmail.com>
 From: Bryan O'Donoghue <bod@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=bod@kernel.org; keydata=
@@ -116,7 +117,7 @@ Autocrypt: addr=bod@kernel.org; keydata=
  LKSGEglMpiX07M1AotgvylN5C8fjbouoK+/RAMsXkk8jba6rPfuuXPaDjCyyKn6zSVHETnHW
  3AJbgVY50T8STpnxayBQvWbCvu+6NOEjXCbyaOJig+5l0zlGN9XHjdANXC5HnwmyaGRL9YDq
  Jh2nVXVJDincOdQRdKcJjYLqaOAoWrYWSDi1iZGspHBTDrnOvfMQzzHY
-In-Reply-To: <20260610-a14-himax-hm1092-v1-2-0c9907da47ed@gmail.com>
+In-Reply-To: <20260610-a14-himax-hm1092-v1-4-0c9907da47ed@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
@@ -125,7 +126,7 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
@@ -140,7 +141,7 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-64430-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64431-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -151,161 +152,48 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,devicetree.org:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[noorman.info:email,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E0199669372
+X-Rspamd-Queue-Id: BE9436694D5
 
 On 10/06/2026 12:09, Ramshouriesh wrote:
-> Add a dt-binding schema for the Himax HM1092 1MP monochrome
-> near-infrared CMOS sensor, used as the face-authentication IR camera on
-> Snapdragon X laptops such as the ASUS Zenbook A14. The sensor streams
-> 10-bit RAW over 1 or 2 MIPI CSI-2 data lanes.
-> 
-> The optional generic "leds" property (video-interface-devices.yaml)
-> associates an IR illuminator flash LED with the sensor, which the
-> driver strobes while streaming.
+> Add a MAINTAINERS entry covering the Himax HM1092 NIR sensor driver and
+> its DT binding.
 > 
 > Signed-off-by: Ramshouriesh <rshouriesh@gmail.com>
-
-Firstname/lastname ?
-
 > ---
->   .../bindings/media/i2c/himax,hm1092.yaml           | 118 +++++++++++++++++++++
->   1 file changed, 118 insertions(+)
+>   MAINTAINERS | 8 ++++++++
+>   1 file changed, 8 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/himax,hm1092.yaml b/Documentation/devicetree/bindings/media/i2c/himax,hm1092.yaml
-> new file mode 100644
-> index 000000000000..085001493a20
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/himax,hm1092.yaml
-> @@ -0,0 +1,118 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/himax,hm1092.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index dadc54fe2bc8..ece71732e6dd 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11643,6 +11643,14 @@ L:	linux-kernel@vger.kernel.org
+>   S:	Maintained
+>   F:	drivers/misc/hisi_hikey_usb.c
+> 
+> +HIMAX HM1092 SENSOR DRIVER
+> +M:	Ramshouriesh <rshouriesh@gmail.com>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/media/i2c/himax,hm1092.yaml
+> +F:	drivers/media/i2c/hm1092.c
+> +F:	drivers/media/i2c/hm1092_regs.h
 > +
-> +title: Himax HM1092 Monochrome NIR Sensor
-> +
-> +maintainers:
-> +  - Ramshouriesh <rshouriesh@gmail.com>
-> +
-> +description:
-> +  The Himax HM1092 is a 1 megapixel monochrome near-infrared CMOS image
-> +  sensor with a MIPI CSI-2 interface, commonly used as the IR camera for
-> +  face authentication on laptops. It supports 10 bit RAW output at
-> +  1288x728 over 1 or 2 CSI-2 data lanes. An optional infrared
-> +  illuminator LED may be associated with the sensor through the generic
-> +  "leds" property; the driver strobes it while the sensor is streaming
-> +  so the scene stays lit for IR capture.
-> +
-> +allOf:
-> +  - $ref: /schemas/media/video-interface-devices.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: himax,hm1092
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  avdd-supply:
-> +    description: Analogue circuit voltage supply.
-> +
-> +  dovdd-supply:
-> +    description: I/O circuit voltage supply.
-> +
-> +  dvdd-supply:
-> +    description: Digital circuit voltage supply.
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: Active low GPIO connected to the XSHUTDOWN pad.
-> +
-> +  leds:
-> +    description:
-> +      Optional phandle to an infrared illuminator flash LED strobed by
-> +      the driver while streaming.
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        additionalProperties: false
-> +
-> +        properties:
-> +          data-lanes:
-> +            minItems: 1
-> +            maxItems: 2
-> +          link-frequencies: true
-> +          remote-endpoint: true
-> +
-> +        required:
-> +          - data-lanes
-> +          - link-frequencies
-> +          - remote-endpoint
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - port
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        camera@24 {
-> +            compatible = "himax,hm1092";
-> +            reg = <0x24>;
-> +
-> +            reset-gpios = <&tlmm 109 GPIO_ACTIVE_LOW>;
-> +            pinctrl-names = "default";
-> +            pinctrl-0 = <&cam_ir_default>;
-> +
-> +            clocks = <&camcc 1>;
-> +            assigned-clocks = <&camcc 1>;
-> +            assigned-clock-rates = <24000000>;
-> +
-> +            orientation = <0>;
-> +
-> +            leds = <&ir_flash>;
-> +
-> +            avdd-supply = <&vreg_l7m_2p9>;
-> +            dvdd-supply = <&vreg_l7m_2p9>;
-> +            dovdd-supply = <&vreg_l4m_1p8>;
-> +
-> +            port {
-> +                hm1092_ep: endpoint {
-> +                    data-lanes = <1>;
-
-You probably mean data-lanes = <1 2> here no ?
-
-> +                    link-frequencies = /bits/ 64 <400000000>;
-> +                    remote-endpoint = <&camss_csiphy0_inep>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
+>   HIMAX HX83112B TOUCHSCREEN SUPPORT
+>   M:	Job Noorman <job@noorman.info>
+>   L:	linux-input@vger.kernel.org
 > 
 > --
 > 2.53.0
 > 
+
+Splitting this will cause checkpatch grumbles.
+
+Squash down into the previous patch.
 
 ---
 bod
