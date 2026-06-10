@@ -1,208 +1,472 @@
-Return-Path: <linux-media+bounces-64407-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64408-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id vE4oKa1DKWoVTQMAu9opvQ
-	(envelope-from <linux-media+bounces-64407-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 12:59:57 +0200
+	id HCqKArxFKWqqTQMAu9opvQ
+	(envelope-from <linux-media+bounces-64408-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 13:08:44 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 178AD668832
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 12:59:57 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6291A66898B
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 13:08:43 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=iCZe9cpj;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64407-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64407-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=fail ("headers rsa verify failed") header.d=ideasonboard.com header.s=mail header.b=oaeZgD0r;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64408-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64408-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed)" header.from=ideasonboard.com (policy=none);
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 893AC3230784
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 10:46:55 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E0B5E3128477
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 10:59:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EC043DCD85;
-	Wed, 10 Jun 2026 10:43:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 910653FE352;
+	Wed, 10 Jun 2026 10:57:58 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD203FC5AD
-	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 10:43:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E3FA3FD13A
+	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 10:57:52 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781088208; cv=none; b=hNJNUPTc4+iU7aRBTB5N/7i57ykmUuMQjtBguPDp23C0J8ucAx5pIgDJFS45vEcEpUkDnrXKEhsUx9ViCfP6tjNKrRGBf0KhYhixDm4Sq13U8/MSx4gEdksNv9zm3D/WlaD6tw0hVmXbt5UkrgJ2m0aY9W54annluHBmtVPwh/w=
+	t=1781089077; cv=none; b=VBFESgVdgTS08o6BGqt4WjCgJoQeICabJcUsWtFLF4iqp82iyjTcU2xi6rsiTxsGx6M9A7vqH8WxSz0RrwERwQaDcKx5DYtXbS0+W+9suOoBPYwSgzskeezidk8+Ik/Z5kytNihoOxlN8v2DOYDqrRq4GnbK/Fi764A3tlSsObk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781088208; c=relaxed/simple;
-	bh=k6kFMwUAdF2B+R0Fmb8DBKqbHpaYQzNnuqU/VJxgx1k=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=B0MvIDkCRpXmdG6QUgC3t50Auvy2faAUB/CPJYN/elhexlMRDiM03PlK5v0cc27de828rKrz6ZOqdB/AZcyv7lzpjU8ufvIyUv5tjKSjOQObioKS5EZCFa6QtKVfyJIgDzEs3lU6OxN9j0t4FpRelqx4s5fAlLtP7fP2t2zxOcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iCZe9cpj; arc=none smtp.client-ip=209.85.208.46
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-692491fec0bso3080906a12.2
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 03:43:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781088205; x=1781693005; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QVbrD2t2ulKBTgQFMKkzp21clFhntPxcEbJMRFx6ZO8=;
-        b=iCZe9cpjNJDJ/jA9sFLTrYpYL48RVG1ssEe3kykGVsLLu2rjt/Uzhwa/UAhMh1iPD2
-         r9sWBedt1XMdQY8Tyn+xtQj2P9wpeahtUiTxkev+H6+MgWNTqRlhQRN7cXKLKtN30Ews
-         Bes1+4mCp5BtmASNpuckTKck33pcdMM35tR906L0OWKh+6D918CAd3Ayvp8ksKIDjqxL
-         iOsQguFUIucFqITcYc1ocy1J8dVwbDRX0CDo806+j7wdIfqsqyi/3aby7wRSOw3oUVty
-         UQ6ibYC67SJhD75N/HPVDUENiSZfRN/0tJ1MNlDlQZz4JZhTcTqyXRLRE9o9Fzg+ki3G
-         SmMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781088205; x=1781693005;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QVbrD2t2ulKBTgQFMKkzp21clFhntPxcEbJMRFx6ZO8=;
-        b=oa4iiZEpy7z8aVRhP/8H3BKyy/RFWatDq5ithKsfrv/58SAOcq6tyQRAyDW4GGUdIz
-         OCjTEAHKXfolyK6QWccA73U56Pse5AyfFe+7XUiKUZLEFw4PQgiQ5zhL73qyQr+55Zr1
-         bfwrCGMh6WX5fAvdbRgJd6W+sJK111xeqDjgtoW2tVb4GvTkES513jofu6tDKZUxtinM
-         zEQjWw3uV0fNGRmwhdvTCiNeHECRbE4Y3ojjV0ewpt83HplX3vhLsuB02fGCKghGidKi
-         sxSwk4fimVaCN8KFw1zPs+DXiFu58HPWx4jOdDCEv8sAY7uBh64T6R8emc3wDsg7G7c8
-         /MXA==
-X-Gm-Message-State: AOJu0YwjNUapWw2lozkfuRv82HV0G8Y+ajGlYhZxl1pWzFvLAWrYLOWT
-	B3uFFfS2WTSHY1QgRXnW2HlfoPFEclaUu12a6Binw+AtKW1jfEWdM/57SOqwlg==
-X-Gm-Gg: Acq92OG+qdehQyAQbAjef23D9FQvSgkoYxAfKGUan14JGKrBhIycsNNQ81lVe54Vzs4
-	e9kYWrMHKEmyBmxs3IzahhpFFLjOgTwbHOqDdDJ90JbG6RcxwnYuHm8cVeES7VNJ8Bh0v+1jzhV
-	jjPLSiS50wjS2lcLL3eHB1EGxvyCQofqtyIj+hTspZizfEhr6TqezPtWtdtXnPQiOlK3UU5fjB2
-	NlJwmbL26Or3Aec9gS0Gj8XkUe4WzPj+YPYZcvuPjXW8iQdEH48kNNSimhJTUT/z36sA4OAVnZu
-	OTxwn5vHvRQCIg0pApkq0stpsAEwjaeF35AXavZfdxKtuA7ZOHENniqmfWYy1foJMArldojgPJp
-	HJzeclb2ErE5SKnm8pTcZ/yYirLeYr6Ph8LdHyEW4kiCHBZgar+pAIDYZW+CS29t4pQzH0lLV6q
-	PxtYNn5bFeeRHa1B6XXoHdC7uRO5rmB2PTJ/3giOnl4qhIxAGj3/RHYP8s8TzZA3yYjRuMa7HVQ
-	JnNRDFzVOJSLgxrjuiy
-X-Received: by 2002:a17:906:8e15:b0:be2:208a:a8ae with SMTP id a640c23a62f3a-bf370f6ac02mr1367077866b.22.1781088205164;
-        Wed, 10 Jun 2026 03:43:25 -0700 (PDT)
-Received: from smtpclient.apple (89-66-237-154.dynamic.play.pl. [89.66.237.154])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bf0553060dasm1178612666b.44.2026.06.10.03.43.24
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 10 Jun 2026 03:43:24 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
+	s=arc-20240116; t=1781089077; c=relaxed/simple;
+	bh=8J2W0ETC3p8njd9IO9dFqa2ymZdjBzftvnAKRl8dAVU=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=gqujNfPSV1PlYuqQLnIxsnXNx9r1HA/bdCYn8xyunePga3rGsPE8LVdNIkGXzcmJfjhekI8QOdSCPxZS9bXeJIZMAR1IFpRivTyXUTedk7i9shLGNY1OzZ1a5t2+6qaRf/Qa4c1JppGqRpzogqQfUdPzS1oY33Fj5wQteNR8y/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=oaeZgD0r reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:bcf2:9325:a9bd:32b:e71])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B5900524;
+	Wed, 10 Jun 2026 12:57:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1781089040;
+	bh=8J2W0ETC3p8njd9IO9dFqa2ymZdjBzftvnAKRl8dAVU=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=oaeZgD0rSR5Ya/AStqKWb9FUU8ijPsBaj90wGfzeEfQWKr+Vd9OuQn+5ZDKda5ydC
+	 nC0kntMdLjz+bNP/6zlC6UlCTU4vjDA91WVTNFmE41l23oxwU4Qj2EpE5Nm/Tl148t
+	 8kfObJMCA/MlysXKttVcwCmaX+O++Xv5GdOVQn6Y=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.600.51.1.1\))
-Subject: Re: [BUG] rkvdec-vdpu383-h264: wrong pixels at horizontal de-blocking
- edges y=4 and y=12
-From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
-In-Reply-To: <4b3a9f32-807a-4b9e-8df2-d22f872d288e@symple.nz>
-Date: Wed, 10 Jun 2026 12:43:13 +0200
-Cc: linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org,
- Detlev Casanova <detlev.casanova@collabora.com>
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <2CB1844A-3DB7-4973-98E0-0C141DD38B45@gmail.com>
-References: <52a01f1f-5b36-429b-96cf-f1a0a1c8f5e4@symple.nz>
- <5939C396-3A70-458F-8E6B-A55319929564@gmail.com>
- <4b3a9f32-807a-4b9e-8df2-d22f872d288e@symple.nz>
-To: Simon Wright <Simon@symple.nz>
-X-Mailer: Apple Mail (2.3864.600.51.1.1)
+In-Reply-To: <178108737654.1799417.12257128301401647481@freya>
+References: <20260607215356.842932-1-sakari.ailus@linux.intel.com> <20260607215356.842932-7-sakari.ailus@linux.intel.com> <aiZnQgyEBkZH7er0@zed> <178091466607.16054.13972332068848565738@freya> <178091757893.16054.4583389270412251379@freya> <aikyqqC_BsYI5D2M@kekkonen.localdomain> <178108737654.1799417.12257128301401647481@freya>
+Subject: Re: [PATCH v5 06/10] media: imx219: Fix vertical blanking and exposure for analogue binning
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, Hans Verkuil <hans@jjverkuil.nl>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, Tommaso Merciai <tomm.merciai@gmail.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, =?utf-8?q?Andr=C3=A9?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, Tomi Valkeinen <tomi.valkeinen@
+ ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, "Yu, Ong Hock" <ong.hock.yu@intel.com>, "Ng, Khai Wen" <khai.wen.ng@intel.com>, Rishikesh Donadkar <r-donadkar@ti.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Date: Wed, 10 Jun 2026 16:27:43 +0530
+Message-ID: <178108906380.1799417.14556725807061498193@freya>
+User-Agent: alot/0.13.dev35+g4a69c46ca
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [1.64 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	R_DKIM_REJECT(1.00)[ideasonboard.com:s=mail];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MV_CASE(0.50)[];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[ideasonboard.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-64407-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:detlev.casanova@collabora.com,m:Simon@symple.nz,s:lists@lfdr.de];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-64408-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:dave.stevenson@raspberrypi.com,m:hans@jjverkuil.nl,m:jacopo.mondi@ideasonboard.com,m:laurent.pinchart@ideasonboard.com,m:linux-media@vger.kernel.org,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:dongcheng.yan@intel.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:tomi.valkeinen@ ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:r-donadkar@ti.com,m:sakari.ailus@linux.intel.com,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[piotroniszczuk@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	FORGED_SENDER(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DKIM_TRACE(0.00)[ideasonboard.com:-];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[piotroniszczuk@gmail.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_THREE(0.00)[4];
 	ALIAS_RESOLVED(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	FREEMAIL_CC(0.00)[raspberrypi.com,jjverkuil.nl,ideasonboard.com,vger.kernel.org,gmail.com,redhat.com,foss.st.com,wanadoo.fr,collabora.com,intel.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org, ideasonboard.com,ti.com];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,ibb.co:url]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,ideasonboard.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 178AD668832
+X-Rspamd-Queue-Id: 6291A66898B
 
-Simon, pls see inline
-
-> Wiadomo=C5=9B=C4=87 napisana przez Simon Wright <Simon@symple.nz> w =
-dniu 10 cze 2026, o godz. 00:14:
+Quoting Jai Luthra (2026-06-10 15:59:36)
+> Hi Sakari,
 >=20
+> Quoting Sakari Ailus (2026-06-10 15:17:22)
+> > Hi Jai,
+> >=20
+> > On Mon, Jun 08, 2026 at 04:49:38PM +0530, Jai Luthra wrote:
+> > > Quoting Jai Luthra (2026-06-08 16:01:06)
+> > > > Hi Jacopo, Sakari,
+> > > > ++ Dave, Hans and Laurent,
+> > > >=20
+> > > > Quoting Jacopo Mondi (2026-06-08 12:28:46)
+> > > > > Hi Sakari
+> > > > >=20
+> > > > > On Mon, Jun 08, 2026 at 12:53:52AM +0300, Sakari Ailus wrote:
+> > > > > > When vertical analogue binning is in use, the minimum frame len=
+gth in
+> > > > > > lines decreases to around half of the normal. In relation to th=
+e sensor's
+> > > > > > output size this means vertical blanking can be negative but th=
+at's not an
+> > > > > > issue as control values are signed. Remove the workaround for t=
+his
+> > > > >=20
+> > > > > Didn't we just discussed two weeks ago in media summit how negati=
+ve
+> > > > > blankings are a bad idea, and of all drivers one could decide to =
+play
+> > > > > with imx219 is probably the worse due it's large use base and the=
+ fact
+> > > > > libcamera doesn't support negative blankings ?
+> > > > >=20
+> > > > > Have I missed something ?
+> > > > >=20
+> > > >=20
+> > > > I think it would be helpful if I write down clearly how this sensor
+> > > > operates (to the best of my knowledge) so we can decide on the corr=
+ect
+> > > > fix:
+> > > >=20
+> > > > --------------------
+> > > >=20
+> > > > IMX219 sensor has an active resolution of 3280x2464.
+> > > >=20
+> > > > The driver currently programs the sensor VT pixel clock as fixed fo=
+r a
+> > > > given lane configuration.
+> > > >=20
+> > > > In 2-lane mode it reads 182.4 MPixel/second:
+> > > >=20
+> > > >     #define IMX219_PIXEL_RATE           182400000
+> > > >=20
+> > > > And the framerate is given by:
+> > > >=20
+> > > >     PIXEL_RATE / (FRAME_LENGTH * LINE_LENGTH)
+> > > >=20
+> > > > where FRAME_LENGTH and LINE_LENGTH are registers that include the a=
+ctive
+> > > > height and width along with blankings.
+> > > >=20
+> > > > There are restrictions on the minimum of the LINE_LENGTH register a=
+nd
+> > > > minimum vertical blanking (32), which cap the framerate for the ful=
+l resolution
+> > > > mode.
+> > > >=20
+> > > >     MIN_LINE_LENGTH: 0xd78 =3D> 3448 pixels
+> > > >     MIN_FRAME_LENGTH: ACTIVE_HEIGHT + MIN_VBLANK (32) =3D 2464 + 32
+> > > >                            =3D> 2496 lines
+> > > >=20
+> > > > The maximum frame rate is
+> > > >=20
+> > > >     182400000/(2496*3448) =3D> ~ 21.2 frames/second
+> > > >=20
+> > > > --------------------
+> > > >=20
+> > > > A user might want to stream a lower resolution with the full field-=
+of-view,
+> > > > let's take 1640x1232 (which is exactly 1/2 of active area) as an ex=
+ample.
+> > > >=20
+> > > > The sensor hardware can achieve this using two different binning mo=
+des:
+> > > >=20
+> > > >     2x2-binning (regval: 0x1)
+> > > >     2x2-analog-(special)-binning (regval: 0x3)
+> > > >=20
+> > > > The sensor pipeline looks like:
+> > > >=20
+> > > > active pixel array ->
+> > > >     analogue crop (none) ->
+> > > >         2x2 binning and ADC readout ->
+> > > >                 output to CSI-2 bus
+> > > >=20
+> > > > The mode names suggest that binning can happen either before or aft=
+er ADC,
+> > > > but the datasheet is not very clear about the process. We can infer
+> > > > some details though. See below..
+> > > >=20
+> > > > --------------------
+> > > >=20
+> > > > With the "normal" 2x2-binning mode the sensor allows programming
+> > > > FRAME_LENGTH to a lower value. The driver still uses the min blanki=
+ng of 32
+> > > > lines, but the height is now 1232, half of the 2464 before.
+> > > >=20
+> > > >     MIN_LINE_LENGTH: 0xd78 =3D> 3448 pixels
+> > > >     MIN_FRAME_LENGTH: READOUT_HEIGHT + MIN_VBLANK =3D 1232 + 32
+> > > >                            =3D> 1264 lines
+> > > >=20
+> > > > The maximum frame rate is
+> > > >=20
+> > > >     182400000/(1264*3448) =3D> ~ 41.8 frames/second
+> > > >=20
+> > > > --------------------
+> > > >=20
+> > > > With the "special" 2x2-binning mode, the datasheet notes that FRAME=
+_LENGTH
+> > > > register should be in units of 2 Lines instead of 1 Line. This means
+> > > > cutting it down by half once more:
+> > > >=20
+> > > >     MIN_FRAME_LENGTH: (READOUT_HEIGHT + MIN_VBLANK)/2 =3D (1232 + 3=
+2)/2
+> > > >                            =3D> 632 lines
+> > > >=20
+> > > > While there is a slightly higher minimum enforced for the line leng=
+th:
+> > > >=20
+> > > >     MIN_LINE_LENGTH: 0xde8 =3D> 3560 pixels
+> > > >=20
+> > > > The maximum frame rate is
+> > > >=20
+> > > >     182400000/(632*3560) =3D> ~ 81.0 frames/second
+> > > >=20
+> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > >=20
+> > > > Through the minimum allowed values of the FRAME_LENGTH and LINE_LEN=
+GTH
+> > > > registers and maximum possible framerate, I think it is safe to say=
+ that:
+> > > >=20
+> > > >     2x2-binning =3D> Readout half the pixels (do vertical averaging=
+ in the
+> > > >                                             analogue domain, before=
+ ADC
+> > > >                                             reads out the voltages)
+> > > >=20
+> > > >     2x2-special-binning =3D> Readout a quarter of the pixels (???)
+> > > >=20
+> > > > FRAME_LENGTH being 1/4th of normal would seem to suggest that it is=
+ a 4x1
+> > > > binning (combining 4 lines instead of blocks of 2x2).. which does n=
+ot make
+> > > > sense to me.
+> > > >=20
+> > > > My best guess is that in 2x2-special-binning mode the sensor does *=
+both
+> > > > horizontal and vertical* averaging in the analogue domain, before t=
+he ADC
+> > > > reads out the voltages.
+> > > >=20
+> > > > A higher minimum LINE_LENGTH value for this mode is the best "hard"
+> > > > evidence I have for this guess unfortunately, as the datasheet is q=
+uite
+> > > > lacking on this topic.
+> > > >=20
+> > >=20
+> > > Found another evidence for this, see "Table 16 Mode Example" in the
+> > > datasheet.
+> > >=20
+> > > It mentions "H Binning =3D Analog" for x2 binning mode (with ~4x the =
+FPS)
+> > > And "H Binning =3D Digital" for x4 binning mode
+> > >=20
+> > > It doesn't mention a ~2x FPS mode, which I assume is the normal 2x2-b=
+inning
+> > > mode, where I again assume that horizontal binning is done digitally.
+> >=20
+> > Most likely 4x vertical binning uses a combination of analogue and digi=
+tal
+> > binning. The type of the binning in general doesn't matter much, apart =
+from
+> > affecting the minimum line length in pixels and frame length in lines
+> > values.
+> >=20
 >=20
->    git clone https://github.com/SympleNZ/rkvdec-vdpu383-vp9
->    cd rkvdec-vdpu383-vp9
->    # against your running kernel's headers/source:
->    KBUILD_MODPOST_WARN=3D1 make -C /lib/modules/$(uname -r)/build =
-M=3D$PWD/src modules
+> My understanding so far is:
 >=20
->    sudo rmmod rockchip_vdec 2>/dev/null    # unload the in-tree driver
->    sudo insmod src/rockchip-vdec.ko        # warmup is default-on, no =
-params needed
+> x2-binning does digital binning horizontally but analogue binning
+> vertically
 >=20
-
-Many thx for detailed hints.
-
-I decided to go with alternative path: I incorporated Your code directly =
-into in-tree on 7.1 mainline, recompiled and give test run on rock4d. =20=
-
-I think I'm getting Your code running as in dmesg I see: =
-https://gist.github.com/warpme/51bce9532baa37ccb59e1c69a5c2ef43
-
-Unfortunately mine rk3576 h264 issues still happens (approx 5-40% =
-failure rate; only on 3576; only on h264)=20
-Visually issue is like this: https://ibb.co/gZT6vMZD
-
-Interesting is: mine issue symptoms are imho similar to yours:
-1. approx. 5-20% failure rate (but varies per board)
-2. only on 3576
-3. only on h264
-
-Ad1: some boards have quite low rate: nanopi is few % while rock4d is =
-really high (20-40%)
-
-Ad2: i have single appliance image for >40 boards and only 3576 has this =
-issue
-
-Ad3: on 3576 issue happens only on h264. HEVC, vp9, etc are ok.=20
-
-
-> (If rockchip-vdec is built into your kernel rather than a module, =
-you'll need it as
-> a module - or blacklisted - first. The module name may differ slightly =
-on your
-> build.)
+> x4-binning also does digital binning horizontally but analogue binning
+> vertically
 >=20
-> Then decode your H.264 as usual (v4l2slh264dec) and compare against =
-avdec_h264 - the
-> rows-4/12 corruption should be gone. That repo is the VP9 work, but =
-its src/ builds
-> the full VDPU381/383 H.264/H.265/VP9/AV1 driver, so H.264 is included.
+> x2-special-binning does analogue binning in both dimensions
+>=20
+> > >=20
+> > >=20
+> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > >=20
+> > > > The APIs before Sakari's series expose HBLANK and VBLANK controls i=
+nstead
+> > > > of the actual FRAME_LENGTH/LINE_LENGTH registers to the userspace.
+> > > >=20
+> > > > The minimum value of FRAME_LENGTH is 632 when we are streaming 1640=
+x1232,
+> > > > so the sensor registers would suggest that we have a *negative vert=
+ical
+> > > > blanking*. Which as Jacopo and Laurent both point out, does not mak=
+e any
+> > > > conceptual sense whatsoever.
+> > > >=20
+> > > > What the driver does today to avoid these negative values is to dou=
+ble the
+> > > > PIXEL_RATE control value to 364800000 when using 2x2-special-binnin=
+g mode
+> > > > (and thus userspace has no idea the FRAME_LENGTH/VBLANK is in units=
+ of
+> > > >  2xLines)
+> > > >=20
+> > > > As Sakari pointed out, that does not make any sense either. The sen=
+sor PLL
+> > > > values are completely unchanged, so the pixel readout must still be
+> > > > happening at the same rate. Moreover, the new raw sensor model will=
+ expose
+> > > > FRAME_LENGTH and LINE_LENGTH directly to userspace, and this hack of
+> > > > doubling the PIXEL_RATE breaks those calculations.
+> > > >=20
+> > > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > > >=20
+> > > > If we want to support the new raw sensor model (that mandates the n=
+ew
+> > > > FRAME_LENGTH and LINE_LENGTH controls) for this sensor we have to
+> > > > fix the PIXEL_RATE for sure. I see two options going forward:
+> > > >=20
+> > > > OPTION 1 (as proposed by Sakari):
+> > > >=20
+> > > >     Fix PIXEL_RATE to 182400000 and allow **negative values** for H=
+BLANK
+> > > >     and VBLANK controls when using 2x2-special-binning mode.
+> > > >=20
+> > > >     This will break any userspace tools, many libcamera pipelines i=
+ncluded,
+> > > >     that never expected those control values to be negative (even t=
+hough
+> > > >     the API has always permitted those)
+> >=20
+> > That's a clear bug, but it only becomes apparent when the sign bit is s=
+et.
+> >=20
+>=20
+> Agreed, I'll try to send patches for that in libcamera regardless of what
+> we do here.
+>=20
+> > > >=20
+> > > > OPTION 2 (something that struck me today morning discussing with Ja=
+copo):
+> > > >    =20
+> > > >     Fix PIXEL_RATE to 182400000 but **adjust the HBLANK values** to=
+ go
+> > > >     lower to compensate, which will diverge from the sensor registe=
+rs which
+> > > >     keep MIN_LINE_LENGTH fixed across both binning modes.
+> > > >=20
+> > > >     This will make the driver quite more complicated, but userspace
+> > > >     expectations of non-negative blankings will be met. And it's li=
+kely
+> > > >     that the sensor is internally doing pre-ADC averaging horizonta=
+lly as
+> > > >     well, or so my best guess is.
+> > > >=20
+> > >=20
+> > > Which makes me lean more on OPTION 2 now.
+> > >=20
+> > > In our case above with 2x2-special-binning mode for 1640x1232, the re=
+gister
+> > > values are:
+> > >=20
+> > >     LINE_LENGTH =3D 3560 pixels
+> > >     FRAME_LENGTH =3D 632 lines
+> > >=20
+> > >=20
+> > > So OPTION 1 would give us:
+> > >=20
+> > >     HBLANK =3D 1920, VBLANK =3D -600
+> > >=20
+> > > When actually the datasheet's "H Binning =3D Analog" would suggest to=
+ me that
+> > > reality looks more like:
+> > >=20
+> > >     LINE_LENGTH =3D 1780 pixels
+> > >     FRAME_LENGTH =3D 1264 lines
+> > >=20
+> > > So OPTION 2 would give us:
+> > >=20
+> > >     HBLANK =3D 140, VBLANK =3D 32
+> >=20
+> > This approach has the downsides that 1) it doesn't reflect what the sen=
+sor
+> > apparently does and 2) you lose one bit of granularity on line length in
+> > pixels.
+> >=20
+>=20
+> I agree with you on 2)
+>=20
+> On 1) though I don't think the sensor's register values are a good
+> indicator of what the sensor apparently does.
+>=20
+> For example, FLL being programmed to ~ 1/4th of analogue crop height, whi=
+le
+> LLP being fixed to ~ analogue crop width would suggest the sensor is
+> averaging 4 R/Gr/Gb/B pixels vertically in the analogue domain (possibly
+> through common FD charge summing) before the ADC reads it out.
+>=20
+> But the table in the datasheet clearly mentions horizontal binning is
+> (also) done in the analogue domain. Which makes more sense as well, given
+> the output has an average of a 2x2 block of pixels and not a 4x1 block of
+> pixels.
+>=20
+> > The advantage still is that it works around the sign bit issue. The new
+> > controls still have their proper values but conversion between the two
+> > becomes rather complicated. See
+> > <URL:https://git.linuxtv.org/sailus/media_tree.git/commit/?h=3Dmetadata=
+&id=3D366cb25c7d944ef2935668a07471e4576e7088ed>
+> > for instance how it looks like without that.
+> >=20
+>=20
+> I see.. well IMHO even the LLP and FLL controls should try to model what
+> the sensor does (if it is known, at least) rather than being just a 1-to-1
+> mapping of the sensor registers. Which as Dave and I have mentioned, is n=
+ot
+> the case in many sensors that scale the HMAX register units according to
+> some lower frequency clock (so 1 clock cycle =3D> multiple pixels)
+>=20
+> In this particular case it would mean the new controls should scale like:
+>=20
+> FRAME_LENGTH =3D FLL_REG / 2
+> LINE_LENGTH =3D LLP_REG * 2
 
-Should I collect stats on mine hw or rather maybe I should test the =
-solution (when we will have it)? =20
+Sorry I need more coffee:
+
+FRAME_LENGTH =3D FLL_REG * 2
+LINE_LENGTH =3D LLP_REG / 2
 
 >=20
-> One honest caveat for the media-player use case: the warmup fixes =
-correctness (the
-> wrong pixels), not throughput - and the throughput limit isn't =
-specific to H.264.
-
-Indeed - I see also issue with throughput on 3576.
-Iirc 3588 can go with 300mbps samples while 3576 starts to drop on =
-13...15mbps=20
-
-
+> When analogue binning is used. Which should make your code slightly easie=
+r,
+> even if not re-usable across all sensors.
+>=20
+> Thanks,
+>     Jai
+>=20
+> > >=20
+> > > > Of course, there are other options to just leave this highly used s=
+ensor
+> > > > alone, or support embedded data and internal pads without mandating=
+ the new
+> > > > FRAME_LENGTH and LINE_LENGTH controls. But I personally would leave=
+ that as
+> > > > a last resort.
+> >=20
+> > I agree. Especially because of its wide user base, it'd be really nice =
+to
+> > convert the imx219 to the Common Raw Sensor Model.
+> >=20
+> > --=20
+> > Regards,
+> >=20
+> > Sakari Ailus
+>
 
