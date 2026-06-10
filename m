@@ -1,181 +1,190 @@
-Return-Path: <linux-media+bounces-64342-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64343-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id +jRlMOitKGqPIAMAu9opvQ
-	(envelope-from <linux-media+bounces-64342-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 02:20:56 +0200
+	id Z7L1D6m6KGomIwMAu9opvQ
+	(envelope-from <linux-media+bounces-64343-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 03:15:21 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFCF2664F0B
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 02:20:55 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC9C066526A
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 03:15:20 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=collabora.com header.s=zohomail header.b=kZOwsiH2;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64342-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-64342-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=collabora.com;
+	dkim=pass header.d=quora.org header.s=google header.b=qMjegCCc;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64343-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64343-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 0E1CB3024B07
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 00:20:47 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4A3DA301AA77
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2026 01:15:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83FAB18DF80;
-	Wed, 10 Jun 2026 00:20:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AEC625A642;
+	Wed, 10 Jun 2026 01:15:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D599240D573;
-	Wed, 10 Jun 2026 00:20:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38EF6248F57
+	for <linux-media@vger.kernel.org>; Wed, 10 Jun 2026 01:15:07 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781050841; cv=pass; b=Em8zvP138YEpjn3G+gtyU7gP256ihRmf4VvOqPhIRrNBdPH6iDH7nrivgklvOTpYDl2V6YoQ5nZci3n6Jt6Q823kOro01v6dXykeybRtZ1ldfwQJRsog9fOy1LfsnglTrA6HPoQMGRt4F+RKenurILtedztAmi6Au6jccQeKVz0=
+	t=1781054108; cv=pass; b=GZKBoCRIt82jFpcUStHPuDSrdtWNPB8UThEGf9QZXnbyBKZAPXHZlfy31UDP+qQ3E96YxdPK5VmD65v5jQ8AK6PXo69zv5FIiZy6k0D9IqPlU1osG3lEvNUknYR6pDbqw+rEMvHcKwt9WGy4zcY75n/UX4Vbhjd3bbW4WtmKLKA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781050841; c=relaxed/simple;
-	bh=LcYzfnNvpPv4kOrLJLk/DY9+nUZ5MRaWOIev0xE1/To=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kdb9SBgyVAsAMdC4r9TeaqeSFhgA6U055C+J7v+KGBPmnXSvVAyGoIUyRtF60T5soZqV+LyE51Fx7mIa5srK+4yB8j+nIZlwGurFSQBD1AmEKKilx5qgZw/CsSHNdO+oXbsR6wjWqEm2WD14MAqds47UF/Tl0KiC0pvnpffyW94=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=deborah.brouwer@collabora.com header.b=kZOwsiH2; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal: i=1; a=rsa-sha256; t=1781050811; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Md6nNVHOEmyf92T+nDS9CJqqPti1DRSk4EGTpu6C0HNPBqi7DA1DYIbBx6XVRwZKGYg+7FAMp+zRe7yCffEmmdzShm8ChVUIErNYfWJ2C0Z5rs+Jr8hsTWIn9J8BQuxRZb4sbMgl4VDNNe+Fp/YF9+TLnLcWHr/2HsETWIA/0Fs=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1781050811; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=O9fNTHv6wbBG42jHa8mAw6pvJNsDpQ9M5O3qhn0l1Vo=; 
-	b=CtLCFoN/HUmgdMdaKxivguNvewtVOqnOf/GU04aTbIVSPmsAiqq9UfL62Sh1qJdTXzHGhlCky8R8LX2pYa39GqhrE6Q5y6NWBjh3JAboYzSpnuOv/I0JcGJ2wxwR6L9BGZsTO/owZFYHVWFWX4701w6nqoN2HlVw+vD+Fu7sY3Q=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=deborah.brouwer@collabora.com;
-	dmarc=pass header.from=<deborah.brouwer@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1781050811;
-	s=zohomail; d=collabora.com; i=deborah.brouwer@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=O9fNTHv6wbBG42jHa8mAw6pvJNsDpQ9M5O3qhn0l1Vo=;
-	b=kZOwsiH29/dAC81lSN65kYEuoTOcxiFWnRZI3eUfAzUyKksZvENO4jOoeUKfRUoY
-	DRrLnkZ+tvZiLYP+qTTiiMl8pibUI+SDHnj/H9Qez+JfTBfn21bbtaEiqZZVW628ZQS
-	t+lDFRobsq/ZdrPqaZCGglTpHn7wVk4iLg/THklE=
-Received: by mx.zohomail.com with SMTPS id 1781050810087120.3536602556942;
-	Tue, 9 Jun 2026 17:20:10 -0700 (PDT)
-Date: Tue, 9 Jun 2026 17:20:09 -0700
-From: Deborah Brouwer <deborah.brouwer@collabora.com>
-To: Lyude Paul <lyude@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-	nouveau@lists.freedesktop.org,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Gary Guo <gary@garyguo.net>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	driver-core@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Alice Ryhl <aliceryhl@google.com>, Simona Vetter <simona@ffwll.ch>,
-	linux-kernel@vger.kernel.org,
-	Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Maxime Ripard <mripard@kernel.org>,
-	David Airlie <airlied@gmail.com>, Benno Lossin <lossin@kernel.org>,
-	linaro-mm-sig@lists.linaro.org, Danilo Krummrich <dakr@kernel.org>,
-	Mukesh Kumar Chaurasiya <mkchauras@gmail.com>,
-	Asahi Lina <lina+kernel@asahilina.net>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v19 0/4] Rust bindings for gem shmem
-Message-ID: <aiituaFg3i4Qpb-a@um790>
-References: <20260608183057.2001376-1-lyude@redhat.com>
+	s=arc-20240116; t=1781054108; c=relaxed/simple;
+	bh=UeAssUqYMd9I/hNomjKDWuBothPBNmM7nGphuECKV1Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=e1hCBdohnHPef55KEtTsfHIVsohKHI3er19vs1FeIU9ics7ocwFREip0Cxk3TQ0dSW1rD8Jk9LVZppGkV1YOvcsHfDWpAy4aapkeSUfSLWrQjC7RaJ68i6yLXuZVctQcPi7KgR/YIooSJdaG4z4HDmdUzsng87k80og71KEPEiI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=quora.org; spf=pass smtp.mailfrom=quora.org; dkim=pass (1024-bit key) header.d=quora.org header.i=@quora.org header.b=qMjegCCc; arc=pass smtp.client-ip=209.85.214.172
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2c0b944f6edso63350125ad.2
+        for <linux-media@vger.kernel.org>; Tue, 09 Jun 2026 18:15:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781054106; cv=none;
+        d=google.com; s=arc-20240605;
+        b=KD0matgu26H3raDhSW5/lo5OaPUhPCfaQkIyWf+PyEZYiMytq2yaIwjeg9qtfbzy9m
+         V3/T0IqiOMva3tFC8Ct6yral4lZfCacuUYChsY+NaX6ufjsiOzNX1yFkBAVZA5N1WFtk
+         8EpdnqoXIBEPJawgHMq/fqyk00PW0b17Hb+cvLtlvZ8/t7bffx3fCtoL/znB74NILBaV
+         wZqZb5nAFVUR2iGabwUGUvISLQMF3zzu/LthvGCN+eE/Q9CiBJJQNbfUTirE+Ffs/BIt
+         BxkCpMlTaGwY/0H9koUEpObfLYwRs2IKD39Do+GjbHAUkQF1qR37cHY/vzPV5Sff7ahS
+         8voQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=2Bj40WPn3U8Z/ILKnmF/fVa3Ekp1JSrXZv/lmEeSBo0=;
+        fh=gOZ1ARDaOSBi7RoD0IFdpG6jSzKc99mPkqD+r1ND6mI=;
+        b=WLxgJ2+YuUwbK01GJk7b199anwt4hSN2qaAnu3Ev1GQDruxEBaxFTcLHVGMqH/ILMv
+         mnYt8qOiOeg6IbjAgpmBCYWcnCjSVSf8e/VKPpZ3wKFaqOs/UTzhWMDO5dKWPsiqDFim
+         FKYZKBYtfRv7wXrXGWEPIX+Y5NzvPb+vGyi+Ar4ac2wN3zq7b8o44DK2/zBEgpmmICgE
+         qgyPs5i9G+DURAPW7qw2hmfTjPIWMYexB6JT8xWWyRoKhjOPOiyW3JO9SOf25Oz6pYeK
+         MLj/pAsAtKufCcto0ZDgCiXy7hAaDscwLAi9hA9MsRWxezV+GWtsy89d8fKMT1cfypQr
+         7qZQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=quora.org; s=google; t=1781054106; x=1781658906; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=2Bj40WPn3U8Z/ILKnmF/fVa3Ekp1JSrXZv/lmEeSBo0=;
+        b=qMjegCCcUBDxXDPpfJ9kUjrMc0PeKNq3qpNPV4QavlcRiZSK99bDy4G24FJO3temQ/
+         f7Zv3uYHOTUIwARONd/StE6tPPjor/oI5kCeJZ7TFLqJn5c/8P0M0BEh1vLajwJaYBUD
+         Myg4BfP5r5PX5ieSW2QJ6eVoar+LkRDgNl6GQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781054106; x=1781658906;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2Bj40WPn3U8Z/ILKnmF/fVa3Ekp1JSrXZv/lmEeSBo0=;
+        b=FLF8HyIlYaAKRuX2TX5hCeMnlPsCk++jBnQsZfeJKOkX0KBv3oU4QxVPQMMbwMa+L+
+         PkNva1UAwmKT1aUJW089HDKlL0VRSEjoX4e6pvo/ikQqc1LN642y/KnqeDPYBEJ4eUHW
+         2xIzOSJjpjme41wgxEWXvFg1Cn38L2H2RgfXlZy0Bs3za4tnNYjb57QtlEa9uo0CIYeY
+         hR2Q/W7edvDDzgUandqbKQPp722hBFsepr+V36cz9joNaO72tQ8EzF55rSmOMWUDFpSk
+         U0wWRLPBHZWw38pCmBkCg09VpEctfiknNgx8q5k7ZYxIQ4v0xVhkj5DNoF1Q1sbpkAlT
+         jvjw==
+X-Forwarded-Encrypted: i=1; AFNElJ91PnmjnY1FeK0/ujwxBD8Hr2frANVMDSZlo0SYBd969GJBWudfU7PiemDxj5HAU6zNjQT+ML8Cb0E4+g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6wn4O/Gnnjqw75U87waPBbDA/W+NVggLh5y38xq1XbQmUtTMx
+	Cp7rOMvIrMaQ1PIEDSH6UBVLRXPIIKtiB1XPgt4plv45mZU8UWykoh1xe+zOKaBrSUsA6M0sUm+
+	/a1+eaOV5cnNiT+4ayOvtyn/KqlG36ouqE6Zfx9Ehuw==
+X-Gm-Gg: Acq92OHgWaDTM1GxKpQCYqOtRzZsWEdYtxFkG1tm/l7WFYN7GT9TFMEPDBz/h8iuryv
+	ULLHdEMoy9RN3IPk8/EKPxbu0zkl8hB92+2OdnOlaocKQOCetylmb08HkyIei7wm8BPYmqQ1v6w
+	nZfW7r8maVLSSY1dL3yezTpc8oawyFbbtLVHltDH5n6KVEVkHVef+wUeSDlP4c/JM7dm6fap1jx
+	23wbrVt86mbf4If3h+2JnCOy+Z1pbUVG2PLRpcBdJHiV1PUZHTTdKvRg9Qo6xyDPCFf8/7Xia9r
+	BYCe28vf8nzMNEKaylMsbmxU81MVwjSim33gAZ4+SCHDOY11CFeDQjb5cAoDh9QTiBJt0ifJ7wT
+	dY1kjdBMMWDIEGsMYlDu765HCTyLUFvzJ2DbtHziu/pQzRtghoGz9jCeXYWudy0grta7TOB5fgY
+	/L+7t/uDqSD6gc1xcGtfN/66sOvILXK9s9iVM+yRcJY+2dM5JTfrkl3KJjxYXh
+X-Received: by 2002:a17:903:708:b0:2b7:abc0:3bd7 with SMTP id
+ d9443c01a7336-2c1e7e3adb6mr148795125ad.9.1781054106527; Tue, 09 Jun 2026
+ 18:15:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260608183057.2001376-1-lyude@redhat.com>
+References: <20260601041336.9497-1-daniel@quora.org> <ecavEnqJTDXvfFykc9uJb5No7ioighpjrCdw2CFZ4c8Izr5DxpTs-606Bg7K0RtHTaOqksWivHxWQLzMBP6qow==@protonmail.internalid>
+ <20260601041336.9497-2-daniel@quora.org> <ec7c564e-745a-4998-af9a-e9632fe063f7@kernel.org>
+ <CAMVG2ssnyH=KUKrdfnUOtPYU7p17inyzcYWcKhT4EAZxDzDjfg@mail.gmail.com> <cb37e7cc-4fb0-4c24-8f89-f6f9eb08a107@oss.qualcomm.com>
+In-Reply-To: <cb37e7cc-4fb0-4c24-8f89-f6f9eb08a107@oss.qualcomm.com>
+From: Daniel J Blueman <daniel@quora.org>
+Date: Wed, 10 Jun 2026 09:14:55 +0800
+X-Gm-Features: AVVi8CdzfDox6mz_iOGKn72MQqEfSSNkYmI5x8N9Awxjs-n8z1eY5R0tOZeJjNw
+Message-ID: <CAMVG2svgnGKix5vSe8kG694Vm1dU=0Z=MZqR4M5LFOxCXoXYXQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] arm64: dts: qcom: hamoa: Reserve low IOVA range for Iris
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+Cc: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, 
+	Abhinav Kumar <abhinav.kumar@linux.dev>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org, "Bryan O'Donoghue" <bod@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
-	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[quora.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:lyude@redhat.com,m:dri-devel@lists.freedesktop.org,m:rust-for-linux@vger.kernel.org,m:nouveau@lists.freedesktop.org,m:acourbot@nvidia.com,m:gary@garyguo.net,m:christian.koenig@amd.com,m:driver-core@lists.linux.dev,m:ojeda@kernel.org,m:maarten.lankhorst@linux.intel.com,m:aliceryhl@google.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:sumit.semwal@linaro.org,m:linux-media@vger.kernel.org,m:rafael@kernel.org,m:tzimmermann@suse.de,m:mripard@kernel.org,m:airlied@gmail.com,m:lossin@kernel.org,m:linaro-mm-sig@lists.linaro.org,m:dakr@kernel.org,m:mkchauras@gmail.com,m:lina+kernel@asahilina.net,m:daniel.almeida@collabora.com,m:gregkh@linuxfoundation.org,m:lina@asahilina.net,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[deborah.brouwer@collabora.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	TAGGED_FROM(0.00)[bounces-64342-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[collabora.com:+];
+	FORGED_RECIPIENTS(0.00)[m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:andersson@kernel.org,m:konradybcio@kernel.org,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:bod@kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	DMARC_NA(0.00)[quora.org];
+	FORGED_SENDER(0.00)[daniel@quora.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64343-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[deborah.brouwer@collabora.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,nvidia.com,garyguo.net,amd.com,lists.linux.dev,kernel.org,linux.intel.com,google.com,ffwll.ch,linaro.org,suse.de,gmail.com,lists.linaro.org,asahilina.net,collabora.com,linuxfoundation.org];
+	FROM_NEQ_ENVFROM(0.00)[daniel@quora.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[quora.org:+];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,kernel];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,um790:mid,gitlab.freedesktop.org:url,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,patchwork.freedesktop.org:url,collabora.com:dkim,collabora.com:email,collabora.com:from_mime]
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,ui.com:url,vger.kernel.org:from_smtp,mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: AFCF2664F0B
+X-Rspamd-Queue-Id: CC9C066526A
 
-On Mon, Jun 08, 2026 at 02:29:00PM -0400, Lyude Paul wrote:
-> Most of this patch series has already been pushed upstream, this is just
-> the second half of the patch series that has not been pushed yet + some
-> additional changes which were required to implement changes requested by
-> the mailing list. This patch series is originally from Asahi, previously
-> posted by Daniel Almeida.
-> 
-> The previous version of the patch series can be found here:
-> 
-> 	https://patchwork.freedesktop.org/series/164580/
-> 
-> Branch with patches applied available here:
-> 
-> 	https://gitlab.freedesktop.org/lyudess/linux/-/commits/rust/gem-shmem
-> 
-> This patch series applies on top of drm-rust-next
-> 
-> Patch-series wide changes since V15:
-> * Fix some major rebasing errors I somehow didn't notice :(
-> * Drop the dependency on LazyInit, use the trick that Alice suggested
->   instead.
-> * Fix dependency ordering so that Tyr can get the vmap stuff first
->   without the other bits.
-> Patch-series wide changes since V16:
-> * Fix ordering one more time (SetOnce::reset() doesn't need to come
->   before adding vmap functions)
-> * Rebase against the latest DeviceContext changes from me that got
->   pushed.
-> 
-> Lyude Paul (4):
->   rust: drm: gem: shmem: Add DmaResvGuard helper
->   rust: drm: gem: shmem: Add vmap functions
->   rust: faux: Allow retrieving a bound Device
->   rust: drm: gem: Introduce shmem::Object::sg_table()
-> 
->  rust/kernel/drm/gem/shmem.rs | 524 ++++++++++++++++++++++++++++++++++-
->  rust/kernel/faux.rs          |  16 +-
->  2 files changed, 524 insertions(+), 16 deletions(-)
-> 
-> 
-> base-commit: fea3a2dd7d3fc1936211ced5f84420e610435730
-> -- 
-> 2.54.0
-> 
-Thanks, it's working nicely with Tyr. To make this work with [1] I did
-have to make a few changes to the KunitDriver and tests, but that
-is a separate issue.
+On Thu, 4 Jun 2026 at 14:39, Vikash Garodia
+<vikash.garodia@oss.qualcomm.com> wrote:
+> On 6/2/2026 9:05 PM, Daniel J Blueman wrote:
+> > On Tue, 2 Jun 2026 at 18:27, Bryan O'Donoghue <bod@kernel.org> wrote:
+> >> On 01/06/2026 05:13, Daniel J Blueman wrote:
+> >>> On X1-family hamoa platforms, Iris DMA below IOVA 0x25800000 (600MB)
+> >>> triggers unhandled SMMU page faults
+> >>
+> >> How do we know that is a correct address - does it come from qcom
+> >> documentation or trial and error ?
+> >
+> > @Vikash, beyond your comment I linked in the patch [1] kindly cite a
+> > source for the different stream-ID <600MB behaviour, and share
+> > specifics, eg if silicon, firmware, or driver and constraint, defect
+> > or otherwise, so I can include a definitive description.
+> >
+> > Also good to know if my workaround is good for long-term, or on the
+> > other hand handling streams <600MB is important/useful.
+>
+> Thanks Daniel for raising this patch. Did you also try the memory fix i
+> mentioned in the bug [1] discussion ?
 
-[1] [PATCH v2 0/7] rust: drm: Higher-Ranked Lifetime private data
-https://lore.kernel.org/rust-for-linux/20260603011711.2077361-1-dakr@kernel.org/
+With this patch, my Lenovo Slim 7x spontaneously rebooted after
+opening 3 tabs of https://ui.com rather than 1 without it. No
+crash/reboot is reproducible with the patch I proposed.
 
-Tested-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+> 0-600MB range, VPU hardware would reserve this to generate different
+> stream-IDs primarily for internal (non-pixel) buffers.
 
+Thanks for the clearer description; I'll respin my patch with this and
+the DT fixes shortly to get the X1 user experience under control until
+a real fix.
+
+@all I appreciate the ideas and discussion already ensured!
+
+Dan
+-- 
+Daniel J Blueman
 
