@@ -1,233 +1,194 @@
-Return-Path: <linux-media+bounces-64557-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64558-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 0RmKJ9d8KmqwqwMAu9opvQ
-	(envelope-from <linux-media+bounces-64557-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 11:16:07 +0200
+	id wdRlGjV9KmrqqwMAu9opvQ
+	(envelope-from <linux-media+bounces-64558-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 11:17:41 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED13867050C
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 11:16:06 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3792B670536
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 11:17:40 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="L/O6gOxk";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64557-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64557-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=raspberrypi.com header.s=google header.b=ekIXc12a;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64558-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64558-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=raspberrypi.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 13E2B32F3D53
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 09:11:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D6EA3334CEBA
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 09:13:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB3F83BADA2;
-	Thu, 11 Jun 2026 09:11:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 606AB374E7D;
+	Thu, 11 Jun 2026 09:13:01 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 636EB368D4A;
-	Thu, 11 Jun 2026 09:11:16 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781169077; cv=none; b=tVJ9hsFsJWCjL570saidQpC0YKNGkLTnYMId/GGUJLhNJUZBJklMrqjTqGCE/0ZqAj2+B7oCt02KZmcqy6u+nTjrGObebkydZt5fEt/DSC+wWnziYe/KQJaBYWr1+pVeB33GHkey0CuojsA6Y382WpM0D+RPMIPrORCXniQf/fA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781169077; c=relaxed/simple;
-	bh=NAU8VKqenZvqGZd4PWSx1Yx2j+N7BsMozSDP6s7YrIY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DKn7SD3dNmA4hf7mhAMRhXUWWxkCMhuXx1ZYH7kl254qZ9VMD64ZZR7FTwtHtE0vDB13xOQ3vXPJFr9Gr+Gh4sHljNWNIZsf+kh/eUvF7r9mPz8eoKC20EgoPdDMhHgDjTfy8ZJI2WxI8kXBTJlri/dFOO6l/oW8vN2lxgM1zsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L/O6gOxk; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70E6D1F00893;
-	Thu, 11 Jun 2026 09:11:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781169076;
-	bh=lzXA25URE+Z/E5E0m7kyKvf5l04TxbOXv1Cr7KL0nNY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=L/O6gOxkcdGkahO3ZcEeCmWCstQzOYodjryBqWFDBpewPmLuSXaK5nD90m8jnkAcW
-	 0t638v0UGOqWLQDL/HS530NuJL8eFfOdRBV3pgtdT240I/4TaLALPaS4iXZbhJFLxB
-	 aZ6QtkdIzsyuUSEDr9GbPBXgpsadFUhCpbscl1xKOD76iigVgKul3pDaw2i+g3Ps+S
-	 Kg5sWZ/N0k/dpjji8LXdfl6sa7qT9+mfYIF57gN9B/MlMqT7efkwJBh3VA7VwifVUs
-	 6BOgp4QrVYBOGpPPTqyb/z4r7gGG5NBkQ4y1dKvDUTKB65BbWH7C3ejevR6kIyiKf9
-	 KpK70uKEQY98A==
-Date: Thu, 11 Jun 2026 11:11:13 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Ramshouriesh <rshouriesh@gmail.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Loic Poulain <loic.poulain@oss.qualcomm.com>, 
-	Bryan O'Donoghue <bod@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Aleksandrs Vinarskis <alex@vinarskis.com>, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-phy@lists.infradead.org
-Subject: Re: [PATCH 2/9] media: dt-bindings: Add Himax HM1092 NIR sensor
-Message-ID: <20260611-fluffy-dark-ammonite-e3d5ed@quoll>
-References: <20260610-a14-himax-hm1092-v1-0-0c9907da47ed@gmail.com>
- <20260610-a14-himax-hm1092-v1-2-0c9907da47ed@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36FF12DC79A
+	for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 09:12:58 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781169180; cv=pass; b=jUrhTXZyNYsaOpQ3poRn4HiMylrQJ5RD/WPz7E/Y2khTFBA/Q54hP0lKy7dfuzYwI2rw9tWZeEdtj7HxGz/uULoCnC27ll2iEPUUQPvAN3/cJnGpEcsCAXgpPtCxyqZU3INwcXQVcw3HViDiOLI9/GQ6qy5DepVjyTk121maC3E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781169180; c=relaxed/simple;
+	bh=hoj0ig+CoCGbFQUO4jVjy2N6O6hJkky1VIHSBDR3r70=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=k015UmwzOh9dd39iazrcH2n1tJqye8RvSMznRiDACzlFKZ9riR52v19F9agXQtj8/cVca9QbnLUZLGJWUkIJBo+i1uQTLLiliNvu6TohRvglXO9xYHZBtACBzyv7rCOmfY1+7ZCAGbTSKB/lzqODEH/EzuiQlJZ2jWn+anawcm4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=ekIXc12a; arc=pass smtp.client-ip=209.85.128.174
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7f5eb760240so12439827b3.0
+        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 02:12:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781169178; cv=none;
+        d=google.com; s=arc-20240605;
+        b=PF9qLjLQmAxDcKYQs936iO2ViZqtJxtGyTDwMKk6rjBWMxAIE4/3tFOk58C7w7kY1+
+         gkX4f+1NTm/W1JqqSvJgyCzaDNrvCZzGdkdlO/FAJDsAP8kjF8f+G4Z9mstdi19dnRgz
+         S9iviZNg/qTBpM5fx7d1JQ1I1qLemYK9kqgTfkb5ZYSW4He90QXhVU17dH3Q1sScAy0o
+         SpNHcKRpAf9xKcNw5/5hLXjF6Men4NL5NtjAWRQ9ml5/VGvn7Y589j046xfa/DXDXZcN
+         df3x+KSmFcRmPRTzTY+6R0QzIKPBEOPVxPPUsBN//4kn+/yrbLxilhgECfpTOmQ4cVYJ
+         nwOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=MYKB6iu0PDtjrE3F0ztsAOmxTHIzR1YcZn5jcZ5lz6I=;
+        fh=PF6aLbX0+uqhEnXasRknA/dvpw/i7FuXoP303Ev2FBY=;
+        b=UWfiB+mbv66vd+lTSiJEi8xj6AA+VOKfYs66THoU7tKPKWFwkOH9CHPoAhQh1P0VOH
+         LXP+DADRhMvrewDlIu38SrQXNliXTrTVY81NaaeSGcV1Wu4oKtdf9TCwxAR2ELkLzIN3
+         1J6jDRWAcqkDLM8ijPPDCg1T+7PfvtyObQNZeHamqSUQWctuzAGKr0XsU9+A1yjDZgr9
+         WZSY5NE6rnv3eDQkkUxS18pynDZwMk/sBiuvbcAyEJpOXeysVgi8UQ+n3AhEvDM+JH8X
+         OZpYOsmTDeMS3ZrgJ8IoVIbkOmneLsNL9ROIqMooydGpgE5rquFYXTTEuh4MbAMSnYTN
+         0h4w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1781169178; x=1781773978; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=MYKB6iu0PDtjrE3F0ztsAOmxTHIzR1YcZn5jcZ5lz6I=;
+        b=ekIXc12afGVdUxXaQYa5y2/VWZnuBX4t1DzfChztT7VR/BCX01A18IiP3aLdD7wUXO
+         6Moo1qZIvSjzWVu93WSvxTxPh5LhTLIfaO6cJds4bK1SSV0cv80TOQcqtfBR3a/cyCvq
+         07KkEGWcWzuHV2Kn/ccQV8AIYv7dY/QAAlQANNqjeloZr9VS6p63Hma6cRvZV1JBGjMS
+         wNX/0euW/dyuwUw62NQVafyPz3dcllMSe3pYXMXSFh/dCZyDscbwhc+b40yPdEdf4iel
+         4GvwLMSHtm3hN0SYYTsiRR31vOy39aNfn4iDEMYWFfdA1uVYW7sRRU+0IWtdMjYXE1eR
+         DqRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781169178; x=1781773978;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MYKB6iu0PDtjrE3F0ztsAOmxTHIzR1YcZn5jcZ5lz6I=;
+        b=INNGqvhyiJYokCjrqT4zO6Cakz6widPsdRa2/ja6tRTTA+BywPO7vbHHDgvcwFchOT
+         09VlWpVBbY/vCdkRy35xyc1hQn/mzHFSgOF3Bo2mgnVr5TcaxtbP9YsJNhSJbbBNMxUk
+         nkW+Uw4Blqs8Vw9FArJr0T4o4rZ/unX6hHGi2M5FJzVkBb47uIahRmOXZfkN8uIV3r3b
+         LJb0fGRAtTECoRhDt4wBhqRObc6RKJ4o1MP5UaSXmKgaLi+AVR5/xQg28psA93k/mWsc
+         hyAgBSSHKjMerdG653L9LM6/EYy4ihtUUU547sN4w0zbMBkJ7VZ9K7nIWeSWH6aHzDP8
+         xWZg==
+X-Forwarded-Encrypted: i=1; AFNElJ/5E8dTd4e5T/bGR35xXEvawqHak0GOkK0vksJl/gMxSWX3Cvl8S96nYPvswpV4zNgXAAsuFTN7I9efhw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwotlObUAdWIcbuHX5t/UkutK6HNjrgL/sU+mbRNzjhny1auGUB
+	tkOhut6llWqN4VzPfct6OWfJrPGHijeGfirajnbMzVeJ0q9yBJSmWRnH1Dli9BUme/4zCiODTVH
+	fgJ8Fct/w/EFL5LK68VY3CwmNHEfNtfBq5bCpShjHy/BplEstNYH1
+X-Gm-Gg: Acq92OFuz/ueosdT5TskCRTcfB2qDJ7+a0e26KZf9AGYIN4Eg3uyDoPT56N21BfdR7B
+	1yVY0Wo9Je7L0R+cCMTJKcOnexGBe3y4Qcg7pEJZvya7c2eLESJrn3GEQ9cwEN4TKYSOGcXKNlG
+	bM+sozbdserAwtzewGDrDmiwu4EpsVybjTdDZTAJH7PC328ZCJV68SGc9+pZvpwOJ5L2fmbuuMA
+	+ESLL/oTcVbzpMsrsHAewSZ0HhgAFEpCHgPBMaRBGFveQvgBM2p500IyqbYYAun/mAMqhY5Vrsj
+	p3GK3x1RZScK49FEWFexVX3vVuaVQZqLsWvQEZOe2rGilUJ55/Ufak/wI461pi1JRGvAfgSHDJB
+	W0aEqRqFss5Rakpvz1Wzi4M9cha1fbEnBQPY=
+X-Received: by 2002:a05:690c:490c:b0:7dc:605d:7a9a with SMTP id
+ 00721157ae682-7f655ee0d17mr21296917b3.12.1781169178177; Thu, 11 Jun 2026
+ 02:12:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260610-a14-himax-hm1092-v1-2-0c9907da47ed@gmail.com>
+References: <20260610-media-ci-7-2-v1-0-3c61a482a44e@chromium.org> <20260610-media-ci-7-2-v1-1-3c61a482a44e@chromium.org>
+In-Reply-To: <20260610-media-ci-7-2-v1-1-3c61a482a44e@chromium.org>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 11 Jun 2026 10:12:42 +0100
+X-Gm-Features: AVVi8CfaG3sU9PQt2tyzbFw_FkBWxmHg2PzweaVreKbZNnE6xiybcEosb6zW1uw
+Message-ID: <CAPY8ntD=f_S8fjOG4=3viScGMVEsHWivs7qn=X_-UqvqB791wg@mail.gmail.com>
+Subject: Re: [PATCH 1/3] media: ov9282: Remove unused kerneldoc description
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Xiaolei Wang <xiaolei.wang@windriver.com>, 
+	Tarang Raval <tarang.raval@siliconsignals.io>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Daniel Scally <dan.scally@ideasonboard.com>, 
+	Hans Verkuil <hverkuil+cisco@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, linux-renesas-soc@vger.kernel.org, 
+	stable@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
+	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:rshouriesh@gmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:mchehab@kernel.org,m:bryan.odonoghue@linaro.org,m:vladimir.zapolskiy@linaro.org,m:loic.poulain@oss.qualcomm.com,m:bod@kernel.org,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:alex@vinarskis.com,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-phy@lists.infradead.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[19];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:ribalda@chromium.org,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:xiaolei.wang@windriver.com,m:tarang.raval@siliconsignals.io,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:jacopo.mondi@ideasonboard.com,m:dan.scally@ideasonboard.com,m:hverkuil+cisco@kernel.org,m:laurent.pinchart@ideasonboard.com,m:mchehab+huawei@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi+renesas@ideasonboard.com,m:linux-renesas-soc@vger.kernel.org,m:stable@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64558-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_SENDER(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[16];
+	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-64557-lists,linux-media=lfdr.de];
+	FROM_NEQ_ENVFROM(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[raspberrypi.com:+];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco,huawei,renesas];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,devicetree.org:url,quoll:mid,vger.kernel.org:from_smtp]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[raspberrypi.com:dkim,raspberrypi.com:email,raspberrypi.com:from_mime,chromium.org:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: ED13867050C
+X-Rspamd-Queue-Id: 3792B670536
 
-On Wed, Jun 10, 2026 at 04:39:27PM +0530, Ramshouriesh wrote:
-> Add a dt-binding schema for the Himax HM1092 1MP monochrome
-> near-infrared CMOS sensor, used as the face-authentication IR camera on
-> Snapdragon X laptops such as the ASUS Zenbook A14. The sensor streams
-> 10-bit RAW over 1 or 2 MIPI CSI-2 data lanes.
-> 
-> The optional generic "leds" property (video-interface-devices.yaml)
-> associates an IR illuminator flash LED with the sensor, which the
-> driver strobes while streaming.
-> 
-> Signed-off-by: Ramshouriesh <rshouriesh@gmail.com>
+On Wed, 10 Jun 2026 at 17:20, Ricardo Ribalda <ribalda@chromium.org> wrote:
+>
+> The field has been removed, but the kerneldoc not. Let's take care of
+> this.
+>
+> This patch fixes the following warning:
+> Warning: drivers/media/i2c/ov9282.c:223 Excess struct member 'mutex'
+> description in 'ov9282'
+>
+> Cc: stable@kernel.org
+> Fixes: 0c69a963a300 ("media: i2c: ov9282: Switch to using the sub-device state lock")
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
+Thanks!
+
 > ---
->  .../bindings/media/i2c/himax,hm1092.yaml           | 118 +++++++++++++++++++++
->  1 file changed, 118 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/himax,hm1092.yaml b/Documentation/devicetree/bindings/media/i2c/himax,hm1092.yaml
-> new file mode 100644
-> index 000000000000..085001493a20
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/himax,hm1092.yaml
-> @@ -0,0 +1,118 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/himax,hm1092.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Himax HM1092 Monochrome NIR Sensor
-> +
-> +maintainers:
-> +  - Ramshouriesh <rshouriesh@gmail.com>
-> +
-> +description:
-> +  The Himax HM1092 is a 1 megapixel monochrome near-infrared CMOS image
-> +  sensor with a MIPI CSI-2 interface, commonly used as the IR camera for
-> +  face authentication on laptops. It supports 10 bit RAW output at
-> +  1288x728 over 1 or 2 CSI-2 data lanes. An optional infrared
-> +  illuminator LED may be associated with the sensor through the generic
-> +  "leds" property; the driver strobes it while the sensor is streaming
-> +  so the scene stays lit for IR capture.
-> +
-> +allOf:
-> +  - $ref: /schemas/media/video-interface-devices.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: himax,hm1092
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  avdd-supply:
-> +    description: Analogue circuit voltage supply.
-> +
-> +  dovdd-supply:
-> +    description: I/O circuit voltage supply.
-> +
-> +  dvdd-supply:
-> +    description: Digital circuit voltage supply.
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description: Active low GPIO connected to the XSHUTDOWN pad.
-> +
-> +  leds:
-
-Drop, unevaluatedPropertes already allows that.
-
-> +    description:
-> +      Optional phandle to an infrared illuminator flash LED strobed by
-> +      the driver while streaming.
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        additionalProperties: false
-
-use unevaluatedProperties here
-
-> +
-> +        properties:
-> +          data-lanes:
-> +            minItems: 1
-> +            maxItems: 2
-> +          link-frequencies: true
-> +          remote-endpoint: true
-
-And drop these two
-
-> +
-> +        required:
-> +          - data-lanes
-> +          - link-frequencies
-> +          - remote-endpoint
-
-Why do you need this? Which other binding did you take as an
-example/starting point?
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-
-Supplies are required
-
-> +  - port
-> +
-> +unevaluatedProperties: false
-
-Best regards,
-Krzysztof
-
+>  drivers/media/i2c/ov9282.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> index 5b6f897a74fc..3ba630ec4f2a 100644
+> --- a/drivers/media/i2c/ov9282.c
+> +++ b/drivers/media/i2c/ov9282.c
+> @@ -197,7 +197,6 @@ struct ov9282_mode {
+>   * @noncontinuous_clock: Selection of CSI2 noncontinuous clock mode
+>   * @cur_mode: Pointer to current selected sensor mode
+>   * @code: Mbus code currently selected
+> - * @mutex: Mutex for serializing sensor controls
+>   */
+>  struct ov9282 {
+>         struct device *dev;
+>
+> --
+> 2.54.0.1099.g489fc7bff1-goog
+>
 
