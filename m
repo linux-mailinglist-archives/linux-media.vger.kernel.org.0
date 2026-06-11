@@ -1,244 +1,182 @@
-Return-Path: <linux-media+bounces-64571-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64572-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id AbphADmLKmppsAMAu9opvQ
-	(envelope-from <linux-media+bounces-64571-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 12:17:29 +0200
+	id umMOIEGMKmq1sAMAu9opvQ
+	(envelope-from <linux-media+bounces-64572-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 12:21:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F07670C75
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 12:17:28 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E52670CCC
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 12:21:53 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=fail ("headers rsa verify failed") header.d=ideasonboard.com header.s=mail header.b=iozQIm70;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64571-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64571-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=fail reason="SPF not aligned (relaxed)" header.from=ideasonboard.com (policy=none);
+	dkim=pass header.d=resnulli-us.20251104.gappssmtp.com header.s=20251104 header.b=fpBmzwUT;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64572-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64572-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 05A8232627A6
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 10:12:59 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id C20613014744
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 10:21:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D14C33CAA5D;
-	Thu, 11 Jun 2026 10:12:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BDF53CC7F8;
+	Thu, 11 Jun 2026 10:21:39 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B50C21B9F6
-	for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 10:12:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F572376BE8
+	for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 10:21:34 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781172777; cv=none; b=QYhgXQOAEyVYz2/EEC3QRyU5lIT5Yk43n0/sleuQ9qoHVCHaZQfypGVaYn0AQBH8eWuM8va6dhwdBDrlBO3kgj63UoqrCuqdw8nA4wbSzjMvunbs8z2czzkYsDUc6GLHwc6SRCO9Z8D6PzCud+lVnn/2bq/6x7yeCbl4ngwUuo0=
+	t=1781173299; cv=none; b=hVSqrby46YEMZ18nnP+Og+T+rsojCyo8DpYvChEfW82+eMfFEVOj2C4SABaMyDX71eK2kIbTbuRS7YKLcPVSFTrwZwi6FwiNZ4lIpYeMLTu1AaViscBDYO7vzJjEtx8N02A1Jwe/Moak/hv90z94lK1HV6PaJwW2D8C6Uo1lg1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781172777; c=relaxed/simple;
-	bh=tdLsXKg4v5P+eY50q9SHWSLcLXmHrev387bPeFEOUd0=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=CL2oEXRqFyJk98zOqXiF3ykrs2JP22ws7XCtzcHPelh+FXeXfq8inGIcNtLK29dKa/ALZ4pZwh1/IqUElSgT1bo0UkxWVfhWVSm9Czebpw72fzPblHndRFlbyP0B5qUbKRWfDwmOvX/CI0959+0OycBZBqzy4kfYMbJ4NxVbhpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iozQIm70 reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:bcf2:9325:a9bd:32b:e71])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6A8C1497;
-	Thu, 11 Jun 2026 12:12:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781172743;
-	bh=tdLsXKg4v5P+eY50q9SHWSLcLXmHrev387bPeFEOUd0=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=iozQIm70r1g3NKsXvoFSUqlPMevOiwVgCdIab4dpSCaWyuqlpDmAFls/IFOl6Ll+E
-	 XYATGChkitboNmSzykDNf7hGw/Uy9fP8jvqPBdwxJ5uMLivNZXHa8QVZFjlQuVrItU
-	 5MWVEkIlLMnjKaLJQ77xpTjKAl2ZjRnSxX/vwlIw=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1781173299; c=relaxed/simple;
+	bh=g+zLGbhMsxlq3gXNeYqrEL9pXE9QWiEaXduyVPFtohc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FILYc7EvwNITqJrVolK/QwrABqGwSz5M/Z2kgYwUea8tkZy9LNRNSDByT8m1AxFxzwoqiy/oc6vC/EORZQ/nrx15V26ohD18Z8p4Ai3dx0tId0AwHTntNB5gLHkkhCbidFvhomtJ5BlkjqCiddUOCqPNwjbN5qj4hhi3xbHq+dg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=fpBmzwUT; arc=none smtp.client-ip=209.85.221.41
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-45fd464d51fso4293308f8f.3
+        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 03:21:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1781173293; x=1781778093; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ks9XZxCyDCZpPl0hZOLfLDZkVcVXMB4BMtGl2dtDnVQ=;
+        b=fpBmzwUTySw/uiKDGqQbqoKpktladXcRVPQD8sdhH5800qPk8c1zMxZcvIndfbGt2I
+         IQDVTckZtX67LYZbu72rZxgvtoqDpUKSJRUtYpG9geKANvGiJbGhWBWsD2otq5CuToR4
+         AVV9+3E0InG/YX7WK5cjputrEPHICe60ZFboRlVZ0dksZg632/CgoJWaCRZXbLxHn5n6
+         Y1i2kV/VS1m5NK/rrLXNSpzoa8JDCXlFN8EfrqkLcdIdOguUlVQIkTPI6cELj2jhs1di
+         GQ/Epo5IAI3BmeKBm/4WttY+FbhkImK+vIhHXj4Fzu2DqyYmsg9mRd2kuTpHBzbQ8jNT
+         FS3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781173293; x=1781778093;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ks9XZxCyDCZpPl0hZOLfLDZkVcVXMB4BMtGl2dtDnVQ=;
+        b=rvFy7UPkFBh9FemAMXaMVY2pYZO9fIUvnvcNvIaM7/gNJylq07h4/zElR0S40vWQ4E
+         c1vWPuFLZsIsNZiE9y696/msL5XQQXgZYK+eQXTgTEevKwDtQQHDcdiusRhnBYgsw7ou
+         yf5I5OxNKpf64xgGgMbd4mIxauBG8t59laVyLRytQLE2JU53daBGL10TQxxDdNHGT98V
+         30PglcpyE4OdrwRkDjCSP/V6WxMxlcvlzX5n47nxssXS01sUJVEmyoMLmbgYSzxLzHXf
+         IZP+I1/Jh1u46V7E2gTwtu1QykZDSs8SigZV6q9bpSPuSTB2jKaFCfKdVsBS0zArJ1+c
+         K5/w==
+X-Forwarded-Encrypted: i=1; AFNElJ/cQ8zoAdAmHjfHWCulUkF8y3c9eOm0zSuc6vVPEnxdZZqyC3zWdrMRmS1A1UX+geougQpyFpcpQA24ow==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0aBeHcgQYIEWmGajzXTLOa9bfObIAN/tYV6M5UJENo2pzNdH8
+	sc7uy0xVPovM+M9wIzRd2XWKCqBDoBXXaMwUQrnvbNzdAurDVXt2RvVsm32ATVZTt6Q=
+X-Gm-Gg: Acq92OFowv8gLoQihZvNsLOqsebaZvQsAaSVAi0XCgiF892Khlky/emKJSJv18g9HSM
+	aQpmsBJ9p53dsXoR9mr0OpwLc8cCHOttjL6GKqNqB2Rqg5lidvicmmym/eUaLq4qUQVHxsmA3fN
+	zpL1jrVQuTAY5Ktp5pkKz7VySPM1O6q/20aQw68DjaJVSBXFdMi5sPXXG6lJ2H/6Rha1o3EI6hG
+	FtjdCaYCz48MWjRs4PsWt16fzyOG8oXZNSKj7ALOsF7grRe9/x3Ca67zUkKVFxuhTPuaGA9XylZ
+	R0GfT9kAaqlJtsG6w2S6k9frltRgNCw5+hRPQLzTT00sp/+7PudzI6pfYZw+1fVzvBR2qa5yTZ0
+	ScdqGyaEJWnUmNrb6NHIKUPlXNofsXK+Ekh0cilhsiNPy9LkuFkgmMe7+7xIiK0hYvKAXVTFCci
+	t5BMOUenM7737mb2r4nqpzUWokMHuDQn2CrJ5x+w==
+X-Received: by 2002:a05:6000:1449:b0:43c:ef4f:79e4 with SMTP id ffacd0b85a97d-460677c149emr3057787f8f.37.1781173293060;
+        Thu, 11 Jun 2026 03:21:33 -0700 (PDT)
+Received: from localhost ([140.209.217.212])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4602cda3651sm68603644f8f.32.2026.06.11.03.21.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2026 03:21:32 -0700 (PDT)
+Date: Thu, 11 Jun 2026 12:21:27 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: christian.koenig@amd.com, jgg@ziepe.ca, hch@infradead.org, 
+	maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, lkp@intel.com, agordeev@linux.ibm.com, 
+	gerald.schaefer@linux.ibm.com, linux-s390@vger.kernel.org, djbw@kernel.org, 
+	thomas.lendacky@amd.com, x86@kernel.org, arnd@linaro.org, benjamin.gaignard@collabora.com, 
+	Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com, mripard@kernel.org, 
+	afd@ti.com, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH] dma-buf: move system_cc_shared heap under separate
+ Kconfig
+Message-ID: <aiqLJUrJ1dnKhsJn@FV6GYCPJ69>
+References: <20260610142329.3836808-1-sumit.semwal@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <aip4HgMfEnidvlPN@kekkonen.localdomain>
-References: <20260409201501.975242-1-sakari.ailus@linux.intel.com> <20260409201501.975242-34-sakari.ailus@linux.intel.com> <178115623672.1799417.2005627235315487289@freya> <aip4HgMfEnidvlPN@kekkonen.localdomain>
-Subject: Re: [PATCH v12 33/86] media: uapi: Add new controls for camera sensor FLL and LLP
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, =?utf-8?q?Andr=C3=A9?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, "Yu, Ong Hoc
- k" <ong.hock.yu@intel.com>, " Ng, Khai Wen" <khai.wen.ng@intel.com>, Rishikesh Donadkar <r-donadkar@ti.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Thu, 11 Jun 2026 15:42:48 +0530
-Message-ID: <178117276804.1799417.8559157915944888952@freya>
-User-Agent: alot/0.13.dev35+g4a69c46ca
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260610142329.3836808-1-sumit.semwal@linaro.org>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.64 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	R_DKIM_REJECT(1.00)[ideasonboard.com:s=mail];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[resnulli-us.20251104.gappssmtp.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[ideasonboard.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64571-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:hans@jjverkuil.nl,m:laurent.pinchart@ideasonboard.com,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:dave.stevenson@raspberrypi.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:jacopo.mondi@ideasonboard.com,m:tomi.valkeinen@ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:r-donadkar@ti.com,m:sakari.ailus@linux.intel.com,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	FORGED_SENDER(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:-];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:jgg@ziepe.ca,m:hch@infradead.org,m:maddy@linux.ibm.com,m:mpe@ellerman.id.au,m:npiggin@gmail.com,m:chleroy@kernel.org,m:linuxppc-dev@lists.ozlabs.org,m:lkp@intel.com,m:agordeev@linux.ibm.com,m:gerald.schaefer@linux.ibm.com,m:linux-s390@vger.kernel.org,m:djbw@kernel.org,m:thomas.lendacky@amd.com,m:x86@kernel.org,m:arnd@linaro.org,m:benjamin.gaignard@collabora.com,m:Brian.Starkey@arm.com,m:jstultz@google.com,m:tjmercier@google.com,m:mripard@kernel.org,m:afd@ti.com,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:arnd@arndb.de,s:lists@lfdr.de];
+	DMARC_NA(0.00)[resnulli.us];
+	FORGED_SENDER(0.00)[jiri@resnulli.us,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	TAGGED_FROM(0.00)[bounces-64572-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_CC(0.00)[amd.com,ziepe.ca,infradead.org,linux.ibm.com,ellerman.id.au,gmail.com,kernel.org,lists.ozlabs.org,intel.com,vger.kernel.org,linaro.org,collabora.com,arm.com,google.com,ti.com,lists.freedesktop.org,lists.linaro.org,arndb.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,intel.com,ti.com];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jiri@resnulli.us,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[resnulli-us.20251104.gappssmtp.com:+];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,intel.com:email,vger.kernel.org:from_smtp,freya:mid]
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,linaro.org:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,resnulli.us:from_mime,arndb.de:email,FV6GYCPJ69:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 46F07670C75
+X-Rspamd-Queue-Id: 22E52670CCC
 
-Quoting Sakari Ailus (2026-06-11 14:25:58)
-> Hi Jai,
->=20
-> On Thu, Jun 11, 2026 at 11:07:16AM +0530, Jai Luthra wrote:
-> > Hi Sakari,
-> >=20
-> > Quoting Sakari Ailus (2026-04-10 01:44:08)
-> > > Add new controls for camera sensors, V4L2_CID_LINE_LENGTH_PIXELS and
-> > > V4L2_CID_FRAME_LENGTH_LINES, to convey the combined size of the analo=
-gue
-> > > crop rectangle and horizontal and vertical blanking.
-> > >=20
-> > > The reason for adding the new controls is that they're much easier to=
- use
-> > > as the user doesn't have to be concerned of the analogue crop in the =
-same
-> > > context. Secondarily, the newly added common raw sensor model uses
-> > > different values for the same.
-> > >=20
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > ---
-> > >  .../userspace-api/media/v4l/ext-ctrls-image-source.rst | 10 ++++++++=
-++
-> > >  drivers/media/v4l2-core/v4l2-ctrls-defs.c              |  2 ++
-> > >  include/uapi/linux/v4l2-controls.h                     |  3 +++
-> > >  3 files changed, 15 insertions(+)
-> > >=20
-> > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-so=
-urce.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > > index 63e53c883db6..fb4dee1b4f94 100644
-> > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > > @@ -201,3 +201,13 @@ For instance, a value of ``0x0001000300020003`` =
-indicates binning by 3
-> > >      Sub-sampling is used to downscale an image, horizontally and ver=
-tically, by
-> > >      discarding a part of the image data. Typically sub-sampling prod=
-uces lower
-> > >      quality images than binning.
-> > > +
-> > > +.. _image_source_control_frame_length:
-> > > +
-> > > +``V4L2_CID_FRAME_LENGTH_LINES (integer)``
-> > > +    Frame length in lines. The value of the control is the number of=
- lines
-> > > +    captured in the sensor's pixel array added to the vertical blank=
-ing.
-> > > +
-> > > +``V4L2_CID_LINE_LENGTH_PIXELS (integer)``
-> > > +    Line length in pixels. The value of the control is the number of=
- pixels per
-> > > +    line captured in the sensor's pixel array added to the horizonta=
-l blanking.
-> >=20
-> > In IMX219 driver in this series, we are exposing frame length in two-li=
-nes
-> > and two-line's length in pixels, which doesn't make sense with respect =
-to
-> > these control definitions.
-> >=20
-> > Similarly, for sensors like IMX283, IMX678 and others, the register is =
-line
-> > length in internal clock units, while the control is line length in pix=
-els.
-> >=20
-> > So I think we should add a small note to prevent these awkward units fr=
-om
-> > propping up in the userspace:
-> >=20
-> > ``V4L2_CID_FRAME_LENGTH_LINES (integer)``
-> >     Frame length in lines. The value of the control is the number of li=
-nes
-> >     captured in the sensor's pixel array added to the vertical blanking.
-> >     Some sensors may have an internal register for the total vertical s=
-ize
-> >     that is in units of 2 lines or some other unit. But the control val=
-ue
-> >     should always reflect the number of lines in a frame.
-> >=20
-> > ``V4L2_CID_LINE_LENGTH_PIXELS (integer)``
-> >     Line length in pixels. The value of the control is the number of pi=
-xels
-> >     per line captured in the sensor's pixel array added to the horizont=
-al
-> >     blanking. Some sensors may have an internal register for the total
-> >     horizontal size in units of some internal clock instead of pixels, =
-or
-> >     the total pixel count for multiple lines. But the control value sho=
-uld
-> >     always reflect the number of pixels in a line.
->=20
-> The details are important here: these are really configuring timing on the
-> sensor; reading "a line" may in fact mean combining data from multiple
+Wed, Jun 10, 2026 at 04:23:29PM +0200, sumit.semwal@linaro.org wrote:
+>From: Arnd Bergmann <arnd@arndb.de>
+>
+>While system heap and system_cc_shared heap share a lot of code
+>and hence the same source file, their users have different needs.
+>
+>system heap users need it to be a loadable module, while
+>system_cc_shared heap users don't.
+>
+>Building as a loadable module breaks system_cc_shared heap on
+>powerpc and s390 due to un-exported set_memory_encrypted /
+>set_memory_decrypted functions.
+>
+>Fix these by reorganising code to put the system_cc_shared heap
+>under a new Kconfig symbol, which allows either building both
+>into the kernel, or leave encryption up to the consumers of the
+>system heap.
+>
+>Fixes: fd55edff8a0a ("dma-buf: heaps: system: Turn the heap into a module")
+>Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+>Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
+>---
+> drivers/dma-buf/heaps/Kconfig       |  8 ++++++++
+> drivers/dma-buf/heaps/system_heap.c | 16 ++++++++++------
+> 2 files changed, 18 insertions(+), 6 deletions(-)
+>
+>diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
+>index e273fb18feca..a39decdcf067 100644
+>--- a/drivers/dma-buf/heaps/Kconfig
+>+++ b/drivers/dma-buf/heaps/Kconfig
+>@@ -5,6 +5,14 @@ config DMABUF_HEAPS_SYSTEM
+> 	  Choose this option to enable the system dmabuf heap. The system heap
+> 	  is backed by pages from the buddy allocator. If in doubt, say Y.
+> 
+>+config DMABUF_HEAPS_CC_SYSTEM
 
-In that case these controls shouldn't use words like pixels or lines at
-all.
+Nit: "DMABUF_HEAPS_SYSTEM_CC_SHARED" to be consistent with the heap
+name?
 
-> lines. I think it's the "captured" that's problematic in the original
-> description.
->=20
-> How about:
->=20
-> ``V4L2_CID_FRAME_LENGTH_LINES (integer)``
->     Frame length in lines. The value of the control is the number of lines
->     processed from the sensor's pixel array added to the vertical blankin=
-g.
->     This control determines how many times lines are separately read per
->     frame from the sensor's pixel array and the control's value may be
->     related to e.g. the height the analogue crop rectangle in lines or the
->     number of lines output after sub-sampling or binning. Thus this value
->     should be understood to be primarily related to sensor internal timin=
-g.
->=20
-> ``V4L2_CID_LINE_LENGTH_PIXELS (integer)``
->     Line length in pixels. The value of the control is the number of pixe=
-ls
->     per line processed from the sensor's pixel array added to the
->     horizontal blanking. This control determines how many times pixels are
->     separately read from the sensor's pixel array per line and the
->     control's value may be related to e.g. the width of the analogue crop
->     rectangle in pixels or the number of pixels per line output after
->     sub-sampling or binning. Thus this value should be understood to be
->     primarily related to sensor internal timing.
->=20
+With or without it:
+Reviewed-by: Jiri Pirko <jiri@nvidia.com>
 
-For example, how do you think someone working on a sensor where the HMAX
-register is in units of an internal clock which processes multiple pixels
-per cycle interpret this paragraph?
-
-LINE_LENGTH_PIXELS implies a "pixel" is the unit. So does PIXEL_RATE. And
-EXPOSURE control is interpreted in units of "lines" as well.
-
-You are proposing to repurpose those human-readable names that make sense
-to most new developers to mean some internal units of a sensor, like 1/8th
-of a pixel. IMHO that's a bad idea. More importantly, it's not even clear
-from the names and descriptions, so a NAK from my side.
-
-Thanks,
-    Jai
-
-> --=20
-> Sakari Ailus
 
