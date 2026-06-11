@@ -1,356 +1,302 @@
-Return-Path: <linux-media+bounces-64616-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64617-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id B55WKQEbK2oR2wMAu9opvQ
-	(envelope-from <linux-media+bounces-64616-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 22:30:57 +0200
+	id fK2gCq0dK2qd2wMAu9opvQ
+	(envelope-from <linux-media+bounces-64617-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 22:42:21 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id F29576752BC
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 22:30:56 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6E66753E1
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 22:42:19 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=google.com header.s=20251104 header.b=nWfOpwZx;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64616-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64616-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=google.com;
+	dkim=pass header.d=ragnatech.se header.s=fm3 header.b=tFWrFJH0;
+	dkim=pass header.d=messagingengine.com header.s=fm1 header.b="a/7ffHgS";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64617-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-64617-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ragnatech.se;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 896B832ECBF4
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 20:30:44 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 14612300D563
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 20:42:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A486B46AF15;
-	Thu, 11 Jun 2026 20:30:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36D1547F2F8;
+	Thu, 11 Jun 2026 20:42:11 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3A54418D7
-	for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 20:30:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DDD336F421;
+	Thu, 11 Jun 2026 20:42:06 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781209843; cv=none; b=CCwFh+BZ8MUxjx5krDkNCmwpC8FAmrd2a9GS4xdBjOg5tefxDIqSFmK6f9Ee80+vO90kJ5Xj1hO/etOhzcnpw+GpvwIzvaB+sXsyQvG/tKDFoX3MoVXBDMOWT5CveCvhzDJ+kWJUVzHDVJW/XwXgX0moSoUbRVMYKU8FcmgzggY=
+	t=1781210529; cv=none; b=CMaq4rZVI9ThGbN+ALgMXOkEAL9NtbBJcALpu4WuaX6kich7kQS+bUuKrpMRQ8upjxa2W+TOi8gjini3w/j5P5as3oqh4bQKMiDOORZLIvBusM0HFeODcf/czPeKEsyTy0V4Y33lgbPw4qhxeB1f7f3DQCYDmMwxkeNeutjDs48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781209843; c=relaxed/simple;
-	bh=lV0APC2Q40R0+8rJBHhGtOzbEJq9+wSP+YtjJIHFsGw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OjKCqqIPY2dGtL3niSwbcmYC+JzCRtblOhqcOtt3ZrrrxzPW2339SASnSHUbE1HbXhU26A4cCjAFCl9lpZWj/7fBr416F8Go9tzRqN43+3/OPDAI1q/ZnLt2TfXb9U5rbFkCLyAtMqGjI+7jEJqkzpWpAaYSvSwVNaANP7oFcBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nWfOpwZx; arc=none smtp.client-ip=209.85.214.177
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2bf2911f93cso6115ad.1
-        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 13:30:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1781209841; x=1781814641; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O89fLhwmUexwr334yt/hIAtfe9wNMTELN1E0wgrm87U=;
-        b=nWfOpwZxIUP99J4xNrGGATsknuIG+E02zwK+w+bq+MJtsqMF2UGogyB34tOsmJD8/i
-         OAv2hs5WzCrtLXTMZK4RGFDcCJgfkrftDF5AJwVvPiJ6hCYCRuFajsvfFRNafi3pzSdH
-         xfyDAFk7PUQ/mEgrnZwq+Ql754Bk+WDP7SUoC445MThEGzXqkTxwahGxSZopnIerGBK3
-         Fe9InJSk/jWL+5t9QVO/lSyzpdszcBLgXgYWHnuPceXhNym1eOJoyxbBa6bqBLiCK9+9
-         NiaA3D19TwVDN3Ty61inltkca+ojcSI+YacqYf85wX0E7sL022UIxEwlcD4NzirwFoIA
-         uH9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781209841; x=1781814641;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=O89fLhwmUexwr334yt/hIAtfe9wNMTELN1E0wgrm87U=;
-        b=EhGkWOOUdGoo5AZT7TRcBv8POcea+K8YfAOiasX1pv0Ui6yYRSIXoJymLJOedp1Zpv
-         3UqxRUAOETl7ybTwuYaCAs3hYVO8qAu/cXnhso0orgn8eVplEjjZoE+ZXSj+YjTOBvDh
-         UYhFUGcIJFFp9nXv+xHZBQXFlat9aLLWR64K3QUhT/ZuPSpcOE3xALyUxbkOS9BRV32E
-         Xwj+enjzy1HKlVaqfvhflf1NvbG3XaUICIwyrRAfudmqYrY2X/S9XBIZ/YU2kDSeFUMe
-         Q3UUAFfKMFbQhbl84nTbNpM81iJ+jKw+TUNrhZcyD9bg5iWKqHO5TayZtyqM54m+ktWA
-         zvaA==
-X-Forwarded-Encrypted: i=1; AFNElJ/Rn45YZfewuYnqy5E0f42kGKFoTVHtWQGiD0xvEDKLMEpfxYRvw6sEd/4R6bm6v71gw6tXGnNZSXhytg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOscKuqpt0VyGVCH8KJl8bPqDJFMX8YWibtkB/2GGDPggN6WBO
-	P31f7dSsIwS3vERr5bze2uYxdH/x+adN1SaHtJwy87HsSY9zGauHsyGlETdtyKLdXg==
-X-Gm-Gg: Acq92OE60/Qhw0Tl5Vb1TcJbT0B1DT/a5vN0Tp1J/AFvGlDR5NOOO53qXCByXrU/TzJ
-	vKVIe9RTRwXr0Z+1XuVR1D0gSgRqsJ2pUCLXPTrO2kGMC5JyjlTred+47a5uepv9rhI3GkDiJub
-	/lLoHMEviMeFw83eMWkdNRQKDavf37aYU7c+1/3WuwUiZbmmxOf0y6DtOQinFQNdLYF5m+hf2eK
-	tQPUz1JLaLPcWX3jTRyTnBpJF5iJobts8G7GL7qGeUeJYS9hHQ5k3K0QCUH/rw0Vm/k9ZlkAJd5
-	K+2NTPbj6gcEBbzm79+1Aa9ulUM7L/HKa/MWgLcriwX8sdvKtdEj2w2kTmb9pCn3RGA/GtFyvF5
-	+LYV6Evp5EF1n17ADPsIOnvxqV1QQY6cAff71mHvyYhJB2LmshzWDaZdFicMxaBzL3hfCAhROgl
-	U7iV/GtygsFrBgb6MWNqYbFrTfteZjgW7Ae2SlRZipyiqDAapvokIxLhXUqWr5
-X-Received: by 2002:a17:902:ef47:b0:2b4:641a:6b7c with SMTP id d9443c01a7336-2c405c8b1bcmr130535ad.13.1781209840425;
-        Thu, 11 Jun 2026 13:30:40 -0700 (PDT)
-Received: from google.com (199.255.142.34.bc.googleusercontent.com. [34.142.255.199])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16609df6esm311256825ad.48.2026.06.11.13.30.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2026 13:30:39 -0700 (PDT)
-Date: Thu, 11 Jun 2026 20:30:32 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: Matt Evans <matt@ozlabs.org>
-Cc: Alex Williamson <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>,
-	Jason Gunthorpe <jgg@nvidia.com>, Alex Mastro <amastro@fb.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Mahmoud Adam <mngyadam@amazon.de>,
-	David Matlack <dmatlack@google.com>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	kvm@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH v3 2/9] vfio/pci: Add a helper to look up PFNs for DMABUFs
-Message-ID: <aisa6H-a-176MXhC@google.com>
-References: <20260610154327.37758-1-matt@ozlabs.org>
- <20260610154327.37758-3-matt@ozlabs.org>
+	s=arc-20240116; t=1781210529; c=relaxed/simple;
+	bh=LWrvANq3GEkdsm8LRxOAKTdxijUly9AtqfOgfTUJ6ZA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CeuRKq+Gc8vznWV1ZfJgIC/JJ0cVWrIB97X05rU7fshn/H/rfsAUFLSyYPVBAFbAMN+hbZnz4fiFMja7TvnDkiQ7SccfvD1M2EDBz83fj3v3izSlE22IKOErFC/S1uEuBWz4EfOAW2WUo+TPZfl9IvoH5Rxw5G7oxW73SKmMuc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=tFWrFJH0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=a/7ffHgS; arc=none smtp.client-ip=103.168.172.152
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 45866140002A;
+	Thu, 11 Jun 2026 16:42:06 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Thu, 11 Jun 2026 16:42:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:message-id:mime-version:reply-to
+	:subject:subject:to:to; s=fm3; t=1781210526; x=1781296926; bh=am
+	bbtTlwI43NZGEsOn9ght4nQrNoqL6qdvUcD7mchPk=; b=tFWrFJH0FaTFuL9G+I
+	2UQZPjbKAyO75HXj5y74BFcj4GBhSrzNlrEvoYBAotMTJVTxygLqKEcgUZKvdx1N
+	3Ss3D3ZHpdpUWB39zR5m3spXWf4iFZdLSu1f68p+IbIrGCbpa59aI7IlYs+hdEvM
+	NzjJJ9RQdn/XK7L+C7offUt59tZGvXuKvolS6P2bSNqu0NDMPgkL3/A5TNgWpxdG
+	JXHDsVwfCG98nhSWYdP+SMX7r1oROZEJhQKRbR0kO6bBWXb6TwRXmZ+I4/go//lO
+	vyr+lTy86XMjVCOe6+6y3YvTHTqGeqIX80M3tW7+GMJD8Osgk4FTy1/lIrjvXXlh
+	8XQA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; t=1781210526; x=1781296926; bh=ambbtTlwI43NZGEsOn9ght4nQrNo
+	qL6qdvUcD7mchPk=; b=a/7ffHgS84SZfTsbAQsfJz82pbv7/WEs+EfHROlBWp6A
+	ztCIvZqD0P2TWL0TrkmwcCfhSW1OxHq8n/+8Ej4va10EP2wkpMbkkrK4ixwHTorV
+	Cf+dqj7omvC1ailjQTqxZwQiuzmShDFQmNjOFEbaG5ZkjfVP1PKukmV4gFBYYv9i
+	Sjwpk0vO3EjCELyGJZt6TnXTWTDtp3vvQTE+qyopz21bYUn5Cmo7K4XB2fg8ZbpM
+	3zav2TArFuDMMq/EdUe/w5lXBSRYlOd980RwW3FFNen21gHvD8zRMXxatT2mGMLq
+	DLsLxEuuvvTGfSBzjCV/bjRILS+fjuiyUYlnj5oEQw==
+X-ME-Sender: <xms:nR0ralYPhIhPtrxkiMJaAEl3MUdcuhltAWZfc3YEUTrWAGGgaPrpXQ>
+    <xme:nR0ras2B644n3iNUNe0QgVHdDO8VlyyIFJAnFT-sWMKuklrlFJlc_hRhmeAdTEMF0
+    s6txYfPVmsH7qZIrTZdt_r43paAUDDqt99kPK2H4eoJ1m9z0vxRYEE>
+X-ME-Received: <xmr:nR0raopu56jjd-WeDRiK--Zjq4M9OJI1FVnuvPicIC_2riDbEsG5ygDHjYuapiAfYheoU2pBNV1DKnBpvY9DHVsXwzll>
+X-ME-Proxy-Cause: dmFkZTFCy0anKb5iwwZHoxvrU1iu9nl260o6vKd8bcxksJNiAyBXhTlsy7J9gu0RYJ5QiX
+    2XlXsd8MOkpJ8tsTJsH3UA9k9P+qXlTbeUOorMimk7CboaIax0jVxRomuQ6mYLHmQYkD/t
+    dR5bQjdBS94QX9U5JiOMNRY1+3hV/8R8r5DVyFFsm2og4kvLkGz60IpgwgrMXmGg1AhLPK
+    JWwt6x8QrRsnNE50RGUVMCnfqMoczngTBdIj3/1XgVNC2buNNOtQrWnauri2OBb5Jxo1iJ
+    QMPC+X0r9AUQ9PV0UGfvKCyLwqxv4dIRczeQDIxt23aKwtmUcqxCG0be1JkHDVzEBgMuHj
+    ogeAfAqOJUs1iTVes7An01DHQAZgbYa9VromOjQZXwBrCC5DV2snz4wWgyu7mFEuAiuhG8
+    2fg4l3q7PrD6HmhUtaBMDWJeziqC4aZkjnIjvOAk1Qff8MwlnFLcMq5/h25WM3GO176Ov6
+    NJgX1dmivbtBicQZ3QDmjXaRDX1WmSGT4/BfFhLnpzmLrvmAAeXOmF0U/hAEdYx60/01TM
+    UXYTxNXsV53CI9xmGSgzdMJxqolb+aPshsXuagESNwm6eBci+tYvfzhIf5+4W4osTBeJVu
+    YY7/0kuPzK/hLTJiztJaD5gZYJsG6xm/bgHqoIcKoMduSxyZsX8JSfRQ3BAw
+X-ME-Proxy: <xmx:nR0rarPz3eIDbvORW_T1nfPNIsmOiBnPEC2BV27XdyVDtaEekIsSrg>
+    <xmx:nR0rahrOHViuKqi2o-kcOVOgRnmyFm2P7bKYl2UpB61ntisBCbewzg>
+    <xmx:nR0ramseSQhIRhaXlPPfhu_8N1updGzAiQq37NXiDR2BFNIglcv4oA>
+    <xmx:nR0rao3tN2kUIitHCs7PjgJqanUWBFwwoUeXt62tW6Z_bkoki5lHPg>
+    <xmx:nh0rahUjwd2BdX6-zLfcgc0iHAvmaBGJg6UPT2crTUsTaOcnUtie0GYH>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 11 Jun 2026 16:42:05 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Jai Luthra <jai.luthra+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v10 00/13] media: Add support for R-Car ISP using Dreamchip RPPX1 ISP
+Date: Thu, 11 Jun 2026 22:41:35 +0200
+Message-ID: <20260611204148.1423192-1-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260610154327.37758-3-matt@ozlabs.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
+	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm3,messagingengine.com:s=fm1];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-64616-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:matt@ozlabs.org,m:alex@shazbot.org,m:leon@kernel.org,m:jgg@nvidia.com,m:amastro@fb.com,m:christian.koenig@amd.com,m:bhelgaas@google.com,m:logang@deltatee.com,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:kevin.tian@intel.com,m:ankita@nvidia.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,m:linux-pci@vger.kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64617-lists,linux-media=lfdr.de,renesas];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[praan@google.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	DKIM_TRACE(0.00)[google.com:+];
+	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:jai.luthra+renesas@ideasonboard.com,m:mchehab@kernel.org,m:kuninori.morimoto.gx@renesas.com,m:laurent.pinchart@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:niklas.soderlund+renesas@ragnatech.se,m:jai.luthra@ideasonboard.com,m:niklas.soderlund@ragnatech.se,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[praan@google.com,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ozlabs.org:email,vger.kernel.org:from_smtp]
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,messagingengine.com:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F29576752BC
+X-Rspamd-Queue-Id: EB6E66753E1
 
-On Wed, Jun 10, 2026 at 04:43:16PM +0100, Matt Evans wrote:
-> Add vfio_pci_dma_buf_find_pfn(), which a VMA fault handler can use to
-> find a PFN.
-> 
-> This supports multi-range DMABUFs, which typically would be used to
-> represent scattered spans but might even represent overlapping or
-> aliasing spans of PFNs.
-> 
-> Because this is intended to be used in vfio_pci_core.c, we also need
-> to expose the struct vfio_pci_dma_buf in the vfio_pci_priv.h header.
-> 
-> Signed-off-by: Matt Evans <matt@ozlabs.org>
-> ---
->  drivers/vfio/pci/vfio_pci_dmabuf.c | 137 ++++++++++++++++++++++++++---
->  drivers/vfio/pci/vfio_pci_priv.h   |  20 +++++
->  2 files changed, 144 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> index c16f460c01d6..9e5e865f6fb6 100644
-> --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
-> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> @@ -9,19 +9,6 @@
->  
->  MODULE_IMPORT_NS("DMA_BUF");
->  
-> -struct vfio_pci_dma_buf {
-> -	struct dma_buf *dmabuf;
-> -	struct vfio_pci_core_device *vdev;
-> -	struct list_head dmabufs_elm;
-> -	size_t size;
-> -	struct phys_vec *phys_vec;
-> -	struct p2pdma_provider *provider;
-> -	u32 nr_ranges;
-> -	struct kref kref;
-> -	struct completion comp;
-> -	u8 revoked : 1;
-> -};
-> -
->  static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
->  				   struct dma_buf_attachment *attachment)
->  {
-> @@ -106,6 +93,130 @@ static const struct dma_buf_ops vfio_pci_dmabuf_ops = {
->  	.release = vfio_pci_dma_buf_release,
->  };
->  
-> +int vfio_pci_dma_buf_find_pfn(struct vfio_pci_dma_buf *priv,
-> +			      struct vm_area_struct *vma,
-> +			      unsigned long address,
+Hello,
 
-Nit: s/address/fault_addr ?
+This series adds support for two different devices that together enable
+ISP support on Renesas R-Car Gen4 ISP processing. The first driver added
+is for Dreamchip RPPX1 ISP, this device purely deals with image
+processing algorithms, statistics and image conversion; but have no DMA
+engines. The second driver is for the R-Car ISP CORE, this device
+deals with DMA to/from the RPPX1 ISP and provides a V4L2 user-space
+interface for the ISP.
 
-> +			      unsigned int order,
-> +			      unsigned long *out_pfn)
-> +{
-> +	/*
-> +	 * Given a VMA (start, end, pgoffs) and a fault address,
-> +	 * search the corresponding DMABUF's phys_vec[] to find the
-> +	 * range representing the address's offset into the VMA, and
-> +	 * its PFN.
-> +	 *
-> +	 * The phys_vec[] ranges represent contiguous spans of VAs
-> +	 * upwards from the buffer offset 0; the actual PFNs might be
-> +	 * in any order, overlap/alias, etc.  Calculate an offset of
-> +	 * the desired page given VMA start/pgoff and address, then
-> +	 * search upwards from 0 to find which span contains it.
-> +	 *
-> +	 * On success, a valid PFN for a page sized by 'order' is
-> +	 * returned into out_pfn.
-> +	 *
-> +	 * Failure occurs if:
-> +	 * - The page would cross the edge of the VMA
-> +	 * - The page isn't entirely contained within a range
-> +	 * - We find a range, but the final PFN isn't aligned to the
-> +	 *   requested order.
-> +	 *
-> +	 * (Upon failure, the caller is expected to try again with a
-> +	 * smaller order; the tests above will always succeed for
-> +	 * order=0 as the limit case.)
-> +	 *
-> +	 * It's suboptimal if DMABUFs are created with neigbouring
-> +	 * ranges that are physically contiguous, since hugepages
-> +	 * can't straddle range boundaries.  (The construction of the
-> +	 * ranges vector should merge such ranges.)
-> +	 *
-> +	 * Finally, vma_pgoff_adjust is used for a DMABUF representing
-> +	 * a VFIO BAR mmap, which is created from the start of the
-> +	 * offset region.
-> +	 */
-> +
-> +	const unsigned long pagesize = PAGE_SIZE << order;
-> +	unsigned long vma_off = ((vma->vm_pgoff - priv->vma_pgoff_adjust) <<
-> +				 PAGE_SHIFT) & VFIO_PCI_OFFSET_MASK;
-> +	unsigned long rounded_page_addr = ALIGN_DOWN(address, pagesize);
-> +	unsigned long rounded_page_end = rounded_page_addr + pagesize;
-> +	unsigned long page_buf_offset;
-> +	unsigned long page_buf_offset_end;
-> +	unsigned long range_buf_offset = 0;
-> +	unsigned int i;
-> +
-> +	if (rounded_page_addr < vma->vm_start || rounded_page_end > vma->vm_end) {
-> +		if (order > 0)
-> +			return -EAGAIN;
-> +
-> +		/* A fault address outside of the VMA is absurd. */
-> +		WARN(1, "Fault addr 0x%lx outside VMA 0x%lx-0x%lx\n",
-> +		     address, vma->vm_start, vma->vm_end);
+The R-Car ISP driver uses the RPPX1 framework to drive the ISP and
+together the two devices provide a functional ISP. For detailed
+description of the RPPX1 see patch 3/13, and for details about the R-Car
+ISP see commit message in patch 4/13.
 
-This could flood dmesg if triggered repeatedly by userspace :( 
-Since a fault outside the VMA is an invalid access that already results
-in a SIGBUS, we could probably avoid the WARN here?
-Perhaps pr_warn_ratelimited() should suffice?
+All functional blocks present on the RPPX1 are not yet added to the
+driver, but most are.
 
-> +		return -EFAULT;
-> +	}
-> +
-> +	/*
-> +	 * page_buff_offset[_end] is the span of DMABUF offsets
-> +	 * corresponding to the faulting page:
-> +	 */
-> +	if (unlikely(check_add_overflow(rounded_page_addr - vma->vm_start,
-> +					vma_off, &page_buf_offset) ||
-> +		     check_add_overflow(page_buf_offset, pagesize,
-> +					&page_buf_offset_end)))
-> +		return -EFAULT;
-> +
-> +	for (i = 0; i < priv->nr_ranges; i++) {
-> +		size_t range_len = priv->phys_vec[i].len;
-> +		phys_addr_t range_start = priv->phys_vec[i].paddr;
-> +
-> +		/*
-> +		 * If the current range starts after the page's span,
-> +		 * this and any future range won't match.  Bail early.
-> +		 */
-> +		if (page_buf_offset_end <= range_buf_offset)
-> +			break;
-> +
-> +		if (page_buf_offset >= range_buf_offset &&
-> +		    page_buf_offset_end <= range_buf_offset + range_len) {
-> +			/*
-> +			 * The faulting page is wholly contained
-> +			 * within the span represented by the range.
-> +			 * Validate PFN alignment for the order:
-> +			 */
-> +			unsigned long pfn = (range_start + page_buf_offset -
-> +					     range_buf_offset) / PAGE_SIZE;
+Patch 1/13 adds two new pixel formats, one for parameters and one for
+statistics. While patch 2/13 adds the scaffolding for the uAPI, each
+module will add the structures needed to this file in a backward
+compatible way.
 
-Minor nit: I'm aware that decent compilers convert pow(2) divides to >> 
-However, we seem to be using `>> PAGE_SHIFT` across vfio-pci. E.g.:
+Patch 3/13 adds the foundation for the RPPX1 framework. It deals with
+probing all function blocks making sure every blocks version register is
+supported and setup a "passthru" pipeline that just debayer RAW images.
 
-return (pci_resource_start(vdev->pdev, index) >> PAGE_SHIFT) + pgoff;
-unsigned long pgoff = (addr - vma->vm_start) >> PAGE_SHIFT;
+Patch 4/13 integrates the adds the R-Car ISP CORE DMA parts and
+integrates with the RPPX1 framework added in patch 3/13.
 
-Let's consider using the same pattern?
+Patches 5/13 to 13/13 extends the RPPX1 framework with the logic to drive
+the different IPS modules.
 
-> +
-> +			if (IS_ALIGNED(pfn, 1 << order)) {
-> +				*out_pfn = pfn;
-> +				return 0;
-> +			}
-> +			/* Retry with smaller order */
-> +			return -EAGAIN;
-> +		}
-> +		range_buf_offset += range_len;
-> +	}
-> +
-> +	/*
-> +	 * A hugepage straddling a range boundary will fail to match a
-> +	 * range, but the address will (eventually) match when retried
-> +	 * with a smaller page.
-> +	 */
-> +	if (order > 0)
-> +		return -EAGAIN;
-> +
-> +	/*
-> +	 * If we get here, the address fell outside of the span
-> +	 * represented by the (concatenated) ranges.  Setup of a
+The sum of the work pass v4l2-compliance. A test suite for the enabled
+function blocks exists and pass. I have also used Jacopo's and Jai's
+libcamera pipeline for the R-Car together with the updated header file to
+verify libcamera operation.
 
-Nit: double space before "Setup" and "But" below.
+This series depends on the ISP extensible statistics definitions
+out-of-tree patches [1].
 
-> +	 * mapping must ensure that the VMA is <= the total size of
-> +	 * the ranges, so this should never happen.  But, if it does,
-> +	 * force SIGBUS for the access and warn.
-> +	 */
-> +	WARN_ONCE(1, "No range for addr 0x%lx, order %d: VMA 0x%lx-0x%lx pgoff 0x%lx, %u ranges, size 0x%zx\n",
-> +		  address, order, vma->vm_start, vma->vm_end, vma->vm_pgoff,
-> +		  priv->nr_ranges, priv->size);
-> +
-> +	return -EFAULT;
+See individual patches for change log since v9.
 
-The fall-through logic at the end feels a bit redundant.
+1.  https://lore.kernel.org/all/20260505-extensible-stats-v1-6-e16f326b8dad@ideasonboard.com/
 
-If we've exhausted the phys_vec list without finding a match, returning
--EAGAIN for order > 0 seems like the correct fallback behavior.
+Jai Luthra (3):
+  media: Add RPP_X1_PARAMS and RPP_X1_STATS meta formats
+  media: uapi: Add extensible param and stats blocks for RPPX1
+  media: rppx1: lin: Add support for gamma sensor linearization
 
-However, the subsequent WARN_ONCE for the order == 0 seems unnecessary?
-An out-of-bounds access is an error that should simply return -EFAULT 
-(converting to SIGBUS) without polluting the kernel log with stackdumps?
-Can we instead convert this to a pr_warn or something? Something like:
+Niklas Söderlund (10):
+  media: rppx1: Add framework to support Dreamchip RPPX1 ISP
+  media: rcar-isp: Add support for ISPCORE
+  media: rppx1: wbmeas: Add support for white balance measurement
+  media: rppx1: awbg: Add support for white balance gain settings
+  media: rppx1: exm: Add support for exposure measurement
+  media: rppx1: hist: Add support histogram measurement
+  media: rppx1: bls: Add support for black level compensation
+  media: rppx1: ccor: Add support for color correction matrix
+  media: rppx1: lsc: Add support for lens shade correction
+  media: rppx1: ga: Add support for gamma out correction
 
-	ret = order ? -EAGAIN : -EFAULT;
+ .../userspace-api/media/v4l/metafmt-rppx1.rst |  99 ++
+ MAINTAINERS                                   |  10 +
+ drivers/media/platform/Kconfig                |   1 +
+ drivers/media/platform/Makefile               |   1 +
+ drivers/media/platform/dreamchip/Kconfig      |   3 +
+ drivers/media/platform/dreamchip/Makefile     |   6 +
+ .../media/platform/dreamchip/rppx1/Kconfig    |  12 +
+ .../media/platform/dreamchip/rppx1/Makefile   |  33 +
+ .../platform/dreamchip/rppx1/rpp_module.c     |  39 +
+ .../platform/dreamchip/rppx1/rpp_module.h     | 119 +++
+ .../platform/dreamchip/rppx1/rpp_params.c     | 115 ++
+ .../platform/dreamchip/rppx1/rpp_stats.c      |  66 ++
+ .../media/platform/dreamchip/rppx1/rppx1.c    | 381 +++++++
+ .../media/platform/dreamchip/rppx1/rppx1.h    | 105 ++
+ .../platform/dreamchip/rppx1/rppx1_acq.c      | 148 +++
+ .../platform/dreamchip/rppx1/rppx1_awbg.c     |  63 ++
+ .../media/platform/dreamchip/rppx1/rppx1_bd.c |  53 +
+ .../platform/dreamchip/rppx1/rppx1_bdrgb.c    |  81 ++
+ .../platform/dreamchip/rppx1/rppx1_bls.c      | 157 +++
+ .../platform/dreamchip/rppx1/rppx1_cac.c      |  30 +
+ .../platform/dreamchip/rppx1/rppx1_ccor.c     | 166 +++
+ .../media/platform/dreamchip/rppx1/rppx1_db.c |  45 +
+ .../platform/dreamchip/rppx1/rppx1_dpcc.c     |  77 ++
+ .../platform/dreamchip/rppx1/rppx1_exm.c      | 127 +++
+ .../media/platform/dreamchip/rppx1/rppx1_ga.c |  91 ++
+ .../platform/dreamchip/rppx1/rppx1_hist.c     | 184 ++++
+ .../platform/dreamchip/rppx1/rppx1_hist256.c  |  47 +
+ .../media/platform/dreamchip/rppx1/rppx1_is.c |  43 +
+ .../platform/dreamchip/rppx1/rppx1_lin.c      | 112 ++
+ .../platform/dreamchip/rppx1/rppx1_lsc.c      | 188 ++++
+ .../platform/dreamchip/rppx1/rppx1_ltm.c      |  49 +
+ .../platform/dreamchip/rppx1/rppx1_ltmmeas.c  |  42 +
+ .../platform/dreamchip/rppx1/rppx1_outif.c    |  46 +
+ .../platform/dreamchip/rppx1/rppx1_outregs.c  |  76 ++
+ .../platform/dreamchip/rppx1/rppx1_rmap.c     |  63 ++
+ .../platform/dreamchip/rppx1/rppx1_rmapmeas.c |  47 +
+ .../platform/dreamchip/rppx1/rppx1_shrp.c     |  65 ++
+ .../platform/dreamchip/rppx1/rppx1_wbmeas.c   | 165 +++
+ .../platform/dreamchip/rppx1/rppx1_xyz2luv.c  |  27 +
+ .../media/platform/renesas/rcar-isp/Kconfig   |   2 +
+ .../media/platform/renesas/rcar-isp/Makefile  |   2 +-
+ .../media/platform/renesas/rcar-isp/core-io.c | 997 ++++++++++++++++++
+ .../media/platform/renesas/rcar-isp/core.c    | 901 ++++++++++++++++
+ .../media/platform/renesas/rcar-isp/csisp.c   |  48 +-
+ .../platform/renesas/rcar-isp/risp-core.h     | 179 ++++
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
+ include/media/rppx1.h                         |  36 +
+ .../uapi/linux/media/dreamchip/rppx1-config.h | 710 +++++++++++++
+ include/uapi/linux/videodev2.h                |   4 +
+ 49 files changed, 6055 insertions(+), 8 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/metafmt-rppx1.rst
+ create mode 100644 drivers/media/platform/dreamchip/Kconfig
+ create mode 100644 drivers/media/platform/dreamchip/Makefile
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/Kconfig
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/Makefile
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_module.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_module.h
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_params.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_stats.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1.h
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_acq.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_bd.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_bdrgb.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_cac.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_db.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_dpcc.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_exm.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ga.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_hist256.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_is.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ltm.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ltmmeas.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_outif.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_outregs.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_rmap.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_rmapmeas.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_shrp.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c
+ create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_xyz2luv.c
+ create mode 100644 drivers/media/platform/renesas/rcar-isp/core-io.c
+ create mode 100644 drivers/media/platform/renesas/rcar-isp/core.c
+ create mode 100644 drivers/media/platform/renesas/rcar-isp/risp-core.h
+ create mode 100644 include/media/rppx1.h
+ create mode 100644 include/uapi/linux/media/dreamchip/rppx1-config.h
 
-	if (ret == -EFAULT)
-		pr_warn_ratelimited("No range for addr 0x%lx...\n", address);
+-- 
+2.54.0
 
-	return ret;
-
-(with appropriate comments)
-
-Thanks,
-Praan
 
