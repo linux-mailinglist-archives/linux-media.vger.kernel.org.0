@@ -1,116 +1,150 @@
-Return-Path: <linux-media+bounces-64545-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64546-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id PwTwMkhlKmrKogMAu9opvQ
-	(envelope-from <linux-media+bounces-64545-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 09:35:36 +0200
+	id kmCzC8BoKmqVowMAu9opvQ
+	(envelope-from <linux-media+bounces-64546-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 09:50:24 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BFF066F6B3
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 09:35:36 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CB4A66F8DD
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 09:50:23 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="Z01QBw/h";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64545-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64545-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=intel.com header.s=Intel header.b=CZUeb0la;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64546-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64546-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 232FE3030985
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 07:35:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B1A3933746C7
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 07:39:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61EF6367F54;
-	Thu, 11 Jun 2026 07:35:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A170F367B91;
+	Thu, 11 Jun 2026 07:38:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E38423630B7;
-	Thu, 11 Jun 2026 07:35:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1265367F58;
+	Thu, 11 Jun 2026 07:38:23 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781163322; cv=none; b=ZpKevQ3/R53C35X1Weuc5q0K0AtYwQIZo8tZ2ISBHywRgZ62lp+EdwB1DX/VLXqi4lr7l+ieX9GCioBEQsmJ4/fYG7ez+TsBihJJ555MPqhO6+CFEsRLZVG/ML9SzOg/HPgW19j0BE7OQTAV/2INj+nssX9Hf7mnvuNobPxODMg=
+	t=1781163505; cv=none; b=tzey1TBMHAYxIs3BlxVDl6gchUgYrC3vem75oPVV9bTX8wAATllXN5eZ0XmeQAJo0pjlvdCjg+iczj0zJCOsj8kLsk27sP/wGPzIi3ab/Bx40jyjGXe2mOfCl5YQ3y4tE9LjjX1lVuUSUSyzChAEsEQ/nOb3pKr/+Re5BDGavLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781163322; c=relaxed/simple;
-	bh=TzgMTwGX2whiLtuSSGLT29Et1A+aIa1g13YstftP9Vo=;
-	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=ARJAnu3oVK3GgybxRPYKvIhU7M7wAkmZ6zFMSpf9oTmapfJ439ScoIqL0mr69YxoAyUM4e+GHvf9W3QV00U1QguDQ+ACEjBZP10aTw4MO77gNkvHcf7IZoZGVwDof0KndUkwONnpwVZdUJ9hYfO9OkPsJ4XUhS8AHpx6cn9rcdE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z01QBw/h; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E3651F00893;
-	Thu, 11 Jun 2026 07:35:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781163319;
-	bh=mo/64/HPY/6XXdxYXG0j1Rf2IH961OLjSb7/zYXIAp0=;
-	h=Date:From:To:Subject:In-Reply-To:References:Cc;
-	b=Z01QBw/hVD0yzmyR9h/PeeyZ0iRCgAk+/aPcn16UqS3zZfuWeP7a6qWfdqmwQ64c7
-	 SUPKR2ROzkbXWRdLbWoisYB51wZF40L8vvw0MozUehUzOXbcsSsnQ0fbgMJJmCHGkW
-	 z+TuJ9RV3obUIo8CPP/tRZUPc5Hs7F5upTIG6t0fkoVPZxquwXwNgAinfjXUhvkvqU
-	 6YeQ2LjisVMoDUHycAma+Lu74RYAWxQFblvBsWwIvRFb7/kKDiutnbSyvdf+3vpuqS
-	 Dp2GHlTRm5vmXa5cb7jZrXcCPOVrqwZElTLvCkH94I9VrnrjiQ9+mME23BBp+rSEGk
-	 5s8EcKr+hihgQ==
-Message-ID: <c52f5bc48973b580c8df41764acb73e4@kernel.org>
-Date: Thu, 11 Jun 2026 07:35:17 +0000
-From: "Maxime Ripard" <mripard@kernel.org>
-To: "Sumit Semwal" <sumit.semwal@linaro.org>
-Subject: Re: [PATCH] dma-buf: move system_cc_shared heap under separate
- Kconfig
-In-Reply-To: <20260610142329.3836808-1-sumit.semwal@linaro.org>
-References: <20260610142329.3836808-1-sumit.semwal@linaro.org>
-Cc: Brian.Starkey@arm.com, afd@ti.com, agordeev@linux.ibm.com, arnd@linaro.org, benjamin.gaignard@collabora.com, chleroy@kernel.org, christian.koenig@amd.com, djbw@kernel.org, dri-devel@lists.freedesktop.org, gerald.schaefer@linux.ibm.com, hch@infradead.org, jgg@ziepe.ca, jiri@resnulli.us, jstultz@google.com, linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-s390@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, lkp@intel.com, maddy@linux.ibm.com, mpe@ellerman.id.au, mripard@kernel.org, npiggin@gmail.com, sumit.semwal@linaro.org, thomas.lendacky@amd.com, tjmercier@google.com, x86@kernel.org, "Arnd
- Bergmann" <arnd@arndb.de>, "Maxime Ripard" <mripard@kernel.org>
-Content-Transfer-Encoding: 7bit
+	s=arc-20240116; t=1781163505; c=relaxed/simple;
+	bh=12ELDSpkGN0c9Vw+xiPWSuC+hqNsmpdnzTyHPHobxmw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dPuntDQhwXLBXtPB0/1ufIX1woHs6JBpGRxDsBjJy4Z9KJiJMjZMNkrtbYi2YbR17Stdr0bI66kHeTr74EF6AYn27ipjnuO1DNLY3YBPWfuFHIpqdkFf9echYOL+P+qjel1yp/56WjB/b3KOcot0yEWN/Hfm3ZR3cdafmWiMmfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CZUeb0la; arc=none smtp.client-ip=192.198.163.18
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781163504; x=1812699504;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=12ELDSpkGN0c9Vw+xiPWSuC+hqNsmpdnzTyHPHobxmw=;
+  b=CZUeb0laADXQeCTBgzU8PYD/fkYQtq9KVtu/9+yX94KMkVc24wxPh8lz
+   +EPSSr5r/beplLeu/W/BteydKtMhQ+wRk+bERJJurWQGqwQXpbV9dBNoz
+   0jRAEtCHVDG7wsO/47yXhLZa7SLxWLffh5MUi9JbphWumnBulWRG87Boh
+   0Wf52yyYnt9wIiJI/tdHZJqvbXVABMW9zEgnd90k1/mJ0l8/LQqB4DFpe
+   dKu8rCYnYmviY0SiTe6zFKMGq8aONnJENx3AJ/De1Ya1Ft3DEYDBvyTSO
+   B88LCtlXnRlMWIs1QJw4x19Fy8wy9L3x3K/Hg8lsysR5jJDgYQhtYboBW
+   Q==;
+X-CSE-ConnectionGUID: O3ToLtLETN6K9CnnmJuvcQ==
+X-CSE-MsgGUID: wTMIVUYaRFuqZQrsVOH/hQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81104131"
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="81104131"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 00:38:23 -0700
+X-CSE-ConnectionGUID: RKZwnkDdQVe4UY2m+kEB/A==
+X-CSE-MsgGUID: dNEGkc+lQMyyFYYDxGOhNA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="243957461"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.123])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 00:38:21 -0700
+Date: Thu, 11 Jun 2026 10:38:19 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mert S <mertsftl@gmail.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kees Cook <kees@kernel.org>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: atomisp: gmin: Use str_on_off() helper
+Message-ID: <aipl6zqwTggWZ2zw@ashevche-desk.local>
+References: <aipI6J4kDWESZgtA@ashevche-desk.local>
+ <20260611061417.11747-1-mertsftl@gmail.com>
+ <aipbDeEFbXam1WPN@ashevche-desk.local>
+ <CAA3Noor=rsoCR9NoWy9KEZSrK66p0WN1i4C0aDwn8AzuN3p0hw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAA3Noor=rsoCR9NoWy9KEZSrK66p0WN1i4C0aDwn8AzuN3p0hw@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	MISSING_MIME_VERSION(2.00)[];
+X-Spamd-Result: default: False [-5.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-64545-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-64546-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[mripard@kernel.org,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[arm.com,ti.com,linux.ibm.com,linaro.org,collabora.com,kernel.org,amd.com,lists.freedesktop.org,infradead.org,ziepe.ca,resnulli.us,google.com,lists.linaro.org,vger.kernel.org,lists.ozlabs.org,intel.com,ellerman.id.au,gmail.com,arndb.de];
-	RCPT_COUNT_TWELVE(0.00)[31];
-	FORGED_RECIPIENTS(0.00)[m:sumit.semwal@linaro.org,m:Brian.Starkey@arm.com,m:afd@ti.com,m:agordeev@linux.ibm.com,m:arnd@linaro.org,m:benjamin.gaignard@collabora.com,m:chleroy@kernel.org,m:christian.koenig@amd.com,m:djbw@kernel.org,m:dri-devel@lists.freedesktop.org,m:gerald.schaefer@linux.ibm.com,m:hch@infradead.org,m:jgg@ziepe.ca,m:jiri@resnulli.us,m:jstultz@google.com,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-s390@vger.kernel.org,m:linuxppc-dev@lists.ozlabs.org,m:lkp@intel.com,m:maddy@linux.ibm.com,m:mpe@ellerman.id.au,m:mripard@kernel.org,m:npiggin@gmail.com,m:thomas.lendacky@amd.com,m:tjmercier@google.com,m:x86@kernel.org,m:arnd@arndb.de,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:mertsftl@gmail.com,m:hansg@kernel.org,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:gregkh@linuxfoundation.org,m:kees@kernel.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORWARDED(0.00)[lists@lfdr.de];
+	HAS_ORG_HEADER(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
 	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mripard@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,arndb.de:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_SENDER_MAILLIST(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3BFF066F6B3
+X-Rspamd-Queue-Id: 8CB4A66F8DD
 
-On Wed, 10 Jun 2026 19:53:29 +0530, Sumit Semwal wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
+On Thu, Jun 11, 2026 at 09:09:23AM +0200, Mert S wrote:
+> Andy Shevchenko wrote:
+> > First of all, do not chain a new version to the email thread with the
+> > old one.
 > 
-> While system heap and system_cc_shared heap share a lot of code
-> and hence the same source file, their users have different needs.
-> 
-> 
-> [ ... ]
+> Sorry about that. I'm pretty new to all this and still finding my way
+> around the process, so I appreciate you pointing it out. I'll send the
+> next revision as its own separate thread.
 
-Acked-by: Maxime Ripard <mripard@kernel.org>
+Also note, the new version of the patch should be sent not earlier than 24+h
+after the previous one.
 
-Thanks!
-Maxime
+> > Second, you forgot tag from Kees. Why did you not take it?
+> 
+> That ones just my mistake, I overlooked Kees' tag when I put v2
+> together. I'll make sure to take it in v3.
+
+`b4` tool is your friend. Become familiar with it and it helps you a lot.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
