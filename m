@@ -1,194 +1,230 @@
-Return-Path: <linux-media+bounces-64558-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64560-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id wdRlGjV9KmrqqwMAu9opvQ
-	(envelope-from <linux-media+bounces-64558-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 11:17:41 +0200
+	id U8mbEPp8KmrFqwMAu9opvQ
+	(envelope-from <linux-media+bounces-64560-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 11:16:42 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3792B670536
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 11:17:40 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50A7B670519
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 11:16:41 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=raspberrypi.com header.s=google header.b=ekIXc12a;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64558-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64558-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=raspberrypi.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=kwbQx1kx;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64560-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-64560-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D6EA3334CEBA
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 09:13:01 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 1E94E300AD55
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 09:14:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 606AB374E7D;
-	Thu, 11 Jun 2026 09:13:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FB1F3BE17D;
+	Thu, 11 Jun 2026 09:13:40 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36FF12DC79A
-	for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 09:12:58 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781169180; cv=pass; b=jUrhTXZyNYsaOpQ3poRn4HiMylrQJ5RD/WPz7E/Y2khTFBA/Q54hP0lKy7dfuzYwI2rw9tWZeEdtj7HxGz/uULoCnC27ll2iEPUUQPvAN3/cJnGpEcsCAXgpPtCxyqZU3INwcXQVcw3HViDiOLI9/GQ6qy5DepVjyTk121maC3E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781169180; c=relaxed/simple;
-	bh=hoj0ig+CoCGbFQUO4jVjy2N6O6hJkky1VIHSBDR3r70=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k015UmwzOh9dd39iazrcH2n1tJqye8RvSMznRiDACzlFKZ9riR52v19F9agXQtj8/cVca9QbnLUZLGJWUkIJBo+i1uQTLLiliNvu6TohRvglXO9xYHZBtACBzyv7rCOmfY1+7ZCAGbTSKB/lzqODEH/EzuiQlJZ2jWn+anawcm4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=ekIXc12a; arc=pass smtp.client-ip=209.85.128.174
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7f5eb760240so12439827b3.0
-        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 02:12:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781169178; cv=none;
-        d=google.com; s=arc-20240605;
-        b=PF9qLjLQmAxDcKYQs936iO2ViZqtJxtGyTDwMKk6rjBWMxAIE4/3tFOk58C7w7kY1+
-         gkX4f+1NTm/W1JqqSvJgyCzaDNrvCZzGdkdlO/FAJDsAP8kjF8f+G4Z9mstdi19dnRgz
-         S9iviZNg/qTBpM5fx7d1JQ1I1qLemYK9kqgTfkb5ZYSW4He90QXhVU17dH3Q1sScAy0o
-         SpNHcKRpAf9xKcNw5/5hLXjF6Men4NL5NtjAWRQ9ml5/VGvn7Y589j046xfa/DXDXZcN
-         df3x+KSmFcRmPRTzTY+6R0QzIKPBEOPVxPPUsBN//4kn+/yrbLxilhgECfpTOmQ4cVYJ
-         nwOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=MYKB6iu0PDtjrE3F0ztsAOmxTHIzR1YcZn5jcZ5lz6I=;
-        fh=PF6aLbX0+uqhEnXasRknA/dvpw/i7FuXoP303Ev2FBY=;
-        b=UWfiB+mbv66vd+lTSiJEi8xj6AA+VOKfYs66THoU7tKPKWFwkOH9CHPoAhQh1P0VOH
-         LXP+DADRhMvrewDlIu38SrQXNliXTrTVY81NaaeSGcV1Wu4oKtdf9TCwxAR2ELkLzIN3
-         1J6jDRWAcqkDLM8ijPPDCg1T+7PfvtyObQNZeHamqSUQWctuzAGKr0XsU9+A1yjDZgr9
-         WZSY5NE6rnv3eDQkkUxS18pynDZwMk/sBiuvbcAyEJpOXeysVgi8UQ+n3AhEvDM+JH8X
-         OZpYOsmTDeMS3ZrgJ8IoVIbkOmneLsNL9ROIqMooydGpgE5rquFYXTTEuh4MbAMSnYTN
-         0h4w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1781169178; x=1781773978; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=MYKB6iu0PDtjrE3F0ztsAOmxTHIzR1YcZn5jcZ5lz6I=;
-        b=ekIXc12afGVdUxXaQYa5y2/VWZnuBX4t1DzfChztT7VR/BCX01A18IiP3aLdD7wUXO
-         6Moo1qZIvSjzWVu93WSvxTxPh5LhTLIfaO6cJds4bK1SSV0cv80TOQcqtfBR3a/cyCvq
-         07KkEGWcWzuHV2Kn/ccQV8AIYv7dY/QAAlQANNqjeloZr9VS6p63Hma6cRvZV1JBGjMS
-         wNX/0euW/dyuwUw62NQVafyPz3dcllMSe3pYXMXSFh/dCZyDscbwhc+b40yPdEdf4iel
-         4GvwLMSHtm3hN0SYYTsiRR31vOy39aNfn4iDEMYWFfdA1uVYW7sRRU+0IWtdMjYXE1eR
-         DqRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781169178; x=1781773978;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MYKB6iu0PDtjrE3F0ztsAOmxTHIzR1YcZn5jcZ5lz6I=;
-        b=INNGqvhyiJYokCjrqT4zO6Cakz6widPsdRa2/ja6tRTTA+BywPO7vbHHDgvcwFchOT
-         09VlWpVBbY/vCdkRy35xyc1hQn/mzHFSgOF3Bo2mgnVr5TcaxtbP9YsJNhSJbbBNMxUk
-         nkW+Uw4Blqs8Vw9FArJr0T4o4rZ/unX6hHGi2M5FJzVkBb47uIahRmOXZfkN8uIV3r3b
-         LJb0fGRAtTECoRhDt4wBhqRObc6RKJ4o1MP5UaSXmKgaLi+AVR5/xQg28psA93k/mWsc
-         hyAgBSSHKjMerdG653L9LM6/EYy4ihtUUU547sN4w0zbMBkJ7VZ9K7nIWeSWH6aHzDP8
-         xWZg==
-X-Forwarded-Encrypted: i=1; AFNElJ/5E8dTd4e5T/bGR35xXEvawqHak0GOkK0vksJl/gMxSWX3Cvl8S96nYPvswpV4zNgXAAsuFTN7I9efhw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwotlObUAdWIcbuHX5t/UkutK6HNjrgL/sU+mbRNzjhny1auGUB
-	tkOhut6llWqN4VzPfct6OWfJrPGHijeGfirajnbMzVeJ0q9yBJSmWRnH1Dli9BUme/4zCiODTVH
-	fgJ8Fct/w/EFL5LK68VY3CwmNHEfNtfBq5bCpShjHy/BplEstNYH1
-X-Gm-Gg: Acq92OFuz/ueosdT5TskCRTcfB2qDJ7+a0e26KZf9AGYIN4Eg3uyDoPT56N21BfdR7B
-	1yVY0Wo9Je7L0R+cCMTJKcOnexGBe3y4Qcg7pEJZvya7c2eLESJrn3GEQ9cwEN4TKYSOGcXKNlG
-	bM+sozbdserAwtzewGDrDmiwu4EpsVybjTdDZTAJH7PC328ZCJV68SGc9+pZvpwOJ5L2fmbuuMA
-	+ESLL/oTcVbzpMsrsHAewSZ0HhgAFEpCHgPBMaRBGFveQvgBM2p500IyqbYYAun/mAMqhY5Vrsj
-	p3GK3x1RZScK49FEWFexVX3vVuaVQZqLsWvQEZOe2rGilUJ55/Ufak/wI461pi1JRGvAfgSHDJB
-	W0aEqRqFss5Rakpvz1Wzi4M9cha1fbEnBQPY=
-X-Received: by 2002:a05:690c:490c:b0:7dc:605d:7a9a with SMTP id
- 00721157ae682-7f655ee0d17mr21296917b3.12.1781169178177; Thu, 11 Jun 2026
- 02:12:58 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EAC93BE15F;
+	Thu, 11 Jun 2026 09:13:37 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781169219; cv=none; b=oyDnHKpDRJwIg9NZzrPTE+Jmlcc9FgSgLyulefU1O9jDry6ziVH9JcojiRpcPbrUIrfz31upaeCB97pd04Ees/0vvc1zBkCIvXkfssUwCj1J2MbHs/yKXqEp7urtHSzeKetnpJHxRTe8NoPXK+S0QjhZPxpIi/lcYWQ9nnlvRxA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781169219; c=relaxed/simple;
+	bh=z+zrxu3X3RJuR5mwJ/VmetqFmxDQTmedxJxh/Qzh9a0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=CPMvEWbJF/YWBog0/WicMn4d7pCY6lfoCQWOaPSHIDdgnLoKyNaZLya4VKV4NLurjEO9b0sjyk8DgtLW/P20/wrzX6tvbZTYL36mxPKslZ1MRoWExNvDEOy8JyhbvIvycTF/wQDMkBjTMUluzAMhPNL7Etg34TLnr6Ne2K0Ichs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kwbQx1kx; arc=none smtp.client-ip=213.167.242.64
+Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 41F30673;
+	Thu, 11 Jun 2026 11:13:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1781169185;
+	bh=z+zrxu3X3RJuR5mwJ/VmetqFmxDQTmedxJxh/Qzh9a0=;
+	h=From:Date:Subject:To:Cc:From;
+	b=kwbQx1kx2fIPg+5/j0wrkNKRnRtmhaS3HrMhJzsm/6oKFnReVAb/cQmx90uVV+sO5
+	 hRgR80gEYZ1zmXfTlqQbV6Sa4PTRkUUUS9tX5OVYzyS/WU19L4hFOlgYB9ZJXchftn
+	 3RKOhpcoqrb2Ibb7sSwPbptG7otdtaESJ6iyPpk4=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Date: Thu, 11 Jun 2026 12:13:02 +0300
+Subject: [PATCH] media: imx219: Report streams using frame descriptors
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260610-media-ci-7-2-v1-0-3c61a482a44e@chromium.org> <20260610-media-ci-7-2-v1-1-3c61a482a44e@chromium.org>
-In-Reply-To: <20260610-media-ci-7-2-v1-1-3c61a482a44e@chromium.org>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Thu, 11 Jun 2026 10:12:42 +0100
-X-Gm-Features: AVVi8CfaG3sU9PQt2tyzbFw_FkBWxmHg2PzweaVreKbZNnE6xiybcEosb6zW1uw
-Message-ID: <CAPY8ntD=f_S8fjOG4=3viScGMVEsHWivs7qn=X_-UqvqB791wg@mail.gmail.com>
-Subject: Re: [PATCH 1/3] media: ov9282: Remove unused kerneldoc description
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Xiaolei Wang <xiaolei.wang@windriver.com>, 
-	Tarang Raval <tarang.raval@siliconsignals.io>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Daniel Scally <dan.scally@ideasonboard.com>, 
-	Hans Verkuil <hverkuil+cisco@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, linux-renesas-soc@vger.kernel.org, 
-	stable@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260611-imx219-frame-desc-v1-1-fe7e975bca6e@ideasonboard.com>
+X-B4-Tracking: v=1; b=H4sIAB18KmoC/yXMQQqDQAxA0atI1g2YFAW9SunCyWQ0grZM2iKId
+ +/YLt/i/x1cs6lDX+2Q9WNuj7WALhXINKyjosVi4JrbuiVCWzamDlMeFsWoLtiJMF8DpRAbKN0
+ za7Lt97zd//Z3mFVe5wiO4wt4HEE7dQAAAA==
+X-Change-ID: 20260611-imx219-frame-desc-9cc223b1fbd5
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3481;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=bqjbSI0SS/VcBriYHrlJETmUzhUGTnT4PivJUU3117U=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBqKnw7cGI790FN+RV3nA2fexDCXUHyrbOkRYBfV
+ T9sGVUs/cyJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaip8OwAKCRD6PaqMvJYe
+ 9V8pD/wNh/SoKwLrixomhWFnTlk0zXMpmDqVLUMyYx1slgaFREQRcnrakFIhxue+Ja+uUahYDpg
+ YwKlTYKAlpP3BUiwBocs3mUsgAg1ZBX7pC/WqZ7ezKEj/SSAxx9/MY3aTEpul5m4HIcJFFllJYr
+ 4QcM3Q1FPX7k7eJHCvz/7Wnne+V0x8Jg2IJeuADN58y+5/ZY5AZKkmcdzfx+biMENubo60oOc0O
+ gjTz9eRJP+w4/5d3/FCyGYLUSb8BEdbdZnDZM1rFl4tZAb6LwB6eTqNlf3WRGf6nNMplCj2Bvgi
+ oyNpeQfTsUl7XJN4+jmguNMmFeNJhFZOcDx+7TIBd7Qa7KvchwI7nxAAGEfhZl4M1hcFNiPBEvK
+ s8L+E/2OMEgoLfD1ROmZ+hd9XHexVLI1pAX7hO8vsFKCOEMdxnUaADkVWkWg7U+uFNfunagF8X5
+ f+N9sln4yvGPRu0V88nZ4nuHzC+zvhdJTastsW2m9T8MhhCB6ft+nBqj/Ja8dI+e2MHXeRHwzWX
+ FhB27M3H/M7Mgq0QhabI96MVd1IDvYds6s6Ryh7Z/8uwqFy9JpJuu6L/Q0EqdVYlKuFybjdfQIP
+ pMZ4iaNVgUp6zXis36OITHHAfwW8PdU++YaO0kDbfiFeU04FC2PrTTQfO99fvDTZgOjxPm4DYG8
+ M/UkGclPt8VsfWA==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[raspberrypi.com,reject];
-	R_DKIM_ALLOW(-0.20)[raspberrypi.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:ribalda@chromium.org,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:xiaolei.wang@windriver.com,m:tarang.raval@siliconsignals.io,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:jacopo.mondi@ideasonboard.com,m:dan.scally@ideasonboard.com,m:hverkuil+cisco@kernel.org,m:laurent.pinchart@ideasonboard.com,m:mchehab+huawei@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi+renesas@ideasonboard.com,m:linux-renesas-soc@vger.kernel.org,m:stable@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-64558-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64560-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	RCVD_COUNT_THREE(0.00)[4];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[dave.stevenson@raspberrypi.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[raspberrypi.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco,huawei,renesas];
+	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:dave.stevenson@raspberrypi.com,m:mchehab@kernel.org,m:laurent.pinchart@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:tomi.valkeinen@ideasonboard.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[tomi.valkeinen@ideasonboard.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[raspberrypi.com:dkim,raspberrypi.com:email,raspberrypi.com:from_mime,chromium.org:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid,vger.kernel.org:from_smtp]
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3792B670536
+X-Rspamd-Queue-Id: 50A7B670519
 
-On Wed, 10 Jun 2026 at 17:20, Ricardo Ribalda <ribalda@chromium.org> wrote:
->
-> The field has been removed, but the kerneldoc not. Let's take care of
-> this.
->
-> This patch fixes the following warning:
-> Warning: drivers/media/i2c/ov9282.c:223 Excess struct member 'mutex'
-> description in 'ov9282'
->
-> Cc: stable@kernel.org
-> Fixes: 0c69a963a300 ("media: i2c: ov9282: Switch to using the sub-device state lock")
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Implement the .get_frame_desc() subdev operation to report information
+about streams to the connected CSI-2 receiver. This is required to let
+the CSI-2 receiver driver know about virtual channels and data types for
+each stream.
 
-Thanks!
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+[tomi.valkeinen: picked from "Generic line based metadata support, internal pads" series]
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+This patch that adds .get_frame_desc() support to imx219 driver has been
+circulating for a few years, and is currently posted in "[PATCH v12
+00/86] Generic line based metadata support, internal pads" series.
 
-> ---
->  drivers/media/i2c/ov9282.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> index 5b6f897a74fc..3ba630ec4f2a 100644
-> --- a/drivers/media/i2c/ov9282.c
-> +++ b/drivers/media/i2c/ov9282.c
-> @@ -197,7 +197,6 @@ struct ov9282_mode {
->   * @noncontinuous_clock: Selection of CSI2 noncontinuous clock mode
->   * @cur_mode: Pointer to current selected sensor mode
->   * @code: Mbus code currently selected
-> - * @mutex: Mutex for serializing sensor controls
->   */
->  struct ov9282 {
->         struct device *dev;
->
-> --
-> 2.54.0.1099.g489fc7bff1-goog
->
+However, as some bridge drivers require modern drivers that support
+.get_frame_desc, specifically ds90ub960.c, let's pick the patch and
+queue it separately from the huge metadata series.
+---
+ drivers/media/i2c/imx219.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
+
+diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+index 223d3753cc93..7829ddc115a0 100644
+--- a/drivers/media/i2c/imx219.c
++++ b/drivers/media/i2c/imx219.c
+@@ -23,6 +23,7 @@
+ #include <linux/pm_runtime.h>
+ #include <linux/regulator/consumer.h>
+ 
++#include <media/mipi-csi2.h>
+ #include <media/v4l2-cci.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
+@@ -661,6 +662,24 @@ static void imx219_free_controls(struct imx219 *imx219)
+  * Subdev operations
+  */
+ 
++static unsigned int imx219_format_bpp(u32 code)
++{
++	switch (code) {
++	case MEDIA_BUS_FMT_SRGGB8_1X8:
++	case MEDIA_BUS_FMT_SGRBG8_1X8:
++	case MEDIA_BUS_FMT_SGBRG8_1X8:
++	case MEDIA_BUS_FMT_SBGGR8_1X8:
++		return 8;
++
++	case MEDIA_BUS_FMT_SRGGB10_1X10:
++	case MEDIA_BUS_FMT_SGRBG10_1X10:
++	case MEDIA_BUS_FMT_SGBRG10_1X10:
++	case MEDIA_BUS_FMT_SBGGR10_1X10:
++	default:
++		return 10;
++	}
++}
++
+ static int imx219_set_framefmt(struct imx219 *imx219,
+ 			       struct v4l2_subdev_state *state)
+ {
+@@ -969,6 +988,30 @@ static int imx219_get_selection(struct v4l2_subdev *sd,
+ 	return -EINVAL;
+ }
+ 
++static int imx219_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
++				 struct v4l2_mbus_frame_desc *fd)
++{
++	const struct v4l2_mbus_framefmt *fmt;
++	struct v4l2_subdev_state *state;
++	u32 code;
++
++	state = v4l2_subdev_lock_and_get_active_state(sd);
++	fmt = v4l2_subdev_state_get_format(state, 0);
++	code = fmt->code;
++	v4l2_subdev_unlock_state(state);
++
++	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
++	fd->num_entries = 1;
++
++	fd->entry[0].pixelcode = code;
++	fd->entry[0].stream = 0;
++	fd->entry[0].bus.csi2.vc = 0;
++	fd->entry[0].bus.csi2.dt = imx219_format_bpp(code) == 8 ?
++		MIPI_CSI2_DT_RAW8 : MIPI_CSI2_DT_RAW10;
++
++	return 0;
++}
++
+ static int imx219_init_state(struct v4l2_subdev *sd,
+ 			     struct v4l2_subdev_state *state)
+ {
+@@ -995,6 +1038,7 @@ static const struct v4l2_subdev_pad_ops imx219_pad_ops = {
+ 	.set_fmt = imx219_set_pad_format,
+ 	.get_selection = imx219_get_selection,
+ 	.enum_frame_size = imx219_enum_frame_size,
++	.get_frame_desc = imx219_get_frame_desc,
+ 	.enable_streams = imx219_enable_streams,
+ 	.disable_streams = imx219_disable_streams,
+ };
+
+---
+base-commit: 06cb687a5132fcffe624c0070576ab852ac6b568
+change-id: 20260611-imx219-frame-desc-9cc223b1fbd5
+
+Best regards,
+--  
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+
 
