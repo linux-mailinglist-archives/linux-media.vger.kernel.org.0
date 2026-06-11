@@ -1,542 +1,616 @@
-Return-Path: <linux-media+bounces-64584-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64585-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 9qtZMq2mKmqmuQMAu9opvQ
-	(envelope-from <linux-media+bounces-64584-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 14:14:37 +0200
+	id gWIWAcymKmquuQMAu9opvQ
+	(envelope-from <linux-media+bounces-64585-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 14:15:08 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 528D6671B99
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 14:14:37 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FDBC671BB2
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 14:15:07 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=fail ("headers rsa verify failed") header.d=ideasonboard.com header.s=mail header.b="f+c/EBlJ";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64584-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64584-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=fail reason="SPF not aligned (relaxed)" header.from=ideasonboard.com (policy=none);
+	dkim=pass header.d=ragnatech.se header.s=fm3 header.b=OtuICHjK;
+	dkim=pass header.d=messagingengine.com header.s=fm1 header.b="T YVnuJv";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64585-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64585-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ragnatech.se;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 075D5307EED6
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 12:12:56 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 119B030EC4F2
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 12:14:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2CB53EDE58;
-	Thu, 11 Jun 2026 12:12:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 893B53EDE70;
+	Thu, 11 Jun 2026 12:14:20 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22DA62F1FE4
-	for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 12:12:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3AC8374A1B;
+	Thu, 11 Jun 2026 12:14:17 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781179972; cv=none; b=MvB+/Jbw5DvyrZT61I3oKkcchPSFfTUVdnFtF0qHLTPPW9WgH3fX7r3l2gJ7nzkMKa288FiILMjLiGSH20walYdeiKrRD5qxGdZcjG75K054CAeqkQ3qpTGxYBU57W0dkgdE1GNUpRNTu4gKWdxajgWwaP7eoVJCMVyZ4nmra1Q=
+	t=1781180059; cv=none; b=Qw80NRZrYbTa6JhQw+8hNtFyaBHaZF5bdwFf2nEGESagI33yef2gi99AOie682uYiZrzFTa9RO2BjgXMJIC9nH/PNIoh1ih3RpF7xbfUS5eXPcGDKXcIoPVY7WF65WvVcTbC54dNsWXIKG+V6NYDMQtWsq0rvrxlyskpVQwebUM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781179972; c=relaxed/simple;
-	bh=lJpRsCtpyjcKD/ya9HmM1kTwsWOjRap69Qtv7WEIUpw=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=S1u3N9GHSDlo1A/lUKbaUoJyOh/q6rLw94N1C0mwJrGz02ciiqzOrG9zzTcn7vDuARBaQbogNFKKoXlGpf1CW4txamUBQZQEzLpm8vMtnr4vIk6HQdwqjZgQvO9g/v/1xoiwCyPxm1xAi2pbgjkaSrN60A4tF5rtHxe0iYcJJ98=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=f+c/EBlJ reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:bcf2:9325:a9bd:32b:e71])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7EAEE673;
-	Thu, 11 Jun 2026 14:12:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781179937;
-	bh=lJpRsCtpyjcKD/ya9HmM1kTwsWOjRap69Qtv7WEIUpw=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=f+c/EBlJ+TsQH609qYW8ZTpSz4Tfflunuudyjqc/VcC70B1EI6rqdijmlt6zp/m72
-	 e5LRP6O5gl1uEx/KwuxIWRLri29QUOjh2WKDisf4X15gehoXgkRMtqP5mg/QUImTK0
-	 z+IcEKxyaJUK3an4xeDlOMVBvLptbOB3n4zc7TSU=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1781180059; c=relaxed/simple;
+	bh=LM1obzwzzfkBdVO2e+L+s2YAalMDfNIph+S0uqclq5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ae+164khBwEI0qWOhagPI2LN8/6LfmdD+CaP5VoB3IE3REOptS6MdlSXlYKlDDHnIj/lRJphiX1SBC0tAh0UZ3kYX9K+AN0ghpcgUWXnMr1rDHSMHCi6lI9fhUtuvi0AGAYHSfGsYCYjYZlSjHU0Rqr996NDp+bGF0MPNQ9WcTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=OtuICHjK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=TYVnuJvC; arc=none smtp.client-ip=103.168.172.149
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id BDD6FEC0193;
+	Thu, 11 Jun 2026 08:14:16 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Thu, 11 Jun 2026 08:14:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1781180056;
+	 x=1781266456; bh=om+psaqVOtk0BSuDyTT+6Yl0T8o2krVicMcInI29i1U=; b=
+	OtuICHjK6uBO/u9x4VxHZ7PYQYWRiTorZiZ8icemrmMw94yzCQJK3n9bqHm3kF6W
+	CzCOHGkhsG6Qq+3VfnfOrgycUSSFeipk/lJ/LG5dCPLa8FLYb4vjz+yqejpW1OEm
+	6jXBWy1xwVysl/FZN4SSiCVrxZ47zXfmnBOETXBbsf/1uCNxujpkqb+avLjiAEsN
+	l5O232P23Ijp0vj+xHyU3qff8w2bjvgyL55Lwh7aybT/QhB9n4MpuAmTwKZS8D3k
+	dw9JW4G3I6UBbJir00uXoVK9H9sGVJm3KrcburcEPHQSldWnLF85D/NXVn9ExxS0
+	t6uW9xIjOy0fKygjqQ1b1A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781180056; x=
+	1781266456; bh=om+psaqVOtk0BSuDyTT+6Yl0T8o2krVicMcInI29i1U=; b=T
+	YVnuJvCOT/RQgPg1Ge0U2QJXj+Pd+aQJCN4j99UkZ16hWOumAleZdBQkO26iwOup
+	GxQOYvn5NGawE6P92I9NWIlC3rgpmItbh314rhfw9yjKbNauDeRLil0D2Hv0jr0Q
+	j7VderM0fLTBjo63mtFwp9AlvXDnxQy2BnSgGcIDEJQvMhU0g+qp2wpU4joHg/k5
+	KtNKOmPV0l4FxC38w52QjR2R5Q6ifvGJgfVGLPurW7BojsTsU0/gukyaqLsiMa92
+	sMBlu1qU9kbRnyUZOCGKAUAiXTnFHSCah4+lQJsFIG8D8Ui9caNhHbDX+QtYP6wv
+	GbzhV1rfPcePxvxZ9Xjnw==
+X-ME-Sender: <xms:mKYqaoWXp6nPycNevggM0V0CjPydREAfiYLogxK_SiIw0aahjwgjQQ>
+    <xme:mKYqatC3uuQEHoWIZ59uMgPZKhzhyKGkKcIwkUERgMM5Mjicmb_VXh2GmX8nfruV5
+    _w50hMSLJYfShFPtk9-69YyPRINEJL8jZwu0Bc0Jrl-uEbcjdPpIQ>
+X-ME-Received: <xmr:mKYqatEfbMFgHH1ob3MCPcG6TrcPfjZ3z6aUGY9bZ4mS5dS5XDZO_x4vKGdHlWoCA1ZSOeqFyGflZDJXjEHMibolKSFi>
+X-ME-Proxy-Cause: dmFkZTE1/ceSx/iA/xMOW7dhDoCtddJ8CszTCaZC7wvyQX2LKHbisKajV79w5F+7L/r5ds
+    v1ooFwxhEH0cH3MpddNhjY9Fdio95AZvEA/00VdBeJRsPMIekbQZGDlVpk5ZX9HOpo4Q4F
+    3U8pyzRv9LJN1KNySlM/t11zf1buu048WfhSet5P5nGJ63dDa9Uw9eLlXNl04ZQR2nz9Pq
+    cwRTlMQJ2f79kKa4vwiJj3Mkkb7lJnOjA+Zs0eivivDMfo73H391EXn0R84qbkU2dogBVT
+    3ofPtu/3cdrRPMoQ10eCahXPfhDrytYP7YoRKlmAdEEfXJLIupRh0wAsEtoy1mhkxgI7OM
+    kTxWO5ViDaEN+kjpw210gTAkhFO7ubWqw7YrXVApLfoxyKOWuf6rJi+npm4iDqN2llbNhf
+    e2dcz31H2c5lODqI50+8ws55uqRyYYuabQ8iIwGrRvxKgLnW08RJbWmwm0b8SWBGA/VY6C
+    z1a288X160xfo+2fX6nfpqFMmfocWSl4BLwSigfeYgbUJB9WVrwfaBhU342mXLhww34d7v
+    Jfbp0t/r3md9hlTdko4Zqy1Y+shvA2lpKOX+Cca9X5/gfW35TyDkHhkn6Fv0aXPqP1VYqr
+    CsXSFaxEmVRov7PkQCYBI85lmKG7I2PJEY3G8cCm384oRcMHS58w0LVkB3QA
+X-ME-Proxy: <xmx:mKYqau44F4qDe5X5s9KoUYxKQTmeUEbMeo2zVdB7jAEhJzy6UJEnWA>
+    <xmx:mKYqajlKF_xuv0822PWjVR-JlsVJkZziWVPeLH1EaEU3qYqPRyZshA>
+    <xmx:mKYqap7Rmk2e2CT8eecc_IdSotAp0XrbqmuTxjWNCyM5QLYp-7rNyw>
+    <xmx:mKYqakQMBcFbMVXLjVATO9AoZqeNtL7la7ogXIGeeFHhVBt8A0UaCA>
+    <xmx:mKYqavZXKA8byFKr7kZAVcvHu9wxZN3nr_Zo9UJSBUwBTBEkO2cCfQZw>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 11 Jun 2026 08:14:16 -0400 (EDT)
+Date: Thu, 11 Jun 2026 14:14:14 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Jai Luthra <jai.luthra+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Subject: Re: [PATCH v9 08/13] media: rppx1: hist: Add support histogram
+ measurement
+Message-ID: <20260611121414.GA384699@ragnatech.se>
+References: <20260516211320.3041412-1-niklas.soderlund+renesas@ragnatech.se>
+ <20260516211320.3041412-9-niklas.soderlund+renesas@ragnatech.se>
+ <aiA0DAEHX6bP1Zc3@zed>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260409201501.975242-61-sakari.ailus@linux.intel.com>
-References: <20260409201501.975242-1-sakari.ailus@linux.intel.com> <20260409201501.975242-61-sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH v12 60/86] media: imx219: Add embedded data support
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, =?utf-8?q?Andr=C3=A9?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hansg@kernel.org>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, David Plowman <david.plowman@raspberrypi.com>, "Yu, Ong Hock" <ong.hock.yu@intel.com>, "
- Ng, Khai Wen" <khai.wen.ng@intel.com>, Rishikesh Donadkar <r-donadkar@ti.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Date: Thu, 11 Jun 2026 17:42:41 +0530
-Message-ID: <178117996109.1799417.15021338357084733334@freya>
-User-Agent: alot/0.13.dev35+g4a69c46ca
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aiA0DAEHX6bP1Zc3@zed>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.64 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_DKIM_REJECT(1.00)[ideasonboard.com:s=mail];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
+	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm3,messagingengine.com:s=fm1];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[ideasonboard.com : SPF not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64584-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:hans@jjverkuil.nl,m:laurent.pinchart@ideasonboard.com,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:dave.stevenson@raspberrypi.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:jacopo.mondi@ideasonboard.com,m:tomi.valkeinen@ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:r-donadkar@ti.com,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
+	TAGGED_FROM(0.00)[bounces-64585-lists,linux-media=lfdr.de,renesas];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:-];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jai.luthra@ideasonboard.com,linux-media@vger.kernel.org];
-	PRECEDENCE_BULK(0.00)[];
-	FREEMAIL_CC(0.00)[jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,intel.com,ti.com];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FORWARDED(0.00)[lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:jai.luthra+renesas@ideasonboard.com,m:mchehab@kernel.org,m:kuninori.morimoto.gx@renesas.com,m:laurent.pinchart@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi+renesas@ideasonboard.com,m:jai.luthra@ideasonboard.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
 	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 528D6671B99
+X-Rspamd-Queue-Id: 7FDBC671BB2
 
-Hi Sakari,
+Hi Jacopo,
 
-Thank you for the patch.
+Thanks for your comments.
 
-Not a full review, just some things that I noticed while trying to test
-this branch with libcamera..
+On 2026-06-03 16:11:06 +0200, Jacopo Mondi wrote:
+> Hi Niklas
+> 
+> On Sat, May 16, 2026 at 11:13:15PM +0200, Niklas Söderlund wrote:
+> > Extend the RPPX1 driver to allow setting the histogram measurement
+> > configuration and consuming the resulting statistics. It uses the RPPX1
+> > framework for parameters and its writer abstraction to allow the user to
+> > control how, and when, configuration is applied to the RPPX1.
+> >
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > Co-developed-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
+> > Signed-off-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
+> > Co-developed-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> > ---
+> > * Changes since v8
+> > - Use IS_ERR to check rppx1_init_stats_block() return code.
+> > ---
+> >  .../platform/dreamchip/rppx1/rpp_module.h     |   2 +
+> >  .../platform/dreamchip/rppx1/rpp_params.c     |   6 +
+> >  .../platform/dreamchip/rppx1/rpp_stats.c      |  10 ++
+> >  .../platform/dreamchip/rppx1/rppx1_hist.c     | 115 +++++++++++++++++-
+> >  .../uapi/linux/media/dreamchip/rppx1-config.h | 115 +++++++++++++++++-
+> >  5 files changed, 245 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_module.h b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
+> > index e968ec67b9f5..b134d140fe22 100644
+> > --- a/drivers/media/platform/dreamchip/rppx1/rpp_module.h
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
+> > @@ -48,12 +48,14 @@ void rpp_module_clrset(struct rpp_module *mod, u32 offset, u32 mask, u32 value);
+> >  union rppx1_params_block {
+> >  	struct v4l2_isp_block_header header;
+> >  	struct rppx1_awbg_params awbg;
+> > +	struct rppx1_hist_params hist;
+> >  	struct rppx1_exm_params exm;
+> >  	struct rppx1_wbmeas_params wbmeas;
+> >  };
+> >
+> >  union rppx1_stats_block {
+> >  	struct v4l2_isp_block_header header;
+> > +	struct rppx1_hist_stats hist;
+> >  	struct rppx1_exm_stats exm;
+> >  	struct rppx1_wbmeas_stats wbmeas;
+> >  };
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
+> > index 8c0f45e8066a..975ce3a42fb5 100644
+> > --- a/drivers/media/platform/dreamchip/rppx1/rpp_params.c
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
+> > @@ -19,6 +19,9 @@ static const struct v4l2_isp_params_block_type_info
+> >  rppx1_ext_params_blocks_info[] = {
+> >  	RPPX1_PARAMS_BLOCK_INFO(AWBG_PRE1, awbg),
+> >  	RPPX1_PARAMS_BLOCK_INFO(AWBG_PRE2, awbg),
+> > +	RPPX1_PARAMS_BLOCK_INFO(HIST_PRE1, hist),
+> > +	RPPX1_PARAMS_BLOCK_INFO(HIST_PRE2, hist),
+> > +	RPPX1_PARAMS_BLOCK_INFO(HIST_POST, hist),
+> >  	RPPX1_PARAMS_BLOCK_INFO(EXM_PRE1, exm),
+> >  	RPPX1_PARAMS_BLOCK_INFO(EXM_PRE2, exm),
+> >  	RPPX1_PARAMS_BLOCK_INFO(WBMEAS_POST, wbmeas),
+> > @@ -58,6 +61,9 @@ int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
+> >  		case RPPX1_PARAMS_BLOCK_TYPE_AWBG_PRE1:
+> >  			module = &rpp->pre1.awbg;
+> >  			break;
+> > +		case RPPX1_PARAMS_BLOCK_TYPE_HIST_POST:
+> > +			module = &rpp->post.hist;
+> > +			break;
+> >  		case RPPX1_PARAMS_BLOCK_TYPE_EXM_PRE1:
+> >  			module = &rpp->pre1.exm;
+> >  			break;
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_stats.c b/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
+> > index 388c758d805d..4c7fe611d004 100644
+> > --- a/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
+> > @@ -17,6 +17,7 @@
+> >
+> >  static const struct v4l2_isp_stats_block_type_info
+> >  rppx1_stats_blocks_info[] = {
+> > +	RPPX1_STATS_BLOCK_INFO(HIST_POST, hist),
+> >  	RPPX1_STATS_BLOCK_INFO(EXM_PRE1, exm),
+> >  	RPPX1_STATS_BLOCK_INFO(WBMEAS_POST, wbmeas),
+> >  };
+> > @@ -35,6 +36,15 @@ void rppx1_stats_fill_isr(struct rppx1 *rpp, u32 isc, void *buf)
+> >
+> >  	v4l2_isp_stats_init_buffer(stats, V4L2_ISP_VERSION_V1);
+> >
+> > +	if (isc & RPPX1_IRQ_ID_POST_HIST_MEAS) {
+> > +		block = rppx1_init_stats_block(rpp, stats,
+> > +					       RPPX1_STATS_BLOCK_TYPE_HIST_POST);
+> > +		if (IS_ERR(block))
+> > +			return;
+> > +
+> > +		rpp_module_call(&rpp->post.hist, fill_stats, block);
+> > +	}
+> > +
+> >  	if (isc & RPPX1_IRQ_ID_PRE1_EXM) {
+> >  		block = rppx1_init_stats_block(rpp, stats,
+> >  					       RPPX1_STATS_BLOCK_TYPE_EXM_PRE1);
+> > diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c b/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
+> > index 7c1b42e96b96..475e78b0d06a 100644
+> > --- a/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
+> > +++ b/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
+> > @@ -26,6 +26,9 @@
+> >
+> >  #define HIST_LAST_MEAS_LINE_REG			0x0010
+> >  #define HIST_SUBSAMPLING_REG			0x0014
+> > +#define HIST_SUBSAMPLING_V_STEPSIZE(x)		(((x) & 0x7f) << 24)
+> > +#define HIST_SUBSAMPLING_H_STEP_INC(x)		(((x) & 0x1ffff))
+> > +
+> >  #define HIST_COEFF_R_REG			0x0018
+> >  #define HIST_COEFF_G_REG			0x001c
+> >  #define HIST_COEFF_B_REG			0x0020
+> > @@ -49,7 +52,6 @@
+> >  #define HIST_FORCED_UPDATE_REG			0x0058
+> >  #define HIST_VSTART_STATUS_REG			0x005c
+> >
+> > -#define HIST_BIN_REG_NUM			32
+> >  #define HIST_BIN_REG(n)				(0x0060 + (4 * (n)))
+> >
+> >  static int rppx1_hist_probe(struct rpp_module *mod)
+> > @@ -72,6 +74,117 @@ static int rppx1_hist_probe(struct rpp_module *mod)
+> >  	return 0;
+> >  }
+> >
+> > +#define RPPX1_HIST_WEIGHT(v0, v1, v2, v3) \
+> > +	(((v0) & 0x1f) | (((v1) & 0x1f) << 8)  | \
+> > +	(((v2) & 0x1f) << 16) | \
+> > +	(((v3) & 0x1f) << 24))
+> > +
+> > +static int rppx1_hist_fill_params(struct rpp_module *mod,
+> > +				  const union rppx1_params_block *block,
+> > +				  rppx1_reg_write write, void *priv)
+> > +{
+> > +	const struct rppx1_hist_params *cfg = &block->hist;
+> > +	u32 h_offs, v_offs, h_size, v_size;
+> > +
+> > +	/* If the modules is disabled, simply bypass it. */
+> > +	if (cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_DISABLE) {
+> > +		write(priv, mod->base + HIST_MODE_REG,
+> > +		      HIST_MODE_HIST_MODE_DISABLE);
+> > +		return 0;
+> > +	}
+> > +
+> > +	/* Select sample point */
+> > +	write(priv, mod->base + HIST_CHANNEL_SEL_REG,
+> > +	      cfg->channel_sel & HIST_CHANNEL_SEL_CHANNEL_SELECT_MASK);
+> > +
+> > +	/*
+> > +	 * Configure the input subsampling.
+> > +	 *
+> > +	 * v_stepsize controls which lines are processed. In Bayer mode the
+> > +	 * effective value is double to account for the 2x2 macro-pixel size.
+> 
+> Now that I read I find the part about Bayer a bit confusing, as I
+> don't get if it's something the HW does automatically or userspace has
+> to take into account. Should we drop it ?
 
-Quoting Sakari Ailus (2026-04-10 01:44:35)
-> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->=20
-> The IMX219 generates embedded data unconditionally. Report it as an
-> additional stream, with a new internal embedded data pad, and update
-> subdev operations accordingly.
->=20
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Co-developed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/i2c/imx219.c | 187 +++++++++++++++++++++++++++++++------
->  1 file changed, 161 insertions(+), 26 deletions(-)
->=20
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index d695987839e4..e744b96a08f6 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -154,6 +154,9 @@
->  #define IMX219_PIXEL_ARRAY_HEIGHT      2480U
->  #define IMX219_NATIVE_FORMAT           MEDIA_BUS_FMT_SRGGB10_1X10
-> =20
-> +/* Embedded metadata stream height */
-> +#define IMX219_EMBEDDED_DATA_HEIGHT    2U
-> +
->  /* Mode : resolution and related config&values */
->  struct imx219_mode {
->         /* Frame width */
-> @@ -345,11 +348,13 @@ static const struct imx219_mode supported_modes[] =
-=3D {
->  enum imx219_pad_ids {
->         IMX219_PAD_SOURCE =3D 0,
->         IMX219_PAD_IMAGE,
-> +       IMX219_PAD_EDATA,
->         IMX219_NUM_PADS,
->  };
-> =20
->  enum imx219_stream_ids {
->         IMX219_STREAM_IMAGE,
-> +       IMX219_STREAM_EDATA,
->  };
-> =20
->  struct imx219 {
-> @@ -375,6 +380,8 @@ struct imx219 {
-> =20
->         /* Two or Four lanes */
->         u8 lanes;
-> +
-> +       u64 streams_enabled;
->  };
-> =20
->  static inline struct imx219 *to_imx219(struct v4l2_subdev *_sd)
-> @@ -418,6 +425,25 @@ static u32 imx219_get_format_bpp(const struct v4l2_m=
-bus_framefmt *format)
->         }
->  }
-> =20
-> +static u32
-> +imx219_get_embedded_format_code(const struct v4l2_mbus_framefmt *format)
-> +{
-> +       switch (format->code) {
-> +       case MEDIA_BUS_FMT_SRGGB8_1X8:
-> +       case MEDIA_BUS_FMT_SGRBG8_1X8:
-> +       case MEDIA_BUS_FMT_SGBRG8_1X8:
-> +       case MEDIA_BUS_FMT_SBGGR8_1X8:
-> +               return MEDIA_BUS_FMT_META_8;
-> +
-> +       case MEDIA_BUS_FMT_SRGGB10_1X10:
-> +       case MEDIA_BUS_FMT_SGRBG10_1X10:
-> +       case MEDIA_BUS_FMT_SGBRG10_1X10:
-> +       case MEDIA_BUS_FMT_SBGGR10_1X10:
-> +       default:
-> +               return MEDIA_BUS_FMT_META_10;
-> +       }
-> +}
-> +
->  static void imx219_get_binning(struct v4l2_subdev_state *state, u8 *bin_=
-h,
->                                u8 *bin_v)
->  {
-> @@ -749,6 +775,15 @@ static int imx219_enable_streams(struct v4l2_subdev =
-*sd,
->         struct i2c_client *client =3D v4l2_get_subdevdata(&imx219->sd);
->         int ret;
-> =20
-> +       /*
-> +        * The image stream controls sensor streaming, as embedded data i=
-sn't
-> +        * controllable independently.
-> +        */
-> +       if (imx219->streams_enabled) {
-> +               imx219->streams_enabled |=3D streams_mask;
-> +               return 0;
-> +       }
-> +
->         ret =3D pm_runtime_resume_and_get(&client->dev);
->         if (ret < 0)
->                 return ret;
-> @@ -791,6 +826,8 @@ static int imx219_enable_streams(struct v4l2_subdev *=
-sd,
->         __v4l2_ctrl_grab(imx219->vflip, true);
->         __v4l2_ctrl_grab(imx219->hflip, true);
-> =20
-> +       imx219->streams_enabled =3D streams_mask;
-> +
->         return 0;
-> =20
->  err_rpm_put:
-> @@ -806,6 +843,10 @@ static int imx219_disable_streams(struct v4l2_subdev=
- *sd,
->         struct i2c_client *client =3D v4l2_get_subdevdata(&imx219->sd);
->         int ret;
-> =20
-> +       imx219->streams_enabled &=3D ~streams_mask;
-> +       if (imx219->streams_enabled)
-> +               return 0;
-> +
->         /* set stream off register */
->         ret =3D cci_write(imx219->regmap, IMX219_REG_MODE_SELECT,
->                         IMX219_MODE_STANDBY, NULL);
-> @@ -826,17 +867,32 @@ static int imx219_enum_mbus_code(struct v4l2_subdev=
- *sd,
->  {
->         struct imx219 *imx219 =3D to_imx219(sd);
-> =20
-> -       if (code->pad =3D=3D IMX219_PAD_IMAGE) {
-> -               /* The internal image pad is hardwired to the native form=
-at. */
-> +       switch (code->pad) {
-> +       case IMX219_PAD_IMAGE:
->                 if (code->index > 0)
->                         return -EINVAL;
-> =20
-> -               code->code =3D IMX219_NATIVE_FORMAT;
-> -       } else {
-> -               /*
-> -                * On the source pad, the sensor supports multiple raw fo=
-rmats
-> -                * with different bit depths.
-> -                */
-> +               code->code =3D MEDIA_BUS_FMT_RAW_10;
-> +               return 0;
-> +
-> +       case IMX219_PAD_EDATA:
-> +               if (code->index > 0)
-> +                       return -EINVAL;
-> +
-> +               code->code =3D MEDIA_BUS_FMT_META_10;
-> +               return 0;
-> +
-> +       case IMX219_PAD_SOURCE:
-> +       default:
-> +               break;
-> +       }
-> +
-> +       /*
-> +        * On the source pad, the sensor supports multiple image raw form=
-ats
-> +        * with different bit depths. The embedded data format bit depth
-> +        * follows the image stream.
-> +        */
-> +       if (code->stream =3D=3D IMX219_STREAM_IMAGE) {
->                 u32 format;
-> =20
->                 if (code->index >=3D ARRAY_SIZE(imx219_mbus_formats) / 4)
-> @@ -844,6 +900,15 @@ static int imx219_enum_mbus_code(struct v4l2_subdev =
-*sd,
-> =20
->                 format =3D imx219_mbus_formats[code->index * 4];
->                 code->code =3D imx219_get_format_code(imx219, format);
-> +       } else {
-> +               struct v4l2_mbus_framefmt *fmt;
-> +
-> +               if (code->index > 0)
-> +                       return -EINVAL;
-> +
-> +               fmt =3D v4l2_subdev_state_get_format(state, IMX219_PAD_SO=
-URCE,
-> +                                                  IMX219_STREAM_EDATA);
-> +               code->code =3D fmt->code;
->         }
-> =20
->         return 0;
-> @@ -855,15 +920,33 @@ static int imx219_enum_frame_size(struct v4l2_subde=
-v *sd,
->  {
->         struct imx219 *imx219 =3D to_imx219(sd);
-> =20
-> -       if (fse->pad =3D=3D IMX219_PAD_IMAGE) {
-> +       switch (fse->pad) {
-> +       case IMX219_PAD_IMAGE:
->                 if (fse->code !=3D IMX219_NATIVE_FORMAT || fse->index > 0)
+I think we can drop this, these where mostly notes for myself when I 
+tried to match what rkisp1 was doing...
 
-This should be MEDIA_BUS_FMT_RAW_10 I believe?
+> 
+> > +	 *
+> > +	 * h_step_inc is the horizontal pixel increment counter. The subsampling
+> > +	 * counter is incremented by h_step_inc. When the result of the
+> > +	 * increment overflows 2^16 a sampling is performed. In Bayer mode the
+> > +	 * subsampling counter is only incremented for color channels selected
+> > +	 * by hist_mode.
+> 
+> Or use the above, in a separate paragraph here.
+> 
+>          * In Bayer mode the vertical and horizontal subsampling
+>          * counters are only incremented for color channels selected
+>          * by hist_mode.
 
->                         return -EINVAL;
-> =20
-> -               fse->min_width =3D IMX219_PIXEL_ARRAY_WIDTH;
-> -               fse->max_width =3D IMX219_PIXEL_ARRAY_WIDTH;
-> -               fse->min_height =3D IMX219_PIXEL_ARRAY_HEIGHT;
-> -               fse->max_height =3D IMX219_PIXEL_ARRAY_HEIGHT;
-> -       } else {
-> +               fse->min_width =3D IMX219_VISIBLE_WIDTH;
-> +               fse->max_width =3D IMX219_VISIBLE_WIDTH;
-> +               fse->min_height =3D IMX219_VISIBLE_HEIGHT;
-> +               fse->max_height =3D IMX219_VISIBLE_HEIGHT;
-> +               return 0;
-> +
-> +       case IMX219_PAD_EDATA:
-> +               if (fse->code !=3D MEDIA_BUS_FMT_META_8 || fse->index > 0)
+... I will use your suggestion here.
 
-And this should be MEDIA_BUS_FMT_META_10, to match these both with what
-imx219_enum_mbus_code() is doing.
+> 
+> > +	 */
+> > +	write(priv, mod->base + HIST_SUBSAMPLING_REG,
+> > +	      HIST_SUBSAMPLING_V_STEPSIZE(cfg->v_stepsize) |
+> > +	      HIST_SUBSAMPLING_H_STEP_INC(cfg->h_step_inc));
+> > +
+> > +	/*
+> > +	 * Adjust and set measurement window to hardware limitations,
+> > +	 * - Offsets must be even.
+> > +	 * - Width and height must be divisible by 10.
+> 
+> Same as per the exm module I would say "even and divisible in 5
+> windows"
 
-But I guess we need to handle both 8 and 10 bit formats at both places.
+Ack.
 
-Thanks,
-    Jai
+> 
+> > +	 */
+> > +	h_offs = cfg->wnd.h_offs & 0x1ffe;
+> > +	v_offs = cfg->wnd.v_offs & 0x1ffe;
+> > +	h_size = cfg->wnd.h_size - cfg->wnd.h_size % 10;
+> > +	v_size = cfg->wnd.v_size - cfg->wnd.v_size % 10;
+> > +
+> > +	write(priv, mod->base + HIST_H_OFFS_REG, h_offs);
+> > +	write(priv, mod->base + HIST_V_OFFS_REG, v_offs);
+> > +	write(priv, mod->base + HIST_H_SIZE_REG, h_size / 5);
+> > +	write(priv, mod->base + HIST_V_SIZE_REG, v_size / 5);
+> > +
+> > +	/*
+> > +	 * Set last measurement line for ready interrupt. Ignore the value
+> > +	 * from the parameters as it is only useful for fast-channel switching.
+> 
+> Same question as per the EXM module here. Should we ignore it ?
 
-> +                       return -EINVAL;
-> +
-> +               fse->min_width =3D IMX219_VISIBLE_WIDTH;
-> +               fse->max_width =3D IMX219_VISIBLE_WIDTH;
-> +               fse->min_height =3D IMX219_EMBEDDED_DATA_HEIGHT;
-> +               fse->max_height =3D IMX219_EMBEDDED_DATA_HEIGHT;
-> +               return 0;
-> +
-> +       case IMX219_PAD_SOURCE:
-> +       default:
-> +               break;
-> +       }
-> +
-> +       if (fse->stream =3D=3D IMX219_STREAM_IMAGE) {
->                 if (fse->code !=3D imx219_get_format_code(imx219, fse->co=
-de) ||
->                     fse->index >=3D ARRAY_SIZE(supported_modes))
->                         return -EINVAL;
-> @@ -872,6 +955,21 @@ static int imx219_enum_frame_size(struct v4l2_subdev=
- *sd,
->                 fse->max_width =3D fse->min_width;
->                 fse->min_height =3D supported_modes[fse->index].height;
->                 fse->max_height =3D fse->min_height;
-> +       } else {
-> +               struct v4l2_mbus_framefmt *fmt;
-> +
-> +               fmt =3D v4l2_subdev_state_get_format(state, IMX219_PAD_SO=
-URCE,
-> +                                                  IMX219_STREAM_EDATA);
-> +               if (fse->code !=3D fmt->code)
-> +                       return -EINVAL;
-> +
-> +               if (fse->index > 0)
-> +                       return -EINVAL;
-> +
-> +               fse->min_width =3D fmt->width;
-> +               fse->max_width =3D fmt->width;
-> +               fse->min_height =3D IMX219_EMBEDDED_DATA_HEIGHT;
-> +               fse->max_height =3D IMX219_EMBEDDED_DATA_HEIGHT;
->         }
-> =20
->         return 0;
-> @@ -883,13 +981,16 @@ static int imx219_set_pad_format_compat(struct v4l2=
-_subdev *sd,
->  {
->         struct imx219 *imx219 =3D to_imx219(sd);
->         const struct imx219_mode *mode;
-> -       struct v4l2_mbus_framefmt *format;
-> +       struct v4l2_mbus_framefmt *format, *embedded_format;
->         struct v4l2_rect *crop;
->         u8 bin_h, bin_v, bin_hv;
->         int ret;
-> =20
->         format =3D v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
->                                               IMX219_STREAM_IMAGE);
-> +       embedded_format =3D
-> +               v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> +                                            IMX219_STREAM_EDATA);
-> =20
->         /*
->          * Adjust the requested format to match the closest mode. The Bay=
-er
-> @@ -911,6 +1012,8 @@ static int imx219_set_pad_format_compat(struct v4l2_=
-subdev *sd,
-> =20
->         *format =3D fmt->format;
-> =20
-> +       embedded_format->code =3D imx219_get_embedded_format_code(format);
-> +
->         /*
->          * Use binning to maximize the crop rectangle size, and centre it=
- in the
->          * sensor.
-> @@ -988,7 +1091,7 @@ static int imx219_set_pad_format(struct v4l2_subdev =
-*sd,
->         if (!(ci && ci->client_caps & V4L2_SUBDEV_CLIENT_CAP_COMMON_RAW_S=
-ENSOR))
->                 return imx219_set_pad_format_compat(sd, state, fmt);
-> =20
-> -       if (fmt->pad !=3D IMX219_PAD_SOURCE)
-> +       if (fmt->pad !=3D IMX219_PAD_SOURCE && fmt->stream !=3D IMX219_ST=
-REAM_IMAGE)
->                 return v4l2_subdev_get_fmt(sd, ci, state, fmt);
-> =20
->         format =3D v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> @@ -1038,7 +1141,11 @@ static int imx219_get_selection(struct v4l2_subdev=
- *sd,
->                 return -EINVAL;
->         }
-> =20
-> -       if (sel->pad !=3D IMX219_PAD_IMAGE)
-> +       /*
-> +        * The embedded data stream doesn't support selection rectangles,
-> +        * neither on the embedded data pad nor on the source pad.
-> +        */
-> +       if (sel->pad !=3D IMX219_PAD_IMAGE || sel->stream !=3D IMX219_STR=
-EAM_IMAGE)
->                 return -EINVAL;
-> =20
->         switch (sel->target) {
-> @@ -1068,35 +1175,41 @@ static int imx219_get_selection(struct v4l2_subde=
-v *sd,
->  static int imx219_get_frame_desc(struct v4l2_subdev *sd, unsigned int pa=
-d,
->                                  struct v4l2_mbus_frame_desc *fd)
->  {
-> -       const struct v4l2_mbus_framefmt *fmt;
->         struct v4l2_subdev_state *state;
-> -       u32 code;
-> +       u32 img_code;
-> +       u32 ed_code;
-> =20
->         if (pad !=3D IMX219_PAD_SOURCE)
->                 return -EINVAL;
-> =20
->         state =3D v4l2_subdev_lock_and_get_active_state(sd);
-> -       fmt =3D v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> -                                          IMX219_STREAM_IMAGE);
-> -       code =3D fmt->code;
-> +       img_code =3D v4l2_subdev_state_get_format(state, IMX219_PAD_SOURC=
-E,
-> +                                               IMX219_STREAM_IMAGE)->cod=
-e;
-> +       ed_code =3D v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> +                                              IMX219_STREAM_EDATA)->code;
->         v4l2_subdev_unlock_state(state);
-> =20
->         fd->type =3D V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
-> -       fd->num_entries =3D 1;
-> +       fd->num_entries =3D 2;
-> =20
-> -       fd->entry[0].pixelcode =3D code;
-> +       fd->entry[0].pixelcode =3D img_code;
->         fd->entry[0].stream =3D IMX219_STREAM_IMAGE;
->         fd->entry[0].bus.csi2.vc =3D 0;
-> -       fd->entry[0].bus.csi2.dt =3D imx219_format_bpp(code) =3D=3D 8 ?
-> +       fd->entry[0].bus.csi2.dt =3D imx219_format_bpp(img_code) =3D=3D 8=
- ?
->                 MIPI_CSI2_DT_RAW8 : MIPI_CSI2_DT_RAW10;
-> =20
-> +       fd->entry[1].pixelcode =3D ed_code;
-> +       fd->entry[1].stream =3D IMX219_STREAM_EDATA;
-> +       fd->entry[1].bus.csi2.vc =3D 0;
-> +       fd->entry[1].bus.csi2.dt =3D MIPI_CSI2_DT_EMBEDDED_8B;
-> +
->         return 0;
->  }
-> =20
->  static int imx219_init_state(struct v4l2_subdev *sd,
->                              struct v4l2_subdev_state *state)
->  {
-> -       struct v4l2_subdev_route routes[1] =3D {
-> +       struct v4l2_subdev_route routes[] =3D {
->                 {
->                         .sink_pad =3D IMX219_PAD_IMAGE,
->                         .sink_stream =3D 0,
-> @@ -1105,6 +1218,14 @@ static int imx219_init_state(struct v4l2_subdev *s=
-d,
->                         .flags =3D V4L2_SUBDEV_ROUTE_FL_ACTIVE |
->                                  V4L2_SUBDEV_ROUTE_FL_IMMUTABLE |
->                                  V4L2_SUBDEV_ROUTE_FL_STATIC,
-> +               }, {
-> +                       .sink_pad =3D IMX219_PAD_EDATA,
-> +                       .sink_stream =3D 0,
-> +                       .source_pad =3D IMX219_PAD_SOURCE,
-> +                       .source_stream =3D IMX219_STREAM_EDATA,
-> +                       .flags =3D V4L2_SUBDEV_ROUTE_FL_ACTIVE |
-> +                                V4L2_SUBDEV_ROUTE_FL_IMMUTABLE |
-> +                                V4L2_SUBDEV_ROUTE_FL_STATIC,
->                 },
->         };
->         struct v4l2_subdev_krouting routing =3D {
-> @@ -1127,6 +1248,11 @@ static int imx219_init_state(struct v4l2_subdev *s=
-d,
->         struct v4l2_mbus_framefmt *source_format =3D
->                 v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
->                                              IMX219_STREAM_IMAGE);
-> +       struct v4l2_mbus_framefmt *embedded_format =3D
-> +               v4l2_subdev_state_get_format(state, IMX219_PAD_EDATA);
-> +       struct v4l2_mbus_framefmt *embedded_source_format =3D
-> +               v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-> +                                            IMX219_STREAM_EDATA);
-> =20
->         /* The image pad models the pixel array, and thus has a fixed for=
-mat. */
->         pixel_array_format->code =3D MEDIA_BUS_FMT_RAW_10;
-> @@ -1151,6 +1277,13 @@ static int imx219_init_state(struct v4l2_subdev *s=
-d,
->         source_format->width =3D compose->width;
->         source_format->height =3D compose->height;
-> =20
-> +       embedded_format->code =3D MEDIA_BUS_FMT_META_10;
-> +       embedded_format->width =3D source_format->width;
-> +       embedded_format->height =3D IMX219_EMBEDDED_DATA_HEIGHT;
-> +       embedded_format->field =3D V4L2_FIELD_NONE;
-> +
-> +       *embedded_source_format =3D *embedded_format;
-> +
->         return 0;
->  }
-> =20
-> @@ -1426,6 +1559,8 @@ static int imx219_probe(struct i2c_client *client)
->         imx219->pads[IMX219_PAD_SOURCE].flags =3D MEDIA_PAD_FL_SOURCE;
->         imx219->pads[IMX219_PAD_IMAGE].flags =3D MEDIA_PAD_FL_SINK
->                                              | MEDIA_PAD_FL_INTERNAL;
-> +       imx219->pads[IMX219_PAD_EDATA].flags =3D MEDIA_PAD_FL_SINK
-> +                                            | MEDIA_PAD_FL_INTERNAL;
-> =20
->         ret =3D media_entity_pads_init(&imx219->sd.entity,
->                                      ARRAY_SIZE(imx219->pads), imx219->pa=
-ds);
-> --=20
-> 2.47.3
->=20
->
+I think so. At least for now. When and if we want to do something more 
+advanced here we have it.
+
+> 
+> > +	 */
+> > +	write(priv, mod->base + HIST_LAST_MEAS_LINE_REG, v_offs + v_size + 1);
+> > +
+> > +	/* Set measurement window weights. */
+> > +	write(priv, mod->base + HIST_WEIGHT_00TO30_REG,
+> > +	      RPPX1_HIST_WEIGHT(cfg->weights[0], cfg->weights[1],
+> > +				cfg->weights[2], cfg->weights[3]));
+> > +	write(priv, mod->base + HIST_WEIGHT_40TO21_REG,
+> > +	      RPPX1_HIST_WEIGHT(cfg->weights[4], cfg->weights[5],
+> > +				cfg->weights[6], cfg->weights[7]));
+> > +	write(priv, mod->base + HIST_WEIGHT_31TO12_REG,
+> > +	      RPPX1_HIST_WEIGHT(cfg->weights[8], cfg->weights[9],
+> > +				cfg->weights[10], cfg->weights[11]));
+> > +	write(priv, mod->base + HIST_WEIGHT_22TO03_REG,
+> > +	      RPPX1_HIST_WEIGHT(cfg->weights[12], cfg->weights[13],
+> > +				cfg->weights[14], cfg->weights[15]));
+> > +	write(priv, mod->base + HIST_WEIGHT_13TO43_REG,
+> > +	      RPPX1_HIST_WEIGHT(cfg->weights[16], cfg->weights[17],
+> > +				cfg->weights[18], cfg->weights[19]));
+> > +	write(priv, mod->base + HIST_WEIGHT_04TO34_REG,
+> > +	      RPPX1_HIST_WEIGHT(cfg->weights[20], cfg->weights[21],
+> > +				cfg->weights[22], cfg->weights[23]));
+> > +	write(priv, mod->base + HIST_WEIGHT_44_REG,
+> > +	      RPPX1_HIST_WEIGHT(cfg->weights[24], 0, 0, 0));
+> > +
+> > +	write(priv, mod->base + HIST_MODE_REG, cfg->mode);
+> > +	write(priv, mod->base + HIST_COEFF_R_REG, cfg->coeff[0]);
+> > +	write(priv, mod->base + HIST_COEFF_G_REG, cfg->coeff[1]);
+> > +	write(priv, mod->base + HIST_COEFF_B_REG, cfg->coeff[2]);
+> > +
+> > +	u32 sample_reg = FIELD_PREP(HIST_SAMPLE_RANGE_SAMPLE_SHIFT_MASK,
+> > +				    cfg->sample_shift) |
+> > +			 FIELD_PREP(HIST_SAMPLE_RANGE_SAMPLE_OFFSET_MASK,
+> > +				    cfg->sample_offs);
+> > +	write(priv, mod->base + HIST_SAMPLE_RANGE_REG, sample_reg);
+> > +
+> > +	write(priv, mod->base + HIST_FORCED_UPDATE_REG, 1);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int rppx1_hist_fill_stats(struct rpp_module *mod,
+> > +				 union rppx1_stats_block *block)
+> > +{
+> > +	struct rppx1_hist_stats *stats = &block->hist;
+> > +
+> > +	for (unsigned int i = 0; i < RPPX1_HIST_NUM_BINS; i++)
+> > +		stats->hist_bins[i] = rpp_module_read(mod, HIST_BIN_REG(i)) & 0xfffff;
+> 
+> I wonder if we actually need the 0xfffff mask the hardware shall
+> provide 20-bit values already
+
+True.
+
+> 
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  const struct rpp_module_ops rppx1_hist_ops = {
+> >  	.probe = rppx1_hist_probe,
+> > +	.fill_params = rppx1_hist_fill_params,
+> > +	.fill_stats = rppx1_hist_fill_stats,
+> >  };
+> > diff --git a/include/uapi/linux/media/dreamchip/rppx1-config.h b/include/uapi/linux/media/dreamchip/rppx1-config.h
+> > index dbc1e116fdf5..50aba160c6cd 100644
+> > --- a/include/uapi/linux/media/dreamchip/rppx1-config.h
+> > +++ b/include/uapi/linux/media/dreamchip/rppx1-config.h
+> > @@ -83,6 +83,9 @@ enum rppx1_meas_chan {
+> >   * @RPPX1_PARAMS_BLOCK_TYPE_AWBG_POST: MAIN_POST White Balance Gains
+> >   * @RPPX1_PARAMS_BLOCK_TYPE_EXM_PRE1: PRE1 pipe Exposure Measurement
+> >   * @RPPX1_PARAMS_BLOCK_TYPE_EXM_PRE2: PRE2 pipe Exposure Measurement
+> > + * @RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE1: PRE1 pipe Histogram Measurement
+> > + * @RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE2: PRE2 pipe Histogram Measurement
+> > + * @RPPX1_PARAMS_BLOCK_TYPE_HIST_POST: POST pipe Histogram Measurement
+> >   */
+> >  enum rppx1_params_block_type {
+> >  	RPPX1_PARAMS_BLOCK_TYPE_WBMEAS_POST,
+> > @@ -91,6 +94,9 @@ enum rppx1_params_block_type {
+> >  	RPPX1_PARAMS_BLOCK_TYPE_AWBG_POST,
+> >  	RPPX1_PARAMS_BLOCK_TYPE_EXM_PRE1,
+> >  	RPPX1_PARAMS_BLOCK_TYPE_EXM_PRE2,
+> > +	RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE1,
+> > +	RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE2,
+> > +	RPPX1_PARAMS_BLOCK_TYPE_HIST_POST,
+> >  };
+> >
+> >  /**
+> > @@ -236,6 +242,85 @@ struct rppx1_exm_params {
+> >  	__u8 coeff_gb;
+> >  };
+> >
+> > +/* Histogram */
+> > +#define RPPX1_HIST_WEIGHT_GRIDS_SIZE 25
+> > +
+> > +/**
+> > + * enum rppx1_hist_mode - Histogram measurement mode
+> > + *
+> > + * Histogram measurement mode. Select which channel or combination of channels
+> > + * the histogram measurement is performed on.
+> > + *
+> > + * @RPPX1_HIST_MODE_DISABLE: histogram disabled
+> > + * @RPPX1_HIST_MODE_RGB_COMBINED: combined RGB histogram
+> > + * @RPPX1_HIST_MODE_R_HISTOGRAM: red channel histogram
+> > + * @RPPX1_HIST_MODE_GR_HISTOGRAM: green/red channel histogram
+> > + * @RPPX1_HIST_MODE_B_HISTOGRAM: blue channel histogram
+> > + * @RPPX1_HIST_MODE_GB_HISTOGRAM: green/blue histogram
+> > + */
+> > +enum rppx1_hist_mode {
+> > +	RPPX1_HIST_MODE_DISABLE,
+> > +	RPPX1_HIST_MODE_RGB_COMBINED,
+> > +	RPPX1_HIST_MODE_R_HISTOGRAM,
+> > +	RPPX1_HIST_MODE_GR_HISTOGRAM,
+> > +	RPPX1_HIST_MODE_B_HISTOGRAM,
+> > +	RPPX1_HIST_MODE_GB_HISTOGRAM,
+> > +};
+> > +
+> > +/**
+> > + * struct rppx1_hist_params - Histogram measurement configuration
+> > + *
+> > + * The RPP-X1 Histogram measurement unit is available on the PRE1, PRE2 and
+> > + * MAIN_POST pipes. Userspace selects which pipe to operate by setting the
+> > + * @header.type field to RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE1,
+> > + * RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE2 or
+> > + * RPPX1_PARAMS_BLOCK_TYPE_HIST_POST.
+> > + *
+> > + * The histogram measurement point is selected using the @channel field while
+> > + * histogram measurement mode is selected using the @mode field.
+> > + *
+> > + * Histogram measurement is performed by programming subsampling factors using
+> > + * the @v_stepsize and @h_step_inc fields and by weighted windowing, by
+> > + * programming the size of the measurement window @wnd with @weights associated
+> > + * to each cell of the 5x5 measurement grid. Weights are represented as 5 bits
+> > + * integer values ranging from 0 to 16.
+> > + *
+> > + * The @last_line fields controls when the histogram measurement completes. It
+> > + * is usually programmed to the value of (@wnd.v_offs + @wnd.v_size - 1).
+> > + *
+> > + * Histogram values are calculated by applying a per-color channel coefficient
+> > + * represented as an 8 bits unsigned Q1.7 integer value. The @sample_offs and
+> > + * @sample_shift fields allow to reduce the color dynamic range on which
+> > + * histogram data are produced.
+> > + *
+> > + * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE1,
+> > + *	    type = RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE2 or
+> > + *	    type = RPPX1_PARAMS_BLOCK_TYPE_HIST_POST)
+> > + * @mode: histogram measurement mode (from enum rppx1_hist_mode)
+> > + * @channel_sel: histogram measurement point (see enum rppx1_meas_chan)
+> > + * @wnd: measurement window coordinates
+> > + * @weights: weighting factors for each sub-window (5x5 grid)
+> > + * @last_line: line number for which the histogram measurement completes
+> > + * @v_stepsize: vertical subsampling divider, 7 bits
+> > + * @h_step_inc: horizontal subsampling step counter, 17 bits
+> > + * @coeff: R-G-B coefficients, 8 bits unsigned Q1.7
+> > + * @sample_offs: sample offset, 24 bits
+> > + * @sample_shift: sample shift, 4 bits
+> > + */
+> > +struct rppx1_hist_params {
+> > +	struct v4l2_isp_params_block_header header;
+> > +	__u8 mode;
+> > +	__u8 channel_sel;
+> > +	struct rppx1_window wnd;
+> > +	__u8 weights[RPPX1_HIST_WEIGHT_GRIDS_SIZE];
+> > +	__u32 last_line;
+> > +	__u32 v_stepsize;
+> > +	__u32 h_step_inc;
+> > +	__u8 coeff[3];
+> > +	__u32 sample_offs;
+> > +	__u8 sample_shift;
+> > +};
+> > +
+> >  /**
+> >   * RPPX1_PARAMS_MAX_SIZE - Maximum size of all RPP-X1 parameter blocks
+> >   *
+> > @@ -248,7 +333,10 @@ struct rppx1_exm_params {
+> >  	sizeof(struct rppx1_awbg_params)			+	\
+> >  	sizeof(struct rppx1_awbg_params)			+	\
+> >  	sizeof(struct rppx1_exm_params)				+	\
+> > -	sizeof(struct rppx1_exm_params))
+> > +	sizeof(struct rppx1_exm_params)				+	\
+> > +	sizeof(struct rppx1_hist_params)			+	\
+> > +	sizeof(struct rppx1_hist_params)			+	\
+> > +	sizeof(struct rppx1_hist_params))
+> >
+> >  /* ---------------------------------------------------------------------------
+> >   * Statistics Structures
+> > @@ -267,11 +355,17 @@ struct rppx1_exm_params {
+> >   * @RPPX1_STATS_BLOCK_TYPE_WBMEAS_POST: post-fusion white-balance measurement
+> >   * @RPPX1_STATS_BLOCK_TYPE_EXM_PRE1: pre-fusion pipe1 exposure measurement
+> >   * @RPPX1_STATS_BLOCK_TYPE_EXM_PRE2: pre-fusion pipe2 exposure measurement
+> > + * @RPPX1_STATS_BLOCK_TYPE_HIST_PRE1: pre-fusion pipe1 histogram
+> > + * @RPPX1_STATS_BLOCK_TYPE_HIST_PRE2: pre-fusion pipe2 histogram
+> > + * @RPPX1_STATS_BLOCK_TYPE_HIST_POST: post-fusion histogram
+> >   */
+> >  enum rppx1_stats_block_type {
+> >  	RPPX1_STATS_BLOCK_TYPE_WBMEAS_POST,
+> >  	RPPX1_STATS_BLOCK_TYPE_EXM_PRE1,
+> >  	RPPX1_STATS_BLOCK_TYPE_EXM_PRE2,
+> > +	RPPX1_STATS_BLOCK_TYPE_HIST_PRE1,
+> > +	RPPX1_STATS_BLOCK_TYPE_HIST_PRE2,
+> > +	RPPX1_STATS_BLOCK_TYPE_HIST_POST,
+> >  };
+> >
+> >  /**
+> > @@ -308,6 +402,20 @@ struct rppx1_exm_stats {
+> >  	__u32 exp_mean[RPPX1_EXM_NUM_WIN];
+> >  };
+> >
+> > +/* Histogram */
+> > +#define RPPX1_HIST_NUM_BINS 32
+> > +
+> > +/**
+> > + * struct rppx1_hist_stats - Histogram statistics
+> > + *
+> > + * @header: block header (type = RPPX1_STATS_BLOCK_TYPE_HIST_POST)
+> > + * @hist_bins: accumulation histogram results in unsigned 20-bit Q16.4 format
+> > + */
+> > +struct rppx1_hist_stats {
+> > +	struct v4l2_isp_block_header header;
+> > +	__u32 hist_bins[RPPX1_HIST_NUM_BINS];
+> > +};
+> > +
+> >  /**
+> >   * RPPX1_STATS_MAX_SIZE - Maximum size of all RPP-X1 statistics
+> >   *
+> > @@ -317,6 +425,9 @@ struct rppx1_exm_stats {
+> >  #define RPPX1_STATS_MAX_SIZE						\
+> >  	(sizeof(struct rppx1_wbmeas_stats)			+	\
+> >  	sizeof(struct rppx1_exm_stats)				+	\
+> > -	sizeof(struct rppx1_exm_stats))
+> > +	sizeof(struct rppx1_exm_stats)				+	\
+> > +	sizeof(struct rppx1_hist_stats)				+	\
+> > +	sizeof(struct rppx1_hist_stats)				+	\
+> > +	sizeof(struct rppx1_hist_stats))
+> 
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> 
+> Thanks
+>   j
+> 
+> >
+> >  #endif /* __UAPI_RPP_X1_CONFIG_H */
+> > --
+> > 2.54.0
+> >
+
+-- 
+Kind Regards,
+Niklas Söderlund
 
