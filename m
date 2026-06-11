@@ -1,191 +1,203 @@
-Return-Path: <linux-media+bounces-64594-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64595-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id uAhiFiC4Kmr5vgMAu9opvQ
-	(envelope-from <linux-media+bounces-64594-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 15:29:04 +0200
+	id ZcwwEPXHKmq4wwMAu9opvQ
+	(envelope-from <linux-media+bounces-64595-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 16:36:37 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 967C2672566
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 15:29:03 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B69E672C35
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 16:36:36 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=e7juqfne;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64594-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64594-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=linaro.org header.s=google header.b=xYQzB2DW;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64595-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64595-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=linaro.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E928530A1B0B
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 13:28:53 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 8C5943006031
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 14:36:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2F4640960C;
-	Thu, 11 Jun 2026 13:28:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EAE931AF07;
+	Thu, 11 Jun 2026 14:36:26 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B2B540801D
-	for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 13:28:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1651D331EA9
+	for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 14:36:20 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781184530; cv=none; b=BxUy5A7UrtYcWjPhJhEFBn+JQZlLy9tOa/Gc39ASROAO3bn9MoH2SSQZKWPMVpDGoMPXhdj4toTzOQzNJnFWziiOi+MDBw9O9b8npWd4tIE85lhs/5rpcwSRGrDIPZyp4D0HjlMAbshJ1RKEOESE1p3oot3IkJrwPVdKkwjhK1s=
+	t=1781188584; cv=none; b=FUcp3XSpMLh2N4B0SXnDoIEnoWffYDQuCuflDHn5homrHpgWG8FqEofTJqqydMpsfajyOZ2qenLgFGjSprUJARTMq1BXl7qK3ASU2K3tiSLu4i+RnvbHVOjqqcj8M68md3eDUGPnPWg+lawnoKlFjcUoSfTeNNtes4XyKa5ew1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781184530; c=relaxed/simple;
-	bh=crKmGM2BPtU1gWofMArc5RSNIxo8syCXCMCQHJjzvSk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NoHbhtFRToTenHsWhnl0eevkbaQxKuOsnTuIcCgGcsDy/DwuGYk71wlX6qEQpkyrifZcTTIUovhhb7CTSlU3MmtKuxJFcNywdT+fAP0rMoYxF0XCWzESykk1jelmADAi3e87NAioJcmNdf08JEyRsSgnmOKIrEj0+QjZg8Gfggg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e7juqfne; arc=none smtp.client-ip=209.85.214.182
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2c0bb4a94b8so67622205ad.2
-        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 06:28:48 -0700 (PDT)
+	s=arc-20240116; t=1781188584; c=relaxed/simple;
+	bh=qnv1fAGXCtLVIjll5OZjfkQjjlkL/oatmHWaQJUPthU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qSpXWBlQzU0+a3g2ugJEQUeqk3/MbGa8LtxURzw1FJPEHxLhC8FHUXGpMxK9f1dNu1LwuyxF2y9nVMoPQcqT3ZhZTb1KMEGFZS2xL4Crh96npQeR8qOJO0cJLd1BleCIQNCYwgazu3zBN3btQr3yXGdI76cBNMcJPN8uHrOBOdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xYQzB2DW; arc=none smtp.client-ip=209.85.218.42
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-bec449cf976so1103652566b.2
+        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 07:36:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781184528; x=1781789328; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kr6lr/Zk4qDdZQL9yjJdI0zh4QdrOtRvdN1aN8UPXKU=;
-        b=e7juqfne4BEQWFb7uAsbNpZ6bBRPG3XKGRIkDFcLIKc8iHJxeg9PA4FwMuKx7izMrC
-         zvcAYxmIVlTvSVBp+TMJHP0r1EQvwEbLGK1fGIJ+6nyoZvSRfLUe1zf5TI8PldPbCOr+
-         ExKcFbrPiAyvvEReMVudx9VRa36T2oNDa4o4DPEoXd+cy+n4LSq6ciplza6ioTStRog5
-         CwEA07jb4eRKzZ2RQU/QQ1bYgjYeve4XXm+ZtkLjWDdzygl5E8vZhMSF7XVlOeJPpmcQ
-         13yn1ybBiP5X0e0jfSA0u4mDoweAI90lqnk/Xl4BwjhN5Oif7gfuybYKUrNhIT7cAMPW
-         yw/w==
+        d=linaro.org; s=google; t=1781188579; x=1781793379; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=sr3m8r/i7ovHfjfbNC82N3Y0eijmiJMV+xkhP6DvT20=;
+        b=xYQzB2DWHdtUO2kVszPWBJnsDsb83mivWggIjMOTuCYejfnCtOM0ysSmqmjgJUsfve
+         mUOnxWryQCZEfGjcF16Hk+UKfDYR8UeTW9HUlHSn691NDGwUlJR+cp/Wl8ut+jurud9z
+         CjzhL41ePAlgMNeGOhTDLHcbPYhGqr8c0SxiuqFl5sDJDWxeMRcLRoE1Qduic85+MfXU
+         19jCHwkHzTxt4HzZuI6bnIyWq5VXcUIc5p6X4I2bfyZ5unS6L0LwCoTJuQKb/tYhPyeo
+         9tqNxrCUhjKacMZrS46E/+jncAvZrx1GO1tXdgFgb9d1eKLX7E5hxysklo14JLLJXqY8
+         IrfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781184528; x=1781789328;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kr6lr/Zk4qDdZQL9yjJdI0zh4QdrOtRvdN1aN8UPXKU=;
-        b=QdtqJ2h3aigEZom2bABfpT0ppxvMuDIfCnYXN4S+y1Ff4VG+LIJl6rk/KxdtMKC1wo
-         Hp5WtakbrNhXS0dR3rqwZ2JYAH/ZNPuhI/o+YUW6bwtpApM9arjOJUXDrPMXaat5Ov3r
-         sMOJB8zsZ1MXHekFQ6ZJr1iFsJ5aYknHpgVrjJEqXQGV9P03pda/A0WUJ3Fux68hnZ1p
-         7t1ijyGajjmjiaeRmkIcGSih+GLzYhdI9pxfINmuXCbKyguR0VtIU9msO1/q/7C/Iaxk
-         RmJ57O5Jbv1STe5JWrE1CEf5FZBubB2J2A6edlS+LRN3USnCnVu0bE4vB6BFoC0Qk/4T
-         XjwA==
-X-Gm-Message-State: AOJu0Yz+qzRj6W5aw/hxOdEJa1iR3qDX4T7gaPJCcBvlvQoL86EOwHfo
-	0+fIAnGuT8ms7Fp+PYwWXC9C1Jvkp8wl9EZ8uT9PYA40bn38hZg+GC2H
-X-Gm-Gg: Acq92OFaRuNs8rio2W/kdtyMYNIKwNK/p29NJ+TF2CiorQGMZqIUo4eoBsCWSWVk3x4
-	OWN1tszCEjV8UXXc52WZfwkjwPZQeMYRnhL0gjlOFaCjnYQkLwMY4Y5fWkufJBdstpwhtcFYRLX
-	0T86c96eml91ADFr9O+lXO7jWLl6Esh18KCkFMgsV8zZf95LQIZoqL0wNADHWqmSCK1D3F4rP2+
-	hTuzN72L/rHL9fdp6XMaM26CQfk4gHR8yKzLt7KTYi3zLevq8nkD4JCIXop2gGwRQEAQfg3oDij
-	E/Px3gD6m2x2Ju8HSGPoqNXFzMNlHr7P3GNa4KBugu1YTR6AMD4118gAeFTVeoCNp8zAWu+f7s1
-	XtqnsoB5Gzfhz1FFKGKLaDPt3Bmgc3QL06xGdueRGgqCjQKmT+Sr9DgQk7v4mPzt6dYkPS/UpN0
-	ikmVMPwh0EFiiR26cm6OeBpQ+Y/kNfozV2jJ8vJ4ezoK+2dsUDsR16Hanmyg+CzCpD6uQr1RlTD
-	/27LP/KehvRbl+2bjEz0KTQPz3E9AQ8YgN47/Fhng9FTfvWkz/RPeKKnk+CD1jSPtZrwslSR3Nd
-	Ar4W/3upQ8wu6G25iriwH4eitMZDmFJQGhLR93X05/WJQM6B
-X-Received: by 2002:a17:903:90c:b0:2bf:dd8b:7cd with SMTP id d9443c01a7336-2c2f10165e3mr31858515ad.10.1781184528412;
-        Thu, 11 Jun 2026 06:28:48 -0700 (PDT)
-Received: from jfk-HP-EliteBook-640-14-inch-G10-Notebook-PC.cse.unsw.EDU.AU (dyn-dhcp-226.cse.unsw.EDU.AU. [129.94.175.226])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c16629cfb4sm292927115ad.59.2026.06.11.06.28.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2026 06:28:47 -0700 (PDT)
-From: Weigang He <geoffreyhe2@gmail.com>
-To: Hans Verkuil <hverkuil@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-media@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Weigang He <geoffreyhe2@gmail.com>
-Subject: [PATCH] media: cec: stm32: prevent out-of-bounds write on RX overflow
-Date: Thu, 11 Jun 2026 23:22:48 +1000
-Message-ID: <20260611132248.114519-1-geoffreyhe2@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1781188579; x=1781793379;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sr3m8r/i7ovHfjfbNC82N3Y0eijmiJMV+xkhP6DvT20=;
+        b=M0obcmvxyXkQRZIUDez2soE452F1jKZFVkzUb6FASTG43QDUse1GU7PJb1kqNfFgYw
+         4k3cFCCGOEs+Fu0gQTIs2BZlEQ3CO0wzR76XqIU0fvNB81K+wUNqcKBR9mGcfJOVU0bh
+         ciXXy5MtpNzr4lkzonbWBcpMpqP/RNEfh4SBc8zaw5m+f8ThMGLRZMc1jRrKspMsVdma
+         lcU8Wa93+vsrBIit4VQ3lu8K9FrqrWd6GrVsH7Zwk8rIPf0c3jeLdifsJeU1wG+/W/+b
+         bhbAIiyhq8G70cKvtOEpLMgK1zY7BRVCafxXSOEetlPKYaz5/oEv2vq98wffh4uvclYX
+         BqCg==
+X-Forwarded-Encrypted: i=1; AFNElJ8iodon3ZtLoKU77d61Ep/vj6+HFn4s2/Np1fmwRnYIUnUbOWnK0bMM4psvmPXwtbneX2ux3S5IqtrimA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzm+L+Zky2MRHnBJV2gNy7Ej4OQ9uCwS2JE0m5X/vpAHaa8f+bd
+	neiGDMFpEDlAKIF21hi2zq2hOLZSmSfZ+FpOKJLFsnZ13UYKD7nrf68K4npKFf2W2dc=
+X-Gm-Gg: Acq92OGa44gj1mlkX/AhxABS2ZtncH70iyhf2c9mJFwt+gxSDB82msL1IZp0sFrggEv
+	KwLYeq9mWpoa1WlnJ8wXRdRL5ScvcsGCAKtwnndRGMDGa1PMUmwdyUPfMZomdk/S7Lo261JKx2L
+	4C8nxzRxJwlh90GvpGn+lT7qUXkZHEhUBjpQXfAwBLn5ovwpc1+yBid83z0aG2U+PjTPaBn758D
+	ARpWd/NNU53cWhc4XL4YtsgTlt7bgdN8R0k9EXvYNBzW6XYJl0NfHfUqrhWN5irx05Bw1+mmQ7Q
+	EFPXGdzlE37mXcyQbufOZyhRXw7G0mnOMd/aW/xBO1b3DM2oPS5TwFE/FilgPoHG5osASccGYGU
+	gOey9ww8425hzpaJCNeju+zx+6RAo5l6pPoeoYXncOrAaJlwohVZyBBdmyM2SfS4prlg/YAj5tv
+	5wIJfbKfHtL3pgR4/PQk9rRKF1rYA95Mss1DtpGbNX9KOfzg==
+X-Received: by 2002:a17:906:6a05:b0:bda:8e57:5639 with SMTP id a640c23a62f3a-bfc85e9049dmr144570566b.20.1781188578927;
+        Thu, 11 Jun 2026 07:36:18 -0700 (PDT)
+Received: from [192.168.0.101] ([109.77.45.245])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6914f3b583bsm7011436a12.29.2026.06.11.07.36.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Jun 2026 07:36:18 -0700 (PDT)
+Message-ID: <ab1055a2-6916-4083-a360-62eb15171fe3@linaro.org>
+Date: Thu, 11 Jun 2026 15:36:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/7] dt-bindings: media: qcom: Add Shikra CAMSS
+ compatible
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Nihal Kumar Gupta <nihal.gupta@oss.qualcomm.com>
+Cc: Bryan O'Donoghue <bod@kernel.org>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Andi Shyti <andi.shyti@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, linux-arm-msm@vger.kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ Suresh Vankadara <quic_svankada@quicinc.com>,
+ Vikram Sharma <vikram.sharma@oss.qualcomm.com>
+References: <20260608-shikra-camss-review-v2-0-ca1936bf1219@oss.qualcomm.com>
+ <20260608-shikra-camss-review-v2-1-ca1936bf1219@oss.qualcomm.com>
+ <20260608-reliable-vivid-stork-f4ea6c@quoll>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20260608-reliable-vivid-stork-f4ea6c@quoll>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,st-md-mailman.stormreply.com,lists.infradead.org,gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-64594-lists,linux-media=lfdr.de];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:hverkuil@kernel.org,m:mchehab@kernel.org,m:mcoquelin.stm32@gmail.com,m:alexandre.torgue@foss.st.com,m:linux-media@vger.kernel.org,m:linux-stm32@st-md-mailman.stormreply.com,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:geoffreyhe2@gmail.com,m:mcoquelinstm32@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[kernel.org,gmail.com,foss.st.com];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[geoffreyhe2@gmail.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[26];
+	TAGGED_FROM(0.00)[bounces-64595-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:nihal.gupta@oss.qualcomm.com,m:bod@kernel.org,m:vladimir.zapolskiy@linaro.org,m:loic.poulain@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:rfoss@kernel.org,m:andi.shyti@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:linux-arm-msm@vger.kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-i2c@vger.kernel.org,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:quic_svankada@quicinc.com,m:vikram.sharma@oss.qualcomm.com,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,linaro.org,oss.qualcomm.com,nxp.com,pengutronix.de,gmail.com,vger.kernel.org,lists.linux.dev,lists.infradead.org,quicinc.com];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geoffreyhe2@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[bryan.odonoghue@linaro.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:dkim,linaro.org:mid,linaro.org:from_mime,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,qualcomm.com:email,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 967C2672566
+X-Rspamd-Queue-Id: 6B69E672C35
 
-stm32_rx_done() appends each received CEC byte to rx_msg.msg[] using
-rx_msg.len as the write index, incrementing it on every RXBR
-(receive-byte-ready) interrupt without checking it against the buffer
-size:
+On 08/06/2026 21:46, Krzysztof Kozlowski wrote:
+> On Mon, Jun 08, 2026 at 07:36:38PM +0530, Nihal Kumar Gupta wrote:
+>> Shikra contains the same Camera Subsystem IP as QCM2290. Document the
+>> platform-specific compatible string, using qcom,qcm2290-camss as
+>> fallback.
+>>
+>> Unlike QCM2290, Shikra omits the CDM and OPE blocks, requiring only a
+>> single IOMMU context bank instead of four.
+>>
+>> Signed-off-by: Nihal Kumar Gupta <nihal.gupta@oss.qualcomm.com>
+>> ---
+>>   .../devicetree/bindings/media/qcom,qcm2290-camss.yaml    | 16 +++++++++++++---
+>>   1 file changed, 13 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml b/Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml
+>> index 391d0f6f67ef5fdfea31dd3683477561516b1556..4f39eefb4898ebc22117407f26cfb4f41deb111b 100644
+>> --- a/Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml
+>> +++ b/Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml
+>> @@ -14,8 +14,11 @@ description:
+>>   
+>>   properties:
+>>     compatible:
+>> -    const: qcom,qcm2290-camss
+>> -
+> 
+> Do not remove blank lines.
+> 
+>> +    oneOf:
+>> +      - items:
+>> +          - const: qcom,shikra-camss
+>> +          - const: qcom,qcm2290-camss
+>> +      - const: qcom,qcm2290-camss
+>>     reg:
+> 
+> With this fixed:
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> 
+> Best regards,
+> Krzysztof
+> 
 
-	cec->rx_msg.msg[cec->rx_msg.len++] = val & 0xFF;
+@Nihal.
 
-rx_msg.msg[] is a fixed CEC_MAX_MSG_SIZE (16) byte array in struct
-cec_msg, and rx_msg.len is only reset on RXACKE/RXOVR or after a
-completed message (RXEND). The number of bytes received before RXEND is
-decided by the remote CEC device (it sets EOM), not by the driver. A
-peer that keeps sending bytes without ending the message drives RXBR
-repeatedly, pushing rx_msg.len past 16 and writing peer-controlled bytes
-out of bounds into the surrounding memory. This is reachable in normal
-operation once the driver has probed and receiving is enabled, from the
-IRQ thread, without any local privilege.
+If this is the only change you get asked to make, I will just fix this 
+up on application for you. There's no need to v3 the series for this.
 
-The length check in the CEC core runs on the consumer side, after the
-byte has been stored, so it does not prevent the overflow. Bound the
-index in the driver before the store, as the other platform CEC drivers
-already do (e.g. tegra_cec), dropping the excess bytes of an overlong
-frame.
-
-Found by static analysis tool CodeQL.
-
-Fixes: d69ae57453c8 ("[media] cec: add STM32 cec driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Weigang He <geoffreyhe2@gmail.com>
 ---
- drivers/media/cec/platform/stm32/stm32-cec.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/cec/platform/stm32/stm32-cec.c b/drivers/media/cec/platform/stm32/stm32-cec.c
-index 1ec0cece0a5b7..8c2fc232202de 100644
---- a/drivers/media/cec/platform/stm32/stm32-cec.c
-+++ b/drivers/media/cec/platform/stm32/stm32-cec.c
-@@ -132,7 +132,8 @@ static void stm32_rx_done(struct stm32_cec *cec, u32 status)
- 		u32 val;
- 
- 		regmap_read(cec->regmap, CEC_RXDR, &val);
--		cec->rx_msg.msg[cec->rx_msg.len++] = val & 0xFF;
-+		if (cec->rx_msg.len < CEC_MAX_MSG_SIZE)
-+			cec->rx_msg.msg[cec->rx_msg.len++] = val & 0xFF;
- 	}
- 
- 	if (cec->irq_status & RXEND) {
-
-base-commit: 9716c086c8e8b141d35aa61f2e96a2e83de212a7
--- 
-2.43.0
-
+bod
 
