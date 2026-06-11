@@ -1,222 +1,229 @@
-Return-Path: <linux-media+bounces-64552-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64553-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id h7KWOyxwKmpipQMAu9opvQ
-	(envelope-from <linux-media+bounces-64552-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 10:22:05 +0200
+	id BQkiO81wKmqDpQMAu9opvQ
+	(envelope-from <linux-media+bounces-64553-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 10:24:45 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EFD466FCFA
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 10:22:04 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46E0A66FD30
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 10:24:45 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=Zt4ln6QX;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64552-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-64552-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=fail reason="SPF not aligned (relaxed), DKIM not aligned (relaxed)" header.from=nxp.com (policy=none);
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=intel.com header.s=Intel header.b=Pmq7m7fF;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64553-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64553-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=intel.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 9FB87300D759
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 08:21:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A7D183130F92
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 08:24:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16128377EDA;
-	Thu, 11 Jun 2026 08:21:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A32E437883E;
+	Thu, 11 Jun 2026 08:24:13 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010015.outbound.protection.outlook.com [52.101.69.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C85377EAC;
-	Thu, 11 Jun 2026 08:21:42 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781166104; cv=fail; b=Tw/TtOIKcVUI+hBqDHIgz4MD+QUzSSFHUrBSzeX+Zs7kzMbG9NmVB1vNh4zKGbnkrlzn1Ukj0mqC2sq0KuNPiWEk3gWMRMf++K4n79A3rsklb2z+mJflxfS4EesBsMg7tiyIxf+DlgSw+lZbTl/psTQsViIGA1CuKsEXNk2M/kw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781166104; c=relaxed/simple;
-	bh=3TS9i4F3k3IR8ivbhcWpT5KalveqNJZxLNLxin4mzws=;
-	h=From:Date:Subject:Content-Type:Message-Id:To:Cc:MIME-Version; b=oDu6ScpLJSg/oBMgyQim23XJEHkQHlIth7nE/IwV6xZ969sfUMs702Xvm9bCwVRlQDpIyDrHqYGECjUlHtK9c5ZLd63bCA7oOB6nq+Zu3vLv1GA9mXSdeaL3sYn+gFhcXvVeAbwvvmZs1gKmkWLKigsTwMAuH7VtDNA7jkGh9fc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=Zt4ln6QX; arc=fail smtp.client-ip=52.101.69.15
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UIouqzQOWdyi3JEUcCy0tVtaF+o1mNpWVLZQb+XekCSj0CVq7Qiqtc24Lr8ahMKeSOGgKOkPoTOwS746rzP7VgvaS4BP2vEZIZQrOjrX++iSkSaCHvz5mBxqMpgf6xkS7b4xW1Fi4opJflwggMOsG6NakFrRdNaISUYXX7FBfqKMya+YGVQSzBBssZOWsADQZmVhsqK+e8YbVBd2GYAbx/j2lUwiafsQCWs0BXnWYq0cDjlpFMnA8O6apZnS3waOayEu+j7DI+N0xvS1IEJbC/FTKWKJnKthFyhN3Zu620QNubk/9HWyYW/7cYgJmO9ksALgvYiz4u0S7SBBY1vz1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NeyZv9YANvqgSv3/788OMvDS4uZMpCAoBr4PCpwB82A=;
- b=Mq4ry6vJiIAICtfs+cP2PhkENjhxOfuZPZCXCb1Borqkz9pp5z2qjJ0SqGcBKVdp0WsEgGxVsD81nqmIADJCFbPL0PG8n2aCLmmqgCFUvgYh7OPUbIeU29dUQYD0HmZfoHcwZVk2XRL15b/ERHwayy9dS0TnoibZKVzuLuKjRNpIAoj2E1Oo7AJZr7IlT7GmsyCfzTPIKsN3ipJ07JF94qLk0O3Jp+g16yUaUKmEoy+XRQsg70xqjzEr6achPzExcRPg1Lqybl0169VPBcOEb/VorINSRyr1xvhEb5PQ2Xxlq5Z5UvbnWOovF37AajZ8hXHGuInpztbeZeix6xx9dQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NeyZv9YANvqgSv3/788OMvDS4uZMpCAoBr4PCpwB82A=;
- b=Zt4ln6QXY1RkYUFkPAjRHcdEInZ9nw+h2yFVHZRDVTzXc/jADSKQ+euWXX8vzkbmGyOQs6p5MxmIyt/ISa5G//6PjfNM7uEBrQ77xXE1W5tJFu4AYgwJ80FHok0rjHe6q3Di5kCNMISPKQTXtRicwsXT69dCZmCttRnqgQa6plHtIYMWX4IAKawYtJA18gEkXmcnIZ6jQNE8dpLJ5zqE9gmMXQ6w/LNV5uWblSDQsAGO7VPsQPEcnivte+m4gS4r3k7NTmrR2TwIw3F2uYUBjCtIDihvTC7JGtK0llSyk2d+TJVbcPY+iDzXs0QkSlnAubv7OeX1hXW5tsMnWv1SAQ==
-Received: from AM9PR04MB8570.eurprd04.prod.outlook.com (2603:10a6:20b:435::12)
- by DB9PR04MB8332.eurprd04.prod.outlook.com (2603:10a6:10:24f::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.13; Thu, 11 Jun
- 2026 08:21:38 +0000
-Received: from AM9PR04MB8570.eurprd04.prod.outlook.com
- ([fe80::c9cc:24fa:6f6d:fb03]) by AM9PR04MB8570.eurprd04.prod.outlook.com
- ([fe80::c9cc:24fa:6f6d:fb03%6]) with mapi id 15.21.0113.013; Thu, 11 Jun 2026
- 08:21:38 +0000
-From: Ming Qian <ming.qian@oss.nxp.com>
-Date: Thu, 11 Jun 2026 17:17:00 +0900
-Subject: [PATCH] media: amphion: Remove obsolete frame_count check in
- venc_start_session
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260611-amphion-enc-log-v1-1-5c0b503dd8ad@oss.nxp.com>
-X-B4-Tracking: v=1; b=H4sIAPtuKmoC/yXMwQ5FMBCF4VeRWZvEEJV4FbGgnTJCSYtIxLure
- 5dfcs5/Q2AvHKBObvB8SpDVRVCagB47NzCKiYY8y1WmiLBbtjFukJ3GeR3QGkumUlT0pYb42jx
- buX7Fpv07HP3Eev8y8Dwv4dnkDHMAAAA=
-X-Change-ID: 20260611-amphion-enc-log-fdf1d7613b5c
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
- Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: Frank Li <Frank.Li@nxp.com>, Zhou Peng <eagle.zhou@nxp.com>, 
- linux-imx@nxp.com, imx@lists.linux.dev, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Ming Qian <ming.qian@oss.nxp.com>
-X-Mailer: b4 0.15.2
-X-ClientProxiedBy: MA5P287CA0327.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:222::6) To AM9PR04MB8570.eurprd04.prod.outlook.com
- (2603:10a6:20b:435::12)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 675273101C8;
+	Thu, 11 Jun 2026 08:24:11 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781166253; cv=none; b=AZsf56fRmoAOjPpG+hiKW1DStoohn0TUtl267Wt1mZHVeBlAY2S3cRMX3bIBHWaStRDTtbrB+zFi8k8TTRKvcraEv8GatuVvdrgn43EYGxMis2GsMw9Fy4Pagxpmo81kwbHSeAXGfxbqHh7lALSKNziJm/+5WdlKrVxAuSnGitc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781166253; c=relaxed/simple;
+	bh=/uL/Z6viEf7LoWHzyzrIuO4VnhS21AaHozLE6cqacAg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pzO9KWv0jw5S7dV+IbGBoFnWNV5vI+/HQHi69cWpF8/yhlaSA5sxwDpDcnWlcQeZ3DyZVZkg7ivxs7r0SdUA9UlTJFDhFrI4QnvQ7yb2+mP2IZzf2AAVG3yTdw6doESaCrPVtdu9hAt2diBJTOIGodS/tSLUKC5qYFz1V963sQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pmq7m7fF; arc=none smtp.client-ip=198.175.65.19
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781166251; x=1812702251;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=/uL/Z6viEf7LoWHzyzrIuO4VnhS21AaHozLE6cqacAg=;
+  b=Pmq7m7fFDjWoO+KTBbpWnKr3JvAT6Y0VJBNENvPdU8pz6Kq2oyFiT9B1
+   POITQRXKt+ndzuYpXbFCA+rKmcKeG02CUDBOIO/R0YiKgfA4pKgDiCmTB
+   LaT7BHDj1xO8bbsx2viQcY0GdbIHMKFeNINEPxlzja4MGviIwkeWRLfoX
+   VitFwUXTrUnS7vvkM7lyg8X5CP8DVvHs3SM1/X6VaKeU4CGCGV2QbUfHz
+   6RF5Jc99GFe55wTg6Bm5EsYB+L86HbO5GNj2apzdRuf1DjUOfLVlMNB+q
+   tlt7RviSQoNpmlYOFcov4aK2NCrphTgqQubLTG5aZl5Wseq3vBXQNkxzp
+   g==;
+X-CSE-ConnectionGUID: nEluAgIuQD6wqZB7XS5jjQ==
+X-CSE-MsgGUID: FiXVqAXzS9GJjYMxDRa6qg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="81953270"
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="81953270"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 01:24:11 -0700
+X-CSE-ConnectionGUID: zic59zJ2S6WzBVmIKYB6kA==
+X-CSE-MsgGUID: H52OM4+PTU+HlDvKsfJPHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="240074013"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.136])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 01:24:08 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 27CC7121C36;
+	Thu, 11 Jun 2026 11:24:05 +0300 (EEST)
+Date: Thu, 11 Jun 2026 11:24:05 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Kate Hsuan <hpa@redhat.com>
+Cc: Mark Pearson <mpearson@squebb.ca>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Serin Yeh <serin.yeh@intel.com>,
+	Tarang Raval <tarang.raval@siliconsignals.io>,
+	Damjan Georgievski <gdamjan@gmail.com>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] media: ipu-bridge: Add DMI information of Lenovo
+ X9 to the image upside-down list
+Message-ID: <aipwpTo5JCiAACVp@kekkonen.localdomain>
+References: <20260609124926.1038981-1-hpa@redhat.com>
+ <20260609124926.1038981-2-hpa@redhat.com>
+ <aineK26VD67Fmibd@kekkonen.localdomain>
+ <CAEth8oEv3iAQ1P9=rYddeBRX2qrjZiysUA_JfFp8pUAoJXbGLQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8570:EE_|DB9PR04MB8332:EE_
-X-MS-Office365-Filtering-Correlation-Id: a07eaab3-f5fd-4fa8-7c82-08dec7927586
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|19092799006|1800799024|376014|366016|23010399003|18002099003|3023799007|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	gYQjP2J1pF0pld1IlgUxiLPH1EPwaq55pmlWyFJoleqSJ5KvF7ggRFRkb4FJYawH8hiItBpk7EmKvVToFecSi6OiJpqiUZXcxg6dJMlcVD1u1PmIwRXo4t38yQNlEr2hlHjCXsiy0C5hSQNPjgmb047C1KC3QzSdh3VXa5dqmcp+UtcV706sNBspyGhPrW05932Kw1k1MRfIWiE54TESejBa41NSIkGOT2DsN3DoNo9mU9GSyl/dUVnsrP5UrFPBww8eei8cJNxZjBsI8Bv4wfNiXJIiSS5zvDV4GDBo1q5P72zurxu+ApHhLCzGWJAaJBr55+SUhshdRGGJomj3HJdSWe8ebaf+2rNZpx04JhcOTyD0cP0ZQtUjK6OwazfwlC3idNv6skB/GgWapKXUg9oGIsPpl53XFjtgj8PaedTjOeD0jMPN38v3kawQtHXlcxQiRQophpE3U2TSNFkmGOK3HHJrnc2DDF+Xh5GTlI8rv0fl/eq5pl0PvuoPz1WfHLS6pvrKNLFMMS7fI3gaKNM8gz07EQZL2jRLvFv4/brq7FR6CKkERy8LEG1ByizRQjVtJQF2tOBXMDLRCrx3TRtPopg2a1gfy0ivvTu9zwR90FCcDuA4tQOsM0+ed+4mjCfJ4WDRfICqhTGXrqXxh2oMlLhXiB4b4vAKjLG0/mDCSD8Wi4TGjAUrqE2CvdJT
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8570.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(1800799024)(376014)(366016)(23010399003)(18002099003)(3023799007)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ajRJUjkvVnZpdWJJUnNBd1kwdFcwYVRlS0dnZnR1TE9WbnkrVVM2Unc0VE1E?=
- =?utf-8?B?TGhQdXpSNkE1UlNxRURUckVmWUl2S2x1RHBscC9zYXVUOWkzWEZkdisxTTlD?=
- =?utf-8?B?eWoyVENGS3owU3k4djJXc3h6TkNPZGJCR2wxZS9EWS81cHpKU3dGT3pUeFhH?=
- =?utf-8?B?cS9CVVVLVGEvQm1WQnE4dllNR1BCRXZNU1M3WkFKdlVNRGNRTkNPaTV5QnFM?=
- =?utf-8?B?RmVQWFl3Tmd4WFBEc2F4WkE5MkRDTzNFSmVtRE5KbFQzRForUEY3cTJEcWIx?=
- =?utf-8?B?ZTY2WVVSdXk4UWFjcFpWWDJvbmlEMUIrU2VKUFRmbDN1V0RnSi9lL0p1SmRU?=
- =?utf-8?B?NStNUG1DU3lGck84RkZxWE9COUNDcUhrL1VIeW5kdXJST2gyZ2RXbzlGLzJu?=
- =?utf-8?B?U1lNbjhjSHZYSTN1ckR3Y25YdG5uL1g2WVhOZ005ZXQ4Y0hBNWFrbjRWU0l0?=
- =?utf-8?B?RFpnYVhHMXFnN3J4a09ac3phWG92N3RGV1oxYzNMNHhMY2dOU1JtR2lzdnIy?=
- =?utf-8?B?cE5seXZCblUvbnU2dmxEUEl5WE1FelM3OGNHSGJYR1IwbFZicmhKSCtXR0Rj?=
- =?utf-8?B?VzF2QTliNW5XSllUWFJpOHBQQlBOSU9LMktjVE5ybldna3oyTGJxSjN2Q2lO?=
- =?utf-8?B?UDNGdmlkK01yMHNNTVN1MzI4bUtOcGJhWW9LZjh0NVlsQWVoNHFiZGdkUkYv?=
- =?utf-8?B?eng4WTZTVWVEdFFtZlVrZ01ySVVkQVZaZXlqaHgrOVMvSGFob3BaRnltWElI?=
- =?utf-8?B?OWQvbFJNaFVWM05SbnhPcWlRdldNZFNubmtZN2ZYVktmdEVWcWZwMWxQdTN0?=
- =?utf-8?B?dDNETjRoNTBXK1E3RjlRblpRaGNQOXIxQ0ZHZDNoaHdGWGpqYk4wUkhieVlE?=
- =?utf-8?B?b0s1RFpDRkU2Yyt1QVdWRmhteUJMUVljY2JWL21LdWtxS1grdU93QTVPVENl?=
- =?utf-8?B?SjdLUm5IcnZic2RwNE9YMDFuQitkbnZFSEhtSG5FNGF6MFBabUkwTnhBdEVW?=
- =?utf-8?B?cGh0ZDJYUUVQVDRrYTVZV3B2NHJvWW05Yk9nTlVzeXI1YzNKK2ErMCtxVmlD?=
- =?utf-8?B?OUNUQkJhLy9QbkZmTWpaTjlTOEpZSG5iYS9HUnNCaTVtVjQvZjMwOTNxa0FE?=
- =?utf-8?B?ZndIM1dZYUNTSmJ5K3pGaVBUWExncW9yakhBZTBZazJXQTBNQ0FYa3VyRXZR?=
- =?utf-8?B?M25LQ0pQL29DWlNDMUZJR1ZaUGFBaC9kV0NyYUhHTnBRbnJLQUxaUks1R2JX?=
- =?utf-8?B?dkU0Y1N1ZlZoUmJYRGsxZzFIMFpvR0xxMmt0ajRkQSs5RHQwcGptRGdWZVlL?=
- =?utf-8?B?NGhpdld6elZHREtCaTFLaVBNVU03Ukh2RFlIZHFWaEEzUHVjUHFsY2hkb2hn?=
- =?utf-8?B?NlVIdFl6VWM1aTYwRnRSaVRKMG41VGZsZUVvd2hEaWxwL2ZLRWlhTGJ1bjdk?=
- =?utf-8?B?WkhwRTNJWElmQUV4U1UvM0JUa0pMYzJVNXBRS1NQS3Z0czhqc0J3cExrY3RD?=
- =?utf-8?B?QlhydmEwVGxYR2w1SEFZbnIxZUpzWG9xYUkzWVdnVlM3SWo2RUNyQnRNcU5O?=
- =?utf-8?B?dmtGYTNmQ2Q4azArcVExSXNVM3dIVHlBS0RxNFY0L0RFTGpqL0MxaDJnQjVo?=
- =?utf-8?B?V1VsZGorazcyQ29zNFZYQndablhYenNicURaVXVoeTlkemF1dXdhMnRoUUNi?=
- =?utf-8?B?UVlLbUdoM3FjQXVxK0dBY0NWajJqVkg5UzhoUit4VTdJUGxzeS9Eakh6dm1T?=
- =?utf-8?B?bzdyVElBU245Ny9XSnVDWDE4VjFZNkdIUEFKSmVhcDFRWUM5NGZHOEJDK3pa?=
- =?utf-8?B?a1VIWFEzTnJRTDM3dDQyTnA5c0F3QThQL3pBemdJcHF0Yy9MenFKM096a0h3?=
- =?utf-8?B?LzdZNGc0WWFscjhaZjRzWmRzcTlWL3EvY012TGNpWk4yRnhTSW1VZ25Qd3Ur?=
- =?utf-8?B?OUd3dGZzQjV0eGYvcCtvaE9zT2YzL21EY001K2p6UUcvaVJ3cFpzbGJPUDkv?=
- =?utf-8?B?RmFOMEwwWTNTZDhEUSt6V2swOW1nWnJDcWt0SkpYMnhzdW4vTWEzd0w5THNj?=
- =?utf-8?B?bjFQdktzMkdUL3l0cEhWQ3pWRHFUS3g3MXdsS2VmbE9uLzJUUE0reVl4b3Fy?=
- =?utf-8?B?azRKdCtvSk9Db1p6VGJMQ2xyS0RrTHRobldHcDJKdHVSL0JoMGxNVnRWWkFO?=
- =?utf-8?B?amVjMGtQTlM1S0h3dEJ0UXJaNjcvcjBtZkVFVEYyYWZQZjFrVVVMMk8waGxL?=
- =?utf-8?B?UHFzMnRhUGNjU01qMkF4UWEyVUVHWi9OUW1HSGw0Y2pUNUJxS0Z4ckxFcGVR?=
- =?utf-8?B?aGZqSnNUUzF3NHdlc3FidXRLSnJ6c2c5WlVNUEpBMVlYTDhjeWZIdz09?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a07eaab3-f5fd-4fa8-7c82-08dec7927586
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8570.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2026 08:21:38.5820
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SDzFia0wKBilYIvyFw0yMYmZ143VR/vjDKz71jECFnREI60o6JeEtJcpQSacBP53HMimwJqLgr03jazLq4HgEw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB8332
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAEth8oEv3iAQ1P9=rYddeBRX2qrjZiysUA_JfFp8pUAoJXbGLQ@mail.gmail.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.94 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-64552-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[ming.qian@oss.nxp.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:nicolas.dufresne@collabora.com,m:hverkuil+cisco@kernel.org,m:Frank.Li@nxp.com,m:eagle.zhou@nxp.com,m:linux-imx@nxp.com,m:imx@lists.linux.dev,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:ming.qian@oss.nxp.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ming.qian@oss.nxp.com,linux-media@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-64553-lists,linux-media=lfdr.de];
+	HAS_ORG_HEADER(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:hpa@redhat.com,m:mpearson@squebb.ca,m:mchehab@kernel.org,m:johannes.goede@oss.qualcomm.com,m:hverkuil+cisco@kernel.org,m:serin.yeh@intel.com,m:tarang.raval@siliconsignals.io,m:gdamjan@gmail.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[squebb.ca,kernel.org,oss.qualcomm.com,intel.com,siliconsignals.io,gmail.com,vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,nxp.com:email,oss.nxp.com:mid,oss.nxp.com:from_mime,NXP1.onmicrosoft.com:dkim]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,intel.com:dkim,intel.com:email,vger.kernel.org:from_smtp,linux.intel.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8EFD466FCFA
+X-Rspamd-Queue-Id: 46E0A66FD30
 
-The dev_err log warning about no input when starting was originally
-meaningful when min_queued_buffers was set, as it indicated an abnormal
-condition. However, since commit 5633ec763a2a ("media: amphion: Drop
-min_queued_buffers assignment") removed the min_queued_buffers
-assignment, having frame_count == 0 at start is a normal condition.
+Hi Kate,
 
-Remove this misleading log that no longer serves any purpose.
+On Thu, Jun 11, 2026 at 03:25:46PM +0800, Kate Hsuan wrote:
+> Hi Sakari and Mark,
+> 
+> On Thu, Jun 11, 2026 at 5:59 AM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Kate,
+> >
+> > I know several people have given you different advices but...
+> >
+> > On Tue, Jun 09, 2026 at 08:49:24PM +0800, Kate Hsuan wrote:
+> > > The Lenovo X9 has an upside-down-mounted Sony IMX471 sensor so the image
+> > > was displayed upside-down. Add the DMI information of Lenovo X9 to
+> > > resolve the issue.
+> > >
+> > > Signed-off-by: Kate Hsuan <hpa@redhat.com>
+> > > ---
+> > >  drivers/media/pci/intel/ipu-bridge.c | 32 ++++++++++++++++++++++++++++
+> > >  1 file changed, 32 insertions(+)
+> > >
+> > > diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
+> > > index fc6608e33de4..9e24aaceecdf 100644
+> > > --- a/drivers/media/pci/intel/ipu-bridge.c
+> > > +++ b/drivers/media/pci/intel/ipu-bridge.c
+> > > @@ -134,6 +134,38 @@ static const struct dmi_system_id upside_down_sensor_dmi_ids[] = {
+> > >               },
+> > >               .driver_data = "OVTI02C1",
+> > >       },
+> > > +     {
+> > > +             /* Lenovo X9-14 */
+> > > +             .matches = {
+> > > +                     DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+> > > +                     DMI_MATCH(DMI_BOARD_NAME, "21QA"),
+> > > +             },
+> > > +             .driver_data = "SONY471A",
+> > > +     },
+> > > +     {
+> > > +             /* Lenovo X9-14 */
+> >
+> > How are the two X9-14's different? It'd be good to have some comment here
+> > which model this actually is: the board name is only available (typically
+> > at least) in DMI.
+> 
+> According to the datasheet of X9-14 and 15. Lenovo offers 2 screen
+> sizes (14-inch and 15-inch) and 2 CPU types (Core Ultra 5 and 7).
 
-Fixes: 5633ec763a2a ("media: amphion: Drop min_queued_buffers assignment")
-Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
----
-Remove a misleading dev_err log in the encoder start session path that
-became obsolete after the min_queued_buffers removal.
----
- drivers/media/platform/amphion/venc.c | 2 --
- 1 file changed, 2 deletions(-)
+Is the CPU SKU the difference here? If so, can you add that to the comment?
 
-diff --git a/drivers/media/platform/amphion/venc.c b/drivers/media/platform/amphion/venc.c
-index 0b3d58b9f2f7..2ba4ae20f829 100644
---- a/drivers/media/platform/amphion/venc.c
-+++ b/drivers/media/platform/amphion/venc.c
-@@ -973,8 +973,6 @@ static int venc_start_session(struct vpu_inst *inst, u32 type)
- 	venc->ready_count = 0;
- 	venc->stopped = false;
- 	vpu_process_output_buffer(inst);
--	if (venc->frame_count == 0)
--		dev_err(inst->dev, "[%d] there is no input when starting\n", inst->id);
- 
- 	return 0;
- error:
+> They may ship customised firmware for a specific purpose with a random
+> DMI_PRODUCT_VERSION.
+> So, using the DMI_BOARD_NAME prefix to identify the laptop SKU is
+> safer and easier.
+> 
+> I think DMI_MATCH(DMI_BOARD_NAME, "21Q") covers all X9 but I don't
+> know the side effect :(
+> They may propose a new model with a different MIPI camera or HID.
 
----
-base-commit: 06cb687a5132fcffe624c0070576ab852ac6b568
-change-id: 20260611-amphion-enc-log-fdf1d7613b5c
+Indeed. Is the BOARD_NAME guaranteed to be unique by Lenovo? I think I'd
+use DMI_EXACT_MATCH(), too.
 
+> 
+> >
+> > > +             .matches = {
+> > > +                     DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+> > > +                     DMI_MATCH(DMI_BOARD_NAME, "21QB"),
+> > > +             },
+> > > +             .driver_data = "SONY471A",
+> > > +     },
+> > > +     {
+> > > +             /* Lenovo X9-15 */
+> > > +             .matches = {
+> > > +                     DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+> > > +                     DMI_MATCH(DMI_BOARD_NAME, "21Q6"),
+> > > +             },
+> > > +             .driver_data = "SONY471A",
+> > > +     },
+> > > +     {
+> > > +             /* Lenovo X9-15 */
+> > > +             .matches = {
+> > > +                     DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+> > > +                     DMI_MATCH(DMI_BOARD_NAME, "21Q7"),
+> > > +             },
+> > > +             .driver_data = "SONY471A",
+> > > +     },
+> > >       {} /* Terminating entry */
+> > >  };
+> > >
+> >
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
