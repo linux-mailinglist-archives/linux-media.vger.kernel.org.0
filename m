@@ -1,91 +1,91 @@
-Return-Path: <linux-media+bounces-64620-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64622-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id +J62D8UeK2ra2wMAu9opvQ
-	(envelope-from <linux-media+bounces-64620-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 22:47:01 +0200
+	id DRkpLNYeK2rj2wMAu9opvQ
+	(envelope-from <linux-media+bounces-64622-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 22:47:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E876675499
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 22:47:00 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC92E6754B2
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 22:47:17 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ragnatech.se header.s=fm3 header.b=aeWLGFVE;
-	dkim=pass header.d=messagingengine.com header.s=fm1 header.b="K NWtJXV";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64620-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64620-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ragnatech.se header.s=fm3 header.b=nVhh+PSh;
+	dkim=pass header.d=messagingengine.com header.s=fm1 header.b="H RAwOcL";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64622-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64622-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=ragnatech.se;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 82DF233F1F6E
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 20:42:56 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3985233FECA6
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 20:43:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C341C4C9544;
-	Thu, 11 Jun 2026 20:42:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29E624D9902;
+	Thu, 11 Jun 2026 20:42:21 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3D94D2ECF;
-	Thu, 11 Jun 2026 20:42:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06604D90B1;
+	Thu, 11 Jun 2026 20:42:15 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781210538; cv=none; b=Fd7Hp6UY70VZ7bpmejf+d25jIs4YpS/5rBmTScdwDlewcEe+Gfn+i/KJXDLvCDdhzw6esvWMO2jLSS2YAo0WH1nPfwnyuSNNpSnZZyjvCPIiURZlaKAA3Ot4coWjKFV3hqHDg/MJCZjOyrO5l5hhbX3UmSBrsEhSDRcZisBya4A=
+	t=1781210540; cv=none; b=upHXRQT8VyvQd0PyNZ24rtzRUZEZA9JsmdpT7vSebMbhqSjYY7DfuPaUrOYXfrIzYsfga7hl0ST7V2V0X2yvbI4ox0loe7PEFieMepQWo93ERqAQ/zQYp6UU/ntLAqajUSMAkAdOGdcWFIuotiJKZZ8uPUqvlbEmySv7NLtneAE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781210538; c=relaxed/simple;
-	bh=GxaIr5pqHWoX/CbJRjBIxeAywnXtQktwz9jIY3YW5B8=;
+	s=arc-20240116; t=1781210540; c=relaxed/simple;
+	bh=Ph7DeV0LUlgy6kf53v1bMNRhSU2QZvMeVMAMoc18TIs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UdcgfPX0RjhQ1+ENcoxc5Fm9bGCJ3kg0Z2mUPMJJ8YbMsdG/DCDFFW7l4bIvzvfOkY+j++FWjkKJEaQdoNt9MYWReHyZQ4nZYM7zIY3wVZhlquuFBDlPFhQempQV8t9aUig5pdOiWYj7UJ4CTd4Loia24V9LJ8egFE/3UOObH1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=aeWLGFVE; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=KNWtJXVr; arc=none smtp.client-ip=103.168.172.144
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id 9AF8FEC0109;
-	Thu, 11 Jun 2026 16:42:12 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Thu, 11 Jun 2026 16:42:12 -0400
+	 MIME-Version:Content-Type; b=eFOs8i0U1qc63E5h0JaC9og3L5qA/SQVJ7KlRN5wNFVa/np6MzRWiVcmIr3o91aK1Z9kN6rTkEOEETJ1ed3BTSjZvD/i8eUG16a20SCLKEQKXPlGZSu2SjOR1rjOA6maRg8gVWQ/2o/ezNH3M+HMrnmFZxX4s/2uP00OHcJ67g0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=nVhh+PSh; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=HRAwOcLb; arc=none smtp.client-ip=103.168.172.152
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id E23FA140006C;
+	Thu, 11 Jun 2026 16:42:14 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-10.internal (MEProxy); Thu, 11 Jun 2026 16:42:14 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1781210532;
-	 x=1781296932; bh=N7YFr5YgNfPXJ1/2MBK64oUakiJ542niX9QNjeJmtCs=; b=
-	aeWLGFVESp/W5GOEcNkMO+fAiYmhFCGIvcbaOgFSwl0aJ/DJiTIkIjy/WaZtl7i7
-	MlL/xLx5V9i9feUzcild/uKkTyjDuWsi43OaaoCzys+Q+1dTUGlw9BYcQvmUsKB1
-	y1So/NXVWSvvm7Y10IfG70y48pEwrc5lZvP8e6FagEQW91cdTp/9RZXLCf1+zRnt
-	KPAAF2vgh9DfSqx/TsxR+VPArXYERj+NQioMjM/8XOX0vDUGuonKD4gnpJviuW8m
-	8c/XNyQIQ0dmDi4t7p20HCOD1Q9KoSQEvIg+FQzWgaR4m96ZrFM5rdkqthRis0JD
-	Q3HvHZjshce6OtdPJSkeYA==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1781210534;
+	 x=1781296934; bh=a93FRd5qbVS63T3DTYQMCK5OYSCjitmcIJYSR/urAq8=; b=
+	nVhh+PShTigKao+lXLne5zIfAF40HlHycF9wiU9MEcYj8by2BnEuQn7R8wmhDNRP
+	EETYyNAZA865r1lhzhXzIUPg80Ty3RS3mJFv0tcX1kbI4Rbcxlx5+GkP1e3Thiuz
+	F1W1aupzpfB0BtJqCI9JKZ1WyQKHcmhZc3ShrJgfrI9rIx+QTigrlcUSS1e0G0Jc
+	r3r39eBIDH8LdoNV+1XosMiFBMOziOJ17oC6A5q06yjBnchpNCVgr1OsYIepaQ8u
+	mbPk6OD1lwC2LMyRvYGApdQNz0BrRxOYW5LK2bkWg8KS/Hd33eAPG/X8Z/Y5oa76
+	LNTDhQPOamKRqYVMLLOdtw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781210532; x=
-	1781296932; bh=N7YFr5YgNfPXJ1/2MBK64oUakiJ542niX9QNjeJmtCs=; b=K
-	NWtJXVrcNcWgkzMBecT0zTU2XAB3Akwnk+02xpE+/yuPcQHLiDUGgm7Tb3XREVMZ
-	xKfa178r2h5q4JIIEea7DuCLe5PW6mkj3/nCItrGukwzWNIAXZLzBGQRj68U03WR
-	JQIMiXZOhby8ODVfvoXuV0XZMXrVSkbKy08Miuwk6A63oTgVHq6xiaNKK7MiZQIb
-	wqXx8gdwUSh+HUDgIu5c1qNgyud8PQa9s8ubDgRlRBxeOZWDbZdMG+lrybvCc4BW
-	m4FELtm2tPCPeJnpxt2BmYwhfBZSnIBMnTEGuGglIjLwAu9x8H48GkrdpF6rB2E6
-	GopffSKsZz+9723ReCpGA==
-X-ME-Sender: <xms:pB0rah1aRlqIoXgghscc_0wfR3n-Nz6Y2l9y9m84ousWpZoTNw-MHw>
-    <xme:pB0rauHjqLY1vtOmN_oxyM5BOUAERVdYcfeArom1-qLnz4tlR7azA1vGNpZbkV7LJ
-    eUK8NIZfdumEBWWLRocnDQBFqaMejaIpLDx95-618LjGWgyK-Yo8sk>
-X-ME-Received: <xmr:pB0rasuV0UcjReQf5yHBYwjxfVgaF_fg9jQCCkXrT2n5lblBB0mdp5M5HOmRLhEL-qgixQrsRGNzlW-UsV8EXxcVPAUZ>
-X-ME-Proxy-Cause: dmFkZTElzGJXl60mNUqToKTivO6fzKUfeDudCtueprE/+xf5zRiKgXL332nQtRafIdMSCB
-    WbCqCcSq0eAwj3yzvzs2VDqFydbFSPTCQuCp4uh1KM84sn1XSA5ORe+iSHEgkPJskFtlDi
-    WnArhvyDVNdJcGrJNfyBSzhrPAXqh4wAT6GWGr/itNQ+xd+/3ULTV0Rzzz3VzJ1zhcRB7I
-    aZkrCQruqgJfK6bBfe2Vqw/fKcjAvoi8fHyKTqd65lJTGzvhLniv2t+7N85cTr7X/bRoIN
-    QZRN0d3RSPSshGdmzUDY9PHbgA4QwDHlVToF8WbNh9c8cCG5fX8ohsDrIZDQ33xozERwKG
-    p2Vc8x3mDlQqhRkxPzbVPo8fbbRvVQ+xA1fqLzH8LN5V2pfA4heNGRnTs474MQLJw7JMi2
-    ls21u2p3U5VnQwyPrn4oeb8xyF9PBneV0M/pRPvhi8GgbHAfWm66wUJwmf/ufsRVno0xEi
-    DgsfTWJ4/68MBFsHwaOQ7zUmI1INHGu8P6xW+NeGahsHz7cU7oUXYY0rHHxG4gewJONy0o
-    OxW7diOye7xo7op+Q2NjRS08g8GxBr3mhqGKwLlv19U6rpi3Ol+hKyyelWnVJDHRiAuXgn
-    qcJnpC/ODX52VFYC0El09V1vmQXVSIsntfEZbPp6Fh2/NrcdU62GJpDT1Nzg
-X-ME-Proxy: <xmx:pB0raho6Z8QilwnNpVp7Do1-3XXDEKQd56zNODXGm00qfo3--OIwnQ>
-    <xmx:pB0rajXbmQPKh7Lot8OYosvr66KamSZnpCSAnSbWycEVxxdy7Npqtw>
-    <xmx:pB0rap15yDA8VIXlSxK-ILZwFmDQHJ3MU8497BSwVWhgfYKRnti0qw>
-    <xmx:pB0raosZqRwLFFFZ5k2idG3piltM7c1rBoTOpFRUW0_JWRMLi0we5g>
-    <xmx:pB0rak61L-CjvXK1ms0uYN1PmB6R_D8BfJz_2tlhobSwU72oPWRLN32K>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781210534; x=
+	1781296934; bh=a93FRd5qbVS63T3DTYQMCK5OYSCjitmcIJYSR/urAq8=; b=H
+	RAwOcLbfzq3jMpw7pR6UHA68/xsO1YdHEzDrU+WrvllGUnz+0hWaEXrQjjn+zgMP
+	N/OH1MHvZJXvRv1FbPGzH8JJnwthr863jQglvh4QGIeP3ThR4tvgVLJBEYu8WUOq
+	ss+VaaA6IhhmQk57tMr/HJyoiYfzhTMbZz2KOL4B5VOXrTPyJN15l6e+0D8jEmO5
+	7Okd3BUthdjb2/Qn3RTmkTnPHqpo8O/JG590M0ISrN64mhqWIIu47fsE834hg20d
+	9dDHun+tLPMgV2fjxmUYwH5uBjp1pv2ZyfjPlKNj0GO6RvxX2YH+f0TOGXQmFWuf
+	K1+nYVJ06GXaOFNykjGkw==
+X-ME-Sender: <xms:ph0rannx81LR8ra8_11hFh-vr1AIRuSupYaFtLbmnnOsLQxwlGactA>
+    <xme:ph0rag3-Xt8SGXlCHyDNer9RAB1OgNPjMs2ZiUl6lUFVmG3dvmsGq5fh3WAMrudJh
+    dv6zWPn9FH48V9IzxlRAi7l55b6Xyr8HQ_7p1InCIOtYvhoURNsxoFr>
+X-ME-Received: <xmr:ph0raodCboFrntdlr_akqnv8MWTvNLWLH_1qHUgDG6gqFSHc5nVKS0XyjfueXLF9fsx7fbupDTzY4FddeXqIcoSCW5-w>
+X-ME-Proxy-Cause: dmFkZTGTwJp0D3nyprng9f+ehyN+U4VV3MOe5/cdH2A5qA/R9Ky1QdhqFluVFv9t9K1PqO
+    d46xy08QaJjHyS5c59wsiACPu8imV1juPGXo/cmfrwGuYk523Skor7nnOYakFru4NnykAC
+    xzNGbgE2sHBbOHUC4l2NGJpAFTRChAVssbC/rx5sCdBojwu+s0UAX9qR0T9Er+xzyH7ibV
+    Y2tUOqaYCAVxPqYvGj2WmubZa3QEk8z8DzCrDdR5IDamHf1qX4GxlGuF8Tu8+GGHcGjsOc
+    TXMF0jHVRMNdt52NYa5uuUlAr+ssgLiG8Ph/oCak6VeTZu2Hn5H5xPKodOk69frGJXZ0hY
+    RAuzKCmVml2gzAEJflR+9bALxFt6k3IMwG0m6A/tqNR2xdm0XaK4tp5CIb8dfPDhcNjKs9
+    DeaDti8sfcK8kxlPoUcVGMNA614hPzB+enwM3bSUSeHhZojFGvVLOb//hR7lTvL11KrE5s
+    LCeARQMwDcQatEoOARtm7CmXAMQ4yQo+13meThZvnzs5RwcHMNdJQGxo30tlkSB/M4jEr8
+    Qdg54KCLyg2N4OruS9cqYshtRvVBV6M8g+UkyLKktUqDeX25q/MQsNGCn7cj586bSZ4B+c
+    jMQsKYT/tvI5yUaygN67qCxfeJAeWULXyp8vMVB4l9cZjYVixN7cbD12QV+w
+X-ME-Proxy: <xmx:ph0raiaunVSnXVgPojFDGlsUJd5bWjKvYMDVk8-pt1Rovu9fOEdaFg>
+    <xmx:ph0ralEMHLryqgVKbvULZmUrnl0nuZ_hiQvqBtGEpepq8PPSb3w1Cg>
+    <xmx:ph0raomKJmw9kp-bUwD-brtIcG0uQtLH_wM_XKrQWFyHBvfzLMkDVQ>
+    <xmx:ph0ragdWeiiZfRHyk4K5GjHjHFpEnLQDGA72pvF1vSDgoKKabxkplg>
+    <xmx:ph0ravHij3mM2Y5d3NQcLHeyLZdRkmSOYEUhAmy_HJlvG6r7cwtNgMyJ>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 11 Jun 2026 16:42:11 -0400 (EDT)
+ 11 Jun 2026 16:42:13 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Jai Luthra <jai.luthra+renesas@ideasonboard.com>,
@@ -97,9 +97,9 @@ To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	linux-kernel@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
 	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Subject: [PATCH v10 03/13] media: rppx1: Add framework to support Dreamchip RPPX1 ISP
-Date: Thu, 11 Jun 2026 22:41:38 +0200
-Message-ID: <20260611204148.1423192-4-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v10 04/13] media: rcar-isp: Add support for ISPCORE
+Date: Thu, 11 Jun 2026 22:41:39 +0200
+Message-ID: <20260611204148.1423192-5-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260611204148.1423192-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20260611204148.1423192-1-niklas.soderlund+renesas@ragnatech.se>
@@ -117,12 +117,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
 	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm3,messagingengine.com:s=fm1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64620-lists,linux-media=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-64622-lists,linux-media=lfdr.de,renesas];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:jai.luthra+renesas@ideasonboard.com,m:mchehab@kernel.org,m:kuninori.morimoto.gx@renesas.com,m:laurent.pinchart@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:niklas.soderlund+renesas@ragnatech.se,m:jacopo.mondi+renesas@ideasonboard.com,m:jai.luthra@ideasonboard.com,m:niklas.soderlund@ragnatech.se,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
@@ -131,7 +131,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_SENDER(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
@@ -143,420 +143,129 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[10];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,ideasonboard.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,lists.freedesktop.org:email,ragnatech.se:dkim,ragnatech.se:email,ragnatech.se:mid,ragnatech.se:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,ideasonboard.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ragnatech.se:dkim,ragnatech.se:email,ragnatech.se:mid,ragnatech.se:from_mime,desc.base:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2E876675499
+X-Rspamd-Queue-Id: CC92E6754B2
 
-Add a framework driver for Dreamchip RPPX1 ISP. The driver aims to
-provide a framework for other V4L2 based drivers to drive the RPPX1
-functionality. The reason for this split is that the RPPX1 IP itself do
-not provide any DMA engines to drive data to/from the device, instead it
-depends on other IP blocks to implement these features.
+The Renesas R-Car ISP block consists of two different IP blocks, one
+CSI-2 Channel Selector (CSISP) and one traditional ISP for image
+operation (ISPCORE). The R-Car ISP driver currently supports the CSISP
+functionality as part of the video capture pipeline, this change adds
+support for the ISPCORE functionality.
 
-While the peripherals around the RPPX1 ISP used in different designs and
-by different vendors are different the RPPX1 core itself is the same.
-For this reason the framework solution to be able to split the Dreamchip
-RPPX1 driver from vendors usage of it have been picked in hope to reduce
-duplication of the common parts.
+The ISPCORE functionality is further split in two parts, a Renesas
+specific part and a Dream Chip Real-time Pixel Processor IP part
+(RPPX1). The Renesas part deals with I/O to/from the block while the
+RPPX1 part deals with the actual ISP functions.
 
-The design is to try and keep the surface of this framework as small as
-possible. The intention of this change is to be able to fill all needs
-of this.
+The RPPX1 functionality is implemented in a support framework (DCT
+RPPX1) as this block can be used by different vendors or setups.  This
+change deals with the Renesas part of exposing the V4L2 elements needed
+for a user-space interface to the RPPX1 and deals with the DMA to/from
+the RPP block. It also facilitates the user-space V4L2 API to allow
+configuring the RPPX1 using the DCT RPPX1 support framework.
 
-  * Two functions to create and destroy a RPPX1 instance, rppx1_create()
-    and rppx1_destory(). These are intended to be called in the users
-    probe and remove code paths.
+The functionality exposed are one input video device where RAW bayer
+frames can be queued for processing, one output video device where the
+debayerd image can be read as either ABGR32 or NV16M format. Further
+more a video device to queue the image processing parameters to
+configure the RPPX1 IPS as well as a video device to read statistics
+about the processed image is available.
 
-  * Two functions to start and stop the RPPX1 processing, rppx1_start()
-    and rppx1_stop(). These are intended to be called in the users
-    stream on and stream off code paths.
-
-  * One function to ask the RPPX1 to process parameters buffer prepared
-    by user space, rppx1_params(). The intention is to call this
-    function when the parameter buffer is queued to the V4L2 driver and
-    the result stored by the driver until the time it needs to be
-    written to the RPPX1. It's the users responsibility to write it
-    either using MMIO or other means.
-
-  * One function to fill in a statistic buffer based on the current
-    status of the RPPX1, rppx1_stats_fill_isr(). The intention is that
-    the user call's this in its interrupt handler when it knows the
-    RPPX1 is done processing a frame.
-
-  * One function to ack and retrieve the interrupts generated by the
-    RPPX1, rppx1_interrupt(). The intention is to call this function
-    when the users interrupt handler detects the RPPX1 have raised and
-    interrupt. There is no need for the user to understand, or act, on
-    the actual RPPX1 interrupt, but it can if it wants too.
-
-The initial support in the framework is limited and do not implement any
-ISP processing algorithms other then configuring the RPPX1 to process
-any Bayer (8-, 10, or 12-bit) image and produce either a RGB or YUYV
-output. It do however probe all function blocks of the RPPX1 and provide
-an interface to interact with both parameter and statistic bufferers.
-The user of the framework will not change as algorithms for the
-different function blocks of the ISP are being added.
+There is no change in the operation of the CSISP functionality.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Co-developed-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
-Signed-off-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
+[ VSPX interfacing + locking sanitizing ]
 Co-developed-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
-* Changes since v9
-- Drop documentation update from rppx1-config.h to an earlier patch.
-- Drop unused EXM_MEAN_REG_NUM, it is replaced by a define in the format
-  header.
+* Changes since v8
+- Use vb2_video_unregister_device() instead of
+  video_unregister_device().
+- Fix spelling of 'Programing'.
+- Check that the number of pairs from user-space do not exceed the
+  buffer size.
+- Fix setting of ISPCORE_DMA_IMAGE_FRAME_STRIDE_COMP1() value. No
+  functional change but the code used the wrong source for the same
+  information.
 
 * Changes since v8
-- Broke out header scaffolding to own patch to retain Jai as author.
-- Add documentation to MAINTAINERS file.
-- Added Jai and Jacopo to MAINTAINERS file.
-- Drop slab.h from rpp_module.c
-- Avoid cast in call to v4l2_isp_params_validate_buffer()
-- Use dev_warn() and dev_err() instead of pr_warn() and pr_err() now
-  that we have access to a dev pointer.
-- Make parameter type checking switch snugger.
-- Return value directly in rppx1_read()
-- Replace magic numbers with defines.
-- Add linux/device.h include in rppx1.h for struct device.
-- Do not store modules bit with as this is now fully exposed to
-  user-space.
-- Update comments in uapi header now we have a RPPX1 native format.
+- Fix spelling in comments.
+- Added Jacopo's Co-Developed tag.
+- Removed superfluous dev_info at probe.
+- Moved power on and clock Enablement to stream start time.
+- Reduce indentation in risp_io_buffer_prepare().
+- Adjust colorspace fields depending on format.
+- Add WARN_ON and comment on defensive check in risp_core_job_prepare().
+- Fix misspelt symbol names risp_core_vspx_frame_end and
+  risp_core_io_destroy.
+- Unregistered io nodes and subdev if registration fails.
+- Add linux/spinlock.h include in risp-core.h
 
 * Changes since v7
-- Merge with fixups done before the pixel format change.
-- Update to use isp helpers, thanks Jai and Jacopo.
-
-* Changes since v6
-- Use kzalloc_obj
-- Set device pointer
+- Fix kdoc tag.
+- Update to init ISP device pointer.
 
 * Changes since v5
-- Make use of v4l2-isp.
-- Make VIDEO_DCT_RPPX1 a non visible symbol. It makes no sens to build
-  it without a consumer.
+- Use NULL instead of 0 when init rcar_isp_core in probe.
 
-* Changes since v2
-- Add missing include to slab.h
+* Changes since v4
+- Add depend on VIDEO_RENESAS_VSP1
 
 * Changes since v3
-- Fix small build issues found by 0day on non-arm ARCH.
----
- .../userspace-api/media/v4l/metafmt-rppx1.rst |  99 +++++
- MAINTAINERS                                   |  10 +
- drivers/media/platform/Kconfig                |   1 +
- drivers/media/platform/Makefile               |   1 +
- drivers/media/platform/dreamchip/Kconfig      |   3 +
- drivers/media/platform/dreamchip/Makefile     |   6 +
- .../media/platform/dreamchip/rppx1/Kconfig    |  12 +
- .../media/platform/dreamchip/rppx1/Makefile   |  33 ++
- .../platform/dreamchip/rppx1/rpp_module.c     |  39 ++
- .../platform/dreamchip/rppx1/rpp_module.h     | 107 +++++
- .../platform/dreamchip/rppx1/rpp_params.c     |  71 ++++
- .../platform/dreamchip/rppx1/rpp_stats.c      |  28 ++
- .../media/platform/dreamchip/rppx1/rppx1.c    | 381 ++++++++++++++++++
- .../media/platform/dreamchip/rppx1/rppx1.h    | 105 +++++
- .../platform/dreamchip/rppx1/rppx1_acq.c      | 148 +++++++
- .../platform/dreamchip/rppx1/rppx1_awbg.c     |  31 ++
- .../media/platform/dreamchip/rppx1/rppx1_bd.c |  53 +++
- .../platform/dreamchip/rppx1/rppx1_bdrgb.c    |  81 ++++
- .../platform/dreamchip/rppx1/rppx1_bls.c      |  60 +++
- .../platform/dreamchip/rppx1/rppx1_cac.c      |  30 ++
- .../platform/dreamchip/rppx1/rppx1_ccor.c     | 105 +++++
- .../media/platform/dreamchip/rppx1/rppx1_db.c |  45 +++
- .../platform/dreamchip/rppx1/rppx1_dpcc.c     |  77 ++++
- .../platform/dreamchip/rppx1/rppx1_exm.c      |  51 +++
- .../media/platform/dreamchip/rppx1/rppx1_ga.c |  50 +++
- .../platform/dreamchip/rppx1/rppx1_hist.c     |  77 ++++
- .../platform/dreamchip/rppx1/rppx1_hist256.c  |  47 +++
- .../media/platform/dreamchip/rppx1/rppx1_is.c |  43 ++
- .../platform/dreamchip/rppx1/rppx1_lin.c      |  59 +++
- .../platform/dreamchip/rppx1/rppx1_lsc.c      |  69 ++++
- .../platform/dreamchip/rppx1/rppx1_ltm.c      |  49 +++
- .../platform/dreamchip/rppx1/rppx1_ltmmeas.c  |  42 ++
- .../platform/dreamchip/rppx1/rppx1_outif.c    |  46 +++
- .../platform/dreamchip/rppx1/rppx1_outregs.c  |  76 ++++
- .../platform/dreamchip/rppx1/rppx1_rmap.c     |  63 +++
- .../platform/dreamchip/rppx1/rppx1_rmapmeas.c |  47 +++
- .../platform/dreamchip/rppx1/rppx1_shrp.c     |  65 +++
- .../platform/dreamchip/rppx1/rppx1_wbmeas.c   |  62 +++
- .../platform/dreamchip/rppx1/rppx1_xyz2luv.c  |  27 ++
- include/media/rppx1.h                         |  36 ++
- 40 files changed, 2435 insertions(+)
- create mode 100644 Documentation/userspace-api/media/v4l/metafmt-rppx1.rst
- create mode 100644 drivers/media/platform/dreamchip/Kconfig
- create mode 100644 drivers/media/platform/dreamchip/Makefile
- create mode 100644 drivers/media/platform/dreamchip/rppx1/Kconfig
- create mode 100644 drivers/media/platform/dreamchip/rppx1/Makefile
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_module.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_module.h
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_params.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rpp_stats.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1.h
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_acq.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_bd.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_bdrgb.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_cac.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_db.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_dpcc.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_exm.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ga.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_hist256.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_is.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ltm.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_ltmmeas.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_outif.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_outregs.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_rmap.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_rmapmeas.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_shrp.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c
- create mode 100644 drivers/media/platform/dreamchip/rppx1/rppx1_xyz2luv.c
- create mode 100644 include/media/rppx1.h
+- Make sure VSPX is stopped before queueing next job, starting with
+  v6.18-rc1 the two can get out of sync.
+- Fix a possible race with VSPX when stopping streaming.
 
-diff --git a/Documentation/userspace-api/media/v4l/metafmt-rppx1.rst b/Documentation/userspace-api/media/v4l/metafmt-rppx1.rst
-new file mode 100644
-index 000000000000..ad256ae1c1b2
---- /dev/null
-+++ b/Documentation/userspace-api/media/v4l/metafmt-rppx1.rst
-@@ -0,0 +1,99 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. _v4l2-meta-fmt-rppx1-params:
-+.. _v4l2-meta-fmt-rppx1-stats:
-+
-+*************************************************************************
-+V4L2_META_FMT_RPP_X1_PARAMS ('DR1P'), V4L2_META_FMT_RPP_X1_STATS ('DR1S')
-+*************************************************************************
-+
-+Configuration Parameters
-+========================
-+
-+The configuration parameters are passed to the metadata output video node, using
-+the :c:type:`v4l2_meta_format` interface. Rather than a single struct containing
-+sub-structs for each configurable area of the ISP, parameters for the Dreamchip
-+RPPX1 use the v4l2-isp parameters system, through which groups of parameters are
-+defined as distinct structs or "blocks" which may be added to the data member of
-+:c:type:`v4l2_isp_buffer`. Userspace is responsible for populating the data
-+member with the blocks that need to be configured by the driver.  Each
-+block-specific struct embeds :c:type:`v4l2_isp_block_header` as its first member
-+and userspace must populate the type member with a value from
-+:c:type:`rppx1_params_block_type`.
-+
-+.. code-block:: c
-+
-+	struct v4l2_isp_params_buffer *params =
-+		(struct v4l2_isp_params_buffer *)buffer;
-+
-+	params->version = V4L2_ISP_PARAMS_VERSION_V1;
-+	params->data_size = 0;
-+
-+	void *data = (void *)params->data;
-+
-+	struct rppx1_ccor_params *ccor =
-+		(struct rppx1_ccor_params *)data;
-+
-+	ccor->header.type = RPPX1_PARAMS_BLOCK_TYPE_CCOR_POST;
-+	ccor->header.flags |= V4L2_ISP_PARAMS_FL_BLOCK_ENABLE;
-+	ccor->header.size = sizeof(struct rppx1_ccor_params);
-+
-+        ccor->coeff[0][0] = 0x1000;
-+        ccor->coeff[0][1] = 0x0000;
-+        ccor->coeff[0][2] = 0x0000;
-+        ccor->coeff[1][0] = 0x0000;
-+        ccor->coeff[1][1] = 0x1000;
-+        ccor->coeff[1][2] = 0x0000;
-+        ccor->coeff[2][0] = 0x0000;
-+        ccor->coeff[2][1] = 0x0000;
-+        ccor->coeff[2][2] = 0x1000;
-+
-+        ccor->offset[0] = 0x200000;
-+        ccor->offset[1] = 0x200000;
-+        ccor->offset[2] = 0x200000;
-+
-+	data += sizeof(struct rppx1_ccor_params);
-+	params->data_size += sizeof(struct rppx1_ccor_params);
-+
-+3A Statistics
-+=============
-+
-+The ISP device collects different statistics over an input bayer frame. Those
-+statistics can be obtained by userspace from the metadata capture video node,
-+using the :c:type:`v4l2_meta_format` interface. Rather than a single struct
-+containing sub-structs for each statistics area of the ISP, statistics for the
-+Dreamchip RPPX1 use the v4l2-isp statistics system, through which groups of
-+statistics are defined as distinct structs or "blocks" which may be added to the
-+data member of :c:type:`v4l2_isp_buffer`. Userspace is responsible for parsing
-+the buffer and extracting the blocks of statistics. Each block-specific struct
-+embeds :c:type:`v4l2_isp_block_header` as its first member and userspace must
-+interpret the type member with a value from :c:type:`rppx1_stats_block_type`.
-+
-+.. code-block:: C
-+
-+        const struct v4l2_isp_buffer *stats =
-+                (struct v4l2_isp_buffer *)buf;
-+        size_t block_offset = 0;
-+
-+        while (block_offset < stats->data_size) {
-+                const struct v4l2_isp_stats_block_header *block =
-+                        (void*)(stats->data + block_offset);
-+
-+                block_offset += block->size;
-+
-+                switch (block->type) {
-+                case RPPX1_STATS_BLOCK_TYPE_HIST_POST:
-+                        for (unsigned int i = 0; i < RPPX1_HIST_NUM_BINS; i++)
-+                                printf("hist.hist_bins[%u] = 0x%08x\n",
-+                                        i, hist.hist_bins[%i]);
-+                        break;
-+                default:
-+                        printf("Unknown block type 0x%04x", block->type);
-+                        break;
-+                }
-+        }
-+
-+Dreamchip RPPX1 uAPI data types
-+===============================
-+
-+.. kernel-doc:: include/uapi/linux/media/dreamchip/rppx1-config.h
-diff --git a/MAINTAINERS b/MAINTAINERS
-index faa1cee7a203..afbbce6d7383 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7882,6 +7882,16 @@ F:	drivers/block/drbd/
- F:	include/linux/drbd*
- F:	lib/lru_cache.c
+* Changes since v2
+- Rework the start procedure so the ISP is reset without from a context
+  that can sleep.
+---
+ .../media/platform/renesas/rcar-isp/Kconfig   |   2 +
+ .../media/platform/renesas/rcar-isp/Makefile  |   2 +-
+ .../media/platform/renesas/rcar-isp/core-io.c | 997 ++++++++++++++++++
+ .../media/platform/renesas/rcar-isp/core.c    | 901 ++++++++++++++++
+ .../media/platform/renesas/rcar-isp/csisp.c   |  48 +-
+ .../platform/renesas/rcar-isp/risp-core.h     | 179 ++++
+ 6 files changed, 2121 insertions(+), 8 deletions(-)
+ create mode 100644 drivers/media/platform/renesas/rcar-isp/core-io.c
+ create mode 100644 drivers/media/platform/renesas/rcar-isp/core.c
+ create mode 100644 drivers/media/platform/renesas/rcar-isp/risp-core.h
+
+diff --git a/drivers/media/platform/renesas/rcar-isp/Kconfig b/drivers/media/platform/renesas/rcar-isp/Kconfig
+index 242f6a23851f..bacc15c250fe 100644
+--- a/drivers/media/platform/renesas/rcar-isp/Kconfig
++++ b/drivers/media/platform/renesas/rcar-isp/Kconfig
+@@ -5,10 +5,12 @@ config VIDEO_RCAR_ISP
+ 	depends on V4L_PLATFORM_DRIVERS
+ 	depends on VIDEO_DEV && OF
+ 	depends on ARCH_RENESAS || COMPILE_TEST
++	depends on VIDEO_RENESAS_VSP1
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select RESET_CONTROLLER
+ 	select V4L2_FWNODE
++	select VIDEO_DCT_RPPX1
+ 	help
+ 	  Support for Renesas R-Car Image Signal Processor (ISP).
+ 	  Enable this to support the Renesas R-Car Image Signal
+diff --git a/drivers/media/platform/renesas/rcar-isp/Makefile b/drivers/media/platform/renesas/rcar-isp/Makefile
+index b542118c831e..c0c80303682c 100644
+--- a/drivers/media/platform/renesas/rcar-isp/Makefile
++++ b/drivers/media/platform/renesas/rcar-isp/Makefile
+@@ -1,4 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+-rcar-isp-objs = csisp.o
++rcar-isp-objs = csisp.o core.o core-io.o
  
-+DREAMCHIP RPPX1 ISP
-+M:	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-+M:	Jai Luthra <jai.luthra+renesas@ideasonboard.com>
-+M:	Niklas Söderlund <niklas.soderlund@ragnatech.se>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/userspace-api/media/v4l/metafmt-rppx1.rst
-+F:	drivers/media/platform/dreamchip/rppx1/
-+F:	include/uapi/linux/media/dreamchip/rppx1-config.h
-+
- DRIVER COMPONENT FRAMEWORK
- L:	dri-devel@lists.freedesktop.org
- F:	drivers/base/component.c
-diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-index 0b33e927bd59..2c7699b6610b 100644
---- a/drivers/media/platform/Kconfig
-+++ b/drivers/media/platform/Kconfig
-@@ -72,6 +72,7 @@ source "drivers/media/platform/atmel/Kconfig"
- source "drivers/media/platform/broadcom/Kconfig"
- source "drivers/media/platform/cadence/Kconfig"
- source "drivers/media/platform/chips-media/Kconfig"
-+source "drivers/media/platform/dreamchip/Kconfig"
- source "drivers/media/platform/imagination/Kconfig"
- source "drivers/media/platform/intel/Kconfig"
- source "drivers/media/platform/marvell/Kconfig"
-diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-index 16c185752474..d47c47d817da 100644
---- a/drivers/media/platform/Makefile
-+++ b/drivers/media/platform/Makefile
-@@ -15,6 +15,7 @@ obj-y += atmel/
- obj-y += broadcom/
- obj-y += cadence/
- obj-y += chips-media/
-+obj-y += dreamchip/
- obj-y += imagination/
- obj-y += intel/
- obj-y += marvell/
-diff --git a/drivers/media/platform/dreamchip/Kconfig b/drivers/media/platform/dreamchip/Kconfig
+ obj-$(CONFIG_VIDEO_RCAR_ISP) += rcar-isp.o
+diff --git a/drivers/media/platform/renesas/rcar-isp/core-io.c b/drivers/media/platform/renesas/rcar-isp/core-io.c
 new file mode 100644
-index 000000000000..d177d4ee79ae
+index 000000000000..1e61dfab9765
 --- /dev/null
-+++ b/drivers/media/platform/dreamchip/Kconfig
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+source "drivers/media/platform/dreamchip/rppx1/Kconfig"
-diff --git a/drivers/media/platform/dreamchip/Makefile b/drivers/media/platform/dreamchip/Makefile
-new file mode 100644
-index 000000000000..ba47ba2d136e
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/Makefile
-@@ -0,0 +1,6 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+# Makefile for the Dreamchip device drivers.
-+#
-+
-+obj-y += rppx1/
-diff --git a/drivers/media/platform/dreamchip/rppx1/Kconfig b/drivers/media/platform/dreamchip/rppx1/Kconfig
-new file mode 100644
-index 000000000000..0998a7d10bf2
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/Kconfig
-@@ -0,0 +1,12 @@
-+# SPDX-License-Identifier: GPL-2.0
-+config VIDEO_DCT_RPPX1
-+	tristate
-+	depends on V4L_PLATFORM_DRIVERS
-+	select V4L2_ISP
-+	help
-+	  Support library for Dreamchip HDR RPP X1 High Dynamic Range Real-time
-+	  Pixel Processor (RPP). The library can be used by other drivers who
-+	  utilises the RPP as part of an ISP implementation.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called rppx1.
-diff --git a/drivers/media/platform/dreamchip/rppx1/Makefile b/drivers/media/platform/dreamchip/rppx1/Makefile
-new file mode 100644
-index 000000000000..b2bd6b5d68bc
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/Makefile
-@@ -0,0 +1,33 @@
-+# SPDX-License-Identifier: GPL-2.0
-+dct-rpp-x1-objs = \
-+	rpp_module.o \
-+	rpp_params.o \
-+	rpp_stats.o \
-+	rppx1.o \
-+	rppx1_acq.o \
-+	rppx1_awbg.o \
-+	rppx1_bd.o \
-+	rppx1_bdrgb.o \
-+	rppx1_bls.o \
-+	rppx1_cac.o \
-+	rppx1_ccor.o \
-+	rppx1_db.o \
-+	rppx1_dpcc.o \
-+	rppx1_exm.o \
-+	rppx1_ga.o \
-+	rppx1_hist.o \
-+	rppx1_hist256.o \
-+	rppx1_is.o \
-+	rppx1_lin.o \
-+	rppx1_lsc.o \
-+	rppx1_ltm.o \
-+	rppx1_ltmmeas.o \
-+	rppx1_outif.o \
-+	rppx1_outregs.o \
-+	rppx1_rmap.o \
-+	rppx1_rmapmeas.o \
-+	rppx1_shrp.o \
-+	rppx1_wbmeas.o \
-+	rppx1_xyz2luv.o
-+
-+obj-$(CONFIG_VIDEO_DCT_RPPX1) += dct-rpp-x1.o
-diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_module.c b/drivers/media/platform/dreamchip/rppx1/rpp_module.c
-new file mode 100644
-index 000000000000..cb3e5a33d68c
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rpp_module.c
-@@ -0,0 +1,39 @@
++++ b/drivers/media/platform/renesas/rcar-isp/core-io.c
+@@ -0,0 +1,997 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (C) 2026 Renesas Electronics Corp.
@@ -564,157 +273,1002 @@ index 000000000000..cb3e5a33d68c
 + * Copyright (C) 2026 Ragnatech AB
 + */
 +
-+#include "rppx1.h"
-+#include "rpp_module.h"
++#include <media/v4l2-ctrls.h>
++#include <media/v4l2-event.h>
++#include <media/v4l2-ioctl.h>
++#include <media/v4l2-isp.h>
++#include <media/v4l2-mc.h>
 +
-+int rpp_module_probe(struct rpp_module *mod, struct rppx1 *rpp,
-+		     const struct rpp_module_ops *ops, u32 base)
++#include <linux/media/dreamchip/rppx1-config.h>
++
++#include "risp-core.h"
++
++#define risp_io_err(d, fmt, arg...)         dev_err((d)->core->dev, fmt, ##arg)
++
++static struct risp_buffer *risp_io_vb2buf(struct vb2_v4l2_buffer *vb)
 +{
-+	mod->rpp = rpp;
-+	mod->base = base;
-+	mod->ops = ops;
++	return container_of(vb, struct risp_buffer, vb);
++}
 +
-+	if (ops->probe)
-+		return ops->probe(mod);
++static int risp_io_open(struct file *file)
++{
++	struct rcar_isp_core_io *io = video_drvdata(file);
++	int ret;
++
++	ret = mutex_lock_interruptible(&io->lock);
++	if (ret)
++		return ret;
++
++	file->private_data = io;
++
++	ret = v4l2_fh_open(file);
++	if (ret)
++		goto err_unlock;
++
++	ret = v4l2_pipeline_pm_get(&io->vdev.entity);
++	if (ret < 0)
++		goto err_open;
++
++	mutex_unlock(&io->lock);
++
++	return 0;
++err_open:
++	v4l2_fh_release(file);
++err_unlock:
++	mutex_unlock(&io->lock);
++
++	return ret;
++}
++
++static int risp_io_release(struct file *file)
++{
++	struct rcar_isp_core_io *io = video_drvdata(file);
++	int ret;
++
++	mutex_lock(&io->lock);
++
++	ret = _vb2_fop_release(file, NULL);
++
++	v4l2_pipeline_pm_put(&io->vdev.entity);
++
++	mutex_unlock(&io->lock);
++
++	return ret;
++}
++
++static const struct v4l2_file_operations risp_io_fops = {
++	.owner		= THIS_MODULE,
++	.unlocked_ioctl	= video_ioctl2,
++	.open		= risp_io_open,
++	.release	= risp_io_release,
++	.poll		= vb2_fop_poll,
++	.mmap		= vb2_fop_mmap,
++	.read		= vb2_fop_read,
++};
++
++/* -----------------------------------------------------------------------------
++ * Common queue
++ */
++
++static int risp_io_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
++			       unsigned int *nplanes, unsigned int sizes[],
++			       struct device *alloc_devs[])
++
++{
++	struct rcar_isp_core_io *io = vb2_get_drv_priv(vq);
++
++	if (V4L2_TYPE_IS_MULTIPLANAR(vq->type)) {
++		const struct v4l2_pix_format_mplane *pix = &io->format.fmt.pix_mp;
++
++		if (*nplanes) {
++			if (*nplanes > pix->num_planes)
++				return -EINVAL;
++
++			for (unsigned int i = 0; i < pix->num_planes; i++)
++				if (sizes[i] < pix->plane_fmt[i].sizeimage)
++					return -EINVAL;
++
++			return 0;
++		}
++
++		*nplanes = pix->num_planes;
++		for (unsigned int i = 0; i < pix->num_planes; i++)
++			sizes[i] = pix->plane_fmt[i].sizeimage;
++	} else {
++		if (*nplanes) {
++			if (sizes[0] < io->format.fmt.meta.buffersize)
++				return -EINVAL;
++
++			return 0;
++		}
++
++		*nplanes = 1;
++		sizes[0] = io->format.fmt.meta.buffersize;
++	}
++
++	/* Initialize buffer queue */
++	INIT_LIST_HEAD(&io->buffers);
++
++	return 0;
++};
++
++static int risp_io_buffer_prepare_set(struct rcar_isp_core_io *io,
++				      struct vb2_buffer *vb, unsigned int plane,
++				      unsigned long size)
++{
++	if (vb2_plane_size(vb, plane) < size) {
++		risp_io_err(io, "Buffer too small (%lu < %lu)\n",
++			    vb2_plane_size(vb, plane), size);
++		return -EINVAL;
++	}
++
++	vb2_set_plane_payload(vb, plane, size);
 +
 +	return 0;
 +}
 +
-+void rpp_module_write(struct rpp_module *mod, u32 offset, u32 value)
++static int risp_io_buffer_prepare(struct vb2_buffer *vb)
 +{
-+	rppx1_write(mod->rpp, mod->base + offset, value);
++	struct rcar_isp_core_io *io = vb2_get_drv_priv(vb->vb2_queue);
++
++	if (V4L2_TYPE_IS_MULTIPLANAR(vb->vb2_queue->type)) {
++		const struct v4l2_pix_format_mplane *pix = &io->format.fmt.pix_mp;
++		int ret = 0;
++
++		for (unsigned int i = 0; i < pix->num_planes; i++) {
++			ret = risp_io_buffer_prepare_set(io, vb, i,
++							 pix->plane_fmt[i].sizeimage);
++			if (ret)
++				break;
++		}
++
++		return ret;
++	}
++
++	return risp_io_buffer_prepare_set(io, vb, 0,
++					  io->format.fmt.meta.buffersize);
 +}
 +
-+u32 rpp_module_read(struct rpp_module *mod, u32 offset)
++static void risp_io_buffer_queue(struct vb2_buffer *vb)
 +{
-+	return rppx1_read(mod->rpp, mod->base + offset);
++	struct rcar_isp_core_io *io = vb2_get_drv_priv(vb->vb2_queue);
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct risp_buffer *buf = risp_io_vb2buf(vbuf);
++
++	guard(mutex)(&io->core->io_lock);
++
++	list_add_tail(&buf->list, &io->buffers);
++
++	if (risp_core_job_prepare(io->core))
++		risp_io_err(io, "Failed to prepare job\n");
 +}
 +
-+void rpp_module_clrset(struct rpp_module *mod, u32 offset, u32 mask, u32 value)
++static void risp_io_return_buffers(struct rcar_isp_core_io *io,
++				   enum vb2_buffer_state state)
 +{
-+	u32 reg = rpp_module_read(mod, offset) & ~mask;
++	struct risp_buffer *buf, *node;
 +
-+	rpp_module_write(mod, offset, reg | value);
++	lockdep_assert_held(&io->core->io_lock);
++
++	list_for_each_entry_safe(buf, node, &io->buffers, list) {
++		vb2_buffer_done(&buf->vb.vb2_buf, state);
++		list_del(&buf->list);
++	}
 +}
-diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_module.h b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-new file mode 100644
-index 000000000000..e92e77542980
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-@@ -0,0 +1,107 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
++
++static int risp_io_start_streaming(struct vb2_queue *vq, unsigned int count)
++{
++	struct rcar_isp_core_io *io = vb2_get_drv_priv(vq);
++	int ret;
++
++	scoped_guard(mutex, &io->core->io_lock) {
++		if (io->core->io[RISP_CORE_INPUT1].format.fmt.pix_mp.width !=
++		    io->core->io[RISP_CORE_OUTPUT1].format.fmt.pix_mp.width ||
++		    io->core->io[RISP_CORE_INPUT1].format.fmt.pix_mp.height !=
++		    io->core->io[RISP_CORE_OUTPUT1].format.fmt.pix_mp.height) {
++			risp_io_return_buffers(io, VB2_BUF_STATE_QUEUED);
++			return -EPIPE;
++		}
++
++		io->streaming = true;
++	}
++
++	ret = risp_core_start_streaming(io->core);
++	if (ret) {
++		guard(mutex)(&io->core->io_lock);
++
++		risp_io_return_buffers(io, VB2_BUF_STATE_QUEUED);
++		return ret;
++	}
++
++	return 0;
++}
++
++static void risp_io_stop_streaming(struct vb2_queue *vq)
++{
++	struct rcar_isp_core_io *io = vb2_get_drv_priv(vq);
++
++	scoped_guard(mutex, &io->core->io_lock) {
++		io->streaming = false;
++		risp_core_stop_streaming(io->core);
++		risp_io_return_buffers(io, VB2_BUF_STATE_ERROR);
++	}
++
++	/*
++	 * Wait for buffers part of the jobs not yet processed. Note that this
++	 * might complete buffers out of order.
++	 */
++	vb2_wait_for_all_buffers(&io->queue);
++}
++
++/* -----------------------------------------------------------------------------
++ * Common V4L2 IOCTLs
 + */
 +
-+#ifndef __RPPX1_MODULE_H__
-+#define __RPPX1_MODULE_H__
++static int risp_io_querycap(struct file *file, void *priv,
++			    struct v4l2_capability *cap)
++{
++	struct video_device *vdev = video_devdata(file);
 +
-+#include <linux/errno.h>
-+#include <linux/types.h>
-+#include <linux/v4l2-mediabus.h>
++	strscpy(cap->driver, KBUILD_MODNAME, sizeof(cap->driver));
++	strscpy(cap->card, vdev->name, sizeof(cap->card));
 +
-+#include <linux/media/dreamchip/rppx1-config.h>
++	return 0;
++}
 +
-+#include <media/rppx1.h>
++/* -----------------------------------------------------------------------------
++ * Input Exposure
++ */
 +
-+struct rpp_module_ops;
++static int risp_io_input_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
++				     unsigned int *nplanes, unsigned int sizes[],
++				     struct device *alloc_devs[])
 +
-+enum rpp_raw_pattern {
-+	RPP_RGGB = 0,
-+	RPP_GRBG,
-+	RPP_GBRG,
-+	RPP_BGGR,
++{
++	struct rcar_isp_core_io *io = vb2_get_drv_priv(vq);
++	struct rcar_isp_core *core = io->core;
++	struct device *bus_master;
++	int ret;
++
++	ret = risp_io_queue_setup(vq, nbuffers, nplanes, sizes, alloc_devs);
++	if (ret)
++		return ret;
++
++	bus_master = vsp1_isp_get_bus_master(core->vspx.dev);
++	if (IS_ERR_OR_NULL(bus_master)) {
++		risp_io_err(io, "Missing reference to bus-master device\n");
++		return -EINVAL;
++	}
++
++	/*
++	 * Allocate buffers using the bus_master device associated with the
++	 * VSPX associated to this ISP instance.
++	 */
++	alloc_devs[0] = bus_master;
++
++	return 0;
 +};
 +
-+struct rpp_module {
-+	struct rppx1 *rpp;
++static const struct vb2_ops risp_io_input_qops = {
++	.queue_setup		= risp_io_input_queue_setup,
++	.buf_prepare		= risp_io_buffer_prepare,
++	.buf_queue		= risp_io_buffer_queue,
++	.start_streaming	= risp_io_start_streaming,
++	.stop_streaming		= risp_io_stop_streaming,
++};
++
++static const struct v4l2_pix_format_mplane risp_io_input_default_format = {
++	.width = 1920,
++	.height = 1080,
++	.field = V4L2_FIELD_NONE,
++	.pixelformat = V4L2_PIX_FMT_SGRBG8,
++	.colorspace = V4L2_COLORSPACE_RAW,
++	.xfer_func = V4L2_XFER_FUNC_NONE,
++	.ycbcr_enc = V4L2_YCBCR_ENC_601,
++	.quantization = V4L2_QUANTIZATION_FULL_RANGE,
++	.num_planes = 1,
++	.plane_fmt = {
++		[0] = {
++			.sizeimage = 1920 * 1080,
++			.bytesperline = 1920,
++		},
++	},
++};
++
++static const struct risp_io_input_format {
++	unsigned int fourcc;
++	unsigned int bpp;
++} risp_io_input_formats[] = {
++	{ .fourcc = V4L2_PIX_FMT_SBGGR8,	.bpp = 1 },
++	{ .fourcc = V4L2_PIX_FMT_SGBRG8,	.bpp = 1 },
++	{ .fourcc = V4L2_PIX_FMT_SGRBG8,	.bpp = 1 },
++	{ .fourcc = V4L2_PIX_FMT_SRGGB8,	.bpp = 1 },
++	{ .fourcc = V4L2_PIX_FMT_SBGGR10,	.bpp = 2 },
++	{ .fourcc = V4L2_PIX_FMT_SGBRG10,	.bpp = 2 },
++	{ .fourcc = V4L2_PIX_FMT_SGRBG10,	.bpp = 2 },
++	{ .fourcc = V4L2_PIX_FMT_SRGGB10,	.bpp = 2 },
++	{ .fourcc = V4L2_PIX_FMT_SBGGR12,	.bpp = 2 },
++	{ .fourcc = V4L2_PIX_FMT_SGBRG12,	.bpp = 2 },
++	{ .fourcc = V4L2_PIX_FMT_SGRBG12,	.bpp = 2 },
++	{ .fourcc = V4L2_PIX_FMT_SRGGB12,	.bpp = 2 },
++};
++
++static void risp_io_input_try_format(struct rcar_isp_core_io *io,
++				     struct v4l2_pix_format_mplane *pix)
++{
++	unsigned int bpp = 0;
++
++	v4l_bound_align_image(&pix->width, 128, 5120, 2,
++			      &pix->height, 128, 4096, 2, 0);
++
++	for (unsigned int i = 0; i < ARRAY_SIZE(risp_io_input_formats); i++) {
++		if (risp_io_input_formats[i].fourcc == pix->pixelformat) {
++			bpp = risp_io_input_formats[i].bpp;
++			break;
++		}
++	}
++
++	if (!bpp) {
++		pix->pixelformat = risp_io_input_formats[0].fourcc;
++		bpp = risp_io_input_formats[0].bpp;
++	}
++
++	pix->field = V4L2_FIELD_NONE;
++	pix->colorspace = V4L2_COLORSPACE_RAW;
++
++	pix->num_planes = 1;
++	pix->plane_fmt[0].bytesperline = pix->width * bpp;
++	pix->plane_fmt[0].sizeimage = pix->plane_fmt[0].bytesperline * pix->height;
++}
++
++static int risp_io_input_enum_fmt(struct file *file, void *priv,
++				  struct v4l2_fmtdesc *f)
++{
++	if (f->index >= ARRAY_SIZE(risp_io_input_formats))
++		return -EINVAL;
++
++	f->pixelformat = risp_io_input_formats[f->index].fourcc;
++
++	return 0;
++}
++
++static int risp_io_input_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
++{
++	struct rcar_isp_core_io *io = video_drvdata(file);
++
++	if (f->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
++		return -EINVAL;
++
++	f->fmt.pix_mp = io->format.fmt.pix_mp;
++
++	return 0;
++}
++
++static int risp_io_input_s_fmt(struct file *file, void *priv, struct v4l2_format *f)
++{
++	struct rcar_isp_core_io *io = video_drvdata(file);
++
++	if (vb2_is_busy(&io->queue))
++		return -EBUSY;
++
++	if (f->type != V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
++		return -EINVAL;
++
++	risp_io_input_try_format(io, &f->fmt.pix_mp);
++
++	io->format.fmt.pix_mp = f->fmt.pix_mp;
++
++	return 0;
++}
++
++static int risp_io_input_try_fmt(struct file *file, void *fh,
++				 struct v4l2_format *f)
++{
++	struct rcar_isp_core_io *io = video_drvdata(file);
++
++	risp_io_input_try_format(io, &f->fmt.pix_mp);
++
++	return 0;
++}
++
++static int risp_io_input_enum_framesizes(struct file *file, void *fh,
++					 struct v4l2_frmsizeenum *fsize)
++{
++	bool found = false;
++
++	if (fsize->index != 0)
++		return -EINVAL;
++
++	for (unsigned int i = 0; i < ARRAY_SIZE(risp_io_input_formats); i++) {
++		if (risp_io_input_formats[i].fourcc == fsize->pixel_format) {
++			found = true;
++			break;
++		}
++	}
++
++	if (!found)
++		return -EINVAL;
++
++	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
++
++	fsize->stepwise.min_width = 128;
++	fsize->stepwise.max_width = 5120;
++	fsize->stepwise.step_width = 2;
++
++	fsize->stepwise.min_height = 128;
++	fsize->stepwise.max_height = 4096;
++	fsize->stepwise.step_height = 2;
++
++	return 0;
++}
++
++static const struct v4l2_ioctl_ops risp_io_input_ioctl_ops = {
++	.vidioc_querycap		= risp_io_querycap,
++
++	.vidioc_enum_fmt_vid_out	= risp_io_input_enum_fmt,
++	.vidioc_g_fmt_vid_out_mplane	= risp_io_input_g_fmt,
++	.vidioc_s_fmt_vid_out_mplane	= risp_io_input_s_fmt,
++	.vidioc_try_fmt_vid_out_mplane	= risp_io_input_try_fmt,
++	.vidioc_enum_framesizes		= risp_io_input_enum_framesizes,
++
++	.vidioc_reqbufs			= vb2_ioctl_reqbufs,
++	.vidioc_querybuf		= vb2_ioctl_querybuf,
++	.vidioc_qbuf			= vb2_ioctl_qbuf,
++	.vidioc_expbuf			= vb2_ioctl_expbuf,
++	.vidioc_dqbuf			= vb2_ioctl_dqbuf,
++	.vidioc_create_bufs		= vb2_ioctl_create_bufs,
++	.vidioc_prepare_buf		= vb2_ioctl_prepare_buf,
++	.vidioc_streamon		= vb2_ioctl_streamon,
++	.vidioc_streamoff		= vb2_ioctl_streamoff,
++};
++
++/* -----------------------------------------------------------------------------
++ * Parameters
++ *
++ */
++
++static int risp_io_params_buf_init(struct vb2_buffer *vb)
++{
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct risp_buffer *buf = risp_io_vb2buf(vbuf);
++	struct rcar_isp_core_io *io = vb2_get_drv_priv(vb->vb2_queue);
++	struct rcar_isp_core *core = io->core;
++	size_t size;
++	int ret;
++
++	memset(&buf->vsp_buffer, 0, sizeof(buf->vsp_buffer));
++
++	size = RISP_IO_PARAMS_BUF_SIZE;
++	ret = vsp1_isp_alloc_buffer(core->vspx.dev, size, &buf->vsp_buffer);
++	if (ret)
++		return -EINVAL;
++
++	memset(buf->vsp_buffer.cpu_addr, 0, RISP_IO_PARAMS_BUF_SIZE);
++
++	return 0;
++}
++
++static void risp_io_params_buf_cleanup(struct vb2_buffer *vb)
++{
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct risp_buffer *buf = risp_io_vb2buf(vbuf);
++	struct rcar_isp_core_io *io = vb2_get_drv_priv(vb->vb2_queue);
++	struct rcar_isp_core *core = io->core;
++
++	vsp1_isp_free_buffer(core->vspx.dev, &buf->vsp_buffer);
++}
++
++struct risp_conf_dma_write_desc {
++	u32 *buf;
 +	u32 base;
-+
-+	const struct rpp_module_ops *ops;
-+
-+	union {
-+		struct {
-+			enum rpp_raw_pattern raw_pattern;
-+		} acq;
-+	} info;
++	unsigned int count;
 +};
 +
-+int rpp_module_probe(struct rpp_module *mod, struct rppx1 *rpp,
-+		     const struct rpp_module_ops *ops, u32 base);
++static int risp_conf_dma_prepare(void *priv, u32 offset, u32 value)
++{
++	struct risp_conf_dma_write_desc *desc = priv;
 +
-+void rpp_module_write(struct rpp_module *mod, u32 offset, u32 value);
-+u32 rpp_module_read(struct rpp_module *mod, u32 offset);
-+void rpp_module_clrset(struct rpp_module *mod, u32 offset, u32 mask, u32 value);
++	/* Bounds check, 8 bytes = address (4)+ value (4). */
++	if ((desc->count + 1) * 8 > RISP_IO_PARAMS_BUF_SIZE)
++		return -ENOMEM;
 +
-+union rppx1_params_block {
-+	struct v4l2_isp_block_header header;
++	(*desc->buf++) = desc->base | offset;
++	(*desc->buf++) = value;
++
++	desc->count++;
++
++	return 0;
++}
++
++static int risp_io_params_buffer_prepare(struct vb2_buffer *vb)
++{
++	struct rcar_isp_core_io *io = vb2_get_drv_priv(vb->vb2_queue);
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct risp_buffer *buf = risp_io_vb2buf(vbuf);
++	struct risp_conf_dma_write_desc desc;
++	u32 *cpu_addr;
++	int ret;
++
++	/* Prepare params. */
++	cpu_addr = (u32 *)buf->vsp_buffer.cpu_addr;
++
++	desc.buf = cpu_addr + 2;
++	desc.base = io->core->rppaddr;
++	desc.count = 0;
++
++	/* Fill params body. */
++	ret = rppx1_params(io->core->rpp, vb, io->format.fmt.meta.buffersize,
++			   risp_conf_dma_prepare, &desc);
++	if (ret)
++		return ret;
++
++	/* Fill params header. */
++	cpu_addr[0] = desc.count;
++	cpu_addr[1] = 0x0;
++
++	return 0;
++}
++
++static const struct vb2_ops risp_io_params_qops = {
++	.queue_setup		= risp_io_queue_setup,
++	.buf_init		= risp_io_params_buf_init,
++	.buf_cleanup		= risp_io_params_buf_cleanup,
++	.buf_prepare		= risp_io_params_buffer_prepare,
++	.buf_queue		= risp_io_buffer_queue,
++	.start_streaming	= risp_io_start_streaming,
++	.stop_streaming		= risp_io_stop_streaming,
 +};
 +
-+union rppx1_stats_block {
-+	struct v4l2_isp_block_header header;
++static const struct v4l2_meta_format risp_io_params_default_format = {
++	.dataformat = V4L2_META_FMT_RPP_X1_PARAMS,
++	.buffersize = v4l2_isp_buffer_size(RPPX1_PARAMS_MAX_SIZE),
 +};
 +
-+struct rpp_module_ops {
-+	int (*probe)(struct rpp_module *mod);
-+	int (*start)(struct rpp_module *mod, const struct v4l2_mbus_framefmt *fmt);
++static int risp_io_params_enum_fmt(struct file *file, void *priv,
++				   struct v4l2_fmtdesc *f)
++{
++	struct rcar_isp_core_io *io = video_drvdata(file);
 +
-+	int (*fill_params)(struct rpp_module *mod,
-+			   const union rppx1_params_block *block,
-+			   rppx1_reg_write write, void *priv);
-+	int (*fill_stats)(struct rpp_module *mod,
-+			  union rppx1_stats_block *block);
++	if (f->type != V4L2_BUF_TYPE_META_OUTPUT || f->index)
++		return -EINVAL;
++
++	f->pixelformat = io->format.fmt.meta.dataformat;
++
++	return 0;
++}
++
++static int risp_io_params_g_fmt(struct file *file, void *priv,
++				struct v4l2_format *f)
++{
++	struct rcar_isp_core_io *io = video_drvdata(file);
++	struct v4l2_meta_format *meta = &f->fmt.meta;
++
++	if (f->type != V4L2_BUF_TYPE_META_OUTPUT)
++		return -EINVAL;
++
++	*meta = io->format.fmt.meta;
++
++	return 0;
++}
++
++static int risp_io_params_s_fmt(struct file *file, void *priv,
++				struct v4l2_format *f)
++{
++	struct rcar_isp_core_io *io = video_drvdata(file);
++
++	if (vb2_is_busy(&io->queue))
++		return -EBUSY;
++
++	return risp_io_params_g_fmt(file, priv, f);
++}
++
++static const struct v4l2_ioctl_ops risp_io_params_ioctl_ops = {
++	.vidioc_querycap		= risp_io_querycap,
++
++	.vidioc_enum_fmt_meta_out	= risp_io_params_enum_fmt,
++	.vidioc_g_fmt_meta_out		= risp_io_params_g_fmt,
++	.vidioc_s_fmt_meta_out		= risp_io_params_s_fmt,
++	.vidioc_try_fmt_meta_out	= risp_io_params_g_fmt,
++
++	.vidioc_reqbufs			= vb2_ioctl_reqbufs,
++	.vidioc_querybuf		= vb2_ioctl_querybuf,
++	.vidioc_qbuf			= vb2_ioctl_qbuf,
++	.vidioc_expbuf			= vb2_ioctl_expbuf,
++	.vidioc_dqbuf			= vb2_ioctl_dqbuf,
++	.vidioc_create_bufs		= vb2_ioctl_create_bufs,
++	.vidioc_prepare_buf		= vb2_ioctl_prepare_buf,
++	.vidioc_streamon		= vb2_ioctl_streamon,
++	.vidioc_streamoff		= vb2_ioctl_streamoff,
 +};
 +
-+extern const struct rpp_module_ops rppx1_acq_ops;
-+extern const struct rpp_module_ops rppx1_awbg_ops;
-+extern const struct rpp_module_ops rppx1_bd_ops;
-+extern const struct rpp_module_ops rppx1_bdrgb_ops;
-+extern const struct rpp_module_ops rppx1_bls_ops;
-+extern const struct rpp_module_ops rppx1_cac_ops;
-+extern const struct rpp_module_ops rppx1_ccor_ops;
-+extern const struct rpp_module_ops rppx1_ccor_csm_ops;
-+extern const struct rpp_module_ops rppx1_db_ops;
-+extern const struct rpp_module_ops rppx1_dpcc_ops;
-+extern const struct rpp_module_ops rppx1_exm_ops;
-+extern const struct rpp_module_ops rppx1_ga_ops;
-+extern const struct rpp_module_ops rppx1_hist256_ops;
-+extern const struct rpp_module_ops rppx1_hist_ops;
-+extern const struct rpp_module_ops rppx1_is_ops;
-+extern const struct rpp_module_ops rppx1_lin_ops;
-+extern const struct rpp_module_ops rppx1_lsc_ops;
-+extern const struct rpp_module_ops rppx1_ltm_ops;
-+extern const struct rpp_module_ops rppx1_ltmmeas_ops;
-+extern const struct rpp_module_ops rppx1_outif_ops;
-+extern const struct rpp_module_ops rppx1_outregs_ops;
-+extern const struct rpp_module_ops rppx1_rmapmeas_ops;
-+extern const struct rpp_module_ops rppx1_rmap_ops;
-+extern const struct rpp_module_ops rppx1_shrp_ops;
-+extern const struct rpp_module_ops rppx1_wbmeas_ops;
-+extern const struct rpp_module_ops rppx1_xyz2luv_ops;
++/* -----------------------------------------------------------------------------
++ * Statistics
++ */
 +
-+#define rpp_module_call(mod, op, args...)				\
-+	({								\
-+		struct rpp_module *__mod = (mod);			\
-+		int __result;						\
-+		if (!__mod)						\
-+			__result = -ENODEV;				\
-+		else if (!__mod->ops->op)				\
-+			__result = 0;					\
-+		else							\
-+			__result = __mod->ops->op(__mod, ##args);	\
-+		__result;						\
-+	})
++static const struct vb2_ops risp_io_stats_qops = {
++	.queue_setup		= risp_io_queue_setup,
++	.buf_prepare		= risp_io_buffer_prepare,
++	.buf_queue		= risp_io_buffer_queue,
++	.start_streaming	= risp_io_start_streaming,
++	.stop_streaming		= risp_io_stop_streaming,
++};
 +
-+#endif /* __RPPX1_MODULE_H__ */
-diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
++static const struct v4l2_meta_format risp_io_stats_default_format = {
++	.dataformat = V4L2_META_FMT_RPP_X1_STATS,
++	.buffersize = v4l2_isp_buffer_size(RPPX1_STATS_MAX_SIZE),
++};
++
++static int risp_io_stats_enum_fmt(struct file *file, void *priv,
++				  struct v4l2_fmtdesc *f)
++{
++	struct rcar_isp_core_io *io = video_drvdata(file);
++
++	if (f->type != V4L2_BUF_TYPE_META_CAPTURE || f->index)
++		return -EINVAL;
++
++	f->pixelformat = io->format.fmt.meta.dataformat;
++
++	return 0;
++}
++
++static int risp_io_stats_g_fmt(struct file *file, void *priv,
++			       struct v4l2_format *f)
++{
++	struct rcar_isp_core_io *io = video_drvdata(file);
++	struct v4l2_meta_format *meta = &f->fmt.meta;
++
++	if (f->type != V4L2_BUF_TYPE_META_CAPTURE)
++		return -EINVAL;
++
++	*meta = io->format.fmt.meta;
++
++	return 0;
++}
++
++static int risp_io_stats_s_fmt(struct file *file, void *priv,
++			       struct v4l2_format *f)
++{
++	struct rcar_isp_core_io *io = video_drvdata(file);
++
++	if (vb2_is_busy(&io->queue))
++		return -EBUSY;
++
++	return risp_io_stats_g_fmt(file, priv, f);
++}
++
++static const struct v4l2_ioctl_ops risp_io_stats_ioctl_ops = {
++	.vidioc_querycap		= risp_io_querycap,
++
++	.vidioc_enum_fmt_meta_cap	= risp_io_stats_enum_fmt,
++	.vidioc_g_fmt_meta_cap		= risp_io_stats_g_fmt,
++	.vidioc_s_fmt_meta_cap		= risp_io_stats_s_fmt,
++	.vidioc_try_fmt_meta_cap	= risp_io_stats_g_fmt,
++
++	.vidioc_reqbufs			= vb2_ioctl_reqbufs,
++	.vidioc_querybuf		= vb2_ioctl_querybuf,
++	.vidioc_qbuf			= vb2_ioctl_qbuf,
++	.vidioc_expbuf			= vb2_ioctl_expbuf,
++	.vidioc_dqbuf			= vb2_ioctl_dqbuf,
++	.vidioc_create_bufs		= vb2_ioctl_create_bufs,
++	.vidioc_prepare_buf		= vb2_ioctl_prepare_buf,
++	.vidioc_streamon		= vb2_ioctl_streamon,
++	.vidioc_streamoff		= vb2_ioctl_streamoff,
++};
++
++/* -----------------------------------------------------------------------------
++ * Video capture
++ */
++
++static const struct vb2_ops risp_io_capture_qops = {
++	.queue_setup		= risp_io_queue_setup,
++	.buf_prepare		= risp_io_buffer_prepare,
++	.buf_queue		= risp_io_buffer_queue,
++	.start_streaming	= risp_io_start_streaming,
++	.stop_streaming		= risp_io_stop_streaming,
++};
++
++static const struct v4l2_pix_format_mplane risp_io_capture_default_format = {
++	.width = 1920,
++	.height = 1080,
++	.pixelformat = V4L2_PIX_FMT_XBGR32,
++	.field = V4L2_FIELD_NONE,
++	.colorspace = V4L2_COLORSPACE_SRGB,
++	.ycbcr_enc = V4L2_YCBCR_ENC_601,
++	.quantization = V4L2_QUANTIZATION_FULL_RANGE,
++	.xfer_func = V4L2_XFER_FUNC_SRGB,
++	.num_planes = 1,
++	.plane_fmt = {
++		[0] = {
++			.bytesperline = ALIGN(1920 * 4, 256),
++			.sizeimage = ALIGN(1920 * 4, 256) * 1080,
++		},
++	},
++};
++
++static void risp_io_capture_try_format(struct rcar_isp_core_io *io,
++				       struct v4l2_pix_format_mplane *pix)
++{
++	v4l_bound_align_image(&pix->width, 128, 5120, 2,
++			      &pix->height, 128, 4096, 2, 0);
++
++	pix->field = V4L2_FIELD_NONE;
++	pix->colorspace = V4L2_COLORSPACE_SRGB;
++	pix->ycbcr_enc = V4L2_YCBCR_ENC_601;
++	pix->xfer_func = V4L2_XFER_FUNC_SRGB;
++
++	switch (pix->pixelformat) {
++	case V4L2_PIX_FMT_NV16M:
++		pix->quantization = V4L2_QUANTIZATION_LIM_RANGE;
++		pix->num_planes = 2;
++		pix->plane_fmt[0].bytesperline = ALIGN(pix->width, 256);
++		pix->plane_fmt[0].sizeimage = pix->plane_fmt[0].bytesperline * pix->height;
++		pix->plane_fmt[1].bytesperline = ALIGN(pix->width, 256);
++		pix->plane_fmt[1].sizeimage = pix->plane_fmt[1].bytesperline * pix->height;
++		break;
++	default:
++		pix->pixelformat = V4L2_PIX_FMT_XBGR32;
++		pix->quantization = V4L2_QUANTIZATION_FULL_RANGE;
++		pix->num_planes = 1;
++		pix->plane_fmt[0].bytesperline = ALIGN(pix->width * 4, 256);
++		pix->plane_fmt[0].sizeimage = pix->plane_fmt[0].bytesperline * pix->height;
++		break;
++	}
++}
++
++static int risp_io_capture_enum_fmt(struct file *file, void *priv,
++				    struct v4l2_fmtdesc *f)
++{
++	if (f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
++		return -EINVAL;
++
++	switch (f->index) {
++	case 0:
++		f->pixelformat = V4L2_PIX_FMT_NV16M;
++		break;
++	case 1:
++		f->pixelformat = V4L2_PIX_FMT_XBGR32;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int risp_io_capture_g_fmt(struct file *file, void *priv,
++				 struct v4l2_format *f)
++{
++	struct rcar_isp_core_io *io = video_drvdata(file);
++
++	if (f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
++		return -EINVAL;
++
++	f->fmt.pix_mp = io->format.fmt.pix_mp;
++
++	return 0;
++}
++
++static int risp_io_capture_s_fmt(struct file *file, void *priv,
++				 struct v4l2_format *f)
++{
++	struct rcar_isp_core_io *io = video_drvdata(file);
++
++	if (vb2_is_busy(&io->queue))
++		return -EBUSY;
++
++	if (f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
++		return -EINVAL;
++
++	risp_io_capture_try_format(io, &f->fmt.pix_mp);
++
++	io->format.fmt.pix_mp = f->fmt.pix_mp;
++
++	return 0;
++}
++
++static int risp_io_capture_try_fmt(struct file *file, void *fh,
++				   struct v4l2_format *f)
++{
++	struct rcar_isp_core_io *io = video_drvdata(file);
++
++	risp_io_capture_try_format(io, &f->fmt.pix_mp);
++
++	return 0;
++}
++
++static int risp_io_capture_enum_framesizes(struct file *file, void *fh,
++					   struct v4l2_frmsizeenum *fsize)
++{
++	if (fsize->index != 0)
++		return -EINVAL;
++
++	switch (fsize->pixel_format) {
++	case V4L2_PIX_FMT_NV16M:
++	case V4L2_PIX_FMT_XBGR32:
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
++
++	fsize->stepwise.min_width = 128;
++	fsize->stepwise.max_width = 5120;
++	fsize->stepwise.step_width = 2;
++
++	fsize->stepwise.min_height = 128;
++	fsize->stepwise.max_height = 4096;
++	fsize->stepwise.step_height = 2;
++
++	return 0;
++}
++
++static const struct v4l2_ioctl_ops risp_io_capture_ioctl_ops = {
++	.vidioc_querycap		= risp_io_querycap,
++
++	.vidioc_enum_fmt_vid_cap	= risp_io_capture_enum_fmt,
++	.vidioc_g_fmt_vid_cap_mplane	= risp_io_capture_g_fmt,
++	.vidioc_s_fmt_vid_cap_mplane	= risp_io_capture_s_fmt,
++	.vidioc_try_fmt_vid_cap_mplane	= risp_io_capture_try_fmt,
++	.vidioc_enum_framesizes		= risp_io_capture_enum_framesizes,
++
++	.vidioc_reqbufs			= vb2_ioctl_reqbufs,
++	.vidioc_querybuf		= vb2_ioctl_querybuf,
++	.vidioc_qbuf			= vb2_ioctl_qbuf,
++	.vidioc_expbuf			= vb2_ioctl_expbuf,
++	.vidioc_dqbuf			= vb2_ioctl_dqbuf,
++	.vidioc_create_bufs		= vb2_ioctl_create_bufs,
++	.vidioc_prepare_buf		= vb2_ioctl_prepare_buf,
++	.vidioc_streamon		= vb2_ioctl_streamon,
++	.vidioc_streamoff		= vb2_ioctl_streamoff,
++};
++
++/* -----------------------------------------------------------------------------
++ * Create and remove IO video devices
++ */
++
++int risp_core_io_create(struct device *dev, struct rcar_isp_core *core,
++			struct rcar_isp_core_io *io, unsigned int pad)
++{
++	struct video_device *vdev = &io->vdev;
++	struct vb2_queue *q = &io->queue;
++	int ret;
++
++	switch (pad) {
++	case RISP_CORE_INPUT1:
++		snprintf(vdev->name, sizeof(vdev->name), "%s %s input1",
++			 KBUILD_MODNAME, dev_name(dev));
++		vdev->vfl_dir = VFL_DIR_TX;
++		vdev->device_caps = V4L2_CAP_VIDEO_OUTPUT_MPLANE;
++		vdev->ioctl_ops = &risp_io_input_ioctl_ops;
++
++		q->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
++		q->ops = &risp_io_input_qops;
++
++		io->pad.flags = MEDIA_PAD_FL_SOURCE;
++		io->format.fmt.pix_mp = risp_io_input_default_format;
++		break;
++
++	case RISP_CORE_PARAMS:
++		snprintf(vdev->name, sizeof(vdev->name), "%s %s params",
++			 KBUILD_MODNAME, dev_name(dev));
++		vdev->vfl_dir = VFL_DIR_TX;
++		vdev->device_caps = V4L2_CAP_META_OUTPUT;
++		vdev->ioctl_ops = &risp_io_params_ioctl_ops;
++
++		q->type = V4L2_BUF_TYPE_META_OUTPUT;
++		q->ops = &risp_io_params_qops;
++
++		io->pad.flags = MEDIA_PAD_FL_SOURCE;
++		io->format.fmt.meta = risp_io_params_default_format;
++		break;
++
++	case RISP_CORE_STATS:
++		snprintf(vdev->name, sizeof(vdev->name), "%s %s stats",
++			 KBUILD_MODNAME, dev_name(dev));
++		vdev->vfl_dir = VFL_DIR_RX;
++		vdev->device_caps = V4L2_CAP_META_CAPTURE;
++		vdev->ioctl_ops = &risp_io_stats_ioctl_ops;
++
++		q->type = V4L2_BUF_TYPE_META_CAPTURE;
++		q->ops = &risp_io_stats_qops;
++
++		io->pad.flags = MEDIA_PAD_FL_SINK;
++		io->format.fmt.meta = risp_io_stats_default_format;
++		break;
++
++	case RISP_CORE_OUTPUT1:
++		snprintf(vdev->name, sizeof(vdev->name), "%s %s output1",
++			 KBUILD_MODNAME, dev_name(dev));
++		vdev->vfl_dir = VFL_DIR_RX;
++		vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE_MPLANE;
++		vdev->ioctl_ops = &risp_io_capture_ioctl_ops;
++
++		q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
++		q->ops = &risp_io_capture_qops;
++
++		io->pad.flags = MEDIA_PAD_FL_SINK;
++		io->format.fmt.pix_mp = risp_io_capture_default_format;
++		break;
++	}
++
++	io->core = core;
++
++	mutex_init(&io->lock);
++	INIT_LIST_HEAD(&io->buffers);
++
++	/* Create media graph pad. */
++	ret = media_entity_pads_init(&io->vdev.entity, 1, &io->pad);
++	if (ret)
++		return ret;
++
++	/* Create queue */
++	q->io_modes = VB2_MMAP | VB2_DMABUF;
++	q->lock = &io->lock;
++	q->drv_priv = io;
++	q->mem_ops = &vb2_dma_contig_memops;
++	q->buf_struct_size = sizeof(struct risp_buffer);
++	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
++	q->dev = dev;
++
++	ret = vb2_queue_init(q);
++	if (ret < 0) {
++		risp_io_err(io, "Failed to initialize VB2 queue\n");
++		return ret;
++	}
++
++	/* Create video device */
++	vdev->v4l2_dev = &core->v4l2_dev;
++	vdev->queue = &io->queue;
++
++	vdev->release = video_device_release_empty;
++	vdev->lock = &io->lock;
++	vdev->fops = &risp_io_fops;
++
++	vdev->device_caps |= V4L2_CAP_STREAMING | V4L2_CAP_IO_MC;
++
++	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
++	if (ret) {
++		risp_io_err(io, "Failed to register video device\n");
++		return ret;
++	}
++
++	video_set_drvdata(&io->vdev, io);
++
++	v4l2_info(&core->v4l2_dev, "Device registered as %s\n",
++		  video_device_node_name(vdev));
++
++	switch (pad) {
++	case RISP_CORE_INPUT1:
++	case RISP_CORE_PARAMS:
++		ret = media_create_pad_link(&io->vdev.entity, 0,
++					    &core->subdev.entity, pad,
++					    MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE);
++		break;
++	case RISP_CORE_STATS:
++	case RISP_CORE_OUTPUT1:
++		ret = media_create_pad_link(&core->subdev.entity, pad,
++					    &io->vdev.entity, 0,
++					    MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE);
++		break;
++	}
++
++	return ret;
++}
++
++void risp_core_io_destroy(struct rcar_isp_core_io *io)
++{
++	if (!video_is_registered(&io->vdev))
++		return;
++
++	vb2_video_unregister_device(&io->vdev);
++}
+diff --git a/drivers/media/platform/renesas/rcar-isp/core.c b/drivers/media/platform/renesas/rcar-isp/core.c
 new file mode 100644
-index 000000000000..af45ad5750b3
+index 000000000000..f3dc52c13612
 --- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-@@ -0,0 +1,71 @@
++++ b/drivers/media/platform/renesas/rcar-isp/core.c
+@@ -0,0 +1,901 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Copyright (C) 2026 Renesas Electronics Corp.
@@ -722,2297 +1276,1189 @@ index 000000000000..af45ad5750b3
 + * Copyright (C) 2026 Ragnatech AB
 + */
 +
-+#include <media/v4l2-isp.h>
-+#include <media/videobuf2-v4l2.h>
++#include <linux/delay.h>
++#include <linux/of_platform.h>
++#include <linux/pm_runtime.h>
 +
-+#include "rppx1.h"
++#include <media/v4l2-ioctl.h>
++#include <media/videobuf2-dma-contig.h>
++#include <media/vsp1.h>
 +
-+#define RPPX1_PARAMS_BLOCK_INFO(block, data) \
-+	[RPPX1_PARAMS_BLOCK_TYPE_ ## block] = { \
-+		.size = sizeof(struct rppx1_ ## data ## _params), \
++#include "risp-core.h"
++
++#define ISP_CS_STREAMER_MODE_REG				0x7000
++#define ISP_CS_STREAMER_MODE_STREAMER_EN			0xf
++
++#define ISP_CS_STREAMER_VBLANK_REG				0x7004
++#define ISP_CS_STREAMER_HBLANK_REG				0x7008
++
++#define ISP_CS_STREAMER_CONFIG_DMA_CONTROL_REG			0x7100
++#define ISP_CS_STREAMER_CONFIG_DMA_REG_ADDRESS_UPPER_8BIT_MASK	GENMASK(31, 24)
++#define ISP_CS_STREAMER_CONFIG_DMA_ENABLE0			BIT(0)
++
++#define ISP_CS_STREAMER_CONFIG_DMA_CONTROL1_REG			0x2100
++#define ISP_CS_STREAMER_CONFIG_DMA_CONTROL1_ENABLE1		BIT(31)
++#define ISP_CS_STREAMER_CONFIG_DMA_CONTROL1_CONFIG_DATA_START_REG_ADDRESS_MASK	GENMASK(15, 0)
++
++#define ISP_CS_STREAMER_CONFIG_DMA_CONTROL2_REG			0x2104
++
++#define ISP_CORE_ISPCORE_INT_STATUS			    0x80000
++#define ISP_CORE_ISPCORE_INT_ENABLE			    0x80004
++#define ISPCORE_DMA_IMAGE_FRAME_MODE(i, f)		    (0x84000 + 0x1000 * (i) + 0x100 * (f))
++#define ISPCORE_DMA_IMAGE_FRAME_PIXEL_POSITION(i, f)	    (0x84004 + 0x1000 * (i) + 0x100 * (f))
++#define ISPCORE_DMA_IMAGE_FRAME_PIXEL_BITWIDTH_MINUS1(i, f) (0x84008 + 0x1000 * (i) + 0x100 * (f))
++#define ISPCORE_DMA_IMAGE_FRAME_PIXEL_BPP(i, f)		    (0x8400c + 0x1000 * (i) + 0x100 * (f))
++#define ISPCORE_DMA_IMAGE_FRAME_BASE_ADDRESS_COMP0(i, f)    (0x84010 + 0x1000 * (i) + 0x100 * (f))
++#define ISPCORE_DMA_IMAGE_FRAME_BASE_ADDRESS_COMP1(i, f)    (0x84014 + 0x1000 * (i) + 0x100 * (f))
++#define ISPCORE_DMA_IMAGE_FRAME_BASE_ADDRESS_COMP2(i, f)    (0x84018 + 0x1000 * (i) + 0x100 * (f))
++#define ISPCORE_DMA_IMAGE_FRAME_BASE_ADDRESS_COMP3(i, f)    (0x8401c + 0x1000 * (i) + 0x100 * (f))
++#define ISPCORE_DMA_IMAGE_FRAME_STRIDE_COMP0(i, f)	    (0x84020 + 0x1000 * (i) + 0x100 * (f))
++#define ISPCORE_DMA_IMAGE_FRAME_STRIDE_COMP1(i, f)	    (0x84024 + 0x1000 * (i) + 0x100 * (f))
++#define ISPCORE_DMA_IMAGE_FRAME_STRIDE_COMP2(i, f)	    (0x84028 + 0x1000 * (i) + 0x100 * (f))
++#define ISPCORE_DMA_IMAGE_FRAME_STRIDE_COMP3(i, f)	    (0x8402c + 0x1000 * (i) + 0x100 * (f))
++#define ISPCORE_DMA_IMAGE_FRAME_AXI_ID(i, f)		    (0x84030 + 0x1000 * (i) + 0x100 * (f))
++
++#define ISPCORE_DMA_IMAGE_FLUSH_OUT_REG(i)			(0x84400 + 0x1000 * (i))
++#define ISPCORE_DMA_IMAGE_FLUSH_OUT_PADDING_PIXEL_EOF_MASK	GENMASK(31, 16)
++#define ISPCORE_DMA_IMAGE_FLUSH_OUT_PADDING_PIXEL_EOF_SHIFT	16
++
++#define ISPCORE_DMA_IMAGE_AXI_CONFIG_REG(i)			(0x84800 + 0x1000 * (i))
++
++static void risp_cs_write(struct rcar_isp_core *core, u32 offset, u32 value)
++{
++	iowrite32(value, core->csbase + offset);
++}
++
++static u32 risp_cs_read(struct rcar_isp_core *core, u32 offset)
++{
++	return ioread32(core->csbase + offset);
++}
++
++static void risp_core_write(struct rcar_isp_core *core, u32 offset, u32 value)
++{
++	iowrite32(value, core->base + offset);
++}
++
++static u32 risp_core_read(struct rcar_isp_core *core, u32 offset)
++{
++	return ioread32(core->base + offset);
++}
++
++static void risp_core_job_run_params(struct rcar_isp_core *core,
++				     struct vsp1_isp_job_desc *vspx_job,
++				     struct risp_buffer *buf)
++{
++	u32 *params_buf = (u32 *)buf->vsp_buffer.cpu_addr;
++	bool have_config = !!params_buf[0];
++	u32 ctrl0, ctrl1, ctrl2;
++
++	/*
++	 * If we have a configuration but not asked the VSPX to program it,
++	 * use MMIO to write the configuration. This might be needed to work
++	 * around limitations of the VSPX ConfigDMA, see comment in
++	 * risp_core_job_prepare().
++	 */
++	if (have_config && !vspx_job->config.pairs) {
++		for (unsigned int i = 0; i < params_buf[0]; i++)
++			risp_core_write(core, params_buf[2 + i * 2] & 0xffff,
++					params_buf[3 + i * 2]);
++
++		/* Disable ConfigDMA. */
++		have_config = false;
 +	}
 +
-+static const struct v4l2_isp_params_block_type_info
-+rppx1_ext_params_blocks_info[] = {
-+};
++	ctrl0 = risp_cs_read(core, ISP_CS_STREAMER_CONFIG_DMA_CONTROL_REG) &
++		~ISP_CS_STREAMER_CONFIG_DMA_ENABLE0;
++	ctrl1 = risp_cs_read(core, ISP_CS_STREAMER_CONFIG_DMA_CONTROL1_REG) &
++		~(ISP_CS_STREAMER_CONFIG_DMA_CONTROL1_ENABLE1 | 0xffff);
++	ctrl2 = 0;
 +
-+int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
-+		 rppx1_reg_write write, void *priv)
++	if (have_config) {
++		ctrl0 |= ISP_CS_STREAMER_CONFIG_DMA_ENABLE0;
++		ctrl1 |= ISP_CS_STREAMER_CONFIG_DMA_CONTROL1_ENABLE1 |
++			(params_buf[2] & 0xffff);
++		ctrl2 = params_buf[3];
++	}
++
++	risp_cs_write(core, ISP_CS_STREAMER_CONFIG_DMA_CONTROL_REG, ctrl0);
++	risp_cs_write(core, ISP_CS_STREAMER_CONFIG_DMA_CONTROL1_REG, ctrl1);
++	risp_cs_write(core, ISP_CS_STREAMER_CONFIG_DMA_CONTROL2_REG, ctrl2);
++}
++
++static void risp_core_job_run_output(struct rcar_isp_core *core,
++				     struct risp_buffer *buf)
 +{
-+	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-+	struct v4l2_isp_buffer *cfg;
-+	size_t block_offset;
-+	int ret;
++	const struct v4l2_format *fmt = &core->io[RISP_CORE_OUTPUT1].format;
++	dma_addr_t mem;
++	u32 reg;
 +
-+	ret = v4l2_isp_params_validate_buffer_size(rpp->dev, vb, max_size);
-+	if (ret)
-+		return ret;
++	for (unsigned int frame = 0; frame < 4; frame++) {
++		reg = ISPCORE_DMA_IMAGE_FRAME_BASE_ADDRESS_COMP0(0, frame);
++		mem = vb2_dma_contig_plane_dma_addr(&buf->vb.vb2_buf, 0);
++		risp_core_write(core, reg, mem);
 +
-+	cfg = vb2_plane_vaddr(&vbuf->vb2_buf, 0);
-+
-+	ret = v4l2_isp_params_validate_buffer(rpp->dev, vb, cfg,
-+					      rppx1_ext_params_blocks_info,
-+					      ARRAY_SIZE(rppx1_ext_params_blocks_info));
-+	if (ret)
-+		return ret;
-+
-+	/* Walk the list of parameter blocks and process them. */
-+	block_offset = 0;
-+	while (block_offset < cfg->data_size) {
-+		const union rppx1_params_block *block =
-+			(const union rppx1_params_block *)&cfg->data[block_offset];
-+		struct rpp_module *module;
-+		int ret;
-+
-+		block_offset += block->header.size;
-+
-+		switch (block->header.type) {
-+		default:
-+			dev_warn(rpp->dev,
-+				 "Not handled RPPX1 block type: 0x%04x\n",
-+				 block->header.type);
++		/* Only NV16 uses 2 planes. */
++		if (fmt->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_NV16M)
 +			continue;
++
++		reg = ISPCORE_DMA_IMAGE_FRAME_BASE_ADDRESS_COMP1(0, frame);
++		mem = vb2_dma_contig_plane_dma_addr(&buf->vb.vb2_buf, 1);
++		risp_core_write(core, reg, mem);
++	}
++}
++
++static void risp_core_job_run(struct rcar_isp_core *core)
++{
++	struct rcar_isp_job *job;
++
++	lockdep_assert_held(&core->lock);
++
++	/* ISP not yet started, nothing to do. */
++	if (!core->streaming)
++		return;
++
++	/* If we have active buffers in the ISP core, nothing to do. */
++	if (core->vspx.job)
++		return;
++
++	job = list_first_entry_or_null(&core->risp_jobs,
++				       struct rcar_isp_job,
++				       job_queue);
++	if (!job)
++		return;
++
++	list_del(&job->job_queue);
++
++	core->vspx.job = job;
++
++	/* Program the ISP register before kicking the VSPX. */
++	for (unsigned int i = 0; i < RISP_CORE_NUM_PADS; i++) {
++		struct risp_buffer *buf = job->buffers[i];
++
++		switch (i) {
++		case RISP_CORE_PARAMS:
++			risp_core_job_run_params(core, &job->vspx_job, buf);
++			break;
++		case RISP_CORE_OUTPUT1:
++			risp_core_job_run_output(core, buf);
++			break;
++		}
++	}
++
++	if (vsp1_isp_job_run(core->vspx.dev, &job->vspx_job)) {
++		/*
++		 * Release all buffers in this job if running on the VSPX
++		 * failed. Userspace should recover from this, no new jobs are
++		 * scheduled.
++		 */
++		for (unsigned int i = 0; i < RISP_CORE_NUM_PADS; i++) {
++			struct risp_buffer *buf = job->buffers[i];
++
++			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
 +		}
 +
-+		ret = rpp_module_call(module, fill_params, block, write, priv);
++		vsp1_isp_job_release(core->vspx.dev, &job->vspx_job);
++		core->vspx.job = NULL;
++		kfree(job);
++
++		dev_err(core->dev, "Failed to run job");
++	}
++}
++
++static int risp_core_pixfmt_to_vspx(u32 pixfmt)
++{
++	switch (pixfmt) {
++	case V4L2_PIX_FMT_SBGGR8:
++	case V4L2_PIX_FMT_SGBRG8:
++	case V4L2_PIX_FMT_SGRBG8:
++	case V4L2_PIX_FMT_SRGGB8:
++		return V4L2_PIX_FMT_GREY;
++	case V4L2_PIX_FMT_SBGGR10:
++	case V4L2_PIX_FMT_SGBRG10:
++	case V4L2_PIX_FMT_SGRBG10:
++	case V4L2_PIX_FMT_SRGGB10:
++		return V4L2_PIX_FMT_Y10;
++	case V4L2_PIX_FMT_SBGGR12:
++	case V4L2_PIX_FMT_SGBRG12:
++	case V4L2_PIX_FMT_SGRBG12:
++	case V4L2_PIX_FMT_SRGGB12:
++		return V4L2_PIX_FMT_Y12;
++	default:
++		return -EINVAL;
++	}
++}
++
++int risp_core_job_prepare(struct rcar_isp_core *core)
++{
++	struct vsp1_isp_job_desc *vspx_job;
++	int vspx_pixfmt = -EINVAL;
++	struct rcar_isp_job *job;
++	int ret;
++
++	lockdep_assert_held(&core->io_lock);
++
++	for (unsigned int i = 0; i < RISP_CORE_NUM_PADS; i++) {
++		if (list_empty(&core->io[i].buffers))
++			return 0;
++	}
++
++	/* Memory is released when the job is consumed. */
++	job = kzalloc(sizeof(*job), GFP_KERNEL);
++	if (!job)
++		return -ENOMEM;
++
++	vspx_job = &job->vspx_job;
++
++	for (unsigned int i = 0; i < RISP_CORE_NUM_PADS; i++) {
++		struct risp_buffer *buf;
++
++		/*
++		 * Extract buffer from the IO queue and save a reference in
++		 * the job description. Buffers will be completed when the
++		 * corresponding frame will be completed by the ISP.
++		 */
++		buf = list_first_entry_or_null(&core->io[i].buffers,
++					       struct risp_buffer, list);
++		/*
++		 * This should not happen as we have checked there is buffers,
++		 * with the lock held, but check the return value anyhow.
++		 */
++		if (WARN_ON(!buf)) {
++			ret = -EINVAL;
++			goto error_return_buffers;
++		}
++
++		switch (i) {
++		case RISP_CORE_INPUT1: {
++			u32 isp_pixfmt = core->io[i].format.fmt.pix_mp.pixelformat;
++
++			vspx_pixfmt = risp_core_pixfmt_to_vspx(isp_pixfmt);
++
++			vspx_job->img.fmt = core->io[i].format.fmt.pix_mp;
++			vspx_job->img.fmt.pixelformat = vspx_pixfmt;
++			vspx_job->img.mem =
++				vb2_dma_contig_plane_dma_addr(&buf->vb.vb2_buf,
++							      0);
++			break;
++		}
++		case RISP_CORE_PARAMS: {
++			u32 *params_buf = (u32 *)buf->vsp_buffer.cpu_addr;
++			u32 pairs = params_buf[0];
++
++			/*
++			 * Check config pairs not larger then buffer.
++			 *
++			 * Remove 8 byte header and each pair is 16 bytes.
++			 */
++			if (pairs > (RISP_IO_PARAMS_BUF_SIZE - 8) / 16) {
++				ret = -EINVAL;
++				goto error_return_buffers;
++			}
++
++			/*
++			 * Work around undocumented behavior of the ConfigDMA
++			 * interface by using MMIO if 16 or less pairs are to
++			 * be programmed.
++			 *
++			 * Programming 15 or less pairs corrupts the image data
++			 * following the config buffer, programming exactly 16
++			 * pairs freeze the whole VSPX.
++			 */
++			if (pairs <= 16) {
++				vspx_job->config.pairs = 0;
++			} else {
++				vspx_job->config.pairs = pairs;
++				vspx_job->config.mem = buf->vsp_buffer.dma_addr;
++			}
++			break;
++		}
++		}
++
++		list_del(&buf->list);
++		job->buffers[i] = buf;
++	}
++
++	if (vspx_pixfmt < 0) {
++		ret = -EINVAL;
++		goto error_return_buffers;
++	}
++
++	ret = vsp1_isp_job_prepare(core->vspx.dev, vspx_job);
++	if (ret)
++		goto error_return_buffers;
++
++	scoped_guard(spinlock_irqsave, &core->lock) {
++		list_add_tail(&job->job_queue, &core->risp_jobs);
++		risp_core_job_run(core);
++	}
++
++	return 0;
++
++error_return_buffers:
++	for (unsigned int i = 0; i < RISP_CORE_NUM_PADS; i++) {
++		if (!job->buffers[i])
++			continue;
++
++		vb2_buffer_done(&job->buffers[i]->vb.vb2_buf,
++				VB2_BUF_STATE_ERROR);
++	}
++	kfree(job);
++	return ret;
++}
++
++static int risp_core_config_output(struct rcar_isp_core *core,
++				   unsigned int index,
++				   const struct v4l2_pix_format_mplane *pix)
++{
++	/* For all frame capture slots. */
++	for (unsigned int frame = 0; frame < 4; frame++) {
++		switch (pix->pixelformat) {
++		case V4L2_PIX_FMT_NV16M:
++			risp_core_write(core,
++					ISPCORE_DMA_IMAGE_FRAME_MODE(index, frame),
++					1);
++			risp_core_write(core,
++					ISPCORE_DMA_IMAGE_FRAME_PIXEL_POSITION(index, frame),
++					0 << 24 | 0 << 16 | 4 << 8 | 16 << 0);
++			risp_core_write(core,
++					ISPCORE_DMA_IMAGE_FRAME_PIXEL_BITWIDTH_MINUS1(index, frame),
++					0 << 24 | 0 << 16 | 7 << 8 | 7 << 0);
++			risp_core_write(core,
++					ISPCORE_DMA_IMAGE_FRAME_PIXEL_BPP(index, frame),
++					0 << 28 | 0 << 24 |
++					0 << 20 | 0 << 16 |
++					3 << 12 | 0 << 8 |
++					3 << 4  | 0 << 0);
++
++			risp_core_write(core,
++					ISPCORE_DMA_IMAGE_FRAME_STRIDE_COMP0(index, frame),
++					pix->plane_fmt[0].bytesperline);
++			risp_core_write(core,
++					ISPCORE_DMA_IMAGE_FRAME_STRIDE_COMP1(index, frame),
++					pix->plane_fmt[1].bytesperline);
++			break;
++		case V4L2_PIX_FMT_XBGR32:
++			risp_core_write(core,
++					ISPCORE_DMA_IMAGE_FRAME_MODE(index, frame),
++					0);
++			risp_core_write(core,
++					ISPCORE_DMA_IMAGE_FRAME_PIXEL_POSITION(index, frame),
++					0 << 24 | 0 << 16 | 0 << 8 | 0 << 0);
++			risp_core_write(core,
++					ISPCORE_DMA_IMAGE_FRAME_PIXEL_BITWIDTH_MINUS1(index, frame),
++					0 << 24 | 0 << 16 | 0 << 8 | 23 << 0);
++			risp_core_write(core,
++					ISPCORE_DMA_IMAGE_FRAME_PIXEL_BPP(index, frame),
++					0 << 28 | 0 << 24 |
++					0 << 20 | 0 << 16 |
++					0 << 12 | 0 << 8 |
++					3 << 4  | 2 << 0);
++
++			risp_core_write(core,
++					ISPCORE_DMA_IMAGE_FRAME_STRIDE_COMP0(index, frame),
++					pix->plane_fmt[0].bytesperline);
++			break;
++		default:
++			return -EINVAL;
++		}
++
++		risp_core_write(core,
++				ISPCORE_DMA_IMAGE_FRAME_AXI_ID(index, frame),
++				0);
++	}
++
++	/* Set image out flush EOF. */
++	risp_core_write(core, ISPCORE_DMA_IMAGE_FLUSH_OUT_REG(index),
++			pix->plane_fmt[0].bytesperline <<
++			ISPCORE_DMA_IMAGE_FLUSH_OUT_PADDING_PIXEL_EOF_SHIFT);
++
++	/* Enable DMA and set burst length. */
++	risp_core_write(core, ISPCORE_DMA_IMAGE_AXI_CONFIG_REG(index),
++			BIT(31) | 7);
++
++	return 0;
++}
++
++static u32 risp_core_pix2bus(const struct rcar_isp_core_io *io)
++{
++	switch (io->format.fmt.pix_mp.pixelformat) {
++	case V4L2_PIX_FMT_SBGGR8:
++		return MEDIA_BUS_FMT_SBGGR8_1X8;
++	case V4L2_PIX_FMT_SGBRG8:
++		return MEDIA_BUS_FMT_SGBRG8_1X8;
++	case V4L2_PIX_FMT_SGRBG8:
++		return MEDIA_BUS_FMT_SGRBG8_1X8;
++	case V4L2_PIX_FMT_SRGGB8:
++		return MEDIA_BUS_FMT_SRGGB8_1X8;
++	case V4L2_PIX_FMT_SBGGR10:
++		return MEDIA_BUS_FMT_SBGGR10_1X10;
++	case V4L2_PIX_FMT_SGBRG10:
++		return MEDIA_BUS_FMT_SGBRG10_1X10;
++	case V4L2_PIX_FMT_SGRBG10:
++		return MEDIA_BUS_FMT_SGRBG10_1X10;
++	case V4L2_PIX_FMT_SRGGB10:
++		return MEDIA_BUS_FMT_SRGGB10_1X10;
++	case V4L2_PIX_FMT_SBGGR12:
++		return MEDIA_BUS_FMT_SBGGR12_1X12;
++	case V4L2_PIX_FMT_SGBRG12:
++		return MEDIA_BUS_FMT_SGBRG12_1X12;
++	case V4L2_PIX_FMT_SGRBG12:
++		return MEDIA_BUS_FMT_SGRBG12_1X12;
++	case V4L2_PIX_FMT_SRGGB12:
++		return MEDIA_BUS_FMT_SRGGB12_1X12;
++	case V4L2_PIX_FMT_XBGR32:
++		return MEDIA_BUS_FMT_RGB888_1X24;
++	case V4L2_PIX_FMT_NV16M:
++		return MEDIA_BUS_FMT_YUYV12_1X24;
++	default:
++		return 0;
++	}
++}
++
++static void risp_core_try_next_job(struct rcar_isp_core *core)
++{
++	lockdep_assert_held(&core->lock);
++
++	struct rcar_isp_job *job = core->vspx.job;
++
++	/* If the ISP or the VSPX is not done with the job, wait. */
++	if (!job || !job->done_isp || !job->done_vspx)
++		return;
++
++	core->vspx.job = NULL;
++	kfree(job);
++
++	core->sequence++;
++
++	/* Kickoff processing of next frame (if any). */
++	risp_core_job_run(core);
++}
++
++static void risp_core_vspx_frame_end(void *data)
++{
++	struct rcar_isp_core *core = data;
++
++	guard(spinlock_irqsave)(&core->lock);
++
++	/*
++	 * In tear-down the ISP may report a frame end event but we have already
++	 * freed the job. It is safe to ignore the end of frame event.
++	 */
++	if (!core->vspx.job)
++		return;
++
++	core->vspx.job->done_vspx = true;
++	risp_core_try_next_job(core);
++}
++
++static int risp_core_power_on(struct rcar_isp_core *core)
++{
++	int ret;
++
++	ret = pm_runtime_resume_and_get(core->dev);
++	if (ret < 0)
++		return ret;
++
++	ret = reset_control_deassert(core->csrstc);
++	if (ret)
++		goto err_pm;
++
++	ret = clk_prepare_enable(core->clk);
++	if (ret)
++		goto err_csrstc;
++
++	return 0;
++
++err_csrstc:
++	reset_control_assert(core->csrstc);
++err_pm:
++	pm_runtime_put(core->dev);
++
++	return ret;
++}
++
++static void risp_core_power_off(struct rcar_isp_core *core)
++{
++	clk_disable_unprepare(core->clk);
++
++	reset_control_assert(core->csrstc);
++
++	pm_runtime_put(core->dev);
++}
++
++int risp_core_start_streaming(struct rcar_isp_core *core)
++{
++	struct vsp1_vspx_frame_end vspx_fe = {
++		.vspx_frame_end = risp_core_vspx_frame_end,
++		.frame_end_data = core,
++	};
++
++	struct v4l2_mbus_framefmt inputfmt = {
++		.width = core->io[RISP_CORE_INPUT1].format.fmt.pix_mp.width,
++		.height = core->io[RISP_CORE_INPUT1].format.fmt.pix_mp.height,
++		.code = risp_core_pix2bus(&core->io[RISP_CORE_INPUT1]),
++		.field = V4L2_FIELD_NONE,
++		.colorspace = V4L2_COLORSPACE_RAW,
++		.ycbcr_enc = V4L2_YCBCR_ENC_601,
++		.quantization = V4L2_QUANTIZATION_FULL_RANGE,
++		.xfer_func = V4L2_XFER_FUNC_NONE,
++	};
++
++	struct v4l2_mbus_framefmt hvout = {
++		.width = core->io[RISP_CORE_OUTPUT1].format.fmt.pix_mp.width,
++		.height = core->io[RISP_CORE_OUTPUT1].format.fmt.pix_mp.height,
++		.code = risp_core_pix2bus(&core->io[RISP_CORE_OUTPUT1]),
++		.field = V4L2_FIELD_NONE,
++		.colorspace = V4L2_COLORSPACE_SRGB,
++		.ycbcr_enc = V4L2_YCBCR_ENC_601,
++		.quantization =
++			core->io[RISP_CORE_OUTPUT1].format.fmt.pix_mp.pixelformat ==
++			V4L2_PIX_FMT_XBGR32 ?
++			V4L2_QUANTIZATION_FULL_RANGE :
++			V4L2_QUANTIZATION_LIM_RANGE,
++		.xfer_func = V4L2_XFER_FUNC_SRGB,
++	};
++	int ret;
++
++	scoped_guard(mutex, &core->io_lock) {
++		for (unsigned int i = 0; i < RISP_CORE_NUM_PADS; i++) {
++			if (!core->io[i].streaming)
++				return 0;
++		}
++
++		/*
++		 * The state core->streaming is protected by core->lock, which
++		 * is not held yet. It is however safe to read it here since
++		 * core->io_lock is held both in risp_core_stop_streaming() and
++		 * here, the only two places the variable is modified.
++		 *
++		 * With this small implied dependency on the two locks for write
++		 * access, the interrupt handler can safely depend sole on the
++		 * spinlock core->lock for read access to core->streaming.
++		 *
++		 * The gain is an interrupt handler which can hold the spinlock
++		 * and a start/stop procedure which can reset the ISP using the
++		 * reset_control_reset() API, The later which can not be called
++		 * from a context that may sleep.
++		 *
++		 * All other locations core->streaming is read and _all_
++		 * locations where it is written core->lock is held.
++		 */
++		if (core->streaming)
++			return 0;
++
++		ret = risp_core_power_on(core);
++		if (ret)
++			return ret;
++
++		/* Reset and wait for ISP core to initialize itself. */
++		reset_control_reset(core->rstc);
++		usleep_range(2000, 4000);
++
++		scoped_guard(spinlock_irqsave, &core->lock) {
++			risp_core_write(core, ISP_CORE_ISPCORE_INT_ENABLE, 1);
++
++			/* Configure output DMA */
++			risp_core_config_output(core, 0,
++						&core->io[RISP_CORE_OUTPUT1].format.fmt.pix_mp);
++
++			risp_cs_write(core, ISP_CS_STREAMER_VBLANK_REG, inputfmt.width * 25);
++			risp_cs_write(core, ISP_CS_STREAMER_HBLANK_REG, 64);
++
++			/* Enable ISP Streaming bridge. */
++			risp_cs_write(core, ISP_CS_STREAMER_MODE_REG,
++				      ISP_CS_STREAMER_MODE_STREAMER_EN);
++
++			/* Start RPP ISP */
++			ret = rppx1_start(core->rpp, &inputfmt, &hvout, NULL);
++			if (ret) {
++				risp_core_power_off(core);
++				return ret;
++			}
++
++			core->vspx.job = NULL;
++			core->sequence = 0;
++			core->streaming = true;
++		}
++
++		/* Start VSPX */
++		vsp1_isp_start_streaming(core->vspx.dev, &vspx_fe);
++
++		scoped_guard(spinlock_irqsave, &core->lock) {
++			risp_core_job_run(core);
++		}
++	}
++
++	return 0;
++}
++
++void risp_core_stop_streaming(struct rcar_isp_core *core)
++{
++	struct rcar_isp_job *job, *tmp;
++
++	/*
++	 * This function releases buffers and jobs: make sure the queues mutex
++	 * is held.
++	 */
++	lockdep_assert_held(&core->io_lock);
++
++	scoped_guard(spinlock_irqsave, &core->lock) {
++		/* Stop is called by each vdev, only act on the first call. */
++		if (!core->streaming)
++			return;
++
++		/* Stop queueing jobs to VSPX. */
++		core->streaming = false;
++	}
++
++	/* Wait for active VSPX job to finish. */
++	for (unsigned int retry = 0; retry <= 10; retry++) {
++		if (!core->vspx.job)
++			break;
++
++		usleep_range(2000, 4000);
++	}
++
++	if (core->vspx.job)
++		dev_err(core->dev, "Failed to complete running job");
++
++	/* Free all buffers and switch off the hardware. */
++	scoped_guard(spinlock_irqsave, &core->lock) {
++		/* Free all jobs and buffers. */
++		list_for_each_entry_safe(job, tmp, &core->risp_jobs, job_queue) {
++			vsp1_isp_job_release(core->vspx.dev, &job->vspx_job);
++
++			for (unsigned int i = 0; i < RISP_CORE_NUM_PADS; i++) {
++				struct risp_buffer *buf = job->buffers[i];
++
++				vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
++			}
++
++			list_del(&job->job_queue);
++			kfree(job);
++		}
++
++		rppx1_stop(core->rpp);
++		risp_cs_write(core, ISP_CS_STREAMER_MODE_REG, 0);
++		risp_core_write(core, ISP_CORE_ISPCORE_INT_ENABLE, 0);
++	}
++
++	vsp1_isp_stop_streaming(core->vspx.dev);
++
++	risp_core_power_off(core);
++}
++
++static irqreturn_t risp_core_irq(int irq, void *data)
++{
++	struct rcar_isp_core *core = data;
++	struct rcar_isp_job *job;
++	u32 status;
++
++	status = risp_core_read(core, ISP_CORE_ISPCORE_INT_STATUS);
++	if (!(status & BIT(0)))
++		return IRQ_NONE;
++
++	if (!rppx1_interrupt(core->rpp, &status))
++		return IRQ_HANDLED;
++
++	guard(spinlock_irqsave)(&core->lock);
++
++	job = core->vspx.job;
++	if (!job)
++		return IRQ_HANDLED;
++
++	for (unsigned int i = 0; i < RISP_CORE_NUM_PADS; i++) {
++		struct risp_buffer *buf;
++
++		buf = job->buffers[i];
++
++		switch (i) {
++		case RISP_CORE_STATS:
++			rppx1_stats_fill_isr(core->rpp, status,
++					     vb2_plane_vaddr(&buf->vb.vb2_buf, 0));
++			fallthrough;
++		case RISP_CORE_OUTPUT1:
++		case RISP_CORE_INPUT1:
++			buf->vb.sequence = core->sequence;
++			buf->vb.vb2_buf.timestamp = ktime_get_ns();
++			fallthrough;
++		case RISP_CORE_PARAMS:
++			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
++			break;
++		}
++	}
++
++	core->vspx.job->done_isp = true;
++	risp_core_try_next_job(core);
++
++	return IRQ_HANDLED;
++}
++
++static const struct v4l2_subdev_ops risp_core_subdev_ops = {
++};
++
++static int risp_core_create_subdev(struct rcar_isp_core *core)
++{
++	struct v4l2_subdev *subdev = &core->subdev;
++	int ret;
++
++	subdev->owner = THIS_MODULE;
++	subdev->dev = core->dev;
++	v4l2_subdev_init(subdev, &risp_core_subdev_ops);
++	v4l2_set_subdevdata(subdev, core->dev);
++	snprintf(subdev->name, sizeof(subdev->name), "%s %s core",
++		 KBUILD_MODNAME, dev_name(core->dev));
++	subdev->flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
++
++	subdev->entity.function = MEDIA_ENT_F_VID_MUX;
++
++	core->pads[RISP_CORE_INPUT1].flags = MEDIA_PAD_FL_SINK;
++	core->pads[RISP_CORE_PARAMS].flags = MEDIA_PAD_FL_SINK;
++	core->pads[RISP_CORE_STATS].flags = MEDIA_PAD_FL_SOURCE;
++	core->pads[RISP_CORE_OUTPUT1].flags = MEDIA_PAD_FL_SOURCE;
++
++	ret = media_entity_pads_init(&subdev->entity, RISP_CORE_NUM_PADS,
++				     core->pads);
++	if (ret)
++		return ret;
++
++	return 0;
++}
++
++int risp_core_registered(struct rcar_isp_core *core, struct v4l2_subdev *sd)
++{
++	int ret;
++
++	core->v4l2_dev.mdev = sd->v4l2_dev->mdev;
++
++	/* Register ISP Core subdevice. */
++	ret = v4l2_device_register_subdev(&core->v4l2_dev, &core->subdev);
++	if (ret)
++		return ret;
++
++	for (unsigned int i = 0; i < RISP_CORE_NUM_PADS; i++) {
++		ret = risp_core_io_create(core->dev, core, &core->io[i], i);
 +		if (ret) {
-+			dev_err(rpp->dev,
-+				"Error processing RPPX1 block type: 0x%04x\n",
-+				block->header.type);
++			/* It is safe to destroy io node that is not created. */
++			for (unsigned int n = 0; n < RISP_CORE_NUM_PADS; n++)
++				risp_core_io_destroy(&core->io[n]);
++
++			v4l2_device_unregister_subdev(&core->subdev);
++
 +			return ret;
 +		}
 +	}
 +
 +	return 0;
 +}
-+EXPORT_SYMBOL_GPL(rppx1_params);
-diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_stats.c b/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
-new file mode 100644
-index 000000000000..f7eb60deae10
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rpp_stats.c
-@@ -0,0 +1,28 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
 +
-+#include "rppx1.h"
-+#include "rpp_module.h"
-+
-+#include <media/v4l2-isp.h>
-+
-+#define RPPX1_STATS_BLOCK_INFO(type, block) \
-+	[RPPX1_STATS_BLOCK_TYPE_ ## type] = { \
-+		.size = sizeof(struct rppx1_ ## block ## _stats), \
-+	}
-+
-+#define rppx1_init_stats_block(rpp, buf, type)				\
-+	((union rppx1_stats_block *)					\
-+	v4l2_isp_stats_init_block((rpp)->dev, (buf),			\
-+				  rppx1_stats_blocks_info,		\
-+				  ARRAY_SIZE(rppx1_stats_blocks_info),	\
-+				  (type), RPPX1_STATS_MAX_SIZE))	\
-+
-+void rppx1_stats_fill_isr(struct rppx1 *rpp, u32 isc, void *buf)
++static int risp_core_probe_resources(struct rcar_isp_core *core,
++				     struct platform_device *pdev)
 +{
-+}
-+EXPORT_SYMBOL_GPL(rppx1_stats_fill_isr);
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1.c b/drivers/media/platform/dreamchip/rppx1/rppx1.c
-new file mode 100644
-index 000000000000..c502be797914
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1.c
-@@ -0,0 +1,381 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ *
-+ * Support library for Dreamchip HDR RPPX1 High Dynamic Range Real-time Pixel
-+ * Processor.
-+ */
++	struct platform_device *vspx;
++	struct device_node *of_vspx;
++	struct resource *res;
++	int ret;
 +
-+#include <linux/io.h>
-+#include <linux/module.h>
-+#include <linux/slab.h>
++	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "core");
++	if (!res)
++		return -ENODEV;
 +
-+#include "rppx1.h"
++	core->rppaddr = res->start;
++	core->base = devm_ioremap_resource(&pdev->dev, res);
++	if (IS_ERR(core->base))
++		return PTR_ERR(core->base);
 +
-+/* RPP_HDR Base Addresses */
-+#define RPPX1_HDRREGS_BASE			0x0000
-+#define RPPX1_HDR_IRQ_BASE			0x0200
-+#define RPPX1_RPP_OUT_BASE			0x0800
-+#define RPPX1_RPP_RMAP_BASE			0x0c00
-+#define RPPX1_RPP_RMAP_MEAS_BASE		0x1000
-+#define RPPX1_RPP_MAIN_PRE1_BASE		0x2000
-+#define RPPX1_RPP_MAIN_PRE2_BASE		0x4000
-+#define RPPX1_RPP_MAIN_POST_BASE		0xa000
-+#define RPPX1_RPP_MVOUT_BASE			0xc000
-+#define RPPX1_RPP_FUSA_BASE			0xf000
++	ret = platform_get_irq_byname(pdev, "core");
++	if (ret < 0)
++		return -ENODEV;
 +
-+#define RPPX1_RPP_HDRREGS_VERSION_REG		(RPPX1_HDRREGS_BASE + 0x0000)
++	ret = devm_request_irq(&pdev->dev, ret, risp_core_irq, IRQF_SHARED,
++			       KBUILD_MODNAME, core);
++	if (ret)
++		return ret;
 +
-+#define RPPX1_RPP_HDR_UPD_REG			(RPPX1_HDRREGS_BASE + 0x0004)
-+#define RPPX1_RPP_HDR_UPD_REGS_GEN_CFG_UPD	BIT(1)
-+#define RPPX1_RPP_HDR_UPD_REGS_CFG_UPD		BIT(0)
++	core->clk = devm_clk_get(&pdev->dev, "core");
++	if (IS_ERR(core->clk))
++		return -ENODEV;
 +
-+#define RPPX1_RESERVED_3_REG			(RPPX1_HDRREGS_BASE + 0x0008)
++	core->rstc = devm_reset_control_get(&pdev->dev, "core");
++	if (IS_ERR(core->rstc))
++		return -ENODEV;
 +
-+#define RPPX1_RPP_HDR_INFORM_ENABLE_REG		(RPPX1_HDRREGS_BASE + 0x000c)
-+#define RPPX1_RPP_HDR_INFORM_ENABLE_ENABLE	1
-+#define RPPX1_RPP_HDR_INFORM_ENABLE_DISABLE	0
++	of_vspx = of_parse_phandle(pdev->dev.of_node, "renesas,vspx", 0);
++	if (!of_vspx)
++		return -ENODEV;
 +
-+#define RPPX1_RPP_HDR_OUT_IF_ON_REG		(RPPX1_HDRREGS_BASE + 0x0010)
-+#define RPPX1_RPP_HDR_OUT_IF_OFF_REG		(RPPX1_HDRREGS_BASE + 0x0014)
++	vspx = of_find_device_by_node(of_vspx);
++	if (!vspx)
++		return -ENODEV;
 +
-+#define RPPX1_RPP_HDR_SAFETY_ACCESS_PROTECTION_REG	(RPPX1_HDRREGS_BASE + 0x0018)
-+#define RPPX1_RPP_HDR_SAFETY_ACCESS_PROTECTION_ENABLE	1
-+#define RPPX1_RPP_HDR_SAFETY_ACCESS_PROTECTION_DISABLE	0
++	/* Attach to VSP-X */
++	core->vspx.dev = &vspx->dev;
 +
-+#define RPPX1_RPP_ISM				(RPPX1_HDR_IRQ_BASE + 0x00)
-+#define RPPX1_RPP_RIS				(RPPX1_HDR_IRQ_BASE + 0x04)
-+#define RPPX1_RPP_MIS				(RPPX1_HDR_IRQ_BASE + 0x08)
-+#define RPPX1_RPP_ISC				(RPPX1_HDR_IRQ_BASE + 0x0c)
++	ret = vsp1_isp_init(&vspx->dev);
++	if (ret < 0)
++		return ret;
 +
-+/* RPP_OUT/MV_OUT Pipelines - Base Addresses */
-+#define RPPX1_GAMMA_OUT_BASE			0x0000 /* HV, MV */
-+#define RPPX1_IS_BASE				0x00c0 /* HV, MV */
-+#define RPPX1_CSM_BASE				0x0100 /* HV, MV */
-+#define RPPX1_OUT_IF_BASE			0x0200 /* HV, MV */
-+#define RPPX1_RPP_OUTREGS_BASE			0x02c0 /* HV, MV */
-+#define RPPX1_LUV_BASE				0x0300 /* MV */
++	/* Attach to the RPP library
++	 *
++	 * 1. Start and wait for the ISP to startup.
++	 * 2. Attach the RPP library and talk with the RPP ISP.
++	 * 3. Turn off ISP.
++	 * 4. Fail if the RPP is unhappy with the hardware.
++	 */
++	ret = clk_prepare_enable(core->clk);
++	if (ret)
++		return ret;
 +
-+/* PRE1/PRE2/POST Pipelines - Base Addresses */
-+#define RPPX1_ACQ_BASE				0x0080 /* PRE1, PRE2 */
-+#define RPPX1_BLS_BASE				0x0100 /* PRE1, PRE2 */
-+#define RPPX1_GAMMA_IN_BASE			0x0200 /* PRE1, PRE2 */
-+#define RPPX1_LSC_BASE				0x0400 /* PRE1, PRE2 */
-+#define RPPX1_AWB_GAIN_BASE			0x0500 /* PRE1, PRE2, POST */
-+#define RPPX1_DPCC_BASE				0x0600 /* PRE1, PRE2 */
-+#define RPPX1_DPF_BASE				0x0700 /* PRE1, PRE2 */
-+#define RPPX1_FILT_BASE				0x0800 /* POST */
-+#define RPPX1_CAC_BASE				0x0880 /* POST */
-+#define RPPX1_CCOR_BASE				0x0900 /* POST */
-+#define RPPX1_HIST_BASE				0x0a00 /* PRE1, PRE2, POST */
-+#define RPPX1_HIST256_BASE			0x0b00 /* PRE1 */
-+#define RPPX1_EXM_BASE				0x0c00 /* PRE1, PRE2 */
-+#define RPPX1_LTM_BASE				0x1000 /* POST */
-+#define RPPX1_LTM_MEAS_BASE			0x1200 /* POST */
-+#define RPPX1_WBMEAS_BASE			0x1700 /* POST */
-+#define RPPX1_BDRGB_BASE			0x1800 /* POST */
-+#define RPPX1_SHRP_BASE				0x1a00 /* POST */
++	usleep_range(2000, 4000);
 +
-+/* Functional Safety Module Base Addresses */
-+#define RPPX1_FMU_BASE				0x0100
++	core->rpp = rppx1_create(core->base, &pdev->dev);
 +
-+#define RPPX1_RPP_HDR_FMU_FSM_REG		(RPPX1_RPP_FUSA_BASE + RPPX1_FMU_BASE + 0x00)
-+#define RPPX1_RPP_HDR_FMU_FSM_FSM_IRQM_FAULT	BIT(23)
-+#define RPPX1_RPP_HDR_FMU_FSM_PRE2_SIZE_FAULT	BIT(20)
-+#define RPPX1_RPP_HDR_FMU_FSM_PRE2_TIME_FAULT	BIT(19)
-+#define RPPX1_RPP_HDR_FMU_FSM_PRE1_SIZE_FAULT	BIT(18)
-+#define RPPX1_RPP_HDR_FMU_FSM_PRE1_TIME_FAULT	BIT(17)
-+#define RPPX1_RPP_HDR_FMU_FSM_SIZE_FAULT	BIT(16)
-+#define RPPX1_RPP_HDR_FMU_FSM_TIME_FAULT	BIT(15)
-+#define RPPX1_RPP_HDR_FMU_FSM_MV_OUT_SIZE_FAULT	BIT(14)
-+#define RPPX1_RPP_HDR_FMU_FSM_MV_OUT_TIME_FAULT	BIT(13)
-+#define RPPX1_RPP_HDR_FMU_FSM_HV_OUT_SIZE_FAULT	BIT(12)
-+#define RPPX1_RPP_HDR_FMU_FSM_HV_OUT_TIME_FAULT	BIT(11)
-+#define RPPX1_RPP_HDR_FMU_FSM_MV_OUT_SIZE_ERR	BIT(10)
-+#define RPPX1_RPP_HDR_FMU_FSM_IS_OUT_SIZE_ERR	BIT(9)
-+#define RPPX1_RPP_HDR_FMU_FSM_PRE2_FIFO_OVFLW	BIT(7)
-+#define RPPX1_RPP_HDR_FMU_FSM_PRE1_FIFO_OVFLW	BIT(6)
-+#define RPPX1_RPP_HDR_FMU_FSM_PRE1_INFORM_SIZE	BIT(5)
-+#define RPPX1_RPP_HDR_FMU_FSM_PRE1_OUTFORM_SIZE	BIT(4)
-+#define RPPX1_RPP_HDR_FMU_FSM_PRE2_INFORM_SIZE	BIT(3)
-+#define RPPX1_RPP_HDR_FMU_FSM_PRE2_OUTFORM_SIZE	BIT(2)
++	clk_disable_unprepare(core->clk);
 +
-+#define RPPX1_RPP_HDR_FMU_RFS_REG		(RPPX1_RPP_FUSA_BASE + RPPX1_FMU_BASE + 0x04)
-+#define RPPX1_RPP_HDR_FMU_MFS_REG		(RPPX1_RPP_FUSA_BASE + RPPX1_FMU_BASE + 0x08)
-+#define RPPX1_RPP_HDR_FMU_FSC_REG		(RPPX1_RPP_FUSA_BASE + RPPX1_FMU_BASE + 0x0c)
-+
-+void rppx1_write(struct rppx1 *rpp, u32 offset, u32 value)
-+{
-+	iowrite32(value, rpp->base + offset);
-+}
-+
-+u32 rppx1_read(struct rppx1 *rpp, u32 offset)
-+{
-+	return ioread32(rpp->base + offset);
-+}
-+
-+bool rppx1_interrupt(struct rppx1 *rpp, u32 *isc)
-+{
-+	u32 status, raw, fault;
-+
-+	fault = rppx1_read(rpp, RPPX1_RPP_HDR_FMU_MFS_REG);
-+	if (fault) {
-+		dev_err(rpp->dev, "%s: fault 0x%08x\n", __func__, fault);
-+		rppx1_write(rpp, RPPX1_RPP_HDR_FMU_FSC_REG, fault);
-+	}
-+
-+	/* Read raw interrupt status. */
-+	raw = rppx1_read(rpp, RPPX1_RPP_RIS);
-+	status = rppx1_read(rpp, RPPX1_RPP_MIS);
-+
-+	/* Propagate the isc status. */
-+	if (isc)
-+		*isc = status | raw;
-+
-+	/* Clear enabled interrupts */
-+	rppx1_write(rpp, RPPX1_RPP_ISC, status);
-+
-+	return !!(status & RPPX1_IRQ_ID_OUT_FRAME);
-+}
-+EXPORT_SYMBOL_GPL(rppx1_interrupt);
-+
-+void rppx1_destroy(struct rppx1 *rpp)
-+{
-+	kfree(rpp);
-+}
-+EXPORT_SYMBOL_GPL(rppx1_destroy);
-+
-+/*
-+ * Allocate the private data structure and verify the hardware is present.
-+ */
-+struct rppx1 *rppx1_create(void __iomem *base, struct device *dev)
-+{
-+	struct rppx1 *rpp;
-+	u32 reg;
-+
-+	/* Allocate library structure */
-+	rpp = kzalloc_obj(*rpp);
-+	if (!rpp)
-+		return NULL;
-+
-+	rpp->base = base;
-+	rpp->dev = dev;
-+
-+	/* Check communication with RPP and verify it truly is a X1. */
-+	reg = rppx1_read(rpp, RPPX1_RPP_HDRREGS_VERSION_REG);
-+	if (reg != 3) {
-+		dev_err(rpp->dev, "Unsupported HDR version (%u)\n", reg);
-+		rppx1_destroy(rpp);
-+		return NULL;
-+	}
-+
-+	/* Probe the PRE1 pipeline. */
-+	if (rpp_module_probe(&rpp->pre1.acq, rpp, &rppx1_acq_ops,
-+			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_ACQ_BASE) ||
-+	    rpp_module_probe(&rpp->pre1.bls, rpp, &rppx1_bls_ops,
-+			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_BLS_BASE) ||
-+	    rpp_module_probe(&rpp->pre1.lin, rpp, &rppx1_lin_ops,
-+			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_GAMMA_IN_BASE) ||
-+	    rpp_module_probe(&rpp->pre1.lsc, rpp, &rppx1_lsc_ops,
-+			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_LSC_BASE) ||
-+	    rpp_module_probe(&rpp->pre1.awbg, rpp, &rppx1_awbg_ops,
-+			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_AWB_GAIN_BASE) ||
-+	    rpp_module_probe(&rpp->pre1.dpcc, rpp, &rppx1_dpcc_ops,
-+			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_DPCC_BASE) ||
-+	    rpp_module_probe(&rpp->pre1.bd, rpp, &rppx1_bd_ops,
-+			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_DPF_BASE) ||
-+	    rpp_module_probe(&rpp->pre1.hist, rpp, &rppx1_hist_ops,
-+			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_HIST_BASE) ||
-+	    rpp_module_probe(&rpp->pre1.hist256, rpp, &rppx1_hist256_ops,
-+			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_HIST256_BASE) ||
-+	    rpp_module_probe(&rpp->pre1.exm, rpp, &rppx1_exm_ops,
-+			     RPPX1_RPP_MAIN_PRE1_BASE + RPPX1_EXM_BASE))
-+		goto err;
-+
-+	/* Probe the PRE2 pipeline. */
-+	if (rpp_module_probe(&rpp->pre2.acq, rpp, &rppx1_acq_ops,
-+			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_ACQ_BASE) ||
-+	    rpp_module_probe(&rpp->pre2.bls, rpp, &rppx1_bls_ops,
-+			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_BLS_BASE) ||
-+	    rpp_module_probe(&rpp->pre2.lin, rpp, &rppx1_lin_ops,
-+			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_GAMMA_IN_BASE) ||
-+	    rpp_module_probe(&rpp->pre2.lsc, rpp, &rppx1_lsc_ops,
-+			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_LSC_BASE) ||
-+	    rpp_module_probe(&rpp->pre2.awbg, rpp, &rppx1_awbg_ops,
-+			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_AWB_GAIN_BASE) ||
-+	    rpp_module_probe(&rpp->pre2.dpcc, rpp, &rppx1_dpcc_ops,
-+			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_DPCC_BASE) ||
-+	    rpp_module_probe(&rpp->pre2.bd, rpp, &rppx1_bd_ops,
-+			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_DPF_BASE) ||
-+	    rpp_module_probe(&rpp->pre2.hist, rpp, &rppx1_hist_ops,
-+			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_HIST_BASE) ||
-+	    rpp_module_probe(&rpp->pre2.exm, rpp, &rppx1_exm_ops,
-+			     RPPX1_RPP_MAIN_PRE2_BASE + RPPX1_EXM_BASE))
-+		goto err;
-+
-+	/* Probe the POST pipeline. */
-+	if (rpp_module_probe(&rpp->post.awbg, rpp, &rppx1_awbg_ops,
-+			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_AWB_GAIN_BASE) ||
-+	    rpp_module_probe(&rpp->post.ccor, rpp, &rppx1_ccor_ops,
-+			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_CCOR_BASE) ||
-+	    rpp_module_probe(&rpp->post.hist, rpp, &rppx1_hist_ops,
-+			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_HIST_BASE) ||
-+	    rpp_module_probe(&rpp->post.db, rpp, &rppx1_db_ops,
-+			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_FILT_BASE) ||
-+	    rpp_module_probe(&rpp->post.cac, rpp, &rppx1_cac_ops,
-+			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_CAC_BASE) ||
-+	    rpp_module_probe(&rpp->post.ltm, rpp, &rppx1_ltm_ops,
-+			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_LTM_BASE) ||
-+	    rpp_module_probe(&rpp->post.ltmmeas, rpp, &rppx1_ltmmeas_ops,
-+			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_LTM_MEAS_BASE) ||
-+	    rpp_module_probe(&rpp->post.wbmeas, rpp, &rppx1_wbmeas_ops,
-+			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_WBMEAS_BASE) ||
-+	    rpp_module_probe(&rpp->post.bdrgb, rpp, &rppx1_bdrgb_ops,
-+			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_BDRGB_BASE) ||
-+	    rpp_module_probe(&rpp->post.shrp, rpp, &rppx1_shrp_ops,
-+			     RPPX1_RPP_MAIN_POST_BASE + RPPX1_SHRP_BASE))
-+		goto err;
-+
-+	/* Probe the Human Vision pipeline. */
-+	if (rpp_module_probe(&rpp->hv.ga, rpp, &rppx1_ga_ops,
-+			     RPPX1_RPP_OUT_BASE + RPPX1_GAMMA_OUT_BASE) ||
-+	    rpp_module_probe(&rpp->hv.is, rpp, &rppx1_is_ops,
-+			     RPPX1_RPP_OUT_BASE + RPPX1_IS_BASE) ||
-+	    rpp_module_probe(&rpp->hv.ccor, rpp, &rppx1_ccor_csm_ops,
-+			     RPPX1_RPP_OUT_BASE + RPPX1_CSM_BASE) ||
-+	    rpp_module_probe(&rpp->hv.outif, rpp, &rppx1_outif_ops,
-+			     RPPX1_RPP_OUT_BASE + RPPX1_OUT_IF_BASE) ||
-+	    rpp_module_probe(&rpp->hv.outregs, rpp, &rppx1_outregs_ops,
-+			     RPPX1_RPP_OUT_BASE + RPPX1_RPP_OUTREGS_BASE))
-+		goto err;
-+
-+	/* Probe the Machine Vision pipeline. */
-+	if (rpp_module_probe(&rpp->mv.ga, rpp, &rppx1_ga_ops,
-+			     RPPX1_RPP_MVOUT_BASE + RPPX1_GAMMA_OUT_BASE) ||
-+	    rpp_module_probe(&rpp->mv.is, rpp, &rppx1_is_ops,
-+			     RPPX1_RPP_MVOUT_BASE + RPPX1_IS_BASE) ||
-+	    rpp_module_probe(&rpp->mv.ccor, rpp, &rppx1_ccor_csm_ops,
-+			     RPPX1_RPP_MVOUT_BASE + RPPX1_CSM_BASE) ||
-+	    rpp_module_probe(&rpp->mv.outif, rpp, &rppx1_outif_ops,
-+			     RPPX1_RPP_MVOUT_BASE + RPPX1_OUT_IF_BASE) ||
-+	    rpp_module_probe(&rpp->mv.outregs, rpp, &rppx1_outregs_ops,
-+			     RPPX1_RPP_MVOUT_BASE + RPPX1_RPP_OUTREGS_BASE) ||
-+	    rpp_module_probe(&rpp->mv.xyz2luv, rpp, &rppx1_xyz2luv_ops,
-+			     RPPX1_RPP_MVOUT_BASE + RPPX1_LUV_BASE))
-+		goto err;
-+
-+	/* Probe the standalone Radiance Mapping modules. */
-+	if (rpp_module_probe(&rpp->rmap, rpp, &rppx1_rmap_ops,
-+			     RPPX1_RPP_RMAP_BASE) ||
-+	    rpp_module_probe(&rpp->rmapmeas, rpp, &rppx1_rmapmeas_ops,
-+			     RPPX1_RPP_RMAP_MEAS_BASE))
-+		goto err;
-+
-+	return rpp;
-+err:
-+	rppx1_destroy(rpp);
-+
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(rppx1_create);
-+
-+int rppx1_start(struct rppx1 *rpp,
-+		const struct v4l2_mbus_framefmt *input,
-+		const struct v4l2_mbus_framefmt *hv,
-+		const struct v4l2_mbus_framefmt *mv)
-+{
-+	if (rpp_module_call(&rpp->pre1.acq, start, input) ||
-+	    rpp_module_call(&rpp->pre1.bls, start, input) ||
-+	    rpp_module_call(&rpp->pre1.lin, start, input) ||
-+	    rpp_module_call(&rpp->pre1.lsc, start, input) ||
-+	    rpp_module_call(&rpp->pre1.awbg, start, input) ||
-+	    rpp_module_call(&rpp->pre1.dpcc, start, input) ||
-+	    rpp_module_call(&rpp->pre1.bd, start, input) ||
-+	    rpp_module_call(&rpp->pre1.hist, start, input) ||
-+	    rpp_module_call(&rpp->pre1.exm, start, input) ||
-+	    rpp_module_call(&rpp->pre1.hist256, start, input))
-+		return -EINVAL;
-+
-+	if (rpp_module_call(&rpp->rmap, start, NULL) ||
-+	    rpp_module_call(&rpp->rmapmeas, start, NULL))
-+		return -EINVAL;
-+
-+	if (rpp_module_call(&rpp->post.awbg, start, input) ||
-+	    rpp_module_call(&rpp->post.db, start, input) ||
-+	    rpp_module_call(&rpp->post.cac, start, input) ||
-+	    rpp_module_call(&rpp->post.ccor, start, input) ||
-+	    rpp_module_call(&rpp->post.ltm, start, input) ||
-+	    rpp_module_call(&rpp->post.bdrgb, start, input) ||
-+	    rpp_module_call(&rpp->post.shrp, start, input) ||
-+	    rpp_module_call(&rpp->post.ltmmeas, start, input) ||
-+	    rpp_module_call(&rpp->post.wbmeas, start, input) ||
-+	    rpp_module_call(&rpp->post.hist, start, input))
-+		return -EINVAL;
-+
-+	if (hv && (rpp_module_call(&rpp->hv.ga, start, hv) ||
-+		   rpp_module_call(&rpp->hv.ccor, start, hv) ||
-+		   rpp_module_call(&rpp->hv.outregs, start, hv) ||
-+		   rpp_module_call(&rpp->hv.is, start, hv) ||
-+		   rpp_module_call(&rpp->hv.outif, start, hv)))
-+		return -EINVAL;
-+
-+	if (mv && (rpp_module_call(&rpp->mv.ga, start, mv) ||
-+		   rpp_module_call(&rpp->mv.ccor, start, mv) ||
-+		   rpp_module_call(&rpp->mv.xyz2luv, start, mv) ||
-+		   rpp_module_call(&rpp->mv.outregs, start, mv) ||
-+		   rpp_module_call(&rpp->mv.is, start, mv) ||
-+		   rpp_module_call(&rpp->mv.outif, start, mv)))
-+		return -EINVAL;
-+
-+	/* Immediate update for shadows. */
-+	rppx1_write(rpp, RPPX1_RPP_HDR_UPD_REG, RPPX1_RPP_HDR_UPD_REGS_CFG_UPD);
-+
-+	/* Clear fault interrupts. */
-+	rppx1_write(rpp, RPPX1_RPP_HDR_SAFETY_ACCESS_PROTECTION_REG,
-+		    RPPX1_RPP_HDR_SAFETY_ACCESS_PROTECTION_ENABLE);
-+	rppx1_write(rpp, RPPX1_RPP_HDR_FMU_FSM_REG,
-+		    RPPX1_RPP_HDR_FMU_FSM_PRE2_FIFO_OVFLW |
-+		    RPPX1_RPP_HDR_FMU_FSM_PRE1_FIFO_OVFLW);
-+	rppx1_write(rpp, RPPX1_RPP_HDR_FMU_FSC_REG,
-+		    rppx1_read(rpp, RPPX1_RPP_HDR_FMU_MFS_REG));
-+	rppx1_write(rpp, RPPX1_RPP_HDR_SAFETY_ACCESS_PROTECTION_REG,
-+		    RPPX1_RPP_HDR_SAFETY_ACCESS_PROTECTION_DISABLE);
-+
-+	/* Set interrupt mask. */
-+	rppx1_write(rpp, RPPX1_RPP_ISM, RPPX1_IRQ_ID_OUT_FRAME);
-+
-+	/* Immediate commit update for shadows. */
-+	rppx1_write(rpp, RPPX1_RPP_HDR_UPD_REG, RPPX1_RPP_HDR_UPD_REGS_CFG_UPD);
-+
-+	/* Then for operation update shadows with picture synchronization. */
-+	rppx1_write(rpp, RPPX1_RPP_HDR_UPD_REG, RPPX1_RPP_HDR_UPD_REGS_GEN_CFG_UPD);
-+
-+	/* Clear any pending interrupts. */
-+	rppx1_interrupt(rpp, NULL);
-+
-+	/* Enable input formatters. */
-+	rppx1_write(rpp, RPPX1_RPP_HDR_INFORM_ENABLE_REG,
-+		    RPPX1_RPP_HDR_INFORM_ENABLE_ENABLE);
++	if (!core->rpp)
++		return -ENODEV;
 +
 +	return 0;
 +}
-+EXPORT_SYMBOL_GPL(rppx1_start);
 +
-+int rppx1_stop(struct rppx1 *rpp)
++int risp_core_probe(struct rcar_isp_core *core, struct platform_device *pdev,
++		    void __iomem *csbase, struct reset_control *csrstc)
 +{
-+	/* Disable input formatters. */
-+	rppx1_write(rpp, RPPX1_RPP_HDR_INFORM_ENABLE_REG,
-+		    RPPX1_RPP_HDR_INFORM_ENABLE_DISABLE);
++	int ret;
 +
-+	/* Clear any pending interrupts. */
-+	rppx1_interrupt(rpp, NULL);
++	core->dev = &pdev->dev;
++	core->csrstc = csrstc;
++	core->csbase = csbase;
++
++	ret = risp_core_probe_resources(core, pdev);
++	if (ret) {
++		core->base = NULL;
++		return ret;
++	}
++
++	ret = v4l2_device_register(core->dev, &core->v4l2_dev);
++	if (ret)
++		return ret;
++
++	ret = risp_core_create_subdev(core);
++	if (ret)
++		return ret;
++
++	mutex_init(&core->io_lock);
++	spin_lock_init(&core->lock);
++	INIT_LIST_HEAD(&core->risp_jobs);
 +
 +	return 0;
 +}
-+EXPORT_SYMBOL_GPL(rppx1_stop);
 +
-+MODULE_AUTHOR("Niklas Söderlund <niklas.soderlund@ragnatech.se>");
-+MODULE_DESCRIPTION("Dreamchip HDR RPPX1 support library");
-+MODULE_LICENSE("GPL");
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1.h b/drivers/media/platform/dreamchip/rppx1/rppx1.h
-new file mode 100644
-index 000000000000..3bf3955afbae
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1.h
-@@ -0,0 +1,105 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
++void risp_core_remove(struct rcar_isp_core *core)
++{
++	/* If we did not probe the ISP core, nothing to do. */
++	if (!core->base)
++		return;
++
++	dev_info(core->dev, "Remove ISP Core\n");
++
++	for (unsigned int i = 0; i < RISP_CORE_NUM_PADS; i++)
++		risp_core_io_destroy(&core->io[i]);
++
++	v4l2_device_unregister_subdev(&core->subdev);
++
++	mutex_destroy(&core->io_lock);
++	rppx1_destroy(core->rpp);
++}
+diff --git a/drivers/media/platform/renesas/rcar-isp/csisp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
+index 8fb2cc3b5650..53ce47020d17 100644
+--- a/drivers/media/platform/renesas/rcar-isp/csisp.c
++++ b/drivers/media/platform/renesas/rcar-isp/csisp.c
+@@ -11,14 +11,13 @@
+  */
+ 
+ #include <linux/module.h>
+-#include <linux/mutex.h>
+ #include <linux/of.h>
+-#include <linux/platform_device.h>
+ #include <linux/pm_runtime.h>
+-#include <linux/reset.h>
+ 
+ #include <media/mipi-csi2.h>
+-#include <media/v4l2-subdev.h>
++#include <media/v4l2-async.h>
++
++#include "risp-core.h"
+ 
+ #define ISPINPUTSEL0_REG				0x0008
+ #define ISPINPUTSEL0_SEL_CSI0				BIT(31)
+@@ -158,6 +157,7 @@ struct rcar_isp {
+ 	struct device *dev;
+ 	void __iomem *csbase;
+ 	struct reset_control *rstc;
++	struct rcar_isp_core core;
+ 
+ 	enum rcar_isp_input csi_input;
+ 
+@@ -451,6 +451,21 @@ static int risp_parse_dt(struct rcar_isp *isp)
+ 	return ret;
+ }
+ 
++/* -----------------------------------------------------------------------------
++ * ISP Core connection
 + */
 +
-+#ifndef __MEDIA_RPPX1_H__
-+#define __MEDIA_RPPX1_H__
++static int risp_cs_registered(struct v4l2_subdev *sd)
++{
++	struct rcar_isp *isp = sd_to_isp(sd);
 +
-+#include <linux/device.h>
-+#include <linux/types.h>
++	return risp_core_registered(&isp->core, sd);
++}
 +
-+#include "rpp_module.h"
-+
-+#define RPPX1_IRQ_ID_256HIST			BIT(27)
-+#define RPPX1_IRQ_ID_PRE2_DPCC			BIT(25)
-+#define RPPX1_IRQ_ID_PRE1_DPCC			BIT(24)
-+#define RPPX1_IRQ_ID_MV_OUT_FRAME_OUT		BIT(23)
-+#define RPPX1_IRQ_ID_MV_OUT_OFF			BIT(22)
-+#define RPPX1_IRQ_ID_POST_AWB_MEAS		BIT(21)
-+#define RPPX1_IRQ_ID_POST_HIST_MEAS		BIT(20)
-+#define RPPX1_IRQ_ID_POST_TM			BIT(19)
-+#define RPPX1_IRQ_ID_PRE1_EXM			BIT(18)
-+#define RPPX1_IRQ_ID_PRE1_HIST			BIT(17)
-+#define RPPX1_IRQ_ID_PRE1_FRAME_IN		BIT(16)
-+#define RPPX1_IRQ_ID_PRE1_HSTART		BIT(15)
-+#define RPPX1_IRQ_ID_PRE1_VSTART		BIT(14)
-+#define RPPX1_IRQ_ID_PRE2_EXM			BIT(13)
-+#define RPPX1_IRQ_ID_PRE2_HIST			BIT(12)
-+#define RPPX1_IRQ_ID_PRE2_FRAME_IN		BIT(11)
-+#define RPPX1_IRQ_ID_PRE2_HSTART		BIT(10)
-+#define RPPX1_IRQ_ID_PRE2_VSTART		BIT(9)
-+#define RPPX1_IRQ_ID_OUT_FRAME			BIT(3)
-+#define RPPX1_IRQ_ID_OUT_OFF			BIT(2)
-+#define RPPX1_IRQ_ID_RMAP_MEAS			BIT(1)
-+#define RPPX1_IRQ_ID_RMAP_DONE			BIT(0)
-+
-+struct rppx1 {
-+	struct device *dev;
-+	void __iomem *base;
-+
-+	struct {
-+		struct rpp_module acq;
-+		struct rpp_module bls;
-+		struct rpp_module lin;
-+		struct rpp_module lsc;
-+		struct rpp_module awbg;
-+		struct rpp_module dpcc;
-+		struct rpp_module bd;
-+		struct rpp_module hist;
-+		struct rpp_module hist256;
-+		struct rpp_module exm;
-+	} pre1;
-+
-+	struct {
-+		struct rpp_module acq;
-+		struct rpp_module bls;
-+		struct rpp_module lin;
-+		struct rpp_module lsc;
-+		struct rpp_module awbg;
-+		struct rpp_module dpcc;
-+		struct rpp_module bd;
-+		struct rpp_module hist;
-+		struct rpp_module exm;
-+	} pre2;
-+
-+	struct {
-+		struct rpp_module awbg;
-+		struct rpp_module ccor;
-+		struct rpp_module hist;
-+		struct rpp_module db;
-+		struct rpp_module cac;
-+		struct rpp_module ltm;
-+		struct rpp_module ltmmeas;
-+		struct rpp_module wbmeas;
-+		struct rpp_module bdrgb;
-+		struct rpp_module shrp;
-+	} post;
-+
-+	struct {
-+		struct rpp_module ga;
-+		struct rpp_module is;
-+		struct rpp_module ccor;
-+		struct rpp_module outif;
-+		struct rpp_module outregs;
-+	} hv;
-+
-+	struct {
-+		struct rpp_module ga;
-+		struct rpp_module is;
-+		struct rpp_module ccor;
-+		struct rpp_module outif;
-+		struct rpp_module outregs;
-+		struct rpp_module xyz2luv;
-+	} mv;
-+
-+	struct rpp_module rmap;
-+	struct rpp_module rmapmeas;
++static const struct v4l2_subdev_internal_ops risp_cs_internal_ops = {
++	.registered = risp_cs_registered,
 +};
 +
-+void rppx1_write(struct rppx1 *rpp, u32 offset, u32 value);
-+u32 rppx1_read(struct rppx1 *rpp, u32 offset);
-+
-+#endif /* __MEDIA_RPPX1_H__ */
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_acq.c b/drivers/media/platform/dreamchip/rppx1/rppx1_acq.c
-new file mode 100644
-index 000000000000..d5624e3c76a9
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_acq.c
-@@ -0,0 +1,148 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define ACQ_VERSION_REG				0x0000
-+
-+#define ACQ_CTRL_REG				0x0004
-+#define ACQ_CTRL_ALTERNATIVE_CFG_MODE_ENABLE	BIT(8)
-+#define ACQ_CTRL_RPP_MODE_MASK			GENMASK(3, 1)
-+#define ACQ_CTRL_RPP_MODE_RAWBT601		(0 << 1)
-+#define ACQ_CTRL_RPP_MODE_BT656			(1 << 1)
-+#define ACQ_CTRL_RPP_MODE_BT601			(2 << 1)
-+#define ACQ_CTRL_RPP_MODE_BAYER			(3 << 1)
-+#define ACQ_CTRL_RPP_MODE_DATA			(4 << 1)
-+#define ACQ_CTRL_RPP_MODE_BAYERRGB		(5 << 1)
-+#define ACQ_CTRL_RPP_MODE_RAWBT656		(6 << 1)
-+#define ACQ_CTRL_INFORM_EN_ENABLE		BIT(0)
-+
-+#define ACQ_PROP_REG				0x0008
-+
-+#define ACQ_PROP_SENSOR_IN_LSB_ALIGNED_IN_LSB	BIT(30)
-+#define ACQ_PROP_YUV_OUT_SEL			BIT(25)
-+#define ACQ_PROP_MUX_DMA_SEL			BIT(24)
-+#define ACQ_PROP_SECOND_INPUT_TYPE		BIT(18)
-+#define ACQ_PROP_LATENCY_FIFO_INPUT_SELECTION	BIT(15)
-+#define ACQ_PROP_INPUT_SELECTION_MASK		GENMASK(14, 12)
-+#define ACQ_PROP_INPUT_SELECTION_8BIT		(0 << 12)
-+#define ACQ_PROP_INPUT_SELECTION_10BIT		(1 << 12)
-+#define ACQ_PROP_INPUT_SELECTION_12BIT		(2 << 12)
-+#define ACQ_PROP_BAYER_PAT_MASK			GENMASK(4, 3)
-+#define ACQ_PROP_BAYER_PAT_RGRG			(0 << 3)
-+#define ACQ_PROP_BAYER_PAT_GRGR			(1 << 3)
-+#define ACQ_PROP_BAYER_PAT_GBGB			(2 << 3)
-+#define ACQ_PROP_BAYER_PAT_BGBG			(3 << 3)
-+#define ACQ_PROP_VSYNC_POL			BIT(2)
-+#define ACQ_PROP_HSYNC_POL			BIT(1)
-+#define ACQ_PROP_SAMPLE_EDGE			BIT(0)
-+
-+#define ACQ_H_OFFS_REG				0x000c
-+#define ACQ_V_OFFS_REG				0x0010
-+#define ACQ_H_SIZE_REG				0x0014
-+#define ACQ_V_SIZE_REG				0x0018
-+#define ACQ_OUT_H_OFFS_REG			0x001c
-+#define ACQ_OUT_V_OFFS_REG			0x0020
-+#define ACQ_OUT_H_SIZE_REG			0x0024
-+#define ACQ_OUT_V_SIZE_REG			0x0028
-+#define FLAGS_SHD_REG				0x002c
-+#define ACQ_OUT_H_OFFS_SHD_REG			0x0030
-+#define ACQ_OUT_V_OFFS_SHD_REG			0x0034
-+#define ACQ_OUT_H_SIZE_SHD_REG			0x0038
-+#define ACQ_OUT_V_SIZE_SHD_REG			0x003c
-+
-+static int rppx1_acq_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	if (rpp_module_read(mod, ACQ_VERSION_REG) != 0x0b)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int rppx1_acq_start(struct rpp_module *mod,
-+			   const struct v4l2_mbus_framefmt *fmt)
-+{
-+	u32 bayerpat, selection;
-+
-+	rpp_module_clrset(mod, ACQ_CTRL_REG, ACQ_CTRL_RPP_MODE_MASK,
-+			  ACQ_CTRL_RPP_MODE_BAYER);
-+
-+	rpp_module_write(mod, ACQ_H_OFFS_REG, 0);
-+	rpp_module_write(mod, ACQ_V_OFFS_REG, 0);
-+	rpp_module_write(mod, ACQ_H_SIZE_REG, fmt->width);
-+	rpp_module_write(mod, ACQ_V_SIZE_REG, fmt->height);
-+	rpp_module_write(mod, ACQ_OUT_H_OFFS_REG, 0);
-+	rpp_module_write(mod, ACQ_OUT_V_OFFS_REG, 0);
-+	rpp_module_write(mod, ACQ_OUT_H_SIZE_REG, fmt->width);
-+	rpp_module_write(mod, ACQ_OUT_V_SIZE_REG, fmt->height);
-+
-+	switch (fmt->code) {
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+	case MEDIA_BUS_FMT_SBGGR10_1X10:
-+	case MEDIA_BUS_FMT_SBGGR12_1X12:
-+		mod->info.acq.raw_pattern = RPP_BGGR;
-+		bayerpat = ACQ_PROP_BAYER_PAT_BGBG;
+ /* -----------------------------------------------------------------------------
+  * Platform Device Driver
+  */
+@@ -477,7 +492,7 @@ static int risp_probe_resources(struct rcar_isp *isp,
+ 	if (IS_ERR(isp->csbase))
+ 		return PTR_ERR(isp->csbase);
+ 
+-	isp->rstc = devm_reset_control_get(&pdev->dev, NULL);
++	isp->rstc = devm_reset_control_get_shared(&pdev->dev, NULL);
+ 
+ 	return PTR_ERR_OR_ZERO(isp->rstc);
+ }
+@@ -541,14 +556,31 @@ static int risp_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto error_notifier;
+ 
+-	ret = v4l2_async_register_subdev(&isp->subdev);
+-	if (ret < 0)
++	ret = risp_core_probe(&isp->core, pdev, isp->csbase, isp->rstc);
++	switch (ret) {
++	case 0:
++		/* The device have an ISP core. */
++		isp->subdev.internal_ops = &risp_cs_internal_ops;
 +		break;
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+	case MEDIA_BUS_FMT_SGBRG10_1X10:
-+	case MEDIA_BUS_FMT_SGBRG12_1X12:
-+		mod->info.acq.raw_pattern = RPP_GBRG;
-+		bayerpat = ACQ_PROP_BAYER_PAT_GBGB;
-+		break;
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
-+	case MEDIA_BUS_FMT_SGRBG10_1X10:
-+	case MEDIA_BUS_FMT_SGRBG12_1X12:
-+		mod->info.acq.raw_pattern = RPP_GRBG;
-+		bayerpat = ACQ_PROP_BAYER_PAT_GRGR;
-+		break;
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+	case MEDIA_BUS_FMT_SRGGB12_1X12:
-+		mod->info.acq.raw_pattern = RPP_RGGB;
-+		bayerpat = ACQ_PROP_BAYER_PAT_RGRG;
++	case -ENODEV:
++		/* The device don't have an ISP core, that is OK. */
++		ret = 0;
 +		break;
 +	default:
-+		return -EINVAL;
++		/* Something went wrong registering the ISP core. */
+ 		goto error_subdev;
 +	}
 +
-+	switch (fmt->code) {
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+		selection = ACQ_PROP_INPUT_SELECTION_8BIT;
-+		break;
-+	case MEDIA_BUS_FMT_SBGGR10_1X10:
-+	case MEDIA_BUS_FMT_SGBRG10_1X10:
-+	case MEDIA_BUS_FMT_SGRBG10_1X10:
-+	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+		selection = ACQ_PROP_INPUT_SELECTION_10BIT;
-+		break;
-+	case MEDIA_BUS_FMT_SBGGR12_1X12:
-+	case MEDIA_BUS_FMT_SGBRG12_1X12:
-+	case MEDIA_BUS_FMT_SGRBG12_1X12:
-+	case MEDIA_BUS_FMT_SRGGB12_1X12:
-+		selection = ACQ_PROP_INPUT_SELECTION_12BIT;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
++	ret = v4l2_async_register_subdev(&isp->subdev);
++	if (ret < 0)
++		goto error_core;
+ 
+ 	dev_info(isp->dev, "Using CSI-2 input: %u\n", isp->csi_input);
+ 
+ 	return 0;
+ 
++error_core:
++	risp_core_remove(&isp->core);
+ error_subdev:
+ 	v4l2_subdev_cleanup(&isp->subdev);
+ error_notifier:
+@@ -564,6 +596,8 @@ static void risp_remove(struct platform_device *pdev)
+ {
+ 	struct rcar_isp *isp = platform_get_drvdata(pdev);
+ 
++	risp_core_remove(&isp->core);
 +
-+	rpp_module_write(mod, ACQ_PROP_REG, bayerpat | selection |
-+			 ACQ_PROP_SENSOR_IN_LSB_ALIGNED_IN_LSB);
-+
-+	rpp_module_clrset(mod, ACQ_CTRL_REG, ACQ_CTRL_INFORM_EN_ENABLE,
-+			  ACQ_CTRL_INFORM_EN_ENABLE);
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_acq_ops = {
-+	.probe = rppx1_acq_probe,
-+	.start = rppx1_acq_start,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c b/drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c
+ 	v4l2_async_nf_unregister(&isp->notifier);
+ 	v4l2_async_nf_cleanup(&isp->notifier);
+ 
+diff --git a/drivers/media/platform/renesas/rcar-isp/risp-core.h b/drivers/media/platform/renesas/rcar-isp/risp-core.h
 new file mode 100644
-index 000000000000..4a242b41142b
+index 000000000000..f0e94b3e3e42
 --- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_awbg.c
-@@ -0,0 +1,31 @@
-+// SPDX-License-Identifier: GPL-2.0
++++ b/drivers/media/platform/renesas/rcar-isp/risp-core.h
+@@ -0,0 +1,179 @@
++/* SPDX-License-Identifier: GPL-2.0+ */
 +/*
 + * Copyright (C) 2026 Renesas Electronics Corp.
 + * Copyright (C) 2026 Ideas on Board Oy
 + * Copyright (C) 2026 Ragnatech AB
 + */
 +
-+#include "rpp_module.h"
-+
-+#define AWB_GAIN_VERSION_REG		0x0000
-+
-+#define AWB_ENABLE_REG			0x0004
-+#define AWB_ENABLE_AWB_GAIN_EN		BIT(0)
-+
-+#define AWB_GAIN_GR_REG			0x0008
-+#define AWB_GAIN_GB_REG			0x000c
-+#define AWB_GAIN_R_REG			0x0010
-+#define AWB_GAIN_B_REG			0x0014
-+
-+static int rppx1_awbg_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	if (rpp_module_read(mod, AWB_GAIN_VERSION_REG) != 3)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_awbg_ops = {
-+	.probe = rppx1_awbg_probe,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_bd.c b/drivers/media/platform/dreamchip/rppx1/rppx1_bd.c
-new file mode 100644
-index 000000000000..fcbaa0ee9281
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_bd.c
-@@ -0,0 +1,53 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define DPF_VERSION_REG			0x0000
-+
-+#define DPF_MODE_REG			0x0004
-+#define DPF_MODE_USE_NF_GAIN		BIT(9)
-+#define DPF_MODE_LSC_GAIN_COMP		BIT(8)
-+#define DPF_MODE_NLL_SEGMENTATION	BIT(6)
-+#define DPF_MODE_RB_FILTER_SIZE		BIT(5)
-+#define DPF_MODE_R_FILTER_OFF		BIT(4)
-+#define DPF_MODE_GR_FILTER_OFF		BIT(3)
-+#define DPF_MODE_GB_FILTER_OFF		BIT(2)
-+#define DPF_MODE_B_FILTER_OFF		BIT(1)
-+#define DPF_MODE_DPF_ENABLE		BIT(0)
-+
-+#define DPF_STRENGTH_R_REG		0x0008
-+#define DPF_STRENGTH_G_REG		0x000c
-+#define DPF_STRENGTH_B_REG		0x0010
-+#define DPF_S_WEIGHT_G_1_4_REG		0x0014
-+#define DPF_S_WEIGHT_G_5_6_REG		0x0018
-+#define DPF_S_WEIGHT_RB_1_4_REG		0x001c
-+#define DPF_S_WEIGHT_RB_5_6_REG		0x0020
-+
-+#define DPF_NLL_G_COEFF_REG_NUM		17
-+#define DPF_NLL_G_COEFF_REG(n)		(0x0024 + (4 * (n)))
-+
-+#define DPF_NLL_RB_COEFF_REG_NUM	17
-+#define DPF_NLL_RB_COEFF_REG(n)		(0x0068 + (4 * (n)))
-+
-+#define DPF_NF_GAIN_R_REG		0x00ac
-+#define DPF_NF_GAIN_GR_REG		0x00b0
-+#define DPF_NF_GAIN_GB_REG		0x00b4
-+#define DPF_NF_GAIN_B_REG		0x00b8
-+
-+static int rppx1_bd_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	if (rpp_module_read(mod, DPF_VERSION_REG) != 5)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_bd_ops = {
-+	.probe = rppx1_bd_probe,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_bdrgb.c b/drivers/media/platform/dreamchip/rppx1/rppx1_bdrgb.c
-new file mode 100644
-index 000000000000..1accc106d65b
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_bdrgb.c
-@@ -0,0 +1,81 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define RGBDENOISE_VERSION_REG					0x0000
-+
-+#define RGBDENOISE_HW_BYPASS_REG				0x0004
-+#define RGBDENOISE_HW_BYPASS_BYPASS_EN				BIT(0)
-+
-+#define RGBDENOISE_SPNR_CTRL_REG				0x0008
-+#define RGBDENOISE_SPNR_CTRL_C2NR_INTENSITY_SHIFT_C_MASK	GENMASK(11, 8)
-+#define RGBDENOISE_SPNR_CTRL_C2NR_INTENSITY_SHIFT_Y_MASK	GENMASK(7, 4)
-+#define RGBDENOISE_SPNR_CTRL_C2NR_EN				BIT(0)
-+
-+#define RGBDENOISE_SPNR_LUMA_IF_COEF_00_07_REG			0x000c
-+#define RGBDENOISE_SPNR_LUMA_IF_COEF_08_15_REG			0x0010
-+#define RGBDENOISE_SPNR_LUMA_IF_COEF_16_23_REG			0x0014
-+#define RGBDENOISE_SPNR_LUMA_IF_COEF_24_31_REG			0x0018
-+#define RGBDENOISE_SPNR_CHROMA_IF_COEF_00_07_REG		0x001c
-+#define RGBDENOISE_SPNR_CHROMA_IF_COEF_08_15_REG		0x0020
-+#define RGBDENOISE_SPNR_CHROMA_IF_COEF_16_23_REG		0x0024
-+#define RGBDENOISE_SPNR_CHROMA_IF_COEF_24_31_REG		0x0028
-+#define RGBDENOISE_SPNR_SPATIAL_COEF_0_3_REG			0x002c
-+#define RGBDENOISE_RGB2YUV_CCOR_COEFF_0_REG			0x0030
-+#define RGBDENOISE_RGB2YUV_CCOR_COEFF_1_REG			0x0034
-+#define RGBDENOISE_RGB2YUV_CCOR_COEFF_2_REG			0x0038
-+#define RGBDENOISE_RGB2YUV_CCOR_COEFF_3_REG			0x003c
-+#define RGBDENOISE_RGB2YUV_CCOR_COEFF_4_REG			0x0040
-+#define RGBDENOISE_RGB2YUV_CCOR_COEFF_5_REG			0x0044
-+#define RGBDENOISE_RGB2YUV_CCOR_COEFF_6_REG			0x0048
-+#define RGBDENOISE_RGB2YUV_CCOR_COEFF_7_REG			0x004c
-+#define RGBDENOISE_RGB2YUV_CCOR_COEFF_8_REG			0x0050
-+#define RGBDENOISE_RGB2YUV_CCOR_OFFSET_R_REG			0x0054
-+#define RGBDENOISE_RGB2YUV_CCOR_OFFSET_G_REG			0x0058
-+#define RGBDENOISE_RGB2YUV_CCOR_OFFSET_B_REG			0x005c
-+#define RGBDENOISE_HW_BYPASS_SDW_REG				0x0060
-+#define RGBDENOISE_SPNR_CTRL_SDW_REG				0x0064
-+#define RGBDENOISE_SPNR_LUMA_IF_COEF_00_07_SDW_REG		0x0068
-+#define RGBDENOISE_SPNR_LUMA_IF_COEF_08_15_SDW_REG		0x006c
-+#define RGBDENOISE_SPNR_LUMA_IF_COEF_16_23_SDW_REG		0x0070
-+#define RGBDENOISE_SPNR_LUMA_IF_COEF_24_31_SDW_REG		0x0074
-+#define RGBDENOISE_SPNR_CHROMA_IF_COEF_00_07_SDW_REG		0x0078
-+#define RGBDENOISE_SPNR_CHROMA_IF_COEF_08_15_SDW_REG		0x007c
-+#define RGBDENOISE_SPNR_CHROMA_IF_COEF_16_23_SDW_REG		0x0080
-+#define RGBDENOISE_SPNR_CHROMA_IF_COEF_24_31_SDW_REG		0x0084
-+#define RGBDENOISE_SPNR_SPATIAL_COEFF_0_3_SDW_REG		0x0088
-+#define RGBDENOISE_RGB2YUV_CCOR_COEFF_0_SDW_REG			0x008c
-+#define RGBDENOISE_RGB2YUV_CCOR_COEFF_1_SDW_REG			0x0090
-+#define RGBDENOISE_RGB2YUV_CCOR_COEFF_2_SDW_REG			0x0094
-+#define RGBDENOISE_RGB2YUV_CCOR_COEFF_3_SDW_REG			0x0098
-+#define RGBDENOISE_RGB2YUV_CCOR_COEFF_4_SDW_REG			0x009c
-+#define RGBDENOISE_RGB2YUV_CCOR_COEFF_5_SDW_REG			0x00a0
-+#define RGBDENOISE_RGB2YUV_CCOR_COEFF_6_SDW_REG			0x00a4
-+#define RGBDENOISE_RGB2YUV_CCOR_COEFF_7_SDW_REG			0x00a8
-+#define RGBDENOISE_RGB2YUV_CCOR_COEFF_8_SDW_REG			0x00ac
-+#define RGBDENOISE_RGB2YUV_CCOR_OFFSET_R_SDW_REG		0x00b0
-+#define RGBDENOISE_RGB2YUV_CCOR_OFFSET_G_SDW_REG		0x00b4
-+#define RGBDENOISE_RGB2YUV_CCOR_OFFSET_B_SDW_REG		0x00b8
-+
-+static int rppx1_bdrgb_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	switch (rpp_module_read(mod, RGBDENOISE_VERSION_REG)) {
-+	case 6:
-+		/* 12-bit. */
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_bdrgb_ops = {
-+	.probe = rppx1_bdrgb_probe,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c b/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
-new file mode 100644
-index 000000000000..882a9a819229
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
-@@ -0,0 +1,60 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define BLS_VERSION_REG				0x0000
-+
-+#define BLS_CTRL_REG				0x0004
-+#define BLS_CTRL_BLS_WIN2			BIT(3)
-+#define BLS_CTRL_BLS_WIN1			BIT(2)
-+#define BLS_CTRL_BLS_MODE_MEASURED		BIT(1)
-+#define BLS_CTRL_BLS_EN				BIT(0)
-+
-+#define BLS_SAMPLES_REG				0x0008
-+#define BLS_H1_START_REG			0x000c
-+#define BLS_H1_STOP_REG				0x0010
-+#define BLS_V1_START_REG			0x0014
-+#define BLS_V1_STOP_REG				0x0018
-+#define BLS_H2_START_REG			0x001c
-+#define BLS_H2_STOP_REG				0x0020
-+#define BLS_V2_START_REG			0x0024
-+#define BLS_V2_STOP_REG				0x0028
-+#define BLS_A_FIXED_REG				0x002c
-+#define BLS_B_FIXED_REG				0x0030
-+#define BLS_C_FIXED_REG				0x0034
-+#define BLS_D_FIXED_REG				0x0038
-+#define BLS_A_MEASURED_REG			0x003c
-+#define BLS_B_MEASURED_REG			0x0040
-+#define BLS_C_MEASURED_REG			0x0044
-+#define BLS_D_MEASURED_REG			0x0048
-+
-+static int rppx1_bls_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	switch (rpp_module_read(mod, BLS_VERSION_REG)) {
-+	case 3:
-+	case 5:
-+		/* 12-bit. */
-+		break;
-+	case 2:
-+	case 4:
-+		/* 20-bit. */
-+		break;
-+	case 6:
-+		/* 24-bit. */
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_bls_ops = {
-+	.probe = rppx1_bls_probe,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_cac.c b/drivers/media/platform/dreamchip/rppx1/rppx1_cac.c
-new file mode 100644
-index 000000000000..fb3bfa668425
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_cac.c
-@@ -0,0 +1,30 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define CAC_VERSION_REG			0x0000
-+#define CAC_CTRL_REG			0x0004
-+#define CAC_COUNT_START_REG		0x0008
-+#define CAC_A_REG			0x000c
-+#define CAC_B_REG			0x0010
-+#define CAC_C_REG			0x0014
-+#define CAC_X_NORM_REG			0x0018
-+#define CAC_Y_NORM_REG			0x001c
-+
-+static int rppx1_cac_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	if (rpp_module_read(mod, CAC_VERSION_REG) != 3)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_cac_ops = {
-+	.probe = rppx1_cac_probe,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c b/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
-new file mode 100644
-index 000000000000..3bfad3ba12e6
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
-@@ -0,0 +1,105 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define CCOR_VERSION_REG				0x0000
-+
-+#define CCOR_COEFF_REG_NUM				9
-+#define CCOR_COEFF_REG(n)				(0x0004 + (4 * (n)))
-+
-+#define CCOR_OFFSET_R_REG				0x0028
-+#define CCOR_OFFSET_G_REG				0x002c
-+#define CCOR_OFFSET_B_REG				0x0030
-+
-+#define CCOR_CONFIG_TYPE_REG				0x0034
-+#define CCOR_CONFIG_TYPE_USE_OFFSETS_AS_PRE_OFFSETS	BIT(1)
-+#define CCOR_CONFIG_TYPE_CCOR_RANGE_AVAILABLE		BIT(0)
-+
-+#define CCOR_RANGE_REG					0x0038
-+#define CCOR_RANGE_CCOR_C_RANGE				BIT(1)
-+#define CCOR_RANGE_CCOR_Y_RANGE				BIT(0)
-+
-+static int rppx1_ccor_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	switch (rpp_module_read(mod, CCOR_VERSION_REG)) {
-+	case 3:
-+		/* 12-bit. */
-+		break;
-+	case 4:
-+		/* 20-bit. */
-+		break;
-+	case 5:
-+		/* 24-bit. */
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int rppx1_ccor_start(struct rpp_module *mod,
-+			    const struct v4l2_mbus_framefmt *fmt)
-+{
-+	/* Configure matrix in bypass mode. */
-+	rpp_module_write(mod, CCOR_COEFF_REG(0), 0x1000);
-+	rpp_module_write(mod, CCOR_COEFF_REG(1), 0x0000);
-+	rpp_module_write(mod, CCOR_COEFF_REG(2), 0x0000);
-+
-+	rpp_module_write(mod, CCOR_COEFF_REG(3), 0x0000);
-+	rpp_module_write(mod, CCOR_COEFF_REG(4), 0x1000);
-+	rpp_module_write(mod, CCOR_COEFF_REG(5), 0x0000);
-+
-+	rpp_module_write(mod, CCOR_COEFF_REG(6), 0x0000);
-+	rpp_module_write(mod, CCOR_COEFF_REG(7), 0x0000);
-+	rpp_module_write(mod, CCOR_COEFF_REG(8), 0x1000);
-+
-+	rpp_module_write(mod, CCOR_OFFSET_R_REG, 0x00000000);
-+	rpp_module_write(mod, CCOR_OFFSET_G_REG, 0x00000000);
-+	rpp_module_write(mod, CCOR_OFFSET_B_REG, 0x00000000);
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_ccor_ops = {
-+	.probe = rppx1_ccor_probe,
-+	.start = rppx1_ccor_start,
-+};
-+
-+static int rppx1_ccor_csm_start(struct rpp_module *mod,
-+				const struct v4l2_mbus_framefmt *fmt)
-+{
-+	/* Reuse bypass matrix setup. */
-+	if (fmt->code == MEDIA_BUS_FMT_RGB888_1X24)
-+		return rppx1_ccor_start(mod, fmt);
-+
-+	/* Color Transformation RGB to YUV according to ITU-R BT.709. */
-+	rpp_module_write(mod, CCOR_COEFF_REG(0), 0x0367);
-+	rpp_module_write(mod, CCOR_COEFF_REG(1), 0x0b71);
-+	rpp_module_write(mod, CCOR_COEFF_REG(2), 0x0128);
-+
-+	rpp_module_write(mod, CCOR_COEFF_REG(3), 0xfe2b);
-+	rpp_module_write(mod, CCOR_COEFF_REG(4), 0xf9d5);
-+	rpp_module_write(mod, CCOR_COEFF_REG(5), 0x0800);
-+
-+	rpp_module_write(mod, CCOR_COEFF_REG(6), 0x0800);
-+	rpp_module_write(mod, CCOR_COEFF_REG(7), 0xf8bc);
-+	rpp_module_write(mod, CCOR_COEFF_REG(8), 0xff44);
-+
-+	rpp_module_write(mod, CCOR_OFFSET_R_REG, 0x00000000);
-+	rpp_module_write(mod, CCOR_OFFSET_G_REG, 0x00000800);
-+	rpp_module_write(mod, CCOR_OFFSET_B_REG, 0x00000800);
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_ccor_csm_ops = {
-+	.probe = rppx1_ccor_probe,
-+	.start = rppx1_ccor_csm_start,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_db.c b/drivers/media/platform/dreamchip/rppx1/rppx1_db.c
-new file mode 100644
-index 000000000000..78a330066b7e
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_db.c
-@@ -0,0 +1,45 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define FILT_VERSION_REG		0x0000
-+
-+#define DEMOSAIC_REG			0x0004
-+#define DEMOSAIC_DEMOSAIC_BYPASS	BIT(16)
-+#define DEMOSAIC_DEMOSAIC_TH_MASK	GENMASK(15, 0)
-+
-+#define FILT_MODE_REG			0x0008
-+#define FILT_MODE_FILT_LP_SELECT_MASK	GENMASK(11, 8)
-+#define FILT_MODE_FILT_CHR_H_MODE_MASK	GENMASK(7, 6)
-+#define FILT_MODE_FILT_CHR_V_MODE_MASK	GENMASK(5, 4)
-+#define FILT_MODE_FILT_MODE		BIT(1)
-+#define FILT_MODE_FILT_ENABLE		BIT(0)
-+
-+#define FILT_THRESH_BL0_REG		0x000c
-+#define FILT_THRESH_BL1_REG		0x0010
-+#define FILT_THRESH_SH0_REG		0x0014
-+#define FILT_THRESH_SH1_REG		0x0018
-+#define FILT_LUM_WEIGHT_REG		0x001c
-+#define FILT_FAC_SH1_REG		0x0020
-+#define FILT_FAC_SH0_REG		0x0024
-+#define FILT_FAC_MID_REG		0x0028
-+#define FILT_FAC_BL0_REG		0x002c
-+#define FILT_FAC_BL1_REG		0x0030
-+
-+static int rppx1_db_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	if (rpp_module_read(mod, FILT_VERSION_REG) != 5)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_db_ops = {
-+	.probe = rppx1_db_probe,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_dpcc.c b/drivers/media/platform/dreamchip/rppx1/rppx1_dpcc.c
-new file mode 100644
-index 000000000000..3d5d9c0a7e72
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_dpcc.c
-@@ -0,0 +1,77 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define DPCC_VERSION_REG			0x0000
-+
-+#define DPCC_MODE_REG				0x0004
-+#define DPCC_MODE_STAGE1_ENABLE			BIT(2)
-+#define DPCC_MODE_GRAYSCALE_MODE		BIT(1)
-+#define DPCC_MODE_DPCC_ENABLE			BIT(0)
-+
-+#define DPCC_OUTPUT_MODE_REG			0x0008
-+#define DPCC_SET_USE_REG			0x000c
-+#define DPCC_METHODS_SET_1_REG			0x0010
-+#define DPCC_METHODS_SET_2_REG			0x0014
-+#define DPCC_METHODS_SET_3_REG			0x0018
-+#define DPCC_LINE_THRESH_1_REG			0x001c
-+#define DPCC_LINE_MAD_FAC_1_REG			0x0020
-+#define DPCC_PG_FAC_1_REG			0x0024
-+#define DPCC_RND_THRESH_1_REG			0x0028
-+#define DPCC_RG_FAC_1_REG			0x002c
-+#define DPCC_LINE_THRESH_2_REG			0x0030
-+#define DPCC_LINE_MAD_FAC_2_REG			0x0034
-+#define DPCC_PG_FAC_2_REG			0x0038
-+#define DPCC_RND_THRESH_2_REG			0x003c
-+#define DPCC_RG_FAC_2_REG			0x0040
-+#define DPCC_LINE_THRESH_3_REG			0x0044
-+#define DPCC_LINE_MAD_FAC_3_REG			0x0048
-+#define DPCC_PG_FAC_3_REG			0x004c
-+#define DPCC_RND_THRESH_3_REG			0x0050
-+#define DPCC_RG_FAC_3_REG			0x0054
-+#define DPCC_RO_LIMITS_REG			0x0058
-+#define DPCC_RND_OFFS_REG			0x005c
-+#define DPCC_BPT_CTRL_REG			0x0060
-+#define DPCC_BP_NUMBER_REG			0x0064
-+#define DPCC_BP_TADDR_REG			0x0068
-+#define DPCC_BP_POSITION_REG			0x006c
-+
-+static int rppx1_dpcc_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	switch (rpp_module_read(mod, DPCC_VERSION_REG)) {
-+	case 2:
-+	case 4:
-+	case 6:
-+		/* 12-bit. */
-+		break;
-+	case 3:
-+	case 5:
-+	case 7:
-+		/* 24-bit. */
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int rppx1_dpcc_start(struct rpp_module *mod,
-+			    const struct v4l2_mbus_framefmt *fmt)
-+{
-+	/* Bypass stage1 and DPCC. */
-+	rpp_module_write(mod, DPCC_MODE_REG, 0);
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_dpcc_ops = {
-+	.probe = rppx1_dpcc_probe,
-+	.start = rppx1_dpcc_start,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_exm.c b/drivers/media/platform/dreamchip/rppx1/rppx1_exm.c
-new file mode 100644
-index 000000000000..1dccb110d3e9
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_exm.c
-@@ -0,0 +1,51 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define EXM_VERSION_REG			0x0000
-+#define EXM_START_REG			0x0004
-+
-+#define EXM_CTRL_REG			0x0008
-+#define EXM_CTRL_EXM_UPDATE_ENABLE	BIT(0)
-+
-+#define EXM_MODE_REG			0x000c
-+#define EXM_CHANNEL_SEL_REG		0x0010
-+#define EXM_LAST_MEAS_LINE_REG		0x0014
-+#define EXM_COEFF_R_REG			0x0018
-+#define EXM_COEFF_G_GR_REG		0x001c
-+#define EXM_COEFF_B_REG			0x0020
-+#define EXM_COEFF_GB_REG		0x0024
-+#define EXM_H_OFFS_REG			0x0028
-+#define EXM_V_OFFS_REG			0x002c
-+#define EXM_H_SIZE_REG			0x0030
-+#define EXM_V_SIZE_REG			0x0034
-+#define EXM_FORCED_UPD_START_LINE_REG	0x0038
-+#define EXM_VSTART_STATUS_REG		0x003c
-+
-+#define EXM_MEAN_REG(n)			(0x0040 + (4 * (n)))
-+
-+static int rppx1_exm_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	switch (rpp_module_read(mod, EXM_VERSION_REG)) {
-+	case 1:
-+		/* 8-bit. */
-+		break;
-+	case 3:
-+		/* 20-bit. */
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_exm_ops = {
-+	.probe = rppx1_exm_probe,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_ga.c b/drivers/media/platform/dreamchip/rppx1/rppx1_ga.c
-new file mode 100644
-index 000000000000..0667672b2694
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_ga.c
-@@ -0,0 +1,50 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define GAMMA_OUT_VERSION_REG			0x0000
-+
-+#define GAMMA_OUT_ENABLE_REG			0x0004
-+#define GAMMA_OUT_ENABLE_GAMMA_OUT_EN		BIT(0)
-+
-+#define GAMMA_OUT_MODE_REG			0x0008
-+#define GAMMA_OUT_MODE_GAMMA_OUT_EQU_SEGM	BIT(0)
-+
-+#define GAMMA_OUT_Y_REG_NUM			17
-+#define GAMMA_OUT_Y_REG(n)			(0x000c + (4 * (n)))
-+
-+static int rppx1_ga_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	switch (rpp_module_read(mod, GAMMA_OUT_VERSION_REG)) {
-+	case 1:
-+		/* 12-bit. */
-+		break;
-+	case 2:
-+		/* 24-bit. */
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int rppx1_ga_start(struct rpp_module *mod,
-+			  const struct v4l2_mbus_framefmt *fmt)
-+{
-+	/* Disable stage. */
-+	rpp_module_write(mod, GAMMA_OUT_ENABLE_REG, 0);
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_ga_ops = {
-+	.probe = rppx1_ga_probe,
-+	.start = rppx1_ga_start,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c b/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
-new file mode 100644
-index 000000000000..7c1b42e96b96
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_hist.c
-@@ -0,0 +1,77 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define HIST_VERSION_REG			0x0000
-+
-+#define HIST_CTRL_REG				0x0004
-+#define HIST_CTRL_HIST_UPDATE_ENABLE		BIT(0)
-+
-+#define HIST_MODE_REG				0x0008
-+#define HIST_MODE_HIST_MODE_MASK		GENMASK(2, 0)
-+#define HIST_MODE_HIST_MODE_DISABLE		0
-+#define HIST_MODE_HIST_MODE_YRGB		1
-+#define HIST_MODE_HIST_MODE_R			2
-+#define HIST_MODE_HIST_MODE_GR			3
-+#define HIST_MODE_HIST_MODE_B			4
-+#define HIST_MODE_HIST_MODE_GB			5
-+
-+#define HIST_CHANNEL_SEL_REG			0x000c
-+#define HIST_CHANNEL_SEL_CHANNEL_SELECT_MASK	GENMASK(2, 0)
-+
-+#define HIST_LAST_MEAS_LINE_REG			0x0010
-+#define HIST_SUBSAMPLING_REG			0x0014
-+#define HIST_COEFF_R_REG			0x0018
-+#define HIST_COEFF_G_REG			0x001c
-+#define HIST_COEFF_B_REG			0x0020
-+#define HIST_H_OFFS_REG				0x0024
-+#define HIST_V_OFFS_REG				0x0028
-+#define HIST_H_SIZE_REG				0x002c
-+#define HIST_V_SIZE_REG				0x0030
-+
-+#define HIST_SAMPLE_RANGE_REG			0x0034
-+#define HIST_SAMPLE_RANGE_SAMPLE_SHIFT_MASK	GENMASK(28, 24)
-+#define HIST_SAMPLE_RANGE_SAMPLE_OFFSET_MASK	GENMASK(23, 0)
-+
-+#define HIST_WEIGHT_00TO30_REG			0x0038
-+#define HIST_WEIGHT_40TO21_REG			0x003c
-+#define HIST_WEIGHT_31TO12_REG			0x0040
-+#define HIST_WEIGHT_22TO03_REG			0x0044
-+#define HIST_WEIGHT_13TO43_REG			0x0048
-+#define HIST_WEIGHT_04TO34_REG			0x004c
-+#define HIST_WEIGHT_44_REG			0x0050
-+#define HIST_FORCED_UPD_START_LINE_REG		0x0054
-+#define HIST_FORCED_UPDATE_REG			0x0058
-+#define HIST_VSTART_STATUS_REG			0x005c
-+
-+#define HIST_BIN_REG_NUM			32
-+#define HIST_BIN_REG(n)				(0x0060 + (4 * (n)))
-+
-+static int rppx1_hist_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	switch (rpp_module_read(mod, HIST_VERSION_REG)) {
-+	case 3:
-+		/* 12-bit. */
-+		break;
-+	case 4:
-+		/* 20-bit. */
-+		break;
-+	case 5:
-+		/* 24-bit. */
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_hist_ops = {
-+	.probe = rppx1_hist_probe,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_hist256.c b/drivers/media/platform/dreamchip/rppx1/rppx1_hist256.c
-new file mode 100644
-index 000000000000..80b3244c77aa
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_hist256.c
-@@ -0,0 +1,47 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define HIST256_VERSION_REG			0x0000
-+#define HIST256_MODE_REG			0x0004
-+#define HIST256_MODE_HIST256_MODE		BIT(0)
-+
-+#define HIST256_CHANNEL_SEL_REG			0x0008
-+#define HIST256_CHANNEL_SEL_CHANNEL_SELECT	GENMASK(2, 0)
-+
-+#define HIST256_H_OFFS_REG			0x000c
-+#define HIST256_V_OFFS_REG			0x0010
-+#define HIST256_H_SIZE_REG			0x0014
-+#define HIST256_V_SIZE_REG			0x0018
-+#define HIST256_SAMPLE_OFFSET_REG		0x001c
-+#define HIST256_SAMPLE_SCALE_REG		0x0020
-+#define HIST256_MEAS_RESULT_ADDR_AUTOINCR_REG	0x0024
-+#define HIST256_MEAS_RESULT_ADDR_REG		0x0028
-+#define HIST256_MEAS_RESULT_DATA_REG		0x002c
-+
-+#define HIST256_LOG_ENABLE_REG			0x0030
-+#define HIST256_LOG_ENABLE_HIST256_LOG_EN	BIT(0)
-+
-+#define HIST256_LOG_DX_LO_REG			0x0034
-+#define HIST256_LOG_DX_HI_REG			0x0038
-+
-+#define HIST256_Y_REG_NUM			17
-+#define HIST256_Y_REG(n)			(0x0040 + (4 * (n)))
-+
-+static int rppx1_hist256_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	if (rpp_module_read(mod, HIST256_VERSION_REG) != 2)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_hist256_ops = {
-+	.probe = rppx1_hist256_probe,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_is.c b/drivers/media/platform/dreamchip/rppx1/rppx1_is.c
-new file mode 100644
-index 000000000000..7b1b6f6538cf
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_is.c
-@@ -0,0 +1,43 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define IS_VERSION			0x0000
-+#define IS_H_OFFS			0x0008
-+#define IS_V_OFFS			0x000c
-+#define IS_H_SIZE			0x0010
-+#define IS_V_SIZE			0x0014
-+#define IS_H_OFFS_SHD			0x0024
-+#define IS_V_OFFS_SHD			0x0028
-+#define IS_H_SIZE_SHD			0x002c
-+#define IS_V_SIZE_SHD			0x0030
-+
-+static int rppx1_is_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	if (rpp_module_read(mod, IS_VERSION) != 1)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int rppx1_is_start(struct rpp_module *mod,
-+			  const struct v4l2_mbus_framefmt *fmt)
-+{
-+	rpp_module_write(mod, IS_H_OFFS, 0);
-+	rpp_module_write(mod, IS_V_OFFS, 0);
-+	rpp_module_write(mod, IS_H_SIZE, fmt->width);
-+	rpp_module_write(mod, IS_V_SIZE, fmt->height);
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_is_ops = {
-+	.probe = rppx1_is_probe,
-+	.start = rppx1_is_start,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c b/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
-new file mode 100644
-index 000000000000..0a0e7ab2d1d6
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
-@@ -0,0 +1,59 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+/* NOTE: The module is called LIN the registers GAMMA_IN. */
-+#define LIN_VERSION_REG				0x0000
-+
-+#define LIN_ENABLE_REG				0x0004
-+#define LIN_ENABLE_GAMMA_IN_EN			BIT(0)
-+
-+#define LIN_DX_LO_REG				0x0008
-+#define LIN_DX_HI_REG				0x000c
-+
-+#define LIN_R_Y_REG_NUM				17
-+#define LIN_R_Y_REG(n)				(0x0010 + (4 * (n)))
-+
-+#define LIN_G_Y_REG_NUM				17
-+#define LIN_G_Y_REG(n)				(0x0054 + (4 * (n)))
-+
-+#define LIN_B_Y_REG_NUM				17
-+#define LIN_B_Y_REG(n)				(0x0098 + (4 * (n)))
-+
-+static int rppx1_lin_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	switch (rpp_module_read(mod, LIN_VERSION_REG)) {
-+	case 7:
-+		/* 12-bit. */
-+		break;
-+	case 8:
-+		/* 20-bit. */
-+		break;
-+	case 9:
-+		/* 24-bit. */
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int rppx1_lin_start(struct rpp_module *mod,
-+			   const struct v4l2_mbus_framefmt *fmt)
-+{
-+	rpp_module_clrset(mod, LIN_ENABLE_REG, LIN_ENABLE_GAMMA_IN_EN, 0);
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_lin_ops = {
-+	.probe = rppx1_lin_probe,
-+	.start = rppx1_lin_start,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c b/drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c
-new file mode 100644
-index 000000000000..be49fc17ea26
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c
-@@ -0,0 +1,69 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define LSC_VERSION_REG		0x0000
-+
-+#define LSC_CTRL_REG		0x0004
-+#define LSC_CTRL_LSC_EN		BIT(0)
-+
-+#define LSC_R_TABLE_ADDR_REG	0x0008
-+#define LSC_GR_TABLE_ADDR_REG	0x000c
-+#define LSC_B_TABLE_ADDR_REG	0x0010
-+#define LSC_GB_TABLE_ADDR_REG	0x0014
-+#define LSC_R_TABLE_DATA_REG	0x0018
-+#define LSC_GR_TABLE_DATA_REG	0x001c
-+#define LSC_B_TABLE_DATA_REG	0x0020
-+#define LSC_GB_TABLE_DATA_REG	0x0024
-+#define LSC_XGRAD_01_REG	0x0028
-+#define LSC_XGRAD_23_REG	0x002c
-+#define LSC_XGRAD_45_REG	0x0030
-+#define LSC_XGRAD_67_REG	0x0034
-+#define LSC_XGRAD_89_REG	0x0038
-+#define LSC_XGRAD_1011_REG	0x003c
-+#define LSC_XGRAD_1213_REG	0x0040
-+#define LSC_XGRAD_1415_REG	0x0044
-+#define LSC_YGRAD_01_REG	0x0048
-+#define LSC_YGRAD_23_REG	0x004c
-+#define LSC_YGRAD_45_REG	0x0050
-+#define LSC_YGRAD_67_REG	0x0054
-+#define LSC_YGRAD_89_REG	0x0058
-+#define LSC_YGRAD_1011_REG	0x005c
-+#define LSC_YGRAD_1213_REG	0x0060
-+#define LSC_YGRAD_1415_REG	0x0064
-+#define LSC_XSIZE_01_REG	0x0068
-+#define LSC_XSIZE_23_REG	0x006c
-+#define LSC_XSIZE_45_REG	0x0070
-+#define LSC_XSIZE_67_REG	0x0074
-+#define LSC_XSIZE_89_REG	0x0078
-+#define LSC_XSIZE_1011_REG	0x007c
-+#define LSC_XSIZE_1213_REG	0x0080
-+#define LSC_XSIZE_1415_REG	0x0084
-+#define LSC_YSIZE_01_REG	0x0088
-+#define LSC_YSIZE_23_REG	0x008c
-+#define LSC_YSIZE_45_REG	0x0090
-+#define LSC_YSIZE_67_REG	0x0094
-+#define LSC_YSIZE_89_REG	0x0098
-+#define LSC_YSIZE_1011_REG	0x009c
-+#define LSC_YSIZE_1213_REG	0x00a0
-+#define LSC_YSIZE_1415_REG	0x00a4
-+#define LSC_TABLE_SEL_REG	0x00a8
-+#define LSC_STATUS_REG		0x00ac
-+
-+static int rppx1_lsc_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	if (rpp_module_read(mod, LSC_VERSION_REG) != 0x04)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_lsc_ops = {
-+	.probe = rppx1_lsc_probe,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_ltm.c b/drivers/media/platform/dreamchip/rppx1/rppx1_ltm.c
-new file mode 100644
-index 000000000000..9a71155e7e13
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_ltm.c
-@@ -0,0 +1,49 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define LTM_VERSION_REG				0x0000
-+
-+#define LTM_CTRL_REG				0x0004
-+#define LTM_CTRL_LTM_ENABLE			BIT(0)
-+
-+#define LTM_RGB_WEIGHTS_REG			0x0008
-+#define LTM_CLB_LINESIZE_REG			0x000c
-+#define LTM_TONECURVE_1_REG			0x0010
-+#define LTM_TONECURVE_2_REG			0x0014
-+#define LTM_TONECURVE_3_REG			0x0018
-+#define LTM_TONECURVE_4_REG			0x001c
-+#define LTM_TONECURVE_5_REG			0x0020
-+#define LTM_TONECURVE_6_REG			0x0024
-+#define LTM_TONECURVE_YM_REG(n)			(0x0028 + (4 * (n)))
-+#define LTM_L0W_REG				0x00ec
-+#define LTM_L0W_R_REG				0x00f0
-+#define LTM_L0D_REG				0x00f4
-+#define LTM_L0D_R_REG				0x00f8
-+#define LTM_KMIND_REG				0x00fc
-+#define LTM_KMAXD_REG				0x0100
-+#define LTM_KDIFFD_REG				0x0104
-+#define LTM_KDIFFD_R_REG			0x0108
-+#define LTM_KW_REG				0x010c
-+#define LTM_KW_R_REG				0x0110
-+#define LTM_CGAIN_REG				0x0114
-+#define LTM_LPRCH_R_HIGH_REG			0x0118
-+#define LTM_LPRCH_R_LOW_REG			0x011c
-+
-+static int rppx1_ltm_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	if (rpp_module_read(mod, LTM_VERSION_REG) != 8)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_ltm_ops = {
-+	.probe = rppx1_ltm_probe,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_ltmmeas.c b/drivers/media/platform/dreamchip/rppx1/rppx1_ltmmeas.c
-new file mode 100644
-index 000000000000..c874b8fa8999
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_ltmmeas.c
-@@ -0,0 +1,42 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define LTM_MEAS_VERSION_REG		0x0000
-+
-+#define LTM_MEAS_CTRL_REG		0x0004
-+#define LTM_MEAS_CTRL_LTM_MEAS_ENABLE	BIT(0)
-+
-+#define LTM_MEAS_RGB_WEIGHTS_REG	0x0008
-+#define LTM_MEAS_H_OFFS_REG		0x000c
-+#define LTM_MEAS_V_OFFS_REG		0x0010
-+#define LTM_MEAS_H_SIZE_REG		0x0014
-+#define LTM_MEAS_V_SIZE_REG		0x0018
-+
-+#define LTM_MEAS_PRC_THRESH_NUM		8
-+#define LTM_MEAS_PRC_THRESH_REG(n)	(0x001c + (4 * (n)))
-+
-+#define LTM_MEAS_PRC_REG_NUM		8
-+#define LTM_MEAS_PRC_REG(n)		(0x003c + (4 * (n)))
-+
-+#define LTM_MEAS_L_MIN_REG		0x005c
-+#define LTM_MEAS_L_MAX_REG		0x0060
-+#define LTM_MEAS_L_GMEAN_REG		0x0064
-+
-+static int rppx1_ltmmeas_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	if (rpp_module_read(mod, LTM_MEAS_VERSION_REG) != 1)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_ltmmeas_ops = {
-+	.probe = rppx1_ltmmeas_probe,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_outif.c b/drivers/media/platform/dreamchip/rppx1/rppx1_outif.c
-new file mode 100644
-index 000000000000..973b82a40d7c
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_outif.c
-@@ -0,0 +1,46 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define OUT_IF_VERSION_REG			0x0000
-+
-+#define OUT_IF_ON_REG				0x0004
-+#define OUT_IF_ON_RPP_ON			BIT(0)
-+
-+#define OUT_IF_OFF_REG				0x0008
-+
-+#define OUT_IF_NR_FRAMES_REG			0x000c
-+#define OUT_IF_NR_FRAMES_NR_FRAMES		GENMASK(9, 0)
-+
-+#define OUT_IF_NR_FRAMES_CNT_REG		0x0010
-+#define FLAGS_SHD_REG				0x0018
-+
-+static int rppx1_outif_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	if (rpp_module_read(mod, OUT_IF_VERSION_REG) != 1)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int rppx1_outif_start(struct rpp_module *mod,
-+			     const struct v4l2_mbus_framefmt *fmt)
-+{
-+	rpp_module_clrset(mod, OUT_IF_NR_FRAMES_REG,
-+			  OUT_IF_NR_FRAMES_NR_FRAMES, 0);
-+
-+	rpp_module_write(mod, OUT_IF_ON_REG, OUT_IF_ON_RPP_ON);
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_outif_ops = {
-+	.probe = rppx1_outif_probe,
-+	.start = rppx1_outif_start,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_outregs.c b/drivers/media/platform/dreamchip/rppx1/rppx1_outregs.c
-new file mode 100644
-index 000000000000..ac8b71867137
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_outregs.c
-@@ -0,0 +1,76 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define OUTREGS_VERSION_REG					0x0000
-+
-+#define OUT_MODE_REG						0x0004
-+#define OUT_MODE_UNSELECTED_MODE_MASK				GENMASK(11, 8)
-+#define OUT_MODE_UNSELECTED_MODE_MAIN				(0x1 << 8)
-+#define OUT_MODE_UNSELECTED_MODE_PRE1				(0x2 << 8)
-+#define OUT_MODE_UNSELECTED_MODE_PRE2				(0x4 << 8)
-+#define OUT_MODE_IN_SEL_MASK					GENMASK(3, 0)
-+#define OUT_MODE_IN_SEL_MAIN					1
-+#define OUT_MODE_IN_SEL_PRE1					2
-+#define OUT_MODE_IN_SEL_PRE2					4
-+
-+#define OUT_CONV_422_METHOD_REG					0x0008
-+#define OUT_CONV_422_METHOD_CONV_422_METHOD_MASK		GENMASK(1, 0)
-+#define OUT_CONV_422_METHOD_CONV_422_METHOD_CO_SITED1		0
-+#define OUT_CONV_422_METHOD_CONV_422_METHOD_CO_SITED2		1
-+#define OUT_CONV_422_METHOD_CONV_422_METHOD_NON_CO_SITED	2
-+
-+#define OUTREGS_FORMAT_REG					0x000c
-+#define OUTREGS_FORMAT_OUTPUT_FORMAT_MASK			GENMASK(1, 0)
-+#define OUTREGS_FORMAT_OUTPUT_FORMAT_RGB			0
-+#define OUTREGS_FORMAT_OUTPUT_FORMAT_YUV422			1
-+#define OUTREGS_FORMAT_OUTPUT_FORMAT_YUV420			2
-+
-+static int rppx1_outregs_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	if (rpp_module_read(mod, OUTREGS_VERSION_REG) != 2)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int rppx1_outregs_start(struct rpp_module *mod,
-+			       const struct v4l2_mbus_framefmt *fmt)
-+{
-+	u32 format;
-+
-+	switch (fmt->code) {
-+	case MEDIA_BUS_FMT_YUYV12_1X24:
-+		format = OUTREGS_FORMAT_OUTPUT_FORMAT_YUV422;
-+		break;
-+	case MEDIA_BUS_FMT_RGB888_1X24:
-+		format = OUTREGS_FORMAT_OUTPUT_FORMAT_RGB;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	rpp_module_clrset(mod, OUT_MODE_REG,
-+			  OUT_MODE_UNSELECTED_MODE_MASK | OUT_MODE_IN_SEL_MASK,
-+			  OUT_MODE_UNSELECTED_MODE_MASK | OUT_MODE_IN_SEL_MAIN);
-+
-+	rpp_module_clrset(mod, OUT_CONV_422_METHOD_REG,
-+			  OUT_CONV_422_METHOD_CONV_422_METHOD_MASK,
-+			  OUT_CONV_422_METHOD_CONV_422_METHOD_CO_SITED1);
-+
-+	rpp_module_clrset(mod, OUTREGS_FORMAT_REG,
-+			  OUTREGS_FORMAT_OUTPUT_FORMAT_MASK, format);
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_outregs_ops = {
-+	.probe = rppx1_outregs_probe,
-+	.start = rppx1_outregs_start,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_rmap.c b/drivers/media/platform/dreamchip/rppx1/rppx1_rmap.c
-new file mode 100644
-index 000000000000..0a891caf3c52
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_rmap.c
-@@ -0,0 +1,63 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define RMAP_DATA_VERSION_REG		0x0000
-+
-+#define RMAP_CTRL_REG			0x0004
-+#define RMAP_CTRL_BYPASS_LONG		BIT(2)
-+
-+#define RMAP_WBTHRESHOLD_LONG_REG	0x0008
-+#define RMAP_WBTHRESHOLD_SHORT_REG	0x000c
-+#define RMAP_RESERVED_1_REG		0x0010
-+#define RMAP_WBGAIN_LONG_RED_REG	0x0014
-+#define RMAP_WBGAIN_LONG_BLUE_REG	0x0018
-+#define RMAP_WBGAIN_SHORT_RED_REG	0x001c
-+#define RMAP_WBGAIN_SHORT_BLUE_REG	0x0020
-+#define RMAP_RESERVED_2_REG		0x0024
-+#define RMAP_RESERVED_3_REG		0x0028
-+#define RMAP_MAP_FAC_SHORT_REG		0x002c
-+#define RMAP_RESERVED_4_REG		0x0030
-+#define RMAP_MIN_THRES_SHORT_REG	0x0034
-+#define RMAP_MAX_THRES_SHORT_REG	0x0038
-+#define RMAP_STEPSIZE_SHORT_REG		0x003c
-+#define RMAP_MIN_THRES_LONG_REG		0x0040
-+#define RMAP_MAX_THRES_LONG_REG		0x0044
-+#define RMAP_STEPSIZE_LONG_REG		0x0048
-+#define RMAP_CLB_LINESIZE_REG		0x004c
-+
-+static int rppx1_rmap_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	switch (rpp_module_read(mod, RMAP_DATA_VERSION_REG)) {
-+	case 8:
-+		/* low: 12-bit, high: 20-bit. */
-+		break;
-+	case 9:
-+		/* low: 12-bit, high: 24-bit. */
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int rppx1_rmap_start(struct rpp_module *mod,
-+			    const struct v4l2_mbus_framefmt *fmt)
-+{
-+	/* Bypass radiance mapping and use the long exposure channel (PRE1). */
-+	rpp_module_write(mod, RMAP_CTRL_REG, RMAP_CTRL_BYPASS_LONG);
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_rmap_ops = {
-+	.probe = rppx1_rmap_probe,
-+	.start = rppx1_rmap_start,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_rmapmeas.c b/drivers/media/platform/dreamchip/rppx1/rppx1_rmapmeas.c
-new file mode 100644
-index 000000000000..ef709d2a6ee9
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_rmapmeas.c
-@@ -0,0 +1,47 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define RMAP_MEAS_VERSION_REG			0x0000
-+#define RMAP_MEAS_MODE_REG			0x0004
-+#define RMAP_MEAS_SUBSAMPLING_REG		0x0008
-+#define RMAP_MEAS_RESERVED_1_REG		0x000c
-+#define RMAP_MEAS_MIN_THRES_SHORT_REG		0x0010
-+#define RMAP_MEAS_MAX_THRES_SHORT_REG		0x0014
-+#define RMAP_MEAS_MAX_THRES_LONG_REG		0x0018
-+#define RMAP_MEAS_H_OFFS_REG			0x001c
-+#define RMAP_MEAS_V_OFFS_REG			0x0020
-+#define RMAP_MEAS_H_SIZE_REG			0x0024
-+#define RMAP_MEAS_V_SIZE_REG			0x0028
-+#define RMAP_MEAS_LAST_MEAS_LINE_REG		0x002c
-+#define RMAP_MEAS_LS_RESULTSHORT0_REG		0x0030
-+#define RMAP_MEAS_LS_RESULTLONG0_REG		0x0034
-+#define RMAP_MEAS_RESERVED_2_REG		0x0038
-+#define RMAP_MEAS_RESERVED_3_REG		0x003c
-+#define RMAP_MEAS_LS_RESULTSHORT1_REG		0x0040
-+#define RMAP_MEAS_LS_RESULTLONG1_REG		0x0044
-+#define RMAP_MEAS_RESERVED_4_REG		0x0048
-+#define RMAP_MEAS_RESERVED_5_REG		0x004c
-+
-+static int rppx1_rmapmeas_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	switch (rpp_module_read(mod, RMAP_MEAS_VERSION_REG)) {
-+	case 3:
-+		/* low: 12-bit, high: 24-bit. */
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_rmapmeas_ops = {
-+	.probe = rppx1_rmapmeas_probe,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_shrp.c b/drivers/media/platform/dreamchip/rppx1/rppx1_shrp.c
-new file mode 100644
-index 000000000000..c155418129e5
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_shrp.c
-@@ -0,0 +1,65 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define SHRPCNR_VERSION_REG				0x0000
-+
-+#define SHRPCNR_CTRL_REG				0x0004
-+#define SHRPCNR_CTRL_CAD_EN				BIT(3)
-+#define SHRPCNR_CTRL_DESAT_EN				BIT(2)
-+#define SHRPCNR_CTRL_CNR_EN				BIT(1)
-+#define SHRPCNR_CTRL_SHARPEN_EN				BIT(0)
-+
-+#define SHRPCNR_PARAM_REG				0x0008
-+#define SHRPCNR_PARAM_SHARP_FACTOR_MASK			GENMASK(19, 12)
-+#define SHRPCNR_PARAM_CORING_THR_MASK			GENMASK(11, 0)
-+
-+#define SHRPCNR_MAT_1_REG				0x000c
-+#define SHRPCNR_MAT_2_REG				0x0010
-+#define SHRPCNR_CLB_LINESIZE_REG			0x0014
-+#define SHRPCNR_YUV2RGB_CCOR_COEFF_0_REG		0x0018
-+#define SHRPCNR_YUV2RGB_CCOR_COEFF_1_REG		0x001c
-+#define SHRPCNR_YUV2RGB_CCOR_COEFF_2_REG		0x0020
-+#define SHRPCNR_YUV2RGB_CCOR_COEFF_3_REG		0x0024
-+#define SHRPCNR_YUV2RGB_CCOR_COEFF_4_REG		0x0028
-+#define SHRPCNR_YUV2RGB_CCOR_COEFF_5_REG		0x002c
-+#define SHRPCNR_YUV2RGB_CCOR_COEFF_6_REG		0x0030
-+#define SHRPCNR_YUV2RGB_CCOR_COEFF_7_REG		0x0034
-+#define SHRPCNR_YUV2RGB_CCOR_COEFF_8_REG		0x0038
-+#define SHRPCNR_YUV2RGB_CCOR_OFFSET_R_REG		0x003c
-+#define SHRPCNR_YUV2RGB_CCOR_OFFSET_G_REG		0x0040
-+#define SHRPCNR_YUV2RGB_CCOR_OFFSET_B_REG		0x0044
-+
-+#define SHRPCNR_CNR_THRES_REG				0x0048
-+#define SHRPCNR_CNR_THRES_CNR_THRES_CR_MASK		GENMASK(27, 16)
-+#define SHRPCNR_CNR_THRES_CNR_THRES_CB_MASK		GENMASK(11, 0)
-+
-+#define SHRPCNR_CRED_THRES_REG				0x004c
-+#define SHRPCNR_CRED_SLOPE_REG				0x0050
-+#define SHRPCNR_CAD_RESTORE_LVL_REG			0x0054
-+#define SHRPCNR_CAD_THRESH_V_UNEG_REG			0x0058
-+#define SHRPCNR_CAD_THRESH_V_UPOS_REG			0x005c
-+#define SHRPCNR_CAD_THRESH_U_REG			0x0060
-+
-+static int rppx1_shrp_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	switch (rpp_module_read(mod, SHRPCNR_VERSION_REG)) {
-+	case 2:
-+		/* 12-bit. */
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_shrp_ops = {
-+	.probe = rppx1_shrp_probe,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c b/drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c
-new file mode 100644
-index 000000000000..60b9c076ec42
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_wbmeas.c
-@@ -0,0 +1,62 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define AWB_MEAS_VERSION_REG			0x0000
-+
-+#define AWB_MEAS_PROP_REG			0x0004
-+#define AWB_MEAS_PROP_MEAS_MODE_RGB		BIT(16) /* 0: YCbCr 1: RGB */
-+#define AWB_MEAS_PROP_YMAX			BIT(2)
-+#define AWB_MEAS_PROP_AWB_MODE_ON		BIT(1)
-+
-+#define AWB_MEAS_H_OFFS_REG			0x0008
-+#define AWB_MEAS_V_OFFS_REG			0x000c
-+#define AWB_MEAS_H_SIZE_REG			0x0010
-+#define AWB_MEAS_V_SIZE_REG			0x0014
-+#define AWB_MEAS_FRAMES_REG			0x0018
-+#define AWB_MEAS_REF_CB_MAX_B_REG		0x001c
-+#define AWB_MEAS_REF_CR_MAX_R_REG		0x0020
-+#define AWB_MEAS_MAX_Y_REG			0x0024
-+#define AWB_MEAS_MIN_Y_MAX_G_REG		0x0028
-+#define AWB_MEAS_MAX_CSUM_REG			0x002c
-+#define AWB_MEAS_MIN_C_REG			0x0030
-+#define AWB_MEAS_WHITE_CNT_REG			0x0034
-+#define AWB_MEAS_MEAN_Y_G_REG			0x0038
-+#define AWB_MEAS_MEAN_CB_B_REG			0x003c
-+#define AWB_MEAS_MEAN_CR_R_REG			0x0040
-+
-+#define AWB_MEAS_CCOR_COEFF_NUM			9
-+#define AWB_MEAS_CCOR_COEFF_REG(n)		(0x0044 + (4 * (n)))
-+
-+#define AWB_MEAS_CCOR_OFFSET_R_REG		0x0068
-+#define AWB_MEAS_CCOR_OFFSET_G_REG		0x006c
-+#define AWB_MEAS_CCOR_OFFSET_B_REG		0x0070
-+
-+static int rppx1_wbmeas_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	switch (rpp_module_read(mod, AWB_MEAS_VERSION_REG)) {
-+	case 1:
-+		/* 8-bit. */
-+		break;
-+	case 2:
-+		/* 20-bit. */
-+		break;
-+	case 3:
-+		/* 24-bit. */
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_wbmeas_ops = {
-+	.probe = rppx1_wbmeas_probe,
-+};
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_xyz2luv.c b/drivers/media/platform/dreamchip/rppx1/rppx1_xyz2luv.c
-new file mode 100644
-index 000000000000..cc6f977c8a03
---- /dev/null
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_xyz2luv.c
-@@ -0,0 +1,27 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#include "rpp_module.h"
-+
-+#define XYZ2LUV_VERSION_REG			0x0000
-+#define XYZ2LUV_U_REF_REG			0x0004
-+#define XYZ2LUV_V_REF_REG			0x0008
-+#define XYZ2LUV_LUMA_OUT_FAC_REG		0x000c
-+#define XYZ2LUV_CHROMA_OUT_FAC_REG		0x0010
-+
-+static int rppx1_xyz2luv_probe(struct rpp_module *mod)
-+{
-+	/* Version check. */
-+	if (rpp_module_read(mod, XYZ2LUV_VERSION_REG) != 4)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+const struct rpp_module_ops rppx1_xyz2luv_ops = {
-+	.probe = rppx1_xyz2luv_probe,
-+};
-diff --git a/include/media/rppx1.h b/include/media/rppx1.h
-new file mode 100644
-index 000000000000..2e761046db38
---- /dev/null
-+++ b/include/media/rppx1.h
-@@ -0,0 +1,36 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (C) 2026 Renesas Electronics Corp.
-+ * Copyright (C) 2026 Ideas on Board Oy
-+ * Copyright (C) 2026 Ragnatech AB
-+ */
-+
-+#ifndef __MEDIA_DCT_RPPX1_H__
-+#define __MEDIA_DCT_RPPX1_H__
-+
-+#include <linux/v4l2-mediabus.h>
-+#include <linux/media/dreamchip/rppx1-config.h>
-+
++#ifndef __RCAR_ISP__
++#define __RCAR_ISP__
++
++#include <linux/clk.h>
++#include <linux/mutex.h>
++#include <linux/platform_device.h>
++#include <linux/reset.h>
++#include <linux/spinlock.h>
++#include <linux/videodev2.h>
++
++#include <media/v4l2-device.h>
++#include <media/v4l2-subdev.h>
 +#include <media/videobuf2-core.h>
++#include <media/videobuf2-dma-contig.h>
 +
-+struct rppx1;
++#include <media/rppx1.h>
++#include <media/vsp1.h>
 +
-+struct rppx1 *rppx1_create(void __iomem *base, struct device *dev);
++/* Max 2048 address + value pairs in one VSPX buffer, increase if needed. */
++#define RISP_IO_PARAMS_BUF_SIZE	16384
 +
-+void rppx1_destroy(struct rppx1 *rpp);
++struct rcar_isp_core;
 +
-+int rppx1_start(struct rppx1 *rpp, const struct v4l2_mbus_framefmt *input,
-+		const struct v4l2_mbus_framefmt *hv,
-+		const struct v4l2_mbus_framefmt *mv);
++enum risp_core_pads {
++	RISP_CORE_INPUT1,
++	RISP_CORE_PARAMS,
++	RISP_CORE_STATS,
++	RISP_CORE_OUTPUT1,
++	RISP_CORE_NUM_PADS,
++};
 +
-+int rppx1_stop(struct rppx1 *rpp);
++/**
++ * struct risp_buffer - Describe an IO buffer
++ * @vb:		The VB2 buffer
++ * @list:	List of buffers queued to the IO queue
++ * @vsp_buffer:	Buffer mapped from VSP-X, only used for params IO
++ */
++struct risp_buffer {
++	struct vb2_v4l2_buffer vb;
++	struct list_head list;
++	struct vsp1_isp_buffer_desc vsp_buffer;
++};
 +
-+bool rppx1_interrupt(struct rppx1 *rpp, u32 *isc);
++/**
++ * struct rcar_isp_core_io - Information for a IO video devices
++ * @core:	Backlink to the common ISP core structure
++ *
++ * @lock:	Protects @vdev, @pad and @queue + open/close fops
++ * @vdev:	V4L2 video device associated with this IO port
++ * @pad:	Media pad for @vdev
++ * @queue:	VB2 buffers queue for $@vdev
++ *
++ * @qlock:	Protects @streaming and @buffers
++ * @streaming:	Flag to indicate if device is streaming, or not
++ * @buffers:	List of buffers queued to the device
++ *
++ * @format:	The active V4L2 format
++ */
++struct rcar_isp_core_io {
++	struct rcar_isp_core *core;
 +
-+typedef int (*rppx1_reg_write)(void *priv, u32 offset, u32 value);
-+int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
-+		 rppx1_reg_write write, void *priv);
++	struct mutex lock; /* See KDoc block. */
++	struct video_device vdev;
++	struct media_pad pad;
++	struct vb2_queue queue;
 +
-+void rppx1_stats_fill_isr(struct rppx1 *rpp, u32 isc, void *buf);
++	bool streaming;
++	struct list_head buffers;
 +
-+#endif /* __MEDIA_DCT_RPPX1_H__ */
++	struct v4l2_format format;
++};
++
++/**
++ * struct rcar_isp_job - R-Car ISP job description
++ *
++ * Both done_isp and done_vspx shall be set before the job can be considered
++ * completely done.
++ *
++ * @buffers: IO buffers that form a job
++ * @vspx_job: VSPX job description
++ * @job_queue: list handle
++ * @done_isp: Flag to indicate the ISP is done with the job
++ * @done_vspx: Flag to indicate the VSPX is done with the job
++ */
++struct rcar_isp_job {
++	struct risp_buffer *buffers[RISP_CORE_NUM_PADS];
++	struct vsp1_isp_job_desc vspx_job;
++	struct list_head job_queue;
++	bool done_isp;
++	bool done_vspx;
++};
++
++/**
++ * struct rcar_isp_vspx - R-Car ISP job description
++ *
++ * @dev: Device reference to VSPX
++ * @job: Job currently being processed by VSPX
++ */
++struct rcar_isp_vspx {
++	struct device *dev;
++	struct rcar_isp_job *job;
++};
++
++/**
++ * struct rcar_isp_core - ISP Core
++ * @dev:	(OF) device
++ * @rppaddr:	Hardware address of the RPP ISP (from OF)
++ * @clk:	The clock for the ISP CORE
++ * @rstc:	The reset for the ISP Core
++ * @csrstc:	The reset for the ISP Channel Selector
++ *
++ * @base:	MMIO base of the ISP CORE
++ * @csbase:	MMIO base of the ISP CS
++ *
++ * @subdev:	V4L2 subdevice to represent the ISP CORE
++ * @pads:	Media pad for @subdev
++ *
++ * @v4l2_dev:	V4L2 device
++ * @rpp:	Handle to the RPP ISP connected to the ISP CORE
++ *
++ * @io_lock:	Protect io[*].streaming and io[*].buffers
++ * @io:		Array of IO ports to the ISP CORE
++ *
++ * @lock:	Protects @vspx, @risp_jobs, @sequence and @streaming
++ * @vspx:	Handle to the resources used by VSPX connected to the ISP CORE
++ * @risp_jobs:	Queue of VSPX transfer jobs
++ * @sequence:	V4L2 buffers sequence number
++ * @streaming:	Tracks if the device is streaming
++ */
++struct rcar_isp_core {
++	struct device *dev;
++
++	u32 rppaddr;
++	struct clk *clk;
++
++	struct reset_control *rstc;
++	struct reset_control *csrstc;
++
++	void __iomem *base;
++	void __iomem *csbase;
++
++	struct v4l2_subdev subdev;
++	struct media_pad pads[RISP_CORE_NUM_PADS];
++
++	struct v4l2_device v4l2_dev;
++	struct rppx1 *rpp;
++
++	struct mutex io_lock; /* See KDoc block. */
++	struct rcar_isp_core_io io[RISP_CORE_NUM_PADS];
++
++	spinlock_t lock;  /* See KDoc block. */
++	struct rcar_isp_vspx vspx;
++	struct list_head risp_jobs;
++	unsigned int sequence;
++	bool streaming;
++};
++
++int risp_core_probe(struct rcar_isp_core *core, struct platform_device *pdev,
++		    void __iomem *csbase, struct reset_control *csrstc);
++void risp_core_remove(struct rcar_isp_core *core);
++int risp_core_registered(struct rcar_isp_core *core, struct v4l2_subdev *sd);
++
++int risp_core_job_prepare(struct rcar_isp_core *core);
++
++int risp_core_start_streaming(struct rcar_isp_core *core);
++void risp_core_stop_streaming(struct rcar_isp_core *core);
++
++int risp_core_io_create(struct device *dev, struct rcar_isp_core *core,
++			struct rcar_isp_core_io *io, unsigned int pad);
++void risp_core_io_destroy(struct rcar_isp_core_io *io);
++
++#endif
 -- 
 2.54.0
 
