@@ -1,205 +1,214 @@
-Return-Path: <linux-media+bounces-64587-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64588-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id pzRHHT6pKmpQugMAu9opvQ
-	(envelope-from <linux-media+bounces-64587-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 14:25:34 +0200
+	id nHM6EU6tKmpMuwMAu9opvQ
+	(envelope-from <linux-media+bounces-64588-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 14:42:54 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80EE5671CE7
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 14:25:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F9B671F46
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 14:42:53 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linaro.org header.s=google header.b=sZuwcPG3;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64587-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64587-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=linaro.org;
+	dkim=pass header.d=intel.com header.s=Intel header.b=com8xICG;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64588-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64588-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BC3AB31372E3
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 12:22:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 35AA1337335B
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 12:37:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2B76346FA0;
-	Thu, 11 Jun 2026 12:22:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D57583F822A;
+	Thu, 11 Jun 2026 12:37:39 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB1231197C
-	for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 12:22:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 511F53F788A
+	for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 12:37:36 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781180572; cv=none; b=R1Mnf9JVBhHWb8MIhAPd3xoJDqaQqdmsAwgc93i5AKitdDsvYL4jmJBKeEF0DmHafjw4EXTW8RuoLvXwTkp5+mlykpAkFCoVC1LtNGo8wDQsZu4TZ/kAqKZTr0G3ftFP4hc4mHwSfGuyf+oanJrg4bodoHLE199DdKnLRRzcK6M=
+	t=1781181459; cv=none; b=cYHsxkzmqu5jGGbz7Iha18Rjm/Rga+5vDUNaQvqK06iO1Fe7Q/wsyPPJEZq/nkRZ9vdpP///Uiatb3DDhQG9GYi1haPnnRDvm51qWswNXpxsxMmJQr05DTADdVAkXKD1oBTwmQGD+4VzRoxuevI9przBTDYC+Bz43nU9B0jTyhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781180572; c=relaxed/simple;
-	bh=6mybAxFWA9piKMYdQTC95b5ZGi6YKc2Dvduxn+GK1Rs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V66eb7YMCtDWH+lcaTddksG8vOXTGLRc05zqdPOCJxoE8q0nRRC/zTZcYIJ+vsMUQhkx0SUvantdkLemVmPqJh87+MPTIITS9TgQi7GmDZ9rfl3i76WYSFwe4MH9IsIwfQM/qeTL8JueBL9nVIjLxEXXObe+YlXMFZU2T7tgqq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sZuwcPG3; arc=none smtp.client-ip=209.85.167.42
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5aa68da4e45so709136e87.2
-        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 05:22:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1781180569; x=1781785369; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3UVAPv+vJYyMdfCgAAqYJ+tpswqCocudVoYqqRm2LCg=;
-        b=sZuwcPG3VczZISaPBGPUIykdEVbYJmqWYESl0nQwgXSBnWyTgIQx+NZWRAXknB/oBd
-         i7jzaBuPwUV5Eaz1P9UvlsuO+18UVjbHf2PKL8Mltx8H09UjN3nvf2tL+fcKDz1ylKuY
-         1pHLnMxxk7Gju4UrFZsszu2s0brHQs4i0PXmmsR+4Pr+50dOEbXGIq3D+7RVMFMTVIoM
-         euvfJGEKm2UELN6qTQ2z6G2pb81APsN/FIxtGLiDDSDfXIgFZkXG/KJZe1EJuXlGxCSk
-         h1Wy9jsHN/7KsPEyYyxKQ88nzCXu9QbGQZXgzHnQBwXriPQdJhDu5tDVuiQzCZhR46Yk
-         qS5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781180569; x=1781785369;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3UVAPv+vJYyMdfCgAAqYJ+tpswqCocudVoYqqRm2LCg=;
-        b=snfv8H49rp4D01JRlf27XRGsACFRxrOHShkpBC9wiDqvHbHzGwwHH0IhnFDSlz+xnD
-         twjjNdM18JyQOdq6A/VjJU2ZZdY/7EGXUOG6oVHBX82ZdrfUXQoKL0bON18iQkVF17Vs
-         oU4jHjEHcU4RKHN2Kzudgiq1laIV0MgMxr9tg8Jnw3GpOJITUPyJ+Fa8HLh2QbwjxWSV
-         zRNRPw2BMCs4CrUlvotpuR9ejvb3TWBbB7wOLmZVJmO8mgC8bXvNXGxzCGexDw8qnlbY
-         l/KhMaGd5JJHvCPWpelZX60dqj8RQD1KYbHBzEci4jR7iYenfxR3giVllFK6EZKmWGlk
-         Syug==
-X-Forwarded-Encrypted: i=1; AFNElJ9in/1Ob1e3RHvbAKzFioMx+I6wVfYrKH52OKE516gCp5KhcjAHTxPWmFM/QE+jzRULp5wmmB5QwH3s0g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyTDU8fL25pHbiUNibAauZnbYym+HiUZQhCs1TRMUqc6yhw9JS
-	5elJvv8Oi4CSt/v8aPrmnx7UccIAoiaYtaBMq9kDxQw1Ong0+DunBxP+3Xm4UdUe6yc=
-X-Gm-Gg: Acq92OHpPL2HcNE9UF7vGf/I6MXlcXbb9tQkC1NIKKeSaFUMPFPBafLC9RP6eDNcY24
-	3RNOU/4AqcFiVmqc7PdFEJ7Ayw2U55NAphXmiHMq67BGHfsRDvV5t12soAw7NjDfW0dGa5FI4uw
-	MObeCVtrVwG4h/EjUePB9NQ6tzzeH5PKH43kNpEcJglE888s3ZXqBks7cnBAzn4GpYzvuUkfU1P
-	u2A9d78T7eqi1xxJDIRTnr29Us5fcgn6mKOdJKW8OouRhYbUH5bh7MQaJxkyCewxpphtv0MPZcD
-	HIgWAckNYVOwMvZVZtLJ83VtldROVQQnf0u7veO/0ivFPNTGIBXZIy6CWUjxPPN4ult/iV8QP8p
-	m08BKJ0utH3yiKGHjqtbftkcWNxsl0k/SNA59n+VoDCPRiR6NyMGQsC6TNmel22J983tliSeOA4
-	NHNzEQ2l3U1mGZ/y7jgSNsv2WTmWL7M4XmOLLtMhbDfdcZfwsvSiQwX/D3jm6QXikwe2yWh5DYC
-	iXLoRGq8oaBLEXo
-X-Received: by 2002:a05:6512:1548:b0:5ad:2ac0:9fb0 with SMTP id 2adb3069b0e04-5ad2ac0a109mr69074e87.4.1781180569120;
-        Thu, 11 Jun 2026 05:22:49 -0700 (PDT)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aa7b8fc8d9sm6258927e87.28.2026.06.11.05.22.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jun 2026 05:22:48 -0700 (PDT)
-Message-ID: <ed42708e-97b6-4c5a-aa52-d712cd4dc591@linaro.org>
-Date: Thu, 11 Jun 2026 15:22:47 +0300
+	s=arc-20240116; t=1781181459; c=relaxed/simple;
+	bh=4HbTYaaqY8QdsGlcTd6udAT/ROxObnw61mM+ITXuNCE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ty+73o6XiS1yyFDtoIS/QKVO2PBPikef6fD/u0XQyjLIlVF6zJEP+bfmPIdHwIruzJRcKVXCDIHbv3DwW3iAPh51F+nywPbA2406vYvj9kRWUfTQlBUdnaIswdjQx/ekCSM9znGLrjleWpEoLb4hWgoRpggcBqIjRddiCvGdiOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=com8xICG; arc=none smtp.client-ip=198.175.65.10
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781181457; x=1812717457;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=4HbTYaaqY8QdsGlcTd6udAT/ROxObnw61mM+ITXuNCE=;
+  b=com8xICGSSmoeoOGadt7vAqWSWPk/1wOCx+QDdfcrz9r9DckSC6PpUgW
+   hAsdl2KnrGTjkwOvIs0q08tkuq/zQQs1lGJOjjs/olZIevmW3lBqRW8F+
+   tDTL2+7DH8GJvJTlzcKjJAaTN9fhNnltsriddDJvgdXsKfFUiGS8M7E8h
+   WPzfxTVrgGzsnd30Kvxs4CtYiv7hUWbTXPox/XCXr0PqyKm1kKqGfr8Ry
+   GnA+VqK1VbkfhcwfeYIbbxYvBsG9PHPvyUXiXj6v+9B5cOjRGLjM++ty9
+   OPzzil53U84+L1M6O9eyaCRiMOMqMsY+CNgswX1AaY8E/UZOdHJow0q3W
+   A==;
+X-CSE-ConnectionGUID: joSRldA7Rpar68WKKNlVaw==
+X-CSE-MsgGUID: eCUb/qrpRmCSFkP25o9xAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="99415632"
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="99415632"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 05:37:36 -0700
+X-CSE-ConnectionGUID: yE9aCu0gSKWHGx/p0Iyvbw==
+X-CSE-MsgGUID: 5K7usirlRtanzh3jRbu+GA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="248350758"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.136])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 05:37:30 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id DECDC121C39;
+	Thu, 11 Jun 2026 15:37:26 +0300 (EEST)
+Date: Thu, 11 Jun 2026 15:37:26 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	David Plowman <david.plowman@raspberrypi.com>,
+	"Yu, Ong Hock" <ong.hock.yu@intel.com>,
+	" Ng, Khai Wen" <khai.wen.ng@intel.com>,
+	Rishikesh Donadkar <r-donadkar@ti.com>
+Subject: Re: [PATCH v12 24/86] media: Documentation: Add scaling and
+ post-scaler crop for common raw
+Message-ID: <aiqsBu8G2HRDV89e@kekkonen.localdomain>
+References: <20260409201501.975242-1-sakari.ailus@linux.intel.com>
+ <20260409201501.975242-25-sakari.ailus@linux.intel.com>
+ <177929421045.2341049.3815318982292932607@selene>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 2/9] media: qcom: camss: csiphy-3ph: Fix lane mask
- calculation
-To: david@ixit.cz, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Bryan O'Donoghue <bod@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Luca Weiss <luca.weiss@fairphone.com>,
- Petr Hodina <phodina@protonmail.com>, "Dr. Git" <drgitx@gmail.com>,
- Cory Keitz <ckeitz@amazon.com>, Loic Poulain
- <loic.poulain@oss.qualcomm.com>, Hans Verkuil <hverkuil@kernel.org>,
- Nihal Kumar Gupta <nihal.gupta@oss.qualcomm.com>
-Cc: Frank Li <Frank.Li@nxp.com>,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Kieran Bingham <kbingham@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- phone-devel@vger.kernel.org, stable@vger.kernel.org
-References: <20260610-qcom-cphy-v8-0-cd4387785179@ixit.cz>
- <20260610-qcom-cphy-v8-2-cd4387785179@ixit.cz>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20260610-qcom-cphy-v8-2-cd4387785179@ixit.cz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <177929421045.2341049.3815318982292932607@selene>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-64587-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64588-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
+	FORGED_RECIPIENTS(0.00)[m:jai.luthra@ideasonboard.com,m:linux-media@vger.kernel.org,m:hans@jjverkuil.nl,m:laurent.pinchart@ideasonboard.com,m:prabhakar.csengg@gmail.com,m:hpa@redhat.com,m:dave.stevenson@raspberrypi.com,m:tomm.merciai@gmail.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:christophe.jaillet@wanadoo.fr,m:julien.massot@collabora.com,m:naush@raspberrypi.com,m:stefan.klug@ideasonboard.com,m:mirela.rabulea@nxp.com,m:git@apitzsch.eu,m:heimir.sverrisson@gmail.com,m:kieran.bingham@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:ribalda@kernel.org,m:hansg@kernel.org,m:jacopo.mondi@ideasonboard.com,m:tomi.valkeinen@ideasonboard.com,m:david.plowman@raspberrypi.com,m:ong.hock.yu@intel.com,m:khai.wen.ng@intel.com,m:r-donadkar@ti.com,m:prabhakarcsengg@gmail.com,m:tommmerciai@gmail.com,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[vger.kernel.org,jjverkuil.nl,ideasonboard.com,gmail.com,redhat.com,raspberrypi.com,foss.st.com,wanadoo.fr,collabora.com,nxp.com,apitzsch.eu,linux.intel.com,kernel.org,intel.com,ti.com];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_TO(0.00)[ixit.cz,kernel.org,gmail.com,linaro.org,fairphone.com,protonmail.com,amazon.com,oss.qualcomm.com];
-	FORGED_RECIPIENTS(0.00)[m:david@ixit.cz,m:rfoss@kernel.org,m:todor.too@gmail.com,m:bryan.odonoghue@linaro.org,m:bod@kernel.org,m:mchehab@kernel.org,m:luca.weiss@fairphone.com,m:phodina@protonmail.com,m:drgitx@gmail.com,m:ckeitz@amazon.com,m:loic.poulain@oss.qualcomm.com,m:hverkuil@kernel.org,m:nihal.gupta@oss.qualcomm.com,m:Frank.Li@nxp.com,m:konrad.dybcio@oss.qualcomm.com,m:kbingham@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:phone-devel@vger.kernel.org,m:stable@vger.kernel.org,m:todortoo@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
+	HAS_ORG_HEADER(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	ALIAS_RESOLVED(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,qualcomm.com:email,linaro.org:dkim,linaro.org:email,linaro.org:mid,linaro.org:from_mime]
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 80EE5671CE7
+X-Rspamd-Queue-Id: 18F9B671F46
 
-On 6/10/26 21:28, David Heidelberg via B4 Relay wrote:
-> From: David Heidelberg <david@ixit.cz>
+Hi Jai,
+
+On Wed, May 20, 2026 at 06:23:30PM +0200, Jai Luthra wrote:
+> Quoting Sakari Ailus (2026-04-09 22:13:59)
+> > Document scaling and post-scaler digital crop operations for the common
+> > raw sensor model.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> >  .../media/v4l/subdev-config-model.rst         | 26 ++++++++++++++-----
+> >  1 file changed, 20 insertions(+), 6 deletions(-)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> > index b450f698a608..1525119cbeb9 100644
+> > --- a/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> > +++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> > @@ -146,12 +146,19 @@ binning and sub-sampling to achieve the desired size.
+> >  
+> >  The digital crop operation takes place after binning and sub-sampling. It is
+> >  configured by setting the ``V4L2_SEL_TGT_CROP`` rectangle on (pad, stream) pair
+> > -0/0. The resulting image size is further output by the sensor on the sensor's
+> > -data interface.
+> > +0/0.
+> > +
+> > +The scaling operation is performed after the digital crop. It is configured by
+> > +setting the ``V4L2_SEL_TGT_COMPOSE`` rectangle on (pad, stream) pair 0/0,
+> > +relative to the digital crop. The resulting image size is further output by the
+> > +sensor on the sensor's data interface.
+> >  
+> >  The sensor's output mbus code is configured by setting the format on the (pad,
+> > -stream) pair 0/0. When setting the format, always use the same width and height
+> > -as for the digital crop setting.
+> > +stream) pair 0/0. The width and height fields are used to configure post-scaler
+> > +digital crop if supported by the driver, affecting the right and bottom edges of
+> > +the frame. If post-scaler digital crop is not supported, the width and height
+> > +fields of the format will match the compose rectangle sizes applied on the same
+> > +0/0 (pad, stream) pair.
+> >  
 > 
-> The lane mask must be multiplied by 2, but this was accidentally omitted.
+> Given most raw sensors don't support a scaler, or a post-scaler crop, IMO
 
-Fortunately this computed lane mask value has never been used expectedly by
-csiphy-3ph users.
+Many sensors do support it, but few drivers implement it, also due to
+non-CCS UAPI not allowing it right now. Probably CCS is the only one right
+now. But this isn't to say this wouldn't be more widely supported in the
+future: I'd expect to see more freely configurable drivers as well as new
+drivers that could control classes of sensors programmatically rather than
+a single one based on register lists. In those cases supporting a feature
+such as that is more meaningful.
 
+> this section would be easier to read if we say:
 > 
-> Fixes: c94d21ffa814 ("media: camss: Add CSIPHY files")
-> Cc: stable@vger.kernel.org
-> Suggested-by: Nihal Kumar Gupta <nihal.gupta@oss.qualcomm.com>
-> Signed-off-by: David Heidelberg <david@ixit.cz>
+>     The sensor's output mbus code is configured by setting the format on
+>     the (pad, stream) pair 0/0. The format's width and height should
+>     usually match the compose rectangle sizes applied on the same 0/0 (pad,
+>     stream) pair. If the sensor supports a post-scaler digital crop, the
+>     width and height may be lesser, affecting the right and bottom edges of
+>     the frame.
 
-Fixes shall be the first patches in any series, please reorder for v9.
-
-Then, formally it looks like a fix, but to my understanding it's just a noop
-change against the current upstream codebase, thus the change is not justified
-to gain the Fixes tag, see Documentation/process/stable-kernel-rules.rst.
-
-> ---
->   drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> index dac8d2ecf7995..7c8c0e41bc62f 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> @@ -1114,17 +1114,17 @@ static void csiphy_gen2_config_lanes(struct csiphy_device *csiphy,
->   static u8 csiphy_get_lane_mask(struct csiphy_lanes_cfg *lane_cfg)
->   {
->   	u8 lane_mask;
->   	int i;
->   
->   	lane_mask = CSIPHY_3PH_CMN_CSI_COMMON_CTRL5_CLK_ENABLE;
->   
->   	for (i = 0; i < lane_cfg->num_data; i++)
-> -		lane_mask |= 1 << lane_cfg->data[i].pos;
-> +		lane_mask |= BIT(lane_cfg->data[i].pos * 2);
->   
->   	return lane_mask;
->   }
->   
->   static bool csiphy_is_gen2(u32 version)
->   {
->   	bool ret = false;
->   
-> 
-
-After dropping Fixes tag and cc to stable,
-
-Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+I'd prefer keep it as-is -- the second sentence above is rather vague.
 
 -- 
-Best wishes,
-Vladimir
+Kind regards,
+
+Sakari Ailus
 
