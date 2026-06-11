@@ -1,166 +1,157 @@
-Return-Path: <linux-media+bounces-64563-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64564-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id bB/qCht+Kmp7rAMAu9opvQ
-	(envelope-from <linux-media+bounces-64563-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 11:21:31 +0200
+	id 75FdH+t+KmrPrAMAu9opvQ
+	(envelope-from <linux-media+bounces-64564-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 11:24:59 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76075670594
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 11:21:30 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CBA7670605
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 11:24:59 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=bnhdh+0B;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64563-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64563-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=intel.com header.s=Intel header.b=dsY1RBHm;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64564-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-64564-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 2559632A0EF4
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 09:16:07 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id B6500301AA5E
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 09:24:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A08B63905EF;
-	Thu, 11 Jun 2026 09:16:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93CD23BB114;
+	Thu, 11 Jun 2026 09:24:33 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C732B86334;
-	Thu, 11 Jun 2026 09:16:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 157B13BE155;
+	Thu, 11 Jun 2026 09:24:29 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781169365; cv=none; b=P7+i/xBZss6s2XWLWDM0plQ4s3WLGwmu5IO0pdCn/I3KFt0mZWmz5zFZHvn4HeggD2UBr67tfcK0/g7k+qaXwCJdr/MVOrEcu8+3qLELGOIR+AZeBXhybinggOo8XcLOpEBQ7Ii516C1gFHXAALDcsAY1olnM5zkeO/ekOq1kcg=
+	t=1781169873; cv=none; b=vCRxODAMqY7uJ2GYyfl3eVV5g18zEnln8E7RaTQrcfrK+1vFvNajmpBJdNCqPwsrsVze6XhT/xgpJrx1yneDJKq8gQc51/28fDHWS68wlSKOqvYu16VEC8pPRI4cG40joWm3HAXV+Mf8p7NXEw4cpFlZPtkX1dMqwmDJ7wQwv8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781169365; c=relaxed/simple;
-	bh=N8Jbk6/tj90Ici8QsaVaffj17YRtmS90xotcF4Ftoto=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=nrjXEhsmnx667URm7N2MB8rfluTMD2Z21TGqONp3gwE5rCTpPyn+n1sxwtJaf+LkldEDkXJetd1/+q7ZBYAK+SAPr+k1yn1YZT+C48TpseloaQ5HnIRsn7mtmfgm6iGXor5iEzlQFFK/EfMcUgFkEXy5lADfWeITdfPafowUExU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bnhdh+0B; arc=none smtp.client-ip=213.167.242.64
-Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 79C44673;
-	Thu, 11 Jun 2026 11:15:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781169332;
-	bh=N8Jbk6/tj90Ici8QsaVaffj17YRtmS90xotcF4Ftoto=;
-	h=From:Date:Subject:To:Cc:From;
-	b=bnhdh+0Bf8qZ9+1O8zp0xQU3b0ToSBq/6IhoA11m/H4Yob6mPC88X0tETqlZ6mFb4
-	 mAXDpsLxzymxUOes+JV9F/wb/l710NJuqnQsf49nLgKE43+hJW1mxC3DqGVbKiEu/m
-	 8UKXI3wCJgji7ZZ8OnDlBRlg7J6SLhJtXUPvFKVs=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Thu, 11 Jun 2026 12:15:44 +0300
-Subject: [PATCH] media: raspberrypi: cfe: Enable video capture on CSI2_CH1
+	s=arc-20240116; t=1781169873; c=relaxed/simple;
+	bh=Vpoeq9CJeJAl/f0rQtCJJSZHV8AdYDemmm15xmmUZEY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DHEqlVxdu+AxDrWQMRMth9dEY4zZsfUr+bXPKpbQUl2ahBqWk3YbtFzKGWSSBIXnzH99jd2d3ek9qQEBNC+esr6wJ8NrP9JpUrtRWgwATvdRtK/Bh9tUUu4UzvZCSjAEql97BakrB7esjBU/4yfPWB+Hymv2hQER0VfD7AqYLOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dsY1RBHm; arc=none smtp.client-ip=198.175.65.15
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781169870; x=1812705870;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Vpoeq9CJeJAl/f0rQtCJJSZHV8AdYDemmm15xmmUZEY=;
+  b=dsY1RBHmYzwS+JywZnGZnJ2cvFTC/44pt2Iq9jrGX25gKwfY6WTXQVKr
+   dLDXh38EgiyQDdv2JRQmRh77VTP7pAPeIh3/SxkMnxkjsFD1R9asGnzSH
+   G3gxEz53aMWCU4IP6naSMfXk3GUbxeHtX8kH2XYPZ8Sxf47hf4nEMhont
+   tZUC7C5JAWTgt0XbmWkH3T8IG4cMjrNm4XiqkMsiL0PCl12Xa5jOxs2OQ
+   YQbRnOzW4HD/VTnZ7A7cqd06lBYfYzHDwJNhyYETCXLqUp4A3NL3lB8/M
+   sSGwxMuEiMy7KuH7hyYRxurr65bxjLBqBcAlk53MSTvZdPmAViA2xI8sw
+   Q==;
+X-CSE-ConnectionGUID: rcN2iVk2SCGrneGZ5Zq7Xw==
+X-CSE-MsgGUID: Sc3XV/fBRXmebPWp6GHr7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="85607234"
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="85607234"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 02:24:29 -0700
+X-CSE-ConnectionGUID: aeYXjMlKQTyfUn2WuHWlAw==
+X-CSE-MsgGUID: HyU1BRt/T1yNMlk4YUoxAA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="246453708"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.136])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 02:24:28 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id E24E1120835;
+	Thu, 11 Jun 2026 12:24:23 +0300 (EEST)
+Date: Thu, 11 Jun 2026 12:24:23 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: imx219: Report streams using frame descriptors
+Message-ID: <aip-xwYlKT1d3N0S@kekkonen.localdomain>
+References: <20260611-imx219-frame-desc-v1-1-fe7e975bca6e@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260611-cfe-ch1-video-v1-1-f819577a0333@ideasonboard.com>
-X-B4-Tracking: v=1; b=H4sIAL98KmoC/yXMQQ5AMBBA0avIrE3SkajEVcRCa8pYtNIiEnF3x
- fIt/r8gcRRO0BYXRD4kSfAZVBZg58FPjDJmQ6UqrTQRWsdoZ8JDRg6oiLQzDdVkBsjNGtnJ+f2
- 6/nfazcJ2eydw3w+edllLcQAAAA==
-X-Change-ID: 20260611-cfe-ch1-video-0116fb7151ba
-To: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Naushir Patuck <naush@raspberrypi.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1549;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=N8Jbk6/tj90Ici8QsaVaffj17YRtmS90xotcF4Ftoto=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBqKnzQdfPCINNerBjlFNMkb7EMAT4yRPjJpIWG8
- IXKf4ule9OJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCaip80AAKCRD6PaqMvJYe
- 9Zz4D/9dpLnhZYGs78vTttR2yQSUPmCJCDNVR36oKxjLFvy6Q4C0vfvdVs8w4zS3m696+qC9so+
- /r5bmBRKvd7WesjAv7dvw5oRpfwnFv5SeANCz5fQHEQKSsxYeUWp4g652SO4KkxfrWD0OPy6Wfb
- OFDh+OqiUHe5VLq5mdPKz9yBiWUOCmFn5sqCSnNTDGa30kb9p/0zd8+orU3ZOejMIpB5P3QiBMh
- VMrPIdvLNzARDRrNKsPISuFAmppMChhEsUYf+6//mHX+sF/NaeqnQBNrfstOod76oNiCPyK28fx
- 63jwd7NYN36FdsApDmwe/PusGYMQwpSZxPc+QYWsK+eA0jz/z13vKbDb5vcgiprDhkkGtEkQFi8
- DC/zCNL7fV1ncV4Og+79YrA4Cf7N8ILIkRWy87toY5Ky/V6Z82kHJqRwC1eAjTKa/ae2+Xu9oGv
- bCoPv6437fGxjjxKJGbwjhJmZ2OVAQJINgrDeMmxA6Qxql14ZJXRvRGRNCKz6aa0j7sMBKa9xFJ
- tEvVRct9xAb1a4oBJF1cj5avSatHe2oafZSrASp3B4FPMQnBie7A97G/qI7q+3o67owXZfh2NGd
- xhi2idQq3T+h6jcHLaW1Qxdbg6G7mbJEqgsw1lngpc1ZKbE7nQb+ezdINRrJliGkRdVl8+Ke/Rd
- IeVFFi76UMSYqvw==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260611-imx219-frame-desc-v1-1-fe7e975bca6e@ideasonboard.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-5.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-64564-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:kernel-list@raspberrypi.com,m:mchehab@kernel.org,m:florian.fainelli@broadcom.com,m:bcm-kernel-feedback-list@broadcom.com,m:dave.stevenson@raspberrypi.com,m:naush@raspberrypi.com,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-rpi-kernel@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:tomi.valkeinen@ideasonboard.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[tomi.valkeinen@ideasonboard.com,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	TAGGED_FROM(0.00)[bounces-64563-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:tomi.valkeinen@ideasonboard.com,m:dave.stevenson@raspberrypi.com,m:mchehab@kernel.org,m:laurent.pinchart@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,linux.intel.com:from_mime,intel.com:dkim,kekkonen.localdomain:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 76075670594
+X-Rspamd-Queue-Id: 0CBA7670605
 
-The upstreamed CFE driver did not enable video capture on the second
-DMA channel, only metadata capture, to imitate the downstream
-Raspberry Pi kernel.
+Moi,
 
-Let's drop this limitation and also support video streams.
+On Thu, Jun 11, 2026 at 12:13:02PM +0300, Tomi Valkeinen wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Implement the .get_frame_desc() subdev operation to report information
+> about streams to the connected CSI-2 receiver. This is required to let
+> the CSI-2 receiver driver know about virtual channels and data types for
+> each stream.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> [tomi.valkeinen: picked from "Generic line based metadata support, internal pads" series]
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+> This patch that adds .get_frame_desc() support to imx219 driver has been
+> circulating for a few years, and is currently posted in "[PATCH v12
+> 00/86] Generic line based metadata support, internal pads" series.
+> 
+> However, as some bridge drivers require modern drivers that support
+> .get_frame_desc, specifically ds90ub960.c, let's pick the patch and
+> queue it separately from the huge metadata series.
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/media/platform/raspberrypi/rp1-cfe/cfe.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+I've been recently working on
+<URL:https://lore.kernel.org/linux-media/20260518164318.3367888-1-sakari.ailus@linux.intel.com/>.
+In other words, drivers that have a single stream don't need this. We could
+probably extend that further by making use of the routing information but I
+think that should be left for later.
 
-diff --git a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-index 8375ed3e97b9..40eef608504d 100644
---- a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-+++ b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-@@ -130,15 +130,9 @@ static const struct node_description node_desc[NUM_NODES] = {
- 		.pad_flags = MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_MUST_CONNECT,
- 		.link_pad = CSI2_PAD_FIRST_SOURCE + 0
- 	},
--	/*
--	 * At the moment the main userspace component (libcamera) doesn't
--	 * support metadata with video nodes that support both video and
--	 * metadata. So for the time being this node is set to only support
--	 * V4L2_CAP_META_CAPTURE.
--	 */
- 	[CSI2_CH1] = {
- 		.name = "csi2-ch1",
--		.caps = V4L2_CAP_META_CAPTURE,
-+		.caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_META_CAPTURE,
- 		.pad_flags = MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_MUST_CONNECT,
- 		.link_pad = CSI2_PAD_FIRST_SOURCE + 1
- 	},
+-- 
+Terveisin,
 
----
-base-commit: 06cb687a5132fcffe624c0070576ab852ac6b568
-change-id: 20260611-cfe-ch1-video-0116fb7151ba
-
-Best regards,
---  
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-
+Sakari Ailus
 
