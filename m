@@ -1,91 +1,91 @@
-Return-Path: <linux-media+bounces-64626-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64627-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id E1ZAGogfK2r82wMAu9opvQ
-	(envelope-from <linux-media+bounces-64626-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 22:50:16 +0200
+	id x8oVEaYfK2oA3AMAu9opvQ
+	(envelope-from <linux-media+bounces-64627-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 22:50:46 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C24D16754F3
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 22:50:15 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EFD1675505
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 22:50:45 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ragnatech.se header.s=fm3 header.b=a6xZRSDS;
-	dkim=pass header.d=messagingengine.com header.s=fm1 header.b="c So2t65";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64626-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64626-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ragnatech.se header.s=fm3 header.b=hbQgUIv7;
+	dkim=pass header.d=messagingengine.com header.s=fm1 header.b="j P4BaWa";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64627-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64627-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=ragnatech.se;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 38C73303133B
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 20:43:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4D34A34481A0
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 20:44:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 056694CA28C;
-	Thu, 11 Jun 2026 20:42:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DFBB4DD6E5;
+	Thu, 11 Jun 2026 20:42:30 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D571397347;
-	Thu, 11 Jun 2026 20:42:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EDBA4DBD98;
+	Thu, 11 Jun 2026 20:42:27 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781210547; cv=none; b=gZp2Kp+T7hpaGPPeMj0kE75/BnF+5eX2jV9WkkqCti2Gg36wuuMSnIhMrlFG4EXZ9hJMatcZRDcixJx286ani9CMzjXbpWEQ4GKwcMS5KSsj7ksr3e6QmErVd+Ua136IRBDmY9HMX2tew+bHgxLRvt7tYVcUagbntNoSdi6PKtA=
+	t=1781210549; cv=none; b=cQWGxalTPkMWspWARmDZZkEF9IHCDiqrfuemxglKMtr6SnSi/xkrmMUpxUIeY9LNzHRt+duHnp91zoCylTDBPurDifffsgfpqZDWB/wr9zYf+q5TyAIh5W7X5Tq+f5vwMisVgaA5dbZGXces8Jm9ViDWUhE37qXv7XlrlpYo/wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781210547; c=relaxed/simple;
-	bh=C/PGZZp1aXglu6OwsS4oJNbXiX2D14Th8CjXVUyhoOk=;
+	s=arc-20240116; t=1781210549; c=relaxed/simple;
+	bh=2umV+ZX6+mQfPAXVtPtkQwD32cC9iaq7FBLndlxTGF4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QJta7BfawdIpYDfhqMrup11XPpDKhf/GhbbDsZewAyShI2tHjM8K2UcnwHnhfQTWNIVIjaPR8DWtOQGdlYnnUkKrPddu7YPNTNgNKH0nOwg5brJEdRo+DyffEHM5I4KBOZBmbyozurF2WHsD02bD+j1SLkzSM0kXMqMnp7uVwnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=a6xZRSDS; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=cSo2t65p; arc=none smtp.client-ip=103.168.172.144
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfout.phl.internal (Postfix) with ESMTP id A8F57EC0100;
-	Thu, 11 Jun 2026 16:42:24 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Thu, 11 Jun 2026 16:42:24 -0400
+	 MIME-Version:Content-Type; b=PpVH++oYgXf655cSI5CV54gdHzsXUrPv9w/2E8xz0LeGW8FmhUSrbbVQEbp9z2scMrJXEc0jMRI1fhp1Xce7OCcpNQkVnWZzpC8m0lqDmyDdA2oFeSpZlby/yuZiu209FPA8aDiB6/a24llXFx1w4cP/dPC1h6FDW54AFtnwtI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=hbQgUIv7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jP4BaWa4; arc=none smtp.client-ip=103.168.172.144
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id 9CA4EEC010D;
+	Thu, 11 Jun 2026 16:42:26 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Thu, 11 Jun 2026 16:42:26 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1781210544;
-	 x=1781296944; bh=ESovPMlN4FPN+UM7LHFzMYaWcruWKSw2Cte9icmAf1M=; b=
-	a6xZRSDSeY/qu3ZLtqA/Z4MEHe4voo97fh/i2r8b+yJTVN+GnmHsSJSInrCxrkBb
-	LRZuErVfiUjtmLFgqh2AqtxsVslip0IcY0e4Nc447+y8qPVZa/5iH2eB1RL5tn5j
-	nUdnWxmM7AHaYy3udavNabp93NYqJUwJMf+5vDuESmxBIddGBlzp3fvyxtS8UtQc
-	OYxR5zsLCI34uEWp9tRgnsJ40Gp5zDfrw35xyCXxVkbnVaZcvARBakkGUsuuIql3
-	VDLNVFhhPY5XVOpKrVHtksA5r2IOEnZWL41Fz7qRqb46CSPIKahKRRJVTFTf8u9Y
-	89JOixUPjlN5ryosSRZkmA==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1781210546;
+	 x=1781296946; bh=xcLmjnP/fhSsNXcNI4wWc99kIuYgNunC6S8DyRNbXDc=; b=
+	hbQgUIv7Hw1EdWv5a0D2tbPHcwrlVt2FmGI8k4lbVltMOnQORyxtiXGZC4HAW6hD
+	OpkJCAk3eB54p5KMCqGq/JRs5QngwnpQldiD58PMj/9ZVqZ77uGznsifySKUFMCA
+	u84dxgMrjlW8wZhKAKSRphwf1DD+lKB60/bfzZP50r0v/JWP5bLtO1o1ZBdq4f4J
+	RFA2IR9VQEBwWwN7Psn1g0jWXxXBk/lvrgn77fVZKVkP20iwFdPoBHeIR+Gn4RbB
+	BNIU6kPeZ4nzp6+tmPiIUziFD8oYPTS46qKYJ0uQloeulk8kq1ZdMOC0QzCnV+SI
+	LRvgvAfboMJDqz9yideTHg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781210544; x=
-	1781296944; bh=ESovPMlN4FPN+UM7LHFzMYaWcruWKSw2Cte9icmAf1M=; b=c
-	So2t65pFrJmqJ8TmJ534BARLaRyH1t4sUDwqm/UTyNPbftC2fNZeZasmbLDRsa+u
-	soV/S3n0nl+tJ/uKm3bllkEyo3Kg72G66RkHXtefog4f6pLHEaTJV0x3EPUo0Oaf
-	KXHQDAXonOEEG2vMGxAogxu3tXzNmhtwjRBVMDBppp6Ocsc7hcf7tCrrtiVzmCIY
-	T2ZnnMRdoRExiXthxkTLMKZRl/fTdKu/8nXsguc1lPeoRAUGMMVCn7cldlfQosia
-	nUUYALj2AAfeLFYvd52106acLkiQv+Y9lovieSe7r/StJiNZTr4c7MRXkMP8IJ+h
-	O7OhedfSDM3tAzn8rSIOA==
-X-ME-Sender: <xms:sB0rar2fc7BkMUMc--aw77o4H-xnLPoQSjcd8tn_e1ahV2913KdqdA>
-    <xme:sB0ragFJ_QPffaA9DOKO0nSf6HuKx4ekxlmDXpXe3XNPbv3pT9o8SlJGmCpfsyBE5
-    pzt-TGI9qSIEixCZSgKBFcBF7aCPYcovgqpSfXVmepAgxHksTA8Ng>
-X-ME-Received: <xmr:sB0ramtkGwEiflUSOcBC0UrxEYoJQE2_7nzKPwswbSTFW2rRGuAS2fbW7tknfM3bgFOrl-fjITK_bVmQmD6Tm1COGJQT>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781210546; x=
+	1781296946; bh=xcLmjnP/fhSsNXcNI4wWc99kIuYgNunC6S8DyRNbXDc=; b=j
+	P4BaWa419np8zYcImUq8DKwYdy51ncEyZ2jdQkYcd5h0oOwoqevKAdbwshSKwODb
+	PusxlR/u7jsd4RLTHB6DKiPc1jo0x2OOM5/kTdGMOAzLsP0PwEwVxXcTesv3Fr/Z
+	FPsWCwMIIFGiXzjlhYjm6vHqWBejNOONGHdQCXu6S/ELPm2XcVyvUAx3WsCNKFYx
+	D8K/Ltwy7kMrH2gl7myfUkolZ04C/L/xXpTC6qw/q1dLzbNmDsiOER2tsleoMzxD
+	XDoGPxwamqqBY9cKRLzqXST89Fx9bw5BORiEVplG6Twkks1973dJd+N7nqYmQ34m
+	y3gQ87PfoIzVd0Pk2WY5g==
+X-ME-Sender: <xms:sh0raq9IZXd_wWNjbsVitB8qhHBzxDfTVxwQvJtNKMMGNHeuh0VoSA>
+    <xme:sh0ragukw3FukOw4tUgSr6Y9erN5jGvMkvbbWoI59C50SKtCDpScbgPirsrKz_zs7
+    X_zspTTgUS2Vqkgk7cnCArzi9O83m05_zPvz8wSZIjm2rorqH6jJQ>
+X-ME-Received: <xmr:sh0raq0jk43wcP3vB6ISYOcqzYQjq3M5UR-RhJQbVqh9rgmavPx5os15VuSNC6AKlchzSUCV5TbnjkrOOPmJjWBjIVUF>
 X-ME-Proxy-Cause: dmFkZTGaouJIR5kC2J81I5sfEwZBn3ZT9RrdlVZBH2NdTyvnCs8J5l1+cS0iIw5iwCKzXs
     ifNT3VxPLcgDaNVSHOGFqwSN8mYhMHzCKHXMtRXmLS3K2fAWtCymAkJp/Wkyu1ibcEKcnm
     gcklheITNT/Pc6vQQRUWa0XBXpNjxU5nM+VLaLsK2AkB+R+spLShYqaQJ9w9JrDLh44uWA
     MgmQuSWr4OqltuDKF0LMp4YaUkQMB6oqXjZppdCtJ6HpkVjUk+zli1MFwg9Ak+kRuhNJ/e
-    n2I1wmUz4K4UMMJ4VC9bDXSlbtRV+OfaQBqnQ2+JtMmX7LNrF1kZWZDhIPHG888cdmG4gp
-    3fxwNQ3UWS8V2zzmIgF8aqYNqKtQJEMU4JKARpaP/IhjQBUKjS17sur1GWbAXF1QS1c7BZ
-    GRKPh3EAHhHCkbOJeZSrN2QT6Ggf/NNwmSoUY8DyHhUqWEFn2xGpEtytXMG0HR/lZZFadR
-    aoDhuND2MOmZsLGwFDRN34YOLqenMMKfnIycCMiwq0tJ+ctCOj95s4JdV08pMu0yNWysCH
-    LvrKAdaASkDh58HpBdr0NcGaAhEpppi87g+S5nHHqjSd/ALXBUnYp1G62pHqGIXqAHUXJo
-    VsV37o/GXC5X0v/6NeI/wfB7GuO2TSO1jBFSt9XYwHeOLoL6qC91b55/bcuQ
-X-ME-Proxy: <xmx:sB0rajr09zOjEMASBuPfggUXVMJuYF7SzVLxwBNBuDIy7203VngnIg>
-    <xmx:sB0ratXa8eA4hcKUHWjJzUMNpScT2Au219lLLQDLoxquKFzeiemo1g>
-    <xmx:sB0rar0QauagXDgvgnyAsPzo5E0zyrUv0U4V0ebbzPWsVQH9ltBw-g>
-    <xmx:sB0raisyvbHgsD4drdfoeSpqBdUCMgddEy5dQigfx5EnzX8k5r5MXw>
-    <xmx:sB0rau5X_MO8HOP4bjkWPOdA85pZ7HGx4scqmDerZeErWRuw1ElsWdiF>
+    n2I1wmUz4K4UMMJ4VC9bDXSlbtRV+OfaQBqnQ2+JtMmX7LNrF1kZWZDhIPHG888cdmG4h8
+    HaP1LWs0cA2s1P0qDGtP0Z7fWGf98JyQT4BWqV0R1Ust9nEjguqwg4drikxvsX64C61iPL
+    LKyyeyuH+60hc3SE0oADm8r3ELQDClJx1Nq5yOD8149Q6KVcvCsU8ClMhHtj3q5ni6YCkW
+    z3RILyw0d0nSUT4/qk9coHk0PiZma3Dsz3ynl2O1iCOVm57oi+/PngkvM2MGJJe+mBV/I1
+    bq0WbwctvGTVYJbq+j55D+igCByZg85IPjBcYzToIbR64o1mVEBZBSKkmykMqQ600pHazy
+    VNqAHZ3UNib3kKu0Tv6p0L/uGf8KjJiWgF4KxuQrpsJkgUTmox4jctMvq1IA
+X-ME-Proxy: <xmx:sh0ralSvoSWBFUz1fwlrxslLZeycac1jvl-dkC1CPIDxB2ScCXTBLA>
+    <xmx:sh0raufgR0yjPRBOipLFBe6-6T7e-m3YK13QPZHCamZAuu7CD77oIw>
+    <xmx:sh0ramfSFhi-WJKu17xrNTb7WzVkj2I5jU1u8E2mDmVQpTULi8xZLw>
+    <xmx:sh0rao1jAgPiPNy2us0P4B1E8iiy0bvKPVy7_gldKS_nYyjguDg83Q>
+    <xmx:sh0ranBPnq642UOBpFxgPTbayFgAmOqg66rl1TM3EhHz8L3m6rw_gany>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 11 Jun 2026 16:42:24 -0400 (EDT)
+ 11 Jun 2026 16:42:26 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Jai Luthra <jai.luthra+renesas@ideasonboard.com>,
@@ -97,9 +97,9 @@ To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	linux-kernel@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
 	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Subject: [PATCH v10 09/13] media: rppx1: bls: Add support for black level compensation
-Date: Thu, 11 Jun 2026 22:41:44 +0200
-Message-ID: <20260611204148.1423192-10-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v10 10/13] media: rppx1: ccor: Add support for color correction matrix
+Date: Thu, 11 Jun 2026 22:41:45 +0200
+Message-ID: <20260611204148.1423192-11-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260611204148.1423192-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20260611204148.1423192-1-niklas.soderlund+renesas@ragnatech.se>
@@ -117,12 +117,12 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
 	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm3,messagingengine.com:s=fm1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64626-lists,linux-media=lfdr.de,renesas];
+	TAGGED_FROM(0.00)[bounces-64627-lists,linux-media=lfdr.de,renesas];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:jai.luthra+renesas@ideasonboard.com,m:mchehab@kernel.org,m:kuninori.morimoto.gx@renesas.com,m:laurent.pinchart@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:niklas.soderlund+renesas@ragnatech.se,m:jacopo.mondi+renesas@ideasonboard.com,m:jai.luthra@ideasonboard.com,m:niklas.soderlund@ragnatech.se,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
@@ -131,7 +131,7 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_SENDER(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[6];
@@ -145,10 +145,10 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,renesas];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[ragnatech.se:dkim,ragnatech.se:email,ragnatech.se:mid,ragnatech.se:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ideasonboard.com:email,vger.kernel.org:from_smtp,messagingengine.com:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C24D16754F3
+X-Rspamd-Queue-Id: 8EFD1675505
 
-Extend the RPPX1 driver to allow setting the black level measurement
-and gain configuration. It uses the RPPX1 framework for parameters and
+Extend the RPPX1 driver to allow setting the color correction matrix
+configuration parameters. It uses the RPPX1 framework for parameters and
 its writer abstraction to allow the user to control how, and when,
 configuration is applied to the RPPX1.
 
@@ -158,303 +158,178 @@ Signed-off-by: Jai Luthra <jai.luthra+renesas@ideasonboard.com>
 Co-developed-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 ---
- .../platform/dreamchip/rppx1/rpp_module.h     |   1 +
- .../platform/dreamchip/rppx1/rpp_params.c     |   5 +
- .../platform/dreamchip/rppx1/rppx1_bls.c      |  97 ++++++++++++++++
- .../uapi/linux/media/dreamchip/rppx1-config.h | 105 +++++++++++++++++-
- 4 files changed, 207 insertions(+), 1 deletion(-)
+ .../platform/dreamchip/rppx1/rpp_module.h     |  1 +
+ .../platform/dreamchip/rppx1/rpp_params.c     |  4 ++
+ .../platform/dreamchip/rppx1/rppx1_ccor.c     | 61 +++++++++++++++++++
+ .../uapi/linux/media/dreamchip/rppx1-config.h | 28 ++++++++-
+ 4 files changed, 93 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_module.h b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-index b134d140fe22..5e20fcdcbcc4 100644
+index 5e20fcdcbcc4..e039746ac542 100644
 --- a/drivers/media/platform/dreamchip/rppx1/rpp_module.h
 +++ b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-@@ -47,6 +47,7 @@ void rpp_module_clrset(struct rpp_module *mod, u32 offset, u32 mask, u32 value);
- 
- union rppx1_params_block {
+@@ -49,6 +49,7 @@ union rppx1_params_block {
  	struct v4l2_isp_block_header header;
-+	struct rppx1_bls_params bls;
+ 	struct rppx1_bls_params bls;
  	struct rppx1_awbg_params awbg;
++	struct rppx1_ccor_params ccor;
  	struct rppx1_hist_params hist;
  	struct rppx1_exm_params exm;
+ 	struct rppx1_wbmeas_params wbmeas;
 diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-index 975ce3a42fb5..831cf7ca154c 100644
+index 831cf7ca154c..a83d393d0504 100644
 --- a/drivers/media/platform/dreamchip/rppx1/rpp_params.c
 +++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-@@ -17,6 +17,8 @@
- 
- static const struct v4l2_isp_params_block_type_info
- rppx1_ext_params_blocks_info[] = {
-+	RPPX1_PARAMS_BLOCK_INFO(BLS_PRE1, bls),
-+	RPPX1_PARAMS_BLOCK_INFO(BLS_PRE2, bls),
+@@ -21,6 +21,7 @@ rppx1_ext_params_blocks_info[] = {
+ 	RPPX1_PARAMS_BLOCK_INFO(BLS_PRE2, bls),
  	RPPX1_PARAMS_BLOCK_INFO(AWBG_PRE1, awbg),
  	RPPX1_PARAMS_BLOCK_INFO(AWBG_PRE2, awbg),
++	RPPX1_PARAMS_BLOCK_INFO(CCOR_POST, ccor),
  	RPPX1_PARAMS_BLOCK_INFO(HIST_PRE1, hist),
-@@ -58,6 +60,9 @@ int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
- 		block_offset += block->header.size;
- 
- 		switch (block->header.type) {
-+		case RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE1:
-+			module = &rpp->pre1.bls;
-+			break;
+ 	RPPX1_PARAMS_BLOCK_INFO(HIST_PRE2, hist),
+ 	RPPX1_PARAMS_BLOCK_INFO(HIST_POST, hist),
+@@ -66,6 +67,9 @@ int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
  		case RPPX1_PARAMS_BLOCK_TYPE_AWBG_PRE1:
  			module = &rpp->pre1.awbg;
  			break;
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c b/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
-index 882a9a819229..01a61db279bf 100644
---- a/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_bls.c
-@@ -6,6 +6,7 @@
-  */
- 
- #include "rpp_module.h"
-+#include "rppx1.h"
- 
- #define BLS_VERSION_REG				0x0000
- 
-@@ -32,6 +33,8 @@
- #define BLS_B_MEASURED_REG			0x0040
- #define BLS_C_MEASURED_REG			0x0044
- #define BLS_D_MEASURED_REG			0x0048
-+#define BLS_PRE1_FIXED_MASK			GENMASK(24, 0)
-+#define BLS_PRE2_FIXED_MASK			GENMASK(12, 0)
- 
- static int rppx1_bls_probe(struct rpp_module *mod)
- {
-@@ -55,6 +58,100 @@ static int rppx1_bls_probe(struct rpp_module *mod)
++		case RPPX1_PARAMS_BLOCK_TYPE_CCOR_POST:
++			module = &rpp->post.ccor;
++			break;
+ 		case RPPX1_PARAMS_BLOCK_TYPE_HIST_POST:
+ 			module = &rpp->post.hist;
+ 			break;
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c b/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
+index 3bfad3ba12e6..5ddc7edf6930 100644
+--- a/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
+@@ -67,9 +67,70 @@ static int rppx1_ccor_start(struct rpp_module *mod,
  	return 0;
  }
  
-+static void
-+rppx1_bls_swap_regs(struct rpp_module *mod, const u32 input[4], u32 output[4])
-+{
-+	static const unsigned int swap[4][4] = {
-+		[RPP_RGGB] = { 0, 1, 2, 3 },
-+		[RPP_GRBG] = { 1, 0, 3, 2 },
-+		[RPP_GBRG] = { 2, 3, 0, 1 },
-+		[RPP_BGGR] = { 3, 2, 1, 0 },
-+	};
-+
-+	/* Swap to pattern used in our path, PRE1 or PRE2. */
-+	struct rpp_module *acq = mod == &mod->rpp->pre1.bls ?
-+		&mod->rpp->pre1.acq : &mod->rpp->pre2.bls;
-+	enum rpp_raw_pattern pattern = acq->info.acq.raw_pattern;
-+
-+	for (unsigned int i = 0; i < 4; ++i)
-+		output[i] = input[swap[pattern][i]];
-+}
-+
 +static int
-+rppx1_bls_fill_params(struct rpp_module *mod,
-+		      const union rppx1_params_block *block,
-+		      rppx1_reg_write write, void *priv)
++rppx1_ccor_fill_params(struct rpp_module *mod,
++		       const union rppx1_params_block *block,
++		       rppx1_reg_write write, void *priv)
 +{
-+	const struct rppx1_bls_params *cfg = &block->bls;
++	const struct rppx1_ccor_params *cfg = &block->ccor;
 +
-+	/* If the modules is disabled, simply bypass it. */
++	/* If the modules is disabled, configure in bypass mode. */
 +	if (cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_DISABLE) {
-+		write(priv, mod->base + BLS_CTRL_REG, 0);
++		write(priv, mod->base + CCOR_COEFF_REG(0), 0x1000);
++		write(priv, mod->base + CCOR_COEFF_REG(1), 0x0000);
++		write(priv, mod->base + CCOR_COEFF_REG(2), 0x0000);
++
++		write(priv, mod->base + CCOR_COEFF_REG(3), 0x0000);
++		write(priv, mod->base + CCOR_COEFF_REG(4), 0x1000);
++		write(priv, mod->base + CCOR_COEFF_REG(5), 0x0000);
++
++		write(priv, mod->base + CCOR_COEFF_REG(6), 0x0000);
++		write(priv, mod->base + CCOR_COEFF_REG(7), 0x0000);
++		write(priv, mod->base + CCOR_COEFF_REG(8), 0x1000);
++
++		write(priv, mod->base + CCOR_OFFSET_R_REG, 0x00000000);
++		write(priv, mod->base + CCOR_OFFSET_G_REG, 0x00000000);
++		write(priv, mod->base + CCOR_OFFSET_B_REG, 0x00000000);
++
 +		return 0;
 +	}
 +
-+	u32 ctrl = BLS_CTRL_BLS_EN;
++	/*
++	 * Coefficient n for color correction matrix.
++	 *
++	 * RPP coefficients are 16-bit signed fixed-point numbers with 4 bit
++	 * integer and 12 bit fractional part ranging from -8 (0x8000) to
++	 * +7.9996 (0x7FFF). 0 is represented by 0x0000 and a coefficient
++	 * value of 1 as 0x1000.
++	 */
++	write(priv, mod->base + CCOR_COEFF_REG(0), cfg->coeff[0][0]);
++	write(priv, mod->base + CCOR_COEFF_REG(1), cfg->coeff[0][1]);
++	write(priv, mod->base + CCOR_COEFF_REG(2), cfg->coeff[0][2]);
 +
-+	if (cfg->mode == RPPX1_BLS_MODE_FIXED) {
-+		static const u32 regs[] = {
-+			BLS_A_FIXED_REG,
-+			BLS_B_FIXED_REG,
-+			BLS_C_FIXED_REG,
-+			BLS_D_FIXED_REG,
-+		};
-+		u32 swapped[4];
++	write(priv, mod->base + CCOR_COEFF_REG(3), cfg->coeff[1][0]);
++	write(priv, mod->base + CCOR_COEFF_REG(4), cfg->coeff[1][1]);
++	write(priv, mod->base + CCOR_COEFF_REG(5), cfg->coeff[1][2]);
 +
-+		rppx1_bls_swap_regs(mod, regs, swapped);
++	write(priv, mod->base + CCOR_COEFF_REG(6), cfg->coeff[2][0]);
++	write(priv, mod->base + CCOR_COEFF_REG(7), cfg->coeff[2][1]);
++	write(priv, mod->base + CCOR_COEFF_REG(8), cfg->coeff[2][2]);
 +
-+		/*
-+		 * The PRE1 pipe fixed values are 24-bits + 1 sign bit, while
-+		 * the PRE2 pipe values are 12-bits + 1 sign bit.
-+		 */
-+		u32 mask;
-+
-+		switch (cfg->header.type) {
-+		case RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE1:
-+			mask = BLS_PRE1_FIXED_MASK;
-+			break;
-+		case RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE2:
-+			mask = BLS_PRE2_FIXED_MASK;
-+			break;
-+		default:
-+			return -EINVAL;
-+		}
-+
-+		write(priv, mod->base + swapped[0], cfg->fixed.a & mask);
-+		write(priv, mod->base + swapped[1], cfg->fixed.b & mask);
-+		write(priv, mod->base + swapped[2], cfg->fixed.c & mask);
-+		write(priv, mod->base + swapped[3], cfg->fixed.d & mask);
-+	} else {
-+		write(priv, mod->base + BLS_SAMPLES_REG, cfg->samples);
-+
-+		if (cfg->en_windows & RPPX1_BLS_WIN_EN_WIN1) {
-+			write(priv, mod->base + BLS_H1_START_REG, cfg->window1.h_offs);
-+			write(priv, mod->base + BLS_H1_STOP_REG, cfg->window1.h_size);
-+			write(priv, mod->base + BLS_V1_START_REG, cfg->window1.v_offs);
-+			write(priv, mod->base + BLS_V1_STOP_REG, cfg->window1.v_size);
-+			ctrl |= BLS_CTRL_BLS_WIN1;
-+		}
-+
-+		if (cfg->en_windows & RPPX1_BLS_WIN_EN_WIN2) {
-+			write(priv, mod->base + BLS_H2_START_REG, cfg->window2.h_offs);
-+			write(priv, mod->base + BLS_H2_STOP_REG, cfg->window2.h_size);
-+			write(priv, mod->base + BLS_V2_START_REG, cfg->window2.v_offs);
-+			write(priv, mod->base + BLS_V2_STOP_REG, cfg->window2.v_size);
-+			ctrl |= BLS_CTRL_BLS_WIN2;
-+		}
-+
-+		ctrl |= BLS_CTRL_BLS_MODE_MEASURED;
-+	}
-+
-+	write(priv, mod->base + BLS_CTRL_REG, ctrl);
++	/*
++	 * Offset for color components correction matrix.
++	 *
++	 * Values are a two's complement integer with one sign bit.
++	 */
++	write(priv, mod->base + CCOR_OFFSET_R_REG, cfg->offset[0]);
++	write(priv, mod->base + CCOR_OFFSET_G_REG, cfg->offset[1]);
++	write(priv, mod->base + CCOR_OFFSET_B_REG, cfg->offset[2]);
 +
 +	return 0;
 +}
 +
- const struct rpp_module_ops rppx1_bls_ops = {
- 	.probe = rppx1_bls_probe,
-+	.fill_params = rppx1_bls_fill_params,
+ const struct rpp_module_ops rppx1_ccor_ops = {
+ 	.probe = rppx1_ccor_probe,
+ 	.start = rppx1_ccor_start,
++	.fill_params = rppx1_ccor_fill_params,
  };
+ 
+ static int rppx1_ccor_csm_start(struct rpp_module *mod,
 diff --git a/include/uapi/linux/media/dreamchip/rppx1-config.h b/include/uapi/linux/media/dreamchip/rppx1-config.h
-index 2cb8ada233fc..7214a7b42c47 100644
+index 7214a7b42c47..c13c7c99c078 100644
 --- a/include/uapi/linux/media/dreamchip/rppx1-config.h
 +++ b/include/uapi/linux/media/dreamchip/rppx1-config.h
-@@ -85,6 +85,8 @@ enum rppx1_meas_chan {
-  * @RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE1: PRE1 pipe Histogram Measurement
-  * @RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE2: PRE2 pipe Histogram Measurement
+@@ -87,6 +87,7 @@ enum rppx1_meas_chan {
   * @RPPX1_PARAMS_BLOCK_TYPE_HIST_POST: POST pipe Histogram Measurement
-+ * @RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE1: PRE1 pipe Black Level Subtraction
-+ * @RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE2: PRE2 pipe Black Level Subtraction
+  * @RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE1: PRE1 pipe Black Level Subtraction
+  * @RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE2: PRE2 pipe Black Level Subtraction
++ * @RPPX1_PARAMS_BLOCK_TYPE_CCOR_POST: POST pipe Color Correction
   */
  enum rppx1_params_block_type {
  	RPPX1_PARAMS_BLOCK_TYPE_WBMEAS_POST,
-@@ -96,6 +98,8 @@ enum rppx1_params_block_type {
- 	RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE1,
- 	RPPX1_PARAMS_BLOCK_TYPE_HIST_PRE2,
+@@ -100,6 +101,7 @@ enum rppx1_params_block_type {
  	RPPX1_PARAMS_BLOCK_TYPE_HIST_POST,
-+	RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE1,
-+	RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE2,
+ 	RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE1,
+ 	RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE2,
++	RPPX1_PARAMS_BLOCK_TYPE_CCOR_POST,
  };
  
  /**
-@@ -320,6 +324,103 @@ struct rppx1_hist_params {
- 	__u8 sample_shift;
+@@ -421,6 +423,29 @@ struct rppx1_bls_params {
+ 	struct rppx1_bls_fixed fixed;
  };
  
 +/**
-+ * struct rppx1_bls_fixed - BLS fixed subtraction values
++ * struct rppx1_ccor_params - Color CORrection configuration
 + *
-+ * Fixed black level values subtracted from sensor data per Bayer channel.
-+ * Negative values result in addition.
++ * The CCOR (Color Correction) module is available on the MAIN_POST pipe. It
++ * performs color space correction on a pixel-per-pixel basis using a 3x3 matrix
++ * of coefficients and per-color channel offsets.
 + *
-+ * The PRE1 pipe BLS module operates on a 24-bits input data and fixed black
-+ * levels are stored as a signed 2's complement representation ranging from
-+ * -2^24 to 2^24-1.
++ * The matrix coefficients are represented as 16 bits signed fixed point values
++ * in Q4.12 format ranging from -8 to +7.999.
 + *
-+ * The PRE2 pipe BLS module operates on a 12-bits input data and fixed black
-+ * levels are stored as a signed 2's complement representation ranging from
-+ * -2^12 to 2^12-1.
++ * The per-channel color offsets are represented as 2's complement values
++ * stored in 25 bits ranging from -16777216 to 16777215.
 + *
-+ * Userspace is expected to provide fixed black level values with a bit-depth
-+ * matching the one of pipe in use.
-+ *
-+ * These subtraction values are matched with the sensor native Bayer components
-+ * ordering according to the cropping configuration on the input port.
-+ *
-+ * @a: subtraction value for channel A
-+ * @b: subtraction value for channel B
-+ * @c: subtraction value for channel C
-+ * @d: subtraction value for channel D
++ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_CCOR_POST)
++ * @coeff: color correction matrix coefficients, 16 bits signed Q4.12
++ * @offset: R, G, B offsets, 2's complement 25 bits
 + */
-+struct rppx1_bls_fixed {
-+	__u32 a;
-+	__u32 b;
-+	__u32 c;
-+	__u32 d;
-+};
-+
-+/**
-+ * enum rppx1_bls_mode - BLS subtraction mode
-+ *
-+ * Select if subtracted black level come from fixed or measured values.
-+ *
-+ * @RPPX1_BLS_MODE_FIXED: subtract fixed values
-+ * @RPPX1_BLS_MODE_MEAS: subtract measured values
-+ */
-+enum rppx1_bls_mode {
-+	RPPX1_BLS_MODE_FIXED,
-+	RPPX1_BLS_MODE_MEAS,
-+};
-+
-+/**
-+ * enum rppx1_bls_win_en: BLS measurement configuration
-+ *
-+ * Select the measurement window to use for measured black level values.
-+ *
-+ * @RPPX1_BLS_WIN_EN_OFF: disable measurement
-+ * @RPPX1_BLS_WIN_EN_WIN1: Enable measurement from window 1
-+ * @RPPX1_BLS_WIN_EN_WIN2: enable measurement from window 2
-+ * @RPPX1_BLS_WIN_EN_WIN12: enable measurement from window 1 and window 2
-+ */
-+enum rppx1_bls_win_en {
-+	RPPX1_BLS_WIN_EN_OFF,
-+	RPPX1_BLS_WIN_EN_WIN1,
-+	RPPX1_BLS_WIN_EN_WIN2,
-+	RPPX1_BLS_WIN_EN_WIN12,
-+};
-+
-+/**
-+ * struct rppx1_bls_params - RPP-X1 Black Level Subtraction Module
-+ *
-+ * The RPP-X1 Black Level Subtraction module is available on the PRE1 and PRE2
-+ * pre-fusion pipes. Userspace selects which pipe to operate by setting the
-+ * @header.type field to RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE1 or
-+ * RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE2.
-+ *
-+ * The BLS module operates on fixed or measured data according to the setting of
-+ * the @mode field. When RPPX1_BLS_MODE_FIXED is used userspace shall provide
-+ * the per-channel black levels in @fixed. When RPPX1_BLS_MODE_MEAS is used
-+ * userspace shall configure the measurement windows @window1 and optionally
-+ * @window2 to select the optically black pixels region in the input frame. The
-+ * @samples fields controls how many measure samples are used for averaging the
-+ * measured black levels.
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE1 or
-+ *	    type == RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE2)
-+ * @mode: BLS subtraction mode (see enum rppx1_bls_mode)
-+ * @en_windows: BLS measurement mode (see rppx1_bls_win_en)
-+ * @samples: log2 of the number of measured pixels per Bayer position
-+ * @window1: BLS measurement window 1 (14 bits)
-+ * @window2: BLS measurement window 2 (14 bits)
-+ * @fixed: fixed subtraction values (see enum rppx1_bls_fixed)
-+ */
-+struct rppx1_bls_params {
++struct rppx1_ccor_params {
 +	struct v4l2_isp_params_block_header header;
-+	__u8 mode;
-+	__u8 en_windows;
-+	__u8 samples;
-+	struct rppx1_window window1;
-+	struct rppx1_window window2;
-+	struct rppx1_bls_fixed fixed;
++	__u16 coeff[3][3];
++	__u32 offset[3];
 +};
 +
  /**
   * RPPX1_PARAMS_MAX_SIZE - Maximum size of all RPP-X1 parameter blocks
   *
-@@ -335,7 +436,9 @@ struct rppx1_hist_params {
- 	sizeof(struct rppx1_exm_params)				+	\
+@@ -438,7 +463,8 @@ struct rppx1_bls_params {
  	sizeof(struct rppx1_hist_params)			+	\
  	sizeof(struct rppx1_hist_params)			+	\
--	sizeof(struct rppx1_hist_params))
-+	sizeof(struct rppx1_hist_params)			+	\
+ 	sizeof(struct rppx1_bls_params)				+	\
+-	sizeof(struct rppx1_bls_params))
 +	sizeof(struct rppx1_bls_params)				+	\
-+	sizeof(struct rppx1_bls_params))
++	sizeof(struct rppx1_ccor_params))
  
  /* ---------------------------------------------------------------------------
   * Statistics Structures
