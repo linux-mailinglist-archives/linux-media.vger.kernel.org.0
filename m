@@ -1,207 +1,161 @@
-Return-Path: <linux-media+bounces-64529-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64530-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id PHGQGIZIKmrklgMAu9opvQ
-	(envelope-from <linux-media+bounces-64529-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 07:32:54 +0200
+	id yQTJLt1JKmoNmAMAu9opvQ
+	(envelope-from <linux-media+bounces-64530-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 07:38:37 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E58FB66E9C2
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 07:32:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3826366EB36
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 07:38:37 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=a97rLwiS;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64529-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64529-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=intel.com header.s=Intel header.b="NdA/ps2a";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64530-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64530-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id EDB53301DECA
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 05:31:38 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C99913026CAE
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 05:35:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C31293438A0;
-	Thu, 11 Jun 2026 05:30:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9292026CE2D;
+	Thu, 11 Jun 2026 05:35:04 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8AF630E82D;
-	Thu, 11 Jun 2026 05:30:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54E53594A;
+	Thu, 11 Jun 2026 05:35:02 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781155810; cv=none; b=tQ/3bjMERhQ4+PlbhUd/TCgQy5cNmdQLmZmX206z4GdoBQgwmbAcoH7XcxcRIqREgq5vvhJA7D+ZyckHzGsxdtny3FT9GHRrSlp/MLOA5UtzNZ00r8jYOGWhNJPqjW7loE7f4o5kbciCNgqtUMVGDaVg1q4IL1O+0cu6VmU7qN0=
+	t=1781156104; cv=none; b=bW0maMEKDIdZNYmLptPSSzAi5jJddGiEh0kbc+5DN8xdVo5GB5agsq8XMnP2L/65VpZZcvpz2v2B9U5sIppOEsGNUMp/3IY0ZiU7OaU5oO31o1DpZzmISjmyY0Alw61nLL17Z9M2bfFs3hPn9B883G2h6afbsdMzXmD1zWoXIJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781155810; c=relaxed/simple;
-	bh=zPyDYXa6zGSFKayiHQHtfIPXQU2y4Rco+w2TGKlmhLs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=VEai1ZoT7VdS+lRhkBga9DBoZ2zVdo0JIeK31KlO6nh67XsgS97VkJHNmc2NwzaRBjFAQ2CiZmxX6XKv1gH4il9qlGL/Hslr+HRlMxNIgXrisFu0YdauwZYtnf8dX0PpybCwKuR5AOTytqlN0B8PT0lCL4cEvllsFHaap6kiqio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a97rLwiS; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A87711F00899;
-	Thu, 11 Jun 2026 05:29:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781155805;
-	bh=VlUmGwE0ILPgOg+KpZs1mxPqeBRs9I2PikBa8crC90o=;
-	h=From:Date:Subject:To:Cc;
-	b=a97rLwiSf/wopPh1XUAO3MQnqZCbyeIzz8OVwoND7Lc8TZ5X10f15Uo3QHpxuT51u
-	 s9U2ngqpgeoHDKUK002wtev5CqIq+4nSyH3+9DEHicAuDpfpDY65zKy8EbeVOnarnM
-	 N3keGgZZFd0VIBOyhxiVi58AEwER/T2GB/yh41r0b4XC69hra8gdTB1T4G66GOW7ZS
-	 LVaAHlR3Frl2vHbgZGlDi0rSdwaV2L8kiV7NofRmTlFT+L/cMYbNiTM0MMsWPkEQdu
-	 MEXUJR8F4iYCzV5SnN3wC/uqDSNb5/Jk2VM2RlLzFUtrPDJHpDPr820OJTtmxzFICo
-	 3oDGQAMaXsWwg==
-From: Eugen Hristev <ehristev@kernel.org>
-Date: Thu, 11 Jun 2026 08:29:55 +0300
-Subject: [PATCH v3] media: bcm2835-unicam: Fix log status runtime access
+	s=arc-20240116; t=1781156104; c=relaxed/simple;
+	bh=enLo2LxBXG7SCp0mi4x5Y9nFoxfVVaRZ6ltmEJZMwqg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N3yEUzfBTE/jrhLKy9JA5CbCGdC9TEyKDdUxNPgQA4eLCv5GfJGrCfVK5JbpkgQXysfevqBniPqHvzG9vOQwdYil+BVbZ2hnEXD+SNRTTgJNgcw/rp6gGyEhU8biLQrglSaJxJHYJlFW5GgTLEySm/qdpRb7K8OCJ4RJxDf+G0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NdA/ps2a; arc=none smtp.client-ip=198.175.65.10
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781156103; x=1812692103;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=enLo2LxBXG7SCp0mi4x5Y9nFoxfVVaRZ6ltmEJZMwqg=;
+  b=NdA/ps2ani7MzKaPmsPmUkGet6gphDFyTCFq0/78ygqYyOePLjxbaFEq
+   +7NhFnAV5Ks4SLhqaaJpzva+8vBwkvaBc6rn/49nGFG1ZxzKO8ts8d5Nv
+   Cpd+9BJtJAI3S8zDbwS6PZSz0UDcXhsI77ueSz1k07djdfEp/cCZfPSQa
+   3lAPSgGdxCBbM3NlLJYDPcWTvn5whhEDnvCTewL9AANhcOA1bYExZxqOj
+   OJSRwgKwzjDrbN/knNm78TEmEK0DB2AAv9CjMmtmSUjH+PeK2umF/IZCf
+   yfd5wZlZZTSzXknP2Rwyq6r/Xk2zCncRtYI9Si9D4QnMuX9gmtgxhuP+6
+   A==;
+X-CSE-ConnectionGUID: 7IDxd4oHRLqWniqVSTeBjw==
+X-CSE-MsgGUID: 2FEqVQMvToCu2rvA/eHSUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="99385824"
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="99385824"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 22:35:02 -0700
+X-CSE-ConnectionGUID: cZaITnTdSfGt3wujyN8Bng==
+X-CSE-MsgGUID: 4DkVQr/ZTtKPtgM7ywc3Xg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,198,1774335600"; 
+   d="scan'208";a="242232880"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.123])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2026 22:35:00 -0700
+Date: Thu, 11 Jun 2026 08:34:57 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mert Seftali <mertsftl@gmail.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Kees Cook <kees@kernel.org>, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: atomisp: gmin: Use str_on_off() helper
+Message-ID: <aipI6J4kDWESZgtA@ashevche-desk.local>
+References: <20260610182348.217892-1-mertsftl@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260611-bcmpipm-v3-1-c609dacb029f@kernel.org>
-X-B4-Tracking: v=1; b=H4sIANJHKmoC/2WNyw6CMBQFf4V0bU0fUgor/8O4aMsFqvJIi42G8
- O+2uFDjcpIzcxbkwVnwqMoW5CBYb8chAt9lyHRqaAHbOjJihAmSM4q16Sc79ViYvJBQcMZLg+J
- 6ctDYx1Y6nd/s7/oCZk56WnTWz6N7bleBpt1/NVBMMQetpKylJIf8eAU3wG0/uhalbGDfIvuIL
- IqK10oIo03ZkB9xXdcXx/qyHuoAAAA=
-X-Change-ID: 20260521-bcmpipm-6c578e73239c
-To: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Hans Verkuil <hverkuil@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
-Cc: Naushir Patuck <naush@raspberrypi.com>, linux-media@vger.kernel.org, 
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, Eugen Hristev <ehristev@kernel.org>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3216; i=ehristev@kernel.org;
- h=from:subject:message-id; bh=zPyDYXa6zGSFKayiHQHtfIPXQU2y4Rco+w2TGKlmhLs=;
- b=owGbwMvMwCXWkjcnuXne3fmMp9WSGLK03K92NnL93fC/x8y3t8BrT+aUBxzszr8cWucYfPzqv
- K/Q58mkjlIWBjEuBlkxRZZqk3+1wv073E+6WqrAzGFlAhnCwMUpABO5nMHIsG7zoq2HxM0zDzxq
- eKjwSfnkpg3LNY/+L9yamZKwPdl7cQPDf3fVv0zP/h/9+bh7xaVJ18yDHLv8p6Ts7lH8duqSnVQ
- pLx8A
-X-Developer-Key: i=ehristev@kernel.org; a=openpgp;
- fpr=AB184498D27A77B65D7852C81EB31E020EAC2FC8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260610182348.217892-1-mertsftl@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:kernel-list@raspberrypi.com,m:mchehab@kernel.org,m:florian.fainelli@broadcom.com,m:bcm-kernel-feedback-list@broadcom.com,m:rjui@broadcom.com,m:sbranden@broadcom.com,m:dave.stevenson@raspberrypi.com,m:hverkuil@kernel.org,m:laurent.pinchart@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:jeanmichel.hautbois@yoseli.org,m:naush@raspberrypi.com,m:linux-media@vger.kernel.org,m:linux-rpi-kernel@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:ehristev@kernel.org,s:lists@lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[ehristev@kernel.org,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	TAGGED_FROM(0.00)[bounces-64529-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:mertsftl@gmail.com,m:hansg@kernel.org,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:andy@kernel.org,m:gregkh@linuxfoundation.org,m:kees@kernel.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	HAS_ORG_HEADER(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FORGED_SENDER(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-64530-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ehristev@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,intel.com:dkim,intel.com:email,intel.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E58FB66E9C2
+X-Rspamd-Queue-Id: 3826366EB36
 
-When requesting log status, the block might be powered off, but registers
-are being read.
-Avoid reading the registers if the device is not resumed, thus also avoid
-powering up the device just for log status.
+On Wed, Jun 10, 2026 at 08:23:48PM +0200, Mert Seftali wrote:
+> Replace the open-coded "on" : "off" ternary with the standard
+> str_on_off() helper from <linux/string_choices.h>. This improves
+> readability and reuses the kernel's existing string helper instead of
+> duplicating the literals.
+> 
+> No functional change intended.
 
-Fixes: 392cd78d495f ("media: bcm2835-unicam: Add support for CCP2/CSI2 camera interface")
-Signed-off-by: Eugen Hristev <ehristev@kernel.org>
----
-Changes in v3:
-- Changed to check return value of pm_runtime_get_if_active() and only call
-  pm_runtime_put() if the device is active.
-- Link to v2: https://patch.msgid.link/20260522-bcmpipm-v2-1-a3da66cbc9f0@kernel.org
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+but see a couple of nit-picks below.
 
-Changes in v2:
-- changed to use pm_runtime_get_if_active()
-- add corresponding put()
-- Link to v1: https://patch.msgid.link/20260521-bcmpipm-v1-1-3eba88d88045@kernel.org
+...
 
-To: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-To: Florian Fainelli <florian.fainelli@broadcom.com>
-To: Ray Jui <rjui@broadcom.com>
-To: Scott Branden <sbranden@broadcom.com>
-To: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hverkuil@kernel.org>
-To: Naushir Patuck <naush@raspberrypi.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: linux-media@vger.kernel.org
-Cc: linux-rpi-kernel@lists.infradead.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org
----
- drivers/media/platform/broadcom/bcm2835-unicam.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/gpio.h>
+>  #include <linux/platform_device.h>
+> +#include <linux/string_choices.h>
 
-diff --git a/drivers/media/platform/broadcom/bcm2835-unicam.c b/drivers/media/platform/broadcom/bcm2835-unicam.c
-index 8d28ba0b59a3..96b51e29bba4 100644
---- a/drivers/media/platform/broadcom/bcm2835-unicam.c
-+++ b/drivers/media/platform/broadcom/bcm2835-unicam.c
-@@ -2043,6 +2043,7 @@ static int unicam_log_status(struct file *file, void *fh)
- 	struct unicam_node *node = video_drvdata(file);
- 	struct unicam_device *unicam = node->dev;
- 	u32 reg;
-+	int pm_active;
- 
- 	/* status for sub devices */
- 	v4l2_device_call_all(&unicam->v4l2_dev, 0, core, log_status);
-@@ -2052,6 +2053,14 @@ static int unicam_log_status(struct file *file, void *fh)
- 		 node->fmt.fmt.pix.width, node->fmt.fmt.pix.height);
- 	dev_info(unicam->dev, "V4L2 format:         %08x\n",
- 		 node->fmt.fmt.pix.pixelformat);
-+
-+	pm_active = pm_runtime_get_if_active(unicam->dev);
-+	if (!pm_active) {
-+		dev_info(unicam->dev,
-+			 "Live data N/A due to device inactive\n");
-+		return 0;
-+	}
-+
- 	reg = unicam_reg_read(unicam, UNICAM_IPIPE);
- 	dev_info(unicam->dev, "Unpacking/packing:   %u / %u\n",
- 		 unicam_get_field(reg, UNICAM_PUM_MASK),
-@@ -2065,6 +2074,9 @@ static int unicam_log_status(struct file *file, void *fh)
- 	dev_info(unicam->dev, "Write pointer:       %08x\n",
- 		 unicam_reg_read(unicam, UNICAM_IBWP));
- 
-+	if (pm_active == 1)
-+		pm_runtime_put(unicam->dev);
-+
- 	return 0;
- }
- 
+While at it, perhaps add a blank line here.
 
----
-base-commit: e98d21c170b01ddef366f023bbfcf6b31509fa83
-change-id: 20260521-bcmpipm-6c578e73239c
+>  #include "../../include/linux/atomisp_platform.h"
+>  #include "../../include/linux/atomisp_gmin_platform.h"
 
-Best regards,
---  
-Eugen Hristev <ehristev@kernel.org>
+...
+
+>  	dev_dbg(subdev->dev, "Setting power state to %s\n",
+> -		on ? "on" : "off");
+> +		str_on_off(on));
+
+Now this goes to be perfectly one line.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
 
