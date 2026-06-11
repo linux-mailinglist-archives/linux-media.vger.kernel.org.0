@@ -1,363 +1,487 @@
-Return-Path: <linux-media+bounces-64630-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64631-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id DWXUNc8eK2re2wMAu9opvQ
-	(envelope-from <linux-media+bounces-64630-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 22:47:11 +0200
+	id w/QgMGknK2pC3QMAu9opvQ
+	(envelope-from <linux-media+bounces-64631-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 23:23:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDD286754A1
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 22:47:10 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 367BC6756C8
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 23:23:53 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ragnatech.se header.s=fm3 header.b=rJ2tHYbE;
-	dkim=pass header.d=messagingengine.com header.s=fm1 header.b="T 3/pUMm";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64630-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64630-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ragnatech.se;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=H95vImIr;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64631-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64631-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 78A86303FFDC
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 20:44:40 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C0C54313670B
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2026 21:23:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 474004DD6FF;
-	Thu, 11 Jun 2026 20:42:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6A633803DD;
+	Thu, 11 Jun 2026 21:23:37 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B624E3773;
-	Thu, 11 Jun 2026 20:42:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A090734EF0F
+	for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 21:23:35 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781210559; cv=none; b=R1gf5+8tLww/lvDpQuWTdQ7FlDhxAHmRLgs0s3B+qS1u6ZYUDzmckBp4EaA2bgeSTXUpZcXQo0cESN46suYSBUC61tGYzfNoa47AxKLNa8imzVhd8X0zSsaYo2HfYu0yXGvOzWp0QhNgzvFYWsISadl4vJGiqBiYa68E4M+vtzw=
+	t=1781213017; cv=none; b=Vp8/K8ix1w+Vmb5/n6wLz6i8OR1BABA4uoCU27UbbQ06omplACqnBGNc/3fglYL3NtlxtNBrZDselH9TxIQMI9vwYLmSwHwWF5M8u56hwC4jbhHba6IZpIrLvLQYz9ko/KeqTIl1wbaGij4ceFZkW+uPu1q7sdjI6wGqbZJdISc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781210559; c=relaxed/simple;
-	bh=nOnvi0q43F2Mi+uNVOHaEonfzCrDJVp8XjHFXyMlzlI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=X4FKX2udw21NQvKGoEy/3sLU+KIy1pkTc2vK0LP7PzY+A2O/QkfBicwmsf9sIhK04nebH2Q57aD1kCx3M6MKKteoadBNBvvMQ2urRgryEHdurBAX1RSMJalEaHsZfL4myJLRQLry2h2Cg6OHfAj1pyy9O7aMzvnUjOSEzArpjeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=rJ2tHYbE; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=T3/pUMmo; arc=none smtp.client-ip=103.168.172.152
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 697AC140007F;
-	Thu, 11 Jun 2026 16:42:32 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Thu, 11 Jun 2026 16:42:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1781210552;
-	 x=1781296952; bh=iW1uz+bF3XDeasRJPWT2F9NxGIgfRiF2grsQURBnoC0=; b=
-	rJ2tHYbEh0Jy8crIw22r1BCxoCRXUsnaN5dC09b/tXEmpMpn0UqBZUuxDs//eJ2c
-	CXtF2ErQoYzMz+tFiuEJEmP5sXWMHXaODVJcf1OBce6elKgDxK2n+ZhDcdZGc4ff
-	0K49C3czg+ReRr8F2vp6pp7GYszGX/t5zIvMKRZ3TtT8L5zvWlW1TjuJgBYkXehF
-	Y5UP+qRWOqFvSgFyxwTv5nyvd6o9HxCnpDwXlOfa/22YgbOcMQj0CWSVKvMtq/SI
-	iUp7BQHZtjI2eqcEnaM5kxoOhB/r7F62FKTUNI0uYcc8cx02JHu6dfedzU/dwymM
-	6E76nsXmMct+rqN7UKT9sw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1781210552; x=
-	1781296952; bh=iW1uz+bF3XDeasRJPWT2F9NxGIgfRiF2grsQURBnoC0=; b=T
-	3/pUMmoVrcLudlo1QafE0SzmyXsIDVu9N7aAtflNHUt+UtS8Ar4FThNliG/5dJt8
-	cY0I1ntF4zTRXj+aY122lzOn+c+3pgVceM3ONB/hLo9rGsqdrLcZewhZe+22A9sH
-	n61FuJoZmDq9D5iOqF+/pYiJe1d6N7rdEB2rUNPDk424PvO64EI6r3UQR0KgjxXC
-	z8iUZMtFCIm5C/+1oEL/YsQpA5aoqwNx0+sl6nelp9LDgSqCH7S2KPbDUIn7HQqv
-	qqYfB1EitQa3A/sKBaGIDqRXVlLuRKmhu9/e1JowU0PUXY6Wdj4a+zk2bU21ksWz
-	chFPMAXLadr15f6eQYwnA==
-X-ME-Sender: <xms:uB0rakpJH3Nr2HHwtEXCqZ43DwPwtKMiVVAn_hd-pT03Cz0fezi20g>
-    <xme:uB0ragooZbXFPiP_bkcils1QsDXMXHJNi7qEDlXgLCSX0szj7Fi5TmOm0yp4hu1KJ
-    cmmj2K6RusLoMmzsmDgJppRZb57__lwa__fbsygo5zxF0P9Yyf_wA>
-X-ME-Received: <xmr:uB0rakBxA0faGTrN3l-qZPxTcoyns2x5-EjmtIP0oH7Kz3tMZpWKkBtSNf3j6zi7SfCij62tQlI9ssq5cK4GLtKAos6P>
-X-ME-Proxy-Cause: dmFkZTGdwflrsKGNP8uGzlBIfvpE7yQaQDL/6Wa/OjZWZR9/bQ7uckxHLtwJBR8mPHBLck
-    OYhL/+UPWO8GM29WZ20ShKvqjkVCRmUp6hBfgLoRmb8LI+v3t7nD1jAfZPPAp1zAuinmUE
-    1J1BzI1UHOUSq1OoWczjGAnAmblpBLe9T9syQkb1BMiwzXQRppiQROAkpyqKBxqt8k01uV
-    Z/RCEgZQAxFnHBVJ+HzWDU3nxrH7dSKiBpVhju1Gl4vecGbbaNDPE0j+BUnMmRUctz6nbp
-    CUaHJyJ2RL4ffg18eIUWVIq9TTGcC+M8a937xja31qPtPi8W6TqTIWNCqzp0yApq08n3Pb
-    HqnCv/CA7BSUHzWHBjNRmQbfr5JpAyToAw5Q8AyO4uw2JEwLU5fE5lkOG2wsTr8IF36CW7
-    lOK4cxkBUVEKT+IxpGzagqL3WlXK7IoTwKMo7gaJdOOYSOckEkH42hOA5j/M0zEIofrV76
-    k9k4kRKadDCTRvizG3nU4cg+NI84se3Tg6dAff45AxMgKdRm/CDdGgSyiaJvuGWfYseB5c
-    /11fd3rZEjGYXUDneCQcfLEgiTWjE2uqzcT1AU1TwB3FcEwGnMsTqdCCSF3izU+BHmbPAR
-    XSDVYh1LY731jdB27UZrcbMoCqx6iHQukZVcnO8njv9xjvn80AUvcO3K8AnA
-X-ME-Proxy: <xmx:uB0rauvIqP0qHG8Aukv3-5W5pYSslIYmRz_JVkJInJVeYUkZQ7psAg>
-    <xmx:uB0rajJwfzFm-kv0vgD-u0i9uDhT2mb43hqLbZPQs8jXSM8o_7lgPA>
-    <xmx:uB0ralY3oL4qxQJXMIFIke5_boeTPkKegpW_D7qyPJMMhC7ICjtiyA>
-    <xmx:uB0ralAXhaqI0OqypUqGiuzZjniIsGhw2RibSW-5Pg7RMplAeoSmYw>
-    <xmx:uB0ralYedeiMyyLJHS0xkTFA3fWxeU5QvSknJ2mPKuSNJP8wu04OEziN>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 11 Jun 2026 16:42:31 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Jai Luthra <jai.luthra+renesas@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Jai Luthra <jai.luthra@ideasonboard.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v10 13/13] media: rppx1: lin: Add support for gamma sensor linearization
-Date: Thu, 11 Jun 2026 22:41:48 +0200
-Message-ID: <20260611204148.1423192-14-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260611204148.1423192-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20260611204148.1423192-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1781213017; c=relaxed/simple;
+	bh=j8Ae9c2TI2acGrdjjx6wYRViV7N/j+uErXjyesTBpgQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L+Muh1gXqibsXGreEYoLsnRzzBY8JOs7TYpxCOplSg36lp/s0DEu9Z5BM9ooWRhlZL4UbWhOplZWeYYoDqcF4etTJgmz6bZbNlDDmiRL/Vh3I3EU9pCl/Cgm8C+q4oq0ZFtt3LYz2KXE9a9GU9h92GM0dbCOaVpIUudFJPHtOac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H95vImIr; arc=none smtp.client-ip=209.85.214.194
+Received: by mail-pl1-f194.google.com with SMTP id d9443c01a7336-2c0c35980fdso2649215ad.2
+        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 14:23:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781213015; x=1781817815; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=pf4hM3mtMXeX14ohE4XQ1BSat2dxo+IW9rTwJbBXy14=;
+        b=H95vImIrcdxt5SBXRJDGoxJuatqe5DcA8886Q6RoMe6UQakx7GED9h7uh8mOTXQfW5
+         Bv/JxAt8MWuJa4ycWqAQJ4uGSV3KIOEbYl/DG3IbvlMWLrT1Y3e2rq1JhtHAAi2npBh+
+         /l898b7zMS5F4COjv1AvJqMpybUuHHJSx9jy5prbSr472M9rysFkYUcA3A2OeOCYBmFb
+         l8DhKAFdzS1j/PCJmK1K6v0ZcJbdq241JwzmUV1uKiE73ODcy9DRLcLkHcH0jzUDQmjx
+         M5eXaL+9MXAmRrJ1yAUmM1t5jgLmzSFKVk6diY/v9qMh1G+vOOpqRNcF8dWgb04EkaDz
+         Uq0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781213015; x=1781817815;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pf4hM3mtMXeX14ohE4XQ1BSat2dxo+IW9rTwJbBXy14=;
+        b=Tl4IhxccTq9axrMNAaJ66aOp1hCSsS9gdzWzXZ7ZEflgGCtZ7JspuEWEv7Fp3VobAI
+         2tjqCu1kva+8ERzq+R+o8jd3QCht/QSM3K02QwZj7dQU5Iwj7liDgRzIxq925pW4V7DP
+         LDB3c4fHRTK+5kqM90XXxMTP1Ml9a3K0fC68p5b1rl/SYeJQEHjXzS7H9xOz4tN/0mhf
+         oLM2JsgcEZpVYLclEe8UYCag4+03EpMK4N8CKW/T/IRzrZBi5b2569cYC5GRLn5FNsI/
+         LTbKKSlScQkascU1Oumv0VzarnRtlvpRPjA4o3ORMUe/FeTJ5d+B78UnVjLPu0ftwJzF
+         yMuA==
+X-Forwarded-Encrypted: i=1; AFNElJ+IE8Vuc1Pp7OCets4aHg8JVytF/FIb1ojCKuVgKNY3c0JpuQ9xNthKuZydRoSmv8SHm/yElswOqYordg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAS1jlijfIfPamPKYuJrfhBpZkge7oo5nvjyuE1E2iYSMct4dz
+	LpepCx3XNgQ/fHj4fwB2piZNTF/bwZB48n2IuaOpuYUuFTNoqpLCAl3G
+X-Gm-Gg: Acq92OGVS8+aKhonaHGeKPN3tBe8Ar1BOVPlesdIuyHKSjyM1nsrvoNeYB63B6t4u+G
+	Pnhovgv143MiAxP+WMIDLb6rC9M8C4t8tvtN7ZRYeZyHv9LBbEU+XAHqx4yF0S68OOH03GPi/mq
+	9rgAy4vuXlc8AEYJ+7W7OJIZuBMBaR9cDAkEfh4Ok9NWyiTQ749W3EzEd46pqAxTlICIcnOXwgS
+	OZVcOpzplbCvCl4lAB7XhTyYF+jKM6nncTuTARQjapEDYi1rmoBV4/y+Qpci+p4gGbSNQiqKM6R
+	/lWYgvbtmZh3dVpwIL6kYGscdJDdP+HDnwrtRzYgkKWOTUViC4YUpCdG+f7WIEFT3TQlHxjuasx
+	a3o7a+z4LR74dKLs7BESy6Ju8B3gLO6wmggltJhk3aGgWbl28o7CzrovlaftdXFIzuOdMMjuKAP
+	y7cEyiVJYtFgpfJxoq
+X-Received: by 2002:a17:903:4b47:b0:2c1:98b7:ecf3 with SMTP id d9443c01a7336-2c41235e35cmr1293665ad.23.1781213014941;
+        Thu, 11 Jun 2026 14:23:34 -0700 (PDT)
+Received: from localhost ([2a03:2880:2ff:74::])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c415173581sm347535ad.79.2026.06.11.14.23.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2026 14:23:34 -0700 (PDT)
+Date: Thu, 11 Jun 2026 14:12:07 -0700
+From: Stanislav Fomichev <sdf.kernel@gmail.com>
+To: Bobby Eshleman <bobbyeshleman@gmail.com>
+Cc: Donald Hunter <donald.hunter@gmail.com>, 
+	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, Gerd Hoffmann <kraxel@redhat.com>, 
+	Vivek Kasireddy <vivek.kasireddy@intel.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org, sdf@fomichev.me, 
+	razor@blackwall.org, daniel@iogearbox.net, almasrymina@google.com, matttbe@kernel.org, 
+	skhawaja@google.com, dw@davidwei.uk, Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next v2 1/4] net: devmem: allow rx-buf-size >
+ PAGE_SIZE per dmabuf binding
+Message-ID: <aiskekd4GCLIhC0E@devvm7509.cco0.facebook.com>
+References: <20260611-tcpdm-large-niovs-v2-0-ee2bf15e7523@meta.com>
+ <20260611-tcpdm-large-niovs-v2-1-ee2bf15e7523@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260611-tcpdm-large-niovs-v2-1-ee2bf15e7523@meta.com>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ragnatech.se,none];
-	R_DKIM_ALLOW(-0.20)[ragnatech.se:s=fm3,messagingengine.com:s=fm1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64630-lists,linux-media=lfdr.de,renesas];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:jai.luthra+renesas@ideasonboard.com,m:mchehab@kernel.org,m:kuninori.morimoto.gx@renesas.com,m:laurent.pinchart@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jai.luthra@ideasonboard.com,m:niklas.soderlund+renesas@ragnatech.se,m:niklas.soderlund@ragnatech.se,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[ragnatech.se:+,messagingengine.com:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-64631-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:bobbyeshleman@gmail.com,m:donald.hunter@gmail.com,m:kuba@kernel.org,m:davem@davemloft.net,m:edumazet@google.com,m:pabeni@redhat.com,m:horms@kernel.org,m:andrew+netdev@lunn.ch,m:kraxel@redhat.com,m:vivek.kasireddy@intel.com,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:shuah@kernel.org,m:netdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kselftest@vger.kernel.org,m:sdf@fomichev.me,m:razor@blackwall.org,m:daniel@iogearbox.net,m:almasrymina@google.com,m:matttbe@kernel.org,m:skhawaja@google.com,m:dw@davidwei.uk,m:bobbyeshleman@meta.com,m:donaldhunter@gmail.com,m:andrew@lunn.ch,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[sdfkernel@gmail.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[27];
+	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[niklas.soderlund@ragnatech.se,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sdfkernel@gmail.com,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,davemloft.net,google.com,redhat.com,lunn.ch,intel.com,linaro.org,amd.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,fomichev.me,blackwall.org,iogearbox.net,davidwei.uk,meta.com];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,ideasonboard.com:email,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,ragnatech.se:dkim,ragnatech.se:email,ragnatech.se:mid,ragnatech.se:from_mime]
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,netdev];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[devvm7509.cco0.facebook.com:mid,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,fomichev.me:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CDD286754A1
+X-Rspamd-Queue-Id: 367BC6756C8
 
-From: Jai Luthra <jai.luthra@ideasonboard.com>
+On 06/11, Bobby Eshleman wrote:
+> From: Bobby Eshleman <bobbyeshleman@meta.com>
+> 
+> Every devmem dmabuf binding today hands the page_pool PAGE_SIZE niovs.
+> This caps a single RX descriptor at PAGE_SIZE, burning CPU on buffer
+> churn for large flows.
+> 
+> Add a bind-time netlink attribute, NETDEV_A_DMABUF_RX_BUF_SIZE, that
+> lets userspace request a larger niov size. The value must be a power of
+> two >= PAGE_SIZE.
+> 
+> Measurements
+> ------------
+> Setup: kperf in devmem RX/TX cuda mode, 4 flows, 64 MB messages, 60s,
+> dctcp, num-rx-queues=4, dmabuf-rx/tx-size-mb=2048, 10 runs per niov
+> size, mlx5.
+> 
+> CPU Util:
+> 
+>    niov        net sirq %        net idle %         app sys %        app idle %
+>   -----  ----------------  ----------------  ----------------  ----------------
+>      4K   62.38 +/-  8.27   33.40 +/-  7.51   54.15 +/- 10.23   43.67 +/- 10.53
+>     16K   58.91 +/-  5.35   35.23 +/-  5.88   41.05 +/-  8.87   56.42 +/-  9.24
+>     32K   64.12 +/-  0.68   31.09 +/-  1.48   44.54 +/-  3.51   52.63 +/-  3.65
+>     64K   54.69 +/-  5.54   39.67 +/-  5.81   35.47 +/-  3.11   61.97 +/-  3.27
+> 
+> RX app sys % drops ~19% from 4K to 64K.
+> 
+> Throughput:
+> 
+>    niov       RX dev Gbps   RX flow avg Gbps
+>   -----  ----------------  -----------------
+>      4K  300.63 +/- 53.21    75.16 +/- 13.30
+>     16K  321.35 +/- 28.20    80.34 +/-  7.05
+>     32K  347.63 +/-  2.20    86.91 +/-  0.55
+>     64K  332.11 +/- 14.26    83.03 +/-  3.56
+> 
+> Throughput seems to increase, but the stdev is pretty wide so could just
+> be noise.
+> 
+> kperf support (not yet merged):
+> https://github.com/facebookexperimental/kperf/commit/8837577f920876bce6986ec18869ac04439ebcd2
+> 
+> Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+> ---
+>  Documentation/netlink/specs/netdev.yaml |  8 ++++++
+>  include/uapi/linux/netdev.h             |  1 +
+>  net/core/devmem.c                       | 51 +++++++++++++++++++--------------
+>  net/core/devmem.h                       | 13 ++++++---
+>  net/core/netdev-genl-gen.c              |  5 ++--
+>  net/core/netdev-genl.c                  | 19 ++++++++++--
+>  tools/include/uapi/linux/netdev.h       |  1 +
+>  7 files changed, 69 insertions(+), 29 deletions(-)
+> 
+> diff --git a/Documentation/netlink/specs/netdev.yaml b/Documentation/netlink/specs/netdev.yaml
+> index 49862b666d7d..395eaa0f9580 100644
+> --- a/Documentation/netlink/specs/netdev.yaml
+> +++ b/Documentation/netlink/specs/netdev.yaml
+> @@ -591,6 +591,13 @@ attribute-sets:
+>          type: u32
+>          checks:
+>            min: 1
+> +      -
+> +        name: rx-buf-size
+> +        doc: |
+> +          Size in bytes of each RX buffer the NIC writes into from the bound
+> +          dmabuf. Must be a power of two and >= PAGE_SIZE; defaults to
+> +          PAGE_SIZE.
+> +        type: u32
+>  
+>  operations:
+>    list:
+> @@ -805,6 +812,7 @@ operations:
+>              - ifindex
+>              - fd
+>              - queues
+> +            - rx-buf-size
+>          reply:
+>            attributes:
+>              - id
+> diff --git a/include/uapi/linux/netdev.h b/include/uapi/linux/netdev.h
+> index 7df1056a35fd..180a4ffffd60 100644
+> --- a/include/uapi/linux/netdev.h
+> +++ b/include/uapi/linux/netdev.h
+> @@ -217,6 +217,7 @@ enum {
+>  	NETDEV_A_DMABUF_QUEUES,
+>  	NETDEV_A_DMABUF_FD,
+>  	NETDEV_A_DMABUF_ID,
+> +	NETDEV_A_DMABUF_RX_BUF_SIZE,
+>  
+>  	__NETDEV_A_DMABUF_MAX,
+>  	NETDEV_A_DMABUF_MAX = (__NETDEV_A_DMABUF_MAX - 1)
+> diff --git a/net/core/devmem.c b/net/core/devmem.c
+> index 957d6b96216b..3ce3cc14bec0 100644
+> --- a/net/core/devmem.c
+> +++ b/net/core/devmem.c
+> @@ -46,7 +46,7 @@ static dma_addr_t net_devmem_get_dma_addr(const struct net_iov *niov)
+>  
+>  	owner = net_devmem_iov_to_chunk_owner(niov);
+>  	return owner->base_dma_addr +
+> -	       ((dma_addr_t)net_iov_idx(niov) << PAGE_SHIFT);
+> +	       ((dma_addr_t)net_iov_idx(niov) << owner->binding->niov_shift);
+>  }
+>  
+>  static void net_devmem_dmabuf_binding_release(struct percpu_ref *ref)
+> @@ -93,13 +93,14 @@ net_devmem_alloc_dmabuf(struct net_devmem_dmabuf_binding *binding)
+>  	ssize_t offset;
+>  	ssize_t index;
+>  
+> -	dma_addr = gen_pool_alloc_owner(binding->chunk_pool, PAGE_SIZE,
+> +	dma_addr = gen_pool_alloc_owner(binding->chunk_pool,
+> +					1UL << binding->niov_shift,
+>  					(void **)&owner);
+>  	if (!dma_addr)
+>  		return NULL;
+>  
+>  	offset = dma_addr - owner->base_dma_addr;
+> -	index = offset / PAGE_SIZE;
+> +	index = offset >> binding->niov_shift;
+>  	niov = &owner->area.niovs[index];
+>  
+>  	niov->desc.pp_magic = 0;
+> @@ -113,12 +114,13 @@ void net_devmem_free_dmabuf(struct net_iov *niov)
+>  {
+>  	struct net_devmem_dmabuf_binding *binding = net_devmem_iov_binding(niov);
+>  	unsigned long dma_addr = net_devmem_get_dma_addr(niov);
+> +	size_t niov_size = 1UL << binding->niov_shift;
+>  
+>  	if (WARN_ON(!gen_pool_has_addr(binding->chunk_pool, dma_addr,
+> -				       PAGE_SIZE)))
+> +				       niov_size)))
+>  		return;
+>  
+> -	gen_pool_free(binding->chunk_pool, dma_addr, PAGE_SIZE);
+> +	gen_pool_free(binding->chunk_pool, dma_addr, niov_size);
+>  }
+>  
+>  void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding)
+> @@ -163,6 +165,9 @@ int net_devmem_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
+>  	u32 xa_idx;
+>  	int err;
+>  
+> +	if (binding->niov_shift != PAGE_SHIFT)
+> +		mp_params.rx_page_size = 1U << binding->niov_shift;
+> +
+>  	err = netif_mp_open_rxq(dev, rxq_idx, &mp_params, extack);
+>  	if (err)
+>  		return err;
+> @@ -184,14 +189,16 @@ struct net_devmem_dmabuf_binding *
+>  net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
+>  		       struct device *dma_dev,
+>  		       enum dma_data_direction direction,
+> -		       unsigned int dmabuf_fd, struct netdev_nl_sock *priv,
+> +		       unsigned int dmabuf_fd, unsigned int niov_shift,
+> +		       struct netdev_nl_sock *priv,
+>  		       struct netlink_ext_ack *extack)
+>  {
+>  	struct net_devmem_dmabuf_binding *binding;
+> +	size_t niov_size = 1UL << niov_shift;
+>  	static u32 id_alloc_next;
+> +	unsigned int sg_idx, i;
+>  	struct scatterlist *sg;
+>  	struct dma_buf *dmabuf;
+> -	unsigned int sg_idx, i;
+>  	unsigned long virtual;
+>  	int err;
+>  
+> @@ -213,6 +220,7 @@ net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
+>  
+>  	binding->dev = dev;
+>  	binding->vdev = vdev;
+> +	binding->niov_shift = niov_shift;
+>  	xa_init_flags(&binding->bound_rxqs, XA_FLAGS_ALLOC);
+>  
+>  	err = percpu_ref_init(&binding->ref,
+> @@ -248,18 +256,14 @@ net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
+>  			goto err_unmap;
+>  		}
+>  		binding->tx_vec = kvmalloc_objs(struct net_iov *,
+> -						dmabuf->size / PAGE_SIZE);
+> +						dmabuf->size >> niov_shift);
+>  		if (!binding->tx_vec) {
+>  			err = -ENOMEM;
+>  			goto err_unmap;
+>  		}
+>  	}
+>  
+> -	/* For simplicity we expect to make PAGE_SIZE allocations, but the
+> -	 * binding can be much more flexible than that. We may be able to
+> -	 * allocate MTU sized chunks here. Leave that for future work...
+> -	 */
+> -	binding->chunk_pool = gen_pool_create(PAGE_SHIFT,
+> +	binding->chunk_pool = gen_pool_create(niov_shift,
+>  					      dev_to_node(&dev->dev));
+>  	if (!binding->chunk_pool) {
+>  		err = -ENOMEM;
+> @@ -273,9 +277,12 @@ net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
+>  		size_t len = sg_dma_len(sg);
+>  		struct net_iov *niov;
+>  
+> -		if (!IS_ALIGNED(len, PAGE_SIZE)) {
+> +		if (!IS_ALIGNED(dma_addr, niov_size) ||
+> +		    !IS_ALIGNED(len, niov_size)) {
+>  			err = -EINVAL;
+> -			NL_SET_ERR_MSG(extack, "dma-buf SG length must be PAGE_SIZE aligned");
+> +			NL_SET_ERR_MSG_FMT(extack,
+> +					   "dmabuf sg entry (addr=%pad, len=%zu) not aligned to niov size %zu",
+> +					   &dma_addr, len, niov_size);
+>  			goto err_free_chunks;
+>  		}
+>  
+> @@ -288,7 +295,7 @@ net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
+>  
+>  		owner->area.base_virtual = virtual;
+>  		owner->base_dma_addr = dma_addr;
+> -		owner->area.num_niovs = len / PAGE_SIZE;
+> +		owner->area.num_niovs = len >> niov_shift;
+>  		owner->binding = binding;
+>  
+>  		err = gen_pool_add_owner(binding->chunk_pool, dma_addr,
+> @@ -313,7 +320,7 @@ net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
+>  			page_pool_set_dma_addr_netmem(net_iov_to_netmem(niov),
+>  						      net_devmem_get_dma_addr(niov));
+>  			if (direction == DMA_TO_DEVICE)
+> -				binding->tx_vec[owner->area.base_virtual / PAGE_SIZE + i] = niov;
+> +				binding->tx_vec[(owner->area.base_virtual >> niov_shift) + i] = niov;
+>  		}
+>  
+>  		virtual += len;
+> @@ -430,13 +437,15 @@ struct net_iov *
+>  net_devmem_get_niov_at(struct net_devmem_dmabuf_binding *binding,
+>  		       size_t virt_addr, size_t *off, size_t *size)
+>  {
+> +	size_t niov_size = 1UL << binding->niov_shift;
+> +
+>  	if (virt_addr >= binding->dmabuf->size)
+>  		return NULL;
+>  
+> -	*off = virt_addr % PAGE_SIZE;
+> -	*size = PAGE_SIZE - *off;
+> +	*off = virt_addr & (niov_size - 1);
+> +	*size = niov_size - *off;
+>  
+> -	return binding->tx_vec[virt_addr / PAGE_SIZE];
+> +	return binding->tx_vec[virt_addr >> binding->niov_shift];
+>  }
+>  
+>  /*** "Dmabuf devmem memory provider" ***/
+> @@ -454,7 +463,7 @@ int mp_dmabuf_devmem_init(struct page_pool *pool)
+>  	pool->dma_sync = false;
+>  	pool->dma_sync_for_cpu = false;
+>  
+> -	if (pool->p.order != 0)
+> +	if (pool->p.order != binding->niov_shift - PAGE_SHIFT)
+>  		return -E2BIG;
+>  
+>  	net_devmem_dmabuf_binding_get(binding);
+> diff --git a/net/core/devmem.h b/net/core/devmem.h
+> index 3852a56036cb..4a293a7d1149 100644
+> --- a/net/core/devmem.h
+> +++ b/net/core/devmem.h
+> @@ -71,6 +71,8 @@ struct net_devmem_dmabuf_binding {
+>  	 */
+>  	struct net_iov **tx_vec;
+>  
+> +	unsigned int niov_shift;
+> +
+>  	struct work_struct unbind_w;
+>  };
+>  
+> @@ -93,7 +95,8 @@ struct net_devmem_dmabuf_binding *
+>  net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
+>  		       struct device *dma_dev,
+>  		       enum dma_data_direction direction,
+> -		       unsigned int dmabuf_fd, struct netdev_nl_sock *priv,
+> +		       unsigned int dmabuf_fd, unsigned int niov_shift,
+> +		       struct netdev_nl_sock *priv,
+>  		       struct netlink_ext_ack *extack);
+>  struct net_devmem_dmabuf_binding *net_devmem_lookup_dmabuf(u32 id);
+>  void net_devmem_unbind_dmabuf(struct net_devmem_dmabuf_binding *binding);
+> @@ -122,10 +125,11 @@ static inline u32 net_devmem_iov_binding_id(const struct net_iov *niov)
+>  
+>  static inline unsigned long net_iov_virtual_addr(const struct net_iov *niov)
+>  {
+> -	struct net_iov_area *owner = net_iov_owner(niov);
+> +	struct dmabuf_genpool_chunk_owner *co =
+> +		net_devmem_iov_to_chunk_owner(niov);
+>  
+> -	return owner->base_virtual +
+> -	       ((unsigned long)net_iov_idx(niov) << PAGE_SHIFT);
+> +	return net_iov_owner(niov)->base_virtual +
+> +	       ((unsigned long)net_iov_idx(niov) << co->binding->niov_shift);
+>  }
+>  
+>  static inline bool
+> @@ -175,6 +179,7 @@ net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
+>  		       struct device *dma_dev,
+>  		       enum dma_data_direction direction,
+>  		       unsigned int dmabuf_fd,
+> +		       unsigned int niov_shift,
+>  		       struct netdev_nl_sock *priv,
+>  		       struct netlink_ext_ack *extack)
+>  {
+> diff --git a/net/core/netdev-genl-gen.c b/net/core/netdev-genl-gen.c
+> index d18c89b5a6c7..447ed06d8c74 100644
+> --- a/net/core/netdev-genl-gen.c
+> +++ b/net/core/netdev-genl-gen.c
+> @@ -106,10 +106,11 @@ static const struct nla_policy netdev_qstats_get_nl_policy[NETDEV_A_QSTATS_SCOPE
+>  };
+>  
+>  /* NETDEV_CMD_BIND_RX - do */
+> -static const struct nla_policy netdev_bind_rx_nl_policy[NETDEV_A_DMABUF_FD + 1] = {
+> +static const struct nla_policy netdev_bind_rx_nl_policy[NETDEV_A_DMABUF_RX_BUF_SIZE + 1] = {
+>  	[NETDEV_A_DMABUF_IFINDEX] = NLA_POLICY_MIN(NLA_U32, 1),
+>  	[NETDEV_A_DMABUF_FD] = { .type = NLA_U32, },
+>  	[NETDEV_A_DMABUF_QUEUES] = NLA_POLICY_NESTED(netdev_queue_id_nl_policy),
+> +	[NETDEV_A_DMABUF_RX_BUF_SIZE] = { .type = NLA_U32, },
+>  };
+>  
+>  /* NETDEV_CMD_NAPI_SET - do */
+> @@ -219,7 +220,7 @@ static const struct genl_split_ops netdev_nl_ops[] = {
+>  		.cmd		= NETDEV_CMD_BIND_RX,
+>  		.doit		= netdev_nl_bind_rx_doit,
+>  		.policy		= netdev_bind_rx_nl_policy,
+> -		.maxattr	= NETDEV_A_DMABUF_FD,
+> +		.maxattr	= NETDEV_A_DMABUF_RX_BUF_SIZE,
+>  		.flags		= GENL_UNS_ADMIN_PERM | GENL_CMD_CAP_DO,
+>  	},
+>  	{
+> diff --git a/net/core/netdev-genl.c b/net/core/netdev-genl.c
+> index b4d48f3672a5..8709e9c94389 100644
+> --- a/net/core/netdev-genl.c
+> +++ b/net/core/netdev-genl.c
+> @@ -1012,6 +1012,7 @@ int netdev_nl_bind_rx_doit(struct sk_buff *skb, struct genl_info *info)
+>  {
+>  	struct net_devmem_dmabuf_binding *binding;
+>  	u32 ifindex, dmabuf_fd, rxq_idx;
+> +	unsigned int niov_shift = PAGE_SHIFT;
 
-Extend the RPPX1 driver to allow setting the gamma sensor linearization
-configuration parameters. It uses the RPPX1 framework for parameters and
-its writer abstraction to allow the user to control how, and when,
-configuration is applied to the RPPX1.
+nit: keep the Christmas tree? With that addressed:
 
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
----
-* Changes since v8
-- Drop unneeded check of V4L2_ISP_PARAMS_FL_BLOCK_ENABLE
-
-* Changes since v8
-- Move declaration of dx_lo and dx_hi to top of function.
----
- .../platform/dreamchip/rppx1/rpp_module.h     |  1 +
- .../platform/dreamchip/rppx1/rpp_params.c     |  5 ++
- .../platform/dreamchip/rppx1/rppx1_lin.c      | 53 +++++++++++++++++++
- .../uapi/linux/media/dreamchip/rppx1-config.h | 48 ++++++++++++++++-
- 4 files changed, 106 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_module.h b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-index 948e26d7361d..072309d8662d 100644
---- a/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-+++ b/drivers/media/platform/dreamchip/rppx1/rpp_module.h
-@@ -48,6 +48,7 @@ void rpp_module_clrset(struct rpp_module *mod, u32 offset, u32 mask, u32 value);
- union rppx1_params_block {
- 	struct v4l2_isp_block_header header;
- 	struct rppx1_bls_params bls;
-+	struct rppx1_lin_params lin;
- 	struct rppx1_lsc_params lsc;
- 	struct rppx1_awbg_params awbg;
- 	struct rppx1_ccor_params ccor;
-diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-index 86d445b52504..a75a27a8afd0 100644
---- a/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-+++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-@@ -19,6 +19,8 @@ static const struct v4l2_isp_params_block_type_info
- rppx1_ext_params_blocks_info[] = {
- 	RPPX1_PARAMS_BLOCK_INFO(BLS_PRE1, bls),
- 	RPPX1_PARAMS_BLOCK_INFO(BLS_PRE2, bls),
-+	RPPX1_PARAMS_BLOCK_INFO(LIN_PRE1, lin),
-+	RPPX1_PARAMS_BLOCK_INFO(LIN_PRE2, lin),
- 	RPPX1_PARAMS_BLOCK_INFO(LSC_PRE1, lsc),
- 	RPPX1_PARAMS_BLOCK_INFO(LSC_PRE2, lsc),
- 	RPPX1_PARAMS_BLOCK_INFO(AWBG_PRE1, awbg),
-@@ -68,6 +70,9 @@ int rppx1_params(struct rppx1 *rpp, struct vb2_buffer *vb, size_t max_size,
- 		case RPPX1_PARAMS_BLOCK_TYPE_BLS_PRE1:
- 			module = &rpp->pre1.bls;
- 			break;
-+		case RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1:
-+			module = &rpp->pre1.lin;
-+			break;
- 		case RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE1:
- 			module = &rpp->pre1.lsc;
- 			break;
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c b/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
-index 0a0e7ab2d1d6..b389778f9383 100644
---- a/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_lin.c
-@@ -25,6 +25,11 @@
- #define LIN_B_Y_REG_NUM				17
- #define LIN_B_Y_REG(n)				(0x0098 + (4 * (n)))
- 
-+#define LIN_PRE1_DEGAMMA_CURVE_MASK		GENMASK(23, 0)
-+#define LIN_PRE1_SAMPLE_POINTS_MASK		GENMASK(3, 0)
-+#define LIN_PRE2_DEGAMMA_CURVE_MASK		GENMASK(11, 0)
-+#define LIN_PRE2_SAMPLE_POINTS_MASK		GENMASK(2, 0)
-+
- static int rppx1_lin_probe(struct rpp_module *mod)
- {
- 	/* Version check. */
-@@ -53,7 +58,55 @@ static int rppx1_lin_start(struct rpp_module *mod,
- 	return 0;
- }
- 
-+static int rppx1_lin_fill_params(struct rpp_module *mod,
-+				 const union rppx1_params_block *block,
-+				 rppx1_reg_write write, void *priv)
-+{
-+	const struct rppx1_lin_params *cfg = &block->lin;
-+	u8 sample_mask;
-+	u32 dx_lo = 0;
-+	u32 dx_hi = 0;
-+	u32 mask;
-+
-+	if (cfg->header.flags & V4L2_ISP_PARAMS_FL_BLOCK_DISABLE) {
-+		write(priv, mod->base + LIN_ENABLE_REG, 0);
-+		return 0;
-+	}
-+
-+	switch (cfg->header.type) {
-+	case RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1:
-+		mask = LIN_PRE1_DEGAMMA_CURVE_MASK;
-+		sample_mask = LIN_PRE1_SAMPLE_POINTS_MASK;
-+		break;
-+	case RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2:
-+		mask = LIN_PRE2_DEGAMMA_CURVE_MASK;
-+		sample_mask = LIN_PRE2_SAMPLE_POINTS_MASK;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	for (unsigned int i = 0; i < 8; ++i) {
-+		dx_lo |= (cfg->dx[i] & sample_mask) << 4 * i;
-+		dx_hi |= (cfg->dx[i + 8] & sample_mask) << 4 * i;
-+	}
-+
-+	write(priv, mod->base + LIN_DX_LO_REG, dx_lo);
-+	write(priv, mod->base + LIN_DX_HI_REG, dx_hi);
-+
-+	for (unsigned int i = 0; i < RPPX1_LIN_DEGAMMA_CURVE_NUM; i++) {
-+		write(priv, mod->base + LIN_R_Y_REG(i), cfg->curve_r[i] & mask);
-+		write(priv, mod->base + LIN_G_Y_REG(i), cfg->curve_g[i] & mask);
-+		write(priv, mod->base + LIN_B_Y_REG(i), cfg->curve_b[i] & mask);
-+	}
-+
-+	write(priv, mod->base + LIN_ENABLE_REG, LIN_ENABLE_GAMMA_IN_EN);
-+
-+	return 0;
-+}
-+
- const struct rpp_module_ops rppx1_lin_ops = {
- 	.probe = rppx1_lin_probe,
- 	.start = rppx1_lin_start,
-+	.fill_params = rppx1_lin_fill_params,
- };
-diff --git a/include/uapi/linux/media/dreamchip/rppx1-config.h b/include/uapi/linux/media/dreamchip/rppx1-config.h
-index 62e26e9917f5..0042c86090f6 100644
---- a/include/uapi/linux/media/dreamchip/rppx1-config.h
-+++ b/include/uapi/linux/media/dreamchip/rppx1-config.h
-@@ -92,6 +92,8 @@ enum rppx1_meas_chan {
-  * @RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE2: PRE2 pipe Lens Shading Correction
-  * @RPPX1_PARAMS_BLOCK_TYPE_GA_HV: Human Vision Pipe Gamma Out Correction
-  * @RPPX1_PARAMS_BLOCK_TYPE_GA_MV: Machine Vision Gamma Out Correction
-+ * @RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1: PRE1 pipe Linearization (Sensor De-gamma)
-+ * @RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2: PRE2 pipe Linearization (Sensor De-gamma)
-  */
- enum rppx1_params_block_type {
- 	RPPX1_PARAMS_BLOCK_TYPE_WBMEAS_POST,
-@@ -110,6 +112,8 @@ enum rppx1_params_block_type {
- 	RPPX1_PARAMS_BLOCK_TYPE_LSC_PRE2,
- 	RPPX1_PARAMS_BLOCK_TYPE_GA_HV,
- 	RPPX1_PARAMS_BLOCK_TYPE_GA_MV,
-+	RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1,
-+	RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2,
- };
- 
- /**
-@@ -545,6 +549,46 @@ struct rppx1_ga_params {
- 	__u32 gamma_y[RPPX1_GA_MAX_SAMPLES];
- };
- 
-+/* Linearization (Sensor De-gamma) */
-+#define RPPX1_LIN_SAMPLE_POINTS_NUM 16
-+#define RPPX1_LIN_DEGAMMA_CURVE_NUM 17
-+
-+/**
-+ * struct rppx1_lin_params - Linearization (Sensor De-gamma) configuration
-+ *
-+ * The RPP-X1 linearization module is available on the PRE1 and PRE2 pre-fusion
-+ * pipes. Userspace selects which pipe to operate by setting the @header.type
-+ * field to RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1 or
-+ * RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2.
-+ *
-+ * The LIN module applies the per-color channel de-gamma linearization curves
-+ * @curve_r, @curve_g and @curve_b defined on the input sampling points @dx.
-+ *
-+ * For the PRE1 pipe the de-gamma curves values are 24-bits, for the PRE2 pipe
-+ * the de-gamma curve values are 12-bits.
-+ *
-+ * For the PRE1 pipe de-gamma module sampling points @dx values are in the range
-+ * [0, 15] (4 bits). For the PRE2 pipe de-gamma module sampling points values
-+ * are in the range [0, 7] (3 bits).
-+ *
-+ * Userspace is expected to provide the curve values and sampling points with a
-+ * bit-depth matching the one of pipe in use.
-+ *
-+ * @header: block header (type = RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE1 or
-+ *	    RPPX1_PARAMS_BLOCK_TYPE_LIN_PRE2)
-+ * @curve_r: de-gamma linearization curve for red channel
-+ * @curve_g: de-gamma linearization curve for green channel
-+ * @curve_b: de-gamma linearization curve for blue channel
-+ * @dx: input sampling points
-+ */
-+struct rppx1_lin_params {
-+	struct v4l2_isp_params_block_header header;
-+	__u32 curve_r[RPPX1_LIN_DEGAMMA_CURVE_NUM];
-+	__u32 curve_g[RPPX1_LIN_DEGAMMA_CURVE_NUM];
-+	__u32 curve_b[RPPX1_LIN_DEGAMMA_CURVE_NUM];
-+	__u8 dx[RPPX1_LIN_SAMPLE_POINTS_NUM];
-+};
-+
- /**
-  * RPPX1_PARAMS_MAX_SIZE - Maximum size of all RPP-X1 parameter blocks
-  *
-@@ -567,7 +611,9 @@ struct rppx1_ga_params {
- 	sizeof(struct rppx1_lsc_params)				+	\
- 	sizeof(struct rppx1_lsc_params)				+	\
- 	sizeof(struct rppx1_ga_params)				+	\
--	sizeof(struct rppx1_ga_params))
-+	sizeof(struct rppx1_ga_params)				+	\
-+	sizeof(struct rppx1_lin_params)				+	\
-+	sizeof(struct rppx1_lin_params))
- 
- /* ---------------------------------------------------------------------------
-  * Statistics Structures
--- 
-2.54.0
-
+Acked-by: Stanislav Fomichev <sdf@fomichev.me>
 
