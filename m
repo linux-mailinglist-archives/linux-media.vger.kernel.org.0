@@ -1,234 +1,672 @@
-Return-Path: <linux-media+bounces-64657-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64658-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id T8meGR/IK2qxEwQAu9opvQ
-	(envelope-from <linux-media+bounces-64657-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 10:49:35 +0200
+	id iOWBE9TJK2oeFAQAu9opvQ
+	(envelope-from <linux-media+bounces-64658-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 10:56:52 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43D6677F41
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 10:49:34 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0F5A677FDB
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 10:56:51 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b="LOr5Ho/M";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64657-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64657-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=intel.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=JlZ7ksuG;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64658-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64658-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E5C5D315DD33
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 08:46:56 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 20B5930143F6
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 08:56:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B647836B043;
-	Fri, 12 Jun 2026 08:46:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDD5B37C91E;
+	Fri, 12 Jun 2026 08:56:45 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A635336654C;
-	Fri, 12 Jun 2026 08:46:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A4E83793AD
+	for <linux-media@vger.kernel.org>; Fri, 12 Jun 2026 08:56:43 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781254006; cv=fail; b=iyw+biN51BmO36bcNhhYxYvexGCSw5F22PwXHfAWXgpmZybL4KCsKQahKHXbZqHvS1uIFgEzU22aXwZL0YmAVzwdFk0s/MGThbB3RRLOfPQlLd6Q4leCux/o43c/+xX4tLxR5CQq81P3Bq4RsfgIADSTEKpGbkMfHtiaVvnZFHQ=
+	t=1781254605; cv=pass; b=BFfooAvfctDMPDKvhUZKuOunM7VBaqDpLJP62RjGsyI8kDOo9DMTaSnYZx0qurXOXMw1Ux4aHrWhe3JACE56ZEihS943qUhBs4xpuHvW4huRSr/Zj/EC7uDqXoKvd+Xyw50oUaeYZdO4YQjB8m5crH7fP8Ul5QkGIoYScL+ZaeQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781254006; c=relaxed/simple;
-	bh=/I0IBdOFa8e013jza48uPd9o4ycQPVoDgqii9ReRH+k=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=X64X+QV/EE7OFkOGUEa0rG+a62UBXbhgA2hru7W7E3XL84F1RHi1mjLPgSFXwe3ruuU8ygMrAW9q+gZFm3f8dHK3SNojMTTsH9ErFgpftzSZ0I+xtIXSIIHcPWumhplFxCWhHcDb9L4V+a2QMQa/gqjiVU1QFyZ0D+tnrMtXr34=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LOr5Ho/M; arc=fail smtp.client-ip=198.175.65.9
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781254005; x=1812790005;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=/I0IBdOFa8e013jza48uPd9o4ycQPVoDgqii9ReRH+k=;
-  b=LOr5Ho/MvHNTNxtQmwvog/VaUDGLwlD/KYG1st8uWxl4a0VyxsfH15Wm
-   SVhuSKVQqtm7sXD6FvEpjzkMyzvqMcaqr79Gk3MW0yYmwysc/oFdn8yZr
-   Y+gVOd9gW5lZHAyAbRPe0y5J+Yym9pdm8+KyQEGMVaqTU+zvVu2e7a4fu
-   QVemtXxMUKH/GEr60YxRNFwqHbkZn8iHo5MO+dzjorZ21PxRODbMyCD9q
-   fQbsEtPupgmRlzIWmVyIrsaFPd058WlscOX/wRqDeFANLvms6dGjEZbQG
-   xA+uuPknggVzroxm++Kl9SY+MX017IwoDkV3EUZcW7ncbd3A2tA6cSdj9
-   A==;
-X-CSE-ConnectionGUID: v0zjXFyLQPW1LOCgQ9ZXdQ==
-X-CSE-MsgGUID: SGqUzqUWQTSt9aE/qHBvBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="104752500"
-X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="104752500"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 01:46:44 -0700
-X-CSE-ConnectionGUID: ffjnt4fhQbmBAA+yqwWJrw==
-X-CSE-MsgGUID: lVHPW3QWSNK2++RzZtB5ig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
-   d="scan'208";a="245674532"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2026 01:46:44 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Fri, 12 Jun 2026 01:46:43 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Fri, 12 Jun 2026 01:46:43 -0700
-Received: from PH7PR06CU001.outbound.protection.outlook.com (52.101.201.35) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Fri, 12 Jun 2026 01:46:43 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dVsrvjOolmwBaq38m2puLqGRMpe1oPfkhU1CMUHLH1KwzxB0cUu3rwgCilul131dQUGmXs7bKABNJ/M1wVZ1tElqpxfC2rqMngrZ+68l+UDjxg0UUNLnRDcy0dfa0vfbgNeQtTVuQdBLsDvptrmDSoFofhfvNsG/NpokCTJtBoj5ryvioES6hootAnAlVlq7mL3oyH1j9I/5qlerOuzfgw7vSsKlgt38HtFLJrdgjF1u+JxEGyRzEwNP1/s7CZ3SVEXOcV/rSc4AK2ZiK4GXd/jZIL/vZKqFjnsuvevAKyJAMTPL55K7uRmCToxWWTZwDzXudqMKSBJezUmI6Ijf4g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kxPj53CO4NsqYOGM9wZkxTZLkccBzpJ3G+1RnfMOKWM=;
- b=J6XHTz4oTjKmXWSNJBY5oezJkfYGIgS+nbgf49WiPMoetZcZmlJieTLlOhXpgNg64P+odn1UsjX3QEDdi2APtQuYq7cRtdsmJYWL1Bdjhh/6yIF49YqowFI7X5lP/PmZdJZilLXeGcbvbU3E41MgQVdy0FHviJ9Zk0a/ErmXK4mnp+7UP5WY/bCxJvCuukU99A6Dj6qUcKOPvucFANYY+OAJR2gzruJmokEHq5V0BQRblefOqIYAbH+mmnRW8kt8TScIUBWnOrqD3PbT70Hvt+Bnr0E/7SHD/RAFO/03Rfnz64883fuT/HcHvvyQOlCAFZln0Ub50llmto9SveX1sw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM6PR11MB3690.namprd11.prod.outlook.com (2603:10b6:5:13d::32)
- by PH0PR11MB7493.namprd11.prod.outlook.com (2603:10b6:510:284::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.13; Fri, 12 Jun
- 2026 08:46:35 +0000
-Received: from DM6PR11MB3690.namprd11.prod.outlook.com
- ([fe80::7db8:f6b3:30f8:ee4b]) by DM6PR11MB3690.namprd11.prod.outlook.com
- ([fe80::7db8:f6b3:30f8:ee4b%4]) with mapi id 15.21.0113.013; Fri, 12 Jun 2026
- 08:46:35 +0000
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Matt Evans <matt@ozlabs.org>, Alex Williamson <alex@shazbot.org>, "Leon
- Romanovsky" <leon@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>, Alex Mastro
-	<amastro@fb.com>, =?iso-8859-1?Q?Christian_K=F6nig?=
-	<christian.koenig@amd.com>, Bjorn Helgaas <bhelgaas@google.com>, "Logan
- Gunthorpe" <logang@deltatee.com>
-CC: Mahmoud Adam <mngyadam@amazon.de>, David Matlack <dmatlack@google.com>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>, Sumit Semwal
-	<sumit.semwal@linaro.org>, Ankit Agrawal <ankita@nvidia.com>, "Pranjal
- Shrivastava" <praan@google.com>, Alistair Popple <apopple@nvidia.com>,
-	"Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-pci@vger.kernel.org"
-	<linux-pci@vger.kernel.org>
-Subject: RE: [PATCH v3 5/9] vfio/pci: Provide a user-facing name for BAR
- mappings
-Thread-Topic: [PATCH v3 5/9] vfio/pci: Provide a user-facing name for BAR
- mappings
-Thread-Index: AQHc+PAWmyVUyj2tVkKEgfWs4tY1NrY6nf3Q
-Date: Fri, 12 Jun 2026 08:46:35 +0000
-Message-ID: <DM6PR11MB3690314327A881DBE7ED56538C182@DM6PR11MB3690.namprd11.prod.outlook.com>
-References: <20260610154327.37758-1-matt@ozlabs.org>
- <20260610154327.37758-6-matt@ozlabs.org>
-In-Reply-To: <20260610154327.37758-6-matt@ozlabs.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM6PR11MB3690:EE_|PH0PR11MB7493:EE_
-x-ms-office365-filtering-correlation-id: 66c108fc-a4e1-4128-35c5-08dec85f1c4f
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|23010399003|38070700021|18002099003|22082099003|56012099006|11063799006|4143699003;
-x-microsoft-antispam-message-info: zk9p3Gm0ToWgPBK9bCVxnYHqnSBf26CfE/TsB6Ctr4gGgIjTgCM/5fFf0ei8OEJo+elBQikvP1izJbT2udnXmFBJziK8FiBm2djgtQ9TyJXxlxpTFClspPCJCjzbyEHmoYkvLZl/H3eYAA+gMG9x1axRqqLwzCPj27iDpKGi7W8/UnuAIBPLiqclRLiRPrD5PWZKUgKL6v/UQxYSvAn/qUViqGES4/to/+EK1n6dMUHzAYyDTyhFJvyNMuxkA7wU33/gFI+Woe/uhKEJQ6jxHI3xs/WR9fnCtKNIPkrCKpwfH9ax3sn968Mf1VIes724D7OSgsb1YCXZLpvNKOweAZ7AQ3qLrTzgg+svBFdaDDDY7yFBxjR4Bl/HfsjjjZSxqcG1cJLBbpo7W24OGwLLDHRNyTR+uZXOyIakeUl0yMjFQ2NiMva45NksXFLQR+wxG25ikmCRa4QUHXSnGAAIr2etHAZWYe0hyFlnba+zcD2V924Xa6F7teFgSx5TcdyE0FOYkW1zrT2odOkk4X0mMxwGghf0Hty5WatEqSjA0d2NacQp7akEzdmZQzR8EE3h7niHhPX1uvCwjdQlhpDRXm+vmziu+nEfjKWM5p1GcqlQb2lZ0XlFmPWoN1p0MuhpfwzfpZ3iFdUJAJpxxtm4jcVTAxwYwKqyM66WrvNuVnlQYolt8U0E9nBgAFYMKj9v4uTsUpza7aMdhIDr8INXT6Apc5C1LXzVjN6HJpXeo2yedXjUa3tWLX4okVqiZTS2
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3690.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(23010399003)(38070700021)(18002099003)(22082099003)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?DAjltmdWJd33LeqMiGaoLldbW2Yhrki1jvjxbhpA0O1ESatyPpDC79x+tD?=
- =?iso-8859-1?Q?XWX6b4ka+OXOD9txnqvxiItJv4unUf48QTuhkM9QcFiiUBKSJ9MMx1M/s7?=
- =?iso-8859-1?Q?FLsSCQR0R0Rmj5eWXgh+mK8ERRKrx+myW7xsLHZSFZWKrLo52oqb9ILs/h?=
- =?iso-8859-1?Q?rMMzFA38sfJjmcgvWPHsgwPKUrHk6mMUnTwyFVDmbOXn6nFDo4lxik3RMz?=
- =?iso-8859-1?Q?Sy7GM3qMCtjaGUmlC6v483iZOC/jwN3C37QMn8NmCzUVkTSIq6dt/dmXwa?=
- =?iso-8859-1?Q?DkQBlVgUViM8KUQjRDdcb21KlYBs962sMP5agQl0VLm2XJbsPgjn+G2+QA?=
- =?iso-8859-1?Q?1u73Sg+Rf1UyvzQiy3TojdkKMZ0eOko73AtWbBKXVyVPkhpHr4ALvm5bio?=
- =?iso-8859-1?Q?dhR+qfjHiQpcuUAQLZUmzGhJRK1aB+jxkSzxr9foGM+1wKjDyn3j82v7i4?=
- =?iso-8859-1?Q?wqd+bjgfeIFUYPp8vtv/iXBbXv68DYh+G0piixdw1KaD8h+WHqVHDytGoT?=
- =?iso-8859-1?Q?uo0+e/+8qmbvONG8aPDVWi48P1ncqu9GiS4BElPDNlazM1bgESYx7fHaqg?=
- =?iso-8859-1?Q?YqoHW4nBAqgl0CLhhXT2eUKIIImPZn2OkyP393dnRSP3M/zDYbFGnTC4qJ?=
- =?iso-8859-1?Q?m0aN7e8mv8t0vp7dAxgmS2wK2QnQVSAiN3sA7Zb3fR6Keq89ZA/oHHDUgL?=
- =?iso-8859-1?Q?43pAPgHNrn86FFigro2G9+IsZzms77QrW+2Wd/HIdY/7TNPi1y5yi3P1TB?=
- =?iso-8859-1?Q?v8PhHknKcU/+CAul+CBxGq45MFhZK7r/xIxwaB5wkRCSnTLZBgLck2fw2T?=
- =?iso-8859-1?Q?QVqsdoySSEvmxiujB7w2uw1TE4/PX/njKBnpK3ZHmXYwWaKo65pXswbxoq?=
- =?iso-8859-1?Q?p4CKH3gF6QypEZ9P3aXRC2+YdoDlGm+iBTAKS8kRRuS14nQF6IqkftvRN5?=
- =?iso-8859-1?Q?i2I5v4vE+/4pCgu/4lBbMXPQGLndpMMN5jUc6IjN7lZmYavDVQo63LKEx9?=
- =?iso-8859-1?Q?OeT/0PzshE1xNx30hUf0zK4zYHxbFEMt+dvRTPK+lbC/EqLpaRDeGhQHFR?=
- =?iso-8859-1?Q?otWYwI4/rWz28aDH3GT/+fh1fbbaxRCYYMHg924CGTITj0m748XCVOtga8?=
- =?iso-8859-1?Q?RIHIEHEQsYjUcUG0gX3OOSX4s8jL3DS1LSm4gOqwr2X10CBmLB0JGTecLI?=
- =?iso-8859-1?Q?Vh2jnmzxavH8cK04MYWF8QRPW0dHhX5VlmH/gZPgTDRc3W+xOvIpj9O2AW?=
- =?iso-8859-1?Q?FWLFWNryz+j5qXq0dL1T64Fx68ab5qDoFiIt4OqmSRnuK/wxo//73wpZOr?=
- =?iso-8859-1?Q?P1sqsewws92ItjzUOXIRucRTWJ3BSkao9JmPsqEF+HNLQsGQ2mn0eB2Ia0?=
- =?iso-8859-1?Q?WAeRs5ELK8Ovf0hXQEkOHwnQyeh5BU5P++uO1eaI5DH5X8k0aoicDO1GsA?=
- =?iso-8859-1?Q?z1Q6owp1NUKJebq/zO1+7TdmwTb7uUBIbKrIVWrxkLlwmIH1pUpYUkuZj5?=
- =?iso-8859-1?Q?UTYA+0sc4dV7XhDB56f7utLtQAFhyNAX05HnuzOA+yTd1RRHl/DePIOkj4?=
- =?iso-8859-1?Q?1RKzE1XbsoGf6W8/Wu2gP3cgpgP8sYSPZJzv2Zciy7ohZ7wf512Ip5jE5s?=
- =?iso-8859-1?Q?B5690J3wiIJM4PVASIOih3aEgDj/us4pirnN3Y9+g6E9/K7jbBVHbc8OsI?=
- =?iso-8859-1?Q?6kqibQzGNhQTLWaeCbCojCch2bPNvhJgpF3qX/NoQWgS6N88zMSZKM90EA?=
- =?iso-8859-1?Q?03V24LTnLE+VkhwGl58+/zarR60wDpCX0tmbpH3t0wjrsz?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1781254605; c=relaxed/simple;
+	bh=MunyWXbepY0QaqqzCGLsXCKznA6TknfTC548B46eYGQ=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=NwfcAxgwagxoV02NSLg9f5c6nV03u7EO92+yqk/BO4ObSXk0y8081dTqcKQWExntyBVy9Q26GLyYlC1iwglZOomtwF3cYkr/SLZYEGY00jcmvqmNkmGKTmh/0wtCNs6de2r15iWnasEovTqYM3FsbgvOk9IxKslzGVjnjz1j3fk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JlZ7ksuG; arc=pass smtp.client-ip=209.85.128.181
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-7ea6923cc94so7154017b3.3
+        for <linux-media@vger.kernel.org>; Fri, 12 Jun 2026 01:56:43 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1781254602; cv=none;
+        d=google.com; s=arc-20240605;
+        b=fyoripNntMRq+/J/ROiFnIPzuLvv/frsvRkU1A0DYVfH15soPfKttkc8Urhlv7oIVW
+         /9OuRZ8k95rNAql4o15Y+2kCR7zgJWqTBcbDA0M9cyFB2xVyfsqYV69G6xffaBD1cgdC
+         CjqCKfcpvqCjOA2YU1tK9tRtGZp/VsPpvgAMbImLQXoddKnfvIvBNMs3iPfPNa+/EY6+
+         dUG5SPVAR6qt+r6i+F1Fhn3c7mSmIc2oijXoQhYVNxaMeTe4YEbOcsBcahe76JasI9gb
+         iZjDXxg8sRoGH8gIdaMgGvBT6jzxRZtbLVg/ITLmyLyDbINZZ17pBwRMhHhOeXcdeioE
+         DAhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=1R28P7pY9/B4uy5Hyc4tc/doZ5AWi7BIu8Wh1OQlkRI=;
+        fh=RpYxnnRW5A5FvuL86z7f7YWfE0tvaTrs4Vecbev4fLA=;
+        b=LLSZirWfD9PCAdsJWBpzY297MKnBxD1J8HTiqb4G1EIkQMvJGPKpZZcIa+Ru6XGfFQ
+         l9SwRwNdB4BnkRlBjniJTKRfO1CGQN3FAn7Etu9XymI/u7jx0Eja+ERFprcoQPJJ+RyR
+         zsmqdLsxv0ZgJeLH+zkM3k8AtSR8TworvTHIzdFB0in3y2f8q3JTSvyiErijtMvYVSzp
+         3HCkMehnIazawBbZoXQWrwLXkQ6WX0PmZrRk8EONmbyqRlr1N0DFVY4VOb82wC/dcgbd
+         7M6YowVU72ti8GKbwJldk1b/z7fBMV/4T46Tz/PB9WdVpovRNKQ4Rh/pTDfydTLrjn6X
+         VqtA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781254602; x=1781859402; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=1R28P7pY9/B4uy5Hyc4tc/doZ5AWi7BIu8Wh1OQlkRI=;
+        b=JlZ7ksuGLAcv0E4HDEZAU1TXe9pruLH8//jVsihkx/Co+EOx3BSp1DcF/Kk9OWKH9P
+         KUU0VIz3tZJczCFpI5rjZDskmuR0vt/koZiH1mVUYHVNXfCys/B94OUoBKfW1AcTldq8
+         63QZ6u0aglgMFMc39WEelGKDavb/1tYgyq98nIplALpNd8mowgL43kkRmYpzmRmIwM3C
+         7xmCfCZg8s47zuk/Ox+j/+pQ7Aj/jGRkVRzEA/tR88noXjOJuURjwWUA/BMMdJyHU6d/
+         xobYqsUtdJjkfb0yMI1IbUEFJu12RbF+CL9AM2HqNH9ombeCLtDUg0Eih8BB1qhVrGsl
+         ScKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781254602; x=1781859402;
+        h=to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1R28P7pY9/B4uy5Hyc4tc/doZ5AWi7BIu8Wh1OQlkRI=;
+        b=JM1FGNzDe9x6D2GV5Dng80fw48ZsmekVuHZXs+ObztfWLQ4l9xZwTK4yebLLTRcSLO
+         1acmwXGg9lQMdlxsRsvfPeMeYBvOquuVgVh4VkDiuYdhr8JvbdZc/97c3xE7nLxHGeMd
+         Thyoh1eeRm6798spGN3tdyiosybkBGjaf45p9Uf+ZEPFheUgLaKryOKrNMbA2uBsu2xQ
+         dwB8eHNbVVDzUyMzXfbq3D7pSr+q9dIPl6+evWsJkJ/2vMsnfPHn5TBvBdLnpSySvuBX
+         pbhrFd+ZMZ0Hq2xuRo9i5Q2sOqchYVtIckI1/CcUyKiQRP+rqGMsg6ThIvekMhPFpgFC
+         dNtQ==
+X-Gm-Message-State: AOJu0Yz7AYUq5oU8/IJyDA30sC/fXAM5Sw3vqo1geQ/GZWdqnfxuYUgW
+	tPidpw53QhCATgwg+5gNIsownbP58mzrOD4aVBlyiIWgilR2O4HxadMlIC6te6fT81hQFFkoC+w
+	DyoALzVZHxXi4VDG5Yy99aX/v1ez4QXvN1DW+Ezc=
+X-Gm-Gg: Acq92OHyLxezJYaDPgrTf6oIuyOhIyEqhm2fxeXsQQK7s+5knc0V02a5+S9s4siOiu9
+	rOUvNWmcQDmY6xn1blnuBl2ybp9vpsuEQK9OcST5c2wuqPa1tpPd7qPKV7DebuZbMHasW8tEAhK
+	HZE2Y/MJlnZ4cu956ru/Vx4+XTsDFvwpsYqqqrDhGxCjPgZtbIjVF/nYgbjaD2cO/e7H2uzKWwK
+	JYWTnrDEkwkhrQBDGVoZL2NCTTO0iBQkXP0AiDnrYym3pdfoEux9wnWMWjgRNW1tSaPTsMEAyv+
+	zuEqHi0m
+X-Received: by 2002:a05:690c:2789:b0:7c5:f6c:d311 with SMTP id
+ 00721157ae682-7f7b644205fmr19149257b3.13.1781254602070; Fri, 12 Jun 2026
+ 01:56:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: PpBUs8Kjk+wHk/TJnN4hE4uqivNhkXRhmyXoxtEe2zEAV5oTCA0Tp4pEv2Qi4lxAsinfSZxB54tn3QX6U9MeST8mMtUyXpfzOckfnz2FvrLAWRHfDDfphg/q+N8974Z3/b6aAzv+sIpdqKidYSpVT0FCK9Hke0LoCvumvCWA+R3n5hepk5FSPB/9xHt2PdKMQHaEFNKUHbijsNi5L82d3bPntAXjELrNkThKxxtzbDZn1xWOetqp3PM0OQGjDrsV8i3X5wG1MnGoTDxwwZFVUTaFyMk4BCeLDPWcQ/u6iew7fjVnXMabisHe11zHxjHdB6WnNYPERUf/CbKBa/8bnQ==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3690.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 66c108fc-a4e1-4128-35c5-08dec85f1c4f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jun 2026 08:46:35.5101
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: CH9ylq1vaUekTWWqw+WM3l84werHcoos6fsynabt00kAYx1xVcZXSAKjQkpfiXyDcCzeKz4vwOdYus5iW3gmkw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7493
-X-OriginatorOrg: intel.com
+From: Ivan Arpentii <ivan.arpentii@gmail.com>
+Date: Fri, 12 Jun 2026 10:56:30 +0200
+X-Gm-Features: AVVi8Cfn2aPlTy7GbpwdNjzlFH7ETnaTLvK25OCmqJ6O3OEjlt1Qv2Hy5bi11yo
+Message-ID: <CAFq5VVPHoYvL+X0+v_JvZCz3ZJfz9CEFHkbhnMeOg-4W8Prs8A@mail.gmail.com>
+Subject: em2750 cammera support
+To: linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	TAGGED_FROM(0.00)[bounces-64657-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:matt@ozlabs.org,m:alex@shazbot.org,m:leon@kernel.org,m:jgg@nvidia.com,m:amastro@fb.com,m:christian.koenig@amd.com,m:bhelgaas@google.com,m:logang@deltatee.com,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:ankita@nvidia.com,m:praan@google.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,m:linux-pci@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[kevin.tian@intel.com,linux-media@vger.kernel.org];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kevin.tian@intel.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-64658-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
+	FORGED_SENDER(0.00)[ivanarpentii@gmail.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	RCPT_COUNT_ONE(0.00)[1];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	TO_DN_NONE(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ivanarpentii@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[10]
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_SENDER_MAILLIST(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D43D6677F41
+X-Rspamd-Queue-Id: C0F5A677FDB
 
-> From: Matt Evans <matt@ozlabs.org>
-> Sent: Wednesday, June 10, 2026 11:43 PM
->=20
-> Since converting BAR mmap()s to using DMABUFs, we lose the original
-> device path in /proc/<pid>/maps, lsof, etc.  Generate a debug-oriented
-> synthetic 'filename' based on the cdev, plus BDF, plus resource index.
->=20
-> This applies only to BAR mappings via the VFIO device fd, as
-> explicitly-exported DMABUFs are named by userspace via the
-> DMA_BUF_SET_NAME ioctl.
->=20
-> Signed-off-by: Matt Evans <matt@ozlabs.org>
+Hello,
+I would like to add support for this camera in the linux kernel.
 
-Reviewed-by: Kevin Tian <kevin.tian@intel.com>
+Hardware: ECS Elitegroup G220 integrated Webcam
+USB ID: eb1a:2750
+Chip: EM2750
+
+The driver detects an I2C device at 0xba but fails to identify it:
+"found i2c device @ 0xba on bus 0 [webcam sensor or tvp5150a]"
+"No sensor detected"
+
+########### Linux Information (uname -a) ###########
+Linux MyPC 6.12.74+deb13+1-amd64 #1 SMP PREEMPT_DYNAMIC Debian
+6.12.74-2 (2026-03-08) x86_64 GNU/Linux
+
+########### Full dmesg log ###########
+[770539.890172] em28xx 3-1.4.4.4:1.0: New device   @ 480 Mbps
+(eb1a:2750, interface 0, class 0)
+[770539.890182] em28xx 3-1.4.4.4:1.0: Video interface 0 found: isoc
+[770539.944596] em28xx 3-1.4.4.4:1.0: chip ID is em2750
+[770540.117129] em28xx 3-1.4.4.4:1.0: board has no eeprom
+[770540.192599] em28xx 3-1.4.4.4:1.0: No sensor detected
+[770540.211705] em28xx 3-1.4.4.4:1.0: found i2c device @ 0xba on bus 0
+[webcam sensor or tvp5150a]
+[770540.218750] em28xx 3-1.4.4.4:1.0: Your board has no unique USB ID
+and thus need a hint to be detected.
+                You may try to use card=<n> insmod option to workaround that.
+                Please send an email with this log to:
+                V4L Mailing List <linux-media@vger.kernel.org>
+                Board eeprom hash is 0x00000000
+                Board i2c devicelist hash is 0x1bdd0080
+[770540.218758] em28xx 3-1.4.4.4:1.0: Here is a list of valid choices
+for the card=<n> insmod option:
+[770540.218761] em28xx 3-1.4.4.4:1.0:     card=0 -> Unknown EM2800 video grabber
+[770540.218764] em28xx 3-1.4.4.4:1.0:     card=1 -> Unknown
+EM2750/28xx video grabber
+[770540.218767] em28xx 3-1.4.4.4:1.0:     card=2 -> Terratec Cinergy 250 USB
+[770540.218769] em28xx 3-1.4.4.4:1.0:     card=3 -> Pinnacle PCTV USB 2
+[770540.218771] em28xx 3-1.4.4.4:1.0:     card=4 -> Hauppauge WinTV USB 2
+[770540.218773] em28xx 3-1.4.4.4:1.0:     card=5 -> MSI VOX USB 2.0
+[770540.218775] em28xx 3-1.4.4.4:1.0:     card=6 -> Terratec Cinergy 200 USB
+[770540.218777] em28xx 3-1.4.4.4:1.0:     card=7 -> Leadtek Winfast USB II
+[770540.218780] em28xx 3-1.4.4.4:1.0:     card=8 -> Kworld USB2800
+[770540.218782] em28xx 3-1.4.4.4:1.0:     card=9 -> Pinnacle Dazzle
+DVC 90/100/101/107 / Kaiser Baas Video to DVD maker / Kworld DVD Maker
+2 / Plextor ConvertX PX-AV100U
+[770540.218784] em28xx 3-1.4.4.4:1.0:     card=10 -> Hauppauge WinTV HVR 900
+[770540.218786] em28xx 3-1.4.4.4:1.0:     card=11 -> Terratec Hybrid XS
+[770540.218789] em28xx 3-1.4.4.4:1.0:     card=12 -> Kworld PVR TV 2800 RF
+[770540.218791] em28xx 3-1.4.4.4:1.0:     card=13 -> Terratec Prodigy XS
+[770540.218793] em28xx 3-1.4.4.4:1.0:     card=14 -> SIIG AVTuner-PVR
+/ Pixelview Prolink PlayTV USB 2.0
+[770540.218795] em28xx 3-1.4.4.4:1.0:     card=15 -> V-Gear PocketTV
+[770540.218797] em28xx 3-1.4.4.4:1.0:     card=16 -> Hauppauge WinTV HVR 950
+[770540.218799] em28xx 3-1.4.4.4:1.0:     card=17 -> Pinnacle PCTV HD Pro Stick
+[770540.218802] em28xx 3-1.4.4.4:1.0:     card=18 -> Hauppauge WinTV
+HVR 900 (R2)
+[770540.218804] em28xx 3-1.4.4.4:1.0:     card=19 -> EM2860/SAA711X
+Reference Design
+[770540.218806] em28xx 3-1.4.4.4:1.0:     card=20 -> AMD ATI TV Wonder HD 600
+[770540.218808] em28xx 3-1.4.4.4:1.0:     card=21 -> eMPIA Technology,
+Inc. GrabBeeX+ Video Encoder
+[770540.218810] em28xx 3-1.4.4.4:1.0:     card=22 ->
+EM2710/EM2750/EM2751 webcam grabber
+[770540.218813] em28xx 3-1.4.4.4:1.0:     card=23 -> Huaqi DLCW-130
+[770540.218815] em28xx 3-1.4.4.4:1.0:     card=24 -> D-Link DUB-T210 TV Tuner
+[770540.218817] em28xx 3-1.4.4.4:1.0:     card=25 -> Gadmei UTV310
+[770540.218819] em28xx 3-1.4.4.4:1.0:     card=26 -> Hercules Smart TV USB 2.0
+[770540.218821] em28xx 3-1.4.4.4:1.0:     card=27 -> Pinnacle PCTV USB
+2 (Philips FM1216ME)
+[770540.218823] em28xx 3-1.4.4.4:1.0:     card=28 -> Leadtek Winfast
+USB II Deluxe
+[770540.218825] em28xx 3-1.4.4.4:1.0:     card=29 -> EM2860/TVP5150
+Reference Design
+[770540.218827] em28xx 3-1.4.4.4:1.0:     card=30 -> Videology 20K14XUSB USB2.0
+[770540.218830] em28xx 3-1.4.4.4:1.0:     card=31 -> Usbgear VD204v9
+[770540.218832] em28xx 3-1.4.4.4:1.0:     card=32 -> Supercomp USB 2.0 TV
+[770540.218834] em28xx 3-1.4.4.4:1.0:     card=33 -> Elgato Video Capture
+[770540.218836] em28xx 3-1.4.4.4:1.0:     card=34 -> Terratec Cinergy
+A Hybrid XS
+[770540.218838] em28xx 3-1.4.4.4:1.0:     card=35 -> Typhoon DVD Maker
+[770540.218840] em28xx 3-1.4.4.4:1.0:     card=36 -> NetGMBH Cam
+[770540.218842] em28xx 3-1.4.4.4:1.0:     card=37 -> Gadmei UTV330
+[770540.218844] em28xx 3-1.4.4.4:1.0:     card=38 -> Yakumo MovieMixer
+[770540.218847] em28xx 3-1.4.4.4:1.0:     card=39 -> KWorld PVRTV 300U
+[770540.218849] em28xx 3-1.4.4.4:1.0:     card=40 -> Plextor ConvertX PX-TV100U
+[770540.218851] em28xx 3-1.4.4.4:1.0:     card=41 -> Kworld 350 U DVB-T
+[770540.218853] em28xx 3-1.4.4.4:1.0:     card=42 -> Kworld 355 U DVB-T
+[770540.218855] em28xx 3-1.4.4.4:1.0:     card=43 -> Terratec Cinergy T XS
+[770540.218858] em28xx 3-1.4.4.4:1.0:     card=44 -> Terratec Cinergy
+T XS (MT2060)
+[770540.218860] em28xx 3-1.4.4.4:1.0:     card=45 -> Pinnacle PCTV DVB-T
+[770540.218862] em28xx 3-1.4.4.4:1.0:     card=46 -> Compro, VideoMate U3
+[770540.218864] em28xx 3-1.4.4.4:1.0:     card=47 -> KWorld DVB-T 305U
+[770540.218866] em28xx 3-1.4.4.4:1.0:     card=48 -> KWorld DVB-T 310U
+[770540.218868] em28xx 3-1.4.4.4:1.0:     card=49 -> MSI DigiVox A/D
+[770540.218870] em28xx 3-1.4.4.4:1.0:     card=50 -> MSI DigiVox A/D II
+[770540.218872] em28xx 3-1.4.4.4:1.0:     card=51 -> Terratec Hybrid XS Secam
+[770540.218874] em28xx 3-1.4.4.4:1.0:     card=52 -> DNT DA2 Hybrid
+[770540.218877] em28xx 3-1.4.4.4:1.0:     card=53 -> Pinnacle Hybrid Pro
+[770540.218879] em28xx 3-1.4.4.4:1.0:     card=54 -> Kworld VS-DVB-T 323UR
+[770540.218881] em28xx 3-1.4.4.4:1.0:     card=55 -> Terratec Cinergy
+Hybrid T USB XS (em2882)
+[770540.218883] em28xx 3-1.4.4.4:1.0:     card=56 -> Pinnacle Hybrid Pro (330e)
+[770540.218885] em28xx 3-1.4.4.4:1.0:     card=57 -> Kworld PlusTV HD Hybrid 330
+[770540.218888] em28xx 3-1.4.4.4:1.0:     card=58 -> Compro VideoMate
+ForYou/Stereo
+[770540.218890] em28xx 3-1.4.4.4:1.0:     card=59 -> Pinnacle PCTV HD Mini
+[770540.218892] em28xx 3-1.4.4.4:1.0:     card=60 -> Hauppauge WinTV HVR 850
+[770540.218894] em28xx 3-1.4.4.4:1.0:     card=61 -> Pixelview PlayTV
+Box 4 USB 2.0
+[770540.218896] em28xx 3-1.4.4.4:1.0:     card=62 -> Gadmei TVR200
+[770540.218898] em28xx 3-1.4.4.4:1.0:     card=63 -> Kaiomy TVnPC U2
+[770540.218900] em28xx 3-1.4.4.4:1.0:     card=64 -> Easy Cap Capture DC-60
+[770540.218902] em28xx 3-1.4.4.4:1.0:     card=65 -> IO-DATA GV-MVP/SZ
+[770540.218904] em28xx 3-1.4.4.4:1.0:     card=66 -> Empire dual TV
+[770540.218907] em28xx 3-1.4.4.4:1.0:     card=67 -> Terratec Grabby
+[770540.218909] em28xx 3-1.4.4.4:1.0:     card=68 -> Terratec AV350
+[770540.218911] em28xx 3-1.4.4.4:1.0:     card=69 -> KWorld ATSC 315U
+HDTV TV Box
+[770540.218913] em28xx 3-1.4.4.4:1.0:     card=70 -> Evga inDtube
+[770540.218915] em28xx 3-1.4.4.4:1.0:     card=71 -> Silvercrest Webcam 1.3mpix
+[770540.218917] em28xx 3-1.4.4.4:1.0:     card=72 -> Gadmei UTV330+
+[770540.218919] em28xx 3-1.4.4.4:1.0:     card=73 -> Reddo DVB-C USB TV Box
+[770540.218921] em28xx 3-1.4.4.4:1.0:     card=74 ->
+Actionmaster/LinXcel/Digitus VC211A
+[770540.218924] em28xx 3-1.4.4.4:1.0:     card=75 -> Dikom DK300
+[770540.218926] em28xx 3-1.4.4.4:1.0:     card=76 -> KWorld PlusTV
+340U or UB435-Q (ATSC)
+[770540.218928] em28xx 3-1.4.4.4:1.0:     card=77 -> EM2874 Leadership ISDBT
+[770540.218930] em28xx 3-1.4.4.4:1.0:     card=78 -> PCTV nanoStick T2 290e
+[770540.218932] em28xx 3-1.4.4.4:1.0:     card=79 -> Terratec Cinergy H5
+[770540.218934] em28xx 3-1.4.4.4:1.0:     card=80 -> PCTV DVB-S2 Stick (460e)
+[770540.218937] em28xx 3-1.4.4.4:1.0:     card=81 -> Hauppauge WinTV HVR 930C
+[770540.218939] em28xx 3-1.4.4.4:1.0:     card=82 -> Terratec Cinergy HTC Stick
+[770540.218941] em28xx 3-1.4.4.4:1.0:     card=83 -> Honestech Vidbox NW03
+[770540.218943] em28xx 3-1.4.4.4:1.0:     card=84 -> MaxMedia UB425-TC
+[770540.218945] em28xx 3-1.4.4.4:1.0:     card=85 -> PCTV QuatroStick (510e)
+[770540.218947] em28xx 3-1.4.4.4:1.0:     card=86 -> PCTV QuatroStick
+nano (520e)
+[770540.218949] em28xx 3-1.4.4.4:1.0:     card=87 -> Terratec Cinergy HTC USB XS
+[770540.218952] em28xx 3-1.4.4.4:1.0:     card=88 -> C3 Tech Digital
+Duo HDTV/SDTV USB
+[770540.218954] em28xx 3-1.4.4.4:1.0:     card=89 -> Delock 61959
+[770540.218956] em28xx 3-1.4.4.4:1.0:     card=90 -> KWorld USB ATSC
+TV Stick UB435-Q V2
+[770540.218958] em28xx 3-1.4.4.4:1.0:     card=91 -> SpeedLink Vicious
+And Devine Laplace webcam
+[770540.218960] em28xx 3-1.4.4.4:1.0:     card=92 -> PCTV DVB-S2 Stick (461e)
+[770540.218962] em28xx 3-1.4.4.4:1.0:     card=93 -> KWorld USB ATSC
+TV Stick UB435-Q V3
+[770540.218965] em28xx 3-1.4.4.4:1.0:     card=94 -> PCTV tripleStick (292e)
+[770540.218967] em28xx 3-1.4.4.4:1.0:     card=95 -> Leadtek VC100
+[770540.218969] em28xx 3-1.4.4.4:1.0:     card=96 -> Terratec Cinergy
+T2 Stick HD
+[770540.218971] em28xx 3-1.4.4.4:1.0:     card=97 -> Elgato EyeTV
+Hybrid 2008 INT
+[770540.218973] em28xx 3-1.4.4.4:1.0:     card=98 -> PLEX PX-BCUD
+[770540.218975] em28xx 3-1.4.4.4:1.0:     card=99 -> Hauppauge WinTV-dualHD DVB
+[770540.218977] em28xx 3-1.4.4.4:1.0:     card=100 -> Hauppauge
+WinTV-dualHD 01595 ATSC/QAM
+[770540.218980] em28xx 3-1.4.4.4:1.0:     card=101 -> Terratec Cinergy H6 rev. 2
+[770540.218982] em28xx 3-1.4.4.4:1.0:     card=102 -> :ZOLID HYBRID TV STICK
+[770540.218984] em28xx 3-1.4.4.4:1.0:     card=103 -> Magix USB Videowandler-2
+[770540.218986] em28xx 3-1.4.4.4:1.0:     card=104 -> PCTV DVB-S2
+Stick (461e v2)
+[770540.218988] em28xx 3-1.4.4.4:1.0:     card=105 -> MyGica iGrabber
+[770540.218991] em28xx 3-1.4.4.4:1.0:     card=106 -> Hauppauge USB QuadHD ATSC
+[770540.218993] em28xx 3-1.4.4.4:1.0:     card=107 -> MyGica UTV3
+Analog USB2.0 TV Box
+[770540.218995] em28xx 3-1.4.4.4:1.0: Board not discovered
+[770540.218997] em28xx 3-1.4.4.4:1.0: Identified as
+EM2710/EM2750/EM2751 webcam grabber (card=22)
+[770540.219000] em28xx 3-1.4.4.4:1.0: Currently, V4L2 is not supported
+on this model
+[770540.219224] usbcore: registered new interface driver em28xx
+
+########### lsusb -v -d eb1a:2750 ###########
+Bus 003 Device 010: ID eb1a:2750 eMPIA Technology, Inc. ECS Elitegroup
+G220 integrated Webcam
+Couldn't open device, some information will be missing
+Negotiated speed: High Speed (480Mbps)
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               2.00
+  bDeviceClass            0 [unknown]
+  bDeviceSubClass         0 [unknown]
+  bDeviceProtocol         0
+  bMaxPacketSize0        64
+  idVendor           0xeb1a eMPIA Technology, Inc.
+  idProduct          0x2750 ECS Elitegroup G220 integrated Webcam
+  bcdDevice            1.00
+  iManufacturer           0
+  iProduct                0
+  iSerial                 0
+  bNumConfigurations      1
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength       0x00f9
+    bNumInterfaces          1
+    bConfigurationValue     1
+    iConfiguration          0
+    bmAttributes         0x80
+      (Bus Powered)
+    MaxPower              500mA
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           3
+      bInterfaceClass       255 Vendor Specific Class
+      bInterfaceSubClass      0 [unknown]
+      bInterfaceProtocol    255
+      iInterface              0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0001  1x 1 bytes
+        bInterval              11
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes            1
+          Transfer Type            Isochronous
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0000  1x 0 bytes
+        bInterval               1
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x84  EP 4 IN
+        bmAttributes            1
+          Transfer Type            Isochronous
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0000  1x 0 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       1
+      bNumEndpoints           3
+      bInterfaceClass       255 Vendor Specific Class
+      bInterfaceSubClass      0 [unknown]
+      bInterfaceProtocol    255
+      iInterface              0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0001  1x 1 bytes
+        bInterval              11
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes            1
+          Transfer Type            Isochronous
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0000  1x 0 bytes
+        bInterval               1
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x84  EP 4 IN
+        bmAttributes            1
+          Transfer Type            Isochronous
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0000  1x 0 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       2
+      bNumEndpoints           3
+      bInterfaceClass       255 Vendor Specific Class
+      bInterfaceSubClass      0 [unknown]
+      bInterfaceProtocol    255
+      iInterface              0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0001  1x 1 bytes
+        bInterval              11
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes            1
+          Transfer Type            Isochronous
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0ad4  2x 724 bytes
+        bInterval               1
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x84  EP 4 IN
+        bmAttributes            1
+          Transfer Type            Isochronous
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0000  1x 0 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       3
+      bNumEndpoints           3
+      bInterfaceClass       255 Vendor Specific Class
+      bInterfaceSubClass      0 [unknown]
+      bInterfaceProtocol    255
+      iInterface              0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0001  1x 1 bytes
+        bInterval              11
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes            1
+          Transfer Type            Isochronous
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0c00  2x 1024 bytes
+        bInterval               1
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x84  EP 4 IN
+        bmAttributes            1
+          Transfer Type            Isochronous
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0000  1x 0 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       4
+      bNumEndpoints           3
+      bInterfaceClass       255 Vendor Specific Class
+      bInterfaceSubClass      0 [unknown]
+      bInterfaceProtocol    255
+      iInterface              0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0001  1x 1 bytes
+        bInterval              11
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes            1
+          Transfer Type            Isochronous
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x1300  3x 768 bytes
+        bInterval               1
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x84  EP 4 IN
+        bmAttributes            1
+          Transfer Type            Isochronous
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0000  1x 0 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       5
+      bNumEndpoints           3
+      bInterfaceClass       255 Vendor Specific Class
+      bInterfaceSubClass      0 [unknown]
+      bInterfaceProtocol    255
+      iInterface              0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0001  1x 1 bytes
+        bInterval              11
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes            1
+          Transfer Type            Isochronous
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x135c  3x 860 bytes
+        bInterval               1
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x84  EP 4 IN
+        bmAttributes            1
+          Transfer Type            Isochronous
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0000  1x 0 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       6
+      bNumEndpoints           3
+      bInterfaceClass       255 Vendor Specific Class
+      bInterfaceSubClass      0 [unknown]
+      bInterfaceProtocol    255
+      iInterface              0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0001  1x 1 bytes
+        bInterval              11
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes            1
+          Transfer Type            Isochronous
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x13c4  3x 964 bytes
+        bInterval               1
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x84  EP 4 IN
+        bmAttributes            1
+          Transfer Type            Isochronous
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0000  1x 0 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       7
+      bNumEndpoints           3
+      bInterfaceClass       255 Vendor Specific Class
+      bInterfaceSubClass      0 [unknown]
+      bInterfaceProtocol    255
+      iInterface              0
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0001  1x 1 bytes
+        bInterval              11
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes            1
+          Transfer Type            Isochronous
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x1400  3x 1024 bytes
+        bInterval               1
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x84  EP 4 IN
+        bmAttributes            1
+          Transfer Type            Isochronous
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0000  1x 0 bytes
+        bInterval               1
+
+Can the sensor detection be forced or added for this device?
+
+-- 
+Regards,
+Ivan Arpentii
 
