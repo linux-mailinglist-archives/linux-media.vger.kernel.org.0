@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-64748-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64749-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ZinFIJmYLGpDTgQAu9opvQ
-	(envelope-from <linux-media+bounces-64748-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 13 Jun 2026 01:39:05 +0200
+	id Fx1BLbubLGr1TgQAu9opvQ
+	(envelope-from <linux-media+bounces-64749-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 13 Jun 2026 01:52:27 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9B3367D112
-	for <lists+linux-media@lfdr.de>; Sat, 13 Jun 2026 01:39:04 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B1E067D1AB
+	for <lists+linux-media@lfdr.de>; Sat, 13 Jun 2026 01:52:27 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=V7nH6SCR;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64748-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64748-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=EcWLt8pG;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64749-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64749-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9E8B731E373D
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 23:38:54 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E10553165A12
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 23:52:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 159643DA5CB;
-	Fri, 12 Jun 2026 23:38:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1328370D7C;
+	Fri, 12 Jun 2026 23:52:17 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96C5436495F;
-	Fri, 12 Jun 2026 23:38:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967AA233920;
+	Fri, 12 Jun 2026 23:52:16 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781307531; cv=none; b=PTL50k6rgilD0bWyRzO6tNPAxkK3wYkmEaWHNjGL3Qlpwp12s29Ad4ls7Jnkt/NDtTjnyDPa7/Yi/2/DzM241yoke4h57kBBwNzkDy2s0B/YfGIyGWO5iUz4KLEsRPQVn2jelClnJ/FZNmgRhdnMGr3+eKqkXXS5SRFbWlZAtdw=
+	t=1781308337; cv=none; b=jq0VRxhV540YjwmJ5Ff9kG6Ewc8IBiOuBT03m8o1qDaOTfQTmJlgUZShFZVU69y+15lPD3KD80rHr0uxiftS406yR6JBWvxXQTu32zm6+QQjt8GpVFuNjpzHF75tsz/6g/BlhjQUdigDhm8hYyelKPCZipBXNByMkjx74JwOzGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781307531; c=relaxed/simple;
-	bh=OkuRf/bRAiKogAQuuTfeBVzwZ6IvJfvOo2tGKHiklFQ=;
+	s=arc-20240116; t=1781308337; c=relaxed/simple;
+	bh=7ajTGkMRXSuC4tG/rASZ3NokB3b7XICYIAQHgCuORAE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ErNqgBtPf7v+9JqtHu7+DaPbX2wbTHtR5r0WvWLMDpUakIZZQFJKJUUjnt/pugsl2qesuScuK8/SkpACTzeSS+HdModsylEF/JiIZtbV5Zw/sMr/SnvHOEmRn6JEVT5UFsKGy5ZDZuw/sOP98AHXsQ+Sh0aTE7p4VoZGOThZY3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V7nH6SCR; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C69AE1F000E9;
-	Fri, 12 Jun 2026 23:38:47 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=dddqJY7W4+daqSOlzZxvVN5shL6jYjqgoEaB8OuuCliS78RyWNNDNYv1mL25PMnddkvtVyfYM86cuSMQBXLYJkibrW4TC6E1t3VToVLECMu3sd8gsps/LrrDymKLygM62Bw2C9vsrwRv2CRtw0dzOHzoGyc7B98n5MuF2DRGHAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EcWLt8pG; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0790D1F000E9;
+	Fri, 12 Jun 2026 23:52:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781307530;
-	bh=8Z7mMgZddwXtcgjr3JS6+y3IO48OGVMzdpCvRhO1ZyQ=;
+	s=k20260515; t=1781308336;
+	bh=XSnlBee5txbcJRxUOQBwfCkdpA/WSJG8zwRgmSZsVRk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=V7nH6SCRl82bDZEcsRRSWImhoudGpTPdEw/wl7hkF6R93JcSyR6OKR/bChARiZbyt
-	 ykyVwmK+sg5ueyA4to+NnNats0uCUyvmiT+tmeTUpAfAJrdGfy43wsXHow7Ty4Exuc
-	 JdP//PHVvIvVVulX4jqNaXMdI02m6bpP4mPZh199gHRK3K6MU5WLhFOBCcsaJhZt2i
-	 XGejXwVQvzvMU5rbFsS+XF3buQrUNecpI0yUvR3kP1sdL4P8T1DrCbmzZizgldPqJJ
-	 37+6zGmUkKILhSXnUnvb/7kiZ6RiIIOJpp23MeunhecqrWGrLpmYpywKAKKijh98vz
-	 MdhwN1kIPgwAA==
-Message-ID: <2e39b83d-dab6-4113-8702-b7f97b46bfeb@kernel.org>
-Date: Sat, 13 Jun 2026 00:38:46 +0100
+	b=EcWLt8pGRSnJB/6jlQEN6UUyZtfD+mLidtBx+WPWIW0oQ5+Yh3xLvB/yiJ9Pz1nRJ
+	 OnLn19pbqrIt6MGOiIFROU+zHrQv0JzWtTsBM8DTH5y8ObD2Ct/4iiNJ7XEBDbO5yr
+	 lUtxLxXwFwliyDWsPogkRBpITWVs8i9zhhTwk1k+kFy6ESSkplmhyFElsAsogoJJCW
+	 6A1hLbCPbsG2xhG61Isw3Ubt/HrjG3n6QK+9pFoGQoryA7BWcOchl2XggZs+8pvXk/
+	 1CcFETxim8WlmAJmt19hpPqv/Pz2v+5QK5b1TXCqQuBVV2mTxbk8obL1EC4PBstTUa
+	 ZrAZI2jpzETxg==
+Message-ID: <2ad008a6-bf67-4854-906a-bd2ba395cfba@kernel.org>
+Date: Sat, 13 Jun 2026 00:52:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +55,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/4] dt-bindings: media: qcom: Add JPEG encoder binding
+Subject: Re: [PATCH v1 2/4] arm64: dts: qcom: sm8550: Add JPEG encoder node
 To: Atanas Filipov <atanas.filipov@oss.qualcomm.com>,
  linux-media@vger.kernel.org
 Cc: mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
@@ -63,8 +63,8 @@ Cc: mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
  linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20260612194417.1737009-1-atanas.filipov@oss.qualcomm.com>
- <qv-6fR3KVWzU8jGZuWv7QSLxbiKy31Xjpql1NnH6YDj_OwXsNFz-_Lr-bBw6tFyuexHgC8cgAKIDrB58teVAZQ==@protonmail.internalid>
- <20260612194417.1737009-2-atanas.filipov@oss.qualcomm.com>
+ <eY8-IbmZdQzKJEghATTeVJerci7KPVBImWk85jbXw_LZ14uTj2j55zx7DEhdyu6218wQrolFoVbRWTaL3QQjNw==@protonmail.internalid>
+ <20260612194417.1737009-3-atanas.filipov@oss.qualcomm.com>
 From: Bryan O'Donoghue <bod@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=bod@kernel.org; keydata=
@@ -110,7 +110,7 @@ Autocrypt: addr=bod@kernel.org; keydata=
  LKSGEglMpiX07M1AotgvylN5C8fjbouoK+/RAMsXkk8jba6rPfuuXPaDjCyyKn6zSVHETnHW
  3AJbgVY50T8STpnxayBQvWbCvu+6NOEjXCbyaOJig+5l0zlGN9XHjdANXC5HnwmyaGRL9YDq
  Jh2nVXVJDincOdQRdKcJjYLqaOAoWrYWSDi1iZGspHBTDrnOvfMQzzHY
-In-Reply-To: <20260612194417.1737009-2-atanas.filipov@oss.qualcomm.com>
+In-Reply-To: <20260612194417.1737009-3-atanas.filipov@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
@@ -118,22 +118,23 @@ X-Spamd-Result: default: False [-5.16 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64748-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-64749-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -142,35 +143,18 @@ X-Spamd-Result: default: False [-5.16 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[11];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	MID_RHS_MATCH_FROM(0.00)[];
-	MIME_TRACE(0.00)[0:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E9B3367D112
+X-Rspamd-Queue-Id: 2B1E067D1AB
 
 On 12/06/2026 20:44, Atanas Filipov wrote:
-> +maintainers:
-> +  - Azam Sadiq Pasha Kapatrala Syed<akapatra@quicinc.com>
-> +  - Hariram Purushothaman<hariramp@quicinc.com>
-> +
+> +			power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>;
 
-I said in the accidental leaked version that the maintainers listed 
-here, are not in the SOB chain, while the submitter is not in the 
-maintainer list.
+This almost certainly should contain MMCX and MXC too.
 
-https://lore.kernel.org/linux-media/6378b14e-24d4-4a19-a3a5-3f87245d5b9b@kernel.org/
-
-It appears none ? of the review feedback from that accidental publish 
-has been taken on board ?
-
-Please READ the review feedback and take action based on that feedback 
-either implementing what the reviewer said or not implementing it but, 
-in either case documenting what was and was not done and why !
-
-This is a large body of work demanding significant effort from those 
-reviewing it so please respect our time and effort in this - go through 
-the previous comments and at the very least address them in your 
-submission or explain their omission in your cover letter log.
+Please check.
 
 ---
 bod
