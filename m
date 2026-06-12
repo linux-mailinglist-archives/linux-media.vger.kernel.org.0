@@ -1,307 +1,257 @@
-Return-Path: <linux-media+bounces-64639-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64640-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id JqwML8yuK2pEBwQAu9opvQ
-	(envelope-from <linux-media+bounces-64639-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 09:01:32 +0200
+	id /4dcDiq6K2pNDQQAu9opvQ
+	(envelope-from <linux-media+bounces-64640-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 09:50:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18227677139
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 09:01:32 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD1E76776DA
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 09:50:01 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=PblxrqjE;
-	dkim=pass header.d=redhat.com header.s=google header.b=Z3JDw3Ze;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64639-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64639-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=redhat.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=ZFsBO8at;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=SjFV5NwR;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64640-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-64640-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=qualcomm.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 5E37533367CE
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 06:58:41 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D993B3017EE9
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 07:49:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BF0A3D5247;
-	Fri, 12 Jun 2026 06:58:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D28AF3988E1;
+	Fri, 12 Jun 2026 07:49:24 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 259412D94BA
-	for <linux-media@vger.kernel.org>; Fri, 12 Jun 2026 06:58:38 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781247520; cv=pass; b=FDExADysBDbc9mYC8RMmDKwwIjWUOXyXoNX69c2wmUHLMKYu/kLh+7q0u3JgVlMT0XCD0kGwrEOunquosxw0h2pZ5zWfqwhi702L+T8cXTTdZu8yj+HzuCY+MgcVdXxhs1vKHqXxbIbUA3inHbp2StDY/n8sSQtMQulcOSnrEhs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781247520; c=relaxed/simple;
-	bh=9iTtsRfV/ytmYI7MXQ7lfvEG3TaAh+dPM+IB3uVLgCg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ITB9ma1SR8OWxQynXPsC3U+u/T/JSAun2JT7gp4WlYi7EfC4snh4Gpi6c4yACxHbi4+LWBmnJXJe++O6Sq5feX6QAavAtinkXHoUEAC20FPW7AhWy0Su3jnFlOZR4EXCbRf+FCOX0RD+tzGQ+//LQ8mwaXnibpLUoGUuraJEbaQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PblxrqjE; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Z3JDw3Ze; arc=pass smtp.client-ip=170.10.129.124
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781247518;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qVUbJnG3avAuh7auohauigxG3CJwfmr9boX0BMo3xuo=;
-	b=PblxrqjEGXxUYHZN/59T88deZk/N8TRQNUkeVVU8U6rGwmwrSuNVhsJll4jZUnAniGTgp5
-	vzCWs+ZZCRNkW8CSI3Rx8sFKjUfsOBb9OAlTtZmv9dkQ0MntI9kL9Jz1NxKea1LePPhhRE
-	5P/YX+HYpkYsI0nVRgUZvcvQ1CBjXjY=
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com
- [209.85.167.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-27-62X2MGVQPaijY0D9VcikIg-1; Fri, 12 Jun 2026 02:58:35 -0400
-X-MC-Unique: 62X2MGVQPaijY0D9VcikIg-1
-X-Mimecast-MFC-AGG-ID: 62X2MGVQPaijY0D9VcikIg_1781247514
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4863a0c3105so1018589b6e.3
-        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2026 23:58:34 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1781247514; cv=none;
-        d=google.com; s=arc-20240605;
-        b=YAg62QvrhD+ioAVGxr3NWPDV3dtn6807X6SPJy+JD6pBa6uJKlZ0a6cAl2Wkc4DJgb
-         saIjyda+4hKhAsbbOV+LgvDeMIBJulGSvSa6I+F31CeX+pHi09nNoeOhd1Svgtw5LXkw
-         4dTxNU4kPDaEroRostd5vuD4QsXDSttbwAlTqNr6Zq6bZBuROKg0gzJcZPh2EVgk2UUy
-         on6jgA5gtB9sKVG9pMPn3GRSpyBFemCjw+9IED+8eIpnqIX6DvTtEr74Zhznp34jKWKZ
-         jM/l9WjOCKgHvYeWEJj8GoiC41zZ0uhgMBs6AmLMa5l1jTZ0V0fC4A6Xfq7Worn02/+l
-         03gw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=qVUbJnG3avAuh7auohauigxG3CJwfmr9boX0BMo3xuo=;
-        fh=dhwPSYiUjYKYrVVo2V0VEAUyQ6xze8M5kL2+GPK5olo=;
-        b=g79VHNgzHugUj/e0un9UzjbGAkiVXpAkx+sB5qGArmrY16a0cwEuW2MMwGGv0DKYf7
-         WyPIZYxYp2YpDDOuI7ZWFCxdto0dI3amG3AQS64Gp5mRzqKr64IOdpy1etm1JSccrPRg
-         QSLBFz/Fo7c3Uj0YV8BwADI3t1ClMPHyX7iqqVNv+7wR6+LD2Lysuovmi8Zt1fEY/Zh7
-         8SiBCYC9AZ9wMo3RrSdmzD/I6Ehsmu8bmfsetJH72Elg5J73CrWD88rZTO8DzwiiAn5O
-         l62h/uYj46s3bnIYhYGG+XkETCKBwhlYDdD+fhjQtdvKIYY+7Ilk1B0gvV5fUxA2I6hr
-         yCaQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3415B397329
+	for <linux-media@vger.kernel.org>; Fri, 12 Jun 2026 07:49:22 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781250564; cv=none; b=jInaIvAc6Q7dyBZgAcv4017bODT7RhngO8KmThRdOs0EBa3A+8x6VWK0LwcHP8nBwq64RZZZKD/lDUIeEM0lqYJgaihG32rFzynjj9N8qwju30MmoG8sQFmn9k6d1RUAFREmp7YRqBKXXIuxB/ZbT5R2PRpR3J2sdCyI7LBwlwQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781250564; c=relaxed/simple;
+	bh=oSClFw1N6Pzc5mrZzt83o6RTRpl1h132KUxpmGTz/i0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P3TQcy52N0P9nWOs+sgi34qz2n9fcD2/CMkoiNEEXgLMTBSFyg1HL7Ot0Bh4kNRSOuFAQCeN8vZFp4x5E9zHFq0/kS87pVfdpjkE4EfGis4dtEJg4pxYlwKJQPbyvc3N/RcM4Ydmdvr64rBggmkew43+5FaGNa55SLM8gvYjbZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ZFsBO8at; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=SjFV5NwR; arc=none smtp.client-ip=205.220.168.131
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65C39OmT940310
+	for <linux-media@vger.kernel.org>; Fri, 12 Jun 2026 07:49:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	C4AA/oGx5sqKMDcm3WaPRz10s2TG42Ep0EEBjqj7wU8=; b=ZFsBO8atIgbiQHfi
+	CmpJ7BufwbkUat8DmbBUny5rzWMpaaHG9SJkuDKjGTWN9fz8I+175yEdfvVNOl3J
+	Zk7S52nxRpHgRe+utf+b87quHTG2oqrVyN75D53aVcvfdPUZDHKuRr3I1jG7OBLT
+	efj44OHpnd8rdUBXye49gqmLO3Z2sfW2AC7fIIjkans3ftM+BdMxt2eiY4TVCzBp
+	v4raRXmY4P31oK1ejEjDo6bS7M9dONpj/jXTHKAXw4veQKi6i9G+1whZKm3wKkxS
+	XwgEhRRINkPdx57os3waUm87m9TovNncbVDwSh/F1D0gdHRb9MyRg1xxw7UTPs/e
+	yGqimw==
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com [209.85.222.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4er014k355-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Fri, 12 Jun 2026 07:49:22 +0000 (GMT)
+Received: by mail-ua1-f71.google.com with SMTP id a1e0cc1a2514c-963aef8124fso257384241.1
+        for <linux-media@vger.kernel.org>; Fri, 12 Jun 2026 00:49:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1781247514; x=1781852314; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qVUbJnG3avAuh7auohauigxG3CJwfmr9boX0BMo3xuo=;
-        b=Z3JDw3Ze838afbIn8PLDHW2Nmwk/HzxE4n9iEcPhNJ/RUPHvskuRDnrJFFPjG0NMLF
-         RHzENDrhNPQwHcQcWcZwwk8GrPmwaaLoxDdsZsYJv6EtFrEa5tfAKJwn0mxjxx7Mwewx
-         n2oYHNEPxOdYLbxBeoH1YotTlzBeBLtqgSbdosqc3tZH9KbOGpPQLAGQ27+h9BmFzBsT
-         bVyPrfROjqq8nPk8tX2LzEHI1fZT5Jwp4C0rtHWrAvkrk6Jg5iu8uSerNefgA6FWrttc
-         imsSrtuQXTOWyXppJrcfiLN85gG3sZqrDLtrz05OFtYWHIQtZ7VNe7fvHxI0tTC+4iRn
-         uZnA==
+        d=oss.qualcomm.com; s=google; t=1781250561; x=1781855361; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=C4AA/oGx5sqKMDcm3WaPRz10s2TG42Ep0EEBjqj7wU8=;
+        b=SjFV5NwRtOtTsbxM6IJr3ehgW1KzkT0A8qZsLC/Tw7vDHcLIk9Fb5XR4V1wTbai7Pe
+         GbNGD3Zq1HlAwidHqj3mhPt27M+A7ooLkOHxkar1hm0bBgmvKoi0OjF2v5fGteqSveHQ
+         Dg6TguXIAHx7ayv7to2QdFfJLKA29jdZV81hKFlBRPgfIOEfKWr4xAp+5l8bbJjK8ACV
+         XiHACFHwwQluHtjcn9l+fyoIecsQ09GHSCP/BwQ5SSdR7X//ZrjfUEM6ckn1ZXk9wB38
+         ZXlPjRSw25mAW/3T0peqitmVPawDkFsFUKMkPtkXhWrZnNoRoCamlZAWN2EJfmfqVIUG
+         ZKAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781247514; x=1781852314;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=qVUbJnG3avAuh7auohauigxG3CJwfmr9boX0BMo3xuo=;
-        b=riu8r6bP6I7VogbZazB4u1aiG5sUhDtE78QnSGejQG1i8iugrqWWxwA/GRvapQbtpA
-         WQ4E0Ks6shtD3EzTgRwpjuUI4Kv+2oBhRUVNHN5gr4lBlq186SI/2pgMWdMMctEcqpN4
-         aAwWdWG+IABQjoOKLKTVaoTT3CtpxtKkcwhqUYmrcS83H3x/oeNwAlNdXwdd9vVb/k8G
-         b5eBPyMdoCjgXLzG2bRwBQAWXcBlyUGrQJW490zE5wLLm4XSsxhybZC9v4m+QRuUFvIg
-         5VOuFWr3nl4Sw8TuCiK38w4UhO8gRyiblyABTsl1O0aj6zqkIQGq4jF6gL7Zq0Ay7wDN
-         6dpg==
-X-Forwarded-Encrypted: i=1; AFNElJ+YeoWGaYVpU8CCu4YVRJmAYrNjjFFYn8aaDeQd/TufRWmUtExGBCQtrujny1AJa+qykmz+yGyEieVhaw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzV86w5ToZWKvheVDd4/bzSUeUADo13ghxVo/kE3jTw4C3ACxnY
-	+Mk2jh1s59yyB3BZa4jNF7toU9pgPDYfPrDCjZHVxOB2/GdQK2s85wlTrVJjxdezN56gvU5B/5a
-	SWPyh5YkpC2uXImRTrP7+HkdTAA4qq8+TXOP0kYzcxKlPoQly2URiCIMryx+NKTdrv7avIAtCcH
-	8DX5EhhgGQ2POswab8AYsyRZx7i1ZK/ltu/6p9lSk=
-X-Gm-Gg: Acq92OFBPrQHk9wFX8NquRLq8wRs2zdInBDl92lC3dGHn9bVDv6oIUVFCV+kKcCqrzL
-	Jw8B9Nv4br5BmUwy8SxuAr3FD+CIKQyWY1zb0cMhnohI1zzpN9GPPLXtaeKc6NI8ACTqBffcE3S
-	MkXil+kFUViwGDa1/ft6+Ym39NE3vkBqXumx3knjxy6q1gShSlUyugCL0NHzY6Y76zikwurjfp/
-	tzGzg==
-X-Received: by 2002:a05:6808:5185:b0:479:ff59:dcec with SMTP id 5614622812f47-4872f52d830mr1261623b6e.32.1781247514173;
-        Thu, 11 Jun 2026 23:58:34 -0700 (PDT)
-X-Received: by 2002:a05:6808:5185:b0:479:ff59:dcec with SMTP id
- 5614622812f47-4872f52d830mr1261606b6e.32.1781247513711; Thu, 11 Jun 2026
- 23:58:33 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1781250561; x=1781855361;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=C4AA/oGx5sqKMDcm3WaPRz10s2TG42Ep0EEBjqj7wU8=;
+        b=FjoQEoKOA3RbSSw08B0XNLTPrWbqJG9j/15cg+vGnzsCYywNTWkD/h1V8bjfISS46I
+         DbirpN3PUR6lzTmyevMIlK0fe73feTuGpL/bIWTwA0wgkBaqJEGOOO/H6yywoI/xGef9
+         Dar9lc2kufzYL0olmDzM2Z5LXNx6OjiYJuAAVIKezBbs2hO/86D+IQyFNFPMeonC4m3n
+         33qzJrfl/Ni5teagG+dzLcn89bDQw+pZoA4QVBpWnJ0kCQcpBRPU5K0zhvhx4eAHuDmA
+         0D6h8Axycr2sW1K20+RpJGPj15ORxBRAirTp9aXYLtB+6ku7X12OXxlvR6+pNMTSCGFS
+         ae7g==
+X-Forwarded-Encrypted: i=1; AFNElJ/2GaveeycI4krTzk2i7obHW4yNbOSHDhB83NBV5OdGeqNFxhDX3Pq2InVZwLdBdkov6ep/zUY0+/+2rQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6H429IzAo8LfiheUlPuKS+sWwy5uZkA5Hc+NSkvcAByzK5eol
+	QbKCIrV2rGq+QnfBIY5aH7wkgTfHtOZP9LUvN6F3VPo7XDYs417cc8JbcIAFZ87kMbvqzr2aZHi
+	A8HDX3ThNjRL2mR/h5KpOG7vjV1SuTsuOTFfY0njQxbxc9bl/ktfXJZGfOC8v48ahQA==
+X-Gm-Gg: Acq92OFx9ejwqGKqNzRWktxoIAksHPNS/Us+iIgQAKDAntYUhTsTZeAp2m0unUunjiO
+	aL7CLZggm5sRqoK+aGtcjE1f4LRhy8CRCjef5MbwWNqdBebXA0jF1j6KIBU9uK4Y+cIPs8H4cq/
+	5boqOMuOy7eDct+KWJV2pCafrb3SYcQDW2U2k2ilx/9zsuXbI365uAKfejsuuRm/+PXasO3AGbY
+	Zfa2+Bm+4Mc75O4wWUrtlKUMY4+mRlEv79jtRDF35Z84GG5h9QfyTrEdnGmOzJGVJagZHGoHo17
+	67yP8eY88tijAyd5871sU3/GFfLr91L4ZEmCy4iB2v4IF9sXS2kyo1QSeMr8K5py32UR/MGt3vI
+	3ONmUqjT32THm1PFlbVOJ4i32+UC2mfGbUx9zJad/UaKGqz/oS0xVfU6MhJMpyBCbuL10gV7wyq
+	wGCrpGM9cNxjWPFlu/WLBbc//RaXWn6m9c5fE=
+X-Received: by 2002:a05:6102:644b:b0:631:4cd8:b6aa with SMTP id ada2fe7eead31-71e88c54814mr544153137.13.1781250561323;
+        Fri, 12 Jun 2026 00:49:21 -0700 (PDT)
+X-Received: by 2002:a05:6102:644b:b0:631:4cd8:b6aa with SMTP id ada2fe7eead31-71e88c54814mr544139137.13.1781250560921;
+        Fri, 12 Jun 2026 00:49:20 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-39929c4aa1asm4324521fa.10.2026.06.12.00.49.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jun 2026 00:49:18 -0700 (PDT)
+Date: Fri, 12 Jun 2026 10:49:16 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+Cc: Bryan O'Donoghue <bod@kernel.org>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: media: qcom,qcm2290-venus: document
+ shikra Iris compatible
+Message-ID: <q3sr74ncqnmzsjrd6jdbkpplxpnsnifhnvxsdplvogr2kf25p3@taadnzd2qrcu>
+References: <20260609-shikra_vpu-v1-0-3a32bb38b080@oss.qualcomm.com>
+ <5YTsRTMAUGw0it3GAWHhKIh77_Hk823-xRJ4WxzQ-ENpdnC9-ttUvWhJI_CqFEetmFXcRel50GK_o2UMGzwZmg==@protonmail.internalid>
+ <20260609-shikra_vpu-v1-1-3a32bb38b080@oss.qualcomm.com>
+ <f793c665-ac99-4afe-a64b-bbd6d40044e5@kernel.org>
+ <bc9a8075-db42-4de1-a3cc-4f6816681290@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260609124926.1038981-1-hpa@redhat.com> <20260609124926.1038981-2-hpa@redhat.com>
- <aineK26VD67Fmibd@kekkonen.localdomain> <CAEth8oEv3iAQ1P9=rYddeBRX2qrjZiysUA_JfFp8pUAoJXbGLQ@mail.gmail.com>
- <aipwpTo5JCiAACVp@kekkonen.localdomain> <CAEk1YH41bJSoJdjYMj2ZJp5+WF6DpZhBrwkNKaC1HbPvwDV3GA@mail.gmail.com>
- <aiqtsFbFR9SZSDeL@kekkonen.localdomain> <9aaa21ad-6332-4dd4-9b78-6520af6a8619@app.fastmail.com>
-In-Reply-To: <9aaa21ad-6332-4dd4-9b78-6520af6a8619@app.fastmail.com>
-From: Kate Hsuan <hpa@redhat.com>
-Date: Fri, 12 Jun 2026 14:58:21 +0800
-X-Gm-Features: AVVi8CfVl9R7RRHd_ZqXxkQ0_GxLgFx_40ewKeaoScr54fqO9XaXiOQ7BJgajPQ
-Message-ID: <CAEth8oG3DTQuo2u6F=5zS1yXfJhiWO-oirmUs17uaK2DrNbQUg@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] media: ipu-bridge: Add DMI information of Lenovo
- X9 to the image upside-down list
-To: Mark Pearson <mpearson@squebb.ca>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Damjan Georgievski <gdamjan@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans de Goede <johannes.goede@oss.qualcomm.com>, 
-	Hans Verkuil <hverkuil+cisco@kernel.org>, Serin Yeh <serin.yeh@intel.com>, 
-	Tarang Raval <tarang.raval@siliconsignals.io>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <bc9a8075-db42-4de1-a3cc-4f6816681290@oss.qualcomm.com>
+X-Proofpoint-GUID: wVKqQOcY4-M5OEVKgABR81rJeXY2Ym7v
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjEyMDA2OSBTYWx0ZWRfX2GXU5L3SP8al
+ Mq2Ut1C4xD7Zc0ZARooe446cjXZKq0h1g5iBrgWPumn2Px1Ybbl87u+8CReX1Da82P1SRn8dtPu
+ z+kq9rMCUtiuIOATmvHr1L1ta5sZIH0=
+X-Authority-Analysis: v=2.4 cv=Qp9uG1yd c=1 sm=1 tr=0 ts=6a2bba02 cx=c_pps
+ a=KB4UBwrhAZV1kjiGHFQexw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8
+ a=yW9dRt1GCuxPZAtmE0gA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=o1xkdb1NAhiiM49bd1HK:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjEyMDA2OSBTYWx0ZWRfX78mPs4vPkUea
+ AU3Xr2tUeWkSdmnGbTMdu2J09KLILCcJGeq7qj0rXSOa6HnyhdyAeSypcbZnxIW3wcl0p/mozSC
+ keUsTeGBLDEG9LUmcnqJgE4NWp2ho6YbZgcKm6yVK7RH9q973DvsAeeL155oZdZzCw4Pv5otwa2
+ JiQY7YR4ylVxdxzpkQtf7UOU6khqc99tchUTY1nhQvlw1EuAt2SFeyNseONzl1ezP+9LS147CVR
+ VPQpxbpgyxHnz7de9IDvx+m+pzcdoCfc6PaqHoi4p3QT32x5RTay1p0NC7s/ixK1TdJ5IdB+1Rs
+ I62IJhl7wpQ52lzIj8mim8aHTDLL+BBDH5++3qVouepmvZHvlC40w83FbdQzXifHkdo/JTklLbe
+ lTzoIul3kNmSnGmR1n9l382/OvutJz8iGsyAhEVNVCA12ujbGDKLf49HYXbI/mlYe03IL7yW1Tz
+ iy6yXSsSFYjBOfjY5yQ==
+X-Proofpoint-ORIG-GUID: wVKqQOcY4-M5OEVKgABR81rJeXY2Ym7v
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-12_01,2026-06-11_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0
+ priorityscore=1501 phishscore=0 adultscore=0 bulkscore=0 clxscore=1015
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606040000
+ definitions=main-2606120069
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-Spamd-Result: default: False [-1.66 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,gmail.com,kernel.org,oss.qualcomm.com,intel.com,siliconsignals.io,vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-64639-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[hpa@redhat.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-64640-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,oss.qualcomm.com:dkim,oss.qualcomm.com:from_mime,taadnzd2qrcu:mid,qualcomm.com:dkim,qualcomm.com:email];
+	FORGED_SENDER(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_RECIPIENTS(0.00)[m:vikash.garodia@oss.qualcomm.com,m:bod@kernel.org,m:dikshita.agarwal@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jorge.ramirez@oss.qualcomm.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:mpearson@squebb.ca,m:sakari.ailus@linux.intel.com,m:gdamjan@gmail.com,m:mchehab@kernel.org,m:johannes.goede@oss.qualcomm.com,m:hverkuil+cisco@kernel.org,m:serin.yeh@intel.com,m:tarang.raval@siliconsignals.io,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[redhat.com:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	MISSING_XM_UA(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hpa@redhat.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dmitry.baryshkov@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,squebb.ca:email,lenovo.com:url,mail.gmail.com:mid,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 18227677139
+X-Rspamd-Queue-Id: CD1E76776DA
 
-Hi Mark and Sakari,
+On Wed, Jun 10, 2026 at 01:20:59PM +0530, Vikash Garodia wrote:
+> 
+> On 6/10/2026 2:07 AM, Bryan O'Donoghue wrote:
+> > On 09/06/2026 17:15, Vikash Garodia wrote:
+> > > Document the iris video accelerator used on shikra platforms by adding
+> > > the qcom,shikra-iris compatible.
+> > > 
+> > > Although QCM2290 and shikra share the same video hardware and overall
+> > > integration, their SMMU programming differs. QCM2290 exposes separate
+> > > stream IDs for the video hardware and the Xtensa path, requiring two
+> > > explicit IOMMU entries, whereas shikra uses a masked SMR to collapse
+> > > equivalent stream IDs into a single mapping. Due to QCM2290’s SID layout
+> > > and Xtensa isolation requirements, such SMR masking is not applicable on
+> > > QCM2290 platforms.
+> > > Since shikra uses the same video hardware as QCM2290 and shares the same
+> > > programming model and capabilities, it is added as a fallback compatible
+> > > to qcom,qcm2290-venus, with conditional handling to allow either one or
+> > > two IOMMU entries.
+> > > 
+> > > Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+> > > ---
+> > >   .../bindings/media/qcom,qcm2290-venus.yaml           | 20
+> > > ++++++++++ ++++++----
+> > >   1 file changed, 16 insertions(+), 4 deletions(-)
+> > > 
+> > > diff --git a/Documentation/devicetree/bindings/media/qcom,qcm2290-
+> > > venus.yaml b/Documentation/devicetree/bindings/media/qcom,qcm2290-
+> > > venus.yaml
+> > > index 5977e7d0a71b4fb5681f1c2094439c251366f01f..895533b9756690d075fd7729e3f805c8e72ff0df
+> > > 100644
+> > > --- a/Documentation/devicetree/bindings/media/qcom,qcm2290-venus.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/qcom,qcm2290-venus.yaml
+> > > @@ -15,12 +15,27 @@ description:
+> > > 
+> > >   allOf:
+> > >     - $ref: qcom,venus-common.yaml#
+> > > +  - if:
+> > > +      properties:
+> > > +        compatible:
+> > > +          contains:
+> > > +            const: qcom,shikra-iris
+> > 
+> > Should this be "iris" in a venus yaml ?
+> 
+> given the vpu core was first enabled on venus and now it same core on a
+> different SOC being enabled on iris. There are 2 ways to do this
+> 1. Add the compat to existing schema which defines the binding for that core
+> i.e existing patch
+> 2. Write a new schema (or say duplicate it) with ...shikra-iris.yaml, but
+> again, the shikra compat would fallback to "qcom,qcm2290-venus" compat.
+> hence even iris yaml would then need to carry the venus *string*.
+> 
+> I followed the first option.
 
-On Thu, Jun 11, 2026 at 10:55=E2=80=AFPM Mark Pearson <mpearson@squebb.ca> =
-wrote:
->
->
-> On Thu, Jun 11, 2026, at 8:44 AM, Sakari Ailus wrote:
-> > Hi Damjan,
-> >
-> > On Thu, Jun 11, 2026 at 11:41:19AM +0200, Damjan Georgievski wrote:
-> >> On Thu, 11 Jun 2026 at 10:24, Sakari Ailus <sakari.ailus@linux.intel.c=
-om> wrote:
-> >> >
-> >> > Hi Kate,
-> >> >
-> >> > On Thu, Jun 11, 2026 at 03:25:46PM +0800, Kate Hsuan wrote:
-> >> > > Hi Sakari and Mark,
-> >> > >
-> >> > > On Thu, Jun 11, 2026 at 5:59=E2=80=AFAM Sakari Ailus
-> >> > > <sakari.ailus@linux.intel.com> wrote:
-> >> > > >
-> >> > > > Hi Kate,
-> >> > > >
-> >> > > > I know several people have given you different advices but...
-> >> > > >
-> >> > > > On Tue, Jun 09, 2026 at 08:49:24PM +0800, Kate Hsuan wrote:
-> >> > > > > The Lenovo X9 has an upside-down-mounted Sony IMX471 sensor so=
- the image
-> >> > > > > was displayed upside-down. Add the DMI information of Lenovo X=
-9 to
-> >> > > > > resolve the issue.
-> >> > > > >
-> >> > > > > Signed-off-by: Kate Hsuan <hpa@redhat.com>
-> >> > > > > ---
-> >> > > > >  drivers/media/pci/intel/ipu-bridge.c | 32 +++++++++++++++++++=
-+++++++++
-> >> > > > >  1 file changed, 32 insertions(+)
-> >> > > > >
-> >> > > > > diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/me=
-dia/pci/intel/ipu-bridge.c
-> >> > > > > index fc6608e33de4..9e24aaceecdf 100644
-> >> > > > > --- a/drivers/media/pci/intel/ipu-bridge.c
-> >> > > > > +++ b/drivers/media/pci/intel/ipu-bridge.c
-> >> > > > > @@ -134,6 +134,38 @@ static const struct dmi_system_id upside_=
-down_sensor_dmi_ids[] =3D {
-> >> > > > >               },
-> >> > > > >               .driver_data =3D "OVTI02C1",
-> >> > > > >       },
-> >> > > > > +     {
-> >> > > > > +             /* Lenovo X9-14 */
-> >> > > > > +             .matches =3D {
-> >> > > > > +                     DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> >> > > > > +                     DMI_MATCH(DMI_BOARD_NAME, "21QA"),
-> >> > > > > +             },
-> >> > > > > +             .driver_data =3D "SONY471A",
-> >> > > > > +     },
-> >> > > > > +     {
-> >> > > > > +             /* Lenovo X9-14 */
-> >> > > >
-> >> > > > How are the two X9-14's different? It'd be good to have some com=
-ment here
-> >> > > > which model this actually is: the board name is only available (=
-typically
-> >> > > > at least) in DMI.
-> >> > >
-> >> > > According to the datasheet of X9-14 and 15. Lenovo offers 2 screen
-> >> > > sizes (14-inch and 15-inch) and 2 CPU types (Core Ultra 5 and 7).
-> >> >
-> >> > Is the CPU SKU the difference here? If so, can you add that to the c=
-omment?
-> >> >
-> >> > > They may ship customised firmware for a specific purpose with a ra=
-ndom
-> >> > > DMI_PRODUCT_VERSION.
-> >> > > So, using the DMI_BOARD_NAME prefix to identify the laptop SKU is
-> >> > > safer and easier.
-> >> > >
-> >> > > I think DMI_MATCH(DMI_BOARD_NAME, "21Q") covers all X9 but I don't
-> >> > > know the side effect :(
-> >> > > They may propose a new model with a different MIPI camera or HID.
-> >> >
-> >> > Indeed. Is the BOARD_NAME guaranteed to be unique by Lenovo? I think=
- I'd
-> >> > use DMI_EXACT_MATCH(), too.
-> >>
-> >> The full board_name is 21QA0048RM (on mine), so 21QA is just the prefi=
-x.
-> >> The lenovo support site only requires this prefix to get you to the
-> >> support page for the laptops and they refer to it as "Type 21QA".
-> >>
-> >> Is there DMI_MATCH_PREFIX, for these (if not all) Thinkpads it might
-> >> make the most sense ?
-> >
-> > DMI_MATCH() only matches for prefix whereas DMI_EXACT_MATCH() requires =
-an
-> > exact match.
-> >
-> There are two BOARD_NAME's for every Thinkpad (which one your system has =
-depends on the channel thru which the platform is sold).
->
-> The first 4 chars are the important bit - they are defined and won't chan=
-ge (they are used internally here). The rest of the BOARD_NAME is based on =
-the config and can vary.
-> I'm not so sure on the PRODUCT_VERSION I'm afraid which is why I'm hesita=
-nt to use it, even though doing the match on two IDs is annoying. I'm tryin=
-g to confirm if it's a good idea or not.
->
-> A useful trick, for released platforms, is to go to https://psref.lenovo.=
-com and type your platform in the search bar and it will come up with the m=
-atch and also list the two board codes.
-> So if you put in X9-14 you should see 21QA and 21QB - these are the two D=
-MI matches you would need to do (X9-15 uses 21Q6 & 21Q7)
->
-> Don't do a match on 21Q - that will definitely match up with other platfo=
-rms that won't want this change.
-
-Thank you for your clarification and comment.
-
-In summary, v1 is a better revision for now, and I'll update the
-comments to describe the reasons for the implementation.
-
->
-> Hope that helps
-> Mark
->
+It is a correct approach. However the block should not be called Iris.
+If I remember correctly, the core is still named Venus.
 
 
---=20
-BR,
-Kate
-
+-- 
+With best wishes
+Dmitry
 
