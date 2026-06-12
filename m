@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-64690-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64691-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 6u1cDfQHLGrOJwQAu9opvQ
-	(envelope-from <linux-media+bounces-64690-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 15:21:56 +0200
+	id ibBIK9kHLGrJJwQAu9opvQ
+	(envelope-from <linux-media+bounces-64691-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 15:21:29 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2243679BB0
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 15:21:55 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1B4A679BA9
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 15:21:28 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=nxp.com header.s=selector1 header.b=V8XkLAP2;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64690-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64690-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=nxp.com header.s=selector1 header.b=R3BsGuRP;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64691-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-64691-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=nxp.com;
 	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 9371330FE462
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 13:21:00 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id C133C3002F6F
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 13:21:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F6703EDAA9;
-	Fri, 12 Jun 2026 13:21:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7740E3EDE54;
+	Fri, 12 Jun 2026 13:21:02 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011050.outbound.protection.outlook.com [52.101.70.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42E933EC2E1;
-	Fri, 12 Jun 2026 13:20:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C639C3ED5BE;
+	Fri, 12 Jun 2026 13:20:59 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781270459; cv=fail; b=ptgSlSqhinCHhT4TpXZMHGx7wmEon+mD8fBD/lJT2GcP8jybRHPDFS2E8jsDbikFRBRSzhAePK2by7A3HKUWHFbclF0HGHiak+RfU3AIBNp3nUSOOj0vZd1Q+xkenYQiMtJ+gwY3kH/xbG4Ayim7cW0CYllDjOxmvd+Ipt1vq/Y=
+	t=1781270461; cv=fail; b=PrzXYXsK1feZapNRjtLjIosukAKZoU6ktyqsciXdm34ilauJ2SYWtMy/za5Oz57ojEGtLhAEuculdeLb74d9wBWZDxWYtYZwPxGByD/aH5ZnY+Yh2S/dbn3+9TxoZA8JDfU4ocAVtZNWxibTUzr0cPKMcMwFPe1d4PgJe0I3WiA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781270459; c=relaxed/simple;
-	bh=BQqxafIMtTkKAMwC+xdESHTLeXpYxaXYvjlaQBvYEcc=;
+	s=arc-20240116; t=1781270461; c=relaxed/simple;
+	bh=Eb+ROArPlZwaikX7ZHwvVK6KPrJti5o1939Jt6zokBY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=f/2fPtZlYW0bXVcFvByuKH65qm2nocsp4623JWxYmNyAhNzqkDv2/5e0raDQKPv7EQFLSGq2LhE/+oXmBobNgr2PE0RpEUuvXOdPxlQCKjx+rfKqXf3DeOUQoGdtVZRrKE4HkLh6N5I5aN7f4yX71Ea1PevZFzQT69M7KicMSyA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=V8XkLAP2; arc=fail smtp.client-ip=52.101.70.50
+	 Content-Type:MIME-Version; b=c4gbGbtORdxgHMmNvFA2GikgPnf3cwzf/pgPT5YYHWa71KpdttIcGUh7Q8kek5v8OeIW+uI/oGioRqdaDztH7kltos2z/jeNFayD5jxqD6y2uscYI1mJd+NJBBRIHJmpw3rAxmYEpkgN7P/Me7+c6Qn+m0v3TM5i6NYMTJvU9C8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=R3BsGuRP; arc=fail smtp.client-ip=52.101.70.50
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NAY1ved88caHYSwy0DiCr0kbqjbv2jGFNGStGiJyEvhS8YH54gzLNcV1VytKrNUWGYqMWnW53Vzb6VS0aJXmr8falMtHBaOhjV77wR0z64/ckrvqirgRRav+x3LovHAqirsliBXTUhDrVAmFIba4O3SPlLnkF5SNMY9MtiBF46saTZ0dU2mZKb8VGhvE2X0uhmAKXj80lYbODbB/Z7nSGzKi44EOXRn64XUvp18JJLtpEnLquLGl9r4Zjl+G1df731feO4FQmOejzbMldL1Y2iGJfz8FPvMHR2NMSbb4rvXO5c9WXLNcJgwC7Hug5QuITRbVFICMNfLlmKYjrRvF2w==
+ b=cLRbia45zQS36ywfQUDx5uM5fu5ym0/HKR7Dv/tPjZEVv8I1PD64csWMecUzpNgWSzPDymi3PbGlfTnqFjigpSjmN7Irt9vJo/Xy+lM5SEyxhnMiwagPghskpgx3GYBsjtXah6gUaEHL16JwJimusUI+nRexrYUSEJE21EdgbTBh2lH5okrPZu2Vwb8xP0xGJyQTDHgEyigRqhtNTBANm64o26AWQaWGcYYzVT/ejoxFkwg5MLt9n/XT8ydUD9L9pX6amfkO1uGILV5QRLkTGaoJap1xk5ujbkT5aJrWXmXfP9juOx0KZorOXmVa5xbYvR2DajXtuFhOmiZE8emKHQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=auZ1sWQO+u/Ug16/3GkGDmclPngY0qQnRvzgdh4nQek=;
- b=wqjnWTOougVWu1Qq+QnC/+ome22IjP57PK43C9xRZh8lPQYcmgmDJVe8ghyBG2wzzb/bSyK5wG08wDjwN3q8FMy8W3EIa5Xm+tzJCSl5VTzlzUX/p7ibEByPSS1J7u63YyHrGzV0FJTGqi3o9wXuXMamAjmJPQNwL77SI5+bP9H5qAZO/5phs0WOouJkij/0n2FtSztNC8YW2TCBmMEurhJlInIAqQ+Z1lyyVq+LO/l/p/MycUgm6JWWpi4B8o676cmYinneDsnlWvbYmYdOTHQ5U4+kvy+kOK2V9l67OB3j49S/UcLL15iir81akG1nPdVe/bdZVLD/xMN4OimEkg==
+ bh=PHWV3gRupX+AHVICQwWzT/H+/0hT8aV0cZ6MT8xnZZw=;
+ b=fdWQel22Uyw690SM2mEiUJU9zmNfSVZmJcma7gnIoITcaFFJs0sl5x2HU43esEy4l3KJL2LOMs3OR68pCuaAabeHc+fh+oIz6RA+j/yl8M2vjDaAYhGCk8sZoroJvH3nMcv8OSvlQzWLCn7QRoOV3/tcc6wTyzfrJsPirq8rT02J1xUqOio9cLHH6hIyz59BRE7HrABrUeq3j4maNXszTxgA/pNcap0hfAHwLMtt23YjUAoTt01g76rRkJP9KzZYNduc9ewSxmdLSzm3BtJJYJezFMICSAOmEpzDKr76t7EB4R4SxNrH+hh6BjiHIj3cZSng1oxqLT41Q5aaLgGorw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
  header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=auZ1sWQO+u/Ug16/3GkGDmclPngY0qQnRvzgdh4nQek=;
- b=V8XkLAP2lNMykNWhew+QEy6+JAEKVUKehfO4yr0i9/dvx1xLowyERyAjF+en9KRcjtzecLVdwoYqq/4JilJuplzDjbp4f+V6Cvje1uEzcyF8bT7QWzJYZDYbyQrE8m8v1Nlr4fTeMJsn3W61IEGJm6TyIAWAUC+NXMzonbmnNySwfuawLzSL+d0PrVpNwy77DuOi0zRsM9va70p4b121UCrDeQz7jL7tu5zKQuciN6d7pM33y9iYeEC1ZPtAL/SdLb5JtG0SVlmBPeYoU2HfViGVw0jm39eR8XHHPISGnSV1XK+KxH/UFvjzPvbiY7x7TMUaPMQbXdLsUY49vpglQw==
+ bh=PHWV3gRupX+AHVICQwWzT/H+/0hT8aV0cZ6MT8xnZZw=;
+ b=R3BsGuRP68znml6Kur8CBkRE47vNOeEEcBJPCP55d73M2PhYnyhiy0W+s5WQklcaloyxBols2nYIe71eAFDrICuENwtVQCtJjOLxAX5g2tK1yxJ3hFz+9xuaHP0jCg0hT0LF8hxE3bAPIgpvT1UYnXZi5kRKODdjhyP/inUqzTahAgB7MSgD4c4NQki+V0A07E5svxMEQzPMIXj0ivrYRR7N9LcwdX2x0Wk/LlkRLS4qH5BMw+HQnz3oUy/BTA5tg5OO51B5BjGNgOcLPmMkZpi4iBrqx9gdQRC0dqaDfywoj3Bjb5vqlkZjqc1EUqhzNxPeXFi2xCTKhjxSLDtIkw==
 Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
  (2603:10a6:102:516::16) by DB9PR04MB8203.eurprd04.prod.outlook.com
  (2603:10a6:10:242::18) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.14; Fri, 12 Jun
- 2026 13:20:50 +0000
+ 2026 13:20:52 +0000
 Received: from PA6PR04MB11910.eurprd04.prod.outlook.com
  ([fe80::d3f0:3c24:f717:4989]) by PA6PR04MB11910.eurprd04.prod.outlook.com
  ([fe80::d3f0:3c24:f717:4989%4]) with mapi id 15.21.0113.013; Fri, 12 Jun 2026
- 13:20:50 +0000
+ 13:20:52 +0000
 From: Antoine Bouyer <antoine.bouyer@nxp.com>
 To: julien.vuillaumier@nxp.com,
 	alexi.birlinger@nxp.com,
@@ -81,16 +81,16 @@ Cc: linux-media@vger.kernel.org,
 	sakari.ailus@linux.intel.com,
 	hverkuil+cisco@kernel.org,
 	Antoine Bouyer <antoine.bouyer@nxp.com>
-Subject: [PATCH v3 2/8] media: v4l2-ctrls: Add user control base for NXP neoisp controls
-Date: Fri, 12 Jun 2026 15:20:33 +0200
-Message-ID: <20260612132039.2089051-3-antoine.bouyer@nxp.com>
+Subject: [PATCH v3 3/8] media: Add meta formats supported by NXP neoisp driver
+Date: Fri, 12 Jun 2026 15:20:34 +0200
+Message-ID: <20260612132039.2089051-4-antoine.bouyer@nxp.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260612132039.2089051-1-antoine.bouyer@nxp.com>
 References: <20260612132039.2089051-1-antoine.bouyer@nxp.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: FR2P281CA0101.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9c::7) To PA6PR04MB11910.eurprd04.prod.outlook.com
+X-ClientProxiedBy: FR4P281CA0165.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ba::20) To PA6PR04MB11910.eurprd04.prod.outlook.com
  (2603:10a6:102:516::16)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -100,58 +100,58 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PA6PR04MB11910:EE_|DB9PR04MB8203:EE_
-X-MS-Office365-Filtering-Correlation-Id: 983065ac-23a6-46ad-4758-08dec8856c13
+X-MS-Office365-Filtering-Correlation-Id: 9d788f4c-2031-43df-07c3-08dec8856d1e
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|19092799006|376014|7416014|366016|23010399003|921020|18002099003|22082099003|11063799006|56012099006;
+ BCL:0;ARA:13230040|1800799024|19092799006|376014|7416014|366016|23010399003|921020|6133799003|18002099003|22082099003|3023799007|11063799006|56012099006;
 X-Microsoft-Antispam-Message-Info:
- l0FLMv3XwBb4Ldr2ipU/yg42Scwb/TH/939AV1lYC6V/Rxsuf/jnmZqklFlguErBbF0cGHGzMS3/+M3d3tu7f5h7rjMcxlxOFgjwxHIFxmWZS8gTx+zwZry2w8JXMdZUqpdE9y6j+5yMWHJ3WGUS1JK58Aj6K+b085kafngvzgXqyagF9mrcVP4vAdrTnlFlOx4ihLCsJmckvULJNguBlUStS18GTX0gTyUKGrNdKgq2pfKK/bGDiwT1RARfBpjcJqFFdTmUabkHuTNCBlVYXtV6rG1UVGRtrkmrPigAJ1R2MuWiYsGVY6eNOVnaXDC/oXuQfYrvxBWoo3CMyvXsevK6mkQ9wFru5+CJHLYV4T3QOWGTrBQxksZ2T/gf/oFh631oN4ROaNDS0hhHge0PHnyG15P5fQINzLmpVRVsTLNdwbTYCjh92bA2rePr+A0VPQO4j8tMylh9wJIuJ4Xg1YgWD2FQZOOQ2pHQIcJozNP7rtZPjppka/Dabws6vdRdB81kUYQ59e4lv1clQFZWiLKK046sPOWhUQweII3V0qn4/iRQuEW4YV7cYDTVgB27KiFym242V2lid+CUVGvVN9GOXI/73wpx2pALs7jsNgxUERidb7jagO9q6WrmzaCiXYwrw7kJLVP6gpujO2VMGIPCChUEmiEw4xEx/+Hg2WK174nImrNiIoo/36FV+/dyqZ4tAs5pTW5Cx7ErTwr17FvgoyOLCe0AqxkATXkZS4o=
+ RsYtq5QYbyOG4SedJkhUE2uOK4hmtQt91uTH3L1R17DM1lBb4CWsMUYQczchN+rKbiIVx1n6mOA3tpGJHu6pFxuWFNUYGkkopMZ9/xKUIuxM9g2JXEef8Lqy77kRygNcZvNzxNgssr6TShlgu44Ri3m/vc6QBy+caFCTAJBs4UpWVEOJCWJoWoTe1+tejMwXC+BxDe6Eae9JZDXcMykKiuqEFXG2ChSRKjrL2FeBmDlnONoIWoeyEyDMEaNy0/eQ5u8DG0xaOOjjYUdhHZ+spWRhidzs/OGnQ6zSTMaPxgD/zdvNkzlPJM06289JhoEv6hPzem7sI3HG9AyxFB2rHIPEIToeikKF3Aj8ANvq9Np0UQXiENuza/RZEuNshAZONCG60eAZIbtL8Zz2m7TtgEKlZDV0xn3mSktaqJ8PaR01uT2IRQbXgqFcpa6axKPKV+4JEzZ9mwcVHCGLjT3nEbVe0bHAjvFMHMTOYCcB6TnZXrSScv9rAqHJWVxo+PIBWtlPkdcpWHCUDB/ie9C0P82iC/r0Xs2mybioRU6CfXQ59YH8roNqIQGDZsvUC3eljDFPLF6qal521DK3z74BowWAK87yajt7/jWziYh+mzEi9lBcVFKqdrcx200PPSlZR0VUSIwXvY8ga2mb9SEvd6HQyQ7RGd/7ncg8ppYTcVBfGvp5rHZTy8M6WZsj0eVYNCrB3ACHQ5XJMo/T2K2n6lOQKKJmet8AhM5kHyeutUE=
 X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA6PR04MB11910.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(376014)(7416014)(366016)(23010399003)(921020)(18002099003)(22082099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA6PR04MB11910.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(376014)(7416014)(366016)(23010399003)(921020)(6133799003)(18002099003)(22082099003)(3023799007)(11063799006)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?otrEBOoG9XSRtoxq7lEDuuKcFLxol6PUCM+NUcEgZ2GTrIlP4NqaKD1WzwWD?=
- =?us-ascii?Q?uMa+E1Z4gvjuQg8L8Q7Dp+DyoPTz6tSFnRPXl+Qst31ZWTL77Q1C9522EfVu?=
- =?us-ascii?Q?lOKmUmkiNNKGUkebl78SuIm818VDZxh70PsO4hlXQbDKOlom7bcdrjNd03rN?=
- =?us-ascii?Q?1ogvbT9d22E3dr5vRW12XfLFuKj2RA1EOuUI8rxjYZuXKu6xRxq/zzefVd7F?=
- =?us-ascii?Q?oNcaJofW3AeLLeuIeC6ONdk/OuCxhgEw6O0ue9Sd9QU7/9hhbCJStpMPjzvf?=
- =?us-ascii?Q?FLprITEWAyqOL3QTtsIcu1xPdKpFX9AWeRHJawcLEkFAxsSK5kqWwv7m3Ux6?=
- =?us-ascii?Q?KY8+5OlTkjyeycugTtc9zJqfLpgTDD1AHouO/m1KcXaa3vBhnk5H2+wG9G0Q?=
- =?us-ascii?Q?R+xpknazls8ZWSEccuVygy9blJHSfF0h+Fbc1i7CctayBUp5lR+A/U/cTfgp?=
- =?us-ascii?Q?H2qj6IlK9kV5pd3/29lqcsLS4mWNZvf3hhBa5s/KIrQHzuC5EH0+rPmmAM7c?=
- =?us-ascii?Q?3YFMVWXZPIKzoVbtfIwyF/+MlluaMA/kDeFB4lEYGX0dA4zrKCqhbggpIEMz?=
- =?us-ascii?Q?m9w7G2RRhTFaBYvm7i1RHaEKbbzhFerxx9SLT0ZEuhrI/mw2YS5hmq9BcYty?=
- =?us-ascii?Q?7+41Qs4Ygm+YYk7kMS7t7FFIsmVfKL9RKJZlXvU7UWVuCwIFcex54eKKgdgF?=
- =?us-ascii?Q?wk1zkJdQs3sUkwqcl0WztXXDvVj8W7wcJ71dMEHEnpV/k5FhPr65N4Bf5uS7?=
- =?us-ascii?Q?9Iy+7Kq8sC1VciP08NDXgUBwIKKYfsqPV13I0DSNgT38mcAiZpIMpEI59zhI?=
- =?us-ascii?Q?5VHHYMPxFX67MRdRs0uSrUTj9FpA7iHJwRrP6ih+ov4gPPuzPoKxSFY52P3n?=
- =?us-ascii?Q?H+hulPJEHAvmiQTcNRXrbAvr3CxPPtajesVJ8OJL3+M0oFKko2sRs9GiCszL?=
- =?us-ascii?Q?3qRvH4JbL/M48B73Q/xvlIb8/jEV7mix5LlQIorepzAaXtxIzLRJRsWmFmao?=
- =?us-ascii?Q?kZmEdppRw4kII3WOOh6vwNDWr9r+WsJdPV4WHBV3WLjF0OCC9GWQbWqv/Mmz?=
- =?us-ascii?Q?3U6cmdOB8eSRB+T/xChyXeR98LjEfp4sIqQ0JPlSwB+HWqwmu7v33Yh9tDTW?=
- =?us-ascii?Q?CgTCCiNQnvIyAjlEVJ5sXcd/5EAM+K969htmTq1H6OmAwPx6n6rxlaj4Ku0A?=
- =?us-ascii?Q?7L75Oznf1tAT6xXGlbX3DMzRSuUihpi9DJj6VBoWHfprFj7RnJw81rgTrLOJ?=
- =?us-ascii?Q?XHicOQMNtQlzmEyZhc8o3oAFV3++L99NZsJGRfrSjBsYhclLl/kcWRnDWpdw?=
- =?us-ascii?Q?ufgpgXDiPj2nTpbdOSzUAeNbgAhW2jOVSi2Zx7F1d6/F3HfPHmrww0xVTxw9?=
- =?us-ascii?Q?o+6lPJD/BcTS0jM4u+BXGlKZXQnfUnkug6V3qNjReGyTc4vSzZamrZDJSIOf?=
- =?us-ascii?Q?+QCZFj+5aTI7P0lCh7dIZ+7ptv7Itdq51lfQ4QfmZzS2vvsJ1MlxC0L67SK+?=
- =?us-ascii?Q?9Mn0Mw8mvVYtmjC2FCn6vibnzHcNUYufK1lFCqMJYPqiAkCDWy9Zx28819Np?=
- =?us-ascii?Q?X7IbkKyznphIVGvTx/hYZRPmltC/2//fTUBELGtjm4FjIMkFFfA4SCL70m+7?=
- =?us-ascii?Q?GHA8euJBAavqbEj+y7cr6YlKyl8A8sZOMoLcEOADEVLIm7MNYGb/q1diGbmN?=
- =?us-ascii?Q?K1KDgMJggyfnksgBbjEoi2IW2W9Zf4Lk5pGsFgLwXdpy3IU6zWZgmrWA9vNK?=
- =?us-ascii?Q?ihSFUvnn5g=3D=3D?=
+ =?us-ascii?Q?r01lxVQM/V+dWgXH60q5jyIfkLYX04Gzf4FBfKR7hOFdt/MRrX+XEEO8b+QN?=
+ =?us-ascii?Q?BDkA35DidfRSJ+eDJZ8mDKffxapPqhS9NcfK2VfTrgx2c5pMy29ZMdjxcrDf?=
+ =?us-ascii?Q?3RhK6bVx2LEGuxzANSdAcPHf4p8blpJ9FNX8fSvyGRtm+QWtQHmky5eIXgVI?=
+ =?us-ascii?Q?IH4Py2xV0PnRebANvoTw5o+ojqrb2ayC4GlgtuSQqvdhQBtyXEGmNore+sOe?=
+ =?us-ascii?Q?I7zFAhoNQEzZ2Bky16PkIY91AqJhFe6Z3Lj2bTbgua980LjNQ+DQRcMKWlXJ?=
+ =?us-ascii?Q?9BjbHepOmojoD3ZbGavHexaFIpCmLOIrY5RMKPGecB7C5ISX2GaNVFZCVwTj?=
+ =?us-ascii?Q?WL/Q4iVGzeXxcLqh6wM3Gtnx4vI/vCPrTHdJvP7ujRaSx8ZZNxbICiF1HYWN?=
+ =?us-ascii?Q?CsSBo1YuXNDJipSHDeulkU/rwUQfnd5Zj8iWrZolIIIW5oK1+/JFVScKkpiL?=
+ =?us-ascii?Q?7yjL0mgoAm/EQDulzM95o/GBZzrlHPWGHN0jArmzv/s8HC1BIMR6W+b1KB7q?=
+ =?us-ascii?Q?jUCutSkg5Kfp2dkmpHd4yf+PoWbT3pYkA8/o8X8er9GoxhwcA6iDc4FY9Ak1?=
+ =?us-ascii?Q?WDmIsv9/qrjQlqIoeoXfpSXmAwFxuim8HMExpv+TV1LF9He81hmftzP2jllo?=
+ =?us-ascii?Q?kuAuA0KsimzJPj7Pjea2ARCrbzMaF+dNcR+jO1vQExhpDW5mEPcelA1n6q9k?=
+ =?us-ascii?Q?dVCQAS5sK+9BJm3zW0oopCgbqhjffhWxp8/p0MgYQlcq6gLFxe1aTgoagds1?=
+ =?us-ascii?Q?AbbXUZLCtfc65eIBtPCKaJ45yVFF3jIzxdjr5qIjCfsa1m1ykkKra/3PpXgA?=
+ =?us-ascii?Q?4kzaHDf5xCdcPzR1KclGMLrwtv3S23WH+xH3+fuCKAQalL+NRRq4PSilbYhg?=
+ =?us-ascii?Q?jym4X2fGf8ABcTL6l4Es/T05rMJffq/h+8UZoEbdWNijL5sxEIjlx5w3QQ6E?=
+ =?us-ascii?Q?pQ8/+4pNCFgmRVoYXrFJmVf+Xec0830QOewUBzqDB8ri87hBM6MwOi4j0JhA?=
+ =?us-ascii?Q?yC9xx4t2k4PnyhgPb3L0gKBJBhTiQiYm0TePrxjXi7hUYZwbTRKxYiscYgup?=
+ =?us-ascii?Q?K7fotLS2cpXWyPCMOBv9NlJX+OLbA8HRJcaCoggGR3ndxkSjrJQIjYDZhhDS?=
+ =?us-ascii?Q?k7lJm/3uRZg2oUb535GgkYnzX+sfwxz8CwrGERRcIWrvq6l76lLQwtfvgrs1?=
+ =?us-ascii?Q?Rk4u6trlFMOIxf1TstWoOw45aDXzcjisXNPm8rpAYHyfa3EfMyQCeL07OWt0?=
+ =?us-ascii?Q?oPtMW+BOd7yqAvhaGP5taa+8R/49gmj+nNG754BQknFdfnfJ6z8FX0E+eWP8?=
+ =?us-ascii?Q?CM9/HaJS87y9WfLw2g3oOkrr4MIPl566bu7mQ0yrKKF3/5gFTjqwHZFMcd+s?=
+ =?us-ascii?Q?2qH/BI2EVAqkumaaY+bH2YckOEUrTmXHknxUw7QDlD/M8r1zAQQ0vSG8S+7t?=
+ =?us-ascii?Q?RRiLVKRccEXJkk34X+9BWHi4OCJ+L4MBs3DoE+gXXNpowxJcvfEZEvuRCHCP?=
+ =?us-ascii?Q?FtQRHI8Jrot8MeKQxNRZN80wuDYM/LhzyTz0WhXjXMnS/D5eZ2NIu2RooCNx?=
+ =?us-ascii?Q?QOnxWIstyd6Uzvue2zL0iehM2qtnemUqsy64iqaLs1Z6d2KR1suY2c7MjOI7?=
+ =?us-ascii?Q?cetC9kXVDcQBB5NhbpG6ZCnNVkjPImY9EYr+HGJdONlwlplst9/ZweugDDJU?=
+ =?us-ascii?Q?rCcwX78S3+N+q/27jDX1SxP/RE90wUOEpFP2bze8l2Iv5cvI95O1NP5dVhh6?=
+ =?us-ascii?Q?KcM3FilGwA=3D=3D?=
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 983065ac-23a6-46ad-4758-08dec8856c13
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9d788f4c-2031-43df-07c3-08dec8856d1e
 X-MS-Exchange-CrossTenant-AuthSource: PA6PR04MB11910.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2026 13:20:50.3881
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2026 13:20:52.1747
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CFg0org8WwQKV9ZL8X9DRtSiJccuvfRz4eblVGSg8+y92sbP6Q+VYmrVp/7yuxOJ0eAVba55ZlpbN3byhkVbkA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: KOlLG/HJUEF/OisjG0xOeLXK5BRbSCOtl9+Y+ulOtin4FwtD/+iFUYY0weW3nHe5/phSntYar4gDTmR35pDb7w==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB8203
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [2.84 / 15.00];
@@ -161,14 +161,14 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER(0.00)[antoine.bouyer@nxp.com,linux-media@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[23];
-	TAGGED_FROM(0.00)[bounces-64690-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64691-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -183,37 +183,55 @@ X-Spamd-Result: default: False [2.84 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:dkim,nxp.com:email,nxp.com:mid,nxp.com:from_mime,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:dkim,nxp.com:email,nxp.com:mid,nxp.com:from_mime,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A2243679BB0
+X-Rspamd-Queue-Id: C1B4A679BA9
 
-Add a control base for the NXP neoisp driver controls, and reserve up to
-16 controls.
+This patch adds new v4l2 meta formats definitions and descriptions used by
+neoisp driver for the parameters and statistics buffers:
+ - `V4L2_META_FMT_NEO_ISP_EXT_PARAMS` used for the generic v4l2-isp
+extensible parameters structure, supporting a non-fixed-size buffer and
+changeable ISP configuration blocks.
+ - `V4L2_META_FMT_NEO_ISP_EXT_STATS` used for the generic v4l2-isp
+extensible statistics structure, supporting a non-fixed-size buffer
+and changeable ISP statistics blocks.
 
 Signed-off-by: Antoine Bouyer <antoine.bouyer@nxp.com>
 ---
- include/uapi/linux/v4l2-controls.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/media/v4l2-core/v4l2-ioctl.c | 2 ++
+ include/uapi/linux/videodev2.h       | 4 ++++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index affec0ab4781..1c44229d349d 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -234,6 +234,12 @@ enum v4l2_colorfx {
-  */
- #define V4L2_CID_USER_MALI_C55_BASE		(V4L2_CID_USER_BASE + 0x1230)
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index a2b650f4ec3c..acc60dc69d31 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1471,6 +1471,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_META_FMT_C3ISP_STATS:		descr = "Amlogic C3 ISP Statistics"; break;
+ 	case V4L2_META_FMT_MALI_C55_PARAMS:	descr = "ARM Mali-C55 ISP Parameters"; break;
+ 	case V4L2_META_FMT_MALI_C55_STATS:	descr = "ARM Mali-C55 ISP 3A Statistics"; break;
++	case V4L2_META_FMT_NEO_ISP_EXT_PARAMS:	descr = "NXP Neo ISP ext 3A Parameters"; break;
++	case V4L2_META_FMT_NEO_ISP_EXT_STATS:	descr = "NXP Neo ISP ext 3A Statistics"; break;
+ 	case V4L2_PIX_FMT_NV12_8L128:	descr = "NV12 (8x128 Linear)"; break;
+ 	case V4L2_PIX_FMT_NV12M_8L128:	descr = "NV12M (8x128 Linear)"; break;
+ 	case V4L2_PIX_FMT_NV12_10BE_8L128:	descr = "10-bit NV12 (8x128 Linear, BE)"; break;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index eda4492e40dc..e1656520b312 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -889,6 +889,10 @@ struct v4l2_pix_format {
+ #define V4L2_META_FMT_MALI_C55_PARAMS	v4l2_fourcc('C', '5', '5', 'P') /* ARM Mali-C55 Parameters */
+ #define V4L2_META_FMT_MALI_C55_STATS	v4l2_fourcc('C', '5', '5', 'S') /* ARM Mali-C55 3A Statistics */
  
-+/*
-+ * The base for NEOISP driver controls.
-+ * We reserve 16 controls for this driver.
-+ */
-+#define V4L2_CID_USER_NEOISP_BASE		(V4L2_CID_USER_BASE + 0x1240)
++/* Vendor specific - used for NXP NEOISP sub-system */
++#define V4L2_META_FMT_NEO_ISP_EXT_PARAMS	v4l2_fourcc('N', 'N', 'E', 'P') /* NXP NEOISP Extensible Parameters */
++#define V4L2_META_FMT_NEO_ISP_EXT_STATS		v4l2_fourcc('N', 'N', 'E', 'S') /* NXP NEOISP Extensible Statistics */
 +
- /* MPEG-class control IDs */
- /* The MPEG controls are applicable to all codec controls
-  * and the 'MPEG' part of the define is historical */
+ #ifdef __KERNEL__
+ /*
+  * Line-based metadata formats. Remember to update v4l_fill_fmtdesc() when
 -- 
 2.53.0
 
