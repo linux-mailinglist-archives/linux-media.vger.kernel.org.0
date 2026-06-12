@@ -1,193 +1,251 @@
-Return-Path: <linux-media+bounces-64635-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64636-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id O6s+FMRrK2rv9AMAu9opvQ
-	(envelope-from <linux-media+bounces-64635-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 04:15:32 +0200
+	id 8JozOXd/K2qQ+gMAu9opvQ
+	(envelope-from <linux-media+bounces-64636-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 05:39:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D80E67640C
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 04:15:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 512C967673A
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 05:39:35 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=NrFVmAwc;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64635-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64635-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=intel.com header.s=Intel header.b=gzV4u7Ty;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64636-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64636-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=intel.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BB2C3314090B
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 02:15:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 12975328BC02
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 03:39:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97F04382F18;
-	Fri, 12 Jun 2026 02:15:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 782CA395AC0;
+	Fri, 12 Jun 2026 03:39:19 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D4F35F5E3;
-	Fri, 12 Jun 2026 02:15:17 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781230519; cv=none; b=VFufP9W5Jn2pmXbHsU59liKSJ9XROJfTvJYYuB17Xdk7/cp22kUYD5Rpt2cmF9BYbwV37G2zEdZ4DhCdCsBYG3Q76t8woQtn6GDgLGdJiPkNVMseoQLCTzpJFAUJ7ks/M6N1jbxYtaXmTtPL9M+Zeuay8iYHwM6sVo8AOIWswFw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781230519; c=relaxed/simple;
-	bh=Oy85sK2Gn+Zq/RhyB1hdWZcoNF2HzoKYEyRUhJRFs98=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y303xFYBjAkbWE2z4Fswl12+O2pqQeC/Pgg/3OmxFKuhwI7NTYavS91OQ5IBpqXdoABltjtiDf0tDJcwi/OCFUgJGcIYrxLYiB7HbVFILvqxJ3n6JdMW3CNf/xioB2ZsSpGvrLN/U59S3XUYvpTquJH2O84b49Jets7IyozrKzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NrFVmAwc; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D9DF34DCE6;
+	Fri, 12 Jun 2026 03:39:17 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781235558; cv=fail; b=rWkcQ8UYXZu8bnYGVsPAWzOXiWcserbNoYgEkqNBh6pVj6w8ZUNuGWu8kFoQTDVJV2TBxbPBfG/kefMkBBy6y6jL3vMeUc6iqTZQ9n+lHOMff5ACPJQiLqIm8nT873HNMaixiGtTFDYTkK/S8clm78cjj9IAHuqY9RRIvliwGcU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781235558; c=relaxed/simple;
+	bh=wfz/AzXTu1IhXzHTub7K51GDJmxNomEZLH6i5pSZvSk=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=eNMkPc5LKUFsn8FqhVfugvl/aJdyQaAtL0v4Kgonlkqj4y+DGhbYCcep05IlQxh3OAL2mODMRFSfUVMOJsT8cM18+sxbrrD/tP7StgNx8hsIH9Va+vSvtV+wD2MSTEH6uRLo5lYV65qoehBOTu5FRJQ8LZb8T7QnH+rGRSuuJjE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gzV4u7Ty; arc=fail smtp.client-ip=192.198.163.14
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781230517; x=1812766517;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Oy85sK2Gn+Zq/RhyB1hdWZcoNF2HzoKYEyRUhJRFs98=;
-  b=NrFVmAwczvzue6NQlNC7DyREXJSxCVHsywzfYH5XMwxCaYPUdYX+KgMe
-   7tC/PjQlQHp5eIZxKnrsqy+iwM6TW5bZCdqJCdZw7clwACkoQNqyEYgyG
-   dMm4nEAC1b9CBoAlbqreIR2+t8GSVuOTBFQEoHK4UwNPKpO6QRJvu7eDa
-   VPs+H39q6NLCVj/whhcSDVfMBJ4U2Kpj+z0yCH2zXkpmw5yq1zqvZwTrU
-   M09ZPEt67N+j1C73ikRLtMzV8wuVKGycfGGqZjSzhxKJ/hxAuLaO+x40y
-   BrOvKcJUcUHk2BlQPsGOWakK7k2mfHlm3r7IZ5gbX+SaEAlPaTQcJhLPK
-   A==;
-X-CSE-ConnectionGUID: Kx0rp0cYQ3GalYen5UcBwg==
-X-CSE-MsgGUID: oViIR8ucRIK3eIHIw5dd3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82105572"
-X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="82105572"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 19:15:16 -0700
-X-CSE-ConnectionGUID: mm4dzS0QSW6s/fPGsfAEfA==
-X-CSE-MsgGUID: 6WGDJgrGTeaYkwKunTwo6w==
+  t=1781235558; x=1812771558;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=wfz/AzXTu1IhXzHTub7K51GDJmxNomEZLH6i5pSZvSk=;
+  b=gzV4u7Tym6FVHEItD4vihaJnxx3JWGYJI0TKPsJDqqA7nzLlr7zmtWIS
+   HThzgo5eTi2KizlnQHK9XsBii7wRRpTCr7wn0KVpc0hEcB/Ol1Y8H+c69
+   H8bFGhG1WNIoCZdV0SzfD9lbTreuzkG1Wr3M8Wne6ob7err6/E6I32aeP
+   y/i/rmlJ5VBDR3XhVYiCatiY5JhtKyBn7GQzwg2i1Sopb582rOnri6mrg
+   kN3qfoKO/n5Hi+0cvSMjmDm0ZbsmkQJTTINKehONSHTOKOzGIha71ukU3
+   Y74lMOLQBLAJsYHWf6FkYo7D0e+oyajVNODe++wgF/v8Rc2FeDbbFLa/O
+   Q==;
+X-CSE-ConnectionGUID: BDsVvuW8RKKnUTfGUixf4A==
+X-CSE-MsgGUID: /UmhHyBTR/ugtBmFqkdM0Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11813"; a="82109853"
+X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
+   d="scan'208";a="82109853"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 20:39:16 -0700
+X-CSE-ConnectionGUID: vmW8c1uVSpGkNtWSk91sog==
+X-CSE-MsgGUID: +MgXKHYzTXSJopAJRgH+BQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,199,1774335600"; 
-   d="scan'208";a="251641450"
-Received: from lkp-server01.sh.intel.com (HELO f0d55cb201f0) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 11 Jun 2026 19:15:11 -0700
-Received: from kbuild by f0d55cb201f0 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wXrQK-00000000OA8-0VEK;
-	Fri, 12 Jun 2026 02:15:08 +0000
-Date: Fri, 12 Jun 2026 10:14:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Eugen Hristev <ehristev@kernel.org>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jean-Michel Hautbois <jeanmichel.hautbois@yoseli.org>,
-	Naushir Patuck <naush@raspberrypi.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Eugen Hristev <ehristev@kernel.org>
-Subject: Re: [PATCH] media: bcm2835-unicam: Fix querycap multiple caps
-Message-ID: <202606121013.RsnqIwho-lkp@intel.com>
-References: <20260611-bcmpiqcap-v1-1-10cf7fb438df@kernel.org>
+X-IronPort-AV: E=Sophos;i="6.24,200,1774335600"; 
+   d="scan'208";a="246735447"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2026 20:39:13 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 11 Jun 2026 20:39:13 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 11 Jun 2026 20:39:13 -0700
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.61) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 11 Jun 2026 20:39:12 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zMgHLE5KfzMQD7Urgls2di+/venYHNZUVr6+75inQeUWY0PmCz24AM8ynJM3yq/1iEM1M8YLvRyuG7wDBBASf8Wtnu65Y3e1s+B2uDXW2te/BLeBQ7nGU8dL5jqThn9jUaZM7vTwu+dJv3DHg3xZD6mMi9eeDxa9XdFDI1v1L7A0OhvrFQuE80fMLWAtJ1EAN6J6U/5TtYvwyP1HNEP51hTEqiEV3ZDUMlwhJBz2KiViwEYeFUSfZ91l07nhbBatPz+6R6F8t0BAY41mwXJZP/y//JltUbuqk8dOrwWI1uUnG5FQNDGIjXXA2+NpoVmVLSrqB092NyVdYjY3M8+lbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=WM4NmxmeUgcNBzJzjzSIIXVO+bCKZ8FjnhsZOYXRtRk=;
+ b=nxM/0TlGETLcv2O7szWoLUQ4d3Tpri8lgn3u3aiEas3VpiR9gM7CFcHuxTwPfUZjl86tUzS4N/+uIYo1Dy7YkXkwf7V4cTnly8AySLLK1WZU3qkKnxO3tw3/8MmW+Os3DZuCiDMJ7LmmdtkPz59vP0FiofaD/EnG+ftLI8Tjz+1qexT5EPw7EQb1nXeyI/rnRjqId0gWwqqsTmYs1cGx3N7RDJYaKGQsRQ/3J3GOm1+Hm54AxkZ+9W1MFNbQuzbDM3QdXmLbIMBlSQKVyej9ovxznHos7L8UIlOmiLHdSLHwgdPx3thd/mDJihgM+3lwoHLnGpz+9Mr7qpdD8NuYxQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DM6PR11MB3690.namprd11.prod.outlook.com (2603:10b6:5:13d::32)
+ by CY8PR11MB6844.namprd11.prod.outlook.com (2603:10b6:930:5f::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.13; Fri, 12 Jun
+ 2026 03:39:10 +0000
+Received: from DM6PR11MB3690.namprd11.prod.outlook.com
+ ([fe80::7db8:f6b3:30f8:ee4b]) by DM6PR11MB3690.namprd11.prod.outlook.com
+ ([fe80::7db8:f6b3:30f8:ee4b%4]) with mapi id 15.21.0113.013; Fri, 12 Jun 2026
+ 03:39:10 +0000
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: Pranjal Shrivastava <praan@google.com>, Matt Evans <matt@ozlabs.org>
+CC: Alex Williamson <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>,
+	Jason Gunthorpe <jgg@nvidia.com>, Alex Mastro <amastro@fb.com>,
+	=?iso-8859-1?Q?Christian_K=F6nig?= <christian.koenig@amd.com>, Bjorn Helgaas
+	<bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>, Mahmoud Adam
+	<mngyadam@amazon.de>, David Matlack <dmatlack@google.com>,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>, Sumit Semwal
+	<sumit.semwal@linaro.org>, Ankit Agrawal <ankita@nvidia.com>, Alistair Popple
+	<apopple@nvidia.com>, "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-pci@vger.kernel.org"
+	<linux-pci@vger.kernel.org>
+Subject: RE: [PATCH v3 1/9] PCI/P2PDMA: Add CONFIG_PCI_P2PDMA_CORE
+Thread-Topic: [PATCH v3 1/9] PCI/P2PDMA: Add CONFIG_PCI_P2PDMA_CORE
+Thread-Index: AQHc+PAJt/yTpFL68kOaE02G6F2lPrY5sOKAgACWrqA=
+Date: Fri, 12 Jun 2026 03:39:09 +0000
+Message-ID: <DM6PR11MB36904ED2E1D2C646644F67668C182@DM6PR11MB3690.namprd11.prod.outlook.com>
+References: <20260610154327.37758-1-matt@ozlabs.org>
+ <20260610154327.37758-2-matt@ozlabs.org> <aisAc1HRn2Wa4F9p@google.com>
+In-Reply-To: <aisAc1HRn2Wa4F9p@google.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DM6PR11MB3690:EE_|CY8PR11MB6844:EE_
+x-ms-office365-filtering-correlation-id: c9c05b9d-1d64-47ce-a634-08dec83429f3
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|23010399003|7416014|376014|366016|38070700021|22082099003|18002099003|4143699003|56012099006|11063799006;
+x-microsoft-antispam-message-info: pO9ZbO/8isvvxdD+wlbUrbcUgwJ7PNjXOrexlH502ItmfMwGDIbe3fA9XYby/VtzmEUhIhAOFaoskSNy5LCjxephuhVPRkeZIDyynGy+ORA5IUDr/lnwOZA4mYxQhkG7XDNbEGUmu05C6pLOZDGZ2k5aqNps0G77deZ2DMAYniEIF8c7k0MRYgOnzG9LpehqyJlDHTAz4uFsmshxKX8LVZVhyUtQMXSfD3e+Hps19wX5LjJre9K9/0jZcFY3NPJBcyHzPqaVBHVSi4qkeGQqTz9vu3CMv6AMuR0C+eRio91DCHMsKnW1efNnwmKQCyZrRABBb9OhzN4Dxf6O0Pe/AMRK0re8CJdZoB3xA1tOEEbT1SCq3p8bUIxfTCO9acm8AFzGoiBniC8uqAEt8dM7IrvnZANemYo1U+lLONMWe5xaP10Yy7FNKiAELQH4YmXJe1pwPCjykuc4sERAH7z39tCERCe1gRebSI6VzC4DwEnHyud+rRSsWHoyxMTcViex66ryzSk0OL/ry+etWLN8W9TmGfidJ8asQN2JyKiPcRBEMqOeSXHWN4upa1V1EXx5BJ87J/dYQJ3xepBb/boiC/sgdEF869pHcmyzhVp3V5od7pCE41a+gjy3jv5uljmcr8VlgPk3xuGLLlKL68GJ1Pon8JZjrOnwUzF9rv5obRM9cP+5UKva2o0B66q/6b9HA/i61LSZ2XGxNahzdPuiaeKFvOS69e9Dfd0fN1hwho3BrC+5FYfXeOSXHcqYpZYj
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3690.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(7416014)(376014)(366016)(38070700021)(22082099003)(18002099003)(4143699003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?FWXaYqTaAzGFPzX3aUbN687dWoKHlW3aZtcEBCIBZVegU339NH19lPn411?=
+ =?iso-8859-1?Q?Lqhdf6sZ1C7vwbXx+OO8vxCWoUp3hBuhTsz2/JVIo/x9OeTyHm+ztWszkv?=
+ =?iso-8859-1?Q?zeBpZsdCwCNSC9nppAy0tXoEAuLHdUF9JvU6oXhaTaUG508nzJcZIOcNWM?=
+ =?iso-8859-1?Q?AoBdETSLYlZG/PdAYxdYVZAx+1lY+Kyyq45g9i0qSVAxqrVXrQnIKJgTRm?=
+ =?iso-8859-1?Q?9m6uOJs86xE8itTvakqnVQ7kmNsdVWi6q90+75JBZU6wbenIlDI0fukkZS?=
+ =?iso-8859-1?Q?GyJ9sKeEQsIL17oBknl/KesO3hWtTb+NXDRquS8qhkN1tYnXTtlACTukNs?=
+ =?iso-8859-1?Q?1s4m3JhEILR2DTCNtXl9zN4kSd9LK8c4zqljLZYRVS3tg2XPoK5k4x5eiw?=
+ =?iso-8859-1?Q?mFWOUextQMwqgVyT6Tjr3YPCr8Yq4qWs/gnmpaUKy3/bfvOeS/uuQYJvSF?=
+ =?iso-8859-1?Q?SXmi4xP684RPhjFu1nbLuHOtLvG0zyeky0tC7yBHBPWK5s/9ayjIV3I6Xu?=
+ =?iso-8859-1?Q?3zZzawQ2zJ08IcTFpzRqfwd1c4/A2PA9BRphG+NNjDpIRycIWNe5C0j8gw?=
+ =?iso-8859-1?Q?LrAAZ5IcsI7hf7b9jZUp9zavWu2jyAOc6IcGjGFykB2uEmFCXNLKubTlCW?=
+ =?iso-8859-1?Q?zGVD3rAmwT+1ljzDVvlDXa/8EMSP1Uhn9AMEyCTF86XLQq0+mbxwR0jCFC?=
+ =?iso-8859-1?Q?+7U3SKtwEAkpMWAm/3RhqSNj2BPbsvFlQpOZKNaB5Dxa5vkWtPfqlAQeGR?=
+ =?iso-8859-1?Q?1YGabJWi/oz8U3eAKMoWURQKNbIzj0JA7m9NdSpo541NaFw16EmVsTR9AM?=
+ =?iso-8859-1?Q?WPaNAwp/FlKKcr95Nk+qT2hAua2uSVrR4qwTox1tFyPuVJgK7firf3L9BK?=
+ =?iso-8859-1?Q?ZVyQPVOD+LtTfZKNcU3DMWfnpySp3HLXRRPCU5AIVsoHdKf4a5zTjS6/BP?=
+ =?iso-8859-1?Q?g9wfvMi5O5FyMM2iQ+ZmuJLgLmiVLsweIqCBaPr8EoPES6gxIT0GLDHoU6?=
+ =?iso-8859-1?Q?OhREg2ms5gQIGKH3VoPfskj4JLg2UH9QPBn3txiqP2mloH2bynpUT8QH8Z?=
+ =?iso-8859-1?Q?9SENnAw8xVs55zEDAdKudjmqCg2As7g0KGJ+ehzR67pasgSySJcDfUFjjW?=
+ =?iso-8859-1?Q?yX1f6814gf93bcyk/1lNXWaOdrAqbJ8KlYlEowfGN7mrVHmRAIH2tZOM6Q?=
+ =?iso-8859-1?Q?Y6rM4TGAyaJP7NA7zJ0BaJv4X8YYEorUZ5GxvuPvpLZ6uPXZGlCB8u7tZR?=
+ =?iso-8859-1?Q?VayYSpQO9k0gDpNNTRibkMwwqiIOgh0tlobPvtckMptgXDfp5z3r5FeJGS?=
+ =?iso-8859-1?Q?2fU0gJIdQIYAz9gc8gFbSOag67m3o8JQ5+G1DvhblBej6LohsS3m+8N/BM?=
+ =?iso-8859-1?Q?YdsMtVuK1+oO8sGtq3vurfQPLAJUQ6MNO6UaYmQjmewejPNjv9ZPbreZ0y?=
+ =?iso-8859-1?Q?+gBAJK+TZxgbwKX0svNTUG5OOh6Wnpg/e9pPg/alcn7MHg8fbxElnhZK3j?=
+ =?iso-8859-1?Q?YU1kPImhq9+XrtUF6V4mtMx91Tz1N4v6h3cyWiQ0KQIjVeIG5N32pQOxCW?=
+ =?iso-8859-1?Q?AB8+n5/wW9qgQqs26Ac+F0EZczEI7hX4AgQTTnoS2xs6DVMM23E/dA9zht?=
+ =?iso-8859-1?Q?wA9HmTSKPExhJslTWHgbws/zN3oqlxU40x58gPU6hy3Kt/8kdEXdZKvujR?=
+ =?iso-8859-1?Q?28Ssj4pXg/MtcHqzqI4F+xYlhwx3vtojrJCoYM7eMeXLUZZoZq3rskIVz6?=
+ =?iso-8859-1?Q?x0jYkGnyTblK8boTUdoUTvUHOvrIaWTV+93IKVxlakAuUu?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260611-bcmpiqcap-v1-1-10cf7fb438df@kernel.org>
+X-Exchange-RoutingPolicyChecked: gTIwBQAiQMupz868XkevrW0XhN0W1MH0T2heu+8AQEBodHtzMBUGXoGWGUGU7ZRI+jyeOw8wBnWDBI457G0Cop/TYevVferQr3VUfKlsqTfQ9mJ9Li4jMC5CbNxmswKSueM6eBpgcl9KeG6PzPy1yMgpHnThXd0hCll0i01p3e0Rgw/SW5DNmPDOew2+8hhEReo7A120Y/BcN5sRAQJTq66BqbnlBRLWk91Wiv4HmqecWHe6UoskZC94egMS1r6+Ldl4piXi9S6ZZHg8RM64nz/qwIan1SK1HpWp+3DMpBpzpq3hZZsNvecxLXk1GvaHm2f9qomSruBbZF0wG8FrwQ==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3690.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c9c05b9d-1d64-47ce-a634-08dec83429f3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Jun 2026 03:39:10.0383
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: QzViVlnD0osL0tQ5Ab5oqxMvWjyOd31mpspxcHSF8TcS1kdzm9lHTL3Az+GK+3lLNne6rwEJobkyuBFaIMNlmw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB6844
+X-OriginatorOrg: intel.com
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.16 / 15.00];
+X-Spamd-Result: default: False [-3.16 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	ARC_REJECT(1.00)[cv is fail on i=2];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-64636-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64635-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FORGED_SENDER(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:ehristev@kernel.org,m:kernel-list@raspberrypi.com,m:mchehab@kernel.org,m:florian.fainelli@broadcom.com,m:rjui@broadcom.com,m:sbranden@broadcom.com,m:bcm-kernel-feedback-list@broadcom.com,m:sakari.ailus@linux.intel.com,m:dave.stevenson@raspberrypi.com,m:laurent.pinchart@ideasonboard.com,m:jeanmichel.hautbois@yoseli.org,m:naush@raspberrypi.com,m:llvm@lists.linux.dev,m:oe-kbuild-all@lists.linux.dev,m:linux-media@vger.kernel.org,m:hverkuil@kernel.org,m:linux-rpi-kernel@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:praan@google.com,m:matt@ozlabs.org,m:alex@shazbot.org,m:leon@kernel.org,m:jgg@nvidia.com,m:amastro@fb.com,m:christian.koenig@amd.com,m:bhelgaas@google.com,m:logang@deltatee.com,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:ankita@nvidia.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,m:linux-pci@vger.kernel.org,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FORGED_SENDER(0.00)[kevin.tian@intel.com,linux-media@vger.kernel.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,intel.com:dkim,intel.com:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[lkp@intel.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kevin.tian@intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[intel.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,intel.com:dkim,intel.com:email,intel.com:mid,intel.com:from_mime,01.org:url]
+	TAGGED_RCPT(0.00)[linux-media];
+	RCVD_COUNT_SEVEN(0.00)[10]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9D80E67640C
+X-Rspamd-Queue-Id: 512C967673A
 
-Hi Eugen,
+> From: Pranjal Shrivastava <praan@google.com>
+> Sent: Friday, June 12, 2026 2:38 AM
+>=20
+> On Wed, Jun 10, 2026 at 04:43:15PM +0100, Matt Evans wrote:
+> > --- a/drivers/pci/Kconfig
+> > +++ b/drivers/pci/Kconfig
+> > @@ -206,11 +206,7 @@ config PCIE_TPH
+> >  config PCI_P2PDMA
+> >  	bool "PCI peer-to-peer transfer support"
+> >  	depends on ZONE_DEVICE
+> > -	#
+> > -	# The need for the scatterlist DMA bus address flag means PCI
+> P2PDMA
+> > -	# requires 64bit
+> > -	#
+> > -	depends on 64BIT
+> > +	select PCI_P2PDMA_CORE
+> >  	select GENERIC_ALLOCATOR
+> >  	select NEED_SG_DMA_FLAGS
+> >  	help
+>=20
+> Nit: Did we drop depends on 64BIT intentionally here? I guess the full
+> PCI_P2PDMA stack still selects NEED_SG_DMA_FLAGS? IIRC,
+> NEED_SG_DMA_FLAGS
+> doesn't select 64BIT?
+>=20
 
-kernel test robot noticed the following build errors:
+seems that comment is stale. According to the commit msg:
 
-[auto build test ERROR on a87737435cfa134f9cdcc696ba3080759d04cf72]
+" it would make vfio-pci only available if CONFIG_ZONE_DEVICE is
+present (e.g. 64-bit systems), "
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eugen-Hristev/media-bcm2835-unicam-Fix-querycap-multiple-caps/20260611-141320
-base:   a87737435cfa134f9cdcc696ba3080759d04cf72
-patch link:    https://lore.kernel.org/r/20260611-bcmpiqcap-v1-1-10cf7fb438df%40kernel.org
-patch subject: [PATCH] media: bcm2835-unicam: Fix querycap multiple caps
-config: um-allmodconfig (https://download.01.org/0day-ci/archive/20260612/202606121013.RsnqIwho-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260612/202606121013.RsnqIwho-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202606121013.RsnqIwho-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/media/platform/broadcom/bcm2835-unicam.c:33:
-   In file included from include/linux/dma-mapping.h:8:
-   In file included from include/linux/scatterlist.h:9:
-   In file included from arch/um/include/asm/io.h:24:
-   include/asm-generic/io.h:1209:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1209 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> drivers/media/platform/broadcom/bcm2835-unicam.c:1836:20: error: use of undeclared identifier 'node'
-    1836 |         if (is_image_node(node))
-         |                           ^
-   1 warning and 1 error generated.
-
-
-vim +/node +1836 drivers/media/platform/broadcom/bcm2835-unicam.c
-
-  1825	
-  1826	/* -----------------------------------------------------------------------------
-  1827	 *  V4L2 video device operations
-  1828	 */
-  1829	
-  1830	static int unicam_querycap(struct file *file, void *priv,
-  1831				   struct v4l2_capability *cap)
-  1832	{
-  1833		strscpy(cap->driver, UNICAM_MODULE_NAME, sizeof(cap->driver));
-  1834		strscpy(cap->card, UNICAM_MODULE_NAME, sizeof(cap->card));
-  1835	
-> 1836		if (is_image_node(node))
-  1837			cap->capabilities |= V4L2_CAP_VIDEO_CAPTURE;
-  1838		else
-  1839			cap->capabilities |= V4L2_CAP_META_CAPTURE;
-  1840	
-  1841		return 0;
-  1842	}
-  1843	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+so it sounds a redundant dependency hence is removed.
 
