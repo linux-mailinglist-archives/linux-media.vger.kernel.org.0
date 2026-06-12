@@ -1,332 +1,209 @@
-Return-Path: <linux-media+bounces-64715-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64716-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id rHEvJT80LGqQNgQAu9opvQ
-	(envelope-from <linux-media+bounces-64715-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 18:30:55 +0200
+	id FXfyAtA4LGrHNwQAu9opvQ
+	(envelope-from <linux-media+bounces-64716-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 18:50:24 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38BAD67AF13
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 18:30:55 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE2867B13D
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 18:50:23 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b="LJA6a/P7";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64715-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64715-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=a3w9uJ5h;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64716-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64716-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed), DKIM not aligned (relaxed)" header.from=nxp.com (policy=none);
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 4B1843009172
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 16:29:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E86F030BCB6E
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 16:50:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19A0B386C25;
-	Fri, 12 Jun 2026 16:28:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 951AF402BA0;
+	Fri, 12 Jun 2026 16:50:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012065.outbound.protection.outlook.com [52.101.66.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13D93E557E
-	for <linux-media@vger.kernel.org>; Fri, 12 Jun 2026 16:28:16 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781281699; cv=none; b=tEOqZBfk0pKpCrm2i/LyJ2JjEEHL4dDW2Mlmhp+SCyzjupWAUz2RTxEEwzTTProSbAX+yaNmomuC/HbDGhhG1CSgli/12ztS12GktMdrP0xzIzSalEtuVo9QmQFRglQh4tH4pSFKn527mBVKbY2d7HE12Kdi7WkWD4rhzQID9D0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781281699; c=relaxed/simple;
-	bh=A/u1sgwJL84QuL//U05v2lBMcf3jkxTHTxBmA7D1yHo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=kJiuM9Gssflddc5O9R551PjqkPBC4vfNlxBsmR4eBq7mvew/S1LJSYKQJv9ZyN6shtSJX/EWZCNOv4iZKBYeSZlSmkS+wXr7vvYhoSwXycN8C/rvqlxGHXTGMHWuQXwGSW+IGIDJ81RBzKDp9x0YutoDFO/OvjxeBbIMKl27PuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LJA6a/P7; arc=none smtp.client-ip=209.85.216.52
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-36d98b9aa9aso1015383a91.3
-        for <linux-media@vger.kernel.org>; Fri, 12 Jun 2026 09:28:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781281696; x=1781886496; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Yj5Chnos4zVE+LHfOdXd/pBqHjH9b6HHf2TeuBkMLx4=;
-        b=LJA6a/P7TAf268QT7dfVC9ZOhmkzGSkNeMyo+s3fLaxZAJgb/VStCqtAJxo8AnWN8u
-         XvNzlsowvgQphvlD/TanboyMiUdB8SVhqr0WG5BEyw0QJDMuuL4l/jegUbpPXaJDPd61
-         P6FJ8jINuoo2T7hiTgtDlDrnYJ4Oq4oara67fsxJ6yL6eBLEeI/3q0BQy8fCzjcfRAbt
-         V5sFcQiWIJPHdtHMTIRlBO0oPy7lREyCewjmOLDyHK5AntUhx7JXAKda5KDQBXfcDVpA
-         v6IFynQlvev+B+bT6GIi80zL3jVgvPkAzPCgP/14OFQWJ7GQojzRA670XWopbcnCd1vV
-         yCvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781281696; x=1781886496;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Yj5Chnos4zVE+LHfOdXd/pBqHjH9b6HHf2TeuBkMLx4=;
-        b=KEumgqV2VfdaeaxrQwsU5qIcovbSPMaNtK14UYgdWl6n8xjlapIis/W1Y2kejqxQ2S
-         D1Z5tZObK+pEUamZbdWQoK+XVpRq1jNZiPMOXk3OjZrpLE9DEYh3Cul25B8gczhtxqjo
-         0yx3jTd1LDbdCedbpvaLYn/okVzBxE6T6wze5fD31YZHWHJFAOZrbS82lzyJIcbrKO1S
-         HEbhaM5HIGNfsGEaq6xqjnYkrV0bkETXWTBwPdOF5Q1TAX03pA71WJxkQ/g80UB+Mm0p
-         rUdMAyt9p7RhOJGS94EsmfAZH7q5UbKYO1nrfCcNxEFdcsUx/mxMGAJACjEsFNnXty+o
-         9ZBA==
-X-Forwarded-Encrypted: i=1; AFNElJ+GwxspTvwJnA5LTeqcsID7bGeSK/siBQP2TWuutrFjegFiqzG8V/g4MJdnGw8GZv9eFMgFH7MMXLuohg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzM6pshIbmabGt/Q1kqusDrw5Rcftq6tFQEATJA77E+Jj/q22RK
-	CJltK3NYPxMlYqbHgpndftb6wDEZ68Bo+aJTuuCHQZn+5m/xz4sihtuIy/AlOKOF
-X-Gm-Gg: Acq92OHRno5ITLZcA9Gw5Jo9JECIvqw3eNhGZAz+qeEe/T6OMAqpkepnekXvE7RBku9
-	lPl9GKgVWpPtll53qKbWcNA0lSP1jPi14b4ch0Mgn4Fjqde47dZNcCvmDdMGqPgAgkIsGrDeVDs
-	X2kGNl4t5HtKklES9dJjP2qfmgrc7KZ2kREB0ddclllu0tnyzddO2/2ZWMC9xn4bjC9dmK3k9MY
-	28ZkZSUbroMbfyVZQrwQ5UT3Z8d35mX8OLyPmSKZE5uELmZ41yNNvvZOnfkrAmS/hU0wZlN5Dsh
-	qhXGXfLYklVTS0lYJ6tbYj40d92g3SzVA1o0iDHBiST/+yuOsri0XRhHtGbY5e9pjiNK58RPGis
-	0lwWSFma+PG5KLxKRVXYTAIVlQXRgOtBbQkxonaJ/4dljmt+rGsatTEGhWLrqw+u8jstZS7Oh1a
-	xEgb3p5z8LEPOPUl+uEf/gGrdr8AXRRQ==
-X-Received: by 2002:a17:90b:4b8c:b0:36e:2106:ded8 with SMTP id 98e67ed59e1d1-37a040b3449mr3725356a91.25.1781281696041;
-        Fri, 12 Jun 2026 09:28:16 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:73::])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-379e7e217c0sm2114029a91.2.2026.06.12.09.28.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2026 09:28:15 -0700 (PDT)
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-Date: Fri, 12 Jun 2026 09:26:00 -0700
-Subject: [PATCH net-next v3 4/4] selftests/net: devmem.py: add
- check_rx_large_niov
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA10531F998;
+	Fri, 12 Jun 2026 16:50:07 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781283009; cv=fail; b=liymKDqbkFHMtBJRPXxSsCtM7dP1Gh/MvQw4dXJmr0WNjI1BnIZB14MsbYq1oJ/7qW+CxifsC60W4oyjscicsBgA8j+oQttIHDfzd3U2WGRASwazrjlzIyYtfO+42zDYbjwzAytrWfsUd8rsSGtkW4LZRSIquakrVZfptN8tMNw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781283009; c=relaxed/simple;
+	bh=z8VrCIM6jto8Vt6YJMT0WES4lKx76HzvvpXWLPOElYs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=sExoX6hm2wpPNB21lusdm7k38Ctl7hTF4klJteM5dmGas4JsmzKfYmwczeKPDUFxyUeb74La0PskBL3pZaGXELnItlbnjRmwHtr7ys5zNgYxTboAJFpiScKjGcb4N3cxnUffJVM3e5WD95aOuOEPs0L7bCaIk3DvIuwQJ4BEPhE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=a3w9uJ5h; arc=fail smtp.client-ip=52.101.66.65
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fYZr3HMFYtYct7j2PmIj8RMx4fg+G5cjsxEyhtttW4rk0AoCFiG6ZxO7Zte5xCpIDisF9JZnz+da/Wg1u6YtJjbSLhgfvcqLMzpcy7aHDTaMDPXVEkE1AXuupdlwz5CFt9ZXQWdVHTSTD5tZP6IvFWOFrtSTHET0uFmn1hCCfC2KUq3yJXqOazoWNQzNAj8j2D+KY/MOzKfELGSqu479RngOafNrYa8F0UZ5KBcOpWfXiKDUT2RGzx9JpR5Ijqico6sAN/A5t4rR6LKnNsGiGys/8Av1jvRqrh8H5LiPozbY+eBMOJ/05z/82SaBdIxis2yz6jhKpnZeqtMXlEN2UQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sDJOZSh0yVW8ptHHyrvHsfIlJIsFpCg0IYF+656SEKQ=;
+ b=LU27Y72uI1TEi+dykRhfbbwHSVexW061BRVsKemjFCuuJWIP4HYrANAkzoCKZi4vkMqfcBYwQ0iuTJ6t9PDkbJ8KEsHb0rlFjoua7v9+X0ua4NXsnfHi/EIR68UyqISRxI6krlS7Dk+gcD3oX0QckhPZnIY1AbzxDdEPQu63ZAg0lQlc0Yr++yO1JsXdroww92ig47jX7Qi6woRmNR8t1KRraXVU92onr9v4K4xaq+FWpDK59hKew6qOFtGCHxRo6x1xtEef8j0K0IDGtjslVI61yqqSpVEvSfzEkFSzPUq7W9NlhIoeHg0CK/roRWPENV2i4u5UV/U3UKi1QddQLQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sDJOZSh0yVW8ptHHyrvHsfIlJIsFpCg0IYF+656SEKQ=;
+ b=a3w9uJ5hb2+lYDD07iwmy/5nImpWp/fyvzL1df2mj7vbrY8iYKSDMYky6O9UgsD4kuSQ2WMDjnSGe+rnfBzhI3tPZU/UIQgjULluNrOy8Ie/9MJiugTmy6IPATEAOIuc6K7lIeqcMK5rZo+Vi05sG5gZDDG1P05MBm4sQL0rZYOpnnCV9+6cLq/cqBmeS/6ikTAXsuB3L/QKUs6OkFaBHvLUlqESJbqziq6Y2V9RtLkxV00wSri6fo4+UItr0y6J2w/PQ5WL7tYtGx5u/BHtroNhjL6JRDya9qZRpmH8MpZQJf5L5PChNM13HT6pJeDXYmS0/z7D161surNUKSTn0g==
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by GVXPR04MB11544.eurprd04.prod.outlook.com (2603:10a6:150:2c1::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.14; Fri, 12 Jun
+ 2026 16:50:04 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0113.013; Fri, 12 Jun 2026
+ 16:50:04 +0000
+Date: Fri, 12 Jun 2026 11:49:51 -0500
+From: Frank Li <Frank.li@oss.nxp.com>
+To: Antoine Bouyer <antoine.bouyer@nxp.com>
+Cc: julien.vuillaumier@nxp.com, alexi.birlinger@nxp.com,
+	daniel.baluta@nxp.com, peng.fan@nxp.com, frank.li@nxp.com,
+	jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com,
+	mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, michael.riesch@collabora.com,
+	anthony.mcgivern@arm.com, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, ai.luthra@ideasonboard.com,
+	paul.elder@ideasonboard.com, geert@linux-m68k.org,
+	sakari.ailus@linux.intel.com, hverkuil+cisco@kernel.org
+Subject: Re: [PATCH v3 7/8] media: platform: neoisp: Add debugfs support
+Message-ID: <aiw4r5NXBBrMZ0a4@SMW015318>
+References: <20260612132039.2089051-1-antoine.bouyer@nxp.com>
+ <20260612132039.2089051-8-antoine.bouyer@nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260612132039.2089051-8-antoine.bouyer@nxp.com>
+X-ClientProxiedBy: PH7PR10CA0013.namprd10.prod.outlook.com
+ (2603:10b6:510:23d::9) To DU4PR04MB11791.eurprd04.prod.outlook.com
+ (2603:10a6:10:623::11)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260612-tcpdm-large-niovs-v3-4-a3b693e76fcb@meta.com>
-References: <20260612-tcpdm-large-niovs-v3-0-a3b693e76fcb@meta.com>
-In-Reply-To: <20260612-tcpdm-large-niovs-v3-0-a3b693e76fcb@meta.com>
-To: Donald Hunter <donald.hunter@gmail.com>, 
- Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
- Gerd Hoffmann <kraxel@redhat.com>, 
- Vivek Kasireddy <vivek.kasireddy@intel.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Shuah Khan <shuah@kernel.org>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org, 
- sdf@fomichev.me, razor@blackwall.org, daniel@iogearbox.net, 
- almasrymina@google.com, matttbe@kernel.org, skhawaja@google.com, 
- dw@davidwei.uk, Bobby Eshleman <bobbyeshleman@meta.com>
-X-Mailer: b4 0.14.3
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|GVXPR04MB11544:EE_
+X-MS-Office365-Filtering-Correlation-Id: 49c6a2ac-1d99-411b-c1e7-08dec8a2a5ea
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|366016|1800799024|7416014|376014|23010399003|19092799006|6133799003|22082099003|18092099006|18002099003|10086099003|4143699003|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+ 1S9ma+UKxnekJV+Z7zpBQz7grkuQbWeVDUee9oTvk1MSnx3hX8eEjwHZ7GhCBK+JBxw4JoVb/pS4NQuVbDz7i7CgWSe4SeXlic6v6PjCBZqx8R9Vjhei5KIA68d6CoNBB1CJuU5O2Z4GqENQqFkxZ+3refDnC+TTDGOYmrE6KCEl1msVbnlEKXdtDqEueKu5YDKSDROobtCAGardWIOgsaNOisNgZTqmypGg70RpDWxvPtQUt94jTg1re+IFmUggaqNLth6CvSR4fbr0nB9Yy2KbMpNMqM4ZBzXj6N8ma+GXgaNgdpdTs1py9SayHE45H/Lq+kaWd7CAYRXwcvVGBOvLKE3r5kK+UQ1vKLhZ9ob0EQPhO4OeH++mO1KjQsbAsFBKILWsQolEgK5NsGOwL76BMLUqCcMCEQ7Lub4e4Wx+qtUZ0w8aQeP2HqyHBIuOiQrm0hrNuvdtv3fEtlMQqNI3R/hyQIuEDpsoowIQjDzTZopzkwiMbbHDd7W8qesRoxxgp02GqWtbxANmKPQWFZ/w0sdPqsrkAkguyRrYRcksiytJrfm4pXccTw+9D1eKyHCIhKVI0aH243jjmGc8gjDNPY9D//L/4yNq1XfJKf4RUj+chPObp8QJ/k+8O+bsML67UxKoHpuxDwCUelufVug5YAaOBsGpjtQfQQFa5ixPO0H7mORFmbQ9H1AXuDJs
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(23010399003)(19092799006)(6133799003)(22082099003)(18092099006)(18002099003)(10086099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?/YD+vHNGdRmF+xWH1UPF6SHkVNuV1FuevN9rr7EOFqsv+NevienE5zX264+B?=
+ =?us-ascii?Q?KvD8DZWkYlpMi5idV7tnuwyZTS6RF1pBUl7tyykcH1WhO+DrHHB4CbCn7VCh?=
+ =?us-ascii?Q?zaAHJJPJHgtBvjKEoDJ3VBclrcKVoTHrcm2EYI27S6EsfVvUPm8/Bg1tzOOy?=
+ =?us-ascii?Q?tjeH0fWzsuF1JknYqYhX4q0XoIaiYv46AU6ypsTeR7/sLNIgI7SMqs5hm7zg?=
+ =?us-ascii?Q?zrN48OIoy+xxkb0vYRP/i/AhMuCNNvHuVYBe9CBDRa+QByBna3HUbgut77XR?=
+ =?us-ascii?Q?0M6kpAG1Lk/sfDEtQV7OegTa68Dy8neRXA9PknRlUrZBiV0sWr5Y1qH6IM5g?=
+ =?us-ascii?Q?8Jn7wgqpo6NRjMWSmtcye1/8JrJZCpk9VkreMUvNDbLNmGGSDpgeDjqPCL11?=
+ =?us-ascii?Q?iffPqUEQ6wft0ywLtd4JkFHIyihm1/pN004QjFasQTihA6qFpcGobLwzgvx9?=
+ =?us-ascii?Q?PNAiIa4aYftZuUmn5CTfsVTlyf9ZPeF3Upf3HTxtWedjuxTMXsttlfts4rCn?=
+ =?us-ascii?Q?bOCyl4UvzqTZUHcADvvBZcbOh7n9Ldvs4bYvfkrRuyCJiA3ybD4uKFxsTwt+?=
+ =?us-ascii?Q?64NWwJSIjS4vrjJ2Pb7jkpbBZbY0sHq4tyBnkMdsejXmmk923JZrI26gEamm?=
+ =?us-ascii?Q?obWJXgDgJ4hiYkSDOHQK5Fua0JNoOGvPM1qYx5JcXuXTMZ6wYeHIZRX3gZmS?=
+ =?us-ascii?Q?6CZSaKB5ONBwlkMq1gy/CAtV9TGzfIezZ64e/5imalnXYS4kCetBSJn1NDKR?=
+ =?us-ascii?Q?wnFfNYIeRj3n6EkL0k1TnT4S7N4fxC18lbuT26sdlgc/UIfaKWcAwtFOW+uz?=
+ =?us-ascii?Q?WX7jcJQP72Wmzyz+1G55DCqOBRrx6u32vM3GLKVcT92kuk1N5r8p0d63eaWJ?=
+ =?us-ascii?Q?yS2kTkF5PRBw3BopG+hrTGe1DTrf7erOUP1CfEmMZ/95L4vVCmPBq/8YGz6n?=
+ =?us-ascii?Q?9t3pkix44/3KnunMg1Uvin0zrw8DmCKCfoOHOPsRGwBBtq38vx3/zURdQG6Y?=
+ =?us-ascii?Q?yMVgBF5+40cI9dGocAnSnYHvwd8P7rlWuNWiHvaMgZH6/MirKKSsAXRIUs12?=
+ =?us-ascii?Q?pckU1ChTkLAAwaEONPIy3y4lWPKfaCRQM4x6RmNpsF35rk47u+b1Ai2U1cgh?=
+ =?us-ascii?Q?UOEI2wsBd41jrreL/V8OC92/WUZrPjpNZjH8hwhz5ssYMPMHkCozlTKL782D?=
+ =?us-ascii?Q?gth7cTXAviJevPCb62/i8jBnLK6HlJhcPNRB9dHssk5KyWZQ4YHly4Td4LIu?=
+ =?us-ascii?Q?XWEoJCAQvm7E9uLfRTjF1FCctON4VWjnUkxqFQVW6Sb4TSntkh20EZ2JkQXK?=
+ =?us-ascii?Q?XIh1KL4DhJHgS//IrNgei+9+aSeL1hdd064oQk2GkEdsvQydBcUJDl2OVCXN?=
+ =?us-ascii?Q?9yRJ0VR9kj2/xshlQvL+uSR7JSzp56lef8lj3Vk2PyKlYBrt3KppufARQvR5?=
+ =?us-ascii?Q?CVPgrb2YpzS05/Cj17bTpQQgODjw4jfTFSmNlA/kw8KrzBjUGmGKARLwk3rM?=
+ =?us-ascii?Q?Sa5/ahlqtC6p4GIUH6vIexsxgO7ISWSAyPyb07azHZikmGGR9XufaJp13AX0?=
+ =?us-ascii?Q?x5Zvym7gZG9QLIOfKRYF+RhAZD7yedQjsexjn++CWov43ZUX8w+vAlPWfEEp?=
+ =?us-ascii?Q?Vw8z+w+FNn6QBn8vgwjhDP0Y+Vc1+500mnZKLATjYE/K9QYBCnupusgXG8PO?=
+ =?us-ascii?Q?wnVuk8FKB4pCQJLEwbi1SbLNfmU6Sj9i11vlzxBxWaeuVuoBMfs7mtyctXMQ?=
+ =?us-ascii?Q?+D2mD6gjDsyLsJqMR7q4iMqkwEtnZEA5sAlVgTaxUEpXWeuZOVmO?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 49c6a2ac-1d99-411b-c1e7-08dec8a2a5ea
+X-MS-Exchange-CrossTenant-AuthSource: DU4PR04MB11791.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Jun 2026 16:50:04.0425
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: j+x7lu3kFsy6iq9/TK3TiENDjqWRuyzgik03/D+fO02bIOh9XLwlgjqUDH+ibs8CyCRgkhJoqaCOU0fXZDIhhkwLA1J9YMgoxxGzqdzkLa0rvsoTxdY5gBpPfk8VLv3u
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR04MB11544
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [2.44 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
+	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:donald.hunter@gmail.com,m:kuba@kernel.org,m:davem@davemloft.net,m:edumazet@google.com,m:pabeni@redhat.com,m:horms@kernel.org,m:andrew+netdev@lunn.ch,m:kraxel@redhat.com,m:vivek.kasireddy@intel.com,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:shuah@kernel.org,m:netdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kselftest@vger.kernel.org,m:sdf@fomichev.me,m:razor@blackwall.org,m:daniel@iogearbox.net,m:almasrymina@google.com,m:matttbe@kernel.org,m:skhawaja@google.com,m:dw@davidwei.uk,m:bobbyeshleman@meta.com,m:donaldhunter@gmail.com,m:andrew@lunn.ch,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[bobbyeshleman@gmail.com,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org,davemloft.net,google.com,redhat.com,lunn.ch,intel.com,linaro.org,amd.com];
-	RCPT_COUNT_TWELVE(0.00)[26];
-	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64716-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[23];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-64715-lists,linux-media=lfdr.de];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:antoine.bouyer@nxp.com,m:julien.vuillaumier@nxp.com,m:alexi.birlinger@nxp.com,m:daniel.baluta@nxp.com,m:peng.fan@nxp.com,m:frank.li@nxp.com,m:jacopo.mondi@ideasonboard.com,m:laurent.pinchart@ideasonboard.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:michael.riesch@collabora.com,m:anthony.mcgivern@arm.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:imx@lists.linux.dev,m:ai.luthra@ideasonboard.com,m:paul.elder@ideasonboard.com,m:geert@linux-m68k.org,m:sakari.ailus@linux.intel.com,m:hverkuil+cisco@kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[Frank.li@oss.nxp.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bobbyeshleman@gmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[Frank.li@oss.nxp.com,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,netdev];
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,meta.com:mid,meta.com:email,vger.kernel.org:from_smtp]
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,SMW015318:mid,vger.kernel.org:from_smtp,oss.nxp.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 38BAD67AF13
+X-Rspamd-Queue-Id: 5AE2867B13D
 
-From: Bobby Eshleman <bobbyeshleman@meta.com>
+On Fri, Jun 12, 2026 at 03:20:38PM +0200, Antoine Bouyer wrote:
+> Add debugfs entries to dump ISP registers, and some internal memory
+> regions used to store Vignetting, DRC global and DRC local coefficients.
+>
+> Debug mode is activated with the `enable_debugfs` module's parameter, to
+> avoid runtime suspend which blocks register access when IP is not active,
+> so we can capture an ISP snapshot after a frame is decoded.
 
-Add a new devmem test case for binding the dmabuf with rx-buf-size=16K.
-The test sweeps RX payload sizes straddling the niov boundary to cover
-the sub-niov, exact-niov, and multi-niov RX paths.
+Look like you needn't this option, see below implementaiton. If you correct
+set regset->dev, it will call pm_runtime_get_sync() for you
 
-Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
----
- tools/testing/selftests/drivers/net/hw/devmem.py   | 12 ++++-
- .../testing/selftests/drivers/net/hw/devmem_lib.py | 58 +++++++++++++++++++++-
- .../testing/selftests/drivers/net/hw/nk_devmem.py  | 11 +++-
- 3 files changed, 75 insertions(+), 6 deletions(-)
+static int debugfs_regset32_show(struct seq_file *s, void *data)
+{
+	struct debugfs_regset32 *regset = s->private;
 
-diff --git a/tools/testing/selftests/drivers/net/hw/devmem.py b/tools/testing/selftests/drivers/net/hw/devmem.py
-index 031cf9905f65..47b54e18e7a6 100755
---- a/tools/testing/selftests/drivers/net/hw/devmem.py
-+++ b/tools/testing/selftests/drivers/net/hw/devmem.py
-@@ -2,7 +2,8 @@
- # SPDX-License-Identifier: GPL-2.0
- 
- from os import path
--from devmem_lib import setup_test, run_rx, run_tx, run_tx_chunks, run_rx_hds
-+from devmem_lib import (setup_test, run_rx, run_tx, run_tx_chunks, run_rx_hds,
-+                        run_rx_large_niov)
- from lib.py import ksft_run, ksft_exit, ksft_disruptive
- from lib.py import NetDrvEpEnv
- 
-@@ -30,11 +31,18 @@ def check_rx_hds(cfg) -> None:
-     run_rx_hds(cfg)
- 
- 
-+@ksft_disruptive
-+def check_rx_large_niov(cfg) -> None:
-+    """Run the devmem RX test with rx-buf-size = 16 KiB."""
-+    run_rx_large_niov(cfg)
-+
-+
- def main() -> None:
-     """Run the devmem test cases."""
-     with NetDrvEpEnv(__file__) as cfg:
-         setup_test(cfg, path.abspath(path.dirname(__file__) + "/ncdevmem"))
--        ksft_run([check_rx, check_tx, check_tx_chunks, check_rx_hds],
-+        ksft_run([check_rx, check_tx, check_tx_chunks, check_rx_hds,
-+                  check_rx_large_niov],
-                  args=(cfg,))
-     ksft_exit()
- 
-diff --git a/tools/testing/selftests/drivers/net/hw/devmem_lib.py b/tools/testing/selftests/drivers/net/hw/devmem_lib.py
-index 0921ff03eb81..d2f00a876767 100644
---- a/tools/testing/selftests/drivers/net/hw/devmem_lib.py
-+++ b/tools/testing/selftests/drivers/net/hw/devmem_lib.py
-@@ -8,7 +8,7 @@ from lib.py import (bkg, cmd, defer, ethtool, rand_port, wait_port_listen,
-                     NetdevFamily)
- 
- 
--def require_devmem(cfg):
-+def require_devmem(cfg, rx_buf_size=0):
-     """Probe ncdevmem on cfg.ifname and SKIP the test if devmem isn't supported."""
-     if not hasattr(cfg, "devmem_probed"):
-         probe_command = f"{cfg.bin_local} -f {cfg.ifname}"
-@@ -18,6 +18,19 @@ def require_devmem(cfg):
-     if not cfg.devmem_supported:
-         raise KsftSkipEx("Test requires devmem support")
- 
-+    if rx_buf_size > 0:
-+        if not hasattr(cfg, "devmem_rx_buf_size_probed"):
-+            cfg.devmem_rx_buf_size_probed = {}
-+
-+        if rx_buf_size not in cfg.devmem_rx_buf_size_probed:
-+            probe_command = f"{cfg.bin_local} -f {cfg.ifname} -b {rx_buf_size}"
-+            cfg.devmem_rx_buf_size_probed[rx_buf_size] = \
-+                cmd(probe_command, fail=False, shell=True).ret == 0
-+
-+        if not cfg.devmem_rx_buf_size_probed[rx_buf_size]:
-+            raise KsftSkipEx(
-+                f"Test requires devmem rx-buf-size={rx_buf_size} support")
-+
- 
- def configure_nic(cfg):
-     """Channels, rings, RSS, queue lease for netkit devmem."""
-@@ -76,7 +89,8 @@ def set_flow_rule(cfg, port):
-     return int(re.search(r'ID (\d+)', output).group(1))
- 
- 
--def ncdevmem_rx(cfg, port, verify=True, fail_on_linear=False, flow_steer=False):
-+def ncdevmem_rx(cfg, port, verify=True, fail_on_linear=False, flow_steer=False,
-+                rx_buf_size=0):
-     """Build the ncdevmem RX listener command."""
-     if hasattr(cfg, 'netns'):
-         flow_rule_id = set_flow_rule(cfg, port)
-@@ -96,6 +110,8 @@ def ncdevmem_rx(cfg, port, verify=True, fail_on_linear=False, flow_steer=False):
-         extras.append("-v 7")
-     if fail_on_linear:
-         extras.append("-L")
-+    if rx_buf_size > 0:
-+        extras.append(f"-b {rx_buf_size}")
- 
-     parts = [cfg.bin_local, "-l", f"-f {ifname}", f"-s {addr}",
-              f"-p {port}", *extras]
-@@ -202,6 +218,44 @@ def run_tx_chunks(cfg):
-     ksft_eq(socat.stdout.strip(), "hello\nworld")
- 
- 
-+def _restore_nr_hugepages(hp_file, nr_hugepages):
-+    with open(hp_file, 'w', encoding='utf-8') as f:
-+        f.write(str(nr_hugepages))
-+
-+
-+def run_rx_large_niov(cfg):
-+    """Run the devmem RX test with a large niov (rx-buf-size > PAGE_SIZE).
-+
-+    Sweep payload sizes that straddle the niov boundary: below, equal to,
-+    and above rx_buf_size, to exercise sub-niov, exact-niov, and multi-niov
-+    RX paths.
-+    """
-+    hp_file = "/proc/sys/vm/nr_hugepages"
-+    with open(hp_file, 'r+', encoding='utf-8') as f:
-+        nr_hugepages = int(f.read().strip())
-+        if nr_hugepages < 64:
-+            f.seek(0)
-+            f.write("64")
-+            defer(_restore_nr_hugepages, hp_file, nr_hugepages)
-+    require_devmem(cfg, rx_buf_size=16384)
-+    configure_nic(cfg)
-+    netns = getattr(cfg, "netns", None)
-+
-+    for size in [1024, 4096, 8192, 16384, 32768, 65536]:
-+        port = rand_port()
-+        socat = socat_send(cfg, port)
-+        listen_cmd = ncdevmem_rx(cfg, port,
-+                                 flow_steer=not netns,
-+                                 rx_buf_size=16384)
-+        data_pipe = (f"yes $(echo -e \x01\x02\x03\x04\x05\x06) | "
-+                     f"head -c {size} | {socat}")
-+        with bkg(listen_cmd, exit_wait=True, ns=netns) as ncdevmem:
-+            wait_port_listen(port, proto="tcp", ns=netns)
-+            cmd(data_pipe, host=cfg.remote, shell=True)
-+        ksft_eq(ncdevmem.ret, 0,
-+                f"large-niov failed for payload size {size}")
-+
-+
- def run_rx_hds(cfg):
-     """Run the HDS test by running devmem RX across a segment size sweep."""
-     require_devmem(cfg)
-diff --git a/tools/testing/selftests/drivers/net/hw/nk_devmem.py b/tools/testing/selftests/drivers/net/hw/nk_devmem.py
-index 300ed2a70ab4..7f1867e4ff32 100755
---- a/tools/testing/selftests/drivers/net/hw/nk_devmem.py
-+++ b/tools/testing/selftests/drivers/net/hw/nk_devmem.py
-@@ -3,7 +3,8 @@
- """Test devmem TCP with netkit."""
- 
- import os
--from devmem_lib import setup_test, run_rx, run_tx, run_tx_chunks, run_rx_hds
-+from devmem_lib import (setup_test, run_rx, run_tx, run_tx_chunks, run_rx_hds,
-+                        run_rx_large_niov)
- from lib.py import ksft_run, ksft_exit, ksft_disruptive
- from lib.py import NetDrvContEnv
- 
-@@ -31,6 +32,12 @@ def check_nk_rx_hds(cfg) -> None:
-     run_rx_hds(cfg)
- 
- 
-+@ksft_disruptive
-+def check_nk_rx_large_niov(cfg) -> None:
-+    """Run the devmem RX large-niov test through netkit."""
-+    run_rx_large_niov(cfg)
-+
-+
- def main() -> None:
-     """Run the netkit devmem test cases."""
-     with NetDrvContEnv(__file__, rxqueues=2, primary_rx_redirect=True) as cfg:
-@@ -38,7 +45,7 @@ def main() -> None:
-                    os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                 "ncdevmem"))
-         ksft_run([check_nk_rx, check_nk_tx, check_nk_tx_chunks,
--                  check_nk_rx_hds], args=(cfg,))
-+                  check_nk_rx_hds, check_nk_rx_large_niov], args=(cfg,))
-     ksft_exit()
- 
- 
+	if (regset->dev)
+		pm_runtime_get_sync(regset->dev);
 
--- 
-2.53.0-Meta
+	debugfs_print_regs32(s, regset->regs, regset->nregs, regset->base, "");
+
+	if (regset->dev)
+		pm_runtime_put(regset->dev);
+
+	return 0;
+}
+
+Frank
 
 
