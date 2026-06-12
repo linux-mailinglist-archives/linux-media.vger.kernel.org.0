@@ -1,63 +1,65 @@
-Return-Path: <linux-media+bounces-64737-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64738-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Hwb1KsxhLGrlQAQAu9opvQ
-	(envelope-from <linux-media+bounces-64737-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 21:45:16 +0200
+	id b7e+G9BiLGovQQQAu9opvQ
+	(envelope-from <linux-media+bounces-64738-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 21:49:36 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F82B67C268
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 21:45:16 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id EC89867C30A
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 21:49:35 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=XHi2gOl2;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64737-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64737-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=X96yH1z1;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64738-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64738-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=redhat.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 402CB3074904
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 19:45:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A1CF534E0CEF
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2026 19:45:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 288C43914E0;
-	Fri, 12 Jun 2026 19:45:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 023A53A9D8A;
+	Fri, 12 Jun 2026 19:45:14 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E920C399889
-	for <linux-media@vger.kernel.org>; Fri, 12 Jun 2026 19:45:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37023A9636
+	for <linux-media@vger.kernel.org>; Fri, 12 Jun 2026 19:45:09 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781293508; cv=none; b=bKYtXslQsLgfBUKMo/FuE6W5LUa70ab97ilM4g17MFaJQbKUfwqNCNV2Qp6idTTHoYWs8hhi+ajK6ix8AtmyMV+qDss87cebc3AZe0ir8sk4JY8D35L81eNOKaMWh0vtqPVI1UQg6obBASr9WSg7WGxC6pEFOXdq6oEj2Z/dg0o=
+	t=1781293513; cv=none; b=OAFCAD9YqKu9imOPDXH9Ciu3xPpv17phOimxLpBuBTxbPw/lRdWrxS0UBP97dmxZauvHyyMQU1HUaAKm7DxsehbcTJVQI9w1kgLfRlBZ2k4GsIq5PJSX+8uShPVrHkpaxD9Ayyi+zlfH17BWKCPBk96jwWgMclHYC7rgcS/UuOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781293508; c=relaxed/simple;
-	bh=wUKs8wOL7oZqorXMICjM4DiyHm7iouXQ1fTm952RXtI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cQugx5FeWpFj6QBVEITDLlfzCBQWWZAwtCvB8cKqYwOoKdFhmMvw12ubSsCrkvds+CfE9XDh8bsmpfvZ8YmqkWCymKAYc2JSneTRxYlMueYyIhgLbBaSo5qQhH+bnPAlXwOsyXHBm7WHaHoewq+cz4wJ6frQWjO9yZbkGTo8YsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=XHi2gOl2; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1781293513; c=relaxed/simple;
+	bh=Q72QyC8esGhSP+quoWONN2DRPUvwuRRV5BTLr5CxHa4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qDyJEA6/CiIsHiuOQDxZVBV8WLF6T1JYWQgg1Ownex5wpwKyMNO/fxBbEK8VJCXw53hKrTBfedwf2KxOdPmHYAgXaPfLnOvdTYL/F81ypLT5uWTXLEGxki3BxmPEQ12N/j4iMsn9luEWzRzWSCG76vvO1gS29brcNWzUwq5+ESs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=X96yH1z1; arc=none smtp.client-ip=170.10.133.124
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1781293505;
+	s=mimecast20190719; t=1781293509;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=7b8BfvuRiy4Pcy82h5os3g4dxiw9VsvNdGsH4ELAsj4=;
-	b=XHi2gOl2Q65cqybMVAokLzCPQ24v60bDCCALBRA4lQzZpXa8ShjtivmBm2xUNoWMDg1Wxn
-	0esE2o3ZPEqR7JNVMa6JMh0b4h6ONHabJ4u3wYucWaPhjjHbNn7MhTY9FtnQ7XJUaFS8um
-	obuyvmxbrnTLsjubP1AQYZNnhhmJh48=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=44xdXI8SKKWzRa/eVahYHkFDmVs61VmyxUZfkAjitOE=;
+	b=X96yH1z1xedYXDwyZv5NvE2DL3MW9e54YxrNW//6N+MCVYnxCUuruRLjXta5jZ0YukmoTB
+	AgExFSgBFiAT2h4QkcQ9JcTEt6zI7jHL2WA5pKZCcmaWnJUtLj3W6sXzrutdQhMkAzxir/
+	AUtSvWrsn/Q7A1VDe6QqPjZv1GmkRRo=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-644-192hq6shMfulbFCjN5AYqw-1; Fri,
- 12 Jun 2026 15:45:00 -0400
-X-MC-Unique: 192hq6shMfulbFCjN5AYqw-1
-X-Mimecast-MFC-AGG-ID: 192hq6shMfulbFCjN5AYqw_1781293496
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-194-NqhQHcMjMTiRR_MmED_QZg-1; Fri,
+ 12 Jun 2026 15:45:03 -0400
+X-MC-Unique: NqhQHcMjMTiRR_MmED_QZg-1
+X-Mimecast-MFC-AGG-ID: NqhQHcMjMTiRR_MmED_QZg_1781293500
 Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 857911805C29;
-	Fri, 12 Jun 2026 19:44:55 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A87351956062;
+	Fri, 12 Jun 2026 19:44:59 +0000 (UTC)
 Received: from GoldenWind.redhat.com (unknown [10.22.80.21])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D41B1404;
-	Fri, 12 Jun 2026 19:44:51 +0000 (UTC)
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E3C7F1686;
+	Fri, 12 Jun 2026 19:44:55 +0000 (UTC)
 From: Lyude Paul <lyude@redhat.com>
 To: dri-devel@lists.freedesktop.org,
 	rust-for-linux@vger.kernel.org,
@@ -85,9 +87,11 @@ Cc: Alexandre Courbot <acourbot@nvidia.com>,
 	Daniel Almeida <daniel.almeida@collabora.com>,
 	Lyude Paul <lyude@redhat.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH v21 0/4] Rust bindings for gem shmem
-Date: Fri, 12 Jun 2026 15:43:32 -0400
-Message-ID: <20260612194436.585385-1-lyude@redhat.com>
+Subject: [PATCH v21 1/4] rust: drm: gem: shmem: Add DmaResvGuard helper
+Date: Fri, 12 Jun 2026 15:43:33 -0400
+Message-ID: <20260612194436.585385-2-lyude@redhat.com>
+In-Reply-To: <20260612194436.585385-1-lyude@redhat.com>
+References: <20260612194436.585385-1-lyude@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -104,11 +108,11 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
 	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-64737-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64738-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[26];
 	FREEMAIL_CC(0.00)[nvidia.com,garyguo.net,amd.com,lists.linux.dev,kernel.org,linux.intel.com,google.com,ffwll.ch,vger.kernel.org,linaro.org,suse.de,gmail.com,lists.linaro.org,asahilina.net,collabora.com,redhat.com,linuxfoundation.org];
 	MIME_TRACE(0.00)[0:+];
@@ -128,55 +132,93 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,kernel];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,gitlab.freedesktop.org:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nvidia.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3F82B67C268
+X-Rspamd-Queue-Id: EC89867C30A
 
-Most of this patch series has already been pushed upstream, this is just
-the second half of the patch series that has not been pushed yet + some
-additional changes which were required to implement changes requested by
-the mailing list. This patch series is originally from Asahi, previously
-posted by Daniel Almeida.
+Just a temporary holdover to make locking/unlocking the dma_resv lock much
+easier.
 
-The previous version of the patch series can be found here:
+Signed-off-by: Lyude Paul <lyude@redhat.com>
+Co-authored-by: Alexandre Courbot <acourbot@nvidia.com>
+Signed-off-by: Alexandre Courbot <acourbot@nvidia.com>
+Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Acked-by: Danilo Krummrich <dakr@kernel.org>
 
-	https://patchwork.freedesktop.org/series/164580/
+---
+V17:
+* Fix format of commit message title
+V19:
+* Add NotThreadSafe to DmaResvGuard
+V20:
+* s/inline(always)/inline/
 
-Branch with patches applied available here:
+ rust/kernel/drm/gem/shmem.rs | 39 ++++++++++++++++++++++++++++++++++--
+ 1 file changed, 37 insertions(+), 2 deletions(-)
 
-	https://gitlab.freedesktop.org/lyudess/linux/-/commits/rust/gem-shmem
-
-This patch series applies on top of drm-rust-next
-
-Patch-series wide changes since V15:
-* Fix some major rebasing errors I somehow didn't notice :(
-* Drop the dependency on LazyInit, use the trick that Alice suggested
-  instead.
-* Fix dependency ordering so that Tyr can get the vmap stuff first
-  without the other bits.
-Patch-series wide changes since V16:
-* Fix ordering one more time (SetOnce::reset() doesn't need to come
-  before adding vmap functions)
-* Rebase against the latest DeviceContext changes from me that got
-  pushed.
-Patch-series wide changes since V20:
-* Lots of Sashiko fixes, excluding the comments that I couldn't prove
-  weren't just bogus.
-
-Lyude Paul (4):
-  rust: drm: gem: shmem: Add DmaResvGuard helper
-  rust: drm: gem: shmem: Add vmap functions
-  rust: faux: Allow retrieving a bound Device
-  rust: drm: gem: Introduce shmem::Object::sg_table()
-
- rust/kernel/drm/gem/shmem.rs | 547 ++++++++++++++++++++++++++++++++++-
- rust/kernel/faux.rs          |  18 +-
- 2 files changed, 549 insertions(+), 16 deletions(-)
-
-
-base-commit: 550dc7536644db2d67c6f8cf525bba682fba08d9
+diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
+index 084b798ce795b..090c5d869fdb7 100644
+--- a/rust/kernel/drm/gem/shmem.rs
++++ b/rust/kernel/drm/gem/shmem.rs
+@@ -22,7 +22,10 @@
+     error::to_result,
+     prelude::*,
+     sync::aref::ARef,
+-    types::Opaque, //
++    types::{
++        NotThreadSafe,
++        Opaque, //
++    },
+ };
+ use core::{
+     marker::PhantomData,
+@@ -30,7 +33,10 @@
+         Deref,
+         DerefMut, //
+     },
+-    ptr::NonNull, //
++    ptr::{
++        self,
++        NonNull, //
++    },
+ };
+ use gem::{
+     BaseObjectPrivate,
+@@ -244,3 +250,32 @@ impl<T: DriverObject, C: DeviceContext> driver::AllocImpl for Object<T, C> {
+         dumb_map_offset: None,
+     };
+ }
++
++/// Private helper-type for holding the `dma_resv` object for a GEM shmem object.
++///
++/// When this is dropped, the `dma_resv` lock is dropped as well.
++///
++// TODO: This should be replace with a WwMutex equivalent once we have such bindings in the kernel.
++struct DmaResvGuard<'a, T: DriverObject, C: DeviceContext = Registered>(
++    &'a Object<T, C>,
++    NotThreadSafe,
++);
++
++impl<'a, T: DriverObject, C: DeviceContext> DmaResvGuard<'a, T, C> {
++    #[inline]
++    #[expect(unused)]
++    fn new(obj: &'a Object<T, C>) -> Self {
++        // SAFETY: This lock is initialized throughout the lifetime of `object`.
++        unsafe { bindings::dma_resv_lock(obj.raw_dma_resv(), ptr::null_mut()) };
++
++        Self(obj, NotThreadSafe)
++    }
++}
++
++impl<'a, T: DriverObject, C: DeviceContext> Drop for DmaResvGuard<'a, T, C> {
++    #[inline]
++    fn drop(&mut self) {
++        // SAFETY: We are releasing the lock grabbed during the creation of this object.
++        unsafe { bindings::dma_resv_unlock(self.0.raw_dma_resv()) };
++    }
++}
 -- 
 2.54.0
 
