@@ -1,180 +1,266 @@
-Return-Path: <linux-media+bounces-64779-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64780-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id b17VKOKkLWq1iAQAu9opvQ
-	(envelope-from <linux-media+bounces-64779-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 13 Jun 2026 20:43:46 +0200
+	id HR+lCSfBLWomjgQAu9opvQ
+	(envelope-from <linux-media+bounces-64780-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 13 Jun 2026 22:44:23 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06F7267F56A
-	for <lists+linux-media@lfdr.de>; Sat, 13 Jun 2026 20:43:46 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7672567FB6B
+	for <lists+linux-media@lfdr.de>; Sat, 13 Jun 2026 22:44:22 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="bGjkI/W6";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64779-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64779-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=MtFWT6qH;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64780-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64780-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CB958304346D
-	for <lists+linux-media@lfdr.de>; Sat, 13 Jun 2026 18:43:33 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 0177F3028B2C
+	for <lists+linux-media@lfdr.de>; Sat, 13 Jun 2026 20:44:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A6A738E8D0;
-	Sat, 13 Jun 2026 18:43:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27BB3369D53;
+	Sat, 13 Jun 2026 20:44:17 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f193.google.com (mail-dy1-f193.google.com [74.125.82.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153B837F011;
-	Sat, 13 Jun 2026 18:43:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DD70265CDD
+	for <linux-media@vger.kernel.org>; Sat, 13 Jun 2026 20:44:15 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781376212; cv=none; b=rmTbQR6GLGUcwN5LvXu5KPC4lfVQPY1prn/PD1P9EWdrPlnn/dASr2PuSnOp48ySB7w2AAGgczdPlC+LGhy93l0XlXTYECcTjtxDcOdDspzqtXYH7XP85mGkh/FXp8MUNs3fZz1TaS2XCTJt6W0UgRaEaft9BsyeG+jTKjQmK1w=
+	t=1781383456; cv=none; b=ku9KgsDpmLpJfHodpfIOD8cvJPpbKWyb2NTXeYtj+sFcgma5Y40IcOtWiPjU3tK+4w6k6LKTyuo00rG2/R2i2JhiDucKJCjHDVx1nWMVQL6xQA3sXYssKcqiMOWDSY1QEcZyDWRAA+5X8if8JmeBj3KKFqaiLQUrGg8jl/0jEZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781376212; c=relaxed/simple;
-	bh=8wP4sVNIakxniupzxJRszXC4bYyJrcvPnWKv6+dS7Oo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d0wyiptuFIaT2WRuJnaL6TFtwi/F/ZMNZJmz55Im11e0CoC+bcxd0Moh50rKchWFJCBNaNvfQ3KbWiEUR+Mm4+gNJ830Sv/YoP2rMKr1Z9KwPzkWqqWacpcyZpMxGXjUxCnCXyR9o11QfDwXMXWbGVVy45tizZqkOZdkBHsmP3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bGjkI/W6; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E75141F000E9;
-	Sat, 13 Jun 2026 18:43:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781376210;
-	bh=E5OxYVxEnxPSINP+iLBTBhgmbmiSGilAnYAH4qvmbE8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bGjkI/W6lMNGFSpuvwSRT8HTDobzdQpCXKMAapFqK7VY1w9akhx1bwFn2Q/m5gs0c
-	 77v+ecfSratNxmtN1YJAAfZ0gM+qRNCY1hNFq/jWjNZbplPCnmnVPvn6ootWIsRope
-	 FEtt4iU9lW02PToqdBKWtxKKcsfR33VMkpiBxhfZ7i63IcPHr4A1Hf92BoX9d6FfZw
-	 jNgVRimfalwQ24ieRO+GECgVnGvNRtsyJiTUez6DHn2MRXuaTSPEqYR++0ynR0Qzh0
-	 qpbzm4z+zuY5+pVXDZNt2/YCCyowbzsm5AXfc1tTdCkgysY++3luLitztjCNCZqz/A
-	 bGM2aR0jELEiw==
-Date: Sat, 13 Jun 2026 20:43:27 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Atanas Filipov <atanas.filipov@oss.qualcomm.com>
-Cc: linux-media@vger.kernel.org, mchehab@kernel.org, bod@kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org, 
-	konradybcio@kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 4/4] media: qcom: jpeg: Add Qualcomm JPEG V4L2 encoder
-Message-ID: <20260613-eccentric-statuesque-centipede-5f8d8a@quoll>
-References: <20260612194417.1737009-1-atanas.filipov@oss.qualcomm.com>
- <20260612194417.1737009-5-atanas.filipov@oss.qualcomm.com>
+	s=arc-20240116; t=1781383456; c=relaxed/simple;
+	bh=ZLyMrqHCDwBzRR733SM/Mxa6b27u5BV9Xye1seQFPDM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VvKF0sjIjHhF8AsILzZKGSxI7zzMrrPpAZHzAj/m/C6KXTn2lvnnn+FGg2OldPA0hM/V0b1TIB4o34915g2kmbO7c0FYeHS4VYfO203/n5/ePluseAby7wUJgwtBCADxlVTUkp5SDCPu7IqFfgML9OhV79xj9sM7M24ytLlenIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MtFWT6qH; arc=none smtp.client-ip=74.125.82.193
+Received: by mail-dy1-f193.google.com with SMTP id 5a478bee46e88-307631dbfedso4609080eec.0
+        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2026 13:44:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781383454; x=1781988254; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=weJ71DEVLCOn/8EfckE0MVwN8+Zw9VbJDneioNLXMSM=;
+        b=MtFWT6qHPSBBhIxuH95+4R5WJv8DbDcIVTYgXWet1L+RpSsBhPQz/6i91HqJ4mL2Xl
+         slczMDrUoLWQwz++WMx6drHhZKz0hLQcopov5Mk0DLMEZpNrFX+K4QRy39+3A7nk1eg/
+         PTAYpaRvcb/5bxVqDncK4PMGc6Nm86xRy9iCAXdJeaMycPdqtRH0tD3uZ/w9kS+U+ooa
+         JaBD9h3475u3uo3SIbX7Vvz2J4QgO4eVlNYuRvMHMNQIMUcZatcjhTXFoYKywOGfG/0i
+         qv/YJc7w1wrYI2Hr913E1cFSlnY4MsK+kd6gSAI9S9xa/9sRNUwQ+GE8CLcvrpRQEMQf
+         DkgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781383454; x=1781988254;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=weJ71DEVLCOn/8EfckE0MVwN8+Zw9VbJDneioNLXMSM=;
+        b=Jew+Y740xWoO6SVsghy/P//RlQF94pKdH0Vgd4CJte7F8RLxlg89B8/619Kc4WwOiu
+         8FBS1bFONSJ77uissVEVywDc5CqjGM+0Vtv9cWI2RvOAgSw6fEeiYhjmUjtfu+Lu/5OF
+         ZADeNtgL+h4hEudJmacQSC8L19KoHOyvEbqlvwYS9cRoWsMBM0YIIIT8TY+st6ewRcOJ
+         +LHJqPfEI2fzbYsfy7oHYm8hR9PguoBtcVXvwH20l+Ni2f2x/wQ4kaXb7kk1VpZGRq/M
+         pZOTen6hnAQws5F+dMn+ybUwp7pFCMd6WbF3EOGxTTkJ5/RQk8exXAFh6qBhgevoAnIO
+         yldA==
+X-Forwarded-Encrypted: i=1; AFNElJ81uTP3q53o6ItfUv0UeVFle4+RnDxIpcoDRzCL8rb3FeJUcxhOOFiQfWvmNMi4BCO40xMuwPANP2yIRA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwASEso8IO4imagXnXCZWF9Lkcgvf+n7kfIcQxy3XhKP/cLDU3q
+	SM6O6vh/9QVPYjc20JwbbVxIAV31vP6Ce9nUp9F05l71AvBkfVli7EXP
+X-Gm-Gg: Acq92OHZ3OiW/myMmki40cSKgrpGOtMP/+JUMVDCMfnibb012hDOMNRmL+BqizIOEaZ
+	M1IEno7yXBOPFi/Te9YtqzT8nKFukoAn4+vZms9upr7WDvgh6tgvSv5jKWvqzzc5AZXkUem7NFu
+	WcKnau3oTgnxHKaDRyyNZyInFIJhw12ENEq+jtBuE98+nSwDXzhw5TyZfC4MP3MD6+HMoI479Lh
+	vcDZyG1KIkuKV+Hr/iX1A2RxhQpg4Nkxc44w6W7AGqJTHTfqahrvzsqcthwWzLroqsVG9fLDhj2
+	hNoNhq6b1IL+5VTChHQtMW/dIEOU24IEBT37mA1/WB7MbIAnUp9/Fqy4Hr4Ef8fUVZBshuajNEZ
+	uI1ZoZzmN6EMi1Ly3iC03ofKTdJZzGvwVw5jmvQO/Mx2i6D1q7OLIM/XkpEOqBTWjSsA9O42ecf
+	WNib3TIaqj6oBN3O0XamaNSI4+XBhiXher8mtPpa52y1g4bsspd9E3GM7w3yo/9w3k2OCGc7uSU
+	qk5fHTyobu2lKugVgv1nJ23SeIxj2eazF0aG7WRJGqCVs9GJ+wkv0BLOAybdsPi58oyoWvH985J
+	2grIa9nxQJUo28uWhQ==
+X-Received: by 2002:a05:693c:3942:b0:2ea:3370:6e51 with SMTP id 5a478bee46e88-3081ff418b1mr4585470eec.4.1781383454380;
+        Sat, 13 Jun 2026 13:44:14 -0700 (PDT)
+Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081e91f8b5sm8389224eec.19.2026.06.13.13.44.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Jun 2026 13:44:13 -0700 (PDT)
+From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+To: Kees Cook <kees@kernel.org>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH] media: dvb: dib0090: remove code guarded by nonexistent config options
+Date: Sat, 13 Jun 2026 13:44:00 -0700
+Message-ID: <20260613204403.62664-1-enelsonmoore@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260612194417.1737009-5-atanas.filipov@oss.qualcomm.com>
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:bod@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FORGED_SENDER(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-64779-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	TAGGED_FROM(0.00)[bounces-64780-lists,linux-media=lfdr.de];
+	FORGED_SENDER(0.00)[enelsonmoore@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:kees@kernel.org,m:enelsonmoore@gmail.com,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,gmail.com,vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[enelsonmoore@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,quoll:mid,qualcomm.com:email,vger.kernel.org:from_smtp]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 06F7267F56A
+X-Rspamd-Queue-Id: 7672567FB6B
 
-On Fri, Jun 12, 2026 at 10:44:17PM +0300, Atanas Filipov wrote:
-> Add a Qualcomm JPEG encoder driver implemented on top of the
-> V4L2 mem2mem framework.
-> 
-> The driver wires vb2 queue handling, format negotiation, JPEG header
-> handling, interrupt-driven job completion, and runtime PM/clock/ICC
-> integration for the standalone JPEG encode hardware block.
-> 
-> Initial support in this series targets SM8250, QCM6490, and SM8550
-> class platforms.
-> 
-> Signed-off-by: Atanas Filipov <atanas.filipov@oss.qualcomm.com>
-> ---
->  drivers/media/platform/qcom/Kconfig           |    1 +
->  drivers/media/platform/qcom/Makefile          |    1 +
->  drivers/media/platform/qcom/jpeg/Kconfig      |   18 +
->  drivers/media/platform/qcom/jpeg/Makefile     |    9 +
->  .../media/platform/qcom/jpeg/qcom_jenc_defs.h |  244 +++
->  .../media/platform/qcom/jpeg/qcom_jenc_dev.c  |  336 ++++
->  .../media/platform/qcom/jpeg/qcom_jenc_dev.h  |  107 ++
->  .../media/platform/qcom/jpeg/qcom_jenc_hdr.c  |  360 ++++
->  .../media/platform/qcom/jpeg/qcom_jenc_hdr.h  |  119 ++
->  .../media/platform/qcom/jpeg/qcom_jenc_ops.c  | 1658 +++++++++++++++++
->  .../media/platform/qcom/jpeg/qcom_jenc_ops.h  |   52 +
->  .../media/platform/qcom/jpeg/qcom_jenc_res.c  |  226 +++
->  .../media/platform/qcom/jpeg/qcom_jenc_res.h  |   54 +
->  .../qcom/jpeg/qcom_jenc_v420_hw_info.h        |  529 ++++++
->  .../media/platform/qcom/jpeg/qcom_jenc_v4l2.c | 1109 +++++++++++
->  .../media/platform/qcom/jpeg/qcom_jenc_v4l2.h |   25 +
->  16 files changed, 4848 insertions(+)
->  create mode 100644 drivers/media/platform/qcom/jpeg/Kconfig
->  create mode 100644 drivers/media/platform/qcom/jpeg/Makefile
->  create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_defs.h
->  create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_dev.c
->  create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_dev.h
->  create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_hdr.c
->  create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_hdr.h
->  create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_ops.c
->  create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_ops.h
->  create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_res.c
->  create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_res.h
->  create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_v420_hw_info.h
->  create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_v4l2.c
->  create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_v4l2.h
-> 
-> diff --git a/drivers/media/platform/qcom/Kconfig b/drivers/media/platform/qcom/Kconfig
-> index 4f4d3a68e6e5..f33d53a754a0 100644
-> --- a/drivers/media/platform/qcom/Kconfig
-> +++ b/drivers/media/platform/qcom/Kconfig
-> @@ -5,3 +5,4 @@ comment "Qualcomm media platform drivers"
->  source "drivers/media/platform/qcom/camss/Kconfig"
->  source "drivers/media/platform/qcom/iris/Kconfig"
->  source "drivers/media/platform/qcom/venus/Kconfig"
-> +source "drivers/media/platform/qcom/jpeg/Kconfig"
-> diff --git a/drivers/media/platform/qcom/Makefile b/drivers/media/platform/qcom/Makefile
-> index ea2221a202c0..30c94949e9de 100644
-> --- a/drivers/media/platform/qcom/Makefile
-> +++ b/drivers/media/platform/qcom/Makefile
-> @@ -2,3 +2,4 @@
->  obj-y += camss/
->  obj-y += iris/
->  obj-y += venus/
-> +obj-y += jpeg/
+Some code in the dib0090 driver depends on CONFIG_BAND_LBAND or
+CONFIG_BAND_SBAND, which have never been defined in the kernel.
+Remove this dead code.
 
-Same comments.
+Discovered while searching for CONFIG_* symbols referenced in code but
+not defined in any Kconfig file.
 
-It seems you ignored entire v1 review and just ask us to do the same
-work twice.
+Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+---
+ drivers/media/dvb-frontends/dib0090.c | 58 ---------------------------
+ 1 file changed, 58 deletions(-)
 
-NAK, please address review you received.
-
-Best regards,
-Krzysztof
+diff --git a/drivers/media/dvb-frontends/dib0090.c b/drivers/media/dvb-frontends/dib0090.c
+index e2a48059e854..12d489cf2320 100644
+--- a/drivers/media/dvb-frontends/dib0090.c
++++ b/drivers/media/dvb-frontends/dib0090.c
+@@ -1161,12 +1161,6 @@ int dib0090_gain_control(struct dvb_frontend *fe)
+ 		state->agc_freeze = 0;
+ 		dib0090_write_reg(state, 0x04, 0x0);
+ 
+-#ifdef CONFIG_BAND_SBAND
+-		if (state->current_band == BAND_SBAND) {
+-			dib0090_set_rframp(state, rf_ramp_sband);
+-			dib0090_set_bbramp(state, bb_ramp_boost);
+-		} else
+-#endif
+ #ifdef CONFIG_BAND_VHF
+ 		if (state->current_band == BAND_VHF && !state->identity.p1g) {
+ 			dib0090_set_rframp(state, rf_ramp_pwm_vhf);
+@@ -1786,10 +1780,6 @@ static int dib0090_wbd_calibration(struct dib0090_state *state, enum frontend_tu
+ 			wbd_gain = wbd->wbd_gain;
+ 		else {
+ 			wbd_gain = 4;
+-#if defined(CONFIG_BAND_LBAND) || defined(CONFIG_BAND_SBAND)
+-			if ((state->current_band == BAND_LBAND) || (state->current_band == BAND_SBAND))
+-				wbd_gain = 2;
+-#endif
+ 		}
+ 
+ 		if (wbd_gain == state->wbd_calibration_gain) {	/* the WBD calibration has already been done */
+@@ -1869,12 +1859,6 @@ static const struct dib0090_pll dib0090_pll_table[] = {
+ 	{700000, 0, 2, 4, 4},
+ 	{860000, 1, 2, 4, 4},
+ #endif
+-#ifdef CONFIG_BAND_LBAND
+-	{1800000, 1, 0, 2, 4},
+-#endif
+-#ifdef CONFIG_BAND_SBAND
+-	{2900000, 0, 14, 1, 4},
+-#endif
+ };
+ 
+ static const struct dib0090_tuning dib0090_tuning_table_fm_vhf_on_cband[] = {
+@@ -1892,15 +1876,6 @@ static const struct dib0090_tuning dib0090_tuning_table_fm_vhf_on_cband[] = {
+ 	{850000, 2, 6, 15, 0x300, 0x1d12, 0xb9ce, EN_UHF},
+ 	{900000, 2, 7, 15, 0x300, 0x1d12, 0xb9ce, EN_UHF},
+ #endif
+-#ifdef CONFIG_BAND_LBAND
+-	{1500000, 4, 0, 20, 0x300, 0x1912, 0x82c9, EN_LBD},
+-	{1600000, 4, 1, 20, 0x300, 0x1912, 0x82c9, EN_LBD},
+-	{1800000, 4, 3, 20, 0x300, 0x1912, 0x82c9, EN_LBD},
+-#endif
+-#ifdef CONFIG_BAND_SBAND
+-	{2300000, 1, 4, 20, 0x300, 0x2d2A, 0x82c7, EN_SBD},
+-	{2900000, 1, 7, 20, 0x280, 0x2deb, 0x8347, EN_SBD},
+-#endif
+ };
+ 
+ static const struct dib0090_tuning dib0090_tuning_table[] = {
+@@ -1921,15 +1896,6 @@ static const struct dib0090_tuning dib0090_tuning_table[] = {
+ 	{850000, 2, 6, 15, 0x300, 0x1d12, 0xb9ce, EN_UHF},
+ 	{900000, 2, 7, 15, 0x300, 0x1d12, 0xb9ce, EN_UHF},
+ #endif
+-#ifdef CONFIG_BAND_LBAND
+-	{1500000, 4, 0, 20, 0x300, 0x1912, 0x82c9, EN_LBD},
+-	{1600000, 4, 1, 20, 0x300, 0x1912, 0x82c9, EN_LBD},
+-	{1800000, 4, 3, 20, 0x300, 0x1912, 0x82c9, EN_LBD},
+-#endif
+-#ifdef CONFIG_BAND_SBAND
+-	{2300000, 1, 4, 20, 0x300, 0x2d2A, 0x82c7, EN_SBD},
+-	{2900000, 1, 7, 20, 0x280, 0x2deb, 0x8347, EN_SBD},
+-#endif
+ };
+ 
+ static const struct dib0090_tuning dib0090_p1g_tuning_table[] = {
+@@ -1950,15 +1916,6 @@ static const struct dib0090_tuning dib0090_p1g_tuning_table[] = {
+ 	{720000, 2, 6, 15, 0x300, 0x1d12, 0xb9ce, EN_UHF},
+ 	{900000, 2, 7, 15, 0x300, 0x1d12, 0xb9ce, EN_UHF},
+ #endif
+-#ifdef CONFIG_BAND_LBAND
+-	{1500000, 4, 0, 20, 0x300, 0x1912, 0x82c9, EN_LBD},
+-	{1600000, 4, 1, 20, 0x300, 0x1912, 0x82c9, EN_LBD},
+-	{1800000, 4, 3, 20, 0x300, 0x1912, 0x82c9, EN_LBD},
+-#endif
+-#ifdef CONFIG_BAND_SBAND
+-	{2300000, 1, 4, 20, 0x300, 0x2d2A, 0x82c7, EN_SBD},
+-	{2900000, 1, 7, 20, 0x280, 0x2deb, 0x8347, EN_SBD},
+-#endif
+ };
+ 
+ static const struct dib0090_pll dib0090_p1g_pll_table[] = {
+@@ -1984,12 +1941,6 @@ static const struct dib0090_pll dib0090_p1g_pll_table[] = {
+ 	{680000, 0, 4, 4, 4},
+ 	{860000, 1, 4, 4, 4},
+ #endif
+-#ifdef CONFIG_BAND_LBAND
+-	{1800000, 1, 2, 2, 4},
+-#endif
+-#ifdef CONFIG_BAND_SBAND
+-	{2900000, 0, 1, 1, 6},
+-#endif
+ };
+ 
+ static const struct dib0090_tuning dib0090_p1g_tuning_table_fm_vhf_on_cband[] = {
+@@ -2006,15 +1957,6 @@ static const struct dib0090_tuning dib0090_p1g_tuning_table_fm_vhf_on_cband[] =
+ 	{850000, 2, 6, 15, 0x300, 0x1d12, 0xb9ce, EN_UHF},
+ 	{900000, 2, 7, 15, 0x300, 0x1d12, 0xb9ce, EN_UHF},
+ #endif
+-#ifdef CONFIG_BAND_LBAND
+-	{1500000, 4, 0, 20, 0x300, 0x1912, 0x82c9, EN_LBD},
+-	{1600000, 4, 1, 20, 0x300, 0x1912, 0x82c9, EN_LBD},
+-	{1800000, 4, 3, 20, 0x300, 0x1912, 0x82c9, EN_LBD},
+-#endif
+-#ifdef CONFIG_BAND_SBAND
+-	{2300000, 1, 4, 20, 0x300, 0x2d2A, 0x82c7, EN_SBD},
+-	{2900000, 1, 7, 20, 0x280, 0x2deb, 0x8347, EN_SBD},
+-#endif
+ };
+ 
+ static const struct dib0090_tuning dib0090_tuning_table_cband_7090[] = {
+-- 
+2.43.0
 
 
