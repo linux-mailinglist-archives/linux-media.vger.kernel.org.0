@@ -1,82 +1,82 @@
-Return-Path: <linux-media+bounces-64800-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64801-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 4dHcHHjPLmqx3QQAu9opvQ
-	(envelope-from <linux-media+bounces-64800-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 17:57:44 +0200
+	id lncAHK3PLmrU3QQAu9opvQ
+	(envelope-from <linux-media+bounces-64801-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 17:58:37 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB48E681740
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 17:57:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0258681751
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 17:58:36 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=a2gWyOHZ;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64800-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64800-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=QTDsAoEy;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64801-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64801-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9391C300D872
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 15:56:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 838AE301F9B6
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 15:56:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EB593C81B4;
-	Sun, 14 Jun 2026 15:56:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35B9F3C8C69;
+	Sun, 14 Jun 2026 15:56:19 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98ABF390C84
-	for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 15:56:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330723C819B
+	for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 15:56:17 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781452576; cv=none; b=oyo6dd5QMnAz82qIfzLgrc+lLUpmpEUeOtM0iZWRAeteYPle8q8+5OGr2YHZxHQjH4zfLaxyuiz+eCfwav0LfdDGpxcBiHr6rMS31CDBsjIolpXJOE8Ed3sdijI9xnCQRrC9GYbsVKxNkSix05N854MGQyADUGTsmt+2tvSFegM=
+	t=1781452578; cv=none; b=c4MUMTgdWDIZhFRQg59K+5/qT2tqiFM6LEf24G8YDtLaxBs7ILPGGQpipkurDLk+ZkuALHD9b6zOwuheKeMfkXUvWWyuvf/70AvVuKr349EQL2BNO4Uz69j+U/bACOyF3LKiiW3lnuaYD2Otmo4zifYVDuh0jPs1r27IF43eWCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781452576; c=relaxed/simple;
-	bh=oKkEKfhwkvx+v+Ta6PmsjoL6hTzX8sHn6G8U7vMuz54=;
+	s=arc-20240116; t=1781452578; c=relaxed/simple;
+	bh=D6G0yKR2/rytcvr1WlW/71DhsLr0kJgYyxusnDEFlms=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=K1KUfLTwYM+SDRFMr+Z1HAxjwbSEpCBkjkZKjA0aEAldIVsH1+OibIxbg2DAPY4c6TTfUvm6t9oKZn7UG0OS89cde0xRMFKA0z08emsaBydlbXI58alHtyVNEeSTFOY+q9RN+WQdAapaKoWt0f+PSFZ6ijUh+1xA9XHRxM4jyH0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a2gWyOHZ; arc=none smtp.client-ip=209.85.219.52
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8cceaa6f75bso41054236d6.0
-        for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 08:56:15 -0700 (PDT)
+	 MIME-Version; b=Z2lLQRT5YM/W/M/PBbEZMkRiurO8ROZN1AnFVui3Kxkyv+JaFDHRec1MRNVAmEOdqXZsM7OOveZ+ERGDIyPcsHCMc+lOhrvzQO43vKav5Hc1wujszYB+uN6p4HKNUINQQ7tOBI2z3mbRLQChHjLxC67QLDh8lbEZH/M6gPjPbzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QTDsAoEy; arc=none smtp.client-ip=209.85.219.53
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-8ccf887de87so28862146d6.0
+        for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 08:56:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781452575; x=1782057375; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781452576; x=1782057376; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0ElgwnBNirjLiswOhHY1Csa+P9LjdxoJoEu8lkda184=;
-        b=a2gWyOHZ2olj+zJ82fBLX3/Yda06Mw3riLRxSXhh23+uyQGcztB8Q4dRvNCOeKVtL7
-         QzYvm73D7WGrcU3KqEACJ2lsSzrTRAxPbSTn2hJTlDJCQlj4tIwx8zzfD+j/tUHKO+eU
-         mGG3m0aRK+Q3qGP5ktdHh3gZnEo9sKfWkoM2IW0cDdjVyYPJEkNAhDGIretZQdx+YzNe
-         Roupo/R76SV9fSo6efJ+y+8nRPYvQvv0HdPE3GvqD3HnViUWCxmVaHEsHA38jr+yoWRf
-         9M43z2UN2f5rZ13Jhe9hUbVsQvKfAIdI5Wk7aE1S9HEDzlP+MIjXtQgGUcUMpUGxBFyg
-         ktCw==
+        bh=z35bHdhSh8a/Z8G1ETcqSJjtROGT6H3Pl9v+4lJ8nHY=;
+        b=QTDsAoEy9IIZBVPiaev/b/AccdJKEDrmbUc4TdDA81kQbctZFTH3RXxuBg8aGqxs53
+         24Ra8tnAurET4J0w/5Up7EHRLQaE10iTW2mZYxhU7fPGSHPG1n/FoNEc57tyH8lm/TD8
+         r4U1X0qYdRhtCNNmcz4+h9eFOit3S4Gqs6kv8cAj82wf4bJvBQvLEa4hCspvvigqSAXQ
+         x5fq25ildO4HptUi1/og5CPZsPCWSVE4tsKwh6EM1fNQepI6nAGQCj7iyn43fbgGQd0T
+         6G/j/6E+APu9uTfMfXvRNeWKihJ5Lm1yFCzaW5ymbYxf+RDbxK7es6VJvw6E9bF6eV9x
+         85Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781452575; x=1782057375;
+        d=1e100.net; s=20251104; t=1781452576; x=1782057376;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=0ElgwnBNirjLiswOhHY1Csa+P9LjdxoJoEu8lkda184=;
-        b=QBBLx+6yMvsjNSY0eqgeQhzdr0k1VgnZmBYcC+vFQ5moKM/EgJtggcSBEdaHzYpnxj
-         A2yKCHriA90sgLSFcr1iGH2AKWhvFJ4P6WQy+yg5sC7U3RxZOg4csqGTktpMtJ9sw2cY
-         tXclnF2sTcQA311GO2kZNsfIjNcz/xjf4yP3YFajUXjNS4JH+rjA34AqOmT9Rb5Pc3b9
-         066g/Q+wkxkTn6W7XMWr3u+0TjBLTJrRKsfgxbG0jfsrGNklBksLv/H47HwGn/agMoBD
-         GQL7UiulcqhqCR+zbOPi1a3EvxEdYwqse3tTuQkkiWOUFKo5GgySLZXiyVMGeJkT+m6p
-         jVxw==
-X-Forwarded-Encrypted: i=1; AFNElJ++cnxn7s3DBeinooGTFUd5homnJ5F1fHwdpglUn64llyU3B73XdsT9zap0IHlC/3VPgBnFlYLNhAHKPA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFaDqtON04PIybhTS/DMxfiwL0sdNbJa7KYZjVYyffCIkRZ6KQ
-	FNzwojbH7ClUieRTFJVQGXw7yDOqbEV1BhJ5kb7LxRjEGSnpzJuoLlt1
-X-Gm-Gg: Acq92OHUMQHjWVAhmn4kqKIllEI52SRnV8J4s65ojmbKO0i96E54/CjdgKk9dKXbP49
-	SWfic5f6yacXdBtL6kQ6b7yaXPWc7mEpVfrBf0NI8K+ZgM04p8xtzg5ny5H4l3XfhTCcFLhlRNu
-	OY/FYgwtbd0hUUamHDR4teWKRJmkCtxv1ypqFq/5yVoXoD+FYqECdSH8H4QfrXLcw1XMwakFJ4G
-	k2O9Erv+hWwBOJIJjDELrdtbgkLQz+bIpipM22JFpbpmHKCa4p0+WaOMtHR3yB6P9mJt3GzafMH
-	saaRsv/8z74THRegY450H3B++1afqOjVmPntgZ37s7vnLTHKJhVEGoANyiHSgCZVEcQI4WhmPWt
-	C4H++aCRvRAcBoJYtLwt3xwDkhe3245PJl7vQ7xr9kpUjSN0GScD/QalH2MzB51YbBCSg0p98g+
-	s43k+7mKHGqMIJFy10wNFWSPdtghFMpSQ8m6ByfkCO2giWxu3IaaHT22niQq9Itz8pfG40meodI
-	V70a1ac97EMAvtEUhHdv1NT/eBICZSvZApax0bVbsA=
-X-Received: by 2002:a05:6214:3993:b0:8ce:b018:89ff with SMTP id 6a1803df08f44-8d44f8fc7a0mr121880556d6.36.1781452574638;
-        Sun, 14 Jun 2026 08:56:14 -0700 (PDT)
+        bh=z35bHdhSh8a/Z8G1ETcqSJjtROGT6H3Pl9v+4lJ8nHY=;
+        b=Pf5yXLUBlhTMfwiSHQW/IzsNUIjjHzfK/yTvcAiyE8VB+RwRxdUThF0ooN6vtolsdX
+         vYIDXXxesx9Yi04vmpLYNFlSJfayZk2HVUq21HVbKAPNBBozZFei5g3wnJp59KJWSAlR
+         1bF/ldX/iSMeE2WNTiOVZs0m583hYt8zYVFl1VN0MXRV/HvaPbD0Me+6L/hzX6qpRIRW
+         Qbz2AONkEA8+vNw63mkL0+/MecyVnLluX6MabeltmA0oFu9u9nuGbIMpHbeY2EZcmbgn
+         SsAy4TTiD9G3ZWCwrb6nZz4IrxYzfKnVNC6yM+HpdpdwAn26k+d8NHlyGU7B4JZHurNq
+         HpEg==
+X-Forwarded-Encrypted: i=1; AFNElJ86VW5NNwGGk277fCJnrv6NUWid8Ui0f/AHOI9CjU7yhkU5qxkBXFH/riSHMidC/2Q6sR7/mB+1NYb3Hg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAcQ7HtUiPEb89+oTcIsL5DnJ5LZwTRpiXKXawy0tILIbS5N22
+	prOVJRiCjxp5kWAkM2CPN7iZc8udSYCjUN/W04Hn1Kj4rWSYw+BNxf2d
+X-Gm-Gg: Acq92OFcec0vh7EjcEE2OI6U0se1Wv7qcPrw2eT4sGzWP7XNZzO3y+i0rBl9HLNs9Q3
+	LEKAhwVKqyixaznW4gFslfNEY08NgHXgOswhMIEA4klxnu2E49QksYMO10TDIVyA0vJxxsduKxn
+	0agG6kaW7+TgwQDGMNRX2AEtP8iKCcmTq0bjVob86pZ0WghqlV50fxVsskEKzEVPPtGKolNqrCE
+	1WebAHojkOw1/gbBISlHFkO2tm4TvBidvVJS4YdLnivHlxDPqEudBGUI0vcV37Zrx3B+9wlR7sP
+	jxBQsFqL22zyuliOvyp5umzo6Bzbkq8gJ/gsD2kUg1+xLZTGJHH13BMBDUAEFVXJRLuF5DzR4oM
+	2f6XSTVcrK/73jWcIFMDRjHglp7+DjKcz38NbUp6qj2iC29LCBNQI+6dGJ1swJ6zz62ijLiiu81
+	VwhZiGJHCObSeMkWiGixYBuSjjCf1tGDj6PO3E5hMZIQFUFaNN2A6z9Hy7wqWUxKr1oiw4vdTSm
+	vuLj/sY5GWQ0+hR5Tp6U2QpLibYAVgqbdLJvRnWtgE=
+X-Received: by 2002:ad4:596a:0:b0:8cc:e8f4:1630 with SMTP id 6a1803df08f44-8d32e50112cmr179007736d6.30.1781452576150;
+        Sun, 14 Jun 2026 08:56:16 -0700 (PDT)
 Received: from server0.tail6e7dd.ts.net (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d30522cbeasm82008446d6.44.2026.06.14.08.56.13
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d30522cbeasm82008446d6.44.2026.06.14.08.56.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jun 2026 08:56:14 -0700 (PDT)
+        Sun, 14 Jun 2026 08:56:15 -0700 (PDT)
 From: Michael Bommarito <michael.bommarito@gmail.com>
 To: Hans Verkuil <hverkuil@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -94,9 +94,9 @@ Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	linux-rockchip@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/6] media: v4l2-ctrls: validate HEVC and AV1 tile counts
-Date: Sun, 14 Jun 2026 11:56:03 -0400
-Message-ID: <20260614155609.3107600-2-michael.bommarito@gmail.com>
+Subject: [PATCH v2 2/6] media: rkvdec: bound HEVC tile loops and PPS id to the array capacity
+Date: Sun, 14 Jun 2026 11:56:04 -0400
+Message-ID: <20260614155609.3107600-3-michael.bommarito@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260614155609.3107600-1-michael.bommarito@gmail.com>
 References: <20260614155609.3107600-1-michael.bommarito@gmail.com>
@@ -117,7 +117,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64800-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64801-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:hverkuil@kernel.org,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:nicolas.dufresne@collabora.com,m:laurent.pinchart@ideasonboard.com,m:benjamin.gaignard@collabora.com,m:detlev.casanova@collabora.com,m:ezequiel@vanguardiasur.com.ar,m:yunfei.dong@mediatek.com,m:jonas@kwiboo.se,m:heiko@sntech.de,m:kees@kernel.org,m:linux-media@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:linux-mediatek@lists.infradead.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -141,82 +141,122 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CB48E681740
+X-Rspamd-Queue-Id: C0258681751
 
-The stateless HEVC and AV1 controls carry tile counts that several SoC
-decoder drivers consume as loop bounds when laying out fixed-size hardware
-descriptor buffers, but std_validate_compound() does not bound them.
+compute_tiles_uniform() / compute_tiles_non_uniform() and assemble_hw_pps()
+loop over num_tile_columns_minus1 / num_tile_rows_minus1 to write the
+per-tile column_width[] / row_height[] arrays, sized to the PPS uAPI arrays
+column_width_minus1[20] / row_height_minus1[22]; bound the loops to that
+capacity. assemble_hw_pps() also indexes the fixed param_set[] table by
+pic_parameter_set_id, a driver-interpreted index the core does not reject;
+bound it to the table size before the access.
 
-For V4L2_CTRL_TYPE_HEVC_PPS with tiling enabled, num_tile_columns_minus1
-and num_tile_rows_minus1 (u8) drive loops over column_width_minus1[20] and
-row_height_minus1[22]. For V4L2_CTRL_TYPE_AV1_FRAME, tile_info.tile_cols
-and tile_rows (u8) bound loops over the mi_*_starts[] / *_in_sbs_minus_1[]
-arrays. Reject counts beyond the uAPI array capacity with -EINVAL.
-
-These are active-count fields (loop bounds), so bounding the upper limit
-here mirrors the existing num_active_dpb_entries check. Only the upper
-bound is enforced; a zero tile count is left to the consuming driver, so
-the zero-initialised AV1 frame control that existing userspace submits is
-not rejected, and the AV1 divisor (context_update_tile_id / tile_cols) is
-guarded where it is used in the rockchip decoder (patch 4).
-
-Driver-interpreted index values (HEVC pic_parameter_set_id, AV1
-context_update_tile_id) are bounded in the consuming drivers instead
-(patches 2 and 4).
-
-Fixes: 256fa3920874 ("media: v4l: Add definitions for HEVC stateless decoding")
-Fixes: 9de30f579980 ("media: Add AV1 uAPI")
+Fixes: 3595375c2301 ("media: rkvdec: Add HEVC backend")
+Fixes: c9a59dc2acc7 ("media: rkvdec: Add HEVC support for the VDPU381 variant")
 Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
 Assisted-by: Claude:claude-opus-4-8
 ---
- drivers/media/v4l2-core/v4l2-ctrls-core.c | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ .../rockchip/rkvdec/rkvdec-hevc-common.c      | 22 +++++++++++++++----
+ .../platform/rockchip/rkvdec/rkvdec-hevc.c    |  8 +++++--
+ .../rockchip/rkvdec/rkvdec-vdpu381-hevc.c     |  2 ++
+ 3 files changed, 26 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-index 6b375720e395c..58e2eb7002a19 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -790,10 +790,25 @@ static int validate_av1_film_grain(struct v4l2_ctrl_av1_film_grain *fg)
- 	return 0;
- }
- 
-+static int validate_av1_tile_info(struct v4l2_av1_tile_info *t)
-+{
-+	/* Loop bounds in the stateless AV1 drivers. */
-+	if (t->tile_cols > V4L2_AV1_MAX_TILE_COLS)
-+		return -EINVAL;
-+
-+	if (t->tile_rows > V4L2_AV1_MAX_TILE_ROWS)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
- static int validate_av1_frame(struct v4l2_ctrl_av1_frame *f)
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c
+index 3119f3bc9f98b..d0f26f736a763 100644
+--- a/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-common.c
+@@ -37,15 +37,22 @@ void compute_tiles_uniform(struct rkvdec_hevc_run *run, u16 log2_min_cb_size,
+ 			   s32 pic_in_cts_height, u16 *column_width, u16 *row_height)
  {
- 	int ret = 0;
+ 	const struct v4l2_ctrl_hevc_pps *pps = run->pps;
++	unsigned int num_cols, num_rows;
+ 	int i;
  
-+	ret = validate_av1_tile_info(&f->tile_info);
-+	if (ret)
-+		return ret;
- 	ret = validate_av1_quantization(&f->quantization);
- 	if (ret)
- 		return ret;
-@@ -1242,6 +1257,14 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+-	for (i = 0; i < pps->num_tile_columns_minus1 + 1; i++)
++	/* Bound the loops to the column_width[]/row_height[] capacity. */
++	num_cols = min_t(unsigned int, pps->num_tile_columns_minus1 + 1,
++			 ARRAY_SIZE(pps->column_width_minus1));
++	num_rows = min_t(unsigned int, pps->num_tile_rows_minus1 + 1,
++			 ARRAY_SIZE(pps->row_height_minus1));
++
++	for (i = 0; i < num_cols; i++)
+ 		column_width[i] = ((i + 1) * pic_in_cts_width) /
+ 				  (pps->num_tile_columns_minus1 + 1) -
+ 				  (i * pic_in_cts_width) /
+ 				  (pps->num_tile_columns_minus1 + 1);
  
- 			p_hevc_pps->flags &=
- 				~V4L2_HEVC_PPS_FLAG_LOOP_FILTER_ACROSS_TILES_ENABLED;
-+		} else {
-+			/* Loop bounds in the stateless HEVC drivers. */
-+			if (p_hevc_pps->num_tile_columns_minus1 >=
-+			    ARRAY_SIZE(p_hevc_pps->column_width_minus1))
-+				return -EINVAL;
-+			if (p_hevc_pps->num_tile_rows_minus1 >=
-+			    ARRAY_SIZE(p_hevc_pps->row_height_minus1))
-+				return -EINVAL;
- 		}
+-	for (i = 0; i < pps->num_tile_rows_minus1 + 1; i++)
++	for (i = 0; i < num_rows; i++)
+ 		row_height[i] = ((i + 1) * pic_in_cts_height) /
+ 				(pps->num_tile_rows_minus1 + 1) -
+ 				(i * pic_in_cts_height) /
+@@ -57,17 +64,24 @@ void compute_tiles_non_uniform(struct rkvdec_hevc_run *run, u16 log2_min_cb_size
+ 			       s32 pic_in_cts_height, u16 *column_width, u16 *row_height)
+ {
+ 	const struct v4l2_ctrl_hevc_pps *pps = run->pps;
++	unsigned int num_cols, num_rows;
+ 	s32 sum = 0;
+ 	int i;
  
- 		if (p_hevc_pps->flags &
+-	for (i = 0; i < pps->num_tile_columns_minus1; i++) {
++	/* Leave one slot for the trailing last-tile entry written below. */
++	num_cols = min_t(unsigned int, pps->num_tile_columns_minus1,
++			 ARRAY_SIZE(pps->column_width_minus1) - 1);
++	num_rows = min_t(unsigned int, pps->num_tile_rows_minus1,
++			 ARRAY_SIZE(pps->row_height_minus1) - 1);
++
++	for (i = 0; i < num_cols; i++) {
+ 		column_width[i] = pps->column_width_minus1[i] + 1;
+ 		sum += column_width[i];
+ 	}
+ 	column_width[i] = pic_in_cts_width - sum;
+ 
+ 	sum = 0;
+-	for (i = 0; i < pps->num_tile_rows_minus1; i++) {
++	for (i = 0; i < num_rows; i++) {
+ 		row_height[i] = pps->row_height_minus1[i] + 1;
+ 		sum += row_height[i];
+ 	}
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc.c
+index ac8b825d080a2..29b5adb509727 100644
+--- a/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc.c
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-hevc.c
+@@ -156,6 +156,8 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
+ 	 * packet unit). so the driver copy SPS/PPS information to the exact PPS
+ 	 * packet unit for HW accessing.
+ 	 */
++	if (pps->pic_parameter_set_id >= ARRAY_SIZE(priv_tbl->param_set))
++		return;
+ 	hw_ps = &priv_tbl->param_set[pps->pic_parameter_set_id];
+ 	memset(hw_ps, 0, sizeof(*hw_ps));
+ 
+@@ -274,9 +276,11 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
+ 
+ 	if (pps->flags & V4L2_HEVC_PPS_FLAG_TILES_ENABLED) {
+ 		/* Userspace also provide column width and row height for uniform spacing */
+-		for (i = 0; i <= pps->num_tile_columns_minus1; i++)
++		for (i = 0; i <= pps->num_tile_columns_minus1 &&
++		     i < ARRAY_SIZE(pps->column_width_minus1); i++)
+ 			WRITE_PPS(pps->column_width_minus1[i], COLUMN_WIDTH(i));
+-		for (i = 0; i <= pps->num_tile_rows_minus1; i++)
++		for (i = 0; i <= pps->num_tile_rows_minus1 &&
++		     i < ARRAY_SIZE(pps->row_height_minus1); i++)
+ 			WRITE_PPS(pps->row_height_minus1[i], ROW_HEIGHT(i));
+ 	} else {
+ 		WRITE_PPS(((sps->pic_width_in_luma_samples + ctb_size_y - 1) / ctb_size_y) - 1,
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-hevc.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-hevc.c
+index fe6414a175510..6dafa1dd28507 100644
+--- a/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-hevc.c
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-hevc.c
+@@ -145,6 +145,8 @@ static void assemble_hw_pps(struct rkvdec_ctx *ctx,
+ 	 * packet unit). so the driver copy SPS/PPS information to the exact PPS
+ 	 * packet unit for HW accessing.
+ 	 */
++	if (pps->pic_parameter_set_id >= ARRAY_SIZE(priv_tbl->param_set))
++		return;
+ 	hw_ps = &priv_tbl->param_set[pps->pic_parameter_set_id];
+ 	memset(hw_ps, 0, sizeof(*hw_ps));
+ 
 -- 
 2.53.0
 
