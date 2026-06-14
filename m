@@ -1,80 +1,82 @@
-Return-Path: <linux-media+bounces-64799-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64800-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id y2EAO2PPLmqs3QQAu9opvQ
-	(envelope-from <linux-media+bounces-64799-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 17:57:23 +0200
+	id 4dHcHHjPLmqx3QQAu9opvQ
+	(envelope-from <linux-media+bounces-64800-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 17:57:44 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EFA868173D
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 17:57:23 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB48E681740
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 17:57:43 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=mj00RsYd;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64799-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64799-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=a2gWyOHZ;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64800-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64800-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 7522430071D8
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 15:56:17 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 9391C300D872
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 15:56:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 175F727AC45;
-	Sun, 14 Jun 2026 15:56:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EB593C81B4;
+	Sun, 14 Jun 2026 15:56:17 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D84B386453
-	for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 15:56:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98ABF390C84
+	for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 15:56:15 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781452575; cv=none; b=BCYa9Xi4CD+SY43V5i82R2EU+Bqu84K5MGOYsZ/P/waP6/COWBYhSc7aH0nb0/VYiKycOLQHB6PAKfkjNtbUyKqqN9vfJEaMp2a1HGAFRnN/mawqZiWH4YWtm5o4cVz4RzQLQMwtYL+e4gJJweT0UeuGhYL6GpButCA7jqv372U=
+	t=1781452576; cv=none; b=oyo6dd5QMnAz82qIfzLgrc+lLUpmpEUeOtM0iZWRAeteYPle8q8+5OGr2YHZxHQjH4zfLaxyuiz+eCfwav0LfdDGpxcBiHr6rMS31CDBsjIolpXJOE8Ed3sdijI9xnCQRrC9GYbsVKxNkSix05N854MGQyADUGTsmt+2tvSFegM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781452575; c=relaxed/simple;
-	bh=tVPqm+88/MGsyYDFQSKa03GedhxJEBM5kC1842fbWvY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XCF8aT2d217YV0zsIfn5PzNArWJEFT9VmvS+o/PCqn8Lzv1zVW2w8QqdVSzqkmzpAs910+5pPYiLk5sVuMGVTlJ9BtBlZTs17Nro3kl8mb91TvG2m1jg/wFBeg/4k0vYMAAV5zoFgqhIbPTf8d6+SOPbzXXecKYFSn8AEJcsffA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mj00RsYd; arc=none smtp.client-ip=209.85.219.51
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-8cceaa6f75bso41054006d6.0
-        for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 08:56:14 -0700 (PDT)
+	s=arc-20240116; t=1781452576; c=relaxed/simple;
+	bh=oKkEKfhwkvx+v+Ta6PmsjoL6hTzX8sHn6G8U7vMuz54=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=K1KUfLTwYM+SDRFMr+Z1HAxjwbSEpCBkjkZKjA0aEAldIVsH1+OibIxbg2DAPY4c6TTfUvm6t9oKZn7UG0OS89cde0xRMFKA0z08emsaBydlbXI58alHtyVNEeSTFOY+q9RN+WQdAapaKoWt0f+PSFZ6ijUh+1xA9XHRxM4jyH0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a2gWyOHZ; arc=none smtp.client-ip=209.85.219.52
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-8cceaa6f75bso41054236d6.0
+        for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 08:56:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781452573; x=1782057373; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=U0kPJubfXi7k53ak7UhChAyiQgIHcIYyeOvCqkt9GAU=;
-        b=mj00RsYde/S6UTT1SiVccJ++VH4dpnuADpeplD0VS4Qo0Q0EposmqQ+c5BcCFbIor6
-         7vmrcA0lz61x+wTXiRjpxlw9s5w1A+XI5S35Dg+Y6NSZB3kRQaAJ8yk2wmJk20GVivtN
-         7U75oBkOaV9nZYAgKRLE7sOyZ33E77iExurb6+o5R0tMP5+yQCDX21usI6hGICjJC8+m
-         TIQJ2ORRf3CTigwR8T69oWDwRFlkHi82hF6JIUNN2gtBWW8gaAwSmHYDJ0clLm8Y9wSi
-         p6157gWsUHZETYNB3EqYDmwXUjbn72I6p4bnVwav6BPQcQ+5GkTNSEsNO7rogVPc2vSV
-         bY/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781452573; x=1782057373;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1781452575; x=1782057375; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=U0kPJubfXi7k53ak7UhChAyiQgIHcIYyeOvCqkt9GAU=;
-        b=bKNPyujsH8HUVFdvEahpXJ5PsbUkIFPiYDqrdhDLywx+YlpAGCVXThXIZ/hkE1gNVk
-         dX3wuTQHb0DX/ai43s33xnTVrixsDCZrK50Z+Qfrm9Q43kDLxlwI3+qDAkWullEPGEF9
-         Dch55VoCQOttoI7Lcvlbc1GS/eOs5XdvtAFJZ5yfUubuPGf1TiZU7vM6e7PbGEF2nhDg
-         900cdnVTHXMor3dXsz903X7+2nz94M88WwHFC9agtEsgsXSDVKE2Bn+oMqZNwB5IY9T6
-         3kIOLSfv3F0pTBkmYVvnCNmVuizkbDVePLCW3/u0y4Gi8YkQiM1b6YR49GmI5wcH6vL6
-         rDHQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/zDkxjTVyhTk6fiiNPUa7FJig/8GAeAjUhXVWEEZ3NLpyDSVAURd0EF96nWwmpcdH0vMHLy80SL+g9Nw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywv2uJA9kMrxFGoPaiNWkeiL8CbLoUyAoEh+EawaQgnYComcu7u
-	Zc3XBY/v1+qEOVIQ47NwkyyB3cKVAYghiMpaqk4KrCwvYnOOa6dxFaXc
-X-Gm-Gg: Acq92OHvAj26ZyQBnqTsyldbBykjIwpFSFPm1nG0F2WTfFHRkc7eoJBJUThTRm9fzNV
-	+Tl3i4S/pZqoHOn7X1Tp2i8w7LAl8BwNBWipQPGEaTdJxIWTHYy3uuUw+C0F7HHYFuXE57TWgM9
-	CgnMN0dHg0E5fmNcm+5d1SSUCUXfwFw3fOcjN4ApM58hQt4eJf5lDl/LRdp9YGK3bFsOZn9eCm8
-	FioZ5PVRo+6gNVYKE8U3olAQbRUWipo5nBXcki4/MzqnwD38Pq1jJI5i4Sy0rSH7tV0XUwQ5ova
-	UgLqpW6vq/rHwAQXZoD01TKZUf46+am0vJhJLTrSGJ8g3CE6yiOjbhB3R7uiZtzeNZHoq4poaI9
-	F+xtKPMscsg2HZQEWmfbYcf3pvT6Sv8qp1lZ+3dkVjDND+FojD4Lz/OJb73I7tce0hEXovcnsj6
-	OBu0O13jtJwnUkd+jHZhrs7nWp5HNp/yfZgzeKUFgf2K3BShbVDwWS/PhHCkbRlzStjM9yrY24a
-	jhVgpuLi92qMtGK8jvkl3x3q78KgMLMUjHvhw2ickE=
-X-Received: by 2002:a05:6214:1c4a:b0:8ac:a6a5:1f41 with SMTP id 6a1803df08f44-8d44e97d5d1mr119072016d6.27.1781452573124;
-        Sun, 14 Jun 2026 08:56:13 -0700 (PDT)
+        bh=0ElgwnBNirjLiswOhHY1Csa+P9LjdxoJoEu8lkda184=;
+        b=a2gWyOHZ2olj+zJ82fBLX3/Yda06Mw3riLRxSXhh23+uyQGcztB8Q4dRvNCOeKVtL7
+         QzYvm73D7WGrcU3KqEACJ2lsSzrTRAxPbSTn2hJTlDJCQlj4tIwx8zzfD+j/tUHKO+eU
+         mGG3m0aRK+Q3qGP5ktdHh3gZnEo9sKfWkoM2IW0cDdjVyYPJEkNAhDGIretZQdx+YzNe
+         Roupo/R76SV9fSo6efJ+y+8nRPYvQvv0HdPE3GvqD3HnViUWCxmVaHEsHA38jr+yoWRf
+         9M43z2UN2f5rZ13Jhe9hUbVsQvKfAIdI5Wk7aE1S9HEDzlP+MIjXtQgGUcUMpUGxBFyg
+         ktCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781452575; x=1782057375;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0ElgwnBNirjLiswOhHY1Csa+P9LjdxoJoEu8lkda184=;
+        b=QBBLx+6yMvsjNSY0eqgeQhzdr0k1VgnZmBYcC+vFQ5moKM/EgJtggcSBEdaHzYpnxj
+         A2yKCHriA90sgLSFcr1iGH2AKWhvFJ4P6WQy+yg5sC7U3RxZOg4csqGTktpMtJ9sw2cY
+         tXclnF2sTcQA311GO2kZNsfIjNcz/xjf4yP3YFajUXjNS4JH+rjA34AqOmT9Rb5Pc3b9
+         066g/Q+wkxkTn6W7XMWr3u+0TjBLTJrRKsfgxbG0jfsrGNklBksLv/H47HwGn/agMoBD
+         GQL7UiulcqhqCR+zbOPi1a3EvxEdYwqse3tTuQkkiWOUFKo5GgySLZXiyVMGeJkT+m6p
+         jVxw==
+X-Forwarded-Encrypted: i=1; AFNElJ++cnxn7s3DBeinooGTFUd5homnJ5F1fHwdpglUn64llyU3B73XdsT9zap0IHlC/3VPgBnFlYLNhAHKPA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFaDqtON04PIybhTS/DMxfiwL0sdNbJa7KYZjVYyffCIkRZ6KQ
+	FNzwojbH7ClUieRTFJVQGXw7yDOqbEV1BhJ5kb7LxRjEGSnpzJuoLlt1
+X-Gm-Gg: Acq92OHUMQHjWVAhmn4kqKIllEI52SRnV8J4s65ojmbKO0i96E54/CjdgKk9dKXbP49
+	SWfic5f6yacXdBtL6kQ6b7yaXPWc7mEpVfrBf0NI8K+ZgM04p8xtzg5ny5H4l3XfhTCcFLhlRNu
+	OY/FYgwtbd0hUUamHDR4teWKRJmkCtxv1ypqFq/5yVoXoD+FYqECdSH8H4QfrXLcw1XMwakFJ4G
+	k2O9Erv+hWwBOJIJjDELrdtbgkLQz+bIpipM22JFpbpmHKCa4p0+WaOMtHR3yB6P9mJt3GzafMH
+	saaRsv/8z74THRegY450H3B++1afqOjVmPntgZ37s7vnLTHKJhVEGoANyiHSgCZVEcQI4WhmPWt
+	C4H++aCRvRAcBoJYtLwt3xwDkhe3245PJl7vQ7xr9kpUjSN0GScD/QalH2MzB51YbBCSg0p98g+
+	s43k+7mKHGqMIJFy10wNFWSPdtghFMpSQ8m6ByfkCO2giWxu3IaaHT22niQq9Itz8pfG40meodI
+	V70a1ac97EMAvtEUhHdv1NT/eBICZSvZApax0bVbsA=
+X-Received: by 2002:a05:6214:3993:b0:8ce:b018:89ff with SMTP id 6a1803df08f44-8d44f8fc7a0mr121880556d6.36.1781452574638;
+        Sun, 14 Jun 2026 08:56:14 -0700 (PDT)
 Received: from server0.tail6e7dd.ts.net (c-68-48-65-54.hsd1.mi.comcast.net. [68.48.65.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d30522cbeasm82008446d6.44.2026.06.14.08.56.11
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d30522cbeasm82008446d6.44.2026.06.14.08.56.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jun 2026 08:56:12 -0700 (PDT)
+        Sun, 14 Jun 2026 08:56:14 -0700 (PDT)
 From: Michael Bommarito <michael.bommarito@gmail.com>
 To: Hans Verkuil <hverkuil@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -92,10 +94,12 @@ Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	linux-rockchip@lists.infradead.org,
 	linux-mediatek@lists.infradead.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 0/6] media: v4l2-ctrls: bound stateless HEVC/AV1 tile counts
-Date: Sun, 14 Jun 2026 11:56:02 -0400
-Message-ID: <20260614155609.3107600-1-michael.bommarito@gmail.com>
+Subject: [PATCH v2 1/6] media: v4l2-ctrls: validate HEVC and AV1 tile counts
+Date: Sun, 14 Jun 2026 11:56:03 -0400
+Message-ID: <20260614155609.3107600-2-michael.bommarito@gmail.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260614155609.3107600-1-michael.bommarito@gmail.com>
+References: <20260614155609.3107600-1-michael.bommarito@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -108,12 +112,12 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64799-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64800-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:hverkuil@kernel.org,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:nicolas.dufresne@collabora.com,m:laurent.pinchart@ideasonboard.com,m:benjamin.gaignard@collabora.com,m:detlev.casanova@collabora.com,m:ezequiel@vanguardiasur.com.ar,m:yunfei.dong@mediatek.com,m:jonas@kwiboo.se,m:heiko@sntech.de,m:kees@kernel.org,m:linux-media@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:linux-mediatek@lists.infradead.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -123,7 +127,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FORWARDED(0.00)[lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
@@ -137,71 +141,82 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4EFA868173D
+X-Rspamd-Queue-Id: CB48E681740
 
-The stateless HEVC and AV1 V4L2 controls carry tile counts that several SoC
+The stateless HEVC and AV1 controls carry tile counts that several SoC
 decoder drivers consume as loop bounds when laying out fixed-size hardware
-descriptor buffers, but std_validate_compound() does not bound them. A
-process with access to a /dev/videoN stateless decoder (on a typical desktop
-or SBC, the active-seat local user via the logind/udev uaccess ACL, no extra
-capability) can set a HEVC PPS or AV1 frame control with a tile count far
-beyond the array capacity the drivers assume, making them loop past their
-fixed buffers.
+descriptor buffers, but std_validate_compound() does not bound them.
 
-Patch 1 caps the HEVC and AV1 tile counts to the uAPI array capacity in the
-core. Patches 2-5 add matching bounds in the consuming driver loops (and
-bound the driver-interpreted HEVC pic_parameter_set_id / AV1
-context_update_tile_id indices the core does not reject). Patch 6 adds KUnit
-tests for the core validation.
+For V4L2_CTRL_TYPE_HEVC_PPS with tiling enabled, num_tile_columns_minus1
+and num_tile_rows_minus1 (u8) drive loops over column_width_minus1[20] and
+row_height_minus1[22]. For V4L2_CTRL_TYPE_AV1_FRAME, tile_info.tile_cols
+and tile_rows (u8) bound loops over the mi_*_starts[] / *_in_sbs_minus_1[]
+arrays. Reject counts beyond the uAPI array capacity with -EINVAL.
 
-I did my best to reproduce these with the hardware I have, but apologies in
-advance if I missed something because the soft repro.
+These are active-count fields (loop bounds), so bounding the upper limit
+here mirrors the existing num_active_dpb_entries check. Only the upper
+bound is enforced; a zero tile count is left to the consuming driver, so
+the zero-initialised AV1 frame control that existing userspace submits is
+not rejected, and the AV1 divisor (context_update_tile_id / tile_cols) is
+guarded where it is used in the rockchip decoder (patch 4).
 
-Test matrix: patch 1 + patch 6 run the real std_validate_compound() under
-KASAN on x86_64 (rejects out-of-range counts, in-range and the zeroed
-default pass, stock and patched); all objects build clean W=1; the ARM SoC
-decoders are not reachable on the x86 host, so the per-driver writes are not
-reproduced here.
+Driver-interpreted index values (HEVC pic_parameter_set_id, AV1
+context_update_tile_id) are bounded in the consuming drivers instead
+(patches 2 and 4).
 
-Changes since v1:
- - Patch 1: only reject AV1 tile_cols/tile_rows above the array capacity;
-   do not reject a zero count. v1 also rejected tile_cols < 1, which made
-   std_validate_compound() return -EINVAL for the zero-initialised AV1
-   frame control that userspace and v4l2-compliance submit, regressing the
-   visl compliance run (reported by the linux-media CI). The divide-by-zero
-   that a zero tile_cols would cause is guarded where the divisor is used in
-   the rockchip decoder (patch 4), so no functional protection is lost.
- - Patch 6: drop the "zero tile_cols is rejected" KUnit case (no longer the
-   core's behaviour) and add a benign case asserting the zero-initialised
-   AV1 frame still validates, plus a tile_rows upper-bound case.
- - No changes to patches 2-5.
+Fixes: 256fa3920874 ("media: v4l: Add definitions for HEVC stateless decoding")
+Fixes: 9de30f579980 ("media: Add AV1 uAPI")
+Signed-off-by: Michael Bommarito <michael.bommarito@gmail.com>
+Assisted-by: Claude:claude-opus-4-8
+---
+ drivers/media/v4l2-core/v4l2-ctrls-core.c | 23 +++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
 
-Michael Bommarito (6):
-  media: v4l2-ctrls: validate HEVC and AV1 tile counts
-  media: rkvdec: bound HEVC tile loops and PPS id to the array capacity
-  media: verisilicon: hantro: bound G2 HEVC tile loop to the buffer
-    capacity
-  media: verisilicon: rockchip: bound VPU981 AV1 tile loop and guard
-    divisor
-  media: mediatek: vcodec: bound AV1 tile-start copy to the array
-    capacity
-  media: v4l2-ctrls: add KUnit tests for compound control tile
-    validation
-
- .../vcodec/decoder/vdec/vdec_av1_req_lat_if.c |   5 +-
- .../rockchip/rkvdec/rkvdec-hevc-common.c      |  22 ++-
- .../platform/rockchip/rkvdec/rkvdec-hevc.c    |   8 +-
- .../rockchip/rkvdec/rkvdec-vdpu381-hevc.c     |   2 +
- .../platform/verisilicon/hantro_g2_hevc_dec.c |   6 +
- .../verisilicon/rockchip_vpu981_hw_av1_dec.c  |  29 ++--
- drivers/media/v4l2-core/Kconfig               |  12 ++
- .../media/v4l2-core/v4l2-ctrls-core-test.c    | 130 ++++++++++++++++++
- drivers/media/v4l2-core/v4l2-ctrls-core.c     |  27 ++++
- 9 files changed, 224 insertions(+), 17 deletions(-)
- create mode 100644 drivers/media/v4l2-core/v4l2-ctrls-core-test.c
-
-
-base-commit: 5200f5f493f79f14bbdc349e402a40dfb32f23c8
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+index 6b375720e395c..58e2eb7002a19 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+@@ -790,10 +790,25 @@ static int validate_av1_film_grain(struct v4l2_ctrl_av1_film_grain *fg)
+ 	return 0;
+ }
+ 
++static int validate_av1_tile_info(struct v4l2_av1_tile_info *t)
++{
++	/* Loop bounds in the stateless AV1 drivers. */
++	if (t->tile_cols > V4L2_AV1_MAX_TILE_COLS)
++		return -EINVAL;
++
++	if (t->tile_rows > V4L2_AV1_MAX_TILE_ROWS)
++		return -EINVAL;
++
++	return 0;
++}
++
+ static int validate_av1_frame(struct v4l2_ctrl_av1_frame *f)
+ {
+ 	int ret = 0;
+ 
++	ret = validate_av1_tile_info(&f->tile_info);
++	if (ret)
++		return ret;
+ 	ret = validate_av1_quantization(&f->quantization);
+ 	if (ret)
+ 		return ret;
+@@ -1242,6 +1257,14 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+ 
+ 			p_hevc_pps->flags &=
+ 				~V4L2_HEVC_PPS_FLAG_LOOP_FILTER_ACROSS_TILES_ENABLED;
++		} else {
++			/* Loop bounds in the stateless HEVC drivers. */
++			if (p_hevc_pps->num_tile_columns_minus1 >=
++			    ARRAY_SIZE(p_hevc_pps->column_width_minus1))
++				return -EINVAL;
++			if (p_hevc_pps->num_tile_rows_minus1 >=
++			    ARRAY_SIZE(p_hevc_pps->row_height_minus1))
++				return -EINVAL;
+ 		}
+ 
+ 		if (p_hevc_pps->flags &
 -- 
 2.53.0
 
