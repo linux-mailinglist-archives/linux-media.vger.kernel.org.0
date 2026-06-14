@@ -1,88 +1,87 @@
-Return-Path: <linux-media+bounces-64860-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64861-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Z27XNJYPL2qH7gQAu9opvQ
-	(envelope-from <linux-media+bounces-64860-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 22:31:18 +0200
+	id mQwfCp4PL2qI7gQAu9opvQ
+	(envelope-from <linux-media+bounces-64861-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 22:31:26 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F5726822E2
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 22:31:18 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 745746822E5
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 22:31:25 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=ATSjvpEF;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64860-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64860-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=J6uR3FfZ;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64861-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64861-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 6F3C6300B62D
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 20:30:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4CA64300D967
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 20:30:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49E613191BB;
-	Sun, 14 Jun 2026 20:30:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE6A331E856;
+	Sun, 14 Jun 2026 20:30:29 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4DB23128AB
-	for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 20:30:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48A7F2F532F
+	for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 20:30:28 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781469022; cv=none; b=Yx5XEPsxhnhAllechvpACtzSUW7s3X4WSSAy2jTHycDjiwtbrrnwLMmHyT3sBxoWbU5oDvNJVPeqawubkv6rD1DNhttR9+b2nNyeQc0w48vKUQuEESC7F30REHg+M/RJJFRklOrtX8YYvRBEx7MLdHVD/42SOUTs23MpzY0xHmM=
+	t=1781469029; cv=none; b=jq6Rm+BWItoeiScznGvpguXTJ93LUizVH6JqgZyYEqWsTEKiPrpb3Wsspsgva+roMgGezzJaytNEuq80GIJPgEgvGyPTroW+9GVM6LIv9canrSBYKNJ/IYigpFX07miyU9NmJvEhuQsgfEyLSTT2WGW6GbPZGOs6xhLT5nEtVeg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781469022; c=relaxed/simple;
-	bh=vHiobahySdZAKWgpMQSFbN+MfD9fEqNMaDttSm7gZy4=;
+	s=arc-20240116; t=1781469029; c=relaxed/simple;
+	bh=599zfZJAbkNxw78NPn5+kftBT5//9rsCPa8h0I//JL8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ar7bl8/qWv2ydKBITtURNoXNvkXnNAthMupfls8k2Hh8/38KHc6PX7hVqJM4OziGwvln1uZ+JJ4DiTKVrx0fjO8LfGPkWYDA8Pz/+71vXkcgScXIPLCToq59psCoLxTZtRXCQ6RkCRWx4RNEDahLE4bK5tPigyYfsOmWHO/z8AU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ATSjvpEF; arc=none smtp.client-ip=209.85.216.42
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-36bdda53d99so940800a91.0
-        for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 13:30:21 -0700 (PDT)
+	 MIME-Version; b=fdfxmD+1O2wiiQo/xuGIU200s+pjo4nCJ+XOW7EdzFpn4JHoeb//IeMHwAgkmoModykCFvaKJAXvIWGYkiX2NAazC+KT7kkkW4gVKqSAZR9y3q+bd6ec0pxNRP1XOXC+fkP3T6HBijLWmRSGfYyqS+Ij9Y/+z5q3nw1bQX3t5r8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J6uR3FfZ; arc=none smtp.client-ip=209.85.216.44
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-36bb3551f6eso2153062a91.1
+        for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 13:30:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781469021; x=1782073821; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781469027; x=1782073827; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PlYZ8ARYCInYVGoYYyh2DszhX2UmROVygqNSfHG9s2I=;
-        b=ATSjvpEFyr0FgfU1Mv4wNuYtrFOl6DLul4pD2xZSvV/nQatWPlhCLGa+jAF29uW9Rx
-         Uwnn0ankGvgvCqgAp3dYFJHX8XzxdHboBP9ZEz+juRFzmuIoc7c1kObXY6nCw064xyav
-         nA64UHNtx1m7PHJiRpQMrerhaU88AcXyvlcG8eCNjsowoMtW9D7BvjE5FMmNpa5LyHsg
-         ddp3f5ZemQ25UsWmP7VghOetStSBMQWf7gfY9CsyvjU3z0myJ/uszORq5EoR/0p/6Qdo
-         T0+aPtO5WV6yuUbHZ308tFXlJgVMyCT2Adxwj0UsMFfv1jQRcDzc82YbUlNh/JYIQutM
-         Pakw==
+        bh=zc350Z+XHNdEgykOHsnv64mPEa8jP1PjaQAzRbsUDG0=;
+        b=J6uR3FfZQ9R/kZEuNLbYDLeYKjN33oo8klDvuWQVNZ1RD+K0dS0+U4RcMTkzJepBOe
+         D9RNEZ3KZsnSkQaMUKjsIaZxfG0p9TyUp4NufDL49B4inIDyIgAcDuvyaIeOmKCBY5kk
+         b4IQSe2s3Kv438dsI+sbdmC/AcVeVgdSUGf0HadBS+HhS2+LM9Q2CA46USveC/Mm8l4m
+         IWntWD9xCSYgJWnYGxGwYF9qSuM8W1D8zifSdrOPNZ96vheFQMF+mn7C4XlRev+fQv0Q
+         29rJU267ts8LRuNJH9BmhD2pL5VxM4nWKzZWOdQ+RwqwEgE4vZpxRws3BdsXQ8/XBWxg
+         oM/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781469021; x=1782073821;
+        d=1e100.net; s=20251104; t=1781469027; x=1782073827;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=PlYZ8ARYCInYVGoYYyh2DszhX2UmROVygqNSfHG9s2I=;
-        b=c99qjatVaEYiJkNEn2eUdflTjLEniIYrBE6LCpMQqG4EF7xHDqEL7Dd8fAkayNpzsd
-         pjc/0uVnWkagY9q7/y3gFZcwhSB3nCWkg6M8YP8SilHRCqGs+/CIV1bJb5tIbhlItrif
-         c+9XAwCsMNu3t1uWGg77TSVIz48VwEkLgrsSv7f9gglDM7tQHu2pEL2dVC1SigepEg4x
-         G+qDD7BEBPYrp53SruC98pxvNguyafqBScQTOVpUrGHh8NB32KE+L02Mh7ckvphBvFGw
-         qtb5Y/5zI2gbZyp2W/T+OBhN/KkhLzaaFdVgHqhiS7PsCwYpfd4qe917LMUxI4WCjYfR
-         Xb2w==
-X-Gm-Message-State: AOJu0YxTx3o3OMTVebgTSOz2DfMd6pzbKtFdd/FKig6nEem6VSRInx2R
-	gSqMZV5XT1+a7G72uK+IR9a5Xme8AV22X/fxIJhEzYvdYwz1PoC4jms2xASaSmZa
-X-Gm-Gg: Acq92OH8x1y5vpjuSRtGGYpc+zvJZWdZydGq83BucEZwbEGj8glZn1Sb1gFCrkZ/kZ0
-	YLSKQPCqJ5cVjz7dDwPn+4Bio01FG80Xbw1oybKLq5dPq+BBOUt2jKcMOVztkQgbJlanrE5s9Pq
-	lX9fo0oO+YO+9DIl3b5NRXFEihu648IP5Ns41uTGNN4hJcX0//vbkFqgMnhg2TVHzj5UTRGrLL7
-	0lcwSyEXgFoiAX0+sNt7A3SW7+i+ty8m6PceyJGFuRX+KOH4vfDglJCNKn4fGhMUwsJlu3HFqWD
-	LDdFT+i2cC941Wyv4YTtsDbYtf/861dA103yKgVpkjZaDbMIIqi3xf4/rO+5Ned8ApyJZpIcxwV
-	dRv/jpGuemMq5AWOeqUb9mbL7Q/uBgqTkT5knNVfh5eQ8LpPnCJVyDVt31fZHbWn5J+KnDUYE0D
-	9TII8X+8A/gGiuRsMzkHq42H6rKn+8gOngzg4AgN9QwyiJGrCTn+dS
-X-Received: by 2002:a17:90b:1c8e:b0:36d:cf58:b79 with SMTP id 98e67ed59e1d1-37a03fb81bamr12305956a91.19.1781469021095;
-        Sun, 14 Jun 2026 13:30:21 -0700 (PDT)
+        bh=zc350Z+XHNdEgykOHsnv64mPEa8jP1PjaQAzRbsUDG0=;
+        b=ZP1beFXcMygaZpS7qRZmQZsISAh/D4PONjbSobhgcG9eYyoMJS9RUH9Q73ce+xxniJ
+         ZgrYT45+LcoRx+qDWIkkyLPxosaIT3TTmx3PjC5WotrKd3ouiPSHtLbxKNt82dbBVifR
+         f8y8hWu73v9cM3UGb2wR5w9kRsxf87qrUdXyplso1LMGq6f0ATFZo7k7BaHJnKTG8HbR
+         T0XGfgS511dfOSTuBGE9tj2J3y0Mla8jUGcJFVHYQ5XE/zMwx9wXZIE2ibGlYgrF+VVX
+         DRVjVDA2H5zVsY8dFl94TsEMLhDqdHL4J/Ln7A7wKgnIndZzVeEZwke8LzNGKkybznLl
+         pE8Q==
+X-Gm-Message-State: AOJu0YwJiiUeF4y2m8Y1ft4UOxpcuTq01JRILYjFU7Vl4QSm/vsRvB2d
+	EacIm5BLLJIEFelPNXFBZnaEHEzAr8XDBbGAYkQ0pFOyrrEZ1vJSduyLyTEApG/c
+X-Gm-Gg: Acq92OHQ7IgIEX8amvb2IEStIbIO0/yMi4kQ7BH3rfeY4pKPmije8nDImbEryqGttfv
+	pGSJfxfAO6mgp951/hLoSBWFA97ooguOTAV5psdtBpMKK5DvtuO7HXJnp2HTuMyjL1a0RZJKfBa
+	MaFoFKlABSqNhHUs1G4UKIOaYMLNtJoW4eTha81cs8mYymN5UtoM5mKFIY2ufpt018hUvV/Bo3h
+	Z808KeqeZjdoDHON3taNvGEXtmj0pSe+nGkJi43EOySuid3TDjytEL61jcElfYObIL/e9eWqZdA
+	Al9r5t3c/CzRNR7kRdMEipLCiT+Gcxt+0s/p/xk2NYPIsCr/YWgcLy6A83GEIni0DpjtY0pQlZT
+	n80oiruqr2v13lo2XHfatScSWkDC4kRNruOYAviq/h5ZUJtdPgkQYMxrZShMwusyse7/SIOuGHH
+	3zR10tDhg6BW+iTs9CgtHG7h6i9hwKUyiLYft21kNw5sMyp7kwoGUL
+X-Received: by 2002:a17:90b:50cb:b0:36b:a2cc:485b with SMTP id 98e67ed59e1d1-37c2bd52987mr7558963a91.21.1781469027467;
+        Sun, 14 Jun 2026 13:30:27 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.217.37])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-379e8cc467csm5439828a91.2.2026.06.14.13.30.14
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-379e8cc467csm5439828a91.2.2026.06.14.13.30.25
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 14 Jun 2026 13:30:16 -0700 (PDT)
+        Sun, 14 Jun 2026 13:30:27 -0700 (PDT)
 From: Biren Pandya <birenpandya@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: Biren Pandya <birenpandya@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kees Cook <kees@kernel.org>
-Subject: [PATCH v3 17/22] media: pci: saa7134: Add missing media_entity_cleanup()
-Date: Mon, 15 Jun 2026 01:58:17 +0530
-Message-ID: <20260614202835.11977-18-birenpandya@gmail.com>
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH v3 18/22] media: usb: cx231xx: Add missing media_entity_cleanup()
+Date: Mon, 15 Jun 2026 01:58:18 +0530
+Message-ID: <20260614202835.11977-19-birenpandya@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260614202835.11977-1-birenpandya@gmail.com>
 References: <20260614202835.11977-1-birenpandya@gmail.com>
@@ -99,22 +98,22 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FREEMAIL_CC(0.00)[gmail.com,kernel.org];
 	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64860-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64861-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER(0.00)[birenpandya@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:birenpandya@gmail.com,m:mchehab@kernel.org,m:kees@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:birenpandya@gmail.com,m:mchehab@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_THREE(0.00)[3];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -123,13 +122,13 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2F5726822E2
+X-Rspamd-Queue-Id: 745746822E5
 
 The media_entity_pads_init() (or media_entity_init()) function initializes
 the media entity, but the driver forgets to call media_entity_cleanup()
@@ -138,38 +137,14 @@ API violation and prevent potential future memory leaks.
 
 Signed-off-by: Biren Pandya <birenpandya@gmail.com>
 ---
- drivers/media/pci/saa7134/saa7134-core.c | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+ drivers/media/usb/cx231xx/cx231xx-video.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/pci/saa7134/saa7134-core.c b/drivers/media/pci/saa7134/saa7134-core.c
-index 2f5b258d682b..c0e1e8ad55c8 100644
---- a/drivers/media/pci/saa7134/saa7134-core.c
-+++ b/drivers/media/pci/saa7134/saa7134-core.c
-@@ -798,8 +798,10 @@ static void saa7134_media_release(struct saa7134_dev *dev)
- #ifdef CONFIG_MEDIA_CONTROLLER
- 	int i;
- 
--	for (i = 0; i < SAA7134_INPUT_MAX + 1; i++)
-+	for (i = 0; i < SAA7134_INPUT_MAX + 1; i++) {
- 		media_device_unregister_entity(&dev->input_ent[i]);
-+		media_entity_cleanup(&dev->input_ent[i]);
-+	}
- #endif
- }
- 
-@@ -836,8 +838,10 @@ static void saa7134_create_entities(struct saa7134_dev *dev)
- 			pr_err("failed to initialize demod pad!\n");
- 
- 		ret = media_device_register_entity(dev->media_dev, &dev->demod);
--		if (ret < 0)
-+		if (ret < 0) {
- 			pr_err("failed to register demod entity!\n");
-+			media_entity_cleanup(&dev->demod);
-+		}
- 
- 		dev->decoder = &dev->demod;
- 	} else {
-@@ -904,8 +908,10 @@ static void saa7134_create_entities(struct saa7134_dev *dev)
+diff --git a/drivers/media/usb/cx231xx/cx231xx-video.c b/drivers/media/usb/cx231xx/cx231xx-video.c
+index 2cd4e333bc4b..2b1ad969e58c 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-video.c
++++ b/drivers/media/usb/cx231xx/cx231xx-video.c
+@@ -1006,8 +1006,10 @@ void cx231xx_v4l2_create_entities(struct cx231xx *dev)
  			pr_err("failed to initialize input pad[%d]!\n", i);
  
  		ret = media_device_register_entity(dev->media_dev, ent);
@@ -179,36 +154,40 @@ index 2f5b258d682b..c0e1e8ad55c8 100644
 +			media_entity_cleanup(ent);
 +		}
  	}
- 
- 	/* Create input for Radio RF connector */
-@@ -923,8 +929,10 @@ static void saa7134_create_entities(struct saa7134_dev *dev)
- 			pr_err("failed to initialize input pad[%d]!\n", i);
- 
- 		ret = media_device_register_entity(dev->media_dev, ent);
--		if (ret < 0)
-+		if (ret < 0) {
- 			pr_err("failed to register input entity %d!\n", i);
-+			media_entity_cleanup(ent);
-+		}
- 	}
- }
  #endif
-@@ -956,6 +964,7 @@ static void saa7134_unregister_video(struct saa7134_dev *dev)
- 			vb2_video_unregister_device(dev->video_dev);
- 		else
- 			video_device_release(dev->video_dev);
-+		media_entity_cleanup(&dev->video_dev->entity);
- 		dev->video_dev = NULL;
+ }
+@@ -1558,6 +1560,7 @@ void cx231xx_release_analog_resources(struct cx231xx *dev)
+ 			video_device_node_name(&dev->vbi_dev));
+ 		video_unregister_device(&dev->vbi_dev);
  	}
- 	if (dev->vbi_dev) {
-@@ -963,6 +972,7 @@ static void saa7134_unregister_video(struct saa7134_dev *dev)
- 			vb2_video_unregister_device(dev->vbi_dev);
- 		else
- 			video_device_release(dev->vbi_dev);
-+		media_entity_cleanup(&dev->vbi_dev->entity);
- 		dev->vbi_dev = NULL;
++	media_entity_cleanup(&dev->vbi_dev.entity);
+ 	if (video_is_registered(&dev->vdev)) {
+ 		dev_info(dev->dev, "V4L2 device %s deregistered\n",
+ 			video_device_node_name(&dev->vdev));
+@@ -1567,6 +1570,7 @@ void cx231xx_release_analog_resources(struct cx231xx *dev)
+ 
+ 		video_unregister_device(&dev->vdev);
  	}
- 	if (dev->radio_dev) {
++	media_entity_cleanup(&dev->vdev.entity);
+ 	v4l2_ctrl_handler_free(&dev->ctrl_handler);
+ 	v4l2_ctrl_handler_free(&dev->radio_ctrl_handler);
+ }
+@@ -1839,6 +1843,7 @@ int cx231xx_register_analog_devices(struct cx231xx *dev)
+ 		dev_err(dev->dev,
+ 			"unable to register video device (error=%i).\n",
+ 			ret);
++		media_entity_cleanup(&dev->vdev.entity);
+ 		return ret;
+ 	}
+ 
+@@ -1895,6 +1900,7 @@ int cx231xx_register_analog_devices(struct cx231xx *dev)
+ 				    vbi_nr[dev->devno]);
+ 	if (ret < 0) {
+ 		dev_err(dev->dev, "unable to register vbi device\n");
++		media_entity_cleanup(&dev->vbi_dev.entity);
+ 		return ret;
+ 	}
+ 
 -- 
 2.50.1 (Apple Git-155)
 
