@@ -1,211 +1,206 @@
-Return-Path: <linux-media+bounces-64797-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64798-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id J1kQJCvALmqy2QQAu9opvQ
-	(envelope-from <linux-media+bounces-64797-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 16:52:27 +0200
+	id j5AyDYvKLmoS2wQAu9opvQ
+	(envelope-from <linux-media+bounces-64798-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 17:36:43 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2A95681530
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 16:52:26 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id DB096681691
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 17:36:42 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=quora.org header.s=google header.b=eXojB0Yp;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64797-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64797-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=none;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b="L95jod/g";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64798-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-64798-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id EEC0C3015E0F
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 14:51:58 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id DDFFD300C30F
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 15:36:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66E333C8738;
-	Sun, 14 Jun 2026 14:51:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41FEA3C7E1E;
+	Sun, 14 Jun 2026 15:36:08 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9778B3C769F
-	for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 14:51:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F7553C4167
+	for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 15:36:06 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781448705; cv=none; b=BCZTgw8ihjOY4Z9jpJTtmbs5nZhvzwKLynf8bBwQt3uOAwNpP1VgR3w6p/bdmgjPO4Em6W5n79W9JuXprMrpyOZVTZvFgPLtIeE8y8wB9CX5hM+Lt308wLIng0LnhQ6hZujZsKVPOxu1F+PvryUflAMedRcQeOmoloGTg7slg8Y=
+	t=1781451367; cv=none; b=mtKqLz6FU05fkpAZY4+w+ZnppS6ZCPF59Pfv1Nt0mbj0ZR8JxTn10mlpzJu0P/xV7lb8L1NbFfv+xJK7YIQxca5J5ikB7U/rTmP4ouT/tieIwOT3bYLv3nX8iyY453NCx7YGhn9z49bQULpbQS21mRaCvyKLm6/Diq/qELik16c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781448705; c=relaxed/simple;
-	bh=ogMc+SzI7BygL/QiVUbBYX/vH1UfhMtj0GEZ+Aa4xVg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ScA9hDS2fA3SoUfUVJriOks8BCUFU7m/0i/nELBDS5Cqt2dnTfuJ65E06y5B5PBF58MnMHUY8CZMOQMcvjWDhHNpzMjoPVpPrfc7MrUgCKKjCPwFxzNPGjCy96e57l/rDoUeXrDXJrRoyRRLLc08COLZmOoMl/SBX9GBbBEvqQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=quora.org; spf=pass smtp.mailfrom=quora.org; dkim=pass (1024-bit key) header.d=quora.org header.i=@quora.org header.b=eXojB0Yp; arc=none smtp.client-ip=209.85.214.180
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2c0b9328c4aso18409145ad.0
-        for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 07:51:41 -0700 (PDT)
+	s=arc-20240116; t=1781451367; c=relaxed/simple;
+	bh=212BLCbXWyBnhQ6kf54oRbPEYdVqzonk9K2Asx/g4V0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BpfsoSKXr478Jyyap8Rlu0ozayRXfzzTdGakoEaEBHadmd4o6ilt0ajxd7S4BAXrc9oqjXXtpTx/jsPxVE0jRnnpl6CBvg7uyPqFyYbvC8z6gOdIw50mNPYV3CAyPHkcshL/cWHMk1WVoGd/PCXgoTNgqYPnNtp245ENy4cjv/8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L95jod/g; arc=none smtp.client-ip=209.85.219.44
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-8ce65629acaso30879316d6.3
+        for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 08:36:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=quora.org; s=google; t=1781448701; x=1782053501; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c+DoEJx5niGEYDDqKxpP9EhcqDdLdwV3n1HbmZ+qqPE=;
-        b=eXojB0YpAazp8Lr3X2NiQWsAHKauMpzM70r8rE9Ltex7+1z7iwd9l1G3oFztfndHno
-         pdwLw3j3Thtewk7viM+wtCHSPljLdYsP5q51NoKWileNEn94pX57kezeaAFhC3a5tIvM
-         ZFz4u9bdg14UZjpjgdys0gjZnJf3h1pswY/6Y=
+        d=gmail.com; s=20251104; t=1781451365; x=1782056165; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=gEf/BpWfnDvtQwx5BCMkDC0SY/8d4mHGUMQYalY89/4=;
+        b=L95jod/gbu6ReNR9KrRFxLqX61C8d2s9+xr51lyZ9j0zUJiEJ9b8iEm+Vr5xor3LnJ
+         +Z3C3/UPfKk/6IkMyr3TfUTI0PMxGAYdbq+P+bXp+2ij8oWDWZqbxpjrDJspzMypJLDn
+         TuFvrWK2LGUJ3/zJIsV6l9R4J28KoAf6r6IkW9ByE8QGG6l38rEMrTWuz/DmteoZNqcH
+         GNwNBjDqZpfZV6sDZcXWoBZnOHQ6wG3Jh5ZIDcurS0zgRGAq/ou5jrc/ry3QP1wVUIGO
+         5FL0TUbcGyCJBwEK/WkHs8Td3K/q6p3l81m6hG9RfYradleLD/ZKarCvt4adXM5PwIpp
+         V13g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781448701; x=1782053501;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=c+DoEJx5niGEYDDqKxpP9EhcqDdLdwV3n1HbmZ+qqPE=;
-        b=qUMjjYgjgXlZqscLHDy6fuVj9yc66kyDIzN3UrqxBMXr1vHe4S54qWs2NskX7/t/gD
-         mP3E8lAtaj9nweMpWBccIAxISqETfuBsZnnd7n+lo0y644KyFT0JmENFattXFXevpRyc
-         BnGRVPtcwDOvv2NV6en2CC6xZl+2axZlkudCbKHZ7hIN91RFesPega7wj8d45rYre/o4
-         GeBDTlL0oI14iUq6qaH2Zclz3YsPX5Tqml2KagDqobAViFpvVTOiPIaAWjF3Ancb0CkL
-         vviqQxgA0C+BOkJKUWe+ySI41Nd30ZnAkLXvCMk9HAtoxJkYEIQva957FvTf17Lmw1Fc
-         tACw==
-X-Forwarded-Encrypted: i=1; AFNElJ+csR+erjtxlpx1sJ6xG8ULcbf1FibzL9TD9MtAcjwy96VW7kLlihmm4Gzzj0aYsUMkTFUrBxuV19fn8g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzujo+ORnU3lHQcYDaayavU7dsJliixHqOlXGirdFf6HeEMWKbT
-	fREjuB//qVoVlcFm9ie+6aj7RkfvbEC0l9BuwOk5LD96x7Yfm9JwtjXbQLz2cdehqWI=
-X-Gm-Gg: Acq92OGB4Sy5jveUo45vxkucD4ADR5opSUZ49KqIMwnow5H/ZEkMuhAHzrqEsdSON/+
-	b80EqQqmYj8sGyNKR1WM09gE2eo3L4uIHiXuaoAq+zYLKCn1Ll3E+FDjme5YlmVSrAb0x/NkwrQ
-	sPrX/KQvh1tFAmQrP/vUzeCVJPn6kGUXpoIEElgoBWqfFzFj7Kc9pB/8S/oyjtCUxaxXx4mOteY
-	n7BYd+iCu13hTwlyA40BJlOw6jkqO53QtaQewQGmr0QfSMLwouebmj9mtDIeai1G1xxvostk2GB
-	F31lXMINb0WcX+BXXDDsFPtOcR+MBzI1v1GZzfRaussLqIXsZPntKqekWLn9r6RwPKWZdcG5RHs
-	YaBp1079PfqQ5MBCdpgdWpoWC66U/qQS+LsUx4m2t9dnHdewaypJ/XgcQv9XMM628KlMU4aMfA0
-	MtxYF5DgKz98ozDmlWft94TTCSjijIe1YyLWUAUEKD+KFaF18vRps00hkooFR9Cl0R2vjrAp6On
-	x+dh+xDqPpBKe3osHv87uqp5XKH3zLqUTOMbtS0HLFSqMclwjiz94KtCtuhcBUTa4UjjGQmzvXa
-	69vm8ss/zdECPXDu0PcL4ar68Hu7vvvQ3sE2EiecCfdpDK+a05T+yYNejfYDgw==
-X-Received: by 2002:a17:903:37c7:b0:2c0:f807:9bf3 with SMTP id d9443c01a7336-2c4108f197dmr120914925ad.10.1781448700638;
-        Sun, 14 Jun 2026 07:51:40 -0700 (PDT)
-Received: from aegis ([2001:fd8:4d03:c800:f499:6f6c:fbd4:8f])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c4327acca5sm66746385ad.51.2026.06.14.07.51.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 14 Jun 2026 07:51:40 -0700 (PDT)
-From: Daniel J Blueman <daniel@quora.org>
-To: "Bryan O'Donoghue" <bod@kernel.org>,
-	Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Cc: Daniel J Blueman <daniel@quora.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Stephan Gerhold <stephan.gerhold@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-arm-msm@vger.kernel.org,
+        d=1e100.net; s=20251104; t=1781451365; x=1782056165;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gEf/BpWfnDvtQwx5BCMkDC0SY/8d4mHGUMQYalY89/4=;
+        b=ZGRAaxjLouAniU294RTBWZ3mflkw0sGgs3wwdRnxWRx9vjzygsSbjbT0KxLG4YYfeW
+         N7MKYTf7BkuPZprdC8nXdz0il/mPYLSz/+tmXFYfyPtgbxSHvCjdGmn7AqYJZ0OKnjDI
+         76giFiF5u7aQ1ust7TvBdQr0g6QRZk796D1Qs9BTNy8AleaCvD1IAAR3KGQ1Wc5P1FuT
+         BTBI7lIvWMm6F/As57cBHIZ0FrP572rJ4fNnvvauZnLP2sVosvHW3JDhEV/4reQSntZr
+         VPTyRM15OWVy+PMrMD3+wEHyCaYT4L7oWPaqTj5hZwJenYfGuAV3+zTOGTIfz7Hf4393
+         ejfg==
+X-Forwarded-Encrypted: i=1; AFNElJ+a56Ppq360yFbRY1IS6GSSGftvkh381MGsDeXaSf1H1clETUTAKCXPjXpD0VPyvEDEqtpMBvk9onKIFw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBuH1hZqcxOygeLV4Ve+vcENITP3EDW5F2styg+W5vnUgUpiSo
+	Y5ggksPpzCaLtpJ5hT2co4HEofVfI//l9h2Hv5YjURf3ku/PP/mulwdj
+X-Gm-Gg: Acq92OHUDCSzZtDYnh3Z5Tpr85V1SuOsXBYHgmw2xKLBmtwbz2i7eo6pwMWxUOFjxTp
+	CvgqSZhl9Fpi7yqEmF8Rld6Cpui1gJlGlDRH6iZNIWkbPcwiKdN02U+fjLKIPQ6ZjejZ7IwqBJ8
+	ZtW5IE9cKcj3AmFU2C2fcYRXHSjCCv/J1NlPm/Si/VZThstod0JCZk26amFQYay6asAVqwS4oun
+	J/+Pd6MAX+Xl8bYZpA4oirJfEj5xI5IU5fEJ+qSAUIr8WLCGSg8U00p4Rm9D7cEsDrjCj90I1Nv
+	BqMpz503UEFIBObEn0MgglQGGL2kSGR83m2kBnnnrzVf3GSBTrA6MAGGxhRQzv4mtI+ysIJhaGE
+	S+vt9e2ip7SJuP8h3FZ6AfdwZozkou3NT3G+AG/FB+YEITADltzAqspmi/Z/V+wGWc1Ne7BkYyO
+	g2ggNklNefUPfy0SPONRlBYe1pT7dPddF96MPl2ipKZa6Q9LMfT2PogwbXPAPLQsnlzY6dhHM1
+X-Received: by 2002:a0c:f403:0:b0:8ce:c4cd:90b5 with SMTP id 6a1803df08f44-8d32e30db3fmr208047916d6.35.1781451365195;
+        Sun, 14 Jun 2026 08:36:05 -0700 (PDT)
+Received: from localhost.localdomain ([2607:fb91:8ed:87bb:6944:fb26:8a11:e7ae])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d300f6b1c5sm82155416d6.3.2026.06.14.08.36.03
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 14 Jun 2026 08:36:04 -0700 (PDT)
+From: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+To: hverkuil@kernel.org,
+	mchehab@kernel.org,
 	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v2 2/2] arm64: dts: qcom: hamoa: Reserve low IOVA range for Iris
-Date: Sun, 14 Jun 2026 22:51:12 +0800
-Message-ID: <20260614145113.84243-2-daniel@quora.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260614145113.84243-1-daniel@quora.org>
-References: <20260614145113.84243-1-daniel@quora.org>
+	linux-kernel@vger.kernel.org
+Subject: [BUG] KASAN: slab-use-after-free in __list_del_entry_valid_or_report from media/go7007
+Date: Sun, 14 Jun 2026 11:35:59 -0400
+Message-ID: <178144969600.60470.3698645248756209453@gmail.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[quora.org:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	TAGGED_FROM(0.00)[bounces-64797-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:bod@kernel.org,m:vikash.garodia@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:andersson@kernel.org,m:konradybcio@kernel.org,m:daniel@quora.org,m:mchehab@kernel.org,m:stephan.gerhold@linaro.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[daniel@quora.org,linux-media@vger.kernel.org];
-	DMARC_NA(0.00)[quora.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[daniel@quora.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[quora.org:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-64798-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[shuangpengkernel@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:hverkuil@kernel.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,quora.org:dkim,quora.org:email,quora.org:mid,quora.org:from_mime]
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[shuangpengkernel@gmail.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TO_DN_NONE(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E2A95681530
+X-Rspamd-Queue-Id: DB096681691
 
-On X1-family hamoa platforms, the Iris VPU reserves IOVA addresses
-below 0x25800000 (600MB), primarily for non-pixel buffers accessed
-via different Stream IDs. DMA into that range triggers unhandled SMMU
-page faults that cause spontaneous device reboots. This is readily
-reproduced with one or more browser tabs driving multiple concurrent
-video decode streams.
+Hi Kernel Maintainers,
 
-Add a reserved-memory IOVA reservation node covering [0, 0x25800000)
-and reference it from the Iris node so the IOMMU layer keeps DMA
-allocations above that boundary.
+I hit the following report while testing current upstream kernel:
 
-This applies to all current hamoa.dtsi consumers (X1E80100/X1P42100/
-X1P64100 boards); other Iris-bearing SoCs (sm8550/sm8650/sa8775p/
-qcs8300) do not include hamoa.dtsi thus not affected.
+KASAN: slab-use-after-free in __list_del_entry_valid_or_report from media/go7007
 
-Backports also require the preceding binding patch ("dt-bindings:
-media: qcom,sm8550-iris: Allow IOVA reservation memory-region");
-without it, dtbs_check rejects the second memory-region entry.
+on commit: e8c2f9fdadee7cbc75134dc463c1e0d856d6e5c7 (May 25 2026)
 
-Link: https://github.com/qualcomm-linux/kernel-topics/issues/1157#issuecomment-4458933574
-Fixes: 9065340ac04d ("arm64: dts: qcom: x1e80100: Add IRIS video codec")
-Cc: stable@vger.kernel.org
-Signed-off-by: Daniel J Blueman <daniel@quora.org>
----
-v2:
-- add Fixes tag
-- clarify the reservation rationale
-v1: https://lore.kernel.org/lkml/20260601041336.9497-2-daniel@quora.org/
+The reproducer and .config files are here.
+https://gist.github.com/shuangpengbai/12e07f377ad7e3dec1c62335b155f08f
 
- arch/arm64/boot/dts/qcom/hamoa.dtsi | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+I'm happy to test debug patches or provide additional information.
 
-diff --git a/arch/arm64/boot/dts/qcom/hamoa.dtsi b/arch/arm64/boot/dts/qcom/hamoa.dtsi
-index 051dee076416..ce96e7f8d8c1 100644
---- a/arch/arm64/boot/dts/qcom/hamoa.dtsi
-+++ b/arch/arm64/boot/dts/qcom/hamoa.dtsi
-@@ -716,6 +716,17 @@ smem_mem: smem@ffe00000 {
- 			hwlocks = <&tcsr_mutex 3>;
- 			no-map;
- 		};
-+
-+		/*
-+		 * The Iris VPU reserves IOVA below 0x25800000 (600MB),
-+		 * primarily for non-pixel buffers using different Stream IDs.
-+		 * DMA into that range triggers unhandled SMMU faults and
-+		 * spontaneous reboots, so reserve it to keep IOMMU
-+		 * allocations above this boundary.
-+		 */
-+		iris_iova: iris-iova {
-+			iommu-addresses = <&iris 0x0 0x0 0x0 0x25800000>;
-+		};
- 	};
- 
- 	qup_opp_table_100mhz: opp-table-qup100mhz {
-@@ -5479,7 +5490,7 @@ &config_noc SLAVE_VENUS_CFG QCOM_ICC_TAG_ACTIVE_ONLY>,
- 			interconnect-names = "cpu-cfg",
- 					     "video-mem";
- 
--			memory-region = <&video_mem>;
-+			memory-region = <&video_mem>, <&iris_iova>;
- 
- 			resets = <&gcc GCC_VIDEO_AXI0_CLK_ARES>;
- 			reset-names = "bus";
--- 
-2.53.0
+Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
 
+[39245.125984][ T8682] BUG: KASAN: slab-use-after-free in __list_del_entry_valid_or_report (lib/list_debug.c:65)
+[39245.127242][ T8682] Read of size 8 at addr ffff8881678a1210 by task kworker/1:1/8682
+[39245.128368][ T8682]
+[39245.128732][ T8682] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+[39245.128737][ T8682] Workqueue: usb_hub_wq hub_event
+[39245.128749][ T8682] Call Trace:
+[39245.128754][ T8682]  <TASK>
+[39245.128757][ T8682]  dump_stack_lvl (lib/dump_stack.c:94 lib/dump_stack.c:120)
+[39245.128765][ T8682]  print_report (mm/kasan/report.c:378 mm/kasan/report.c:482)
+[39245.128788][ T8682]  kasan_report (mm/kasan/report.c:595)
+[39245.128801][ T8682]  __list_del_entry_valid_or_report (lib/list_debug.c:65)
+[39245.128807][ T8682]  device_pm_remove (include/linux/list.h:132 include/linux/list.h:246 include/linux/list.h:318 drivers/base/power/main.c:174)
+[39245.128834][ T8682]  device_del (drivers/base/core.c:3896)
+[39245.128860][ T8682]  usb_disable_device (drivers/usb/core/message.c:1478)
+[39245.128869][ T8682]  usb_disconnect (drivers/input/misc/yealink.c:421)
+[39245.128877][ T8682]  hub_event (drivers/usb/core/hub.c:5407 drivers/usb/core/hub.c:5707 drivers/usb/core/hub.c:5871 drivers/usb/core/hub.c:5953)
+[39245.128917][ T8682]  process_scheduled_works (kernel/workqueue.c:3314 kernel/workqueue.c:3397)
+[39245.128929][ T8682]  worker_thread (kernel/workqueue.c:3478)
+[39245.128942][ T8682]  kthread (kernel/kthread.c:436)
+[39245.128957][ T8682]  ret_from_fork (kernel/process.c:158)
+[39245.129320][ T8682]  ret_from_fork_asm (arch/x86/entry/entry_64.S:245)
+[39245.129329][ T8682]  </TASK>
+[39245.129331][ T8682]
+[39245.156185][ T8682] Freed by task 8682 on cpu 1 at 39245.017827s:
+[39245.157077][ T8682]  kasan_save_track (mm/kasan/common.c:57 mm/kasan/common.c:78)
+[39245.157769][ T8682]  kasan_save_free_info (mm/kasan/generic.c:584)
+[39245.158483][ T8682]  __kasan_slab_free (mm/kasan/common.c:253 mm/kasan/common.c:285)
+[39245.159149][ T8682]  kfree (include/linux/kasan.h:235 mm/slub.c:2689 mm/slub.c:6251 mm/slub.c:6566)
+[39245.159724][ T8682]  go7007_usb_probe (drivers/media/usb/go7007/go7007-usb.c:1324)
+[39245.160455][ T8682]  usb_probe_interface (drivers/usb/core/driver.c:396)
+[39245.161203][ T8682]  really_probe (drivers/base/dd.c:? drivers/base/dd.c:709)
+[39245.161840][ T8682]  __driver_probe_device (drivers/base/dd.c:871)
+[39245.162605][ T8682]  driver_probe_device (drivers/base/dd.c:901)
+[39245.163311][ T8682]  __device_attach_driver (drivers/base/dd.c:1029)
+[39245.164060][ T8682]  bus_for_each_drv (drivers/base/bus.c:500)
+[39245.164733][ T8682]  __device_attach (drivers/base/dd.c:1101)
+[39245.165405][ T8682]  device_initial_probe (drivers/base/dd.c:1156)
+[39245.166086][ T8682]  bus_probe_device (drivers/base/bus.c:613)
+[39245.166754][ T8682]  device_add (drivers/base/core.c:3706)
+[39245.167358][ T8682]  usb_set_configuration (drivers/usb/core/message.c:2268)
+[39245.168129][ T8682]  usb_generic_driver_probe (drivers/usb/core/generic.c:250)
+[39245.168861][ T8682]  usb_probe_device (drivers/usb/core/driver.c:291)
+[39245.169503][ T8682]  really_probe (drivers/base/dd.c:? drivers/base/dd.c:709)
+[39245.170123][ T8682]  __driver_probe_device (drivers/base/dd.c:871)
+[39245.170841][ T8682]  driver_probe_device (drivers/base/dd.c:901)
+[39245.171539][ T8682]  __device_attach_driver (drivers/base/dd.c:1029)
+[39245.172277][ T8682]  bus_for_each_drv (drivers/base/bus.c:500)
+[39245.172959][ T8682]  __device_attach (drivers/base/dd.c:1101)
+[39245.173663][ T8682]  device_initial_probe (drivers/base/dd.c:1156)
+[39245.174377][ T8682]  bus_probe_device (drivers/base/bus.c:613)
+[39245.175054][ T8682]  device_add (drivers/base/core.c:3706)
+[39245.175672][ T8682]  usb_new_device (drivers/usb/core/hub.c:2695)
+[39245.176363][ T8682]  hub_event (drivers/usb/core/hub.c:5567 drivers/usb/core/hub.c:5707 drivers/usb/core/hub.c:5871 drivers/usb/core/hub.c:5953)
+[39245.176996][ T8682]  process_scheduled_works (kernel/workqueue.c:3314 kernel/workqueue.c:3397)
+[39245.177761][ T8682]  worker_thread (kernel/workqueue.c:3478)
+[39245.178421][ T8682]  kthread (kernel/kthread.c:436)
+[39245.178989][ T8682]  ret_from_fork (kernel/process.c:158)
+[39245.179645][ T8682]  ret_from_fork_asm (arch/x86/entry/entry_64.S:245)
+
+
+Best,
+Shuangpeng
 
