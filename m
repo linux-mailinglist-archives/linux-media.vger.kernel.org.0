@@ -1,93 +1,92 @@
-Return-Path: <linux-media+bounces-64837-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64838-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id c2g4KNjyLmq06QQAu9opvQ
-	(envelope-from <linux-media+bounces-64837-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 20:28:40 +0200
+	id oX3vBMPyLmqw6QQAu9opvQ
+	(envelope-from <linux-media+bounces-64838-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 20:28:19 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18A06681E33
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 20:28:40 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3D6B681E2B
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 20:28:18 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b="iy/CA9I8";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64837-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64837-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=BgC0CBiW;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64838-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64838-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3AB0530128C1
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 18:28:13 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id A3DB83006154
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 18:28:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBA0239BFF1;
-	Sun, 14 Jun 2026 18:28:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4EB339B482;
+	Sun, 14 Jun 2026 18:28:13 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1531B78F3
-	for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 18:28:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C5F539C645
+	for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 18:28:12 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781461689; cv=none; b=cGui4vemgAamNOZ9dukKsRiHqbGEFsmI70SXR/caBcKaSOGfYZWCGsfbZ9XBwuUZCdmkjelWrAEeZMeAtcowMMXXMq9teEOjKr7sxOPx4fwtKACzIMJlvtb/v+3ribeKhP6g384FdQCYGP9LmbTVnoOqofiaNf/W55AsbftFE10=
+	t=1781461693; cv=none; b=R9vshHiE25VrR9GzKd3WIhZv6tPMligH5KTR1+aud96yIACq/zzqIbq0g8zMTKj4MNBiuwOqmfL+69Un/+NKQ4X5ILzWbWQnGk5SAJ7T4w+J1vcalMUCUnpLwmMS3LKNTjmtf9stSptl78IfHnJ3t4kNu9F2lKsQq+Z2enuOSk0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781461689; c=relaxed/simple;
-	bh=P9YdI25xT1hmkBTY2atf61bLeIVgQtSN8Yp9Gz7mR6s=;
+	s=arc-20240116; t=1781461693; c=relaxed/simple;
+	bh=yj1YBhdd/0Ork/CQo+geXD69TsRvVFa6bXKGTIGKQhA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dciaRp2lyIdeNL47nKI/9Cp7pVevIP9x/HC7Oz3yKYLuFFUprlacuS7jrYLRqx669ikx2PooSngRiY/KGLpIKyuYVUK95In/E4SDzDcGNjNgeLlYfUjD0QCkPq0K1a18nyFDXxBWns3MjkQyC2r5IPfYABnCxACKPOOqExme4ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iy/CA9I8; arc=none smtp.client-ip=209.85.214.182
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2bf18c30bb2so19260455ad.0
-        for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 11:28:08 -0700 (PDT)
+	 MIME-Version; b=h+WvhLqpzQkfRH/cNS7wXbpRJ2M+sHxpFbbJ7rTUWosaMKQ3KP8RiSHdf5hP+9VjX4cjpo6yqeoSSFUIiuxy+91objii0AaNQjcS1hMHBFANOB4Vg1nUof6zohf5dlSSoxHwc2kSIO1HsO7CgZUOFNnZKmkirsNqTKsWVQg6/8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BgC0CBiW; arc=none smtp.client-ip=209.85.216.49
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-36ba706ab46so1591599a91.1
+        for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 11:28:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781461687; x=1782066487; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781461692; x=1782066492; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=v/yXMOQz2Hp5A0p5Cnlk4wNtZtCpV6kUAXWb2AywhGY=;
-        b=iy/CA9I80YXEz2I0sFmaD+C+WBPQ8ElyTBnUItUCwW6QuS8Xnenhy9VvW5Ze+tCaun
-         x3cNfaQbKWbszoVn0RsqByhx3dcv98VgZ/mXrdqu/wi/o/ciow/8uzq26MG6Bjo3F+aZ
-         xxW05fA859DFPkVfhX6QINGGHVIIBAiarus0a2EbR8V4gzqttqYmITq9FeOPSjrolvqy
-         zA1QdmFr5n5Qs1PJCI/IYWVsuatEx6+afBTtI4BW4XBv7JGK3E67bwNWLYhRCnDfTIW7
-         9BvE/Q5cXz1WLakjRZ63yar3Niy484IjZtok+8fuGPUiY0BB30Iq/UGoIopsXoGXdB1E
-         gVGw==
+        bh=MltW5HmV2Zw2C8veh6o9FwZl9YoEVtGUSjX/Vl3Wq+I=;
+        b=BgC0CBiWK/qu646CbQN21tfDJrkvAy2+z8Ax0Ya/AFG4Ewrb/MvsyR/RQ16S7yYq60
+         vtfE4/4xnBaoVwXL5DYOvsTJxI7yXcdL994IJCOqXOLdn156UcKO+mAyUIRdiN6KV4V6
+         1PNDuGxG2SzXlixitlU0TYX2HfUU3n8PGL7xk4vhryZv24kmXVxYt6D3CD5LafJd4x4d
+         peLbOi+4zMZEuprA1be/qotNyfafcmbcesILV8EhfZuIwMCWD1G+MmYCcNEQU1n0/qbz
+         6vj8ReBtpsndFQ1OQtJkJaf276P40Ka5yuTTGsvB6WZJH159jrg0ePywkrsOJgU94oyC
+         zJfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781461687; x=1782066487;
+        d=1e100.net; s=20251104; t=1781461692; x=1782066492;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=v/yXMOQz2Hp5A0p5Cnlk4wNtZtCpV6kUAXWb2AywhGY=;
-        b=MqdPtfkmB1WRuiOd+bQJjPg7a059salwLDs97bLPSj35U9kbZEFqBtc4KQ5V/lSGPz
-         J51snNGG+dbn2w+wLYHEIA7EHOZ36FViy4Hk4zoNQoLHu2wQLecijt+c6n6FlCzOi0e/
-         heRYhiyeSJ55v4NLhndd/hBSBvVp95RRfOMsxa/dLHTSed/riaOt12l4G5rDLyun8YJM
-         deIOzYC6rh0SSwCgKGvrJhMPsLWla/+9uwkna9wjz1Ii2lP72NC3DLcJVpcLoGIvREs6
-         hc6j3RVNAGOTJR9i+4I5e+T9dxEC9aDVbggT8Gd3Ce43LLo2H40iQeeQ7VaMF7DTghql
-         kAcg==
-X-Gm-Message-State: AOJu0YwZpN1HnjYHC2Stg7rxU6VVImRZLI0YkrzIOrRyUXtWLwtYHHII
-	0Yom+OkujD1VsfDN2PmEvT4FtYcNyEINrUH73th8RfUvFpvIuU1qQ4/YV4ozSgbB
-X-Gm-Gg: Acq92OEZig6eSpAnWtGUoNB5YJbfdU41k4XVe+IzBGdHe6J5z0ua4T5gx1Mhi/XHkUd
-	XPd6eh/QFqxEjEKuIY4hR/FShT0UvvSL7xeLONEBD1mlSmGqhdZzzeLN56mbUBRSnC/5EquN1FO
-	f4tploAQB5+/8LgeKifBs/W5Mat8jDJsV8xxXHrt4bAOLSui8lUGRwx77bfN808Yz2P4H1u1Cnu
-	dq6knYOUKUgUh4xM59O8mFf3UCG3um1ddIZLCT/bvYUIu5Js9Fd2MxcmSuMgZ+8r8KqvSx3P2Yj
-	joGd7P5PzdEDzkYZT/L/GHct7LVa5lD40z33WcAzeViqe1XEsOQRyKOV0AGdIUb1wdAmauXraDu
-	N36R07xQyPnoBmpLUM98KfP+fhEKaCjo1Fx/SW8qxDwl1IbHB+S3Kk5xaqqIgYCjiLSKH3XPZ/e
-	7QHYg4c1biuk7kUeS5cZequs26pyWBPZnTvB/AB8WiKxg5cKNJCcrw
-X-Received: by 2002:a17:902:da8c:b0:2bf:1e59:d99 with SMTP id d9443c01a7336-2c6641cae2fmr83860175ad.8.1781461687492;
-        Sun, 14 Jun 2026 11:28:07 -0700 (PDT)
+        bh=MltW5HmV2Zw2C8veh6o9FwZl9YoEVtGUSjX/Vl3Wq+I=;
+        b=cKw0SPRhXP2+HJEnyN8xGbYvcnbCnvAmNz/Nd8tSwPKTByOfVLehYPVX4K3sObo/ME
+         k7v/+rDcvvsIER+dPqIsDxuhMrtT6zb9kjbF5usqD2nQ7mDwH038ctjhp5KGswIEeuxs
+         wOX07egWbCSaTQNypXF/xm29LVLBpZnPBoLTAqP4drltelACOVmvNgQYFH02qMUrMtab
+         nZNzM1awLzyXEQT2UFV9uwfqBHWGnJKGb9y8wkZND/vtimG3NpHzX4z6UOoh3oPkXMo+
+         QlDMWTUT/PmVCAyoWWEdtOvpiBjcZs3DqBC+o1KImYON8ERCyaCacml0YXX6cHKtG5kT
+         j/GA==
+X-Gm-Message-State: AOJu0YwbdflRWyrS9pAEUqELNqVtbBJq+spNQRU2qCgZQFVrmHskCKVR
+	OTCyl2D0Emz2R4XDVc9QNYv4Mw4e4yuD9zSNnnTFfJ/ApB1ocbq6R+ZrDPCS4hEF
+X-Gm-Gg: Acq92OEw+x0Kb6aSuqsEXzYytDQy2dHFXv+SOQrWr5Z+uvPV3+3KhOm2trQ6r3jzS1H
+	a5eFAqlOtpnn66qp0jw9h2E9LYX+QMbIlMrDZAsM03jFWnpDyreM4FxHPBDOUfr0weIi9GWIxnP
+	eBptqAsBw+IzPFjcThfmIMpu0Q76C8DY+q45+EzvHjAkupQEsD5wk60nddltusbw7jK0AlQiv9u
+	kfMNmA8VdruVm05jqJY/Fehm8DvxJQag69LFNdZPWX9vHVqG0EnP88xGTrSgHs6iGSbY5arkjph
+	DSectAombHjQIkkLl3ab/gj1NUUKRYWZX1RncnxudrslrtT7IY2KoxT7ouecWUWB89gU6JxxC5C
+	oik0c6y+CjPFMfJQG5Bp0fYUbV3ZugP88QnA0AK5SS13vsfUncXE4b7jvCq7ilQg79bV52ybw/e
+	1jtNwame2ZkbrQS0V7/WNL5MgU134m2G+jNi26+LQ+mssWyM6yTTjNjsu7gWmXli8=
+X-Received: by 2002:a17:902:ccc8:b0:2c6:6424:c79f with SMTP id d9443c01a7336-2c66424cc24mr86234335ad.8.1781461691667;
+        Sun, 14 Jun 2026 11:28:11 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.217.37])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42f2e5369sm79161335ad.9.2026.06.14.11.28.03
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c42f2e5369sm79161335ad.9.2026.06.14.11.28.08
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 14 Jun 2026 11:28:07 -0700 (PDT)
+        Sun, 14 Jun 2026 11:28:11 -0700 (PDT)
 From: Biren Pandya <birenpandya@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: Biren Pandya <birenpandya@gmail.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Jai Luthra <jai.luthra@linux.dev>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
+	Vaishnav Achath <vaishnav.a@ti.com>,
+	Pratyush Yadav <p.yadav@ti.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [PATCH v2 14/22] media: platform: cfe: Add missing media_entity_cleanup()
-Date: Sun, 14 Jun 2026 23:57:08 +0530
-Message-ID: <20260614182714.7999-6-birenpandya@gmail.com>
+Subject: [PATCH v2 15/22] media: platform: j721e-csi2rx: Add missing media_entity_cleanup()
+Date: Sun, 14 Jun 2026 23:57:09 +0530
+Message-ID: <20260614182714.7999-7-birenpandya@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260614182714.7999-1-birenpandya@gmail.com>
 References: <20260614182714.7999-1-birenpandya@gmail.com>
@@ -105,21 +104,21 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,ideasonboard.com,raspberrypi.com,kernel.org,broadcom.com,linux.intel.com];
+	FREEMAIL_CC(0.00)[gmail.com,linux.dev,kernel.org,ti.com,ideasonboard.com,linux.intel.com];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-64837-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64838-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:birenpandya@gmail.com,m:tomi.valkeinen@ideasonboard.com,m:kernel-list@raspberrypi.com,m:mchehab@kernel.org,m:florian.fainelli@broadcom.com,m:bcm-kernel-feedback-list@broadcom.com,m:naush@raspberrypi.com,m:sakari.ailus@linux.intel.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:birenpandya@gmail.com,m:jai.luthra@linux.dev,m:mchehab@kernel.org,m:vaishnav.a@ti.com,m:p.yadav@ti.com,m:tomi.valkeinen@ideasonboard.com,m:sakari.ailus@linux.intel.com,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[birenpandya@gmail.com,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
@@ -127,16 +126,16 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	RCPT_COUNT_SEVEN(0.00)[8];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 18A06681E33
+X-Rspamd-Queue-Id: C3D6B681E2B
 
-Fixes: 6edb685abb2a ("media: raspberrypi: Add support for RP1-CFE")
+Fixes: b4a3d877dc92 ("media: ti: Add CSI2RX support for J721E")
 The media_entity_pads_init() (or media_entity_init()) function initializes
 the media entity, but the driver forgets to call media_entity_cleanup()
 in the error paths and remove function. Add the missing calls to fix the
@@ -144,29 +143,39 @@ API violation and prevent potential future memory leaks.
 
 Signed-off-by: Biren Pandya <birenpandya@gmail.com>
 ---
- drivers/media/platform/raspberrypi/rp1-cfe/cfe.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-index 8375ed3e97b9..17c523d32db7 100644
---- a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-+++ b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-@@ -2039,6 +2039,7 @@ static int cfe_register_node(struct cfe_device *cfe, int id)
+diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+index b75aa363d1bf..b88e3ac3dac8 100644
+--- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
++++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+@@ -1079,13 +1079,16 @@ static int ti_csi2rx_v4l2_init(struct ti_csi2rx_dev *csi)
+ 	csi->v4l2_dev.mdev = mdev;
+ 
+ 	ret = v4l2_device_register(csi->dev, &csi->v4l2_dev);
+-	if (ret)
++	if (ret) {
++		media_entity_cleanup(&csi->vdev.entity);
+ 		return ret;
++	}
+ 
+ 	ret = media_device_register(mdev);
  	if (ret) {
- 		cfe_err(cfe, "Unable to register video device %s\n",
- 			vdev->name);
-+		media_entity_cleanup(&vdev->entity);
+ 		v4l2_device_unregister(&csi->v4l2_dev);
+ 		media_device_cleanup(mdev);
++		media_entity_cleanup(&csi->vdev.entity);
  		return ret;
  	}
  
-@@ -2064,6 +2065,7 @@ static void cfe_unregister_nodes(struct cfe_device *cfe)
- 		if (check_state(cfe, NODE_REGISTERED, i)) {
- 			clear_state(cfe, NODE_REGISTERED, i);
- 			video_unregister_device(&node->video_dev);
-+			media_entity_cleanup(&node->video_dev.entity);
- 		}
- 	}
+@@ -1105,6 +1108,7 @@ static void ti_csi2rx_cleanup_v4l2(struct ti_csi2rx_dev *csi)
+ 	media_device_unregister(&csi->mdev);
+ 	v4l2_device_unregister(&csi->v4l2_dev);
+ 	media_device_cleanup(&csi->mdev);
++	media_entity_cleanup(&csi->vdev.entity);
  }
+ 
+ static void ti_csi2rx_cleanup_subdev(struct ti_csi2rx_dev *csi)
 -- 
 2.50.1 (Apple Git-155)
 
