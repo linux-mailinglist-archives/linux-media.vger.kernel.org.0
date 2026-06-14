@@ -1,93 +1,90 @@
-Return-Path: <linux-media+bounces-64858-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64859-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id mXG/FoUPL2qF7gQAu9opvQ
-	(envelope-from <linux-media+bounces-64858-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 22:31:01 +0200
+	id MkryM44PL2qG7gQAu9opvQ
+	(envelope-from <linux-media+bounces-64859-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 22:31:10 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8B1D6822DA
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 22:31:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 324836822DD
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 22:31:10 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=BmqA3ZXh;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64858-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64858-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=RZCYfwv7;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64859-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64859-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3768C30160FC
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 20:30:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 663EE300FC55
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 20:30:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CCBB325726;
-	Sun, 14 Jun 2026 20:29:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C828325726;
+	Sun, 14 Jun 2026 20:30:02 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA7B320A0E
-	for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 20:29:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BBA03242BA
+	for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 20:30:00 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781468998; cv=none; b=huvnH4LYrQwarA2WvH9B5Wq3o0O7aVnZMmEMeJYHWAfShwQAqTbQ531HA3snPHgpPoyBEnlnPGIAVTgVjZ+TmWxeEwMHTTGKRh2Ew5VRUFmFIu2j/5m/Yy4jDDkxTfZWez6Gkum21Y9V5q7SkZKrAXkSlvQfcmrEeB1tcyXbs+k=
+	t=1781469001; cv=none; b=eN4NX03j/GOcwuIqcZ2wnZYiI7GGZ0M/IOvmykRycbjwm7V778VErx69mbP/HGjQ0zP/3TgM6KJluOyDN0zQXx3WGkAnJsgAOiN/cilKs19ujUJZC+M1AuSGtNIBtPC7Ey7PjYPDI2kwSkNmsl8PSERjT+l+RnKdF7WWKRVHssY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781468998; c=relaxed/simple;
-	bh=MD/QxFgvNsXhV6cW5P8IQCBQ0WTUS3KaVH6K42AOeIo=;
+	s=arc-20240116; t=1781469001; c=relaxed/simple;
+	bh=aA2lvOsMnH2mO+/8YIqJPIcISuycGqquD9i2CRjJ1EM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qSneiUXUjhUY8PzevQpgxNp9M7wSEMibA8it4yOS+okzmK62DN5/xitfyw1CzssREuBSOqdGJAQboYsZd1tx/9FtlmbOFUUB9MCgmaBwvJM66dGC2g2CxI4gBpRE8ZVUGIPOfY0T2J9iEHrHLJ/dltTtbVJCY53PkLDcnt17qhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BmqA3ZXh; arc=none smtp.client-ip=209.85.216.53
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-36b8d414666so1583547a91.3
-        for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 13:29:57 -0700 (PDT)
+	 MIME-Version; b=M9mgZnGk9BsUJaorINsfxXIR5PTqcwpG+4TTYLzCIr2faeXf6XqOPB3vYkrJpfh/6D6EPF2EB5kFGZf4CaeY3dH76uKrclrsv/atqTz00TcPpuCrzhuasc1xBnBFsDlhQeIk8hqRj5D6SxxYk/Hl96mXqmNhjHut6t3ho1K46/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RZCYfwv7; arc=none smtp.client-ip=209.85.216.45
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-36bcf3d2565so1821181a91.3
+        for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 13:30:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781468997; x=1782073797; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781469000; x=1782073800; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=W3+EdCQF341UmIGsj3sEVrfID9CbhUI//NjgDBvmX1U=;
-        b=BmqA3ZXhZUPFoVG+7zyp5qlukCep0X6DkKtHTReierGqoLG+H123yTu40bcM32yn7s
-         KiZpbgd3HDi2bS89MRHEKXGa6+pvIEhZmExCmov4wkFhlII1hzhScOvtkemLjVSnHjep
-         DBa4joASVgAiNaaQO2vrL3ZXy2GGhjL9gErrXnoeX53U5o6gZhqeAs2ghz4Ha48pMK1m
-         8e3rtLEUasw+k1mTT1XUIPhzXc38Ofg5sbMFNo1cuCy1EYanXIl7JSbNIEpr/4jK0GHD
-         pnDeQYSyGZbIxGiYisYRwVbWDb2fY9CvRIuZfTRYUcCbMF3kDxDjSkOPyl/HnJh80UIE
-         u/FQ==
+        bh=bMvh30Es9oLlJJyrOQEw57Oa/27GiPIiQMoWeMBWI2Q=;
+        b=RZCYfwv70qbDsr2UWXyrIDnEaTXVRZB7avnqHov5eM9VJKh6Y2Qr9ZmgdpxUY8OToJ
+         N/qXOhUji4M4pwSTFh1D82+FTCFjG5k2N00chFy91SuqA8qQPzkfJS7w+rgZrQdFHwFf
+         pfzSLJXVNO4qTIp3uwyXdIgMfGwE15RMKaQInOZZVmNpWUZA8SFx64X1MetOPQYw8dc5
+         rLhg4bNfsum4vHYYLETBJXV4dFW2PC6sGWVEeUgArJ7c4T8kLsUczF5EjDbCOkigI9/M
+         8c4QTNEEvjJegGHgzhaJ3/mrB82cEq4mzk160mKIDNm1Qn0hPMBsuVul+7HE7o0IUG4C
+         yu1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781468997; x=1782073797;
+        d=1e100.net; s=20251104; t=1781469000; x=1782073800;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=W3+EdCQF341UmIGsj3sEVrfID9CbhUI//NjgDBvmX1U=;
-        b=k+wUKtq14TL802CzTrqNk2n0RG3cEY96cUL1pT5B6tY2fM4QaXkTQKkMIHcxoBCHl1
-         Tur4cQYSyjDjKE5EzpSF6yblrrX15Op2nQe5G8VeJorQUu6S88WBIWTmIc/Zmj56mTYH
-         RqCCfYnIqRIzBdY3SUvnNxpWb9ZE6qYePp1KpGVm3m+SrfykwVB4kqpV8LBVfgODL0GE
-         Ub16O+aBqgKVu0oYEBy+N89UJJEZAf9xsNI4JpiHUMGuBcaqudChKtRMHxLF3TotelBB
-         EL4l8h7qFJAaORh6i7unkwHd/33VDSwXWjch0SfvdACYk1eBcLzOGR3VzXf4gBbimWEP
-         rQEw==
-X-Gm-Message-State: AOJu0Yz80ifNzBrccZvkboxWzPwYUI1FTQpsoMkGclzjCCFmfX2dM4cy
-	sYpTTpbQN2LMLs/JdtSM4Tg/kbhF60we2Gw2CNB9LGjDv8DmynnRJL3ZB3N7kQ9m
-X-Gm-Gg: Acq92OHdIfuzW3GPawsNMhbe/xD8s7fC4DatP7BMs8jDXwhnguanSh6L6nRwj/SaIKO
-	byoh0DogmLuFzU6QzXTD/r/InLqxTss2WQgFKxuIQGEZNXy06m7AhBqICpRUqPI1ZdFo7Chegxn
-	oGFCTqI4FFeTxc9CK2L10KUOL4TSw+jmhkq1KwA3bPIL9bYtZ3XlLV7Kb43UnUyfLXkN08izY6C
-	/Ce0JzhoccVGRgnYytnoULo3tHPYxXXxUbX0PPWK7ZMEhgHsKUM1ZpkCkH+zpmNxrL+2x3Q8Ed+
-	6PMJXkJOEpm1UqB9Z6VazNBecmgmpreKS/wU2Hp2FPyY8xkaK6tbeHasonffS/EKRTdOJzdh2Up
-	d5fiQ3Pu2d5DcioihdaTtJYQV5F2hePxeYxWwgMKrzPRJ4uM3/gx+F4OTq3SegIVnLAqCrlBgOQ
-	460EzWuNKaSmdqq5IVUpOspvvyqq93fPL7tSBb+mJSaIF2fqI38M3v8RjHkvjFPdw=
-X-Received: by 2002:a17:90b:3cd0:b0:36d:a510:f908 with SMTP id 98e67ed59e1d1-37a01846f18mr12880181a91.5.1781468996864;
-        Sun, 14 Jun 2026 13:29:56 -0700 (PDT)
+        bh=bMvh30Es9oLlJJyrOQEw57Oa/27GiPIiQMoWeMBWI2Q=;
+        b=G2nwFkmg0Uq7e7vkQhrWDkHWCD4UJRxj1XTeA8vn7Avk9UgQwGfMPr/Cf1Npbt+sKn
+         bLIkcDziyPxDNOSPaQR1mQm733BJ9zSIyssHbmlnyUeJzGZ2xRsCyqLSkWjbxVHB2Y/+
+         q52cNb/wvb1FsBhpl7ZMuaz/B9PAbVq/jRU20F9RPrCGDAYVBVpN+zY1iaqYWvfc4res
+         gK6dNFLqK56WxcLe+dUrjzBiA9TCWFZtQgHp2YoBjvQNXaxl1OZliJdoNX42scxc3WWr
+         +ffOSxoo+wYE1XFe67hFhFGOdicXIjqUzZBBvq/JkFUIqm1LEyAhCvCa2kpnXYZC3ZAL
+         ZE2A==
+X-Gm-Message-State: AOJu0YwfV4Vc+9Cy22Ho2kk8ocMCeum3xqgDdJMxymHFZxspSjJjha2i
+	KF5g7k/2aZbc1Wkw3JkpEVYog2ITLFgFFnCy06u155/nYC3HkIcJJemXhO/VOW5V
+X-Gm-Gg: Acq92OFFfM5tGY4qZmzT/pY9EkC2uph2YdGOwuzmK943PrnaCA7t8a7a4CkkdssB0Mq
+	mEKyBFznsu64FtfcaWAjb14llz1hvqA/pRlnEC3ND/4lX/NC1bldlHX1738GPzLCB2HtVzxFQQ4
+	tr18lYZGTZIMjbmnI/OzZSyIcerAzBhzadyCCKFqNO7xroX8lAK8D4+O4tXYuJWijUj7clJ+MJM
+	X9B1Hfx+Qo3lllHQyp9+HqzxiuNfqJAZvo0oz77xho2hvJaAWuNiotCqRzqKRevcqwLK9bOI2Wk
+	nejmxIBXDo04zAZUmC/QZ/s9gvgy/wzJyRRBIFS1PRPJK+wjatlu4tStr4C8DY6YfMDUzHPfG0t
+	vygD8qnL8B90WBdIOHtdIupgrNjMa4jk5V4nRybLg7GPRXWjvVS8oy9M2tfd5dgNwpkAimB4l7R
+	l57jb4BVvxS0kFakBz0ouBhO2sw3jpkBs/kZSFQ/urPs+Auh9bHigr
+X-Received: by 2002:a17:90b:2f05:b0:368:6998:b4a9 with SMTP id 98e67ed59e1d1-37c2bc7c378mr7588388a91.11.1781469000018;
+        Sun, 14 Jun 2026 13:30:00 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.217.37])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-379e8cc467csm5439828a91.2.2026.06.14.13.29.53
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-379e8cc467csm5439828a91.2.2026.06.14.13.29.57
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 14 Jun 2026 13:29:56 -0700 (PDT)
+        Sun, 14 Jun 2026 13:29:59 -0700 (PDT)
 From: Biren Pandya <birenpandya@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: Biren Pandya <birenpandya@gmail.com>,
-	Jai Luthra <jai.luthra@linux.dev>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Pratyush Yadav <p.yadav@ti.com>,
-	Vaishnav Achath <vaishnav.a@ti.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [PATCH v3 15/22] media: platform: j721e-csi2rx: Add missing media_entity_cleanup()
-Date: Mon, 15 Jun 2026 01:58:15 +0530
-Message-ID: <20260614202835.11977-16-birenpandya@gmail.com>
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH v3 16/22] media: platform: hantro_drv: Add missing media_entity_cleanup()
+Date: Mon, 15 Jun 2026 01:58:16 +0530
+Message-ID: <20260614202835.11977-17-birenpandya@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260614202835.11977-1-birenpandya@gmail.com>
 References: <20260614202835.11977-1-birenpandya@gmail.com>
@@ -100,8 +97,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
@@ -109,74 +106,85 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,linux.dev,kernel.org,ideasonboard.com,ti.com,linux.intel.com];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-64858-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:birenpandya@gmail.com,m:jai.luthra@linux.dev,m:mchehab@kernel.org,m:hverkuil@kernel.org,m:tomi.valkeinen@ideasonboard.com,m:p.yadav@ti.com,m:vaishnav.a@ti.com,m:sakari.ailus@linux.intel.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[birenpandya@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FREEMAIL_CC(0.00)[gmail.com,collabora.com,pengutronix.de,kernel.org];
 	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-64859-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:birenpandya@gmail.com,m:nicolas.dufresne@collabora.com,m:benjamin.gaignard@collabora.com,m:p.zabel@pengutronix.de,m:mchehab@kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[birenpandya@gmail.com,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[birenpandya@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ALIAS_RESOLVED(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E8B1D6822DA
+X-Rspamd-Queue-Id: 324836822DD
 
 The media_entity_pads_init() (or media_entity_init()) function initializes
 the media entity, but the driver forgets to call media_entity_cleanup()
 in the error paths and remove function. Add the missing calls to fix the
 API violation and prevent potential future memory leaks.
 
-Fixes: b4a3d877dc92 ("media: ti: Add CSI2RX support for J721E")
 Signed-off-by: Biren Pandya <birenpandya@gmail.com>
 ---
- drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ drivers/media/platform/verisilicon/hantro_drv.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-index b75aa363d1bf..b88e3ac3dac8 100644
---- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-+++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-@@ -1079,13 +1079,16 @@ static int ti_csi2rx_v4l2_init(struct ti_csi2rx_dev *csi)
- 	csi->v4l2_dev.mdev = mdev;
+diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+index 2e81877f640f..ad71c0402ef3 100644
+--- a/drivers/media/platform/verisilicon/hantro_drv.c
++++ b/drivers/media/platform/verisilicon/hantro_drv.c
+@@ -771,8 +771,10 @@ static int hantro_register_entity(struct media_device *mdev,
+ 		return ret;
  
- 	ret = v4l2_device_register(csi->dev, &csi->v4l2_dev);
+ 	ret = media_device_register_entity(mdev, entity);
 -	if (ret)
 +	if (ret) {
-+		media_entity_cleanup(&csi->vdev.entity);
++		media_entity_cleanup(entity);
  		return ret;
 +	}
  
- 	ret = media_device_register(mdev);
- 	if (ret) {
- 		v4l2_device_unregister(&csi->v4l2_dev);
- 		media_device_cleanup(mdev);
-+		media_entity_cleanup(&csi->vdev.entity);
- 		return ret;
- 	}
+ 	return 0;
+ }
+@@ -860,12 +862,13 @@ static int hantro_attach_func(struct hantro_dev *vpu,
  
-@@ -1105,6 +1108,7 @@ static void ti_csi2rx_cleanup_v4l2(struct ti_csi2rx_dev *csi)
- 	media_device_unregister(&csi->mdev);
- 	v4l2_device_unregister(&csi->v4l2_dev);
- 	media_device_cleanup(&csi->mdev);
-+	media_entity_cleanup(&csi->vdev.entity);
+ err_rel_entity2:
+ 	media_device_unregister_entity(&func->sink);
+-
++	media_entity_cleanup(&func->sink);
+ err_rel_entity1:
+ 	media_device_unregister_entity(&func->proc);
+-
++	media_entity_cleanup(&func->proc);
+ err_rel_entity0:
+ 	media_device_unregister_entity(&func->vdev.entity);
++	media_entity_cleanup(&func->vdev.entity);
+ 	return ret;
  }
  
- static void ti_csi2rx_cleanup_subdev(struct ti_csi2rx_dev *csi)
+@@ -878,6 +881,9 @@ static void hantro_detach_func(struct hantro_func *func)
+ 	media_device_unregister_entity(&func->sink);
+ 	media_device_unregister_entity(&func->proc);
+ 	media_device_unregister_entity(&func->vdev.entity);
++	media_entity_cleanup(&func->sink);
++	media_entity_cleanup(&func->proc);
++	media_entity_cleanup(&func->vdev.entity);
+ }
+ 
+ static int hantro_add_func(struct hantro_dev *vpu, unsigned int funcid)
 -- 
 2.50.1 (Apple Git-155)
 
