@@ -1,187 +1,229 @@
-Return-Path: <linux-media+bounces-64793-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64794-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id +SsbFsGsLmoo1wQAu9opvQ
-	(envelope-from <linux-media+bounces-64793-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 15:29:37 +0200
+	id yExCF1SuLmpi1wQAu9opvQ
+	(envelope-from <linux-media+bounces-64794-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 15:36:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A51636812D3
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 15:29:36 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4285A68131E
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 15:36:19 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64793-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64793-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=RpDmrifd;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64794-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64794-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 75A883003603
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 13:29:20 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id CD0833002519
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2026 13:36:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6365F3A6EEC;
-	Sun, 14 Jun 2026 13:29:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D8243C3C06;
+	Sun, 14 Jun 2026 13:36:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578883A6411;
-	Sun, 14 Jun 2026 13:29:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7B43C379D
+	for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 13:36:07 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781443758; cv=none; b=MMijpg+qethOHbvk5bXoltqLVPVroguNns3TcXHg9tVzYKIZcYH1oB6+kZrkJ2YyRSP+uMx/CXVG9aVCJvFHTOyXE7CQYqZEPoztVgvkD6W5xTG4kk9BC8l+5kCT7dmTW45BPX5xU8frCqYoBft9EmjMuDZ+MOSNlneHJi7Mbuc=
+	t=1781444169; cv=none; b=Q+ljGsifB5m5K2oNMAPgNBXHuD42OowDju2geznGZStBNC4TEk0oSoJOW3cbyA8kWUNRKHXOrU4qktwAhOmKaj/oFy1/CKLo6xCEJbLp+ztoku0HizYaKKXYsqLOD8t8dKRSVdKHuzQIHBH31sPOXrUXMZ+YyZOo9o1K3Ks8V9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781443758; c=relaxed/simple;
-	bh=IOIWRugL/3SvWihH+OP2mK3CmqU8jMkGJ/HW/FOQaKE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZcfYay1afH75HI0F0pv5I9S87tFtoTa8HPhxEg0IyrivAbDx7Jx2+RjhjmnhhFvPnp2/Y9dnJ1etwQARJxdNvMv0hPZiLObN2WdN6rZIlM9Arv2oozpZT+7+5FjpVdydQaNVigPZd17K4i4Prt5PutBBmQK073Dt9ZUyGSEDXts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id 47CBD37002FD;
-	Sun, 14 Jun 2026 13:29:06 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id E698AB4568D; Sun, 14 Jun 2026 13:29:03 +0000 (UTC)
-X-Spam-Level: 
-Received: from collins (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id C008CB4567C;
-	Sun, 14 Jun 2026 13:29:01 +0000 (UTC)
-Date: Sun, 14 Jun 2026 15:28:58 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Yong Deng <yong.deng@magewell.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney@redhat.com>,
-	Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v10 4/6] dt-bindings: sun6i-a31-mipi-dphy: Add V3s SoC
- compatible entry
-Message-ID: <ai6smn4BnbAIMXCt@collins>
-References: <20260613152655.212490-1-paulk@sys-base.io>
- <20260613152655.212490-5-paulk@sys-base.io>
- <20260613-nondescript-sociable-goat-aee13a@quoll>
+	s=arc-20240116; t=1781444169; c=relaxed/simple;
+	bh=0G8s6U5ZRStGQ6EJ0KRueHdqdQXBK9+8RF1gLCcr2Ew=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dDvHRKPA3ZJfG6BddTRV1AAfVSMNJlTxNO7TjcYyoQ51jFS3UpmMuLWbAemnA++m8/fL3qKHPbRIVwXSWxJufqPK5WkFX/NkkIb2AxUJS7fmuRIgq0109Mcg50ORHypSqJojkjEHdbJJ6lWgtFLvtEvVyujHYe4zVUtDX3ydujw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RpDmrifd; arc=none smtp.client-ip=209.85.128.51
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-490b613a17bso21056115e9.3
+        for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 06:36:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781444166; x=1782048966; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0G8s6U5ZRStGQ6EJ0KRueHdqdQXBK9+8RF1gLCcr2Ew=;
+        b=RpDmrifdVYRm7w5uVqe6oo3KthisxnGYVHjbrQ/g22lavHg/KGCkoJwNc7ijI0J3eT
+         oTM209FyB8AYtpWmwrOPwjmegbBrr/1YFe0VNxtJOMe1a409Koy3Jx7KtXD9+i0J3wNV
+         YNU5hkJd4x/JIGKAcwANwGMFZcMWprALWSaw9gX50D73us/V+yNYh5DVkNpt0obgkHbn
+         LWbqbr8HEfiDB69a2q7MyHLbZelHT+Xu1frjmwxJQT6KDYlrct0Ny1gvVPjq9lsTcqdD
+         Xr6NBaHwB4WKZOXqaNGoNDwKi9p2e8nCRQ2cHVacT1WKSljxcspjv89OY8BDU2S1ou5A
+         GlVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781444166; x=1782048966;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=0G8s6U5ZRStGQ6EJ0KRueHdqdQXBK9+8RF1gLCcr2Ew=;
+        b=WU3o2U9eIgO9JUAeOlIABV108hCyntVSzQYxQnlIfhoIw2d6wsImXNr6KrG005uRNN
+         +8365IM/cr2evhMLipexGsBGgwnEIk3nd2Tw1ixCk3NhMHvNSmLOpMViu2X9tssOsrAY
+         WKOz6Nkg5cMD/M47h9fAdCiq9Gkafv5x8Wkbn3rwPcoN5cY5Rg7gHcekydeM/dtxdSL3
+         qyB4Tx239uP51EwAGB76EmWl4ftJfF+MBwV4Pou+/1qCKV6m7gvwR4gPHhvTIyQ/Khbp
+         Gae6Vl+HzpmZTRzzjNFHGWEKojT38v6IlSSIil35sILh/CetNpFKLx01hlTC1QmEu4tk
+         E4gw==
+X-Forwarded-Encrypted: i=1; AFNElJ8QTt7agwVDDnVCgBrMJ7+NIpVHfTemIsaFrOkE5ehW2GIPzUAlHy7Clnjsx2nl7HnLZrhKENdZWxLGXQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrT6xOV+elugVhNYfAM5sNLNhABTLccO5/+y5uBlBlREZfINwF
+	/Ma/eOUsQPtHYkrqN6rMWC/gKYl+UQ7Jp8LEXh5a2uJuiskqdf86WOiJ
+X-Gm-Gg: Acq92OFL1ARbpUX2jOr7TdJCniyvaVapSTP1jD7P/3Gu49S/L0dOPysYgwsDAl3VRrN
+	oeVKlrJvoB3u/eMZwtD9II3r6DoCgj67HDyI2PRnCfvxHT+nuP7+vl206JPAwJlCZTihHgjhQ8L
+	zgtk0Kw8dklG9399qtwF4vquUG2Q9V65fumelc98nhoIHaqX7en6Za0oB59d/HOrQGA+gJTY11m
+	lNJCcBHztcGB/2F4ZKaQ8+1YrRoDi50vVCTUaIf09nu19gbUCnZcb5MY20Rd3erWg0K3i9+yA/w
+	GPCL3RLScYa5qrnFUSTBabbUJ5rQRr/cExO6+PzVIrEW6om/WLIx99Ktu1pqkMZvnSsOofAPzt9
+	04JPFyWhVbVjotmFkKCo1+T1Cu5r5WV3Gizie1Xr3aQw6/PlJo4u7eqfx4Lbuu1pNGG2qSGlyZ/
+	xejzjlL9IKVPpUvkt31OtwD/cw6KhtybDhpqReqFRFj6+Q
+X-Received: by 2002:a05:600c:58d5:b0:490:c2a2:e91e with SMTP id 5b1f17b1804b1-490ec523a8amr94122335e9.34.1781444165973;
+        Sun, 14 Jun 2026 06:36:05 -0700 (PDT)
+Received: from jernej-laptop.localnet ([188.159.248.16])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490ea9520f9sm148794265e9.1.2026.06.14.06.36.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Jun 2026 06:36:05 -0700 (PDT)
+From: Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
+To: wens@kernel.org
+Cc: Maxime Ripard <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jernej Skrabec <jernej@kernel.org>, Samuel Holland <samuel@sholland.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, devicetree@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject:
+ Re: [PATCH 4/7] drivers: staging: media: sunxi: cedrus: add H616 variant
+Date: Sun, 14 Jun 2026 15:36:03 +0200
+Message-ID: <XYko-1bVTYuJiQeSr0cTOA@gmail.com>
+In-Reply-To:
+ <CAGb2v677Pi9s3eWC7aXh8j=+eJh7AV5Mucr7SDXMN9Lo8yA2nA@mail.gmail.com>
+References:
+ <20260505134812.408316-1-wens@kernel.org> <L1ZJMTqKQbak6NcKbwFkDg@gmail.com>
+ <CAGb2v677Pi9s3eWC7aXh8j=+eJh7AV5Mucr7SDXMN9Lo8yA2nA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="NSEvN2AwITQmLA/Z"
-Content-Disposition: inline
-In-Reply-To: <20260613-nondescript-sociable-goat-aee13a@quoll>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.56 / 15.00];
-	SIGNED_PGP(-2.00)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FROM_HAS_DN(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64793-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64794-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[sys-base.io];
-	FORGED_RECIPIENTS(0.00)[m:krzk@kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-sunxi@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:yong.deng@magewell.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:wens@kernel.org,m:jernej.skrabec@gmail.com,m:samuel@sholland.org,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:bmasney@redhat.com,m:mripard@kernel.org,m:conor@kernel.org,m:jernejskrabec@gmail.com,s:lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[jernejskrabec@gmail.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FORGED_SENDER(0.00)[paulk@sys-base.io,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:wens@kernel.org,m:mripard@kernel.org,m:paulk@sys-base.io,m:mchehab@kernel.org,m:jernej@kernel.org,m:samuel@sholland.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:gregkh@linuxfoundation.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:devicetree@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.infradead.org,lists.linux.dev,magewell.com,kernel.org,gmail.com,sholland.org,baylibre.com,redhat.com];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[paulk@sys-base.io,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[jernejskrabec@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	TO_DN_SOME(0.00)[];
-	R_DKIM_NA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sys-base.io:email,sys-base.io:url,sys-base.io:from_mime,paulk.fr:url,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A51636812D3
+X-Rspamd-Queue-Id: 4285A68131E
 
-
---NSEvN2AwITQmLA/Z
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi,
-
-Le Sat 13 Jun 26, 20:22, Krzysztof Kozlowski a =C3=A9crit :
-> On Sat, Jun 13, 2026 at 05:26:53PM +0200, Paul Kocialkowski wrote:
-> > The V3s/V3/S3 comes with a rx-only D-PHY paired with the MIPI CSI-2
-> > controller. It is compatible with the D-PHY found on the A31.
-> >=20
-> > Add an entry with a new compatible and the A31 compatible as fallback.
-> >=20
-> > Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
-> > ---
-> >  .../devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dphy.yaml | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-=
-mipi-dphy.yaml b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-=
-mipi-dphy.yaml
-> > index 6a4fd4929959..3ca1a1c47032 100644
-> > --- a/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dp=
-hy.yaml
-> > +++ b/Documentation/devicetree/bindings/phy/allwinner,sun6i-a31-mipi-dp=
-hy.yaml
-> > @@ -21,6 +21,9 @@ properties:
-> >        - items:
-> >            - const: allwinner,sun50i-a64-mipi-dphy
-> >            - const: allwinner,sun6i-a31-mipi-dphy
-> > +      - items:
-> > +          - const: allwinner,sun8i-v3s-mipi-dphy
+Dne sobota, 13. junij 2026 ob 16:34:00 Srednjeevropski poletni =C4=8Das je =
+Chen-Yu Tsai napisal(a):
+> On Sat, Jun 13, 2026 at 6:33=E2=80=AFPM Jernej =C5=A0krabec <jernej.skrab=
+ec@gmail.com> wrote:
+> >
+> > Dne sobota, 30. maj 2026 ob 18:43:05 Srednjeevropski poletni =C4=8Das j=
+e Chen-Yu Tsai napisal(a):
+> > > On Tue, May 5, 2026 at 7:18=E2=80=AFPM Jernej =C5=A0krabec <jernej.sk=
+rabec@gmail.com> wrote:
+> > > >
+> > > > Dne torek, 5. maj 2026 ob 15:48:08 Srednjeevropski poletni =C4=8Das=
+ je Chen-Yu Tsai napisal(a):
+> > > > > The Allwinner H616 SoC has a video engine hardware block like the=
+ one
+> > > > > found on previous generations such as the H6. In addition to the
+> > > > > currently supported features of the H6, it is also supposed to in=
+clude
+> > > >
+> > > > Remove "supposed".
+> > >
+> > > I can't actually verify that, so "supposed" is accurate from my point=
+ of
+> > > view.
+> >
+> > Isn't info from manual good enough?
 >=20
-> So that's enum with previous first entry (50i-a64) - same fallback.
+> The manual says the SoC supports it. Same was said for the H6. Then
+> we discovered that the VP9 decoder was a separate Hantro block.
+>=20
+> So again, *I* cannot claim in the commit message that the hardware
+> block supports VP9 decoding, because I have not verified it.
+>=20
+> > In the interest of unblocking this, I would be fine with "supposed" too,
+> > but manual and all my experiments show VP9 is supported.
+>=20
+> Please give an ack or reviewed-by with a comment at the end stating
+> VP9 verified.
 
-Ah sorry about that. Thanks for the review!
+Well, just go with original text.
+=20
+Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
 
-All the best,
+Best regards,
+Jernej
 
-Paul
+>=20
+>=20
+> Thanks
+> ChenYu
+>=20
+>=20
+> > Best regards,
+> > Jernej
+> >
+> > >
+> > > ChenYu
+> > >
+> > > > > a VP9 decoder. However software support for this is currently mis=
+sing
+> > > > > and still needs to be reverse engineered from the vendor BSP.
+> > > > >
+> > > > > Add the compatible for the H616 variant, using the H6 variant dat=
+a.
+> > > > >
+> > > > > Signed-off-by: Chen-Yu Tsai <wens@kernel.org>
+> > > >
+> > > > With that:
+> > > > Reviewed-by: Jernej Skrabec <jernej.skrabec@gmail.com>
+> > > >
+> > > > Best regards,
+> > > > Jernej
+> > > >
+> > > >
+> > >
+> >
+> >
+> >
+> >
+> >
+>=20
 
---=20
-Paul Kocialkowski,
 
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
 
-Expert in multimedia, graphics and embedded hardware support with Linux.
 
---NSEvN2AwITQmLA/Z
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmourJoACgkQhP3B6o/u
-lQwV+A/+NkOCmMfOg2YFf5bQKC5plenZLRP17/88N9UXHjsV3ImZ8OtBZjC8y/9q
-MzYyACkWYH8Me6BqtOnnWsIhwWZk5dnkibEudFSYZXj6y5XumVtqQY6JuT6fTS7M
-+bGYBtH511C/QCiRVSUdV+nh07htVNPouWpDiePOyQxgLRGrXFTjbvX5MAlpiR1z
-wld6FnIrX4Scsjs1j2Ow4Ns8ikjQ+TlKbjiErf5PLrqlEgACxcpnpDofDfqNrbBF
-wzxJE4QWD3DW5kqxvCKsaFOP8ZqMdlkU0QrH1QCPimrdFlhD8BdkJppLQDLT6+Vw
-b9lKj08AwoCZDunrjGBqUPWvsKeHGkWrLGD6ReJP0Pom3t5HSQT0azoc06os6tI7
-rqd/BWBSvJe4+efslxM/ptqqqBBn1dRQPqgv46FQDwDh6oIFSeRSCJHn6FcIcxd9
-lSTJQLS19oYyiokAu9TBbHfvq0wvLrOytKccxv8e9Uk20ER2X5cInI17KibuAvxU
-zy956vSRzj6GG68m8rswA8pwtx4qidemyM4KZMkUxcATDSDUR7KjSWpYWQK7G4bO
-BYViglw8xHSVuQCLpKhNk0MghQ//Qx6o+uDmePHmOgkNEQMzXJ8W0URQ94eVkbZC
-Lnfbgmtd5fIB7JQgK8fASwIAgprARTW08+bmUxRT4tP4Gt2DukQ=
-=7Yam
------END PGP SIGNATURE-----
-
---NSEvN2AwITQmLA/Z--
 
