@@ -1,256 +1,368 @@
-Return-Path: <linux-media+bounces-64886-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64887-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 5+AQCsGvL2ogEgUAu9opvQ
-	(envelope-from <linux-media+bounces-64886-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 09:54:41 +0200
+	id myj1KTG2L2rkEwUAu9opvQ
+	(envelope-from <linux-media+bounces-64887-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 10:22:09 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75389684597
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 09:54:40 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B1EA6847DA
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 10:22:09 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=YKESsgDb;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64886-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64886-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=intel.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=W4OjgACD;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64887-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64887-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8ADF73033AA8
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 07:51:05 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id BD6C63015871
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 08:21:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B86DB3BFE24;
-	Mon, 15 Jun 2026 07:51:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 595B31A4F2F;
+	Mon, 15 Jun 2026 08:21:39 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0993BED78
-	for <linux-media@vger.kernel.org>; Mon, 15 Jun 2026 07:50:57 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781509863; cv=fail; b=U9b9hIrH7T6N4AArYjajgjqhlXcTKCQ/PWZQD5G5m00dP5jMEg1pZfnza27ZVu5L/TzlijRdO1CjPPUx9FTCaXz5IvM9oZSQgRIAsFaDbVJMItywiUXJ+/GDGPpzYRSAjQV43v84wClhZVL3ZHmyev4VgreOQodvpBBxZ2dftwE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781509863; c=relaxed/simple;
-	bh=2Oayc+M+bQEpAINtXnvFlHip+sR34US7Dec4I48mhf8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=pmaNHPcHVuhyp0aYENib+PXDfDufRHa8VExKo2q27/y5JRMQHFBx5BkIWWmWq3K2Ok40+Tlja2SwAKeL/gv83w+KNj4MIgA5H8ow/4ZDNCmL6NsBwAq01TsHPfyP8A/NOYqgpG85oGrjNr/XdmeuI7D3sZhykvgUHxD3e58E0VY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YKESsgDb; arc=fail smtp.client-ip=198.175.65.12
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781509858; x=1813045858;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=2Oayc+M+bQEpAINtXnvFlHip+sR34US7Dec4I48mhf8=;
-  b=YKESsgDbrOaR2RmgPSLmWwOaB9Ee8CR70XfkWQaPC5BYe/TIqtwe2g8l
-   Iro5ve57ksIhetpXClnE4XUD9z4fh+fBnoMPKYDbTbcQQHSv0HgZv6VxH
-   RrFmzqaPEUiekx2dU4HTcUF+wLgA6ygCGQGZHvC+dMjXJVzBmFvX+W1Zy
-   FUYLxLK606lMFQGATwNmnJ28030+JYx7CSQGtQJ+YbC9rNHsz4CfCSr3s
-   7j7eA00B8VTiht0JKguD5o56LGHp4ohvP4UJEQcrXXTPFP2SBaItJ80Ch
-   VXxp1w6rGDibMA0sIUoN1BkClrUKyXIdksYZ0clw/Q7wbFyDv0Lzj9Zz4
-   w==;
-X-CSE-ConnectionGUID: /XvdEfSQTauYS9Y0dbfhmg==
-X-CSE-MsgGUID: bGBQ+fowSAm7Xt50ONageg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11817"; a="93736392"
-X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
-   d="scan'208";a="93736392"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 00:50:57 -0700
-X-CSE-ConnectionGUID: qsDpV0SkT5ylID+55I2grA==
-X-CSE-MsgGUID: yWp2Q+GrTaiR8hgDQ0SbUg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
-   d="scan'208";a="251326632"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 00:50:58 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 15 Jun 2026 00:50:56 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Mon, 15 Jun 2026 00:50:56 -0700
-Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.30) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 15 Jun 2026 00:50:56 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KcCFPq/O7/QApsUvjDyJRIMlnsdzZQ25tBDwS4ijZPYn0kNJmR4WTGVMFS6gUlb9YCEbHVjrPowuVcHWkW5KJk9R8DE1D86gq+lnlJtCDdw6ERAdV1QvyUSylcGm+OOK7iN9vQY7xckjsGMdDk/dYWllhfqMN7i1TLMc8pn2bS9iAKMjA8BC6HHkjZ4CjNI39e5pno4F1O0uGfWmh+N4M6ZOeonjM0YJhNHms5v44QMlXBdyHaplxtzxxK3bIc5As0Y/uRKGhWDPc4EwU3zElHRAeLmQpvJddBQUPoxSIffdB7mAfN+1HpfV9QlaScQ9Yu31TRCoAa2729sIiRoZSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2Oayc+M+bQEpAINtXnvFlHip+sR34US7Dec4I48mhf8=;
- b=lfZrQXmoqsOP+Ia0+TYfShfOPo/+6tptN62TjQd+mz4Iv/weEtdQxbZmg5GGDUPLkqh332JjxFZdCxd3iQCg9VrbDKmemEwJOAMVpEKXrPp0Fno55AGPUh1HrILCF4MzN9s+VhvInskGjALrtRML0onaClMIMifo783n4mVNcRSgWBJTKrz0MoVJ9NLndnrXLtnnmkfwarsp3BofT2wIKvU2pDIs8GS7ClR9RMfBnadezH5/1R9JCK/QTQWj8d9gHuYkmx/ogs1cdsn4C+DTexhSqA1Wv4j6YZlcYDT2N6KHGavfn+3e6k5HTM2rnaPMHwBRyyosWnfRJtPoS5YDWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DS0PR11MB7971.namprd11.prod.outlook.com (2603:10b6:8:122::12)
- by MN2PR11MB4597.namprd11.prod.outlook.com (2603:10b6:208:268::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Mon, 15 Jun
- 2026 07:50:51 +0000
-Received: from DS0PR11MB7971.namprd11.prod.outlook.com
- ([fe80::40aa:a291:4c25:6e0a]) by DS0PR11MB7971.namprd11.prod.outlook.com
- ([fe80::40aa:a291:4c25:6e0a%3]) with mapi id 15.21.0113.015; Mon, 15 Jun 2026
- 07:50:51 +0000
-From: "Yeh, Serin" <serin.yeh@intel.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-CC: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>, "Su, Jimmy"
-	<jimmy.su@intel.com>, "Sapre, Sarang" <sarang.sapre@intel.com>
-Subject: RE: [PATCH v1 2/2] media: i2c: ov8856: fix debug message to report
- actual CSI-2 lane count
-Thread-Topic: [PATCH v1 2/2] media: i2c: ov8856: fix debug message to report
- actual CSI-2 lane count
-Thread-Index: AQHc+YcAHNwKcGlJj0as/sMS446ey7Y5MAqAgAYTHuA=
-Date: Mon, 15 Jun 2026 07:50:51 +0000
-Message-ID: <DS0PR11MB79710AD8429CEDBFDDAC263EF6E62@DS0PR11MB7971.namprd11.prod.outlook.com>
-References: <20260611095046.2665272-1-serin.yeh@intel.com>
- <178117564309.3890308.14729161396189411788@ping.linuxembedded.co.uk>
-In-Reply-To: <178117564309.3890308.14729161396189411788@ping.linuxembedded.co.uk>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DS0PR11MB7971:EE_|MN2PR11MB4597:EE_
-x-ms-office365-filtering-correlation-id: d563cd1c-995e-467c-34a5-08decab2d26d
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|38070700021|22082099003|18002099003|56012099006|4143699003|11063799006|6133799003;
-x-microsoft-antispam-message-info: +tkRbgk7nkYrbZuPgYA60VoAEFzXrgkkVr1cNGCO1EyCZg+3ruj0rB/FWmqw8SJTEoszY7zkpKHf0Gq9ESFxUzb0DUmJc372zf0dhZjTVE82LwRGauQBc5Ds3vBX4DcolskOnfqhc1mb+n5OFSmtZPAaMNJNraQ+fiLZVjGbTb5KhNFDMCDQkG/Rs7QyVVKa8B/IRI5Ykhrm7S8EO+fTwbzIqX1onzJ3DJtUJCE2v8iO4HSYs7KoR4hESQRYeo5B7kHwHKkYr3bJYown2rIhfzInhrvhQ4DrcGKDwEgiR0D8NumoHimH3/MJ4U9kUqSkkNEteu7DKPUyNwox+879+7KLqhTsTnNomRbmxxT9XYYa7E19FA3cvQzseyLei1zYO3gr1VrhZs5YaHMAZTj+JUaoYI00Gu/ik2FeR9ql2mrQCLZMGFR/dHZdDhgnpRgBvNpbRLvIwkfw2puvczOToGsZGIQ5gabZ1TZ5J9JMnYXVafTAgkk1YQlmjhR1oQ2PNWQc2JfiWal9LFrcZQpzCuveOUkQis7co43zcpEwZX8OCt2iraCmap/xMgO5ZjpEtoZMgb4lzMBr4/AqEzfY1D3X9VEPvuu6l5ajslAkEw1BJYxiqC0swRah6LlrtvuW5p8RYxDVbeqhB9BpDURH51tlIqO0N8jMv7ckt3qQPbJHDNmuJaLdSdUuyTLOLB5HyKbuMd1lT+Yq9Hhxa2XBwQaDeft3T1bGAbkU69vKFzztgfehkP5ZrvasIa3kD3w8
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7971.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(38070700021)(22082099003)(18002099003)(56012099006)(4143699003)(11063799006)(6133799003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?dXFTUHVRWGtiSHlKS3UzSEdDMWVjdXJUL25VQ21BS0Zhd3N0WitnVlZ5TFVY?=
- =?utf-8?B?eXBpNmRmQm1zSG1WZDZwQU9LaGlMMDZGWFQxYXJZMDdMOVdwaW5hVDdOT2gr?=
- =?utf-8?B?d1VxVmVaWFh6ZlNpRXA2c0tKVUVSMjI5RVlrY2ZFUVZhZ0tXQi8wUGFnQms2?=
- =?utf-8?B?YmxMeEpHdGpUUk5SdEtNOFUyNnpLRDRBM1JYbmZ1cHovTEZiMG81MGJJTnV2?=
- =?utf-8?B?aXF4dWFZSG9hOTY3RU9KdjZXcllTWlYzOE1SU3pDVFlmN0Nac0JwZ2VKTUpT?=
- =?utf-8?B?VmVOU25YUmFsa2VjKzhPRlpRTTNHTDhzZTlZL2ZEeGNhQ3A4T0ozdFVaUXY0?=
- =?utf-8?B?aWVKVnBRc0MvMjJieXUweW5oTzQ3M2RXOXkwU2dpcHJ5ZDFmQlljME1ERUVn?=
- =?utf-8?B?bHd4djRUN1ZVcFZhSmhEWGpKWWcreGF0NHJvRHJDZ2x5bmNXaWIrekQ1NVFO?=
- =?utf-8?B?elJLeUVDb3pqbmpOZWVJbGpsOE1JRlI5Z29qait5aWs3Ni9HUHlXZloreElG?=
- =?utf-8?B?MVRUNmpOb1AvMnFWSkYzWFpyWnVONzdCMmo2YVdQd0J0eis2bnVnRkd4Y0FI?=
- =?utf-8?B?SGdmMFZLQXhRQitwM0FJc1lZeXVXbktLeTdsdkgyS09zOWFoUGF1c1ZQcldk?=
- =?utf-8?B?ODNxV1VRVDNvRjM3NXIxbU83VC8wSFMyTGtWWlBlMmUvamwxRHJJZFJHS2xq?=
- =?utf-8?B?WUJRdVhkbW9CTHIyKzlsZWRVSW9oWG1rZ09RS0dWdkgvOTBKbDRaUEd4U2Yz?=
- =?utf-8?B?VkNDWkZESFljcW9OMmVxNGhxQlR6b3g4STNXL0pRcDRmNFJjYmtuaDlJQjFZ?=
- =?utf-8?B?MnYyWUVYT0FmNzkwZnhCUG1Ja1ZId25XaVgwY3BuM2lINStmenh4NlJ2aW4x?=
- =?utf-8?B?K05kQ0J1K2xtVWV4YjZJMTJ6NnRmdm0yanlYdjdYOWJKckhiR3hqbU5wRG9F?=
- =?utf-8?B?ZGxIU1ErbXBBTEVjSlB3bWtGZWRQeFlIbjdDOEZnamR6Sy9mRGNHR0xEeXcy?=
- =?utf-8?B?QThLN1BJOTBKdmRTekxNVm1mNW9OQWZXRlFYdU9vSUZHNVQvWWJFWjRVR1JD?=
- =?utf-8?B?Sjlwb3J2WUpmYmZCRXloUGZUR2Qyd090eEZZRGJ6cmNoQjNrR0RjeGpEOW5E?=
- =?utf-8?B?Zk5MQmt3Y2pYQS92OHdsa0x0amVndC9QdjZOeEFJR0FFMkNOakMvVEdOaXc5?=
- =?utf-8?B?T3VJQ1NJRFlJa3ArMVNsc21DOTNoY0ZwSEp5WlUxclB0Nm1EejFLeWp2dEM3?=
- =?utf-8?B?S2ZERTFxbnYyYUpzaVlJandZOStYMlZJU05aMDRxUm9tT3dzUTNmZmtPWURM?=
- =?utf-8?B?Q3ZocVNxeU1SZnNUbGJ3VGpHcEdHcTJxbnBZUjZwR3NYUHR4ZGdWTWpTL21m?=
- =?utf-8?B?YStaVzV5SSthbTk3S1Q4bFhhVGU5cEFHc1pYNWRlbjNuc3picCtBeFBzTVBo?=
- =?utf-8?B?bU9rU1VvNFpGNnlpMlUxVGhwR1JEUlBBeU9IWVEzeDVIYWlnODc5V0NVVys0?=
- =?utf-8?B?K2hsMEhLblhWRVZ0dVdiZUJ1OU1UZGIvK3lwaHZDUGRXaVMwVkhZOEowcFJp?=
- =?utf-8?B?Q3d3eVZ6VjkwWk9iQ1dwQlBjQVhmUktWQ2FBUCs5K2t2NzFYU2hsQjRCQ0pU?=
- =?utf-8?B?dS8ybU9HWGttYmhlSW10SDRQWURNWThnS0UzaTNQZ0c1NFlpNnVOYUtOR2dx?=
- =?utf-8?B?NXVRekh3MzM1b0VwK0NMY0IrbkZSRFQ0OTlrTTgwUCtTZmdENnlZcGx6b2py?=
- =?utf-8?B?V3kzaHpheFpsaUJzMzJmeU85MUI5TlEwY20rUUc3ZTJETjZYbS8yUHdJSGRr?=
- =?utf-8?B?aWEyZGcvY2FRb3VJTjdleURaVTJTcmlUcmFKS3BVTnhvelVpSnRhdk1GeGdP?=
- =?utf-8?B?a3B2bWZlV1dUdDdrLzhFeXJFUERnUndOU29mSmZGbzh3V1l4MW1ZejZxSHJw?=
- =?utf-8?B?a1IzbWRpbFBEd01abEtqL0JxeGU0c0gwU2tvbUFrcGNzcGZzbWw3eEMwNXFD?=
- =?utf-8?B?bkpocFA4cVVZbjAzT25VbTBFNncvY05LMHNYenBCb2hib0dUdWZ0dnljSlYy?=
- =?utf-8?B?c0lJZjRFY2tOa0JqUnlDVjdIbnJiREQxY2dhaTJXRlRsbVYwZVBpcFNKR3NC?=
- =?utf-8?B?S2VXcE1VY2lXT0tJekxMMmhJOGZneUkrWlBXT1JZQ1dCZVhZRnR1c0toc0th?=
- =?utf-8?B?b3dnRWR6ckZ0c0wycThsdjFXYUlacWxnY2RYbDMzNms0eTc1YVpWUENWNWJi?=
- =?utf-8?B?Y1N2enRLb1FqODdhM1RieTJOZ2JLTWUwL2djUWJmRFRJTlRRejJtTGhBQXlN?=
- =?utf-8?B?bDBoeHlBenhZdVFnbWRZVDI5MzR3RzE4anJNZUo3RjFVazA1OXpVZz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE8B3C279B
+	for <linux-media@vger.kernel.org>; Mon, 15 Jun 2026 08:21:36 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781511698; cv=none; b=U/L+nMlf4rVven09uX/vTQjoXhCP54LPg0bZBY51WJxkgLVaf1urWsb43cpKCNaPEpXWHqo66dmfgZPfQDWUui2DfAQtV/o/FtZkMAOjl85W3Jelj5hsCiJCxYczZFLWdpAKv5H/XwisltC2RLLklBG37FSrXvNgSXcB79d/sw8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781511698; c=relaxed/simple;
+	bh=wFHV0BbH+YZuzvkMRzMJOlvnvBzetXBCAw5PosJf+kc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hn1k/IBdpdECtpJFi9L/o9FDSvETUvPZaTrNBFLFSYPuMsGUhqpGgt45ZlPW+gwUiX/DyoFlG0QqQP9PMigTE7sAdZu8JnSHBXR5P2nabbrFrRNx6Z7HRnexcEJr10FvnY5bbglspJS+hZY/4fyEiCwhMZD8KQGkCAGHVjdGCv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W4OjgACD; arc=none smtp.client-ip=209.85.221.42
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4600ddc4017so2210805f8f.0
+        for <linux-media@vger.kernel.org>; Mon, 15 Jun 2026 01:21:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781511695; x=1782116495; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=l7OXKTPZ69qxs+f0U2E9H0frS9si1j9AEtDPP4sfAq4=;
+        b=W4OjgACDIYYRlLTgU639Xzf6Ifd4QwOJk/f4wANi7AbHyxr12F8kdu7S+UgQfS87TL
+         MfwI4lSJAfFdYc0sB9HHu+MBnDMmcXnNoodNO3EChhIcYs2eGOssCFD38NkIFYWboKTZ
+         hXOKPonl1vV8OYv1abQcjyOzHnx9odt9BS6CCxo4FL0jVU6yPw95cfKNKlD3MYcwcmsI
+         lUUNOq1SoKFKWd2sRMK1AlXJRyWVW6/qOqihGMn2TuvKCNP+TCktgXDSdhBdH5H8ynIX
+         k03oGfhqfVu/ysoA4qQAYwM4trYf0468h4NdI4n5b/ycE3+07mbjjim53O0oBtbB479s
+         sfVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781511695; x=1782116495;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=l7OXKTPZ69qxs+f0U2E9H0frS9si1j9AEtDPP4sfAq4=;
+        b=kEDsCXO4FoIbmJnLzqZ+IExugzwxLT2IanTaHhW6j1t3j8Xm7YWs/S1c3dVX3a2Qh7
+         yyjJ0MF4gTRzjSbtQIvMXgp8nmU4XYavEdPnuhiMAdYCq1tVIiZkXPMW/3Ry34KQmBuL
+         91QvRHmsoU60VplWS3xTbXKuK1bZD9zzk1onYO7myxymvGdp2WCdUOSD95oQrTI0gnK4
+         8w19e9Z9tW5PQsBZDM7znCeUoltm8FS11s/UchBPIhSHkK9mfQo96Ypa7N1rbsDamoKT
+         jmmeTA7l9yROY3aUNKh4AcNvQD43hu1fQwBfQay/DAbeKhqoXrWu4dzfSmf8v+hS9t3f
+         VoNQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+yPPLWkmwyRMxc1dx7NjgchOmi2RxoGzo6mQ9avJEw932M8kLVaEJiCg8yo3dk8f0wTbLR3c+3CsW05A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDz5s1vJapGxo+8S1JYqXbVvggXlJSqii5OK3YCP/BLC2spWgh
+	WN3kqfw/0C1NsH09EjQRHD1Jn6V/NrZfrtvWBgNIeYiiJKndyfpDFM+U
+X-Gm-Gg: Acq92OFYzr2a+BKTb+Q3cZ47zuZNw2lOdbLicn6J7QOtCDCm0epfVRtNXr3WN9sFywJ
+	NM7bCrM9ZNyg9vJgvKfYldVT7idD7opHxZKIWR4XP9G+muGQHGIWdeAwuYaq/K0+GP7gLu1EazL
+	YPmgsZa5EKUIUSBGlxZnSfYs1n+Z57Bhi7wwh1WAik0C1ngHGsE6NjC8UFqPwCZ4JDFRyVbTuDo
+	b9T9wV+Kk7CVwPGfX7XJWldykEiDYWmPe6ANpNSNIFe/vjt+b3U62l2pCXBNulMazJzGP5lHsEn
+	zk6oHO3ohdGS/DezaU6EyaQPQdEm62LMxwm/Nuy7QCxj1UKDSllDiSjxyryUWzlSSbY0okULDwt
+	yGoGgYV4mQ/Ueo5CJ4RFb1WePSPBmLbn14ZIKiD5U05kPWOs03j66WAgwFzJdukUsuTA1sRuyPU
+	6xgrZZ5IPy3lxkUTJpnn6E3lfJ7aLyBOTohVwOG/b9kVdMdw==
+X-Received: by 2002:a05:600c:c3dc:20b0:490:adb6:793d with SMTP id 5b1f17b1804b1-490ec4fbd85mr123685505e9.26.1781511694969;
+        Mon, 15 Jun 2026 01:21:34 -0700 (PDT)
+Received: from [192.168.7.105] ([83.136.105.81])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f26f726sm30143179f8f.15.2026.06.15.01.21.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Jun 2026 01:21:34 -0700 (PDT)
+Message-ID: <396e4b0d-7a2c-4ba4-9569-0428ccd63267@gmail.com>
+Date: Mon, 15 Jun 2026 10:21:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: F5AekAOv/toyfH0zTatHLZjxkBptI9zwvk0itnkmi4iYxnpDj8x9p3f/FrjhsArkfyapAcgkwPZ5ohGTuTt7wD6ZlFV9jHMRZeXsn1DIiiaHsigVTxUy0ATuoG5XVLu6OPprMz10kv2JC2FHYCatlEFzXjTG7qaRNZOGXULRXIa8RX7N1aFjwCaLhEneIsHT7r5/kvHN1yJy/XN2OzbMxB7sjLkL0NgfUOfziLLwYkhUkD1nnt6JM8jbmesiNoB/sqK9aRb4vIhQAsOhUOsYNm64ywldrQ91uNjW18AH5TWSzwOKXxMa0rDpCVTcAxhaa8Y/mk0rxTsSzoDVMfsYwg==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7971.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d563cd1c-995e-467c-34a5-08decab2d26d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jun 2026 07:50:51.6116
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 5F8fOsF2+L5CG+/m259BXQ97AzQ1Nf88HbvBu3Egqu5Sy511G7TEaFDzeYhDqTSU5yyMDHUpbZrzvGa/J+ttfg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR11MB4597
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [BUG] OV02C10 on Dell 16 Premium DA16250 (ARL): INT3472
+ handshake-derived "dvdd" regulator registered but never linked to sensor,
+ sensor probe fails with -EREMOTEIO
+To: Marco Nenciarini <mnencia@kcore.it>, linux-media@vger.kernel.org
+Cc: Hans de Goede <hansg@kernel.org>, ilpo.jarvinen@linux.intel.com,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-kernel@vger.kernel.org,
+ platform-driver-x86@vger.kernel.org
+References: <abeb9142-16a7-417b-be0f-b929234de6db@gmail.com>
+ <ah_XLEAkqjV9HkSE@spark.kcore.it>
+ <ceadef8a-7b9e-4137-b219-732b30bbf62e@gmail.com>
+ <ai2NAS5EnLaLoN2W@spark.kcore.it>
+ <dc00c5d0-124d-45c8-97d2-7f8fafca9795@gmail.com>
+ <ai8NwzoU08AvD7Ve@spark.kcore.it>
+Content-Language: it
+From: "Angioli Samuele (gmail)" <angioli.samuele@gmail.com>
+In-Reply-To: <ai8NwzoU08AvD7Ve@spark.kcore.it>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.06 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
-	MIME_BASE64_TEXT_BOGUS(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
-	MIME_BASE64_TEXT(0.10)[];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-64887-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:kieran.bingham@ideasonboard.com,m:linux-media@vger.kernel.org,m:sakari.ailus@linux.intel.com,m:jimmy.su@intel.com,m:sarang.sapre@intel.com,s:lists@lfdr.de];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[serin.yeh@intel.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-64886-lists,linux-media=lfdr.de];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,intel.com:dkim,intel.com:email,intel.com:from_mime];
-	DKIM_TRACE(0.00)[intel.com:+];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[serin.yeh@intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:mnencia@kcore.it,m:linux-media@vger.kernel.org,m:hansg@kernel.org,m:ilpo.jarvinen@linux.intel.com,m:sakari.ailus@linux.intel.com,m:linux-kernel@vger.kernel.org,m:platform-driver-x86@vger.kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_SENDER(0.00)[angiolisamuele@gmail.com,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[angiolisamuele@gmail.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCVD_COUNT_SEVEN(0.00)[10]
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 75389684597
+X-Rspamd-Queue-Id: 1B1EA6847DA
 
-SGkgS2llcmFuLA0KDQpUaGFua3MgZm9yIHRoZSByZXZpZXcuDQpJIHdpbGwgYWRkIHRoZSBGaXhl
-czogdGFnIGFuZCB5b3VyIFJldmlld2VkLWJ5IGluIHYyLg0KDQpTaW5jZXJlbHksDQpTZXJpbiBZ
-ZWgNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IEtpZXJhbiBCaW5naGFtIDxr
-aWVyYW4uYmluZ2hhbUBpZGVhc29uYm9hcmQuY29tPiANClNlbnQ6IFRodXJzZGF5LCBKdW5lIDEx
-LCAyMDI2IDc6MDEgUE0NClRvOiBZZWgsIFNlcmluIDxzZXJpbi55ZWhAaW50ZWwuY29tPjsgbGlu
-dXgtbWVkaWFAdmdlci5rZXJuZWwub3JnDQpDYzogWWVoLCBTZXJpbiA8c2VyaW4ueWVoQGludGVs
-LmNvbT47IHNha2FyaS5haWx1c0BsaW51eC5pbnRlbC5jb207IFN1LCBKaW1teSA8amltbXkuc3VA
-aW50ZWwuY29tPjsgU2FwcmUsIFNhcmFuZyA8c2FyYW5nLnNhcHJlQGludGVsLmNvbT4NClN1Ympl
-Y3Q6IFJlOiBbUEFUQ0ggdjEgMi8yXSBtZWRpYTogaTJjOiBvdjg4NTY6IGZpeCBkZWJ1ZyBtZXNz
-YWdlIHRvIHJlcG9ydCBhY3R1YWwgQ1NJLTIgbGFuZSBjb3VudA0KDQpRdW90aW5nIFNlcmluIFll
-aCAoMjAyNi0wNi0xMSAxMDo1MDo0NikNCj4gVGhlIGRyaXZlciBjdXJyZW50bHkgcHJpbnRzIHRo
-ZSBudW1iZXIgb2YgZGF0YSBsYW5lcyB1c2luZw0KPiBvdjg4NTYtPmN1cl9tb2RlLT5kYXRhX2xh
-bmVzIGluIG92ODg1Nl9nZXRfaHdjZmcoKS4gSG93ZXZlciwNCj4gdGhlIG92ODg1Ni0+Y3VyX21v
-ZGUgc3RydWN0dXJlIGlzIG5vdCBhc3NpZ25lZCB0byBhIGNsZWFybHkgc3VwcG9ydGVkIA0KPiBt
-b2RlIGF0IHRoYXQgcG9pbnQuIER1ZSB0byB0aGUgbWlzc2luZyBwb2ludGVyLCBlbmFibGluZyBk
-eW5hbWljIGRlYnVnIA0KPiBtYXkgbGVhZCB0byBhIGtlcm5lbCBwYW5pYy4NCj4gDQo+IEluc3Rl
-YWQsIHRoZSBjb3JyZWN0IG51bWJlciBvZiBDU0ktMiBkYXRhIGxhbmVzIHNob3VsZCBiZSB0YWtl
-biBmcm9tIA0KPiBidXNfY2ZnLmJ1cy5taXBpX2NzaTIubnVtX2RhdGFfbGFuZXMsIHdoaWNoIHJl
-cHJlc2VudHMgdGhlIHJlYWwgDQo+IGhhcmR3YXJlIGNvbmZpZ3VyYXRpb24gZGV0ZXJtaW5lZCBh
-dCBydW50aW1lLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogU2VyaW4gWWVoIDxzZXJpbi55ZWhAaW50
-ZWwuY29tPg0KDQpQZXJoYXBzOg0KDQpGaXhlczogYzQ5MmVjOWFlOWVkICgibWVkaWE6IG92ODg1
-NjogQWRkIHN1cHBvcnQgZm9yIDIgZGF0YSBsYW5lcyIpDQoNClJldmlld2VkLWJ5OiBLaWVyYW4g
-QmluZ2hhbSA8a2llcmFuLmJpbmdoYW1AaWRlYXNvbmJvYXJkLmNvbT4NCg0KPiAtLS0NCj4gIGRy
-aXZlcnMvbWVkaWEvaTJjL292ODg1Ni5jIHwgMyArKy0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGlu
-c2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21l
-ZGlhL2kyYy9vdjg4NTYuYyBiL2RyaXZlcnMvbWVkaWEvaTJjL292ODg1Ni5jIA0KPiBpbmRleCA5
-ZDJiMDQ2OWE1NzYuLjYwMTEyMzNhMjE4ZCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9tZWRpYS9p
-MmMvb3Y4ODU2LmMNCj4gKysrIGIvZHJpdmVycy9tZWRpYS9pMmMvb3Y4ODU2LmMNCj4gQEAgLTIz
-MTgsNyArMjMxOCw4IEBAIHN0YXRpYyBpbnQgb3Y4ODU2X2dldF9od2NmZyhzdHJ1Y3Qgb3Y4ODU2
-ICpvdjg4NTYpDQo+ICAgICAgICAgICAgICAgICBnb3RvIGNoZWNrX2h3Y2ZnX2Vycm9yOw0KPiAg
-ICAgICAgIH0NCj4gIA0KPiAtICAgICAgIGRldl9kYmcoZGV2LCAiVXNpbmcgJXUgZGF0YSBsYW5l
-c1xuIiwgb3Y4ODU2LT5jdXJfbW9kZS0+ZGF0YV9sYW5lcyk7DQo+ICsgICAgICAgZGV2X2RiZyhk
-ZXYsICJVc2luZyAldSBkYXRhIGxhbmVzXG4iLA0KPiArICAgICAgICAgICAgICAgYnVzX2NmZy5i
-dXMubWlwaV9jc2kyLm51bV9kYXRhX2xhbmVzKTsNCj4gIA0KPiAgICAgICAgIGlmIChidXNfY2Zn
-LmJ1cy5taXBpX2NzaTIubnVtX2RhdGFfbGFuZXMgPT0gMikNCj4gICAgICAgICAgICAgICAgIG92
-ODg1Ni0+cHJpdl9sYW5lID0gJmxhbmVfY2ZnXzI7DQo+IC0tDQo+IDIuMjUuMQ0KPg0K
+Marco,
+
+Option A is in. Applied cleanly to v7.0 (the HANDSHAKE arm already 
+shares register_regulator via the POWER_ENABLE fallthrough; 
+second_sensor and avdd_second_sensor present), built as a single module, 
+loaded.
+The keying works: post-patch ov02c10 (which bulk-gets dovdd/avdd/dvdd) 
+only logs "not found" for dovdd and avdd, no longer for dvdd, so
+second_sensor="i2c-OVTI02C1:00" did attach the OV02C10 to DSC0's dvdd.
+(regulator_summary still shows INT3472:0c-dvdd use=0 -- devm releasing 
+the handle on the -121 probe failure, not the get failing.) So the
+second_sensor mechanism is validated for dvdd.
+
+But it does not bring the sensor up, and the reason closes the case in a
+way the quirk cannot help. Two facts:
+
+1. DSC1 is firmware-disabled:
+      /sys/bus/acpi/devices/INT3472:01/status = 0   (\_SB.PC00.DSC1)
+      /sys/bus/acpi/devices/INT3472:0c/status = 15  (\_SB.PC00.DSC0)
+      /sys/bus/platform/devices/ : only INT3472:0c
+    INT3472:01 has _STA=0, gets no platform device, never probes (with
+    dyndbg on, only INT3472:0c appears). The OV02C10 _DEPs DSC1
+    (DLK1 = {DSC1, HS09.VIC1}), but that instance is off.
+    DSC0 is the only live INT3472.
+
+2. DSC0 carries only dvdd + the IR-flood strobe -- nothing else:
+      gpioinfo: a single int3472-held line, consumer="dvdd"
+      int3472 enumeration (dyndbg): dvdd (HS09.VGPO) + GPIO type 0x02 
+(the strobe), no reset/powerdown/clk/avdd/dovdd
+    So DSC0 has no reset, clock, avdd or dovdd to offer anyone.
+
+Put together: the OV02C10 needs dvdd/avdd/dovdd plus reset and clock. 
+The only one any live instance provides is dvdd, on DSC0, which the 
+quirk re-keys correctly. avdd/dovdd fall to dummies, and reset/clock 
+would have been DSC1's -- but DSC1 is _STA=0. There is nothing on a live 
+instance to re-key those to, so the second_sensor approach cannot 
+synthesise them.
+
+So the dvdd quirk is right and worth keeping for boards where DSC1 is
+enabled, but it is not sufficient for the DA16250 as shipped: the 
+sensor's remaining rails/reset/clock have no provider while DSC1 is 
+disabled. That makes this a firmware defect that needs a firmware fix 
+(enable DSC1, or expose the rails on a live instance), unless we go to a 
+board-specific quirk that hardcodes fixed always-on regulators for 
+avdd/dovdd and sources reset/clock directly -- which needs the DA16250 
+schematic and only works if those rails are actually controllable.
+
+Earlier revision: my previous "DSC1 owns avdd/dovdd/reset" was wrong --
+DSC1 owns nothing, it is _STA=0.
+
+Happy to test a board quirk if you want to prototype one, but I suspect
+this one is on Dell's firmware.
+
+Thanks,
+Samuele
+
+Il 14/06/26 22:23, Marco Nenciarini ha scritto:
+> Hans, Sakari,
+> 
+> Samuele's data is in and it confirms both halves of the wrong-instance
+> keying.
+> 
+> DSC0 = INT3472:0c, DSC1 = INT3472:01. The decisive line from DSC0's
+> probe, with int3472 dyndbg on:
+> 
+>    int3472-discrete INT3472:0c: Sensor name HIMX1092:00
+> 
+> So DSC0's reverse-_DEP walk resolves to the first consumer that _DEPs
+> it, the Himax IR camera (HIMX1092:00, Windows Hello), and that is the
+> dev_name DSC0's dvdd supply_map is keyed on. The OV02C10 (OVTI02C1:00)
+> never appears in it. regulator_summary corroborates from the other
+> side: the only dvdd on
+> the whole platform is INT3472:0c-dvdd (DSC0), orphaned at use=0, and
+> DSC1 (which the RGB sensor actually _DEPs) exposes no dvdd at all, only
+> avdd/dovdd/reset.
+> 
+> So the topology is settled: there is exactly one dvdd handshake on the
+> platform, gated by DSC0, keyed to the IR sensor DSC0 serves, while the
+> RGB sensor that appears to want it _DEPs DSC1 instead, and nothing
+> connects the two. The remaining inference is the rail-to-failure link
+> itself: dvdd falls to a dummy under full constraints, and the chip-ID
+> read at 0x300a returns -EREMOTEIO with no retry. That chain is
+> consistent with the data but I have not proven dvdd is the cause as
+> opposed to a coincident orphan (see the test ask to Samuele below),
+> so I would not call the failure mechanism closed yet, only the keying.
+> 
+> On whose defect this is: either the firmware under-specifies the
+> dependency (the OV02C10's dvdd is physically gated by DSC0 but its _DEP
+> points only at DSC1), or the kernel's reverse-_DEP consumer model
+> cannot express a rail that lives on a sibling INT3472 instance. Either
+> way this is shipping DA16250 firmware that will not change, so the
+> camera needs an in-tree path regardless of where we assign blame.
+> 
+> That makes this the same class of problem int3472 already handles with
+> the second_sensor quirk. avdd_second_sensor (the Lenovo Miix 510 entry
+> in discrete_quirks.c) already plants a second supply_map entry, keyed
+> to a hardcoded device name in addition to the reverse-_DEP sensor_name,
+> and skl_int3472_register_regulator() takes second_sensor for exactly
+> that. The DA16250 is the same shape, just on dvdd/HANDSHAKE rather than
+> avdd/POWER_ENABLE, and the HANDSHAKE branch currently always passes
+> second_sensor = NULL. So the contained fix is: extend second_sensor to
+> cover the dvdd/HANDSHAKE arm too. The struct has a single second_sensor
+> field today (avdd_second_sensor), so generalising that one field reads
+> cleaner to me than adding a per-con_id dvdd_second_sensor, but either
+> works; then add a DA16250 DMI entry pointing dvdd's second consumer at
+> i2c-OVTI02C1:00. This adds OVTI02C1 as a second consumer of DSC0's
+> dvdd, it does not move the rail off HIMX1092:00, so the IR camera's own
+> supply is untouched.
+> 
+> The alternative is to make that second-consumer resolution automatic
+> rather than DMI-gated, i.e. teach int3472 to discover that a sensor may
+> draw a rail from an instance it does not _DEP on. More correct in
+> principle, but ACPI gives no signal to key it on here (that is the
+> firmware gap), so it would need a heuristic and I would not want it
+> silently re-homing rails on boards where the current keying is right.
+> 
+> My instinct is the DMI quirk, extending the mechanism you already use
+> for avdd. DMI is the right key rather than the int3472_gpio_map[] HID
+> table, because the OV02C10 part is not the problem, the DA16250 _DEP
+> topology is. I would leave the fully-automatic resolution open in case
+> more ARL boards turn up the same split. Tell me which way you want it
+> and I will prototype the quirk against the DA16250.
+> 
+> Samuele, here is a concrete test that closes the last gap. It is the
+> proposed fix in miniature, so a positive result validates both at once.
+> Two ways to run it, pick whichever suits your setup. In both, the
+> signal is the same: does the 0x300a chip-ID read in dmesg succeed, or
+> still return -EREMOTEIO?
+> 
+> Option A, the patch (preferred, it exercises the real consumer path).
+> In skl_int3472_handle_gpio_resources(), in
+> drivers/platform/x86/intel/int3472/discrete.c, add the two marked lines
+> to the regulator arm of the switch:
+> 
+> 	case INT3472_GPIO_TYPE_POWER_ENABLE:
+> 		second_sensor = int3472->quirks.avdd_second_sensor;
+> 		fallthrough;
+> 	case INT3472_GPIO_TYPE_DOVDD:
+> 	case INT3472_GPIO_TYPE_HANDSHAKE:
+> +		if (type == INT3472_GPIO_TYPE_HANDSHAKE)
+> +			second_sensor = "i2c-OVTI02C1:00";	/* test */
+> 		ret = skl_int3472_register_regulator(int3472, gpio, enable_time_us,
+> 						     con_id, second_sensor);
+> 
+> This adds OVTI02C1:00 as a second consumer of DSC0's dvdd alongside the
+> existing HIMX1092:00 mapping; it does not move the rail off the IR
+> camera. The hardcoded string makes this test-only (it would mis-key on
+> any other handshake board); the shipped form is the DMI-gated quirk
+> above. The hunk applies to a recent mainline discrete.c, where the
+> HANDSHAKE case shares the register_regulator call via the POWER_ENABLE
+> fallthrough, so build from a source tree matching your running kernel.
+> First confirm int3472 is a module, not built in:
+> 
+> 	modinfo intel_skl_int3472_discrete
+> 	# or check CONFIG_INTEL_SKL_INT3472 in your kernel config
+> 
+> If it is =y you need a full kernel build instead. If =m, build and
+> install just this module, then reboot for a clean re-probe:
+> 
+> 	make -C /lib/modules/$(uname -r)/build \
+> 	     M=$PWD/drivers/platform/x86/intel/int3472 modules
+> 	sudo make -C /lib/modules/$(uname -r)/build \
+> 	     M=$PWD/drivers/platform/x86/intel/int3472 modules_install
+> 	sudo depmod -a
+> 	sudo reboot
+> 
+> (Build against the configured source for your running kernel, or the
+> new .ko may refuse to load on a modversions/CRC mismatch.) After
+> reboot, in /sys/kernel/debug/regulator/regulator_summary the
+> INT3472:0c-dvdd line should now list the i2c-OVTI02C1:00 device as a
+> consumer (use count > 0), and dmesg shows whether 0x300a now succeeds.
+> 
+> Option B, no rebuild, force the rail on by hand. On this board DSC0's
+> _DSM exposes only func 2 (the dvdd handshake) and func 3 (the IR-flood
+> strobe), so unbinding it drops exactly those two and nothing the
+> OV02C10 needs. dvdd is a GPIO-gated regulator, so as root:
+> 
+> 	# 1. BEFORE unbinding, capture the dvdd enable line: int3472
+> 	#    requests it with consumer label "dvdd", so in gpioinfo find
+> 	#    the line whose consumer is "dvdd" and note its gpiochip (the
+> 	#    block header) and offset. The label disappears once you
+> 	#    unbind, so record chip+offset now. Your int3472 dyndbg log
+> 	#    cross-checks it:
+> 	#      "INT3472:0c: dvdd <acpi-gpio-path> pin <N> active-<high|low>"
+> 	#    (that line gives the ACPI controller path and pin, not the
+> 	#    gpiochip number, so map it through gpioinfo). Note the
+> 	#    active- sense too, you need it in step 3:
+> 	gpioinfo
+> 
+> 	# 2. release the line by unbinding the PMIC (drops only DSC0's
+> 	#    dvdd regulator and IR strobe, not the sensor, which _DEPs
+> 	#    DSC1):
+> 	echo INT3472:0c > /sys/bus/platform/drivers/int3472-discrete/unbind
+> 
+> 	# 3. drive the line to its ON level and HOLD it (own shell, leave
+> 	#    running). ON is =1 if step 1 showed active-high, =0 if
+> 	#    active-low. Using the gpiochip and offset from step 1:
+> 	#    libgpiod v1:  gpioset --mode=signal gpiochipN <offset>=<on>
+> 	#    libgpiod v2:  gpioset -c gpiochipN <offset>=<on>  (holds until Ctrl-C)
+> 	gpioset --mode=signal gpiochipN <offset>=<on>
+> 
+> 	# 4. in another shell, re-probe the sensor and read the log:
+> 	echo i2c-OVTI02C1:00 > /sys/bus/i2c/drivers/ov02c10/bind
+> 	dmesg | tail
+> 
+> 	# 5. when done, Ctrl-C the gpioset and reboot to restore normal
+> 	#    driver state.
+> 
+> (If step 4 says the device is already bound, unbind it first via the
+> same path, then bind.) regulator_get("dvdd") lands on a dummy here,
+> since there is no provider once DSC0 is unbound, but that is a no-op
+> enable and the rail is physically on because you are holding the GPIO
+> at its ON level, so the chip-ID read is still the signal.
+> 
+> Either way: if 0x300a succeeds, that pins powering dvdd as what
+> unblocks the chip-ID read, and the fix is exactly Option A folded into
+> a DA16250 DMI quirk. If it still fails, dvdd is not the (only) problem
+> and the -EREMOTEIO is coming from reset, clock, or the NX33 bridge, and
+> we look there instead. Option A is the better single test, since it
+> keeps DSC0 bound and exercises the real enable path with the right
+> polarity and timing; Option B trades that for no rebuild, so if the two
+> disagree, trust A.
+> 
+> Thanks,
+> Marco
 
