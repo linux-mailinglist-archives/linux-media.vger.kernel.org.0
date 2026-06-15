@@ -1,80 +1,72 @@
-Return-Path: <linux-media+bounces-64903-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64904-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id qM3zFGneL2q/IAUAu9opvQ
-	(envelope-from <linux-media+bounces-64903-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 13:13:45 +0200
+	id ynn8LVzhL2qMIQUAu9opvQ
+	(envelope-from <linux-media+bounces-64904-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 13:26:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA2CC6859F6
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 13:13:44 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5970F685B83
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 13:26:20 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=YpR0TU3R;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64903-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64903-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=intel.com;
+	dkim=pass header.d=dolcini.it header.s=default header.b=PeemKhZV;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64904-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64904-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=dolcini.it;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B10CF301FB02
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 11:12:38 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 4AE71300D4F2
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 11:26:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E3EA3E3C5D;
-	Mon, 15 Jun 2026 11:12:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAF5E3E51CB;
+	Mon, 15 Jun 2026 11:25:57 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail11.truemail.it (mail11.truemail.it [217.194.8.81])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF79F3DB32C;
-	Mon, 15 Jun 2026 11:12:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E123E44E1;
+	Mon, 15 Jun 2026 11:25:55 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781521953; cv=none; b=cVgcPW3nEv4mPh+bo/KzfgEeMsebSubetyQ2iZP63TKYkTbufdSzhNSzr7dGKRj4y1s8EBZqGmFHbfJNusb6qUBD76FDw9FlEmj+tKWWC8rNeT3okuIZh02nVV5bK/LNhNLMGOhaDCQqLsWCu4hjJiV83UxWT9O0ZHD27Iav1xU=
+	t=1781522757; cv=none; b=sdONbyhCzG8fRK/Se+14zx9r7uQ2tLCtSX27P7jVvjEAyFxcXUUbWKMVytze9uqKyaBtZImD0iyCOhJf93gQu/4tP9+P9mRXhoPzia/ULe4+2ew6eeyEQ/m96i0DDazQxCs3LPdKP/jxlvEp0ZWmmKmx6cFlodvgUdpUdjTbxfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781521953; c=relaxed/simple;
-	bh=bOEzvUcDtX5+6116v382NIYxku0vbuP0satudsWACWg=;
+	s=arc-20240116; t=1781522757; c=relaxed/simple;
+	bh=aCiCrCVJCK0CqSjL+oVJoYwplS/qJ1qccA1+xU+pz80=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=htgxaqTleAHOfnpFlwMndK7/8bt9qK2A1Qh1vOpoeA3t+5+n1Lvmy6/hIWE71XqxghH+c0vAqIcGCMrAOAlRUEM3kx+UDMdethM2hdKb0iDr4mVkIuv9ftpa3aNnIdGRcdNzgOuiWJCZd/kDtu5Ih0bOA7GuoB/r95AV5kuLFsI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YpR0TU3R; arc=none smtp.client-ip=192.198.163.18
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781521952; x=1813057952;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bOEzvUcDtX5+6116v382NIYxku0vbuP0satudsWACWg=;
-  b=YpR0TU3Ryj866uE2j7Nb3MfoUFtrR4SnYp7masXFepsbBugRfx3TAxAy
-   GYk98PPoggkplG7Ept0X/bcfI8quCG2LjlQVqMRutMuMrUa3bfLbILaJx
-   v5kahH6JOxclpTDqJf3DOk7scwZPkl8bpWpwuXQZGgXmewbUvU8DMudeb
-   IZ5/naATjI0vHGaDBa7uMwEBgrIdNC5Q8P5iSxklZ39ZBejoeR9tK0oYP
-   wX1eQFqCCYGCHbZG2MTwMUcOmf2NQAS5E/Fw3Pgpbx6S12/kgQ9zpU6BF
-   oeUwiahYr+vIlESffmVSfoj6D410BY3/OgaQeTs1FLSKK8DkK6neca18k
-   g==;
-X-CSE-ConnectionGUID: MFy8ZkTYQd+DmR0ea855oA==
-X-CSE-MsgGUID: o1w0b7CwSg65w8VVpJT84g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11817"; a="81397145"
-X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
-   d="scan'208";a="81397145"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 04:12:31 -0700
-X-CSE-ConnectionGUID: UdwlmRAWQzGX2UaOgfHjag==
-X-CSE-MsgGUID: xFAL/hNeSyGEIOcvIbk1TA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
-   d="scan'208";a="277647473"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.235])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 04:12:28 -0700
-Date: Mon, 15 Jun 2026 14:12:25 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Dawei Feng <dawei.feng@seu.edu.cn>
-Cc: andy@kernel.org, error27@gmail.com, hansg@kernel.org,
-	mchehab@kernel.org, sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org, abdelrahmanfekry375@gmail.com,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, jianhao.xu@seu.edu.cn,
-	Zilin Guan <zilin@seu.edu.cn>
-Subject: Re: [PATCH v2 2/2] media: atomisp: fix memory leak in
- atomisp_csi2_bridge_parse_firmware()
-Message-ID: <ai_eGXhKhsV1fhlC@ashevche-desk.local>
-References: <20260615072841.3113700-1-dawei.feng@seu.edu.cn>
- <20260615072841.3113700-3-dawei.feng@seu.edu.cn>
+	 Content-Type:Content-Disposition:In-Reply-To; b=YqA8Dn+9Y87XvTU1BG15p6jNHcJzKmD60LvjrSyoBvfYxO9x62VFI2pxR6dcDe9tiiZI3DDZxywdXDro9RO91M2NPCy35FdRbt+tRIMwZLg0ogvu8yp+/zwyKAzoQe19bWgycpGZowFhHrNOrngMTgWhzdnzgt4RczoS7DFsz3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dolcini.it; spf=pass smtp.mailfrom=dolcini.it; dkim=pass (2048-bit key) header.d=dolcini.it header.i=@dolcini.it header.b=PeemKhZV; arc=none smtp.client-ip=217.194.8.81
+Received: from francesco-nb (248.201.173.83.static.wline.lns.sme.cust.swisscom.ch [83.173.201.248])
+	by mail11.truemail.it (Postfix) with ESMTPA id F25701FA61;
+	Mon, 15 Jun 2026 13:25:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dolcini.it;
+	s=default; t=1781522753;
+	bh=9kKGvPf2rc3hM5ewk0p/1qE43DFbrtoz5U3rTNNnFvA=; h=From:To:Subject;
+	b=PeemKhZVmT1F8yIxLlUuJAU4lWFxfPtbLr/IaaUJsTBvSIl7BvaLMcUfNkWfwhPS4
+	 THWKQZVkEz1vc1HJqsw5BjqDdowsF/ycQyaSTh9KeF8BQ+G89hc4gQQA5x3uBbtyuE
+	 E0pfPpl69Kw4wvN1uXt73iUk+Tgl5dUcvn34trjO0HjdNJFutLSXmXRxdZPBR1Q764
+	 LpofrFVPAAVqC6nrP/N2GgJIWN+YmNjPqT4xaeOdIGoNetOZQtsml3UBQBKabR2F71
+	 7T4EfMZnBiZ476g0WvvRr2FFLx1qQIEY6W6gRyfp5zndXVVbzzCKB0o8KbKoU+s9HL
+	 E9ttnE3ob4lkA==
+Date: Mon, 15 Jun 2026 13:25:49 +0200
+From: Francesco Dolcini <francesco@dolcini.it>
+To: Antoine Bouyer <antoine.bouyer@nxp.com>
+Cc: Francesco Dolcini <francesco@dolcini.it>, julien.vuillaumier@nxp.com,
+	alexi.birlinger@nxp.com, daniel.baluta@nxp.com, peng.fan@nxp.com,
+	frank.li@nxp.com, jacopo.mondi@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	michael.riesch@collabora.com, anthony.mcgivern@arm.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	ai.luthra@ideasonboard.com, paul.elder@ideasonboard.com,
+	geert@linux-m68k.org, sakari.ailus@linux.intel.com,
+	hverkuil+cisco@kernel.org
+Subject: Re: [PATCH v3 8/8] arm64: dts: freescale: imx95: Add NXP neoisp
+ device tree node
+Message-ID: <20260615112549.GA137559@francesco-nb>
+References: <20260612132039.2089051-1-antoine.bouyer@nxp.com>
+ <20260612132039.2089051-9-antoine.bouyer@nxp.com>
+ <20260614090517.GA7434@francesco-nb>
+ <761f284a-1660-41d5-9625-9b25bf18aca5@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,70 +75,85 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260615072841.3113700-3-dawei.feng@seu.edu.cn>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <761f284a-1660-41d5-9625-9b25bf18aca5@nxp.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[dolcini.it,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[dolcini.it:s=default];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64903-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:dawei.feng@seu.edu.cn,m:andy@kernel.org,m:error27@gmail.com,m:hansg@kernel.org,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:gregkh@linuxfoundation.org,m:abdelrahmanfekry375@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:jianhao.xu@seu.edu.cn,m:zilin@seu.edu.cn,s:lists@lfdr.de];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linux.intel.com,linuxfoundation.org,vger.kernel.org,lists.linux.dev,seu.edu.cn];
-	MIME_TRACE(0.00)[0:+];
-	HAS_ORG_HEADER(0.00)[];
-	FORGED_SENDER(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-64904-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:antoine.bouyer@nxp.com,m:francesco@dolcini.it,m:julien.vuillaumier@nxp.com,m:alexi.birlinger@nxp.com,m:daniel.baluta@nxp.com,m:peng.fan@nxp.com,m:frank.li@nxp.com,m:jacopo.mondi@ideasonboard.com,m:laurent.pinchart@ideasonboard.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:michael.riesch@collabora.com,m:anthony.mcgivern@arm.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:imx@lists.linux.dev,m:ai.luthra@ideasonboard.com,m:paul.elder@ideasonboard.com,m:geert@linux-m68k.org,m:sakari.ailus@linux.intel.com,m:hverkuil+cisco@kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	FORGED_SENDER(0.00)[francesco@dolcini.it,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ashevche-desk.local:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,intel.com:dkim,intel.com:from_mime,seu.edu.cn:email]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[francesco@dolcini.it,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[dolcini.it:+];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[dolcini.it:dkim,dolcini.it:from_mime,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CA2CC6859F6
+X-Rspamd-Queue-Id: 5970F685B83
 
-On Mon, Jun 15, 2026 at 03:28:41PM +0800, Dawei Feng wrote:
-> atomisp_csi2_bridge_parse_firmware() initializes isp->notifier and may
-> allocate async notifier connections via v4l2_async_nf_add_fwnode_remote().
-> However, these resources are currently leaked if a subsequent entity
-> registration or probe step fails, or when the driver is removed.
+On Mon, Jun 15, 2026 at 11:56:15AM +0200, Antoine Bouyer wrote:
+> On 6/14/26 11:05 AM, Francesco Dolcini wrote:
+> > On Fri, Jun 12, 2026 at 03:20:39PM +0200, Antoine Bouyer wrote:
+> > > Add neoisp device tree node to imx95.dtsi and enable it by default in
+> > > 19x19 evk board.
+> > > 
+> > > Signed-off-by: Antoine Bouyer <antoine.bouyer@nxp.com>
+> > 
+> > ...
+> > 
+> > > diff --git a/arch/arm64/boot/dts/freescale/imx95.dtsi b/arch/arm64/boot/dts/freescale/imx95.dtsi
+> > > index d6c549c16047..5543a6cb1250 100644
+> > > --- a/arch/arm64/boot/dts/freescale/imx95.dtsi
+> > > +++ b/arch/arm64/boot/dts/freescale/imx95.dtsi
+> > > @@ -1867,6 +1867,17 @@ pmu@49252000 {
+> > >                        };
+> > >                };
+> > > 
+> > > +             neoisp0: isp@4ae00000 {
+> > > +                     compatible = "nxp,imx95-neoisp";
+> > > +                     reg = <0x0 0x4ae00000 0x0 0x8000>,
+> > > +                           <0x0 0x4afe0000 0x0 0x10000>;
+> > > +                     interrupts = <GIC_SPI 222 IRQ_TYPE_LEVEL_HIGH>;
+> > > +                     clocks = <&scmi_clk IMX95_CLK_CAMCM0>;
+> > > +                     clock-names = "camcm0";
+> > > +                     power-domains = <&scmi_devpd IMX95_PD_CAMERA>;
+> > > +                     status = "disabled";
+> > > +             };
+> > 
+> > Why the node is disabled?  If the node is wholly described in
+> > imx95.dtsi, it should be enabled.
 > 
-> Fix this by introducing dedicated helpers to clean up and unregister the
-> async notifier state. Call atomisp_notifier_cleanup() to release the
-> allocated connections in both the entity registration failure path and the
-> overall probe unwind path.
-> 
-> Additionally, invoke atomisp_notifier_unregister() during the device
-> remove path to ensure the notifier is properly unregistered from the V4L2
-> core before its underlying resources are freed.
+> Actually, all nodes are disabled in the SoC dtsi, and enabled on the board
+> dts file, even if fully described on the dtsi. So I used same approach for
+> neoisp.
 
-> Fixes: 8d28ec7e9145 ("media: atomisp: Add support for v4l2-async sensor registration")
-> Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
-> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
+This is not correct. Please check what we do for the GPU/VPU[1] and NPU [2],
+for example. Is there a reason to do it differently for the ISP?
 
-Same comment as per previous patch regarding to SoB chain.
+Francesco
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+[1] arch/arm64/boot/dts/freescale/imx8mm.dtsi
+[2] arch/arm64/boot/dts/freescale/imx93.dtsi
 
