@@ -1,181 +1,130 @@
-Return-Path: <linux-media+bounces-64931-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64932-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id m/m+M0ZpMGpTSwUAu9opvQ
-	(envelope-from <linux-media+bounces-64931-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 23:06:14 +0200
+	id uANYJYN1MGrxTAUAu9opvQ
+	(envelope-from <linux-media+bounces-64932-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 23:58:27 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AE7D68A1B5
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 23:06:14 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E203668A3FC
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 23:58:26 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=NgbA7YaZ;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64931-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64931-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=dzy+gkH2;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64932-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64932-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DA43D3125C1E
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 21:04:29 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E603730D0A4E
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 21:58:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9C743A6EEC;
-	Mon, 15 Jun 2026 21:04:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1E013B71B0;
+	Mon, 15 Jun 2026 21:58:00 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0985B38B7AA
-	for <linux-media@vger.kernel.org>; Mon, 15 Jun 2026 21:04:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74011319852;
+	Mon, 15 Jun 2026 21:57:59 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781557468; cv=none; b=Xe/YtqZcVhmC5fX6On9Cx5vCAgX8zYEGiFpy6ZdJQoyNXZiP3KS7zr0wzQR3eg2NiYSPhmy5KSilB5cAU5gVktjfjWBN5hRMfNTBG5+FYvhg7AmzSGJNX8X44Bok3V598JW8MMwP3z8Km3AD7APahGIbgJ8womkM87Nu9CqKjZU=
+	t=1781560680; cv=none; b=egBj2TAc+gr+ZXeT/MZfL8O/4i7HbfxOetuY76c+4xsMeAi2ofklZm6bj3JjsU6uo6edsd438vjsiW2g9T+J1LcLtDlv9jv2qkiBWQdvgswMobuZ0euWSNYoIdTokRdwMp7mT1ugZFwtI6+AgrA4lSUJuV2186Y/D/qavMKd3t4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781557468; c=relaxed/simple;
-	bh=lL19Gx6NTY1hf9dAI3v6q8ep3YVk2DR6hugL/sunLsY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JAF+EO10sgO2ksIRpfPvhCX09W3knEZSDH3lAEA/KqNxwzd6wH8/xY+DWs6mzfvNIb069jH1K8bFvmG0ACYF8lifN5Cg8zNEY2vd82Azkf1grtLyvlcZdQTzrSrYOiZTbdBgTp9QFPZr8j9NQinNIuHCMw3Nb9wFOks1dtFlSBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NgbA7YaZ; arc=none smtp.client-ip=209.85.214.171
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2c0c3315c5dso40943905ad.3
-        for <linux-media@vger.kernel.org>; Mon, 15 Jun 2026 14:04:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781557466; x=1782162266; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c3xaPaokdrS5QLN2+7BdcQffIRT1g0s1bcjgnu2FVGA=;
-        b=NgbA7YaZhQago7L0OTAHi5kqPj0gqOqQCBNBDFewoiEeZQA9B9K5tU9HXNzuG6TAPA
-         1fq6KTpFIbOudnwLmqi05FUzXlYtt2HzBdcQnsD6z3y+8MWXfosFW20YsEhuYhKwGDLy
-         HHuoRsGqJuwwhRfMrqL05hWlPtZ7uy14gyTg9hq/m8IbvL80PZHEAL+r0dEUJ2k4anMZ
-         v2jAKwbYCrBwNL60mWY6TVGalKx50mUvLqzl90zWQcaOiHiTaUz0c1+9Faeh5rRjq7jG
-         ipDhLjligy3OPugYZY+489B5Dl9Q4PPhcmtwT1QF110NPuDWnz/9SgcxyfI08SfbBymc
-         9D9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781557466; x=1782162266;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=c3xaPaokdrS5QLN2+7BdcQffIRT1g0s1bcjgnu2FVGA=;
-        b=AAb4AzE7By26nX3BDPChTUjnszyJ5itKH/31hTzUPRTJEjuZF+N1N7wS4D84Q1g8EO
-         Q2WVkGEg/MjbNUgYZjxFjo4hZkjiqp2bgEQuuOiObmp9rdTx0L6lg2pJ+bTwwaMnBEU2
-         5U+MbwyHJrviyMRN4jD648GsJOC0PzLarqZgobV6+x2uevluPjE1IBdRbMAzwRvJA7kK
-         st9u8576NgVCZDAutpM7IM8g8JyDH/Sk3WI2OthzWOKnl48YsDKFztzPH+QTpbWdfhm+
-         g67jYNK0BDoxyHWezhkjR5kStpBgIhnYTwvgZUFbVAK5SSWEeCgG/ZwA/J9ewu/R8YGv
-         pI5g==
-X-Forwarded-Encrypted: i=1; AFNElJ/V69Por/JG3zLdiKsQO3OteKl2ukQfLhrT20MLnuv2sHo6jOjwyzWv6MjuVYnDSUG7pa94MebR4eho4A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YySmGeRRSzf+EW7PR27IoPFEoL8N6KfxuFksnC17+c3BPOBJs8E
-	ViC0x6Qt14cNW0F/U80xJWfBz/t3SEzht9ZQnitBDGQfzdTxy3jvd2yg
-X-Gm-Gg: Acq92OEYejhe4vn6aMbti9jknOSqpUzcrrE+6Qvrg2Dld63I1H+DvsPxWt7AySBNRL9
-	uEyBlPnobo9AYQ34naAdrTYOHO3Yv1pIOxdlqQ8bVMrGROYUfLpGKPJ750jXtZUdVUwMlqVMeBS
-	6wGvMxi5wK3Po0kNJoahSSp6PgZq0XA4ADDNenYT1Cjn4EctEXuAOHUwLNw509ko/RUU7OfhszV
-	KZvyKl2fgOyzIL9fpFbso0xi+VqidVXd7QYKdKxK6CqSValZpANwGuHo9CIDQrwnxK1Vjykg/2P
-	MCa69Ryyqwq7SuaArp+MUcx5edWuMLzGJboFdh08klHjb7XcXHdZIqc60O0AJLPQHHZrXD3S5tE
-	MB+4F+ipWxdEdGDNtBZkhM9RN/tZyWc2e2PB/CK4hSG/6bK4qMUhxds2kLZlsuB3KfK/OmAmEAS
-	yDSd5soWx9CWAlT/4qSSYiGJAq4/0ySn6J4hSZf0+9TE2nlOr9AVoZ
-X-Received: by 2002:a17:902:ea07:b0:2c0:d91d:c3e8 with SMTP id d9443c01a7336-2c41050b2aamr180117105ad.4.1781557466323;
-        Mon, 15 Jun 2026 14:04:26 -0700 (PDT)
-Received: from localhost.localdomain ([49.207.217.37])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c433747ef4sm110934085ad.82.2026.06.15.14.04.23
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 15 Jun 2026 14:04:25 -0700 (PDT)
-From: Biren Pandya <birenpandya@gmail.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Biren Pandya <birenpandya@gmail.com>
-Subject: [PATCH 2/2] media: i2c: ov7740: Fix unchecked pm_runtime_get_sync() in remove()
-Date: Tue, 16 Jun 2026 02:34:12 +0530
-Message-ID: <20260615210412.34567-3-birenpandya@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260615210412.34567-1-birenpandya@gmail.com>
-References: <20260615210412.34567-1-birenpandya@gmail.com>
+	s=arc-20240116; t=1781560680; c=relaxed/simple;
+	bh=9kivlZtZbuO0VOVybcXe6QAws9Mmpg58aOrzAFKx2q4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bRlqGfvVw8j+NiL6HVx9REwOnke52BElw9+mehh+Nn7Ifx+3yPNLW7tVGAj59UZpw1ePfmoctPZX2FCYnvoBewEWJ8L0phuGETwZZU28o5L1F7KZQO/3gMaYFhHR36DYxKeCZwkV5HyTvywl4LuYJ88o2sQdgH3n8K1GEX3lj4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dzy+gkH2; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F16521F000E9;
+	Mon, 15 Jun 2026 21:57:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781560679;
+	bh=ZybuVlKws8hgVhXg4VsJD/g+orod/d6HM3+PwcKNxVk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=dzy+gkH2/qCX8JT+F7lkPuVsTM3L6UsLZ8D86wt4w/t6ROOeQ11iGwlemG01ax3k7
+	 I3lQv0qdtOM1xOIsd0YpO4wl5CvwzYMNHZSErzo2fTighoGj5SutfOdQTlr56nMSQ6
+	 K+dfaC1nJCANxJPr33HAAvJ5VnWXGtjXlvRLS1iQNDran5OiR1w0NBBg8EfQCAckBt
+	 rbMdrrfKi6CkZO6yfDSmwrWLnPmUTQ2m8VUg4Tq6aajwW45eYznRqiZ7gIK68YKq8j
+	 CTusxYMFdNGCTFdoRamtFeGmiXeZb+n3ZrL3WA535cracAT9NMx4hhvzlCuRLPgGkq
+	 ej+6PFkFapxTw==
+Date: Mon, 15 Jun 2026 14:57:57 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Bobby Eshleman <bobbyeshleman@gmail.com>
+Cc: Donald Hunter <donald.hunter@gmail.com>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Gerd Hoffmann <kraxel@redhat.com>, Vivek Kasireddy
+ <vivek.kasireddy@intel.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Shuah Khan
+ <shuah@kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-kselftest@vger.kernel.org,
+ sdf@fomichev.me, razor@blackwall.org, daniel@iogearbox.net,
+ almasrymina@google.com, matttbe@kernel.org, skhawaja@google.com,
+ dw@davidwei.uk, Bobby Eshleman <bobbyeshleman@meta.com>
+Subject: Re: [PATCH net-next v3 2/4] udmabuf: emit one sg entry per pinned
+ folio
+Message-ID: <20260615145757.0b2ddcf3@kernel.org>
+In-Reply-To: <20260612-tcpdm-large-niovs-v3-2-a3b693e76fcb@meta.com>
+References: <20260612-tcpdm-large-niovs-v3-0-a3b693e76fcb@meta.com>
+	<20260612-tcpdm-large-niovs-v3-2-a3b693e76fcb@meta.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-64932-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-64931-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:birenpandya@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[birenpandya@gmail.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[26];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[birenpandya@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:bobbyeshleman@gmail.com,m:donald.hunter@gmail.com,m:davem@davemloft.net,m:edumazet@google.com,m:pabeni@redhat.com,m:horms@kernel.org,m:andrew+netdev@lunn.ch,m:kraxel@redhat.com,m:vivek.kasireddy@intel.com,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:shuah@kernel.org,m:netdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kselftest@vger.kernel.org,m:sdf@fomichev.me,m:razor@blackwall.org,m:daniel@iogearbox.net,m:almasrymina@google.com,m:matttbe@kernel.org,m:skhawaja@google.com,m:dw@davidwei.uk,m:bobbyeshleman@meta.com,m:donaldhunter@gmail.com,m:andrew@lunn.ch,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[kuba@kernel.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TO_DN_SOME(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kuba@kernel.org,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,davemloft.net,google.com,redhat.com,kernel.org,lunn.ch,intel.com,linaro.org,amd.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,fomichev.me,blackwall.org,iogearbox.net,davidwei.uk,meta.com];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,netdev];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2AE7D68A1B5
+X-Rspamd-Queue-Id: E203668A3FC
 
-The ov7740_remove() function unconditionally called pm_runtime_get_sync()
-but completely ignored the return value. If the device was already in an
-error state or disconnected, this could lead to an unbalanced PM runtime
-usage count or attempt to communicate with an unresponsive device.
+On Fri, 12 Jun 2026 09:25:58 -0700 Bobby Eshleman wrote:
+> dma_map_sgtable() does not always merge contiguous pages for us, so we
+> do this internally before exporting.
+> 
+> Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+> ---
+>  drivers/dma-buf/udmabuf.c 
 
-Replace pm_runtime_get_sync() with pm_runtime_resume_and_get() to ensure
-the device actually resumed before attempting to issue I2C power-off
-commands, and safely put the PM runtime usage counter.
-
-Signed-off-by: Biren Pandya <birenpandya@gmail.com>
----
- drivers/media/i2c/ov7740.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/i2c/ov7740.c b/drivers/media/i2c/ov7740.c
-index 62c124a1353a..6b81882da307 100644
---- a/drivers/media/i2c/ov7740.c
-+++ b/drivers/media/i2c/ov7740.c
-@@ -1115,17 +1115,20 @@ static void ov7740_remove(struct i2c_client *client)
- {
- 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
- 	struct ov7740 *ov7740 = container_of(sd, struct ov7740, subdev);
-+	int ret;
- 
- 	v4l2_async_unregister_subdev(sd);
- 	media_entity_cleanup(&ov7740->subdev.entity);
- 	ov7740_free_controls(ov7740);
- 
--	pm_runtime_get_sync(&client->dev);
-+	ret = pm_runtime_resume_and_get(&client->dev);
- 	pm_runtime_disable(&client->dev);
- 	pm_runtime_set_suspended(&client->dev);
--	pm_runtime_put_noidle(&client->dev);
- 
--	ov7740_set_power(ov7740, 0);
-+	if (ret >= 0) {
-+		ov7740_set_power(ov7740, 0);
-+		pm_runtime_put_noidle(&client->dev);
-+	}
- }
- 
- static int __maybe_unused ov7740_runtime_suspend(struct device *dev)
+This will need at the very least an ack from DMABUF maintainers,
+so it's a bit late to consider it for 7.2
 -- 
-2.50.1 (Apple Git-155)
-
+pw-bot: defer
 
