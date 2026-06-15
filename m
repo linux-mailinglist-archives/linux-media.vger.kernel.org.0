@@ -1,61 +1,80 @@
-Return-Path: <linux-media+bounces-64901-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64902-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id su7dCx3TL2pLHgUAu9opvQ
-	(envelope-from <linux-media+bounces-64901-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 12:25:33 +0200
+	id VURrJt7dL2qRIAUAu9opvQ
+	(envelope-from <linux-media+bounces-64902-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 13:11:26 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E2A868554F
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 12:25:32 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 353F86859B0
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 13:11:26 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kcore.it header.s=spark header.b=i3qf1Aal;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64901-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64901-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=none;
+	dkim=pass header.d=intel.com header.s=Intel header.b=Os8DnVe5;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64902-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-64902-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D105F301D96B
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 10:25:30 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 8B9513009899
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 11:11:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E7DD3DD84D;
-	Mon, 15 Jun 2026 10:25:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20A1D3E317F;
+	Mon, 15 Jun 2026 11:11:21 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from spark.kcore.it (spark.kcore.it [49.13.27.68])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA7F79CD;
-	Mon, 15 Jun 2026 10:25:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46FB1C695;
+	Mon, 15 Jun 2026 11:11:17 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781519129; cv=none; b=n/jsFSc2FlcyOugNS8BOCqrD5ECwqk8xSLmbeNGoJLLkS4ugEW2mGTN0lSpKBeH2Zrsb/CQkBY/fQ4ef6N8NCyKYZuE0oNWnh93QY8uxkWNK0BwyY0vjMA+q8xjMGFHJJxjdiiha4t3Jr4EpUHj9uae3I1K/DWDOB2rNDHvA4wI=
+	t=1781521880; cv=none; b=jqzqwwcdoZBemhjbumBDJYKCyxLAGfjUCQC5ed8q4mBiiQuq/yct+U5rwVQBqeHXFb2lV0VyZheKk3M2g03RUVMf3wymkks3BpeGuBAMOHYJnl52TigUfRVgJDqOzgnM/uNeaKBGuWxHGxREVPJ8CVTacWNkIE+Hd9E4tay0i6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781519129; c=relaxed/simple;
-	bh=y6lEzR+MHF2IeVkWkuFPQb/r3xBY1JzX0TKhEUrHMvM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:References; b=ZYqJ9qba7rJ+vYfHEwt1IY4WJ7lfli9ikGgj+zSCfdSjF19qwtrwwa40GK8izgZucVk76ZXG0OwthGWkTSOBkerXm+PeSgGtBuASStBJ2HV3nJqva8TOt94EntanOEPh1lWCwMLydmc9J29HBJf1QarxKtZzfsHY4SKzk/f3wW0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kcore.it; spf=pass smtp.mailfrom=kcore.it; dkim=pass (1024-bit key) header.d=kcore.it header.i=@kcore.it header.b=i3qf1Aal; arc=none smtp.client-ip=49.13.27.68
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kcore.it;
-	s=spark; h=References:In-Reply-To:Content-Type:MIME-Version:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date;
-	bh=aYLDC+pjKn+nDxAEnWpp1SMsFMGxmgZP1gqYcOK/vGM=; b=i3qf1Aaly9e/eV6e0gaQRKV4j4
-	n3qmG8mCa0Hcq2wWmk/g4qim+wYVITJbG7nCf0pOpIMVr3s8lCOsEigjgTgY/3Sx60t+ZEmYx7PZh
-	FYnY8pwwEQBXpuI0IhUDMz5IByD6AKuoDvrgptB/1Lsgf4V4sY/caj04IO5h8MOF5Q9E=;
-Received: from mnencia by spark.kcore.it with local (Exim 4.99.4)
-	(envelope-from <mnencia@kcore.it>)
-	id 1wZ4VO-00000000EdW-3wNr;
-	Mon, 15 Jun 2026 12:25:22 +0200
-Date: Mon, 15 Jun 2026 12:25:22 +0200
-From: Marco Nenciarini <mnencia@kcore.it>
-To: Angioli Samuele <angioli.samuele@gmail.com>,
-	linux-media@vger.kernel.org
-Cc: Hans de Goede <hansg@kernel.org>, ilpo.jarvinen@linux.intel.com,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Subject: Re: [BUG] OV02C10 on Dell 16 Premium DA16250 (ARL): INT3472
- handshake-derived "dvdd" regulator registered but never linked to sensor,
- sensor probe fails with -EREMOTEIO
-Message-ID: <ai_TEj-_ije1XgYF@spark.kcore.it>
+	s=arc-20240116; t=1781521880; c=relaxed/simple;
+	bh=oGkEbOWKIP4/QgBtFSIaAB4DFWaeZvXeFAjNwaH8by8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NWakUBd4NBCN/b8S1AnjIxXvXYWRfl+D0uMRzXsBm0nb1noEi4p+0S6H1kRhxcppc04Wy25OjWYqRv19aQ94Vs4yBntWKxRx46BhvJLwrpFNUMH5jxu662YYJmyDqQm7ju7MbTnCikIlF263G+P/re9ETLXzlIVqv0wI9o4MDzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Os8DnVe5; arc=none smtp.client-ip=192.198.163.11
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781521878; x=1813057878;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oGkEbOWKIP4/QgBtFSIaAB4DFWaeZvXeFAjNwaH8by8=;
+  b=Os8DnVe5WDIV0v4JjT86Zzuzf2MwPAT2ksqnXAPNd941XuyUJFIb/8Zk
+   PpGhhPzUN0fPBJKn44QCf3sj9lUpX99JrzikqyglHkV62OGtM5XECqmr9
+   +ESuiHrSfGgdrX5LDAG9GGe7158/64iyLy/JuKnGi56Ec1Xfhkptz35dq
+   CyEE3caBGkuC9VMHq6sLcEgnWyEPw6x4mZAudIl7h5hgrZdgP0RnWrRKg
+   UBwFjEs/dRlNFt/EC3TpKARA476Rmal83MGjdLWimpWjgHzqJrD9/uycz
+   ktZsTvr3RdDimy7A3i4AB6Y4P8kQfBhvsDN9Ix+eNzM1a/FWHFKQMUl0W
+   Q==;
+X-CSE-ConnectionGUID: tS5ySfsAR4G3hcqHnpzH+g==
+X-CSE-MsgGUID: IuohOXaFT7asljIDhoEGkg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11817"; a="92816729"
+X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
+   d="scan'208";a="92816729"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 04:11:17 -0700
+X-CSE-ConnectionGUID: ULp5p7pwQUGlrTAGsgc1Qw==
+X-CSE-MsgGUID: sF1ZahKLQm2GbyaZWqio4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,206,1774335600"; 
+   d="scan'208";a="271139934"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.245.235])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2026 04:11:14 -0700
+Date: Mon, 15 Jun 2026 14:11:12 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Dawei Feng <dawei.feng@seu.edu.cn>
+Cc: andy@kernel.org, error27@gmail.com, hansg@kernel.org,
+	mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	gregkh@linuxfoundation.org, abdelrahmanfekry375@gmail.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, jianhao.xu@seu.edu.cn,
+	Zilin Guan <zilin@seu.edu.cn>
+Subject: Re: [PATCH v2 1/2] media: atomisp: fix memory leak in
+ atomisp_pci_probe()
+Message-ID: <ai_d0B8YOZAwnqu_@ashevche-desk.local>
+References: <20260615072841.3113700-1-dawei.feng@seu.edu.cn>
+ <20260615072841.3113700-2-dawei.feng@seu.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,104 +83,93 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <396e4b0d-7a2c-4ba4-9569-0428ccd63267@gmail.com>
-References: <abeb9142-16a7-417b-be0f-b929234de6db@gmail.com>
- <ah_XLEAkqjV9HkSE@spark.kcore.it>
- <ceadef8a-7b9e-4137-b219-732b30bbf62e@gmail.com>
- <ai2NAS5EnLaLoN2W@spark.kcore.it>
- <dc00c5d0-124d-45c8-97d2-7f8fafca9795@gmail.com>
- <ai8NwzoU08AvD7Ve@spark.kcore.it>
- <396e4b0d-7a2c-4ba4-9569-0428ccd63267@gmail.com>
+In-Reply-To: <20260615072841.3113700-2-dawei.feng@seu.edu.cn>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-5.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[kcore.it:s=spark];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:angioli.samuele@gmail.com,m:linux-media@vger.kernel.org,m:hansg@kernel.org,m:ilpo.jarvinen@linux.intel.com,m:sakari.ailus@linux.intel.com,m:linux-kernel@vger.kernel.org,m:platform-driver-x86@vger.kernel.org,m:angiolisamuele@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DMARC_NA(0.00)[kcore.it];
-	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-64901-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64902-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[mnencia@kcore.it,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:dawei.feng@seu.edu.cn,m:andy@kernel.org,m:error27@gmail.com,m:hansg@kernel.org,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:gregkh@linuxfoundation.org,m:abdelrahmanfekry375@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:jianhao.xu@seu.edu.cn,m:zilin@seu.edu.cn,s:lists@lfdr.de];
+	FREEMAIL_CC(0.00)[kernel.org,gmail.com,linux.intel.com,linuxfoundation.org,vger.kernel.org,lists.linux.dev,seu.edu.cn];
+	MIME_TRACE(0.00)[0:+];
+	HAS_ORG_HEADER(0.00)[];
+	FORGED_SENDER(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kcore.it:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[mnencia@kcore.it,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[spark.kcore.it:mid,vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,intel.com:dkim,intel.com:from_mime,vger.kernel.org:from_smtp,seu.edu.cn:email,ashevche-desk.local:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8E2A868554F
+X-Rspamd-Queue-Id: 353F86859B0
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA256
+On Mon, Jun 15, 2026 at 03:28:40PM +0800, Dawei Feng wrote:
+> atomisp_initialize_modules() creates CSI2 and ISP subdev media entities
+> before atomisp_pci_probe() registers them. Its counterpart,
+> atomisp_uninitialize_modules(), only releases part of that module-owned
+> state and leaves some media entity cleanup to the entity unregister path.
+> 
+> That ownership split is incomplete for probe error paths. If
+> atomisp_pci_probe() fails after module initialization but before all
+> entities are registered, the unwind path cannot rely on unregister
+> helpers to release media entity state whose lifetime started in module
+> initialization. The CSI2 and ISP subdev media entities can therefore be
+> left allocated.
+> 
+> Refactor the cleanup boundary so module cleanup releases media entities
+> created by module initialization, while unregister helpers only undo
+> registered V4L2 and media device state. Move CSI2 and ISP subdev media
+> entity cleanup into atomisp_mipi_csi2_cleanup() and the new
+> atomisp_subdev_cleanup(), and run media_device_cleanup() after module
+> cleanup in the probe unwind and remove paths.
+> 
+> If atomisp_mipi_csi2_init() itself fails, it has already unwound its
+> partial setup, so return the error directly. Only the later
+> atomisp_subdev_init() failure path needs to clean up CSI2 from the
+> caller.
 
-Samuele,
+> The bug was first flagged by an experimental analysis tool we are
+> developing for kernel memory-management bugs while analyzing
+> v6.13-rc1. The tool is still under development and is not yet publicly
+> available. Manual inspection confirms that the bug is still present in
+> v7.1-rc7.
+> 
+> An x86_64 allyesconfig build showed no new warnings. As we do not have
+> an Intel Atom ISP platform with the required camera sensor hardware to
+> test with, no runtime testing was able to be performed.
 
-Thanks. The dvdd re-key worked (post-patch ov02c10 only logs "not
-found" for dovdd/avdd, not dvdd, so it did attach to DSC0's dvdd), but
-as you found it can't bring the sensor up: the rails it still needs
-(avdd, dovdd, its reset GPIO and clock) would have come from DSC1, and
-DSC1 is _STA=0, so nothing live provides them.
+These last two paragraphs do not suit the commit message. Please, drop them
+here and better to describe all this in the cover letter (if not yet).
 
-So before any kernel change is worth considering, the question is
-whether DSC1 is off by firmware design. _STA=0 is what you get from a
-device that is BIOS-disabled, OS-gated, or simply not fitted on this
-SKU, and the asymmetry fits: DSC0 (the IR camera) is live, only DSC1
-(the RGB sensor) is dead. If DSC1 is meant to be off here, there is
-nothing for int3472 to fix and no quirk worth writing, so I'd rather
-confirm that than build around it.
+> Fixes: 9d4fa1a16b28 ("media: atomisp: cleanup directory hierarchy")
+> Signed-off-by: Zilin Guan <zilin@seu.edu.cn>
+> Signed-off-by: Dawei Feng <dawei.feng@seu.edu.cn>
 
-The way to tell is to read DSC1's _STA from the firmware tables.
-acpidump's multi-table dump won't feed iasl -d directly, so read the
-raw tables from sysfs:
+This SoB chain is wrong. Who is Zilin and why is he here?
 
-    cp /sys/firmware/acpi/tables/DSDT dsdt.dat
-    cp /sys/firmware/acpi/tables/SSDT* .
-    iasl -d dsdt.dat SSDT*
+-- 
+With Best Regards,
+Andy Shevchenko
 
-then grep the *.dsl for DSC1 (the DSC blocks often live in an SSDT, not
-the DSDT) and read its _STA. If it returns a flat zero, or gates on
-_OSI("Windows ..."), or reads a manufacturing/setup variable, the
-sensor is disabled by firmware and that is the end of the kernel angle.
-If instead it depends on something a live instance could satisfy, then
-there's a kernel path worth pursuing and we look again.
 
-If you still have the factory Windows install, whether the RGB camera
-works there is a useful cross-check (works in Windows means gated, not
-absent), but the _STA read is the real signal.
-
-Thanks,
-Marco
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEfCO4BD5l0pgKIbbiWJ8D8BulUDgFAmov0xIACgkQWJ8D8Bul
-UDjY4g/+Peo5MtFvrRKiqQiEMOoojYE3vty9L2dt9dJNGnkbQxAmOVO1QDHSUWMB
-cY2mbbxN8XEdAshYT0zwJPqOddbmb1Z7UZ6P+bQGr4L7CO4qnB7Sf8M2XiHWT649
-UnFiTqPjW8oj07gGR43LgnpCadbU3OuRXkc50P6ivyoijcYI1XmXwzj8/DWb4r99
-VBaU0ZPgT1DwYfb2l4QBtBN/VOivEzChDdNC/YknM+UVc7YqmgItMErV5AMbwO4e
-wnBVPlabtQ3HEOtEKWUw/KithA2k+Tg/i9nCIY/7tRdModXE3VzrkZuxGL9C2Max
-qvwFCmxJF+k0wOY67Ud0m0gq3S2++VNsCRD86ZhtAM6pSwoK/RX6VUuwg4wZGkyT
-6sVH5mRQoNrUIvA38AK7wQp0KoTDG353mtyODLSU2900AoxVtAhvUncQjCi41fTf
-lurYql64UQUcPc9P9fOUezC38biaSsjklRwyzrVV0+mkruSNdEhn/OQP73UUbC39
-RDycGnpBV7BpUtJ/4WulcqNpMPIuT/bfyzxIaeHDcHw3Ujx3xEW2ZfYDGstQ6f7t
-MC8YVGg+1gH8Ds1v/TCXIhOGqLVWM1FXBjAuGNeBWju6c4JyvYYFf6TGSOpppbIP
-H18oJWKm236l6ZS9fL205zJ8n+Q8oMz65VcBuAl6nDdXRjM5jKA=
-=50Kd
------END PGP SIGNATURE-----
 
