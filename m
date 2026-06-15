@@ -1,88 +1,88 @@
-Return-Path: <linux-media+bounces-64869-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64870-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id dtJTNDxeL2re/AQAu9opvQ
-	(envelope-from <linux-media+bounces-64869-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 04:06:52 +0200
+	id ZLhBGz9lL2rO/gQAu9opvQ
+	(envelope-from <linux-media+bounces-64870-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 04:36:47 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E341682D12
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 04:06:52 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2A30682E63
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 04:36:46 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=UalHMVzF;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64869-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64869-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=LQGnIL+1;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64870-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64870-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 09B32300A8DC
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 02:06:20 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2D5A8300955D
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 02:36:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BA78247DE1;
-	Mon, 15 Jun 2026 02:06:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3136259C80;
+	Mon, 15 Jun 2026 02:36:38 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7DBB233949
-	for <linux-media@vger.kernel.org>; Mon, 15 Jun 2026 02:06:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 101AD2472B6
+	for <linux-media@vger.kernel.org>; Mon, 15 Jun 2026 02:36:36 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781489179; cv=none; b=Ec7q2sVqu9DmPKmQ6kRsIQ02PRRCn05AuZsOJDHypCWyblrMkd8rW0zoLQgtbrhenx/0JOH5KhcsCKiFPX48QNoxntr8W4CLwOUGg/zwU+cvT5I18SAljThLQOw5r2uOR3bJcJ1ElXucmO2axlZOkBYlzHjF/4SkPKfujms7Z3s=
+	t=1781490998; cv=none; b=VhnSgKuZ9EyXmC3lKJb0dFzKyVXo4Z2CEpNSG1lsOjU6R2d3ucK8QeCxaUkvrnftt9Tqx1o7xShpUFuxjeVjjUCgiUvTytfGQi18LGLAhlubOpvzKRXrq/I4U1GJ9I/sEwjXrsD763a7q39KO3O+zYR+r9Dtl2IclXmzzqm+ac8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781489179; c=relaxed/simple;
-	bh=Nr3+Eog+HOtA8+4TaO18r4FP6TRleABitCVf50W6upU=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gzTLuxul4bL98zreeZZpFFLV583fWFw+dOHnHlGydfTgANG+fI9cg/Jxb4hHJRWqS0caQfbhlbe+MRA/L4XoBwuRu9dkh8UiGyQEq/ZtVWFpux6Tf/Uu+1Fq9UabZKzL7u7ch1rZ6sG8oL8iOOB3CPV4JKcC6lPyXe33ZRSzUtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UalHMVzF; arc=none smtp.client-ip=209.85.219.42
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-8ce9de10985so37621096d6.0
-        for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 19:06:16 -0700 (PDT)
+	s=arc-20240116; t=1781490998; c=relaxed/simple;
+	bh=3xZXV15nfu/kDl0x+P8csHbIrvDz1ccGEuR1+nsH+Pg=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=I8Dw8Qmz0r0BHEplwc9B6Pivkiko7QoXhcrfZkGim4zhVdzbYonO5dgIlOZlkbJrTror8tJDabu8cFEGSE1heEBU872D65ppu2LdB1PJAxeVYZ3SCmgLj6MheI8QVD9noLbOh3lkqECjL5tMiJo6n01GOnz6YPLBwHbiXqcAt0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LQGnIL+1; arc=none smtp.client-ip=209.85.222.180
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-9158643e538so269214385a.1
+        for <linux-media@vger.kernel.org>; Sun, 14 Jun 2026 19:36:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781489176; x=1782093976; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781490996; x=1782095796; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WFs5nbccNjAJMlGd3A3uFh3gr9sEFHghkIjgIcOwGHQ=;
-        b=UalHMVzFbTpcXpAKqEVlXZjQpFiXkZibePsCnqS6KI4BnBS3Mws3ApciN3WwJY1aKL
-         6RSBQaRD0E8LWNE3tgLrxOMQn4ExM0ogPDZJq95942GCs2ig3EE5he8fkgmpwTlRNkeZ
-         HOlnD7z4jZidBa1UlntHf8UlzKz+S4GeHbWirL/0TRXzRHYT6CTFqU8hWgK2XYYsrK2V
-         QXVbnvSzib+necev+tpGUqc9WE945MY+ddkGKx8VzjeALYDhAY2GAgcV1FimyUFfJQix
-         gGotF+7r+ahSjzV/UoDFPy6HFEiSGkvoukv5kvPxWc5R9QTf4TRPdbewPffFTTovzaoq
-         K2dA==
+        bh=Mr50aan00YSZlZIxK83jWpHkvDxONUHESMJpth2W5As=;
+        b=LQGnIL+1TdklqzLbkyGUvFbvIP7W2o0XwD4eNroKu3XosEKYcxNSi9YsoAHyn2FhUp
+         BgCcOjOoqvHNv5JGQdpw/x53o9MMLOCrDNspBwAUaFaPlYSc7XrZ7s7SGgU5Vm4ie0WS
+         tyvgODfk0OlVSYBDczHAMwhy8i6aOMb9OqH/QJrji32AbM7MCiB2p6fkbrAjd3axBDf4
+         Ye2iA1ewLQ1NObjRQVHGrc9YZTbbbe8QhFeWxQjVN8d9upcAvJIaaTZ8rxJSMJq9WCc0
+         v49cu2DOmiXO6AotZdInQCwXXcM3dJ9Y5BFVAB8SxUQv8tnf3xjUolP5p4wiSBoxY3yC
+         gS/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781489176; x=1782093976;
+        d=1e100.net; s=20251104; t=1781490996; x=1782095796;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=WFs5nbccNjAJMlGd3A3uFh3gr9sEFHghkIjgIcOwGHQ=;
-        b=SP3UbiBwOYMqzEn9Bo7FD2ZylC9bLyaErj1zzIAfLTuCUWMPdT4t3lXpKa8uqUFNpg
-         76yic3BzW3teSfDdIx+Q01kNUejgPE/8dB5Vo/k3Cf3Wi8uyjNHP8BXiRCsSenXnNsQy
-         qfZqis2jmZP0jj5uY+ohqA+UNKw9JGNOVw47dBmJyTpMafhmgHQeEUOFA7hJqXsiW+KV
-         pEad3b3/M5T6VyHaO/yi3e7CTGYpC2idm0pOd12Pz1l20Q/rPRt6CLJqD9cRwzEJxZmE
-         p6lIOoICAjQU09qP7XYs83s+axUgOQVpd2lkaI7+RKCqN6/ETMCJN1zEn3uSeBhbq8j6
-         uzPw==
-X-Forwarded-Encrypted: i=1; AFNElJ+en7gsF/t/JWbu//oJ+oJuWzjeWgtRvABT0yp8TK9w8z5Ap6ZGok9b6gnZDPP2lfGk0ypK4EMZizx9Gw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyYlSsZwgQ6+BLrKLKuFeSNzG40DiMKvZvX5ufUpSSHiiwmS7k+
-	OXOymVNJb+LBP0KozScw3smdlxETmhlowGHDQQ9gw/F+ppWa5NL9BVq+
-X-Gm-Gg: Acq92OHBKoFy56Ew3SDZ8NcXRxu6RQUH5mZpyEte+TQ/wwuk8kTH9wCTLd7vh+MBpmv
-	5RP24rc402jLPnU92x5sxAsLcunNX0bNTZy5cZm7pbw0Ng3HYX663af3VDqTab0cNjy0Tkybi6S
-	4i5s8A2eYrNxEgKW+5cN3sIizhuZJse/gmMSHX1XemDyFqCSbWXHsj3+H4DVyrhUgpZjPi8iNqo
-	5dxnuUOL1gOMu0ggq9jYkzTJ0dgIxQZYOigwptCKl1YG/jTmjFiEmcBNH+LL9Mn6WVko5Hj0xUC
-	/AyKWxGLkcCsOpwFpKkov9imqAn9pDK4i4zcj86ajLKBQ+qN/MszrMvOr557cN46K38jiQQLk7Z
-	JPQ4fYgXxKVw2OxOD8VpLz6aUf7Tgh0ePb1e42bG3lR6TZOpNxS8BQUfRzqIEARzy+pkYxz3msd
-	jOHN3Rcst+MPH6CnOW4Tgfw9ArQjiofYHs2YqFXVN/MxqYbchfrTfJIrQCepPeEBuX0x8NBA==
-X-Received: by 2002:a0c:f00a:0:b0:8ce:ab75:9d69 with SMTP id 6a1803df08f44-8d3166ca688mr153860276d6.21.1781489175784;
-        Sun, 14 Jun 2026 19:06:15 -0700 (PDT)
+        bh=Mr50aan00YSZlZIxK83jWpHkvDxONUHESMJpth2W5As=;
+        b=R3YPcTNhv5lxvkttpomjQR2MsnlSoyqhIgqZ013MasFAyuvUC0ytjnMJ+34eppwSQv
+         q5cj9TRjSqobMmuKMipUXzisUiz8gDcsOcFEW8ULPnpStZyEmfWoD7vmcK2jTBfwbYiL
+         T43PmeCfiByIdc9FLJfndlpZ4ySId6SZxnMDNnM8EvcQ3HTGNBi7RrsHLS+AiQBl29i1
+         qyibLwM86AfRZgq+EnauaSfIjvOxM/TZ8VTDChXD1hhAqkBpZVrob/u/LMcpwYpu8MAC
+         1u0Tlb3gU3LLZOsAKEvUbimCbGUqIZwYi5Q8kCb40XCNg1cBhapTVl/ngw/7imcJOMSi
+         rXVw==
+X-Forwarded-Encrypted: i=1; AFNElJ+D1Ny7u1+kgKyJQtkgfYoQFI8/+lYVXoux+AY+DpLsoi/yo0EAsuS+hKib/jWcqEpmtMEMfWb5MweBHA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzi3qV5Gfy8bjMV0Jjn2DWrX3C42FwO3oDYaNQCxcxkyjkS5Y0H
+	wsgtaxqvrH0HZklOSAHjgjOEEvkUMNNxjod0lIH92u9xbfS96JZWacPpD5oCEsfvuBr6VA==
+X-Gm-Gg: Acq92OHUkhxl4nuDaWJUr+gfNflRiRyjwnthG6rv/j5dD2aQgIgfBxC6XRmNRcX19Sb
+	WYgcr9PUWhaOUn9z4sJvnCQORqcF8OkvMLCXaZkHVl3gPRWtF+kl+4hPiT0YKaN/iaghQt4qgM8
+	8P1iljgsJrzf/VgirLJ/+nRyfG64TkPaRAjGCI8h4wTEbh9/Ah8i7ko/2oaV4loS7kBt/mel6oH
+	f2gkZ/QxHNKf58UJjAYm5oUdmyISkCFiRRopn0HRoTYopJkIaMp8Pc0+o0rKGar4qR6/94i1beZ
+	lmApOLpBXHU0PKaROUwFLSyUpXI0IzzCY0k6XccZaW1idbpLLRXLogB2OS+dhI/WQmi+bFJrDw4
+	Uu8FUEdsq06NiPWC5uZrcOIxCd7awDSgI+XtJr0xRZg0zf35JyOJ435EhbonKyNyQAqBmMefCD1
+	vud/ouEt9J2LAUttNuyvSOAxNn2LPL28wxPd+mcUTWkYZ2AZwFcLNsZa/ql6EkIdM0dETFvZ+3l
+	0h62y9z
+X-Received: by 2002:a05:620a:1791:b0:915:d5d6:f1fa with SMTP id af79cd13be357-9161bd3a595mr1906241285a.31.1781490995970;
+        Sun, 14 Jun 2026 19:36:35 -0700 (PDT)
 Received: from localhost.localdomain ([2601:985:4601:5df0:2106:6ce9:6b1:8f70])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d301f19b20sm96789996d6.19.2026.06.14.19.06.15
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-91619ed7f16sm947806785a.1.2026.06.14.19.36.35
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 14 Jun 2026 19:06:15 -0700 (PDT)
+        Sun, 14 Jun 2026 19:36:35 -0700 (PDT)
 From: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-input@vger.kernel.org,
+To: mchehab@kernel.org,
+	kees@kernel.org,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [BUG] Input: sur40: KASAN slab-use-after-free in v4l2_release
-Date: Sun, 14 Jun 2026 22:06:14 -0400
-Message-ID: <178144969601.60470.9256616923389083658@gmail.com>
+Subject: [BUG] media: siano: WARNING in free_large_kmalloc from smsusb_term_device
+Date: Sun, 14 Jun 2026 22:36:34 -0400
+Message-ID: <178144969601.60470.6468623939816148386@gmail.com>
 X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -93,117 +93,116 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-64869-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:dmitry.torokhov@gmail.com,m:mchehab@kernel.org,m:linux-input@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dmitrytorokhov@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[shuangpengkernel@gmail.com,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org,vger.kernel.org];
-	TO_DN_SOME(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[shuangpengkernel@gmail.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	TAGGED_FROM(0.00)[bounces-64870-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:kees@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	RCPT_COUNT_THREE(0.00)[4];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[shuangpengkernel@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	TO_DN_NONE(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3E341682D12
+X-Rspamd-Queue-Id: E2A30682E63
 
 Hi,
 
-I hit the following KASAN report while testing current upstream kernel.
+I hit the following report while testing current upstream kernel:
 
-The issue was reproduced with the sur40 driver. The report shows the object
-being freed from sur40_disconnect(), then v4l2_release() accesses it when the
-held V4L2 fd is closed. I have not confirmed whether this is specific to sur40
-or a more generic V4L2 lifetime issue.
-
-This looks similar to the rmi4_f54 V4L2 fd lifetime report I sent earlier:
-https://lore.kernel.org/all/178144969601.60470.13645789994911690209@gmail.com/
-That report involved rmi4_f54; in this report the freeing path is
-sur40_disconnect().
-
-KASAN: slab-use-after-free in v4l2_release (sur40)
+WARNING in free_large_kmalloc from smsusb_term_device
 
 I reproduced this on commit: e8c2f9fdadee7cbc75134dc463c1e0d856d6e5c7 (May 25 2026)
 
+The issue was reproduced with a Siano USB DVB raw gadget.
+
 The reproducer and .config files are here.
-https://gist.github.com/shuangpengbai/40c7b5bde2a7b2ddf95981beaebc0eed
+https://gist.github.com/shuangpengbai/8e2dbdcbfc6362c50e18028dc5ecb810
 
 I'm happy to test debug patches or provide additional information.
 
 Reported-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
 
-[  323.412431][ T8724] BUG: KASAN: slab-use-after-free in v4l2_release (drivers/media/v4l2-core/v4l2-dev.c:466)
-[  323.414158][ T8724] Read of size 8 at addr ffff888120d94458 by task repro_sur40_v4l/8724
-[  323.415722][ T8724]
-[  323.416236][ T8724] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-[  323.416240][ T8724] Call Trace:
-[  323.416251][ T8724]  <TASK>
-[  323.416256][ T8724]  dump_stack_lvl (lib/dump_stack.c:94 lib/dump_stack.c:120)
-[  323.416279][ T8724]  print_report (mm/kasan/report.c:378 mm/kasan/report.c:482)
-[  323.416357][ T8724]  kasan_report (mm/kasan/report.c:595)
-[  323.416370][ T8724]  v4l2_release (drivers/media/v4l2-core/v4l2-dev.c:466)
-[  323.416375][ T8724]  __fput (fs/file_table.c:510)
-[  323.416398][ T8724]  fput_close_sync (fs/file_table.c:615)
-[  323.416447][ T8724]  __x64_sys_close (fs/open.c:1507 fs/open.c:1492 fs/open.c:1492)
-[  323.416469][ T8724]  do_syscall_64 (arch/x86/entry/syscall_64.c:63 arch/x86/entry/syscall_64.c:94)
-[  323.416491][ T8724]  entry_SYSCALL_64_after_hwframe (arch/x86/entry/entry_64.S:121)
-[  323.416497][ T8724] RIP: 0033:0x7fe066183c03
-[  323.416504][ T8724] Code: e9 37 ff ff ff e8 2d f9 01 00 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 64 8b 04 25 18 00 00 00 85 c0 75 14 b8 03 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 45 c3 0f 1f 40 00 48 83 ec 18 89 7c 24 0c e8
-[  323.416509][ T8724] RSP: 002b:00007ffdf8e8ecf8 EFLAGS: 00000246 ORIG_RAX: 0000000000000003
-[  323.416524][ T8724] RAX: ffffffffffffffda RBX: 0000000000000009 RCX: 00007fe066183c03
-[  323.416528][ T8724] RDX: 01dd73bc7995e62a RSI: 0000000000000000 RDI: 000000000000000b
-[  323.416531][ T8724] RBP: 0000000000000001 R08: 0000000000000009 R09: 0000000000000000
-[  323.416534][ T8724] R10: 00007fe066129dd0 R11: 0000000000000246 R12: 0000000000000001
-[  323.416537][ T8724] R13: 0000557a10ca7090 R14: 00007ffdf8e8eda0 R15: 0000000000000000
-[  323.416544][ T8724]  </TASK>
-[  323.416546][ T8724]
-[  323.430976][ T8724] Freed by task 31 on cpu 1 at 322.408638s:
-[  323.431417][ T8724]  kasan_save_track (mm/kasan/common.c:57 mm/kasan/common.c:78)
-[  323.431795][ T8724]  kasan_save_free_info (mm/kasan/generic.c:584)
-[  323.432193][ T8724]  __kasan_slab_free (mm/kasan/common.c:253 mm/kasan/common.c:285)
-[  323.432615][ T8724]  kfree (include/linux/kasan.h:235 mm/slub.c:2689 mm/slub.c:6251 mm/slub.c:6566)
-[  323.433289][ T8724]  sur40_disconnect (drivers/input/touchscreen/sur40.c:832)
-[  323.433680][ T8724]  usb_unbind_interface (drivers/usb/core/driver.c:458)
-[  323.434121][ T8724]  device_release_driver_internal (drivers/base/dd.c:621 drivers/base/dd.c:1352 drivers/base/dd.c:1375)
-[  323.434605][ T8724]  bus_remove_device (drivers/base/bus.c:657)
-[  323.435042][ T8724]  device_del (drivers/base/core.c:3895)
-[  323.435481][ T8724]  usb_disable_device (drivers/usb/core/message.c:1478)
-[  323.436006][ T8724]  usb_disconnect (drivers/usb/core/hub.c:2315)
-[  323.436489][ T8724]  hub_event (drivers/usb/core/hub.c:5407 drivers/usb/core/hub.c:5707 drivers/usb/core/hub.c:5871 drivers/usb/core/hub.c:5953)
-[  323.436825][ T8724]  process_scheduled_works (kernel/workqueue.c:3314 kernel/workqueue.c:3397)
-[  323.437403][ T8724]  worker_thread (kernel/workqueue.c:3478)
-[  323.437873][ T8724]  kthread (kernel/kthread.c:436)
-[  323.438298][ T8724]  ret_from_fork (kernel/process.c:158)
-[  323.438778][ T8724]  ret_from_fork_asm (arch/x86/entry/entry_64.S:245)
-[  323.439277][ T8724]
-[  323.439513][ T8724] The buggy address belongs to the object at ffff888120d94000
-[  323.439513][ T8724]  which belongs to the cache kmalloc-4k of size 4096
-[  323.440921][ T8724] The buggy address is located 1112 bytes inside of
-[  323.440921][ T8724]  freed 4096-byte region [ffff888120d94000, ffff888120d95000)
-[  323.442314][ T8724]
+[  122.434215][  T776] WARNING: mm/slub.c:6476 at free_large_kmalloc+0x96/0xf0, CPU#0: kworker/0:2/776
+[  122.434930][  T776] Modules linked in:
+[  122.436062][  T776] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+[  122.436866][  T776] Workqueue: usb_hub_wq hub_event
+[  122.437246][  T776] RIP: 0010:free_large_kmalloc (mm/slub.c:6491)
+[  122.437623][  T776] Code: 8b 43 30 83 f8 ff 74 13 25 00 00 00 ff 3d 00 00 00 f8 75 55 c7 43 30 ff ff ff ff 48 89 df 44 89 f6 5b 41 5e 5d e9 ba f9 fc ff <0f> 0b 48 89 df 48 c7 c6 b0 ee 9c 8c 5b 41 5e 5d e9 45 df f0 ff 0f
+[  122.438900][  T776] RSP: 0000:ffff88810cb373c0 EFLAGS: 00010206
+[  122.439409][  T776] RAX: 00000000ff000000 RBX: ffffea00048cf880 RCX: 0000000000000028
+[  122.440124][  T776] RDX: 0000000000000001 RSI: ffff8881233e2000 RDI: ffffea00048cf880
+[  122.440674][  T776] RBP: ffff8881233e2000 R08: ffff8881187e4f03 R09: 1ffff110230fc9e0
+[  122.441228][  T776] R10: dffffc0000000000 R11: ffffed10230fc9e1 R12: ffff888170006800
+[  122.441817][  T776] R13: ffffffff90eec020 R14: 0000000000000000 R15: ffffffff86bdeb1c
+[  122.442384][  T776] FS:  0000000000000000(0000) GS:ffff8882c5d34000(0000) knlGS:0000000000000000
+[  122.443011][  T776] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  122.443485][  T776] CR2: 0000563ae7328600 CR3: 0000000169f46000 CR4: 00000000000006f0
+[  122.444038][  T776] Call Trace:
+[  122.444289][  T776]  <TASK>
+[  122.444498][  T776]  kfree (mm/slub.c:6561)
+[  122.445204][  T776]  usb_free_urb (drivers/usb/core/urb.c:25 include/linux/kref.h:65 drivers/usb/core/urb.c:96)
+[  122.445513][  T776]  smsusb_term_device (drivers/media/usb/siano/smsusb.c:352)
+[  122.445872][  T776]  usb_unbind_interface (drivers/usb/core/driver.c:458)
+[  122.446999][  T776]  device_release_driver_internal (drivers/base/dd.c:621 drivers/base/dd.c:1352 drivers/base/dd.c:1375)
+[  122.447444][  T776]  bus_remove_device (drivers/base/bus.c:657)
+[  122.448591][  T776]  device_del (drivers/base/core.c:3895)
+[  122.449952][  T776]  usb_disable_device (drivers/usb/core/message.c:1478)
+[  122.450311][  T776]  usb_disconnect (drivers/usb/core/hub.c:2315)
+[  122.450636][  T776]  hub_event (drivers/usb/core/hub.c:5407 drivers/usb/core/hub.c:5707 drivers/usb/core/hub.c:5871 drivers/usb/core/hub.c:5953)
+[  122.453252][  T776]  process_scheduled_works (kernel/workqueue.c:3314 kernel/workqueue.c:3397)
+[  122.453653][  T776]  worker_thread (kernel/workqueue.c:3478)
+[  122.454355][  T776]  kthread (kernel/kthread.c:436)
+[  122.455464][  T776]  ret_from_fork (arch/x86/kernel/process.c:158)
+[  122.456865][  T776]  ret_from_fork_asm (arch/x86/entry/entry_64.S:245)
+[  122.457222][  T776]  </TASK>
+[  122.457452][  T776] Kernel panic - not syncing: kernel: panic_on_warn set ...
+[  122.458826][  T776] Hardware name: QEMU Ubuntu 24.04 PC v2 (i440FX + PIIX, arch_caps fix, 1996), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+[  122.459672][  T776] Workqueue: usb_hub_wq hub_event
+[  122.460034][  T776] Call Trace:
+[  122.460284][  T776]  <TASK>
+[  122.460501][  T776]  dump_stack_lvl (lib/dump_stack.c:94 lib/dump_stack.c:120)
+[  122.460838][  T776]  vpanic (kernel/panic.c:650)
+[  122.462244][  T776]  panic (kernel/panic.c:787)
+[  122.463524][  T776]  __report_bug (lib/bug.c:246)
+[  122.467504][  T776]  report_bug (lib/bug.c:278)
+[  122.468548][  T776]  handle_bug (arch/x86/kernel/traps.c:436)
+[  122.468865][  T776]  exc_invalid_op (arch/x86/kernel/traps.c:490)
+[  122.469198][  T776]  asm_exc_invalid_op (arch/x86/include/asm/idtentry.h:616)
+[  122.469558][  T776] RIP: 0010:free_large_kmalloc (mm/slub.c:6491)
+[  122.469951][  T776] Code: 8b 43 30 83 f8 ff 74 13 25 00 00 00 ff 3d 00 00 00 f8 75 55 c7 43 30 ff ff ff ff 48 89 df 44 89 f6 5b 41 5e 5d e9 ba f9 fc ff <0f> 0b 48 89 df 48 c7 c6 b0 ee 9c 8c 5b 41 5e 5d e9 45 df f0 ff 0f
+[  122.471301][  T776] RSP: 0000:ffff88810cb373c0 EFLAGS: 00010206
+[  122.471724][  T776] RAX: 00000000ff000000 RBX: ffffea00048cf880 RCX: 0000000000000028
+[  122.472283][  T776] RDX: 0000000000000001 RSI: ffff8881233e2000 RDI: ffffea00048cf880
+[  122.472849][  T776] RBP: ffff8881233e2000 R08: ffff8881187e4f03 R09: 1ffff110230fc9e0
+[  122.473431][  T776] R10: dffffc0000000000 R11: ffffed10230fc9e1 R12: ffff888170006800
+[  122.474003][  T776] R13: ffffffff90eec020 R14: 0000000000000000 R15: ffffffff86bdeb1c
+[  122.474904][  T776]  kfree (mm/slub.c:6561)
+[  122.475616][  T776]  usb_free_urb (drivers/usb/core/urb.c:25 include/linux/kref.h:65 drivers/usb/core/urb.c:96)
+[  122.475927][  T776]  smsusb_term_device (drivers/media/usb/siano/smsusb.c:352)
+[  122.476283][  T776]  usb_unbind_interface (drivers/usb/core/driver.c:458)
 
 
 Best,
