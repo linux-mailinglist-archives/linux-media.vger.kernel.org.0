@@ -1,166 +1,229 @@
-Return-Path: <linux-media+bounces-64938-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64939-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id +M6WGLKCMGr5TwUAu9opvQ
-	(envelope-from <linux-media+bounces-64938-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 00:54:42 +0200
+	id ncI2BuGNMGqFUQUAu9opvQ
+	(envelope-from <linux-media+bounces-64939-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 01:42:25 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D451468A807
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 00:54:41 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ED1F68AA13
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 01:42:24 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=iExf9tf2;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64938-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64938-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=kernel.org header.s=k20201202 header.b=jzcLk3qA;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64939-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64939-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E4E7E306FC26
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 22:53:56 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 7AF2E30B50A7
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2026 23:40:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7493A3BBFA0;
-	Mon, 15 Jun 2026 22:53:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFEA134889F;
+	Mon, 15 Jun 2026 23:40:50 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dy1-f194.google.com (mail-dy1-f194.google.com [74.125.82.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96DA3BB69B
-	for <linux-media@vger.kernel.org>; Mon, 15 Jun 2026 22:53:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C6E2E2EEE;
+	Mon, 15 Jun 2026 23:40:50 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781564035; cv=none; b=Ooj7159NW10l8MJyjmuZCq6OdGRykHRTTozp3PYvQbvcAo6+wgt2zRD4rhvU98anWl6PstX7PT9Zi3xytZJyZmicfHate4dFKTJp+iGDLdXZb8LOlHJICE2NNq7HpnJ5AmtW+i7+33F0BqRWqfl32YlM5PT7yaEermR7qvsisyE=
+	t=1781566850; cv=none; b=Ni9P1PauBXB1nlEZ5TbRgsKLjrI63GiFSSqB48OK2EqrBqXRWBOVk5F35iuW23sy2K6/5phFdvG1696AKd0OpQM2ch7H9JYjzmIFO0U2BIjc8Xz3qZwlW5VsiyqDTColszAlbvUyP2TzRFJC7DQ5k/MMdAzuB/p6xgYpFM381D4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781564035; c=relaxed/simple;
-	bh=uJXopNznpOLBAwaGCxrRuCv37Iisxk3QpVHF/fUGVWs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Optu1vBZggMxbJ/EgkgXi/eQim2sNMqwArs99qkql30AW1l3JBQEdOGc+WX9cXCi4lQ4b1TBTMb6/3q8hNVy8I/W1ZfZqo3x9rwFo9ip3D5fb08JzpL18swSf+FCF2uBeoqzREfz2UaQZUUk2izntWuePRQsE6FqpB4PXSEmpzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iExf9tf2; arc=none smtp.client-ip=74.125.82.194
-Received: by mail-dy1-f194.google.com with SMTP id 5a478bee46e88-307631dbfedso8308488eec.0
-        for <linux-media@vger.kernel.org>; Mon, 15 Jun 2026 15:53:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781564034; x=1782168834; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=A3CN6mz876+/SEyI0OosJ7IJHs+qiuB800Fja+uy4WU=;
-        b=iExf9tf2HQouriqrKfdKqzzdxM4PRwPjCfpogxMNELfu3dCxc73WbMFLLVw8qA9Azr
-         iDSnp+DtIuyoe9RZXZ3BmA4P58P8InX8dRw5+eEGqf8kFaGibejmKhw3HvA8tctUAQf8
-         u51JyTiCilNIcKP/2agcM0ZZPvT/skH+xPfjJMrk+pCNKb7jkn+zZffijtlSNtf1Cq+U
-         S1B6YR2tXmkCpw8+stRXeZe9sFyBlH5uiAiAUjNZqEsIK3PeBI0WDn1fLJp/AutNPn3Z
-         IEXM0oI8YHoGdEJfj4d5zm2VMPRwM1phpfB0mVkuVI9SGwTlezk2JbhWUAoeqFrFb0F0
-         4hHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781564034; x=1782168834;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=A3CN6mz876+/SEyI0OosJ7IJHs+qiuB800Fja+uy4WU=;
-        b=qeImlR7ikASfAX2BZQ2Zq/gKneUBXA34GDwa2rfW+45/jhtK6TnYBGMKd2NZeBN/hF
-         3Y6NenfaLmP14Ua39tvN+tGNtlGcVZrECsMaJHfmtOq6K+V5T3Yhz/ytm3GRs9gJsZqy
-         00FFDjnyvMH7CAIPn/twyMpFz0celR7MGgRFztG1XGkYZboG9RylwidpHFoASf4LDMqb
-         uVrv4LRB1uEDE0a9lRySXlOyl+FDgDpYk8zysVXj09LxSCarpaJFgzHROiqZIGseLXCk
-         6KslLTNbZsU9jufdJ7qhWErqj5SY1VCqaPZYi4AIrrmEbuxqM/9O1X5q2L7/RfoeYN5K
-         bdpw==
-X-Forwarded-Encrypted: i=1; AFNElJ/PEjfpQigtzLcAMBeE+xOSI65DqEooqjLsdoszI1omIpfEI4f3Hlr1yBiEXiJqR1gjY9qDkR3DRng2pw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWEC055nJICtnvnvynhL/x9DZ/E+RP+X8bw6HCRtzozRiZ+WTQ
-	4g6+2vqKv/WRB4T3tVrBDrty1H+YYI+ZTAXxRtvPZwGqHub3jQsE+iFw
-X-Gm-Gg: Acq92OFrc5lQXL+Bur6KMzb4K2BxYaGNH6rxRfzUs4XtpAb6owU/PQZwS6odyaY9eTg
-	Dz0CBM3TYie7E2o3jsnlbscDRH3aPRrr2Ay1boeLIe4w8icw5/FNexon0uqWS29AkBgExoiZMlZ
-	pi9SLCL0F3JUaZMnY6i6BKjXIrtUAO8P6lSUli0HVFVmokKlm3gPlvymXKiyKdyHVDFhTwWlMJh
-	156DQFI7IVpfz8ZhDLbPNQhuvkJgIbBVmIvZXccGDdp68LUCFdBa3aH7uxUSCKf87Lm1xTnd7/l
-	hoYI5lW6Zgkv7JCpHNyN31bH4NybqaULtSCMRMwmpgJeCG8xX55qp1ZbFmA8jsqGO7GtB4Ce5Qs
-	ZPwMgKnoBxeazTSjd5VOiQn+SfyTX2EFoy1/6aMvcA32xzUztO8mPAuZuDTOF0ZiJvtP1FB6hkE
-	A2KxvvcirzcDeIdj9225CkEZXKvB7QcyF7orohthx4W5oIaq6fz0BaJjFLIiobZ5/q2hdRthRST
-	Q2+RvIhPrXhquQkkuZ2zytPYbMCqkCMFGVaHsKjUSmJwN6ivu8lzcHNy0xSDY6xxfJ9VlNUGCT1
-	vS6qpaR9WJItQhXxZ56BZuNCoo2O
-X-Received: by 2002:a05:7300:8609:b0:304:d8cb:841a with SMTP id 5a478bee46e88-30ba5b28d0emr761709eec.14.1781564033851;
-        Mon, 15 Jun 2026 15:53:53 -0700 (PDT)
-Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3081eb95342sm16727559eec.29.2026.06.15.15.53.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2026 15:53:53 -0700 (PDT)
-From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-To: "GitAuthor: Ethan Nelson-Moore" <enelsonmoore@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Subject: [PATCH v2] media: mt2063: correct CONFIG_MEDIA_TUNER_MT2063 macro name in comment
-Date: Mon, 15 Jun 2026 15:53:48 -0700
-Message-ID: <20260615225351.22791-1-enelsonmoore@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1781566850; c=relaxed/simple;
+	bh=jxUKGIA0ruhTopJBED49sy7Z2LqYoh1XG9Qe1S/C5n8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=m00el3RGBT88HgjgbKnV5scFcwBT+cxbZn7mhq6xrr5OVKKWzYxm1j2mfXh6l1AnF5mCbXL4NF/ukJSAN2rDIGAuV+grqzAzUT+dGOgHn51n6PWhiY5UFA8CZI80Twjkht5soFVCgRkhxyp9YVXjRs7csaDCtaHByBTdST2l51I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jzcLk3qA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EA2DBC2BCB4;
+	Mon, 15 Jun 2026 23:40:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1781566850;
+	bh=jxUKGIA0ruhTopJBED49sy7Z2LqYoh1XG9Qe1S/C5n8=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=jzcLk3qAxOzmAyY+ES2AcUuuTVFAvMmNdPilqEfYMCgpDEy8gZNenVAIjuiuEvp3O
+	 FulgtEYxjnglU4mXXxaj5byKgwd3O6XSOZKp5B2nPiy0dokRzQTVN/kdPb2SSLYF0r
+	 Tc6zoApJ6xXyQeNSnSWqvMNfkZ9k9jLtED3gYjOHDcVIfhqwhPs2GeJWoC+p1pc7wf
+	 w/pRC36QrHN5KynNL4eTi0DmyTjYMs8sEsgH7eT7c/hRxJfJ9ws7LkF++NiMb42TMB
+	 KJwDyi1GO8tUypKDGdpoaSXJgxL6xZKDF6/DeBek1yd9Dzv+HvfvjAksYZ+JQVTBwN
+	 sjC4i+gIp+2BA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C77A2CD98DA;
+	Mon, 15 Jun 2026 23:40:49 +0000 (UTC)
+From: Bryam Vargas via B4 Relay <devnull+hexlabsecurity.proton.me@kernel.org>
+Date: Mon, 15 Jun 2026 18:40:48 -0500
+Subject: [PATCH] media: cx231xx: reject geometry changes while the VBI
+ queue is busy
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260615-b4-disp-2d1d9abc-v1-1-64d91be4c2c8@proton.me>
+X-B4-Tracking: v=1; b=H4sIAICNMGoC/x3MQQqAIBBA0avErBtQKcOuEi3UmWo2FgoRSHdPW
+ r7F/xUKZ+ECc1ch8y1FztSg+w7i4dPOKNQMRhmrrB4xDEhSLjSkyfkQcXIh2G30NDgHLbsyb/L
+ 8y2V93w+3RRjbYgAAAA==
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Hans Verkuil <hverkuil@kernel.org>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1781566848; l=5155;
+ i=hexlabsecurity@proton.me; s=proton; h=from:subject:message-id;
+ bh=BiygEoe8YJssSGqpdUOkvK4ARdwu4WWt7h57wNi/cIQ=;
+ b=l8VtmqaYfWm/tb5Z48q/lYym8sE31BFs/dVwkyWk+1ncq0UDPd5w2/oBtXzdGJv+z1Viwkbu8
+ wGJmrrVQHJTBeR0MrIpOl7rvSARUXJ0mvxRXjRjiC0yz618EOiIoWYX
+X-Developer-Key: i=hexlabsecurity@proton.me; a=ed25519;
+ pk=dmppBMZNLLoPzxHi9l8tZDzEZUunPbgsYqIZYXeUrL0=
+X-Endpoint-Received: by B4 Relay for hexlabsecurity@proton.me/proton with
+ auth_id=814
+X-Original-From: Bryam Vargas <hexlabsecurity@proton.me>
+Reply-To: hexlabsecurity@proton.me
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-5.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[kernel.org,gmail.com,collabora.com];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-64938-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64939-lists,linux-media=lfdr.de,hexlabsecurity.proton.me];
 	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:enelsonmoore@gmail.com,m:linux-media@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-mediatek@lists.infradead.org,m:mchehab@kernel.org,m:matthias.bgg@gmail.com,m:angelogioacchino.delregno@collabora.com,m:matthiasbgg@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,lists.infradead.org];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[enelsonmoore@gmail.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FROM_HAS_DN(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[enelsonmoore@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	HAS_REPLYTO(0.00)[hexlabsecurity@proton.me];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_THREE(0.00)[4];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,proton.me:replyto,proton.me:email,proton.me:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D451468A807
+X-Rspamd-Queue-Id: 6ED1F68AA13
 
-A comment in drivers/media/tuners/mt2063.h incorrectly refers to
-CONFIG_DVB_MT2063 instead of CONFIG_MEDIA_TUNER_MT2063. Correct it.
+From: Bryam Vargas <hexlabsecurity@proton.me>
 
-Discovered while searching for CONFIG_* symbols referenced in code but
-not defined in any Kconfig file.
+vidioc_s_fmt_vid_cap() and vidioc_s_std() change the device-wide
+dev->width / dev->norm but only refuse the change when the *video* queue
+(dev->vidq) is busy. The VBI queue (dev->vbiq) shares that same geometry:
+cx231xx_init_vbi_isoc() latches dma_q->lines_per_field from dev->norm,
+the VBI videobuf2 plane is sized from dev->width / dev->norm in
+vbi_queue_setup() and vbi_buf_prepare(), and cx231xx_do_vbi_copy() then
+recomputes the destination offset from the *live* dev->width and the
+latched lines_per_field on every URB completion:
 
-Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+	offset = lines_completed * (dev->width << 1) + ...;
+	if (dma_q->current_field == 2)
+		offset += dev->width * 2 * dma_q->lines_per_field;
+	memcpy(plane + offset, p_buffer, lencopy);
+
+Because the VBI node shares video_ioctl_ops with the video node, an
+application can size a small VBI plane (REQBUFS/QBUF with a small width,
+or with the NTSC standard), then enlarge dev->width (or switch dev->norm
+to PAL) through the video node while the VBI stream is running -- the
+change is allowed because only dev->vidq is checked -- and let the device
+deliver a field-2 VBI payload. cx231xx_do_vbi_copy() now computes the
+offset with the larger geometry and memcpy()s past the end of the smaller
+plane that was already allocated, a heap out-of-bounds write whose offset
+is attacker-chosen and whose contents come from the device. The
+per-field guard in cx231xx_copy_vbi_line() does not help: it bounds the
+copy against the latched lines_per_field, not the plane's real capacity,
+and vb2 does not re-run buf_prepare() for an already prepared buffer.
+
+Refuse the format/standard change when the VBI queue is busy as well, so
+the geometry cannot change underneath an allocated VBI buffer.
+
+Fixes: 7c617138b825 ("media: cx231xx: convert to the vb2 framework")
+Cc: stable@vger.kernel.org
+Signed-off-by: Bryam Vargas <hexlabsecurity@proton.me>
 ---
-Changes in v2: Use correct media: commit message prefix
+Reproducer (one cx231xx device; both /dev/videoN and /dev/vbiN are bound
+to the same struct cx231xx):
 
- drivers/media/tuners/mt2063.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  1. ioctl(video_fd, VIDIOC_S_FMT, &fmt);   /* fmt.fmt.pix.width = 48  */
+  2. ioctl(vbi_fd,   VIDIOC_REQBUFS, &rb);   /* allocs the VBI plane at
+                                                width=48 -> ~2.3 KB     */
+  3. ioctl(vbi_fd,   VIDIOC_QBUF, &buf);     /* buf->prepared = 1       */
+  4. ioctl(video_fd, VIDIOC_S_FMT, &fmt);    /* fmt.fmt.pix.width = 720;
+                                                vidq idle -> accepted   */
+  5. ioctl(vbi_fd,   VIDIOC_STREAMON, ...);  /* lines_per_field latched */
+  6. device delivers a SAV_VBI_FIELD2 line -> cx231xx_do_vbi_copy()
+     writes at offset 720*2*12 = 17280 into the ~2.3 KB plane.
+  (Equivalent norm trigger: S_STD NTSC -> VBI REQBUFS -> S_STD PAL on the
+   video fd -> VBI STREAMON, lines_per_field latched at 18.)
 
-diff --git a/drivers/media/tuners/mt2063.h b/drivers/media/tuners/mt2063.h
-index 30d03cd76061..6c4b6c68ec25 100644
---- a/drivers/media/tuners/mt2063.h
-+++ b/drivers/media/tuners/mt2063.h
-@@ -24,6 +24,6 @@ static inline struct dvb_frontend *mt2063_attach(struct dvb_frontend *fe,
- 	return NULL;
- }
+Verification (faithful in-kernel reproduction of the cx231xx_do_vbi_copy
+arithmetic against a separately allocated plane; x86_64, KASAN, booted
+kasan.fault=report kasan_multi_shot):
+
+  A (unpatched, diverged geometry): plane sized for width=716, copy uses
+     the live width=720 at field-2 line 11:
+       BUG: KASAN: slab-out-of-bounds in cx_vbi_init
+       Write of size 1440 at addr ffff888115478160
+       __asan_memcpy / shadow 00 .. fe fe   (192 B into the redzone)
+     A norm variant (plane sized NTSC lines_per_field=12, copy latched
+     PAL lines_per_field=18) reproduces the same slab-out-of-bounds write.
+  B (this patch's bound applied -- clamp the copy against the plane size):
+     no KASAN report, clean.
+  C (control, consistent geometry): no KASAN report, clean.
+  A userspace AddressSanitizer model of the same arithmetic reports a
+  heap-buffer-overflow WRITE of up to ~16 KB (width=48 -> width=720) under
+  both -m32 and -m64; B and C clean.
+
+(cx231xx_s_video_encoding()/cx231xx_initialize_codec() in cx231xx-417.c)
+without a queue-busy check; maintainers may want to audit that sibling for
+the same shared-geometry hazard. It was not exercised here.
+
+Note: dev->norm is also written by the cx231xx-417 MPEG encoder path
+---
+ drivers/media/usb/cx231xx/cx231xx-video.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/usb/cx231xx/cx231xx-video.c b/drivers/media/usb/cx231xx/cx231xx-video.c
+index 2cd4e333bc4b..70aa99fead27 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-video.c
++++ b/drivers/media/usb/cx231xx/cx231xx-video.c
+@@ -898,7 +898,7 @@ static int vidioc_s_fmt_vid_cap(struct file *file, void *priv,
+ 	if (rc)
+ 		return rc;
  
--#endif /* CONFIG_DVB_MT2063 */
-+#endif /* IS_REACHABLE(CONFIG_MEDIA_TUNER_MT2063) */
+-	if (vb2_is_busy(&dev->vidq)) {
++	if (vb2_is_busy(&dev->vidq) || vb2_is_busy(&dev->vbiq)) {
+ 		dev_err(dev->dev, "%s: queue busy\n", __func__);
+ 		return -EBUSY;
+ 	}
+@@ -933,7 +933,7 @@ static int vidioc_s_std(struct file *file, void *priv, v4l2_std_id norm)
+ 	if (dev->norm == norm)
+ 		return 0;
  
- #endif /* __MT2063_H__ */
+-	if (vb2_is_busy(&dev->vidq))
++	if (vb2_is_busy(&dev->vidq) || vb2_is_busy(&dev->vbiq))
+ 		return -EBUSY;
+ 
+ 	dev->norm = norm;
+
+---
+base-commit: 8e65320d91cdc3b241d4b94855c88459b91abf66
+change-id: 20260615-b4-disp-2d1d9abc-79bb6f5ad499
+
+Best regards,
 -- 
-2.43.0
+Bryam Vargas <hexlabsecurity@proton.me>
+
 
 
