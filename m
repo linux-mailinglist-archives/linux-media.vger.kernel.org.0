@@ -1,283 +1,225 @@
-Return-Path: <linux-media+bounces-64989-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64990-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id NDmyK/cxMWoWdwUAu9opvQ
-	(envelope-from <linux-media+bounces-64989-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:22:31 +0200
+	id 39j6DDkzMWqUdwUAu9opvQ
+	(envelope-from <linux-media+bounces-64990-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:27:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A34C868EC01
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:22:30 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 757D368EC78
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:27:52 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b="s18/0acy";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64989-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64989-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=A8SrExAT;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64990-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64990-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=mailbox.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id CB67C3009E17
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 11:22:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 616B9311A989
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 11:25:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CED83BADB3;
-	Tue, 16 Jun 2026 11:22:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 424883BAD94;
+	Tue, 16 Jun 2026 11:25:29 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA59A3BB12B;
-	Tue, 16 Jun 2026 11:22:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5A0367B71;
+	Tue, 16 Jun 2026 11:25:26 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781608937; cv=none; b=qt+KVE9K28EsZ6CjQE8HzN8xsRh+ikjGaanU1QyG8u08NQyXGF0c3uvVFU4NuiC9QW7xlcWMjuAbo3Av5f1CtHo0JfCZ3owL0KaaE0UXkBLRrQgyv6H4QmVWGeDgyc6XffW5OTgFCF0D6WLy+xMUbB8zelxaRu3MVoSfMEk9iK8=
+	t=1781609128; cv=none; b=HOfQrlkxsLkd553SS63wjyKgcDFyQFhzXUeXM2qeq044fgmaBWw0xzLsamvjIZQawyr41uaXjHF75IlG15PlDdzj9vSnCqbjLFTMwoAnkwFPnTaBffQQxqAqKfYL/w367nocL2mbkYfji/AxlBrz8uT/hNYxZYcf6INwMe3ejVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781608937; c=relaxed/simple;
-	bh=SNSFy5209CukrGcJmme0QooZeHzXkRNMn9Ja0MTLe4o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u3sHglObUgYS1qV29HR0/VWs9yZWjNUlO8ANa33wSmQ/tNKi/CvQhTv0ShCodLlE8ZlSqgXoqQiFzQE8GN9CYWyeFmiMTnBrS/d3L0qx7mY35Oq7U28N+3+iE5aZENxP5QFOZ2iNtbAhZP0EtBdoU85rT2c3FX353iWr0KdKLj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=s18/0acy; arc=none smtp.client-ip=213.167.242.64
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D90AE8FA;
-	Tue, 16 Jun 2026 13:21:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781608900;
-	bh=SNSFy5209CukrGcJmme0QooZeHzXkRNMn9Ja0MTLe4o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=s18/0acy7gHsa5BdK29Vnys13BEt6m5omykfP/xQ90ezchRVR585To44nGjtlRR8/
-	 3i8y722zq6csqSRIyFQjpzY7KOQIq+sLxiiNXrsm/sb7M+2uFc/j+K/O+vpEQspUHQ
-	 nlrlicQPU20Dpgngy1RlUtHXC2xhCvTzTufyBAlY=
-Message-ID: <f27cb679-8a9b-4aed-a25b-9a531172d41f@ideasonboard.com>
-Date: Tue, 16 Jun 2026 14:22:10 +0300
+	s=arc-20240116; t=1781609128; c=relaxed/simple;
+	bh=Hfjg0zrjMQBMltSDWn2ivlML91s4JlSHhbeBDjuxcHc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=XfNiLjvrobFQlqnUjbOQoVmlGTjTAze1UV8LExylRTWD2CnXOxyXNtqg9+JG0e8OypxspJ6A9df/iNcGrkBr3NgUcaQONTXFiBOpFfxIh1nMwqVfN899se/H09rwzTNpZEVFOugtd6f/0kojQEavH+DcwXQKdNcOc/1hLDMWBXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=A8SrExAT; arc=none smtp.client-ip=80.241.56.171
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4gfl5p0kQgz9v0h;
+	Tue, 16 Jun 2026 13:25:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1781609118; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cQUjR7l8aA+GPoVR7P3niXy4NkEKg0qrVZO94FtcVn4=;
+	b=A8SrExATg/qPX2tHOAsQpF6ODXNJd9BKrd7ejRQdac4R2F4wr1xGFb/A9gA9WmXtWTUbWO
+	sFJVixvnlEh0gcURLpmRCHmt9cFOBlbsc8WYB/+vufXaAE147jbUlBSYPImeiVCdldHypr
+	cqS/ybgNuuqMg+2oDd90HbxNHzfwM+m1+bxk2rQodlOzZ+jAHHwlLve6+H9eITPsaLYjHa
+	+nF6ukbml8EreT9GKQ4Zp1BoDzZYYo2SBXIBqVPf5wrEjAAA1PkjqlpFB/6N3ZykWWgaqh
+	Mm9S3Mw6vPKkN/XyI7YUowkTPe8QhgUbIDkuc57g2L+jeZilPRlGkSMlt7mPjg==
+Message-ID: <630a8a84ee8fdaa634c7b104742e7a28fcfe507c.camel@mailbox.org>
+Subject: Re: Properly synchronize dma_fence->signaled bit (Was: Re: [RFC
+ PATCH] dma-fence: Fix races of fence callbacks versus destructors by
+ locking)
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
+	phasta@kernel.org, Danilo Krummrich <dakr@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, Boris Brezillon	
+ <boris.brezillon@collabora.com>, Alice Ryhl <aliceryhl@google.com>, Daniel
+ Almeida <dwlsalmeida@gmail.com>, Gary Guo <gary@garyguo.net>, Tvrtko
+ Ursulin	 <tvrtko.ursulin@igalia.com>, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Date: Tue, 16 Jun 2026 13:25:11 +0200
+In-Reply-To: <6ea6c373-c6cb-4221-ad9d-e60b04d1368f@amd.com>
+References: <20260608142436.265820-2-phasta@kernel.org>
+	 <95f4ae6b-9dec-4122-84e0-fbb0cdee9cb5@amd.com>
+	 <fa9a335196525adbc03ec21b2e05bb526e4fc174.camel@mailbox.org>
+	 <9d49c901-fcdf-487a-a733-0320d0bdf94c@amd.com>
+	 <DJ3V3OCLIK2K.3CYKWYNHYU6JQ@kernel.org>
+	 <ea4e0541-3702-4014-b8f6-0746a148df86@amd.com>
+	 <fa0dc9757bf8343516c4b156a2b70ec91b64ef8f.camel@mailbox.org>
+	 <6ea6c373-c6cb-4221-ad9d-e60b04d1368f@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 04/10] media: rcar-csi2: Switch to Streams API
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-References: <20260311-rcar-streams-v5-0-3e6c957d7567@ideasonboard.com>
- <20260311-rcar-streams-v5-4-3e6c957d7567@ideasonboard.com>
- <20260318210455.GH716464@killaraus.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-In-Reply-To: <20260318210455.GH716464@killaraus.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: ceea9f921cae1948b1d
+X-MBO-RS-META: 9r3ta9drfsrmk436x4gqib4ft6b7s7me
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64989-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[tomi.valkeinen@ideasonboard.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart@ideasonboard.com,m:tomi.valkeinen+renesas@ideasonboard.com,m:niklas.soderlund@ragnatech.se,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:niklas.soderlund+renesas@ragnatech.se,m:mchehab+huawei@kernel.org,m:jacopo.mondi@ideasonboard.com,m:tomi.valkeinen@ideasonboard.com,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64990-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:phasta@kernel.org,m:dakr@kernel.org,m:sumit.semwal@linaro.org,m:boris.brezillon@collabora.com,m:aliceryhl@google.com,m:dwlsalmeida@gmail.com,m:gary@garyguo.net,m:tvrtko.ursulin@igalia.com,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[linaro.org,collabora.com,google.com,gmail.com,garyguo.net,igalia.com,vger.kernel.org,lists.freedesktop.org];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	TAGGED_RCPT(0.00)[linux-media,renesas,huawei];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	HAS_REPLYTO(0.00)[phasta@kernel.org];
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A34C868EC01
+X-Rspamd-Queue-Id: 757D368EC78
 
-Hi,
+On Mon, 2026-06-15 at 11:57 +0200, Christian K=C3=B6nig wrote:
+> On 6/15/26 10:29, Philipp Stanner wrote:
+> >=20
+> > This fast path check in my mind certainly breaks the intended dma_fence
+> > design:
+> >=20
+> > void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ktime_t timestamp)
+> > {
+> >  const struct dma_fence_ops *ops;
+> >  struct dma_fence_cb *cur, *tmp;
+> >  struct list_head cb_list;
+> >=20
+> >  dma_fence_assert_held(fence);
+> >=20
+> >  if (unlikely(test_and_set_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+> >  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &fence->flags)))
+> >  return;
+> >=20
+> >=20
+> > Modifying the bit is consistently done under lock protection, so
+> > reading must be done, too.
+> >=20
+> > Do you remember who wanted those fast path checks? Who is spinning on
+> > that lock?
+>=20
+> Simona Vetter and basically the rest of the community.
 
-On 18/03/2026 23:04, Laurent Pinchart wrote:
-> On Wed, Mar 11, 2026 at 03:53:17PM +0200, Tomi Valkeinen wrote:
->> Switch to Streams API with a single hardcoded route.
->>
->> For single-stream use case there should be no change in behavior.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
->> ---
->>   drivers/media/platform/renesas/rcar-csi2.c | 64 +++++++++++++++++++++++-------
->>   1 file changed, 50 insertions(+), 14 deletions(-)
->>
->> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
->> index 158fa447e668..ad62c95c8f9a 100644
->> --- a/drivers/media/platform/renesas/rcar-csi2.c
->> +++ b/drivers/media/platform/renesas/rcar-csi2.c
->> @@ -1023,17 +1023,24 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv,
->>   	 */
->>   	freq = v4l2_get_link_freq(remote_pad, 0, 0);
->>   	if (freq < 0) {
->> +		const struct v4l2_subdev_route *route;
->>   		const struct rcar_csi2_format *format;
->>   		const struct v4l2_mbus_framefmt *fmt;
->>   		unsigned int lanes;
->>   		unsigned int bpp;
->>   		int ret;
->>   
->> +		if (state->routing.num_routes != 1)
->> +			return -EINVAL;
->> +
->>   		ret = rcsi2_get_active_lanes(priv, &lanes);
->>   		if (ret)
->>   			return ret;
->>   
->> -		fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK);
->> +		route = &state->routing.routes[0];
->> +
->> +		fmt = v4l2_subdev_state_get_format(state, route->sink_pad,
->> +						   route->sink_stream);
->>   		if (!fmt)
->>   			return -EINVAL;
->>   
->> @@ -1062,6 +1069,7 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv,
->>   static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv,
->>   				     struct v4l2_subdev_state *state)
->>   {
->> +	const struct v4l2_subdev_route *route;
->>   	const struct rcar_csi2_format *format;
->>   	u32 phycnt, vcdt = 0, vcdt2 = 0, fld = 0;
->>   	const struct v4l2_mbus_framefmt *fmt;
->> @@ -1070,7 +1078,16 @@ static int rcsi2_start_receiver_gen3(struct rcar_csi2 *priv,
->>   	int mbps, ret;
->>   
->>   	/* Use the format on the sink pad to compute the receiver config. */
->> -	fmt = v4l2_subdev_state_get_format(state, RCAR_CSI2_SINK);
->> +
->> +	if (state->routing.num_routes != 1)
->> +		return -EINVAL;
->> +
->> +	route = &state->routing.routes[0];
->> +
->> +	fmt = v4l2_subdev_state_get_format(state, route->sink_pad,
->> +					   route->sink_stream);
->> +	if (!fmt)
->> +		return -EINVAL;
->>   
->>   	dev_dbg(priv->dev, "Input size (%ux%u%c)\n",
->>   		fmt->width, fmt->height,
->> @@ -1892,8 +1909,7 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
->>   				struct v4l2_subdev_state *state,
->>   				struct v4l2_subdev_format *format)
->>   {
->> -	struct rcar_csi2 *priv = sd_to_csi2(sd);
->> -	unsigned int num_pads = rcsi2_num_pads(priv);
->> +	struct v4l2_mbus_framefmt *fmt;
->>   
->>   	if (format->pad > RCAR_CSI2_SINK)
->>   		return v4l2_subdev_get_fmt(sd, state, format);
->> @@ -1901,11 +1917,20 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
->>   	if (!rcsi2_code_to_fmt(format->format.code))
->>   		format->format.code = rcar_csi2_formats[0].code;
->>   
->> -	*v4l2_subdev_state_get_format(state, format->pad) = format->format;
->> +	/* Set sink format. */
->> +	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
->> +	if (!fmt)
->> +		return -EINVAL;
-> 
-> Can the call return NULL, isn't it checked by the subdev core already ?
-> 
->> +
->> +	*fmt = format->format;
->> +
->> +	/* Propagate the format to the source pad. */
->> +	fmt = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
->> +							   format->stream);
->> +	if (!fmt)
->> +		return -EINVAL;
-> 
-> I wonder if this error check could be omitted too. If there's a format
-> for the sink stream, it means there's a route, so the opposite stream
-> format should be guaranteed to exist. Or maybe it's too late and I
-> should go to bed :-)
+I did some git-blame and it would seem to me that this fast-path hack
+was added in
 
-I've thought about that every now and then, and afaics we should always 
-have a stream fmt. But not checking the return feels like you're doing 
-something nasty, so I've just added them as usually it's not troublesome 
-to return an error...
+e941759c74a4 fence: dma-buf cross-device synchronization (v18)
 
-  Tomi
+in 2014 A.D.
 
-> Looking at what other drivers do, they all check the return value of the
-> function, so let's keep it as-is for now.
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
->>   
->> -	/* Propagate the format to the source pads. */
->> -	for (unsigned int i = RCAR_CSI2_SOURCE_VC0; i < num_pads; i++)
->> -		*v4l2_subdev_state_get_format(state, i) = format->format;
->> +	*fmt = format->format;
->>   
->>   	return 0;
->>   }
->> @@ -1925,8 +1950,15 @@ static const struct v4l2_subdev_ops rcar_csi2_subdev_ops = {
->>   static int rcsi2_init_state(struct v4l2_subdev *sd,
->>   			    struct v4l2_subdev_state *state)
->>   {
->> -	struct rcar_csi2 *priv = sd_to_csi2(sd);
->> -	unsigned int num_pads = rcsi2_num_pads(priv);
->> +	static struct v4l2_subdev_route routes[] = {
->> +		{
->> +			.sink_pad = RCAR_CSI2_SINK,
->> +			.sink_stream = 0,
->> +			.source_pad = RCAR_CSI2_SOURCE_VC0,
->> +			.source_stream = 0,
->> +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
->> +		},
->> +	};
->>   
->>   	static const struct v4l2_mbus_framefmt rcar_csi2_default_fmt = {
->>   		.width		= 1920,
->> @@ -1939,10 +1971,13 @@ static int rcsi2_init_state(struct v4l2_subdev *sd,
->>   		.xfer_func	= V4L2_XFER_FUNC_DEFAULT,
->>   	};
->>   
->> -	for (unsigned int i = RCAR_CSI2_SINK; i < num_pads; i++)
->> -		*v4l2_subdev_state_get_format(state, i) = rcar_csi2_default_fmt;
->> +	static const struct v4l2_subdev_krouting routing = {
->> +		.num_routes = ARRAY_SIZE(routes),
->> +		.routes = routes,
->> +	};
->>   
->> -	return 0;
->> +	return v4l2_subdev_set_routing_with_fmt(sd, state, &routing,
->> +						&rcar_csi2_default_fmt);
->>   }
->>   
->>   static const struct v4l2_subdev_internal_ops rcar_csi2_internal_ops = {
->> @@ -2599,7 +2634,8 @@ static int rcsi2_probe(struct platform_device *pdev)
->>   	v4l2_set_subdevdata(&priv->subdev, &pdev->dev);
->>   	snprintf(priv->subdev.name, sizeof(priv->subdev.name), "%s %s",
->>   		 KBUILD_MODNAME, dev_name(&pdev->dev));
->> -	priv->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
->> +	priv->subdev.flags = V4L2_SUBDEV_FL_HAS_DEVNODE |
->> +			     V4L2_SUBDEV_FL_STREAMS;
->>   
->>   	priv->subdev.entity.function = MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER;
->>   	priv->subdev.entity.ops = &rcar_csi2_entity_ops;
->>
-> 
+So it was there from the very beginning and was not added because there
+was a performance bottleneck later. It is conceivable that a
+performance issue was present from the get go, of course.
 
+
+>=20
+> And I can clearly say even if I don't like them that those
+> optimizations are a must have.
+>=20
+> > In any case, that needs to be repaired.
+>=20
+> No, see my discussion with Simona on the mailing list. I need to dig
+> that up as well, but it was around the time I added the same
+> workaround to amdgpu.
+>=20
+> You are basically trying what I have been suggesting as well, but
+> there is a very wide agreement that the current design is a must
+> have.
+
+I suggest at least three things:
+
+
+A.
+
+Very explicitly document all lockless mechanisms and their
+justification in both code comments and commit messages.
+
+ * We need to document lockless magic *drastically* better in DRM. I
+   see code left and right where there is some barrier with the comment
+   simply being "so list_empty() works without a lock".
+ * The commit message needs to justify why a lock is missing, why this
+   is the preferred solution, why it is correct. The latter also needs
+   to be in a code comment.
+ * Note that WRITE_ONCE() is not only about volatile, but also about
+   "watch out, here is a lockless access!", as Linus pointed out
+   repeatedly.
+
+
+B.
+
+I think rejecting ideas with "we tried this, it >>didn't work<<" is not
+a valid reason for refusing an idea. Point A above helps with that. If
+your commit message contains measurements or links to tickets with
+*real life* performance regressions (microbenchmarks are invalid), that
+helps reducing discussion overhead drastically.
+
+Now, in this particular case, I fail to see how taking the spinlock to
+check that bit is evil. If it regresses someone's speed that much, it
+would mean that someone is heavily punching that lock, like polling
+24/7 with dma_fence_is_signaled().
+
+Again, having that use case documented somewhere could save us all time
+=E2=80=93 especially for you, Christian, since you wouldn't be forced to ha=
+ve
+the same discussion over and over again over the years ;-)
+
+
+C.
+Robustness and correctness always trump performance. They especially
+trump microbenchmarks.
+
+
+P.
 
