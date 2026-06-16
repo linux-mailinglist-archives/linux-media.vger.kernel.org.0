@@ -1,442 +1,233 @@
-Return-Path: <linux-media+bounces-65013-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65014-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Zz1vImFGMWqTfwUAu9opvQ
-	(envelope-from <linux-media+bounces-65013-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 14:49:37 +0200
+	id x2ZAEohGMWqwfwUAu9opvQ
+	(envelope-from <linux-media+bounces-65014-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 14:50:16 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89AC268F93C
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 14:49:36 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A57868F988
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 14:50:15 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=onurozkan.dev header.s=protonmail header.b=VcYq4MB2;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65013-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65013-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=onurozkan.dev;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=foss.st.com header.s=selector2 header.b=UjkwBFCH;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65014-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-65014-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=foss.st.com;
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 07BD0301EFC4
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 12:48:16 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id E0ABD3007AE0
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 12:50:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D513346FAE;
-	Tue, 16 Jun 2026 12:48:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB32C36A004;
+	Tue, 16 Jun 2026 12:50:02 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-106112.protonmail.ch (mail-106112.protonmail.ch [79.135.106.112])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011061.outbound.protection.outlook.com [52.101.70.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33E8130C35E;
-	Tue, 16 Jun 2026 12:48:07 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781614090; cv=none; b=YtZAkmhmgJ2ibVptWditjg4V7ZUvLszUh7CV/jgYzCS7DjRgIDyfieuL4Hz28hFjKp+A5u1oA7Sn/eFygtMvZNhUr6zxKWIysboZYy06LqiBM+XZd0n6e1XsmlIa6TmSIeTWpiBF+ATJPDs9+sMhvsADUpmD2CZIfHkiSCGSmZk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781614090; c=relaxed/simple;
-	bh=FJOtJXdeZoGHDPmxQjYMAK6EB0PyyhBoCgBd4/9jbQ0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RTGYzUfDovNZ+ZRDM48n6pdgfS7akkw5PWERjuF2M6uILotaIC4/NawzOMIicszUf4x8CRAUQAI4R604Sx2aoaL9hdMgpV05oGQk5PDh2W0vEjh6iI86A+WUzgKf9Ckwam8we4x+1lLCVSnHKVCxD/99eg9ukCZTD/AcfLnSY3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=onurozkan.dev; spf=pass smtp.mailfrom=onurozkan.dev; dkim=pass (2048-bit key) header.d=onurozkan.dev header.i=@onurozkan.dev header.b=VcYq4MB2; arc=none smtp.client-ip=79.135.106.112
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onurozkan.dev;
-	s=protonmail; t=1781614083; x=1781873283;
-	bh=e2mqDZnHAlhEUqDuOBlwfuMwJ6ubbqKIeKqblcFDODY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:From:To:
-	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=VcYq4MB233T/xbbh28z8ao2yPZ51aioxY64Pj/dT9VMc8LU/4DW0Zm3t24BAjVjQr
-	 ERUZj/fDi8frrUUU+GXBJb6XF9K1cris2dnyoGn/V1KxEUc2BIyjohx8zTCHyINw1M
-	 RP9L/KprRMZnPA41rHiEE5pCAEepTr7By8FJ0BOr5NfxQdQRjHtVDQLOFLBo+WALMZ
-	 4DSnjmBBwO823tGdWCvkVzjZRyTdFQXeaetHu8sSiTmkItINcapHd3F07jLsiz6HqI
-	 D+dTJAl6KQ9BlE2GMlE4JJHpi+w9zIHH2WhlCPCFAAjuxGdvMjswra0fDZITGd1+91
-	 4MZSugxxR+ynA==
-X-Pm-Submission-Id: 4gfmx90Nhnz1DFGV
-From: =?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>
-To: Philipp Stanner <phasta@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Igor Korotin <igor.korotin@linux.dev>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	FUJITA Tomonori <fujita.tomonori@gmail.com>,
-	Krishna Ketan Rai <prafulrai522@gmail.com>,
-	Shankari Anand <shankari.ak0208@gmail.com>,
-	manos@pitsidianak.is,
-	Boris Brezillon <boris.brezillon@collabora.com>,
-	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	rcu@vger.kernel.org
-Subject: Re: [PATCH v2 5/6] rust: Add dma_fence abstractions
-Date: Tue, 16 Jun 2026 15:47:33 +0300
-Message-ID: <20260616124755.460550-1-work@onurozkan.dev>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20260616082819.2943886-7-phasta@kernel.org>
-References: <20260616082819.2943886-2-phasta@kernel.org> <20260616082819.2943886-7-phasta@kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 522A5369234;
+	Tue, 16 Jun 2026 12:50:00 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781614201; cv=fail; b=p7ZH14iOd/jIsWeLpcQbDGPykPY6s+xKj0jzJmCMpusBZnnsOxEXFHLoLMIu3KBG3+Gd03NMUjyftpRJtktj/YrElKCDP6JKTGVxB7KQ+SEACfd8OO2Lpjaz/IfwY30y11dv0LHCga55ooQ4L7YJHvu6ycqUsr1p0StxpQg/H/Y=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781614201; c=relaxed/simple;
+	bh=bTwQNugrjDaGkIbXPzwnSQfZ431yF4tX8xt3x+x1ZkE=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
+	 In-Reply-To:Content-Type; b=VzPIf3+4a942Vlnq2A4dGOMog3qMeJVpKDwpfpS5lVQ9I8PNHKpnQ6P+Csl2ODOX1PEeUJu5B6tkn8ZY8GvZw+S6vMMfEKA1ottRcj35fR2PF6BaYqIRaKRRgKkuL/U6Suqw2aGLkIj+MS/QwRVMRDBpNKQneRYwvAf/Tu72/mk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=UjkwBFCH; arc=fail smtp.client-ip=52.101.70.61
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YwKEcAc7DCW2td/Wu9rpolhValdSztw59g9LinVe6jDq9PpLyF+f2P/RB8FWEHoClMLdpudcmTB7P6Vvz4B8lhO0s06X8KRCX5xGRJgu8u4fLmg3cLdy7i/zhyu9I4wNDDm+eJywkk/dFJLnvrI/3WBa1vSs4A/enqTDAiOd3eM0rhopgjzAE5Oq3aUJ00BEXULt5GW7klY9V+EXvtimXxjHszkvSIX1ko/YsTjWXqWBBteUQvEG1hO9FuR83RGIO/RcTVGZ7pUcCjh24Z5jAQi22PH8cGpZVOCrXIyr9ZJ+b6CCdM9fLdyI5Ggmauj2UAy383v7OHT5d8TCYrIZzA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ARtL5GpDZXCklftGcgPhCYMNfTRiey75pCZCu9BB028=;
+ b=f1TGN7IC8FGqfvPAWeeavPyb3KSD26irCdSWt2iWg9yKWZMTkygw7Nw5F5G3bJvW1CoiFxGmLLUpIEK7VlyX8V6iUJ/BD/0OK4KhoV6wNNvdbdkwwIuQcBjnvFWYvK6kFqIDuH5B3ePeGK60pGPfeq+7mYt34TaB2W63iCtYTeRKbM8VZVBscvxQ7mPefMBQDzlxMUb/XQJE74qEr2NlrBnmeblF86rRrGSudmNqcwfqzworfO6SpZZJ42NYgh+Xg7DqytenGWjvTtrcnNaMAXSPeagyC6rZLlTWSgJ90fsx324hsx/o1xZWMnA7E/d/RfUEBtdNhuBHwiwhBJ6KTQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 164.130.1.59) smtp.rcpttodomain=gmail.com smtp.mailfrom=foss.st.com;
+ dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ARtL5GpDZXCklftGcgPhCYMNfTRiey75pCZCu9BB028=;
+ b=UjkwBFCHBLb8sOpvjFfmormSEHkMfaKrgoD6I17hiavCGsDwzsyZJ7Tdgfa/7ZLnppHf4eji5DVFAo8dN0WYuUvoPiW1HhlPVAWmhuUXbMMNh9JMcwr+H/On37vPIHtrgkRIGVIqa3tgXo3Vr2ipkc7eqxW8Nv6KXvd0LqJ/8OqlRGEhsIpbc4yXuEhR2ehDY2F9JKlsPJB7qxW7+o1bKl/dTbdB4gImq51a9Caa9Q1FNAWTRBFdH++GrHnTTEU6CF1gfBmz+ydUhJnZmaQSgA4mN93QwTwkSwjSsvJK9dM9iXni76aID06m/IrLKxx8DWlwfrcnLX1GWtRDMDctIg==
+Received: from DU7P250CA0023.EURP250.PROD.OUTLOOK.COM (2603:10a6:10:54f::11)
+ by MI3PR10MB9922.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:290:74::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.16; Tue, 16 Jun
+ 2026 12:49:55 +0000
+Received: from DB1PEPF000509FA.eurprd03.prod.outlook.com
+ (2603:10a6:10:54f:cafe::82) by DU7P250CA0023.outlook.office365.com
+ (2603:10a6:10:54f::11) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.113.18 via Frontend Transport; Tue,
+ 16 Jun 2026 12:49:55 +0000
+X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.59)
+ smtp.mailfrom=foss.st.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=foss.st.com;
+Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
+ designate 164.130.1.59 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.59; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.59) by
+ DB1PEPF000509FA.mail.protection.outlook.com (10.167.242.36) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.113.7 via Frontend Transport; Tue, 16 Jun 2026 12:49:55 +0000
+Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpo365.st.com
+ (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.35; Tue, 16 Jun
+ 2026 14:54:09 +0200
+Received: from [10.130.78.67] (10.130.78.67) by STKDAG1NODE2.st.com
+ (10.75.128.133) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.35; Tue, 16 Jun
+ 2026 14:49:51 +0200
+Message-ID: <c9c20bce-a1bb-4932-bfa0-c87f7156ff82@foss.st.com>
+Date: Tue, 16 Jun 2026 14:49:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Subject: Re: [PATCH v2] media: i2c: vd56g3: clean up subdev state on probe
+ failure
+To: Myeonghun Pak <mhun512@gmail.com>, Sylvain Petinot
+	<sylvain.petinot@foss.st.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<stable@vger.kernel.org>
+References: <20260424165238.31333-1-mhun512@gmail.com>
+Content-Language: fr
+In-Reply-To: <20260424165238.31333-1-mhun512@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: ENXCAS1NODE2.st.com (10.75.128.138) To STKDAG1NODE2.st.com
+ (10.75.128.133)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509FA:EE_|MI3PR10MB9922:EE_
+X-MS-Office365-Filtering-Correlation-Id: d29e93a7-c982-4edd-bd43-08decba5c44e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|376014|36860700016|1800799024|23010399003|56012099006|11063799006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	RMuIDFrbNpBBuY0GfpVAiFOTd0GJt7S5T0EDWyJppdrHZEK+PPiK4ZQ49uxczW2FKMy6QAfmf6lF1n4Ut1gQhODsHQrBv1B3cGM1ezNW6daV/zRvSlDS7kj7wtdmcdorh/n5g5F/AlQypVGDi0aBc9HWankgLxP5PLjrshsC+flh81x7OPAW2XnmM8PBlhV5e9lYT2iisNx6EUdjck8ccIGAjl2pdrGiD3dqDE+NMTAOktI+Zb3GJURz/Tt4sEQbF0wqt8rcWhwRUiZV04Pw23aWAET4ptj/lY27xD2sr0sgdmsVp2XOo0unMHcOuJIv4njdno+GpXNM24G2lCriY3JjvbxIlb43tS8bbke08U3u6ZIhMRMP3ctUjUWoNBEL49dweNRIoDHPkIEpOABVRKqqtpR3ZbdLY+6H+doW5BBlMMnhzGm1YELE3WEs6lQrR2GzRzjJLiJM/WqAW5zRR4WInebTVu1qM49Mqry0Xejc4mdiZfE2KOROeko0/gCaKjSuAN+EBuD9sFT+C9mrQI7cPdhkiof1EKKCmIvg1nwaX9YEQHNTCsFcuiB97biAHjRJjpVi2hYdNbslEib78i8N7biybYzlXnEd/CbSkIM3GyI13HDLfl1kG0kc2TG8rbk9548AhVJcWGU+upIGZUJr55Z47pD7ayOdYb/GNA7b1Q4qazuySVOvuk78uORvlHx+wA8Q0gLJhQSMOMLFffEYK6CMgNCAXp6EYF5Xnug=
+X-Forefront-Antispam-Report:
+	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(36860700016)(1800799024)(23010399003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	zZk0RT6Ksol+ruMo3fb+5wz3iYomibOPikqoCisMaA1FI7Ncpi6ioXfFdjrTAtkddUGvy2CRNIcrm/vZ94zWStIK4JDKyBP9GHCMspqW1x4qWNAa2omvL81oV5huHQUsvyX4lBQdUSiF+Cvgs57dAUKE2CQ33Ew83dUKpYlo+zU2wO2Oz0bOW3UuumrTsJDlUS9EK/s+9LlQOTGPeAWFrP05cHP+uFKMu9eH4ACC8ulZxWg0zpXgAND97NA3+T2lcCzjZBUUpXh3enF8mMWZAFmF7Ac97qowD+QdwMChJrmN5xOEz60B0Km3dFHCI92EbULrFI70tEtOJ7V6sh6DcqAXllXXnrQL2n98b81es60te5JLYL2DCI+VR2ibRuxwp4z6W4Cl5AdEz0TOGYPLhYkDroFpiTeO3hzQYeIxBYB7eNXKfQVLz5+/WGfo4RA5
+X-OriginatorOrg: foss.st.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Jun 2026 12:49:55.5539
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d29e93a7-c982-4edd-bd43-08decba5c44e
+X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DB1PEPF000509FA.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MI3PR10MB9922
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[onurozkan.dev,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
-	R_DKIM_ALLOW(-0.20)[onurozkan.dev:s=protonmail];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[foss.st.com,none];
+	R_DKIM_ALLOW(-0.20)[foss.st.com:s=selector2];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65013-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65014-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:mhun512@gmail.com,m:sylvain.petinot@foss.st.com,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,foss.st.com:dkim,foss.st.com:mid,foss.st.com:from_mime];
+	FORGED_SENDER(0.00)[benjamin.mugnier@foss.st.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[37];
-	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:paulmck@kernel.org,m:frederic@kernel.org,m:neeraj.upadhyay@kernel.org,m:joelagnelf@nvidia.com,m:josh@joshtriplett.org,m:urezki@gmail.com,m:rostedt@goodmis.org,m:mathieu.desnoyers@efficios.com,m:jiangshanlai@gmail.com,m:qiang.zhang@linux.dev,m:daniel.almeida@collabora.com,m:gregkh@linuxfoundation.org,m:igor.korotin@linux.dev,m:ljs@kernel.org,m:acourbot@nvidia.com,m:fujita.tomonori@gmail.com,m:prafulrai522@gmail.com,m:shankari.ak0208@gmail.com,m:manos@pitsidianak.is,m:boris.brezillon@collabora.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:rcu@vger.kernel.org,m:fujitatomonori@gmail.com,m:shankariak0208@gmail.com,s:li
- sts@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com,foss.st.com,linux.intel.com,kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[work@onurozkan.dev,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[work@onurozkan.dev,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,linaro.org,amd.com,nvidia.com,joshtriplett.org,gmail.com,goodmis.org,efficios.com,linux.dev,collabora.com,linuxfoundation.org,pitsidianak.is,vger.kernel.org,lists.freedesktop.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[foss.st.com:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	DKIM_TRACE(0.00)[onurozkan.dev:+];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[benjamin.mugnier@foss.st.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	RCVD_COUNT_SEVEN(0.00)[8]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 89AC268F93C
+X-Rspamd-Queue-Id: 4A57868F988
 
-On Tue, 16 Jun 2026 10:28:17 +0200=0D
-Philipp Stanner <phasta@kernel.org> wrote:=0D
-=0D
-> C's dma_fence's are synchronisation primitives that will be needed by all=
-=0D
-> Rust GPU drivers.=0D
-> =0D
-> The dma_fence framework sets a number of rules, notably:=0D
->   - fences must only be signalled once=0D
->   - all fences must be signalled at some point=0D
->   - fence error codes must only be set before signalling=0D
->   - every pointer to a fence must be backed by a reference=0D
-> =0D
-> All those rules are being addressed by these abstractions.=0D
-> =0D
-> To cleanly decouple fence issuers and consumers, two types are provided:=
-=0D
->   - DriverFence: the only fence type that can be signalled and that=0D
->     carries driver-specific data.=0D
->   - Fence: the fence type to be shared with other drivers and / or=0D
->     userspace. The only type callbacks can be registered on.=0D
->     Cannot be signalled.=0D
-> =0D
-> Hereby, a Fence lives in the same chunk of memory as a DriverFence. Both=
-=0D
-> share the refcount of the underlying C dma_fence. Since this=0D
-> implementation does not provide a custom dma_fence_backend_ops.release()=
-=0D
-> function, the memory is freed by the dma_fence backend once the refcount=
-=0D
-> drops to 0.=0D
-> =0D
-> To create a DriverFence, the user must first allocate a=0D
-> DriverFenceAllocation, so that the creation of the DriverFence later on=0D
-> can always succeed. Otherwise, deadlocks could occur if fences need to=0D
-> be created in a GPU job submission path.=0D
-> =0D
-> Synchronization is ensured by the dma_fence backend.=0D
-> =0D
-> All DriverFence's created through this abstraction must be signalled by=0D
-> the creator with an error code. In case a DriverFence drops without=0D
-> being signalled beforehand, it is signalled with -ECANCELLED as its=0D
-> error and a warning is printed. This allows the Rust abstraction to very=
-=0D
-> cleanly decouple fence issuer and consumer by relying on the decoupling=0D
-> mechanisms in the C backend, which ensures through RCU and the=0D
-> 'signalled' fence-flag that dma_fence_backend_ops functions cannot=0D
-> access the potentially unloaded driver code anymore.=0D
-> =0D
-> Signalling fences on drop thus grants many advantages. Not signalling=0D
-> fences on drop would risk deadlock and does not grant real advantages:=0D
-> By definition only the drivers can ensure that a fence always represents=
-=0D
-> the hardware's state correctly.=0D
-> =0D
-> This implementation models a DmaFenceCtx (fence context) object on which=
-=0D
-> fences are to be created, thereby ensuring correct sequence numbering=0D
-> according to the timeline.=0D
-> =0D
-> dma_fence supports a variety of callbacks. The mandatory callbacks=0D
-> (get_timeline_name() and get_driver_name()) are implemented in this=0D
-> patch. For convenience, they store those name parameters in the fence=0D
-> context, saving the driver from implementing these two callbacks.=0D
-> =0D
-> Support for other callbacks (like for hardware signalling) is prepared=0D
-> for through the fact that both DriverFence and Fence live in the same=0D
-> allocation, allowing for usage of container_of from the callback to=0D
-> access the driver-specific data.=0D
-> =0D
-> Synchronization for backend_ops callbacks is ensured by only running the=
-=0D
-> Rust deconstructor delayed with call_rcu(), which prevents UAF-bugs=0D
-> should a DriverFence drop while a Fence callback is currently operating=0D
-> on the associated driver data.=0D
-> =0D
-> Add abstractions for dma_fence in Rust.=0D
-> =0D
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>=0D
-> ---=0D
->  rust/bindings/bindings_helper.h  |   1 +=0D
->  rust/helpers/dma_fence.c         |  48 ++=0D
->  rust/helpers/helpers.c           |   1 +=0D
->  rust/kernel/dma_buf/dma_fence.rs | 884 +++++++++++++++++++++++++++++++=0D
->  rust/kernel/dma_buf/mod.rs       |  14 +=0D
->  rust/kernel/lib.rs               |   1 +=0D
->  6 files changed, 949 insertions(+)=0D
->  create mode 100644 rust/helpers/dma_fence.c=0D
->  create mode 100644 rust/kernel/dma_buf/dma_fence.rs=0D
->  create mode 100644 rust/kernel/dma_buf/mod.rs=0D
-> =0D
-> diff --git a/rust/bindings/bindings_helper.h b/rust/bindings/bindings_hel=
-per.h=0D
-> index 446dbeaf0866..814d7740e686 100644=0D
-> --- a/rust/bindings/bindings_helper.h=0D
-> +++ b/rust/bindings/bindings_helper.h=0D
-> @@ -52,6 +52,7 @@=0D
->  #include <linux/debugfs.h>=0D
->  #include <linux/device/faux.h>=0D
->  #include <linux/dma-direction.h>=0D
-> +#include <linux/dma-fence.h>=0D
->  #include <linux/dma-mapping.h>=0D
->  #include <linux/dma-resv.h>=0D
->  #include <linux/errname.h>=0D
-> diff --git a/rust/helpers/dma_fence.c b/rust/helpers/dma_fence.c=0D
-> new file mode 100644=0D
-> index 000000000000..0e08411098fa=0D
-> --- /dev/null=0D
-> +++ b/rust/helpers/dma_fence.c=0D
-> @@ -0,0 +1,48 @@=0D
-> +// SPDX-License-Identifier: GPL-2.0=0D
-> +=0D
-> +#include <linux/dma-fence.h>=0D
-> +=0D
-> +__rust_helper void rust_helper_dma_fence_get(struct dma_fence *f)=0D
-> +{=0D
-> +	dma_fence_get(f);=0D
-> +}=0D
-> +=0D
-> +__rust_helper void rust_helper_dma_fence_put(struct dma_fence *f)=0D
-> +{=0D
-> +	dma_fence_put(f);=0D
-> +}=0D
-=0D
-[...]=0D
-=0D
-> +=0D
-> +    /// Create a [`FenceCtx`] from an associated [`bindings::dma_fence`]=
-.=0D
-> +    ///=0D
-> +    /// # Safety=0D
-> +    ///=0D
-> +    /// `ptr` must be a valid pointer to a dma_fence which resides withi=
-n a [`Fence`],=0D
-> +    /// which in turn resides in a [`DriverFenceData`].=0D
-> +    unsafe fn from_raw_fence<'a>(ptr: *mut bindings::dma_fence) -> &'a S=
-elf {=0D
-> +        let opaque_fence =3D Opaque::cast_from(ptr);=0D
-> +=0D
-> +        // SAFETY: Safe due to the function's overall safety requirement=
-s.=0D
-> +        let fence_ptr =3D unsafe { container_of!(opaque_fence, Fence, in=
-ner) };=0D
-> +=0D
-> +        // DriverFenceData is repr(C) and a Fence is its first member.=0D
-> +        let fence_data_ptr =3D fence_ptr as *mut DriverFenceData<T>;=0D
-=0D
-Either the field ordering on the type or this code is wrong because the fir=
-st=0D
-member of DriverFenceData is `rcu_head`.=0D
-=0D
-> +=0D
-> +        // SAFETY: Safe because of the safety comment directly above.=0D
-> +        let fence_data =3D unsafe { &*fence_data_ptr };=0D
-> +=0D
-> +        &fence_data.fctx=0D
-> +    }=0D
-> +}=0D
-> +=0D
-> +/// Error type for fence callback registration.=0D
-> +///=0D
-> +/// Generic over `T` so that `AlreadySignaled` can return the callback t=
-o the=0D
-> +/// caller, allowing it to reclaim any resources owned by the callback (=
-e.g.,=0D
-> +/// a fence handle that needs to be signaled).=0D
-> +#[derive(Debug)]=0D
-> +pub enum CallbackError<T =3D ()> {=0D
-> +    /// The fence was already signaled. The callback is returned so the =
-caller=0D
-> +    /// can extract owned resources without losing them.=0D
-=0D
-[...]=0D
-=0D
-> +        //=0D
-> +        // Without this, Drop can race with a concurrent signal:=0D
-> +        //   CPU0 (signal, lock held): take() -> signaled(fence_ref) (in=
- progress)=0D
-> +        //   CPU1 (drop): sees is_some()=3D=3Dfalse -> skips lock -> fre=
-es struct=0D
-> +        //   CPU0: accesses fence_ref -> use-after-free=0D
-> +        //=0D
-> +        // When the callback has already fired, the signal path detached=
- the=0D
-> +        // list node via INIT_LIST_HEAD, so dma_fence_remove_callback ju=
-st sees=0D
-> +        // an empty node and returns false =E2=80=94 the lock acquisitio=
-n is the only=0D
-> +        // thing that matters.=0D
-> +        //=0D
-> +        // SAFETY: The fence pointer is valid and the cb was initialized=
- by=0D
-> +        // dma_fence_add_callback during construction.=0D
-> +        unsafe {=0D
-> +            bindings::dma_fence_remove_callback(self.fence.as_raw(), sel=
-f.cb.get());=0D
-> +        }=0D
-> +    }=0D
-> +}=0D
-> +=0D
-> +// SAFETY: FenceCbRegistration can be sent between threads=0D
-> +unsafe impl<T: FenceCb> Send for FenceCbRegistration<T> {}=0D
-> +=0D
-> +// SAFETY: &FenceCbRegistration can be shared between threads if &T can.=
-=0D
-> +unsafe impl<T: FenceCb> Sync for FenceCbRegistration<T> where T: Sync {}=
-=0D
-> +=0D
-> +/// The receiving counterpart of a [`DriverFence`], designed to register=
- callbacks=0D
-> +/// on, check the signalled state etc. A [`Fence`] cannot be signalled.=
-=0D
-> +/// A [`Fence`] is always refcounted.=0D
-> +pub struct Fence {=0D
-> +    /// The actual dma_fence passed to C.=0D
-> +    inner: Opaque<bindings::dma_fence>,=0D
-> +}=0D
-=0D
-I am unsure whether it is safe to cast the pointer in Fence::from_raw witho=
-ut=0D
-Fence being #[repr(transparent)] as the layout compatibility is not guarant=
-eed=0D
-explicitly.=0D
-=0D
-Regards,=0D
-Onur=0D
-=0D
-> +=0D
-> +// SAFETY: Fences are literally designed to be shared between threads.=0D
-> +unsafe impl Send for Fence {}=0D
-> +// SAFETY: Fences are literally designed to be shared between threads.=0D
-> +unsafe impl Sync for Fence {}=0D
-> +=0D
-> +impl Fence {=0D
-> +    /// Check whether the fence was signalled at the moment of the funct=
-ion call.=0D
-> +    ///=0D
-> +    /// Note that this can return `true` for a [`Fence`] whose [`DriverF=
-ence`]=0D
-> +    /// has not yet been dropped. The reason is that the fence ops callb=
-acks can=0D
-> +    /// cause the fence to get signaled by the C backend.=0D
-> +    pub fn is_signaled(&self) -> bool {=0D
-> +        let fence =3D self.as_raw();=0D
-> +        let mut fence_flags: usize =3D 0;=0D
-> +        let flag_ptr =3D &raw mut fence_flags;=0D
-> +=0D
-> +        // We shouuld not use `dma_fence_is_signaled_locked()` here, bec=
-ause=0D
-> +        // according to the C backend's recommendations, that function i=
-s problematic=0D
-> +        // and we should avoid calling that function with a lock held.=0D
-> +=0D
-> +        // SAFETY: `self` is valid by definition. We take the spinlock a=
-bove.=0D
-> +        let ret =3D unsafe { bindings::dma_fence_is_signaled(fence) };=0D
-> +=0D
-> +        // To guarantee that an API caller can 100% rely on the signalli=
-ng being=0D
-=0D
-[...]=0D
-=0D
-> +    unsafe { bindings::dma_fence_put(fence) };=0D
-> +=0D
-> +    // The actual memory the data associated with a `DriverFence` lives =
-in=0D
-> +    // gets freed by the C dma_fence backend once the fence's refcount r=
-eaches 0.=0D
-> +}=0D
-> diff --git a/rust/kernel/dma_buf/mod.rs b/rust/kernel/dma_buf/mod.rs=0D
-> new file mode 100644=0D
-> index 000000000000..fb353ce042ce=0D
-> --- /dev/null=0D
-> +++ b/rust/kernel/dma_buf/mod.rs=0D
-> @@ -0,0 +1,14 @@=0D
-> +// SPDX-License-Identifier: GPL-2.0 OR MIT=0D
-> +=0D
-> +//! DMA-buf subsystem abstractions.=0D
-> +=0D
-> +pub mod dma_fence;=0D
-> +=0D
-> +pub use self::dma_fence::{=0D
-> +    DriverFence,=0D
-> +    Fence,=0D
-> +    FenceCb,=0D
-> +    FenceCbRegistration,=0D
-> +    FenceCtx,=0D
-> +    FenceCtxOps, //=0D
-> +};=0D
-> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs=0D
-> index b72b2fbe046d..a05ccaa7598c 100644=0D
-> --- a/rust/kernel/lib.rs=0D
-> +++ b/rust/kernel/lib.rs=0D
-> @@ -63,6 +63,7 @@=0D
->  pub mod device_id;=0D
->  pub mod devres;=0D
->  pub mod dma;=0D
-> +pub mod dma_buf;=0D
->  pub mod driver;=0D
->  #[cfg(CONFIG_DRM =3D "y")]=0D
->  pub mod drm;=0D
-> -- =0D
-> 2.54.0=0D
-> =0D
+Hi,
+
+Thank you for your patch, and apologies for the delay.
+
+Le 24/04/2026 à 18:52, Myeonghun Pak a écrit :
+> vd56g3_subdev_init() calls v4l2_subdev_init_finalize(), which allocates
+> the subdev active state and requires v4l2_subdev_cleanup() to release it.
+> 
+> If vd56g3_update_controls() fails after finalize succeeds, the probe error
+> path currently skips v4l2_subdev_cleanup() and returns an error. The driver
+> .remove() callback is not called after a failed probe, so the active state
+> is leaked.
+> 
+> Route this error through a subdev cleanup label before freeing the control
+> handler and media entity.
+> 
+> Fixes: 87aa97fc3157 ("media: i2c: Add driver for ST VD56G3 camera sensor")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+> ---
+> Changes in v2:
+> - Use a lowercase subject summary.
+
+Please keep the first character uppercase, just like other commits on
+this module.
+
+> 
+>  drivers/media/i2c/vd56g3.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/vd56g3.c b/drivers/media/i2c/vd56g3.c
+> index 157acea9e2..43f792288a 100644
+> --- a/drivers/media/i2c/vd56g3.c
+> +++ b/drivers/media/i2c/vd56g3.c
+> @@ -1427,11 +1427,14 @@ static int vd56g3_subdev_init(struct vd56g3 *sensor)
+>  	v4l2_subdev_unlock_state(state);
+>  	if (ret) {
+>  		dev_err(sensor->dev, "Controls update failed: %d\n", ret);
+> -		goto err_ctrls;
+> +		goto err_subdev;
+>  	}
+>  
+>  	return 0;
+>  
+> +err_subdev:
+> +	v4l2_subdev_cleanup(&sensor->sd);
+
+v4l2_subdev_cleanup() is already performed in the caller (i.e.
+vd56g3_probe()), but as you noticed it is not called from this path. I'd
+rather have the return value route correctly through
+v4l2_subdev_cleanup() in  vd56g3_probe(), allowing to keep a unique call
+to v4l2_subdev_cleanup() instead.
+
+This patch looks like is LLM generated and sparks my curiosity. If so
+you must disclaim it using an Assisted-by tag [1]. Sorry if I’m mistaken.
+
+[1] https://docs.kernel.org/process/coding-assistants.html
+
+> +
+>  err_ctrls:
+>  	v4l2_ctrl_handler_free(sensor->sd.ctrl_handler);
+>  
+
+-- 
+Regards,
+Benjamin
+
 
