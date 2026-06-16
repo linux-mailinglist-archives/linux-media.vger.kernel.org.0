@@ -1,198 +1,262 @@
-Return-Path: <linux-media+bounces-64963-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64964-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id a5j6KfkBMWpXaQUAu9opvQ
-	(envelope-from <linux-media+bounces-64963-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 09:57:45 +0200
+	id i3cvDCsEMWq6aQUAu9opvQ
+	(envelope-from <linux-media+bounces-64964-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 10:07:07 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A7EC68CFEA
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 09:57:45 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0DFB68D09A
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 10:07:01 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=0sec.ai header.s=google header.b=RtvsuO0Y;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64963-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64963-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=none;
+	dkim=pass header.d=google.com header.s=20251104 header.b=jMFV0eqh;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64964-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64964-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=google.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 6E47730344DE
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 07:57:05 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6EFAC302F7C7
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 08:06:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4C7F40E8DE;
-	Tue, 16 Jun 2026 07:57:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC98E416CF3;
+	Tue, 16 Jun 2026 08:05:54 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD8B35F180
-	for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 07:56:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC53386564
+	for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 08:05:51 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781596622; cv=none; b=RUocQG4yCr5O5BkH9o2YLdQNJLlQFB5t67mmTSQEnOnemW1Sce9bnDWnxtKsW75hnYyEOZdu/RwhpA9ZGN/Im/vKcOHlD0jUMkuelfPvIM0VMdoPeZ26Q8YoWXw0IX2NViSPQorxDeo2vjV74K7NFNRxWIqiEBjIBlaC5y4o2+w=
+	t=1781597154; cv=none; b=cXckZ2Lymf7kG9vOlUggEq4/u+TNP8b72tiJ+GHhVsSW0dm28z2naOCvJaH7HzZ7LfXaOrqBJOE0u3N/8wQzGGAihBUECKZo0vTvuZ5EaD4au9eJBTVbI+gfEvrSkI67OsW3EWCQUbs1of8g5wQbDvmg5hzVU/J0w+Nzh8Uxzk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781596622; c=relaxed/simple;
-	bh=S+cQwh2yJbBgde+xZGNmhIizPfb/Q5tWp6DjLRWqx7U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=toTZ2eq3uM7JHCC20BU0aiIblOONo20KrPiCN4iFnH0PQCl3yncq6QPrEpwUig3scvOFlBGkvoHVy20ham7pS+F6xeV6DRHrXUBs68CB7XtpquIF3alnutTBQPdLiFh5WbFdbmdU6gQoopiOcZL+sAMIroV+1ie+MgyDSTO/ipA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=RtvsuO0Y; arc=none smtp.client-ip=209.85.221.43
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-45ef4223be7so2387944f8f.2
-        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 00:56:59 -0700 (PDT)
+	s=arc-20240116; t=1781597154; c=relaxed/simple;
+	bh=82cTAyW+sZXW13gP4ib75YclIp3CSrYl7g+tdMUCv3k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bJtNOhMEDbbcEqWk3YnsO0sFdVIQ/kUNEV2ih2hDSGPOewSMJ3mO6KAeQdluYiTdFTkV7rRB0pMbtC0JRI9AjkszjXm2Wcn/kPwh3KwSTZX7Pf04fDey5zckeQVpcgp0C9OiHczyVqgA31sejBs2lBMkWzi8MSNPhkGZ6Sn0CK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jMFV0eqh; arc=none smtp.client-ip=209.85.214.177
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2bf2d865383so28985ad.1
+        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 01:05:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0sec.ai; s=google; t=1781596618; x=1782201418; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tvO6+MpilClcYNX4EokLZGsJsErKgA+iDUMEt0HQsM4=;
-        b=RtvsuO0Yz1sXz6hRJG0RJMCiIV0cIJ161Rr6gPJwCq9LyV5hcTJ+rYI9veOjkLSTWr
-         HKnsEeiUI8qoW570nUh2/aQAAwyGKQVI99xqcgC1Bu8oUbcrpsUiwemWzcF+DwVNHpr/
-         uPlxtpf+Lrhclz6Bv64qrHbj66zL9qhfufJzBYXPvnY20HQ7/xGqt41M4VX02CtyIAFb
-         f/ggkiMwPnFKYS3HnoEYqQOzn0Y+p9C0v+rpQ5qNAY0xI4VyT+qGKE0ub946guxHWpMV
-         1XioTZvHs7Kw4k2Uja640LUOfaUnHhboBwPbJxLtPxnaDNveD1UCWDLi6558kZK56Wjn
-         cFTg==
+        d=google.com; s=20251104; t=1781597151; x=1782201951; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=dOsiBDHauJNUL/mHLBlXDW8Xe2gvOcwU/fMCh1N6uL8=;
+        b=jMFV0eqh6/zz9XTZeBSPAGCpdF2pouVCsfKBKgAUmQ5ODxYi6nC9pkFUQJEUc/xDNm
+         0aPtGTlHR6NFlBLKUF5ZRpax/F6sjPVCgc3xkCJZOdAWx1tROAJQRjC2S/+5qZV2Krq4
+         iz3fVngb9KU6ybAqWt/KhPnK1WpomcEspJofFBbQNLjlc2be+eh3xtLzPLmitoS4qqVP
+         b5g6/WKw5t3xuQDsWmZiNq7cNILfmKVtintn7c695vvWdpVw18NWOy2Yzrf0LY61bDoR
+         VQ1LpgNio6okg62mJkFO48PMQ5cwWKgRyFnJ6MA1jpOq3yzjsZEMt1Q9RhQQsh6LK0tO
+         TeIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781596618; x=1782201418;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tvO6+MpilClcYNX4EokLZGsJsErKgA+iDUMEt0HQsM4=;
-        b=Cx9NFcssaVTx3+CZp/kvG1ObKk2Dz8dTrIGBm9Py6Y4MAWITR9JlOH0hRAY4d0OPBS
-         5AjOFFIhocGVDvEpUsqEwOCiNnDxZ9LRGZYl9AWSs9ZWQ/ljMQ9FPvFzMUvBqTjTC3aA
-         CXddokNWIi/70JR9ecYWNZlynmv+1PwtDQzeYG6w72N2HvPa+rznfybRUWRn+BQViHxo
-         xdFVWpHP6lxv5YCut6YBDY+yPRv81a5JDSWnT4/9BA6eDO5VFfHFLrufdM6230pcy7EK
-         pROBnJE+4Ca+GBD6ee1oEGAESsvvwcuHl9E/sh0vS9BnG9lvc7AI+ZaXgbTzdx5+Qef7
-         nkeA==
-X-Forwarded-Encrypted: i=1; AFNElJ+oQmsba/cf6/uXri8TRK/87isfcJvZgakBnF7Rc3+MksCKFJVU9fKTsZieEU8Mf2Enm+azPxtbsVTY0w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyNX2hq5oi1npO6oMh23rWIQoG4Q8raznkH9wU0D2lIbLncunvs
-	8/wngQmGVjgfZmdwCEChemZ7ATHD8veV5w1ZXyNoaSpYF9DukZO4Gkwua57YR9Sp0q6D
-X-Gm-Gg: Acq92OF4rQrrg4ckCZ5nhN72H0b/e2bh6FRQrz/vQE5t2qtlEkCuw2/6IOnvmyO7QTV
-	D9x63K9pEaxTRDWSo/7MuUNtGoINWM9/paZHFGKvnEv+supt5CeEV7moIRVz68SyzeivvF2MPj/
-	NYm0xT+DnQUX6NutMvHhrpra/WssCHVEYplBR5voJpo4DB2SlUX/QDqnX7HvekBJmDhWBej/LrE
-	pFUvcGJHpAJ3Uttgob27RrSfyREd9E6H2UORgfY/84FU5kK+VlSzcsCH2MXANk0YFEs3Qkfj7BY
-	H1qHbhTsTF0d0T85GfUnqKsQ14q2tcTGmUvqCZweWXldX3UJ/HzEoBAsfsnhywT+v5kcuGtcfQE
-	E7jc7fkhfiNfuvfUAZFQw67Ppq+XAFDg9sa6CtRMNekgcjI98P4ZzgPCmy3Nco9Y6+WE+QKlof6
-	ucNDuvV4xqNcQOLVx5HKqIamZCzXaB8C+KiMwtHkU9rJd0aDVzzThFaEdLQtwXYAEjDoI7Qdd2I
-	o1cscIeOlQCqD9e+3vx7k1J6jy3d3ourQnWHT156pTs2w==
-X-Received: by 2002:a05:6000:1862:b0:461:b44c:a7a6 with SMTP id ffacd0b85a97d-461b44ca88dmr403954f8f.34.1781596618356;
-        Tue, 16 Jun 2026 00:56:58 -0700 (PDT)
-Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.218.209])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2b0c35sm43503294f8f.22.2026.06.16.00.56.56
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 16 Jun 2026 00:56:57 -0700 (PDT)
-From: Doruk Tan Ozturk <doruk@0sec.ai>
-To: tiffany.lin@mediatek.com,
-	andrew-ct.chen@mediatek.com,
-	yunfei.dong@mediatek.com,
-	mchehab@kernel.org,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com
-Cc: hverkuil+cisco@kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Doruk Tan Ozturk <doruk@0sec.ai>,
-	stable@vger.kernel.org
-Subject: [PATCH] media: mediatek: vcodec: fix use-after-free in decoder release path
-Date: Tue, 16 Jun 2026 09:56:55 +0200
-Message-ID: <20260616075655.95711-1-doruk@0sec.ai>
-X-Mailer: git-send-email 2.53.0
+        d=1e100.net; s=20251104; t=1781597151; x=1782201951;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dOsiBDHauJNUL/mHLBlXDW8Xe2gvOcwU/fMCh1N6uL8=;
+        b=saFg4DsPTmPa2gVb2sKb6LWLEExbd9VQEjmNfSHcPTeUvPuG4qPcEDx4uLSyDwJzju
+         y2BXG6o4+Ay7pzjeT17MiOSeZZbgGJf6toKVQZEhvo9J519nDNfk6S02SCctn54YEXzD
+         L2a4WA5f+PBTvG54rBiU2pFkE0Hi349ISqRUGYp3J/Ak0cnisPiCe9q0hP5jDWpnPkzK
+         6FYeocgXUbGQBmKiLcvrGUzb3wahB4LnFodkEPhr1fUxdL1B8G716rKZhktjKWvYprAo
+         q79FDiSYpl6YoEE+nD69f5/NsEYeu9418KaV0g9gEMu21atDtX6CePyopzuXzurNH4MS
+         pz3w==
+X-Forwarded-Encrypted: i=1; AFNElJ8y4YKA2SP2GE9eS0EDsZRQ5zKaRyt68OJ8EAu9MbgkHOtSgEaVFYgTUXSlnhv1G7r0AirJrMl7lCBBug==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywr8TnWNRHgHQ6myxTeBx4AqC4N4DZaICYSDZGrXy9htXZGJk5g
+	reFWOMw2ujoV3r1BuaRi5WVJeePWm8CCheVmHYYHW1s5wsfzwGYXsi+mg95FbsQapQ==
+X-Gm-Gg: Acq92OEMo3jK3iiIP0jczEWLX3Z6JcYad4rPuKQjiI0aetuml84HaJCzfJR0ogoO4zz
+	uS9UFNYsw2lQpX8mkXP8V532pDYCVf/R6K7G03azrIXZeDUkJaWDaVmXu4QRcirC+MaZ02RjgQJ
+	sCg8o3TO7BphMNKQtoYHrefmIRZWSUspSWgVRImT+qXz7lQnmbzA1G/E9Om/nT5D0HlCeKYDXXR
+	bluof7jLTvmmxuWoxOqPkp7CZg6OWAaDHgAB7KQN1+O19S3kMT/cFUh35TAEyDVRjGaFDGmwg55
+	DzjHYbUj6c8xgIv8dGbgqNfOoioZFzaRcB9GF1PLSrUyoXRhfFsUc4vtTq7l4ELPa9B3McLiltr
+	8gD+Amq00FgsDOd2guFn1iA/F9gNzJwMlOS1TqZT1blwI8Q1DnwHAXYZxFQ9lNxc2gjuk9JGcR8
+	b8k5R87VuosLATDcyTCVKa8w5TAuwkMuV+WaN3FenIR620+KMX9DcYTihGkAUD
+X-Received: by 2002:a17:903:1b0e:b0:2bd:6dad:7cca with SMTP id d9443c01a7336-2c69a357a8cmr1809945ad.22.1781597150664;
+        Tue, 16 Jun 2026 01:05:50 -0700 (PDT)
+Received: from google.com (199.255.142.34.bc.googleusercontent.com. [34.142.255.199])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8434ac9c016sm12271540b3a.8.2026.06.16.01.05.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Jun 2026 01:05:50 -0700 (PDT)
+Date: Tue, 16 Jun 2026 08:05:42 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Matt Evans <matt@ozlabs.org>
+Cc: Alex Williamson <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>,
+	Jason Gunthorpe <jgg@nvidia.com>, Alex Mastro <amastro@fb.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Mahmoud Adam <mngyadam@amazon.de>,
+	David Matlack <dmatlack@google.com>,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	kvm@vger.kernel.org, linux-pci@vger.kernel.org
+Subject: Re: [PATCH v3 8/9] vfio/pci: Permanently revoke a DMABUF on request
+Message-ID: <ajED1v846hZkyq9z@google.com>
+References: <20260610154327.37758-1-matt@ozlabs.org>
+ <20260610154327.37758-9-matt@ozlabs.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260610154327.37758-9-matt@ozlabs.org>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [1.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[0sec.ai:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
+	TAGGED_FROM(0.00)[bounces-64964-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[google.com:+];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64963-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:tiffany.lin@mediatek.com,m:andrew-ct.chen@mediatek.com,m:yunfei.dong@mediatek.com,m:mchehab@kernel.org,m:matthias.bgg@gmail.com,m:angelogioacchino.delregno@collabora.com,m:hverkuil+cisco@kernel.org,m:linux-media@vger.kernel.org,m:linux-mediatek@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:doruk@0sec.ai,m:stable@vger.kernel.org,m:matthiasbgg@gmail.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	DMARC_NA(0.00)[0sec.ai];
-	FORGED_SENDER(0.00)[doruk@0sec.ai,linux-media@vger.kernel.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_TO(0.00)[mediatek.com,kernel.org,gmail.com,collabora.com];
+	SEM_URIBL_UNKNOWN_FAIL(0.00)[vger.kernel.org:query timed out,ozlabs.org:query timed out];
+	FORGED_SENDER(0.00)[praan@google.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	FORGED_RECIPIENTS(0.00)[m:matt@ozlabs.org,m:alex@shazbot.org,m:leon@kernel.org,m:jgg@nvidia.com,m:amastro@fb.com,m:christian.koenig@amd.com,m:bhelgaas@google.com,m:logang@deltatee.com,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:kevin.tian@intel.com,m:ankita@nvidia.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,m:linux-pci@vger.kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[doruk@0sec.ai,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[0sec.ai:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	ALIAS_RESOLVED(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	MISSING_XM_UA(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,0sec.ai:dkim,0sec.ai:email,0sec.ai:mid,0sec.ai:from_mime,vger.kernel.org:from_smtp]
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[praan@google.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	SEM_URIBL_FRESH15_UNKNOWN_FAIL(0.00)[vger.kernel.org:query timed out,ozlabs.org:query timed out];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	RBL_SEM_FAIL(0.00)[172.105.105.114:query timed out];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,ozlabs.org:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 1A7EC68CFEA
+X-Rspamd-Queue-Id: D0DFB68D09A
 
-fops_vcodec_release() frees the decoder context with kfree(ctx) but
-never cancels the per-context decode_work worker first. Although
-v4l2_m2m_ctx_release() waits for any in-flight m2m job to finish, the
-workqueue handler (mtk_vdec_worker) may still be running and accessing
-the context after v4l2_m2m_job_finish() returns. Once kfree(ctx) runs,
-that worker dereferences freed memory, resulting in a use-after-free.
+On Wed, Jun 10, 2026 at 04:43:22PM +0100, Matt Evans wrote:
+> Expand the VFIO DMABUF revocation state to three states:
+> Not revoked, temporarily revoked, and permanently revoked.
+> 
+> The first two are for existing transient revocation, e.g. across a
+> function reset, and the DMABUF is put into the last in response to a
+> new VFIO feature VFIO_DEVICE_FEATURE_DMA_BUF.
+> 
+> VFIO_DEVICE_FEATURE_DMA_BUF passes a DMABUF by fd and requests that
+> the DMABUF is permanently revoked.  On success, it's guaranteed that
+> the buffer can never be imported/attached/mmap()ed in future, that
+> dynamic imports have been cleanly detached, and that all mappings have
+> been made inaccessible/PTEs zapped.
+> 
+> This is useful for lifecycle management, to reclaim VFIO PCI BAR
+> ranges previously delegated to a subordinate client process: The
+> driver process can ensure that the loaned resources are revoked when
+> the client is deemed "done", and exported ranges can be safely re-used
+> elsewhere.
+> 
+> Refactor the revocation code out of vfio_pci_dma_buf_move() to a
+> function common to move and the new feature request path.
+> 
+> Signed-off-by: Matt Evans <matt@ozlabs.org>
+> ---
+>  drivers/vfio/pci/vfio_pci_core.c   |   6 +-
+>  drivers/vfio/pci/vfio_pci_dmabuf.c | 169 ++++++++++++++++++++++-------
+>  drivers/vfio/pci/vfio_pci_priv.h   |  19 +++-
+>  include/uapi/linux/vfio.h          |  20 ++++
+>  4 files changed, 173 insertions(+), 41 deletions(-)
+> 
+> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
+> index 508a5eca910a..064906b25467 100644
 
-Cancel the pending decode work with cancel_work_sync(&ctx->decode_work)
-after the controls and m2m context are torn down and before kfree(ctx),
-mirroring the fix already applied to the encoder release path in
-commit 76e35091ffc7 ("media: mediatek: vcodec: fix use-after-free in
-encoder release path").
+[...]
 
-decode_work is always initialised before release can run:
-fops_vcodec_open() calls mtk_vcodec_dec_set_default_params() (its only
-caller) unconditionally after a successful v4l2_m2m_ctx_init(), and that
-function runs INIT_WORK(&ctx->decode_work, ...). A context can only reach
-fops_vcodec_release() via an open() that returned 0, i.e. one that passed
-that INIT_WORK. cancel_work_sync() on a properly initialised work_struct
-is therefore always safe, even if the work was never queued. This is
-unlike the 2023 msg_queue->core_work regression, where the work item
-could be uninitialised at cancel time.
+>  
+> +/* Set the DMABUF's revocation status (OK or temporarily/permanently revoked) */
+> +static void vfio_pci_dma_buf_set_status(struct vfio_pci_dma_buf *priv,
+> +					enum vfio_pci_dma_buf_status new_status)
+> +{
+> +	bool was_revoked;
+> +
+> +	lockdep_assert_held_write(&priv->vdev->memory_lock);
+> +
+> +	if (priv->status == VFIO_PCI_DMABUF_PERM_REVOKED ||
+> +	    priv->status == new_status) {
+> +		return;
+> +	}
+> +
+> +	dma_resv_lock(priv->dmabuf->resv, NULL);
+> +	was_revoked = (priv->status == VFIO_PCI_DMABUF_TEMP_REVOKED);
+> +
+> +	if (new_status != VFIO_PCI_DMABUF_OK) {
+> +		priv->status = new_status; /* Temp or permanently revoked */
+> +
+> +		if (was_revoked) {
+> +			/*
+> +			 * TEMP_REVOKED is being upgraded to
+> +			 * PERM_REVOKED.  The buffer is already gone,
+> +			 * don't wait on it again.
+> +			 */
+> +			dma_resv_unlock(priv->dmabuf->resv);
+> +			return;
+> +		}
+> +	}
+> +
+> +	dma_buf_invalidate_mappings(priv->dmabuf);
 
-Fixes: 590577a4e525 ("[media] vcodec: mediatek: Add Mediatek V4L2 Video Decoder Driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
----
-v2: reword the commit message to stay within 75 columns (no functional
-    change; checkpatch).
-v1: https://lore.kernel.org/linux-media/20260615140526.52617-1-doruk@0sec.ai/
+Nit: We seem to be calling this even if new_status == OK, while it works
+as importers (like IOMMUFD and RDMA core) are immune to a double 
+invalidate / revoke. I'm wondering if we could move this within the 
+if (new_status != VFIO_PCI_DMABUF_OK) block? 
 
- .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c         | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Since this is only needed to be called when we TEMP/PERM _REVOKE?
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
-index e936ed8dffbaf..30906b24c608a 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
-@@ -313,6 +313,15 @@ static int fops_vcodec_release(struct file *file)
- 	v4l2_fh_exit(&ctx->fh);
- 	v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
- 
-+	/*
-+	 * Cancel any pending decode work before freeing the context.
-+	 * Although v4l2_m2m_ctx_release() waits for m2m job completion,
-+	 * the workqueue handler (mtk_vdec_worker) may still be accessing
-+	 * the context after v4l2_m2m_job_finish() returns. Without this,
-+	 * a use-after-free occurs when the worker accesses ctx after kfree.
-+	 */
-+	cancel_work_sync(&ctx->decode_work);
-+
- 	mtk_vcodec_dbgfs_remove(dev, ctx->id);
- 	spin_lock_irqsave(&dev->dev_ctx_lock, flags);
- 	list_del_init(&ctx->list);
--- 
-2.43.0
+I'm just worried that this may overload the dma_buf_invalidate_mappings 
+to be a state-change notification instead of a revoke / invalidate
+notification.
 
+> +	dma_resv_wait_timeout(priv->dmabuf->resv,
+> +			      DMA_RESV_USAGE_BOOKKEEP, false,
+> +			      MAX_SCHEDULE_TIMEOUT);
+> +	dma_resv_unlock(priv->dmabuf->resv);
+> +	if (new_status != VFIO_PCI_DMABUF_OK) {
+> +		kref_put(&priv->kref, vfio_pci_dma_buf_done);
+> +		wait_for_completion(&priv->comp);
+> +		unmap_mapping_range(priv->dmabuf->file->f_mapping,
+> +				    0, priv->size, 1);
+> +		/*
+> +		 * Re-arm the registered kref reference and the
+> +		 * completion so the post-revoke state matches the
+> +		 * post-creation state.	 An un-revoke followed by a
+> +		 * new mapping needs the kref to be non-zero before
+> +		 * kref_get(), and vfio_pci_dma_buf_cleanup()
+> +		 * delegates its drain back through this revoke
+> +		 * path on a possibly-already-revoked dma-buf.
+> +		 */
+> +		kref_init(&priv->kref);
+> +		reinit_completion(&priv->comp);
+> +	} else {
+> +		dma_resv_lock(priv->dmabuf->resv, NULL);
+> +		priv->status = VFIO_PCI_DMABUF_OK;
+> +		dma_resv_unlock(priv->dmabuf->resv);
+> +	}
+> +}
+> +
+
+Otherwise, 
+Reviewed-by: Pranjal Shrivastava <praan@google.com>
+
+Thanks,
+Praan
 
