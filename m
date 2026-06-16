@@ -1,304 +1,168 @@
-Return-Path: <linux-media+bounces-65062-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65063-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id U3khFue4MWrtpQUAu9opvQ
-	(envelope-from <linux-media+bounces-65062-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 22:58:15 +0200
+	id h8jOMKLDMWpGpwUAu9opvQ
+	(envelope-from <linux-media+bounces-65063-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 23:44:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9894695545
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 22:58:14 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F4B169573B
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 23:44:02 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=sD26MNSY;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65062-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65062-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=KlLwcq3e;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65063-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65063-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id DC0F8315FE6D
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 20:58:07 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 55B5B306AD06
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 21:43:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D691239B954;
-	Tue, 16 Jun 2026 20:58:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 886653AC0D0;
+	Tue, 16 Jun 2026 21:43:45 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F016D397B1B
-	for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 20:58:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE5B35292A
+	for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 21:43:42 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781643486; cv=none; b=VH7GcZa+vRjOB8QkQ1TpxOXtPw89FPtY5mlA63BaswqvC/dyqGQMQXgC9feBIGQc3BXPJ6KZhC2TtvnBx9TKx0LL3BGv4DYpRo/oyOLehUKL4Q12M8FyRcWRFh9p06kZjKaiCARszyfLeye/tAI2z3hsY9ZmIV8X7B7DUIjZZVE=
+	t=1781646225; cv=none; b=BGjh1DjkI22o8qZ/sc2TrDJNQbEVC4NOWZmcoJVSR4ErdLmNaIzqPUZYgVn51ISMCSIbVqvbtsonr3fR+O07rmHqrt/uJCBj7CpKHQTNIgb4JnXUtWuaVSlM6qYnpEpBHzLe3mCN35rAygu4Hk+oWt+LwwzJLObkAkXEiRfgpA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781643486; c=relaxed/simple;
-	bh=MUmT4WQ8gikQW/FOLoONsetD5u39tuO3VxiIsFbd268=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wl6vK6Gv8LMig/kx98ZbpSzrpDBOLcOhPZLiXdEuz+EXiCMmVMH/ienvRB1mdC3uc34QDtNaq/dgeAj3ZhWSy68Lsmmv8GxCfsMGsP4GJnjilS9ovglMzSJRL1V1nxONdSCOcyIUe2NOSdcThol/WoKQfrn3UpZQIjbsEsp8ErI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sD26MNSY; arc=none smtp.client-ip=209.85.160.51
-Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-440e2b605ddso1131578fac.3
-        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 13:58:04 -0700 (PDT)
+	s=arc-20240116; t=1781646225; c=relaxed/simple;
+	bh=/Hs37zcNpwtyVvT2hh9IfdFDnL3CdV9f49cUgJRpxko=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Y0CIHSQBvyXjVBFwb8I2tFCU0mDpC7LFPG6PzB5o2tFUAtiTW8mJhJGdC7BSyNa7vzfop7xOSH8MilamAsmZmKgBs8KyOedbKDiOl4Wg2TCSmllDKZIOYhyEGe8z5uqW6XOJcy17GcV1+eneXLgoL9fy23gKE7puRO7MbGsSps0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KlLwcq3e; arc=none smtp.client-ip=209.85.216.44
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-36d98b68d68so3519209a91.2
+        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 14:43:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781643484; x=1782248284; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=rG4yjs4p+4H4P31U7PQCtrU7WZ2EeT+JyZMQJymeW5U=;
-        b=sD26MNSYv9ZLMxqb1P8qI+3XPTH8FSD8SWooLHUuiCQ1s6THX8h2d9oZK9otgepkmZ
-         L+7vw5kRLiFhMm4ptzIFb5v7SpJrr4VPdidEvKSkm3rQM7zsNu16TuLbxqzbvApfenPl
-         Bc92wTJuZwFBksaYq+LNEJtqL8qMNArEaK/atLfBq4M5ys37Mkq3NJqEO3nDsQ3RjZnm
-         uAZgzEI+ZYytvvmatKMEPQNndEF5C7AER/T55UeFVWLeLPCZqneogbKrZrNsOsahY1JO
-         gpRzR0Fuf69BQoin4mtTuxrSj23kj93piIP2Ibn1fjn5ZOkwXSlYiw7aRLu3ADWyY4e5
-         CTyA==
+        d=gmail.com; s=20251104; t=1781646222; x=1782251022; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Wuf6hY6fJuP1Fob6GRl/CCrYfo/S8Iq/mxxXiZHMvDc=;
+        b=KlLwcq3esYn5OjnWQ2Ypghh/KkHhzkwrte+5aYWlTYhjRVK2poVf5q0JB7zVpUqTgG
+         7/lwEWlY51yf/N+8YqdSHJRtZ7GuFh7o4KTcoeOr2SYtX+lfZ7e0JxiJiuU9ck6YUmQ8
+         eu3ksujvxGWJTKSo+olGzZN6GpCMT3V4/1OZIaAotkNrZgH4f0YzBVqKEY3iXiTZh/kH
+         YKbge1LEDwS3bBf+Lb+jBl3D0ImBDWn7fHC08iCAR3IF7/DoXP4Vkza3jJ6sDTmQwCyC
+         0OSUPXgJaShSDxEcIg8PurQR/4fUIBnvXSMWLx3VmNtsYgWVenMk3h6U1e+/7wotdmyg
+         7nAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781643484; x=1782248284;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rG4yjs4p+4H4P31U7PQCtrU7WZ2EeT+JyZMQJymeW5U=;
-        b=JrzDGmQhwZMoVfKBVK0bZRM47ZfJGTtQRF4ciz9F1XIpAOOTMY6CHCvKMGYcGWGLwK
-         3wH+vV5Z+1OIslzAby/wkf/sGmVRBexfK5J19Bnz2+jsd8yLfNNADw+Kwg/mw4+umDaH
-         lhLMDEcNzhQEG2WoFyUqwIeWeZwPdvOgt6f0IuVT4QhqASZ8a7hRWqL/f+uNb7YRptVP
-         W/ePBFlfu6YGhiU/kiOttAaHzmLcBEUyuh6QcEKxNvEDrLEPam5Jzk21o7jqtY1H3IH7
-         Yz5+vs/l1LnX2yw5gyiKnr8/SMIraCZTveLBLsIr9PXHaHfYcZW8sBeqRDqO7ciK4Bx8
-         Wu9Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/gmwD6VWE0hVuK1qGwIe7xHZaStxWa6a+cHVW+ZMjck3+qr6lPVYFJtnLXW8H+ABafC3K6BO9njZbELQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx++j7IFLuSgabNP3FEvmgp9wT2+GIGZ/6YBLarws9FLTbC/dZS
-	1uyxyXAotpOcwWooLrFnrRAhxC7xO0DEjNe7puncaM4flOcj1mMTd0az
-X-Gm-Gg: Acq92OG8nTP8fz88LKtrb0u1hfoIIm6tRsXRWPPsEI6UTkxUV9g47sfdlDANLIQaxpF
-	dpgsAqP0y+HkLhrBA2+ot6RiI5aHKTHH2af+PwXsIPyrin4nzekDnlKLZ2pzOuHuPlV8oxJwTLO
-	la28/vd2o6td01Ik9QCZR9r+qz1S3b0p6o247l5fQbtvDC5ejidM1pViXv5mInoK3zktxpwRK1T
-	LblZWER411kZmytVAeb/etuWMp7lshY2j2gck/tNy99FSu7w8Xs4skmy+8PkFRHb3XzqcNukXQZ
-	yDVvuzEKJ0SimRq/bWSmzQsVbvExwvLT6YZuG2JuJQ3gbzlppgzvtXdQ9EFZW7mblOSrPsiiOKS
-	eq+nYwH5qFyWrnR95YFXznAh8EWh05gpT3Y+ror8saioaOuagafZTuK27LghHOpgaXbLx4vLueq
-	Ob6rY2nkmlIUjV7h2RTFmQqOnuNB+xWkIU03mFpqIrnFU=
-X-Received: by 2002:a05:6808:2f0f:b0:479:f7e7:4a81 with SMTP id 5614622812f47-489425d7d4cmr1016628b6e.0.1781643483758;
-        Tue, 16 Jun 2026 13:58:03 -0700 (PDT)
-Received: from devvm29614.prn0.facebook.com ([2a03:2880:ff:8::])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4875df7fc36sm5099675b6e.9.2026.06.16.13.57.59
+        d=1e100.net; s=20251104; t=1781646222; x=1782251022;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Wuf6hY6fJuP1Fob6GRl/CCrYfo/S8Iq/mxxXiZHMvDc=;
+        b=ZAk9KHlWPKrNKYu5foG2f1zgEK5ThXGIqXbnC41C4F6TxKA4W48WlCJyWG+guXDuJU
+         xK+/XCGIEnAhj0IluMGhZZAZze3g2pfB8Uk2JCdbKQV+8SXr9Dt+jwTxgHrwgwWFBqgX
+         9vPUtRdkky2ifkYMKVDcV/DeSOIQaoo/2neQ+OaZrDoXhO6ho7uLeCIdD0RRrC6q23al
+         2ale4dgOY+MIFycGXti6OflIKGwS9r5SADuszssrdz3cIDyAwiJzyAFDMN4gjtNfhq02
+         FN1Uc1I7rYJUzkLsFTNn00LJhW2+Bcv/0PxMCIZaa0V+axQ9LD7zQD41buN3nqHd/cK6
+         PqoA==
+X-Forwarded-Encrypted: i=1; AFNElJ8JJz9Kj49Aeje7/hXNwGB359vzzGJ/lkfC2TE70/LvteHYWU2xKCpyVqY2eeyCaZQEIJwDckLgKEHm3Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyc2hgVcBEAwVxjpdn7rrZX/2Kp6Jih2wddikIwNF21pRMWxqsD
+	biTw1DJqpD9Payru2/17GQcc1pANHHEDklcFxN7fPdsoyA+RKrKis1Qa
+X-Gm-Gg: Acq92OFnQsmlDrPXM6bsljuodfkBpU6baekPgh1Eqrdr2pFsuNPwB9x2wwGSv7bxTbc
+	qKOl6hltYQUzxqsOkSmDGz9sonl7qxxIvj0XdILfT5nDpANacPfcK/uL7nSMs3qGL9nmAKck10Q
+	AIWJFuElaXiDhree0cP5HsJiDuWGeM1dxj4tYpmhN3o6fg5PSE40v4/DkeI+xIe3UTcpzYUVqpi
+	PzytaCEaq+Quel57sHOlyRMpoxC4naevhpJhnq2MR8UCjbIijQ7EZAsEA1pv9WKgibjMoruNjB8
+	DY9eHar4KA8sI6QlHZAWgK31B8Ry3rOiuGIUl10nfT7E6Rx8Re0VM/+ukQOMVNM+V8HnOmniJAh
+	9i9kFRH3kghnwgaTv92YihOCwL2QYjOZjmnDp95vKpo7gDjImj0tljowXdw6UHMmRRqKNgD79TF
+	bzCnv7kfO7XnioG36nb91TLswranZpOVaTdYgivqPUf+bJ5UVFFpt2DOTWXB/fO2kuIR+YWCAOI
+	PVsW4+wVGkz6uc=
+X-Received: by 2002:a05:6a21:6190:b0:3b3:bdf5:1166 with SMTP id adf61e73a8af0-3b8b7feb3f5mr1115960637.39.1781646221920;
+        Tue, 16 Jun 2026 14:43:41 -0700 (PDT)
+Received: from moksh-Nitro-ANV15-51.. ([203.192.239.31])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c866325e477sm12067256a12.10.2026.06.16.14.43.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 13:58:03 -0700 (PDT)
-Date: Tue, 16 Jun 2026 13:57:49 -0700
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Cc: Donald Hunter <donald.hunter@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Shuah Khan <shuah@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"sdf@fomichev.me" <sdf@fomichev.me>,
-	"razor@blackwall.org" <razor@blackwall.org>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	"almasrymina@google.com" <almasrymina@google.com>,
-	"matttbe@kernel.org" <matttbe@kernel.org>,
-	"skhawaja@google.com" <skhawaja@google.com>,
-	"dw@davidwei.uk" <dw@davidwei.uk>,
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v2 2/4] udmabuf: emit one sg entry per pinned
- folio
-Message-ID: <ajG4zaK9zu7qZT1+@devvm29614.prn0.facebook.com>
-References: <20260611-tcpdm-large-niovs-v2-0-ee2bf15e7523@meta.com>
- <20260611-tcpdm-large-niovs-v2-2-ee2bf15e7523@meta.com>
- <IA0PR11MB71852246277F773AC41DAAA3F8E52@IA0PR11MB7185.namprd11.prod.outlook.com>
+        Tue, 16 Jun 2026 14:43:41 -0700 (PDT)
+From: Moksh Panicker <mokshpanicker.7@gmail.com>
+To: sean@mess.org
+Cc: mchehab@kernel.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	Moksh Panicker <mokshpanicker.7@gmail.com>,
+	syzbot+2599e08a22e4565ea9f9@syzkaller.appspot.com
+Subject: [PATCH] media: rc: igorplugusb: Fix wrong pointer passed to usb_fill_control_urb()
+Date: Tue, 16 Jun 2026 21:43:34 +0000
+Message-Id: <20260616214334.36525-1-mokshpanicker.7@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <IA0PR11MB71852246277F773AC41DAAA3F8E52@IA0PR11MB7185.namprd11.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65062-lists,linux-media=lfdr.de];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[bobbyeshleman@gmail.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:vivek.kasireddy@intel.com,m:donald.hunter@gmail.com,m:kuba@kernel.org,m:davem@davemloft.net,m:edumazet@google.com,m:pabeni@redhat.com,m:horms@kernel.org,m:andrew+netdev@lunn.ch,m:kraxel@redhat.com,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:shuah@kernel.org,m:jgg@ziepe.ca,m:netdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kselftest@vger.kernel.org,m:sdf@fomichev.me,m:razor@blackwall.org,m:daniel@iogearbox.net,m:almasrymina@google.com,m:matttbe@kernel.org,m:skhawaja@google.com,m:dw@davidwei.uk,m:bobbyeshleman@meta.com,m:donaldhunter@gmail.com,m:andrew@lunn.ch,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,davemloft.net,google.com,redhat.com,lunn.ch,linaro.org,amd.com,ziepe.ca,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,fomichev.me,blackwall.org,iogearbox.net,davidwei.uk,meta.com];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,linuxfoundation.org,gmail.com,syzkaller.appspot.com];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-65063-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:sean@mess.org,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:skhan@linuxfoundation.org,m:mokshpanicker.7@gmail.com,m:syzbot+2599e08a22e4565ea9f9@syzkaller.appspot.com,m:mokshpanicker7@gmail.com,m:syzbot@syzkaller.appspot.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[mokshpanicker7@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bobbyeshleman@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_NEQ_ENVFROM(0.00)[mokshpanicker7@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,netdev];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[meta.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,gitlab.freedesktop.org:url,vger.kernel.org:from_smtp]
+	TAGGED_RCPT(0.00)[linux-media,2599e08a22e4565ea9f9];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,syzkaller.appspot.com:url,syzkaller.appspot.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A9894695545
+X-Rspamd-Queue-Id: 3F4B169573B
 
-On Tue, Jun 16, 2026 at 06:04:03AM +0000, Kasireddy, Vivek wrote:
-> Adding Jason to this discussion.
-> 
-> Hi Bobby,
-> 
-> > Subject: [PATCH net-next v2 2/4] udmabuf: emit one sg entry per pinned
-> > folio
-> > 
-> > From: Bobby Eshleman <bobbyeshleman@meta.com>
-> > 
-> > get_sg_table() emitted one PAGE_SIZE sg entry per page even when the
-> > underlying folio was larger.
-> > 
-> > Instead, walk folios[] and emit one sg entry per folio. When folios
-> We have recently merged a patch (that will make it into 7.2) from Jason that
-> replaced sg_set_folio() with sg_alloc_table_from_pages() in udmabuf driver:
-> https://gitlab.freedesktop.org/drm/tip/-/commit/5bf888673e0dda5a53220fa0c4956271a46c353c
-> 
-> Since you are relying on sg_set_folio(), the core argument against its usage
-> in udmabuf is that it doesn't work well with offsets > PAGE_SIZE, resulting
-> in a malformed scatterlist. Not sure if this can be fixed easily.
-> 
-> > represent large pages (as is for MFD_HUGETLB), each sg entry is a large
-> > page. Normal PAGE_SIZE sg tables are unchanged.
-> > 
-> > This is helpful for importers like net/core/devmem that expect dmabuf sg
-> IMO, udmabuf needs to detect whether importers can handle segments that
-> are > PAGE_SIZE and set the entries appropriately. Please look into how the
-> GPU drivers and other dmabuf exporters/importers handle this situation, so
-> that we can adopt best practices to address this issue.
-> 
-> Thanks,
-> Vivek
+ir->request is already a pointer to struct usb_ctrlrequest, so passing
+&ir->request passes the address of the pointer rather than the pointer
+itself. This causes usb_submit_urb() to read garbage as the URB setup
+packet, resulting in a direction mismatch warning:
 
-Hey Vivek,
+  usb 1-1: BOGUS control dir, pipe doesn't match bRequestType
 
-It sounds looks like that patch might solve my problem. I'll apply and
-troubleshoot from there.
+Fix this by passing ir->request directly instead of &ir->request.
 
-Thanks!
+Reported-by: syzbot+2599e08a22e4565ea9f9@syzkaller.appspot.com
+Closes: https://syzkaller.appspot.com/bug?extid=2599e08a22e4565ea9f9
+Signed-off-by: Moksh Panicker <mokshpanicker.7@gmail.com>
+---
+ drivers/media/rc/igorplugusb.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Best,
-Bobby
+diff --git a/drivers/media/rc/igorplugusb.c b/drivers/media/rc/igorplugusb.c
+index 3e10f6fe8..b5117ee9f 100644
+--- a/drivers/media/rc/igorplugusb.c
++++ b/drivers/media/rc/igorplugusb.c
+@@ -184,7 +184,7 @@ static int igorplugusb_probe(struct usb_interface *intf,
+ 	if (!ir->buf_in)
+ 		goto fail;
+ 	usb_fill_control_urb(ir->urb, udev,
+-		usb_rcvctrlpipe(udev, 0), (uint8_t *)&ir->request,
++		usb_rcvctrlpipe(udev, 0), (uint8_t *)ir->request,
+ 		ir->buf_in, MAX_PACKET, igorplugusb_callback, ir);
+ 
+ 	usb_make_path(udev, ir->phys, sizeof(ir->phys));
+-- 
+2.34.1
 
-> 
-> > entries to be size and length aligned. Prior to this patch udmabuf
-> > handed over one PAGE_SIZE sg entry per page, so devmem only saw
-> > PAGE_SIZE chunks regardless of the underlying folio size.
-> > 
-> > dma_map_sgtable() does not always merge contiguous pages for us, so we
-> > do this internally before exporting.
-> > 
-> > Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
-> > ---
-> >  drivers/dma-buf/udmabuf.c | 52
-> > ++++++++++++++++++++++++++++++++++++++++++-----
-> >  1 file changed, 47 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> > index 94b8ecb892bb..9b751dd98b12 100644
-> > --- a/drivers/dma-buf/udmabuf.c
-> > +++ b/drivers/dma-buf/udmabuf.c
-> > @@ -141,26 +141,68 @@ static void vunmap_udmabuf(struct dma_buf
-> > *buf, struct iosys_map *map)
-> >  	vm_unmap_ram(map->vaddr, ubuf->pagecount);
-> >  }
-> > 
-> > +/* Return the number of contiguous pages backed by the folio at @i.
-> > + * A udmabuf may map only part of a folio, or reference the same folio
-> > + * in multiple non-contiguous runs, so folio_nr_pages() can't be used.
-> > + */
-> > +static pgoff_t udmabuf_folio_nr_pages(struct udmabuf *ubuf, pgoff_t i)
-> > +{
-> > +	struct folio *f = ubuf->folios[i];
-> > +	pgoff_t j;
-> > +
-> > +	for (j = 1; i + j < ubuf->pagecount; j++) {
-> > +		if (ubuf->folios[i + j] != f)
-> > +			break;
-> > +		/* Same folio, but not a sequential offset within it. */
-> > +		if (ubuf->offsets[i + j] != ubuf->offsets[i] + j * PAGE_SIZE)
-> > +			break;
-> > +	}
-> > +	return j;
-> > +}
-> > +
-> > +/* Count the contiguous folio runs in @ubuf, one sg entry per run.
-> > + *
-> > + * Coalescing folios into a single sg entry up front lets importers actually
-> > + * see large chunks. We can't rely on dma_map_sgtable() to do this for us
-> > as
-> > + * the dma_map_direct() path preserves the input scatterlist lengths
-> > verbatim.
-> > + */
-> > +static unsigned int udmabuf_sg_nents(struct udmabuf *ubuf)
-> > +{
-> > +	unsigned int nents = 0;
-> > +	pgoff_t i;
-> > +
-> > +	for (i = 0; i < ubuf->pagecount; i += udmabuf_folio_nr_pages(ubuf,
-> > i))
-> > +		nents++;
-> > +	return nents;
-> > +}
-> > +
-> >  static struct sg_table *get_sg_table(struct device *dev, struct dma_buf
-> > *buf,
-> >  				     enum dma_data_direction direction)
-> >  {
-> >  	struct udmabuf *ubuf = buf->priv;
-> > -	struct sg_table *sg;
-> >  	struct scatterlist *sgl;
-> > -	unsigned int i = 0;
-> > +	struct sg_table *sg;
-> > +	pgoff_t i, run;
-> > +	unsigned int nents;
-> >  	int ret;
-> > 
-> > +	nents = udmabuf_sg_nents(ubuf);
-> > +
-> >  	sg = kzalloc_obj(*sg);
-> >  	if (!sg)
-> >  		return ERR_PTR(-ENOMEM);
-> > 
-> > -	ret = sg_alloc_table(sg, ubuf->pagecount, GFP_KERNEL);
-> > +	ret = sg_alloc_table(sg, nents, GFP_KERNEL);
-> >  	if (ret < 0)
-> >  		goto err_alloc;
-> > 
-> > -	for_each_sg(sg->sgl, sgl, ubuf->pagecount, i)
-> > -		sg_set_folio(sgl, ubuf->folios[i], PAGE_SIZE,
-> > +	sgl = sg->sgl;
-> > +	for (i = 0; i < ubuf->pagecount; i += run) {
-> > +		run = udmabuf_folio_nr_pages(ubuf, i);
-> > +		sg_set_folio(sgl, ubuf->folios[i], run << PAGE_SHIFT,
-> >  			     ubuf->offsets[i]);
-> > +		sgl = sg_next(sgl);
-> > +	}
-> > 
-> >  	ret = dma_map_sgtable(dev, sg, direction, 0);
-> >  	if (ret < 0)
-> > 
-> > --
-> > 2.53.0-Meta
-> 
 
