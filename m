@@ -1,191 +1,287 @@
-Return-Path: <linux-media+bounces-65045-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65046-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id bz3cFoZxMWrQjQUAu9opvQ
-	(envelope-from <linux-media+bounces-65045-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 17:53:42 +0200
+	id gOZpNfdxMWr7jQUAu9opvQ
+	(envelope-from <linux-media+bounces-65046-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 17:55:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFD306917AB
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 17:53:41 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F0A0691836
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 17:55:35 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=KHjFqWQK;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65045-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65045-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=ozlabs.org header.s=201707 header.b=THUOroZs;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65046-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65046-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ozlabs.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 209CB3108787
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 15:45:01 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 84983303E849
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 15:47:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D1744611C1;
-	Tue, 16 Jun 2026 15:43:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 251C544B69C;
+	Tue, 16 Jun 2026 15:46:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B351A682B
-	for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 15:43:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54FFD450901;
+	Tue, 16 Jun 2026 15:46:04 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781624593; cv=none; b=PKQri8XzZpkTr1N28lAuD99FMhU9EG5KpFWaoOyVf35A2xtsATY0uRMx8jF/zTT7iKFF6b39x87I1W//WFWQnlEg+cuP+N1VOtIGBP09otXUKpSqrzyYYQBsdEeQThOQpBABPgWa+LDpGRHYwUl4HPJhkyLabnMcE2xs0fUThgM=
+	t=1781624770; cv=none; b=pRlOvyJdw83oy0aCYNr1vX7X9Pm64d5fYY1d5m8E99gouExNM6NVl0trAQlskMTSbF42YwK4uLs2XZs0CB0BOba++aBORsz/bMWeeJizlHfCHAj3XMuohtxJ6QiOfrAwc85O97UqcrA7J+COBBBnLo7ibhgZ5HINBVfYCkmEIMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781624593; c=relaxed/simple;
-	bh=bnratpTl4l8YNVK0BrtLEtPixNWEOeuGI3AWx+r0rbU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mK8V2lUdFNqggM2pKgXGwlh7eLRjye/oM2GHlQ44H/2qZMX/D9Triys9Wb6/6KirKKGdL6XXyW7TVnFGvmA+RGpDSIZXY/SpbJZL8KSfjg8L4c5zODhtqpRcY9nglTxF7Q5UDMRNwffjuhymieCvms9RlbYXDew9AhyINXAQmSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KHjFqWQK; arc=none smtp.client-ip=209.85.215.175
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-c8585cd8400so1586378a12.3
-        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 08:43:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781624591; x=1782229391; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+MTP2Vn+ea1Dmt517zV0XY75jGYUeXA8Er0VTEC0PP8=;
-        b=KHjFqWQKdiDCZYTEUZaSJWLSDvFkUZrPqOg0Hni8BAuORgtpVGSR8dZcboovoa6iig
-         zj2J6fT440vX3IzF6tDJ27fPXkuKUGJclhr39PwcefKIz6Hk0DjP7MiHo98wOthvx9fG
-         b9jCv8OdfuJP3DDoVmw6Yk3cIl/XHwGZ5hGfVMpqAAtID33m3kFjG/1eniKU84JDnEgK
-         rG4cxWapvu8HiQ+N6dvN2zCYfHFkhBd9ZegJ8nruxM3kqx/YRNZ8cK3Rux6/XOVkW/Th
-         K7y5SBupQS/P1KYdt44kajQ/ckiuFZ84fG+SYHgnec6ARlqg++2j7SjLrLLDWGpxJFgQ
-         Bxug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781624591; x=1782229391;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+MTP2Vn+ea1Dmt517zV0XY75jGYUeXA8Er0VTEC0PP8=;
-        b=mKhyy6YtWVxF3R4Y9CFt63O+V7Lzck3UNqsam++LTaR/dVIplihEZFiyIu1Q1pJh7T
-         qyKFQygLH9eY0Rexb7LxTLf5wHgGxWonWNUO/G2FOO9gTE7JQcPEGqc3dPg8i3TvrqvE
-         RQEqlggzvLIJjtrlNzCKDk1QK/wxCARX6lZUe0lnJt1v7J4EqHG3mvrMvadGJ0xZY/tt
-         /nsxNgcZvFwuBHMDK5zmkaZ5pZHTLn8xlwDi2zAEeSdZtPo8Xr1zhqnuGmc8HMg/ajmf
-         MqQPTxfR6E24DGL+mRpCLNoVyBKrRSwzGB+Dww9ak38vD8wmadtN1vGvQf6TVZihfudu
-         mLEg==
-X-Gm-Message-State: AOJu0YwdiQkd8/ZgexCA5rLH3si//AXNl4L9hmVx5CmZeGhtcy4c/BjG
-	hnek87vPNwIO5g+rVfOhrOcS5OgLznxLSc65xP5IeJwGhFMsmEn+2talhuZ/64tq
-X-Gm-Gg: Acq92OH5VH+jxXWfXzZxtpNTnLTy0cL2Smb4O3GcV8oH2Kww/emWvZAhMJpCDI1kR7D
-	k8Q+vAfiTtXVvDOB96Bs7IwyesqHBQzJjq1/lGD3HkVtmUP1xRd70QIGEhA7P4LhDVHuqFbVQm7
-	0r0vs2xQG7qUFZnylQgwP10apvZqSR+zwgDFdL48frH6mawkq6XIxIChkuyvLdL3s2GXswVq7fr
-	ZIjwOp+L1vZqFAk9iD5yceUBUEzkX7NRP6/HHtv70ea5/SvsNirUgjjOw6AG6DvmK3D5bPWMSCi
-	9mAJ9Ro333x4vTzXIr60MesKhZn5xpdVK+0yH35S7QPmLYDC9iu9iRnfGnxLEZn78LJ/+2zbuDj
-	XL+Y4ZKhfYeht4G1SXKeo/F/64TWPwf7Id+ZknNEoqY02JG7QCH+m0PVw6DnxmAYcjzVpQEM92U
-	EmZuh4QIB1eOu1NzmnmlII8bEm8Ri9hdfHnbQ8GfLBs6BCYXmMcg3xasMHzIeEHEM=
-X-Received: by 2002:a05:6a20:ce48:b0:39c:4af6:4309 with SMTP id adf61e73a8af0-3b7e49d1001mr5024788637.12.1781624591127;
-        Tue, 16 Jun 2026 08:43:11 -0700 (PDT)
-Received: from localhost.localdomain ([49.207.217.37])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c8665186d98sm11732485a12.16.2026.06.16.08.43.08
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 16 Jun 2026 08:43:10 -0700 (PDT)
-From: Biren Pandya <birenpandya@gmail.com>
-To: sakari.ailus@linux.intel.com,
-	laurent.pinchart@ideasonboard.com,
-	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Biren Pandya <birenpandya@gmail.com>
-Subject: [PATCH v2] media: v4l2-core: Drop manual fwnode_handle_put() via scope-based cleanup
-Date: Tue, 16 Jun 2026 21:13:05 +0530
-Message-ID: <20260616154305.54954-1-birenpandya@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260616092516.46339-1-birenpandya@gmail.com>
-References: <20260616092516.46339-1-birenpandya@gmail.com>
+	s=arc-20240116; t=1781624770; c=relaxed/simple;
+	bh=fItsoDno4OXTl/roZip1JO0/Uy5m1LoydcJisLehhkI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ArzZRWimphsy7mkKHWJQoQErFOtPV8/HpBxlq3+i21LrXWYbLg/oorddvmMaZpXfhjPvH9n47c7pFo8gAdu7WbW+l5Msyuf5uWkStvFrrCFLTIMfQnLjnadb/RnU0KhTUWdrueBSuWsgfbKG1dJsAptJa790B4dojQfVUTE/GNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ozlabs.org; spf=pass smtp.mailfrom=ozlabs.org; dkim=pass (2048-bit key) header.d=ozlabs.org header.i=@ozlabs.org header.b=THUOroZs; arc=none smtp.client-ip=150.107.74.76
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ozlabs.org;
+	s=201707; t=1781624757;
+	bh=j3l8PvO0raZl8FCiGfg/zxw+3QiENISLFXyCDIfAXL8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=THUOroZs0WczfHibO0A/qrPSHwa5YNdoYCeWJF2d/1CIECVXjkloXj7wLH3RAMrqd
+	 5fczYcVAY5/pQy+4+jgY4kuVXiUvzSAMPKLcKb1C5w9H+cAzmY47/8bx3acg6k87j4
+	 fWhZfAaafjgGWk3F2SAREOE3MsU3h3u2Wvysz2/iIQH1R8GKJhsXoFXbYm69HVXkRB
+	 VhWj40L7/ojitg33igOa1igkbg9cSGVkGEkTixJmeB6SmBl5O2ZB/E1wXD9LyDkEa8
+	 Kom/JzqnfzG5JdI7rGl9KPo/I/8vsIBaPI94iumvlLCPSeuLfYBHIH6aGkgJFoTfle
+	 LbV6upvypwVdw==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4gfrtN6g3Dz4w1b;
+	Wed, 17 Jun 2026 01:45:48 +1000 (AEST)
+Message-ID: <e94aa97f-1aba-408e-8d3a-19f60b057b34@ozlabs.org>
+Date: Tue, 16 Jun 2026 16:45:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 7/9] vfio/pci: Support mmap() of a VFIO DMABUF
+Content-Language: en-GB
+To: Pranjal Shrivastava <praan@google.com>
+Cc: Alex Williamson <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>,
+ Jason Gunthorpe <jgg@nvidia.com>, Alex Mastro <amastro@fb.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
+ Mahmoud Adam <mngyadam@amazon.de>, David Matlack <dmatlack@google.com>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Kevin Tian <kevin.tian@intel.com>,
+ Ankit Agrawal <ankita@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+ linux-pci@vger.kernel.org
+References: <20260610154327.37758-1-matt@ozlabs.org>
+ <20260610154327.37758-8-matt@ozlabs.org> <aixtd_7gDhf2kisJ@google.com>
+From: Matt Evans <matt@ozlabs.org>
+In-Reply-To: <aixtd_7gDhf2kisJ@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ozlabs.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[ozlabs.org:s=201707];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-65045-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:praan@google.com,m:alex@shazbot.org,m:leon@kernel.org,m:jgg@nvidia.com,m:amastro@fb.com,m:christian.koenig@amd.com,m:bhelgaas@google.com,m:logang@deltatee.com,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:kevin.tian@intel.com,m:ankita@nvidia.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,m:linux-pci@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[matt@ozlabs.org,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:laurent.pinchart@ideasonboard.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:birenpandya@gmail.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	TAGGED_FROM(0.00)[bounces-65046-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[birenpandya@gmail.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[birenpandya@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[matt@ozlabs.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ozlabs.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CFD306917AB
+X-Rspamd-Queue-Id: 9F0A0691836
 
-v4l2_subdev_get_fwnode_pad_1_to_1() acquires a fwnode reference and drops
-it via fwnode_handle_put() before calling device_match_fwnode(). This
-requires manual lifecycle management.
+Hi Praan,
 
-Simplify the function by converting the local fwnode variable to use the
-__free(fwnode_handle) scope-based cleanup macro.
+On 12/06/2026 21:35, Pranjal Shrivastava wrote:
+> On Wed, Jun 10, 2026 at 04:43:21PM +0100, Matt Evans wrote:
+> 
+> Hi Matt,
+> 
+> [...]
+> 
+>> +	 *
+>> +	 * With the goal of taking vdev->memory_lock in a world where
+>> +	 * vdev might not still exist:
+>> +	 *
+>> +	 * 1. Take the resv lock on the DMABUF:
+>> +	 *  - If racing cleanup got in first, the buffer is revoked;
+>> +	 *    stop/exit if so.
+>> +	 *  - If we got in first, the buffer is not revoked so vdev is
+>> +	 *    non-NULL, accessible, and cleanup _has not yet put the
+>> +	 *    VFIO device registration_.  So, the device refcount must
+>> +	 *    be >0.
+>> +	 *
+>> +	 * 2. Take vfio_device registration (refcount guaranteed >0
+>> +	 *    hereafter).
+>> +	 *
+>> +	 * 3. Unlock the DMABUF's resv lock:
+>> +	 *  - A racing cleanup can now complete.
+>> +	 *  - But, the device refcount >0, meaning the vfio_device
+>> +	 *    (and vfio_pcie_core device vdev) have not yet been
+>> +	 *    freed.  vdev is accessible, even if the DMABUF has been
+>> +	 *    revoked or cleanup has happened, because
+>> +	 *    vfio_unregister_group_dev() can't complete.
+>> +	 *
+>> +	 * 4. Take the vdev->memory_lock
+>> +	 *  - Either the DMABUF is usable, or has been cleaned up.
+>> +	 *    Whichever, it can no longer change under us.
+>> +	 *  - Test the DMABUF revocation status again: if it was
+>> +	 *    revoked between 1 and 4 return a SIGBUS. Otherwise,
+>> +	 *    return a PFN.
+>> +	 *  - It's not necessary to also take the resv lock, because
+>> +	 *    the status/vdev can't change while memory_lock is held.
+>> +	 *
+>> +	 * 5. Unlock, done.
+>>  	 */
+>> +
+>> +	dma_resv_lock(priv->dmabuf->resv, NULL);
+>> +
+>> +	if (priv->revoked) {
+>> +		pr_debug_ratelimited("%s VA 0x%lx, pgoff 0x%lx: DMABUF revoked/cleaned up\n",
+>> +				     __func__, vmf->address, vma->vm_pgoff);
+>> +		dma_resv_unlock(priv->dmabuf->resv);
+>> +		return VM_FAULT_SIGBUS;
+>> +	}
+>> +
+>> +	/* If the buffer isn't revoked, vdev is valid */
+>>  	vdev = priv->vdev;
+>>  
+>> +	if (!vfio_device_try_get_registration(&vdev->vdev)) {
+>> +		/*
+>> +		 * If vdev != NULL (above), the registration should
+>> +		 * already be >0 and so this try_get should never
+>> +		 * fail.
+>> +		 */
+>> +		dev_warn(&vdev->pdev->dev, "%s: Unexpected registration failure\n",
+>> +			 __func__);
+>> +		dma_resv_unlock(priv->dmabuf->resv);
+>> +		return VM_FAULT_SIGBUS;
+>> +	}
+>> +	dma_resv_unlock(priv->dmabuf->resv);
+>> +
+> 
+> 
+>>  	scoped_guard(rwsem_read, &vdev->memory_lock) {
+>> +		/* Revocation status must be re-read, under memory_lock */
+>>  		if (!priv->revoked) {
+>>  			int pres = vfio_pci_dma_buf_find_pfn(priv, vma,
+>>  							     vmf->address,
+> 
+> Wait, I noticed that the is_aligned_for_order() check from mainline was 
+> removed here. Was that intentional? 
+> 
+> For hugepage faults (order > 0), we must ensure the PFN and address are
+> properly aligned before calling vfio_pci_vmf_insert_pfn().
+> 
+> In the current upstream code, we have:
+>   if (is_aligned_for_order(vma, addr, pfn, order))
+> 
+> Should we restore that check here?
 
-Signed-off-by: Biren Pandya <birenpandya@gmail.com>
----
-Changes in v2:
-- Updated the commit message to remove the "Use-After-Free" language,
-  as there is no vulnerability in practice.
-- Adjusted the implementation to declare `struct fwnode_handle *fwnode`
-  directly at the point of initialization, rather than at the top of the
-  block, conforming to recommended usage.
-- Renamed the patch subject to better reflect the true nature of the change.
-- Link to v1: https://lore.kernel.org/all/20260616092516.46339-1-birenpandya@gmail.com/
+The alignment check is done within the helper
+vfio_pci_dma_buf_find_pfn(), which returns -EAGAIN if order > 0 and a
+search result isn't usable due to alignment.  That leads to
+VM_FAULT_FALLBACK here, ensuring vfio_pci_vmf_insert_pfn() isn't called
+with anything weird.
 
-Hi Laurent,
+>> @@ -1766,6 +1827,7 @@ static vm_fault_t vfio_pci_mmap_huge_fault(struct vm_fault *vmf,
+>>  			    __func__, order, pfn, vmf->address,
+>>  			    vma->vm_pgoff, (unsigned int)ret);
+>>  
+>> +	vfio_device_put_registration(&vdev->vdev);
+>>  	return ret;
+>>  }
+>>  
+>> @@ -1774,7 +1836,7 @@ static vm_fault_t vfio_pci_mmap_page_fault(struct vm_fault *vmf)
+>>  	return vfio_pci_mmap_huge_fault(vmf, 0);
+>>  }
+>>  
+>> -static const struct vm_operations_struct vfio_pci_mmap_ops = {
+>> +const struct vm_operations_struct vfio_pci_mmap_ops = {
+>>  	.fault = vfio_pci_mmap_page_fault,
+> 
+> Nit: Instead of making this global, should we add a helper? E.g.:
+> 
+> void vfio_pci_set_vma_ops(struct vm_area_struct *vma)
+> {
+>      vma->vm_ops = &vfio_pci_mmap_ops;
+> }
 
-My sincere apologies for the mailing list noise earlier. That duplicate 
-submission was an accidental misfire while I was adjusting my `git send-email`
-scripts, and I deeply apologize for the lack of versioning and threading. 
-I am still getting up to speed with the subsystem's submission workflow! 
-Here is the correctly formatted v2 addressing Sakari's feedback.
+I'll give it a go, it would be nice to keep that encapsulated.
 
- drivers/media/v4l2-core/v4l2-subdev.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Thanks,
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index e6b133ef7850..806b059410ce 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -1243,7 +1243,8 @@ const struct v4l2_file_operations v4l2_subdev_fops = {
- int v4l2_subdev_get_fwnode_pad_1_to_1(struct media_entity *entity,
- 				      struct fwnode_endpoint *endpoint)
- {
--	struct fwnode_handle *fwnode __free(fwnode_handle) = NULL;
-+	struct fwnode_handle *fwnode __free(fwnode_handle) =
-+		fwnode_graph_get_port_parent(endpoint->local_fwnode);
- 	struct v4l2_subdev *sd;
- 
- 	if (!is_media_entity_v4l2_subdev(entity))
-@@ -1251,8 +1252,6 @@ int v4l2_subdev_get_fwnode_pad_1_to_1(struct media_entity *entity,
- 
- 	sd = media_entity_to_v4l2_subdev(entity);
- 
--	fwnode = fwnode_graph_get_port_parent(endpoint->local_fwnode);
--
- 	if (device_match_fwnode(sd->dev, fwnode))
- 		return endpoint->port;
- 
--- 
-2.50.1 (Apple Git-155)
+
+Matt
+
+
+> [...]
+> 
+>> +
+>> +static int vfio_pci_dma_buf_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
+>> +{
+>> +	struct vfio_pci_dma_buf *priv = dmabuf->priv;
+>> +
+>> +	/*
+>> +	 * If we observe that the buffer is revoked now then refuse
+>> +	 * the mmap().  This is a belt-and-braces early failure to
+>> +	 * ease debugging a revoked buffer being used.  Userspace
+>> +	 * might also race an mmap() against an explicit revocation,
+>> +	 * or an action doing a temporary revoke; race scenarios are
+>> +	 * still safe because the fault handler ultimately prevents
+>> +	 * access to a revoked buffer if it isn't caught here.
+>> +	 */
+>> +	if (READ_ONCE(priv->revoked))
+>> +		return -ENODEV;
+>> +	if ((vma->vm_flags & VM_SHARED) == 0)
+>> +		return -EINVAL;
+>> +
+>> +	/*
+>> +	 * dma_buf_mmap_internal() has asserted that the VMA is
+>> +	 * contained within the DMABUF size before calling this.
+>> +	 */
+>> +
+>> +	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+>> +	vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
+>> +
+>> +	/* See comments in vfio_pci_core_mmap() re VM_ALLOW_ANY_UNCACHED. */
+>> +	vm_flags_set(vma, VM_ALLOW_ANY_UNCACHED | VM_IO | VM_PFNMAP |
+>> +		     VM_DONTEXPAND | VM_DONTDUMP);
+>> +	vma->vm_private_data = priv;
+>> +	vma->vm_ops = &vfio_pci_mmap_ops;
+>> +
+>> +	return 0;
+>> +}
+>>  #endif /* CONFIG_VFIO_PCI_DMABUF */
+>>  
+> 
+> Thanks,
+> Praan
+> 
 
 
