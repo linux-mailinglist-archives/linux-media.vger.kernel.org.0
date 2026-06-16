@@ -1,59 +1,59 @@
-Return-Path: <linux-media+bounces-65023-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65024-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id bYP0B6tMMWoUgQUAu9opvQ
-	(envelope-from <linux-media+bounces-65023-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 15:16:27 +0200
+	id WH/3IbJMMWoXgQUAu9opvQ
+	(envelope-from <linux-media+bounces-65024-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 15:16:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 854D768FD04
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 15:16:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3898868FD11
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 15:16:34 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=lqfsZlju;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65023-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65023-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=kDOOwlfw;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65024-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65024-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 65BD1304497D
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:16:12 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id BD0E8302F4E4
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:16:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE9492D060D;
-	Tue, 16 Jun 2026 13:16:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E179B2D876A;
+	Tue, 16 Jun 2026 13:16:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8D32D63E8
-	for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 13:16:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DF4E2D7D47
+	for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 13:16:11 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781615771; cv=none; b=iSWxEDXjAFL/hScVTY6EUQ5mNqsfAq7VhW7q8G3WK3NqhSp+A/TkN55zSB7zODR+yHavgBlCBtiZZAuMjXbdX20Eua1JduOhgrBRTsszpm/fVXRgnIyzLxwzj/txhXz5ufgpGfKbrq5JGSfoSEfDxMs00JDwwhteQUnQ8pch1LI=
+	t=1781615772; cv=none; b=tdJaa5qd86aTLVfj+WMPyeESfwciDhya+v8WkUqzWnxeBuMvxNHHwPNImF8AB2G+FmIpS0CTdKI6ps6adxl7ehY2A9mbxAp9GJRXST40r26Uishnj0CoSevWst2YtFkvhYVM1egOJ71NK/VJiO3rNUN6fYXLh/4EB33T4n03eHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781615771; c=relaxed/simple;
-	bh=D/9EFdR6b9LvR2+vOqAMX9wsIzPdMbBECRGp89WBgwE=;
+	s=arc-20240116; t=1781615772; c=relaxed/simple;
+	bh=4LDeHdUUUoJcULdyGajYEkI2HWQKxFN6f+R9WC2e2c4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qsLytzLe0vePTs10qdlqcxZFXu5Gr60xMXZQOBi67W5+6eV9m4qIXlfjXGNk67TcMgO+bV6fbW19NFif0FHp9ePSsksiLpn4UvDcn0odkmApbREWB81ZFSoRKz8x7gNN8qmN3wP1zzGYDQW59QZOxIDnEE3S1pVic+hI8ZQuMU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lqfsZlju; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C415E1F00A3A;
-	Tue, 16 Jun 2026 13:16:08 +0000 (UTC)
+	 MIME-Version; b=b3LLFvXY+++yjzPKm9uk65Xnk+DHWaD0Y69Wec4CznvJb+aTMneDSslwznmn2luduLEgjthHzPjkcuBbsf0YauqROhb4QHVwsBgAX9XFtFy9/3ckx/s8zsseq/K6Z81ycL8rPZD+FyIgbgCHhqt15bbR8G/xlC9pICGdaCiyylE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kDOOwlfw; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B65C1F000E9;
+	Tue, 16 Jun 2026 13:16:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781615769;
-	bh=EHnqnuvMsaaXAIPL92tsS3R/9bZGuCuZJHjLYz85z1s=;
+	s=k20260515; t=1781615771;
+	bh=prMIHyCjsqe4rvw5zVm2cUV1Ji/zkuY9ffIznRNvXZA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=lqfsZlju9HperQ5EPtJW+fURMjjAlhjU5nhYpwdUEMgnBbs/Ubrh1s5Grbk8c+vzS
-	 11D9Nc2+fQ7ssGtPIORVKw4NQpIC/sCwSHAzu9br6n8FAsfbmBrAAy01psoyV71qzL
-	 aUqegYg8jsmxMw0e6klBswq65iewE3huSKAEINUKVEKu67ApIh8oONF8GBsAr2rAHp
-	 +3EiF08FwaU0G2pOyHqv+Py5qok2Q2HXmwzPd0vHp19icIZvuUhy3iJmRIBZOrr9/L
-	 K2/IiBDW03gRfa4nl7MF4g9owjuMXO3xH6ugFyir/Yecpl5BvNxh1yxGdzZlHImn2U
-	 DJ9+WvK+mbWUw==
+	b=kDOOwlfwS5k1tTHvphAwp7qVkzMV7EwFAZx6qrcEGb9UljgL0AI0rMS37eoFvb/Gb
+	 9baKQFJdbNyjtroRGVTiYMDQt/HcxH/L3T/1F+zbOrf/i1cvLl7g1dK/LhC2XWA03d
+	 cF/OlJJajJ1Dr4uh1XiwdxHNZTme9YZANpNv/kD+2h0CbbXDUjg2fySoAm1Q1ysLow
+	 NbnsqUGGTbfIeRvOsoKjjqoMcNrv4ojm56uk1JeFMyfcmiCkZohW9Alky9b3nF2iCu
+	 dnnHBBmNF+HDNEIhJtEIjGY6nXLlnYpsh+C3eBQa+34BS7V7QI3/vmljeaoRn6Ht+q
+	 6HayDTl5DyUuQ==
 From: Hans Verkuil <hverkuil+cisco@kernel.org>
 To: linux-media@vger.kernel.org
 Cc: Mauricio Faria de Oliveira <mfo@igalia.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: [PATCHv2 3/6] media: em28xx: drop 'users' field
-Date: Tue, 16 Jun 2026 15:10:29 +0200
-Message-ID: <3251b403e710fdc447a87098129263d0a06e08c1.1781615432.git.hverkuil+cisco@kernel.org>
+Subject: [PATCHv2 4/6] media: em28xx: use vb2_video_unregister_device
+Date: Tue, 16 Jun 2026 15:10:30 +0200
+Message-ID: <e9e2e01bb701d936e983cbc71db03ab4f8aa1667.1781615432.git.hverkuil+cisco@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1781615432.git.hverkuil+cisco@kernel.org>
 References: <cover.1781615432.git.hverkuil+cisco@kernel.org>
@@ -77,7 +77,7 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-65023-lists,linux-media=lfdr.de,cisco];
+	TAGGED_FROM(0.00)[bounces-65024-lists,linux-media=lfdr.de,cisco];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -100,90 +100,64 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 854D768FD04
+X-Rspamd-Queue-Id: 3898868FD11
 
-Drop the em28xx_v4l2 'users' field, use v4l2_fh_is_singular_file()
-instead.
+Use vb2_video_unregister_device instead of video_unregister_device
+to ensure any streaming is correctly stopped at unregister time.
 
-Assisted-by: Claude:claude-opus-4-7
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/usb/em28xx/em28xx-video.c | 18 +++++++-----------
- drivers/media/usb/em28xx/em28xx.h       |  1 -
- 2 files changed, 7 insertions(+), 12 deletions(-)
+ drivers/media/usb/em28xx/em28xx-video.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/usb/em28xx/em28xx-video.c b/drivers/media/usb/em28xx/em28xx-video.c
-index 42f5e7547cc4..6c726764a5f3 100644
+index 6c726764a5f3..e4554d015944 100644
 --- a/drivers/media/usb/em28xx/em28xx-video.c
 +++ b/drivers/media/usb/em28xx/em28xx-video.c
-@@ -2332,9 +2332,8 @@ static int em28xx_v4l2_open(struct file *filp)
- 		return -ENODEV;
+@@ -2402,17 +2402,17 @@ static int em28xx_v4l2_fini(struct em28xx *dev)
+ 	if (video_is_registered(&v4l2->radio_dev)) {
+ 		dev_info(&dev->intf->dev, "V4L2 device %s deregistered\n",
+ 			 video_device_node_name(&v4l2->radio_dev));
+-		video_unregister_device(&v4l2->radio_dev);
++		vb2_video_unregister_device(&v4l2->radio_dev);
+ 	}
+ 	if (video_is_registered(&v4l2->vbi_dev)) {
+ 		dev_info(&dev->intf->dev, "V4L2 device %s deregistered\n",
+ 			 video_device_node_name(&v4l2->vbi_dev));
+-		video_unregister_device(&v4l2->vbi_dev);
++		vb2_video_unregister_device(&v4l2->vbi_dev);
+ 	}
+ 	if (video_is_registered(&v4l2->vdev)) {
+ 		dev_info(&dev->intf->dev, "V4L2 device %s deregistered\n",
+ 			 video_device_node_name(&v4l2->vdev));
+-		video_unregister_device(&v4l2->vdev);
++		vb2_video_unregister_device(&v4l2->vdev);
  	}
  
--	em28xx_videodbg("open dev=%s type=%s users=%d\n",
--			video_device_node_name(vdev), v4l2_type_names[fh_type],
--			v4l2->users);
-+	em28xx_videodbg("open dev=%s type=%s\n",
-+			video_device_node_name(vdev), v4l2_type_names[fh_type]);
- 
- 	ret = v4l2_fh_open(filp);
- 	if (ret) {
-@@ -2345,7 +2344,7 @@ static int em28xx_v4l2_open(struct file *filp)
- 		return ret;
- 	}
- 
--	if (v4l2->users == 0) {
-+	if (v4l2_fh_is_singular_file(filp)) {
- 		em28xx_set_mode(dev, EM28XX_ANALOG_MODE);
- 
- 		if (vdev->vfl_type != VFL_TYPE_RADIO)
-@@ -2363,8 +2362,6 @@ static int em28xx_v4l2_open(struct file *filp)
- 		v4l2_device_call_all(&v4l2->v4l2_dev, 0, tuner, s_radio);
- 	}
- 
--	v4l2->users++;
--
  	mutex_unlock(&dev->lock);
- 
- 	return 0;
-@@ -2467,13 +2464,13 @@ static int em28xx_v4l2_close(struct file *filp)
- 	struct em28xx_v4l2    *v4l2 = dev->v4l2;
- 	struct usb_device *udev = interface_to_usbdev(dev->intf);
- 	int              err;
-+	bool last_user;
- 
--	em28xx_videodbg("users=%d\n", v4l2->users);
--
--	vb2_fop_release(filp);
- 	mutex_lock(&dev->lock);
-+	last_user = v4l2_fh_is_singular_file(filp);
-+	_vb2_fop_release(filp, NULL);
- 
--	if (v4l2->users == 1) {
-+	if (last_user) {
- 		/* No sense to try to write to the device */
- 		if (dev->disconnected)
- 			goto exit;
-@@ -2496,7 +2493,6 @@ static int em28xx_v4l2_close(struct file *filp)
+@@ -3068,19 +3068,19 @@ static int em28xx_v4l2_init(struct em28xx *dev)
+ 		dev_info(&dev->intf->dev,
+ 			 "V4L2 device %s deregistered\n",
+ 			 video_device_node_name(&v4l2->radio_dev));
+-		video_unregister_device(&v4l2->radio_dev);
++		vb2_video_unregister_device(&v4l2->radio_dev);
+ 	}
+ 	if (video_is_registered(&v4l2->vbi_dev)) {
+ 		dev_info(&dev->intf->dev,
+ 			 "V4L2 device %s deregistered\n",
+ 			 video_device_node_name(&v4l2->vbi_dev));
+-		video_unregister_device(&v4l2->vbi_dev);
++		vb2_video_unregister_device(&v4l2->vbi_dev);
+ 	}
+ 	if (video_is_registered(&v4l2->vdev)) {
+ 		dev_info(&dev->intf->dev,
+ 			 "V4L2 device %s deregistered\n",
+ 			 video_device_node_name(&v4l2->vdev));
+-		video_unregister_device(&v4l2->vdev);
++		vb2_video_unregister_device(&v4l2->vdev);
  	}
  
- exit:
--	v4l2->users--;
  	mutex_unlock(&dev->lock);
- 
- 	return 0;
-diff --git a/drivers/media/usb/em28xx/em28xx.h b/drivers/media/usb/em28xx/em28xx.h
-index 90b83e4598ac..f68159fab345 100644
---- a/drivers/media/usb/em28xx/em28xx.h
-+++ b/drivers/media/usb/em28xx/em28xx.h
-@@ -580,7 +580,6 @@ struct em28xx_v4l2 {
- 	int sensor_yres;
- 	int sensor_xtal;
- 
--	int users;		/* user count for exclusive use */
- 	int streaming_users;    /* number of actively streaming users */
- 
- 	u32 frequency;		/* selected tuner frequency */
 -- 
 2.53.0
 
