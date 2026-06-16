@@ -1,98 +1,97 @@
-Return-Path: <linux-media+bounces-64962-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64963-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id hsdwLC8AMWoIaQUAu9opvQ
-	(envelope-from <linux-media+bounces-64962-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 09:50:07 +0200
+	id a5j6KfkBMWpXaQUAu9opvQ
+	(envelope-from <linux-media+bounces-64963-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 09:57:45 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AAD468CF2B
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 09:50:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A7EC68CFEA
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 09:57:45 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=0sec.ai header.s=google header.b=Hbq4baE1;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64962-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64962-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=0sec.ai header.s=google header.b=RtvsuO0Y;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64963-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64963-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 920BB302E0EE
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 07:50:00 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 6E47730344DE
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 07:57:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 662E340E8FB;
-	Tue, 16 Jun 2026 07:49:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4C7F40E8DE;
+	Tue, 16 Jun 2026 07:57:02 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23B6540B6E0
-	for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 07:49:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AD8B35F180
+	for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 07:56:59 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781596198; cv=none; b=AxGLHc60vAcpLVyuB/5MuI+qYvQJQjqolQ1+qUstVUHvPJeloQhERFTn+pvacwXEjNF2lRlP50/KmvyQ8SkFbryRWe4+QoapXPxF9NwuX6gB4Z+rgg7ayvAbsvlHZcvhg1cMsg9cyCJwVv+GrqjqV4d0SQKzJRZ6a4E4WGQUu0o=
+	t=1781596622; cv=none; b=RUocQG4yCr5O5BkH9o2YLdQNJLlQFB5t67mmTSQEnOnemW1Sce9bnDWnxtKsW75hnYyEOZdu/RwhpA9ZGN/Im/vKcOHlD0jUMkuelfPvIM0VMdoPeZ26Q8YoWXw0IX2NViSPQorxDeo2vjV74K7NFNRxWIqiEBjIBlaC5y4o2+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781596198; c=relaxed/simple;
-	bh=oGgWXj8gVkwv4KfYrvvS3qIYC4JcwZ6jY8+B1j5PPsM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IyDtk16a+g5IXSx4lVlXx4OUiIZr4cZ8Dq7veEqfryTjBYacuLN6+qt0zjwNnApdsxFiQVgaQI2q8BC5fQj+PCOSQdq0uAab/A15mFkZmMo1/kkwcWCwmA3HqwyeGAjA3wbFm0C78ICTMrGwog8IY+2BeJEESN7800PgWRWsjto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=Hbq4baE1; arc=none smtp.client-ip=209.85.221.51
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-45eeba68948so3113707f8f.1
-        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 00:49:56 -0700 (PDT)
+	s=arc-20240116; t=1781596622; c=relaxed/simple;
+	bh=S+cQwh2yJbBgde+xZGNmhIizPfb/Q5tWp6DjLRWqx7U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=toTZ2eq3uM7JHCC20BU0aiIblOONo20KrPiCN4iFnH0PQCl3yncq6QPrEpwUig3scvOFlBGkvoHVy20ham7pS+F6xeV6DRHrXUBs68CB7XtpquIF3alnutTBQPdLiFh5WbFdbmdU6gQoopiOcZL+sAMIroV+1ie+MgyDSTO/ipA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=RtvsuO0Y; arc=none smtp.client-ip=209.85.221.43
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-45ef4223be7so2387944f8f.2
+        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 00:56:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0sec.ai; s=google; t=1781596195; x=1782200995; darn=vger.kernel.org;
+        d=0sec.ai; s=google; t=1781596618; x=1782201418; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fw23X1FwjGe46vUwZBuX/t+y72XuixGwM1Rny5Zyri0=;
-        b=Hbq4baE1sojA5KfF2v9P4S/RZKlCxdihiJtCWddYFA0auWHnJbyRxUxcPqN9rb2clK
-         20se9FlIa+hDI7eGLi4rbLbW61TINhJjp0HXHgWi0vt8xqRokcbf+qZathlDa7d/vcpd
-         YOav13yFcxSJ16xe7R0OZ1SUh9NJxfkAq+/+fRMmPzkLMDs0W+5TlreAn4OfiL8cVht9
-         BtgQXhLxaexPDXwGdeq7FbEafeliFrUTXtsvhjSfduwqaMIETMJWFcsjCO+MfkF04RIS
-         pw+GLBo6EBLuLlQczfZSkenEimlx3NjnxIWhtD01yb+VmLkM9XDoeQRwMelDBLpUEOZF
-         DmDw==
+        bh=tvO6+MpilClcYNX4EokLZGsJsErKgA+iDUMEt0HQsM4=;
+        b=RtvsuO0Yz1sXz6hRJG0RJMCiIV0cIJ161Rr6gPJwCq9LyV5hcTJ+rYI9veOjkLSTWr
+         HKnsEeiUI8qoW570nUh2/aQAAwyGKQVI99xqcgC1Bu8oUbcrpsUiwemWzcF+DwVNHpr/
+         uPlxtpf+Lrhclz6Bv64qrHbj66zL9qhfufJzBYXPvnY20HQ7/xGqt41M4VX02CtyIAFb
+         f/ggkiMwPnFKYS3HnoEYqQOzn0Y+p9C0v+rpQ5qNAY0xI4VyT+qGKE0ub946guxHWpMV
+         1XioTZvHs7Kw4k2Uja640LUOfaUnHhboBwPbJxLtPxnaDNveD1UCWDLi6558kZK56Wjn
+         cFTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781596195; x=1782200995;
+        d=1e100.net; s=20251104; t=1781596618; x=1782201418;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=fw23X1FwjGe46vUwZBuX/t+y72XuixGwM1Rny5Zyri0=;
-        b=Z7YZ8FTMYl740yI+Ly5hzNSKAZn339gTvRQgElPa4vYBQxRa2ZiI1iQ6tYe10m1HZ6
-         mUJXDWwYhgcDapvY7kq/nD0g+tCGCx6NnZlOlL6YsTwx2P44LVVuXh8cOoOcy25UNjkY
-         LC+6VunPxfksUSBPrTWmPvzyoVsCOFX7jfZ/KF08ry9iY3k+UsHmhr/paNwMVr14RhWP
-         oj84BI996SGBS9/mc/eR4b+O1fpONdM3y3hJho2NMfOuC6wVWY6uRLvn4KBRjl45khte
-         blrh1u0s71QJwpn0982F7coMwMmMl0blwVQyRq3B7K/V2vM4skG7m1bNpc59qpvh1f9q
-         5GlA==
-X-Forwarded-Encrypted: i=1; AFNElJ/P9eIJlbfb8ywEZQVCPJ8S5O8MHNlWrN3rBW6YJ3SmHwLYCNMvrIsDhMF+NVUsDsDVAMBYNmyBVO/sUw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZA44iMP03HQyU6xPFLhF4Sxw2yl2xA1bhVOotbBM6qfWsyJJ6
-	r47NuNNnhMCTCpkqulmLBaAxanei70B3y+79wKALNSZrwH3TROVRTXbxizB/Kt9xn6wt
-X-Gm-Gg: Acq92OFG1JUNnZhUVXwOgH1EPtK6P0SXnjkcb4gaN7fZB1sis92RjHJLc3Ja7S5DMPb
-	8ICfje13D07Yzd5h8wBvHL7bDZXs+eAQb7ANx/6jKzqcenWei9JEua+1g3OKxPjeVif8xmFSLHY
-	g4iqsOqsmRxYP/9FqdleAfCMax/W/FoiwQpih1Ysgli5lxpqFsoiKAf/6N2CUnElH3xer+trjac
-	vUwZ8sMWbGfCM6PAgB7LEG2sn4lrS4fdmVbdaAGRi9UYYHlRD6suY4O4/GD+uhh6jOOpYzQC/T6
-	45m1xfZWlg011N8rdYFdTXWqZ18bH/QEYRfHLSa4jptGTTAgnKtdWCgHXuLNnsco9P40GURfWf6
-	S5zotEnGEhp08zPA48pKHuPxrRM9k1CM00alsyWR1+5NDPGD6i8LWtvPjuthGJqwjDuDp6j80uV
-	Ox6B5cz0CF+w2JptynA5J9tb7QtyEduSt5kxYWdc/TF89i/16Bcun4tBdB3JE+pnG/T1JfI/M/j
-	kIxM+4Ii7u2LDkwDXtYBUJE2Srzpjtx4cP7oLUdUpGqXRBMBN/Gadc+
-X-Received: by 2002:a05:600c:6286:b0:490:b355:9c70 with SMTP id 5b1f17b1804b1-4922ff93b2cmr36681535e9.11.1781596194984;
-        Tue, 16 Jun 2026 00:49:54 -0700 (PDT)
+        bh=tvO6+MpilClcYNX4EokLZGsJsErKgA+iDUMEt0HQsM4=;
+        b=Cx9NFcssaVTx3+CZp/kvG1ObKk2Dz8dTrIGBm9Py6Y4MAWITR9JlOH0hRAY4d0OPBS
+         5AjOFFIhocGVDvEpUsqEwOCiNnDxZ9LRGZYl9AWSs9ZWQ/ljMQ9FPvFzMUvBqTjTC3aA
+         CXddokNWIi/70JR9ecYWNZlynmv+1PwtDQzeYG6w72N2HvPa+rznfybRUWRn+BQViHxo
+         xdFVWpHP6lxv5YCut6YBDY+yPRv81a5JDSWnT4/9BA6eDO5VFfHFLrufdM6230pcy7EK
+         pROBnJE+4Ca+GBD6ee1oEGAESsvvwcuHl9E/sh0vS9BnG9lvc7AI+ZaXgbTzdx5+Qef7
+         nkeA==
+X-Forwarded-Encrypted: i=1; AFNElJ+oQmsba/cf6/uXri8TRK/87isfcJvZgakBnF7Rc3+MksCKFJVU9fKTsZieEU8Mf2Enm+azPxtbsVTY0w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyNX2hq5oi1npO6oMh23rWIQoG4Q8raznkH9wU0D2lIbLncunvs
+	8/wngQmGVjgfZmdwCEChemZ7ATHD8veV5w1ZXyNoaSpYF9DukZO4Gkwua57YR9Sp0q6D
+X-Gm-Gg: Acq92OF4rQrrg4ckCZ5nhN72H0b/e2bh6FRQrz/vQE5t2qtlEkCuw2/6IOnvmyO7QTV
+	D9x63K9pEaxTRDWSo/7MuUNtGoINWM9/paZHFGKvnEv+supt5CeEV7moIRVz68SyzeivvF2MPj/
+	NYm0xT+DnQUX6NutMvHhrpra/WssCHVEYplBR5voJpo4DB2SlUX/QDqnX7HvekBJmDhWBej/LrE
+	pFUvcGJHpAJ3Uttgob27RrSfyREd9E6H2UORgfY/84FU5kK+VlSzcsCH2MXANk0YFEs3Qkfj7BY
+	H1qHbhTsTF0d0T85GfUnqKsQ14q2tcTGmUvqCZweWXldX3UJ/HzEoBAsfsnhywT+v5kcuGtcfQE
+	E7jc7fkhfiNfuvfUAZFQw67Ppq+XAFDg9sa6CtRMNekgcjI98P4ZzgPCmy3Nco9Y6+WE+QKlof6
+	ucNDuvV4xqNcQOLVx5HKqIamZCzXaB8C+KiMwtHkU9rJd0aDVzzThFaEdLQtwXYAEjDoI7Qdd2I
+	o1cscIeOlQCqD9e+3vx7k1J6jy3d3ourQnWHT156pTs2w==
+X-Received: by 2002:a05:6000:1862:b0:461:b44c:a7a6 with SMTP id ffacd0b85a97d-461b44ca88dmr403954f8f.34.1781596618356;
+        Tue, 16 Jun 2026 00:56:58 -0700 (PDT)
 Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.218.209])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f20e77asm44475179f8f.0.2026.06.16.00.49.53
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f2b0c35sm43503294f8f.22.2026.06.16.00.56.56
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 16 Jun 2026 00:49:54 -0700 (PDT)
+        Tue, 16 Jun 2026 00:56:57 -0700 (PDT)
 From: Doruk Tan Ozturk <doruk@0sec.ai>
-To: neil.armstrong@linaro.org,
+To: tiffany.lin@mediatek.com,
+	andrew-ct.chen@mediatek.com,
+	yunfei.dong@mediatek.com,
 	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	khilman@baylibre.com
-Cc: jbrunet@baylibre.com,
-	martin.blumenstingl@googlemail.com,
-	hverkuil@kernel.org,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com
+Cc: hverkuil+cisco@kernel.org,
 	linux-media@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-staging@lists.linux.dev,
+	linux-mediatek@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Doruk Tan Ozturk <doruk@0sec.ai>,
 	stable@vger.kernel.org
-Subject: [PATCH v2] media: meson: vdec: fix use-after-free of decode work in stop/close path
-Date: Tue, 16 Jun 2026 09:49:52 +0200
-Message-ID: <20260616074952.93076-1-doruk@0sec.ai>
+Subject: [PATCH] media: mediatek: vcodec: fix use-after-free in decoder release path
+Date: Tue, 16 Jun 2026 09:56:55 +0200
+Message-ID: <20260616075655.95711-1-doruk@0sec.ai>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -104,23 +103,23 @@ Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [1.34 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[0sec.ai:s=google];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[0sec.ai:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
 	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-64962-lists,linux-media=lfdr.de];
-	FORGED_SENDER(0.00)[doruk@0sec.ai,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:khilman@baylibre.com,m:jbrunet@baylibre.com,m:martin.blumenstingl@googlemail.com,m:hverkuil@kernel.org,m:linux-media@vger.kernel.org,m:linux-amlogic@lists.infradead.org,m:linux-staging@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:doruk@0sec.ai,m:stable@vger.kernel.org,m:martinblumenstingl@gmail.com,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64963-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:tiffany.lin@mediatek.com,m:andrew-ct.chen@mediatek.com,m:yunfei.dong@mediatek.com,m:mchehab@kernel.org,m:matthias.bgg@gmail.com,m:angelogioacchino.delregno@collabora.com,m:hverkuil+cisco@kernel.org,m:linux-media@vger.kernel.org,m:linux-mediatek@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:doruk@0sec.ai,m:stable@vger.kernel.org,m:matthiasbgg@gmail.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	DMARC_NA(0.00)[0sec.ai];
-	FREEMAIL_CC(0.00)[baylibre.com,googlemail.com,kernel.org,vger.kernel.org,lists.infradead.org,lists.linux.dev,0sec.ai];
+	FORGED_SENDER(0.00)[doruk@0sec.ai,linux-media@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_TO(0.00)[mediatek.com,kernel.org,gmail.com,collabora.com];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -134,125 +133,65 @@ X-Spamd-Result: default: False [1.34 / 15.00];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,0sec.ai:dkim,0sec.ai:email,0sec.ai:mid,0sec.ai:from_mime]
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,0sec.ai:dkim,0sec.ai:email,0sec.ai:mid,0sec.ai:from_mime,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2AAD468CF2B
+X-Rspamd-Queue-Id: 1A7EC68CFEA
 
-The ESPARSER worker (esparser_queue_all_src(), scheduled via
-sess->esparser_queue_work) dereferences sess->m2m_ctx and accesses the
-ESPARSER/DOS registers. On the stop_streaming()/release() paths the
-buffers and, on close, the m2m context are torn down while this worker
-may still be pending or running, leading to a use-after-free of the
-freed session state.
+fops_vcodec_release() frees the decoder context with kfree(ctx) but
+never cancels the per-context decode_work worker first. Although
+v4l2_m2m_ctx_release() waits for any in-flight m2m job to finish, the
+workqueue handler (mtk_vdec_worker) may still be running and accessing
+the context after v4l2_m2m_job_finish() returns. Once kfree(ctx) runs,
+that worker dereferences freed memory, resulting in a use-after-free.
 
-vdec_poweroff() previously only called vdec_ops->stop() and disabled the
-clocks; it never synchronized against the worker. Two problems follow:
+Cancel the pending decode work with cancel_work_sync(&ctx->decode_work)
+after the controls and m2m context are torn down and before kfree(ctx),
+mirroring the fix already applied to the encoder release path in
+commit 76e35091ffc7 ("media: mediatek: vcodec: fix use-after-free in
+encoder release path").
 
-  - The decode (VDEC) interrupt is threaded
-    (devm_request_threaded_irq(.., vdec_isr, vdec_threaded_isr, ..)) and
-    its threaded handler re-arms the worker through amvdec_dst_buf_done()
-    -> schedule_work(&sess->esparser_queue_work). A handler that is still
-    in flight can therefore queue the worker again after teardown has
-    begun.
+decode_work is always initialised before release can run:
+fops_vcodec_open() calls mtk_vcodec_dec_set_default_params() (its only
+caller) unconditionally after a successful v4l2_m2m_ctx_init(), and that
+function runs INIT_WORK(&ctx->decode_work, ...). A context can only reach
+fops_vcodec_release() via an open() that returned 0, i.e. one that passed
+that INIT_WORK. cancel_work_sync() on a properly initialised work_struct
+is therefore always safe, even if the work was never queued. This is
+unlike the 2023 msg_queue->core_work regression, where the work item
+could be uninitialised at cancel time.
 
-  - The worker touches ESPARSER/DOS registers, so it must not run after
-    the clocks have been disabled.
-
-Quiesce everything in vdec_poweroff(), in order, before disabling the
-clocks: vdec_ops->stop() masks the VDEC interrupt in hardware so no new
-IRQ can be raised; synchronize_irq() on the VDEC line then drains any
-threaded handler still in flight (the only context that re-arms the
-worker); cancel_work_sync() finally cancels/waits for the worker. After
-this nothing can re-arm the work, and the worker can no longer run with
-clocks disabled or against a freed m2m context.
-
-Only the VDEC interrupt is synchronized: the ESPARSER interrupt handler
-(esparser_isr()) only acknowledges the start-code-found status and wakes
-the internal wait queue used by esparser_write_data(); it never touches
-the session or schedules the worker, so it cannot re-arm it.
-
-stop_streaming()/release() run under the video device lock, not under
-sess->lock (the mutex the worker takes), so cancel_work_sync() here
-cannot deadlock against the worker.
-
-The VDEC IRQ number is now stored in struct amvdec_core so it is
-available to synchronize_irq() at teardown.
-
-Fixes: 3e7f51bd9607 ("media: meson: add v4l2 m2m video decoder driver")
+Fixes: 590577a4e525 ("[media] vcodec: mediatek: Add Mediatek V4L2 Video Decoder Driver")
 Cc: stable@vger.kernel.org
 Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
 ---
-v2: also synchronize_irq() before cancelling the work, so a delayed
-    threaded IRQ cannot re-arm it after cancel_work_sync() (raised by
-    automated review). Only the VDEC IRQ is synchronized, as the
-    ESPARSER IRQ handler does not touch the session or schedule the work.
-v1: https://lore.kernel.org/linux-media/20260615140529.52653-1-doruk@0sec.ai/
+v2: reword the commit message to stay within 75 columns (no functional
+    change; checkpatch).
+v1: https://lore.kernel.org/linux-media/20260615140526.52617-1-doruk@0sec.ai/
 
- drivers/staging/media/meson/vdec/vdec.c | 21 +++++++++++++++++++++
- drivers/staging/media/meson/vdec/vdec.h |  3 +++
- 2 files changed, 24 insertions(+)
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c         | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-index 4b77ec1af5a7..5304987546fa 100644
---- a/drivers/staging/media/meson/vdec/vdec.c
-+++ b/drivers/staging/media/meson/vdec/vdec.c
-@@ -123,6 +123,25 @@ static void vdec_poweroff(struct amvdec_session *sess)
- 		codec_ops->drain(sess);
+diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
+index e936ed8dffbaf..30906b24c608a 100644
+--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
++++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
+@@ -313,6 +313,15 @@ static int fops_vcodec_release(struct file *file)
+ 	v4l2_fh_exit(&ctx->fh);
+ 	v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
  
- 	vdec_ops->stop(sess);
-+
 +	/*
-+	 * vdec_ops->stop() masks the VDEC interrupt at the hardware level, so
-+	 * no new IRQ can be raised past this point. The threaded ISR re-arms
-+	 * the ESPARSER worker via amvdec_dst_buf_done() (schedule_work()), so
-+	 * drain any in-flight handler before cancelling the worker, otherwise
-+	 * a late threaded IRQ could schedule it again after the cancel.
-+	 *
-+	 * The worker dereferences sess->m2m_ctx and touches the ESPARSER/DOS
-+	 * registers, so it must be cancelled while m2m_ctx is still valid and
-+	 * the clocks are still enabled, i.e. before the clk_disable below.
-+	 *
-+	 * This runs from the stop_streaming()/release() paths, which are
-+	 * serialized by the video device lock, not by sess->lock (the lock the
-+	 * worker takes), so cancel_work_sync() cannot deadlock here.
++	 * Cancel any pending decode work before freeing the context.
++	 * Although v4l2_m2m_ctx_release() waits for m2m job completion,
++	 * the workqueue handler (mtk_vdec_worker) may still be accessing
++	 * the context after v4l2_m2m_job_finish() returns. Without this,
++	 * a use-after-free occurs when the worker accesses ctx after kfree.
 +	 */
-+	synchronize_irq(sess->core->vdec_irq);
-+	cancel_work_sync(&sess->esparser_queue_work);
++	cancel_work_sync(&ctx->decode_work);
 +
- 	clk_disable_unprepare(sess->core->dos_clk);
- 	clk_disable_unprepare(sess->core->dos_parser_clk);
- }
-@@ -1053,6 +1072,8 @@ static int vdec_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
-+	core->vdec_irq = irq;
-+
- 	ret = esparser_init(pdev, core);
- 	if (ret)
- 		return ret;
-diff --git a/drivers/staging/media/meson/vdec/vdec.h b/drivers/staging/media/meson/vdec/vdec.h
-index 7a5d8e871d70..9a50116a2665 100644
---- a/drivers/staging/media/meson/vdec/vdec.h
-+++ b/drivers/staging/media/meson/vdec/vdec.h
-@@ -66,6 +66,8 @@ struct amvdec_session;
-  * @v4l2_dev: v4l2 device
-  * @cur_sess: current decoding session
-  * @lock: video device lock
-+ * @vdec_irq: IRQ line of the VDEC, used to synchronize the threaded ISR
-+ *	      against teardown
-  */
- struct amvdec_core {
- 	void __iomem *dos_base;
-@@ -91,6 +93,7 @@ struct amvdec_core {
- 
- 	struct amvdec_session *cur_sess;
- 	struct mutex lock;
-+	int vdec_irq;
- };
- 
- /**
+ 	mtk_vcodec_dbgfs_remove(dev, ctx->id);
+ 	spin_lock_irqsave(&dev->dev_ctx_lock, flags);
+ 	list_del_init(&ctx->list);
 -- 
 2.43.0
 
