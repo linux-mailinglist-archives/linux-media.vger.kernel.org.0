@@ -1,168 +1,144 @@
-Return-Path: <linux-media+bounces-65042-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65043-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id qks2B6NpMWrvigUAu9opvQ
-	(envelope-from <linux-media+bounces-65042-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 17:20:03 +0200
+	id UqYTNzttMWoujAUAu9opvQ
+	(envelope-from <linux-media+bounces-65043-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 17:35:23 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43874690EC4
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 17:20:02 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 534946912D0
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 17:35:23 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=QrTWhvtv;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65042-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65042-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=intel.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=BrxioINo;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65043-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65043-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 8873930422E3
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 15:15:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2988B3234261
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 15:28:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01C1143E49D;
-	Tue, 16 Jun 2026 15:15:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C65B43E49F;
+	Tue, 16 Jun 2026 15:28:15 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1B643DA35
-	for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 15:15:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB5DB30C360;
+	Tue, 16 Jun 2026 15:28:13 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781622918; cv=none; b=A9pBs5OFf0I9BoE+4IvJJ3OmyApJrLvy6ObwxE4kf0HTkgwE51ugotbZitiXGOpQcVxNXmNa5huLC9A05Ap469OraSKeeQYU3Zd0S/+8aAs9jWstKD4H5Vm4r1fkF4iW8CyU/mR3HtlRruV9/f0i4E7LBd0Wi4shjnEnAznRilQ=
+	t=1781623694; cv=none; b=qvFHMzqTANG6Tp8p/AiQwvjhAxRxmXiG0tswkv8jodpoNHEWuKR/kFfuhfYQDn++jd/KiTYRJMpCp5/WzQkPfFBOJx1hwOEXyP5bK7uGGCiTaOVkjUf+zuFbGHswR0MNRC3ihnmKDLskDoZy8UuobEbytr3CLYD66kMdIu6bEkY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781622918; c=relaxed/simple;
-	bh=x9qSqa73UlPyOWZNxfYwQlHqIhmXNqvVBZUaoYcP3p0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kdtq9F74kmF7kPX8xU/dTu+e+lbGsFvSBH9QtYxUykHuEY6cWbcKTWgyfl4M8UbxFzSHlfqjWxU3t3eWdEwOGywQiO6mm0wiXoERf4AXXbIGpKe6zxzPMKGmlf4ylpilCe8110yzx8rlc2GlK5D3pYEsZBoTWCwPdCYjDtF+P3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QrTWhvtv; arc=none smtp.client-ip=192.198.163.8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781622917; x=1813158917;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=x9qSqa73UlPyOWZNxfYwQlHqIhmXNqvVBZUaoYcP3p0=;
-  b=QrTWhvtvrsCEvIvDS5cFaAvREFkBVJUNpBBefDgowch5l56K8fhCUaOj
-   cSRGh8fJUt0zQ9TdkSIiOS0JhEPH132jOZKGCHL2+oSiPLWSbhZXqZsMU
-   unwZGB1FjN6SWpTvAA5nXtVw7G+KXGA5kWl8wHE5KaU2MEKzPUMv3vvln
-   NRPbz7RuEKYDiALwstpfU7DkSdyArk6XmaUwywOb9sCe/k5ZHLq8H+kKy
-   UzUpw8MyxwGVi+BeeVLXqt/ltpSFfWMHB1sY9XWEm3LMEHc+7R7vpalZT
-   PgPwnW2Qu9X8elC1Ybd9+J5RZQaFHPu2q2+NnOCA6qxI3MKQBGGc+u9iA
-   A==;
-X-CSE-ConnectionGUID: jP6tXeQMTQuVcAdXamM9sQ==
-X-CSE-MsgGUID: QyL/VdBDQrqXFF+KK3gIbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11818"; a="99963959"
-X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="99963959"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 08:15:16 -0700
-X-CSE-ConnectionGUID: u/q7kWwPRaSW/himVjsTQg==
-X-CSE-MsgGUID: Hwu4WoF1RcuQ8ELo4o4VMg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="271520665"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.8])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 08:15:15 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 14C26120398;
-	Tue, 16 Jun 2026 18:15:14 +0300 (EEST)
-Date: Tue, 16 Jun 2026 18:15:13 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: linux-media@vger.kernel.org,
-	Mauricio Faria de Oliveira <mfo@igalia.com>
-Subject: Re: [PATCHv2 1/6] media: core: v4l2-async.c: unreg subdev if
- asc_list is empty
-Message-ID: <ajFogY-MkxTmiSN6@kekkonen.localdomain>
-References: <cover.1781615432.git.hverkuil+cisco@kernel.org>
- <efb6cfeb1053399ebd51b83fcc4daee632281558.1781615432.git.hverkuil+cisco@kernel.org>
+	s=arc-20240116; t=1781623694; c=relaxed/simple;
+	bh=KTPFzRNp3UqELYgoWeZnt3CM5M9+y07XBMT3rlA91bo=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=Hbj2rXgvplJMG8sPncUKSLyN5yNKNrUrErA+jEIukc8SCSmWB/aeVUA8hN2p0L4Byjde7Lvu0cM0utKoddrmCmKfUpBerdM+A0POGfu5b+JM7RzDW8BRMnhicow62yk0oz67lacHopw2SX8x0SkBO/a0ZOXLzlH43ZiWqOHsQH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BrxioINo; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 795211F00A3A;
+	Tue, 16 Jun 2026 15:28:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781623693;
+	bh=KTPFzRNp3UqELYgoWeZnt3CM5M9+y07XBMT3rlA91bo=;
+	h=Date:To:From:Subject:Cc:References:In-Reply-To;
+	b=BrxioINockLKwWsvcBd9ayjh5CHH4WSzRwy1vkp85RTyeFH4zBaP0BInXvxmMVKnz
+	 h/sYVd8wWdUxioziefxH6Kq7kyIyIBnxiE83DrD7sb8OXmAt4/wmZezjTHQrOxbMbf
+	 o5Ju1PeFdvWHMYBipOYkoRoVL4AKgeTYeBUGA6VkBEDqo2Lkss6nwGOLjMR2i0hChv
+	 tDa+0ESYVWUygGAXw4bPPUI/eZRNtuY+bqmVrWa/SF/6Yxga2bswqGftqF7BqOj+g5
+	 6dBuqsS/B6zEOvT4LAxT2plEXHn0GgRG3xews+mOa9PcD5nKbijw3DPtB7v3Y5zr1c
+	 67tnL8yvAyy0g==
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <efb6cfeb1053399ebd51b83fcc4daee632281558.1781615432.git.hverkuil+cisco@kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 16 Jun 2026 17:28:04 +0200
+Message-Id: <DJAKVXTHQJ99.152VRPFJDPTRU@kernel.org>
+To: =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v2 5/6] rust: Add dma_fence abstractions
+Cc: "Philipp Stanner" <phasta@mailbox.org>, "Philipp Stanner"
+ <phasta@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng"
+ <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Sumit
+ Semwal" <sumit.semwal@linaro.org>, =?utf-8?q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, "Paul E. McKenney" <paulmck@kernel.org>,
+ "Frederic Weisbecker" <frederic@kernel.org>, "Neeraj Upadhyay"
+ <neeraj.upadhyay@kernel.org>, "Joel Fernandes" <joelagnelf@nvidia.com>,
+ "Josh Triplett" <josh@joshtriplett.org>, "Uladzislau Rezki"
+ <urezki@gmail.com>, "Steven Rostedt" <rostedt@goodmis.org>, "Mathieu
+ Desnoyers" <mathieu.desnoyers@efficios.com>, "Lai Jiangshan"
+ <jiangshanlai@gmail.com>, "Zqiang" <qiang.zhang@linux.dev>, "Daniel
+ Almeida" <daniel.almeida@collabora.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Igor Korotin" <igor.korotin@linux.dev>,
+ "Lorenzo Stoakes" <ljs@kernel.org>, "Alexandre Courbot"
+ <acourbot@nvidia.com>, "FUJITA Tomonori" <fujita.tomonori@gmail.com>,
+ "Krishna Ketan Rai" <prafulrai522@gmail.com>, "Shankari Anand"
+ <shankari.ak0208@gmail.com>, <manos@pitsidianak.is>, "Boris Brezillon"
+ <boris.brezillon@collabora.com>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <dri-devel@lists.freedesktop.org>, <rcu@vger.kernel.org>
+References: <20260616082819.2943886-2-phasta@kernel.org>
+ <20260616082819.2943886-7-phasta@kernel.org>
+ <20260616124755.460550-1-work@onurozkan.dev>
+ <d074d3105a2c1d4f594bc6d7b0b09e62757790d5.camel@mailbox.org>
+ <20260616145112.14201-1-work@onurozkan.dev>
+In-Reply-To: <20260616145112.14201-1-work@onurozkan.dev>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-3.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-65042-lists,linux-media=lfdr.de];
-	TO_DN_SOME(0.00)[];
+	TAGGED_FROM(0.00)[bounces-65043-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	HAS_ORG_HEADER(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:hverkuil+cisco@kernel.org,m:linux-media@vger.kernel.org,m:mfo@igalia.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
 	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_THREE(0.00)[3];
+	FORGED_SENDER(0.00)[dakr@kernel.org,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[38];
+	FORGED_RECIPIENTS(0.00)[m:work@onurozkan.dev,m:phasta@mailbox.org,m:phasta@kernel.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:paulmck@kernel.org,m:frederic@kernel.org,m:neeraj.upadhyay@kernel.org,m:joelagnelf@nvidia.com,m:josh@joshtriplett.org,m:urezki@gmail.com,m:rostedt@goodmis.org,m:mathieu.desnoyers@efficios.com,m:jiangshanlai@gmail.com,m:qiang.zhang@linux.dev,m:daniel.almeida@collabora.com,m:gregkh@linuxfoundation.org,m:igor.korotin@linux.dev,m:ljs@kernel.org,m:acourbot@nvidia.com,m:fujita.tomonori@gmail.com,m:prafulrai522@gmail.com,m:shankari.ak0208@gmail.com,m:manos@pitsidianak.is,m:boris.brezillon@collabora.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:rcu@vger.kernel.org,m:fujitatomonori@gmail.com,m:shank
+ ariak0208@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_CC(0.00)[mailbox.org,kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,linaro.org,amd.com,nvidia.com,joshtriplett.org,gmail.com,goodmis.org,efficios.com,linux.dev,collabora.com,linuxfoundation.org,pitsidianak.is,vger.kernel.org,lists.freedesktop.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,intel.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 43874690EC4
+X-Rspamd-Queue-Id: 534946912D0
 
-Hi Hans,
+On Tue Jun 16, 2026 at 4:51 PM CEST, Onur =C3=96zkan wrote:
+> repr(C) only makes sense when the type have multiple fields.
 
-On Tue, Jun 16, 2026 at 03:10:27PM +0200, Hans Verkuil wrote:
-> In v4l2_device_unregister_subdev(), if sd->asc_list is empty,
-> then v4l2_device_unregister_subdev() is never called, but that
-> should still happen.
-> 
-> This causes crashes with em28xx that uses tvp5150: that i2c
-> module uses v4l2_async, but em28xx does not as it predates
-> v4l2_async.
-> 
-> So if sd->asc_list is empty, then just call
-> v4l2_device_unregister_subdev().
-> 
-> Fixes: 28a1295795d8 ("media: v4l: async: Allow multiple connections between entities")
-> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
-> ---
->  drivers/media/v4l2-core/v4l2-async.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index 888a2e213b08..fd0404ce9247 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -897,7 +897,9 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
->  	kfree(sd->subdev_notifier);
->  	sd->subdev_notifier = NULL;
->  
-> -	if (sd->asc_list.next) {
-> +	if (list_empty(&sd->asc_list)) {
-
-If v4l2_async_unregister_subdev() without calling
-v4l2_async_register_subdev() first, sd->asc_list.next will be NULL. That
-case needs to be handled here, too.
-
-> +		v4l2_device_unregister_subdev(sd);
-> +	} else {
->  		list_for_each_entry_safe(asc, asc_tmp, &sd->asc_list,
->  					 asc_subdev_entry) {
->  			v4l2_async_unbind_subdev_one(asc->notifier, asc);
-
--- 
-Kind regards,
-
-Sakari Ailus
+I don't think that's universally true. repr(transparent) guarantees the lay=
+out
+and ABI match the inner field. The wrapper is passed through calls exactly =
+as
+the field would be. repr(C) guarantees C-compatible layout and makes the ty=
+pe
+follow the platform's C ABI for passing an aggregate, which isn't always ho=
+w the
+bare field is passed.
 
