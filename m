@@ -1,51 +1,57 @@
-Return-Path: <linux-media+bounces-64992-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64993-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id O+V+GHg0MWrjdwUAu9opvQ
-	(envelope-from <linux-media+bounces-64992-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:33:12 +0200
+	id QhRnLPE1MWo8eAUAu9opvQ
+	(envelope-from <linux-media+bounces-64993-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:39:29 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACA7A68ECFA
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:33:11 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12AAB68ED6C
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:39:29 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=cRvWDjN3;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64992-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64992-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=ozlabs.org header.s=201707 header.b=Gwha8lQv;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64993-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64993-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ozlabs.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E66BB30BE185
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 11:30:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BCFB631655DC
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 11:37:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29EF342B75E;
-	Tue, 16 Jun 2026 11:30:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56F57436352;
+	Tue, 16 Jun 2026 11:37:46 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061D442DFF2;
-	Tue, 16 Jun 2026 11:30:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D553B995B;
+	Tue, 16 Jun 2026 11:37:42 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781609412; cv=none; b=suOr0xOGcCu/ubFpdfyzu5ozVApBBJr6hGV4nLBwKv5GuJtVQ0r8xOquqQt7LbLb4x4ldEJb1+jxyZOURDeoUYE50lKMR2rVw7rhIOAg5pOm2N6fAxevEX0/BAZubg0weSO/gEei5KWiT/cM/Ao4WWituidXRiyGUhBrFS+Qw3c=
+	t=1781609865; cv=none; b=NH+wlu2sRYXHCUhUlocxUzU0XtCKnC5Ix6Xyi3cnTVSWZ8aC/bvr7lqXgNOk4j6aTssSl4ferZrqnmWd0h2UCT0O5+NuHNai07NzzkEzYH2HTFDJTDuoG9pMzNCvq7wkQpRxZrrnpR4C1ecBBBhaEEYZwKGJRvYoW3Nrt80I1co=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781609412; c=relaxed/simple;
-	bh=uvt/khiKnY0w7AFUK02f421WBxCy63o7mYkFHLvkdwQ=;
+	s=arc-20240116; t=1781609865; c=relaxed/simple;
+	bh=9nAaDjZ34aYh//rrurYLy/ykUuQhj8L+6kbwkCt4+i8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mCi4uD/2hLteb7VVvs8nICoprwdCd5UYSMchnQOP8CjevNRbIqTln9ci8Tx9ukdK0KWrsA7gLXdh+/ncaY+K1rJz5XbWTFTaYPZLpi3xuwVd8AjALh0x058FsuG1hW6wF+Esuk3HUtRwGd+mYWETzSSMpUGBOAvsnPe9x8yVr/g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=cRvWDjN3; arc=none smtp.client-ip=213.167.242.64
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB5F28FA;
-	Tue, 16 Jun 2026 13:29:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781609375;
-	bh=uvt/khiKnY0w7AFUK02f421WBxCy63o7mYkFHLvkdwQ=;
+	 In-Reply-To:Content-Type; b=spy/sFOccmIx5dvYkyp1IrUZc0wrTXh5YDEz929Nzj6q09ozLJ+MKPMHv/FH2k+gRwdyy28lSDYgBS+03gaOg/Oh7hVtSWQz3tQwZudT1R/DzXg+clZVGaOmRr7zlhu2pBf2KI4YMqYXgHY9QVK647c7CZbH1l80rjPCDsfszJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ozlabs.org; spf=pass smtp.mailfrom=ozlabs.org; dkim=pass (2048-bit key) header.d=ozlabs.org header.i=@ozlabs.org header.b=Gwha8lQv; arc=none smtp.client-ip=150.107.74.76
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ozlabs.org;
+	s=201707; t=1781609860;
+	bh=uAgprYITukIDXcpqINMJiY5I+9dV1eJU9keHmx8y09Q=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cRvWDjN3CLJSkspt4A7gX2iskxTwTiueK63g/RifWavGwv3zcSpNYnWJ29POhCX8P
-	 S/2tjDINWJV45800xqADpDqqqDDCIwcaFEe+Wj9FDeBEUL7jOCmqHePXcl4pymHIhb
-	 FfYdlHfuOvJ37Ileq9p5BG5715Br5PJbySgQPstU=
-Message-ID: <174a5210-8f77-4bd6-b091-ed5cc1ab899d@ideasonboard.com>
-Date: Tue, 16 Jun 2026 14:30:05 +0300
+	b=Gwha8lQvPpehVbnVayavcRWqSRAMTH6T8yTt43S0hjAkCB/JTFST48vUr+g4CsHVy
+	 ZFi9jystoduorstbVb57npnIRroTBZX9uqXPgcnbBbeB0oLES6/SB0HGElsnPhOjXO
+	 Jn+yHRyFrIuSCHZqq8OkxUHRwTAsri/tIkPKm+1XrzWPO11/3f3sF/dvrgRXb8gToW
+	 5Lhgxo1L5Vx1HPwtQwZwSYJj8PZXHkxCLpzuAoipBPNYHmV22S1+BTtKMa0FpXdtPT
+	 cB7j00O/GhtTBBhhrmx8QT+QMGaedFoWWdWyzoAuUkSJgGQQZHT7hDcIPZnF6dPQ98
+	 5LVdzjdj+k+JQ==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4gflMx00Vzz58nk;
+	Tue, 16 Jun 2026 21:37:32 +1000 (AEST)
+Message-ID: <c4a6e367-2f22-4cbf-afcb-674f82fdacd2@ozlabs.org>
+Date: Tue, 16 Jun 2026 12:37:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,184 +59,187 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 06/10] media: rcar-csi2: Add .get_frame_desc op
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-References: <20260311-rcar-streams-v5-0-3e6c957d7567@ideasonboard.com>
- <20260311-rcar-streams-v5-6-3e6c957d7567@ideasonboard.com>
- <20260318211654.GJ716464@killaraus.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Content-Language: en-US
-In-Reply-To: <20260318211654.GJ716464@killaraus.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v3 9/9] vfio/pci: Add mmap() attributes to DMABUF feature
+Content-Language: en-GB
+To: Pranjal Shrivastava <praan@google.com>
+Cc: Alex Williamson <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>,
+ Jason Gunthorpe <jgg@nvidia.com>, Alex Mastro <amastro@fb.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
+ Mahmoud Adam <mngyadam@amazon.de>, David Matlack <dmatlack@google.com>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Kevin Tian <kevin.tian@intel.com>,
+ Ankit Agrawal <ankita@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
+ linux-pci@vger.kernel.org
+References: <20260610154327.37758-1-matt@ozlabs.org>
+ <20260610154327.37758-10-matt@ozlabs.org> <ajENiAQkzXjbxgRX@google.com>
+From: Matt Evans <matt@ozlabs.org>
+In-Reply-To: <ajENiAQkzXjbxgRX@google.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[ozlabs.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	R_DKIM_ALLOW(-0.20)[ozlabs.org:s=201707];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64992-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[tomi.valkeinen@ideasonboard.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart@ideasonboard.com,m:niklas.soderlund@ragnatech.se,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:niklas.soderlund+renesas@ragnatech.se,m:mchehab+huawei@kernel.org,m:jacopo.mondi@ideasonboard.com,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:praan@google.com,m:alex@shazbot.org,m:leon@kernel.org,m:jgg@nvidia.com,m:amastro@fb.com,m:christian.koenig@amd.com,m:bhelgaas@google.com,m:logang@deltatee.com,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:kevin.tian@intel.com,m:ankita@nvidia.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,m:linux-pci@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[matt@ozlabs.org,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	TAGGED_FROM(0.00)[bounces-64993-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TAGGED_RCPT(0.00)[linux-media,renesas,huawei];
+	FROM_NEQ_ENVFROM(0.00)[matt@ozlabs.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ozlabs.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: ACA7A68ECFA
+X-Rspamd-Queue-Id: 12AAB68ED6C
 
-Hi,
+Hi Praan,
 
-On 18/03/2026 23:16, Laurent Pinchart wrote:
-> On Wed, Mar 11, 2026 at 03:53:19PM +0200, Tomi Valkeinen wrote:
->> Add v4l2_subdev_pad_ops.get_frame_desc() implementation.
+On 16/06/2026 09:47, Pranjal Shrivastava wrote:
+> On Wed, Jun 10, 2026 at 04:43:23PM +0100, Matt Evans wrote:
+>> A new VFIO feature, VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR, is added to
+>> set CPU-facing memory type attributes for a DMABUF exported from
+>> vfio-pci.  These are used for subsequent mmap()s of the buffer.
 >>
->> We also implement a fallback for the case where the upstream subdevice
->> does not implement .get_frame_desc. It assumes a single stream with VC =
->> 0 and DT based on the configured stream mbus format.
+>> There are two attributes supported:
+>>  - The default, VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR_NC
+>>  - VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR_WC, which results in WC
+>>    PTEs for the DMABUF's BAR region.
 >>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> Signed-off-by: Matt Evans <matt@ozlabs.org>
 >> ---
->>   drivers/media/platform/renesas/rcar-csi2.c | 70 ++++++++++++++++++++++++++++++
->>   1 file changed, 70 insertions(+)
+>>  drivers/vfio/pci/vfio_pci_core.c   |  2 ++
+>>  drivers/vfio/pci/vfio_pci_dmabuf.c | 57 +++++++++++++++++++++++++++++-
+>>  drivers/vfio/pci/vfio_pci_priv.h   | 14 ++++++++
+>>  include/uapi/linux/vfio.h          | 27 ++++++++++++++
+>>  4 files changed, 99 insertions(+), 1 deletion(-)
 >>
->> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
->> index ad62c95c8f9a..b8baf7c65e90 100644
->> --- a/drivers/media/platform/renesas/rcar-csi2.c
->> +++ b/drivers/media/platform/renesas/rcar-csi2.c
->> @@ -1935,12 +1935,82 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
->>   	return 0;
->>   }
->>   
->> +static int rcsi2_get_frame_desc_fallback(struct v4l2_subdev *sd,
->> +					 unsigned int pad,
->> +					 struct v4l2_mbus_frame_desc *fd)
+> 
+>> +int vfio_pci_core_feature_dma_buf_memattr(
+>> +	struct vfio_pci_core_device *vdev, u32 flags,
+>> +	struct vfio_device_feature_dma_buf_memattr __user *arg,
+>> +	size_t argsz)
 >> +{
->> +	struct v4l2_subdev_route *route;
->> +	const struct rcar_csi2_format *format;
->> +	struct v4l2_subdev_state *state;
->> +	struct v4l2_mbus_framefmt *fmt;
->> +	int ret = 0;
->> +
->> +	state = v4l2_subdev_lock_and_get_active_state(sd);
->> +
->> +	if (state->routing.num_routes != 1) {
->> +		ret = -EINVAL;
->> +		goto out;
->> +	}
->> +
->> +	route = &state->routing.routes[0];
->> +
->> +	if (route->source_pad != pad) {
->> +		ret = -EINVAL;
->> +		goto out;
->> +	}
->> +
->> +	fmt = v4l2_subdev_state_get_format(state, route->sink_pad,
->> +					   route->sink_stream);
->> +	if (!fmt) {
->> +		ret = -EINVAL;
->> +		goto out;
->> +	}
->> +
->> +	format = rcsi2_code_to_fmt(fmt->code);
->> +	if (!format) {
->> +		ret = -EINVAL;
->> +		goto out;
->> +	}
->> +
->> +	fd->num_entries = 1;
->> +	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
->> +	fd->entry[0].stream = route->source_stream;
->> +	fd->entry[0].pixelcode = fmt->code;
->> +	fd->entry[0].bus.csi2.vc = 0;
->> +	fd->entry[0].bus.csi2.dt = format->datatype;
->> +
->> +out:
->> +	v4l2_subdev_unlock_state(state);
->> +
->> +	return ret;
->> +}
->> +
->> +static int rcsi2_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
->> +				struct v4l2_mbus_frame_desc *fd)
->> +{
->> +	struct rcar_csi2 *priv = sd_to_csi2(sd);
+>> +	struct vfio_device_feature_dma_buf_memattr db_attr;
+>> +	struct vfio_pci_dma_buf *priv;
+>> +	struct dma_buf *dmabuf;
 >> +	int ret;
 >> +
->> +	if (WARN_ON(!priv->info->use_isp))
->> +		return -ENOTTY;
+>> +	if (!vdev->pci_ops || !vdev->pci_ops->get_dmabuf_phys)
+>> +		return -EOPNOTSUPP;
+>> +
+>> +	ret = vfio_check_feature(flags, argsz,
+>> +				 VFIO_DEVICE_FEATURE_SET,
+>> +				 sizeof(db_attr));
+>> +	if (ret != 1)
+>> +		return ret;
+>> +
+>> +	if (copy_from_user(&db_attr, arg, sizeof(db_attr)))
+>> +		return -EFAULT;
+>> +
+>> +	dmabuf = dma_buf_get(db_attr.dmabuf_fd);
+>> +	if (IS_ERR(dmabuf))
+>> +		return PTR_ERR(dmabuf);
+>> +
+>> +	/* Verify DMABUF: see comments in vfio_pci_dma_buf_revoke() */
+>> +	priv = dmabuf->priv;
+>> +	if (dmabuf->ops != &vfio_pci_dmabuf_ops ||
+>> +	    READ_ONCE(priv->vdev) != vdev) {
+>> +		ret = -ENODEV;
+>> +		goto out_put_buf;
+>> +	}
+>> +
+>> +	switch (db_attr.memattr) {
+>> +	case VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR_NC:
+>> +	case VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR_WC:
+>> +		WRITE_ONCE(priv->memattr, db_attr.memattr);
+>> +		ret = 0;
+>> +		break;
+>> +
+>> +	default:
+>> +		ret = -ENOENT;
 > 
-> Why is that, can't the get frame desc operation be supported on Gen3 ?
-
-It can, and it is, in this patch. The thing here is that 
-rcsi2_get_frame_desc() is the implementation for 
-v4l2_subdev_pad_ops.get_frame_desc(). On gen4, csisp calls it, but on 
-gen3, there's no one to call it as on gen3 the csi2 does the demuxing.
-
-So the above check is just a "yell if our drivers do a totally wrong thing".
-
->> +
->> +	if (WARN_ON(pad != RCAR_CSI2_SOURCE_VC0))
->> +		return -EINVAL;
->> +
->> +	ret = v4l2_subdev_get_frame_desc_passthrough(sd, pad, fd);
->> +	if (ret == -ENOIOCTLCMD)
->> +		ret = rcsi2_get_frame_desc_fallback(sd, pad, fd);
+> Nit: Looks like the agreement [1] was on -EOPNOTSUPP / -EINVAL but we 
+> took -ENOENT here and in the doc string? Was that intentional?
 > 
-> A dev_warn_once() would be good here, to get people to fix the source
-> device driver.
+> I tend to agree with Alex's suggestion here, we'd prefer one of those 
+> two (-EINVAL / -EOPNOTSUPP) since it clearly communicates to the user
+> that "You sent a wrong arg" or "We don't support this"
+> 
 
-Perhaps at some point, but do we want to add it already?
+Yes, it was intentional.  This was noted in the v3 changelog entry in
+the cover letter:
 
-Hmm, actually, this will go away with Sakari's series that adds 
-framework level fallback handling, so I think warning now about a thing 
-that is no longer a thing in the future serves no purpose.
+ - Removed GET on vfio_pci_core_feature_dma_buf_memattr(), removed
+   unnecessary taking of memory_lock, fixed error return values.  In
+   particular, removes ENOTSUPP, and uses ENOENT to indicate an
+   unknown attribute enum value was passed to SET.  In the discussion
+   here,
+   https://lore.kernel.org/all/20260602131417.41366391@shazbot.org/
+   we'd agreed on EOPNOTSUPP before I realised that's already used
+   elsewhere.  ENOENT uniquely indicates an unknown attribute.
 
-  Tomi
+EINVAL/EOPNOTSUPP would indeed be semantically perfect, but after
+posting my reply there I remembered they are already overloaded with a
+load of different meanings.
 
->> +	return ret;
->> +}
+I think uniqueness is important here so that memattr issues (for example
+any future arch-specific porting issues) show up as an
+immediately-understandable error value.
+
+> -ENOENT means no such file or directory [2] to the user. Users may not
+> be kernel engineers who'd wanna peek into the code and they may simply
+> look at the uAPI files which doesn't give them an answer as to what
+> went wrong.
+
+But surely when they look at the uAPI header they will then see
+"*  ENOENT: The given memattr is not supported." and understand what
+went wrong.
+
+> 
+>> +	}
 >> +
->>   static const struct v4l2_subdev_pad_ops rcar_csi2_pad_ops = {
->>   	.enable_streams = rcsi2_enable_streams,
->>   	.disable_streams = rcsi2_disable_streams,
->>   
->>   	.set_fmt = rcsi2_set_pad_format,
->>   	.get_fmt = v4l2_subdev_get_fmt,
->> +
->> +	.get_frame_desc = rcsi2_get_frame_desc,
->>   };
->>   
->>   static const struct v4l2_subdev_ops rcar_csi2_subdev_ops = {
->>
+>>  out_put_buf:
+>>  	dma_buf_put(dmabuf);
+>>  
+> 
+> Apart from that, 
+> Reviewed-by: Pranjal Shrivastava <praan@google.com>
+
+Thanks!
+
+
+Matt
+
+
+> 
+> Thanks,
+> Praan
+> 
+> [1] https://lore.kernel.org/all/20260602131417.41366391@shazbot.org/
+> [2] https://elixir.bootlin.com/linux/v7.1-rc6/source/include/uapi/asm-generic/errno-base.h#L6
 > 
 
 
