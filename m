@@ -1,177 +1,173 @@
-Return-Path: <linux-media+bounces-65011-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65012-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id U1C2ARVFMWoIfwUAu9opvQ
-	(envelope-from <linux-media+bounces-65011-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 14:44:05 +0200
+	id Ih2nNXZGMWqifwUAu9opvQ
+	(envelope-from <linux-media+bounces-65012-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 14:49:58 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7089E68F777
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 14:44:04 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 562A068F971
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 14:49:58 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ziepe.ca header.s=google header.b=LkPMS57S;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65011-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65011-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=none;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b="FhKT/NLU";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65012-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65012-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id D019730A20BC
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 12:40:26 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F065631C940E
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 12:44:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C51663655D6;
-	Tue, 16 Jun 2026 12:40:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B2AF364024;
+	Tue, 16 Jun 2026 12:44:37 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9D4235677C
-	for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 12:40:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC1235C1B7
+	for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 12:44:35 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781613623; cv=none; b=LFh6FGl05HJTBMyEATKKRkMdXelmIotbLC0PAKSkHACS9eX64MuiWeZG22Kc8sLO4SHwCfOXS/rD+EV7bs22QC/nKhHfHK7Sb1zgRFmEWS2iC+tuJYAE7pJsJBl1LcBF78Ts7BxIAvt7ToSQqOB7+g0Sd7DjjTPNH9CsNr0GLOo=
+	t=1781613876; cv=none; b=hOYcaNy2iYC1QQn8LDln//wKeIWob+M4SKnjqvwFLtdQNyZ6ulwJA39s+zcEn1gdFE3+aSySspG6sUFoJX2wDl5H7aIZPKnzKmHRTZ56Kq9lOXQkuDLM9tb8tJ9dlPOWa7l0tAdY+JlapSzq4bZ3m4pQlr1+AG6Yw0vvVoo4dxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781613623; c=relaxed/simple;
-	bh=tPbjX8dfzPLu8onhnfm0DNzfCkJoWXqGLy1Lxvc2NUs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Dfz08Eh07eiS1LZ0p9w8Opz/5QCQNfKoTcyL+H8cJSkbfG59aHBk+QJIcqO8oJ837iA6JxYdHCir/UFIi7QxnPK8Br+UGIgSDxhrrMuE65eO8Xug2pFi8tfS76LK76La0Dsd2E/1F44uIw9kqYVmZvk6slaKXJW9mH/7XKhl1aE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=LkPMS57S; arc=none smtp.client-ip=209.85.160.176
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-51778069c31so40309741cf.1
-        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 05:40:21 -0700 (PDT)
+	s=arc-20240116; t=1781613876; c=relaxed/simple;
+	bh=cGak6UewSIZR4QJf0NQn8w11AAoI6SOu8XcVnj7aWv0=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=oR7DhV3oHzEKKNKMFlSBYLPV19axeVpgZhFk8pzdB1ABvICVN9vWlouPdVPWflEsG6Bsh1ZhF3qYR+5b8Fu0iXXMhqXtijIdmdhePHf8BQILHzUT7Yi8I47Vl2Ci8ERB++3DCuorVRXAC9JgKjS8cXjX54EDHhPTs7IBakh55ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FhKT/NLU; arc=none smtp.client-ip=209.85.218.45
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-bebde89cfd3so556880266b.2
+        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 05:44:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1781613621; x=1782218421; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tPbjX8dfzPLu8onhnfm0DNzfCkJoWXqGLy1Lxvc2NUs=;
-        b=LkPMS57SheHWUiSvnK76MNPuPeTpmepRr/zvfJ4ZpBSaUTrCEOpDnjQIDbl4YV/8pK
-         0RvEWX124XtPixmZGL7nu5gP6/f8YLcuJcemmDyc9fyshX/R+SxjdOfeGu82kKdDYZho
-         Cd9Pz1ccepPbodA6fjVyV8/JveKyJe3KP8MRwGAwYk9TlUcvrqnzf0p67yRmqK1zFBkn
-         ueRtbFdomSo6KVgL++OLAEQDKjcHqEnR+zzX9N0gqBkuWhJN80xWe9ysGRvBjlwR0mH0
-         ufusAQb6vCoO1JcuHxGMggFcSZTI3SlLFb/IbD7/qTV/l7St0K9Px/RxVE6ka7P8+N04
-         W1fw==
+        d=gmail.com; s=20251104; t=1781613873; x=1782218673; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xWwKLVsUIM6MytpX93dCt41pC6tdKxTrq94U49oj1AE=;
+        b=FhKT/NLUbc5uKRjzuOF/t/Bo//kvV9gy6EpSz1mFGUirp/kyBhiZ6DBzRUy6nTPW9L
+         9KhH6FwzqcYKrOYPVfjO3AN3hzYnAHbCfE8eLJ0dfAEetrL3LGkTXD29fG0CxDyop2/k
+         alasGP2AIKxVMjJt4A1SqhU6vNS1O1iJIdaodyVpbiI8DX9qhoIrP1H0gCFmt/Wk7CHv
+         sfEpC/tstXPRpzHTslFH1Gh6u/gFCMahqaNFoO6HvOR/eJqcOPw+b1/LsM+KJcsKPoIh
+         C43DYZwHr4CU++JvBW7HV1WflMlRzTvxS2jd2I7S1lN3L9l8ooVwOLNbsdtAqlMuJSdn
+         nOcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781613621; x=1782218421;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tPbjX8dfzPLu8onhnfm0DNzfCkJoWXqGLy1Lxvc2NUs=;
-        b=FPNGfzT0Z/MIoupI9GrABIbHn77TBZqaZkb/xKWN/XjievYyIE0vRSORryF+yGZ7T1
-         JyQDlPndwMgD9NluuVWjJRc/KVR1fMVaLF4vLCWRI5B8yG0BPDn32gmzIpPlcfk1eCpL
-         +WRUepP94ipnvRyIjewAzgdZ1xoZxwvTTWY9UhmMdyhDY44f8lS9Iy0UPh2elIcKhamA
-         z1pa33CIyKOwjpRTqfEpQu9i6bZU6O3qSbcabjqZi05ZF93iZhUbEYGFdYzVD+KusVyf
-         6z9NtlG7Of+BsxjQfHIA6mCi/sF0CxR/AHPvm7hga8t9DLgcUVjsCXa9HisGRc4lSsZ8
-         mEkQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8OIE29NpppnS97hVm5d+EOqQXDExkcEeUhRh0gvYgvH/Th+XlS9zzXqFP4C5Of7SX4vV5Mgno7Mp6Xaw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwcNrI821uQihi0cZuO+ZqEqtws4tu5PoatqJQZwEEG1s0IkgIt
-	Rp1VFFLRcmqxynFkRlJBfEe69HvE6S1/7JqimbUsb/YoAdmavL505A1nNgFkfkUtEK8=
-X-Gm-Gg: Acq92OFHW3DghsCwTdCIV/u4ejtOYZBiA0NTDJSTmTWbMVjOTrQ9zn08KZcEE8H+4sA
-	X2flqGFkAj/LTgGjYDHyftJHMgzvRICa8WhEYIEqGVPURL87AalGm0RJWO6GwQY+WLR85oizPV1
-	F9VRROAUo6mlnjEsbr5Td8bVd8dwnc3MBbU7UKMbX3rsY7xpGp6p66TbNA5MYJbToLe0pCB1S1/
-	AbYj3biF4Q02eLFy2JEbf/C2SFr9S6oi6KyC0amnTh+pSQTMXgkBAr5m/HdDxZi4njsj3UlUwF1
-	4uqfyYPrMYU/D68EOVe1EdUqk7xoPiKx498UP7wq+5JTDCvTy1+QL86eiyzLHXPIinLLRE15p/t
-	ydzli0s0wx2GlLJ07VyZcLGclRhKivJqUCPwRBpdR8n0BpeuzdRZdAB5ptdyugz0INirEdia3Vu
-	O2cRMYG7snxPfdKmy1URpCnJvy6/DArv33E6PPL8OrVTzxJAO5RNgtRcFcPj+3GViY29da+i29c
-	8ITsQ==
-X-Received: by 2002:a05:622a:2282:b0:517:6804:1fb3 with SMTP id d75a77b69052e-517fe230d82mr282972431cf.18.1781613620607;
-        Tue, 16 Jun 2026 05:40:20 -0700 (PDT)
-Received: from ziepe.ca (crbknf0213w-47-54-130-67.pppoe-dynamic.high-speed.nl.bellaliant.net. [47.54.130.67])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-517fb61d948sm133785221cf.1.2026.06.16.05.40.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2026 05:40:19 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1wZT5X-0000000Fzb5-0uZr;
-	Tue, 16 Jun 2026 09:40:19 -0300
-Date: Tue, 16 Jun 2026 09:40:19 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Cc: Bobby Eshleman <bobbyeshleman@gmail.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Shuah Khan <shuah@kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"sdf@fomichev.me" <sdf@fomichev.me>,
-	"razor@blackwall.org" <razor@blackwall.org>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>,
-	"almasrymina@google.com" <almasrymina@google.com>,
-	"matttbe@kernel.org" <matttbe@kernel.org>,
-	"skhawaja@google.com" <skhawaja@google.com>,
-	"dw@davidwei.uk" <dw@davidwei.uk>,
-	Bobby Eshleman <bobbyeshleman@meta.com>
-Subject: Re: [PATCH net-next v2 2/4] udmabuf: emit one sg entry per pinned
- folio
-Message-ID: <20260616124019.GA3577091@ziepe.ca>
-References: <20260611-tcpdm-large-niovs-v2-0-ee2bf15e7523@meta.com>
- <20260611-tcpdm-large-niovs-v2-2-ee2bf15e7523@meta.com>
- <IA0PR11MB71852246277F773AC41DAAA3F8E52@IA0PR11MB7185.namprd11.prod.outlook.com>
+        d=1e100.net; s=20251104; t=1781613873; x=1782218673;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xWwKLVsUIM6MytpX93dCt41pC6tdKxTrq94U49oj1AE=;
+        b=SgCQqBC/iXpJ/P99CJG2ss1CqPlrMYxj42E3kMhYtEBss5xCtD60i2GIXZJdPSsGtd
+         QRA957R5TSaenhzm8UsefWNYxdQWhe8DwEBajZIEJyS08jgrtXvDYQ7eQkgp/r+hFtmq
+         xOHst5vDgHLwbqT0wZujgFGwCMDeRXUzhbBV7+zjIY2nTjIAvHWL6hKCLg228dQoh9+r
+         t7K//Cu+CsalvYOXw06S9Ec6cIH7l9cW9F2XKi8eT6GLZ7zfZXguKPKlez/sULyEKWr2
+         APzw+6a/WXCFtDGwG2hOakXa8W4VuoHRwDeuTCfkUulpZ7MCJvYWxBvLFsh4QZlq4RAV
+         T/vw==
+X-Forwarded-Encrypted: i=1; AFNElJ/FZna/fZx1qNkHz7Ie8NsPOh+j/q71o79HeyS/csPqFRiVA3vj9zZgzAJGe9K9gQ8WpVkCNE9NMCdTJA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yylif6O0+36i3Pr6iHFa1ZDqD8pdWL2neK2VPsqdsCWmNOVuE5T
+	jXeR0EBVourDTU4jUnfmCD3X4XjB/rNKCa3fwJ1ULtrRUQ5P+FpqIqU46PzSVu3/
+X-Gm-Gg: Acq92OGkR49mzdWtXPpTDd8WruoR2SUh+oExrQeeP813uMXsjYa5arPEwX1S9w2yxUG
+	sBYvqKtBIxsYuOLLvASChfSZh7TSEHFesocYuO84KVkTGbZj7svog7W1DxqjHmqV3YAv1a86CQp
+	CaJI09MWjAaxmrNgrgWzVq+IHgh++4KVdrKp5p/HUSEkykl+OMtmhm0jVCqsR/Xkmr9EErD9Jrb
+	C4UkptA+JM2zQ63thJ7T1/Wk/mmW+11et/zxdyzd3x1s7VJ7FuU+yHf1QdIXphHJaMSTH5sN11g
+	WxqM0ojUg/ErDbUgPrgES42E/+vFxEoj954RR62lcI1CBHCx4+7HIwdhGDY/If1URLIxdFYCi3R
+	A575IbAcET/LYTqADs1d5Uj5g9OThYP937eUhoQMpjy0NBaYKUKNHpRLy13fk5rVt0NmUYtceSa
+	NxpRJlblWLVCDzDfhQqHWk92gAdua74lJw3wYj+YM+LoOU1s0rvmQFKSqLaC8uJnLUlufzNrzgV
+	VpVl4EVDzE248Cyas9t
+X-Received: by 2002:a17:907:948e:b0:bfb:1e1c:3197 with SMTP id a640c23a62f3a-c043d9af661mr198808866b.41.1781613871788;
+        Tue, 16 Jun 2026 05:44:31 -0700 (PDT)
+Received: from smtpclient.apple (89-66-237-154.dynamic.play.pl. [89.66.237.154])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bfdb4420570sm641059666b.11.2026.06.16.05.44.31
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 16 Jun 2026 05:44:31 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <IA0PR11MB71852246277F773AC41DAAA3F8E52@IA0PR11MB7185.namprd11.prod.outlook.com>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.600.51.1.1\))
+Subject: Re: [BUG] rkvdec-vdpu383-h264: wrong pixels at horizontal de-blocking
+ edges y=4 and y=12
+From: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>
+In-Reply-To: <1f178828-2cba-4120-bc6d-bb3be7b24073@symple.nz>
+Date: Tue, 16 Jun 2026 14:44:16 +0200
+Cc: Detlev Casanova <detlev.casanova@collabora.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <5ABBE81F-3560-402D-B9D3-94F6D9842A4B@gmail.com>
+References: <52a01f1f-5b36-429b-96cf-f1a0a1c8f5e4@symple.nz>
+ <5939C396-3A70-458F-8E6B-A55319929564@gmail.com>
+ <4b3a9f32-807a-4b9e-8df2-d22f872d288e@symple.nz>
+ <2CB1844A-3DB7-4973-98E0-0C141DD38B45@gmail.com>
+ <1f178828-2cba-4120-bc6d-bb3be7b24073@symple.nz>
+To: Simon Wright <Simon@symple.nz>,
+ linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org
+X-Mailer: Apple Mail (2.3864.600.51.1.1)
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[ziepe.ca:s=google];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	MV_CASE(0.50)[];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65011-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:vivek.kasireddy@intel.com,m:bobbyeshleman@gmail.com,m:donald.hunter@gmail.com,m:kuba@kernel.org,m:davem@davemloft.net,m:edumazet@google.com,m:pabeni@redhat.com,m:horms@kernel.org,m:andrew+netdev@lunn.ch,m:kraxel@redhat.com,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:shuah@kernel.org,m:netdev@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kselftest@vger.kernel.org,m:sdf@fomichev.me,m:razor@blackwall.org,m:daniel@iogearbox.net,m:almasrymina@google.com,m:matttbe@kernel.org,m:skhawaja@google.com,m:dw@davidwei.uk,m:bobbyeshleman@meta.com,m:donaldhunter@gmail.com,m:andrew@lunn.ch,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	DMARC_NA(0.00)[ziepe.ca];
-	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[27];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,davemloft.net,google.com,redhat.com,lunn.ch,linaro.org,amd.com,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,fomichev.me,blackwall.org,iogearbox.net,davidwei.uk,meta.com];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FORGED_SENDER(0.00)[jgg@ziepe.ca,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ziepe.ca:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jgg@ziepe.ca,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-65012-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:detlev.casanova@collabora.com,m:Simon@symple.nz,m:linux-media@vger.kernel.org,m:linux-rockchip@lists.infradead.org,s:lists@lfdr.de];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[piotroniszczuk@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[piotroniszczuk@gmail.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_THREE(0.00)[4];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,netdev];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,ziepe.ca:dkim,ziepe.ca:mid,ziepe.ca:from_mime,vger.kernel.org:from_smtp]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,symple.nz:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7089E68F777
+X-Rspamd-Queue-Id: 562A068F971
 
-On Tue, Jun 16, 2026 at 06:04:03AM +0000, Kasireddy, Vivek wrote:
 
-> > This is helpful for importers like net/core/devmem that expect dmabuf sg
-> IMO, udmabuf needs to detect whether importers can handle segments that
-> are > PAGE_SIZE and set the entries appropriately. Please look into how the
-> GPU drivers and other dmabuf exporters/importers handle this situation, so
-> that we can adopt best practices to address this issue.
 
-Importers have to handle arbitary scatterlists, devmem is just broken
-if it can't handle the output of sg_alloc_table_from_pages().
+> Wiadomo=C5=9B=C4=87 napisana przez Simon Wright <Simon@symple.nz> w =
+dniu 11 cze 2026, o godz. 08:15:
+>=20
+> Hi Piotr,
+>=20
+> Short version: the in-tree port didn't actually have the warmup =
+running (it needs a
+> probe-time buffer alloc + a pm_runtime_resume hook, not just the =
+decode code). Rather
+> than pick that apart, here's a clean patch that wires it properly - =
+and I've now
+> validated it on hardware.
+>=20
+> The patch is self-contained and needs no devicetree change (mainline =
+already maps the
+> "link" register bank it uses); git apply-clean on 7.0 and 7.1-rc7:
+>=20
+>    https://github.com/SympleNZ/rkvdec-vdpu383-h264-bug/tree/master/fix
+>=20
+>    =20
 
-Jason
+Simon,
+
+After multiple users tests I=E2=80=99m happy to confirm: with above =
+patch applied on mainline 7.1 h264 decoder works perfectly.
+
+So:
+
+Tested-by: Piotr Oniszczuk <piotr.oniszczuk@gmail.com>=
 
