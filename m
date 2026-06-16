@@ -1,59 +1,59 @@
-Return-Path: <linux-media+bounces-65022-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65023-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id FMRuOaJMMWoRgQUAu9opvQ
-	(envelope-from <linux-media+bounces-65022-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 15:16:18 +0200
+	id bYP0B6tMMWoUgQUAu9opvQ
+	(envelope-from <linux-media+bounces-65023-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 15:16:27 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CAD568FCF7
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 15:16:18 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 854D768FD04
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 15:16:26 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=B2b8yB9d;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65022-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65022-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=lqfsZlju;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65023-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65023-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 4E90F300AD50
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:16:11 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 65BD1304497D
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:16:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FE202D780E;
-	Tue, 16 Jun 2026 13:16:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE9492D060D;
+	Tue, 16 Jun 2026 13:16:11 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE032D8793
-	for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 13:16:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8D32D63E8
+	for <linux-media@vger.kernel.org>; Tue, 16 Jun 2026 13:16:09 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781615769; cv=none; b=PH3nVs2s/BMl13srRghqygnfikq0S0ymlmWTe3HmKEr/0NekwvdaPfWGO84nJrEfuSVXQTCcEwpL2smPlGy9BbvM4Hi5OyV9PRVhxRkCtwqQVaK6nkRbuXPpMeawU1VC6BiRoLGAUrKybffLVv07h1EHjyCpj00zpAmcNz/f9G0=
+	t=1781615771; cv=none; b=iSWxEDXjAFL/hScVTY6EUQ5mNqsfAq7VhW7q8G3WK3NqhSp+A/TkN55zSB7zODR+yHavgBlCBtiZZAuMjXbdX20Eua1JduOhgrBRTsszpm/fVXRgnIyzLxwzj/txhXz5ufgpGfKbrq5JGSfoSEfDxMs00JDwwhteQUnQ8pch1LI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781615769; c=relaxed/simple;
-	bh=XYvPbPia3sJeNhMXOOXdRbCsODOVjcUVz9//LHsFWc8=;
+	s=arc-20240116; t=1781615771; c=relaxed/simple;
+	bh=D/9EFdR6b9LvR2+vOqAMX9wsIzPdMbBECRGp89WBgwE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jJe0cMsaPjSR4SYGY+HVGWfiY7EK4NB+WsCb1Lcu36BzZ9Ksuu3o5B6CVDSszQFP0DAINsiy/oyNV+0JshF/4y7liwV0qhEPfUvgsd2HvXG+6McAkjZv0fbF1Po8gQUwMXKoyQhknhaEwFp8XZS95ES9VovOxcB8NLktGM7J8xU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B2b8yB9d; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 582DA1F000E9;
-	Tue, 16 Jun 2026 13:16:07 +0000 (UTC)
+	 MIME-Version; b=qsLytzLe0vePTs10qdlqcxZFXu5Gr60xMXZQOBi67W5+6eV9m4qIXlfjXGNk67TcMgO+bV6fbW19NFif0FHp9ePSsksiLpn4UvDcn0odkmApbREWB81ZFSoRKz8x7gNN8qmN3wP1zzGYDQW59QZOxIDnEE3S1pVic+hI8ZQuMU8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lqfsZlju; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C415E1F00A3A;
+	Tue, 16 Jun 2026 13:16:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781615768;
-	bh=dIqsLu2cjEear8wotsOAyX3ffKZ2S4fxOevspMEb0rQ=;
+	s=k20260515; t=1781615769;
+	bh=EHnqnuvMsaaXAIPL92tsS3R/9bZGuCuZJHjLYz85z1s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=B2b8yB9d9u4TFZFcvtu8wig/C2krQEUEuzrEBQ4irnrMLmWC6XU+PV3WSU5szfuQA
-	 /R7fSyroE76og3KrKzwZg6srejD9JxwmzdxhtAPWXSv9SWzm3bfIf87NNCkHOrWfA5
-	 o+Cyr/9bMNwCSEo/2Up0xYdlu+LVs1yzrA0DPTimWf6BdptDqzPJyLTmnqMoeS8Mrt
-	 z4wpothb6C/Kgvb85tEupDpbgtn5elsvBenjMuI3v7L3tG5UljF+xvXtV2UlcpQK3c
-	 BnqPbwRxIZ7T4s38J4i81XiYq58WggUwvIW94AnH6lXVlTagQq58QpwlmKBigfty0H
-	 9LOfsDC+LYw+Q==
+	b=lqfsZlju9HperQ5EPtJW+fURMjjAlhjU5nhYpwdUEMgnBbs/Ubrh1s5Grbk8c+vzS
+	 11D9Nc2+fQ7ssGtPIORVKw4NQpIC/sCwSHAzu9br6n8FAsfbmBrAAy01psoyV71qzL
+	 aUqegYg8jsmxMw0e6klBswq65iewE3huSKAEINUKVEKu67ApIh8oONF8GBsAr2rAHp
+	 +3EiF08FwaU0G2pOyHqv+Py5qok2Q2HXmwzPd0vHp19icIZvuUhy3iJmRIBZOrr9/L
+	 K2/IiBDW03gRfa4nl7MF4g9owjuMXO3xH6ugFyir/Yecpl5BvNxh1yxGdzZlHImn2U
+	 DJ9+WvK+mbWUw==
 From: Hans Verkuil <hverkuil+cisco@kernel.org>
 To: linux-media@vger.kernel.org
 Cc: Mauricio Faria de Oliveira <mfo@igalia.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: [PATCHv2 2/6] media: em28xx: use v4l2_device release callback
-Date: Tue, 16 Jun 2026 15:10:28 +0200
-Message-ID: <57c98dace92574dc9bffd3b543eccd06202e75c1.1781615432.git.hverkuil+cisco@kernel.org>
+Subject: [PATCHv2 3/6] media: em28xx: drop 'users' field
+Date: Tue, 16 Jun 2026 15:10:29 +0200
+Message-ID: <3251b403e710fdc447a87098129263d0a06e08c1.1781615432.git.hverkuil+cisco@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1781615432.git.hverkuil+cisco@kernel.org>
 References: <cover.1781615432.git.hverkuil+cisco@kernel.org>
@@ -72,12 +72,12 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-65022-lists,linux-media=lfdr.de,cisco];
+	TAGGED_FROM(0.00)[bounces-65023-lists,linux-media=lfdr.de,cisco];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -94,175 +94,96 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3CAD568FCF7
+X-Rspamd-Queue-Id: 854D768FD04
 
-The em28xx driver creates a lot of video devices, but life-time management
-is really bad. Instead use the struct v4l2_device release() callback to
-have a single place where memory can be freed once the last user has gone.
+Drop the em28xx_v4l2 'users' field, use v4l2_fh_is_singular_file()
+instead.
 
 Assisted-by: Claude:claude-opus-4-7
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 ---
- drivers/media/usb/em28xx/em28xx-video.c | 66 +++++++++++++++----------
+ drivers/media/usb/em28xx/em28xx-video.c | 18 +++++++-----------
  drivers/media/usb/em28xx/em28xx.h       |  1 -
- 2 files changed, 41 insertions(+), 26 deletions(-)
+ 2 files changed, 7 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/media/usb/em28xx/em28xx-video.c b/drivers/media/usb/em28xx/em28xx-video.c
-index da0422c65e5f..42f5e7547cc4 100644
+index 42f5e7547cc4..6c726764a5f3 100644
 --- a/drivers/media/usb/em28xx/em28xx-video.c
 +++ b/drivers/media/usb/em28xx/em28xx-video.c
-@@ -2275,18 +2275,27 @@ static int radio_s_tuner(struct file *file, void *priv,
- }
+@@ -2332,9 +2332,8 @@ static int em28xx_v4l2_open(struct file *filp)
+ 		return -ENODEV;
+ 	}
  
- /*
-- * em28xx_free_v4l2() - Free struct em28xx_v4l2
-+ * em28xx_free_v4l2() - v4l2_device release callback
-  *
-- * @ref: struct kref for struct em28xx_v4l2
-+ * @v4l2_dev: pointer to struct v4l2_device embedded in struct em28xx_v4l2
-  *
-- * Called when all users of struct em28xx_v4l2 are gone
-+ * Called by the v4l2 core when the last reference to the v4l2_device is
-+ * released. At this point no userspace file handle nor video_device node
-+ * keeps the v4l2 instance alive anymore, so it is safe to release all
-+ * v4l2-related resources and drop the em28xx device reference taken when
-+ * the v4l2 extension was initialized.
-  */
--static void em28xx_free_v4l2(struct kref *ref)
-+static void em28xx_free_v4l2(struct v4l2_device *v4l2_dev)
- {
--	struct em28xx_v4l2 *v4l2 = container_of(ref, struct em28xx_v4l2, ref);
-+	struct em28xx_v4l2 *v4l2 =
-+		container_of(v4l2_dev, struct em28xx_v4l2, v4l2_dev);
-+	struct em28xx *dev = v4l2->dev;
+-	em28xx_videodbg("open dev=%s type=%s users=%d\n",
+-			video_device_node_name(vdev), v4l2_type_names[fh_type],
+-			v4l2->users);
++	em28xx_videodbg("open dev=%s type=%s\n",
++			video_device_node_name(vdev), v4l2_type_names[fh_type]);
  
--	v4l2->dev->v4l2 = NULL;
-+	v4l2_ctrl_handler_free(&v4l2->ctrl_handler);
-+	v4l2_device_unregister(v4l2_dev);
-+	dev->v4l2 = NULL;
- 	kfree(v4l2);
-+	kref_put(&dev->ref, em28xx_free_device);
- }
+ 	ret = v4l2_fh_open(filp);
+ 	if (ret) {
+@@ -2345,7 +2344,7 @@ static int em28xx_v4l2_open(struct file *filp)
+ 		return ret;
+ 	}
  
- /*
-@@ -2354,8 +2363,6 @@ static int em28xx_v4l2_open(struct file *filp)
+-	if (v4l2->users == 0) {
++	if (v4l2_fh_is_singular_file(filp)) {
+ 		em28xx_set_mode(dev, EM28XX_ANALOG_MODE);
+ 
+ 		if (vdev->vfl_type != VFL_TYPE_RADIO)
+@@ -2363,8 +2362,6 @@ static int em28xx_v4l2_open(struct file *filp)
  		v4l2_device_call_all(&v4l2->v4l2_dev, 0, tuner, s_radio);
  	}
  
--	kref_get(&dev->ref);
--	kref_get(&v4l2->ref);
- 	v4l2->users++;
- 
- 	mutex_unlock(&dev->lock);
-@@ -2411,14 +2418,14 @@ static int em28xx_v4l2_fini(struct em28xx *dev)
- 		video_unregister_device(&v4l2->vdev);
- 	}
- 
--	v4l2_ctrl_handler_free(&v4l2->ctrl_handler);
--	v4l2_device_unregister(&v4l2->v4l2_dev);
--
--	kref_put(&v4l2->ref, em28xx_free_v4l2);
+-	v4l2->users++;
 -
  	mutex_unlock(&dev->lock);
- 
--	kref_put(&dev->ref, em28xx_free_device);
-+	/*
-+	 * Drop the initial reference taken at v4l2_device_register() time.
-+	 * The em28xx_free_v4l2() release callback will be invoked once all
-+	 * userspace file handles to the video device nodes are closed.
-+	 */
-+	v4l2_device_put(&v4l2->v4l2_dev);
  
  	return 0;
- }
-@@ -2490,9 +2497,7 @@ static int em28xx_v4l2_close(struct file *filp)
+@@ -2467,13 +2464,13 @@ static int em28xx_v4l2_close(struct file *filp)
+ 	struct em28xx_v4l2    *v4l2 = dev->v4l2;
+ 	struct usb_device *udev = interface_to_usbdev(dev->intf);
+ 	int              err;
++	bool last_user;
+ 
+-	em28xx_videodbg("users=%d\n", v4l2->users);
+-
+-	vb2_fop_release(filp);
+ 	mutex_lock(&dev->lock);
++	last_user = v4l2_fh_is_singular_file(filp);
++	_vb2_fop_release(filp, NULL);
+ 
+-	if (v4l2->users == 1) {
++	if (last_user) {
+ 		/* No sense to try to write to the device */
+ 		if (dev->disconnected)
+ 			goto exit;
+@@ -2496,7 +2493,6 @@ static int em28xx_v4l2_close(struct file *filp)
+ 	}
  
  exit:
- 	v4l2->users--;
--	kref_put(&v4l2->ref, em28xx_free_v4l2);
+-	v4l2->users--;
  	mutex_unlock(&dev->lock);
--	kref_put(&dev->ref, em28xx_free_device);
  
  	return 0;
- }
-@@ -2711,7 +2716,6 @@ static int em28xx_v4l2_init(struct em28xx *dev)
- 		mutex_unlock(&dev->lock);
- 		return -ENOMEM;
- 	}
--	kref_init(&v4l2->ref);
- 	v4l2->dev = dev;
- 	dev->v4l2 = v4l2;
- 
-@@ -2722,9 +2726,21 @@ static int em28xx_v4l2_init(struct em28xx *dev)
- 	if (ret < 0) {
- 		dev_err(&dev->intf->dev,
- 			"Call to v4l2_device_register() failed!\n");
--		goto err;
-+		dev->v4l2 = NULL;
-+		kfree(v4l2);
-+		mutex_unlock(&dev->lock);
-+		return ret;
- 	}
- 
-+	/*
-+	 * From this point on, em28xx_free_v4l2() will be used to release
-+	 * v4l2-related resources when the v4l2_device refcount reaches
-+	 * zero. Take a reference to the em28xx device so that it cannot
-+	 * be freed before the v4l2 instance is released.
-+	 */
-+	v4l2->v4l2_dev.release = em28xx_free_v4l2;
-+	kref_get(&dev->ref);
-+
- 	hdl = &v4l2->ctrl_handler;
- 	v4l2_ctrl_handler_init(hdl, 9);
- 	v4l2->v4l2_dev.ctrl_handler = hdl;
-@@ -3048,8 +3064,6 @@ static int em28xx_v4l2_init(struct em28xx *dev)
- 	dev_info(&dev->intf->dev,
- 		 "V4L2 extension successfully initialized\n");
- 
--	kref_get(&dev->ref);
--
- 	mutex_unlock(&dev->lock);
- 	return 0;
- 
-@@ -3073,12 +3087,14 @@ static int em28xx_v4l2_init(struct em28xx *dev)
- 		video_unregister_device(&v4l2->vdev);
- 	}
- 
--	v4l2_ctrl_handler_free(&v4l2->ctrl_handler);
--	v4l2_device_unregister(&v4l2->v4l2_dev);
--err:
--	dev->v4l2 = NULL;
--	kref_put(&v4l2->ref, em28xx_free_v4l2);
- 	mutex_unlock(&dev->lock);
-+
-+	/*
-+	 * Drop the initial reference. em28xx_free_v4l2() will be called
-+	 * once the last video_device node release has decremented the
-+	 * v4l2_device refcount to zero.
-+	 */
-+	v4l2_device_put(&v4l2->v4l2_dev);
- 	return ret;
- }
- 
 diff --git a/drivers/media/usb/em28xx/em28xx.h b/drivers/media/usb/em28xx/em28xx.h
-index 21c912403efc..90b83e4598ac 100644
+index 90b83e4598ac..f68159fab345 100644
 --- a/drivers/media/usb/em28xx/em28xx.h
 +++ b/drivers/media/usb/em28xx/em28xx.h
-@@ -557,7 +557,6 @@ struct em28xx_eeprom {
- #define EM28XX_RESOURCE_VBI   0x02
+@@ -580,7 +580,6 @@ struct em28xx_v4l2 {
+ 	int sensor_yres;
+ 	int sensor_xtal;
  
- struct em28xx_v4l2 {
--	struct kref ref;
- 	struct em28xx *dev;
+-	int users;		/* user count for exclusive use */
+ 	int streaming_users;    /* number of actively streaming users */
  
- 	struct v4l2_device v4l2_dev;
+ 	u32 frequency;		/* selected tuner frequency */
 -- 
 2.53.0
 
