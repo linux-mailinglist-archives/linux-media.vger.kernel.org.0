@@ -1,371 +1,171 @@
-Return-Path: <linux-media+bounces-65039-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65040-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id kYnrLSJgMWoGiQUAu9opvQ
-	(envelope-from <linux-media+bounces-65039-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 16:39:30 +0200
+	id 2IyaHBBiMWpiiQUAu9opvQ
+	(envelope-from <linux-media+bounces-65040-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 16:47:44 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id B91D469094D
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 16:39:29 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0570A690A89
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 16:47:44 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=mb0imgbn;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65039-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-65039-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=LTxHIQlt;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65040-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65040-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=mailbox.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id A3AC33021FFF
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 14:36:47 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 2826B30C5F2A
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 14:39:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39A943A5E6F;
-	Tue, 16 Jun 2026 14:36:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 294863955D8;
+	Tue, 16 Jun 2026 14:39:08 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EEC63A1D01;
-	Tue, 16 Jun 2026 14:36:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C1F36C9F0;
+	Tue, 16 Jun 2026 14:39:04 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781620590; cv=none; b=mQjQ+wIzJ/6kmzoMn4aStx9i7Um3FA4B32DYK8DnREE2lHMvM4iSVkJJMiGhWLD3PHEDoFc4bnP/7BWsCtoGM+4oczcnzxI49u4oBzKaBvcl1BgmB1rl0XbPhIw/mapkQDS5uZjzVKyEB6yOJU5NIkPNuCx3D2iDFGZ33VcRaIQ=
+	t=1781620747; cv=none; b=hoOAm0UF0ZVl+W4EOXxSqgFxX+oEE4E9inpcE8sPkMnjq1H4ToYwQYSmPobp24mo/tcruFkD+sEO2887SlFBLkqemTsZoi0slJbKvTFBng38zXfnOxtJ70Hgf6uCrLLr4o2yHh5NVfJQBaGgI999ilIfgus/DF8+6Xa27LgX/L0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781620590; c=relaxed/simple;
-	bh=56OHep0xMcy1I94evfOR4l+PYfpSHTCwR0gcv7bOl3M=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZvpORBxmupokdiQSor+T9c4kGNAjk4RL+O6yFro1us/ng0dtEiO3nzoHMSFSKAIzZ3Tjq0XN/qB0oEnvrg5MFkHuMU8/hSnrz+7w4hf/MWknqdTcELChhi7fuuLlDoWFTFPqKB43Zmnw3tzsTgyi+a14K/BOzegjPtWZXeufXAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mb0imgbn; arc=none smtp.client-ip=213.167.242.64
-Received: from [192.168.1.107] (unknown [IPv6:2001:b07:6462:5de2:520d:d7a3:63ca:99e8])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1AB311C33;
-	Tue, 16 Jun 2026 16:35:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781620552;
-	bh=56OHep0xMcy1I94evfOR4l+PYfpSHTCwR0gcv7bOl3M=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=mb0imgbnPV19oK2Y3cBkb7lFaRCeU3lDDAAcB5UzC5xVcLQWAD9/wMkzOhRnLymBa
-	 lNty6JPBcjObivwXhkZZ5bvF6LpT8xAKTEn9TPMX6G6GKcdM5vCaxSlfI5XbnMicbc
-	 lIZGWzSFruYRNsQXgGd/VK5jAo1u0bkoHvb4GuFw=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Tue, 16 Jun 2026 16:36:17 +0200
-Subject: [PATCH v2 2/2] media: arm: mali-c55: Add support for RGB Gamma
+	s=arc-20240116; t=1781620747; c=relaxed/simple;
+	bh=3KxbCI0+dF9Yh6qhrQaRpgiRe7M3XGzzBaYd+GoTiQg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Xc5SJkmLc+bkc1z81ukYkajuDO+iwg1SkPZlmj6v06pY39CDqTnOdJTNX3WFHYeypwGI0TrMupeCctmb4TdHofaiY7eru3fm12jvQAae50aw9uhqwwarSABAT2We2PJR4LpX5r242IubopvWdpBqkBYCpplwMAFxRg4+R+hAcFs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=LTxHIQlt; arc=none smtp.client-ip=80.241.56.152
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gfqPK5FTGz9vDY;
+	Tue, 16 Jun 2026 16:39:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1781620741; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3KxbCI0+dF9Yh6qhrQaRpgiRe7M3XGzzBaYd+GoTiQg=;
+	b=LTxHIQltp9Jb5AWLrvwe8SqWrnpkF4nDJ5r/qelMwNEsG9u2FOyE2VdwXQasYxcAtGBvw0
+	YmGiEOSqAg+cv4UQmi57i4RUoDn7QUtakB2XWPIMTEMHHwquiGxl6tukBP1M2eF8lrdbQe
+	MgpW66pYgCFslIPLtkPup7c6o2aA10tcyBt6YD51q0hUqBDXu7r7p5/jMOn26Z+8nn6Duy
+	Dwrv/ebL8R1UPb7/Jr8HWG9lf8gmisIYmf5xBwlY9w4HtGX3Wnuuym83XD/bhcMWb+x61A
+	5umHYnr32jINweHb3XKlncqHXu7UnYCSq4QYwro2WT19KN3A64WdXBpMUqLI3g==
+Message-ID: <d074d3105a2c1d4f594bc6d7b0b09e62757790d5.camel@mailbox.org>
+Subject: Re: [PATCH v2 5/6] rust: Add dma_fence abstractions
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Onur =?ISO-8859-1?Q?=D6zkan?= <work@onurozkan.dev>, Philipp Stanner
+	 <phasta@kernel.org>
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo
+	 <gary@garyguo.net>, =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron	
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, Andreas
+ Hindborg	 <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross	 <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ Sumit Semwal	 <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+	 <christian.koenig@amd.com>, "Paul E. McKenney" <paulmck@kernel.org>, 
+ Frederic Weisbecker	 <frederic@kernel.org>, Neeraj Upadhyay
+ <neeraj.upadhyay@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>, Josh
+ Triplett <josh@joshtriplett.org>, Uladzislau Rezki	 <urezki@gmail.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Mathieu Desnoyers	
+ <mathieu.desnoyers@efficios.com>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+ Zqiang <qiang.zhang@linux.dev>, Daniel Almeida
+ <daniel.almeida@collabora.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Igor Korotin <igor.korotin@linux.dev>,
+ Lorenzo Stoakes	 <ljs@kernel.org>, Alexandre Courbot <acourbot@nvidia.com>,
+ FUJITA Tomonori	 <fujita.tomonori@gmail.com>, Krishna Ketan Rai
+ <prafulrai522@gmail.com>,  Shankari Anand <shankari.ak0208@gmail.com>,
+ manos@pitsidianak.is, Boris Brezillon <boris.brezillon@collabora.com>, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	rcu@vger.kernel.org
+Date: Tue, 16 Jun 2026 16:38:51 +0200
+In-Reply-To: <20260616124755.460550-1-work@onurozkan.dev>
+References: <20260616082819.2943886-2-phasta@kernel.org>
+	 <20260616082819.2943886-7-phasta@kernel.org>
+	 <20260616124755.460550-1-work@onurozkan.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260616-mali-c55-ccm-gamma-v2-2-0f93e9a95d98@ideasonboard.com>
-References: <20260616-mali-c55-ccm-gamma-v2-0-0f93e9a95d98@ideasonboard.com>
-In-Reply-To: <20260616-mali-c55-ccm-gamma-v2-0-0f93e9a95d98@ideasonboard.com>
-To: Nayden.Kanchev@arm.com, Konstantin Babin <Konstantin.Babin@arm.com>, 
- Anthony McGivern <anthony.mcgivern@arm.com>, vincenzo.frascino@arm.com, 
- linus.walleij@arm.com, Daniel Scally <dan.scally@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
- Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=9923;
- i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=ARmJrL89jg0tfy7lfiHm0ayHGD32SyS84c0B5Xetqq0=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBqMV9njkiR7SaPVh+HRO2EUvD900ulQ03/FmU1q
- qxmWdxQm8WJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCajFfZwAKCRByNAaPFqFW
- PENtD/4tjKzFxe5tc3XWDAkJpYYrti/y/VcQxXdOW/6htkpRVn2I/OFOGiHaocwtnp8OMar7j1p
- DJVCv0R3hy5/8aFkpFR28WhUQe+mL+cBKyHLZDz/JUon0rSYm1KSADTB0XgE+ATcdJ4C6zXS44B
- UuDUd5xgLOaPWKqoduHXoWt/dphz4LR8TdG611xjQogbzf3N581wi+KN3YlLLcKAazxbktXOnLO
- Bq1RrcWStS8CNVhvLjWjyNzkdJ5WqOJ93xy0+B4IYBcxpVw20SDElbJr3sFhfaX1txgXanZ5ud8
- w7vU03QyQ/G1oXptbgOhQ5WW0xFwOXrizMHMFXadXjU76mNz+Q4R15hUlsrOWk/BcHUYrMmKdsE
- +Vet8rorOD1LzYn0jdEkDO8M0kXhw4iNkypqXEMXW2Fbtd9KntEAyJvjqJFKYB4jopjd4FEDUpz
- wnjYSZraba+zzP4X29j2V7JcdLN/NJXP3YbtjjN9QSy6tNUApqYSaj0pLTN4moZEkbl1iFhHSQd
- qi+fMpErjibzGD99kLztbqHVuTF4uEMS3XKoN/QMD8V6xUce6SE/fyQgDJPBZbIzVY/l9udsk6m
- vkdr1thJsgESpbIjnZKccQIXyTuyPnkJH8a2pzjAfop8NTcubUFLOEtP6MReAjFmhrqb6S6x8GB
- JFHYtF8mNGiXuLw==
-X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
- fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
+X-MBO-RS-META: 1m33qybtqhatn6fz6y69qwsq59hq7btb
+X-MBO-RS-ID: 38cabac8855db3dad1b
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65039-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	TAGGED_FROM(0.00)[bounces-65040-lists,linux-media=lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:Nayden.Kanchev@arm.com,m:Konstantin.Babin@arm.com,m:anthony.mcgivern@arm.com,m:vincenzo.frascino@arm.com,m:linus.walleij@arm.com,m:dan.scally@ideasonboard.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi@ideasonboard.com,m:jacopo.mondi+renesas@ideasonboard.com,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:work@onurozkan.dev,m:phasta@kernel.org,m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:paulmck@kernel.org,m:frederic@kernel.org,m:neeraj.upadhyay@kernel.org,m:joelagnelf@nvidia.com,m:josh@joshtriplett.org,m:urezki@gmail.com,m:rostedt@goodmis.org,m:mathieu.desnoyers@efficios.com,m:jiangshanlai@gmail.com,m:qiang.zhang@linux.dev,m:daniel.almeida@collabora.com,m:gregkh@linuxfoundation.org,m:igor.korotin@linux.dev,m:ljs@kernel.org,m:acourbot@nvidia.com,m:fujita.tomonori@gmail.com,m:prafulrai522@gmail.com,m:shankari.ak0208@gmail.com,m:manos@pitsidianak.is,m:boris.brezillon@collabora.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:rcu@vger.kernel.org,m:fujitatomonori@gmail.com,m:shankari
+ ak0208@gmail.com,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[38];
+	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,linaro.org,amd.com,nvidia.com,joshtriplett.org,gmail.com,goodmis.org,efficios.com,linux.dev,collabora.com,linuxfoundation.org,pitsidianak.is,vger.kernel.org,lists.freedesktop.org];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	HAS_REPLYTO(0.00)[phasta@kernel.org];
 	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,mailbox.org:dkim,mailbox.org:mid,mailbox.org:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B91D469094D
+X-Rspamd-Queue-Id: 0570A690A89
 
-From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+On Tue, 2026-06-16 at 15:47 +0300, Onur =C3=96zkan wrote:
+> On Tue, 16 Jun 2026 10:28:17 +0200
+> > +
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 // DriverFenceData is repr(=
+C) and a Fence is its first member.
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 let fence_data_ptr =3D fenc=
+e_ptr as *mut DriverFenceData<T>;
+>=20
+> Either the field ordering on the type or this code is wrong because the f=
+irst
+> member of DriverFenceData is `rcu_head`.
 
-Add support for Gamma curve correction for the Mali C55 ISP.
+Yeah, that's a bug introduced in this revision. Thx for pointing it
+out. Already fixed it downstream.
 
-Define a new block in the uAPI using the extensible v4l2-isp format and
-implement support for configuring the RGB Gamma parameters in the
-mali-c55 parameters handler.
+I'm just wondering why my test did not blow up.
 
-Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> >=20
+> > +}
+>=20
+> I am unsure whether it is safe to cast the pointer in Fence::from_raw wit=
+hout
+> Fence being #[repr(transparent)] as the layout compatibility is not guara=
+nteed
+> explicitly.
 
----
-v2:
-- Remove unused 'rgb_enable' member
-- Address checkpatch issues
----
- .../media/platform/arm/mali-c55/mali-c55-params.c  | 75 ++++++++++++++++++++++
- .../platform/arm/mali-c55/mali-c55-registers.h     |  5 ++
- include/uapi/linux/media/arm/mali-c55-config.h     | 45 ++++++++++++-
- 3 files changed, 124 insertions(+), 1 deletion(-)
+Shouldn't #[repr(C)] do that trick, too? Do you need both?
 
-diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-params.c b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-index 96f1b28a6d77..21f031aaf595 100644
---- a/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-+++ b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-@@ -47,6 +47,8 @@
-  * @shading_config:	For header->type == MALI_C55_PARAM_MESH_SHADING_CONFIG
-  * @shading_selection:	For header->type == MALI_C55_PARAM_MESH_SHADING_SELECTION
-  * @ccm:		For header->type == MALI_C55_PARAM_BLOCK_CCM
-+ * @gamma:		For header->type == MALI_C55_PARAM_BLOCK_GAMMA_FR and
-+ *			header->type = MALI_C55_PARAM_BLOCK_GAMMA_DS
-  * @data:		Allows easy initialisation of a union variable with a
-  *			pointer into a __u8 array.
-  */
-@@ -61,6 +63,7 @@ union mali_c55_params_block {
- 	const struct mali_c55_params_mesh_shading_config *shading_config;
- 	const struct mali_c55_params_mesh_shading_selection *shading_selection;
- 	const struct mali_c55_params_ccm *ccm;
-+	const struct mali_c55_params_gamma *gamma;
- 	const __u8 *data;
- };
- 
-@@ -462,6 +465,70 @@ static void mali_c55_params_ccm(struct mali_c55 *mali_c55,
- 	mali_c55_ctx_write(mali_c55, MALI_C55_REG_CCM_ENABLE, 1);
- }
- 
-+static void mali_c55_params_gamma(struct mali_c55 *mali_c55,
-+				  union mali_c55_params_block block,
-+				  __u32 offset, __u32 lut_base)
-+{
-+	const struct mali_c55_params_gamma *params = block.gamma;
-+
-+	if (block.header->flags & V4L2_ISP_PARAMS_FL_BLOCK_DISABLE) {
-+		mali_c55_ctx_update_bits(mali_c55,
-+					 MALI_C55_REG_GAMMA_RGB_ENABLE + offset,
-+					 MALI_C55_GAMMA_ENABLE_MASK, 0x00);
-+		return;
-+	}
-+
-+	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_GAMMA_GAINS_1 + offset,
-+				 MALI_C55_GAMMA_GAIN_R_MASK, params->gains[0]);
-+	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_GAMMA_GAINS_1 + offset,
-+				 MALI_C55_GAMMA_GAIN_G_MASK,
-+				 MALI_C55_GAMMA_GAIN_G(params->gains[1]));
-+	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_GAMMA_GAINS_2 + offset,
-+				 MALI_C55_GAMMA_GAIN_B_MASK, params->gains[2]);
-+	mali_c55_ctx_update_bits(mali_c55,
-+				 MALI_C55_REG_GAMMA_OFFSETS_1 + offset,
-+				 MALI_C55_GAMMA_OFFSET_R_MASK,
-+				 params->offs[0]);
-+	mali_c55_ctx_update_bits(mali_c55,
-+				 MALI_C55_REG_GAMMA_OFFSETS_1 + offset,
-+				 MALI_C55_GAMMA_OFFSET_G_MASK,
-+				 MALI_C55_GAMMA_OFFSET_G(params->offs[1]));
-+	mali_c55_ctx_update_bits(mali_c55,
-+				 MALI_C55_REG_GAMMA_OFFSETS_2 + offset,
-+				 MALI_C55_GAMMA_OFFSET_B_MASK,
-+				 params->offs[2]);
-+
-+	for (unsigned int i = 0; i < MALI_C55_NUM_GAMMA_LUT_ELEMENTS; i++) {
-+		__u32 addr = lut_base + (i * 4);
-+
-+		mali_c55_ctx_write(mali_c55, addr, params->lut[i]);
-+	}
-+
-+	mali_c55_ctx_update_bits(mali_c55,
-+				 MALI_C55_REG_GAMMA_RGB_ENABLE + offset,
-+				 MALI_C55_GAMMA_ENABLE_MASK, 0x1);
-+}
-+
-+static void mali_c55_params_gamma_fr(struct mali_c55 *mali_c55,
-+				     union mali_c55_params_block block)
-+{
-+	return mali_c55_params_gamma(mali_c55, block,
-+				     MALI_C55_CAP_DEV_FR_REG_OFFSET,
-+				     MALI_C55_REG_FR_GAMMA_RGB_MEM);
-+}
-+
-+static void mali_c55_params_gamma_ds(struct mali_c55 *mali_c55,
-+				     union mali_c55_params_block block)
-+{
-+	/* We cannot apply parameters to DS if it is not fitted. */
-+	if (!(mali_c55->capabilities & MALI_C55_GPS_DS_PIPE_FITTED))
-+		return;
-+
-+	return mali_c55_params_gamma(mali_c55, block,
-+				     MALI_C55_CAP_DEV_DS_REG_OFFSET,
-+				     MALI_C55_REG_DS_GAMMA_RGB_MEM);
-+}
-+
- static const mali_c55_params_handler mali_c55_params_handlers[] = {
- 	[MALI_C55_PARAM_BLOCK_SENSOR_OFFS] = &mali_c55_params_sensor_offs,
- 	[MALI_C55_PARAM_BLOCK_AEXP_HIST] = &mali_c55_params_aexp_hist,
-@@ -475,6 +542,8 @@ static const mali_c55_params_handler mali_c55_params_handlers[] = {
- 	[MALI_C55_PARAM_MESH_SHADING_CONFIG] = &mali_c55_params_lsc_config,
- 	[MALI_C55_PARAM_MESH_SHADING_SELECTION] = &mali_c55_params_lsc_selection,
- 	[MALI_C55_PARAM_BLOCK_CCM] = &mali_c55_params_ccm,
-+	[MALI_C55_PARAM_BLOCK_GAMMA_FR] = &mali_c55_params_gamma_fr,
-+	[MALI_C55_PARAM_BLOCK_GAMMA_DS] = &mali_c55_params_gamma_ds,
- };
- 
- static const struct v4l2_isp_params_block_type_info
-@@ -515,6 +584,12 @@ mali_c55_params_block_types_info[] = {
- 	[MALI_C55_PARAM_BLOCK_CCM] = {
- 		.size = sizeof(struct mali_c55_params_ccm),
- 	},
-+	[MALI_C55_PARAM_BLOCK_GAMMA_FR] = {
-+		.size = sizeof(struct mali_c55_params_gamma),
-+	},
-+	[MALI_C55_PARAM_BLOCK_GAMMA_DS] = {
-+		.size = sizeof(struct mali_c55_params_gamma),
-+	},
- };
- 
- static_assert(ARRAY_SIZE(mali_c55_params_handlers) ==
-diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-registers.h b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
-index f098effde7b4..7a606bd2e843 100644
---- a/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
-+++ b/drivers/media/platform/arm/mali-c55/mali-c55-registers.h
-@@ -425,11 +425,13 @@ enum mali_c55_interrupts {
- #define MALI_C55_REG_GAMMA_GAINS_1			0x1c068
- #define MALI_C55_GAMMA_GAIN_R_MASK			GENMASK(11, 0)
- #define MALI_C55_GAMMA_GAIN_G_MASK			GENMASK(27, 16)
-+#define MALI_C55_GAMMA_GAIN_G(x)			((x) << 16)
- #define MALI_C55_REG_GAMMA_GAINS_2			0x1c06c
- #define MALI_C55_GAMMA_GAIN_B_MASK			GENMASK(11, 0)
- #define MALI_C55_REG_GAMMA_OFFSETS_1			0x1c070
- #define MALI_C55_GAMMA_OFFSET_R_MASK			GENMASK(11, 0)
- #define MALI_C55_GAMMA_OFFSET_G_MASK			GENMASK(27, 16)
-+#define MALI_C55_GAMMA_OFFSET_G(x)				((x) << 16)
- #define MALI_C55_REG_GAMMA_OFFSETS_2			0x1c074
- #define MALI_C55_GAMMA_OFFSET_B_MASK			GENMASK(11, 0)
- 
-@@ -441,6 +443,9 @@ enum mali_c55_interrupts {
- #define MALI_C55_REG_FR_GAMMA_RGB_ENABLE		0x1c064
- #define MALI_C55_REG_DS_GAMMA_RGB_ENABLE		0x1c1d8
- 
-+#define MALI_C55_REG_FR_GAMMA_RGB_MEM			0x18280
-+#define MALI_C55_REG_DS_GAMMA_RGB_MEM			0x18484
-+
- #define MALI_C55_REG_FR_SCALER_HFILT			0x34a8
- #define MALI_C55_REG_FR_SCALER_VFILT			0x44a8
- #define MALI_C55_REG_DS_SCALER_HFILT			0x14a8
-diff --git a/include/uapi/linux/media/arm/mali-c55-config.h b/include/uapi/linux/media/arm/mali-c55-config.h
-index 0b2085eed81b..7e96564cb89c 100644
---- a/include/uapi/linux/media/arm/mali-c55-config.h
-+++ b/include/uapi/linux/media/arm/mali-c55-config.h
-@@ -36,6 +36,9 @@
-  */
- #define MALI_C55_MAX_ZONES	(15 * 15)
- 
-+/* Number of RGB gamma LUT entries. */
-+#define MALI_C55_NUM_GAMMA_LUT_ELEMENTS 129
-+
- /**
-  * struct mali_c55_ae_1024bin_hist - Auto Exposure 1024-bin histogram statistics
-  *
-@@ -220,6 +223,8 @@ struct mali_c55_stats_buffer {
-  * @MALI_C55_PARAM_MESH_SHADING_CONFIG : Mesh shading tables configuration
-  * @MALI_C55_PARAM_MESH_SHADING_SELECTION: Mesh shading table selection
-  * @MALI_C55_PARAM_BLOCK_CCM: Colour correction matrix
-+ * @MALI_C55_PARAM_BLOCK_GAMMA_FR: Gamma gain and offset for FR pipe
-+ * @MALI_C55_PARAM_BLOCK_GAMMA_DS: Gamma gain and offset for DS pipe
-  */
- enum mali_c55_param_block_type {
- 	MALI_C55_PARAM_BLOCK_SENSOR_OFFS,
-@@ -234,6 +239,8 @@ enum mali_c55_param_block_type {
- 	MALI_C55_PARAM_MESH_SHADING_CONFIG,
- 	MALI_C55_PARAM_MESH_SHADING_SELECTION,
- 	MALI_C55_PARAM_BLOCK_CCM,
-+	MALI_C55_PARAM_BLOCK_GAMMA_FR,
-+	MALI_C55_PARAM_BLOCK_GAMMA_DS,
- };
- 
- /**
-@@ -795,6 +802,40 @@ struct mali_c55_params_ccm {
- 	__u16 offs[3];
- };
- 
-+/**
-+ * struct mali_c55_params_gamma - RGB Gamma correction
-+ *
-+ * Gamma correction is used to program a standard gamma curve such as the sRGB
-+ * one. It provides gains and offsets to implement contrast adjustments.
-+ *
-+ * Gamma correction is applied on both the FR and DS pipes separately in the RGB
-+ * colour domain where the following operations take place:
-+ * 1) An offset is subtracted from each colour channel
-+ * 2) Each colour channel is multiplied by a gain
-+ * 3) The Gamma LUT is applied to each colour channel
-+ *
-+ * The Gamma LUT has 129 entries where each node is an unsigned 12 bit number.
-+ * It is expected that LUT[0]=0 and LUT[128]=0xffff, with the other 127 values
-+ * defining the Gamma correction curve.
-+ *
-+ * As one Gamma correction block is available on both the FR and DS pipes, the
-+ * header.type field should be set to one of either
-+ * MALI_C55_PARAM_BLOCK_GAMMA_FR or MALI_C55_PARAM_BLOCK_GAMMA_DS from
-+ * :c:type:`mali_c55_param_block_type`.
-+ *
-+ * @header:	The Mali-C55 parameters block header
-+ * @gains:	Gains for the red, green and blue channel in unsigned Q4.8 format
-+ * @offs:	Offsets subtracted from the red, green and blue channels
-+ *		in unsigned 12-bit format
-+ * @lut:	129-node Gamma LUT in u0.12 format
-+ */
-+struct mali_c55_params_gamma {
-+	struct v4l2_isp_params_block_header header;
-+	__u16 gains[3];
-+	__u16 offs[3];
-+	__u32 lut[MALI_C55_NUM_GAMMA_LUT_ELEMENTS];
-+};
-+
- /**
-  * define MALI_C55_PARAMS_MAX_SIZE - Maximum size of all Mali C55 Parameters
-  *
-@@ -819,6 +860,8 @@ struct mali_c55_params_ccm {
- 	sizeof(struct mali_c55_params_awb_gains) +		\
- 	sizeof(struct mali_c55_params_mesh_shading_config) +	\
- 	sizeof(struct mali_c55_params_mesh_shading_selection) +	\
--	sizeof(struct mali_c55_params_ccm))
-+	sizeof(struct mali_c55_params_ccm) +			\
-+	sizeof(struct mali_c55_params_gamma) +			\
-+	sizeof(struct mali_c55_params_gamma))
- 
- #endif /* __UAPI_MALI_C55_CONFIG_H */
+Who can answer that?
 
--- 
-2.54.0
 
+P.
 
