@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-64995-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64996-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id xu+XC7k4MWo/eQUAu9opvQ
-	(envelope-from <linux-media+bounces-64995-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:51:21 +0200
+	id Gc2bM984MWpReQUAu9opvQ
+	(envelope-from <linux-media+bounces-64996-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:51:59 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id C038868EF04
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:51:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 568A068EF2C
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:51:59 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=microchip.com header.s=mchp header.b=y1BEUCgn;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64995-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64995-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=microchip.com header.s=mchp header.b=P7FwAp+K;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64996-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-64996-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=reject) header.from=microchip.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8C50330F4C5D
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 11:51:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id F4149313A6D6
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 11:51:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D13C43C076;
-	Tue, 16 Jun 2026 11:51:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FDA043C07D;
+	Tue, 16 Jun 2026 11:51:13 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A624F3BB11B;
-	Tue, 16 Jun 2026 11:51:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 745583BE17C;
+	Tue, 16 Jun 2026 11:51:11 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781610669; cv=none; b=Ov1c4ha+eYNSvl7IN/ZGjCSBNkIxbpZN9v4Bo36a3hWI89HifTmgjNy1bEenvWyZCLqzRqUfYEh40xZY/7tJD/hT3f+WC2kwOeKK4EBShHz+8nlSJRMd+mKjDeNw+ygC7odx/h+hMJzRyv+LnKEb9yDwvaVSiI0/0aHeZ39SeRg=
+	t=1781610672; cv=none; b=BY6tHOGdvNkUg/KlRAGhpzavbmLy9QJ1EdDQZaBGFeetXeMhIlNzrD8TL1g/oP9E5Car2zKRSWNlPii1/Jv6RJia2T73rbWCBQuo0uc1q3JvzxTSLqntQzIezUvIV/FTGI9sZNQhLnQE2RvpPz49a24kU4Uz1ThkBHkzjMW4SH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781610669; c=relaxed/simple;
-	bh=By2mMJs1nWlHlHFZhBj2tC2hwKrxxDZb2XghSsdgZPY=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=hNc3TvXrorrq8NSFqG/+NEcvG+o1jStz+/QFn6jy3DLKbpp+bmAQF0/K68I9PzJk6Ac4B3xCzWDJCydvTd+z8HLlTY8FaKsPQK5SNyMNXqGJ8j3kio9b3uacSjxFglF/E0iXQzsWXuqWjAZ/zIbjV4nE9CY/+ap7yKuec5uJcYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=y1BEUCgn; arc=none smtp.client-ip=68.232.154.123
+	s=arc-20240116; t=1781610672; c=relaxed/simple;
+	bh=rGwNdljfUqpsoyHEnEHB/eMCZkpIPirWx5+5+J1bEYQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=opkVwXzrtIdza+gau4aP5vR2aNgzaJN5OWkb3iYTcz/caHuwL/i7BqFWKQaiySFkLw7Ib/Vo0Evyh2wgx4s6P4280VaiPBqFwq2CQwXHDfrVGlZABDQeln9dLchVepOvb/Ty03WSYIdjfD7p1cLQflPOLwU7NpJyNmCw53XMlyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=P7FwAp+K; arc=none smtp.client-ip=68.232.154.123
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1781610667; x=1813146667;
-  h=from:subject:date:message-id:mime-version:
-   content-transfer-encoding:to:cc;
-  bh=By2mMJs1nWlHlHFZhBj2tC2hwKrxxDZb2XghSsdgZPY=;
-  b=y1BEUCgn2x/EQ32UaqYzCPWQJT9/uziEpEt/SKHFVnCpfCunI6nKoJgd
-   R7zKI9Q3lBOofIrU/k9hCz6mSfXQiTQqdt8lahjOBAv+7YtcoGq7meEEC
-   iptaMLDRtf4nUZb30YzQ+tdgwjeDY73lKj4UCJA/NflHJysG819H0+Kv7
-   rNg8KGPqaGIBFlrh8PKxwrt0HOf9c56n7SVxHMwbHMwO5JS9M2bBk4jCg
-   G+yO+SjsiZs1AT2Xa6LJ/t53RTu8IFr/Pj2tDVUFhGoUk+7pHs/qgHU3y
-   7lJcJRHQaz2INECAQwy8ik6yjlFHo8uQHyjMo2gjVX7Pt3e1YgMAu0YSB
-   A==;
-X-CSE-ConnectionGUID: pZAM2NeiRlqwY3FTrCdTsA==
-X-CSE-MsgGUID: ZSxBjVVpTJ+tgee6w34KzA==
+  t=1781610671; x=1813146671;
+  h=from:date:subject:mime-version:content-transfer-encoding:
+   message-id:references:in-reply-to:to:cc;
+  bh=rGwNdljfUqpsoyHEnEHB/eMCZkpIPirWx5+5+J1bEYQ=;
+  b=P7FwAp+KgWXPDQ/+cdgJUZ/n/tg3+j5VGPNKcyEquIg4bMfjF9YmgwkN
+   +9HtLqmXWobHJhZgC9aNeeN9hZNKBCRjY6eCmB3+E4xw44tmSqdg47EmJ
+   KDGfLYhHNbGhX4HzY9Uf8hpj0F9JdW8oI1LfRKDShuGh6svxQ8Onu1IZW
+   PXzQS98ORmJKbpbTE4/cQTZF9edd4X22SSaqq5bpvHcKlI7hJmXUN+1zz
+   QPqUwj36aJZLf8QrB9Gbf3VEaERTfVOCZf2t9iW1q6sMv3cb9TeXR31FM
+   quJVIbmJmq1WjEi+Q98k/ewGwlo0CGwXGrSqNSuFv+1ou3YvElbMh16V0
+   g==;
+X-CSE-ConnectionGUID: yUrC5MyBQMuXhOtoFzS1/w==
+X-CSE-MsgGUID: 0ftX+irHQjaICRLOaKwwmg==
 X-IronPort-AV: E=Sophos;i="6.24,208,1774335600"; 
-   d="scan'208";a="226388478"
+   d="scan'208";a="59581914"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 04:51:01 -0700
+  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 04:51:05 -0700
 Received: from chn-vm-ex02.mchp-main.com (10.10.87.72) by
  chn-vm-ex2.mchp-main.com (10.10.87.31) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.41; Tue, 16 Jun 2026 04:51:01 -0700
+ 15.2.2562.41; Tue, 16 Jun 2026 04:51:04 -0700
 Received: from [127.0.0.1] (10.10.85.11) by chn-vm-ex02.mchp-main.com
  (10.10.85.144) with Microsoft SMTP Server id 15.1.2507.58 via Frontend
- Transport; Tue, 16 Jun 2026 04:50:57 -0700
+ Transport; Tue, 16 Jun 2026 04:51:01 -0700
 From: Balakrishnan Sambath <balakrishnan.s@microchip.com>
-Subject: [PATCH 00/10] media: microchip-isc: AWB, stream-stop and
- endpoint-ref fixes
-Date: Tue, 16 Jun 2026 17:20:55 +0530
-Message-ID: <20260616-balki-isc-prefix-fixes-v1-v1-0-b23677fc5ab6@microchip.com>
+Date: Tue, 16 Jun 2026 17:20:56 +0530
+Subject: [PATCH 01/10] media: microchip-isc: fix awb_mutex and lock
+ lifecycle
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -73,10 +73,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAKA4MWoC/yWMQQqAMAwEvyI5G2hLFfEr4qHGqEFRaUCE4t8te
- pjDMOwmUI7CCm2RIPIlKseexZYF0BL2mVHG7OCMq01tKxzCtgqKEp6RJ7kxw4qXRWrIe+c8hWA
- h7//+fXf987w0jwISawAAAA==
-X-Change-ID: 20260615-balki-isc-prefix-fixes-v1-c8c44224caa1
+Message-ID: <20260616-balki-isc-prefix-fixes-v1-v1-1-b23677fc5ab6@microchip.com>
+References: <20260616-balki-isc-prefix-fixes-v1-v1-0-b23677fc5ab6@microchip.com>
+In-Reply-To: <20260616-balki-isc-prefix-fixes-v1-v1-0-b23677fc5ab6@microchip.com>
 To: Eugen Hristev <ehristev@kernel.org>, Mauro Carvalho Chehab
 	<mchehab@kernel.org>
 CC: Hans Verkuil <hverkuil@kernel.org>, Sakari Ailus
@@ -94,7 +93,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-64995-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-64996-lists,linux-media=lfdr.de];
 	RECEIVED_HELO_LOCALHOST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER(0.00)[balakrishnan.s@microchip.com,linux-media@vger.kernel.org];
@@ -115,46 +114,77 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCPT_COUNT_SEVEN(0.00)[8];
 	TO_DN_SOME(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[microchip.com:dkim,microchip.com:email,microchip.com:mid,microchip.com:from_mime,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,microchip.com:dkim,microchip.com:email,microchip.com:mid,microchip.com:from_mime,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: C038868EF04
+X-Rspamd-Queue-Id: 568A068EF2C
 
-This series has a few fixes for the Microchip ISC/XISC driver, found
-while testing and from the feedback on the combined series [1].
+isc_async_complete() initialised awb_mutex and isc->lock only after an
+early error return, and the teardown was inconsistent:
 
-Fixes only, sent ahead of the enhancements so they can reach stable.
-The SBGGR10, WB masking and PM leak fixes are unchanged from [1] (the
-SBGGR10 and PM leak ones keep their Reviewed-by).
+ - isc_async_unbind() destroyed awb_mutex before cancelling awb_work,
+   which takes it;
+ - a failed .complete() destroyed both locks, then the v4l2-async core
+   unbinds the subdev and isc_async_unbind() destroyed awb_mutex again;
+ - isc->lock was destroyed only on the .complete() error path, so the
+   normal unbind path leaked it.
 
-All but the comment fix carry a Fixes tag and Cc: stable.
+Initialise both locks before the first error return, make unbind the
+single teardown site (cancel the work, then destroy both locks) and
+drop the destroys from the .complete() error path.
 
-[1] https://lore.kernel.org/r/20260603-microchip-isc-fixes-v6-0-8c3d7474a768@microchip.com
-
+Fixes: 314c96e5203d ("media: atmel: atmel-isc-base: use mutex to lock awb workq from streaming")
+Cc: stable@vger.kernel.org
 Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
 ---
-Balakrishnan Sambath (10):
-      media: microchip-isc: fix awb_mutex and lock lifecycle
-      media: microchip-isc: take a reference on the parsed endpoints
-      media: microchip-isc: synchronize the IRQ before disabling clocks on stop
-      media: microchip-isc: disable histogram and flush AWB work on stop
-      media: microchip-isc: clean up histogram on the start_streaming error path
-      media: microchip-isc: do not touch WB registers when not streaming
-      media: microchip-isc: fix pfe_cfg0_bps comment
-      media: microchip-isc: fix PM runtime leak in AWB work handler
-      media: microchip-isc: fix SBGGR10 Bayer pattern
-      media: microchip-isc: fix WB offset and gain register field masking
+ drivers/media/platform/microchip/microchip-isc-base.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
- .../media/platform/microchip/microchip-isc-base.c  | 72 +++++++++++++++-------
- drivers/media/platform/microchip/microchip-isc.h   |  7 ++-
- .../platform/microchip/microchip-sama5d2-isc.c     | 22 ++++---
- .../platform/microchip/microchip-sama7g5-isc.c     | 22 ++++---
- 4 files changed, 85 insertions(+), 38 deletions(-)
----
-base-commit: 05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
-change-id: 20260615-balki-isc-prefix-fixes-v1-c8c44224caa1
+diff --git a/drivers/media/platform/microchip/microchip-isc-base.c b/drivers/media/platform/microchip/microchip-isc-base.c
+index a7cdc743fda7..45a7af779323 100644
+--- a/drivers/media/platform/microchip/microchip-isc-base.c
++++ b/drivers/media/platform/microchip/microchip-isc-base.c
+@@ -1703,10 +1703,11 @@ static void isc_async_unbind(struct v4l2_async_notifier *notifier,
+ {
+ 	struct isc_device *isc = container_of(notifier->v4l2_dev,
+ 					      struct isc_device, v4l2_dev);
+-	mutex_destroy(&isc->awb_mutex);
+ 	cancel_work_sync(&isc->awb_work);
++	mutex_destroy(&isc->awb_mutex);
+ 	video_unregister_device(&isc->video_dev);
+ 	v4l2_ctrl_handler_free(&isc->ctrls.handler);
++	mutex_destroy(&isc->lock);
+ }
+ 
+ struct isc_format *isc_find_format_by_code(struct isc_device *isc,
+@@ -1758,6 +1759,8 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
+ 	int ret = 0;
+ 
+ 	INIT_WORK(&isc->awb_work, isc_awb_work);
++	mutex_init(&isc->lock);
++	mutex_init(&isc->awb_mutex);
+ 
+ 	ret = v4l2_device_register_subdev_nodes(&isc->v4l2_dev);
+ 	if (ret < 0) {
+@@ -1767,8 +1770,6 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
+ 
+ 	isc->current_subdev = container_of(notifier,
+ 					   struct isc_subdev_entity, notifier);
+-	mutex_init(&isc->lock);
+-	mutex_init(&isc->awb_mutex);
+ 
+ 	init_completion(&isc->comp);
+ 
+@@ -1841,8 +1842,6 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
+ 	video_unregister_device(vdev);
+ 
+ isc_async_complete_err:
+-	mutex_destroy(&isc->awb_mutex);
+-	mutex_destroy(&isc->lock);
+ 	return ret;
+ }
+ 
 
-Best regards,
 -- 
-Balakrishnan Sambath <balakrishnan.s@microchip.com>
+2.34.1
 
 
