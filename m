@@ -1,57 +1,57 @@
-Return-Path: <linux-media+bounces-64993-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-64994-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id QhRnLPE1MWo8eAUAu9opvQ
-	(envelope-from <linux-media+bounces-64993-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:39:29 +0200
+	id Z7/DJhM4MWrueAUAu9opvQ
+	(envelope-from <linux-media+bounces-64994-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:48:35 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12AAB68ED6C
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:39:29 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 127FE68EE99
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 13:48:35 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ozlabs.org header.s=201707 header.b=Gwha8lQv;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64993-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-64993-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ozlabs.org header.s=201707 header.b=by1gU48a;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-64994-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-64994-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=ozlabs.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BCFB631655DC
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 11:37:47 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 09FA03036089
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 11:48:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56F57436352;
-	Tue, 16 Jun 2026 11:37:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 142C343C07D;
+	Tue, 16 Jun 2026 11:48:19 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D553B995B;
-	Tue, 16 Jun 2026 11:37:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B90D369211;
+	Tue, 16 Jun 2026 11:48:16 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781609865; cv=none; b=NH+wlu2sRYXHCUhUlocxUzU0XtCKnC5Ix6Xyi3cnTVSWZ8aC/bvr7lqXgNOk4j6aTssSl4ferZrqnmWd0h2UCT0O5+NuHNai07NzzkEzYH2HTFDJTDuoG9pMzNCvq7wkQpRxZrrnpR4C1ecBBBhaEEYZwKGJRvYoW3Nrt80I1co=
+	t=1781610498; cv=none; b=bZ3m3VcGI+0OEVEjycKZoxhho/K3NORw0ZlqK003wm89AiSxxngK7AcyY1RT0VZI2XuyqcawR7UgYJzWU3MrHSa8g2Vi3jBScO8AuHMimh/b34Ysae9HXSedSkTNoMp7uzHx4rEgSgUqpfKdc3s8gFVf+WDw+NogldMLRRWZig0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781609865; c=relaxed/simple;
-	bh=9nAaDjZ34aYh//rrurYLy/ykUuQhj8L+6kbwkCt4+i8=;
+	s=arc-20240116; t=1781610498; c=relaxed/simple;
+	bh=mPuh6XTA5AG48/J010nDvu7vjHJ11jsGIAtOb9dpwKo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=spy/sFOccmIx5dvYkyp1IrUZc0wrTXh5YDEz929Nzj6q09ozLJ+MKPMHv/FH2k+gRwdyy28lSDYgBS+03gaOg/Oh7hVtSWQz3tQwZudT1R/DzXg+clZVGaOmRr7zlhu2pBf2KI4YMqYXgHY9QVK647c7CZbH1l80rjPCDsfszJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ozlabs.org; spf=pass smtp.mailfrom=ozlabs.org; dkim=pass (2048-bit key) header.d=ozlabs.org header.i=@ozlabs.org header.b=Gwha8lQv; arc=none smtp.client-ip=150.107.74.76
+	 In-Reply-To:Content-Type; b=Jmy0e96YALMmT2uYZRpIjSrDba+bN0Fb7dTU9AlcmDleR1pkShQ9oJBbriNH6+OFcIahvJIdu/xAfya8VEWGbq/btrdKmpm6A15r711QB0c2nDIy+yb7Auf/8/JGlO7ehHFY4vSEr8qy1JdMCTweYIb+lJolG0Pa1L3OorRCagk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ozlabs.org; spf=pass smtp.mailfrom=ozlabs.org; dkim=pass (2048-bit key) header.d=ozlabs.org header.i=@ozlabs.org header.b=by1gU48a; arc=none smtp.client-ip=150.107.74.76
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ozlabs.org;
-	s=201707; t=1781609860;
-	bh=uAgprYITukIDXcpqINMJiY5I+9dV1eJU9keHmx8y09Q=;
+	s=201707; t=1781610494;
+	bh=qE69fQEJl9oZRRpURxmwt3lhJuiBveqs8mE/8tXoWvc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Gwha8lQvPpehVbnVayavcRWqSRAMTH6T8yTt43S0hjAkCB/JTFST48vUr+g4CsHVy
-	 ZFi9jystoduorstbVb57npnIRroTBZX9uqXPgcnbBbeB0oLES6/SB0HGElsnPhOjXO
-	 Jn+yHRyFrIuSCHZqq8OkxUHRwTAsri/tIkPKm+1XrzWPO11/3f3sF/dvrgRXb8gToW
-	 5Lhgxo1L5Vx1HPwtQwZwSYJj8PZXHkxCLpzuAoipBPNYHmV22S1+BTtKMa0FpXdtPT
-	 cB7j00O/GhtTBBhhrmx8QT+QMGaedFoWWdWyzoAuUkSJgGQQZHT7hDcIPZnF6dPQ98
-	 5LVdzjdj+k+JQ==
+	b=by1gU48aGo9nqyknUPasVL3O8zwdmOHSX+6iTukXhGM4QwwbgMcmcBwDlt9FVkriL
+	 pauByJnAOozbCvQg3RBtEUD8n8RMBhTAKH8+sVOTJCrrI9VqYq52pvetzI+uTWTa2L
+	 tBBCwIb4mNYaVXhyLp2YszevLUpBDgVVwkYjgK7FqckdGH7AYklacjsIcWZtN2b7ns
+	 flSw3OZpkqy7dYIdGgPtzz8pT2RDWXIOG5Eu69Q6kKayjzEURagu2YcQjFLvLho/6r
+	 G6QAty/jyShc/7rIKOrNlG5rh8h+XQw5aEdNk5CvO8zMdM2hCXoGoYJFLgUj9F41KM
+	 kLYr4Gy13vzyQ==
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange x25519)
 	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4gflMx00Vzz58nk;
-	Tue, 16 Jun 2026 21:37:32 +1000 (AEST)
-Message-ID: <c4a6e367-2f22-4cbf-afcb-674f82fdacd2@ozlabs.org>
-Date: Tue, 16 Jun 2026 12:37:29 +0100
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4gflc75zjFz58bH;
+	Tue, 16 Jun 2026 21:48:07 +1000 (AEST)
+Message-ID: <20fb245b-2dc3-482a-8c2c-a3a6864a9005@ozlabs.org>
+Date: Tue, 16 Jun 2026 12:48:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,187 +59,101 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 9/9] vfio/pci: Add mmap() attributes to DMABUF feature
+Subject: Re: [PATCH v3 2/9] vfio/pci: Add a helper to look up PFNs for DMABUFs
 Content-Language: en-GB
-To: Pranjal Shrivastava <praan@google.com>
+To: "Tian, Kevin" <kevin.tian@intel.com>
 Cc: Alex Williamson <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>,
  Jason Gunthorpe <jgg@nvidia.com>, Alex Mastro <amastro@fb.com>,
  =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
  Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>,
  Mahmoud Adam <mngyadam@amazon.de>, David Matlack <dmatlack@google.com>,
  =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Kevin Tian <kevin.tian@intel.com>,
- Ankit Agrawal <ankita@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, kvm@vger.kernel.org,
- linux-pci@vger.kernel.org
+ Sumit Semwal <sumit.semwal@linaro.org>, Ankit Agrawal <ankita@nvidia.com>,
+ Pranjal Shrivastava <praan@google.com>, Alistair Popple
+ <apopple@nvidia.com>, "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
 References: <20260610154327.37758-1-matt@ozlabs.org>
- <20260610154327.37758-10-matt@ozlabs.org> <ajENiAQkzXjbxgRX@google.com>
+ <20260610154327.37758-3-matt@ozlabs.org>
+ <DM6PR11MB369091A6F1E32054A95AB6788C182@DM6PR11MB3690.namprd11.prod.outlook.com>
+ <4d75b948-3b74-4970-97f2-72e54f9c9694@ozlabs.org>
+ <DM6PR11MB36903B0203CFFF97197676138CE52@DM6PR11MB3690.namprd11.prod.outlook.com>
 From: Matt Evans <matt@ozlabs.org>
-In-Reply-To: <ajENiAQkzXjbxgRX@google.com>
+In-Reply-To: <DM6PR11MB36903B0203CFFF97197676138CE52@DM6PR11MB3690.namprd11.prod.outlook.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ozlabs.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[ozlabs.org:s=201707];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:praan@google.com,m:alex@shazbot.org,m:leon@kernel.org,m:jgg@nvidia.com,m:amastro@fb.com,m:christian.koenig@amd.com,m:bhelgaas@google.com,m:logang@deltatee.com,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:kevin.tian@intel.com,m:ankita@nvidia.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,m:linux-pci@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[matt@ozlabs.org,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	TAGGED_FROM(0.00)[bounces-64993-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	TAGGED_FROM(0.00)[bounces-64994-lists,linux-media=lfdr.de];
+	FORGED_SENDER(0.00)[matt@ozlabs.org,linux-media@vger.kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:kevin.tian@intel.com,m:alex@shazbot.org,m:leon@kernel.org,m:jgg@nvidia.com,m:amastro@fb.com,m:christian.koenig@amd.com,m:bhelgaas@google.com,m:logang@deltatee.com,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:ankita@nvidia.com,m:praan@google.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,m:linux-pci@vger.kernel.org,s:lists@lfdr.de];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	URIBL_MULTI_FAIL(0.00)[tor.lore.kernel.org:server fail,ozlabs.org:server fail,vger.kernel.org:server fail];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[matt@ozlabs.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[ozlabs.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 12AAB68ED6C
+X-Rspamd-Queue-Id: 127FE68EE99
 
-Hi Praan,
+Hi Kevin,
 
-On 16/06/2026 09:47, Pranjal Shrivastava wrote:
-> On Wed, Jun 10, 2026 at 04:43:23PM +0100, Matt Evans wrote:
->> A new VFIO feature, VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR, is added to
->> set CPU-facing memory type attributes for a DMABUF exported from
->> vfio-pci.  These are used for subsequent mmap()s of the buffer.
+On 16/06/2026 10:28, Tian, Kevin wrote:
+>> From: Matt Evans <matt@ozlabs.org>
+>> Sent: Tuesday, June 16, 2026 2:04 AM
 >>
->> There are two attributes supported:
->>  - The default, VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR_NC
->>  - VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR_WC, which results in WC
->>    PTEs for the DMABUF's BAR region.
->>
->> Signed-off-by: Matt Evans <matt@ozlabs.org>
->> ---
->>  drivers/vfio/pci/vfio_pci_core.c   |  2 ++
->>  drivers/vfio/pci/vfio_pci_dmabuf.c | 57 +++++++++++++++++++++++++++++-
->>  drivers/vfio/pci/vfio_pci_priv.h   | 14 ++++++++
->>  include/uapi/linux/vfio.h          | 27 ++++++++++++++
->>  4 files changed, 99 insertions(+), 1 deletion(-)
->>
+>> On 12/06/2026 09:42, Tian, Kevin wrote:
+>>>> From: Matt Evans <matt@ozlabs.org>
+>>>> Sent: Wednesday, June 10, 2026 11:43 PM
+>>>>
+>>>> +int vfio_pci_dma_buf_find_pfn(struct vfio_pci_dma_buf *priv,
+>>>> +			      struct vm_area_struct *vma,
+>>>> +			      unsigned long address,
+>>>> +			      unsigned int order,
+>>>> +			      unsigned long *out_pfn)
+>>>> +{
+>>>> [...]
+>>>> +	 *
+>>>> +	 * It's suboptimal if DMABUFs are created with neigbouring
+>>> s/neigbouring/neighboring/
+>> Ah, not a typo. 🙂  That is en_GB and AFAIK is permitted.
+> I guess you meant 'neighbouring' and 'neighboring' are both valid.
 > 
->> +int vfio_pci_core_feature_dma_buf_memattr(
->> +	struct vfio_pci_core_device *vdev, u32 flags,
->> +	struct vfio_device_feature_dma_buf_memattr __user *arg,
->> +	size_t argsz)
->> +{
->> +	struct vfio_device_feature_dma_buf_memattr db_attr;
->> +	struct vfio_pci_dma_buf *priv;
->> +	struct dma_buf *dmabuf;
->> +	int ret;
->> +
->> +	if (!vdev->pci_ops || !vdev->pci_ops->get_dmabuf_phys)
->> +		return -EOPNOTSUPP;
->> +
->> +	ret = vfio_check_feature(flags, argsz,
->> +				 VFIO_DEVICE_FEATURE_SET,
->> +				 sizeof(db_attr));
->> +	if (ret != 1)
->> +		return ret;
->> +
->> +	if (copy_from_user(&db_attr, arg, sizeof(db_attr)))
->> +		return -EFAULT;
->> +
->> +	dmabuf = dma_buf_get(db_attr.dmabuf_fd);
->> +	if (IS_ERR(dmabuf))
->> +		return PTR_ERR(dmabuf);
->> +
->> +	/* Verify DMABUF: see comments in vfio_pci_dma_buf_revoke() */
->> +	priv = dmabuf->priv;
->> +	if (dmabuf->ops != &vfio_pci_dmabuf_ops ||
->> +	    READ_ONCE(priv->vdev) != vdev) {
->> +		ret = -ENODEV;
->> +		goto out_put_buf;
->> +	}
->> +
->> +	switch (db_attr.memattr) {
->> +	case VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR_NC:
->> +	case VFIO_DEVICE_FEATURE_DMA_BUF_MEMATTR_WC:
->> +		WRITE_ONCE(priv->memattr, db_attr.memattr);
->> +		ret = 0;
->> +		break;
->> +
->> +	default:
->> +		ret = -ENOENT;
-> 
-> Nit: Looks like the agreement [1] was on -EOPNOTSUPP / -EINVAL but we 
-> took -ENOENT here and in the doc string? Was that intentional?
-> 
-> I tend to agree with Alex's suggestion here, we'd prefer one of those 
-> two (-EINVAL / -EOPNOTSUPP) since it clearly communicates to the user
-> that "You sent a wrong arg" or "We don't support this"
-> 
+> but here lacking a 'h' should be a typo? 🙂
 
-Yes, it was intentional.  This was noted in the v3 changelog entry in
-the cover letter:
+:D Doh!  Sure enough, you're right and that very much _is_ a typo after
+all. :)
 
- - Removed GET on vfio_pci_core_feature_dma_buf_memattr(), removed
-   unnecessary taking of memory_lock, fixed error return values.  In
-   particular, removes ENOTSUPP, and uses ENOENT to indicate an
-   unknown attribute enum value was passed to SET.  In the discussion
-   here,
-   https://lore.kernel.org/all/20260602131417.41366391@shazbot.org/
-   we'd agreed on EOPNOTSUPP before I realised that's already used
-   elsewhere.  ENOENT uniquely indicates an unknown attribute.
 
-EINVAL/EOPNOTSUPP would indeed be semantically perfect, but after
-posting my reply there I remembered they are already overloaded with a
-load of different meanings.
-
-I think uniqueness is important here so that memattr issues (for example
-any future arch-specific porting issues) show up as an
-immediately-understandable error value.
-
-> -ENOENT means no such file or directory [2] to the user. Users may not
-> be kernel engineers who'd wanna peek into the code and they may simply
-> look at the uAPI files which doesn't give them an answer as to what
-> went wrong.
-
-But surely when they look at the uAPI header they will then see
-"*  ENOENT: The given memattr is not supported." and understand what
-went wrong.
-
-> 
->> +	}
->> +
->>  out_put_buf:
->>  	dma_buf_put(dmabuf);
->>  
-> 
-> Apart from that, 
-> Reviewed-by: Pranjal Shrivastava <praan@google.com>
-
-Thanks!
-
+Thanks,
 
 Matt
-
-
-> 
-> Thanks,
-> Praan
-> 
-> [1] https://lore.kernel.org/all/20260602131417.41366391@shazbot.org/
-> [2] https://elixir.bootlin.com/linux/v7.1-rc6/source/include/uapi/asm-generic/errno-base.h#L6
-> 
 
 
