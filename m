@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-65008-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65009-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id ODjKKiRCMWpgfgUAu9opvQ
-	(envelope-from <linux-media+bounces-65008-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 14:31:32 +0200
+	id nWK9JdJCMWp6fgUAu9opvQ
+	(envelope-from <linux-media+bounces-65009-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 14:34:26 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4745468F58B
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 14:31:32 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E43868F5DF
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 14:34:26 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=KvAbfUls;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65008-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65008-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=GdoeZ9Aq;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65009-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65009-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 28F443173308
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 12:30:08 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id DC1DD3025B8C
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2026 12:34:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA2B436165E;
-	Tue, 16 Jun 2026 12:30:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6362361DAE;
+	Tue, 16 Jun 2026 12:34:24 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 363F935DA7F;
-	Tue, 16 Jun 2026 12:30:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50F0202C46;
+	Tue, 16 Jun 2026 12:34:22 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781613007; cv=none; b=oi2rbW1XqMToPVzb2kIHcse5/NiaG63ErVmaW5nIuBL4xON7l/sYyIq32VjaewjytDGctINB9fiQ+KAd/+Ycul5bAU+WryOuOhPZDntSruDCb8P/PfLT1399ZqmArn4SnfAS3VpORqol9bt1uUFycU6IaNQOs7SRxAf7dW32yYA=
+	t=1781613264; cv=none; b=J6SM6O0+D26KcvoL+CU/uRIOmZAGynDZCoM0Vrgi77v20ZCj9NGz4Gt0uv7UJGUrNk5tDY7mFOLhlo+bG+yvCLCw660pzmzKZnJdh2loK8UHiVg0Ll06R3FtRD/Dtooa1i9txIIE2o4suZlcslkLEwxuvgtl1KB6Ui7G53DuiWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781613007; c=relaxed/simple;
-	bh=HYN5gOLXexUC/pF5ipvNtKUN/uYsdUw9r0NDrQceyr4=;
+	s=arc-20240116; t=1781613264; c=relaxed/simple;
+	bh=T+dMPtY6n0B/dmm68lGcsmq0Wiev7WREgEGBYfVJH88=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LrqEdaka1w75Rjqcg/060nbvost6FSYXI/eatOz7GBXMo7uC8uYyVTJdSwrgyFgA5uPnk9ybr3uq+TtpGt5cm/7+Qw2aawFE02IMGZPEg80vXwYwkTYzTbX/ld0t6zaoacpJtViMjim+In9EZTPh9mlP3KIhEL3/rDBAxC833Zg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KvAbfUls; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=pL4R7JOwyCFDAnFHFG8FOG56xJfR3uX9kgMJsE/zX7ElE4HHAxXu31rrX70VJ9fD+jJT/VVlIiUOAxbHc8QvAwhXTGksJiEM4+c6IaHaQ4X3vScCAe1BWJcz90Yw+nEwpZN9LHxhsdA7f0WN7RwKYWKdFOo1sLag6AXhmyNKbF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GdoeZ9Aq; arc=none smtp.client-ip=213.167.242.64
 Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 14CA743;
-	Tue, 16 Jun 2026 14:29:29 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 244D91E6;
+	Tue, 16 Jun 2026 14:33:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781612969;
-	bh=HYN5gOLXexUC/pF5ipvNtKUN/uYsdUw9r0NDrQceyr4=;
+	s=mail; t=1781613227;
+	bh=T+dMPtY6n0B/dmm68lGcsmq0Wiev7WREgEGBYfVJH88=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KvAbfUlsaG7fcPluoGYedFm2Phj9IHqe8epTeGQNkoFRr2YP4aDy+EGugOm8ic+Fv
-	 oQJPsdTn3Jl8LBRblapZFXmwnyXm/W4t6uxao2bF3fVo3wem8EA/05wvIc+wQgw0Pp
-	 8roOHhRi4N1oZnj6V7ODu+yU1OgIqILtNykiuuV0=
-Date: Tue, 16 Jun 2026 15:30:01 +0300
+	b=GdoeZ9AqH5zvhRg51mWijsu5BHi/O5OeByiNBDSnjuf/h+hXWAXGZB0h74lCQcXS0
+	 r9O2s92pHqwosubxb72kd7phd301c6LJ9f/H2797wLZMgeNhS8CTa21jUd+8OSGKxM
+	 UUHrdVVqBZhEom12iEBzDoUVVTWQqpylvitqyQPY=
+Date: Tue, 16 Jun 2026 15:34:19 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
@@ -55,12 +55,13 @@ Cc: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
 	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
 	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH v5 06/10] media: rcar-csi2: Add .get_frame_desc op
-Message-ID: <20260616123001.GC2984510@killaraus.ideasonboard.com>
+Subject: Re: [PATCH v5 03/10] media: rcar-csi2: Move
+ {enable|disable}_streams() calls
+Message-ID: <20260616123419.GD2984510@killaraus.ideasonboard.com>
 References: <20260311-rcar-streams-v5-0-3e6c957d7567@ideasonboard.com>
- <20260311-rcar-streams-v5-6-3e6c957d7567@ideasonboard.com>
- <20260318211654.GJ716464@killaraus.ideasonboard.com>
- <174a5210-8f77-4bd6-b091-ed5cc1ab899d@ideasonboard.com>
+ <20260311-rcar-streams-v5-3-3e6c957d7567@ideasonboard.com>
+ <20260318205435.GG716464@killaraus.ideasonboard.com>
+ <e0ad4d15-2cf9-45a5-9312-fac297119ad4@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -69,19 +70,20 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <174a5210-8f77-4bd6-b091-ed5cc1ab899d@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e0ad4d15-2cf9-45a5-9312-fac297119ad4@ideasonboard.com>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65008-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65009-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:tomi.valkeinen@ideasonboard.com,m:niklas.soderlund@ragnatech.se,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:niklas.soderlund+renesas@ragnatech.se,m:mchehab+huawei@kernel.org,m:jacopo.mondi@ideasonboard.com,s:lists@lfdr.de];
 	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
@@ -101,139 +103,154 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,renesas,huawei];
 	TO_DN_SOME(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,killaraus.ideasonboard.com:mid,vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:from_mime,vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,killaraus.ideasonboard.com:mid,ragnatech.se:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4745468F58B
+X-Rspamd-Queue-Id: 6E43868F5DF
 
-On Tue, Jun 16, 2026 at 02:30:05PM +0300, Tomi Valkeinen wrote:
-> On 18/03/2026 23:16, Laurent Pinchart wrote:
-> > On Wed, Mar 11, 2026 at 03:53:19PM +0200, Tomi Valkeinen wrote:
-> >> Add v4l2_subdev_pad_ops.get_frame_desc() implementation.
+On Tue, Jun 16, 2026 at 02:20:06PM +0300, Tomi Valkeinen wrote:
+> On 18/03/2026 22:54, Laurent Pinchart wrote:
+> > On Wed, Mar 11, 2026 at 03:53:16PM +0200, Tomi Valkeinen wrote:
+> >> With multiple streams the operation to enable the CSI-2 hardware and to
+> >> call {enable|disable}_streams() on upstream subdev will need to be
+> >> handled separately.
 > >>
-> >> We also implement a fallback for the case where the upstream subdevice
-> >> does not implement .get_frame_desc. It assumes a single stream with VC =
-> >> 0 and DT based on the configured stream mbus format.
+> >> Prepare for that by moving {enable|disable}_streams() calls out from
+> >> rcsi2_start() and rcsi2_stop().
+> >>
+> >> On Gen3, a side effect of this change is that if the sink side devices
+> >> call .enable_streams() on rcar-csi2 multiple times, the second call will
+> >> fail. This is because we always use stream ID 0, so the second call
+> >> would attempt to enable the same stream again, leading to an error. In
+> >> other words, a normal single-stream setup continues to work, but trying
+> >> to use the current driver's custom VC based routing will fail.
+> > 
+> > I assume this gets addressed later in the series.
+> 
+> Yes and no.
+> 
+> The previous patch does the same for rcar-isp, which affects the gen4 
+> custom VC based routing the same was this does for gen3.
+> 
+> At the end of the series we support full multi-stream with the upstream 
+> API. The custom VC based routing is no longer supported, and will 
+> continue to fail.
+> 
+> >>
+> >> On Gen4, this doesn't matter as the rcar-isp behaves in a similar way as
+> >> described above, and thus rcar-csi2 will only get a single
+> >> .enable_streams() call.
 > >>
 > >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 > >> ---
-> >>   drivers/media/platform/renesas/rcar-csi2.c | 70 ++++++++++++++++++++++++++++++
-> >>   1 file changed, 70 insertions(+)
+> >>   drivers/media/platform/renesas/rcar-csi2.c | 25 +++++++++++++++----------
+> >>   1 file changed, 15 insertions(+), 10 deletions(-)
 > >>
 > >> diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
-> >> index ad62c95c8f9a..b8baf7c65e90 100644
+> >> index 7305cc4a04cb..158fa447e668 100644
 > >> --- a/drivers/media/platform/renesas/rcar-csi2.c
 > >> +++ b/drivers/media/platform/renesas/rcar-csi2.c
-> >> @@ -1935,12 +1935,82 @@ static int rcsi2_set_pad_format(struct v4l2_subdev *sd,
+> >> @@ -1822,20 +1822,12 @@ static int rcsi2_start(struct rcar_csi2 *priv, struct v4l2_subdev_state *state)
+> >>   		return ret;
+> >>   	}
+> >>   
+> >> -	ret = v4l2_subdev_enable_streams(priv->remote, priv->remote_pad,
+> >> -					 BIT_ULL(0));
+> >> -	if (ret) {
+> >> -		rcsi2_enter_standby(priv);
+> >> -		return ret;
+> >> -	}
+> >> -
 > >>   	return 0;
 > >>   }
 > >>   
-> >> +static int rcsi2_get_frame_desc_fallback(struct v4l2_subdev *sd,
-> >> +					 unsigned int pad,
-> >> +					 struct v4l2_mbus_frame_desc *fd)
-> >> +{
-> >> +	struct v4l2_subdev_route *route;
-> >> +	const struct rcar_csi2_format *format;
-> >> +	struct v4l2_subdev_state *state;
-> >> +	struct v4l2_mbus_framefmt *fmt;
-> >> +	int ret = 0;
-> >> +
-> >> +	state = v4l2_subdev_lock_and_get_active_state(sd);
-> >> +
-> >> +	if (state->routing.num_routes != 1) {
-> >> +		ret = -EINVAL;
-> >> +		goto out;
+> >>   static void rcsi2_stop(struct rcar_csi2 *priv)
+> >>   {
+> >>   	rcsi2_enter_standby(priv);
+> >> -	v4l2_subdev_disable_streams(priv->remote, priv->remote_pad, BIT_ULL(0));
+> >>   }
+> >>   
+> >>   static int rcsi2_enable_streams(struct v4l2_subdev *sd,
+> >> @@ -1857,6 +1849,14 @@ static int rcsi2_enable_streams(struct v4l2_subdev *sd,
+> >>   			return ret;
+> >>   	}
+> >>   
+> >> +	ret = v4l2_subdev_enable_streams(priv->remote, priv->remote_pad,
+> >> +					 BIT_ULL(0));
+> >> +	if (ret) {
+> >> +		if (priv->stream_count == 0)
+> >> +			rcsi2_stop(priv);
+> >> +		return ret;
 > >> +	}
 > >> +
-> >> +	route = &state->routing.routes[0];
-> >> +
-> >> +	if (route->source_pad != pad) {
-> >> +		ret = -EINVAL;
-> >> +		goto out;
-> >> +	}
-> >> +
-> >> +	fmt = v4l2_subdev_state_get_format(state, route->sink_pad,
-> >> +					   route->sink_stream);
-> >> +	if (!fmt) {
-> >> +		ret = -EINVAL;
-> >> +		goto out;
-> >> +	}
-> >> +
-> >> +	format = rcsi2_code_to_fmt(fmt->code);
-> >> +	if (!format) {
-> >> +		ret = -EINVAL;
-> >> +		goto out;
-> >> +	}
-> >> +
-> >> +	fd->num_entries = 1;
-> >> +	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
-> >> +	fd->entry[0].stream = route->source_stream;
-> >> +	fd->entry[0].pixelcode = fmt->code;
-> >> +	fd->entry[0].bus.csi2.vc = 0;
-> >> +	fd->entry[0].bus.csi2.dt = format->datatype;
-> >> +
-> >> +out:
-> >> +	v4l2_subdev_unlock_state(state);
-> >> +
-> >> +	return ret;
-> >> +}
-> >> +
-> >> +static int rcsi2_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
-> >> +				struct v4l2_mbus_frame_desc *fd)
-> >> +{
-> >> +	struct rcar_csi2 *priv = sd_to_csi2(sd);
+> >>   	priv->stream_count += 1;
+> >>   
+> >>   	return ret;
+> >> @@ -1867,7 +1867,7 @@ static int rcsi2_disable_streams(struct v4l2_subdev *sd,
+> >>   				 u32 source_pad, u64 source_streams_mask)
+> >>   {
+> >>   	struct rcar_csi2 *priv = sd_to_csi2(sd);
+> >> -	int ret = 0;
 > >> +	int ret;
-> >> +
-> >> +	if (WARN_ON(!priv->info->use_isp))
-> >> +		return -ENOTTY;
-> > 
-> > Why is that, can't the get frame desc operation be supported on Gen3 ?
-> 
-> It can, and it is, in this patch. The thing here is that 
-> rcsi2_get_frame_desc() is the implementation for 
-> v4l2_subdev_pad_ops.get_frame_desc(). On gen4, csisp calls it, but on 
-> gen3, there's no one to call it as on gen3 the csi2 does the demuxing.
-> 
-> So the above check is just a "yell if our drivers do a totally wrong thing".
-
-A comment would be useful.
-
-> >> +
-> >> +	if (WARN_ON(pad != RCAR_CSI2_SOURCE_VC0))
-> >> +		return -EINVAL;
-> >> +
-> >> +	ret = v4l2_subdev_get_frame_desc_passthrough(sd, pad, fd);
-> >> +	if (ret == -ENOIOCTLCMD)
-> >> +		ret = rcsi2_get_frame_desc_fallback(sd, pad, fd);
-> > 
-> > A dev_warn_once() would be good here, to get people to fix the source
-> > device driver.
-> 
-> Perhaps at some point, but do we want to add it already?
-> 
-> Hmm, actually, this will go away with Sakari's series that adds 
-> framework level fallback handling, so I think warning now about a thing 
-> that is no longer a thing in the future serves no purpose.
-
-Or you could consider that adding a dev_warn_once() isn't an issue as
-the code will be replaced soon :-) Up to you.
-
-> >> +	return ret;
-> >> +}
-> >> +
-> >>   static const struct v4l2_subdev_pad_ops rcar_csi2_pad_ops = {
-> >>   	.enable_streams = rcsi2_enable_streams,
-> >>   	.disable_streams = rcsi2_disable_streams,
 > >>   
-> >>   	.set_fmt = rcsi2_set_pad_format,
-> >>   	.get_fmt = v4l2_subdev_get_fmt,
-> >> +
-> >> +	.get_frame_desc = rcsi2_get_frame_desc,
-> >>   };
+> >>   	if (source_streams_mask != 1)
+> >>   		return -EINVAL;
+> >> @@ -1878,9 +1878,14 @@ static int rcsi2_disable_streams(struct v4l2_subdev *sd,
+> >>   	if (priv->stream_count == 1)
+> >>   		rcsi2_stop(priv);
 > >>   
-> >>   static const struct v4l2_subdev_ops rcar_csi2_subdev_ops = {
-> >>
+> >> +	ret = v4l2_subdev_disable_streams(priv->remote, priv->remote_pad,
+> >> +					  BIT_ULL(0));
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >>   	priv->stream_count -= 1;
+> >>   
+> >> -	return ret;
+> >> +	return 0;
+> >>   }
+> > 
+> > rcsi2_irq_thread() also calls rcsi2_stop(), followed by rcsi2_start().
+> > This is to handle errors reported by the AFIFO_OF, ERRSOTHS and
+> > ERRSOTSYNCHS interrupts. If the source isn't restarted, such an attempt
+> > to recover from errors will likely fail. On the other hand, restarting
+> > the source will likely not lead to great results either.
+> 
+> Indeed. I think for single-stream use cases the behavior should still be 
+> the same, but for multi-stream use, any enabled stream will keep the 
+> csi2 enabled.
+> 
+> This kind of error handling sounds a bit fragile. If a restart helps, 
+> don't we need to restart the whole pipeline, not just from csi2-rx 
+> upwards? Or is it guaranteed that the ISP/CS and VIN will continue working?
+
+My feeling is that these kind of errors would be best handled in
+userspace.
+
+> Did this work earlier with the custom VC based routing?
+
+That I don't know.
+
+> > Error handling was introduced in
+> > 
+> > commit 4ab44ff0841b9a825f9875623d24809d29e37a10
+> > Author: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > Date:   Thu Apr 11 16:30:58 2019 -0400
+> > 
+> >      media: rcar-csi2: restart CSI-2 link if error is detected
+> > 
+> >      Restart the CSI-2 link if the CSI-2 receiver detects an error during
+> >      reception. The driver did nothing when a link error happened and the
+> >      data flow simply stopped without the user knowing why.
+> > 
+> >      Change the driver to try and recover from errors by restarting the link
+> >      and informing the user that something is not right. For obvious reasons
+> >      it's not possible to recover from all errors (video source disconnected
+> >      for example) but in such cases the user is at least informed of the
+> >      error and the same behavior of the stopped data flow is retained.
+> > 
+> > Niklas, do you recall anything about the errors you saw ?
 
 -- 
 Regards,
