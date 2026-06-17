@@ -1,247 +1,263 @@
-Return-Path: <linux-media+bounces-65104-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65106-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id kFhqNw11Mmoa0QUAu9opvQ
-	(envelope-from <linux-media+bounces-65104-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 12:21:01 +0200
+	id FGcpKASNMmrF1wUAu9opvQ
+	(envelope-from <linux-media+bounces-65106-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 14:03:16 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40CE26986C8
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 12:21:01 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 130FF699724
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 14:03:16 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=BkW2iC+s;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65104-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65104-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=mailbox.org;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b="SsRf/jME";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65106-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65106-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F0F093137972
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 10:16:54 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 7F82C31200EC
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 11:56:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1A2C3EC2F7;
-	Wed, 17 Jun 2026 10:16:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5AC03F1AB2;
+	Wed, 17 Jun 2026 11:56:06 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B0493546CC;
-	Wed, 17 Jun 2026 10:16:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AF03F0A87;
+	Wed, 17 Jun 2026 11:56:00 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781691393; cv=none; b=p/YV5poaTny6qs1Z8ho8KYKOiy4aV6nHdZWIqsITRk3VTrVLsdWEKq1VA7TjWjv6sF0J3U4J0JuaYfddG/z7XKNBazbLsiVs1XIGgRlQ54Dv6hvT6Vala9w1xc1xYIrtfdaULBRBGfzdO4+cJ5PreiNGggBEsKPFwXg/+WGD98o=
+	t=1781697366; cv=none; b=jBVgjMhPVmfZxJBW/znSDDDpa1lmpgLV/4DRD45o+FFDqi0Kdfd6CVjRTbi8lKbjt/yDUEd2D/rvtTcl+bzDKQ93EKNiwYZvfiHfKTIwp6AgDKUL72ya8WrOrSti+5rU7yMTIoycpTPtrd3K9rSNa7jI+sjTls6eOXWzQQ+W2Os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781691393; c=relaxed/simple;
-	bh=fDPkcbI+0EFZxysD0GtaYXuRVf4DaqDdyw25QZDgFfs=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=a/mmI6ZbYNqXc3+tIL7g1JvbqVFvBTto2lCKdlrJjmK+arPdrXl78QLMiEsjyXbxBG/+hXC3lZ1LpoXZ4Ee+xgggBWjNMwaod5HQzXVpkuWh3P8QDMgMBmbLCqgfvQKWdtRfOZoAt1XvGw/lYHQ3HVvtyu53CGvWFRrN8P+EU68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=BkW2iC+s; arc=none smtp.client-ip=80.241.56.172
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4ggKWt3Lp3z9tPX;
-	Wed, 17 Jun 2026 12:16:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1781691386; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fDPkcbI+0EFZxysD0GtaYXuRVf4DaqDdyw25QZDgFfs=;
-	b=BkW2iC+syb34VHAAFQhXqRa3M8xuFWb4t6hfs5lHcQEU+ZHYo1+y5xenX/ScF/P0dJIb4w
-	hKjuJiIJAP21ayrjvo+Rt0kkr4wzG64JZia5qXeVS1+wsIc9HIurmh6Q3qMOypcFwO/ubq
-	toizZDaexV6sA3ZGhnSmm87KjJROvJtOzVK9jA0tlCoW+6OgKZlPaCoNRrDUBmZqMQu68j
-	ir5JySokMGJ4ptt8WydSQ1ASM+UvOpXj4lIWZo11SCmlsAP7eia5YIqUv89KXf3VFBG1Iw
-	8Qhhpglt6s5mrdjgUoAA82z97QmABA/z+izX9yilE60NJjnKKz1hS68duJaj4Q==
-Message-ID: <80734f05e684ed6b8c82abd9f96c93968537d0de.camel@mailbox.org>
-Subject: Re: Properly synchronize dma_fence->signaled bit (Was: Re: [RFC
- PATCH] dma-fence: Fix races of fence callbacks versus destructors by
- locking)
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
-	phasta@kernel.org, Danilo Krummrich <dakr@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, Boris Brezillon	
- <boris.brezillon@collabora.com>, Alice Ryhl <aliceryhl@google.com>, Daniel
- Almeida <dwlsalmeida@gmail.com>, Gary Guo <gary@garyguo.net>, Tvrtko
- Ursulin	 <tvrtko.ursulin@igalia.com>, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Date: Wed, 17 Jun 2026 12:16:20 +0200
-In-Reply-To: <7ff7dc15-4df5-443c-8d7c-c8e9b2672f2c@amd.com>
-References: <20260608142436.265820-2-phasta@kernel.org>
-	 <95f4ae6b-9dec-4122-84e0-fbb0cdee9cb5@amd.com>
-	 <fa9a335196525adbc03ec21b2e05bb526e4fc174.camel@mailbox.org>
-	 <9d49c901-fcdf-487a-a733-0320d0bdf94c@amd.com>
-	 <DJ3V3OCLIK2K.3CYKWYNHYU6JQ@kernel.org>
-	 <ea4e0541-3702-4014-b8f6-0746a148df86@amd.com>
-	 <fa0dc9757bf8343516c4b156a2b70ec91b64ef8f.camel@mailbox.org>
-	 <6ea6c373-c6cb-4221-ad9d-e60b04d1368f@amd.com>
-	 <630a8a84ee8fdaa634c7b104742e7a28fcfe507c.camel@mailbox.org>
-	 <7ff7dc15-4df5-443c-8d7c-c8e9b2672f2c@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1781697366; c=relaxed/simple;
+	bh=EzXPaCn9pD2W2stu4zoRz8ghC+KF6o9qlgHxNTnlvS8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=tiPS/CY5VwjsXa2wKMqOJza7kQRDSz/sohT82ATEXMiaDVOm7mxBUXgaDgG3oMWwP25UcVLNOC0B1G1sJLBrNWNpiMsIQa9uphhUmEJB5vak3e44uzot6Gys5xlhLmlWz5GktVxtnygYDvyAc22D7Jrd9DT8AcJ6UNbf1fg8amE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SsRf/jME; arc=none smtp.client-ip=213.167.242.64
+Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 90FD52F8;
+	Wed, 17 Jun 2026 13:55:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1781697318;
+	bh=EzXPaCn9pD2W2stu4zoRz8ghC+KF6o9qlgHxNTnlvS8=;
+	h=From:Subject:Date:To:Cc:From;
+	b=SsRf/jMEcaP7DBex/XCkIPpe99zcWwwTbQoEpTT3yk5N/CTpq97FQiMxeR4nkpWII
+	 9alNhwMldxz1gqkBCHUFYewemI3/hEED87iwRT1KV/8mazgGQOLeUpIKRxA3a7wBDv
+	 ddzR3a7WUO0N0PlHJpVXCsU99vSTxx7ZCXR24BjQ=
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: [PATCH v6 00/11] media: rcar: Streams support
+Date: Wed, 17 Jun 2026 14:54:53 +0300
+Message-Id: <20260617-rcar-streams-v6-0-1260eb72dff7@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-ID: 4601702ea4fe0ffa470
-X-MBO-RS-META: jtuwuqyyi7tzm94cpfm88dc8zfef3q86
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAA6LMmoC/3XPTU7EMAwF4KuMsibITpqfsuIeiEWaOEwW0wxJq
+ UCj3p10EFSq6PJZ8vfsG6tUElX2dLqxQnOqKY8t6IcT82c3vhFPoWUmQCgQ2PPiXeF1KuQulWM
+ M5KzVQIpYW7kWiunzzr28/uRC7x9NnbbhOdUpl6975Yzr9ECfkQOPOPSSpAHnhufU6moeh+xKe
+ PT5wlZvFpshhd4ZohkBggEQXncYDwy5GUrCzpDNAKG1UiEalPbA6P4MFLi/o1t/EXborETvtTk
+ w1K+hQSLuDNUMSdr3ygSj/jWWZfkG7CjOG9QBAAA=
+X-Change-ID: 20250219-rcar-streams-1fdea8860e5e
+To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6546;
+ i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
+ bh=EzXPaCn9pD2W2stu4zoRz8ghC+KF6o9qlgHxNTnlvS8=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBqMos/kFtYpb2+g/QBkvDgvoOgtOklB0aEybvPD
+ YbvtB0ldi+JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCajKLPwAKCRD6PaqMvJYe
+ 9XJLD/wJBXyzidmwGd4Lhd/zqPmGUTINWvp/FCQTVF5+8TiIu6IsXK1KXRofhnc04BmhS9KYtrW
+ Ggjab1tDSlAxNZRKptaLMvXdsavm54PU3HrqVvntGA6RU1QHMrsxLfEb4DC1PTgihSJdGtEkaCm
+ X/v1Gz4DWKtGJEWFHPYtNw3JATvzLXQRiTOJFSy/dYedoI5lsdMhmOabnRFU0fhtzORtC0R7dtP
+ +mcYmvHM70f4GuJSyGmtlIII9RDxwk0tmJtx+4X9CcZLihx3gyKlfOaefe5U1Mo4kKKktdYTHfi
+ AKNSJuUUDZJoYpbeCJ5Dz1s8qy7KU+t8yNfjxJfi0wA9FMtEMVES8EvflvQ2ogbJSckNS4gcuw1
+ 6C1Z3xRf+LjxZusctB5cbhWBDldZr0UQpGawHIUgDSq/O3FyoX/U2ZGOKBYBjC5Io0qLxSeIXpX
+ UrvRJ1fS0wAqpCI1ShrXWjCORLjfvUIw9ZIElAH9nLgUF4mb3UeqyzFKOU94lBLo0lNOrPSVslN
+ 7JGaa8qzLh1tCjyv2uhTWu6pGeHw1hGH7GRiDRsU2T5KAcUXRzgmqyr8Pe3AqPBPn/dSkHLhWMA
+ 23k/AG/96xXI7R9FOCrdufJcG/4SxA5f6zkcXR+epOux1c9lve8p1+23tRC/PjEQRZvDfTSItc1
+ yTT0Zwhpefk3VMw==
+X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-65104-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-65106-lists,linux-media=lfdr.de,renesas];
+	FORGED_RECIPIENTS(0.00)[m:niklas.soderlund@ragnatech.se,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:niklas.soderlund+renesas@ragnatech.se,m:mchehab+huawei@kernel.org,m:laurent.pinchart@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:tomi.valkeinen+renesas@ideasonboard.com,m:laurent.pinchart+renesas@ideasonboard.com,m:tomi.valkeinen@ideasonboard.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[tomi.valkeinen@ideasonboard.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:phasta@kernel.org,m:dakr@kernel.org,m:sumit.semwal@linaro.org,m:boris.brezillon@collabora.com,m:aliceryhl@google.com,m:dwlsalmeida@gmail.com,m:gary@garyguo.net,m:tvrtko.ursulin@igalia.com,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[12];
-	FORWARDED(0.00)[lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[linaro.org,collabora.com,google.com,gmail.com,garyguo.net,igalia.com,vger.kernel.org,lists.freedesktop.org];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
-	PRECEDENCE_BULK(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	HAS_REPLYTO(0.00)[phasta@kernel.org];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mailbox.org:dkim,mailbox.org:mid,mailbox.org:from_mime]
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tomi.valkeinen@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,renesas,huawei];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 40CE26986C8
+X-Rspamd-Queue-Id: 130FF699724
 
-On Wed, 2026-06-17 at 11:46 +0200, Christian K=C3=B6nig wrote:
-> On 6/16/26 13:25, Philipp Stanner wrote:
-> >=20
-> > So it was there from the very beginning and was not added because there
-> > was a performance bottleneck later. It is conceivable that a
-> > performance issue was present from the get go, of course.
->=20
-> Not saying that it wasn't there from the beginning, but multiple
-> people (including me) have tried to improve the situation and that
-> was either immediately reverted or directly rejected.
->=20
-> > >=20
-> > > And I can clearly say even if I don't like them that those
-> > > optimizations are a must have.
-> > >=20
-> > > > In any case, that needs to be repaired.
-> > >=20
-> > > No, see my discussion with Simona on the mailing list. I need to dig
-> > > that up as well, but it was around the time I added the same
-> > > workaround to amdgpu.
-> > >=20
-> > > You are basically trying what I have been suggesting as well, but
-> > > there is a very wide agreement that the current design is a must
-> > > have.
-> >=20
-> >=20
-> > =C2=A0* We need to document lockless magic *drastically* better in DRM.=
- I
-> > =C2=A0=C2=A0 see code left and right where there is some barrier with t=
-he comment
-> > =C2=A0=C2=A0 simply being "so list_empty() works without a lock".
-> > =C2=A0* The commit message needs to justify why a lock is missing, why =
-this
-> > =C2=A0=C2=A0 is the preferred solution, why it is correct. The latter a=
-lso needs
-> > =C2=A0=C2=A0 to be in a code comment.
-> > =C2=A0* Note that WRITE_ONCE() is not only about volatile, but also abo=
-ut
-> > =C2=A0=C2=A0 "watch out, here is a lockless access!", as Linus pointed =
-out
-> > =C2=A0=C2=A0 repeatedly.
->=20
-> Completely agree. Question is who has time for that?
+Add streams support to Renesas rcar platform driver.
 
-We / the maintainers of the respective systems need to heavily
-encourage that :)
+The series keeps compatibility with the current upstream for a single
+stream use case. However, in upstream there's a limited custom
+multi-stream support implemented to the rcar driver, which will be
+replaced with the upstream's Streams API.
 
-The good news btw is that many things are moving towards a good
-direction in recent past, as far as I have seen
+I have tested this series on Sparrow-Hawk board, with a few different
+setups:
 
->=20
-> > B.
-> >=20
-> > I think rejecting ideas with "we tried this, it >>didn't work<<" is not
-> > a valid reason for refusing an idea. Point A above helps with that. If
-> > your commit message contains measurements or links to tickets with
-> > *real life* performance regressions (microbenchmarks are invalid), that
-> > helps reducing discussion overhead drastically.
-> >=20
-> > Now, in this particular case, I fail to see how taking the spinlock to
-> > check that bit is evil. If it regresses someone's speed that much, it
-> > would mean that someone is heavily punching that lock, like polling
-> > 24/7 with dma_fence_is_signaled().
->=20
-> I think (but I'm not 100% sure) the the problem is that taking the
-> spinlock introduces a write to the cache line it is in.
->=20
-> At the moment when a fence is signaled a read is enough to check that
-> state, so what happens is that the cache line for the signaled bit
-> sooner or later end up in all CPU caches.
->=20
-> When you start to use the spinlock the cache line backing that plays
-> ping/pong between all the CPU cores and that is something which
-> always stalls each CPU when it needs to acquire the cache line. Keep
-> in mind that on a modern box you can calculate like a 4x4 matrix in
-> the same time you solve a cache miss.
->=20
-> This is especially important for the stub fence which is used by
-> basically all cores at the same time whenever you need a signaled
-> dummy.
+1) IMX219 on the CSI0 connector (video)
 
-Alright, that sort of sounds logical, I guess. So the argument
-basically is that if we'd try to lock that, someone would immediately
-report real and massive performance regressions leading to a revert.
+2) Arducam FPD-Link board + 4 x IMX219 on the CSI0 connector (video)
+  - Only two extra patches needed for testing: one to enable the V4L2
+    Streams API, another to add .get_frame_desc() to imx219.
 
-I think last time you mentioned that memory footprint is less of a
-concern for dma_fence than cache lines. Out of interest: has anyone
-ever experimented with more padding to prevent spinners from shooting
-down other CPUs cache lines?
+3) IMX219 on the CSI0 connector (video + emb)
+- A bunch of other patches applied to enable full streams support,
+  internal pads and embedded data support in imx219 and v4l2 framework
+ 
+4) Arducam FPD-Link board + 4 x IMX219 on the CSI0 connector (video + emb)
+- A bunch of other patches applied to enable full streams support,
+  internal pads and embedded data support in imx219 and v4l2 framework
+- Tested with video and embedded data streams from all four cameras (so
+  8 streams in total)
 
-Since you're the maintainer of dma-buf, what would you wish we do?
+I can't properly test the error recovery, but I did trigger it manually
+with the FPD-Link setup running, and it worked fine.
 
-Would you be at least OK with the memory barrier approach to make the
-API a bit more robust? AFAIU the barriers will not cause a cache line
-invalidation.
+I have observed one issue with the embedded data (i.e. a test case not
+supported in upstream kernel): when stopping streaming, VIN says that it
+cannot stop the stream. I haven't debugged that, but a possible issue is
+that if the video stream for the imx219 is stopped first, the embedded
+data stops also, and VIN does not get the frame-end it is waiting for.
 
+This needs further study, but I don't see it as a blocker for this
+series as embedded data support is not in upstream.
 
->=20
-> > Again, having that use case documented somewhere could save us all time
-> > =E2=80=93 especially for you, Christian, since you wouldn't be forced t=
-o have
-> > the same discussion over and over again over the years ;-)
->=20
-> Well I could also send out all the DMA-buf resilient patches/ideas I came=
- up with over the years once more.
+ Tomi
 
-Maybe we could have sort of a wiki in Documentation/ with links to
-relevant mail threads and some explanations of why things are the way
-they are?
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+---
+Changes in v6:
+- Rebase on v7.1, dropping the need for any dependency patches
+- New patch "media: rcar-vin: Fix comment related to stride handling"
+- Add comment wrt. not allowing get_frame_desc on rcar-csi2 for gen3
+- Fix rcar-csi2 error recovery. In the previous version it just disabled
+  and enabled the CSI2 RX, now it also disables and enables the streams
+  on the source device.
+- As part of the previous change, we now track enabled_sink_streams_mask
+  in rcar-csi2 instead of stream_count (the previous code also wasn't
+  quite right, as it assumed enable/disable streams ops would only be
+  called with a single stream. which is true, but was a hidden
+  assumption).
+- Fix issue in rcar-csi2, v4l2_subdev_state_xlate_streams() was always
+  called with RCAR_CSI2_SOURCE_VC0, instead of the actual source_pad.
+- Link to v5: https://lore.kernel.org/r/20260311-rcar-streams-v5-0-3e6c957d7567@ideasonboard.com
 
-btw, is there a dma-buf TODO list like for DRM in general?
+Changes in v5:
+- Rebase on v7.0-rc2, with the streams preparation series and
+  get_frame_desc_passthrough series as dependencies
+- This series is now smaller, as the non-streams parts are in the
+  streams preparation series
+- Fix "variable ‘format’ set but not used" warning
+- Link to v4: https://lore.kernel.org/r/20251216-rcar-streams-v4-0-f28b4831cc67@ideasonboard.com
 
-There are many passionate hackers who love challenges. We could
-certainly add a few "Difficulty: hard" entries for a few controversial
-potential reworks.
+Changes in v4:
+- Rebased on v6.18, with minor conflicts resolved
+- Improved patch descriptions
+- Re-ordered the patches a bit to move changes that could be applied
+  without the full streams support to the beginning of the series
+- Added "media: rcar-vin: Link VINs on Gen3 to a single channel on each
+  CSI-2" which removes possibility of wrong routing config on Gen3
+- Added "media: rcar-csi2: Improve FLD_FLD_EN macros" which was part of
+  another patch in v3
+- Addressed minor comments (constifyings, cosmetics)
+- Fixed the missing stream_count checks in disable_streams ops
+- Fixed a few instances in csisp and csi2 where
+  v4l2_subdev_state_get_format() was called with hardcoded pad/stream,
+  instead of using the data from the route
+- Dropped unnecessary ISPPROCMODE_DT_REG register clears
+- Squashed "media: rcar-csi2: Add more stream support to
+  rcsi2_calc_mbps()" into a previous patch
+- Dropped wrong use_isp check from csi2's rcsi2_set_routing()
+- Link to v3: https://lore.kernel.org/r/20250530-rcar-streams-v3-0-026655df7138@ideasonboard.com
 
+Changes in v3:
+- Rebased on top of latest linux-media
+- Dropped dependencies which are already in linux-media (only remaining
+  dependency is v4l2_subdev_get_frame_desc_passthrough)
+- Tested on white-hawk board, using the staging deser TPG
+- Also tested in a WIP branch for GMSL2 (two video streams)
+- Link to v2: https://lore.kernel.org/r/20250326-rcar-streams-v2-0-d0d7002c641f@ideasonboard.com
 
-P.
+Changes in v2:
+- Rebased on top of latest upstream, and updated the dependencies to
+  match the latest serieses sent.
+- Add new patch "media: rcar-csi2: Use the pad version of v4l2_get_link_freq()"
+- Drop "media: rcar-csi2: Fix typo" (it was not a typo)
+- Update the code in calc_mbps(). The previous method relied on
+  V4L2_CID_LINK_FREQ, but that's not available if the link-freq is
+  provided via get_mbus_config().
+- Dropped dependencies to Niklas' old series which doesn't apply
+  cleanly. It's needed for multi-stream, but not for the current
+  upstream which only has a single stream use case.
+- Link to v1: https://lore.kernel.org/r/20250219-rcar-streams-v1-0-f1b93e370aab@ideasonboard.com
+
+---
+Tomi Valkeinen (11):
+      media: rcar-vin: Fix comment related to stride handling
+      media: rcar-vin: Link VINs on Gen3 to a single channel on each CSI-2
+      media: rcar-isp: Move {enable|disable}_streams() calls
+      media: rcar-csi2: Move {enable|disable}_streams() calls
+      media: rcar-csi2: Switch to Streams API
+      media: rcar-isp: Switch to Streams API
+      media: rcar-csi2: Add .get_frame_desc op
+      media: rcar-isp: Call get_frame_desc to find out VC & DT
+      media: rcar-csi2: Call get_frame_desc to find out VC & DT (Gen3)
+      media: rcar-csi2: Add full streams support
+      media: rcar-isp: Add full streams support
+
+ drivers/media/platform/renesas/rcar-csi2.c         | 373 ++++++++++++++++-----
+ drivers/media/platform/renesas/rcar-isp/csisp.c    | 227 ++++++++++---
+ .../media/platform/renesas/rcar-vin/rcar-core.c    |  27 +-
+ drivers/media/platform/renesas/rcar-vin/rcar-dma.c |   2 +-
+ 4 files changed, 487 insertions(+), 142 deletions(-)
+---
+base-commit: 8cd9520d35a6c38db6567e97dd93b1f11f185dc6
+change-id: 20250219-rcar-streams-1fdea8860e5e
+
+Best regards,
+--  
+Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+
 
