@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-65094-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65093-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Kl4aH6xbMmoazAUAu9opvQ
-	(envelope-from <linux-media+bounces-65094-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 10:32:44 +0200
+	id lfUJIWRcMmpHzAUAu9opvQ
+	(envelope-from <linux-media+bounces-65093-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 10:35:48 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A3B069791A
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 10:32:44 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D35C06979A0
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 10:35:47 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20201202 header.b=aiyNxvjI;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65094-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-65094-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20201202 header.b=sYAkEl6o;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65093-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65093-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6444F3016B69
+	by sea.lore.kernel.org (Postfix) with ESMTP id 435FA31418B8
 	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 08:32:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA3CA3D1CB2;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEE8F3D1CD7;
 	Wed, 17 Jun 2026 08:32:26 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F0813909AB;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80467391855;
 	Wed, 17 Jun 2026 08:32:25 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781685145; cv=none; b=Scpf6L3UE55TbSzCQTFVdSMv6BbdnTgXBowDtruRI2mXd8Gp1x8qD0SinmtjIlb3+mJJI00FqKXUr4N/+6HdWhJ2mQcL0CohPGlFWS+Ns2oPmy4AbCWgbpiKcAgycioTAMjER4bHBcOXNM9spF9j9kair0/VPHLX7Xqwjo5rpjw=
+	t=1781685145; cv=none; b=euOwykTWIr22TNTUQuNpM+Q0+nwC6n+IBPw5bsV8uF4soh7JMUzs7GJIUuqCJQU4PkqCEhJo7ecRjgGORPAR3/NK73UUkw1XMQdjdiBROKensI7WcxihKlZdbmtF7ibIiORyHf+BHz5F8CnIiL6hCIKPIsNpDyG2gPve6kdxk+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1781685145; c=relaxed/simple;
-	bh=Hmb4bUwpZRDfkAIAKiklux/fxZdU9O/GSSXBmJriI4A=;
+	bh=23ujETeHyNMlyqF2CM9K0eByUZo1COTvzR1UvtGRCR8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=F+CF+eWeyMyJR9/gMIT52b3SXsL/liXohdo19mW+VHi7KnPowK4nLhwe17VmjmAJWz0igXKIPfO4+1svQKRIC4K+1Kj1+cfMfOeeUEyhRDQYeadTati9kP/wx/kSeHInXMFRXL2SLx/1rw86k+98yFcOlN1UPVqss+WYuQArgC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aiyNxvjI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 46F9AC4AF1A;
+	 In-Reply-To:To:Cc; b=NfLYNABqJ4hWLowpGoT8W1X9qukaFE/JA4vy0FOvCxovis13aVdu44bgGjjrpvrI0vdVvKW2UNSOZ1aQq/ee03KiStsQskaXD57ytHXTXCeIQjdcvoCbLzPw9whdGJaCdUnQW6CLpuVWH0TWy19fDlae34owOxpRZFmqQZZbTOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sYAkEl6o; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 5AFCBC4AF19;
 	Wed, 17 Jun 2026 08:32:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1781685145;
-	bh=Hmb4bUwpZRDfkAIAKiklux/fxZdU9O/GSSXBmJriI4A=;
+	bh=23ujETeHyNMlyqF2CM9K0eByUZo1COTvzR1UvtGRCR8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=aiyNxvjIGVhkGqgzwHpWuFmGIevgSetqiIErlGPWPtzG9ZPoRPwHq4uxJWjvGtqPW
-	 HDLv1E/iWTJ5aHeiJJ/eR622sxJp5iDgS7ZqTriSaGqfe2a5hz0ptpd4KSiLpl3eJ7
-	 qt8h9WgNzj+SP4YpuJffHASqGX5UfXdz+3eez9ZYWS/rAlyRxtOJhwXxa3rF6bNEDU
-	 e2K50a9Wbdz3VFbzxYYsQi1JWIFzHIo+/FTnc8G4fWDHsVdSw8+zKkIEtp6s7J8jgE
-	 v2mvg13h03wyybVeTNMgQTrvkvbROqCd7ZBQwb5zCLzhkHFg4KrQ4P+zIzX4mUkV6X
-	 wkcmZGgvqpgVA==
+	b=sYAkEl6o2kpz7x/QV2AuXL07sfuWwo5X5Oc/J4gCYTdkxUTIpzkSR4270/ekMIxvj
+	 SLWgV/6ak7ngTpOkAkTBmCCg+pkH29HtsPxlnYxZBfKPWeMOJeUGLu6aM4M+GX/pVx
+	 RbNQSLUWYRBDuYy1UmGD4JhBPBfkmBSOw32SciCSKgFRdJN/vrPCTDJFcNe+h30Hyn
+	 mjFvJnqp8hiex90AZyKnDlsOb9hI3PqbtSlDooTfp9+R+EbkAt6HplaTd5vSBcLywc
+	 QgB8oJQnHQhj96FF/47DbZSrGrI0dPo6DIEio4Z5J2sccIAiamBYDP3po3ehu3swfk
+	 +isRJ5+HLr2bA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F0B3CD98EE;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53707CD98E2;
 	Wed, 17 Jun 2026 08:32:25 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Wed, 17 Jun 2026 10:32:25 +0200
-Subject: [PATCH v9 7/9] media: qcom: camss: csiphy-3ph: Update Gen2 v1.1
- MIPI CSI-2 C-PHY init
+Date: Wed, 17 Jun 2026 10:32:26 +0200
+Subject: [PATCH v9 8/9] media: qcom: camss: Account for C-PHY when
+ calculating link frequency
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,7 +61,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260617-qcom-cphy-v9-7-83da8a8e4e44@ixit.cz>
+Message-Id: <20260617-qcom-cphy-v9-8-83da8a8e4e44@ixit.cz>
 References: <20260617-qcom-cphy-v9-0-83da8a8e4e44@ixit.cz>
 In-Reply-To: <20260617-qcom-cphy-v9-0-83da8a8e4e44@ixit.cz>
 To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
@@ -81,21 +81,21 @@ Cc: Frank Li <Frank.Li@nxp.com>,
  linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, 
  phone-devel@vger.kernel.org, David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6215; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=7330; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=bHMX4//aWDpheSP2KzZh84W22nyuHR1zfC/sMVCosog=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBqMluWhCc5z9Gz0UVdg2a6tjS0pMqky8nvMsJbb
- XaUL/ukiH6JAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCajJblgAKCRBgAj/E00kg
- cuAJD/9pEpvwWVG7DlmycDK8pig9+TCMcqIMwWwsmRV9HKCybzwieA0AZgqQjFoYdffr0WIgWIs
- CTfEeUy7DpMFxp7MqAVmogPOF1xw0FMJkqEZY82U0MII4S+6HPkriwyA7+360qGjQRaNPXgfVR1
- uHGdzRyXDfbTi0co+fNxPKD0ETiK/ssHvSy1vo9YL2FGI69CAEIaqv6AE3Pz5VkDQbCC1uK/RE9
- nxVSay+neRKoAulKcOz9jh75QAsUKfMFgZyPSJ255kp8BpauMoN0xRAEtGvs7o5CA7uDBihPxC5
- DEHECKm+UW2yUb72aE3UVYXo6l3DJpbCQOFmIrBGSjr1slRk1Sc4LG0Tsl7Clo0MUJirEqinYpF
- TDqN5eVravwyqQnhHTEZxvNjCBE77Te8x9SObq/iIxCEjkORKfeGMDvbKHDgmLpq1RF4fi/1Rdq
- +eotgRENin87JuR6YrKZdXYJv2H67S8ShVkphkrgVx44+yFGAlMXvoyXX+hXQ8/fFpzFBmzR2DI
- xuggEHYaS0CX2Pljubj6SRz2FhFG/teyt8wg0hmLpvzym8UP4HYY2/yoGL6woSDZw8DrAuRXyVs
- bhBmcROuUl1K9BSCMaItV5vdwFQLeVr8MSVrBx6wkGxMq418lWOmCnckn6NUduKdjs6IgYdGDCf
- fKmYnhFpbxNbeDA==
+ bh=sVPrk/XzjkPG3qz+AM7isEZRhSTJ3CSoEJ0qxo3ZGDs=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBqMluWskKMaEo1WlNRlhWXvXJSKd+iTgwshfsXv
+ fTM0ZaTQ4mJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCajJblgAKCRBgAj/E00kg
+ cr/dD/0RD4yoUY54H01nfdFpqaKSsaXSEbWNTZvXc1h7epoi00k5AJwjNily2RWv2cDNsWqEunD
+ MaYpxNu31zVwxyfNUtd5SaCbGv8yrc/3lC3ripvYS14txWOfu3QnVw2ryfJ2JJmjp52yDbI7jyO
+ hvF6AE4wh0kO6Q5pn60awScta8sbrWPT4K22MaYSEhtHrdWgVwTr+N4mgNUbV5suRpPNIQUEeU8
+ 6az40ndkfAvJkpfyX/J13hPFgzGZjrGUGNHzPv0QuIbZPNoU9OOn6p3+182ZYDIUGOYbvM+hOoG
+ cl94/N5KJipW3uhbK40XvF/L5k0JxKwsglO6+WdFnSsop0dYPa80c+ire8fGUSkMDt+oaK98tSP
+ tLjdChanNjmhNUcATxybPtWXdaWoTQJi+t6CU05PWF6KeW48mWM5qX8bifJrmgR3ujFW5U7KPfr
+ 9xNiE6a8TIj7wmqxmJn66vsQLvtcwdZ+goZ5VSz/I8dJyTPQlcVzZH8RzmEuMBmeKJP6sVWygV0
+ mOyAi5vlp0ICfQY3KD73tIxHIzV745HuxvVoAqZ0esFVRK2jimdrMd6FcVhJkB58BSzK6Vzg6n1
+ sGvpUosKUcSRVDBUzjrHjtA5VREIuzS7aAYlNJ5/jDJXZdnjM3LzrtqGVyi9K6O6VgGVcut/uQA
+ G2ZAAB3BHiRKIMA==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
@@ -108,12 +108,12 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20201202];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65094-lists,linux-media=lfdr.de,david.ixit.cz];
+	TAGGED_FROM(0.00)[bounces-65093-lists,linux-media=lfdr.de,david.ixit.cz];
 	FORGED_RECIPIENTS(0.00)[m:rfoss@kernel.org,m:todor.too@gmail.com,m:bryan.odonoghue@linaro.org,m:bod@kernel.org,m:vladimir.zapolskiy@linaro.org,m:mchehab@kernel.org,m:luca.weiss@fairphone.com,m:phodina@protonmail.com,m:drgitx@gmail.com,m:ckeitz@amazon.com,m:loic.poulain@oss.qualcomm.com,m:hverkuil@kernel.org,m:nihal.gupta@oss.qualcomm.com,m:Frank.Li@nxp.com,m:konrad.dybcio@oss.qualcomm.com,m:kbingham@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:phone-devel@vger.kernel.org,m:david@ixit.cz,m:todortoo@gmail.com,s:lists@lfdr.de];
 	FREEMAIL_TO(0.00)[kernel.org,gmail.com,linaro.org,fairphone.com,protonmail.com,amazon.com,oss.qualcomm.com];
 	FORGED_SENDER(0.00)[devnull@kernel.org,linux-media@vger.kernel.org];
@@ -123,7 +123,7 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	RCPT_COUNT_TWELVE(0.00)[22];
 	MIME_TRACE(0.00)[0:+];
 	FROM_HAS_DN(0.00)[];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	HAS_REPLYTO(0.00)[david@ixit.cz];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
@@ -132,116 +132,200 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,ixit.cz:replyto,ixit.cz:email,ixit.cz:mid]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,ixit.cz:replyto,ixit.cz:email,ixit.cz:mid,intel.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0A3B069791A
+X-Rspamd-Queue-Id: D35C06979A0
 
 From: David Heidelberg <david@ixit.cz>
 
-These values should improve C-PHY behaviour. Should match most recent
-Qualcomm code.
+Ensure that the link frequency divider correctly accounts for C-PHY
+operation. The divider differs between D-PHY and C-PHY, as described
+in the MIPI CSI-2 specification.
 
-Acked-by: Cory Keitz <ckeitz@amazon.com>
-Suggested-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+For more details, see:
+https://docs.kernel.org/driver-api/media/tx-rx.html#pixel-rate
+
+Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Link: https://docs.kernel.org/driver-api/media/tx-rx.html#pixel-rate
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- .../media/platform/qcom/camss/camss-csiphy-3ph-1-0.c  | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ drivers/media/platform/qcom/camss/camss-csid.c   |  6 ++++--
+ drivers/media/platform/qcom/camss/camss-csiphy.c |  6 ++++--
+ drivers/media/platform/qcom/camss/camss.c        | 15 +++++++++++++--
+ drivers/media/platform/qcom/camss/camss.h        |  2 +-
+ 4 files changed, 22 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-index 83de89a88dbb1..25a3554ef2016 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-@@ -227,19 +227,19 @@ csiphy_lane_regs lane_regs_sdm845[] = {
- 	{0x0660, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{0x0664, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
+diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
+index bcc34ac9dd212..c8cb6f1a3d3bc 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid.c
++++ b/drivers/media/platform/qcom/camss/camss-csid.c
+@@ -535,24 +535,26 @@ const struct csid_format_info *csid_get_fmt_entry(const struct csid_format_info
+ /*
+  * csid_set_clock_rates - Calculate and set clock rates on CSID module
+  * @csiphy: CSID device
+  */
+ static int csid_set_clock_rates(struct csid_device *csid)
+ {
+ 	struct device *dev = csid->camss->dev;
+ 	const struct csid_format_info *fmt;
++	const bool cphy = (csid->phy.phy_sel == CSID_PHY_SEL_CPHY);
++
+ 	s64 link_freq;
+ 	int i, j;
+ 	int ret;
+ 
+ 	fmt = csid_get_fmt_entry(csid->res->formats->formats, csid->res->formats->nformats,
+ 				 csid->fmt[MSM_CSIPHY_PAD_SINK].code);
+-	link_freq = camss_get_link_freq(&csid->subdev.entity, fmt->bpp,
+-					csid->phy.lane_cnt);
++
++	link_freq = camss_get_link_freq(&csid->subdev.entity, fmt->bpp, csid->phy.lane_cnt, cphy);
+ 	if (link_freq < 0)
+ 		link_freq = 0;
+ 
+ 	for (i = 0; i < csid->nclocks; i++) {
+ 		struct camss_clock *clock = &csid->clock[i];
+ 
+ 		if (!strcmp(clock->name, "csi0") ||
+ 		    !strcmp(clock->name, "csi1") ||
+diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
+index 539ac4888b608..a136cd27880a6 100644
+--- a/drivers/media/platform/qcom/camss/camss-csiphy.c
++++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
+@@ -139,18 +139,19 @@ static int csiphy_set_clock_rates(struct csiphy_device *csiphy)
+ 	struct device *dev = csiphy->camss->dev;
+ 	s64 link_freq;
+ 	int i, j;
+ 	int ret;
+ 
+ 	u8 bpp = csiphy_get_bpp(csiphy->res->formats->formats, csiphy->res->formats->nformats,
+ 				csiphy->fmt[MSM_CSIPHY_PAD_SINK].code);
+ 	u8 num_lanes = csiphy->cfg.csi2->lane_cfg.num_data;
++	const bool cphy = (csiphy->cfg.csi2->lane_cfg.phy_cfg == V4L2_MBUS_CSI2_CPHY);
+ 
+-	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes);
++	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes, cphy);
+ 	if (link_freq < 0)
+ 		link_freq  = 0;
+ 
+ 	for (i = 0; i < csiphy->nclocks; i++) {
+ 		struct camss_clock *clock = &csiphy->clock[i];
+ 
+ 		if (csiphy->rate_set[i]) {
+ 			u64 min_rate = link_freq / 4;
+@@ -265,19 +266,20 @@ static int csiphy_set_power(struct v4l2_subdev *sd, int on)
+ static int csiphy_stream_on(struct csiphy_device *csiphy)
+ {
+ 	struct csiphy_config *cfg = &csiphy->cfg;
+ 	s64 link_freq;
+ 	u8 lane_mask = csiphy->res->hw_ops->get_lane_mask(&cfg->csi2->lane_cfg);
+ 	u8 bpp = csiphy_get_bpp(csiphy->res->formats->formats, csiphy->res->formats->nformats,
+ 				csiphy->fmt[MSM_CSIPHY_PAD_SINK].code);
+ 	u8 num_lanes = csiphy->cfg.csi2->lane_cfg.num_data;
++	const bool cphy = (csiphy->cfg.csi2->lane_cfg.phy_cfg == V4L2_MBUS_CSI2_CPHY);
+ 	u8 val;
+ 
+-	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes);
++	link_freq = camss_get_link_freq(&csiphy->subdev.entity, bpp, num_lanes, cphy);
+ 
+ 	if (link_freq < 0) {
+ 		dev_err(csiphy->camss->dev,
+ 			"Cannot get CSI2 transmitter's link frequency\n");
+ 		return -EINVAL;
+ 	}
+ 
+ 	if (csiphy->base_clk_mux) {
+diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+index 072c428e25166..66171069057f8 100644
+--- a/drivers/media/platform/qcom/camss/camss.c
++++ b/drivers/media/platform/qcom/camss/camss.c
+@@ -27,16 +27,24 @@
+ #include <media/v4l2-mc.h>
+ #include <media/v4l2-fwnode.h>
+ 
+ #include "camss.h"
+ 
+ #define CAMSS_CLOCK_MARGIN_NUMERATOR 105
+ #define CAMSS_CLOCK_MARGIN_DENOMINATOR 100
+ 
++/*
++ * C-PHY encodes data by 16/7 ~ 2.28 bits/symbol
++ * D-PHY doesn't encode data, thus 16/16 = 1 b/s
++ */
++#define CAMSS_COMMON_PHY_DIVIDENT 16
++#define CAMSS_CPHY_DIVISOR 7
++#define CAMSS_DPHY_DIVISOR 16
++
+ static const struct parent_dev_ops vfe_parent_dev_ops;
+ 
+ static const struct camss_subdev_resources csiphy_res_8x16[] = {
+ 	/* CSIPHY0 */
+ 	{
+ 		.regulators = {},
+ 		.clock = { "top_ahb", "ispif_ahb", "ahb", "csiphy0_timer" },
+ 		.clock_rate = { { 0 },
+@@ -4619,29 +4627,32 @@ struct media_pad *camss_find_sensor_pad(struct media_entity *entity)
+ 	}
+ }
+ 
+ /**
+  * camss_get_link_freq - Get link frequency from sensor
+  * @entity: Media entity in the current pipeline
+  * @bpp: Number of bits per pixel for the current format
+  * @lanes: Number of lanes in the link to the sensor
++ * @cphy: If C-PHY encoding is used.
+  *
+  * Return link frequency on success or a negative error code otherwise
+  */
+ s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
+-			unsigned int lanes)
++			unsigned int lanes, const bool cphy)
+ {
+ 	struct media_pad *sensor_pad;
++	unsigned int div = lanes * 2 * (cphy ? CAMSS_CPHY_DIVISOR :
++					       CAMSS_DPHY_DIVISOR);
+ 
+ 	sensor_pad = camss_find_sensor_pad(entity);
+ 	if (!sensor_pad)
+ 		return -ENODEV;
+ 
+-	return v4l2_get_link_freq(sensor_pad, bpp, 2 * lanes);
++	return v4l2_get_link_freq(sensor_pad, CAMSS_COMMON_PHY_DIVIDENT * bpp, div);
+ }
+ 
+ /*
+  * camss_get_pixel_clock - Get pixel clock rate from sensor
+  * @entity: Media entity in the current pipeline
+  * @pixel_clock: Received pixel clock value
+  *
+  * Return 0 on success or a negative error code otherwise
+diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
+index 93d691c8ac63b..12b14ba8fcec3 100644
+--- a/drivers/media/platform/qcom/camss/camss.h
++++ b/drivers/media/platform/qcom/camss/camss.h
+@@ -164,17 +164,17 @@ struct parent_dev_ops {
  };
  
- /* GEN2 1.0 3PH */
- /* 3 entries: 3 lanes (C-PHY) */
- static const struct
- csiphy_lane_regs lane_regs_sdm845_3ph[] = {
--	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(23), 0x43, 0x00, CSIPHY_DEFAULT_PARAMS},
--	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(26), 0xa0, 0x00, CSIPHY_DEFAULT_PARAMS},
--	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(27), 0x25, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(23), 0x63, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(26), 0xac, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(27), 0xa5, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(1),  0x06, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(3),  0x12, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
- 	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(2),  0x00, 0x00, CSIPHY_SETTLE_CNT_HIGHER_BYTE},
- 	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(5),  0x20, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(20), 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(6),  0x3e, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(7),  0x41, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(8),  0x41, 0x00, CSIPHY_DEFAULT_PARAMS},
-@@ -247,19 +247,19 @@ csiphy_lane_regs lane_regs_sdm845_3ph[] = {
- 	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(10), 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(11), 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(17), 0x12, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(24), 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(51), 0x41, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(25), 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN1_CSI_3PH_CTRLn_ADDR(55), 0x51, 0x00, CSIPHY_DEFAULT_PARAMS},
- 
--	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(23), 0x43, 0x00, CSIPHY_DEFAULT_PARAMS},
--	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(26), 0xa0, 0x00, CSIPHY_DEFAULT_PARAMS},
--	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(27), 0x25, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(23), 0x63, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(26), 0xac, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(27), 0xa5, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(1),  0x06, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(3),  0x12, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
- 	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(2),  0x00, 0x00, CSIPHY_SETTLE_CNT_HIGHER_BYTE},
- 	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(5),  0x20, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(20), 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(6),  0x3e, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(7),  0x41, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(8),  0x41, 0x00, CSIPHY_DEFAULT_PARAMS},
-@@ -267,36 +267,35 @@ csiphy_lane_regs lane_regs_sdm845_3ph[] = {
- 	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(10), 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(11), 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(17), 0x12, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(24), 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(51), 0x41, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(25), 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN3_CSI_3PH_CTRLn_ADDR(55), 0x51, 0x00, CSIPHY_DEFAULT_PARAMS},
- 
--	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(23), 0x43, 0x00, CSIPHY_DEFAULT_PARAMS},
--	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(26), 0xa0, 0x00, CSIPHY_DEFAULT_PARAMS},
--	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(27), 0x25, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(23), 0x63, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(26), 0xac, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(27), 0xa5, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(1),  0x06, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(3),  0x12, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
- 	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(2),  0x00, 0x00, CSIPHY_SETTLE_CNT_HIGHER_BYTE},
- 	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(5),  0x20, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(20), 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(6),  0x3e, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(7),  0x41, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(8),  0x41, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(9),  0x7f, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(10), 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(11), 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(17), 0x12, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(24), 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(51), 0x41, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(25), 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{CSIPHY_LN5_CSI_3PH_CTRLn_ADDR(55), 0x51, 0x00, CSIPHY_DEFAULT_PARAMS},
--
- };
- 
- /* GEN2 1.1 2PH */
- static const struct
- csiphy_lane_regs lane_regs_sc8280xp[] = {
- 	{0x0004, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{0x002C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
- 	{0x0034, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
+ void camss_add_clock_margin(u64 *rate);
+ int camss_enable_clocks(int nclocks, struct camss_clock *clock,
+ 			struct device *dev);
+ void camss_disable_clocks(int nclocks, struct camss_clock *clock);
+ struct media_pad *camss_find_sensor_pad(struct media_entity *entity);
+ s64 camss_get_link_freq(struct media_entity *entity, unsigned int bpp,
+-			unsigned int lanes);
++			unsigned int lanes, const bool cphy);
+ int camss_get_pixel_clock(struct media_entity *entity, u64 *pixel_clock);
+ int camss_pm_domain_on(struct camss *camss, int id);
+ void camss_pm_domain_off(struct camss *camss, int id);
+ int camss_vfe_get(struct camss *camss, int id);
+ void camss_vfe_put(struct camss *camss, int id);
+ void camss_delete(struct camss *camss);
+ void camss_buf_done(struct camss *camss, int hw_id, int port_id);
+ void camss_reg_update(struct camss *camss, int hw_id,
 
 -- 
 2.53.0
