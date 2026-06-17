@@ -1,343 +1,177 @@
-Return-Path: <linux-media+bounces-65083-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65084-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id BkisFWs9MmoqxQUAu9opvQ
-	(envelope-from <linux-media+bounces-65083-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 08:23:39 +0200
+	id 9unoJK1PMmrgyQUAu9opvQ
+	(envelope-from <linux-media+bounces-65084-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 09:41:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3F62696D2D
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 08:23:38 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1FE26973CA
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 09:41:32 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=chWn2muK;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65083-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65083-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=intel.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=0sec.ai header.s=google header.b=UoXLsCoP;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65084-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65084-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=none;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 34ADB3098500
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 06:23:15 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 714B530164B2
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 07:41:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BE743B42E5;
-	Wed, 17 Jun 2026 06:23:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6FAC3BCD33;
+	Wed, 17 Jun 2026 07:41:29 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E76E31326F;
-	Wed, 17 Jun 2026 06:23:11 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781677393; cv=fail; b=bXLxZYc9q0HvPM8OGRptwBhzdJx+yLWVt+HUkMm/F4lqQI9E9Gm0hrk9T63W1oyJnEiZXdVladuhQs67idTJ/NQgnop+DwKG/L9/Jr5X1uucumF/hh5f722U5ISCmhmtULhIwPooxK7EnjHBS0Nwyc/QXKAvFWqZWrKcn/vIUoA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781677393; c=relaxed/simple;
-	bh=3L7CUNdCwLzcZEINJ6i6yO/iceN2Cr86bwG42BxKe9M=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=QEa4rq+/aCXc6Ngn38C4b0QHd1NDNChJVMo+lo1aImISmVtjqGPbksDViup3aQbXpkbEYlFk5nkn2QBOO750EvQB33W3CZKIIzN6e3MKZLOVjUXAdtwzVgNbDA/M6p2qlUWzUXHHZWBASYAOolOydBIgKfRQ6jjwo2TCphvz/Cc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=chWn2muK; arc=fail smtp.client-ip=198.175.65.18
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781677391; x=1813213391;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=3L7CUNdCwLzcZEINJ6i6yO/iceN2Cr86bwG42BxKe9M=;
-  b=chWn2muKIP9n+pi1V5vqesUsvCQd2BiSzsC3BV8RJNgMlLL9c4nw+fLq
-   /8Ef21ZMs1xij49iSJNLAps2TDC9JMRln+uIuu38cqWGlR5c3rbN4QMGW
-   V+ZF7OTOU1tst8FHtGkVe/OOSWN2kyY9/K6misykuMmSYBp+DsiOSWplv
-   Lgnmsdp7Pb1wTExY2o+Q2j0IBx1WHb1rttdEnatvgIaMzEpnNR7GGiCEu
-   Z2s2Vyev9Zp6xaaAtgQLfo/OgoQsBuEFFfvXnitZNcCG42+7DGn9z1fHd
-   eouemed9IjjiwQMXXf3gLFFScJvGVHtqCfVH+WsXSXkUWBAeNgl9xww9o
-   A==;
-X-CSE-ConnectionGUID: BLJ8Nv/9Qp20+Ru0XTkJjw==
-X-CSE-MsgGUID: 1DQuuxPXSJOP7QZ5u2qV4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11819"; a="82571197"
-X-IronPort-AV: E=Sophos;i="6.24,209,1774335600"; 
-   d="scan'208";a="82571197"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 23:23:11 -0700
-X-CSE-ConnectionGUID: tC9+5AxqTlS7aDimNtdQFw==
-X-CSE-MsgGUID: dMr17gGqQCqRRIfdlAEHAA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,209,1774335600"; 
-   d="scan'208";a="243821375"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2026 23:23:05 -0700
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 16 Jun 2026 23:23:05 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Tue, 16 Jun 2026 23:23:05 -0700
-Received: from CH5PR02CU005.outbound.protection.outlook.com (40.107.200.31) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 16 Jun 2026 23:23:02 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZAU6ebBUZAclWyLQmnkn3IwrfeH1sAeQ7rNhl76X5AYmYpFwsqEM8qL0vf82RVTzXFh6siFuXLUbpqiko4GLKKrqrG+Qwjps5YebdjulkNZVShBcxR5nGLW5Q4hY8AkYBkixz9ZZiwcKob1BNSaoaX3wSjbjf9gpsU6oRRIOzD0Bdzpkflg9XXe0DGPWwEnZS5QKdhN6Xly9YEWOY75JsZS8+FlMT+4gLLOITa8MHKPSpSXZpsfc3DP9BVHw1GdYnJQjeDwbjMUZmuwBX+etNkUACwhgE+FRX7PMYaVVjUYJt2Kyp4VciKMI/z7pG6ePnO4wX59j1doJaSLSKssjfA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=POK3KX22aNgG0qPCnRzg2PDGkFFlOrFVMgCdgKvDHv0=;
- b=gxWPK3xyuU9fbPdMcxGQvvme5COgLvcjtAVO0sdMnjw1F26LoeIC8tCyN2uVFzWe25eNFW0/sSSqD8Zjx43C/J9qzV1tiv8gE3ZcvJ8xyzeT9TUgO0MFi11QJGaKXRsnVK5Xr54iYMiUetLsXx5QIRnZRK04yQoo7J6kSIukItbkEWcbXGIrlfgM4gHgl+BBCQwtuYHLtLaVCUR8oQLT6zw29bl05bKxlONX6DcJ6uJFDOiNXR5SUM5atcDbaL/GZKMrT5fwxiJ7S7Wm+LvOW9hwParSPbi6S2S9R5CkTQyX+8GxvcLTkmsPe6T0wkMTlFXfbQSUELSvDvHPkgoNMQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BYAPR11MB3687.namprd11.prod.outlook.com (2603:10b6:a03:ff::26)
- by PH0PR11MB5952.namprd11.prod.outlook.com (2603:10b6:510:147::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.18; Wed, 17 Jun
- 2026 06:23:00 +0000
-Received: from BYAPR11MB3687.namprd11.prod.outlook.com
- ([fe80::14b0:6b4c:1431:d2ee]) by BYAPR11MB3687.namprd11.prod.outlook.com
- ([fe80::14b0:6b4c:1431:d2ee%4]) with mapi id 15.21.0113.015; Wed, 17 Jun 2026
- 06:22:59 +0000
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Pranjal Shrivastava <praan@google.com>
-CC: Matt Evans <matt@ozlabs.org>, Alex Williamson <alex@shazbot.org>, "Leon
- Romanovsky" <leon@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>, Alex Mastro
-	<amastro@fb.com>, =?iso-8859-1?Q?Christian_K=F6nig?=
-	<christian.koenig@amd.com>, Bjorn Helgaas <bhelgaas@google.com>, "Logan
- Gunthorpe" <logang@deltatee.com>, Mahmoud Adam <mngyadam@amazon.de>, "David
- Matlack" <dmatlack@google.com>, =?iso-8859-1?Q?Bj=F6rn_T=F6pel?=
-	<bjorn@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, Ankit Agrawal
-	<ankita@nvidia.com>, Alistair Popple <apopple@nvidia.com>, "Kasireddy, Vivek"
-	<vivek.kasireddy@intel.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "linaro-mm-sig@lists.linaro.org"
-	<linaro-mm-sig@lists.linaro.org>, "kvm@vger.kernel.org"
-	<kvm@vger.kernel.org>, "linux-pci@vger.kernel.org"
-	<linux-pci@vger.kernel.org>
-Subject: RE: [PATCH v3 6/9] vfio/pci: Clean up BAR zap and revocation
-Thread-Topic: [PATCH v3 6/9] vfio/pci: Clean up BAR zap and revocation
-Thread-Index: AQHc+PAbYETvhcTyrUu/DN8Pu72QKLY7VG+AgAWiCfCAAJoGAIAAuK3Q
-Date: Wed, 17 Jun 2026 06:22:59 +0000
-Message-ID: <BYAPR11MB3687AE280241C9E00B46FCF98CE42@BYAPR11MB3687.namprd11.prod.outlook.com>
-References: <20260610154327.37758-1-matt@ozlabs.org>
- <20260610154327.37758-7-matt@ozlabs.org> <aixgZQiBQKgS7yIM@google.com>
- <DM6PR11MB3690489DB5FA611413BF60558CE52@DM6PR11MB3690.namprd11.prod.outlook.com>
- <ajGbRE3WWJxNxcrg@google.com>
-In-Reply-To: <ajGbRE3WWJxNxcrg@google.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BYAPR11MB3687:EE_|PH0PR11MB5952:EE_
-x-ms-office365-filtering-correlation-id: f221a3d0-f056-4f6f-6a97-08decc38e103
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|23010399003|7416014|376014|366016|1800799024|4143699003|56012099006|6133799003|11063799006|3023799007|5023799004|18002099003|22082099003|38070700021;
-x-microsoft-antispam-message-info: kKXv9n/jC0aLIy8LedzpGNbKhJm8WMkCWCemPzxBtEDJ2cH3C0cm7eLPkBgSrNsGOK1io7pxNPfBx0eh4MC+AR0EjoXuiVjETz6tbRNQgTj3g1/MGgRNCDbdQG1BgybmGZij0ca3ZJXylwr2M/+CC7Mr73iAw4CfNt4AgxB7tqj5w9SSkbFLqMepCGdnYHf8GHR4NtV1pW651YcrmPk1SEtUf4Se1D0WYlT76r39I8j0OYtRvQSsvNZyBXmKlTH6MyuZSUOTY1z5aNOQDbACUq6KDU+oIMow6XM1hbtbE7cbdFV1nqiuF2kR7mJMXZPInm8So3r8mxdJgOohycUjxE72wyKP5ocabf62lAzIdSBROq69ChChzJYVultYBFvd+/UFCxB2MEpAIokeLqzd5bfmLQceNYIBPe3pAxFmgKgX/ZtCAz08+zGZHN981n7E1ASJNYJaqVHd8iS5BMcxPdo495MH5ZHI41gBTDI1aM5pjvtAQ2T1lSsub2BQgZfM50vNBGPdnD3hYbWIx87ckVh1CCGQF0i5hgPHEv8wYokVJE5cWWLIkGyzkE4Y2Ojiz3BLWs7GcAG2QCqae1NG053EBAz6dpUtrxX8FnVFPGPhpT/RqUWGpZ6LSQTp8PwnReKZktveEJsSLLaWCbHTSDGY9vu+z7/ZOrafZF8M1oZOrlTSEfw4WOEqLWJ9nQhQtrL1mhSnjye0nmYc4oIlFtYt7VGYNngaqLdLgncWc4J3w0iE0Jjpjq1vPx2Q3kpl
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3687.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(376014)(366016)(1800799024)(4143699003)(56012099006)(6133799003)(11063799006)(3023799007)(5023799004)(18002099003)(22082099003)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?ATE/rHjUJTj5fKxH+oKzqeT0cPRjekxh1c3baSv8SEroqfgFcYE+4xRgq7?=
- =?iso-8859-1?Q?oU9ELpHQ3q4XfuD++fT+XgAmVjk9KVrCq1Zqm4QWRdmxXpUVOjLUvIlhCh?=
- =?iso-8859-1?Q?rervXwwS4zWO38CUbKWDBUPjUTDdIM6twWznNggsY6h/kx3Nt8OhpHWNK5?=
- =?iso-8859-1?Q?gyfE6F0t4Ea/t8ih3nf9ha/Ikn2eQBT64T2jJQGv+6Zt7zFyBOZJSJ7ZNQ?=
- =?iso-8859-1?Q?0ydLuzfKij7RaXZpDcye3LxAohK0pJtjDn1IiZc0GW7L82OkyQsduxE+/2?=
- =?iso-8859-1?Q?30pu0aEtuWbwj7rT7oFPKeE2W5Mw3IezD0SU7u+Ca3QoHvLXTqp856UjWK?=
- =?iso-8859-1?Q?cnxJRhOFLy3oH/tGHdQSXsmeX81VZHixWMdA/I9A7MQm2ye3xOx+Zlo+Sh?=
- =?iso-8859-1?Q?tCf8GMfOyz4G1j1/Ttxl5COwRIOanJK3o6o7tcZ1Fes7WN4pLM3VfY/Cms?=
- =?iso-8859-1?Q?gmu75x7TeQqDpX0X7bQ4ZZfLzTp/fz2FPJChEVbA6keCMFIZJyWPmr+X6t?=
- =?iso-8859-1?Q?Qzf347opK1CVkfjSFRD9nTpkImV94V97BzgCz7rGlcl8Xfgfp+uglrS1g0?=
- =?iso-8859-1?Q?lYY2GXBb7e09IbjELStMqbrQdKsFeUgRa3HZKlAceK5ZDDxwldgjAyMIW6?=
- =?iso-8859-1?Q?5YFeceaophUQU6w0fvXqRsqGiO7ZBfEzGKehMco8S/jthSwnMcrcVLtt+Z?=
- =?iso-8859-1?Q?nmscr3WcgZ4/fkMOKQtG05qyYMpuwJ578Gs0HVO8zyivsl8f+iY3akoqcJ?=
- =?iso-8859-1?Q?QxTMWI/n6O7REiZbwaDhQdTQ+Jk3OUNd2/l/JEineMpxuAjiHtXaSno+Qk?=
- =?iso-8859-1?Q?22NHWj7FeU6IaQAdTE/3v8F1TeTTDxRKDyXEMALJavJ4xCgHxfM1oxW/WT?=
- =?iso-8859-1?Q?Eviww8qfnEMGvUOewEgN/aG0VeYojK8KsVr+S5N8XfjsEmIM7c4XnIUdPv?=
- =?iso-8859-1?Q?a53MwqODuRGrhpE4bYtly2MBgTrTxd6OXzLb0FNjIYaboK2nTsTYkP9FHR?=
- =?iso-8859-1?Q?f8ML7xlwstn3/T4q+NtYoUTUHPROkr3Ezc9dzLzBbJV0geds4mKa+yR9op?=
- =?iso-8859-1?Q?QkgsBS9NPdukmlYZ2Fs8fR1bo524LrfmI08MhwXU40UWNcrrIL9z3HO6Gv?=
- =?iso-8859-1?Q?6fl/n9Oz9Soz139cf8adhL3q+/HazmdLLAtbz90vmHr9rInaAJ7Zszw3y8?=
- =?iso-8859-1?Q?/CuTkvX2SCCXzrWk7cdhtfnmwyl8f0fjDLkDa+v3kjIAkJlYrYKMIdltUV?=
- =?iso-8859-1?Q?rZsHQF+WJd4zfHf8YcVzsJDQoWL13YOaedZA1AlBx3eYQ/jKIHxsuGPAqO?=
- =?iso-8859-1?Q?xsJVPLJ6R+jBTBBo+QAcopUrXnEe57Y8wI7GhLDmWR+dHR9hd4ouy2k9EB?=
- =?iso-8859-1?Q?ibe6Zi2AFd4xBPq+E3GI35lAmCljvtP1BEYTK2kXc8rXtkvAPlxmIF8EG/?=
- =?iso-8859-1?Q?t/A8AVqtEs5g6mQO5GbIwx4/69psWNrl1mas6fDovH6nN7OvNZJ5V55OFL?=
- =?iso-8859-1?Q?WNGwI0wiYlg9WyNFhktV+FKLeUTqcTSiob3oShnzzJn99PwpFwXcS4wS1a?=
- =?iso-8859-1?Q?jelmysq7ShalYiM8R+gxzXO3hU3917gKCY6zLY/eE+oFrMiBIYWAFYAT1g?=
- =?iso-8859-1?Q?NaOoQsZ7YMOOpRYPFWvMV3XSOlH4lLTBaBcWvZ7eHS0NTgNlqe1DFEhg2o?=
- =?iso-8859-1?Q?lHsWDX5z6dUu7VRsOaRtc7dwjP06c1B+HpBS6lC6Yp/TI4KEQJnYHh4k/T?=
- =?iso-8859-1?Q?asWFC8Bo9t/FOke9/MU53ghkdc+ErDCvapn1oYlTg/EjSsr3y3CJsJx6LT?=
- =?iso-8859-1?Q?6S0mthGpmg=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A1F318B96
+	for <linux-media@vger.kernel.org>; Wed, 17 Jun 2026 07:41:27 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781682089; cv=none; b=Y6TH07kjxTirsxvhQfc78+ibnm4U/uoj4oyHXD7bRle+dO36Bmb80ma2tIpSUVeWajMTkJeCsTKzYPgFbnZpzvLXxULTHXTtgP0zPVUvbUJytn3X95g6MDyYVtHldbxrj/9E8Y+k1SG4d4iaoe3/BsCIHaJ4DJuAAW1RqFFs4cI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781682089; c=relaxed/simple;
+	bh=VfvN2NB/wnjHyZfBZHt+ChcGGwIjmvnR6Eg88MC6Nvc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EOIDFxX4i04JxWKaFZXQd+rsGpmNkuaSQFDhhtxXAme5nYP/VcU9KBIBPs1wlPY3z+xuNUmEDKckOH1TUl7Q4QIGlz6TVtE7Ga286xzm2/+LU5K3o8iLWs+NEeaTS/gTBN+ZUW0DBj6HdqTP50mcMd/Xf4Dp3E3x4lAWrKqgRvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=UoXLsCoP; arc=none smtp.client-ip=209.85.221.51
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-45eeea039ebso3091627f8f.1
+        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2026 00:41:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=0sec.ai; s=google; t=1781682086; x=1782286886; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JTKHX6NCn7vn/+gvhr4Pc1ts3vNTjwaHvcnrlwVBhzs=;
+        b=UoXLsCoPLwtM/ZQdao4T6xnz+OtL3jt8kfU7NvD7O/Isk5OydbV1r2i4P7/2k7paZI
+         oOG8r9nefFoRIN/jb3mt48lB9y4FNtTo4U1d3EEBz6AEKMoL2G53SxrpuCuNI16gWCUB
+         /szNuC3/8aat2VA1KCj2k5W3E/lvs9PPzJv07A9dsSsZvukcU3j72hj2WUqG1yGwiSyC
+         k9mkVhk1hwYa5TXLZo8Es6RiqTwLfH6HYZZIlSH1pna0T9w0wDwctiU+5inaXe6HeGVy
+         S7bu7mWGEw3E88fWcbqdkvbI6pJKfHM80bz4OBTjrVN6vRCkKW7HOblLf95hTIolBYVb
+         rxZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781682086; x=1782286886;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=JTKHX6NCn7vn/+gvhr4Pc1ts3vNTjwaHvcnrlwVBhzs=;
+        b=rB96J79wVQJLIvPkZsPPmrpgygoX3t7PrkAMts0uCfAZPbCG0UgKwMGm3AuRRV6tbc
+         1qaQGqu84BOSj8a1l3fT/XRVes6/mPad80hpLKlVvIpjRws1MRcZaKYvKKB6b2o3dqfV
+         AuLTJwCBcm+yOF2QGerc1e062B2Pf3sdthihg+4JshhBd0YcLh4Insf+1uT7wZTxHITU
+         ruPOOa0Jp6+qB87te5GQOY6GIJPxSs2SjI1aFbw+p1E6261XcHhxVgfEowQsB8/la//8
+         Lsesis4IRaS0CfNJyn/V8rRibuv+rCdQeZOWdrBvAf1SgXVYLaN/r5RLJenlkTxZ6ddD
+         fIeQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+f8mx1DEP4U3jM0LThfbm2oZiOzk6XB0qQTd2v3QU+MXmYdibk7hWlbDobFOqPpTzza+Oxz2hcpZP4oQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwtwZe/sVdLHDl59tWJp258w9gmilZcUx8FSWCpcBWahFpynn+u
+	Z9fVc0i+3jQVRHR93dX0P8Vge+5VwE7IF9rKbm9D3EdICi3rN3OAI08Y3xW8yXtDz5nj
+X-Gm-Gg: AfdE7cl2VmNaRvRxzTVlMEY84qjh7j/VS+EGO3uZeoJaRN22kzToKeMtrXXPoTWS8cE
+	cfGzyBmvgXXsij7N89UCCDETc3CSkl1Xf2tFdOzyAxUHMRMtMUkTbproYvUu1utGH9uPbqT9EOJ
+	icNuOhf44H4nAg+98ju7Eo1DNo/a32IRANvOyS2I11Ga5YHU6HbLFdoMlshJF28aEhc5ZizLIIi
+	hjQNKJ4oTEwIx1VMv2SZmVpEYX5uOgjGGBB4Uk09oaCOsdgfFcUWqwxIX3EgYcg0E/zAlFsLmlI
+	0N4K2V7I2OZJgBeJ9uToiAzaL+YVgm5lE5x+J+/iMQ293NcTQ1MzINIolTG2SADneboM4V93htV
+	OdhJfZ67FHGoNSsIf8yWesR9XYaK7h4yL4q7CK6kNqzX1YCgwIRTOWDS+gNIpGRExilk8APMrVN
+	vYduztjcYhJz4VXIxbKWTwbbKnGhsTiF61lV/ekMyytv4RY9P3nJOdsG870gyrWwlcPeO+Ztkt6
+	FF75Bea/vxIL3MbqWXauXQOVcSaZz7nYws=
+X-Received: by 2002:a5d:6a87:0:b0:460:25f3:b25a with SMTP id ffacd0b85a97d-46238f980ccmr3573765f8f.34.1781682085876;
+        Wed, 17 Jun 2026 00:41:25 -0700 (PDT)
+Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.218.209])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4606f26434dsm52677098f8f.1.2026.06.17.00.41.24
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 17 Jun 2026 00:41:24 -0700 (PDT)
+From: Doruk Tan Ozturk <doruk@0sec.ai>
+To: neil.armstrong@linaro.org
+Cc: mchehab@kernel.org,
+	gregkh@linuxfoundation.org,
+	hverkuil@kernel.org,
+	jbrunet@baylibre.com,
+	martin.blumenstingl@googlemail.com,
+	linux-media@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Doruk Tan Ozturk <doruk@0sec.ai>
+Subject: Re: [PATCH v2] media: meson: vdec: fix use-after-free of decode work in stop/close path
+Date: Wed, 17 Jun 2026 09:41:23 +0200
+Message-ID: <20260617074123.32464-1-doruk@0sec.ai>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260616074952.93076-1-doruk@0sec.ai>
+References: <20260616074952.93076-1-doruk@0sec.ai>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: TWfeO+9Ba5LeIFKiz24ewfMOHZpj10i6sxQPfgHfYhJmjYBKIguf5oB9aEdK4t+DRARAjH4x9KL0RWLSNatttYBj24XtB0HCTwHuserqwhvwGob9LOL2KQjlMcAA3OCyxwRGrCaymh31rDVtelbfyDORSN6bm2mtom0gcReg+r3HAAzc3tlFWTLvwSDIo43366PqpEiZNusGcibheMSzsB+20wgZOZsGGGAwtbRVixl3bXnSgYHSqAqcvlT5fIXR6ySm+FteGV/5NrlbAaKgj1I6852+c97MlQ10Ce3quzXHQQx7pj89mKCVbwu/e4Mjdh09Out5sz1S2xpRBwd3wg==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3687.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f221a3d0-f056-4f6f-6a97-08decc38e103
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Jun 2026 06:22:59.8485
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: MIkBp0BHC+zieSNpx1S0VJfTONQJR1JYh+Eb2RbElrt9Rm6JCKi5RL0h/6MnWOjc6CGPyWVFq9MW6gEobbGRhQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5952
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
+	R_DKIM_ALLOW(-0.20)[0sec.ai:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65083-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:praan@google.com,m:matt@ozlabs.org,m:alex@shazbot.org,m:leon@kernel.org,m:jgg@nvidia.com,m:amastro@fb.com,m:christian.koenig@amd.com,m:bhelgaas@google.com,m:logang@deltatee.com,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:ankita@nvidia.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,m:linux-pci@vger.kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[22];
+	RCPT_COUNT_TWELVE(0.00)[12];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	FORGED_SENDER(0.00)[kevin.tian@intel.com,linux-media@vger.kernel.org];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,BYAPR11MB3687.namprd11.prod.outlook.com:mid,intel.com:dkim,intel.com:from_mime,vger.kernel.org:from_smtp];
+	TAGGED_FROM(0.00)[bounces-65084-lists,linux-media=lfdr.de];
+	FORGED_SENDER(0.00)[doruk@0sec.ai,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:hverkuil@kernel.org,m:jbrunet@baylibre.com,m:martin.blumenstingl@googlemail.com,m:linux-media@vger.kernel.org,m:linux-amlogic@lists.infradead.org,m:linux-staging@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:doruk@0sec.ai,m:martinblumenstingl@gmail.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DMARC_NA(0.00)[0sec.ai];
+	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,baylibre.com,googlemail.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,0sec.ai];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kevin.tian@intel.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[doruk@0sec.ai,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[0sec.ai:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCVD_COUNT_SEVEN(0.00)[10]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,0sec.ai:dkim,0sec.ai:mid,0sec.ai:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B3F62696D2D
+X-Rspamd-Queue-Id: F1FE26973CA
 
-> From: Pranjal Shrivastava <praan@google.com>
-> Sent: Wednesday, June 17, 2026 2:52 AM
->=20
-> On Tue, Jun 16, 2026 at 09:48:14AM +0000, Tian, Kevin wrote:
-> > > From: Pranjal Shrivastava <praan@google.com>
-> > > Sent: Saturday, June 13, 2026 3:39 AM
-> > >
-> > > On Wed, Jun 10, 2026 at 04:43:20PM +0100, Matt Evans wrote:
-> > > > @@ -1264,7 +1265,7 @@ static int vfio_pci_ioctl_reset(struct
-> > > vfio_pci_core_device *vdev,
-> > > >  	if (!vdev->reset_works)
-> > > >  		return -EINVAL;
-> > > >
-> > > > -	vfio_pci_zap_and_down_write_memory_lock(vdev);
-> > > > +	down_write(&vdev->memory_lock);
-> > > >
-> > > >  	/*
-> > > >  	 * This function can be invoked while the power state is non-D0. =
-If
-> > > > @@ -1277,10 +1278,11 @@ static int vfio_pci_ioctl_reset(struct
-> > > vfio_pci_core_device *vdev,
-> > > >  	 */
-> > > >  	vfio_pci_set_power_state(vdev, PCI_D0);
-> > > >
-> > > > -	vfio_pci_dma_buf_move(vdev, true);
-> > > > +	vfio_pci_zap_revoke_bars(vdev);
-> > >
-> > > I'm wondering if this change in behavior is correct?
-> > > BEFORE this patch the sequence was:
-> > >
-> > > 1. zap vma mappings
-> > > 2. Enter D0
-> > >
-> > > After this patch the sequence becomes
-> > >
-> > > 1. Take the lock
-> > > 2. Enter D0
-> > > 3. zap vma mappings
-> > >
-> > > My worry is if user-space accesses a BAR *during* the transition to D=
-0,
-> > > it could crash since the mappings still exist during the transition?
-> >
-> > not 'crash' as you also noted later with all Fs on read and dropped wri=
-tes.
->=20
-> Ack, "crash" is definitely a strong word, I just meant that the
-> user-space program isn't expecting to see all Fs today. Since today any
-> access during reset is faulted, however with this all apps may have to
-> lookout for all Fs during a read. Could this change cause existing apps
-> to crash?
+Please drop v1 and v2 -- both are wrong, and the sashiko review was right
+about the deadlock.
 
-I expect there will be certain handshake between the resetting process
-and any subordinary processes using the exported dmabuf. The device
-state right after a resetting is not functional. Presumably the resetting
-process (as the userspace driver of the entire device) needs to re-initiali=
-ze
-the device into a state allowing dmabuf to work correctly again. This
-window is much larger than above, within which I'm not sure what'd
-be reasonable expectations from those apps.
+The underlying bug is real: vdec_close() does kfree(sess) (and
+v4l2_m2m_ctx_release() frees sess->m2m_ctx) without cancelling
+sess->esparser_queue_work, whose worker dereferences sess->lock and
+sess->m2m_ctx -> UAF if it is pending/running at teardown.
 
-> > >
-> > > The old code is immune to it because it removed user-mappings first.
-> > >
-> > > Following the discussion from v1 regarding the ordering of
-> > > vfio_pci_dma_buf_move() and the D0 transition.. while it makes sense =
-to
-> > > perform the DMABUF revocation/move after the hardware is in D0.. I'm
-> not
-> > > too confident about moving zap after D0 :/
-> >
-> > probably add a comment to remind that ordering requirement for dma
-> >
->=20
-> +1. That'd be helpful.
->=20
-> > >
-> > > I mean, sure, the user would just see all Fs on a read and writes wil=
-l
-> > > be dropped silently until we are in D0.. but the behaviour before thi=
-s
-> > > change was that the user access will fault and hang on the memory_loc=
-k
-> > > instead which ensures that the user observes a consistent dev state..
-> > >
-> >
-> > I see this more consistent from another angle.
-> >
-> > Old code only removes/blocks cpu access but not for device. DMAs
-> > are allowed to this device while it's transitioning between D0/D3.
-> >
-> > New code at least make this part consistent - both cpu/p2p are allowed
-> > in the transition window.
-> >
-> > Ideally a sane userspace shouldn't rely on the content read back when
-> > it has initiated a reset in parallel. So this behavior change sounds ok=
-?
->=20
-> I agree on the CPU / P2P consistency part. However, my concern is for a
-> shared reset scenario where a reset triggered by one process (I guess it
-> was vfio_assign_device_set?) can affect multiple devices in a dev_set
-> that are owned by different, unrelated processes.
->=20
-> In the old code, these peer processes are protected because their BAR
-> mappings are zapped immediately. Their MMIO threads simply stall in
-> a page fault until the reset is complete.
->=20
-> I agree for a single-reset scenario, sane user-space should never access
-> regions during a self-triggered reset.
->=20
-> Am I missing something?
->=20
+But cancelling on the streamoff/poweroff path can't work:
 
-Given the resetting impact is intrusive, IMHO handshake/coordination
-is also required between processes operating on devices in a same=20
-dev_set otherwise peer processes will break quickly even with the
-protection in the old code.
+1) Deadlock. The worker takes sess->lock. For an m2m fh the ioctl core
+   takes m2m_ctx->q_lock (== sess->lock) for VIDIOC_STREAMOFF and holds it
+   across the handler, so vdec_stop_streaming() -> vdec_poweroff() already
+   runs under sess->lock; cancel_work_sync() there waits on a worker blocked
+   on that same lock.
 
-btw I don't remember all the detail but holds an impression there are
-restrictions on the caller owning all devices in a dev_set or they all
-belong to the same iommufd context...
+2) Use-after-power-down. v2 also cancelled after vdec_ops->stop(), which
+   power-gates VDEC1 (__vdec_1_stop()), while the worker still reads a VDEC1
+   register (vdec_1_vififo_level() -> VLD_MEM_VIFIFO_LEVEL).
+
+The only deadlock-free point I see is vdec_close() (the ->release fop, not
+under sess->lock), cancelling before v4l2_m2m_ctx_release() -- but that
+still leaves the threaded VDEC ISR (amvdec_dst_buf_done() ->
+schedule_work()) able to re-arm the worker, and there are adjacent teardown
+issues (esparser_isr() vs the dos_parser_clk disable;
+vdec_decoder_cmd()/esparser_queue_eos() without sess->lock).
+
+I don't have Meson hardware to validate a corrected fix. Is a
+vdec_close()-only cancel (plus quiescing the VDEC IRQ outside sess->lock)
+the direction you'd want, or would you rather take it given the HW testing
+and the surrounding teardown concerns?
+
+Doruk
 
