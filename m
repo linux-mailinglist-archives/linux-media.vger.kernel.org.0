@@ -1,313 +1,246 @@
-Return-Path: <linux-media+bounces-65102-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65103-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id S2OSNZltMmodzwUAu9opvQ
-	(envelope-from <linux-media+bounces-65102-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 11:49:13 +0200
+	id AVaAAXVtMmoNzwUAu9opvQ
+	(envelope-from <linux-media+bounces-65103-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 11:48:37 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE87698101
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 11:49:12 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91F446980C7
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 11:48:36 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=amd.com header.s=selector1 header.b=1T5vsDH4;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65102-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65102-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=amd.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=h7tx5YRC;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b="ECtQk/eT";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65103-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-65103-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=qualcomm.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id B3E53302EE18
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 09:46:57 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id C5F013004D13
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 09:48:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 066C23C8C65;
-	Wed, 17 Jun 2026 09:46:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DE313CAE7F;
+	Wed, 17 Jun 2026 09:48:32 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011058.outbound.protection.outlook.com [52.101.62.58])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF9E33BFE25;
-	Wed, 17 Jun 2026 09:46:53 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781689615; cv=fail; b=YFl3t9qoJy+9l21p4N0rTANacsta/cGUzJrm0Ag8xtjD6UPdV5cc73gW1wfRRymYuMKAQXmuPyvktRAhYy/HhaSTUb2xxe4guWteV4gVX8YCD1mjHP3zzqF3kXwR28dXrnfWQyhXjBgKTcVb7uN2qUWYkrS6E9lv+0ZRzEGzaq8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781689615; c=relaxed/simple;
-	bh=+Fuh6Li/2G6odLelIDATNSM/xBKbK0Xkgg+qHT5uIY8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=F8RfkmnWDFvwAao3aW1oUyQxy7pYdFwOGIoS7ClC8dGUfjgRfyiBPJraMQo50/gecv8Mz3KAlEi15CKPgv0yYPetPV0f7HrUJdAviDvmgh1pA3VfiJ/JkEMqy96b5VHm5UMzX9LoaeL28Ef/ibDn6bPRcg2Ac8K9aEXXdIhUmEw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=1T5vsDH4; arc=fail smtp.client-ip=52.101.62.58
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fZsUEIbzq4XygFUeuxKtZPAX7RnjpvipPezLm6XMW5x0So3kQUy4dflAHigATLKzBsVoNMgBOxa9GowQlMMDLg7rdeCbAitxUYm6QKs6qWTP2ipGl3b7TDPfwqUC7UA+eg91wT7YCj/nweDv7Iugs1yYkSaxJcUJKUPiyhMHsPIK6ys2Hb3iSXU6LwxCOR96Y7PXjZAWWasdLp0Ciugx9i257gwmN/ROzwQ0rMzSegc21SPpvOeeYUO2DpW03IEwkGsfQAueuN+4Z/Ts7EaDhJeK0jt04BoKyTUPJN5LRyVx3vZm1NyIV3N+JcCOtSHnVI3Se0vjhC7pnban8PMhVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YO9/Su/HXOR/NIiKeTcnGWTjEF8QEUCRw5JC2VDeM08=;
- b=T9CYNx4L/t5XR3a2XWLeYw/7sy5wW5wLWNC7DRmuqPk6c+KI7kz29wMIPs5Bg1f/CWK//XeF7jPlj+RtUGapeIoI/tk5OztgrknOIqfNT2DUTqqxsHKsYg+N9oCmcxTaaCX3sg7CK/qYhGjYOCTj1KHNy+nXji6Zaod+j6wbEDuCMBj/4euklHBVTV2YlUOHYshMhXgHRF9+LyLGHDp0qCwHcGuj1fBBcBI3WFMXkmrpGPgLKjv6/RzT5DnGwlVYY56LAF73FqL7UxLD16jlLpl6PabsirQLfeB2V3WBzc/H62oBXpiCZINW6d1yRDLf5g0/NeDQUBSd+XpmOU772g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YO9/Su/HXOR/NIiKeTcnGWTjEF8QEUCRw5JC2VDeM08=;
- b=1T5vsDH4HCclZ5h20892pEZdBCwt38e7GOpZxttI6Ak19YtSFsDjSdzG0zYx4mOkeDZ5bceKNybJnC+4ruY60w5k4lgnZJhRsuLsw1AO0iIFmIn25ZM6FlLzxnUNeq9y/c+TThe0/MYBFkCzvCxupX52JeXtwu4GWtiWuUWAPYs=
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY5PR12MB6453.namprd12.prod.outlook.com (2603:10b6:930:37::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Wed, 17 Jun
- 2026 09:46:51 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0113.015; Wed, 17 Jun 2026
- 09:46:51 +0000
-Message-ID: <7ff7dc15-4df5-443c-8d7c-c8e9b2672f2c@amd.com>
-Date: Wed, 17 Jun 2026 11:46:46 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: Properly synchronize dma_fence->signaled bit (Was: Re: [RFC
- PATCH] dma-fence: Fix races of fence callbacks versus destructors by locking)
-To: phasta@kernel.org, Danilo Krummrich <dakr@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Alice Ryhl <aliceryhl@google.com>, Daniel Almeida <dwlsalmeida@gmail.com>,
- Gary Guo <gary@garyguo.net>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20260608142436.265820-2-phasta@kernel.org>
- <95f4ae6b-9dec-4122-84e0-fbb0cdee9cb5@amd.com>
- <fa9a335196525adbc03ec21b2e05bb526e4fc174.camel@mailbox.org>
- <9d49c901-fcdf-487a-a733-0320d0bdf94c@amd.com>
- <DJ3V3OCLIK2K.3CYKWYNHYU6JQ@kernel.org>
- <ea4e0541-3702-4014-b8f6-0746a148df86@amd.com>
- <fa0dc9757bf8343516c4b156a2b70ec91b64ef8f.camel@mailbox.org>
- <6ea6c373-c6cb-4221-ad9d-e60b04d1368f@amd.com>
- <630a8a84ee8fdaa634c7b104742e7a28fcfe507c.camel@mailbox.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <630a8a84ee8fdaa634c7b104742e7a28fcfe507c.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0030.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:c9::7) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6347C3C73F6
+	for <linux-media@vger.kernel.org>; Wed, 17 Jun 2026 09:48:30 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781689711; cv=none; b=sqBi3BWExpl1cTJlU4XSAVpM94wONdnAwtJEJKQtsql58k2tq00AByOq+mcfscVclSwnaw6s+I/1AE/9oIgueji7N4B+TiqnXPaxEzrcM95kZkMEe4k5Qra7/BYwKFuZgQ7TgM7Yni8pSFMn6cJUaYFKHWITr4O+s4hWpMXP/NA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781689711; c=relaxed/simple;
+	bh=RDlq0QlpZF1Yk6nwIj57XH+2UjgnGQXUyT5CSkrput4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FVbcJet8D4UyQakUDtbsCz3RE4Rv5/j9zfCULbNyEWhLijeemW/S83YYgr9JN3+Ug6MRSAaKDfLN7A07Fon4YBquV4f2bmEDrL3ixlqLHHYM9ztCX1okGcb5RZrjKNfgN/hOB1A6ap8N37TfLxQzKHQrI7KsPgsCbosSKjLvEpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=h7tx5YRC; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ECtQk/eT; arc=none smtp.client-ip=205.220.180.131
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65H8Vxd22056606
+	for <linux-media@vger.kernel.org>; Wed, 17 Jun 2026 09:48:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	1Rr/ngv/2ytVGX2mGHKNa46HYx0Ceuzd0Ez9qBttTUI=; b=h7tx5YRCnRmYZDXs
+	MWt0D9ZXNWWW4NteemrIOjLcSQHaMvRNlyLyotm586le5nxORBKOAgrC99HuSNRC
+	qF8fhOiG06h3/JbG8SX09dKPiVdixFaPiJdbV0xVL9WuHQQL3hLx03YCgtWApFzj
+	T+VGc5So45R2gRO2Ftkr2Jn0kvpUMLBLrfT0khhX/9McXRRoBrJCV7HCIF4iugQZ
+	ufWhtYjuF5QV6iBWF29ZPf1yqzwfa34DWibAKAmFegMiAvA8ZGZzZOJ+zwABFvhV
+	CDXUT9qCni1W8fhsC1RDE20OZyU4PakkT+X30u/s7ZXFBwpjeBt3X1yFMeJ7FRNv
+	a+032A==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4eueesagt3-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 17 Jun 2026 09:48:29 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-8ccee12a34dso12361376d6.1
+        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2026 02:48:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1781689709; x=1782294509; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1Rr/ngv/2ytVGX2mGHKNa46HYx0Ceuzd0Ez9qBttTUI=;
+        b=ECtQk/eT6RvNF5zyFZ0sQ1+ZmvUTwgQDmBZPZwYRIjOJ/medajyqWqpbNEoCii0u+w
+         TU1lsby2XeW80+8zRhmeFvLXmhXMfhVOi294f4Igi4EaPFhTHDVOZEQBluLr8TPMfAMp
+         1PT8vRf7/KLKTyNm2kRL3lSy956uMmSngdpfnUXnaFgrmdQnqBXweFpb6soqhVPl4M/a
+         3Bfw0Y/tW3EOxqVGCOVW2Ee4xa08qv2FYDMdSJKDsMQ90jDI2FFrtsw0Mr1kYK++rk2J
+         L4DyUlp5oHL9o10sYUTo5631AEA9zqhFmItWkSer3Y+QwEtZ2IbKwU5ZDrEwdEbwH33i
+         kbsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781689709; x=1782294509;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1Rr/ngv/2ytVGX2mGHKNa46HYx0Ceuzd0Ez9qBttTUI=;
+        b=pAFcybGw/rUl2TMYNB1aneqKP28a0vd0ZNGfPJi9sC432fm+euQ2x6gyxUSFCxErDp
+         +yyZ4896+w72d7Ev9zZ7zfBTh4nCqYTj9VYHGsgMjlAUiVMUgKKaJY0T49m6xGII2xri
+         iO/5qb7RGFioNS0aHGjb5DGjvMDTejvb+BjCTWGuNljPCP4/edvqHJQ5akUemPF7Xxee
+         50gFYJ+tXLx3nQP91MioJcS1CF3e7EyBCjaCWmzZfsz23aVRLfRtoRUMwxtc5Q5aWRDy
+         IBndA3FRw/RD8WbYtltJwHMuVfoA6iEqLAkSx+BQvhIq3AAhF5WeEGx+N2dGXQIKIq7w
+         t6Ig==
+X-Forwarded-Encrypted: i=1; AFNElJ8Aaiv0p+8VzUWMHA8D4vDTVWb+dkC/Ks1RFw4SKjKgWknVOrwjMOoKDsHhL3D4AI/XQRMtixFQyfe/Fw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz99WRiEfYqkeJDUK6DVmDnygU6ERz4y+OH2MyRlkY2z5gW2X0D
+	CPw+rmXImbLBLpuQjZO4HWsPOp4wgxAU5WyZxfd35CKsYreRO0oDjZhHbKjAEiqAHqrsh9WdGs1
+	rf4SWxtSr1kdoWB0QEbDEm0eO+2+gex5NCx86GImi8fDA5j/OCnXBFqxwI43YxjO8MQ==
+X-Gm-Gg: Acq92OEvHGhNMcNFq7ZnWTsAwDmrKlXNia39ulThumBWWTNELsUpR9x/wuTZOwzcKY6
+	fFY0/QLUYn2A/z0s5xSo+jUlH6+hE/Qqg3yEH/eRA3av5Bwdgxc169UGJVGUfqEQ/B1ZgkbMu2K
+	kEPQ4sU+K/pNNjKEnbgns+KmVgbSyz3tgM5xSi6oP1ScBDSC58gwDK/0crBElN512ZYxw1ovpSw
+	6aFlz1lktGu0CevkV4hsqscUG0Lm617z8kKSCfpD/hfxXmLAFnIg0IMsaknB/GYK5L+Xf0oPPGA
+	wZmYswtdOtW45JXTXLCUp8oRDtvmq/MH+Umi+yPiBTymgTEoPY4BLHGRpvMMBTkWRmfrRX//ylp
+	YRjZ7UghkP8vx+J4QtGSu7TVq5oBYxGjqeV0=
+X-Received: by 2002:a05:620a:4410:b0:918:588c:d095 with SMTP id af79cd13be357-91d8e0ab2c3mr313538685a.8.1781689708728;
+        Wed, 17 Jun 2026 02:48:28 -0700 (PDT)
+X-Received: by 2002:a05:620a:4410:b0:918:588c:d095 with SMTP id af79cd13be357-91d8e0ab2c3mr313536385a.8.1781689708347;
+        Wed, 17 Jun 2026 02:48:28 -0700 (PDT)
+Received: from [192.168.120.170] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bfdb7b6d9b7sm771513166b.41.2026.06.17.02.48.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 17 Jun 2026 02:48:27 -0700 (PDT)
+Message-ID: <f5bf56ef-a57f-4b1a-b18b-63aff94a3bcd@oss.qualcomm.com>
+Date: Wed, 17 Jun 2026 11:48:24 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB6453:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1a9710e6-db18-423a-c41e-08decc555b50
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|23010399003|1800799024|18002099003|22082099003|56012099006|11063799006|4143699003;
-X-Microsoft-Antispam-Message-Info:
-	ceTn1q6fZ0kPRMCKLCp30gn8RXbSL7ii7M1ooZ/2QIZcx8HixU9eM3j3iD1cAT7m2iYQORsKFsUwWyPE/AMJ2V3TbBHh3f7uzhFb96h0fOV+ej5ndWcFVJFJpYHs5UKHO25k/2+DslrnTobFSzxAgsMrLUdzUhfZN22xIpcFJreeyBLZY47qrx9B1JLFoYRgwgNDcueayQZQWQsZ1/2WyL5MBCRW302Bi2+ya7554JSuG919ACzjy9+kZx2vx4DueBEBVib9fZbbFcQQfD9NJMiS7wTK8m+A08xiF9exj8/PO8H6U8s1EZsYaaQ1NJprEenp4Bz50viQrlCHct+O3l+FSsbrmgfTZCUKB4GGIEMyBQlFI7h5jyADAGYUHQ4SlwXzlIANuMsIoQgfMNyzayY9Mf6TVbw39aqIc5WormBFq6mqsIoEMvLJLgn4kvSL4s8XMn490Gq4EbR5SWhj0ajqaZrzH3dNoqGc9OHNOjq+SJXwJiHB+Vesp2QhqAv7L76B5uTowx7ly+P2VNl9zwTJuJqlwMhKjIb6jfc5Ar/VRc9hEt3LgrR/mOcR8p26ZMK4uNzI65vuyErquRDuZwmbmbCMgeHBOqJxHVyJ2T9CurJGzZ4EUFHds6BPHd7Wo7pTFG5i920q118RBjbDo4uZJTbiyzU5PpVc9BHhrARoNQ2McRfmp5gvPIkQPENP
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(23010399003)(1800799024)(18002099003)(22082099003)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?cHc2SUs4YUpJeWVuaENRUVdYMjZBWlVsaXhrMkdqbmtTWXFuZnVQNk5CNGt2?=
- =?utf-8?B?Um5DazNaWm1WTXhrOFFoUDNhREVhUnFDZ3hESVgxcHAyWFJwUFVBRkVoVy9x?=
- =?utf-8?B?OHlwaUlUcVhZNWVQcWg3SFdNWGxDRVM4QnBMMzVER20vMzc3a3BhR1VXMTFK?=
- =?utf-8?B?MjA3S1pPYkNZMTBJWUU0c0JmR0ZUZnZXK3MxMGE3R0JFL3ZWMGZjUVJiNWdZ?=
- =?utf-8?B?MkZxajN2SlUvcW81dEZCRE9xc3FrZGtJbURtQ1NWWEpCSUpxZDJvdjJLRVFZ?=
- =?utf-8?B?M3NxUjhLS3F3bWZlUmVlc1Z6WnFjS2lVSVZqaE9SYksvSkhSVWRMM2FzTUwy?=
- =?utf-8?B?ZFVBWWw1N0VpVkFyVWZrcHBtMDlldWlZRTlYbzZvS3FpSUt2L1BUcldRa1Vv?=
- =?utf-8?B?TWRYZ3Y4NkkzNmhyUitxZTd5UGphTUZUcDdVaTU1cDg2VzdIeFF3RDhuZnVK?=
- =?utf-8?B?djRyVGNiTmpWSU5UN2J6QXFBd3B5STQvYVlOVHczNjVYYlY1NHBzSW1OR3oz?=
- =?utf-8?B?WXBpWUpOOG5Ra0NhZHRlaytCQzhxSmtvZ2h2RzVMS0VsdUxOcVJMK0xxWHhR?=
- =?utf-8?B?ckVmbDd5Ujc3ai91eG10amllcm5qZmZiWEE4cDFQTkZYSEFtUlNocWpDOVlN?=
- =?utf-8?B?VDUxcSsxdVA2T1pjRFRVNjZadS9BYnI4bmFyY2ViVVV5RklSQS9TdjltWGFr?=
- =?utf-8?B?d1dkLzBIZ2doSFcwZXYzK3RpaHhnbWtZR0M5dXRiTkdIWEZGQUdSY0s0M1Zi?=
- =?utf-8?B?Q3FEOXRUN3NHOVdFeEI4aklucTE5TitBR3owNEhWd3VQV1ZBUGh5czBZVFZq?=
- =?utf-8?B?WjNXY1crWHpoNUJScWN4ZHdMczNYZHdmODRSVHYyQVdFdlA2R2dEcC9VUit3?=
- =?utf-8?B?Y1Q1ZTVXUlQ5L1VoNW0rZS9Ibk82bDBQYUNYaVRHcVViVnhuNWZzakFqckFD?=
- =?utf-8?B?VkJxbURyNHp6M1NjNEcxZWEvOVhpZGQ3dUVXc0sxTHhCSml4a1QvOURQenc0?=
- =?utf-8?B?QlBaNHg1ZmNOVHNXaXQwQTVscFl4RFVvb3B5akowMEoxMTE3Q0ZrRWxFWk5Y?=
- =?utf-8?B?RUowNE9CODBWamxRenJTTi9iSnMzWDAwUmZ6YmNTOXhQSDBJNENRTklDZXFE?=
- =?utf-8?B?MWNjSWxtVEpXTzRUU2UwampwNmUrNWRyaVZwektVRlZWTnJtWGtrZnRWamNh?=
- =?utf-8?B?MGlmbzA0SGJJR2JtTGZsU3dvS3ZBR0JpcVFLYTdILzJjellwbmx1VzYwZHRC?=
- =?utf-8?B?UDd6ZGNvVHlaMVpJRHNHcnhkS1QrUk1NZzdTdjIvVE5WM2NUTFFXaFlaL1RC?=
- =?utf-8?B?aEFCVGx1WDRUQnhtcDZPejVBWW1jeWFRWVA2MlM5dEk0aU1sSmprdzArNEsy?=
- =?utf-8?B?V3BPSHIzWTdSWUMyM01DakU2TkZrVUlYSmJzeDNYSm5UM1htRE9lZ0lqUC9O?=
- =?utf-8?B?Zzl4RXlISHhjemRaV1I5VGZoVTVKSmNsaG9oWnFyQXdPRG9tUUxiRkV6Njk4?=
- =?utf-8?B?RFZzczcveGMvTnpqSDM5Sm4vamc2VEJQVWFwVFU2SXNLdWJkTnczRHdQNVc5?=
- =?utf-8?B?SjdnMVhWWDFrM1p1M0xnU1NkcTJvQlZyd3JrVEM4UWRkUWp3bmdWL0p4SSt6?=
- =?utf-8?B?MDZzWS8wMjBvdmVEUmNlS08rZ0VvTndPVTFhaWV2TGJNQktJblg3a0VrTzg1?=
- =?utf-8?B?UzRZQXFYRE5IQVBXR1BjcTJZOGorUDdzSUk4ekhkMmRWc3RBL0pUakp3SU5Z?=
- =?utf-8?B?dDltQ0RIdVNncDJzNnVjRmZuQUt0TlRQSVV6K0J5VXc5OU95V1h4TS93Sktn?=
- =?utf-8?B?TDJRSnFEcUYyOWp1UXBxMnNtNHpBTzVOTnlCYjhlYUlOV0YweUswQnpRbHQx?=
- =?utf-8?B?SnNhcFZxK0F5NndDcFJMY3BVempiM3RIaHNNQkRYRDYvR0prdXBOb3kwUFZ5?=
- =?utf-8?B?Q1BhMzN1NzJoR05QTVRBR0ZKVXhCZGx6bllPb2I4RTl4ZS9qcmZDYkg0ZSs1?=
- =?utf-8?B?T3Roa252UnM5d1FpZHRZbFE2ckR4cmFpNDQwbFl2enV3OTdsVTFkN3pETHNm?=
- =?utf-8?B?dHNqcS9NNUM1blAwVkF3cDMxMGNiZGlUMHpNSWw5eHY5QVdhTDZaWWZEc29H?=
- =?utf-8?B?YlhYeXpHUlA2cSt1OUM0bEpJeGtSelljelFZNVFnSnhoTlBWbnIzbUVxRERx?=
- =?utf-8?B?d21nOUY2SUFPazJzZnEvaEMxSCs2NytkbVFGcXVIeVJWR3VLY3NGWExseVBu?=
- =?utf-8?B?NlRhWXNOZWN4MU1LRWloSVJnQ2NjcFBFendIejA1VTRLYUxEQTVqSExycVJm?=
- =?utf-8?Q?q5TPlbo03VfKYQR5ip?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a9710e6-db18-423a-c41e-08decc555b50
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2026 09:46:51.0824
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dctIISGDjgzULudCog5rS7Y7UzfgWFIV7V807UWprFVhP2HcLfulJzuXkaogta6e
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6453
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 11/12] arm64: dts: qcom: glymur: Add iris video node
+To: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Joerg Roedel (AMD)" <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, iommu@lists.linux.dev,
+        devicetree@vger.kernel.org
+References: <20260610-glymur-v8-0-1c79b9d51fc0@oss.qualcomm.com>
+ <20260610-glymur-v8-11-1c79b9d51fc0@oss.qualcomm.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20260610-glymur-v8-11-1c79b9d51fc0@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE3MDA5MiBTYWx0ZWRfX+mFC2vgDD8pT
+ kRCYjc1RNPxmeBMl7GcVHVZ9cgVn8way2lfWFx1FLwbjlIUrNWmx6V8EYY9p64gFVXQY/ISbioL
+ lXEUeVezPbOFhD9QE1GxOmViZcUwguI=
+X-Proofpoint-ORIG-GUID: s1TwX4Db4iEf-xMIuj1skH0vYHu1a9EA
+X-Authority-Analysis: v=2.4 cv=R6oz39RX c=1 sm=1 tr=0 ts=6a326d6d cx=c_pps
+ a=wEM5vcRIz55oU/E2lInRtA==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=EUspDBNiAAAA:8 a=LDWERgqoa3hHt-U3m1oA:9 a=QEXdDO2ut3YA:10
+ a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-GUID: s1TwX4Db4iEf-xMIuj1skH0vYHu1a9EA
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE3MDA5MiBTYWx0ZWRfX1PbTpVu+xXQN
+ 6sVGfYGPD00XF6ZCeOF7UHFuY0bStHlnECIyQ1aeN0COsU4IgBsJ6burZwMfOGH1OprovZm5iev
+ X7v2g9LmOSosESmdtoPcdK+B6zBukEbpmgzrGjTQ0i2hvu1kJtk7SD/4v2yUCDjrAqeNzHaQnpF
+ VSQ/UP5ojXM2Dmt8h44Z0g7i0BYUPg2uS+0cJj+H66oun672PV4Lj1CTWrYys9LGUkOIIwgmgr/
+ s0jAzj5r+FqbgiWxzqSsYu04MXXMyZdW3Ctmwn0tyXPN99D4iDD+jYHxmQRsHDXmLzwQR/yZwbg
+ I4MtNiSPkeqsELIvGvAgzDT4IVmVJpaUEAPuXRmsYn4B8orJF+IC1jz3AB1//QsM1++mDhLhDNS
+ eLbvbC5YpIq9r69B3/4Ofk3vlCxB9YQ+oaerX3TtPXCmYg+9Y1uqJSPRBJG/pdKpHvoewKK1jBO
+ MO5/EeUHmJe9w1XGyLg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-17_01,2026-06-16_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 bulkscore=0 clxscore=1015 impostorscore=0 phishscore=0
+ lowpriorityscore=0 suspectscore=0 priorityscore=1501 malwarescore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2606170092
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_CC(0.00)[linaro.org,collabora.com,google.com,gmail.com,garyguo.net,igalia.com,vger.kernel.org,lists.freedesktop.org];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65102-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:dakr@kernel.org,m:sumit.semwal@linaro.org,m:boris.brezillon@collabora.com,m:aliceryhl@google.com,m:dwlsalmeida@gmail.com,m:gary@garyguo.net,m:tvrtko.ursulin@igalia.com,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65103-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_TO(0.00)[oss.qualcomm.com,linux.dev,kernel.org,8bytes.org,arm.com,gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:busanna.reddy@oss.qualcomm.com,m:vikash.garodia@oss.qualcomm.com,m:dikshita.agarwal@oss.qualcomm.com,m:abhinav.kumar@linux.dev,m:bod@kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,m:mchehab@kernel.org,m:joro@8bytes.org,m:will@kernel.org,m:robin.murphy@arm.com,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:stanimir.k.varbanov@gmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:iommu@lists.linux.dev,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:stanimirkvarbanov@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[konrad.dybcio@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[amd.com:+];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:from_mime,vger.kernel.org:from_smtp];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[konrad.dybcio@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,amd.com:dkim,amd.com:mid,amd.com:from_mime,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CBE87698101
+X-Rspamd-Queue-Id: 91F446980C7
 
-On 6/16/26 13:25, Philipp Stanner wrote:
-> On Mon, 2026-06-15 at 11:57 +0200, Christian König wrote:
->> On 6/15/26 10:29, Philipp Stanner wrote:
->>>
->>> This fast path check in my mind certainly breaks the intended dma_fence
->>> design:
->>>
->>> void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->>>        ktime_t timestamp)
->>> {
->>>  const struct dma_fence_ops *ops;
->>>  struct dma_fence_cb *cur, *tmp;
->>>  struct list_head cb_list;
->>>
->>>  dma_fence_assert_held(fence);
->>>
->>>  if (unlikely(test_and_set_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
->>>        &fence->flags)))
->>>  return;
->>>
->>>
->>> Modifying the bit is consistently done under lock protection, so
->>> reading must be done, too.
->>>
->>> Do you remember who wanted those fast path checks? Who is spinning on
->>> that lock?
->>
->> Simona Vetter and basically the rest of the community.
+On 6/10/26 8:29 AM, Vishnu Reddy wrote:
+> Add iris video codec to glymur SoC, which comes with significantly
+> different powering up sequence than previous platforms, thus different
+> clocks and resets.
 > 
-> I did some git-blame and it would seem to me that this fast-path hack
-> was added in
+> Reviewed-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Signed-off-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+> ---
+>  arch/arm64/boot/dts/qcom/glymur.dtsi | 118 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 118 insertions(+)
 > 
-> e941759c74a4 fence: dma-buf cross-device synchronization (v18)
-> 
-> in 2014 A.D.
-> 
-> So it was there from the very beginning and was not added because there
-> was a performance bottleneck later. It is conceivable that a
-> performance issue was present from the get go, of course.
+> diff --git a/arch/arm64/boot/dts/qcom/glymur.dtsi b/arch/arm64/boot/dts/qcom/glymur.dtsi
+> index 20b49af7298e..42bcd03c4d3e 100644
+> --- a/arch/arm64/boot/dts/qcom/glymur.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/glymur.dtsi
+> @@ -16,6 +16,7 @@
+>  #include <dt-bindings/interconnect/qcom,glymur-rpmh.h>
+>  #include <dt-bindings/interrupt-controller/arm-gic.h>
+>  #include <dt-bindings/mailbox/qcom-ipcc.h>
+> +#include <dt-bindings/media/qcom,glymur-iris.h>
+>  #include <dt-bindings/phy/phy-qcom-qmp.h>
+>  #include <dt-bindings/power/qcom,rpmhpd.h>
+>  #include <dt-bindings/power/qcom-rpmpd.h>
+> @@ -4788,6 +4789,123 @@ mdss_dp3_out: endpoint {
+>  			};
+>  		};
+>  
+> +		iris: video-codec@aa00000 {
+> +			compatible = "qcom,glymur-iris";
+> +			reg = <0x0 0xaa00000 0x0 0xf0000>;
 
-Not saying that it wasn't there from the beginning, but multiple people (including me) have tried to improve the situation and that was either immediately reverted or directly rejected.
+Please keep the address part padded to 8 hex digits with a leading zero
 
->>
->> And I can clearly say even if I don't like them that those
->> optimizations are a must have.
->>
->>> In any case, that needs to be repaired.
->>
->> No, see my discussion with Simona on the mailing list. I need to dig
->> that up as well, but it was around the time I added the same
->> workaround to amdgpu.
->>
->> You are basically trying what I have been suggesting as well, but
->> there is a very wide agreement that the current design is a must
->> have.
-> 
-> I suggest at least three things:
-> 
-> 
-> A.
-> 
-> Very explicitly document all lockless mechanisms and their
-> justification in both code comments and commit messages.
-> 
->  * We need to document lockless magic *drastically* better in DRM. I
->    see code left and right where there is some barrier with the comment
->    simply being "so list_empty() works without a lock".
->  * The commit message needs to justify why a lock is missing, why this
->    is the preferred solution, why it is correct. The latter also needs
->    to be in a code comment.
->  * Note that WRITE_ONCE() is not only about volatile, but also about
->    "watch out, here is a lockless access!", as Linus pointed out
->    repeatedly.
+[...]
 
-Completely agree. Question is who has time for that?
+> +			/*
+> +			 * IRIS firmware is signed by vendors, only
+> +			 * enable on boards where the proper signed firmware
+> +			 * is available.
+> +			 */
+> +			status = "disabled";
 
-> B.
-> 
-> I think rejecting ideas with "we tried this, it >>didn't work<<" is not
-> a valid reason for refusing an idea. Point A above helps with that. If
-> your commit message contains measurements or links to tickets with
-> *real life* performance regressions (microbenchmarks are invalid), that
-> helps reducing discussion overhead drastically.
-> 
-> Now, in this particular case, I fail to see how taking the spinlock to
-> check that bit is evil. If it regresses someone's speed that much, it
-> would mean that someone is heavily punching that lock, like polling
-> 24/7 with dma_fence_is_signaled().
+I find this comment superfluous
 
-I think (but I'm not 100% sure) the the problem is that taking the spinlock introduces a write to the cache line it is in.
-
-At the moment when a fence is signaled a read is enough to check that state, so what happens is that the cache line for the signaled bit sooner or later end up in all CPU caches.
-
-When you start to use the spinlock the cache line backing that plays ping/pong between all the CPU cores and that is something which always stalls each CPU when it needs to acquire the cache line. Keep in mind that on a modern box you can calculate like a 4x4 matrix in the same time you solve a cache miss.
-
-This is especially important for the stub fence which is used by basically all cores at the same time whenever you need a signaled dummy.
-
-> Again, having that use case documented somewhere could save us all time
-> – especially for you, Christian, since you wouldn't be forced to have
-> the same discussion over and over again over the years ;-)
-
-Well I could also send out all the DMA-buf resilient patches/ideas I came up with over the years once more.
-
-I think you will potentially agree to some of them immediately.
-
-> C.
-> Robustness and correctness always trump performance. They especially
-> trump microbenchmarks.
-
-Yeah agree completely as well. We should also in general not optimize for unrealistic use cases.
-
-For example I had to reject multiple attempts to optimize the dma_fence_chain container for something which only happens in test cases.
-
-Regards,
-Christian.
-
-> 
-> 
-> P.
-
+Konrad
 
