@@ -1,265 +1,214 @@
-Return-Path: <linux-media+bounces-65199-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65200-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id sMfcIQ7xM2rxJQYAu9opvQ
-	(envelope-from <linux-media+bounces-65199-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 15:22:22 +0200
+	id Z+OGMBzxM2rzJQYAu9opvQ
+	(envelope-from <linux-media+bounces-65200-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 15:22:36 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808006A071F
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 15:22:21 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 272CF6A0727
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 15:22:36 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=ofW0a2z0;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65199-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-65199-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=none;
+	dmarc=fail reason="SPF not aligned (relaxed), No valid DKIM" header.from=appspotmail.com (policy=none);
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65200-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65200-lists+linux-media=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id B24B7305C2A9
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 13:15:48 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C0E1630AA236
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 13:20:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B99DC389DE0;
-	Thu, 18 Jun 2026 13:15:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C03F301474;
+	Thu, 18 Jun 2026 13:20:27 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f79.google.com (mail-ot1-f79.google.com [209.85.210.79])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82FCC279DAD;
-	Thu, 18 Jun 2026 13:15:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B4C08F49
+	for <linux-media@vger.kernel.org>; Thu, 18 Jun 2026 13:20:25 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781788547; cv=none; b=QiYtJtcJnzW7ZlyExgnfx4oBo+DhIPIYHfSktRYbVzU9RXTpfFDB0RrFz105viwqGXuBex0K4rCmBFtIX3ufCAJScFo294ifi9WGB7ryA0VDuIQlvnwFrCjs1DCrTVy2pjshZFsyj7h5X8B6NvprTD2tLsG0C2Gr8HLEUtVuJBA=
+	t=1781788826; cv=none; b=aSrX/Rgb52PP2zkNkfj3YLH2KGfsQBmxV1WzcYt55L8D5xD3N4isToquDiKtenuGDL+tuErEws5g7JcFkCvmuy7IPGrBWKy2XnRVcLs2Pxr9e0obuYSeNPXWomoDB40bCJ5HJU/eMQxDnlAWwF4m/wiWZKTKCd+YIVlEt3oj5hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781788547; c=relaxed/simple;
-	bh=Ydi58P8/U8S3GJjOKAuYVOWaXjapA8VKxCLrKSzkh0c=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=U1MK0w0uQThWhNWJZeKisYokrtIQ5IzMfK8H8sDbE7ivI5rjGlPdI1vHUVXw1GPQ8DG1GLyjPDqF2hVfSCgC6YvBkJrf6qK+eXpuElppcGO00Ej62R5jwMpCVb4UTLJFP3Sr/fT8+TyrubI0Yo/tsAU/f8xiVS0VdhvGfbOvOw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ofW0a2z0; arc=none smtp.client-ip=213.167.242.64
-Received: from monstersaurus.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5960B1121;
-	Thu, 18 Jun 2026 15:15:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781788508;
-	bh=Ydi58P8/U8S3GJjOKAuYVOWaXjapA8VKxCLrKSzkh0c=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=ofW0a2z0gy6iVtljTBiUzBkCTIxOvowaQred+WXWixdwZMrMj3Seli8cG3TnhchaI
-	 9EyeyKzg2IhXwWRlZhxvecZC+rBqqaX3u0mWkkuy6yCjniF7MI72ZE4gZA9UZR94CE
-	 HswNNWdqNqJ/pZRCQJFOKmcSAJ3nDWz4nY9+ECyM=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1781788826; c=relaxed/simple;
+	bh=pXkuN96Sj1R2xwFnc87fHmurZ+59ZgaurHT3mZl0Dok=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Uo4nrO6VjhWKAT0C/ZVeZekSkW9cEeYh7AVHQcowE2frDdzRUaPZTToBFmLkIuJ7IgJ1ldkCiVKH9dyUEl137QImf5qf8rJrwoTGpFvVM0Yxy+WacGfQvWGvh/ij042lg6tlcnW1L77xAjujeqyLQ4PtiNFlIChN8YjE0WehK/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.79
+Received: by mail-ot1-f79.google.com with SMTP id 46e09a7af769-7e713779405so1707693a34.3
+        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2026 06:20:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781788824; x=1782393624;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/33KdD2/H7Prs87vxAWUnAR8jSqCWlbJEsGg9+fs3rQ=;
+        b=MOcK2ONL4utKlTJcExL/X6DnTJ4nNT61C30uLg/tuuIXpX2l7n/bAON93KjiWVSL2U
+         /ZzB9pRGupxZurCmkF9FRNcnPopApxHQV1EbZ5Jw3soplbf4++t2/yHqSfEd3jiA+Zgm
+         zwH122QeBzlM2EF+Y+7FbbmHBkpbE5ld+XVFjVwIi1btTG6OObOrpN5b0x6DOnb30s7p
+         jdc2zK6Xu0Z2RIOAJgI76q7MJ4QhFmCMTYzAJsRBMjGnAe/gtVEf6mIDfGNgQVRLDHbN
+         eHEe1tLSyNe0amMnmhxIAgAeBDpkOF7yMySQZqD0VSC5FuD9oOJ32alU3qtA++W7CChA
+         yuEQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8/d5UKQ3StFkqISlRWt0oj8cuENktRuS2FuCd7SX8dpZRdD0MfJIzRr7wVI//6BPWIH081I6sQSxEO8A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqZ8xy/eX119jBJpB/vQ7tPl10/sYWw7KatdrHYABiz4C7Ge8P
+	lpnGEmy52ZgTKGVdOXuSfHx2ozCx2LcwUeh48/ADKn2lOlT8x52POC0gQEnjOEYj4O26L3jTKK9
+	9Teq2i0ySDmj5aVRLkhn/qCGhpUq9Zvj7clvg0RdtgPVlYaz362wnOoaz8Qo=
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <226a55a6-babd-47ce-b261-35b982d5c7db@oss.qualcomm.com>
-References: <20260618-og0va1b-v1-0-dda71bb83009@oss.qualcomm.com> <20260618-og0va1b-v1-2-dda71bb83009@oss.qualcomm.com> <1a57863c-831a-411c-a0ae-da3d4f1fd6a0@linaro.org> <226a55a6-babd-47ce-b261-35b982d5c7db@oss.qualcomm.com>
-Subject: Re: [PATCH 2/2] media: i2c: og0va1b: Add OmniVision OG0VA1B camera sensor
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-To: Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-Date: Thu, 18 Jun 2026 14:15:40 +0100
-Message-ID: <178178854034.861173.9780571180496261859@ping.linuxembedded.co.uk>
-User-Agent: alot/0.9.1
+X-Received: by 2002:a05:6820:208b:b0:69e:f61e:6a43 with SMTP id
+ 006d021491bc7-6a0b616473bmr7078294eaf.46.1781788824337; Thu, 18 Jun 2026
+ 06:20:24 -0700 (PDT)
+Date: Thu, 18 Jun 2026 06:20:24 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a33f098.537e895e.3cc275.0002.GAE@google.com>
+Subject: [syzbot] [media?] WARNING: ODEBUG bug in cec_transmit_msg_fh
+From: syzbot <syzbot+051024d603432b4ab395@syzkaller.appspotmail.com>
+To: hverkuil@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, mchehab@kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.36 / 15.00];
+	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=4e828c596d7aa593];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65199-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65200-lists,linux-media=lfdr.de,051024d603432b4ab395];
 	RCVD_TLS_LAST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,goo.gl:url,syzkaller.appspotmail.com:from_mime,googlegroups.com:email,syzkaller.appspot.com:url,appspotmail.com:email,storage.googleapis.com:url];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[kieran.bingham@ideasonboard.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:hverkuil@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:syzkaller-bugs@googlegroups.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:conor+dt@kernel.org,m:krzk+dt@kernel.org,m:mchehab@kernel.org,m:robh@kernel.org,m:sakari.ailus@linux.intel.com,m:vladimir.zapolskiy@linaro.org,m:wenmeng.liu@oss.qualcomm.com,m:conor@kernel.org,m:krzk@kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[kieran.bingham@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	TAGGED_RCPT(0.00)[linux-media,dt];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,ideasonboard.com:dkim,ideasonboard.com:from_mime]
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCPT_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	TO_DN_NONE(0.00)[];
+	R_DKIM_NA(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	REDIRECTOR_URL(0.00)[goo.gl];
+	TAGGED_RCPT(0.00)[linux-media];
+	SUBJECT_HAS_QUESTION(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 808006A071F
+X-Rspamd-Queue-Id: 272CF6A0727
 
-Quoting Wenmeng Liu (2026-06-18 13:36:27)
->=20
->=20
-> On 6/18/2026 6:50 PM, Vladimir Zapolskiy wrote:
-> > Hello Wenmeng.
-> >=20
-> > On 6/18/26 13:37, Wenmeng Liu wrote:
-> >> Add V4L2 sub device driver for OmniVision OG0VA1B image sensor.
-> >> OmniVision OG0VA1B is an image sensor, which produces frames in 10-bit
-> >> raw output format (Y10) over a 1-lane MIPI CSI-2 interface and supports
-> >> the 640x480 (VGA) resolution.
-> >>
-> >> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-> >> ---
-> >> =C2=A0 MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
-> >> =C2=A0 drivers/media/i2c/Kconfig=C2=A0=C2=A0 |=C2=A0 10 +
-> >> =C2=A0 drivers/media/i2c/Makefile=C2=A0 |=C2=A0=C2=A0 1 +
-> >> =C2=A0 drivers/media/i2c/og0va1b.c | 867 +++++++++++++++++++++++++++++=
-+++++=20
-> >> ++++++++++
-> >> =C2=A0 4 files changed, 879 insertions(+)
-> >>
-> >> diff --git a/MAINTAINERS b/MAINTAINERS
-> >> index=20
-> >> 5aa846c8479b20651291d5bd2e316308310f826c..85a06eb9eacc410a565b80d56979=
-eaa565515d0e 100644
-> >> --- a/MAINTAINERS
-> >> +++ b/MAINTAINERS
-> >> @@ -19891,6 +19891,7 @@ M:=C2=A0=C2=A0=C2=A0 Wenmeng Liu <wenmeng.liu@=
-oss.qualcomm.com>
-> >> =C2=A0 L:=C2=A0=C2=A0=C2=A0 linux-media@vger.kernel.org
-> >> =C2=A0 S:=C2=A0=C2=A0=C2=A0 Maintained
-> >> =C2=A0 F:=C2=A0=C2=A0=C2=A0 Documentation/devicetree/bindings/media/i2=
-c/ovti,og0va1b.yaml
-> >> +F:=C2=A0=C2=A0=C2=A0 drivers/media/i2c/og0va1b.c
-> >> =C2=A0 OMNIVISION OG0VE1B SENSOR DRIVER
-> >> =C2=A0 M:=C2=A0=C2=A0=C2=A0 Vladimir Zapolskiy <vladimir.zapolskiy@lin=
-aro.org>
-> >> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> >> index=20
-> >> 5d173e0ecf424f2f204f8d426be818e44357f8e4..56680772f5f47b4629c4e17f5a5f=
-eba08b1d94fc 100644
-> >> --- a/drivers/media/i2c/Kconfig
-> >> +++ b/drivers/media/i2c/Kconfig
-> >> @@ -363,6 +363,16 @@ config VIDEO_OG01A1B
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 To compile this driver as a=
- module, choose M here: the
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 module will be called og01a=
-1b.
-> >> +config VIDEO_OG0VA1B
-> >> +=C2=A0=C2=A0=C2=A0 tristate "OmniVision OG0VA1B sensor support"
-> >> +=C2=A0=C2=A0=C2=A0 select V4L2_CCI_I2C
-> >> +=C2=A0=C2=A0=C2=A0 help
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 This is a Video4Linux2 sensor driver f=
-or the OmniVision
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 OG0VA1B camera.
-> >> +
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 To compile this driver as a module, ch=
-oose M here: the
-> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 module will be called og0va1b.
-> >> +
-> >> =C2=A0 config VIDEO_OG0VE1B
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tristate "OmniVision OG0VE1B sensor sup=
-port"
-> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 select V4L2_CCI_I2C
-> >> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-> >> index=20
-> >> e45359efe0e41e13e3c0869e5ead7d6cf4aca3a7..c60851c7fe07e3bdc511c5f48252=
-5ba7a044f48e 100644
-> >> --- a/drivers/media/i2c/Makefile
-> >> +++ b/drivers/media/i2c/Makefile
-> >> @@ -83,6 +83,7 @@ obj-$(CONFIG_VIDEO_MT9V011) +=3D mt9v011.o
-> >> =C2=A0 obj-$(CONFIG_VIDEO_MT9V032) +=3D mt9v032.o
-> >> =C2=A0 obj-$(CONFIG_VIDEO_MT9V111) +=3D mt9v111.o
-> >> =C2=A0 obj-$(CONFIG_VIDEO_OG01A1B) +=3D og01a1b.o
-> >> +obj-$(CONFIG_VIDEO_OG0VA1B) +=3D og0va1b.o
-> >> =C2=A0 obj-$(CONFIG_VIDEO_OG0VE1B) +=3D og0ve1b.o
-> >> =C2=A0 obj-$(CONFIG_VIDEO_OS05B10) +=3D os05b10.o
-> >> =C2=A0 obj-$(CONFIG_VIDEO_OV01A10) +=3D ov01a10.o
-> >> diff --git a/drivers/media/i2c/og0va1b.c b/drivers/media/i2c/og0va1b.c
-> >> new file mode 100644
-> >> index=20
-> >> 0000000000000000000000000000000000000000..f0505b7ba7f329ad57ffafa8f90a=
-24204f002d3c
-> >> --- /dev/null
-> >> +++ b/drivers/media/i2c/og0va1b.c
-> >> @@ -0,0 +1,867 @@
-> >> +// SPDX-License-Identifier: GPL-2.0
-> >> +/*
-> >> + * OmniVision OG0VA1B Camera Sensor Driver
-> >> + *
-> >> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries
-> >> + */
-> >> +
-> >> +#include <linux/clk.h>
-> >> +#include <linux/delay.h>
-> >> +#include <linux/gpio/consumer.h>
-> >> +#include <linux/i2c.h>
-> >> +#include <linux/module.h>
-> >> +#include <linux/of.h>
-> >> +#include <linux/pm_runtime.h>
-> >> +#include <linux/regulator/consumer.h>
-> >> +
-> >> +#include <media/v4l2-cci.h>
-> >> +#include <media/v4l2-ctrls.h>
-> >> +#include <media/v4l2-device.h>
-> >> +#include <media/v4l2-fwnode.h>
-> >> +#include <media/v4l2-subdev.h>
-> >> +
-> >> +#define OG0VA1B_REG_CHIP_ID=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
- CCI_REG16(0x300a)
-> >> +#define OG0VA1B_CHIP_ID=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 0xC756
-> >=20
-> > This is the same chip id as of the OG0VE1B sensor device.
-> >=20
-> > What's the difference between these two sensors, and do you find it=20
-> > possible
-> > to add support of OG0VA1B sensor/modes into OG0VE1B sensor driver? Or is
-> > it just the same device?
-> >=20
-> > Hardware specifics described in dt changes also does not show a differe=
-nce
-> > in comparison to ovti,og0ve1b.yaml.
-> >=20
->=20
->=20
-> Hi Vladimir,
->=20
->=20
-> Both OG0VE1B and OG0VA1B belong to the same OmniVision VGA monochrome=20
-> sensor family. They share the same resolution, power rails, reset GPIO=20
-> behavior and power management framework.
->=20
-> But they are different:
-> OG0VE1B:  8-bit RAW, lower FPS
-> OG0VA1B: 10-bit RAW, higher FPS
-> and some registers are not same.
+Hello,
 
-Can you identify which registers are not the same?
+syzbot found the following issue on:
 
-Mapping between 8bit and 10 bit or different frame rates could easily be
-managed in a single driver with exposing different capabilities based on
-the variant.
+HEAD commit:    e21ee273e6fa Merge tag 'clk-fixes-for-linus' of git://git...
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=17340bd2580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4e828c596d7aa593
+dashboard link: https://syzkaller.appspot.com/bug?extid=051024d603432b4ab395
+compiler:       Debian clang version 22.1.6 (++20260514074242+fc4aad7b5db3-1~exp1~20260514074407.73), Debian LLD 22.1.6
 
-We should really work towards reducing the huge duplication that is
-happening with copy/paste sensor drivers.
+Unfortunately, I don't have any reproducer for this issue yet.
 
---
-Regards
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/14fcc3decf4c/disk-e21ee273.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/3e80c98de356/vmlinux-e21ee273.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/2a12732e35df/bzImage-e21ee273.xz
 
-Kieran
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+051024d603432b4ab395@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+ODEBUG: free active (active state 0) object: ffff888025d28cb8 object type: timer_list hint: cec_wait_timeout+0x0/0x180 include/media/cec.h:-1
+WARNING: lib/debugobjects.c:632 at debug_print_object lib/debugobjects.c:629 [inline], CPU#1: syz.0.3204/21212
+WARNING: lib/debugobjects.c:632 at __debug_check_no_obj_freed lib/debugobjects.c:1154 [inline], CPU#1: syz.0.3204/21212
+WARNING: lib/debugobjects.c:632 at debug_check_no_obj_freed+0x358/0x530 lib/debugobjects.c:1184, CPU#1: syz.0.3204/21212
+Modules linked in:
+CPU: 1 UID: 0 PID: 21212 Comm: syz.0.3204 Tainted: G             L      syzkaller #0 PREEMPT(full) 
+Tainted: [L]=SOFTLOCKUP
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/09/2026
+RIP: 0010:debug_print_object lib/debugobjects.c:629 [inline]
+RIP: 0010:__debug_check_no_obj_freed lib/debugobjects.c:1154 [inline]
+RIP: 0010:debug_check_no_obj_freed+0x39c/0x530 lib/debugobjects.c:1184
+Code: 48 89 04 24 e8 a5 b8 75 fd 48 8b 04 24 4c 8b 4d 00 4c 89 ef 48 c7 c6 e0 9f 28 8c 48 c7 c2 60 a5 28 8c 8b 4c 24 1c 4d 89 f8 50 <67> 48 0f b9 3a 48 83 c4 08 4c 8b 6c 24 10 48 b9 00 00 00 00 00 fc
+RSP: 0018:ffffc90005ac78a0 EFLAGS: 00010246
+RAX: ffffffff87e83c30 RBX: ffffffff9a6fa8b8 RCX: 0000000000000000
+RDX: ffffffff8c28a560 RSI: ffffffff8c289fe0 RDI: ffffffff903a7340
+RBP: ffffffff8bcf39c0 R08: ffff888025d28cb8 R09: ffffffff8bcf4d20
+R10: dffffc0000000000 R11: ffffffff81b1a1f0 R12: 0000000000000001
+R13: ffffffff903a7340 R14: ffff888025d28000 R15: ffff888025d28cb8
+FS:  00007f6b13bf26c0(0000) GS:ffff8881253b9000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fa101deb078 CR3: 000000008a112000 CR4: 0000000000350ef0
+Call Trace:
+ <TASK>
+ slab_free_hook mm/slub.c:2620 [inline]
+ slab_free mm/slub.c:6251 [inline]
+ kfree+0x13e/0x640 mm/slub.c:6566
+ cec_transmit_msg_fh+0x16f0/0x24d0 drivers/media/cec/core/cec-adap.c:988
+ cec_transmit drivers/media/cec/core/cec-api.c:230 [inline]
+ cec_ioctl+0x2020/0x3060 drivers/media/cec/core/cec-api.c:534
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:583
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x174/0x580 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f6b1619ce59
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f6b13bf2028 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f6b16416360 RCX: 00007f6b1619ce59
+RDX: 00002000000000c0 RSI: 00000000c0386105 RDI: 0000000000000006
+RBP: 00007f6b16232d6f R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f6b164163f8 R14: 00007f6b16416360 R15: 00007ffdafcf65c8
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	48 89 04 24          	mov    %rax,(%rsp)
+   4:	e8 a5 b8 75 fd       	call   0xfd75b8ae
+   9:	48 8b 04 24          	mov    (%rsp),%rax
+   d:	4c 8b 4d 00          	mov    0x0(%rbp),%r9
+  11:	4c 89 ef             	mov    %r13,%rdi
+  14:	48 c7 c6 e0 9f 28 8c 	mov    $0xffffffff8c289fe0,%rsi
+  1b:	48 c7 c2 60 a5 28 8c 	mov    $0xffffffff8c28a560,%rdx
+  22:	8b 4c 24 1c          	mov    0x1c(%rsp),%ecx
+  26:	4d 89 f8             	mov    %r15,%r8
+  29:	50                   	push   %rax
+* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
+  2f:	48 83 c4 08          	add    $0x8,%rsp
+  33:	4c 8b 6c 24 10       	mov    0x10(%rsp),%r13
+  38:	48                   	rex.W
+  39:	b9 00 00 00 00       	mov    $0x0,%ecx
+  3e:	00 fc                	add    %bh,%ah
 
 
->=20
->=20
-> The DT bindings can be reused, but would it be more appropriate for the=20
-> driver to remain independent?
->=20
->=20
-> Thanks,
-> Wenmeng
->=20
->=20
->
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
