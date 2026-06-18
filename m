@@ -1,175 +1,175 @@
-Return-Path: <linux-media+bounces-65185-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65186-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 7NgLF2HdM2rQHQYAu9opvQ
-	(envelope-from <linux-media+bounces-65185-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 13:58:25 +0200
+	id 9ro3AAjeM2rtHQYAu9opvQ
+	(envelope-from <linux-media+bounces-65186-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 14:01:12 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF8C869FDC2
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 13:58:24 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FDD369FDFE
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 14:01:06 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=VHsa8HF3;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65185-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65185-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=linaro.org header.s=google header.b=Qi+breEo;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65186-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65186-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=linaro.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6A2CD301AFDE
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 11:58:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 8C75F304EA25
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 12:00:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EFEF3F4130;
-	Thu, 18 Jun 2026 11:58:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50D913C5DD4;
+	Thu, 18 Jun 2026 12:00:55 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D323EEACB
-	for <linux-media@vger.kernel.org>; Thu, 18 Jun 2026 11:58:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE2B379C45
+	for <linux-media@vger.kernel.org>; Thu, 18 Jun 2026 12:00:53 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781783900; cv=none; b=LkmeM0QJB9PzKDQW0EoXI1XrsgXnxNxlhBveYeHaPNSPhqxP+lHl79TrvV6v1ncc5jqbNRVeyIE26NzQlHEGxi4bcVXgT6vUDAiBiLexCSUBDQjqIEbawIKz5xmpRsdyHYBveFe7WMbrtU3UNQDWM5YkwVBZ9V2xWlavRMLKuYU=
+	t=1781784054; cv=none; b=tt+2ucYyFwVOcOQq0NnuXsBFDrgh/OKI6noAbI6jeBTUd3hWRZiC10ZWFQo/Ms8jKQEkwMk4pFW2pHFUnWwsEv3twFRp0p3oB9s5t+tUzsg+Q3JzuqSnLbvOM9N04ltBXroq0RCh9TXfQfR+O2qFom+MGoKC9vTtxuPoF+T22zQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781783900; c=relaxed/simple;
-	bh=eB9HLkIkuW053AdKtEc37kYxRzNyrSgnuiwcsd1XS5k=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=cf9ZCuMXtoq4Wuq5NyCC0XWSAQs07DrYhvtVW9RoJJ8iQIBQJ7+jeEQl3gKqIOZlZ9VWwDH3UDQZJNZ871n7bOSLe4OF+PLg7yeLfzrmhxfNlGS8nKMW3ELhnsmaAoBvH65JEL0gX4BMszCKHo2nlcOxFyvqNnL2WB99o12RVME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VHsa8HF3; arc=none smtp.client-ip=209.85.216.49
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-36d8b644473so623546a91.3
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2026 04:58:17 -0700 (PDT)
+	s=arc-20240116; t=1781784054; c=relaxed/simple;
+	bh=3YOhz77h8AMLNNNeRgTMfPv3eIs7NkDdZEhdXJIfzD0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=OLR1kWBSuxYMHWF/iDA5nP9T+K8xWwPM+Gq46vDkNs3m7K0hccVNtpjDJ9NJf6qhRaEQsJu19JYDGVM4YhlBaZZ2PF4k/WSLKR8EDEghtCFxJLNXpfyHoeKtVOrbaXiy6m36UNNG+xG9yycKjNKIsjYVOqtfnwur0ytjZSLnHPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Qi+breEo; arc=none smtp.client-ip=209.85.208.48
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-68bfcf11050so1388257a12.0
+        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2026 05:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781783897; x=1782388697; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=l6ZpEPMGEXJfOM8ksIepPSzLXhdH5XV51m7wnVrOXO0=;
-        b=VHsa8HF38avQF32VzmyFb1zQkM7ko1qCh4kNy4PBd8jrGohDfZEo5jrpyIIRE9FiU5
-         Rq8BAkn5soDrqkC57xiwjIalJPzljFNKXq5XCwdCDZamlH+57WdQQe2/y9fnLcninpd8
-         i9sNpTdFXIyB7YVxOGcGfcZxlz4A6dlzY8kv7q492xmZ2fN+iJFvYZfRv3ODsKqeat5K
-         PkZQS6U3UVkJyk7RDttJY+f5LAiI0DZq+Zcoo/88RCDuMWUPOz3KlElpP0hvld03X6yp
-         LqcB4UsC4WOIC6GptiujwxFPGKbwE0v9zG7N+8t4ASAohrw6636O6YJJqlcB39vJTrnO
-         iHvw==
+        d=linaro.org; s=google; t=1781784052; x=1782388852; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=W9ZVu+TQxqykUMzB+TkWY3eQThy4ReD8LVPOwN/E+6k=;
+        b=Qi+breEoAi90N6K+nQ7FfXyf6YJrINK0IZhgzhU79IYaNVD2dI8kipQx/kOVnLo5iP
+         ozSBMZ4AyxRtUe26zkovSHtDnU/s7NQ/bPI7+8hKMv8ZHOyEhRcs/SGbAI0F+nNSlIZX
+         2ZluhklhjrTLgUAOpj8D/AzVPiEO0+Gls8eO74e55HbtgeCm8jmrKtmCaB9osEJFwGO+
+         2LWGbdzUAejsFQGNmKiWDlEQJSCcYRpeXiDdjNkGUk5fqWzHEqSHmoDlJLOaLeEhQ9j8
+         iN/QTJs5eKDJylhdraX0TmcotdjVT9MZmk/jqyX1Em/ni0bZ+H57Ve5RUoTOYdoD91w4
+         z2MQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781783897; x=1782388697;
-        h=mime-version:content-transfer-encoding:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1781784052; x=1782388852;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=l6ZpEPMGEXJfOM8ksIepPSzLXhdH5XV51m7wnVrOXO0=;
-        b=U5DaqlVWtcTmBOxD0Dgz44XfVR1AsMxMoXY6Z2gguztXxgQSYDfSewQL94srSZvKRR
-         0eqHJhWQ+rRg4xW/ECLzzEzhXyHmx3PTjfwzw4wRfPjtmq6a1z6HbvGl07xsOHL2Z8LN
-         hZSlabufZ+J/mQG70+TjVM0vjAJgHtsf1S5Ncb6XQQ/erpMaclDCH6J+3W5jEYxCO4do
-         c4xsPIap4B/mvBBBle3FmV/oaesTndBJHqfdsYXJFU9DAh5nM7LLBNZ4sgyq0p6tCXR2
-         TiU1vriCEWQwdOMzLy/DPVDH48L9wQvLikVyrWbPCkxSXhHgrEe5/TOZaWZCHm/2G0E5
-         FOlA==
-X-Forwarded-Encrypted: i=1; AFNElJ9+l8OiPfRe9sCgTk9ghB1yDLgQzk+N9oHl/exoQpzAIqj1HnvRCkJ77Q+FlyqDAwVfjcCh7a6NNKFZrA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwrqMCWV34lMaCwEX6Z3HLu3qSrXB+mlkAEHB0VRGHWk9Q9T0Dq
-	hDcRafDAZGePqvEY1DDKVSmcpUGRj8FvwunUsqMJ459gICX0C5sjJLed
-X-Gm-Gg: AfdE7cngs6AHrOPBy4NqE5ZRgu/KE/+V87iGgJE+nRRHzqgI+VzX56eZ+xby9cmcyg1
-	4NqPWynNCO0S3zYny73fhiAnb5sLqT2v8LDIIivdeRgDR5TW0uuwlZristXDTI/P4rCsTp91NJU
-	K/A9NId4diEUEcSZZ4GMSHmEC0+g/CnN4UjWrx/qGcGVT3AdZlAczmKPkjo80p+fUrUIH07IQVT
-	NzCasbZaqpabd2tk8X710gHkg5tO33ziOjIFEMwJUI+C1ZsYD9RW9ikwuSD8i/f5l/5iPk+nLf3
-	ACg8H8gSwQxYbteqeaxcHrQE6WZT1YQYHIghcEaRt7CSpSiOQ4wI08ttwbH2ML0Wwbh0D8uiNDN
-	pL626KEoDaj6urhtL986sS6bbzXXuUfEXuCxOVMzgE1lOg6n7Ec5Cqy/IM1ohsrpOYCXhdSv+iO
-	xZ0xas50bs7kQw59aI1vO1yPsE7nhpnp4hJEWqTA==
-X-Received: by 2002:a17:90b:49:b0:36d:70c8:3a3 with SMTP id 98e67ed59e1d1-37c9404f8a3mr8547821a91.15.1781783896587;
-        Thu, 18 Jun 2026 04:58:16 -0700 (PDT)
-Received: from csl-conti-dell7858.ntu.edu.sg ([155.69.195.57])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37ce7d5c7f8sm1443227a91.2.2026.06.18.04.58.14
+        bh=W9ZVu+TQxqykUMzB+TkWY3eQThy4ReD8LVPOwN/E+6k=;
+        b=fBhiQiZ6zp+jyjMcfvKTkjsXNXzS6IqGj2k7+Q68GInwyohh8LxBZxQYNNEoO62cmG
+         EsabJPlbzJrvyoKuBjdFCKK/HQoFT3TsCxxe3vONTOF72PKWLJZzr/dAN1Sb1lAHHTly
+         toSx7ngShNJBm+q2cC+U4DhfRDmuAaZsM1Nu3Cd77PfNshWvs0KW9+qCi3kJdvW29WTx
+         g1z2XFvm94PyshMs/X4GKL1lCoNd+IkvgCquZ5txLBjOY1JDT7dukNb/nEoIiKsormfs
+         CLEzBWRB8Jbc5zoGagHQx99mytoTMQ4EUu+2fAVOjzuq3whJ6FgT4zDsYkdvCjZjK//f
+         LpeA==
+X-Gm-Message-State: AOJu0YyLaZf/dCBxMydsOz0FbzEs/B9NTcsuetIKnPt1ofmN7Vsqay+X
+	V3SwnFQHOSFLTsblf4aW2FzIBJNNufuYDiFZ8dsusySSc6Ka5pSIIr/umLaifRA558M=
+X-Gm-Gg: AfdE7ckX10RiRtmWq9176ch06BNXVuEqFu0dC8eX1Lx1I35SbzqRxoYzJ0K9LUSnL9y
+	YRMZeX4uRv9/sP4FWwJ3w1uBXkCQpLtGZry0oQD2ElC3uAzmrjq5u13fFQye2frUyyYwzdGdDn5
+	3fK4K4ikzs9wqThIeYo3ui3LGgzdZHsYuSIQiTsCZqQsNs3xFNDI0W5BvVCnRJ0vVwAiBqou1gd
+	kZFS5BJOYGzSdjdZ6a3cZxCSn2Z7CEt5OOYqVKApW0HnfHew1Nd4Y/R+xnXQvxejb/W1HSfq2zs
+	5z+I9Ug707tVsBWUkIOb0vI5gJdvyv44my6pyOZVTOMRE4S+VYN4o0HKKGPWDT+2e9Sbzg1/q0j
+	vH3AX6E/xDcB7mG5evrVFV/SQZ10+387zvXn9/C45XYnfUSnFuj8KgMVIdL5MTVOiragU4nOb2Y
+	f7LCBUuh0mIeRENSWrWqLVPVznuvmV6/WEDAqK2e+H57GrvpuhiSDj4Xpodi6V595l4Y99xuLIL
+	J+0Z6M=
+X-Received: by 2002:a17:907:94cb:b0:bef:8141:668c with SMTP id a640c23a62f3a-c07c4a063e6mr96074166b.6.1781784051445;
+        Thu, 18 Jun 2026 05:00:51 -0700 (PDT)
+Received: from puffmais2.c.googlers.com (181.179.204.35.bc.googleusercontent.com. [35.204.179.181])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bfdb4420966sm954924566b.9.2026.06.18.05.00.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 04:58:16 -0700 (PDT)
-From: Maoyi Xie <maoyixie.tju@gmail.com>
-To: Stefan Richter <stefanr@s5r6.in-berlin.de>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux1394-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
-Subject:
- media: firedtv: possible out of bounds write from a CAM response length
-Date: Thu, 18 Jun 2026 19:58:12 +0800
-Message-ID: <178178389268.3526268.13296040644459169135@maoyixie.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+        Thu, 18 Jun 2026 05:00:49 -0700 (PDT)
+From: =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>
+Date: Thu, 18 Jun 2026 13:00:39 +0100
+Subject: [PATCH] dma-fence: use correct callback in
+ dma_fence_timeline_name()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260618-linux-drm_crtc_fix-v1-1-801f29c9853d@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAOfdM2oC/x2MWwqAMAzAriL9tuAGm4+riMiYVQs6pVMRxLs7/
+ EwgeSCSMEVosgeELo68hQQqz8DPLkyEPCQGXWhbWFXhwuG8cZC193L4fuQbtS2tMU75qh4hhbt
+ Q0v+07d73Azf7nLhkAAAA
+X-Change-ID: 20260618-linux-drm_crtc_fix-267655a1c89f
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+ Peter Griffin <peter.griffin@linaro.org>, 
+ Tudor Ambarus <tudor.ambarus@linaro.org>, Juan Yescas <jyescas@google.com>, 
+ kernel-team@android.com, 
+ =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>
+X-Mailer: b4 0.14.3
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65185-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:stefanr@s5r6.in-berlin.de,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux1394-devel@lists.sourceforge.net,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65186-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:tvrtko.ursulin@igalia.com,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:peter.griffin@linaro.org,m:tudor.ambarus@linaro.org,m:jyescas@google.com,m:kernel-team@android.com,m:andre.draszik@linaro.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[maoyixietju@gmail.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[andre.draszik@linaro.org,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	RSPAMD_URIBL_FAIL(0.00)[linaro.org:query timed out,vger.kernel.org:query timed out];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[linaro.org:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RSPAMD_EMAILBL_FAIL(0.00)[andre.draszik.linaro.org:query timed out];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[maoyixietju@gmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[andre.draszik@linaro.org,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TO_DN_SOME(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,linaro.org:dkim,linaro.org:email,linaro.org:mid,linaro.org:from_mime,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: EF8C869FDC2
+X-Rspamd-Queue-Id: 8FDD369FDFE
 
-Hi all,
+dma_fence_timeline_name() is a wrapper around
+dma_fence_ops::get_timeline_name(). Since the blamed commit below, it
+calls an incorrect callback.
 
-I think avc_ca_app_info() in drivers/media/firewire/firedtv-avc.c can write
-past the 256 byte CA message buffer when the CI-CAM returns a large length.
-I would appreciate it if you could take a look.
+Update it to restore functionality by calling the intended callback.
 
-The copy takes its length straight from the CAM response.
+Fixes: 62918542b7bf ("dma-fence: Fix sparse warnings due __rcu annotations")
+Signed-off-by: André Draszik <andre.draszik@linaro.org>
+---
+ drivers/dma-buf/dma-fence.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-	pos = get_ca_object_pos(r);
-	...
-	memcpy(&app_info[5], &r->operand[pos], 5 + r->operand[pos + 4]);
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index b3bfa6943a8e..5292d714419b 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -1202,7 +1202,7 @@ const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
+ 	/* RCU protection is required for safe access to returned string */
+ 	ops = rcu_dereference(fence->ops);
+ 	if (!dma_fence_test_signaled_flag(fence))
+-		return (const char __rcu *)ops->get_driver_name(fence);
++		return (const char __rcu *)ops->get_timeline_name(fence);
+ 	else
+ 		return (const char __rcu *)"signaled-timeline";
+ }
 
-r->operand[] holds the raw AV/C response bytes the CAM sent, and both pos
-and the length operand[pos + 4] come from those bytes. The destination
-app_info is reply->msg, the 256 byte msg[] field of struct ca_msg. With a
-length byte of 0xff the copy writes 5 + 255 bytes starting at app_info[5],
-which runs about 9 bytes past the 256 byte buffer.
+---
+base-commit: e2cae00c05d196491c318196792297f2dfbaa02c
+change-id: 20260618-linux-drm_crtc_fix-267655a1c89f
 
-There is a FIXME right above the copy that asks for exactly this validation.
-The same unbounded pattern is in avc_ca_get_mmi() a few lines down.
+Best regards,
+-- 
+André Draszik <andre.draszik@linaro.org>
 
-This looks like the unfixed sibling of CVE-2021-42739. That fix added bounds
-only to avc_ca_pmt(), the host to CAM PMT path. It left the CAM to host
-app_info and mmi response paths untouched, and those are the more natural
-attacker direction.
-
-The path is reachable from userspace. A CA_SEND_MSG with an APP_INFO_ENQUIRY
-tag followed by a CA_GET_MSG lands in avc_ca_app_info(), which then copies
-the CAM response. The attacker is a malicious or faulty FireDTV CI-CAM, or a
-spoofed FireWire node that answers the request.
-
-I reproduced it under KASAN on 7.1-rc7. A length of 0xff makes KASAN report
-a slab out of bounds write past the CA message buffer. A small length stays
-clean.
-
-The fix I tried bounds pos and the device length in both avc_ca_app_info()
-and avc_ca_get_mmi() so the copy stays in range.
-
-Does this look like a real bug to you? The code predates the git history, so
-I am not sure what to put in a Fixes tag. I could reference 35d2969ea3c7, the
-commit that bounded avc_ca_pmt() for CVE-2021-42739, since this is the same
-class left unfixed. I am happy to send a proper patch.
-
-Thanks,
-Maoyi
-https://maoyixie.com/
 
