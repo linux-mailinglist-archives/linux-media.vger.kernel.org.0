@@ -1,180 +1,192 @@
-Return-Path: <linux-media+bounces-65227-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65228-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id u4UmMdMqNGrOQQYAu9opvQ
-	(envelope-from <linux-media+bounces-65227-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 19:28:51 +0200
+	id U1oDMG05NGpNSAYAu9opvQ
+	(envelope-from <linux-media+bounces-65228-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 20:31:09 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 378536A1F00
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 19:28:51 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 188706A227B
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 20:31:09 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=baylibre.com header.s=google header.b=Z3qmcJwz;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65227-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65227-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=none;
+	dkim=fail ("headers rsa verify failed") header.d=igalia.com header.s=20170329 header.b=d8gUgG2V;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65228-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65228-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=fail reason="SPF not aligned (relaxed)" header.from=igalia.com (policy=none);
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AB34930707D5
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 17:27:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 042A2303029C
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 18:31:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48516348886;
-	Thu, 18 Jun 2026 17:27:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB74A3FFFA1;
+	Thu, 18 Jun 2026 18:30:59 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71D13347FEC
-	for <linux-media@vger.kernel.org>; Thu, 18 Jun 2026 17:27:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A11C3FBB6C;
+	Thu, 18 Jun 2026 18:30:53 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781803637; cv=none; b=mRZn33Yd8Rm01NVq+NJeUMeJ4zfLJWnF9x0ODYS9q2Sup90xfnPnLfUiVu/UzZkAF3sidxbPBF6ySLpSXbzXTo5G8S9ngag+5r8B9IK5lCXnpiD6rmmsOUz02xlWoy6OqFQA9AtSjzqadzNjH/FqYxSMvuwbOEl41tDVwp4P0Hw=
+	t=1781807458; cv=none; b=BpSv2cdFgO5j0CttBCyw6vnYZ5p77eq7UqRXTMPKAIK3p9V3eZF3wFAY/6oXv20WMFnQKPTPlxEKczBrBAWBG/odTc6BDygjSza1lZvIsIIlqEoc/pL3Hs4RUfs7E6/LTfAB9J7sRjCINiJkLA5rlv1rqP8yV6K/9mqyB1Sn0lE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781803637; c=relaxed/simple;
-	bh=FCuHxpYgxO4RG9gYkMZwslXkCzKhyiciZ7zZe4XbNiM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pTvNqrgJisoJbfqjwVQHxWfWtmd4nSt1rN4R3iAYK4oZCooBFGypWoF1rK2klFsvTY7SWs39khSeLQCTDWpgtcLq612x+D+F7D3g3GVY9SkmxrLYEqHJM0rMd05UFJq2mOkdl16o5++yQiUY/rWTVf8gBvZGntdoSmEzLqzAuo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=Z3qmcJwz; arc=none smtp.client-ip=209.85.221.48
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-45ef41adbc1so1045005f8f.0
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2026 10:27:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1781803635; x=1782408435; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iNDB7XgfVYghFL7aUUs3X8ozprZSoKOcYdUOwpOmztA=;
-        b=Z3qmcJwzqjqcTprsHIQ/wldFaKacMjigFR3uNcmL79HfJ3dHulGT+YcD9b0IwIp0qq
-         /AI4p1uu/7bpwiBSahdJteNGgnlDJwfuIYWjAdzt539rTpYZ/cXHFeSYCGzVHRgozu3Q
-         cRnXwkwiky3jbQkH8f+gDIFXihvi5AjJdufdvAxWei6EE+fnTKqTAUB9BULhtCTMtYFX
-         QKv+iM3WTkYnGBVBaK0HLxanyD/xpHCD7HVzp4rvDUWG9Nc5duvJSkJMeGpXUMXlb+mp
-         9naATjt9NQS0TjGKMim0sOqfZRxrI2b4V9HISPucUS5vts+/C/RWluiILAfqvoYSnbx+
-         9YCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781803635; x=1782408435;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iNDB7XgfVYghFL7aUUs3X8ozprZSoKOcYdUOwpOmztA=;
-        b=NxiJMyOl0VPhynUfKn6uxrPZENpq/eiJjxWGzcCqAhxxaillRoH1ARPVJ2gIRr2FfQ
-         52oR+iBa49m6TKs3EmFmnyGklfA9i3beeapaY9xAiBIx5olook5klsigq1b8myTtKHc6
-         2tXwfBSTxJqQu2B9OW8cU2Ivdvvek0ayKHwC3nC9NQUEz3R9UacHwAGvF0q1Vopied19
-         y6OfZQ7YbzeD3IzzX3qIS940C7MAfeVLkvK6yUimL4q1vcIbic7Uz9RjSE2kdlQ1VwfM
-         L3TdVMr5lJiQ8BVaa6Wsyho4l64ibvuMkvw0XxAm4IQ3o5eRFbapN10h6/adD2aBS5b0
-         SZUQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8pOsOBNnF+YbXs4zNx3cTbeVaWM730mGeQyLmeBpFdhBvBiNwxGBfCEJFzsy9RepK0Dp82NeOsIv+R4w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw8eXekJLA9QaIWYfijdyYtzWVaWP0h4VJ4bdiR9LBDkxr3BqA+
-	XlJpRJ+Ifl9TqQe9j0QkydPqViuFHtBIr2AP3+7CBeuXtVhvqtXnEtn19UntNFC21ok=
-X-Gm-Gg: AfdE7ck4DSX88EQEjwFI05uK5+Y7D5D7gszSXAQ3k/zJj2kvMND+JhZR2od+2IZLM7Z
-	ZJfKwSThWIHXas7qL5zP4vbVKuHYvWsOvVpTVKSsDkB6XhwmxOBfUNFCotwkMDRJfa58YH2DACq
-	6uHDHWcrbWynmXVz7BqLd9feq/JwvF/5L3nXjH//CylpTkV/dUxQ+r8v5GQcOU6N7fIocq1ZySy
-	pNMl/X55VeHn5iflFHQoiJPoJJh+CJuezWXnj55hIkmU3bWRw/NtOk5wj/TjpWUYxBkwZe7tCBh
-	RfGqBHhsYzRrgdihWtZV+TLvojq5fJWq7tle2+PYwCMuiddBZVVGsc4V80WJVL1HW76QCUPB6jl
-	yOS1Q4K/zp/0Cwb4AzjdefhSVP6JaOCfiU+kd3i4QwfQRdrilwj9c0iSe8M9KrD0YheUZ9U64uN
-	b+cCZvhOkYhcihrMJlPzDltwdIwaxMHEij9KfrAt0caK2XAWr33kvXFgrNAEqUsD3U6wNbL8hXO
-	Lfp
-X-Received: by 2002:a05:600d:6451:10b0:492:37b7:607a with SMTP id 5b1f17b1804b1-4923fc7760emr4758705e9.31.1781803634861;
-        Thu, 18 Jun 2026 10:27:14 -0700 (PDT)
-Received: from localhost (p200300f65f47db04cea0a59ab11cac9f.dip0.t-ipconnect.de. [2003:f6:5f47:db04:cea0:a59a:b11c:ac9f])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4923fd15535sm4699995e9.3.2026.06.18.10.27.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 10:27:13 -0700 (PDT)
-Date: Thu, 18 Jun 2026 19:27:12 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: i2c: og0va1b: Add OmniVision OG0VA1B camera
- sensor
-Message-ID: <ajQqRj4lX10M5dQj@monoceros>
-References: <20260618-og0va1b-v1-0-dda71bb83009@oss.qualcomm.com>
- <20260618-og0va1b-v1-2-dda71bb83009@oss.qualcomm.com>
+	s=arc-20240116; t=1781807458; c=relaxed/simple;
+	bh=440hs61604sFljYJvOITeE0GJJvnMbjOOCKHWld8y38=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=UN5YE6CdKQa6NkrlWI2FZEV01/wHj2a3WuzD+RgDaq803M941xW3F0kQgxGY6vz7xf/GugdlRe/tuxJ5/GhvHdHmuBQdvlLw3o2RDxmmWbeEnwUQ7uPD6lQkuGSzcfbeUjOE056ojuWRkgv6CaJQWofjB4hv8TzFe+hmjsdXNFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=d8gUgG2V; arc=none smtp.client-ip=213.97.179.56
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=uLhabi92uESEf5CbIvCLvsknhXB/GOnAq3LQWEaLDYo=; b=d8gUgG2V7AXxtEPsjukDFsErlu
+	ut4scQRKTbLBrqCV4UHQyt8dFGInJ8sQ0DiGmEd7VR7p3OqQuT2ZVLD/1LSUQdfw7hPyr5LWZYX3n
+	8c9i6hsOZC1BGfQU7NcVUAW/2/m5fwggli4+ABsmd+hsB/o9ClaXG9GC0qwWqo6oDpZEjHzuAWfC+
+	tTOe1cMRIz1qL0EDf2RSQQzW9NXef3V26Qfd6MK698xsHBPcKB4jP2sTobJUt+GvLAd+XfY3BxQta
+	8NsM6/OrXw3TC8sgBTDpvQJZGGZQp1Pq+dPCjnivljRWXdNRxdXfynF0PONB9uVpcFq/Dt/kTZqgJ
+	WN8vciRA==;
+Received: from [37.209.163.134] (helo=[172.16.30.123])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1waHVb-00230t-8X; Thu, 18 Jun 2026 20:30:35 +0200
+Message-ID: <27f54324-94ac-4bbc-ba58-642a314197d7@igalia.com>
+Date: Thu, 18 Jun 2026 20:30:34 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="endujef62ugl3neu"
-Content-Disposition: inline
-In-Reply-To: <20260618-og0va1b-v1-2-dda71bb83009@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-fence: use correct callback in
+ dma_fence_timeline_name()
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ Peter Griffin <peter.griffin@linaro.org>,
+ Tudor Ambarus <tudor.ambarus@linaro.org>, Juan Yescas <jyescas@google.com>,
+ kernel-team@android.com
+References: <20260618-linux-drm_crtc_fix-v1-1-801f29c9853d@linaro.org>
+ <099959fa-3a41-4166-8c10-4e5c2b9fdf19@amd.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@igalia.com>
+In-Reply-To: <099959fa-3a41-4166-8c10-4e5c2b9fdf19@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.76 / 15.00];
-	SIGNED_PGP(-2.00)[];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.36 / 15.00];
+	R_DKIM_REJECT(1.00)[igalia.com:s=20170329];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[baylibre.com:s=google];
-	MIME_GOOD(-0.20)[multipart/signed,text/plain];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[igalia.com : SPF not aligned (relaxed),none];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+,1:+,2:~];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[baylibre.com];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:andre.draszik@linaro.org,m:sumit.semwal@linaro.org,m:tvrtko.ursulin@igalia.com,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:peter.griffin@linaro.org,m:tudor.ambarus@linaro.org,m:jyescas@google.com,m:kernel-team@android.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[tursulin@igalia.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	FORGED_SENDER(0.00)[u.kleine-koenig@baylibre.com,linux-media@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-65227-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:wenmeng.liu@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[12];
+	TAGGED_FROM(0.00)[bounces-65228-lists,linux-media=lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[u.kleine-koenig@baylibre.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[baylibre.com:+];
 	ALIAS_RESOLVED(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tursulin@igalia.com,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	DKIM_TRACE(0.00)[igalia.com:-];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,baylibre.com:dkim,baylibre.com:from_mime,monoceros:mid]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,igalia.com:email,igalia.com:mid,igalia.com:from_mime,vger.kernel.org:from_smtp,amd.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,linaro.org:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 378536A1F00
+X-Rspamd-Queue-Id: 188706A227B
 
 
---endujef62ugl3neu
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH 2/2] media: i2c: og0va1b: Add OmniVision OG0VA1B camera
- sensor
-MIME-Version: 1.0
+On 18/06/2026 14:46, Christian König wrote:
+> On 6/18/26 14:00, André Draszik wrote:
+>> dma_fence_timeline_name() is a wrapper around
+>> dma_fence_ops::get_timeline_name(). Since the blamed commit below, it
+>> calls an incorrect callback.
+>>
+>> Update it to restore functionality by calling the intended callback.
+>>
+>> Fixes: 62918542b7bf ("dma-fence: Fix sparse warnings due __rcu annotations")
+>> Signed-off-by: André Draszik <andre.draszik@linaro.org>
+> I'm like 99% sure we had that already fixed weeks ago, but somehow it looks like that was never merged to drm-misc-fixes.
+>
+> Anyway Reviewed-by: Christian König <christian.koenig@amd.com>
 
-Hello,
+I was also perplexed and took me some digging to realise what had happened.
 
-On Thu, Jun 18, 2026 at 06:37:44PM +0800, Wenmeng Liu wrote:
-> +static const struct i2c_device_id og0va1b_id[] = {
-> +	{ "og0va1b" },
+The copy-and-paste bug was indeed originally fixed in:
 
-please make this:
+commit 033559473dd3b55558b535aa37b8848c207b5cbb
+Author:     Akash Goel <akash.goel@arm.com>
+AuthorDate: Tue Oct 21 17:09:51 2025 +0100
+Commit:     Tvrtko Ursulin <tursulin@ursulin.net>
+CommitDate: Fri Oct 24 16:56:37 2025 +0100
 
-	{ .name = "og0va1b" },
+     dma-fence: Fix safe access wrapper to call timeline name method
 
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(i2c, og0va1b_id);
 
-Best regards
-Uwe
+But waaay before that I sent a fix for something else which touched 
+those lines not noticing the copy-and-paste, fixing a different issue. 
+That one however was not merged until earlier this year:
 
---endujef62ugl3neu
-Content-Type: application/pgp-signature; name="signature.asc"
+commit 62918542b7bf08860a60ebbde7654486e0ac0776
+Author:     Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+AuthorDate: Mon Jun 16 16:59:52 2025 +0100
+Commit:     Christian König <christian.koenig@amd.com>
+CommitDate: Mon Feb 9 14:05:20 2026 +0100
 
------BEGIN PGP SIGNATURE-----
+     dma-fence: Fix sparse warnings due __rcu annotations
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmo0Km4ACgkQj4D7WH0S
-/k52EAgAgUXx6nNuRbD3KgLHPYbej+Zt7WTlvyKKhWJIP1NqEepGQdgtiabv5z6U
-MvmU4mBit39O4SsAn0XGjM9Bn7FrUNb8oYbUiEGJrcIz6gkIWxHzpY0gsBb/Qb3O
-Fi7JYyYPXyeNsreM8IhXc8kOGeEZiZ/1o4I3tPAAri2DN6UD47JitgGlzyuzhZij
-SO9DLUriMNs0H9fGW++CTCTtOjArv44YyKW4hjUuvPqtwaH7HfXQOpkOA61weKbd
-dvYsv8pDPfkNE5CaDgSHcaI6t24mQoYRxiclxyY/3cIY5Ag877Rlw33hFcnhvt1J
-zqvLBw7YLGiRHcu7RSHkpboKYFwq7w==
-=grwz
------END PGP SIGNATURE-----
+Notice the authored vs commited dates.
 
---endujef62ugl3neu--
+I guess it was a silent conflict which overwrote the earlier fix and 
+restore the copy-and-paste bug.
+
+Regards,
+
+Tvrtko
+
+>
+>> ---
+>>   drivers/dma-buf/dma-fence.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>> index b3bfa6943a8e..5292d714419b 100644
+>> --- a/drivers/dma-buf/dma-fence.c
+>> +++ b/drivers/dma-buf/dma-fence.c
+>> @@ -1202,7 +1202,7 @@ const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
+>>          /* RCU protection is required for safe access to returned string */
+>>          ops = rcu_dereference(fence->ops);
+>>          if (!dma_fence_test_signaled_flag(fence))
+>> -               return (const char __rcu *)ops->get_driver_name(fence);
+>> +               return (const char __rcu *)ops->get_timeline_name(fence);
+>>          else
+>>                  return (const char __rcu *)"signaled-timeline";
+>>   }
+>>
+>> ---
+>> base-commit: e2cae00c05d196491c318196792297f2dfbaa02c
+>> change-id: 20260618-linux-drm_crtc_fix-267655a1c89f
+>>
+>> Best regards,
+>> --
+>> André Draszik <andre.draszik@linaro.org>
+>>
+
 
