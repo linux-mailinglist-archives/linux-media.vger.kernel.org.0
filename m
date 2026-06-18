@@ -1,295 +1,325 @@
-Return-Path: <linux-media+bounces-65190-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65191-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 3TSZO4jkM2rrHgYAu9opvQ
-	(envelope-from <linux-media+bounces-65190-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 14:28:57 +0200
+	id W4ujOX3mM2pkHwYAu9opvQ
+	(envelope-from <linux-media+bounces-65191-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 14:37:17 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A6A6A0084
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 14:28:56 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C2816A01D8
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 14:37:17 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none ("invalid DKIM record") header.d=siliconsignals.io header.s=selector1 header.b=b1i4qU4q;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65190-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65190-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=fail reason="SPF not aligned (relaxed)" header.from=siliconsignals.io (policy=quarantine);
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=mdJbdFXo;
+	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=Q4P2QA36;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65191-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65191-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=qualcomm.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A7DD23050462
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 12:28:05 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 87E4D305A8E1
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 12:36:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B36663F4DDC;
-	Thu, 18 Jun 2026 12:28:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F8473E4504;
+	Thu, 18 Jun 2026 12:36:39 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazon11020138.outbound.protection.outlook.com [52.101.227.138])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84DD93F4852;
-	Thu, 18 Jun 2026 12:28:02 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781785684; cv=fail; b=Vw7tEQJUlku7bDOlPTkHdBjbIDd5XEBloC4hVonycIemZ8sftylFHHojc7dS+cgc5v4eJPwwPKPtpxlwE5N40AgKnFJpz6wCYqChvAoLFauyD1L+r7K2MCqRVKUkBMyvIiupd/jLw8G6zSzLSoReohN3HL2R5vYupp6otXHftHk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781785684; c=relaxed/simple;
-	bh=qLe6qE5HGYqeUjaPdswHIUqAJYh1slqJCm+Sh6T9fDQ=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=j6p+HjDwG8j9PwptCc8to3aHWF5O5D8/6C0Cy+S9SPzTSC7drOWqopaZf4r73USNoEoGdO+pO4o+WBZkSO60z7g22wH0TesaeP9sGoolEgEtUeb9qg2F7bYbjsv/amizWVuqjZXQCWDA1vsy3Wspdo3bnZBlpHHo0PvtxUfiRqk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=fail (0-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=b1i4qU4q reason="key not found in DNS"; arc=fail smtp.client-ip=52.101.227.138
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=B1KQSQ/wiyw2FMyujM62QE0FcjZSPTRDb/gR5lOSww/8C2DoRLw61CPTAnt89f4QMMaz9AiCW08AqJTCtWNzwyNX9XWPlA+x9LTnlkKOKrKVzOjqMBii1p37jBD63f4O99RXCUt/TVeyGyYr1SUEFeoeqH/T+tV4paWaq0T6AwKLY2ZXMppbmPBok37yW1rVTN8vSgVjZCskxw0IyjQ7IaTF+KZL2ehOsGFfvv5MzmPKfnTsQ0XT8OxpEhEkrdj8OkaTK7WUKK8atK6RbmS8CKdoPiPzRopWZ+MF2nI4gO35WXcExbC4WFSbfg6Id98zKhuJYbzCOreFj5XMZ9bl2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2h+7KUaXnJzzdVxJBi83aQ4ic/S4wWUOj5l2LrZTRKw=;
- b=DRHlnr2x88ZPyfgOkE1LOcJJRhkz1CzzFFRFx5dbVvpZQTtzyM+LcAeYpkqSXIWx6Rbr9FYRev0GH2HGuIDHHIKyFuH/tdJ+25yqlYf04t8DWm82TnDoyBh+f+T8EJlX1Tla9X7nlgreg935GAc/HXp54/l0JqxoegMyoR0xr3NY9G+zglS1eeAgXHkGo4RDVvKbSGjze6iWgII5gxmWRV0ORSQZKBySEaR/bUVt/vWTdOOuF3TfBoJSaPbr+G1gI5B0u13AX6JBenVKlNujRODK6vRAoNSTC0BtkVK6yLIrYHmJzgHttrBAevTgoYwWVS6f//rUqpeZumkcOxURbg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
- header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2h+7KUaXnJzzdVxJBi83aQ4ic/S4wWUOj5l2LrZTRKw=;
- b=b1i4qU4qgiVYfOOUuZ2u2etNvKyW/csNaojWPuxG3fUFUibumODDIC+POOZgGEgS80jq8byL7yDwPwvyTmISeszP6TBcqAJUi2D/OxoHU7CE8fMLZJ+mglsFylwcd2Jy7EKevzA0vVu7OHf+4jC/5zRy5dI9WlqykHO21I6XljqXhhtj38CoRwKJx+frgGiO0Yh0HkH8hgp7KpD7E8Y1Xxh3B3OWFfF5HNymmPTlg8UH5npzTNVUWAv+skeZLrO7FNsIwGhBwWrBJXsDAgiUYotJfh0Mirl2hhMx4Eojc9ifepfr6GshQPLKBhCWjsFucRhP/dTUqCNLrZPEOW4n/w==
-Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
- by PNWP287MB6044.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:335::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Thu, 18 Jun
- 2026 12:27:58 +0000
-Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- ([fe80::ce63:5749:b390:508b]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- ([fe80::ce63:5749:b390:508b%6]) with mapi id 15.21.0139.009; Thu, 18 Jun 2026
- 12:27:58 +0000
-From: Tarang Raval <tarang.raval@siliconsignals.io>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, Elgin Perumbilly
-	<elgin.perumbilly@siliconsignals.io>
-CC: "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>, Hans de Goede
-	<johannes.goede@oss.qualcomm.com>, Vladimir Zapolskiy
-	<vladimir.zapolskiy@linaro.org>, Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Benjamin Mugnier
-	<benjamin.mugnier@foss.st.com>, Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>, Himanshu Bhavani
-	<himanshu.bhavani@siliconsignals.io>, Heimir Thor Sverrisson
-	<heimir.sverrisson@gmail.com>, Jingjing Xiong <jingjing.xiong@intel.com>,
-	Svyatoslav Ryhel <clamor95@gmail.com>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 2/3] media: i2c: add os02g10 image sensor driver
-Thread-Topic: [PATCH v3 2/3] media: i2c: add os02g10 image sensor driver
-Thread-Index: AQHc08x2ZGEqHlozd0WRfHpJSrJW5LZEh+YAgAAHxas=
-Date: Thu, 18 Jun 2026 12:27:58 +0000
-Message-ID:
- <PN3P287MB182988E479F79C0979B56BCA8BE32@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
-References: <20260424092554.26130-1-elgin.perumbilly@siliconsignals.io>
- <20260424092554.26130-3-elgin.perumbilly@siliconsignals.io>
- <ajPZ_mURqAFbk59S@kekkonen.localdomain>
-In-Reply-To: <ajPZ_mURqAFbk59S@kekkonen.localdomain>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3P287MB1829:EE_|PNWP287MB6044:EE_
-x-ms-office365-filtering-correlation-id: dd0366be-6795-45c2-3ce8-08decd350800
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|23010399003|376014|1800799024|7416014|366016|4143699003|38070700021|6133799003|56012099006|18002099003|22082099003;
-x-microsoft-antispam-message-info:
- 5OybBO5tCGAbYSlJgUy/De34JOxoC2Vx+TyeZkcoGnTILTQhIrNf1jU7r+D6ugHNdWrfA+8zc7xSGlHrH3PtZJjs4/srs6vyEihCpWFzqjyzwnS3FPdVIwqcg+sM6U6MX/1vM4cgsKNP+bebI/DeBj/zOyobPLYW9A+CILJWXZfY0ATDECb8qLayFSqRzTcBJDd+5JctfmLO6dst1Olv2moBC6Nhmz/icu8+mvvjm5caPGTm+29XG+wH//I2EK1Vv6D5h04DHPUm9VfGx7bVr3bkvf+iQmTzIeYjYI+1mGQgaGWs7fvEKU63j0ngFLzJp8nUus7PKc14vyLtS1IlIFsvjDV+aUxmnkI4k6pu7bQPlafB8PR6gfLBArogzRwiH30qB0B0XQQzFUlSNR5He7TKtHc//7C0hGhfjg+Jru178+ON4XteRZsfl3t55ZtvUUqwtOAGUjnYHXK2JZ5Q8KSSqVwLP27no72qujyXSjnYzsVx91wB19pOAWJSPWmbBbg43Q0Xw05cNx5/YWHHfP/lYXWgJ6vs3ZVmASUcW0hbJ6wc/mry9prTdSIOlqQQn0+7jv/ooAFwz4fmfMCTSS0opj0apW939DKN2UoIawvVS7G3ubqcTrmjhUgOaQMyTusf7I6Dk/wKZgXKj7wbXSAFYL89lgXgv3Che02rBCgccmJ3Nl6Lq2jS177b3o5uXN0QQXh1gIaCR53jF/7sp7xITeEgX2ZFCc93cVkO4mfFLaBrLFmDw8mKjmEq2HAm
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(7416014)(366016)(4143699003)(38070700021)(6133799003)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?koi8-r?Q?dtu0WtJtfuzuCtFU+OH4lFjvu8hgTgDSEwWhM3QMuy9d2DxOT2XRHogDhpZBlP?=
- =?koi8-r?Q?K5L1zylqkvVJcrAdNfLrVEA5z0ojVzqpacwpfwnGDpoDJvtXu9bjTLOvk/J9qz?=
- =?koi8-r?Q?jJOdkKS0ktQ2aPJtrFgl9WkjiODoxGRMb1EN2UccxJNiw3fk+8zIqrcVMP6L4J?=
- =?koi8-r?Q?vEvz8IcKn6XXfg+1w4UtQUS34XFFxf3J09l3WC7xn0tmPsbUzuatW/kHzZTTX6?=
- =?koi8-r?Q?w6So8RuBE0gYPq4T4OKR0Dbk+Bv33n2SgJ94OfS8uK/us8wF05qNNO6Wcl4jNU?=
- =?koi8-r?Q?Whe0BFG5kY9WuDX01KWmlfn2l/Bja1VErFatNEWCf7zVrCY57V3RvUAj8rMdBn?=
- =?koi8-r?Q?v1qG56Kg/jMqZ09ZUF1aQcIRHpRrf9wKWGKF2Z2dxFjQ0Jl/KBSGe7lUhoH9ZG?=
- =?koi8-r?Q?+fYApLHwhWFQr+pGdTVAnvjP37i2Cmxt5OFnt/cBR0ojw/mydTkyd9UlYyeYBV?=
- =?koi8-r?Q?kfP58h29pjHHwuy1EPdzSjmSzyafLYVFaKun1+vPp/SX5MHAgHr5RKXV+3d1He?=
- =?koi8-r?Q?pDRr8U6bRSUshAW/yLVgJF9C6uo2xj1s5fPbQfcIRRrNUW6km7GvdxM/SKol/J?=
- =?koi8-r?Q?IvW591GmaAOpAwEHxVneqHppDCkdxNMFd0Cgwt8bicENIlwtGuVX8PSSn9v5JZ?=
- =?koi8-r?Q?v2jEbwly48OzxMhrfNEWawVfpG6/162477gLKv4xZkKcWYqqXP61dw/cyOL30r?=
- =?koi8-r?Q?fJ/ly6w/TolJ468b3eEgaerEdXKlS3Ok442/lxSsLNDA0oW+85+luJOG3LoEu4?=
- =?koi8-r?Q?K0D2s4ZQO3A5ylt93UPAdy2EnTJhbUTnmrINXKyclhlzG7Slz6dvtzPOn7qgGM?=
- =?koi8-r?Q?1Vu8mCGc6AviGogNopz9Wqkquc62cFs0aqJ83IVf03ZPg/m4jb2RgZs15j49vC?=
- =?koi8-r?Q?ghjGoy3AKYtICJw7owqEe0gzs7k4JtS9P7UB/rEsySTJaDTZ8Wbl+733WE5EkO?=
- =?koi8-r?Q?uBzfwfVjKdCrBUQMS3fFuaDgZarG7EAADy7X3IfmiplwDhr5OmZ2Vwqcv9ybsx?=
- =?koi8-r?Q?ljxJp/JhSZfNQOb4knFwx6yt+bFM8Fxej0Ox9dD9SWzLk/krNzxAfNwiKk3GLf?=
- =?koi8-r?Q?DRKpPkpVi4WoOt/XEerfjrxl4B/MmzGV0d2cmBFjhu0DXMkBdg5AHW9EzCMpoF?=
- =?koi8-r?Q?tjm7o+e37Hdm7ctjtfuQII6rCQI95jyE1nCZ+3F+0mF6CxlKhmM34U92Lu1VIp?=
- =?koi8-r?Q?JY1y3sy+yWMnMLwboj068cW1V4v0z7BB5lG1PiLASunCpCndr7Uk+J54Kk8om1?=
- =?koi8-r?Q?0i5Fngfr1Ibfi+hEJghqDQcBqs8oDUJTlGUgiupChnnkuq4SymhHWl92GFCRt0?=
- =?koi8-r?Q?Oq2THAFP2Thwg56aY0U23mCCymbQd+NXDC/VlemNVDXW61VmpJyij41Q2x5jLK?=
- =?koi8-r?Q?PCPfR1c3n2e6La6HcBJS9flpBIK079hjJkkc4Y6hZ4L2f93Cd9S0XngqfrF0II?=
- =?koi8-r?Q?it/orRPDaRnfx3qELn99LNWyXw8z24VPnhRBI6dylkCzeY61AWqceQJIXEa4pa?=
- =?koi8-r?Q?r06PoPH9nF1vwxYbSIv1c2j9egBOJ+4/e/sY3etgTCtTMkEfwIXT97pTylIswI?=
- =?koi8-r?Q?1vErrcD71GctMaPAwJFVcrQz+59q3WKStEZL/VQ+/Jl59P0ycvrx5DLuFmMsdJ?=
- =?koi8-r?Q?mL1hS80MVCGjNctcjQ5VrtYJbHKFZ2zqBwXLEdFAzRos/kv3zqFMJJmXEOcPd8?=
- =?koi8-r?Q?8wAwG8elQZsUCA=3D=3D?=
-Content-Type: text/plain; charset="koi8-r"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6D6939A7E5
+	for <linux-media@vger.kernel.org>; Thu, 18 Jun 2026 12:36:35 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781786198; cv=none; b=YXY8cB6HIuSlkF6TU6HtrJH0nTuqrYPHeKZIgL+OsK13FNtCaEDqK3Vq7QF1q9U3LIShk3mXu7nTEK3GbP7Q4owSIgvVPvpqrxRTKjtllZCsgvL63CXRLzUpfoccPQ5ydGoxpDuJ34xFHS2YxWZJC0J36JB9Fu1Xc05/69mnaPE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781786198; c=relaxed/simple;
+	bh=K+0x3UrBGShhz8wCrdR54NiTLNqYO3w0UTI1bSEaIM8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OI9s5Ua30WZiiMrt/2E5Qx7nvNRK6fBtcIQOvRlrRWLAEL67dtxLZgAFY9oFByWiv4YUa4QM0TitFrYKyyKAq4C+pr9UNmvi+y9+A3OBey/+S1jlV9fJGMZUTJ/pqcrHiJSWu89tgPi1l45bV5TwxFGUKuSOdzMz5cn41fHAPjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mdJbdFXo; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Q4P2QA36; arc=none smtp.client-ip=205.220.168.131
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65IAs0IJ1030379
+	for <linux-media@vger.kernel.org>; Thu, 18 Jun 2026 12:36:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	tkVdR6Y285QvRNSr/VNZJ0GSaNwFXgkHm0HQbf9tgGU=; b=mdJbdFXo3hnbRguk
+	RZ3ovdXwEe20SpX4nlDzAwxVrsdG7Accag0uXfJBIaGAx1i5fFOBdAyvnUsW7/FQ
+	FlLt44/5TFigBDO/T9BvfTfLRC3nh3NyIW673vjTuhymJgc/LjFi6brIDQAjxMUE
+	9JTNbQ50MwS+dyF7x+ixJT6olK31U+x10uSnMJTMiJcJThJ4BXnt0PY//FrmZnb6
+	j0Ogb5IouehBonXtnld870ZWUXhI4stXYqybJF9lEwbrG1gWr3nLG21ZAGNFdbkZ
+	YmjIsdi84yBVNWAfk4pIbptGkZk48XMNRSXwakzkz+6ow3vBSshVAQR8emPkzdGY
+	Yt9bgw==
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ev0vm3d8k-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 18 Jun 2026 12:36:34 +0000 (GMT)
+Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-51772325a64so12770811cf.2
+        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2026 05:36:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1781786194; x=1782390994; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tkVdR6Y285QvRNSr/VNZJ0GSaNwFXgkHm0HQbf9tgGU=;
+        b=Q4P2QA36/csfW0Rf/5nGYOvPzU1em4bIB8Zs3yG1hfPWoPBM8Btj0j8QXqqCaCYjd7
+         ezlcRxmEgtvN56D+n1FG4n3dihbYxmEUelmMqrGsmboJdDUmC7k+czRpW51yQWdl8mb1
+         f+QYCbdcDTvnCcYjoDMO03AXT/gdZ2sr2omwadNl44LiXGBPcIo3FUd4IKDUNaplWPrS
+         VkUZlBchOWi/iH2yVucD4N+Op5DC92PZacdPC4jPYifXKMPfwKPmbaxv0Lf5GLeXUXfU
+         HRAD2PHf8vybBMf2l3YoJEs+UoRKeK3WgMYlWPW4kQgIxc7i6uACPpWLfPF1k6ja8/zP
+         JfSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781786194; x=1782390994;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tkVdR6Y285QvRNSr/VNZJ0GSaNwFXgkHm0HQbf9tgGU=;
+        b=Qne9b69jG4IkAaudJe31qjBTe66QszUQfnfNM/u8qlP71h+OifZzzNN95HWvson9YE
+         i0ydFprl4IIIEWD3UK+SV82SVW0KAvzWo/0+jifVgXDVl6VKgr58wiESkQvKy4mxZFZS
+         99J4hgL9dI89ICeV4+W4lXvG1EZBC3BlrJ7H1BDb8tJ4UoY6IDBoqRJ8429RY5yYLW+y
+         G3/sopYVpKeUQCQ71OaS1hfShEc4QrY10Qq3Nk2Hrme7mMS6xV3fRBpsx0AZAj8sKBdd
+         mI1GgR7O/3BQcFIp0u6ejdCzyiKpGLyGvo/Ll0ZITjJWAv1/epXneVxQj8ILf4qjRT+/
+         14cQ==
+X-Gm-Message-State: AOJu0Yxb1/BLlqEhpdH3sSJSE8lOdVooUDgtSglNxz/1YXOOtHkG28PI
+	eqWYmR1hQ1FyORnsD7eGqX7t6h3raN2DQonHe/y5jZe5ziiCbBe+Yv50bjCrGNKs/nF+7vFfGfk
+	2b5YZvUzmttlft3gPOS2PSnsj5nC8lwO7j6fMSR6/V4KEpKhb+DL8KCMvOnfBqbB7qg==
+X-Gm-Gg: AfdE7ck3vbG2vVNdr/bYaAY5nmp449+03TEqVYBGWVSCpVKSGKU8HnnUeSVjkszuuKr
+	Bq9oIsdP9b0xFgZmbigjC1evBEHLqtPD+Ac9aavpI9t6Au2waSmsgXlbMwY0E8j0CDGCD+6mbQ6
+	xIdQhmIxEhldGSBTSr86o5KNmwjVk2SidY+7VzHdsRYLHXuMLapGbszrJ42rwVATzrcznGQIOqw
+	DdMJemGOAEReTdbg8FF+p6nrRaLWVPWY5PfV7EFTjTQkE6uEqhEMFSjMtgYu/460O+jygex1YUa
+	lAOKUMQISxJiBoYjmpmKqMsG3/J/ieoKh9+rAZZIDNVs2fgF/eNP32ZbeKccAoBc/EL/M2uQt2w
+	lWktEwXKgRsnYpSx6q4YgYMs6CyyC+fGJkoJUk5ihjLJRMlEPtXd8oC4HzJBq2t4aMLAongrRk4
+	E=
+X-Received: by 2002:a05:622a:8f0b:b0:517:675f:3ee8 with SMTP id d75a77b69052e-519a8df0360mr119058931cf.12.1781786193879;
+        Thu, 18 Jun 2026 05:36:33 -0700 (PDT)
+X-Received: by 2002:a05:622a:8f0b:b0:517:675f:3ee8 with SMTP id d75a77b69052e-519a8df0360mr119058481cf.12.1781786193346;
+        Thu, 18 Jun 2026 05:36:33 -0700 (PDT)
+Received: from [10.111.165.239] (Global_NAT1_IAD_FW.qualcomm.com. [129.46.232.65])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8d9f4ff32a3sm96189716d6.36.2026.06.18.05.36.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Jun 2026 05:36:32 -0700 (PDT)
+Message-ID: <226a55a6-babd-47ce-b261-35b982d5c7db@oss.qualcomm.com>
+Date: Thu, 18 Jun 2026 20:36:27 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: dd0366be-6795-45c2-3ce8-08decd350800
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jun 2026 12:27:58.4027
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: eD87qlnoIYSEwOJGQDTHQrVlA9bvWE6ZIxoN3g9IW661LFLZNXEDEy5kuoxBt4ipUWaypsl7Sgy/Ffo7M7vuIT1lw3eEH68C5KHNe2Fq55E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PNWP287MB6044
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] media: i2c: og0va1b: Add OmniVision OG0VA1B camera
+ sensor
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20260618-og0va1b-v1-0-dda71bb83009@oss.qualcomm.com>
+ <20260618-og0va1b-v1-2-dda71bb83009@oss.qualcomm.com>
+ <1a57863c-831a-411c-a0ae-da3d4f1fd6a0@linaro.org>
+Content-Language: en-US
+From: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+In-Reply-To: <1a57863c-831a-411c-a0ae-da3d4f1fd6a0@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE4MDExNiBTYWx0ZWRfXzYzlMX3IrkyY
+ C9O5nr4/EoWUCgYAtVKdt/J4eZcO/SgpZSC8hW1y8QL0u7Jd8xYM2B9zrR/joYknop0J5sXD4Ao
+ EuVr5RS2W/y3/spuLb+143lWwOFHsXbx1pDWb9gvcwdIVq/I6j0wYyAYLR9Qal6pcVF3FGv0WSo
+ LnFjqIJoCkCqPk2ZtlXqQfnWlOUc4yLFDZAtQ0MvFfhKHGaP0zEA+CWIE4kKfy40Ty0nU2JkrTW
+ GKq7tQhRPxNdBcPk41eay6JODLCet7U3J0OayXQOnrJmxAD75lnMLPt3xvLkanon5tPhSRFGwFA
+ R3os7ucXfdFxgacxVDBEqPctC9deKLNZtViomLHza+8tb068pqupDGe5dDeaPXnSvbgU9tn6mFO
+ Ga1h9zWsQy4kN54C8GmYX9EdrYeucsgjDPdGmVzv1bJMT3l4CpKRiNtwd6F65ZlFUQ95nCaWl0M
+ FSlWmb7Y7Uzj6UvsdTA==
+X-Proofpoint-ORIG-GUID: r-j18oTPsqVEdRsbOOlotOwrvUJMLlmu
+X-Authority-Analysis: v=2.4 cv=UrRT8ewB c=1 sm=1 tr=0 ts=6a33e652 cx=c_pps
+ a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=C3Dk8TwHQYyIj7nOf9RCJw==:17
+ a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=EUspDBNiAAAA:8 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=HvsU3PRRA2NteV8Xgf4A:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
+ a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: r-j18oTPsqVEdRsbOOlotOwrvUJMLlmu
+X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE4MDExNiBTYWx0ZWRfX12o7fEuOEaN/
+ 8DmhZ8s4KNokR3tEwfOw84R8JGo4EaHhH8oX4LJXCjYGBaBrwlNO86yNPU3rraoV9/qjtm0sLup
+ Luf62MMBJrbli6fV09GtuzJj1ucbQd0=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
+ definitions=2026-06-18_01,2026-06-18_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0
+ bulkscore=0 spamscore=0 suspectscore=0 adultscore=0 malwarescore=0
+ clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2606180116
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [3.54 / 15.00];
-	DMARC_POLICY_QUARANTINE(1.50)[siliconsignals.io : SPF not aligned (relaxed),quarantine];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
+	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65190-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:elgin.perumbilly@siliconsignals.io,m:laurent.pinchart@ideasonboard.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:hverkuil+cisco@kernel.org,m:johannes.goede@oss.qualcomm.com,m:vladimir.zapolskiy@linaro.org,m:mehdi.djait@linux.intel.com,m:sylvain.petinot@foss.st.com,m:benjamin.mugnier@foss.st.com,m:bryan.odonoghue@linaro.org,m:himanshu.bhavani@siliconsignals.io,m:heimir.sverrisson@gmail.com,m:jingjing.xiong@intel.com,m:clamor95@gmail.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[tarang.raval@siliconsignals.io,linux-media@vger.kernel.org];
-	R_DKIM_PERMFAIL(0.00)[siliconsignals.io:s=selector1];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	FREEMAIL_CC(0.00)[ideasonboard.com,kernel.org,oss.qualcomm.com,linaro.org,linux.intel.com,foss.st.com,siliconsignals.io,gmail.com,intel.com,vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-65191-lists,linux-media=lfdr.de];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:from_mime,vger.kernel.org:from_smtp,linaro.org:email,qualcomm.com:dkim,qualcomm.com:email];
+	FORGED_RECIPIENTS(0.00)[m:vladimir.zapolskiy@linaro.org,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	DKIM_TRACE(0.00)[siliconsignals.io:~];
+	FORGED_SENDER(0.00)[wenmeng.liu@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tarang.raval@siliconsignals.io,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[wenmeng.liu@oss.qualcomm.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,PN3P287MB1829.INDP287.PROD.OUTLOOK.COM:mid,siliconsignals.io:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt];
+	RCVD_COUNT_SEVEN(0.00)[7]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 51A6A6A0084
+X-Rspamd-Queue-Id: 4C2816A01D8
 
-Hi Sakari, Elgin=0A=
-=0A=
-> > +static int os02g10_power_on(struct device *dev)=0A=
-> > +{=0A=
-> > +     struct v4l2_subdev *sd =3D dev_get_drvdata(dev);=0A=
-> > +     struct os02g10 *os02g10 =3D to_os02g10(sd);=0A=
-> > +     int ret;=0A=
-> > +=0A=
-> > +     ret =3D regulator_bulk_enable(ARRAY_SIZE(os02g10_supply_name),=0A=
-> > +                                 os02g10->supplies);=0A=
-> > +     if (ret) {=0A=
-> > +             dev_err(os02g10->dev, "failed to enable regulators\n");=
-=0A=
-> > +             return ret;=0A=
-> > +     }=0A=
-> > +=0A=
-> > +     /* T4: delay from DOVDD stable to MCLK on */=0A=
-> > +     fsleep(5 * USEC_PER_MSEC);=0A=
->=0A=
-> Does the sensor really require this? Typically no delays are required=0A=
-> before lifting xshutdown.=0A=
-=0A=
-The 5 ms delay for T4 (DOVDD stable to ECLK on) is required by the=0A=
-datasheet.=0A=
-=0A=
-However, T3 and T4 are independent timing requirements, not sequential=0A=
-ones. The current implementation introduces an unnecessary extra 5 ms=0A=
-delay before deasserting XSHUTDN.=0A=
-=0A=
-The comment could also be updated to:=0A=
-/* Wait for T3/T4 timing requirements after supplies become stable */=0A=
-=0A=
-=0A=
-Power-up Sequence:=0A=
-=0A=
-DOVDD    ________/=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=
-=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=
-=80=80=80=80=80=80=80=80=80=0A=
-                 |=0A=
-                 |<------ T4 =3D 5 ms ------>|=0A=
-                 |                         |=0A=
-                 |                         +------ ECLK ON=0A=
-=0A=
-AVDD     ________________/=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=
-=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=
-=80=80=80=80=0A=
-                      ^=0A=
-                      |=0A=
-                    T1 >=3D 0 ms=0A=
-=0A=
-DVDD     ________________________/=80=80=80=80=80=80=80=80=80=80=80=80=80=
-=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=0A=
-                               |=0A=
-                               |<------ T3 =3D 5 ms ------>|=0A=
-                               |                         |=0A=
-                               |                         +------ XSHUTDN Re=
-lease=0A=
-=0A=
-XSHUTDN  ____________________________________/=80=80=80=80=80=80=80=80=80=
-=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=80=0A=
-=0A=
-ECLK     __________________________________________/\/\/\/\/\/\/\/\/=80=80=
-=80=0A=
-=0A=
-SCCB     ____________________________________________________XXXXXXXXXX=0A=
-                                                 ^=0A=
-                                                 |=0A=
-                                 T5 =3D 5 ms ------+=0A=
-=0A=
-> > +=0A=
-> > +     ret =3D clk_prepare_enable(os02g10->xclk);=0A=
-> > +     if (ret) {=0A=
-> > +             dev_err(os02g10->dev, "failed to enable clock\n");=0A=
-> > +             goto err_regulator_off;=0A=
-> > +     }=0A=
-> > +=0A=
-> > +     /* T3: delay from DVDD stable to sensor power up stable */=0A=
-> > +     fsleep(5 * USEC_PER_MSEC);=0A=
->=0A=
-> The supplies were enabled before the clock so right now there's already 5=
-=0A=
-> ms delay here. Consider with the above comment.=0A=
->=0A=
-> > +=0A=
-> > +     gpiod_set_value_cansleep(os02g10->reset_gpio, 0);=0A=
-> > +=0A=
-> > +     /* T5: delay from sensor power up stable to SCCB initialization *=
-/=0A=
-> > +     fsleep(5 * USEC_PER_MSEC);=0A=
-> > +=0A=
-> > +     return 0;=0A=
-> > +=0A=
-> > +err_regulator_off:=0A=
-> > +     regulator_bulk_disable(ARRAY_SIZE(os02g10_supply_name), os02g10->=
-supplies);=0A=
->=0A=
-> A newline here would be nice.=0A=
->=0A=
-> > +     return ret;=0A=
-> > +}=0A=
-=0A=
-Best Regards,=0A=
-Tarang=0A=
+
+
+On 6/18/2026 6:50 PM, Vladimir Zapolskiy wrote:
+> Hello Wenmeng.
+> 
+> On 6/18/26 13:37, Wenmeng Liu wrote:
+>> Add V4L2 sub device driver for OmniVision OG0VA1B image sensor.
+>> OmniVision OG0VA1B is an image sensor, which produces frames in 10-bit
+>> raw output format (Y10) over a 1-lane MIPI CSI-2 interface and supports
+>> the 640x480 (VGA) resolution.
+>>
+>> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+>> ---
+>>   MAINTAINERS                 |   1 +
+>>   drivers/media/i2c/Kconfig   |  10 +
+>>   drivers/media/i2c/Makefile  |   1 +
+>>   drivers/media/i2c/og0va1b.c | 867 ++++++++++++++++++++++++++++++++++ 
+>> ++++++++++
+>>   4 files changed, 879 insertions(+)
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 
+>> 5aa846c8479b20651291d5bd2e316308310f826c..85a06eb9eacc410a565b80d56979eaa565515d0e 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -19891,6 +19891,7 @@ M:    Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
+>>   L:    linux-media@vger.kernel.org
+>>   S:    Maintained
+>>   F:    Documentation/devicetree/bindings/media/i2c/ovti,og0va1b.yaml
+>> +F:    drivers/media/i2c/og0va1b.c
+>>   OMNIVISION OG0VE1B SENSOR DRIVER
+>>   M:    Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+>> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+>> index 
+>> 5d173e0ecf424f2f204f8d426be818e44357f8e4..56680772f5f47b4629c4e17f5a5feba08b1d94fc 100644
+>> --- a/drivers/media/i2c/Kconfig
+>> +++ b/drivers/media/i2c/Kconfig
+>> @@ -363,6 +363,16 @@ config VIDEO_OG01A1B
+>>         To compile this driver as a module, choose M here: the
+>>         module will be called og01a1b.
+>> +config VIDEO_OG0VA1B
+>> +    tristate "OmniVision OG0VA1B sensor support"
+>> +    select V4L2_CCI_I2C
+>> +    help
+>> +      This is a Video4Linux2 sensor driver for the OmniVision
+>> +      OG0VA1B camera.
+>> +
+>> +      To compile this driver as a module, choose M here: the
+>> +      module will be called og0va1b.
+>> +
+>>   config VIDEO_OG0VE1B
+>>       tristate "OmniVision OG0VE1B sensor support"
+>>       select V4L2_CCI_I2C
+>> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+>> index 
+>> e45359efe0e41e13e3c0869e5ead7d6cf4aca3a7..c60851c7fe07e3bdc511c5f482525ba7a044f48e 100644
+>> --- a/drivers/media/i2c/Makefile
+>> +++ b/drivers/media/i2c/Makefile
+>> @@ -83,6 +83,7 @@ obj-$(CONFIG_VIDEO_MT9V011) += mt9v011.o
+>>   obj-$(CONFIG_VIDEO_MT9V032) += mt9v032.o
+>>   obj-$(CONFIG_VIDEO_MT9V111) += mt9v111.o
+>>   obj-$(CONFIG_VIDEO_OG01A1B) += og01a1b.o
+>> +obj-$(CONFIG_VIDEO_OG0VA1B) += og0va1b.o
+>>   obj-$(CONFIG_VIDEO_OG0VE1B) += og0ve1b.o
+>>   obj-$(CONFIG_VIDEO_OS05B10) += os05b10.o
+>>   obj-$(CONFIG_VIDEO_OV01A10) += ov01a10.o
+>> diff --git a/drivers/media/i2c/og0va1b.c b/drivers/media/i2c/og0va1b.c
+>> new file mode 100644
+>> index 
+>> 0000000000000000000000000000000000000000..f0505b7ba7f329ad57ffafa8f90a24204f002d3c
+>> --- /dev/null
+>> +++ b/drivers/media/i2c/og0va1b.c
+>> @@ -0,0 +1,867 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/*
+>> + * OmniVision OG0VA1B Camera Sensor Driver
+>> + *
+>> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries
+>> + */
+>> +
+>> +#include <linux/clk.h>
+>> +#include <linux/delay.h>
+>> +#include <linux/gpio/consumer.h>
+>> +#include <linux/i2c.h>
+>> +#include <linux/module.h>
+>> +#include <linux/of.h>
+>> +#include <linux/pm_runtime.h>
+>> +#include <linux/regulator/consumer.h>
+>> +
+>> +#include <media/v4l2-cci.h>
+>> +#include <media/v4l2-ctrls.h>
+>> +#include <media/v4l2-device.h>
+>> +#include <media/v4l2-fwnode.h>
+>> +#include <media/v4l2-subdev.h>
+>> +
+>> +#define OG0VA1B_REG_CHIP_ID        CCI_REG16(0x300a)
+>> +#define OG0VA1B_CHIP_ID            0xC756
+> 
+> This is the same chip id as of the OG0VE1B sensor device.
+> 
+> What's the difference between these two sensors, and do you find it 
+> possible
+> to add support of OG0VA1B sensor/modes into OG0VE1B sensor driver? Or is
+> it just the same device?
+> 
+> Hardware specifics described in dt changes also does not show a difference
+> in comparison to ovti,og0ve1b.yaml.
+> 
+
+
+Hi Vladimir,
+
+
+Both OG0VE1B and OG0VA1B belong to the same OmniVision VGA monochrome 
+sensor family. They share the same resolution, power rails, reset GPIO 
+behavior and power management framework.
+
+But they are different:
+OG0VE1B:  8-bit RAW, lower FPS
+OG0VA1B: 10-bit RAW, higher FPS
+and some registers are not same.
+
+
+The DT bindings can be reused, but would it be more appropriate for the 
+driver to remain independent?
+
+
+Thanks,
+Wenmeng
+
+
+
 
