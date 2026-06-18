@@ -1,54 +1,74 @@
-Return-Path: <linux-media+bounces-65182-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65183-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Rar2MpDaM2oIHQYAu9opvQ
-	(envelope-from <linux-media+bounces-65182-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 13:46:24 +0200
+	id njIkNNXaM2ohHQYAu9opvQ
+	(envelope-from <linux-media+bounces-65183-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 13:47:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35DB069FCE5
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 13:46:24 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ABE069FD01
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 13:47:33 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=g+DnJLHq;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65182-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65182-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=intel.com header.s=Intel header.b=d62vWRH0;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65183-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65183-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id BA45F3050C8F
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 11:46:11 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D605A301AFF4
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 11:47:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 418F6386429;
-	Thu, 18 Jun 2026 11:46:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A84773F2100;
+	Thu, 18 Jun 2026 11:47:31 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42CD35202A;
-	Thu, 18 Jun 2026 11:46:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A187E3CA48C;
+	Thu, 18 Jun 2026 11:47:29 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781783169; cv=none; b=qRPE6yfWS8U5LnwDFrCnqVHvMXcpHERL9HuU2k2Jbme5Q0PLmdj++FLPx9coUwCCe+za+o58m+W3LCD3bI3KibNqFqz5JMZheubx3R/WTeKK9W9JJjmkznJRkOGjN4NlXwNsk0/nec6f8rlpomswVhDEFAdwpcIdhA7XZ8eHLVk=
+	t=1781783251; cv=none; b=lRh2kZikm7uE7cpq89jJQuMDesZZg5de/J3nFm58Tjsrz6ViOwgDVepjq0bH+OaxBCgLO5WJX1bm1i5i+JxRQSuUqXwSHCIqWZp1KeWKExcQvaHc2F3urtDlaZMV/5bYmdz7CvsoTLuJh9Bh6crYD8q3JyD/BF2z6mNXueRrIJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781783169; c=relaxed/simple;
-	bh=zBOxcc15XlTx9hZEwn04/icC6SbcUPCa+Fc3jTXc0OM=;
+	s=arc-20240116; t=1781783251; c=relaxed/simple;
+	bh=2AyTVEOcfIplggsOzRpCQy1y0t5E3yfRbiMIkx3K1Wc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kbWt42Grl+Kc53JKRqYd9447c3emYmszYHuzXx2wd6E7R4RNts5dKjNGFkRLEfnrbMWgT3kZVmS7sHlDw4xzoEaXGrObYCoG39vKSmAvvEfSOSDRq63MrlbxUNvSmdv1vf+S+w+UeazPY/iwmgv+kZIR4cVqR0Dq7jQZ0V+EAQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=g+DnJLHq; arc=none smtp.client-ip=213.167.242.64
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3B24F741;
-	Thu, 18 Jun 2026 13:45:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781783130;
-	bh=zBOxcc15XlTx9hZEwn04/icC6SbcUPCa+Fc3jTXc0OM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=g+DnJLHqxrGKLmcVbuqnA4giZZUpAPBGWHatK6JJSVaHjpOO4GGDYDnRWDjDEicSn
-	 uBmk18TKECSFoE+uGDj/h8P7jR70L1qP5ygdTDCy3OptNv5BxoOF5UROdkAoTpgxHt
-	 nUKKR4Nxt5gN9Z5lUJFTHBHme9XQ97xc6BVc1H/I=
-Date: Thu, 18 Jun 2026 14:46:03 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Cc: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
-	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=qJNyKBdyCN3oL/w2n7Qd3esFEjgWVYvvHHIOniZqQL6YoPbgkD2i6R3swQZU4ACHZehJojtxEXHfth7n1gN/yvXBJhtenwFJilk/GsjgGDXddSF96Ip6mj9Wu5SsdjDmm6tx41cC9ijAvjf96qC09YcLXjAfo8EhSmz6CZh/UXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d62vWRH0; arc=none smtp.client-ip=198.175.65.15
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1781783250; x=1813319250;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2AyTVEOcfIplggsOzRpCQy1y0t5E3yfRbiMIkx3K1Wc=;
+  b=d62vWRH0jcvVKRGRR5ZW3TaoKhLBQRTVL5RciQKiLE26evg7nkbAFQkO
+   tNb5jF91xTuu+p/JT+l6tatL4hZZenpPhNCbfJaZj6GPi4cUpMMP9ZYGj
+   rnRhp+31f4muY8+t8PueTkaiKm7uq1Yne/wBD342acNRB+KxdO94CP/Sk
+   5Sqh+vF/ei6Nz/B3Fn8y1XY+v7wYJd+BKcYki5RyZJzNKYLLKEQZiCefp
+   +w5Sska19uEXyA/dZPWwur/EauL3SWkPEA+kKIeRm+7PGaM358CAsz3Wk
+   OkrB5hEhiffuI1pDc71t0h5mtOQ6v+z6C9cDEwu62mguSvpPue7f8gYYA
+   A==;
+X-CSE-ConnectionGUID: hgpTPQB2QIyR+E6OSwK0HQ==
+X-CSE-MsgGUID: w1CEQthBTBSQy4DToQg4tA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="86293066"
+X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
+   d="scan'208";a="86293066"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2026 04:47:29 -0700
+X-CSE-ConnectionGUID: vs5gv65vQ6CdD8E8RulLiw==
+X-CSE-MsgGUID: xiqVDC6hS/qlo/AeqHwgEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,211,1774335600"; 
+   d="scan'208";a="252245369"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.24])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2026 04:47:25 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id EF1CB121C36;
+	Thu, 18 Jun 2026 14:47:23 +0300 (EEST)
+Date: Thu, 18 Jun 2026 14:47:23 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
+Cc: laurent.pinchart@ideasonboard.com,
 	Tarang Raval <tarang.raval@siliconsignals.io>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -56,181 +76,88 @@ Cc: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
 	Mehdi Djait <mehdi.djait@linux.intel.com>,
 	Sylvain Petinot <sylvain.petinot@foss.st.com>,
 	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
 	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
 	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Jingjing Xiong <jingjing.xiong@intel.com>,
-	Svyatoslav Ryhel <clamor95@gmail.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 2/3] media: i2c: add os02g10 image sensor driver
-Message-ID: <20260618114603.GA3345533@killaraus.ideasonboard.com>
+	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] media: i2c: os02g10: implement crop handling with
+ set_selection
+Message-ID: <ajPay8NJ233yuCLJ@kekkonen.localdomain>
 References: <20260424092554.26130-1-elgin.perumbilly@siliconsignals.io>
- <20260424092554.26130-3-elgin.perumbilly@siliconsignals.io>
- <421ae63a-88c6-4e81-8478-7f581357676b@linaro.org>
- <MA0P287MB2178300B0541EC81B91312F588E32@MA0P287MB2178.INDP287.PROD.OUTLOOK.COM>
- <fa5eb21d-ea67-47c9-b00e-6b9060e0c5f0@linaro.org>
+ <20260424092554.26130-4-elgin.perumbilly@siliconsignals.io>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <fa5eb21d-ea67-47c9-b00e-6b9060e0c5f0@linaro.org>
+In-Reply-To: <20260424092554.26130-4-elgin.perumbilly@siliconsignals.io>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65182-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:vladimir.zapolskiy@linaro.org,m:elgin.perumbilly@siliconsignals.io,m:sakari.ailus@linux.intel.com,m:tarang.raval@siliconsignals.io,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:hverkuil+cisco@kernel.org,m:johannes.goede@oss.qualcomm.com,m:mehdi.djait@linux.intel.com,m:sylvain.petinot@foss.st.com,m:benjamin.mugnier@foss.st.com,m:bryan.odonoghue@linaro.org,m:himanshu.bhavani@siliconsignals.io,m:heimir.sverrisson@gmail.com,m:jingjing.xiong@intel.com,m:clamor95@gmail.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[21];
-	FREEMAIL_CC(0.00)[siliconsignals.io,linux.intel.com,kernel.org,oss.qualcomm.com,foss.st.com,linaro.org,gmail.com,intel.com,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-65183-lists,linux-media=lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:elgin.perumbilly@siliconsignals.io,m:laurent.pinchart@ideasonboard.com,m:tarang.raval@siliconsignals.io,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:hverkuil+cisco@kernel.org,m:johannes.goede@oss.qualcomm.com,m:vladimir.zapolskiy@linaro.org,m:mehdi.djait@linux.intel.com,m:sylvain.petinot@foss.st.com,m:benjamin.mugnier@foss.st.com,m:bryan.odonoghue@linaro.org,m:heimir.sverrisson@gmail.com,m:hardevsinh.palaniya@siliconsignals.io,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,m:heimirsverrisson@gmail.com,s:lists@lfdr.de];
+	HAS_ORG_HEADER(0.00)[];
+	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[ideasonboard.com,siliconsignals.io,kernel.org,oss.qualcomm.com,linaro.org,linux.intel.com,foss.st.com,gmail.com,vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[intel.com:+];
+	RCVD_COUNT_FIVE(0.00)[6];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[killaraus.ideasonboard.com:mid,ideasonboard.com:dkim,ideasonboard.com:from_mime,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,intel.com:dkim,linux.intel.com:from_mime,siliconsignals.io:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 35DB069FCE5
+X-Rspamd-Queue-Id: 6ABE069FD01
 
-On Thu, Jun 18, 2026 at 02:06:20PM +0300, Vladimir Zapolskiy wrote:
-> On 6/18/26 09:22, Elgin Perumbilly wrote:
-> > Hi Vladimir,
-> >   
-> > Thank you for the review.
-> >   
-> > I have addressed all of the comments except for two, where I am not entirely
-> > sure about the requested changes. Could you please take a look at the points
-> > below and let me know your opinion?
-> >   
-> >> On 4/24/26 12:25, Elgin Perumbilly wrote:
-> >>> Add a v4l2 subdevice driver for the Omnivision os02g10 sensor.
-> >>>
-> >>> The Omnivision os02g10 is a CMOS image sensor with an active array size of
-> >>> 1920 x 1080.
-> >>>
-> >>> The following features are supported:
-> >>> - Manual exposure an gain control support
-> >>> - vblank/hblank control support
-> >>> - vflip/hflip control support
-> >>> - Test pattern control support
-> >>> - Supported resolution: 1920 x 1080 @ 30fps (SBGGR10)
-> >>>
-> >>> Signed-off-by: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
-> >>> Reviewed-by: Tarang Raval <tarang.raval@siliconsignals.io>
-> >   
-> > ...
-> >   
-> >>> +#include <linux/array_size.h>
-> >>> +#include <linux/bitops.h>
-> >>> +#include <linux/cleanup.h>
-> >>> +#include <linux/clk.h>
-> >>> +#include <linux/container_of.h>
-> >>> +#include <linux/delay.h>
-> >>> +#include <linux/err.h>
-> >>> +#include <linux/gpio/consumer.h>
-> >>> +#include <linux/i2c.h>
-> >>> +#include <linux/module.h>
-> >>> +#include <linux/mutex.h>
-> >>> +#include <linux/pm_runtime.h>
-> >>> +#include <linux/property.h>
-> >>> +#include <linux/regulator/consumer.h>
-> >>> +#include <linux/units.h>
-> >>> +#include <linux/types.h>
-> >>> +#include <linux/time.h>
-> >>> +#include <linux/regmap.h>
-> >>
-> >> Please sort the list of includes in alphabetical order, also you
-> >> may consider to shrink the list by removing quite many inherited
-> >> includes.
-> >   
-> > Some maintainers prefer the "include what you use" approach, like Andy,
-> > so I added all the headers that are directly used. Should I now remove
-> > any inherited includes?
+Hi Elgin,
+
+On Fri, Apr 24, 2026 at 02:55:47PM +0530, Elgin Perumbilly wrote:
+> From: Tarang Raval <tarang.raval@siliconsignals.io>
 > 
-> Yes, here opinions may vary, that's why I asked for sorting and to
-
-Sorting is a good idea.
-
-> consider to remove some of the redundant headers. In my personal opinion
-> this type of excessive information is not needed, especially if it is
-> justified only by probable and far future trivial clean-up work.
-
-I typically ask for a "include what you use" approach too, to avoid
-build breakages. It's not only a matter of future work, but indirect
-includes can also vary based on the kernel configuration (and the
-architecture).
-
-> >>> +#include <media/v4l2-cci.h>
-> >>> +#include <media/v4l2-ctrls.h>
-> >>> +#include <media/v4l2-device.h>
-> >>> +#include <media/v4l2-fwnode.h>
-> >>> +#include <media/v4l2-mediabus.h>
-> >   
-> > ...
-> >   
-> >>> +static int os02g10_set_framefmt(struct os02g10 *os02g10,
-> >>> +                             struct v4l2_subdev_state *state)
-> >>> +{
-> >>> +     const struct v4l2_mbus_framefmt *format;
-> >>> +     const struct os02g10_mode *mode;
-> >>> +     int ret = 0;
-> >>> +
-> >>> +     format = v4l2_subdev_state_get_format(state, 0);
-> >>> +     mode = v4l2_find_nearest_size(supported_modes,
-> >>> +                                   ARRAY_SIZE(supported_modes), width,
-> >>> +                                   height, format->width, format->height);
-> >>> +
-> >>> +     cci_write(os02g10->cci, OS02G10_REG_V_START, mode->y_start, &ret);
-> >>> +     cci_write(os02g10->cci, OS02G10_REG_V_SIZE, mode->height, &ret);
-> >>> +     cci_write(os02g10->cci, OS02G10_REG_V_SIZE_MIPI, mode->height, &ret);
-> >>> +     cci_write(os02g10->cci, OS02G10_REG_H_START, mode->x_start, &ret);
-> >>> +     cci_write(os02g10->cci, OS02G10_REG_H_SIZE, mode->width, &ret);
-> >>> +     cci_write(os02g10->cci, OS02G10_REG_H_SIZE_MIPI, mode->width, &ret);
-> >>> +
-> >>> +     return ret;
-> >>
-> >> Just "return 0" here, and remove the local variable.
-> >   
-> > Could you clarify why this should return 0? The local ret is passed to all
-> > cci_write() calls so that any write error is propagated. Returning 0 here
-> > would appear to suppress those errors and always report success.
+> Add crop support to os02g10 by implementing .set_selection() and
+> storing the crop rectangle in subdev state.
 > 
-> My bad, yes, here please leave 'return ret' as is, I was confused and
-> misleaded by initialization of the local variable to zero, which is
-> redundant, and I'd suggest to remove this initialization.
+> Initialize the default crop to the active area, make set_fmt() use the
+> current crop, and update the output format when the crop size changes.
+> Also program the sensor window from the active crop/format state instead
+> of using the fixed supported_modes entry.
+> 
+> This allows userspace to configure the sensor crop window explicitly.
+
+Please wait for the Common Raw Sensor Model patches to be merged before
+adding this -- we don't have an established way to configure cropping
+before that. Some drivers might do something but it's all a bit haphazard.
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
 
