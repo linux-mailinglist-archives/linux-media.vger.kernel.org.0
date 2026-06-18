@@ -1,175 +1,163 @@
-Return-Path: <linux-media+bounces-65186-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65187-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 9ro3AAjeM2rtHQYAu9opvQ
-	(envelope-from <linux-media+bounces-65186-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 14:01:12 +0200
+	id 5EF+CnzfM2o5HgYAu9opvQ
+	(envelope-from <linux-media+bounces-65187-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 14:07:24 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FDD369FDFE
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 14:01:06 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B89569FED1
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 14:07:23 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=linaro.org header.s=google header.b=Qi+breEo;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65186-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65186-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=linaro.org;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=rMzjATTz;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65187-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65187-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 8C75F304EA25
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 12:00:55 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0BFF7302DE15
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 12:07:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50D913C5DD4;
-	Thu, 18 Jun 2026 12:00:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 138933F44EA;
+	Thu, 18 Jun 2026 12:07:21 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FE2B379C45
-	for <linux-media@vger.kernel.org>; Thu, 18 Jun 2026 12:00:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528B819DF55
+	for <linux-media@vger.kernel.org>; Thu, 18 Jun 2026 12:07:19 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781784054; cv=none; b=tt+2ucYyFwVOcOQq0NnuXsBFDrgh/OKI6noAbI6jeBTUd3hWRZiC10ZWFQo/Ms8jKQEkwMk4pFW2pHFUnWwsEv3twFRp0p3oB9s5t+tUzsg+Q3JzuqSnLbvOM9N04ltBXroq0RCh9TXfQfR+O2qFom+MGoKC9vTtxuPoF+T22zQ=
+	t=1781784440; cv=none; b=O3Il6s+MAnV7oaNeccchT7QqDNsQKKXPOCuRUaN/NqDOTKkFFoTFqF99ja+cIk4eqmQyzgSTPHs01O344J3AXKrnCa9c33n9pIOZiWaVUjXJrYFUUE5rss1742e7CnZBa9xfxtYaun1ijLYkkubku+bGlHzMV+jjo5wEFmxJlw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781784054; c=relaxed/simple;
-	bh=3YOhz77h8AMLNNNeRgTMfPv3eIs7NkDdZEhdXJIfzD0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=OLR1kWBSuxYMHWF/iDA5nP9T+K8xWwPM+Gq46vDkNs3m7K0hccVNtpjDJ9NJf6qhRaEQsJu19JYDGVM4YhlBaZZ2PF4k/WSLKR8EDEghtCFxJLNXpfyHoeKtVOrbaXiy6m36UNNG+xG9yycKjNKIsjYVOqtfnwur0ytjZSLnHPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Qi+breEo; arc=none smtp.client-ip=209.85.208.48
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-68bfcf11050so1388257a12.0
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2026 05:00:53 -0700 (PDT)
+	s=arc-20240116; t=1781784440; c=relaxed/simple;
+	bh=SfbOzbA3MKHsGeTbafSXSu5EYcsHWSO9YIZOKREiu/s=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Nj9joDnHYp1+ipJuDsUK+qo/i1ahH4BSIWKNsGNC5moPmZnxC9wkB84tjwKhjdhS5nwmVlofqeSlb8zU7a6XvVo0y+uTCIe9Ql7HZSnLT0fyfF9VoC61ftFjLuiWMhS1RwAKvL8FgianT5u7XBGdXqhDZWxJJwpo6/ymh69ZlLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rMzjATTz; arc=none smtp.client-ip=209.85.167.42
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5ad49c55ce1so752753e87.0
+        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2026 05:07:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1781784052; x=1782388852; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=W9ZVu+TQxqykUMzB+TkWY3eQThy4ReD8LVPOwN/E+6k=;
-        b=Qi+breEoAi90N6K+nQ7FfXyf6YJrINK0IZhgzhU79IYaNVD2dI8kipQx/kOVnLo5iP
-         ozSBMZ4AyxRtUe26zkovSHtDnU/s7NQ/bPI7+8hKMv8ZHOyEhRcs/SGbAI0F+nNSlIZX
-         2ZluhklhjrTLgUAOpj8D/AzVPiEO0+Gls8eO74e55HbtgeCm8jmrKtmCaB9osEJFwGO+
-         2LWGbdzUAejsFQGNmKiWDlEQJSCcYRpeXiDdjNkGUk5fqWzHEqSHmoDlJLOaLeEhQ9j8
-         iN/QTJs5eKDJylhdraX0TmcotdjVT9MZmk/jqyX1Em/ni0bZ+H57Ve5RUoTOYdoD91w4
-         z2MQ==
+        d=gmail.com; s=20251104; t=1781784437; x=1782389237; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=T++eRh22ZRqvDFRoIZdWaDjQ3HSUiMobAguihqXNESA=;
+        b=rMzjATTz1MGTEZNwmy3stW3ZCI0hEl735IO2SKciUHgkwWmxCyGC5ItoeQOSomdsHY
+         O41W/SR8L+IE5F8z9gEIilmiYhy7l86HKjc5SNkD3bRAYugPL3T5/l9P87VE1irm9pkI
+         aJkgqGijWb58IIcGeicEMKA5JJ0KqFzpSXCFfGl0SnfDCb+orYlP4c1fIWtG86X9hdRV
+         e68xvBk/5mxNK1YHsI1cswRY3O7+2ACMtKXA0vbMlY9TdrGoaj2DG0LR5OjoozAJOIo1
+         UxzASsiMsoTQVRBZtWkGu5mg+ema9NSfaOhdHmJUp488fdBxufisnA0kfR9r+agg4nC7
+         xDFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781784052; x=1782388852;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1781784437; x=1782389237;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=W9ZVu+TQxqykUMzB+TkWY3eQThy4ReD8LVPOwN/E+6k=;
-        b=fBhiQiZ6zp+jyjMcfvKTkjsXNXzS6IqGj2k7+Q68GInwyohh8LxBZxQYNNEoO62cmG
-         EsabJPlbzJrvyoKuBjdFCKK/HQoFT3TsCxxe3vONTOF72PKWLJZzr/dAN1Sb1lAHHTly
-         toSx7ngShNJBm+q2cC+U4DhfRDmuAaZsM1Nu3Cd77PfNshWvs0KW9+qCi3kJdvW29WTx
-         g1z2XFvm94PyshMs/X4GKL1lCoNd+IkvgCquZ5txLBjOY1JDT7dukNb/nEoIiKsormfs
-         CLEzBWRB8Jbc5zoGagHQx99mytoTMQ4EUu+2fAVOjzuq3whJ6FgT4zDsYkdvCjZjK//f
-         LpeA==
-X-Gm-Message-State: AOJu0YyLaZf/dCBxMydsOz0FbzEs/B9NTcsuetIKnPt1ofmN7Vsqay+X
-	V3SwnFQHOSFLTsblf4aW2FzIBJNNufuYDiFZ8dsusySSc6Ka5pSIIr/umLaifRA558M=
-X-Gm-Gg: AfdE7ckX10RiRtmWq9176ch06BNXVuEqFu0dC8eX1Lx1I35SbzqRxoYzJ0K9LUSnL9y
-	YRMZeX4uRv9/sP4FWwJ3w1uBXkCQpLtGZry0oQD2ElC3uAzmrjq5u13fFQye2frUyyYwzdGdDn5
-	3fK4K4ikzs9wqThIeYo3ui3LGgzdZHsYuSIQiTsCZqQsNs3xFNDI0W5BvVCnRJ0vVwAiBqou1gd
-	kZFS5BJOYGzSdjdZ6a3cZxCSn2Z7CEt5OOYqVKApW0HnfHew1Nd4Y/R+xnXQvxejb/W1HSfq2zs
-	5z+I9Ug707tVsBWUkIOb0vI5gJdvyv44my6pyOZVTOMRE4S+VYN4o0HKKGPWDT+2e9Sbzg1/q0j
-	vH3AX6E/xDcB7mG5evrVFV/SQZ10+387zvXn9/C45XYnfUSnFuj8KgMVIdL5MTVOiragU4nOb2Y
-	f7LCBUuh0mIeRENSWrWqLVPVznuvmV6/WEDAqK2e+H57GrvpuhiSDj4Xpodi6V595l4Y99xuLIL
-	J+0Z6M=
-X-Received: by 2002:a17:907:94cb:b0:bef:8141:668c with SMTP id a640c23a62f3a-c07c4a063e6mr96074166b.6.1781784051445;
-        Thu, 18 Jun 2026 05:00:51 -0700 (PDT)
-Received: from puffmais2.c.googlers.com (181.179.204.35.bc.googleusercontent.com. [35.204.179.181])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bfdb4420966sm954924566b.9.2026.06.18.05.00.49
+        bh=T++eRh22ZRqvDFRoIZdWaDjQ3HSUiMobAguihqXNESA=;
+        b=DlYWy7WA5guSCSpr/GByVM8Jap1dGccT13O/H+qqxmImlRgPX0D8hm9sY6qn2tygcB
+         mtukOReLjKO7JE912WmMBwN9jk2SOA1fJhgycmGGfo7W4XZNAzBM6PFQvLo3z6r06gbx
+         gZwCTIVVz/Y0J+EqC/LH6/DeyQwbLcyE8Mz2zTQZwLITxeBNJfhKCdye7NioBOLir8VJ
+         X0mfw3m0yoc0b83uWg4Dq9mwUg+rtbmTPK+GOzVjtWq2dt+1iABvWyuzfkC5OfK5Pmhk
+         XuJvVvBW8BDE3YiRJGwip5YjZeiuHFRvGtZSIYgjvLD38sL0bK4ydbShv1DBQPg5Ibz9
+         lSCg==
+X-Forwarded-Encrypted: i=1; AFNElJ+7wk8ZI+wF27PnXKDb59O8YQG7VYOI4RNJWWYj6nWjysgCXVwDqeqA6v15QXcGu4vt2nzSAPNFS/OfHA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxd/Kr+z5Cs0ByLPKnMITRXQY1CL4NhhwALIniLelst7yHLLwlP
+	8bUObXtLwBfng727NAO/efjKDbE0tk5Gymoucd6ThMC64JrP+r/AgbUd
+X-Gm-Gg: AfdE7ckaW33joJj7svKmK+1SufzJsc+lmUzxXSA3b2F3+/F4gOOoetHPJeKCuayjaWW
+	03IZLxrJbG1hYBySXkIt33aqOj32cvW7p9xkblX5istaCnuhyifbNUB4jIiDFmyPFv3yl9SQhrG
+	Rz8TGMGIymimqBL5YWyuksjoNHe/Z5cnqOFxmsFEEF+jXMDQ3kh8H1HJwxLeTwJz3NV91AhDt/u
+	WTmsqqXWKdxW+UX05G7IlNo13jAoQtxq1KcR1xwf+cMGuxsJ7wPl3CJCz6RWhMHfhsFEewHTwxV
+	Tcaeq0JHsc+SEykIaZedEJtZzFVTPzlewCDuI7/ecI26lrkFqJDsqgxzew07DFleI2ZR8OezAMR
+	9rccqhjIqVEBg84flXe7juRl5mihOMHPgw6hyXq+75oZ5gbiQKeWPe1NfCMKfPYZuavtOac8VKD
+	Qu7+s1fA6UVedvBoeh+5GVt6eO86ivePNUG2Ws1NI+eNWtM+lzU/c=
+X-Received: by 2002:a05:6512:3511:b0:5ad:5346:87ac with SMTP id 2adb3069b0e04-5ad534688cfmr396355e87.13.1781784437232;
+        Thu, 18 Jun 2026 05:07:17 -0700 (PDT)
+Received: from g.localdomain (95-25-158-125.broadband.corbina.ru. [95.25.158.125])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5ad2e1b545asm5356676e87.80.2026.06.18.05.07.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2026 05:00:49 -0700 (PDT)
-From: =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>
-Date: Thu, 18 Jun 2026 13:00:39 +0100
-Subject: [PATCH] dma-fence: use correct callback in
- dma_fence_timeline_name()
+        Thu, 18 Jun 2026 05:07:16 -0700 (PDT)
+From: Igor Putko <igorpetindev@gmail.com>
+To: hansg@kernel.org,
+	mchehab@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: andy@kernel.org,
+	sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Igor Putko <igorpetindev@gmail.com>
+Subject: [PATCH 2/2] staging: media: atomisp: prefer __aligned over __attribute__((aligned))
+Date: Thu, 18 Jun 2026 15:06:23 +0300
+Message-Id: <20260618120623.42867-1-igorpetindev@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260618-linux-drm_crtc_fix-v1-1-801f29c9853d@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAOfdM2oC/x2MWwqAMAzAriL9tuAGm4+riMiYVQs6pVMRxLs7/
- EwgeSCSMEVosgeELo68hQQqz8DPLkyEPCQGXWhbWFXhwuG8cZC193L4fuQbtS2tMU75qh4hhbt
- Q0v+07d73Azf7nLhkAAAA
-X-Change-ID: 20260618-linux-drm_crtc_fix-267655a1c89f
-To: Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
- Peter Griffin <peter.griffin@linaro.org>, 
- Tudor Ambarus <tudor.ambarus@linaro.org>, Juan Yescas <jyescas@google.com>, 
- kernel-team@android.com, 
- =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>
-X-Mailer: b4 0.14.3
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
-	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65186-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:tvrtko.ursulin@igalia.com,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:peter.griffin@linaro.org,m:tudor.ambarus@linaro.org,m:jyescas@google.com,m:kernel-team@android.com,m:andre.draszik@linaro.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[andre.draszik@linaro.org,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	RSPAMD_URIBL_FAIL(0.00)[linaro.org:query timed out,vger.kernel.org:query timed out];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[linaro.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RSPAMD_EMAILBL_FAIL(0.00)[andre.draszik.linaro.org:query timed out];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andre.draszik@linaro.org,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,linux.intel.com,vger.kernel.org,lists.linux.dev,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-65187-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:hansg@kernel.org,m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:andy@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:igorpetindev@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[igorpetindev@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[igorpetindev@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,linaro.org:dkim,linaro.org:email,linaro.org:mid,linaro.org:from_mime,vger.kernel.org:from_smtp]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8FDD369FDFE
+X-Rspamd-Queue-Id: 8B89569FED1
 
-dma_fence_timeline_name() is a wrapper around
-dma_fence_ops::get_timeline_name(). Since the blamed commit below, it
-calls an incorrect callback.
+Replace the GCC-specific __attribute__((aligned(a))) with the standard
+__aligned(a) macro to match the kernel coding style.
 
-Update it to restore functionality by calling the intended callback.
+The checkpatch.pl error about complex macro values is a false positive
+here, as enclosing the macro expansion in parentheses breaks declaration
+syntax.
 
-Fixes: 62918542b7bf ("dma-fence: Fix sparse warnings due __rcu annotations")
-Signed-off-by: André Draszik <andre.draszik@linaro.org>
+Signed-off-by: Igor Putko <igorpetindev@gmail.com>
 ---
- drivers/dma-buf/dma-fence.c | 2 +-
+ .../media/atomisp/pci/hive_isp_css_include/platform_support.h   | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index b3bfa6943a8e..5292d714419b 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -1202,7 +1202,7 @@ const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
- 	/* RCU protection is required for safe access to returned string */
- 	ops = rcu_dereference(fence->ops);
- 	if (!dma_fence_test_signaled_flag(fence))
--		return (const char __rcu *)ops->get_driver_name(fence);
-+		return (const char __rcu *)ops->get_timeline_name(fence);
- 	else
- 		return (const char __rcu *)"signaled-timeline";
- }
-
----
-base-commit: e2cae00c05d196491c318196792297f2dfbaa02c
-change-id: 20260618-linux-drm_crtc_fix-267655a1c89f
-
-Best regards,
+diff --git a/drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h b/drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h
+index 473d8d4fb9ba..9aa445c45e9f 100644
+--- a/drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h
++++ b/drivers/staging/media/atomisp/pci/hive_isp_css_include/platform_support.h
+@@ -20,6 +20,6 @@
+ #define UINT32_MAX UINT_MAX
+ #define UCHAR_MAX  (255)
+ 
+-#define CSS_ALIGN(d, a) d __attribute__((aligned(a)))
++#define CSS_ALIGN(d, a) d __aligned(a)
+ 
+ #endif /* __PLATFORM_SUPPORT_H_INCLUDED__ */
 -- 
-André Draszik <andre.draszik@linaro.org>
+2.34.1
 
 
