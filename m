@@ -1,179 +1,183 @@
-Return-Path: <linux-media+bounces-65145-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65146-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id KafOIXkhM2pB9wUAu9opvQ
-	(envelope-from <linux-media+bounces-65145-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 00:36:41 +0200
+	id M188LZpKM2qV/AUAu9opvQ
+	(envelope-from <linux-media+bounces-65146-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 03:32:10 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17EC869CB0D
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 00:36:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2764C69D02F
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 03:32:10 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=fYxPKBOe;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65145-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65145-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=intel.com;
+	dkim=pass header.d=uniontech.com header.s=onoh2408 header.b=pZaTx82R;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65146-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65146-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=uniontech.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B0ABC30FBDBF
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2026 22:36:32 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 610AE30EF9ED
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2026 01:32:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 911D03A3E7E;
-	Wed, 17 Jun 2026 22:36:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 176322D949F;
+	Thu, 18 Jun 2026 01:32:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtpbgeu2.qq.com (smtpbgeu2.qq.com [18.194.254.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59ED73803F7;
-	Wed, 17 Jun 2026 22:36:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E962AF1D;
+	Thu, 18 Jun 2026 01:31:59 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781735789; cv=none; b=QC4VKUQCIY5qtm6TlXCT3Mo4ax8IrGlyDrrv8r8+qSwzMMYcUvrZSBfkFb5orETxRwG/b6LljKO3GGbntvEKeErQkLA1zgtJeg0otDe6yO47pJudmqL+ZrcqoAk+1jROz8z1zn4mmXp8laRegKGI12CyE35Qyr1AdV2+7YopwtM=
+	t=1781746326; cv=none; b=fEoingmiYKgxQZrdn8Oq+kpImKib2ypKcw32wz8Xp9WHE7JnDTvRJnjWthKrgD+QdlRYTedL6Dk/5ckQd86QCebZxpvTuk6CGAyfIjby9vXIymvWaveNeYRO5xCRGPEt3LI8gdX7sGLYzF9f7zX1Ont8AcQiZU+YflocfhxCksU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781735789; c=relaxed/simple;
-	bh=xqYjUeV6vUJ0e8uDgzC+drVzHWfpAA3DVqnkox41OuM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aLcWhDuyHYlNDs7MuMagrTjwnFkrmvIVPmm1eFj18v/CuXhNGjD3UY9owt9FHJ/CD2ioRjKkbOnmQ3B3n944i33+yPX44r589FSm6gS39WHIjvz4VoqUvsq2c9Oq3MksugxWIAtJFr7A+gRzOCnilyGzNTGIuQBFq9Y8iQFbYpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fYxPKBOe; arc=none smtp.client-ip=192.198.163.12
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1781735788; x=1813271788;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xqYjUeV6vUJ0e8uDgzC+drVzHWfpAA3DVqnkox41OuM=;
-  b=fYxPKBOe/ZsI/g8diTD+cTlGQfmeb6bxvLLs5HJgS3ls/ohqrf54yAES
-   bQBK56CcAjTQMkF3nbzsqFaU1gS3xF4sAWee42MmpYkHLRXO3NurL4JGs
-   8dn8G9G66tykEKe0q5srv/wds8YIPd2WKvbKwp73ZaJz8nzrGC6aPDkxd
-   PJBt55fwICq5AjKjR6urFE6BTVMdBFmNeTNrkZeMZrRL9UAacWfoVVuOz
-   oCJIhV/+IhLECY4nUYMcq9ThpWuLicbijjrAVpF2gZVnJKrrwI5s3iVfX
-   uu8Ge/PErM63JfaTeRslPrBfFL38kiaM8oj8CB3TnFem07uxCyd1yjooP
-   Q==;
-X-CSE-ConnectionGUID: ozcX0t0lTFyfjABU4/prGQ==
-X-CSE-MsgGUID: LCKb7US7Qeyu6gyB6uA13A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11820"; a="86399440"
-X-IronPort-AV: E=Sophos;i="6.24,210,1774335600"; 
-   d="scan'208";a="86399440"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 15:36:27 -0700
-X-CSE-ConnectionGUID: SPtzNDigSgO4NknRt6PRGw==
-X-CSE-MsgGUID: wzISkg4lQyqkIxcyu5zSnA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,210,1774335600"; 
-   d="scan'208";a="248250158"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.232])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2026 15:36:22 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 0BB2811FAA5;
-	Thu, 18 Jun 2026 01:36:20 +0300 (EEST)
-Date: Thu, 18 Jun 2026 01:36:20 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Frank.Li@oss.nxp.com
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Michael Riesch <michael.riesch@collabora.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Martin Kepplinger-Novakovic <martink@posteo.de>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Purism Kernel Team <kernel@puri.sm>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v5 2/8] media: v4l2-fwnode: Add common helper library for
- 1-to-1 subdev registration
-Message-ID: <ajMhZP5YHuQdhc5M@kekkonen.localdomain>
-References: <20260617-imx8qxp_pcam-v5-0-7fa6c8e7fba7@nxp.com>
- <20260617-imx8qxp_pcam-v5-2-7fa6c8e7fba7@nxp.com>
+	s=arc-20240116; t=1781746326; c=relaxed/simple;
+	bh=BN3HOsEgWlvUWdTzGM/7bMKC1H0GMmZnPty4uJ5J3zY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=FDYNj0XG112E8ENeSXtH01jOvnw0zxNDE5koTQzWJpUXg+3cGBNHsWNXe0C10AJPLMMMzaHie8ZfAxaqQkysmoV4UhB9n1isoZyNqZgtpycNdDu4FuqjUofzUUe3pA+Vu+/UtIyHvh6S/U939HaNcBpehuElFp71s7P9QhaPgBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=pZaTx82R; arc=none smtp.client-ip=18.194.254.142
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1781746310;
+	bh=XuyqIVk4TA83mMek4q/hmkWntBwGcXqXYtOybwsn4DY=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=pZaTx82Rw0cm4NWhuwz7r5DAuRtPaiPJseg+giMvGPGyqnEc5InLJimABYeyiYPRX
+	 UfKCTMlJ9nonht8AyQ4GoEQkp8rrqmr/neD+UwUhu+JHNZsKX7M0HBjBvJEkATsDiq
+	 Rx2EF2EfMkEeREj9F4oPjvi5g5VX+ZgB9jpY+2T4=
+X-QQ-mid: esmtpsz10t1781746301td878c4d8
+X-QQ-Originating-IP: /fn3H90OKJPyg9TAzppitqhppYgXFYix1ahqvTzODAA=
+Received: from localhost.localdomain ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 18 Jun 2026 09:31:38 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 3030917331799414675
+EX-QQ-RecipientCnt: 15
+From: Haowen Tu <tuhaowen@uniontech.com>
+To: rafael@kernel.org
+Cc: tuhaowen@uniontech.com,
+	gregkh@linuxfoundation.org,
+	hansg@kernel.org,
+	kernel@uniontech.com,
+	laurent.pinchart@ideasonboard.com,
+	lenb@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	mchehab@kernel.org,
+	oneukum@suse.com,
+	pavel@kernel.org,
+	stern@rowland.harvard.edu
+Subject: [PATCH v3 0/3] PM: hibernate: skip UVC streaming restart after snapshot
+Date: Thu, 18 Jun 2026 09:31:30 +0800
+Message-Id: <20260618013133.1047270-1-tuhaowen@uniontech.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20260602032413.1540166-1-tuhaowen@uniontech.com>
+References: <20260602032413.1540166-1-tuhaowen@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260617-imx8qxp_pcam-v5-2-7fa6c8e7fba7@nxp.com>
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpsz:uniontech.com:qybglogicsvrsz:qybglogicsvrsz3b-0
+X-QQ-XMAILINFO: Obfty5iaetlmdMESGBd1g1KvlhGocYMaRp4EoTP5aLsvR1aBw3LVHTee
+	c/a4cfQX2kmzzqr1ip4dqa/uyVSONsLtQHpcPZWDMQ6rv7BMJIUI7chnk2nyKmCyGKr78AU
+	yM167100tBHgtngsxSFeb7nVoiXW/g0rNNnHs9R5O+anYfMDoO+9MRdyIe87LA10TZzArP5
+	RVSobtfoayE1jC2LEkrCFjA6bl7ICJEcAPIpspv0H/DWDfMgdfczQ1effbOe2y4sBrTsKXg
+	FR4g0I9qDe3MItjmuSk6m+jzWMsCPtinMSHcrngkaOA/CwUop95Wteh3GCxQEgmpvaU7cVy
+	pwtDahxR9qkpvL8S3PneOokmRPLKLeZ51EUJ86TGUj4BIKi9cbgM9EaUSyhKwN6fNScg8pg
+	KsZHWF5AXueD3h4BLlU+TEDj7wMU2LIDdciZ05krPuqfgD8d1RpSCCrt5OfQ9PvCzf+fGlF
+	xdYItUdojuJ/iQ3k629V799ecYLPmp20/GpSf7rtIVY7FjISw5KgO0Dix652FLIemPEgsd2
+	Zgo/wDSBH/jEWOtbYPKdcH8wFuL6KQHADmybK8w0r7cOXU6ehqiSid7MXNPccQa0DJ80ih4
+	yrzIR2YtRA/3YLfK/oHl5365NdjtuQr+9yoH+3rHpN5xhD6uZAJ2ViwYJrqqSsP/tS+Cy6K
+	eDHxAjXgrBwHUcd5NfZTg9ZMDB4IVVtsOGZ0EKq3fJgKCzfYmAjmZPQ87QdKn+/zpWu/qk5
+	uCp79lTXhhva03KyqXxectdC+PY5hEeLGjJFEXelUKFdzSUamX4yLQqNmmbqSdckUMD4jGv
+	WhDJNH1Cmejwam/xZZNo/VEHzwxLNE1qwlb2rrDPRcpKcEVWd9+boRnpwtZNgUTya+TvsXG
+	2vryIBOJbiv/Zwe8P7dkzG/lOtXXdgpaXvCb0WqGyPdV6TvemgH+KRtyQYveG5xqHdhK1ho
+	ynqDHC9HBlP0bHKe0yPehmI7V4Qe5s6nwL6DAkBylQ129Xw0vD0Er6kZDFCiguoeaGEuY0y
+	+Uxr06G57sWOs75QRIvXySoNsxLmMFGWcp3EkotA==
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+X-QQ-RECHKSPAM: 0
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[uniontech.com,none];
+	R_DKIM_ALLOW(-0.20)[uniontech.com:s=onoh2408];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	MIME_TRACE(0.00)[0:+];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	TAGGED_FROM(0.00)[bounces-65146-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65145-lists,linux-media=lfdr.de];
+	FORGED_SENDER(0.00)[tuhaowen@uniontech.com,linux-media@vger.kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:Frank.Li@oss.nxp.com,m:mchehab@kernel.org,m:michael.riesch@collabora.com,m:laurent.pinchart@ideasonboard.com,m:Frank.Li@nxp.com,m:martink@posteo.de,m:rmfrfs@gmail.com,m:kernel@puri.sm,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	HAS_ORG_HEADER(0.00)[];
-	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[kernel.org,collabora.com,ideasonboard.com,nxp.com,posteo.de,gmail.com,puri.sm,pengutronix.de,vger.kernel.org,lists.linux.dev,lists.infradead.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:rafael@kernel.org,m:tuhaowen@uniontech.com,m:gregkh@linuxfoundation.org,m:hansg@kernel.org,m:kernel@uniontech.com,m:laurent.pinchart@ideasonboard.com,m:lenb@kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-pm@vger.kernel.org,m:linux-usb@vger.kernel.org,m:mchehab@kernel.org,m:oneukum@suse.com,m:pavel@kernel.org,m:stern@rowland.harvard.edu,s:lists@lfdr.de];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[tuhaowen@uniontech.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[intel.com:+];
-	RCVD_COUNT_FIVE(0.00)[6];
+	DKIM_TRACE(0.00)[uniontech.com:+];
+	TO_DN_NONE(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MISSING_XM_UA(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,kekkonen.localdomain:mid,intel.com:dkim]
+	RCPT_COUNT_TWELVE(0.00)[15];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 17EC869CB0D
+X-Rspamd-Queue-Id: 2764C69D02F
 
-Hi Frank,
+After a hibernation snapshot is created, devices are resumed with
+PMSG_THAW before the image is written and the system is powered off.
+USB interface driver resume callbacks do not receive the PM event, so
+they cannot distinguish this phase from PMSG_RESTORE.
 
-Thanks for the patch.
+This series first makes the lifetime represented by in_suspend match the
+snapshot memory lifetime, then exposes that state through
+pm_hibernation_snapshot_done().  The helper only exposes the PM state;
+drivers remain responsible for deciding whether device-specific behavior
+is safe, including subsequent poweroff or shutdown handling.
 
-On Wed, Jun 17, 2026 at 03:50:12PM -0400, Frank.Li@oss.nxp.com wrote:
-> From: Frank Li <Frank.Li@nxp.com>
-> 
-> Many V4L2 subdev drivers implement the same registration and media pad
-> setup logic for simple pipelines consisting of a single sink pad and a
-> single source pad. As a result, the same boilerplate code is duplicated
-> across multiple drivers.
-> 
-> Introduce a common helper library for 1-to-1 subdevs to encapsulate the
-> registration, media entity initialization, and cleanup paths. Drivers
-> can embed a struct v4l2_subdev_1to1 instance and use the provided helper
-> APIs instead of open-coding the setup sequence.
+As the first user, uvcvideo skips only restarting active streaming
+hardware during the transient THAW phase.  Its frozen state and clock are
+still updated, a subsequent UVC suspend can stop the stream as usual,
+and uvcvideo does not provide a shutdown callback that requires the
+streaming hardware to be restarted first.
 
-I appreciate your efforts in trying to reduce the amount of code drivers
-need simply to get things done but I think there are a few issues with the
-approach taken in this patch:
+Changes in v3:
+- Split the in_suspend cleanup into a separate patch, as requested by
+  Rafael.
+- Reword the helper description to clarify that it only exposes PM
+  state and that callers must account for poweroff/shutdown handling.
+- Restrict the UVC description to skipping the streaming hardware
+  restart and explain why it does not prevent UVC shutdown handling.
+- Drop extern from the new prototype to satisfy Media CI checkpatch.
 
-- The new helpers aren't generic enough, but require two pads; one sink,
-  one source. You could provide special helpers for just this case, but
-  right now it looks like that if there's something you need that the
-  helper assumes you don't, you can't use the helper at all. In other
-  words, more modularity would be nice.
+Changes in v2:
+- Rename pm_hibernation_storing_image() to
+  pm_hibernation_snapshot_done().
+- Clear in_suspend before releasing snapshot memory on failure paths and
+  after swsusp_write() returns.
+- Move the UVC check after clearing the frozen state and resetting its
+  clock.
 
-- The new helper should work with the existing types and not add new types
-  (struct v4l2_subdev_1to1).
+Haowen Tu (3):
+  PM: hibernate: clear in_suspend before freeing the snapshot
+  PM: hibernate: add pm_hibernation_snapshot_done() helper
+  media: uvcvideo: skip streaming restart after hibernation snapshot
 
-- There should be a way to provide default V4L2 fwnode endpoint
-  configuration as well as to validate the obtained configuration.
-
-I don't have a good proposal to address the above but at least one way I
-can think of making error handling easier would be to use devm_() for
-teardown in more places we to today. That certainly does have its own
-issues though.
+ drivers/media/usb/uvc/uvc_video.c |  8 ++++++++
+ include/linux/suspend.h           |  2 ++
+ kernel/power/hibernate.c          | 24 ++++++++++++++++++++----
+ 3 files changed, 30 insertions(+), 4 deletions(-)
 
 -- 
-Kind regards,
-
-Sakari Ailus
+2.20.1
 
