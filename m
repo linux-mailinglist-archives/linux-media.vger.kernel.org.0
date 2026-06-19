@@ -1,170 +1,168 @@
-Return-Path: <linux-media+bounces-65275-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65276-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id fhnOB7YsNWqwnwYAu9opvQ
-	(envelope-from <linux-media+bounces-65275-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 13:49:10 +0200
+	id KrjFFmkzNWpkogYAu9opvQ
+	(envelope-from <linux-media+bounces-65276-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 14:17:45 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 459A36A57E9
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 13:49:09 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12BD26A5A2C
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 14:17:45 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65275-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65275-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=KmROfao6;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65276-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65276-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1FAFD303C00D
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 11:48:42 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 0C13530156FD
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 12:17:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E91003815E8;
-	Fri, 19 Jun 2026 11:48:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66DEC3321C2;
+	Fri, 19 Jun 2026 12:17:43 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E714436C9ED
-	for <linux-media@vger.kernel.org>; Fri, 19 Jun 2026 11:48:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452E737AA61
+	for <linux-media@vger.kernel.org>; Fri, 19 Jun 2026 12:17:38 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781869720; cv=none; b=QPy5bWiMtn6HOicdxPdUD42yonznECZNDL2e8zMVT+/6CiWlmnB+mzWVo6RyQsZDDZ0qPRJOjwzcUHoBbYI6M09jqXFJoUHchuKjdJkbB4Kot26JWgNxHJLPTbuKojw9bVpp9BCo6Q6Byr7igkZMP4Mb3o3yHe5S5Dvmt0/GRlc=
+	t=1781871462; cv=none; b=RmZj0nnxQ1LVXJ1HtO8+xeEO/x6s1ku2SDCEjfsLy++MUO3um7HD/DkUTYK7ir6Wy9AGge0I9aJzP2LUubbaTuyXiss1ZQA2CDYWuCVnrsoNuz8fjESJ+7PE5rffIYWls0SKPBjjcm5qRqAyJeMPBk7iac8FBVUq8MgvRP88tuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781869720; c=relaxed/simple;
-	bh=yyWyYqE/jbVl1VgGKKGeJNCofu8gfjfeZlg7cKyJ9fo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=SJ1E+dd9aEQ/J3J3CCM6c/zws8KZpB4wzbBvLTszBVnfeC3tnlHmgIIhvN27byCL6HWn46k7Cd2lFNeEQ/CUJwkKBb7E67hG5lqeXMrsImW9cHz29Qv/cJDrY7DiShD1Ms6NrYHuSJNp21DFAJcCQ53JaoMF3hLGQp/PXyAhnIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.217.41
-Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-727fad2be54so623879137.1
-        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2026 04:48:38 -0700 (PDT)
+	s=arc-20240116; t=1781871462; c=relaxed/simple;
+	bh=+8vbcddwfcCWc7G5vVmoTGo3YctcKLtIzOE3zW3ERqI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=kBeBavb0y5KLfh4f281hmZWYn2sCjc8/7GCvlfCa6IYMAQfr2lQhfFWDRYvbdM+v5HhdcOxK7Oun3LrrV1PqkUwyeR5nLD4yiGwKq0sHRZ3YuePNg/Le47qI5ycta87AC0pT7yFyrLZXqycweFFBzIOGU6lMum9NOnuC/LSVuy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KmROfao6; arc=none smtp.client-ip=209.85.210.182
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-8423610ec93so1798911b3a.2
+        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2026 05:17:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781871457; x=1782476257; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=496VcoG5GxlvkbnrshvnJye/VR2rp+fUki/r0Tu3x9s=;
+        b=KmROfao6EpNwKzmtJwKee1I+SsPJUA0GCIK9houEHfZQ39AKXppXhZz00E+/dE8Hxc
+         B2nsoVM/0fUpQrye1RkvGBWBlIqYFHO6U8lm7reR3KmJax2LM6G6S+9vZ7SnYCNCacpT
+         pWrGhx9TI7fXitLzZHLTWSyJ8BJVb6PUHqila01UH3aM22HlTNjAWeQOSZNDEwHl2yB8
+         4wQ0dv15ec3P0OXEoRnATKnNo7Gtf7P+u2g0Bohu5L+uWZN2UtiHGmd1CNEbPqpZA2EY
+         SWpKABIwYDiOBOwtYiqbKggoO9Wa1y06ML3hLOJjTmbJ5Uc0L/VmjUT/qWNuTcJNH61F
+         wVjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781869718; x=1782474518;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+        d=1e100.net; s=20251104; t=1781871457; x=1782476257;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ItJpWj1GNu2tcZXuQZG+sYbJ7oV+gLF69bBweX98kac=;
-        b=kxAeiYJ5UjveBsXhpvwy7QjUVcQqxOgMC5nVw1kF+vamwauX+ie4zolaoIfGhhjROT
-         +443k89aAgKxBQRbAv8QQfUNYYJdnawOjfGUqjS7zbhBLfHRqcK+F/RQN+rD6AvzsRav
-         Ia/BLCDVA+jJBsYoG2j5xPxoMv6lKr55rAICXQNkwxjupObYwwz8ovpUCFNp1aQJ/sQX
-         aRuQbED5Lu5U2lW446xFzzsBP0eoTPzFO6jJnACkRl3UcVdSwFFRnOJUPgxtFD6i3xdM
-         Ul4qnuHrCEeLdi0EVmrDlhz4QJ/CYLPDDcnOqA2GfMCQ1RtNxi4Cmu6m/pPdvUV4frge
-         dYvA==
-X-Forwarded-Encrypted: i=1; AFNElJ+Q9eVo278HUPwkvI3beedVLpR+tWyGVvlEF1uVu8Eg+ShzzscT/PvSdXNQ+exvk3/BOJlbXPcFtqj95A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzqcl5YlLcSeMD4gx2uNHU3F5XtH1x6kD1k5hFw3VGUIv1kqr2c
-	hxrBtOC4z54mgMKYMiLb2m2PwMVjWBqkDR8XGIOVQCuDZVqQKcZJx/cJHBrV42CEhtA=
-X-Gm-Gg: AfdE7cn9FtYwHnltwkb/8YK0gctYPmqiijRD7duP8zI7DCMXnNueggIbPrB3g/HqzrO
-	tNqnXDYiTsgrsEfvsBLjJVoMP9tx8gmyhDzfXHj9XQNgerMStxGQbq65UgEXH5Nl/dHmwXQUvKY
-	ODyfxakjoRtYY1TNIXtZAmFCzBkIzfAzl4Lupy2pPzF/JzJB/xYJj0Juzn7RbCnf/3xz5caqT+g
-	0OSZmtnZkt3puwBOinS2Sbl2cJJi0oTWICBYDOBYeV/oBYOGkFHy3OGCzfqKiEKsz2iUTEJ07dS
-	O5nqhcV7iP4rFbnnkeDzZSzWqLGRUZQ6m7MamoA0rYhVde1NjvS7h4REihO12YAE58j+sMktzrD
-	CWprW7OQD4pVg+pX11NKDdoL60RD9YDWu++MqB13J0MPHwnVp0Z5ElmUYct18CQD23BzStSsfcq
-	w/eVOIa5s9KE8ac9yO+Aos+DKO1eBYZX2bOCXEUU2hB225pwXAEA==
-X-Received: by 2002:a05:6102:5123:b0:6cc:f252:6929 with SMTP id ada2fe7eead31-72a037518b5mr2198436137.16.1781869717770;
-        Fri, 19 Jun 2026 04:48:37 -0700 (PDT)
-Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com. [209.85.222.45])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-72a36bfe9edsm1368056137.11.2026.06.19.04.48.37
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 19 Jun 2026 04:48:37 -0700 (PDT)
-Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-9666739d3bcso558832241.0
-        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2026 04:48:37 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8bhNAxySg66AtGvtxbzALuLKgz/rzmz5RiQGgpQQJjd7zC05ef35kcyG8kGg65asqGIgZwerobVe2xlw==@vger.kernel.org
-X-Received: by 2002:a05:6102:448b:b0:650:aa33:5dd7 with SMTP id
- ada2fe7eead31-72a01884599mr2039005137.2.1781869717237; Fri, 19 Jun 2026
- 04:48:37 -0700 (PDT)
+        bh=496VcoG5GxlvkbnrshvnJye/VR2rp+fUki/r0Tu3x9s=;
+        b=IQ8Epi0Hsb1FZIWIM1dQG6cfKjW4PPKBGy0CYITtHVgFn5wfwSCFmnBN0zMQtEIgXP
+         /qYgY/mUk3VXyMDySElLeBmZPQLyBZSRbYnikhevQNOh39dgz71jDc2q0TmvDQE6QXkn
+         UTz1zvW6FLqrJbKcaxknIAJuU0MkLqayzickzqoccqRKKkKx3CdXnSc1B4/oQfNKFI02
+         0u57GLWJ2oBixQCI2ZLlqQ27BHX+n5ZohAIJz43ZuGJ7+dBLGUGk5iqn+KrpSMdEFiH6
+         RTnPSh9VtPJChzZFcY748bTq5AY+1gObVV3iXTBX86B2qryTwikBv9xe0EvljJM3gxBZ
+         dfbQ==
+X-Gm-Message-State: AOJu0YzzGx1QIUWoz/yrM8H8EHSqdjVBzGBp4ACPn+qtSZHVwWW0o4Cr
+	LbOOpxo9PbiX1H5fnaYvHQLKNh6oCOKL14knD4R4cOjO4zV5nprgBuBwPKJESjeC
+X-Gm-Gg: AfdE7clPRK7LwJ9/w1Btnn1hENrhNeC/hcEqV90iIxgokhDaNCqNZm+2SlqegSwDkO4
+	WWyS69C64GK1d3WCD5kLiuXXWFaJyJR2Nd3kxQCzb84stgMQzKyd0ilkyBMwn5d1dzYr2VuMkt1
+	ILOVWJWW1nvSIkzU4ddzz3oUaiPvk6wa1wkgiWYM4YCibTt2AgbtGG/AQB+VWEV1OcHCbO7V/yc
+	TnPzaKi110oqHIHYzIa1ic5EKmlVRjSTj7aSD2unF/X5udADQKKuYRmSaVWAniadmr+N0a/CvNr
+	/wdPTyrvMjIHxdGPZsSVlXhK3ONPHgC53yBpI1m75iQmP76AVK6mjYFNU6pcQRERZ+RMks9zxCF
+	lrZedKwMGUxowLh2q+hH2vAx3X2TI3uwkoZOkw42beDRQ93nKNDr/+mhH2qbvK1CBrDo7hyhLlo
+	xc+zG0Ap9bXZOd0VlhRkZ1ovnFCXNt+0Qi5LHPVomeJjF3mYfqfznJ
+X-Received: by 2002:a05:6a00:9084:b0:842:55b6:f5a1 with SMTP id d2e1a72fcca58-8455078c202mr3854690b3a.6.1781871457298;
+        Fri, 19 Jun 2026 05:17:37 -0700 (PDT)
+Received: from localhost.localdomain ([49.207.217.37])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8455382586fsm2296986b3a.43.2026.06.19.05.17.34
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Fri, 19 Jun 2026 05:17:36 -0700 (PDT)
+From: Biren Pandya <birenpandya@gmail.com>
+To: linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com,
+	sakari.ailus@linux.intel.com,
+	mchehab@kernel.org,
+	Biren Pandya <birenpandya@gmail.com>
+Subject: [PATCH v2 1/4] media: renesas: rcar-csi2: Add missing media_entity_cleanup()
+Date: Fri, 19 Jun 2026 17:47:30 +0530
+Message-ID: <20260619121729.24899-5-birenpandya@gmail.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260619102241.22887-6-birenpandya@gmail.com>
+References: <20260619102241.22887-6-birenpandya@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <16fb40ded203d1e2b72f4eeecad3fd0c0d23ad6f.1781863296.git.geert@linux-m68k.org>
- <9503e60a-5e8a-40f3-b5cf-1d8d0f71c9a5@amd.com>
-In-Reply-To: <9503e60a-5e8a-40f3-b5cf-1d8d0f71c9a5@amd.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Fri, 19 Jun 2026 13:48:25 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWoR6UNBC-hsi1V=vwx+9AWzRw9bT_OR0AO2L87nCnn1A@mail.gmail.com>
-X-Gm-Features: AVVi8CdQDwS6tzm65LzLlS49GN4M-NumImqTWT8BmI9blTIGfCV8oYLJQhKk5Ak
-Message-ID: <CAMuHMdWoR6UNBC-hsi1V=vwx+9AWzRw9bT_OR0AO2L87nCnn1A@mail.gmail.com>
-Subject: Re: [PATCH] base: Remove unused DMA_FENCE_TRACE Kconfig symbol
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, driver-core@lists.linux.dev, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.46 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65275-lists,linux-media=lfdr.de];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[ideasonboard.com,linux.intel.com,kernel.org,gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	DMARC_NA(0.00)[linux-m68k.org];
-	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:gregkh@linuxfoundation.org,m:rafael@kernel.org,m:dakr@kernel.org,m:sumit.semwal@linaro.org,m:driver-core@lists.linux.dev,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[geert@linux-m68k.org,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_FROM(0.00)[bounces-65276-lists,linux-media=lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:laurent.pinchart@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:birenpandya@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[birenpandya@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[geert@linux-m68k.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[birenpandya@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	R_DKIM_NA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FROM_HAS_DN(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 459A36A57E9
+X-Rspamd-Queue-Id: 12BD26A5A2C
 
-Hi Christian,
+The probe error paths and remove function are missing calls to
+media_entity_cleanup(). Add them and introduce an err_entity label
+to ensure teardown logic properly inverses initialization.
 
-On Fri, 19 Jun 2026 at 12:39, Christian K=C3=B6nig <christian.koenig@amd.co=
-m> wrote:
-> On 6/19/26 12:03, Geert Uytterhoeven wrote:
-> > Commit d72277b6c37db66b ("dma-buf: nuke DMA_FENCE_TRACE macros v2") in
-> > v5.16 removed all users of DMA_FENCE_TRACE on the premise that the
-> > Kconfig symbol did not exist.  Apparently one failed to notice the
-> > symbol did exist since almost five years before: it was renamed from
-> > FENCE_TRACE to DMA_FENCE_TRACE in commit f54d1867005c3323 ("dma-buf:
-> > Rename struct fence to dma_fence") in v4.10.
-> >
-> > Time passed by, so remove the Kconfig symbol, as no one seems to have
-> > missed the functionality.
->
-> Yeah that functionality should be fully covered by trace points.
->
-> > Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
->
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+Signed-off-by: Biren Pandya <birenpandya@gmail.com>
+---
+ drivers/media/platform/renesas/rcar-csi2.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Thanks!
+diff --git a/drivers/media/platform/renesas/rcar-csi2.c b/drivers/media/platform/renesas/rcar-csi2.c
+index 7305cc4a04cb..61d7dfe14688 100644
+--- a/drivers/media/platform/renesas/rcar-csi2.c
++++ b/drivers/media/platform/renesas/rcar-csi2.c
+@@ -2631,6 +2631,8 @@ static int rcsi2_probe(struct platform_device *pdev)
+ 	v4l2_subdev_cleanup(&priv->subdev);
+ error_pm_runtime:
+ 	pm_runtime_disable(&pdev->dev);
++error_entity:
++	media_entity_cleanup(&priv->subdev.entity);
+ error_async:
+ 	v4l2_async_nf_unregister(&priv->notifier);
+ 	v4l2_async_nf_cleanup(&priv->notifier);
+@@ -2646,6 +2648,7 @@ static void rcsi2_remove(struct platform_device *pdev)
+ 	v4l2_async_nf_cleanup(&priv->notifier);
+ 	v4l2_async_unregister_subdev(&priv->subdev);
+ 	v4l2_subdev_cleanup(&priv->subdev);
++	media_entity_cleanup(&priv->subdev.entity);
+ 
+ 	pm_runtime_disable(&pdev->dev);
+ }
+-- 
+2.50.1 (Apple Git-155)
 
-> Do you have commit right to drm-misc-next to push this?
-
-No, I have not.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
---=20
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k=
-.org
-
-In personal conversations with technical people, I call myself a hacker. Bu=
-t
-when I'm talking to journalists I just say "programmer" or something like t=
-hat.
-                                -- Linus Torvalds
 
