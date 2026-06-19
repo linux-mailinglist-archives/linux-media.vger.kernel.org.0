@@ -1,305 +1,298 @@
-Return-Path: <linux-media+bounces-65287-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65288-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id LAc3C7I9NWrmpgYAu9opvQ
-	(envelope-from <linux-media+bounces-65287-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 15:01:38 +0200
+	id lUtoAgw9NWp+pgYAu9opvQ
+	(envelope-from <linux-media+bounces-65288-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 14:58:52 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B2B36A5E86
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 15:01:30 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 697116A5E26
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 14:58:51 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none ("invalid DKIM record") header.d=siliconsignals.io header.s=selector1 header.b=ZK7dMc99;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65287-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65287-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=fail reason="SPF not aligned (relaxed)" header.from=siliconsignals.io (policy=quarantine);
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=PSqkhaxR;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65288-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65288-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7D2DB3011351
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 12:55:41 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C16E83008E2A
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 12:58:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B891389453;
-	Fri, 19 Jun 2026 12:55:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2261538F928;
+	Fri, 19 Jun 2026 12:58:46 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11021082.outbound.protection.outlook.com [40.107.51.82])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C603389E04;
-	Fri, 19 Jun 2026 12:55:34 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781873736; cv=fail; b=ohWNjD6zB8VigF+aHifwaGcwGCY7ygxVcxG2jgky/VaWLQN6Dvw7AagkYnsjdHOj3GRvvg0wF/hVxCS94WRusi/AMR5pThx/Shpf8B1+zVstquFiWPo/HZb8OKLkrmJQKQDnKEQFuuxKWul9ngtUUPS+w9m1Wss9CvuybE1yI/U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781873736; c=relaxed/simple;
-	bh=ykHJAfAMP4/d0J6dwkt/e2JsrgLOC+T6QggXB1LO/l0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=N/V7K2QJfix7tEvB/M5aIKXljwEALD8xnQdTHuHU/+KVR9rLa0J4Ayeczi8eJR89ygHZefFJHl38+pid2AzCCcPaAKDZkMlGK6frmwAtpuQVpW8auXn4tdcxDEPQy+B8+4rt5pIpqfmWlkDrLBPpZHHeHzX0DYJp/cvg7sW+nmI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=fail (0-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=ZK7dMc99 reason="key not found in DNS"; arc=fail smtp.client-ip=40.107.51.82
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rwdKbgkHs2N8PHS7hApRFJrbY0WjsRl0QhI0H0vgH1qOUxADtsT4u2oE+E9rYJMQ+6Wbdk99O6rafC7MRMwlfCBYhzy4K04S6qfjFiWN8amK95+QT58sAetIHR0q2JvYwOOOjQ1/NVLGWsk8g2dEj/+TggTLikvKY15bIVIuCS5JvG6XvlW91urZ+fQrMIYlARX1FaK5KfB+X89uVFNCIv0lE+iNTP5RQzpM3XYtbjrqCyno8QL3iZHOA1iPewJojAslb5DV+O1L5TYBH4vina39Tb/88TPXfx0g9rym/3wFsMV7lQqv2aimwMuFowbhIOOlvjKHB3xDBVzUY0y7+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nlvYkdhyYYdfX9rrWpwZh5LK5+8axo6Pz2mmA39ef5M=;
- b=j0DQgoIt8I1CpxYcXzMkybxTPeWXTdGbbpvcTdJcpVDbUyFGc0uUkIjQ2YcYf7aXkP1513V3J4u9dUepa8Q90tUuhdfY8V6017SIkHLKFeJ3sX6vpPXQsMZMpURaW/4PFv8L2zCye63WM/w96pOBHIk5pDN1AfBAfdpL312CDdIVa9czjtRXB+zwNtcLGizMLjtK/0mYT0D7CRhJne6ZgDFXlXC6Ugw8PTnDHgAc/IHhuMEZnnfZW3d85Ck9kXEqIwPK5L9LrQjLZwvMv4sLYagArL7dTSW114dhLoZ5kq1nX8MonF6+53ym3pe/uWloMIkbdHXOP/ZGx6OZWUu3sQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
- header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nlvYkdhyYYdfX9rrWpwZh5LK5+8axo6Pz2mmA39ef5M=;
- b=ZK7dMc99BnOPJHS9PZB3IMXNlS+14f+oytStpnQBpH2ellv+xRCyyLmImhyaSo4Col/2oJWmMs52DNhQrlsnkz1Vhm8OW3J6TBLtRq+yISADV5x492/K0RHzHywnPA8lDOPQ52rUEQCI8EVXGm5/Q+uhzwx2WjXCdfe6SHV8G4fbjC3ku9ckzGsyzCIev5brhKvvL4aQ5k7ySUcUYwmdtRUTa2aAPYaaPJG/funA3TLNvbV8LevsmoOkAIzvDB7gO/zag5ovhxk8EM4pqi3s7kBKy89rBucBofpv4+dvhJ97O9RALq3vfQszCmd6ylQ7Gw4vV9iLyHtebTrkunrpMw==
-Received: from PN0P287MB2019.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1b8::9)
- by MA5P287MB4612.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:199::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.11; Fri, 19 Jun
- 2026 12:55:32 +0000
-Received: from PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
- ([fe80::ebd8:538d:c705:8432]) by PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
- ([fe80::ebd8:538d:c705:8432%6]) with mapi id 15.21.0139.011; Fri, 19 Jun 2026
- 12:55:32 +0000
-From: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
-To: sakari.ailus@linux.intel.com,
-	luca.weiss@fairphone.com
-Cc: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
-	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Hans de Goede <johannes.goede@oss.qualcomm.com>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Walter Werner Schneider <contact@schnwalter.eu>,
-	Kate Hsuan <hpa@redhat.com>,
-	Svyatoslav Ryhel <clamor95@gmail.com>,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH v2 3/3] arm64: dts: qcom: sm7225-fairphone-fp4: Add Sony IMX576 front camera support
-Date: Fri, 19 Jun 2026 18:24:33 +0530
-Message-Id: <20260619125439.55311-4-himanshu.bhavani@siliconsignals.io>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260619125439.55311-1-himanshu.bhavani@siliconsignals.io>
-References: <20260619125439.55311-1-himanshu.bhavani@siliconsignals.io>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: PN4PR01CA0063.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:26c::9) To PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:1b8::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA79438F92A;
+	Fri, 19 Jun 2026 12:58:37 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1781873924; cv=none; b=bxBceLyueddTIqUoldjuBZ2eL1ifatP9GR2WswaJC92VYLdPIhfhvikaw7anCnQYF+0Hfa2+KLzcvxIoZnmC6G8OVxFutnJi3IE1JHjbF07JGcCwNPbG7T/HWBF2Xd2aF8Sb0oczU8h9OERKTJBR0iEeTLeu3JE7jBcEqeTalks=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1781873924; c=relaxed/simple;
+	bh=HiDREcldjFqrdrdp5Xlz4s4JZZQQ28o1nkYTsGqkkqo=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=S19UhDTqGLGHkhCM7NzlcPqMQtVxin75rG5WY4VirYC+P4ediS+gChduqIhPeBiyt8KRz1OpxQv1ZrecLYOn4BCCOTdwC4foiodiP2B0fczu4cYnnbEnqS3ZZ4T2+6mJsDj3USTpc+QuwodeuEpPtWg3VmgOEaL7Dfa/t+lfVn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PSqkhaxR; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D1A51F000E9;
+	Fri, 19 Jun 2026 12:58:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1781873917;
+	bh=d0Pi+BMv6vNYyFoag1XFUtPquKbXVfT0i1yiV+bM+HU=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To;
+	b=PSqkhaxR3FQBweBoWpSc2EorY9Pez8SIDdeV3sC6lRA+WQgDMLdZA+W2gA/jtTjk6
+	 Ekiyp7acgu6TijirW2qXF2y9K6x5DYjccWRB1qYutK9TB9SpkY8pqSf95PdLaJhdxv
+	 P5f1YgY2ouHTHsw3CjKy5MoE4mQ13d1RVh47iHECGArbDe2eqUIWgJ5fValDrya85S
+	 tpAjHsJGrPe4YJhVtSDcMRrDjgy3FY4Rwgp4X7oIpo85wCXO9i/HHvvyVYHoIFYZFk
+	 UFfbHcyA/Hy1+atRYojuEQTbX4GA9O0X8cwj42q17bLMl6r3H/nGzCBWRMndIBLwRJ
+	 77oRCRWCJOa9g==
+Message-ID: <755cf7c1-6bcc-45d1-afea-192d393256af@kernel.org>
+Date: Fri, 19 Jun 2026 14:58:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN0P287MB2019:EE_|MA5P287MB4612:EE_
-X-MS-Office365-Filtering-Correlation-Id: 131267d5-5562-46d4-c3b1-08dece020bef
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|52116014|1800799024|23010399003|18002099003|22082099003|38350700014|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	R8w47aYgSu+wDsxjWK9qnFAI3HeWBv+9mreLKYutPZudItwbTTqBH9DimDOljlpUM4YlSP3q6I5L48oJDndy6vScgy4KWIeJKCgwrBuyQ4FdySlZQ7ls5sL47cmznfGm41f3ZvvYBj8rV1lBdojewleA94GnMBfzy3mmS/blBh+WztqhBFuhLY9ukBBKYoqKM1jVU+Y7LAvbF4FlsibpQ85cWMhf5HU88qH2acxS2rc9OUFgwyIYhY4myVFLTw1RZ7oLRT82AbkWtKA7ntDX+ixo1Swv8lMkMVCfA7IMNNP/cSqgqW9KDASZ6Am5tjMczwm77hlYyWIm9dwdQIpAcYklrXGrdGDhqcDu6xXY4xaAd+zianlY35gp7gT5qCqiFdPiNXMiZhOihmA+PppsrOnjaU/hT/X53Bw1jAfHGXG6x1dD19iCQmmjFCPhCv5c/kxQAJbI+LyHIAutmKnlErPneIllOOv0ITUrNPrHPHhTU64YNm2JQvYMto3rHYOwE4kG5vRgoTEPGL/LMk+tp/D1ixg65IPqDCmX6A5NUGRkJcRAshGICwJ5jZTULvpGywnoRh0VN0q5rlKuCyJbYAay8RoYgeigBBjL3VZb7+bjP/fdtTUSLaEBRpa1dHqSfoLc+Lo0lY35SUxPbHybcuc70eRMIAdKAnTz14TN2YXFSBviDwVL5LJDxG4VDxWWmZH0bWRR4xGe5kvxxISuGA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN0P287MB2019.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(52116014)(1800799024)(23010399003)(18002099003)(22082099003)(38350700014)(56012099006);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?zzLreDE+AzgTP/JEJmSpIYQflgfX1zYGE77Fs2Uep2NAeiE0zQDb+Ct2+qGU?=
- =?us-ascii?Q?agJk8tk8sNwCRXWhzl4OyYe7D65/a/SexB/DkgCAwXaXBVmuVIPIBcXc6Uty?=
- =?us-ascii?Q?n7jMb2oUhYEZKUR1EzaWUklllHonMsUBwEmx7BXDoMwcCMDKAL/Jk+Ri0IdD?=
- =?us-ascii?Q?hjkUWZUIlP2eP06jzugkNYU1Utojc3Lszo3bToPBvvTKXKHt3882kBtUC23g?=
- =?us-ascii?Q?xtwXiLVTh5vVKxnDZC6HXDzZ8BDwBbBa2/wZ0D0dEUYtmBuBWQy7YTANZDAh?=
- =?us-ascii?Q?wZPZrub+YmeR/KG63wC/rkARFNEHHZg+RDC6X/lwv0eZuXOgmne5mIRgFoh5?=
- =?us-ascii?Q?cWEUIa7wNgZCb+n2L8f8WFvGKlb6iMysOYVZlyepP1G0Bqpe6d13A9lNgPGW?=
- =?us-ascii?Q?nSy3Ka/Nvn0hVlocc/EpfNfV3CHtIwRO6uLJmj2RSUeBVUnBZCa+3gbpsvfF?=
- =?us-ascii?Q?2/2QteEBGLExrSdgdjZpuqoa+SZ7SwGkD32COOVuc5z6VS+eIRBxUASDfpFP?=
- =?us-ascii?Q?KgXA9DmXilrD2Rfbwem11rYj8ybuxHeMw0Dx8JTXoVU15EOueFRc/AagEXI7?=
- =?us-ascii?Q?46vQwWInYHcRJIJ5s8l0uMJxb7EKD3c1Qi7ci7eqhoYetMPQj8LAX37l96xM?=
- =?us-ascii?Q?Yrz+pT4Y0OACkp30rK7/Su7s+/KTbDbevsCZXdCwsP6L1m4IYdRYB4mTLlQn?=
- =?us-ascii?Q?Oge7wFMOB7wv1lpfz3Ufd8Gx6XKRhD5yMOF7sc7j3yV2NQzar4yVozRsftWk?=
- =?us-ascii?Q?MCAHTJAtMAcv8a2xFVMb2ROH88nI/kD0oTJPzAt2yD/F/C5u6D+gIANt3mgn?=
- =?us-ascii?Q?T/RiEFDFuYOe3TcBQdY3C0MGzkegMXySaEA/XzyTGzgxPN2USniFM97So8UX?=
- =?us-ascii?Q?fsGFAg8UiMazWfrNR+kuODt4BjFK+E8GoX7u4oAqfD2qEgWXsqBZETCzyc1U?=
- =?us-ascii?Q?2axnmYeeIsLD/cY6BBqGYBW9rzIktSQfhQREoFHrbmnhTo3aOp0br5T+7ZZA?=
- =?us-ascii?Q?kFLXJ+2fKmOcdGRkA8/hd/z9BgY94DKUR/tru3hEwU5UbeJc5ghF1V5ejHKu?=
- =?us-ascii?Q?SyIKJvkEwTiFSbbbbvVLdfNeTfzNym0ha5HhNGCYqj1nORGrBAXt03prIKj4?=
- =?us-ascii?Q?N2C0KsqexW8irB9o2PVqpeP2HTGoKN8bFXjGz+KsaCMP7RH2tsUfpfcGxGT/?=
- =?us-ascii?Q?0D1OLNOjoDNd1OKXgQ7gMwg7auK1H7UKb0rWRyVEWIcs+FTAKJXLy1u38pk7?=
- =?us-ascii?Q?OBnZRWLS3q22eUlwgcNtbaI9Mp0FxcPpo9udZnoVicdvJZDBqpM2duqyD1nk?=
- =?us-ascii?Q?pcFUeikpsEHmiMrtPQmgmQiuT0Ont1isKHP/emIdDK7nc/a20rehuxRmxf/M?=
- =?us-ascii?Q?9N7OzKZfb7voJ1Er4hpns8pbaT9hacq2/rFJZ+2jjjmOp1tmfz00Mz7uI4Ed?=
- =?us-ascii?Q?CYCVoevfhiaXU6ZCFvODJ8gWXpZu98a2r9odjjU2hFOJSY3qD3lFW8QEMfmT?=
- =?us-ascii?Q?9BD0xnLTsO0uVtRLx5BuIA3CFD6tkLj9PZawni10xjHczdT1qsqevGI6g8sE?=
- =?us-ascii?Q?g/+7Sw3l22ztAXI+vQMvQlb4bCfgVDxInP2RfC+0IoT924jfBBSJVk5l+aWF?=
- =?us-ascii?Q?0RR6EBF10SYWim6MwHPBdRUx363KAsBWuZ5V5qQrKC+NGq2V3VNVi2po0JIs?=
- =?us-ascii?Q?BAJSZrJnZvVb5zi+K8qhcbCpYIX7/IVle7EyUV5f+i8GlbRaxk6OtThPuocQ?=
- =?us-ascii?Q?urJqcoAoIyRRwqOaBJVjO1eUCP3E7pg+MbgqWEs4zLukRp3GjfMh?=
-X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-Network-Message-Id: 131267d5-5562-46d4-c3b1-08dece020bef
-X-MS-Exchange-CrossTenant-AuthSource: PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jun 2026 12:55:31.9379
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ikWIuDvuIX/DIu4kwvD6w3YPOcDL062WUaSC9XcpbVOzv1/jh8F2TdZpR6DpOSJDE2QaY6ogT2w9y63CrAdJmR+zBDYCI6GNJeApKSmk6xMRtVx4VakRwmLfBZwdVFIh
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA5P287MB4612
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH v2 2/5] docs: media: add documentation for media client
+ usage stats
+To: Detlev Casanova <detlev.casanova@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Heiko Stuebner <heiko@sntech.de>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, kernel@collabora.com,
+ linux-arm-kernel@lists.infradead.org, Christopher Healy <healych@amazon.com>
+References: <20260617-v4l2-add-fdinfo-v2-0-d298e98ce06a@collabora.com>
+ <20260617-v4l2-add-fdinfo-v2-2-d298e98ce06a@collabora.com>
+Content-Language: en-US, nl
+In-Reply-To: <20260617-v4l2-add-fdinfo-v2-2-d298e98ce06a@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [5.04 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	DMARC_POLICY_QUARANTINE(1.50)[siliconsignals.io : SPF not aligned (relaxed),quarantine];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+X-Spamd-Result: default: False [-5.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[23];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-65287-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:detlev.casanova@collabora.com,m:mchehab@kernel.org,m:nicolas.dufresne@collabora.com,m:benjamin.gaignard@collabora.com,m:p.zabel@pengutronix.de,m:ezequiel@vanguardiasur.com.ar,m:heiko@sntech.de,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:kernel@collabora.com,m:linux-arm-kernel@lists.infradead.org,m:healych@amazon.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:luca.weiss@fairphone.com,m:hardevsinh.palaniya@siliconsignals.io,m:himanshu.bhavani@siliconsignals.io,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:hverkuil+cisco@kernel.org,m:johannes.goede@oss.qualcomm.com,m:vladimir.zapolskiy@linaro.org,m:mehdi.djait@linux.intel.com,m:elgin.perumbilly@siliconsignals.io,m:laurent.pinchart@ideasonboard.com,m:contact@schnwalter.eu,m:hpa@redhat.com,m:clamor95@gmail.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[himanshu.bhavani@siliconsignals.io,linux-media@vger.kernel.org];
-	GREYLIST(0.00)[pass,body];
-	FREEMAIL_CC(0.00)[siliconsignals.io,kernel.org,oss.qualcomm.com,linaro.org,linux.intel.com,ideasonboard.com,schnwalter.eu,redhat.com,gmail.com,vger.kernel.org];
-	R_DKIM_PERMFAIL(0.00)[siliconsignals.io:s=selector1];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TAGGED_FROM(0.00)[bounces-65288-lists,linux-media=lfdr.de,cisco];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[himanshu.bhavani@siliconsignals.io,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[siliconsignals.io:~];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[siliconsignals.io:email,siliconsignals.io:mid,siliconsignals.io:from_mime,vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hverkuil@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:email,vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5B2B36A5E86
+X-Rspamd-Queue-Id: 697116A5E26
 
-From: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
+Hi Detlev,
 
-Add device tree support for the Sony IMX576 front camera
-sensor and connect it to CAMSS via CSIPHY3.
+Interesting, I had never heard of fdinfo, so if nothing else, I learned something new!
 
-Signed-off-by: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
----
- arch/arm64/boot/dts/qcom/sm6350.dtsi          |  7 +++
- .../boot/dts/qcom/sm7225-fairphone-fp4.dts    | 53 ++++++++++++++++++-
- 2 files changed, 59 insertions(+), 1 deletion(-)
+On 17/06/2026 20:10, Detlev Casanova wrote:
+> From: Christopher Healy <healych@amazon.com>
+> 
+> Document the media fdinfo interface for per-file-descriptor usage
+> statistics exposed by stateless V4L2 codec drivers via
+> /proc/<pid>/fdinfo/<fd>.
+> 
+> This interface is designed for stateless (request API based) codec
+> devices where the kernel driver has per-job visibility into hardware
+> execution. Stateful codecs cannot support all of this because their
+> firmware manages job scheduling opaquely.
+> 
+> The specification defines media- prefixed keys for engine utilization
+> time, and operating frequency, following the same conventions as the DRM
+> fdinfo mechanism documented in drm-usage-stats.rst.
+> 
+> More fields can be added later.
+> 
+> Signed-off-by: Christopher Healy <healych@amazon.com>
+> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+> ---
+>  .../userspace-api/media/drivers/index.rst          |  1 +
+>  .../media/drivers/media-usage-stats.rst            | 85 ++++++++++++++++++++++
+>  2 files changed, 86 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/drivers/index.rst b/Documentation/userspace-api/media/drivers/index.rst
+> index 02967c9b18d6..61879738836c 100644
+> --- a/Documentation/userspace-api/media/drivers/index.rst
+> +++ b/Documentation/userspace-api/media/drivers/index.rst
+> @@ -34,6 +34,7 @@ For more details see the file COPYING in the source distribution of Linux.
+>  	imx-uapi
+>  	mali-c55
+>  	max2175
+> +	media-usage-stats
+>  	npcm-video
+>  	omap3isp-uapi
+>  	thp7312
+> diff --git a/Documentation/userspace-api/media/drivers/media-usage-stats.rst b/Documentation/userspace-api/media/drivers/media-usage-stats.rst
+> new file mode 100644
+> index 000000000000..d3dc07002f62
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/drivers/media-usage-stats.rst
+> @@ -0,0 +1,85 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +.. _media-usage-stats:
+> +
+> +==========================
+> +Media client usage stats
 
-diff --git a/arch/arm64/boot/dts/qcom/sm6350.dtsi b/arch/arm64/boot/dts/qcom/sm6350.dtsi
-index 4f5934cf290a..ad8e8b450afc 100644
---- a/arch/arm64/boot/dts/qcom/sm6350.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm6350.dtsi
-@@ -2848,6 +2848,13 @@ cci2_sleep: cci2-sleep-state {
- 				bias-pull-down;
- 			};
+stats -> statistics
 
-+			cam_mclk1_default: cam-mclk1-default-state {
-+				pins = "gpio30";
-+				function = "cam_mclk1";
-+				drive-strength = <2>;
-+				bias-disable;
-+			};
-+
- 			sdc2_off_state: sdc2-off-state {
- 				clk-pins {
- 					pins = "sdc2_clk";
-diff --git a/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts b/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts
-index 3964aae47fd4..1cacd17e7c47 100644
---- a/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts
-+++ b/arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts
-@@ -17,6 +17,7 @@
- #include <dt-bindings/iio/qcom,spmi-adc7-pmk8350.h>
- #include <dt-bindings/input/input.h>
- #include <dt-bindings/leds/common.h>
-+#include <dt-bindings/media/video-interfaces.h>
- #include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
- #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
- #include <dt-bindings/sound/qcom,q6asm.h>
-@@ -547,6 +548,29 @@ vreg_bob: bob {
- 	};
- };
+But are these really statistics? Isn't it just the current status?
+In many ways this feature looks to me similar to what VIDIOC_LOG_STATUS does,
+except in a nicer format. When VIDIOC_LOG_STATUS was first added, fdinfo
+didn't exist yet.
 
-+&camss {
-+	vdd-csiphy0-0p9-supply = <&vreg_l18a>;
-+	vdd-csiphy0-1p25-supply = <&vreg_l22a>;
-+	vdd-csiphy1-0p9-supply = <&vreg_l18a>;
-+	vdd-csiphy1-1p25-supply = <&vreg_l22a>;
-+	vdd-csiphy2-0p9-supply = <&vreg_l18a>;
-+	vdd-csiphy2-1p25-supply = <&vreg_l22a>;
-+	vdd-csiphy3-0p9-supply = <&vreg_l18a>;
-+	vdd-csiphy3-1p25-supply = <&vreg_l22a>;
-+
-+	status = "okay";
-+
-+	ports {
-+		port@3 {
-+			csiphy3_ep: endpoint {
-+				data-lanes = <0 1 2 3>;
-+				bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
-+				remote-endpoint = <&camera_imx576_ep>;
-+			};
-+		};
-+	};
-+};
-+
- &cci0 {
- 	status = "okay";
- };
-@@ -581,7 +605,34 @@ &cci1 {
- };
+And I wouldn't call it 'Media client': it's specific to stateless V4L2
+codec drivers.
 
- &cci1_i2c0 {
--	/* Front cam (Sony IMX576) @ 0x10 */
-+	camera@10 {
-+		compatible = "sony,imx576";
-+		reg = <0x10>;
-+
-+		vana-supply = <&vreg_l3p>;
-+		vif-supply = <&vreg_l6p>;
-+		vdig-supply = <&vreg_32m_cam_dvdd_1p05>;
-+
-+		clocks = <&camcc CAMCC_MCLK1_CLK>;
-+		assigned-clocks = <&camcc CAMCC_MCLK1_CLK>;
-+		assigned-clock-rates = <24000000>;
-+
-+		reset-gpios = <&tlmm 35 GPIO_ACTIVE_LOW>;
-+		pinctrl-0 = <&cam_mclk1_default>;
-+		pinctrl-names = "default";
-+
-+		orientation = <0>; /* Front facing */
-+		rotation = <90>;
-+
-+		port {
-+			camera_imx576_ep: endpoint {
-+				data-lanes = <1 2 3 4>;
-+				bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
-+				link-frequencies = /bits/ 64 <600000000>;
-+				remote-endpoint = <&csiphy3_ep>;
-+			};
-+		};
-+	};
+> +==========================
+> +
+> +Stateless V4L2 codec drivers can optionally expose per-file-descriptor usage
+> +statistics via ``/proc/<pid>/fdinfo/<fd>``. This is analogous to the DRM fdinfo
+> +mechanism documented in :ref:`drm-client-usage-stats`, but uses the ``media-``
+> +key prefix for V4L2 media devices.
+> +
+> +This interface is specific to stateless (request API based) codec devices,
+> +including both decoders and encoders. With stateless codecs, the kernel driver
+> +explicitly submits each frame to the hardware and receives a completion
+> +interrupt, providing a clean per-job boundary that can be attributed to the
+> +submitting file descriptor.
+> +
+> +Stateful codec devices cannot support this interface because their firmware
+> +manages job scheduling internally. The kernel driver submits bitstream data
+> +but has no visibility into per-frame hardware execution timing.
+> +
+> +Implementation
+> +==============
+> +
+> +The V4L2 core provides the plumbing: drivers implement the ``show_fdinfo``
+> +callback in ``struct v4l2_file_operations``, and the core wires it into the
+> +kernel ``struct file_operations`` so that ``/proc/<pid>/fdinfo/<fd>`` output
+> +includes the driver-provided keys.
+> +
+> +File format specification
+> +=========================
+> +
+> +- File shall contain one key value pair per one line of text.
+> +- Colon character (``:``) must be used to delimit keys and values.
+> +- All standardised keys shall be prefixed with ``media-``.
+> +- Driver-specific keys shall be prefixed with ``driver_name-``.
+> +
+> +Mandatory keys
+> +--------------
+> +
+> +- media-driver: <valstr>
 
- 	eeprom@50 {
- 		compatible = "giantec,gt24p64a", "atmel,24c64";
---
-2.34.1
+I'd pick 'v4l2-driver'. Since 'media-driver' is too generic for this
+since that encompasses also DVB/CEC/RC drivers.
 
+> +
+> +  String shall contain the name of the media driver.
+
+'V4L2 stateless codec driver'
+
+> +
+> +- media-type: <valstr>
+
+Poor name.
+
+> +
+> +  String shall identify the type of media engine exposed through this file
+> +  descriptor. Standard values are ``decoder`` and ``encoder``.
+
+I think I would use 'stateless-decoder' and 'stateless-encoder'. It's more
+specific than de/encoder since that can be stateful as well.
+
+So I am missing the big picture here: right now this patch adds support for
+this for stateless codecs, but what happens in the future if this is also
+added for regular video capture devices, ISPs, etc.?
+
+The naming here matters, it has to have some sort of scheme so it can be
+extended to other types of drivers. So a 'media' prefix is too generic,
+and it also looks like it refers to the /dev/mediaX device.
+
+> +
+> +Utilization keys
+> +----------------
+> +
+> +- media-engine-usage: <uint> ns
+
+'Media Engine': very vague.
+
+> +
+> +  Time in nanoseconds that the hardware engine spent busy processing work
+
+Cumulative since creating the file handle? Or since the last read?
+
+> +  belonging to this file descriptor. The engine being measured is identified
+> +  by the ``media-type`` key.
+> +
+> +  Values are not required to be constantly monotonic if it makes the driver
+> +  implementation easier, but are required to catch up with the previously
+> +  reported larger value within a reasonable period.
+
+Does this make sense for codecs?
+
+I can tell that this is heavily influenced by the drm documentation, but that
+does not necessarily translate to V4L2.
+
+> +
+> +Frequency keys
+> +--------------
+> +
+> +- media-maxfreq: <uint> Hz
+> +
+> +  Maximum operating frequency of the main engine clock.
+> +
+> +- media-curfreq: <uint> Hz
+> +
+> +  Current operating frequency of the main engine clock.
+
+'Main engine clock'?
+
+> +
+> +Example output
+> +==============
+> +
+> +::
+> +
+> +  media-driver:           hantro-vpu
+> +  media-type:             decoder
+> +  media-engine-usage:     123456789 ns
+> +  media-maxfreq:          600000000 Hz
+> +  media-curfreq:          600000000 Hz
+> 
+
+Regards,
+
+	Hans
 
