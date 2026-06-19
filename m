@@ -1,123 +1,163 @@
-Return-Path: <linux-media+bounces-65252-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65254-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 8QhsAGz3NGrMlQYAu9opvQ
-	(envelope-from <linux-media+bounces-65252-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 10:01:48 +0200
+	id 2bntEw/6NGptlgYAu9opvQ
+	(envelope-from <linux-media+bounces-65254-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 10:13:03 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC646A47CD
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 10:01:47 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD15A6A48AB
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 10:13:02 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=YW2quG2H;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65252-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65252-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b="HM/ppNXo";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65254-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65254-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 3CDEA301A087
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 08:01:45 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id DAC823073A05
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 08:11:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2568435BDC7;
-	Fri, 19 Jun 2026 08:01:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 181CA35AC2C;
+	Fri, 19 Jun 2026 08:11:45 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC9632B11D;
-	Fri, 19 Jun 2026 08:01:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE4BE30E82C
+	for <linux-media@vger.kernel.org>; Fri, 19 Jun 2026 08:11:42 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781856101; cv=none; b=CdbpkcBv9ht/W9UCMzDiEA8id4pz44khRHAj25me+X+n1dr3H5LihH+hP29e91v75CjQHlkucrB7ph4blHadZhUSG9bdLyBbJTa/aY3BzMJOWzuJ3mqIcIBwx8+aA6j2jZUX1Rrk94IldQU+VQ0MnIrD50t8/ry8V5DakP/4Av0=
+	t=1781856704; cv=none; b=C+2BVNcTxVM+2euq+m/GtjpFR+un3/BBQV/Fjmk7COdmgqhNYstHyuZADV/lIriUqCi0TRuhZ2FdADEwcSAUVgJt4GTKdcHngUZhXpPmYuWGa8jgFdchPbycW+/MpSwAJXe4o0czR76bJGKo1bZV7QXLE+lihEbjpx4iO7bQl6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781856101; c=relaxed/simple;
-	bh=tjVHnSpEH/bgN1eRjAXU8UI/87UG1ARWudlF/Set55c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F7pBwYz6mvQQU1rKK4jwsE+UHE8LL6iZa4SvuPt6m/Ra0P8ol0QtWjNSeIJnIos/qgafbvKWWuEcrhK8oK0FuZuHc3FwABOjx2/UCaA93SdqqbUSt8WlmAm4N+KACDwNIuJtShsl5epmArkE6LmSN38Jb5z9lhOsPfJV0lQlfcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YW2quG2H; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3433D1F000E9;
-	Fri, 19 Jun 2026 08:01:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1781856100;
-	bh=0TjxzzDO6vmgFkmwlKHAqYBOln9gocUIZalMIUI/bV8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=YW2quG2H9BUc2Mrz3NOAdYm943VPFSEUdyqcTxqJCcvHBAOSjco9MM4hR/C2QWaXl
-	 VUY27KuHT9tXUOSZRT+cgkkDXF7M2QraFNxz3iE3Kd3nsO3QQGqMsl46eO6CfSKFgE
-	 LaJ/C7CPEVz2NnQ23TjmvflMy9OdZeHVeupQZ5gVY97bWp7AqlgkUp7lXR/oZqlaMm
-	 Yhs1egQIRizu8SPjlDu6Fm9hN/MMwzWPf/6ErLtAJ1SVuaZhqp98B8qelgve7fgSG9
-	 6cLBVbEcT3TdtOdeHmRpGyR/kxY4JJoHt7pVg/FWKQeWzSE62ROyGTvc7xOnPx7vMR
-	 hxWG1Nyh0JoEg==
-Message-ID: <a4116337-64d8-4a10-8c1d-c14abc1ce6aa@kernel.org>
-Date: Fri, 19 Jun 2026 11:01:34 +0300
+	s=arc-20240116; t=1781856704; c=relaxed/simple;
+	bh=NDbOLScMl0/An9PN63TkxGRmRSJ3jMWxr3my9fbJMDk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W0r6l7FnMzW2n+ky5geGwqqng6Vt8Q8BmRTvwRvykeQTwim2oevZQZHVaZ8xgc+JvXT6g/TKTC23j/YbIwF4Jp2W5S7wBi2QHOuTpswleFJCa2olqdraC4JMY7bWzAA+fRk9RANVeGfqdRsbLDVdyjS4rleVngPQyMt6Y/lU/Ig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HM/ppNXo; arc=none smtp.client-ip=209.85.214.175
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2c6fcfcdb2bso12736595ad.1
+        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2026 01:11:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1781856702; x=1782461502; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kGXrYKZAprR/5Pxk3naVQXCF2pKtZKstOHwH49PRnS8=;
+        b=HM/ppNXoRwJUyHerJoF5zhnG86GMeY5FJUm6h4v8tZz+otL2im7CZaHMpIgPmVnFK4
+         R/9Fkf7U9E9F9IMYgKFlo0e68/XlZB9yZ9nzk5fwhmRVN2JVxT2ZNb8pH37gpFDDorwW
+         oGOFnZSUazABI8AVfr7qFLlbsCDCSx+g5DddSzz2qp8QuHfu02IVyoh3HrJRkOUXrn0L
+         OW9jaaA2/WjXa4kB1uwRQMe9NLQN8Q18pvOsGZ1I/AN+dhVNFn115+hrAM7QS18nj4EH
+         OT1ObqpMa7mN8h4uxoHQ5xRqDQghuwXRYYjHBsQr5MKbHjJ2sqAfdtdFIU9F+Jz+9ik2
+         DxDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1781856702; x=1782461502;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kGXrYKZAprR/5Pxk3naVQXCF2pKtZKstOHwH49PRnS8=;
+        b=MInQJWHiJ8Npi4sHAC9ejRM3/dQq/1WMphKcub+K+heRsQDBqe0bGXzOSS46tZ01RL
+         xgEX1AOCJudyAwnNXBK22o1YkyKz/pJrKjcLV0k/MEgBCF2e5Brmu5Bt4zNwKhySKBNR
+         Sv6ZMrcYJ44uYgmyu1jEnn+e4a6mux4FQKxpMSsYluBOfMWZ83ui7MZL2rnCAIUdyHde
+         HQZfKztvhBbR7J4iL4DYxoFthge2OQQlYdCEzMUOpQrsUE87HhnExthwffrOsPp8aS7l
+         kUs/Yz5XVkY655eT+4GyQ3XTSIydl3K1NR86PVoC1mnltCzSw8uJdGwbTiU8l8eF8frW
+         7ZQA==
+X-Gm-Message-State: AOJu0YzyNp9QbwV44JuOikECNkddP+q6XWsgzJbblLpjnylKXUv2m9nR
+	GI4lldjM9R7o73Edr5hHahIPlkMxOkmhD9GNssf80+XsTX6zmDs++FB/
+X-Gm-Gg: AfdE7clKOlh6MR0r+Sl9Ne6V5GYL6fa14Qvq14tB1mWdoFyZ+qPCRL/2/sXsx1xmEhD
+	OBx313G7OKWyNLoigJ9SPJV8cMwskP9sraPZKkEvrbE4Sq3fjMFoW6nswTSHdzN6NEnCCBOiWnf
+	nwGuCoZhkRDjjBkDHnVK0nPj6S3+gwSCLqjP0PQ4P0gZb0gPuOOJUXC6YGyDQgqrD2MnNjAopMg
+	RySPjrTBNlweqch/mmULc2r4JYoftkBLGOEpvZrNGrxc8JaKFGzSk3SKYbgQXc3ZRAiKvM3LPBn
+	x7QrFKL3Bf+hEqu1PjjwiH0VJMWKQsKt6hl9PVp2OSaOxNtLNZ0B9blYwbBvHgxJySok5Mn+TEr
+	8nTC8v1JGcbBLoFlr/AH4v5k/+MuokRqvMppcCd01RlqT44MIfT8TjNdNTa6aa4llTYGuYUCykz
+	Ydu+8Q36LqMFYzFQ3WiRTf/S87Cuefbd8sOgue8OnEuw==
+X-Received: by 2002:a17:902:d54f:b0:2c1:77cd:fb0b with SMTP id d9443c01a7336-2c725df94d3mr17309855ad.37.1781856702379;
+        Fri, 19 Jun 2026 01:11:42 -0700 (PDT)
+Received: from localhost.localdomain ([49.207.217.37])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7209e2f6fsm14797215ad.59.2026.06.19.01.11.39
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Fri, 19 Jun 2026 01:11:41 -0700 (PDT)
+From: Biren Pandya <birenpandya@gmail.com>
+To: sakari.ailus@linux.intel.com,
+	laurent.pinchart@ideasonboard.com,
+	mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Biren Pandya <birenpandya@gmail.com>
+Subject: [PATCH v2] media: v4l2-core: Fix memory leak in v4l2_fwnode_parse_link
+Date: Fri, 19 Jun 2026 13:41:30 +0530
+Message-ID: <20260619081129.18485-2-birenpandya@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/10] media: microchip-isc: synchronize the IRQ before
- disabling clocks on stop
-To: Balakrishnan Sambath <balakrishnan.s@microchip.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Hans Verkuil <hverkuil@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260616-balki-isc-prefix-fixes-v1-v1-0-b23677fc5ab6@microchip.com>
- <20260616-balki-isc-prefix-fixes-v1-v1-3-b23677fc5ab6@microchip.com>
-Content-Language: en-US
-From: Eugen Hristev <ehristev@kernel.org>
-In-Reply-To: <20260616-balki-isc-prefix-fixes-v1-v1-3-b23677fc5ab6@microchip.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65252-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:balakrishnan.s@microchip.com,m:mchehab@kernel.org,m:hverkuil@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[ehristev@kernel.org,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-65254-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:laurent.pinchart@ideasonboard.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:birenpandya@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[birenpandya@gmail.com,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[ehristev@kernel.org,linux-media@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	TAGGED_RCPT(0.00)[linux-media];
-	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCPT_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[birenpandya@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7FC646A47CD
+X-Rspamd-Queue-Id: BD15A6A48AB
 
-On 6/16/26 14:50, Balakrishnan Sambath wrote:
-> isc_stop_streaming() masks the DMA interrupt and then drops the runtime
-> PM reference, which disables the ISC clocks. microchip_isc_interrupt()
-> may still be executing on another CPU at that point; it reads ISC_INTSR
-> over regmap, and touching the unclocked registers triggers an external
-> abort.
-> 
-> Store the IRQ number at probe and call synchronize_irq() after masking
-> the interrupt, before dropping the PM reference.
-> 
-> Fixes: 91b4e487b0c6 ("media: microchip: add ISC driver as Microchip ISC")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
+In v4l2_fwnode_parse_link(), the remote endpoint fwnode reference is
+acquired using fwnode_graph_get_remote_endpoint(). This reference is
+properly released in the error paths, but it is leaked on the success
+path.
 
-Reviewed-by: Eugen Hristev <ehristev@kernel.org>
+Add the missing fwnode_handle_put() before returning 0 to prevent the
+reference leak.
+
+Signed-off-by: Biren Pandya <birenpandya@gmail.com>
+---
+Changes in v2:
+- Resend because the v1 patch was lost in transit and did not appear on lore.kernel.org, causing CI to fail looking for the message ID. No code changes.
+
+ drivers/media/v4l2-core/v4l2-fwnode.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+index 77f3298821b5..93ef83c591ef 100644
+--- a/drivers/media/v4l2-core/v4l2-fwnode.c
++++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+@@ -633,6 +633,7 @@ int v4l2_fwnode_parse_link(struct fwnode_handle *fwnode,
+ 	if (!link->remote_node)
+ 		goto err_put_remote_endpoint;
+ 
++	fwnode_handle_put(fwnode);
+ 	return 0;
+ 
+ err_put_remote_endpoint:
+-- 
+2.50.1 (Apple Git-155)
+
 
