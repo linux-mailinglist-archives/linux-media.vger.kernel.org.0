@@ -1,48 +1,49 @@
-Return-Path: <linux-media+bounces-65244-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65245-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id eOfRLzDTNGpphwYAu9opvQ
-	(envelope-from <linux-media+bounces-65244-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 07:27:12 +0200
+	id UP6RN0HTNGp1hwYAu9opvQ
+	(envelope-from <linux-media+bounces-65245-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 07:27:29 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id A500F6A3F00
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 07:27:11 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B9606A3F08
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 07:27:29 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=FyWeDAbd;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65244-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-65244-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=pImQg0lJ;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65245-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65245-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 6A291301518C
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 05:27:08 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 15FF13073A02
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 05:27:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60D993264DE;
-	Fri, 19 Jun 2026 05:27:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C729333A708;
+	Fri, 19 Jun 2026 05:27:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A303D40D598;
-	Fri, 19 Jun 2026 05:26:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389C73246EB;
+	Fri, 19 Jun 2026 05:27:03 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781846822; cv=none; b=VDjXL9M3NND/+3yRbu3qa05TfKPya99gFbqyl+SUQ4sl6w4MFHFHYAhyfyaIZf4fbccy/Atl8ayuMw/vrEBwGq7eQl3c+9am1oZkzSfhUPWnBvbPy9bOli8ZcdE5ADoKgYoqaw/7dbfumPxbcB/I+yF4Dm45PJpFX9NFZcslicM=
+	t=1781846825; cv=none; b=nMudldaJLJo8L7yzlVQ4sLrSB4Lh2IOge6I1tJJy52jMwqcBEGkkl6lE5m2/kYsr/8VGCcHdAmLmvTpX12o1Qlqt8kYBPCcqou1HQQXicW/jF6351EVEbKKfkozpGInjcShu6sAs08GIFO87YSPLoF88cPDW0ox5jP1v4d5/hH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781846822; c=relaxed/simple;
-	bh=ri3GLALkdclrGp1ImW0Sz2hkHPgk2vG7ChOZMwyLV+A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ArnChH4qhkNTk94jIKpaZU18SCTrtFryp9pqY+t4K+PJ0SO/K+jq8QehjHnL58kuZ/UaUzHm3M4Q+M5S0F2yQ9V7DiTUTCmVs9gWvGi0OKQCp7o2ujB4KR2jTpwldqiXFNFcKz6ufzLOvROfjyUnqSOn/bmth5QuBx0/Gsg7BoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FyWeDAbd; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1781846825; c=relaxed/simple;
+	bh=M3c6ygsVlhI7qlYXTrc0Lwa93WFdSr6p4N2JBaSr0KI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=js4HiR0AQEW7OdetGWBrFN2r7C+QOHg+PFHscRg6mQBB1kTMfuL5MuP2E0w9PVpzTyyboGQSJoW+WGNXv1572grlwU5xLa2zbh8ftizpf2or5C9n0DY9WyITbIkjC4DJvoHhXOi17iRDDAFt+VX+aI4rvfhKGUgBLUz7RxizqlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pImQg0lJ; arc=none smtp.client-ip=213.167.242.64
 Received: from neptunite.hamster-moth.ts.net (unknown [IPv6:2404:7a81:160:2100:327:f131:c148:b7f8])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9E0CE1494;
-	Fri, 19 Jun 2026 07:26:16 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A9DDD16CB;
+	Fri, 19 Jun 2026 07:26:21 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781846780;
-	bh=ri3GLALkdclrGp1ImW0Sz2hkHPgk2vG7ChOZMwyLV+A=;
-	h=From:To:Cc:Subject:Date:From;
-	b=FyWeDAbd6jK55XNn/i1qbtvg304BKYAcLZndeLfkM5ugHw2Nls+LECIX1SFl8s6H3
-	 SAaX6RHG2L/bvMJnQIihtpLo4Bila1c15hYPgrMMuPKLopFloCAiEzL05Jj3GlRWX1
-	 RpUHVVyiTfhm9PqYI1ugpLaYev5FDha8g+vB9PxM=
+	s=mail; t=1781846786;
+	bh=M3c6ygsVlhI7qlYXTrc0Lwa93WFdSr6p4N2JBaSr0KI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=pImQg0lJ2IAdYWggZNG1AaWLCGTZ9WQB7Zewq/jpXor78nfFrKzwTX7RyPl/tTqun
+	 LYtEEVKOibwERrFtpwuKHETKbuuQdLHgz76gd3kkP6cHc04OlxGEM0zdSQcK2bsr61
+	 r8WnJMMvhcrg5pWlFXHj8MqLbT570lnmnIdWRVL0=
 From: Paul Elder <paul.elder@ideasonboard.com>
 To: laurent.pinchart@ideasonboard.com
 Cc: Paul Elder <paul.elder@ideasonboard.com>,
@@ -60,10 +61,12 @@ Cc: Paul Elder <paul.elder@ideasonboard.com>,
 	nicolas.dufresne@collabora.com,
 	ribalda@chromium.org,
 	sakari.ailus@linux.intel.com
-Subject: [RFC PATCH 0/6] Add Shared Media Graph API
-Date: Fri, 19 Jun 2026 14:26:27 +0900
-Message-ID: <20260619052637.1110672-1-paul.elder@ideasonboard.com>
+Subject: [RFC PATCH 1/6] media: mc: Implement shared media graph
+Date: Fri, 19 Jun 2026 14:26:28 +0900
+Message-ID: <20260619052637.1110672-2-paul.elder@ideasonboard.com>
 X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20260619052637.1110672-1-paul.elder@ideasonboard.com>
+References: <20260619052637.1110672-1-paul.elder@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -78,20 +81,20 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-65244-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart@ideasonboard.com,m:paul.elder@ideasonboard.com,m:michael.riesch@collabora.com,m:xuhf@rock-chips.com,m:stefan.klug@ideasonboard.com,m:kieran.bingham@ideasonboard.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:ribalda@chromium.org,m:sakari.ailus@linux.intel.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65245-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[16];
 	FORWARDED(0.00)[lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER(0.00)[paul.elder@ideasonboard.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart@ideasonboard.com,m:paul.elder@ideasonboard.com,m:michael.riesch@collabora.com,m:xuhf@rock-chips.com,m:stefan.klug@ideasonboard.com,m:kieran.bingham@ideasonboard.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:ribalda@chromium.org,m:sakari.ailus@linux.intel.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -102,284 +105,489 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,gitlab.freedesktop.org:url,pasteboard.co:url]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A500F6A3F00
+X-Rspamd-Queue-Id: 5B9606A3F08
 
-Hello everyone,
+Currently, a media graph contains a main device whose driver is
+responsible for creating the media device. We have however recently run
+into devices that have multiple devices that can quality as a main
+device. Examples are the RK3588 which has a VICAP and two ISP
+instances, and another example is the i.MX8MP which has an ISI and two
+ISP instances. As there is currently no way to reconcile who the main
+device is in the media device, these setups simple cannot be used
+simultaneously.
 
-This patch series extends the media controller API with a Shared Media
-Graph framework.
+This patch extends the media controller API with a "shared media graph"
+framework. This allows drivers to share a media device, thus enabling
+the setups mentioned above. Instead of owning and creating a media
+device, drivers can join-or-create a shared media device via the shared
+media graph API. The matching is done automatically based on the
+detected endpoints in the device tree.
 
-We have started to run into platforms where there are multiple media
-drivers that ought to be participating in the same media graph, but it's
-undecidable who should own the media device.
-
-One example of this is the RK3588 which has a capture interface (VICAP,
-handled by rkcif) and two ISP instances (handled by rkisp2). Another
-example is the i.MX8MP which has an image sensor interface (ISI, handled
-by imx8-isi) and two ISP instances (handled by rkisp1). Since they
-cannot all be in the same media graph at the moment, on the RK3588 we
-can only support memory-to-memory mode between the VICAP and ISP, while
-in the i.MX8MP we cannot use the ISI and ISP simultaneously.
-
-The drivers for these ISPs and capture interfaces also support hardware
-where only the ISP or only the capture interface is present (eg. imx8mn
-only has ISI; rk3399 only has rkisp1). This means that we cannot simply
-make one of them always the main device of the media graph.
-
-This topic was discussed over a lunch at Embedded Recipes, and the
-conclusion was that the best solution is to add a mechanism where
-drivers could join an existing media device, or create one if none were
-available. This series implements such a mechanism, which I have
-tentatively named Shared Media Graph.
-
-
-Patch 1 implements the Shared Media Graph API. The rest of the series
-are a functioning example implementation on the aforementioned RK3588
-setup.
-
-This framework allows the aforementioned setups to work. For this
-series, I specfically targeted the RK3588 setup, and I am able to have
-both the VICAP and the ISP in the same media graph [0] [5]. I can switch
-between inline mode and memory-to-memory mode by enabling/disabling the
-link between the rkcif and rkisp2, and can successfully capture in both
-modes.
-
-There are still a lot of rough edges in the framework that need to be
-discussed and sorted out (aka RFC); see all of the TODOs in patch 1 for
-details. Actually everything that I want comments on are in the TODOs
-for patch 1. The rest of the series are less RFC and more "here's an
-example of how it would work".
-
-
-This patch series is based on linux-media/next (06cb687a5132) [1] and
-depends on:
-- v5 of "media: rockchip: rkcif: add support for rk3588 vicap" [2]
-- rfc of "media: rockchip: rkisp2: Add driver for ISP on Rk3588" [3]
-
-I have a branch here [4].
-
-[0] https://www.pasteboard.co/i-p5Z10LMHJ5.png
-[1] https://gitlab.freedesktop.org/linux-media/media-committers/-/tree/next
-[2] https://lore.kernel.org/all/20260522-rk3588-vicap-v5-3-d1d1f5265c56@collabora.com/
-[3] https://lore.kernel.org/all/20260424175853.638202-1-paul.elder@ideasonboard.com/
-[4] https://gitlab.freedesktop.org/linux-media/users/epaul/-/tree/epaul/v7.1-rc1/rk3588/shared-mc/upstream
-
-[5] media-ctl -p and dot output for when the pasteboard [0] expires:
-
-Media controller API version 7.1.0
-
-Media device information
-------------------------
-driver          rockchip-cif
-model           rkisp2
-serial          
-bus info        platform:rkisp2
-hw revision     0x1e
-driver version  7.1.0
-
-Device topology
-- entity 9: rkcif-mipi2 (3 pads, 6 links, 2 routes)
-            type V4L2 subdev subtype Unknown flags 0
-            device node name /dev/v4l-subdev0
-	routes:
-		0/0 -> 1/0 [ACTIVE]
-		0/0 -> 2/0 [ACTIVE]
-	pad0: SINK,MUST_CONNECT
-		[stream:0 fmt:SRGGB10_1X10/1920x1080 field:none]
-		<- "dw-mipi-csi2rx fdd30000.csi":1 [ENABLED]
-	pad1: SOURCE
-		[stream:0 fmt:SRGGB10_1X10/1920x1080 field:none
-		 crop.bounds:(0,0)/1920x1080
-		 crop:(0,0)/1920x1080]
-		-> "rkcif-mipi2-id0":0 []
-		-> "rkcif-mipi2-id1":0 []
-		-> "rkcif-mipi2-id2":0 []
-		-> "rkcif-mipi2-id3":0 []
-	pad2: SOURCE
-		[stream:0 fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range
-		 crop.bounds:(0,0)/1920x1080
-		 crop:(0,0)/1920x1080]
-		-> "rkisp2_isp":4 [ENABLED]
-
-- entity 13: rkcif-mipi2-id0 (1 pad, 1 link)
-             type Node subtype V4L flags 0
-             device node name /dev/video0
-	pad0: SINK,MUST_CONNECT
-		<- "rkcif-mipi2":1 []
-
-- entity 19: rkcif-mipi2-id1 (1 pad, 1 link)
-             type Node subtype V4L flags 0
-             device node name /dev/video1
-	pad0: SINK,MUST_CONNECT
-		<- "rkcif-mipi2":1 []
-
-- entity 25: rkcif-mipi2-id2 (1 pad, 1 link)
-             type Node subtype V4L flags 0
-             device node name /dev/video2
-	pad0: SINK,MUST_CONNECT
-		<- "rkcif-mipi2":1 []
-
-- entity 31: rkcif-mipi2-id3 (1 pad, 1 link)
-             type Node subtype V4L flags 0
-             device node name /dev/video3
-	pad0: SINK,MUST_CONNECT
-		<- "rkcif-mipi2":1 []
-
-- entity 49: dw-mipi-csi2rx fdd30000.csi (2 pads, 2 links, 1 route)
-             type V4L2 subdev subtype Unknown flags 0
-             device node name /dev/v4l-subdev1
-	routes:
-		0/0 -> 1/0 [ACTIVE]
-	pad0: SINK,MUST_CONNECT
-		[stream:0 fmt:SRGGB10_1X10/1920x1080 field:none]
-		<- "imx219 4-0010":0 [ENABLED]
-	pad1: SOURCE
-		[stream:0 fmt:SRGGB10_1X10/1920x1080 field:none]
-		-> "rkcif-mipi2":0 [ENABLED]
-
-- entity 54: imx219 4-0010 (1 pad, 1 link, 0 routes)
-             type V4L2 subdev subtype Sensor flags 0
-             device node name /dev/v4l-subdev2
-	pad0: SOURCE
-		[stream:0 fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range
-		 crop.bounds:(8,8)/3280x2464
-		 crop:(688,700)/1920x1080]
-		-> "dw-mipi-csi2rx fdd30000.csi":0 [ENABLED]
-
-- entity 64: rkisp2_isp (5 pads, 8 links, 0 routes)
-             type V4L2 subdev subtype Unknown flags 0
-             device node name /dev/v4l-subdev3
-	pad0: SINK
-		[stream:0 fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range
-		 crop.bounds:(0,0)/1920x1080
-		 crop:(0,0)/1920x1080]
-		<- "rkisp2_rawrd0":0 []
-		<- "rkisp2_rawrd1":0 []
-		<- "rkisp2_rawrd2":0 []
-	pad1: SINK
-		[stream:0 fmt:unknown/0x0]
-		<- "rkisp2_params":0 [ENABLED,IMMUTABLE]
-	pad2: SOURCE
-		[stream:0 fmt:YUYV8_2X8/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:lim-range
-		 crop.bounds:(0,0)/1920x1080
-		 crop:(0,0)/1920x1080]
-		-> "rkisp2_mainpath":0 [ENABLED,IMMUTABLE]
-		-> "rkisp2_selfpath":0 [ENABLED,IMMUTABLE]
-	pad3: SOURCE
-		[stream:0 fmt:unknown/0x0]
-		-> "rkisp2_stats":0 [ENABLED,IMMUTABLE]
-	pad4: SINK
-		[stream:0 fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range
-		 crop.bounds:(0,0)/1920x1080
-		 crop:(0,0)/1920x1080]
-		<- "rkcif-mipi2":2 [ENABLED]
-
-- entity 70: rkisp2_mainpath (1 pad, 1 link)
-             type Node subtype V4L flags 0
-             device node name /dev/video5
-	pad0: SINK
-		<- "rkisp2_isp":2 [ENABLED,IMMUTABLE]
-
-- entity 74: rkisp2_selfpath (1 pad, 1 link)
-             type Node subtype V4L flags 0
-             device node name /dev/video6
-	pad0: SINK
-		<- "rkisp2_isp":2 [ENABLED,IMMUTABLE]
-
-- entity 78: rkisp2_rawrd0 (1 pad, 1 link)
-             type Node subtype V4L flags 0
-             device node name /dev/video7
-	pad0: SOURCE
-		-> "rkisp2_isp":0 []
-
-- entity 82: rkisp2_rawrd1 (1 pad, 1 link)
-             type Node subtype V4L flags 0
-             device node name /dev/video8
-	pad0: SOURCE
-		-> "rkisp2_isp":0 []
-
-- entity 86: rkisp2_rawrd2 (1 pad, 1 link)
-             type Node subtype V4L flags 0
-             device node name /dev/video9
-	pad0: SOURCE
-		-> "rkisp2_isp":0 []
-
-- entity 90: rkisp2_params (1 pad, 1 link)
-             type Node subtype V4L flags 0
-             device node name /dev/video10
-	pad0: SOURCE
-		-> "rkisp2_isp":1 [ENABLED,IMMUTABLE]
-
-- entity 94: rkisp2_stats (1 pad, 1 link)
-             type Node subtype V4L flags 0
-             device node name /dev/video11
-	pad0: SINK
-		<- "rkisp2_isp":3 [ENABLED,IMMUTABLE]
-
-
-digraph board {
-	rankdir=TB
-	n00000009 [label="{{<port0> 0} | rkcif-mipi2\n/dev/v4l-subdev0 | {<port1> 1 | <port2> 2}}", shape=Mrecord, style=filled, fillcolor=green]
-	n00000009:port1 -> n0000000d [style=dashed]
-	n00000009:port1 -> n00000013 [style=dashed]
-	n00000009:port1 -> n00000019 [style=dashed]
-	n00000009:port1 -> n0000001f [style=dashed]
-	n00000009:port2 -> n00000040:port4
-	n0000000d [label="rkcif-mipi2-id0\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-	n00000013 [label="rkcif-mipi2-id1\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
-	n00000019 [label="rkcif-mipi2-id2\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
-	n0000001f [label="rkcif-mipi2-id3\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
-	n00000031 [label="{{<port0> 0} | dw-mipi-csi2rx fdd30000.csi\n/dev/v4l-subdev1 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-	n00000031:port1 -> n00000009:port0
-	n00000036 [label="{{} | imx219 4-0010\n/dev/v4l-subdev2 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-	n00000036:port0 -> n00000031:port0
-	n00000040 [label="{{<port0> 0 | <port1> 1 | <port4> 4} | rkisp2_isp\n/dev/v4l-subdev3 | {<port2> 2 | <port3> 3}}", shape=Mrecord, style=filled, fillcolor=green]
-	n00000040:port2 -> n00000046 [style=bold]
-	n00000040:port2 -> n0000004a [style=bold]
-	n00000040:port3 -> n0000005e [style=bold]
-	n00000046 [label="rkisp2_mainpath\n/dev/video5", shape=box, style=filled, fillcolor=yellow]
-	n0000004a [label="rkisp2_selfpath\n/dev/video6", shape=box, style=filled, fillcolor=yellow]
-	n0000004e [label="rkisp2_rawrd0\n/dev/video7", shape=box, style=filled, fillcolor=yellow]
-	n0000004e -> n00000040:port0 [style=dashed]
-	n00000052 [label="rkisp2_rawrd1\n/dev/video8", shape=box, style=filled, fillcolor=yellow]
-	n00000052 -> n00000040:port0 [style=dashed]
-	n00000056 [label="rkisp2_rawrd2\n/dev/video9", shape=box, style=filled, fillcolor=yellow]
-	n00000056 -> n00000040:port0 [style=dashed]
-	n0000005a [label="rkisp2_params\n/dev/video10", shape=box, style=filled, fillcolor=yellow]
-	n0000005a -> n00000040:port1 [style=bold]
-	n0000005e [label="rkisp2_stats\n/dev/video11", shape=box, style=filled, fillcolor=yellow]
-}
-
-Paul Elder (6):
-  media: mc: Implement shared media graph
-  arm64: dts: rockchip: rk3588s-base: Connect vicap and isps
-  media: rkcif: Use shared media graph
-  media: rkisp2: Use shared media graph
-  media: rkcif: Implement inline mode
-  media: rkisp2: Implement inline mode
-
- arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |  30 ++
- drivers/media/mc/Makefile                     |   2 +-
- drivers/media/mc/mc-shared-graph.c            | 335 ++++++++++++++++++
- .../rockchip/rkcif/rkcif-capture-dvp.c        |   2 +-
- .../rockchip/rkcif/rkcif-capture-mipi.c       |   3 +
- .../platform/rockchip/rkcif/rkcif-common.h    |  18 +-
- .../media/platform/rockchip/rkcif/rkcif-dev.c |  32 +-
- .../platform/rockchip/rkcif/rkcif-interface.c | 248 ++++++++++++-
- .../platform/rockchip/rkcif/rkcif-regs.h      |  49 +++
- .../platform/rockchip/rkcif/rkcif-stream.c    |   6 +-
- .../platform/rockchip/rkisp2/rkisp2-common.h  |   5 +-
- .../platform/rockchip/rkisp2/rkisp2-dev.c     |  46 +--
- .../platform/rockchip/rkisp2/rkisp2-isp.c     | 155 ++++++--
- include/media/mc-shared-graph.h               |  92 +++++
- 14 files changed, 932 insertions(+), 91 deletions(-)
+Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+---
+ drivers/media/mc/Makefile          |   2 +-
+ drivers/media/mc/mc-shared-graph.c | 335 +++++++++++++++++++++++++++++
+ include/media/mc-shared-graph.h    |  92 ++++++++
+ 3 files changed, 428 insertions(+), 1 deletion(-)
  create mode 100644 drivers/media/mc/mc-shared-graph.c
  create mode 100644 include/media/mc-shared-graph.h
 
+diff --git a/drivers/media/mc/Makefile b/drivers/media/mc/Makefile
+index 2b7af42ba59c..1d502fdc52ad 100644
+--- a/drivers/media/mc/Makefile
++++ b/drivers/media/mc/Makefile
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: GPL-2.0
+ 
+ mc-objs	:= mc-device.o mc-devnode.o mc-entity.o \
+-	   mc-request.o
++	   mc-request.o mc-shared-graph.o
+ 
+ ifneq ($(CONFIG_USB),)
+ 	mc-objs += mc-dev-allocator.o
+diff --git a/drivers/media/mc/mc-shared-graph.c b/drivers/media/mc/mc-shared-graph.c
+new file mode 100644
+index 000000000000..c4067e5b861d
+--- /dev/null
++++ b/drivers/media/mc/mc-shared-graph.c
+@@ -0,0 +1,335 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * mc-shared-graph.c - Media Controller Shared Graph API
++ *
++ * Copyright (c) 2026 Paul Elder <paul.elder@ideasonboard.com>
++ */
++
++/*
++ * This file adds the Media Controller Shared Graph API. This allows drivers
++ * to create shared media graphs or join existing media graphs from other
++ * drivers, so that they can all be in the same media graph. This allows us to
++ * have more complex media graphs chaining more complex hardware together,
++ * instead of simple async subdevs.
++ */
++
++#include <linux/device.h>
++#include <linux/fwnode.h>
++#include <linux/kref.h>
++#include <linux/property.h>
++
++#include <media/media-device.h>
++
++#include <media/mc-shared-graph.h>
++
++static LIST_HEAD(media_device_shared_list);
++static DEFINE_MUTEX(media_device_shared_lock);
++
++struct media_device_shared_member {
++	struct device *dev;
++	struct fwnode_handle *fwnode;
++	struct list_head list;
++};
++
++struct media_device_shared_link {
++	struct media_entity *source;
++	u16 source_pad;
++	struct media_entity *sink;
++	u16 sink_pad;
++	u32 flags;
++	struct list_head list;
++};
++
++// TODO figure out locking for when multiple drivers touch the media graph;
++// maybe macros for shared versions?
++struct media_device_shared {
++	struct media_device mdev;
++	struct list_head members;
++	struct list_head links;
++
++	struct list_head list;
++	struct kref refcount;
++
++	struct device *removed_device;
++};
++
++static inline struct media_device_shared *
++to_media_device_shared(struct media_device *mdev)
++{
++	return container_of(mdev, struct media_device_shared, mdev);
++}
++
++static void media_device_shared_release(struct kref *kref)
++{
++	struct media_device_shared *mds =
++		container_of(kref, struct media_device_shared, refcount);
++
++	dev_dbg(mds->removed_device, "%s: releasing Media Device\n", __func__);
++
++	mutex_lock(&media_device_shared_lock);
++
++	media_device_unregister(&mds->mdev);
++	media_device_cleanup(&mds->mdev);
++
++	list_del(&mds->list);
++	mutex_unlock(&media_device_shared_lock);
++
++	kfree(mds);
++}
++
++/* Callers should hold media_device_shared_lock when calling this function */
++static bool __media_device_shared_find_match(struct media_device_shared *mds,
++					     struct fwnode_handle *fwnode)
++{
++	struct media_device_shared_member *member;
++	struct fwnode_handle *ep;
++	struct fwnode_handle *remote_ep;
++	bool match = false;
++
++	// TODO: parse the device tree endpoints graph instead of finding just the
++	// first-level neighbours
++	fwnode_graph_for_each_endpoint(fwnode, ep) {
++		list_for_each_entry(member, &mds->members, list) {
++			remote_ep = fwnode_graph_get_remote_port_parent(ep);
++			match = (member->fwnode == remote_ep);
++			fwnode_handle_put(remote_ep);
++
++			if (!match)
++				continue;
++
++			goto match_complete;
++		}
++	}
++
++match_complete:
++	fwnode_handle_put(ep);
++	return match;
++}
++
++/* Callers should hold media_device_shared_lock when calling this function */
++static struct media_device *__media_device_shared_get(struct device *dev)
++{
++	struct media_device_shared *mds;
++	struct media_device_shared_member *member;
++	struct fwnode_handle *fwnode = dev_fwnode(dev);
++	bool ret;
++
++	dev_dbg(dev, "%s: searching for media device for %pfwf", __func__, fwnode);
++
++	list_for_each_entry(mds, &media_device_shared_list, list) {
++		ret = __media_device_shared_find_match(mds, fwnode);
++		if (ret)
++			break;
++	}
++
++	if (!ret)
++		return NULL;
++
++	member = kzalloc_obj(*member);
++	if (!member)
++		return NULL;
++
++	member->dev = dev;
++	member->fwnode = fwnode;
++	list_add_tail(&member->list, &mds->members);
++	kref_get(&mds->refcount);
++
++	dev_dbg(dev, "%s: %pfwf joined media device of %pfwf",
++		__func__, fwnode,
++		list_first_entry(&mds->members, struct media_device_shared_member, list)->fwnode);
++
++	return &mds->mdev;
++}
++
++/* Callers should hold media_device_shared_lock when calling this function */
++static struct media_device *__media_device_shared_create(struct device *dev)
++{
++	struct media_device_shared *mds;
++	struct media_device_shared_member *member;
++	struct fwnode_handle *fwnode = dev_fwnode(dev);
++	int ret;
++
++	mds = kzalloc_obj(*mds);
++	if (!mds)
++		return NULL;
++
++	member = kzalloc_obj(*member);
++	if (!member)
++		goto err_free_mds;
++
++	media_device_init(&mds->mdev);
++
++	ret = media_device_register(&mds->mdev);
++	if (ret)
++		goto err_free_member;
++
++	INIT_LIST_HEAD(&mds->members);
++	member->dev = dev;
++	member->fwnode = fwnode;
++	list_add_tail(&member->list, &mds->members);
++
++	INIT_LIST_HEAD(&mds->links);
++
++	kref_init(&mds->refcount);
++	list_add_tail(&mds->list, &media_device_shared_list);
++
++	// TODO figure out how to reconcile this with multiple members
++	mds->mdev.dev = dev;
++
++	devv_dbg(dev, "%s: Allocated media device with %pfwf at %p\n",
++		 __func__, fwnode, &mds->mdev);
++	return &mds->mdev;
++
++err_free_member:
++	kfree(member);
++err_free_mds:
++	kfree(mds);
++	return NULL;
++}
++
++// TODO figure out how to resolve the identifiers (model, driver name, etc);
++// atm it's racy and whoever gets it last wins
++struct media_device *media_device_shared_join(struct device *dev)
++{
++	struct media_device *mdev;
++
++	mutex_lock(&media_device_shared_lock);
++
++	mdev = __media_device_shared_get(dev);
++	if (!!mdev) {
++		dev_dbg(dev, "%s: found media device for %pfwf", __func__, dev_fwnode(dev));
++		mutex_unlock(&media_device_shared_lock);
++		return mdev;
++	}
++
++	mdev = __media_device_shared_create(dev);
++	if (!mdev) {
++		dev_warn(dev, "%s: failed to create media device for %pfwf", __func__, dev_fwnode(dev));
++		mutex_unlock(&media_device_shared_lock);
++		return ERR_PTR(-ENOMEM);
++	}
++
++	dev_dbg(dev, "%s: created media device for %pfwf", __func__, dev_fwnode(dev));
++	mutex_unlock(&media_device_shared_lock);
++	return mdev;
++}
++EXPORT_SYMBOL_GPL(media_device_shared_join);
++
++void media_device_shared_leave(struct media_device *mdev, struct device *dev)
++{
++	struct media_device_shared *mds = to_media_device_shared(mdev);
++	struct media_device_shared_member *member;
++	struct media_device_shared_member *member_tmp;
++	bool removed = false;
++
++	mutex_lock(&media_device_shared_lock);
++
++	list_for_each_entry_safe(member, member_tmp, &mds->members, list) {
++		if (member->dev == dev) {
++			list_del(&member->list);
++			kfree(member);
++			removed = true;
++		}
++	}
++
++	if (!removed)
++		dev_err(dev, "%s: %pfwf trying to leave from graph in which not a member",
++			__func__, dev_fwnode(dev));
++
++	mds->removed_device = dev;
++	mutex_unlock(&media_device_shared_lock);
++	kref_put(&mds->refcount, media_device_shared_release);
++}
++EXPORT_SYMBOL_GPL(media_device_shared_leave);
++
++int media_device_shared_join_link_source(struct media_device *mdev,
++					 struct device *dev,
++					 struct media_entity *source,
++					 u16 source_pad, u32 flags)
++{
++	struct media_device_shared *mds = to_media_device_shared(mdev);
++	struct media_device_shared_link *link;
++	struct media_device_shared_link *link_tmp;
++	int ret = 0;
++
++	mutex_lock(&media_device_shared_lock);
++
++	/*
++	 * TODO Figure out flags. Should we use greatest common denominator? Or
++	 * prioritize sink? Or whoever wins the race? For now we just take the flags
++	 * from the sink.
++	 *
++	 * TODO Figure out how to actually do the matching. For now we just match
++	 * whoever comes in first. This works with the simple example we're running
++	 * with now (rkcif + one rkisp2) but with setups with multiple copies of
++	 * hardware this will cause problems, like with rkcif + two rkisp2 and
++	 * imx8-isi + two rkisp1.
++	 */
++	list_for_each_entry_safe(link, link_tmp, &mds->links, list) {
++		if (link->sink) {
++			ret = media_create_pad_link(source, source_pad,
++						    link->sink, link->sink_pad,
++						    link->flags);
++			list_del(&link->list);
++			kfree(link);
++			goto exit_join_link_source;
++		}
++	}
++
++	link = kzalloc_obj(*link);
++	if (!link) {
++		ret = -ENOMEM;
++		goto exit_join_link_source;
++	}
++
++	link->source = source;
++	link->source_pad = source_pad;
++	link->flags = flags;
++	list_add_tail(&link->list, &mds->links);
++
++exit_join_link_source:
++	mutex_unlock(&media_device_shared_lock);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(media_device_shared_join_link_source);
++
++// TODO deduplicate from above
++int media_device_shared_join_link_sink(struct media_device *mdev,
++				       struct device *dev,
++				       struct media_entity *sink,
++				       u16 sink_pad, u32 flags)
++{
++	struct media_device_shared *mds = to_media_device_shared(mdev);
++	struct media_device_shared_link *link;
++	struct media_device_shared_link *link_tmp;
++	int ret = 0;
++
++	mutex_lock(&media_device_shared_lock);
++
++	list_for_each_entry_safe(link, link_tmp, &mds->links, list) {
++		if (link->source) {
++			ret = media_create_pad_link(link->source, link->source_pad,
++						    sink, sink_pad,
++						    flags);
++			list_del(&link->list);
++			kfree(link);
++			goto exit_join_link_sink;
++		}
++	}
++
++	link = kzalloc_obj(*link);
++	if (!link) {
++		ret = -ENOMEM;
++		goto exit_join_link_sink;
++	}
++
++	link->sink = sink;
++	link->sink_pad = sink_pad;
++	link->flags = flags;
++	list_add_tail(&link->list, &mds->links);
++
++exit_join_link_sink:
++	mutex_unlock(&media_device_shared_lock);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(media_device_shared_join_link_sink);
+diff --git a/include/media/mc-shared-graph.h b/include/media/mc-shared-graph.h
+new file mode 100644
+index 000000000000..487325163f84
+--- /dev/null
++++ b/include/media/mc-shared-graph.h
+@@ -0,0 +1,92 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * mc-shared-graph.h - Media Controller Shared Graph API
++ *
++ * Copyright (c) 2026 Paul Elder <paul.elder@ideasonboard.com>
++ */
++
++/*
++ * This file adds the Media Controller Shared Graph API. This allows drivers
++ * to create shared media graphs or join existing media graphs from other
++ * drivers, so that they can all be in the same media graph. This allows us to
++ * have more complex media graphs chaining more complex hardware together,
++ * instead of simple async subdevs.
++ */
++
++#include <linux/types.h>
++
++#ifndef _MEDIA_SHARED_GRAPH_H
++#define _MEDIA_SHARED_GRAPH_H
++
++struct device;
++struct media_device;
++struct media_entity;
++
++#if defined(CONFIG_MEDIA_CONTROLLER)
++/**
++ * media_device_shared_join() - Join or create a new shared media device
++ *
++ * @dev:		struct &device pointer
++ *
++ * This is the entrance function for a device to join or create a new shared
++ * media device. It searches for an existing shared media device based on the
++ * neighbours in the device's device tree ports node. If found, then this
++ * functions returns the existing shared media device and joins it. If one is
++ * not found then one is created and initialized and returned.
++ */
++struct media_device *media_device_shared_join(struct device *dev);
++
++/**
++ * media_device_shared_leave() - Leave the shared media device.
++ *
++ * @mdev:		struct &media_device pointer
++ * @dev:		struct &device pointer
++ *
++ * This function makes the device leave the shared media device. When all
++ * members have left the media device it will be freed.
++ */
++void media_device_shared_leave(struct media_device *mdev, struct device *dev);
++
++/**
++ * media_device_shared_join_link_source() - Register a link source in the shared media device
++ *
++ * @mdev: The struct &media_device pointer that is part of a shared media device
++ * @dev: struct &device pointer
++ * @source: The link source
++ * @source_pad: The pad
++ * @flags: The flags
++ *
++ * This function registers with the shared media device the source part of a
++ * link. When the shared media device receives the matching sink part of a link
++ * via media_device_shared_join_link_sink() then the link will be fully created.
++ */
++int media_device_shared_join_link_source(struct media_device *mdev,
++					 struct device *dev,
++					 struct media_entity *source,
++					 u16 source_pad, u32 flags);
++
++/**
++ * media_device_shared_join_link_sink() - Register a link sink in the shared media device
++ *
++ * Same as media_device_shared_join_link_source() but for sink instead of
++ * source.
++ */
++int media_device_shared_join_link_sink(struct media_device *mdev,
++				       struct device *dev,
++				       struct media_entity *sink,
++				       u16 sink_pad, u32 flags);
++#else
++static inline struct media_device *media_device_shared_join(struct device *dev)
++{ return NULL; }
++static inline void media_device_shared_leave(struct media_device *mdev,
++					     struct device *dev) { }
++static inline int media_device_shared_join_link_source(struct media_device *mdev,
++						       struct device *dev,
++						       struct media_entity *source,
++						       u16 source_pad, u32 flags) { }
++static inline int media_device_shared_join_link_sink(struct media_device *mdev,
++						     struct device *dev,
++						     struct media_entity *sink,
++						     u16 sink_pad, u32 flags) { }
++#endif /* CONFIG_MEDIA_CONTROLLER */
++#endif /* _MEDIA_DEV_SHARED_GRAPH_H */
 -- 
 2.47.2
 
