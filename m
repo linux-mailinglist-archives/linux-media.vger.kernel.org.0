@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-65247-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65248-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id alTqCHHTNGqXhwYAu9opvQ
-	(envelope-from <linux-media+bounces-65247-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 07:28:17 +0200
+	id yPaBK1TTNGp7hwYAu9opvQ
+	(envelope-from <linux-media+bounces-65248-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 07:27:48 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C3396A3F2A
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 07:28:16 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68DAF6A3F14
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 07:27:48 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=p4ebt1P0;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65247-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65247-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=lRG4CZUk;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65248-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-65248-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 3FCA530A6E8C
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 05:27:26 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 2D39C303EE34
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 05:27:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDC3733A9C4;
-	Fri, 19 Jun 2026 05:27:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2DD833BBD0;
+	Fri, 19 Jun 2026 05:27:19 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06FE131E825;
-	Fri, 19 Jun 2026 05:27:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D1031E825;
+	Fri, 19 Jun 2026 05:27:17 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781846834; cv=none; b=CBb8kMd9pLzcOqDsMxk/8sH/ulI2f33XayPkcEl8LuwKS9hP3+/cklR2tL+LCUlXVssc8JaVw/1mOQAAo755b86rL77+5iXmkXGUTrhiFL3eHRlrbrcntsa6C3nUsoW9VmiLX2JPaYZ3lYWhcDFPagVyfG4CxeXDwHwUWdSF0D8=
+	t=1781846839; cv=none; b=ej0AAXGetTIJeUwlSC+oZqdfUA770+T69iXTKIfE8JosWeVlbBXb1CTaWzIkFqASznW0a66ZCgqejhPclFCcPSEQneKycKDx6udt0r9npfn6qkyBqW6arkTNSr7v7VI9PP9wTpJejv4zl+W8VtylixG5W193CgsVkC1X6OXelLI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781846834; c=relaxed/simple;
-	bh=QnDVv3PMSR+bMRnOEYkvFZrCcz9vpEPE/77orFsXWGg=;
+	s=arc-20240116; t=1781846839; c=relaxed/simple;
+	bh=+wpYmpN4QK9Kq9mMomSq53WN7ciVuPzh1+gRYFGNSz8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q8T9iJXiu2098FRq0rfjOMn2fX7tGjtK+byIvFLeMpVNdPhKp39UImBBvdG6VchRpWtkeUfMp9D7I2U8w5bb84xaieVa6tAfn6gDaXZ44Qc5WHBw4W49IxhkYnZzd69JoFhgRRakxquHW4IwbnY5yzdUUQisz/gcQOkatdfNQuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=p4ebt1P0; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=K8gqlwVxlyBmOfq9L5jRKUEWLG3MfLSwgKelV65XV5TBWTHvMM4xrqERXzIyeCLXqt7vJ3j6isG5CebKIv7KqeC1t0aHsiSpp3VoK4PKTpUsApJfiuc1/PNVhwoLv4hEZjUkn2lPAOjEscnax2ff4FFIck2A8LHNjBC8v1cqrAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lRG4CZUk; arc=none smtp.client-ip=213.167.242.64
 Received: from neptunite.hamster-moth.ts.net (unknown [IPv6:2404:7a81:160:2100:327:f131:c148:b7f8])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 12BCD16CB;
-	Fri, 19 Jun 2026 07:26:31 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 18D68265D;
+	Fri, 19 Jun 2026 07:26:36 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781846796;
-	bh=QnDVv3PMSR+bMRnOEYkvFZrCcz9vpEPE/77orFsXWGg=;
+	s=mail; t=1781846801;
+	bh=+wpYmpN4QK9Kq9mMomSq53WN7ciVuPzh1+gRYFGNSz8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=p4ebt1P0dF/qmFlJgTmGp1UaORVFW4gB+w4mfbpOCX3U3Bc7qfQuPkVzZBR2Pn45E
-	 ZRC7zd/KwiDYFUYjoi/X1BkBk8VF8IylBQSH9S0uhMrShIhzJQAF1JCtfwecU/Wilj
-	 4k5NO1OC56o/I6DoIEHkDMvFSn26fZ+ZArudey5s=
+	b=lRG4CZUkbnngDwhcB9kJZrhruawJeGexWa4Hf/pmGMeyhKgnIFMyfvVx0IO2NV8bB
+	 48tY580oHCQyfmcR60qZ9uMq+goVAIIGWKioZU3roLwLnn08w4NM26+RgIk4RoaER6
+	 pEXEGGBqjZ5hzvlAvCIj4GK68chIZisv9bIdqsB0=
 From: Paul Elder <paul.elder@ideasonboard.com>
 To: laurent.pinchart@ideasonboard.com
 Cc: Paul Elder <paul.elder@ideasonboard.com>,
@@ -61,9 +61,9 @@ Cc: Paul Elder <paul.elder@ideasonboard.com>,
 	nicolas.dufresne@collabora.com,
 	ribalda@chromium.org,
 	sakari.ailus@linux.intel.com
-Subject: [RFC PATCH 3/6] media: rkcif: Use shared media graph
-Date: Fri, 19 Jun 2026 14:26:30 +0900
-Message-ID: <20260619052637.1110672-4-paul.elder@ideasonboard.com>
+Subject: [RFC PATCH 4/6] media: rkisp2: Use shared media graph
+Date: Fri, 19 Jun 2026 14:26:31 +0900
+Message-ID: <20260619052637.1110672-5-paul.elder@ideasonboard.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20260619052637.1110672-1-paul.elder@ideasonboard.com>
 References: <20260619052637.1110672-1-paul.elder@ideasonboard.com>
@@ -81,13 +81,13 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart@ideasonboard.com,m:paul.elder@ideasonboard.com,m:michael.riesch@collabora.com,m:xuhf@rock-chips.com,m:stefan.klug@ideasonboard.com,m:kieran.bingham@ideasonboard.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:ribalda@chromium.org,m:sakari.ailus@linux.intel.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-65247-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65248-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[16];
 	FORWARDED(0.00)[lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
@@ -105,143 +105,145 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8C3396A3F2A
+X-Rspamd-Queue-Id: 68DAF6A3F14
 
-Make rkcif use shared media graph. This allows it to be in the same
-media graph as rkisp2 on the rk3588, opening to door to allowing the
+Make rkisp2 use shared media graph. This allows it to be in the same
+media graph as rkcif on the rk3588, opening to door to allowing the
 entire capture pipeline to run in inline mode.
 
 Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
 ---
- .../platform/rockchip/rkcif/rkcif-common.h    |  2 +-
- .../media/platform/rockchip/rkcif/rkcif-dev.c | 32 +++++++++----------
- .../platform/rockchip/rkcif/rkcif-interface.c | 10 ++++++
- 3 files changed, 27 insertions(+), 17 deletions(-)
+ .../platform/rockchip/rkisp2/rkisp2-common.h  |  2 +-
+ .../platform/rockchip/rkisp2/rkisp2-dev.c     | 42 ++++++++++---------
+ 2 files changed, 24 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-common.h b/drivers/media/platform/rockchip/rkcif/rkcif-common.h
-index 4d9211ba9bda..f2989d152ba2 100644
---- a/drivers/media/platform/rockchip/rkcif/rkcif-common.h
-+++ b/drivers/media/platform/rockchip/rkcif/rkcif-common.h
-@@ -242,7 +242,7 @@ struct rkcif_device {
- 
- 	struct rkcif_interface interfaces[RKCIF_IF_MAX];
- 
+diff --git a/drivers/media/platform/rockchip/rkisp2/rkisp2-common.h b/drivers/media/platform/rockchip/rkisp2/rkisp2-common.h
+index 1eafdb5db5d8..ecf0f5e22064 100644
+--- a/drivers/media/platform/rockchip/rkisp2/rkisp2-common.h
++++ b/drivers/media/platform/rockchip/rkisp2/rkisp2-common.h
+@@ -432,7 +432,7 @@ struct rkisp2_device {
+ 	struct regmap *gasket;
+ 	unsigned int gasket_id;
+ 	struct v4l2_device v4l2_dev;
 -	struct media_device media_dev;
 +	struct media_device *media_dev;
- 	struct v4l2_device v4l2_dev;
  	struct v4l2_async_notifier notifier;
- };
-diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-dev.c b/drivers/media/platform/rockchip/rkcif/rkcif-dev.c
-index be3a174b9aab..4c86e3e2f3cd 100644
---- a/drivers/media/platform/rockchip/rkcif/rkcif-dev.c
-+++ b/drivers/media/platform/rockchip/rkcif/rkcif-dev.c
+ 	struct v4l2_subdev *source;
+ 	struct rkisp2_isp isp;
+diff --git a/drivers/media/platform/rockchip/rkisp2/rkisp2-dev.c b/drivers/media/platform/rockchip/rkisp2/rkisp2-dev.c
+index 4042bf43d287..f74b7aae3159 100644
+--- a/drivers/media/platform/rockchip/rkisp2/rkisp2-dev.c
++++ b/drivers/media/platform/rockchip/rkisp2/rkisp2-dev.c
 @@ -20,6 +20,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/pinctrl/consumer.h>
  #include <linux/pm_runtime.h>
- #include <linux/reset.h>
- 
 +#include <media/mc-shared-graph.h>
  #include <media/v4l2-fwnode.h>
  #include <media/v4l2-mc.h>
  
-@@ -165,6 +166,7 @@ static int rkcif_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
- 	struct rkcif_device *rkcif;
-+	struct media_device *mdev;
- 	int ret, irq;
+@@ -117,7 +118,7 @@ static int rkisp2_create_links(struct rkisp2_device *rkisp2)
+ 			ret = media_create_pad_link(
+ 				source, 0, &rkisp2->isp.sd.entity,
+ 				RKISP2_ISP_PAD_SINK_VIDEO,
+-				MEDIA_LNK_FL_ENABLED | MEDIA_LNK_FL_IMMUTABLE);
++				MEDIA_LNK_FL_ENABLED);
+ 		} else {
+ 			ret = media_create_pad_link(source, 0,
+ 						    &rkisp2->isp.sd.entity,
+@@ -147,6 +148,12 @@ static int rkisp2_create_links(struct rkisp2_device *rkisp2)
+ 	if (ret)
+ 		return ret;
  
- 	rkcif = devm_kzalloc(dev, sizeof(*rkcif), GFP_KERNEL);
-@@ -212,22 +214,22 @@ static int rkcif_probe(struct platform_device *pdev)
- 
- 	pm_runtime_enable(&pdev->dev);
- 
--	rkcif->media_dev.dev = dev;
--	strscpy(rkcif->media_dev.model, RKCIF_DRIVER_NAME,
--		sizeof(rkcif->media_dev.model));
--	media_device_init(&rkcif->media_dev);
-+	mdev = media_device_shared_join(rkcif->dev);
-+	if (IS_ERR(mdev)) {
-+		dev_err(dev, "failed to register media device: %d\n", ret);
-+		goto err_pm_runtime_disable;
-+	}
++	ret = media_device_shared_join_link_sink(rkisp2->media_dev, rkisp2->dev,
++						 &rkisp2->isp.sd.entity,
++						 RKISP2_ISP_PAD_SINK_VIDEO, 0);
++	if (ret)
++		return ret;
 +
-+	rkcif->media_dev = mdev;
-+	rkcif->media_dev->dev = dev;
-+	strscpy(rkcif->media_dev->model, RKCIF_DRIVER_NAME,
-+		sizeof(rkcif->media_dev->model));
+ 	return 0;
+ }
  
--	rkcif->v4l2_dev.mdev = &rkcif->media_dev;
-+	rkcif->v4l2_dev.mdev = rkcif->media_dev;
- 	ret = v4l2_device_register(dev, &rkcif->v4l2_dev);
+@@ -233,6 +240,7 @@ static int rkisp2_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct rkisp2_device *rkisp2;
+ 	struct v4l2_device *v4l2_dev;
++	struct media_device *mdev;
+ 	unsigned int i;
+ 	int ret, irq;
+ 	u32 cif_id;
+@@ -298,29 +306,28 @@ static int rkisp2_probe(struct platform_device *pdev)
+ 
+ 	pm_runtime_put(&pdev->dev);
+ 
+-	rkisp2->media_dev.hw_revision = info->isp_ver;
+-	strscpy(rkisp2->media_dev.model, RKISP2_DRIVER_NAME,
+-		sizeof(rkisp2->media_dev.model));
+-	rkisp2->media_dev.dev = &pdev->dev;
+-	strscpy(rkisp2->media_dev.bus_info, RKISP2_BUS_INFO,
+-		sizeof(rkisp2->media_dev.bus_info));
+-	media_device_init(&rkisp2->media_dev);
++	mdev = media_device_shared_join(rkisp2->dev);
++	if (IS_ERR(mdev))
++		goto err_pm_runtime_disable;
++
++	rkisp2->media_dev = mdev;
++	rkisp2->media_dev->hw_revision = info->isp_ver;
++	strscpy(rkisp2->media_dev->model, RKISP2_DRIVER_NAME,
++		sizeof(rkisp2->media_dev->model));
++	strscpy(rkisp2->media_dev->bus_info, RKISP2_BUS_INFO,
++		sizeof(rkisp2->media_dev->bus_info));
+ 
+ 	v4l2_dev = &rkisp2->v4l2_dev;
+-	v4l2_dev->mdev = &rkisp2->media_dev;
++	v4l2_dev->mdev = rkisp2->media_dev;
+ 	strscpy(v4l2_dev->name, RKISP2_DRIVER_NAME, sizeof(v4l2_dev->name));
+ 
+ 	ret = v4l2_device_register(rkisp2->dev, &rkisp2->v4l2_dev);
  	if (ret)
  		goto err_media_dev_cleanup;
  
--	ret = media_device_register(&rkcif->media_dev);
--	if (ret < 0) {
--		dev_err(dev, "failed to register media device: %d\n", ret);
--		goto err_v4l2_dev_unregister;
--	}
+-	ret = media_device_register(&rkisp2->media_dev);
+-	if (ret)
+-		goto err_unreg_v4l2_dev;
 -
- 	v4l2_async_nf_init(&rkcif->notifier, &rkcif->v4l2_dev);
- 	rkcif->notifier.ops = &rkcif_notifier_ops;
+ 	ret = rkisp2_entities_register(rkisp2);
+ 	if (ret)
+-		goto err_unreg_media_dev;
++		goto err_unreg_v4l2_dev;
  
-@@ -247,11 +249,10 @@ static int rkcif_probe(struct platform_device *pdev)
- 	rkcif_unregister(rkcif);
- err_notifier_cleanup:
- 	v4l2_async_nf_cleanup(&rkcif->notifier);
--	media_device_unregister(&rkcif->media_dev);
--err_v4l2_dev_unregister:
- 	v4l2_device_unregister(&rkcif->v4l2_dev);
+ 	ret = v4l2_device_register_subdev_nodes(&rkisp2->v4l2_dev);
+ 	if (ret)
+@@ -332,12 +339,10 @@ static int rkisp2_probe(struct platform_device *pdev)
+ 
+ err_unreg_entities:
+ 	rkisp2_entities_unregister(rkisp2);
+-err_unreg_media_dev:
+-	media_device_unregister(&rkisp2->media_dev);
+ err_unreg_v4l2_dev:
+ 	v4l2_device_unregister(&rkisp2->v4l2_dev);
  err_media_dev_cleanup:
--	media_device_cleanup(&rkcif->media_dev);
-+	media_device_shared_leave(rkcif->media_dev, rkcif->dev);
-+err_pm_runtime_disable:
+-	media_device_cleanup(&rkisp2->media_dev);
++	media_device_shared_leave(rkisp2->media_dev, rkisp2->dev);
+ err_pm_runtime_disable:
  	pm_runtime_disable(&pdev->dev);
  	return ret;
- }
-@@ -263,9 +264,8 @@ static void rkcif_remove(struct platform_device *pdev)
- 	v4l2_async_nf_unregister(&rkcif->notifier);
- 	rkcif_unregister(rkcif);
- 	v4l2_async_nf_cleanup(&rkcif->notifier);
--	media_device_unregister(&rkcif->media_dev);
- 	v4l2_device_unregister(&rkcif->v4l2_dev);
--	media_device_cleanup(&rkcif->media_dev);
-+	media_device_shared_leave(rkcif->media_dev, rkcif->dev);
+@@ -353,10 +358,9 @@ static void rkisp2_remove(struct platform_device *pdev)
+ 	rkisp2_entities_unregister(rkisp2);
+ 	rkisp2_debug_cleanup(rkisp2);
+ 
+-	media_device_unregister(&rkisp2->media_dev);
+ 	v4l2_device_unregister(&rkisp2->v4l2_dev);
+ 
+-	media_device_cleanup(&rkisp2->media_dev);
++	media_device_shared_leave(rkisp2->media_dev, rkisp2->dev);
+ 
  	pm_runtime_disable(&pdev->dev);
  }
- 
-diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-interface.c b/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
-index 414a9980cf2e..cd791186f224 100644
---- a/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
-+++ b/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
-@@ -6,6 +6,7 @@
-  * Copyright (C) 2025 Collabora, Ltd.
-  */
- 
-+#include <media/mc-shared-graph.h>
- #include <media/v4l2-common.h>
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-mc.h>
-@@ -399,6 +400,15 @@ int rkcif_interface_register(struct rkcif_device *rkcif,
- 	if (ret)
- 		goto err_subdev_unregister;
- 
-+	ret = media_device_shared_join_link_source(interface->rkcif->media_dev,
-+						   interface->rkcif->dev,
-+						   &interface->sd.entity,
-+						   RKCIF_IF_PAD_SRC,
-+						   0);
-+	if (ret)
-+		goto err_subdev_unregister;
-+
-+
- 	return 0;
- 
- err_subdev_unregister:
 -- 
 2.47.2
 
