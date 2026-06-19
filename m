@@ -1,225 +1,386 @@
-Return-Path: <linux-media+bounces-65243-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65244-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id y+JjAjfKNGo1hAYAu9opvQ
-	(envelope-from <linux-media+bounces-65243-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 06:48:55 +0200
+	id eOfRLzDTNGpphwYAu9opvQ
+	(envelope-from <linux-media+bounces-65244-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 07:27:12 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80F6A6A3D4F
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 06:48:54 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id A500F6A3F00
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 07:27:11 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=qualcomm.com header.s=qcppdkim1 header.b=QCpolzKC;
-	dkim=pass header.d=oss.qualcomm.com header.s=google header.b=K55wZCJt;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65243-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-65243-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=qualcomm.com;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=FyWeDAbd;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65244-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-65244-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id CF84D302758B
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 04:48:53 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 6A291301518C
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 05:27:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B464E31E858;
-	Fri, 19 Jun 2026 04:48:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60D993264DE;
+	Fri, 19 Jun 2026 05:27:03 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA232D738A
-	for <linux-media@vger.kernel.org>; Fri, 19 Jun 2026 04:48:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A303D40D598;
+	Fri, 19 Jun 2026 05:26:59 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781844529; cv=none; b=n+fwKpXGwwMEghn5GzSUyCZLqLxrGBjRpdNv0z8ybjt3Va5fXtK0Gqm4+RJbbxmoyg1G9/mOU3ykHUM8g3AUyjM+pvUlMJ5MBLNn2oLs5ayBw/gMsGH7f7jI4FfkcA6LrggN5HrXbl1QAtTU5AfUUtDd47yvywBh1Yf3Pt8pKWw=
+	t=1781846822; cv=none; b=VDjXL9M3NND/+3yRbu3qa05TfKPya99gFbqyl+SUQ4sl6w4MFHFHYAhyfyaIZf4fbccy/Atl8ayuMw/vrEBwGq7eQl3c+9am1oZkzSfhUPWnBvbPy9bOli8ZcdE5ADoKgYoqaw/7dbfumPxbcB/I+yF4Dm45PJpFX9NFZcslicM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781844529; c=relaxed/simple;
-	bh=2ZgH9JicCBPgNw6bTxxQzJNp05yNoxBhSbgRSDqS2PM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rnJxRlSkHD4z703Y1OKqflZaLivCJY4qUjgIxgtx/fLD3Waywo+LDUEDAB41YKBjyEZDhLZJW6Z1hBXCvUNuJCgwIgKEyLyE+forHGblqrcM5K1PjCWG1TD6jEhUZ1RwibJ2EauSF0QKP3ijYn4oxq/qTM5/yJLdug9pGTUQowE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QCpolzKC; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=K55wZCJt; arc=none smtp.client-ip=205.220.168.131
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 65J2t4063081719
-	for <linux-media@vger.kernel.org>; Fri, 19 Jun 2026 04:48:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Gpq90L0IYhWDMYyNYTQ1qV2iw2qlBFm7cIYJfW06+QY=; b=QCpolzKCrrG9L9gw
-	rQqlyF6kEgZehYEIgRvzgYGT83U0zsVJG0wfPOMGntbgRHlTfi+whG9N8JqN84Hh
-	b7Q6+mGh3eKoWg+UK8bUgRawrlQzPGIDwWnalJod7Hlwa4hDc9p8gVFqo4Hh2FMz
-	MzdZjNoVGYp1BshOGaStMhlrHzr8txcNzrNuNMn5fFfMA13rqPywPeeqwxpFEfXB
-	Y5t5/iIjKuSBEoGdzx2EpJLsSAVPutox1x88myjnxHrF7t+zRaZu7mNTs2Ei3tPF
-	uln8H8QsIaXOdTZ2RtlzbGID7fxicktkAJnzIxYee4hyyUHEYXTqKJeNEQa42zGp
-	ORJF9w==
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4evdn4444s-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 19 Jun 2026 04:48:46 +0000 (GMT)
-Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-842446a3851so851072b3a.0
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2026 21:48:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1781844526; x=1782449326; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Gpq90L0IYhWDMYyNYTQ1qV2iw2qlBFm7cIYJfW06+QY=;
-        b=K55wZCJtDaUlWke+1HPS3cfsUuKMhz25Twv3+rAfi/69OvP7XJVjIrqB+xv4qJIhb3
-         eqO7Xxnqi09F9G8Iy/tCyiqMhZBwfMelzXKSfPUv8zEqZunpytZZVArgYvYBOWDajoQs
-         JVx2BPZ6CHSHr0OB+ol1Q8VicoCsOPC+TYjXDQGmm9SSXMuxcXppmcROZs8707FC+S8S
-         +QQ2ZNSqiIxD2VTcRm4QY14rOQjPilke1sJQDVMDn457ICQiE13pVudtIIF4FCIc9Nv7
-         HFcVSlG20J1+yziWbuJiNOMhmyj7ZsTRurBnQrkkhCTZh8WewmQtgiGkzl6DOeuQf3iy
-         KuUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781844526; x=1782449326;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Gpq90L0IYhWDMYyNYTQ1qV2iw2qlBFm7cIYJfW06+QY=;
-        b=V7nGAUeb/SkwM5G2llqbnr0xmTeSaNQEh5ze5vLY1OrGlSGc8X8FDVZe9Hhf+uFU4A
-         Q61p4i5EJY1oV+lUjBu86/kLzYPUXHGRObS8S+xoBC6ituN0c2FK7LgkUvo5wspvZ9Q0
-         RzCgB49qjuBAVcFyKdu0dXmH3Q1tesLYV5C2zcRAT5BHyXdMy41BlQAAm8otgPD5TNff
-         6Wsayjg86hblZ0OzT1MGPMwvrjzij3HVAbHrnbPsPIAkPuKF3SL7RRZD2qjWRAoODLCv
-         tBn7tcwvDpyvZBUzJcC7TB3Ykf8s9aerHKogrWZewTNht9WPFBUX69tR5yRbSKOZmlEC
-         m0eQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/nE7vV5ALFxb7DqJC2JFRhuKYzLWXM2LacmDO100OgUSL14HP2N6uOvjmah5TWjxg2m8Klx+W1x8PhIQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzN0gdbbzEbSAve/JMxxgdb3Wq2V0XCW9h4/mIQeYEAwudxoJDp
-	No/UsbCPGhMcawzvtgjTcrrMGb2yPEtoRivWKkzcPSCZ10TBjWUEwAujXdg7IJsPJlFKUn8iWCF
-	A9nfJJLKrAjs4H2uzM+3imSmcoW3YoAfK41cy8OUOImexpl0txXDB6cLBhMSII5S1Bg==
-X-Gm-Gg: AfdE7ckuT56P/ec4o7+t62aXuEf5ovDz9hbkFJ4zxrkzgB2S71MgkK8il0cldI2C/MF
-	CcmwP6zuVC4j8/eG4gE7MjiEZIjb016dUGlQQ3KG7hwDav4Uy6Kwy1dw1SrjcxZ3e5uN4TnRxTt
-	Us96b9u7fu1Feve9ucma/NFPXFNkE9quxZNLTW/oOwpDhTUfQW2D2f1vHM/YUzsvAved+ysvcTy
-	60S27FXVWbezWMvEWlxAsXEW6jnpdbS5m6hRTOkWA3C57pcpgWp3D9pvgEDnitO2n3dF3Gcy3xK
-	WrkKj1bZ+T1M9wDO4jriLACfhEczP0UkDyRvPg9fNJtSbVlSTX96/lyCGsGsl/dgka1WagyITQ9
-	xwgLokORvvj4Z8+jVzBKz1tiJUrkQRnL/7VbEVWF5AeP8
-X-Received: by 2002:a05:6a00:2304:b0:842:3aee:12c2 with SMTP id d2e1a72fcca58-845507daba0mr2152960b3a.18.1781844525857;
-        Thu, 18 Jun 2026 21:48:45 -0700 (PDT)
-X-Received: by 2002:a05:6a00:2304:b0:842:3aee:12c2 with SMTP id d2e1a72fcca58-845507daba0mr2152928b3a.18.1781844525428;
-        Thu, 18 Jun 2026 21:48:45 -0700 (PDT)
-Received: from [192.168.29.100] ([49.43.194.141])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84553854057sm873036b3a.53.2026.06.18.21.48.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Jun 2026 21:48:44 -0700 (PDT)
-Message-ID: <db5facab-912a-660b-b688-c99041d1e866@oss.qualcomm.com>
-Date: Fri, 19 Jun 2026 10:18:36 +0530
+	s=arc-20240116; t=1781846822; c=relaxed/simple;
+	bh=ri3GLALkdclrGp1ImW0Sz2hkHPgk2vG7ChOZMwyLV+A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ArnChH4qhkNTk94jIKpaZU18SCTrtFryp9pqY+t4K+PJ0SO/K+jq8QehjHnL58kuZ/UaUzHm3M4Q+M5S0F2yQ9V7DiTUTCmVs9gWvGi0OKQCp7o2ujB4KR2jTpwldqiXFNFcKz6ufzLOvROfjyUnqSOn/bmth5QuBx0/Gsg7BoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FyWeDAbd; arc=none smtp.client-ip=213.167.242.64
+Received: from neptunite.hamster-moth.ts.net (unknown [IPv6:2404:7a81:160:2100:327:f131:c148:b7f8])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9E0CE1494;
+	Fri, 19 Jun 2026 07:26:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1781846780;
+	bh=ri3GLALkdclrGp1ImW0Sz2hkHPgk2vG7ChOZMwyLV+A=;
+	h=From:To:Cc:Subject:Date:From;
+	b=FyWeDAbd6jK55XNn/i1qbtvg304BKYAcLZndeLfkM5ugHw2Nls+LECIX1SFl8s6H3
+	 SAaX6RHG2L/bvMJnQIihtpLo4Bila1c15hYPgrMMuPKLopFloCAiEzL05Jj3GlRWX1
+	 RpUHVVyiTfhm9PqYI1ugpLaYev5FDha8g+vB9PxM=
+From: Paul Elder <paul.elder@ideasonboard.com>
+To: laurent.pinchart@ideasonboard.com
+Cc: Paul Elder <paul.elder@ideasonboard.com>,
+	michael.riesch@collabora.com,
+	xuhf@rock-chips.com,
+	stefan.klug@ideasonboard.com,
+	kieran.bingham@ideasonboard.com,
+	dan.scally@ideasonboard.com,
+	jacopo.mondi@ideasonboard.com,
+	linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	hverkuil+cisco@kernel.org,
+	nicolas.dufresne@collabora.com,
+	ribalda@chromium.org,
+	sakari.ailus@linux.intel.com
+Subject: [RFC PATCH 0/6] Add Shared Media Graph API
+Date: Fri, 19 Jun 2026 14:26:27 +0900
+Message-ID: <20260619052637.1110672-1-paul.elder@ideasonboard.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH v3 3/3] arm64: dts: qcom: shikra-evk: Enable Iris core
-Content-Language: en-US
-To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Jorge Ramirez-Ortiz <jorge.ramirez@oss.qualcomm.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-References: <20260618-shikra_vpu-v3-0-1a32e26a35a1@oss.qualcomm.com>
- <20260618-shikra_vpu-v3-3-1a32e26a35a1@oss.qualcomm.com>
-From: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
-In-Reply-To: <20260618-shikra_vpu-v3-3-1a32e26a35a1@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjE5MDA0MSBTYWx0ZWRfX/LTyq7+dMiUm
- W+hLtt9O3jotPrtmmO2PKwytXzEHVngy9i2BGpQ5x0QPNRx+HATvAVg9XUlVfC6nnNbyB5ey11x
- +AWBYW7kkt7bvMElOxGHwik8aCPTYdV892peG5ImSLKGwnEotEoXmhFjLn8qJd9QLE92rH9BPYD
- tgDSS3YmtahogcHoXkQqgGd5l+EdwDsC3vHts89hAcHHAAue1D97I3wm47MBCxdIV923ft9YQc4
- ZsNTz0ypofZKHdPdcgsJIvVLSMcWDVul6eBIdlLbOReLlxSbprMAAWhHsGqFWR3tD9apFfRFbxs
- NhQg+aW1786ntQsO4J7fo92TwLykbFI5ux13lATISICnIyu3PXucFRqlgRVELB6yhFAolKXdmK+
- CFZWCFrIObGbvgI46KYO3kza2Gy5LGRLOTIOpCRgbZX6okQEx4neA5sPqBz9bT95xbW+SueLrUj
- /HrrsrN3D28+8by4YPA==
-X-Proofpoint-ORIG-GUID: WBpFDIdSSP6hQXj34ArCh7dOZEB9HkYW
-X-Authority-Analysis: v=2.4 cv=FN4rAeos c=1 sm=1 tr=0 ts=6a34ca2e cx=c_pps
- a=rEQLjTOiSrHUhVqRoksmgQ==:117 a=LrD0L7TPytbPiIQqxktYyw==:17
- a=IkcTkHD0fZMA:10 a=FelO9ux0wxsA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=EUspDBNiAAAA:8 a=K8JZiejdjy6CsQPdH6kA:9 a=QEXdDO2ut3YA:10
- a=2VI0MkxyNR6bbpdq8BZq:22
-X-Proofpoint-GUID: WBpFDIdSSP6hQXj34ArCh7dOZEB9HkYW
-X-Proofpoint-Spam-Info: AW1haW4tMjYwNjE5MDA0MSBTYWx0ZWRfXzFMas8hMv5oD
- K2dum/o69UAYORO1zji1VZ0nxYh8xKqCBlinGh6FhMCiQcml6KwHHqbcZWcxu4fVK5Ji7Bam8Sy
- GfLZD/z1lU+9n2ZW7stX1GvY1CaJsZs=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.125,FMLib:17.12.100.49
- definitions=2026-06-19_01,2026-06-18_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 bulkscore=0 lowpriorityscore=0
- impostorscore=0 adultscore=0 phishscore=0 suspectscore=0 clxscore=1015
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2606190041
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[qualcomm.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[qualcomm.com:s=qcppdkim1,oss.qualcomm.com:s=google];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_MISSING_CHARSET(0.50)[];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65243-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-65244-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[16];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:vikash.garodia@oss.qualcomm.com,m:bod@kernel.org,m:dikshita.agarwal@oss.qualcomm.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jorge.ramirez@oss.qualcomm.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:dmitry.baryshkov@oss.qualcomm.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[paul.elder@ideasonboard.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[busanna.reddy@oss.qualcomm.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[qualcomm.com:+,oss.qualcomm.com:+];
+	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart@ideasonboard.com,m:paul.elder@ideasonboard.com,m:michael.riesch@collabora.com,m:xuhf@rock-chips.com,m:stefan.klug@ideasonboard.com,m:kieran.bingham@ideasonboard.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:ribalda@chromium.org,m:sakari.ailus@linux.intel.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qualcomm.com:dkim,qualcomm.com:email,vger.kernel.org:from_smtp,oss.qualcomm.com:dkim,oss.qualcomm.com:mid,oss.qualcomm.com:from_mime,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[busanna.reddy@oss.qualcomm.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[paul.elder@ideasonboard.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	RCVD_COUNT_SEVEN(0.00)[7]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,gitlab.freedesktop.org:url,pasteboard.co:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 80F6A6A3D4F
+X-Rspamd-Queue-Id: A500F6A3F00
+
+Hello everyone,
+
+This patch series extends the media controller API with a Shared Media
+Graph framework.
+
+We have started to run into platforms where there are multiple media
+drivers that ought to be participating in the same media graph, but it's
+undecidable who should own the media device.
+
+One example of this is the RK3588 which has a capture interface (VICAP,
+handled by rkcif) and two ISP instances (handled by rkisp2). Another
+example is the i.MX8MP which has an image sensor interface (ISI, handled
+by imx8-isi) and two ISP instances (handled by rkisp1). Since they
+cannot all be in the same media graph at the moment, on the RK3588 we
+can only support memory-to-memory mode between the VICAP and ISP, while
+in the i.MX8MP we cannot use the ISI and ISP simultaneously.
+
+The drivers for these ISPs and capture interfaces also support hardware
+where only the ISP or only the capture interface is present (eg. imx8mn
+only has ISI; rk3399 only has rkisp1). This means that we cannot simply
+make one of them always the main device of the media graph.
+
+This topic was discussed over a lunch at Embedded Recipes, and the
+conclusion was that the best solution is to add a mechanism where
+drivers could join an existing media device, or create one if none were
+available. This series implements such a mechanism, which I have
+tentatively named Shared Media Graph.
 
 
-On 6/18/2026 4:09 PM, Vikash Garodia wrote:
-> Enable video en/decoder on the Shikra EVK board.
->
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-> ---
->  arch/arm64/boot/dts/qcom/shikra-evk.dtsi | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/qcom/shikra-evk.dtsi b/arch/arm64/boot/dts/qcom/shikra-evk.dtsi
-> index d0c48bad704c61d17309753ba2a97e89bbfe083f..e2a3131594f0410931122657b12c8a6e70b435f0 100644
-> --- a/arch/arm64/boot/dts/qcom/shikra-evk.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/shikra-evk.dtsi
-> @@ -3,6 +3,12 @@
->   * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
->   */
->  
-> +&iris {
-> +	firmware-name = "qcom/vpu/ar50lt_p1_gen2_s6.mbn";
-> +
-> +	status = "okay";
-> +};
-> +
->  &qupv3_0 {
->  	firmware-name = "qcom/shikra/qupv3fw.elf";
->  
+Patch 1 implements the Shared Media Graph API. The rest of the series
+are a functioning example implementation on the aforementioned RK3588
+setup.
 
-Reviewed-by: Vishnu Reddy <busanna.reddy@oss.qualcomm.com>
+This framework allows the aforementioned setups to work. For this
+series, I specfically targeted the RK3588 setup, and I am able to have
+both the VICAP and the ISP in the same media graph [0] [5]. I can switch
+between inline mode and memory-to-memory mode by enabling/disabling the
+link between the rkcif and rkisp2, and can successfully capture in both
+modes.
+
+There are still a lot of rough edges in the framework that need to be
+discussed and sorted out (aka RFC); see all of the TODOs in patch 1 for
+details. Actually everything that I want comments on are in the TODOs
+for patch 1. The rest of the series are less RFC and more "here's an
+example of how it would work".
+
+
+This patch series is based on linux-media/next (06cb687a5132) [1] and
+depends on:
+- v5 of "media: rockchip: rkcif: add support for rk3588 vicap" [2]
+- rfc of "media: rockchip: rkisp2: Add driver for ISP on Rk3588" [3]
+
+I have a branch here [4].
+
+[0] https://www.pasteboard.co/i-p5Z10LMHJ5.png
+[1] https://gitlab.freedesktop.org/linux-media/media-committers/-/tree/next
+[2] https://lore.kernel.org/all/20260522-rk3588-vicap-v5-3-d1d1f5265c56@collabora.com/
+[3] https://lore.kernel.org/all/20260424175853.638202-1-paul.elder@ideasonboard.com/
+[4] https://gitlab.freedesktop.org/linux-media/users/epaul/-/tree/epaul/v7.1-rc1/rk3588/shared-mc/upstream
+
+[5] media-ctl -p and dot output for when the pasteboard [0] expires:
+
+Media controller API version 7.1.0
+
+Media device information
+------------------------
+driver          rockchip-cif
+model           rkisp2
+serial          
+bus info        platform:rkisp2
+hw revision     0x1e
+driver version  7.1.0
+
+Device topology
+- entity 9: rkcif-mipi2 (3 pads, 6 links, 2 routes)
+            type V4L2 subdev subtype Unknown flags 0
+            device node name /dev/v4l-subdev0
+	routes:
+		0/0 -> 1/0 [ACTIVE]
+		0/0 -> 2/0 [ACTIVE]
+	pad0: SINK,MUST_CONNECT
+		[stream:0 fmt:SRGGB10_1X10/1920x1080 field:none]
+		<- "dw-mipi-csi2rx fdd30000.csi":1 [ENABLED]
+	pad1: SOURCE
+		[stream:0 fmt:SRGGB10_1X10/1920x1080 field:none
+		 crop.bounds:(0,0)/1920x1080
+		 crop:(0,0)/1920x1080]
+		-> "rkcif-mipi2-id0":0 []
+		-> "rkcif-mipi2-id1":0 []
+		-> "rkcif-mipi2-id2":0 []
+		-> "rkcif-mipi2-id3":0 []
+	pad2: SOURCE
+		[stream:0 fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range
+		 crop.bounds:(0,0)/1920x1080
+		 crop:(0,0)/1920x1080]
+		-> "rkisp2_isp":4 [ENABLED]
+
+- entity 13: rkcif-mipi2-id0 (1 pad, 1 link)
+             type Node subtype V4L flags 0
+             device node name /dev/video0
+	pad0: SINK,MUST_CONNECT
+		<- "rkcif-mipi2":1 []
+
+- entity 19: rkcif-mipi2-id1 (1 pad, 1 link)
+             type Node subtype V4L flags 0
+             device node name /dev/video1
+	pad0: SINK,MUST_CONNECT
+		<- "rkcif-mipi2":1 []
+
+- entity 25: rkcif-mipi2-id2 (1 pad, 1 link)
+             type Node subtype V4L flags 0
+             device node name /dev/video2
+	pad0: SINK,MUST_CONNECT
+		<- "rkcif-mipi2":1 []
+
+- entity 31: rkcif-mipi2-id3 (1 pad, 1 link)
+             type Node subtype V4L flags 0
+             device node name /dev/video3
+	pad0: SINK,MUST_CONNECT
+		<- "rkcif-mipi2":1 []
+
+- entity 49: dw-mipi-csi2rx fdd30000.csi (2 pads, 2 links, 1 route)
+             type V4L2 subdev subtype Unknown flags 0
+             device node name /dev/v4l-subdev1
+	routes:
+		0/0 -> 1/0 [ACTIVE]
+	pad0: SINK,MUST_CONNECT
+		[stream:0 fmt:SRGGB10_1X10/1920x1080 field:none]
+		<- "imx219 4-0010":0 [ENABLED]
+	pad1: SOURCE
+		[stream:0 fmt:SRGGB10_1X10/1920x1080 field:none]
+		-> "rkcif-mipi2":0 [ENABLED]
+
+- entity 54: imx219 4-0010 (1 pad, 1 link, 0 routes)
+             type V4L2 subdev subtype Sensor flags 0
+             device node name /dev/v4l-subdev2
+	pad0: SOURCE
+		[stream:0 fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range
+		 crop.bounds:(8,8)/3280x2464
+		 crop:(688,700)/1920x1080]
+		-> "dw-mipi-csi2rx fdd30000.csi":0 [ENABLED]
+
+- entity 64: rkisp2_isp (5 pads, 8 links, 0 routes)
+             type V4L2 subdev subtype Unknown flags 0
+             device node name /dev/v4l-subdev3
+	pad0: SINK
+		[stream:0 fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range
+		 crop.bounds:(0,0)/1920x1080
+		 crop:(0,0)/1920x1080]
+		<- "rkisp2_rawrd0":0 []
+		<- "rkisp2_rawrd1":0 []
+		<- "rkisp2_rawrd2":0 []
+	pad1: SINK
+		[stream:0 fmt:unknown/0x0]
+		<- "rkisp2_params":0 [ENABLED,IMMUTABLE]
+	pad2: SOURCE
+		[stream:0 fmt:YUYV8_2X8/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:lim-range
+		 crop.bounds:(0,0)/1920x1080
+		 crop:(0,0)/1920x1080]
+		-> "rkisp2_mainpath":0 [ENABLED,IMMUTABLE]
+		-> "rkisp2_selfpath":0 [ENABLED,IMMUTABLE]
+	pad3: SOURCE
+		[stream:0 fmt:unknown/0x0]
+		-> "rkisp2_stats":0 [ENABLED,IMMUTABLE]
+	pad4: SINK
+		[stream:0 fmt:SRGGB10_1X10/1920x1080 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range
+		 crop.bounds:(0,0)/1920x1080
+		 crop:(0,0)/1920x1080]
+		<- "rkcif-mipi2":2 [ENABLED]
+
+- entity 70: rkisp2_mainpath (1 pad, 1 link)
+             type Node subtype V4L flags 0
+             device node name /dev/video5
+	pad0: SINK
+		<- "rkisp2_isp":2 [ENABLED,IMMUTABLE]
+
+- entity 74: rkisp2_selfpath (1 pad, 1 link)
+             type Node subtype V4L flags 0
+             device node name /dev/video6
+	pad0: SINK
+		<- "rkisp2_isp":2 [ENABLED,IMMUTABLE]
+
+- entity 78: rkisp2_rawrd0 (1 pad, 1 link)
+             type Node subtype V4L flags 0
+             device node name /dev/video7
+	pad0: SOURCE
+		-> "rkisp2_isp":0 []
+
+- entity 82: rkisp2_rawrd1 (1 pad, 1 link)
+             type Node subtype V4L flags 0
+             device node name /dev/video8
+	pad0: SOURCE
+		-> "rkisp2_isp":0 []
+
+- entity 86: rkisp2_rawrd2 (1 pad, 1 link)
+             type Node subtype V4L flags 0
+             device node name /dev/video9
+	pad0: SOURCE
+		-> "rkisp2_isp":0 []
+
+- entity 90: rkisp2_params (1 pad, 1 link)
+             type Node subtype V4L flags 0
+             device node name /dev/video10
+	pad0: SOURCE
+		-> "rkisp2_isp":1 [ENABLED,IMMUTABLE]
+
+- entity 94: rkisp2_stats (1 pad, 1 link)
+             type Node subtype V4L flags 0
+             device node name /dev/video11
+	pad0: SINK
+		<- "rkisp2_isp":3 [ENABLED,IMMUTABLE]
+
+
+digraph board {
+	rankdir=TB
+	n00000009 [label="{{<port0> 0} | rkcif-mipi2\n/dev/v4l-subdev0 | {<port1> 1 | <port2> 2}}", shape=Mrecord, style=filled, fillcolor=green]
+	n00000009:port1 -> n0000000d [style=dashed]
+	n00000009:port1 -> n00000013 [style=dashed]
+	n00000009:port1 -> n00000019 [style=dashed]
+	n00000009:port1 -> n0000001f [style=dashed]
+	n00000009:port2 -> n00000040:port4
+	n0000000d [label="rkcif-mipi2-id0\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
+	n00000013 [label="rkcif-mipi2-id1\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
+	n00000019 [label="rkcif-mipi2-id2\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
+	n0000001f [label="rkcif-mipi2-id3\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
+	n00000031 [label="{{<port0> 0} | dw-mipi-csi2rx fdd30000.csi\n/dev/v4l-subdev1 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
+	n00000031:port1 -> n00000009:port0
+	n00000036 [label="{{} | imx219 4-0010\n/dev/v4l-subdev2 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
+	n00000036:port0 -> n00000031:port0
+	n00000040 [label="{{<port0> 0 | <port1> 1 | <port4> 4} | rkisp2_isp\n/dev/v4l-subdev3 | {<port2> 2 | <port3> 3}}", shape=Mrecord, style=filled, fillcolor=green]
+	n00000040:port2 -> n00000046 [style=bold]
+	n00000040:port2 -> n0000004a [style=bold]
+	n00000040:port3 -> n0000005e [style=bold]
+	n00000046 [label="rkisp2_mainpath\n/dev/video5", shape=box, style=filled, fillcolor=yellow]
+	n0000004a [label="rkisp2_selfpath\n/dev/video6", shape=box, style=filled, fillcolor=yellow]
+	n0000004e [label="rkisp2_rawrd0\n/dev/video7", shape=box, style=filled, fillcolor=yellow]
+	n0000004e -> n00000040:port0 [style=dashed]
+	n00000052 [label="rkisp2_rawrd1\n/dev/video8", shape=box, style=filled, fillcolor=yellow]
+	n00000052 -> n00000040:port0 [style=dashed]
+	n00000056 [label="rkisp2_rawrd2\n/dev/video9", shape=box, style=filled, fillcolor=yellow]
+	n00000056 -> n00000040:port0 [style=dashed]
+	n0000005a [label="rkisp2_params\n/dev/video10", shape=box, style=filled, fillcolor=yellow]
+	n0000005a -> n00000040:port1 [style=bold]
+	n0000005e [label="rkisp2_stats\n/dev/video11", shape=box, style=filled, fillcolor=yellow]
+}
+
+Paul Elder (6):
+  media: mc: Implement shared media graph
+  arm64: dts: rockchip: rk3588s-base: Connect vicap and isps
+  media: rkcif: Use shared media graph
+  media: rkisp2: Use shared media graph
+  media: rkcif: Implement inline mode
+  media: rkisp2: Implement inline mode
+
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |  30 ++
+ drivers/media/mc/Makefile                     |   2 +-
+ drivers/media/mc/mc-shared-graph.c            | 335 ++++++++++++++++++
+ .../rockchip/rkcif/rkcif-capture-dvp.c        |   2 +-
+ .../rockchip/rkcif/rkcif-capture-mipi.c       |   3 +
+ .../platform/rockchip/rkcif/rkcif-common.h    |  18 +-
+ .../media/platform/rockchip/rkcif/rkcif-dev.c |  32 +-
+ .../platform/rockchip/rkcif/rkcif-interface.c | 248 ++++++++++++-
+ .../platform/rockchip/rkcif/rkcif-regs.h      |  49 +++
+ .../platform/rockchip/rkcif/rkcif-stream.c    |   6 +-
+ .../platform/rockchip/rkisp2/rkisp2-common.h  |   5 +-
+ .../platform/rockchip/rkisp2/rkisp2-dev.c     |  46 +--
+ .../platform/rockchip/rkisp2/rkisp2-isp.c     | 155 ++++++--
+ include/media/mc-shared-graph.h               |  92 +++++
+ 14 files changed, 932 insertions(+), 91 deletions(-)
+ create mode 100644 drivers/media/mc/mc-shared-graph.c
+ create mode 100644 include/media/mc-shared-graph.h
+
+-- 
+2.47.2
 
 
