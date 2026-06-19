@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-65249-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65250-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id lFU5G5zTNGqthwYAu9opvQ
-	(envelope-from <linux-media+bounces-65249-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 07:29:00 +0200
+	id ivnzEIjTNGqihwYAu9opvQ
+	(envelope-from <linux-media+bounces-65250-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 07:28:40 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAE116A3F3E
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 07:28:59 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B2FE6A3F2D
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 07:28:39 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b="evX/gTg6";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65249-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65249-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=MxXmI7zB;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65250-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-65250-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5ABE930D62D8
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 05:27:37 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 3E87C303A1A7
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2026 05:27:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8246E332EBB;
-	Fri, 19 Jun 2026 05:27:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6C0833E348;
+	Fri, 19 Jun 2026 05:27:30 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F29C331E825;
-	Fri, 19 Jun 2026 05:27:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BEF2334C27;
+	Fri, 19 Jun 2026 05:27:28 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781846844; cv=none; b=Y6Vpd8BD7+hnUOed5TJATHn4ASVGENH1yln7B1f2OcSD47RO3s6gZ7HM6m1CMsztiLGjLv9vVMdTZk5tKZl5B/1UipPqf1TmofS3/5Q/zz3LPSzmDbTg1me0gr1P8/yP6VJvTJ2VxrdDiGfTrWEVCgNobJY+z38FuEz5aL/rstM=
+	t=1781846850; cv=none; b=HwWsDbi+LhhUZOX1lkxcoAzoFWTveeb6VRa9qxXt6jnhqt/D6G5+5fUU6CmapUE8S+iwFNWluOA4gC9PqtkYHYM5LGmDXm69uCfrXenZSdn4HiTxNl7OdxaRLuKTlCB99Eyin+3tHxJ6gUnrffM08ZsYFIyNTZsTUv7gE/W/iSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781846844; c=relaxed/simple;
-	bh=wiX5XaCaBNr256fwOJs6Ea1Lt3QH3EzRDHU1rqy+XtE=;
+	s=arc-20240116; t=1781846850; c=relaxed/simple;
+	bh=gkRGUjurZMyVodKs46qfbS1YBfsxg48y4/aGyquQHxo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Kzx3YHEJTloiv5ZcRkf+BQmBTl+qMCsRi4idCjAmpMn9KnQ9YtE0+HbMaI832oblUBCR77XV91buHOUYfRzjXYLBBYj1eWvW79j7jLbyOVhoGh5CqISJoYtV/1712ufRy1z74XaIqjxlz3Upl0Re7xjPtO0TZQp95s86MB8jXYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=evX/gTg6; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=eq0wbDkjxd/PZR210zz8y9RxUW+sXLhOURh9MI6UU7Tn2ykItHmND/VrAObGdmeaGDGbI6slRLR1aw4yKg0N8fC+Pa4HsSlKb4MuKagINVwN6KtQplQvevh9SxlM3D8138HEx4+MA3c2bxg7b0cJtho2Yn+RZ6xApf3XrHjeG+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MxXmI7zB; arc=none smtp.client-ip=213.167.242.64
 Received: from neptunite.hamster-moth.ts.net (unknown [IPv6:2404:7a81:160:2100:327:f131:c148:b7f8])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 29A9816CB;
-	Fri, 19 Jun 2026 07:26:41 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3E393251C;
+	Fri, 19 Jun 2026 07:26:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1781846806;
-	bh=wiX5XaCaBNr256fwOJs6Ea1Lt3QH3EzRDHU1rqy+XtE=;
+	s=mail; t=1781846811;
+	bh=gkRGUjurZMyVodKs46qfbS1YBfsxg48y4/aGyquQHxo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=evX/gTg6lLVok8xZT6B4kn0PscJF4fsBEbXpAgfr7leUwba3mb47cqk+/VQW9Dpbu
-	 OvIyfeG8EpEBrwbEcZexZmpAJx2oormEjmeo8SonqTbH+QZnqZMLKSRB5/QxAotJVY
-	 F7bbQdHhbi6haO7TEgWRNCe1Rr0EyV3vzcDlAPRE=
+	b=MxXmI7zB05P+O9VYq77EnhgMWXOEw4U6fflhJkV7iZAPJna4xlLgsYh2id55lw9bN
+	 Y0sLk+7gYFOBEkWc+bNrHM0AquX0O4zZ7xDX1TgMcvcSIOKH2sQQzowZ3ne6exO1Ni
+	 MouBfADGMcK/z2WYVNABFw1z8mSNAr3dpgY/6ejM=
 From: Paul Elder <paul.elder@ideasonboard.com>
 To: laurent.pinchart@ideasonboard.com
 Cc: Paul Elder <paul.elder@ideasonboard.com>,
@@ -61,9 +61,9 @@ Cc: Paul Elder <paul.elder@ideasonboard.com>,
 	nicolas.dufresne@collabora.com,
 	ribalda@chromium.org,
 	sakari.ailus@linux.intel.com
-Subject: [RFC PATCH 5/6] media: rkcif: Implement inline mode
-Date: Fri, 19 Jun 2026 14:26:32 +0900
-Message-ID: <20260619052637.1110672-6-paul.elder@ideasonboard.com>
+Subject: [RFC PATCH 6/6] media: rkisp2: Implement inline mode
+Date: Fri, 19 Jun 2026 14:26:33 +0900
+Message-ID: <20260619052637.1110672-7-paul.elder@ideasonboard.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20260619052637.1110672-1-paul.elder@ideasonboard.com>
 References: <20260619052637.1110672-1-paul.elder@ideasonboard.com>
@@ -81,20 +81,20 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	TAGGED_FROM(0.00)[bounces-65249-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart@ideasonboard.com,m:paul.elder@ideasonboard.com,m:michael.riesch@collabora.com,m:xuhf@rock-chips.com,m:stefan.klug@ideasonboard.com,m:kieran.bingham@ideasonboard.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:ribalda@chromium.org,m:sakari.ailus@linux.intel.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65250-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[16];
 	FORWARDED(0.00)[lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER(0.00)[paul.elder@ideasonboard.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart@ideasonboard.com,m:paul.elder@ideasonboard.com,m:michael.riesch@collabora.com,m:xuhf@rock-chips.com,m:stefan.klug@ideasonboard.com,m:kieran.bingham@ideasonboard.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:ribalda@chromium.org,m:sakari.ailus@linux.intel.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -105,229 +105,371 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DAE116A3F3E
+X-Rspamd-Queue-Id: 5B2FE6A3F2D
 
-Add support to the rkcif for inline mode. Switching between offline mode
-and inline mode is done by disabling/enabling the link between the rkcif
-and rkisp2.
+Add support to rkisp2 for inline mode. Switching between offline mode
+and inline mode is done by disabling/enabling the link between the
+rkisp2 and rkcif.
 
-As the link is on a source pad on rkcif-interface, rkcif-mipi is
-bypassed. This is why s_stream is implemented for rkcif_interface and it
-calls enable_streams on the remote on the sink pad. Also since
-rkcif_mipi_isr is called unconditionally it is skipped when in inline
-mode.
+As the link is on a sink pad on rkisp2-isp, rkisp2-dmarx is bypassed in
+inline mode, because the v4l2_subdev_call() on the source will go to rkcif
+instead of rkisp2-dmarx. Also DMA read only needs to be configured in
+offline mode, while in inline mode there is no configuration necessary,
+so the change to implement inline mode for rkisp2 is fairly lean.
 
 Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
 
 ---
-This patch is meant to serve as an example of how one might implement
-inline mode. Despite it being "just an example", it has been tested and
+Although this patch is meant to serve as an example of how one might
+implement inline mode, I think the actual implementation may very well
+resemble this. The API for switching between inline mode and offline
+is likely to be heavily debated, though that is not a topic for this
+series.
+
+Despite it being "just an example", it has been tested and
 captures properly, including loading rkcif and rkisp2 in differing
 orders, and swapping between offline mode and inline mode (though
 capturing in the wrong mode is still a bit problematic).
 
-The shared media graph that was added in an earlier patch has made media
-graph manipulation a non-issue. Although the API for switching between
-inline mode and offline can be debated (here it is done with link
-manipulation via link_setup), that is not a relevant topic for this
-series.
+The shared media graph that was added in an earlier patch has made
+media graph manipulation trivial.
 ---
- .../rockchip/rkcif/rkcif-capture-dvp.c        |   2 +-
- .../rockchip/rkcif/rkcif-capture-mipi.c       |   3 +
- .../platform/rockchip/rkcif/rkcif-common.h    |  16 +-
- .../platform/rockchip/rkcif/rkcif-interface.c | 240 +++++++++++++++++-
- .../platform/rockchip/rkcif/rkcif-regs.h      |  49 ++++
- .../platform/rockchip/rkcif/rkcif-stream.c    |   6 +-
- 6 files changed, 301 insertions(+), 15 deletions(-)
+ .../platform/rockchip/rkisp2/rkisp2-common.h  |   3 +-
+ .../platform/rockchip/rkisp2/rkisp2-dev.c     |   6 +-
+ .../platform/rockchip/rkisp2/rkisp2-isp.c     | 155 ++++++++++++++----
+ 3 files changed, 124 insertions(+), 40 deletions(-)
 
-diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-capture-dvp.c b/drivers/media/platform/rockchip/rkcif/rkcif-capture-dvp.c
-index dbaf7636aeeb..6aa1031ac330 100644
---- a/drivers/media/platform/rockchip/rkcif/rkcif-capture-dvp.c
-+++ b/drivers/media/platform/rockchip/rkcif/rkcif-capture-dvp.c
-@@ -666,7 +666,7 @@ static int rkcif_dvp_start_streaming(struct rkcif_stream *stream)
- 	int ret = -EINVAL;
+diff --git a/drivers/media/platform/rockchip/rkisp2/rkisp2-common.h b/drivers/media/platform/rockchip/rkisp2/rkisp2-common.h
+index ecf0f5e22064..91ccb84b5a7a 100644
+--- a/drivers/media/platform/rockchip/rkisp2/rkisp2-common.h
++++ b/drivers/media/platform/rockchip/rkisp2/rkisp2-common.h
+@@ -88,10 +88,11 @@ enum rkisp2_fmt_raw_pat_type {
  
- 	state = v4l2_subdev_lock_and_get_active_state(&interface->sd);
--	source_fmt = v4l2_subdev_state_get_format(state, RKCIF_IF_PAD_SRC,
-+	source_fmt = v4l2_subdev_state_get_format(state, RKCIF_IF_PAD_SRC_DMA,
- 						  stream->id);
- 	if (!source_fmt)
- 		goto out;
-diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c b/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c
-index bc9518f8db50..50050cfa83b0 100644
---- a/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c
-+++ b/drivers/media/platform/rockchip/rkcif/rkcif-capture-mipi.c
-@@ -821,6 +821,9 @@ irqreturn_t rkcif_mipi_isr(int irq, void *ctx)
- 		enum rkcif_interface_index index = RKCIF_MIPI_BASE + i;
- 		struct rkcif_interface *interface = &rkcif->interfaces[index];
- 
-+		if (interface->inline_mode)
-+			continue;
-+
- 		intstat = rkcif_mipi_read(interface, RKCIF_MIPI_INTSTAT);
- 		rkcif_mipi_write(interface, RKCIF_MIPI_INTSTAT, intstat);
- 
-diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-common.h b/drivers/media/platform/rockchip/rkcif/rkcif-common.h
-index f2989d152ba2..cf9322cae7a9 100644
---- a/drivers/media/platform/rockchip/rkcif/rkcif-common.h
-+++ b/drivers/media/platform/rockchip/rkcif/rkcif-common.h
-@@ -58,7 +58,8 @@ enum rkcif_interface_index {
- 
- enum rkcif_interface_pad_index {
- 	RKCIF_IF_PAD_SINK,
--	RKCIF_IF_PAD_SRC,
-+	RKCIF_IF_PAD_SRC_DMA,
-+	RKCIF_IF_PAD_SRC_TOISP,
- 	RKCIF_IF_PAD_MAX
+ /* enum for the isp pads */
+ enum rkisp2_isp_pad {
+-	RKISP2_ISP_PAD_SINK_VIDEO,
++	RKISP2_ISP_PAD_SINK_VIDEO_DMA,
+ 	RKISP2_ISP_PAD_SINK_PARAMS,
+ 	RKISP2_ISP_PAD_SOURCE_VIDEO,
+ 	RKISP2_ISP_PAD_SOURCE_STATS,
++	RKISP2_ISP_PAD_SINK_VIDEO_CIF,
+ 	RKISP2_ISP_PAD_MAX
  };
  
-@@ -194,6 +195,8 @@ struct rkcif_interface {
- 	struct v4l2_fwnode_endpoint vep;
- 	struct v4l2_subdev sd;
+diff --git a/drivers/media/platform/rockchip/rkisp2/rkisp2-dev.c b/drivers/media/platform/rockchip/rkisp2/rkisp2-dev.c
+index f74b7aae3159..2b6b7ee31f1d 100644
+--- a/drivers/media/platform/rockchip/rkisp2/rkisp2-dev.c
++++ b/drivers/media/platform/rockchip/rkisp2/rkisp2-dev.c
+@@ -117,12 +117,12 @@ static int rkisp2_create_links(struct rkisp2_device *rkisp2)
+ 		if (i == RKISP2_RAWRD0) {
+ 			ret = media_create_pad_link(
+ 				source, 0, &rkisp2->isp.sd.entity,
+-				RKISP2_ISP_PAD_SINK_VIDEO,
++				RKISP2_ISP_PAD_SINK_VIDEO_DMA,
+ 				MEDIA_LNK_FL_ENABLED);
+ 		} else {
+ 			ret = media_create_pad_link(source, 0,
+ 						    &rkisp2->isp.sd.entity,
+-						    RKISP2_ISP_PAD_SINK_VIDEO,
++						    RKISP2_ISP_PAD_SINK_VIDEO_DMA,
+ 						    0);
+ 		}
  
-+	bool inline_mode;
-+
- 	union {
- 		struct rkcif_dvp dvp;
- 	};
-@@ -247,4 +250,15 @@ struct rkcif_device {
- 	struct v4l2_async_notifier notifier;
- };
+@@ -150,7 +150,7 @@ static int rkisp2_create_links(struct rkisp2_device *rkisp2)
  
-+static inline void
-+rkcif_write(struct rkcif_device *rkcif, unsigned int addr, u32 val)
+ 	ret = media_device_shared_join_link_sink(rkisp2->media_dev, rkisp2->dev,
+ 						 &rkisp2->isp.sd.entity,
+-						 RKISP2_ISP_PAD_SINK_VIDEO, 0);
++						 RKISP2_ISP_PAD_SINK_VIDEO_CIF, 0);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/drivers/media/platform/rockchip/rkisp2/rkisp2-isp.c b/drivers/media/platform/rockchip/rkisp2/rkisp2-isp.c
+index 36c1aeed272f..9be5fb4cbd14 100644
+--- a/drivers/media/platform/rockchip/rkisp2/rkisp2-isp.c
++++ b/drivers/media/platform/rockchip/rkisp2/rkisp2-isp.c
+@@ -24,6 +24,27 @@
+ 
+ #define RKISP2_ISP_DEV_NAME	RKISP2_DRIVER_NAME "_isp"
+ 
++static u16 rkisp2_isp_get_active_sink_pad(struct rkisp2_isp *isp)
 +{
-+	writel(val, rkcif->base_addr + addr);
-+}
-+
-+static inline u32 rkcif_read(struct rkcif_device *rkcif, unsigned int addr)
-+{
-+	return readl(rkcif->base_addr + addr);
-+}
-+
- #endif
-diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-interface.c b/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
-index cd791186f224..568835e47f92 100644
---- a/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
-+++ b/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
-@@ -6,6 +6,8 @@
-  * Copyright (C) 2025 Collabora, Ltd.
-  */
- 
-+#include <linux/pm_runtime.h>
-+
- #include <media/mc-shared-graph.h>
- #include <media/v4l2-common.h>
- #include <media/v4l2-fwnode.h>
-@@ -20,8 +22,118 @@ static inline struct rkcif_interface *to_rkcif_interface(struct v4l2_subdev *sd)
- 	return container_of(sd, struct rkcif_interface, sd);
- }
- 
-+static u16 rkcif_interface_get_active_source_pad(struct rkcif_interface *interface)
-+{
-+	struct media_entity *entity = &interface->sd.entity;
++	struct media_entity *entity = &isp->sd.entity;
 +	struct media_link *link;
 +
 +	list_for_each_entry(link, &entity->links, list) {
-+		if (link->source->entity != entity ||
-+		    (link->source->index != RKCIF_IF_PAD_SRC_DMA &&
-+		     link->source->index != RKCIF_IF_PAD_SRC_TOISP))
++		if (link->sink->entity != entity ||
++		    (link->sink->index != RKISP2_ISP_PAD_SINK_VIDEO_DMA &&
++		     link->sink->index != RKISP2_ISP_PAD_SINK_VIDEO_CIF))
 +			continue;
 +
 +		if (link->flags & MEDIA_LNK_FL_ENABLED) {
-+			dev_dbg(interface->rkcif->dev, "%s: active link is %d\n",
-+				__func__, link->source->index);
-+			return link->source->index;
++			dev_dbg(isp->rkisp2->dev, "%s: active link is %d\n",
++				__func__, link->sink->index);
++			return link->sink->index;
 +		}
 +	}
 +
 +	/* Default to DMA if neither link is active */
-+	return RKCIF_IF_PAD_SRC_DMA;
++	return RKISP2_ISP_PAD_SINK_VIDEO_DMA;
++}
+ 
+ /* ----------------------------------------------------------------------------
+  * Camera Interface registers configurations
+@@ -70,9 +91,9 @@ static int rkisp2_config_isp(struct rkisp2_isp *isp,
+ 	const struct v4l2_rect *sink_crop;
+ 
+ 	sink_frm = v4l2_subdev_state_get_format(sd_state,
+-						RKISP2_ISP_PAD_SINK_VIDEO);
++						rkisp2_isp_get_active_sink_pad(isp));
+ 	sink_crop = v4l2_subdev_state_get_crop(sd_state,
+-					       RKISP2_ISP_PAD_SINK_VIDEO);
++					       rkisp2_isp_get_active_sink_pad(isp));
+ 	src_frm = v4l2_subdev_state_get_format(sd_state,
+ 					       RKISP2_ISP_PAD_SOURCE_VIDEO);
+ 
+@@ -116,6 +137,12 @@ static int rkisp2_config_isp(struct rkisp2_isp *isp,
+ 	rkisp2_write(rkisp2, RKISP2_CIF_ISP_OUT_H_SIZE, sink_crop->width);
+ 	rkisp2_write(rkisp2, RKISP2_CIF_ISP_OUT_V_SIZE, sink_crop->height);
+ 
++	/*
++	 * I think we don't need to configure cif source here because it seems
++	 * like offline mode needs to explicitly configure CSI2RX in offline
++	 * mode, but the default (all zero) is inline mode
++	 */
++
+ 	irq_mask |= RKISP2_CIF_ISP_FRAME | RKISP2_CIF_ISP_V_START |
+ 		    RKISP2_CIF_ISP_PIC_SIZE_ERROR;
+ 	rkisp2_write(rkisp2, RKISP2_CIF_ISP_IMSC, irq_mask);
+@@ -273,7 +300,8 @@ static int rkisp2_isp_enum_mbus_code(struct v4l2_subdev *sd,
+ 	unsigned int i, dir;
+ 	int pos = 0;
+ 
+-	if (code->pad == RKISP2_ISP_PAD_SINK_VIDEO) {
++	if (code->pad == RKISP2_ISP_PAD_SINK_VIDEO_DMA ||
++	    code->pad == RKISP2_ISP_PAD_SINK_VIDEO_CIF) {
+ 		dir = RKISP2_ISP_SD_SINK;
+ 	} else if (code->pad == RKISP2_ISP_PAD_SOURCE_VIDEO) {
+ 		dir = RKISP2_ISP_SD_SRC;
+@@ -322,7 +350,8 @@ static int rkisp2_isp_enum_frame_size(struct v4l2_subdev *sd,
+ 		return -EINVAL;
+ 
+ 	if (!(mbus_info->direction & RKISP2_ISP_SD_SINK) &&
+-	    fse->pad == RKISP2_ISP_PAD_SINK_VIDEO)
++	     (fse->pad == RKISP2_ISP_PAD_SINK_VIDEO_DMA ||
++	      fse->pad == RKISP2_ISP_PAD_SINK_VIDEO_CIF))
+ 		return -EINVAL;
+ 
+ 	if (!(mbus_info->direction & RKISP2_ISP_SD_SRC) &&
+@@ -337,15 +366,14 @@ static int rkisp2_isp_enum_frame_size(struct v4l2_subdev *sd,
+ 	return 0;
+ }
+ 
+-static int rkisp2_isp_init_state(struct v4l2_subdev *sd,
+-				 struct v4l2_subdev_state *sd_state)
++static void rkisp2_isp_init_state_sink(struct v4l2_subdev_state *sd_state,
++				       u16 pad)
+ {
+-	struct v4l2_mbus_framefmt *sink_fmt, *src_fmt;
+-	struct v4l2_rect *sink_crop, *src_crop;
++	struct v4l2_mbus_framefmt *sink_fmt;
++	struct v4l2_rect *sink_crop;
++
++	sink_fmt = v4l2_subdev_state_get_format(sd_state, pad);
+ 
+-	/* Video. */
+-	sink_fmt = v4l2_subdev_state_get_format(sd_state,
+-						RKISP2_ISP_PAD_SINK_VIDEO);
+ 	sink_fmt->width = RKISP2_DEFAULT_WIDTH;
+ 	sink_fmt->height = RKISP2_DEFAULT_HEIGHT;
+ 	sink_fmt->field = V4L2_FIELD_NONE;
+@@ -355,13 +383,27 @@ static int rkisp2_isp_init_state(struct v4l2_subdev *sd,
+ 	sink_fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
+ 	sink_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+ 
+-	sink_crop = v4l2_subdev_state_get_crop(sd_state,
+-					       RKISP2_ISP_PAD_SINK_VIDEO);
++	sink_crop = v4l2_subdev_state_get_crop(sd_state, pad);
+ 	sink_crop->width = RKISP2_DEFAULT_WIDTH;
+ 	sink_crop->height = RKISP2_DEFAULT_HEIGHT;
+ 	sink_crop->left = 0;
+ 	sink_crop->top = 0;
 +}
 +
-+static u32 rkcif_interface_mipi_dt(u32 fourcc)
++static int rkisp2_isp_init_state(struct v4l2_subdev *sd,
++				 struct v4l2_subdev_state *sd_state)
 +{
-+	switch (fourcc) {
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
-+		return RKCIF_CSI2_DT_RAW8;
-+	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+	case MEDIA_BUS_FMT_SBGGR10_1X10:
-+	case MEDIA_BUS_FMT_SGBRG10_1X10:
-+	case MEDIA_BUS_FMT_SGRBG10_1X10:
-+		return RKCIF_CSI2_DT_RAW10;
-+	case MEDIA_BUS_FMT_SRGGB12_1X12:
-+	case MEDIA_BUS_FMT_SBGGR12_1X12:
-+	case MEDIA_BUS_FMT_SGBRG12_1X12:
-+	case MEDIA_BUS_FMT_SGRBG12_1X12:
-+		return RKCIF_CSI2_DT_RAW12;
-+	default:
-+		return RKCIF_CSI2_DT_RAW10;
-+	}
-+}
++	struct v4l2_mbus_framefmt *sink_fmt, *src_fmt;
++	struct v4l2_rect *sink_crop, *src_crop;
 +
-+static u32 rkcif_interface_mipi_parse_type(u32 fourcc)
-+{
-+	switch (fourcc) {
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
-+		return RKCIF_MIPI_PARSE_TYPE_RAW8_RGB888;
-+	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+	case MEDIA_BUS_FMT_SBGGR10_1X10:
-+	case MEDIA_BUS_FMT_SGBRG10_1X10:
-+	case MEDIA_BUS_FMT_SGRBG10_1X10:
-+		return RKCIF_MIPI_PARSE_TYPE_RAW10;
-+	case MEDIA_BUS_FMT_SRGGB12_1X12:
-+	case MEDIA_BUS_FMT_SBGGR12_1X12:
-+	case MEDIA_BUS_FMT_SGBRG12_1X12:
-+	case MEDIA_BUS_FMT_SGRBG12_1X12:
-+		return RKCIF_MIPI_PARSE_TYPE_RAW12;
-+	default:
-+		return RKCIF_MIPI_PARSE_TYPE_RAW10;
-+	}
-+}
-+
-+static int rkcif_interface_subdev_link_setup(struct media_entity *entity,
-+					     const struct media_pad *local_pad,
-+					     const struct media_pad *remote_pad,
-+					     u32 flags)
++	/* Video. */
++	rkisp2_isp_init_state_sink(sd_state, RKISP2_ISP_PAD_SINK_VIDEO_DMA);
++	rkisp2_isp_init_state_sink(sd_state, RKISP2_ISP_PAD_SINK_VIDEO_CIF);
+ 
++	sink_fmt = v4l2_subdev_state_get_format(sd_state,
++						RKISP2_ISP_PAD_SINK_VIDEO_DMA);
++	sink_crop = v4l2_subdev_state_get_crop(sd_state,
++					       RKISP2_ISP_PAD_SINK_VIDEO_DMA);
+ 	src_fmt = v4l2_subdev_state_get_format(sd_state,
+ 					       RKISP2_ISP_PAD_SOURCE_VIDEO);
+ 	*src_fmt = *sink_fmt;
+@@ -390,7 +432,7 @@ static void rkisp2_isp_set_src_fmt(struct rkisp2_isp *isp,
+ 	bool set_csc;
+ 
+ 	sink_fmt = v4l2_subdev_state_get_format(sd_state,
+-						RKISP2_ISP_PAD_SINK_VIDEO);
++						rkisp2_isp_get_active_sink_pad(isp));
+ 	src_fmt = v4l2_subdev_state_get_format(sd_state,
+ 					       RKISP2_ISP_PAD_SOURCE_VIDEO);
+ 	src_crop = v4l2_subdev_state_get_crop(sd_state,
+@@ -490,7 +532,7 @@ static void rkisp2_isp_set_src_crop(struct rkisp2_isp *isp,
+ 	src_crop = v4l2_subdev_state_get_crop(sd_state,
+ 					      RKISP2_ISP_PAD_SOURCE_VIDEO);
+ 	sink_crop = v4l2_subdev_state_get_crop(sd_state,
+-					       RKISP2_ISP_PAD_SINK_VIDEO);
++					       rkisp2_isp_get_active_sink_pad(isp));
+ 
+ 	src_crop->left = ALIGN(r->left, 2);
+ 	src_crop->width = ALIGN(r->width, 2);
+@@ -508,15 +550,13 @@ static void rkisp2_isp_set_src_crop(struct rkisp2_isp *isp,
+ 
+ static void rkisp2_isp_set_sink_crop(struct rkisp2_isp *isp,
+ 				     struct v4l2_subdev_state *sd_state,
+-				     struct v4l2_rect *r)
++				     struct v4l2_rect *r, u16 pad)
+ {
+ 	struct v4l2_rect *sink_crop, *src_crop;
+ 	const struct v4l2_mbus_framefmt *sink_fmt;
+ 
+-	sink_crop = v4l2_subdev_state_get_crop(sd_state,
+-					       RKISP2_ISP_PAD_SINK_VIDEO);
+-	sink_fmt = v4l2_subdev_state_get_format(sd_state,
+-						RKISP2_ISP_PAD_SINK_VIDEO);
++	sink_crop = v4l2_subdev_state_get_crop(sd_state, pad);
++	sink_fmt = v4l2_subdev_state_get_format(sd_state, pad);
+ 
+ 	sink_crop->left = ALIGN(r->left, 2);
+ 	sink_crop->width = ALIGN(r->width, 2);
+@@ -534,15 +574,14 @@ static void rkisp2_isp_set_sink_crop(struct rkisp2_isp *isp,
+ 
+ static void rkisp2_isp_set_sink_fmt(struct rkisp2_isp *isp,
+ 				    struct v4l2_subdev_state *sd_state,
+-				    struct v4l2_mbus_framefmt *format)
++				    struct v4l2_mbus_framefmt *format, u16 pad)
+ {
+ 	const struct rkisp2_mbus_info *mbus_info;
+ 	struct v4l2_mbus_framefmt *sink_fmt;
+ 	struct v4l2_rect *sink_crop;
+ 	bool is_yuv;
+ 
+-	sink_fmt = v4l2_subdev_state_get_format(sd_state,
+-						RKISP2_ISP_PAD_SINK_VIDEO);
++	sink_fmt = v4l2_subdev_state_get_format(sd_state, pad);
+ 	sink_fmt->code = format->code;
+ 	mbus_info = rkisp2_mbus_info_get_by_code(sink_fmt->code);
+ 	if (!mbus_info || !(mbus_info->direction & RKISP2_ISP_SD_SINK)) {
+@@ -590,9 +629,8 @@ static void rkisp2_isp_set_sink_fmt(struct rkisp2_isp *isp,
+ 	*format = *sink_fmt;
+ 
+ 	/* Propagate to in crop */
+-	sink_crop = v4l2_subdev_state_get_crop(sd_state,
+-					       RKISP2_ISP_PAD_SINK_VIDEO);
+-	rkisp2_isp_set_sink_crop(isp, sd_state, sink_crop);
++	sink_crop = v4l2_subdev_state_get_crop(sd_state, pad);
++	rkisp2_isp_set_sink_crop(isp, sd_state, sink_crop, pad);
+ }
+ 
+ static int rkisp2_isp_set_fmt(struct v4l2_subdev *sd,
+@@ -601,8 +639,9 @@ static int rkisp2_isp_set_fmt(struct v4l2_subdev *sd,
+ {
+ 	struct rkisp2_isp *isp = to_rkisp2_isp(sd);
+ 
+-	if (fmt->pad == RKISP2_ISP_PAD_SINK_VIDEO)
+-		rkisp2_isp_set_sink_fmt(isp, sd_state, &fmt->format);
++	if (fmt->pad == RKISP2_ISP_PAD_SINK_VIDEO_DMA ||
++	    fmt->pad == RKISP2_ISP_PAD_SINK_VIDEO_CIF)
++		rkisp2_isp_set_sink_fmt(isp, sd_state, &fmt->format, fmt->pad);
+ 	else if (fmt->pad == RKISP2_ISP_PAD_SOURCE_VIDEO)
+ 		rkisp2_isp_set_src_fmt(isp, sd_state, &fmt->format);
+ 	else
+@@ -619,12 +658,14 @@ static int rkisp2_isp_get_selection(struct v4l2_subdev *sd,
+ 	int ret = 0;
+ 
+ 	if (sel->pad != RKISP2_ISP_PAD_SOURCE_VIDEO &&
+-	    sel->pad != RKISP2_ISP_PAD_SINK_VIDEO)
++	    sel->pad != RKISP2_ISP_PAD_SINK_VIDEO_DMA &&
++	    sel->pad != RKISP2_ISP_PAD_SINK_VIDEO_CIF)
+ 		return -EINVAL;
+ 
+ 	switch (sel->target) {
+ 	case V4L2_SEL_TGT_CROP_BOUNDS:
+-		if (sel->pad == RKISP2_ISP_PAD_SINK_VIDEO) {
++		if (sel->pad == RKISP2_ISP_PAD_SINK_VIDEO_DMA ||
++		    sel->pad == RKISP2_ISP_PAD_SINK_VIDEO_CIF) {
+ 			struct v4l2_mbus_framefmt *fmt;
+ 
+ 			fmt = v4l2_subdev_state_get_format(sd_state, sel->pad);
+@@ -634,7 +675,7 @@ static int rkisp2_isp_get_selection(struct v4l2_subdev *sd,
+ 			sel->r.top = 0;
+ 		} else {
+ 			sel->r = *v4l2_subdev_state_get_crop(sd_state,
+-							     RKISP2_ISP_PAD_SINK_VIDEO);
++							     RKISP2_ISP_PAD_SINK_VIDEO_DMA);
+ 		}
+ 		break;
+ 
+@@ -663,8 +704,9 @@ static int rkisp2_isp_set_selection(struct v4l2_subdev *sd,
+ 	dev_dbg(isp->rkisp2->dev, "%s: pad: %d sel(%d,%d)/%ux%u\n", __func__,
+ 		sel->pad, sel->r.left, sel->r.top, sel->r.width, sel->r.height);
+ 
+-	if (sel->pad == RKISP2_ISP_PAD_SINK_VIDEO)
+-		rkisp2_isp_set_sink_crop(isp, sd_state, &sel->r);
++	if (sel->pad == RKISP2_ISP_PAD_SINK_VIDEO_DMA ||
++	    sel->pad == RKISP2_ISP_PAD_SINK_VIDEO_CIF)
++		rkisp2_isp_set_sink_crop(isp, sd_state, &sel->r, sel->pad);
+ 	else if (sel->pad == RKISP2_ISP_PAD_SOURCE_VIDEO)
+ 		rkisp2_isp_set_src_crop(isp, sd_state, &sel->r);
+ 	else
+@@ -678,6 +720,46 @@ static int rkisp2_subdev_link_validate(struct media_link *link)
+ 	return v4l2_subdev_link_validate(link);
+ }
+ 
++static int rkisp2_subdev_link_setup(struct media_entity *entity,
++				    const struct media_pad *local_pad,
++				    const struct media_pad *remote_pad, u32 flags)
 +{
 +	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(entity);
-+	struct rkcif_interface *interface = to_rkcif_interface(sd);
++	struct rkisp2_isp *isp = to_rkisp2_isp(sd);
 +	struct media_link *link;
-+	u16 other_source_pad_index; 
++	u16 other_sink_pad_index; 
 +
-+	dev_dbg(interface->rkcif->dev, "link setup %s -> %s\n",
-+		local_pad->entity->name, remote_pad->entity->name);
++	dev_dbg(isp->rkisp2->dev, "link setup %s -> %s\n", remote_pad->entity->name,
++		local_pad->entity->name);
 +
-+	/* We only care about links being created on a source pad */
++	/* We only care about links being created on a sink pad */
 +	if (!(flags & MEDIA_LNK_FL_ENABLED) ||
-+	    !(local_pad->flags & MEDIA_PAD_FL_SOURCE) ||
-+	    (local_pad->index != RKCIF_IF_PAD_SRC_DMA &&
-+	     local_pad->index != RKCIF_IF_PAD_SRC_TOISP))
++	    !(local_pad->flags & MEDIA_PAD_FL_SINK) ||
++	    (local_pad->index != RKISP2_ISP_PAD_SINK_VIDEO_DMA &&
++	     local_pad->index != RKISP2_ISP_PAD_SINK_VIDEO_CIF))
 +		return 0;
 +
-+	other_source_pad_index =
-+		local_pad->index == RKCIF_IF_PAD_SRC_DMA ?
-+				    RKCIF_IF_PAD_SRC_TOISP :
-+				    RKCIF_IF_PAD_SRC_DMA;
++	other_sink_pad_index =
++		local_pad->index == RKISP2_ISP_PAD_SINK_VIDEO_DMA ?
++				    RKISP2_ISP_PAD_SINK_VIDEO_CIF :
++				    RKISP2_ISP_PAD_SINK_VIDEO_DMA;
 +
 +	list_for_each_entry(link, &entity->links, list) {
-+		if (link->source->entity != local_pad->entity ||
-+		    link->source->index != other_source_pad_index)
++		if (link->sink->entity != local_pad->entity ||
++		    link->sink->index != other_sink_pad_index)
 +			continue;
 +
 +		/*
-+		 * If we are trying to enable DMA source pad but the TOISP
-+		 * source pad (and vice versa) has an enabled link then return
++		 * If we are trying to enable DMA sink pad but the CIF
++		 * sink pad (and vice versa) has an enabled link then return
 +		 * error
 +		 */
 +		return link->flags & MEDIA_LNK_FL_ENABLED ? -EBUSY : 0;
@@ -336,323 +478,37 @@ index cd791186f224..568835e47f92 100644
 +	return 0;
 +}
 +
- static const struct media_entity_operations rkcif_interface_media_ops = {
- 	.link_validate = v4l2_subdev_link_validate,
-+	.link_setup = rkcif_interface_subdev_link_setup,
- 	.has_pad_interdep = v4l2_subdev_has_pad_interdep,
- };
- 
-@@ -37,7 +149,8 @@ static int rkcif_interface_set_fmt(struct v4l2_subdev *sd,
- 	int ret;
- 
- 	/* the format on the source pad always matches the sink pad */
--	if (format->pad == RKCIF_IF_PAD_SRC)
-+	if (format->pad == RKCIF_IF_PAD_SRC_DMA ||
-+	    format->pad == RKCIF_IF_PAD_SRC_TOISP)
- 		return v4l2_subdev_get_fmt(sd, state, format);
- 
- 	input = rkcif_interface_find_input_fmt(interface, true,
-@@ -85,7 +198,8 @@ static int rkcif_interface_get_sel(struct v4l2_subdev *sd,
- 	struct v4l2_rect *crop;
- 	int ret = 0;
- 
--	if (sel->pad != RKCIF_IF_PAD_SRC)
-+	if (sel->pad != RKCIF_IF_PAD_SRC_DMA &&
-+	    sel->pad != RKCIF_IF_PAD_SRC_TOISP)
- 		return -EINVAL;
- 
- 	sink = v4l2_subdev_state_get_opposite_stream_format(state, sel->pad,
-@@ -122,7 +236,8 @@ static int rkcif_interface_set_sel(struct v4l2_subdev *sd,
- 	struct v4l2_mbus_framefmt *sink, *src;
- 	struct v4l2_rect *crop;
- 
--	if (sel->pad != RKCIF_IF_PAD_SRC || sel->target != V4L2_SEL_TGT_CROP)
-+	if ((sel->pad != RKCIF_IF_PAD_SRC_DMA &&
-+	     sel->pad != RKCIF_IF_PAD_SRC_TOISP) || sel->target != V4L2_SEL_TGT_CROP)
- 		return -EINVAL;
- 
- 	sink = v4l2_subdev_state_get_opposite_stream_format(state, sel->pad,
-@@ -176,7 +291,10 @@ static int rkcif_interface_apply_crop(struct rkcif_stream *stream,
- 	struct rkcif_interface *interface = stream->interface;
- 	struct v4l2_rect *crop;
- 
--	crop = v4l2_subdev_state_get_crop(state, RKCIF_IF_PAD_SRC, stream->id);
-+	crop = v4l2_subdev_state_get_crop(
-+		state,
-+		rkcif_interface_get_active_source_pad(interface),
-+		stream->id);
- 	if (!crop)
- 		return -EINVAL;
- 
-@@ -195,8 +313,11 @@ static int rkcif_interface_enable_streams(struct v4l2_subdev *sd,
- 	struct v4l2_subdev_route *route;
- 	struct v4l2_subdev *remote_sd;
- 	struct media_pad *remote_pad;
-+	u32 active_pad = rkcif_interface_get_active_source_pad(interface);
- 	u64 mask;
- 
-+	interface->inline_mode = (active_pad == RKCIF_IF_PAD_SRC_TOISP);
-+
- 	remote_pad =
- 		media_pad_remote_pad_first(&sd->entity.pads[RKCIF_IF_PAD_SINK]);
- 	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
-@@ -213,7 +334,7 @@ static int rkcif_interface_enable_streams(struct v4l2_subdev *sd,
+ static const struct v4l2_subdev_pad_ops rkisp2_isp_pad_ops = {
+ 	.enum_mbus_code = rkisp2_isp_enum_mbus_code,
+ 	.enum_frame_size = rkisp2_isp_enum_frame_size,
+@@ -709,7 +791,7 @@ static int rkisp2_isp_s_stream(struct v4l2_subdev *sd, int enable)
+ 		return 0;
  	}
  
- 	mask = v4l2_subdev_state_xlate_streams(state, RKCIF_IF_PAD_SINK,
--					       RKCIF_IF_PAD_SRC, &streams_mask);
-+					       active_pad, &streams_mask);
+-	sink_pad = &isp->pads[RKISP2_ISP_PAD_SINK_VIDEO];
++	sink_pad = &isp->pads[rkisp2_isp_get_active_sink_pad(isp)];
+ 	source_pad = media_pad_remote_pad_unique(sink_pad);
+ 	if (IS_ERR(source_pad)) {
+ 		dev_dbg(rkisp2->dev, "Failed to get source for ISP: %ld\n",
+@@ -769,6 +851,7 @@ static int rkisp2_isp_subs_evt(struct v4l2_subdev *sd, struct v4l2_fh *fh,
  
- 	return v4l2_subdev_enable_streams(remote_sd, remote_pad->index, mask);
- }
-@@ -222,6 +343,7 @@ static int rkcif_interface_disable_streams(struct v4l2_subdev *sd,
- 					   struct v4l2_subdev_state *state,
- 					   u32 pad, u64 streams_mask)
- {
-+	struct rkcif_interface *interface = to_rkcif_interface(sd);
- 	struct v4l2_subdev *remote_sd;
- 	struct media_pad *remote_pad;
- 	u64 mask;
-@@ -230,8 +352,9 @@ static int rkcif_interface_disable_streams(struct v4l2_subdev *sd,
- 		media_pad_remote_pad_first(&sd->entity.pads[RKCIF_IF_PAD_SINK]);
- 	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
- 
--	mask = v4l2_subdev_state_xlate_streams(state, RKCIF_IF_PAD_SINK,
--					       RKCIF_IF_PAD_SRC, &streams_mask);
-+	mask = v4l2_subdev_state_xlate_streams(
-+		state, RKCIF_IF_PAD_SINK,
-+		rkcif_interface_get_active_source_pad(interface), &streams_mask);
- 
- 	return v4l2_subdev_disable_streams(remote_sd, remote_pad->index, mask);
- }
-@@ -246,7 +369,94 @@ static const struct v4l2_subdev_pad_ops rkcif_interface_pad_ops = {
- 	.disable_streams = rkcif_interface_disable_streams,
+ static const struct media_entity_operations rkisp2_isp_media_ops = {
+ 	.link_validate = rkisp2_subdev_link_validate,
++	.link_setup = rkisp2_subdev_link_setup,
  };
  
-+static int rkcif_interface_s_stream(struct v4l2_subdev *sd, int enable)
-+{
-+	struct rkcif_interface *interface = to_rkcif_interface(sd);
-+	struct rkcif_device *rkcif = interface->rkcif;
-+	struct v4l2_subdev_state *state;
-+	struct v4l2_subdev *remote_sd;
-+	struct media_pad *remote_pad;
-+	struct v4l2_rect *crop;
-+	struct v4l2_mbus_framefmt *mbus;
-+	int ret;
-+	u32 active_pad = rkcif_interface_get_active_source_pad(interface);
-+	u32 val, crop_val, offset_val;
-+
-+	interface->inline_mode = (active_pad == RKCIF_IF_PAD_SRC_TOISP);
-+
-+	remote_pad =
-+		media_pad_remote_pad_first(&sd->entity.pads[RKCIF_IF_PAD_SINK]);
-+	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
-+
-+	if (!enable) {
-+		rkcif_write(rkcif, RKCIF_MIPI2_ID0_CTRL0, 0);
-+		rkcif_write(rkcif, RKCIF_MIPI2_CTRL, 0);
-+
-+		ret = v4l2_subdev_disable_streams(remote_sd, remote_pad->index, 1);
-+
-+		pm_runtime_put(rkcif->dev);
-+		return ret;
-+	}
-+
-+	ret = pm_runtime_resume_and_get(rkcif->dev);
-+	if (ret < 0) {
-+		dev_err(rkcif->dev, "failed to get runtime pm, %d\n", ret);
-+		return ret;
-+	}
-+
-+	state = v4l2_subdev_lock_and_get_active_state(sd);
-+	crop = v4l2_subdev_state_get_crop(state, active_pad);
-+	mbus = v4l2_subdev_state_get_format(state, active_pad);
-+	v4l2_subdev_unlock_state(state);
-+
-+	/*
-+	 * Enable interrupts:
-+	 * - toisp0 ch{0,1,2} frame start
-+	 * - toisp1 ch{0,1,2} frame start
-+	 * - toisp0 ch{0,1,2} frame end
-+	 * - toisp1 ch{0,1,2} frame end
-+	 * - toisp0 fifo overflow
-+	 * - toisp1 fifo overflow
-+	 * - axi bus errors
-+	 */
-+	rkcif_write(rkcif, RKCIF_GLB_INTEN, 0xFFFC003);
-+
-+	/*
-+	 * - Enable toisp ch0
-+	 * - Select MIPI2 ID0
-+	 */
-+	val = 0x01;
-+	val |= 8 << 3;
-+	rkcif_write(rkcif, RKCIF_TOISP0_CH_CTRL, val);
-+
-+	crop_val = RKCIF_XY_COORD(3840, 2160);
-+	offset_val = RKCIF_XY_COORD(0, 0);
-+	if (!!crop) {
-+		crop_val = RKCIF_XY_COORD(crop->width, crop->height);
-+		offset_val = RKCIF_XY_COORD(crop->left, crop->top);
-+	}
-+
-+	rkcif_write(rkcif, RKCIF_TOISP0_CROP_SIZE, crop_val);
-+	rkcif_write(rkcif, RKCIF_TOISP0_CROP_START, offset_val);
-+
-+	val = rkcif_interface_mipi_parse_type(mbus ? mbus->code : 0);
-+	val |= RKCIF_MIPI_DATA_SEL_DT(
-+			rkcif_interface_mipi_dt(mbus ? mbus->code : 0));
-+	val |= RKCIF_MIPI_CAP_EN;
-+
-+	rkcif_write(rkcif, RKCIF_MIPI2_ID0_CTRL0, val);
-+	rkcif_write(rkcif, RKCIF_MIPI2_ID0_CTRL1, crop_val);
-+	rkcif_write(rkcif, RKCIF_MIPI2_CTRL, RKCIF_MIPI_CAP_EN);
-+
-+	return v4l2_subdev_enable_streams(remote_sd, remote_pad->index, 1);
-+}
-+
-+static const struct v4l2_subdev_video_ops rkcif_interface_video_ops = {
-+	.s_stream = rkcif_interface_s_stream,
-+};
-+
- static const struct v4l2_subdev_ops rkcif_interface_ops = {
-+	.video = &rkcif_interface_video_ops,
- 	.pad = &rkcif_interface_pad_ops,
- };
- 
-@@ -258,7 +468,14 @@ static int rkcif_interface_init_state(struct v4l2_subdev *sd,
- 		{
- 			.sink_pad = RKCIF_IF_PAD_SINK,
- 			.sink_stream = 0,
--			.source_pad = RKCIF_IF_PAD_SRC,
-+			.source_pad = RKCIF_IF_PAD_SRC_DMA,
-+			.source_stream = 0,
-+			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-+		},
-+		{
-+			.sink_pad = RKCIF_IF_PAD_SINK,
-+			.sink_stream = 0,
-+			.source_pad = RKCIF_IF_PAD_SRC_TOISP,
- 			.source_stream = 0,
- 			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
- 		},
-@@ -373,6 +590,8 @@ int rkcif_interface_register(struct rkcif_device *rkcif,
- 	sd->internal_ops = &rkcif_interface_internal_ops;
+ static const struct v4l2_subdev_video_ops rkisp2_isp_video_ops = {
+@@ -808,8 +891,8 @@ int rkisp2_isp_register(struct rkisp2_device *rkisp2)
  	sd->owner = THIS_MODULE;
+ 	strscpy(sd->name, RKISP2_ISP_DEV_NAME, sizeof(sd->name));
  
-+	interface->inline_mode = false;
-+
- 	if (interface->type == RKCIF_IF_DVP)
- 		snprintf(sd->name, sizeof(sd->name), "rkcif-dvp0");
- 	else if (interface->type == RKCIF_IF_MIPI)
-@@ -381,7 +600,8 @@ int rkcif_interface_register(struct rkcif_device *rkcif,
- 
- 	pads[RKCIF_IF_PAD_SINK].flags = MEDIA_PAD_FL_SINK |
- 					MEDIA_PAD_FL_MUST_CONNECT;
--	pads[RKCIF_IF_PAD_SRC].flags = MEDIA_PAD_FL_SOURCE;
-+	pads[RKCIF_IF_PAD_SRC_DMA].flags = MEDIA_PAD_FL_SOURCE;
-+	pads[RKCIF_IF_PAD_SRC_TOISP].flags = MEDIA_PAD_FL_SOURCE;
- 	ret = media_entity_pads_init(&sd->entity, RKCIF_IF_PAD_MAX, pads);
- 	if (ret)
- 		goto err;
-@@ -403,7 +623,7 @@ int rkcif_interface_register(struct rkcif_device *rkcif,
- 	ret = media_device_shared_join_link_source(interface->rkcif->media_dev,
- 						   interface->rkcif->dev,
- 						   &interface->sd.entity,
--						   RKCIF_IF_PAD_SRC,
-+						   RKCIF_IF_PAD_SRC_TOISP,
- 						   0);
- 	if (ret)
- 		goto err_subdev_unregister;
-diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-regs.h b/drivers/media/platform/rockchip/rkcif/rkcif-regs.h
-index 3cf7ee19de30..3addd2aac691 100644
---- a/drivers/media/platform/rockchip/rkcif/rkcif-regs.h
-+++ b/drivers/media/platform/rockchip/rkcif/rkcif-regs.h
-@@ -150,4 +150,53 @@ enum rkcif_mipi_id_register_index {
- 	RKCIF_MIPI_ID_REGISTER_MAX
- };
- 
-+#define RKCIF_BASE		0x00000000
-+#define RKCIF_GLB_CTRL		(RKCIF_BASE + 0x00000000)
-+#define RKCIF_GLB_INTEN		(RKCIF_BASE + 0x00000004)
-+#define RKCIF_GLB_INTST		(RKCIF_BASE + 0x00000008)
-+#define RKCIF_TOISP0_CH_CTRL	(RKCIF_BASE + 0x00000780)
-+#define RKCIF_TOISP0_CROP_SIZE	(RKCIF_BASE + 0x00000784)
-+#define RKCIF_TOISP0_CROP_START	(RKCIF_BASE + 0x00000788)
-+#define RKCIF_TOISP1_CH_CTRL	(RKCIF_BASE + 0x0000078c)
-+#define RKCIF_TOISP1_CROP_SIZE	(RKCIF_BASE + 0x00000790)
-+#define RKCIF_TOISP1_CROP_START	(RKCIF_BASE + 0x00000794)
-+
-+#define RKCIF_MIPI2_BASE	(RKCIF_BASE + 0x00000300)
-+#define RKCIF_MIPI2_ID0_CTRL0	(RKCIF_MIPI2_BASE + 0x00000000)
-+#define RKCIF_MIPI2_ID0_CTRL1	(RKCIF_MIPI2_BASE + 0x00000004)
-+#define RKCIF_MIPI2_CTRL	(RKCIF_MIPI2_BASE + 0x00000020)
-+
-+#define RKCIF_MIPI_CAP_EN			BIT(0)
-+#define RKCIF_MIPI_PARSE_TYPE_RAW8_RGB888	(0 << 1)
-+#define RKCIF_MIPI_PARSE_TYPE_RAW10		(1 << 1)
-+#define RKCIF_MIPI_PARSE_TYPE_RAW12		(2 << 1)
-+#define RKCIF_MIPI_PARSE_TYPE_RAW14		(3 << 1)
-+#define RKCIF_MIPI_PARSE_TYPE_YUV422_8BIT	(4 << 1)
-+#define RKCIF_MIPI_CROP_EN			BIT(4)
-+#define RKCIF_MIPI_WDDR_RAW_COMPACT		(0 << 5)
-+#define RKCIF_MIPI_WDDR_RAW_UNCOMPACT		(1 << 5)
-+#define RKCIF_MIPI_WDDR_YUV_PACKET		(2 << 5)
-+#define RKCIF_MIPI_WDDR_YUV400			(3 << 5)
-+#define RKCIF_MIPI_WDDR_YUV422SP		(4 << 5)
-+#define RKCIF_MIPI_WDDR_YUV420SP		(5 << 5)
-+
-+/* MIPI_DATA_SEL */
-+#define RKCIF_MIPI_DATA_SEL_VC(a)			(((a) & 0x3) << 8)
-+#define RKCIF_MIPI_DATA_SEL_DT(a)			(((a) & 0x3F) << 10)
-+/* MIPI DATA_TYPE */
-+/* These are copied from rkisp2 as they are not in the cif trm */
-+#define RKCIF_CSI2_DT_EBD			0x12
-+#define RKCIF_CSI2_DT_YUV420_8b			0x18
-+#define RKCIF_CSI2_DT_YUV420_10b		0x19
-+#define RKCIF_CSI2_DT_YUV422_8b			0x1E
-+#define RKCIF_CSI2_DT_YUV422_10b		0x1F
-+#define RKCIF_CSI2_DT_RGB565			0x22
-+#define RKCIF_CSI2_DT_RGB666			0x23
-+#define RKCIF_CSI2_DT_RGB888			0x24
-+#define RKCIF_CSI2_DT_RAW8			0x2A
-+#define RKCIF_CSI2_DT_RAW10			0x2B
-+#define RKCIF_CSI2_DT_RAW12			0x2C
-+#define RKCIF_CSI2_DT_RAW16			0x2e
-+#define RKCIF_CSI2_DT_SPD			0x2F
-+
- #endif
-diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-stream.c b/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
-index 3130d420ad55..f173657fd2b4 100644
---- a/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
-+++ b/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
-@@ -283,7 +283,7 @@ static int rkcif_stream_start_streaming(struct vb2_queue *queue,
- 
- 	mask = BIT_ULL(stream->id);
- 	ret = v4l2_subdev_enable_streams(&stream->interface->sd,
--					 RKCIF_IF_PAD_SRC, mask);
-+					 RKCIF_IF_PAD_SRC_DMA, mask);
- 	if (ret < 0)
- 		goto err_stop_stream;
- 
-@@ -309,7 +309,7 @@ static void rkcif_stream_stop_streaming(struct vb2_queue *queue)
- 	int ret;
- 
- 	mask = BIT_ULL(stream->id);
--	v4l2_subdev_disable_streams(&stream->interface->sd, RKCIF_IF_PAD_SRC,
-+	v4l2_subdev_disable_streams(&stream->interface->sd, RKCIF_IF_PAD_SRC_DMA,
- 				    mask);
- 
- 	stream->stopping = true;
-@@ -589,7 +589,7 @@ int rkcif_stream_register(struct rkcif_device *rkcif,
- 	if (stream->id == RKCIF_ID0)
- 		link_flags |= MEDIA_LNK_FL_ENABLED;
- 
--	ret = media_create_pad_link(&interface->sd.entity, RKCIF_IF_PAD_SRC,
-+	ret = media_create_pad_link(&interface->sd.entity, RKCIF_IF_PAD_SRC_DMA,
- 				    &stream->vdev.entity, 0, link_flags);
- 	if (ret) {
- 		dev_err(rkcif->dev, "failed to link stream media pad: %d\n",
+-	pads[RKISP2_ISP_PAD_SINK_VIDEO].flags = MEDIA_PAD_FL_SINK |
+-						MEDIA_PAD_FL_MUST_CONNECT;
++	pads[RKISP2_ISP_PAD_SINK_VIDEO_DMA].flags = MEDIA_PAD_FL_SINK;
++	pads[RKISP2_ISP_PAD_SINK_VIDEO_CIF].flags = MEDIA_PAD_FL_SINK;
+ 	pads[RKISP2_ISP_PAD_SINK_PARAMS].flags = MEDIA_PAD_FL_SINK;
+ 	pads[RKISP2_ISP_PAD_SOURCE_VIDEO].flags = MEDIA_PAD_FL_SOURCE;
+ 	pads[RKISP2_ISP_PAD_SOURCE_STATS].flags = MEDIA_PAD_FL_SOURCE;
 -- 
 2.47.2
 
