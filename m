@@ -1,201 +1,196 @@
-Return-Path: <linux-media+bounces-65303-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65304-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id PQKeFKcpNmoS8QYAu9opvQ
-	(envelope-from <linux-media+bounces-65303-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2026 07:48:23 +0200
+	id tNc6GgFNNmr+9AYAu9opvQ
+	(envelope-from <linux-media+bounces-65304-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2026 10:19:13 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A7226A860B
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2026 07:48:22 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF06C6A88F7
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2026 10:19:12 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=H4v0mbAb;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65303-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65303-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=nojLOuZy;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65304-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65304-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E35903034E2D
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2026 05:48:15 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 920CB301AA95
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2026 08:19:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C96493537C7;
-	Sat, 20 Jun 2026 05:48:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41C3D345751;
+	Sat, 20 Jun 2026 08:19:08 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B8419E97B
-	for <linux-media@vger.kernel.org>; Sat, 20 Jun 2026 05:48:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F6A341650
+	for <linux-media@vger.kernel.org>; Sat, 20 Jun 2026 08:19:06 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781934494; cv=none; b=kYv67LIVgzqX9RSk/fhNC7DSvaPyobdQCwibv2vAACfiYFg+5BZYS2bs3z2lPoeje7alqFGu4lj7Dxsys+zQmfjC0v7OV+pp+GIPQd8twScgWDAKDDoli8CPCOPslAv2/uligIc9LaL4wqTB/oY43IqC/qc10bhKcoM2WPvTTrw=
+	t=1781943547; cv=none; b=KGWk1ckVuHZAL5m/N+ER6JXvfCVe8B5lCMD62DxTAQr0hofLM8bWqzAz5ZojzZD75GaEonDC9YhtJtZzL9mJzsAdE9CwxfMQhjhyr8RfV16ag/VD43ftruJwDpJUm3gHAYA0GtK1Cia1Hndd3al6s9MlkEb1Q4tPLWx7QVLeDeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781934494; c=relaxed/simple;
-	bh=XjyJT5W1WsG2MyfZ7fnuUwzGcUGg4Y6+iUVCy+1ozYY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=l70HOdYuC5C2HJDSjH5B/5oase5G1o3/1qoVTAkI7RdVq/AA6+WPItIJAKCaaJ0XwLRbB1SXxNUQqRpNISouSYS8eh5EEXHRaG+aqM2rN9XrEDb+nfpxnhlwmpHwo8FYLI81yOGYsfSqyFvcJyKNfInW613LceD0NIGhGHPiJv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H4v0mbAb; arc=none smtp.client-ip=209.85.208.46
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-697763eeafcso689855a12.3
-        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2026 22:48:12 -0700 (PDT)
+	s=arc-20240116; t=1781943547; c=relaxed/simple;
+	bh=ebjICIaKnIiWqN5sCqRzBeqtjhGLBHhcjtqnFhx4W3c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nsdO9LreFzXmLWkgNvuSV9AiVNrrMVh3ou89hl5ESg4ONC/qdqt3vwmMkcnkgFcoPgt+bSQC3qSPw/bF0ZFxA1u7hJleti9ETs0JrwNQZRbMCXvbI6Jp8rh+LISkAS4v4+ZXw2e4NtNYWJHkValECY0Mez1TeYx9CGy4/H4SVcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nojLOuZy; arc=none smtp.client-ip=209.85.216.44
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-37c8e7c8185so1637648a91.3
+        for <linux-media@vger.kernel.org>; Sat, 20 Jun 2026 01:19:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781934491; x=1782539291; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1781943546; x=1782548346; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ed3t8ZxAhZ1D0n+cEn1P+22l2LNZt23J9pURBwnxtfY=;
-        b=H4v0mbAbEV8EPkK1Xp5YAW9qHmAlaRuQhXm6/70bgOvNI21BcU3L2WXbKuo2ZAbWLp
-         s7/e2ibOUD7eiK9ZI2fh9O05vMZMXgGud919/s2ORB6bkUTnSMvE55K7UbIoF/mn9LVJ
-         gOnYEy+1g1KPq0Hkut1ZpuRyTAJcoLTGkz5BwEeD5PW4UXhXjUVZos7t1pz2+S4K4rZe
-         7Tr3zaxEyP7w64l6icUXvydnTtGBUFHWumDikxAgwxO7xLl7rTjRPDDfQq0wb3WEj+uA
-         Jk2tJEGB7xpRTK3ls6eb/uZ3IezFxuzcTN6kXCFknKvH6VfOkNOw7jX81tPwgvVpBeH4
-         o7Xw==
+        bh=FYONhAjYo50YxLgZHUBiBRUd34pR6NaLMu1zrzWmCZk=;
+        b=nojLOuZy5ZUe5cyR65QKPUE3xqXJKn4STcxpm4wNmL/6BeP8V7zHz4yOnPBxE4YVEZ
+         nxvvpvXXE8YSUbMD6cugx7L0oXC26t4NhxCQQLSPESLWXq9tsiIVbjjCboUYZmrANTES
+         OgcCj4ZbqpID2cGOIrxdpIhf1QSsLWvqeR1DoKv72j5KTrgkupTKozwm+nbBSMTmTJ+o
+         nG7UeGuqdI0stdic5ezaM5a02cigXONBlcKZIeKE7Y9sid/mAm0ydErqR7eIKbfIT6d8
+         satzbDB18pVDOw1YHItNsF9UTw77djmGnruqvHytudGHwXRk/oHbD3F3KlgqgL4sscDN
+         RGVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781934491; x=1782539291;
+        d=1e100.net; s=20251104; t=1781943546; x=1782548346;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Ed3t8ZxAhZ1D0n+cEn1P+22l2LNZt23J9pURBwnxtfY=;
-        b=VFpxI5y6lQnlONkVGu7aZmw/m21VgGa6ioZWLXav3Y1uyfxx0rxUgDmW5YY0KQvDhH
-         S4+kT3lyqKrHBklGtku8WKhzyd2j0D0i6oobV2ediq6Ucksyw6vEq5BW+SY90Z52qPLX
-         WZVFhcwWWDhGIGXEkWzuyuAH27wHCisiQIxIG+tZtyPxBgWEpJb25hsPiwhybeZB8wbV
-         UGRKN8LANzgEQlfTH2jX6QYZFz7iW5h1t034vn9qzQMn5fZf4QMd12KAho58Bu8Gp9bE
-         /GKkw1xGs5zqM4/OAcXY38Zqvi1HqmLBHx+SDqVbIQZTd//tIrD1olgTVbUnbkyiVdOg
-         ycZw==
-X-Gm-Message-State: AOJu0Yw9QpAC7AvqhAYIOtlO36geLdXkjMonChTMxcIe9L/KBtFKov2r
-	cWGOtmEtyeNzAAlvLfoMxZZrwLPtU53tt4gxIhwBYFiy1wWLoff1UgZs
-X-Gm-Gg: AfdE7cnLkynqWC0PWMQQL5k9ofZTEcEfnPYy+RhsiRPEAQ2/NeexmX3r507mdLY9uqg
-	yWvDwCYs46xKK6/ThSvaZBpXt9cPpUJm42u/dRpP2WZYs8bTwsIClCExu9ATllHX6IyhHDbb7Ok
-	QkS8l4j03k0+XkHBi2BHtSv2xpZw3Gc12ggiaWNKx+E8sJ4PzC5FgKpWrYyJGwgC11wvP8Ls3LJ
-	X/Dh5gn84HlpYlLK4OiqvUIwfGpf/cVrM80Jc1w4bTMDyU7JpSlUQB6EwECHi3fG6ka6r3h18+c
-	AO2vCObGKsabdIeOTNK0jMw6+my5XrpaoJk6g+CE20CBn0p5Ke/qW3jGVpyLAuSj0k1XKGa4+zq
-	Pfmb0PJD9JCbB6cUGYyg0pNxPe5eDDqAO0z7gzVD4T5uKwxVo1FHCcE/6URDl
-X-Received: by 2002:a05:6402:5243:b0:697:64ba:bb9b with SMTP id 4fb4d7f45d1cf-69764babcf3mr2494576a12.17.1781934491202;
-        Fri, 19 Jun 2026 22:48:11 -0700 (PDT)
-Received: from adr.. ([2a00:7c80:0:3a8::14])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6977be498e4sm353440a12.20.2026.06.19.22.48.07
+        bh=FYONhAjYo50YxLgZHUBiBRUd34pR6NaLMu1zrzWmCZk=;
+        b=ZQETX6/I6AZxCF9p2gGLZO+Sm2SkmCuCLqn5ll/UXs5wqPhDvD4ecStNhmM8m+Ea5v
+         xUkfpmzHDzKULSJxHhCOH+Ybi0D84R/jGTcqH0tH62+KrQEFuvhGB+Y0u5AtUedL+YwM
+         q3Pa2ublTPQJ4+jFGO30+s7MT0htrVIAI7AKTwo9+91U5fD3LPYN+GCw7LMVrR3sikab
+         qTZZK4V1JuYOU8cCPIxoVwKapCDgBFHSkDXnpxbAn9Xf+y4QM8xI+IUPFQhOAlWlKHMA
+         pAqmkr+11rdm0Uq4evIeocK6WeOQD7H0f36WWvdotmyzfrALJ9PMzx426B59kUeeBPaL
+         8B3g==
+X-Gm-Message-State: AOJu0YyWxaFr2tYLWrOVJdmKruo0xvCnru3iJe2BP3uoJGInbDWhhal3
+	L95CtrL0UghYiaWarMSOoQEP/39EqI6a6s7nenzjWpvcqjlZVxj5fC5scviDnFIr
+X-Gm-Gg: AfdE7cnK3ilNPn5USAodq3WQq99MBFLX68QaxfSKu+baL+3SRHMNh/fU+NS29+Uysau
+	3jj0A2O0WkNwRjx5v5uk8SRC3l1MpjlsGmpNluuIJOvqPh4xrIdVJ5x2LU3wAmfAypL6lLsk7ya
+	kIILN7nU5fdiIzsD/vxkD3QuDU7pB/1MIdi2ZH/UG/eUoDg70FAotxGQMc/ZfPu8fL7BIWIqdqX
+	7rAw67kpt0eXEYLAukw093ZFljXQFuXwC4K9ZpiieFlYX69XLh/0z7PxxfMEzPQL8QBOg0VkqPC
+	l+2KhKzTj+0+S1I/M+ydkRrz1DDjXSC4ZkV0gomU9f53EYOekAPFxaa4es8byfaUPz/Zl1qq49d
+	3V1CJqMThRJ1PfIA0UNXZsZl3WKq+tlCp0nC0g8eS3UTE2NR81J2SojieU6kbUCZwyxfNgxMCcs
+	qX61xfvYIS7bDHOWmMqxaEreZCijAv7qPogTtd
+X-Received: by 2002:a17:90b:4d11:b0:37c:6973:5a65 with SMTP id 98e67ed59e1d1-37d15e89d6cmr7349122a91.17.1781943545714;
+        Sat, 20 Jun 2026 01:19:05 -0700 (PDT)
+Received: from x1c ([2405:9800:b670:b64b:5c2d:70e2:75f2:925])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37d4eede23esm1601366a91.2.2026.06.20.01.19.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2026 22:48:10 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
-To: mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Andr=C3=A9=20Moreira?= <andrem.33333@gmail.com>
-Subject: [PATCH] media: av7110: refactor deeply nested PTS loops
-Date: Sat, 20 Jun 2026 02:46:54 -0300
-Message-ID: <20260620054654.122464-1-andrem.33333@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Sat, 20 Jun 2026 01:19:05 -0700 (PDT)
+From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Tharit Tangkijwanichakul <tharitt97@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: Documentation: fix v4l2-subdev incorrect ops field and category references
+Date: Sat, 20 Jun 2026 15:18:42 +0700
+Message-ID: <20260620081843.7641-1-tharitt97@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65303-lists,linux-media=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:andrem.33333@gmail.com,m:andrem33333@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[andrem33333@gmail.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,lists.linux.dev,gmail.com];
-	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andrem33333@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FREEMAIL_CC(0.00)[linuxfoundation.org,lists.linux.dev,gmail.com,kernel.org,vger.kernel.org];
 	FREEMAIL_FROM(0.00)[gmail.com];
-	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_FROM(0.00)[bounces-65304-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:skhan@linuxfoundation.org,m:linux-kernel-mentees@lists.linux.dev,m:tharitt97@gmail.com,m:mchehab@kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[tharitt97@gmail.com,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tharitt97@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	RCPT_COUNT_FIVE(0.00)[6]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8A7226A860B
+X-Rspamd-Queue-Id: CF06C6A88F7
 
-Extract the deeply nested loops handling PTS flags in the MPEG-1
-block into a separate helper function `av7110_ipack_m1_pts()`.
+The v4l2-subdev documentation incorrectly refers to the "core" ops
+while it should have been the "video" ops where the actual
+operation (g_std) belongs to. The docs also declares a duplicate
+"video" struct member instead of "pad" in the subdev ops struct example.
 
-This fixes a checkpatch warning regarding too many leading tabs and
-improves code readability without changing the underlying parser logic.
-
-Signed-off-by: André Moreira <andrem.33333@gmail.com>
+Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
 ---
- drivers/staging/media/av7110/av7110_ipack.c | 35 +++++++++++----------
- 1 file changed, 18 insertions(+), 17 deletions(-)
+ Documentation/driver-api/media/v4l2-subdev.rst | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/staging/media/av7110/av7110_ipack.c b/drivers/staging/media/av7110/av7110_ipack.c
-index 4be6e225f08e8..a3e69a737e97d 100644
---- a/drivers/staging/media/av7110/av7110_ipack.c
-+++ b/drivers/staging/media/av7110/av7110_ipack.c
-@@ -136,6 +136,22 @@ static void write_ipack(struct ipack *p, const u8 *data, int count)
- 	}
- }
+diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
+index 13aec460e..d30bb656b 100644
+--- a/Documentation/driver-api/media/v4l2-subdev.rst
++++ b/Documentation/driver-api/media/v4l2-subdev.rst
+@@ -77,7 +77,7 @@ It looks like this:
+ 		const struct v4l2_subdev_tuner_ops *tuner;
+ 		const struct v4l2_subdev_audio_ops *audio;
+ 		const struct v4l2_subdev_video_ops *video;
+-		const struct v4l2_subdev_pad_ops *video;
++		const struct v4l2_subdev_pad_ops *pad;
+ 	};
  
-+static int av7110_ipack_m1_pts(struct ipack *p, const u8 *buf,
-+			       int c, int count, int max_which)
-+{
-+	while (c < count && p->which < max_which) {
-+		if (p->which < 7)
-+			p->pts[p->which - 2] = buf[c];
-+
-+		write_ipack(p, buf + c, 1);
-+		c++;
-+		p->found++;
-+		p->which++;
-+		p->hlength++;
-+	}
-+	return c;
-+}
-+
- int av7110_ipack_instant_repack(const u8 *buf, int count, struct ipack *p)
- {
- 	int l;
-@@ -335,26 +351,11 @@ int av7110_ipack_instant_repack(const u8 *buf, int count, struct ipack *p)
- 				return count;
- 			if (p->which > 2) {
- 				if ((p->flag2 & PTS_DTS_FLAGS) == PTS_ONLY) {
--					while (c < count && p->which < 7) {
--						p->pts[p->which - 2] = buf[c];
--						write_ipack(p, buf + c, 1);
--						c++;
--						p->found++;
--						p->which++;
--						p->hlength++;
--					}
-+					c = av7110_ipack_m1_pts(p, buf, c, count, 7);
- 					if (c == count)
- 						return count;
- 				} else if ((p->flag2 & PTS_DTS_FLAGS) == PTS_DTS) {
--					while (c < count && p->which < 12) {
--						if (p->which < 7)
--							p->pts[p->which - 2] = buf[c];
--						write_ipack(p, buf + c, 1);
--						c++;
--						p->found++;
--						p->which++;
--						p->hlength++;
--					}
-+					c = av7110_ipack_m1_pts(p, buf, c, count, 12);
- 					if (c == count)
- 						return count;
- 				}
+ The core ops are common to all subdevs, the other categories are implemented
+@@ -300,31 +300,31 @@ directly:
+ 
+ .. code-block:: c
+ 
+-	err = sd->ops->core->g_std(sd, &norm);
++	err = sd->ops->video->g_std(sd, &norm);
+ 
+ but it is better and easier to use this macro:
+ 
+ .. code-block:: c
+ 
+-	err = v4l2_subdev_call(sd, core, g_std, &norm);
++	err = v4l2_subdev_call(sd, video, g_std, &norm);
+ 
+ The macro will do the right ``NULL`` pointer checks and returns ``-ENODEV``
+ if :c:type:`sd <v4l2_subdev>` is ``NULL``, ``-ENOIOCTLCMD`` if either
+-:c:type:`sd <v4l2_subdev>`->core or :c:type:`sd <v4l2_subdev>`->core->g_std is ``NULL``, or the actual result of the
+-:c:type:`sd <v4l2_subdev>`->ops->core->g_std ops.
++:c:type:`sd <v4l2_subdev>`->video or :c:type:`sd <v4l2_subdev>`->video->g_std is ``NULL``, or the actual result of the
++:c:type:`sd <v4l2_subdev>`->ops->video->g_std ops.
+ 
+ It is also possible to call all or a subset of the sub-devices:
+ 
+ .. code-block:: c
+ 
+-	v4l2_device_call_all(v4l2_dev, 0, core, g_std, &norm);
++	v4l2_device_call_all(v4l2_dev, 0, video, g_std, &norm);
+ 
+ Any subdev that does not support this ops is skipped and error results are
+ ignored. If you want to check for errors use this:
+ 
+ .. code-block:: c
+ 
+-	err = v4l2_device_call_until_err(v4l2_dev, 0, core, g_std, &norm);
++	err = v4l2_device_call_until_err(v4l2_dev, 0, video, g_std, &norm);
+ 
+ Any error except ``-ENOIOCTLCMD`` will exit the loop with that error. If no
+ errors (except ``-ENOIOCTLCMD``) occurred, then 0 is returned.
 -- 
-2.43.0
+2.53.0
 
 
