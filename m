@@ -1,154 +1,146 @@
-Return-Path: <linux-media+bounces-65307-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65309-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id hc1QCTZgNmrr+wYAu9opvQ
-	(envelope-from <linux-media+bounces-65307-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2026 11:41:10 +0200
+	id CUJgBHiVNmruBQcAu9opvQ
+	(envelope-from <linux-media+bounces-65309-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2026 15:28:24 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2E76A8B0A
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2026 11:41:09 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A03C6A8F10
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2026 15:28:23 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b="EHW/SlmR";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65307-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65307-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=JPePHGKB;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65309-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65309-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id E72FA302C6CE
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2026 09:41:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 47D58302590B
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2026 13:28:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9391D346E47;
-	Sat, 20 Jun 2026 09:40:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3D64394E80;
+	Sat, 20 Jun 2026 13:28:02 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1017330641
-	for <linux-media@vger.kernel.org>; Sat, 20 Jun 2026 09:40:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817E127874F;
+	Sat, 20 Jun 2026 13:27:59 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781948458; cv=none; b=lZJ67kkokwR4r31Vc5gEEuE+9hpPWyHjjVWZlQMgvNXSJukJQq4H/qk4wGLKKUwy4bycVvlSnOBAvas8hlYY+FqTe83UrEqtk8sRpwXatGaonKmeQ1tmmczW1YFsliDTjG+yBLzP/Xzi8GcRUoeY20rZT5H/C88FCpjs5YAutrY=
+	t=1781962082; cv=none; b=Xtgnqe9pDouWiE3ataceNC18Hw8HrYlX4pYwjYR/xsCM1AuQzjVPPXYESXA9gI57uU7XP5eoNrfszVr/6ZcrJppsc3t+xIQstJ1mRFeK+opa0YPcb6+NlNuqJ0b1ZOn+JdZHJ6DEHCKs5SzvyMqXj2BFhWloF/bbXeAa3w9u8yg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781948458; c=relaxed/simple;
-	bh=bzMmMdDZb12pckhE1HCQMpbb9uubjGvbW/Q8Ly/dSdw=;
+	s=arc-20240116; t=1781962082; c=relaxed/simple;
+	bh=//RtIbbbO+6Y9IggxZGdSw3W2JDAG48tPtlced6Ieys=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eC40sX0h2XIq75rzhJXB+KqULORxZi3gEq7K5UnCl3uENWrED2XiwRF2wHA4bpJicejCpYHqa6VDvej5QymcG/QYbhf9FFtVjqtymSekeFWGrxLGIPMOJSEq+r9hP8MvJMuAecJEQ+edKwV24kANMRJmobhgyLAm7/EJ8aUBe3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EHW/SlmR; arc=none smtp.client-ip=209.85.128.49
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-490aaeabdb4so17062175e9.1
-        for <linux-media@vger.kernel.org>; Sat, 20 Jun 2026 02:40:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781948455; x=1782553255; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=lgheUV57e1fbvrsFvTQvHjvUlEm1rXtz0JpJatjgsuU=;
-        b=EHW/SlmR3z+gws3WiXee0kX3HBdBp/wZR9ICxlu6m0ZZZ9m9UDWLsfWREgvA+SeTJ7
-         7kF0p8yPd8IG+nMy/U0nmbJF3vm87f1nawlyHozRiQ2e8mc1bba+67NLOEFXccYIan0k
-         8DfyrX2GTZSPRey3VkysXWkCcQW6jMtVv2Rv8ztq+T1CBgP/pnI7FdFe+yTsu3Ts3Tzs
-         YEdVcf+6wHRDtF3DvZ6oktMrgEM1MdMcX9brHSGEg9So7gompzpvdOFdlKKuU84rX8pA
-         cgDeeWntGuMpninhvj6I+MpSJggiJDgvgGYfX0tNTYubqhRVpaJJ89q30LHVrTGl7VrQ
-         UCyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781948455; x=1782553255;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lgheUV57e1fbvrsFvTQvHjvUlEm1rXtz0JpJatjgsuU=;
-        b=YAaU6jDBmL0gJfjn1CcDtS4Wj83Mm0aRkBZSQ7GqzRElSnVfaOmfNh67a0SuDFdEVO
-         jsLricBtGRbc1oUv3ZadRHDIYlt56QNbfof6qtmBpWFHRrk6QdY1+OlG+yS2Gpe4PtUQ
-         z7hK7BL/jiiTqiDqAVgKd5tfwMom595x4L1ZI8TS7meQSfH0igczAof9qlQw4IWiUrFk
-         bLAJkvz5pbCbALibf9mDI12S5TGdldNC4u3EUiMTNEX5+kJxdE5ZW0Ffs6g1Pu//nXXN
-         hT8sCGgBxIGOp2Z+unH/VC0SAn7UAMSJsqOrguDwx/yFrF7Usy65hkiqDc7MU0ZpXlJo
-         QXXQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+zPOH1sS+ggjWpYgW4+ywT0alvtqpGB0oMur174WwiaAI+R19BZhvF4sawVRB4BFNCNjoU2Y2wsxdu9Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxw5l6g+/3pszoUuKOyQjeAgZDUi9E4OeOfVdggm3tL4h6yKwFl
-	eACak7k5bGY+zWuxn95sy0jK0GuZVUA623kI9B8G3LHXSFLVD0f+mhJf
-X-Gm-Gg: AfdE7clozK1DROQSKyWtijWTbi1yBU0w85cGTwG2jIA3IG0kLAzDcJdQqbTRnEzbT8R
-	w0D3GEpu/nPHRg7nhDmYd8NvC1ofHQoO1Qj+Wqh29nbqQiM8B113i3DGuD4msDc2a5a5YxjokPu
-	78wCW6j4BpzG2QzJDWawuohFycKdPnjrGoW2N/+u9wJ4QTPFgRiqJwTXIMKbOWaQaMYPjOkkGHs
-	8qEEU/EqgEdt9Y2n4i6AWant29VPldlUfhPHeySK9bKwSEos+HHY9BZiUBvT1epUg3arqTiexJU
-	agr5e+DxdtfImnfHW4B1rcTNc6NMtdisdhRBdKVJciregYwkgPblz1K63grZ3H00kxDoTmmEiFw
-	RinzBoDRvgKd99NL1S4AqI7LNdB2H6xNkDGKKBh+xuCTQrI6JHp2L/3EkFaIFczX8fA910rNGHX
-	niGEYgYZsw
-X-Received: by 2002:a05:600c:3145:b0:490:e60b:6860 with SMTP id 5b1f17b1804b1-4923ef47e68mr134199885e9.7.1781948454982;
-        Sat, 20 Jun 2026 02:40:54 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4924923392dsm84208825e9.2.2026.06.20.02.40.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jun 2026 02:40:53 -0700 (PDT)
-Date: Sat, 20 Jun 2026 12:40:50 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: =?iso-8859-1?Q?Andr=E9?= Moreira <andrem.33333@gmail.com>
-Cc: mchehab@kernel.org, gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] staging: media: av7110: replace msleep with
- usleep_range
-Message-ID: <ajZgIl8e2e7dMaPh@stanley.mountain>
-References: <20260619221524.51814-1-andrem.33333@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ps7UM0/FxG/iBfSbj1GSgk8LG8mREzobUYtYof6Zu4PJ4pRLMpql2q+a03tMZ1sYgCSt6iQxny5qma1MHW8FPJNb6RP+Yyhd/0a7Wes71QQtPf2+4vgp1o6UnVG08MVHRQW/dWUQtRgRUez+LvSDW9+q369JSSQ0wWoF5jUbFNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JPePHGKB; arc=none smtp.client-ip=213.167.242.64
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 56F9A56D;
+	Sat, 20 Jun 2026 15:27:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1781962034;
+	bh=//RtIbbbO+6Y9IggxZGdSw3W2JDAG48tPtlced6Ieys=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JPePHGKBsdJ/lIIINcK6809JnDeJ7nB6JKHdYt0BQK9HNgWiqmu99TF49vtudqT2/
+	 3jT9AgIHt+2dxYqCA0pk5yV+KlPFElWGV0EjiH/iduccWqJjOwwGpjTIXd/sPN5yeo
+	 2QvTvpYctAzvXVLMQNwTpf/3K61GvrJMmaSyZZQE=
+Date: Sat, 20 Jun 2026 16:27:49 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+Cc: sakari.ailus@linux.intel.com, luca.weiss@fairphone.com,
+	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
+	Walter Werner Schneider <contact@schnwalter.eu>,
+	Kate Hsuan <hpa@redhat.com>, Svyatoslav Ryhel <clamor95@gmail.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] media: i2c: add imx576 image sensor driver
+Message-ID: <20260620132749.GE3552167@killaraus.ideasonboard.com>
+References: <20260619125439.55311-1-himanshu.bhavani@siliconsignals.io>
+ <20260619125439.55311-3-himanshu.bhavani@siliconsignals.io>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260619221524.51814-1-andrem.33333@gmail.com>
+In-Reply-To: <20260619125439.55311-3-himanshu.bhavani@siliconsignals.io>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65307-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:andrem.33333@gmail.com,m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:andrem33333@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TO_DN_SOME(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65309-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:himanshu.bhavani@siliconsignals.io,m:sakari.ailus@linux.intel.com,m:luca.weiss@fairphone.com,m:hardevsinh.palaniya@siliconsignals.io,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:hverkuil+cisco@kernel.org,m:johannes.goede@oss.qualcomm.com,m:vladimir.zapolskiy@linaro.org,m:elgin.perumbilly@siliconsignals.io,m:contact@schnwalter.eu,m:hpa@redhat.com,m:clamor95@gmail.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FREEMAIL_CC(0.00)[linux.intel.com,fairphone.com,siliconsignals.io,kernel.org,oss.qualcomm.com,linaro.org,schnwalter.eu,redhat.com,gmail.com,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:from_mime,killaraus.ideasonboard.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7C2E76A8B0A
+X-Rspamd-Queue-Id: 4A03C6A8F10
 
-On Fri, Jun 19, 2026 at 07:15:23PM -0300, André Moreira wrote:
-> The msleep() function is not precise for short delays under 20ms.
-> Replace it with usleep_range() to provide more accurate timing
-> and avoid unnecessary scheduler overhead.
+On Fri, Jun 19, 2026 at 06:24:32PM +0530, Himanshu Bhavani wrote:
+> Add a v4l2 subdevice driver for the Sony imx576 sensor.
 > 
-> Signed-off-by: André Moreira <andrem.33333@gmail.com>
+> The Sony IMX576 image sensor with an active
+> array size of 5760 x 4312
+> 
+> The following features are supported:
+> - Manual exposure an gain control support
+> - vblank/hblank control support
+> - Supported resolution: 2880 x 2156 30fps (SRGGB10)
+
+You've been asked in v1 to make this driver dynamically compute
+registers instead of hardcoding modes. Please do so in v3. Nack on v2.
+
+> Signed-off-by: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
 > ---
+>  MAINTAINERS                |    1 +
+>  drivers/media/i2c/Kconfig  |   10 +
+>  drivers/media/i2c/Makefile |    1 +
+>  drivers/media/i2c/imx576.c | 1034 ++++++++++++++++++++++++++++++++++++
+>  4 files changed, 1046 insertions(+)
+>  create mode 100644 drivers/media/i2c/imx576.c
 
-We don't accept this kind of patch without testing.  But also this
-is not the current way to do it.  Do a search for "usleep_range staging"
-on lore.kernel.org to find the current way.
+[snip]
 
-regards,
-dan carpenter
+-- 
+Regards,
 
-
+Laurent Pinchart
 
