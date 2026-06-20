@@ -1,89 +1,77 @@
-Return-Path: <linux-media+bounces-65304-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65305-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id tNc6GgFNNmr+9AYAu9opvQ
-	(envelope-from <linux-media+bounces-65304-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2026 10:19:13 +0200
+	id z9XwN1tSNmqV9QYAu9opvQ
+	(envelope-from <linux-media+bounces-65305-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2026 10:42:03 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF06C6A88F7
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2026 10:19:12 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FBAB6A8981
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2026 10:42:03 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=nojLOuZy;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65304-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65304-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=qq.com header.s=s201512 header.b=hMLSw7lD;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65305-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65305-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=qq.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 920CB301AA95
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2026 08:19:09 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3B82F30329A0
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2026 08:40:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41C3D345751;
-	Sat, 20 Jun 2026 08:19:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 305AA315D33;
+	Sat, 20 Jun 2026 08:40:51 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out203-205-221-209.mail.qq.com (out203-205-221-209.mail.qq.com [203.205.221.209])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F6A341650
-	for <linux-media@vger.kernel.org>; Sat, 20 Jun 2026 08:19:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7BF1D86FF;
+	Sat, 20 Jun 2026 08:40:48 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781943547; cv=none; b=KGWk1ckVuHZAL5m/N+ER6JXvfCVe8B5lCMD62DxTAQr0hofLM8bWqzAz5ZojzZD75GaEonDC9YhtJtZzL9mJzsAdE9CwxfMQhjhyr8RfV16ag/VD43ftruJwDpJUm3gHAYA0GtK1Cia1Hndd3al6s9MlkEb1Q4tPLWx7QVLeDeI=
+	t=1781944850; cv=none; b=gHmY5Sie1/tW/0OStG4eJaTMw9Hdktnt4usfhxWk/BWP70e5TibPqjf61B3j+eQFihEARtc8c30S5U4pNpvYACXXvINXMvgWoxj4er/PD6Eh9bVFpiWPZb//56IqT01sawL5ur3nATscZWHVRw9FOv73Vm6uRSJsxXIkNzg4Pwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1781943547; c=relaxed/simple;
-	bh=ebjICIaKnIiWqN5sCqRzBeqtjhGLBHhcjtqnFhx4W3c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nsdO9LreFzXmLWkgNvuSV9AiVNrrMVh3ou89hl5ESg4ONC/qdqt3vwmMkcnkgFcoPgt+bSQC3qSPw/bF0ZFxA1u7hJleti9ETs0JrwNQZRbMCXvbI6Jp8rh+LISkAS4v4+ZXw2e4NtNYWJHkValECY0Mez1TeYx9CGy4/H4SVcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nojLOuZy; arc=none smtp.client-ip=209.85.216.44
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-37c8e7c8185so1637648a91.3
-        for <linux-media@vger.kernel.org>; Sat, 20 Jun 2026 01:19:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1781943546; x=1782548346; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FYONhAjYo50YxLgZHUBiBRUd34pR6NaLMu1zrzWmCZk=;
-        b=nojLOuZy5ZUe5cyR65QKPUE3xqXJKn4STcxpm4wNmL/6BeP8V7zHz4yOnPBxE4YVEZ
-         nxvvpvXXE8YSUbMD6cugx7L0oXC26t4NhxCQQLSPESLWXq9tsiIVbjjCboUYZmrANTES
-         OgcCj4ZbqpID2cGOIrxdpIhf1QSsLWvqeR1DoKv72j5KTrgkupTKozwm+nbBSMTmTJ+o
-         nG7UeGuqdI0stdic5ezaM5a02cigXONBlcKZIeKE7Y9sid/mAm0ydErqR7eIKbfIT6d8
-         satzbDB18pVDOw1YHItNsF9UTw77djmGnruqvHytudGHwXRk/oHbD3F3KlgqgL4sscDN
-         RGVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1781943546; x=1782548346;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FYONhAjYo50YxLgZHUBiBRUd34pR6NaLMu1zrzWmCZk=;
-        b=ZQETX6/I6AZxCF9p2gGLZO+Sm2SkmCuCLqn5ll/UXs5wqPhDvD4ecStNhmM8m+Ea5v
-         xUkfpmzHDzKULSJxHhCOH+Ybi0D84R/jGTcqH0tH62+KrQEFuvhGB+Y0u5AtUedL+YwM
-         q3Pa2ublTPQJ4+jFGO30+s7MT0htrVIAI7AKTwo9+91U5fD3LPYN+GCw7LMVrR3sikab
-         qTZZK4V1JuYOU8cCPIxoVwKapCDgBFHSkDXnpxbAn9Xf+y4QM8xI+IUPFQhOAlWlKHMA
-         pAqmkr+11rdm0Uq4evIeocK6WeOQD7H0f36WWvdotmyzfrALJ9PMzx426B59kUeeBPaL
-         8B3g==
-X-Gm-Message-State: AOJu0YyWxaFr2tYLWrOVJdmKruo0xvCnru3iJe2BP3uoJGInbDWhhal3
-	L95CtrL0UghYiaWarMSOoQEP/39EqI6a6s7nenzjWpvcqjlZVxj5fC5scviDnFIr
-X-Gm-Gg: AfdE7cnK3ilNPn5USAodq3WQq99MBFLX68QaxfSKu+baL+3SRHMNh/fU+NS29+Uysau
-	3jj0A2O0WkNwRjx5v5uk8SRC3l1MpjlsGmpNluuIJOvqPh4xrIdVJ5x2LU3wAmfAypL6lLsk7ya
-	kIILN7nU5fdiIzsD/vxkD3QuDU7pB/1MIdi2ZH/UG/eUoDg70FAotxGQMc/ZfPu8fL7BIWIqdqX
-	7rAw67kpt0eXEYLAukw093ZFljXQFuXwC4K9ZpiieFlYX69XLh/0z7PxxfMEzPQL8QBOg0VkqPC
-	l+2KhKzTj+0+S1I/M+ydkRrz1DDjXSC4ZkV0gomU9f53EYOekAPFxaa4es8byfaUPz/Zl1qq49d
-	3V1CJqMThRJ1PfIA0UNXZsZl3WKq+tlCp0nC0g8eS3UTE2NR81J2SojieU6kbUCZwyxfNgxMCcs
-	qX61xfvYIS7bDHOWmMqxaEreZCijAv7qPogTtd
-X-Received: by 2002:a17:90b:4d11:b0:37c:6973:5a65 with SMTP id 98e67ed59e1d1-37d15e89d6cmr7349122a91.17.1781943545714;
-        Sat, 20 Jun 2026 01:19:05 -0700 (PDT)
-Received: from x1c ([2405:9800:b670:b64b:5c2d:70e2:75f2:925])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-37d4eede23esm1601366a91.2.2026.06.20.01.19.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 20 Jun 2026 01:19:05 -0700 (PDT)
-From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Tharit Tangkijwanichakul <tharitt97@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: Documentation: fix v4l2-subdev incorrect ops field and category references
-Date: Sat, 20 Jun 2026 15:18:42 +0700
-Message-ID: <20260620081843.7641-1-tharitt97@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1781944850; c=relaxed/simple;
+	bh=vPMM5uhH2oLGDm75MAgqPTGPq+Nbj2lpNrUV80IHOpg=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=DCK76F8U5xzUtsvsIt9/shgCgE1j4mFcLSRCOWt908UNffE0OG2bxIo31HQwVwYJz6b+tlUNrJTbUUwSJVY2cz3GWwi8ra94b9QbZrrhvo/NsgJe5qnMiOPuk64bCwvifmK0XZ/4VkcFU/mDFR/38mqt0kSZKqqJl25fHI1EfiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=hMLSw7lD; arc=none smtp.client-ip=203.205.221.209
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1781944840; bh=/tK3odepgMut/SbaQhpLeDfPyGDAl1XL4rlq7poyr4M=;
+	h=From:To:Cc:Subject:Date;
+	b=hMLSw7lDzGfh7wjfBISVpAtilxNE+96vmCgXFEYRMWLuGF6lXPN+fKdTxiy4KimaW
+	 5AeCgQbdqQN9v/Wf6eNOmZNrP8TbCK7Szc+ovkfZ0KR7rjP3bihvLyRDEJdYEdOt22
+	 4flBltapY1qOw/1lk6Yrw7VCP/q8ZhZVFyZNr45c=
+Received: from ws006419.mbzu.ae ([5.195.0.150])
+	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
+	id A23AAAF6; Sat, 20 Jun 2026 16:40:35 +0800
+X-QQ-mid: xmsmtpt1781944835t63s600f6
+Message-ID: <tencent_B47ADAA251C849DD30A72DC0E25F8CCAAF07@qq.com>
+X-QQ-XMAILINFO: NvfE96cLltb5iAmM3XRTJJA3DSWgbfXpskL2QBUeqdUWV2ssCZ/YvI96PDQS/Z
+	 ahS8eh2r20D+7z17NAk2gCRqq3sfDC4VNT/G/5AQ59GXd/t1YXTFv2qnJpHE+FXYAG8XJTV2PAFk
+	 osZVEnZ1h5ORTfWh0OSMgjZTmi+jqXHTS3Run8N6PaqAE3Y6WlOJmoAWFso6rBrlFoRHi1cA7FBe
+	 cUC+EerBVLvmmIaUQYAszGYAya2nj19NLJTVbP7mKQHbGAPGmvIYLejnm5K3pKm8ypM5DLTJ7nig
+	 YfCWL3QTnhLeiI9vJGvb3JPYNb7/dFkXPF5eZ1rECRM2Ovzx48fMJfNJQM+hBNwp6SHueNMNNXBu
+	 uoXNBgN1gmq6X6uUMNjwnl6jvvCTBTPNT0EQwcy8V7uV2PEEgaIAZS/17+aeYWk+Iw9at2ZKPEMT
+	 RpD97f08/NHGKw6MfjvdpoYDDF9DAlvS/gTaWs/v262J011gS86MgBRuWZJI9UZvVua4nPhEZ4rA
+	 yrTIhUwUMp2lICCZTh0AB5F8NPqKg0HjZXVpL71z+GMlJLcfzcIdLV2cqN6JnJnPb5YoFUfMaPlX
+	 9mJ0S5sEN0A1dkzlhGyVLDvb11WAS1jSeC5bsfdlKK1Vm5OFURNge3CH4+pvwcYqt2yqzLyB1hnw
+	 F5mhbknyOy3QO6+Ykl1xn0ZqgD7bLTWCJKsuS/NNnxfUIHR+3hU6SlrbQ5FuNxvQz5H40TcG/Xct
+	 iqDzbN4phmJWWLe1rni1namQHD5NN8nI8tIcT5uWUJ67aY4m2tdARVEr1sruXB4t/mkmsZX4sC2k
+	 TBll/eKHnn9W9Mg0lvX+PpbEoKP/yT5XkRU4gANipqBpsEybYPMmznqCYRvR4bZ8yaTufCrEFlxS
+	 T8juKNdaBXFRzzFRmTY6YubqIRkrJ8A00BiVgY1TA3os2XKztn2eJo0yxNXH0hOWiJXbLaxYGa9L
+	 eGaANLkIdAQpHwWdAaL2CDg8kqPQdV2KdKp41wib02kmevzLpvauLVa3zfeI06cvkeeC1/6gLK9I
+	 ZilNkHc+qP5Qrjr7AOWWzYCS6i/cPUN/2SDJ5iBQhweRxZJguGLGlgBUqB//5MdLhvdNtcefrErX
+	 UWLKoZ
+X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
+From: Jiawen Liu <1298662399@qq.com>
+To: mchehab@kernel.org
+Cc: hverkuil+cisco@kernel.org,
+	kees@kernel.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jiawen Liu <1298662399@qq.com>
+Subject: [PATCH] media: as102: drop device reference on probe failure
+Date: Sat, 20 Jun 2026 12:40:25 +0400
+X-OQ-MSGID: <20260620084025.1126118-1-1298662399@qq.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -92,105 +80,70 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[qq.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[qq.com:s=s201512];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-65305-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,lists.linux.dev,gmail.com,kernel.org,vger.kernel.org];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-65304-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:kees@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:1298662399@qq.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[1298662399@qq.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:skhan@linuxfoundation.org,m:linux-kernel-mentees@lists.linux.dev,m:tharitt97@gmail.com,m:mchehab@kernel.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[tharitt97@gmail.com,linux-media@vger.kernel.org];
+	FREEMAIL_FROM(0.00)[qq.com];
+	RCVD_COUNT_THREE(0.00)[4];
 	TO_DN_SOME(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_CC(0.00)[kernel.org,vger.kernel.org,qq.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tharitt97@gmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[1298662399@qq.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DKIM_TRACE(0.00)[qq.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[qq.com:dkim,qq.com:email,qq.com:mid,qq.com:from_mime,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CF06C6A88F7
+X-Rspamd-Queue-Id: 4FBAB6A8981
 
-The v4l2-subdev documentation incorrectly refers to the "core" ops
-while it should have been the "video" ops where the actual
-operation (g_std) belongs to. The docs also declares a duplicate
-"video" struct member instead of "pad" in the subdev ops struct example.
+as102_usb_probe() initializes the kref and takes a USB device
+reference before registering the USB minor.
 
-Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
+If stream allocation or DVB registration fails later, the error
+path deregisters the minor but does not drop the initial kref.
+
+Use kref_put() so as102_usb_release() drops the USB reference.
+
+Signed-off-by: Jiawen Liu <1298662399@qq.com>
 ---
- Documentation/driver-api/media/v4l2-subdev.rst | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drivers/media/usb/as102/as102_usb_drv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-index 13aec460e..d30bb656b 100644
---- a/Documentation/driver-api/media/v4l2-subdev.rst
-+++ b/Documentation/driver-api/media/v4l2-subdev.rst
-@@ -77,7 +77,7 @@ It looks like this:
- 		const struct v4l2_subdev_tuner_ops *tuner;
- 		const struct v4l2_subdev_audio_ops *audio;
- 		const struct v4l2_subdev_video_ops *video;
--		const struct v4l2_subdev_pad_ops *video;
-+		const struct v4l2_subdev_pad_ops *pad;
- 	};
- 
- The core ops are common to all subdevs, the other categories are implemented
-@@ -300,31 +300,31 @@ directly:
- 
- .. code-block:: c
- 
--	err = sd->ops->core->g_std(sd, &norm);
-+	err = sd->ops->video->g_std(sd, &norm);
- 
- but it is better and easier to use this macro:
- 
- .. code-block:: c
- 
--	err = v4l2_subdev_call(sd, core, g_std, &norm);
-+	err = v4l2_subdev_call(sd, video, g_std, &norm);
- 
- The macro will do the right ``NULL`` pointer checks and returns ``-ENODEV``
- if :c:type:`sd <v4l2_subdev>` is ``NULL``, ``-ENOIOCTLCMD`` if either
--:c:type:`sd <v4l2_subdev>`->core or :c:type:`sd <v4l2_subdev>`->core->g_std is ``NULL``, or the actual result of the
--:c:type:`sd <v4l2_subdev>`->ops->core->g_std ops.
-+:c:type:`sd <v4l2_subdev>`->video or :c:type:`sd <v4l2_subdev>`->video->g_std is ``NULL``, or the actual result of the
-+:c:type:`sd <v4l2_subdev>`->ops->video->g_std ops.
- 
- It is also possible to call all or a subset of the sub-devices:
- 
- .. code-block:: c
- 
--	v4l2_device_call_all(v4l2_dev, 0, core, g_std, &norm);
-+	v4l2_device_call_all(v4l2_dev, 0, video, g_std, &norm);
- 
- Any subdev that does not support this ops is skipped and error results are
- ignored. If you want to check for errors use this:
- 
- .. code-block:: c
- 
--	err = v4l2_device_call_until_err(v4l2_dev, 0, core, g_std, &norm);
-+	err = v4l2_device_call_until_err(v4l2_dev, 0, video, g_std, &norm);
- 
- Any error except ``-ENOIOCTLCMD`` will exit the loop with that error. If no
- errors (except ``-ENOIOCTLCMD``) occurred, then 0 is returned.
+diff --git a/drivers/media/usb/as102/as102_usb_drv.c b/drivers/media/usb/as102/as102_usb_drv.c
+index a11024451ceb..ad6c5837f1d7 100644
+--- a/drivers/media/usb/as102/as102_usb_drv.c
++++ b/drivers/media/usb/as102/as102_usb_drv.c
+@@ -405,6 +405,7 @@ static int as102_usb_probe(struct usb_interface *intf,
+ failed_stream:
+ 	usb_set_intfdata(intf, NULL);
+ 	usb_deregister_dev(intf, &as102_usb_class_driver);
++	kref_put(&as102_dev->kref, as102_usb_release);
+ 	return ret;
+ failed:
+ 	usb_put_dev(as102_dev->bus_adap.usb_dev);
+
+base-commit: 9e7e6633458362db72427b48effad8d759131c35
 -- 
-2.53.0
+2.34.1
 
 
