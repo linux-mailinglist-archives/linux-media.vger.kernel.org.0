@@ -1,175 +1,157 @@
-Return-Path: <linux-media+bounces-65319-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65320-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id S3rQFbt/N2puOQcAu9opvQ
-	(envelope-from <linux-media+bounces-65319-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 21 Jun 2026 08:07:55 +0200
+	id NndBJXSDN2rYOQcAu9opvQ
+	(envelope-from <linux-media+bounces-65320-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 21 Jun 2026 08:23:48 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE94B6AA492
-	for <lists+linux-media@lfdr.de>; Sun, 21 Jun 2026 08:07:54 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED1356AA4C0
+	for <lists+linux-media@lfdr.de>; Sun, 21 Jun 2026 08:23:47 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=Ijv4ieai;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65319-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65319-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=OEv39gUh;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65320-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65320-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id DD8F63010276
-	for <lists+linux-media@lfdr.de>; Sun, 21 Jun 2026 06:07:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2B38130180BF
+	for <lists+linux-media@lfdr.de>; Sun, 21 Jun 2026 06:23:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE11925B0AF;
-	Sun, 21 Jun 2026 06:07:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57B41259CB9;
+	Sun, 21 Jun 2026 06:23:31 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C1771A680E
-	for <linux-media@vger.kernel.org>; Sun, 21 Jun 2026 06:07:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09A019E97B;
+	Sun, 21 Jun 2026 06:23:29 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782022059; cv=none; b=I5+JkdE9LChJ9NLAtxIbNyHUbmcBjZXIT/8RZsuSLN03QQInjvV33I93wwrMDuRfEzcw7S921ptkbSVuSRDKH6X7qPRdThm7b9KAcv/4YGrtZ/oUk2MDZsCuPsd7XcSv7/BieXTAaAiXsY9Gp9vstx04UJQJ/n2C7M/MDZ/TM0Q=
+	t=1782023010; cv=none; b=FWfnwyErEK0BFcx9mI5iVesO2pvsQ24/h9YpbFSZZZ6qxH/OFM7r5l7Zpp1WT7o5evV4beLlUJcZXFr4eKVkEwekkqEBOaAOYCFeSTCsl5Mffx6pqTKdO+V9CCcNUGOwo9KKW+yXEKvTZoKoFNFDLXGFrz/aC+pay8afTU728Vw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782022059; c=relaxed/simple;
-	bh=wgl87edwgI8AlgxS9mEVK8AftyYr5Z4dXGC/oo8DfYs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S4oX7xzs2rhb4tFIpYBl6YKg3dv3P4ogwy4jYljY/A4z20q2TOrHMliveg6BiCfzYKlMN9Me9KYunaXlTi9b+MGFVasYFFf3yZSkRCnplQkckKt+rSJadtw6KhncW46tEdkqUz9maVDX5sIEJDENdpWV6ixNuJ+N+w56q0t/pN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ijv4ieai; arc=none smtp.client-ip=209.85.214.170
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2bf125989f2so20684085ad.3
-        for <linux-media@vger.kernel.org>; Sat, 20 Jun 2026 23:07:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782022056; x=1782626856; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uTEWs9Ifv38deSq90LJ7l6ArZp1UX383BprXX7Gzyqk=;
-        b=Ijv4ieaiqqXZTcV+2BG0ROpGjO2POFumz7VEuD8g4tTycwPzKXaLhZyngXA4pTGFiE
-         oswpj+x0ztRB0wthQvUEVetgcj9KJrzK5BXp0uYqoEWYfWBGDx91eIVi0naZl3vCwi5G
-         LdKiuVcF1OEdzv6SB5seOwBZb2j2xFbmQMvg6icBV4ctRHu1Fv/SmiatY0PWSx9avAE6
-         sP1b1fkL2xoMk1oGRW6K6iNlKeFcHyKgBIj74EJh0BmBKNXUPmhq+QiN4MlmczaYONyB
-         s/U6iK2tgQDa02Hrc9rg09f2YyPTTyFIQPF8cJIaAdqEWS7GiWWK1pOZFA/L0w2FAXr+
-         1W8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782022056; x=1782626856;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=uTEWs9Ifv38deSq90LJ7l6ArZp1UX383BprXX7Gzyqk=;
-        b=CpunlXvX6URnFTa1mbGjF4SSRsHqqzfBfZiHUv2prLmZlj//NoYcdWVOP1pl0qvDo5
-         C4FEGwHLrLeTq1jQuxpPN2fUzRM61a9yXWHdShsZRXsaWBxSxiRLbIZuE3SAif+8lY7H
-         F/WuH4xNJ81h5D30DQLk4DY4tWiOvaeg9yQYWSlftz6nUHIlsRPDSnVMOq+/eDgnuKU3
-         /LqJmOpCu98EQNBXfwwmeaPWlg6e07Tzxud3HJwRsR2T3JjM14AxRQBbzUPXRoomvz8w
-         CKzRt2cODEukO2/GNZ7JrNyc8DqU1rGD/4yAUHZz3hWXjd7kjAyYLX1TSo2voT5jIfv5
-         FKtQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rp2yzqJdlE/9I5J0L1msDJjCCcvMoHh7GlWehMkOque0RFjFoLWBcs4pGJ7S1fIN1/lLWsDxEZzsQ3wYA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YysmilxBxFvP8ep/y7SP+f5EJO7iw2zRYGiEkJJVVLEuwT/ng6w
-	qww77mEwqmCsBMDSdNrYI70Dowr6cqUNaf1yTX0r6nd9OqzHvR7v7kgSvflxIX84
-X-Gm-Gg: AfdE7cmKYt34lJ+Hado9sMiayMLsHX3IDRpY1BzuOP+lIRms3G87PiCPih+WZbN2EyY
-	6ZvX4yFaezCGCJ7SwaAf6x72CzIsYktK6pjDYZCtSCpIy6qeRrpbEn1J+3GXRVLq7i8nq6E6Zcp
-	UtSqozVgonPxm715HSqx7W/xXKumF8TcqFHuIT37QPscgOOFTJvDk1yKCmKYA+xdxX19FujMkAF
-	/DOgJ43o60d0762MaMDXc+jPXShv7ZMlIZm5xDpSgY9w7TeE8I3yJW23f3BClad0+bqHpvw/1wp
-	ueTyGr98vSvJJNrxyjixk+ytgKTC14e5StcXgJaOyLw001az3SlBwltabw5ywIkG2QDPybXMXC4
-	EPsaqLnVbUw8kMGkkGg5v8TDHbgtCdlpqR0JpCCaW3fdq4kRp6DPyHK49QAh7Q5R0uUUQNXaO4W
-	GWF8f8lE4HTSb9I/21wbWxclHM/Dum28HQsersSfqK7A==
-X-Received: by 2002:a17:902:ea01:b0:2c0:a9b3:bdc6 with SMTP id d9443c01a7336-2c718f65036mr104593205ad.30.1782022056278;
-        Sat, 20 Jun 2026 23:07:36 -0700 (PDT)
-Received: from localhost.localdomain ([49.207.234.96])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7444a9c4fsm38668765ad.75.2026.06.20.23.07.31
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 20 Jun 2026 23:07:35 -0700 (PDT)
-From: Biren Pandya <birenpandya@gmail.com>
-To: Jacopo Mondi <jacopo+renesas@jmondi.org>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org (open list:RDACM21 Camera Sensor),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Biren Pandya <birenpandya@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] media: i2c: rdacm21: Fix missing media_entity_cleanup()
-Date: Sun, 21 Jun 2026 11:37:06 +0530
-Message-ID: <20260621060709.54396-2-birenpandya@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	s=arc-20240116; t=1782023010; c=relaxed/simple;
+	bh=dqbQaS8JHkfcainn8mFdBNAjyQZMNtAmIHyjHXZfdWw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VmbPdbsf8Q4egnroIE9uU1IM19UEEk688gsBBS1KGBKiUMmwRodwVxw1t0CTV6+qsYqzDd5ir16I1P7bjv8rDpJja9bAJDqZNzX2lZNUj6EyQLXvJeLGjBENBPOePnh1QzdR2368i/Fqc2xamr4uEkkUX2UM8uiyZXi7rdSXX68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OEv39gUh; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A878D1F000E9;
+	Sun, 21 Jun 2026 06:23:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782023009;
+	bh=66p2zsdJ3XAiW0tCluaw1wJ7aVs3hNtwp5VIJ4OwAEk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=OEv39gUh0wwTEaEudXpfa079k3vjv47w+cNAGbwGfNZPewqRIuVFKF4IbaAOj8WtP
+	 1HS5gLjFF467uz41z9LiN1NsQcsDx774K9caVrDU/R+UtAClRQpg4YYAKA5VxLAI9r
+	 Jwjj3LEK/I11x+Fq3cNYnRASH4BwU+eH3FB2uWOq3xqYzknsOkOn4qxy2cS7ZIZeJO
+	 0hxLmYo9NfJz+ynUhfTwT2L8YBy18W+2KEnD5uur63uORyQfAlRGhL8pECbYEbG16N
+	 psumJt7yfRFX2lPD6jh0X6C/0jMaW49NshMm71Ze4VetfZaKvMEyxlq3CDpzs4CGH0
+	 wzDbY0BCUFRhA==
+Message-ID: <dad6ba27-5fd1-4a52-ae0b-6e0db3a9d1eb@kernel.org>
+Date: Sun, 21 Jun 2026 09:23:22 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 04/10] media: microchip-isc: disable histogram and flush
+ AWB work on stop
+To: Balakrishnan Sambath <balakrishnan.s@microchip.com>,
+ Eugen Hristev <ehristev@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Hans Verkuil <hverkuil@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260616-balki-isc-prefix-fixes-v1-v1-0-b23677fc5ab6@microchip.com>
+ <20260616-balki-isc-prefix-fixes-v1-v1-4-b23677fc5ab6@microchip.com>
+Content-Language: en-US
+From: Eugen Hristev <ehristev@kernel.org>
+In-Reply-To: <20260616-balki-isc-prefix-fixes-v1-v1-4-b23677fc5ab6@microchip.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-5.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65319-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:jacopo+renesas@jmondi.org,m:kieran.bingham+renesas@ideasonboard.com,m:laurent.pinchart+renesas@ideasonboard.com,m:niklas.soderlund+renesas@ragnatech.se,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:birenpandya@gmail.com,m:stable@vger.kernel.org,m:jacopo@jmondi.org,m:kieran.bingham@ideasonboard.com,m:laurent.pinchart@ideasonboard.com,m:niklas.soderlund@ragnatech.se,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[birenpandya@gmail.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
+	TAGGED_FROM(0.00)[bounces-65320-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:balakrishnan.s@microchip.com,m:ehristev@kernel.org,m:mchehab@kernel.org,m:hverkuil@kernel.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[birenpandya@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ALIAS_RESOLVED(0.00)[];
+	FORGED_SENDER(0.00)[ehristev@kernel.org,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ehristev@kernel.org,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[8];
+	TAGGED_RCPT(0.00)[linux-media];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CE94B6AA492
+X-Rspamd-Queue-Id: ED1356AA4C0
 
-If an error occurs after media_entity_pads_init() is called, the media
-entity is left uncleaned, potentially leaking resources or leaving it
-in an invalid state. Similarly, the remove path misses the cleanup.
+On 6/16/26 14:50, Balakrishnan Sambath wrote:
+> isc_stop_streaming() masked the DMA done interrupt but left the
+> histogram enabled, so a HISDONE that fired just before the stop could
+> still queue isc_awb_work() after pm_runtime_put_sync() gated the clocks.
+> isc_awb_work() reads the histogram registers in isc_hist_count() before
+> taking its own PM reference, so the access faults on the suspended
+> device.
+> 
+> Disable the histogram and flush the work before dropping the PM
+> reference, mirroring the start_streaming error path.
+> 
 
-Add media_entity_cleanup() to both the error path in rdacm21_probe()
-and the rdacm21_remove() function to ensure proper resource release.
+In here you reference some error path that you mirror, but you add it in
+the next commit in which you say you mirror this exact commit :/
+Circular mirroring of paths which initially did not exist.
+I would squash this commit with the next one and show the facts as they
+are : stop histogram and work queue in different stop/error scenarios,
+no more mirroring.
 
-Fixes: a59f853b3b4b ("media: i2c: Add driver for RDACM21 camera module")
-Cc: stable@vger.kernel.org
-Signed-off-by: Biren Pandya <birenpandya@gmail.com>
----
- drivers/media/i2c/rdacm21.c | 2 ++
- 1 file changed, 2 insertions(+)
+Eugen
 
-diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
-index bcab462708c7..41d4242a9b58 100644
---- a/drivers/media/i2c/rdacm21.c
-+++ b/drivers/media/i2c/rdacm21.c
-@@ -594,6 +594,7 @@ static int rdacm21_probe(struct i2c_client *client)
- 
- error_free_ctrls:
- 	v4l2_ctrl_handler_free(&dev->ctrls);
-+	media_entity_cleanup(&dev->sd.entity);
- error:
- 	i2c_unregister_device(dev->isp);
- 
-@@ -606,6 +607,7 @@ static void rdacm21_remove(struct i2c_client *client)
- 
- 	v4l2_async_unregister_subdev(&dev->sd);
- 	v4l2_ctrl_handler_free(&dev->ctrls);
-+	media_entity_cleanup(&dev->sd.entity);
- 	i2c_unregister_device(dev->isp);
- }
- 
--- 
-2.50.1 (Apple Git-155)
+> Fixes: 91b4e487b0c6 ("media: microchip: add ISC driver as Microchip ISC")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
+> ---
+>  drivers/media/platform/microchip/microchip-isc-base.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/platform/microchip/microchip-isc-base.c b/drivers/media/platform/microchip/microchip-isc-base.c
+> index 3245dd7cb980..8f255a4c4e7a 100644
+> --- a/drivers/media/platform/microchip/microchip-isc-base.c
+> +++ b/drivers/media/platform/microchip/microchip-isc-base.c
+> @@ -425,9 +425,13 @@ static void isc_stop_streaming(struct vb2_queue *vq)
+>  	/* Disable DMA interrupt */
+>  	regmap_write(isc->regmap, ISC_INTDIS, ISC_INT_DDONE);
+>  
+> +	isc_set_histogram(isc, false);
+> +
+>  	/* let a running IRQ handler finish before the clock is disabled */
+>  	synchronize_irq(isc->irq);
+>  
+> +	cancel_work_sync(&isc->awb_work);
+> +
+>  	pm_runtime_put_sync(isc->dev);
+>  
+>  	/* Disable stream on the sub device */
+> 
 
 
