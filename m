@@ -1,51 +1,51 @@
-Return-Path: <linux-media+bounces-65373-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65374-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id TGQ+NEI/OWrcpAcAu9opvQ
-	(envelope-from <linux-media+bounces-65373-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 15:57:22 +0200
+	id XCDyLQJBOWpkpQcAu9opvQ
+	(envelope-from <linux-media+bounces-65374-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 16:04:50 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0A96B0121
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 15:57:22 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06B286B0245
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 16:04:50 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b="fRZo6/Q2";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65373-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65373-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=MAMZvGjS;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65374-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65374-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 314C43011784
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 13:57:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D01033052B75
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 13:57:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDD1C3B5E01;
-	Mon, 22 Jun 2026 13:57:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 551D03B5835;
+	Mon, 22 Jun 2026 13:57:21 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 307D03B52E4;
-	Mon, 22 Jun 2026 13:57:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00583B47F3;
+	Mon, 22 Jun 2026 13:57:19 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782136634; cv=none; b=f4tk7nrA61OTvn04fmnI++mguyqJX85pIxxHA57TZUhfNL8tRFQAh2CfDa3qeWdi6GdgQ/GEH4wO7iyWn8FpPsqc93VkWvYtNFQpFgd4jy/wcBrhX0r9ZNJFgMotbY12733cjhe5uy7AiRA3lNM1a59O3OZ0hQOBia7gJgKhpww=
+	t=1782136640; cv=none; b=PkWxxBU+78HGoNZuO832LA2GQITw6leOgnNxp8Xcinlh91SgRUEclOwARy5TLyJblX0Zl5Bl3W+chhtNZXrpgioUh55r40UESt8CL9UHlIqw+AIsXLPcj6tlRN6BG+bQBdvhiajiZ7M9xvmwXh9DzHtQn4N8y+KXFF19toSoczs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782136634; c=relaxed/simple;
-	bh=+yVDX2d0DsnukeHuDMtZAXNDfXzQI/JTMuup1mxWUgI=;
+	s=arc-20240116; t=1782136640; c=relaxed/simple;
+	bh=y4trm1FNVx06GttYL3fFxPbGstbm8V32ceo4omAX8fo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=f3SfJJv9dKyGW86crHQ7zl4P70+ZBwLncC3DgOgamXmO1hrzUW2IN4cHf2oUu8CJab90fuJGn9DMf17I5P4ZgLNaRYNauZUav9ui5O6pU97OJ36xrN/mzxeO/3wPcDVZUA6IPlbMubqFXyQNvEsDmYIxKRrb/G5S1BmeEkZ7iGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fRZo6/Q2; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D7481F00A3A;
-	Mon, 22 Jun 2026 13:57:06 +0000 (UTC)
+	 MIME-Version; b=U47cSessBKlVJ0j2yIgam2lSf/E3h00bYvlA42CuRWDCKP8fvooZnJSReWPYsSOBg8Xr2YHsQPpm9nLrBxyy6xZwiM8YPvFPBtqmLxm30tWN1HfYB5cLJiuYDfDk+/JvYapZ+pI1ZDFkNHQ1D9YfdDE9Of3p3z7sCtDEpcXrltI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MAMZvGjS; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8210B1F000E9;
+	Mon, 22 Jun 2026 13:57:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782136633;
-	bh=EBsxttHC2/DLBodLweCzlXw/YoBMkYiSD7bRJRJM+hA=;
+	s=k20260515; t=1782136639;
+	bh=guvzPc7qWPNRSKn52LkUFgg+2YildN83eXRoL0QyntA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=fRZo6/Q2a+793MV9qHOPWZrKsODm55wGLV2V9nxP3tfY2O7lTaqvSyztdcQt6o8OM
-	 tiBjPkUwkqrxWjOAAcGnZVL2H4ORd/FWCD9VqmUiaiVsiJxY1zm4WVQ2t7YHu5tDyD
-	 PRuv5LXNM+J6eX87bYSkN+oAjMTeaktQyrl9Qda/AHqzFaw2aPm4mqf41LMu5qIxsR
-	 wT8FGw1GWRJoVwylWX8Og5S6WAHIJADr6LRXB8nknj6alSR6E01CNDaNQYH3ORTvnl
-	 QiCm5f1RziVNoWKFNGRAwbvoHO5WJQfxxindRZXW8HrtO43Q2LBdG1JZhJhH26KGLc
-	 3cbVQbx48UdfQ==
+	b=MAMZvGjSgtNlSoGTbWSMcNoOULlpnanbkFO9+miJlmPqM/JJaWol4SLe8IeJFy36c
+	 XR+dselgu1cqak+dbMC2RuYbT+tsKd+23XaJ7LVW8ile4jrkJauh+pAJ0b1YPFhHou
+	 noAaQB5UsPHEDdwXdAtrUqLsmUv+vaa4ujhogOmPagEy+MIQ90BBVnI+3wi2GcI/5i
+	 XlVpq0MjvN4D+afH+J/0m0rQMKDg9iL0ftCpWO87EFRfPLPPOeOhe8NKjn5iRjI4rf
+	 2jeUsetAjr5laCKdK5MJfCXxuRE0NH8sMRAXIADXDus3F8oG7Q/yZelDEc6CLgSuBh
+	 oUeoNg8nrmn4A==
 From: Philipp Stanner <phasta@kernel.org>
 To: Miguel Ojeda <ojeda@kernel.org>,
 	Boqun Feng <boqun@kernel.org>,
@@ -80,9 +80,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	dri-devel@lists.freedesktop.org,
 	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH v4 1/5] rust: types: implement ForeignOwnable for ARef<T>
-Date: Mon, 22 Jun 2026 15:56:49 +0200
-Message-ID: <20260622135654.334961-3-phasta@kernel.org>
+Subject: [PATCH v4 2/5] rust: error: Add ECANCELED error code
+Date: Mon, 22 Jun 2026 15:56:50 +0200
+Message-ID: <20260622135654.334961-4-phasta@kernel.org>
 X-Mailer: git-send-email 2.54.0
 In-Reply-To: <20260622135654.334961-2-phasta@kernel.org>
 References: <20260622135654.334961-2-phasta@kernel.org>
@@ -102,7 +102,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	R_MISSING_CHARSET(0.50)[];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -115,7 +115,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-65373-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65374-lists,linux-media=lfdr.de];
 	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -126,83 +126,33 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,kernel];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7B0A96B0121
+X-Rspamd-Queue-Id: 06B286B0245
 
-From: Danilo Krummrich <dakr@kernel.org>
+The Rust dma_fence abstractions need the ECANCELED error code.
 
-Implement ForeignOwnable for ARef<T>, making it possible for C code to
-own an ARef<T>.
+Add ECANCELED error code.
 
-Since ARef represents shared ownership, BorrowedMut is &T rather than
-&mut T, matching the semantics of the underlying reference-counted type.
-
-Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- rust/kernel/sync/aref.rs | 39 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+ rust/kernel/error.rs | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/rust/kernel/sync/aref.rs b/rust/kernel/sync/aref.rs
-index 9989f56d0605..82907383c44b 100644
---- a/rust/kernel/sync/aref.rs
-+++ b/rust/kernel/sync/aref.rs
-@@ -17,6 +17,10 @@
- //! [`Arc`]: crate::sync::Arc
- //! [`Arc<T>`]: crate::sync::Arc
- 
-+use crate::{
-+    prelude::*,
-+    types::ForeignOwnable, //
-+};
- use core::{marker::PhantomData, mem::ManuallyDrop, ops::Deref, ptr::NonNull};
- 
- /// Types that are _always_ reference counted.
-@@ -183,6 +187,41 @@ fn eq(&self, other: &ARef<U>) -> bool {
- }
- impl<T: AlwaysRefCounted + Eq> Eq for ARef<T> {}
- 
-+// SAFETY: `into_foreign` returns a pointer from `NonNull::as_ptr`, so it's non-null. The
-+// `ARef` invariant guarantees that `ptr` points to a valid `T`, so it's aligned to `T`.
-+unsafe impl<T: AlwaysRefCounted + 'static> ForeignOwnable for ARef<T> {
-+    const FOREIGN_ALIGN: usize = core::mem::align_of::<T>();
-+
-+    type Borrowed<'a> = &'a T;
-+    type BorrowedMut<'a> = &'a T;
-+
-+    fn into_foreign(self) -> *mut c_void {
-+        ARef::into_raw(self).as_ptr().cast()
-+    }
-+
-+    unsafe fn from_foreign(ptr: *mut c_void) -> Self {
-+        // SAFETY: The safety requirements of this function ensure that `ptr` comes from a previous
-+        // call to `Self::into_foreign`.
-+        let ptr = unsafe { NonNull::new_unchecked(ptr.cast()) };
-+
-+        // SAFETY: `ptr` came from `into_foreign`, which consumed an `ARef` without decrementing
-+        // the refcount, so we can transfer the ownership to the new `ARef`.
-+        unsafe { ARef::from_raw(ptr) }
-+    }
-+
-+    unsafe fn borrow<'a>(ptr: *mut c_void) -> &'a T {
-+        // SAFETY: The safety requirements of this method ensure that the object remains alive and
-+        // immutable for the duration of 'a.
-+        unsafe { &*ptr.cast() }
-+    }
-+
-+    unsafe fn borrow_mut<'a>(ptr: *mut c_void) -> &'a T {
-+        // SAFETY: The safety requirements for `borrow_mut` are a superset of the safety
-+        // requirements for `borrow`.
-+        unsafe { <Self as ForeignOwnable>::borrow(ptr) }
-+    }
-+}
-+
- impl<T, U> PartialEq<&'_ U> for ARef<T>
- where
-     T: AlwaysRefCounted + PartialEq<U>,
+diff --git a/rust/kernel/error.rs b/rust/kernel/error.rs
+index 05cf869ac090..e376c60e21ed 100644
+--- a/rust/kernel/error.rs
++++ b/rust/kernel/error.rs
+@@ -69,6 +69,7 @@ macro_rules! declare_err {
+     declare_err!(EOVERFLOW, "Value too large for defined data type.");
+     declare_err!(EMSGSIZE, "Message too long.");
+     declare_err!(ETIMEDOUT, "Connection timed out.");
++    declare_err!(ECANCELED, "Request has been canceled.");
+     declare_err!(ERESTARTSYS, "Restart the system call.");
+     declare_err!(ERESTARTNOINTR, "System call was interrupted by a signal and will be restarted.");
+     declare_err!(ERESTARTNOHAND, "Restart if no handler.");
 -- 
 2.54.0
 
