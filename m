@@ -1,140 +1,223 @@
-Return-Path: <linux-media+bounces-65403-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65404-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id MI4sKd2EOWrVugcAu9opvQ
-	(envelope-from <linux-media+bounces-65403-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 20:54:21 +0200
+	id 1JT0LYKdOWqjvgcAu9opvQ
+	(envelope-from <linux-media+bounces-65404-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 22:39:30 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CE96B1E9D
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 20:54:21 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38A7E6B2524
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 22:39:30 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=ZgHr7UeW;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65403-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-65403-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=collabora.com header.s=zohomail header.b=ftenAF2p;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65404-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65404-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=collabora.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id AA28E300EEB2
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 18:54:20 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 44954304740D
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 20:38:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 108B8346FC4;
-	Mon, 22 Jun 2026 18:54:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C60235F164;
+	Mon, 22 Jun 2026 20:38:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-op-o11.zoho.com (sender4-op-o11.zoho.com [136.143.188.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6340F346E5E
-	for <linux-media@vger.kernel.org>; Mon, 22 Jun 2026 18:54:17 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782154458; cv=none; b=YtnaxLhzbIO5V1q8iuxgeJ9fHuuPdSxVpUMOw/20xbnUciI4UIZ2vXxW+o8IWupJuGfVcoqtcVaZdDhVHm4hUulao4Rsz7quT/cYAjPVFaPHH/PaxRL210TYu5nsE6fIse9Mr+YHW/5h+v1xdcZKLWRLbohGRsifBz7JdDqAmLE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782154458; c=relaxed/simple;
-	bh=2yOz5L0ZojVJ+eTT0+yy0nBIwlc8g6T+QbFpZcblDx4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hcAXZwmcfKGn6DcxB87pjJKBs+K4V1JPJDEth4orObHMUh+h6r9xQJVwNbghPv2+hKE5PIQuZYuk0QneAX+nqs6axsfwjPx+ffMmj4v5SLHdvGs71iPQIoocgSD1mauE4ZfnDok7lD+wNn8gj5/dp4GnMcZiIsxYuxlyfVaEbco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZgHr7UeW; arc=none smtp.client-ip=209.85.128.43
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-490ace40f4bso49238735e9.3
-        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2026 11:54:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782154456; x=1782759256; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2yOz5L0ZojVJ+eTT0+yy0nBIwlc8g6T+QbFpZcblDx4=;
-        b=ZgHr7UeWw2s/phrhR+7gJEdTpmDC0KVcZKIKvr0aEzVVyCI4QiHhlpvuav7ItMO0yY
-         K7+2g0k7RTW1q0sZAXUJV/y058xHpGd4Z+JlxYMvzGRK8cy92Sd5gkwr2FsO1SRLJ10A
-         EJW8WoYADOgbPuGer10sPFrJsJ3Ot1HItu8w8F74eNpzWdKLaEVfiGCqUoPCx/cozzlq
-         pYieTztHqOvI/DsmKthzTyCow8w0soKA5aS8fD3AcjiL5gHEv/B62utONw6DUyxE9e5+
-         JcmvI3GXPXY067FfNsGZ+29e8+lF5ip2G/Pd8I2UtbPtHm6kfhn66Frx07PstUGk2dIw
-         3a0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782154456; x=1782759256;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2yOz5L0ZojVJ+eTT0+yy0nBIwlc8g6T+QbFpZcblDx4=;
-        b=ki4CFn2H+uUFovWlUhYtM58Z7O3shTpRnNQtS0McT5tu6FUeDTti/iveJ6T0R3BS6q
-         fMgTHQ9VkI27hWP1KtU3r24v26G5xtNXiLtGdn+gVcvedfhIg6r9a58fagvb6cAdQ9aK
-         ALoqCKGhGo2h7zJ1bCW+QcG5hAEtWC+wd0PK3Tdewa75kFfRPAjdTlIKY3DJaiC2JTtx
-         sM+7POW8V/Z1Cl9yyXeJUgx0bHL9DlFKBw24bBhjTT9ypLZ9mkl5fLVNGUGnD9G1yLwA
-         GrHlhnlGCg0v+YvScECJVJHRQMiEHAk5RwbvUttzBtidPVvZpsyZI/V8g/MqwkT4XT9B
-         zLzA==
-X-Forwarded-Encrypted: i=1; AFNElJ8hv+iTm+l69sMPGLJbYDQOyyLg0R9KJvVFbIlk/FpBaF7h9aRoi8Z1DaPHRSd0sbHwhCJP0Ftcyodkfg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywwp6B24r6ryQFeV495rP052oYGdjDdbfXSflj0Wo6JZQq8XNo8
-	3OyQekVbbCQ82HiyOUQ5Do0Um/LZ1f3Lbl+glfYclCA0uAf0m29MxTEB
-X-Gm-Gg: AfdE7clFm/X9PqeFCq8QneW6xtzFqa50u3Y68POBpnMrGKij2DniqxZXgqGLaASYk0y
-	LenD5snJ/74c46eUqBDxyvEgxEeTQMSITP7/HnxqlpVbu8NTiy1Bc5+WUHhfBLX3sfmJRxISoDh
-	JSLHHghx6U7W9jFEFs9XUeWbaoNu36osGyCpjmMSHMjJlnM433mQKoRLA/Ul+Q7mDqjeX4DrUOi
-	LakytjOWv4xoeFfpAJn4ZGkEkpJ+Kz8hi/5HHBxZiqFBYbr6kF53G/033a8tdRnlxWQa9j5WWFp
-	Iu88LPNXkbtmoY9h17Bd0F3TCgUfaDxeTh20rkIgbvUJYRo+TR3cLFnJuKZWxdraGgZ9pC16WAS
-	KSSt8bgu9wgbEW/CTuGzHKT9/5a+J4XInXENDaHb4elhGQWPZwTmai9LinFrX1Ydli6ndwsooZs
-	c5A3lok4L7CfvMcAQSzG3HUYRbM0AFbQlxemK23NRSbGfFyKjZo+P96PCe7MoLlxzlEA==
-X-Received: by 2002:a05:600c:3e87:b0:492:46c2:f5b4 with SMTP id 5b1f17b1804b1-49246c2f68fmr225200865e9.32.1782154455574;
-        Mon, 22 Jun 2026 11:54:15 -0700 (PDT)
-Received: from legion.localdomain ([92.44.171.31])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-492492338dasm229097525e9.1.2026.06.22.11.54.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2026 11:54:15 -0700 (PDT)
-From: Batu Ada Tutkun <batuadatutkun@gmail.com>
-To: linux-staging@lists.linux.dev
-Cc: hansg@kernel.org,
-	gregkh@linuxfoundation.org,
-	linux-media@vger.kernel.org,
-	Batu Ada Tutkun <batuadatutkun@gmail.com>
-Subject: Re: [PATCH] staging: media: atomisp: fix indentation to use tabs instead of spaces
-Date: Mon, 22 Jun 2026 21:54:10 +0300
-Message-ID: <20260622185410.1336-1-batuadatutkun@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260622184959.1668-1-batuadatutkun@gmail.com>
-References: <20260622184959.1668-1-batuadatutkun@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3389B33B6CC;
+	Mon, 22 Jun 2026 20:38:03 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782160684; cv=pass; b=dEWCxhcSPuFGjV5I31Hld3/evmZrknGQzrqJpt7F08Y9C/DTJ4B4xnwzFVweZFUdejQQ3yvRdOdyEOsGZoagj0P6PsWTiCpFAXtv1/j3lPuahzrv50iJW6pKt59vcqjoRSjK5V2IVZMvMgfUXeogHjx4VmNYFjnhlUCNpJrC+PE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782160684; c=relaxed/simple;
+	bh=WsDcKuA1gvo2wPOxdvdHPc1d4sATgEmk4SH3WC2S+lA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AuHfawblQAsmmC2AS2ckOmnyll1we17CddoDP43mjee5zU4gwFUbOAS32xEbvuPlfRFBKn+iyPasQnVz5E/dOp1Jmubztoq7L9s/s7Wf7wvGxY9hL2JUhzlYVHEL0H4H1lO02i4GsRzZmKt1ZRbNbTlEEgtWYPM7RH5k/qNUpJo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=ftenAF2p; arc=pass smtp.client-ip=136.143.188.11
+ARC-Seal: i=1; a=rsa-sha256; t=1782160644; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=NbZ03RwDUpsPUGMBrvUdLdu9YwvBtwbJnzp1KGgnOw8bmxFm308mN3AT9TQxGf0hTvg6NQG4C2vMqEG28Kk9TYtSAwUBIsPuLMENiboDJ821z6UtEvkeDwz5+Jcm+re9M7ZFaWtEkR9uOKdar4YVHKXBp3rQHmkoCuJ+yoWpc4o=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1782160644; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=mN91JuTXlP9yH/fF2WAYmfPvIPkIj7NLhNIGrphtGFQ=; 
+	b=cdn/QOUYXHEVxnnOG0Xz+v5hgIFdWmFnUWGGBrXE0BkN+/Y/SSTnkF8DIdXeHmsun1N1bTnfVSATEUntE3qlia7Tu2OXutygr1K/pScuMkRUqb8jzru748kl9eSG9NgAF6EAKY/Eq7kqq5AHGgy4zYxnRNwUhOnHfiaIKQmZ7Ec=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+	dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1782160644;
+	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=mN91JuTXlP9yH/fF2WAYmfPvIPkIj7NLhNIGrphtGFQ=;
+	b=ftenAF2pLAzRlyNVRan8mKVLwnie2DhUAR+YqxoXAcc93rbXBpyH//u6VQz6uvu5
+	NVnB16FfAhcMzP72FH86ULWAFvMa3rYocIFntWDDFHxLa7uuG26U7HA2MLbmUYNgfOb
+	uJogOLlRuf0JNK3ahPODVSRWU84ISRiZWge9esxY=
+Received: by mx.zohomail.com with SMTPS id 1782160642430172.91971762131618;
+	Mon, 22 Jun 2026 13:37:22 -0700 (PDT)
+Received: by venus (Postfix, from userid 1000)
+	id 6EF1E1824A2; Mon, 22 Jun 2026 22:37:11 +0200 (CEST)
+Date: Mon, 22 Jun 2026 22:37:11 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Peter Griffin <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Brian Masney <bmasney@redhat.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+	Chanwoo Choi <cw00.choi@samsung.com>, Sam Protsenko <semen.protsenko@linaro.org>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Abhinav Kumar <abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>, 
+	Sean Paul <sean@poorly.run>, Marijn Suijten <marijn.suijten@somainline.org>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Inki Dae <inki.dae@samsung.com>, 
+	Seung-Woo Kim <sw0312.kim@samsung.com>, Kyungmin Park <kyungmin.park@samsung.com>, 
+	Andi Shyti <andi.shyti@kernel.org>, Georgi Djakov <djakov@kernel.org>, Lee Jones <lee@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Ulf Hansson <ulfh@kernel.org>, Peter Rosin <peda@lysator.liu.se>, 
+	Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Linus Walleij <linusw@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Magnus Damm <magnus.damm@gmail.com>, Javier Martinez Canillas <javier@dowhile0.org>, 
+	Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jiri Slaby <jirislaby@kernel.org>, 
+	Srinivas Kandagatla <srini@kernel.org>, Bartlomiej Zolnierkiewicz <bzolnier@gmail.com>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Daniel Lezcano <daniel.lezcano@kernel.org>, 
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>, 
+	Jonathan Marek <jonathan@marek.ca>, Taniya Das <quic_tdas@quicinc.com>, 
+	Robert Marko <robimarko@gmail.com>, Christian Marangi <ansuelsmth@gmail.com>, 
+	Stephan Gerhold <stephan@gerhold.net>, Adam Skladowski <a_skl39@protonmail.com>, 
+	Sireesh Kodali <sireeshkodali@protonmail.com>, Barnabas Czeman <barnabas.czeman@mainlining.org>, 
+	Imran Shaik <quic_imrashai@quicinc.com>, Sricharan Ramabadhran <quic_srichara@quicinc.com>, 
+	Anusha Rao <quic_anusha@quicinc.com>, Luo Jie <quic_luoj@quicinc.com>, 
+	Tomasz Figa <tomasz.figa@gmail.com>, Chanho Park <chanho61.park@samsung.com>, 
+	Sunyeal Hong <sunyeal.hong@samsung.com>, Shin Son <shin.son@samsung.com>, 
+	Krishna Manikandan <quic_mkrishn@quicinc.com>, Jacek Anaszewski <jacek.anaszewski@gmail.com>, 
+	Jaehoon Chung <jh80.chung@samsung.com>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Alina Yu <alina_yu@richtek.com>, Andy Gross <agross@kernel.org>, 
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, Wesley Cheng <quic_wcheng@quicinc.com>, 
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, linux-clk@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org, linux-i2c@vger.kernel.org, 
+	linux-pm@vger.kernel.org, linux-leds@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-mmc@vger.kernel.org, linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org, 
+	linux-renesas-soc@vger.kernel.org, linux-serial@vger.kernel.org, linux-sound@vger.kernel.org, 
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH 2/2] dt-bindings: Drop incorrect usage of double '::'
+Message-ID: <ajmcsfEXiTfFh-XH@venus>
+References: <20260622101606.485961-3-krzysztof.kozlowski@oss.qualcomm.com>
+ <20260622101606.485961-4-krzysztof.kozlowski@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="he6mgtsui5z5w5dr"
+Content-Disposition: inline
+In-Reply-To: <20260622101606.485961-4-krzysztof.kozlowski@oss.qualcomm.com>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-0.2.10.1.5.2/282.152.77
+X-ZohoMailClient: External
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+X-Spamd-Result: default: False [-2.26 / 15.00];
+	SIGNED_PGP(-2.00)[];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	MIME_GOOD(-0.20)[multipart/signed,text/plain];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	MAILLIST(-0.15)[generic];
-	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,vger.kernel.org,gmail.com];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-65403-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-staging@lists.linux.dev,m:hansg@kernel.org,m:gregkh@linuxfoundation.org,m:linux-media@vger.kernel.org,m:batuadatutkun@gmail.com,s:lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[batuadatutkun@gmail.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[batuadatutkun@gmail.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+,1:+,2:~];
+	TAGGED_FROM(0.00)[bounces-65404-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:krzysztof.kozlowski@oss.qualcomm.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:peter.griffin@linaro.org,m:alim.akhtar@samsung.com,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:bmasney@redhat.com,m:s.nawrocki@samsung.com,m:cw00.choi@samsung.com,m:semen.protsenko@linaro.org,m:robin.clark@oss.qualcomm.com,m:lumag@kernel.org,m:abhinav.kumar@linux.dev,m:jesszhan0024@gmail.com,m:sean@poorly.run,m:marijn.suijten@somainline.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:inki.dae@samsung.com,m:sw0312.kim@samsung.com,m:kyungmin.park@samsung.com,m:andi.shyti@kernel.org,m:djakov@kernel.org,m:lee@kernel.org,m:pavel@kernel.org,m:hverkuil@kernel.org,m:mchehab@kernel.org,m:ulfh@kernel.org,m:peda@lysator.liu.se,m:vkoul@kernel.org,m:neil.armstrong@linaro.org,m:linusw@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:ja
+ vier@dowhile0.org,m:lgirdwood@gmail.com,m:broonie@kernel.org,m:gregkh@linuxfoundation.org,m:jirislaby@kernel.org,m:srini@kernel.org,m:bzolnier@gmail.com,m:rafael@kernel.org,m:daniel.lezcano@kernel.org,m:rui.zhang@intel.com,m:lukasz.luba@arm.com,m:jonathan@marek.ca,m:quic_tdas@quicinc.com,m:robimarko@gmail.com,m:ansuelsmth@gmail.com,m:stephan@gerhold.net,m:a_skl39@protonmail.com,m:sireeshkodali@protonmail.com,m:barnabas.czeman@mainlining.org,m:quic_imrashai@quicinc.com,m:quic_srichara@quicinc.com,m:quic_anusha@quicinc.com,m:quic_luoj@quicinc.com,m:tomasz.figa@gmail.com,m:chanho61.park@samsung.com,m:sunyeal.hong@samsung.com,m:shin.son@samsung.com,m:quic_mkrishn@quicinc.com,m:jacek.anaszewski@gmail.com,m:jh80.chung@samsung.com,m:m.szyprowski@samsung.com,m:alina_yu@richtek.com,m:agross@kernel.org,m:niklas.soderlund@ragnatech.se,m:quic_wcheng@quicinc.com,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:li
+ nux-samsung-soc@vger.kernel.org,m:linux-clk@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:freedreno@lists.freedesktop.org,m:linux-i2c@vger.kernel.org,m:linux-pm@vger.kernel.org,m:linux-leds@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-mmc@vger.kernel.org,m:linux-phy@lists.infradead.org,m:linux-gpio@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-serial@vger.kernel.org,m:linux-sound@vger.kernel.org,m:linux-usb@vger.kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[sebastian.reichel@collabora.com,linux-media@vger.kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,linaro.org,samsung.com,baylibre.com,redhat.com,oss.qualcomm.com,linux.dev,gmail.com,poorly.run,somainline.org,ffwll.ch,linux.intel.com,suse.de,lysator.liu.se,glider.be,dowhile0.org,linuxfoundation.org,intel.com,arm.com,marek.ca,quicinc.com,gerhold.net,protonmail.com,mainlining.org,richtek.com,ragnatech.se,vger.kernel.org,lists.infradead.org,lists.freedesktop.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[sebastian.reichel@collabora.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	RCPT_COUNT_GT_50(0.00)[95];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TO_DN_SOME(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,dt,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,venus:mid,collabora.com:dkim,collabora.com:email,collabora.com:from_mime,qualcomm.com:email,yaml.org:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 42CE96B1E9D
+X-Rspamd-Queue-Id: 38A7E6B2524
 
-I missed Shirin Kaul's earlier patch [1] which already fixes sp.c as part
-of a broader cleanup of hive_isp_css_common/host. Please disregard this patch.
 
-[1] https://lore.kernel.org/linux-staging/20260505193015.49262-1-shirin.kaul11@gmail.com/
+--he6mgtsui5z5w5dr
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 2/2] dt-bindings: Drop incorrect usage of double '::'
+MIME-Version: 1.0
+
+Hi,
+
+On Mon, Jun 22, 2026 at 12:16:08PM +0200, Krzysztof Kozlowski wrote:
+> There is no use of double colon '::' in YAML. OTOH, the literal style
+> block, e.g. using '|' treats all characters as content [1] therefore
+> single use of ':' in descriptions is perfectly fine, whenever '|' is
+> used.
+>=20
+> Cleanup existing code, so the confusing style won't be re-used in new
+> contributions.
+>=20
+> Link: https://yaml.org/spec/1.2.2/#literal-style [1]
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+>=20
+> ---
+>=20
+> Intention for this patch is to go via Rob's tree.
+> ---
+
+[...]
+
+>  .../bindings/power/reset/restart-handler.yaml |  8 ++++----
+
+Acked-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+
+[...]
+
+Greetings,
+
+-- Sebastian
+
+--he6mgtsui5z5w5dr
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmo5nPIACgkQ2O7X88g7
++pqv2Q/+LMhPKKkmgsVnMejKBphG4p2N/zVrnMgxmg8lVO8rwgA7Kxo2wlLqu2H5
+iapTV4a2dMXB0SUw8UGbt9Lt6JjHaORZnybu95mZEZMS+G7HRl5M8DE+LWMJXLX0
+S+G43Cv1O/d5dV/rM2nJqOItOK+KIbHQI4+oY/O8P7ENnU2h3X2HxOtWxtg6+9gz
+UNPZgoZdEE38SJVzhHrCO1+NfGikbo7vUZC0BmyxiNuVTK9eFjie/eIS3ST4W5T9
+3v2n+F2fD7+xsfSzUyjRc3p+zLyweImjiS6J5GAmTf4qxL9hQ3nXEW2gtRQQvB2l
+W62s4eZt9jFlQjhXVjUeIkEPkORE4RrDInyktgSc6BKm/D5SylQgwytebDtJC2s4
+QceoYrV7CHNsQ0vr9oITDlBN4Ik2TTsqhK2Sw0/2P0W7VU7y8uoHsm2xHPkf17l+
+svy9/UvPf4f5kyBIPwySRFS4IUXcdP8MhscNstvyw1GJqxtCNNRfDX6z0isLIU6Q
+yfIbxBsgCdHQMyM3HekxaofPcGx9LRJtbbNt2YA4SbqEKnzci/ToUY+z8a2svvDM
+Ko5OrYJ/yAjPYjcoQ7ajynJC+BxvFRMTtfCEQmDLiaxN9+ueXJJMXe26hLYClF9g
+ADHM+PuYvQrF2GfU9DgvPXkJHh3yEtyPk1rE6O1f4Q9xvKZMblg=
+=cVKh
+-----END PGP SIGNATURE-----
+
+--he6mgtsui5z5w5dr--
 
