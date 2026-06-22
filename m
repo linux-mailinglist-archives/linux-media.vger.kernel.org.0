@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-65327-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65328-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id N/krHKvYOGryiwcAu9opvQ
-	(envelope-from <linux-media+bounces-65327-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 08:39:39 +0200
+	id wtAiBWraOGpbjAcAu9opvQ
+	(envelope-from <linux-media+bounces-65328-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 08:47:06 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAC716ACF97
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 08:39:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6352E6AD01A
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 08:47:05 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=QllCbuzr;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65327-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65327-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=eEDWfZTu;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65328-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65328-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id F2BEA3029E71
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 06:39:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 823413038533
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 06:44:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B8F735F179;
-	Mon, 22 Jun 2026 06:39:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AEC135F8D2;
+	Mon, 22 Jun 2026 06:44:10 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A52FF340A52;
-	Mon, 22 Jun 2026 06:39:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DF6E356762;
+	Mon, 22 Jun 2026 06:44:08 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782110363; cv=none; b=sGDtEytGdTojeczrTsvozsjxmuOui0ekXy/oe8NfX48dMScDp54UTbb75xy1KlSp68eu9yTWD4Dejo3rcriGa6scb8CmlOvXFeqwFJFAfJluMsEnMgnZl84n3FbSz9vtpxth/c7nWz8MFVi7uoqpiCgUwohOOJgqm1ZXs5phLHc=
+	t=1782110650; cv=none; b=ApzpxlrjXO0g/LyvhBU/wqKp1BJA89lbvD8/8MKCx/QbQgDIKXSUnXpbmReYbA3P1HjpK40+Rpz2WodP/b17wXvw6Kwf6pJDPoocAqoW5PjgYayDJenqdRxyy3huWahsTiWZN+RJuUvX+g5as3D6YbDaBHcacVc8S1WOFnyED+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782110363; c=relaxed/simple;
-	bh=PGA0N2XaqsOojsWjsY+ps8k0K6GXRs9R6suheGDd9d4=;
+	s=arc-20240116; t=1782110650; c=relaxed/simple;
+	bh=11e5cDqplT2NxYT9DHro5vRtlOIGIO2JjB56BOEvoCM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ixyi+pQMVQ2nSzLlfHzOYrRiNGxcf4Y4FdnR9BDDe8GWq31NX7sH29EwXyOQ+BYUoJ5YG5mF0/bIfKU6xIgs26uTJ0GVj6e0Ikw5pWujHDAomSfFQN8g/9mUdZfl356uDZSJt/nHyOPCuLhB+hDBhNWO9+R8/0vd2o2apHOYbkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QllCbuzr; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F39181F000E9;
-	Mon, 22 Jun 2026 06:39:20 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=mZOY2aIbwH3HCn/C418CZR+aYgPdrpKlzqYkvTD4ZL7yrsx3VEAFzzVkH3rrfbyOvN/oN0a9bluxlrdOZo3Z3UsD5hAAZNMDFbmK15xeJj+m9AZiK++x4xBweHxFMfuO3NqBvPK6rIEqUlKCGrRT7KDPawy2kMYPL6gVKNOIlwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eEDWfZTu; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABDFB1F000E9;
+	Mon, 22 Jun 2026 06:44:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782110362;
-	bh=0IQsMXVKdHFLQzLX2hMHB6QNRMK9W7yPN3A6edT5RAM=;
+	s=k20260515; t=1782110648;
+	bh=IzhbVxm6PfzXUJZqfMwjQILtkohuzDxMcNEH8PqMZIQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QllCbuzrtjkiZ+xKVC91g1eC6iGVKJOjyS23Pix9iVDg238l2oOVsSvoGVlHDah8e
-	 LvQ6J3wK0dI8J/jWqZGG5tU4ZlvpzZQPMTeKFErkBA9vJl0j86di9/uZ4Z093Vt6CA
-	 QS5QZlz4uscAB/pA2AnddkvQVF5wr2ndlXv+8yBJR2AYbaBLyZ+Pe9ySAA1nrtcxC4
-	 pIR0rSJjFoJtEPh8rmwfB2zDXOC9VMoGpBoG7ONCJ9Ubui5twu0TIG3P2XwPIQxXDY
-	 sHzTcrIgf6IlX8Wcdk1rupvE//Fi9Bb1o2SyhZvf5XAwYWTF/cMFn+fOjSrBvxQzRp
-	 YX6SVc1VirDRg==
-Date: Mon, 22 Jun 2026 08:39:18 +0200
+	b=eEDWfZTu5VtMmv3V0jtFcGO1mgxPgVWo68B7BXJP6youKaLSbZJ022dddJFUzdPeB
+	 3KWhpEa198kspPWcUz+KdP9UNJImpBkYfYNXlQlx9J67Ei+9C3/2KbhgPPNMwvKBD2
+	 0fi6KDT8EpPyHlxY2LptzJoSYVcns9Hx8Nkcl3roDIBazMfKwsv7E1jLN+ntYUqqO7
+	 MYu79Ahuto7atKjPaoDZpMARs3DWHVWLp3XXNxURl7sqKxxUd7Qe9jMv/pn65HDcV0
+	 1I5HMoqIWGB7bpWQVUTlkg6T0BfBayEUbbRZrMiqKnMPWI3zWanApHCudOd3ljl1cj
+	 oDFClYEoYQYqw==
+Date: Mon, 22 Jun 2026 08:44:04 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: guoniu.zhou@oss.nxp.com
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -58,11 +58,11 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, imx@lists.linux.dev, 
 	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
 	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, Guoniu Zhou <guoniu.zhou@nxp.com>
-Subject: Re: [PATCH v10 1/4] dt-bindings: clock: imx95-blk-ctl: Use single
- quotes consistently
-Message-ID: <20260622-naughty-uncovered-parrot-fe6e04@quoll>
+Subject: Re: [PATCH v10 2/4] media: dt-bindings: Add CSI Pixel Formatter DT
+ bindings
+Message-ID: <20260622-bold-spectral-muskrat-a8dcfc@quoll>
 References: <20260618-csi_formatter-v10-0-f23830312ba5@oss.nxp.com>
- <20260618-csi_formatter-v10-1-f23830312ba5@oss.nxp.com>
+ <20260618-csi_formatter-v10-2-f23830312ba5@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -71,7 +71,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260618-csi_formatter-v10-1-f23830312ba5@oss.nxp.com>
+In-Reply-To: <20260618-csi_formatter-v10-2-f23830312ba5@oss.nxp.com>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-3.16 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
@@ -91,7 +91,7 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:guoniu.zhou@oss.nxp.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:laurent.pinchart@ideasonboard.com,m:frank.li@nxp.com,m:abelvesa@kernel.org,m:peng.fan@nxp.com,m:mturquette@baylibre.com,m:sboyd@kernel.org,m:imx@lists.linux.dev,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:linux-clk@vger.kernel.org,m:guoniu.zhou@nxp.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65327-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65328-lists,linux-media=lfdr.de];
 	FORGED_SENDER(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	DKIM_TRACE(0.00)[kernel.org:+];
@@ -107,24 +107,22 @@ X-Spamd-Result: default: False [-3.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,nxp.com:email,quoll:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[quoll:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,nxp.com:email,qualcomm.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: BAC716ACF97
+X-Rspamd-Queue-Id: 6352E6AD01A
 
-On Thu, Jun 18, 2026 at 05:41:35PM +0800, guoniu.zhou@oss.nxp.com wrote:
+On Thu, Jun 18, 2026 at 05:41:36PM +0800, guoniu.zhou@oss.nxp.com wrote:
 > From: Guoniu Zhou <guoniu.zhou@nxp.com>
 > 
-> Change "clocks" to 'clocks' in the description to match the quote style
-> used for property names like '#clock-cells' throughout the file.
+> The i.MX95 CSI pixel formatting module uses packet info, pixel and
+> non-pixel data from the CSI-2 host controller and reformat them to
+> match Pixel Link(PL) definition.
 > 
 > Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
 > ---
 > Changes in v10:
-> - New patch to fix inconsistent quote usage (Krzysztof Kozlowski)
 
-I think this is not necessary. I comment to have consistent style for a
-new code, but changing this in existing one is just too much of work for
-no real benefits.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
 Best regards,
 Krzysztof
