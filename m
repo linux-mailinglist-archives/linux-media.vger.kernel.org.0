@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-65389-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65390-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id +L9GMFFyOWqGtAcAu9opvQ
-	(envelope-from <linux-media+bounces-65389-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 19:35:13 +0200
+	id yC5FGHNyOWqStAcAu9opvQ
+	(envelope-from <linux-media+bounces-65390-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 19:35:47 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6668F6B180D
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 19:35:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC62E6B181B
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 19:35:46 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=g16M9nbw;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65389-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65389-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=o5rzdukn;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65390-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65390-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C65843044236
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 17:34:03 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 188FD3052458
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 17:34:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1744340407;
-	Mon, 22 Jun 2026 17:34:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B57E31691A;
+	Mon, 22 Jun 2026 17:34:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D1F2BCF4C
-	for <linux-media@vger.kernel.org>; Mon, 22 Jun 2026 17:33:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38A533F8CA
+	for <linux-media@vger.kernel.org>; Mon, 22 Jun 2026 17:34:03 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782149640; cv=none; b=pE37qDS//sMTr6tGfM8ztHCJMdd3PPSi74Jnf0RGZ37SuK4/RYG9K4jYV0PVsxF9JbIK+MqmAzCYNBRp3eNNXiV6P9wRQ84jfWbEZ3WSyCgb/gc+jWkBjZPgcLG7+0IGQw7A5AYRLozcvutiNTKb4OUI+0+0WxPJkwDWJeVeuuQ=
+	t=1782149644; cv=none; b=LTybMjZ67NoJ98t9G47kAWeudx66BYacXi1g7re0wmA92eoAdrHfmKkJnyihsL6FeiMSJ8BF6JiNmU6sHkgpsFRupvhi5Ks5YaIxEY7pTzdwDY2El6VslpO7YuY/e4Rc71olrtn2HqtFCW2IbHHLa1gIC4g0cxRmDerYg1o3RPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782149640; c=relaxed/simple;
-	bh=UjydWJTnjoNwo9kAGxNP0B/6s8GOyWnsdWeFfHK6i1U=;
+	s=arc-20240116; t=1782149644; c=relaxed/simple;
+	bh=UGtdfUu+IvCc/FTRQGqWK5e4uHvzgKdZIdr7QuD80uo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YjNYLCaW1Zx8OrbbNJIVCf1B1t280Fop1MeIMKqFh363NCnJEqwylltINOdRYKleYQ0IAjShy7Qbi7Z8g+PfUFbOBMQTpMuKWQZqJ3d39ZZbaIzrjX4T/FWlel3XSqjZzkf2aKX36/S4bxP8qi8fkNA1GAv7YuGFNkvfmLf7xxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g16M9nbw; arc=none smtp.client-ip=209.85.210.174
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-84347ad88edso3968432b3a.1
-        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2026 10:33:59 -0700 (PDT)
+	 MIME-Version; b=iVQIPIXBYgot1TxCQrzITtfyrY211SpNewRSC5qR4GWqzVIr57PF1WyLpuEGRMKCHQEQSeDND9poN1UgyULE1F+zoudXRvFU4UdNYl1VasF6tDOuL2Xo9j+5XjQaPxrJEVpWw9EOyxguxqnINokqtDlqXQC/NIuMMLzU8fAeNm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o5rzdukn; arc=none smtp.client-ip=209.85.210.171
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-845537740ddso1666443b3a.0
+        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2026 10:34:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782149638; x=1782754438; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782149643; x=1782754443; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MVefTgxybW9Azg7V+xbe9aantY3oFHiG1LZ9aj3W154=;
-        b=g16M9nbwdC9Wj+cELrNW4F9vBfYMEYyGsbY2d/WeHz6vxp4vSVSzE16giYwXe4RQ3Y
-         ekiGJNty/P9KlyfUfEad550Gj1cIazScqsrgbSDO8narABBjtjmWnwa/Ai6t3ScvnLt3
-         IS3YG0Sj6pJfd5UHinrPDUvM9c4vKFYmCaKf6BS0Ty6PIgCnEk5giN6TYx/rYZO/91YH
-         Q/79t6ysCBJFvHKvhwPegg45EKAaS6L6MD3dA8JpRuFNxrnWJzMX1t505UH8Z0NLG6+u
-         Ppg5CsehgRl8hhKIgvTkdBChdDaChQph+1bSSCzWOWeaA82wKSQG6ErODuuLk36szSsO
-         cvSg==
+        bh=PjCDSDX5rdJBNz6pw3IrU3j4G9qavxrdCNiYTuZgJ2I=;
+        b=o5rzduknYrxsB5iY7NM/RUSN54M0jmQWq6293sF8XCbKX6hy7xZ+8QOPFPIAoKoYCg
+         e3UAjN93W9u+9XixCiTm/q3g4cSkl5kIZ5VtmUKORcDXnNMgg0j9NM0vGtPq3Fi8Knoe
+         fBuKg82RIQqpCDnAs3XzhIxrMb2KKR//CgJP58Gb23BtdWGg6yCJhsiE/d1FgCAyb/uy
+         8GdZeS0OsgH/YiQDuYjyDL6A50qR4ejjxQFlGDuPRtQYNGzfhCLLIvkbyKas1UfjU0kO
+         LvKkIbDcLs5zZ5+ymZSRghA7r61hP6I9VRc/xJZ+dIP4wgqDbfwliD/lpUvnJDvfQf+E
+         ky2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782149638; x=1782754438;
+        d=1e100.net; s=20251104; t=1782149643; x=1782754443;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=MVefTgxybW9Azg7V+xbe9aantY3oFHiG1LZ9aj3W154=;
-        b=TpFFGFupdaEC3/wJXvDUYwZQOMXS8zflBmoMP8odTnVFM8DyOVgcvVWEF9x83A/xjM
-         ViQwsib+MTeSLeljftjJ7SiYbkNvf4c6RjZhhhZ+wVYtFNCOVcwtVvNSFElatGGHediv
-         br1SoAxll0AYZcfNl4pN0Q9WXghM7Q6IPmvRLAJKwOi9u5CxkRfWri53nH1VgsO1CcZ5
-         0by7ylY6VYe7b8fGg/wpXEvzu5nHsGcfIrYqTGUKGDH/NcV5oSkvWBYWG8w73qxSDhLw
-         zvdQaXNa5va/UUyU/StkLYMkfa8Vys4jDemPO0hfENla+BXfxzaOvO3AT1X4iwOyLUpa
-         GonA==
-X-Gm-Message-State: AOJu0Yx3pE2VAMEM5M5JFCV45rZPv+1nOKSqQZ8rZf01SF9ISkO1Q05S
-	gPSCwFqbiWgBXTwZfj158TiJJSBcmYBJRbP4crxEMltnSjMnSkv1VdnqS443ra3i
-X-Gm-Gg: AfdE7cmFhp2c9ckRKt6gLmwkzxbUcJMmukO3Sjd041uKcBHPY7TXtJNLIOnEjwxkfwY
-	RTDtawhSICtya5kBZSusjy4AdUJHyI3MqUWFQIiDYCK3ufn2jOqg1aovrw1EF/F1BBdQhiIshB1
-	3AaqFNyUdw2WyuVGV/bnNmtWVzsjy/Bb8UqI2iEa9Pr7rf8lE6meVmas6l4agzX2fXe9F7RAerN
-	Ko8gj1PlCpHIVo6X6VY0M23rTX/8azeLhLThdMi0uggMzjhtyN+OFr9gCwpXy1Yo2wC+mNE4qCS
-	IIO78+v80wX1VyXRo9vHXCuoXRxzfET9HvkaOlOC3TaEKN62J7RHOcKv5iGTxuRTXxNchc1JFAH
-	HvfdmDs3dE3j/GaYC69WxYIg9KafhCI7NrihafcJSjLGbbAFw3p1p48ZoJYn2ZmFYYx6mV/Kx0U
-	it+58jLe/PGehvRAWwB2GRfjrLnBKaqW9xGBAlbsAjo2r35HFfDoR9
-X-Received: by 2002:a05:6a00:b4c:b0:843:2ac9:80f0 with SMTP id d2e1a72fcca58-8455087bf24mr17184836b3a.23.1782149638557;
-        Mon, 22 Jun 2026 10:33:58 -0700 (PDT)
+        bh=PjCDSDX5rdJBNz6pw3IrU3j4G9qavxrdCNiYTuZgJ2I=;
+        b=Rdxo/P//vjZ16iGwx/s3W6vVPryFKWi+L6cUyBVGYNVsZOp5X32TmECrbe3BC814BL
+         XDJHY9C7eSmJqPI7JkKR57WVZc1pKW0mCvgz+4lHx5JhbMh0ELaPXbXG9/Maes0WRd56
+         SZhlW4o3DlR7ronnmH9RT7ilzE0Ejkmin20AMkfQlr9JrOok5YuS/1cz1noUrhQ6i4gd
+         0mdGzehwKP3YCbc3ePROF+WubsKy0HaMz+3eGU1brvzWPOxKKnNnqW0pEWUiDra1lI9P
+         YPUasGyt6kccnbmHvNYBjDnH18wlEuDFCtkrtf9wnTIFQfXDkY/gDHHZnOGOx0ELqsK1
+         k1yw==
+X-Gm-Message-State: AOJu0YwpBNhfqporefxozlyyn9eYrbrH6vaGOVtC+xVX1Q9QYXLrMRJe
+	7cv1yfCt3DtiB1XdZV1HWBDkFHk0/8AK8QGA7HpNwcxm1R5TOHFniS8SIOXObbpp
+X-Gm-Gg: AfdE7cntXM+K+93pFP/hL8PJjSd3oMNhUqFTdTIkeE/VNKw8YMto0tri89JLa/nJj1r
+	F+7GUSjByjM0P5danZDAgLqU59nWBidQhIe62ksd03nV6TRX+QsUa2z4zCEVT1Wg1c4HhkE93XL
+	/EBdGKPQPRJzqn/o4efZqbIziDOM7caDPGJDxnlQP+NQyVXyVSR1pxL9s3wM4xoWcFv/+9f9MrQ
+	uPqIeksry/LRBhbmiCixFdolgDQo2IuA8BYxOpVJdxbDdVNmttCo0ncXpzqKC/vQ/lz288SSUg8
+	NoPEN0nWkDs5UQsPnb1I+cBn4iyuC0aqFCRKUK7yhTKgLCUpfGa7g8nzfGgY7e36+VoxISy2zx2
+	MgtU5b51Ezy82vRq6hC4qMzpd7Y1wjKPNXnC27Bl6Wo/k0paudbZqonw9wYykCuO5bIupU5by6u
+	zHHTCVgK99bASNxfusjV1gVUgyMA+8MgSNf9xArxCl7g==
+X-Received: by 2002:a05:6a00:2d8b:b0:845:44c7:2fdd with SMTP id d2e1a72fcca58-845508bb8camr17065797b3a.34.1782149642920;
+        Mon, 22 Jun 2026 10:34:02 -0700 (PDT)
 Received: from localhost.localdomain ([49.207.234.96])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84564ebd123sm7670753b3a.47.2026.06.22.10.33.54
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84564ebd123sm7670753b3a.47.2026.06.22.10.33.59
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 22 Jun 2026 10:33:57 -0700 (PDT)
+        Mon, 22 Jun 2026 10:34:02 -0700 (PDT)
 From: Biren Pandya <birenpandya@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: jacopo.mondi@ideasonboard.com,
@@ -87,9 +87,9 @@ Cc: jacopo.mondi@ideasonboard.com,
 	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
 	Geert Uytterhoeven <geert+renesas@glider.be>,
 	Magnus Damm <magnus.damm@gmail.com>
-Subject: [PATCH v3 2/4] media: renesas: csisp: Add missing media_entity_cleanup()
-Date: Mon, 22 Jun 2026 23:03:37 +0530
-Message-ID: <20260622173334.60491-8-birenpandya@gmail.com>
+Subject: [PATCH v3 3/4] media: renesas: rcar-core: Add missing media_entity_cleanup()
+Date: Mon, 22 Jun 2026 23:03:38 +0530
+Message-ID: <20260622173334.60491-9-birenpandya@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260622173334.60491-6-birenpandya@gmail.com>
 References: <20260622173334.60491-6-birenpandya@gmail.com>
@@ -115,7 +115,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MIME_TRACE(0.00)[0:+];
 	TO_DN_SOME(0.00)[];
 	FREEMAIL_CC(0.00)[ideasonboard.com,kernel.org,vger.kernel.org,gmail.com,ragnatech.se,glider.be];
-	TAGGED_FROM(0.00)[bounces-65389-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65390-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -136,49 +136,49 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,renesas];
 	FROM_HAS_DN(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6668F6B180D
+X-Rspamd-Queue-Id: AC62E6B181B
 
 The probe error path and remove function are missing calls to
-media_entity_cleanup(). Add a dedicated error_entity label so the
+media_entity_cleanup(). Add a dedicated err_entity label so the
 cleanup is only invoked when media_entity_pads_init() has actually
 succeeded. This ensures that the teardown logic properly mirrors
 initialization.
 
 Signed-off-by: Biren Pandya <birenpandya@gmail.com>
 ---
- drivers/media/platform/renesas/rcar-isp/csisp.c | 5 ++++-
+ drivers/media/platform/renesas/rcar-vin/rcar-core.c | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/renesas/rcar-isp/csisp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
-index 8fb2cc3b5650..61558a71ee35 100644
---- a/drivers/media/platform/renesas/rcar-isp/csisp.c
-+++ b/drivers/media/platform/renesas/rcar-isp/csisp.c
-@@ -539,7 +539,7 @@ static int risp_probe(struct platform_device *pdev)
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+index c8d564aa1eba..5bae8eb0ee19 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+@@ -1211,7 +1211,7 @@ static int rcar_vin_probe(struct platform_device *pdev)
  
- 	ret = v4l2_subdev_init_finalize(&isp->subdev);
- 	if (ret)
--		goto error_notifier;
-+		goto error_entity;
- 
- 	ret = v4l2_async_register_subdev(&isp->subdev);
+ 	ret = rvin_create_controls(vin);
  	if (ret < 0)
-@@ -551,6 +551,8 @@ static int risp_probe(struct platform_device *pdev)
+-		goto err_id;
++		goto err_entity;
  
- error_subdev:
- 	v4l2_subdev_cleanup(&isp->subdev);
-+error_entity:
-+	media_entity_cleanup(&isp->subdev.entity);
- error_notifier:
- 	v4l2_async_nf_unregister(&isp->notifier);
- 	v4l2_async_nf_cleanup(&isp->notifier);
-@@ -569,6 +571,7 @@ static void risp_remove(struct platform_device *pdev)
+ 	switch (vin->info->model) {
+ 	case RCAR_GEN3:
+@@ -1246,6 +1246,8 @@ static int rcar_vin_probe(struct platform_device *pdev)
  
- 	v4l2_async_unregister_subdev(&isp->subdev);
- 	v4l2_subdev_cleanup(&isp->subdev);
-+	media_entity_cleanup(&isp->subdev.entity);
+ err_ctrl:
+ 	rvin_free_controls(vin);
++err_entity:
++	media_entity_cleanup(&vin->vdev.entity);
+ err_id:
+ 	rvin_id_put(vin);
+ err_dma:
+@@ -1270,6 +1272,7 @@ static void rcar_vin_remove(struct platform_device *pdev)
+ 	rvin_group_put(vin);
  
- 	pm_runtime_disable(&pdev->dev);
- }
+ 	rvin_free_controls(vin);
++	media_entity_cleanup(&vin->vdev.entity);
+ 
+ 	rvin_id_put(vin);
+ 
 -- 
 2.50.1 (Apple Git-155)
 
