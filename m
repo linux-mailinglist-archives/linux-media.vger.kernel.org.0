@@ -1,277 +1,150 @@
-Return-Path: <linux-media+bounces-65341-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65343-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id EYj5Oen5OGp/kwcAu9opvQ
-	(envelope-from <linux-media+bounces-65341-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 11:01:29 +0200
+	id 1Bp8Mjr/OGqhlAcAu9opvQ
+	(envelope-from <linux-media+bounces-65343-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 11:24:10 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E726AE05D
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 11:01:29 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4E436AE2D5
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 11:24:09 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=aB8V0fAV;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65341-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65341-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=fail reason="SPF not aligned (relaxed), DKIM not aligned (relaxed)" header.from=nxp.com (policy=none);
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=AFin6F0M;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65343-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65343-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 13F9630292E1
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 08:58:53 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id D984130AD07D
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 09:06:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB1BC395AD8;
-	Mon, 22 Jun 2026 08:58:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 830EA3A05FC;
+	Mon, 22 Jun 2026 09:04:46 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013045.outbound.protection.outlook.com [52.101.83.45])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 213F9393DF1;
-	Mon, 22 Jun 2026 08:58:35 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782118717; cv=fail; b=NTtWaHcaQ6cB1N25Vt8AZrAi3pQE3B69dXVGtHmdFbGm+4MkXzMP3bDI/nbSQjV9gj5zzswMCEkoVlK8Ra3g0q4YQ2tvTNaCM4YmJyfIaXZFqAYYGB8gXta81Yc7b0qAQZG+k8Rz/w2Ed8i8pE6685/rkjoEObYymEjzdmRNvl0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782118717; c=relaxed/simple;
-	bh=FO6rykdyS4qr6KVQE0WiUcd7+yW5lVYwSW7HI3wyaFs=;
-	h=Content-Type:Subject:From:To:Cc:In-Reply-To:References:Date:
-	 Message-Id:MIME-Version; b=CmoOaagrNILNlasqLFuuD/G/MeRJ//EhYHPznbbOPRjzrTEsIEZbFB1RAC+GAX+aYKkhCCjEl2e/t7oK7JDeCshQnGlqhGmHW3abz0jDbUrTZ0MsWnSM89NIMWl+1n0TFAQW3M+kQXanMmCzP5JxWD0i/FT/PGFOEdbppBn7OK0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=aB8V0fAV; arc=fail smtp.client-ip=52.101.83.45
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=no7inYk4zH5BJZtBEfpewO0uo0M00CSMBH+tROxFyh4Yis/kr0RmkxG8mVj+4cDEpooSrIveg9+MAFk8LKq0RpZG2kP4BmfcwWZiZNuQAHvGkHI7KnCkDrppsxzC0mXbGSbhTg30Lu7mVa5PvDoEgGQFTVeX29QCEGxxRjmBKWl9JQw4DF3tTmGGYA38lzqlXhMKu07HVHcmHg00Qioy+g61SAG2bFn1jNk5kaKoX+GN2/EGyVw1AS7TpBuIWLNXoL/zCzxk7q+ZIC+ez8JQfC5qP/33Mq0eLjSvACfJco1RfrIsexUgY9S3w9HdxSe3FSqBl3sHwec6B70Xf0iAEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aSUaAkplodbR9it4HhJuy2jJcVENKYCvBUg2ina55iY=;
- b=zIeWGztF1YJ6YUhf7CFJKXTVFWt15mKp4B6e4wHGGx1LqJNvRfIzmb5uDcqsikmNWkqj1iH40cfBucG5ec4wbXcEe63Xqa5tAKl8+PRVSHoTBgx16kCX0JfSX2OPk95JJ504rJknZ9VF1mEN5fuCSbfqWYeVhp86lazJkR5fgcyymJ/IooeiywRrzGd0RwYusLkgxaGX4w+kPzv83OMzSbpc9FXTBN8+NbQYbkhaBNsW9WMUFkx4iukU28JhlyK1g0nwBCnOes1YH3VUFLOiCtiPEs1Xmk3Wccp2VwBR+LmfWP8PcH/CXkDr1M3gHhn6D8i3FldPSCQFbpyOBDqhZg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aSUaAkplodbR9it4HhJuy2jJcVENKYCvBUg2ina55iY=;
- b=aB8V0fAVaI5jqvZ9vBFivN7deiEYTka63h1cWU9tJqh1HFFb8eSdHFlOtVklBOhVOzpBrAS3ekrUCrvklhCLoeGaxImnBeDKAkwkwLLB60LsB+6hfjn3+FDt/j1Rq1gLOSASaNOB1ZLClgu8myaHvOSpL9W+JtO5Qmx0yWdPHPkYAXINLtZNwIjuYi7Cirh+NzOXEEUTlU4s6j9bhK3KNoPjjY2eEicYK1B/GkhAY1VVdTNjmVrZT6rmnYQL8lNLkHySxJ2fROVMDPWjSZ+OzY/QlU7zNjliqFHKtaQB64zX1QE2emBG7zX4VTfY+WM2aVcHhKc6DR2kCxwZr9nVgA==
-Received: from GV1PR04MB11513.eurprd04.prod.outlook.com (2603:10a6:150:284::9)
- by PA2PR04MB10088.eurprd04.prod.outlook.com (2603:10a6:102:40e::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.19; Mon, 22 Jun
- 2026 08:58:31 +0000
-Received: from GV1PR04MB11513.eurprd04.prod.outlook.com
- ([fe80::29e0:98a1:4577:2cc7]) by GV1PR04MB11513.eurprd04.prod.outlook.com
- ([fe80::29e0:98a1:4577:2cc7%3]) with mapi id 15.21.0139.018; Mon, 22 Jun 2026
- 08:58:31 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v5 7/8] arm64: dts: imx8: add camera parallel interface
- (CPI) node
-From: guoniu.zhou@oss.nxp.com
-To: Frank.Li@oss.nxp.com
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Michael Riesch <michael.riesch@collabora.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Frank Li <Frank.Li@nxp.com>, 
- Martin Kepplinger-Novakovic <martink@posteo.de>, 
- Rui Miguel Silva <rmfrfs@gmail.com>, Purism Kernel Team <kernel@puri.sm>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-In-Reply-To: <20260617-imx8qxp_pcam-v5-7-7fa6c8e7fba7@nxp.com>
-References: <20260617-imx8qxp_pcam-v5-0-7fa6c8e7fba7@nxp.com>
- <20260617-imx8qxp_pcam-v5-7-7fa6c8e7fba7@nxp.com>
-Date: Mon, 22 Jun 2026 17:01:14 +0800
-Message-Id: <178211887405.4030874.3312107681383203634.b4-review@b4>
-X-Mailer: b4 0.15-dev-0e760
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782118896; l=2090;
- i=guoniu.zhou@oss.nxp.com; s=20250815; h=from:subject:message-id;
- bh=FO6rykdyS4qr6KVQE0WiUcd7+yW5lVYwSW7HI3wyaFs=;
- b=suz6mLQUGwJfGSc51hFBV/aMN5r8IS8rmveHrc33Nfz8RBZWUEbB1F//v2NaQwAMD7OMQF5cs
- vzlUHQ+0rznCsZurq6j7uoVyiMyKbwSr8hwoUv/ajVhRiEQixnoMySF
-X-Developer-Key: i=guoniu.zhou@oss.nxp.com; a=ed25519;
- pk=MM+/XICg5S78/gs+f9wtGP6yIvkyjTdZwfaxXeu5rlo=
-X-ClientProxiedBy: SI1PR02CA0026.apcprd02.prod.outlook.com
- (2603:1096:4:1f4::11) To GV1PR04MB11513.eurprd04.prod.outlook.com
- (2603:10a6:150:284::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A468139A067;
+	Mon, 22 Jun 2026 09:04:36 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782119084; cv=none; b=gTWSluhzQmjCLjNANcstIWX52oOu1VKTQJqo4+NZTNZw4YcmeqjEoPA+FDdhYustNi9swOSoUpEYQhtOEg5BrGC7ByNRHN2wCJLx2Vup7LhAjuGP8yYR9hIlg6EWdTTRGASrtrhleE2hXjmgBU42GqUfYbnurAsRYkr64OUipvU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782119084; c=relaxed/simple;
+	bh=+l20Gakqj5SaWpf6y3GLgwyC4XvPjzneg+BqMMRN7Fg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gHn052G4nFMB7ZYAzewgiw7I0PEf46jDNCDEaBMVaeaEevnzJkv2Ufd5sKpXHMO6i5Ew6K0G8Oz2VXSYu98Y++axCq6mgsnzQxNUdIyqrxdPHqhtYOxAbhr9avkiOobG2Hyz6iwECknjP4dDsfFJmSOtmljJYGIZLXC0FJmGyhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AFin6F0M; arc=none smtp.client-ip=213.167.242.64
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F40EA9CE;
+	Mon, 22 Jun 2026 11:03:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1782119036;
+	bh=+l20Gakqj5SaWpf6y3GLgwyC4XvPjzneg+BqMMRN7Fg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AFin6F0MOeNIqBrLEkhwIwUz3pfXNmbLIEZFdh+8XVt4d4qaVIFXPQSl/UlVwjjEZ
+	 mL9HqYsYRgMfkeRIFZs8/+xi+gUoHuzjNZH/UQ8iB9HkAn5kjxbg5/38nk+jI6f67K
+	 elVMZgVVemUrCTUeBHzaW4ot0NwHly3BxLPAT/U8=
+Date: Mon, 22 Jun 2026 12:04:32 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+Cc: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+	"luca.weiss@fairphone.com" <luca.weiss@fairphone.com>,
+	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
+	Walter Werner Schneider <contact@schnwalter.eu>,
+	Kate Hsuan <hpa@redhat.com>, Svyatoslav Ryhel <clamor95@gmail.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>
+Subject: Re: [PATCH v2 2/3] media: i2c: add imx576 image sensor driver
+Message-ID: <20260622090432.GL3552167@killaraus.ideasonboard.com>
+References: <20260619125439.55311-1-himanshu.bhavani@siliconsignals.io>
+ <20260619125439.55311-3-himanshu.bhavani@siliconsignals.io>
+ <20260620132749.GE3552167@killaraus.ideasonboard.com>
+ <PN0P287MB20199A3EF8F3183176AC1E559AEF2@PN0P287MB2019.INDP287.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV1PR04MB11513:EE_|PA2PR04MB10088:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4a41e8cb-5595-471d-d0f4-08ded03c6ed0
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|23010399003|1800799024|376014|7416014|366016|19092799006|18002099003|22082099003|56012099006|4143699003|11063799006;
-X-Microsoft-Antispam-Message-Info:
- xfbgy/H4kqSNBGf42hBsLbzoToD/2pwJZx6CwLRPzqmDUkgE+I0uNiWqeLsFCa2sAQnqDrkeY7T4TRqwU9r3CjTKgLJDzvGK+TT0buY5cknbUcTsr+HCjfe65rUts3BCOVcEG33kc0GclmSnJDj/Q1fzQpkOLFesGdy1DgqaP2OF5dbXiZN/9R8Wi5AsdVmNSeAZp/FV6zNd194Vk5QpPVCLZuw16OGdveoUOauWpjJfS05GxK1D790gTUCHUoH6LglFxdYXeYMn5lKj9UW0H8Uzh/THJNCqUIff6XZdv52WYbhrwsxPpK/iOaEmWIouv0jLSkjq+FoibAEJhu5trJtuNTs2n1nXBDlXp/To+erpEfTRZ3NYbPJlEK7ZmV4pJwANMhxiSTv+eeehpzs4EEKbmt8zvMnIk9tV4KQsqi0RPb1ah43WBReCYO9l7TcuGYn5e3vKRvMChsHUQQbD+vLMU2evrJ43Icy3Ptp1095bQgpEU0v7CXUWDfVgcx4baA6mTekA+8Y0rgOJz+ZItDNfg+vj72evQuDfH1ev3Zdqu4jLsmy16mIyTP/7TJh1vNp4XxSzyPIsvhcCwXgE7zubmic+lnOjs1azODWq4a6m0hATCs3MJFozZAuSbXOWVsOFlkxQfLY8ybGUhyQbaXmyUBH8K4U8zc2SIQUHNS0=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1PR04MB11513.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(7416014)(366016)(19092799006)(18002099003)(22082099003)(56012099006)(4143699003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?YkFCd3ZDa1NmS1V0RHVKK21VNDRjM2tibTRUTjdjRVgrQ0pSWVc2dTNsQjJE?=
- =?utf-8?B?bkhmZDgzTlFiUXFIZy9kdHFNMy92dXgwT3VldG1hRzE1NkRpcWcrMnAzd09r?=
- =?utf-8?B?Q2dLVUh0NFhRNVoxQkEvTjRJT3JTdzBGNW14d3RBQXREbHBZb3pHdUFqQ3dD?=
- =?utf-8?B?YjhwTDh1aU8xZW9xVFo0NjdsZS9idllnUWp1YlNYaE5peXFoYm9QZlp6UGdo?=
- =?utf-8?B?RGtFclRDSTVWR1JiVjc5SHlOQ05Edzdkd0o3MzRlSFBQOEt6TExQNVYyeFUy?=
- =?utf-8?B?NmFieTh2UTl0djN1c0lFTWJ6cC8zenZvN3owclZ4Z2F0N29zQ1ZMN0lFVVRu?=
- =?utf-8?B?dDZ4NWIzS3IvZ3FpQ0dHcUkybzhQUVB1K1cwT0RVMGoyOHY2ZnBNTFliNm5z?=
- =?utf-8?B?Tk1nOHJWaW1MMkJ5dFNZZjR0a0FOU3J4OGFPOFRvZzkvY3BvZy9GYUU0VGRT?=
- =?utf-8?B?TVBlL0RKeEgwdU1NaWhpeW5qL0tZYU5PL3N5UUVmOXhvY1NuSks5SVVDeHl2?=
- =?utf-8?B?N0JveWZHeTRzbk0vSis4SmhwaHU1ZlAvbFRONU5GVEtzRDJCMjRqWWoxbjQz?=
- =?utf-8?B?eGRKZlZGemUwSGxGZjRzdStrZzhJRFdpTzFUcTREUTJsd01Mampicnk4MmZ3?=
- =?utf-8?B?U2E2dlorSWlSNVJoOW80YzhQcVQzZ1RMRzJVUzdsbkVNdWlQeHVIQ3lFekdj?=
- =?utf-8?B?VU9abTlBK2ZybnFKK0FhMlRwN3QvZ0M1VlhnZ2oxeTB3TG5UQTZaSm5LZlRh?=
- =?utf-8?B?Z3ZmMWt5aHU4SmFjaGREN2tnWFpJSDVaVzVlWE9XUGZ2YUZEOU44M3NwTzRY?=
- =?utf-8?B?NStCUVcyNTB3Q1RwQklnQXN6TFUwOXZDc2Mra1Q2OUxOUnNtdkVNbitKbk9K?=
- =?utf-8?B?R0tjZnJOZ1FVRnc3Mlo3VTlyRHdHUXJZcXFGTUdHajAwdU92VGJUL1QxWHZr?=
- =?utf-8?B?YVJab3FwU0wwczJTUXdocWR2dldQWk9PVGM0UHNTKy9LbWJ4L3Q1M3Zmblc2?=
- =?utf-8?B?b3l2ZUhLSFREZHRocjgzUmE3ZEZydHhFM2ZSZ0FaUEpyMm1QMzR3MWlqUEoz?=
- =?utf-8?B?cHVsak1LQkhnaVMvR3NXZVJuaWFsc3d0aVBrVnRVQjlQeVhuUThtTGJPS0Rm?=
- =?utf-8?B?RUZQeC9QU2twUnNlWHZmSFBLUkhlb2IzM2dwOWdtVWRLM1pjdTF0U2dtQXZx?=
- =?utf-8?B?cE5pVTlWK3BGTUxQWUZlRHR5blNpVlZGek9SdmFGTmkrRTMzcXVsd0c5bGEv?=
- =?utf-8?B?T2Q2MWRwcDBzaUx6dUEvaGo3eGZZTEIrUERudzdKam9JdGhhRFZUTTQ1WThj?=
- =?utf-8?B?bXM5STJXa0NkOG1iYWs2bHVUa1NEa2lKVU1NWHRYRFRJTUVVaWpDRTExeDJI?=
- =?utf-8?B?OHlxQ3N6ZDcwVHhGci9mem1PeUZpakQ5K3V6aEc1THk3eTgzdFlSRlZoczdR?=
- =?utf-8?B?eGFNNng1a2crbjNsdEFNd0d6Wko2QlVKb0lURm1saXZzODlKUUFkSFNWQUtx?=
- =?utf-8?B?T2twS1d2ME5rQUdWRDFpLzYrV3QrUVZmVXBmNS95NjVCaWZhd1NhczZoYzl2?=
- =?utf-8?B?VmgzZVl0RWZBMURUYkNlVlhXWVZwZGwvQWJuTEM1Y0F2L1ZzY1FOUmtUZTdT?=
- =?utf-8?B?YlJtUnRtQnB6S1pIU3Y0U0pMb2ljaWtieE5veVdEeUZWQlRFcE1MNS9SOEtN?=
- =?utf-8?B?MnNlWnNSZ0lHNmJXcFFJMGRxWFU1OStjZHZzbExpZU1hZG8zdkVVMjBXWkM5?=
- =?utf-8?B?RGVYNWF5R1FRQmxGNjJReFpJUk4vMmhDNkJhTXdyVThyaDM3NVdpVTJjMmhQ?=
- =?utf-8?B?a0lnVjlRVnpQTS9UME10cDZ0R3Y2ZUdjQTloU2RzNkhnVW5PZHM2Y25KQ1la?=
- =?utf-8?B?eHlaRkxuUDc0dkxpcUZaQ21MMkw3RHRkQzJPY2lwVTJMcENGdE4zSGc3bGxu?=
- =?utf-8?B?NWFQMnk5NlFhMnA4MnQwd05CQ01jZkQ4Uk1UVnNxdkVER0llN0VGemF5NUNP?=
- =?utf-8?B?SnkrN05aVUhrdE15UTB0NzFXVHJzUUxuOUpHQ3JmakNNc2ZEUXNzeFM1L2s5?=
- =?utf-8?B?SHp5NG55RkhBREVXQjVxajNSOWJleVZFaHpYZ0VDSnlkcFNROEVZYTdvdDNh?=
- =?utf-8?B?ODhMSUlPM2RvNjdaUW5xNzZVcGl3RVROcE40bkkyWFl2dUIzUXdkNVBXQUI3?=
- =?utf-8?B?N0dMOGRFdWwxNENIYlNBTkJHb0F6SnlITk02dU5NSDdhMjE0WUl2UjZtTEYy?=
- =?utf-8?B?UlJjcHRjWXZzM0QxWnY1QU9nZEhQaEg4NUNmRXpOcTB0b2pDR2Jaenk0VS9L?=
- =?utf-8?B?QjlzWjhmWjg5czVreSt5K2thZnFEUnI0cUp4YVE1OFlxUEYvYWRnK1pVdE9y?=
- =?utf-8?Q?2j8WzqwTZez4y5gDfmS+hPuT2xgJ7GR+8QtgW?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4a41e8cb-5595-471d-d0f4-08ded03c6ed0
-X-MS-Exchange-CrossTenant-AuthSource: GV1PR04MB11513.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jun 2026 08:58:31.2775
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LXaNQgO2fvDr5wRo0Msu62/c4P7AC/HiiTUR+GRelOYe/U/J9iUdJKIuSbcfRFZ7cUgDiXwin3i5MkfcxONAT1x70h/4r5gzo8Aj+93+5prKyzkrYN8OeuvPm683kIjv
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR04MB10088
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <PN0P287MB20199A3EF8F3183176AC1E559AEF2@PN0P287MB2019.INDP287.PROD.OUTLOOK.COM>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [2.44 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
-	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
-	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-65343-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65341-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:himanshu.bhavani@siliconsignals.io,m:sakari.ailus@linux.intel.com,m:luca.weiss@fairphone.com,m:hardevsinh.palaniya@siliconsignals.io,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:hverkuil+cisco@kernel.org,m:johannes.goede@oss.qualcomm.com,m:vladimir.zapolskiy@linaro.org,m:elgin.perumbilly@siliconsignals.io,m:contact@schnwalter.eu,m:hpa@redhat.com,m:clamor95@gmail.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FREEMAIL_CC(0.00)[linux.intel.com,fairphone.com,siliconsignals.io,kernel.org,oss.qualcomm.com,linaro.org,schnwalter.eu,redhat.com,gmail.com,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[guoniu.zhou@oss.nxp.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:Frank.Li@oss.nxp.com,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:michael.riesch@collabora.com,m:laurent.pinchart@ideasonboard.com,m:Frank.Li@nxp.com,m:martink@posteo.de,m:rmfrfs@gmail.com,m:kernel@puri.sm,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FROM_NEQ_ENVFROM(0.00)[guoniu.zhou@oss.nxp.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[NXP1.onmicrosoft.com:+];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	RCVD_COUNT_FIVE(0.00)[5];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,collabora.com,ideasonboard.com,nxp.com,posteo.de,gmail.com,puri.sm,pengutronix.de,vger.kernel.org,lists.linux.dev,lists.infradead.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NO_DN(0.00)[];
-	TO_DN_SOME(0.00)[]
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:from_mime,killaraus.ideasonboard.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 56E726AE05D
+X-Rspamd-Queue-Id: E4E436AE2D5
 
-> Add camera parallel interface (CPI) node.
+On Mon, Jun 22, 2026 at 06:02:24AM +0000, Himanshu Bhavani wrote:
+> > On Fri, Jun 19, 2026 at 06:24:32PM +0530, Himanshu Bhavani wrote:
+> >> Add a v4l2 subdevice driver for the Sony imx576 sensor.
+> >>
+> >> The Sony IMX576 image sensor with an active
+> >> array size of 5760 x 4312
+> >>
+> >> The following features are supported:
+> >> - Manual exposure an gain control support
+> >> - vblank/hblank control support
+> >> - Supported resolution: 2880 x 2156 30fps (SRGGB10)
+> >
+> >You've been asked in v1 to make this driver dynamically compute
+> >registers instead of hardcoding modes. Please do so in v3. Nack on v2.
 > 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
->
-> diff --git a/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi b/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
-> index a72b2f1c4a1b..b504f99f6acd 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8-ss-img.dtsi
-> @@ -222,6 +222,19 @@ irqsteer_parallel: irqsteer@58260000 {
->  		status = "disabled";
->  	};
->  
-> +	parallel_cpi: cpi@58261000 {
-> +		compatible = "fsl,imx8qxp-pcif";
-> +		reg = <0x58261000 0x1000>;
-> +		clocks = <&pi0_pxl_lpcg IMX_LPCG_CLK_0>,
-> +			 <&pi0_ipg_lpcg IMX_LPCG_CLK_4>;
-> +		clock-names = "pixel", "ipg";
-> +		assigned-clocks = <&clk IMX_SC_R_PI_0 IMX_SC_PM_CLK_PER>;
-> +		assigned-clock-parents = <&clk IMX_SC_R_PI_0_PLL IMX_SC_PM_CLK_PLL>;
-> +		assigned-clock-rates = <160000000>;
-> +		power-domains = <&pd IMX_SC_R_PI_0>;
-> +		status = "disabled";
-> +	};
-> +
->  	pi0_ipg_lpcg: clock-controller@58263004 {
->  		compatible = "fsl,imx8qxp-lpcg";
->  		reg = <0x58263004 0x4>;
-> diff --git a/arch/arm64/boot/dts/freescale/imx8qxp-ss-img.dtsi b/arch/arm64/boot/dts/freescale/imx8qxp-ss-img.dtsi
-> index 232cf25dadfc..5aae15540d6c 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8qxp-ss-img.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8qxp-ss-img.dtsi
-> @@ -62,6 +62,14 @@ isi_in_2: endpoint {
->  				remote-endpoint = <&mipi_csi0_out>;
->  			};
->  		};
-> +
-> +		port@4 {
-> +			reg = <4>;
-> +
-> +			isi_in_4: endpoint {
-> +				remote-endpoint = <&parallel_cpi_out>;
-> +			};
-> +		};
->  	};
->  };
->  
-> @@ -95,3 +103,22 @@ &jpegenc {
->  &mipi_csi_1 {
->  	status = "disabled";
->  };
-> +
-> +&parallel_cpi {
-> +	ports {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +
-> +		port@0 {
-> +			reg = <0>;
-> +		};
-> +
-> +		port@1 {
-> +			reg = <1>;
-> +
-> +			parallel_cpi_out: endpoint {
-> +				remote-endpoint = <&isi_in_4>;
-> +			};
-> +		};
-> +	};
-> +};
+> As I mentioned earlier, I don't have the full datasheet yet, so I
+> can't implement this now.
 
-Reviewed-by: Guoniu Zhou <guoniu.zhou@nxp.com>
+You have been given a link to the datasheet in a private reply.
+
+> Link to discussion:
+> https://lore.kernel.org/linux-media/PN0P287MB2019AFCBDF0E24BFEF8E0E399A0F2@PN0P287MB2019.INDP287.PROD.OUTLOOK.COM/
 
 -- 
-Guoniu Zhou <guoniu.zhou@oss.nxp.com>
+Regards,
+
+Laurent Pinchart
 
