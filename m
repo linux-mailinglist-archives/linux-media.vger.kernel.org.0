@@ -1,127 +1,139 @@
-Return-Path: <linux-media+bounces-65325-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65326-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id g42oCLrPOGrMiQcAu9opvQ
-	(envelope-from <linux-media+bounces-65325-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 08:01:30 +0200
+	id UhymCyDQOGrsiQcAu9opvQ
+	(envelope-from <linux-media+bounces-65326-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 08:03:12 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A1F76ACDBC
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 08:01:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 739056ACDDA
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 08:03:11 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none ("invalid DKIM record") header.d=siliconsignals.io header.s=selector1 header.b=HXAoO5up;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65325-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65325-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=none ("invalid DKIM record") header.d=siliconsignals.io header.s=selector1 header.b=WO0zPd9f;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65326-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65326-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=fail reason="SPF not aligned (relaxed)" header.from=siliconsignals.io (policy=quarantine);
 	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id AC03A30210EE
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 06:01:07 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 138BF30329AD
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 06:02:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43E263346A0;
-	Mon, 22 Jun 2026 06:01:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46D8735DA68;
+	Mon, 22 Jun 2026 06:02:31 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11020133.outbound.protection.outlook.com [52.101.225.133])
+Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021087.outbound.protection.outlook.com [40.107.57.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D5F6357A4A
-	for <linux-media@vger.kernel.org>; Mon, 22 Jun 2026 06:01:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC6C3126D6;
+	Mon, 22 Jun 2026 06:02:29 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782108066; cv=fail; b=YLQ6QvkzR2OgBWXGB90SychKu1XSSDsjIF+Jrm7LWA2nnr+3ZhTrdiTsJsitSV+cRtidwW1rslzv5Hm9apqxIbdgwmhSiIVkwN57tedwMGkHcMmL0DabcC+W+ODGDy5gXAWIyWqydfKmbBm1+GYsdgq1ZJiAc3S2OTR38djGZ7E=
+	t=1782108150; cv=fail; b=AH/i/QA4xgW6BC9txxZBnc6aTFo2+vEsZl5YOagHiJWxLOJMaB/S3tzJZ82QElotM146NTUc5+i8WdrOPUnNbFmcDrb2glUOZN5piysNXAw2LW9bmlC228Asf25UB13HeCAX+9BmtVqaUUjQZjzyYXiEOMK9+usKCsJn+8F2pxM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782108066; c=relaxed/simple;
-	bh=h/ddbg7+wMOwm7w7VSAedw69bEyfk74S7WAnkXMYnE8=;
+	s=arc-20240116; t=1782108150; c=relaxed/simple;
+	bh=keE7w7l1vdUww8qkUrzfBMl3nXhLhE/c0CeoB+pHXgc=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=s52JuQzYzAFI3JQvVCOkOtvX2AvadNfOhaH2cqWFkebNUhNuQzfBBs9wtoHXdiNbIStWUCaGhxUEW6jU5DqX6/60jG5im3Lr3BA334nY3+9uinDOi9SRtPlhVUtm4bLc7AkWvTdzB11NlDb5PzXOFQeTwaEYRfK27Xb9ubW9Huk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=fail (0-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=HXAoO5up reason="key not found in DNS"; arc=fail smtp.client-ip=52.101.225.133
+	 Content-Type:MIME-Version; b=iFfV5zc7vBf9YUjnxSB8Ksqi53tMobK9zM9EngOI25IRvtHyWA7Yk21mEny8MhHK4uYyPOYM/gfrN/I+xNum1tCch6hRmIkVmWanS37+/nAUxk78p9bI/amlcYjAAzpR+c/DRt+8yLGMrHf75y93kLo6Aa3w4RHYrnJa5dMRgAI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; dkim=fail (0-bit key) header.d=siliconsignals.io header.i=@siliconsignals.io header.b=WO0zPd9f reason="key not found in DNS"; arc=fail smtp.client-ip=40.107.57.87
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NMXxi5rTwSD43X+K7OqyYT3xIpz9KcJccuU+f5eS1NDFUKmlKKg8Mn+MRjEGzS3hAjq8hFwEtsP5376cYBB3kXJJ5qrIBSHVnZgBrgOm9O/GQ74VvRc/nphOE+/hBz9iyEMy3E8/QMxB7jza27ilv8jG/WPYjsPaFy9tHexgJNYceff6D4JW1dfCHZiZPp+qKFtczoGYBXr4alzq7+4jvUwkbD+PKqGuI7vo824INSVjKOjkOk8peEi1jUsz/EB5DeDxoGwDXdOc8OyrbYrecxKSoQz4VYKgPK81jJ7YV24HWLpmc56C/TlqOsf8OZl1vrr6dPvQ9gBrYhHyDaziKg==
+ b=bBinR4vI+2PcwEP1KwSxXEEvbIIPqFJ6EFZtLQOTBkFkyH9lWfGDDK37eHKl1jPL280MawGzYClU+Y08RIOKXln+0gAK8+BjS4n3dsmybYF3fihBkEWFsAjjLnVu60oJP5BhHADlC4DPrsICD41o7dit+7P1Fg5rXM4A6/g1xbZ6nWY/PQ9lb8eUkqrdk2FOpb69OjSGzBivbNl+2m7fkL6u8wklp00Txxe/vCTfsCNCGD/13NLwVJpr6W1hmPr+wv+5gDZ+9sgR3BtUeNcC10J6Kh2TBGrSz2aEhEJEPFiMWJgFNeLns4nhbStPM+7BPmbIqe97IlEPif/jWxaA/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h/ddbg7+wMOwm7w7VSAedw69bEyfk74S7WAnkXMYnE8=;
- b=pbI6l8mIl4V2LktBxe8YQZniFdNAAQvpwjqLHiVJRMrmyyRs7/0MPvoEJ2BJK9huIqDZmlqd+GAROnN/vSwtVMEcrcDtuxX88S25WK+AUiF3RsBkPyGL2Di3dX2wcI2RYbL56YwMjA+PVL9qacwEHMSOd7DfI8OYsoC7P3NypunYmQXg+7bOBs0JFRiAVSX/8xL37wL7TBlIHqecKPqvC26H4WomvyZOK16rur4ULBkq7SAU/soVWkrNgFRfjnT/RNeTbyEdi+kB+eiuZJPb0qLzzbRBYS+5KmkPdx2/iH9qmv7v3IOyQydburX+z41CzQqW9DkZCOxFZmunsne+NA==
+ bh=keE7w7l1vdUww8qkUrzfBMl3nXhLhE/c0CeoB+pHXgc=;
+ b=vM7x3VF+VatzinEOBmCqhZ/V1WhTp4Cb0e9CBgAuuN+HSDyPEeZ0b5pMOyKFz/1iKjFHll3sLpMl4ncekElfaPE6fMQXwlG8oKU/ISMYQjiEVnj1QOr7Aaj7OPmSCol80EADrOkXCw2ZVOrqqw7GFqgLkOJX1g+ecAv/tbfHtcaNIcvhQnLcpEVVtrJ8cfOcDuDChraslFsJv1XHUSrdrSd4dt682sbdMt+elDh/dJAa5XTsqokgiECcbi2Ay9F9ILzx/0HmHyalZrbmf8yf+jiElUUDtBiwkFalUYivWVs7+ASWghLEcgm7nZGScxIOgp/OuGCXVGyMZ4jdgc3Rvg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
  header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siliconsignals.io;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h/ddbg7+wMOwm7w7VSAedw69bEyfk74S7WAnkXMYnE8=;
- b=HXAoO5up9NCUh5viEmdGOhTHczBW/ZWduXJtagkOBLGve7tVrJ/YvhX2/8wayvysd6Kx+aife9aZ/Jg3Qqjra19R1JdFG/TADejKXPDeaWMCczigjvNLhZvduwSNn6m0y6mb4EbVZ1skz9iA/rvB4ixta9VvChTfoEdLnXG5y5/4y8+LomXovhVtgLpKAvgx3BsjDBmvNecPpe4l4I67B8ApihcMpQfpPTulR8io/i+NRMrgcA5aVGuZ27THfLqJUCpwPI3CbFMFhQtAuqsu7gd+aCfco1dxY+KWcnGye69lDE33S0DCLQy+xUlvB/PcnlDmtEP26fzZpKUcVIpK/Q==
-Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
- by MA0P287MB1274.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:105::12) with
+ bh=keE7w7l1vdUww8qkUrzfBMl3nXhLhE/c0CeoB+pHXgc=;
+ b=WO0zPd9fVmKewUgC60I2bKyJ8hoAjplRzyocf8CSlBisVQK4mYcMauXfiDryjVOk+A7bz/WNmQ2TIbpNnxKqt4GV09wtx6G8SVE+u40PYxtVxseXfv9jAYLMzpnJY6hXYRR3hYGm/C3I5FiNMARhnVj4yNF0X1n9hQMx/lHectGNon9bD2vcBhGOQah1DHa0eq5oXJBJXB9jkE+CLlj8K1sNK5zga5QBAfcAskkU/+SAdaC2YtsyFTW2ukYFgRjM7HMsV2o/P8Abn79Ahe13njUpbPICdCznZudbNhJG+O/fAYQG7TFr3euhXdZ8/RwZI2F03Ab+4GDEutojI9SU6g==
+Received: from PN0P287MB2019.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1b8::9)
+ by MAYP287MB3568.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:151::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.19; Mon, 22 Jun
- 2026 06:00:59 +0000
-Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- ([fe80::ce63:5749:b390:508b]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- ([fe80::ce63:5749:b390:508b%6]) with mapi id 15.21.0139.009; Mon, 22 Jun 2026
- 06:00:59 +0000
-From: Tarang Raval <tarang.raval@siliconsignals.io>
-To: Vladimir Zapolskiy <vz@kernel.org>, Hans de Goede <hansg@kernel.org>
-CC: Bryan O'Donoghue <bod@kernel.org>, Sakari Ailus
-	<sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: [PATCH] media: i2c: ov02c10: Narrow chip id check down to match
- ov02c chips only
-Thread-Topic: [PATCH] media: i2c: ov02c10: Narrow chip id check down to match
- ov02c chips only
-Thread-Index: AQHdAY5w2pGAG08H0kyHx4ZdDc+fmLZKCciI
-Date: Mon, 22 Jun 2026 06:00:59 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.113.20; Mon, 22 Jun
+ 2026 06:02:24 +0000
+Received: from PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ebd8:538d:c705:8432]) by PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ebd8:538d:c705:8432%6]) with mapi id 15.21.0139.018; Mon, 22 Jun 2026
+ 06:02:24 +0000
+From: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+	"luca.weiss@fairphone.com" <luca.weiss@fairphone.com>, Hardevsinh Palaniya
+	<hardevsinh.palaniya@siliconsignals.io>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson
+	<andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, Hans Verkuil
+	<hverkuil+cisco@kernel.org>, Hans de Goede <johannes.goede@oss.qualcomm.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Elgin Perumbilly
+	<elgin.perumbilly@siliconsignals.io>, Walter Werner Schneider
+	<contact@schnwalter.eu>, Kate Hsuan <hpa@redhat.com>, Svyatoslav Ryhel
+	<clamor95@gmail.com>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-arm-msm@vger.kernel.org"
+	<linux-arm-msm@vger.kernel.org>
+Subject: Re: [PATCH v2 2/3] media: i2c: add imx576 image sensor driver
+Thread-Topic: [PATCH v2 2/3] media: i2c: add imx576 image sensor driver
+Thread-Index: AQHc/+rjlKGWpG0n2UqPle5J3Ir6S7ZHcVeAgAKoCP0=
+Date: Mon, 22 Jun 2026 06:02:24 +0000
 Message-ID:
- <PN3P287MB1829F2FE439615B4A4CBE6138BEF2@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
-References: <20260621145808.2660219-1-vz@kernel.org>
-In-Reply-To: <20260621145808.2660219-1-vz@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
+ <PN0P287MB20199A3EF8F3183176AC1E559AEF2@PN0P287MB2019.INDP287.PROD.OUTLOOK.COM>
+References: <20260619125439.55311-1-himanshu.bhavani@siliconsignals.io>
+ <20260619125439.55311-3-himanshu.bhavani@siliconsignals.io>
+ <20260620132749.GE3552167@killaraus.ideasonboard.com>
+In-Reply-To: <20260620132749.GE3552167@killaraus.ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
 X-MS-Has-Attach:
 X-MS-TNEF-Correlator:
 msip_labels:
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3P287MB1829:EE_|MA0P287MB1274:EE_
-x-ms-office365-filtering-correlation-id: feb82056-d870-4378-8d23-08ded023a1f0
+x-ms-traffictypediagnostic: PN0P287MB2019:EE_|MAYP287MB3568:EE_
+x-ms-office365-filtering-correlation-id: 7ea4c027-4f25-48d2-45fa-08ded023d4f5
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|22082099003|18002099003|38070700021|56012099006;
+ BCL:0;ARA:13230040|1800799024|366016|376014|7416014|23010399003|38070700021|18002099003|22082099003|56012099006|4143699003;
 x-microsoft-antispam-message-info:
- 5RJhnhLhWFroARUvDv4Py452CoJL89ihrAtFbc1AiEEpG9VO3I8f1d5lsJmSlgIGDKPb8sFhn/RFCVZ7m4QPY7AzT16t7fOD6I4UYnKyp6TTnTxj8oLz7C6HfEvVy4Udva9T0fET08dTushenMq065PhIa/XmLJlYoJsU2vqGDvcQuis4PgzTq0e9pCltVaOdzOjQSems7iRtrfCSawoxA7y1eHoZROU0px/y1GRXjvyPhclwLrwrESa43MwgbSP0Fyx5j6kB+PM2zWWWjdmPe3OPiyq7bJjHm/5bHP3czehkZOlFmuFSsydieaZ4QBPrgejojhx3hVhbQc/J45vrfbnF5AF9zWvjC7zU42KQTLbr3kUQ/l7F1tZTeoXdNE8HfRriblkX053XF5ienxGkbkzupZvdN+UqcMzNqAv17Y6ynC+m3QSvTHKqARADB+zRW9IieNLzkNWA7ed+KlYm3wTKETm/kE60yztdnhdX0PA8TC4D2sWgO3D522EFE9s1Thjv4ag5Vj0AdakrQYQjSE4ScXynT4tz7Z2IWk/1WjZBIFD9fwfwEWcqTUtTk7cvxoI73xRIHLYibmGOVudIrDSmZINx9f3D54FS3bVkS9LhyFj6LfbgSsoV96tgyrpQ+ynSQvF7LWWKFuzo9bi5EMPYZGIqZGBjoqhSvOAPKkpnHmx3Wzjn0PRpxDFoCILRmmxZhv1ICxAGRhbExTgIhJGGb+5kxozmHZUiY1ipeM=
+ /NCAyhld2tXcmfGXelpUa/Xli1KyqDd8DQ3x4BPCT6gwax+uYVgbMp8M0kGee7gLcYiQetnkqAER4mw/7P0pTKxvXmNduSVEVP3Vdteg03srvxHlvEyU7gWyKTIYwgB+vTj+yl1SG5gvCQt0T3j6tZmA9lndohbOR9fxE+rNw2fCMo13izQgNz8d4BOPPcJJcDqpazpv8WXE+wSzNgrcPdaQNJM5y17M/p/N+/0wlWvx8nByCXHd7sxcKSg1lVCN3emKlCX3w8ehHMhXB0sOXBNlQcHZvSnPMUJD4oddvoZQM2sbezr5fmwBeqNtKo3VnowXmeEdoh5UqTIdOLBazR+swNWlFueFImxpPKwnZuKgBCHCZd2WghopSUEkh27sWCZirbjkf/whKJ5FGD+aDQni0FM3rQ6dDgi/lokE7r0+Jor0/HaB+QMq+/QnlW22Ht5k9uGgZIm88hiJgp/PR0hjyiJkNnvSLEzbAbvP3zqy9oACP5Jy5PvJzNKaIvtobQEiJndjj2POEYnyYtBHM6REZUcIahKrP6oq+mS/3x7Lh+1UueYQxMycpcP9R+K84UbOtIBKFVFNBnUTNlA4IRjUUu+e1b84jhfISY6bGyZlO/kaUezvS9vqBNdayy8QMCo//i+zsNBnrnJ4H2z0PUC7YR/htDbp0rYas+1CQC7KDRVRo0tOa7/zQFqizfUUfFC2HUfSU2DC4pg5oov4tOTmHOrLi/d0dyTuZJUuxf8=
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(22082099003)(18002099003)(38070700021)(56012099006);DIR:OUT;SFP:1102;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN0P287MB2019.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(23010399003)(38070700021)(18002099003)(22082099003)(56012099006)(4143699003);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?B7sdm4imHekTMmOiwfZbPQhPxsMSplYWIX7/RAX9Qb1GirtS8Z9dCPP75v?=
- =?iso-8859-1?Q?fv6Jd2DMCx5ATeOadwd8FnRkvJYz4L01iHqdQXY2IsXUJoimlm21ig1L6C?=
- =?iso-8859-1?Q?GK8nn1P4vxWP1bL1xLdeMHxOxHHe94ash4Vg263p3zZDw71E0NN/3YT7hS?=
- =?iso-8859-1?Q?0OZGfdApnRdyzIjJR+V2gVQFBqoX7Pa1PXu3T85cr7Ty9z5ZCnA3825w/6?=
- =?iso-8859-1?Q?/CepMuYbi0VdmcBWNZVOlBnFIasympSn6jr+JrSbdhdv8C/VqDcTSX35Yx?=
- =?iso-8859-1?Q?zM8CJcXzC1Mp6HR6qjSwLGIBYSvVQZcQJy47Qh/isistFl3neMSS2VKUng?=
- =?iso-8859-1?Q?HSgmAxbGuwdKudBSCoQj+enD04CffVXEKWzgty3F28CzpEiPgUxRw6zc+Z?=
- =?iso-8859-1?Q?zH4aT2UvoNM+tP5HuH/YR/Tm3W68zv6mofz+G+5BVsNLC8ILAIuIkSl9kC?=
- =?iso-8859-1?Q?SBpJxjhQnitZU3HXa99KvYclB+aReM+kae/HX5KXXX3X2+djpSyeyx7+8y?=
- =?iso-8859-1?Q?bKDXtZ6KEyc1SA4wgPosBf1HYDFwBXToeT0TOCIBjNTbYH5Nb1/7I7zXrc?=
- =?iso-8859-1?Q?1RaU0RgJ+g2pUnwYy8vU2cw+GyD6WkKfJxhIUOkH9W8EHGTN4dRBG/WEX9?=
- =?iso-8859-1?Q?Rj+lvQxbPE8E2GabyRNTJeNKs/fTdrFr4lS2mdbdBMayy+M8kwuR9oMoah?=
- =?iso-8859-1?Q?8GPNah6piOkeOEg+a4wvETXcAcDBPwMxYdxrSiK6NnxB1+HYyxHe8ALQK8?=
- =?iso-8859-1?Q?9t3AgqXqFceL/X7NYLwZ1EHFsR/fysEIO5GjcZjdTHrxhmUhla4PIWOnC5?=
- =?iso-8859-1?Q?/Q+LH4GcBC9qF9BAqac1wn72EWem3k6M3yrIYoYKLslCb+tKNNjg7hdYMi?=
- =?iso-8859-1?Q?XUDYDoEKBIdCcEE+7tIhBuAp/kwBz2AcNDbc0LAxAVgcYiyA+9iRFJyoqX?=
- =?iso-8859-1?Q?qTkA31VbT7ZQMqbSDYeFXWJ0rISnPrzeJgCQIRyY7pWfqlemZ5Hq+xNWbo?=
- =?iso-8859-1?Q?ogjAiYp6uJovwXHMn7mR0v6TBdWRavN4ZP1ywfB9+3UI989HzStUxDgrg6?=
- =?iso-8859-1?Q?9yQVpNHt0ReopHZ0iOR8lxxVNOLV37e5c6x/XPXSKWtXUUuTNQaRf5qP+M?=
- =?iso-8859-1?Q?uAAQDB4UXyechzkkd0y1PxT9fqtSSmnd6dUtBLfLtqQ2C9BTIf/Yk6thog?=
- =?iso-8859-1?Q?X1Fy2qMffC5TNOj9UN33wyaz3WglAX7PwOvua+Yq1bFwNQFN4crcA4kt52?=
- =?iso-8859-1?Q?cH5AzqsvAfe9UmNMdSB1tOxSAOwd0x0FTD8Sd2NQEtR2GB12Izk5SRjw+f?=
- =?iso-8859-1?Q?bCXVlSc5aWdzYj8SSBO7yLWTGGrGYonu7cg7ZhC9XmuysyOI9f/C1GMoY2?=
- =?iso-8859-1?Q?SY4JGVgOoqyZf4f77qiq9k/zQ2VZQah1gJ4GC4f4JaPxHZijjenpYAKy1R?=
- =?iso-8859-1?Q?GTFx90dRY10AcClDaJwQ7mSzaVGkq8TQ+EGXw3Pz0qbam7iyo+j9+qC0x0?=
- =?iso-8859-1?Q?jNf10qKRCsfR2p2LxNRCYO8WMn3t3ts14m38WyEHjYapxURRs9+BwUtMNm?=
- =?iso-8859-1?Q?NMbnbLDZU1UL8/tNLMcPXIzr1T9/t87uY9GXnIxXJtcx8N1mB4iDeyuTru?=
- =?iso-8859-1?Q?e3QwNWltTKY9R62DJYxqZoeqQdQM2CCvxjQgSJq+DdyF15uIWIbg5tAmQu?=
- =?iso-8859-1?Q?QEzJs6WD2jc/csTyF4iEqQQ7piynEEMaCda1bi7JoVcxHxGmczm+prQdU9?=
- =?iso-8859-1?Q?qI3kGYanNBnUOK7eehyEhT/nZx3o/zvKCsqza+CGXh6L36CpOtW52jjOJb?=
- =?iso-8859-1?Q?mqCsEJQHnw=3D=3D?=
+ =?iso-8859-1?Q?f9Q3d6fbu8bI/FKiu4nfbl81REcfdI+t8cg/pD82SCOMHfthkASIPynLHV?=
+ =?iso-8859-1?Q?jCYGkn1q1vvYFFBk1ptNfTcB5dvY72YWKbDSCxmbcD6akcVfnYTf2RwUi4?=
+ =?iso-8859-1?Q?C82d3D6jpQ83S4eCAKVvt1ydbTgZrKXBWg98k0b2QgRntmYw3tujOXgOC5?=
+ =?iso-8859-1?Q?/tXL7zbD3nlGVJUfy4Kvm9/gNr2WU1yGe/0k92rfUiRrKVwjacAFhvExFV?=
+ =?iso-8859-1?Q?wXWoCAWqLt2IGthhZNB2CR2J084t8UFSQ5wR/sYzo/c1oc3d3x101BHd29?=
+ =?iso-8859-1?Q?9plZezfR1pOs1QDDnxwc76OvO/CO7FY7DBjregd5DQWROhWujZQMtPRXVu?=
+ =?iso-8859-1?Q?L2L4jDR8c6PAkmgKfAWpE5bYzReeu+CVXcyHXbbJIeyuZB4KplDF418Ihi?=
+ =?iso-8859-1?Q?gbRpRZcl6FDGjbzeooNjaUtiD4c8wAF+FJtLVXm4AlUx7j0XzHT8F+gohY?=
+ =?iso-8859-1?Q?iQFaQU5bQPrOkDndlmLnTbhcgz7/PunAmGaI/IX7I4x3njWbWa2y4522GU?=
+ =?iso-8859-1?Q?YTE7bog/B1o84N5x/LIF9/03cP0G9znDVE3xt2KT8aSBVuR4R3hODXtuOh?=
+ =?iso-8859-1?Q?VCvMPsE+dkFU5UwNDp8sWsRLMDntwkxjiI8mC6MwpLoQ1W70oTLF0epeVr?=
+ =?iso-8859-1?Q?q3zSlICMqE/22899djKtlu3/Qt72xxm1rZBvOAvpKCNamCPwo1BuHipdwJ?=
+ =?iso-8859-1?Q?WpOTHKQf5DZ+ueUeoOYIgJS4ztNCbuDr/1RyXXB5KKygA0S9KuC+Do+L4y?=
+ =?iso-8859-1?Q?rz47x0MMjsIQY0a7FvE0jVti7PQsUfPJsuZhm+Sefv6NzPHtzaG5yGtF1x?=
+ =?iso-8859-1?Q?dHGiL1LVdSUTjSK+a6SjfFBUNKuBG1qrXApPjzzG3gbnilBkxWbl6Parqq?=
+ =?iso-8859-1?Q?2PtHKYh2M8pdwIlnRA0EdG8si7xk7sJUTNncWLwSyWGpInyTDt9JHWBlpO?=
+ =?iso-8859-1?Q?lKR72lJ24EyPWGDpGMy3Yee1qcGfPu0ysV1K/7L7A+5xjquwLzGk+9SPEh?=
+ =?iso-8859-1?Q?/us7+eYVQOFU+h4Yhy0zuwdB/E6g75ysKkmQ7/ohRRi7vQ9hKIMEsPkN7n?=
+ =?iso-8859-1?Q?S8Yseor5yi+ZwYK4n3KIpF/4H6vQOxNfwfdQqCd1AfKuQqLHxu0Kdb+qah?=
+ =?iso-8859-1?Q?Y0fxE5TQKnelDEA/xVJ6GJzJwJvPWs6vr6JHRnaElAR0QFeMznCJAx+m7J?=
+ =?iso-8859-1?Q?VBIm0uCN/MSqxpm4dhYCLCDJmg/r97LSqZiUXzQWwXIH5tWqBdEupK6u9y?=
+ =?iso-8859-1?Q?pp2ukYNcCwLPzZ8zNl8Olk7p89VXYOC05yhzetjewIUBL9YcMTmNJ7aPl8?=
+ =?iso-8859-1?Q?XldfKfWIuVtMg/RQR6wEPZyp69i1Bf3icRWs9MfBXEFWJBMakork7K3cxl?=
+ =?iso-8859-1?Q?jtzlG0QDrTWOeE0erQnQyTm9Q6pqdk9ThrVo+fCP2Ee7WBJ8afbSI4ZhHE?=
+ =?iso-8859-1?Q?mawMTVzTRR78pn0RfVQ8hWSq6QsZiUcuuyNyQuwl1IkbPpm67Xr7VYBqi3?=
+ =?iso-8859-1?Q?q3eY/lJ8BKJewIebBiQLMR7z3AXJjGt92CN7xuoq/7F7Rr0wu9Ivs6OSdd?=
+ =?iso-8859-1?Q?Km8kbewYBQz0bdvdSaVRkoWCeLr9W8eQAUrwTaAc6rMbJT1FN5f3CwK4ql?=
+ =?iso-8859-1?Q?qJoXpyps/nuOfQW5RrgS+GvgB+vxrsYs8WQxcHQ/1PJcUZA8SbLyEf1hYs?=
+ =?iso-8859-1?Q?IuvjU7QhvtnOb/Zf7G6MHrac/M0x8v0QvqfpJiWf5/1Cty7gPMml9yvdip?=
+ =?iso-8859-1?Q?dsnjHgMaHFn86Gf6BO2MixSmE4dLfkPLgDGtw9o7HO6nU5mu8K35yrQ1BS?=
+ =?iso-8859-1?Q?wdu3NhltK9YwVKtaFUxr5kRP9lrs2H8=3D?=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
@@ -132,85 +144,75 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-OriginatorOrg: siliconsignals.io
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: feb82056-d870-4378-8d23-08ded023a1f0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jun 2026 06:00:59.2176
+X-MS-Exchange-CrossTenant-AuthSource: PN0P287MB2019.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ea4c027-4f25-48d2-45fa-08ded023d4f5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Jun 2026 06:02:24.7686
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: NMTh4M1piDYhk9h/Qv8OFsO1dAlVHnWKj/rKXC4Ybdx/374uBhot4XutKzDK4KhXeKZWfdlJnIlsLFct7SmjCHzNegSGKk+ePau7zOP12AA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA0P287MB1274
+X-MS-Exchange-CrossTenant-userprincipalname: cVHx8cU/g/LQzaIbunhuF/KSrGverEFNc0rgDz//bHuSNnSTNhlm5VgG3v5sRNYh3XQSV6CglGQp8Uk0V9ZuxAuqljc1XM/4Mhas0IeyCmqqw/3AlgaJ9aH0O8wiDhba
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAYP287MB3568
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [2.04 / 15.00];
+X-Spamd-Result: default: False [3.54 / 15.00];
 	DMARC_POLICY_QUARANTINE(1.50)[siliconsignals.io : SPF not aligned (relaxed),quarantine];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65325-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:vz@kernel.org,m:hansg@kernel.org,m:bod@kernel.org,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-65326-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:luca.weiss@fairphone.com,m:hardevsinh.palaniya@siliconsignals.io,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:hverkuil+cisco@kernel.org,m:johannes.goede@oss.qualcomm.com,m:vladimir.zapolskiy@linaro.org,m:elgin.perumbilly@siliconsignals.io,m:contact@schnwalter.eu,m:hpa@redhat.com,m:clamor95@gmail.com,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[himanshu.bhavani@siliconsignals.io,linux-media@vger.kernel.org];
 	R_DKIM_PERMFAIL(0.00)[siliconsignals.io:s=selector1];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[tarang.raval@siliconsignals.io,linux-media@vger.kernel.org];
-	TO_DN_EQ_ADDR_SOME(0.00)[];
-	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FREEMAIL_CC(0.00)[linux.intel.com,fairphone.com,siliconsignals.io,kernel.org,oss.qualcomm.com,linaro.org,schnwalter.eu,redhat.com,gmail.com,vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	DKIM_TRACE(0.00)[siliconsignals.io:~];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tarang.raval@siliconsignals.io,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[himanshu.bhavani@siliconsignals.io,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[PN0P287MB2019.INDP287.PROD.OUTLOOK.COM:mid,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,siliconsignals.io:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6A1F76ACDBC
+X-Rspamd-Queue-Id: 739056ACDDA
 
-Hi Vladimir,=0A=
+Hi Laurent,=0A=
 =0A=
-> Originally a chip id check in the driver's probe function is done for=0A=
-> any OmniVision "ov02" sensors, but is too wide, since there are at least=
-=0A=
-> "ov02a", "ov02b", "ov02c", "ov02e", "ov02g", "ov02k" and likely even=0A=
-> more families of sensors with similar names, thus the check for id shall=
-=0A=
-> be more specific and match "ov02c" exclusively and expectedly.=0A=
+>On Fri, Jun 19, 2026 at 06:24:32PM +0530, Himanshu Bhavani wrote:=0A=
+>> Add a v4l2 subdevice driver for the Sony imx576 sensor.=0A=
+>>=0A=
+>> The Sony IMX576 image sensor with an active=0A=
+>> array size of 5760 x 4312=0A=
+>>=0A=
+>> The following features are supported:=0A=
+>> - Manual exposure an gain control support=0A=
+>> - vblank/hblank control support=0A=
+>> - Supported resolution: 2880 x 2156 30fps (SRGGB10)=0A=
 >=0A=
-> Signed-off-by: Vladimir Zapolskiy <vz@kernel.org>=0A=
-> ---=0A=
-> =A0drivers/media/i2c/ov02c10.c | 4 ++--=0A=
-> =A01 file changed, 2 insertions(+), 2 deletions(-)=0A=
->=0A=
-> diff --git a/drivers/media/i2c/ov02c10.c b/drivers/media/i2c/ov02c10.c=0A=
-> index cf93d36032e1..b36da75d7dfa 100644=0A=
-> --- a/drivers/media/i2c/ov02c10.c=0A=
-> +++ b/drivers/media/i2c/ov02c10.c=0A=
-> @@ -18,8 +18,8 @@=0A=
-> =A0#define OV02C10_MCLK=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0 19200000=0A=
-> =A0#define OV02C10_RGB_DEPTH=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 10=0A=
->=0A=
-> -#define OV02C10_REG_CHIP_ID=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 CCI_REG16(0=
-x300a)=0A=
-> -#define OV02C10_CHIP_ID=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0 0x5602=0A=
-> +#define OV02C10_REG_CHIP_ID=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 CCI_REG24(0=
-x300a)=0A=
-> +#define OV02C10_CHIP_ID=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0=A0=A0=A0=A0=A0=A0 0x560243=0A=
+>You've been asked in v1 to make this driver dynamically compute=0A=
+>registers instead of hardcoding modes. Please do so in v3. Nack on v2.=0A=
 =0A=
-Reviewed-by: Tarang Raval <tarang.raval@siliconsignals.io>=0A=
+As I mentioned earlier, I don't have the full datasheet yet, so I can't imp=
+lement this now.=0A=
 =0A=
-Best Regards,=0A=
-Tarang=
+Link to discussion:=0A=
+https://lore.kernel.org/linux-media/PN0P287MB2019AFCBDF0E24BFEF8E0E399A0F2@=
+PN0P287MB2019.INDP287.PROD.OUTLOOK.COM/=0A=
+=0A=
+Best regards,=0A=
+Himanshu=
 
