@@ -1,195 +1,209 @@
-Return-Path: <linux-media+bounces-65423-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65424-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id YPDMMe+6OWr0wgcAu9opvQ
-	(envelope-from <linux-media+bounces-65423-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 00:45:03 +0200
+	id GSbhLK7BOWpGxAcAu9opvQ
+	(envelope-from <linux-media+bounces-65424-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 01:13:50 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9866B2B1F
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 00:45:03 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B69336B2CBC
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 01:13:49 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=ADrkBVuu;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65423-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65423-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=shazbot.org header.s=fm3 header.b=WUziQHNE;
+	dkim=pass header.d=messagingengine.com header.s=fm1 header.b="O V4/ZkV";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65424-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65424-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=shazbot.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4444B304FAE0
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 22:44:36 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id D252B30148E1
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 23:13:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F11137BE7F;
-	Mon, 22 Jun 2026 22:44:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1013E35201E;
+	Mon, 22 Jun 2026 23:13:46 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B130837BE60
-	for <linux-media@vger.kernel.org>; Mon, 22 Jun 2026 22:44:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3C9430C177;
+	Mon, 22 Jun 2026 23:13:40 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782168274; cv=none; b=fk+eg531uicO5NUtWeaHUzEfNAz+P9jl5rYdD//Fcq0EBZ4FZB86vif1nuBHnGYknzfOPIwiAVOfRNQvm4IrBfCNV71fvU5rgtCFee+Z9RmymvLEwEZDIvUZSfBbbwAnoqqXhbzWedIKNKp2L7HmVLDNSfQ57M+GN72mXocXAPw=
+	t=1782170024; cv=none; b=mrk0MAUfz/SMf58oWvQb+IlUuThMsNN2yob4qO0CKlvhXuZa/blkIDMevAMHdi/0/A81wePSS9EGfr7Utom9Gtq1pIOBvMgSuEkqMcuIhChj0d6sJ9l2XlQAuvh+WpUvSaHmS3zVbVo6g5bMHwZitp1MTi+uSD6Pise1/OGnBTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782168274; c=relaxed/simple;
-	bh=ZfxkuR/9Vuef1Q22juZJ6EBv0iqn5LNDE8SSCqmYfWU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aBcfhFDo+AVyCKhifWykG9BYcnqx244YKomOwzyYEbCpp+wjCMZpdSCKZ4RJ1KhjENfYaOEbBAOtwUKGbYACHwLV0ALbR7FPHMX9zV0ABKlfo0Ht7SzTXlhdAXFw5sKkyBVxKufGpRevRuK8ef/uRgaWZ7kDp3ZAho+RZ+HLRZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ADrkBVuu; arc=none smtp.client-ip=74.125.82.177
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-3042a388168so336272eec.1
-        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2026 15:44:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782168272; x=1782773072; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7fjpcGprWwQ0lr9GK2KFC92iw63YTslpmj1gCXP7xFg=;
-        b=ADrkBVuuX9uACZYGVxUP8dHAARG6Pd3xb8mqZrfgPDInRJ0Oe6aNKVk+XUr8QKK6h8
-         JPf8MaZkwnW1Mz5iDt7GqskJgVFUgpUdKY4RGWBcL5OC7y0dY1q/S3JQzYB56deWubTT
-         gr+NlA0vE7mN8eXv/ed6sYCgd9H2x6bfp+BPjg8UDEZP3tN9y8DJxe2GNJtqOU1pkojU
-         KUPMwzANLGTKmvjdGJ+X8IZEW1GJoWvfpIyayJ5Vh9H9rqRIu5nsv5QEPQsiaF0MOh9R
-         rsB7IKDf4KbWQPk6PZtDzLIWq2bVPLCPFVkgPaE74y5guKNl9h3zG535hU5EUwl6fa6u
-         G3GQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782168272; x=1782773072;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=7fjpcGprWwQ0lr9GK2KFC92iw63YTslpmj1gCXP7xFg=;
-        b=DcqI4CcyeGXmrHNJcu3kuM1P6rlKGWgBYJgnvnhnZx9I5EraMTUWNO/Uq/7bnmuFMk
-         5y276Si7tGIUiUZp7NkgHURiarOBoJ8TFYDOqADRaPOjEfHZ0ZarPdWaFSOZjDms7+wB
-         A8ypngjTV99q0lFJ0f/DNmNujw7V6o+qUiT92WNDAi1u28MHljqFf19QmRPkyJMoH4v+
-         y96254SUdo9SnQ3CTMh5ZMfqMVHC4yia30WGUKWoi+I9HgrEbkCofiVo7YRydWmc1aYM
-         Dt+i4uJ+rSBZuQ94Zn3hrYXIzBLHi132EuXt0n/+dY5QGOgyFU4nvu8Pa8RnxeOUHvBl
-         mZqw==
-X-Forwarded-Encrypted: i=1; AHgh+Rp1R7ziqImUGWTBonTNfhpAZeA5V+m67gGDAnFMM1yHtMIxUBgkKK+/Lz5qX34IWIUsyJRP+IAfXZcOKg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwdIfbAb1yPjPAjbfBOTx4uknBQoIAdQ4LQgcOR4/LDEj6cnqLR
-	yUd6WAZG/MFSP31I3K1O64wP9g0gu9crzxJSSOPxF3jNOxGSwz+2YA6p
-X-Gm-Gg: AfdE7ckLGWeLZDgNGHjTNFKb4K3fpbQTwpZLLZ59Ig0X5zAzlP5YuR3aHi4DwtlDDDq
-	l15h0PrVE+UNQkGQcVZl4OdBIMZgmjkZlO0R6mIq9uHBZOSK0kJw5V4AJf5S8wBf7CIMCRLdtiH
-	fkXA1wH16X9jMriBomo6/MBVAif1wEkVkebj74w0iEDOGV4wbEI/q2gj7lrjkdb7vPadLy3FhsU
-	zLgusbcrxgj9UJ+Y7U+7buKWtkxv7XglWXA//PXQ5vLguCUs4GgO474FORDUlgBv6YAdmavY/vk
-	koebymtfhgCysY0ajo0gzcfiKl4gVMamVoFotlCUCq7t56SpSknJNp4vhwIPyLvMb+xnioYb0LA
-	t9IG0aDY9KHV12XRNI9kZj5x3fLI+/j0Fq/9CH1NKYgk2Ly1y6wi7auOQ0Zv6uZ1eMt1QjjGmIB
-	EFecvq9wLDXSjCyqSpeKK59TAG9WM0q56CWR/tSqbxFDH0NSuajETQj1JS97+1rb/UVAo=
-X-Received: by 2002:a05:7300:7313:b0:304:cd0d:9ea5 with SMTP id 5a478bee46e88-30c555526ecmr1107469eec.7.1782168271573;
-        Mon, 22 Jun 2026 15:44:31 -0700 (PDT)
-Received: from localhost.localdomain ([2804:14d:4c64:82a2:691c:629b:eda4:7c2e])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-30c1ba1c376sm13087954eec.3.2026.06.22.15.44.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2026 15:44:31 -0700 (PDT)
-From: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
-To: andy@kernel.org,
-	hansg@kernel.org,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org
-Cc: ~lkcamp/patches@lists.sr.ht,
-	linux-kernel-mentees@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: [PATCH v2 3/3] staging: media: atomisp: drop redundant out-of-memory messages
-Date: Mon, 22 Jun 2026 19:42:44 -0300
-Message-ID: <20260622224402.34001-4-rodrigo.gobbi.7@gmail.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20260622224402.34001-1-rodrigo.gobbi.7@gmail.com>
-References: <20260622224402.34001-1-rodrigo.gobbi.7@gmail.com>
+	s=arc-20240116; t=1782170024; c=relaxed/simple;
+	bh=oh7A0RAI7tER7bqo8zvulV+7B3H4XJvkEeb7ZI9wWNE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=AQLKQpRxOwqd1ubtC915XBUeZUz3jWFzdr1t+i+t9N3jBJ+PGcsFJ12cOuXyTvL7P9KTk20PzKseBkE2eS8LqBAgOqlwGG9BYEuaOFDnxnxdgFDLjn4HTO280okSOWZFp+wHDyGPauS6CL3d+NCg40qpQEzl23TKy/segVBDIhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org; spf=pass smtp.mailfrom=shazbot.org; dkim=pass (2048-bit key) header.d=shazbot.org header.i=@shazbot.org header.b=WUziQHNE; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OV4/ZkVe; arc=none smtp.client-ip=202.12.124.151
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfout.stl.internal (Postfix) with ESMTP id 8D0601D0007E;
+	Mon, 22 Jun 2026 19:13:39 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Mon, 22 Jun 2026 19:13:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1782170019;
+	 x=1782256419; bh=uucNtPV0I4MmovhtQhP25ytZEAiupQRi/0ihEK8Rhgo=; b=
+	WUziQHNE7zVmdQgAmci+JZYcwo5KkO7QkV18LNAwi7KpDkmZNhnzcYFcpJ3s0i/M
+	vNREOL3IJz7PpYtITSnURTXJ57NoKKtI3p8VdnvvqSByGNgqwb1K7ZYv4LWzS4RA
+	eGv77QMZNsNPOKWuMvM1u/Y/vGWVhPMaP4pDOjOppZPTk4Lo8pCwb1U285lX0mlr
+	LU5wlhsrTvA9a/4vuG0IS2vA4/tzWFQ4hyAGJv1Ote0P448ilKVTwjoqLvmTgETJ
+	OwMJ5DwEQcB9yyC8YwngLajZNQPzFpYXW2VCjtXQQhw2J+Nfuchc5nhLAyh1pFhZ
+	DlkzfMuA+M+8++cskbekUg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782170019; x=
+	1782256419; bh=uucNtPV0I4MmovhtQhP25ytZEAiupQRi/0ihEK8Rhgo=; b=O
+	V4/ZkVegwfYWhFi0CV7x3abQDcI+EMvP45aV65xUXGtBskn14RQSorce+nkWRjYT
+	0vUGzsysby5GrQmfBqRPvk3q5Sw0hugavUFZKFpoMMgcv9AU1yvyy3W+nImUH7kS
+	SjZ9hUrIx21b1w8iKUk4ZoSZZ/hyni3dzn4Y4rW/Tn+KmJFahhUaGlLCJ1HEtbsZ
+	liIrrHtxpgMUXWhG1yE0zc/1ID7ryZkyO6/L5edSt0ZPnpaOSBMp3f1FUifbx8QE
+	yLCSp9BFxoc1A92qOC7tdkgtmNtqVDR+ZbZx8lN2afLKCauJBD5nDne8uBZD5W1f
+	9+CUmnJk4mdEJL7Aasgxw==
+X-ME-Sender: <xms:osE5amVAIHeztFw-x6Jk2cu55pC7pZjRmwM1b6KSRuWDVIR_KTwJvg>
+    <xme:osE5auT4VLIfXIAUlUSHsDevdDOku6mOhxO5YVA14ZP6wQU4fUtEtfDHpEMcONgLa
+    IyEYJJ6uwCk3lY4ms7SZGpQuP2VZ8TxsKa5tcvL7lJN_k22wfgP4A>
+X-ME-Received: <xmr:osE5alEqQwwWFiCYO4WZS1y5iWQi4KDBwYCSMyaTEHpytxplrQpDKe4ePGE>
+X-ME-Proxy-Cause: dmFkZTGuB1iEvMd+xObr0XHRyjLZ564bpkukI0Iv4VBGAc8kgQK8balQPxjO1J5KLzYhKR
+    605IkjMxDcJA3PQXGOzAsP/a2qqkAveVav1mQz9sz74ejDOcAB1nKTxQ7Az8dn9NDB7h8n
+    +L2GIz2S0KD7QFR9SCO4MwHg5bwilIvRQO7bD+P5oYMomqi4MEOeSdsCHP7Rf6V1uHGLX2
+    l7K4NU176pHC8FwN4H4t7mIC+q15Zr24Jg9CULQ0OPMN5s1BgXLPViD1WwvdGiaSncZTkr
+    vUvs/iZX+9xQgrK4KW+Mao1JDSNl0pLKn1jUH20f08qmwfuaHj/qztG6zl30Uq93PjoxQZ
+    wS77CvLYhcgPkDVyh4OTwLfcbYCQBsP49N/qo4B5pGr3VrP4wC3EX/HMbpI0o7tnDHb8Vr
+    dUC4KsTR3XohX349NH0qkcYTAnuTvQmU/XTH8vCSFrDenwTlit8BbuyrmZseJPmljYQw3o
+    PWcMojRyNylo1GmUE6eVDYC9by8NKCN+P0P1PQ5Ihrtv1L5gGdXsmSAS4/IA5pgOjuwoIi
+    NSBRh+8VABI8itiZZG5BczewX+sa5k66o9ZINFwJJwvHN0vYAKq36XZ/yTRhj3byJ0e9qU
+    HKnIZbA0Hu543idA6+zPiDc8rMNS/K44j7bYaQUhGnsbNgzDb/OZthtS+zpQ
+X-ME-Proxy: <xmx:osE5auQRdJ-u5l69g5wM4Vu2WcHAuhdDct942-89KQW2FN0yytXFAA>
+    <xmx:osE5avq1a6u06jjKTm1185wY59wOCaNiXYckcLCmpR46D3RNQpZi4w>
+    <xmx:osE5akoor8Je3GunK-NO3i0DgcNRVxJ6W3IxDvfEK4Pb1RMhly4orw>
+    <xmx:osE5ai32xmGiXLj6RW-XweJ-e7SwioBikp0RZ0FO4IbKQbCKHT5hNQ>
+    <xmx:o8E5al5-Lz15wn6QttNoyZquTps-g1qYfxAJNhiR6Nk3RW_7DR1N8Mu8>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 22 Jun 2026 19:13:37 -0400 (EDT)
+Date: Mon, 22 Jun 2026 17:13:36 -0600
+From: Alex Williamson <alex@shazbot.org>
+To: Matt Evans <matt@ozlabs.org>
+Cc: Jason Gunthorpe <jgg@nvidia.com>, "Tian, Kevin" <kevin.tian@intel.com>,
+ Pranjal Shrivastava <praan@google.com>,
+ Leon Romanovsky <leon@kernel.org>, Alex Mastro <amastro@fb.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ Logan Gunthorpe <logang@deltatee.com>, Mahmoud Adam <mngyadam@amazon.de>,
+ David Matlack <dmatlack@google.com>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Ankit Agrawal <ankita@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+ "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+ alex@shazbot.org
+Subject: Re: [PATCH v3 6/9] vfio/pci: Clean up BAR zap and revocation
+Message-ID: <20260622171336.7d13f548@shazbot.org>
+In-Reply-To: <55ea7422-08d8-4c92-aa59-8ff6f9e9d781@ozlabs.org>
+References: <20260610154327.37758-1-matt@ozlabs.org>
+	<20260610154327.37758-7-matt@ozlabs.org>
+	<aixgZQiBQKgS7yIM@google.com>
+	<DM6PR11MB3690489DB5FA611413BF60558CE52@DM6PR11MB3690.namprd11.prod.outlook.com>
+	<ajGbRE3WWJxNxcrg@google.com>
+	<BYAPR11MB3687AE280241C9E00B46FCF98CE42@BYAPR11MB3687.namprd11.prod.outlook.com>
+	<24f34e59-7c3b-4b56-83bf-cb07e3f369a6@ozlabs.org>
+	<20260619133116.GB278945@nvidia.com>
+	<55ea7422-08d8-4c92-aa59-8ff6f9e9d781@ozlabs.org>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[shazbot.org,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[shazbot.org:s=fm3,messagingengine.com:s=fm1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:andy@kernel.org,m:hansg@kernel.org,m:mchehab@kernel.org,m:sakari.ailus@linux.intel.com,m:gregkh@linuxfoundation.org,m:~lkcamp/patches@lists.sr.ht,m:linux-kernel-mentees@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65423-lists,linux-media=lfdr.de];
-	FORGED_SENDER(0.00)[rodrigogobbi7@gmail.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-65424-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
+	FORGED_RECIPIENTS(0.00)[m:matt@ozlabs.org,m:jgg@nvidia.com,m:kevin.tian@intel.com,m:praan@google.com,m:leon@kernel.org,m:amastro@fb.com,m:christian.koenig@amd.com,m:bhelgaas@google.com,m:logang@deltatee.com,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:ankita@nvidia.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,m:linux-pci@vger.kernel.org,m:alex@shazbot.org,s:lists@lfdr.de];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[23];
+	DKIM_TRACE(0.00)[shazbot.org:+,messagingengine.com:+];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[alex@shazbot.org,linux-media@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rodrigogobbi7@gmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[alex@shazbot.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	RCVD_COUNT_FIVE(0.00)[5];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	RCVD_COUNT_FIVE(0.00)[6];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	TO_DN_NONE(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[messagingengine.com:dkim,ozlabs.org:email,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3A9866B2B1F
+X-Rspamd-Queue-Id: B69336B2CBC
 
-On allocation failure the memory management core already emits a detailed
-warning so driver's own IA_CSS_ERROR("out of memory") lines add nothing but noise.
+On Fri, 19 Jun 2026 16:13:17 +0100
+Matt Evans <matt@ozlabs.org> wrote:
 
-Signed-off-by: Rodrigo Gobbi <rodrigo.gobbi.7@gmail.com>
----
- drivers/staging/media/atomisp/pci/sh_css_param_dvs.c | 5 -----
- 1 file changed, 5 deletions(-)
+> Hi Jason,
+> 
+> On 19/06/2026 14:31, Jason Gunthorpe wrote:
+> > On Thu, Jun 18, 2026 at 05:02:58PM +0100, Matt Evans wrote:
+> >   
+> >> My understanding is that the sequences above wake a device that happens
+> >> to have previously been put into D3, and AFAICT it could only have got
+> >> there because of a previous vfio_pci_set_power_state().  Seems its only
+> >> caller is from the emulation of PCI_PM_CTRL using
+> >> vfio_lock_and_set_power_state(), and this zaps/revokes BAR access before
+> >> a transition to D3.  Similarly, an attempt to access a BAR via an
+> >> ioctl/through vfio_pci_core_do_io_rw() fails the D3 check in
+> >> __vfio_pci_memory_enabled(), and besides will try to take the memory_lock.  
+> > 
+> > I thought the general design was the bars were made inaccessible
+> > before going to a low power state, and remain inaccessible while it is
+> > in low power?
+> > 
+> > So the order of D0 doesn't matter. If it is not in D0 then there is no
+> > mappings and zap/revoke is a NOP.
+> > 
+> > If is it in D0 then it doesn't matter because D0 is a nop.  
+> Yes, that's what I'm getting at. :)  If it's in D3 then BARs are
+> inaccessible, so as long as we go into D0 before the DMABUF move, the
+> order of the zap relative to the "go to D0" doesn't matter.
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-index ad2a9b84e232..c0102056d421 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css_param_dvs.c
-@@ -25,7 +25,6 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *frame_res,
- 
- 	dvs_config = kvmalloc_obj(struct ia_css_dvs_6axis_config);
- 	if (!dvs_config)	{
--		IA_CSS_ERROR("out of memory");
- 		err = -ENOMEM;
- 	} else {
- 		/*Initialize new struct with latest config settings*/
-@@ -52,7 +51,6 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *frame_res,
- 		dvs_config->xcoords_y = kvmalloc(array3_size(width_y, height_y, sizeof(uint32_t)),
- 						 GFP_KERNEL);
- 		if (!dvs_config->xcoords_y) {
--			IA_CSS_ERROR("out of memory");
- 			err = -ENOMEM;
- 			goto exit;
- 		}
-@@ -60,7 +58,6 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *frame_res,
- 		dvs_config->ycoords_y = kvmalloc(array3_size(width_y, height_y, sizeof(uint32_t)),
- 						 GFP_KERNEL);
- 		if (!dvs_config->ycoords_y) {
--			IA_CSS_ERROR("out of memory");
- 			err = -ENOMEM;
- 			goto exit;
- 		}
-@@ -72,7 +69,6 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *frame_res,
- 							      sizeof(uint32_t)),
- 						  GFP_KERNEL);
- 		if (!dvs_config->xcoords_uv) {
--			IA_CSS_ERROR("out of memory");
- 			err = -ENOMEM;
- 			goto exit;
- 		}
-@@ -81,7 +77,6 @@ alloc_dvs_6axis_table(const struct ia_css_resolution *frame_res,
- 							      sizeof(uint32_t)),
- 						  GFP_KERNEL);
- 		if (!dvs_config->ycoords_uv) {
--			IA_CSS_ERROR("out of memory");
- 			err = -ENOMEM;
- 		}
- exit:
--- 
-2.48.1
+I believe this is correct as well, but importantly we cannot assume
+that a stray read or write just returns -1 or gets dropped.  This is
+exactly why we have such hard protections against the user accessing
+the device while it's disabled.  Not all platforms, even within
+architectures that might otherwise be considered lenient of such
+accesses, consider this benign and might escalate to system level
+faults.
 
+Let's be careful not to frame this as "the access doesn't matter
+anyway", the answer is instead that non-D0 devices already lack any
+mappings to access the device.  Thanks,
+
+Alex
 
