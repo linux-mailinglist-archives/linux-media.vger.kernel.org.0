@@ -1,316 +1,284 @@
-Return-Path: <linux-media+bounces-65371-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65372-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id qDoCLho8OWoFpAcAu9opvQ
-	(envelope-from <linux-media+bounces-65371-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 15:43:54 +0200
+	id NprwKjg/OWrXpAcAu9opvQ
+	(envelope-from <linux-media+bounces-65372-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 15:57:12 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2849B6AFF5A
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 15:43:54 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 470246B010E
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 15:57:12 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=iybQGBpg;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=5ywDEOoL;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=S0+lk3e0;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=95xpVfDw;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65371-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65371-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=suse.de;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=VNPcUcVm;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65372-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65372-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 9BA92302F250
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 13:39:42 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 686103008C3F
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2026 13:57:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86D6D3B3C17;
-	Mon, 22 Jun 2026 13:39:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEDC73B5306;
+	Mon, 22 Jun 2026 13:57:08 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2880188596
-	for <linux-media@vger.kernel.org>; Mon, 22 Jun 2026 13:39:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B483B3BF2;
+	Mon, 22 Jun 2026 13:57:06 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782135581; cv=none; b=Fl0m//N+nMcGhJ0701FfLdVBUZlW0UIN2ibyRts2lpq3MTSv4z8t1QRwNgnVIepuOb38yb3vwzpZszG4uKNrSqPjG8CTf7EbHo48+0o0ivKNW0oRmJA60JR7tgOZfShVlxC3oaFevK8O27eDHchK0DBRrb7l1SYhmmbcqFCtTXI=
+	t=1782136628; cv=none; b=qAocaLLyr8+cvppq11/ggUXqpIWskuO0S5Uv2B89RoeWLL5at0oKo6mXITOJ6UeVyfXVGtfuI6f7w21rfDsmnRH9ayaVnNPS8tp5Ci8PuR6zxxFeXXGXcpGbOyx+qtyMQyfHXK//FLk/XbCnzcgUgJJOVRhcpLEgFbvofVN8e9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782135581; c=relaxed/simple;
-	bh=J9uUP74UxARtxhx4ZsjLYz2gfndQaBxfO2OaKMJLc3U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VF4z0gB+WjPnVRT5qX6BZ30T8WEziXqvrN2VPkwteVsi0KsIdRB19FDPfpVsNEtoDpGsfTT24nSW1/lmoh/pBkXxFWP5njnLLgUQslZsXnaGQLZ4tz7/h7FDbzLjrgLO0bRl8aKR0aaq9NZCrhRb4US/SuUUlzgXFEzrvpul31U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=iybQGBpg; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=5ywDEOoL; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=S0+lk3e0; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=95xpVfDw; arc=none smtp.client-ip=195.135.223.130
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id E42D1707F3;
-	Mon, 22 Jun 2026 13:39:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782135578; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=8dpJRlfBOR0XL6TN6Z95Arkt5VBwN3sve5QEYdNo1kg=;
-	b=iybQGBpg6VGbDQ5JJwzwitsZp4BEGSidAB9nVaNKEfxxB/5Hc3o9T6jeXPDZuBLCvBImf4
-	ckyep4c2ca7mSv4fRJo0U0M6JInTCEqAJNHVBie8uL5UhQ59JF/JaAvy3QaBBiKRR6yhhi
-	pebgiOxox/+uUL0Hpm3C5J/F5fzRrfQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782135578;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=8dpJRlfBOR0XL6TN6Z95Arkt5VBwN3sve5QEYdNo1kg=;
-	b=5ywDEOoLY1Y391N4FhWPvjwfV7Il+zw37rlFqQPyzFdGUw6fHLgi5WjBph9PGxYV1JSpnf
-	RbnGaWZgt6Ol4tDQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1782135577; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=8dpJRlfBOR0XL6TN6Z95Arkt5VBwN3sve5QEYdNo1kg=;
-	b=S0+lk3e0rLSAlD+NE7b0w1TnBLtkfcIAC19CsB96qbWhkcdOc7F/TEXlSdXly3vYkXTjzO
-	tawWrqXJYFv8ofE0xOmuBmb10El81Y3IvOyW3gslEdPnUcyMyvrncmRfEEVJUVuo/PzrgO
-	9W5aRMzvVGrOZ0vZxpmRPYa6aTgeuz8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1782135577;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=8dpJRlfBOR0XL6TN6Z95Arkt5VBwN3sve5QEYdNo1kg=;
-	b=95xpVfDwtY3jGPRK7fpBLg8SC6TH4w97UT7tjG2dQtFWpNavdHqwt6/R6Fjdow00R2LpNC
-	4N4STeYAPntw15DA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 95245779A8;
-	Mon, 22 Jun 2026 13:39:37 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 7TZLIhk7OWrvLwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Mon, 22 Jun 2026 13:39:37 +0000
-Message-ID: <8b969c15-3044-4531-b518-d3efc280432d@suse.de>
-Date: Mon, 22 Jun 2026 15:39:36 +0200
+	s=arc-20240116; t=1782136628; c=relaxed/simple;
+	bh=K+YdelZmd3eUDrHaLUCksYUjT73IDd95xdcNJFXv/QY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DQ+IQpdU8mDjOK9F++nHdc5LNsWYuRxclyXYGUcSOGYG0r8VtduPV0ThKl7dBIWkcnLd+WdyXzqMgyaiPNBLoMpnzYADihLut0iWKs+y81AhSIJqy7ODAoJUtpFPdxgKHOQrDpaF+zPWNUsm0dl3UT5+IG6oZivHa09yb1IRdHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VNPcUcVm; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3C151F000E9;
+	Mon, 22 Jun 2026 13:57:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782136626;
+	bh=PlD1S0B/XpvNY8RPXUN/r3O5F8csNHGTI9Ji1I9li8U=;
+	h=From:To:Cc:Subject:Date;
+	b=VNPcUcVmDqH3JSCMcD7c8Kx4NWf9WvL6KSSzNhplQRCfFnIRX0m8FO8A90L7ckJU+
+	 Te+WwEPOk1K5nWjKioYVJgKqSgMVDFU+6Q5ZOXErJWJzacEHyM+4Das0t7xB9G9CM8
+	 Ew1Dkx6cS/IrE3WewqMCiDKHk9me6x/g+uc0UUSML69R3pfbI9GO36ibWqq079PxKJ
+	 xbM1vHUxesPYm8hnTKpBd8H8bhlZXaMnJOeij9NjtFUhnj47NeiB+Y/BRmy0KRpro/
+	 iNUkxJ9auT7bXUWNPTcnW50LxSug0bze2srBJbetGi/6czkb5kZblz5+p+A5FJaQDQ
+	 ZXftLg7EOQBjQ==
+From: Philipp Stanner <phasta@kernel.org>
+To: Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Philipp Stanner <phasta@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Asahi Lina <lina+kernel@asahilina.net>,
+	Matthew Maurer <mmaurer@google.com>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Burak Emir <bqe@google.com>,
+	FUJITA Tomonori <fujita.tomonori@gmail.com>,
+	Krishna Ketan Rai <prafulrai522@gmail.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	=?UTF-8?q?Onur=20=C3=96zkan?= <work@onurozkan.dev>,
+	Eliot Courtney <ecourtney@nvidia.com>,
+	Mirko Adzic <adzicmirko97@gmail.com>,
+	Alistair Francis <alistair.francis@wdc.com>,
+	Shankari Anand <shankari.ak0208@gmail.com>
+Cc: linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v4 0/5] rust / dma_buf: Add abstractions for dma_fence
+Date: Mon, 22 Jun 2026 15:56:48 +0200
+Message-ID: <20260622135654.334961-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/gem: modernize locks to use scoped_guard()
-To: Biren Pandya <birenpandya@gmail.com>, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20260616181956.61476-2-birenpandya@gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260616181956.61476-2-birenpandya@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Score: -4.30
-X-Spam-Level: 
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-2.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[suse.de,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65371-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:birenpandya@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch];
+	RCVD_COUNT_THREE(0.00)[4];
+	RCPT_COUNT_TWELVE(0.00)[33];
+	FORGED_RECIPIENTS(0.00)[m:ojeda@kernel.org,m:boqun@kernel.org,m:gary@garyguo.net,m:bjorn3_gh@protonmail.com,m:lossin@kernel.org,m:a.hindborg@kernel.org,m:aliceryhl@google.com,m:tmgross@umich.edu,m:dakr@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:phasta@kernel.org,m:daniel.almeida@collabora.com,m:gregkh@linuxfoundation.org,m:acourbot@nvidia.com,m:lina+kernel@asahilina.net,m:mmaurer@google.com,m:ljs@kernel.org,m:joelagnelf@nvidia.com,m:bqe@google.com,m:fujita.tomonori@gmail.com,m:prafulrai522@gmail.com,m:tamird@kernel.org,m:work@onurozkan.dev,m:ecourtney@nvidia.com,m:adzicmirko97@gmail.com,m:alistair.francis@wdc.com,m:shankari.ak0208@gmail.com,m:linux-kernel@vger.kernel.org,m:rust-for-linux@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:lina@asahilina.net,m:fujitatomonori@gmail.com,m:shankariak0208@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[suse.de:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[tzimmermann@suse.de,linux-media@vger.kernel.org];
+	FREEMAIL_TO(0.00)[kernel.org,garyguo.net,protonmail.com,google.com,umich.edu,linaro.org,amd.com,collabora.com,linuxfoundation.org,nvidia.com,asahilina.net,gmail.com,onurozkan.dev,wdc.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[phasta@kernel.org,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-65372-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tzimmermann@suse.de,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[phasta@kernel.org,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,suse.de:dkim,suse.de:mid,suse.de:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	TAGGED_RCPT(0.00)[linux-media,kernel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2849B6AFF5A
+X-Rspamd-Queue-Id: 470246B010E
 
-Hi
+Changes since v3:
+  - Add a FIXME for an encountered Rust compiler bug. (Gary)
+  - Add new Rust files also to DRM drivers & common infrastructure
+    MAINTAINERS file. (Danilo)
+  - Reposition ECANCELED error code. (Miguel)
+  - Replace refcounted FenceCtx in DriverFenceData with a reference plus
+    life time. (Boris)
+  - Re-add rcu_barrier() patch, since we now can use it for dropping the
+    fence context. (Danilo)
+  - Add forgotten R-b from Alice, and Acks for MAINTAINERS from
+    Christian and Sumit.
 
-Am 16.06.26 um 20:19 schrieb Biren Pandya:
-> Several GEM core functions manually managed mutex_lock() and
-> mutex_unlock() over single scopes or error paths. This adds boilerplate
-> and carries the risk of lock leaks if error paths are refactored.
->
-> Modernize these locks by deploying the <linux/cleanup.h> scoped_guard()
-> macro. This ensures that the locks are reliably dropped when the block
-> exits, cleanly removing goto out_unlock paths and tightening the
-> lifecycle.
->
-> Signed-off-by: Biren Pandya <birenpandya@gmail.com>
->
-> Compiled locally, but requires IGT validation by the DRM CI.
-> ---
->   drivers/gpu/drm/drm_gem.c | 66 ++++++++++++++++++---------------------
->   1 file changed, 30 insertions(+), 36 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
-> index 891c3bff5ae0..d3a061d42ba7 100644
-> --- a/drivers/gpu/drm/drm_gem.c
-> +++ b/drivers/gpu/drm/drm_gem.c
-> @@ -346,13 +346,13 @@ void drm_gem_object_handle_put_unlocked(struct drm_gem_object *obj)
->   	 * we checked for a name.
->   	 */
->   
-> -	mutex_lock(&dev->object_name_lock);
-> -	if (--obj->handle_count == 0) {
-> -		drm_gem_object_handle_free(obj);
-> -		drm_gem_object_exported_dma_buf_free(obj);
-> -		final = true;
-> +	scoped_guard(mutex, &dev->object_name_lock) {
-> +		if (--obj->handle_count == 0) {
-> +			drm_gem_object_handle_free(obj);
-> +			drm_gem_object_exported_dma_buf_free(obj);
-> +			final = true;
-> +		}
->   	}
-> -	mutex_unlock(&dev->object_name_lock);
->   
->   	if (final)
->   		drm_gem_object_put(obj);
-> @@ -374,11 +374,8 @@ drm_gem_object_release_handle(int id, void *ptr, void *data)
->   	if (obj->funcs->close)
->   		obj->funcs->close(obj, file_priv);
->   
-> -	mutex_lock(&file_priv->prime.lock);
-> -
-> -	drm_prime_remove_buf_handle(&file_priv->prime, id);
-> -
-> -	mutex_unlock(&file_priv->prime.lock);
-> +	scoped_guard(mutex, &file_priv->prime.lock)
-> +		drm_prime_remove_buf_handle(&file_priv->prime, id);
->   
->   	drm_vma_node_revoke(&obj->vma_node, file_priv);
->   
-> @@ -1021,37 +1018,34 @@ int drm_gem_change_handle_ioctl(struct drm_device *dev, void *data,
+Changes since v2:
+  - Don't drop DriverFenceData as a whole, but only the members we
+    really want to drop. Gives more robustness. (Gary).
+  - Break apart large pin_init_from_closure(). (Danilo, Onur)
+  - Remove rcu_barrier() and synchronize_rcu() from FenceCtx::drop().
+    FenceCtx might drop in atomic context, where you must not perform
+    those operations. With the current way C dma_fence is designed, the
+    driver must wait for a grace period manually until it unloads.
+  - Repair the DriverFenceBorrow implementation, properly injecting a
+    life time into it. (Danilo)
+  - Fix memory layout bug for rcu_head. (Onur)
+  - Drop RCU patches, since this series doesn't need them anymore.
 
-There have been a number of revisions to this function recently and you 
-want to make sure that you have the latest.  At least the code in v7.1 
-looks different from yours.
+Changes since v1:
+  - Remove unnecessary mutable references (Alice)
+  - Split up unsafe comments where possible (Danilo)
+  - Remove PhantomData + implement FenceCtx ops trait (Boris)
+  - Consistently call FenceCtx generic data `T`. FenceDataType is
+    derived from that. (Boris)
+  - Add abstractions for call_rcu() and synchronize_rcu() (Danilo)
+  - Add ECANCELED error code in Rust (Alice)
+  - Remove the rcu_barrier() from FenceCtx::drop() – because we now use
+    call_rcu(), there can be no UAF access to the FenceCtx anymore. In
+    any case, it is illegal to use either call_rcu() or
+    synchronize_rcu() in FenceCtx::drop(), because our new
+    drop_driver_fence_data() can run in atomic context and might put the
+    last fence_ctx reference.
+    So we now only have to guard against module unload, which it seems
+    either the driver or Rust driver-core / module unload infrastructure
+    must solve.
+  - Minor formatting etc. changes
+  - Add C helpers to MAINTAINERS. (Danilo)
+  - Ensure that `Fence::is_signaled()` is fully synchronized, i.e., all
+    callbacks really have run. See [1] and [2]. (Myself, Christian
+    König)
 
->   		goto out;
->   	}
->   
-> -	mutex_lock(&file_priv->prime.lock);
-> +	scoped_guard(mutex, &file_priv->prime.lock) {
-> +		spin_lock(&file_priv->table_lock);
+Changes since the RFCs:
+  - Include support for ForeignOwnable for ARef, so that a Fence can be
+    stuffed into an XArray et al. (Code by Danilo)
+  - Implement ForeignOwnable (with new borrow type) for DriverFence, so
+    that it can be stuffed into an XArray.
+  - Include the rcu::RcuBox data type to defer dropping data with RCU
+    (Cody by Alice)
+  - Port DmaFence to RcuBox to make UAF bugs through later, new dma_fence
+    callbacks (backend_ops) impossible.
+  - Force users to pass their fence data in an RcuBox (or have it not
+    need drop()) through a Sealed trait.
+  - Document the rules for the user's DriverFence::data's drop
+    implementation very clearly (deadlock danger).
+  - rustfmt, Clippy.
+  - Various style suggestions, safety comments, etc. (Önur)
+  - Add __rust_helper prefix to helper functions. (Önur)
 
-Could this spin lock also use a guard?
+Changes in RFC v3:
+  - Omit JobQueue patches for now
+  - Completely redesign the memory layout: Instead of a Fence
+    refcounting a DriverFence, both now live in the same allocation to
+    allow for future support the dma_fence backend_ops callbacks which
+    need to do container_of. (mostly Boris's feedback)
+  - Allow for pre-allocating fences to avoid deadlocks when submitting
+    jobs to a GPU. (Boris)
+  - Simultaneously, allow for pre-preparing fence callback objects, so
+    the driver can allocate them when it sees fit. (code largely stolen
+    and inspired by Daniel).
+  - Signal fences on drop, ensure synchronization.
+  - Force users to set an error code when signalling.
+  - Write more documentation
+  - A ton of minor other changes.
 
-Best regards
-Thomas
 
-> +		ret = idr_alloc(&file_priv->object_idr, obj, handle, handle + 1,
-> +				GFP_NOWAIT);
-> +		spin_unlock(&file_priv->table_lock);
->   
-> -	spin_lock(&file_priv->table_lock);
-> -	ret = idr_alloc(&file_priv->object_idr, obj, handle, handle + 1,
-> -			GFP_NOWAIT);
-> -	spin_unlock(&file_priv->table_lock);
-> +		if (ret < 0)
-> +			break;
->   
-> -	if (ret < 0)
-> -		goto out_unlock;
-> +		if (obj->dma_buf) {
-> +			ret = drm_prime_add_buf_handle(&file_priv->prime, obj->dma_buf,
-> +						       handle);
-> +			if (ret < 0) {
-> +				spin_lock(&file_priv->table_lock);
-> +				idr_remove(&file_priv->object_idr, handle);
-> +				spin_unlock(&file_priv->table_lock);
-> +				break;
-> +			}
->   
-> -	if (obj->dma_buf) {
-> -		ret = drm_prime_add_buf_handle(&file_priv->prime, obj->dma_buf,
-> -					       handle);
-> -		if (ret < 0) {
-> -			spin_lock(&file_priv->table_lock);
-> -			idr_remove(&file_priv->object_idr, handle);
-> -			spin_unlock(&file_priv->table_lock);
-> -			goto out_unlock;
-> +			drm_prime_remove_buf_handle(&file_priv->prime, args->handle);
->   		}
->   
-> -		drm_prime_remove_buf_handle(&file_priv->prime, args->handle);
-> -	}
-> -
-> -	ret = 0;
-> -
-> -	spin_lock(&file_priv->table_lock);
-> -	idr_remove(&file_priv->object_idr, args->handle);
-> -	spin_unlock(&file_priv->table_lock);
-> +		ret = 0;
->   
-> -out_unlock:
-> -	mutex_unlock(&file_priv->prime.lock);
-> +		spin_lock(&file_priv->table_lock);
-> +		idr_remove(&file_priv->object_idr, args->handle);
-> +		spin_unlock(&file_priv->table_lock);
-> +	}
->   out:
->   	drm_gem_object_put(obj);
->   
->
-> base-commit: 72c25183cac9bc584c9de21797a5883af44bcc7a
+[1] https://lore.kernel.org/dri-devel/20260608142436.265820-2-phasta@kernel.org/
+[2] https://lore.kernel.org/dri-devel/20260612104251.2264707-2-phasta@kernel.org/
 
+
+Alright, so since the last RFCs did not reveal significant design
+issues, I decided to transition this series to a v1 and hope that we can
+get it upstream.
+
+This now includes code for more common infrastructure that dma_fence
+needs, contributed by Danilo and Alice.
+
+---
+
+Old cover letter for RFC:
+
+So, this is the spiritual successor of the first / second RFC [1]. v2
+also contained code for drm::JobQueue, but mostly to show how the fence
+code would be used. JobQueue is under heavy rework right now, so I don't
+want to bother your eyes with it. The docstring examples should show how
+Rust fences are supposed to be used, though.
+
+This v3 contains a huge amount of highly valuable feedback from a
+variety of people, notably Boris, but also from Alice, Gary and Danilo.
+
+There are some TODOs open (a better trait for fence backend_ops and RCU
+support), but my hope is that this effort is now finally approaching its
+end.
+
+I would greatly appreciate feedback and especially more information
+about what might be missing to make this usable, which is obviously
+where Daniel's and Boris's feedback will be valuable once more.
+
+Please regard this patch just as what it's titled: an RFC, to discuss a
+bit more and to inform a broader community about what the current state
+is and where this is heading at.
+
+Many regards,
+Philipp
+
+[1] https://lore.kernel.org/rust-for-linux/20260203081403.68733-2-phasta@kernel.org/
+
+Danilo Krummrich (1):
+  rust: types: implement ForeignOwnable for ARef<T>
+
+Philipp Stanner (4):
+  rust: error: Add ECANCELED error code
+  rust: sync: Add abstraction for rcu_barrier()
+  rust: Add dma_fence abstractions
+  MAINTAINERS: Add entry for Rust dma-buf
+
+ MAINTAINERS                      |   5 +
+ rust/bindings/bindings_helper.h  |   1 +
+ rust/helpers/dma_fence.c         |  48 ++
+ rust/helpers/helpers.c           |   1 +
+ rust/kernel/dma_buf/dma_fence.rs | 870 +++++++++++++++++++++++++++++++
+ rust/kernel/dma_buf/mod.rs       |  14 +
+ rust/kernel/error.rs             |   1 +
+ rust/kernel/lib.rs               |   1 +
+ rust/kernel/sync/aref.rs         |  39 ++
+ rust/kernel/sync/rcu.rs          |   6 +
+ 10 files changed, 986 insertions(+)
+ create mode 100644 rust/helpers/dma_fence.c
+ create mode 100644 rust/kernel/dma_buf/dma_fence.rs
+ create mode 100644 rust/kernel/dma_buf/mod.rs
+
+
+base-commit: 848bf57e98e1678ce7a49eb4e0bf0502da95dc07
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
+2.54.0
 
 
