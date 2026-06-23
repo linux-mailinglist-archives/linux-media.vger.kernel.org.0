@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-65425-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65426-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id B2MXNhDbOWoJyQcAu9opvQ
-	(envelope-from <linux-media+bounces-65425-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 03:02:08 +0200
+	id 2VwsK8rcOWpPyQcAu9opvQ
+	(envelope-from <linux-media+bounces-65426-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 03:09:30 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AA676B3142
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 03:02:08 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C54A6B3176
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 03:09:30 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=GtZY55KG;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65425-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65425-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=YcrTiAmr;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65426-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65426-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B26963052FFB
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 00:57:52 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 68BF5303CF20
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 01:09:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1286B385D60;
-	Tue, 23 Jun 2026 00:57:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0D453793A8;
+	Tue, 23 Jun 2026 01:09:26 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8161C377019;
-	Tue, 23 Jun 2026 00:57:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 324A714E2F2;
+	Tue, 23 Jun 2026 01:09:24 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782176271; cv=none; b=YXw/U0HIx12Kyy7oqHVvNu6yScq1qDnnTTQuTP+BdIn75SgLl2OFbBcedADGlWbrTpl/e0ZgBcH8CRmoTLtGHfelssxE/lD/0ljY0ppfGcJqggki5Wp3SBorus6SYt/YdWmjWSJtxA15HhhKD0IihXNsIX1dNUJ91m0Y1JHG7L4=
+	t=1782176966; cv=none; b=LeA54qttOKYcAQlFZJhvrWovxhNaRTJ/++EpDrxJ+CaV12NEHy0JQB4V1ckRiuqIFjMPEDQGCk1qMiVbihWnKldHx+7lmAAnviTAccA0yEs9UNUr+N34c0q9wThTlWUEISKlNtgEbchtFKEuzyBz9D6uOOVac0+YBnUpADQQj3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782176271; c=relaxed/simple;
-	bh=m1g4xKHZr+EAT6GJjdEilXTeThpVvSQcrcQXopN3Il4=;
+	s=arc-20240116; t=1782176966; c=relaxed/simple;
+	bh=1DhEZBjxcqVHxr6U1P+zwBOeMmCj/u8bVaIn5fTsP4s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WINWdsgBOUbe1DWpMoVWwfpIkVuxH/bwhEa48b0xAnRwVUHo6keC3CkggXPnq60InVl4NwrB3FQ+cHrQGbX2IW4iFVvwHOQ0/xbFbW6gM0cs3yIWQsGv8oXfvC9N8d+oOHjpqqVC/SwWzCZytmgyoPhFa7u+GcUketnQQxFDVSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GtZY55KG; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06D931F000E9;
-	Tue, 23 Jun 2026 00:57:46 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=LDKK3l9jmmfT0MZIX7h3RecknmIuMATp4YW+DvkvMNfPj2OZeKgG4Ns+BccQWjQp1W9LOBfjHvK15GQfzbDajdfkH4d6UVJ7m38OA3xeYytR36txxgMt+YrCralxHhr8ctoxmNuJbM4eN7iXXK/ZfaZNrFOG6Hl+zRMGfNdHSoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YcrTiAmr; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B32BC1F000E9;
+	Tue, 23 Jun 2026 01:09:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782176270;
-	bh=3alYUOb6C/Wbd5vFlD2KNW62xIV+RJoXmu22bGohqYI=;
+	s=k20260515; t=1782176964;
+	bh=cu5i9lWtajopUX7zIUdL3VV/0CGw1PzTSKATQzMwO3g=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=GtZY55KGabENmhM5ryKwKJTdpNIC/x9joxVpX4SE5xhlx4YgavXU4kmtkQzpC/+TJ
-	 7+71qLz9wPWp6IFiJSFzzRDGApBG6qqkuBaN9u1Iz+L8hj6VUPkjhJTySBigjkCXSI
-	 oq1MmZzfsnnpVTESIFfj4EYG/WcoaB1DvqaGek/9kQXa1rmddoWte3JNSFcy8VUwt0
-	 bEibgPXpDEQ76rxsGcGrPnaEjuRSa2IYRXRVXP3N2yZ1k1iW3s9JjAvZzico/ZafKa
-	 Z6OIuyOkdUA00yEEr08dxHGZhjZVIC19Fv0h7dlUNoUlwq6dCJFTtU9PTkpKYc5iDi
-	 bigIevvK9iKIQ==
-Message-ID: <4b2078a0-9422-467b-b167-9a0b5444f18d@kernel.org>
-Date: Tue, 23 Jun 2026 01:57:35 +0100
+	b=YcrTiAmrKDjrua0Ocy1nrQ0e67yRtvcTdeAxjxAczfyko+r59R+aeXrQwn0Qn5Oo5
+	 C8qeHPLd+3bckLjQPr3fK5zxCGVjqeD1hn7YPimU/sCHVH4XTEdYr1K55WF72JIOKE
+	 aEpECIfjly9XE8Wx4JLi6uUgApMk18/DNqtWEhBpzbRxXrggzeowj+/wbWMOn/wBZh
+	 e8HZXa/si3Oy1MpAub64TbnGjFOHNfv3CdaZMslCL7s8wHRVG1SAZaErYKe37nh8KQ
+	 yP3JNF2Sl8+AA1jY3v+Dek3QSXtzcCFMZEehpEA71j8dqBKpDyu9tbT9tU/Lk2da6s
+	 uHuT6I0WIKYAQ==
+Message-ID: <ce63d29a-8c76-4a3d-ad8f-144f8b709cfa@kernel.org>
+Date: Tue, 23 Jun 2026 02:09:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +55,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/8] media: virtio: Add protocol
+Subject: Re: [PATCH v4 2/8] media: virtio: Add virtio-media driver structs and
+ function declarations
 To: Brian Daniels <briandaniels@google.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: acourbot@google.com, adelva@google.com, aesteve@redhat.com,
@@ -65,8 +66,8 @@ Cc: acourbot@google.com, adelva@google.com, aesteve@redhat.com,
  linux-media@vger.kernel.org, mst@redhat.com, nicolas.dufresne@collabora.com,
  virtualization@lists.linux.dev, xuanzhuo@linux.alibaba.com
 References: <20260622204343.1994418-1-briandaniels@google.com>
- <hJjpGSIl7zQxFjql7x9Ooc1a5OsyIEnxXsz6gynzk3FL45qMJ5wlAkygV66lmz7Gtg56uSrkn6MDlzukDS4O8A==@protonmail.internalid>
- <20260622204343.1994418-2-briandaniels@google.com>
+ <IpEvp68apuZUcGYAm3ozLFb9i6Q4ilpzp6qN7v3iGxRt99YHxMduSE6gnIMEQuKiIpkPVB3FNm7QaL3jTA4WGw==@protonmail.internalid>
+ <20260622204343.1994418-3-briandaniels@google.com>
 From: Bryan O'Donoghue <bod@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=bod@kernel.org; keydata=
@@ -112,7 +113,7 @@ Autocrypt: addr=bod@kernel.org; keydata=
  LKSGEglMpiX07M1AotgvylN5C8fjbouoK+/RAMsXkk8jba6rPfuuXPaDjCyyKn6zSVHETnHW
  3AJbgVY50T8STpnxayBQvWbCvu+6NOEjXCbyaOJig+5l0zlGN9XHjdANXC5HnwmyaGRL9YDq
  Jh2nVXVJDincOdQRdKcJjYLqaOAoWrYWSDi1iZGspHBTDrnOvfMQzzHY
-In-Reply-To: <20260622204343.1994418-2-briandaniels@google.com>
+In-Reply-To: <20260622204343.1994418-3-briandaniels@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
@@ -121,17 +122,17 @@ X-Spamd-Result: default: False [-5.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65425-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:briandaniels@google.com,m:mchehab@kernel.org,m:acourbot@google.com,m:adelva@google.com,m:aesteve@redhat.com,m:changyeon@google.com,m:daniel.almeida@collabora.com,m:eperezma@redhat.com,m:gnurou@gmail.com,m:gurchetansingh@google.com,m:hverkuil@xs4all.nl,m:jasowang@redhat.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:mst@redhat.com,m:nicolas.dufresne@collabora.com,m:virtualization@lists.linux.dev,m:xuanzhuo@linux.alibaba.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65426-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
 	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[18];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:briandaniels@google.com,m:mchehab@kernel.org,m:acourbot@google.com,m:adelva@google.com,m:aesteve@redhat.com,m:changyeon@google.com,m:daniel.almeida@collabora.com,m:eperezma@redhat.com,m:gnurou@gmail.com,m:gurchetansingh@google.com,m:hverkuil@xs4all.nl,m:jasowang@redhat.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:mst@redhat.com,m:nicolas.dufresne@collabora.com,m:virtualization@lists.linux.dev,m:xuanzhuo@linux.alibaba.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -146,108 +147,29 @@ X-Spamd-Result: default: False [-5.16 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4AA676B3142
+X-Rspamd-Queue-Id: 0C54A6B3176
 
 On 22/06/2026 21:43, Brian Daniels wrote:
-> +	u32 __reserved;
+> +extern char *virtio_media_driver_name;
+> +extern bool virtio_media_allow_userptr;
 
-Knowing ~ nothing about virtio with ~ no experience of it I'll offer up 
-a question/statement anyway.
+This looks a bit funny to me - why do you have externs in your header ?
 
-Aren't your reservations here a bit conservative ? Would you not be well 
-advised to reserve a bit more space per other virtio protocols ?
-
-➜   grep reserved ./include/uapi/linux/*.h | grep virtio
-./include/uapi/linux/virtio_balloon.h: *         __u8 reserved[6];
-./include/uapi/linux/virtio_balloon.h: * In other words, add explicit 
-reserved fields to align field and
-./include/uapi/linux/virtio_blk.h:      __u8 reserved[38];
-./include/uapi/linux/virtio_blk.h:      __u8 reserved[56];
-./include/uapi/linux/virtio_config.h: * VIRTIO_TRANSPORT_F_END are 
-reserved for the transport
-./include/uapi/linux/virtio_crypto.h:   __le32 reserved;
-./include/uapi/linux/virtio_i2c.h: * Copyright (c) 2021 Intel 
-Corporation. All rights reserved.
-./include/uapi/linux/virtio_input.h:    __u8    reserved[5];
-./include/uapi/linux/virtio_iommu.h:    __u8 
-        reserved[3];
-./include/uapi/linux/virtio_iommu.h:    __u8 
-        reserved[3];
-./include/uapi/linux/virtio_iommu.h:    __u8 
-        reserved[3];
-./include/uapi/linux/virtio_iommu.h:    __u8 
-        reserved[4];
-./include/uapi/linux/virtio_iommu.h:    __u8 
-        reserved[8];
-./include/uapi/linux/virtio_iommu.h:    __u8 
-        reserved[4];
-./include/uapi/linux/virtio_iommu.h:    __u8 
-        reserved[3];
-./include/uapi/linux/virtio_iommu.h:    __u8 
-        reserved[64];
-./include/uapi/linux/virtio_iommu.h:    __u8 
-        reserved[3];
-./include/uapi/linux/virtio_iommu.h:    __u8 
-        reserved2[4];
-./include/uapi/linux/virtio_net.h:      __le16 reserved[4];
-./include/uapi/linux/virtio_net.h:      __le16 reserved;
-./include/uapi/linux/virtio_net.h:              __le16 reserved[3];
-./include/uapi/linux/virtio_net.h:      __u8 reserved;
-./include/uapi/linux/virtio_net.h:      __le16 reserved1;
-./include/uapi/linux/virtio_pcidev.h: * @VIRTIO_PCIDEV_OP_RESERVED: 
-reserved to catch errors
-./include/uapi/linux/virtio_pcidev.h: * @reserved: reserved
-./include/uapi/linux/virtio_pcidev.h:   __u16 reserved;
-./include/uapi/linux/virtio_pci.h:      * 2-65535 - reserved
-./include/uapi/linux/virtio_pci.h:      /* Unused, reserved for future 
-extensions. */
-./include/uapi/linux/virtio_pci.h:      __u8 reserved1[12];
-./include/uapi/linux/virtio_pci.h:      /* Unused, reserved for future 
-extensions. */
-./include/uapi/linux/virtio_pci.h:      __u8 reserved2[4];
-./include/uapi/linux/virtio_pci.h:      __u8 reserved[7];
-./include/uapi/linux/virtio_pci.h:      __u8 reserved[6];
-./include/uapi/linux/virtio_pci.h:      __u8 reserved[6];
-./include/uapi/linux/virtio_pci.h:      __u8 reserved[2];
-./include/uapi/linux/virtio_pci.h:      __u8 reserved[7];
-./include/uapi/linux/virtio_pci.h:      __u8 reserved[7];
-./include/uapi/linux/virtio_pci.h:      __u8 reserved;
-./include/uapi/linux/virtio_pci.h:                      __le32 reserved;
-./include/uapi/linux/virtio_pci.h:                      __u8 reserved[6];
-./include/uapi/linux/virtio_pci.h:                      __le32 reserved;
-./include/uapi/linux/virtio_pci.h:                      __le32 reserved;
-./include/uapi/linux/virtio_pci.h:                      __le32 reserved;
-./include/uapi/linux/virtio_pci.h:      __u8 reserved[7];
-./include/uapi/linux/virtio_rtc.h: * Copyright (c) 2024 Qualcomm 
-Innovation Center, Inc. All rights reserved.
-./include/uapi/linux/virtio_rtc.h:      __u8 reserved[6];
-./include/uapi/linux/virtio_rtc.h:      __u8 reserved[7];
-./include/uapi/linux/virtio_rtc.h:      __u8 reserved[6];
-./include/uapi/linux/virtio_rtc.h:      __u8 reserved[6];
-./include/uapi/linux/virtio_rtc.h:      __u8 reserved[5];
-./include/uapi/linux/virtio_rtc.h:      __u8 reserved[6];
-./include/uapi/linux/virtio_rtc.h:      __u8 reserved[6];
-./include/uapi/linux/virtio_rtc.h:      __u8 reserved[5];
-./include/uapi/linux/virtio_rtc.h:      __u8 reserved[5];
-./include/uapi/linux/virtio_rtc.h:      __u8 reserved[7];
-./include/uapi/linux/virtio_rtc.h:      __u8 reserved[6];
-./include/uapi/linux/virtio_rtc.h:      __u8 reserved[7];
-./include/uapi/linux/virtio_rtc.h:      __u8 reserved[5];
-./include/uapi/linux/virtio_rtc.h:      __u8 reserved[5];
-./include/uapi/linux/virtio_rtc.h:      __u8 reserved[6];
-./include/uapi/linux/virtio_spi.h: * Copyright (C) 2025 Qualcomm 
-Innovation Center, Inc. All rights reserved.
-./include/uapi/linux/virtio_spi.h: *   other bits are reserved as 0, 
-1-bit transfer is always supported.
-./include/uapi/linux/virtio_spi.h: *   other bits are reserved as 0, 
-1-bit transfer is always supported.
-./include/uapi/linux/virtio_spi.h: * @reserved: for future use.
-./include/uapi/linux/virtio_spi.h:      __u8 reserved[3];+      u32 
-__reserved;
+➜   grep -r virtio * | grep extern
+arch/mips/include/asm/mach-loongson64/builtin_dtbs.h:extern u32 
+__dtb_loongson64v_4core_virtio_begin[];
+Documentation/virt/kvm/api.rst:    - virtio external interrupt; external 
+interrupt
+drivers/gpu/drm/virtio/virtgpu_drv.h:extern struct drm_ioctl_desc 
+virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS];
+drivers/net/wireless/virtual/mac80211_hwsim.c:extern int 
+hwsim_tx_virtio(struct mac80211_hwsim_data *data,
+include/linux/virtio_anchor.h:extern bool 
+(*virtio_check_mem_acc_cb)(struct virtio_device *dev);
 
 ---
 bod
