@@ -1,296 +1,222 @@
-Return-Path: <linux-media+bounces-65468-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65469-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 5X66Jyt1Omr59QcAu9opvQ
-	(envelope-from <linux-media+bounces-65468-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 13:59:39 +0200
+	id 1nCvHap9OmrB+AcAu9opvQ
+	(envelope-from <linux-media+bounces-65469-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 14:35:54 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D936B6EFE
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 13:59:39 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C55816B71E7
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 14:35:53 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=o6IFlnUJ;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65468-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65468-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=mailbox.org;
+	dkim=pass header.d=google.com header.s=20251104 header.b=XI3OzYRP;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65469-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65469-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=google.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A1CFB3065E99
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 11:59:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 11D02306DA94
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 12:35:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C0C63D525F;
-	Tue, 23 Jun 2026 11:59:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A96353546CB;
+	Tue, 23 Jun 2026 12:35:31 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8313D47C5;
-	Tue, 23 Jun 2026 11:59:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BB1363C6A
+	for <linux-media@vger.kernel.org>; Tue, 23 Jun 2026 12:35:29 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782215948; cv=none; b=ko1SUP6boxo82+wIvxg4Eh8hKzNCJqe0IDxOwYFuuTAJ3h8fdP6AGI8L0uWlYSFcY3GfWI2lnXp2bv2VjrQDkZBHT9fKsUSP/Mb9Tg3raZ8b0p10kwoWyo1V9X0xezAQcfPMN0mQBz5DHOX+beXB8eQxUvYG4Wd792dhmIX4lDU=
+	t=1782218131; cv=none; b=JT8BudGCWAE3b1vWRXQFlVIHLHvskEdYQD+GZ3SCk+wRjU9cKUqAtqKRqlhPS/GF0vSHYPcT50wD84Q8dsXI1BXTKNWnxSjvgjpzftfGMFxD2Rlwqh4kRwgrwgqlsKzJXFom8EjeN3X+Pg39Mdu+gfgh8/AFW4Ivggfk9yChehk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782215948; c=relaxed/simple;
-	bh=pFwdqmW21qxLJH3W3ALeQpHtM3Gll3yJ9POED2YZ2WY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=loyxMaxhMRW29N4qDt544oglU7pcKaXA1kaiOoY/X2IgZHERZuO+hu6ra4nKANTqxupM/kUCN7yi4RkzV1rBRgHYfnIUTfj4noSJcsWaK9dAwElX/Lbwbcd1KWseylW9+xqVs6ckeBoX93yRHVpCCc/2yXUeWa4JudzjyV6mSWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=o6IFlnUJ; arc=none smtp.client-ip=80.241.56.172
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4gl3WT44wbz9t9n;
-	Tue, 23 Jun 2026 13:59:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1782215941; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pFwdqmW21qxLJH3W3ALeQpHtM3Gll3yJ9POED2YZ2WY=;
-	b=o6IFlnUJwHXTp23zSidnt+l/Ma+86RWMLB9P30q8dTUNipVhkSEV2h5LXzceLesT/zcq4g
-	dAyfmU+CIz1xqDPjdBGM7jpUJMyPY+7k8i3alJu5UMa9f16AWpA81UZPvY35WPcB1ihj60
-	tmYvsCrqNOxHfsyjMD0tPH+SRz01NhJtvKKqXd3Y9dCkFQm72Lbb7dLJAziYfyOd/Z9cWx
-	XCR6+30c1gveeRcH/Vf9EwEoH1Sc10rar8gB9rJesU2PdlHN4ak2cxAxX9lrELOhC8+zYq
-	eDwev6YJTU6SZLyoUYc2tfhJu9JM75bbssXGkASrOnaL4UGWjlgBarJdtu5LLQ==
-Message-ID: <f59d6080cf31f424ebcf0e6086b4a93623813a6e.camel@mailbox.org>
-Subject: Re: [PATCH] drm/drm_crtc: fix race with dma_fence_signal() in
- ::get_driver_name()
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>, 
-	phasta@kernel.org, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,  Simona Vetter
- <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
- =?ISO-8859-1?Q?K=F6nig?=	 <christian.koenig@amd.com>, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>,  Boris Brezillon
- <boris.brezillon@collabora.com>, Danilo Krummrich <dakr@kernel.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, Peter Griffin
-	 <peter.griffin@linaro.org>, Tudor Ambarus <tudor.ambarus@linaro.org>, Juan
- Yescas <jyescas@google.com>, kernel-team@android.com
-Date: Tue, 23 Jun 2026 13:58:46 +0200
-In-Reply-To: <6483098adae29787862473e39b1f9cf3c3f16625.camel@linaro.org>
-References: <20260618-linux-drm_crtc_fix2-v1-1-c03e77b36f34@linaro.org>
-		 <1cfd56b7f1a166e25d6588d66a621524f3d983de.camel@mailbox.org>
-	 <6483098adae29787862473e39b1f9cf3c3f16625.camel@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1782218131; c=relaxed/simple;
+	bh=95h8LSQop+NXtAUTCY4WUxyMxHyiOTBXq32dcommAVc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jJMEWtUvD/DDJcMMQQugUNKmQJSGnC1e9K6J7i9/ZfBIrnT4o3RWxCAZV+kSaZMLSu17fA+miLMdsgxazzw+i4phU8k4i/I7+H9/p3RqtST62fdOJVeiKjMsAux2DFnEJwHvNiixysTOhR9CjHyXXaDRiiReJZFvim6rGWKu8Ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XI3OzYRP; arc=none smtp.client-ip=209.85.214.173
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2c6b7bd4e8dso45805ad.0
+        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2026 05:35:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782218129; x=1782822929; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=zrUGuQC1RmyduYSJ3/JT9tG3Cdq2ls0SnT0GavGxSKw=;
+        b=XI3OzYRPuh+VGu5iy43ta0hsdp8r6UYasd9B0XvVRNtCos2aDIBFVhop2BvMoC4Ujt
+         egW8tR1BgHtBiMdghes+V23GHd3oyy0QYNs6IUlx4Z5zvfq66y9BtoUX1eimw6k1i2oY
+         Q10mPK0HZxz/mFGghr85woGDuOJGrdXVL0IjaO+12/2I64V5qwkHSzzqebCC36NKt5GO
+         GLRxIucveAWo0HPDEhRcipefEyCb/jjzlodcrzAZpDlYfCizh5LT14C0KwFpTPuMvwOw
+         Si/9mB2Prjft7StL9yU7ljsraDKWM7Rku88sjz/Sdb0EHEKqRiEXdQ6DTQ5OOsaJQwDJ
+         Gtxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782218129; x=1782822929;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zrUGuQC1RmyduYSJ3/JT9tG3Cdq2ls0SnT0GavGxSKw=;
+        b=AoxQLIgCOCSzpg67lwOhteBK7ryt5rBbkinydpI5Rf+Bpo+YWHFAnZoT7wnkcxs9lv
+         wCygMgRvho/FWyVOVaAH43bzHMir0vkTCUbwdgYT+FaRtWkXpgeGDNPTd6HftbfJ5Fcf
+         nc9OCmqB9RQ27rD/Ta3KkCA96i0zL87w8sQ00WR+mx7jG1g6Ng2CqVOOcwhlVGI9nGfw
+         6xLP9TWku7itEauOv4MYbxLJwCZKL3RqmMF8JqtVSySkZGFptKvAqIFmPT38IaG2kjGp
+         zf8VfmsVhDo8D4xVDdaDM9Wezdx39cC0pQixLWQMJ+zJ+QHnUI7EHzVWMVZKH+8TkP+h
+         KzQQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqNM4HyRw+RXzfcLh5898W41OsrmrHWtdOkG5r8bK1ciOBldrJL3kDtzpAoA7KuZYJrHI9t3s33wOHlqA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzAXSk7oXPyKD2iEIjA43W/q4sE4i4qcZKrdL67ufT/7UnvlrUp
+	QSw2srQ+FlbG+ivyQ9a9dCSMagZFT/bbEGVgpWCPscWtELtOdrHzIrarpNbcSRxVdQ==
+X-Gm-Gg: AfdE7ckX2jozi85kvUnNQlunZD44ZCJLe111QGnRXEYNbixFU+4JPDfZA4MKYyh+Unu
+	8fuhpKhCAjsxksjaacKSz2Oh4ZApC0JYINTnZVS4QCasjV5g/kZT37dNX6YVsMsCevjUt1KjaUA
+	f4NcKJKRnyylzs3NZwR3fIeFUttXfP6yL06Zi49VevzVRckWRVDHDUE4YzOLseiLGBM6yUc9WOq
+	3zw1YslSdYX1xUU/ENh91UKvj92ehuadLDh8V9YYynqXyQK6s+e/tZOwL7JDrz8dL/e4mfnFEHC
+	i2o0qkCUCIsBGPOch3231Rjy7z+/TqgeeCXUm37mrxY+bQU92xulmfY8G3fsPNXlE6FO84yV96B
+	Ds6vEUFe4VK6xBhIIpDzYcKSTsymHm2wuhYJsMBDUyTxXq5NlGS1rskwxuIpyqK9Wcg+Y61wc9u
+	op4KQt+QnoYGJUWz/I7dZQBrzfpbpu4gyqVYp2kJ0nUVWwVWCClg==
+X-Received: by 2002:a17:903:2c06:b0:2b2:70ba:305c with SMTP id d9443c01a7336-2c7c5030b6emr2113265ad.8.1782218128496;
+        Tue, 23 Jun 2026 05:35:28 -0700 (PDT)
+Received: from google.com (199.255.142.34.bc.googleusercontent.com. [34.142.255.199])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7444aad83sm105841775ad.79.2026.06.23.05.35.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2026 05:35:27 -0700 (PDT)
+Date: Tue, 23 Jun 2026 12:35:19 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Matt Evans <matt@ozlabs.org>
+Cc: Alex Williamson <alex@shazbot.org>, Jason Gunthorpe <jgg@nvidia.com>,
+	"Tian, Kevin" <kevin.tian@intel.com>,
+	Leon Romanovsky <leon@kernel.org>, Alex Mastro <amastro@fb.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Mahmoud Adam <mngyadam@amazon.de>,
+	David Matlack <dmatlack@google.com>,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Ankit Agrawal <ankita@nvidia.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	"Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>
+Subject: Re: [PATCH v3 6/9] vfio/pci: Clean up BAR zap and revocation
+Message-ID: <ajp9hwIw657qxji5@google.com>
+References: <20260610154327.37758-7-matt@ozlabs.org>
+ <aixgZQiBQKgS7yIM@google.com>
+ <DM6PR11MB3690489DB5FA611413BF60558CE52@DM6PR11MB3690.namprd11.prod.outlook.com>
+ <ajGbRE3WWJxNxcrg@google.com>
+ <BYAPR11MB3687AE280241C9E00B46FCF98CE42@BYAPR11MB3687.namprd11.prod.outlook.com>
+ <24f34e59-7c3b-4b56-83bf-cb07e3f369a6@ozlabs.org>
+ <20260619133116.GB278945@nvidia.com>
+ <55ea7422-08d8-4c92-aa59-8ff6f9e9d781@ozlabs.org>
+ <20260622171336.7d13f548@shazbot.org>
+ <fbb2b1a6-594f-48eb-887f-7cf0cdd4c336@ozlabs.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: gqq6rmhozrpo34a59ejobmzahu94wzns
-X-MBO-RS-ID: f5dd2d7dc6ec6fb48aa
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fbb2b1a6-594f-48eb-887f-7cf0cdd4c336@ozlabs.org>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
-	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:andre.draszik@linaro.org,m:phasta@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:tvrtko.ursulin@igalia.com,m:boris.brezillon@collabora.com,m:dakr@kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:peter.griffin@linaro.org,m:tudor.ambarus@linaro.org,m:jyescas@google.com,m:kernel-team@android.com,s:lists@lfdr.de];
+	DKIM_TRACE(0.00)[google.com:+];
 	RCVD_TLS_LAST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FREEMAIL_TO(0.00)[linaro.org,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,amd.com,igalia.com,collabora.com];
-	FORGED_SENDER(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-65469-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:matt@ozlabs.org,m:alex@shazbot.org,m:jgg@nvidia.com,m:kevin.tian@intel.com,m:leon@kernel.org,m:amastro@fb.com,m:christian.koenig@amd.com,m:bhelgaas@google.com,m:logang@deltatee.com,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:ankita@nvidia.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,m:linux-pci@vger.kernel.org,s:lists@lfdr.de];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[22];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[praan@google.com,linux-media@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
+	MISSING_XM_UA(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65468-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FORWARDED(0.00)[lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[mailbox.org:+];
-	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
-	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	HAS_REPLYTO(0.00)[phasta@kernel.org];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[praan@google.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,sashiko.dev:url,mailbox.org:dkim,mailbox.org:mid,mailbox.org:from_mime]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ozlabs.org:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 13D936B6EFE
+X-Rspamd-Queue-Id: C55816B71E7
 
-On Tue, 2026-06-23 at 12:37 +0100, Andr=C3=A9 Draszik wrote:
-> Hi,
->=20
-> On Thu, 2026-06-18 at 17:56 +0200, Philipp Stanner wrote:
-> > +Cc Danilo
-> >=20
-> > On Thu, 2026-06-18 at 15:03 +0100, Andr=C3=A9 Draszik wrote:
-> > > Since commit 541c8f2468b9 ("dma-buf: detach fence ops on signal v3"),
-> > > I'm seeing the BUG_ON() triggering in drm_crtc's fence_to_crtc() via
-> > > drm_crtc_fence_get_driver_name() regularly:
-> > >=20
-> > > =C2=A0=C2=A0=C2=A0 Call trace:
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 panic+0x58/0x5c
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 die+0x160/0x178
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 bug_brk_handler+0x70/0xa4
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 call_el1_break_hook+0x3c/0x1a0
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 do_el1_brk64+0x24/0x74
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 el1_brk64+0x34/0x54
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 el1h_64_sync_handler+0x80/0xfc
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 el1h_64_sync+0x84/0x88
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 drm_crtc_fence_get_driver_name+0x60/0x68 (P)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 sync_file_get_name+0x184/0x45c
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 sync_file_ioctl+0x404/0xf70
-> > > =C2=A0=C2=A0=C2=A0=C2=A0 __arm64_sys_ioctl+0x124/0x1dc
-> > >=20
-> > > This looks to be caused by a code flow similar to the following:
-> > >=20
-> > > +++ snip +++
-> > > thread A=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 thread B
-> > >=20
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 io=
-ctl(SYNC_IOC_FILE_INFO)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sy=
-nc_file_ioctl()
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sy=
-nc_file_get_name()
-> > > dma_fence_signal_timestamp_locked()=C2=A0 dma_fence_driver_name()
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 ops =3D rcu_dereference(fence->ops)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 if (!dma_fence_test_signaled_flag())
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 ops->get_driver_name(fence) i.e.
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 drm_crtc_fence_get_driver_name()
-> > > test_and_set_bit(SIGNALED)
-> > > RCU_INIT_POINTER(fence->ops, NULL)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dr=
-m_crtc_fence_get_driver_name()
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 BUG_ON(rcu_access_pointer(fence->ops)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 !=3D &drm_crtc_fence_op=
-s)
-> >=20
-> > Now this looks like a very similar problem that I have recently been
-> > concerned with:
-> >=20
-> > https://lore.kernel.org/dri-devel/20260612104251.2264707-2-phasta@kerne=
-l.org/
-> >=20
-> > https://lore.kernel.org/dri-devel/fa0dc9757bf8343516c4b156a2b70ec91b64e=
-f8f.camel@mailbox.org/
-> >=20
-> >=20
-> > I continue to believe because of bugs like this and the ones I have
-> > quoted in the threads above the robustness of the kernel could be
-> > greatly improved if we could get dma_fence fully synchronized with its
-> > lock.
->=20
-> On top of that, sashiko highlighted=C2=A0 (via my other patch) that the e=
-xisting
-> code is missing some memory barriers:
->=20
-> https://sashiko.dev/#/patchset/20260618-linux-drm_crtc_fix-v1-1-801f29c98=
-53d@linaro.org?part=3D1
->=20
-> I believe Lock synchronization would resolve that (as would adding explic=
-it
-> memory barriers).
+On Tue, Jun 23, 2026 at 12:08:30PM +0100, Matt Evans wrote:
+> Hi Alex,
+> 
+> On 23/06/2026 00:13, Alex Williamson wrote:
+> > On Fri, 19 Jun 2026 16:13:17 +0100
+> > Matt Evans <matt@ozlabs.org> wrote:
+> > 
+> >> Hi Jason,
+> >>
+> >> On 19/06/2026 14:31, Jason Gunthorpe wrote:
+> >>> On Thu, Jun 18, 2026 at 05:02:58PM +0100, Matt Evans wrote:
+> >>>   
+> >>>> My understanding is that the sequences above wake a device that happens
+> >>>> to have previously been put into D3, and AFAICT it could only have got
+> >>>> there because of a previous vfio_pci_set_power_state().  Seems its only
+> >>>> caller is from the emulation of PCI_PM_CTRL using
+> >>>> vfio_lock_and_set_power_state(), and this zaps/revokes BAR access before
+> >>>> a transition to D3.  Similarly, an attempt to access a BAR via an
+> >>>> ioctl/through vfio_pci_core_do_io_rw() fails the D3 check in
+> >>>> __vfio_pci_memory_enabled(), and besides will try to take the memory_lock.  
+> >>>
+> >>> I thought the general design was the bars were made inaccessible
+> >>> before going to a low power state, and remain inaccessible while it is
+> >>> in low power?
+> >>>
+> >>> So the order of D0 doesn't matter. If it is not in D0 then there is no
+> >>> mappings and zap/revoke is a NOP.
+> >>>
+> >>> If is it in D0 then it doesn't matter because D0 is a nop.  
+> >> Yes, that's what I'm getting at. :)  If it's in D3 then BARs are
+> >> inaccessible, so as long as we go into D0 before the DMABUF move, the
+> >> order of the zap relative to the "go to D0" doesn't matter.
+> > 
+> > I believe this is correct as well, but importantly we cannot assume
+> > that a stray read or write just returns -1 or gets dropped.  This is
+> > exactly why we have such hard protections against the user accessing
+> > the device while it's disabled.  Not all platforms, even within
+> > architectures that might otherwise be considered lenient of such
+> > accesses, consider this benign and might escalate to system level
+> > faults.
+> 
+> We are in enthusiastic agreement here.
+> 
+> > Let's be careful not to frame this as "the access doesn't matter
+> > anyway", the answer is instead that non-D0 devices already lack any
+> > mappings to access the device.  Thanks,
+> 
+> I agree that is not the right thing to say, for exactly that reason.
+> (For avoidance of any doubt, I didn't say that :) )
+> 
+> Thanks for confirming the behaviour.  I hope Praan and Kevin are
+> satisfied that this patch doesn't cause the issues they first worried
+> about (the changed order of the zap relative to the D0 transition
+> doesn't have a detrimental effect because of the existing inaccessibility).
+> 
+> Alex, I'll post v4 soon, but if you have any comments in the pipeline
+> please shout and I'll hold off awhile.
 
-That is being discussed in the thread I linked, where Gary lists which
-barriers you would need for (presumably correct) lockless magic.
+I think the discussion addresses my concerns. I'm in agreement as well.
 
-However, if my issue were to be solved with barriers, the
-test_and_set_bit() in dma_fence_signal_timestamp_locked() would have to
-be replaced with the more weakly ordered test_bit() and set_bit(),
-maybe creating other pitfalls.
-
-The ordering issue in the get_*_name() functions plays into that.
-Setting the bit would then be done after setting the ops-pointer to
-NULL. So one would have to try to move the NULL set, too.
-
-Long story short, this is painful and subtle.
-
-But I think what we are realizing over and over again is that dma_fence
-has many subtleties to its API contract, and the implementation's
-sparring use of spinlocks leads to workarounds where people take locks
-manually or have to do an RCU dance.
-
-Note that Christian is strongly opposed to guarding everything with
-locks, in part for supposedly occuring deadlocks in the fence callbacks
-when the driver needs to take its own locks.
-
-The community discussion regarding that problem is currently in some
-sort of dead end, where none of us seems to know what the correct path
-forward is.
-
-drm_sched users (and future users in Rust) use intermediate fences
-which decouple e.g. userspace from the actual hardware fences. So one
-path forward might be to question the callbacks in general and think
-about some sort of replacement for them.
-
->=20
-> [...]
-> > >=20
->=20
-> > Does the CRTC or DRM device need to be kept alive for the RCU grace per=
-iod,
-> > or should the fence hold a proper reference to prevent the use-after-fr=
-ee
-> > when get_driver_name() and get_timeline_name() access the freed CRTC
-> > structure?
->=20
-> Do you guys have any preference on that? It appears the use-after-free
-> should be resolved before merging the removal of the BUG_ON(), and I'd li=
-ke
-> to progress on this.
-
-My understanding of the current situation is that as an issuer of
-dma_fence's you, in general, should wait for a grace period until you
-perform operations like driver unload, or, more generally, have fence-
-related resources and such being accessed through callbacks go away.
-
-Danilo has recently mentioned some life-time inconsistencies between
-wider kernel device model and DRM device model that might be related to
-that discussion, and which made him object against some RCU
-requirements.
-
-Maybe he's got the time to share some details with you that are
-relevant to your work.
-
-
-P.
-
->=20
-> Cheers,
-> Andre'
+Thanks,
+Praan
 
