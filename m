@@ -1,181 +1,138 @@
-Return-Path: <linux-media+bounces-65461-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65462-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 8Jt3KpdgOmoI7gcAu9opvQ
-	(envelope-from <linux-media+bounces-65461-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 12:31:51 +0200
+	id eNoeFm9oOmpe8QcAu9opvQ
+	(envelope-from <linux-media+bounces-65462-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 13:05:19 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 555C16B64BD
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 12:31:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE05E6B685D
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 13:05:18 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=none;
-	dmarc=none;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65461-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65461-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=intel.com header.s=Intel header.b=O75t0OCy;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65462-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65462-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 5330B304E43E
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 10:31:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 213E9313C10F
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 10:58:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FA773CCA19;
-	Tue, 23 Jun 2026 10:31:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5F743D25CE;
+	Tue, 23 Jun 2026 10:58:38 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.76.78.106])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D95B1EB5E3;
-	Tue, 23 Jun 2026 10:31:31 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E83EF2E5B2A;
+	Tue, 23 Jun 2026 10:58:35 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782210698; cv=none; b=nBHZqLOXjEuz8SzsTFI12m1GhFhGHGZ4Cglz4yUngH2dsF5bHZRW7ssCTAHTFSB/+hICsSNsaawKGpt/V5gPcfkSiI3A9d1wOqL18URgKAkeI+2GQPrSLiRmFR1ji48IS0dOLXe3gJQrNzeKs6NVc1sYkTveKrJ2UO8YJsHCWZc=
+	t=1782212318; cv=none; b=GPHn04aPtmo940xdEEtjqzqggRNJCMCiF6UvlpuxbW9nmyT8TYgOZebB5D0N1it6WwzSgBXrs2VqGYNB8GWVHbF1kHyd1ttR/KZ8+bbGZ4cUVgbCmznrUcgLutw4iAB7TmVJdyha8Kccotj9x9y7MExyOss4lxssyT66fw479CQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782210698; c=relaxed/simple;
-	bh=g9w1nnoj9PZP9t30ycj4eQL/Tri898VteycyFYDJrpg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=gSaWMtXtbeSbQ5Ql3GjdVJlMgBQwD5v+6kFkR2pPaxQOebsoD8BeHyjuLI7L7NUxE9jEThBTPaUmwlW+lmgx+8DxwtfXhBItFe1OtBhQks98BGHqJRdermOIbSar2skYfwQ4S+tF6QSo3AfwImqQza0S2QHHfv2nZaP71qi+SO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=13.76.78.106
-Received: from zju.edu.cn (unknown [10.98.66.117])
-	by mtasvr (Coremail) with SMTP id _____wDnVpR_YDpqJsP8Ag--.4251S3;
-	Tue, 23 Jun 2026 18:31:29 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.98.66.117])
-	by mail-app4 (Coremail) with SMTP id zi_KCgAX_DR_YDpqqnXDAQ--.12246S2;
-	Tue, 23 Jun 2026 18:31:27 +0800 (CST)
-From: Fan Wu <fanwu01@zju.edu.cn>
-To: mirela.rabulea@nxp.com,
-	mchehab@kernel.org
-Cc: shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	imx@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Fan Wu <fanwu01@zju.edu.cn>
-Subject: [PATCH] media: imx-jpeg: cancel timeout worker when streaming stops
-Date: Tue, 23 Jun 2026 10:30:31 +0000
-Message-Id: <20260623103031.3051-1-fanwu01@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1782212318; c=relaxed/simple;
+	bh=n/5t19g0g60eehGqfVR0OCwmQhk2y+XHzB08Wx8J4fA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tPzf5RcD6FMPZjATPNSNlzTCWqygf3tFyp5epKGaMzDxzY6pF3mKN33RpFKWiCUMaBZDEp9VKFzCv/Z8EWR/ge3aAtbRvBXI6tKqGhixVvR3jErkZBjw7h7usg8ovbtrqXUsreEGdaofnjNpGV/G1rHkDdrS9KLlJNWNkgV4lGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O75t0OCy; arc=none smtp.client-ip=198.175.65.21
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782212316; x=1813748316;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=n/5t19g0g60eehGqfVR0OCwmQhk2y+XHzB08Wx8J4fA=;
+  b=O75t0OCybMywgPu7enYQSb7p8lVYtEhN+SGFAOnMft/0jQJfzqR9LWWd
+   xlmfWjKaLIG7oneP8+z9n0cSCjcQGEVBZphCKIL3dPEPeUq7pNYG7sjr9
+   c16ZPPXglwJDDRjbNNnBYTW9Ezj0mMPVtzexq5M3y8GqBnOobZ2K6qLHn
+   g9sAKrKxDeYEKHDtWa2cIKq1j8a+CHfnKGRKmaCkkgRp7d8h6QBbWhVyU
+   np6raQrRWD5NwlJxjkB09fZSYllTBvfEsd1m269EnVRUnGUoCfaaOHAXV
+   r4BQ8IlVabgzhw9A3VE7oOeTdthVwLi9z3qZM2J709GXKUUomzrAg85zo
+   g==;
+X-CSE-ConnectionGUID: j7VUWsd9Q8GbxjyaXH1uQQ==
+X-CSE-MsgGUID: n8lQBci1T1+dMEsrH5UzGA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="82838595"
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="82838595"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 03:58:36 -0700
+X-CSE-ConnectionGUID: Kh3soITZTlG4OMMVBsSHUQ==
+X-CSE-MsgGUID: rLVE95zOR7+YUwKiLO5PQg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="253367199"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.7])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 03:58:33 -0700
+Date: Tue, 23 Jun 2026 13:58:30 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mohammad Abbasi <mail@mohammad-abbasi.me>
+Cc: hansg@kernel.org, mchehab@kernel.org, andy@kernel.org,
+	gregkh@linuxfoundation.org, sakari.ailus@linux.intel.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	Mohammad Abbasi <mohammad.v184@gmail.com>
+Subject: Re: [PATCH] staging: media: atomisp: constify pmic_name array
+Message-ID: <ajpm1mtTGtTeR1jx@ashevche-desk.local>
+References: <20260619111907.242382-1-mail@mohammad-abbasi.me>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zi_KCgAX_DR_YDpqqnXDAQ--.12246S2
-X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
-X-CM-DELIVERINFO: =?B?8uYBzAXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
-	sfnXz+g1OQfMo27QHy5TwQyZxPleTyGUXbnChair7cETXyoYXOFSx3siTBxadejsxrIXHa
-	8lA0M4uvHQv4iMs7l3up9E6mavGmQbzmcFsnzP86
-X-Coremail-Antispam: 1Uk129KBj93XoWxGw48Xw15Jr15WrWrtrW5urX_yoW5ZrWDpr
-	WSg3yUAFWUtF4ktFyqqa18uF95GrnxXayUur40g34fArZ3Wr1YqrW8K3W5KFW7A392kFZ2
-	qF45K3y7Za1YqFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUP0b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
-	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
-	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
-	xVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
-	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxM4IIrI8v6xkF7I0E8cxan2IY04v7
-	MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr
-	0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0E
-	wIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JV
-	WxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
-	cVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU85l1PUUUUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260619111907.242382-1-mail@mohammad-abbasi.me>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.04 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65461-lists,linux-media=lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
-	DMARC_NA(0.00)[zju.edu.cn];
-	FREEMAIL_CC(0.00)[kernel.org,pengutronix.de,gmail.com,lists.linux.dev,vger.kernel.org,lists.infradead.org,zju.edu.cn];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[fanwu01@zju.edu.cn,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:mirela.rabulea@nxp.com,m:mchehab@kernel.org,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:imx@lists.linux.dev,m:linux-media@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:fanwu01@zju.edu.cn,s:lists@lfdr.de];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[fanwu01@zju.edu.cn,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-65462-lists,linux-media=lfdr.de];
+	HAS_ORG_HEADER(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:mail@mohammad-abbasi.me,m:hansg@kernel.org,m:mchehab@kernel.org,m:andy@kernel.org,m:gregkh@linuxfoundation.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-staging@lists.linux.dev,m:mohammad.v184@gmail.com,m:mohammadv184@gmail.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[kernel.org,linuxfoundation.org,linux.intel.com,vger.kernel.org,lists.linux.dev,gmail.com];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	R_DKIM_NA(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[10];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[zju.edu.cn:email,zju.edu.cn:mid,zju.edu.cn:from_mime,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,intel.com:dkim,intel.com:from_mime,ashevche-desk.local:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 555C16B64BD
+X-Rspamd-Queue-Id: AE05E6B685D
 
-Each per-fd context ctx owns a delayed_work (ctx->task_timer, callback
-mxc_jpeg_device_run_timeout) armed via schedule_delayed_work() at the end
-of mxc_jpeg_device_run() to recover a stalled encode/decode job. The only
-existing cancellation is cancel_delayed_work() in the frame-done IRQ
-handler, which de-queues a pending work item but does not wait for a
-callback that has already started, and it only runs when a frame completes.
+On Fri, Jun 19, 2026 at 02:49:07PM +0330, Mohammad Abbasi wrote:
+> Fix the following checkpatch warning:
+> 
+> WARNING: static const char * array should probably be static const char * const
 
-When the fd is closed while a job is in flight (the frame-done IRQ has not
-fired yet), nothing syncs the worker before mxc_jpeg_release() frees ctx
-with kfree() after v4l2_m2m_ctx_release(). A queued or executing
-mxc_jpeg_device_run_timeout() can then recover ctx through
-container_of(&ctx->task_timer) and dereference it (ctx->mxc_jpeg,
-slot_data, dev_warn) after ctx has been freed.
+Missing blank line here.
 
-Cancel the worker from mxc_jpeg_stop_streaming(). The cancel cannot live
-in mxc_jpeg_release(): mxc_jpeg_device_run() arms the timer while holding
-only hw_lock, not the mxc_jpeg->lock mutex that release holds, so a cancel
-in release could still race a concurrent mxc_jpeg_device_run() that
-re-arms the timer afterwards. mxc_jpeg_stop_streaming() instead runs inside
-v4l2_m2m_ctx_release() -> vb2_queue_release(), i.e. after
-v4l2_m2m_cancel_job() has set TRANS_ABORT and waited for any in-flight job
-to finish (so __v4l2_m2m_try_queue() will not queue and v4l2_m2m_try_run()
-will not run any further job for this context, which prevents
-mxc_jpeg_device_run() from re-arming the timer) and before the m2m context
-is freed. cancel_delayed_work_sync() removes a pending work item and waits
-for a running callback, so the worker can no longer race with the
-subsequent kfree(). The cancel is placed before the buffer-release loop so
-a concurrently running timeout callback cannot race with it over the same
-buffers. If the frame-done IRQ canceled a still-pending timer, this cancel
-is a no-op; if the timeout callback has already started, it waits for the
-callback to finish. The same mxc_jpeg_stop_streaming() call is also
-reached from VIDIOC_STREAMOFF, which drains the worker early, although
-STREAMOFF itself does not free ctx -- the use-after-free arises only
-when the fd is later closed.
+> Signed-off-by: Mohammad Abbasi <mohammad.v184@gmail.com>
 
-This bug was found by static analysis.
-
-Fixes: cfed9632ca8e ("media: imx-jpeg: Add a timeout mechanism for each frame")
-Cc: stable@vger.kernel.org
-Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
----
- drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-index 9e4a813489c0..d85a9d196269 100644
---- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-+++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-@@ -1735,6 +1735,8 @@ static void mxc_jpeg_stop_streaming(struct vb2_queue *q)
- 
- 	dev_dbg(ctx->mxc_jpeg->dev, "Stop streaming ctx=%p", ctx);
- 
-+	cancel_delayed_work_sync(&ctx->task_timer);
-+
- 	/* Release all active buffers */
- 	for (;;) {
- 		if (V4L2_TYPE_IS_OUTPUT(q->type))
 -- 
-2.34.1
+With Best Regards,
+Andy Shevchenko
+
 
 
