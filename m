@@ -1,166 +1,192 @@
-Return-Path: <linux-media+bounces-65450-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65448-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id tmP1GudHOmoU5QcAu9opvQ
-	(envelope-from <linux-media+bounces-65450-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 10:46:31 +0200
+	id /nlKKnBGOmrA5AcAu9opvQ
+	(envelope-from <linux-media+bounces-65448-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 10:40:16 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id D60CA6B55F9
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 10:46:30 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17B036B5539
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 10:40:16 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=J2kQIA6K;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65450-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65450-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=intel.com header.s=Intel header.b=e5ycg+ML;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65448-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65448-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B1E51308CACC
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 08:44:53 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1EF643036E66
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 08:40:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE4E03CF673;
-	Tue, 23 Jun 2026 08:44:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91F893CDBB5;
+	Tue, 23 Jun 2026 08:40:14 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D78C13CF200
-	for <linux-media@vger.kernel.org>; Tue, 23 Jun 2026 08:44:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B56A374197
+	for <linux-media@vger.kernel.org>; Tue, 23 Jun 2026 08:40:11 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782204292; cv=none; b=jzA8eXfZqtWQ8RKDvN50ZgL36LPSXOf4Z/wsuxwbOg6FGMd1jKyueZGISz6D+9208L4DdwfKb9/P8mQlbd8vshNiaDH/mw73jzGQZ/5O705Sm3hV3y+yBVZ+2lieFu+RMh64trAVhyZBpOplI514m7QZB/HlV7UyFnzL2JkST5Q=
+	t=1782204014; cv=none; b=BCFdILudV71WPaZ5w0JPi6D1kF/595OR9IuF6jrjE6TWkVKxnING5LRYoucxhcO5/5EmWIuPcmG3PwJWlsGG/r6o8IRZOZr8KsK/z5vjSmaQDGdcL8fR549iaMwU/T276mmtGXQU/WYA4wivA2CniXkCcH+Zvo7Hwv2LAvTFGKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782204292; c=relaxed/simple;
-	bh=/NW10gd3XiJjasTwnvkAvxDjB+x+y0bolKqdPwKnlUc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PEtNxGyZX8usSsjK8Lb2um2gOzJI0vykzYyhEeUu/7B6zVXtchnqzpmpQLovE6eguYotJOCWI6bAaakRKOKsuu/0Kqnsn0MvM0BgQz2f/0cLqNmXgDP5AVxQEYTIWeSKeyEIYcV2u+36nhvklfXEtkLvl3SG4jUcNban2fGHE0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J2kQIA6K; arc=none smtp.client-ip=209.85.128.42
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4903d730b1fso79968075e9.2
-        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2026 01:44:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782204289; x=1782809089; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cd5zggzn9YY/eKp5MGwYc/7RumCc5LCFsD9dus6MWn0=;
-        b=J2kQIA6KcLlAW2F536zioZdayh7HoTZMaWMlqtiBJ8sxJqanZEBwaYqmGOgBfZrqDr
-         fgAcz27+KyR1wA2NJ/DLNU+PmjGTgjtaP5GYoarkkWar4Qtyu0GAlVhBJbp3PJKUEybK
-         KcfHsW7uBy0L1JKfXPsCP9CQKZpDUAW5kEKzKRC0SWWZ7rQCTvOMLS1HJbbR7cUV/jYF
-         /MIWfobo86UW0MCISSZQkzFnkK7pkrinnqLifr4Z8C5ByCl8DAW1vpNJh+a6Pv42SkuS
-         rdseE6KfR9dXpfFALm2RDWOhHYtfCc3JUgWdRs9amRMi5JP9Hi8/wZPcgyOqk3fxyitq
-         tHng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782204289; x=1782809089;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=cd5zggzn9YY/eKp5MGwYc/7RumCc5LCFsD9dus6MWn0=;
-        b=MXa7xpGlQbjPhbgZJ8AVAvR/b8/iF5ECFF50+RM2rD665+grcOIAZyXgndvUqI37lf
-         AQxfJawjL0M9yCZfH7+eIWi+lO6wtvDN/RT3LpX0UvZzPLTqdkyPRXcfUWVpaOYs+SX0
-         KCfO7A8bVvp6kJcJzWCPckb2jgzF5Xbe3ul/Gy9dD1uVjauLNVQxts1ct2Jx84eYlvvi
-         Kg9V1HB7V8Vz7Kg5fGnREhgg4HgLoRo0oMigu7Ipz7R8i/2khsAEz6dANAx3l1z7ed3q
-         CSm6sAo+Du2VCKUZ3lPaot6/xR+f2m/4JGfv7UTj+WpP1O/8iDWSC1KPsAZ+ZJeNwQEr
-         29vQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/+p4+bW4OOrCptFI5cG4baoEbqgdZVtQKGTwu7i21sZ+25leZaqRugCU+w3BJCT4giLLv87TbIJONZrw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwbJNL4Jqjx5o9FBxzwF0YB2MCI+XJVm9uJghIAaKzOObkV1Rhy
-	fE553pkjt89HiPhPZwc7CClJDJI1e2QfaGxOUFP4sQU80Zlg+agsItsk
-X-Gm-Gg: AfdE7cl0mUQe52CrqHz/1snP2ox9+QKJhjjUKmvLxTMsKAKsAmRWbNijWWnaE1o26vd
-	e8Ox+CMKh2PINmKjGxMYauQRU7imD0MLEX5kAy0BObmvHLKpOIZaPVYXhgKGOTlo7smMjsTmgRi
-	adxEjvVzgLHVNTCOTtS4gJaFYe6vUznRg+Bi/YQ7BhJAGcD0j/gAc1DG5uiSWt/q1TzrksTN0KQ
-	JgxLLnhQ7/jSK7RNgb8EzYdiIczoM+IuMCOvNeJNkf13zAf/B9a3CgUyCh/Ofil48BC9B5+ojLX
-	IEBgqEuzi7x99Q1aLcwJTgZI/21v5WmztwYhTV+Weq+8LB6sCze2S+R5P4xbDvvM8+t1aZdHuBk
-	mt6ahuUsVkqEmiXPCDYh2AiiNnh5SMH7GyjObox8ocCDdkz64L4cczf8Biu8TsVK8XZV24zfPGv
-	Izse2j1ELS76oO2ciFWTRnxO50qQ15O//UCU/S/xGglBXJ/3oVGg==
-X-Received: by 2002:a05:600d:640f:20b0:492:408b:d267 with SMTP id 5b1f17b1804b1-4925b394574mr18459465e9.13.1782204289054;
-        Tue, 23 Jun 2026 01:44:49 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4924923392dsm530639635e9.2.2026.06.23.01.44.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 01:44:48 -0700 (PDT)
-Date: Tue, 23 Jun 2026 09:44:46 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: David Hu <xuehaohu@google.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, "Christian =?UTF-8?B?S8O2bmln?="
- <christian.koenig@amd.com>, Jason Gunthorpe <jgg@ziepe.ca>, Nicolin Chen
- <nicolinc@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Kevin Tian
- <kevin.tian@intel.com>, Ankit Agrawal <ankita@nvidia.com>, Alex Williamson
- <alex@shazbot.org>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux.dev, jmoroni@google.com,
- praan@google.com, kpberry@google.com, chriscli@google.com,
- sashiko-bot@kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2] dma-buf: Split sgl into page-aligned 2G chunks
-Message-ID: <20260623094446.4a8fc2ed@pumpkin>
-In-Reply-To: <20260623015459.1153884-1-xuehaohu@google.com>
-References: <20260621222130.1667453-1-xuehaohu@google.com>
-	<20260623015459.1153884-1-xuehaohu@google.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	s=arc-20240116; t=1782204014; c=relaxed/simple;
+	bh=zLF5hVUC1QsMPm3m0dqLh5cbzsnFAMJ8VPqoMTVgIlM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BjFLrmFTODBcVvgGfjpIMIxPObVaQN6S+gAh3Lc5AEDYcDYZ0djK8Pfd0U4FArw52KW0FgExGFWYep+v36Zuc9hfQ89Y3Yu4XXOOIB+GIAXd+25dF4TPET4DheekwlFRXrgpVhiQWMEJSH68ab30gvS4+hKoKhjvGTq5jIxYQ+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e5ycg+ML; arc=none smtp.client-ip=198.175.65.9
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782204012; x=1813740012;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zLF5hVUC1QsMPm3m0dqLh5cbzsnFAMJ8VPqoMTVgIlM=;
+  b=e5ycg+MLb7hvSA6HPrqiyNzITlzlkyRPV4OCfcAY4D/BvMj46/nQw58H
+   2tugXMSZbVAzrutybsQ7ru0n/tkvkeVR+NXdB/ySfsdra5AFeYb/17EWl
+   q9iWqOdryx8WWXkpEkCuaV3uh1pEyHZtaEHS3j4fQQ9D44ENGOfyOHXAE
+   IVFnXe6Jcpfz7n0ZnRtVcQUR8siwHFjo3jmVPyr8Cc3teL+tWUEAwn2fe
+   kShoeK5OvtROlXhuwwP69M9XR/2UUp+ARr27y/1UcZ7KEmVUKqoBQoglb
+   0VogOfyo/Gu1QsdsZISvPNphJVhzGdFxLNLYu7rKsgjwl8ze71ysW0Bms
+   w==;
+X-CSE-ConnectionGUID: slqdhtWGR8S8enyy/2L/KQ==
+X-CSE-MsgGUID: +PY1QwC/Sca+jKQiH/yKhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="105734512"
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="105734512"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 01:40:11 -0700
+X-CSE-ConnectionGUID: y/8fyCFMTEKfRGAx+K8ucg==
+X-CSE-MsgGUID: XKs88JvEQS6lIlzBysL9Pg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
+   d="scan'208";a="248576735"
+Received: from serinyeh-ms-7d25.itwn.intel.com ([10.225.65.16])
+  by orviesa010.jf.intel.com with ESMTP; 23 Jun 2026 01:40:09 -0700
+From: Serin Yeh <serin.yeh@intel.com>
+To: linux-media@vger.kernel.org
+Cc: serin.yeh@intel.com,
+	sakari.ailus@linux.intel.com,
+	jimmy.su@intel.com,
+	sarang.sapre@intel.com
+Subject: [PATCH v2 1/2] media: i2c: ov8856 : remove ACPI node bypass mechanism
+Date: Tue, 23 Jun 2026 16:45:36 +0800
+Message-Id: <20260623084536.3400318-1-serin.yeh@intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-3.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_TLS_LAST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FREEMAIL_FROM(0.00)[gmail.com];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER(0.00)[davidlaightlinux@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:xuehaohu@google.com,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:jgg@ziepe.ca,m:nicolinc@nvidia.com,m:leon@kernel.org,m:kevin.tian@intel.com,m:ankita@nvidia.com,m:alex@shazbot.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:iommu@lists.linux.dev,m:jmoroni@google.com,m:praan@google.com,m:kpberry@google.com,m:chriscli@google.com,m:sashiko-bot@kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:serin.yeh@intel.com,m:sakari.ailus@linux.intel.com,m:jimmy.su@intel.com,m:sarang.sapre@intel.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65450-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-65448-lists,linux-media=lfdr.de];
+	FORGED_SENDER(0.00)[serin.yeh@intel.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[intel.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	RCPT_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[serin.yeh@intel.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[davidlaightlinux@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	ALIAS_RESOLVED(0.00)[];
+	TO_DN_NONE(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pumpkin:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,intel.com:dkim,intel.com:email,intel.com:mid,intel.com:from_mime,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D60CA6B55F9
+X-Rspamd-Queue-Id: 17B036B5539
 
-On Tue, 23 Jun 2026 01:54:59 +0000
-David Hu <xuehaohu@google.com> wrote:
+The driver currently skips power-on and power-off sequences when
+running with ACPI devices by checking is_acpi_node(). This results in
+all power configuration steps (GPIO, and regulators) being bypassed.
 
-> Currently, `fill_sg_entry()` splits the scatterlist using `UINT_MAX`.
-> This creates a non-page-aligned DMA length (`0xFFFFFFFF`) for the
-> first entry, resulting in non-page-aligned DMA addresses for all
-> subsequent entries.
+Remove the is_acpi_node() checks to ensure that the full power
+sequence is always executed regardless of the firmware interface.
+Also fix a debug message to report the actual number of CSI data lanes
+from the parsed bus configuration instead of cur_mode.
 
-There is a separate issue of whether this code is even needed at all.
-Where can transfers over 2G (never mind 4G) actually come from.
+With these changes, the driver behaves consistently across DT and ACPI
+platforms and ensures correct hardware initialization.
 
-The read, write and similar system calls limit transfers to INT_MAX
-(even on 64bit) and a lot of driver code will need fixing it longer
-lengths are allowed though.
-io_uring better enforce the same limits.
-So the transfers can come directly from userspace.
+Signed-off-by: Serin Yeh <serin.yeh@intel.com>
+---
+ drivers/media/i2c/ov8856.c | 29 ++++++++++-------------------
+ 1 file changed, 10 insertions(+), 19 deletions(-)
 
-Not only that but you also need a single physically contiguous buffer.
-Good luck allocating that!
+diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
+index 8bedb47cd7cf..9d2b0469a576 100644
+--- a/drivers/media/i2c/ov8856.c
++++ b/drivers/media/i2c/ov8856.c
+@@ -2082,9 +2082,6 @@ static int ov8856_power_on(struct device *dev)
+ 	struct ov8856 *ov8856 = to_ov8856(sd);
+ 	int ret;
+ 
+-	if (is_acpi_node(dev_fwnode(dev)))
+-		return 0;
+-
+ 	ret = clk_prepare_enable(ov8856->xvclk);
+ 	if (ret < 0) {
+ 		dev_err(dev, "failed to enable xvclk\n");
+@@ -2120,9 +2117,6 @@ static int ov8856_power_off(struct device *dev)
+ 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+ 	struct ov8856 *ov8856 = to_ov8856(sd);
+ 
+-	if (is_acpi_node(dev_fwnode(dev)))
+-		return 0;
+-
+ 	gpiod_set_value_cansleep(ov8856->reset_gpio, 1);
+ 	regulator_bulk_disable(ARRAY_SIZE(ov8856_supply_names),
+ 			       ov8856->supplies);
+@@ -2293,21 +2287,18 @@ static int ov8856_get_hwcfg(struct ov8856 *ov8856)
+ 		dev_warn(dev, "external clock rate %u is unsupported",
+ 			 xvclk_rate);
+ 
+-	if (!is_acpi_node(fwnode)) {
+-		ov8856->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+-							     GPIOD_OUT_LOW);
+-		if (IS_ERR(ov8856->reset_gpio))
+-			return PTR_ERR(ov8856->reset_gpio);
++	ov8856->reset_gpio = devm_gpiod_get_optional(dev, "reset",
++						     GPIOD_OUT_LOW);
++	if (IS_ERR(ov8856->reset_gpio))
++		return PTR_ERR(ov8856->reset_gpio);
+ 
+-		for (i = 0; i < ARRAY_SIZE(ov8856_supply_names); i++)
+-			ov8856->supplies[i].supply = ov8856_supply_names[i];
++	for (i = 0; i < ARRAY_SIZE(ov8856_supply_names); i++)
++		ov8856->supplies[i].supply = ov8856_supply_names[i];
+ 
+-		ret = devm_regulator_bulk_get(dev,
+-					      ARRAY_SIZE(ov8856_supply_names),
+-					      ov8856->supplies);
+-		if (ret)
+-			return ret;
+-	}
++	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(ov8856_supply_names),
++				      ov8856->supplies);
++	if (ret)
++		return ret;
+ 
+ 	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+ 	if (!ep)
+-- 
+2.25.1
 
-Now maybe there are some peer-to-peer places where the large buffer
-is device memory, but they will be unusual and probably need
-special treatment anyway.
-
-	David
 
