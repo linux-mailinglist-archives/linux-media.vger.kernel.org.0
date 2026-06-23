@@ -1,202 +1,166 @@
-Return-Path: <linux-media+bounces-65446-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65447-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id hCkhBV04Omrc4AcAu9opvQ
-	(envelope-from <linux-media+bounces-65446-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 09:40:13 +0200
+	id sjLpLldDOmrx4wcAu9opvQ
+	(envelope-from <linux-media+bounces-65447-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 10:27:03 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 585206B4EB5
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 09:40:12 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD776B544B
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 10:27:03 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=CZQbnwEi;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65446-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65446-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=intel.com;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b="CrlgJ/mF";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65447-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65447-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 360963030B32
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 07:39:23 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CC8AD30789AD
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 08:25:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7E1A3C3BF6;
-	Tue, 23 Jun 2026 07:39:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09EA03CEB8F;
+	Tue, 23 Jun 2026 08:25:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D2793B6347
-	for <linux-media@vger.kernel.org>; Tue, 23 Jun 2026 07:39:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12E0E3CCFA8
+	for <linux-media@vger.kernel.org>; Tue, 23 Jun 2026 08:25:04 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782200362; cv=none; b=LLMDkiUC+Y6C1EtpAQzDlKCbeHtCnTdRphs4Qcwmx7U2k9TGxefeefJa8v1OVOtDVSgRR+2GqvH5cksaayiUgSo6CvkMv7wSE2T6IX8v15PHC/e/oROYWxrqKoIiXuzhcJHYNabRstOVpyrmn3OutfZrQbQ6WWiBAVZFuV+Bqvk=
+	t=1782203106; cv=none; b=lCdMXGZIKHY8FKTI04cVN5RG/e38nYZ85b0tfoZpWrDdl7E8sbNxjGECheNBK08AlzER1ZkDEaL+ktRKx792WbAoGd84dNOcSfI5i9D1mG9SoXA6OXs8/SFgnYCSS/zYGTQO5A1pvahsQNNtjuzF3i9+5hRr/bXJJisbyhV9lG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782200362; c=relaxed/simple;
-	bh=KKtMuH/sXLmTH09HrsZ3uNZ86/jePH5vzK83U95UUeE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t+SoOoRU7HcuAaSHsNXWY9LuzPywYn/ctWJHuPnggvitkBmdP01ISo5HngKLCW4WQp61dd5MTW/9RK0PwCF1WLyCXva1rx9OSMoPCkcDU6QwlWUoyw8xXbYqhEdYBK3RztZDZeLjU+nOtyszsB0BtqwtFPlKKn+xXeCkoeMCftw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CZQbnwEi; arc=none smtp.client-ip=198.175.65.10
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782200361; x=1813736361;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KKtMuH/sXLmTH09HrsZ3uNZ86/jePH5vzK83U95UUeE=;
-  b=CZQbnwEicbgAznurV0b6pEzpk5t/U57gMl1l5nvrDW4DJkY/d+jQMr6q
-   O/MqohOggVIFyyMcaxol5SbliaHVb/eWM9Irs382k7vDgisN+OccP6Kbm
-   Y9c+OHXsBpmBfWjUS/E4skbksvNep0Nm7RfbnRGqX7V5QdK44foBxoPS6
-   AG1u/j3HPMid87dEZTy946suBEWre6fPyvnxcYlD+zgEGUoKqkU8Foark
-   uhRHiD+CkRJ5xb6/j4+avBvSbcRAc7cG/6GEAE3RFGWZ6eud0kZByJTTy
-   wnxnFj6MehPSm3fW9/7OULNbxbobzGuI3RdmTG+AFXr+d1E0m8d4EfUn4
-   A==;
-X-CSE-ConnectionGUID: aGQ5SzqWT3mbD7+g2Gzq+w==
-X-CSE-MsgGUID: cloi1gTpT/qFuyXuNrfDEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="100364396"
-X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="100364396"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 00:39:21 -0700
-X-CSE-ConnectionGUID: +5ticuOHS6WDGr3f2rD3Yw==
-X-CSE-MsgGUID: VVBGn1mZR2uDbbIlf+QMbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="251381868"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.1])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 00:39:19 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id B03891206D5;
-	Tue, 23 Jun 2026 10:39:16 +0300 (EEST)
-Date: Tue, 23 Jun 2026 10:39:16 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Frank Li <Frank.li@nxp.com>
-Subject: Re: [PATCH v2 00/17] Rework frame descriptors
-Message-ID: <ajo4JPUmRvtn2VQM@kekkonen.localdomain>
-References: <20260518164318.3367888-1-sakari.ailus@linux.intel.com>
- <65ab9804-d6ac-4110-9bed-e259195d8f26@ideasonboard.com>
+	s=arc-20240116; t=1782203106; c=relaxed/simple;
+	bh=ALu77l9JWVXGe1A3hUFppTa6Pdqm7Gq1p7JR3rm89DU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ogaz4MT4k50mOOF2jzMX8oR8yISvUGFJam5YL+ccwWHKokDu+/iXuj+E3ZgWzhFAEUQxJ9rn0CO48RyNYZ3lp6JQD+t3Jz92xfGG55v7jWvfzueVwtpleT6cHjSX1SWp0TFY+SizHxwL9HTlaPpF92SCg3Rx/yG084NvTKklv2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CrlgJ/mF; arc=none smtp.client-ip=209.85.128.41
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-49241a577d8so27002705e9.3
+        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2026 01:25:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782203103; x=1782807903; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XqWt0bI44jas3c/HR//JGgX6WMjaPFSRIYH+iY3eOF4=;
+        b=CrlgJ/mFJMMhclIQfH5UZLv8UMNvdShR3QoAmhwaNitLBJcLRiBlrsUfeZl4+ETK0o
+         4hDXPyzbKjpou5rwFUiVCZFpwoJMs5PjTWP0bsAvxy8+eTHkGmAm0AsHRoLfrpD8Nhe1
+         Z/D9N6kTHy/R8yvrioyvVEK5thF71O0azIGQv4KyXXF76QYy+QSbqjyMQ4gJpyv+GhGQ
+         JhRcUwa1k6vQ0vaycjKHi2N4Q3srUolQD0EmNuOM2LgsPfTfGCU55N4qVbKorv/LrHDX
+         W5++kk/lBUw+4g5zhLrkoHyfSHcm/pw9j98V6S0wXeBIoiAjgO1xlFHUzgMMMNdmAGqi
+         J3KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782203103; x=1782807903;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=XqWt0bI44jas3c/HR//JGgX6WMjaPFSRIYH+iY3eOF4=;
+        b=loIuhQxcJNs016czTqXE45RfAKGEEhG65cQFjlinY3Ylr6LnQKnshX9iENbwmYow5O
+         XgMLjrYdNpxrgEJpjhd4Ec5EShIn9Fg9EaHYkeZcLJnIOnVm0cyFZlkBsCAI5PtSX+0l
+         Rer6rTqEBeRd4bu9l36DhF9XvArCUu5Sgi2VTcbOUmPtTqZWtZ1p0ISgHykly92enbSw
+         eudjV1U9MYpTnW1WBIHEUbaIFT2Wq7loVpE2xGvJMWfZDpyyvU77/nAqbmHShOKM792B
+         +C4uoxGzhNOBPKUVXTfI+ubh5bn14ujfBZ1/cnuEzuQqDCVjwATxvZHKwgojuBLcEfDk
+         7XqQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+/SpfsO1vUDuKz1tOZ37XE9CfsS0zcIXlWGZUAxYRb8K1maxzKWVEDSrVuHlE7oUWCSeF53ZMq7DKXxQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHM44cufRBlbSkZ/escKWxyMpoYX3KF1GiCQ8i9uanDLLr36B5
+	6+9RAhKF7162gkmydrusom6M2Xg5o7OiIq4MR3XPhadSwoQFymFYzsiM
+X-Gm-Gg: AfdE7cncSNu80LZ0c7mXXBp/ohxC751LkSa9uEFMHMZ4OmGFkej/IvoAIKssoo2it2u
+	riuxlqPdPspbCO1x1T6OSnRgSQdRGlA6+zb0YsFEw57kcFnEdno7f5ayqJ/KFdSzolYICax/hIe
+	dtfTmtwy1nngzX36cDuckApR0/usjbzCtu8KwrZKLP3ncrkon8MS1j2X535La4hZscZXn2we7ou
+	2mkj4a0AJTE3XaLYJfm4eOIn2cSoB7a/AbKlliJUyfyqGlkngW2GkjWEYwaJRH7fU39Sx0MjYf1
+	RRjDZ17t+A/i1rQRC5+by1COUo+bonMlqvLZpI1rfa2T9Wrl7bjaU0FnA/AiEQJ/V68mN5qZgT9
+	fC+b6MoE5KaGNaoDxalitsFH8ExbV5kpKB6G0Bz71NtuR5tUWZibanUbLBX2NsUzq/K64Ikf94f
+	TI+agsjQvx+3KMY8wnJeVtI/h9/yWBeKCeAm8mtLI9252wqqDbZA==
+X-Received: by 2002:a05:600c:348f:b0:492:4636:87ae with SMTP id 5b1f17b1804b1-492463687d1mr271367215e9.17.1782203103276;
+        Tue, 23 Jun 2026 01:25:03 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4924923c862sm262149435e9.7.2026.06.23.01.25.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 23 Jun 2026 01:25:02 -0700 (PDT)
+Date: Tue, 23 Jun 2026 09:25:01 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: David Hu <xuehaohu@google.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Jason Gunthorpe <jgg@ziepe.ca>, Nicolin Chen
+ <nicolinc@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Kevin Tian
+ <kevin.tian@intel.com>, Ankit Agrawal <ankita@nvidia.com>, Alex Williamson
+ <alex@shazbot.org>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux.dev, jmoroni@google.com,
+ praan@google.com, kpberry@google.com, sashiko-bot <sashiko-bot@kernel.org>,
+ stable@vger.kernel.org
+Subject: Re: [PATCH] dma-buf: Split sgl by largest page-aligned chunk
+Message-ID: <20260623092501.17bef195@pumpkin>
+In-Reply-To: <CAPd9Lg9+d=Rw4230FdcMFd0VYfyhXhD=eju53iURR8c61iXsWw@mail.gmail.com>
+References: <20260621222130.1667453-1-xuehaohu@google.com>
+	<20260622091344.794e0d74@pumpkin>
+	<CAPd9Lg9+d=Rw4230FdcMFd0VYfyhXhD=eju53iURR8c61iXsWw@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <65ab9804-d6ac-4110-9bed-e259195d8f26@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-1.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65446-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:tomi.valkeinen@ideasonboard.com,m:linux-media@vger.kernel.org,m:laurent.pinchart@ideasonboard.com,m:dave.stevenson@raspberrypi.com,m:jacopo.mondi@ideasonboard.com,m:jai.luthra@ideasonboard.com,m:mehdi.djait@linux.intel.com,m:Frank.li@nxp.com,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	HAS_ORG_HEADER(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[19];
+	FREEMAIL_FROM(0.00)[gmail.com];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[intel.com:+];
-	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER(0.00)[davidlaightlinux@gmail.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:xuehaohu@google.com,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:jgg@ziepe.ca,m:nicolinc@nvidia.com,m:leon@kernel.org,m:kevin.tian@intel.com,m:ankita@nvidia.com,m:alex@shazbot.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:iommu@lists.linux.dev,m:jmoroni@google.com,m:praan@google.com,m:kpberry@google.com,m:sashiko-bot@kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[sakari.ailus@linux.intel.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-65447-lists,linux-media=lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[davidlaightlinux@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.intel.com:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,intel.com:dkim]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,pumpkin:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 585206B4EB5
+X-Rspamd-Queue-Id: 1AD776B544B
 
-Moi,
+On Mon, 22 Jun 2026 17:26:10 -0400
+David Hu <xuehaohu@google.com> wrote:
 
-On Thu, Jun 11, 2026 at 03:49:13PM +0300, Tomi Valkeinen wrote:
-> Hi Sakari,
-> 
-> On 18/05/2026 19:43, Sakari Ailus wrote:
-> > Hi folks,
-> > 
-> > This smallish set makes frame descriptors dynamically allocated and
-> 
-> Is there a real-life requirement for this? 8 frame-descs per pad has been
-> more than enough for my uses so far.
+> On Mon, Jun 22, 2026 at 4:13=E2=80=AFAM David Laight
+> <david.laight.linux@gmail.com> wrote:
+> > =20
+>=20
+> Hi David,
+>=20
+> Thank you for your review. You raised many good points regarding
+> optimizations here. I'll switch to using 2G as the max entry size
+> (`SZ_2G` from `linux/sizes.h`), and remove divisions and
+> multiplications. I'll also replace the `for()` loop with `while
+> (length)`, and drop `min_t()` in favor of `min()` by casting `SZ_2G`
+> to `size_t`.
 
-Imagine cameras producing four streams each, and putting a number of them
-behind CSI-2 aggregators (or some serdes device). It does happen in
-practice.
+You shouldn't need a cast at all.
 
-> 
-> > implements a single-entry frame descriptor based on the device's format,
-> > using a new helper called v4l2_subdev_get_frame_desc(). All drivers that
-> > do not obtain their frame descriptor from upstream are converted. The
-> 
-> Hmm, what does this mean? Don't all the drivers modified here already get
-> their frame desc from upstream? Or did you mean "all drivers that obtain
-> their frame desc from upstream..."?
+	David L.
 
-This was meant to say that the drivers that called get_frame_desc()
-directly but did not implement .get_frame_desc() pad op are converted while
-the rest aren't. I'll rephrase this for v3.
-
-> 
-> > helper also obtains a frame descriptor for the desired type (parallel or
-> > CSI-2) and checks there's at least one entry there. These checks are
-> 
-> What does this mean? In patch 3, the desc says "If the remote sub-device
-> does not support frame descriptors, v4l2_subdev_get_frame_desc() creates
-> one".
-> 
-> So does v4l2_subdev_get_frame_desc() just check, or does
-> v4l2_subdev_get_frame_desc() implement a fallback mechanism, if the upstream
-> subdev does not implement .get_frame_desc?
-
-Correct.
-
-> 
-> If it does, some of the drivers implement their own fallback. E.g. rpi cfe.c
-> calls cfe_get_vc_dt_fallback() if it gets -ENOIOCTLCMD, which just
-> constructs a default single-stream frame desc with virtual channel 0.
-
-This fallback can be then removed, yes. I'll check the drivers again in v3.
-
-> 
-> It also looks like you only modified platform drivers. Did you check the i2c
-> drivers? Some call get_frame_desc().
-
-I guess they all use various frame descriptor pass-through functions
-nowadays.
-
-> 
-> > removed from drivers that currently perform them. (Some drivers also check
-> > there's exactly a single frame descriptor entry but I think in most cases
-> > this check could be loosened. That could be done after this set.)
-> 
-> Hmm, isn't that strictly tied to the multi-stream support? Or do you mean
-> that frame desc could contain multiple entries, but the receiver would only
-> use one (if multi-stream is not supported)?
-
-It's not strictly tied to multi-stream support. Most receiver drivers can
-receive a single stream even if the source generates more than that. The
-only one that can't do that which I'm aware of is some Xilinx device; I
-recall Laurent knows more about it.
-
--- 
-Terveisin,
-
-Sakari Ailus
+> I'll send out a v2 with these changes shortly.
+>=20
+> Thanks,
+> David
 
