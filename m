@@ -1,191 +1,223 @@
-Return-Path: <linux-media+bounces-65470-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65471-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id h117IYV+OmoN+QcAu9opvQ
-	(envelope-from <linux-media+bounces-65470-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 14:39:33 +0200
+	id X4/9BEKGOmoY/AcAu9opvQ
+	(envelope-from <linux-media+bounces-65471-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 15:12:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0E536B723C
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 14:39:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD0F6B7593
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 15:12:33 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=google.com header.s=20251104 header.b=Yg3sRbg4;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65470-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65470-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=google.com;
+	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=fXAqNfbZ;
+	dkim=pass header.d=redhat.com header.s=google header.b=Oy1F+KBi;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65471-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65471-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=redhat.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C1CF830B5CA3
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 12:38:19 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 3753030BBC33
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 13:08:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32D273D5673;
-	Tue, 23 Jun 2026 12:38:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91DCB2E0901;
+	Tue, 23 Jun 2026 13:08:50 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0733D5226
-	for <linux-media@vger.kernel.org>; Tue, 23 Jun 2026 12:38:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFED22D97B7
+	for <linux-media@vger.kernel.org>; Tue, 23 Jun 2026 13:08:45 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782218298; cv=none; b=VXjkiLJl6G2eB9AXs2Ok7F+PgCPnm04PpgdHluMo1dCXOb/R8/SAF4PxBd7L9E6gtdnbu/BVkeuGacgD0jjABwL+NKuIlQpByh9Uq26nUcAMx5TY/HqVxrMmmgYSg3FofAw/qn2XaPbdrsjVkuyD28DC5AZ31FteSDUyytIUt8I=
+	t=1782220128; cv=none; b=beMgoctUahYDQiJJZLY69cpcKT9lCQsLyjaZKeHrtS8PA281fOX/LEB1qO/BR2BM0Xr41FdVgtezX49HzFelN5eMdT3bcSUqpCev484dJ6TRw23hE0GEBmB6X2klOqIczuXBal0SPysYObqnhfhPrZgKDx85QOroMMW85/9WPEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782218298; c=relaxed/simple;
-	bh=0r+J+xSFPVTDu03hM9HofRSVjf4b9CkdYvs63DmWm7s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DC3UxAQfxbkEjLNaXqHUu13o1bruwNx4VvtYgMJK26ZADSIae3cyAUTDCoGoAjW70jsCUbmShRGQTHfTIQH4q+7DiDKeWiD2Jp/Gqt5pUU3C9UQhA6tEdAiOpuyyqoiIz1vXCAAsinTe5UgAdb4aWGGdA1XNRckpdfY50l3eyD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Yg3sRbg4; arc=none smtp.client-ip=209.85.214.181
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2c6b7bd4e8dso46045ad.0
-        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2026 05:38:16 -0700 (PDT)
+	s=arc-20240116; t=1782220128; c=relaxed/simple;
+	bh=xhV+fQg4GhL+/RFHqkId8dIHE/BQEiUCFDOj1bTyuBw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Ym8zW5nTglgmMd5w5utB3AWMmjTcuIOVxjRepV/k3D8uH5JohM0dm9nLw4imAKSpAyAHQThiL327BjKTBgEa9BkUyYaLgR9SmTlVBhqrwJmz7uqtARNFWzc3o96JfU/12lFB/2VxbJM7GUzHS4vfuWSY+ml14n+WuStFo5VX0Uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fXAqNfbZ; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Oy1F+KBi; arc=none smtp.client-ip=170.10.129.124
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1782220124;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xhV+fQg4GhL+/RFHqkId8dIHE/BQEiUCFDOj1bTyuBw=;
+	b=fXAqNfbZf3USQhnBeSYhQRNCDLmD0E3ign2KF6Q/6e7aWgX4xYBXtpKVNJXIIqC9pSKoj4
+	W2JWXFEseIFhhAOtdqvMpcpdBnuscDKA4A2Vmh9M3hn+fL9FDpo4Swv6ZM6DDxEbkBguki
+	7NIzqhdItWoXzZfhgMYhKJjcZaEWWfA=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-621-kFLjpe4LP9qhe3fENHGE5A-1; Tue, 23 Jun 2026 09:08:43 -0400
+X-MC-Unique: kFLjpe4LP9qhe3fENHGE5A-1
+X-Mimecast-MFC-AGG-ID: kFLjpe4LP9qhe3fENHGE5A_1782220122
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-c0853e3bd08so413924966b.0
+        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2026 06:08:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782218296; x=1782823096; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=kRyC6uc9PiBbjK9ZqA0DFvnVffsSMfHhakITg77vSEE=;
-        b=Yg3sRbg4JcgakwmVfurdoXfjSEBxkvQUvrGes5NXfUKDFWt+W+dLi61pcHGBIzlJ/f
-         eKvld8j2snhn0VdxWAGJWsZJxkTde3rC9QvL4/P5Yrsic0c3LHmetJNsr3fjxsBi+0GH
-         4bnUr/NIcg5FFT0fhdMdngy9o3gL4jozOs3FLKvNbfyOOh9NSwjkPKT++hwaFdvY9AKv
-         JBSzZXvkPB2sSrkhBQjCq+fEPjLlubZh/B41aNOIpxnEZkjzWuazxkuU3AW5lZbpmQqv
-         0wu5Q9OUGn6pMz9lINaWM9nBDbZ+S3OJBtPebRTgLzLLMkQ9vLRfEKlRqfAW8ISqwdTH
-         VFkA==
+        d=redhat.com; s=google; t=1782220122; x=1782824922; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=xhV+fQg4GhL+/RFHqkId8dIHE/BQEiUCFDOj1bTyuBw=;
+        b=Oy1F+KBigSJSJKc3smSHeKgzYmz5agbu3a/115IOAUEXfOFKEFK/nY4HbTkVmMNGfY
+         TTVtyR5JINe/5ON1UzpmfhN2q6NoduNd5ZpZt6CK51/8VarBJSAp8mHRlj/5hN9STuio
+         kJx0Rdmo7juo1T1YmAGYEiNNAlx9I1ZTzo5+mguLPIw+0nCE+zBVcdA0KFgrPvwrv6aE
+         ovlNkL13pYHQjKtR4ix3tezvbJPHv4zKrLzD6oS7p1TwAXcCdVYbHc3KxLM+H5v6P6rZ
+         b9MjZx7xfS7liHLGT2xr8tXuFXGZDausg+biRlu42QQoRLARjMD5blCPkAMYxyjNjfO0
+         Z5gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782218296; x=1782823096;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kRyC6uc9PiBbjK9ZqA0DFvnVffsSMfHhakITg77vSEE=;
-        b=e8P0OzFB4s9SPaREkDF/C1BGbQI+eVOXDvbSeW77ZWy8N8kERVkvn28P+GPz4+YGfU
-         WdQWt/Kp03COuN6324MUk7q8gLqATDc+3nbQQCnOUAh2Q5xEQSgmxz+ZIpO+QYO4e389
-         ReLCBGxNs/ZiweUSIN9K58FRvBJumvDWcMNjj1D21qFE2pVj273N5LgcKbTsbVrqmaBa
-         VcvuTHxbKHqeJV5vtAT56robrX5BWaSHFOB8CwbrkH6o/YlV6khYbUQZdpS64wFb/NVS
-         U+b9lWV7x2Z5pSdQ+qGBqXzmyO8dOB3VUUp8S1tyLTWlzgjW3KUVoA2ZWxbdhEuNg4Rn
-         GFFQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rrd+xEvKqo1+4r5u5Li5b9XgEJaRU+TpA9Bj0kg02DAOISuHUETxiiBhPsxGTGBqwoQo+kAeIiwDUpi/Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywzjxw9FsKJD5zY+kYu7LA/67GGfI+4fEQ3kHewmWENSDsEQb6V
-	gsxQtQH8FNXsFNGX8u1uTuw+ySQfUQ8tmkiVG0xyik9lnDCHALNvnFkHDRa5Lv2gaQ==
-X-Gm-Gg: AfdE7cnUtQpBEDOauikm24pqW2fcfHHo65XAfzZAgs8qPVJ7uaS4k9U8wDIRGAtttGW
-	POaHUyAvVg+oVhrkYvBMQ5UMwIscMLcZ0P5umj3oHVOQ8wO4yz0PDoVMBy1K25sOZqleaCU1r5G
-	1niFlVT7jkkkgoaD4ddmpZGJmAmkCy33byuDtvUz66SPAJQc6Z7VXbGbNs7bhsAzRgob5Fh8dV/
-	/dThy18CG4YPV4+GXFrkbTef8Dsk+7zQlWR4SVoL5FGHEVSLvvOYHFfeUzR9MMIWSgDvvU6L+zC
-	MWfv1vqtfzE7EbBiibelbBVeBhOLwqcZAyxx0S0wmAMItn4mAXoUoTqvGR8MMDajrQCnGH7y3gY
-	2aLEdzdkxBIngFaTJXF1HVR5CYjJiPcjpHwc68YcHmJIZwRmbuU4K9bwgfcmAAnXyUHocoDKg+v
-	mBLne1F64eyMnSlHmem6T+y9s5xTPCpStn9UJZGLQ6rdUycsmsSJMem8ZaFY4Q
-X-Received: by 2002:a17:902:e5c2:b0:2c1:4a67:5f31 with SMTP id d9443c01a7336-2c7c70efd4emr1597435ad.9.1782218295641;
-        Tue, 23 Jun 2026 05:38:15 -0700 (PDT)
-Received: from google.com (199.255.142.34.bc.googleusercontent.com. [34.142.255.199])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-84564d6c2cesm13106102b3a.2.2026.06.23.05.38.10
+        d=1e100.net; s=20251104; t=1782220122; x=1782824922;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xhV+fQg4GhL+/RFHqkId8dIHE/BQEiUCFDOj1bTyuBw=;
+        b=BDrcShCm6/5AD5JW1bxJHvm1j5zca8l5Wk+jh2O+3ZmAmmkzH8DO6nCd2rnqVdLaUk
+         CbP0MqIMic0sJNdCiq/UF6DMAsffPnmnGaQZjBNd0kq9sr3cV3LVukobWdopxwTfXpeZ
+         n0H8Kx8FjwYmcvkM8YKnDm09+xp5RRCllpPhk7P/P+Hwv1PvZ3fbgPNO4ybAFhUygsYv
+         JKMIe30DvBdCmjxlHlMnAPfDL28u7NVPobfAtBlLnYU+d0yNXct+e9nF/bbyRb68kP8K
+         cQ6BK//e+g4q8K4fy2ahxckFX8Ntc7Uh4l2gC3Y+Cz6MFPnwub+U5H6zRFMP0fBNLk/A
+         fu2w==
+X-Gm-Message-State: AOJu0YxQNzKtsBBXckU9AmHweaqF1pVRGsdO26lH5uQPZV51dDTgea8s
+	cH7JXOv+Cm4BPqIy/iFOGw4EA2vgVttUJDc8AnxjaLAx4dUFo3EhvDZnIwT+S8tHgoTI2cqaQL0
+	SJRMntJtCE/59ZxCS5zSWI71J/wUj74VW1Pn5TFgpapfnJy30gjt4qsWK4crQU7n5
+X-Gm-Gg: AfdE7ckWG2/yDSh4WkSuHfOp5sAROCDwCoIB6Hu+8j2o797yxVlYg1av5EcpR/bh6wL
+	MxqqzjyarAlksTSBCGisNouAq23A8vP3n5snNjo2MjyXi1ShPbmnyRee2J9402CdXHBh6LpaOex
+	/8iJd9CHBbf1pE1eVM/oVyWoQGUWOn08udRblg/kk/10ZEco/xz9CxEuMX319pEcHoMmzqhjQ+F
+	7CSZFzEBX/lq8uriS7soDGZa3cqUm/NZXERxxFjHk+MAF4EuQRvHM9Su4CKtgrI5gauHJY9SV9A
+	X1S/gYA/enu+zxFDCqZozHbXv/oeuCnmVW8VszrYGr1F4eLAxWUHxANsLZPWRzhg0aShAPL41RS
+	ig0orJk6ho7qQxoYI+XXzd1DlRV9OVrWoiDww
+X-Received: by 2002:a17:907:c0f:b0:bfb:13b8:2ac4 with SMTP id a640c23a62f3a-c0c643a9322mr732716066b.13.1782220122297;
+        Tue, 23 Jun 2026 06:08:42 -0700 (PDT)
+X-Received: by 2002:a17:907:c0f:b0:bfb:13b8:2ac4 with SMTP id a640c23a62f3a-c0c643a9322mr732709866b.13.1782220121644;
+        Tue, 23 Jun 2026 06:08:41 -0700 (PDT)
+Received: from [10.32.64.70] (nat-pool-muc-t.redhat.com. [149.14.88.26])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c0c616175c2sm511061966b.61.2026.06.23.06.08.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 23 Jun 2026 05:38:15 -0700 (PDT)
-Date: Tue, 23 Jun 2026 12:38:07 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: Matt Evans <matt@ozlabs.org>
-Cc: Alex Williamson <alex@shazbot.org>, Leon Romanovsky <leon@kernel.org>,
-	Jason Gunthorpe <jgg@nvidia.com>, Alex Mastro <amastro@fb.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Mahmoud Adam <mngyadam@amazon.de>,
-	David Matlack <dmatlack@google.com>,
-	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Ankit Agrawal <ankita@nvidia.com>,
-	Alistair Popple <apopple@nvidia.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	kvm@vger.kernel.org, linux-pci@vger.kernel.org
-Subject: Re: [PATCH v3 6/9] vfio/pci: Clean up BAR zap and revocation
-Message-ID: <ajp-L7wHQ2rQFK97@google.com>
-References: <20260610154327.37758-1-matt@ozlabs.org>
- <20260610154327.37758-7-matt@ozlabs.org>
- <aixgZQiBQKgS7yIM@google.com>
- <62970f4b-e624-403f-9cdc-02438c820d23@ozlabs.org>
+        Tue, 23 Jun 2026 06:08:40 -0700 (PDT)
+Message-ID: <bf8dbb798406303e0fdf75a596e36ab8fb85aa0d.camel@redhat.com>
+Subject: Re: [PATCH] dma-fence: use correct callback in
+ dma_fence_timeline_name()
+From: "pstanner@redhat.com" <pstanner@redhat.com>
+To: Tvrtko Ursulin <tursulin@igalia.com>, Christian =?ISO-8859-1?Q?K=F6nig?=
+	 <christian.koenig@amd.com>, =?ISO-8859-1?Q?Andr=E9?= Draszik
+	 <andre.draszik@linaro.org>, Sumit Semwal <sumit.semwal@linaro.org>, Tvrtko
+ Ursulin <tvrtko.ursulin@igalia.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, Peter Griffin
+	 <peter.griffin@linaro.org>, Tudor Ambarus <tudor.ambarus@linaro.org>, Juan
+ Yescas <jyescas@google.com>, kernel-team@android.com
+Date: Tue, 23 Jun 2026 15:08:39 +0200
+In-Reply-To: <27f54324-94ac-4bbc-ba58-642a314197d7@igalia.com>
+References: <20260618-linux-drm_crtc_fix-v1-1-801f29c9853d@linaro.org>
+	 <099959fa-3a41-4166-8c10-4e5c2b9fdf19@amd.com>
+	 <27f54324-94ac-4bbc-ba58-642a314197d7@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.1 (3.60.1-1.fc44) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <62970f4b-e624-403f-9cdc-02438c820d23@ozlabs.org>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-1.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	FROM_DN_EQ_ADDR(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
+	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719,redhat.com:s=google];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65470-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	TAGGED_FROM(0.00)[bounces-65471-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:matt@ozlabs.org,m:alex@shazbot.org,m:leon@kernel.org,m:jgg@nvidia.com,m:amastro@fb.com,m:christian.koenig@amd.com,m:bhelgaas@google.com,m:logang@deltatee.com,m:mngyadam@amazon.de,m:dmatlack@google.com,m:bjorn@kernel.org,m:sumit.semwal@linaro.org,m:kevin.tian@intel.com,m:ankita@nvidia.com,m:apopple@nvidia.com,m:vivek.kasireddy@intel.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:kvm@vger.kernel.org,m:linux-pci@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[praan@google.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	DKIM_TRACE(0.00)[google.com:+];
 	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER(0.00)[pstanner@redhat.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:tursulin@igalia.com,m:christian.koenig@amd.com,m:andre.draszik@linaro.org,m:sumit.semwal@linaro.org,m:tvrtko.ursulin@igalia.com,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:peter.griffin@linaro.org,m:tudor.ambarus@linaro.org,m:jyescas@google.com,m:kernel-team@android.com,s:lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[redhat.com:+];
+	FROM_NEQ_ENVFROM(0.00)[pstanner@redhat.com,linux-media@vger.kernel.org];
 	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[praan@google.com,linux-media@vger.kernel.org];
-	MISSING_XM_UA(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[arm.com:email,vger.kernel.org:from_smtp,ursulin.net:email,amd.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,linaro.org:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D0E536B723C
+X-Rspamd-Queue-Id: 5BD0F6B7593
 
-On Thu, Jun 18, 2026 at 05:06:27PM +0100, Matt Evans wrote:
-> Hi Praan,
-> 
-> On 12/06/2026 20:39, Pranjal Shrivastava wrote:
-> >>
+On Thu, 2026-06-18 at 20:30 +0200, Tvrtko Ursulin wrote:
+>=20
+> On 18/06/2026 14:46, Christian K=C3=B6nig wrote:
+> > On 6/18/26 14:00, Andr=C3=A9 Draszik wrote:
+> > > dma_fence_timeline_name() is a wrapper around
+> > > dma_fence_ops::get_timeline_name(). Since the blamed commit below, it
+> > > calls an incorrect callback.
+> > >=20
+> > > Update it to restore functionality by calling the intended callback.
+> > >=20
+> > > Fixes: 62918542b7bf ("dma-fence: Fix sparse warnings due __rcu annota=
+tions")
+> > > Signed-off-by: Andr=C3=A9 Draszik <andre.draszik@linaro.org>
 
-[...]
+Reviewed-by: Philipp Stanner <phasta@kernel.org>
 
-> >> diff --git a/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c b/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
-> >> index 86362ec424a5..51990f6d66d5 100644
-> >> --- a/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
-> >> +++ b/drivers/vfio/pci/hisilicon/hisi_acc_vfio_pci.c
-> >> @@ -1692,6 +1692,14 @@ static int hisi_acc_vfio_pci_probe(struct pci_dev *pdev, const struct pci_device
-> >>  	if (ret)
-> >>  		goto out_put_vdev;
-> >>  
-> >> +	/*
-> >> +	 * hisi_acc_vfio_pci_mmap() calls down to
-> >> +	 * vfio_pci_core_mmap(), so BAR mappings are still
-> >> +	 * DMABUF-backed.  They don't require a zap on revoke, so opt
-> >> +	 * out:
-> >> +	 */
-> >> +	hisi_acc_vdev->core_device.zap_bars_on_revoke = false;
-> >> +
-> > 
-> > This seems to be happening after we vfio_pci_core_register_device, which
-> > could be slightly problematic if another device in the same group races 
-> > to trigger a hot reset before we can set this to false. Could we 
-> > initialize this flag before registration instead?
-> 
-> Remember it is a safe default, so in the event of a driver not managing
-> to opt-out before it's required then all that happens is a redundant
-> unmap_mapping_range().  The default-safe was a nice suggestion from Alex
-> on v2.
-> 
+> > I'm like 99% sure we had that already fixed weeks ago, but somehow it l=
+ooks like that was never merged to drm-misc-fixes.
 
-Ack. I see. That makes sense.
+I'm also very sure that we had shot that bug down not too long in the
+past.
 
-Thanks,
-Praan
+> >=20
+> > Anyway Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+>=20
+> I was also perplexed and took me some digging to realise what had happene=
+d.
+>=20
+> The copy-and-paste bug was indeed originally fixed in:
+>=20
+> commit 033559473dd3b55558b535aa37b8848c207b5cbb
+> Author:=C2=A0 =C2=A0 =C2=A0Akash Goel <akash.goel@arm.com>
+> AuthorDate: Tue Oct 21 17:09:51 2025 +0100
+> Commit:=C2=A0 =C2=A0 =C2=A0Tvrtko Ursulin <tursulin@ursulin.net>
+> CommitDate: Fri Oct 24 16:56:37 2025 +0100
+>=20
+> =C2=A0=C2=A0 =C2=A0 dma-fence: Fix safe access wrapper to call timeline n=
+ame method
+>=20
+>=20
+> But waaay before that I sent a fix for something else which touched=20
+> those lines not noticing the copy-and-paste, fixing a different issue.=
+=20
+> That one however was not merged until earlier this year:
+>=20
+> commit 62918542b7bf08860a60ebbde7654486e0ac0776
+> Author:=C2=A0 =C2=A0 =C2=A0Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+> AuthorDate: Mon Jun 16 16:59:52 2025 +0100
+> Commit:=C2=A0 =C2=A0 =C2=A0Christian K=C3=B6nig <christian.koenig@amd.com=
+>
+> CommitDate: Mon Feb 9 14:05:20 2026 +0100
+>=20
+> =C2=A0=C2=A0 =C2=A0 dma-fence: Fix sparse warnings due __rcu annotations
+>=20
+> Notice the authored vs commited dates.
+>=20
+> I guess it was a silent conflict which overwrote the earlier fix and=20
+> restore the copy-and-paste bug.
+
+silent conflict? If that can happen with our git workflow, how is it
+that we don't see things like that more often?
+
+
+P.
 
 
