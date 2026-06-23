@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-65458-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65459-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id XzLOMo5dOmrf7AcAu9opvQ
-	(envelope-from <linux-media+bounces-65458-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 12:18:54 +0200
+	id sxp+Fm9eOmpI7QcAu9opvQ
+	(envelope-from <linux-media+bounces-65459-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 12:22:39 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F0FF6B6323
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 12:18:54 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FBDD6B63CD
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 12:22:38 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=gPCo8moZ;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65458-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65458-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=intel.com header.s=Intel header.b=Lxzl24QX;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65459-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65459-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1E580309CFCF
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 10:16:58 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 1CB0F30686F4
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 10:17:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C938C376A08;
-	Tue, 23 Jun 2026 10:16:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBAAB376A13;
+	Tue, 23 Jun 2026 10:17:52 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25C72360ECC;
-	Tue, 23 Jun 2026 10:16:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35E83370AE6;
+	Tue, 23 Jun 2026 10:17:51 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782209814; cv=none; b=Iuo5fDn8TMpy38xzZbqXg57kzyZnhu3+H9foe01E7SxP4rWYJfNShVMJ5jYbcBMKHa205TKScdYp6/lvckzDmfce4E+zp3q9/ytiAVeBX2n0ZC5HnYIehBKOlJrzGReKJ+JpkiASwXL2y8GXOQBx/JORipHxZ2ABWhZliHIY+1M=
+	t=1782209872; cv=none; b=FwFjJYRoeGsPei/03nk3HXdrwguBvSilpr/mvszQeilm48/euCqanR8CadubxzWsaEt7fdc0TDyJQW7jSF2m9O7uYKi14nqLnf8vRY3k9/tNkjtKVEL0nY33t2FUfsEEyWGRYk19fq7vZ4wbCguudYHKyYuCGWgzC1by4TOciuA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782209814; c=relaxed/simple;
-	bh=6bKxg3mN3i5Bark5W9/mVCmbmllTCHZ+dsMNiE6JZKI=;
+	s=arc-20240116; t=1782209872; c=relaxed/simple;
+	bh=yKxWuSxIg6MtigXJlkd4YV7IcsGj0BsCefuviCtPryY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WBzc5aLyS8WRgPRyezAsSGGlrGZJLAophEdSlTETn0kTbcVGXKJKuswBCJ/TAwyWY7aAByCNUVqd2irygUqRhRgm/pEi7pXbEUYzGt13KUx1thVltnGv+h+yV3tOHlHfE5IRWJZEPSh/YBHr2khGbPY1YtRrcrcm/L4mHxJfOIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gPCo8moZ; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=OLtbUYMDipCPlxSYog5b9H3UcYQM2pyfK0b7kZcIhBQ48VX+vgVfvyRRHcBhG/yeWKM/b9m+57Pnvhybc+RUnbs5U3RiTmG+NHzHJ00qahE/8iMUbCEnoSDY97gL5serNYckUCsMKF9nMpZ7dlBYUCmm7UsUxZ87XQ2IdMY4zPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lxzl24QX; arc=none smtp.client-ip=198.175.65.9
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782209813; x=1813745813;
+  t=1782209871; x=1813745871;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6bKxg3mN3i5Bark5W9/mVCmbmllTCHZ+dsMNiE6JZKI=;
-  b=gPCo8moZHSBJcdIlrltZYTDeRSMK5+9zyO1qY20AzF/bpUx/8AsBviX2
-   d+fZQVDMj3skmScHVEC1mDGEWSfcjTW+pW79Es4y83LYDON7rgusJ3r/g
-   F2v5fvPxdOroT/6BdxVA3tX3LBskIg66cDacoM4pnwZ4P4xiYMOyT7NWy
-   Qim8IWKw+SxH22Tr0tT0+xC82Vfof+FhNemg7w2sob2zQdP+1jJDCcPPc
-   v4Xm5kwBE10zCTYFBqOtC5Q6glmc4I7PvJ8c+U82L1heB0TYN2BvV4wlg
-   N+9tvMUEXsdtZyd2lVczWd79i9hKQP/u6RDzV57dTN5KjbwBOCy5Dq8ET
-   Q==;
-X-CSE-ConnectionGUID: DFzwMCrAQFWdMjiQo/mgsg==
-X-CSE-MsgGUID: wBE1A2G5TtWwKQixwj3SYw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="94064579"
+  bh=yKxWuSxIg6MtigXJlkd4YV7IcsGj0BsCefuviCtPryY=;
+  b=Lxzl24QXfsyQ6eVEgxwHFye3D3nWWz1jhcW45ygFHdSs17Mce/YTlLx1
+   6GuDpsNWd0s7TR9yh4Mz7P/wc1Jq/RMcqwPDQL3hgrFdwA9A2m6hJlXsw
+   zbiTBvosTGRbR3syTgmGMeFDZAmCd25zk8JfvTrJkwONRHPHEA1HN9oK4
+   m0xSVDG/OXrL/Lgm4to3KkpRNLLXTjJ+BaUyOURq+5zGdcGMa+vacO7uE
+   LYcJnX8Ke4oR2BBSokQWKDRdgay3r1OXZBpGS+B/gHkBk9nOxDXNQT3SD
+   d5S/VJQ+7R9Pbh36yrgtKdCKnEw5Z0LBIbPpgViGdYi1lgRWX4byocenJ
+   g==;
+X-CSE-ConnectionGUID: ZTz3ywX4T46JCTOTQL5mnA==
+X-CSE-MsgGUID: jh2CW4bxSN6SUwhiJe6yxA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11825"; a="105741655"
 X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="94064579"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 03:16:52 -0700
-X-CSE-ConnectionGUID: oBBWS6GuS0iUyF5cRmiQxg==
-X-CSE-MsgGUID: Ax1MZTXeQRWV89v3jlZ8VQ==
+   d="scan'208";a="105741655"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 03:17:49 -0700
+X-CSE-ConnectionGUID: G7sg3GILRvyFR4uiszCSKg==
+X-CSE-MsgGUID: QsrhBqDFTai4ya99CyYq3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,220,1774335600"; 
-   d="scan'208";a="245121467"
+   d="scan'208";a="249341451"
 Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.7])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 03:16:47 -0700
-Date: Tue, 23 Jun 2026 13:16:45 +0300
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2026 03:17:44 -0700
+Date: Tue, 23 Jun 2026 13:17:41 +0300
 From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To: Frank.Li@oss.nxp.com
 Cc: Daniel Scally <djrscally@gmail.com>,
@@ -83,11 +83,10 @@ Cc: Daniel Scally <djrscally@gmail.com>,
 	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
 	imx@lists.linux.dev, Guoniu Zhou <guoniu.zhou@nxp.com>,
 	Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH 3/4] media: rkisp1: use
- fwnode_graph_for_each_endpoint_scoped() to simplify code
-Message-ID: <ajpdDT1N5cjtmAly@ashevche-desk.local>
+Subject: Re: [PATCH 0/4] media: add and use
+ fwnode_graph_for_each_endpoint_scoped()
+Message-ID: <ajpdRUZhmn1fDXDx@ashevche-desk.local>
 References: <20260622-fw_scoped-v1-0-a37d0aac0a68@nxp.com>
- <20260622-fw_scoped-v1-3-a37d0aac0a68@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -96,7 +95,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260622-fw_scoped-v1-3-a37d0aac0a68@nxp.com>
+In-Reply-To: <20260622-fw_scoped-v1-0-a37d0aac0a68@nxp.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Rspamd-Action: no action
@@ -105,12 +104,12 @@ X-Spamd-Result: default: False [-5.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65458-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65459-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[24];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:Frank.Li@oss.nxp.com,m:djrscally@gmail.com,m:heikki.krogerus@linux.intel.com,m:sakari.ailus@linux.intel.com,m:gregkh@linuxfoundation.org,m:rafael@kernel.org,m:dakr@kernel.org,m:mchehab@kernel.org,m:dafna@fastmail.com,m:laurent.pinchart@ideasonboard.com,m:heiko@sntech.de,m:bryan.odonoghue@linaro.org,m:vladimir.zapolskiy@linaro.org,m:loic.poulain@oss.qualcomm.com,m:driver-core@lists.linux.dev,m:linux-acpi@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:linux-arm-msm@vger.kernel.org,m:imx@lists.linux.dev,m:guoniu.zhou@nxp.com,m:Frank.Li@nxp.com,s:lists@lfdr.de];
@@ -130,48 +129,25 @@ X-Spamd-Result: default: False [-5.16 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,intel.com:dkim,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,ashevche-desk.local:mid,vger.kernel.org:from_smtp,linux.intel.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,vger.kernel.org:from_smtp,ashevche-desk.local:mid,linux.intel.com:from_mime,intel.com:dkim,intel.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 3F0FF6B6323
+X-Rspamd-Queue-Id: 9FBDD6B63CD
 
-On Mon, Jun 22, 2026 at 10:30:13AM -0400, Frank.Li@oss.nxp.com wrote:
-
-> Use fwnode_graph_for_each_endpoint_scoped() to simplify code.
+On Mon, Jun 22, 2026 at 10:30:10AM -0400, Frank.Li@oss.nxp.com wrote:
+> Add new helper macro fwnode_graph_for_each_endpoint_scoped() and use it
+> simplify media code.
 > 
-> No functional changes.
+> Typical example should qualcomm's driver (camss.c), the v4l2_mc.c and
+> rkisp1-dev.c only silience improvement.
+> 
+> Anyways, *_for_each_*_scoped() already use widely and make code clean.
 
-...
-
-> -	fwnode_graph_for_each_endpoint(fwnode, ep) {
-> +	fwnode_graph_for_each_endpoint_scoped(fwnode, ep) {
->  		struct fwnode_handle *port;
->  		struct v4l2_fwnode_endpoint vep = { };
->  		struct rkisp1_sensor_async *rk_asd;
-> @@ -286,7 +285,6 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
->  	}
->  
->  	if (ret) {
-> -		fwnode_handle_put(ep);
->  		v4l2_async_nf_cleanup(ntf);
->  		return ret;
->  	}
-
-In this case you can go further and actually replace all the
-
-		ret = -Exxx;
-		break;
-
-with
-
-		v4l2_async_nf_cleanup(ntf);
-		return -Exx;
-
-in the above loop.
-
-but I assume the original is also fine as it's a common denominator for all of
-them (and only one case has something in addition to that).
+LGTM,
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+for patches 2, 3, and 4.
+Patch 1 has individual comments.
 
 -- 
 With Best Regards,
