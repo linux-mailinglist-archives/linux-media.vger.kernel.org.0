@@ -1,207 +1,239 @@
-Return-Path: <linux-media+bounces-65427-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65428-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id SddmIw3jOWqYygcAu9opvQ
-	(envelope-from <linux-media+bounces-65427-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 03:36:13 +0200
+	id Wg1aM67nOWqoywcAu9opvQ
+	(envelope-from <linux-media+bounces-65428-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 03:55:58 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id E90E46B341C
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 03:36:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F4246B3700
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 03:55:58 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=ME7DX9QD;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65427-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65427-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=google.com header.s=20251104 header.b=TVgsc0sT;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65428-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65428-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=google.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 68568303EE85
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 01:36:08 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E601430611C5
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2026 01:55:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9019936B061;
-	Tue, 23 Jun 2026 01:36:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27C5E385D8D;
+	Tue, 23 Jun 2026 01:55:06 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f201.google.com (mail-qt1-f201.google.com [209.85.160.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A18B13E02A;
-	Tue, 23 Jun 2026 01:36:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B83385D8C
+	for <linux-media@vger.kernel.org>; Tue, 23 Jun 2026 01:55:02 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782178566; cv=none; b=catx9j2K2kc8BPa3n4O4J6aiUCFJBDiMWD3jzzxaCuYQV0PNbXR/NjHT1gOmRdEhohyuJHls6tbOsBZOD8qWGIrbUHfe1X5hQrvpRY8egSqcNTOjiBSKACJGWsCd3h6XAq+cHboORCYOQZ6hs6O8U68be6EevkDiu60iqdwUPKU=
+	t=1782179705; cv=none; b=O0iIOWzfweLlwaouuNemOEujOlI0X8Rbzu37JI37tpUiEXMxN3zVHwehbNEeLsXNSMluqvI5G3VVmj7FGIfj1WqTmD5aF9xm7WdpRtfH7NmY31WS8RznN/N0Xczn9smrwvd1ZrP4BZHpFZ4FRoQfa7D9kRDQ47YYMDgmD/0Z26Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782178566; c=relaxed/simple;
-	bh=GU/TLN5+AXYBrgYQp3TR7/+mU6pGPFPmdcGJUjM5drU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=msHglbaFhqrT2MlsqmeQdWGDQoUmaugUprsKjdNY1x//2NaoGxxx39g5LsTupnj02slFzbppUtMTUEF/4sRuejWi5idOEXTpMYPAlRMTMnzfimYnCc+agJex83uFQ318xwVgkUvlhTHh4o2W+qfLEdRLWOrPm1liaUzGzT1KKdo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ME7DX9QD; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2B1F1F000E9;
-	Tue, 23 Jun 2026 01:36:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782178564;
-	bh=4RzSVQZfLfUWVloRvW8WQwsQzXMTtdGDDk65dBN8wKE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=ME7DX9QDi13idCQ5hTJaphmmSlTqZ/FJDyvoxTeD49IwchQmgy0HlpDSz/MIlVIkr
-	 U/P06n7ytV+oqkTD/lLOAM7QkER3Te+UmMMalgB4/pNuDGPzcRdUvN6igwJiJT8HnQ
-	 fe0W/l1honTeRlBVk+5RBCR+2WBlyJAmjHv4LfJQA6/qfNu4hOTtDLggZM9Uoy2txE
-	 aACTBs1bHHkH7QAWJWL/6LMQL+qiLj3GpZwoaGVG5D74I5XpqxCYmM8qqp2h/VI5pg
-	 x5CcGxnfU4AhKWGwMUK8rw5YH7Rfee1fqACN5r10s18b91bJ7Lx7q2XVRWXnqKkRQc
-	 7sBDfTnnQclyg==
-Message-ID: <cec7e338-ce6b-473c-b964-c35f860d67fe@kernel.org>
-Date: Tue, 23 Jun 2026 02:35:52 +0100
+	s=arc-20240116; t=1782179705; c=relaxed/simple;
+	bh=bBWRORv7RUc8uRHv6zCGgvNd/JG4DiLB/oASlXLOQPs=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=L7DK3rX4sWWu+nKEBqVOjo55feVDlQjvjRZweleQgCoIf6VrtKxHssSLAR1/cl5l50x7Xtwxvj4SoK1lFqbiM8WSfD9ysE5OgVSjC4knuIhDLzU/DtpHVrlJzAaXpW1lARCp/8+JNvRWcZ4TrCOuRyJUaZqrB8MgB1gE2J4LEYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--xuehaohu.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TVgsc0sT; arc=none smtp.client-ip=209.85.160.201
+Received: by mail-qt1-f201.google.com with SMTP id d75a77b69052e-519899abab8so100954991cf.2
+        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2026 18:55:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782179702; x=1782784502; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lkITz2dGNs54nij5ccY4KCvNRYJG4BpFQmrxgUXzmOc=;
+        b=TVgsc0sTIDf3LSHX/MsKLkwwjnd2LZOOlBd0U8+/Z52q1GSIBRwWzmJiQFJA+HC+DP
+         NwpBus+1F/xW819J8IgPepSE2YQUUSNM1wxtmbCFCVLrRU7Ei6aaQl9HlqDAN+Cpro4f
+         Bx1/SNsm/nIYpqkGwgTH7lRZKXh55ilepG3RDnRXBP6DgpaS6YCd5+r68rp6qxC5j+4d
+         4GaiC8f7Inyssj3LZTsgVaN6CnZ9VLfuM5dt4DaojjIbQ7E6rdivfH5FVVKFjGTM2LeX
+         5ZVB0Yxf4c3tyqZ+glK+SJI4VLo2CUJZdW6PbJYscq2lYkKFR7VAqxE5pdOiHYNg7G29
+         uEdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782179702; x=1782784502;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lkITz2dGNs54nij5ccY4KCvNRYJG4BpFQmrxgUXzmOc=;
+        b=S3dHhn0aTgTzZdqvvD3Rh5q0MnvrVwE8x0+YROCrhb+TGzVeDdy2OKG6cs1O9Qs6wO
+         bmjuaaTcBpJGfk1F1MLGz8wEsY3QABthHxwBV1/7aa/hXoOqy9mgRfxrb3JXEt5/wNKy
+         BbRJxK2/6FiVoxSsreQCWUEPAOa2D2JhxBozoLQspDoYLN++iaHHiPaAWULbtp37gwZX
+         cisNfdmERWJabPDChhcLWY9yAUAEVRC6jBmstCZFviVeh227qzJMwlZFPIHKsurgHug7
+         co9753Uvb2GwvnbE1P0+BTRpVm9Il0fsxTUC3gHLU8c3QLuEbAnnun3KAiW2aAGmXTLU
+         KI0w==
+X-Forwarded-Encrypted: i=1; AFNElJ/p2LbAcdKO/+wIZnF8mUVuSEe59cqUAx2cqSsBaaGrJu6S+5PUgTUzRa8vn6hBEEAxJPGpbZhm9OLTBQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw5gU3pUAOyc/dh+1602fSiP0CmPKkJC0Otg660HOSfwJmpahbP
+	RB8hUO8U+wqJV2VDOrEY1hhOsMxmqLHHHaDG97UC8r0qOFyyakjJmX/Q/228yLrIjT8XcJ7XvyQ
+	kVTDlk1CTx7Tb
+X-Received: from qtxx9-n2.prod.google.com ([2002:a05:622a:aac9:20b0:517:96a4:99ea])
+ (user=xuehaohu job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:622a:2609:b0:519:89f6:6ed4 with SMTP id d75a77b69052e-51a548b6418mr13414611cf.47.1782179701475;
+ Mon, 22 Jun 2026 18:55:01 -0700 (PDT)
+Date: Tue, 23 Jun 2026 01:54:59 +0000
+In-Reply-To: <20260621222130.1667453-1-xuehaohu@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: as102: drop device reference on probe failure
-To: Jiawen Liu <1298662399@qq.com>, mchehab@kernel.org
-Cc: hverkuil+cisco@kernel.org, kees@kernel.org, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <EIs_sKzmYD0U2nVx0JkWTfmxd-qyd1OI76VEo5-EXp9MGGv7encWgH1IXessB0y3HS0EutO1_l9t58cBrEoH-Q==@protonmail.internalid>
- <tencent_B47ADAA251C849DD30A72DC0E25F8CCAAF07@qq.com>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=bod@kernel.org; keydata=
- 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
-In-Reply-To: <tencent_B47ADAA251C849DD30A72DC0E25F8CCAAF07@qq.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20260621222130.1667453-1-xuehaohu@google.com>
+X-Mailer: git-send-email 2.55.0.rc0.799.gd6f94ed593-goog
+Message-ID: <20260623015459.1153884-1-xuehaohu@google.com>
+Subject: [PATCH v2] dma-buf: Split sgl into page-aligned 2G chunks
+From: David Hu <xuehaohu@google.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+	"=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>
+Cc: David Laight <david.laight.linux@gmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Nicolin Chen <nicolinc@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Kevin Tian <kevin.tian@intel.com>, 
+	Ankit Agrawal <ankita@nvidia.com>, Alex Williamson <alex@shazbot.org>, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-kernel@vger.kernel.org, iommu@lists.linux.dev, jmoroni@google.com, 
+	praan@google.com, kpberry@google.com, chriscli@google.com, 
+	sashiko-bot@kernel.org, stable@vger.kernel.org, 
+	David Hu <xuehaohu@google.com>
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	MV_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:1298662399@qq.com,m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:kees@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_TO(0.00)[qq.com,kernel.org];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER(0.00)[xuehaohu@google.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-65428-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[21];
+	FORGED_RECIPIENTS(0.00)[m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:david.laight.linux@gmail.com,m:jgg@ziepe.ca,m:nicolinc@nvidia.com,m:leon@kernel.org,m:kevin.tian@intel.com,m:ankita@nvidia.com,m:alex@shazbot.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:iommu@lists.linux.dev,m:jmoroni@google.com,m:praan@google.com,m:kpberry@google.com,m:chriscli@google.com,m:sashiko-bot@kernel.org,m:stable@vger.kernel.org,m:xuehaohu@google.com,m:davidlaightlinux@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-65427-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[google.com:+];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
+	FROM_NEQ_ENVFROM(0.00)[xuehaohu@google.com,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[gmail.com,ziepe.ca,nvidia.com,kernel.org,intel.com,shazbot.org,vger.kernel.org,lists.freedesktop.org,lists.linaro.org,lists.linux.dev,google.com];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[qq.com:email,vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E90E46B341C
+X-Rspamd-Queue-Id: 6F4246B3700
 
-On 20/06/2026 09:40, Jiawen Liu wrote:
-> as102_usb_probe() initializes the kref and takes a USB device
-> reference before registering the USB minor.
-> 
-> If stream allocation or DVB registration fails later, the error
-> path deregisters the minor but does not drop the initial kref.
-> 
-> Use kref_put() so as102_usb_release() drops the USB reference.
-> 
-> Signed-off-by: Jiawen Liu <1298662399@qq.com>
-> ---
->   drivers/media/usb/as102/as102_usb_drv.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/media/usb/as102/as102_usb_drv.c b/drivers/media/usb/as102/as102_usb_drv.c
-> index a11024451ceb..ad6c5837f1d7 100644
-> --- a/drivers/media/usb/as102/as102_usb_drv.c
-> +++ b/drivers/media/usb/as102/as102_usb_drv.c
-> @@ -405,6 +405,7 @@ static int as102_usb_probe(struct usb_interface *intf,
->   failed_stream:
->   	usb_set_intfdata(intf, NULL);
->   	usb_deregister_dev(intf, &as102_usb_class_driver);
-> +	kref_put(&as102_dev->kref, as102_usb_release);
->   	return ret;
->   failed:
->   	usb_put_dev(as102_dev->bus_adap.usb_dev);
-> 
-> base-commit: 9e7e6633458362db72427b48effad8d759131c35
-> --
-> 2.34.1
-> 
-> 
+Currently, `fill_sg_entry()` splits the scatterlist using `UINT_MAX`.
+This creates a non-page-aligned DMA length (`0xFFFFFFFF`) for the
+first entry, resulting in non-page-aligned DMA addresses for all
+subsequent entries.
 
-Missing a Fixes: and Cc: stable
+While the underlying IOMMU mapping may be contiguous, hardware
+DMA engines often require explicit address alignment (e.g., page,
+cacheline, or storage sector boundaries). Passing unaligned
+addresses and lengths can cause explicit failures in DMA descriptor
+creation or silent data corruption if lower unaligned bits are
+truncated.
 
-But also why not:
+Fix this by splitting the scatterlist into 2G chunks. An alternative
+previously considered was to use the largest page aligned chunk within
+`UINT_MAX` (`ALIGN_DOWN(UINT_MAX, PAGE_SIZE)`) to satisfy page
+alignment. A 2G chunk is better as it naturally aligns with most known
+hardware boundaries, while also allowing compiler optimizations with
+simple bit shifts. This ensures all scatterlist DMA addresses and
+lengths remain page aligned and satisfy hardware constraints.
 
-➜   git diff
-diff --git a/drivers/media/usb/as102/as102_usb_drv.c 
-b/drivers/media/usb/as102/as102_usb_drv.c
-index a11024451cebd..8e480ab78f9b2 100644
---- a/drivers/media/usb/as102/as102_usb_drv.c
-+++ b/drivers/media/usb/as102/as102_usb_drv.c
-@@ -403,9 +403,7 @@ static int as102_usb_probe(struct usb_interface *intf,
-  failed_dvb:
-         as102_free_usb_stream_buffer(as102_dev);
-  failed_stream:
--       usb_set_intfdata(intf, NULL);
-         usb_deregister_dev(intf, &as102_usb_class_driver);
--       return ret;
-  failed:
-         usb_put_dev(as102_dev->bus_adap.usb_dev);
-         usb_set_intfdata(intf, NULL);
+Page-aligned entries allow the system to cleanly chunk payloads into
+PCIe MaxPayloadSize (MPS) (e.g., 128 bytes, 256 bytes, 512 bytes).
+As a result, this may help reduce TLP fragmentation in P2P transfers
+and alleviate potential congestion within a logical PCIe switch
+partition, especially when Relaxed Ordering is not possible due to
+hardware constraints.
 
-Which is the logical inversion of the setup ?
-
+Reported-by: sashiko-bot <sashiko-bot@kernel.org>
+Closes: https://lore.kernel.org/all/20260609165431.778061F00893@smtp.kernel.org/
+Fixes: 3aa31a8bb11e ("dma-buf: provide phys_vec to scatter-gather mapping routine")
+Cc: stable@vger.kernel.org
+Signed-off-by: David Hu <xuehaohu@google.com>
 ---
-bod
+ Changes in v2:
+ - Updated commit title and message to reflect the switch to 2G chunks
+ - Switch to using 2G as the max sg entry size as it naturally aligns
+   with most hardware boundaries, while allowing compiler optimizations
+   with bit shifts (David Laight)
+ - Optimized away division calculation for `nent`, and multiplication
+   calculation for sgl address, by dropping the `for` loop in favor of a
+   `while (length)` loop (David Laight)
+ - Dropped `min_t` in favor of `min()` to maintain a strict type
+   checking safety net (David Laight)
+
+ drivers/dma-buf/dma-buf-mapping.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-buf-mapping.c b/drivers/dma-buf/dma-buf-mapping.c
+index 794acff2546a..2d88e08c5ebf 100644
+--- a/drivers/dma-buf/dma-buf-mapping.c
++++ b/drivers/dma-buf/dma-buf-mapping.c
+@@ -5,16 +5,17 @@
+  */
+ #include <linux/dma-buf-mapping.h>
+ #include <linux/dma-resv.h>
++#include <linux/sizes.h>
++
++#define MAX_SG_ENT_SZ ((size_t)SZ_2G)
+ 
+ static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, size_t length,
+ 					 dma_addr_t addr)
+ {
+-	unsigned int len, nents;
+-	int i;
++	size_t len;
+ 
+-	nents = DIV_ROUND_UP(length, UINT_MAX);
+-	for (i = 0; i < nents; i++) {
+-		len = min_t(size_t, length, UINT_MAX);
++	while (length) {
++		len = min(length, MAX_SG_ENT_SZ);
+ 		length -= len;
+ 		/*
+ 		 * DMABUF abuses scatterlist to create a scatterlist
+@@ -24,11 +25,12 @@ static struct scatterlist *fill_sg_entry(struct scatterlist *sgl, size_t length,
+ 		 * does not require the CPU list for mapping or unmapping.
+ 		 */
+ 		sg_set_page(sgl, NULL, 0, 0);
+-		sg_dma_address(sgl) = addr + (dma_addr_t)i * UINT_MAX;
++		sg_dma_address(sgl) = addr;
+ 		sg_dma_len(sgl) = len;
++		addr += len;
++		/* Unconditionally advance. On last segment, this becomes NULL */
+ 		sgl = sg_next(sgl);
+ 	}
+-
+ 	return sgl;
+ }
+ 
+@@ -41,14 +43,14 @@ static unsigned int calc_sg_nents(struct dma_iova_state *state,
+ 
+ 	if (!state || !dma_use_iova(state)) {
+ 		for (i = 0; i < nr_ranges; i++)
+-			nents += DIV_ROUND_UP(phys_vec[i].len, UINT_MAX);
++			nents += DIV_ROUND_UP(phys_vec[i].len, MAX_SG_ENT_SZ);
+ 	} else {
+ 		/*
+ 		 * In IOVA case, there is only one SG entry which spans
+ 		 * for whole IOVA address space, but we need to make sure
+ 		 * that it fits sg->length, maybe we need more.
+ 		 */
+-		nents = DIV_ROUND_UP(size, UINT_MAX);
++		nents = DIV_ROUND_UP(size, MAX_SG_ENT_SZ);
+ 	}
+ 
+ 	return nents;
+-- 
+2.55.0.rc0.799.gd6f94ed593-goog
+
 
