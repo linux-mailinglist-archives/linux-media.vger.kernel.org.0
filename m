@@ -1,642 +1,269 @@
-Return-Path: <linux-media+bounces-65498-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65499-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id c3O+BBBiO2pUXAgAu9opvQ
-	(envelope-from <linux-media+bounces-65498-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 06:50:24 +0200
+	id 3pnJMBVuO2oJXwgAu9opvQ
+	(envelope-from <linux-media+bounces-65499-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 07:41:41 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55B346BB4CD
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 06:50:23 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14A776BB8ED
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 07:41:41 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=wf14lv2X;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65498-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65498-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=nxp.com header.s=selector1 header.b=EoAaHOek;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65499-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65499-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=nxp.com;
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 4E4263011584
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 04:48:13 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C659630158AA
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 05:41:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D684380FDA;
-	Wed, 24 Jun 2026 04:48:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76A4E3242CA;
+	Wed, 24 Jun 2026 05:41:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013065.outbound.protection.outlook.com [40.107.159.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346B57E105;
-	Wed, 24 Jun 2026 04:48:09 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782276492; cv=none; b=GtOqdfGXBKhIJCmtRDYBrOyYwrScj/3zgGaGMVNK8mx9v+c51M19RP1lk5RienCtI23V5EXm4R8dCwmsJY0P+khHuNpbKuZ66Mooz4LYp+rQih4VYwD7Qu1kREWakqPSWBdIePAiEH7P9WSmZLuAEkkriuMzdJPTG5j6t8Sgq6o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782276492; c=relaxed/simple;
-	bh=vbRaXo3fH27ZJV4/cFT4V9d3NCse7TNuNUc6rQzVUr4=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=k3RIlT0RHr3CObZd7aeyJdBICzdcHSWBfeTAf9PNeCVCXRseFQsrv6RKw7rtCbfVJj/SQDH5tJpfYSxalnSDuGk2BKpDtmKdqgUgf+K/EheGuf+5eP0cHl7eqJE4oTbvR+piH2Wu6+PWBIk4Lw+YpdXNVXk/zoBO+E3YcsvpFd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wf14lv2X; arc=none smtp.client-ip=213.167.242.64
-Received: from neptunite.rasen.tech (unknown [IPv6:2404:7a81:160:2100:f24e:84b5:e101:423a])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id BC41A1E6;
-	Wed, 24 Jun 2026 06:47:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1782276447;
-	bh=vbRaXo3fH27ZJV4/cFT4V9d3NCse7TNuNUc6rQzVUr4=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=wf14lv2X3gbFuTvQbr+YH6WO9fnlHdRuVj7Kqzx9Oc7FHZWre/DkHPQhWl/VmdLXW
-	 EUe7vZaEVrPJEGVMkodBlT+H4VSWgSzsj3qPJ6PerjjnxcumnkU00CM9OvbzJQfzvC
-	 eZkoADLPtaFxbF0U4nazcBHlDla/5wd5nGTFk98s=
-Content-Type: text/plain; charset="utf-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337CB30AACD
+	for <linux-media@vger.kernel.org>; Wed, 24 Jun 2026 05:41:32 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782279693; cv=fail; b=bVTCYayhOUirLx7ScGAWlFUTWL+FS+vfgobMVGR7M7Fw6Yaitz3m+fqfV3Z+WPFipX/pq2c7z9MxyhXOtFhrSP+qkL1F2dHm/u2f5GEpn2r9IntUfdgjo3qCdqsOgp2At0zLGuYUIAK5uur1XBsDHwym7GNvaIse+/ke/Abbmsg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782279693; c=relaxed/simple;
+	bh=yJHnmYEHeVoNkjvBbAu0XQgFqxxjX+d8aGnPzxfoQyY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=o2+pH4+c6ZzlncV2gdqccozDuhUa+ukrfLZezHhhfnfI2FptBH9o3bgSwuC/WKaujPG0w0u5pjHP1Rk8WwGlLgUnT1u3mgAo37RTYFk/QAj3tAEpxgUQJ9iV+BBpWuBLRo35JZjvo4kG/RLy7RzxwXaNjXXQMg8J5uzNKGZ13kA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=EoAaHOek; arc=fail smtp.client-ip=40.107.159.65
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fnZLHxK0ok2sfwNjkqaSjWxIAtxmOFR3zxMVRiwdBGaiCpxL1994BUN1+pqyq/6OAKOwnLsJ7dkxEk38k6K+OEkguaeXSZ0U7JYxhtMpOl5rXeh9xIrl2gE9YBPpFrYU/bMq7+ZKE9aSI8Kxr3QghlBQldRtTpPvxDhBYosAcWWxouUPiw/u61XL+uBJ2SeLqC3eMq+JZMb60Mx0LvxhpuiAr7PwOvnzO0Dww8eCDTlws1rjaqUkKAvHY61Npf8Hd4FmVw+oGGnfW23F6FjEY3UasaJZFSoMaeKUlUBiv6oT4L9MR2uEFIrVPp8yaRWhrLgcQdbVcrsVnoSO0VpnsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NuqvqeHHKV7kg4O9fjLprY4hyTMDbhfNqIeKpHDkVJc=;
+ b=b55lkLGdpW3gUMjofX27ax3bpetlCDNu0lq8c/n75XZ6GCcbjWFo15wLqTLZr9PhQ3vCKacAAT7dgD082XUpFHb55DQh/ysc4eD9T8aR/nekIkTWs0qlSsXQIidIL8GdGQcD81KJwhTkakgxfjWoLhez8V0gEdVt/3cjCLuKDjsiGUezn9O/r3hAkZ9nZYcoh3bIPJsQFSV+GDktgxpDJfJWTuikFBa9pho+I4CsltpZfdtRNCnARYP3jMAEhwh7HL9r5eP98sUfSauXlN/+AOIKzjio0/lIVpP6t3i1dP+ukuzajB5Sp5XejYlmIp6j/FxraMBuPlfuatucUCURBA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NuqvqeHHKV7kg4O9fjLprY4hyTMDbhfNqIeKpHDkVJc=;
+ b=EoAaHOek4XsRGP06CaTULPw9elzCdGV/p1tWm9PEiCFuHsH3TPMkBXmpNglrh5v3iDiM+Erl4BW8tp6jvPxsoimD9OF/TkPWpKv95O2sZe/vOo3iPWwxZLnnaiLS4L9b0TkQ2RLCZWCw9D1b50MRbvURP90GoEvswDfOQ23r1rW12vzbmwQoEbCgR/4VjODs7S90Y9HKrNWhFg9ERSmvLrQetv0L8q0SulChXpU8HFz392A4ra5lhjXQl3SR7oYHZfkMmLaU8mIj2J1dqH9hCFZObwVUMOq7slf7JT1Fho8mpC2NSR3sx6JdMiposCXzkRyMSrVKFQolBg8k2/3VGQ==
+Received: from AS8PR04MB8563.eurprd04.prod.outlook.com (2603:10a6:20b:422::14)
+ by AM9PR04MB8683.eurprd04.prod.outlook.com (2603:10a6:20b:43e::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.15; Wed, 24 Jun
+ 2026 05:41:29 +0000
+Received: from AS8PR04MB8563.eurprd04.prod.outlook.com
+ ([fe80::3f00:4490:e559:74a4]) by AS8PR04MB8563.eurprd04.prod.outlook.com
+ ([fe80::3f00:4490:e559:74a4%4]) with mapi id 15.21.0139.018; Wed, 24 Jun 2026
+ 05:41:29 +0000
+From: Ming Qian <ming.qian@nxp.com>
+To: Ginger <ginger.jzllee@gmail.com>
+CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: RE: [EXT] [bug report] Potential atomicity bug in
+ drivers/media/platform/amphion/vpu_core.c, within vpu_request_core()
+Thread-Topic: [EXT] [bug report] Potential atomicity bug in
+ drivers/media/platform/amphion/vpu_core.c, within vpu_request_core()
+Thread-Index: AQHdAiiGO+zwVeQh3EyeOYqZESTN2rZNMhrw
+Date: Wed, 24 Jun 2026 05:41:28 +0000
+Message-ID:
+ <AS8PR04MB8563EDFE2589BC4F925ED742E7ED2@AS8PR04MB8563.eurprd04.prod.outlook.com>
+References:
+ <CAGp+u1aMp8PL0_OScboJ_DrTLa826uwQSgO1JKNK7Zj2GpGDHA@mail.gmail.com>
+In-Reply-To:
+ <CAGp+u1aMp8PL0_OScboJ_DrTLa826uwQSgO1JKNK7Zj2GpGDHA@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS8PR04MB8563:EE_|AM9PR04MB8683:EE_
+x-ms-office365-filtering-correlation-id: e28d8956-24f6-46f9-a6f4-08ded1b33d56
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|19092799006|366016|376014|1800799024|23010399003|22082099003|18002099003|38070700021|11063799006|56012099006;
+x-microsoft-antispam-message-info:
+ df+7Ey1cBalStGlzFUOVR8bDOGfJJcDAt9fe6jIYYTlo//quw4j+ZCJVhaCU+aZp3lN6a3+Fo7QhWeHbglOxOUixDPHGNktKrfdVL3RqzDkCwJbBEhlWCQHPT1I0ZgDy0nUC6cynzh1Y1tDdUFRPkd5SEzlBdMGPzafWmIOqJdSrpPFUhIBn2FE4AF8VTjMw5P8x/Ny5tDRYmgoM7R89v3hbT6y/5GJk/bmaZ0QmEe2WNOXIYXVY+c1QNyszM3scrrY02EpSRIIV5BGTRMjdb0cGZaGPUvwUuXLc09m6nLKz0wdFJI1TXT5pDjXxQNIG0gFlzOcDwUiNrJ4RqvcLBqlbihyTctvMHmzMvXZOgiVFU0VnvgwOy2c5SI9NhbjN6us+tCwf35SR32AOqd+dj//qj/xkh+RBWXmiN2gOUGXwF93H9HXh3/EgKzWJAYiMRlGBO9XvITuzgpmtpWoZIwfj7DKs4hJnD+WxRCLVw3B8FzBGovhLDqTzM9cvj5OAmjvL0Cy/Hqplkp7Ub/Al4rrFP8O+RiPHv5YVwct7Hx46qmtRlaUNqB3mlpBY7w9hxdsP76OzlXfOGRubdoj5UmEHACpBJ+Ko8z0Xj90UdkUwKp2Ye5HMHTRsIpr5pmZXSFIH0BYVOJNUdcgB+k2miMdWf/bHq5M0stfYEvcKsZdZWZmCN2jIHqFtrPAxqgCglK6au7cp04kx6tQCv/g3CQ==
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB8563.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(366016)(376014)(1800799024)(23010399003)(22082099003)(18002099003)(38070700021)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?qD4jELqdEM7Lx8oupQdZHliiYM4dmgGmy4qo82Vcg+1TMwNBNneuj+iqpUSZ?=
+ =?us-ascii?Q?rcvu5kA4Ugo90KT+1UoK80CEqHjxbpYtQJ38U8Qt3yKgPWgyaKY7RGxSEIIe?=
+ =?us-ascii?Q?HsRk3Td4sP8q42ylUiY2tIqwkZKO/Yfuhwc8CmblGbA0RHSiM4nx4feT4P5v?=
+ =?us-ascii?Q?PhH+SXWY0jr+psJKXcrAI/GHNr0htCi1dAImzSsPZaK63Wjulyu5sKWr9yDq?=
+ =?us-ascii?Q?n6VZgS62hNKcR2hwRGZYdw1TmHknSim9UNv7MpVLDRiqV2/fj6D+kbHdluh7?=
+ =?us-ascii?Q?3oOo36ejjCRaUyY0g3iCQPB3pZ4K0qwwuxrYkiMqWIQWDJCnJjytHJnL/SGK?=
+ =?us-ascii?Q?1Z7Z3F++J94uEgISaFkyKnevH7uUnpXce6tYmujhxo/A0WzQBr0sUFfAKZhS?=
+ =?us-ascii?Q?Frm7z0mJ6KRAJI/tCjvYlTk17jnK3W4GFLmpsbiuTbqNM7K76BuAnxqPFcMz?=
+ =?us-ascii?Q?BHLaSEe3hr47gF7Q1RpxH7ssfy6MY5Ud3QhysMfbxY4iLMdcEz7tXfO/rDMx?=
+ =?us-ascii?Q?K53Z5Byl8OsSl/tS2t4+G+OHaqxuc75TbIBKCEA+YnJq3rRY4Um7w+/wCUgK?=
+ =?us-ascii?Q?vTm4/DzTmNwi306LbEM7LFov1On4y2pjHihVH4ZNkE/VlKDx4YI5TJf0r0bF?=
+ =?us-ascii?Q?K4yBPyID5LZ1cfkRLRdFCMkXYWslEuAxlzqC1iersWLOC5WgiqXIzyL0SHEC?=
+ =?us-ascii?Q?E7bqeEc/LOeraykut9WQvL1HT2U7cEdTq6uSosmuJ/EAUAEHaD24PN+Annjg?=
+ =?us-ascii?Q?O8CqOS+tK5rQ/kBCMbUlyTMMhDQKedopAjCfXoqXxsSxwMGeJPL11FP3H3fo?=
+ =?us-ascii?Q?1hGDhO32YabsylOEVcy+hKJN9iUdMI28yLu4lOfPiEqRBx9baC2ZgjVVSTMn?=
+ =?us-ascii?Q?EOjRjAWEDx0o0QIR2IoRRRH0RABkUAU08BfRLDrrR5BPu/4CV8PJTae41rMm?=
+ =?us-ascii?Q?FWz+0/v0IlE8swZMT90B2iwK+AaOBjlo5UG03HwcdfjchhZAEaGrXlv8ur3Z?=
+ =?us-ascii?Q?yYCYnin8D0U/GPod1+kvv9zoDG3I0PpzKSghRBmi3PZIP8KIXCnQtRMmf08y?=
+ =?us-ascii?Q?QRALnII0tJZX8ZLOlTV3Ok4VwpQWqqkkwSGBsVJ5NvI57pr3b6MN6WhEij/0?=
+ =?us-ascii?Q?fm/L+gMQIwZz07zscjROS91cvOCl8S9FtFc9QZ1ws5FRy7+uqfucYkIMQTxE?=
+ =?us-ascii?Q?6xnfe2xef7wQx6tEVwdKgIIG6mvRSr2G2i46oJGxQqNfMhavqmWpqNzLFzwU?=
+ =?us-ascii?Q?udjJn5UoAAEwsISSM88oTpbTf3ExOg/LPqvv5WoPtzUxdShL1DVV295z49GP?=
+ =?us-ascii?Q?sTNNH9sEl49BgTUsxHD7N/JhJQd5bnHYyciqkUn8OSbvWi07eObMX6JDlecX?=
+ =?us-ascii?Q?EVEUBxJl5peWZypR4rQc/+OXS8blS0FEhNmtljR3cvVF8pVzN0EM3pxiuPg3?=
+ =?us-ascii?Q?0/s3F5CJwB6Nud+9soc/r6RRcs5rOoDqODGx+ydvkm+Cy78/XejuJxk65wNd?=
+ =?us-ascii?Q?IQVG9ESfnEuNYpHmMFYrnRsok6pIIFtRMV71DU/U4AoE8iG0/HGTHdyHG17h?=
+ =?us-ascii?Q?Hlesl5GsEAFBbl6UHpIYdwpR6+ACRgX2BF0h0FGoIClbwopvCk11idvx7z+o?=
+ =?us-ascii?Q?omoftwoIM3hOCbBmKlyOLqvXcxWvQMEgAtSK8+lpW8U7blVOb2gS168DUfxW?=
+ =?us-ascii?Q?ODNJGQSFOmnX0HR3U/uK3OcxE3sJ2HffkXoupmetv8fOdBW1?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20260619052637.1110672-2-paul.elder@ideasonboard.com>
-References: <20260619052637.1110672-1-paul.elder@ideasonboard.com> <20260619052637.1110672-2-paul.elder@ideasonboard.com>
-Subject: Re: [RFC PATCH 1/6] media: mc: Implement shared media graph
-From: Paul Elder <paul.elder@ideasonboard.com>
-Cc: michael.riesch@collabora.com, xuhf@rock-chips.com, stefan.klug@ideasonboard.com, kieran.bingham@ideasonboard.com, dan.scally@ideasonboard.com, jacopo.mondi@ideasonboard.com, linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, hverkuil+cisco@kernel.org, nicolas.dufresne@collabora.com, ribalda@chromium.org, sakari.ailus@linux.intel.com
-To: laurent.pinchart@ideasonboard.com
-Date: Wed, 24 Jun 2026 13:47:59 +0900
-Message-ID: <178227647941.292172.11363904473241703252@neptunite.rasen.tech>
-User-Agent: alot/0.0.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB8563.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e28d8956-24f6-46f9-a6f4-08ded1b33d56
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jun 2026 05:41:29.1066
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +V7HvAoeyewdjJD2d1n98nbDAzjbO7tULhJo10l+lPUAYHTQGO7saIG9n76Z2lxgAkpJqjwwUTEHTm4YG6FXBw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8683
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TO_DN_SOME(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-65498-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-65499-lists,linux-media=lfdr.de];
+	FORGED_SENDER(0.00)[ming.qian@nxp.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:ginger.jzllee@gmail.com,m:linux-media@vger.kernel.org,m:gingerjzllee@gmail.com,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[gmail.com];
+	RCPT_COUNT_TWO(0.00)[2];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:michael.riesch@collabora.com,m:xuhf@rock-chips.com,m:stefan.klug@ideasonboard.com,m:kieran.bingham@ideasonboard.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:ribalda@chromium.org,m:sakari.ailus@linux.intel.com,m:laurent.pinchart@ideasonboard.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[paul.elder@ideasonboard.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[paul.elder@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	TO_DN_NONE(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[ming.qian@nxp.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[nxp.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,neptunite.rasen.tech:mid,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-media];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	REDIRECTOR_URL(0.00)[aka.ms];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,aka.ms:url,nxp.com:dkim,nxp.com:email,nxp.com:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,AS8PR04MB8563.eurprd04.prod.outlook.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 55B346BB4CD
+X-Rspamd-Queue-Id: 14A776BB8ED
 
-Hi me,
+Hi Ginger,
 
-You have a typo...
+Thank you for the report and for taking the time to look into the amphion V=
+PU driver.
 
-Quoting Paul Elder (2026-06-19 14:26:28)
-> Currently, a media graph contains a main device whose driver is
-> responsible for creating the media device. We have however recently run
-> into devices that have multiple devices that can quality as a main
-> device. Examples are the RK3588 which has a VICAP and two ISP
-> instances, and another example is the i.MX8MP which has an ISI and two
-> ISP instances. As there is currently no way to reconcile who the main
-> device is in the media device, these setups simple cannot be used
-> simultaneously.
->=20
-> This patch extends the media controller API with a "shared media graph"
-> framework. This allows drivers to share a media device, thus enabling
-> the setups mentioned above. Instead of owning and creating a media
-> device, drivers can join-or-create a shared media device via the shared
-> media graph API. The matching is done automatically based on the
-> detected endpoints in the device tree.
->=20
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> ---
->  drivers/media/mc/Makefile          |   2 +-
->  drivers/media/mc/mc-shared-graph.c | 335 +++++++++++++++++++++++++++++
->  include/media/mc-shared-graph.h    |  92 ++++++++
->  3 files changed, 428 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/media/mc/mc-shared-graph.c
->  create mode 100644 include/media/mc-shared-graph.h
->=20
-> diff --git a/drivers/media/mc/Makefile b/drivers/media/mc/Makefile
-> index 2b7af42ba59c..1d502fdc52ad 100644
-> --- a/drivers/media/mc/Makefile
-> +++ b/drivers/media/mc/Makefile
-> @@ -1,7 +1,7 @@
->  # SPDX-License-Identifier: GPL-2.0
-> =20
->  mc-objs        :=3D mc-device.o mc-devnode.o mc-entity.o \
-> -          mc-request.o
-> +          mc-request.o mc-shared-graph.o
-> =20
->  ifneq ($(CONFIG_USB),)
->         mc-objs +=3D mc-dev-allocator.o
-> diff --git a/drivers/media/mc/mc-shared-graph.c b/drivers/media/mc/mc-sha=
-red-graph.c
-> new file mode 100644
-> index 000000000000..c4067e5b861d
-> --- /dev/null
-> +++ b/drivers/media/mc/mc-shared-graph.c
-> @@ -0,0 +1,335 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * mc-shared-graph.c - Media Controller Shared Graph API
-> + *
-> + * Copyright (c) 2026 Paul Elder <paul.elder@ideasonboard.com>
-> + */
-> +
-> +/*
-> + * This file adds the Media Controller Shared Graph API. This allows dri=
-vers
-> + * to create shared media graphs or join existing media graphs from other
-> + * drivers, so that they can all be in the same media graph. This allows=
- us to
-> + * have more complex media graphs chaining more complex hardware togethe=
-r,
-> + * instead of simple async subdevs.
-> + */
-> +
-> +#include <linux/device.h>
-> +#include <linux/fwnode.h>
-> +#include <linux/kref.h>
-> +#include <linux/property.h>
-> +
-> +#include <media/media-device.h>
-> +
-> +#include <media/mc-shared-graph.h>
-> +
-> +static LIST_HEAD(media_device_shared_list);
-> +static DEFINE_MUTEX(media_device_shared_lock);
-> +
-> +struct media_device_shared_member {
-> +       struct device *dev;
-> +       struct fwnode_handle *fwnode;
-> +       struct list_head list;
-> +};
-> +
-> +struct media_device_shared_link {
-> +       struct media_entity *source;
-> +       u16 source_pad;
-> +       struct media_entity *sink;
-> +       u16 sink_pad;
-> +       u32 flags;
-> +       struct list_head list;
-> +};
-> +
-> +// TODO figure out locking for when multiple drivers touch the media gra=
-ph;
-> +// maybe macros for shared versions?
-> +struct media_device_shared {
-> +       struct media_device mdev;
-> +       struct list_head members;
-> +       struct list_head links;
-> +
-> +       struct list_head list;
-> +       struct kref refcount;
-> +
-> +       struct device *removed_device;
-> +};
-> +
-> +static inline struct media_device_shared *
-> +to_media_device_shared(struct media_device *mdev)
-> +{
-> +       return container_of(mdev, struct media_device_shared, mdev);
-> +}
-> +
-> +static void media_device_shared_release(struct kref *kref)
-> +{
-> +       struct media_device_shared *mds =3D
-> +               container_of(kref, struct media_device_shared, refcount);
-> +
-> +       dev_dbg(mds->removed_device, "%s: releasing Media Device\n", __fu=
-nc__);
-> +
-> +       mutex_lock(&media_device_shared_lock);
-> +
-> +       media_device_unregister(&mds->mdev);
-> +       media_device_cleanup(&mds->mdev);
-> +
-> +       list_del(&mds->list);
-> +       mutex_unlock(&media_device_shared_lock);
-> +
-> +       kfree(mds);
-> +}
-> +
-> +/* Callers should hold media_device_shared_lock when calling this functi=
-on */
-> +static bool __media_device_shared_find_match(struct media_device_shared =
-*mds,
-> +                                            struct fwnode_handle *fwnode)
-> +{
-> +       struct media_device_shared_member *member;
-> +       struct fwnode_handle *ep;
-> +       struct fwnode_handle *remote_ep;
-> +       bool match =3D false;
-> +
-> +       // TODO: parse the device tree endpoints graph instead of finding=
- just the
-> +       // first-level neighbours
-> +       fwnode_graph_for_each_endpoint(fwnode, ep) {
-> +               list_for_each_entry(member, &mds->members, list) {
-> +                       remote_ep =3D fwnode_graph_get_remote_port_parent=
-(ep);
-> +                       match =3D (member->fwnode =3D=3D remote_ep);
-> +                       fwnode_handle_put(remote_ep);
-> +
-> +                       if (!match)
-> +                               continue;
-> +
-> +                       goto match_complete;
-> +               }
-> +       }
-> +
-> +match_complete:
-> +       fwnode_handle_put(ep);
-> +       return match;
-> +}
-> +
-> +/* Callers should hold media_device_shared_lock when calling this functi=
-on */
-> +static struct media_device *__media_device_shared_get(struct device *dev)
-> +{
-> +       struct media_device_shared *mds;
-> +       struct media_device_shared_member *member;
-> +       struct fwnode_handle *fwnode =3D dev_fwnode(dev);
-> +       bool ret;
-> +
-> +       dev_dbg(dev, "%s: searching for media device for %pfwf", __func__=
-, fwnode);
-> +
-> +       list_for_each_entry(mds, &media_device_shared_list, list) {
-> +               ret =3D __media_device_shared_find_match(mds, fwnode);
-> +               if (ret)
-> +                       break;
-> +       }
-> +
-> +       if (!ret)
-> +               return NULL;
-> +
-> +       member =3D kzalloc_obj(*member);
-> +       if (!member)
-> +               return NULL;
-> +
-> +       member->dev =3D dev;
-> +       member->fwnode =3D fwnode;
-> +       list_add_tail(&member->list, &mds->members);
-> +       kref_get(&mds->refcount);
-> +
-> +       dev_dbg(dev, "%s: %pfwf joined media device of %pfwf",
-> +               __func__, fwnode,
-> +               list_first_entry(&mds->members, struct media_device_share=
-d_member, list)->fwnode);
-> +
-> +       return &mds->mdev;
-> +}
-> +
-> +/* Callers should hold media_device_shared_lock when calling this functi=
-on */
-> +static struct media_device *__media_device_shared_create(struct device *=
-dev)
-> +{
-> +       struct media_device_shared *mds;
-> +       struct media_device_shared_member *member;
-> +       struct fwnode_handle *fwnode =3D dev_fwnode(dev);
-> +       int ret;
-> +
-> +       mds =3D kzalloc_obj(*mds);
-> +       if (!mds)
-> +               return NULL;
-> +
-> +       member =3D kzalloc_obj(*member);
-> +       if (!member)
-> +               goto err_free_mds;
-> +
-> +       media_device_init(&mds->mdev);
-> +
-> +       ret =3D media_device_register(&mds->mdev);
-> +       if (ret)
-> +               goto err_free_member;
-> +
-> +       INIT_LIST_HEAD(&mds->members);
-> +       member->dev =3D dev;
-> +       member->fwnode =3D fwnode;
-> +       list_add_tail(&member->list, &mds->members);
-> +
-> +       INIT_LIST_HEAD(&mds->links);
-> +
-> +       kref_init(&mds->refcount);
-> +       list_add_tail(&mds->list, &media_device_shared_list);
-> +
-> +       // TODO figure out how to reconcile this with multiple members
-> +       mds->mdev.dev =3D dev;
-> +
-> +       devv_dbg(dev, "%s: Allocated media device with %pfwf at %p\n",
+You are correct that in `vpu_core_find_proper_by_type()` the `c->state` che=
+cks that follow `vpu_core_update_state()` are performed without holding `co=
+re->lock`.=20
+Note that the state *write* inside `vpu_core_update_state()` is itself done=
+ under `core->lock`; only the subsequent reads are lockless.=20
+After reviewing the code, however, we consider this an intentional design c=
+hoice and the race to be benign rather than a bug.
 
-here:
+The state check in `vpu_core_find_proper_by_type()` is only a best-effort h=
+euristic, used to avoid handing out a core that is already known to be hung=
+.=20
+This check cannot be made race-free by locking: a core may hang right after=
+ it has been selected and the lock has been dropped,=20
+so extending the lock scope would not close the window in any meaningful wa=
+y.
 
-s/devv/dev/
+More importantly, correctness does not depend on this lockless check:
 
+- After a core is selected, `vpu_request_core()` re-checks the core state u=
+nder `core->lock`.
+- `vpu_inst_register()` again verifies `core->state =3D=3D VPU_CORE_ACTIVE`=
+ under `core->lock` before actually registering the instance.
 
-Paul
+So if a stale state were observed and the core turned out to be unusable, t=
+he instance registration or the subsequent decode would simply fail.=20
+That is the same outcome as a core hanging at runtime, which is unavoidable=
+ regardless of how the locking is arranged.
 
-> +                __func__, fwnode, &mds->mdev);
-> +       return &mds->mdev;
-> +
-> +err_free_member:
-> +       kfree(member);
-> +err_free_mds:
-> +       kfree(mds);
-> +       return NULL;
-> +}
-> +
-> +// TODO figure out how to resolve the identifiers (model, driver name, e=
-tc);
-> +// atm it's racy and whoever gets it last wins
-> +struct media_device *media_device_shared_join(struct device *dev)
-> +{
-> +       struct media_device *mdev;
-> +
-> +       mutex_lock(&media_device_shared_lock);
-> +
-> +       mdev =3D __media_device_shared_get(dev);
-> +       if (!!mdev) {
-> +               dev_dbg(dev, "%s: found media device for %pfwf", __func__=
-, dev_fwnode(dev));
-> +               mutex_unlock(&media_device_shared_lock);
-> +               return mdev;
-> +       }
-> +
-> +       mdev =3D __media_device_shared_create(dev);
-> +       if (!mdev) {
-> +               dev_warn(dev, "%s: failed to create media device for %pfw=
-f", __func__, dev_fwnode(dev));
-> +               mutex_unlock(&media_device_shared_lock);
-> +               return ERR_PTR(-ENOMEM);
-> +       }
-> +
-> +       dev_dbg(dev, "%s: created media device for %pfwf", __func__, dev_=
-fwnode(dev));
-> +       mutex_unlock(&media_device_shared_lock);
-> +       return mdev;
-> +}
-> +EXPORT_SYMBOL_GPL(media_device_shared_join);
-> +
-> +void media_device_shared_leave(struct media_device *mdev, struct device =
-*dev)
-> +{
-> +       struct media_device_shared *mds =3D to_media_device_shared(mdev);
-> +       struct media_device_shared_member *member;
-> +       struct media_device_shared_member *member_tmp;
-> +       bool removed =3D false;
-> +
-> +       mutex_lock(&media_device_shared_lock);
-> +
-> +       list_for_each_entry_safe(member, member_tmp, &mds->members, list)=
- {
-> +               if (member->dev =3D=3D dev) {
-> +                       list_del(&member->list);
-> +                       kfree(member);
-> +                       removed =3D true;
-> +               }
-> +       }
-> +
-> +       if (!removed)
-> +               dev_err(dev, "%s: %pfwf trying to leave from graph in whi=
-ch not a member",
-> +                       __func__, dev_fwnode(dev));
-> +
-> +       mds->removed_device =3D dev;
-> +       mutex_unlock(&media_device_shared_lock);
-> +       kref_put(&mds->refcount, media_device_shared_release);
-> +}
-> +EXPORT_SYMBOL_GPL(media_device_shared_leave);
-> +
-> +int media_device_shared_join_link_source(struct media_device *mdev,
-> +                                        struct device *dev,
-> +                                        struct media_entity *source,
-> +                                        u16 source_pad, u32 flags)
-> +{
-> +       struct media_device_shared *mds =3D to_media_device_shared(mdev);
-> +       struct media_device_shared_link *link;
-> +       struct media_device_shared_link *link_tmp;
-> +       int ret =3D 0;
-> +
-> +       mutex_lock(&media_device_shared_lock);
-> +
-> +       /*
-> +        * TODO Figure out flags. Should we use greatest common denominat=
-or? Or
-> +        * prioritize sink? Or whoever wins the race? For now we just tak=
-e the flags
-> +        * from the sink.
-> +        *
-> +        * TODO Figure out how to actually do the matching. For now we ju=
-st match
-> +        * whoever comes in first. This works with the simple example we'=
-re running
-> +        * with now (rkcif + one rkisp2) but with setups with multiple co=
-pies of
-> +        * hardware this will cause problems, like with rkcif + two rkisp=
-2 and
-> +        * imx8-isi + two rkisp1.
-> +        */
-> +       list_for_each_entry_safe(link, link_tmp, &mds->links, list) {
-> +               if (link->sink) {
-> +                       ret =3D media_create_pad_link(source, source_pad,
-> +                                                   link->sink, link->sin=
-k_pad,
-> +                                                   link->flags);
-> +                       list_del(&link->list);
-> +                       kfree(link);
-> +                       goto exit_join_link_source;
-> +               }
-> +       }
-> +
-> +       link =3D kzalloc_obj(*link);
-> +       if (!link) {
-> +               ret =3D -ENOMEM;
-> +               goto exit_join_link_source;
-> +       }
-> +
-> +       link->source =3D source;
-> +       link->source_pad =3D source_pad;
-> +       link->flags =3D flags;
-> +       list_add_tail(&link->list, &mds->links);
-> +
-> +exit_join_link_source:
-> +       mutex_unlock(&media_device_shared_lock);
-> +       return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(media_device_shared_join_link_source);
-> +
-> +// TODO deduplicate from above
-> +int media_device_shared_join_link_sink(struct media_device *mdev,
-> +                                      struct device *dev,
-> +                                      struct media_entity *sink,
-> +                                      u16 sink_pad, u32 flags)
-> +{
-> +       struct media_device_shared *mds =3D to_media_device_shared(mdev);
-> +       struct media_device_shared_link *link;
-> +       struct media_device_shared_link *link_tmp;
-> +       int ret =3D 0;
-> +
-> +       mutex_lock(&media_device_shared_lock);
-> +
-> +       list_for_each_entry_safe(link, link_tmp, &mds->links, list) {
-> +               if (link->source) {
-> +                       ret =3D media_create_pad_link(link->source, link-=
->source_pad,
-> +                                                   sink, sink_pad,
-> +                                                   flags);
-> +                       list_del(&link->list);
-> +                       kfree(link);
-> +                       goto exit_join_link_sink;
-> +               }
-> +       }
-> +
-> +       link =3D kzalloc_obj(*link);
-> +       if (!link) {
-> +               ret =3D -ENOMEM;
-> +               goto exit_join_link_sink;
-> +       }
-> +
-> +       link->sink =3D sink;
-> +       link->sink_pad =3D sink_pad;
-> +       link->flags =3D flags;
-> +       list_add_tail(&link->list, &mds->links);
-> +
-> +exit_join_link_sink:
-> +       mutex_unlock(&media_device_shared_lock);
-> +       return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(media_device_shared_join_link_sink);
-> diff --git a/include/media/mc-shared-graph.h b/include/media/mc-shared-gr=
-aph.h
-> new file mode 100644
-> index 000000000000..487325163f84
-> --- /dev/null
-> +++ b/include/media/mc-shared-graph.h
-> @@ -0,0 +1,92 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * mc-shared-graph.h - Media Controller Shared Graph API
-> + *
-> + * Copyright (c) 2026 Paul Elder <paul.elder@ideasonboard.com>
-> + */
-> +
-> +/*
-> + * This file adds the Media Controller Shared Graph API. This allows dri=
-vers
-> + * to create shared media graphs or join existing media graphs from other
-> + * drivers, so that they can all be in the same media graph. This allows=
- us to
-> + * have more complex media graphs chaining more complex hardware togethe=
-r,
-> + * instead of simple async subdevs.
-> + */
-> +
-> +#include <linux/types.h>
-> +
-> +#ifndef _MEDIA_SHARED_GRAPH_H
-> +#define _MEDIA_SHARED_GRAPH_H
-> +
-> +struct device;
-> +struct media_device;
-> +struct media_entity;
-> +
-> +#if defined(CONFIG_MEDIA_CONTROLLER)
-> +/**
-> + * media_device_shared_join() - Join or create a new shared media device
-> + *
-> + * @dev:               struct &device pointer
-> + *
-> + * This is the entrance function for a device to join or create a new sh=
-ared
-> + * media device. It searches for an existing shared media device based o=
-n the
-> + * neighbours in the device's device tree ports node. If found, then this
-> + * functions returns the existing shared media device and joins it. If o=
-ne is
-> + * not found then one is created and initialized and returned.
-> + */
-> +struct media_device *media_device_shared_join(struct device *dev);
-> +
-> +/**
-> + * media_device_shared_leave() - Leave the shared media device.
-> + *
-> + * @mdev:              struct &media_device pointer
-> + * @dev:               struct &device pointer
-> + *
-> + * This function makes the device leave the shared media device. When all
-> + * members have left the media device it will be freed.
-> + */
-> +void media_device_shared_leave(struct media_device *mdev, struct device =
-*dev);
-> +
-> +/**
-> + * media_device_shared_join_link_source() - Register a link source in th=
-e shared media device
-> + *
-> + * @mdev: The struct &media_device pointer that is part of a shared medi=
-a device
-> + * @dev: struct &device pointer
-> + * @source: The link source
-> + * @source_pad: The pad
-> + * @flags: The flags
-> + *
-> + * This function registers with the shared media device the source part =
-of a
-> + * link. When the shared media device receives the matching sink part of=
- a link
-> + * via media_device_shared_join_link_sink() then the link will be fully =
-created.
-> + */
-> +int media_device_shared_join_link_source(struct media_device *mdev,
-> +                                        struct device *dev,
-> +                                        struct media_entity *source,
-> +                                        u16 source_pad, u32 flags);
-> +
-> +/**
-> + * media_device_shared_join_link_sink() - Register a link sink in the sh=
-ared media device
-> + *
-> + * Same as media_device_shared_join_link_source() but for sink instead of
-> + * source.
-> + */
-> +int media_device_shared_join_link_sink(struct media_device *mdev,
-> +                                      struct device *dev,
-> +                                      struct media_entity *sink,
-> +                                      u16 sink_pad, u32 flags);
-> +#else
-> +static inline struct media_device *media_device_shared_join(struct devic=
-e *dev)
-> +{ return NULL; }
-> +static inline void media_device_shared_leave(struct media_device *mdev,
-> +                                            struct device *dev) { }
-> +static inline int media_device_shared_join_link_source(struct media_devi=
-ce *mdev,
-> +                                                      struct device *dev,
-> +                                                      struct media_entit=
-y *source,
-> +                                                      u16 source_pad, u3=
-2 flags) { }
-> +static inline int media_device_shared_join_link_sink(struct media_device=
- *mdev,
-> +                                                    struct device *dev,
-> +                                                    struct media_entity =
-*sink,
-> +                                                    u16 sink_pad, u32 fl=
-ags) { }
-> +#endif /* CONFIG_MEDIA_CONTROLLER */
-> +#endif /* _MEDIA_DEV_SHARED_GRAPH_H */
-> --=20
-> 2.47.2
+For these reasons we regard this as a benign, by-design data race rather th=
+an a defect,=20
+and we don't plan to change the current behavior.
+
+Thanks again for the report.
+
+Regards,
+Ming
+
+>-----Original Message-----
+>From: Ginger <ginger.jzllee@gmail.com>
+>Sent: Monday, June 22, 2026 5:21 PM
+>To: Ming Qian <ming.qian@nxp.com>
+>Cc: linux-media@vger.kernel.org
+>Subject: [EXT] [bug report] Potential atomicity bug in
+>drivers/media/platform/amphion/vpu_core.c, within vpu_request_core()
 >
+>[You don't often get email from ginger.jzllee@gmail.com. Learn why this is
+>important at https://aka.ms/LearnAboutSenderIdentification ]
+>
+>Caution: This is an external email. Please take care when clicking links o=
+r
+>opening attachments. When in doubt, report the message using the 'Report
+>this email' button
+>
+>
+>Dear Linux kernel maintainers,
+>
+>My research-based static analyzer found a potential atomicity bug within t=
+he
+>'drivers/media/platform/amphion' subsystem, more specifically, in
+>'drivers/media/platform/amphion/vpu_core.c', where vpu_request_core() call=
+s
+>vpu_core_find_proper_by_type(), which reads the vpu_core state without
+>acquiring the core->lock.
+>
+>This potential issue is present as of git commit
+>eb3f4b7426cfd2b79d65b7d37155480b32259a11 of the mainline kernel.
+>
+>T0:
+>vpu_request_core
+>    --> mutex_lock(&vpu->lock);
+>    --> vpu_core_find_proper_by_type()
+>          --> read and check c->state
+>               /* The checks are lockless */
+>T1: (for example)
+>vpu_core_resume
+>    --> mutex_lock(&core->lock);
+>    --> vpu_core_update_state(core); // writes core->state
+>    --> mutex_unlock(&core->lock);
+>
+>The potential issue here is that for other accesses to core->state, the
+>corresponding
+>core->lock is held for both reads/writes. However, in
+>core->vpu_request_core(), this
+>protection seems to be missing.
+>
+>Best regards,
+>Ginger
 
