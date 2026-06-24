@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-65545-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65546-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id GQ8vHAHIO2opdAgAu9opvQ
-	(envelope-from <linux-media+bounces-65545-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 14:05:21 +0200
+	id 3ye8HBrJO2pxdAgAu9opvQ
+	(envelope-from <linux-media+bounces-65546-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 14:10:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id E69516BDF74
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 14:05:20 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B09476BDFEC
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 14:10:01 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=W3G5oLDr;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65545-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-65545-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=intel.com header.s=Intel header.b=L4Q6lZc9;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65546-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65546-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 6DE7F3011A5D
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 12:05:18 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 13FC8302C917
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 12:06:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E08C921ABD7;
-	Wed, 24 Jun 2026 12:05:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 494FB3603C3;
+	Wed, 24 Jun 2026 12:06:42 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFCC93074B1;
-	Wed, 24 Jun 2026 12:05:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E6C279917;
+	Wed, 24 Jun 2026 12:06:40 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782302715; cv=none; b=dR5fq5T9cOtbhrwuL6DiD2RW5GNoCeuLASOzy0QJVPbLw/DFNbD1h29ClfAO0pgopJ6RZdRilF4HLojeZ4XbL8i0g/7Vh2g2N8elc0V2ElU0MDlIKkudsYumm1V9rGTGmRwuUw11NW5nCrKa0z2aVWXC8YSl+fjLiNEo7jIPYAI=
+	t=1782302801; cv=none; b=Y6WLAf8IF31cgB3MnVXF2EmX7ymT1sP2unduSY3BUQaLAG9GPTYJosEMu8ej4JgRh2J9PqeWpS1SamvxFkuikeR5t7GNbmQRf2+MFc8jRZ3NfAZSimJX7LDXnos0fo1vTYtiNWicRvkrOhT0MJMkDv5t1ce6DVle9GyQpxBpM5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782302715; c=relaxed/simple;
-	bh=oi5lLnnIEO6XUNJojvUhkK9Z723NggAS9ES44szxH/k=;
+	s=arc-20240116; t=1782302801; c=relaxed/simple;
+	bh=rCt9n22ce6w937Nlwxj2mRTyBoW3uwZl2eYmkKm4aqc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z62rLrGcC3vM4IexAA49tE12faMtKu5IdeVpI/xWNV6YQ/kvC5I4SkEYxIUT/aVvypM704EOMHZXMyg4Bf5Y5n5ccFvY21J+iKHxMu5qHJppP3DpAXOTv4NItTyd1Oyyd+Ec6QcxhuEugaKCU/HVusnTV0Ne9S98Uc3z2Yl59dE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W3G5oLDr; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=QNSICkTEHAhncvZZxBsH7eNEcbZb2OIWylLBcX1fpzF9QjyXRK1b/fJ0XaQ5Y1T8QLeSswTdtcUhYVgSbOapM7AN/cR9Tsog/7HdEAvzt5b4HaP8vAF3JU9bTJeNRkLgq3b6f8iDs4eTza0eBDxbx0DQTH19tGfYRAF9MUCtO2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L4Q6lZc9; arc=none smtp.client-ip=192.198.163.8
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782302713; x=1813838713;
+  t=1782302800; x=1813838800;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=oi5lLnnIEO6XUNJojvUhkK9Z723NggAS9ES44szxH/k=;
-  b=W3G5oLDrL5jl4tqntT6RkoCC0d6pW2x6dOjH2XDbII2VzayFuGy6FRv3
-   kg5W6DNvGJxhH7ut41LZkXwp9+OQoxgxy0cQNgyLhoWzxWcF/oEtmbWyP
-   qiBW9U+ZsJREx/heaVfCRYdSEqjc6kP3isGF1Qm1YmAC2fs1RWt3fI4sT
-   mU0tAwChmyjLfLc4y94RaSH8bZBiwHwBQY8yINhLLBuKgh7b1kHl16P4b
-   WiDwNIOcnEPqVkGmnqK++Hn63Q+FnrjzFWii51kIg31fHI/Vry6fOD1DS
-   RvH87GZ81MNZwnZb+TK3d1B7ZPxAm/20RL26J3e1bXosZlgViaUyxISRJ
-   A==;
-X-CSE-ConnectionGUID: FUPshrIMR8KYGRme8AEylg==
-X-CSE-MsgGUID: WFR74TSLR9uwhFGsodjaBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="86742962"
+  bh=rCt9n22ce6w937Nlwxj2mRTyBoW3uwZl2eYmkKm4aqc=;
+  b=L4Q6lZc9C3jKZ0SonE6shxs4YGE97GsyhGCnxuiD/NEXQW5rnBLU5fLk
+   +tNuFp7datPxciprv+TIY9HVm4jPBhzqYGrDdd9GGfaCg2hLnfqy0K/6v
+   eAUc+1fyc50cu6S08atrlgaWMUVv4GsBMqVQpZU0hU6DeUrMhYCEPm6QR
+   X92KAC1qSZT+2FcYIxQVd9Ycjyt7bzIJB3L52n8jQ00IwgMNET+tDhMsI
+   ifF9C0Vqln4a31Hg3j3/vvO5QG/PZ3xa5p810+1/6t+BbwYScsavFRCUG
+   Ei0WlLXcD8CGI64v55qS5AnTDc943HgGA30MxqXhkNx32IKDLuNF2+TZD
+   g==;
+X-CSE-ConnectionGUID: PJCXjMleSj2H80oC8+h8fQ==
+X-CSE-MsgGUID: KiC7y6Q3Ssua2/veNc3HXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="100609911"
 X-IronPort-AV: E=Sophos;i="6.24,222,1774335600"; 
-   d="scan'208";a="86742962"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 05:05:13 -0700
-X-CSE-ConnectionGUID: 6HS8kThQRQmb5SoOSwPwJg==
-X-CSE-MsgGUID: yeQaKMvtSSC+p1iiOcsl+g==
+   d="scan'208";a="100609911"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 05:06:40 -0700
+X-CSE-ConnectionGUID: wNAm3FOORqa/+VdXSnvtAg==
+X-CSE-MsgGUID: VyqlAjbGR4S1xVFo9Wz/Mw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.24,222,1774335600"; 
-   d="scan'208";a="245719506"
+   d="scan'208";a="254797297"
 Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.156])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 05:05:10 -0700
-Date: Wed, 24 Jun 2026 15:05:08 +0300
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 05:06:37 -0700
+Date: Wed, 24 Jun 2026 15:06:35 +0300
 From: Andy Shevchenko <andriy.shevchenko@intel.com>
 To: Igor Putko <igorpetindev@gmail.com>
 Cc: Hans de Goede <hansg@kernel.org>,
@@ -70,12 +70,11 @@ Cc: Hans de Goede <hansg@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] staging: media: atomisp: remove dead
- platform_support.h header file
-Message-ID: <ajvH9Dcdi1DpFwO0@ashevche-desk.local>
+Subject: Re: [PATCH v2 0/3] staging: media: atomisp: remove dead
+ platform_support.h header
+Message-ID: <ajvIS13S9rJgsORe@ashevche-desk.local>
 References: <20260618120951.42956-1-igorpetindev@gmail.com>
  <20260618151246.6678-1-igorpetindev@gmail.com>
- <20260618151246.6678-4-igorpetindev@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -84,7 +83,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260618151246.6678-4-igorpetindev@gmail.com>
+In-Reply-To: <20260618151246.6678-1-igorpetindev@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
  krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Rspamd-Action: no action
@@ -93,7 +92,7 @@ X-Spamd-Result: default: False [-5.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
 	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
@@ -105,7 +104,7 @@ X-Spamd-Result: default: False [-5.16 / 15.00];
 	HAS_ORG_HEADER(0.00)[];
 	FREEMAIL_TO(0.00)[gmail.com];
 	FORGED_SENDER(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-65545-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65546-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
@@ -118,25 +117,20 @@ X-Spamd-Result: default: False [-5.16 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_SEVEN(0.00)[8];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:dkim,intel.com:email,intel.com:from_mime,ashevche-desk.local:mid,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ashevche-desk.local:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,intel.com:dkim,intel.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: E69516BDF74
+X-Rspamd-Queue-Id: B09476BDFEC
 
-On Thu, Jun 18, 2026 at 06:12:46PM +0300, Igor Putko wrote:
-> Remove the platform_support.h header file completely as it is no longer
-> used anywhere in the driver and its contents are obsolete.
+On Thu, Jun 18, 2026 at 06:12:43PM +0300, Igor Putko wrote:
+> 
+> Following your feedback, this series replaces the custom CSS_ALIGN() macro
+> with the standard __aligned attribute and completely removes the dead
+> platform_support.h header file from the driver.
 
-Right.
-
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-
-...
-
-> -#define CSS_ALIGN(d, a) d __attribute__((aligned(a)))
-
-...assuming this macro will be still alive in the only one header.
+Thank you much for doing this! I have given a few comments, I think the v3 will
+be final if you address them. Expecting a v3 with 4 patches.
 
 -- 
 With Best Regards,
