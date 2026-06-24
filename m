@@ -1,140 +1,271 @@
-Return-Path: <linux-media+bounces-65546-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65558-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 3ye8HBrJO2pxdAgAu9opvQ
-	(envelope-from <linux-media+bounces-65546-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 14:10:02 +0200
+	id I9zPAhnSO2rtdggAu9opvQ
+	(envelope-from <linux-media+bounces-65558-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 14:48:25 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B09476BDFEC
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 14:10:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53B9A6BE431
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 14:48:24 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=intel.com header.s=Intel header.b=L4Q6lZc9;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65546-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65546-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=intel.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=ZX54rOT8;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65558-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65558-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 13FC8302C917
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 12:06:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5FEE230238D2
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 12:48:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 494FB3603C3;
-	Wed, 24 Jun 2026 12:06:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 302BC3AFAE7;
+	Wed, 24 Jun 2026 12:48:13 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E6C279917;
-	Wed, 24 Jun 2026 12:06:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC9C272801;
+	Wed, 24 Jun 2026 12:48:11 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782302801; cv=none; b=Y6WLAf8IF31cgB3MnVXF2EmX7ymT1sP2unduSY3BUQaLAG9GPTYJosEMu8ej4JgRh2J9PqeWpS1SamvxFkuikeR5t7GNbmQRf2+MFc8jRZ3NfAZSimJX7LDXnos0fo1vTYtiNWicRvkrOhT0MJMkDv5t1ce6DVle9GyQpxBpM5s=
+	t=1782305292; cv=none; b=Rz15lswwPVrzqA9T81ZxqYRO4e/hqVmYKubopdOVlxy6txWORyWyKIbHmqmW5O9qnnf9RqTpQez6p/8i7zD4cJpxfm8Fd8Kj47rK/bTd1CZk0gXTVXbY6b3qCtvtkvOh9rqIvQrJyD9x4YWRbPXyQVLpJI3lSu/kl5swIn5z+1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782302801; c=relaxed/simple;
-	bh=rCt9n22ce6w937Nlwxj2mRTyBoW3uwZl2eYmkKm4aqc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QNSICkTEHAhncvZZxBsH7eNEcbZb2OIWylLBcX1fpzF9QjyXRK1b/fJ0XaQ5Y1T8QLeSswTdtcUhYVgSbOapM7AN/cR9Tsog/7HdEAvzt5b4HaP8vAF3JU9bTJeNRkLgq3b6f8iDs4eTza0eBDxbx0DQTH19tGfYRAF9MUCtO2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L4Q6lZc9; arc=none smtp.client-ip=192.198.163.8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1782302800; x=1813838800;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rCt9n22ce6w937Nlwxj2mRTyBoW3uwZl2eYmkKm4aqc=;
-  b=L4Q6lZc9C3jKZ0SonE6shxs4YGE97GsyhGCnxuiD/NEXQW5rnBLU5fLk
-   +tNuFp7datPxciprv+TIY9HVm4jPBhzqYGrDdd9GGfaCg2hLnfqy0K/6v
-   eAUc+1fyc50cu6S08atrlgaWMUVv4GsBMqVQpZU0hU6DeUrMhYCEPm6QR
-   X92KAC1qSZT+2FcYIxQVd9Ycjyt7bzIJB3L52n8jQ00IwgMNET+tDhMsI
-   ifF9C0Vqln4a31Hg3j3/vvO5QG/PZ3xa5p810+1/6t+BbwYScsavFRCUG
-   Ei0WlLXcD8CGI64v55qS5AnTDc943HgGA30MxqXhkNx32IKDLuNF2+TZD
-   g==;
-X-CSE-ConnectionGUID: PJCXjMleSj2H80oC8+h8fQ==
-X-CSE-MsgGUID: KiC7y6Q3Ssua2/veNc3HXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11826"; a="100609911"
-X-IronPort-AV: E=Sophos;i="6.24,222,1774335600"; 
-   d="scan'208";a="100609911"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 05:06:40 -0700
-X-CSE-ConnectionGUID: wNAm3FOORqa/+VdXSnvtAg==
-X-CSE-MsgGUID: VyqlAjbGR4S1xVFo9Wz/Mw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.24,222,1774335600"; 
-   d="scan'208";a="254797297"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.156])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2026 05:06:37 -0700
-Date: Wed, 24 Jun 2026 15:06:35 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Igor Putko <igorpetindev@gmail.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] staging: media: atomisp: remove dead
- platform_support.h header
-Message-ID: <ajvIS13S9rJgsORe@ashevche-desk.local>
-References: <20260618120951.42956-1-igorpetindev@gmail.com>
- <20260618151246.6678-1-igorpetindev@gmail.com>
+	s=arc-20240116; t=1782305292; c=relaxed/simple;
+	bh=6k5yhkMmuAmAGFMZ+OWJkrw1oL/X/IDtgfeeBmxcEU8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NpzJ5XuzBY6Qyi2HtFFQprMn8nu2z/Gc37to/YMTZ7DQpePUlRiWNtbLF3ZlbMbKbfYvXqvyVEbXVl6hTx9V0Jo2H7RfrgsSL0S0vUUs5LL0h69bOV4MlsXBIZB6chtA4/O6p+H6TiNM03Mqsw+AcRJnKNA2KSO2Sns8nMHDY7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZX54rOT8; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C4781F000E9;
+	Wed, 24 Jun 2026 12:48:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782305291;
+	bh=Ng1Fu3iV0uz9YEcwWiFwkJYNZd8hGnnPbM07z97sbwo=;
+	h=From:To:Cc:Subject:Date;
+	b=ZX54rOT8atVKo9c5J5Q15q+IKKKVwuwOAOGRokO4ofI/WuoKd72gRCTsPOvf5zci2
+	 //oqV9U2MF3u/G3XPHNINLdLiVixEx439C76qRXAYLvHmueaLiMxF4lxxzn6JAKf3+
+	 LvpathzUcS34ylGPqUKEfk9Y4syniWEVl+mxOH4aQle7szgvX1mxc84bXFX+wKu1BA
+	 ltRdCHseUDfQXFwKhEdsJFm80fufqplh1zG53YJuxXLMFKhxICPR0gSzcfcvCw3sAV
+	 WIjhxLATJNoPMqtchCNfn74S/Fy1qR9p9N1phCS2Iw5E3KLnkBfMC6aLNQnWsD9kyH
+	 8HE6pfIPLg2Rg==
+From: Philipp Stanner <phasta@kernel.org>
+To: Matthew Brost <matthew.brost@intel.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Philipp Stanner <phasta@kernel.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: [PATCH] drm/sched: Protect entity->last_scheduled with spinlock
+Date: Wed, 24 Jun 2026 14:46:52 +0200
+Message-ID: <20260624124651.1414814-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260618151246.6678-1-igorpetindev@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
-	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[intel.com,kernel.org,gmail.com,linux.intel.com,suse.de,ffwll.ch,linaro.org];
+	FORGED_SENDER(0.00)[phasta@kernel.org,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_RECIPIENTS(0.00)[m:matthew.brost@intel.com,m:dakr@kernel.org,m:phasta@kernel.org,m:ckoenig.leichtzumerken@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	TO_DN_SOME(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:igorpetindev@gmail.com,m:hansg@kernel.org,m:mchehab@kernel.org,m:sakari.ailus@intel.com,m:gregkh@linuxfoundation.org,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
-	HAS_ORG_HEADER(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-65546-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[intel.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65558-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[phasta@kernel.org,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ashevche-desk.local:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,intel.com:dkim,intel.com:from_mime]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B09476BDFEC
+X-Rspamd-Queue-Id: 53B9A6BE431
 
-On Thu, Jun 18, 2026 at 06:12:43PM +0300, Igor Putko wrote:
-> 
-> Following your feedback, this series replaces the custom CSS_ALIGN() macro
-> with the standard __aligned attribute and completely removes the dead
-> platform_support.h header file from the driver.
+The entity->last_scheduled field has always been set and read with
+special RCU functions in addition to memory barriers. There is no
+obvious reason for that, since the entity lock is available and taken at all
+places that evaluate the last_scheduled field. The only exception is
+drm_sched_entity_error(), which is not performance critical in any way.
 
-Thank you much for doing this! I have given a few comments, I think the v3 will
-be final if you address them. Expecting a v3 with 4 patches.
+Improve robustness, readability and maintainability by replacing RCU and
+barriers with the lock.
 
+As a preparational step, while at it, also guard spsc_queue_pop() with
+the lock, since spsc_queue is deprecated and supposed to be replaced
+with a locked list.
+
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
+---
+Tested with drm_sched unit tests, which all ran fine.
+---
+ drivers/gpu/drm/scheduler/sched_entity.c | 49 +++++++++++-------------
+ include/drm/gpu_scheduler.h              |  9 ++---
+ 2 files changed, 26 insertions(+), 32 deletions(-)
+
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index c51101ec70c1..95b2c48a604a 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -135,7 +135,6 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+ 	entity->num_sched_list = num_sched_list;
+ 	entity->sched_list = num_sched_list > 1 ? sched_list : NULL;
+ 	entity->rq = &sched_list[0]->rq;
+-	RCU_INIT_POINTER(entity->last_scheduled, NULL);
+ 	RB_CLEAR_NODE(&entity->rb_tree_node);
+ 	init_completion(&entity->entity_idle);
+ 
+@@ -201,10 +200,10 @@ int drm_sched_entity_error(struct drm_sched_entity *entity)
+ 	struct dma_fence *fence;
+ 	int r;
+ 
+-	rcu_read_lock();
+-	fence = rcu_dereference(entity->last_scheduled);
++	spin_lock(&entity->lock);
++	fence = entity->last_scheduled;
+ 	r = fence ? fence->error : 0;
+-	rcu_read_unlock();
++	spin_unlock(&entity->lock);
+ 
+ 	return r;
+ }
+@@ -288,8 +287,10 @@ void drm_sched_entity_kill(struct drm_sched_entity *entity)
+ 	wait_for_completion(&entity->entity_idle);
+ 
+ 	/* The entity is guaranteed to not be used by the scheduler */
+-	prev = rcu_dereference_check(entity->last_scheduled, true);
++	spin_lock(&entity->lock);
++	prev = entity->last_scheduled;
+ 	dma_fence_get(prev);
++	spin_unlock(&entity->lock);
+ 	while ((job = drm_sched_entity_queue_pop(entity))) {
+ 		struct drm_sched_fence *s_fence = job->s_fence;
+ 
+@@ -381,8 +382,8 @@ void drm_sched_entity_fini(struct drm_sched_entity *entity)
+ 		entity->dependency = NULL;
+ 	}
+ 
+-	dma_fence_put(rcu_dereference_check(entity->last_scheduled, true));
+-	RCU_INIT_POINTER(entity->last_scheduled, NULL);
++	dma_fence_put(entity->last_scheduled);
++	WRITE_ONCE(entity->last_scheduled, NULL);
+ 	drm_sched_entity_stats_put(entity->stats);
+ }
+ EXPORT_SYMBOL(drm_sched_entity_fini);
+@@ -523,18 +524,18 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+ 	if (entity->guilty && atomic_read(entity->guilty))
+ 		dma_fence_set_error(&sched_job->s_fence->finished, -ECANCELED);
+ 
+-	dma_fence_put(rcu_dereference_check(entity->last_scheduled, true));
+-	rcu_assign_pointer(entity->last_scheduled,
+-			   dma_fence_get(&sched_job->s_fence->finished));
++	spin_lock(&entity->lock);
++	dma_fence_put(entity->last_scheduled);
++	entity->last_scheduled = dma_fence_get(&sched_job->s_fence->finished);
+ 
+-	/*
+-	 * If the queue is empty we allow drm_sched_entity_select_rq() to
+-	 * locklessly access ->last_scheduled. This only works if we set the
+-	 * pointer before we dequeue and if we a write barrier here.
++	/* A recent rework required taking the spinlock above. Since spsc_queue
++	 * is scheduled for removal as per the DRM-TODO-list, we access it here
++	 * locked already to prepare for that cleanup.
++	 *
++	 * TODO: Fully replace spsc_queue with a locked (h)list.
+ 	 */
+-	smp_wmb();
+-
+ 	spsc_queue_pop(&entity->job_queue);
++	spin_unlock(&entity->lock);
+ 
+ 	drm_sched_rq_pop_entity(entity);
+ 
+@@ -561,21 +562,15 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+ 	if (spsc_queue_count(&entity->job_queue))
+ 		return;
+ 
+-	/*
+-	 * Only when the queue is empty are we guaranteed that
+-	 * drm_sched_run_job_work() cannot change entity->last_scheduled. To
+-	 * enforce ordering we need a read barrier here. See
+-	 * drm_sched_entity_pop_job() for the other side.
+-	 */
+-	smp_rmb();
+-
+-	fence = rcu_dereference_check(entity->last_scheduled, true);
++	spin_lock(&entity->lock);
++	fence = entity->last_scheduled;
+ 
+ 	/* stay on the same engine if the previous job hasn't finished */
+-	if (fence && !dma_fence_is_signaled(fence))
++	if (fence && !dma_fence_is_signaled(fence)) {
++		spin_unlock(&entity->lock);
+ 		return;
++	}
+ 
+-	spin_lock(&entity->lock);
+ 	sched = drm_sched_pick_best(entity->sched_list, entity->num_sched_list);
+ 	rq = sched ? &sched->rq : NULL;
+ 	if (rq != entity->rq) {
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index d61c19e78182..176ff1f936cd 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -100,7 +100,8 @@ struct drm_sched_entity {
+ 	 * @lock:
+ 	 *
+ 	 * Lock protecting the run-queue (@rq) to which this entity belongs,
+-	 * @priority and the list of schedulers (@sched_list, @num_sched_list).
++	 * @priority, @last_scheduled and the list of schedulers (@sched_list,
++	 * @num_sched_list).
+ 	 */
+ 	spinlock_t			lock;
+ 
+@@ -202,11 +203,9 @@ struct drm_sched_entity {
+ 	/**
+ 	 * @last_scheduled:
+ 	 *
+-	 * Points to the finished fence of the last scheduled job. Only written
+-	 * by drm_sched_entity_pop_job(). Can be accessed locklessly from
+-	 * drm_sched_job_arm() if the queue is empty.
++	 * Points to the finished fence of the last scheduled job.
+ 	 */
+-	struct dma_fence __rcu		*last_scheduled;
++	struct dma_fence		*last_scheduled;
+ 
+ 	/**
+ 	 * @last_user: last group leader pushing a job into the entity.
+
+base-commit: 60b5fa6edfef867322fce7c8306e5c4b46211be7
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.54.0
 
 
