@@ -1,70 +1,69 @@
-Return-Path: <linux-media+bounces-65591-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65592-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id y3L5HKNAPGrZlggAu9opvQ
-	(envelope-from <linux-media+bounces-65591-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 22:40:03 +0200
+	id k6u4G5lBPGoPlwgAu9opvQ
+	(envelope-from <linux-media+bounces-65592-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 22:44:09 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CEAC6C13A3
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 22:40:03 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D8F6C13DE
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 22:44:08 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=oap7ewyF;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65591-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-65591-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=NXP1.onmicrosoft.com header.s=selector1-NXP1-onmicrosoft-com header.b=YX4Awzwa;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65592-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65592-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=fail reason="SPF not aligned (relaxed), DKIM not aligned (relaxed)" header.from=nxp.com (policy=none);
 	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 1133C302B5BF
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 20:40:00 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 59B0F30D23B7
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 20:40:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6105A3E317C;
-	Wed, 24 Jun 2026 20:39:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CFBE3E3D8C;
+	Wed, 24 Jun 2026 20:39:22 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011026.outbound.protection.outlook.com [52.101.65.26])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93D782FFDFC;
-	Wed, 24 Jun 2026 20:39:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9513E2764;
+	Wed, 24 Jun 2026 20:39:12 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782333552; cv=fail; b=O0yaGfEKUe6bKjSSGr7PPuxtHPyZfc+bxwE9NjUWTRymz0MMcjPCsu4tj9ydMuu1gi3t4k1banPWER8mwYuk3Ia45M/5s/wq7t+rJlFzjQmgLvkdU3lo8ZfNJTpg7rP/oeK7zAiuS7dHM9BMl6AzVkXJfx599Y87yjxD8s4H5VQ=
+	t=1782333560; cv=fail; b=Y9QMRWIOlYp2NJny0Hv7hSwqmP1/zvPGRjlGjZ6Jc2zckcGdkxE3AyJt3pzAZ1tmtIC8sckxQfHTPKrLRnKyITUJwutzoo2inwzOABl5/RWQ7N7d5fM/XPOT4FbU67S2+YMVSd/ai0E0YWTlNzPdRoJNeGEPZwZBka3PUohIERM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782333552; c=relaxed/simple;
-	bh=BlcAgvn371ltHNrE61YFsyc1JIWrRe5zC765N2bb5XU=;
+	s=arc-20240116; t=1782333560; c=relaxed/simple;
+	bh=QiugNJU5J08CcUxhZtkpqll3rpwMb+ODaZgYTjz1dHE=;
 	h=From:Date:Subject:Content-Type:Message-Id:References:In-Reply-To:
-	 To:Cc:MIME-Version; b=qUgbaa/2yVmTFgvXSR7bIxS0mEZcFR2soHdt30xb7AMjQMxbiQA26riYg9rWPi6zEY7WmvMq6j7pE/jTVOfwdGX+317YcnVM1MlxA3dIMGNr5XhpSQVYsh6Ct7XO0Gkfz7sG9pztrqD4PKi5ZdqYIJQj1pXWgcQ3BDrFEGVHxZs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=oap7ewyF; arc=fail smtp.client-ip=52.101.65.26
+	 To:Cc:MIME-Version; b=mmppITGIpCXyLhZBT1JCHXzI8yKy0P0EkSaitECRPYYtq5uezoxkWZu4LTHRMSB8tYkKzUYuXNEwFL4219UKe6ayUUycgs5WrTgCFvoSu5qPbkWAK/61100Qx3n9Bx4GDX29ZAQGuz08UnOCFh2RJXwXaldb8C8GXU/H7oNGxAo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=YX4Awzwa; arc=fail smtp.client-ip=52.101.65.26
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=p+y3hNS7uUnxocvMUbp/DvakinxbO3Ileqyu/xBSPXuiOoxZ8CsiGyOqx0o96NyOjddw+CWkN9UukKjwWQpH3o3Yidpbl7ACgW2vwCirJp9k0H3rJybF8UQCwjEHcLyZnjI4Unyfwhp7705ofBmcKEuomCuu4sOUfHN1v1wZi2Nolj/beRXXK1xqUTkX5RarMZ6tlordoaqXWKs/cnrjgQ2PLgdBjkKe8cVz+hLUyHLhwfDIeAOtDXaAvOmWUqZHD/MQxPQTF0br0cRk5D22MnA9rAvT87zymtBfBtgPo4MyKCqW7sbGK2UN+/C8vVIzb4tbrxMmeDT6evCBLQGydQ==
+ b=wn9GpBGsiOa/aKsf8+TdOSwB1pr4fSWoknm534savqat2D8fC5Ws9yiwt7DxrmWZTZv5R+2bf/6BUVXZV7Lq9mkIsSCdmPjloVA6S7YE6e7e2et+5tz+N8GyR+ERY3uXf87czj0leR7WBxZVZjcEy2G8XqJMxHmUIlmCGAlWvUICkkFSGM3Tx9IcAclDr5cWuqtJi95+j5Z2FVv4VXh1ob3IkvUzjpX0RwVR0iO/Ld+cQvKA77GC2OPMZr+ZL5hstfc1NiMxZZTJm0oSe/s7ae6fuc4rloryrslf7JXQ359GInayQYZSJfCt3GSXyzZSP8FZHtaUtnOz5MbjdNPonQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aE0LVqYVzou+tUYBRUvj2i8VPBqSKgfEC13q+4eCGO8=;
- b=YiIgpp6QBfqyK91fsXLePFkeJkz0NkF4MhMmcKyLlAPXCoU83yGPrvsG7BOeDM8tdhAZtl+Qka4ioV7oNoCQdGf9ihyk+mtHZrl6vUhR4uTGQxmhUEHD8vrX6u2RvTGamJUMmrp3tLfjt97nc36cRBUBX13iTZ3kjzvUbGoAtqy5cAtdHFcbE011hXjjhIVtGFMebRGVGPSl9FvsaEyDfHYBHlqHWGpm98130nGci/tbII0NNzEEi0WV0UkEyU2phtem+R32tmqASwZMN2e4+o342sS15wDm2npLZVOwxgoE+W5XRFMQsUNOwyv0hUKWS7uMbdGPA08uKLRvK20H4Q==
+ bh=N+dbywrKvd0mc6L0O2Fhun18/1hMDwl7te7EJhD97aE=;
+ b=rmSYWhQoeQucx9RG0lQH+DkklTURpzfykbPFWd7Xuw+VdyiHiFaZbRTkzje+iOFGHIP0bfSxDI48Df3TddF/Za0CJgZY98zwwjLYGfKjuZceYi+ws74OZwfCAWnB3lxIjwyuXAeCBNSbDfpioB5bZehvgAL7GaD3uyu+zaVMyY7evNQcO+1r8+4WYU8iNk5i/8MwYTz7Hxwe660X0mRHgYOk5VtvcwTrEoPo3j7DEd4qjbpW/Ah05dh9FrW3n2J3L8jzwxwAQ9L/mAzRqX4HLeru8kJbcJLUhaRMyHGyb+JNPa3Omyrg4WoKEctFc+h5DwHNC2DqCLEANefn6WTkiQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aE0LVqYVzou+tUYBRUvj2i8VPBqSKgfEC13q+4eCGO8=;
- b=oap7ewyF8ToFGd5TZhw+3TUq81Y9SPRmlNgQZB2TFzmIaB2lMdSSqZZo0vDPtZG2jrExEm5kLaOPYf0V+o3ZXFBZzBCRTuZgsy/yBIYFypghxdxrOhSyyg8RHYvp86eJAbie0Dr6iUugcMZG/1K0aAtZbIIHjnGzow7Ht3VBa9X6RYeao/ZugXcZteGa+INpe3Nu1C0/e2lar8WHKOcgvaxBfdIXTdu0o7qA1pRnQK6z2WdOBJojONjc2IvKBpkrbC+B30Q1MCfQK0g1yn0hSXQFn0QrQ2WfnUuNvBoBGz5p5KzJXlh8EWUlEwHYHvAlNLM2YBP50Jfi0Yfmok2SeQ==
+ bh=N+dbywrKvd0mc6L0O2Fhun18/1hMDwl7te7EJhD97aE=;
+ b=YX4AwzwaRCUM4TuQLizSriSnPyCBdsiqNgFFLsxh6vxg3m3evh79CIkmvmsyael0vlICZWZ/aG9A6DOA1acVuND91ozlp5S+2E7I0Gle4FlZ6sL+JXDWzcs/drSwFePD/6W+hMlt5wJKwkSQNpqA3Dwx8t54xGiah76FDjMW4OnJn3McmUH+C1MNrxGWQ5v9xWxljD1c5lf48fBocZ9I2ZEMswAQ89bMVHuYPEYCee5jfcXyLKOX5C/VNQLZO5GEyoy0CyejpOS/fZ6dJkb6v/4tR9TNAmpkkpYMdj09J4he4POEC3HJmMo/16vLnzFxGN38mQvJwEzOQ8z16P0+mA==
 Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
  by PA1PR04MB11335.eurprd04.prod.outlook.com (2603:10a6:102:4f6::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.14; Wed, 24 Jun
- 2026 20:39:03 +0000
+ 2026 20:39:08 +0000
 Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
  ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
  ([fe80::2146:83a2:5329:b7c%6]) with mapi id 15.21.0159.007; Wed, 24 Jun 2026
- 20:39:02 +0000
+ 20:39:08 +0000
 From: Frank.Li@oss.nxp.com
-Date: Wed, 24 Jun 2026 16:37:52 -0400
-Subject: [PATCH v6 5/9] media: synopsys: Use media_async_register_subdev()
- to simplify code
+Date: Wed, 24 Jun 2026 16:37:53 -0400
+Subject: [PATCH v6 6/9] dt-bindings: media: add i.MX parallel CPI support
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260624-imx8qxp_pcam-v6-5-4b3f45920d2f@nxp.com>
+Message-Id: <20260624-imx8qxp_pcam-v6-6-4b3f45920d2f@nxp.com>
 References: <20260624-imx8qxp_pcam-v6-0-4b3f45920d2f@nxp.com>
 In-Reply-To: <20260624-imx8qxp_pcam-v6-0-4b3f45920d2f@nxp.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -80,17 +79,18 @@ To: Sakari Ailus <sakari.ailus@linux.intel.com>,
  Fabio Estevam <festevam@gmail.com>
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  imx@lists.linux.dev, Guoniu Zhou <guoniu.zhou@nxp.com>, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ Alice Yuan <alice.yuan@nxp.com>, Krzysztof Kozlowski <krzk@kernel.org>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782333513; l=11465;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782333513; l=5103;
  i=Frank.Li@nxp.com; s=20240130; h=from:subject:message-id;
- bh=eLtd/hGiGBiXFdu4KynKvIlxICANABnuw6WlHAG2mR8=;
- b=n46EwWT2mQLn5oIRKPjchGRlawnWfuT6fzFsS9FDfUDjG/MRkWpRW0h8hDa0vNBSHiGGRO8i9
- cxeQZDjcjD+DazHbIeWUeGIsWUF3LPM4MA5pFhYNsAxrTfHpmcD/B9r
+ bh=+b/aZLiEW6PzmugJsYAiILmqSJzumQpWQWK944+UONs=;
+ b=bH9x7SSqTE0QdKl0gm1nZetqpTSgf/W2w5zDVhidk70sdzmNOpZkwfj5bXRQD5ahl2F5p+LeM
+ +KKcLwZwL6dC1qdvGqKuJ29ZIgl/m/dEduHRYDauNTp07D2cd53q1lo
 X-Developer-Key: i=Frank.Li@nxp.com; a=ed25519;
  pk=I0L1sDUfPxpAkRvPKy7MdauTuSENRq+DnA+G4qcS94Q=
-X-ClientProxiedBy: PH8PR07CA0008.namprd07.prod.outlook.com
- (2603:10b6:510:2cd::16) To GV2PR04MB11799.eurprd04.prod.outlook.com
+X-ClientProxiedBy: PH7P223CA0016.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:510:338::23) To GV2PR04MB11799.eurprd04.prod.outlook.com
  (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -100,85 +100,85 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|PA1PR04MB11335:EE_
-X-MS-Office365-Filtering-Correlation-Id: 54d2b78f-029d-455c-e785-08ded230a098
+X-MS-Office365-Filtering-Correlation-Id: 2daa24a4-006e-4521-646d-08ded230a3ae
 X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|366016|19092799006|23010399003|376014|7416014|11063799006|56012099006|18002099003|22082099003|921020;
+ BCL:0;ARA:13230040|1800799024|366016|19092799006|23010399003|376014|7416014|3023799007|11063799006|56012099006|18002099003|22082099003|921020;
 X-Microsoft-Antispam-Message-Info:
- aLp6iTKnZD+UJpoiMo6xIPS3DThMVe5BOq0EzjV/bVxj2P1KTCSQMKfXoq3RfryRvUtAdRC1F0Q6ox8VgKI8jaqghwfCB+TSR2B1gCpjYTPMpMGfQdWIGN2STqGFi8rHaVu8K6TH5s701ACBcszLLNFPLOiw8p5jIz5h5OEdHnGtARRmW0PU05QwMS9ilGcq9h+4SLd4INqmoUm9frmdbKHWSsERbtatzASNqJxbViM2or/YsgMGjmO/TriGj7u45PbjUoFvu6FRmoabDhb/AywdOje1bnpw9x9isogoYkvE8zjoO76468MQgDWtlWq85KuSmiZctCAXhJWD3oikBDFDwwYrCnr5UZbTpcflyS5OcFoo4g6rSUSXxBlNpS2ls+UykOtoN2b/GSTyk6FQ/36KrE8zw4oqQyo/HeiPv67/RZZIdxhPUXXz3to9o+JqEfm0ec0gtTr6jf6NmSkDG4oRYEM/8ja9LTARfOjOR6Oc7qCd2qg6g36R6xduy0r1SAayua+4fsjCLO83Gvwid6dSdyfqgOqn9BLL/iG3GvYJ52BoBCBX5Og5TCBA2jGHwlwytV4xaMmATIKxELbUhxCh1oKQjUu6cgL4JMV7j4ofmjC1x6woiugT381nmaVOUU0hZw+B9FEuKwha7F5/+swxBTANcFv4ZqFo/hfLbVehE55DC7PQXBFF8Ttceb73xbP14PA66pjGkQ7w0NxtzQ==
+ CMaY35UhlvLsezB0sUy5pZNj7PB4xexgLMOyGjLUIFH6PAA4gld4TjWa7MkRI4g+L4C52Nwr8TinxU9V7pwLE6GgSoQCrrDdkFdg6Jnic7m5ohlE6lLKQWf0bFsHhl+CjVhGeBPxAxUvl1BrlBfz7anhVqiiI7LxrFQni9xHXJw1ijL5ytboGNSqZL0JIqZlq1YcUNtqgVfZxEdc1cQM+aCtlOJYpZRAdPFVm+8s95ePBdv+WDyQ7NTN9beDvH/m28FB8sKjuFUfUvJNJVbw8Lmi7OVEPQcd/7/cD3V2o8SD2dAjCi8t8QBJ2GnPQ+RewbG4cHa/Iy3NUi2lNqmcQGGY9b5OY3mVR/U11ZJ2wQGGrny7Yh2BwJ2G4Tc6imdbHgjdAqMAoEb9uk2NXR/g9Ao/tSnDL+LagCsaHjqufCGpYAUL12gkZsg6okjE+JIZR2KRUdD2ii9GnY4+S4an8eES4OdBqJsq3Ilu9a4M7UwnU+g07aw1om5jDJUVdUyIuI8/i0zP97+sYNriH7wuCjpz8KJ+xjFuO5gSxfYBWWIJGmJWygYrNBwRDT6Cd1PKOnZ82xf/0VtWisFHO5PjHsp2SKPn4JpPx7nySys0NxDN6Cj+ay3wGDMmdHDRCxVscUwsUdcrla2dDMnZ4Gab49vQy7bJy9iEJPMq1n6SOhw=
 X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(23010399003)(376014)(7416014)(11063799006)(56012099006)(18002099003)(22082099003)(921020);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(23010399003)(376014)(7416014)(3023799007)(11063799006)(56012099006)(18002099003)(22082099003)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?utf-8?B?eEkyVllDMzJRN0NBRHhPMHZIbjUvZXE0SndyL3VTR1JpN0pIcldnVnpxWkd4?=
- =?utf-8?B?QWFSTzcySnpsQ2YvSzdXdkNVdDQyamo1MU5qUHdIRzhaelMyanpMRkZDdDBT?=
- =?utf-8?B?U2RWZ0c1TkFXQkREQXU2VlZZOE9SM2lLVFI1d2tBSldHWWpWaElZWEZHSnlq?=
- =?utf-8?B?Zkl3WDF3TS9WaVNNTVNiYU40M1p1MUpEdUFYcGhoTkhTWnQxOVZ6NVdqbHpO?=
- =?utf-8?B?Q0hNMFE3bGpNZDQ0MDhySkJXY1YxektRN2FPSHBMRkt5MnlxWHVSVjdjMnlv?=
- =?utf-8?B?UUtJekFXdHJnbEMxb2hGc3c5cEd6Q0E5ZytoOTYxejFzdzNSWm4ySnhybSt6?=
- =?utf-8?B?T0psUmpFaGxEVTNPdkQwUmdsVUFvZzZjN1Qzb3plSU9aU09WNFBsTVhMOTdi?=
- =?utf-8?B?V203R2FaVVVMOHJ5YU1DNmxwQlgxeDdVUFpsSzBCeVJ5STN3NDRiZldxYzVX?=
- =?utf-8?B?WEdkOElGZ1dQWEppdjZKT09aWlRsWWdMSEpHYmFiK2pibGluK01YOVFXMmUz?=
- =?utf-8?B?N2drMGQwMnFtWFFUY1AxcEQvWFliU0U3VVV5QVN6U3FtNHhzMSsvTm5rQlFY?=
- =?utf-8?B?M21uQ1FoRkx4NFZkbllpRlB1emxwaVF3ZUxBUkFCMkcxdDU5SHpkclQxditE?=
- =?utf-8?B?R25uc1AzR2xKcnRGMWNaandsMlFwY3JxUE9DOU50NS9aZnVTVzIvZUExWnVG?=
- =?utf-8?B?Nkg3T2cyZS82L2ZGTzlvSHM3b2hMMU9ndmxoakpDZE5wN0R6cFhFaDFGejJv?=
- =?utf-8?B?cWJZOWVWaHprcEowTTNlZFA1NmNBZ3h4VWFqNExOV3ZOQXovZ1d2VUE5amtH?=
- =?utf-8?B?WTNYeG15SVRqdnlTSGd6WjBkRG5vQXNuditQeWpsd0tWL1VmYndBOHVrNjNz?=
- =?utf-8?B?Y3JLWFl3blBHSXY0REJGbzBXZlRaYy9wN1kzWkpEZmRTcmNqb0F1YVhadTJR?=
- =?utf-8?B?RUhaVG9EQzBERVBmT3R2SVl4RG9PMmJGRlc4dTVsWFJnaWJoSWFTcC9mVHBO?=
- =?utf-8?B?aDhlVDFEQ0tHZ01udFJ1WmxXUjZtWWl2TExaNTVNLzVwd3l1Ryt2MGRONXVD?=
- =?utf-8?B?c283UlJJSzJSZy9yc2tzSEp0RUh3V2c4aDNWQ1BFZDNYdXNHeVVwdzl3WXlJ?=
- =?utf-8?B?YnY4Y3o3dm5jZFNVOGwzbTFhd3haak01cElEQVlzdEF1K1VYTDZvV2k5REhj?=
- =?utf-8?B?bUR6eDg1UGUrcWp0ZnZJYTJUM3NWNXR1TmlRTm1Ib2ZSaG9rbmZlV1cyYXNa?=
- =?utf-8?B?aTVSZzMrQnM5amt0UjNhYUlOVTNtYW41K2dhcFFPTUY5bWQ4Yyt3bTRDMTND?=
- =?utf-8?B?RjZIUWl1a001RmhiN3JMTlpoVmJrOUZhdC9seWMrcGtlTGNheUFEOW5PUTdH?=
- =?utf-8?B?RWs2SXl5K2Z3ZlR0RWdiZEh1NHM5SEM3ZmFlZXdrWTl5N3VHN2hUdmNIOWdV?=
- =?utf-8?B?YVo0elE1bW12dk5kd2dKeDhxamR2QjRvRnlReEtaaU5vUXZpbGlock84WHFU?=
- =?utf-8?B?cnNZYjFYbUtvc2NVMDJKaDAwa2JVSUpmSVEwN2RETnNMS1dNalNpSVpsR1Np?=
- =?utf-8?B?VlJwM0ZCc2hFRk5jcGNzRlZaZUVZQmxDL3F4TG1ZMVExY2tSWHUwYko0cGth?=
- =?utf-8?B?dTlKRHNtK1IrR2RJWXdBWTJoSDgwMTAvcWdZbmZ3VGRLTDMxeStibXRwRllV?=
- =?utf-8?B?aWdISThCNW1DeVlZNC82RGYrWk1MVU8xRm9BZjIvTzhRc3YzMXpZVGJwNVdp?=
- =?utf-8?B?cm1KQUJ5MldOQWNMeUJ5bThaN1oxOTFKL0VLMm50RDJhdkZ4dzAwZWtRT0th?=
- =?utf-8?B?L1BOOXVkQTFYY3NIMjA5VVVVYUhHT3plNDVzb3g2VW1mU3lVYlpZM2I0QWpm?=
- =?utf-8?B?WHcvYWpFMUVyUzkramxMa1NqYW81RnhkV0s1VXl1dUNxTHZzNXJraG02STB6?=
- =?utf-8?B?MnVUYjhBRnRMS0xzaHBxajdEMXk5b2VWZkFwWDZtb1BnT25wTXJkYTRFemds?=
- =?utf-8?B?dVhkNDU2U2JSMkc0aldVYkNjNlR6Rng5VHNyZmxCZXV4bWpqSXRqSVphMUpy?=
- =?utf-8?B?TGFaUWFxcElaRk1PVEFaa2JucVRBNjJMQU1RN0l6aUZJUS9XWGNzbFF6ZEhu?=
- =?utf-8?B?ak50dXc2Mk03bDF2Q0ZIWFBCcXFUL0tSN2h1cERvODdnSEpNSU5HaDJsLzBC?=
- =?utf-8?B?eGh0akM2a1ppeGY5emRNR3FTQmhFTDlIVFU0bHUwR3kwdng2WEFsUGxiTWEv?=
- =?utf-8?B?RDl3UldaZ1BjYWVQZmxON00wWVNWVHA0Yk9lbm5hSUh0K00yOGVvTTVMNFh0?=
- =?utf-8?B?ck9EQUV6UkNRQm0wY2V5YmVSUGw3bzJRdlhxNUVyZW8xZ0JpQnorZDFDWk5m?=
- =?utf-8?Q?HKuZk5mCQzIqTg6RJcIG8EiUkI38MPR7367vI?=
+ =?utf-8?B?aGVXVzFDVmFGbXpVemQ4dE9yVGdlcGFIZ3oxNEhVb1N3UFJQRHZ5cWNKOEdI?=
+ =?utf-8?B?emFnclRKNDVKekY4Nk4vV2N4eVJOdjVlajZFc29PajIyckNiejg4RUU5amk4?=
+ =?utf-8?B?Sm5RQXQzU0tqb3BHVy9EeUc5WTVvaVBBZFFWZWhLOTJQRzd2bmpVeXZBRDhv?=
+ =?utf-8?B?aWhSd3VSdCswR0diZ3pjTG5ycFpZZkVJK1FLUGVIeFl0aDhaMW0vZkpjNlJK?=
+ =?utf-8?B?WVI0ZnNvWWRvdXJ3OFFIdElVMjJ3c005RGVjd29wRUgxU01xOC9LOVUwWHNo?=
+ =?utf-8?B?RExwTjNsSldrK3VyUi9SUzRiZXBWQ3RyenBqOE9aL3dab3lCRHAwby9MaUVq?=
+ =?utf-8?B?a1pIZ1hXcHkwVGFWZ3lkNGxmVmdsa0RvN044eVFmVWgySmtmeFZjeDlCaHF6?=
+ =?utf-8?B?NE9iUnJ5MHVLMkZUSytQamxVQjBic0thWERWZUtFZlZYTGVpbHZEVFEvR0dZ?=
+ =?utf-8?B?M0NMWTA0N2Ztcm1wVWNObEo5VjdIOXcvOUdQSkorSjRpV011ZkR2WVBvVmo1?=
+ =?utf-8?B?TE9hV0NDQk9MMmViQVRjeEFNVEQ2MUcvbUVoSUdjTHFhZzBNNmZiWm9OeHFk?=
+ =?utf-8?B?bDNaZXZEOXZvMEEwdC9HL0lIaCtBNHdVbUVqWWJSSVhFNTUzSFlhSktaak9n?=
+ =?utf-8?B?bUxlcXdDVnE4d3VXMEUxOUUxU0pMUG9sSWJnY3ZzY2dRbWVmdzczQnNKc3dr?=
+ =?utf-8?B?TFZaZ21zVGRyRTlXUDkwSFcxNzB0aWJkOWxyRyttdDZFcUVNcVhHcUo1R0tF?=
+ =?utf-8?B?ZmlyaHFRYUgrR0Ezb1hIUExwb3BnSzVOYnBxUUFJTVVYTWtNM3V1MUxNU28v?=
+ =?utf-8?B?RjVCZHhEdWdnSDJ2ai85YmYvaDZ5cHltNTdmYVI4TG44TXFUcUtwU2c1QlYz?=
+ =?utf-8?B?S2ZxeG1GR2s3TE1zQ3dUaExzSUhVcWtTRE5EL2hYTmdidk9ESVovRXIyU3VG?=
+ =?utf-8?B?VTB0U2F4OVVtdjQvUTdhNTdIUEVpTk9wQmVXL1N3a2hlenRObVdNMDFTbXhM?=
+ =?utf-8?B?djJZQlpSZWgrREZQdkVJVStpOWRkb09mNEkvcktOUi8wN2s1L2ZiNUtFVHVt?=
+ =?utf-8?B?aVZVamFTY2FyVGFzTU9zMDdVaDlMVExrOWkvdWptMmZqUHN1dk10UldkRTMx?=
+ =?utf-8?B?RWR2bWhJaVBPUC9ReUE1TEp1czkyM0xJbGs2c0hVbExsa1NsUkFsT3ZuS1BK?=
+ =?utf-8?B?U0dML25XZTh0NWp2SGd5ZUlLbkJ0WEJIanVQWUs2OVhuWGxhR2pXVVVsb1k2?=
+ =?utf-8?B?ck9Oa2NZbGQzTm9odHlJTXRUYms2TW9NbWwxdFEvaFZ6YWpKQlVESUltZ3Za?=
+ =?utf-8?B?d3FFZHAzb09UTUFGUUtJMVlEOHc3SFlTUXNzQWxkb05BdzcyVVNKeEJBWHZz?=
+ =?utf-8?B?MmtiYU0ra0VtdCtpZW9FcDdLcXhjYWRVTjZDWFlBK1YzN1hGcWZKZDhvWkw4?=
+ =?utf-8?B?WUNvblZHUVVQbE9LWTFnUm9HemY3cjc1dUdSTlNxeXp4U1R5YTI1Yk9GSU91?=
+ =?utf-8?B?ZDhJY3JGNENoTHgrT09TK1hXcGxPMCt1TmUrVVZ0dE5yckhiN2FSVkVIN2Vi?=
+ =?utf-8?B?WjIwYlduMG1Zc3dadFcxTnV1dnRYTlBoVENGajd2aVpDQ05NUEJDY3FtM3Vw?=
+ =?utf-8?B?VjduREd5c1drQmlXVWRUUnltU0tCWFhhR3Frb0hnQ2JMaDlJZFlvNXFQMjJB?=
+ =?utf-8?B?cWowMDQ1OU9xOEdmSm1QTndvbE9sL2ZrTjk1a3ZiY2FHbk41UWs0L3ZVUWZh?=
+ =?utf-8?B?QktmSmFVY0ljTVNRbkhCZzdkbFc2S3U5V3NRSWEzKzZ6M3NIRllydi9IbDZw?=
+ =?utf-8?B?MlZUdk1raUgrdTRaY2tNRUh3VUJiYTB6WEpCQnpYRXFkNXdJanUzSkxwNkVu?=
+ =?utf-8?B?Vk1aWFR1Tm1kRzdPMWRwN2F2MUhFM0M0d3g4bEt4NTc0Wld3Q0J2TlN5TVJ5?=
+ =?utf-8?B?K00zYmtwdjQwaUtOM3BtRFU4a1VkdmtHQ0R0Tm53UllCbUo5QUVPRzBkZTdF?=
+ =?utf-8?B?VmRxL3hQRkNycU53N1pKdHcrTzI5RGVodzNwUE5haHRLWWkza1Y5WHJpY2FS?=
+ =?utf-8?B?bUlxU3hnKytiNGJ6ckgzdFdFd21PTDRieGhrRUdackh5NFF2RHFPd0xReUJF?=
+ =?utf-8?B?YUJvZnlETEgvTGVTQytua2k2OUt1UnBwSy9nM3k2NHVsbDVFNHV5aGc2Z2ty?=
+ =?utf-8?B?NzhaTTMxSW5DSFdJSXE3TEN0dXpsemVxbVJTcG51NUVqK3d6eTQwS2ZmR21C?=
+ =?utf-8?B?aDBhT2QyTTRLRXp6TCtSZmgwNE5UYlgxM2J1UStuMy9VQUIrWXV1SHRadm5s?=
+ =?utf-8?B?VHExeTJzSFNldXBkbnFHRXZncGs3YTU3bVhlTlNMVk8vK05JNHZZU3FoYkV2?=
+ =?utf-8?Q?7D8v2l4nVqzsTflEyLlyXP1bxq3QeiFzLv5jC?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54d2b78f-029d-455c-e785-08ded230a098
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2daa24a4-006e-4521-646d-08ded230a3ae
 X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2026 20:39:02.9315
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2026 20:39:08.1100
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nN2CVBegaZol9CjK32JGj6h9MoUm557y6QbxL4YV7gh4J0aug/hw9+gUUPchb4zfyW+ov/oKsurH51WWSLSGpT6L4vPnLOTCdC+wH51vwUp1vnDZxBz0D2wEG1zeWEfb
+X-MS-Exchange-CrossTenant-UserPrincipalName: Lx/txaYZAOFWeGf20kMGNHonnely81CBOb+v70nMoHToqLpwg4W2TSoIXWKtpHNSuiFbx3Hwy1sBYikjbHh0Wj7hxj9/3/bKOvdFnkMbEzq6TkO97Nzy1SYkZ3Wc7DXg
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB11335
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [1.94 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	R_DKIM_ALLOW(-0.20)[NXP1.onmicrosoft.com:s=selector1-NXP1-onmicrosoft-com];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	DMARC_POLICY_SOFTFAIL(0.10)[nxp.com : SPF not aligned (relaxed), DKIM not aligned (relaxed),none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:michael.riesch@collabora.com,m:laurent.pinchart@ideasonboard.com,m:Frank.Li@nxp.com,m:martink@posteo.de,m:rmfrfs@gmail.com,m:kernel@puri.sm,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:guoniu.zhou@nxp.com,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-65591-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:michael.riesch@collabora.com,m:laurent.pinchart@ideasonboard.com,m:Frank.Li@nxp.com,m:martink@posteo.de,m:rmfrfs@gmail.com,m:kernel@puri.sm,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:guoniu.zhou@nxp.com,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:alice.yuan@nxp.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65592-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER(0.00)[Frank.Li@oss.nxp.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[20];
+	RCPT_COUNT_TWELVE(0.00)[22];
 	FREEMAIL_TO(0.00)[linux.intel.com,kernel.org,collabora.com,ideasonboard.com,nxp.com,posteo.de,gmail.com,puri.sm,pengutronix.de];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
@@ -191,359 +191,188 @@ X-Spamd-Result: default: False [1.94 / 15.00];
 	PRECEDENCE_BULK(0.00)[];
 	TO_DN_SOME(0.00)[];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FROM_NO_DN(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,oss.nxp.com:from_mime,NXP1.onmicrosoft.com:dkim,vger.kernel.org:from_smtp,nxp.com:mid,nxp.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[oss.nxp.com:from_mime,nxp.com:mid,nxp.com:email,vger.kernel.org:from_smtp,NXP1.onmicrosoft.com:dkim,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0CEAC6C13A3
+X-Rspamd-Queue-Id: B7D8F6C13DE
 
-From: Frank Li <Frank.Li@nxp.com>
+From: Alice Yuan <alice.yuan@nxp.com>
 
-Use the media_async_register_subdev() to simplify the driver.
+Document the binding for parallel CPI controller found in i.MX8QXP, i.MX93
+and i.MX91 SoCs.
 
-Replace the local subdev registration and media pad setup code with
-media_async_register_subdev(). Reduce boilerplate code and aligns the
-driver with the common pattern used by simple subdevices that each media
-pad has one endpoint in fwnode.
-
+Signed-off-by: Alice Yuan <alice.yuan@nxp.com>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Frank Li <Frank.Li@nxp.com>
 ---
-change in v6
-- use media_async_register_subdev()
-- remove sd_1to1.
+Chagnes in v4
+- add Laurent Pinchart's review by tag
+- fix $ref: /schemas/graph.yaml#/$defs/port-base, original is
+$ref: /schemas/graph.yaml#/properties/port-base
 
-change in v5
-new patch
+Change in v3:
+- use enum at compatible string
+- add ref to video-interfaces.yaml#
+- use cpi as node name in examples.
+- replace csi (Camera Serial Interface) with CPI (Camera Parallel Interface)
+in commit message.
 
-previous method:
-https://lore.kernel.org/imx/20260226-v4l2_init_register-v2-2-902d7140f9fa@nxp.com/
+Change in v2:
+- use pcif surfix as Laurent Pinchart's suggest.
+- put power-domains into required list
 ---
- drivers/media/platform/synopsys/dw-mipi-csi2rx.c | 178 +++++------------------
- 1 file changed, 40 insertions(+), 138 deletions(-)
+ .../devicetree/bindings/media/fsl,imx93-pcif.yaml  | 126 +++++++++++++++++++++
+ MAINTAINERS                                        |   1 +
+ 2 files changed, 127 insertions(+)
 
-diff --git a/drivers/media/platform/synopsys/dw-mipi-csi2rx.c b/drivers/media/platform/synopsys/dw-mipi-csi2rx.c
-index f51367409ff46..0fabc89a49b80 100644
---- a/drivers/media/platform/synopsys/dw-mipi-csi2rx.c
-+++ b/drivers/media/platform/synopsys/dw-mipi-csi2rx.c
-@@ -78,12 +78,6 @@ enum dw_mipi_csi2rx_regs_index {
- 	DW_MIPI_CSI2RX_MAX,
- };
- 
--enum {
--	DW_MIPI_CSI2RX_PAD_SINK,
--	DW_MIPI_CSI2RX_PAD_SRC,
--	DW_MIPI_CSI2RX_PAD_MAX,
--};
--
- struct dw_mipi_csi2rx_device;
- 
- struct dw_mipi_csi2rx_drvdata {
-@@ -112,12 +106,8 @@ struct dw_mipi_csi2rx_device {
- 	const struct dw_mipi_csi2rx_format *formats;
- 	unsigned int formats_num;
- 
--	struct media_pad pads[DW_MIPI_CSI2RX_PAD_MAX];
--	struct v4l2_async_notifier notifier;
- 	struct v4l2_subdev sd;
- 
--	enum v4l2_mbus_type bus_type;
--	u32 lanes_num;
- 	u64 enabled_streams;
- 
- 	const struct dw_mipi_csi2rx_drvdata *drvdata;
-@@ -360,9 +350,10 @@ dw_mipi_csi2rx_find_format(struct dw_mipi_csi2rx_device *csi2, u32 mbus_code)
- 
- static int dw_mipi_csi2rx_start(struct dw_mipi_csi2rx_device *csi2)
- {
-+	struct media_pad *sink_pad = &csi2->sd.entity.pads[V4L2_SUBDEV_1TO1_PADS_SINK];
-+	u32 lanes = sink_pad->vep.bus.mipi_csi2.num_data_lanes;
- 	struct media_pad *source_pad;
- 	union phy_configure_opts opts;
--	u32 lanes = csi2->lanes_num;
- 	u32 control = 0;
- 	s64 link_freq;
- 	int ret;
-@@ -370,8 +361,7 @@ static int dw_mipi_csi2rx_start(struct dw_mipi_csi2rx_device *csi2)
- 	if (lanes < 1 || lanes > 4)
- 		return -EINVAL;
- 
--	source_pad = media_pad_remote_pad_unique(
--		&csi2->pads[DW_MIPI_CSI2RX_PAD_SINK]);
-+	source_pad = media_pad_remote_pad_unique(sink_pad);
- 	if (IS_ERR(source_pad))
- 		return PTR_ERR(source_pad);
- 
-@@ -380,7 +370,7 @@ static int dw_mipi_csi2rx_start(struct dw_mipi_csi2rx_device *csi2)
- 	if (link_freq < 0)
- 		return link_freq;
- 
--	switch (csi2->bus_type) {
-+	switch (sink_pad->vep.bus_type) {
- 	case V4L2_MBUS_CSI2_DPHY:
- 		ret = phy_mipi_dphy_get_default_config_for_hsclk(link_freq * 2,
- 								 lanes, &opts.mipi_dphy);
-@@ -458,16 +448,16 @@ dw_mipi_csi2rx_enum_mbus_code(struct v4l2_subdev *sd,
- 	struct dw_mipi_csi2rx_device *csi2 = to_csi2(sd);
- 
- 	switch (code->pad) {
--	case DW_MIPI_CSI2RX_PAD_SRC:
-+	case V4L2_SUBDEV_1TO1_PADS_SOURCE:
- 		if (code->index)
- 			return -EINVAL;
- 
- 		code->code =
- 			v4l2_subdev_state_get_format(sd_state,
--						     DW_MIPI_CSI2RX_PAD_SINK)->code;
-+						     V4L2_SUBDEV_1TO1_PADS_SINK)->code;
- 
- 		return 0;
--	case DW_MIPI_CSI2RX_PAD_SINK:
-+	case V4L2_SUBDEV_1TO1_PADS_SINK:
- 		if (code->index >= csi2->formats_num)
- 			return -EINVAL;
- 
-@@ -487,7 +477,7 @@ static int dw_mipi_csi2rx_set_fmt(struct v4l2_subdev *sd,
- 	struct v4l2_mbus_framefmt *sink, *src;
- 
- 	/* the format on the source pad always matches the sink pad */
--	if (format->pad == DW_MIPI_CSI2RX_PAD_SRC)
-+	if (format->pad == V4L2_SUBDEV_1TO1_PADS_SOURCE)
- 		return v4l2_subdev_get_fmt(sd, state, format);
- 
- 	sink = v4l2_subdev_state_get_format(state, format->pad, format->stream);
-@@ -549,12 +539,12 @@ static int dw_mipi_csi2rx_enable_streams(struct v4l2_subdev *sd,
- 	u64 mask;
- 	int ret;
- 
--	sink_pad = &sd->entity.pads[DW_MIPI_CSI2RX_PAD_SINK];
-+	sink_pad = &sd->entity.pads[V4L2_SUBDEV_1TO1_PADS_SINK];
- 	remote_pad = media_pad_remote_pad_first(sink_pad);
- 	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
- 
--	mask = v4l2_subdev_state_xlate_streams(state, DW_MIPI_CSI2RX_PAD_SINK,
--					       DW_MIPI_CSI2RX_PAD_SRC,
-+	mask = v4l2_subdev_state_xlate_streams(state, V4L2_SUBDEV_1TO1_PADS_SINK,
-+					       V4L2_SUBDEV_1TO1_PADS_SOURCE,
- 					       &streams_mask);
- 
- 	if (!csi2->enabled_streams) {
-@@ -608,12 +598,12 @@ static int dw_mipi_csi2rx_disable_streams(struct v4l2_subdev *sd,
- 	u64 mask;
- 	int ret;
- 
--	sink_pad = &sd->entity.pads[DW_MIPI_CSI2RX_PAD_SINK];
-+	sink_pad = &sd->entity.pads[V4L2_SUBDEV_1TO1_PADS_SINK];
- 	remote_pad = media_pad_remote_pad_first(sink_pad);
- 	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
- 
--	mask = v4l2_subdev_state_xlate_streams(state, DW_MIPI_CSI2RX_PAD_SINK,
--					       DW_MIPI_CSI2RX_PAD_SRC,
-+	mask = v4l2_subdev_state_xlate_streams(state, V4L2_SUBDEV_1TO1_PADS_SINK,
-+					       V4L2_SUBDEV_1TO1_PADS_SOURCE,
- 					       &streams_mask);
- 
- 	ret = v4l2_subdev_disable_streams(remote_sd, remote_pad->index, mask);
-@@ -649,9 +639,9 @@ static int dw_mipi_csi2rx_init_state(struct v4l2_subdev *sd,
- {
- 	struct v4l2_subdev_route routes[] = {
- 		{
--			.sink_pad = DW_MIPI_CSI2RX_PAD_SINK,
-+			.sink_pad = V4L2_SUBDEV_1TO1_PADS_SINK,
- 			.sink_stream = 0,
--			.source_pad = DW_MIPI_CSI2RX_PAD_SRC,
-+			.source_pad = V4L2_SUBDEV_1TO1_PADS_SOURCE,
- 			.source_stream = 0,
- 			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
- 		},
-@@ -666,95 +656,38 @@ static int dw_mipi_csi2rx_init_state(struct v4l2_subdev *sd,
- 						&default_format);
- }
- 
--static const struct v4l2_subdev_internal_ops dw_mipi_csi2rx_internal_ops = {
--	.init_state = dw_mipi_csi2rx_init_state,
--};
--
--static int dw_mipi_csi2rx_notifier_bound(struct v4l2_async_notifier *notifier,
--					 struct v4l2_subdev *sd,
--					 struct v4l2_async_connection *asd)
-+static int dw_mipi_set_pad_by_ep(struct v4l2_subdev *sd, struct media_pad *pad)
- {
--	struct dw_mipi_csi2rx_device *csi2 =
--		container_of(notifier, struct dw_mipi_csi2rx_device, notifier);
--	struct media_pad *sink_pad = &csi2->pads[DW_MIPI_CSI2RX_PAD_SINK];
--	int ret;
--
--	ret = v4l2_create_fwnode_links_to_pad(sd, sink_pad,
--					      MEDIA_LNK_FL_ENABLED);
--	if (ret) {
--		dev_err(csi2->dev, "failed to link source pad of %s\n",
--			sd->name);
--		return ret;
--	}
--
--	return 0;
--}
-+	struct v4l2_fwnode_endpoint *vep = &pad->vep;
- 
--static const struct v4l2_async_notifier_operations dw_mipi_csi2rx_notifier_ops = {
--	.bound = dw_mipi_csi2rx_notifier_bound,
--};
--
--static int dw_mipi_csi2rx_register_notifier(struct dw_mipi_csi2rx_device *csi2)
--{
--	struct v4l2_async_connection *asd;
--	struct v4l2_async_notifier *ntf = &csi2->notifier;
--	struct v4l2_fwnode_endpoint vep;
--	struct v4l2_subdev *sd = &csi2->sd;
--	struct device *dev = csi2->dev;
--	int ret;
--
--	struct fwnode_handle *ep __free(fwnode_handle) =
--		fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0, 0);
--	if (!ep)
--		return dev_err_probe(dev, -ENODEV, "failed to get endpoint\n");
--
--	vep.bus_type = V4L2_MBUS_UNKNOWN;
--	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
--	if (ret)
--		return dev_err_probe(dev, ret, "failed to parse endpoint\n");
--
--	if (vep.bus_type != V4L2_MBUS_CSI2_DPHY &&
--	    vep.bus_type != V4L2_MBUS_CSI2_CPHY)
--		return dev_err_probe(dev, -EINVAL,
--				     "invalid bus type of endpoint\n");
--
--	csi2->bus_type = vep.bus_type;
--	csi2->lanes_num = vep.bus.mipi_csi2.num_data_lanes;
-+	if (vep->base.port == V4L2_SUBDEV_1TO1_PADS_SINK) {
-+		if (vep->bus_type != V4L2_MBUS_CSI2_DPHY &&
-+		    vep->bus_type != V4L2_MBUS_CSI2_CPHY)
-+			return -EINVAL;
- 
--	v4l2_async_subdev_nf_init(ntf, sd);
--	ntf->ops = &dw_mipi_csi2rx_notifier_ops;
-+		pad->flags = MEDIA_PAD_FL_SINK | MEDIA_PAD_FL_MUST_CONNECT;
- 
--	asd = v4l2_async_nf_add_fwnode_remote(ntf, ep,
--					      struct v4l2_async_connection);
--	if (IS_ERR(asd)) {
--		ret = PTR_ERR(asd);
--		goto err_nf_cleanup;
-+		return 0;
- 	}
- 
--	ret = v4l2_async_nf_register(ntf);
--	if (ret) {
--		ret = dev_err_probe(dev, ret, "failed to register notifier\n");
--		goto err_nf_cleanup;
-+	if (vep->base.port == V4L2_SUBDEV_1TO1_PADS_SOURCE) {
-+		pad->flags = MEDIA_PAD_FL_SOURCE | MEDIA_PAD_FL_MUST_CONNECT;
-+		return 0;
- 	}
- 
--	return 0;
--
--err_nf_cleanup:
--	v4l2_async_nf_cleanup(ntf);
--
--	return ret;
-+	return -EINVAL;
- }
- 
-+static const struct v4l2_subdev_internal_ops dw_mipi_csi2rx_internal_ops = {
-+	.init_state = dw_mipi_csi2rx_init_state,
-+	.set_pad_by_ep = dw_mipi_set_pad_by_ep,
-+};
+diff --git a/Documentation/devicetree/bindings/media/fsl,imx93-pcif.yaml b/Documentation/devicetree/bindings/media/fsl,imx93-pcif.yaml
+new file mode 100644
+index 0000000000000..9dd0331f6ef75
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/fsl,imx93-pcif.yaml
+@@ -0,0 +1,126 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/fsl,imx93-pcif.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- static int dw_mipi_csi2rx_register(struct dw_mipi_csi2rx_device *csi2)
- {
--	struct media_pad *pads = csi2->pads;
- 	struct v4l2_subdev *sd = &csi2->sd;
- 	int ret;
- 
--	ret = dw_mipi_csi2rx_register_notifier(csi2);
--	if (ret)
--		goto err;
--
- 	v4l2_subdev_init(sd, &dw_mipi_csi2rx_ops);
- 	sd->dev = csi2->dev;
- 	sd->entity.ops = &dw_mipi_csi2rx_media_ops;
-@@ -764,45 +697,12 @@ static int dw_mipi_csi2rx_register(struct dw_mipi_csi2rx_device *csi2)
- 	snprintf(sd->name, sizeof(sd->name), "dw-mipi-csi2rx %s",
- 		 dev_name(csi2->dev));
- 
--	pads[DW_MIPI_CSI2RX_PAD_SINK].flags = MEDIA_PAD_FL_SINK |
--					      MEDIA_PAD_FL_MUST_CONNECT;
--	pads[DW_MIPI_CSI2RX_PAD_SRC].flags = MEDIA_PAD_FL_SOURCE;
--	ret = media_entity_pads_init(&sd->entity, DW_MIPI_CSI2RX_PAD_MAX, pads);
-+	ret = media_async_register_subdev(&csi2->sd);
- 	if (ret)
--		goto err_notifier_unregister;
--
--	ret = v4l2_subdev_init_finalize(sd);
--	if (ret)
--		goto err_entity_cleanup;
--
--	ret = v4l2_async_register_subdev(sd);
--	if (ret) {
--		dev_err(sd->dev, "failed to register CSI-2 subdev\n");
--		goto err_subdev_cleanup;
--	}
-+		return dev_err_probe(sd->dev, ret,
-+				     "failed to register CSI-2 subdev\n");
- 
- 	return 0;
--
--err_subdev_cleanup:
--	v4l2_subdev_cleanup(sd);
--err_entity_cleanup:
--	media_entity_cleanup(&sd->entity);
--err_notifier_unregister:
--	v4l2_async_nf_unregister(&csi2->notifier);
--	v4l2_async_nf_cleanup(&csi2->notifier);
--err:
--	return ret;
--}
--
--static void dw_mipi_csi2rx_unregister(struct dw_mipi_csi2rx_device *csi2)
--{
--	struct v4l2_subdev *sd = &csi2->sd;
--
--	v4l2_async_unregister_subdev(sd);
--	v4l2_subdev_cleanup(sd);
--	media_entity_cleanup(&sd->entity);
--	v4l2_async_nf_unregister(&csi2->notifier);
--	v4l2_async_nf_cleanup(&csi2->notifier);
- }
- 
- static void imx93_csi2rx_dphy_assert_reset(struct dw_mipi_csi2rx_device *csi2)
-@@ -879,12 +779,14 @@ static void imx93_csi2rx_dphy_ipi_enable(struct dw_mipi_csi2rx_device *csi2)
- 
- static int imx93_csi2rx_wait_for_phy_stopstate(struct dw_mipi_csi2rx_device *csi2)
- {
-+	struct media_pad *sink_pad = &csi2->sd.entity.pads[V4L2_SUBDEV_1TO1_PADS_SINK];
-+	u32 num_lanes = sink_pad->vep.bus.mipi_csi2.num_data_lanes;
- 	struct device *dev = csi2->dev;
- 	u32 stopstate_mask;
- 	u32 val;
- 	int ret;
- 
--	stopstate_mask = DPHY_STOPSTATE_CLK_LANE | GENMASK(csi2->lanes_num - 1, 0);
-+	stopstate_mask = DPHY_STOPSTATE_CLK_LANE | GENMASK(num_lanes - 1, 0);
- 
- 	ret = read_poll_timeout(dw_mipi_csi2rx_read, val,
- 				(val & stopstate_mask) == stopstate_mask,
-@@ -993,7 +895,7 @@ static void dw_mipi_csi2rx_remove(struct platform_device *pdev)
- {
- 	struct dw_mipi_csi2rx_device *csi2 = platform_get_drvdata(pdev);
- 
--	dw_mipi_csi2rx_unregister(csi2);
-+	media_async_subdev_cleanup(&csi2->sd);
- 	phy_exit(csi2->phy);
- }
- 
++title: i.MX8/9 Parallel Camera Interface
++
++maintainers:
++  - Frank Li <Frank.Li@nxp.com>
++
++description: |
++  This is device node for the Parallel Camera Interface which enables the
++  chip to connect directly to external Parallel CMOS image sensors.
++  Supports up to 80MHz input clock from sensor.
++  Supports the following input data formats
++    - 8-bit/10-bit Camera Sensor Interface (CSI)
++    - 8-bit data port for RGB, YCbCr, and YUV data input
++    - 8-bit/10-bit data ports for Bayer data input
++  Parallel Camera Interface is hooked to the Imaging subsystem via the
++  Pixel Link.
++
++properties:
++  compatible:
++    oneOf:
++      - enum:
++          - fsl,imx8qxp-pcif
++          - fsl,imx93-pcif
++      - items:
++          - enum:
++              - fsl,imx91-pcif
++          - const: fsl,imx93-pcif
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 2
++
++  clock-names:
++    items:
++      - const: pixel
++      - const: ipg
++
++  power-domains:
++    maxItems: 1
++
++  ports:
++    $ref: /schemas/graph.yaml#/properties/ports
++
++    properties:
++      port@0:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description: Input port node.
++
++        properties:
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              bus-type:
++                const: 5
++
++      port@1:
++        $ref: /schemas/graph.yaml#/$defs/port-base
++        unevaluatedProperties: false
++        description: Output port node.
++
++        properties:
++          endpoint:
++            $ref: video-interfaces.yaml#
++            unevaluatedProperties: false
++
++            properties:
++              bus-type:
++                const: 5
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - power-domains
++  - ports
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/imx93-clock.h>
++    #include <dt-bindings/power/fsl,imx93-power.h>
++
++    cpi@4ac10070 {
++        compatible = "fsl,imx93-pcif";
++        reg = <0x4ac10070 0x10>;
++        clocks = <&clk IMX93_CLK_MIPI_CSI_GATE>,
++                 <&clk IMX93_CLK_MEDIA_APB>;
++        clock-names = "pixel", "ipg";
++        assigned-clocks = <&clk IMX93_CLK_CAM_PIX>;
++        assigned-clock-parents = <&clk IMX93_CLK_VIDEO_PLL>;
++        assigned-clock-rates = <140000000>;
++        power-domains = <&media_blk_ctrl IMX93_MEDIABLK_PD_MIPI_CSI>;
++
++        ports {
++            #address-cells = <1>;
++            #size-cells = <0>;
++
++            port@0 {
++                reg = <0>;
++
++                endpoint {
++                    remote-endpoint = <&mt9m114_ep>;
++                };
++            };
++
++            port@1 {
++                reg = <1>;
++                endpoint {
++                    remote-endpoint = <&isi_in>;
++                };
++            };
++        };
++    };
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 895a87b571c35..51d5c62e3fdea 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -16258,6 +16258,7 @@ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+ F:	Documentation/admin-guide/media/imx7.rst
++F:	Documentation/devicetree/bindings/media/fsl,imx93-pcif.yaml
+ F:	Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
+ F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+ F:	Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
 
 -- 
 2.43.0
