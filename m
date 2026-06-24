@@ -1,270 +1,241 @@
-Return-Path: <linux-media+bounces-65510-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65511-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id kFd+NjCGO2riZAgAu9opvQ
-	(envelope-from <linux-media+bounces-65510-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 09:24:32 +0200
+	id X4RIGQmJO2qCZQgAu9opvQ
+	(envelope-from <linux-media+bounces-65511-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 09:36:41 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 741FF6BC221
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 09:24:32 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id B72026BC356
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 09:36:40 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=chipsnmedia.com header.s=selector1 header.b=DCYFTDU8;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65510-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-65510-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=none;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=j738PO5c;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65511-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65511-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=mailbox.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 9E1E33052E49
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 07:23:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id C21843059332
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 07:34:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77C1D3AFB1A;
-	Wed, 24 Jun 2026 07:22:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DC552DB7BD;
+	Wed, 24 Jun 2026 07:34:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from PUWP216CU001.outbound.protection.outlook.com (mail-koreasouthazon11020074.outbound.protection.outlook.com [52.101.156.74])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122AB3AEB38;
-	Wed, 24 Jun 2026 07:21:54 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782285723; cv=fail; b=iD8HqiU2jLp+m4EDkh2RYD9/8+YVmfGM9az26VZoxEBbuvf9/xl8Gscw7Rdby6xTfkY1JZ/4tM2eZfZEB7eMW/mpeBJ9zLAZzRn1PU/riEoJbJJ/dkfYBE+2ktyeWAybfwvYVh3LZEMrEqW1LthsFNbDvwxcF1uwb+nTNBZrdOE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782285723; c=relaxed/simple;
-	bh=5Hmrjp01hDMn+Xo04rzEqZneTEdjA0jQwp6WD2+/HF8=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mLPIagj+/rliSaVuBngXEn4AyCxYrhUulQW4r+1wJtXyL74RsjeAkpNoAQkIVnYHuy5H841C1HmI9HrVS1AiIDfyUdlWy00s9Cu8TODbkhWrv5V2RujXqDvpyhpe+Lur08WRBZFBPkFhr5sviRiXQP/i8EynlzQNHKIC/LuInzs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=DCYFTDU8; arc=fail smtp.client-ip=52.101.156.74
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gFIMyFpVzUh3tO6KmWdPAbnd7doDr0mM6HD4qPkRCRsmDWbda3D16a9iFUBxyLT0MxpMu5MEQDH0oa4iGTY4gw7ppA7/fQtK45qpTTU4+1q2/G11mmgIQb/pwU4Ysx3jHpfy9pWImVQNJex9QRIvBvNro2VAy3BoB+xVofK+wZX40xUNd4KM1ww1v/xuEImjJdT8AvDS3MSvqaG0JJ5GbAoSD55HfmEq2rXrdPuK6LVa94XQW8BQ/auNq2KV/0yoGgsrXI5ZN6f8BAJSd+JvmzOF8KWvxuQICj8XZOFROM5RxF3zFa+EVLu3TmMwxMB96igtnBQ1X2K7zsX1saYzTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cJp+FskcJzi6zPtOQmUraXnbp0YPahLgBFMlKidlN8Y=;
- b=af0UQnsPc4hMWX75rsBxBUIn/Ym451mqneL0PytaSAZ0KQkvSNlpv9XXvqk0I8WqKeMTG8g0li55+vxTTJ2lTuqn78QZHetN04aFJQ+QfVPPlNyLdPtRqyVBNrZUN5Xi5cVR/6Ewx0Tqm2H3BcyyIYiImMpAOgCbAow9r2RUwT/xqfnGQhynYkwm/c3NXuQtF9UK/xapUttYix6gLUi8yEDmdzoBHd/5s6vVTrL70qCcVWK9a04v5JQnHJNLy1XOIBZ80HldPy9NBhZhGSj35bD8+UQgUu2gvJgvOWWZ+Pph70FqGPGjcp274o1apdHIjIPWmhuvHKtNia7b8VgDJw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
- header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cJp+FskcJzi6zPtOQmUraXnbp0YPahLgBFMlKidlN8Y=;
- b=DCYFTDU89g4YlXbQCm7lord2wD6EDle5nOD4oQy7xuP1ydmAju2ZGu1Z4K7jNLfYpcNen1qvyiTYlKnO2yMr3t0JdcjE5El2hRw0cCIcHh1KSs0IKo0CTNvLZfS6lLA42l2eLfpGxQNDa3dVnSnqX3omvIt0JdvCHAqYXcZqiJA=
-Received: from SE2P216MB2440.KORP216.PROD.OUTLOOK.COM (2603:1096:101:1c8::6)
- by PUUP216MB3514.KORP216.PROD.OUTLOOK.COM (2603:1096:301:16b::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.13; Wed, 24 Jun
- 2026 07:21:01 +0000
-Received: from SE2P216MB2440.KORP216.PROD.OUTLOOK.COM
- ([fe80::bb33:6051:ecf9:aec3]) by SE2P216MB2440.KORP216.PROD.OUTLOOK.COM
- ([fe80::bb33:6051:ecf9:aec3%6]) with mapi id 15.21.0159.012; Wed, 24 Jun 2026
- 07:21:01 +0000
-From: Nas Chung <nas.chung@chipsnmedia.com>
-To: mchehab@kernel.org,
-	hverkuil@xs4all.nl,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de
-Cc: linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-imx@nxp.com,
-	linux-arm-kernel@lists.infradead.org,
-	jackson.lee@chipsnmedia.com,
-	lafley.kim@chipsnmedia.com,
-	marek.vasut@mailbox.org,
-	Nas Chung <nas.chung@chipsnmedia.com>
-Subject: [PATCH v6 9/9] arm64: dts: freescale: imx95: Add video codec node
-Date: Wed, 24 Jun 2026 16:20:43 +0900
-Message-Id: <20260624072043.238-10-nas.chung@chipsnmedia.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20260624072043.238-1-nas.chung@chipsnmedia.com>
-References: <20260624072043.238-1-nas.chung@chipsnmedia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SE2P216CA0168.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:2cb::10) To SE2P216MB2440.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:1c8::6)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA0BF18A6D4;
+	Wed, 24 Jun 2026 07:34:04 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782286447; cv=none; b=PmpLzs/YIXOGcUZPnkumLi80gr6Dl11V7QvDdoHKjzNTCIXgm1kLtr+oIsKHHTmNSC0g1USXLaX0AIOx+5Ru7lbQizMhOsL+irdMzKsUJmFeaSUmslh3e+jybOjFhowRWygWPLgE5xfamC9HFiJpOKIa5sU5YWQ7KHSyFzctxH8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782286447; c=relaxed/simple;
+	bh=6xhqANqXbBDjD09Kcx3ptU85p1q/zZqKt88Vv4SvkH0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=oWzh4YQMk8/1OohVGhhMKtynbHT1I1PhnGiyhFtXDezXrCTugmayDeZ7+rQA2AirswHltNTfVUgk+Q6vl03uR8xZP4HQxpxb9njaEh6mS0CqlQDzTxDFq26cFQVmlMBWI7axeu6wYSdqLaI9Se2S6SD0b29OZrhRU0dDeCKn3RM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=j738PO5c; arc=none smtp.client-ip=80.241.56.161
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4glYb62rNLz9tw3;
+	Wed, 24 Jun 2026 09:33:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1782286434; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6xhqANqXbBDjD09Kcx3ptU85p1q/zZqKt88Vv4SvkH0=;
+	b=j738PO5ccKMhV73EZ88zzWFCVeZeXn94C+R0K2QIyN3ab/CDS1w1b+YnnbsQRXZknXAGVR
+	Dj0w+C+qK3faK+GrBaalyRck1ih+GMsBjr8gmjAPxiX7uEXQVu4uIXn1DaODjuUor+8gqM
+	f4x9HhJ68SUn3XOgkqfWp+DmegWH5UB2DhvcUxEE5vejdAcSQskOu4HwR6iHxf3EVpmIGE
+	CkySYvI3aSzZ+u1xkopwykwY3tihD1H91Zcov7TFjEIgAIVHMJwToi2Gzg3fVdq2bfojK/
+	dHScushEe/9FKBTnS7vNYRg8up0+z2oBvY2QCwVI+or9wL98EGB6c1uUgopNww==
+Message-ID: <2f2c50a8ff6d3fdd42d0d10535a129dd5a948801.camel@mailbox.org>
+Subject: Re: [PATCH] drm/drm_crtc: fix race with dma_fence_signal() in
+ ::get_driver_name()
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: =?ISO-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>, 
+	phasta@kernel.org, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,  Simona Vetter
+ <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, Christian
+ =?ISO-8859-1?Q?K=F6nig?=	 <christian.koenig@amd.com>, Tvrtko Ursulin
+ <tvrtko.ursulin@igalia.com>,  Boris Brezillon
+ <boris.brezillon@collabora.com>, Danilo Krummrich <dakr@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, Peter Griffin
+	 <peter.griffin@linaro.org>, Tudor Ambarus <tudor.ambarus@linaro.org>, Juan
+ Yescas <jyescas@google.com>, kernel-team@android.com
+Date: Wed, 24 Jun 2026 09:33:48 +0200
+In-Reply-To: <1467578694a17b2b4978a6193cf21db324daff98.camel@linaro.org>
+References: <20260618-linux-drm_crtc_fix2-v1-1-c03e77b36f34@linaro.org>
+				 <1cfd56b7f1a166e25d6588d66a621524f3d983de.camel@mailbox.org>
+			 <6483098adae29787862473e39b1f9cf3c3f16625.camel@linaro.org>
+		 <f59d6080cf31f424ebcf0e6086b4a93623813a6e.camel@mailbox.org>
+	 <1467578694a17b2b4978a6193cf21db324daff98.camel@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SE2P216MB2440:EE_|PUUP216MB3514:EE_
-X-MS-Office365-Filtering-Correlation-Id: f8414741-1cf8-4d4f-bd2a-08ded1c1250c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|7416014|52116014|376014|366016|38350700014|56012099006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	77iV/cpusQDe6tc4FefBpYJ6KCwd9Pf6bX/LfbtiHpk9Fh9H3XYQ6oC+PAbhwF+mW991o6O326txWpyXRBX/qB9+7KNmiRXGz9nojZYlp8eyHRksBgoBa/59ptw7BrB0YxWGvhNHCYs5mJrhfHvG2EO/51HXuvNvQUo1gsx35kHHlecQDsGxMuRJVJaJAW2EgdWBptxmxCrP2klRAVQiqFh6amEaQxBEpJoxwgrRk92us2nqr7WupAFR9l0cdshGlnPrWlYslR4F9GN04c0zJ7H0ROctsqgpp7gOZWCQ24U9BfDl4p8bsrfn/shj0dMqu7DcYGfIs7ziF7JH9Sa3vKEv3UyzO3OFSxuYh7SXRa6pXa+T6ZNxP/WM+WhjMSHtg6mjw7jSfI1vQEUMD1H7QGSAtm8b9x/3UEffElw7d4n6L/S2lvZgO397Qf46dlJIgImmZ60YtooRXDMTssObYwPf4FdLymAp+0cKOThLTAh9YyAkKcwK6AoOCna64X7EwvdH1Zfz+scibbW5KxFMOCSFKBr4Ldbq+MPYLxWEWLrL2H3Ia1+u7EvDWYZt0L7aeyE+WUWQv4B7nMo5olP6WT7uzaAtA332MWlOoxM9FISS0936sYTdov9oOPtE2bd2MHKDkYYDtT8jNRdW4L/CHb1zm9/pxwYOtQs8ZKKwlD7kij3BrsCoHM2iQ5gI0ODATrsO+DsmA7c70mDVw1wBvOO59l7EfCu97Az/RU9yEeA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SE2P216MB2440.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(7416014)(52116014)(376014)(366016)(38350700014)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?sgsHYKKecwl3pFdxVp9llQUImzfLXlt4OHEi+jyc0XaTB2DcskT8Hot/aLoV?=
- =?us-ascii?Q?eTNVgcBpz5zszpafbUYNkxFgK0qY+elUjw0mdaOcoxs5Enn2KItrSQuiPbh+?=
- =?us-ascii?Q?SfKoodKt/uc5SNtdU55WfadjsuTdmwtEAM1OjTwNXTOas7TirT2va6zBtgQo?=
- =?us-ascii?Q?nbmyWeBZ+Sidq5yNCyHe//Ijsa+tXZKF1/hUi1lDJifCpEstEnpsSxPBuR0H?=
- =?us-ascii?Q?qBe1VIrZ6c/fESTtxDL8r3tvCpJ9wo6eRmIBFDjiBgcnvPr5QujZOX3xabMh?=
- =?us-ascii?Q?cH2+n4MdYuuxQ4onsdaWehX2QDKa1wOZbr2f94mE1FYbTX0DkmZPMe6csMrS?=
- =?us-ascii?Q?fg5G0gXcAQluK7vvIBtn+AY+xc0vsUEPlJsbiX+82bvV9DtrBj+nDolrKekU?=
- =?us-ascii?Q?nQTdxNAuOPD/hvwPH8bVXzCYElPjL7GhqTPOuoGOqqCl96ekbde4bp0bttYm?=
- =?us-ascii?Q?dy35ZIvb+oyi5st0SH7eu4TDj9TloieiUGUXSJqp/e5Pl7n6e9Pk75EGSt/p?=
- =?us-ascii?Q?gH5Q7rUKc21fQnxk4JrhjyUThiDS9erco+9iqMLlaSat11DagSAh+Dfs/l6r?=
- =?us-ascii?Q?81ZLK6nPZTo/dSUyb0/myM+Xo7NP8/yJCDT9vLpvuFR4h4bf5PdqD+yGER0/?=
- =?us-ascii?Q?luUZCkvtvh6/G8YiemUV65biSbB6lm1jemph01DfsEkzCDbxVihIGbmlM3St?=
- =?us-ascii?Q?FOAxW14gclyFJsSMcPwM3/wVYveafGotvDrME7RSdC3PmAsBVmSCxnnze2HY?=
- =?us-ascii?Q?/vJ36ke46mj0PNGAGBL6Jb3xfTNLJC7g1Y/DuL9xYtP/ksa5rkHe4OCWzNdx?=
- =?us-ascii?Q?kFJKMScJ/iNXEovX2d7y15F9dOWPGXzeSR5FwySzpcqg6EXL33+lRWC58Rnu?=
- =?us-ascii?Q?CCu9wGP09PBXYzu1THoKbAy3csovyxZ+kmYSgew7JI3bsgv+9jhrWCi4JEUl?=
- =?us-ascii?Q?iXJalrH/9a1yBt6uhnRV1gXEtbNf4wDqE9CXYyIwHZHvmL2FT0ig2eK4tdK4?=
- =?us-ascii?Q?7Rk5AdxhA/0JGm+rhHMesZjQOnM2pGWzo5NVbFrvr4CbwGsRXY02YOKdBaDQ?=
- =?us-ascii?Q?daNCI7lZPkiK4Y64/f3YTkErE7THrgfq28iL2jekrnemmPq3gxZ78zMjRWUu?=
- =?us-ascii?Q?wyRxM4TuCDGKpqQVlMybLSmrOWRbmleUVJ8j2u0wRF1eCmXtDkpW+gwLc5ZW?=
- =?us-ascii?Q?P0IHSdtEJcjlengs2doK+3yI7XnAvxg8PlPYOqw0G2RIUUekgvZWhq3ms21J?=
- =?us-ascii?Q?9cuSM1rIMZTDc6l50IoJwigpxg9+VTTx7xZEgHu+LB9vAaTsxCGiR82ZXTO1?=
- =?us-ascii?Q?UjajYERox+kvqWKTy8FniZRSHpKJQIyZW7/2AkhmZG70SUHbKieR+rNAsdA2?=
- =?us-ascii?Q?4SksYFq2z76YiblC3LT8ejwqeVIbDwBCsiy3k+7n97aVmOxkEDdl8ZwwFd+s?=
- =?us-ascii?Q?o9g7qPLMOJAeQEZyDcPXIe7N5CyeIJ4DpkP4GRP851Vg+LCqb3AehcmouhvU?=
- =?us-ascii?Q?58chbH8bLXdBihBrTLDSEHOjQIT1Pg16z3brjsFoFGX9XLKeCAy53E9jRxZs?=
- =?us-ascii?Q?i5cQvvUCE75mLMGO67JPQk04VPSRLxXMkqzgkLJ0oTxbgERLnTn5FsEGrr2Z?=
- =?us-ascii?Q?re9Bal9SJLN+UON3fgF4OyLgI5S6V9f1hwgkaJHVh27fvJq+OOu8gHXpap7j?=
- =?us-ascii?Q?1D48hDiShW7kbZ+7yajvaIbVDhkKP7EGqmaOkcw3n0P21mUpYECGkb1w4gTa?=
- =?us-ascii?Q?I8yhGVeGKLMB1J+CXWrgfvMGHlOUJ6A=3D?=
-X-OriginatorOrg: chipsnmedia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f8414741-1cf8-4d4f-bd2a-08ded1c1250c
-X-MS-Exchange-CrossTenant-AuthSource: SE2P216MB2440.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2026 07:21:01.4803
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: u90OSW8KYjw1J7dVvOe5rRe9Fk9KB1g/Kvtb5vpMhOZA9sPafXAze26MgupZ9UTccu+ObjyspQlrbHMVuN3ubX7EQWOkL4TW+936yqI9gCY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUUP216MB3514
+X-MBO-RS-ID: 9d260a57382f0a7e894
+X-MBO-RS-META: ua5w6qn7zzqcxerqb93cb4bo1d85bkrk
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [3.34 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
-	R_DKIM_ALLOW(-0.20)[chipsnmedia.com:s=selector1];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:andre.draszik@linaro.org,m:phasta@kernel.org,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:tvrtko.ursulin@igalia.com,m:boris.brezillon@collabora.com,m:dakr@kernel.org,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:peter.griffin@linaro.org,m:tudor.ambarus@linaro.org,m:jyescas@google.com,m:kernel-team@android.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65510-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[16];
-	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:hverkuil@xs4all.nl,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-imx@nxp.com,m:linux-arm-kernel@lists.infradead.org,m:jackson.lee@chipsnmedia.com,m:lafley.kim@chipsnmedia.com,m:marek.vasut@mailbox.org,m:nas.chung@chipsnmedia.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	DMARC_NA(0.00)[chipsnmedia.com];
-	FORGED_SENDER(0.00)[nas.chung@chipsnmedia.com,linux-media@vger.kernel.org];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,xs4all.nl,pengutronix.de];
-	MIME_TRACE(0.00)[0:+];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[linaro.org,kernel.org,linux.intel.com,suse.de,gmail.com,ffwll.ch,amd.com,igalia.com,collabora.com];
+	FORGED_SENDER(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[chipsnmedia.com:+];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[nas.chung@chipsnmedia.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_FROM(0.00)[bounces-65511-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
+	DKIM_TRACE(0.00)[mailbox.org:+];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[chipsnmedia.com:dkim,chipsnmedia.com:email,chipsnmedia.com:mid,chipsnmedia.com:from_mime,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	MID_RHS_MATCH_FROM(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	HAS_REPLYTO(0.00)[phasta@kernel.org];
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:dkim,mailbox.org:mid,mailbox.org:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 741FF6BC221
+X-Rspamd-Queue-Id: B72026BC356
 
-Add the Chips and Media wave633 video codec node on IMX95 SoCs.
+On Tue, 2026-06-23 at 15:33 +0100, Andr=C3=A9 Draszik wrote:
+> > However, if my issue were to be solved with barriers, the
+> > test_and_set_bit() in dma_fence_signal_timestamp_locked() would have to
+> > be replaced with the more weakly ordered test_bit() and set_bit(),
+> > maybe creating other pitfalls.
+>=20
+> For the avoidance of doubts, I'm not saying that all the issues you raise=
+d
+> can be solved by barriers instead of appropriate locks (I don't know enou=
+gh
+> about the code and issues in general here).
 
-Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
----
- .../boot/dts/freescale/imx95-19x19-evk.dts    | 11 ++++++
- arch/arm64/boot/dts/freescale/imx95.dtsi      | 36 +++++++++++++++++++
- 2 files changed, 47 insertions(+)
+I'm not saying that you're saying that. I'm just cautioning you that
+this change could be tricky.
 
-diff --git a/arch/arm64/boot/dts/freescale/imx95-19x19-evk.dts b/arch/arm64/boot/dts/freescale/imx95-19x19-evk.dts
-index 041fd838fabb..7edd1c69966a 100644
---- a/arch/arm64/boot/dts/freescale/imx95-19x19-evk.dts
-+++ b/arch/arm64/boot/dts/freescale/imx95-19x19-evk.dts
-@@ -76,6 +76,11 @@ linux_cma: linux,cma {
- 			linux,cma-default;
- 			reusable;
- 		};
-+
-+		vpu_boot: memory@a0000000 {
-+			reg = <0 0xa0000000 0 0x100000>;
-+			no-map;
-+		};
- 	};
- 
- 	flexcan1_phy: can-phy0 {
-@@ -1142,3 +1147,9 @@ &tpm6 {
- 	pinctrl-0 = <&pinctrl_tpm6>;
- 	status = "okay";
- };
-+
-+&vpu {
-+	memory-region = <&vpu_boot>;
-+	sram = <&sram1>;
-+	status = "okay";
-+};
-diff --git a/arch/arm64/boot/dts/freescale/imx95.dtsi b/arch/arm64/boot/dts/freescale/imx95.dtsi
-index 71394871d8dd..f0b2bc2be907 100644
---- a/arch/arm64/boot/dts/freescale/imx95.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx95.dtsi
-@@ -2012,6 +2012,42 @@ vpu_blk_ctrl: clock-controller@4c410000 {
- 			assigned-clock-rates = <133333333>, <667000000>, <500000000>;
- 		};
- 
-+		vpu: video-codec@4c4c0000 {
-+			compatible = "nxp,imx95-vpu";
-+			reg = <0x0 0x4c4c0000 0x0 0x10000>;
-+			clocks = <&scmi_clk IMX95_CLK_VPU>,
-+				 <&vpu_blk_ctrl IMX95_CLK_VPUBLK_WAVE>;
-+			clock-names = "core", "vpublk";
-+			power-domains = <&scmi_devpd IMX95_PD_VPU>,
-+					<&scmi_perf IMX95_PERF_VPU>;
-+			power-domain-names = "vpu", "perf";
-+			#cooling-cells = <2>;
-+			#address-cells = <2>;
-+			#size-cells = <2>;
-+			ranges;
-+			status = "disabled";
-+
-+			interface@4c480000 {
-+				reg = <0x0 0x4c480000 0x0 0x10000>;
-+				interrupts = <GIC_SPI 299 IRQ_TYPE_LEVEL_HIGH>;
-+			};
-+
-+			interface@4c490000 {
-+				reg = <0x0 0x4c490000 0x0 0x10000>;
-+				interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
-+			};
-+
-+			interface@4c4a0000 {
-+				reg = <0x0 0x4c4a0000 0x0 0x10000>;
-+				interrupts = <GIC_SPI 301 IRQ_TYPE_LEVEL_HIGH>;
-+			};
-+
-+			interface@4c4b0000 {
-+				reg = <0x0 0x4c4b0000 0x0 0x10000>;
-+				interrupts = <GIC_SPI 302 IRQ_TYPE_LEVEL_HIGH>;
-+			};
-+		};
-+
- 		jpegdec: jpegdec@4c500000 {
- 			compatible = "nxp,imx95-jpgdec", "nxp,imx8qxp-jpgdec";
- 			reg = <0x0 0x4C500000 0x0 0x00050000>;
--- 
-2.31.1
+>=20
+> I do think however that appropriate locks will fix the ordering issue
+> highlighted by sashiko (i.e. +1 for your argument). Barriers would fix th=
+is
+> specific issue, too, but that is not a statement about any wider issues.=
+=20
+>=20
+> > The ordering issue in the get_*_name() functions plays into that.
+> > Setting the bit would then be done after setting the ops-pointer to
+> > NULL. So one would have to try to move the NULL set, too.
+> >=20
+> > Long story short, this is painful and subtle.
+> >=20
+> > But I think what we are realizing over and over again is that dma_fence
+> > has many subtleties to its API contract, and the implementation's
+> > sparring use of spinlocks leads to workarounds where people take locks
+> > manually or have to do an RCU dance.
+> >=20
+> > Note that Christian is strongly opposed to guarding everything with
+> > locks, in part for supposedly occuring deadlocks in the fence callbacks
+> > when the driver needs to take its own locks.
+>=20
+> ww_mutex could help against deadlocks, but might affect performance, in c=
+ase
+> these are all critical code paths (IDK),
 
+You can't use sleepable locks in fences. They fire in interrupt context
+left and right ;)
+
+Despite, that wouldn't even solve the reported problem.
+
+The tl;dr is:
+
+there is fence_ops->enable_signaling(), which is currently being called
+with the fence lock held. So the driver, in that callback, cannot take
+a driver-specific lock IF there is another driver party (like an IRQ)
+taking first the driver lock and then the fence lock.
+
+Which is why Christian K=C3=B6nig wants to remove the fence lock being held
+in enable_signaling().
+
+One reason why that, supposedly, is currently not a problem is that
+without fence->inline_lock, you can protect the fctx with the same lock
+and do fctx list manipulations in enable_signaling() with lock
+protection.
+
+
+If you have a big bowl of popcorn available, you could checkout this
+thread:
+
+https://lore.kernel.org/dri-devel/20260608142436.265820-2-phasta@kernel.org=
+/
+
+;p
+
+My own thinking is:
+If everyone used inline_lock, and if we could rely on everyone being
+able to do the necessary work in enable_signaling() without said lock-
+inversion, then we could perfectly synchronize all actions related to
+dma_fence, including driver and, thus, fence_ops unload.
+
+The only thing blocking really might be enable_signaling (the other
+callbacks already take the lock). The more difficult question would be
+how to implement that in a backwards compatible manner, i.e., for those
+who don't have inline_lock.
+
+Another idea for the distant future might be to question the existence
+of those callbacks. Userspace often is sort of decoupled from the
+hardware fences through intermediate fences already.
+
+>=20
+> > The community discussion regarding that problem is currently in some
+> > sort of dead end, where none of us seems to know what the correct path
+> > forward is.
+>=20
+> Please ignore if the following doesn't make sense, I'm just a bystander :=
+-)
+> How about at least adding the required barriers and related changes, and
+> taking it from there? This would solve some immediate and easy to hit
+> issues on Arm64? If they turn out to be insufficient, code can still
+> be changed.
+>=20
+
+I am in support of that, which is why I posted that RFC for feedback
+about the appropriate memory barriers.
+
+>=20
+> BTW, thanks Philipp for all these details, much appreciated.
+
+You're welcome. If you'd find a clever solution, probably everyone
+would be happy.
+
+
+P.
+
+>=20
+> Cheers,
+> A.
 
