@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-65549-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65550-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id StSbCaPOO2rwdQgAu9opvQ
-	(envelope-from <linux-media+bounces-65549-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 14:33:39 +0200
+	id jxWvMajNO2p0dQgAu9opvQ
+	(envelope-from <linux-media+bounces-65550-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 14:29:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A18026BE280
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 14:33:38 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DBA86BE172
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 14:29:28 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=WNVJAupE;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65549-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65549-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=Jyx9a88u;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65550-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-65550-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B11D6305288A
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 12:29:26 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 96293300B1C8
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 12:29:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8062A3A8FE9;
-	Wed, 24 Jun 2026 12:29:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 366F32BD11;
+	Wed, 24 Jun 2026 12:29:27 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A5C3A380C
-	for <linux-media@vger.kernel.org>; Wed, 24 Jun 2026 12:29:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60E153672AC
+	for <linux-media@vger.kernel.org>; Wed, 24 Jun 2026 12:29:25 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782304165; cv=none; b=sj+J05D1y29Dl7stayeg1EfSJQn+Piz3vTEROw6TfU/j0lASi1Yy99SyaY6ATLT3Y4tzVSa9Zo4CuLr6+tWIIWZtdfTh4/grHexfZY1qFrwNfCbqgiGC7UTnlXIY7zaXdWX1jrO/tI5EoWLk+h1cV66aFJL5US9ArziYWmeOISA=
+	t=1782304166; cv=none; b=AvCm7DHWmUV0FGQ7If4k42TWzZeFt33pTndXyaswZpAQr9HgVssR+UwMzP/p2nw4o2OQjptFH2Acx3t9DJXyVQX3WdxM7Rczg38kkYm5vMl/rI4NPFBAQdo+MkVsxrl0fQdyEHnLa2i7NhtXTD7f5Q6jYNdPke/DFaHF3tyJapo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782304165; c=relaxed/simple;
-	bh=AfB819ohejNakOwWOOfkwHoImDDD8WWgQp9xgC+ZuIg=;
+	s=arc-20240116; t=1782304166; c=relaxed/simple;
+	bh=TvmIG4o32FkhISu4Bj0TqMnrKp958l+/HbE7lXgf0Qc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AHOgSgehxM7XYicqkOMdlrLkxd6GCIzIo8rzDX+j/U2kzSRf3W6uGI9M2ZW7405ZzjKZaKFK9D83fZF4FIOMiik+l/tgeOqkOEUfpBm1FiF1YPVwy/KvKfqzisbzqoxnJT/GiYSlf4H38Rr1r4UNurMd72sGZEICXiurmRnQ3Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WNVJAupE; arc=none smtp.client-ip=209.85.128.52
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-490bc6a7958so15190825e9.1
-        for <linux-media@vger.kernel.org>; Wed, 24 Jun 2026 05:29:24 -0700 (PDT)
+	 MIME-Version:Content-Type; b=MkoxTLoXpsPIHMT35XPAmqh2OWoxFfV5f7l7ZKeZ2yVorGZjXNacnHacVRAUPGER19kra7QIMWbXxZvJW+ARuLa3mSwURYjZHdueD4EtWWuGviUyC6aVQQ3oXqmgNfoRoaWg+7okS8zZ48tP65VWYKtuM/hvdjDuMifd2UWFIKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jyx9a88u; arc=none smtp.client-ip=209.85.221.44
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-46cbf263113so350238f8f.1
+        for <linux-media@vger.kernel.org>; Wed, 24 Jun 2026 05:29:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782304163; x=1782908963; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782304164; x=1782908964; darn=vger.kernel.org;
         h=content-transfer-encoding:reply-to:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=rK7BBYKp4olcSlX/FhhqJF/M5dPppXiXimriQNw/H+8=;
-        b=WNVJAupE9tNUVsrsKgM/HOAKeUqjrJaXzXPkPo7oONqvLO/m+nbS7wVsCbuysKAXJv
-         8mEbioL3p1BqlBGF8Ib2Exn8IxeGcObjZtS4YQHAMwzsgo89j7mJ7o0pvaw9minO8bJm
-         chX+TGR/PyQIAGmJ5HB3RXSG/Ij+1Jm1Ggt3ffFWOCTmgJ4tlfd5Te9lgRoeJH8f/Ujs
-         8FJTbN3P3Yl8HtHlYilAMno1PeUwd7wm21mwg4Ido9+iUE//vKiUTs9fqIXplDvUU0ef
-         vlYQ4q3ya1AenWBJutFtg/lOiS8UjyQu3CSKJDSDc1bQdW0+1QBhn9I0DLuwAvPni35G
-         j4zw==
+        bh=f2YBNpTeLYg62fGg7sbOleS8wV+O2KANj9vsOiEQ0A4=;
+        b=Jyx9a88uUjET2Lr/CcEjAl1dLFs5wpwMztM4keF1Svzvx/ST0bHZx5L2E0pbnE+UF/
+         ZqpEowgjui/9ryldcBBVW+tt3G1Gii39PGXU7SOLLqV1DrmugFNQtz4TZ1VRe4mGqhQ/
+         /KTY4JzDRB1wOBdIGJggWNvOkWGn9O3UQ5pGD5shD0wPohdocdxF9d9Gx3nH2WPC9/aN
+         wH4YIFEDMCXAEHL27YmTZIoMf8p3WkU7hGBhBMA13KZNU4WXlqHMVwlnvo+vL9Wd/G7A
+         2jv9oPXSBuqTqTG4ZYfJB6QrI1fOv4Adx6slV6FltrUCGV9VoMQQTK5nFzdCiwVSgsDg
+         uADg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782304163; x=1782908963;
+        d=1e100.net; s=20251104; t=1782304164; x=1782908964;
         h=content-transfer-encoding:reply-to:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rK7BBYKp4olcSlX/FhhqJF/M5dPppXiXimriQNw/H+8=;
-        b=J9fUOaB1NL763zbKrLiSmsDh96T3Tkde4PM7d9o7Ah+L6+YYPvP27ogaa/8wm0ziff
-         +LSCzDI8wulK5+o2fDtu2wOKmIaqq2Kp3ZGJv8foYSy43iUKQ85d+gfs8JthZ4QCigfG
-         ZzcWNpup7/T3YKQdSKNNvmUvWhfXVoPMletcc/VRpvQuQdJS86DJDCiYQLiKxMpJmW79
-         geMBS1VjedOZd3BAndFZ/tX+NVF1kTy4lmuryY6QEsSk/g/4PLLvvHfXJp8qFCeVyRPX
-         Ofkm+mQnUPJ47ZwCBnEfm9krwF4XDURfIJkeSLJHCOD9pmZGAGfnp3+NRDQ4nuSbSV/V
-         xzPA==
-X-Forwarded-Encrypted: i=1; AFNElJ9fWE9wTX1w+P5LdKH6IzIkynLCOGOtGKD/sYCTN1QNDI5O2XNy/IcMw99pf2rvVFIeTmVJlvo17P+xdw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvbcGJxXwfvPz68jzAsd+uNb7XrrYWMbWEoKJmcjI1b+Y9M+aF
-	WRg/R1ePVgXpprfpdpuceNGdisoX7+L7lYaRxWm+hSsHYwJLLgqPlvRh
-X-Gm-Gg: AfdE7clKhvwRZbW9hcS9GBl00MtLNKYfcvRq6dH3+SoMn9JBUrV9faEFADMu9cyFtIz
-	MuqI4finFol0CSuNmCIZa37ba2WX53OeKkQWxcNz2Eu5ZwvPnhA2uKCNCneiMVGL0/bfnWoMJuC
-	P8QKFUjyX2iBf0bHKKXVslRH91r2r1aG0RPk0zKiOftn6VMHkyPCuTh73tLYVjBAS75ELUQF/bp
-	K0TRYccyYJ32PPkoaeRFxfqtl9GRGF71CFeuTfXRKySmet7ZOPx0yOTQaYoSVv7OnssO0u2zEMP
-	tciHv/CAJfb3U3ntdPZjoSrnNIezlT+2han3LriySg15oQtXWC3piyhoA46MuesOwQhqwyQk/DB
-	LATwjOQAq2UFJ93/qr/R+nzdpdsFmeDJGY0kdOcitXVcVCgIqm9tFj6/egmDt2s+vkgvhLx1o8X
-	a8h3fNW9IyzHaVS2PU6lXmWwMmRfQDHoJ+68bi
-X-Received: by 2002:a05:600c:c171:b0:490:e180:2e0 with SMTP id 5b1f17b1804b1-4926329a875mr3823145e9.3.1782304162768;
-        Wed, 24 Jun 2026 05:29:22 -0700 (PDT)
+        bh=f2YBNpTeLYg62fGg7sbOleS8wV+O2KANj9vsOiEQ0A4=;
+        b=ViFDlGJDYGPFkqMbxU0qS7+QxIIWL0gn4fJ2DXCnxz4oB1f838RSoHRXlfxKAK73IA
+         wl99Tl/RKxD7vCVgA0QonPvZ7q77WdfEvQ6EOK3AcGx+NFjSdDijw7Jg8lBcmvXsy+cq
+         T4jOafBvAgu5EoF5G6iW7feReC2x3AD1IuMMW8p3q0e1MhMY8mTAayzTX326FieuKAm0
+         HZqDbsUb2LQzxgz+s1aG+b/rDoD+bhf/qOqlbOuUiWr2/qgxRQIN4N4ADEEadqGlzFzA
+         d6JplA2XoNhT35vtKFt6iAENL0EO6izodxfmDFJXbLIlScMklLlS+qwfKf6LwABd5F/X
+         N62g==
+X-Forwarded-Encrypted: i=1; AHgh+RqHKTnsSLXxEUR9T87EwGMDNZ9YuyzqET6zvCXrCm9Zv3oZIzJuasN2DcDmPuYVErcA+ccoOgN6wBCCrQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy0zwYwA8ESlpfVPVqH2IakCkmzhqdlA55zclU0h1KDaOXxp02Q
+	KECDAhunY/zTe6mfRKMAQrQf53B7GJnSBPhhQPmXGT4KNQkvU1iqjqyY
+X-Gm-Gg: AfdE7clOb9S1vacbXHrAvO72udGfHHNMy93l+3E40q9JzHmWQw/oIQ07bEAthwet4ie
+	7NKfVs86bZ/nlI3Zk9GM+uJpfy0YI3xAdsk5Yn/XIMu/HlsOMgGWYNp9HgJ6hBWDjhC0VkvsUlW
+	r8F1BWkbg1Rc+uBLVYmOevZ2CNWGH9CKA/H1tIbtwqdiF9wz4HIho+bkf3uWwIaDBSLtBTCLsMt
+	VDfAtMYntgRMXCkxok4QcozgsTrsjzOMoJpWky0DSj1xK1DySoEyDODV2czywhUYN+yBM3TrfTv
+	h8ihxJFSA6bdS/wz/+CWri8zfwrMxxhUxw6Y2uME6AMSjb0jsMQReZuPmX2xXUD5Hrqso99RGLy
+	NeU0baGZgclvbd96HX7MgWcKdEXSYNf+140Xtclx/PehcO2a9G00r3FxgAHmpbcAl+wBaFQxSPx
+	jiBxr+giEiEeBIpDKwhTj3ow1Y9g==
+X-Received: by 2002:a5d:490e:0:b0:461:a169:f965 with SMTP id ffacd0b85a97d-46c0b8b182bmr3421914f8f.34.1782304163747;
+        Wed, 24 Jun 2026 05:29:23 -0700 (PDT)
 Received: from able.fritz.box ([2a00:e180:157e:3500:2be7:1a89:41c5:9239])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c9787dddbsm3896530f8f.3.2026.06.24.05.29.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2026 05:29:22 -0700 (PDT)
+        Wed, 24 Jun 2026 05:29:23 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 To: phasta@kernel.org,
@@ -86,9 +86,9 @@ To: phasta@kernel.org,
 Cc: dri-devel@lists.freedesktop.org,
 	linux-media@vger.kernel.org,
 	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 03/10] drm/amdgpu: use dma_fence_test_signaled_flag()
-Date: Wed, 24 Jun 2026 13:13:27 +0200
-Message-ID: <20260624122917.2483-4-christian.koenig@amd.com>
+Subject: [PATCH 04/10] drm/nouveau: use dma_fence_test_signaled_flag()
+Date: Wed, 24 Jun 2026 13:13:28 +0200
+Message-ID: <20260624122917.2483-5-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260624122917.2483-1-christian.koenig@amd.com>
 References: <20260624122917.2483-1-christian.koenig@amd.com>
@@ -106,11 +106,11 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65549-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65550-lists,linux-media=lfdr.de];
 	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -122,7 +122,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FORGED_SENDER(0.00)[ckoenigleichtzumerken@gmail.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
 	HAS_REPLYTO(0.00)[christian.koenig@amd.com];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
@@ -135,9 +135,9 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,amd.com:replyto,amd.com:email,amd.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,amd.com:replyto,amd.com:email,amd.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A18026BE280
+X-Rspamd-Queue-Id: 5DBA86BE172
 
 Instead of dma_fence_is_signaled_locked() use
 dma_fence_test_signaled_flag().
@@ -146,77 +146,22 @@ The extra polling check seems unecessary for those use cases.
 
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c       | 8 ++++----
- drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c        | 2 +-
- drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c | 2 +-
- 3 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/gpu/drm/nouveau/nouveau_fence.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-index ea69b1bac7c6..1192b9800ff2 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-@@ -652,7 +652,7 @@ void amdgpu_fence_driver_set_error(struct amdgpu_ring *ring, int error)
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+index edbe9e08ba0f..6601ef52e301 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.c
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+@@ -83,7 +83,7 @@ nouveau_fence_context_kill(struct nouveau_fence_chan *fctx, int error)
  
- 		fence = rcu_dereference_protected(drv->fences[i],
- 						  lockdep_is_held(&drv->lock));
--		if (fence && !dma_fence_is_signaled_locked(fence))
-+		if (fence && !dma_fence_test_signaled_flag(fence))
- 			dma_fence_set_error(fence, error);
- 	}
- 	spin_unlock_irqrestore(&drv->lock, flags);
-@@ -677,7 +677,7 @@ void amdgpu_fence_driver_force_completion(struct amdgpu_ring *ring,
+ 	spin_lock_irqsave(&fctx->lock, flags);
+ 	list_for_each_entry_safe(fence, tmp, &fctx->pending, head) {
+-		if (error && !dma_fence_is_signaled_locked(&fence->base))
++		if (error && !dma_fence_test_signaled_flag(&fence->base))
+ 			dma_fence_set_error(&fence->base, error);
  
- 		fence = rcu_dereference_protected(drv->fences[i],
- 						  lockdep_is_held(&drv->lock));
--		if (fence && !dma_fence_is_signaled_locked(fence)) {
-+		if (fence && !dma_fence_test_signaled_flag(fence)) {
- 			if (fence == timedout_fence)
- 				dma_fence_set_error(fence, -ETIME);
- 			else
-@@ -738,7 +738,7 @@ void amdgpu_ring_set_fence_errors_and_reemit(struct amdgpu_ring *ring,
- 		rcu_read_lock();
- 		unprocessed = rcu_dereference(*ptr);
- 
--		if (unprocessed && !dma_fence_is_signaled_locked(unprocessed)) {
-+		if (unprocessed && !dma_fence_test_signaled_flag(unprocessed)) {
- 			fence = container_of(unprocessed, struct amdgpu_fence, base);
- 			is_guilty_fence = fence == guilty_fence;
- 			is_guilty_context = fence->context == guilty_fence->context;
-@@ -802,7 +802,7 @@ void amdgpu_ring_backup_unprocessed_commands(struct amdgpu_ring *ring,
- 		rcu_read_lock();
- 		unprocessed = rcu_dereference(*ptr);
- 
--		if (unprocessed && !dma_fence_is_signaled(unprocessed)) {
-+		if (unprocessed && !dma_fence_test_signaled_flag(unprocessed)) {
- 			fence = container_of(unprocessed, struct amdgpu_fence, base);
- 
- 			amdgpu_ring_backup_unprocessed_command(ring, fence);
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
-index d6bee5c30073..ae9d6a2eefab 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c
-@@ -460,7 +460,7 @@ bool amdgpu_ring_soft_recovery(struct amdgpu_ring *ring, unsigned int vmid,
- 		return false;
- 
- 	dma_fence_lock_irqsave(fence, flags);
--	if (!dma_fence_is_signaled_locked(fence))
-+	if (!dma_fence_test_signaled_flag(fence))
- 		dma_fence_set_error(fence, -ENODATA);
- 	dma_fence_unlock_irqrestore(fence, flags);
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
-index a41fb72dba94..2cc6552a6399 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_userq_fence.c
-@@ -426,7 +426,7 @@ amdgpu_userq_fence_driver_set_error(struct amdgpu_userq_fence *fence,
- 
- 	f = rcu_dereference_protected(&fence->base,
- 				      lockdep_is_held(&fence_drv->fence_list_lock));
--	if (f && !dma_fence_is_signaled_locked(f))
-+	if (f && !dma_fence_test_signaled_flag(f))
- 		dma_fence_set_error(f, error);
- 	spin_unlock_irqrestore(&fence_drv->fence_list_lock, flags);
- }
+ 		if (nouveau_fence_signal(fence))
 -- 
 2.43.0
 
