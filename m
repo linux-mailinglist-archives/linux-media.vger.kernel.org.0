@@ -1,1173 +1,642 @@
-Return-Path: <linux-media+bounces-65497-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65498-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 7QeENu9QO2o4WAgAu9opvQ
-	(envelope-from <linux-media+bounces-65497-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 05:37:19 +0200
+	id c3O+BBBiO2pUXAgAu9opvQ
+	(envelope-from <linux-media+bounces-65498-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 06:50:24 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46A536BB1E8
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 05:37:19 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55B346BB4CD
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 06:50:23 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=hOnBJETW;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65497-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65497-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=redhat.com;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=wf14lv2X;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65498-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65498-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1D51A30DCE09
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 03:36:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 4E4263011584
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 04:48:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A2F930BBB8;
-	Wed, 24 Jun 2026 03:36:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D684380FDA;
+	Wed, 24 Jun 2026 04:48:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5FA30BB91
-	for <linux-media@vger.kernel.org>; Wed, 24 Jun 2026 03:36:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 346B57E105;
+	Wed, 24 Jun 2026 04:48:09 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782272163; cv=none; b=CFO6Skp69q+CTnGFT1il3P9iVGy3I6zf7qDJC9DjHG52l5f5/akWTRViD6zFgLlkFdFIvWlbmsv0UadDq71m6v73a8DHJrdWjbTHrmu4InKlzfpjRW9pOyAobF0VEEU8DbwI0ABuY5Ya//38m56PO32xgeQhJwZ07S/ZZPOckek=
+	t=1782276492; cv=none; b=GtOqdfGXBKhIJCmtRDYBrOyYwrScj/3zgGaGMVNK8mx9v+c51M19RP1lk5RienCtI23V5EXm4R8dCwmsJY0P+khHuNpbKuZ66Mooz4LYp+rQih4VYwD7Qu1kREWakqPSWBdIePAiEH7P9WSmZLuAEkkriuMzdJPTG5j6t8Sgq6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782272163; c=relaxed/simple;
-	bh=NqcoKUoZ3QY5THIcXfc486ZHPPNPJxOb2NjaQpt4+AU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nfl/c6g+oaKfjnR38Cc40UEo7Kj+24Wtl1ZIwfacFmSB0qvskPdpRi5db4P/bdX/UOB3460kJ3jwsQM8pFNHaujI4E/o5AWPnbztqrd393ZI9bl3VLW3uaL/PPBB0RP6xhOCgmBTiUKhynOigYwvx20fpQx45lV5rZZTQYo+xyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hOnBJETW; arc=none smtp.client-ip=170.10.129.124
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782272159;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=33xXFE9YHBCYwOTN0xf8eTmvynfcM1N2vqRo6Fvm01I=;
-	b=hOnBJETWIov0yzqe2HSGPyqfQNj8Jqmm909qJsJCp3Ie6PG0MJdVzRsvIcoPkLrSfZDQ7I
-	3YLPbiQ5F176ZoIiAL/4mcRQpPSWx7TmecbzL6Cv5XdEGup/gcAwGMeLq9fzxQb4Bc0rY6
-	b/2tzedXH++YQFGXEIaxBC/p0M+uUL4=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-633-LAYGbohuP_yvuOkg6Jlm9Q-1; Tue,
- 23 Jun 2026 23:35:56 -0400
-X-MC-Unique: LAYGbohuP_yvuOkg6Jlm9Q-1
-X-Mimecast-MFC-AGG-ID: LAYGbohuP_yvuOkg6Jlm9Q_1782272154
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3668019540FE;
-	Wed, 24 Jun 2026 03:35:54 +0000 (UTC)
-Received: from fedora.redhat.com (unknown [10.67.32.90])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 90081180067D;
-	Wed, 24 Jun 2026 03:35:48 +0000 (UTC)
-From: Kate Hsuan <hpa@redhat.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <johannes.goede@oss.qualcomm.com>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Serin Yeh <serin.yeh@intel.com>,
-	Tarang Raval <tarang.raval@siliconsignals.io>,
-	Damjan Georgievski <gdamjan@gmail.com>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH v5 3/3] media: i2c: imx471: Add Sony IMX471 image sensor driver
-Date: Wed, 24 Jun 2026 11:35:08 +0800
-Message-ID: <20260624033508.27391-4-hpa@redhat.com>
-In-Reply-To: <20260624033508.27391-1-hpa@redhat.com>
-References: <20260624033508.27391-1-hpa@redhat.com>
+	s=arc-20240116; t=1782276492; c=relaxed/simple;
+	bh=vbRaXo3fH27ZJV4/cFT4V9d3NCse7TNuNUc6rQzVUr4=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=k3RIlT0RHr3CObZd7aeyJdBICzdcHSWBfeTAf9PNeCVCXRseFQsrv6RKw7rtCbfVJj/SQDH5tJpfYSxalnSDuGk2BKpDtmKdqgUgf+K/EheGuf+5eP0cHl7eqJE4oTbvR+piH2Wu6+PWBIk4Lw+YpdXNVXk/zoBO+E3YcsvpFd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wf14lv2X; arc=none smtp.client-ip=213.167.242.64
+Received: from neptunite.rasen.tech (unknown [IPv6:2404:7a81:160:2100:f24e:84b5:e101:423a])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id BC41A1E6;
+	Wed, 24 Jun 2026 06:47:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1782276447;
+	bh=vbRaXo3fH27ZJV4/cFT4V9d3NCse7TNuNUc6rQzVUr4=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=wf14lv2X3gbFuTvQbr+YH6WO9fnlHdRuVj7Kqzx9Oc7FHZWre/DkHPQhWl/VmdLXW
+	 EUe7vZaEVrPJEGVMkodBlT+H4VSWgSzsj3qPJ6PerjjnxcumnkU00CM9OvbzJQfzvC
+	 eZkoADLPtaFxbF0U4nazcBHlDla/5wd5nGTFk98s=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260619052637.1110672-2-paul.elder@ideasonboard.com>
+References: <20260619052637.1110672-1-paul.elder@ideasonboard.com> <20260619052637.1110672-2-paul.elder@ideasonboard.com>
+Subject: Re: [RFC PATCH 1/6] media: mc: Implement shared media graph
+From: Paul Elder <paul.elder@ideasonboard.com>
+Cc: michael.riesch@collabora.com, xuhf@rock-chips.com, stefan.klug@ideasonboard.com, kieran.bingham@ideasonboard.com, dan.scally@ideasonboard.com, jacopo.mondi@ideasonboard.com, linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, hverkuil+cisco@kernel.org, nicolas.dufresne@collabora.com, ribalda@chromium.org, sakari.ailus@linux.intel.com
+To: laurent.pinchart@ideasonboard.com
+Date: Wed, 24 Jun 2026 13:47:59 +0900
+Message-ID: <178227647941.292172.11363904473241703252@neptunite.rasen.tech>
+User-Agent: alot/0.0.0
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[redhat.com,quarantine];
-	R_DKIM_ALLOW(-0.20)[redhat.com:s=mimecast20190719];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:johannes.goede@oss.qualcomm.com,m:hverkuil+cisco@kernel.org,m:sakari.ailus@linux.intel.com,m:serin.yeh@intel.com,m:tarang.raval@siliconsignals.io,m:gdamjan@gmail.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hpa@redhat.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[hpa@redhat.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-65498-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65497-lists,linux-media=lfdr.de];
-	FREEMAIL_TO(0.00)[kernel.org,oss.qualcomm.com,linux.intel.com,intel.com,siliconsignals.io,gmail.com];
-	DKIM_TRACE(0.00)[redhat.com:+];
-	MISSING_XM_UA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hpa@redhat.com,linux-media@vger.kernel.org];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:michael.riesch@collabora.com,m:xuhf@rock-chips.com,m:stefan.klug@ideasonboard.com,m:kieran.bingham@ideasonboard.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:ribalda@chromium.org,m:sakari.ailus@linux.intel.com,m:laurent.pinchart@ideasonboard.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[paul.elder@ideasonboard.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[6];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[paul.elder@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	TO_DN_NONE(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,intel.com:email]
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,neptunite.rasen.tech:mid,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 46A536BB1E8
+X-Rspamd-Queue-Id: 55B346BB4CD
 
-Add a new driver for Sony imx471 camera sensor. It is based on
-Jimmy Su <jimmy.su@intel.com> implementation and the driver can be found
-in the following URL.
-https://github.com/intel/ipu6-drivers/commits/master/drivers/media/i2c/imx471.c
+Hi me,
 
-This sensor can be found on Lenovo X1 Carbon G14, X9-14 and X9-15 laptops
-and it is a part of IPU7 solution. The driver was tested on Lenovo X1
-Carbon G14, X9-14 and X9-15 laptops.
+You have a typo...
 
-Signed-off-by: Kate Hsuan <hpa@redhat.com>
----
- MAINTAINERS                |   6 +
- drivers/media/i2c/Kconfig  |  10 +
- drivers/media/i2c/Makefile |   1 +
- drivers/media/i2c/imx471.c | 971 +++++++++++++++++++++++++++++++++++++
- 4 files changed, 988 insertions(+)
- create mode 100644 drivers/media/i2c/imx471.c
+Quoting Paul Elder (2026-06-19 14:26:28)
+> Currently, a media graph contains a main device whose driver is
+> responsible for creating the media device. We have however recently run
+> into devices that have multiple devices that can quality as a main
+> device. Examples are the RK3588 which has a VICAP and two ISP
+> instances, and another example is the i.MX8MP which has an ISI and two
+> ISP instances. As there is currently no way to reconcile who the main
+> device is in the media device, these setups simple cannot be used
+> simultaneously.
+>=20
+> This patch extends the media controller API with a "shared media graph"
+> framework. This allows drivers to share a media device, thus enabling
+> the setups mentioned above. Instead of owning and creating a media
+> device, drivers can join-or-create a shared media device via the shared
+> media graph API. The matching is done automatically based on the
+> detected endpoints in the device tree.
+>=20
+> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> ---
+>  drivers/media/mc/Makefile          |   2 +-
+>  drivers/media/mc/mc-shared-graph.c | 335 +++++++++++++++++++++++++++++
+>  include/media/mc-shared-graph.h    |  92 ++++++++
+>  3 files changed, 428 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/media/mc/mc-shared-graph.c
+>  create mode 100644 include/media/mc-shared-graph.h
+>=20
+> diff --git a/drivers/media/mc/Makefile b/drivers/media/mc/Makefile
+> index 2b7af42ba59c..1d502fdc52ad 100644
+> --- a/drivers/media/mc/Makefile
+> +++ b/drivers/media/mc/Makefile
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> =20
+>  mc-objs        :=3D mc-device.o mc-devnode.o mc-entity.o \
+> -          mc-request.o
+> +          mc-request.o mc-shared-graph.o
+> =20
+>  ifneq ($(CONFIG_USB),)
+>         mc-objs +=3D mc-dev-allocator.o
+> diff --git a/drivers/media/mc/mc-shared-graph.c b/drivers/media/mc/mc-sha=
+red-graph.c
+> new file mode 100644
+> index 000000000000..c4067e5b861d
+> --- /dev/null
+> +++ b/drivers/media/mc/mc-shared-graph.c
+> @@ -0,0 +1,335 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * mc-shared-graph.c - Media Controller Shared Graph API
+> + *
+> + * Copyright (c) 2026 Paul Elder <paul.elder@ideasonboard.com>
+> + */
+> +
+> +/*
+> + * This file adds the Media Controller Shared Graph API. This allows dri=
+vers
+> + * to create shared media graphs or join existing media graphs from other
+> + * drivers, so that they can all be in the same media graph. This allows=
+ us to
+> + * have more complex media graphs chaining more complex hardware togethe=
+r,
+> + * instead of simple async subdevs.
+> + */
+> +
+> +#include <linux/device.h>
+> +#include <linux/fwnode.h>
+> +#include <linux/kref.h>
+> +#include <linux/property.h>
+> +
+> +#include <media/media-device.h>
+> +
+> +#include <media/mc-shared-graph.h>
+> +
+> +static LIST_HEAD(media_device_shared_list);
+> +static DEFINE_MUTEX(media_device_shared_lock);
+> +
+> +struct media_device_shared_member {
+> +       struct device *dev;
+> +       struct fwnode_handle *fwnode;
+> +       struct list_head list;
+> +};
+> +
+> +struct media_device_shared_link {
+> +       struct media_entity *source;
+> +       u16 source_pad;
+> +       struct media_entity *sink;
+> +       u16 sink_pad;
+> +       u32 flags;
+> +       struct list_head list;
+> +};
+> +
+> +// TODO figure out locking for when multiple drivers touch the media gra=
+ph;
+> +// maybe macros for shared versions?
+> +struct media_device_shared {
+> +       struct media_device mdev;
+> +       struct list_head members;
+> +       struct list_head links;
+> +
+> +       struct list_head list;
+> +       struct kref refcount;
+> +
+> +       struct device *removed_device;
+> +};
+> +
+> +static inline struct media_device_shared *
+> +to_media_device_shared(struct media_device *mdev)
+> +{
+> +       return container_of(mdev, struct media_device_shared, mdev);
+> +}
+> +
+> +static void media_device_shared_release(struct kref *kref)
+> +{
+> +       struct media_device_shared *mds =3D
+> +               container_of(kref, struct media_device_shared, refcount);
+> +
+> +       dev_dbg(mds->removed_device, "%s: releasing Media Device\n", __fu=
+nc__);
+> +
+> +       mutex_lock(&media_device_shared_lock);
+> +
+> +       media_device_unregister(&mds->mdev);
+> +       media_device_cleanup(&mds->mdev);
+> +
+> +       list_del(&mds->list);
+> +       mutex_unlock(&media_device_shared_lock);
+> +
+> +       kfree(mds);
+> +}
+> +
+> +/* Callers should hold media_device_shared_lock when calling this functi=
+on */
+> +static bool __media_device_shared_find_match(struct media_device_shared =
+*mds,
+> +                                            struct fwnode_handle *fwnode)
+> +{
+> +       struct media_device_shared_member *member;
+> +       struct fwnode_handle *ep;
+> +       struct fwnode_handle *remote_ep;
+> +       bool match =3D false;
+> +
+> +       // TODO: parse the device tree endpoints graph instead of finding=
+ just the
+> +       // first-level neighbours
+> +       fwnode_graph_for_each_endpoint(fwnode, ep) {
+> +               list_for_each_entry(member, &mds->members, list) {
+> +                       remote_ep =3D fwnode_graph_get_remote_port_parent=
+(ep);
+> +                       match =3D (member->fwnode =3D=3D remote_ep);
+> +                       fwnode_handle_put(remote_ep);
+> +
+> +                       if (!match)
+> +                               continue;
+> +
+> +                       goto match_complete;
+> +               }
+> +       }
+> +
+> +match_complete:
+> +       fwnode_handle_put(ep);
+> +       return match;
+> +}
+> +
+> +/* Callers should hold media_device_shared_lock when calling this functi=
+on */
+> +static struct media_device *__media_device_shared_get(struct device *dev)
+> +{
+> +       struct media_device_shared *mds;
+> +       struct media_device_shared_member *member;
+> +       struct fwnode_handle *fwnode =3D dev_fwnode(dev);
+> +       bool ret;
+> +
+> +       dev_dbg(dev, "%s: searching for media device for %pfwf", __func__=
+, fwnode);
+> +
+> +       list_for_each_entry(mds, &media_device_shared_list, list) {
+> +               ret =3D __media_device_shared_find_match(mds, fwnode);
+> +               if (ret)
+> +                       break;
+> +       }
+> +
+> +       if (!ret)
+> +               return NULL;
+> +
+> +       member =3D kzalloc_obj(*member);
+> +       if (!member)
+> +               return NULL;
+> +
+> +       member->dev =3D dev;
+> +       member->fwnode =3D fwnode;
+> +       list_add_tail(&member->list, &mds->members);
+> +       kref_get(&mds->refcount);
+> +
+> +       dev_dbg(dev, "%s: %pfwf joined media device of %pfwf",
+> +               __func__, fwnode,
+> +               list_first_entry(&mds->members, struct media_device_share=
+d_member, list)->fwnode);
+> +
+> +       return &mds->mdev;
+> +}
+> +
+> +/* Callers should hold media_device_shared_lock when calling this functi=
+on */
+> +static struct media_device *__media_device_shared_create(struct device *=
+dev)
+> +{
+> +       struct media_device_shared *mds;
+> +       struct media_device_shared_member *member;
+> +       struct fwnode_handle *fwnode =3D dev_fwnode(dev);
+> +       int ret;
+> +
+> +       mds =3D kzalloc_obj(*mds);
+> +       if (!mds)
+> +               return NULL;
+> +
+> +       member =3D kzalloc_obj(*member);
+> +       if (!member)
+> +               goto err_free_mds;
+> +
+> +       media_device_init(&mds->mdev);
+> +
+> +       ret =3D media_device_register(&mds->mdev);
+> +       if (ret)
+> +               goto err_free_member;
+> +
+> +       INIT_LIST_HEAD(&mds->members);
+> +       member->dev =3D dev;
+> +       member->fwnode =3D fwnode;
+> +       list_add_tail(&member->list, &mds->members);
+> +
+> +       INIT_LIST_HEAD(&mds->links);
+> +
+> +       kref_init(&mds->refcount);
+> +       list_add_tail(&mds->list, &media_device_shared_list);
+> +
+> +       // TODO figure out how to reconcile this with multiple members
+> +       mds->mdev.dev =3D dev;
+> +
+> +       devv_dbg(dev, "%s: Allocated media device with %pfwf at %p\n",
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6b4560681b51..586958b1816d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -25219,6 +25219,12 @@ T:	git git://linuxtv.org/media.git
- F:	Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
- F:	drivers/media/i2c/imx415.c
- 
-+SONY IMX471 SENSOR DRIVER
-+M:	Kate Hsuan <hpa@redhat.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+F:	drivers/media/i2c/imx471.c
-+
- SONY MEMORYSTICK SUBSYSTEM
- M:	Maxim Levitsky <maximlevitsky@gmail.com>
- M:	Alex Dubov <oakad@yahoo.com>
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 5d173e0ecf42..b7199f9f5a0c 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -287,6 +287,16 @@ config VIDEO_IMX415
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called imx415.
- 
-+config VIDEO_IMX471
-+	tristate "Sony IMX471 sensor support"
-+	select V4L2_CCI_I2C
-+	help
-+	  This is a Video4Linux2 sensor driver for the Sony
-+	  IMX471 camera.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called imx471.
-+
- config VIDEO_MAX9271_LIB
- 	tristate
- 
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index e45359efe0e4..acbd321fc12e 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -61,6 +61,7 @@ obj-$(CONFIG_VIDEO_IMX335) += imx335.o
- obj-$(CONFIG_VIDEO_IMX355) += imx355.o
- obj-$(CONFIG_VIDEO_IMX412) += imx412.o
- obj-$(CONFIG_VIDEO_IMX415) += imx415.o
-+obj-$(CONFIG_VIDEO_IMX471) += imx471.o
- obj-$(CONFIG_VIDEO_IR_I2C) += ir-kbd-i2c.o
- obj-$(CONFIG_VIDEO_ISL7998X) += isl7998x.o
- obj-$(CONFIG_VIDEO_KS0127) += ks0127.o
-diff --git a/drivers/media/i2c/imx471.c b/drivers/media/i2c/imx471.c
-new file mode 100644
-index 000000000000..1e1bff69ea3d
---- /dev/null
-+++ b/drivers/media/i2c/imx471.c
-@@ -0,0 +1,971 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * imx471.c - imx471 sensor driver
-+ *
-+ * Copyright (C) 2025 Intel Corporation
-+ * Copyright (C) 2026 Kate Hsuan <hpa@redhat.com>
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/unaligned.h>
-+#include <media/v4l2-cci.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-event.h>
-+#include <media/v4l2-fwnode.h>
-+
-+#define IMX471_REG_MODE_SELECT			CCI_REG8(0x0100)
-+#define IMX471_MODE_STANDBY			0x00
-+#define IMX471_MODE_STREAMING			0x01
-+
-+/* Chip ID */
-+#define IMX471_REG_CHIP_ID			CCI_REG16(0x0016)
-+#define IMX471_CHIP_ID				0x0471
-+
-+/* V_TIMING internal */
-+#define IMX471_REG_FLL				CCI_REG16(0x0340)
-+#define IMX471_FLL_MAX				0xffff
-+
-+/* Exposure control */
-+#define IMX471_REG_EXPOSURE			CCI_REG16(0x0202)
-+#define IMX471_EXPOSURE_MIN			1
-+#define IMX471_EXPOSURE_STEP			1
-+#define IMX471_EXPOSURE_DEFAULT			1270
-+
-+/* Default exposure margin */
-+#define IMX471_EXPOSURE_MARGIN			18
-+
-+/* Analog gain control */
-+#define IMX471_REG_ANALOG_GAIN			CCI_REG16(0x0204)
-+#define IMX471_ANA_GAIN_MIN			0
-+#define IMX471_ANA_GAIN_MAX			800
-+#define IMX471_ANA_GAIN_STEP			1
-+#define IMX471_ANA_GAIN_DEFAULT			0
-+
-+/* Digital gain control */
-+#define IMX471_REG_DPGA_USE_GLOBAL_GAIN		CCI_REG16(0x3ff9)
-+#define IMX471_REG_DIG_GAIN_GLOBAL		CCI_REG16(0x020e)
-+#define IMX471_DGTL_GAIN_MIN			256
-+#define IMX471_DGTL_GAIN_MAX			4095
-+#define IMX471_DGTL_GAIN_STEP			1
-+#define IMX471_DGTL_GAIN_DEFAULT		256
-+
-+/* HFLIP and VFLIP control */
-+#define IMX471_REG_ORIENTATION			CCI_REG8(0x0101)
-+#define IMX471_HFLIP_BIT			BIT(0)
-+#define IMX471_VFLIP_BIT			BIT(1)
-+
-+/* Test Pattern Control */
-+#define IMX471_REG_TEST_PATTERN			CCI_REG8(0x0600)
-+#define IMX471_TEST_PATTERN_DISABLED		0
-+#define IMX471_TEST_PATTERN_SOLID_COLOR		1
-+#define IMX471_TEST_PATTERN_COLOR_BARS		2
-+#define IMX471_TEST_PATTERN_GRAY_COLOR_BARS	3
-+#define IMX471_TEST_PATTERN_PN9			4
-+
-+/* default link frequency and external clock */
-+#define IMX471_LINK_FREQ_DEFAULT		200000000LL
-+#define IMX471_EXT_CLK				19200000
-+#define IMX471_LINK_FREQ_INDEX			0
-+
-+/* PLL */
-+#define IMX471_REG_VTPXCK_DIV			CCI_REG8(0x0301)
-+#define IMX471_REG_VTSYCK_DIV			CCI_REG8(0x0303)
-+#define IMX471_REG_PREPLLCK_VT_DIV		CCI_REG8(0x0305)
-+#define IMX471_REG_PLL_VT_MPY			CCI_REG16(0x0306)
-+#define IMX471_REG_OPPXCK_DIV			CCI_REG8(0x0309)
-+#define IMX471_REG_OPSYCK_DIV			CCI_REG8(0x030b)
-+#define IMX471_REG_PLL_MULT_DRIV		CCI_REG8(0x0310)
-+#define IMX471_PLL_SINGLE			0
-+#define IMX471_PLL_DUAL				1
-+
-+/* IMX471 native and active pixel array size */
-+#define IMX471_NATIVE_WIDTH			4672
-+#define IMX471_NATIVE_HEIGHT			3512
-+#define IMX471_PIXEL_ARRAY_LEFT			8
-+#define IMX471_PIXEL_ARRAY_TOP			8
-+#define IMX471_PIXEL_ARRAY_WIDTH		4656
-+#define IMX471_PIXEL_ARRAY_HEIGHT		3496
-+
-+#define IMX471_REG_EXCK_FREQ			CCI_REG16(0x0136)
-+#define IMX471_EXCK_FREQ(n)			((n) * 256)	/* n in MHz */
-+
-+#define IMX471_REG_CSI_DATA_FORMAT		CCI_REG16(0x0112)
-+#define IMX471_CSI_DATA_FORMAT_RAW10		0x0a0a
-+
-+#define IMX471_REG_CSI_LANE_MODE		CCI_REG8(0x0114)
-+#define IMX471_CSI_2_LANE_MODE			1
-+#define IMX471_CSI_4_LANE_MODE			3
-+
-+#define IMX471_REG_X_ADD_STA			CCI_REG16(0x0344)
-+#define IMX471_REG_Y_ADD_STA			CCI_REG16(0x0346)
-+#define IMX471_REG_X_ADD_END			CCI_REG16(0x0348)
-+#define IMX471_REG_Y_ADD_END			CCI_REG16(0x034a)
-+#define IMX471_REG_X_OUTPUT_SIZE		CCI_REG16(0x034c)
-+#define IMX471_REG_Y_OUTPUT_SIZE		CCI_REG16(0x034e)
-+#define IMX471_REG_X_EVEN_INC			CCI_REG8(0x0381)
-+#define IMX471_REG_X_ODD_INC			CCI_REG8(0x0383)
-+#define IMX471_REG_Y_EVEN_INC			CCI_REG8(0x0385)
-+#define IMX471_REG_Y_ODD_INC			CCI_REG8(0x0387)
-+
-+#define IMX471_REG_DIG_CROP_X_OFFSET		CCI_REG16(0x0408)
-+#define IMX471_REG_DIG_CROP_Y_OFFSET		CCI_REG16(0x040a)
-+#define IMX471_REG_DIG_CROP_WIDTH		CCI_REG16(0x040c)
-+#define IMX471_REG_DIG_CROP_HEIGHT		CCI_REG16(0x040e)
-+
-+/* Binning mode */
-+#define IMX471_REG_BINNING_MODE			CCI_REG8(0x0900)
-+#define IMX471_BINNING_NONE			0
-+#define IMX471_BINNING_ENABLE			1
-+#define IMX471_REG_BINNING_TYPE			CCI_REG8(0x0901)
-+#define IMX471_REG_BINNING_WEIGHTING		CCI_REG8(0x0902)
-+
-+#define to_imx471(_sd) container_of_const(_sd, struct imx471, sd)
-+
-+static const char * const imx471_supply_name[] = {
-+	"avdd",
-+};
-+
-+struct imx471_mode {
-+	u32 width;
-+	u32 height;
-+
-+	/* V-timing */
-+	u32 fll_def;
-+	u32 fll_min;
-+
-+	/* H-timing */
-+	u32 llp;
-+
-+	u32 link_freq_index;
-+
-+	const struct cci_reg_sequence *default_mode_regs;
-+	unsigned int default_mode_regs_length;
-+};
-+
-+struct imx471 {
-+	struct v4l2_subdev sd;
-+	struct media_pad pad;
-+
-+	struct v4l2_ctrl_handler ctrl_handler;
-+	struct v4l2_ctrl *vblank;
-+	struct v4l2_ctrl *hblank;
-+	struct v4l2_ctrl *vflip;
-+	struct v4l2_ctrl *hflip;
-+	struct v4l2_ctrl *exposure;
-+
-+	struct gpio_desc *reset_gpio;
-+	struct regulator_bulk_data supplies[ARRAY_SIZE(imx471_supply_name)];
-+	struct clk *img_clk;
-+
-+	struct device *dev;
-+	struct regmap *regmap;
-+};
-+
-+static const struct cci_reg_sequence imx471_global_regs[] = {
-+	{ IMX471_REG_EXCK_FREQ, IMX471_EXCK_FREQ(19.2) },
-+	{ CCI_REG8(0x3c7e), 0x08 },
-+	{ CCI_REG8(0x3c7f), 0x05 },
-+	{ CCI_REG8(0x3e35), 0x00 },
-+	{ CCI_REG8(0x3e36), 0x00 },
-+	{ CCI_REG8(0x3e37), 0x00 },
-+	{ CCI_REG8(0x3f7f), 0x01 },
-+	{ CCI_REG8(0x4431), 0x04 },
-+	{ CCI_REG8(0x531c), 0x01 },
-+	{ CCI_REG8(0x531d), 0x02 },
-+	{ CCI_REG8(0x531e), 0x04 },
-+	{ CCI_REG8(0x5928), 0x00 },
-+	{ CCI_REG8(0x5929), 0x2f },
-+	{ CCI_REG8(0x592a), 0x00 },
-+	{ CCI_REG8(0x592b), 0x85 },
-+	{ CCI_REG8(0x592c), 0x00 },
-+	{ CCI_REG8(0x592d), 0x32 },
-+	{ CCI_REG8(0x592e), 0x00 },
-+	{ CCI_REG8(0x592f), 0x88 },
-+	{ CCI_REG8(0x5930), 0x00 },
-+	{ CCI_REG8(0x5931), 0x3d },
-+	{ CCI_REG8(0x5932), 0x00 },
-+	{ CCI_REG8(0x5933), 0x93 },
-+	{ CCI_REG8(0x5938), 0x00 },
-+	{ CCI_REG8(0x5939), 0x24 },
-+	{ CCI_REG8(0x593a), 0x00 },
-+	{ CCI_REG8(0x593b), 0x7a },
-+	{ CCI_REG8(0x593c), 0x00 },
-+	{ CCI_REG8(0x593d), 0x24 },
-+	{ CCI_REG8(0x593e), 0x00 },
-+	{ CCI_REG8(0x593f), 0x7a },
-+	{ CCI_REG8(0x5940), 0x00 },
-+	{ CCI_REG8(0x5941), 0x2f },
-+	{ CCI_REG8(0x5942), 0x00 },
-+	{ CCI_REG8(0x5943), 0x85 },
-+	{ CCI_REG8(0x5f0e), 0x6e },
-+	{ CCI_REG8(0x5f11), 0xc6 },
-+	{ CCI_REG8(0x5f17), 0x5e },
-+	{ CCI_REG8(0x7990), 0x01 },
-+	{ CCI_REG8(0x7993), 0x5d },
-+	{ CCI_REG8(0x7994), 0x5d },
-+	{ CCI_REG8(0x7995), 0xa1 },
-+	{ CCI_REG8(0x799a), 0x01 },
-+	{ CCI_REG8(0x799d), 0x00 },
-+	{ CCI_REG8(0x8169), 0x01 },
-+	{ CCI_REG8(0x8359), 0x01 },
-+	{ CCI_REG8(0x9302), 0x1e },
-+	{ CCI_REG8(0x9306), 0x1f },
-+	{ CCI_REG8(0x930a), 0x26 },
-+	{ CCI_REG8(0x930e), 0x23 },
-+	{ CCI_REG8(0x9312), 0x23 },
-+	{ CCI_REG8(0x9316), 0x2c },
-+	{ CCI_REG8(0x9317), 0x19 },
-+	{ CCI_REG8(0xb046), 0x01 },
-+	{ CCI_REG8(0xb048), 0x01 },
-+};
-+
-+static const struct cci_reg_sequence mode_1928x1088_regs[] = {
-+	{ IMX471_REG_CSI_DATA_FORMAT, IMX471_CSI_DATA_FORMAT_RAW10 },
-+	{ IMX471_REG_CSI_LANE_MODE, IMX471_CSI_4_LANE_MODE },
-+	{ IMX471_REG_X_ADD_STA, 8 },
-+	{ IMX471_REG_Y_ADD_STA, 408 },
-+	{ IMX471_REG_X_ADD_END, 4647 },
-+	{ IMX471_REG_Y_ADD_END, 3051 },
-+	{ IMX471_REG_X_EVEN_INC, 1 },
-+	{ IMX471_REG_X_ODD_INC, 1 },
-+	{ IMX471_REG_Y_EVEN_INC, 1 },
-+	{ IMX471_REG_Y_ODD_INC, 1 },
-+	{ IMX471_REG_BINNING_MODE, IMX471_BINNING_ENABLE },
-+	{ IMX471_REG_BINNING_TYPE, 0x22 },
-+	{ IMX471_REG_BINNING_WEIGHTING, 0x08 },
-+	{ IMX471_REG_DIG_CROP_X_OFFSET, 208 },
-+	{ IMX471_REG_DIG_CROP_Y_OFFSET, 108 },
-+	{ IMX471_REG_DIG_CROP_WIDTH, 1928 },
-+	{ IMX471_REG_DIG_CROP_HEIGHT, 1088 },
-+	{ IMX471_REG_X_OUTPUT_SIZE, 1928 },
-+	{ IMX471_REG_Y_OUTPUT_SIZE, 1088 },
-+	{ IMX471_REG_VTPXCK_DIV, 0x06 },
-+	{ IMX471_REG_VTSYCK_DIV, 0x02 },
-+	{ IMX471_REG_PREPLLCK_VT_DIV, 0x02 },
-+	{ IMX471_REG_PLL_VT_MPY, 0x0079 },
-+	{ IMX471_REG_OPSYCK_DIV, 0x01 },
-+	{ CCI_REG8(0x030d), 0x02 },
-+	{ CCI_REG8(0x030e), 0x00 },
-+	{ CCI_REG8(0x030f), 0x53 },
-+	{ IMX471_REG_PLL_MULT_DRIV, IMX471_PLL_DUAL },
-+	{ CCI_REG8(0x3f4c), 0x81 },
-+	{ CCI_REG8(0x3f4d), 0x81 },
-+	{ CCI_REG8(0x3f78), 0x01 },
-+	{ CCI_REG8(0x3f79), 0x31 },
-+	{ CCI_REG8(0x3ffe), 0x00 },
-+	{ CCI_REG8(0x3fff), 0x8a },
-+	{ CCI_REG8(0x5f0a), 0xb6 },
-+};
-+
-+static const char * const imx471_test_pattern_menu[] = {
-+	"Disabled",
-+	"Solid Colour",
-+	"Eight Vertical Colour Bars",
-+	"Colour Bars With Fade to Grey",
-+	"Pseudorandom Sequence (PN9)",
-+};
-+
-+static const s64 link_freq_menu_items[] = {
-+	IMX471_LINK_FREQ_DEFAULT,
-+};
-+
-+/*
-+ * The Bayer formats for the flipping.
-+ * - no flip
-+ * - h flip
-+ * - v flip
-+ * - h and v flips
-+ */
-+static const u32 imx471_hv_flips_bayer_order[] = {
-+	MEDIA_BUS_FMT_SRGGB10_1X10,
-+	MEDIA_BUS_FMT_SGRBG10_1X10,
-+	MEDIA_BUS_FMT_SGBRG10_1X10,
-+	MEDIA_BUS_FMT_SBGGR10_1X10,
-+};
-+
-+static const struct imx471_mode imx471_modes[] = {
-+	{
-+		.width = 1928,
-+		.height = 1088,
-+		.fll_def = 1308,
-+		.fll_min = 1308,
-+		.llp = 2328,
-+		.link_freq_index = IMX471_LINK_FREQ_INDEX,
-+		.default_mode_regs = mode_1928x1088_regs,
-+		.default_mode_regs_length = ARRAY_SIZE(mode_1928x1088_regs),
-+	},
-+};
-+
-+static int imx471_get_regulators(struct device *dev, struct imx471 *sensor)
-+{
-+	for (unsigned int i = 0; i < ARRAY_SIZE(imx471_supply_name); i++)
-+		sensor->supplies[i].supply = imx471_supply_name[i];
-+
-+	return devm_regulator_bulk_get(dev, ARRAY_SIZE(imx471_supply_name),
-+				       sensor->supplies);
-+}
-+
-+static int imx471_set_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct imx471 *sensor = container_of_const(ctrl->handler,
-+						   struct imx471,
-+						   ctrl_handler);
-+	struct v4l2_subdev_state *state =
-+			v4l2_subdev_get_locked_active_state(&sensor->sd);
-+	const struct v4l2_mbus_framefmt *format =
-+			v4l2_subdev_state_get_format(state, 0);
-+	int ret;
-+
-+	if (ctrl->id == V4L2_CID_VBLANK) {
-+		s64 exposure_max = format->height + ctrl->val -
-+				   IMX471_EXPOSURE_MARGIN;
-+		ret = __v4l2_ctrl_modify_range(sensor->exposure,
-+					       sensor->exposure->minimum,
-+					       exposure_max,
-+					       sensor->exposure->step,
-+					       exposure_max);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (!pm_runtime_get_if_in_use(sensor->dev))
-+		return 0;
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_ANALOGUE_GAIN:
-+		ret = cci_write(sensor->regmap, IMX471_REG_ANALOG_GAIN,
-+				ctrl->val, NULL);
-+		break;
-+	case V4L2_CID_DIGITAL_GAIN:
-+		ret = cci_write(sensor->regmap, IMX471_REG_DIG_GAIN_GLOBAL,
-+				ctrl->val, NULL);
-+		break;
-+	case V4L2_CID_EXPOSURE:
-+		ret = cci_write(sensor->regmap, IMX471_REG_EXPOSURE,
-+				ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_VBLANK:
-+		/* Update FLL that meets expected vertical blanking */
-+		ret = cci_write(sensor->regmap, IMX471_REG_FLL,
-+				format->height + ctrl->val, &ret);
-+		break;
-+	case V4L2_CID_TEST_PATTERN:
-+		ret = cci_write(sensor->regmap, IMX471_REG_TEST_PATTERN,
-+				ctrl->val, NULL);
-+		break;
-+	case V4L2_CID_HFLIP:
-+	case V4L2_CID_VFLIP:
-+		ret = cci_write(sensor->regmap, IMX471_REG_ORIENTATION,
-+				sensor->hflip->val | sensor->vflip->val << 1,
-+				NULL);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		dev_err(sensor->dev, "ctrl(id:0x%x,val:0x%x) is not handled\n",
-+			ctrl->id, ctrl->val);
-+		break;
-+	}
-+
-+	pm_runtime_put(sensor->dev);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_ctrl_ops imx471_ctrl_ops = {
-+	.s_ctrl = imx471_set_ctrl,
-+};
-+
-+static u32 imx471_get_format_code(struct imx471 *sensor)
-+{
-+	unsigned int i;
-+
-+	i = (sensor->vflip->val ? 2 : 0) | (sensor->hflip->val ? 1 : 0);
-+
-+	return imx471_hv_flips_bayer_order[i];
-+}
-+
-+static int imx471_enum_mbus_code(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *sd_state,
-+				 struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	struct imx471 *sensor = to_imx471(sd);
-+
-+	if (code->index >= (ARRAY_SIZE(imx471_hv_flips_bayer_order) / 4))
-+		return -EINVAL;
-+
-+	code->code = imx471_get_format_code(sensor);
-+
-+	return 0;
-+}
-+
-+static int imx471_enum_frame_size(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *sd_state,
-+				  struct v4l2_subdev_frame_size_enum *fse)
-+{
-+	if (fse->index >= ARRAY_SIZE(imx471_modes))
-+		return -EINVAL;
-+
-+	fse->min_width = imx471_modes[fse->index].width;
-+	fse->max_width = fse->min_width;
-+	fse->min_height = imx471_modes[fse->index].height;
-+	fse->max_height = fse->min_height;
-+
-+	return 0;
-+}
-+
-+static void imx471_update_pad_format(struct imx471 *sensor,
-+				     const struct imx471_mode *mode,
-+				     struct v4l2_subdev_format *fmt)
-+{
-+	fmt->format.code = imx471_get_format_code(sensor);
-+	fmt->format.width = mode->width;
-+	fmt->format.height = mode->height;
-+	fmt->format.field = V4L2_FIELD_NONE;
-+}
-+
-+static int imx471_set_pad_format(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *sd_state,
-+				 struct v4l2_subdev_format *fmt)
-+{
-+	struct imx471 *sensor = to_imx471(sd);
-+	const struct imx471_mode *mode;
-+	int h_blank, ret;
-+
-+	mode = v4l2_find_nearest_size(imx471_modes, ARRAY_SIZE(imx471_modes),
-+				      width, height, fmt->format.width,
-+				      fmt->format.height);
-+
-+	imx471_update_pad_format(sensor, mode, fmt);
-+
-+	*v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
-+
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-+		return 0;
-+
-+	if (media_entity_is_streaming(&sensor->sd.entity))
-+		return -EBUSY;
-+
-+	ret = __v4l2_ctrl_modify_range(sensor->vblank,
-+				       mode->fll_min - mode->height,
-+				       IMX471_FLL_MAX - mode->height,
-+				       1,
-+				       mode->fll_def - mode->height);
-+	if (ret)
-+		return ret;
-+
-+	h_blank = mode->llp - mode->width;
-+	/*
-+	 * Currently hblank is not changeable.
-+	 * So FPS control is done only by vblank.
-+	 */
-+	return __v4l2_ctrl_modify_range(sensor->hblank, h_blank,
-+					h_blank, 1, h_blank);
-+}
-+
-+static int imx471_get_selection(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_state *sd_state,
-+				struct v4l2_subdev_selection *sel)
-+{
-+	switch (sel->target) {
-+	case V4L2_SEL_TGT_CROP:
-+		sel->r = *v4l2_subdev_state_get_crop(sd_state, sel->pad);
-+		break;
-+
-+	case V4L2_SEL_TGT_NATIVE_SIZE:
-+		sel->r.top = 0;
-+		sel->r.left = 0;
-+		sel->r.width = IMX471_NATIVE_WIDTH;
-+		sel->r.height = IMX471_NATIVE_HEIGHT;
-+		return 0;
-+
-+	case V4L2_SEL_TGT_CROP_DEFAULT:
-+	case V4L2_SEL_TGT_CROP_BOUNDS:
-+		sel->r.top = IMX471_PIXEL_ARRAY_TOP;
-+		sel->r.left = IMX471_PIXEL_ARRAY_LEFT;
-+		sel->r.width = IMX471_PIXEL_ARRAY_WIDTH;
-+		sel->r.height = IMX471_PIXEL_ARRAY_HEIGHT;
-+		return 0;
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static int imx471_init_state(struct v4l2_subdev *sd,
-+			     struct v4l2_subdev_state *sd_state)
-+{
-+	struct v4l2_subdev_format fmt = {
-+		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-+		.format = {
-+			.code = MEDIA_BUS_FMT_SRGGB10_1X10,
-+			.width = imx471_modes[0].width,
-+			.height = imx471_modes[0].height,
-+		},
-+	};
-+
-+	return imx471_set_pad_format(sd, sd_state, &fmt);
-+}
-+
-+static int imx471_identify_module(struct imx471 *sensor)
-+{
-+	int ret;
-+	u64 val;
-+
-+	ret = cci_read(sensor->regmap, IMX471_REG_CHIP_ID, &val, NULL);
-+	if (ret)
-+		return dev_err_probe(sensor->dev, ret,
-+				     "failed to read chip id\n");
-+
-+	if (val != IMX471_CHIP_ID)
-+		return dev_err_probe(sensor->dev, -EIO,
-+				     "chip id mismatch: %x!=%llx\n",
-+				     IMX471_CHIP_ID, val);
-+
-+	return 0;
-+}
-+
-+static int imx471_power_off(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct imx471 *sensor = to_imx471(sd);
-+
-+	clk_disable_unprepare(sensor->img_clk);
-+	gpiod_set_value_cansleep(sensor->reset_gpio, 1);
-+
-+	regulator_bulk_disable(ARRAY_SIZE(imx471_supply_name),
-+			       sensor->supplies);
-+
-+	return 0;
-+}
-+
-+static int imx471_power_on(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct imx471 *sensor = to_imx471(sd);
-+	int ret;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(imx471_supply_name),
-+				    sensor->supplies);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to enable regulators: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = clk_prepare_enable(sensor->img_clk);
-+	if (ret < 0) {
-+		regulator_bulk_disable(ARRAY_SIZE(imx471_supply_name),
-+				       sensor->supplies);
-+		dev_err(dev, "failed to enable imaging clock: %d\n", ret);
-+		return ret;
-+	}
-+
-+	gpiod_set_value_cansleep(sensor->reset_gpio, 0);
-+
-+	usleep_range(10000, 15000);
-+
-+	return 0;
-+}
-+
-+static int imx471_enable_stream(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_state *state,
-+				u32 pad, u64 streams_mask)
-+{
-+	struct imx471 *sensor = to_imx471(sd);
-+	const struct imx471_mode *mode;
-+	struct v4l2_mbus_framefmt *fmt;
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(sensor->dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = imx471_identify_module(sensor);
-+	if (ret)
-+		goto error_powerdown;
-+
-+	ret = cci_multi_reg_write(sensor->regmap, imx471_global_regs,
-+				  ARRAY_SIZE(imx471_global_regs), NULL);
-+	if (ret) {
-+		dev_err(sensor->dev, "failed to set global settings: %d\n",
-+			ret);
-+		goto error_powerdown;
-+	}
-+
-+	fmt = v4l2_subdev_state_get_format(state, 0);
-+	mode = v4l2_find_nearest_size(imx471_modes, ARRAY_SIZE(imx471_modes),
-+				      width, height, fmt->width, fmt->height);
-+
-+	ret = cci_multi_reg_write(sensor->regmap, mode->default_mode_regs,
-+				  mode->default_mode_regs_length, NULL);
-+	if (ret) {
-+		dev_err(sensor->dev, "failed to set mode: %d\n", ret);
-+		goto error_powerdown;
-+	}
-+
-+	ret = cci_write(sensor->regmap, IMX471_REG_DPGA_USE_GLOBAL_GAIN, 1,
-+			NULL);
-+	if (ret)
-+		goto error_powerdown;
-+
-+	ret = __v4l2_ctrl_handler_setup(&sensor->ctrl_handler);
-+	if (ret)
-+		goto error_powerdown;
-+
-+	ret = cci_write(sensor->regmap, IMX471_REG_MODE_SELECT,
-+			IMX471_MODE_STREAMING, NULL);
-+	if (ret)
-+		goto error_powerdown;
-+
-+	__v4l2_ctrl_grab(sensor->vflip, true);
-+	__v4l2_ctrl_grab(sensor->hflip, true);
-+
-+	return ret;
-+
-+error_powerdown:
-+	pm_runtime_put(sensor->dev);
-+
-+	return ret;
-+}
-+
-+static int imx471_disable_stream(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *state,
-+				 u32 pad, u64 streams_mask)
-+{
-+	struct imx471 *sensor = to_imx471(sd);
-+	int ret;
-+
-+	ret = cci_write(sensor->regmap, IMX471_REG_MODE_SELECT,
-+			IMX471_MODE_STANDBY, NULL);
-+	pm_runtime_put(sensor->dev);
-+
-+	if (ret)
-+		dev_err(sensor->dev,
-+			"failed to disable stream with return value: %d\n",
-+			ret);
-+
-+	__v4l2_ctrl_grab(sensor->vflip, false);
-+	__v4l2_ctrl_grab(sensor->hflip, false);
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_subdev_video_ops imx471_video_ops = {
-+	.s_stream = v4l2_subdev_s_stream_helper,
-+};
-+
-+static const struct v4l2_subdev_pad_ops imx471_pad_ops = {
-+	.enum_mbus_code = imx471_enum_mbus_code,
-+	.get_fmt = v4l2_subdev_get_fmt,
-+	.set_fmt = imx471_set_pad_format,
-+	.get_selection = imx471_get_selection,
-+	.enum_frame_size = imx471_enum_frame_size,
-+	.enable_streams = imx471_enable_stream,
-+	.disable_streams = imx471_disable_stream,
-+};
-+
-+static const struct v4l2_subdev_ops imx471_subdev_ops = {
-+	.video = &imx471_video_ops,
-+	.pad = &imx471_pad_ops,
-+};
-+
-+static const struct v4l2_subdev_internal_ops imx471_internal_ops = {
-+	.init_state = imx471_init_state,
-+};
-+
-+static int imx471_init_controls(struct imx471 *sensor)
-+{
-+	const struct imx471_mode *mode = &imx471_modes[0];
-+	struct v4l2_fwnode_device_properties props;
-+	struct v4l2_ctrl_handler *ctrl_hdlr;
-+	struct v4l2_ctrl *link_freq;
-+	s64 exposure_max, hblank;
-+	u64 pixel_rate;
-+	int ret;
-+
-+	ret = v4l2_fwnode_device_parse(sensor->dev, &props);
-+	if (ret) {
-+		dev_err(sensor->dev, "failed to parse fwnode: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ctrl_hdlr = &sensor->ctrl_handler;
-+	v4l2_ctrl_handler_init(ctrl_hdlr, 12);
-+
-+	v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx471_ctrl_ops, &props);
-+
-+	link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr,
-+					   &imx471_ctrl_ops,
-+					   V4L2_CID_LINK_FREQ,
-+					   ARRAY_SIZE(link_freq_menu_items) - 1,
-+					   0,
-+					   link_freq_menu_items);
-+
-+	/* pixel_rate = link_freq * 2 * nr_of_lanes / bits_per_sample */
-+	pixel_rate = div_u64(IMX471_LINK_FREQ_DEFAULT * 2 * 4, 10);
-+
-+	v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops,
-+			  V4L2_CID_PIXEL_RATE, pixel_rate,
-+			  pixel_rate, 1, pixel_rate);
-+
-+	sensor->vblank = v4l2_ctrl_new_std(ctrl_hdlr,
-+					   &imx471_ctrl_ops,
-+					   V4L2_CID_VBLANK,
-+					   mode->fll_min - mode->height,
-+					   IMX471_FLL_MAX - mode->height,
-+					   1,
-+					   mode->fll_def - mode->height);
-+
-+	hblank = mode->llp - mode->width;
-+	sensor->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops,
-+					   V4L2_CID_HBLANK, hblank, hblank,
-+					   1, hblank);
-+
-+	/* fll >= exposure time + adjust parameter (default value is 18) */
-+	exposure_max = mode->fll_def - IMX471_EXPOSURE_MARGIN;
-+	sensor->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops,
-+					     V4L2_CID_EXPOSURE,
-+					     IMX471_EXPOSURE_MIN, exposure_max,
-+					     IMX471_EXPOSURE_STEP,
-+					     IMX471_EXPOSURE_DEFAULT);
-+
-+	v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
-+			  IMX471_ANA_GAIN_MIN, IMX471_ANA_GAIN_MAX,
-+			  IMX471_ANA_GAIN_STEP, IMX471_ANA_GAIN_DEFAULT);
-+
-+	v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
-+			  IMX471_DGTL_GAIN_MIN, IMX471_DGTL_GAIN_MAX,
-+			  IMX471_DGTL_GAIN_STEP, IMX471_DGTL_GAIN_DEFAULT);
-+
-+	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &imx471_ctrl_ops,
-+				     V4L2_CID_TEST_PATTERN,
-+				     ARRAY_SIZE(imx471_test_pattern_menu) - 1,
-+				     0, 0, imx471_test_pattern_menu);
-+
-+	sensor->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops,
-+					  V4L2_CID_HFLIP, 0, 1, 1, 0);
-+
-+	sensor->vflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx471_ctrl_ops,
-+					  V4L2_CID_VFLIP, 0, 1, 1, 0);
-+
-+	if (ctrl_hdlr->error) {
-+		dev_err(sensor->dev, "%s control init failed: %d\n",
-+			__func__, ctrl_hdlr->error);
-+		goto error;
-+	}
-+
-+	link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+	sensor->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+	sensor->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
-+	sensor->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
-+
-+	sensor->sd.ctrl_handler = ctrl_hdlr;
-+
-+	return 0;
-+
-+error:
-+	v4l2_ctrl_handler_free(ctrl_hdlr);
-+
-+	return ctrl_hdlr->error;
-+}
-+
-+static int imx471_check_hwcfg(struct imx471 *sensor)
-+{
-+	struct v4l2_fwnode_endpoint bus_cfg = {
-+		.bus_type = V4L2_MBUS_CSI2_DPHY,
-+	};
-+	struct fwnode_handle *ep, *fwnode = dev_fwnode(sensor->dev);
-+	unsigned long link_freq_bitmap;
-+	struct clk *clk;
-+	int ret;
-+
-+	clk = devm_v4l2_sensor_clk_get(sensor->dev, NULL);
-+	if (IS_ERR(clk))
-+		return dev_err_probe(sensor->dev, PTR_ERR(clk),
-+				     "can't get clock frequency\n");
-+
-+	if (clk_get_rate(clk) != IMX471_EXT_CLK)
-+		return dev_err_probe(sensor->dev, -EINVAL,
-+				     "external clock %lu is not supported\n",
-+				     clk_get_rate(clk));
-+
-+	ep = fwnode_graph_get_endpoint_by_id(fwnode, 0, 0, 0);
-+	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
-+	fwnode_handle_put(ep);
-+	if (ret)
-+		return dev_err_probe(sensor->dev, ret,
-+				     "parsing endpoint failed\n");
-+
-+	if (bus_cfg.bus.mipi_csi2.num_data_lanes != 4) {
-+		ret = dev_err_probe(sensor->dev, -EINVAL,
-+				    "number of CSI2 data lanes %u is not supported\n",
-+				    bus_cfg.bus.mipi_csi2.num_data_lanes);
-+		goto done_endpoint_free;
-+	}
-+
-+	ret = v4l2_link_freq_to_bitmap(sensor->dev, bus_cfg.link_frequencies,
-+				       bus_cfg.nr_of_link_frequencies,
-+				       link_freq_menu_items,
-+				       ARRAY_SIZE(link_freq_menu_items),
-+				       &link_freq_bitmap);
-+
-+done_endpoint_free:
-+	v4l2_fwnode_endpoint_free(&bus_cfg);
-+
-+	return ret;
-+}
-+
-+static int imx471_probe(struct i2c_client *client)
-+{
-+	struct imx471 *sensor;
-+	int ret;
-+
-+	sensor = devm_kzalloc(&client->dev, sizeof(*sensor), GFP_KERNEL);
-+	if (!sensor)
-+		return dev_err_probe(&client->dev, -ENOMEM,
-+				     "failed to allocate memory\n");
-+
-+	sensor->dev = &client->dev;
-+
-+	ret = imx471_check_hwcfg(sensor);
-+	if (ret)
-+		return dev_err_probe(sensor->dev, ret,
-+				     "failed to check hwcfg: %d\n", ret);
-+
-+	ret = imx471_get_regulators(sensor->dev, sensor);
-+	if (ret)
-+		return dev_err_probe(sensor->dev, ret,
-+				     "failed to get regulators\n");
-+
-+	sensor->reset_gpio = devm_gpiod_get_optional(sensor->dev, "reset",
-+						     GPIOD_OUT_HIGH);
-+	if (IS_ERR(sensor->reset_gpio))
-+		return dev_err_probe(sensor->dev, PTR_ERR(sensor->reset_gpio),
-+				     "failed to get reset gpio\n");
-+
-+	sensor->img_clk = devm_v4l2_sensor_clk_get(sensor->dev, NULL);
-+	if (IS_ERR(sensor->img_clk))
-+		return dev_err_probe(sensor->dev, PTR_ERR(sensor->img_clk),
-+				     "failed to get imaging clock\n");
-+
-+	v4l2_i2c_subdev_init(&sensor->sd, client, &imx471_subdev_ops);
-+
-+	sensor->regmap = devm_cci_regmap_init_i2c(client, 16);
-+	if (IS_ERR(sensor->regmap))
-+		return dev_err_probe(sensor->dev, PTR_ERR(sensor->regmap),
-+				     "failed to initialize CCI\n");
-+
-+	ret = imx471_power_on(sensor->dev);
-+	if (ret)
-+		return dev_err_probe(sensor->dev, ret,
-+				     "failed to power on\n");
-+
-+	ret = imx471_identify_module(sensor);
-+	if (ret) {
-+		dev_err_probe(sensor->dev, ret, "failed to find sensor: %d\n",
-+			      ret);
-+		goto error_power_off;
-+	}
-+
-+	ret = imx471_init_controls(sensor);
-+	if (ret) {
-+		dev_err_probe(sensor->dev, ret, "failed to init controls: %d\n",
-+			      ret);
-+		goto error_power_off;
-+	}
-+
-+	sensor->sd.internal_ops = &imx471_internal_ops;
-+	sensor->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
-+	sensor->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-+
-+	ret = media_entity_pads_init(&sensor->sd.entity, 1, &sensor->pad);
-+	if (ret) {
-+		dev_err_probe(sensor->dev, ret,
-+			      "failed to init entity pads: %d\n", ret);
-+		goto error_v4l2_ctrl_handler_free;
-+	}
-+
-+	sensor->sd.state_lock = sensor->ctrl_handler.lock;
-+	ret = v4l2_subdev_init_finalize(&sensor->sd);
-+	if (ret < 0) {
-+		dev_err_probe(sensor->dev, ret, "failed to init subdev: %d\n",
-+			      ret);
-+		goto error_media_entity_pm;
-+	}
-+
-+	pm_runtime_set_active(sensor->dev);
-+	pm_runtime_enable(sensor->dev);
-+
-+	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
-+	if (ret < 0)
-+		goto error_v4l2_subdev_cleanup;
-+
-+	pm_runtime_idle(sensor->dev);
-+
-+	return 0;
-+
-+error_v4l2_subdev_cleanup:
-+	pm_runtime_disable(sensor->dev);
-+	pm_runtime_set_suspended(sensor->dev);
-+	v4l2_subdev_cleanup(&sensor->sd);
-+
-+error_media_entity_pm:
-+	media_entity_cleanup(&sensor->sd.entity);
-+
-+error_v4l2_ctrl_handler_free:
-+	v4l2_ctrl_handler_free(sensor->sd.ctrl_handler);
-+
-+error_power_off:
-+	imx471_power_off(sensor->dev);
-+
-+	return ret;
-+}
-+
-+static void imx471_remove(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+
-+	v4l2_async_unregister_subdev(sd);
-+	v4l2_subdev_cleanup(sd);
-+	media_entity_cleanup(&sd->entity);
-+	v4l2_ctrl_handler_free(sd->ctrl_handler);
-+
-+	pm_runtime_disable(&client->dev);
-+
-+	if (!pm_runtime_status_suspended(&client->dev)) {
-+		imx471_power_off(&client->dev);
-+		pm_runtime_set_suspended(&client->dev);
-+	}
-+}
-+
-+static DEFINE_RUNTIME_DEV_PM_OPS(imx471_pm_ops, imx471_power_off,
-+				 imx471_power_on, NULL);
-+
-+static const struct acpi_device_id imx471_acpi_ids[] __maybe_unused = {
-+	{ "SONY471A" },
-+	{ "TBE20A0" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(acpi, imx471_acpi_ids);
-+
-+static struct i2c_driver imx471_i2c_driver = {
-+	.driver = {
-+		.name = "imx471",
-+		.acpi_match_table = ACPI_PTR(imx471_acpi_ids),
-+		.pm = pm_sleep_ptr(&imx471_pm_ops),
-+	},
-+	.probe = imx471_probe,
-+	.remove = imx471_remove,
-+};
-+module_i2c_driver(imx471_i2c_driver);
-+
-+MODULE_AUTHOR("Jimmy Su <jimmy.su@intel.com>");
-+MODULE_AUTHOR("Serin Yeh <serin.yeh@intel.com>");
-+MODULE_AUTHOR("Kate Hsuan <hpa@redhat.com>");
-+MODULE_DESCRIPTION("Sony imx471 sensor driver");
-+MODULE_LICENSE("GPL");
--- 
-2.54.0
+here:
 
+s/devv/dev/
+
+
+Paul
+
+> +                __func__, fwnode, &mds->mdev);
+> +       return &mds->mdev;
+> +
+> +err_free_member:
+> +       kfree(member);
+> +err_free_mds:
+> +       kfree(mds);
+> +       return NULL;
+> +}
+> +
+> +// TODO figure out how to resolve the identifiers (model, driver name, e=
+tc);
+> +// atm it's racy and whoever gets it last wins
+> +struct media_device *media_device_shared_join(struct device *dev)
+> +{
+> +       struct media_device *mdev;
+> +
+> +       mutex_lock(&media_device_shared_lock);
+> +
+> +       mdev =3D __media_device_shared_get(dev);
+> +       if (!!mdev) {
+> +               dev_dbg(dev, "%s: found media device for %pfwf", __func__=
+, dev_fwnode(dev));
+> +               mutex_unlock(&media_device_shared_lock);
+> +               return mdev;
+> +       }
+> +
+> +       mdev =3D __media_device_shared_create(dev);
+> +       if (!mdev) {
+> +               dev_warn(dev, "%s: failed to create media device for %pfw=
+f", __func__, dev_fwnode(dev));
+> +               mutex_unlock(&media_device_shared_lock);
+> +               return ERR_PTR(-ENOMEM);
+> +       }
+> +
+> +       dev_dbg(dev, "%s: created media device for %pfwf", __func__, dev_=
+fwnode(dev));
+> +       mutex_unlock(&media_device_shared_lock);
+> +       return mdev;
+> +}
+> +EXPORT_SYMBOL_GPL(media_device_shared_join);
+> +
+> +void media_device_shared_leave(struct media_device *mdev, struct device =
+*dev)
+> +{
+> +       struct media_device_shared *mds =3D to_media_device_shared(mdev);
+> +       struct media_device_shared_member *member;
+> +       struct media_device_shared_member *member_tmp;
+> +       bool removed =3D false;
+> +
+> +       mutex_lock(&media_device_shared_lock);
+> +
+> +       list_for_each_entry_safe(member, member_tmp, &mds->members, list)=
+ {
+> +               if (member->dev =3D=3D dev) {
+> +                       list_del(&member->list);
+> +                       kfree(member);
+> +                       removed =3D true;
+> +               }
+> +       }
+> +
+> +       if (!removed)
+> +               dev_err(dev, "%s: %pfwf trying to leave from graph in whi=
+ch not a member",
+> +                       __func__, dev_fwnode(dev));
+> +
+> +       mds->removed_device =3D dev;
+> +       mutex_unlock(&media_device_shared_lock);
+> +       kref_put(&mds->refcount, media_device_shared_release);
+> +}
+> +EXPORT_SYMBOL_GPL(media_device_shared_leave);
+> +
+> +int media_device_shared_join_link_source(struct media_device *mdev,
+> +                                        struct device *dev,
+> +                                        struct media_entity *source,
+> +                                        u16 source_pad, u32 flags)
+> +{
+> +       struct media_device_shared *mds =3D to_media_device_shared(mdev);
+> +       struct media_device_shared_link *link;
+> +       struct media_device_shared_link *link_tmp;
+> +       int ret =3D 0;
+> +
+> +       mutex_lock(&media_device_shared_lock);
+> +
+> +       /*
+> +        * TODO Figure out flags. Should we use greatest common denominat=
+or? Or
+> +        * prioritize sink? Or whoever wins the race? For now we just tak=
+e the flags
+> +        * from the sink.
+> +        *
+> +        * TODO Figure out how to actually do the matching. For now we ju=
+st match
+> +        * whoever comes in first. This works with the simple example we'=
+re running
+> +        * with now (rkcif + one rkisp2) but with setups with multiple co=
+pies of
+> +        * hardware this will cause problems, like with rkcif + two rkisp=
+2 and
+> +        * imx8-isi + two rkisp1.
+> +        */
+> +       list_for_each_entry_safe(link, link_tmp, &mds->links, list) {
+> +               if (link->sink) {
+> +                       ret =3D media_create_pad_link(source, source_pad,
+> +                                                   link->sink, link->sin=
+k_pad,
+> +                                                   link->flags);
+> +                       list_del(&link->list);
+> +                       kfree(link);
+> +                       goto exit_join_link_source;
+> +               }
+> +       }
+> +
+> +       link =3D kzalloc_obj(*link);
+> +       if (!link) {
+> +               ret =3D -ENOMEM;
+> +               goto exit_join_link_source;
+> +       }
+> +
+> +       link->source =3D source;
+> +       link->source_pad =3D source_pad;
+> +       link->flags =3D flags;
+> +       list_add_tail(&link->list, &mds->links);
+> +
+> +exit_join_link_source:
+> +       mutex_unlock(&media_device_shared_lock);
+> +       return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(media_device_shared_join_link_source);
+> +
+> +// TODO deduplicate from above
+> +int media_device_shared_join_link_sink(struct media_device *mdev,
+> +                                      struct device *dev,
+> +                                      struct media_entity *sink,
+> +                                      u16 sink_pad, u32 flags)
+> +{
+> +       struct media_device_shared *mds =3D to_media_device_shared(mdev);
+> +       struct media_device_shared_link *link;
+> +       struct media_device_shared_link *link_tmp;
+> +       int ret =3D 0;
+> +
+> +       mutex_lock(&media_device_shared_lock);
+> +
+> +       list_for_each_entry_safe(link, link_tmp, &mds->links, list) {
+> +               if (link->source) {
+> +                       ret =3D media_create_pad_link(link->source, link-=
+>source_pad,
+> +                                                   sink, sink_pad,
+> +                                                   flags);
+> +                       list_del(&link->list);
+> +                       kfree(link);
+> +                       goto exit_join_link_sink;
+> +               }
+> +       }
+> +
+> +       link =3D kzalloc_obj(*link);
+> +       if (!link) {
+> +               ret =3D -ENOMEM;
+> +               goto exit_join_link_sink;
+> +       }
+> +
+> +       link->sink =3D sink;
+> +       link->sink_pad =3D sink_pad;
+> +       link->flags =3D flags;
+> +       list_add_tail(&link->list, &mds->links);
+> +
+> +exit_join_link_sink:
+> +       mutex_unlock(&media_device_shared_lock);
+> +       return ret;
+> +}
+> +EXPORT_SYMBOL_GPL(media_device_shared_join_link_sink);
+> diff --git a/include/media/mc-shared-graph.h b/include/media/mc-shared-gr=
+aph.h
+> new file mode 100644
+> index 000000000000..487325163f84
+> --- /dev/null
+> +++ b/include/media/mc-shared-graph.h
+> @@ -0,0 +1,92 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * mc-shared-graph.h - Media Controller Shared Graph API
+> + *
+> + * Copyright (c) 2026 Paul Elder <paul.elder@ideasonboard.com>
+> + */
+> +
+> +/*
+> + * This file adds the Media Controller Shared Graph API. This allows dri=
+vers
+> + * to create shared media graphs or join existing media graphs from other
+> + * drivers, so that they can all be in the same media graph. This allows=
+ us to
+> + * have more complex media graphs chaining more complex hardware togethe=
+r,
+> + * instead of simple async subdevs.
+> + */
+> +
+> +#include <linux/types.h>
+> +
+> +#ifndef _MEDIA_SHARED_GRAPH_H
+> +#define _MEDIA_SHARED_GRAPH_H
+> +
+> +struct device;
+> +struct media_device;
+> +struct media_entity;
+> +
+> +#if defined(CONFIG_MEDIA_CONTROLLER)
+> +/**
+> + * media_device_shared_join() - Join or create a new shared media device
+> + *
+> + * @dev:               struct &device pointer
+> + *
+> + * This is the entrance function for a device to join or create a new sh=
+ared
+> + * media device. It searches for an existing shared media device based o=
+n the
+> + * neighbours in the device's device tree ports node. If found, then this
+> + * functions returns the existing shared media device and joins it. If o=
+ne is
+> + * not found then one is created and initialized and returned.
+> + */
+> +struct media_device *media_device_shared_join(struct device *dev);
+> +
+> +/**
+> + * media_device_shared_leave() - Leave the shared media device.
+> + *
+> + * @mdev:              struct &media_device pointer
+> + * @dev:               struct &device pointer
+> + *
+> + * This function makes the device leave the shared media device. When all
+> + * members have left the media device it will be freed.
+> + */
+> +void media_device_shared_leave(struct media_device *mdev, struct device =
+*dev);
+> +
+> +/**
+> + * media_device_shared_join_link_source() - Register a link source in th=
+e shared media device
+> + *
+> + * @mdev: The struct &media_device pointer that is part of a shared medi=
+a device
+> + * @dev: struct &device pointer
+> + * @source: The link source
+> + * @source_pad: The pad
+> + * @flags: The flags
+> + *
+> + * This function registers with the shared media device the source part =
+of a
+> + * link. When the shared media device receives the matching sink part of=
+ a link
+> + * via media_device_shared_join_link_sink() then the link will be fully =
+created.
+> + */
+> +int media_device_shared_join_link_source(struct media_device *mdev,
+> +                                        struct device *dev,
+> +                                        struct media_entity *source,
+> +                                        u16 source_pad, u32 flags);
+> +
+> +/**
+> + * media_device_shared_join_link_sink() - Register a link sink in the sh=
+ared media device
+> + *
+> + * Same as media_device_shared_join_link_source() but for sink instead of
+> + * source.
+> + */
+> +int media_device_shared_join_link_sink(struct media_device *mdev,
+> +                                      struct device *dev,
+> +                                      struct media_entity *sink,
+> +                                      u16 sink_pad, u32 flags);
+> +#else
+> +static inline struct media_device *media_device_shared_join(struct devic=
+e *dev)
+> +{ return NULL; }
+> +static inline void media_device_shared_leave(struct media_device *mdev,
+> +                                            struct device *dev) { }
+> +static inline int media_device_shared_join_link_source(struct media_devi=
+ce *mdev,
+> +                                                      struct device *dev,
+> +                                                      struct media_entit=
+y *source,
+> +                                                      u16 source_pad, u3=
+2 flags) { }
+> +static inline int media_device_shared_join_link_sink(struct media_device=
+ *mdev,
+> +                                                    struct device *dev,
+> +                                                    struct media_entity =
+*sink,
+> +                                                    u16 sink_pad, u32 fl=
+ags) { }
+> +#endif /* CONFIG_MEDIA_CONTROLLER */
+> +#endif /* _MEDIA_DEV_SHARED_GRAPH_H */
+> --=20
+> 2.47.2
+>
 
