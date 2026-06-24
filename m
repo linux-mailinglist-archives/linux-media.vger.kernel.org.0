@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-65502-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65503-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id zvOqOOCFO2rOZAgAu9opvQ
-	(envelope-from <linux-media+bounces-65502-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 09:23:12 +0200
+	id TvKLL/qFO2rWZAgAu9opvQ
+	(envelope-from <linux-media+bounces-65503-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 09:23:38 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4289A6BC203
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 09:23:12 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EF986BC218
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 09:23:38 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=chipsnmedia.com header.s=selector1 header.b=ca6MW73r;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65502-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65502-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=chipsnmedia.com header.s=selector1 header.b=SklpYp4G;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65503-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65503-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=none;
 	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id C5589304FA74
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 07:21:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 33C503086997
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 07:21:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60C0D391822;
-	Wed, 24 Jun 2026 07:21:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02BAB391E7F;
+	Wed, 24 Jun 2026 07:21:19 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from PUWP216CU001.outbound.protection.outlook.com (mail-koreasouthazon11020098.outbound.protection.outlook.com [52.101.156.98])
+Received: from PUWP216CU001.outbound.protection.outlook.com (mail-koreasouthazon11020074.outbound.protection.outlook.com [52.101.156.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7480B392803;
-	Wed, 24 Jun 2026 07:21:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7B93988F8;
+	Wed, 24 Jun 2026 07:21:08 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782285675; cv=fail; b=b+nY0Jf2UjtoRDYn4bzmv0TM0PX8EfWYRfir+Wni/+0JtHlSmNJALxpP76FAoNWjFQgskcfiRme8EtYbFjXFZzZw3Znzn4kAKiPF1pr8/qhptOWq5cXVIgm0eqyBtBBReHwqA49nwWD9gw3V1Y8jVugX6EZBtVGbEH+BGzFzRvw=
+	t=1782285677; cv=fail; b=AViS3HHFjK32Q5UHYvI4LNg/JJXC825BIfBP/QzVsl9jA8gmX1KpRu0BfMlWBtR6pedTL1+ikVVUZTWfFKYGgeVyhY+n00J4t2urkk6Tfg6xxrWn7HTaWwGe41DJ/W9d1bRgUCeAK4n0sK5usbq7aKgd5l8gW25TNog9c1dtSl0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782285675; c=relaxed/simple;
-	bh=sgzpOEe5gLl43St+aDlf6mQut1QcHlE/vtRcI4XXiaI=;
+	s=arc-20240116; t=1782285677; c=relaxed/simple;
+	bh=DoDv6bKqP39yP649MoUWUTCQYQMtQX/HpeZtzCIcFkg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=qlj16E4sl4QfsaJKJqH2wKlcIDszmZdJb3PNGglEWI/67Qll4U0L1Ur7w4+SyDUu1UoiLUdrdB9DLurF/1mmhS7a5v9dippLFTrP5T65Em29OWLFB+J2+iGg1udVpo/15TtBcsiJZjsRz8HanQCp1JhRHeG6PKGXyChdiL+A9mo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=ca6MW73r; arc=fail smtp.client-ip=52.101.156.98
+	 Content-Type:MIME-Version; b=YbOuOWs1HPLr0v8klWacXoNw9ot0Jv1oi5UBLrS04iQBBKB5AxsmrfiTILit89x4rGJwPYOPo4ml0gQPBIN6urg2LW8CTXlmomoelWNS9NBNbJpJicVoP/X31k9K83xMGgvwwKB09oCy8XOlnzUBCFRPZ18Y92/AyTg1qYXBWTs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=SklpYp4G; arc=fail smtp.client-ip=52.101.156.74
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=O5erRIFn8au/X34uBglKlEwBFYPcjZvWJI7ScEtuDsRXVhBVau+zZqxWAR37F9QhkrmSyFfJnrrnH37hMt/+/wmHwFa8ox5Xpm4nQ/ZPT4gm1YdzpdM39Q2eYctea07hNjFmRH2kVWYBfPgtUgn8zW6r7mRVr4p9fEPja+ByDfOe83mEBvRnNUnpTYn96MB20wN6OvKva8GJDE9NokU/0VjwNFxZdFc0nj2s/YMZfnLQ6QNJD6ih9PSU71WUiqEFR2r0qqzD6b8PbzAX51WVxOiPpXmnkG8zgZQJnqpUgC4SES6KyZEaOxuHez1QQ+3MC5mjpeJjAxNbtyZ11THh7A==
+ b=UZrVipP8fTbKvPlvFFOv+BtDiP7NNahvDn7AhA3Mnoa/PKes/gN1d3MA4RQL9dvw1NoUYTgpsM87tF0aiWlRbEDBJnzCVP69oQDf5rQllGJMJkp7Xsa23lW5Tg1okBWnmpNmu/z4QY38wwi7sk+xtoUh/9wk89OZbNyIWLrEigkAHdjqlpyh4c/1FwfYpeRIUhRN96ofm4036HHzE2BSOrkeASWPJ649DAuIl9mOVxzkU0QkWr5mW6PL64c+JswOVNGzKYXIlsHxq5jdb23EI1/1RFqJOsDuCySEdBUBqVDj6a1Ls0zIXXwFph6DfqQVIMFqpow4vcvqOXYjT/eEBA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eAC8+/v7e6XibFsNPx+Wyt11P3I9nhDS/a803tt9xOg=;
- b=s3OkY+IAJ4xLdzMImJezvpK50xh8JvtLBPTnq1bUwSvxTF8kezHy02ym1dtCmgVP15siLIDkXUvlSWiK/nJU1nG6R4rucKyWym6IM9Be3LaBzDQxbc1/A51f8LEbXLPY/gkKQ5ezJ+mrLlSq2Jyg1xz168DbPhYmyd+upFgAb4TDKCflGrvoEreOmrC8/KWsinUXZptvhBDy/EVpo+2kzCMpNLIJOsGGDkLF4Vp5czlA6RYK+0EuTnbdUL15pwqQN6ofD8mq8HpdaBtU6VWcqIIK+5lFEkMRJ4wGKraFKpeMf11bJDom8z6wsyGqjvxWO7cUhTRuYBlm2KtdiOTIvQ==
+ bh=vvErox2CyhzdINwc76UYibmiS3940qhjdrVYMtsZ9NU=;
+ b=KD10DRMEwMyeGmtSLrOCrSxc/GtMV+KdxPRDlbdE7vGET0lSUiJlxBSwDXNW7LxzNU0+EgpIO4ftCBDtb1KB5UIosYsOR53s7VkOzRH9W3rSK4zjQG/UV2RzAfHeQgRUP0q95YDEOT0KyvonetGAkpdWRmcuswDZqi9qq1v2XWMdspgIPerhtkBSpYBsbzFeVy7pSBplSCO9ATnsXp6tYpLYNWWMjb08k/k97Or6RMALQ89b8B5OzpIXN/7NHbwaaArT+QnZEe7WH1U/uxo9nOBRAml2ypLYonGFuk5r/CqkyEZGfzUfJIPtzseIzSChncV3kbSysybUp962QxMajw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
  header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eAC8+/v7e6XibFsNPx+Wyt11P3I9nhDS/a803tt9xOg=;
- b=ca6MW73rwCqYERqTcDoKDjme0uthq6T8bjqS1WRUSMPlr+jioprwvqrOjDF2GSZbENovfGuMz7CuEJWEYR2oDJEJBMMtK/glrVWhtOWHAP9jjY9niwdzHo4Yl+NVfb7e/7f/B9w9DnxmfTTX49eux3/omGf1HL0BFo43H6F9smc=
+ bh=vvErox2CyhzdINwc76UYibmiS3940qhjdrVYMtsZ9NU=;
+ b=SklpYp4G0+cSZmapFT1zApfs0dr7yx0niDJte9jbt144npFSUrWw63ZAvFZeS0ZsdYJ6eqCoym3oAfpcAyxrcoZ142pO/2wocvwLTzZxzHN1oiKJH8ktH6lu7b6ETPdmjDJR8nOrdftHJO4S0Icb7EHIylPh3XKlher3l3ve84s=
 Received: from SE2P216MB2440.KORP216.PROD.OUTLOOK.COM (2603:1096:101:1c8::6)
  by PUUP216MB3514.KORP216.PROD.OUTLOOK.COM (2603:1096:301:16b::7) with
  Microsoft SMTP Server (version=TLS1_2,
@@ -75,9 +75,9 @@ Cc: linux-media@vger.kernel.org,
 	lafley.kim@chipsnmedia.com,
 	marek.vasut@mailbox.org,
 	Nas Chung <nas.chung@chipsnmedia.com>
-Subject: [PATCH v6 1/9] media: v4l2-common: Fix P010 format info
-Date: Wed, 24 Jun 2026 16:20:35 +0900
-Message-Id: <20260624072043.238-2-nas.chung@chipsnmedia.com>
+Subject: [PATCH v6 2/9] dt-bindings: media: nxp: Add Wave6 video codec device
+Date: Wed, 24 Jun 2026 16:20:36 +0900
+Message-Id: <20260624072043.238-3-nas.chung@chipsnmedia.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20260624072043.238-1-nas.chung@chipsnmedia.com>
 References: <20260624072043.238-1-nas.chung@chipsnmedia.com>
@@ -94,57 +94,57 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SE2P216MB2440:EE_|PUUP216MB3514:EE_
-X-MS-Office365-Filtering-Correlation-Id: e740e4f8-2f26-4a99-7353-08ded1c12307
+X-MS-Office365-Filtering-Correlation-Id: b1f1ef04-71f6-490f-4f50-08ded1c1233f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|23010399003|1800799024|7416014|52116014|376014|366016|38350700014|56012099006|22082099003|18002099003;
+	BCL:0;ARA:13230040|23010399003|1800799024|7416014|52116014|376014|366016|38350700014|56012099006|6133799003|22082099003|18002099003|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	ODjcb4l6VQ2vMqphwHOEyqqarQorL7+E6b8aBWd2yfBhwDlOqSMSVEv7JVNnXN4MxpDyVqZc38997xOdvz2nwSNtDukyGhWe3ZeUBMBCdodLNsnZ8IpNwqQtHhDUi4ZW8AMVV9kQ/xV+mzoDdMOWgX94IbL0Xz/MLsBnmBgCVKVHaMAEw47o+EI/9E2f4mOOdJqguXYIw5r0ASWr/EQ2F7S3ura6kf0gvx8J+K1W1xfecy7b/Y0lcn91cAvPqDoC4TkoHPoblj5+elronEy+hkcewtKQGBxWXfBluCEUC7xLjnj4hqJKzgU7irCmohkKIx/rVyUDjdedqCzkB71btkl1SvCmtxQcOLc0ZyOQLPmq3gVC7xdwqpZwVA5hMjm6NI7jPtgm1AwzMY69JALFCENiiY4P/zwxORo+YebWgdNXSJISaIEG6gswi33r0vJLIa3H8xUoeYC6BOHCo2Poa4AmSliX5CG5uoec0izUbbjCqCE4PVurZaM+XzltDoZnavpd73R0g7nhir0gf5tkaPvhSUO0WLD3bhxqqf0N9m+LKxtDpGA5qh91Ubpxviv7rzLgALvcrWOAVsP2fYffO0s3l601Q0qRxxCP3k2uW/Mo8eXjm3NdTOgaeWtsjJwEyTWw5UGQsChzrWCVvyENfA9WjGfcUWZeV61V6ezUyhbf2qflnDvGkGNKDw4UwI+Ut6TauM7vxt2yU2j8qdqF8L7fWBlTnDEoysVg3WaMlvg=
+	eYoUxujYqIdb+CpzFStzhJSKeN7tqQtqX16676/Bxu00py8NKYICod5N1NsNoP7ItzEKlAwVanJM1ArkDFBLnsWHXecSLK34cX/qiFK+jH8L115Lnb7f00zGyK2gZ8eH7Oagru55OY1MBJ7ePndL0ranWVjHkuWpV3bKQxgG0228hDM/w9I/dWRlKFMuUnqKMs9NEa+vILY2v6gEkSW9QIhCIHeB6yWJ4YhX+9YhwIt990OxP4piOCBPjz+igqLxIfE/U7dlWUVI7KnV0UqGfCj9T849IEUJiIl6RoSFe+gJk7Bfjna4zYAvfGC//RNZVI/ujBUJU4OLWPUrlcBtqbn6J5PlTAE/hUUMVWjIwq845RXeiCzCdmkvkDXWaXMwaoVxrRLxlpBfE3hePwZ3qRq3JSAcNQl1DsftgS9z8tCv9RuLWu3HJVjobkNOyBPwpi+lefKH3wVcBsrPfNmd9i5HsaFUwvm1eJkaWJU/sB5nMnIEcaQsYNaiSaRCxfOUghfR0oenZrdEUiwChuyIvq5LGSrJ3l7qQz773wfXPmaCDYihZ4MipdCuVOQBPJ0qebRSG7SAlyYuVM/uCBSGgvvwaZMuejDQOfklpzMrzpAs9ZDcEHhNMjObnkCjbMdbh+LIWDuxFabi43WKTHyuoe1RwZor8Oe7VyMOArq+Gsw=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SE2P216MB2440.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(7416014)(52116014)(376014)(366016)(38350700014)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SE2P216MB2440.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(7416014)(52116014)(376014)(366016)(38350700014)(56012099006)(6133799003)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?0S3Z4lqVMYq9zF96FwNTTxx95ry0DAuklI+y05QeTqCPISJX2eeWaT9Yg9KA?=
- =?us-ascii?Q?6dLIywrK8Od5Nig04vI2P3pEl3GdTVeHhnfxXPde2ikPgE4fW/3XAT8QgMAc?=
- =?us-ascii?Q?UkffTkLicOdNQCwVKbWHV8JDX/wsDgh8Tw4HVSQl2KlprT29O+SqDnPzfOr4?=
- =?us-ascii?Q?dsIy9zXulBPgW6AcY3ASLbzG16Vr3rfxVlB+ThjVggBC42Mjnu00R8RFqvE9?=
- =?us-ascii?Q?ah3brV6MU+8EQP98HiPqwQ/FIcLzlP2WQHiZM4awpBrCDIz+h5hsfur43EHZ?=
- =?us-ascii?Q?B1JFdHm8k1pXmcl/uico2Wj7925JBkdsWAXoZL6Qjun4pCCk8puqrQlS2qIS?=
- =?us-ascii?Q?4rp4yEw/1NgDpkephuZDyaACVSaI59D0i6KgbpPSuSUmB3v+elRHVTqEIfsZ?=
- =?us-ascii?Q?HFim6boB+aZWld1FBKlks4Qqa2GvIHFdHYdXCo24Y5hEQg++ICvmoGjmqumY?=
- =?us-ascii?Q?H9/JoYW6Ky6CupYCgzSjTebxfITDEuXYsTFC5HZphJEICppYBTibZ78mozn6?=
- =?us-ascii?Q?ftL3STjeg07lRJnDp1SlpnXqaBUmIK8Fiw/BPI957XV0h1p/E6yG5YU0Pq/x?=
- =?us-ascii?Q?WTaYfLamfV+1Yx86smDmzLkYieQLAMk6NRtlOqGedThC+M/s2OOTPIb9t7sI?=
- =?us-ascii?Q?nWPBq2RrJfxGmM0evYaB6JhBxyvDj62I9BEAve0Dn0LS7Q+jRxMwFH/iTfjq?=
- =?us-ascii?Q?eYmMC0RgS891r6JW7sRxYszmZpDMM2J7uTlzrAs89fFsxUg/mgOdR3Fc/16V?=
- =?us-ascii?Q?t/SKDTWJCSfDPF2l/jxiYc0jALgMQUj9SxSYNS5Jt8gXlkjDLsp/m2s/BXfn?=
- =?us-ascii?Q?FPlD9H/CUT8YPhSr9sx/q2fybA3zp/kdTrDiGtmKCZ068a/aS/FAOeS0qkXs?=
- =?us-ascii?Q?oJgSyGf9J9FIcueuOiH3cd/gmx+pgZU6sx8fNbuJwsI+xfN3Rf7dyYPYtpCj?=
- =?us-ascii?Q?pkwA4tzwffWcBu9m0mOEOxLIO2qaVyXOUiQPyuhV5eYv86C+lC7ZCtlaDRup?=
- =?us-ascii?Q?7KPf2lWo5hZUz+XBhXyGwNT/ZWxNEZaMNFgGXs9MUN0VGtBvrfxIjmpmP9Le?=
- =?us-ascii?Q?Vv6Qf9n0J5MyV5F8F27JI32pDnrp9noYHa895i6d7KLXB9fQmLEUmo4TzIW/?=
- =?us-ascii?Q?3+Z62KkwGL1XBKV3lZFMKS/6LINhcNdRYjxdxRVht07Vl1V5+PFjUCK3tF42?=
- =?us-ascii?Q?yUzBatucqePPrKZTpHZzwmNPQmUm5DJjkzAdxDYkihjOPXUbL2mAwFlTKr9n?=
- =?us-ascii?Q?cHGIrPisRodOmC4hcXRBMTxpNlZzQArQR3XUg559hi/A8kJ5YmfeBzmN1EkZ?=
- =?us-ascii?Q?G0s5IxJKUZ+zhgBtBlIu9AS1zNsk40pPwV7OmL9Ew5qbZyaN4UqY/z2UrsZW?=
- =?us-ascii?Q?2BZf9CqTRssSawEqgqR6vwRXnukAZ0dnnsFJuprwgfpOYES2xltu7zoA8EvO?=
- =?us-ascii?Q?TNamjp5U5NWLv7/q8D6dHD8twUEoRYprtVPzFDWxGU+KmCdMVX+Vge6pwSZV?=
- =?us-ascii?Q?wpjG+SjJQb5ArhNX2S6tkTGS/XEsBIxKWKJ5zH6Mq/Jt2yThYi0+hIiEvtpe?=
- =?us-ascii?Q?X07MRhaICPxw0JEYy2eiU2J3oaFCZjYgCLdmp/2XJ2ZBIb8K7hjzs4iduWum?=
- =?us-ascii?Q?YqALiLEMzFRWWy8fr66G2XlBt1120oMmjr9c2O4KIBelyE6JBLkct0V4zuV8?=
- =?us-ascii?Q?9A8c9oiI0HJECCX5s7EBrf5V62lBPwcKsC5LHEDuGJvL5YB6MXpzqqpLZetR?=
- =?us-ascii?Q?+NI8aj3NJVgIVhUBC0zPlBXwnqXkdoU=3D?=
+	=?us-ascii?Q?m5zeTQky4/LWMO67ebRGaS4XP6bEgHshJ+b0pMlbyE17Kp/YBbfQk+iI85pM?=
+ =?us-ascii?Q?KPwEUjgFNYJ1pNSrwZdEn9PgG9r1et0SAcUF8crKQQqKbeY3rYeSuaCSv1+A?=
+ =?us-ascii?Q?NFX7ohOQ5p4QLYi0GytdRmNE7PU2kIUGPaFKczFHyCevoiELfuK8kSME50FC?=
+ =?us-ascii?Q?PcYAN9DARSTR8qdC6GEf8tpzvOR6s7sw2Ey9/+kVrqjZQdZk+/in5H8fzXDU?=
+ =?us-ascii?Q?JrngVqKC/Qx1bbi+h3sgGC/4Q0jkM+Q40bXhbp0NQWaaokWrzmftaxCU6gPY?=
+ =?us-ascii?Q?4NAaMRtDCHcuk5w/i0FTz430O5nG+5NWXJOpt4EGSoXngZGUBWyV+mbN/C4M?=
+ =?us-ascii?Q?RUFErxyhstAtSygtKLmxrZzC3zgaMyFfEyio0Qk6NPZssfTY1+2e4eQbwZr3?=
+ =?us-ascii?Q?C/PYrOXTICmxAX5FwSnYi6+F+vC/yzF9Z4WuSq1aBMjq3L7UDjKaazBLJord?=
+ =?us-ascii?Q?07uNZ38xf8AFkrMIKiP4hCi2/ssszUn8XCfCmXnSvzwkprUFS9LVk+zL+JTR?=
+ =?us-ascii?Q?U74vTGrSBMi4vqAjEvDp5KeZS5F9w42iXrhcEcY0IXfplQBNQdZnD9FQewRq?=
+ =?us-ascii?Q?mYLpcm9rcshaaJHRdf92TkLOS2xHDuqKEadYONwq5JmbT6bkjxjY7OsOzx4E?=
+ =?us-ascii?Q?Q5JBT+emIa8NRjAFtxCDix3jaz4h4UIu1QBH5XGDSMH/CztxpB+GT0MbI13D?=
+ =?us-ascii?Q?leuUVtOXrMPMZiX0edNaKWYQ7aZ+f0vRWVmGxWNW8NbGqMzZCnyOWA22M7wJ?=
+ =?us-ascii?Q?W/f7ObgjDu11zMQmSRfdPbbqGqEuOsSJWEyMMGj2g+FIVdFA+BgeIWscyKDG?=
+ =?us-ascii?Q?fJ0P7jGrCZmFRlAjKyzZqMJS5vy4qjnPqNKbPmkSUjZKxCGq5FyAR4NErrfm?=
+ =?us-ascii?Q?nbOSXlF29vH0fVIJivBysuu19KalqfrH3vKn96PzaSfGjF6h81y36vX0X6l5?=
+ =?us-ascii?Q?vLinSaHbAR7F5kZ8nJlmODXDS7Z9rAGEVQ3bARsAGcKozTl+0a2oerjmmuqm?=
+ =?us-ascii?Q?bo1Sfxf3XQ4RT4RaQ32TFz0n2rxLDmJODpE7G3i1q0BdAvYxvNaihsb+AWyN?=
+ =?us-ascii?Q?BSmjSmjZcKt0KEufZ4t6vSGk2fzmkiU0T8mHQHRMPE1A04x/4biwnnjlejvu?=
+ =?us-ascii?Q?jGytAGmdF8oD6uKeWM43h8ULn3MND5XPd5ZMV0+RL30EI6Efl1qwIFgHdFhX?=
+ =?us-ascii?Q?YU2isw6ixCJnNQl2jdFiVua8WsnVzN1MubDlRvILPZRfJYgx0cJVkb9Cfk7Q?=
+ =?us-ascii?Q?WqyQXWmlu4Vb43l2kalmSiyHtSNFiREKvLKUKvjB1sirQPV+Fx0B9YO6G9C/?=
+ =?us-ascii?Q?HP87KLZs4hrxezmYteCAEZCQCUkNLmUrFR/ImAMu3Hss65DbkxRc5CIpk3Q9?=
+ =?us-ascii?Q?gx6p85fqOvxXWSxdpd63jXStD5804xGHJxPSpAfJr3mI0Dxc8WNwTwXsoXOp?=
+ =?us-ascii?Q?KlpVwXfw3ilL5lzRBv9q78VkGPs8ixI3pBodUR2efTmAJVBV1nlZMo5IM0Wg?=
+ =?us-ascii?Q?GBwi5VVeMHj+136TIqpdJJY/Mqy6ldRSOcvIyjFwqc938IK093yGJCShkbmU?=
+ =?us-ascii?Q?EvRSYyMTVsU1AsOJl0obUuP8dScstCZ0u/U26i3cmIDA328MGZn06O1V1jBQ?=
+ =?us-ascii?Q?9/w1AjnqjqgVwHerrLfUfn7k1Zh8e9fBjNnYKqzbGFjg9ao22ZncQKQdYE/R?=
+ =?us-ascii?Q?voVTYTmP4vq1QTaURYFt4RvViJYnhXKIZymZeeH5HX+zl4acuSAt8wX7GoMY?=
+ =?us-ascii?Q?oUX5/IwiAZG+fh9ZPuY48/lmHhqPRa0=3D?=
 X-OriginatorOrg: chipsnmedia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e740e4f8-2f26-4a99-7353-08ded1c12307
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1f1ef04-71f6-490f-4f50-08ded1c1233f
 X-MS-Exchange-CrossTenant-AuthSource: SE2P216MB2440.KORP216.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2026 07:20:58.0538
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Jun 2026 07:20:58.4162
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: t/c0WveWR7C1RzgHcXqFk9VeZKjQZHntVorBoYHe5chFdkuvtbsM36VK1vBJsa32/3TNMtO+Xhy85ZJuMokb9J8Yto6pljAGoMdgvvmZ2UE=
+X-MS-Exchange-CrossTenant-UserPrincipalName: kCLjUOc4tcUiWRO7DHb7Vy5LMVnTWuHZl/AKq6vWzgtarl68RKyjMLOmUwXVoOv3e8PisTCabjnQNCP14s1g2kb5zIbjq96NqeMMsWRWoYI=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUUP216MB3514
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [3.34 / 15.00];
@@ -152,13 +152,13 @@ X-Spamd-Result: default: False [3.34 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[chipsnmedia.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65502-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65503-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[16];
 	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:hverkuil@xs4all.nl,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:shawnguo@kernel.org,m:s.hauer@pengutronix.de,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-imx@nxp.com,m:linux-arm-kernel@lists.infradead.org,m:jackson.lee@chipsnmedia.com,m:lafley.kim@chipsnmedia.com,m:marek.vasut@mailbox.org,m:nas.chung@chipsnmedia.com,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	DMARC_NA(0.00)[chipsnmedia.com];
@@ -177,36 +177,218 @@ X-Spamd-Result: default: False [3.34 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[chipsnmedia.com:dkim,chipsnmedia.com:email,chipsnmedia.com:mid,chipsnmedia.com:from_mime,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[chipsnmedia.com:dkim,chipsnmedia.com:email,chipsnmedia.com:mid,chipsnmedia.com:from_mime,intel.com:email,devicetree.org:url,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,i.mx:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 4289A6BC203
+X-Rspamd-Queue-Id: 1EF986BC218
 
-V4L2_PIX_FMT_P010 is a 10-bit 4:2:0 semi-planar format, but its
-v4l2_format_info() entry described a 4:2:2 layout with a half-width
-chroma plane. Correct bpp and vdiv to match P010's real layout,
-consistent with the other semi-planar formats.
+Add documentation for the Chips&Media Wave6 video codec on NXP i.MX SoCs.
 
-Fixes: 5374d8fb75f3 ("media: Add P010 video format")
+The hardware contains one control register region and four interface
+register regions for a shared video processing engine. The control region
+manages shared resources such as firmware memory, while each interface
+region has its own MMIO range and interrupt.
+
+The control region and each interface region are distinct DMA requesters
+and can be associated with separate IOMMU stream IDs. Represent the
+control region as the parent node and the interface register regions as
+child nodes to describe these resources.
+
 Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
 ---
- drivers/media/v4l2-core/v4l2-common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../bindings/media/nxp,imx95-vpu.yaml         | 163 ++++++++++++++++++
+ MAINTAINERS                                   |   7 +
+ 2 files changed, 170 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/nxp,imx95-vpu.yaml
 
-diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index 65db7340ad38..4de8aa3ef7d2 100644
---- a/drivers/media/v4l2-core/v4l2-common.c
-+++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -323,7 +323,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
- 		{ .format = V4L2_PIX_FMT_NV20,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 5, 10, 0, 0 }, .bpp_div = { 4, 4, 1, 1 }, .hdiv = 2, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_NV24,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
- 		{ .format = V4L2_PIX_FMT_NV42,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
--		{ .format = V4L2_PIX_FMT_P010,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 2, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 2, .vdiv = 1 },
-+		{ .format = V4L2_PIX_FMT_P010,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 4, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 2, .vdiv = 2 },
- 		{ .format = V4L2_PIX_FMT_P012,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 4, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 2, .vdiv = 2 },
+diff --git a/Documentation/devicetree/bindings/media/nxp,imx95-vpu.yaml b/Documentation/devicetree/bindings/media/nxp,imx95-vpu.yaml
+new file mode 100644
+index 000000000000..9a5ca53e15a3
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/nxp,imx95-vpu.yaml
+@@ -0,0 +1,163 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/nxp,imx95-vpu.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Chips&Media Wave6 Series multi-standard codec IP on NXP i.MX SoCs
++
++maintainers:
++  - Nas Chung <nas.chung@chipsnmedia.com>
++  - Jackson Lee <jackson.lee@chipsnmedia.com>
++
++description:
++  The Chips&Media Wave6 codec IP is a multi-standard video encoder/decoder.
++  On NXP i.MX SoCs, the Wave6 codec IP exposes one control register region and
++  four interface register regions for a shared video processing engine.
++  The parent node describes the control region, which has its own MMIO range and
++  manages shared resources such as firmware memory. The child nodes describe the
++  interface register regions. Each interface region has its own MMIO range and
++  interrupt.
++  The control region and the interface regions are distinct DMA requesters.
++  The control region and each interface region can be associated with separate
++  IOMMU stream IDs, allowing DMA isolation between them.
++
++properties:
++  compatible:
++    enum:
++      - nxp,imx95-vpu
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: VPU core clock
++      - description: VPU associated block clock
++
++  clock-names:
++    items:
++      - const: core
++      - const: vpublk
++
++  power-domains:
++    items:
++      - description: Main VPU power domain
++      - description: Performance power domain
++
++  power-domain-names:
++    items:
++      - const: vpu
++      - const: perf
++
++  memory-region:
++    maxItems: 1
++
++  sram:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      phandle to the SRAM node used to store reference data, reducing DMA
++      memory bandwidth.
++
++  iommus:
++    maxItems: 1
++
++  "#cooling-cells":
++    const: 2
++
++  "#address-cells":
++    const: 2
++
++  "#size-cells":
++    const: 2
++
++  ranges: true
++
++patternProperties:
++  "^interface@[0-9a-f]+$":
++    type: object
++    description:
++      An interface register region within the Chips&Media Wave6 codec IP.
++      Each region has its own MMIO range and interrupt and can be associated
++      with a separate IOMMU stream ID for DMA isolation.
++    additionalProperties: false
++
++    properties:
++      reg:
++        maxItems: 1
++
++      interrupts:
++        maxItems: 1
++
++      iommus:
++        maxItems: 1
++
++    required:
++      - reg
++      - interrupts
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++  - power-domains
++  - power-domain-names
++  - memory-region
++  - "#address-cells"
++  - "#size-cells"
++  - ranges
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/arm-gic.h>
++    #include <dt-bindings/clock/nxp,imx95-clock.h>
++
++    soc {
++      #address-cells = <2>;
++      #size-cells = <2>;
++
++      video-codec@4c4c0000 {
++        compatible = "nxp,imx95-vpu";
++        reg = <0x0 0x4c4c0000 0x0 0x10000>;
++        clocks = <&scmi_clk 115>,
++                 <&vpu_blk_ctrl IMX95_CLK_VPUBLK_WAVE>;
++        clock-names = "core", "vpublk";
++        power-domains = <&scmi_devpd 21>,
++                        <&scmi_perf 10>;
++        power-domain-names = "vpu", "perf";
++        memory-region = <&vpu_boot>;
++        sram = <&sram1>;
++        iommus = <&smmu 0x32>;
++        #cooling-cells = <2>;
++        #address-cells = <2>;
++        #size-cells = <2>;
++        ranges;
++
++        interface@4c480000 {
++          reg = <0x0 0x4c480000 0x0 0x10000>;
++          interrupts = <GIC_SPI 299 IRQ_TYPE_LEVEL_HIGH>;
++          iommus = <&smmu 0x33>;
++        };
++
++        interface@4c490000 {
++          reg = <0x0 0x4c490000 0x0 0x10000>;
++          interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
++          iommus = <&smmu 0x34>;
++        };
++
++        interface@4c4a0000 {
++          reg = <0x0 0x4c4a0000 0x0 0x10000>;
++          interrupts = <GIC_SPI 301 IRQ_TYPE_LEVEL_HIGH>;
++          iommus = <&smmu 0x35>;
++        };
++
++        interface@4c4b0000 {
++          reg = <0x0 0x4c4b0000 0x0 0x10000>;
++          interrupts = <GIC_SPI 302 IRQ_TYPE_LEVEL_HIGH>;
++          iommus = <&smmu 0x36>;
++        };
++      };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index efbf808063e5..77ea3a1a966b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -28688,6 +28688,13 @@ S:	Maintained
+ F:	Documentation/devicetree/bindings/media/cnm,wave521c.yaml
+ F:	drivers/media/platform/chips-media/wave5/
  
- 		{ .format = V4L2_PIX_FMT_YUV410,  .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 3, .bpp = { 1, 1, 1, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 4, .vdiv = 4 },
++WAVE6 VPU CODEC DRIVER
++M:	Nas Chung <nas.chung@chipsnmedia.com>
++M:	Jackson Lee <jackson.lee@chipsnmedia.com>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/media/nxp,imx95-vpu.yaml
++
+ WHISKEYCOVE PMIC GPIO DRIVER
+ M:	Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
+ L:	linux-gpio@vger.kernel.org
 -- 
 2.31.1
 
