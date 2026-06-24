@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-65555-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65557-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 7LkGLePOO2oBdggAu9opvQ
-	(envelope-from <linux-media+bounces-65555-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 14:34:43 +0200
+	id +fK1FurOO2oDdggAu9opvQ
+	(envelope-from <linux-media+bounces-65557-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 14:34:50 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2462D6BE2B5
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 14:34:43 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2D6A6BE2BF
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 14:34:49 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b="mPIwk3N/";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65555-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65555-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=LWAO03Pm;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65557-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65557-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B87EE316C1BB
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 12:29:37 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E4A4B316EC55
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 12:29:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81F263AEF2E;
-	Wed, 24 Jun 2026 12:29:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DA823AEF57;
+	Wed, 24 Jun 2026 12:29:33 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF30A3AD50A
-	for <linux-media@vger.kernel.org>; Wed, 24 Jun 2026 12:29:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09AE63AEB32
+	for <linux-media@vger.kernel.org>; Wed, 24 Jun 2026 12:29:30 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782304172; cv=none; b=V+hIDfaOGEaqFlLMP+XZjZbfsX4XocLG16QppdmHj8LZcKpuAjKaGE/TAPhxO63+v3GkgU2vC1sto2//8HeDof+1PVrZLqk0FvvQxWHslzw+QX/A5L/dCWKpsUxIugUASegl34x7PhUEJXWKpHSsXSk/RW/kWltUbTbVupdO9hA=
+	t=1782304173; cv=none; b=hmPS+WeMt6dlT0Fkqvua54WAWwZGCc4renRp8OqUA05t2djoF63Z0V8Om3tpf/GC1HWIba14gYWhyjDyMZVPqZxZmFi7fj7IIdFKCtz1Nxq/bRKDqtMI23gm932F/2g9MHIgyM4cFvm4gFuQNRuzGbwjpsaz5+1y+a4Wzdvr1RI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782304172; c=relaxed/simple;
-	bh=Xb+T41tv6iNRLkAzkIjX6/l8mdE3vRMzVG0vH9xXDKE=;
+	s=arc-20240116; t=1782304173; c=relaxed/simple;
+	bh=VzeGkcNCENR+/N5AckUSrrSB6nK3jbubmgO6Kgt47X0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hjEiEwQJ+NmYtT5OSmLoeLqFEfsPosFKy6EvEsydaqkD7C9bMjS8RYbDj9/Xe5SmoUKHXCrcCKkt4/A3t4eT8tpYWzHIWGNbXPv1Yjq3S5fQ1nGzxwPo7K1iLWx6ql/2JUUPx28dCFvKB9SfxV94c1pQrZOrBfRBG89YWwsScCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mPIwk3N/; arc=none smtp.client-ip=209.85.221.47
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-46a0741a09bso340896f8f.0
-        for <linux-media@vger.kernel.org>; Wed, 24 Jun 2026 05:29:29 -0700 (PDT)
+	 MIME-Version:Content-Type; b=EVNClTup/Gv5qVE5I3wYFXsnW3ptoladf0EBSgzfmOGkI6QDNqU56wOUhzJw1ZgGvzV0JHeHFUusR8TO1vFs3BQWEcVsxU9flTfk+FOQpcDJ66BWfc5RT2K1oGkzgtxlINsecWO0itswD08OLRg8YfvjLok3RDpGAdbF5Rwt09Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LWAO03Pm; arc=none smtp.client-ip=209.85.128.49
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-491609cdd8fso6260225e9.2
+        for <linux-media@vger.kernel.org>; Wed, 24 Jun 2026 05:29:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782304168; x=1782908968; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782304169; x=1782908969; darn=vger.kernel.org;
         h=content-transfer-encoding:reply-to:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=+5TLwQAluIRcvcOoLzQbDY5WIKNt2P7yBmdcUvo7STM=;
-        b=mPIwk3N/YEsurkoEzM8m6tULVcOIa+ZsAU8wfpZXQaWOl6JiYM2EZ0gLW9b/5aTA6K
-         wKGXURb8RbvQwFBr/8bMw5Fblhcn1dQ6ECsY4qlvawnsLlM6wNDlKSb/V6cPDxXMqidE
-         UOc7g/jtTcYzCOoBngbkQnezGskKPXK6SwVauitfY3rr1PRD6QiCXPpaUBcqDUIR6Da1
-         ICNQ1CIIRrPIIvNqTK0odYqro55I5PQ3dd4yJKUzPYKFSyvatldFZfa13/Ww9j4KsWil
-         HKfgvY4zgQEQPIAGgNoLTrjluKQB+RLa91TezcYBz/OBpmtynKXaLITJ9UMxXN/qckFL
-         cb1Q==
+        bh=jiviaW6vSIjKPsCI2h5HxDG6Qe0InuCjPOQWwHPX/W4=;
+        b=LWAO03PmlBwGdfb8VQHEHtes2ffJ/zfvzCCBe6b1kv/B82q6X5Y2a7XMphRjO8KU+1
+         U9h0rLOHUSOaDL0IwY6SUFxdFnJ/MDXGDtsP5wR/FBjMYaYqUeTMG7v/B6Y5n/il/OVy
+         yfmxYSkAPzhr+fuXLnloFLN36oFvwsX+FJ2T/NCp/sHdcAFRKOKpdfsVtFp9uhz9/+lr
+         xC4S/nqUYb7E6ZnDAjsZjFViy5zulwCaJEoTzsdV3z40hJnyPgA/H1nyGL/f3WD4QopU
+         J3P1YGfbgkN12f/U9eHTFx2vSzFuqhqMJ7TG3+qNPYbhaoSw6FCY7IF73/5M1podzrwt
+         PdNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782304168; x=1782908968;
+        d=1e100.net; s=20251104; t=1782304169; x=1782908969;
         h=content-transfer-encoding:reply-to:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+5TLwQAluIRcvcOoLzQbDY5WIKNt2P7yBmdcUvo7STM=;
-        b=UdUxuw4s5iMgWI2oMoo5lvdXksmGNMsy61iGS3iv9x4wD+jNBjrnltyK5UQ4qzislK
-         ahFWslDuapYtCCKzlpTcW1K6r6DAU0Hewv2obiQqibeBLHuBrTM2s++3R/KK+CuPOwtc
-         4/uY2JypdA3wxYOTyZaInrvN/bHD0afnzDbq+q5AJ3mwV1TFfg4pSe2wVZyBAgHqcgYs
-         CA1zIQza42OTG3IrzU47qFyYHsr3fSsq8A7OtdxheT5kuBORvqGkZcSne5/ZRfA/L3Gv
-         wtjC92s+OI0M5udaDJ3UpjDuPy5/8jubJ+6pBwi4zMoTBGhV4VeiQDUOzC3+eJkscCLA
-         Irig==
-X-Forwarded-Encrypted: i=1; AHgh+RqgSErsY5K9a93YiAoYuQM4QRkQ4RuVIHfFJZwnWKl4o0UL5AIIAQ+Vjszk2/qJSGr5BRso4KNGaI/RZg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7SaQzZy5MLnVhMX/dErO16CwpS5N2Ok5sR7Mm3liThl28F2gZ
-	R3B4Bym69tcuTPkdwuAVks22CyoIHZlkL4KmX7w8AfQv3AiH4h+D/qUs
-X-Gm-Gg: AfdE7cm4Ju+tHY2UVlxzqlrDjcyMRaZwqc8haCNzEcIK592fSN2iuc6VrZkXCsJkUiA
-	OlTew7k111BMOorg9KcU5wFosDJHAhktoJzTPNqSQkB5E7EsNO4Is7I6ZdTZ/FwLd9/c6x4SP9/
-	oW+OCis3LP+Euj5JlarAyzbRxPW78IYPfcv1S00zw5CIyAez4V7s8BPbaHRH+f9gJ7urgNsm5hZ
-	D5l0BdQSAYC5qZtZvYEeD1wNfunOkR1+XcoaRtpXmC/NTF+vTmXyzgfyMdhgCYySBWjZQ7OTnWN
-	VUt+fAIs7nlv9WnQ5Ax5Q47GlZR7cSUFfGFpXMopHYM+x9kOckv3bR8Nk4Gp2Yoqe1sGTXG8NXN
-	Km0fFzLHFzhzOK4G7DxX10cJpmK/4JAJY9AuWbfcZHuPSYly3yQ3D+xcX+hnTPxz421Co/1GZ2x
-	8E7+wbioKufGLp5s68dJfyheaWqQ==
-X-Received: by 2002:a05:6000:2381:b0:460:e0f:8d19 with SMTP id ffacd0b85a97d-46ad8a3a0b0mr11785454f8f.9.1782304168010;
+        bh=jiviaW6vSIjKPsCI2h5HxDG6Qe0InuCjPOQWwHPX/W4=;
+        b=oW6ZCtwOVujJMIpXd4I59fjwx3IjVH4+p5BqK7uA+NJTj88wPWXhiNlT4zcA8qt1TN
+         RvyZ+FUXJPlzmDT321MVm4lwpR0V/jEfuY7uAR4K4xrIAPZPo5UU5EfO2MZxlz2Cqq1d
+         ib/8g2TmC7RItEFP4klnLVxXlOMjahyJE9AT9697wVUfbd2/BnSifgomFMzKzWOX7+JH
+         ZFE4KUKLDfR0AUyEq0CYy62oeopTvpHQd7PwR5Qwr6KUJ0ptlMNa2u1fbehNcx9mYosy
+         f3dWhYDImk70Dm1J3aIDeXryM271Xx5HCkK5FJLLp0ckVhfsC7DDEGDLHHZ90TafuT3Z
+         lHrA==
+X-Forwarded-Encrypted: i=1; AFNElJ/A+H2amsvX+2jhYCE133EZG6v0gA6cBSgtukO7Qw4lSe9URw1pAij1JUKVsj7m9xY4wTgvSRbTMzPv5Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyW8MqKxobeiMrqS81Udq67QkaAtd+tGTWOZ/akUC8i5Wlc4Wp0
+	UBQL+vlvnvDcrPyRdsv2gcc4++EQ6bwddBquCsAcCp2YAkQpyd3D61Bi
+X-Gm-Gg: AfdE7cn9OflJliSQqC73eJRXEybQ3BM4xNII+KYGF/rQzpeqlfhS3ahozgoxSr8pZsl
+	ZwZfDsYs4stvvTAr3Yu2Oy+YYVWnmsLCcmWOfiO9394gJJQPn0FbxTREz3s9lVyzqvfyCGosMVt
+	XecXaJDZw2C+q/3CtEQNlh49P2Pcslhm1SBB9gNBuml5Qfq1haWL4APTu6PrgWWHwkOW+ESWlKE
+	ik719lZspkXwSNqmn7GqFOP/8qgZkMrit5AUuKa+D0uhicpPSH4nd7axPh1XRbTshNIYzTJCoAI
+	JYp5GTmQt0CPWIp6nN/iIfUY/ttGVUdV2oxJdhWz6kb/TlS+d/ERH8x22eRaTa43l0AQXSeWTfG
+	EuQU/J8W8pYKqn4TOTpp0BSNnNeG+4gvtPoZB/3LrjLbWAtt/WbbDh4Ef8vFscblWfN0OJvX/Dr
+	nsLfPoQWNCYJGgTvOm96otu2aizQ==
+X-Received: by 2002:a05:600c:c04d:b0:492:2ffd:8f8 with SMTP id 5b1f17b1804b1-4926084ce2emr29159085e9.15.1782304168876;
         Wed, 24 Jun 2026 05:29:28 -0700 (PDT)
 Received: from able.fritz.box ([2a00:e180:157e:3500:2be7:1a89:41c5:9239])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c9787dddbsm3896530f8f.3.2026.06.24.05.29.27
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c9787dddbsm3896530f8f.3.2026.06.24.05.29.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2026 05:29:27 -0700 (PDT)
+        Wed, 24 Jun 2026 05:29:28 -0700 (PDT)
 From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
 X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
 To: phasta@kernel.org,
@@ -86,9 +86,9 @@ To: phasta@kernel.org,
 Cc: dri-devel@lists.freedesktop.org,
 	linux-media@vger.kernel.org,
 	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 09/10] dma-buf: remove signaling from dma_fence_enable_signaling()
-Date: Wed, 24 Jun 2026 13:13:33 +0200
-Message-ID: <20260624122917.2483-10-christian.koenig@amd.com>
+Subject: [PATCH 10/10] dma-buf: move locking into dma_fence_ops.enable_signaling
+Date: Wed, 24 Jun 2026 13:13:34 +0200
+Message-ID: <20260624122917.2483-11-christian.koenig@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260624122917.2483-1-christian.koenig@amd.com>
 References: <20260624122917.2483-1-christian.koenig@amd.com>
@@ -106,11 +106,11 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65555-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65557-lists,linux-media=lfdr.de];
 	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
 	FROM_HAS_DN(0.00)[];
@@ -122,7 +122,7 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	FORGED_SENDER(0.00)[ckoenigleichtzumerken@gmail.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	HAS_REPLYTO(0.00)[christian.koenig@amd.com];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
@@ -135,494 +135,462 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,amd.com:replyto,amd.com:email,amd.com:mid,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:replyto,amd.com:email,amd.com:mid,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2462D6BE2B5
+X-Rspamd-Queue-Id: E2D6A6BE2BF
 
-Instead move the call into the backend implementations where necessary.
+Make the callback responsible for acquiring the fence lock when needed.
 
-This way backends can do cleanup after calling dma_fence_signal().
+This gives backends control over their locking strategy and allows them to
+nest locks in their desired order.
 
-For example it might be necessary to remove items from linked lists
-and/or drop additional references, start work items etc...
+This caused quite some trouble in the past and is the reason for
+multiple workarounds.
 
-It also gives backends a clean point to know when all registered callbacks
-are finished.
-
-No intended functional change.
+As a start for cleanup this patch also removes the lockdep anotation
+workaround from dma_fence_chain and dma_fence_array since it isn't
+necessary any more.
 
 Assisted-by: Claude Sonet 4
 Signed-off-by: Christian König <christian.koenig@amd.com>
 ---
- drivers/dma-buf/dma-fence-array.c                |  7 +++----
- drivers/dma-buf/dma-fence-chain.c                | 16 +++++++++-------
- drivers/dma-buf/dma-fence.c                      | 16 +++++-----------
- drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c | 16 +++++++++-------
- .../gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c   |  3 +--
- drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c        |  4 +---
- drivers/gpu/drm/i915/i915_request.c              |  5 +++--
- drivers/gpu/drm/nouveau/nouveau_fence.c          | 15 +++++----------
- drivers/gpu/drm/radeon/radeon_fence.c            | 12 +++++++-----
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.c            |  6 +++---
- drivers/gpu/drm/xe/xe_hw_fence.c                 |  4 +---
- drivers/gpu/drm/xe/xe_preempt_fence.c            |  3 +--
- drivers/gpu/host1x/fence.c                       | 10 +++++-----
- include/linux/dma-fence.h                        | 12 ++++++------
- 14 files changed, 59 insertions(+), 70 deletions(-)
+ drivers/dma-buf/dma-fence-array.c             | 16 +---------
+ drivers/dma-buf/dma-fence-chain.c             | 19 ++---------
+ drivers/dma-buf/dma-fence.c                   | 32 +++++++------------
+ .../gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c  | 18 +++++------
+ drivers/gpu/drm/i915/i915_request.c           |  4 +++
+ drivers/gpu/drm/nouveau/nouveau_fence.c       | 16 ++++++++--
+ drivers/gpu/drm/radeon/radeon_fence.c         |  6 ++++
+ drivers/gpu/drm/vmwgfx/vmwgfx_fence.c         |  6 +++-
+ drivers/gpu/drm/xe/xe_hw_fence.c              |  3 ++
+ drivers/gpu/drm/xe/xe_preempt_fence.c         |  3 ++
+ drivers/gpu/host1x/fence.c                    |  6 ++++
+ include/linux/dma-fence.h                     | 10 ++++--
+ 12 files changed, 71 insertions(+), 68 deletions(-)
 
 diff --git a/drivers/dma-buf/dma-fence-array.c b/drivers/dma-buf/dma-fence-array.c
-index 49ea2ba7c460..541c9c169624 100644
+index 541c9c169624..fcda2dcc6010 100644
 --- a/drivers/dma-buf/dma-fence-array.c
 +++ b/drivers/dma-buf/dma-fence-array.c
-@@ -67,7 +67,7 @@ static void dma_fence_array_cb_func(struct dma_fence *f,
- 		dma_fence_put(&array->base);
- }
- 
--static bool dma_fence_array_enable_signaling(struct dma_fence *fence)
-+static void dma_fence_array_enable_signaling(struct dma_fence *fence)
- {
- 	struct dma_fence_array *array = to_dma_fence_array(fence);
- 	struct dma_fence_array_cb *cb = array->callbacks;
-@@ -92,12 +92,11 @@ static bool dma_fence_array_enable_signaling(struct dma_fence *fence)
+@@ -92,7 +92,7 @@ static void dma_fence_array_enable_signaling(struct dma_fence *fence)
  			dma_fence_put(&array->base);
  			if (atomic_dec_and_test(&array->num_pending)) {
  				dma_fence_array_clear_pending_error(array);
--				return false;
-+				dma_fence_signal_locked(fence);
-+				return;
+-				dma_fence_signal_locked(fence);
++				dma_fence_signal(fence);
+ 				return;
  			}
  		}
- 	}
+@@ -197,8 +197,6 @@ void dma_fence_array_init(struct dma_fence_array *array,
+ 			  int num_fences, struct dma_fence **fences,
+ 			  u64 context, unsigned seqno)
+ {
+-	static struct lock_class_key dma_fence_array_lock_key;
 -
--	return true;
- }
+ 	WARN_ON(!num_fences || !fences);
  
- static void dma_fence_array_signaled(struct dma_fence *fence)
+ 	array->num_fences = num_fences;
+@@ -207,18 +205,6 @@ void dma_fence_array_init(struct dma_fence_array *array,
+ 		       seqno);
+ 	init_irq_work(&array->work, irq_dma_fence_array_work);
+ 
+-	/*
+-	 * dma_fence_array_enable_signaling() is invoked while holding
+-	 * array->base.inline_lock and may call dma_fence_add_callback()
+-	 * on the underlying fences, which takes their inline_lock.
+-	 *
+-	 * Since both locks share the same lockdep class, this legitimate
+-	 * nesting confuses lockdep and triggers a recursive locking
+-	 * warning. Assign a separate lockdep class to the array lock
+-	 * to model this hierarchy correctly.
+-	 */
+-	lockdep_set_class(&array->base.inline_lock, &dma_fence_array_lock_key);
+-
+ 	atomic_set(&array->num_pending, num_fences);
+ 	array->fences = fences;
+ 
 diff --git a/drivers/dma-buf/dma-fence-chain.c b/drivers/dma-buf/dma-fence-chain.c
-index ff4f02900237..6617f4150c73 100644
+index 6617f4150c73..943ec919138d 100644
 --- a/drivers/dma-buf/dma-fence-chain.c
 +++ b/drivers/dma-buf/dma-fence-chain.c
-@@ -9,7 +9,7 @@
- 
- #include <linux/dma-fence-chain.h>
- 
--static bool dma_fence_chain_enable_signaling(struct dma_fence *fence);
-+static void dma_fence_chain_enable_signaling(struct dma_fence *fence);
- 
- /**
-  * dma_fence_chain_get_prev - use RCU to get a reference to the previous fence
-@@ -122,13 +122,14 @@ static const char *dma_fence_chain_get_timeline_name(struct dma_fence *fence)
+@@ -122,14 +122,11 @@ static const char *dma_fence_chain_get_timeline_name(struct dma_fence *fence)
  static void dma_fence_chain_irq_work(struct irq_work *work)
  {
  	struct dma_fence_chain *chain;
-+	unsigned long flags;
+-	unsigned long flags;
  
  	chain = container_of(work, typeof(*chain), work);
  
  	/* Try to rearm the callback */
--	if (!dma_fence_chain_enable_signaling(&chain->base))
--		/* Ok, we are done. No more unsignaled fences left */
--		dma_fence_signal(&chain->base);
-+	dma_fence_lock_irqsave(&chain->base, flags);
-+	dma_fence_chain_enable_signaling(&chain->base);
-+	dma_fence_unlock_irqrestore(&chain->base, flags);
+-	dma_fence_lock_irqsave(&chain->base, flags);
+ 	dma_fence_chain_enable_signaling(&chain->base);
+-	dma_fence_unlock_irqrestore(&chain->base, flags);
  	dma_fence_put(&chain->base);
  }
  
-@@ -142,7 +143,7 @@ static void dma_fence_chain_cb(struct dma_fence *f, struct dma_fence_cb *cb)
- 	dma_fence_put(f);
- }
- 
--static bool dma_fence_chain_enable_signaling(struct dma_fence *fence)
-+static void dma_fence_chain_enable_signaling(struct dma_fence *fence)
- {
- 	struct dma_fence_chain *head = to_dma_fence_chain(fence);
- 
-@@ -153,12 +154,13 @@ static bool dma_fence_chain_enable_signaling(struct dma_fence *fence)
- 		dma_fence_get(f);
- 		if (!dma_fence_add_callback(f, &head->cb, dma_fence_chain_cb)) {
- 			dma_fence_put(fence);
--			return true;
-+			return;
- 		}
+@@ -159,8 +156,9 @@ static void dma_fence_chain_enable_signaling(struct dma_fence *fence)
  		dma_fence_put(f);
  	}
  	dma_fence_put(&head->base);
--	return false;
-+	/* Ok, we are done. No more unsignaled fences left */
-+	dma_fence_signal_locked(&head->base);
++
+ 	/* Ok, we are done. No more unsignaled fences left */
+-	dma_fence_signal_locked(&head->base);
++	dma_fence_signal(&head->base);
  }
  
  static void dma_fence_chain_signaled(struct dma_fence *fence)
+@@ -246,7 +244,6 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
+ 			  struct dma_fence *fence,
+ 			  uint64_t seqno)
+ {
+-	static struct lock_class_key dma_fence_chain_lock_key;
+ 	struct dma_fence_chain *prev_chain = to_dma_fence_chain(prev);
+ 	uint64_t context;
+ 
+@@ -268,18 +265,6 @@ void dma_fence_chain_init(struct dma_fence_chain *chain,
+ 	dma_fence_init64(&chain->base, &dma_fence_chain_ops, NULL,
+ 			 context, seqno);
+ 
+-	/*
+-	 * dma_fence_chain_enable_signaling() is invoked while holding
+-	 * chain->base.inline_lock and may call dma_fence_add_callback()
+-	 * on the underlying fences, which takes their inline_lock.
+-	 *
+-	 * Since both locks share the same lockdep class, this legitimate
+-	 * nesting confuses lockdep and triggers a recursive locking
+-	 * warning. Assign a separate lockdep class to the chain lock
+-	 * to model this hierarchy correctly.
+-	 */
+-	lockdep_set_class(&chain->base.inline_lock, &dma_fence_chain_lock_key);
+-
+ 	/*
+ 	 * Chaining dma_fence_chain container together is only allowed through
+ 	 * the prev fence and not through the contained fence.
 diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index 0ec81a568bbd..15b425984c36 100644
+index 15b425984c36..f201dff75247 100644
 --- a/drivers/dma-buf/dma-fence.c
 +++ b/drivers/dma-buf/dma-fence.c
-@@ -626,7 +626,7 @@ void dma_fence_free(struct dma_fence *fence)
+@@ -626,13 +626,19 @@ void dma_fence_free(struct dma_fence *fence)
  }
  EXPORT_SYMBOL(dma_fence_free);
  
--static bool __dma_fence_enable_signaling(struct dma_fence *fence)
-+static void __dma_fence_enable_signaling(struct dma_fence *fence)
+-static void __dma_fence_enable_signaling(struct dma_fence *fence)
++/**
++ * dma_fence_enable_signaling - enable signaling on fence
++ * @fence: the fence to enable
++ *
++ * This will request for sw signaling to be enabled, to make the fence
++ * complete as soon as possible. This calls &dma_fence_ops.enable_signaling
++ * internally.
++ */
++void dma_fence_enable_signaling(struct dma_fence *fence)
  {
  	const struct dma_fence_ops *ops;
  	bool was_set;
-@@ -637,22 +637,15 @@ static bool __dma_fence_enable_signaling(struct dma_fence *fence)
+ 
+-	dma_fence_assert_held(fence);
+-
+ 	was_set = test_and_set_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
  				   &fence->flags);
  
- 	if (dma_fence_test_signaled_flag(fence))
--		return false;
-+		return;
- 
- 	rcu_read_lock();
- 	ops = rcu_dereference(fence->ops);
- 	if (!was_set && ops && ops->enable_signaling) {
- 		trace_dma_fence_enable_signal(fence);
--
--		if (!ops->enable_signaling(fence)) {
--			rcu_read_unlock();
--			dma_fence_signal_locked(fence);
--			return false;
--		}
-+		ops->enable_signaling(fence);
+@@ -647,23 +653,6 @@ static void __dma_fence_enable_signaling(struct dma_fence *fence)
  	}
  	rcu_read_unlock();
--
--	return true;
  }
+-
+-/**
+- * dma_fence_enable_signaling - enable signaling on fence
+- * @fence: the fence to enable
+- *
+- * This will request for sw signaling to be enabled, to make the fence
+- * complete as soon as possible. This calls &dma_fence_ops.enable_signaling
+- * internally.
+- */
+-void dma_fence_enable_signaling(struct dma_fence *fence)
+-{
+-	unsigned long flags;
+-
+-	dma_fence_lock_irqsave(fence, flags);
+-	__dma_fence_enable_signaling(fence);
+-	dma_fence_unlock_irqrestore(fence, flags);
+-}
+ EXPORT_SYMBOL(dma_fence_enable_signaling);
  
  /**
-@@ -710,7 +703,8 @@ int dma_fence_add_callback(struct dma_fence *fence, struct dma_fence_cb *cb,
+@@ -702,8 +691,9 @@ int dma_fence_add_callback(struct dma_fence *fence, struct dma_fence_cb *cb,
+ 		return -ENOENT;
  	}
  
++	dma_fence_enable_signaling(fence);
++
  	dma_fence_lock_irqsave(fence, flags);
--	if (__dma_fence_enable_signaling(fence)) {
-+	__dma_fence_enable_signaling(fence);
-+	if (!dma_fence_test_signaled_flag(fence)) {
+-	__dma_fence_enable_signaling(fence);
+ 	if (!dma_fence_test_signaled_flag(fence)) {
  		cb->func = func;
  		list_add_tail(&cb->node, &fence->cb_list);
- 	} else {
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-index 6a364357522b..15f546c9098e 100644
+index 15f546c9098e..368c2083b4bd 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_fence.c
-@@ -118,15 +118,17 @@ static const char *amdkfd_fence_get_timeline_name(struct dma_fence *f)
-  *
-  *  @f: dma_fence
-  */
--static bool amdkfd_fence_enable_signaling(struct dma_fence *f)
-+static void amdkfd_fence_enable_signaling(struct dma_fence *f)
+@@ -121,27 +121,27 @@ static const char *amdkfd_fence_get_timeline_name(struct dma_fence *f)
+ static void amdkfd_fence_enable_signaling(struct dma_fence *f)
  {
  	struct amdgpu_amdkfd_fence *fence = to_amdgpu_amdkfd_fence(f);
++	unsigned long flags;
  
--	if (!fence)
--		return false;
-+	if (!fence) {
-+		dma_fence_signal_locked(f);
-+		return;
-+	}
- 
- 	if (dma_fence_is_signaled(f))
--		return true;
-+		return;
+-	if (!fence) {
+-		dma_fence_signal_locked(f);
+-		return;
+-	}
+-
+-	if (dma_fence_is_signaled(f))
+-		return;
++	dma_fence_lock_irqsave(f, flags);
  
  	/* if fence->svm_bo is NULL, means this fence is created through
  	 * init_kfd_vm() or amdgpu_amdkfd_gpuvm_restore_process_bos().
-@@ -134,12 +136,12 @@ static bool amdkfd_fence_enable_signaling(struct dma_fence *f)
+ 	 * Therefore, this fence is amdgpu_amdkfd_fence->eviction_fence.
  	 */
  	if (!fence->svm_bo) {
- 		if (!kgd2kfd_schedule_evict_and_restore_process(fence->mm, fence->context_id, f))
--			return true;
-+			return;
+-		if (!kgd2kfd_schedule_evict_and_restore_process(fence->mm, fence->context_id, f))
++		if (!kgd2kfd_schedule_evict_and_restore_process(fence->mm, fence->context_id, f)) {
++			dma_fence_unlock_irqrestore(f, flags);
+ 			return;
++		}
  	} else {
- 		if (!svm_range_schedule_evict_svm_bo(fence))
--			return true;
-+			return;
+-		if (!svm_range_schedule_evict_svm_bo(fence))
++		if (!svm_range_schedule_evict_svm_bo(fence)) {
++			dma_fence_unlock_irqrestore(f, flags);
+ 			return;
++		}
  	}
--	return false;
-+	dma_fence_signal_locked(f);
- }
- 
- /**
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
-index f6b7522c3c82..ac2b337e0e8f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_eviction_fence.c
-@@ -40,12 +40,11 @@ amdgpu_eviction_fence_get_timeline_name(struct dma_fence *f)
- 	return ef->timeline_name;
- }
- 
--static bool amdgpu_eviction_fence_enable_signaling(struct dma_fence *f)
-+static void amdgpu_eviction_fence_enable_signaling(struct dma_fence *f)
- {
- 	struct amdgpu_eviction_fence *ev_fence = to_ev_fence(f);
- 
- 	schedule_work(&ev_fence->evf_mgr->suspend_work);
--	return true;
- }
- 
- static const struct dma_fence_ops amdgpu_eviction_fence_ops = {
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-index 1192b9800ff2..f7ddc3e50d34 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
-@@ -833,12 +833,10 @@ static const char *amdgpu_fence_get_timeline_name(struct dma_fence *f)
-  * to fence_queue that checks if this fence is signaled, and if so it
-  * signals the fence and removes itself.
-  */
--static bool amdgpu_fence_enable_signaling(struct dma_fence *f)
-+static void amdgpu_fence_enable_signaling(struct dma_fence *f)
- {
- 	if (!timer_pending(&to_amdgpu_fence(f)->ring->fence_drv.fallback_timer))
- 		amdgpu_fence_schedule_fallback(to_amdgpu_fence(f)->ring);
--
--	return true;
+ 	dma_fence_signal_locked(f);
++	dma_fence_unlock_irqrestore(f, flags);
  }
  
  /**
 diff --git a/drivers/gpu/drm/i915/i915_request.c b/drivers/gpu/drm/i915/i915_request.c
-index c39a7f4b6dc7..d9ffcb0e40e3 100644
+index d9ffcb0e40e3..9218a4d6ef11 100644
 --- a/drivers/gpu/drm/i915/i915_request.c
 +++ b/drivers/gpu/drm/i915/i915_request.c
-@@ -93,9 +93,10 @@ static void i915_fence_signaled(struct dma_fence *fence)
- 		dma_fence_signal(fence);
- }
+@@ -95,8 +95,12 @@ static void i915_fence_signaled(struct dma_fence *fence)
  
--static bool i915_fence_enable_signaling(struct dma_fence *fence)
-+static void i915_fence_enable_signaling(struct dma_fence *fence)
+ static void i915_fence_enable_signaling(struct dma_fence *fence)
  {
--	return i915_request_enable_breadcrumb(to_request(fence));
-+	if (!i915_request_enable_breadcrumb(to_request(fence)))
-+		dma_fence_signal_locked(fence);
++	unsigned long flags;
++
++	dma_fence_lock_irqsave(fence, flags);
+ 	if (!i915_request_enable_breadcrumb(to_request(fence)))
+ 		dma_fence_signal_locked(fence);
++	dma_fence_unlock_irqrestore(fence, flags);
  }
  
  static signed long i915_fence_wait(struct dma_fence *fence,
 diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-index 64df1d7de460..7250f58ee443 100644
+index 7250f58ee443..f494281d0ed2 100644
 --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
 +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
 @@ -472,7 +472,7 @@ static void nouveau_fence_is_signaled(struct dma_fence *f)
  		dma_fence_signal(f);
  }
  
--static bool nouveau_fence_no_signaling(struct dma_fence *f)
-+static void nouveau_fence_no_signaling(struct dma_fence *f)
+-static void nouveau_fence_no_signaling(struct dma_fence *f)
++static void __nouveau_fence_no_signaling(struct dma_fence *f)
  {
  	struct nouveau_fence *fence = to_nouveau_fence(f);
  
-@@ -492,10 +492,8 @@ static bool nouveau_fence_no_signaling(struct dma_fence *f)
- 		list_del(&fence->head);
- 
- 		dma_fence_put(&fence->base);
--		return false;
-+		dma_fence_signal_locked(f);
+@@ -496,6 +496,15 @@ static void nouveau_fence_no_signaling(struct dma_fence *f)
  	}
--
--	return true;
  }
  
++static void nouveau_fence_no_signaling(struct dma_fence *f)
++{
++	unsigned long flags;
++
++	dma_fence_lock_irqsave(f, flags);
++	__nouveau_fence_no_signaling(f);
++	dma_fence_unlock_irqrestore(f, flags);
++}
++
  static void nouveau_fence_release(struct dma_fence *f)
-@@ -516,22 +514,19 @@ static const struct dma_fence_ops nouveau_fence_ops_legacy = {
- 	.release = nouveau_fence_release
- };
- 
--static bool nouveau_fence_enable_signaling(struct dma_fence *f)
-+static void nouveau_fence_enable_signaling(struct dma_fence *f)
+ {
+ 	struct nouveau_fence *fence = to_nouveau_fence(f);
+@@ -518,15 +527,18 @@ static void nouveau_fence_enable_signaling(struct dma_fence *f)
  {
  	struct nouveau_fence *fence = to_nouveau_fence(f);
  	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
--	bool ret;
++	unsigned long flags;
  
  	if (!fctx->notify_ref++)
  		nvif_event_allow(&fctx->event);
  
--	ret = nouveau_fence_no_signaling(f);
--	if (ret)
-+	nouveau_fence_no_signaling(f);
-+	if (!dma_fence_test_signaled_flag(f))
+-	nouveau_fence_no_signaling(f);
++	dma_fence_lock_irqsave(f, flags);
++	__nouveau_fence_no_signaling(f);
+ 	if (!dma_fence_test_signaled_flag(f))
  		set_bit(DMA_FENCE_FLAG_USER_BITS, &fence->base.flags);
  	else if (!--fctx->notify_ref)
  		nvif_event_block(&fctx->event);
--
--	return ret;
++	dma_fence_unlock_irqrestore(f, flags);
  }
  
  static const struct dma_fence_ops nouveau_fence_ops_uevent = {
 diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
-index 45f01ebe5a78..5a543d8ea0d9 100644
+index 5a543d8ea0d9..bf48bd2556ec 100644
 --- a/drivers/gpu/drm/radeon/radeon_fence.c
 +++ b/drivers/gpu/drm/radeon/radeon_fence.c
-@@ -369,13 +369,15 @@ static void radeon_fence_is_signaled(struct dma_fence *f)
-  * to fence_queue that checks if this fence is signaled, and if so it
-  * signals the fence and removes itself.
-  */
--static bool radeon_fence_enable_signaling(struct dma_fence *f)
-+static void radeon_fence_enable_signaling(struct dma_fence *f)
+@@ -373,9 +373,13 @@ static void radeon_fence_enable_signaling(struct dma_fence *f)
  {
  	struct radeon_fence *fence = to_radeon_fence(f);
  	struct radeon_device *rdev = fence->rdev;
++	unsigned long flags;
++
++	dma_fence_lock_irqsave(f, flags);
  
--	if (atomic64_read(&rdev->fence_drv[fence->ring].last_seq) >= fence->seq)
--		return false;
-+	if (atomic64_read(&rdev->fence_drv[fence->ring].last_seq) >= fence->seq) {
-+		dma_fence_signal_locked(f);
-+		return;
-+	}
+ 	if (atomic64_read(&rdev->fence_drv[fence->ring].last_seq) >= fence->seq) {
+ 		dma_fence_signal_locked(f);
++		dma_fence_unlock_irqrestore(f, flags);
+ 		return;
+ 	}
  
- 	if (down_read_trylock(&rdev->exclusive_lock)) {
- 		radeon_irq_kms_sw_irq_get(rdev, fence->ring);
-@@ -387,7 +389,8 @@ static bool radeon_fence_enable_signaling(struct dma_fence *f)
- 		if (atomic64_read(&rdev->fence_drv[fence->ring].last_seq) >= fence->seq) {
+@@ -390,6 +394,7 @@ static void radeon_fence_enable_signaling(struct dma_fence *f)
  			radeon_irq_kms_sw_irq_put(rdev, fence->ring);
  			up_read(&rdev->exclusive_lock);
--			return false;
-+			dma_fence_signal_locked(f);
-+			return;
+ 			dma_fence_signal_locked(f);
++			dma_fence_unlock_irqrestore(f, flags);
+ 			return;
  		}
  
- 		up_read(&rdev->exclusive_lock);
-@@ -403,7 +406,6 @@ static bool radeon_fence_enable_signaling(struct dma_fence *f)
+@@ -406,6 +411,7 @@ static void radeon_fence_enable_signaling(struct dma_fence *f)
  	fence->fence_wake.func = radeon_fence_check_signaled;
  	__add_wait_queue(&rdev->fence_queue, &fence->fence_wake);
  	dma_fence_get(f);
--	return true;
++	dma_fence_unlock_irqrestore(f, flags);
  }
  
  /**
 diff --git a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-index 4ef84ff9b638..cb92232ca4ee 100644
+index cb92232ca4ee..c88999098bb5 100644
 --- a/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
 +++ b/drivers/gpu/drm/vmwgfx/vmwgfx_fence.c
-@@ -95,7 +95,7 @@ static const char *vmw_fence_get_timeline_name(struct dma_fence *f)
-  * enabled. If interrupts were already enabled we just increment the number of
-  * seqno waiters.
-  */
--static bool vmw_fence_enable_signaling(struct dma_fence *f)
-+static void vmw_fence_enable_signaling(struct dma_fence *f)
- {
+@@ -100,9 +100,11 @@ static void vmw_fence_enable_signaling(struct dma_fence *f)
  	u32 seqno;
  	struct vmw_fence_obj *fence =
-@@ -110,13 +110,13 @@ static bool vmw_fence_enable_signaling(struct dma_fence *f)
- 			vmw_seqno_waiter_remove(dev_priv);
+ 		container_of(f, struct vmw_fence_obj, base);
+-
+ 	struct vmw_fence_manager *fman = fman_from_fence(fence);
+ 	struct vmw_private *dev_priv = fman->dev_priv;
++	unsigned long flags;
++
++	dma_fence_lock_irqsave(f, flags);
+ check_for_race:
+ 	seqno = vmw_fence_read(dev_priv);
+ 	if (seqno - fence->base.seqno < VMW_FENCE_WRAP) {
+@@ -111,12 +113,14 @@ static void vmw_fence_enable_signaling(struct dma_fence *f)
  			fence->waiter_added = false;
  		}
--		return false;
-+		dma_fence_signal_locked(f);
-+		return;
+ 		dma_fence_signal_locked(f);
++		dma_fence_unlock_irqrestore(f, flags);
+ 		return;
  	} else if (!fence->waiter_added) {
  		fence->waiter_added = true;
  		if (vmw_seqno_waiter_add(dev_priv))
  			goto check_for_race;
  	}
--	return true;
++	dma_fence_unlock_irqrestore(f, flags);
  }
  
  static u32 __vmw_fences_update(struct vmw_fence_manager *fman);
 diff --git a/drivers/gpu/drm/xe/xe_hw_fence.c b/drivers/gpu/drm/xe/xe_hw_fence.c
-index bda2fde0b216..44563dfd75ab 100644
+index 44563dfd75ab..5356553001cb 100644
 --- a/drivers/gpu/drm/xe/xe_hw_fence.c
 +++ b/drivers/gpu/drm/xe/xe_hw_fence.c
-@@ -154,7 +154,7 @@ static const char *xe_hw_fence_get_timeline_name(struct dma_fence *dma_fence)
- 	return fence->name;
- }
- 
--static bool xe_hw_fence_enable_signaling(struct dma_fence *dma_fence)
-+static void xe_hw_fence_enable_signaling(struct dma_fence *dma_fence)
+@@ -158,7 +158,9 @@ static void xe_hw_fence_enable_signaling(struct dma_fence *dma_fence)
  {
  	struct xe_hw_fence *fence = to_xe_hw_fence(dma_fence);
  	struct xe_hw_fence_irq *irq = xe_hw_fence_irq(fence);
-@@ -166,8 +166,6 @@ static bool xe_hw_fence_enable_signaling(struct dma_fence *dma_fence)
++	unsigned long flags;
+ 
++	dma_fence_lock_irqsave(dma_fence, flags);
+ 	dma_fence_get(dma_fence);
+ 	list_add_tail(&fence->irq_link, &irq->pending);
+ 
+@@ -166,6 +168,7 @@ static void xe_hw_fence_enable_signaling(struct dma_fence *dma_fence)
  	xe_hw_fence_signaled(dma_fence);
  	if (dma_fence_test_signaled_flag(dma_fence))
  		xe_hw_fence_irq_run(irq);
--
--	return true;
++	dma_fence_unlock_irqrestore(dma_fence, flags);
  }
  
  static void xe_hw_fence_release(struct dma_fence *dma_fence)
 diff --git a/drivers/gpu/drm/xe/xe_preempt_fence.c b/drivers/gpu/drm/xe/xe_preempt_fence.c
-index d6427b473ddd..c6e5472ec7ac 100644
+index c6e5472ec7ac..ea0b9ed9d8cd 100644
 --- a/drivers/gpu/drm/xe/xe_preempt_fence.c
 +++ b/drivers/gpu/drm/xe/xe_preempt_fence.c
-@@ -67,7 +67,7 @@ preempt_fence_get_timeline_name(struct dma_fence *fence)
- 	return "preempt";
- }
- 
--static bool preempt_fence_enable_signaling(struct dma_fence *fence)
-+static void preempt_fence_enable_signaling(struct dma_fence *fence)
- {
+@@ -72,9 +72,12 @@ static void preempt_fence_enable_signaling(struct dma_fence *fence)
  	struct xe_preempt_fence *pfence =
  		container_of(fence, typeof(*pfence), base);
-@@ -75,7 +75,6 @@ static bool preempt_fence_enable_signaling(struct dma_fence *fence)
+ 	struct xe_exec_queue *q = pfence->q;
++	unsigned long flags;
  
++	dma_fence_lock_irqsave(fence, flags);
  	pfence->error = q->ops->suspend(q);
  	queue_work(q->vm->xe->preempt_fence_wq, &pfence->preempt_work);
--	return true;
++	dma_fence_unlock_irqrestore(fence, flags);
  }
  
  static const struct dma_fence_ops preempt_fence_ops = {
 diff --git a/drivers/gpu/host1x/fence.c b/drivers/gpu/host1x/fence.c
-index b9a7d0bf91f8..4a74df718540 100644
+index 4a74df718540..75b101aae756 100644
 --- a/drivers/gpu/host1x/fence.c
 +++ b/drivers/gpu/host1x/fence.c
-@@ -30,12 +30,14 @@ static struct host1x_syncpt_fence *to_host1x_fence(struct dma_fence *f)
- 	return container_of(f, struct host1x_syncpt_fence, base);
- }
- 
--static bool host1x_syncpt_fence_enable_signaling(struct dma_fence *f)
-+static void host1x_syncpt_fence_enable_signaling(struct dma_fence *f)
+@@ -33,9 +33,13 @@ static struct host1x_syncpt_fence *to_host1x_fence(struct dma_fence *f)
+ static void host1x_syncpt_fence_enable_signaling(struct dma_fence *f)
  {
  	struct host1x_syncpt_fence *sf = to_host1x_fence(f);
++	unsigned long flags;
++
++	dma_fence_lock_irqsave(f, flags);
  
--	if (host1x_syncpt_is_expired(sf->sp, sf->threshold))
--		return false;
-+	if (host1x_syncpt_is_expired(sf->sp, sf->threshold)) {
-+		dma_fence_signal_locked(f);
-+		return;
-+	}
+ 	if (host1x_syncpt_is_expired(sf->sp, sf->threshold)) {
+ 		dma_fence_signal_locked(f);
++		dma_fence_unlock_irqrestore(f, flags);
+ 		return;
+ 	}
  
- 	/* Reference for interrupt path. */
- 	dma_fence_get(f);
-@@ -62,8 +64,6 @@ static bool host1x_syncpt_fence_enable_signaling(struct dma_fence *f)
+@@ -64,6 +68,8 @@ static void host1x_syncpt_fence_enable_signaling(struct dma_fence *f)
  	 * so we need to initialize all state used by signalling
  	 * before it.
  	 */
--
--	return true;
++
++	dma_fence_unlock_irqrestore(f, flags);
  }
  
  static const struct dma_fence_ops host1x_syncpt_fence_ops = {
 diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-index e93ea4ac0636..c8e4d5a61d72 100644
+index c8e4d5a61d72..e6b17aa1b769 100644
 --- a/include/linux/dma-fence.h
 +++ b/include/linux/dma-fence.h
-@@ -174,12 +174,12 @@ struct dma_fence_ops {
- 	 * This is called with irq's disabled, so only spinlocks which disable
- 	 * IRQ's can be used in the code outside of this callback.
+@@ -171,12 +171,16 @@ struct dma_fence_ops {
+ 	 * implementation know that there is another driver waiting on the
+ 	 * signal (ie. hw->sw case).
  	 *
--	 * A return value of false indicates the fence already passed,
--	 * or some failure occurred that made it impossible to enable
--	 * signaling. True indicates successful enabling.
-+	 * If the fence has already passed or if some failure occurred that
-+	 * makes it impossible to enable signaling, the implementation must
-+	 * call dma_fence_signal_locked() before returning.
+-	 * This is called with irq's disabled, so only spinlocks which disable
+-	 * IRQ's can be used in the code outside of this callback.
++	 * The callback is responsible for acquiring the fence lock if needed
++	 * using dma_fence_lock_irqsave(). This gives drivers control over their
++	 * locking strategy and allows them to minimize the critical section if
++	 * they have complex logic.
  	 *
--	 * &dma_fence.error may be set in enable_signaling, but only when false
--	 * is returned.
-+	 * &dma_fence.error may be set in enable_signaling before calling
-+	 * dma_fence_signal_locked().
+ 	 * If the fence has already passed or if some failure occurred that
+ 	 * makes it impossible to enable signaling, the implementation must
+-	 * call dma_fence_signal_locked() before returning.
++	 * call dma_fence_signal_locked() before returning. Note that
++	 * dma_fence_signal_locked() requires the fence lock to be held, so
++	 * implementations calling it MUST acquire the lock first.
  	 *
- 	 * Since many implementations can call dma_fence_signal() even when before
- 	 * @enable_signaling has been called there's a race window, where the
-@@ -192,7 +192,7 @@ struct dma_fence_ops {
- 	 * This callback is optional. If this callback is not present, then the
- 	 * driver must always have signaling enabled.
- 	 */
--	bool (*enable_signaling)(struct dma_fence *fence);
-+	void (*enable_signaling)(struct dma_fence *fence);
- 
- 	/**
- 	 * @check_signaled:
+ 	 * &dma_fence.error may be set in enable_signaling before calling
+ 	 * dma_fence_signal_locked().
 -- 
 2.43.0
 
