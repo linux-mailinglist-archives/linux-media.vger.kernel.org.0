@@ -1,455 +1,257 @@
-Return-Path: <linux-media+bounces-65490-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65491-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 7pu6LFVBO2roUggAu9opvQ
-	(envelope-from <linux-media+bounces-65490-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 04:30:45 +0200
+	id 6mzpLAxHO2rNVQgAu9opvQ
+	(envelope-from <linux-media+bounces-65491-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 04:55:08 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AF256BAEF4
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 04:30:45 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
+	by mail.lfdr.de (Postfix) with ESMTPS id 566876BAFDA
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 04:55:08 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=Yck48E+W;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65490-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65490-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
+	dkim=pass header.d=nxp.com header.s=selector1 header.b=IMUE6f32;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65491-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-65491-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=nxp.com;
+	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3FC3B30342B2
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 02:30:31 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id BC9FA300E023
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 02:55:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C7732DC76F;
-	Wed, 24 Jun 2026 02:30:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1019530149F;
+	Wed, 24 Jun 2026 02:55:02 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011008.outbound.protection.outlook.com [40.107.130.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A761FF1C7
-	for <linux-media@vger.kernel.org>; Wed, 24 Jun 2026 02:30:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDD572857CC;
+	Wed, 24 Jun 2026 02:54:59 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782268230; cv=pass; b=tt6PlfmmbdbOUQuerMVMdPdiNAodfVLYDtgEeNRExeOt+5B38hmGfoDKfe4zbnmTj7b4kRzTZMmM9t5qWLIVtaVM5Oc8aw2UhYVAooLZimOQXo4FT2gbE+F+2+z33NAsObrRPRXKrjtN+gWvaJKfewu+CzS+oAmnOd29MKfujus=
+	t=1782269701; cv=fail; b=e4j61jqrfPNcE2FxzUKxCkbt7YKxQ2rPnVmrqM3R91tOJM5n5ejK1knKcfTmRWsVwHlIp998k1/tl7lm4xWM+ptnPM5TBoMtjjBdBmC5+hTWi12NgZrB20HYm9z1AU8iVmaoM/UDS8JsnfddBAm6hNKskHPIA9PUixc1DfuRVFU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782268230; c=relaxed/simple;
-	bh=3aLup+DxksKgbEwW39dUgM29EE+dsMdQ6edZ4FCPW8Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mRSlNfK1h5BWaEy52d1oCkGBMHil0mNqLHGCf7Vy/yYALTB/KcsRHLViIWFgOfJEQMFCLB5voLPUhjKbUtBzqJZakBkhb2JhRjP9iRlwsVonfQa8Au1pw43tBdWaFF3o9/kTv/pAIo6ufEZJYwQP7epm+j/be5fFn9CMySJiKAY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yck48E+W; arc=pass smtp.client-ip=209.85.208.181
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-399389dae7fso5121321fa.0
-        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2026 19:30:27 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1782268226; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Dt62ouyqW19Rvu1UQqBvCDHDPD5XaQVIM7QsPDTMCpPpOVdVj7J4/FhyLpSgdyReDM
-         ftHqUGtZ51g1znb3yr0sjU4IvmKcWSbJe3h1EbUAk9GgULk7s6eMy1midRT0rEAffftw
-         NJNvCE/01wV0Pp9ebm1cWZtB38SaKdPo8UzzdAOoexKsz4o7E9+fpw3xXOybh7jsWeNU
-         XSvEy5pMOfcBw5INf35bFrOLZGv9hp7LetSj4Nm44pzxlLXj3aep/kiGsy9CgS0rwUVL
-         KzGzo4RyovMwWaE3VVHpZV6Knc4dOScYQ3xMT0oKpyOwa7KUgOTVM3yA/hKc1RtiTREV
-         p/Ag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=3aLup+DxksKgbEwW39dUgM29EE+dsMdQ6edZ4FCPW8Y=;
-        fh=+RhY4TDYeFaN8QrqHsu2z7tFgasqzOYN0pM9nbfzu6c=;
-        b=YipfnHBXSXmydhunGrJWvChbYmBHy+p2ywyGkOTymWBk4X7cQSgvX0vSnb9Pj+MeR9
-         R7FMcWKW4BtaisQfkYGHyxs/7WuSP4zEewfUJ6kvkRzllFdLFdh8LUhMLUMWzQM8XudM
-         rS0/bIu6jBtFQa3VbIQnZn5mt/BpQk2oB1qgV+efF8hT1Cdm7wzQsRwz6RWx5mD+lKiN
-         L+4ZSrfsMPxT6xX2fKiyrTVcqFJxg8xLTUQdP+phKAm2HlJOQn2IOCHwVkRChxGn8oD2
-         jEQoqtmZdB6GNeftKR71EvjGxVWB2nhk/Asr1xxcmpHIL28jd+qQ8Fh0dISzKCH3FRBT
-         ZxHw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782268226; x=1782873026; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3aLup+DxksKgbEwW39dUgM29EE+dsMdQ6edZ4FCPW8Y=;
-        b=Yck48E+WicYDk7bI4N5doEJF0vApAbyMS0JkB1wEvp1rdZJyTeYv39GQCG9M9YoF5E
-         fNBvybSXEmfX/s5G+exGNV+Vw313O0ud+vkqqXZEZbFPhzTJLu8buYWFN73vfVeCkt57
-         1cJslRu4O0Xvs8EPM0EIQdM8jwG5AekRhPoO1Bcsug0K7gYr5P7aq/GXzMj+42fa6ZLi
-         jHv+Eeo+EUgOVJwu0P6Nd8Us51Ci0p2z/b9aRI6AgfVoLbbPCOKO47opCrQUve82ihSx
-         q9cOoCf0ede90+By4AdbZrLLOjOV1XvsHFxoYE4BCeA8YYQM6rLkxVkIhHuhqaxjyOD4
-         6Hpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782268226; x=1782873026;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3aLup+DxksKgbEwW39dUgM29EE+dsMdQ6edZ4FCPW8Y=;
-        b=DObL0Cj0f9cSgEfAcRhVmnWif2CSALU6CL1BfzbhjQx9wRf7ycYL7rEQZYCYTx7A/x
-         +T2B2TZ844e7lof4/fexh12verIKwSI8JKAjgh85NyPnc25RPX+5FjouaH3i1+BAdCDX
-         Br/16Wj9NGx6yAsWIw1tzrl9EVmmtbmRvTF13rxh8C/WKpThPkniWHmuw7ZBVF/UBeJI
-         atMnIKgrIPusynEJFSY7ehvX8CWJ8qlNcaGP2ienvflXyVNIfphEbzJfCNEbATM91kTH
-         VQXbJz4SqjlXbQJXXJ9O1MYXAE79ZDDbWlRMFu3lm4BBdEV8SMSVMWSrISA1aXdKWZ+S
-         +4tA==
-X-Gm-Message-State: AOJu0YwxOOh68WMlUxgcKTBBh3wENDeyCBCBCwTZ0muJkO8WTXETcHON
-	p2N4JffjqhpD6aj8861fWid3C6aX7tru8KU4wEzb2igdZY8xvLr7D74ejmezOccAulgq31RjVI8
-	8VnZ0d8W/TFpUGN2S7Q3qCxL5xvQA9/UhuA==
-X-Gm-Gg: AfdE7cnCJODsNqgYidzoycWc7jBKwgjYPv2dxNJ2HiRqaJ/OjiLFC7y8Je1G841xuCG
-	Uk120BmGlv86ositLG43xluQfj4Qr6K4RyR30jH6Y4J8MUMvzFZmIdkn88VkJcTqDVjLaW3ITK9
-	1lLPNgPMqK1md7hOJoZtCbSbTdhQQuVMdi31heIA1xD46JYE4DYLmRIuyE6e4FumYTjbhkRS3tO
-	MwYWGOFmT3hbTy048JNu09Bsaof8ILegjAa++mDhdIgUuJBsWdWwtJq82Y77Ou5v+aejzk=
-X-Received: by 2002:a2e:6a01:0:b0:399:6db5:3939 with SMTP id
- 38308e7fff4ca-399c53c2fbdmr11191361fa.2.1782268225859; Tue, 23 Jun 2026
- 19:30:25 -0700 (PDT)
+	s=arc-20240116; t=1782269701; c=relaxed/simple;
+	bh=RZjPcW2JE8ZLh9HJwTD4mZIX1rMTewE33vNNuk2hK/k=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=iB5a8ZVRLsbgGFRtY44v77A/lcbQljIbl0EFPPbys8Jd2Ldtn4EyLJpuEVWT03WwCjALkHhvVk9QeIxnsCzBMPLBZ/jT6ZTtgh5EduwVTvYg63NZPcYbXxoHGe3WuHPBI8Ubvzj9wdSJbOAVWqGyzKRODfAs7jLG6aS4heOB1YA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=IMUE6f32; arc=fail smtp.client-ip=40.107.130.8
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ObpS0OUraLjGpjRI8ZKBLZmIHjHLlgbvOmHtGuxKpd+8cnKEoVqD8kiuOsK+hIVDT8sqoOG4XCrrIjvlMwLPOAg0Zrltcp7NDnfih6eQQwyOuhKT7MFZ+gULOfZLlnnfwCC9gdVjS/LxjFhVs+rc1EfukIhxXNM7i67WSpiFZFAfPVPOgKb1WnsDtDIgRouq5LbetvjJ1kGqS7foddVr52148S7FEwJHezEmMOKC7wFX4WPgnvtx2n5asbzBINl3t5FHBWRZ+ptA8B41bGa1ZPSdsIaiWJnem+gKz2pajxYqPd/65wYw93LM18jbU0W03L870YEFKfetK1jrD+tSdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RZjPcW2JE8ZLh9HJwTD4mZIX1rMTewE33vNNuk2hK/k=;
+ b=v/ZWafGx5HPIkLl1c46YB7DnBE2wjHA78XHnKT6vk4ECQP4JxlEJFSfDhV1zC0cMoKpTSS2BgD4wobsQr0iF8Ma+kWaRnuDpBeEAcGK+syopSLehwiV0zk7hXpWxeBT8+z2hWtpA2PzuhlEUAeqbdljWUu2Z90ffgEynly+vEFieBmq3rgNuna9AuxDgYJxHeKh3a39fps7Xg1KVa5PCpFYtHYOYrEoosPXdz4nhm96B5zWGbGk4BZ1GMdmnqva20Oa/LhdL7x/cyePIa/WuifZAM8+pMClhwVpE/mNd5L870YlgOFhTHNI88JZBBZcErjsO8VgUsqYrgfBmw0tRkw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RZjPcW2JE8ZLh9HJwTD4mZIX1rMTewE33vNNuk2hK/k=;
+ b=IMUE6f32KHo7kr6GAn2eEuMTwwXfKRaxYadvQGuv0JaGj4GmoNVBxYL2eupM9DHhpOJcnjcdK1G4e0Ay+K0qjPSLom/ha7d/qO8kV/k/APcYbwlLc8RbcsVLQSB6HnTrqqKwvmC+qVsAoWhNWiKFpyqmU4h4qFrEgyxIBlDDqPcOI8BsaSKk0BWbCNBM/3iJGar7I1fyV2480gkeSs8zP8sKl3BjutDFHWZg/KcnwEyfbbvE7zs3sopBzk4s4Ea81LxlBDlZzYFkYGS74CWRS7LlBFpIvDDuZOcCpNAol0pVG5JNwNt6LZ1ovb4kKyMbj7EGoXllroM8akQnP76irQ==
+Received: from AS8PR04MB9080.eurprd04.prod.outlook.com (2603:10a6:20b:447::16)
+ by PA1PR04MB11432.eurprd04.prod.outlook.com (2603:10a6:102:4f7::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.139.20; Wed, 24 Jun
+ 2026 02:54:55 +0000
+Received: from AS8PR04MB9080.eurprd04.prod.outlook.com
+ ([fe80::92c2:2e03:bf99:68eb]) by AS8PR04MB9080.eurprd04.prod.outlook.com
+ ([fe80::92c2:2e03:bf99:68eb%6]) with mapi id 15.21.0139.018; Wed, 24 Jun 2026
+ 02:54:55 +0000
+From: "G.N. Zhou" <guoniu.zhou@nxp.com>
+To: "Frank Li (OSS)" <frank.li@oss.nxp.com>, Andy Shevchenko
+	<andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, Sakari Ailus
+	<sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Danilo
+ Krummrich <dakr@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Dafna Hirschfeld <dafna@fastmail.com>, Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>, Heiko Stuebner <heiko@sntech.de>, Bryan
+ O'Donoghue <bryan.odonoghue@linaro.org>, Vladimir Zapolskiy
+	<vladimir.zapolskiy@linaro.org>, Loic Poulain <loic.poulain@oss.qualcomm.com>
+CC: "driver-core@lists.linux.dev" <driver-core@lists.linux.dev>,
+	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-arm-msm@vger.kernel.org"
+	<linux-arm-msm@vger.kernel.org>, "imx@lists.linux.dev" <imx@lists.linux.dev>,
+	Frank Li <frank.li@nxp.com>
+Subject: RE: [PATCH 1/4] device property: Introduce
+ fwnode_graph_for_each_endpoint_scoped()
+Thread-Topic: [PATCH 1/4] device property: Introduce
+ fwnode_graph_for_each_endpoint_scoped()
+Thread-Index: AQHdAlOzl1psYbfwf0Gue7fOzJtVubZNBOcA
+Date: Wed, 24 Jun 2026 02:54:55 +0000
+Message-ID:
+ <AS8PR04MB908065454C3DA49C9ED866E2FAED2@AS8PR04MB9080.eurprd04.prod.outlook.com>
+References: <20260622-fw_scoped-v1-0-a37d0aac0a68@nxp.com>
+ <20260622-fw_scoped-v1-1-a37d0aac0a68@nxp.com>
+In-Reply-To: <20260622-fw_scoped-v1-1-a37d0aac0a68@nxp.com>
+Accept-Language: zh-CN, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS8PR04MB9080:EE_|PA1PR04MB11432:EE_
+x-ms-office365-filtering-correlation-id: cc6d0c70-7b8d-40f2-f435-08ded19bf8af
+x-ld-processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|19092799006|7416014|376014|366016|23010399003|1800799024|22082099003|18002099003|38070700021|921020|56012099006|11063799006|4143699003;
+x-microsoft-antispam-message-info:
+ gNrHtleUuQOv0e+fszZyJWQfJd7HLu8o67q7wYcKN8DJ/KOlLhdEn+maAinzI9PBPqoVzv+lQFNgbcm9UKl5oxkdUiqCRociB4mMHncoh7ANdqKYmZ9S+D/D7MUrOnW15NQNhjHz4q1o9TscuihNxpbGA6yu2uYERlL6t8kiqgQLn9GFoW2n09d7ZRG5oLpT6zbWJVRBbPbtqN3LE7LFt6/4T+IVT1r4ZYdzdZGnGapxiYR30sE5uceArfU8JTRu0D5FLPlBDkyKfYzRTi6qJtQqSnxF0hyVBIGY6fiz64eCBUnJ7fZJSXxjgomn7pCbP8F0ixq6eopvNYZCwC3RE6UmALVZQqcD6V9tolRnFwqSS+QzqhtGuuTCuVO0NYGWA0aKq5d+kFozG0DL8aIsNPCgH0rH+r33V6GanxguionoJZ8A5KaHLVMzHrnJUMQLwBBFVpN/YTEuRENdD6gH4y4uxqgdZTC6uQfd2CozvXNq6wsjTFeZOFxHC1MHdg/UbWvxNKY+1WOswED2KV4C7fjDL2lFpFa/csKQCBGuTuCPe2CDDwpZoPTLPf2sX6ej2DJ98AuQ/iKZkR+U7FWDCeoysiDPteDMEkpGC0r++1j825Yq933qL/YQUQYFX0ughQNJWy99dQL+gS4E8N+4klPP87lCAuetDJcFIm0/8RgepQ/RSWHI2m1SV7G9mqx0VuKfhO1Nj5Pphp0JAFk+hEXdSTJVv0YWFWSbJN5I1ICz6mIzH6DTHu+Q3AZJza0y
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB9080.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(7416014)(376014)(366016)(23010399003)(1800799024)(22082099003)(18002099003)(38070700021)(921020)(56012099006)(11063799006)(4143699003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?LzhxUzhOMXdqaEFFRERUZ2dtczRIU0taSzFFS3lsVVFQSHAzTkJsNjdzNlhH?=
+ =?utf-8?B?dUxpYkFrcFpXMHRxOHFBdC9xRFZCUGRXbFNLVVFXQXhEZzJYT2JDaWFpSlpu?=
+ =?utf-8?B?ZlRDL2JXUXVCRXZ1Vk5iTXRUc2xzZHYrOUM3WEFZUGZ5VnV3Ly91YkNITDhq?=
+ =?utf-8?B?Z2Q5TkxHbDYrRmkzdUptK2Noc2lTOTU2cUVhQnNRVGxLZHVuSHpGcHdycm9u?=
+ =?utf-8?B?ZDNxL2xWUHhoUVhvR2YzR3oweC95WVFSWTNVNWRiUWlLaEF5ZStreHE1OGxB?=
+ =?utf-8?B?a1YrcCtIeWRyT3RwM0pZLzB6Rk4wQ2YwNTBqRG5XN25BVlNPOFB4MnhKbWZV?=
+ =?utf-8?B?TTFQbGdaNnNKOWN1OUxLTHJzem1seE1mL1ZSWW5EZ2JLWmhFS0dsaHM4cFlB?=
+ =?utf-8?B?ei9NNVpiTDlpRkpXSmxscWxlUUlhU0tTMlFvcnFZZ1Bsc3MvZ3I5WFBzaGNW?=
+ =?utf-8?B?VFFmZVJjaGFDZUdoYmM3aEFESEsybG8rZkozSDR4REpSbmFISC94eDdKUFU1?=
+ =?utf-8?B?algvTWxaTjNtTUw1V2o1OTNqcjMzeXc3bUhpUVNtdGt4emw0MUtEVU82Z3Zw?=
+ =?utf-8?B?MHdXTDNUUmxzT3RjK0cyckVKdFkxekVnUUNaRVV1cEVYRzlGNXJBSmtENXJZ?=
+ =?utf-8?B?ZFR1cGRWWVlETFNxZWpFRStTTjBtdkJQV1l4Rzc2ZFFCZEtoT3JWRXdYWnBF?=
+ =?utf-8?B?T2NMbE92bi9GdzNxVGg3bWh1bEoxY010MWNKRHpoY2xqdXZsYWl2MDNqZWxK?=
+ =?utf-8?B?OWNLSmxXRFMyd2ZrYWU3dDVndlBxS2pOekFTaURPZ3NrbzFoL3FSMU9CQ2E4?=
+ =?utf-8?B?RUdrQ1FxcFlsY1hnUVh4RDNraDkxeFRtVDFnVS9LRmtTOG9OMUhqV0RBY2Fn?=
+ =?utf-8?B?TVZwZVlLci9uUThHVmNqS3lXc1BveEZhZW9nbEZkTTQ2NkxTUVIvTXFvak4r?=
+ =?utf-8?B?b1cvTXRvUDNXcWp6d3VBejJaTWJPUFJ2eHRlVVUxRmFKblloVkc1eml5UG5J?=
+ =?utf-8?B?MlF6QllVL0ZwaTUvWWlSVkhocEl6eGwzck9UOGJZQ3Vvc3N6VlA5YW9WYWc1?=
+ =?utf-8?B?VDdSY3QvT1VwSkNWZGlZemdVK0dGblRMYVorVitmYS9TK1NTTURmSEIxTFgw?=
+ =?utf-8?B?eTlJWGpUTmJBUHVQZ0F2cUhZcUd2VkVJZWFUVThqN1kvWExaMEU2cldVUDE2?=
+ =?utf-8?B?enlqUVloc0xFWEVaT25LOStUdUlVMTNoZ0Y2L3FZWHc2RldEcUhvZjUrbGVt?=
+ =?utf-8?B?SU9iaE0zVnljKzZmL3lXM1MrbENlT0l5QjJUaXNjaU9XQkJKcFB6NHhGVC8r?=
+ =?utf-8?B?TThQVS9QSWFlbUNmSUVxaFZ6Q3V6aWZrMmJyekJpRExBQW44L3MyU1NZME9H?=
+ =?utf-8?B?SUI4a2hnM0NqNHNDcFNIYVplbGVqRXBhOXQ2TUk1dkJGcnZIMTNKQ1R4a21q?=
+ =?utf-8?B?dHY4VlIzOU13Q2hrQ1owcU5rN0l1V3IzYWl2UndQQW9FQzU1d0w0MEo0ZFc0?=
+ =?utf-8?B?NzMySTVTVmgvSUdzNjY5c2hsWmVSY1dyaElkQys1OU9MR0RXRlZjRFlnQWpk?=
+ =?utf-8?B?YmNoeGtnd2liZE4zeFRhenkrUGtXcHFtbW5wcG0rUHJCTTBWb1ZoL1lVMStm?=
+ =?utf-8?B?Qm81Y21mcTF4Z09NRC9pSXBybjFUQndPUW1nZGtnV0VYUlFDc1dmQUY2UlI4?=
+ =?utf-8?B?bmdud1h1MkNpZnRZT2tyNzJiZFRTdVlqSWYxbkh5bFZHUWpha1Q3aWpSNmdB?=
+ =?utf-8?B?NmxVTHBlRHVNWWVtdVVJQWd2NXRCaFFZRWdWMDhTbkRYWEpCTEJ3TkF6a09C?=
+ =?utf-8?B?Y3ZqWmlWKzJiTTcxSjlGOHlud01SU0J6U00zVlZxYnV6L1QwZURlN01lc25Q?=
+ =?utf-8?B?RE83MlVpUnNCVlladXZwUFJ6N3FGYVRZTG00dlhhcGNVSlhQNUFwdmdQdjRa?=
+ =?utf-8?B?NG5TTG9Zays3bFlLRWJMbTBiMnVsQWhBZElXRzlzUEk2bGVvNzEzNUtwWTJx?=
+ =?utf-8?B?NzdiZTBtbUVmUUtpNGRuc0R3ZTVkN0JrYlBwVEJBOGx4bmx3bDZJZzBwcEVs?=
+ =?utf-8?B?Sm1FYyttdkxrMUF6VzU5Rlc5eUJrT3BzNVQxZ1F4cFpjamxCMTdTZWJiMG9F?=
+ =?utf-8?B?djVqdU5rc0VVd2dRQ3ZEcG1FVWo4b0JzS2VTZkhaWDNrWTNGeFR1ZDl3TUFM?=
+ =?utf-8?B?YTFyNjMvZUNTMVJ1ZW9iU2VhbVd6UnJabjJ1YVR1RHMzM0k0emcvWm8vUVUr?=
+ =?utf-8?B?R0tuTk1pWHV0b1hBbFBzK29YbkJuUWYxbFZnZlB0Tm1zVWlvRlgzSVdXNnpx?=
+ =?utf-8?Q?sVD2v/QStWoJgLKbc3?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAB-99LvD2cCmPt91Kh-1Zj69=_xczV6oUA7soAfFXQBcZxA+pQ@mail.gmail.com>
- <CAO3ALPx9FK=ayO8WWt7zguTfaA=e5q2wxUPc1ojpPFqFvstxBA@mail.gmail.com>
- <CAB-99Lu1+OB0OyKQLh9Y89+BdLc23j6nJAn59VbS9qVwAb-4vw@mail.gmail.com> <CAO3ALPxbYGG5fxO1Dd989bjg=a4xRLBSDwtDL41Bd9ym7pt6KQ@mail.gmail.com>
-In-Reply-To: <CAO3ALPxbYGG5fxO1Dd989bjg=a4xRLBSDwtDL41Bd9ym7pt6KQ@mail.gmail.com>
-From: Michael Goffioul <michael.goffioul@gmail.com>
-Date: Tue, 23 Jun 2026 22:30:13 -0400
-X-Gm-Features: AVVi8CeC1OX_UIxXI31fCdy0fjMhDjS5RL_vDrp6iOtYlQk9eF1XOr7_5pFayEE
-Message-ID: <CAB-99Lt=XkfAa6aOvug9101qWOaLsQN7a0ss7bZ1OmPvvTETsg@mail.gmail.com>
-Subject: Re: Support for Mygica A681B (ATSC/QAM USB tuner)
-To: Forest Crossman <cyrozap@gmail.com>
-Cc: linux-media@vger.kernel.org
-Content-Type: multipart/mixed; boundary="0000000000007f453e0654f6a81e"
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB9080.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc6d0c70-7b8d-40f2-f435-08ded19bf8af
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Jun 2026 02:54:55.5005
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: JDUQI+xoQY6eRhBbPY9tj99zT30aL6HAKhHHqya4rzPaPdRJIh57Z/4FuAA60cVoJqKDogRYd/SbigLfJqyn3A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR04MB11432
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.06 / 15.00];
+X-Spamd-Result: default: False [0.94 / 15.00];
+	ARC_REJECT(1.00)[cv is fail on i=2];
 	MIME_BASE64_TEXT_BOGUS(1.00)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[nxp.com,none];
+	R_DKIM_ALLOW(-0.20)[nxp.com:s=selector1];
+	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	MAILLIST(-0.15)[generic];
 	MIME_BASE64_TEXT(0.10)[];
-	MIME_GOOD(-0.10)[multipart/mixed,multipart/alternative,text/plain,text/x-patch];
+	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWO(0.00)[2];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:cyrozap@gmail.com,m:linux-media@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER(0.00)[michaelgoffioul@gmail.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+,1:+,2:+,3:~,4:+];
-	FORWARDED(0.00)[lists@lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[24];
 	RCVD_TLS_LAST(0.00)[];
-	HAS_ATTACHMENT(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[michaelgoffioul@gmail.com,linux-media@vger.kernel.org];
-	PRECEDENCE_BULK(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65490-lists,linux-media=lfdr.de];
-	TAGGED_RCPT(0.00)[linux-media];
-	MISSING_XM_UA(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_FROM(0.00)[bounces-65491-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:frank.li@oss.nxp.com,m:andriy.shevchenko@linux.intel.com,m:djrscally@gmail.com,m:heikki.krogerus@linux.intel.com,m:sakari.ailus@linux.intel.com,m:gregkh@linuxfoundation.org,m:rafael@kernel.org,m:dakr@kernel.org,m:mchehab@kernel.org,m:dafna@fastmail.com,m:laurent.pinchart@ideasonboard.com,m:heiko@sntech.de,m:bryan.odonoghue@linaro.org,m:vladimir.zapolskiy@linaro.org,m:loic.poulain@oss.qualcomm.com,m:driver-core@lists.linux.dev,m:linux-acpi@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:linux-arm-msm@vger.kernel.org,m:imx@lists.linux.dev,m:frank.li@nxp.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	TO_DN_EQ_ADDR_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[oss.nxp.com,linux.intel.com,gmail.com,linuxfoundation.org,kernel.org,fastmail.com,ideasonboard.com,sntech.de,linaro.org,oss.qualcomm.com];
+	FORGED_SENDER(0.00)[guoniu.zhou@nxp.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[nxp.com:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[guoniu.zhou@nxp.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid]
+	MISSING_XM_UA(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0AF256BAEF4
+X-Rspamd-Queue-Id: 566876BAFDA
 
---0000000000007f453e0654f6a81e
-Content-Type: multipart/alternative; boundary="0000000000007f453c0654f6a81c"
-
---0000000000007f453c0654f6a81c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Oct 14, 2025 at 1:42=E2=80=AFPM Forest Crossman <cyrozap@gmail.com>=
- wrote:
-
-> On Tue, Oct 14, 2025 at 9:13=E2=80=AFAM Michael Goffioul
-> <michael.goffioul@gmail.com> wrote:
-> >
-> > On Fri, Oct 10, 2025 at 11:22=E2=80=AFAM Forest Crossman <cyrozap@gmail=
-.com>
-> wrote:
-> >>
-> >> On Sun, Jun 22, 2025 at 8:46=E2=80=AFPM Michael Goffioul
-> >> <michael.goffioul@gmail.com> wrote:
-> >> >
-> >> > Hi,
-> >> >
-> >> > I have a Mygica A681B USB tuner and I'm wondering whether there's an=
-y
-> >> > hope to have it supported by the Linux kernel. I've attached the lsu=
-sb
-> >> > output for the device at the end of this email.
-> >> >
-> >> > So far, I've downloaded the Linux driver from Geniatech web site. Th=
-is
-> >> > is made for Ubuntu 20 and kernel 5.4. From what I can tell from the
-> >> > driver sources, the device 1f4d:692f seems to use a mxl692 frontend
-> >> > driver, but it uses a binary-only mxl692_fe.o module, without
-> >> > providing the source code for it. Kernel 6 includes its own mxl692
-> >> > driver, however it appears to use a different interface/API (and
-> >> > apparently also a firmware blob that does not look to be easy to
-> >> > find...).
-> >> >
-> >> > Any help or hint would be greatly appreciated.
-> >> >
-> >> > Michael.
-> >>
-> >> Hi, Michael,
-> >>
-> >> I've recently submitted some patches [1] to enable support for the
-> >> A681B and its more-compact USB-C sibling, the PT682C. The patches are
-> >> not yet ready for mainline (hence why I marked them "RFC"), but
-> >> they're good enough to get the hardware working and streaming TV from
-> >> over the air. If you're willing to patch your kernel, the patches
-> >> should get you up and running while you wait for support in mainline
-> >> or your distro's kernel.
-> >>
-> >> Also, while the cover letter for the patch series contains a link to a
-> >> script I wrote to download and extract the firmware image from the
-> >> Windows driver, I recently learned that the firmware can simply be
-> >> downloaded directly from here [2].
-> >>
-> >> I hope this helps!
-> >>
-> >> Forest
-> >>
-> >> [1]:
-> https://lore.kernel.org/linux-media/20251001051534.925714-1-cyrozap@gmail=
-.com/T/
-> >> [2]:
-> https://github.com/LibreELEC/dvb-firmware/blob/90261ae2934329f6ca84dd6c72=
-d10d0777bf4b0e/firmware/dvb-demod-mxl692.fw
-> >
-> >
-> > Hi Forest,
-> >
-> > Thanks for the info. I will give it a try when I get a chance.
-> >
-> > Do you know whether this would support Clear QAM too? While I had some
-> > success with ATSC with some reverse engineering, I was not able to get
-> > the device to work with QAM (with the device directly connected to a
-> > VeCOAX modulator).
-> >
-> > Thanks,
-> > Michael.
-> >
->
-> Michael,
->
-> No, I don't think QAM works yet. The message for the commit that added
-> the mxl692 driver to the kernel mentions that "Only ATSC is currently
-> advertised via DVB properties. QAM still has issues." And the patch
-> series cover letter[1] mentions "The ATSC portion works fully, the QAM
-> portion needs some TLC and is therefore not listed in the DVB
-> capabilities." Since no commits have been added since then to get QAM
-> demod working, I think it probably still doesn't work. Not that I've
-> tried, though--my first objective was to just get the driver for the
-> A681B and PT682C working, then maybe later if I could get a Clear QAM
-> source up and running (I have some SDRs that can do this, but I
-> haven't used them in years) I'd try getting QAM demod working.
->
-> All the best,
-> Forest
->
-> [1]:
-> https://lore.kernel.org/all/20210126015416.5622-1-brad@nextdimension.cc/
-
-
-Forrest,
-
-I finally found the time to try your driver and I was able to use the
-MyGica A681B device on my desktop with ATSC. Additionally, using the
-attached patch, I was also able to use Clear QAM (both 64-QAM and 256-QAM,
-using a DekTec modulator as source). So, thanks for the driver.
-
-That being said, it didn't work well when using the device connected to an
-Android device (which is my target platform). Although the streaming
-worked, there were regular streaming errors (video pixelation and buffering
-events) making the device unsuitable for normal usage. A Hauppauge WindTV
-dual-HD device, used in the exact same test conditions (just swapped with
-the MyGica one), worked flawlessly. I didn't observe the same issues
-either, when using the MyGica device on my normal desktop. I'm not sure
-whether it might be due to the limited resources of the Android box, but if
-you have any suggestions, please let me know.
-
-Michael.
-
---0000000000007f453c0654f6a81c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><span style=3D"background-color:transpare=
-nt">On Tue, Oct 14, 2025 at 1:42=E2=80=AFPM Forest Crossman &lt;<a href=3D"=
-mailto:cyrozap@gmail.com">cyrozap@gmail.com</a>&gt; wrote:</span></div><div=
- class=3D"gmail_quote gmail_quote_container"><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">On Tue, Oct 14, 2025 at 9:13=E2=80=AFAM Michael Goffiou=
-l<br>
-&lt;<a href=3D"mailto:michael.goffioul@gmail.com" target=3D"_blank">michael=
-.goffioul@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Fri, Oct 10, 2025 at 11:22=E2=80=AFAM Forest Crossman &lt;<a href=
-=3D"mailto:cyrozap@gmail.com" target=3D"_blank">cyrozap@gmail.com</a>&gt; w=
-rote:<br>
-&gt;&gt;<br>
-&gt;&gt; On Sun, Jun 22, 2025 at 8:46=E2=80=AFPM Michael Goffioul<br>
-&gt;&gt; &lt;<a href=3D"mailto:michael.goffioul@gmail.com" target=3D"_blank=
-">michael.goffioul@gmail.com</a>&gt; wrote:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Hi,<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; I have a Mygica A681B USB tuner and I&#39;m wondering whether=
- there&#39;s any<br>
-&gt;&gt; &gt; hope to have it supported by the Linux kernel. I&#39;ve attac=
-hed the lsusb<br>
-&gt;&gt; &gt; output for the device at the end of this email.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; So far, I&#39;ve downloaded the Linux driver from Geniatech w=
-eb site. This<br>
-&gt;&gt; &gt; is made for Ubuntu 20 and kernel 5.4. From what I can tell fr=
-om the<br>
-&gt;&gt; &gt; driver sources, the device 1f4d:692f seems to use a mxl692 fr=
-ontend<br>
-&gt;&gt; &gt; driver, but it uses a binary-only mxl692_fe.o module, without=
-<br>
-&gt;&gt; &gt; providing the source code for it. Kernel 6 includes its own m=
-xl692<br>
-&gt;&gt; &gt; driver, however it appears to use a different interface/API (=
-and<br>
-&gt;&gt; &gt; apparently also a firmware blob that does not look to be easy=
- to<br>
-&gt;&gt; &gt; find...).<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Any help or hint would be greatly appreciated.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Michael.<br>
-&gt;&gt;<br>
-&gt;&gt; Hi, Michael,<br>
-&gt;&gt;<br>
-&gt;&gt; I&#39;ve recently submitted some patches [1] to enable support for=
- the<br>
-&gt;&gt; A681B and its more-compact USB-C sibling, the PT682C. The patches =
-are<br>
-&gt;&gt; not yet ready for mainline (hence why I marked them &quot;RFC&quot=
-;), but<br>
-&gt;&gt; they&#39;re good enough to get the hardware working and streaming =
-TV from<br>
-&gt;&gt; over the air. If you&#39;re willing to patch your kernel, the patc=
-hes<br>
-&gt;&gt; should get you up and running while you wait for support in mainli=
-ne<br>
-&gt;&gt; or your distro&#39;s kernel.<br>
-&gt;&gt;<br>
-&gt;&gt; Also, while the cover letter for the patch series contains a link =
-to a<br>
-&gt;&gt; script I wrote to download and extract the firmware image from the=
-<br>
-&gt;&gt; Windows driver, I recently learned that the firmware can simply be=
-<br>
-&gt;&gt; downloaded directly from here [2].<br>
-&gt;&gt;<br>
-&gt;&gt; I hope this helps!<br>
-&gt;&gt;<br>
-&gt;&gt; Forest<br>
-&gt;&gt;<br>
-&gt;&gt; [1]: <a href=3D"https://lore.kernel.org/linux-media/20251001051534=
-.925714-1-cyrozap@gmail.com/T/" rel=3D"noreferrer" target=3D"_blank">https:=
-//lore.kernel.org/linux-media/20251001051534.925714-1-cyrozap@gmail.com/T/<=
-/a><br>
-&gt;&gt; [2]: <a href=3D"https://github.com/LibreELEC/dvb-firmware/blob/902=
-61ae2934329f6ca84dd6c72d10d0777bf4b0e/firmware/dvb-demod-mxl692.fw" rel=3D"=
-noreferrer" target=3D"_blank">https://github.com/LibreELEC/dvb-firmware/blo=
-b/90261ae2934329f6ca84dd6c72d10d0777bf4b0e/firmware/dvb-demod-mxl692.fw</a>=
-<br>
-&gt;<br>
-&gt;<br>
-&gt; Hi Forest,<br>
-&gt;<br>
-&gt; Thanks for the info. I will give it a try when I get a chance.<br>
-&gt;<br>
-&gt; Do you know whether this would support Clear QAM too? While I had some=
-<br>
-&gt; success with ATSC with some reverse engineering, I was not able to get=
-<br>
-&gt; the device to work with QAM (with the device directly connected to a<b=
-r>
-&gt; VeCOAX modulator).<br>
-&gt;<br>
-&gt; Thanks,<br>
-&gt; Michael.<br>
-&gt;<br>
-<br>
-Michael,<br>
-<br>
-No, I don&#39;t think QAM works yet. The message for the commit that added<=
-br>
-the mxl692 driver to the kernel mentions that &quot;Only ATSC is currently<=
-br>
-advertised via DVB properties. QAM still has issues.&quot; And the patch<br=
->
-series cover letter[1] mentions &quot;The ATSC portion works fully, the QAM=
-<br>
-portion needs some TLC and is therefore not listed in the DVB<br>
-capabilities.&quot; Since no commits have been added since then to get QAM<=
-br>
-demod working, I think it probably still doesn&#39;t work. Not that I&#39;v=
-e<br>
-tried, though--my first objective was to just get the driver for the<br>
-A681B and PT682C working, then maybe later if I could get a Clear QAM<br>
-source up and running (I have some SDRs that can do this, but I<br>
-haven&#39;t used them in years) I&#39;d try getting QAM demod working.<br>
-<br>
-All the best,<br>
-Forest<br>
-<br>
-[1]: <a href=3D"https://lore.kernel.org/all/20210126015416.5622-1-brad@next=
-dimension.cc/" rel=3D"noreferrer" target=3D"_blank">https://lore.kernel.org=
-/all/20210126015416.5622-1-brad@nextdimension.cc/</a></blockquote><div><br>=
-</div><div>Forrest,</div><div><br></div><div>I finally found the time to tr=
-y your driver and I was able to use the MyGica A681B device on my desktop w=
-ith ATSC. Additionally, using the attached patch, I was also able to use Cl=
-ear QAM (both 64-QAM and 256-QAM, using a DekTec modulator as source). So, =
-thanks for the driver.</div><div><br></div><div>That being said, it didn&#3=
-9;t work well when using the device connected to an Android device (which i=
-s my target platform). Although the streaming worked, there were regular st=
-reaming errors (video pixelation=C2=A0and buffering events) making the devi=
-ce unsuitable for normal usage. A Hauppauge WindTV dual-HD device, used in =
-the exact same test conditions (just swapped with the MyGica one), worked f=
-lawlessly. I didn&#39;t observe the same issues=C2=A0 either, when using th=
-e MyGica device on my normal desktop. I&#39;m not sure whether it might be =
-due to the limited resources of the Android box, but if you have any sugges=
-tions, please let me know.</div><div><br></div><div>Michael.</div><div><br>=
-</div></div></div>
-
---0000000000007f453c0654f6a81c--
---0000000000007f453e0654f6a81e
-Content-Type: text/x-patch; charset="US-ASCII"; name="mygica-qam.diff"
-Content-Disposition: attachment; filename="mygica-qam.diff"
-Content-Transfer-Encoding: base64
-Content-ID: <f_mqrg5laq0>
-X-Attachment-Id: f_mqrg5laq0
-
-LS0tIC4uL2JhY2t1cC9kcml2ZXJzL21lZGlhL2R2Yi1mcm9udGVuZHMvbXhsNjkyLmMJMjAyNi0w
-Ni0yMyAxMTozMToyMi4xNDc3NjUwMDYgLTA0MDAKKysrIGRyaXZlcnMvbWVkaWEvZHZiLWZyb250
-ZW5kcy9teGw2OTIuYwkyMDI2LTA2LTIzIDIyOjE0OjA2LjM0OTc0MjM5NiAtMDQwMApAQCAtMTAy
-MSwxMiArMTAyMSwyMSBAQAogCQkJZ290byBlcnI7CiAKIAkJcWFtX3BhcmFtcy5hbm5leF90eXBl
-ID0gcWFtX2FubmV4OwotCQlxYW1fcGFyYW1zLnFhbV90eXBlID0gTVhMX0VBR0xFX1FBTV9ERU1P
-RF9BVVRPOwogCQlxYW1fcGFyYW1zLmlxX2ZsaXAgPSBNWExfRUFHTEVfREVNT0RfSVFfQVVUTzsK
-LQkJaWYgKHAtPm1vZHVsYXRpb24gPT0gUUFNXzY0KQotCQkJcWFtX3BhcmFtcy5zeW1ib2xfcmF0
-ZV9oeiA9IDUwNTcwMDA7Ci0JCWVsc2UKLQkJCXFhbV9wYXJhbXMuc3ltYm9sX3JhdGVfaHogPSA1
-MzYxMDAwOworCQlzd2l0Y2ggKHAtPm1vZHVsYXRpb24pIHsKKwkJCWNhc2UgUUFNXzY0OgorCQkJ
-CXFhbV9wYXJhbXMucWFtX3R5cGUgPSBNWExfRUFHTEVfUUFNX0RFTU9EX1FBTTY0OworCQkJCXFh
-bV9wYXJhbXMuc3ltYm9sX3JhdGVfaHogPSA1MDU3MDAwOworCQkJCWJyZWFrOworCQkJY2FzZSBR
-QU1fMjU2OgorCQkJCXFhbV9wYXJhbXMucWFtX3R5cGUgPSBNWExfRUFHTEVfUUFNX0RFTU9EX1FB
-TTI1NjsKKwkJCQlxYW1fcGFyYW1zLnN5bWJvbF9yYXRlX2h6ID0gNTM2MTAwMDsKKwkJCQlicmVh
-azsKKwkJCWRlZmF1bHQ6CisJCQkJcWFtX3BhcmFtcy5xYW1fdHlwZSA9IE1YTF9FQUdMRV9RQU1f
-REVNT0RfQVVUTzsKKwkJCQlxYW1fcGFyYW1zLnN5bWJvbF9yYXRlX2h6ID0gNTM2MTAwMDsKKwkJ
-CQlicmVhazsKKwkJfQogCiAJCXFhbV9wYXJhbXMuc3ltYm9sX3JhdGVfMjU2cWFtX2h6ID0gNTM2
-MTAwMDsKIApAQCAtMTI4NCwxMyArMTI5MywxMyBAQAogfQogCiBzdGF0aWMgY29uc3Qgc3RydWN0
-IGR2Yl9mcm9udGVuZF9vcHMgbXhsNjkyX29wcyA9IHsKLQkuZGVsc3lzID0geyBTWVNfQVRTQyB9
-LAorCS5kZWxzeXMgPSB7IFNZU19BVFNDLCBTWVNfRFZCQ19BTk5FWF9CIH0sCiAJLmluZm8gPSB7
-Ci0JCS5uYW1lID0gIk1heExpbmVhciBNeEw2OTIgVlNCIHR1bmVyLWRlbW9kdWxhdG9yIiwKKwkJ
-Lm5hbWUgPSAiTWF4TGluZWFyIE14TDY5MiBWU0IvUUFNIHR1bmVyLWRlbW9kdWxhdG9yIiwKIAkJ
-LmZyZXF1ZW5jeV9taW5faHogICAgICA9IDU0MDAwMDAwLAogCQkuZnJlcXVlbmN5X21heF9oeiAg
-ICAgID0gODU4MDAwMDAwLAogCQkuZnJlcXVlbmN5X3N0ZXBzaXplX2h6ID0gNjI1MDAsCi0JCS5j
-YXBzID0gRkVfQ0FOXzhWU0IKKwkJLmNhcHMgPSBGRV9DQU5fOFZTQiB8IEZFX0NBTl9RQU1fQVVU
-TyB8IEZFX0NBTl9RQU1fNjQgfCBGRV9DQU5fUUFNXzI1NgogCX0sCiAKIAkuaW5pdCAgICAgICAg
-ID0gbXhsNjkyX2luaXQsCg==
---0000000000007f453e0654f6a81e--
+SGkgRnJhbmssDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogRnJhbmsg
+TGkgKE9TUykgPGZyYW5rLmxpQG9zcy5ueHAuY29tPg0KPiBTZW50OiBNb25kYXksIEp1bmUgMjIs
+IDIwMjYgMTA6MzAgUE0NCj4gVG86IEFuZHkgU2hldmNoZW5rbyA8YW5kcml5LnNoZXZjaGVua29A
+bGludXguaW50ZWwuY29tPjsgRGFuaWVsIFNjYWxseQ0KPiA8ZGpyc2NhbGx5QGdtYWlsLmNvbT47
+IEhlaWtraSBLcm9nZXJ1cyA8aGVpa2tpLmtyb2dlcnVzQGxpbnV4LmludGVsLmNvbT47DQo+IFNh
+a2FyaSBBaWx1cyA8c2FrYXJpLmFpbHVzQGxpbnV4LmludGVsLmNvbT47IEdyZWcgS3JvYWgtSGFy
+dG1hbg0KPiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5vcmc+OyBSYWZhZWwgSi4gV3lzb2NraSA8
+cmFmYWVsQGtlcm5lbC5vcmc+OyBEYW5pbG8NCj4gS3J1bW1yaWNoIDxkYWtyQGtlcm5lbC5vcmc+
+OyBNYXVybyBDYXJ2YWxobyBDaGVoYWINCj4gPG1jaGVoYWJAa2VybmVsLm9yZz47IERhZm5hIEhp
+cnNjaGZlbGQgPGRhZm5hQGZhc3RtYWlsLmNvbT47IExhdXJlbnQNCj4gUGluY2hhcnQgPGxhdXJl
+bnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNvbT47IEhlaWtvIFN0dWVibmVyDQo+IDxoZWlrb0Bz
+bnRlY2guZGU+OyBCcnlhbiBPJ0Rvbm9naHVlIDxicnlhbi5vZG9ub2dodWVAbGluYXJvLm9yZz47
+DQo+IFZsYWRpbWlyIFphcG9sc2tpeSA8dmxhZGltaXIuemFwb2xza2l5QGxpbmFyby5vcmc+OyBM
+b2ljIFBvdWxhaW4NCj4gPGxvaWMucG91bGFpbkBvc3MucXVhbGNvbW0uY29tPg0KPiBDYzogZHJp
+dmVyLWNvcmVAbGlzdHMubGludXguZGV2OyBsaW51eC1hY3BpQHZnZXIua2VybmVsLm9yZzsgbGlu
+dXgtDQo+IGtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9y
+ZzsgbGludXgtDQo+IHJvY2tjaGlwQGxpc3RzLmluZnJhZGVhZC5vcmc7IGxpbnV4LWFybS1rZXJu
+ZWxAbGlzdHMuaW5mcmFkZWFkLm9yZzsgbGludXgtYXJtLQ0KPiBtc21Admdlci5rZXJuZWwub3Jn
+OyBpbXhAbGlzdHMubGludXguZGV2OyBHLk4uIFpob3UNCj4gPGd1b25pdS56aG91QG54cC5jb20+
+OyBGcmFuayBMaSA8ZnJhbmsubGlAbnhwLmNvbT4NCj4gU3ViamVjdDogW1BBVENIIDEvNF0gZGV2
+aWNlIHByb3BlcnR5OiBJbnRyb2R1Y2UNCj4gZndub2RlX2dyYXBoX2Zvcl9lYWNoX2VuZHBvaW50
+X3Njb3BlZCgpDQo+IA0KPiBGcm9tOiBGcmFuayBMaSA8RnJhbmsuTGlAbnhwLmNvbT4NCj4gDQo+
+IFNpbWlsYXIgdG8gcmVjZW50bHkgcHJvcG9zZSBmb3JfZWFjaF9jaGlsZF9vZl9ub2RlX3Njb3Bl
+ZCgpIHRoaXMgbmV3IHZlcnNpb24NCj4gb2YgdGhlIGxvb3AgbWFjcm8gaW5zdGFudGlhdGVzIGEg
+bmV3IGxvY2FsIHN0cnVjdCBmd25vZGVfaGFuZGxlICogdGhhdCB1c2VzIHRoZQ0KPiBfX2ZyZWUo
+Zndub2RlX2hhbmRsZSkgYXV0byBjbGVhbnVwIGhhbmRsaW5nIHNvIHRoYXQgaWYgYSByZWZlcmVu
+Y2UgdG8gYSBub2RlIGlzDQo+IGhlbGQgb24gZWFybHkgZXhpdCBmcm9tIHRoZSBsb29wIHRoZSBy
+ZWZlcmVuY2Ugd2lsbCBiZSByZWxlYXNlZC4gSWYgdGhlIGxvb3AgcnVucw0KPiB0byBjb21wbGV0
+aW9uLCB0aGUgY2hpbGQgcG9pbnRlciB3aWxsIGJlIE5VTEwgYW5kIG5vIGFjdGlvbiB3aWxsIGJl
+IHRha2VuLg0KPiANCj4gVGhlIHJlYXNvbiB0aGlzIGlzIHVzZWZ1bCBpcyB0aGF0IGl0IHJlbW92
+ZXMgdGhlIG5lZWQgZm9yDQo+IGZ3bm9kZV9oYW5kbGVfcHV0KCkgb24gZWFybHkgbG9vcCBleGl0
+cy4gIElmIHRoZXJlIGlzIGEgbmVlZCB0byByZXRhaW4gdGhlDQo+IHJlZmVyZW5jZSwgdGhlbiBy
+ZXR1cm5fcHRyKGNoaWxkKSBvciBub19mcmVlX3B0cihjaGlsZCkgbWF5IGJlIHVzZWQgdG8gc2Fm
+ZWx5DQo+IGRpc2FibGUgdGhlIGF1dG8gY2xlYW51cC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEZy
+YW5rIExpIDxGcmFuay5MaUBueHAuY29tPg0KDQpSZXZpZXdlZC1ieTogR3Vvbml1IFpob3UgPGd1
+b25pdS56aG91QG9zcy5ueHAuY29tPg0KDQo+IC0tLQ0KPiAgaW5jbHVkZS9saW51eC9wcm9wZXJ0
+eS5oIHwgNSArKysrKw0KPiAgMSBmaWxlIGNoYW5nZWQsIDUgaW5zZXJ0aW9ucygrKQ0KPiANCj4g
+ZGlmZiAtLWdpdCBhL2luY2x1ZGUvbGludXgvcHJvcGVydHkuaCBiL2luY2x1ZGUvbGludXgvcHJv
+cGVydHkuaCBpbmRleA0KPiAxNGMzMDRkYjQ2NjQ4Li5hZGUxOTRjNDYyZDQyIDEwMDY0NA0KPiAt
+LS0gYS9pbmNsdWRlL2xpbnV4L3Byb3BlcnR5LmgNCj4gKysrIGIvaW5jbHVkZS9saW51eC9wcm9w
+ZXJ0eS5oDQo+IEBAIC01NDUsNiArNTQ1LDExIEBAIHVuc2lnbmVkIGludA0KPiBmd25vZGVfZ3Jh
+cGhfZ2V0X2VuZHBvaW50X2NvdW50KGNvbnN0IHN0cnVjdCBmd25vZGVfaGFuZGxlICpmd25vZGUs
+DQo+ICAJZm9yIChjaGlsZCA9IGZ3bm9kZV9ncmFwaF9nZXRfbmV4dF9lbmRwb2ludChmd25vZGUs
+IE5VTEwpOyBjaGlsZDsNCj4gCVwNCj4gIAkgICAgIGNoaWxkID0gZndub2RlX2dyYXBoX2dldF9u
+ZXh0X2VuZHBvaW50KGZ3bm9kZSwgY2hpbGQpKQ0KPiANCj4gKyNkZWZpbmUgZndub2RlX2dyYXBo
+X2Zvcl9lYWNoX2VuZHBvaW50X3Njb3BlZChmd25vZGUsIGNoaWxkKQ0KPiAJCVwNCj4gKwlmb3Ig
+KHN0cnVjdCBmd25vZGVfaGFuZGxlICpjaGlsZCBfX2ZyZWUoZndub2RlX2hhbmRsZSkgPQ0KPiAJ
+XA0KPiArCQkJZndub2RlX2dyYXBoX2dldF9uZXh0X2VuZHBvaW50KGZ3bm9kZSwgTlVMTCk7DQo+
+IAkJXA0KPiArCSAgICAgY2hpbGQ7IGNoaWxkID0gZndub2RlX2dyYXBoX2dldF9uZXh0X2VuZHBv
+aW50KGZ3bm9kZSwgY2hpbGQpKQ0KPiArDQo+ICBpbnQgZndub2RlX2dyYXBoX3BhcnNlX2VuZHBv
+aW50KGNvbnN0IHN0cnVjdCBmd25vZGVfaGFuZGxlICpmd25vZGUsDQo+ICAJCQkJc3RydWN0IGZ3
+bm9kZV9lbmRwb2ludCAqZW5kcG9pbnQpOw0KPiANCj4gDQo+IC0tDQo+IDIuNDMuMA0KDQo=
 
