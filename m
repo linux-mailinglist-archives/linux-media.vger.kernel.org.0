@@ -1,75 +1,70 @@
-Return-Path: <linux-media+bounces-65581-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65582-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id n3YHDNMtPGoplAgAu9opvQ
-	(envelope-from <linux-media+bounces-65581-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 21:19:47 +0200
+	id AR57GgYwPGp5lAgAu9opvQ
+	(envelope-from <linux-media+bounces-65582-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 21:29:10 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13F6A6C0FDC
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 21:19:47 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id C72CA6C10B9
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 21:29:09 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=R9iPS6IL;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65581-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-65581-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=QyXSMeFc;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65582-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65582-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 27A83302287F
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 19:19:46 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id AE6D6303ADC3
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2026 19:29:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4BA5382283;
-	Wed, 24 Jun 2026 19:19:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B692C3822B4;
+	Wed, 24 Jun 2026 19:29:00 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51BD380FEB;
-	Wed, 24 Jun 2026 19:19:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FF1331EDF;
+	Wed, 24 Jun 2026 19:28:58 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782328780; cv=none; b=nw5hA0hoOnjOf1WRQY0K97/VZP3UJahIx3ifDY/VnJJTyGDkowQFGguXF115INYDkDkk5/H4DWSXK2Z2vrBxw3xwuf9gWeBaYy3W90URA87Ng9Z/7Dt3JYyVJ7fRVoLn7Ipn7UOhKfMDUaN5Bc7rypmj8/3q/C/B6d8NVoOr1pM=
+	t=1782329340; cv=none; b=bwPJAG/O/Vuc00B+Siw/44SEOuoTU5JzKXbyUuzajQEXqs6OyO29VTWuggu1e7yzR/LLca1GMwWT+MAfZIbNguxVzKc7cV0VA6fovDERS2RluWfILmO2068vhTtdn9U/DU5QmakMe1eqeN4yYwPDbe7/zapTMklwgNdSqEMZodQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782328780; c=relaxed/simple;
-	bh=SygbhfMsHBXymcem7e6Zd0nKKWVHq2pp7wmjCrhnj44=;
+	s=arc-20240116; t=1782329340; c=relaxed/simple;
+	bh=ua8sudOg1IsopvDkiliKid2FdpGt3mrB3i+U4AE1GtY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E66B57+NYz90RdHwVImqWcr9bnXCLiJ1D+plc6kpJIH6bd2Hg1MLK6Y/emdS99JG12ZOnsl44+DuGuAZcS3GBNuTSxywPWKYcIu1iJEFul4QjWRE+GdHo61InifWW+dHEIrZiC3B2Ud+kAF2NHiIt3GJunKZAfrtZ9UxWDSRp5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=R9iPS6IL; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=qb0SefWNWqn1WFn5CvkBo1EiZSYEZiigEstOSNGgh+WeK6o2snksqTqehsiDoHiB78BUrPJ7+LgKc7RkRgVdH+GNAKZOaByBC6VVXpQRZRqosIvjx0T89dm4cp5ZJGXSfQ0UW43IBZSdNt/zCE2uZh0bL611kDCNF1OsHN2dAbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QyXSMeFc; arc=none smtp.client-ip=213.167.242.64
 Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 56D7E1049;
-	Wed, 24 Jun 2026 21:18:57 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37D54FC7;
+	Wed, 24 Jun 2026 21:28:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1782328737;
-	bh=SygbhfMsHBXymcem7e6Zd0nKKWVHq2pp7wmjCrhnj44=;
+	s=mail; t=1782329297;
+	bh=ua8sudOg1IsopvDkiliKid2FdpGt3mrB3i+U4AE1GtY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=R9iPS6IL6p0/dDAwuFkL5icB0WAA7/VF1Z2f8Muhz3zenEk89jfcpVogCPF9xqqsm
-	 QPxnlkhw7Ug6s2tpdrYSAD+ZWecr8sCsX3hYxbY51skwWfYFAI00vNswoaiCKIZj+k
-	 0HxXfhmL6kVxPTzsYM4hCVIu8p8C42YQ/DqNXn+k=
-Date: Wed, 24 Jun 2026 22:19:35 +0300
+	b=QyXSMeFckfqSMm1//8oSPKspc2aLHTE2SmyxDS53RrWuicvprMC4IQdAp59w8G9OS
+	 DFCT1Pn6BpsaTGt5uMslhZVXUHAVMnEzDlBDztYYI6lCMN42ZOa6MXCjnClnQjHkVT
+	 X3RWmjwj+fdVXX0f1j+wBtBiije3KRSCY5wI6t2g=
+Date: Wed, 24 Jun 2026 22:28:55 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Frank.Li@oss.nxp.com
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
+	biju.das.jz@bp.renesas.com, jacopo.mondi@ideasonboard.com,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Loic Poulain <loic.poulain@oss.qualcomm.com>,
-	driver-core@lists.linux.dev, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	imx@lists.linux.dev, Guoniu Zhou <guoniu.zhou@nxp.com>,
-	Frank Li <Frank.Li@nxp.com>, Guoniu Zhou <guoniu.zhou@oss.nxp.com>
-Subject: Re: [PATCH v2 0/4] media: add and use
- fwnode_graph_for_each_endpoint_scoped()
-Message-ID: <20260624191935.GG851255@killaraus.ideasonboard.com>
-References: <20260624-fw_scoped-v2-0-0a8db472af4a@nxp.com>
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Sven =?utf-8?Q?P=C3=BCschel?= <s.pueschel@pengutronix.de>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Isaac Scott <isaac.scott@ideasonboard.com>,
+	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: v4l2-common: add v4l2_fill_pixfmt_aligned()
+ helper
+Message-ID: <20260624192855.GH851255@killaraus.ideasonboard.com>
+References: <20260624104153.798953-1-tommaso.merciai.xr@bp.renesas.com>
+ <20260624104153.798953-2-tommaso.merciai.xr@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -78,29 +73,30 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260624-fw_scoped-v2-0-0a8db472af4a@nxp.com>
+In-Reply-To: <20260624104153.798953-2-tommaso.merciai.xr@bp.renesas.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65581-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:Frank.Li@oss.nxp.com,m:andriy.shevchenko@linux.intel.com,m:djrscally@gmail.com,m:heikki.krogerus@linux.intel.com,m:sakari.ailus@linux.intel.com,m:gregkh@linuxfoundation.org,m:rafael@kernel.org,m:dakr@kernel.org,m:mchehab@kernel.org,m:dafna@fastmail.com,m:heiko@sntech.de,m:bryan.odonoghue@linaro.org,m:vladimir.zapolskiy@linaro.org,m:loic.poulain@oss.qualcomm.com,m:driver-core@lists.linux.dev,m:linux-acpi@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:linux-arm-kernel@lists.infradead.org,m:linux-arm-msm@vger.kernel.org,m:imx@lists.linux.dev,m:guoniu.zhou@nxp.com,m:Frank.Li@nxp.com,m:guoniu.zhou@oss.nxp.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[linux.intel.com,gmail.com,linuxfoundation.org,kernel.org,fastmail.com,sntech.de,linaro.org,oss.qualcomm.com,lists.linux.dev,vger.kernel.org,lists.infradead.org,nxp.com,oss.nxp.com];
-	RCPT_COUNT_TWELVE(0.00)[25];
+	TAGGED_FROM(0.00)[bounces-65582-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:tommaso.merciai.xr@bp.renesas.com,m:tomm.merciai@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:jacopo.mondi@ideasonboard.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:sakari.ailus@linux.intel.com,m:s.pueschel@pengutronix.de,m:mehdi.djait@linux.intel.com,m:paul@crapouillou.net,m:isaac.scott@ideasonboard.com,m:dan.scally+renesas@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:tommmerciai@gmail.com,m:hverkuil@kernel.org,m:dan.scally@ideasonboard.com,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,bp.renesas.com,ideasonboard.com,kernel.org,collabora.com,linux.intel.com,pengutronix.de,crapouillou.net];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -108,63 +104,102 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	DKIM_TRACE(0.00)[ideasonboard.com:+];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,msgid.link:url,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,killaraus.ideasonboard.com:mid,vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:from_mime]
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,killaraus.ideasonboard.com:mid,ideasonboard.com:dkim,ideasonboard.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 13F6A6C0FDC
+X-Rspamd-Queue-Id: C72CA6C10B9
 
-Hi Frank,
+Hi Tommaso,
 
-On Wed, Jun 24, 2026 at 01:00:08PM -0400, Frank.Li@oss.nxp.com wrote:
-> Add new helper macro fwnode_graph_for_each_endpoint_scoped() and use it
-> simplify media code.
+Thank you for the patch.
+
+On Wed, Jun 24, 2026 at 12:41:30PM +0200, Tommaso Merciai wrote:
+> Add v4l2_fill_pixfmt_aligned(), a variant of v4l2_fill_pixfmt()
+> that accepts a stride_alignment parameter, mirroring the existing
+> v4l2_fill_pixfmt_mp() / v4l2_fill_pixfmt_mp_aligned() pair.
 > 
-> Typical example should qualcomm's driver (camss.c), the v4l2_mc.c and
-> rkisp1-dev.c only silience improvement.
+> v4l2_fill_pixfmt() is refactored to call v4l2_fill_pixfmt_aligned()
+> with stride_alignment=1, preserving its existing behaviour.
 > 
-> Anyways, *_for_each_*_scoped() already use widely and make code clean.
+> The new helper is needed by drivers whose DMA engine requires the
+> line stride to be a multiple of a specific value, such as the
+> Renesas RZ/G3E CRU which requires 128-byte alignment.
 > 
-> Build test only.
-> 
-> Sakari Ailus:
-> 	when I try to improve the patch
-> "Add common helper library for 1-to-1 subdev registration", I found need
-> camss.c pattern, so I create this small improvement firstly.
-
-Those are nice cleanups, thank you.
-
-After applying this series, the only left users of the
-fwnode_graph_for_each_endpoint() macro are in drivers/base/property.c.
-They can all be trivially replaced with the scoped variant. Should we
-add a patch to use fwnode_graph_for_each_endpoint_scoped() everywhere,
-and drop fwnode_graph_for_each_endpoint() ?
-
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 > ---
-> Changes in v2:
-> - colllect review by tags
-> - fix typo and indent.
-> - see each patch's change log.
-> - Link to v1: https://patch.msgid.link/20260622-fw_scoped-v1-0-a37d0aac0a68@nxp.com
+>  drivers/media/v4l2-core/v4l2-common.c | 17 +++++++++++++----
+>  include/media/v4l2-common.h           |  3 +++
+>  2 files changed, 16 insertions(+), 4 deletions(-)
 > 
-> ---
-> Frank Li (4):
->       device property: Introduce fwnode_graph_for_each_endpoint_scoped()
->       media: mc: use fwnode_graph_for_each_endpoint_scoped() to simpilfy code
->       media: rkisp1: use fwnode_graph_for_each_endpoint_scoped() to simplify code
->       media: qcom: camss: use fwnode_graph_for_each_endpoint_scoped() to simplify code
-> 
->  drivers/media/platform/qcom/camss/camss.c           | 17 +++++------------
->  drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c |  4 +---
->  drivers/media/v4l2-core/v4l2-mc.c                   |  5 +----
->  include/linux/property.h                            |  5 +++++
->  4 files changed, 12 insertions(+), 19 deletions(-)
-> ---
-> base-commit: 3ce97bd3c4f18608335e709c24d6a40e7036cab8
-> change-id: 20260620-fw_scoped-5dab644510a1
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> index 65db7340ad38..1de246acc7ab 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -545,8 +545,8 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt_mp);
+>  
+> -int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+> -		     u32 width, u32 height)
+> +int v4l2_fill_pixfmt_aligned(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+> +			     u32 width, u32 height, u8 stride_alignment)
+>  {
+>  	const struct v4l2_format_info *info;
+>  	int i;
+> @@ -562,14 +562,23 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+>  	pixfmt->width = width;
+>  	pixfmt->height = height;
+>  	pixfmt->pixelformat = pixelformat;
+> -	pixfmt->bytesperline = v4l2_format_plane_stride(info, 0, width, 1);
+> +	pixfmt->bytesperline = v4l2_format_plane_stride(info, 0, width,
+> +							stride_alignment);
+>  	pixfmt->sizeimage = 0;
+>  
+>  	for (i = 0; i < info->comp_planes; i++)
+>  		pixfmt->sizeimage +=
+> -			v4l2_format_plane_size(info, i, width, height, 1);
+> +			v4l2_format_plane_size(info, i, width, height,
+> +					       stride_alignment);
+>  	return 0;
+>  }
+> +EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt_aligned);
+> +
+> +int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+> +		     u32 width, u32 height)
+> +{
+> +	return v4l2_fill_pixfmt_aligned(pixfmt, pixelformat, width, height, 1);
+> +}
+
+This could be an inline wrapper in include/media/v4l2-common.h, it would
+be more efficient.
+
+>  EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
+>  
+>  #ifdef CONFIG_MEDIA_CONTROLLER
+> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+> index edd416178c33..718a0f47f36b 100644
+> --- a/include/media/v4l2-common.h
+> +++ b/include/media/v4l2-common.h
+> @@ -556,6 +556,9 @@ void v4l2_apply_frmsize_constraints(u32 *width, u32 *height,
+>  				    const struct v4l2_frmsize_stepwise *frmsize);
+>  int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+>  		     u32 width, u32 height);
+> +/* @stride_alignment is a power of 2 value in bytes */
+> +int v4l2_fill_pixfmt_aligned(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+> +			     u32 width, u32 height, u8 stride_alignment);
+
+I know the existing functions lack documentation, but it's not a reason
+to continue with that bad habit :-)
+
+One point that needs to be clearly documented is how the stride
+alignment is handled for different planes.
+
+>  int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
+>  			u32 width, u32 height);
+>  /* @stride_alignment is a power of 2 value in bytes */
 
 -- 
 Regards,
