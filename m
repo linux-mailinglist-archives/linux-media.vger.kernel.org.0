@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-65643-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65644-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id OAhsCVAzPWqEywgAu9opvQ
-	(envelope-from <linux-media+bounces-65643-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 15:55:28 +0200
+	id QK68AFozPWqPywgAu9opvQ
+	(envelope-from <linux-media+bounces-65644-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 15:55:38 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7296E6C6499
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 15:55:27 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5A276C64A9
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 15:55:37 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=ifLvwWaf;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65643-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65643-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=AsdqqhbH;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65644-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65644-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D70773095FE1
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 13:54:02 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 85FEA303B16E
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 13:55:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ADCF344DA4;
-	Thu, 25 Jun 2026 13:54:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23157349CC4;
+	Thu, 25 Jun 2026 13:55:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B09348C7C;
-	Thu, 25 Jun 2026 13:54:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0DF524E4C4;
+	Thu, 25 Jun 2026 13:55:23 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782395641; cv=none; b=b3iAQX5MLVb5U/1AI/7vIexuce+Vm6CESGcgDQzF+s6JaCZoIQS+RhZIhxpW9HXuSE8cZ85/0E8QsAr3rb/Ksn0jMDfgTdI6t5O57xhInbzxXAcPeYA+ty1k+oqmaXkXridRwjmpc09g27/QDiurVznAbsTEa/Cj1FuiWhiuKlg=
+	t=1782395724; cv=none; b=j0ANI3qm20FUIhuxM7qoLrTcLssNPl65clf1F2B5Zo7V/Fmd2ZDISRubde+XfkuTsGcLJR9BDuhiXet06DZG3CcyTsMBTo1QeNU2/wERudF9Dvnpkg/hcL31SNCOHzZNWMipNQ0Wf9kD0aNvBgyoDtk3Y7Dun14F25fq0hq+zCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782395641; c=relaxed/simple;
-	bh=363iuzJQMvoG81zafgW5tPh2WH0g+VfBG1LDjNBe6H4=;
+	s=arc-20240116; t=1782395724; c=relaxed/simple;
+	bh=e+2+uDTRdFSbT2k3i2cU9jZRD/FEJE7PMNTRXHrcgh4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rUFMm/Pxb0g56WUqJUrtr5BOteG5hqodRFAjHKcOQ9VBVjWQzMJBvoAHOUck4RRlkyJZMZKKc9HDXVHhJML7KpxJbV6l553+UutX4VSz/lEXnhxGW9cO/UxxE49+f78kP33hNIgk1Xr+ZZLv80Xy1QZnzvA275VFRUXcxOiNsBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ifLvwWaf; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D364B1F000E9;
-	Thu, 25 Jun 2026 13:53:55 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=ZSFf9t5UYsR1NjhXsnd0TeNswNptznRrD+QiMrWMkfyWLSHo80eAm6ECwFEBRQORsis9dzUGErfN8S0uLRKPn3E5ropKHqYCe7c43HNbVtKaqL/SKuxuihbbUSi1cZTst6Rqbj/AlLWHNvAs8l3WvOjssOD69qNw+LlnDNNemuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AsdqqhbH; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 654961F000E9;
+	Thu, 25 Jun 2026 13:55:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782395640;
-	bh=lr++yH5nzO4NcQEds6oDKUg85yVdomYeFQUiJZT0KSs=;
+	s=k20260515; t=1782395723;
+	bh=hB+MqfSX9f4jgos9shiqzpbhL+6D85P96J0lWD1Zj8w=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=ifLvwWaffrg92TTDqJb44pRKamsJngXxCaP4xvRVkYBuL3iniXbmUTgivRvAkGQgZ
-	 7hej75PoGb8M8GeL0bLTVc4fpZcwRww39DlANONTJp+w8u1w17kWkXJfXhL82DnNZe
-	 9osywewRVqoEqoo5GnxZ+Lv4F++W5dBK4y0z4uL66SrX/7iAcJ6GE8JL5c/qAJUAor
-	 3jALkrJi9Mr7xCUo2qyo3qRWWZ2ii3cwbcLW5y0U9rOJVDLBF6tenU694JKCxCjnR3
-	 1wxq5eld+OnqmJPTRZi4gn/bJMj6DgyKLfvPHTBcRLaeFkLZ/H1SZ5EqMYPbD1vQNL
-	 q+FL4yKNQHLYg==
-Message-ID: <c9006b67-aa43-41d3-8b13-f20dd2e544c6@kernel.org>
-Date: Thu, 25 Jun 2026 15:53:53 +0200
+	b=AsdqqhbHFoOChZp8PnqqdKd6E1DNNQdnwHpWujI1Bji60IVa8cirtIX+f4rv36hZi
+	 XNPro+li8J2ROdYdEAT9PcU+tNTOB8sVSrXTk3bCdvkkqT13rPfihiFNMNMD9VjTyn
+	 VSW5RggNgjg7Pk1UgLqBPFwmeKzqxD3cBpJJnuHQpLPmnLwm7QyqULPzl/gQ+Qf6/h
+	 0OEip5b/5VSq26oySG8p+vn6s5JvzYtoQW2gkaRMwc9v867tzPnkEO0uiUirb+oTIy
+	 ZS6r4yHhL5jS7rVJR++h6mQok23QGCIMdg7TgCh2RjYIjqveN9Dk9La2bR01DYkBNw
+	 GqrTtzGBc7QRA==
+Message-ID: <e65358b0-b978-4672-9691-705897bcf209@kernel.org>
+Date: Thu, 25 Jun 2026 15:55:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,16 +55,15 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 0/4] This series adds support for the Qualcomm JPEG
- V4L2 mem2mem encoder.
+Subject: Re: [PATCH v2 1/3] dt-bindings: media: qcom: Add JPEG encoder binding
 To: Atanas Filipov <atanas.filipov@oss.qualcomm.com>,
  linux-media@vger.kernel.org
-Cc: mchehab@kernel.org, bod@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+Cc: bod@kernel.org, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
  conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
  linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org
-References: <20260612194417.1737009-1-atanas.filipov@oss.qualcomm.com>
- <364a79bf-e424-4237-ab13-18e38299ecec@oss.qualcomm.com>
+References: <20260625133828.3221781-1-atanas.filipov@oss.qualcomm.com>
+ <20260625133828.3221781-2-atanas.filipov@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -110,7 +109,7 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <364a79bf-e424-4237-ab13-18e38299ecec@oss.qualcomm.com>
+In-Reply-To: <20260625133828.3221781-2-atanas.filipov@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
@@ -118,18 +117,18 @@ X-Spamd-Result: default: False [-5.16 / 15.00];
 	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_RECIPIENTS(0.00)[m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:bod@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:atanas.filipov@oss.qualcomm.com,m:linux-media@vger.kernel.org,m:bod@kernel.org,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:andersson@kernel.org,m:konradybcio@kernel.org,m:linux-arm-msm@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER(0.00)[krzk@kernel.org,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[12];
-	TAGGED_FROM(0.00)[bounces-65643-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65644-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
@@ -143,44 +142,56 @@ X-Spamd-Result: default: False [-5.16 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,qualcomm.com:email,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 7296E6C6499
+X-Rspamd-Queue-Id: A5A276C64A9
 
-On 25/06/2026 15:43, Atanas Filipov wrote:
-> On 6/12/2026 10:44 PM, Atanas Filipov wrote:
->>   19 files changed, 5067 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/media/qcom,jpeg-encoder.yaml
->>   create mode 100644 drivers/media/platform/qcom/jpeg/Kconfig
->>   create mode 100644 drivers/media/platform/qcom/jpeg/Makefile
->>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_defs.h
->>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_dev.c
->>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_dev.h
->>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_hdr.c
->>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_hdr.h
->>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_ops.c
->>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_ops.h
->>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_res.c
->>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_res.h
->>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_v420_hw_info.h
->>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_v4l2.c
->>   create mode 100644 drivers/media/platform/qcom/jpeg/qcom_jenc_v4l2.h
->>
->>
->> base-commit: e7ae89a0c97ce2b68b0983cd01eda67cf373517d
+On 25/06/2026 15:38, Atanas Filipov wrote:
+> Add device-tree binding for the Qualcomm JPEG encoder hardware block
+> present in SM8250 (Kona) SoCs.
 > 
-> Hi all,
+> The JPEG encoder is a standalone hardware IP within the camera subsystem
+> that performs JPEG compression in memory-to-memory fashion.  It is
+> separate from the CAMSS ISP pipeline and has its own register space,
+> interrupt, clocks, power domain, IOMMU streams, and interconnect paths.
 > 
-> Thank you for the review. v2 has been sent and addresses all comments:
-> 
-> https://lore.kernel.org/linux-media/20260625133828.3221781-1-atanas.filipov@oss.qualcomm.com/T/#t
-> 
+> Properties documented:
+> - compatible: qcom,sm8250-jenc
+> - reg / reg-names: single MMIO region named "jpeg"
+> - interrupts: single edge-triggered interrupt
+> - clocks / clock-names: Common clocks and JPEG core clock
+> - power-domains: TITAN_TOP_GDSC common domain
+> - iommus: two SMMU stream IDs for JPEG pixel and JPEG DMA processing
+> - interconnects / interconnect-names
+> - OPP table mapping performance levels to clock frequencies
 
-Problem is that is not true. You did not address all comments. You did
-not reply to them and you did not implement them. I just checked FIRST
-comment and stopped there.
+Drop, since when commits have such text? Why are you describing diff?
+
+
+> 
+> Signed-off-by: Atanas Filipov <atanas.filipov@oss.qualcomm.com>
+> ---
+>  .../bindings/media/qcom,jpeg-encoder.yaml     | 135 ++++++++++++++++++
+>  1 file changed, 135 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/qcom,jpeg-encoder.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,jpeg-encoder.yaml b/Documentation/devicetree/bindings/media/qcom,jpeg-encoder.yaml
+> new file mode 100644
+> index 000000000000..ab8d8951d21f
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,jpeg-encoder.yaml
+
+Nothing improved.
+
+You actually ignored all the comments from me and at least one more
+comment from other emails provided to you.
+
+This is not acceptable.
+
+NAK
+
 
 Best regards,
 Krzysztof
