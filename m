@@ -1,161 +1,145 @@
-Return-Path: <linux-media+bounces-65668-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65669-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id txDUFuiOPWpK4AgAu9opvQ
-	(envelope-from <linux-media+bounces-65668-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 22:26:16 +0200
+	id LgjpMI+cPWpI4wgAu9opvQ
+	(envelope-from <linux-media+bounces-65669-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 23:24:31 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id B42F86C87F6
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 22:26:15 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 441CC6C8BD3
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 23:24:31 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=google.com header.s=20251104 header.b=ijpriCR3;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65668-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65668-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=reject) header.from=google.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=aXaG0RFQ;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65669-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65669-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 13532306B365
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 20:26:05 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id CC1C23049E06
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 21:24:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADD1D2C15AC;
-	Thu, 25 Jun 2026 20:26:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF6F3372B32;
+	Thu, 25 Jun 2026 21:24:18 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f202.google.com (mail-qt1-f202.google.com [209.85.160.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBCE2BEC34
-	for <linux-media@vger.kernel.org>; Thu, 25 Jun 2026 20:26:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 397DB2F7EE5;
+	Thu, 25 Jun 2026 21:24:16 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782419163; cv=none; b=f4sLVu6EcmyQY5gz1vhm5/5lfiZ2/otJn0BNy9QuDyXrcrryuxOhN4ecSjRfh18AYu+YAGG+UfLdQTO0YMQajJSB1ug2Gy0ckisyXiYasAk7pIY9Eq9Cb7/59I5ND5tlEgVu3dqvUUVWwF13sB1BOxmM1ozgOm4YQk8diXX7rnE=
+	t=1782422658; cv=none; b=jSQqecdAtQLak4MAskE4xyra5ftynHzI37QO0qWlC0+7Igif1eDA9Ti1Hi6AVH2+T6p1qbzHerLrspdRCKw6MPEoeoYHFC1giwYkY5UUWhkhpzyVJIV3rgOj/TAP5o4v1u25hI+BL0jwtjiZkrnqByECmyfXlQEayYFSSUAF+9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782419163; c=relaxed/simple;
-	bh=kH/nWE1uWj4nPX0coh0oI7W0Icpip5M6GBcvfIU9LV4=;
-	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=QXC3ioFlCmI9BtrlwuYS6CWpQHEXCdUsbr8cQhOe0MnetP4lLaTun9SGJMgMlP7F/Z3uUT0IhEIFokBc1Xucd2KjIILm2QA8BKratW5e+NVoFQ0Y5Xv4RUWFFtswcmeILyPHOV7GautDpt/JlTu6aFPPGRBFS7E5B4mS7PDwXe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--briandaniels.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ijpriCR3; arc=none smtp.client-ip=209.85.160.202
-Received: by mail-qt1-f202.google.com with SMTP id d75a77b69052e-519fdfbd340so2921101cf.1
-        for <linux-media@vger.kernel.org>; Thu, 25 Jun 2026 13:26:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1782419161; x=1783023961; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nQTuInYbw/iuI+/cpa7ndKurPDuK7LO01xka1fr9WE0=;
-        b=ijpriCR39EKVKVv6a2yPCLs48Pgbjj0EmHPg7c8+Zpz5d2pP0yHVhMo48u+xtSd2js
-         TZCJOBQLhkC7bvqdAf0nAyNyWSMdgXnO8JqfBohXOgIcnXlmfOQDqKqRaCdpXwuWB8G6
-         EAYOS1g04ZRHh4QjtIc/hZEFW7fpZSuGI6Pw8LI2IPeHMHZZQRnQ2A3EvqSG2/pNEbej
-         8ZUwGUlivLXL9T/F/k1XKyKwOPGzvUBwq2SQjXHnsUYIQ86od355tey0rfY+r4rrV7/x
-         UXDhPAjji+2TKruuLewe98UNysDckyHqipbXYXh9aKkjYncy/z2IDeBo4m76offDyJjM
-         oJjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782419161; x=1783023961;
-        h=content-transfer-encoding:cc:to:from:subject:message-id
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=nQTuInYbw/iuI+/cpa7ndKurPDuK7LO01xka1fr9WE0=;
-        b=rUGUxSRDtJjDru0M/zgRWuR2Cy6A+8HOZgW1JN65N1aByXQBqPFn24wWBUtB1nJufH
-         3jKKYgVW+qscy5cFbWJIEZggdycX26n6EVUfQE1TJZRFhTxYAoRh5e5OwQoUOpEDp8X7
-         4HFuVE9XBNHmcaUnnlaycwXQMt3ZpHUi0HIxgQz2E6zsde1BTsXPtUUzadOkoNZ4044z
-         Iq9vbY9wAvxmOG3MyUuasmgQelaziucgwnHmkfMh6afkynm3Y4n5t+ixReNX7SeMcrAL
-         pRWTHSk+pxDRgF5dQ0PB4T5BGBj8Zz8U9tuqvyco0R0WFmkNqX+G7TbKNCPJh/CqDSU7
-         JXDw==
-X-Forwarded-Encrypted: i=1; AFNElJ9qCVKvRKhjq+0261q4gJ8HiePvgeyHZQ+2cwoDQAPW+JMLaLE6yTy87fq7b6mDUlfw1IiPfcs7aw3N5w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyI/yMZTqbmw1FK4ife61NAVZQRDn2BhotutiOeCBoz2D6J+D9+
-	QuX/+JiUnbgMx2kUwJlhRQ+4Am+6XSb3HaVoU3a+kv5JqDlySY/AqeEhFAMfjPPEj3upqhTIJGm
-	9FhX/h++7XRKC1SGVgtGIUsBWODQl
-X-Received: from qtbhx10.prod.google.com ([2002:a05:622a:668a:b0:517:7852:3f03])
- (user=briandaniels job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:622a:514:b0:50f:b61c:ec4c with SMTP id d75a77b69052e-51a72149df7mr49243091cf.7.1782419160377;
- Thu, 25 Jun 2026 13:26:00 -0700 (PDT)
-Date: Thu, 25 Jun 2026 16:25:46 -0400
-In-Reply-To: <ce63d29a-8c76-4a3d-ad8f-144f8b709cfa@kernel.org>
+	s=arc-20240116; t=1782422658; c=relaxed/simple;
+	bh=O9gPrPRtnPkS6+0VIPhtb0MaLnk8hupHxF+uQV1gV3A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rAqsbBga+uHkmdquoHeb96IZu0NFXz7FqY69YTZXoNXu9yhZ1QMiqBjUUWbkHn2NQc5SyA8ars7gUBf43HO2PlM5nDRg0VnIGdypUDtpoCKrpHJ4fLM/qDH0JkzGxSPF6bNXFSQSTqaCB32lR4CTX+O7yqtbNxtk9QD78bNbLvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aXaG0RFQ; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC2671F000E9;
+	Thu, 25 Jun 2026 21:24:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782422656;
+	bh=wImZ55sVV9nR2X0lKBaLNBzw+hjAxNnCMhbKwyH8aIc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=aXaG0RFQ2QD6DQCWgtnBEW1Fo/ftIhfkexvZt0D32is5v/ZS9+MlTaUQxnm2VZTtM
+	 31Usjl5AD3CIpRNfKuLtC8jRxljf2PvrSCxTddGaQjlQdbzll39yCZ2MmRqGRigE0g
+	 pRhiopc5kg8pPWvHV19qK2yS9tSQd/yhOTthcgysbZ1QpJYUEfnbKqKJIjL3f3UTDw
+	 +HlM5LHosr86Kb5JwdOTzjOKmdrpkYiVceZlFFLGul9zpuSN07HYcEVb5q45eEV/f8
+	 lAezZYXiEtZnmvqYFKw5mfV9phwf5qNel1z4R7V+EnnjGYn/Y8sg/YRk9vg/XcuVIz
+	 8tgYvK0DJe8yg==
+From: Danilo Krummrich <dakr@kernel.org>
+To: Lyude Paul <lyude@redhat.com>
+Cc: dri-devel@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org,
+	nouveau@lists.freedesktop.org,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	driver-core@lists.linux.dev,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	linux-kernel@vger.kernel.org,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	linux-media@vger.kernel.org,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Maxime Ripard <mripard@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	linaro-mm-sig@lists.linaro.org,
+	Danilo Krummrich <dakr@kernel.org>,
+	Mukesh Kumar Chaurasiya <mkchauras@gmail.com>,
+	Asahi Lina <lina+kernel@asahilina.net>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: Re: (subset) [PATCH v21 0/4] Rust bindings for gem shmem
+Date: Thu, 25 Jun 2026 23:24:08 +0200
+Message-ID: <20260625212408.1618423-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260612194436.585385-1-lyude@redhat.com>
+References: <20260612194436.585385-1-lyude@redhat.com>
+X-Patch-Reply: applied
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.55.0.rc0.799.gd6f94ed593-goog
-Message-ID: <20260625202549.2988460-1-briandaniels@google.com>
-Subject: Re: [PATCH v4 2/8] media: virtio: Add virtio-media driver structs and
- function declarations
-From: Brian Daniels <briandaniels@google.com>
-To: "Bryan O'Donoghue" <bod@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Brian Daniels <briandaniels@google.com>, acourbot@google.com, adelva@google.com, 
-	aesteve@redhat.com, changyeon@google.com, daniel.almeida@collabora.com, 
-	eperezma@redhat.com, gnurou@gmail.com, gurchetansingh@google.com, 
-	hverkuil@xs4all.nl, jasowang@redhat.com, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, mst@redhat.com, nicolas.dufresne@collabora.com, 
-	virtualization@lists.linux.dev, xuanzhuo@linux.alibaba.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-2.66 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MV_CASE(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	RCPT_COUNT_TWELVE(0.00)[26];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65668-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[briandaniels@google.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:bod@kernel.org,m:mchehab@kernel.org,m:briandaniels@google.com,m:acourbot@google.com,m:adelva@google.com,m:aesteve@redhat.com,m:changyeon@google.com,m:daniel.almeida@collabora.com,m:eperezma@redhat.com,m:gnurou@gmail.com,m:gurchetansingh@google.com,m:hverkuil@xs4all.nl,m:jasowang@redhat.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:mst@redhat.com,m:nicolas.dufresne@collabora.com,m:virtualization@lists.linux.dev,m:xuanzhuo@linux.alibaba.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65669-lists,linux-media=lfdr.de];
+	FORGED_SENDER(0.00)[dakr@kernel.org,linux-media@vger.kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_CC(0.00)[google.com,redhat.com,collabora.com,gmail.com,xs4all.nl,vger.kernel.org,lists.linux.dev,linux.alibaba.com];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[19];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:lyude@redhat.com,m:dri-devel@lists.freedesktop.org,m:rust-for-linux@vger.kernel.org,m:nouveau@lists.freedesktop.org,m:acourbot@nvidia.com,m:gary@garyguo.net,m:christian.koenig@amd.com,m:driver-core@lists.linux.dev,m:ojeda@kernel.org,m:maarten.lankhorst@linux.intel.com,m:aliceryhl@google.com,m:simona@ffwll.ch,m:linux-kernel@vger.kernel.org,m:sumit.semwal@linaro.org,m:linux-media@vger.kernel.org,m:rafael@kernel.org,m:tzimmermann@suse.de,m:mripard@kernel.org,m:airlied@gmail.com,m:lossin@kernel.org,m:linaro-mm-sig@lists.linaro.org,m:dakr@kernel.org,m:mkchauras@gmail.com,m:lina+kernel@asahilina.net,m:daniel.almeida@collabora.com,m:gregkh@linuxfoundation.org,m:lina@asahilina.net,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[briandaniels@google.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[google.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,linux-media@vger.kernel.org];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,nvidia.com,garyguo.net,amd.com,lists.linux.dev,kernel.org,linux.intel.com,google.com,ffwll.ch,linaro.org,suse.de,gmail.com,lists.linaro.org,asahilina.net,collabora.com,linuxfoundation.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	TO_DN_SOME(0.00)[]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	TAGGED_RCPT(0.00)[linux-media,kernel];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,gitlab.freedesktop.org:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B42F86C87F6
+X-Rspamd-Queue-Id: 441CC6C8BD3
 
-> > +extern char *virtio_media_driver_name;
-> > +extern bool virtio_media_allow_userptr;
->=20
-> This looks a bit funny to me - why do you have externs in your header ?
->=20
-> =E2=9E=9C   grep -r virtio * | grep extern
-> arch/mips/include/asm/mach-loongson64/builtin_dtbs.h:extern u32=20
-> __dtb_loongson64v_4core_virtio_begin[];
-> Documentation/virt/kvm/api.rst:    - virtio external interrupt; external=
-=20
-> interrupt
-> drivers/gpu/drm/virtio/virtgpu_drv.h:extern struct drm_ioctl_desc=20
-> virtio_gpu_ioctls[DRM_VIRTIO_NUM_IOCTLS];
-> drivers/net/wireless/virtual/mac80211_hwsim.c:extern int=20
-> hwsim_tx_virtio(struct mac80211_hwsim_data *data,
-> include/linux/virtio_anchor.h:extern bool=20
-> (*virtio_check_mem_acc_cb)(struct virtio_device *dev);
+On Fri, 12 Jun 2026 15:43:32 -0400, Lyude Paul wrote:
+> [PATCH v21 0/4] Rust bindings for gem shmem
 
-You're command will only return lines that contain both `virtio` and `exter=
-n`.
-If you instead wanted to find all header files that contain externs, I beli=
-eve
-you would want something like:
+Applied, thanks!
 
-  find -type f -name '*.h' | xargs grep extern
+  Branch: drm-rust-next
+  Tree:   https://gitlab.freedesktop.org/drm/rust/kernel.git
 
-When I run this I find many examples of `extern` in header files.
+[3/4] rust: faux: Allow retrieving a bound Device
+      commit: fa8cc4e3067f
 
-That all being said, the reason the `extern`s are in the header file is so
-files that include said header file can access those variables. In this cas=
-e,
-these variables are used for different module parameters. We may be
-removing them though, check the other discussion thread.
+The patch will appear in the next linux-next integration (typically within 24
+hours on weekdays).
+
+The patch is queued up for the upcoming merge window for the next major kernel
+release.
 
