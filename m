@@ -1,224 +1,181 @@
-Return-Path: <linux-media+bounces-65624-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65625-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id rWEoOmXsPGreuQgAu9opvQ
-	(envelope-from <linux-media+bounces-65624-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 10:52:53 +0200
+	id vDOiNPDtPGo4uggAu9opvQ
+	(envelope-from <linux-media+bounces-65625-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 10:59:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 872706C3FA9
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 10:52:53 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F4D56C4051
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 10:59:28 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=uXFPAEyg;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65624-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65624-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=Pla0pJCR;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65625-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65625-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 12475302DF63
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 08:52:10 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5FAEE304568D
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 08:57:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80AA11F4C96;
-	Thu, 25 Jun 2026 08:52:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64BAA388876;
+	Thu, 25 Jun 2026 08:57:51 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E863038550E;
-	Thu, 25 Jun 2026 08:52:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D669379EE8
+	for <linux-media@vger.kernel.org>; Thu, 25 Jun 2026 08:57:49 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782377525; cv=none; b=tmw5xWh/K+gOhjwUifPqhrOHYujcPL8AscdvzfMSWetzorB4Ju1QAgVtZuQZSPGC/Yai+hT1RadzQrt82N2iwLCeZHyz/8XFKuqg1ZjUb9N7qjbrfNNu384HG4K6HiEx/VWK2l6ENyhkDwqDdhHI+IqqhPXLxruN1vkCOYCattQ=
+	t=1782377870; cv=none; b=YGu5IBL3UJxKi260kxPVyRrZnJsAOkO7ZPTmdH4EjKnvE47iM1laqv1vi3u1SCGtVl/AN1jX1cw9Ypg/ELynKJtjD3jrnus7ElQ5BFiT52M+q+C8I2nkH4HxT4qp2xppkJ94u3kXyEV+wM+tODoVV4qm4bnFZOALkwU5aDVojZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782377525; c=relaxed/simple;
-	bh=A+HoPmcn/s5mApgSVAt0cwt1dN5Car6vPmvn2IX+Qok=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=k9dhTUvIOqnKopeo+9BIuXQ+ENmGvTlmXrLZeacfxdUYEHG6cWSd+2808dSnvc42PdXZUmSO0anTAGxMkYOfya9CD/8mykaP7P9i6NjXVu82/4AfbgDDW7J4DRAj/VIZxQHt7CBmJWukFsAQl/lz1JcT6QGnyouvlHb/n687ZJw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uXFPAEyg; arc=none smtp.client-ip=213.167.242.64
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A106312F;
-	Thu, 25 Jun 2026 10:51:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1782377480;
-	bh=A+HoPmcn/s5mApgSVAt0cwt1dN5Car6vPmvn2IX+Qok=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uXFPAEygz20nRi7Hm4/Dy1fC2ZwFm8iP1/vEuMm+SeaQIjHwH/bQWGbYeei9oCO5c
-	 BMJl8ggtrsjhXIHMOJ1Ht3tfXtNQT7MJlZ2Uu7SjLITJLvvf9RBNDPlFczD4Y8gHh9
-	 3kd1y5IRzoEuO8PDTfpeDsuUGGWsdnYi/jg+GSPg=
-Date: Thu, 25 Jun 2026 11:51:59 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
-	biju.das.jz@bp.renesas.com, jacopo.mondi@ideasonboard.com,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Sven =?utf-8?Q?P=C3=BCschel?= <s.pueschel@pengutronix.de>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Isaac Scott <isaac.scott@ideasonboard.com>,
-	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: v4l2-common: add v4l2_fill_pixfmt_aligned()
- helper
-Message-ID: <20260625085159.GP851255@killaraus.ideasonboard.com>
-References: <20260624104153.798953-1-tommaso.merciai.xr@bp.renesas.com>
- <20260624104153.798953-2-tommaso.merciai.xr@bp.renesas.com>
- <20260624192855.GH851255@killaraus.ideasonboard.com>
- <ajzjAVM8F8ZPMWcy@tom-desktop>
+	s=arc-20240116; t=1782377870; c=relaxed/simple;
+	bh=JkIeH8G3UDsIunXCm6he5FJmTCacmkG7UZWOLNyDQjQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WP8xT2hV9fADqt1GJV4SFVoLoguV94wHY8fD5fVN+Cwh6IT14uSgT/ehSnBZJeGm2TucfJ4qDpUzXHE2guN9iVeFN6MMfQIl9GsCz4wQe8MzNc64QbiIGQeQ8M18VurIRS5HI0/g6PsxQN9j77ASMFXviC4/ggPPpLBfG/nYrV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pla0pJCR; arc=none smtp.client-ip=209.85.128.46
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-491609cdd8fso12421785e9.2
+        for <linux-media@vger.kernel.org>; Thu, 25 Jun 2026 01:57:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782377868; x=1782982668; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=I7mK938UvamZb4f9XlJ0eXBktak5gapPH+AoT8mY1/M=;
+        b=Pla0pJCRWGHA+VqBHhTjXQf7yxkY33iT+6WOYcW5SdxCJ0qykyeXPLDYptL+ZyfeRE
+         h5kN+/Lyt6OUdL1wAIT9w39P0bvW+/LIU4FeUGl9cuJ0w7q6GS1YND1vuUqkOP91luFo
+         gmBK2vImqIZg0Tv6Zg/dr1o/T/SoKspQz99hNdb3F8aewudUZf9cAkWvga+VIM4CI4Ao
+         PtZc7xyJkFrg5G9tH/ks2NAaL8NLgceTi1zzJplBTsVna3rUEhrmW0FbHcaCX1HCc2Kq
+         +wWBWUtjkoF5wgN/t1pJ6LQ4YHZ5hLNWFm6v41BqG05U5JOFdE2OLTdC9FXVq4azn3iI
+         af6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782377868; x=1782982668;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=I7mK938UvamZb4f9XlJ0eXBktak5gapPH+AoT8mY1/M=;
+        b=MBjcr7SzvSdNlfleE0g9XdWbCX8zz3ETU3qmpORMry8uaeHCRJqv7w8TqY9VSGkS1p
+         odeujGnaRFj40eKa0KHjuL59MBd/fWU3IyIgt7Yntjmpd6yxffJOuWAfNI4WnOY0BSga
+         APWOvum9mg6u91uT6NJm9b0JXag6o3ZiEZ04xDVCZBbJFLxHUbhL9Noz9EnCnDq3XizF
+         7LdqU/t+to/DF4TgYIJbtk1xf6lYFUS6HfnuiEGC9aJhc5uImynUK8utpVaCc8JdHaaS
+         +bVdU2h66Gpx8A5IWpgglWojMUqw3GbZGJtXQADiH2XvVPKcAzBTNxiyRNyM0nIbCkyF
+         qeyA==
+X-Forwarded-Encrypted: i=1; AFNElJ+z5a+2m707VfyhzNuRpWgq1wwS0ikJDgzoBQF+BREakmiE6BILnajotJCZR57EnWHV3kfcuvUIREvJTg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YylGT9rBiCMk3KifwtvLurNyVC8XD/Vv1PyidPWBYypM496tU8z
+	Vg18GQMI3/YHNKUHZ3Nvx6AV1IkG+Lcii9247dZO1/QhX1LdT4/NahEi
+X-Gm-Gg: AfdE7cn4XC6t2MPSRbJBbwQdsGs3L20TGmZZhhbOcTqb8Lqytk9oOW4wT5zATS0Od2h
+	crWOXhxw+Xu929JTNvGxI9DKNRLrvAPGblnI5kMwZ80mERfLZA9ihoUb6b22TVrY0HS+KDdh2me
+	N33gPNJA5DiOIBwkvRvWxdHCEweVyNbBCNL9OC+Gzj9pOMeEQZzbffCOhwRIepJbaheOBfx15l2
+	3WWG4WLGM5K8mdJCVagUgg4MtXg77uts6OUWW6YP+ZC6iT3bVUSBM61XFnOc3OWzh8YBvmZJ+00
+	yRb31TZiWRPfH/OrDt6txACFKZ9zBG8fIiiJFZzhLLzm/qvQiUe7aXAt6hXG4IBewfolztUtEdu
+	acCIv7L3pENqZrx1a16wiWftF+ra4MXqJSkg28ehqtMRNei9MIPMyLq4uqHbirzHbwgFsFm+HSU
+	0906wgqSDRujTJNAPXMsVVT2FimQ==
+X-Received: by 2002:a05:600c:a12:b0:490:e19b:bd99 with SMTP id 5b1f17b1804b1-492668ad891mr20377325e9.30.1782377867583;
+        Thu, 25 Jun 2026 01:57:47 -0700 (PDT)
+Received: from Dev-Null-MSI ([2a0d:3344:52ac:a808:98a4:4381:be45:536f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4926541e03asm40015555e9.2.2026.06.25.01.57.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jun 2026 01:57:47 -0700 (PDT)
+From: Yousef Alhouseen <alhouseenyousef@gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-kernel@vger.kernel.org,
+	Yousef Alhouseen <alhouseenyousef@gmail.com>
+Subject: [PATCH] dma-buf: udmabuf: make list limit unsigned
+Date: Thu, 25 Jun 2026 10:57:35 +0200
+Message-ID: <20260625085735.4488-1-alhouseenyousef@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ajzjAVM8F8ZPMWcy@tom-desktop>
+Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	MID_CONTAINS_FROM(1.00)[];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65624-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:tommaso.merciai.xr@bp.renesas.com,m:tomm.merciai@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:jacopo.mondi@ideasonboard.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:sakari.ailus@linux.intel.com,m:s.pueschel@pengutronix.de,m:mehdi.djait@linux.intel.com,m:paul@crapouillou.net,m:isaac.scott@ideasonboard.com,m:dan.scally+renesas@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:tommmerciai@gmail.com,m:hverkuil@kernel.org,m:dan.scally@ideasonboard.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[17];
-	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,bp.renesas.com,ideasonboard.com,kernel.org,collabora.com,linux.intel.com,pengutronix.de,crapouillou.net];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
+	TO_DN_SOME(0.00)[];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,lists.linaro.org,gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-65625-lists,linux-media=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:kraxel@redhat.com,m:vivek.kasireddy@intel.com,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:alhouseenyousef@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[alhouseenyousef@gmail.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[alhouseenyousef@gmail.com,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	RCPT_COUNT_SEVEN(0.00)[9];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,ideasonboard.com:dkim,ideasonboard.com:from_mime,vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 872706C3FA9
+X-Rspamd-Queue-Id: 2F4D56C4051
 
-On Thu, Jun 25, 2026 at 10:12:49AM +0200, Tommaso Merciai wrote:
-> Hi Laurent,
-> Thanks for your review.
-> 
-> On Wed, Jun 24, 2026 at 10:28:55PM +0300, Laurent Pinchart wrote:
-> > Hi Tommaso,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Wed, Jun 24, 2026 at 12:41:30PM +0200, Tommaso Merciai wrote:
-> > > Add v4l2_fill_pixfmt_aligned(), a variant of v4l2_fill_pixfmt()
-> > > that accepts a stride_alignment parameter, mirroring the existing
-> > > v4l2_fill_pixfmt_mp() / v4l2_fill_pixfmt_mp_aligned() pair.
-> > > 
-> > > v4l2_fill_pixfmt() is refactored to call v4l2_fill_pixfmt_aligned()
-> > > with stride_alignment=1, preserving its existing behaviour.
-> > > 
-> > > The new helper is needed by drivers whose DMA engine requires the
-> > > line stride to be a multiple of a specific value, such as the
-> > > Renesas RZ/G3E CRU which requires 128-byte alignment.
-> > > 
-> > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> > > ---
-> > >  drivers/media/v4l2-core/v4l2-common.c | 17 +++++++++++++----
-> > >  include/media/v4l2-common.h           |  3 +++
-> > >  2 files changed, 16 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> > > index 65db7340ad38..1de246acc7ab 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > > @@ -545,8 +545,8 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt_mp);
-> > >  
-> > > -int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> > > -		     u32 width, u32 height)
-> > > +int v4l2_fill_pixfmt_aligned(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> > > +			     u32 width, u32 height, u8 stride_alignment)
-> > >  {
-> > >  	const struct v4l2_format_info *info;
-> > >  	int i;
-> > > @@ -562,14 +562,23 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> > >  	pixfmt->width = width;
-> > >  	pixfmt->height = height;
-> > >  	pixfmt->pixelformat = pixelformat;
-> > > -	pixfmt->bytesperline = v4l2_format_plane_stride(info, 0, width, 1);
-> > > +	pixfmt->bytesperline = v4l2_format_plane_stride(info, 0, width,
-> > > +							stride_alignment);
-> > >  	pixfmt->sizeimage = 0;
-> > >  
-> > >  	for (i = 0; i < info->comp_planes; i++)
-> > >  		pixfmt->sizeimage +=
-> > > -			v4l2_format_plane_size(info, i, width, height, 1);
-> > > +			v4l2_format_plane_size(info, i, width, height,
-> > > +					       stride_alignment);
-> > >  	return 0;
-> > >  }
-> > > +EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt_aligned);
-> > > +
-> > > +int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> > > +		     u32 width, u32 height)
-> > > +{
-> > > +	return v4l2_fill_pixfmt_aligned(pixfmt, pixelformat, width, height, 1);
-> > > +}
-> > 
-> > This could be an inline wrapper in include/media/v4l2-common.h, it would
-> > be more efficient.
-> 
-> Ok, thanks.
-> I guess we want the same for v4l2_fill_pixfmt_mp() ?
+UDMABUF_CREATE_LIST uses list_limit only as an upper bound for the
+unsigned entry count supplied by userspace. Negative values have no
+useful meaning and complicate the bounds check.
 
-That would be nice, as a separate patch, if you have time.
+Make the module parameter unsigned and keep the checked array copy so
+large counts cannot wrap the allocation size before udmabuf_create()
+walks the copied list.
 
-> > >  EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
-> > >  
-> > >  #ifdef CONFIG_MEDIA_CONTROLLER
-> > > diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> > > index edd416178c33..718a0f47f36b 100644
-> > > --- a/include/media/v4l2-common.h
-> > > +++ b/include/media/v4l2-common.h
-> > > @@ -556,6 +556,9 @@ void v4l2_apply_frmsize_constraints(u32 *width, u32 *height,
-> > >  				    const struct v4l2_frmsize_stepwise *frmsize);
-> > >  int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> > >  		     u32 width, u32 height);
-> > > +/* @stride_alignment is a power of 2 value in bytes */
-> > > +int v4l2_fill_pixfmt_aligned(struct v4l2_pix_format *pixfmt, u32 pixelformat,
-> > > +			     u32 width, u32 height, u8 stride_alignment);
-> > 
-> > I know the existing functions lack documentation, but it's not a reason
-> > to continue with that bad habit :-)
-> 
-> Ouch :)
-> 
-> > One point that needs to be clearly documented is how the stride
-> > alignment is handled for different planes.
-> 
-> Thanks, I will add documentation in v2.
-> 
-> > >  int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
-> > >  			u32 width, u32 height);
-> > >  /* @stride_alignment is a power of 2 value in bytes */
+Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
+---
+ drivers/dma-buf/udmabuf.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index b4078ec84..620113df3 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -16,8 +16,8 @@
+ #include <linux/vmalloc.h>
+ #include <linux/iosys-map.h>
+ 
+-static int list_limit = 1024;
+-module_param(list_limit, int, 0644);
++static uint list_limit = 1024;
++module_param(list_limit, uint, 0644);
+ MODULE_PARM_DESC(list_limit, "udmabuf_create_list->count limit. Default is 1024.");
+ 
+ static int size_limit_mb = 64;
+@@ -469,12 +469,10 @@ static long udmabuf_ioctl_create_list(struct file *filp, unsigned long arg)
+ 	struct udmabuf_create_list head;
+ 	struct udmabuf_create_item *list;
+ 	int ret = -EINVAL;
+-	int limit;
+ 
+ 	if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
+ 		return -EFAULT;
+-	limit = READ_ONCE(list_limit);
+-	if (!head.count || limit <= 0 || head.count > limit)
++	if (!head.count || head.count > READ_ONCE(list_limit))
+ 		return -EINVAL;
+ 	list = memdup_array_user((void __user *)(arg + sizeof(head)),
+ 				 head.count, sizeof(*list));
 -- 
-Regards,
+2.54.0
 
-Laurent Pinchart
 
