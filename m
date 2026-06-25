@@ -1,295 +1,224 @@
-Return-Path: <linux-media+bounces-65623-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65624-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id C+oGEvTnPGrOuAgAu9opvQ
-	(envelope-from <linux-media+bounces-65623-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 10:33:56 +0200
+	id rWEoOmXsPGreuQgAu9opvQ
+	(envelope-from <linux-media+bounces-65624-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 10:52:53 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C06C6C3D86
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 10:33:56 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 872706C3FA9
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 10:52:53 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=ceHVKQ1P;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65623-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65623-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=uXFPAEyg;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65624-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65624-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 2C26E303A024
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 08:33:37 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 12475302DF63
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 08:52:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1144381B07;
-	Thu, 25 Jun 2026 08:33:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80AA11F4C96;
+	Thu, 25 Jun 2026 08:52:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AACB8381AF9
-	for <linux-media@vger.kernel.org>; Thu, 25 Jun 2026 08:33:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E863038550E;
+	Thu, 25 Jun 2026 08:52:02 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782376404; cv=none; b=fO3+K8Q5erL7e42e+DhQ9zwbUaR7zMUBVXUolw/z3xqqeW0Xa5TyYLRrMuem3s9VNlSidQa8ejjV2bi4NQTc4ZHULfsp5N3RUS5foOCf1snc6Q/vdFhgIuDLbMDXzl9kqwGy1Yt2owEcuQxWJIRlOrHLB2AQepNo8fLPYon5rTE=
+	t=1782377525; cv=none; b=tmw5xWh/K+gOhjwUifPqhrOHYujcPL8AscdvzfMSWetzorB4Ju1QAgVtZuQZSPGC/Yai+hT1RadzQrt82N2iwLCeZHyz/8XFKuqg1ZjUb9N7qjbrfNNu384HG4K6HiEx/VWK2l6ENyhkDwqDdhHI+IqqhPXLxruN1vkCOYCattQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782376404; c=relaxed/simple;
-	bh=yzYq+YMs911nsc8Zsrb4v2SKDXhPnDYQn7AH6jg5xj4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EfZXNLrCTwUv205arwYaiBwYDLT5iU8butoC8kSTw55SAbmHY3kBOZl3VQMF3dVzdG6fAct2a5B3DayzZNC+IohcI71KH667RhGfToYeQ4mtb97eA3EtXBmEmXEVnRjGa0MykYXesgc6zoCVHbw8NMOEV7PqX1pnpl7ntQ+QbsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ceHVKQ1P; arc=none smtp.client-ip=209.85.167.48
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5aa5edf347eso1348911e87.3
-        for <linux-media@vger.kernel.org>; Thu, 25 Jun 2026 01:33:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782376401; x=1782981201; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+WUf+KF1R3dM0sjHR8vgf5CzVTyISRVGxCaO2Dn7tME=;
-        b=ceHVKQ1PQQYA7NAwG5TAq2P3E5uYWSPg3AuuwhXF5ILeL5+Zx4HWm8MwTbu18jDuFQ
-         PTWDspSmeya2I3hAfi+lvL4Mfr1lymSSaxhu4aQVjd6BSEpzd1W6X41fo4ImykyWHMwT
-         1mgg8Ce/4B01QZeUBbxHcvqi6YSDi6R+i76AXzCehpE5pqkGYPUCtbEMETrZqe0Th2q3
-         dpp55aUv79UQcXQPJ11JlhThhphy709flKyKk+QNkhmxs/xa/q+oEUCxCUFIDFDK3xr5
-         dxIFDpsxINLkbIJcUQqdgjRpwOwYzobPiUNAFB8cTUeNHnHWWO+3laewO72Q69GX2Gi9
-         U42A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782376401; x=1782981201;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+WUf+KF1R3dM0sjHR8vgf5CzVTyISRVGxCaO2Dn7tME=;
-        b=CfmVaqn1Pmu0wvgjSNAD+hg6XCAApEjRosnY6zIAWYjv3ZZNoVDHgoi8kIloEQ7drD
-         axiBRy/pDDuNPvg5FGDrznUKTJgmRbeHt01TnaSA4LXW2PCVe9jhFbaH/TfdNFlH10f6
-         FM31Zbx5jrwTGWQyk6NB3HMYZpLxk+ZIjtZPQlIsTlEHntwvkwlvQrkYAurJ/F1HfXye
-         DosTzM1HGgmpEw3WAV/5Kqxe60Li+XD7TFviyyQN660DTOXmlh9t4XjZjmuRo8/HVL39
-         VN21PQhTtn7xYsGx2E3N3+qDNyT8EVUKoDCP53jFOUK1drVK84AfNZII7AYiVwcNN98K
-         6tHw==
-X-Gm-Message-State: AOJu0Ywu2+N19gAa3X4PUm4ro5Pwy3Uoi8eYQhXU6lrvFdkjcdGD9B00
-	TQSIeVJa9T2GQM22d4jrCIxO/MySowhG9E/GwUWu0M9PKV95DbEcA3ic
-X-Gm-Gg: AfdE7cnoSUnSMaRgoZETq5MMmp+TsjrAUDNpXVUGS6rMgTu5idwEeShrGN1NaJCPDhh
-	XzN+I2pQbluVVgHBjalzbBCHobD8FfAiN4EqNczpqe16AWrYD7GZh7rBIry4QRZqoajH9+Wa3Ug
-	njObM1AdmMB/bZv2qstPVTNSxfKjm1WzObYv9tY8BNeBDiCjop3QvGNaVqLeLx4Hr5OW/gaVW3F
-	swb7AvOzBftdO1JtdSHj8sLGyFhlgHX0x+R/BCKwNt7P4niD45o7va/5aDoejCpKfzOmn6v1/cj
-	2Rgfe+zaAtjiFGRj0cv8+5bobIa6rax2nIRm8f/B1Ga1OMaRftBTFUBRrBssMldHjej3Jp9h+jy
-	EHCzpK8B16hBv8S7FvDijI2tBHQ6M44YPgl6pbQbA2B0m63CaXvEX5Ako7fCuggw0WDG1NlVkdK
-	EM0eR3Y18jH45li5TvQsfcUnyNTEYpGUZy1Q==
-X-Received: by 2002:a05:6512:61d9:20b0:5ad:518a:61dd with SMTP id 2adb3069b0e04-5aea2062e28mr305266e87.46.1782376400784;
-        Thu, 25 Jun 2026 01:33:20 -0700 (PDT)
-Received: from xeon ([188.163.112.61])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3999b1b143fsm40327521fa.39.2026.06.25.01.33.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 01:33:19 -0700 (PDT)
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-To: Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	s=arc-20240116; t=1782377525; c=relaxed/simple;
+	bh=A+HoPmcn/s5mApgSVAt0cwt1dN5Car6vPmvn2IX+Qok=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k9dhTUvIOqnKopeo+9BIuXQ+ENmGvTlmXrLZeacfxdUYEHG6cWSd+2808dSnvc42PdXZUmSO0anTAGxMkYOfya9CD/8mykaP7P9i6NjXVu82/4AfbgDDW7J4DRAj/VIZxQHt7CBmJWukFsAQl/lz1JcT6QGnyouvlHb/n687ZJw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uXFPAEyg; arc=none smtp.client-ip=213.167.242.64
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A106312F;
+	Thu, 25 Jun 2026 10:51:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1782377480;
+	bh=A+HoPmcn/s5mApgSVAt0cwt1dN5Car6vPmvn2IX+Qok=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uXFPAEygz20nRi7Hm4/Dy1fC2ZwFm8iP1/vEuMm+SeaQIjHwH/bQWGbYeei9oCO5c
+	 BMJl8ggtrsjhXIHMOJ1Ht3tfXtNQT7MJlZ2Uu7SjLITJLvvf9RBNDPlFczD4Y8gHh9
+	 3kd1y5IRzoEuO8PDTfpeDsuUGGWsdnYi/jg+GSPg=
+Date: Thu, 25 Jun 2026 11:51:59 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
+	biju.das.jz@bp.renesas.com, jacopo.mondi@ideasonboard.com,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: linux-media@vger.kernel.org,
-	linux-tegra@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/1 RESEND] staging: media: tegra-video: vi: Improve media graph building logic
-Date: Thu, 25 Jun 2026 11:33:02 +0300
-Message-ID: <20260625083302.71651-2-clamor95@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260625083302.71651-1-clamor95@gmail.com>
-References: <20260625083302.71651-1-clamor95@gmail.com>
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Sven =?utf-8?Q?P=C3=BCschel?= <s.pueschel@pengutronix.de>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Paul Cercueil <paul@crapouillou.net>,
+	Isaac Scott <isaac.scott@ideasonboard.com>,
+	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: v4l2-common: add v4l2_fill_pixfmt_aligned()
+ helper
+Message-ID: <20260625085159.GP851255@killaraus.ideasonboard.com>
+References: <20260624104153.798953-1-tommaso.merciai.xr@bp.renesas.com>
+ <20260624104153.798953-2-tommaso.merciai.xr@bp.renesas.com>
+ <20260624192855.GH851255@killaraus.ideasonboard.com>
+ <ajzjAVM8F8ZPMWcy@tom-desktop>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ajzjAVM8F8ZPMWcy@tom-desktop>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FREEMAIL_FROM(0.00)[gmail.com];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65623-lists,linux-media=lfdr.de];
-	FORGED_SENDER(0.00)[clamor95@gmail.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:thierry.reding@kernel.org,m:jonathanh@nvidia.com,m:skomatineni@nvidia.com,m:luca.ceresoli@bootlin.com,m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:gregkh@linuxfoundation.org,m:clamor95@gmail.com,m:linux-media@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65624-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:tommaso.merciai.xr@bp.renesas.com,m:tomm.merciai@gmail.com,m:linux-renesas-soc@vger.kernel.org,m:biju.das.jz@bp.renesas.com,m:jacopo.mondi@ideasonboard.com,m:prabhakar.mahadev-lad.rj@bp.renesas.com,m:mchehab@kernel.org,m:hverkuil+cisco@kernel.org,m:nicolas.dufresne@collabora.com,m:sakari.ailus@linux.intel.com,m:s.pueschel@pengutronix.de,m:mehdi.djait@linux.intel.com,m:paul@crapouillou.net,m:isaac.scott@ideasonboard.com,m:dan.scally+renesas@ideasonboard.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:tommmerciai@gmail.com,m:hverkuil@kernel.org,m:dan.scally@ideasonboard.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[17];
+	FREEMAIL_CC(0.00)[gmail.com,vger.kernel.org,bp.renesas.com,ideasonboard.com,kernel.org,collabora.com,linux.intel.com,pengutronix.de,crapouillou.net];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[kernel.org,nvidia.com,bootlin.com,linuxfoundation.org,gmail.com];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[clamor95@gmail.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,bootlin.com:email]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[renesas.com:email,ideasonboard.com:dkim,ideasonboard.com:from_mime,vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 1C06C6C3D86
+X-Rspamd-Queue-Id: 872706C3FA9
 
-The existing tegra_vi_graph_build function relies heavily on a one-to-one
-match between Device Tree nodes and media pad links. While this works for
-simpler configurations, it causes issues when Device Tree nodes do not
-match media pad link logic (e.g., mt9m114). Switch to the
-media_entity_get_fwnode_pad helper to verify and retrieve the correct pad
-linked to an endpoint, rather than assuming the endpoint ID matches the
-pad ID.
+On Thu, Jun 25, 2026 at 10:12:49AM +0200, Tommaso Merciai wrote:
+> Hi Laurent,
+> Thanks for your review.
+> 
+> On Wed, Jun 24, 2026 at 10:28:55PM +0300, Laurent Pinchart wrote:
+> > Hi Tommaso,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Wed, Jun 24, 2026 at 12:41:30PM +0200, Tommaso Merciai wrote:
+> > > Add v4l2_fill_pixfmt_aligned(), a variant of v4l2_fill_pixfmt()
+> > > that accepts a stride_alignment parameter, mirroring the existing
+> > > v4l2_fill_pixfmt_mp() / v4l2_fill_pixfmt_mp_aligned() pair.
+> > > 
+> > > v4l2_fill_pixfmt() is refactored to call v4l2_fill_pixfmt_aligned()
+> > > with stride_alignment=1, preserving its existing behaviour.
+> > > 
+> > > The new helper is needed by drivers whose DMA engine requires the
+> > > line stride to be a multiple of a specific value, such as the
+> > > Renesas RZ/G3E CRU which requires 128-byte alignment.
+> > > 
+> > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> > > ---
+> > >  drivers/media/v4l2-core/v4l2-common.c | 17 +++++++++++++----
+> > >  include/media/v4l2-common.h           |  3 +++
+> > >  2 files changed, 16 insertions(+), 4 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> > > index 65db7340ad38..1de246acc7ab 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-common.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > > @@ -545,8 +545,8 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt,
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt_mp);
+> > >  
+> > > -int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+> > > -		     u32 width, u32 height)
+> > > +int v4l2_fill_pixfmt_aligned(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+> > > +			     u32 width, u32 height, u8 stride_alignment)
+> > >  {
+> > >  	const struct v4l2_format_info *info;
+> > >  	int i;
+> > > @@ -562,14 +562,23 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+> > >  	pixfmt->width = width;
+> > >  	pixfmt->height = height;
+> > >  	pixfmt->pixelformat = pixelformat;
+> > > -	pixfmt->bytesperline = v4l2_format_plane_stride(info, 0, width, 1);
+> > > +	pixfmt->bytesperline = v4l2_format_plane_stride(info, 0, width,
+> > > +							stride_alignment);
+> > >  	pixfmt->sizeimage = 0;
+> > >  
+> > >  	for (i = 0; i < info->comp_planes; i++)
+> > >  		pixfmt->sizeimage +=
+> > > -			v4l2_format_plane_size(info, i, width, height, 1);
+> > > +			v4l2_format_plane_size(info, i, width, height,
+> > > +					       stride_alignment);
+> > >  	return 0;
+> > >  }
+> > > +EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt_aligned);
+> > > +
+> > > +int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+> > > +		     u32 width, u32 height)
+> > > +{
+> > > +	return v4l2_fill_pixfmt_aligned(pixfmt, pixelformat, width, height, 1);
+> > > +}
+> > 
+> > This could be an inline wrapper in include/media/v4l2-common.h, it would
+> > be more efficient.
+> 
+> Ok, thanks.
+> I guess we want the same for v4l2_fill_pixfmt_mp() ?
 
-Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com> # tegra20, parallel camera
-Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
----
- drivers/staging/media/tegra-video/vi.c | 78 ++++++++++++--------------
- 1 file changed, 35 insertions(+), 43 deletions(-)
+That would be nice, as a separate patch, if you have time.
 
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index f14cdc7b5211..24e4bd438678 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -1468,7 +1468,6 @@ static int tegra_vi_graph_build(struct tegra_vi_channel *chan,
- 	struct tegra_vi *vi = chan->vi;
- 	struct tegra_vi_graph_entity *ent;
- 	struct fwnode_handle *ep = NULL;
--	struct v4l2_fwnode_link link;
- 	struct media_entity *local = entity->entity;
- 	struct media_entity *remote;
- 	struct media_pad *local_pad;
-@@ -1478,70 +1477,64 @@ static int tegra_vi_graph_build(struct tegra_vi_channel *chan,
- 
- 	dev_dbg(vi->dev, "creating links for entity %s\n", local->name);
- 
--	while (1) {
--		ep = fwnode_graph_get_next_endpoint(entity->asd.match.fwnode,
--						    ep);
--		if (!ep)
--			break;
-+	fwnode_graph_for_each_endpoint(entity->asd.match.fwnode, ep) {
-+		struct fwnode_handle *remote_parent __free(fwnode_handle) = NULL;
-+		struct fwnode_handle *sink_ep __free(fwnode_handle) = NULL;
-+		int src_idx, sink_idx;
- 
--		ret = v4l2_fwnode_parse_link(ep, &link);
--		if (ret < 0) {
--			dev_err(vi->dev, "failed to parse link for %pOF: %d\n",
--				to_of_node(ep), ret);
-+		src_idx = media_entity_get_fwnode_pad(local, ep,
-+						      MEDIA_PAD_FL_SOURCE);
-+		if (src_idx < 0) {
-+			dev_dbg(vi->dev, "no source pad found for %pfw\n", ep);
- 			continue;
- 		}
- 
--		if (link.local_port >= local->num_pads) {
--			dev_err(vi->dev, "invalid port number %u on %pOF\n",
--				link.local_port, to_of_node(link.local_node));
--			v4l2_fwnode_put_link(&link);
--			ret = -EINVAL;
--			break;
-+		remote_parent = fwnode_graph_get_remote_port_parent(ep);
-+		if (!remote_parent) {
-+			dev_dbg(vi->dev, "no remote parent found for %pfw\n",
-+				ep);
-+			continue;
- 		}
- 
--		local_pad = &local->pads[link.local_port];
-+		local_pad = &local->pads[src_idx];
- 		/* Remote node is vi node. So use channel video entity and pad
- 		 * as remote/sink.
- 		 */
--		if (link.remote_node == of_fwnode_handle(vi->dev->of_node)) {
-+		if (remote_parent == of_fwnode_handle(vi->dev->of_node)) {
- 			remote = &chan->video.entity;
- 			remote_pad = &chan->pad;
- 			goto create_link;
- 		}
- 
--		/*
--		 * Skip sink ports, they will be processed from the other end
--		 * of the link.
--		 */
--		if (local_pad->flags & MEDIA_PAD_FL_SINK) {
--			dev_dbg(vi->dev, "skipping sink port %pOF:%u\n",
--				to_of_node(link.local_node), link.local_port);
--			v4l2_fwnode_put_link(&link);
--			continue;
--		}
--
- 		/* find the remote entity from notifier list */
- 		ent = tegra_vi_graph_find_entity(&chan->notifier.done_list,
--						 link.remote_node);
-+						 remote_parent);
- 		if (!ent) {
--			dev_err(vi->dev, "no entity found for %pOF\n",
--				to_of_node(link.remote_node));
--			v4l2_fwnode_put_link(&link);
-+			fwnode_handle_put(ep);
-+			dev_err(vi->dev, "no entity found for %pfw\n",
-+				remote_parent);
- 			ret = -ENODEV;
- 			break;
- 		}
- 
- 		remote = ent->entity;
--		if (link.remote_port >= remote->num_pads) {
--			dev_err(vi->dev, "invalid port number %u on %pOF\n",
--				link.remote_port,
--				to_of_node(link.remote_node));
--			v4l2_fwnode_put_link(&link);
--			ret = -EINVAL;
--			break;
-+
-+		sink_ep = fwnode_graph_get_remote_endpoint(ep);
-+		if (!sink_ep) {
-+			dev_dbg(vi->dev, "no sink ep found for %pfw\n",
-+				ep);
-+			continue;
-+		}
-+
-+		sink_idx = media_entity_get_fwnode_pad(remote, sink_ep,
-+						       MEDIA_PAD_FL_SINK);
-+		if (sink_idx < 0) {
-+			dev_dbg(vi->dev, "no sink pad found for %pfw\n",
-+				sink_ep);
-+			continue;
- 		}
- 
--		remote_pad = &remote->pads[link.remote_port];
-+		remote_pad = &remote->pads[sink_idx];
- 
- create_link:
- 		dev_dbg(vi->dev, "creating %s:%u -> %s:%u link\n",
-@@ -1551,8 +1544,8 @@ static int tegra_vi_graph_build(struct tegra_vi_channel *chan,
- 		ret = media_create_pad_link(local, local_pad->index,
- 					    remote, remote_pad->index,
- 					    link_flags);
--		v4l2_fwnode_put_link(&link);
- 		if (ret < 0) {
-+			fwnode_handle_put(ep);
- 			dev_err(vi->dev,
- 				"failed to create %s:%u -> %s:%u link: %d\n",
- 				local->name, local_pad->index,
-@@ -1561,7 +1554,6 @@ static int tegra_vi_graph_build(struct tegra_vi_channel *chan,
- 		}
- 	}
- 
--	fwnode_handle_put(ep);
- 	return ret;
- }
- 
+> > >  EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
+> > >  
+> > >  #ifdef CONFIG_MEDIA_CONTROLLER
+> > > diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+> > > index edd416178c33..718a0f47f36b 100644
+> > > --- a/include/media/v4l2-common.h
+> > > +++ b/include/media/v4l2-common.h
+> > > @@ -556,6 +556,9 @@ void v4l2_apply_frmsize_constraints(u32 *width, u32 *height,
+> > >  				    const struct v4l2_frmsize_stepwise *frmsize);
+> > >  int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+> > >  		     u32 width, u32 height);
+> > > +/* @stride_alignment is a power of 2 value in bytes */
+> > > +int v4l2_fill_pixfmt_aligned(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+> > > +			     u32 width, u32 height, u8 stride_alignment);
+> > 
+> > I know the existing functions lack documentation, but it's not a reason
+> > to continue with that bad habit :-)
+> 
+> Ouch :)
+> 
+> > One point that needs to be clearly documented is how the stride
+> > alignment is handled for different planes.
+> 
+> Thanks, I will add documentation in v2.
+> 
+> > >  int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
+> > >  			u32 width, u32 height);
+> > >  /* @stride_alignment is a power of 2 value in bytes */
+
 -- 
-2.51.0
+Regards,
 
+Laurent Pinchart
 
