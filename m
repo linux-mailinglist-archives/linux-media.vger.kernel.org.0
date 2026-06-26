@@ -1,367 +1,198 @@
-Return-Path: <linux-media+bounces-65692-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65693-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id mkUJAEsxPmoHBQkAu9opvQ
-	(envelope-from <linux-media+bounces-65692-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 09:59:07 +0200
+	id NTSzFIQzPmqSBQkAu9opvQ
+	(envelope-from <linux-media+bounces-65693-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 10:08:36 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E576CB2E0
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 09:59:06 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51A4C6CB380
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 10:08:35 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=hEft3WdC;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65692-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65692-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=obgdnlmQ;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65693-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65693-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 2C499300889E
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 07:59:02 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 57706300252F
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 08:08:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E0E73E44E4;
-	Fri, 26 Jun 2026 07:58:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D06593ACA43;
+	Fri, 26 Jun 2026 08:08:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8424D2F7EF4;
-	Fri, 26 Jun 2026 07:58:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB2F3AD520
+	for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 08:08:19 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782460736; cv=none; b=R+ckE6MYzGiBCNc1HDn4XZx7Y+VttFwVtcoJUxTMToRcaoE4IpsfFsxvcI6K8u9hjWY99xGji790g4FE46l7mubfN9FiWkyW5MVHg0O8ZTCgafBklA0js8qSZBi+3bmeXgev3qPQic2vI56KLUvpgGrbYgxbds2p1sJn0eBe2qc=
+	t=1782461303; cv=none; b=PiNFY8pd7w0FVgG73bgJXL0702NGPAlDKdKAuoxSNeYJ1eYsSKdQ1XActNhUrrTkdFKW0ZgfWcPm5D4cQnRUzSH/Of5QDRUtLFv0n0O9sNR+zbsS4/Oi1igkO6w8DZ2sY853NpqaOFTe4ZYgOaRh0Zf0x2NrCJlibam0B69YWoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782460736; c=relaxed/simple;
-	bh=UH14fvN8UKaofZyLqiMZ2A0E9yCSuZbf7bcMkyArlaA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SAOarQeZn8pHowXHhlewq/GKmwY7uw2vPo+s3ykaPVTOuwyRp4gUKIDFkGvhdRrzq3bXyu5bvYbRT9pFj4NWaFwoJTeW3r5BT+ZY9k4SDszViKor5Oee1GtlVaecvTFhOUL2es2rOVEH6/Nn9QCTs60qJ1g44+tb9jVx2s5O+1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hEft3WdC; arc=none smtp.client-ip=213.167.242.64
-Received: from ideasonboard.com (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B6EB31E7;
-	Fri, 26 Jun 2026 09:58:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1782460691;
-	bh=UH14fvN8UKaofZyLqiMZ2A0E9yCSuZbf7bcMkyArlaA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hEft3WdCRkuYEGff0JiurC0IswICD76B/PxgNUcjZjAgy6Jt2w3RU8CULCuqtPop+
-	 L8Xypo0TT4//jpe+zD8Daw0Pu01DTAyLjwIHQXlDlnKtvUXjTtmQ6mzbqKbUN0rBuD
-	 zbK7tMOUySucOxmiLfeQqPn2v6qtdYa2C+VTJLAg=
-Date: Fri, 26 Jun 2026 09:58:49 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH 4/5] media: i2c: vd55g1: Add support for vd55g4
-Message-ID: <aj4xDDy0UubUzCVx@zed>
-References: <20260428-vd55g4_and_fixes-v1-0-4f745a83b87e@foss.st.com>
- <20260428-vd55g4_and_fixes-v1-4-4f745a83b87e@foss.st.com>
- <ajkKkSeDNoijIsub@zed>
- <68d276f9-e688-4736-a296-f56c5aaa4b77@foss.st.com>
+	s=arc-20240116; t=1782461303; c=relaxed/simple;
+	bh=SFnUDavIiYIsJ9XoqgY2IG8NgWcE6leLr7ttBz31hcs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=au9GHtCIyKms3ydgtIf9DOkIqGnhK+9gIHsbHUrrrKc7hQRkDNEqZajF6ZKfZCIR5LgSad48vSr7jiTWTPv2Zxyw3zMiDlsKROdIIFsr8Z0up/PXy8DD0NdDaAn4jA1YgAF2psCDaoabTe6I7NsLjfFetbBjzt8+TVzZM7uRY90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=obgdnlmQ; arc=none smtp.client-ip=209.85.214.181
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2c7f1db3ad4so6412715ad.3
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 01:08:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1782461299; x=1783066099; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MJ+T6+y+X164UlZgYnR/gHm8zQJ/SCwnhWnfxubn/vg=;
+        b=obgdnlmQICTTvoWsxdI71X2VGZKhl+MJ9JBnM78IrykBsPhcF4ApGhT0n4oPLZUjIc
+         NeEHslrXBK++7DAZaI48O1USv6YWHpefTa6pHpHY6qC/y2Vfn9xAgHGrEuoCo3Ny9ghM
+         rRkB1NgLhHay3CdWEx55yoQCrqggCF56xw7NT6eZ8YvLOAomD8IRHjQ0q6DWdGP2I+Ll
+         SEloaotLGXxwMcgtYR8YHdcbnfE9OvMSzsjwAxIh21qv6Q9bo/e6y6CdYhmbltWG6R6y
+         TNlfS0w6Y7SVoXlCANKDPdfCtHCH8P+QFLhnmbWaRgAH0U0AYAwvXZ6u3FvL2hdRfODj
+         Vcgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782461299; x=1783066099;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MJ+T6+y+X164UlZgYnR/gHm8zQJ/SCwnhWnfxubn/vg=;
+        b=rsSoGnsZKfEmjNZQVOzdrEhy5UwySVaDowVW4yCmC45uTUFjGKqfxk7BBEZJAcMISl
+         hoVWcDSmN8h7m/eVv2wfQF5mzJM58KRDgOuUwtV9Af4fMrV/+2YMAsvlcpUdeVrtJRpP
+         F3TyXGl0x7tKjgRm2bMzIPCLVnFohmNsQjFuFFmSiL+4a1/s4rpIIK1d11qDvOAYD6EW
+         /uEeleKiUVGHFRU5AUkfRGFPKpQZqNltW3YjaU2cwfhI3LaCr2jbO+4F6aqO+mm5iiIb
+         v34unVtsEVpZl7M/WURb2X6g7yAaVULREBBrys+DIi/WqgtIDP7ImmgKlZJGhD7WAA3j
+         vEMg==
+X-Forwarded-Encrypted: i=1; AHgh+Rrm8Z1P1M1ZiBct8U8tzMeU7FynhAUJ18AQWsHlg+M/OHfVHYM+ea9kNAupkAAB4dgbYR8AtagOYzhyFw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3Vr/1n9ZMI6q73OqjyG/RvG3I4r2lBzpLF5QY8ujBbc3t4kx4
+	WSOe5Bmhw2sTIOjkOXgaB0M/5doCg8vFvNLiqNe7FvMkr7PI1fjqUJw3
+X-Gm-Gg: AfdE7cmUt2F7dbtq3TouiE0LbP0BxerA4tuuM4w7kyDDtKWYjd+QI+snJQHuWeGoXwQ
+	ZVWqyrUBRJQGIML4Do76YqL6wL1idICunPQ2iv3+Xs7tTR0fkye3h8L9om1uu/aqnmACtmIJGtH
+	e+yUM8+McbO2wrP4zEgobbr+/lLcNxX6TepUxfGIAVQvZ7HuyfxBGdV+rrTOmOkCSfzjzpHV61/
+	wKYNKxZg2pOvXRGIWQC6yy35F8lA/JK4nwjtCOsSr9hYsYIcNvF5+LNowXrGlJ8gQCgE0Bg5yPd
+	x9sVLHMBCKvvlXiY4khTLOZOAT/yn6cA4StAl9ejl/ImzkmlQjaH1wL1GHqgVETNJPmIMEgPEDe
+	Euh964gZxY03S1SyiacXumpEQUnx41y3eosHi6n8FB3A7a0btfB2yFI4Cw3YGywGk+j+ercYKs+
+	+ZdkcE0I2KuBH9oHwUbf/nVmFP9g1zn9//k38Z/PE7EeSYhcSSjbN8ufQiztXuwTFvBowYP/ykS
+	0tjAj55kKGTr+e+1RQNYR9cFFA+Qaa2J2l1me03+BuYtQ==
+X-Received: by 2002:a17:903:2ec3:b0:2c1:98b7:ecf3 with SMTP id d9443c01a7336-2c7fca71861mr63811095ad.23.1782461298919;
+        Fri, 26 Jun 2026 01:08:18 -0700 (PDT)
+Received: from bass-virtual-machine.. ([36.112.122.140])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7f5afb1e0sm35714085ad.29.2026.06.26.01.08.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jun 2026 01:08:18 -0700 (PDT)
+From: Gui-Dong Han <hanguidong02@gmail.com>
+To: hverkuil@kernel.org,
+	linux-media@vger.kernel.org,
+	mchehab@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	baijiaju1990@gmail.com,
+	Gui-Dong Han <hanguidong02@gmail.com>
+Subject: [PATCH] media: cec-pin: Fix event FIFO ordering
+Date: Fri, 26 Jun 2026 16:08:06 +0800
+Message-Id: <20260626080806.4012817-1-hanguidong02@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <68d276f9-e688-4736-a296-f56c5aaa4b77@foss.st.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_RHS_NOT_FQDN(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_MISSING_CHARSET(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65692-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:benjamin.mugnier@foss.st.com,m:jacopo.mondi@ideasonboard.com,m:sylvain.petinot@foss.st.com,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:hverkuil+cisco@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:devicetree@vger.kernel.org,m:krzk@kernel.org,m:conor@kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-65693-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:hverkuil@kernel.org,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:linux-kernel@vger.kernel.org,m:baijiaju1990@gmail.com,m:hanguidong02@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[hanguidong02@gmail.com,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[hanguidong02@gmail.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt,cisco];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:from_mime,st.com:email,vger.kernel.org:from_smtp,zed:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 50E576CB2E0
+X-Rspamd-Queue-Id: 51A4C6CB380
 
-Hi Benjamin
+cec_pin_update() fills work_pin_events[] and work_pin_ts[], then
+increments work_pin_num_events. cec_pin_thread_func() uses that counter
+to decide when to read the FIFO entries.
 
-On Thu, Jun 25, 2026 at 01:41:56PM +0200, Benjamin Mugnier wrote:
-> Hi Jacopo,
->
-> Le 22/06/2026 à 12:16, Jacopo Mondi a écrit :
-> > Hi Benjamin
-> >
-> > On Tue, Apr 28, 2026 at 10:40:58AM +0200, Benjamin Mugnier wrote:
-> >> vd55g4 is the same device as vd65g4 but outputs in monochrome instead of
-> >> RGB. Adapt the driver structure according to this new variant, and add
-> >> its support.
-> >>
-> >> Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-> >> ---
-> >>  drivers/media/i2c/vd55g1.c | 110 ++++++++++++++++++++++++++++++---------------
-> >>  1 file changed, 74 insertions(+), 36 deletions(-)
-> >>
-> >> diff --git a/drivers/media/i2c/vd55g1.c b/drivers/media/i2c/vd55g1.c
-> >> index 2c962fcb41d2..9f62fc0428a1 100644
-> >> --- a/drivers/media/i2c/vd55g1.c
-> >> +++ b/drivers/media/i2c/vd55g1.c
-> >> @@ -29,11 +29,7 @@
-> >>
-> >>  /* Register Map */
-> >>  #define VD55G1_REG_MODEL_ID				CCI_REG32_LE(0x0000)
-> >> -#define VD55G1_MODEL_ID_VD55G1				0x53354731 /* Mono */
-> >> -#define VD55G1_MODEL_ID_VD65G4				0x53354733 /* RGB */
-> >> -#define VD55G1_REG_REVISION				CCI_REG16_LE(0x0004)
-> >> -#define VD55G1_REVISION_CCB				0x2020
-> >> -#define VD55G1_REVISION_BAYER				0x3030
-> >> +#define VD55G1_REG_COLOR_VERSION			CCI_REG32_LE(0x0670)
-> >>  #define VD55G1_REG_FWPATCH_REVISION			CCI_REG16_LE(0x0012)
-> >>  #define VD55G1_REG_FWPATCH_START_ADDR			CCI_REG8(0x2000)
-> >>  #define VD55G1_REG_SYSTEM_FSM				CCI_REG8(0x001c)
-> >> @@ -138,8 +134,39 @@
-> >>  #define VD55G1_MIPI_RATE_MIN				(250 * MEGA)
-> >>  #define VD55G1_MIPI_RATE_MAX				(1200 * MEGA)
-> >>
-> >> -#define VD55G1_MODEL_ID_NAME(id) \
-> >> -	((id) == VD55G1_MODEL_ID_VD55G1 ? "vd55g1" : "vd65g4")
-> >> +enum vd55g1_model_id {
-> >> +	VD55G1_MODEL_ID_2 = 0x53354731,
-> >> +	VD55G1_MODEL_ID_3 = 0x53354733,
-> >> +};
-> >> +
-> >> +enum vd55g1_color_version {
-> >> +	VD55G1_COLOR_VERSION_MONO = 0x0,
-> >> +	VD55G1_COLOR_VERSION_BAYER = 0x1,
-> >
-> > nit: you don't need to initialize the enum members here
->
-> Thank you, will do.
->
-> >
-> >> +};
-> >> +
-> >> +struct vd55g1_version {
-> >> +	char *name;
-> >> +	enum vd55g1_model_id id;
-> >> +	enum vd55g1_color_version color;
-> >> +};
-> >> +
-> >> +static const struct vd55g1_version vd55g1_versions[] = {
-> >> +	{
-> >> +		.name  = "vd55g1",
-> >> +		.id    = VD55G1_MODEL_ID_2,
-> >> +		.color = VD55G1_COLOR_VERSION_MONO,
-> >> +	},
-> >> +	{
-> >> +		.name  = "vd55g4",
-> >> +		.id    = VD55G1_MODEL_ID_3,
-> >> +		.color = VD55G1_COLOR_VERSION_MONO,
-> >> +	},
-> >> +	{
-> >> +		.name  = "vd65g4",
-> >> +		.id    = VD55G1_MODEL_ID_3,
-> >> +		.color = VD55G1_COLOR_VERSION_BAYER,
-> >> +	},
-> >> +};
-> >>
-> >>  static const u8 vd55g1_patch_array[] = {
-> >>  	0x44, 0x03, 0x09, 0x02, 0xe6, 0x01, 0x42, 0x00, 0xea, 0x01, 0x42, 0x00,
-> >> @@ -535,7 +562,7 @@ struct vd55g1_vblank_limits {
-> >>
-> >>  struct vd55g1 {
-> >>  	struct device *dev;
-> >> -	unsigned int id;
-> >> +	const struct vd55g1_version *version;
-> >>  	struct v4l2_subdev sd;
-> >>  	struct media_pad pad;
-> >>  	struct regulator_bulk_data supplies[ARRAY_SIZE(vd55g1_supply_name)];
-> >> @@ -628,7 +655,7 @@ static u32 vd55g1_get_fmt_code(struct vd55g1 *sensor, u32 code)
-> >>  {
-> >>  	unsigned int i, j;
-> >>
-> >> -	if (sensor->id == VD55G1_MODEL_ID_VD55G1)
-> >> +	if (sensor->version->color != VD55G1_COLOR_VERSION_BAYER)
-> >>  		return code;
-> >
-> > As pointed out in the previous patch, you seem to have 2 mono formats.
-> > Is this still ok ?
-> >
-> >>
-> >>  	for (i = 0; i < ARRAY_SIZE(vd55g1_mbus_formats_bayer); i++) {
-> >> @@ -1183,8 +1210,8 @@ static int vd55g1_patch(struct vd55g1 *sensor)
-> >>  	u64 patch;
-> >>  	int ret = 0;
-> >>
-> >> -	/* vd55g1 needs a patch while vd65g4 does not */
-> >> -	if (sensor->id == VD55G1_MODEL_ID_VD55G1) {
-> >> +	/* Version 2 needs a patch while version 3 does not */
-> >> +	if (sensor->version->id == VD55G1_MODEL_ID_2) {
-> >>  		vd55g1_write_array(sensor, VD55G1_REG_FWPATCH_START_ADDR,
-> >>  				   sizeof(vd55g1_patch_array),
-> >>  				   vd55g1_patch_array, &ret);
-> >
-> > You might want to consider renaming vd55g1_patch_array ?
->
-> It doesn't really patch an array, it writes an array of values into
+Do not let the counter update be observed without the event update. Also
+do not let a freed slot be reused before the thread has finished reading
+it. Use release operations when publishing an entry and releasing a slot,
+and acquire operations when consuming those counter updates.
 
-My only point here was that it has 'vd55g1' in the name.
+Leave the other work_pin_num_events users as they do not participate in
+this FIFO publication path.
 
-> continuous i2c registers. Just like before converting to cci_write() I
-> used to have a vd55g1_write() function to write a register, I derived a
-> vd55g1_write_array() function. Here it happens to be a firmware patch,
-> but it could be anything you want ;)
->
-> >
-> >> @@ -1256,7 +1283,7 @@ static int vd55g1_enum_mbus_code(struct v4l2_subdev *sd,
-> >>  	struct vd55g1 *sensor = to_vd55g1(sd);
-> >>  	u32 base_code;
-> >>
-> >> -	if (sensor->id == VD55G1_MODEL_ID_VD55G1) {
-> >> +	if (sensor->version->color != VD55G1_COLOR_VERSION_BAYER) {
-> >>  		if (code->index >= ARRAY_SIZE(vd55g1_mbus_formats_mono))
-> >>  			return -EINVAL;
-> >>  		base_code = vd55g1_mbus_formats_mono[code->index];
-> >> @@ -1372,7 +1399,7 @@ static int vd55g1_init_state(struct v4l2_subdev *sd,
-> >>  	if (ret)
-> >>  		return ret;
-> >>
-> >> -	if (sensor->id == VD55G1_MODEL_ID_VD55G1)
-> >> +	if (sensor->version->color != VD55G1_COLOR_VERSION_BAYER)
-> >>  		code = vd55g1_mbus_formats_mono[VD55G1_MBUS_CODE_IDX_DEF];
-> >>  	else
-> >>  		code = vd55g1_mbus_formats_bayer[VD55G1_MBUS_CODE_IDX_DEF][0];
-> >> @@ -1659,38 +1686,48 @@ static int vd55g1_init_ctrls(struct vd55g1 *sensor)
-> >>  	return ret;
-> >>  }
-> >>
-> >> +static const struct vd55g1_version *
-> >> +	vd55g1_get_version(enum vd55g1_model_id id,
-> >> +			   enum vd55g1_color_version color)
-> >
-> > Should you indent one tab left ?
-> >
->
-> checkpatch.pl is fine with both. I can indent left, it looks cleaner.
->
-> >> +{
-> >> +	unsigned int i;
-> >> +
-> >> +	for (i = 0; i < ARRAY_SIZE(vd55g1_versions); i++) {
-> >
-> > You can declare i inside the for loop
-> >
->
-> Yes, thank you.
->
-> >> +		if (vd55g1_versions[i].id == id &&
-> >> +		    vd55g1_versions[i].color == color)
-> >> +			return &vd55g1_versions[i];
-> >> +	}
-> >> +
-> >> +	return NULL;
-> >> +}
-> >> +
-> >>  static int vd55g1_detect(struct vd55g1 *sensor)
-> >>  {
-> >> -	unsigned int dt_id = (uintptr_t)device_get_match_data(sensor->dev);
-> >> -	u64 rev, id;
-> >> -	int ret;
-> >> +	const struct vd55g1_version *dt_version =
-> >> +		device_get_match_data(sensor->dev);
-> >> +	const struct vd55g1_version *version;
-> >> +	u64 color, id;
-> >> +	int ret = 0;
-> >>
-> >> -	ret = vd55g1_read(sensor, VD55G1_REG_MODEL_ID, &id, NULL);
-> >> +	vd55g1_read(sensor, VD55G1_REG_MODEL_ID, &id, &ret);
-> >> +	vd55g1_read(sensor, VD55G1_REG_COLOR_VERSION, &color, &ret);
-> >>  	if (ret)
-> >>  		return ret;
-> >>
-> >> -	if (id != VD55G1_MODEL_ID_VD55G1 && id != VD55G1_MODEL_ID_VD65G4) {
-> >> -		dev_warn(sensor->dev, "Unsupported sensor id 0x%x\n",
-> >> -			 (u32)id);
-> >> +	version = vd55g1_get_version(id, color);
-> >> +	if (!version) {
-> >> +		dev_warn(sensor->dev, "Unsupported sensor version, expected %s\n",
-> >> +			 dt_version->name);
-> >>  		return -ENODEV;
-> >>  	}
-> >> -	if (id != dt_id) {
-> >> -		dev_err(sensor->dev, "Probed sensor %s and device tree definition (%s) mismatch",
-> >> -			VD55G1_MODEL_ID_NAME(id), VD55G1_MODEL_ID_NAME(dt_id));
-> >> +	if (version->id != dt_version->id ||
-> >> +	    version->color != dt_version->color) {
-> >> +		dev_err(sensor->dev, "Probed sensor version %s and device tree definition %s mismatch",
-> >> +			version->name, dt_version->name);
-> >>  		return -ENODEV;
-> >>  	}
-> >> -	sensor->id = id;
-> >>
-> >> -	ret = vd55g1_read(sensor, VD55G1_REG_REVISION, &rev, NULL);
-> >> -	if (ret)
-> >> -		return ret;
-> >> -
-> >> -	if ((id == VD55G1_MODEL_ID_VD55G1 && rev != VD55G1_REVISION_CCB) &&
-> >> -	    (id == VD55G1_MODEL_ID_VD65G4 && rev != VD55G1_REVISION_BAYER)) {
-> >> -		dev_err(sensor->dev, "Unsupported sensor revision 0x%x for sensor %s\n",
-> >> -			(u16)rev, VD55G1_MODEL_ID_NAME(id));
-> >> -		return -ENODEV;
-> >> -	}
-> >> +	sensor->version = version;
-> >>
-> >>  	return 0;
-> >>  }
-> >> @@ -2048,8 +2085,9 @@ static void vd55g1_remove(struct i2c_client *client)
-> >>  }
-> >>
-> >>  static const struct of_device_id vd55g1_dt_ids[] = {
-> >> -	{ .compatible = "st,vd55g1", .data = (void *)VD55G1_MODEL_ID_VD55G1 },
-> >> -	{ .compatible = "st,vd65g4", .data = (void *)VD55G1_MODEL_ID_VD65G4 },
-> >> +	{ .compatible = "st,vd55g1", .data = (void *)&vd55g1_versions[0] },
-> >> +	{ .compatible = "st,vd55g4", .data = (void *)&vd55g1_versions[1] },
-> >> +	{ .compatible = "st,vd65g4", .data = (void *)&vd55g1_versions[2] },
-> >>  	{ /* sentinel */ }
-> >>  };
-> >
-> > All minors
-> > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> >
-> > Thanks
-> >   j
-> >
-> >>  MODULE_DEVICE_TABLE(of, vd55g1_dt_ids);
-> >>
-> >> --
-> >> 2.43.0
-> >>
-> >>
->
-> --
-> Regards,
-> Benjamin
->
+Fixes: ea5c8ef29668 ("media: cec-pin: add low-level pin hardware support")
+Signed-off-by: Gui-Dong Han <hanguidong02@gmail.com>
+---
+Found by auditing atomic operations used for synchronization.
+A similar fix can be found in 6df8e84aa6b5.
+---
+ drivers/media/cec/core/cec-pin.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/cec/core/cec-pin.c b/drivers/media/cec/core/cec-pin.c
+index 6e1c39102832..085fc12067af 100644
+--- a/drivers/media/cec/core/cec-pin.c
++++ b/drivers/media/cec/core/cec-pin.c
+@@ -115,7 +115,7 @@ static void cec_pin_update(struct cec_pin *pin, bool v, bool force)
+ 		return;
+ 
+ 	pin->adap->cec_pin_is_high = v;
+-	if (atomic_read(&pin->work_pin_num_events) < CEC_NUM_PIN_EVENTS) {
++	if (atomic_read_acquire(&pin->work_pin_num_events) < CEC_NUM_PIN_EVENTS) {
+ 		u8 ev = v;
+ 
+ 		if (pin->work_pin_events_dropped) {
+@@ -126,7 +126,7 @@ static void cec_pin_update(struct cec_pin *pin, bool v, bool force)
+ 		pin->work_pin_ts[pin->work_pin_events_wr] = ktime_get();
+ 		pin->work_pin_events_wr =
+ 			(pin->work_pin_events_wr + 1) % CEC_NUM_PIN_EVENTS;
+-		atomic_inc(&pin->work_pin_num_events);
++		atomic_inc_return_release(&pin->work_pin_num_events);
+ 	} else {
+ 		pin->work_pin_events_dropped = true;
+ 		pin->work_pin_events_dropped_cnt++;
+@@ -1101,7 +1101,7 @@ static int cec_pin_thread_func(void *_adap)
+ 						     pin->work_tx_ts);
+ 		}
+ 
+-		while (atomic_read(&pin->work_pin_num_events)) {
++		while (atomic_read_acquire(&pin->work_pin_num_events)) {
+ 			unsigned int idx = pin->work_pin_events_rd;
+ 			u8 v = pin->work_pin_events[idx];
+ 
+@@ -1110,7 +1110,7 @@ static int cec_pin_thread_func(void *_adap)
+ 						v & CEC_PIN_EVENT_FL_DROPPED,
+ 						pin->work_pin_ts[idx]);
+ 			pin->work_pin_events_rd = (idx + 1) % CEC_NUM_PIN_EVENTS;
+-			atomic_dec(&pin->work_pin_num_events);
++			atomic_dec_return_release(&pin->work_pin_num_events);
+ 		}
+ 
+ 		switch (atomic_xchg(&pin->work_irq_change,
+-- 
+2.34.1
+
 
