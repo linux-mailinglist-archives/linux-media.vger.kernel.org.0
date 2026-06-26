@@ -1,205 +1,205 @@
-Return-Path: <linux-media+bounces-65701-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65702-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 3tiYMWxkPmrKFAkAu9opvQ
-	(envelope-from <linux-media+bounces-65701-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 13:37:16 +0200
+	id SyvqBo5sPmqDFwkAu9opvQ
+	(envelope-from <linux-media+bounces-65702-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 14:11:58 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A166CC8AE
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 13:37:16 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 613976CCDD7
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 14:11:57 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=MfGJz0qX;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65701-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65701-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=ohNctst3;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65702-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65702-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 62D3B306AAC8
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 11:31:50 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2AEBD3051C60
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 12:08:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 206F53E958C;
-	Fri, 26 Jun 2026 11:31:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C92713F44E9;
+	Fri, 26 Jun 2026 12:08:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 437909460
-	for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 11:31:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9953E8678;
+	Fri, 26 Jun 2026 12:08:07 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782473504; cv=none; b=Rbn/iIkVp/9iUdek1JsR/paCAvMiCepCBd1O7Tp9wTYKA9p31biUo7wbtZ7NmTpueYRBPjscdosk9xvIxOm8LmOQetAWAV/LsB4U3U0jx9W5vdpCMeVcDRtGsaTr4B6tmfQqSGVBNADn7txe0/CH7wIGZwtYiYoeaG4hojS/TTw=
+	t=1782475689; cv=none; b=cxM8AIY56scHC2HxrrorMrJnOkHyM3mF1OmM7ZVgBwRKFieltRmCsI5LMeXfbbikiWej2ZtAn4mrgyb9fSTBGXEJcbNvEl7mbKelajAU0I0jDCCq+7LgJB9ARodz2l+r7v8Ol61RRUtmbBovl+Tpl/RNTS/4cetdD9xccbUYrrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782473504; c=relaxed/simple;
-	bh=VItD2gNyOUhbKJqu9AHj/bFXqQPm9HEAhWle2t5UPHw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=L941wCFGFhNYLPDchU+EGY6MDXspdqv9fXFaWkQiVCNhSBflYAgokOjdd+oUYTGA8MzzF5Vhy3C/UnUf0Gf+4J3FomEiMX49FZv61ad3N/lUpcNbbPpWjfvZ81uYBBUf5Xtin26ugRphA41DodwM16DUCPQxZcVhUBMSX4536Ec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MfGJz0qX; arc=none smtp.client-ip=209.85.128.49
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4926fe5be4bso673325e9.0
-        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 04:31:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782473502; x=1783078302; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3V7IAVFZWmnU0nMqKkIZzyiPJmKtXEMD/AnbFuh2C68=;
-        b=MfGJz0qXw5DLfhiVUxaXTwRKutkPmvDnIug5e6IXhyVkqrgwVnqwKxQXaoxxWN/KOm
-         kM+WfWV2CqbV4Q5PQN1rp/wXIaNs1Tr882pPTrSTwNrIA53LsuiQG0jJtlA0ohi0etk/
-         jBaMe61fGuoleNdxuyCx3+ngwMOKF3kSmkHg9tG5s5bBE3KiYCGsNRhIGa3MHnFCIzz6
-         3c1yQUbs9fjM/PLIfliFzUliH7ckrJWpmPxL9XxOomLD/vkjIQfxExtT7wEoqxQN46uI
-         syKjApeveRSRghBJFHlAF4MIDAh4do+39BAI9L3+EJD5s3kfGnXxRFdaB415zi/g2Jw9
-         yQ9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782473502; x=1783078302;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=3V7IAVFZWmnU0nMqKkIZzyiPJmKtXEMD/AnbFuh2C68=;
-        b=lHdfTUBqI1txxz30FVtqC6d2yzNTFybe/LkAwMmOJh3pDNFCJwwdAzDDM3+qSft/Ed
-         z8N0CFpHVwMcAkJwb7dGNtYrNqOTJf60Zx4JqdVy2GNStWtq09W/lXJ0gQPclixF5xBS
-         MqgVC4ZxhTTwf02Uh1VRRTOfsvim6nD34xVH74hT/wM5UNjvQYi6IGKQf0AEdPQ9cmiK
-         MkiDesSESf4a2vayedWxgk8iMjlcmkEKoLropeAIDROzwKp0a4fLZbEQocMYeXr4xfBI
-         SpB5mEMB8SESWQ/cDaZFjRC9Mwx6RcNcN9BKe0OmpkW3B/Y3LxWKZ3BXWiqhD1o2S7uw
-         BlDA==
-X-Forwarded-Encrypted: i=1; AFNElJ8dIft2ZetOgMVhO9BxbjIgMDiXaQub8hOYrPGzJBxa+bUqjW6t5M/u7WvhyfOa3SElV3vPcyIocouMJQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy14sPixOTGyV0NAZMMcYvROZCCzJU5gCvw8A5+PtLHwVLr7X6g
-	KxWo5sWo8ZwCXVjyhSOn17nwsqL44nivwLTCQd747E2U9A7sy2heH8Lv57rk1wil
-X-Gm-Gg: AfdE7clzi15C2U2lGG2lKQc4+8RXTvfkkatYJuo+GRWjk1cjaA8JOLGSQknuT7UPoGi
-	dDAtpc88CljZzw9/eCQp4wLyOiJ5VzTF0TpT57gS7Y/pDJWZgjBzhvhGSDgtIxhwfXQa4xnxbXb
-	rcAC/+NeqozuILsX1qrKYdhdbeQ2doAH7Fsi+PJ4nvPkacgyo9UB+XTWYPjOSa/PwdHcRlUa9uw
-	ZLk7ICpbNEqknPELNNMBZN7jaaaWdVsiF6G2s4xyPDs2pEmhY7wtZ9LBsZbtdyG1LrH9SbGVB7N
-	7arBD/v7hab5dlag5xhhlEPEWq8X/j/asQIyzSsvOP5Nybt9qZnlmBbDjM3TfKA27o8dWGyYwjo
-	n8Rem+F0OP0yfNpbE0Cp0H/EQr9Ft6g0za0L3lrTN9qJakDV5ZzbV3XndtRgiallI0fFyRCjewu
-	UqInWvkjnsUaYxXD8BU3HwOu66vP0zNL73dMD7dkCiR3xxo4ei0A==
-X-Received: by 2002:a05:600c:3b29:b0:490:e5c1:b8b9 with SMTP id 5b1f17b1804b1-4926fac56a2mr6382035e9.0.1782473501473;
-        Fri, 26 Jun 2026 04:31:41 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c1ee0189esm25128520f8f.9.2026.06.26.04.31.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2026 04:31:41 -0700 (PDT)
-Date: Fri, 26 Jun 2026 12:31:39 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Yousef Alhouseen <alhouseenyousef@gmail.com>, Gerd Hoffmann
- <kraxel@redhat.com>, Vivek Kasireddy <vivek.kasireddy@intel.com>, Sumit
- Semwal <sumit.semwal@linaro.org>, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dma-buf: udmabuf: avoid list copy size overflow
-Message-ID: <20260626123139.7d6ec6ec@pumpkin>
-In-Reply-To: <06bddfca-d868-4043-ac6f-28ca103fff02@amd.com>
-References: <20260624125242.11232-1-alhouseenyousef@gmail.com>
-	<06bddfca-d868-4043-ac6f-28ca103fff02@amd.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	s=arc-20240116; t=1782475689; c=relaxed/simple;
+	bh=TY+1ymCIy0OL3hNWFQ2bJgQFUJArnwOKKwXeXghWFkg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=qfJWY3D+NfpYdhp60yUXYhzJvTxf53PLW4r5CpkRMsDQnZFK4BjcyI3k4nejdmQRfn1V98zkQWaryYPFBRFSwfVpi+j6snp/+O+7daRbUxMd4zEsJvhUo9K95EWXbKMjKZd28wZT2yX6Q0zBcafEEDQzuDzQezFCbQLqRHC4Jfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ohNctst3; arc=none smtp.client-ip=213.167.242.64
+Received: from ping.linuxembedded.co.uk (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A7A0DE2C;
+	Fri, 26 Jun 2026 14:07:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1782475640;
+	bh=TY+1ymCIy0OL3hNWFQ2bJgQFUJArnwOKKwXeXghWFkg=;
+	h=From:Subject:Date:To:Cc:From;
+	b=ohNctst3EMLEWPJDcYOvDTpN4WWOwqlp+76uVbE2bm6A2xgsAbqwF4EwjrQxlrh2j
+	 zwpFt5ZFrIrYTC+nfkp17JfIE8+lGCsS2mQVms/Y7xsQ4BP8HXTNfHgt1tlhpdPK1R
+	 y5NMU0risbye5JFHZvUxPX1gt2hobdBrz8YNi3Dw=
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH v2 0/8] dt-bindings: Orientation defines
+Date: Fri, 26 Jun 2026 13:07:52 +0100
+Message-Id: <20260626-kbingham-orientation-v2-0-47178be927b4@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJhrPmoC/x3MTQqAIBBA4avErBMGIfu5SrQwG3OILDQikO7e0
+ PItvlcgU2LKMFQFEt2c+YgSuq7ABRtXUrxIg0Zt0GCntpnjGuyuDnHxspcApdF6h342fdOC0DO
+ R5+ffjtP7fhp1xghmAAAA
+X-Change-ID: 20260608-kbingham-orientation-20afc0fb6957
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jacopo Mondi <jacopo@jmondi.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Jimmy Su <jimmy.su@intel.com>, 
+ Matthias Fend <matthias.fend@emfend.at>, 
+ Mikhail Rudenko <mike.rudenko@gmail.com>, 
+ Daniel Scally <dan.scally@ideasonboard.com>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ Michael Riesch <michael.riesch@collabora.com>, 
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+ Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Paul Elder <paul.elder@ideasonboard.com>, 
+ Martin Kepplinger <martin.kepplinger@puri.sm>, 
+ Quentin Schulz <quentin.schulz@theobroma-systems.com>, 
+ Tommaso Merciai <tomm.merciai@gmail.com>, 
+ Svyatoslav Ryhel <clamor95@gmail.com>, 
+ Richard Acayan <mailingradian@gmail.com>, 
+ Thierry Reding <thierry.reding@kernel.org>, 
+ Jonathan Hunter <jonathanh@nvidia.com>, Frank Li <Frank.Li@nxp.com>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+ linux@ew.tq-group.com, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ Conor Dooley <conor.dooley@microchip.com>, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782475679; l=3406;
+ i=kieran.bingham@ideasonboard.com; s=20260207; h=from:subject:message-id;
+ bh=TY+1ymCIy0OL3hNWFQ2bJgQFUJArnwOKKwXeXghWFkg=;
+ b=GChpd7SRw8H3NOWttl2n42YKdV+fRjG4b2xqrTjq2JpcgAvXgegIEh82R4+H3z+BsVxd9R7+2
+ 665tA5KbM5ICMI7mhUpFIwKceo94j6XQjGzudqSHRdNXXmXWGeJ8HFS
+X-Developer-Key: i=kieran.bingham@ideasonboard.com; a=ed25519;
+ pk=FVXKN7YuwHc6UtbRUeTMAmranfsQomA+vnilfglWdaY=
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-1.66 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-65701-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65702-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:alhouseenyousef@gmail.com,m:kraxel@redhat.com,m:vivek.kasireddy@intel.com,m:sumit.semwal@linaro.org,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
+	FREEMAIL_TO(0.00)[kernel.org,jmondi.org,linux.intel.com,intel.com,emfend.at,gmail.com,ideasonboard.com,collabora.com,foss.st.com,puri.sm,theobroma-systems.com,nvidia.com,nxp.com,pengutronix.de,glider.be,sntech.de];
+	FORGED_SENDER(0.00)[kieran.bingham@ideasonboard.com,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[45];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jacopo@jmondi.org,m:sakari.ailus@linux.intel.com,m:jimmy.su@intel.com,m:matthias.fend@emfend.at,m:mike.rudenko@gmail.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:michael.riesch@collabora.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:laurent.pinchart@ideasonboard.com,m:paul.elder@ideasonboard.com,m:martin.kepplinger@puri.sm,m:quentin.schulz@theobroma-systems.com,m:tomm.merciai@gmail.com,m:clamor95@gmail.com,m:mailingradian@gmail.com,m:thierry.reding@kernel.org,m:jonathanh@nvidia.com,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:heiko@sntech.de,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:linux@ew.tq-group.com,m:imx@lis
+ ts.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-arm-msm@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:conor.dooley@microchip.com,m:kieran.bingham@ideasonboard.com,m:kieran.bingham+renesas@ideasonboard.com,m:krzk@kernel.org,m:conor@kernel.org,m:mikerudenko@gmail.com,m:tommmerciai@gmail.com,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[davidlaightlinux@gmail.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[gmail.com,redhat.com,intel.com,linaro.org,lists.freedesktop.org,vger.kernel.org,lists.linaro.org];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[davidlaightlinux@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[kieran.bingham@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt,renesas];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[pumpkin:mid,amd.com:email,vger.kernel.org:from_smtp,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:mid,ideasonboard.com:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 67A166CC8AE
+X-Rspamd-Queue-Id: 613976CCDD7
 
-On Wed, 24 Jun 2026 14:58:58 +0200
-Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
+Add a new dt-bindings/media/video-interface-devices.h header that
+initially supports the Orientation types and convert existing users
+throughout the code base.
 
-> On 6/24/26 14:52, Yousef Alhouseen wrote:
-> > UDMABUF_CREATE_LIST copies an array whose element count comes from
-> > userspace. The count is compared against list_limit, but list_limit is a
-> > signed module parameter while the count is u32. =20
->=20
-> We should probably just drop the sign from the module parameter instead.
+v2:
+ - Now expands from the original v1 "dt-bindings: media: Add macros for
+   video interface devices" to update
+   Documentation/devicetree/bindings/media/video-interface-devices.yaml
+   and extend to actually change all users to the new types.
 
-Does anything sanity-check the module parameter?
+---
+Kieran Bingham (8):
+      dt-bindings: media: Add macros for video interface devices
+      media: dt-bindings: video-interface-devices: add video-interface-devices.h references
+      dt-bindings: media: i2c: Utilise video-interface-devices enums
+      ARM: tegra: Convert to new media orientation definitions
+      arm64: dts: freescale: Convert to new media orientation definitions
+      arm64: dts: qcom: Convert to new media orientation definitions
+      arm64: dts: renesas: Convert to new media orientation definitions
+      arm64: dts: rockchip: Convert to new media orientation definitions
 
-	David
+ .../devicetree/bindings/media/i2c/hynix,hi846.yaml      |  3 ++-
+ .../devicetree/bindings/media/i2c/ovti,ov08d10.yaml     |  3 ++-
+ .../devicetree/bindings/media/i2c/ovti,ov4689.yaml      |  3 ++-
+ .../devicetree/bindings/media/i2c/ovti,ov5675.yaml      |  3 ++-
+ .../devicetree/bindings/media/i2c/ovti,ov5693.yaml      |  3 ++-
+ .../devicetree/bindings/media/i2c/ovti,ov64a40.yaml     |  3 ++-
+ .../devicetree/bindings/media/i2c/sony,imx111.yaml      |  3 ++-
+ .../devicetree/bindings/media/i2c/sony,imx355.yaml      |  3 ++-
+ .../devicetree/bindings/media/i2c/sony,imx415.yaml      |  3 ++-
+ .../devicetree/bindings/media/i2c/st,vd55g1.yaml        |  3 ++-
+ .../devicetree/bindings/media/i2c/st,vd56g3.yaml        |  3 ++-
+ .../devicetree/bindings/media/i2c/thine,thp7312.yaml    |  3 ++-
+ .../bindings/media/video-interface-devices.yaml         | 17 +++++++++++------
+ .../dts/nvidia/tegra30-asus-nexus7-grouper-common.dtsi  |  3 ++-
+ .../dts/nvidia/tegra30-asus-transformer-common.dtsi     |  3 ++-
+ arch/arm/boot/dts/nvidia/tegra30-lg-p895.dts            |  4 +++-
+ arch/arm/boot/dts/nvidia/tegra30-lg-x3.dtsi             |  3 ++-
+ .../imx8mp-tqma8mpql-mba8mp-ras314-imx219.dtso          |  3 ++-
+ arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi       |  3 ++-
+ arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts      |  3 ++-
+ .../boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts     |  3 ++-
+ arch/arm64/boot/dts/qcom/sdm670-google-common.dtsi      |  3 ++-
+ .../renesas/r8a779g3-sparrow-hawk-camera-j1-imx219.dtso |  3 ++-
+ .../renesas/r8a779g3-sparrow-hawk-camera-j1-imx462.dtso |  3 ++-
+ .../renesas/r8a779g3-sparrow-hawk-camera-j2-imx219.dtso |  3 ++-
+ .../renesas/r8a779g3-sparrow-hawk-camera-j2-imx462.dtso |  3 ++-
+ arch/arm64/boot/dts/rockchip/px30-pp1516.dtsi           |  3 ++-
+ .../dts/rockchip/px30-ringneck-haikou-video-demo.dtso   |  3 ++-
+ arch/arm64/boot/dts/rockchip/rk3399-pinephone-pro.dts   |  5 +++--
+ .../rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam0.dtso  |  3 ++-
+ .../rockchip/rk3588-rock-5b-plus-radxa-cam4k-cam1.dtso  |  3 ++-
+ include/dt-bindings/media/video-interface-devices.h     | 13 +++++++++++++
+ 32 files changed, 86 insertions(+), 37 deletions(-)
+---
+base-commit: 30ffa8de54e5cc80d93fd211ca134d1764a7011f
+change-id: 20260608-kbingham-orientation-20afc0fb6957
 
->=20
-> I don't see an use case for negative values here.
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> > If the limit is raised too far or made negative, that comparison no
-> > longer bounds the count to a range where sizeof(*list) * count fits in
-> > the u32 temporary used for the copy length. A wrapped copy length lets
-> > memdup_user() copy fewer entries than udmabuf_create() subsequently
-> > walks, leading to out-of-bounds reads from the copied list.
-> >=20
-> > Take a positive snapshot of the module limit and use memdup_array_user()
-> > so the multiplication is checked before copying.
-> >=20
-> > Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
-> > ---
-> >  drivers/dma-buf/udmabuf.c | 9 +++++----
-> >  1 file changed, 5 insertions(+), 4 deletions(-)
-> >=20
-> > diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-> > index bced421c0..b4078ec84 100644
-> > --- a/drivers/dma-buf/udmabuf.c
-> > +++ b/drivers/dma-buf/udmabuf.c
-> > @@ -469,14 +469,15 @@ static long udmabuf_ioctl_create_list(struct file=
- *filp, unsigned long arg)
-> >         struct udmabuf_create_list head;
-> >         struct udmabuf_create_item *list;
-> >         int ret =3D -EINVAL;
-> > -       u32 lsize;
-> > +       int limit;
-> >=20
-> >         if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
-> >                 return -EFAULT;
-> > -       if (head.count > list_limit)
-> > +       limit =3D READ_ONCE(list_limit);
-> > +       if (!head.count || limit <=3D 0 || head.count > limit)
-> >                 return -EINVAL;
-> > -       lsize =3D sizeof(struct udmabuf_create_item) * head.count;
-> > -       list =3D memdup_user((void __user *)(arg + sizeof(head)), lsize=
-);
-> > +       list =3D memdup_array_user((void __user *)(arg + sizeof(head)),
-> > +                                head.count, sizeof(*list));
-> >         if (IS_ERR(list))
-> >                 return PTR_ERR(list);
-> >=20
-> > --
-> > 2.54.0
-> >  =20
->=20
->=20
+Best regards,
+-- 
+--
+Kieran
 
 
