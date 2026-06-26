@@ -1,222 +1,170 @@
-Return-Path: <linux-media+bounces-65679-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65680-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id +VEfDDzDPWoe6QgAu9opvQ
-	(envelope-from <linux-media+bounces-65679-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 02:09:32 +0200
+	id xWBEJgnNPWpt6ggAu9opvQ
+	(envelope-from <linux-media+bounces-65680-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 02:51:21 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0156F6C93A4
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 02:09:32 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 103446C955E
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 02:51:21 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=icloud.com header.s=1a1hai header.b=L69HB4MC;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65679-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65679-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=icloud.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=IVQeQK2W;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65680-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65680-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id EDF333045821
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 00:09:24 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id BCB0E304893B
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 00:51:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 476361FF1B5;
-	Fri, 26 Jun 2026 00:09:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 863352BFC60;
+	Fri, 26 Jun 2026 00:51:02 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from outbound.ci.icloud.com (ci-2003d-snip4-11.eps.apple.com [57.103.91.171])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3481419A4
-	for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 00:09:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20A05283FD4;
+	Fri, 26 Jun 2026 00:51:00 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782432557; cv=none; b=CnJboeIpCX69mEM/rSkTfAjPNHG7nJmISkhDJ6MdC5r8hf+1pjolH1SIzWBR4FdX/JimPtDpE5QZmN4hy158KF1zqjYGsmkG91k5ixd0Hi82nt5SnqCLvmcjEmLoisSh1Xv+g/AsWylZJCx0aKgfZfalAaKgEkog7ArujGcckLI=
+	t=1782435062; cv=none; b=MJ9qppf3VXdpkipvQ0yAVtwcSWIipR2JysrMuy7kIizjd7ASfxWWQSa5lk09qqnyGFv3QbqKLI0DvxvNlO8dF9XmZW0XrOa3h6Ow0N9uzClnDH7jvWUOF5t+PYBLwnVI5CAqz+lltz3VNIU9TM5Ig7C0+3M1Wt/KfYfPQvVmGoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782432557; c=relaxed/simple;
-	bh=pGwrsUgMSkXZxQz72F5yUOXaGG2M8gkrFehdMYYfvWI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=B87CGIBXh8SG5m7e+pnGRmkCo5r/0r6eMviqCs1gO9NHZrYwxMS5UjyGKqijhbU5+9PWRYyZIlRS2c26KO20fDAkiGprQn3DdmN4XsL3lHed/YwL0HdYUyvMp59pToDkXDxUoYN0BimY3qte4UE0BFHMoRQuKX0hJWeRDq+RddA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=L69HB4MC; arc=none smtp.client-ip=57.103.91.171
-Received: from outbound.ci.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-central-1k-10-percent-2 (Postfix) with ESMTPS id 3FC281800B08;
-	Fri, 26 Jun 2026 00:09:12 +0000 (UTC)
-X-ICL-RepId: 019f0142-54d8-7cc3-9bf6-c6bc3c533f8e
-X-ICL-Out-Info: HUtFAUMEWwJACUgATUQeDx5WFlZNRAJCTQhPAEMGXAVeC1YBXwFLVxQEDloDVA5cBBcbXwJCH1sVSzhaDlsERxQXG1wAFw1WTVAbXwJCDxwTVhUTH1RWA0UZEFYBWFZdBU0aXBhZDxwTUFZaDlsERxQXG1wAFxtGAgQjAl8ARQJeCVYBMBcPVk1QG18CQg8cE1YVEwBeDw9MC0gBWwddAEYJSANaBl4cQQhJAlUHWB9FFA5aA1QOXAQXG18CQh9bFUs4Wg5bBEcUFxtcAAlLRglJHQ4EVAddBV0=
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1782432555; x=1785024555; bh=WfQwuydOeK6V1CoXII0HfYiJOqqMtVXHj9rKHdfI+eg=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=L69HB4MCg0HDPreoq2LHPf0xAJ+dfR1uzlRAVLK4LD3n8ef6YRgK6apKDl/HPxKNaBZPhUIlO2znat5lGJVqiD9eTqxSTb7joiABBqKvp1aBKoeCgaUVR+CQQibKFbrTanpvEAFpdMTLJ81KTjTLQYVXpFtbvmyp9klnzOnHVrUVBwLVysRN8ksp/J5JiAOfL+aUTIWrGHbkY4u37GmEQnL+rk0jycgZxiDgF+yMDXmFOSWAsSAIfzzzsdMrEtEiZe5J1oS/hXXGnV3yrfvGVoRtgD46H8ZkQdw0ZkbxRoO7DVtTPLMpqLh6Wgtd/sy35YQ/kYIx1NXzZh6CuGBReg==
-Received: from bigre.localdomain (unknown [17.57.156.36])
-	by p00-icloudmta-asmtp-us-central-1k-10-percent-2 (Postfix) with ESMTPSA id C80A01800297;
-	Fri, 26 Jun 2026 00:09:10 +0000 (UTC)
-From: Vincent Cloutier <vincent.cloutier@icloud.com>
-To: linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-imx@nxp.com,
-	kernel@puri.sm,
-	Vincent Cloutier <vincent@cloutier.co>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Frank Li <Frank.Li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	imx@lists.linux.dev
-Subject: [PATCH RFC 4/4] arm64: dts: imx8mq-librem5: Add rear camera
-Date: Thu, 25 Jun 2026 20:07:00 -0400
-Message-ID: <20260626000715.1111803-5-vincent.cloutier@icloud.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260626000715.1111803-1-vincent.cloutier@icloud.com>
-References: <20260626000715.1111803-1-vincent.cloutier@icloud.com>
+	s=arc-20240116; t=1782435062; c=relaxed/simple;
+	bh=UUNEW/3BM3oDz4zPKkzCZLrCik4vzpA79gZ+K/u0j9E=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GzCXC7T3+0yiEqZVtH/Jy47Cr+17NYAlcqJwxx+Ndzh2+u1fNA75ph8hqnHMsVNqX5IaqPJR7SJBunLPKp/0SGUvZ/zfbSyLmkAtEyC0bqHFhAqzNZ3cd+czLWyL2lpuSktqUEsx6Gr+jOkvjmK/txWcMlL0RvSXLo799Uke/HM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IVQeQK2W; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DABE1F000E9;
+	Fri, 26 Jun 2026 00:50:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782435060;
+	bh=IOza8xsp2dv/+CoiTNhe/XVYthd1WQ3C2F501Mbqnn0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=IVQeQK2WRT2tWquvOPKU7LhLwB+KrcnBI5JqNhdT/ps8dG0B7WLYRsUKAMoP6rKDI
+	 brB39UXVroZFetYvkvOMYLd0LFOx13wS1BXFGB3Zt78BcQYcD1QLJONBWKn8SeQHBj
+	 dPd2XJN80T+2KXbG82O0KaRfsHtV1DKGATKm+nPWoHBjSZ9mbuFWDJJKE/DV9BosrP
+	 oruhk+XrTcC4Av1ZXZeCUQG1O8RdWoGNYLYM2YEAlUFjUoTWiokLZSe8Nycu7fqRoO
+	 tzsWvtQKIuEw10+pGFKlmML2U49gANYa47kxTbsDY1JqM74eHWOIZ4ICd9n6/sa1in
+	 Vf1KljXWR3iZw==
+Message-ID: <fe970394-176b-4add-be68-74f6074ba78c@kernel.org>
+Date: Fri, 26 Jun 2026 01:50:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 2VvdWmrPWZdVNub0KeMOgqvRQKO-UmiH
-X-Proofpoint-ORIG-GUID: 2VvdWmrPWZdVNub0KeMOgqvRQKO-UmiH
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI1MDIwOSBTYWx0ZWRfX30fSeoAsy88h
- z+ommw0lPDcP7hqzDJybEmAMMSjEGEBPrqEdZqjjChFRVijo4CJ+dxakwKlT/Fy9wXUStcHuXRS
- bPqEmHiKavWmrYqIBt5h6ohtJ/ydrjOrp/1aV9nDSXXBEkSvMBnK29zxQ/nivIVPxeYDWCfdit1
- QHiXtCrVlw4n/dGiir537bW2bPpFGcJpY6yhYRYBwo5ADth3jPucnsIndhFiclJ+0olLIh7tvm2
- 9GlW2uXCZlsL8iwpAUwZfT9NJo/Rz7coiv99ZXBZMS6tUWYVsQkv3GpqmT8x5iGuG77ewqqHVBn
- DqCNXzqlD5o7h5zC3V/
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/8] media: virtio: Add protocol
+To: Brian Daniels <briandaniels@google.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: acourbot@google.com, adelva@google.com, aesteve@redhat.com,
+ changyeon@google.com, daniel.almeida@collabora.com, eperezma@redhat.com,
+ gnurou@gmail.com, gurchetansingh@google.com, hverkuil@xs4all.nl,
+ jasowang@redhat.com, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, mst@redhat.com, nicolas.dufresne@collabora.com,
+ virtualization@lists.linux.dev, xuanzhuo@linux.alibaba.com
+References: <V9qMNHLlezBTRwOQsdz9qWQfAsMwBr9PR4tKnaHWUJz7GVS5ttNlNILtzxYh1Rxd6_nL8p8Ffk9F7OqcHBYF3g==@protonmail.internalid>
+ <20260625202412.2986772-1-briandaniels@google.com>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=bod@kernel.org; keydata=
+ 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
+In-Reply-To: <20260625202412.2986772-1-briandaniels@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.84 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-5.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[icloud.com,quarantine];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[icloud.com:s=1a1hai];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65679-lists,linux-media=lfdr.de];
-	FORGED_SENDER(0.00)[vincent.cloutier@icloud.com,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[vger.kernel.org,nxp.com,puri.sm,cloutier.co,kernel.org,pengutronix.de,gmail.com,lists.linux.dev];
-	FREEMAIL_FROM(0.00)[icloud.com];
-	RCPT_COUNT_TWELVE(0.00)[15];
+	TAGGED_FROM(0.00)[bounces-65680-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:briandaniels@google.com,m:mchehab@kernel.org,m:acourbot@google.com,m:adelva@google.com,m:aesteve@redhat.com,m:changyeon@google.com,m:daniel.almeida@collabora.com,m:eperezma@redhat.com,m:gnurou@gmail.com,m:gurchetansingh@google.com,m:hverkuil@xs4all.nl,m:jasowang@redhat.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:mst@redhat.com,m:nicolas.dufresne@collabora.com,m:virtualization@lists.linux.dev,m:xuanzhuo@linux.alibaba.com,s:lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:linux-imx@nxp.com,m:kernel@puri.sm,m:vincent@cloutier.co,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:imx@lists.linux.dev,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
-	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_CC(0.00)[google.com,redhat.com,collabora.com,gmail.com,xs4all.nl,vger.kernel.org,lists.linux.dev,linux.alibaba.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vincent.cloutier@icloud.com,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[icloud.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[kernel.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[cloutier.co:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,icloud.com:dkim,icloud.com:mid,icloud.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 0156F6C93A4
+X-Rspamd-Queue-Id: 103446C955E
 
-From: Vincent Cloutier <vincent@cloutier.co>
+On 25/06/2026 21:24, Brian Daniels wrote:
+> I'm not an expert here, but taking a look at those files, the vast majority of
+> those reserved fields appear to be padding to ensure the struct has 64-bit
+> alignment, which matches the use here in virtio-media as well.
+> 
+> virtio_pci appears to be the only device that explicitly states the
+> reserved bytes are for future extensions. Unless there's a good a reason to
+> expect a future use case where more space is needed, I would prefer to not add
+> more at this time.
 
-Add the Librem 5 rear camera sensor node and enable the second CSI-2
-capture path that receives data from it.
+I'm querying why just the one though ? Why not say four ?
 
-Describe the Samsung S5K3L6 sensor with the upstream binding property
-names, including reset-gpios and the link frequencies used by the initial
-two-lane RAW8/RAW10 driver modes.
+Perhaps something you could address in your commit log.
 
-Signed-off-by: Vincent Cloutier <vincent@cloutier.co>
-Assisted-by: OpenCode:gpt-5.5
 ---
- arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi | 51 +++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi b/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi
-index f5d529c5baf3..12d5fb3440c5 100644
---- a/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi
-+++ b/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi
-@@ -318,6 +318,10 @@ &csi1 {
- 	status = "okay";
- };
- 
-+&csi2 {
-+	status = "okay";
-+};
-+
- &ddrc {
- 	operating-points-v2 = <&ddrc_opp_table>;
- 	status = "okay";
-@@ -434,6 +438,13 @@ MX8MQ_IOMUXC_ENET_RXC_GPIO1_IO25	0x83
- 		>;
- 	};
- 
-+	pinctrl_csi2: csi2grp {
-+		fsl,pins = <
-+			/* CSI2_NRST */
-+			MX8MQ_IOMUXC_ENET_RD0_GPIO1_IO26	0x83
-+		>;
-+	};
-+
- 	pinctrl_charger_in: chargeringrp {
- 		fsl,pins = <
- 			/* CHRG_INT */
-@@ -1175,6 +1186,31 @@ vcm@c {
- 		vcc-supply = <&reg_csi_1v8>;
- 	};
- 
-+	camera_rear: camera@2d {
-+		compatible = "samsung,s5k3l6";
-+		reg = <0x2d>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&pinctrl_csi2>;
-+		clocks = <&clk IMX8MQ_CLK_CLKO2>;
-+		assigned-clocks = <&clk IMX8MQ_CLK_CLKO2>;
-+		assigned-clock-rates = <25000000>;
-+		reset-gpios = <&gpio1 26 GPIO_ACTIVE_LOW>;
-+		vdda-supply = <&reg_vcam_2v8>;
-+		vddd-supply = <&reg_vcam_1v2>;
-+		vddio-supply = <&reg_csi_1v8>;
-+		rotation = <270>;
-+		orientation = <1>;
-+
-+		port {
-+			camera2_ep: endpoint {
-+				data-lanes = <1 2>;
-+				link-frequencies = /bits/ 64
-+					<537500000 600000000 625000000>;
-+				remote-endpoint = <&mipi2_sensor_ep>;
-+			};
-+		};
-+	};
-+
- 	bat: fuel-gauge@36 {
- 		compatible = "maxim,max17055";
- 		reg = <0x36>;
-@@ -1226,6 +1262,21 @@ mipi1_sensor_ep: endpoint {
- 	};
- };
- 
-+&mipi_csi2 {
-+	status = "okay";
-+
-+	ports {
-+		port@0 {
-+			reg = <0>;
-+
-+			mipi2_sensor_ep: endpoint {
-+				remote-endpoint = <&camera2_ep>;
-+				data-lanes = <1 2>;
-+			};
-+		};
-+	};
-+};
-+
- &mipi_dsi {
- 	#address-cells = <1>;
- 	#size-cells = <0>;
--- 
-2.53.0
+bod
 
