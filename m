@@ -1,91 +1,70 @@
-Return-Path: <linux-media+bounces-65693-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65694-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id NTSzFIQzPmqSBQkAu9opvQ
-	(envelope-from <linux-media+bounces-65693-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 10:08:36 +0200
+	id RNOcKzs2PmoZBgkAu9opvQ
+	(envelope-from <linux-media+bounces-65694-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 10:20:11 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A4C6CB380
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 10:08:35 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DAC96CB459
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 10:20:11 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=obgdnlmQ;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65693-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65693-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=B3UKCLZU;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65694-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65694-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id 57706300252F
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 08:08:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id B1D373040231
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 08:19:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D06593ACA43;
-	Fri, 26 Jun 2026 08:08:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 114D03DBD76;
+	Fri, 26 Jun 2026 08:19:59 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECB2F3AD520
-	for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 08:08:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689A23314BF;
+	Fri, 26 Jun 2026 08:19:57 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782461303; cv=none; b=PiNFY8pd7w0FVgG73bgJXL0702NGPAlDKdKAuoxSNeYJ1eYsSKdQ1XActNhUrrTkdFKW0ZgfWcPm5D4cQnRUzSH/Of5QDRUtLFv0n0O9sNR+zbsS4/Oi1igkO6w8DZ2sY853NpqaOFTe4ZYgOaRh0Zf0x2NrCJlibam0B69YWoY=
+	t=1782461998; cv=none; b=NY5FGrACxzYBbyb0BTwFOBpuNTW5igIl4OudL0VYB0wuem7hFGhyxfeTX5W52cywt6qUwqP0ZM93N5cKna4n5DbQebRfRkTH95VLikFl6E8ceUEv0uspbeTMsfFRkU08Pq0Su5wwFTWzL+DKjyUsy7w/VnDEjzY8eFmMrw/W+hY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782461303; c=relaxed/simple;
-	bh=SFnUDavIiYIsJ9XoqgY2IG8NgWcE6leLr7ttBz31hcs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=au9GHtCIyKms3ydgtIf9DOkIqGnhK+9gIHsbHUrrrKc7hQRkDNEqZajF6ZKfZCIR5LgSad48vSr7jiTWTPv2Zxyw3zMiDlsKROdIIFsr8Z0up/PXy8DD0NdDaAn4jA1YgAF2psCDaoabTe6I7NsLjfFetbBjzt8+TVzZM7uRY90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=obgdnlmQ; arc=none smtp.client-ip=209.85.214.181
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2c7f1db3ad4so6412715ad.3
-        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 01:08:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782461299; x=1783066099; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MJ+T6+y+X164UlZgYnR/gHm8zQJ/SCwnhWnfxubn/vg=;
-        b=obgdnlmQICTTvoWsxdI71X2VGZKhl+MJ9JBnM78IrykBsPhcF4ApGhT0n4oPLZUjIc
-         NeEHslrXBK++7DAZaI48O1USv6YWHpefTa6pHpHY6qC/y2Vfn9xAgHGrEuoCo3Ny9ghM
-         rRkB1NgLhHay3CdWEx55yoQCrqggCF56xw7NT6eZ8YvLOAomD8IRHjQ0q6DWdGP2I+Ll
-         SEloaotLGXxwMcgtYR8YHdcbnfE9OvMSzsjwAxIh21qv6Q9bo/e6y6CdYhmbltWG6R6y
-         TNlfS0w6Y7SVoXlCANKDPdfCtHCH8P+QFLhnmbWaRgAH0U0AYAwvXZ6u3FvL2hdRfODj
-         Vcgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782461299; x=1783066099;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MJ+T6+y+X164UlZgYnR/gHm8zQJ/SCwnhWnfxubn/vg=;
-        b=rsSoGnsZKfEmjNZQVOzdrEhy5UwySVaDowVW4yCmC45uTUFjGKqfxk7BBEZJAcMISl
-         hoVWcDSmN8h7m/eVv2wfQF5mzJM58KRDgOuUwtV9Af4fMrV/+2YMAsvlcpUdeVrtJRpP
-         F3TyXGl0x7tKjgRm2bMzIPCLVnFohmNsQjFuFFmSiL+4a1/s4rpIIK1d11qDvOAYD6EW
-         /uEeleKiUVGHFRU5AUkfRGFPKpQZqNltW3YjaU2cwfhI3LaCr2jbO+4F6aqO+mm5iiIb
-         v34unVtsEVpZl7M/WURb2X6g7yAaVULREBBrys+DIi/WqgtIDP7ImmgKlZJGhD7WAA3j
-         vEMg==
-X-Forwarded-Encrypted: i=1; AHgh+Rrm8Z1P1M1ZiBct8U8tzMeU7FynhAUJ18AQWsHlg+M/OHfVHYM+ea9kNAupkAAB4dgbYR8AtagOYzhyFw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3Vr/1n9ZMI6q73OqjyG/RvG3I4r2lBzpLF5QY8ujBbc3t4kx4
-	WSOe5Bmhw2sTIOjkOXgaB0M/5doCg8vFvNLiqNe7FvMkr7PI1fjqUJw3
-X-Gm-Gg: AfdE7cmUt2F7dbtq3TouiE0LbP0BxerA4tuuM4w7kyDDtKWYjd+QI+snJQHuWeGoXwQ
-	ZVWqyrUBRJQGIML4Do76YqL6wL1idICunPQ2iv3+Xs7tTR0fkye3h8L9om1uu/aqnmACtmIJGtH
-	e+yUM8+McbO2wrP4zEgobbr+/lLcNxX6TepUxfGIAVQvZ7HuyfxBGdV+rrTOmOkCSfzjzpHV61/
-	wKYNKxZg2pOvXRGIWQC6yy35F8lA/JK4nwjtCOsSr9hYsYIcNvF5+LNowXrGlJ8gQCgE0Bg5yPd
-	x9sVLHMBCKvvlXiY4khTLOZOAT/yn6cA4StAl9ejl/ImzkmlQjaH1wL1GHqgVETNJPmIMEgPEDe
-	Euh964gZxY03S1SyiacXumpEQUnx41y3eosHi6n8FB3A7a0btfB2yFI4Cw3YGywGk+j+ercYKs+
-	+ZdkcE0I2KuBH9oHwUbf/nVmFP9g1zn9//k38Z/PE7EeSYhcSSjbN8ufQiztXuwTFvBowYP/ykS
-	0tjAj55kKGTr+e+1RQNYR9cFFA+Qaa2J2l1me03+BuYtQ==
-X-Received: by 2002:a17:903:2ec3:b0:2c1:98b7:ecf3 with SMTP id d9443c01a7336-2c7fca71861mr63811095ad.23.1782461298919;
-        Fri, 26 Jun 2026 01:08:18 -0700 (PDT)
-Received: from bass-virtual-machine.. ([36.112.122.140])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2c7f5afb1e0sm35714085ad.29.2026.06.26.01.08.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2026 01:08:18 -0700 (PDT)
-From: Gui-Dong Han <hanguidong02@gmail.com>
-To: hverkuil@kernel.org,
+	s=arc-20240116; t=1782461998; c=relaxed/simple;
+	bh=SfjETS5MuziXn3QTPsEaVoXO0H67kH9hrZleTBAwMbY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WJ4GooPnFVNlH5IZDdYggcyIU4zxNnIEDDFs4hvhEw/S1WL09iLJj6LxYMCOhSzMjwxW2Odpf4HgHEM9TEy6iiaa+K+J5HXYDNtoqm8xjtZnBRsiCTujvLCf/y5ZpoiDUQG/OwHrI3wsZsMTY6lcaQvLtLdyCRSOpvgP5ghcXLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B3UKCLZU; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45BA91F000E9;
+	Fri, 26 Jun 2026 08:19:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782461997;
+	bh=kEdeUSPXy5rJNpK1fxsrh40FY6vBxzMx9z5QFxqNe4I=;
+	h=From:To:Cc:Subject:Date;
+	b=B3UKCLZUFcmhelGJT4krdyefLuhIVINztM/dydshI64zWR90fM//IGuqgXGpjMtlo
+	 bUdE4R8L+eUHrIZKK3YYFx+x2Cl0v4fiRYV5T/bptFEhrgUjbrmMDm/C7VHcfvnTQa
+	 5nNb+L5o3suOIEE40agTxkD1+MsBhfM66WRhEMX/5PtDwDF/9Ux+k9l+imzsrmeWNX
+	 31k9seI8pDvZaRu5tCllI8/8YwSzqfF6VF34G0nezUK2Y/RwWbvYvdh/hQTkdpAdK6
+	 xXU54MED80/zrRnvN0pPYHF1boKeL3BklkZvzNAk2MGDUqs6eqPDOsk8PC3j72Iufu
+	 tCjsOPMUtJm/A==
+From: Philipp Stanner <phasta@kernel.org>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Philipp Stanner <phasta@kernel.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
-	mchehab@kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	baijiaju1990@gmail.com,
-	Gui-Dong Han <hanguidong02@gmail.com>
-Subject: [PATCH] media: cec-pin: Fix event FIFO ordering
-Date: Fri, 26 Jun 2026 16:08:06 +0800
-Message-Id: <20260626080806.4012817-1-hanguidong02@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v2] drm/sched: Protect entity->last_scheduled with spinlock
+Date: Fri, 26 Jun 2026 10:19:43 +0200
+Message-ID: <20260626081942.2122144-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -94,105 +73,218 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,gmail.com];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-65693-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:hverkuil@kernel.org,m:linux-media@vger.kernel.org,m:mchehab@kernel.org,m:linux-kernel@vger.kernel.org,m:baijiaju1990@gmail.com,m:hanguidong02@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_TO(0.00)[igalia.com,intel.com,kernel.org,gmail.com,linux.intel.com,suse.de,ffwll.ch,linaro.org];
+	FORGED_SENDER(0.00)[phasta@kernel.org,linux-media@vger.kernel.org];
+	RCPT_COUNT_TWELVE(0.00)[15];
+	FORGED_RECIPIENTS(0.00)[m:tvrtko.ursulin@igalia.com,m:matthew.brost@intel.com,m:dakr@kernel.org,m:phasta@kernel.org,m:ckoenig.leichtzumerken@gmail.com,m:maarten.lankhorst@linux.intel.com,m:mripard@kernel.org,m:tzimmermann@suse.de,m:airlied@gmail.com,m:simona@ffwll.ch,m:sumit.semwal@linaro.org,m:dri-devel@lists.freedesktop.org,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:ckoenigleichtzumerken@gmail.com,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER(0.00)[hanguidong02@gmail.com,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65694-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[hanguidong02@gmail.com,linux-media@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[phasta@kernel.org,linux-media@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 51A4C6CB380
+X-Rspamd-Queue-Id: 0DAC96CB459
 
-cec_pin_update() fills work_pin_events[] and work_pin_ts[], then
-increments work_pin_num_events. cec_pin_thread_func() uses that counter
-to decide when to read the FIFO entries.
+The entity->last_scheduled field has always been set and read with
+special RCU functions in addition to memory barriers. There is no
+obvious reason for that, since the entity lock is available and taken at
+all places that evaluate the last_scheduled field. The only exception is
+drm_sched_entity_error(), which is not performance critical in any way.
 
-Do not let the counter update be observed without the event update. Also
-do not let a freed slot be reused before the thread has finished reading
-it. Use release operations when publishing an entry and releasing a slot,
-and acquire operations when consuming those counter updates.
+Improve robustness, readability and maintainability by replacing RCU and
+barriers with the lock.
 
-Leave the other work_pin_num_events users as they do not participate in
-this FIFO publication path.
+As a preparational step, while at it, also guard spsc_queue_pop() with
+the lock, since spsc_queue is deprecated and supposed to be replaced
+with a locked list.
 
-Fixes: ea5c8ef29668 ("media: cec-pin: add low-level pin hardware support")
-Signed-off-by: Gui-Dong Han <hanguidong02@gmail.com>
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
-Found by auditing atomic operations used for synchronization.
-A similar fix can be found in 6df8e84aa6b5.
+Changes since v1:
+  - Add a helper variable to drop the last_scheduled reference without
+    the entity lock being held; just to be more robust.
+  - Write additional comment to detail the WRITE_ONCE().
 ---
- drivers/media/cec/core/cec-pin.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/scheduler/sched_entity.c | 58 +++++++++++++-----------
+ include/drm/gpu_scheduler.h              |  9 ++--
+ 2 files changed, 35 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/media/cec/core/cec-pin.c b/drivers/media/cec/core/cec-pin.c
-index 6e1c39102832..085fc12067af 100644
---- a/drivers/media/cec/core/cec-pin.c
-+++ b/drivers/media/cec/core/cec-pin.c
-@@ -115,7 +115,7 @@ static void cec_pin_update(struct cec_pin *pin, bool v, bool force)
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index c51101ec70c1..12fd695c6d46 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -135,7 +135,6 @@ int drm_sched_entity_init(struct drm_sched_entity *entity,
+ 	entity->num_sched_list = num_sched_list;
+ 	entity->sched_list = num_sched_list > 1 ? sched_list : NULL;
+ 	entity->rq = &sched_list[0]->rq;
+-	RCU_INIT_POINTER(entity->last_scheduled, NULL);
+ 	RB_CLEAR_NODE(&entity->rb_tree_node);
+ 	init_completion(&entity->entity_idle);
+ 
+@@ -201,10 +200,10 @@ int drm_sched_entity_error(struct drm_sched_entity *entity)
+ 	struct dma_fence *fence;
+ 	int r;
+ 
+-	rcu_read_lock();
+-	fence = rcu_dereference(entity->last_scheduled);
++	spin_lock(&entity->lock);
++	fence = entity->last_scheduled;
+ 	r = fence ? fence->error : 0;
+-	rcu_read_unlock();
++	spin_unlock(&entity->lock);
+ 
+ 	return r;
+ }
+@@ -288,8 +287,10 @@ void drm_sched_entity_kill(struct drm_sched_entity *entity)
+ 	wait_for_completion(&entity->entity_idle);
+ 
+ 	/* The entity is guaranteed to not be used by the scheduler */
+-	prev = rcu_dereference_check(entity->last_scheduled, true);
++	spin_lock(&entity->lock);
++	prev = entity->last_scheduled;
+ 	dma_fence_get(prev);
++	spin_unlock(&entity->lock);
+ 	while ((job = drm_sched_entity_queue_pop(entity))) {
+ 		struct drm_sched_fence *s_fence = job->s_fence;
+ 
+@@ -381,8 +382,12 @@ void drm_sched_entity_fini(struct drm_sched_entity *entity)
+ 		entity->dependency = NULL;
+ 	}
+ 
+-	dma_fence_put(rcu_dereference_check(entity->last_scheduled, true));
+-	RCU_INIT_POINTER(entity->last_scheduled, NULL);
++	dma_fence_put(entity->last_scheduled);
++	/*
++	 * Normally all users should be gone now, but since drm_sched has
++	 * experienced many layering violations in the past, better be safe.
++	 */
++	WRITE_ONCE(entity->last_scheduled, NULL);
+ 	drm_sched_entity_stats_put(entity->stats);
+ }
+ EXPORT_SYMBOL(drm_sched_entity_fini);
+@@ -507,6 +512,10 @@ drm_sched_job_dependency(struct drm_sched_job *job,
+ 
+ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+ {
++	/* Helper to avoid dropping the reference while the entity lock is held,
++	 * just to have some more robustness.
++	 */
++	struct dma_fence *prev_last_scheduled;
+ 	struct drm_sched_job *sched_job;
+ 
+ 	sched_job = drm_sched_entity_queue_peek(entity);
+@@ -523,19 +532,20 @@ struct drm_sched_job *drm_sched_entity_pop_job(struct drm_sched_entity *entity)
+ 	if (entity->guilty && atomic_read(entity->guilty))
+ 		dma_fence_set_error(&sched_job->s_fence->finished, -ECANCELED);
+ 
+-	dma_fence_put(rcu_dereference_check(entity->last_scheduled, true));
+-	rcu_assign_pointer(entity->last_scheduled,
+-			   dma_fence_get(&sched_job->s_fence->finished));
++	spin_lock(&entity->lock);
++	prev_last_scheduled = entity->last_scheduled;
++	entity->last_scheduled = dma_fence_get(&sched_job->s_fence->finished);
+ 
+-	/*
+-	 * If the queue is empty we allow drm_sched_entity_select_rq() to
+-	 * locklessly access ->last_scheduled. This only works if we set the
+-	 * pointer before we dequeue and if we a write barrier here.
++	/* A recent rework required taking the spinlock above. Since spsc_queue
++	 * is scheduled for removal as per the DRM-TODO-list, we access it here
++	 * locked already to prepare for that cleanup.
++	 *
++	 * TODO: Fully replace spsc_queue with a locked (h)list.
+ 	 */
+-	smp_wmb();
+-
+ 	spsc_queue_pop(&entity->job_queue);
++	spin_unlock(&entity->lock);
+ 
++	dma_fence_put(prev_last_scheduled);
+ 	drm_sched_rq_pop_entity(entity);
+ 
+ 	/* Jobs and entities might have different lifecycles. Since we're
+@@ -561,21 +571,15 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+ 	if (spsc_queue_count(&entity->job_queue))
  		return;
  
- 	pin->adap->cec_pin_is_high = v;
--	if (atomic_read(&pin->work_pin_num_events) < CEC_NUM_PIN_EVENTS) {
-+	if (atomic_read_acquire(&pin->work_pin_num_events) < CEC_NUM_PIN_EVENTS) {
- 		u8 ev = v;
+-	/*
+-	 * Only when the queue is empty are we guaranteed that
+-	 * drm_sched_run_job_work() cannot change entity->last_scheduled. To
+-	 * enforce ordering we need a read barrier here. See
+-	 * drm_sched_entity_pop_job() for the other side.
+-	 */
+-	smp_rmb();
+-
+-	fence = rcu_dereference_check(entity->last_scheduled, true);
++	spin_lock(&entity->lock);
++	fence = entity->last_scheduled;
  
- 		if (pin->work_pin_events_dropped) {
-@@ -126,7 +126,7 @@ static void cec_pin_update(struct cec_pin *pin, bool v, bool force)
- 		pin->work_pin_ts[pin->work_pin_events_wr] = ktime_get();
- 		pin->work_pin_events_wr =
- 			(pin->work_pin_events_wr + 1) % CEC_NUM_PIN_EVENTS;
--		atomic_inc(&pin->work_pin_num_events);
-+		atomic_inc_return_release(&pin->work_pin_num_events);
- 	} else {
- 		pin->work_pin_events_dropped = true;
- 		pin->work_pin_events_dropped_cnt++;
-@@ -1101,7 +1101,7 @@ static int cec_pin_thread_func(void *_adap)
- 						     pin->work_tx_ts);
- 		}
+ 	/* stay on the same engine if the previous job hasn't finished */
+-	if (fence && !dma_fence_is_signaled(fence))
++	if (fence && !dma_fence_is_signaled(fence)) {
++		spin_unlock(&entity->lock);
+ 		return;
++	}
  
--		while (atomic_read(&pin->work_pin_num_events)) {
-+		while (atomic_read_acquire(&pin->work_pin_num_events)) {
- 			unsigned int idx = pin->work_pin_events_rd;
- 			u8 v = pin->work_pin_events[idx];
+-	spin_lock(&entity->lock);
+ 	sched = drm_sched_pick_best(entity->sched_list, entity->num_sched_list);
+ 	rq = sched ? &sched->rq : NULL;
+ 	if (rq != entity->rq) {
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index d61c19e78182..176ff1f936cd 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -100,7 +100,8 @@ struct drm_sched_entity {
+ 	 * @lock:
+ 	 *
+ 	 * Lock protecting the run-queue (@rq) to which this entity belongs,
+-	 * @priority and the list of schedulers (@sched_list, @num_sched_list).
++	 * @priority, @last_scheduled and the list of schedulers (@sched_list,
++	 * @num_sched_list).
+ 	 */
+ 	spinlock_t			lock;
  
-@@ -1110,7 +1110,7 @@ static int cec_pin_thread_func(void *_adap)
- 						v & CEC_PIN_EVENT_FL_DROPPED,
- 						pin->work_pin_ts[idx]);
- 			pin->work_pin_events_rd = (idx + 1) % CEC_NUM_PIN_EVENTS;
--			atomic_dec(&pin->work_pin_num_events);
-+			atomic_dec_return_release(&pin->work_pin_num_events);
- 		}
+@@ -202,11 +203,9 @@ struct drm_sched_entity {
+ 	/**
+ 	 * @last_scheduled:
+ 	 *
+-	 * Points to the finished fence of the last scheduled job. Only written
+-	 * by drm_sched_entity_pop_job(). Can be accessed locklessly from
+-	 * drm_sched_job_arm() if the queue is empty.
++	 * Points to the finished fence of the last scheduled job.
+ 	 */
+-	struct dma_fence __rcu		*last_scheduled;
++	struct dma_fence		*last_scheduled;
  
- 		switch (atomic_xchg(&pin->work_irq_change,
+ 	/**
+ 	 * @last_user: last group leader pushing a job into the entity.
 -- 
-2.34.1
+2.54.0
 
 
