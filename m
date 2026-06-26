@@ -1,85 +1,83 @@
-Return-Path: <linux-media+bounces-65713-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65714-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id KCqIGfZuPmojGAkAu9opvQ
-	(envelope-from <linux-media+bounces-65713-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 14:22:14 +0200
+	id IhD6N6RvPmpOGAkAu9opvQ
+	(envelope-from <linux-media+bounces-65714-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 14:25:08 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD15D6CCF0F
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 14:22:13 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4230B6CCF4C
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 14:25:08 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=amd.com header.s=selector1 header.b=yxqzl6JY;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65713-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65713-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=amd.com header.s=selector1 header.b=JGoZfS9w;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65714-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65714-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=amd.com;
 	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id B72ED301487D
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 12:22:12 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 2AD373027118
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 12:23:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 852893F4DCA;
-	Fri, 26 Jun 2026 12:22:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C61623F4DCF;
+	Fri, 26 Jun 2026 12:23:44 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010063.outbound.protection.outlook.com [40.93.198.63])
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010045.outbound.protection.outlook.com [52.101.61.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D284317142;
-	Fri, 26 Jun 2026 12:22:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA5637F007;
+	Fri, 26 Jun 2026 12:23:42 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782476531; cv=fail; b=fRJxqGBaeOWY7n/kH0XB8cLcbQYKFUStuQ5ScoRR3M3QFemINg4rr+vygN9Glu9Ihk9RnUY8YpgOuayEgyOdGPlJu9hiAw+OuGkhdE1Wty7d9Br4VZTL8he2InWmwrWFE7kqJIh79X23cfEsq7Lh5yM7/gVS3nRSydLAjsi+kcU=
+	t=1782476624; cv=fail; b=u7hoTQtw6xvIw4eugQYbHoo76877ADJiN16nuPu4MH0TvOhx7JFI6JrRBnzSut0zjyDBJmqcd5cdM/Ve7IV1qlaYS88raaAuOaeSFRTvfe2UFcKAeOKZ4I8BjWSf0Dh+pYg908t3Wr3OYNOKCoa1vMhBtU/8rDgAFis55plTclU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782476531; c=relaxed/simple;
-	bh=kqqFKviwj9XbAiuLjxomOeWdEBN3FriqZBh4KQrCDI8=;
+	s=arc-20240116; t=1782476624; c=relaxed/simple;
+	bh=Lsr1HMbnj+P/No3nZuUxIrLD5ZZEhT6l7l4jqoiyX14=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=W1D+hEexa3vtcqi7jfH6opvBMJo8+S1Op6oVzNcRPPrBCip8us12iiwHcWRa5PT90iQak42aZyf5RuTAmnklZPvHMQwFiltvHzdydc2Wv9+2VipeWfOkiObZxtSEiuHSk8Xbn+sngl5HXhRFKakVps2e7tc/B+sLcvhUWEhtJxQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=yxqzl6JY; arc=fail smtp.client-ip=40.93.198.63
+	 Content-Type:MIME-Version; b=PZJlzfmiSjH/e5ax7evxJRNoZYuj9SKvzoghcdO2DAPsXPbc1tIC4e7vOI9h8FgE38KE1BtWOf5gcmdy4Dib4bhqiv1Dr4c4SFIMaDI8AoLmXRlcZoJJQPiilB6OpzS/Iq9y4HRuoMUkfe61/W8u8YmjVZfEyuLGMQzsm72/vKE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=JGoZfS9w; arc=fail smtp.client-ip=52.101.61.45
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ySah26RMzLTd0eupgPzgQoWDSxCGqyN07NgMpOy/8lQU793E6FILTNxbNaX9m3YK3rrkkbOxobWqAhHvzoPSefFubZNhK0/mAwXnhZUUJNvKE7R37mJYtDvqZdVpeCDwDgOqy+7IhNCdZ6TRhS97cv4NiQ6zpkcdT3XDLyKaernrbUfk0PZgeOBxoQMi4TCWSgvcEgHZy6pGQFvoi1DNq9RidqPtfqSD9SwZC0SEUely761qvBt/IqXqOB/NI7Wn+jrBLb927wwljhif2jKBy19o9hP3ntLbJS8M09X/w6LySwpJ4N6L6i2R74UH4g4Qp+SP2/V++/J2rOjigXhLBw==
+ b=tLbgm8gqsFNtidvPY9gzsU4h/yLYE5w5jySlPMbjPT0KIZPAkNaydzISsp5L7OMH0eYJaY47m4Jfh5kn3hcgM/KdGXSzkgxH+lWEiwfOwuhcsbbx50f8mdXcJxhNXquTbU08Wzz5Q+xwawwrK0yNF6aKyUhfN7hEYdjhv9ghSS/DmUoeABd4fMaIC0T4ofOkB+n6gOZDDgaOUtgK04uBdaj2MHfBaSvVL8Piq+XsLNzQsHt6j/9qnb7YDJcHQsoXWGHpTkBV2RRG4LVF3AcqulmTmG9ZDQwGt4HePGvq+61OZzGsG5ZxFY9BNdeTIcN4NkOalj0ToDSI4Ro+iTcVTg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JEQBeWbkOT7ptvnj9ICW1bo8aS2tF3EjAsIfAYnzta4=;
- b=dp/vm6gwVPE7D0b5gdUk36+r7/j+coqU2uBA33ZpC3H4YH0scN4yP5jm0ObWrZ4tEtra0wDnYmeF9ueBcMX72Vzf86djcdQSkJiKVH6vWVhBY3In3jOCoqXueAQhFGrFvvsOvJmQIJhKRvzRKiwZ84AAJqjSOgns2g8V7bY9R9poHDIpbi8XKEDvWcn8odHVv0dRr9jR1TSvY76mdqdSUVG4QWwegDss2g9SV/Les/H/S0Sk6K8ju7ngr9mTTyXx/e7hAGJ+xL8NRomAbar8bWPDT8TOSp7JGdBV7HixKgqRpgJEpx50/6YwBhgIbdXDEbbPq2mIFHpIClLNmIcO7Q==
+ bh=ae7JoDfAT4nZKqzKd5BpBO8QJ4B/Kb5cUylY7DAscVo=;
+ b=Bi9PEcf3zyFKsKG3rQsOMsv8AjeJoxdYqPSvurBgFEQRobYO77HXwB3KXm2UO9LA0pvXjZToAEaqF3uEt+iTxqVHhplE80kzypCzj+5jPJJ0PXRjub03xbutBhx+Ebvtwt5AYySuNVw/KC6qVlG9z1OCiP5E4WAF9ty/l8eBpdzfI7Cct2nMThEeOeABvcM6aEfoQC1CwbOEmNRCjHWLXltr0FZ37qvPHvkSio0twqi+4mHCEBh7pen1BjHpZWi7n25yBzx1E2Z2SqJDfe8xPyjZPMNqnjVCA727C9So4+xMDGeO2pl3hKx3kBOVoitJR0nqsUpsbiczzoMNBBpqAQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JEQBeWbkOT7ptvnj9ICW1bo8aS2tF3EjAsIfAYnzta4=;
- b=yxqzl6JYuQ0bRO2XAAsqhU86FmfVmPg2ld0n3us7q45CY1deukhLv6wP+24fLjd2NajOc65mQzJZUuZnyQm0CGVX1LkaJvUKau9Fsxog//76GlRGW+GqMvCRs/wUDVLh+F370sADZ3Bm5v9gdvNaSgDPPzA1/TiebvnFOkyknuA=
+ bh=ae7JoDfAT4nZKqzKd5BpBO8QJ4B/Kb5cUylY7DAscVo=;
+ b=JGoZfS9wjR4vW0bSvRO9YbbGP/7E9ISIIA7cIDez3sAZCCeUp7iYDjIh5uOooRaYeRt7qKVe+KMR8dSqab37/hLXaiGWZjjRDCf+LG4uChB5DQY38erE8DWlNoKNZJ+d8gqP9XuwZw6LoW5zSgfpGler/VqVDcH7qhj/7muq+MI=
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ2PR12MB8808.namprd12.prod.outlook.com (2603:10b6:a03:4d0::10) with
+ by MN2PR12MB4408.namprd12.prod.outlook.com (2603:10b6:208:26c::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.17; Fri, 26 Jun
- 2026 12:22:03 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.18; Fri, 26 Jun
+ 2026 12:23:40 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0159.016; Fri, 26 Jun 2026
- 12:22:02 +0000
-Message-ID: <cfc287ff-6ab3-4cb3-bddc-6d0e32235847@amd.com>
-Date: Fri, 26 Jun 2026 14:21:54 +0200
+ 12:23:40 +0000
+Message-ID: <dc2c1f29-5f1c-48fb-954e-46df677f35e6@amd.com>
+Date: Fri, 26 Jun 2026 14:23:35 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: dma-fence: Fix potential NULL pointer
- dereference
-To: Philipp Stanner <phasta@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Boris Brezillon <boris.brezillon@collabora.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
- Danilo Krummrich <dakr@kernel.org>, Gary Guo <gary@garyguo.net>,
- "Paul E . McKenney" <paulmck@kernel.org>, Boqun Feng <boqun@kernel.org>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20260626100442.2202221-2-phasta@kernel.org>
+Subject: Re: [PATCH] dma-buf: udmabuf: avoid list copy size overflow
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Yousef Alhouseen <alhouseenyousef@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org
+References: <20260624125242.11232-1-alhouseenyousef@gmail.com>
+ <06bddfca-d868-4043-ac6f-28ca103fff02@amd.com>
+ <20260626123139.7d6ec6ec@pumpkin>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260626100442.2202221-2-phasta@kernel.org>
+In-Reply-To: <20260626123139.7d6ec6ec@pumpkin>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR2P281CA0042.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:92::15) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR2P281CA0048.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:92::19) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -88,85 +86,87 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ2PR12MB8808:EE_
-X-MS-Office365-Filtering-Correlation-Id: c4bde4a2-659b-43f2-2740-08ded37d86de
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|MN2PR12MB4408:EE_
+X-MS-Office365-Filtering-Correlation-Id: f98e3006-81ae-4b38-53e6-08ded37dc146
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|366016|23010399003|3023799007|6133799003|56012099006|11063799006|18002099003|22082099003;
+	BCL:0;ARA:13230040|23010399003|1800799024|366016|376014|56012099006|4143699003|11063799006|22082099003|18002099003|3023799007;
 X-Microsoft-Antispam-Message-Info:
-	nE0turpB5mOw2ybuL/RS2CTIbdQIvjycfwrEm41Ul44oNsrAwHAW+BpYL0PJ+qTvl0p5SFlqXZv2HClxH2rNXgY0szWC1RZhr21B4ajFIqJkqZTjtHbmZvG2wyuhcBCXPweVxbwZfgWJEaIu/Mg9IrUm4uzX3GeVLdgVHfkQd3z4AC1t6BaEZRu3Yv1LyX2LGYW8lngB6ieLHZeER9bwodxOWt4IVsbA938mX1y6GaoWJu92veCtVu5Tog7ZdEZeQJFR5KKhpvkH+smV/eVccQ3ZKfLbTrt3R89yHKNKLQhzhyUkCUANrkVyAA694FtBwryRWcUFA8nF32I+THzIbVTvD12eU5aZIb3JpTqDegspx4LBH8gPbIxUKN9qr8gYG6CN2OlgRnTGqCkM8NxPCrj5XRcBkbacxyFBo8Oq3s417AQSknvbYtcwlGtwc8nvASl9tTLPZ42K6Kb1ChCALjxV8fTqcxP/CNVNZ+yUsOQ0ejtlvT3sNJ9DteJb7IcY/bwBYsdggTxeMQKhzmbZYFYkQ6P4aThniPhEsrkM056+n6cFXIbqK2Ts9BKgtu8peYMfv2t6/gc03jzIkt/W0KyqXNRcr1KBpe98ic0rGAG3c9DxKVdjs13+PUOjDcRRQpDxIYf9jc7Tk6eDUre5Cn+9RHw+arLvvYUmZja6a08=
+	34iFshEyTJxYTubFETIKZLtG3cyLO9AaBGioCOh3V9JKjTz1q5Qg5vpZ9bQlCJN3TD+6RC9xpH+cOGiDSzjzaLWwYLDqcJtthZT7PHALaSObz8aYlfPgY70QYuTMbTfnIvDP4n+JE2eYu75lf6mGF2lxa4mKYi6K5K/gmLItfslpzSe6+Onz39VqvhB/KS/z1IcBo1ItAK1V8L0JdERTtc6tzcaT8eXP7lxNQlFYJ0eJ4eKrOwd6xGNx0s11CzATppEfRfaq3/TLom3q7tl93yMxR3+bRg0NzHEJftlcgOPKD8U4NmzsTDlXhMBAejv5u1Qmn/6BKqy+nXb8zncb2KL1KMZgydZcQxKspNmCK/kOcNLsfh6MdwGBiiTuOF+T0Sa6MnhFyB2RO4IiNHdgZxUTTmOjCiAdYU+tku3Hqyl6fw9BQJKyEglN2n0bVRqSXaepS0G/iBYxW3q10RtfSH2G19HHU9s93aYMo2CmcrKv+ysMxSjvbEfXx5VNF3fwfeQ81BmwpuDIm3Ssi65zxuznxP4nDhKyC4u+1LugWxIyoAFfq7+bG+OgpMuXCntQXaGMzyL7v8Wo4ibU55Rv7Gjumtc4wKfqH4GPjE48S06OsFmDX12CaXjpHC8WIH4Z6meWH2gLw57XbYcU6KcLPddN1ewOm4PCqygaTvTtknM=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(23010399003)(3023799007)(6133799003)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(376014)(56012099006)(4143699003)(11063799006)(22082099003)(18002099003)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aHZBSnF2QXNkOWhHU09MZ0hDZWJUNnQ2TTFqSXRYakZVYStlSWdnY0REd21k?=
- =?utf-8?B?Z1h6MXN2NTU0SzFIaEdsMCsrSU43T1hnWm9ESzN3eUVSMUVVOUZoRjlVd3V0?=
- =?utf-8?B?Y3l3SXgrc21aeXZ1SlMrSmVaa0trV0xEbDBiV0dnck5MWHJ2N0NvVWF4THhN?=
- =?utf-8?B?WlBRVnRNa3JRWDZoeFkrWXd5c0Z2ZHl6VDlrTW40Rml0QnBhaW9QTDlIaTFX?=
- =?utf-8?B?Q3ZVMitaY2Y2WHNzKzViak1VOW9MbGlMb1E4cjRKWmNDNkhlWVVZV2dyVS9T?=
- =?utf-8?B?VDJ0c1ZLNEMycEduY0plVnVQOW1qUjlBdk0zajhtRXk1blA5T3k1aFA4THF6?=
- =?utf-8?B?NEdtRTIwTGJFU3BQdFo5WUR0TVBQVmIrRGFPck0vaW4vU3ZLbk9WZGlpMFZl?=
- =?utf-8?B?bDcvbHY5ZE1ibmQ3ejBML1FWYUdrNDdHZ1dWZmhSZVhwaGhkQ2ZiajgvNmJ6?=
- =?utf-8?B?WEd3NEpLeHpRa3hMVlRWdnF0Sm1QSmtES3VpWWRPREpOTEpoT2pCWTA1Sk9k?=
- =?utf-8?B?eHJGVFZDS05yL3ZiQlRHbEhNMm1BM1hLdWpXaGk5MVEzTzNvUEtZSlNqbkha?=
- =?utf-8?B?TnJ5MUF5b09HOFMxUm1TdTVWczIzcWNHMmFxY2FSWWJjU2dxMVYxaHZickJZ?=
- =?utf-8?B?OEdlSy9oczE4ankrOXJhSGVYdHFkWkMrTVR4b0c1OXhjU0t3YisybHZrZG1R?=
- =?utf-8?B?dGdhZ05DSk0xTW1TdmFtMkx6Uk51MWNFdEhwZ1Q1OXF6d1lyQ05IcFYxbjhl?=
- =?utf-8?B?MG1lWWV0dHdqdVY2clQyMTFsOWVjVklRVVk1MlNsbVk3MkQ2N2ovYmxBZ0FT?=
- =?utf-8?B?NDR1anlFWjhhaU8vUk9nVzZTcmZqVE1VNmlvZFdrby9vQUNaTjJGR3RWZXJQ?=
- =?utf-8?B?dk9aT0hzZmg3U3FYQ1ZjN0wrdHNYa0tVcGlFN1M0SUlZVHNBUUNqdDljbVlQ?=
- =?utf-8?B?ZG9XNTQ4QXpFSENrVWpreldSN1BBNkxmdkRkL3F6ODZuSWNra1I4RXBGYmlW?=
- =?utf-8?B?TWdtdW9wdkcrckw5RS9Pb25GNnFtL05Fc1pGbW5BUklFbmJPM1cyWXRkeWlk?=
- =?utf-8?B?akF4TUsyQUFvVzViR2RpUnlSK1hIck8zYWpTbEhObHRFNmM2TUI0MjkxYXVr?=
- =?utf-8?B?ZzNxOFF5UDlXQTNlOHlWTmlwVWFCNXR2Z0MrWWplZDh5YnY5bExBM3pJM3JK?=
- =?utf-8?B?MGZGeXpVK0NKbHovWTZvNnhDSWJQWnEwNzdXbHZkZ0Yxc3F6OXZ1enQ1S2pJ?=
- =?utf-8?B?K3FPVVNzQnZDc0hCN05Vb29ZTEVpb1R4bjBKNGdMenpQdXFNL01FaXdyZWJs?=
- =?utf-8?B?T0xKRURHYzVrZDkzaDZFaFBBV1pUQTAwUFdxNTZNaVZtODhBSnUxbEYvVWpF?=
- =?utf-8?B?MGJiMWxDN0swanBraXJ3Wit2SnM5RDE4YWNPK0JWb3RHMElxbUpEN0Vxbi9O?=
- =?utf-8?B?Zjd6L2xNOFN3WGhRbDFMdlFRUU1vSkN2akZ2Lzdlc05sSDdFWUorU052akNy?=
- =?utf-8?B?ZXp3WHVWMmJpOEx5OHlZOUtPK3V4UWlHNTBMOEx4Rkd1WDZNR3R2YTJENzF5?=
- =?utf-8?B?S2dsY2VqVHNERUtObVdzbUVJaWlEb3p1Zno5MGtUZktzMm1SUzBRM1h2aVBX?=
- =?utf-8?B?cG9mYk5MSGNDWG56M1MrK2UzNjhQZ3BoR1NvQ0xTRnR5amxrOWZvTnVFU0Rv?=
- =?utf-8?B?WldJVHlJMHRnZmRMbzNscXVHK3lxNXgxYjJtQ2l0dEU3cUNCTGZ2eWMzb0ZW?=
- =?utf-8?B?Wkpxd1FDTkptRnhJaUMrNFBrRG84L0tTT2xSREd5bmE1enZzUmV6MDBBbTMv?=
- =?utf-8?B?a2orUUtWb2ZtVjA3VG04SEZUKzRzdTZQOHVkWldXSExVWll4SXQvYzUyRkdS?=
- =?utf-8?B?MWNvYWhoUXA5TmRaSERKVWN6Zm42cGJjaDFjemtGZmhmaktHeVErNi8raXFP?=
- =?utf-8?B?RFZDWWsxSG5ZM3ZBZjNBMUwxeTllYTdzWWkvSjBQelVYRHhtYlo0emhWYm40?=
- =?utf-8?B?UmtUUFg4M1NwbTVjaUtjOFlIRUJwblllem1qeERPOFVJdjB1U3lxZFdwZ2VK?=
- =?utf-8?B?NjdDSkM3dXR4aWc2Uzh1UzBMM01VbEU4eGU5MkZIWUZleVpKSmNWYUlmMS9a?=
- =?utf-8?B?ODVxenF5TmRmeHlncjVQckZUcVFLVU1ZTFArRXVGb0Y3OUNLaXl0K2IybUZL?=
- =?utf-8?B?Vmd0YnhiUDJkYjJFRmNmLzgvR2tjWkhYOEJXb1NXaVdVeWo5Z0hEL21iZlBz?=
- =?utf-8?B?L3dGOGNndjhPTHJnRUo1bmJ6LzByMmlpZ1VLa0djVk5aUlVkM25ZeDMzNllp?=
- =?utf-8?Q?ejvcox2jHxsK/M5ONX?=
+	=?utf-8?B?SlNrek8rK2tnUndqOGhWdzBpcFJ4UkVwUFlYaFJXQkdhRGRHSWgyL293VUtx?=
+ =?utf-8?B?M1hYbWtRWk1VZmxqVEFHbGxBaEdrUHBCZXBQVWhibTUvUnQ5V2ZOemNRaWU1?=
+ =?utf-8?B?djZaSUpjQTNXbDVUemhNS1hscUplRVdzUWVhemZrRFYyY0RyUXdUdDNla3JY?=
+ =?utf-8?B?WGJseDFyTDNveGkremx2bmYrRkgxOU9zeUVPc2NlY3A3aWs0em9UZGZOb1N3?=
+ =?utf-8?B?KzA0cXk2dGQyQjZvZjJuM1M2S0RvNkgxRjROU0R3bVZqVTdvczRIVlBPMGxB?=
+ =?utf-8?B?WVlFRlU0TjlNb1RuV0hrNWFzaDc0cHpKOFhlcFJ6QXdiM0lEdUs3ckE5TkJj?=
+ =?utf-8?B?QVBYV2ltaFB3Y0JHMnpPMkhpVUNjOUlHTEh3VWZFSU5MSlBsN21hS0VOMnY1?=
+ =?utf-8?B?MkZDQXVwczIzSG9aaHZxKzV1K2pwZzNHOEJVODF3VWdWN3dRR2o3SGl4NnVu?=
+ =?utf-8?B?SWdJYjZuVEFyYU1yWHRnblgwMkx0aTBDRTFIQlBqdUdtY21iMXEveHhocXBJ?=
+ =?utf-8?B?RmF5N0NmbjdJeHFNSjlCTHRRUmpyek9hclNtejFWYTEwNUVPZThWYjFLeEZL?=
+ =?utf-8?B?MDROU1ltMVJUekFudWpwbVY1K0NSZUJZNE1ZbVhuNGtpbWl4SmttZXAxOWcw?=
+ =?utf-8?B?ajlDdlNMVU5aZnR2MlRVbENqNVowZEdUNXA5bzF6aUxaUFZycndwZlUyMnNx?=
+ =?utf-8?B?SGNFck03TGRoc3o4RlV5TVl5M3c4U0tOSjhPSWJNVW8rNVcxK3hiN2lPR2I4?=
+ =?utf-8?B?VzZGWXRRZjdheUt0U1FSN1oxdWR3TWtnL05zT2JvZ0JseTR0dy9FUXJUZUhl?=
+ =?utf-8?B?Tm1CMjZDbWxaWTMvUnZETUxVYnJSa0FBNTBBZTBnbWMyQUVWL1NJOTBtcG1t?=
+ =?utf-8?B?MEo2RjVNeWJMRjM5b1VmNlVrMDFLRzZhRVkrWUZXR3hFNWpUeU5FUW43Vy9D?=
+ =?utf-8?B?SkRpVFBZcG9ZeDgyaGR1WDVaaWpmMXQ4RXkrUVFkRWNjZlZJakRQRnRKTEc1?=
+ =?utf-8?B?TXhCNFhGS0swTjJGTTFtYWRoSW92dDVTYllrWnEzdkVMTmhURk0zUStXcFBR?=
+ =?utf-8?B?N21ZSk1qemwvRjMyWTZ5YVRRakYzZEtVNnYrVmQ0d0hGZ3haMzc4eFZFTGFX?=
+ =?utf-8?B?RG1wRDVLUTRJV3Z1UlVZS1k4U3BoYmxaZzh4Rk43OG9wZWlMdXZoMWlMRUkw?=
+ =?utf-8?B?MUdUK25IQ2hMNHM2bFFldTNaRHZqOG5ZcURSanZLYUZKbk0yZGIrODByNDBQ?=
+ =?utf-8?B?SnJwcW5TTXRVaDZJaHl3N0ljS0tvWHNsTXVyOVNXUGx5QUYzbW9kWkl3dnNu?=
+ =?utf-8?B?aGNOV1BSVGdJelplMkFKejYvZ1A3N3Y3K20yeWpoOC9DUktYMGZNbGdjbExv?=
+ =?utf-8?B?Y2hUaXdjVEkybHFoSHV4WE1CNEJVWFhzS3ZIN2xvYVV4aGU1R2YzVC9Rdk16?=
+ =?utf-8?B?WHNPWk0vczRXS040VnEzcnRXT2N5Snp0VHVlSFRwTjB5d1l2SjN1VFlvRnZp?=
+ =?utf-8?B?dkNqS0wweEt0eVl6VWlTOS8yeWVlTWVvVnJTYU5uRmoyM2dTRHJyaVc5bmQ0?=
+ =?utf-8?B?MUptb0tnNGd5TnBmTDIxVGNEVVVqT1ZSekc1QzBoNERwbko3Z2o2U3pqNEcr?=
+ =?utf-8?B?OUUybS9CaFd2eWpXY1FuZDdpNFJHcW5yUnVRRXNJSjhOc09zWjhSK241TkxD?=
+ =?utf-8?B?YituVDlqMURheDRtV0ZsZFRsR2RmMGJuYm54eExpa3poSEFodXYveWVzYWJt?=
+ =?utf-8?B?MHEzRnBWNVZnNWxJL3V0ZkF6THVwcjlhTFl0Nk5Rbi9iL3o2ZFpQRUJWM1ln?=
+ =?utf-8?B?dTFMVUZCdXZSSkpIVGprdHZUV3haSDhLNlVRekp4TGZ5ZlRGeHgvcy9pMmU5?=
+ =?utf-8?B?ekhwNTdvZzhwWUFlN204QVNTWCtxOUJaNlJUNXBWbkhkN2FTM3VzTXN2SFA3?=
+ =?utf-8?B?N2VNaFJzenlTdWRSekpiOUt4TXh0TGRSVVpGcjJHTnBLRVdMMHExSnpDYU93?=
+ =?utf-8?B?OVFCcElDWHA3Y3VqS1k1UFFwTzQvRUtRQm01UTViRVZ4ckU2Rkt4Y1dKMzlm?=
+ =?utf-8?B?eVFsL0duSURaZ1JBem4wUGc3YVNtdFFuN3dSVmxFVm51VmhXUEdYM0FDSzRQ?=
+ =?utf-8?B?OVNTdGRpclliQWxCWU52ZVljM0NCczZ5WTNOcnJaK2g4QlVvZHAzL2V0U3E2?=
+ =?utf-8?B?ais0RWV2YkdvQUNCcEtac2xieHBSZmF0eFlIdVpSUUlzQTArQmdQTWcwcWk0?=
+ =?utf-8?B?UWlxVmdwMFE0QUx1TVhYUVQyMDdmLzdlNGpvSEVmVWd1OE1GUDBpenNwRHhv?=
+ =?utf-8?Q?8nrzeDc1YBxolH5wv9?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4bde4a2-659b-43f2-2740-08ded37d86de
+X-MS-Exchange-CrossTenant-Network-Message-Id: f98e3006-81ae-4b38-53e6-08ded37dc146
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2026 12:22:02.2906
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2026 12:23:40.1918
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: unGqEwxav7bQYiU3PULfi/auaQoWFV+RL5ubP57rwz2x5jDkawW9zoYgDFS6Q0S1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8808
+X-MS-Exchange-CrossTenant-UserPrincipalName: JBtqKWsJzyYMP5qVHsMST921K0K3VBmsCGQyofklXeU7u6ACqfcT2xc59QFlcr6R
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4408
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
+X-Spamd-Result: default: False [1.34 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65713-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:sumit.semwal@linaro.org,m:boris.brezillon@collabora.com,m:tvrtko.ursulin@igalia.com,m:andre.draszik@linaro.org,m:dakr@kernel.org,m:gary@garyguo.net,m:paulmck@kernel.org,m:boqun@kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
-	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-65714-lists,linux-media=lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:david.laight.linux@gmail.com,m:alhouseenyousef@gmail.com,m:kraxel@redhat.com,m:vivek.kasireddy@intel.com,m:sumit.semwal@linaro.org,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:davidlaightlinux@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FREEMAIL_CC(0.00)[gmail.com,redhat.com,intel.com,linaro.org,lists.freedesktop.org,vger.kernel.org,lists.linaro.org];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
@@ -176,126 +176,85 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[amd.com:+];
 	ALIAS_RESOLVED(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,amd.com:dkim,amd.com:mid,amd.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,amd.com:dkim,amd.com:email,amd.com:mid,amd.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: CD15D6CCF0F
+X-Rspamd-Queue-Id: 4230B6CCF4C
 
-On 6/26/26 12:04, Philipp Stanner wrote:
-> The commit mentioned in the fixes tag below introduced a mechanism
-> through which fence producers can fully decouple from fence consumers.
-> This, desirable, mechanism is based on the fence's signaled-bit as the
-> "decoupling point".
+On 6/26/26 13:31, David Laight wrote:
+> On Wed, 24 Jun 2026 14:58:58 +0200
+> Christian König <christian.koenig@amd.com> wrote:
 > 
-> A sophisticated interaction between RCU and atomic instructions attempts
-> to ensure that fence consumers can still interact with fence producers
-> through the dma_fence_ops, callback pointers into the producer.
+>> On 6/24/26 14:52, Yousef Alhouseen wrote:
+>>> UDMABUF_CREATE_LIST copies an array whose element count comes from
+>>> userspace. The count is compared against list_limit, but list_limit is a
+>>> signed module parameter while the count is u32.  
+>>
+>> We should probably just drop the sign from the module parameter instead.
 > 
-> This is the desired behavior: to check for decoupling, the signaled-bit
-> is first checked. If it's not yet signaled, RCU ensures that the ops
-> pointer cannot yet be NULL.
-> 
-> Hereby, dma_fence_signal_timestamp_locked() first sets the signaled-bit,
-> and then sets the ops pointer to NULL. Readers first load the ops
-> pointer, and then check through the signaled-bit whether the pointer can
-> legally be accessed.
-> 
-> These set and load operations could occur out of order on weakly ordered
-> platforms. Hence, we need to enforce strict ordering all the time.
+> Does anything sanity-check the module parameter?
 
-Ah! Good catch, now I've got what you mean with that.
+Do we need to? I mean shooting into your own foot is supposed to hurt.
 
-> 
-> Add the appropriate memory barriers.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: f4cc3ab824d6 ("dma-buf: protected fence ops by RCU v8")
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> ---
-> Tested with dmabuf and drm_sched unit tests.
-> 
-> Memory barriers are notoriously difficult, so I would appreciate if some
-> of the more experienced folks can check this. Notably, I am not sure
-> whether the smp_wmb() is necessary.
-> 
-> The documentation for test_and_set_bit() makes the mysterious statement
-> "This is an atomic fully-ordered operation (implied full memory
-> barrier)", but the kcsan_mb() seems to be some sort of debugging
-> barrier, and in any case the docu doesn't make it obvious to me whether
-> that "full barrier" comes before or after the bit setting takes place.
-> 
-> Moreover, in my opinion we should order dma_fence_is_signaled(), too –
-> but if we agree to merge Christian's new series [1] that need should
-> disappear.
-> 
-> 
-> [1] https://lore.kernel.org/dri-devel/20260624122917.2483-1-christian.koenig@amd.com/ 
-> ---
->  drivers/dma-buf/dma-fence.c | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
-> 
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index c7ea1e75d38a..2e80b01499de 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -363,6 +363,18 @@ void dma_fence_signal_timestamp_locked(struct dma_fence *fence,
->  				      &fence->flags)))
->  		return;
->  
-> +	/*
-> +	 * Fully order setting of the bit above with setting of the ops pointer
-> +	 * to NULL below, so that all parties can use the signaled flag to
-> +	 * detect that the fence decoupled from its ops in a safe manner.
-> +	 *
-> +	 * The counter parts of this barrier are in dma_fence_timeline_name()
-> +	 * and dma_fence_driver_name(). All other future parties that rely on
-> +	 * the signaled flag for valid access to the ops pointer will need a
-> +	 * memory barrier.
-> +	 */
-> +	smp_wmb();
-> +
->  	trace_dma_fence_signaled(fence);
->  
->  	/*
-> @@ -1170,6 +1182,12 @@ const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
->  
->  	/* RCU protection is required for safe access to returned string */
->  	ops = rcu_dereference(fence->ops);
-> +	/*
-> +	 * Fully order the dereference above with the flag check. Otherwise,
-> +	 * ops could be dereferenced as a NULL pointer. The barrier's
-> +	 * counterpart is in dma_fence_signal_timestamp_locked().
-> +	 */
-> +	smp_rmb();
->  	if (!dma_fence_test_signaled_flag(fence))
-
-Instead of adding the smp_rmb() I think we should check the ops pointer here for consistency with the other cases where we call the ops functions.
-
->  		return (const char __rcu *)ops->get_driver_name(fence);
->  	else
-> @@ -1203,6 +1221,12 @@ const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
->  
->  	/* RCU protection is required for safe access to returned string */
->  	ops = rcu_dereference(fence->ops);
-> +	/*
-> +	 * Fully order the dereference above with the flag check. Otherwise,
-> +	 * ops could be dereferenced as a NULL pointer. The barrier's
-> +	 * counterpart is in dma_fence_signal_timestamp_locked().
-> +	 */
-> +	smp_rmb();
->  	if (!dma_fence_test_signaled_flag(fence))
-
-Same of course here as well.
-
-Thanks,
 Christian.
 
->  		return (const char __rcu *)ops->get_driver_name(fence);
->  	else
 > 
-> base-commit: cdeb2ccd993ed8647adbbda2c3b103aa717fd6f7
+> 	David
+> 
+>>
+>> I don't see an use case for negative values here.
+>>
+>> Regards,
+>> Christian.
+>>
+>>>
+>>> If the limit is raised too far or made negative, that comparison no
+>>> longer bounds the count to a range where sizeof(*list) * count fits in
+>>> the u32 temporary used for the copy length. A wrapped copy length lets
+>>> memdup_user() copy fewer entries than udmabuf_create() subsequently
+>>> walks, leading to out-of-bounds reads from the copied list.
+>>>
+>>> Take a positive snapshot of the module limit and use memdup_array_user()
+>>> so the multiplication is checked before copying.
+>>>
+>>> Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
+>>> ---
+>>>  drivers/dma-buf/udmabuf.c | 9 +++++----
+>>>  1 file changed, 5 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+>>> index bced421c0..b4078ec84 100644
+>>> --- a/drivers/dma-buf/udmabuf.c
+>>> +++ b/drivers/dma-buf/udmabuf.c
+>>> @@ -469,14 +469,15 @@ static long udmabuf_ioctl_create_list(struct file *filp, unsigned long arg)
+>>>         struct udmabuf_create_list head;
+>>>         struct udmabuf_create_item *list;
+>>>         int ret = -EINVAL;
+>>> -       u32 lsize;
+>>> +       int limit;
+>>>
+>>>         if (copy_from_user(&head, (void __user *)arg, sizeof(head)))
+>>>                 return -EFAULT;
+>>> -       if (head.count > list_limit)
+>>> +       limit = READ_ONCE(list_limit);
+>>> +       if (!head.count || limit <= 0 || head.count > limit)
+>>>                 return -EINVAL;
+>>> -       lsize = sizeof(struct udmabuf_create_item) * head.count;
+>>> -       list = memdup_user((void __user *)(arg + sizeof(head)), lsize);
+>>> +       list = memdup_array_user((void __user *)(arg + sizeof(head)),
+>>> +                                head.count, sizeof(*list));
+>>>         if (IS_ERR(list))
+>>>                 return PTR_ERR(list);
+>>>
+>>> --
+>>> 2.54.0
+>>>   
+>>
+>>
+> 
 
 
