@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-65682-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65684-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id O06rNn7UPWqU6wgAu9opvQ
-	(envelope-from <linux-media+bounces-65682-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 03:23:10 +0200
+	id FV3cN5XUPWqb6wgAu9opvQ
+	(envelope-from <linux-media+bounces-65684-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 03:23:33 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D4866C967B
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 03:23:10 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id D594D6C9689
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 03:23:32 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=chipsnmedia.com header.s=selector1 header.b="FG/FCtc1";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65682-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65682-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=chipsnmedia.com header.s=selector1 header.b=WfvN5cFW;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65684-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65684-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=none;
 	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4FA2830651BB
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 01:22:57 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 94FAF3024DE9
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 01:23:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 306852E5B2D;
-	Fri, 26 Jun 2026 01:22:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8FD02EEE73;
+	Fri, 26 Jun 2026 01:22:51 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from SEVP216CU002.outbound.protection.outlook.com (mail-koreacentralazon11022089.outbound.protection.outlook.com [40.107.43.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448C117A586;
-	Fri, 26 Jun 2026 01:22:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1DA42DCF61;
+	Fri, 26 Jun 2026 01:22:49 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782436969; cv=fail; b=sLX3iZLzZA1Tz5njus3kH9bzy4gR/LDSWtBviTogqdp1D5Sa96Zzpk8O+kg+mX/piSRah7u4jffK95h9NjetcZFgvuvs3l90na1dL4/w3kM2iF4uoUUWtYv5BIezAbmf/7aiKEHCcstKekKFtjPcmBLYMxXhXyKw10TeME4GlLw=
+	t=1782436971; cv=fail; b=lpstJW3UAXLbdghxHd0S3nAy4E55nvpyu2rZlMYqhqPj1LflvIZT9Fcjvl7vdrM2nYXpfDboQR/uVqyroVPkUx+JMwKZi3+oJYRQZQhTF0HlNv7JBucC1gAQ7rIVV7G29GrraDN3OAuyUChE/YNVXZTkEFkHAFMs23LH96taaU8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782436969; c=relaxed/simple;
-	bh=BFNNcdhRDVJU/dWCSt6XG+Y94rJtb6q0HO/Mq2xzWV0=;
+	s=arc-20240116; t=1782436971; c=relaxed/simple;
+	bh=MnSiQLGVYq/GZg3kt9q8pwuqNfJC8jRNFIUBZwl6FUM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MNBQrf2F2z2E90hLNecZQWUbmKIfmImB1kuHZepGwcByYnMDYSnJR/K7/ZNk+xq3vDTb5vcBc4EekEBq1wjMwARJirop+PhE/wzWJNoMi04ivNicLATQ4yy1ks6YvPV9p0YTUoEVMCLVANHologeizeIeg3flm89ihfaR41i/7A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=FG/FCtc1; arc=fail smtp.client-ip=40.107.43.89
+	 Content-Type:MIME-Version; b=Q6h15qcWgr03+gJd9s8drFlNybXecmTkM5gVQsZ0XyK2DgDvV1tYffCVRsw3YxgucaaepuwNoRPSE2bhYola2b6ZBYYDxesSe5wiEHllSeUzkdhHCpeOwLtH4WqJqJgsB1EiNP7DFtxzms0PFI9lXy1OvT6MLQER1soMKYRVrPw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=WfvN5cFW; arc=fail smtp.client-ip=40.107.43.89
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Bnq3pXi+Rxf851E1n1JwvJ+nFKab0x3SUM7bRW0y+wmWXEBw+JcEfiZpI3ZIm74Rw9GIVKxcMuA2cnwiCB21sioTfALfz/0xvlGfxaSZIcNI92Xm/v9tm+H6JR+DcLiHU2Kd3m9Hx0/DgiyXyO5KdTFos4NCdF4qYYxxul4NLlZS7R3T7va2VJxllMZ5ksSm+ZCX3yPEFehbYR7KdgBFqL1jDc8D9OaunEG6lCI9Adt8Pbu85L4jF0m2KQRKc6OhdH7PGtuc0HFqa8BbtQxPeSQm4w0o7L0vyy6zqipmI9V4JZq2dPkmmintWFHz0mMCLyltkqBe+Lkg5TNUDv0hmA==
+ b=KejZgMlUQILPq36tBNjvQJepOwuGtH0vIZonsksLSZaIo/9yQaRxjYVotx6bUy8/Bzli/ifbTxftofdVlKksAaCG9p7noUsp1vIprX+wInXbwUca6bq2Roddf+3u9wNfNrea9xIGw3w774j7eQo0cuqyn9NaZ8gGmNfnGk46QcZNIrUM1D63Um6nI+4O0bPl48JiGiccTRioc/MyeCnypf5aoJHYUWiF1M8k+MO6aFcuaSqsvDcoZHvtgmYhQFFjrVsKQ4RUvgZTbVesCnxKav21urZQXzmHKWczRtUpIFAalGxHmoAs9L0Mh9RbPMK5GLYzPAQ8pS7sboTkts5NMQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YksB66Vz6x1JlcHUNGIS8vBovP5O+qX7f5/z58EpECk=;
- b=HW03GRzygq3EKN1mBXcufnVqsmJ0XflcU4DEN1TN1V+oFGBPYPeL8hu4nzrAD9D8/1z7rXwtue9joYCoqjHC63osxyD1cVHPCoX0wWpoyNVBt4AS1yh+hexSkbxV5DgcPW9oTW07ZIVIprH08zt4AJgWWMI0Uq9cNzt5A+RbUgpXYxSbkm/ia1vwEbgEoVsD4xe8oC0ylddgq0pvjI5/uGpQHIxokttmgrs7TNDZFehAQQ+5+j+41+EyeW1HPr1dCnP18SPG3jrrJzN2wlS93m0OjteqhZzf0NPAlqCcBvzTcGeuDUb480hTvVAJEgzx6QweGmeFB5+WMPVQX2fwRQ==
+ bh=52hzNNXr1OJBqCiMHJ6atmpWBpwUhb8d5edCLhw/+Io=;
+ b=iwXDSr4WhclrBQ9V95RD2+CvCck3uV4jPo1y+yZJG/V+JaSGyErN3N2B6xSG1G9TbNAgJACj40AAdeh+gil5cfhzod+9T5ctg2h0xKu1UvxZ1C00+JKH9hIFXhAxRqD2vOz+79Di3UrkrCdYbFAwzQAlpU9ZhARkoxmpn8m6IGdymIhNk5cst1R6yJzgSlzCQJ/Azim6QS1f7ZkNGsT3edTAPp30arRvtf9PLVraLaw2CqhyaWpZlP3uAJqTxjqeOxbhSMueULS7r3dyzskXo2cDRTS26SX5L6UefquVh9igMmPyjibX/PApZ0jXXUQDImk/xb2PPDGlxnu5HkVtvg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
  header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YksB66Vz6x1JlcHUNGIS8vBovP5O+qX7f5/z58EpECk=;
- b=FG/FCtc14GA/Fby1TQZUHIMGWJnLxxaDa56sXl+eP2o8SjiUfDYVe8ZtnscYyGMHi/rMi2SA0onEdGEqZoSPfMcDSMiSpcMhToLkVGQIABLS6wU2sGaKw1mRHpBQHOp2HdMRqUr8wnbQRvfQ3Et7vQKyGWQMGSa2w0nPuImqekc=
+ bh=52hzNNXr1OJBqCiMHJ6atmpWBpwUhb8d5edCLhw/+Io=;
+ b=WfvN5cFWbVASIY6torHuunMDGnR+HGft9yETQ+mbOuhYCdbcR+NOOgtyWOSi35b5am1grKbHeY5MvW0D7gUnNKS0wGP04A7bFZuSJDNpeGc81q0TglbDgz6K1N4PlTu7VB4iqIuGpHvQZynccv++dgbwxZDOMglPN0bAG2+cIe8=
 Received: from SLXP216MB1148.KORP216.PROD.OUTLOOK.COM (2603:1096:101:f::14) by
  PU4P216MB1949.KORP216.PROD.OUTLOOK.COM (2603:1096:301:10a::8) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -70,9 +70,9 @@ Cc: linux-media@vger.kernel.org,
 	hverkuil@xs4all.nl,
 	nas.chung@chipsnmedia.com,
 	stable@vger.kernel.org
-Subject: [PATCH v1 6/7] media: chips-media: wave5: Fix pipeline stall when queuing fails
-Date: Fri, 26 Jun 2026 10:22:31 +0900
-Message-Id: <20260626012232.111-7-jackson.lee@chipsnmedia.com>
+Subject: [PATCH v1 7/7] media: chips-media: wave5: Resume device before setting EOS flag
+Date: Fri, 26 Jun 2026 10:22:32 +0900
+Message-Id: <20260626012232.111-8-jackson.lee@chipsnmedia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260626012232.111-1-jackson.lee@chipsnmedia.com>
 References: <20260626012232.111-1-jackson.lee@chipsnmedia.com>
@@ -89,57 +89,57 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SLXP216MB1148:EE_|PU4P216MB1949:EE_
-X-MS-Office365-Filtering-Correlation-Id: f4357fa1-e60e-4524-a8cb-08ded3216bcd
+X-MS-Office365-Filtering-Correlation-Id: 468e62e7-1689-4051-0ea1-08ded3216c00
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|23010399003|376014|52116014|1800799024|366016|38350700014|56012099006|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	ln6CDUp8m4b1WCFhXv6QXkrVX+OfpVc/48FxR4e5jRZgADrHyJbLd6RRDdpd9fXJ9dr7m/yaX6UJ7htQ/pn5BYszWCqcj62X1Po6SKz03H3ZXb0BPpudqAsHtgkzhd4z577hA35y2jrvsYrTcSaQHHiThrcrf44/0CwAbZU0QY108iLS8gnhwySX0NoHZLGrzTyTh00kna2OiwquWv3LvrEpk3iR81RZerurJ6SH3K71MF7TZS4/1+RRujal56Jw+Qc8NgLirJpELBjn4BttkpJm3T63AOj0mrYES7VKcroi7MJtqAvQx5lNLHpdMq9faTUoWmOe4exSLvNmksNV5Qi8b6ZAgP5BP2uPLw6vLEIwwsFp3AzzUcPYPXsxuan9DjXpo9W9E9Tlsnq2K6hzfaPetBeRu4FJf48eyExrC7+E9NT+sCmd5Vs81PZR7BsVdhYPXP9OHKhY2sSViW+lkF4DJWLM4hW0n572JB0LMNdRkbxeKgrF4RkZFLmP8uX2GCuP13dmQjoWkEczo2f1E4bdt6qKOyrYXVMbBARCRSzinOWzpNW/Gy6um7cRrCZhRYlzGVUsTckxO7YbsTqXi1rmuWsrzEE0Dwuq6zZgW20CkOwQ9/ZbPHSIrarukfmr4foztmzRP8t12ijA6jyHXKoGQC9ycvn5U9xb9Zyq10/O8dkePIrhzSMFiR2X9YRTNE+y+GAK4w9VCQywy0E3mQ7ggbHCR/VlP2rY4XgNb0M=
+	qGq+VeEi7mwpJWmr8tKDS8hQMMTQrUTd2A+RJnJtzDWn9kNNd/I3X5xKNs0EAqlJLlfYIeeSKdovwnZLom4BM+l+BalEE5UidMihebdDr8qpUlu8Lmd+eR99W2AODWy3R1yx26zb/B8a2GaoKEELE8i8AKUScnsnsp4rwUxtxvX2NWlWzLdPzx1TPqm8+1XmyA5yBITl2/lDo/IlFfrVlLntJkrV0fxTydqtiYw9TJHn94K3UdzKv3X3QjhmpscfOW0nNMEKU2cnZ98e4YT/gTHEA4/67tkngtuoPN5gYV90ibIv5OeR10A5uboemSozsY+lpoiX/1evzMGNQMODjdIgrKfLSGP8p+wEr3rjQSjYj9iRdHX4mLw6tA3j0AC7en3lXXV66b7Vzo0JBmazv5Alt5Y7zOalcSNaEtWWb4ZGpP7JG89Z6pvsPRU0AC7ex8YC4H+Qr3fsBfCTF8SMFVUd3lnq2tutte+g0ALb1X+1W4YLiZe819giNv91mDYi6ZTdm4e2BP/s3YOthGGwN8SOD757ChXh1dDLIZIyuDXc7jBgYQJgSFnhO5NMsXztD767RR9wLnw7Fk4Ns6uXO7NmuDRvEhML4o8N3hXwIjKjy9mBm3UOuAVP/CwFWJf58vgH1KJZ75fwTl7/V9KmXP0rLO2cc6hKAsp0bX8fSzzwt2CjCFgmh/PtjtdCg4d/CxT416s5hJKRg8zpvMIiwJkbvZgTmiuj0c6Qorqrpec=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SLXP216MB1148.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(52116014)(1800799024)(366016)(38350700014)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?VKNISVkVEGsGkL7mMh+7GAEuq7XxZm+gxTdcw1pVo7/CX9FoTG0oy5Uqr4zF?=
- =?us-ascii?Q?eQJ4/1FQyqkB7gC/Jio6mYcUwQ7+tSYbuM+XrUuCZpUkE0b6A6JXXSeUr057?=
- =?us-ascii?Q?+pfcxnQtdHExcNey/zl0zWtlHBK22JJjCYFQCRqOdxoDZvY249TyIQjbG2AZ?=
- =?us-ascii?Q?vjX9u+S5ZG6bMKFSwEduzrTlfU5zxdvo8RUoVX+e0EPvPXrpfTqBT70OVd1A?=
- =?us-ascii?Q?ptgt9N6blZjt9V+GIgp1ezdGf22wXwLFtbKYUR2SxbfOcJUhwITGJd4a5vAP?=
- =?us-ascii?Q?nsTf14WroIBjbyJsw7HYl9HjBZ2JZ8LQOtqUQvFmBcFP5tOZkCek/pA2xJnC?=
- =?us-ascii?Q?H7PoeYlEdBhtyrNM9+gpENq1msJyUxiP2omm7lwHkRnDMJRYHZQTZmt6Ww2a?=
- =?us-ascii?Q?JwaMxjLYfRmlSixaSxwZhKCkKmzphShVYMKqReSr9SlGzQvVBBe4bOvjvQ2A?=
- =?us-ascii?Q?hIzPtZFb7L3htOi3/MKCLc6y3z89tAS08gqm91vV0GUBgsRuFbDgIUzDowTL?=
- =?us-ascii?Q?+g0JEBUf9VRYLYG6PSq9jxAsRfDJkcNLGrmwiblepbg6hZGC3BCaJqdjBQ0u?=
- =?us-ascii?Q?TgsZ7y0mB1Je3o6kWWSfWI9hnQOjUjF2ZVZDv3brzYrwAqedIjuLN49A828T?=
- =?us-ascii?Q?84Y6yuFpEzOKCD+7WMeXTRGl9hijlOH7nbBrziFJVLblQT7c5G7ntD8+j+kZ?=
- =?us-ascii?Q?nwCy9fWvj/RhsvpRHLjrr3bVxvtJSn+lomlrgaB6vizgqvqKTo4gwfhV2Niq?=
- =?us-ascii?Q?NGQdxkPveqeNteJp9Hc4XJC4l2OBnE6Fnz81L36zNnzj38MYc8JuImevJYxv?=
- =?us-ascii?Q?zyo/KFmj9WyJER7emUzI2IiY7g0Hl9Y5+PEH2+7ojDUAzQ7KpOuZLX2crp6A?=
- =?us-ascii?Q?HwGB0XNOvQycgyVyoIJVDNYz4iR81fI/3Vj6Hqvh6dNFkVktSXqj+R88aI5v?=
- =?us-ascii?Q?ouCDdMes3y27ZLrjbYUDZsV5LX45F++dHKkdHaEYY2zjsZQOjf/2t7WBrQ9y?=
- =?us-ascii?Q?1jPO9ufrdznISc6bLxZfX/v2eIE/vnFHXH0dUu+ENMPTto2AAHNhHis/WwUY?=
- =?us-ascii?Q?5dc4mh5mpm1eduCV+cwVL4ZbU6BJjA4QidDFGVeFcQiPZmX3X9z1l6cYyjG3?=
- =?us-ascii?Q?B9YpRaziDkSi6RAOk+wMfmhAdMRyQ7+vRhKTVo3683DccwyrAqAY2o3qQ3te?=
- =?us-ascii?Q?T/Ot3APHZ5Mrf0fNdQZs//+vIv438CTdi2cOFGZ3dRZPgrj5Pkb4DqEeGhX8?=
- =?us-ascii?Q?l9eFVVNUvu6gWpwgo6thft8fLGNpPW3j4zpdBq5B1VbscigAJv3ZR7k+ZF+X?=
- =?us-ascii?Q?YbHdd/5ljU9CZncIEZFA3RKubPRvZqSptD0rJBaxID/KF37FfwxcA5sbjEVa?=
- =?us-ascii?Q?gm+CFa6VgIvFt0d0eGPesnNKUEu2R/jV+WkiL6lsxucl1PwR6+8H/0PGWqlK?=
- =?us-ascii?Q?C9QWSdwpD9312Bnd7q8n2nYmI5E41bHqgBEq5OeQWjY5XXM4//SHRRVnOBc6?=
- =?us-ascii?Q?r/4vjWiSIW8dpW9ZvjJ1DdISZ8M4p8rPp+e7KG/QcTwENScd42iX+7KI/TZF?=
- =?us-ascii?Q?UVD5qewNYz2OY0X4EBQRAt1+97pzTRZuNljHbDcOpb/gqqyit1OZUpBDvMuQ?=
- =?us-ascii?Q?j4RBzZ7WKkL3f4VgIE2UIfk+DLhNH/kTW6IO4qFRUdmwWW8pSAUEfG3pYmo0?=
- =?us-ascii?Q?cfgXdY1qQCGhNJqfbO9buSv6n36rW6eMupC2SIPb6ZXggIND/xZMPeXYr0vJ?=
- =?us-ascii?Q?5Mh2PYuRJpZaUfJbgwo/3RXuebJ6zRE=3D?=
+	=?us-ascii?Q?UnsM118jTfzhc7co00kSXxa3oulqJhlyP28F4NMr5VrmE/oUP+TNZYU+nTEC?=
+ =?us-ascii?Q?tFvXcWnzt/coGe69gIqUOSHEmsDBe42BvCIDc4MXN5uLtLIw/am2Gzjje/cQ?=
+ =?us-ascii?Q?t3q3VO3F+iCNeygQ+AlvlG5KvEObMKCU/qjnMrrJTXGcLNOGi+XlOxHtR1mo?=
+ =?us-ascii?Q?FUCR6WakS4bQGFhYZw7GLPDWRS8sTw13n4m05zyMcr25VuH0ef/nFvpzxVby?=
+ =?us-ascii?Q?VQu1SbCTocjxxBpxmUaHTk1+Z8dwJZ/Jgo6sCwByRvKSRLUDnW8mP3NMOrtD?=
+ =?us-ascii?Q?cWq903wCFpeGxwoecweVc8XpjS82JGW6WZp49RBIpsXH6rZoO1BqzPzx1cTs?=
+ =?us-ascii?Q?ONezwJQ85pcXUiB1imTL5OLJb9hLKicQM/kYjHxQNIsfYLp8UWar49aoBwP0?=
+ =?us-ascii?Q?cJ2BHe5+h/yoEt8M6nUoPUT78f+mFt406pV6Mi3YASxA5PFmGwtPRb7a3r4K?=
+ =?us-ascii?Q?7f2Jkjix5o6T+oDJZx1nZoHZqWAjxGvmXHajD/lcuAIfecQOSqqNiqUfRfGd?=
+ =?us-ascii?Q?5EESN/wm1RVCGrqnFEIJrOf3W4DW2pb8GxoDphMlk+PhCnbHLx7EP1CCAyxY?=
+ =?us-ascii?Q?dNqLabhBl+2gi4eybRNWOGob350e/UiGIXZPH3b9zT/0VDy0fXm6fNf8scrg?=
+ =?us-ascii?Q?690O7wMjjG1jt6nByhvaSDWWTBosUE7wzGJ2p0flm4xkvsIgv5vePibzPIXh?=
+ =?us-ascii?Q?SRrHqHgmKUT+ioqW2Q3WCWApBSWIk/hPxT5FUOqH9+pmJjKPVowVOiQdKVDH?=
+ =?us-ascii?Q?NI87poHQJt0lVSbWrrxdkxl3w5WfNhAqi3r/Y1ao2gjMla6nG5TctR3YTm+B?=
+ =?us-ascii?Q?uYD+qlWtcPDDdYGWjt5xb0qY/f17GxMuum8V3QRmWJJSfTxJCspvwEwAmlnN?=
+ =?us-ascii?Q?Z6rETfq9cAfv73vcYuEAvsBc0uV9vTDPkfxnKHTOxLy6kP3pYfIlHzSaMBXw?=
+ =?us-ascii?Q?JgtBgtUbuaTPUB5ankaCaHNWREmd7VYqqmfaPCtKrgdqINLPsTvqhYZw9kur?=
+ =?us-ascii?Q?XzP6FBOm36rbZQvEqt+TEERSpWOgbZTQ8dT0kPD/0ZZqX54Tc5I9s8CLXSbM?=
+ =?us-ascii?Q?Rs5zAaXGN3bmsQa1/1Rv7eDc+idxg76qNRJnrOfc0W+o62ehbrb76njzTMnz?=
+ =?us-ascii?Q?sCzfzt+HURg3qesqgzPhh3s17pXwFkOgcRAPI+MsfbwtZxvE3c3QHmGSlKz/?=
+ =?us-ascii?Q?zDpGYVpXENrKH41tqS1Sgn+XgO7+JH8voLC195dm86T32Ai6jq7nJTeNmrwb?=
+ =?us-ascii?Q?hLtTTFvn6g0KfQ5y88CekxP8QgyWxynVVzH6I9EutHRMw0cnULLH97PT+shu?=
+ =?us-ascii?Q?CB/m0DLCuNqcUBT4OBnPjirYCqllCO7LmGZL0seUb8pXwzvp6Km8Iga/sywV?=
+ =?us-ascii?Q?0ULfL8wevNOQiiXe3JX6/RZIq21zY5Msbs07C6ozfItjhTBp350IsImlHzji?=
+ =?us-ascii?Q?eXt1fr1SvrU0fpcoxEYV6VI/GK6XqOBfGgl6PICAxNIVwRMoj0JerdbISKZN?=
+ =?us-ascii?Q?+QkQNHF8TxJvvNG+YdJLrAnVaFLjeW0hKCxTUIWWQQPjgRqTSPeO5rm6BQ56?=
+ =?us-ascii?Q?+WT0RoL7upP3b7OAsLW1/MXQNQbvwulsSOIKS0QbOcdbcuQHS6IXxjFfnIeL?=
+ =?us-ascii?Q?pmvy5mMOTCfxcVH5sf220W5f1mTWfTuePZppEj4M0x/g3g60+F//pAcxHztF?=
+ =?us-ascii?Q?DwdfQkF2p8UtNzdtk1sDKRfwGnr6VejhgPQ3JeKAuVACLyxiR4DRvGeGOYKN?=
+ =?us-ascii?Q?upgFFH7Tlla8yXheDjwrbPbsHKVN+JU=3D?=
 X-OriginatorOrg: chipsnmedia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f4357fa1-e60e-4524-a8cb-08ded3216bcd
+X-MS-Exchange-CrossTenant-Network-Message-Id: 468e62e7-1689-4051-0ea1-08ded3216c00
 X-MS-Exchange-CrossTenant-AuthSource: SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2026 01:22:43.0428
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2026 01:22:43.3355
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /+LY7vQ7Fq/X7GXOeN45MhnKceRTZHpYGcMF/RK09zn/gMdOG6Za4YN1L4xyN9VU9TKB2GO1ygdXpJpNg/TMXl2ovZiCglkd/EsivPghef0=
+X-MS-Exchange-CrossTenant-UserPrincipalName: lCeCsmsTEqNLlLXQSYxPrsB9ZT5qIeUlGN6gQlkmO0a7rG87dB3hVUPPN9JWgzvfSNM6I0IbSUOYJZCUyGIrhsv5OktzZTksdPb1IOINHiI=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU4P216MB1949
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [1.84 / 15.00];
@@ -147,12 +147,12 @@ X-Spamd-Result: default: False [1.84 / 15.00];
 	ARC_REJECT(1.00)[cv is fail on i=2];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[chipsnmedia.com:s=selector1];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER(0.00)[jackson.lee@chipsnmedia.com,linux-media@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-65682-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65684-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	DMARC_NA(0.00)[chipsnmedia.com];
 	RCVD_TLS_LAST(0.00)[];
@@ -170,49 +170,87 @@ X-Spamd-Result: default: False [1.84 / 15.00];
 	DKIM_TRACE(0.00)[chipsnmedia.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
 	TO_DN_NONE(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[chipsnmedia.com:dkim,chipsnmedia.com:email,chipsnmedia.com:mid,chipsnmedia.com:from_mime,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[chipsnmedia.com:dkim,chipsnmedia.com:email,chipsnmedia.com:mid,chipsnmedia.com:from_mime,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 8D4866C967B
+X-Rspamd-Queue-Id: D594D6C9689
 
 From: Jackson Lee <jackson.lee@chipsnmedia.com>
 
-The Wave5 decoder calls v4l2_m2m_job_finish() immediately in device_run()
-after submitting frames to firmware. When the firmware completes those
-frames and the queue drains to zero, finish_decode() has no active M2M
-job to finish, so v4l2_m2m_schedule_next_job() is never called and the
-decoder stalls.
+Setting the EOS flag talks to the firmware via send_firmware_command(),
+which accesses VPU registers. Both the STREAMOFF path
+(wave5_vpu_dec_job_abort()) and the V4L2_DEC_CMD_STOP path
+(wave5_vpu_dec_stop()) can run while the device is runtime suspended, so
+those register accesses hit powered-down hardware and the SoC raises an
+asynchronous SError, panicking the kernel:
 
-Call v4l2_m2m_try_schedule() in finish_decode() when the firmware queue
-empties to ensure the framework always schedules the next device_run().
+  SError Interrupt on CPU3, code 0x00000000bf000000 -- SError
+   send_firmware_command+0x2c/0x160 [wave5]
+   wave5_vpu_dec_set_bitstream_flag+0x6c/0x80 [wave5]
+   wave5_vpu_dec_update_bitstream_buffer+0x80/0xec [wave5]
+   wave5_vpu_dec_job_abort+0x44/0xa0 [wave5]
+   v4l2_m2m_cancel_job+0x110/0x19c [v4l2_mem2mem]
+   v4l2_m2m_streamoff+0x24/0x140 [v4l2_mem2mem]
 
-Fixes: a176ac5e701f ("media: chips-media: wave5: Improve performance of decoder")
+Resume the device with pm_runtime_resume_and_get() around the EOS
+firmware command and release it with pm_runtime_put_autosuspend(),
+matching the runtime PM handling already done in
+wave5_vpu_dec_device_run().
+
+Fixes: 9707a6254a8a ("media: chips-media: wave5: Add the v4l2 layer")
 Cc: stable@vger.kernel.org
 Signed-off-by: Jackson Lee <jackson.lee@chipsnmedia.com>
 Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
 ---
- drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ .../chips-media/wave5/wave5-vpu-dec.c         | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
 diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-index f33c00cb801b..1817b83c5884 100644
+index 1817b83c5884..6564cf3ec739 100644
 --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
 +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-@@ -475,7 +475,10 @@ static void wave5_vpu_dec_finish_decode(struct vpu_instance *inst)
- 			v4l2_m2m_job_finish(inst->v4l2_m2m_dev, m2m_ctx);
- 	}
+@@ -823,7 +823,15 @@ static int wave5_vpu_dec_stop(struct vpu_instance *inst)
+ 		 * calls do not block on a mutex while inside this spinlock.
+ 		 */
+ 		spin_unlock_irqrestore(&inst->state_spinlock, flags);
++		/*
++		 * V4L2_DEC_CMD_STOP can arrive while the device is runtime
++		 * suspended (e.g. on pipeline teardown). Setting the EOS flag
++		 * accesses VPU registers via send_firmware_command(), so the
++		 * device must be resumed first to avoid an asynchronous SError.
++		 */
++		pm_runtime_resume_and_get(inst->dev->dev);
+ 		ret = wave5_vpu_dec_set_eos_on_firmware(inst);
++		pm_runtime_put_autosuspend(inst->dev->dev);
+ 		if (ret)
+ 			return ret;
  
--	inst->queuing_fail = false;
-+	if (inst->queuing_fail) {
-+		inst->queuing_fail = false;
-+		v4l2_m2m_try_schedule(m2m_ctx);
-+	}
+@@ -1797,11 +1805,22 @@ static void wave5_vpu_dec_job_abort(void *priv)
+ 	if (ret)
+ 		return;
+ 
++	/*
++	 * job_abort() runs from the STREAMOFF path and may be called while the
++	 * device is runtime suspended. Setting the EOS flag talks to the
++	 * firmware (send_firmware_command() accesses VPU registers), so the
++	 * device must be resumed first; otherwise the register access faults
++	 * with an asynchronous SError.
++	 */
++	pm_runtime_resume_and_get(inst->dev->dev);
++
+ 	ret = wave5_vpu_dec_set_eos_on_firmware(inst);
+ 	if (ret)
+ 		dev_warn(inst->dev->dev,
+ 			 "Setting EOS for the bitstream, fail: %d\n", ret);
+ 
++	pm_runtime_put_autosuspend(inst->dev->dev);
++
+ 	v4l2_m2m_job_finish(inst->v4l2_m2m_dev, m2m_ctx);
  }
  
- static int wave5_vpu_dec_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
 -- 
 2.43.0
 
