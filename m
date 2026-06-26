@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-65746-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65747-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id kOHjK8GOPmqfHwkAu9opvQ
-	(envelope-from <linux-media+bounces-65746-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 16:37:53 +0200
+	id Ii54BQaPPmq7HwkAu9opvQ
+	(envelope-from <linux-media+bounces-65747-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 16:39:02 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 354B16CDFF0
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 16:37:53 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D3F66CE017
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 16:39:01 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b="wA/bEI0d";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65746-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65746-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=fTOnTUZP;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65747-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65747-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A04C330D9030
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 14:34:02 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id A5B5D307EA6C
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 14:34:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8287F3F8EB7;
-	Fri, 26 Jun 2026 14:33:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 056283F88A8;
+	Fri, 26 Jun 2026 14:34:32 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A192937C910;
-	Fri, 26 Jun 2026 14:33:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AB043F23B5;
+	Fri, 26 Jun 2026 14:34:30 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782484436; cv=none; b=CjbWCdHcxg1UKaZ3rQRpfPF4zyLXZhLTzCpSIJP7h/iPFAW7oEVM6wQ01FweNG26prN2Hnxq8wZvvoaeLrxy5hYTsoxzgA6ciwmJkp85beQHHRKt//KYqvvfbfH+FbXHZbjTeJNd5KiY5xQKyYjqMY9UE9Kq9RPNH7cPWA9RE74=
+	t=1782484471; cv=none; b=Lry2UsYSdrGLkvzl+9DR7BGda9n4vfYfpf6pKntCzOjQhu2gdE2PPMlS8XXnSWesuwvJY/N3QJUoTkVfHbHDo8Lis/EPJ0NaZPwuMn9U9xP9T69JXtA1dlIOplVG0+pQa1RMaVroVfeh9iWL7gIrgK/G1fux9kq27Oq8JG7QCKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782484436; c=relaxed/simple;
-	bh=aRCMkf+3raeg1adWZL08ZL3ADs0TahZNHXXqFVM5b4Q=;
+	s=arc-20240116; t=1782484471; c=relaxed/simple;
+	bh=1erlWfCNAY3Eh/umXADQj3nVHo6sEd94vScjsNXkfEE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lz56kIFqUCOGkeLHbtkrNlOzQoBBa2NzEEkBwZH1IwEMXrNbRSMsOXu7+DarbK0jB+K75YQrSVdmpKfqDJZk+4UEA9Q3tUbh5YaMqT7XvQGR3+NUrsHuMxVeCJEnV7+POWtjIgvDlQ5q5mYPuWxUeDy7pgMhjFZUxRHD/DiNvrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wA/bEI0d; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=n8mVPvYS/QkAR+qSX64xXQ22h3bj4PcoaK/JVQraOcDOFl55On8mOhR3OovRH8JnHlkNXg+Ny5neePNd1++ZTgFwElhs8v+TkpdkX+C+ITmUeI89CuA2JV7NGiAYTGFGN72d6i9qK8QfDkCv+GQcgT5u/PJapYTU2GsO1z6byA4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fTOnTUZP; arc=none smtp.client-ip=213.167.242.64
 Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1627AE2C;
-	Fri, 26 Jun 2026 16:33:13 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C52FD174;
+	Fri, 26 Jun 2026 16:33:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1782484393;
-	bh=aRCMkf+3raeg1adWZL08ZL3ADs0TahZNHXXqFVM5b4Q=;
+	s=mail; t=1782484428;
+	bh=1erlWfCNAY3Eh/umXADQj3nVHo6sEd94vScjsNXkfEE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wA/bEI0dKYNWsrniuaSh7JqGlJ4zIq0O0xHpNw8U6PU3HUDiOqvyKmyFTRC0bFpW3
-	 hKXoFerww8AM6gkl8WX11HmrI4Pg+C/D/gWRBR3Mwybrcn0o8yzNSNUsBYwBZZELsq
-	 lm8x1sHdZv4/N/UP8AROj4JV6uNNtU8l+ZoGrZv8=
-Date: Fri, 26 Jun 2026 17:33:52 +0300
+	b=fTOnTUZPwnSs1Wc8xqpZFNR5jGRb1RLBI0B1rTdYqGAX44a4xN7BNUBPn6NERfLDq
+	 kdGvd/8BWddWBLVeqSnANJ3fSIVZc5gIOLGtZUpGh71Z24tDZp3+fqZJ5EWcbjNntf
+	 ku8swds9stBdOsnrn3ugxEGAXWg7WBIrfbDCGvt0=
+Date: Fri, 26 Jun 2026 17:34:27 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Kieran Bingham <kieran.bingham@ideasonboard.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -82,11 +82,11 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
 	linux-arm-msm@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
 	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v2 5/8] arm64: dts: freescale: Convert to new media
+Subject: Re: [PATCH v2 6/8] arm64: dts: qcom: Convert to new media
  orientation definitions
-Message-ID: <20260626143352.GG2363897@killaraus.ideasonboard.com>
+Message-ID: <20260626143427.GH2363897@killaraus.ideasonboard.com>
 References: <20260626-kbingham-orientation-v2-0-47178be927b4@ideasonboard.com>
- <20260626-kbingham-orientation-v2-5-47178be927b4@ideasonboard.com>
+ <20260626-kbingham-orientation-v2-6-47178be927b4@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -95,22 +95,22 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260626-kbingham-orientation-v2-5-47178be927b4@ideasonboard.com>
+In-Reply-To: <20260626-kbingham-orientation-v2-6-47178be927b4@ideasonboard.com>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65746-lists,linux-media=lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
+	TAGGED_FROM(0.00)[bounces-65747-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:kieran.bingham@ideasonboard.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jacopo@jmondi.org,m:sakari.ailus@linux.intel.com,m:jimmy.su@intel.com,m:matthias.fend@emfend.at,m:mike.rudenko@gmail.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:michael.riesch@collabora.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:paul.elder@ideasonboard.com,m:martin.kepplinger@puri.sm,m:quentin.schulz@theobroma-systems.com,m:tomm.merciai@gmail.com,m:clamor95@gmail.com,m:mailingradian@gmail.com,m:thierry.reding@kernel.org,m:jonathanh@nvidia.com,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:heiko@sntech.de,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:linux@ew.tq-group.com,m:imx@lists
  .linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-arm-msm@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:krzk@kernel.org,m:conor@kernel.org,m:mikerudenko@gmail.com,m:tommmerciai@gmail.com,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
 	RCPT_COUNT_TWELVE(0.00)[42];
 	FREEMAIL_CC(0.00)[kernel.org,jmondi.org,linux.intel.com,intel.com,emfend.at,gmail.com,ideasonboard.com,collabora.com,foss.st.com,puri.sm,theobroma-systems.com,nvidia.com,nxp.com,pengutronix.de,glider.be,sntech.de,vger.kernel.org,ew.tq-group.com,lists.linux.dev,lists.infradead.org];
@@ -130,16 +130,16 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt,renesas];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:from_mime,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,killaraus.ideasonboard.com:mid]
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:from_mime,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,killaraus.ideasonboard.com:mid,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 354B16CDFF0
+X-Rspamd-Queue-Id: 7D3F66CE017
 
-On Fri, Jun 26, 2026 at 01:07:57PM +0100, Kieran Bingham wrote:
+On Fri, Jun 26, 2026 at 01:07:58PM +0100, Kieran Bingham wrote:
 > The orientation property for video interface devices now has definitions
 > to prevent hardcoded integer values for the enum options.
 > 
-> Update the users throughout the freescale/NXP device trees to use the new
+> Update the users throughout the qualcomm device trees to use the new
 > definitions.
 > 
 > Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
@@ -147,52 +147,74 @@ On Fri, Jun 26, 2026 at 01:07:57PM +0100, Kieran Bingham wrote:
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  .../boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314-imx219.dtso      | 3 ++-
->  arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi                      | 3 ++-
->  2 files changed, 4 insertions(+), 2 deletions(-)
+>  arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts         | 3 ++-
+>  arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts | 3 ++-
+>  arch/arm64/boot/dts/qcom/sdm670-google-common.dtsi         | 3 ++-
+>  3 files changed, 6 insertions(+), 3 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314-imx219.dtso b/arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314-imx219.dtso
-> index e5a2b3780215..7b44ae0f19b2 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314-imx219.dtso
-> +++ b/arch/arm64/boot/dts/freescale/imx8mp-tqma8mpql-mba8mp-ras314-imx219.dtso
-> @@ -9,6 +9,7 @@
->  
->  #include <dt-bindings/gpio/gpio.h>
+> diff --git a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+> index 04cb9230d29f..d79be22108c8 100644
+> --- a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+> +++ b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+> @@ -13,6 +13,7 @@
+>  #include <dt-bindings/iio/qcom,spmi-adc7-pmk8350.h>
+>  #include <dt-bindings/leds/common.h>
 >  #include <dt-bindings/media/video-interfaces.h>
 > +#include <dt-bindings/media/video-interface-devices.h>
+>  #include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
+>  #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
+>  #include <dt-bindings/sound/qcom,q6asm.h>
+> @@ -701,7 +702,7 @@ camera@10 {
+>  		pinctrl-0 = <&cam_mclk3_default>;
+>  		pinctrl-names = "default";
 >  
->  #include "imx8mp-pinfunc.h"
->  
-> @@ -47,7 +48,7 @@ camera@10 {
->  		VANA-supply = <&reg_cam>;
->  		VDIG-supply = <&reg_cam>;
->  		VDDL-supply = <&reg_cam>;
-> -		orientation = <2>;
-> +		orientation = <MEDIA_ORIENTATION_EXTERNAL>;
->  		rotation = <0>;
+> -		orientation = <0>; /* Front facing */
+> +		orientation = <MEDIA_ORIENTATION_FRONT>;
+>  		rotation = <270>;
 >  
 >  		port {
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi b/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi
-> index f5d529c5baf3..178cfad93483 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi
-> @@ -8,6 +8,7 @@
->  #include "dt-bindings/input/input.h"
->  #include <dt-bindings/interrupt-controller/irq.h>
+> diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+> index abd9c5a67b9f..543fc691fd3c 100644
+> --- a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+> +++ b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+> @@ -11,6 +11,7 @@
+>  #include <dt-bindings/input/gpio-keys.h>
+>  #include <dt-bindings/input/input.h>
 >  #include <dt-bindings/leds/common.h>
 > +#include <dt-bindings/media/video-interface-devices.h>
->  #include "dt-bindings/pwm/pwm.h"
->  #include "dt-bindings/usb/pd.h"
->  #include "imx8mq.dtsi"
-> @@ -1116,7 +1117,7 @@ camera_front: camera@20 {
->  		vddd-supply = <&reg_vcam_1v2>;
->  		vddio-supply = <&reg_csi_1v8>;
->  		rotation = <90>;
+>  #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
+>  
+>  #include "sc8280xp.dtsi"
+> @@ -682,7 +683,7 @@ camera@10 {
+>  
+>  		clocks = <&camcc CAMCC_MCLK3_CLK>;
+>  
+> -		orientation = <0>;	/* Front facing */
+> +		orientation = <MEDIA_ORIENTATION_FRONT>;
+>  
+>  		avdd-supply = <&vreg_l6q>;
+>  		dvdd-supply = <&vreg_l2q>;
+> diff --git a/arch/arm64/boot/dts/qcom/sdm670-google-common.dtsi b/arch/arm64/boot/dts/qcom/sdm670-google-common.dtsi
+> index 0f57b915186b..375b3c0edea7 100644
+> --- a/arch/arm64/boot/dts/qcom/sdm670-google-common.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sdm670-google-common.dtsi
+> @@ -9,6 +9,7 @@
+>  #include <dt-bindings/gpio/gpio.h>
+>  #include <dt-bindings/input/input.h>
+>  #include <dt-bindings/leds/common.h>
+> +#include <dt-bindings/media/video-interface-devices.h>
+>  #include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
+>  #include <dt-bindings/power/qcom-rpmpd.h>
+>  #include "sdm670.dtsi"
+> @@ -460,7 +461,7 @@ camera@1a {
+>  		pinctrl-names = "default";
+>  
+>  		rotation = <270>;
 > -		orientation = <0>;
 > +		orientation = <MEDIA_ORIENTATION_FRONT>;
 >  
 >  		port {
->  			camera1_ep: endpoint {
+>  			cam_front_endpoint: endpoint {
 
 -- 
 Regards,
