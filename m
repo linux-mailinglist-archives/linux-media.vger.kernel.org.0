@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-65705-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65706-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id kRWoAtBrPmpPFwkAu9opvQ
-	(envelope-from <linux-media+bounces-65705-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 14:08:48 +0200
+	id jjM6LPxsPmqlFwkAu9opvQ
+	(envelope-from <linux-media+bounces-65706-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 14:13:48 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [172.232.135.74])
-	by mail.lfdr.de (Postfix) with ESMTPS id 993556CCD47
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 14:08:47 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EDAC6CCE23
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 14:13:48 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=pcgqDf+I;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65705-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.232.135.74 as permitted sender) smtp.mailfrom="linux-media+bounces-65705-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=RT+Y+cYf;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65706-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65706-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7C3D03031FF0
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 12:08:30 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id E9E1730F0982
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 12:08:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB5CC3F4DD6;
-	Fri, 26 Jun 2026 12:08:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 911623F4DFD;
+	Fri, 26 Jun 2026 12:08:19 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C22063F4DC8;
-	Fri, 26 Jun 2026 12:08:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB273F4DD0;
+	Fri, 26 Jun 2026 12:08:15 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782475698; cv=none; b=YPuhTA4Xbi8BrVYdCzlJD8xC/pqjxReg6+v8JJXmee3+DqAsemRi5504AJSnSjAeuvKXY8qRJtMO3XIha8v8B7qUJpMyBzpQ53ixRBQxmpInpmk5F7HI3LMtVYPnAKNbTzX63zWKd+WmkTEY0Rba2wMWaFs0jrNkyJEBTNJ+P+Y=
+	t=1782475699; cv=none; b=UPBmLiolutMJedtW4VkjXePnCVJRame0ItVfGt/buNe+cclMZQ6aeeO4QTM9UjpWwV2njHZmWBumDPpV+ljSYTaknctWDIeqrBqnl2k2CUIWQiMougLBxKQS/Bldf0ixDrM96WksxjeVSdlcY+vxJ8AiT2jbQVHc4fMMpwSeX8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782475698; c=relaxed/simple;
-	bh=8OneFmIntjo3LUlo8kvYjDqR6t4hn4SzHslqtzOxtG0=;
+	s=arc-20240116; t=1782475699; c=relaxed/simple;
+	bh=0HHSiXNFmOrdeXOhxamWpYO055wtLa35Qk5vwrPlMs4=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=JO5clHftFpi2GMdEp+1mnISvWheE7Ug5wrYMYo53IKGdzx5p4eGUd/yTtwTUjYaAASfNcE4KuSQ9+ovrzIN41wq4A/InS+38YA/48KB2WDGZ4IhBhxRXoIIhKmMuSWh3vGyA1pf5ZLWgcQQ8hPoVHfVueUoodFczNgeSdHWzBiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pcgqDf+I; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=OYx1krYPQOMxPIDKIqdeRcRDbHb6iCXF1f9J5055rTIchRXgyn4/8OZKeZH5AZD1bYbq6GG6Zsxt4vWiOROrzUQvFBlobvo/tcR3urH5RTUuo2JN73cycnVXtr/z0PofCBsfZix34BhyfTLAdPzkfk4kGeHsQcqCDwFHHn6fkL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=RT+Y+cYf; arc=none smtp.client-ip=213.167.242.64
 Received: from ping.linuxembedded.co.uk (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0D0371ADF;
-	Fri, 26 Jun 2026 14:07:23 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E1671AE5;
+	Fri, 26 Jun 2026 14:07:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1782475644;
-	bh=8OneFmIntjo3LUlo8kvYjDqR6t4hn4SzHslqtzOxtG0=;
+	s=mail; t=1782475645;
+	bh=0HHSiXNFmOrdeXOhxamWpYO055wtLa35Qk5vwrPlMs4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=pcgqDf+IcN2ovWrb6Vw5qfCrEGBBzTqBj83t3uJun1w4Gh5pFVWS4rO/PDN5cMDRe
-	 xJuouWUVLf98M2E4W4tBfSJpquO6FoVSYnEW7s/16jzn0U1VYvWmXpxnDUcH/zHsbV
-	 57b0JbUS29ISp7vYAPpkhv2T/6Wo00hq3xFNMd9g=
+	b=RT+Y+cYfZH2wlqLpFSYCUDT21BsTQpmpMNVt6mGxCWoO5Pe6MrCnvtlVD2ePugp4n
+	 Cd/m3DGPCPQXWlrE3Dor5ejcSogK4aEDCwIlEU7PJLiwPNj0hkJEg9oUkPj+elYYy/
+	 ft6TN5LcG730caKCTbodeDFs4WVju1DL9zkuUAs8=
 From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Date: Fri, 26 Jun 2026 13:07:55 +0100
-Subject: [PATCH v2 3/8] dt-bindings: media: i2c: Utilise
- video-interface-devices enums
+Date: Fri, 26 Jun 2026 13:07:56 +0100
+Subject: [PATCH v2 4/8] ARM: tegra: Convert to new media orientation
+ definitions
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260626-kbingham-orientation-v2-3-47178be927b4@ideasonboard.com>
+Message-Id: <20260626-kbingham-orientation-v2-4-47178be927b4@ideasonboard.com>
 References: <20260626-kbingham-orientation-v2-0-47178be927b4@ideasonboard.com>
 In-Reply-To: <20260626-kbingham-orientation-v2-0-47178be927b4@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -92,11 +92,11 @@ Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, 
  Kieran Bingham <kieran.bingham@ideasonboard.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1782475679; l=11321;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1782475679; l=4007;
  i=kieran.bingham@ideasonboard.com; s=20260207; h=from:subject:message-id;
- bh=8OneFmIntjo3LUlo8kvYjDqR6t4hn4SzHslqtzOxtG0=;
- b=noWrQnRm9hj+14eaOdCj2lx7uDK8O9GpNgVnNOPVJ1Y0n5NwQGBcQU1lJcwWxz+Q24dpNsGrf
- 9x8nc/21Tf4CSKid/o9uruFP1WgOn013OqlqvCFPM/adMIGdt2ohb3i
+ bh=0HHSiXNFmOrdeXOhxamWpYO055wtLa35Qk5vwrPlMs4=;
+ b=cOXQ7Hl+GodGt79Cbzwoe1W8LZ3vBTB0o67pkkcnCIReW+JVEmFQd7j9/zaTFf1gC/usIr/md
+ 0SFg5RTFRDBBf5DRfA9FEKn/6bbQT3JlVB7NCD75egi2I9oPLic17dS
 X-Developer-Key: i=kieran.bingham@ideasonboard.com; a=ed25519;
  pk=FVXKN7YuwHc6UtbRUeTMAmranfsQomA+vnilfglWdaY=
 X-Rspamd-Action: no action
@@ -104,24 +104,25 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.232.135.74:c];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65705-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65706-lists,linux-media=lfdr.de];
 	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jacopo@jmondi.org,m:sakari.ailus@linux.intel.com,m:jimmy.su@intel.com,m:matthias.fend@emfend.at,m:mike.rudenko@gmail.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:michael.riesch@collabora.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:laurent.pinchart@ideasonboard.com,m:paul.elder@ideasonboard.com,m:martin.kepplinger@puri.sm,m:quentin.schulz@theobroma-systems.com,m:tomm.merciai@gmail.com,m:clamor95@gmail.com,m:mailingradian@gmail.com,m:thierry.reding@kernel.org,m:jonathanh@nvidia.com,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:heiko@sntech.de,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-tegra@vger.kernel.org,m:linux@ew.tq-group.com,m:imx@lis
  ts.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-arm-msm@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:kieran.bingham@ideasonboard.com,m:krzk@kernel.org,m:conor@kernel.org,m:mikerudenko@gmail.com,m:tommmerciai@gmail.com,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FREEMAIL_TO(0.00)[kernel.org,jmondi.org,linux.intel.com,intel.com,emfend.at,gmail.com,ideasonboard.com,collabora.com,foss.st.com,puri.sm,theobroma-systems.com,nvidia.com,nxp.com,pengutronix.de,glider.be,sntech.de];
 	FORGED_SENDER(0.00)[kieran.bingham@ideasonboard.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
+	RCPT_COUNT_TWELVE(0.00)[43];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[43];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
@@ -130,286 +131,111 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,dt,renesas];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.232.128.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TO_DN_SOME(0.00)[]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 993556CCD47
+X-Rspamd-Queue-Id: 1EDAC6CCE23
 
 The orientation property for video interface devices now has definitions
 to prevent hardcoded integer values for the enum options.
 
-Update the existing examples throughout the bindings documentation for
-camera sensors.
+Update the users throughout the nvidia device trees to use the new
+definitions.
 
 Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 ---
- Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml   | 3 ++-
- Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml  | 3 ++-
- Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml   | 3 ++-
- Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml   | 3 ++-
- Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml   | 3 ++-
- Documentation/devicetree/bindings/media/i2c/ovti,ov64a40.yaml  | 3 ++-
- Documentation/devicetree/bindings/media/i2c/sony,imx111.yaml   | 3 ++-
- Documentation/devicetree/bindings/media/i2c/sony,imx355.yaml   | 3 ++-
- Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml   | 3 ++-
- Documentation/devicetree/bindings/media/i2c/st,vd55g1.yaml     | 3 ++-
- Documentation/devicetree/bindings/media/i2c/st,vd56g3.yaml     | 3 ++-
- Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml | 3 ++-
- 12 files changed, 24 insertions(+), 12 deletions(-)
+ arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-common.dtsi | 3 ++-
+ arch/arm/boot/dts/nvidia/tegra30-asus-transformer-common.dtsi    | 3 ++-
+ arch/arm/boot/dts/nvidia/tegra30-lg-p895.dts                     | 4 +++-
+ arch/arm/boot/dts/nvidia/tegra30-lg-x3.dtsi                      | 3 ++-
+ 4 files changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-index 1a57f2aa1982..b7bc6ba26e6e 100644
---- a/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/hynix,hi846.yaml
-@@ -86,6 +86,7 @@ unevaluatedProperties: false
- examples:
-   - |
-     #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/media/video-interface-devices.h>
+diff --git a/arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-common.dtsi b/arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-common.dtsi
+index 892d718294dd..a7fdd194300c 100644
+--- a/arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-common.dtsi
++++ b/arch/arm/boot/dts/nvidia/tegra30-asus-nexus7-grouper-common.dtsi
+@@ -3,6 +3,7 @@
+ #include <dt-bindings/input/gpio-keys.h>
+ #include <dt-bindings/input/input.h>
+ #include <dt-bindings/media/video-interfaces.h>
++#include <dt-bindings/media/video-interface-devices.h>
+ #include <dt-bindings/power/summit,smb347-charger.h>
+ #include <dt-bindings/thermal/thermal.h>
  
-     i2c {
-         #address-cells = <1>;
-@@ -102,7 +103,7 @@ examples:
-             vddio-supply = <&reg_camera_vddio>;
-             reset-gpios = <&gpio1 25 GPIO_ACTIVE_LOW>;
-             shutdown-gpios = <&gpio5 4 GPIO_ACTIVE_LOW>;
--            orientation = <0>;
-+            orientation = <MEDIA_ORIENTATION_FRONT>;
-             rotation = <0>;
+@@ -991,7 +992,7 @@ front-camera@48 {
+ 			vdd-supply = <&vddio_cam>;
+ 			vaa-supply = <&avdd_cam1>;
  
-             port {
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml
-index 6f2017c75125..b9c61395b24f 100644
---- a/Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov08d10.yaml
-@@ -69,6 +69,7 @@ examples:
-   - |
-     #include <dt-bindings/gpio/gpio.h>
-     #include <dt-bindings/media/video-interfaces.h>
-+    #include <dt-bindings/media/video-interface-devices.h>
+-			orientation = <0>; /* Front camera */
++			orientation = <MEDIA_ORIENTATION_FRONT>;
  
-     i2c {
-         #address-cells = <1>;
-@@ -84,7 +85,7 @@ examples:
-             avdd-supply = <&ov08d10_vdda_2v8>;
-             dvdd-supply = <&ov08d10_vddd_1v2>;
+ 			assigned-clocks = <&tegra_car TEGRA30_CLK_VI_SENSOR>,
+ 					  <&tegra_car TEGRA30_CLK_CSUS>;
+diff --git a/arch/arm/boot/dts/nvidia/tegra30-asus-transformer-common.dtsi b/arch/arm/boot/dts/nvidia/tegra30-asus-transformer-common.dtsi
+index bf1c3a31d406..76286e15684c 100644
+--- a/arch/arm/boot/dts/nvidia/tegra30-asus-transformer-common.dtsi
++++ b/arch/arm/boot/dts/nvidia/tegra30-asus-transformer-common.dtsi
+@@ -3,6 +3,7 @@
+ #include <dt-bindings/input/gpio-keys.h>
+ #include <dt-bindings/input/input.h>
+ #include <dt-bindings/media/video-interfaces.h>
++#include <dt-bindings/media/video-interface-devices.h>
+ #include <dt-bindings/thermal/thermal.h>
  
--            orientation = <2>;
-+            orientation = <MEDIA_ORIENTATION_EXTERNAL>;
-             rotation = <0>;
+ #include "tegra30.dtsi"
+@@ -1262,7 +1263,7 @@ front-camera@48 {
+ 			vdd-supply = <&vdd_1v8_cam>;
+ 			vaa-supply = <&avdd_2v85_fcam>;
  
-             reset-gpios = <&gpio 1 GPIO_ACTIVE_LOW>;
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
-index d96199031b66..fcd617848ce3 100644
---- a/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov4689.yaml
-@@ -96,6 +96,7 @@ unevaluatedProperties: false
- examples:
-   - |
-     #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/media/video-interface-devices.h>
+-			orientation = <0>; /* Front camera */
++			orientation = <MEDIA_ORIENTATION_FRONT>;
  
-     i2c {
-         #address-cells = <1>;
-@@ -114,7 +115,7 @@ examples:
-             powerdown-gpios = <&pio 107 GPIO_ACTIVE_LOW>;
-             reset-gpios = <&pio 109 GPIO_ACTIVE_LOW>;
+ 			assigned-clocks = <&tegra_car TEGRA30_CLK_VI_SENSOR>,
+ 					  <&tegra_car TEGRA30_CLK_CSUS>;
+diff --git a/arch/arm/boot/dts/nvidia/tegra30-lg-p895.dts b/arch/arm/boot/dts/nvidia/tegra30-lg-p895.dts
+index 896639599c12..28680063bcc0 100644
+--- a/arch/arm/boot/dts/nvidia/tegra30-lg-p895.dts
++++ b/arch/arm/boot/dts/nvidia/tegra30-lg-p895.dts
+@@ -1,6 +1,8 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /dts-v1/;
  
--            orientation = <2>;
-+            orientation = <MEDIA_ORIENTATION_EXTERNAL>;
-             rotation = <0>;
++#include <dt-bindings/media/video-interface-devices.h>
++
+ #include "tegra30-lg-x3.dtsi"
  
-             port {
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml
-index ad07204057f9..6df62fd0c0c0 100644
---- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5675.yaml
-@@ -85,6 +85,7 @@ examples:
-   - |
-     #include <dt-bindings/clock/px30-cru.h>
-     #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/media/video-interface-devices.h>
-     #include <dt-bindings/pinctrl/rockchip.h>
+ / {
+@@ -132,7 +134,7 @@ front-camera@48 {
+ 			vdd-supply = <&vt_1v8_front>;
+ 			vaa-supply = <&vt_2v8_front>;
  
-     i2c {
-@@ -108,7 +109,7 @@ examples:
-             dovdd-supply = <&vcc_2v8>;
+-			orientation = <0>; /* Front camera */
++			orientation = <MEDIA_ORIENTATION_FRONT>;
  
-             rotation = <90>;
--            orientation = <0>;
-+            orientation = <MEDIA_ORIENTATION_FRONT>;
+ 			assigned-clocks = <&tegra_car TEGRA30_CLK_VI_SENSOR>,
+ 					  <&tegra_car TEGRA30_CLK_CSUS>;
+diff --git a/arch/arm/boot/dts/nvidia/tegra30-lg-x3.dtsi b/arch/arm/boot/dts/nvidia/tegra30-lg-x3.dtsi
+index 60e8a19aa70e..c58e3026a115 100644
+--- a/arch/arm/boot/dts/nvidia/tegra30-lg-x3.dtsi
++++ b/arch/arm/boot/dts/nvidia/tegra30-lg-x3.dtsi
+@@ -4,6 +4,7 @@
+ #include <dt-bindings/input/input.h>
+ #include <dt-bindings/leds/common.h>
+ #include <dt-bindings/media/video-interfaces.h>
++#include <dt-bindings/media/video-interface-devices.h>
+ #include <dt-bindings/mfd/max77620.h>
+ #include <dt-bindings/thermal/thermal.h>
  
-             port {
-                 ucam_out: endpoint {
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
-index 3368b3bd8ef2..5732657e1484 100644
---- a/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5693.yaml
-@@ -103,6 +103,7 @@ examples:
-   - |
-     #include <dt-bindings/clock/px30-cru.h>
-     #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/media/video-interface-devices.h>
-     #include <dt-bindings/pinctrl/rockchip.h>
+@@ -1216,7 +1217,7 @@ rear-camera@10 {
+ 			dvdd-supply = <&vdd_1v2_rear>;
+ 			avdd-supply = <&vdd_2v7_rear>;
  
-     i2c {
-@@ -126,7 +127,7 @@ examples:
-             dovdd-supply = <&vcc_2v8>;
+-			orientation = <1>; /* Rear camera */
++			orientation = <MEDIA_ORIENTATION_REAR>;
+ 			rotation = <90>;
  
-             rotation = <90>;
--            orientation = <0>;
-+            orientation = <MEDIA_ORIENTATION_FRONT>;
- 
-             port {
-                 ucam_out: endpoint {
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov64a40.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov64a40.yaml
-index 2b6143aff391..24787c9aa155 100644
---- a/Documentation/devicetree/bindings/media/i2c/ovti,ov64a40.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov64a40.yaml
-@@ -72,6 +72,7 @@ unevaluatedProperties: false
- examples:
-   - |
-       #include <dt-bindings/gpio/gpio.h>
-+      #include <dt-bindings/media/video-interface-devices.h>
- 
-       i2c {
-           #address-cells = <1>;
-@@ -87,7 +88,7 @@ examples:
-               powerdown-gpios = <&gpio1 9 GPIO_ACTIVE_HIGH>;
-               reset-gpios = <&gpio1 10 GPIO_ACTIVE_LOW>;
-               rotation = <180>;
--              orientation = <2>;
-+              orientation = <MEDIA_ORIENTATION_EXTERNAL>;
- 
-               port {
-                   endpoint {
-diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx111.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx111.yaml
-index 20f48d5e9b2d..56fb5f18f07b 100644
---- a/Documentation/devicetree/bindings/media/i2c/sony,imx111.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/sony,imx111.yaml
-@@ -69,6 +69,7 @@ examples:
-   - |
-     #include <dt-bindings/gpio/gpio.h>
-     #include <dt-bindings/media/video-interfaces.h>
-+    #include <dt-bindings/media/video-interface-devices.h>
- 
-     i2c {
-         #address-cells = <1>;
-@@ -84,7 +85,7 @@ examples:
-             dvdd-supply = <&camera_vddd_1v2>;
-             avdd-supply = <&camera_vdda_2v7>;
- 
--            orientation = <1>;
-+            orientation = <MEDIA_ORIENTATION_BACK>;
-             rotation = <90>;
- 
-             nvmem = <&eeprom>;
-diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx355.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx355.yaml
-index 6050d7e7dcfe..b4a88eaa7ef2 100644
---- a/Documentation/devicetree/bindings/media/i2c/sony,imx355.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/sony,imx355.yaml
-@@ -74,6 +74,7 @@ examples:
-   - |
-     #include <dt-bindings/clock/qcom,camcc-sdm845.h>
-     #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/media/video-interface-devices.h>
- 
-     i2c {
-         #address-cells = <1>;
-@@ -98,7 +99,7 @@ examples:
-             pinctrl-0 = <&cam_front_default>;
- 
-             rotation = <270>;
--            orientation = <0>;
-+            orientation = <MEDIA_ORIENTATION_FRONT>;
- 
-             port {
-                 cam_front_endpoint: endpoint {
-diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
-index 7c11e871dca6..69a37ff68db3 100644
---- a/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/sony,imx415.yaml
-@@ -86,6 +86,7 @@ unevaluatedProperties: false
- examples:
-   - |
-     #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/media/video-interface-devices.h>
- 
-     i2c {
-         #address-cells = <1>;
-@@ -98,7 +99,7 @@ examples:
-             clocks = <&clock_cam>;
-             dvdd-supply = <&vcc1v1_cam>;
-             lens-focus = <&vcm>;
--            orientation = <2>;
-+            orientation = <MEDIA_ORIENTATION_EXTERNAL>;
-             ovdd-supply = <&vcc1v8_cam>;
-             reset-gpios = <&gpio_expander 14 GPIO_ACTIVE_LOW>;
-             rotation = <180>;
-diff --git a/Documentation/devicetree/bindings/media/i2c/st,vd55g1.yaml b/Documentation/devicetree/bindings/media/i2c/st,vd55g1.yaml
-index 060ac6829b66..db9f0c15576c 100644
---- a/Documentation/devicetree/bindings/media/i2c/st,vd55g1.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/st,vd55g1.yaml
-@@ -105,6 +105,7 @@ unevaluatedProperties: false
- examples:
-   - |
-     #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/media/video-interface-devices.h>
- 
-     i2c {
-         #address-cells = <1>;
-@@ -123,7 +124,7 @@ examples:
-             reset-gpios = <&gpio 5 GPIO_ACTIVE_LOW>;
-             st,leds = <2>;
- 
--            orientation = <2>;
-+            orientation = <MEDIA_ORIENTATION_EXTERNAL>;
-             rotation = <0>;
- 
-             port {
-diff --git a/Documentation/devicetree/bindings/media/i2c/st,vd56g3.yaml b/Documentation/devicetree/bindings/media/i2c/st,vd56g3.yaml
-index c6673b8539db..48db22ca4a7e 100644
---- a/Documentation/devicetree/bindings/media/i2c/st,vd56g3.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/st,vd56g3.yaml
-@@ -107,6 +107,7 @@ unevaluatedProperties: false
- examples:
-   - |
-     #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/media/video-interface-devices.h>
- 
-     i2c {
-         #address-cells = <1>;
-@@ -125,7 +126,7 @@ examples:
-             reset-gpios = <&gpio 5 GPIO_ACTIVE_LOW>;
-             st,leds = <6>;
- 
--            orientation = <2>;
-+            orientation = <MEDIA_ORIENTATION_EXTERNAL>;
-             rotation = <0>;
- 
-             port {
-diff --git a/Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml b/Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
-index bc339a7374b2..4a66cb711372 100644
---- a/Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
-@@ -173,6 +173,7 @@ examples:
-   - |
-     #include <dt-bindings/gpio/gpio.h>
-     #include <dt-bindings/media/video-interfaces.h>
-+    #include <dt-bindings/media/video-interface-devices.h>
- 
-     i2c {
-         #address-cells = <1>;
-@@ -196,7 +197,7 @@ examples:
-             vddgpio-0-supply = <&vsys_v4p2>;
-             vddgpio-1-supply = <&vsys_v4p2>;
- 
--            orientation = <0>;
-+            orientation = <MEDIA_ORIENTATION_FRONT>;
-             rotation = <0>;
- 
-             sensors {
+ 			nvmem = <&m24c08>;
 
 -- 
 2.52.0
