@@ -1,193 +1,141 @@
-Return-Path: <linux-media+bounces-65770-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65771-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id rMcRNOy2PmqcKgkAu9opvQ
-	(envelope-from <linux-media+bounces-65770-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 19:29:16 +0200
+	id B+PJDlq3PmqxKgkAu9opvQ
+	(envelope-from <linux-media+bounces-65771-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 19:31:06 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA4F6CF6B2
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 19:29:16 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99AFB6CF6CE
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 19:31:05 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=HOVEp9C4;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65770-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65770-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b="PumI/Ke5";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65771-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65771-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id B448C301DD1C
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 17:29:15 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 11343304E65E
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 17:31:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 917603F7AB5;
-	Fri, 26 Jun 2026 17:29:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53B0C400DFA;
+	Fri, 26 Jun 2026 17:30:56 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C3B3F076D
-	for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 17:29:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E7635C183
+	for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 17:30:54 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782494952; cv=none; b=I+Qlc19g20QSB88Sb5YvSwTauyeJxkJ7KJil6R0F+GLnuuz7WsEvJEW6H6oQrHO22UC1dUfJ4OZwvPEwXty2P1PArf9ePk2zwTjX6UG2Xm28rG/MKg/diQo9Fbc8nIMXdZh0bn305pQRHreJFio5rcNIqsrOHay5/RdOA5gVoyQ=
+	t=1782495055; cv=none; b=rcLuxqHXAfCWXVMWYtMHjVxgM5D1TxaZYbxU/qos6tbf6QVEP+eI8h/eWDyEGTeroHs+i1y7hqupEhlV0lqZKOLWtbls+vh7sjLayTotmXXATsTv6y/eq58hiRfRAjOOsUi2SjyHpeLeiRF7lY/0ry9+EyQ1R0t55X9138xermE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782494952; c=relaxed/simple;
-	bh=bmnqIteIrsdazyLdwoN0OJVJpD3EaqY64A0zc/yqpkE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A+KPhpkkiQX4ZFGj9w1tlYcyyQFwTYoQqBQXqT4SFlqoiY7cEeer4bodWJw6aGCTJY4JyyRVw9iNd6RWOG5E0yOhsL/+IlFGW/k8jqZfLcfByZbh6v1sjrraPplIt8xTUNawOYNLIWDuHYoxWBhgZrh1BPaOdQ/Ch3M6uhVIiVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HOVEp9C4; arc=none smtp.client-ip=209.85.210.45
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7e93e0a3364so928232a34.3
-        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 10:29:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782494949; x=1783099749; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=S/VSPjiBxVWzwoGtJrzRhtH5hK8hWcYXUpH5mPgMo2s=;
-        b=HOVEp9C4MoqSx8QJQrG+E4MNqNVoojsAitCvjjTmXtFks9SeYrANVfNXQY5q5AbVeh
-         msqhqUlgJLFyKsQz5qLla0xvKAch0rlZFmNNeNyfCtQLSt4z4ey6YyKNbXNyYEKfUfxO
-         sMnjOqFHzbcPx4djTpEgQdYYRaCMAqcoRLiNLihWZZoRv/BkmRW4FtS8yRrQVxsCOGTe
-         2OHNDaVwlTQ2rgsN0VAXuSJFj9oTBq28PV6qCREHrktx17n6CLoo8tf4BCJailNrbIIc
-         0U5jyZRzxKMM9zKWsGuEG1G6iXkOBCVswIuyIaRLzp3cY7KlxEk3JGEvKwk+/N+QIaJd
-         cDcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782494949; x=1783099749;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=S/VSPjiBxVWzwoGtJrzRhtH5hK8hWcYXUpH5mPgMo2s=;
-        b=C/5tik6Xf7pIEhe1Q/71Ho/mMREOsBiFzz90zG8ujfy72diBDY8UgNOrtQe21WffrZ
-         8ctorp0lFfQGJFlYkNvQDBAn6XtyIXsrNavu7gfKh/HgsnA3/aYbzd6RVVhWPLNKvmqB
-         bTbv+BFm8hmphBrdh+B7VZEZstEThJwnIhRp/5es0P+fy71KUpgD8Zn//F2R2Jp9c6PN
-         oxKSoMwGAuBU0B7IvigxJqY7O2kiStnOgddDpCET8XKb1rVEW4IeZzlAcBM2rUnomWdD
-         5BJJgq+yregYTjBY9WNsldlWstnosgOtNB1Z5UEM6/Xna13e0eJLlhKDeaqjnvsjEKhW
-         mRKw==
-X-Forwarded-Encrypted: i=1; AFNElJ+ijNngRJFgYE7S0c3x005QvyyPLIohzuTtmUpK4PIRmFDimi5BC3t/gPHXodh8vHT6Phg7jMkHPcklqw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmDtqmkZe+BGaQqk/Ma2hQyYuATY/OgoykckNMM0m+YvcEatQH
-	Fs6lgtN4UJTuzeAq7yF8a+gijwsH3OrUqhZZbCjSW+9F1971R6L2WvIQ
-X-Gm-Gg: AfdE7cli05cWAITujkuw3hCHaD9C/C1D3+zTXA5K8C2t4Flb6Szt2Iq5TQYp7dQkIkE
-	t+OTUNlZeIuIuWIj4g5NVg/nGyBJ2M49p+yBI8vx/ph3uByo/5IZ2WjfiwWi37ASUuol0mH1AW3
-	OVWrS1lcm6W+5j+ZE1mDrD3GhIiVLOg0xGDWZAoyV/q3amrfmnR6lFdRksgY8M0YawBKumV/aGO
-	lJVjzW0cDd0GIOkO5ptf3+8PAnQ84RRDOJNWWDbmNIc9Ysiw63Qe3ZqsULf2WXfLH+M1WrzjZaI
-	Qk8M6Y0YJVCikNgx5RsJ7y5xxAJazCxNVAH64Ylp5ie3oLdGaJaLvgLJqqI1ElvjETMmeXYZYPK
-	Ljh/FAEWcFu5Qj8uP2h3WcPogswYBryUkYz2/VgDpRA2dXeLw/MXsxre6ply6aNtSOK/GVc2+kg
-	34OwRz
-X-Received: by 2002:a05:6830:8291:b0:7e6:ed97:ce5a with SMTP id 46e09a7af769-7e99c2ec47cmr6930978a34.4.1782494948915;
-        Fri, 26 Jun 2026 10:29:08 -0700 (PDT)
-Received: from localhost ([74.80.182.98])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7e9aa78751fsm2063757a34.13.2026.06.26.10.29.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2026 10:29:08 -0700 (PDT)
-Date: Fri, 26 Jun 2026 20:29:01 +0300
-From: Dan Carpenter <error27@gmail.com>
-To: Doruk Tan Ozturk <doruk@0sec.ai>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Kevin Hilman <khilman@baylibre.com>,
-	Jerome Brunet <jbrunet@baylibre.com>,
-	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-	linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: meson: vdec: fix use-after-free of prev_frame in
- codec_vp9_rm_noshow_frame()
-Message-ID: <aj623aQRkNiVdrnM@stanley.mountain>
-References: <20260626164025.52694-1-doruk@0sec.ai>
+	s=arc-20240116; t=1782495055; c=relaxed/simple;
+	bh=gwSzXwh0HoI00AkrS/CpPJOnyWqmAsUpCZMEyyadXBo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BFOeGXW9EWsMC3sSzYLmyyWr3V6V30xYhfjdivMFDLc6Rg0HttUyq1upsYSI8s5BdL6Blqj/1RvNyXr84Im2cF+Xx/P7aFLZzG5nRWXh/QGVbkzCLZk9A9mhQyETaOEAJHSLnQcUCnL648k52C6B18qOk8Ai0fDVeVUSuhDCv38=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PumI/Ke5; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D8B81F00A3E
+	for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 17:30:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782495054;
+	bh=UChKy8m5X6FfuHqzk1SQASlFD1km8ud5MSQJDfpy8NA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=PumI/Ke5gnlFjsZfRHNBgKTP1Lst9wWQx/JKmBvBIslSmpEP3D9vNKT3YlJxKgBrd
+	 x6X5bRoh6Qo8Kmx7PEqeHxJO66vb/Uk5x8AbP6leY91cplWCbXwF+vp21ZidoQRSKm
+	 uAKjN554VWAOvmUn7mMqFTaCCJwxDyrxbzgMHDqxlUB9/C0SjEhZZ/DY5WnW8eQxGn
+	 lfHPSzUscK2xg5KMa3MThNOYiPfeFRwMvdFGskiW0ZNm82786Az24KhXZ/HoK86uli
+	 TAx4FlhXl367zayhqea2Vpze/BTq51RsNWdp8vNYxvxIp4eNR9PeIgneznzpJ7fqOM
+	 mfydyJjDd+8CA==
+Received: by mail-ot1-f42.google.com with SMTP id 46e09a7af769-7e9483cd614so1155010a34.1
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 10:30:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9OxJU0b+E1EkAQmCrrth4b5gteSxztVUkn/O/L74qP5rc3rsXgSEw+NMCtRzjOti1MWNl2euFX3tdRNA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxGtPBTwxMxA/nd8EEYurCw1lShs50/yuo6mDxwULNZFjG9g3WA
+	qnnJhNpBcpgGsNpCcPqPkPkYaUFf9oVKWYNVJ1c6v8dyTMckYnO2uSkeVFkXYGJwIMnLdFJQPsI
+	wLHdt/eVydHj0UgNrcVhvXMtmMsBrHsU=
+X-Received: by 2002:a05:6830:63ca:b0:7e9:b4ea:2ef6 with SMTP id
+ 46e09a7af769-7e9b4ea3173mr808165a34.16.1782495053924; Fri, 26 Jun 2026
+ 10:30:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260626164025.52694-1-doruk@0sec.ai>
+References: <20260616-mali-c55-ccm-gamma-v2-0-0f93e9a95d98@ideasonboard.com>
+ <20260616-mali-c55-ccm-gamma-v2-2-0f93e9a95d98@ideasonboard.com>
+ <CAD++jL=RmN0HHYOSg68V5OQggN4uCdWdW2d+qA0GWgUv-51Rmg@mail.gmail.com> <aj6QqZbuN0WJvg2C@zed>
+In-Reply-To: <aj6QqZbuN0WJvg2C@zed>
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 26 Jun 2026 19:30:42 +0200
+X-Gmail-Original-Message-ID: <CAD++jL=UNADvRzPfpbpSb8bHAZGvZ0M8yyw0MbQGFHmaEyTvvg@mail.gmail.com>
+X-Gm-Features: AVVi8Ce618KXnqz5pxV7QoavsUpMKnimSmL-2XkTCw0_XV1Evys54hKvIFr2Oqw
+Message-ID: <CAD++jL=UNADvRzPfpbpSb8bHAZGvZ0M8yyw0MbQGFHmaEyTvvg@mail.gmail.com>
+Subject: Re: [PATCH v2 2/2] media: arm: mali-c55: Add support for RGB Gamma
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Nayden.Kanchev@arm.com, Konstantin Babin <Konstantin.Babin@arm.com>, 
+	Anthony McGivern <anthony.mcgivern@arm.com>, vincenzo.frascino@arm.com, linus.walleij@arm.com, 
+	Daniel Scally <dan.scally@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-5.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	RECEIVED_HELO_LOCALHOST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65770-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65771-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	FORGED_RECIPIENTS(0.00)[m:doruk@0sec.ai,m:neil.armstrong@linaro.org,m:gregkh@linuxfoundation.org,m:mchehab@kernel.org,m:hverkuil@kernel.org,m:khilman@baylibre.com,m:jbrunet@baylibre.com,m:martin.blumenstingl@googlemail.com,m:linux-media@vger.kernel.org,m:linux-amlogic@lists.infradead.org,m:linux-staging@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:martinblumenstingl@gmail.com,s:lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[linaro.org,linuxfoundation.org,kernel.org,baylibre.com,googlemail.com,vger.kernel.org,lists.infradead.org,lists.linux.dev];
+	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:Nayden.Kanchev@arm.com,m:Konstantin.Babin@arm.com,m:anthony.mcgivern@arm.com,m:vincenzo.frascino@arm.com,m:linus.walleij@arm.com,m:dan.scally@ideasonboard.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi+renesas@ideasonboard.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[linusw@kernel.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[error27@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-media@vger.kernel.org];
 	MISSING_XM_UA(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[stanley.mountain:mid,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,ideasonboard.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,mail.gmail.com:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 6AA4F6CF6B2
+X-Rspamd-Queue-Id: 99AFB6CF6CE
 
-On Fri, Jun 26, 2026 at 06:40:25PM +0200, Doruk Tan Ozturk wrote:
-> codec_vp9_rm_noshow_frame() frees the first non-shown reference frame on
-> ref_frames_list without excluding vp9->prev_frame. When the previously
-> decoded frame was a non-show (alt-ref) frame and the current frame is a
-> non-show inter frame, the freed object is the one vp9->prev_frame still
-> points to; codec_vp9_set_mpred_mv() then dereferences the stale pointer
-> (use_prev_frame_mvs and codec_vp9_get_frame_mv_paddr()), a use-after-free.
-> 
-> The sibling cleanup codec_vp9_show_frame() already guards this pointer
-> (tmp == vp9->prev_frame); rm_noshow_frame() simply omits the same check.
-> Add it.
-> 
-> The fields that drive this path (show_frame, frame_type, intra_only) are
-> parsed from the VP9 bitstream, so a crafted stream fed to the stateless
-> decoder can trigger the free-then-use.
-> 
-> Found by static analysis; not yet runtime-reproduced (Amlogic Meson
-> hardware required).
-> 
-> Found by 0sec's autonomous vulnerability analysis (https://0sec.ai).
-> 
-> Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
-> ---
->  drivers/staging/media/meson/vdec/codec_vp9.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/staging/media/meson/vdec/codec_vp9.c b/drivers/staging/media/meson/vdec/codec_vp9.c
-> index 8e80ecf84..572f418c9 100644
-> --- a/drivers/staging/media/meson/vdec/codec_vp9.c
-> +++ b/drivers/staging/media/meson/vdec/codec_vp9.c
-> @@ -1247,6 +1247,15 @@ static void codec_vp9_rm_noshow_frame(struct amvdec_session *sess)
->  		if (tmp->show)
->  			continue;
->  
-> +		/*
-> +		 * prev_frame is still referenced by the MV predictor in
-> +		 * codec_vp9_set_mpred_mv(); the sibling codec_vp9_show_frame()
-> +		 * already excludes it before freeing. Do the same here to avoid
-> +		 * a use-after-free of vp9->prev_frame.
-> +		 */
-> +		if (tmp == vp9->prev_frame)
-> +			continue;
+Hi Jacopo,
 
-I have not looked at this code before so I'm speaking from a position
-of ignorance but codec_vp9_show_frame() checks vp9->cur_frame as well.
-Shouldn't we check that here as well?
+On Fri, Jun 26, 2026 at 4:52=E2=80=AFPM Jacopo Mondi
+<jacopo.mondi@ideasonboard.com> wrote:
 
-regards,
-dan carpenter
+> > >  #define MALI_C55_REG_GAMMA_OFFSETS_1                   0x1c070
+> > >  #define MALI_C55_GAMMA_OFFSET_R_MASK                   GENMASK(11, 0=
+)
+> > >  #define MALI_C55_GAMMA_OFFSET_G_MASK                   GENMASK(27, 1=
+6)
+> >
+> > Same here *GAMMA_OFFSETS_RG
+>
+> Aren't the R and G masks different ?
+>
+> Or are you suggesting
+> #define MALI_C55_REG_GAMMA_OFFSETS_RG                   0x1c070
 
+Yes, exactly, then when reading I know "aha that register contains
+R and G gamma".
+
+Yours,
+Linus Walleij
 
