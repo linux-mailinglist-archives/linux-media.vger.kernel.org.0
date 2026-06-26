@@ -1,91 +1,59 @@
-Return-Path: <linux-media+bounces-65674-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65675-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 9ugzMgy/PWqP6AgAu9opvQ
-	(envelope-from <linux-media+bounces-65674-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 01:51:40 +0200
+	id 5EmJORTDPWoH6QgAu9opvQ
+	(envelope-from <linux-media+bounces-65675-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 02:08:52 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2875C6C92EA
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 01:51:40 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D0706C9382
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 02:08:52 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=GwKW40ja;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65674-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65674-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=gmail.com;
+	dkim=pass header.d=icloud.com header.s=1a1hai header.b=wctcL9Q7;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65675-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65675-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=icloud.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 372D3306887B
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2026 23:51:04 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id D7C193041941
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 00:08:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DEE2372EF1;
-	Thu, 25 Jun 2026 23:51:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 744401917CD;
+	Fri, 26 Jun 2026 00:08:44 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from outbound.ci.icloud.com (ci-2007b-snip4-11.eps.apple.com [57.103.88.23])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925BF30EF63
-	for <linux-media@vger.kernel.org>; Thu, 25 Jun 2026 23:51:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A9D4A21
+	for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 00:08:41 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782431462; cv=none; b=MSevNEjWfh77vi/tNgqDkOk7/WQ9GIU/dc4jHJOVnvv16PtvbukIWQLH39QDSxna9WEt1Qf2p31l2krzGybvsUW58nTSoIME4fkGAG0KnR+F/IszrBXvTNPXW8C0bzlOyTp9qaW2BZy40nGvREUYYLDNzQMqitcO9kYmQdXHPOY=
+	t=1782432523; cv=none; b=nOwCuTJ21fLhkDySMqb8tfTWGcPn25+AXq7c3YoPmPdgp83Nl2AJuXS/V3+PmLwh8dMw9LYZ1HlaHVTvbfmogrGL/NkZ2ZQqPc2b62QQvJQXNBf70JdTxfF0BzrKPFt55IGAwWoANe/sAOsixYA/GwqoSgO9dh5o34OZR1+IL38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782431462; c=relaxed/simple;
-	bh=he76//56YME9jSWTiGsiGo7sY90s/qVXcUe5rVo2hP4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j5pugLeg/NWOxZuYWh1WkWoa/QsfQvDQJGC+VnNKCUdhw99v61orGlVm/LLntIZmWLLq5BgS0gd98q0zfZMUW1ZCjTC02VWl66kzfybeG2JjkQLojQhCVhafzYM0mkukOa0umoPict+mWX19igD+gXTYKGwYpqnlyolmzvkPKSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GwKW40ja; arc=none smtp.client-ip=209.85.210.180
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-845c8294459so27905b3a.0
-        for <linux-media@vger.kernel.org>; Thu, 25 Jun 2026 16:51:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782431461; x=1783036261; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vB7wM8cMcHCRy2B7PVI6rXtb1cm+oM7TlYvGymfkF+4=;
-        b=GwKW40jaLjJpOjauCsF4LBFvAgzXEdyY30V2U44B8hfhfc052htbENDDRry3LkZ14j
-         6XDSPX4g11db4v4DRtzdl2Xp1HyPZlXx8YK0NQKn7J61ll0hwamoF9F00nuCvuLJ/093
-         W3V3FAoPLteECbb3gWhrRWE4LAAaDIaWWyfgQIFDqqnBYPOo8MciQkjO7+Iz5L95QXMe
-         MmXOi12HYFfRWNfJ9L4AwCyXxY+EbuvNbxxJQ82NqcYzv3XRjQ4SpmUDR25hZYWYY0qd
-         QpvAgiM5oyKgFX1qHWAp90eNIwplzIwNLlN64/5/6tmYu0DIfU+nstaM0qXbBM9KUCj3
-         85Iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782431461; x=1783036261;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vB7wM8cMcHCRy2B7PVI6rXtb1cm+oM7TlYvGymfkF+4=;
-        b=BghJle+5JkQXIIaAmzV0EnYKRTjVZCuaNPYQbCX4LbHjUBhKfB7vS6ChsLQEPanUnY
-         aAdr6f9whU5hpENCF9sfSaOgFO1DlApLGqBjXxQ2/ggWmDFaaSjelVnQcqyWdZC+E5eI
-         5ag1ylMNQvYETQ4k/9PnIUzhkTatukVvAN8LTlV/AFg8Il1+Ji2cAn6kXRtQgLFdc37z
-         JaaQDJEs1ACfR+FQt/EA4DSLHWypX41PVvH2kJfe9muFniLejcYt/F7WqEMuM7pVQ0Lz
-         iWM5k3K0DvVu7ODfAtu14oG0vif3cMi/rlpNyRkPlNRzt8D+639RBniF0ui2DxElGzzE
-         j50g==
-X-Gm-Message-State: AOJu0YzIe4iJQmw3CwK0CV8+ZUcQXsCy+j3sGItOcqiByrbVz1H/ueRM
-	GX5aS7WPmcKPCqpw7ewzHEABrX55CuEFSepGEz5wBgYvIDdhWScL1U0X
-X-Gm-Gg: AfdE7cldbKADli5zk8qfRSpSwN0pLh6kwJwNSPSzdPasePeRmwcXQugdFa643ns/4MC
-	igDr9qcJ8pwiDY0MHpdi91t3g4fDX6aYxex8K+tdFenReK5n7YrEQHCSopS5zL46bTcgTzGvJLe
-	LInv/avI7PK5969C2nLThVVXc58lSYBG2S9HBl15Nh5DGzTRV4VB8Wd7jQ1DqSswWd+r0Mricd/
-	pCO2Z8XRUYnFx7CMtuB9GCoCwbqPGJcM1qcfHzrCGzQebJfb2l0zrnc0/aE6jLqrhuXq1GrXMCq
-	wICrrG/OsIIGlvREn+l1unvMsDQt8gVkpYCIV+hf3Bi4oow+NfJegI8MtKNvByqN2ooW1gKHdIJ
-	tLYgt6UC4pcRBraYkrl2Lor5cnOtVa2muXS3TpDee5gsvJyQ0Db6nYLkSN9YjP5aZrdNucR3U7p
-	3Cz0ZMScQ2LKAQJFjO35yh+/kbJxbMv5AWQkWZ
-X-Received: by 2002:a05:6a00:390b:b0:845:6252:f69b with SMTP id d2e1a72fcca58-845b3b09722mr5604830b3a.46.1782431460796;
-        Thu, 25 Jun 2026 16:51:00 -0700 (PDT)
-Received: from x1c ([2405:9800:b670:b64b:acd1:19e:37f9:15e4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-845c7c935f6sm159448b3a.19.2026.06.25.16.50.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Jun 2026 16:51:00 -0700 (PDT)
-From: Tharit Tangkijwanichakul <tharitt97@gmail.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev,
-	Tharit Tangkijwanichakul <tharitt97@gmail.com>
-Subject: [PATCH v2] media: imx219: fix test pattern ordering and add patterns
-Date: Fri, 26 Jun 2026 06:50:51 +0700
-Message-ID: <20260625235051.5784-1-tharitt97@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	s=arc-20240116; t=1782432523; c=relaxed/simple;
+	bh=f4R9clzPjiybrAMIl/OswXdNDHBbS2L1z/PcKDFijhQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T2PxiWm/IU4BzPcmWGN13RWlz6smg0u+Us3z7UAg3MaZSZ6k3QjJhPzSppf6JeXSUYuZ8YW4Zkd3ttXWLFRTjQN20wauV5H0DaFn/uIxpcyeeGoDOUTwgyz0gOw/xFqRSScGg5jQ+/yZWwa3tiQ+XU9rTmEggvknzBTDmK/Ddg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=wctcL9Q7; arc=none smtp.client-ip=57.103.88.23
+Received: from outbound.ci.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-central-1k-10-percent-2 (Postfix) with ESMTPS id 2A491180015E;
+	Fri, 26 Jun 2026 00:08:39 +0000 (UTC)
+X-ICL-RepId: 019f0141-d3c5-7de5-9812-1b3eeda766ae
+X-ICL-Out-Info: HUtFAUMEWwJACUgATUQeDx5WFlZNRAJCTQhPAEMGXAVeC1YBXwFLVxQEDloDVA5cBBcbXwJCH1sVSzhaDlsERxQXG1wAFw1WTVAbXwJCDxwTVhUTH1RWBVBRHV8CCgRHBFsXRgNTRVEZFxFQAVgeVl5aF15NRx9ATWJJAVoZWxxAF0puTVMPDxlaFFwYU0VRH1RYXgRTVg5CCUoFXQFZBEAJSARcAkUDQQhJC10ERgNdTxFdDlIFRl5aFFwYQwJXAnkRUAFYHlZeWhdeUxcfSwBcRVoOWwRHFA==
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1782432521; x=1785024521; bh=62riOTYrLlfgacm6h7BtxUIAXTixdzk21VOhDGmuiTs=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=wctcL9Q78YFeus/xSU++iBhJ033IW+6wGUJ0SbOOahm1Q6LZWZQsVvt/U04/elZK+vh8ybxnvhMIZUoDyZQps5VblcA/l4wbfjCDZNVlXBsUe9PwD10Aqn3FuTm4drpkYTTDiJYCNt9Zp23uUED0XPZCunW4MEhoGDa5aWgidDoKZg38irBuZSmJB7M5jhXLrs+h1S0rLRuOzOecfVAgyX7xc44ohKGnjtLyP1ARq12k4XVmdSpE4zSo7HZMXmyFM9xrzrT+9dDAwwkmYosz7pSepOUlADWATmpgXR5PYb3fgSa/1MN+hJqmJkOigAqmuXEt0FRQOtjkuBiob/HRvg==
+Received: from bigre.localdomain (unknown [17.57.156.36])
+	by p00-icloudmta-asmtp-us-central-1k-10-percent-2 (Postfix) with ESMTPSA id 3C05A1800463;
+	Fri, 26 Jun 2026 00:08:38 +0000 (UTC)
+From: Vincent Cloutier <vincent.cloutier@icloud.com>
+To: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-imx@nxp.com,
+	kernel@puri.sm,
+	Vincent Cloutier <vincent@cloutier.co>
+Subject: [PATCH RFC 0/4] media: i2c: Add Samsung S5K3L6 and Librem 5 rear camera
+Date: Thu, 25 Jun 2026 20:06:56 -0400
+Message-ID: <20260626000715.1111803-1-vincent.cloutier@icloud.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -93,123 +61,104 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNjI1MDIwOSBTYWx0ZWRfXzoAVob3LJ6jD
+ EnG0MZyGxZ7CxJ/hh6tPeFu5N7rSuqvrNu9lOqWd9OGNbadBHG1mVkAtBh3pgXai6UMT3BV3WIP
+ lXttj4lhmluntt8LgOpCaOniw+i8W2FFAqz970Cqn2gooehEzIAA3OQa1YwIYUluCid+AYK9S0O
+ 0guCDfnci6RMThBYam6LmzJyPBmMGXJw+QaHH9798g8JxUmB8jFT9xYlQOaAqmSZN4gUrUyJZGP
+ PO4u8iGLppzhIS/REJ9jnlgDRSOrnuc0y0YrjgVw6jDqCwIy5HnelG+5+6MefeS3wowNio6GtCN
+ GD9LByDGKrjMpLnCSe0
+X-Proofpoint-GUID: UhiN7vVFI5x6yZ7pg-UP9OgSjO-L5kvV
+X-Proofpoint-ORIG-GUID: UhiN7vVFI5x6yZ7pg-UP9OgSjO-L5kvV
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-0.66 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	MID_CONTAINS_FROM(1.00)[];
+	DMARC_POLICY_ALLOW(-0.50)[icloud.com,quarantine];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[icloud.com:s=1a1hai];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TO_DN_SOME(0.00)[];
-	FREEMAIL_CC(0.00)[vger.kernel.org,linuxfoundation.org,lists.linux.dev,gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-65674-lists,linux-media=lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:sakari.ailus@linux.intel.com,m:dave.stevenson@raspberrypi.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:skhan@linuxfoundation.org,m:linux-kernel-mentees@lists.linux.dev,m:tharitt97@gmail.com,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[tharitt97@gmail.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	PRECEDENCE_BULK(0.00)[];
+	TAGGED_FROM(0.00)[bounces-65675-lists,linux-media=lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:linux-imx@nxp.com,m:kernel@puri.sm,m:vincent@cloutier.co,s:lists@lfdr.de];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[tharitt97@gmail.com,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[vincent.cloutier@icloud.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_NEQ_ENVFROM(0.00)[vincent.cloutier@icloud.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[7];
 	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	RCVD_COUNT_FIVE(0.00)[5];
+	DKIM_TRACE(0.00)[icloud.com:+];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FREEMAIL_FROM(0.00)[icloud.com];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[cloutier.co:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,icloud.com:dkim,icloud.com:mid,icloud.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2875C6C92EA
+X-Rspamd-Queue-Id: 8D0706C9382
 
-The test pattern menu currently maps 1 to color bars and 2 to a solid
-color, whereas the imx219 datasheet specifies the reverse layout. fix
-the ordering to align with the hardware specification.
+From: Vincent Cloutier <vincent@cloutier.co>
 
-Additionally, add 5 missing test patterns to complete the available
-hardware test patterns.
+This RFC fixes the i.MX8MQ CSI-2 reset path needed by Librem 5 camera
+capture, adds initial upstream support for the Samsung S5K3L6 image
+sensor, and wires it up as the rear camera on the Purism Librem 5.
 
-The changes were validated on a raspberry pi 5 with an imx219 sensor
-using v4l2-ctl and rpicam-still.
+This is intentionally a rewrite, not a direct forwarding of the Librem 5
+downstream S5K3L6 carry. The downstream history is a long bring-up
+series with debugfs register overrides, debug-frame plumbing, commented-out
+old subdev code, FIXME/TODO scaffolding, and several API-era migrations.
+This RFC collapses the usable production path into a current V4L2 sensor
+driver using CCI regmap, runtime PM, fwnode endpoint validation, and the
+current subdev stream API.
 
-Signed-off-by: Tharit Tangkijwanichakul <tharitt97@gmail.com>
----
-Changes in v2:
-	- Fix typo in commit message: correct current color bars 
-	index to 1 and solid color to 2 
-	- No code changes from v1
+Many thanks to Martin Kepplinger, Dorota Czaplejewicz, and Sebastian
+Krzyszkowiak for the original Librem 5 S5K3L6 driver work and rear-camera
+bring-up. Martin authored the initial downstream driver, and Dorota and
+Sebastian substantially developed the mode tables, controls, power-up
+sequence, and sensor tuning that this rewrite is based on.
 
- drivers/media/i2c/imx219.c | 31 +++++++++++++++++++++++--------
- 1 file changed, 23 insertions(+), 8 deletions(-)
+This series covers:
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index 223d3753c..8f0c04afd 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -110,11 +110,16 @@
- 
- /* Test Pattern Control */
- #define IMX219_REG_TEST_PATTERN		CCI_REG16(0x0600)
--#define IMX219_TEST_PATTERN_DISABLE	0
--#define IMX219_TEST_PATTERN_SOLID_COLOR	1
--#define IMX219_TEST_PATTERN_COLOR_BARS	2
--#define IMX219_TEST_PATTERN_GREY_COLOR	3
--#define IMX219_TEST_PATTERN_PN9		4
-+#define IMX219_TEST_PATTERN_DISABLE			0
-+#define IMX219_TEST_PATTERN_SOLID_COLOR			1
-+#define IMX219_TEST_PATTERN_COLOR_BARS			2
-+#define IMX219_TEST_PATTERN_GREY_COLOR			3
-+#define IMX219_TEST_PATTERN_PN9				4
-+#define IMX219_TEST_PATTERN_16SPLIT_COLOR_BARS		5
-+#define IMX219_TEST_PATTERN_16SPLIT_INV_COLOR_BARS	6
-+#define IMX219_TEST_PATTERN_COLUMN_COUNTER		7
-+#define IMX219_TEST_PATTERN_INV_COLUMN_COUNTER		8
-+#define IMX219_TEST_PATTERN_PN31			9
- 
- /* Test pattern colour components */
- #define IMX219_REG_TESTP_RED		CCI_REG16(0x0602)
-@@ -235,18 +240,28 @@ static const s64 imx219_link_freq_4lane_menu[] = {
- 
- static const char * const imx219_test_pattern_menu[] = {
- 	"Disabled",
--	"Color Bars",
- 	"Solid Color",
-+	"Color Bars",
- 	"Grey Color Bars",
--	"PN9"
-+	"PN9",
-+	"16 Split Color Bars",
-+	"16 Split Inverted Color Bars",
-+	"Column Counter",
-+	"Inverted Column Counter",
-+	"PN31"
- };
- 
- static const int imx219_test_pattern_val[] = {
- 	IMX219_TEST_PATTERN_DISABLE,
--	IMX219_TEST_PATTERN_COLOR_BARS,
- 	IMX219_TEST_PATTERN_SOLID_COLOR,
-+	IMX219_TEST_PATTERN_COLOR_BARS,
- 	IMX219_TEST_PATTERN_GREY_COLOR,
- 	IMX219_TEST_PATTERN_PN9,
-+	IMX219_TEST_PATTERN_16SPLIT_COLOR_BARS,
-+	IMX219_TEST_PATTERN_16SPLIT_INV_COLOR_BARS,
-+	IMX219_TEST_PATTERN_COLUMN_COUNTER,
-+	IMX219_TEST_PATTERN_INV_COLUMN_COUNTER,
-+	IMX219_TEST_PATTERN_PN31
- };
- 
- /* regulator supplies */
+- 25 MHz input clock, matching the Librem 5 downstream configuration
+- two MIPI CSI-2 data lanes
+- RAW8 and RAW10 SGRBG modes at 1052x780, 2104x1560, and 4208x3120
+- exposure, analogue gain, digital gain, blanking, pixel-rate,
+  link-frequency, test-pattern, orientation, and rotation controls
+- Librem 5 DTS integration for the rear sensor and second CSI-2 path
+
+The rewritten driver and DTS path have now been tested on Librem 5r4
+hardware in a v7.1.1 carry build, with the i.MX8MQ CSI-2 reset fix from this
+series applied.
+
+Patch 1 keeps the i.MX8MQ CSI-2 software reset sequence compatible with
+the Librem 5 camera pipeline by making the post-assert reset release
+SoC-specific. This is included as an RFC prerequisite for the Librem 5
+rear-camera enablement; if preferred, it can be split out and handled as
+a separate media/platform fix.
+
+Vincent Cloutier (4):
+  media: imx8mq-mipi-csi2: Keep i.MX8MQ reset assert-only
+  dt-bindings: media: i2c: Add Samsung S5K3L6 image sensor
+  media: i2c: Add Samsung S5K3L6 image sensor driver
+  arm64: dts: imx8mq-librem5: Add rear camera
+
+ .../bindings/media/i2c/samsung,s5k3l6.yaml    | 117 ++
+ arch/arm64/boot/dts/freescale/imx8mq-librem5.dtsi |  51 +
+ drivers/media/i2c/Kconfig                         |  10 +
+ drivers/media/i2c/Makefile                        |   1 +
+ drivers/media/i2c/s5k3l6.c                         | 1055 +++++++++++++++++
+ drivers/media/platform/nxp/imx8mq-mipi-csi2.c     |   9 +-
+ 6 files changed, 1241 insertions(+), 2 deletions(-)
+
 -- 
 2.53.0
-
 
