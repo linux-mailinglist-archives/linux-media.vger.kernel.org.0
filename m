@@ -1,291 +1,182 @@
-Return-Path: <linux-media+bounces-65759-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65760-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id J2SKABqZPmoqIwkAu9opvQ
-	(envelope-from <linux-media+bounces-65759-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 17:22:02 +0200
+	id Gy2VF/+gPmpjJQkAu9opvQ
+	(envelope-from <linux-media+bounces-65760-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 17:55:43 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A9C96CE6FD
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 17:22:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C37A36CEB5A
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 17:55:42 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=vNXpWkYN;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65759-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65759-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=google.com header.s=20251104 header.b=l8HCapbb;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65760-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65760-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=google.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id E9E10312CDD3
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 15:15:31 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 529EC300ECA1
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 15:51:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A93B384CEA;
-	Fri, 26 Jun 2026 15:14:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E67F639E184;
+	Fri, 26 Jun 2026 15:51:04 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CF337C0FA;
-	Fri, 26 Jun 2026 15:14:07 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782486855; cv=none; b=dkzj0KW0v60PEAQneVyDPUMcTDnpag3PIKIKlYGVIzlZosFBFp4jJNkkHpQQ3kJjqTZKWiXVjwrQSJydq7gV0adg0EYArSV+6HoH7oSMEQt+9c/Q7h738eqI6a3v7Gaeewf7Dpm8pxwokEHXdXzbxHApgJ4npJftkf3LmtIiJbI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782486855; c=relaxed/simple;
-	bh=pN3B8OxTXhw9zdo/mDjsTrybctnUfEi30+EQzaGZfKc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fNAmDM1eUvhphJeMaL73PQYuwU31ZGkrScilT9QEdskv1sVjtcxGqq37DQ2lepPuhk5GW9GPktEzqfd/bXGuwnF0Jo8UoV4QHDpmjM2dfj+m7efGTnxa3jcFjJfHaesLShXioZf/kTmjBXaDV6NaeSNGtmOH+YEw7ym5zvoM2Jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vNXpWkYN; arc=none smtp.client-ip=213.167.242.64
-Received: from [10.1.1.1] (net-93-65-100-155.cust.vodafonedsl.it [93.65.100.155])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F2E521AED;
-	Fri, 26 Jun 2026 17:12:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1782486779;
-	bh=pN3B8OxTXhw9zdo/mDjsTrybctnUfEi30+EQzaGZfKc=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=vNXpWkYNamU38I/rF4J3elB+yUZwJB0JVq2VXIhsdiRR5pxnNX00NIZWrrVzD+4d+
-	 jVRueo8mP6W9uQLDTW6mhEe8bZrECHafEHm1TqyAf0nrnwdTueIwQJ7l7QAkW8ox0L
-	 wir1UOYGZOugsLADN+jB3eV72LLROvGlAzzqlIeg=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Fri, 26 Jun 2026 17:13:25 +0200
-Subject: [PATCH v2 6/6] media: v4l2-isp: Add helpers for stats buffer
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01843F2102
+	for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 15:51:01 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782489064; cv=pass; b=So1y7jIXU2zoEHfR+8Ka/1e9EYJfpu2D6vVN6yooT4eKLNgoZZJhUTsALL3k2/VSphtrU4vEBGlTe7KW0OM9PIqBg2zHPzH7WS6jrxEy1fJyjnJRjIqUNyZYbZXGoSbd2xJW0X/TXyWD5laRY6drHB0M8NUP+yE1bSnEHVVxfLc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782489064; c=relaxed/simple;
+	bh=ZPHcJuGGWfpRD9VuT0tHbZH9ElUJLMcAe7aNwn77y7U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PINZeBb1YTf6bqrgRgIQ/ZluYGqVRCWhwjVNif4MS8uT7Cmfe6retuRZOspoGYRvgtJZ4iq3JCCowhWBOPFXJc+YcPYnLXa2m9KzeSh75TW8M9iloAnO4no4ldcAMX9ghgDxuWLQC0QFs7d6tO6rw5sl9RDduebLgZro9YhMWV4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=l8HCapbb; arc=pass smtp.client-ip=209.85.214.170
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2c81db32393so42635ad.0
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 08:51:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782489061; cv=none;
+        d=google.com; s=arc-20260327;
+        b=czLjLPIImARJWvSHCiuQ0KJNWuzP15XxRjCRC1Yad1lZvIYmhA9HmMhYZIULj5ba0f
+         uRMEeim2LmJnQyWCXd27oqWFK86wUgz/EVONArNDPd/oLFe4DJ/nCZb72wQNW7mDhZIA
+         H+dg8MhtF19hZ3zkAHIn7XSaOAoVJUxENYo5dyv7o7N8pLeebDKT70nGXw2SKO6E8KtV
+         x9b4JuqoqJ8qj0gnf2i/ruXidI8nvxK26gZ0E7tLMiK+3k7KTkUF+T1SvZWmAVS/v6g/
+         uW8vZA9xxc5qu/9f8bxT+iVs8Iph6eF8KUMYLlUWSga4tJt4dfXTC/OF4+YTPlpQfQgO
+         Neqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ZPHcJuGGWfpRD9VuT0tHbZH9ElUJLMcAe7aNwn77y7U=;
+        fh=IaVCdbYclyBOkdx88oLvzVwD5m57tnXVKc+Yw+Na5Qc=;
+        b=IClaLk19gTfluDhO8GBk2gLCMPi5flNaLJ0KAw7Fz6PAfUBm9GxRRkWWPYh3ZohBKr
+         y38awQBb0lthz0YsWEry2IoD94AivuIkdJgmXEVswY4gs6Ljiahk5Ix+La1mLKf0kfpc
+         eYx8UywmKKlajeIJHoNXuFzTqz/0ItjSFvsHO3u2rFPfKCXEDn0wE3dOzAqIK9Fik15N
+         3csCYGDPJxEDP6WDnFYWE87Pq+ngQYiS9HMhptu2JwbdLwCjb6gqDpx5A/juE2m0A51d
+         ONMd65uizaxb2vvvAtyXlpCkJst20+UDa31gnQhsycJQsbpI/8np/pGjWbzArNfLM/iY
+         zsXw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1782489061; x=1783093861; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ZPHcJuGGWfpRD9VuT0tHbZH9ElUJLMcAe7aNwn77y7U=;
+        b=l8HCapbbVSEtxkAIdf1YmXzfP2XMP7npR84SBSAxvpHSlUsbi8fW5REMMFazhqn37T
+         bTS4Q2TFoSZ2rYkmju0jlWd4ZSDa/wGhxi0D/KmMvNTj9AftDy+qATcE69+7WmySZUOp
+         3ZgGLdUPpjy2ju9XzqoMuPA3TixJvJyObQRWIdtnQN3PWnQEf1XQriXxzPpY+9SRQrEe
+         RM9gyrK3F6nVc8WvcOyQpUIvXjbacLnNblx65wHtkQE1HK3QFhV/n/c4btEd87o31rcF
+         +kDzWhGrldrLYkt4MEzMQuVH29/kGnkAsf+iueaDX7couKmDCcBL3xB1WMQLp3sRJfIG
+         rLTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782489061; x=1783093861;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZPHcJuGGWfpRD9VuT0tHbZH9ElUJLMcAe7aNwn77y7U=;
+        b=nfgnXR0SwZFe1gAybk2/HBf2T+okGt5R8VJfAWyEggX70hBrrd2taf8tzo75kgVAKa
+         5j2CA8SGd8jD2ngcnXjVESzWAqsCsvoUYRgOasJ2aIdH8Rl7YjxxS5sd0q+j1vpZKXNz
+         fImEqecZzqXVlyNLNEwiaQIxvkKJE8Nyddd96hu6KRPg2D/mHvXp3DkvKe2W1gx1p7m5
+         5efQ1StOypxyWh7NB+apOoErk1my8FoVAHqXfVuDZfkg3kv8XuZijBk0ZrlIavS0UAZw
+         WGWut8D3ehYdKmfRZsOA7fk9NIyEBJj5Hww0R2oFZNWBcifWyg7Y2RDBtco7Tnhr5xK6
+         DqSw==
+X-Forwarded-Encrypted: i=1; AHgh+RpGW/HciZZ4XGKmJePpH7dAQqvtJzETpyLfhAGGsIN19ibBi171n7I/gOCzPrpcXQTv6maX/bccUXqxsg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEi215ilcBZpVi48Iob9KtRhZrZptE7MvKFBfnlOxEgEhg7cgH
+	Hg+66Oko1f513j9eJRLQBYuUCidIcL7aU+5NmeR95kbyTKaoM83chrBBn4LwA3QgE9Ske/hfg7d
+	xrZ9ul/VKwNGefr8Nu6RQ5RAn9Dv/pKciguPCZFQ=
+X-Gm-Gg: AfdE7clVXK1WQyte3v2su8r7Xnvys4vip+gEpQZnNYHMk+f+Yyn/V+ygzr/Pr95h0yE
+	oRFrlSa0PNUV5sqh+uj8Qc5saLbpC+zOmYgbfi31mixQUmvF5g+cUC2ZhCAvau3u1ai9l/7XTG/
+	YFmDmypgX1Dg40jEmVc12ALxCioBa3NaQ7e+Fe2XpfCzh1bDxkZu5kro7D1dQqSwom/KzAY6XJ9
+	ibujx7danAjKtDXO9vw6Ib1jJLGki7xF+1MeF4clTaN1BnEqo+B4xNk8v9D4kVLKbXNnYU=
+X-Received: by 2002:a17:903:4b0c:b0:2bd:6dad:7ccd with SMTP id
+ d9443c01a7336-2c99855966emr229385ad.25.1782489060232; Fri, 26 Jun 2026
+ 08:51:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260626-extensible-stats-v2-6-41fdd5cf728b@ideasonboard.com>
-References: <20260626-extensible-stats-v2-0-41fdd5cf728b@ideasonboard.com>
-In-Reply-To: <20260626-extensible-stats-v2-0-41fdd5cf728b@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Daniel Scally <dan.scally@ideasonboard.com>, Keke Li <keke.li@amlogic.com>, 
- Antoine Bouyer <antoine.bouyer@nxp.com>, 
- Jai Luthra <jai.luthra@ideasonboard.com>, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
- Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6316;
- i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=pN3B8OxTXhw9zdo/mDjsTrybctnUfEi30+EQzaGZfKc=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBqPpce3Zp0Wh3TJEQhwILJ/dS5ZfG7WYr/aNjLP
- jlbWD8yz0SJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaj6XHgAKCRByNAaPFqFW
- PNKrD/9gFQzoNMIze9bqRL6XpTfHjSdehe34a1hO4HyZgZO3yWVMCxb1BKJqc6VyKhLXOvuLFCp
- FD2RmViNKoN7WS1PMXFOBzzTcqtcUwDj6A0a8/jG9LQQInCUhfPT0Cy1VdrIP8hqqumgteenbWU
- ARmglQWtd5QSujC5ruVlojTJfX3Fw3c1tQo+pTMBCbJyGBi/XiLIV5ngnkSwP60/V1sD50QfYs3
- gvUsAUMgm4IU3zGG0sQgOMyQQxgyx3jRTAQ9ALqi+YAxksGXJCwPFj4bXmJERzhY6XcJLztWX/L
- GiiOKGZDHlp6jsEFO3LuxPpKUxSkrZWPNqjTNjZ/zuXdDNoFWgXmtiaens827YWTxEXX9ZS6MFt
- aYqONeAPztIxkC0FI86yBKLUAhf/5YjT8d7sPuTxUWFOnqZTIJ8b3ybxLd7IT0tmKYU/FDp60Vu
- BwbIXcMnPlXbbUMBi79m37ZsrkBPysp7IJwh7AhHp7pTJl6JYdhQLbjrADDZtIoRcqxR1OwZWez
- macPFxVxq7XuwqHz2PiAngE4aPSWtX2Z0gqIVOxVzwRmcpKiZ5mxikXPgIjufrCcpMmgOIE+nNV
- c91H2CjeNyUz5d6037c5AmLsth4XOADA5OEDLJi2go0fkwv0fpyBHaBlSanq8kOmCoq931zR4jE
- L+VpYvzbmqe5BCQ==
-X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
- fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
+References: <V9qMNHLlezBTRwOQsdz9qWQfAsMwBr9PR4tKnaHWUJz7GVS5ttNlNILtzxYh1Rxd6_nL8p8Ffk9F7OqcHBYF3g==@protonmail.internalid>
+ <20260625202412.2986772-1-briandaniels@google.com> <fe970394-176b-4add-be68-74f6074ba78c@kernel.org>
+In-Reply-To: <fe970394-176b-4add-be68-74f6074ba78c@kernel.org>
+From: Brian Daniels <briandaniels@google.com>
+Date: Fri, 26 Jun 2026 11:50:47 -0400
+X-Gm-Features: AVVi8CcaG32oQ98-BwXSiQ-X6hlARwE9_bW6g1z1koV_pEWAyvNHcVBb8psrX4I
+Message-ID: <CAD4i_GQaUvCH1SD3Dk5V8XTFQHpmSYqWFV5-hr-8_urx+jtGww@mail.gmail.com>
+Subject: Re: [PATCH v4 1/8] media: virtio: Add protocol
+To: "Bryan O'Donoghue" <bod@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, acourbot@google.com, adelva@google.com, 
+	aesteve@redhat.com, changyeon@google.com, daniel.almeida@collabora.com, 
+	eperezma@redhat.com, gnurou@gmail.com, gurchetansingh@google.com, 
+	hverkuil@xs4all.nl, jasowang@redhat.com, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, mst@redhat.com, nicolas.dufresne@collabora.com, 
+	virtualization@lists.linux.dev, xuanzhuo@linux.alibaba.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+X-Spamd-Result: default: False [-2.16 / 15.00];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[google.com,reject];
+	R_DKIM_ALLOW(-0.20)[google.com:s=20251104];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	FORGED_RECIPIENTS(0.00)[m:bod@kernel.org,m:mchehab@kernel.org,m:acourbot@google.com,m:adelva@google.com,m:aesteve@redhat.com,m:changyeon@google.com,m:daniel.almeida@collabora.com,m:eperezma@redhat.com,m:gnurou@gmail.com,m:gurchetansingh@google.com,m:hverkuil@xs4all.nl,m:jasowang@redhat.com,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:mst@redhat.com,m:nicolas.dufresne@collabora.com,m:virtualization@lists.linux.dev,m:xuanzhuo@linux.alibaba.com,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65760-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65759-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:dan.scally@ideasonboard.com,m:keke.li@amlogic.com,m:antoine.bouyer@nxp.com,m:jai.luthra@ideasonboard.com,m:niklas.soderlund@ragnatech.se,m:ribalda@chromium.org,m:laurent.pinchart@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:hverkuil+cisco@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi@ideasonboard.com,m:niklas.soderlund+renesas@ragnatech.se,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	FORGED_SENDER(0.00)[briandaniels@google.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[14];
+	RCPT_COUNT_TWELVE(0.00)[18];
 	RCVD_COUNT_THREE(0.00)[4];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,google.com,redhat.com,collabora.com,gmail.com,xs4all.nl,vger.kernel.org,lists.linux.dev,linux.alibaba.com];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
+	FROM_NEQ_ENVFROM(0.00)[briandaniels@google.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[google.com:+];
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,ragnatech.se:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mail.gmail.com:mid,vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 1A9C96CE6FD
+X-Rspamd-Queue-Id: C37A36CEB5A
 
-Add two helper functions to v4l2-isp to handle statistics:
+On Thu, Jun 25, 2026 at 8:51=E2=80=AFPM Bryan O'Donoghue <bod@kernel.org> w=
+rote:
+>
+> On 25/06/2026 21:24, Brian Daniels wrote:
+> > I'm not an expert here, but taking a look at those files, the vast majo=
+rity of
+> > those reserved fields appear to be padding to ensure the struct has 64-=
+bit
+> > alignment, which matches the use here in virtio-media as well.
+> >
+> > virtio_pci appears to be the only device that explicitly states the
+> > reserved bytes are for future extensions. Unless there's a good a reaso=
+n to
+> > expect a future use case where more space is needed, I would prefer to =
+not add
+> > more at this time.
+>
+> I'm querying why just the one though ? Why not say four ?
+>
+> Perhaps something you could address in your commit log.
+>
 
-- v4l2_isp_stats_init_buffer() to initialize a statistics buffer
-- v4l2_isp_stats_init_block() to initialize a statistics block in the
-  next available memory location of a buffer
-
-The v4l2_isp_stats_init_buffer() resets the data size counter of the
-buffer and initializes its 'version' field.
-
-The v4l2_isp_stats_init_block() helper accepts the type of the stats
-block about to be populated, an array of per-block-type information and
-the maximum size of the v4l2-isp buffer. If enough space for the new
-block is available, the function increments the
-v4l2_isp_buffer.data_size counter, initializes the new stats block
-header and returns a pointer to the block for the driver to populate it.
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
----
- drivers/media/v4l2-core/v4l2-isp.c | 52 +++++++++++++++++++++++++++++++++
- include/media/v4l2-isp.h           | 59 +++++++++++++++++++++++++++++++++++++-
- 2 files changed, 110 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/v4l2-core/v4l2-isp.c b/drivers/media/v4l2-core/v4l2-isp.c
-index 10760659f8a3..8482010776d4 100644
---- a/drivers/media/v4l2-core/v4l2-isp.c
-+++ b/drivers/media/v4l2-core/v4l2-isp.c
-@@ -131,6 +131,58 @@ int v4l2_isp_params_validate_buffer(struct device *dev, struct vb2_buffer *vb,
- }
- EXPORT_SYMBOL_GPL(v4l2_isp_params_validate_buffer);
- 
-+void v4l2_isp_stats_init_buffer(struct v4l2_isp_buffer *buf,
-+				enum v4l2_isp_version version)
-+{
-+	if (WARN_ON(!buf))
-+		return;
-+
-+	if (WARN_ON(version > V4L2_ISP_VERSION_V1))
-+		return;
-+
-+	buf->version = version;
-+	buf->data_size = 0;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_isp_stats_init_buffer);
-+
-+struct v4l2_isp_block_header *
-+v4l2_isp_stats_init_block(struct device *dev, struct v4l2_isp_buffer *buf,
-+			  const struct v4l2_isp_stats_block_type_info *type_info,
-+			  size_t num_block_types, unsigned int block_type,
-+			  size_t max_size)
-+{
-+	const struct v4l2_isp_stats_block_type_info *block_info;
-+	struct v4l2_isp_block_header *header;
-+	size_t used;
-+
-+	if (WARN_ON(!dev || !buf || !type_info))
-+		return ERR_PTR(-EINVAL);
-+
-+	if (block_type >= num_block_types) {
-+		dev_err(dev, "Invalid block type %u\n", block_type);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
-+	block_info = &type_info[block_type];
-+	used = buf->data_size;
-+
-+	if (used + block_info->size > max_size) {
-+		dev_err(dev, "No space for stats block type %u of size %zu\n",
-+			block_type, block_info->size);
-+		return ERR_PTR(-ENOMEM);
-+	}
-+
-+	buf->data_size += block_info->size;
-+
-+	header = (struct v4l2_isp_block_header *)&buf->data[used];
-+	header->type = block_type;
-+	header->size = block_info->size;
-+	header->flags = 0;
-+
-+	return header;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_isp_stats_init_block);
-+
- MODULE_LICENSE("GPL");
- MODULE_AUTHOR("Jacopo Mondi <jacopo.mondi@ideasonboard.com");
- MODULE_DESCRIPTION("V4L2 generic ISP parameters and statistics helpers");
-diff --git a/include/media/v4l2-isp.h b/include/media/v4l2-isp.h
-index 1f35a52f978a..7a54cf98c79a 100644
---- a/include/media/v4l2-isp.h
-+++ b/include/media/v4l2-isp.h
-@@ -53,7 +53,7 @@ int v4l2_isp_params_validate_buffer_size(struct device *dev,
- 					 size_t max_size);
- 
- /**
-- * struct v4l2_isp_params_block_type_info - V4L2 ISP per-block-type info
-+ * struct v4l2_isp_params_block_type_info - V4L2 ISP params per-block-type info
-  * @size: the block type expected size
-  * @block_validate: driver's callback to implement per-block validation
-  *
-@@ -97,4 +97,61 @@ int v4l2_isp_params_validate_buffer(struct device *dev, struct vb2_buffer *vb,
- 				    const struct v4l2_isp_params_block_type_info *type_info,
- 				    size_t num_block_types);
- 
-+/**
-+ * struct v4l2_isp_stats_block_type_info - V4L2 ISP stats per-block-type info
-+ * @size: the block type expected size
-+ *
-+ * The v4l2_isp_stats_block_type_info collects information of the ISP
-+ * statistics block types for validation purposes. It currently only contains
-+ * the expected block size.
-+ *
-+ * Drivers shall prepare a list of statistics block type info, indexed by block
-+ * type, one for each supported ISP statistics block type and correctly populate
-+ * them with the expected block size.
-+ */
-+struct v4l2_isp_stats_block_type_info {
-+	size_t size;
-+};
-+
-+/**
-+ * v4l2_isp_stats_init_buffer - Initialize a statistics buffer
-+ *
-+ * Initialize a buffer of statistics. Only set the 'version' field and reset
-+ * 'data_size' to 0.
-+ *
-+ * @buf: the v4l2_isp_buffer to initialize
-+ * @version: the v4l2-isp serialization format version used by the driver
-+ */
-+void v4l2_isp_stats_init_buffer(struct v4l2_isp_buffer *buf,
-+				enum v4l2_isp_version version);
-+
-+/**
-+ * v4l2_isp_stats_init_block - Create and initialize a new block in a statistics
-+ *			       buffer
-+ * @dev: the driver's device pointer
-+ * @buf: the v4l2_isp_buffer where statistics are serialized
-+ * @type_info: the array of per-block-type validation info
-+ * @num_block_types: the number of block types in the type_info array
-+ * @block_type: the type of the statistics block to initialize
-+ * @max_size: the maximum size of the data[] member of @buf
-+ *
-+ * This function locates and initialize a new statistics block in @buf for the
-+ * driver to populate its content. The function checks that enough space for the
-+ * requested @block_type is available in @buf and increments the 'data_size'
-+ * member of @buf. The newly created statistics block's header is initialized
-+ * with the size and type information provided by the caller in @type_info.
-+ *
-+ * Drivers should call this function before populating a new statistics block
-+ * content.
-+ *
-+ * Returns a pointer to the next available location in @buf, or an error pointer
-+ * if the requested @block_size is not available in @buf or @block_type is not
-+ * valid.
-+ */
-+struct v4l2_isp_block_header *
-+v4l2_isp_stats_init_block(struct device *dev, struct v4l2_isp_buffer *buf,
-+			  const struct v4l2_isp_stats_block_type_info *type_info,
-+			  size_t num_block_types, unsigned int block_type,
-+			  size_t max_size);
-+
- #endif /* _V4L2_ISP_H_ */
-
--- 
-2.54.0
-
+Sure I can add a note in v5. But yeah the reason is the total struct
+needs to be 64-bit aligned. So it can't be an arbitrary number.
+And all the current reserved fields add the minimum number of bits to
+ensure the existing structs are 64-bit aligned.
+Adding more means extra bytes are transferred every exchange without
+adding any value, which is inefficient.
 
