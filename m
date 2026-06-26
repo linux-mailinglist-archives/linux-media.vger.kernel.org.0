@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-65683-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65687-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id IRDvLp/UPWqf6wgAu9opvQ
-	(envelope-from <linux-media+bounces-65683-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 03:23:43 +0200
+	id UfxENQLVPWq46wgAu9opvQ
+	(envelope-from <linux-media+bounces-65687-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 03:25:22 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C7E6C968F
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 03:23:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5775F6C96C7
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 03:25:22 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=chipsnmedia.com header.s=selector1 header.b=DnxY7cm+;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65683-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65683-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=chipsnmedia.com header.s=selector1 header.b=Jzmbz9K7;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65687-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65687-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=none;
 	arc=reject ("cv is fail on i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id A38733081757
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 01:23:05 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1DE47306AD39
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 01:23:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB6882EEE75;
-	Fri, 26 Jun 2026 01:22:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A9002DCF61;
+	Fri, 26 Jun 2026 01:22:55 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from SEVP216CU002.outbound.protection.outlook.com (mail-koreacentralazon11022102.outbound.protection.outlook.com [40.107.43.102])
+Received: from PUWP216CU001.outbound.protection.outlook.com (mail-koreasouthazon11020078.outbound.protection.outlook.com [52.101.156.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBF52D47E9;
-	Fri, 26 Jun 2026 01:22:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF012F8E82;
+	Fri, 26 Jun 2026 01:22:52 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782436971; cv=fail; b=PkXqdGdZlS67P76Qd9FAjprS53Uciv4t+L+f5To9PYOGDwHFOhz0gC98ixmLtj3iGJMXd0NeaC+ht6MKSYSi6SrK1RZX9ZWk6K56MVTDgG3aFLq5ULoRvLe0u3+ZGcwWNvoxBPIzfyWFUp/0M7cYtjwujdVD6AYAKb8oohgLXKI=
+	t=1782436974; cv=fail; b=tHdbE05zPh3fmkPZqchPzk49m8KTZoxSSoFak5bUn240U4YzYBZ9Hx+9+LEnkNkXL8Enx2Hdu7fupPstQdt0LEPjhJ+2hdPEBNpg3EtyAYxeJ6HfHS1lUPzUjaRj0FqZvrUlEdsS46lK7rcP9ollEVdgk4hRNhJ5EAgexXRdA74=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782436971; c=relaxed/simple;
-	bh=RirNH49UW+bXy5/vMq79LZB6AvkIEvGnQX0UahgYpP8=;
+	s=arc-20240116; t=1782436974; c=relaxed/simple;
+	bh=sTp5TwiEvwjVSuZU1ZauOzDttaAk++Xdm78vDxXlXz0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hTEo2g3oJMyqljFCdRionx3cJh5ok5IuGuPQNLA69wYpC7Jb5xgekTM5DaRuh2SQ+jE0KcFxSYbrQPlqLKBu4tHcribFMtSidGLnhNQX2yFk75w3wfpgc/Mw7vmPwJGrmAFmhNw2Qa4p6ngscO9+rNH8y+XYeskAFsSZpe9KT3E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=DnxY7cm+; arc=fail smtp.client-ip=40.107.43.102
+	 Content-Type:MIME-Version; b=OURksfd/0g0MsbRqxMlo3PW1xc5U5jIWlr/53lebCZ13A6Cc3iXzjI3KCf1X4mMJBx60Qr9n/rnKNjW0rWNAGyB9UQ0+v3dUfpjbXsuRM32Hhk8hHW5QKhO4LQhDCFbh1XacPDTM9IDcYIYVP26YEbmE6JRf+mW3NeUhs/MvUl4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=Jzmbz9K7; arc=fail smtp.client-ip=52.101.156.78
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=APPn6tIuRmYFATQQOZRVQ9OziZQ/kuF2x2hwDk7CjMly5NkXbS9C8Kz6cHHx/wKjXvYbyig3B9XWW6W9/4zSGB1ZPLaZmVUU5C4he3TWon2PT7OHFZELv/6Av03Rl9pSPqj0+KtJWLyFLrSNRdLfOQHr9AK/PD1UZM7Q1GTVymAqlCEB8wWlwV+ucaif72VFuC6uaIUcwTcdrdYf58geETwJQUBxKzPudAM/leLW6ov5wdXpWzA2s0+n2VI58XWsn0aqOXz4ww0dplBfGfo77NaSphGbZLSdQXmZb5RzrZcc67IlNgEx5ydQA8sV/78F7TrlFGw/JaytH+Ck7RSgmw==
+ b=dFK0FIpBOJIRs6VmW9QTFQLh+kCMcwajBSFP55EKdwBxPW9t4eVwndkSjz2yj/thqNdtuS04mXX+y3CKyngffdu2F3I4mP1bbiUkCCvgazijduvLcfDCY367UDY9PdVAWU1eowwuEnNQsJiLqViIupyaJAyLGhoaEIIPSZfazlc8S45wYjEAs7+E8irINVHqb5UzK/eBlG0ips+emcjvME0T0bhcQGl4GY2tzWh0kCQzBrLBqEhHa1z6pXVEIj3qrNM+KkDAF2EinZOIqBFY/yYjYuGnPtrPR0RpEDeolSoOdyf6UiWT4U313iXwFiUWn4zB8spvIybY+uSIbqp6xg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Wn4mRuJ3R8p45Lzzmc1641UusFM5Qf3gGwtwyTAwyuw=;
- b=H6vIA7kcl7J9CLu6sjhWqPZ7mavZOUTPo86qhJtwXO+Ctavu6SEs8BAt20KVHLehAb+vB/ndpctZY2oWLKCRl+D/MJwTGpc/ejO9ctXV/GhCXNJrZlK9eWCeAOIvH8GqDBrXVqtIeHGma6KYPBeO6GA5Tvc5tLOOf0+9aHtQkfBZEZoj41Rc5AncO9bZ4mehVj9bpnUdHf6bDP5J0vvE+otF8lfnvgh52mWiIjW6CExSOJRyHoAwfqX6AW/4vbxfmyXMjYBow78QW4VmQz/YyO6dojSL2kyW0rrZgoko5on1BatHCWkffyVx7BGi81MDnW078E7kwJzRt6JX+m6xgw==
+ bh=Ob6uyePcgw13IVj0RYtxj3xf2GsWekgN3QcwB8bl1cg=;
+ b=JytvRjlTgEwVSbbWO7kHFrXipCWI3UiU5p/M5I6flOEwOlUNRIcBk5x54lWilWbX8K6lsWtozkPTgn2Jt6FSNsFZsK23oYip8RZDywkb++/jYnm1ldgNmu3OEXyEli4tyFNzB4QG8WYoIl3M4fNYr7FiU8BMIW+TbnqfHU2fQb9najBREgZvnISqowH+6ekBKscvBD9zTFIJrbhMh+U/ibsntC+U//+a5CYp2btbQR9tTI/ZQxTX0dTnxMc6FIoBLLZif+HlkG/OlmiEBRnkrt6xSnNxp4sBsUbe2Npv5Cr57N8akDi+lceJHiuM0fS/R/lSVAUb9crngfWTPWuAzQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
  header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Wn4mRuJ3R8p45Lzzmc1641UusFM5Qf3gGwtwyTAwyuw=;
- b=DnxY7cm+PvoOEATkDXCQiM5Sd5QVmLizyQSfdRWirvbJ63VjknNotJuanZJ8VvrQAarqJJ/AJyEiNIAdvnUW06/igIFe0hKBntZvcg1rmfylNj6bPaLHymQZXdxuQcIRvbG/vujVTcKbw/EusLdYLynks/zDc+8dyV7jDocxOtY=
+ bh=Ob6uyePcgw13IVj0RYtxj3xf2GsWekgN3QcwB8bl1cg=;
+ b=Jzmbz9K7vE+3dO/yhewm0VYg30MQrq53k7bEMdtnqm4GKKs8u26YhtzTKL5VGmIchtO5zFq9Vmryrn87ehi78etC57yFFzKP7izm/79ZfwTzD5WgB8OoYr8CHGJVnWFgPN2i0dYQwmVp+Q5gs7RrL38aqvaD3JkLzrF9Sa/7fJQ=
 Received: from SLXP216MB1148.KORP216.PROD.OUTLOOK.COM (2603:1096:101:f::14) by
  SEWP216MB2955.KORP216.PROD.OUTLOOK.COM (2603:1096:101:295::7) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
@@ -70,9 +70,9 @@ Cc: linux-media@vger.kernel.org,
 	hverkuil@xs4all.nl,
 	nas.chung@chipsnmedia.com,
 	stable@vger.kernel.org
-Subject: [PATCH v1 3/7] media: chips-media: wave5: avoid skipping device_run while VPU has work
-Date: Fri, 26 Jun 2026 10:22:28 +0900
-Message-Id: <20260626012232.111-4-jackson.lee@chipsnmedia.com>
+Subject: [PATCH v1 4/7] media: chips-media: wave5: Add timeout while stop_streaming
+Date: Fri, 26 Jun 2026 10:22:29 +0900
+Message-Id: <20260626012232.111-5-jackson.lee@chipsnmedia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260626012232.111-1-jackson.lee@chipsnmedia.com>
 References: <20260626012232.111-1-jackson.lee@chipsnmedia.com>
@@ -89,57 +89,57 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: SLXP216MB1148:EE_|SEWP216MB2955:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4285d457-a3a3-4df1-444e-08ded3216b41
+X-MS-Office365-Filtering-Correlation-Id: 0726691f-40a3-40ac-9559-08ded3216b73
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|52116014|5023799004|22082099003|18002099003|56012099006|3023799007|6133799003|38350700014;
+	BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|52116014|22082099003|18002099003|56012099006|3023799007|6133799003|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	6v74zJzBZr+YvmgqqqItgztCg/VowD4Jk66HaFdlRDQ6b27RA7yMo6sbn5Nde4bIj2d01PcmstyLtOyOffFrNFNpQ1M9fNlua60uYgmpWxgTZYIE5nJUcgRvPc23wv2dJrhShJ3pNxB+YghCR1+2kkh+BY79BpRBUBdw/7pPOpw8+8nUvO3dV5X4sO0ZiRGqtRmcu0XJGO8Hg3H1WQaS43vfJag41KcpJagKmBvrGAJ+DR90darUWxPDry3rENCdo4O55Oep0EKZW2rjKnlVfBd996Umbqk2u8MqUhQZ9FO0jm7X+7ffqOoOetvT0K6w251OQUc1gkOUwJtdGsFSpaqZ9BEDM9u3As4q3L8WlejhdMz5UhtoRcVFDQndDIYhUsfJv87CiDaU2KV8qqqbmS1v5yt6LZpM5rHfLKMmYJ8CX9dV8fUK5p9LO4iI+qlNoiZAHlIyQFLpY3pnC81lH5PGKeaheSORg09MtpzZkkfsfCvi0IQWnFfq76HmMVtK0kOWWd3jAB3KYg32g+xqrCd2+AsfFq/g2VDcN4BZMDikGrbFVyvL6jpQ3h3wnoR+Ly/DM9oo5Sj9HJF55c9mDeX0I3UKp2jKwojZUdPR39zbhreH6cahLChQftlev+YrR5cN51umOaU8lLEDuhy7TBRSF/hwFHCwCrwTai5RqwoUuwcCVA1D5p0N55EKXACJ1mFFVkimZqPve4isz88UbtOyM5+atsZrH5O3gJJpxm0=
+	vTAM/QNZJNH7tqOGjo2nzDT5SHzSReV+aY7RM1mWJtQl8g1piu/2KvDaaZciTrK60BwiIAoswOTwpYkxURux0btjJ6txF8SF9pAbzJkpf4Mng4HIghTwkItDTWijhdn5IlCDcafSH+GV1RvcLeaFnsCqHdCiUVuSFRlSOze+maJ28bLXZmie9Mc6BT4jB8Ew4G2ZCGMSFjvzW1qXgCfgSy5njLl5NF+KDKLgVyx0dPlvbPU4SwLfQFohzlZ6syQkkt0XE5INgApplRmh7bZgSxTZNtnXhkPravsqNNoqGY4G4TC0CRFHhN851QEAZqq46y2XOmdNdda4JyL1OBCWLwmt+XmB6PiBEuQI+ZrHFxMtAn9tLtzdsPBAA6Om3MWg/gtE4sM0InitDME39XVTrnkrI/zn49oS+skm/hK5ULmBovSP+qsIXGW+wzMk8zLwLrq5I0PFHIeoa3Pxsm1B6pwPovvRa2nidPV9zfSMhN35M9iP8YpNITSxl84J6p55a6Zk3RBUwAl934dChxWSu48DYDSKsJkL6Ww5E42J0/xzfBRyLaZE/bG6USjP0dnVz4xxfcW9zXXUqrXwlWtq7NTloGLMB8eEAk5Fb/nyqxoM3kDwRkT6Q9vYw9F9Z/GJ9aSOy/rRQArIAw9W+rCS6E7ITkzgUMXZieKVD1CyeB+IhPPhpC2JnFEXn1EsJGy/oNZb3RFihENd7cuPMMGTMk0A6UFpi5VlOawIBMq9L/c=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SLXP216MB1148.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(52116014)(5023799004)(22082099003)(18002099003)(56012099006)(3023799007)(6133799003)(38350700014);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SLXP216MB1148.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(52116014)(22082099003)(18002099003)(56012099006)(3023799007)(6133799003)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?fDt0S/rC5Ygaq0OaMWxqUsms67qRw5L7qw7jgcqGcwjkmIb+RX4w293QsFWQ?=
- =?us-ascii?Q?A09A81eHL6KXi9IY2wTYv+BMQEawehbURZgwms/Dlyqn48WxgrcYnDB/1q85?=
- =?us-ascii?Q?AmLp0MiVFPu8FSm5LbkcMICzkG/TVBONasltxjyd6lsJLg4IOWoKVirqgWgC?=
- =?us-ascii?Q?iS8+lCq0C/f8N8lxx3ErPHb9yIEGpzA2r616JCIaayq17kh5BqNAeyn4YadX?=
- =?us-ascii?Q?jdXlStdIaSeVaAC1UdJyKJxb5W5xl3c+OFzovpNxj1vhyHc3b56Rl5fszAty?=
- =?us-ascii?Q?zDGs61IPlSE2njX6YSZUaWoTpOmCcULH/qlZxSJ62cydzAGI+HK2VrOUavbo?=
- =?us-ascii?Q?zKK2e0yBj5MbYZ9W8l2BlJoTXkkdxrvNxWhvPhyyP57NKfReW6irsW2l1Nnp?=
- =?us-ascii?Q?9U6BLxYWYczKqfbk4Ow0oHy9ussTkQGbgm4Z/qLMrk6aV/AYB8a3Avfsipnt?=
- =?us-ascii?Q?PAujwN41AIFDZWb0tIzmn7D1aJr0jL9vslyIBNhBIbngZES5S8LDwLjzRQhA?=
- =?us-ascii?Q?GBc4FGJvmX04zMo1kwR/n3KEh+LPzUYqzzl5QquvPrZChet5jcGLxctzrGmZ?=
- =?us-ascii?Q?B1ZyBsMiHccxh8r/xkru/MjbGY/eF9UgYKXxyqi2GCP/DUpOi1x6NCHUX3Ry?=
- =?us-ascii?Q?oJbBjdskhGxqijLraFOnZeFUeoPq2/RzZxiI95sY1PaBmZPXxpFvOr9wvr+c?=
- =?us-ascii?Q?Y6lqqbg0atI/L/1qMYWSZN1I1ZIFHMzibkyoR02UDLbFPSiEnvAwUBhNU5UI?=
- =?us-ascii?Q?dvnwB+kHh2SMhd2xmGSytuoXjrWfIi80OjJTMC4SU0j+gAEqWnRZFueMNH5e?=
- =?us-ascii?Q?suYqH8sJNG/B+jA3sgELIhQh9dFX7Wmv4FNY4LeohfHYxBVtHGysfSXuzzw0?=
- =?us-ascii?Q?p0XR46RLdszKphVGWCne2FkawE8nMLvZNS/HPwS9QEcbT7srZGXa6ig1SJrQ?=
- =?us-ascii?Q?nwtceKLIeeApj8le9yZyGoVF8w134W9WGrOhSoIK6SCGTHWViEjCEvh5oZ1R?=
- =?us-ascii?Q?gvGngcuJqALxADHZLoJOOlJpnYDXhRbYw7fKpeXlVB+i67/Vz9HdpY9dLEoX?=
- =?us-ascii?Q?j/QnQKkyf/hwA9HJ0qzY4N/6K5M7QjaUyTjqC1RZdW9N+Q9ENo3/46LNesOz?=
- =?us-ascii?Q?PfoH+frvfI5y0iQxbiyytVDA2LVotKPRh2K/YOzpk6PyXHq/YJS6nkZrC81i?=
- =?us-ascii?Q?0v8dei9qVGWPputZIlGsMHl6ugkhr/E/ueIVZ0ibj5F9u9Stl6loAItRcWyA?=
- =?us-ascii?Q?Y8QXlaxfD6X2q28zCLrUobDbGw0loVpBERNNw981cAB/3+gWWHg2b9tB0EzP?=
- =?us-ascii?Q?jYn8nK5UmeR3hupjqt+Qx37jKy3WV6QYV6qAcUElT+h5YBPi7LETQDVdtaV6?=
- =?us-ascii?Q?pfo8jTP4WJo/llEhW2YlAtGYtB+o8YBLpdnwbjGi8N+J1zU5EaEA5GPUtWZ9?=
- =?us-ascii?Q?6Su789FqN31liteNpo9efH0Tw8iBGkQUGbY89YXFEEhVZtYuR7KGBZoUSBMF?=
- =?us-ascii?Q?WKfmFpDz4z2VpYQlZ7AteiIPFE2y0uSc/xnx6kONYOcf+wYOxpY3lPu4K3z3?=
- =?us-ascii?Q?/2AsBR5meknT9JrMne2r75a3NDGrm1RPscALJEx0Gpmla/cbaBIKjDjLcevU?=
- =?us-ascii?Q?q6sS0v0E5RHs5OBw924Sae6uwmwersbu0S5+tgEU6joQZVpwL41e+gT7RAQq?=
- =?us-ascii?Q?HxEB2jlsg9382jfvXGu52FL07IG4cxpaqeq+JsMaD9v9L1iryYWgEAdrQBOD?=
- =?us-ascii?Q?2vokCWEIBDdA2jyruWs3GZ3fMMd++o0=3D?=
+	=?us-ascii?Q?phAG/F/fFiWvZbP4o/wsVtgXgk9qZ+zxY3fsVrfGX4JjH9xiDaJShvIdhBoq?=
+ =?us-ascii?Q?qSoTWqoRpaUDBfkD9nz6e7cMf4TEqAIUMNkxnCH3orqiqRhkqFoEwt0ckVEc?=
+ =?us-ascii?Q?87kto8I8HyHFaYacdvSUryFtRcipi20q7Zi2B0mrDrbqAZAAF/37MzvODy2D?=
+ =?us-ascii?Q?mapi/ni6YFmCmEsfIi0NtiWQn82jx68J/ASvKkaaeysnxLMvWx0cZ41Vuft+?=
+ =?us-ascii?Q?G5Jv+iCCIddNThI3dkI30hFHKvH97o/lCZIP6wWZm5uqaX9+skatL08nJIVE?=
+ =?us-ascii?Q?HyhA5YVOvtaTT4SNtGjR0IskwjXg+CqRArja/jAOZJqaP8pIsfutuHlNY1yF?=
+ =?us-ascii?Q?mjGzDRuZMoqY/+e9EkGgM9iMDIy1jxxisE1WXED4NxHvoxBxPBEjeqrUcwYJ?=
+ =?us-ascii?Q?GPclITpQKge7KJwpcAPb8Nv9MfN3c+HgJAaJd9zUrUXPtdLfevF8ns/v0Bm5?=
+ =?us-ascii?Q?GEASut3zAC+GTp1BXh9HJmge1TDRzMVE7TNZeXT3HiGoQsDod0gpLoivtTNc?=
+ =?us-ascii?Q?9x372DUo+w0BrbtdmQ6RhccwdzDCz7jEcAOHmiLrIyGJdQnDGiGOQLGRfuio?=
+ =?us-ascii?Q?bONR+FBMYUmfBZza+Sezk5/ZwaFisJCV/0K16xXDDRIyKWFQ5M1tR+nBK12D?=
+ =?us-ascii?Q?Ymd+CjpioLsIpiFcqwjIjyjpqNhDjyrSDQJg/7Io7mnUSeKc/9v44T6Zqgit?=
+ =?us-ascii?Q?T6Xzy+F6/kIZivDe2MDK//OtwgNRw6VfeKzOr8mmrueVwMBTGD7psEj6egtD?=
+ =?us-ascii?Q?qE/Mm86su59DQsjPo0nFVsxcD4Q7L0Mi5d0mn0+KBM6bt3nvYKFCgpZJp+pq?=
+ =?us-ascii?Q?aeLg0O+QSW5x75+LUXfdVGw4Gwb40r+Hh9tobZf4ltLUIo7Cz7qQD8ijXMHY?=
+ =?us-ascii?Q?VGAz6RY1a2McJXiNtsE1RK/YVskIpW5HMfYFp4yFjN4/wBbQrwGxd2mO+h5D?=
+ =?us-ascii?Q?sG6S5ZpDr0gjEUfu9dgJcbaSziRiZSHGTP0KkL/cqf90SAzLNcuBhDT1tK1X?=
+ =?us-ascii?Q?MmnQBoujpxefV8qal6kXPOyrovWlPTQeRcHb3690WEUOQCZal89l8wsXE/GK?=
+ =?us-ascii?Q?H3I6pm86TQGkmQqkbH6vIzeI3vhhKcxwwr97eJTaP6hxPGw8yMT/BIT+vBTw?=
+ =?us-ascii?Q?y0nOsv2u4sVtNoPcT5EPD/OVXGhxwyivliHYnXVYe0V5NBb1YM/oTSLEhNYe?=
+ =?us-ascii?Q?b4KmGK5g/AcM7gk+OrtL9csk7vASyNSUubBGYNZZBGGZ1ANWLwjUIK1QBgSn?=
+ =?us-ascii?Q?+KxmPFnIOmSJoG1ai4B1CO5S2zJ8T1bRImnZSz7apfDgUtCxhvpNWWFZq1BK?=
+ =?us-ascii?Q?sMDO/baR7yOs+VNFYgOZ2D4V4FeZ4pEh4E4+xg+TccuqC9zFxyTJVqTHxzyQ?=
+ =?us-ascii?Q?qO9hG78QfikaKJlXTCgzfzCtC0J4MD7w9Ty8jZhmb6n39a+FMyak7EzPtrj3?=
+ =?us-ascii?Q?P1uLKMYJWVpy74GfNv5FZvbwTDSrfyNJA+dCoREQ+HYtLlWG2ftraCO6noJy?=
+ =?us-ascii?Q?BekbhzeXAtJYzkqvQU1P1xDkBZ3i8xUGseF+x1M8SfERy7zvurtUHA39mEM3?=
+ =?us-ascii?Q?2Zs7IT/OzAICq12uSeiwItlevRRtrXh1PiegIFOmCUlkpJ9FYQWt1Ud/0gc0?=
+ =?us-ascii?Q?MybKXaJrb4uwnUxxUPPF2lwL1ZfqsBrDbcKwHzxbgqAQJpWTdfggWLN9Y5Rd?=
+ =?us-ascii?Q?onkdGiUtsJYOH7ZkaL9l1xs9iwp6kl8L46SsAgGSGqYOBB52RlncaXwqL4nU?=
+ =?us-ascii?Q?Z2xWNHojZV7lo3LqJgA6VNsJi5g7QFA=3D?=
 X-OriginatorOrg: chipsnmedia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4285d457-a3a3-4df1-444e-08ded3216b41
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0726691f-40a3-40ac-9559-08ded3216b73
 X-MS-Exchange-CrossTenant-AuthSource: SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2026 01:22:42.1062
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2026 01:22:42.3992
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: I0vZxITZz1dDW8ahONccq8TwyVoiT5S1dHiV2wmRxZbEcZOlEG/JpBhCFmTVxZ2rkPsLR15WXZm7ZASMl93jbbMCqccLSprngx+3Xw8cDNE=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5uUMD7LYG7fJcni5Rcb7RnIfkokyJUcaCCm2KDIDI5nLwlYxOFpnzgQxJ+6IBwgsGPfkj+jgyhg+qbwgUJg8rPZ0Jk6Y5sRA2WVQa89RabE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEWP216MB2955
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [1.84 / 15.00];
@@ -152,7 +152,7 @@ X-Spamd-Result: default: False [1.84 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORGED_SENDER(0.00)[jackson.lee@chipsnmedia.com,linux-media@vger.kernel.org];
-	TAGGED_FROM(0.00)[bounces-65683-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65687-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	DMARC_NA(0.00)[chipsnmedia.com];
 	RCVD_TLS_LAST(0.00)[];
@@ -174,55 +174,84 @@ X-Spamd-Result: default: False [1.84 / 15.00];
 	TO_DN_NONE(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[chipsnmedia.com:dkim,chipsnmedia.com:email,chipsnmedia.com:mid,chipsnmedia.com:from_mime,vger.kernel.org:from_smtp]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[chipsnmedia.com:dkim,chipsnmedia.com:email,chipsnmedia.com:mid,chipsnmedia.com:from_mime,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 41C7E6C968F
+X-Rspamd-Queue-Id: 5775F6C96C7
 
 From: Jackson Lee <jackson.lee@chipsnmedia.com>
 
-The decoder stalls because empty_queue is set to true even when the
-m2m context still has pending commands. As a result, device_run is
-never invoked, the m2m source queue fills up, and userspace (e.g.
-Chromium) can no longer queue new bitstream buffers to the V4L2
-driver.
+When stop_streaming is called, an infinite loop may occur in some cases.
+Add a bounded poll of the queue status: loop until the queues drain,
+sleeping briefly between polls, and bail out once VPU_DEC_STOP_TIMEOUT
+elapses.
 
-Fix this by querying the VPU queue status via DEC_GET_QUEUE_STATUS
-before deciding whether to skip device_run. Only skip when the
-VPU's instance_queue_count equals the number of ready source
-buffers in the v4l2-m2m context, which indicates that there is
-genuinely no new work to perform. Otherwise, proceed with issuing
-a decode command so that the VPU can continue draining its internal
-queue.
-
-Fixes: a176ac5e701f ("media: chips-media: wave5: Improve performance of decoder")
+Fixes: 9707a6254a8a ("media: chips-media: wave5: Add the v4l2 layer")
 Cc: stable@vger.kernel.org
 Signed-off-by: Jackson Lee <jackson.lee@chipsnmedia.com>
 Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
 ---
- .../media/platform/chips-media/wave5/wave5-vpu-dec.c   | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ .../platform/chips-media/wave5/wave5-vpu-dec.c    | 15 +++++++++------
+ .../platform/chips-media/wave5/wave5-vpuconfig.h  |  2 +-
+ 2 files changed, 10 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-index 01d1368b2965..6c6e86b09b40 100644
+index 6c6e86b09b40..93f7b724d86c 100644
 --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
 +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-@@ -1663,9 +1663,13 @@ static void wave5_vpu_dec_device_run(void *priv)
- 		} else if (!inst->eos &&
- 				inst->queuing_num == 0 &&
- 				inst->state == VPU_INST_STATE_PIC_RUN) {
--			dev_dbg(inst->dev->dev, "%s: no bitstream for feeding, so skip ", __func__);
--			inst->empty_queue = true;
--			goto finish_job_and_return;
-+			wave5_vpu_dec_give_command(inst, DEC_GET_QUEUE_STATUS, &q_status);
-+			if (q_status.instance_queue_count == v4l2_m2m_num_src_bufs_ready(m2m_ctx)) {
-+				dev_dbg(inst->dev->dev, "%s: no bitstream, skip\n",
-+					__func__);
-+				inst->empty_queue = true;
-+				goto finish_job_and_return;
-+			}
- 		}
+@@ -5,6 +5,7 @@
+  * Copyright (C) 2021-2023 CHIPS&MEDIA INC
+  */
+ 
++#include <linux/delay.h>
+ #include <linux/pm_runtime.h>
+ #include "wave5-helper.h"
+ 
+@@ -1537,15 +1538,15 @@ static void wave5_vpu_dec_stop_streaming(struct vb2_queue *q)
+ {
+ 	struct vpu_instance *inst = vb2_get_drv_priv(q);
+ 	struct v4l2_m2m_ctx *m2m_ctx = inst->v4l2_fh.m2m_ctx;
+-
+-	bool check_cmd = TRUE;
++	unsigned long timeout;
+ 
+ 	dev_dbg(inst->dev->dev, "%s: type: %u\n", __func__, q->type);
+ 	pm_runtime_resume_and_get(inst->dev->dev);
+ 	inst->empty_queue = true;
+-	while (check_cmd) {
++
++	timeout = jiffies + msecs_to_jiffies(VPU_DEC_STOP_TIMEOUT);
++	while (true) {
+ 		struct queue_status_info q_status;
+-		struct dec_output_info dec_output_info;
+ 
+ 		wave5_vpu_dec_give_command(inst, DEC_GET_QUEUE_STATUS, &q_status);
+ 		if ((inst->state == VPU_INST_STATE_STOP ||
+@@ -1554,8 +1555,10 @@ static void wave5_vpu_dec_stop_streaming(struct vb2_queue *q)
+ 			q_status.report_queue_count == 0)
+ 			break;
+ 
+-		if (wave5_vpu_dec_get_output_info(inst, &dec_output_info))
+-			dev_dbg(inst->dev->dev, "there is no output info\n");
++		if (time_after(jiffies, timeout))
++			break;
++
++		usleep_range(1000, 2000);
  	}
  
+ 	v4l2_m2m_update_stop_streaming_state(m2m_ctx, q);
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h b/drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
+index 4ebd48d5550e..e04f2dbf3b65 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpuconfig.h
+@@ -59,7 +59,7 @@
+ //  application specific configuration
+ #define VPU_ENC_TIMEOUT                 60000
+ #define VPU_DEC_TIMEOUT                 60000
+-#define VPU_DEC_STOP_TIMEOUT            10
++#define VPU_DEC_STOP_TIMEOUT            300
+ 
+ // for WAVE encoder
+ #define USE_SRC_PRP_AXI         0
 -- 
 2.43.0
 
