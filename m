@@ -1,243 +1,210 @@
-Return-Path: <linux-media+bounces-65722-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65723-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id jchPKxZ1PmrLGQkAu9opvQ
-	(envelope-from <linux-media+bounces-65722-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 14:48:22 +0200
+	id AUMvJdh8PmqsGwkAu9opvQ
+	(envelope-from <linux-media+bounces-65723-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 15:21:28 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EEA06CD237
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 14:48:22 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 311046CD609
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 15:21:28 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=amd.com header.s=selector1 header.b="QEsM/T5N";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65722-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65722-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=amd.com;
-	arc=reject ("cv is fail on i=2")
+	dkim=pass header.d=linaro.org header.s=google header.b=PkaYQaS6;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65723-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65723-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=linaro.org;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 4B49F302BFEF
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 12:48:09 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 80FAE300A30F
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2026 13:21:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48C843451BA;
-	Fri, 26 Jun 2026 12:48:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4D223F7897;
+	Fri, 26 Jun 2026 13:21:18 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011066.outbound.protection.outlook.com [52.101.52.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695503E4C87;
-	Fri, 26 Jun 2026 12:47:55 +0000 (UTC)
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782478080; cv=fail; b=UgjskUEHsXk6VkR6kncHh39NgbbgYkt6LcN+Op6g+B1DPqRyBH2ERCHJVKcFrJaJXZTMj7hQb6m9vSblT5mY3L+sqwPNPR7l3LFP7yPQFr14shSHkgeMCaMMRSDdnzGxLMvPS80D48wSovcycZn81n20HJ7NrUnr9n604RuWuPk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782478080; c=relaxed/simple;
-	bh=Q8xFtsb5mxnTEwRkJdomwc+jgVXRCiUnvfvp2yh2Pvo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=JAmvLuKmiMC4uHf6DIEwC1/4R4gbuoIVUDPwV1dl7nzkn9lFFbKKyMqPX4GqhEgDTQ4IsnbghjUAGdeXRMUmjQrjrwr0U1g5TWyz0Ej8W81p8hMcFL/vLfC7B859xIDkEc3IykaQLbgLavO/Qqxniev9AnpOBDfEvD6iksgp1Cg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=QEsM/T5N; arc=fail smtp.client-ip=52.101.52.66
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gfrh1rt5NtjOYn5ra0qo9ayqwGvMu6ty8ffz/QGWdytYFbCdAgy7EnXBqihYfrT8t9kel3Lu89ycYLF5fUXNTTql1kJyC6GXSE6xRMwXxOrF6jpqaw+o6PC9E1hs8v4MQSYT2nWfWoDuHqKskgEQ/dUaqA6xxynBgmHUk2GKU9TUcjuq+SKnBiJTHlFQF5TumXIeYjHpWd9YC5j3BRDbS3W83qLJ3lKosZClBkoT5VmvsAiPMMiW+ecKsjI7flIcQNWMFbUvcimDsDMmjHCOAeA8xASMXyQJoyoU/XZ/BANjceG6xPM9kTw/1tViMmHDSP535wjz+DGKY7MuQRdzuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z9AUdNGNKupZUUBrcI+nBGbrh6vdXHBFVgrpJjCDwCg=;
- b=j1MvD19mS7SlmJF/T+1CdhB3p/45gxmpd5fFnntcbbh0o8aeKY2rns1w458R9MFI3VbqSXXjNZNaKchU8D0O330+1nS8IXa/yQTo9HmluJUz2vjUcEDIoTfetYkHr42p2b/SIi9tGV1icB8KWMZiXJSeYnSBJ9JaDuxBLCsCUr9Dr2mjiRvSeowh71SAHsBCqo7wsKFqZykOzMISUBv4vs12Th//a+xGuM7KDlrspzKu5NmI3xis/chQLrSRAQ/pveVECx9w9XdignsozSCPEiiRW0h2tOi53VBQQPpqbsjEuxrIla6PAFYQECvLsidK8pf81QEbPgg2ap9CH5jrWw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z9AUdNGNKupZUUBrcI+nBGbrh6vdXHBFVgrpJjCDwCg=;
- b=QEsM/T5NknEmWfFhKOv7OSBJ86r+EGIPujDOOVIEh1T3Xln/hdoexIKqY9xLtdtvrEUZoN76STCxQORY8DqCktyzSx59nPJoLnnaECCzDk9vl0NZ3R9ulgq60GMIKzZc8QFYLT1p3ucXGsRrIvzhFsIBnTGXCPmKT3nLSn2NN/I=
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by IA1PR12MB8190.namprd12.prod.outlook.com (2603:10b6:208:3f2::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.159.17; Fri, 26 Jun
- 2026 12:47:52 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.21.0159.016; Fri, 26 Jun 2026
- 12:47:52 +0000
-Message-ID: <5180c887-c879-440f-a58b-1cad96b7abb1@amd.com>
-Date: Fri, 26 Jun 2026 14:47:47 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fix: dma-buf: unwrap_merge_complex: dma_fence_get_stub
- reference leaked on all paths
-To: WenTao Liang <vulab@iscas.ac.cn>, sumit.semwal@linaro.org
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-References: <20260626122836.35856-1-vulab@iscas.ac.cn>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20260626122836.35856-1-vulab@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL1PR13CA0422.namprd13.prod.outlook.com
- (2603:10b6:208:2c3::7) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7573F6C5A
+	for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 13:21:13 +0000 (UTC)
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782480077; cv=none; b=hZ4h+N44R7NjmM5mhJsl6WFKwhSncZtGTb5xZMBFVBKmkxxOL2vOjfCEey56YmndrXXtF+Rc/kGeB7a1O/mJtbdW8qgAnVydDKwiJljbbgP2g/xxskT/jSeU78TGR1r4k+80f9R661IHFAeKBlT49yn4g/EeILISoVHvCilD7LU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782480077; c=relaxed/simple;
+	bh=BmHJUIMl03bo3cur4LADSXTy4zaBjOxIh5/Huf4taX4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eORrGv5eCSGWQo4sA31vjfTQw35HnDyp0QIN7TsijFzq0SlnDHbGlcB0RnvKugALGSBShHCCy785FAqrkb3ZPDP3cG9w14ZYRHBNbLc8OwLS4CcwlUmAbrxAMW6VOnPovpo3ZZvUEav+lBODoLLXs3CLSkllgElvvbWyMwlQ35o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PkaYQaS6; arc=none smtp.client-ip=209.85.167.44
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aea4fccf4fso68328e87.3
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 06:21:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1782480071; x=1783084871; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=PwLoCPBMvnE4mFTZ0Iskkh0u0N7Zrq4pjwblbNDMp4g=;
+        b=PkaYQaS6PtmcNg1ur2Q/BR/QedyX1N3Dty2vObF9dIlIOv/32BWyw4VLapTh/7vy6q
+         KmQDxuUB70vZp4SZxNaudmPmv3HIm8FJojdTss5xyPZ4O+PqJ50CQxDNKE8IVrMDmwjC
+         3qRlyGwyn0DLecjux0Vx3Z4fi71hgXeIBji+cF3Up7CR1Mg4EzeMUggl63Wh/ITTmT5c
+         AeFtBOjjZc96BFIGgApe30vZrrwFksucZZqLh+5oI7pXAHzrj8e9itE4WfG9AWakRrlB
+         QxYECNIxvQ18efG2Erw188LaeJy32xxA4y/e6bpN/MJryxvhRDvY3IqgADXadHkpsvOk
+         9X+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782480071; x=1783084871;
+        h=content-transfer-encoding:content-type:in-reply-to:from:references
+         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PwLoCPBMvnE4mFTZ0Iskkh0u0N7Zrq4pjwblbNDMp4g=;
+        b=T0LyTPyM81+DJCUFvIHvpcUW7QS5BqaKN8jZyLhKkthOgDzApfrhZi+HuOhoKjZ7xu
+         d06bDSGnkYvGUZIVuQyExYjiC4R7mtDVDY6f7QKOPnEknMFDvYol9YLlzO6yQErEE53X
+         54PBBYTKRYBlUzJaw8dKXML0sjUYmv9qyNWApyLhkj6DGIFt3ormuzLGbzgPgLjMU7zd
+         y/PuTRTcjE7CP+jdxl4Zo4c2COtXzOfg3UD9VqcudE87SGnl8RdtS1RrwAJ1Dl5CTT6A
+         27LH6DLj6YmLiSnVMCRFkrP8t672ueRY/sc5FO4UVDZziNIm6AIBElsu5UD9Ni2wSGNz
+         ribg==
+X-Forwarded-Encrypted: i=1; AHgh+Rq15fDT7SVN6tXQgNJhu+qH9FkEtt79I2DjjDg3oZTGcM5rB+rJf79uTXs673Dhjd8k/HDEXZo5jee4Lg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFqwdmsVnPFfyp/kzwdMFH/Y/49FazFwx7u8ternKc18YDbZ7W
+	gzps/vbYoI6L1Pz2Fn5avV58fsNXDyDzfFrH6KZ254uGCP3St5/FofORt7tjHOf0cNo=
+X-Gm-Gg: AfdE7cm8Q3cnrmpqu/MZD40+bZ+S6WYIQuvKXkmsT5Qh4jkVakq3F6F/KQt0dCFNKgw
+	o7lo7oepGwFQSMMkkFNdTcinbkFyw2DYT2sAlGQPiU9IssEd2OxhkRWmkSJsuf25ItkCmnsxVFU
+	W1xtcgQMKtboafm1VGKrK8Igq7k+LadeY9+wRuRsZ9k+VnpwoFFBioUHIhQOn42aruS0RD5xp9m
+	atM/gSX/BjzZgOcL7S9+b1z687ooSpxHjUDWLpP0kunbkH0+GTe8193uZ/mnBh9aHMeJNSV7Xc7
+	QqPlg16dkoaSVNhwD+xe7ScLMem9ZNPBFG0ZFcSKXATvG5MhCGdiY5JWEz1oAQgGB8jl+9YZJTo
+	HcLYl3CFvPoPi9taQooFMaEOZfDqod1MM3P6az0EQkXPTChpyqc03GfCiC8UUZ9DMdeh+gCcbeV
+	NEF7SAfjWWQ5ySvsosEq7BLzwPFglei9m6yHvQYnhLFbwutW2GbcQKVezDXVNjnyfWEr5dRsAC/
+	araSQ==
+X-Received: by 2002:a05:6512:1252:b0:5a8:bd9c:a2e1 with SMTP id 2adb3069b0e04-5aea1f3c156mr1200847e87.2.1782480071016;
+        Fri, 26 Jun 2026 06:21:11 -0700 (PDT)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5ad695859b4sm3327909e87.72.2026.06.26.06.21.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Jun 2026 06:21:10 -0700 (PDT)
+Message-ID: <d14af4aa-f791-4aac-9d49-ace834952257@linaro.org>
+Date: Fri, 26 Jun 2026 16:21:08 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB8190:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0205992c-ea4e-4deb-9603-08ded38122a5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|18002099003|22082099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	r+a1zf7U/g2g2OmnsX4wwBE2n4Hc9NRTulSF5m5xCUJB7gF34TkRqX1W5PJDpDL1WU7sKHS3FTvRbI/RAOouAFQKwgSDdM74YvkML26omvCUr287CFUNUyOiEdeQHzfX2s+3/jNlVA3N+W7CCKTwhA4mXL1eSv6OwP8pRBH4FOxhUz/uT8pBvbO981fyZLvvBqk2PvbutHGxzxETdF3aDFh/oqRzuseoCcUCvRPXXRy3tCrRl0gFvBx4AYMpzBlXP6NW5o4c6dcIh6n1LGTpDfCywAXVrjsh2YFDN/TTMzqpzFfG0vX7LOEKZiAq5h16C/85z8o+RHE1Fg1Og5AsjKv+xuvxzauZ1IowOSMr7C+Lvo+qQzwUy8wpQADTRGhOZrNM8t/c/GhfyZ6H7xR2lxv/sva5cIVtNEryp+W4TKqbVt3/lmDFzPmq/DuUqD9KiQ5BupHPZRG1bTPw/k0/DCVO4/sHEM2HZNnvSLh3+uLJI+ok2+3FRsTqwfHqKQypbl9EM4CloAc6UkCip0EdgezefMrwsCQcUpKPhP47WiVPkI4Lb6CFuYBOj+mtcowsAY/l2iEzez8VV+HZN8SMz8YytmCq+e+bLXfyVG39+CSnQgYFb5Z5dgnv/f6VrOxOV1/eRXtsPRShCJwIy+uCwhy86SaeMxkFax6WBr5ItUM=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(18002099003)(22082099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Vk41azdEUTFtRVJXNTZxTk5oZSsyNkdpWVF3aUZOTGtUQ0tyZDN3MUMvQkFB?=
- =?utf-8?B?WHZXalAvdlg0Nk9QNzZHYllwQldjMDBFNmdyTEdZYkJNUXZ4aDA2a0plblRF?=
- =?utf-8?B?SWlkbTUvR3lOVzdyZm8zZmIyUHZrOG9zYTBCL0tVaXRjTmgvSjEwaTB5alFw?=
- =?utf-8?B?M1B0c2NIQTdGUTJBaXlMOGVlWHd3NW4zYXgwTm1BbTRyc0VoNk0xeHZiQ29B?=
- =?utf-8?B?bTY3S09scGhaemZyM1A3aVVhWGJ2NzdDZXk1K1ZXYURKQk1aMEZhMHBkRDRo?=
- =?utf-8?B?WDU3M1YxRXFlYmJlR2YzcWhiQjFSdElLRVQwNE1aT0RLRk4ySTNGdWtDa01o?=
- =?utf-8?B?djBxamFnZXV4OS9VeUN3TXZzNWdMZndnZXRlR1NFMTQycWV4RERLSytmU0xM?=
- =?utf-8?B?QjJPUHN0eno1ZWVHRVdPSWpTalBFZHMycGowaHJFRHIyYkxxcS9SZGtDTmhK?=
- =?utf-8?B?dEEwK3kyZ29nTm1VdjZLTk5ncFpncXowZ013eHl2MTNSSU1YZHozNFF5MUpK?=
- =?utf-8?B?TUQvWVBwZVVHUkd1VklFdWpBbmdhR2lBaDRQQlluMUprSnc1b0NLbGhYeUhK?=
- =?utf-8?B?bmdsdXpTcEZId1FjZnMydGJKWjVKdFVhRXpyTExCQjZXSmovcFlkVmIxRzU1?=
- =?utf-8?B?bmdFSG5XdTV6cFRoYjZFUjgyejBPSXlTdUhqUUthMGhuTHlSS3ExVFpxNTNI?=
- =?utf-8?B?L2paOWYzUXp0OHpnMml1NGRsQkp5NkRsWlBUNHE0aEQzdElQYWlLeEl3ZEFq?=
- =?utf-8?B?NEo5MDlrcFVpWTNsWnFtNEpuWVZraXJpeGRYSEIxa1lHU3JKNFNDamt1d3Vp?=
- =?utf-8?B?a1NHM0x3enp3OEVEczBWbzMrQ1JOeHhpMEN6TGl0TklndmtVaVc3MHpFeVJx?=
- =?utf-8?B?eWFQZWRBbE8wNldnQXZoTlgyZitsNFYvVEprSHpjLzRkWDlQWS9QU3BDaFBo?=
- =?utf-8?B?T3R6QlJkNDBzWEMrdUZiOTA1WW1rNVRnRHhvN0dUdjF0RGVCaXowUXRnWVdF?=
- =?utf-8?B?N0JKNXAxeHlWNnVpSVl5QzQwUkRjaFZxV3lCTklKd2VvNFRRRkpIenBlQjJW?=
- =?utf-8?B?ekhZTzdFYkhOVUR6czhVT0RlRWlvalZMV0lod3FzV2pLdjQ3UGs4dUhudEdN?=
- =?utf-8?B?T2JEeURjSDdFM2VxOTdJcFdqUUhBUG5CQlAxR3Zmb1orbkpyWEQzcUhMQW5x?=
- =?utf-8?B?ZUtqWUV4a1dkMVNOTGNxNFRuc1N1Z2FIeDJBZVAvUmhzM2hRMC9MQ3BYQjBY?=
- =?utf-8?B?WUFTbmxtRGdJa0JGY3RrNVpiOVErZ3QvWisvNU9nY2Y0NEN6S05JRDFzeXox?=
- =?utf-8?B?d0dsdk9ubEg3SWsvMUFybEVXeHM2c0pzQ2FBeHFabmc5bGlCVmFPcHNPby92?=
- =?utf-8?B?ekN5T2FhUWJuRzdISml0RFNMbVVTNjlGSXo0d1VhaXUzYkdIQ1NMQWpWT01H?=
- =?utf-8?B?M1JOM2ZCY2JHM01MN1A2cWorWEQ4TXF1YllQc2JVYXVIc3ErZnVZcHN2L2lt?=
- =?utf-8?B?R2tiV2ZUNUZtc2M5c3N3N0J4Qm92LzhuUG4vbEFmejF1TncyTndLSFNqcXVO?=
- =?utf-8?B?b1NWTGVLbE9rRUJmRUZqQXluSEdWZy9pUU5BWCt3YndKSGVQNDI4bXBjdFpF?=
- =?utf-8?B?RTYvOUJ2dTNQaHgzbEtKNitabGgxUEYrSWYxbldScU54OC95YVFBdGtBSUJM?=
- =?utf-8?B?d1RhLzdXbWxJd1Z2cHY5cW5DZndRUGhvaDV3elFCcWR0c05kMm54NkxBb2xP?=
- =?utf-8?B?bWFOQjFLNTV0SUJMY2g4NHFTbU4zcFliRUJleEpFeFcyUEIzRUYxMnNYaEh4?=
- =?utf-8?B?bDZ2MnQrUmZJOEdZSFRzWXZtaldJMzM3MjFVZHF6UWV2ak9sWlJNS1pyR09y?=
- =?utf-8?B?Tm5ualdteS9PaWdXd1VHNEZ2QVdXMUlRbUJ0dkdJZnpxUEhrVHdMbnUwMnF1?=
- =?utf-8?B?aHlXWkZqS2NJakFIL3FTSGpDRFlDMEtveTE5SEp5Zm5PZFNpcXZVWmFiWmd5?=
- =?utf-8?B?ZzQrNk1yTWMyR2FacmpZSGxKNEVNM3UwWS9ucUIvV2ExWFcxREprbzcxNWQw?=
- =?utf-8?B?T1hKd3JtNy82SmQ1b1FJNzBiV3YzK3JBdTJLWEt4Ty9URGFRRlRuTzNRT1J5?=
- =?utf-8?B?cVpNbENLVmRWV1YxcElZdXljTm1kMWIvWnZOLzRRUHJLaTFCMzBnVFVkNk45?=
- =?utf-8?B?VENVcUdFQjFOWnlMV2NIYUZFc3hMR0cvQVdId2F4ZjNrQ3pNcnpPNkxvZjVC?=
- =?utf-8?B?WityK1VINUlBdWpLSnJkc2czS2hQQVN5NklPWkZjU0lkcUdpVklTT0NscGs4?=
- =?utf-8?Q?BeMVp4kIr1lpkTxYoD?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0205992c-ea4e-4deb-9603-08ded38122a5
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2026 12:47:52.0013
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jWwoNMEPf/qfC0KdJEV1qogXMRd4brK28gt64RcFe0u7J3kE9PC21ZK5yJTc+/8g
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8190
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/8] dt-bindings: media: Add macros for video interface
+ devices
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jacopo Mondi <jacopo@jmondi.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, Jimmy Su <jimmy.su@intel.com>,
+ Matthias Fend <matthias.fend@emfend.at>,
+ Mikhail Rudenko <mike.rudenko@gmail.com>,
+ Daniel Scally <dan.scally@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Michael Riesch <michael.riesch@collabora.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Paul Elder <paul.elder@ideasonboard.com>,
+ Martin Kepplinger <martin.kepplinger@puri.sm>,
+ Quentin Schulz <quentin.schulz@theobroma-systems.com>,
+ Tommaso Merciai <tomm.merciai@gmail.com>,
+ Svyatoslav Ryhel <clamor95@gmail.com>,
+ Richard Acayan <mailingradian@gmail.com>,
+ Thierry Reding <thierry.reding@kernel.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Frank Li <Frank.Li@nxp.com>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Magnus Damm <magnus.damm@gmail.com>, Heiko Stuebner <heiko@sntech.de>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux@ew.tq-group.com, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Conor Dooley <conor.dooley@microchip.com>
+References: <20260626-kbingham-orientation-v2-0-47178be927b4@ideasonboard.com>
+ <20260626-kbingham-orientation-v2-1-47178be927b4@ideasonboard.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20260626-kbingham-orientation-v2-1-47178be927b4@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_REJECT(1.00)[cv is fail on i=2];
-	DMARC_POLICY_ALLOW(-0.50)[amd.com,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[amd.com:s=selector1];
+X-Spamd-Result: default: False [-0.66 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	DMARC_POLICY_ALLOW(-0.50)[linaro.org,none];
+	R_DKIM_ALLOW(-0.20)[linaro.org:s=google];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65722-lists,linux-media=lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:vulab@iscas.ac.cn,m:sumit.semwal@linaro.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-65723-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[44];
 	FORWARDED(0.00)[lists@lfdr.de];
-	DKIM_TRACE(0.00)[amd.com:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TO_DN_SOME(0.00)[];
+	FREEMAIL_TO(0.00)[ideasonboard.com,kernel.org,jmondi.org,linux.intel.com,intel.com,emfend.at,gmail.com,collabora.com,foss.st.com,puri.sm,theobroma-systems.com,nvidia.com,nxp.com,pengutronix.de,glider.be,sntech.de];
+	FORGED_RECIPIENTS(0.00)[m:kieran.bingham@ideasonboard.com,m:mchehab@kernel.org,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:jacopo@jmondi.org,m:sakari.ailus@linux.intel.com,m:jimmy.su@intel.com,m:matthias.fend@emfend.at,m:mike.rudenko@gmail.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:michael.riesch@collabora.com,m:benjamin.mugnier@foss.st.com,m:sylvain.petinot@foss.st.com,m:laurent.pinchart@ideasonboard.com,m:paul.elder@ideasonboard.com,m:martin.kepplinger@puri.sm,m:quentin.schulz@theobroma-systems.com,m:tomm.merciai@gmail.com,m:clamor95@gmail.com,m:mailingradian@gmail.com,m:thierry.reding@kernel.org,m:jonathanh@nvidia.com,m:Frank.Li@nxp.com,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:andersson@kernel.org,m:konradybcio@kernel.org,m:geert+renesas@glider.be,m:magnus.damm@gmail.com,m:heiko@sntech.de,m:linux-kernel@vger.kernel.org,m:linux-media@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-tegra@vger.kernel.org
+ ,m:linux@ew.tq-group.com,m:imx@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-arm-msm@vger.kernel.org,m:linux-renesas-soc@vger.kernel.org,m:linux-rockchip@lists.infradead.org,m:conor.dooley@microchip.com,m:krzk@kernel.org,m:conor@kernel.org,m:mikerudenko@gmail.com,m:tommmerciai@gmail.com,m:geert@glider.be,m:magnusdamm@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[christian.koenig@amd.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vladimir.zapolskiy@linaro.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[linaro.org:+];
 	ALIAS_RESOLVED(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	TO_DN_SOME(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,amd.com:dkim,amd.com:email,amd.com:mid,amd.com:from_mime,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,iscas.ac.cn:email]
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,dt,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[intel.com:email,linaro.org:dkim,linaro.org:email,linaro.org:mid,linaro.org:from_mime,ideasonboard.com:email,vger.kernel.org:from_smtp,microchip.com:email,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 1EEA06CD237
+X-Rspamd-Queue-Id: 311046CD609
 
-On 6/26/26 14:28, WenTao Liang wrote:
-> dma_fence_get_stub() acquires an extra reference on the global stub
->   fence, but this reference is never released on any execution path. The
->   stub fence is filtered out inside dma_fence_unwrap_merge (already
->   signaled), so the extra reference is never consumed. Both success and
->   error paths fail to call dma_fence_put on the stub.
+On 6/26/26 15:07, Kieran Bingham wrote:
+> Add a new dt-bindings/media/video-interface-devices.h header that
+> defines macros corresponding to the orientation enumeration types from
+> media/video-interface-devices.yaml.
 > 
-> Cc: stable@vger.kernel.org
-> Fixes: 245a4a7b531c ("dma-buf: generalize dma_fence unwrap & merging v3")
-
-Just drop that, the stub fence is a global dummy and leaking reference to it is harmless.
-
-But just in case somebody uses this code as blueprint for this own implementation we should probably clean it up.
-
-> Signed-off-by: WenTao Liang <vulab@iscas.ac.cn>
-
-Reviewed-by: Christian König <christian.koenig@amd.com>
-
+> This allows avoiding hardcoded constants in device tree sources.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 > ---
->  drivers/dma-buf/st-dma-fence-unwrap.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
+>   include/dt-bindings/media/video-interface-devices.h | 13 +++++++++++++
+>   1 file changed, 13 insertions(+)
 > 
-> diff --git a/drivers/dma-buf/st-dma-fence-unwrap.c b/drivers/dma-buf/st-dma-fence-unwrap.c
-> index 72ca632e3981..b9ed85570211 100644
-> --- a/drivers/dma-buf/st-dma-fence-unwrap.c
-> +++ b/drivers/dma-buf/st-dma-fence-unwrap.c
-> @@ -483,7 +483,7 @@ static int unwrap_merge_order(void *arg)
->  
->  static int unwrap_merge_complex(void *arg)
->  {
-> -	struct dma_fence *fence, *f1, *f2, *f3, *f4, *f5;
-> +	struct dma_fence *fence, *f1, *f2, *f3, *f4, *f5, *stub;
->  	struct dma_fence_unwrap iter;
->  	int err = -ENOMEM;
->  
-> @@ -508,10 +508,11 @@ static int unwrap_merge_complex(void *arg)
->  	if (!f4)
->  		goto error_put_f3;
->  
-> +	stub = dma_fence_get_stub();
->  	/* Signaled fences should be filtered, the two arrays merged. */
-> -	f5 = dma_fence_unwrap_merge(f3, f4, dma_fence_get_stub());
-> +	f5 = dma_fence_unwrap_merge(f3, f4, stub);
->  	if (!f5)
-> -		goto error_put_f4;
-> +		goto error_put_stub;
->  
->  	err = 0;
->  	dma_fence_unwrap_for_each(fence, &iter, f5) {
-> @@ -532,8 +533,10 @@ static int unwrap_merge_complex(void *arg)
->  		err = -EINVAL;
->  	}
->  
-> +	dma_fence_put(stub);
->  	dma_fence_put(f5);
-> -error_put_f4:
-> +error_put_stub:
-> +	dma_fence_put(stub);
->  	dma_fence_put(f4);
->  error_put_f3:
->  	dma_fence_put(f3);
+> diff --git a/include/dt-bindings/media/video-interface-devices.h b/include/dt-bindings/media/video-interface-devices.h
+> new file mode 100644
+> index 000000000000..d2340b457292
+> --- /dev/null
+> +++ b/include/dt-bindings/media/video-interface-devices.h
+> @@ -0,0 +1,13 @@
+> +/* SPDX-License-Identifier: (GPL-2.0-only OR MIT) */
+> +/*
+> + * Copyright (C) 2026 Kieran Bingham <kieran.bingham@ideasonboard.com>
+> + */
+> +
+> +#ifndef __DT_BINDINGS_MEDIA_VIDEO_INTERFACE_DEVICES_H__
+> +#define __DT_BINDINGS_MEDIA_VIDEO_INTERFACE_DEVICES_H__
+> +
+> +#define MEDIA_ORIENTATION_FRONT		0
+> +#define MEDIA_ORIENTATION_BACK		1
+> +#define MEDIA_ORIENTATION_EXTERNAL	2
+> +
+> +#endif /* __DT_BINDINGS_MEDIA_VIDEO_INTERFACE_DEVICES_H__ */
+> 
 
+Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+
+-- 
+Best wishes,
+Vladimir
 
