@@ -1,205 +1,149 @@
-Return-Path: <linux-media+bounces-65810-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65811-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id XV9/CtLeP2q2ZwkAu9opvQ
-	(envelope-from <linux-media+bounces-65810-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 16:31:46 +0200
+	id xyOROHL1P2o5awkAu9opvQ
+	(envelope-from <linux-media+bounces-65811-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 18:08:18 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 802D96D218F
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 16:31:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48B4C6D23C7
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 18:08:18 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b="gbWnn/+/";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65810-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65810-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=Qw2Y59Rm;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65811-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65811-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 876BF304B12A
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 14:29:57 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id A637A302D94B
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 16:07:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 391103B3884;
-	Sat, 27 Jun 2026 14:29:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32E513BBFC8;
+	Sat, 27 Jun 2026 16:07:46 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42A083B1EFC;
-	Sat, 27 Jun 2026 14:29:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE683161BA;
+	Sat, 27 Jun 2026 16:07:44 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782570595; cv=none; b=efOmqme8sjqHwxbOFLuiu12jxQflzcxBRqSusrNnnWjlEDoPAGEaJ7jOkDXA+NfjXCxtmHnIkC4yfHeemEcfBPvdiP9uzE5dfGTL59Fd7Dl6b87/C6F1uRgZFXcZB13UgaOP2rGf1nqw7RK/nujI6bPByOxrpnvM3Ysts4JrRnc=
+	t=1782576465; cv=none; b=SPNlPXe9V5FNqbuWDc0OVJbZ3tVfVun5Kcqfg542eaQexdDvNJW/BB+3kWOk28nv1YmlUyZmU3npxu1NzJD+jiQdGjK44/RyR/UVBjkoy4vdioRoS4bREauJiu4p86FaeQgOy7HNrhW7+M0zj5U1zz4FMHdFr9GBoF3sivP2fqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782570595; c=relaxed/simple;
-	bh=F2fCl0Vcx5QsnL0xnswFi/K36Oxfm0YGdo1a573U8Ws=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=r8WTTRs6wxSTXsjRLV6Np+KgYZAS+dEkwh1fnjJ3oPYUsWHD/2EFleFkedun5Re6lXEM6fIahZ4Ux4Wr4KXK5ufadlsBFLEFI5rO4nSQ1cSxrYlOyqIlzq9BDuMB3uULqBbNFOGcpytTaa5IfZf/LFkxScEKahayzj9zhYNkexM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=gbWnn/+/; arc=none smtp.client-ip=213.167.242.64
-Received: from [192.168.1.106] (mob-5-90-49-163.net.vodafone.it [5.90.49.163])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B0404BE1;
-	Sat, 27 Jun 2026 16:29:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1782570547;
-	bh=F2fCl0Vcx5QsnL0xnswFi/K36Oxfm0YGdo1a573U8Ws=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=gbWnn/+/u5lXko+AVBAcDbHTxxPPHcuF9r/pkvDD35ii1xw9gyxfBOLkIar5Z1wOz
-	 FiYDR4UaibPBJavTrrLIZCQnHmG444oeiHzSfI81rVSVq1+ydLQdmiH2QEFyO3WPvh
-	 +ve3FPwiSBtVcCc+XArV/Wof54txSnE0srqnpjEQ=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Sat, 27 Jun 2026 16:29:16 +0200
-Subject: [PATCH v3 4/4] media: mali-c55: Implement Gamma block validation
+	s=arc-20240116; t=1782576465; c=relaxed/simple;
+	bh=kbXE+e2kShUdFQUZEtzV5kb5kIHvO0+olg3vo8dAYAI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
+	 References:In-Reply-To; b=QVIWMeaa2RUosxF2ZKkdx5Qbzu4wuJjA+f3NDKn1y0aqXogXgBvq2l1Shxt6lGEzla+KUv6ZpKEwK6t7BmXWcar0u0In155TyXTsu6x/6fCxfjF/EJy+/AT05+iz7W2sxrKVf7F1Rxiv0Gz7onQCEPjdcD1tJa12M9U780ta9SU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qw2Y59Rm; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24B671F000E9;
+	Sat, 27 Jun 2026 16:07:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1782576463;
+	bh=Eai9illNnwIVHHx82Y8oRRChAijNkCdc6Gtuf6pgPNA=;
+	h=Date:Cc:To:From:Subject:References:In-Reply-To;
+	b=Qw2Y59RmKIirc9QicmPqL66sTrj2a2pRKQ4q1v06L1xA9E/C/n8ujusPhFM+JyAMq
+	 Sc7C+LA2hGDEhdfXPP6JFmdPW/lxQo9uwCywxV3gUUCsoaqp/p8gFp8rSRqgPX9Rot
+	 aq3TQmnmHDhFsytBp0U3bmY62h9aCkV7OgVPCbZZlU8BaFdjaz9P3zEBUeuvx5tPmD
+	 4Tx2RvxcWeTQ2au9N+Wnor838KKBkB0xRChuAMilaNqmNIuEwn8ueK3uR1GU+mDUy3
+	 YyRV47jAv1zDKiToKjdTIwjPqIKhSumFkr9k6T4RB7BOfeDsDOS70P4Gje9HvpGVAd
+	 5T1h6xlOziCJQ==
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260627-mali-c55-ccm-gamma-v3-4-113584c05174@ideasonboard.com>
-References: <20260627-mali-c55-ccm-gamma-v3-0-113584c05174@ideasonboard.com>
-In-Reply-To: <20260627-mali-c55-ccm-gamma-v3-0-113584c05174@ideasonboard.com>
-To: Nayden.Kanchev@arm.com, Konstantin Babin <Konstantin.Babin@arm.com>, 
- Anthony McGivern <anthony.mcgivern@arm.com>, vincenzo.frascino@arm.com, 
- linus.walleij@arm.com, laurent.pinchart@ideasonboard.com, 
- Daniel Scally <dan.scally@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2493;
- i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=aT4pRshPfm0NPFmru6HaHjx3V05Jp8+xF/3txbX/A34=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBqP95Vwh4U8mpRqsTwwrOar0OE3Uk9oY+XYdGd+
- DRGlLiAd2qJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaj/eVQAKCRByNAaPFqFW
- PNlOD/4zTTzh2+YIrTJSjfia07/iJ9NLAwNy7JNhXjmQpGN+Q8Nce2QbZs8Ps8aWIEfyhhtMgPz
- mmc2Ecae9yHSG8E6vHV91s7fUXMLl0yauiYqCGnF/652uDeZoTP2M7Fm2JyHr9rqqZyK4lwqY9A
- PIES7umrk8NvuN6yEvFtA1uL/5eC98wJTPzRzpdL/XvyfZ74iF1pEXl4Fxofo1Xa2bRMPgCY01P
- gain6u2+3oV/uJnAr6bpxbbkkCAFllarob3aZrxDCKU8/whuw+i+rnJZp/PyLZRjknI0V2VF3E6
- WnNHE9tAgtaEAM9ud83GqlUSSqjDDOGEq3mSi9DSnKcpuaO/osOHbKwdnXIOE7cUn1dKSDprKHO
- +623fnXchRtCLJTwbh91GTBpyLCPtOMl07xYydKmhFUXpoBb615gxp1qDceS1nMAJWMrGClxtGc
- Yv3UCpN86ePRgBP2L2p18UKW+eTNX7Q8u9VBcM0+V1ZKUfUEX148GsjTmXxEoc68HK4fl6eXwN8
- zLxKSu/uWkQlWjq9ERM7FvKVrMdQeBrrM3vgyHOxv22yG6ObSIiRLo4H9qBYPY2Di3qljJ3/Zwk
- oxcWjf8zixeArQvYcndeH9/PdSvrDtBHRKnmexK0grRctC6HC4qjz9dNhA/oEXpkLf3+t/h5Jkf
- YaedIrrVbMIuz0w==
-X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
- fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 27 Jun 2026 18:07:32 +0200
+Message-Id: <DJJYM56GLGXX.2L6RY669ZOJSC@kernel.org>
+Cc: "Linus Torvalds" <torvalds@linux-foundation.org>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Mark Brown" <broonie@kernel.org>, "Nathan
+ Chancellor" <nathan@kernel.org>, "Nick Desaulniers"
+ <nick.desaulniers+lkml@gmail.com>, "Bill Wendling" <morbo@google.com>,
+ "Justin Stitt" <justinstitt@google.com>, "Raag Jadav"
+ <raag.jadav@intel.com>, "Sohil Mehta" <sohil.mehta@intel.com>, "Dave
+ Hansen" <dave.hansen@linux.intel.com>, "Rob Herring" <robh@kernel.org>,
+ "Saravana Kannan" <saravanak@kernel.org>, "Bjorn Helgaas"
+ <bhelgaas@google.com>, "Rafael J. Wysocki" <rafael@kernel.org>, "Len Brown"
+ <lenb@kernel.org>, "Andi Shyti" <andi.shyti@kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Yemike Abhilash Chandra"
+ <y-abhilashchandra@ti.com>, "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+ <linux-media@vger.kernel.org>, "Nicolas Frattaroli"
+ <nicolas.frattaroli@collabora.com>, "Liam Girdwood" <lgirdwood@gmail.com>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>, "Heiko
+ Stuebner" <heiko@sntech.de>, <linux-rockchip@lists.infradead.org>,
+ <linux-sound@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+ <driver-core@lists.linux.dev>, "Jonathan Cameron" <jic23@kernel.org>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, "Bartosz Golaszewski"
+ <bartosz.golaszewski@oss.qualcomm.com>, "Pei Xiao" <xiaopei01@kylinos.cn>,
+ "Shashank Balaji" <shashank.mahadasyam@sony.com>, "Ben Horgan"
+ <ben.horgan@arm.com>, "Johan Hovold" <johan@kernel.org>,
+ <linux-usb@vger.kernel.org>, "Nikita Kravets" <teackot@gmail.com>, "Hans de
+ Goede" <hansg@kernel.org>, =?utf-8?q?Ilpo_J=C3=A4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>, <platform-driver-x86@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-i2c@vger.kernel.org>, "Daniel Scally"
+ <dan.scally@ideasonboard.com>, "Sakari Ailus"
+ <sakari.ailus@linux.intel.com>, "Minas Harutyunyan" <hminas@synopsys.com>,
+ "Tianrui Zhao" <zhaotianrui@loongson.cn>, "Bibo Mao" <maobibo@loongson.cn>,
+ "Huacai Chen" <chenhuacai@kernel.org>, "WANG Xuerui" <kernel@xen0n.name>,
+ <kvm@vger.kernel.org>, <loongarch@lists.linux.dev>
+To: =?utf-8?b?VXdlIEtsZWluZS1Lw7ZuaWcgKFRoZSBDYXBhYmxlIEh1Yik=?=
+ <u.kleine-koenig@baylibre.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v2 00/17] mod_devicetable.h: Split into per subsystem
+ headers
+References: <cover.1782490566.git.u.kleine-koenig@baylibre.com>
+In-Reply-To: <cover.1782490566.git.u.kleine-koenig@baylibre.com>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-3.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	MV_CASE(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
+	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
 	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65810-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:Nayden.Kanchev@arm.com,m:Konstantin.Babin@arm.com,m:anthony.mcgivern@arm.com,m:vincenzo.frascino@arm.com,m:linus.walleij@arm.com,m:laurent.pinchart@ideasonboard.com,m:dan.scally@ideasonboard.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi+renesas@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,s:lists@lfdr.de];
+	FORGED_SENDER(0.00)[dakr@kernel.org,linux-media@vger.kernel.org];
 	FORWARDED(0.00)[lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-65811-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:torvalds@linux-foundation.org,m:gregkh@linuxfoundation.org,m:broonie@kernel.org,m:nathan@kernel.org,m:nick.desaulniers+lkml@gmail.com,m:morbo@google.com,m:justinstitt@google.com,m:raag.jadav@intel.com,m:sohil.mehta@intel.com,m:dave.hansen@linux.intel.com,m:robh@kernel.org,m:saravanak@kernel.org,m:bhelgaas@google.com,m:rafael@kernel.org,m:lenb@kernel.org,m:andi.shyti@kernel.org,m:linux-kernel@vger.kernel.org,m:y-abhilashchandra@ti.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:nicolas.frattaroli@collabora.com,m:lgirdwood@gmail.com,m:perex@perex.cz,m:tiwai@suse.com,m:heiko@sntech.de,m:linux-rockchip@lists.infradead.org,m:linux-sound@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:driver-core@lists.linux.dev,m:jic23@kernel.org,m:dmitry.torokhov@gmail.com,m:bartosz.golaszewski@oss.qualcomm.com,m:xiaopei01@kylinos.cn,m:shashank.mahadasyam@sony.com,m:ben.horgan@arm.com,m:johan@kernel.org,m:linux-usb@vger.kernel.org,m:teackot@gmail.com,m:hansg@k
+ ernel.org,m:ilpo.jarvinen@linux.intel.com,m:platform-driver-x86@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-i2c@vger.kernel.org,m:dan.scally@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:hminas@synopsys.com,m:zhaotianrui@loongson.cn,m:maobibo@loongson.cn,m:chenhuacai@kernel.org,m:kernel@xen0n.name,m:kvm@vger.kernel.org,m:loongarch@lists.linux.dev,m:u.kleine-koenig@baylibre.com,m:nickdesaulniers@gmail.com,m:dmitrytorokhov@gmail.com,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FREEMAIL_CC(0.00)[linux-foundation.org,linuxfoundation.org,kernel.org,gmail.com,google.com,intel.com,linux.intel.com,vger.kernel.org,ti.com,collabora.com,perex.cz,suse.com,sntech.de,lists.infradead.org,lists.linux.dev,oss.qualcomm.com,kylinos.cn,sony.com,arm.com,ideasonboard.com,synopsys.com,loongson.cn,xen0n.name];
+	FROM_HAS_DN(0.00)[];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
+	RCPT_COUNT_GT_50(0.00)[53];
+	ALIAS_RESOLVED(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[dakr@kernel.org,linux-media@vger.kernel.org];
+	PRECEDENCE_BULK(0.00)[];
+	DKIM_TRACE(0.00)[kernel.org:+];
 	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,lkml];
 	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 802D96D218F
+X-Rspamd-Queue-Id: 48B4C6D23C7
 
-From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+On Fri Jun 26, 2026 at 8:00 PM CEST, Uwe Kleine-K=C3=B6nig (The Capable Hub=
+) wrote:
+> Uwe Kleine-K=C3=B6nig (The Capable Hub) (17):
+>   mod_devicetable.h: Split into per subsystem headers
+>   driver: core: Include headers for acpi_device_id and of_device_id for s=
+truct device_driver
+>   driver core: platform: Include header for struct platform_device_id
 
-Implement validation of Gamma block parameters.
+With the suggested rename,
 
-Gamma gains are expressed as unsigned 12 bits Q4.8 format and their raw
-value cannot be higher than 4095 (BIT(12) - 1).
-
-Gamma offsets are 12 bits unsigned integers and their value cannot be
-higher than 4095 (BIT(12) - 1).
-
-The Gamma LUT table is expected to have 0 as first member and 0xfff
-as last member.
-
-Validate the parameters provided by userspace using the .block_validate
-callback of struct v4l2_isp_params_block_type_info.
-
-Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-
----
-v3:
-- new patch
----
- .../media/platform/arm/mali-c55/mali-c55-params.c  | 34 ++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
-
-diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-params.c b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-index 5857e9c2daf7..e9ab0e2dee15 100644
---- a/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-+++ b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
-@@ -581,6 +581,38 @@ static int mali_c55_ccm_validate(struct device *dev,
- 	return 0;
- }
- 
-+static int mali_c55_gamma_validate(struct device *dev,
-+				   const struct v4l2_isp_block_header *block)
-+{
-+	const struct mali_c55_params_gamma *gamma =
-+		(const struct mali_c55_params_gamma *)(block);
-+
-+	for (unsigned int i = 0; i < 3; i++) {
-+		/* Gains are 12 bits unsigned Q4.8. */
-+		if (gamma->gains[i] > 4095) {
-+			dev_dbg(dev, "Invalid gain value %u\n",
-+				gamma->gains[i]);
-+			return -EINVAL;
-+		}
-+
-+		/* Offsets are 12 bits unsigned integers. */
-+		if (gamma->offs[i] > 4095) {
-+			dev_dbg(dev, "Invalid offset value %u\n",
-+				gamma->offs[i]);
-+			return -EINVAL;
-+		}
-+	}
-+
-+	/* Check the first and last gamma lut entries match the expectations. */
-+	if (gamma->lut[0] != 0 ||
-+	    gamma->lut[MALI_C55_NUM_GAMMA_LUT_ELEMENTS - 1] != 0xfff) {
-+		dev_dbg(dev, "Invalid Gamma LUT table\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
- static const struct v4l2_isp_params_block_type_info
- mali_c55_params_block_types_info[] = {
- 	[MALI_C55_PARAM_BLOCK_SENSOR_OFFS] = {
-@@ -622,9 +654,11 @@ mali_c55_params_block_types_info[] = {
- 	},
- 	[MALI_C55_PARAM_BLOCK_GAMMA_FR] = {
- 		.size = sizeof(struct mali_c55_params_gamma),
-+		.block_validate = mali_c55_gamma_validate,
- 	},
- 	[MALI_C55_PARAM_BLOCK_GAMMA_DS] = {
- 		.size = sizeof(struct mali_c55_params_gamma),
-+		.block_validate = mali_c55_gamma_validate,
- 	},
- };
- 
-
--- 
-2.54.0
-
+Acked-by: Danilo Krummrich <dakr@kernel.org>
 
