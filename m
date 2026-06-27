@@ -1,99 +1,69 @@
-Return-Path: <linux-media+bounces-65793-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65794-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id x5NhBZ6fP2qVVAkAu9opvQ
-	(envelope-from <linux-media+bounces-65793-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 12:02:06 +0200
+	id UYZRENasP2o6WgkAu9opvQ
+	(envelope-from <linux-media+bounces-65794-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 12:58:30 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 788246D1B3A
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 12:02:05 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A6726D1CC5
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 12:58:29 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=0sec.ai header.s=google header.b=i+HI9myY;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65793-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65793-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=none;
-	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
+	dkim=pass header.d=collabora.com header.s=zohomail header.b=cU8OprZX;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65794-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65794-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=collabora.com;
+	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 069F03036738
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 10:01:39 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CC15D302C0E8
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 10:58:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26D603A16A8;
-	Sat, 27 Jun 2026 10:01:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6256A3ACF05;
+	Sat, 27 Jun 2026 10:58:18 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E817F39DBF5
-	for <linux-media@vger.kernel.org>; Sat, 27 Jun 2026 10:01:25 +0000 (UTC)
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782554487; cv=none; b=TMG7lJM/keYuernvcZI0d6sJypVSlcGuPHeKHn9tYtOL49nDU4OPpdp8HbFgetV9NMt9CQWQ52blZgEx00Jjea7eP6wyZitMEsbwi1sxzLC3RRrsE/lPptuWttL+N0URHHPt8dtXiB0Nw74956FHtZkMpALQ8NeEy+CpHt/XKrA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782554487; c=relaxed/simple;
-	bh=LfbBcOkgclaJzGAlsyhBMLCYtMUkrCClYpL9RNeMdwE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fiWI9ZykbuS6dUZ9fStNgWTsIzsqba9K0CE+hGNs1BPIe9TWxeLmVXQs9uhUW5LnwPj2lK0D9W6TEF9XqZeUqo4XTNLCOpz//qoM6sA75GEYy/NK221veNMV7dXaCbZA5R2P/J35TGyJXEDc9tkWSelMyAkf6w78jevswL7vVwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=i+HI9myY; arc=none smtp.client-ip=209.85.128.43
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4924593f45dso22080035e9.1
-        for <linux-media@vger.kernel.org>; Sat, 27 Jun 2026 03:01:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0sec.ai; s=google; t=1782554484; x=1783159284; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bw0B482fnjgsRq3zHufnszUQfIBwVQW6z7YiwuK+gVM=;
-        b=i+HI9myYP/tcF/MqJLv8sEIykO+x8dTl0bhYVAsmk745dv+i8pw0JNV9+gDO8P5A2a
-         7BOUiEKANq2vUixxXt9u64V8giMcmTVkeYEu2seONq28+y3t/Wynx/y8N1jNvTz5OhN8
-         LW9h7e2oQv69UPKW9uHbCbeLGUhz/Xw2UtD8CI7RHL/m/fIHLg79Pcb13m4uenYiFSxq
-         n8N4igC8bEG7kL526vu+SYsPfiGij8dv8FN7U4wVD3y4hDe3caCJ0i/mKb/uN3tPCwyp
-         z5eoVAvMyWbrWbtQqtGH9pwDQ3Xx8QGz+CNnPmdgdNJbaCZTANWZdnqgfBXRattJV+yG
-         hKmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782554484; x=1783159284;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bw0B482fnjgsRq3zHufnszUQfIBwVQW6z7YiwuK+gVM=;
-        b=SreF1mO5PQBrThXCm8ndQ1Iq/5oKAeL8BSqYJ65eIPiUM6beqMD0gRpOw9JcLYwCB+
-         aY+SiTqzi+WZqBHSLyht0Du1gnhuF25fqUujGiyB9WSOjxYfFtgMdjU9JXzfumquWk9r
-         sPbqN+xXWBgQvoNtd2+VWPYq5TsjGT/dBVcp2wmunRt+XN5l2p34UG09ppuDE+nagHN0
-         kSk8o8bGGE+qhYBIzXa/QnuI1Qj8m2yaimDv0tc7BCVILKII023Sbk0IG482oy6LmQF6
-         Kkcj/JoFaCp4vl1rLUb3neSoJb28CF0yNA+21ZbzTjxGNfWFVVH6yoJYpk+ab35HRg5f
-         xvgA==
-X-Forwarded-Encrypted: i=1; AFNElJ+et/m0KfkXt6mEE65t2ipgk9Rr3eltGxuRrTZexntmBRfU7UvXJDAn6sjrdeVaTQvS7qA9XzU/gH2maQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1bvUfp2+iFSpVHQG/q3dgU7Gk0lhLrp3Jxg1BFB/NY1z+5pYd
-	5HXVdiz+Mccs3zrnq+VPOtFdE08ZIIZTtLJnmNWb+zxnWdpSI4rGgnf6vMQX0KT0es4D
-X-Gm-Gg: AfdE7cksLM+LrjodW54/wR0Eh3JFpG8Ci2DmJEKHvvfvYl1ZZzGzzLa8AHUt7cJEiTb
-	gNiWDzQU4im1m2I1XTNyFb+x++T+6Fr+uAxyVZ9yQnlQxtXXSBZluBC1Z/g+bAT7/gHB8oU9BN5
-	MmgMMzgVzKjPXCR0fUcQ4hgmBuoDsMMGKSMF/6v8phea+mkxeXgYsxAGpZW8EFTw+ydoSwjXi+f
-	aeXlzcm+vr37LU3mBDNiqbkbc5lu+/6NW7VUU/aYoL68+FgDXUwcxYkfbJeJZ4n/obiEWjEQUuV
-	5a+JtpmESISe0bnJTZoSORW7YEsjmdutqmDfynn0mrSE7z0Q0jQzC9Z37HWsGWcaPZMkllRkkNe
-	yOv8HoZE4wNccl70yyNQA3Ys8gRLfjKJIGYzjzMoWT3Mmj6ClC7GJzTz6L+XGn3dvcnRovMssg5
-	+GfRyDmKAhKOocu/2vUxXHs4DXEp8mxJyKRHJw30XU2acu3TS2xIWk/i+cYwPmYAxDYI92O+G7j
-	Hvnp5KA6MZTXBVQBDiJ8hiL5ThpoNtusDM=
-X-Received: by 2002:a05:600d:8445:10b0:492:710c:925e with SMTP id 5b1f17b1804b1-492710c93fbmr28918935e9.19.1782554484366;
-        Sat, 27 Jun 2026 03:01:24 -0700 (PDT)
-Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.218.209])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49271465f35sm69047735e9.9.2026.06.27.03.01.23
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 27 Jun 2026 03:01:24 -0700 (PDT)
-From: Doruk Tan Ozturk <doruk@0sec.ai>
-To: hansg@kernel.org,
-	andy@kernel.org,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org
-Cc: error27@gmail.com,
-	sakari.ailus@linux.intel.com,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ADEB3955CC;
+	Sat, 27 Jun 2026 10:58:16 +0000 (UTC)
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1782557897; cv=pass; b=tCUwFaldrRomjQ8nWeb+ZDphbxzu5LBgt3rZoKN76GdcTE5djxbOJermplGW1/jcFGZaif4QdheVGHSBOWSa+Nxan7WfdrINgtW4oi+AY0wdlE0HslPLEwV0a8Z+Yq7BMY2w4IvLTJ3ajDBJvoABpqxQlAFWcPASaZcuY5tACkA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1782557897; c=relaxed/simple;
+	bh=PnaZSeJ/fJmMzFSY6kGEVXE/lKFbg9YM0ZSITZYEbbA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AdFgXFs2HVOPBTiEDCHwIPiRU7SpKa2M95OXZphex+BUhE5eKgcY1KmqtBl/+rlDQwk1NeDiK7yAw9MuvGdsAsMHHquX0mM/rmh5ndMdLz6qodDvXkYfNy+ja930kF8jkpdnqYPHIj4b+6oextPJ18FvPy5oQOULiWxbbRdTSlw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=robert.mader@collabora.com header.b=cU8OprZX; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal: i=1; a=rsa-sha256; t=1782557891; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=TPAszodKOjsHUQXUH/Gxt1QipDH1lvWmdbKozRWi5dy/teU0upLxEInQumEdQfhSBqJLAwvsaobWNQH0URNI3lAtBCHYGiWMp1pblJvk+fyJDFY7q5jiu7GBz2QCEtc+dT574te1z/bfRcgKNOzc1VElb2Clp0fEHVn3j3uDE8w=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1782557891; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=r+ECMRwUoj1qfDDF4fDzCAVRuUEA0RstFvYJct8WxzA=; 
+	b=PK1/UPu/M6RTUAKbVCj83VqjDbOGQjkuuLElGFakYK+i/706TJsoQ+rEiYsmzEZI4gT8PhO6TURfczO1MEY/52+GEx2mQW2yQ0fNogx20T1z+/Eg4i/U+Ep8rWpHrXbcxIhhrWn/Q0DTyGzud2s0JuCTq+56SAk7qfGnUu1MCUo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=robert.mader@collabora.com;
+	dmarc=pass header.from=<robert.mader@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1782557891;
+	s=zohomail; d=collabora.com; i=robert.mader@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=r+ECMRwUoj1qfDDF4fDzCAVRuUEA0RstFvYJct8WxzA=;
+	b=cU8OprZXYkA4b725w/61H0jdD87dKL0542c6VnfpjBYdZZCU7nWp0zqYGjTyMX+5
+	3UxVYdaADSPAmtwTUN+AMUMQuYJujapf+SPjmBoQtv/jbBWFIa7U1t+QhD9jmE8qXfR
+	glrUulBRE0jqahNIBQEKiZYYjjQ8ZjggRSFM6dE0=
+Received: by mx.zohomail.com with SMTPS id 1782557889082692.4068701852244;
+	Sat, 27 Jun 2026 03:58:09 -0700 (PDT)
+From: Robert Mader <robert.mader@collabora.com>
+To: mikhail.v.gavrilov@gmail.com,
+	vivek.kasireddy@intel.com
+Cc: dri-devel@lists.freedesktop.org,
 	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
-	Doruk Tan Ozturk <doruk@0sec.ai>
-Subject: [PATCH v3 2/2] media: atomisp: bound DVS 6-axis table dimensions to the allocated config
-Date: Sat, 27 Jun 2026 12:01:19 +0200
-Message-ID: <20260627100119.97650-3-doruk@0sec.ai>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260627100119.97650-1-doruk@0sec.ai>
-References: <20260627100119.97650-1-doruk@0sec.ai>
+	Robert Mader <robert.mader@collabora.com>
+Subject: [PATCH v1] udmabuf: Ensure to perform cache synchronisation in begin_cpu_udmabuf()
+Date: Sat, 27 Jun 2026 12:57:25 +0200
+Message-ID: <20260627105725.9083-1-robert.mader@collabora.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -102,106 +72,94 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+X-Spamd-Result: default: False [0.84 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	MID_CONTAINS_FROM(1.00)[];
+	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[0sec.ai:s=google];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=zohomail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	PRECEDENCE_BULK(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65793-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:hansg@kernel.org,m:andy@kernel.org,m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:error27@gmail.com,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:doruk@0sec.ai,s:lists@lfdr.de];
-	FORGED_SENDER(0.00)[doruk@0sec.ai,linux-media@vger.kernel.org];
-	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,vger.kernel.org,lists.linux.dev,0sec.ai];
-	MIME_TRACE(0.00)[0:+];
-	DMARC_NA(0.00)[0sec.ai];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[doruk@0sec.ai,linux-media@vger.kernel.org];
-	ALIAS_RESOLVED(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	DKIM_TRACE(0.00)[0sec.ai:+];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FREEMAIL_TO(0.00)[gmail.com,intel.com];
+	FORGED_SENDER(0.00)[robert.mader@collabora.com,linux-media@vger.kernel.org];
 	TO_DN_SOME(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0sec.ai:url,0sec.ai:from_mime,0sec.ai:dkim,0sec.ai:email,0sec.ai:mid,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	FORGED_RECIPIENTS(0.00)[m:mikhail.v.gavrilov@gmail.com,m:vivek.kasireddy@intel.com,m:dri-devel@lists.freedesktop.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:robert.mader@collabora.com,m:mikhailvgavrilov@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65794-lists,linux-media=lfdr.de];
+	DKIM_TRACE(0.00)[collabora.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[robert.mader@collabora.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[collabora.com:dkim,collabora.com:email,collabora.com:mid,collabora.com:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 788246D1B3A
+X-Rspamd-Queue-Id: 8A6726D1CC5
 
-atomisp_cp_dvs_6axis_config() allocates the DVS 6-axis coordinate arrays
-from the stream grid via ia_css_dvs2_6axis_config_allocate(), but then
-uses the user-supplied width_y/height_y/width_uv/height_uv as the
-copy_from_compatible() length. The reallocate-on-mismatch path also
-re-allocates from the stream grid, so the destination is always
-stream-sized while the copy length is user-sized. User dimensions larger
-than the allocated grid produce a heap out-of-bounds write with
-attacker-controlled length and contents.
+The message of commit 504e2b4ab97a ("dma-buf/udmabuf: skip redundant cpu sync to
+fix cacheline EEXIST warning") says:
 
-Reject user dimensions that exceed the allocated config in both the
-ISP2401 (t_6axis_config) and ISP2400/else (source_6axis_config) branches
-before the first copy.
+> The CPU sync at map/unmap time is also redundant for udmabuf:
+> begin_cpu_udmabuf() and end_cpu_udmabuf() already perform explicit
+> cache synchronization via dma_sync_sgtable_for_cpu/device() when CPU
+> access is requested through the dma-buf interface.
 
-Note this ioctl path (S_DIS_VECTOR) is currently gated off by
-2b7eb2c5dc72 ("staging: media: atomisp: Disallow all private IOCTLs"),
-so it is not reachable from userspace today; this hardens the
-disabled-but-revivable path.
+This, however, does not apply to the first time begin_cpu_udmabuf() is
+called on an udmabuf, in which case the implementation previously relied on
+get_sg_table() to perform the cache synchronisation.
 
-Found by 0sec's autonomous vulnerability analysis (https://0sec.ai).
-Found by static analysis; not yet runtime-reproduced (Intel
-Baytrail/Cherrytrail ISP hardware required).
+Ensure to call dma_sync_sgtable_for_cpu() in that case as well.
 
-Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
-Assisted-by: 0sec:claude-opus-4.8
-Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
+Fixes: 504e2b4ab97a ("dma-buf/udmabuf: skip redundant cpu sync to fix cacheline EEXIST warning")
+Signed-off-by: Robert Mader <robert.mader@collabora.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_cmd.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/dma-buf/udmabuf.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 04e7b2e03f34..ea543025fd9c 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -2630,6 +2630,14 @@ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_device *asd,
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index bced421c0d65..08f57bc1294d 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -224,21 +224,22 @@ static int begin_cpu_udmabuf(struct dma_buf *buf,
+ {
+ 	struct udmabuf *ubuf = buf->priv;
+ 	struct device *dev = ubuf->device->this_device;
+-	int ret = 0;
  
- 		dvs_6axis_config->exp_id = t_6axis_config.exp_id;
- 
-+		if (t_6axis_config.width_y > dvs_6axis_config->width_y ||
-+		    t_6axis_config.height_y > dvs_6axis_config->height_y ||
-+		    t_6axis_config.width_uv > dvs_6axis_config->width_uv ||
-+		    t_6axis_config.height_uv > dvs_6axis_config->height_uv) {
-+			ret = -EINVAL;
-+			goto error;
-+		}
+ 	if (!ubuf->sg) {
+ 		ubuf->sg = get_sg_table(dev, buf, direction);
+ 		if (IS_ERR(ubuf->sg)) {
++			int ret;
 +
- 		if (copy_from_compatible(dvs_6axis_config->xcoords_y,
- 					t_6axis_config.xcoords_y,
- 					t_6axis_config.width_y *
-@@ -2682,6 +2690,14 @@ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_device *asd,
+ 			ret = PTR_ERR(ubuf->sg);
+ 			ubuf->sg = NULL;
++			return ret;
+ 		} else {
+ 			ubuf->sg_dir = direction;
+ 		}
+-	} else {
+-		dma_sync_sgtable_for_cpu(dev, ubuf->sg, direction);
+ 	}
  
- 		dvs_6axis_config->exp_id = source_6axis_config->exp_id;
+-	return ret;
++	dma_sync_sgtable_for_cpu(dev, ubuf->sg, direction);
++	return 0;
+ }
  
-+		if (source_6axis_config->width_y > dvs_6axis_config->width_y ||
-+		    source_6axis_config->height_y > dvs_6axis_config->height_y ||
-+		    source_6axis_config->width_uv > dvs_6axis_config->width_uv ||
-+		    source_6axis_config->height_uv > dvs_6axis_config->height_uv) {
-+			ret = -EINVAL;
-+			goto error;
-+		}
-+
- 		if (copy_from_compatible(dvs_6axis_config->xcoords_y,
- 					source_6axis_config->xcoords_y,
- 					source_6axis_config->width_y *
+ static int end_cpu_udmabuf(struct dma_buf *buf,
 -- 
-2.53.0
+2.54.0
 
 
