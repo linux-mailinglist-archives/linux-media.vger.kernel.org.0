@@ -1,53 +1,52 @@
-Return-Path: <linux-media+bounces-65801-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65802-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id oa5KEp7TP2qfYgkAu9opvQ
-	(envelope-from <linux-media+bounces-65801-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 15:43:58 +0200
+	id h9yzOlbTP2qMYgkAu9opvQ
+	(envelope-from <linux-media+bounces-65802-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 15:42:46 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3EC56D206F
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 15:43:57 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78FE06D2041
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 15:42:46 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b="Y5/aWUbl";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65801-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65801-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=CrAfhyOR;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65802-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65802-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id A9BC13043FE4
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 13:42:34 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id E31C33018C36
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 13:42:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6B8A3B14B3;
-	Sat, 27 Jun 2026 13:42:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CECBE3B19D2;
+	Sat, 27 Jun 2026 13:42:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFD43B27CD;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ED013B27D4;
 	Sat, 27 Jun 2026 13:42:29 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782567753; cv=none; b=L0E07JnttxFn3blMtgnvR0h8dv9D5FXIn4IyaSEfi+szGqegstOi+Yt9TP54c78AOQcrelch7Lc7u1AotrFOvCHc9mvfRgkjVCXRHizZOgfHM4p3k3R+LAQ4VSWLr/qbEikol/TKkRkL8R16SLSUBLFblppYAJ9n2mRYcSVuXrA=
+	t=1782567754; cv=none; b=gBQfwLeFCSDg9qvRAQNGjBOYfVZR035fWcIWg4xN/mlBdjy61UR0j/TBd2DlOgIPc6pO84O8iFlGr3FWww3xdGf73Cwv0ahDDL2FKhpSZ/Oig4bn1YpQGq3XHoFhwnbRGWkKtXw/03nGhSYvoqo2XiA3s22RjnHyJ/V/A9I4kH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782567753; c=relaxed/simple;
-	bh=fXxVX6AsyVWSdrB6h403AXMAfpXNRMI5hHFX8br0iuA=;
+	s=arc-20240116; t=1782567754; c=relaxed/simple;
+	bh=zG/G9gIEEA7onn1XkF6bZRc0l8nflfHpI78ZXFdTfFk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Nr6kDhaSjN21kSws7LkQb64p+m512PXQvmelCI3KHEPrwr8QU9r9kYI3AA3LQ/pdx8+WNxMvDU6Ts4NKIBJhzw7zhYYK6jmA4WBnh4/UpjhbTURG8Hdo7uXWMHOH8b3X/kaN49D7yiZzyLoKPQ4sMYJ+auQnXilQtdxk9BN2xuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Y5/aWUbl; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=Ze3VZfWWXdT7EgDb1z0pWmEUhkjULBuz9tKqZXGr2oTuGP+xZ4zBRMVkmzWrYRs7NW1qILuz3ZhtPSQPIVpapIu5AQD4hWphb0n9zgXY3k/n9FBLzSXx1aqVqYJq6FcJ7cAAhlIQ2uRy5F29va+uCh3M9gstuiEUZnQ3lFsKlsA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CrAfhyOR; arc=none smtp.client-ip=213.167.242.64
 Received: from [192.168.1.106] (mob-5-90-49-163.net.vodafone.it [5.90.49.163])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DED5FBE1;
-	Sat, 27 Jun 2026 15:41:41 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DBF3F19C6;
+	Sat, 27 Jun 2026 15:41:42 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1782567702;
-	bh=fXxVX6AsyVWSdrB6h403AXMAfpXNRMI5hHFX8br0iuA=;
+	s=mail; t=1782567703;
+	bh=zG/G9gIEEA7onn1XkF6bZRc0l8nflfHpI78ZXFdTfFk=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Y5/aWUblv1lhbJ3rD6Q1FYF6vhDvONGddUxGkSct6+nCPsWVlRJgHd88+XQJzTuac
-	 UVaHmYGyiBR6FYDPQqFlZXY55rMjux/fOKD8ptN1b8da9k2Fn4pbiqaXsE3U+PABPa
-	 +CVgVYdFVX8JcemhyXmHziFDwngNKP7s6LBuFChE=
+	b=CrAfhyORDkOnmsamgGOCa5SWAUlL350OlHUyjZ3eFH5UQUTXDGp9Y0kExTf3N84Tm
+	 fJC4S20MkaNbuphB90l3Kujodk3T6rVO/8K+s1XBpF2h8bW3pmkHP/GOGA4ttjAUt3
+	 wBobTwTWZetLZA31k5TG2w3FAvExzlvkT1G4QRNo=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Sat, 27 Jun 2026 15:41:59 +0200
-Subject: [PATCH v3 2/6] media: Documentation: uapi: Update V4L2 ISP for
- extensible stats
+Date: Sat, 27 Jun 2026 15:42:00 +0200
+Subject: [PATCH v3 3/6] media: v4l2-isp: Rename v4l2_isp_params_buffer_size
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,7 +55,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260627-extensible-stats-v3-2-3b600bb2db8b@ideasonboard.com>
+Message-Id: <20260627-extensible-stats-v3-3-3b600bb2db8b@ideasonboard.com>
 References: <20260627-extensible-stats-v3-0-3b600bb2db8b@ideasonboard.com>
 In-Reply-To: <20260627-extensible-stats-v3-0-3b600bb2db8b@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -71,21 +70,21 @@ Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  linux-kernel@vger.kernel.org, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
  =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4347;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4534;
  i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=0CKdaLCGSLMPL6ZjUb712zfuhL0l6LagAUBeeMTtH98=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBqP9M6xZfwpDU7tjUvuir3phd/awJrL4QrfOLrr
- IcWLn0Z6k2JAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaj/TOgAKCRByNAaPFqFW
- PGUdD/95Ydt2jvTU78GKqk1F/rdJEzN1Frk6I97u/LsUxp3EoFsgB23x04sraKe91+P80T++OzF
- TNUsVA2SCc5IEdPXZmPjqwwwemI6G2AR2KVvOek5c8oa5g6LE+5v7PQimgiX+UV6CSMgWcPqg2v
- paZKE2D/6X9iNjiBkObLaVpz5++I+W+mycqXAE8IYqrho5JjacRTf9sNgkOfBLal/gcz9XGVjLO
- lsIuDQkK77/vBrys+pKb1OEgYVZLYQhE5xtGs50GrgyKnpVNAh5iyRCQIlza9HACu4ddRaCan7q
- ioHkgbhwQnAmHVFzSO5DzY/F7elTtIadBtN3sZDFAkP4afVZ0OG7CiOAmLUGxdwylywzGxa/xkR
- KF9nkbDfn2h6+j/+fg8aWnnPZV/fuEdEy4OXny42463P2Q2M9a7OaiK7gHCzrdzBuKGrnb/MOLt
- zdrbHhkGg86HnqV1JAo0RF3uc5q9KCGSWKbXgzYRBOrKcB8K5W+I8M9rR2lHts4ifIDcZEnXMtF
- 0iN4UDL6Ijt3yFwn/phA+km40UQB/3kzdkx1t0sgTDYp6FB9yLBEs5aKxquqx0mym+qU6D9jk2x
- kMNfB7sMotmzn5Wcw4uW62qysMoP7Mg32PuQRWtSTr8TLGQbkweS0xpnNg9P4UYaDOouMEyuZle
- 0+5TSkm6PmDS8gQ==
+ bh=zG/G9gIEEA7onn1XkF6bZRc0l8nflfHpI78ZXFdTfFk=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBqP9M6SearSbjB4tnOECylaoEJmV/EEaR5Jsbmk
+ DplvAEJhimJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaj/TOgAKCRByNAaPFqFW
+ PGNqEACpUyWcsDAlFSgQIJ86Fggqjr1UOXvDsPUvi1qTS9HGX5iLClBBGdRsUGrUWWBc1UXm2Te
+ q1c79VRXVpwjEw15EhipxtLIQu+Xmw3pBG+UDp0ZvvhaqC76vmied0v2fZIPko9bCdt+r7RGh/u
+ 4pWPdaP2EIzdCr4F1fTsznmFQVhprtFfrDECrjM4SMoQS5PNHNp/0CxnhIqIztnxqQdGHWQAiF+
+ 8q1JlMJMHcFu4WaoPOlLSoMMjbPwCgWy/oH51K6+p8i2v7wvXEk6yFLNqwbsPLOWmO0ASjc7qNO
+ IvJxfnBLsmrMhczAtsU7Q5QlmlnXS1DJoqITSRMIjOhqh7s+LWvIkZutt2pCtGHQ7OVsmxf2Xrk
+ 4PJJgICewJDfn5GDRJwEOrVzAcsPZEuhSPSULOMbyNbdZ029+KSwV61UQZpcgqKSwmF19SyKKS8
+ muhJrnVSNF/Pgo8ysbheI4MN8WkRozLsOU7GCvXEI8BzMZr/DL8Ry5KFsQbEqIXiCU2QVWEgU4L
+ In1h/9QcWGmBuQq8mwcbXLJ7a7rdbzw6DTjOY1GaCkecwX5lnj5F0cOCWxEXNey70U6KeCymad7
+ KAx713MVWDXL49ZNQAmg1RkfNP4X14pQYW6lge2EVQGWm2+skL6DsZDoc2JF508wg8ajTa1nY3j
+ v2nBrzDgz56TUGA==
 X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 X-Rspamd-Action: no action
@@ -93,18 +92,18 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65801-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:dan.scally@ideasonboard.com,m:keke.li@amlogic.com,m:antoine.bouyer@nxp.com,m:jai.luthra@ideasonboard.com,m:niklas.soderlund@ragnatech.se,m:ribalda@chromium.org,m:laurent.pinchart@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:hverkuil+cisco@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi@ideasonboard.com,m:niklas.soderlund+renesas@ragnatech.se,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65802-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
 	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	RCPT_COUNT_TWELVE(0.00)[14];
-	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:dan.scally@ideasonboard.com,m:keke.li@amlogic.com,m:antoine.bouyer@nxp.com,m:jai.luthra@ideasonboard.com,m:niklas.soderlund@ragnatech.se,m:ribalda@chromium.org,m:laurent.pinchart@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:hverkuil+cisco@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi@ideasonboard.com,m:niklas.soderlund+renesas@ragnatech.se,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
@@ -118,98 +117,113 @@ X-Spamd-Result: default: False [-0.66 / 15.00];
 	MID_RHS_MATCH_FROM(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,ragnatech.se:email,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,ragnatech.se:email,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A3EC56D206F
+X-Rspamd-Queue-Id: 78FE06D2041
 
-From: Antoine Bouyer <antoine.bouyer@nxp.com>
+Rename v4l2_isp_params_buffer_size() to v4l2_isp_buffer_size() to
+support statistics.
 
-Rework the userspace-api documentation of V4L2 ISP to support
-statistics.
-
-Update all occurences of 'v4l2_isp_param' types to match the uAPI
-changes and add a section to document the statistics serialization
-format.
-
-Signed-off-by: Antoine Bouyer <antoine.bouyer@nxp.com>
 Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-[Update on uAPI changes]
 Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- Documentation/userspace-api/media/v4l/v4l2-isp.rst | 45 ++++++++++++++++------
- 1 file changed, 34 insertions(+), 11 deletions(-)
+ .../media/platform/arm/mali-c55/mali-c55-params.c  | 12 ++++++------
+ include/media/v4l2-isp.h                           | 22 +++++++++++++---------
+ 2 files changed, 19 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/v4l2-isp.rst b/Documentation/userspace-api/media/v4l/v4l2-isp.rst
-index facf6dba1ca7..8a3f05b5e85f 100644
---- a/Documentation/userspace-api/media/v4l/v4l2-isp.rst
-+++ b/Documentation/userspace-api/media/v4l/v4l2-isp.rst
-@@ -18,22 +18,22 @@ single C structure that contains a header, followed by a binary buffer where
- userspace programs a variable number of ISP configuration data block, one for
- each supported ISP feature.
+diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-params.c b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
+index de0e9d898db7..dc483f0322d6 100644
+--- a/drivers/media/platform/arm/mali-c55/mali-c55-params.c
++++ b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
+@@ -487,7 +487,7 @@ static int mali_c55_params_g_fmt_meta_out(struct file *file, void *fh,
+ {
+ 	static const struct v4l2_meta_format mfmt = {
+ 		.dataformat = V4L2_META_FMT_MALI_C55_PARAMS,
+-		.buffersize = v4l2_isp_params_buffer_size(MALI_C55_PARAMS_MAX_SIZE),
++		.buffersize = v4l2_isp_buffer_size(MALI_C55_PARAMS_MAX_SIZE),
+ 	};
  
--The :c:type:`v4l2_isp_params_buffer` structure defines the buffer header which
--is followed by a binary buffer of ISP configuration data. Userspace shall
--correctly populate the buffer header with the generic parameters format version
--and with the size (in bytes) of the binary data buffer where it will store the
--ISP blocks configuration.
--
--Each *ISP configuration block* is preceded by an header implemented by the
--:c:type:`v4l2_isp_params_block_header` structure, followed by the configuration
-+The :c:type:`v4l2_isp_buffer` structure defines the buffer header which is
-+followed by a binary buffer of ISP configuration data. Userspace shall correctly
-+populate the buffer header with the serialization format version and with the
-+size (in bytes) of the binary data buffer where it will store the ISP blocks
-+configuration.
-+
-+Each *ISP configuration block* is preceded by a header implemented by the
-+:c:type:`v4l2_isp_block_header` structure, followed by the configuration
- parameters for that specific block, defined by the ISP driver specific data
- types.
+ 	f->fmt.meta = mfmt;
+@@ -540,13 +540,13 @@ mali_c55_params_queue_setup(struct vb2_queue *q, unsigned int *num_buffers,
+ 	if (*num_planes && *num_planes > 1)
+ 		return -EINVAL;
  
- Userspace applications are responsible for correctly populating each block's
- header fields (type, flags and size) and the block-specific parameters.
+-	if (sizes[0] && sizes[0] < v4l2_isp_params_buffer_size(MALI_C55_PARAMS_MAX_SIZE))
++	if (sizes[0] && sizes[0] < v4l2_isp_buffer_size(MALI_C55_PARAMS_MAX_SIZE))
+ 		return -EINVAL;
  
--ISP block enabling, disabling and configuration
-------------------------------------------------
-+ISP parameters block enabling, disabling and configuration
-+----------------------------------------------------------
+ 	*num_planes = 1;
  
- When userspace wants to configure and enable an ISP block it shall fully
- populate the block configuration and set the V4L2_ISP_PARAMS_FL_BLOCK_ENABLE
-@@ -59,7 +59,30 @@ definition without invalidating the existing ones.
- ISP statistics
- ==============
+ 	if (!sizes[0])
+-		sizes[0] = v4l2_isp_params_buffer_size(MALI_C55_PARAMS_MAX_SIZE);
++		sizes[0] = v4l2_isp_buffer_size(MALI_C55_PARAMS_MAX_SIZE);
  
--Support for generic statistics format is not yet implemented in Video4Linux2.
-+The generic ISP statistics format is identical to the generic ISP configuration
-+parameters format. It is realized by defining a C structure that contains a
-+header, followed by binary buffer where the ISP driver copies a variable number
-+of ISP statistics blocks.
-+
-+Extensible statistics buffers have :c:type:`v4l2_isp_buffer` header followed by
-+a binary buffer of ISP statistics data. ISP drivers populate the buffer header
-+with the serialization format version and with the size (in bytes) of the binary
-+data buffer where ISP statistics data are serialized. Applications shall
-+validate that the serialization format version matches the expected one and that
-+the buffer size doesn't exceed the maximum size for a statistics buffer as
-+declared by the driver's uAPI header.
-+
-+Each *ISP statistics block* is preceded by a header implemented by the
-+:c:type:`v4l2_isp_block_header` structure, followed by the statistics data for
-+that specific block. The driver might optionally report platform-specific flags
-+associated with each statistics block.
-+
-+Applications inspect the statistics block type as reported in the header and
-+validates the reported size matches the block's expected size before accessing
-+the ISP statistics data.
-+
-+Extension to the statistics format can be implemented by adding new blocks
-+definition without invalidating the existing ones.
+ 	return 0;
+ }
+@@ -556,7 +556,7 @@ static int mali_c55_params_buf_init(struct vb2_buffer *vb)
+ 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+ 	struct mali_c55_params_buf *buf = to_mali_c55_params_buf(vbuf);
  
- V4L2 ISP uAPI data types
- ========================
+-	buf->config = kvmalloc(v4l2_isp_params_buffer_size(MALI_C55_PARAMS_MAX_SIZE),
++	buf->config = kvmalloc(v4l2_isp_buffer_size(MALI_C55_PARAMS_MAX_SIZE),
+ 			       GFP_KERNEL);
+ 	if (!buf->config)
+ 		return -ENOMEM;
+@@ -583,7 +583,7 @@ static int mali_c55_params_buf_prepare(struct vb2_buffer *vb)
+ 	int ret;
+ 
+ 	ret = v4l2_isp_params_validate_buffer_size(mali_c55->dev, vb,
+-			v4l2_isp_params_buffer_size(MALI_C55_PARAMS_MAX_SIZE));
++			v4l2_isp_buffer_size(MALI_C55_PARAMS_MAX_SIZE));
+ 	if (ret)
+ 		return ret;
+ 
+@@ -593,7 +593,7 @@ static int mali_c55_params_buf_prepare(struct vb2_buffer *vb)
+ 	 * changed to the buffer content whilst the driver processes it.
+ 	 */
+ 
+-	memcpy(buf->config, config, v4l2_isp_params_buffer_size(MALI_C55_PARAMS_MAX_SIZE));
++	memcpy(buf->config, config, v4l2_isp_buffer_size(MALI_C55_PARAMS_MAX_SIZE));
+ 
+ 	return v4l2_isp_params_validate_buffer(mali_c55->dev, vb, buf->config,
+ 					       mali_c55_params_block_types_info,
+diff --git a/include/media/v4l2-isp.h b/include/media/v4l2-isp.h
+index f3a6d0edcb24..d70ed6b431e7 100644
+--- a/include/media/v4l2-isp.h
++++ b/include/media/v4l2-isp.h
+@@ -15,17 +15,21 @@ struct device;
+ struct vb2_buffer;
+ 
+ /**
+- * v4l2_isp_params_buffer_size - Calculate size of v4l2_isp_params_buffer
+- * @max_params_size: The total size of the ISP configuration blocks
++ * v4l2_isp_buffer_size - Calculate size of v4l2_isp_buffer
++ * @max_size: The total size of the ISP configuration or statistics blocks
++ *
++ * Users of v4l2-isp will have differing sized data arrays for parameters and
++ * statistics, depending on their specific blocks. Drivers need to be able to
++ * calculate the appropriate size of the buffer to accommodate all ISP blocks
++ * supported by the platform. This macro provides a convenient tool for the
++ * calculation.
++ *
++ * The intended users of this function are drivers initializing the size
++ * of their metadata (parameters and statistics) buffers.
+  *
+- * Users of the v4l2 extensible parameters will have differing sized data arrays
+- * depending on their specific parameter buffers. Drivers and userspace will
+- * need to be able to calculate the appropriate size of the struct to
+- * accommodate all ISP configuration blocks provided by the platform.
+- * This macro provides a convenient tool for the calculation.
+  */
+-#define v4l2_isp_params_buffer_size(max_params_size) \
+-	(offsetof(struct v4l2_isp_params_buffer, data) + (max_params_size))
++#define v4l2_isp_buffer_size(max_size)			\
++	(offsetof(struct v4l2_isp_buffer, data) + (max_size))
+ 
+ /**
+  * v4l2_isp_params_validate_buffer_size - Validate a V4L2 ISP buffer sizes
 
 -- 
 2.54.0
