@@ -1,99 +1,99 @@
-Return-Path: <linux-media+bounces-65784-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65785-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id eYFqHlJwP2qYTQkAu9opvQ
-	(envelope-from <linux-media+bounces-65784-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 08:40:18 +0200
+	id Czh1AvdzP2pQTgkAu9opvQ
+	(envelope-from <linux-media+bounces-65785-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 08:55:51 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA4DC6D156A
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 08:40:17 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B85D6D15C1
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 08:55:50 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=0sec.ai header.s=google header.b=CPBjPvfe;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65784-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65784-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=fail ("headers rsa verify failed") header.d=0sec.ai header.s=google header.b=J3sT3DVk;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65785-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65785-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id C7F5C304291D
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 06:39:44 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id CF08B301D680
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 06:55:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80B11392838;
-	Sat, 27 Jun 2026 06:39:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 483863914EB;
+	Sat, 27 Jun 2026 06:55:40 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B161390CAD
-	for <linux-media@vger.kernel.org>; Sat, 27 Jun 2026 06:39:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43584317144
+	for <linux-media@vger.kernel.org>; Sat, 27 Jun 2026 06:55:38 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782542373; cv=none; b=c0p4p5JurGe7ucWw3W/lP6jdtWxdWLU1wwarf2R8nP2GKm9nBiko+jYr4KCCGwfi+lNxPGcBAJ8m2sp3E5JPs7aGXdNM/3yiU+mgU31LRkZs7yxwFK4Re81GqftArCREFxw0ewj8feblNayGwUiA/IUJLq2uqJ7krlkpdbdHeJM=
+	t=1782543339; cv=none; b=tJSgxsCnTA9RmdW+PmFevZiuNsgvs7Dm/dCpcLsIxr5aBjpujIbITAatWgClZCfL6KCyvzYZS5qNwjnWMKw5KKiXwSPAOZvV8OD7SMiSJC+wVu9CUiK2LDbicFL3qrV1Ck+AGCqkJLp11WfqSZX3wQyny9Ji96AHHwJFb6ZaWMQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782542373; c=relaxed/simple;
-	bh=zqrtoIgxqlPm1yGRfDaaOKs8e4n9g6P9Nhu6aDp1pAE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cp04Ufi3T9JCRiD4q+oPBute7K2hNWCrMVxI+GgsI1fraRsQ9xi0P2+9OT6JwUniZ6tO13FRXKxq+3GkIcpaeg/Roh4/V4kFBUoUWnaBb9PBGrMnUzuYBqXxT/3tTE+fjNH3GRrgKZndhI6VYuviwDmNGo3m+utuoACw6MfvjXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=CPBjPvfe; arc=none smtp.client-ip=209.85.128.53
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4921eed3fa2so11579875e9.0
-        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 23:39:31 -0700 (PDT)
+	s=arc-20240116; t=1782543339; c=relaxed/simple;
+	bh=FnsURhbwub914yAdhXH1FXah1Lu9rnIP4/mLkjigKiw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KQtIv91CuCuKnI+FtG6mCMyxjYKhJUzUuZdbkHmIWoxQShUkBcJVauOoKc2iPCjxvib+WoD9wZzbCv2LWlBafXuDEeGU4NxbAMUCWlXGVRBzq21by4ELt1uYsR3p/C0sSumxEVmRk+0Smtqrz5KI8BRby1poo8hsvfmq+r2TO8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=J3sT3DVk; arc=none smtp.client-ip=209.85.128.42
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49222fb062bso18224175e9.1
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 23:55:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0sec.ai; s=google; t=1782542370; x=1783147170; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v3B6M5EhMpzjG7Zmkrc3EdtRy3lRAN9WZO0zjTSLhxM=;
-        b=CPBjPvfendMppXOuycOwR9TPQz3JQ0ZX7/YdZ4AQDHLAWfoBwxwwPxSW0qbf66cBtO
-         DhuQHzrrdR3FsJYgI3btIq7twFUsiXyqppL8DyE6SlAYI0v5VIWLLlWPLtRn235FxhKv
-         z6mkvy+/mwWNaUV3yq6Ps29j+XnIOGVlPFZ20XUcdSn5CGcrwhIBFNzDFLXO197B8D7f
-         kyZ8h2O5TTmSRbiRU6tQ81tNRTiaGK/Hh6M6YscLb+dPv0UPrdqLAvRcthX+u5nNZw/P
-         udnIKH6c7i3XdiPg2jNDqVxEVHlLWWJ+i9KOn9P7ju6/iW34nKlR6eAlhJrdyOunB9di
-         BSRw==
+        d=0sec.ai; s=google; t=1782543337; x=1783148137; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6URRVOLLPbDGmOPQIy9/O+A7E0jEC0aohmFeB/EeHoE=;
+        b=J3sT3DVkE24SE/MHerwQPqaN6YM/hUCqtbeAwPI6TKjf0an6m3ZzIu27aN4DeoK9Fl
+         iK7lG4+DON/shXKkHmEwIG1TcDxn3CG/KKAfM2HPx2o/aERZgwXm3aupvJRD5YxHlFrM
+         ycX5jp3gsq1W/3kwgZhTaM9MdCqxl3T2VxhHl+Hqm6S0HJedivuiCyn6+SWEVoBkIPh3
+         KOI2IAKQi/u1xXNI0WHo+VxWWDemPD4fc+d8sDFnpWU0czGplWttQPWA5SR60U7pfEYK
+         t9IuXx+AiaCg+WxHBx50HkFjdS8IhmNtFO0cgfTGLbenBqEI2wUqz9025efqYR//kqjw
+         FXMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782542370; x=1783147170;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=v3B6M5EhMpzjG7Zmkrc3EdtRy3lRAN9WZO0zjTSLhxM=;
-        b=JuB9D4Kv2rqUqe4zf+vPRIBAwXPFH0gDr33s5R2HobeRP3IgH75s32iC5tCWZJcjXP
-         mTy8CgQP9o3B3XW95d3m+Zf44Qs2VySyqjb3IpnTauhVGh860dgKCfw0jRJPRSZyUsML
-         zh2bGsnXW5VeedC93064R3dCLHJS2F2Pr9rhjRZD4DFd3CCNdfOOeKCp3xLdLJF0iqgs
-         +kAY0Qe4N/KhXaI2rFbxwhU+mk82mdPkJO4THjKGAe08BHWWYZiU2IWzb/Y8pdffxFN8
-         ZvyHgFMJB5FVbXD9EKMfah9V6YijsLOFBoMJfsP5/tSNOqndTxdEv2mLrQZEWUgRnHag
-         mEWA==
-X-Forwarded-Encrypted: i=1; AFNElJ/83hEafrQIfLX+pbS6VY2qZ6XwJd64co6Ck+uz9ch6Eg/7X0GuzJbuE6UChaC9O3yB2MiMYOySj0C7kg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYDPqywYUr4k25G12iV5Esl7fcmYS/x8aZbOt6jwPOpVZ04F0R
-	W5nrq8qiYPIVcTiH9Et1fxCOvDKsAbdLfj2H2ce8LC2W1rrv/1QnEdYvfap3xywYqXPr
-X-Gm-Gg: AfdE7cmc9nGW/DtYRReNsvuInhqNciHunoAm7kw1fOyv2cI45R8qZssounQ0HPx2Xng
-	8zrrnbq7sNkYH6YPqwz4w+CIXK7QFjrT8qJtWmst/zcYN5/8ft0IWJdVxbBZmVUQWE83xuNnTaC
-	VGE74GeKiesRIV9+l8uTmEVYuYkOBYaIOhizHsVxrssykzXptR0WPSDNDIoj1McH8Y2cT8B4PJw
-	qmB6SmbovJVkbEdNbRBtyTJza3o1Kb2kLLQtQyn/2fs1kWQde8JC44IARXcFDjn8+8rawNojQY2
-	nLjHp8oiRpK6BK/VVZX41T8IqfqdFv/7R47juEEMR5AxxTDQupfB17u0yaraxv5pKGWrpAraHxM
-	V+yUuqpVHR52t26OZK34uC/qqyIz5EPvx2O/POh7P2RBZsb//0Rq3KrW5kGL50kHaSu/WAXUnP3
-	Gg2bhdQwY9SKraKmW4qojon/wvZODKWqiuGpAH80IoNdt/Qx7tQm9+sWurm83TboKK/N3BVgxqX
-	SpjVKqHIMtf8r5Nn1D+FBh8Vo+9XRqyUrY=
-X-Received: by 2002:a05:600c:3f0c:b0:490:bcf6:469f with SMTP id 5b1f17b1804b1-492667e9b5dmr131450645e9.0.1782542369935;
-        Fri, 26 Jun 2026 23:39:29 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1782543337; x=1783148137;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6URRVOLLPbDGmOPQIy9/O+A7E0jEC0aohmFeB/EeHoE=;
+        b=KmXG4pI9Y6tKybm3+n5ja7Bp8Cehd+p+sbSO1yp7bL6GTIwj0PTOBFI6TvoTw9t5WD
+         CkzCBIvI3Bux6gt0CTRrkBlZFeuJfQEYLHY2crzzKZHANYTL52uUQU9TYN7Tr+FJyIE9
+         ejXhx/0j2nTWZUCgFmHJ/6gMh2sKQF0SYX9YO/g9fV3VQHi/A5BjaH7J+Jx+mtUeoA5o
+         ZwcapzL0Ul8fVr+XDeS6F9bfd0Ulll5fmS+JrcwH3NaOnlvVTSECuuPzUqqdzfCRcS0h
+         4+zxCJtnP7nuJaeDTw4JUK5bbKcmPt6HdyZZzFMtdYspqStHXLgitzapTGojVGQsXArT
+         X36g==
+X-Forwarded-Encrypted: i=1; AFNElJ/Dqlcdb2XsOiMW7IKXnG8YgXPvpKB5R0tz+0VxZoToOgV361hyscaiOQrKSdSNWMsqL36JfiMXyazNdQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyjo0/05T6+HDbNxyDYf4ZWWFmcplndxrwYbyeWIzuJXPIuEci0
+	/FW2yWizN5htBpr2ZJ4s8HDVRx88vaXII5GCeTtNXt4HcrQXCfLFkdrRErqm/H5gch5R
+X-Gm-Gg: AfdE7ckEsX/Cdet30km9A08FpDLE4h2m6tmW2mhcjWIlWHGpTadzkOc/jN+uZR7D/Dm
+	A7ckr0Nyxsd/khpNY2JtsAP9nxmDL51ilZeoc2J662qXWszqJUxTHKvZVmG5SpJ3fCpFmdgf08B
+	dEmYv5b1sXrhqNvshmJ2YWNO9x0kZn19NH83iqkaKOkzvVvYnAbFhOY+03Jmj0eq6D3KqMevVU+
+	iZcBaqSqjD1cRq7Wqj8a3x3O7RG9AMB7jqcdO2w67nYpRtn/F3lEofPuHdtCs4pWamBs06jfZ5J
+	hpTvdNH9bgCN4Z7MWM1Ct/5ZF7V3slbaecGXjZXE22gF3cK6NZbImIehalqUefLy/Hgv50QpMJP
+	gASkEafjx35kyvsO1VxE6O2nMo3BPC8gaO7aIMA9oUMYYHWdjyW/UyvR4zEZj8V9Ln4GaxV2+hD
+	ZeC5cHdxO5+WAQZeHhbIaPIP8mZvqkiyJ1Z+4bdcqgUj3mKcjjqJNCLF/WJvfPKclxfjZfkYuha
+	v1UE3z1oXiqJXEwEaT2GM3D7xmRGvkhabI=
+X-Received: by 2002:a05:600c:820a:b0:492:6eda:4296 with SMTP id 5b1f17b1804b1-4926eda42afmr59822545e9.8.1782543336727;
+        Fri, 26 Jun 2026 23:55:36 -0700 (PDT)
 Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.218.209])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4926c285fc1sm79198785e9.1.2026.06.26.23.39.28
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-46c1ee0189esm32691380f8f.9.2026.06.26.23.55.35
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 26 Jun 2026 23:39:29 -0700 (PDT)
+        Fri, 26 Jun 2026 23:55:36 -0700 (PDT)
 From: Doruk Tan Ozturk <doruk@0sec.ai>
-To: Hans de Goede <hansg@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
+To: Neil Armstrong <neil.armstrong@linaro.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Dan Carpenter <error27@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
 	linux-media@vger.kernel.org,
+	linux-amlogic@lists.infradead.org,
 	linux-staging@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
 	Doruk Tan Ozturk <doruk@0sec.ai>
-Subject: [PATCH v2 2/2] media: atomisp: bound DVS 6-axis table dimensions to the allocated config
-Date: Sat, 27 Jun 2026 08:39:23 +0200
-Message-ID: <20260627063924.79491-3-doruk@0sec.ai>
+Subject: [PATCH 0/2] media: meson: vdec: fix two more VP9 reference-frame lifetime bugs
+Date: Sat, 27 Jun 2026 08:55:32 +0200
+Message-ID: <20260627065534.88527-1-doruk@0sec.ai>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260627063924.79491-1-doruk@0sec.ai>
-References: <20260627063924.79491-1-doruk@0sec.ai>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -102,111 +102,74 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.16 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+X-Spamd-Result: default: False [2.54 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
+	R_DKIM_REJECT(1.00)[0sec.ai:s=google];
 	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[0sec.ai:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,vger.kernel.org,lists.linux.dev,0sec.ai];
-	TAGGED_FROM(0.00)[bounces-65784-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
+	TAGGED_FROM(0.00)[bounces-65785-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:hansg@kernel.org,m:andy@kernel.org,m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:error27@gmail.com,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:doruk@0sec.ai,s:lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	DMARC_NA(0.00)[0sec.ai];
+	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:gregkh@linuxfoundation.org,m:error27@gmail.com,m:mchehab@kernel.org,m:hverkuil@kernel.org,m:khilman@baylibre.com,m:jbrunet@baylibre.com,m:martin.blumenstingl@googlemail.com,m:linux-media@vger.kernel.org,m:linux-amlogic@lists.infradead.org,m:linux-staging@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:doruk@0sec.ai,m:martinblumenstingl@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_CC(0.00)[gmail.com,kernel.org,baylibre.com,googlemail.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,0sec.ai];
+	FORWARDED(0.00)[lists@lfdr.de];
 	FORGED_SENDER(0.00)[doruk@0sec.ai,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[0sec.ai:+];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[doruk@0sec.ai,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	TO_DN_SOME(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[doruk@0sec.ai,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[0sec.ai:-];
+	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	FROM_HAS_DN(0.00)[]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,0sec.ai:mid,0sec.ai:url,0sec.ai:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DA4DC6D156A
+X-Rspamd-Queue-Id: 5B85D6D15C1
 
-atomisp_cp_dvs_6axis_config() allocates the DVS 6-axis coordinate arrays
-from the stream grid via ia_css_dvs2_6axis_config_allocate(), but then
-uses the user-supplied width_y/height_y/width_uv/height_uv as the
-copy_from_compatible() length. The reallocate-on-mismatch path also
-re-allocates from the stream grid, so the destination is always
-stream-sized while the copy length is user-sized. User dimensions larger
-than the allocated grid produce a heap out-of-bounds write with
-attacker-controlled length and contents, reachable from
-ATOMISP_IOC_S_DIS_VECTOR.
+While reviewing the earlier VP9 prev_frame use-after-free fix, a
+Sashiko AI review of that change surfaced two further reference-frame
+lifetime bugs in the same decoder, both rooted in vp9->prev_frame /
+vp9->cur_frame not being managed across all decode entry points.
 
-Reject user dimensions that exceed the allocated config in both the
-ISP2401 (t_6axis_config) and ISP2400/else (source_6axis_config) branches
-before the first copy.
+Patch 1 clears the cached prev_frame/cur_frame pointers in the .drain
+flush path, which frees every ref_frames_list node but left those two
+pointers aliasing freed memory; a decode resuming with an inter frame
+would then dereference freed vp9_frame storage in
+codec_vp9_set_mpred_mv() (use-after-free).
+
+Patch 2 guards codec_vp9_set_mpred_mv() against vp9->prev_frame being
+NULL, which happens when the first decoded frame is an inter frame
+(malformed/adversarial input, or the first frame after a flush). The
+function dereferences prev_frame unconditionally, both for the
+use_prev_frame_mvs computation and for the previous-frame MV read
+register programming, so the NULL case is a NULL pointer dereference.
+
+Both issues were found by static analysis and are not yet runtime-
+reproduced (Amlogic Meson hardware required).
 
 Found by 0sec's autonomous vulnerability analysis (https://0sec.ai).
-Found by static analysis; not yet runtime-reproduced (Intel
-Baytrail/Cherrytrail ISP hardware required).
 
-Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
-Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
----
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 28 +++++++++++++++++++
- 1 file changed, 28 insertions(+)
+Doruk Tan Ozturk (2):
+  media: meson: vdec: clear stale prev_frame/cur_frame on flush
+  media: meson: vdec: guard against NULL prev_frame in
+    codec_vp9_set_mpred_mv()
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-index 5046a0ec8bba..9338aa009923 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
-@@ -2630,6 +2630,20 @@ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_device *asd,
- 
- 		dvs_6axis_config->exp_id = t_6axis_config.exp_id;
- 
-+		/*
-+		 * The destination coordinate arrays are sized from the stream
-+		 * grid by ia_css_dvs2_6axis_config_allocate(); the copy length
-+		 * below uses the user-supplied dimensions. Reject user dims that
-+		 * exceed the allocation to avoid a heap out-of-bounds write.
-+		 */
-+		if (t_6axis_config.width_y > dvs_6axis_config->width_y ||
-+		    t_6axis_config.height_y > dvs_6axis_config->height_y ||
-+		    t_6axis_config.width_uv > dvs_6axis_config->width_uv ||
-+		    t_6axis_config.height_uv > dvs_6axis_config->height_uv) {
-+			ret = -EINVAL;
-+			goto error;
-+		}
-+
- 		if (copy_from_compatible(dvs_6axis_config->xcoords_y,
- 					t_6axis_config.xcoords_y,
- 					t_6axis_config.width_y *
-@@ -2682,6 +2696,20 @@ int atomisp_cp_dvs_6axis_config(struct atomisp_sub_device *asd,
- 
- 		dvs_6axis_config->exp_id = source_6axis_config->exp_id;
- 
-+		/*
-+		 * The destination coordinate arrays are sized from the stream
-+		 * grid by ia_css_dvs2_6axis_config_allocate(); the copy length
-+		 * below uses the user-supplied dimensions. Reject user dims that
-+		 * exceed the allocation to avoid a heap out-of-bounds write.
-+		 */
-+		if (source_6axis_config->width_y > dvs_6axis_config->width_y ||
-+		    source_6axis_config->height_y > dvs_6axis_config->height_y ||
-+		    source_6axis_config->width_uv > dvs_6axis_config->width_uv ||
-+		    source_6axis_config->height_uv > dvs_6axis_config->height_uv) {
-+			ret = -EINVAL;
-+			goto error;
-+		}
-+
- 		if (copy_from_compatible(dvs_6axis_config->xcoords_y,
- 					source_6axis_config->xcoords_y,
- 					source_6axis_config->width_y *
+ drivers/staging/media/meson/vdec/codec_vp9.c | 37 ++++++++++++++++----
+ 1 file changed, 30 insertions(+), 7 deletions(-)
+
 -- 
 2.53.0
 
