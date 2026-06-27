@@ -1,81 +1,82 @@
-Return-Path: <linux-media+bounces-65782-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65783-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id f3vKIyhwP2qMTQkAu9opvQ
-	(envelope-from <linux-media+bounces-65782-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 08:39:36 +0200
+	id xnxZADBwP2qRTQkAu9opvQ
+	(envelope-from <linux-media+bounces-65783-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 08:39:44 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B4416D154E
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 08:39:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBA176D1559
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 08:39:43 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=0sec.ai header.s=google header.b=VvOGiaC0;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65782-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65782-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=0sec.ai header.s=google header.b=VIyfCE8f;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65783-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65783-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=none;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 7400E300F764
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 06:39:35 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 727DA301E01A
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 06:39:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC8B439098E;
-	Sat, 27 Jun 2026 06:39:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93FA1391831;
+	Sat, 27 Jun 2026 06:39:32 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFDC8374192
-	for <linux-media@vger.kernel.org>; Sat, 27 Jun 2026 06:39:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E8D438F941
+	for <linux-media@vger.kernel.org>; Sat, 27 Jun 2026 06:39:30 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782542370; cv=none; b=F3F5vuv9GMSHnSHwXQ4V3YI1HDvq12tXGKIJFHqb++l68Hn+HRi/6Lnx0TGhQ6wYXtEITbCZRvOhCt205tN7e74bF6UdoXUD4ppyl2IrivFTLdhCB+C+DEgrHuOzEjPnrM92wBKrer0bv2Q2RKo/HN/6mg4f0uWzNbhbPVlhhV8=
+	t=1782542372; cv=none; b=cobasrwjusUQJhdbXJqQarbKCRTicNc/b6ni78NfmmfIPD2cCUdR2I1HubPEQQdHUHYfZNRdpO9NJ3ChL1/JV6tOksLIYTbinQNWWSarCNnKgsAKqN+eTA5wEutxAhNcTQCW0/AHSK0LDcJch9r7CmdnPB7KAdSOeq5HEWbosSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782542370; c=relaxed/simple;
-	bh=wYwuBd5wYmpSA6u09SatfE2n94U60Z1lSj4q1JefrJw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N9t76uw4FkeYhB3IhXC8RvUFUTeQfjB/61oRD78kpncavA1if7Xf4SJSlbgvFeohiF7eBxMBkCtp/jLE5qb0JBWZhth3kJL8GJIPvE2OIHrJQYcSTH9MW2X+1kvMi1lKUq+a1NIYTJkko6dxYz9yoJaUCfRa76+AwemeKIhbUoY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=VvOGiaC0; arc=none smtp.client-ip=209.85.128.41
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-490ac357c55so15170915e9.1
-        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 23:39:28 -0700 (PDT)
+	s=arc-20240116; t=1782542372; c=relaxed/simple;
+	bh=nSlLGYfTXHiil+e5l+ZK86hJckYlS/qWdYrNzrVBQZM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=tZfXel2yswcRDM/tZfK/WRJ6dKzvldAmtkxH5LyUei2pRNM7dr4Hazao6Hnzc/O0r/qO7LiJSGVVXdV/p3tFxxb2TqP7Al6qc2kqq/U6mSeDgHAuW2dUXEVcOp+jvAgwpeUF4siqyIhnwDAd0A662/JqgWsGbdyNtP9AaI2pqVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=VIyfCE8f; arc=none smtp.client-ip=209.85.128.44
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-49263703c6eso15754415e9.0
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2026 23:39:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0sec.ai; s=google; t=1782542367; x=1783147167; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=svPkawO2Tk+lD5or+qNr6aHfEaVTgfNd8BRZ65xFdDU=;
-        b=VvOGiaC0qTGrlKKSWpMakFmJxvjyUDM2qOs1EKKPbjLjjaoVHVojKugU85j1d7r4U5
-         l2oWv7AscAKePNSMi5Ydy9dJfUm9Ng/CuVXxhwmUw3yOUiROG2+t/B/A6wwLyCfhe5rL
-         4fJTioLvVZOr8HEYNByK6BHPXS5Hgyd4c68get2go1L2kp+j5aLxoC6uaD6wxvWLypdB
-         KXpVkbfvSlnZ7yYJ/5mT0nR/PB7lYqZ6ubRPvXqbz1nSIe96cp+ZzC1kMqi4gCI9HhsX
-         5VGKCI6wctdb7Xrm4+cFyjQcISHVSSJhY+mjDJwHL3wrcnLDrvQSRA9hP5ok+XPDcjIs
-         QrmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782542367; x=1783147167;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=0sec.ai; s=google; t=1782542369; x=1783147169; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=svPkawO2Tk+lD5or+qNr6aHfEaVTgfNd8BRZ65xFdDU=;
-        b=Xrd6ygpZAx3dF7o0fmHyTXgjINYYESyRESWQNc3kqLKEZVZISlI8TBJ1S2Lpo4G216
-         rb6akVga7xmJq+yuwW9FSvcDjVwS0Lr+uD+h2lm8czfn81vzddS5fXhmr8xcPytFrSSi
-         t5B2Y69FC5zvSqSD4AkFLvzoixH3SEZAOVqWpbRykuBpLKGUsGIgiZ8ahiM+e6eNDXXQ
-         IH8I0PmE1k0sjsMaQoo6VNHjmbocuYLSTUSw+DZJ8oxreGaPPHyqUKMSpmhHMUA+OGvy
-         P795YnkW/8HcD8uLs7t6CK37hMCsJYhQyDZ+3nPWgv/sMriJenmsZU1vAxbPLWoBsZqP
-         xN4g==
-X-Forwarded-Encrypted: i=1; AFNElJ+kM8W3x511IJBBJ0DY8DvkTuMVP0WNF1P7vQNOWpB/8ezXlzwuIz5/PpxRCPyLViqC9l4vHkOlLKYA9A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxaYrUsi+inx9bp+Fdimu8W6yLfkxjoT1skzrFb2G/EzyZV8KMx
-	jIgU4WZ4WrZNKiKgWrspXCIatATg/jU1/x3UcMPXcLUATaU02o4dK1twM3S8KG4rLVmg71EHGJK
-	6FJP5II3T
-X-Gm-Gg: AfdE7cnb6+oc1LhG+GdUHT8V4ZWj8xsCVFCL8SOi5nyCbtUc3ehP8jycdBJC3UtBKVH
-	X083wt4pnhl8JkbSc/yyQM7Lub+QiprJit0DRQdoU9nliRF59527yRH7MjRBwoUnqZriE1xU0qk
-	QEmroXsJZNZ3gzGcqQd3c7zdUtYm/KQqBHRgQs+s3T6/vBRzEnBEnG0rUKPBJMOXCXH/TCCn5oi
-	lmY8eXILZIByQOJ8s/3Jx9vMdkBJrPMmMQ1URwMadkpB0oTXMTA0RGfaFL0plsTrkgwQ1HwHPcQ
-	Asw1w05+NpOBIwrq30UNrAR/D3Acv2tAIafdAYXFLpA6n4nUlwihDUcmJeXeo7+zWjItkfUiiIT
-	utEvNzc9SdrrWfJklMP2NC/keBt5Mb2ce/Y8VY63cFCUEEAfr8toRoSsUi9dHcqWX/va9xAKBZG
-	hGvgq73GuCLU6QWzLRpd2ZANuvDqFO+3bhbW0BPeLY/sN5vJnTqt2Ffpr6iicaupMzi1Z1bNmvF
-	PYR0NKNKKhF/R/vxzrLTRH7SHCiZNs6JH5A2aavy4sgyg==
-X-Received: by 2002:a05:600c:a403:b0:490:9782:3eb8 with SMTP id 5b1f17b1804b1-4926689fab5mr114611195e9.25.1782542367247;
-        Fri, 26 Jun 2026 23:39:27 -0700 (PDT)
+        bh=gmQtpoRxRoFft31BE3DslHpMhlaHT+PPi7N5MeuH6Pw=;
+        b=VIyfCE8fDyW27bMFDan50ZBWafvT5PrTcECr4VRoiP6lYwanVLABI33IyS6F5Z/N5w
+         zdOwNQ3L7o4fTzRu0Uk0obnLcRRisqlnfs7eAXo59Qj5A1d3yP86TjUQuzR4Fr+Tz9/W
+         PJ8h3TPY7h+DAKON1oMvGy0/ITZY2xGis8zI7y5LqfJbvAKhexV+XGkNzTkKmsunTPcX
+         ewCe/WkJ2J/uHuxPazHHB5UnoVySDXt3j8vJuS7qxAiFsAjXDkHtnPpuswQla9A7aTen
+         2JhECOVGnPb9Sek8Of52ETtqpQtjRzBbFZ/KyaiQ02JJ8IqoQXfoLPF3q7MnCNtqQY84
+         Pchg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782542369; x=1783147169;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=gmQtpoRxRoFft31BE3DslHpMhlaHT+PPi7N5MeuH6Pw=;
+        b=jDa7a6wcg0IOiEXacszh77hfVImVOIHnaWhnH5F1pSoNX5gu1RX9m5ivLbv3LAIXIH
+         VbnVPPRtQKczMcOl2pgb/k4zDRPrIsUcm5W7uM7VKs0E/8v/yImqLK+6/yVs/KqtJLfV
+         bEGTBpq9HpZKGX9lJaJGJJVdAZgHZ95t2VPSVUURpYkiB7ea4Ytkug17HQHBqT7OTDDZ
+         HtW2KcjE93fQofj+riGUivI3XbH5PSJKV9CeBHDjBakE5vF4p6rmnnZ0+yf1NTBHLSc4
+         jvbQlXZpcQ36/pntQjvms58uC7dcd+PgF90dtfQneWWfhCZQYsBOk8A2Ipe2uydw/CM+
+         2Gtg==
+X-Forwarded-Encrypted: i=1; AFNElJ+WOyyXxDLYzkozTY694zXcbxe9unG1UUo0K9rouZo+Ax7uFjxEgzJedh9fizELUPNEgm+BQydPeQoqfg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzH1NkhaQnNuMeBUm2GtH6xndwQoVVI4K2us4V8iFIvdSTXwLN
+	WuBudRK6hylmu0OCIklPzBSWTLf9zxUr5cUFbk7U+7UpLmM5HC3PPIM8JAnco1nVDCiu
+X-Gm-Gg: AfdE7clQdK017vG7II8D2JLQNHDpWfw9LKnnOV+NFtzoVxcCLWFYQ/dhQeg9i7eln39
+	uSlyeFZ6BA8Y2qaUFMg0RBJQg+J9BgpzcPgdXE08E2sJs3SCWXYppUQzxFzCmo8blSoX1Ff4hWn
+	QA8P/lSfGBIcKAzGdVk+5LOccyyb12FU4g6eH0UY8SiZSk9Ss6+tAX59k1YET1ShdRgNYCMdSmA
+	w6IUvEbP99kFD6DubpbrrE3zTYHzw2Df/tQ1YPLxL3Pmi63tBJa8IrqYdaY19oEcd+jO3onb3xo
+	Rk8blmDdPOpVlCmOebFxsi+9f4BJUyAad8qpyoYJM8ynWcF9hFLmDahobef54xKl22vPTISCgsy
+	HbUjj27PpuW10yiTef+1F5eT5RxddBuVVabJ/dl08RKw2g9h1EiV9LwQb/R6DViJ8IqXQSXEqr0
+	JehAU3t2Fkdhc/oJV1jLWAbU7yaND14km2bD/nmebeJgl1glMA3NP4AR9YdaRJvQHMOXbZvFVD6
+	CIVe8rA2oeo1fum/rOZKdlPRLv0kE3IdYU=
+X-Received: by 2002:a05:600c:1551:b0:492:686f:372 with SMTP id 5b1f17b1804b1-4926918e379mr103522875e9.12.1782542368624;
+        Fri, 26 Jun 2026 23:39:28 -0700 (PDT)
 Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.218.209])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4926c285fc1sm79198785e9.1.2026.06.26.23.39.24
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4926c285fc1sm79198785e9.1.2026.06.26.23.39.27
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 26 Jun 2026 23:39:25 -0700 (PDT)
+        Fri, 26 Jun 2026 23:39:28 -0700 (PDT)
 From: Doruk Tan Ozturk <doruk@0sec.ai>
 To: Hans de Goede <hansg@kernel.org>,
 	Andy Shevchenko <andy@kernel.org>,
@@ -87,10 +88,12 @@ Cc: Dan Carpenter <error27@gmail.com>,
 	linux-staging@lists.linux.dev,
 	linux-kernel@vger.kernel.org,
 	Doruk Tan Ozturk <doruk@0sec.ai>
-Subject: [PATCH v2 0/2] media: atomisp: validate user-supplied buffer sizes in two ioctl paths
-Date: Sat, 27 Jun 2026 08:39:21 +0200
-Message-ID: <20260627063924.79491-1-doruk@0sec.ai>
+Subject: [PATCH v2 1/2] media: atomisp: validate sizeimage against the allocated frame in framebuffer-to-CSS
+Date: Sat, 27 Jun 2026 08:39:22 +0200
+Message-ID: <20260627063924.79491-2-doruk@0sec.ai>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260627063924.79491-1-doruk@0sec.ai>
+References: <20260627063924.79491-1-doruk@0sec.ai>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -104,13 +107,13 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	R_MISSING_CHARSET(0.50)[];
 	R_DKIM_ALLOW(-0.20)[0sec.ai:s=google];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	FORWARDED(0.00)[lists@lfdr.de];
 	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,vger.kernel.org,lists.linux.dev,0sec.ai];
-	TAGGED_FROM(0.00)[bounces-65782-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65783-lists,linux-media=lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:hansg@kernel.org,m:andy@kernel.org,m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:error27@gmail.com,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,m:doruk@0sec.ai,s:lists@lfdr.de];
@@ -132,37 +135,50 @@ X-Spamd-Result: default: False [-0.16 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media];
 	FROM_HAS_DN(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2B4416D154E
+X-Rspamd-Queue-Id: CBA176D1559
 
-Two ioctl paths in the Intel AtomISP staging driver share the same
-defect class: one user-controlled field sizes the destination buffer
-while a separate user-controlled field sizes the copy/store, with no
-cross-validation between them. A local caller on an atomisp V4L2 device
-can drive a kernel heap out-of-bounds write with attacker-controlled
-length (and, for both, attacker-controlled contents).
+atomisp_v4l2_framebuffer_to_css_frame() allocates the CSS frame from
+arg->fmt.{width,height,pixelformat}, but then copies and stores
+arg->fmt.sizeimage bytes into it. sizeimage is an independent,
+user-controlled v4l2_pix_format field, and nothing checks it against the
+allocated frame, so a sizeimage larger than width*height*bpp overflows
+res->data in hmm_store().
 
-Patch 1 (framebuffer-to-CSS, FPN / S_FBUF path) bounds arg->fmt.sizeimage
-to the frame allocated from width/height/format before the copy/store.
+Reject a sizeimage that exceeds the allocated frame (res->data_bytes)
+before the copy/store.
 
-Patch 2 (S_DIS_VECTOR DVS 6-axis config) bounds the user-supplied
-width/height dimensions to the stream-grid-sized destination config in
-both the ISP2401 and ISP2400 branches before the first copy.
+Found by 0sec's autonomous vulnerability analysis (https://0sec.ai).
+Found by static analysis; not yet runtime-reproduced (Intel
+Baytrail/Cherrytrail ISP hardware required).
 
-Both were found by 0sec's autonomous vulnerability analysis
-(https://0sec.ai) via static analysis; neither is yet runtime-reproduced
-(Intel Baytrail/Cherrytrail ISP hardware required).
+Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
+Signed-off-by: Doruk Tan Ozturk <doruk@0sec.ai>
+---
+ drivers/staging/media/atomisp/pci/atomisp_cmd.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-v2: add Fixes: tags (Dan Carpenter).
-
-Doruk Tan Ozturk (2):
-  media: atomisp: validate sizeimage against the allocated frame in
-    framebuffer-to-CSS
-  media: atomisp: bound DVS 6-axis table dimensions to the allocated
-    config
-
- .../staging/media/atomisp/pci/atomisp_cmd.c   | 39 +++++++++++++++++++
- 1 file changed, 39 insertions(+)
-
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_cmd.c b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+index fec369575d88..5046a0ec8bba 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_cmd.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_cmd.c
+@@ -3323,6 +3323,17 @@ atomisp_v4l2_framebuffer_to_css_frame(const struct v4l2_framebuffer *arg,
+ 		goto err;
+ 	}
+ 
++	/*
++	 * sizeimage is a separate user-controlled v4l2_pix_format field; the
++	 * CSS frame above is sized from width/height/format. Reject a store
++	 * length that exceeds the allocated frame to avoid a heap overflow of
++	 * res->data in hmm_store() below.
++	 */
++	if (arg->fmt.sizeimage > res->data_bytes) {
++		ret = -EINVAL;
++		goto err;
++	}
++
+ 	tmp_buf = vmalloc(arg->fmt.sizeimage);
+ 	if (!tmp_buf) {
+ 		ret = -ENOMEM;
 -- 
 2.53.0
 
