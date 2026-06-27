@@ -1,163 +1,187 @@
-Return-Path: <linux-media+bounces-65798-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65799-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id y+ZnFubJP2oGYQkAu9opvQ
-	(envelope-from <linux-media+bounces-65798-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 15:02:30 +0200
+	id ++zOE2LTP2qUYgkAu9opvQ
+	(envelope-from <linux-media+bounces-65799-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 15:42:58 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97D586D1F59
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 15:02:29 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FC4E6D2061
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 15:42:57 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=fail ("headers rsa verify failed") header.d=0sec.ai header.s=google header.b=ARDvmS9f;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65798-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65798-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=none;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=SainGk8t;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65799-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65799-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 29B69303716F
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 13:01:35 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 98BD7302352C
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2026 13:42:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4BDF3ACF12;
-	Sat, 27 Jun 2026 13:01:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 487E93AEF27;
+	Sat, 27 Jun 2026 13:42:28 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E441B4315F
-	for <linux-media@vger.kernel.org>; Sat, 27 Jun 2026 13:01:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D29358372;
+	Sat, 27 Jun 2026 13:42:24 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782565294; cv=none; b=JjGEhM8/WmKF9EPRI/G3eB3Drmk9lSEkEl+lPbKfBDlY8RmstmDhcPNMt699i2ep8nWEqCWXiDVBsWD0oAtn1S6bmW+x6LjcmM9NtDH039x94gSWT+KmH6PhUsyq8PQyvN5xPPdQwhfnytyOytE2u5XuSSid7KdOWxYWiOlIL7Y=
+	t=1782567747; cv=none; b=nrhche8G2PZlrZEBLBV1lhwxJIObpLOUJOB7Odg8YbfMAijntkvr6LDbq6TJWqnuepHdiboBANjxMNjcaqbIv2X/st3P84iWqW6ySuyRcI+qYoDIRZ8X0pmdRQYSf/zJ+YwOudgSr47/oy70s5+rJ/k/nXu7WgSU2Cm1oUKBKs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782565294; c=relaxed/simple;
-	bh=kUR0v8eIPO1laa2TUdjOFv7kCYeCaDsPqFnvjV81+rA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rPIJuRgsUppqltlG/RhRv+3dP87GvyvuBb9mTFTMMVWtttBus8RaecNz+Gbu0G+zyH3s+hdZ7JGLUnuXtzFDBi5JV150yUxRhEWb+wxwkiEswa0B0Oy44usVw9hmck7YB0p4n1p+15CJkQKtEI58KWSS+dtDDWCgsPYThcanWFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=0sec.ai; spf=pass smtp.mailfrom=0sec.ai; dkim=temperror (0-bit key) header.d=0sec.ai header.i=@0sec.ai header.b=ARDvmS9f; arc=none smtp.client-ip=209.85.128.44
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-49270f771c9so3860295e9.0
-        for <linux-media@vger.kernel.org>; Sat, 27 Jun 2026 06:01:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=0sec.ai; s=google; t=1782565291; x=1783170091; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kUR0v8eIPO1laa2TUdjOFv7kCYeCaDsPqFnvjV81+rA=;
-        b=ARDvmS9fOls74fvV7aL14wvM9SYBpFBXDoypE664oahFwnWZ4LTbRAPIuLXro9JldL
-         hhHngA0lEkpudngzz3Ttql0j9huf10PPOZs5iaiC9YkbS1x7HWe0HG+wJ601awnY3hl+
-         yuT/Xtx04+jcmM8VBvAXVsvxQRtN/r2tlRt+DNvXmbW+bkQNL6yRn4FZp4Y81yVoUGOg
-         qdCWSd9lUf5kUlbWqOTDzzNiUPaXQrbsYUZRwFZa4J5nTHfaO4Xq4bwwzmXq1x6z4gfW
-         eQypt+GhBDcvK9LNzSMmSo+jzF33dW6ybgs140nTtuSOadsAiSvDq5IO6bdsmVLKkNjZ
-         hNdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782565291; x=1783170091;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=kUR0v8eIPO1laa2TUdjOFv7kCYeCaDsPqFnvjV81+rA=;
-        b=flvUlTpgdZc/zojnACgCKGMmmT0TEDyMZ7dVBMGG3RmmyyAD7apAd3swnjfoQX4VV8
-         rNwYoob029adntQa4NjfN9c3gX/riJsl77nzbss8ZkCegKYNign42qhRrneTbW4aB1gg
-         j1dwQ8s3rvC4quNVOyMiwxIzy0189+pWAy0jcr3osnT7xfKkBRyBpHGHdZdJWGmZSrRA
-         /qB0TlLp4SHaoiwDL19L8h6rIOkdCwC7Vi6Ijdp/aE0942xneYAVAYTQXUIMOiCSE3Ow
-         fBhUYL9Drjp0If+7JoT8rjyuRG4jFakywJk13GSUNK69Z3l95UAnbr1tIkVrR6jNodU8
-         8XAw==
-X-Forwarded-Encrypted: i=1; AFNElJ/gaDtswv8R8cR5xDSkg+5sWYHQznJ1cyuGWIG6RQ2dBTOptY91cVAgtarsBXn5d93UN6OUOC4jCqGhww==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxIwCMB5F7RM2/LoYcxqpYy+w7Ut2ZapTAiork5nb3/d4SXmQMI
-	DelexrIw+ReyDotvFBB8asMlWYpTghzIWHyoV6WSwzC/Yvg8wITJz3xPwtqY10kKXiTc
-X-Gm-Gg: AfdE7cnTnl+/qdBNMRqaDy2u8JmqwrQnz4WxRtJFqFfXNxJnZY4JEAK0DAet537xR4n
-	1SMt9pjNl2AWJrh3+r1z9ToB8L2oY2UE+uDk/7urOPuvSIiYV1R86PEk3uwtkwFTxDEmsGamlEc
-	JqDY0kVzkHTrUT4EAPtEnvoDZKerRI+rKsh27w2Jt2D7HcRhSEbHTI0cMq+xn6R3Yw5BKlPpi2c
-	6yKHkI+3gclQIecReQ2WT84CXz6MB/90UoBWZPfPknmpMfTRrPvR6xOTwv9aRJjiDa7eiF1Owji
-	3pGtH3KlTZ19A2UV23NRlqAXtSZX1enT7NkvXUbHKM28CxS0s0CxE54LVh+18LgJHRf8rNMNjNL
-	KuorkpqGJU1CYvi+5ioy+EcKN5y+qA1D/FM3cZmnglcYipefR2DqBU04haXDSkKvcqq0BRG7wCZ
-	nu5vvL9OVDOQhjAAk+2r37NRBINofi7UtAYsqlNriehbKqH+6yd2GWN9WK6zG+NQC9KfTYPhx7y
-	vaUUBZ5JWbg4wfjbzgcaE79b8XAqCT56Eg=
-X-Received: by 2002:a05:600c:e555:10b0:492:4a70:faaa with SMTP id 5b1f17b1804b1-4926685af4cmr112906525e9.11.1782565290833;
-        Sat, 27 Jun 2026 06:01:30 -0700 (PDT)
-Received: from PeakBook-Mini.tail8e484.ts.net ([178.197.218.209])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4926c00a34esm82809035e9.0.2026.06.27.06.01.27
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 27 Jun 2026 06:01:29 -0700 (PDT)
-From: Doruk Tan Ozturk <doruk@0sec.ai>
-To: neil.armstrong@linaro.org,
-	gregkh@linuxfoundation.org
-Cc: error27@gmail.com,
-	mchehab@kernel.org,
-	hverkuil@kernel.org,
-	khilman@baylibre.com,
-	jbrunet@baylibre.com,
-	martin.blumenstingl@googlemail.com,
-	linux-media@vger.kernel.org,
-	linux-amlogic@lists.infradead.org,
-	linux-staging@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Doruk Tan Ozturk <doruk@0sec.ai>
-Subject: Re: [PATCH 0/2] media: meson: vdec: fix two more VP9 reference-frame lifetime bugs
-Date: Sat, 27 Jun 2026 15:01:26 +0200
-Message-ID: <20260627130126.78749-1-doruk@0sec.ai>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260627065534.88527-1-doruk@0sec.ai>
-References: <20260627065534.88527-1-doruk@0sec.ai>
+	s=arc-20240116; t=1782567747; c=relaxed/simple;
+	bh=MrH+V7P7x8kaihzRdHvzm6mc/mblQsGdluqxNIeqc/I=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Dg0C35bc8vb6JxinJCGIxLKd78ADwx0FhigLhe5teHpvQJmZ8hMd7DqWRxjqrUEoqxaE3gLo9uOt45W5YTrXCCZD6UcOZmUsmifAaKshoLS9x7+vYVvvFshOolwNv8VuI/hQTotmeqZrM6BxzI0PFvDhUbpJrI4oU/8Zr3lBY7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SainGk8t; arc=none smtp.client-ip=213.167.242.64
+Received: from [192.168.1.106] (mob-5-90-49-163.net.vodafone.it [5.90.49.163])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D7D50296;
+	Sat, 27 Jun 2026 15:41:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1782567700;
+	bh=MrH+V7P7x8kaihzRdHvzm6mc/mblQsGdluqxNIeqc/I=;
+	h=From:Subject:Date:To:Cc:From;
+	b=SainGk8tE6T3+9Ae4BgthCewsDlmgv0DjkPUWhyRJbC7cVMafkINAwQBVVKNpg40c
+	 rxDspytpNAawBZdwl6WGonbg43VbqjLFLM7p1d7qqN05u9eFbUcKvswikFZUOAefrl
+	 UnbIiBR9GHRbInSUnfqAu0Y488mAvh7dE1ZKuLno=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: [PATCH v3 0/6] media: v4l2-isp: Add support for extensible
+ statistics
+Date: Sat, 27 Jun 2026 15:41:57 +0200
+Message-Id: <20260627-extensible-stats-v3-0-3b600bb2db8b@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIACbTP2oC/23NTQrCMBCG4auUrI0k0zYWV95DXORnYgOaSBJCp
+ fTupgVxYZfvB/PMTBJGh4mcm5lELC654Gu0h4boUfo7UmdqE2AgWM86ilNGn5x6IE1Z5kQtGKH
+ Qas01knr2imjdtJHXW+3RpRzie/tQ+Lp+sf4fK5wyilzYFoQajDQXZ1Cm4FWQ0Rx1eJLVLPBzB
+ IgdB6rTcWtMr+0JBrXjLMvyARPbifn/AAAA
+X-Change-ID: 20260504-extensible-stats-f2d6befcc1ce
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Daniel Scally <dan.scally@ideasonboard.com>, Keke Li <keke.li@amlogic.com>, 
+ Antoine Bouyer <antoine.bouyer@nxp.com>, 
+ Jai Luthra <jai.luthra@ideasonboard.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Ricardo Ribalda <ribalda@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2416;
+ i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
+ bh=MrH+V7P7x8kaihzRdHvzm6mc/mblQsGdluqxNIeqc/I=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBqP9M6jz1rI2sy6eaulbn2OcNdb7SNrTpMhlfQQ
+ 6sV1MQIBS2JAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaj/TOgAKCRByNAaPFqFW
+ POBiEACghV3T3tDkG2/7vhDyVwr+5Qhhc4PDqL2sbN/T6DVwpde5MGCQXurut4qrzajrcZJl1eM
+ JsbvgEiUi0MM52SFh2YWafoDXtEt49Bk2X+4+DaVjAAcNGQX6LWr2dQasRcqsXQ9jLIuvpBESeI
+ 0p7m+nlFBVZIphfZc1KlmIgHhpG3eJbXZWsugDBwilclCeRdaHUkRfujk0S8NZP21WS78J6bXGx
+ GP/X9k4RlaLdzvF1fOItTzRBiWuBTsVIiXM5jcY3Voy/6meUVcTOniiZrDfBzKx0cszFA2MoUyI
+ pO7zJf1meezxmusq95brmwkHLtg5huA4NVOz0rFgJ3hwyzEQ/9LsLVaPxlK2ZHjxNK6++Yx2pEy
+ PR/xmZNovcxoisd9d86GQJR2+WYkEospMJuE5NI8HX7nYzZv26b6IVCMl6zg6PRggvbirAR7Ff6
+ 9sZZpqt5btAAxOVGnBYWtTVuXg14eGkScdwSNWZFe8pJ/tFhlKThg/g6toUkB0ghfmUS0As/K58
+ 96mGqTwy7+QtF1qiQVcYlp5STdu/NosZnBmFhtbTXtGC8oHLWWAXyR7yCLwN4G8yikTC5cxR1ot
+ pqmDvl80QO+diEDW5zSQom/+GMJC02Gb+fVI5dRMQba3E15gYit2G6c6w2sXqKK8OjSUZJwdWL/
+ z4eyGoHx6cuScVw==
+X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
+ fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [2.54 / 15.00];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_REJECT(1.00)[0sec.ai:s=google];
-	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-65798-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[14];
-	FREEMAIL_CC(0.00)[gmail.com,kernel.org,baylibre.com,googlemail.com,vger.kernel.org,lists.infradead.org,lists.linux.dev,0sec.ai];
 	RCVD_TLS_LAST(0.00)[];
+	TAGGED_FROM(0.00)[bounces-65799-lists,linux-media=lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[doruk@0sec.ai,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:neil.armstrong@linaro.org,m:gregkh@linuxfoundation.org,m:error27@gmail.com,m:mchehab@kernel.org,m:hverkuil@kernel.org,m:khilman@baylibre.com,m:jbrunet@baylibre.com,m:martin.blumenstingl@googlemail.com,m:linux-media@vger.kernel.org,m:linux-amlogic@lists.infradead.org,m:linux-staging@lists.linux.dev,m:linux-arm-kernel@lists.infradead.org,m:linux-kernel@vger.kernel.org,m:doruk@0sec.ai,m:martinblumenstingl@gmail.com,s:lists@lfdr.de];
-	DMARC_NA(0.00)[0sec.ai];
+	RCPT_COUNT_TWELVE(0.00)[14];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:dan.scally@ideasonboard.com,m:keke.li@amlogic.com,m:antoine.bouyer@nxp.com,m:jai.luthra@ideasonboard.com,m:niklas.soderlund@ragnatech.se,m:ribalda@chromium.org,m:laurent.pinchart@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:hverkuil+cisco@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi@ideasonboard.com,m:niklas.soderlund+renesas@ragnatech.se,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FROM_HAS_DN(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[doruk@0sec.ai,linux-media@vger.kernel.org];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[0sec.ai:-];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[jacopo.mondi@ideasonboard.com,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,cisco,renesas];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[0sec.ai:mid,0sec.ai:from_mime,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,linuxtv.org:url,ideasonboard.com:dkim,ideasonboard.com:email,ideasonboard.com:mid,ideasonboard.com:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 97D586D1F59
+X-Rspamd-Queue-Id: 9FC4E6D2061
 
-Please drop this series; both patches are wrong.
+This series breaks out from Antonie's
+https://patchwork.linuxtv.org/project/linux-media/list/?series=24043
+the extensible stats support and adds a few more patches on top to:
 
-1/2 is mis-attributed: codec_vp9_flush_output() is the .drain handler and is
-only followed by teardown (codec_vp9_stop), never a resume, so the "dangling
-pointer on resume" path doesn't exist. The real stale-prev_frame deref is on
-the source-change resume path, not flush.
+- add support for per-block validation as suggested during the review of
+  Ricardo's
+  https://patchwork.linuxtv.org/project/linux-media/patch/20260504-smatch-7-1-v3-6-fda125c30058@chromium.org/
 
-2/2 fixes a real NULL deref but in the wrong place: the early return also skips
-the current-frame MV-write register setup (HEVC_MPRED_MV_WR_START_ADDR /
-HEVC_MPRED_MV_WPTR), leaving the hardware to DMA-write to a stale address.
-Sashiko's review is correct. The right fix guards only the prev_frame reads
-while keeping the cur_frame writes; I'll send that separately once tested.
+- add two helper functions to v4l2-isp to ease handling of extensible
+  statistics for drivers. An early user, based on a preliminary version
+  of the patches is available here as a reference:
+  https://patchwork.linuxtv.org/project/linux-media/list/?series=24703
 
-The rm_noshow_frame() use-after-free ([PATCH v2] on the list) is independent
-and unaffected.
+After testing v2 on real hw, I realized I had a wrong check for the
+validation callback, which is now fixed in v3.
 
-Doruk
+   -          if (type_info->block_validate &&
+   -              type_info->block_validate(dev, block))
+   +          if (info->block_validate && info->block_validate(dev, block))
+
+and validation is now actually performed :)
+
+Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+---
+Changes in v3:
+- Fix block validation callback
+- Link to v2: https://lore.kernel.org/r/20260626-extensible-stats-v2-0-41fdd5cf728b@ideasonboard.com
+
+Changes in v2:
+- Collect tags
+- Link to v1: https://lore.kernel.org/r/20260505-extensible-stats-v1-0-e16f326b8dad@ideasonboard.com
+
+---
+Antoine Bouyer (2):
+      media: uapi: v4l2-isp: Add extensible statistics
+      media: Documentation: uapi: Update V4L2 ISP for extensible stats
+
+Jacopo Mondi (4):
+      media: v4l2-isp: Rename v4l2_isp_params_buffer_size
+      media: v4l2-isp: Add per-block validation callback
+      media: amlogic-c3: Implement per-block validation
+      media: v4l2-isp: Add helpers for stats buffer
+
+ Documentation/userspace-api/media/v4l/v4l2-isp.rst |  45 ++++++--
+ .../media/platform/amlogic/c3/isp/c3-isp-params.c  |  42 ++++++-
+ .../media/platform/arm/mali-c55/mali-c55-params.c  |  12 +-
+ drivers/media/v4l2-core/v4l2-isp.c                 |  55 +++++++++
+ include/media/v4l2-isp.h                           |  94 +++++++++++++---
+ include/uapi/linux/media/v4l2-isp.h                | 125 +++++++++++++--------
+ 6 files changed, 293 insertions(+), 80 deletions(-)
+---
+base-commit: 06cb687a5132fcffe624c0070576ab852ac6b568
+change-id: 20260504-extensible-stats-f2d6befcc1ce
+
+Best regards,
+-- 
+Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
 
