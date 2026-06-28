@@ -1,88 +1,88 @@
-Return-Path: <linux-media+bounces-65817-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65818-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id meC7A+jsQGoajgkAu9opvQ
-	(envelope-from <linux-media+bounces-65817-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jun 2026 11:44:08 +0200
+	id 0mZzNlbtQGoxjgkAu9opvQ
+	(envelope-from <linux-media+bounces-65818-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jun 2026 11:45:58 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5068E6D383D
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jun 2026 11:44:07 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE6076D384F
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jun 2026 11:45:57 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b="SlOB/FPY";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65817-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65817-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=LJ3oglRM;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65818-lists+linux-media=lfdr.de@vger.kernel.org" designates 104.64.211.4 as permitted sender) smtp.mailfrom="linux-media+bounces-65818-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1A3DC301A3AC
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jun 2026 09:42:58 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id EC5873003832
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jun 2026 09:45:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 383B5342C9E;
-	Sun, 28 Jun 2026 09:42:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 725FE34E74B;
+	Sun, 28 Jun 2026 09:45:48 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5818717A30A
-	for <linux-media@vger.kernel.org>; Sun, 28 Jun 2026 09:42:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946962F12A5
+	for <linux-media@vger.kernel.org>; Sun, 28 Jun 2026 09:45:46 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782639776; cv=none; b=S/w5m3k2jvp8GwI6UdF28P2EGEj66KuKCURNftznYK6I+dLtfXk8Z3HHM9BcDgHLCnzZ0AwWRQxOdTN+gWrp2cYspeXHFYkvnYM1RiiC6xNsk804/+dXHS2O7SrvZ7k8IvYHaEn32BzZHzNPx59k3MiDa5qjz0YZjFZ3s2VTJkc=
+	t=1782639947; cv=none; b=TOnd3R6Z5xnzBdUK8t7ZoYT10MWB+/KdwA0K33kZyhHjxcTuagY/APiMEKvQUAKhMyDA8lU2G5Y6BRQF5YZnlgF7FKkMJqFYj0VxBOac4k4z0ze+rEutf62C5O/mMFFs44U0HnVaesqZBfixErHBWfkkh8L2ezWGRoGZBe7JO64=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782639776; c=relaxed/simple;
-	bh=mhmLXscI6NQQEl70eju7+aXlhtGYE6nMOBb0I5fNLNs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=p9FQS/XWn5t+MV0/3omu8DAF4AwviQ5QsMYctBR8NVfBhqGVUnC75UGjnOhgDJwwKw5FDLfdxi1sorUHgVa4h+g5RAmkg/3iIljQqpz/qTsiIsOExezZH8U+bc7qyJfgBVmPd29ZaoAZCpYLQ284F6hMFo8shDTCBh7tn3fMlE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SlOB/FPY; arc=none smtp.client-ip=209.85.128.47
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-490b1bbcf3aso11783195e9.1
-        for <linux-media@vger.kernel.org>; Sun, 28 Jun 2026 02:42:55 -0700 (PDT)
+	s=arc-20240116; t=1782639947; c=relaxed/simple;
+	bh=O2B0uMKqHoOD4mY58Xsxi7bJvPfPy0Z+UX2l8MD+dOc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GT8mHbg2dqOVtlDSTTQhZ5L1Y4UR6YudFJwQDW7U/Ilk5odlzOgGILWEg9hg0IGWSWP5yrKAS5oN6mpU7HGbn5kJfNcLyFPca6Ay4OGZryZl1TOWMopsT0lDJVH5ZqSf4Xte9XGFG5oD3OEbeN/LIsvKmJVErXiyEYtcSRVqh9s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LJ3oglRM; arc=none smtp.client-ip=209.85.128.51
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49395888c7bso12353665e9.0
+        for <linux-media@vger.kernel.org>; Sun, 28 Jun 2026 02:45:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1782639774; x=1783244574; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1782639945; x=1783244745; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UqVt+RIteYYvNTCyf7JhD0K57WM4+XbG2izcVTYOpIA=;
-        b=SlOB/FPYrV9b2whuUJSJc+ra4YuukppavegQRSdIaCA667GrgMn7BRmrnmcbbxCU1S
-         Mwy0bWmhoQkB4t9Z9ZS5WNIdZxG2/sjMurfrk/tuMSeCF/NdfZdR7bVZ3FVckoGfwNAD
-         SFWK1QfMVcf53nTThG2QH986ZlcXUnSSLRv3s8mbNxueI1/Boh/+qJOR+/x5CNCkrUpb
-         u1uxm8P1Rq49ruEG1L9ZN2MsjVFFy21gHx2MV62B/vk/kAnycB5uRABnL/h+gCTr6VOP
-         Mr3V/bfq5MPSwYwnbgYVEN1+AibVaFjRirO9Xs+NqjiFScSBO84kenigy4yykRWhs6RV
-         99wA==
+        bh=yUuAzQn+5JDiJk1q5e76fbese7WA+ir/L5EhW8ClE0Q=;
+        b=LJ3oglRMuFWgnV6Nwf2hwROxVcBHOSvgnPHvqtGsyyTLyOcISTItSuqW48CXqMLJ8q
+         IHpjX8TkcRQIcpOsRaKRDlaLhuW9gWKVg+lsHQtmEr33hUKxw1w/+CNTVe3uIO3uF5hk
+         15FbbXMIkfvwI9sCsPLm1wUz88hbL48Vu3IEeqv7G3ijeAFKOMaFbQDGb2jNbbDXIbn8
+         xCorzJAOzfQW3psZt020v6Vuhb2kJzA+/VdiNijRt1OiVEN4EYPxFGMIPiylKzGt/Jkb
+         m0J0vi8nRxiSKah0Qg5wUIG5N1TXiS4+RYNb+M4dPI4Po7JO4FGIWzhyY+KP9r1t7I95
+         XXVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782639774; x=1783244574;
+        d=1e100.net; s=20251104; t=1782639945; x=1783244745;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UqVt+RIteYYvNTCyf7JhD0K57WM4+XbG2izcVTYOpIA=;
-        b=Unh8Dpc4vBNCwHvDhxO0HRmOVHE5FBf63n4iNEpFyAcK4//iX+hVH1SKI6iHYHPqe9
-         fgdeERXBHOj7OtkABXM1aTM7Hl4a8+RA3Cs2CzDIDRt9mwwYaZ44bYHHTECtl+F1MUtT
-         MhBF2wA5JobFcYgwGru7rLn+GsXhFkf6fABSX4fIRg/Hfja1V6+F+mP6h8rhK8NHkuBD
-         8YC14zsCfRY+tIqk9o4uYj8Dh0intavADt4bZ82s8k9E8OhQuCPCt11IaKMc3y0a7RQy
-         MMXAPsEZ9T0TPixarvPBys0JWCjwRV1wtvZiLTjpovtE7ZMbHbKR5FhFX0JpX7BYSQaa
-         jzag==
-X-Gm-Message-State: AOJu0YwqVdNkK4nLwe8mtX7OCVvi6mtNAOIAgqTO53PSMNQf4+jD7v/Y
-	8Ijmqamvuzz7/6u1j5OsLMzLB/PMqOPquCuQOVKL0zPWf6CCGJeM9uPr
-X-Gm-Gg: AfdE7ckJsTW59TmN4HCm5eWXsdXdeBO18hYSgGiXxbW1v3S/4j//4w3yiXjIzoT89zO
-	aSppY+Nx4c+I+Mb81DUPooop3PmuYu8XOGfNeY7h/awHtWUh4fxh1/LU+2PlTY2w4Z0lZgIUBoP
-	JenXFCaQotzSsrJ7+o8+oA6smw89pXec/ltrR170HgnIfiVcWDYvEwRohs/k9Hu13Q20AlAarcZ
-	iFVWphAYxwTtzT4gxgU1NMzfRGB7GXFlhIYdYQc7eKVDQ8HWEOreiihd0Qaf0IdUPuxpR8HB7eO
-	Gy2WdeoXya5gfK8fYVf3vGj+czwrDqvaaw7mXvNHStxoTq6RSP3BnU361TgAciq4r3w9Rfq3Bl4
-	8lvjKYm7s0T1KCAOJAixFXAD9mTWzLBLkug1pmqLaIKBaAeZxGl0+IZCr1+F8qdRlP28JmI6/Zn
-	HMFQXyDZNa4hziN3Q7SwuoORcrKQ==
-X-Received: by 2002:a05:600c:4f83:b0:492:d8be:2c0f with SMTP id 5b1f17b1804b1-49398cd4600mr62591975e9.36.1782639773581;
-        Sun, 28 Jun 2026 02:42:53 -0700 (PDT)
+        bh=yUuAzQn+5JDiJk1q5e76fbese7WA+ir/L5EhW8ClE0Q=;
+        b=dhjjjTzbQIdvuT+Rz7PFDw+wUGN+KWS29fuvv1jQoG4VYfD7y8/fAmmsoN8A8BookC
+         Dy9LEicLxR4LEMhFz0cNZqjrBUhwEEIyGCBw+kYtOgaucxVWoorSM1m24csTiBGzUZBf
+         /+7GUHHs0Coc2c4ttebv61VXJwJiZIVqZc8VouRx/OSgEj3q9ThTH6VaSRH4JeTm3g1n
+         qbLqKdIjiBcapK5OYrZZcVZ90iTAEUXiyIGOuhU75r1W28RqqINeMLvlACpSPoWsRjHb
+         ff7Ses8Sd7yBRh18/ZA1UEiQGe9BNOc7ZtwMplsUjI9vo/CcCEOYOVC95cctOTc9qGD6
+         k5Dw==
+X-Gm-Message-State: AOJu0Yxlfs+694hQP6wXXLWJA7BcE7j/0cwHraNG74afffq5HklE8CNd
+	nUWRIlTeZl/t14ycudigmPZ6cbLLN07vczqyUyWOrDEmEyz5XT1OE40l9BVTpt1x3Tn3dA==
+X-Gm-Gg: AfdE7cmAMjt+Df1f14L1lU2wCJe2fEGPwERMWjndtQaa2Jdtu8GZ7zYQa/aFXNurDIQ
+	MPU9WyFFPC52X1ah8w5wQMbtCNfFZquK5h0uerrPX7M4/G6mKetYFkQMJH/eUgbnJ3tXBP75GFL
+	HmxRwBYT4tzjhtT5VCSKTa4oxD4JeHzD5HjARLmcp1JZrnIH8qnlY7FAjgnI6E86FKLVPv9yRq+
+	EsdBu8gcQ2+bmpCDOCTvhEGpcYlrRn6XT6WdVhBBzax0Q4RkFAwPuhbZtr/NXJ7hSuOnqR9RLD0
+	NW2otqXjQYylicx4J699CQMc3xehSPX4LpuQVl+R1tsKVhh19KDeQsB+h6JgBbuSZ61aecQs6KZ
+	VzhR4F/8TJJhn0eRi2IAtfagWKF6PH7hCO1Ue1Nv0fcaoX4jGZFW59wNync193KyXwvlvffSxe/
+	W3CbRjOkpmcoFfMbWHOhJR0IMWeCEYscY4OSZj
+X-Received: by 2002:a05:6000:2483:b0:472:79bc:3919 with SMTP id ffacd0b85a97d-47279bc3aa5mr3463612f8f.39.1782639944961;
+        Sun, 28 Jun 2026 02:45:44 -0700 (PDT)
 Received: from Dev-Null-MSI ([2a0d:3344:52ac:a808:98a4:4381:be45:536f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4926c28c51asm121739045e9.2.2026.06.28.02.42.51
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-472c7bec9c2sm5129507f8f.12.2026.06.28.02.45.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 28 Jun 2026 02:42:52 -0700 (PDT)
+        Sun, 28 Jun 2026 02:45:44 -0700 (PDT)
 From: Yousef Alhouseen <alhouseenyousef@gmail.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org,
-	syzbot+ae466a728017ec940b41@syzkaller.appspotmail.com,
+	syzbot+01d4620886bee3db0e74@syzkaller.appspotmail.com,
 	Yousef Alhouseen <alhouseenyousef@gmail.com>
-Subject: [PATCH] media: dvb-core: pin frontend device through release
-Date: Sun, 28 Jun 2026 11:42:05 +0200
-Message-ID: <20260628094205.44981-1-alhouseenyousef@gmail.com>
+Subject: [PATCH] media: dvb-core: initialize TS feed cleanup fields
+Date: Sun, 28 Jun 2026 11:44:53 +0200
+Message-ID: <20260628094453.45766-1-alhouseenyousef@gmail.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -98,18 +98,18 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MID_CONTAINS_FROM(1.00)[];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_MISSING_CHARSET(0.50)[];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65817-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65818-lists,linux-media=lfdr.de];
 	FORGED_SENDER(0.00)[alhouseenyousef@gmail.com,linux-media@vger.kernel.org];
 	FREEMAIL_CC(0.00)[vger.kernel.org,syzkaller.appspotmail.com,gmail.com];
 	FREEMAIL_FROM(0.00)[gmail.com];
 	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:syzbot+ae466a728017ec940b41@syzkaller.appspotmail.com,m:alhouseenyousef@gmail.com,m:syzbot@syzkaller.appspotmail.com,s:lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,m:syzbot+01d4620886bee3db0e74@syzkaller.appspotmail.com,m:alhouseenyousef@gmail.com,m:syzbot@syzkaller.appspotmail.com,s:lists@lfdr.de];
 	FORWARDED(0.00)[lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
@@ -122,52 +122,45 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	DKIM_TRACE(0.00)[gmail.com:+];
 	RCVD_COUNT_FIVE(0.00)[5];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
 	ALIAS_RESOLVED(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,ae466a728017ec940b41];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,syzkaller.appspot.com:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,appspotmail.com:email]
+	TAGGED_RCPT(0.00)[linux-media,01d4620886bee3db0e74];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[syzkaller.appspot.com:url,appspotmail.com:email,vger.kernel.org:from_smtp,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 5068E6D383D
+X-Rspamd-Queue-Id: DE6076D384F
 
-dvb_generic_release() drops the reference held by the open file. Device
-unregistration may already have dropped the registration reference, in
-which case the call frees dvbdev. dvb_frontend_release() nevertheless
-continues to inspect its user count, wait queue, media entity and private
-frontend after that call, causing a use-after-free.
+dmx_ts_feed_set() validates the requested PID and decoder type before it
+assigns feed->ts_type and feed->pes_type. If validation fails, dmxdev
+releases the newly allocated feed, and dvbdmx_release_ts_feed() reads both
+uninitialized fields. A random TS_DECODER bit can also make cleanup use an
+uninitialized PES type as an array index.
 
-Take a temporary device reference around the generic release and the
-remaining frontend shutdown work.
+Initialize new feeds as non-decoder, DMX_PES_OTHER feeds so release is
+safe before the set operation succeeds.
 
-Fixes: 0fc044b2b5e2 ("media: dvbdev: adopts refcnt to avoid UAF")
-Reported-by: syzbot+ae466a728017ec940b41@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=ae466a728017ec940b41
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Reported-by: syzbot+01d4620886bee3db0e74@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=01d4620886bee3db0e74
 Cc: stable@vger.kernel.org
 Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
 ---
- drivers/media/dvb-core/dvb_frontend.c | 2 ++
+ drivers/media/dvb-core/dvb_demux.c | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/dvb-core/dvb_frontend.c b/drivers/media/dvb-core/dvb_frontend.c
-index 7aebaef18191..1276fe704675 100644
---- a/drivers/media/dvb-core/dvb_frontend.c
-+++ b/drivers/media/dvb-core/dvb_frontend.c
-@@ -2912,6 +2912,7 @@ static int dvb_frontend_release(struct inode *inode, struct file *file)
- 		mb();
- 	}
+diff --git a/drivers/media/dvb-core/dvb_demux.c b/drivers/media/dvb-core/dvb_demux.c
+index 290fc7961647..ed77e0bfb8e2 100644
+--- a/drivers/media/dvb-core/dvb_demux.c
++++ b/drivers/media/dvb-core/dvb_demux.c
+@@ -810,6 +810,8 @@ static int dvbdmx_allocate_ts_feed(struct dmx_demux *dmx,
+ 	feed->pid = 0xffff;
+ 	feed->peslen = 0xfffa;
+ 	feed->buffer_flags = 0;
++	feed->ts_type = 0;
++	feed->pes_type = DMX_PES_OTHER;
  
-+	dvb_device_get(dvbdev);
- 	ret = dvb_generic_release(inode, file);
- 
- 	if (dvbdev->users == -1) {
-@@ -2933,6 +2934,7 @@ static int dvb_frontend_release(struct inode *inode, struct file *file)
- 	}
- 
- 	dvb_frontend_put(fe);
-+	dvb_device_put(dvbdev);
- 
- 	return ret;
- }
+ 	(*ts_feed) = &feed->feed.ts;
+ 	(*ts_feed)->parent = dmx;
 -- 
 2.54.0
 
