@@ -1,138 +1,145 @@
-Return-Path: <linux-media+bounces-65852-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65853-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Pj4aJiAjQmpV0wkAu9opvQ
-	(envelope-from <linux-media+bounces-65852-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 09:47:44 +0200
+	id IziDMEYjQmpf0wkAu9opvQ
+	(envelope-from <linux-media+bounces-65853-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 09:48:22 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11D36D726E
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 09:47:43 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 142846D727D
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 09:48:22 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=arm.com header.s=foss header.b=sbJAD0x5;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65852-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65852-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=arm.com;
+	dkim=pass header.d=intel.com header.s=Intel header.b=PtnZ8Oaf;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65853-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65853-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=intel.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 7B62A30EAF9C
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 07:38:11 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 89F753197BB6
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 07:40:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57E753CB8FB;
-	Mon, 29 Jun 2026 07:36:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 150753403F6;
+	Mon, 29 Jun 2026 07:38:42 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0695359A89;
-	Mon, 29 Jun 2026 07:36:49 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25BD43D813D;
+	Mon, 29 Jun 2026 07:38:37 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782718612; cv=none; b=TeXIp0ge3HIDrnSZoiovBBMcecL9BWZn1IomuTmeEq23bvMaBU3XhZmoDbyBUm2gEqJk5QMLG1oQhKOSMeOAudoJZg45+gZ3tutHx8mer0rbMEbydbVuhGpIWn7hTmSQYjkQvvgQW2PgSICtMtNBNzeMJQmRI+d/oIgdI6oq/Lw=
+	t=1782718720; cv=none; b=EB0cPtAQjavSe3EsSks5izEmddWB5qMR03RLb4lvtRmscBgHuLNhE5Q0dY4s49cE/8gp2e7daGRd7iojqDWVATKIwiy0PxJIshM1I9AAqzUz2vbWEz+pXhhpwdY1VRUk+At2QOhaA+wVucAXjeBVz6kd/THEk+YZ0qX8GjF9dWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782718612; c=relaxed/simple;
-	bh=kXIZ98PZFKGNtdxdgbiMFZ0v+lZ1hI6B3tR43EhmaIw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m5JkeCOD/JxF3Y9ebWenlPr3AH1eL1VBC9Q2Hr03gfi7spDbQhuTxv9Dm6c+uUcMuQ0lzNLdNrsUGhJztplOQ15hcwTZWYS2X6NtVB2+whTLZI/4oh9Uh067DjDHjGKVN+o0Oky40DSvj5wiu2iRsVpXfFvllRAMu7dBfdKxkIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=sbJAD0x5; arc=none smtp.client-ip=217.140.110.172
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 73A17169E;
-	Mon, 29 Jun 2026 00:36:44 -0700 (PDT)
-Received: from [192.168.7.252] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6571F3F836;
-	Mon, 29 Jun 2026 00:36:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1782718608; bh=kXIZ98PZFKGNtdxdgbiMFZ0v+lZ1hI6B3tR43EhmaIw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sbJAD0x5Vauw53PdqJfM7OP8DlDBiNpcghMcVsczxsSnQxLdGRbkE2mBt/WWqlLiA
-	 I1slE/aHuBDmaaNTwrumeFSkcePbBS0oBbmSwyfkUS/rPl6JTkPehY1TuxLE9zabzl
-	 0u6o+EJ5oGPxOsVqcAPn9B/8zO/JRHND+23h9SRQ=
-Message-ID: <509fe290-a18c-4896-a6b3-21d60585b335@arm.com>
-Date: Mon, 29 Jun 2026 08:36:45 +0100
+	s=arc-20240116; t=1782718720; c=relaxed/simple;
+	bh=oPLWZXxJjysF+OzWbrv/GEQD9w+rSij56YwU6dqLYHA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uw4wF6BjRBkw1zVDRT2KGagD97oPd2uXYBy62iDvkFXtmJrSCKbNqECxU3a8zksIuaUlixdN+uhJf4HDxZa55EiCZBe6WMApa9EdXtBZd0Et4pNpyCa/ofHdODX0niVn3W5pNzmdVTqx2Hhf4j7h6aVyNpRAYSs1vg65MoGPc0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PtnZ8Oaf; arc=none smtp.client-ip=198.175.65.21
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1782718717; x=1814254717;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oPLWZXxJjysF+OzWbrv/GEQD9w+rSij56YwU6dqLYHA=;
+  b=PtnZ8Oaf6P/mzdM9xrXFk5/M8421xKN9PVVNG+jji1bEw9n9+J1vyOk8
+   VwcCqCCZ90zGDK1U3yxHzy+BJ581Zr/8CQEEmq9ILKYZip5HXoRWFOL8v
+   MLKjsqqx24JBhelvBr8E+f7HFjQmNW0Q1zXVpnIUMnUAJfcUQfIkPsoZp
+   fZAFhKzZK3RHtMHXFBh6h1+XGVzy+3JYp0hl6mlG5fix5cDCFQ2njd/Op
+   RPW0IvegO+k16X8mID+vto9b8aJRYt3341O4Ekf5sk1zGHGpMpeaVun2h
+   OAit8dgADlcuFeTtgJ4YpdG4pXUdWPU9Ss4h2coN+LvsD0azOtsbaYHN0
+   Q==;
+X-CSE-ConnectionGUID: cQt+lZmLRH+BOzDDJxcqdg==
+X-CSE-MsgGUID: DGcaDSBHSAWlsDmbgXKDTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11831"; a="83276760"
+X-IronPort-AV: E=Sophos;i="6.24,231,1774335600"; 
+   d="scan'208";a="83276760"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 00:38:36 -0700
+X-CSE-ConnectionGUID: Y93RFMxrRq2A4kOs0yjNTA==
+X-CSE-MsgGUID: +nJ3e+6iS0ajEDIFpQjxsw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.24,231,1774335600"; 
+   d="scan'208";a="255485334"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.207])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2026 00:38:34 -0700
+Date: Mon, 29 Jun 2026 10:38:31 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Doruk Tan Ozturk <doruk@0sec.ai>
+Cc: Hans de Goede <hansg@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: atomisp: validate sizeimage against the
+ allocated frame in framebuffer-to-CSS
+Message-ID: <akIg93XXxWDtfHT9@ashevche-desk.local>
+References: <cover.1782484857.git.doruk@0sec.ai>
+ <023f2124beb3d2fe9ab0ab6bd31717f0a6c9ff81.1782484857.git.doruk@0sec.ai>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] media: arm: mali-c55: Add support for CCM
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Nayden.Kanchev@arm.com, Konstantin Babin <Konstantin.Babin@arm.com>,
- Anthony McGivern <anthony.mcgivern@arm.com>, linus.walleij@arm.com,
- Daniel Scally <dan.scally@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-References: <20260616-mali-c55-ccm-gamma-v2-0-0f93e9a95d98@ideasonboard.com>
- <20260616-mali-c55-ccm-gamma-v2-1-0f93e9a95d98@ideasonboard.com>
- <1a4fe819-8351-465f-b77a-71433eb5eb68@arm.com> <aj6QBQhRlX6L5KGm@zed>
-Content-Language: en-GB
-From: Vincenzo Frascino <vincenzo.frascino@arm.com>
-In-Reply-To: <aj6QBQhRlX6L5KGm@zed>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <023f2124beb3d2fe9ab0ab6bd31717f0a6c9ff81.1782484857.git.doruk@0sec.ai>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.16 / 15.00];
+X-Spamd-Result: default: False [-5.16 / 15.00];
+	WHITELIST_SPF_DKIM(-3.00)[intel.com:d:+,kernel.org:s:+];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[arm.com,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
-	R_DKIM_ALLOW(-0.20)[arm.com:s=foss];
+	DMARC_POLICY_ALLOW(-0.50)[intel.com,none];
+	R_DKIM_ALLOW(-0.20)[intel.com:s=Intel];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[arm.com:+];
-	FORWARDED(0.00)[lists@lfdr.de];
-	TAGGED_FROM(0.00)[bounces-65852-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65853-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[vincenzo.frascino@arm.com,linux-media@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:Nayden.Kanchev@arm.com,m:Konstantin.Babin@arm.com,m:anthony.mcgivern@arm.com,m:linus.walleij@arm.com,m:dan.scally@ideasonboard.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi+renesas@ideasonboard.com,s:lists@lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:doruk@0sec.ai,m:hansg@kernel.org,m:andy@kernel.org,m:mchehab@kernel.org,m:gregkh@linuxfoundation.org,m:sakari.ailus@linux.intel.com,m:linux-media@vger.kernel.org,m:linux-staging@lists.linux.dev,m:linux-kernel@vger.kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	HAS_ORG_HEADER(0.00)[];
 	TO_DN_SOME(0.00)[];
+	FORGED_SENDER(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[intel.com:+];
+	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[vincenzo.frascino@arm.com,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	FROM_NEQ_ENVFROM(0.00)[andriy.shevchenko@intel.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,renesas];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,arm.com:dkim,arm.com:mid,arm.com:from_mime]
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[9];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,ashevche-desk.local:mid,intel.com:dkim,intel.com:from_mime,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: F11D36D726E
+X-Rspamd-Queue-Id: 142846D727D
 
-Hi Jacopo,
+On Fri, Jun 26, 2026 at 06:40:41PM +0200, Doruk Tan Ozturk wrote:
+> atomisp_v4l2_framebuffer_to_css_frame() allocates the CSS frame
+> (res->data) from arg->fmt.{width,height,format} but then
+> hmm_store()s arg->fmt.sizeimage bytes into it. sizeimage is an
+> independent user-controlled v4l2_pix_format field with no cross-check, so
+> a sizeimage larger than the allocated frame overflows res->data (ISP/hmm
+> memory). Reject sizeimage > res->data_bytes before the store.
+> 
+> Found by static analysis; not yet runtime-reproduced (Intel Atom ISP
+> hardware required).
 
-On 26/06/2026 15:45, Jacopo Mondi wrote:
->>>  }
->>>
->>> +static void mali_c55_params_ccm(struct mali_c55 *mali_c55,
->>> +				union mali_c55_params_block block)
->>> +{
->>> +	const struct mali_c55_params_ccm *params = block.ccm;
->>> +
->>> +	if (block.header->flags & V4L2_ISP_PARAMS_FL_BLOCK_DISABLE) {
->>> +		mali_c55_ctx_write(mali_c55, MALI_C55_REG_CCM_ENABLE, 0);
->>> +		return;
->>> +	}
->>> +
->>> +	mali_c55_ctx_update_bits(mali_c55, MALI_C55_REG_CCM_COEF_R_R,
->>> +				 MALI_C55_CCM_COEF_MASK, params->coeffs[0][0]);
->> Should values be validated or masked before programming? Since this is
-> Don't mali_c55_ctx_update_bits() does making already ?
+> Found by 0sec's autonomous vulnerability analysis (https://0sec.ai).
 
-mali_c55_ctx_update_bits() masks the value before programming, yes.
-
-What I was trying to suggest is that silently truncating uAPI-provided values is
-not ideal. I would add an explicit validation in the params validation path and
-reject coefficients with bits outside MALI_C55_CCM_COEF_MASK, so userspace gets
-a warning instead of having values silently altered.
+Is it AI-based / backed? In such a case you may use Assisted-by tag.
 
 -- 
-Regards,
-Vincenzo
+With Best Regards,
+Andy Shevchenko
+
 
 
