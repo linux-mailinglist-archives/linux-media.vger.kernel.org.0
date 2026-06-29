@@ -1,251 +1,186 @@
-Return-Path: <linux-media+bounces-65961-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65962-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id hJOgEsJ1Qmri7gkAu9opvQ
-	(envelope-from <linux-media+bounces-65961-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 15:40:18 +0200
+	id p17qCYN2QmpB7wkAu9opvQ
+	(envelope-from <linux-media+bounces-65962-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 15:43:31 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E5536DB5C7
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 15:40:17 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D3DD6DB6CF
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 15:43:30 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=h5AFqQi4;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65961-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65961-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=ideasonboard.com header.s=mail header.b=ATD4dmgf;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65962-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65962-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=ideasonboard.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 3E38D315DACC
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 13:30:34 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id C98FB30960FC
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 13:32:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81DEC411688;
-	Mon, 29 Jun 2026 13:28:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 975B4202F70;
+	Mon, 29 Jun 2026 13:32:15 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB51636A366;
-	Mon, 29 Jun 2026 13:28:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A169D1ACEDE;
+	Mon, 29 Jun 2026 13:32:13 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782739699; cv=none; b=iyWCDobA2jUBdSKBsRorK79k1ZKPfeL/ThmS7BRO/Dw/sx1gVq2mkZPZy2z2zuxNo9JFR6a4DsKm20Jp+pueHNFsFQxlJCx0auuBHE6OzbI6ZtGQebJvPhp+05HLy9rGhsv+BDgOm/8Dp6q3E/3fnR25kCsob6VAxAeP4XgKhyQ=
+	t=1782739935; cv=none; b=L6k2evOnBbEvVESvNO1UsvnNCW3I7urswdfcL3iedeD3U+Tjf7ZdlRietHfMO8V/Dq9OPn8rzdap28z3Fi2Tmnk86cCaP4K4T3uoLJ16Lvsrl8CjOmzhPzIDB3dpU1u35efLBFJJExhdlt1uTMLEznCSGYwYC5VmirVq/o6jBrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782739699; c=relaxed/simple;
-	bh=j+Xq+qlf0aQy5fadHBX3DKpcoyWe26ABu8Ry5PWEXLM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gZOZCEenL6dg3lhJx2agmm9T5YkZrbI2l+dGpQaYVK4dAgpKDa2X7s9SEmLT+4Phx7hn6r21OVId2aJyNRlv6vPpxXUIlXsqPg7npL5DHuBomc2k/cEDhC3RXhF31Kaepsdl6BtKhXgyxspfd4iuK0cXbS9abptwJ3g+qElETdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h5AFqQi4; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 089BD1F00A3A;
-	Mon, 29 Jun 2026 13:28:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782739698;
-	bh=iYwaK59VeErRBhP0Q9iTMSGYiDgPnUNQAe6MLCdyQLw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=h5AFqQi4jStPxyTSP1+6Qa/JvBSIFtVgK0MNZzsiH6wjFRswa/RLrnQqFNHih/qjG
-	 EWv3fVYPKDKbBtHjWpFdO8cIy9X4E9hkJpPP6vBXA8/qsQylAAtt6v+NK73U7OXv92
-	 YB7mQNWAxRfG6dGtDgsPLk0YTrL8XMwVLZP0DiJLe31ovoUMss8UP/7D/l/j5xY8/E
-	 GWyr+Tst/J+V3i8q9C/i4YobqaQblCJhFZjTHY4YfQcFjDhwMaiBx0Ip4Lj1e9DE6L
-	 mM017Lryq9TQOfeRAPIp4At1UOUu2ZNtp0Xj6zezM1lXYTXWiO8CpisTNWLtJuCnOG
-	 JFsljvXoooevw==
-From: Arnd Bergmann <arnd@kernel.org>
-To: linux-gpio@vger.kernel.org
-Cc: Arnd Bergmann <arnd@arndb.de>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
-	Gregory Clement <gregory.clement@bootlin.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Greg Ungerer <gerg@linux-m68k.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Hauke Mehrtens <hauke@hauke-m.de>,
-	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <zajec5@gmail.com>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-	Linus Walleij <linusw@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Dominik Brodowski <linux@dominikbrodowski.net>,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	patches@opensource.cirrus.com,
-	linux-m68k@lists.linux-m68k.org,
-	linux-mips@vger.kernel.org,
-	linux-sh@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-sunxi@lists.linux.dev,
-	linux-phy@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-sound@vger.kernel.org
-Subject: [PATCH 13/13] gpiolib: remove linux/gpio.h
-Date: Mon, 29 Jun 2026 15:26:33 +0200
-Message-Id: <20260629132633.1300009-14-arnd@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20260629132633.1300009-1-arnd@kernel.org>
-References: <20260629132633.1300009-1-arnd@kernel.org>
+	s=arc-20240116; t=1782739935; c=relaxed/simple;
+	bh=S57+5teCy6LzK96Jhhkm+uIVR+Fy4bu50/CAJ6vLnO8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UiRbQJmPbztJsKa8Lwz+WYANFPl4s72EH2WRJfM4r/cUjpSo3BKL/rPk3AWPnElVTGewaoq0ZNSHG4BfinwCDtCyOfKiECNFn/4L+hsla/jL2jWUfccvwzZlVWCWOt7ieGiPpToGAOlkC/oEJo/ra6e5vT/wqZDGkLtahw2U1g8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ATD4dmgf; arc=none smtp.client-ip=213.167.242.64
+Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 611E8324;
+	Mon, 29 Jun 2026 15:31:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1782739888;
+	bh=S57+5teCy6LzK96Jhhkm+uIVR+Fy4bu50/CAJ6vLnO8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ATD4dmgfXlv4WvMcsrh4wuzi+l0y/tMuvzYHFZnVpAPcJig3ajR25PHZLvkWb/gZN
+	 c5IYQnE27TLOs7MlRRRaN23EboEwUjkw5kuNZ/UZrXid4c67oEnIKxkybvYK1KZh58
+	 HD4u30gMvYuS3rvkSO5iL4tMRGY97zs/qVRBX/hI=
+Date: Mon, 29 Jun 2026 16:32:09 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Vincenzo Frascino <vincenzo.frascino@arm.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Nayden.Kanchev@arm.com,
+	Konstantin Babin <Konstantin.Babin@arm.com>,
+	Anthony McGivern <anthony.mcgivern@arm.com>, linus.walleij@arm.com,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Subject: Re: [PATCH v3 2/4] media: mali-c55: Implement CCM block validation
+Message-ID: <20260629133209.GG3054459@killaraus.ideasonboard.com>
+References: <20260627-mali-c55-ccm-gamma-v3-0-113584c05174@ideasonboard.com>
+ <20260627-mali-c55-ccm-gamma-v3-2-113584c05174@ideasonboard.com>
+ <20260629095732.GC3054459@killaraus.ideasonboard.com>
+ <34de3262-3e3a-4b93-90a0-bf662162dd10@arm.com>
+ <20260629120552.GE3054459@killaraus.ideasonboard.com>
+ <f4380f3d-8e75-4c9c-8e56-599b4b203369@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <f4380f3d-8e75-4c9c-8e56-599b4b203369@arm.com>
 X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
-	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
+	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65961-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:linux-gpio@vger.kernel.org,m:arnd@arndb.de,m:brgl@kernel.org,m:andrew@lunn.ch,m:sebastian.hesselbarth@gmail.com,m:gregory.clement@bootlin.com,m:Frank.Li@nxp.com,m:robert.jarzmik@free.fr,m:krzk@kernel.org,m:gerg@linux-m68k.org,m:tsbogend@alpha.franken.de,m:hauke@hauke-m.de,m:zajec5@gmail.com,m:ysato@users.sourceforge.jp,m:glaubitz@physik.fu-berlin.de,m:linusw@kernel.org,m:dmitry.torokhov@gmail.com,m:kuba@kernel.org,m:pabeni@redhat.com,m:linux@dominikbrodowski.net,m:linux-kernel@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:linux-samsung-soc@vger.kernel.org,m:patches@opensource.cirrus.com,m:linux-m68k@lists.linux-m68k.org,m:linux-mips@vger.kernel.org,m:linux-sh@vger.kernel.org,m:linux-input@vger.kernel.org,m:linux-media@vger.kernel.org,m:netdev@vger.kernel.org,m:linux-sunxi@lists.linux.dev,m:linux-phy@lists.infradead.org,m:linux-rockchip@lists.infradead.org,m:linux-sound@vger.kernel.org,m:sebastianhesselbarth@gmail.com,m:dmitrytorokhov@gmail.com,s:
- lists@lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[34];
-	FORWARDED(0.00)[lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[arnd@kernel.org,linux-media@vger.kernel.org];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[arnd@kernel.org,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-65962-lists,linux-media=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[arndb.de,kernel.org,lunn.ch,gmail.com,bootlin.com,nxp.com,free.fr,linux-m68k.org,alpha.franken.de,hauke-m.de,users.sourceforge.jp,physik.fu-berlin.de,redhat.com,dominikbrodowski.net,vger.kernel.org,lists.infradead.org,opensource.cirrus.com,lists.linux-m68k.org,lists.linux.dev];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
+	FORGED_RECIPIENTS(0.00)[m:vincenzo.frascino@arm.com,m:jacopo.mondi@ideasonboard.com,m:Nayden.Kanchev@arm.com,m:Konstantin.Babin@arm.com,m:anthony.mcgivern@arm.com,m:linus.walleij@arm.com,m:dan.scally@ideasonboard.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi+renesas@ideasonboard.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	DKIM_TRACE(0.00)[ideasonboard.com:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[4];
+	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
+	MISSING_XM_UA(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	ALIAS_RESOLVED(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
+	MID_RHS_MATCH_FROMTLD(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	MIME_TRACE(0.00)[0:+];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,arndb.de:email]
+	TO_DN_SOME(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 9E5536DB5C7
+X-Rspamd-Queue-Id: 8D3DD6DB6CF
 
-From: Arnd Bergmann <arnd@arndb.de>
+On Mon, Jun 29, 2026 at 02:17:37PM +0100, Vincenzo Frascino wrote:
+> On 29/06/2026 13:05, Laurent Pinchart wrote:
+> > On Mon, Jun 29, 2026 at 12:08:08PM +0100, Vincenzo Frascino wrote:
+> >> On 29/06/2026 10:57, Laurent Pinchart wrote:
+> >>> On Sat, Jun 27, 2026 at 04:29:14PM +0200, Jacopo Mondi wrote:
+> >>>> From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> >>>>
+> >>>> Implement validation of CCM block parameters.
+> >>>>
+> >>>> CCM coefficients are expressed as 13 bits signed Q4.8 format and their
+> >>>> raw value cannot be higher than 8191 (BIT(13) - 1).
+> >>>>
+> >>>> CCM gains are expressed as unsigned 12 bits Q4.8 format and their raw
+> >>>> value cannot be higher than 4095 (BIT(12) - 1).
+> >>>>
+> >>>> CCM offsets are 12 bits unsigned integers and their value cannot be
+> >>>> higher than 4095 (BIT(12) - 1).
+> >>>>
+> >>>> Validate the parameters provided by userspace using the .block_validate
+> >>>> callback of struct v4l2_isp_params_block_type_info.
+> >>> I don't think this is needed.
+> >>>
+> >>> We need to validate parameters that can cause the ISP to malfunction in
+> >>> ways that requires a system reset, or in ways that cause malfunction of
+> >>> other system components (e.g. buffer overflows, memory bus lock ups,
+> >>> ...). The rest doesn't need to be validated.
+> >>>
+> >>> If you want to be cautious, you can just mask the value when writing to
+> >>> registers, which I think you're doing in patch 1/4.
+> >>
+> >> According to me here is not a matter of being cautious, but of honouring the
+> >> contract with the userspace.
+> >>
+> >> If the userspace is doing something wrong it should be notified. The only
+> >> reasonable argument against this would be if this code is on a critical path and
+> >> the validations have a performance impact.
+> > 
+> > I don't agree with this. As long as it doesn't have an impact on other
+> > parts of the system, there's no need to notify userspace. It's purely a
+> > userspace issue, it's pointless to waste CPU cycles every frame.
+> 
+> I don't think it's only about protecting the hardware from invalid values.
+> 
+> The userspace API defines the valid range for these parameters. If userspace
+> provides values outside that range, returning an error makes the issue visible
+> immediately instead of silently changing the requested configuration by masking
+> or clamping the values. From userspace's perspective, silently accepting invalid
+> input can make debugging harder, as the configuration that gets applied is no
+> longer the one that was requested.
 
-After all other drivers have converted to linux/gpio/consumer.h
-or linux/gpio/legacy.h, remove the final leftover bits here.
+That's a valid concern, but I would handle it with a validation layer in
+userspace if needed for debugging. That will allow userspace
+implementations to select the amount of validation they deem fit for
+their use cases.
 
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
- MAINTAINERS                   |  1 -
- drivers/gpio/TODO             |  4 +---
- drivers/gpio/gpiolib-cdev.c   |  2 +-
- drivers/gpio/gpiolib-legacy.c |  3 +--
- drivers/gpio/gpiolib.c        |  2 +-
- include/linux/gpio.h          | 22 ----------------------
- 6 files changed, 4 insertions(+), 30 deletions(-)
- delete mode 100644 include/linux/gpio.h
+> This also matches the documented behaviour of the V4L2 extended controls ioctl,
+> which specifies that EINVAL should be returned when the value of a control is
+> invalid:
+> https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/vidioc-g-ext-ctrls.html
+> 
+> The validation also isn't on the critical per-frame path. It's only performed
+> when userspace updates the parameters, so the CPU cost is negligible.
+> 
+> That said, if the expectation for the V4L2 ISP API is that drivers should only
+> validate values that could affect system stability or security, and silently
+> mask everything else, I'm happy to follow that approach for consistency.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 15011f5752a9..7f3f386b1d8c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11175,7 +11175,6 @@ F:	Documentation/devicetree/bindings/gpio/
- F:	Documentation/driver-api/gpio/
- F:	drivers/gpio/
- F:	include/dt-bindings/gpio/
--F:	include/linux/gpio.h
- F:	include/linux/gpio/
- K:	(devm_)?gpio_(request|free|direction|get|set)
- K:	GPIOD_FLAGS_BIT_NONEXCLUSIVE
-diff --git a/drivers/gpio/TODO b/drivers/gpio/TODO
-index 7ce80fde1f17..894c7e1af252 100644
---- a/drivers/gpio/TODO
-+++ b/drivers/gpio/TODO
-@@ -52,9 +52,7 @@ Work items:
-   base can be made dynamic (set to -1) if CONFIG_GPIO_SYSFS is disabled.
- 
- - When this work is complete (will require some of the items in the
--  following ongoing work as well) we can delete the old global
--  numberspace accessors from <linux/gpio.h> and eventually delete
--  <linux/gpio.h> altogether.
-+  following ongoing work as well) we can delete <linux/gpio/lagacy.h>.
- 
- -------------------------------------------------------------------------------
- 
-diff --git a/drivers/gpio/gpiolib-cdev.c b/drivers/gpio/gpiolib-cdev.c
-index 82f27db0b230..9b6a28819371 100644
---- a/drivers/gpio/gpiolib-cdev.c
-+++ b/drivers/gpio/gpiolib-cdev.c
-@@ -11,7 +11,7 @@
- #include <linux/device.h>
- #include <linux/err.h>
- #include <linux/file.h>
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/gpio/driver.h>
- #include <linux/hte.h>
- #include <linux/interrupt.h>
-diff --git a/drivers/gpio/gpiolib-legacy.c b/drivers/gpio/gpiolib-legacy.c
-index ef3f2ef30cf2..33e5a45e720b 100644
---- a/drivers/gpio/gpiolib-legacy.c
-+++ b/drivers/gpio/gpiolib-legacy.c
-@@ -7,8 +7,7 @@
- 
- #include <linux/gpio/consumer.h>
- #include <linux/gpio/driver.h>
--
--#include <linux/gpio.h>
-+#include <linux/gpio/legacy.h>
- 
- #include "gpiolib.h"
- 
-diff --git a/drivers/gpio/gpiolib.c b/drivers/gpio/gpiolib.c
-index e5fb60111151..1f498d6c8c68 100644
---- a/drivers/gpio/gpiolib.c
-+++ b/drivers/gpio/gpiolib.c
-@@ -29,7 +29,7 @@
- #include <linux/string.h>
- #include <linux/string_choices.h>
- 
--#include <linux/gpio.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/gpio/driver.h>
- #include <linux/gpio/machine.h>
- 
-diff --git a/include/linux/gpio.h b/include/linux/gpio.h
-deleted file mode 100644
-index b0d4942a65de..000000000000
---- a/include/linux/gpio.h
-+++ /dev/null
-@@ -1,22 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0 */
--/*
-- * NOTE: This header *must not* be included.
-- *
-- * If you're implementing a GPIO driver, only include <linux/gpio/driver.h>
-- * If you're implementing a GPIO consumer, only include <linux/gpio/consumer.h>
-- * If you're using the legacy interfaces, include <linux/gpio/legacy.h>
-- */
--
--#ifndef __LINUX_GPIO_H
--#define __LINUX_GPIO_H
--
--#include <linux/types.h>
--#ifdef CONFIG_GPIOLIB
--#include <linux/gpio/consumer.h>
--#endif
--
--#ifdef CONFIG_GPIOLIB_LEGACY
--#include <linux/gpio/legacy.h>
--#endif /* CONFIG_GPIOLIB_LEGACY */
--
--#endif /* __LINUX_GPIO_H */
+That's my expectation at least :-) That's what we aimed for when
+designing the API. The expectation may not have always been voiced
+clearly though.
+
+> >> @Jacopo, can you please confirm if this is the case?
+
 -- 
-2.39.5
+Regards,
 
+Laurent Pinchart
 
