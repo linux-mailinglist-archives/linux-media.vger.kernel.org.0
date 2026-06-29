@@ -1,139 +1,183 @@
-Return-Path: <linux-media+bounces-65872-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65873-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id Hq9WJ34uQmqe1QkAu9opvQ
-	(envelope-from <linux-media+bounces-65872-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:36:14 +0200
+	id QDMBERwwQmrh1QkAu9opvQ
+	(envelope-from <linux-media+bounces-65873-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:43:08 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B506D78BE
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:36:14 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 970186D799C
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:43:07 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=DuMM4zeD;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65872-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65872-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=collabora.com header.s=mail header.b=Wja8IEen;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65873-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65873-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=collabora.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id D5EC43041AA2
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 08:32:15 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 141BF3038BB9
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 08:41:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A0013F5BF1;
-	Mon, 29 Jun 2026 08:32:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2203A2F8E8A;
+	Mon, 29 Jun 2026 08:41:26 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46863F58DF
-	for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 08:32:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E08E3ED5D6;
+	Mon, 29 Jun 2026 08:41:23 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782721933; cv=none; b=NjdB1eslYQhw67E3wQUyGYMwNYMqFIjKW4pndvBdgtyutJ4zjJ38ooZIVM2eED/rOzVde970vKkAVtVrLdmXD/HTXIJo7DgDw73dNdEWkourabV8fz56O6OJOiKRM9/KjLQstzh66UE5z8vMQX9C6kc8fRVtxG5W5FgwKxqCoRI=
+	t=1782722485; cv=none; b=szmMotaC0qEBeCLzmbxYw4jz80cWyrFP3LN7aYh0ooNJhL9PPSyrVZzYyy9ETS+JijXW9nMyRrHsxUxq2MMiEMNIVYol5G0dtEuF/j+H/HJNAMq8AVB4OENoh7R/XGMszWWc/f3dN194q3ld9JNzZ+amkZfz1eCA6QHhaXTirNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782721933; c=relaxed/simple;
-	bh=tUuN591Y6fPtcNAmuZEe8Av3aatfOQw1bSLMTeoh7UI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=R/iJ9jK7K1F8Uq9dOsFadvOn8W4A50XTFzWt/F0l3PjHGXPhQS17Os86N9ZxGYQo7HzRzufxHSbE/gg4jIUHhuFttKOtt2AYOEfmcK8j3BbV3tY/Ahw62l6uDl2+ClgZao2w+KbiN1Oryh9FR1RNCNg7lhdbo9R9e8ZXBxMWeZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DuMM4zeD; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC6B51F00A3E
-	for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 08:32:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782721932;
-	bh=tUuN591Y6fPtcNAmuZEe8Av3aatfOQw1bSLMTeoh7UI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=DuMM4zeDirHLDXbGO0dvNYyCS1KEFK/bqfKODIPJf1ksB28atCJWMSU85HvG67HTk
-	 roI5WF7SsRqbv7RRkfW+umO2Xz41tGfPAmEleNpPWFeqNxtT64LjWj7dByPsr7b79d
-	 1m/XQUnE4QGWwZFqvmPqqiIVPB8ANm45+L5DM3pj+xo//4M5HUd78e12yvtn8pMjOQ
-	 1t1UK/WuYq/xVAPYf6Q9Z4TTmvh8DGQ0xoLCstzTqUEZPg4ceQLbOadJagU82+mEUu
-	 OWld2aR0aRTpCL+i9mUPJ8exAgW9WVdhoy1DsLadZNFvWy8JblhmmdAMUneypncW1Y
-	 lbZjnoPlja59Q==
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-39b1026e171so5102041fa.1
-        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 01:32:12 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AHgh+Rr3vZwq9VxlHHhX3U4piZeFlAUMK84Yu0hpS7vfZhE6Btjf6/KsqEWIQmLdXAfuSvUWuTvgJOj8ABRVsw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJ4PTQfILmjEe1U3Mm3tjI0p39gcCyd+/hs9RZs2DVlms1nA5p
-	l63xTtSh5qPkslMCz5KVfkiNiB21u73g3O4lHkZWkKER/o7tuRqDd2bLCdnUO44zGxiuzQrYCxQ
-	eVLfubwx12RDJPIPYK5zCZsb3qQs60ro=
-X-Received: by 2002:ac2:5de5:0:b0:5aa:8823:e311 with SMTP id
- 2adb3069b0e04-5aea1f55e73mr2561045e87.47.1782721931064; Mon, 29 Jun 2026
- 01:32:11 -0700 (PDT)
+	s=arc-20240116; t=1782722485; c=relaxed/simple;
+	bh=tmVYMQLt6w66eKgeMnRYtDFyZlz9JTeXyaU4pBlZwO4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ivzRg1aRXSc9iKuZMub6ROKtdKJejE7CpAExsP0mLnDdT7daeURdXtMoUWVeMlGvgmQDXceBQO81fPBFWiV3yWGa48Y8zjXp1g5rphEVS6gLnwJZGZ7p0b2EnjnAowXoVG8pq0kwLhkS/bdptiR9QytU9qFwwTvud8bfN/oT6v0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Wja8IEen; arc=none smtp.client-ip=148.251.105.195
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1782722476;
+	bh=tmVYMQLt6w66eKgeMnRYtDFyZlz9JTeXyaU4pBlZwO4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Wja8IEenS+49sHofjDn58Z2mmMXgQ0UGP4Xy+VAT6HtfYogNC3vjzjVSW6w+ubSFD
+	 X/FOKiHUU8JM5qyFEA8ylxQANgiPQJdBGVld6lxNz652ueAMTtUhexR5HT7HbR9cu0
+	 LeBAAXsXcUC5tAETWzVc6ygHBav2izO7OmwlXYn4DFP2c+xhoMPqttDv2yim2uQOtk
+	 vezEbp6jWQOx4C8aZXuCJxxHWZDaLYT0s/vl9EPzv9AGhffYYo53fyvp4h4a3Y/2L7
+	 B0TKpWTdG/Xh5T5HE4pTbDdod3muymIr1S7Ae/i9QqLOKZYCksQ1RMDLWF6JA6MYvA
+	 a/zHXOWnc8PJQ==
+Received: from fedora-2.home (unknown [100.64.0.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id B45E217E0246;
+	Mon, 29 Jun 2026 10:41:15 +0200 (CEST)
+Date: Mon, 29 Jun 2026 10:41:12 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Philipp Stanner <phasta@kernel.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+ =?UTF-8?B?QW5kcsOp?= Draszik <andre.draszik@linaro.org>, Danilo Krummrich
+ <dakr@kernel.org>, Gary Guo <gary@garyguo.net>, "Paul E . McKenney"
+ <paulmck@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH v2] dma-buf: dma-fence: Fix potential NULL pointer
+ dereference
+Message-ID: <20260629104112.72d58bf5@fedora-2.home>
+In-Reply-To: <20260629075636.2513214-2-phasta@kernel.org>
+References: <20260629075636.2513214-2-phasta@kernel.org>
+Organization: Collabora
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260618195254.139712-1-devnexen@gmail.com>
-In-Reply-To: <20260618195254.139712-1-devnexen@gmail.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Mon, 29 Jun 2026 10:31:57 +0200
-X-Gmail-Original-Message-ID: <CAD++jLnukur1VqeSurPgCTEQn9BQmgBVOD1Zivsaa1BDnE6Lyw@mail.gmail.com>
-X-Gm-Features: AVVi8Cf2Zm9cQlf0-6MUONGs-3PVu60eg84J8Jx2A_aHPmENqBIdJmOC0tvxgVY
-Message-ID: <CAD++jLnukur1VqeSurPgCTEQn9BQmgBVOD1Zivsaa1BDnE6Lyw@mail.gmail.com>
-Subject: Re: [PATCH v2] media: mali-c55: Fix scaler factor overflow for large
- crop sizes
-To: David Carlier <devnexen@gmail.com>
-Cc: Daniel Scally <dan.scally@ideasonboard.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-5.16 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	DMARC_POLICY_ALLOW(-0.50)[collabora.com,none];
+	R_DKIM_ALLOW(-0.20)[collabora.com:s=mail];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65872-lists,linux-media=lfdr.de];
+	RCPT_COUNT_TWELVE(0.00)[14];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:devnexen@gmail.com,m:dan.scally@ideasonboard.com,m:jacopo.mondi@ideasonboard.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
-	FORGED_SENDER(0.00)[linusw@kernel.org,linux-media@vger.kernel.org];
 	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[gmail.com];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_RECIPIENTS(0.00)[m:phasta@kernel.org,m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:tvrtko.ursulin@igalia.com,m:andre.draszik@linaro.org,m:dakr@kernel.org,m:gary@garyguo.net,m:paulmck@kernel.org,m:boqun@kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
+	RCVD_COUNT_THREE(0.00)[4];
+	HAS_ORG_HEADER(0.00)[];
+	FORGED_SENDER(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-65873-lists,linux-media=lfdr.de];
 	FORGED_SENDER_MAILLIST(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	MISSING_XM_UA(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[linusw@kernel.org,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	PRECEDENCE_BULK(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[boris.brezillon@collabora.com,linux-media@vger.kernel.org];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[collabora.com:+];
 	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp,mail.gmail.com:mid]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,collabora.com:dkim,collabora.com:email,collabora.com:from_mime]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 19B506D78BE
+X-Rspamd-Queue-Id: 970186D799C
 
-On Thu, Jun 18, 2026 at 9:53=E2=80=AFPM David Carlier <devnexen@gmail.com> =
-wrote:
+On Mon, 29 Jun 2026 09:56:37 +0200
+Philipp Stanner <phasta@kernel.org> wrote:
 
-> The horizontal and vertical scaling factors multiply the crop dimensions
-> by MALI_C55_RSZ_SCALER_FACTOR, a Q4.20 factor of (1 << 20). Both operands
-> are 32-bit, so the multiplication wraps before the result is stored in
-> the u64 scale variables. For any crop dimension of 4096 or more (the
-> maximum is 8192) the value overflows; an 8192 to 4096 downscale yields a
-> TINC of zero, so the scaler never advances and the output is corrupted.
->
-> Define MALI_C55_RSZ_SCALER_FACTOR as a 64-bit constant so the
-> multiplication is performed in 64-bit.
->
-> Fixes: d5f281f3dd29 ("media: mali-c55: Add Mali-C55 ISP driver")
+> The commit mentioned in the fixes tag below introduced a mechanism
+> through which fence producers can fully decouple from fence consumers.
+> This, desirable, mechanism is based on the fence's signaled-bit as the
+> "decoupling point".
+> 
+> A sophisticated interaction between RCU and atomic instructions attempts
+> to ensure that fence consumers can still interact with fence producers
+> through the dma_fence_ops (callback pointers into the producer).
+> 
+> This is the desired behavior: to check for decoupling, the signaled-bit
+> is first checked. If it's not yet signaled, RCU ensures that the ops
+> pointer cannot yet be NULL.
+> 
+> Hereby, dma_fence_signal_timestamp_locked() first sets the signaled-bit,
+> and then sets the ops pointer to NULL. Readers first load the ops
+> pointer, and then check through the signaled-bit whether the pointer can
+> legally be accessed.
+> 
+> These set and load operations could occur out of order on weakly ordered
+> platforms. This problem can be solved very elegantly by using the ops
+> pointer itself as the synchronization point. The pointer is either NULL,
+> or cannot become NULL while it is being used thanks to RCU.
+> 
+> Replace the signaled-bit check in dma_fence_timeline_name() and
+> dma_fence_driver_name().
+> 
 > Cc: stable@vger.kernel.org
-> Signed-off-by: David Carlier <devnexen@gmail.com>
+> Fixes: f4cc3ab824d6 ("dma-buf: protected fence ops by RCU v8")
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
 
-LGTM
-Reviewed-by: Linus Walleij <linusw@kernel.org>
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Yours,
-Linus Walleij
+> ---
+> Changes since v1:
+>   - Use ops pointer instead of memory barriers. (Christian)
+>   - Rephrase commit message.
+> ---
+>  drivers/dma-buf/dma-fence.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index c7ea1e75d38a..0a025dfdf131 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -1170,7 +1170,7 @@ const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
+>  
+>  	/* RCU protection is required for safe access to returned string */
+>  	ops = rcu_dereference(fence->ops);
+> -	if (!dma_fence_test_signaled_flag(fence))
+> +	if (ops)
+>  		return (const char __rcu *)ops->get_driver_name(fence);
+>  	else
+>  		return (const char __rcu *)"detached-driver";
+> @@ -1203,7 +1203,7 @@ const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
+>  
+>  	/* RCU protection is required for safe access to returned string */
+>  	ops = rcu_dereference(fence->ops);
+> -	if (!dma_fence_test_signaled_flag(fence))
+> +	if (ops)
+>  		return (const char __rcu *)ops->get_driver_name(fence);
+>  	else
+>  		return (const char __rcu *)"signaled-timeline";
+> 
+> base-commit: cdeb2ccd993ed8647adbbda2c3b103aa717fd6f7
+
 
