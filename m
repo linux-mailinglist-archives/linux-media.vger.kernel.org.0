@@ -1,80 +1,81 @@
-Return-Path: <linux-media+bounces-65919-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65920-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id GMHWEDRYQmqR5AkAu9opvQ
-	(envelope-from <linux-media+bounces-65919-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 13:34:12 +0200
+	id Kr0hNylbQmpL5QkAu9opvQ
+	(envelope-from <linux-media+bounces-65920-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 13:46:49 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8C426D97C9
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 13:34:11 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BA066D99B5
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 13:46:49 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=chromium.org header.s=google header.b="Mc7/j5UN";
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65919-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65919-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=chromium.org header.s=google header.b=CnWmCATg;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65920-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65920-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=chromium.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sto.lore.kernel.org (Postfix) with ESMTP id 90ECC302174B
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 11:31:32 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id DE76131FE1D7
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 11:31:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ECF13FF1C5;
-	Mon, 29 Jun 2026 11:30:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB2103FFFAB;
+	Mon, 29 Jun 2026 11:30:56 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31DE83BB101
-	for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 11:30:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A213C3FE36A
+	for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 11:30:54 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782732654; cv=none; b=tnzeaiRzbKHDeMpKElq3NbmstnJkO+K/Wz3wDcRs5Wff7K56rqi3J5AUVOssoD8ROh2C3DSEH1jQiwhnUhCIcstudOkTi0sbUtU2hmgoO/W8Agm2IrVdTN3h5yidaDSTlNPSixu5+zj/Yjr4LTmufNrzZzMF1y+YpraSmUa2DEU=
+	t=1782732656; cv=none; b=MB/Tvwr2yCbGYcawDEwxjbWFeLAfJdAQ6/t86hGp8AVmI9FgwVLnFTN6VWnKf7gNVZQaWE35iM4rx23lcAN9kbA+DV+qlqC6aVkMxy2AvFwVKFr/zEQC1zsnPB/n6WRgL36sybKcjTwPnSj278Xvv+AjDT2mocS/Nc+32zsZ/I4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782732654; c=relaxed/simple;
-	bh=YbebCHn0Us0Y7R7dMxOqglnHArY6LjK6GM4T60ivYzs=;
+	s=arc-20240116; t=1782732656; c=relaxed/simple;
+	bh=MA9wyNKAIFSI8cZ6RwlfxRs7RNyreh11fwj2AUJTswg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hyqSsmPe+JYVHWV9CUkZ5qdR1ZQg6yUn9IbNtBZs5I8XlJvUIlEeVFWf46iyIgGKlNuFYZ6L9mySvswYiFZDN/emqDSvVjnxONmwa++oHoH9aGFyMkqR2u/+6Qp4Cz5DKfqUhn89/K7SeKNBX5HcqLbSuZEbdHZBeUPeNcFcng0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Mc7/j5UN; arc=none smtp.client-ip=209.85.208.174
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-39669bcaadfso33935441fa.0
-        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 04:30:52 -0700 (PDT)
+	 In-Reply-To:To:Cc; b=cbu52E6G3LWnui9VqpeWbnIpR8oYc5obGXTJZBHR1YMG5z82Jis5F/MHEESPZm9VwgleFZpSttdj2N9BBowryDqrPAtwrBW3ujS1mhdcnnA16FRm35/0It240Qq06+wN1I3ob+bJwNnszW+ikE853z/F3XH0UczudABGlP7OhTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CnWmCATg; arc=none smtp.client-ip=209.85.167.44
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5aeb91c003eso802215e87.3
+        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 04:30:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1782732651; x=1783337451; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1782732653; x=1783337453; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=v68a3GvjDt67EscXY2lZ/DlUh5IwMqRFPnauIX/l0kI=;
-        b=Mc7/j5UNN9cvHq38q7od6oyG0fe0pUQgESITNzw0OFCxtqujF2NwKozXZ5em0pKYir
-         h7S3xBwmEVBJEii2v0/CWP+zjpKEvxE6dpY0Z5+3gk/Rf9N465nYShCVW6JhgxOsutm5
-         Xp3+wMSnJVaIX4TO8cIxSzOQHyVAwcMFnLZkQ=
+        bh=Bl6/Bp62Zltv0A1R5yKMqM8tfS2a1IrH1+EEEyO9+LU=;
+        b=CnWmCATgLDBLZReaV3eW1UOak50cQyFow2a5wQn/4ZulGR05f1Di3xd9MPeYXzSV/A
+         HqzmFpNgFjgiHeyFw8dvka/HoMlIQoGoqSfBBVy63dl9/0mqt/DzW7nkbp86MgXJ2zsL
+         EsXlDX7szYmeWJ9qXP/9UT5j3qYJZpGeHI/TY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1782732651; x=1783337451;
+        d=1e100.net; s=20251104; t=1782732653; x=1783337453;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=v68a3GvjDt67EscXY2lZ/DlUh5IwMqRFPnauIX/l0kI=;
-        b=d6/8Y7ZOaGbH6k8coAnItC0G70leXS9MJXrF53oN9zGLjrypaAT+C5FEcOYr3I7o+E
-         FUzdgdH7HEBw8XG9UWy4mcFOasIn9/l7gKrpOA4/74MHxtzCn1Vu/Dw4VfMmy+PA+fVe
-         cxzivAY5fQQxftqfS/a0MbIqkNibZKjrgschiVDnJiAyTcNYFKHhG5+TFnCY817tAF5h
-         A6Rch2U0/kpJMlpVIo5SZ2NYq1xQdDWmqZI8LD9uP2EvAL1a7zYIb/DXXxIwHd4JLMkX
-         vxBG11HmDwNNulDaegpXg0DfqcqsjlDcVXBfN1g5YoOZpowmv8xGf19Mgx/I36q4ClOF
-         pptw==
-X-Gm-Message-State: AOJu0YxLSB9L6nUQQjQocHxMhnVmIyX8OhqFwKGYSb6Irx6SNLwFDnP4
-	jKJMsfvyedVV8fzLaSMH8haZK8K698xcK2Z3adZKzFxDkD+hrRNa41QjIhiDKKZUtw==
-X-Gm-Gg: AfdE7ck3m4hyE4EA+WKDI9RpAtcpe8UD4lqhL95q3HtlvokfQKV/7whddtYf8cK98D3
-	K2MCQVkbuJhuUoO1RVqC2YI3FhH5yjqXepPC3nqgIvDwJrhiLJccYNcIkCE5Pc85Y2GHlX898Ac
-	0n7wrGoBKEk/HSt39Bdo9CJaaUipQWlHtA8aB1QyNPDWfQ8g3Bd6GxqMdTHrXutlmRiluwhKdqu
-	ua9OHphNC1hh2k5/pWzaUrAseq/Yo8lwvUa24RIWOeszHSvMjW5Eo1F0Pryh4nhZ/3MCyISzUjV
-	16z5H9fXM3Z5Co9heRiV3V+z8+W42jkosmaG3eG2BtFTdub1a8r3G0g8DyaEmttsxOC4zSwJ9xZ
-	e3bnk+UzG0Iy5/ibTlAXyy53+gmgf6rKFFxK9qizVPqLajHG4e66rJ3DQo7T7yZ+s6UFQ3vtj59
-	TX+iJYuCLKxUnwF6jJYyXz/yrlgpzaFAEyksERxJ0WnyAGQ8Sr8V0rMeT9/6M6PLV6dM/D
-X-Received: by 2002:a05:6512:2523:b0:5aa:690c:6636 with SMTP id 2adb3069b0e04-5aea1f593d7mr3418663e87.26.1782732651474;
-        Mon, 29 Jun 2026 04:30:51 -0700 (PDT)
+        bh=Bl6/Bp62Zltv0A1R5yKMqM8tfS2a1IrH1+EEEyO9+LU=;
+        b=hr9K7202jtqbcPJ+K1CmoZ6l3t9/5FtOYTgwfl2mjD2w2Qkjv9r3Qdr7lsDYvL2XFQ
+         xmsMaXiD1Tuaf1HoR76UwMn9lVBS4b/TyvGu7RCoQdHK4jvDF9bE1nxX+R1T1EF+0yt8
+         3l48WRFOdL1MCWGEKW7uXKBn9bsHEVbeNomIuxPWwgwv354e8M7yAlXMzzQYhZqut8yV
+         Rgti6N06AE2Yt4DSZPO4yQ0CbtYNe/AgH+5uc1PlZNpYCpDclglS/dpBY6HzhxS2Th4v
+         GHo/kK6KvrDqZyvr+a1Wmpl88o2dr+usKoi1oTgUy/ElekLJfdO02aGHdbSV1JnsmmOp
+         a07A==
+X-Gm-Message-State: AOJu0YxGsOBN70Ct4gR40BMjEg9rqIgy5oN/7ruFcsbMnv1iMR4siOTO
+	+aLq/p9XXI9foLijmthUJ2tKNwRGmCSTXiwfy9dZ6To/kp93Q0GJ+mfybvmRilHfog==
+X-Gm-Gg: AfdE7cnCzsymlryZEvgS4xydf9s2keCLTvooJcNgTcL6jq2kcq/a3qOU9hJHgkeOHJK
+	uRF0wbKYmf3cWUPZ4R9Fbm7cTEYZO1DxN1xNCHVwpMiHKycM34Ut71wb/ZMfVEpxGH2k3CfWQZD
+	ijtB/Gjxfe/2eN1Q0jVPm3ZSd1+v4Wc9mzjtgbzihYn31wI7F9e8s3a6Uq+1m1o8+/dLHXdF01z
+	pqxEwh5ZtmAPHAzlek0DGwIzH38sY1L8JN98hFItVgfdh8QvBa8EKoFUrkQdXBiBxQQ3prEcvDC
+	EsFvIrNSWGoVWs6xlc3vMqQUxm9eZHlDV7dMy/y5wam2FMv9Pa3fElBXPsLU6d72hpQXRtqyfO3
+	UebnvjXRqmyKicGcWzigOQPIJw62Pzf+LlM6Myp29UGJ1X3YReUOAO8xSuUdfSysYadDf+s+VDZ
+	Z2NIfk8XhkMXNOGxJj2caLUyDT/HT5L4v8+4tFqhbKXrWgSs9ZFKwramfMDd+ZjN6z5PuK
+X-Received: by 2002:a05:6512:6188:b0:5ae:a9eb:eff4 with SMTP id 2adb3069b0e04-5aea9ebf0c9mr2134236e87.61.1782732653051;
+        Mon, 29 Jun 2026 04:30:53 -0700 (PDT)
 Received: from ribalda.c.googlers.com (216.148.88.34.bc.googleusercontent.com. [34.88.148.216])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aea2cffc04sm3597745e87.17.2026.06.29.04.30.50
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5aea2cffc04sm3597745e87.17.2026.06.29.04.30.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2026 04:30:50 -0700 (PDT)
+        Mon, 29 Jun 2026 04:30:51 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 29 Jun 2026 11:30:43 +0000
-Subject: [PATCH 2/9] media: iris: Replace ternary conditionals with max()
+Date: Mon, 29 Jun 2026 11:30:44 +0000
+Subject: [PATCH 3/9] media: vimc: Fix prototype of
+ vimc_sensor_update_frame_timing
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,7 +84,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260629-cocci-7-2-v1-2-5884c80ee3b6@chromium.org>
+Message-Id: <20260629-cocci-7-2-v1-3-5884c80ee3b6@chromium.org>
 References: <20260629-cocci-7-2-v1-0-5884c80ee3b6@chromium.org>
 In-Reply-To: <20260629-cocci-7-2-v1-0-5884c80ee3b6@chromium.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -105,12 +106,12 @@ X-Rspamd-Action: no action
 X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[chromium.org,none];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[chromium.org:s=google];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-65919-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65920-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[18];
 	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
@@ -126,49 +127,47 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[ribalda@chromium.org,linux-media@vger.kernel.org];
-	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
 	ALIAS_RESOLVED(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
 	TAGGED_RCPT(0.00)[linux-media];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,chromium.org:dkim,chromium.org:email,chromium.org:mid,chromium.org:from_mime,sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,chromium.org:dkim,chromium.org:email,chromium.org:mid,chromium.org:from_mime,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: D8C426D97C9
+X-Rspamd-Queue-Id: 3BA066D99B5
 
-The max() macro is simpler to read than the current construction, it
-also makes cocci happier, which currently throws these warnings:
-
-./platform/qcom/iris/iris_vpu_buffer.c:703:13-15: WARNING opportunity for max()
-./platform/qcom/iris/iris_vpu_buffer.c:583:23-25: WARNING opportunity for max()
+The function does not return any value, make it into a void function.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/test-drivers/vimc/vimc-sensor.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
-index fb6f1016415e..faebb5472866 100644
---- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
-+++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
-@@ -580,7 +580,7 @@ static u32 hfi_buffer_line_av1d(u32 frame_width, u32 frame_height,
- 		ALIGN(size_av1d_qp(frame_width, frame_height), DMA_ALIGNMENT);
- 	opbwr8 = size_av1d_lb_opb_wr1_nv12_ubwc(frame_width, frame_height);
- 	opbwr10 = size_av1d_lb_opb_wr1_tp10_ubwc(frame_width, frame_height);
--	opbwrbufsize = opbwr8 >= opbwr10 ? opbwr8 : opbwr10;
-+	opbwrbufsize = max(opbwr8, opbwr10);
- 	size = ALIGN((size + opbwrbufsize), DMA_ALIGNMENT);
- 	if (is_opb) {
- 		vpss_lb_size = size_vpss_lb(frame_width, frame_height);
-@@ -700,7 +700,7 @@ static u32 hfi_buffer_ibc_av1d(u32 frame_width, u32 frame_height)
- 
- 	ibc8 = size_av1d_ibc_nv12_ubwc(frame_width, frame_height);
- 	ibc10 = size_av1d_ibc_tp10_ubwc(frame_width, frame_height);
--	size = ibc8 >= ibc10 ? ibc8 : ibc10;
-+	size = max(ibc8, ibc10);
- 
- 	return ALIGN(size, DMA_ALIGNMENT);
+diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
+index 5deebcc78a33..d125a79fec8c 100644
+--- a/drivers/media/test-drivers/vimc/vimc-sensor.c
++++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
+@@ -92,8 +92,8 @@ static void vimc_sensor_tpg_s_format(struct vimc_sensor_device *vsensor,
+ 	tpg_s_xfer_func(&vsensor->tpg, format->xfer_func);
  }
+ 
+-static int vimc_sensor_update_frame_timing(struct v4l2_subdev *sd,
+-					   u32 width, u32 height)
++static void vimc_sensor_update_frame_timing(struct v4l2_subdev *sd,
++					    u32 width, u32 height)
+ {
+ 	struct vimc_sensor_device *vsensor =
+ 		container_of(sd, struct vimc_sensor_device, sd);
+@@ -108,8 +108,6 @@ static int vimc_sensor_update_frame_timing(struct v4l2_subdev *sd,
+ 	vsensor->hw.fps_jiffies = nsecs_to_jiffies(frame_interval_ns);
+ 	if (vsensor->hw.fps_jiffies == 0)
+ 		vsensor->hw.fps_jiffies = 1;
+-
+-	return 0;
+ }
+ 
+ static void vimc_sensor_adjust_fmt(struct v4l2_mbus_framefmt *fmt)
 
 -- 
 2.55.0.rc0.799.gd6f94ed593-goog
