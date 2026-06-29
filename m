@@ -1,65 +1,65 @@
-Return-Path: <linux-media+bounces-65858-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65859-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id sgjwAAAkQmqO0wkAu9opvQ
-	(envelope-from <linux-media+bounces-65858-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 09:51:28 +0200
+	id YcG6DQYkQmqP0wkAu9opvQ
+	(envelope-from <linux-media+bounces-65859-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 09:51:34 +0200
 X-Original-To: lists+linux-media@lfdr.de
 Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870A66D72E1
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 09:51:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF77D6D72E4
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 09:51:33 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=T8pyKqpq;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65858-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65858-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=redhat.com header.s=mimecast20190719 header.b=OMwXmyBt;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65859-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65859-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=redhat.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 83BB930B2267
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 07:44:08 +0000 (UTC)
+	by sea.lore.kernel.org (Postfix) with ESMTP id 01BD5314F2F9
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 07:44:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBCA43D669C;
-	Mon, 29 Jun 2026 07:41:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7AE3352C34;
+	Mon, 29 Jun 2026 07:41:40 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272DB342539
-	for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 07:41:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048003D7D9B
+	for <linux-media@vger.kernel.org>; Mon, 29 Jun 2026 07:41:38 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782718889; cv=none; b=UJIs9+Y3elQodgnI54WDh7A5WV8SWEG35IzTFFI9fHyeHEj8IXwnvBTAYeBMUue12SbzBMWmkIcbCBUhKevmu3tRyTkj7aXp0KksH/4zxXIPpPrFLWt/omkpqcCYET+jdHEzreLJZRpDsgqG5LXnhg62PXVZgTB99pG5DI0zOcw=
+	t=1782718900; cv=none; b=VDyMpFIZiyDrHsB1m0hwO7eFbpwSuxRH0daZKegRaI7nvEOgzRObafgNNaujCa53XBHLYMiR+2EUV5uvVeg0v91LBx+rYnAbHxzf4+znzr4nZ/50/Xoz4Pi1kyQym1vGt4YwEPRGZGHoWkP7tHNEgn9kb+2nK1kjU3iX9dGZMR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782718889; c=relaxed/simple;
-	bh=N4Fj6WY48SFiHJv2SHjjdMtNJfA81IjgI3/w9kXwqL8=;
+	s=arc-20240116; t=1782718900; c=relaxed/simple;
+	bh=VE12+kheJUHNJcZS0xmm8G1jNE16tSQxXib+Pnrs7qM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Bud9X93GOgjlIxTepgxZ0Wan50+neLU3Yj/wtA36WzKYeqvNgEWlVQmWUbOOtw5LkVCh1BcYGIKd7dkNrRBlWC2FqhIogpv0t4WdJK1nn9ihd9Xi16kn8s90pAs6s7oMYimesQmEcPe7VqzoFezaWqpi+krwGCaxs/Xry3PgzIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=T8pyKqpq; arc=none smtp.client-ip=170.10.129.124
+	 MIME-Version; b=NkB3xsAm5K6eP+OAOJEod54hxE6gZG5DWCgRAn598nOhQLPWxthsTwE/sQyw3EoPagVPuTO/eGLIhWJjxbk7wYp3b18uml4C/2kgLEl4IsxS0KvPsmwOaUCSC8WN/YHv/F7M6AHarK/K0K7pe44nAT2Wl2FDd4dBAWe/fEhiW8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OMwXmyBt; arc=none smtp.client-ip=170.10.133.124
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1782718887;
+	s=mimecast20190719; t=1782718898;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=s+QdmqKNDho30FCCG/pBRWGnl+chqjQBAUDyRCUTKpw=;
-	b=T8pyKqpqQj/fralkS+2Ttr6beSCSEdLDgg3xM/b+W8oz6zOicftKpTijS0MNlUhrT69vO2
-	i7Ap4YsEO7GoUF5kdt/mYC9i/XUTgsPbz3Kh8uPx9YBsInbLmq4Kowr7g9xxW/DjYG1Wtd
-	4rYNbLg5E5qjQFmIkdAo0lV8G7qhjo4=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+	bh=Ux+/tM864TLH9DO10ATye6W9QF5Lm9wdYYjyrQrqxbQ=;
+	b=OMwXmyBtkzTOho7MovEaNTv0ak1X6eBaOzN46snMzTssB2yej8sQphl81pHtijqDsAsw3V
+	kdrX+40J3rsZcWxMa5nVJMurPnbADkmhInItWC0/fu8WIXTG93a37Bi2xZ5xZN99Ym9do9
+	kwY3xs1SKdZtRs9t27JRnsmkbRMttVQ=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-517-xceaFEwhOyGC7NS-nUn0TQ-1; Mon,
- 29 Jun 2026 03:41:20 -0400
-X-MC-Unique: xceaFEwhOyGC7NS-nUn0TQ-1
-X-Mimecast-MFC-AGG-ID: xceaFEwhOyGC7NS-nUn0TQ_1782718878
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-82-oMX9TvHCNouSWNnG8KdNvg-1; Mon,
+ 29 Jun 2026 03:41:29 -0400
+X-MC-Unique: oMX9TvHCNouSWNnG8KdNvg-1
+X-Mimecast-MFC-AGG-ID: oMX9TvHCNouSWNnG8KdNvg_1782718887
 Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 2D8EC195606C;
-	Mon, 29 Jun 2026 07:41:18 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A988719560A2;
+	Mon, 29 Jun 2026 07:41:27 +0000 (UTC)
 Received: from hpa-thinkpadx1carbongen12.taipei.com (unknown [10.67.32.110])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 613281956041;
-	Mon, 29 Jun 2026 07:41:10 +0000 (UTC)
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id AA58E1956041;
+	Mon, 29 Jun 2026 07:41:20 +0000 (UTC)
 From: Kate Hsuan <hpa@redhat.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Hans de Goede <hansg@kernel.org>,
@@ -76,9 +76,9 @@ Cc: computman <anis@talbi.fr>,
 	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
 	platform-driver-x86@vger.kernel.org,
 	Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH v6 2/4] media: ipu-bridge: Add Sony IMX471 for Lenovo X1 Carbon G14
-Date: Mon, 29 Jun 2026 03:40:24 -0400
-Message-ID: <20260629074026.35490-3-hpa@redhat.com>
+Subject: [PATCH v6 3/4] platform: int3472: discrete: con_id vana for Sony IMX471 as power enable
+Date: Mon, 29 Jun 2026 03:40:25 -0400
+Message-ID: <20260629074026.35490-4-hpa@redhat.com>
 In-Reply-To: <20260629074026.35490-1-hpa@redhat.com>
 References: <20260629074026.35490-1-hpa@redhat.com>
 Precedence: bulk
@@ -102,7 +102,7 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65858-lists,linux-media=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65859-lists,linux-media=lfdr.de];
 	RCPT_COUNT_TWELVE(0.00)[15];
 	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,intel.com,siliconsignals.io,gmail.com,ideasonboard.com];
 	MIME_TRACE(0.00)[0:+];
@@ -125,28 +125,47 @@ X-Spamd-Result: default: False [0.84 / 15.00];
 	TAGGED_RCPT(0.00)[linux-media,cisco];
 	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 870A66D72E1
+X-Rspamd-Queue-Id: BF77D6D72E4
 
-The HID for Sony IMX471 is TBE20A0 on Lenovo X1 Carbon G14.
+Update the con_id for the Sony IMX471 sensor to "vana" to serve as the
+power enable. Additionally, the HID values SONY471A and TBE20A0, both
+associated with the IMX471 image sensor, have been identified on Lenovo
+laptops.
 
 Signed-off-by: Kate Hsuan <hpa@redhat.com>
 ---
- drivers/media/pci/intel/ipu-bridge.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/platform/x86/intel/int3472/discrete.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-index 2474452b3015..8ddfab357922 100644
---- a/drivers/media/pci/intel/ipu-bridge.c
-+++ b/drivers/media/pci/intel/ipu-bridge.c
-@@ -97,6 +97,8 @@ static const struct ipu_sensor_config ipu_supported_sensors[] = {
- 	IPU_SENSOR_CONFIG("OVTI8856", 3, 180000000, 360000000, 720000000),
- 	/* Sony IMX471 */
- 	IPU_SENSOR_CONFIG("SONY471A", 1, 200000000),
-+	/* Sony IMX471 (found on Lenovo X1 Carbon G14) */
-+	IPU_SENSOR_CONFIG("TBE20A0", 1, 200000000),
- 	/* Toshiba T4KA3 */
- 	IPU_SENSOR_CONFIG("XMCC0003", 1, 321468000),
+diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+index 115bb37577a1..adff564bf3fd 100644
+--- a/drivers/platform/x86/intel/int3472/discrete.c
++++ b/drivers/platform/x86/intel/int3472/discrete.c
+@@ -164,6 +164,24 @@ static const struct int3472_gpio_map int3472_gpio_map[] = {
+ 		.con_id = "dvdd",
+ 		.enable_time_us = 45 * USEC_PER_MSEC,
+ 	},
++	{	/* imx471 expects "vana" as con_id for power enable */
++		.hid = "SONY471A",
++		.type_from = INT3472_GPIO_TYPE_POWER_ENABLE,
++		.type_to = INT3472_GPIO_TYPE_POWER_ENABLE,
++		.con_id = "vana",
++		.enable_time_us = GPIO_REGULATOR_ENABLE_TIME,
++	},
++	{
++		/*
++		 * imx471 (on Lenovo ThinkPads X1 G14) expects "vana" as con_id
++		 * for power enable
++		 */
++		.hid = "TBE20A0",
++		.type_from = INT3472_GPIO_TYPE_POWER_ENABLE,
++		.type_to = INT3472_GPIO_TYPE_POWER_ENABLE,
++		.con_id = "vana",
++		.enable_time_us = GPIO_REGULATOR_ENABLE_TIME,
++	},
  };
+ 
+ static void int3472_get_con_id_and_polarity(struct int3472_discrete_device *int3472, u8 *type,
 -- 
 2.54.0
 
