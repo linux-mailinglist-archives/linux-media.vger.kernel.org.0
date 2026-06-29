@@ -1,184 +1,326 @@
-Return-Path: <linux-media+bounces-66030-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66031-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id VFr2M0DqQmo/IAoAu9opvQ
-	(envelope-from <linux-media+bounces-66030-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 23:57:20 +0200
+	id 3KM0MLUGQ2rONAoAu9opvQ
+	(envelope-from <linux-media+bounces-66031-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 01:58:45 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 446EF6DEF60
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 23:57:20 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0C6E6DF4CB
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2026 01:58:44 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=lKQ6Xpjz;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66030-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66030-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=sakamocchi.jp header.s=fm1 header.b="v8s/eY4L";
+	dkim=pass header.d=messagingengine.com header.s=fm1 header.b="R MKRqs/";
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66031-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-66031-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=sakamocchi.jp;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 1755E300AEC2
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 21:57:19 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 4BE583009F07
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 23:58:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4968F3CB8EF;
-	Mon, 29 Jun 2026 21:57:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13B2E3D3304;
+	Mon, 29 Jun 2026 23:58:27 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from flow-a8-smtp.messagingengine.com (flow-a8-smtp.messagingengine.com [103.168.172.143])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF00BA45;
-	Mon, 29 Jun 2026 21:57:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1836518871F;
+	Mon, 29 Jun 2026 23:58:21 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782770237; cv=none; b=gadfKKqPGzhgpE0j826M0EaWG3lCFJ6znHA1EYh7zm2dJ+Hk7OGHqj+PCU2GFl1wRF4qu++yC2OK/z+ml8+ORQYs74NF2ZIgxtRy+Vf/zdZ6SzGanqwurfOSaUIdHQWqYHxutNn3HAc3P6J2QJfTORd8XZbhW6A0KlnvCxZ3AHM=
+	t=1782777504; cv=none; b=emT2c/1XRTQA4nYwBB210PbZwDn4Zr7TsPCfpx/aZBXIcg/qV3jS1qjOP488mlerCzjU/TQFGePENg6TdB/tVN7oHIdgHotoaekishfnxjd82RGoz0iu47uR4cRVBNmjOiCuSBemRWyRBdX/H5h/1SK3wIfaOz+NWWiRjiKKmI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782770237; c=relaxed/simple;
-	bh=0qLw2c5na9GMx4vK9BG60gkWU3FT9auQmNeWicE3Sz0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tVzDtbGQZrIqg+U+D9v3amVo+DMzNKXrcTUskgz0qgShJRGbUyiBTFXi9Zh174rp5ylYX7qdMeurP+Tu34Hmo41YA3h9FOb2jrtpOdVmPdfsVFRdSHVWMzOYQFNDn+re+F2qgzKuYNMQwEMZMhed9TL2HdwjEqV6XHl/NcQPIqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lKQ6Xpjz; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56E541F000E9;
-	Mon, 29 Jun 2026 21:57:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782770236;
-	bh=7eZY+vlh+BX9gnfVobZc168KcbnkbNb/oLcAGmSrdXM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=lKQ6XpjzyTQ/qY5bswWw8hCD2l8T2sS9keA8CdXq7RlpYNiIkm3EEIpVwCYSAHu8m
-	 ATUTTvSClLE79zPtIIsEK3wiwlxyQWor5fiZjZ01M61qkmWov469VuJjoJeNQl2qkQ
-	 IHu5iZBsN33yhaEGH04LsR/iow+yTYG9zXet0QZZKEZuUl2r733PE+yiAhM5EhtfYf
-	 xDv8bbZVvsveRxCzN9u2nIk9tyPM2fg70CL0WNvVVaNjicFMp9zmkSU/A1Onvfbvah
-	 ydGRP2NbkEP4gwKT2TaJsyLtsQrydHFdTjUeHkM9woBD30PhQpv4uiikZgQalOK7ir
-	 Yt71S3Ie+ZcsQ==
-Message-ID: <1e199435-426c-47f5-84c0-de1abb37df79@kernel.org>
-Date: Mon, 29 Jun 2026 22:57:13 +0100
+	s=arc-20240116; t=1782777504; c=relaxed/simple;
+	bh=qx9osW3wKKlKpE0YvFkVp52jSRf+weom0e3+8EbHzJg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PSNUouzR0lUnJ8+TdOrAqv5ol1qwFlX5yRnbW3xPodh/UECFd+A5m0XM8xFtxyFUEkk8gV2X9DBUU0hAZuwsvDBEvGE9c4/S+Hj2qQ5LsnPPFDgE9r1BEZhJ7hxLUL7sHYe4lYDyU/3ds19k9mkG1RqNK8bPanZd9nZdl8h8q7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp; spf=pass smtp.mailfrom=sakamocchi.jp; dkim=pass (2048-bit key) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.b=v8s/eY4L; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RMKRqs/f; arc=none smtp.client-ip=103.168.172.143
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailflow.phl.internal (Postfix) with ESMTP id 0BA48138039B;
+	Mon, 29 Jun 2026 19:58:21 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Mon, 29 Jun 2026 19:58:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-transfer-encoding:content-type:content-type
+	:date:date:from:from:in-reply-to:in-reply-to:message-id
+	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
+	 t=1782777501; x=1782784701; bh=ntoVNrERxl6CnLB0Obl/d+Xz+xme4tJI
+	lufgMOjhiwA=; b=v8s/eY4L5HFOcjqnQZ823UAS/LHyaUEm85qu0XmCc71uXnG2
+	cvkOxCYPzFLBCTTDnPAcBSYZzJ2+yE6N4fPa6sEGIBJIYZcOAN8qpj2nfzQLi9F5
+	jV1vvPyEhEYVlWNvh8/BzDIhVuyYzX2LsFle0pATeuiAfDmcO3X28y0E1iNUPJEo
+	v25JyyyfCNSgY9W7bLDK2Py5B4SD2vS47HoLtwLlZyt9XfpB5i8DFFy195aCWoC2
+	x+AKL61GGQIyWrIINs+YyoIPvM9+DgmiU0kab1MThff7LoEH0Es/Wytho4Ztqxwh
+	iCSNYBGhKHSWeVvvsd1OdF/pOZcK2ttl+46V3A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1782777501; x=
+	1782784701; bh=ntoVNrERxl6CnLB0Obl/d+Xz+xme4tJIlufgMOjhiwA=; b=R
+	MKRqs/flHUni4dlOeHuhwjnnYx/qu2zwQCJtPfIIEPz3gE6dP2SS+kO/SxtUM2p+
+	fXsMgk2rDlTf/sTkRba30Ghras5RPXULAH1/GPHEEhmblWPHjyqELBYhA/qibNmQ
+	ECYEK6oVYBifehsJjj32qWlobcGKFSrZa0HHgz9Iqwgpdu9YvkzR7VNNHw/jTwz+
+	bqoNgLB8cMrHpQ6+9NaoaPyDNO4HCQS72/HZv8UteAS8Rigl8p00Y6G1kFdS+1jK
+	6qPb3zwn5qYMTokX9EPzqE5AEbRmeo/zQ0VssHNfuoJG0EVsyiXKgURmOHD0sUV1
+	H0rRl8dpjOEVmRoTwUZ1Q==
+X-ME-Sender: <xms:mQZDaluSBeKP6-3dxlZW1Qy-wiZuV30hOCgoY0KTdW_FR9USmttnIA>
+    <xme:mQZDaqsTDIOLYRFhhc3J9nrb24WnM6JX0P1jalpuT12eGcDRrsNO7C0AiHmIdhI6S
+    wZZ_GAF_hVaMLpQHvr5u3l1DmczGXIt02C9zTRQlweayP0y6j60MtE>
+X-ME-Received: <xmr:mQZDaiaKXC3v0RK_n7k7uRKLanjcoEkW0Ynaj3uQGwXdvyRJ9nlk3vd6xHlSeNwReywIoC38Dirstc3cHFJimVEGnsusng>
+X-ME-Proxy-Cause: dmFkZTE1nPznX32V2kRYPd7dlOJ1rQMxQ97lS3kACD5+oEF3K9KIS5kEvZ60kMOO9SW4/K
+    QPw1fJ0Uyhmt7TDZBpmrns6QqSMdNA56CqP8WoSfum8fnJ6ROXsuIW1V0IRazJ9YoofPdA
+    sTTZjseo2amkBTK2yB8676gAjYCnTj4WiXvzDEoqMGHljUjgOtAHWVMwabts+S3qWRtyzK
+    4E9/EeTGdZ7uavjZ/gsD8IHy6BDQ3FsBKJrzbjVNgjW3Z/maBbDFLwVIvKVTB+FB58t2Nf
+    6IC6zRUoalXGvpiS7NeraM3cciwz14beoWbfR17QqVpm8xj9z6j1i325oVQMRhakNlULd5
+    LZDHjkZMhVaJOCK5sNu7C567TC6G74BcKbIUFX8Y7L5R/J5HFqJpTz5QFRAfF6pNDZXMRw
+    NNT721SX2qmWOzpsbLjvz7baHpP6tE5XnMymltgojO/d+aMQ8ZSVKdM2OoEzaoH016syXZ
+    LXR91cDsgFgly6bjeAUpymfC5EHpfadwr1qHn8fxadSgempnoWd6aBNScmoRMpmKbMNqfw
+    SOO/eYhVEtRjJvkDcQZ5ZyEDYkQzi3vZqOB51rSkn6prTNuNuxVGEjwdaA6cQo5MEz4nhz
+    PKvXIWkmhe258dVI/0CMIo7RXUSN9DEF8/fLk8wWAe6GpwU+34F0ICv2ylcg
+X-ME-Proxy: <xmx:mQZDasgnrDakzWEqB7_AjeS2c_t5Xc3WBZuoKa0aZ4s3n7SEHjJv-Q>
+    <xmx:mQZDavUcRf_YCMSZCbYUJMoSGXurxjrs99xK4QubABtZxnkbGNT_Mg>
+    <xmx:mQZDauVcra2E5kWpNBgjezjqhXIgqwPYvcnnMt7uQ1KIYOQ6F3GKDw>
+    <xmx:mQZDajhAFNO6LVldX5NJt5ll8F8-azSI6SjWkRx169oeJqn6IZVlXA>
+    <xmx:nQZDaqvpp383SrPNL_mk4gMnSCyGdO9-6LDFSBkbgsdwZ1j1U-4qLPWs>
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 29 Jun 2026 19:58:06 -0400 (EDT)
+Date: Tue, 30 Jun 2026 08:58:04 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?= <u.kleine-koenig@baylibre.com>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mark Brown <broonie@kernel.org>,	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,	Justin Stitt <justinstitt@google.com>,
+	Raag Jadav <raag.jadav@intel.com>,	Sohil Mehta <sohil.mehta@intel.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,	Len Brown <lenb@kernel.org>,
+ Andi Shyti <andi.shyti@kernel.org>,	linux-kernel@vger.kernel.org,
+	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,	linux-media@vger.kernel.org,
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,	Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,	Heiko Stuebner <heiko@sntech.de>,
+	linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,	Danilo Krummrich <dakr@kernel.org>,
+ driver-core@lists.linux.dev,	Jonathan Cameron <jic23@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Pei Xiao <xiaopei01@kylinos.cn>,
+	Shashank Balaji <shashank.mahadasyam@sony.com>,
+	Ben Horgan <ben.horgan@arm.com>, Johan Hovold <johan@kernel.org>,
+	linux-usb@vger.kernel.org, Nikita Kravets <teackot@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	platform-driver-x86@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-i2c@vger.kernel.org,	Daniel Scally <dan.scally@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Minas Harutyunyan <hminas@synopsys.com>,
+	Tianrui Zhao <zhaotianrui@loongson.cn>,	Bibo Mao <maobibo@loongson.cn>,
+ Huacai Chen <chenhuacai@kernel.org>,	WANG Xuerui <kernel@xen0n.name>,
+ kvm@vger.kernel.org,	loongarch@lists.linux.dev
+Subject: Re: [PATCH v3 00/16] mod_devicetable.h: Split into per subsystem
+ headers
+Message-ID: <20260629235804.GA414914@sakamocchi.jp>
+Mail-Followup-To: Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig_=28The_Capable_Hub=29?=
+ <u.kleine-koenig@baylibre.com>,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mark Brown <broonie@kernel.org>,	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,	Justin Stitt <justinstitt@google.com>,
+	Raag Jadav <raag.jadav@intel.com>,	Sohil Mehta <sohil.mehta@intel.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,	Len Brown <lenb@kernel.org>,
+ Andi Shyti <andi.shyti@kernel.org>,	linux-kernel@vger.kernel.org,
+	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,	linux-media@vger.kernel.org,
+	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,	Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>,	Heiko Stuebner <heiko@sntech.de>,
+	linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,	Danilo Krummrich <dakr@kernel.org>,
+ driver-core@lists.linux.dev,	Jonathan Cameron <jic23@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	Pei Xiao <xiaopei01@kylinos.cn>,
+	Shashank Balaji <shashank.mahadasyam@sony.com>,
+	Ben Horgan <ben.horgan@arm.com>, Johan Hovold <johan@kernel.org>,
+	linux-usb@vger.kernel.org, Nikita Kravets <teackot@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	platform-driver-x86@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-i2c@vger.kernel.org,	Daniel Scally <dan.scally@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Minas Harutyunyan <hminas@synopsys.com>,
+	Tianrui Zhao <zhaotianrui@loongson.cn>,	Bibo Mao <maobibo@loongson.cn>,
+ Huacai Chen <chenhuacai@kernel.org>,	WANG Xuerui <kernel@xen0n.name>,
+ kvm@vger.kernel.org,	loongarch@lists.linux.dev
+References: <cover.1782682124.git.ukleinek@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] media: imx: imx8mq-mipi-csi2: Add myself as reviewer
- to imx8mq-mipi-csi2
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Frank Li <Frank.li@nxp.com>
-Cc: linux-kernel@vger.kernel.org, hverkuil+cisco@kernel.org,
- michael.riesch@collabora.com, linux-media@vger.kernel.org
-References: <20260603-dphy-params-extension-v1-0-22e0e1ed8bf2@kernel.org>
- <20260603-dphy-params-extension-v1-1-22e0e1ed8bf2@kernel.org>
- <aiBqGVR11AZ-QI26@lizhi-Precision-Tower-5810>
- <aiCDwpd9rsPf1FxR@lizhi-Precision-Tower-5810>
- <DYcpKjqNWZZy48hcmToVeldvndGpUNrgcjKhOYOEq3Yhsiv7PVsOW-3uqZRCQQNooO5tSIdBMMKe3DHdOcFWyg==@protonmail.internalid>
- <20260629214422.GL3054459@killaraus.ideasonboard.com>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=bod@kernel.org; keydata=
- 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
-In-Reply-To: <20260629214422.GL3054459@killaraus.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1782682124.git.ukleinek@kernel.org>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-0.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[sakamocchi.jp,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
+	R_DKIM_ALLOW(-0.20)[sakamocchi.jp:s=fm1,messagingengine.com:s=fm1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-66030-lists,linux-media=lfdr.de];
+	FREEMAIL_CC(0.00)[linux-foundation.org,linuxfoundation.org,kernel.org,gmail.com,google.com,intel.com,linux.intel.com,vger.kernel.org,ti.com,collabora.com,perex.cz,suse.com,sntech.de,lists.infradead.org,lists.linux.dev,oss.qualcomm.com,kylinos.cn,sony.com,arm.com,ideasonboard.com,synopsys.com,loongson.cn,xen0n.name];
+	TAGGED_FROM(0.00)[bounces-66031-lists,linux-media=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart@ideasonboard.com,m:Frank.li@nxp.com,m:linux-kernel@vger.kernel.org,m:hverkuil+cisco@kernel.org,m:michael.riesch@collabora.com,m:linux-media@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	TO_DN_SOME(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:u.kleine-koenig@baylibre.com,m:torvalds@linux-foundation.org,m:gregkh@linuxfoundation.org,m:broonie@kernel.org,m:nathan@kernel.org,m:nick.desaulniers+lkml@gmail.com,m:morbo@google.com,m:justinstitt@google.com,m:raag.jadav@intel.com,m:sohil.mehta@intel.com,m:dave.hansen@linux.intel.com,m:robh@kernel.org,m:saravanak@kernel.org,m:bhelgaas@google.com,m:rafael@kernel.org,m:lenb@kernel.org,m:andi.shyti@kernel.org,m:linux-kernel@vger.kernel.org,m:y-abhilashchandra@ti.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:nicolas.frattaroli@collabora.com,m:lgirdwood@gmail.com,m:perex@perex.cz,m:tiwai@suse.com,m:heiko@sntech.de,m:linux-rockchip@lists.infradead.org,m:linux-sound@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:dakr@kernel.org,m:driver-core@lists.linux.dev,m:jic23@kernel.org,m:dmitry.torokhov@gmail.com,m:bartosz.golaszewski@oss.qualcomm.com,m:xiaopei01@kylinos.cn,m:shashank.mahadasyam@sony.com,m:ben.horgan@arm.com,m:johan@kernel.org,m:linux-
+ usb@vger.kernel.org,m:teackot@gmail.com,m:hansg@kernel.org,m:ilpo.jarvinen@linux.intel.com,m:platform-driver-x86@vger.kernel.org,m:devicetree@vger.kernel.org,m:linux-i2c@vger.kernel.org,m:dan.scally@ideasonboard.com,m:sakari.ailus@linux.intel.com,m:hminas@synopsys.com,m:zhaotianrui@loongson.cn,m:maobibo@loongson.cn,m:chenhuacai@kernel.org,m:kernel@xen0n.name,m:kvm@vger.kernel.org,m:loongarch@lists.linux.dev,m:nickdesaulniers@gmail.com,m:dmitrytorokhov@gmail.com,s:lists@lfdr.de];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_TRACE(0.00)[sakamocchi.jp:+,messagingengine.com:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[o-takashi@sakamocchi.jp,linux-media@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
+	FROM_NEQ_ENVFROM(0.00)[o-takashi@sakamocchi.jp,linux-media@vger.kernel.org];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[54];
 	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,nxp.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	ALIAS_RESOLVED(0.00)[];
+	TAGGED_RCPT(0.00)[linux-media,lkml];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sakamocchi.jp:dkim,sakamocchi.jp:email,sakamocchi.jp:mid,sakamocchi.jp:from_mime,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,messagingengine.com:dkim]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 446EF6DEF60
+X-Rspamd-Queue-Id: C0C6E6DF4CB
 
-On 29/06/2026 22:44, Laurent Pinchart wrote:
-> On Wed, Jun 03, 2026 at 03:42:58PM -0400, Frank Li wrote:
->> On Wed, Jun 03, 2026 at 01:53:29PM -0400, Frank Li wrote:
->>> On Wed, Jun 03, 2026 at 12:15:40AM +0100, Bryan O'Donoghue wrote:
->>>> At the media summit in Nice this year we discussed that cross reviewing
->>>> from different people on LKML was lacking and desirable. Laurent suggested
->>>> NXP/Qcom do some cross pollination.
->>>>
->>>> Happy to read and review NXP stuff in that spirit.
->>>>
->>>> Signed-off-by: Bryan O'Donoghue<bod@kernel.org>
->>>> ---
->>> Reviewed-by: Frank Li<Frank.Li@nxp.com>
->> Laurent and Bryan O'Donoghue,
->>
->> 	which qcom part I can help review, I can add myself as reviewer also.
-> Bryan, could you please reply to this ?
+Hi,
 
-How much work do you feel like doing ?
+On Sun, Jun 28, 2026 at 11:58:35PM +0200, Uwe Kleine-König (The Capable Hub) wrote:
+> Hello,
+> 
+> v2 is available at
+> https://lore.kernel.org/lkml/cover.1782490566.git.u.kleine-koenig@baylibre.com
+> .
+> 
+> Changes since then:
+> 
+>  - rebased to v7.2-rc1
+>  - rename the directory containing the new per device-id headers from
+>    "mod_device_id" to "device-id".
+>  - Adding Acks received
+>  - ASoC patch (formerly patch #3) dropped as it was already merged as
+>    commit 83d53eca7e55 ("ASoC: rockchip: rockchip_sai: #include
+>    <linux/platform_device.h> explicitly") in v7.2-rc1.
+> 
+> This series survived an allmodconfig build on alpha, arc, arm64,
+> loongarch, m68k, mips, powerpc, riscv, s390, sh, sparc, and x86_64.
+> (Well, some failures, but I see these also on vanilla v7.2-rc1.)
+> 
+> There are a few headers left that include <linux/mod_devicetable.h>, but
+> these can be addressed in the next dev cycle without much impact as all
+> the much included headers are covered here.
+> 
+> I will apply this series to
+> 
+> 	https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git device-id-rework
+> 
+> which is included in next to expose it to the build bots and testers (in
+> the hope that there won't occur much merge conflict with v7.3 material).
+> I will add review tags and address (the hopefully very few) build issues
+> that might pop up. My plan is to let Linus merge it end of the week for
+> -rc2.
+> 
+> Best regards
+> Uwe
+> 
+> Uwe Kleine-König (The Capable Hub) (16):
+>   mod_devicetable.h: Split into per subsystem headers
+>   media: ti: vpe: #include <linux/platform_device.h> explicitly
+>   driver: core: Include headers for acpi_device_id and of_device_id for
+>     struct device_driver
+>   driver core: platform: Include header for struct platform_device_id
+>   usb: serial: Include <linux/usb.h> in <linux/usb/serial.h>
+>   platform/x86: msi-ec: Ensure dmi_system_id is defined
+>   of: Explicitly include <linux/types.h> and <linux/err.h>
+>   i2c: Let i2c-core.h include <linux/i2c.h>
+>   platform/x86: x86-android-tablets: Add include defining struct
+>     dmi_system_id
+>   platform/x86: int3472: Add include defining struct dmi_system_id
+>   usb: dwc2: Add include defining struct pci_device_id
+>   ALSA: hda/core: Add include defining struct hda_device_id
+>   LoongArch: KVM: Add include defining struct cpu_feature
+>   media: em28xx: Add include for struct usb_device_id
+>   Replace <linux/mod_devicetable.h> by more specific
+>     <linux/device-id/*.h> (headers)
+>   Replace <linux/mod_devicetable.h> by more specific
+>     <linux/device-id/*.h> (c files)
+> 
+>  ...
+>  drivers/firewire/core-device.c                |    1 -
+>  drivers/firewire/net.c                        |    1 -
+>  drivers/firewire/sbp2.c                       |    1 -
+>  ...
+>  drivers/media/firewire/firedtv-fw.c           |    1 -
+>  ...
+>  include/linux/firewire.h                      |    3 +-
+>  ...
+>  sound/firewire/isight.c                       |    1 -
+>  ...
+>  1649 files changed, 1575 insertions(+), 2544 deletions(-)
+>  ...
+>  create mode 100644 include/linux/device-id/ieee1394.h
 
-You can either +R camera or +R all of driver/media/platform/qcom
+I have no objection to the above changes relevant to firewire subsystem.
 
-TBH there's a lot of work that goes on outside of camera that perhaps 
-could do with some more love from !qcom people.
+Acked-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 
-Up to yourself.
+Consequently, unit drivers just include include/linux/firewire.h to refer 
+to 'struct ieee1394_device_id'. After merging the changes, I'll post more
+patches to modify the following unit drivers, since they are left from the
+patchset.
 
----
-bod
+* drivers/media/firewire/firedtv.h
+* sound/firewire/bebob/bebob.h
+* sound/firewire/dice/dice.h
+* sound/firewire/digi00x/digi00x.h
+* sound/firewire/fireface/ff.h
+* sound/firewire/fireworks/fireworks.h
+* sound/firewire/motu/motu.h
+* sound/firewire/oxfw/oxfw.h
+* sound/firewire/tascam/tascam.h
+
+By the way, the changes touch so many files. If it takes more time to
+apply, I think it better to make steps to modify across several kernel
+generation. For example, getting rid of direct reference of
+mod_devicetable.h from drivers at first (in the case of firewire
+subsystem, for 'Replace <linux/mod_devicetable.h> by more specific
+<linux/device-id/*.h> (headers))', then adding these per-subsystem
+headers and applying relevant changes.
+
+Of course, I don't mind to apply the v3 patchset as is in upstream.
+
+
+Thanks
+
+Takashi Sakamoto
 
