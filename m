@@ -1,376 +1,171 @@
-Return-Path: <linux-media+bounces-65876-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65878-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id lsFDHwoxQmou1gkAu9opvQ
-	(envelope-from <linux-media+bounces-65876-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:47:06 +0200
+	id W/9mK7IxQmpL1gkAu9opvQ
+	(envelope-from <linux-media+bounces-65878-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:49:54 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2809F6D7A64
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:47:06 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC7D6D7AC5
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:49:53 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=ideasonboard.com header.s=mail header.b=bRRdsd0Z;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65876-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-65876-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=ideasonboard.com;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b=Xo2DxI3n;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65878-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65878-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=reject) header.from=mailbox.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 607D03006B37
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 08:47:03 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 8D64D300B294
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 08:49:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9F803F8236;
-	Mon, 29 Jun 2026 08:46:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5D8E3F86FC;
+	Mon, 29 Jun 2026 08:49:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD9E3B2FE4;
-	Mon, 29 Jun 2026 08:46:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C2E3F0A9C;
+	Mon, 29 Jun 2026 08:49:22 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782722818; cv=none; b=EITJ0PJYRSaps1CVjcZcBbI7O4NJyEF7eqVahMvtOCKD5Dwbk5IagEGHoaktQNuv7efHYCAjVdMViBGiDQlVzQhOxRKK1912d4HJU83JyG2dY3kWDME9RFHVZVzOf69RzIehwf1RyqfbTI5Zq+q0MQCE2MnT9DkbBUQbbKit704=
+	t=1782722965; cv=none; b=KnIwjV7GW6z6Rs4vNhvRn5jpSc45FO0Ij2YYhd1IRWHDLZZbL/7fTjAO5TeWx6jMMsIYFN56o7I9INKcZ9tRtwEtHAST8Hr82EgD7V59mfdsQsM3r5flXtGVTTroULm+RF55LFLWGnPYNVES0xwBJenBFEkhE+rD1azDUvq8+EQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782722818; c=relaxed/simple;
-	bh=Sn6/pnvMV+7cTSNOzKy0Jhpp/BOj27Lxn1QBk+3onIU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LX2H0x8ahUbP2dbSemYcjoccwgs6E6f4apz7jmZj3q4x+KuwjT1weOHILl7W7I5Og6osKlUjREgADFP1gnX4R8y8WIgPahyPWBSS/R8Eo8A3HZeTLdIYXGoRKDQqh27gHE81/qOOodrePn9bnqC8/wkWHcJGwf5OFxSEKFlzVck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bRRdsd0Z; arc=none smtp.client-ip=213.167.242.64
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6FEA812F;
-	Mon, 29 Jun 2026 10:46:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1782722772;
-	bh=Sn6/pnvMV+7cTSNOzKy0Jhpp/BOj27Lxn1QBk+3onIU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bRRdsd0ZsSf7fogMbtUYfbhUgfsQVwCCWZMWTcDEYFOv/+OytRbbANuM5dUqzbuy3
-	 AiceQ6X0uU/iuq6kVZtojs33momkbdMk0wZ48tpch4aYrjGbtUZEHWaQrJjQaMyDXT
-	 W3pV5fPerzMH5K9W95hHM/hjKRT3TWFzf5dlx7os=
-Date: Mon, 29 Jun 2026 11:46:54 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Frank.Li@oss.nxp.com
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Michael Riesch <michael.riesch@collabora.com>,
-	Frank Li <Frank.Li@nxp.com>,
-	Martin Kepplinger-Novakovic <martink@posteo.de>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Purism Kernel Team <kernel@puri.sm>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	Guoniu Zhou <guoniu.zhou@nxp.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v6 3/9] media: subdev: Add media_async_register_subdev()
- helper
-Message-ID: <20260629084654.GB3054459@killaraus.ideasonboard.com>
-References: <20260624-imx8qxp_pcam-v6-0-4b3f45920d2f@nxp.com>
- <20260624-imx8qxp_pcam-v6-3-4b3f45920d2f@nxp.com>
+	s=arc-20240116; t=1782722965; c=relaxed/simple;
+	bh=bNexwtP6qx9lBB2uR84+WnHRT3J5jrJo35qB4/OoSvo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=er/LeWQPeyAY+fkR25TtydurpyzOfAbP0z1uFjS15oQEB6RVg1mqvioEWDOWq1yVvYlMMTjBxJ0pJLoK2+N/BEgM4aGp3HY0I6jfp91dXwdGG5wLDGveBwQNXJXldSMMRi6WuCVD1ruroov2ApqUTK3iT3XTqkm67RZeDiI4UTI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Xo2DxI3n; arc=none smtp.client-ip=80.241.56.152
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4gpg1j70zzz9vCB;
+	Mon, 29 Jun 2026 10:49:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1782722954; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bNexwtP6qx9lBB2uR84+WnHRT3J5jrJo35qB4/OoSvo=;
+	b=Xo2DxI3nSm1iCegJk8MQv5Ll1eLaAPBnhGRqiegbYbTjCxRaGQqzDB3W07+kH4nKtBOK3X
+	dxkTDCXuQUDwC3ZesbR6kjyCUEGGStztrYbNGILYnuOljcBSgRh5/6RAXtVP+gguGSSf+x
+	Yp9xjAj2QGvTgG5xfjoDECXVfis/ea/aNTXlV72Invo1LvyMebH9dEi7iC4S+JDfzfAdnQ
+	NRnFSdYbz+GRaxibti2WUcwH/Eu4d6B7AwsMUUcfxA9sx16NZNKM+5nDCFuW7+7BGqOKXG
+	6xcZzlTKT1me4aIiAYV/TZQcQYu1viLrzGkqyS1iVNviQ4rGqBMWAmeqkCMbHw==
+Message-ID: <058f4bb261e408cf17deca9ff7354460675eacbf.camel@mailbox.org>
+Subject: Re: [PATCH] dma-fence: Make dma_fence_dedup_array() robust against
+ 0-count input
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Baineng
+ Shou <shoubaineng@gmail.com>, Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Tvrtko Ursulin <tursulin@ursulin.net>, Philipp Stanner
+ <phasta@kernel.org>,  Akash Goel <akash.goel@arm.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+	stable@vger.kernel.org
+Date: Mon, 29 Jun 2026 10:49:08 +0200
+In-Reply-To: <becd29b5-9e40-4104-b6c9-3d91e2ddddff@amd.com>
+References: <20260629031346.3875683-1-shoubaineng@gmail.com>
+	 <becd29b5-9e40-4104-b6c9-3d91e2ddddff@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260624-imx8qxp_pcam-v6-3-4b3f45920d2f@nxp.com>
+X-MBO-RS-META: qsgddayaj8bgcsbnm6438m7kgxrxucpg
+X-MBO-RS-ID: eb9239d37414620f1a5
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	SUSPICIOUS_RECIPS(1.50)[];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[ideasonboard.com,none];
-	R_DKIM_ALLOW(-0.20)[ideasonboard.com:s=mail];
-	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
+	DMARC_POLICY_ALLOW(-0.50)[mailbox.org,reject];
+	R_DKIM_ALLOW(-0.20)[mailbox.org:s=mail20150812];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65876-lists,linux-media=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:Frank.Li@oss.nxp.com,m:sakari.ailus@linux.intel.com,m:mchehab@kernel.org,m:michael.riesch@collabora.com,m:Frank.Li@nxp.com,m:martink@posteo.de,m:rmfrfs@gmail.com,m:kernel@puri.sm,m:robh@kernel.org,m:krzk+dt@kernel.org,m:conor+dt@kernel.org,m:s.hauer@pengutronix.de,m:kernel@pengutronix.de,m:festevam@gmail.com,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:imx@lists.linux.dev,m:guoniu.zhou@nxp.com,m:devicetree@vger.kernel.org,m:linux-arm-kernel@lists.infradead.org,m:krzk@kernel.org,m:conor@kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[20];
-	FREEMAIL_CC(0.00)[linux.intel.com,kernel.org,collabora.com,nxp.com,posteo.de,gmail.com,puri.sm,pengutronix.de,vger.kernel.org,lists.linux.dev,lists.infradead.org];
+	TAGGED_FROM(0.00)[bounces-65878-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[amd.com,gmail.com,linaro.org];
+	FORGED_SENDER(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:christian.koenig@amd.com,m:shoubaineng@gmail.com,m:sumit.semwal@linaro.org,m:tursulin@ursulin.net,m:phasta@kernel.org,m:akash.goel@arm.com,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
 	FORGED_SENDER_MAILLIST(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
-	FROM_HAS_DN(0.00)[];
+	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
+	REPLYTO_DOM_NEQ_TO_DOM(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[phasta@mailbox.org,linux-media@vger.kernel.org];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[laurent.pinchart@ideasonboard.com,linux-media@vger.kernel.org];
-	DKIM_TRACE(0.00)[ideasonboard.com:+];
-	MID_RHS_MATCH_FROMTLD(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DKIM_TRACE(0.00)[mailbox.org:+];
+	MID_RHS_MATCH_FROM(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	HAS_REPLYTO(0.00)[phasta@kernel.org];
+	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media,dt];
 	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[killaraus.ideasonboard.com:mid,vger.kernel.org:from_smtp,nxp.com:email,intel.com:email,ideasonboard.com:dkim,ideasonboard.com:from_mime,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[mailbox.org:dkim,mailbox.org:mid,mailbox.org:from_mime,amd.com:email,sin.lore.kernel.org:rdns,sin.lore.kernel.org:helo,vger.kernel.org:from_smtp]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 2809F6D7A64
+X-Rspamd-Queue-Id: AEC7D6D7AC5
 
-On Wed, Jun 24, 2026 at 04:37:50PM -0400, Frank.Li@oss.nxp.com wrote:
-> From: Frank Li <Frank.Li@nxp.com>
-> 
-> Add media_async_register_subdev(), a helper to register a V4L2 sub-device
-> with the asynchronous sub-device framework.
+On Mon, 2026-06-29 at 10:45 +0200, Christian K=C3=B6nig wrote:
+> On 6/29/26 05:13, Baineng Shou wrote:
+> > dma_fence_dedup_array() returns 1 when called with num_fences =3D=3D 0:
+> > the for-loop body never executes, j stays at 0, and the final
+> > `return ++j` yields 1. This contradicts both the kernel-doc ("Return:
+> > Number of unique fences remaining in the array") and the natural
+> > expectation that 0 input gives 0 output.
+>=20
+> Good catch.
+>=20
+> >=20
+> > All in-tree callers currently filter num_fences =3D=3D 0 before invokin=
+g
+> > this helper (__dma_fence_unwrap_merge() bails out via the
+> > `if (count =3D=3D 0 || count =3D=3D 1)` fast path; amdgpu_userq_wait_*(=
+)
+> > cannot reach the dedup call with a zero local count because the
+> > amdgpu_userq_wait_add_fence() helper guarantees num_fences stays in
+> > [0, wait_info->num_fences], and wait_info->num_fences > 0 is enforced
+> > at the ioctl entry).
+>=20
+> That's not correct, wait_info->num_fences is just the maximum amount of f=
+ences we return.
+>=20
+> It is perfectly possible that amdgpu never finds any fences to add to the=
+ array.
+>=20
+> >=20
+> > However, dma_fence_dedup_array() is EXPORT_SYMBOL_GPL, so any future
+> > caller that forgets to pre-filter the zero case will get a misleading
+> > return value of 1. Depending on how that caller uses the result, it
+> > could dereference an uninitialized fence slot in the array, since the
+> > caller's array may have been allocated but not yet populated.
+> >=20
+> > Make the contract match the documentation by returning 0 early. This
+> > also skips an unnecessary sort() call on an empty array.
+> >=20
+> > Signed-off-by: Baineng Shou <shoubaineng@gmail.com>
+>=20
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+>=20
+> I will add a CC stable before pushing to drm-misc-fixes.
 
-For the reason stated by Sakari in patch 1/9 (dependency from MC to
-V4L2), I don't think a "media_async_register_subdev()" function is a
-good idea.
+No offense intended or taken, but don't the DRM rules say that things
+do not get merged while there are outstanding concerns or significant
+points in review feedback?
 
-> The helper assumes a 1:1 mapping between firmware endpoints and media pads.
-> During registration it parses the firmware graph, creates media pads for
-> all endpoints, and registers common asynchronous notifiers for sink
-> endpoints. These notifiers automatically create media links when the
-> corresponding remote source devices become available.
-> 
-> The set_pad_by_ep() callback allows drivers to determine the media pad
-> associated with a firmware endpoint and identify whether the endpoint
-> represents a sink pad.
-> 
-> By centralizing firmware graph parsing, media pad creation, notifier
-> registration, and link creation, this helper reduces duplicated code and
-> simplifies error handling in V4L2 sub-device drivers.
-> 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> change in v6
-> - new patch
-> ---
->  drivers/media/v4l2-core/v4l2-fwnode.c | 155 ++++++++++++++++++++++++++++++++++
->  include/media/v4l2-async.h            |  39 +++++++++
->  2 files changed, 194 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> index 62a3a452f7884..169059654478f 100644
-> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> @@ -26,6 +26,7 @@
->  
->  #include <media/v4l2-async.h>
->  #include <media/v4l2-fwnode.h>
-> +#include <media/v4l2-mc.h>
->  #include <media/v4l2-subdev.h>
->  
->  #include "v4l2-subdev-priv.h"
-> @@ -1302,6 +1303,160 @@ int __v4l2_async_register_subdev_sensor(struct v4l2_subdev *sd, struct module *m
->  }
->  EXPORT_SYMBOL_GPL(__v4l2_async_register_subdev_sensor);
->  
-> +static int v4l2_common_notifier_bound(struct v4l2_async_notifier *notifier,
-> +				      struct v4l2_subdev *sd,
-> +				      struct v4l2_async_connection *asd)
-> +{
-> +	struct media_pad *pad = NULL;
-> +	int ret;
-> +
-> +	if (asd->match.type != V4L2_ASYNC_MATCH_TYPE_FWNODE)
-> +		return -EINVAL;
-> +
-> +	if (!asd->match.fwnode)
-> +		return -EINVAL;
-> +
-> +	struct fwnode_handle *remote __free(fwnode_handle) =
-> +		fwnode_graph_get_remote_endpoint(asd->match.fwnode);
-> +
-> +	for (int i = 0; i < notifier->sd->entity.num_pads; i++) {
-> +		if (notifier->sd->entity.pads[i].vep.base.local_fwnode == remote) {
-> +			pad = &notifier->sd->entity.pads[i];
-> +			break;
-> +		}
-> +	}
-> +
-> +	if (!pad) {
-> +		dev_err(notifier->sd->dev, "failed to find sink pad\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = v4l2_create_fwnode_links_to_pad(sd, pad, MEDIA_LNK_FL_ENABLED);
-> +	if (ret) {
-> +		dev_err(sd->dev, "failed to link source pad\n");
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_async_notifier_operations v4l2_common_notifier_ops = {
-> +	.bound = v4l2_common_notifier_bound,
-> +};
-> +
-> +static int
-> +v4l2_async_nf_parse_fwnode(struct device *dev, struct media_pad *pads,
-> +			   struct v4l2_async_notifier *notifier)
-> +{
-> +	struct v4l2_subdev *sd = notifier->sd;
-> +	struct v4l2_async_connection *asd;
-> +	struct media_pad *pad;
-> +	int ret;
-> +
-> +	if (!sd->internal_ops->set_pad_by_ep)
-> +		return dev_err_probe(dev, -EINVAL,
-> +				     "Missed valiate_endpoint() callback\n");
-> +	pad = pads;
-> +
-> +	fwnode_graph_for_each_endpoint_scoped(dev_fwnode(dev), ep) {
-> +		u32 flags;
-> +
-> +		ret = v4l2_fwnode_endpoint_parse(ep, &pad->vep);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret, "failed to parse endpoint\n");
-> +
-> +		ret = sd->internal_ops->set_pad_by_ep(sd, pad);
-> +		if (ret < 0)
-> +			return dev_err_probe(dev, ret, "Can support endponit\n");
-> +
-> +		flags = pad->flags;
-> +
-> +		pad++;
-> +
-> +		if (flags & MEDIA_PAD_FL_SOURCE)
-> +			continue; /* Bypass source port */
-> +
-> +		notifier->ops = &v4l2_common_notifier_ops;
-> +
-> +		asd = v4l2_async_nf_add_fwnode_remote(notifier, ep,
-> +						      struct v4l2_async_connection);
-> +		if (IS_ERR(asd))
-> +			return dev_err_probe(dev, PTR_ERR(asd),
-> +					      "failed to add notifier\n");
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +void media_async_subdev_cleanup(struct v4l2_subdev *sd)
-> +{
-> +	v4l2_async_unregister_subdev(sd);
-> +	v4l2_subdev_cleanup(sd);
-> +	media_entity_cleanup(&sd->entity);
-> +	v4l2_async_nf_unregister(sd->subdev_notifier);
-> +	v4l2_async_nf_cleanup(sd->subdev_notifier);
-> +	kfree(sd->entity.pads);
-> +}
-> +EXPORT_SYMBOL_GPL(media_async_subdev_cleanup);
-> +
-> +int __media_async_register_subdev(struct v4l2_subdev *sd, struct module *module)
-> +{
-> +	struct device *dev = sd->dev;
-> +	u32 ep_count;
-> +	int ret;
-> +
-> +	if (WARN_ON(!sd->dev))
-> +		return -ENODEV;
-> +
-> +	struct v4l2_async_notifier *notifier __free(kfree) = kzalloc_obj(*notifier);
-> +	if (!notifier)
-> +		return -ENOMEM;
-> +
-> +	v4l2_async_subdev_nf_init(notifier, sd);
-> +
-> +	ep_count = fwnode_graph_get_endpoint_count(dev_fwnode(dev), 0);
-> +	if (!ep_count)
-> +		return dev_err_probe(dev, -EINVAL, "No connected endpoints\n");
-> +
-> +	struct media_pad *pads __free(kfree) = kzalloc_objs(struct media_pad, ep_count);
-> +	if (!pads)
-> +		return -ENOMEM;
-> +
-> +	ret = v4l2_async_nf_parse_fwnode(dev, pads, notifier);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	ret = media_entity_pads_init(&sd->entity, ep_count, pads);
-> +	if (ret)
-> +		goto out_cleanup;
-> +
-> +	ret = v4l2_async_nf_register(notifier);
-> +	if (ret < 0)
-> +		goto out_cleanup;
-> +
-> +	ret = v4l2_subdev_init_finalize(sd);
-> +	if (ret)
-> +		goto out_unregister;
-> +
-> +	ret = __v4l2_async_register_subdev(sd, module);
-> +	if (ret < 0)
-> +		goto out_unregister;
-> +
-> +	sd->subdev_notifier = no_free_ptr(notifier);
-> +	retain_and_null_ptr(pads);
-> +
-> +	return 0;
-> +
-> +out_unregister:
-> +	v4l2_async_nf_unregister(notifier);
-> +
-> +out_cleanup:
-> +	v4l2_async_nf_cleanup(notifier);
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(__media_async_register_subdev);
-> +
->  MODULE_DESCRIPTION("V4L2 fwnode binding parsing library");
->  MODULE_LICENSE("GPL");
->  MODULE_AUTHOR("Sakari Ailus <sakari.ailus@linux.intel.com>");
-> diff --git a/include/media/v4l2-async.h b/include/media/v4l2-async.h
-> index 54a2d9620ed5b..ca41820f776c5 100644
-> --- a/include/media/v4l2-async.h
-> +++ b/include/media/v4l2-async.h
-> @@ -345,4 +345,43 @@ __v4l2_async_register_subdev_sensor(struct v4l2_subdev *sd, struct module *modul
->   * @sd: pointer to &struct v4l2_subdev
->   */
->  void v4l2_async_unregister_subdev(struct v4l2_subdev *sd);
-> +
-> +enum v4l2_subdev_1to1_pads {
-> +	V4L2_SUBDEV_1TO1_PADS_SINK,
-> +	V4L2_SUBDEV_1TO1_PADS_SOURCE,
-> +	V4L2_SUBDEV_1TO1_PADS_TOTAL,
-> +};
-> +
-> +/**
-> + * media_async_register_subdev - registers a sub-device to the asynchronous
-> + *				 sub-device framework and parse set up common
-> + *				 related devices
-> + *
-> + * @sd: pointer to struct &v4l2_subdev
-> + *
-> + * Register a V4L2 sub-device with the asynchronous sub-device framework.
-> + * In addition to v4l2_async_register_subdev(), this function parses the
-> + * firmware graph, creates media pads for the endpoints, and registers common
-> + * notifiers to create media links between connected devices.
-> + *
-> + * This function also init media_pads.
-> + *
-> + * The sub-device is unregistered and cleanup by media_async_subdev_cleanup()
-> + *
-> + * While registered, the subdev module is marked as in-use.
-> + *
-> + * An error is returned if the module is no longer loaded on any attempts
-> + * to register it.
-> + */
-> +#define media_async_register_subdev(sd_1to1) \
-> +	 __media_async_register_subdev(sd_1to1, THIS_MODULE)
-> +
-> +int __media_async_register_subdev(struct v4l2_subdev *sd_1to1, struct module *module);
-> +
-> +/**
-> + * media_async_subdev_cleanup - unregistered and cleanup subdev and media pads
-> + * @sd_1to1: pointer to struct &v4l2_subdev_1to1
-> + */
-> +void media_async_subdev_cleanup(struct v4l2_subdev *sd_1to1);
-> +
->  #endif
+What about my comments?
 
--- 
-Regards,
 
-Laurent Pinchart
+P.
 
