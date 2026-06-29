@@ -1,176 +1,207 @@
-Return-Path: <linux-media+bounces-65869-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-65870-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id amZBC4YpQmqU1AkAu9opvQ
-	(envelope-from <linux-media+bounces-65869-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:15:02 +0200
+	id zx9lN4woQmpi1AkAu9opvQ
+	(envelope-from <linux-media+bounces-65870-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:10:52 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 739AC6D75B1
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:15:01 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BE236D752F
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 10:10:52 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=F1sbhZmQ;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65869-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-65869-lists+linux-media=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=arm.com header.s=foss header.b=RkrN6BLB;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-65870-lists+linux-media=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-media+bounces-65870-lists+linux-media=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=arm.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id CCA75305A392
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 07:57:05 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id EF921300D1F5
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 08:10:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 514053C10A8;
-	Mon, 29 Jun 2026 07:56:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFF1E35AC3C;
+	Mon, 29 Jun 2026 08:10:45 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9036434D4D6;
-	Mon, 29 Jun 2026 07:56:52 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71FBC3BED7F;
+	Mon, 29 Jun 2026 08:10:43 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782719815; cv=none; b=NVATgl2Y+KiL3iDjiYsiAmU0a/sBcbN/Nza3BteU+SCpOSsbarrIoQpr5tVoa72OZVn+nwcEbZdI09ext1mmIbB17CK1WV2GeR/ygo+E9t1+SjNnuLuIojdbt7ufbE8dSBeVPXNoXM8mSTWetsxREJXqGWDHXKVsDfO3lun2r4o=
+	t=1782720645; cv=none; b=P9MYUUSkgtKPaIqaaB6NrY1Vr0J8ch37vQiUADmupBu5Qlt6ReIZqs96rSXtMmAk6PFote5O4DAo9auSjxeF3m4h2G7/bCwwBokgx+JUfOmHuYYRx6ybdFh6qjGksIT0TzOLmBWYOfaA7DE9onr0wWHySvMaNTCIrFh2HDUaEJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782719815; c=relaxed/simple;
-	bh=lzOdbov6U0uzRjBRLNmLD32wDgaa38/iq0S8+2WlzHw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YtfIm6sBULhwuDZBCUK6Q+7XZblrtArXM1Gjna5rxIXoylgR6hoAmhGcFpdjSxv65d/FX9l+tNugRbhHQKKCD45x+GFvknvN9Yf3+7TsEpzxsTKg9JfV39/WwZnCFXFwj1SQSyRs3dKxQaw0A9/xGmyytjBD4AcZYyxnkE7AoT4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F1sbhZmQ; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB7381F000E9;
-	Mon, 29 Jun 2026 07:56:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782719811;
-	bh=S30NeagpEcZhtovpS5SpHMBaBOG2K6LplFkgTolUfE4=;
-	h=From:To:Cc:Subject:Date;
-	b=F1sbhZmQZWS0SZb2g0JeIHYjjl5aFLCfW6JZLHanihsXud50pPNQEZb3sC3/f67O/
-	 nHxmpvHm6FWqtxHHr7rYzl0sT538qJjr83vA98z5jjrqP5ZOg0zSCP0vuCbBcJD11I
-	 VtnAPOF0fqXMfxKHkb+KNlKOLjY3SJxPE+D+/jb1OaP6lA5EdCaeG4aoFGkyk7oLRq
-	 ocrvFFMBLuUiXdErJdrO0MY8GMoAK6WXXdGEwyeiftvFs8lls0uRJxKaTXn05L6FIA
-	 IHqFGZu8M6Tb5+MB1D5Ky+6GyKYXoynWW821t7IrZH4nI+rpEqLE2pgfwu6Pzjb6EB
-	 GK2PWYw3f2sLQ==
-From: Philipp Stanner <phasta@kernel.org>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Boris Brezillon <boris.brezillon@collabora.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
-	=?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@linaro.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Boqun Feng <boqun@kernel.org>
-Cc: linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org,
-	Philipp Stanner <phasta@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] dma-buf: dma-fence: Fix potential NULL pointer dereference
-Date: Mon, 29 Jun 2026 09:56:37 +0200
-Message-ID: <20260629075636.2513214-2-phasta@kernel.org>
-X-Mailer: git-send-email 2.54.0
+	s=arc-20240116; t=1782720645; c=relaxed/simple;
+	bh=PXOv89/+9ybQuJUazvzWRXCKLDWYuD72FGOxWNtRk4I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bBVMs+hG6LnsAUjqSJGUHBEGc1s0g25EZ7E2TzSQ1Xvmr+nh5KEUXTeUOcXt2DGsu8uBlwYOYFRoF6IV5nPGxTGqjKEhdK8oVhGPWhSGEL/KZvH+SJJcxT3PgbMxyrre/uos3BmRCTkIJkLIv6OM8/cVxwZm9O7MG+xYPYR13V0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=RkrN6BLB; arc=none smtp.client-ip=217.140.110.172
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EEA481A00;
+	Mon, 29 Jun 2026 01:10:37 -0700 (PDT)
+Received: from [192.168.7.252] (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BDAF63F836;
+	Mon, 29 Jun 2026 01:10:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1782720642; bh=PXOv89/+9ybQuJUazvzWRXCKLDWYuD72FGOxWNtRk4I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=RkrN6BLB41AGJNDKp9Ia9eQ8NrrnZNioHKHdFX7yuaFy3nb+scjISiE4/twVniAp5
+	 sCxmr67EFPk6COHmOC6fQnW+BvKrmI+/HUd2T4deE/d1l/WcSyH9h3dlq2kTKRUz6Y
+	 5SRFVLf7owhGzI0sKw8L8s1uIL0C3au4HJytVOpI=
+Message-ID: <79a5548b-39a3-4e64-8c7b-81ed6166a2c5@arm.com>
+Date: Mon, 29 Jun 2026 09:10:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/4] media: mali-c55: Implement Gamma block validation
+Content-Language: en-GB
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Nayden.Kanchev@arm.com,
+ Konstantin Babin <Konstantin.Babin@arm.com>,
+ Anthony McGivern <anthony.mcgivern@arm.com>, linus.walleij@arm.com,
+ laurent.pinchart@ideasonboard.com,
+ Daniel Scally <dan.scally@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+References: <20260627-mali-c55-ccm-gamma-v3-0-113584c05174@ideasonboard.com>
+ <20260627-mali-c55-ccm-gamma-v3-4-113584c05174@ideasonboard.com>
+From: Vincenzo Frascino <vincenzo.frascino@arm.com>
+In-Reply-To: <20260627-mali-c55-ccm-gamma-v3-4-113584c05174@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-3.66 / 15.00];
-	WHITELIST_SPF_DKIM(-3.00)[kernel.org:d:+,kernel.org:s:+];
+X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	DMARC_POLICY_ALLOW(-0.50)[arm.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
+	R_DKIM_ALLOW(-0.20)[arm.com:s=foss];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-65869-lists,linux-media=lfdr.de];
-	RCPT_COUNT_TWELVE(0.00)[15];
-	FORGED_RECIPIENTS(0.00)[m:sumit.semwal@linaro.org,m:christian.koenig@amd.com,m:boris.brezillon@collabora.com,m:tvrtko.ursulin@igalia.com,m:andre.draszik@linaro.org,m:dakr@kernel.org,m:gary@garyguo.net,m:paulmck@kernel.org,m:boqun@kernel.org,m:linux-media@vger.kernel.org,m:dri-devel@lists.freedesktop.org,m:linaro-mm-sig@lists.linaro.org,m:linux-kernel@vger.kernel.org,m:phasta@kernel.org,m:stable@vger.kernel.org,s:lists@lfdr.de];
 	MIME_TRACE(0.00)[0:+];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[phasta@kernel.org,linux-media@vger.kernel.org];
+	DKIM_TRACE(0.00)[arm.com:+];
 	FORWARDED(0.00)[lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-65870-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FORGED_SENDER(0.00)[vincenzo.frascino@arm.com,linux-media@vger.kernel.org];
+	FORGED_RECIPIENTS(0.00)[m:jacopo.mondi@ideasonboard.com,m:Nayden.Kanchev@arm.com,m:Konstantin.Babin@arm.com,m:anthony.mcgivern@arm.com,m:linus.walleij@arm.com,m:laurent.pinchart@ideasonboard.com,m:dan.scally@ideasonboard.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:jacopo.mondi+renesas@ideasonboard.com,s:lists@lfdr.de];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	PRECEDENCE_BULK(0.00)[];
-	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[phasta@kernel.org,linux-media@vger.kernel.org];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	ALIAS_RESOLVED(0.00)[];
-	TAGGED_RCPT(0.00)[linux-media];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FORGED_SENDER_FORWARDING(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	PRECEDENCE_BULK(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[vincenzo.frascino@arm.com,linux-media@vger.kernel.org];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	ALIAS_RESOLVED(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	TAGGED_RCPT(0.00)[linux-media,renesas];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,ideasonboard.com:email]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: 739AC6D75B1
+X-Rspamd-Queue-Id: 7BE236D752F
 
-The commit mentioned in the fixes tag below introduced a mechanism
-through which fence producers can fully decouple from fence consumers.
-This, desirable, mechanism is based on the fence's signaled-bit as the
-"decoupling point".
+Hi Jacopo,
 
-A sophisticated interaction between RCU and atomic instructions attempts
-to ensure that fence consumers can still interact with fence producers
-through the dma_fence_ops (callback pointers into the producer).
+thank you for your patch.
 
-This is the desired behavior: to check for decoupling, the signaled-bit
-is first checked. If it's not yet signaled, RCU ensures that the ops
-pointer cannot yet be NULL.
+On 27/06/2026 15:29, Jacopo Mondi wrote:
+> From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> 
+> Implement validation of Gamma block parameters.
+> 
+> Gamma gains are expressed as unsigned 12 bits Q4.8 format and their raw
+> value cannot be higher than 4095 (BIT(12) - 1).
+> 
+> Gamma offsets are 12 bits unsigned integers and their value cannot be
+> higher than 4095 (BIT(12) - 1).
+> 
+> The Gamma LUT table is expected to have 0 as first member and 0xfff
+> as last member.
+> 
+> Validate the parameters provided by userspace using the .block_validate
+> callback of struct v4l2_isp_params_block_type_info.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> 
 
-Hereby, dma_fence_signal_timestamp_locked() first sets the signaled-bit,
-and then sets the ops pointer to NULL. Readers first load the ops
-pointer, and then check through the signaled-bit whether the pointer can
-legally be accessed.
+Looks good overall. I have just one comment. With this:
 
-These set and load operations could occur out of order on weakly ordered
-platforms. This problem can be solved very elegantly by using the ops
-pointer itself as the synchronization point. The pointer is either NULL,
-or cannot become NULL while it is being used thanks to RCU.
+Reviewed-by: Vincenzo Frascino <vincenzo.frascino@arm.com>
 
-Replace the signaled-bit check in dma_fence_timeline_name() and
-dma_fence_driver_name().
+> ---
+> v3:
+> - new patch
+> ---
+>  .../media/platform/arm/mali-c55/mali-c55-params.c  | 34 ++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
+> 
+> diff --git a/drivers/media/platform/arm/mali-c55/mali-c55-params.c b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
+> index 5857e9c2daf7..e9ab0e2dee15 100644
+> --- a/drivers/media/platform/arm/mali-c55/mali-c55-params.c
+> +++ b/drivers/media/platform/arm/mali-c55/mali-c55-params.c
+> @@ -581,6 +581,38 @@ static int mali_c55_ccm_validate(struct device *dev,
+>  	return 0;
+>  }
+>  
+> +static int mali_c55_gamma_validate(struct device *dev,
+> +				   const struct v4l2_isp_block_header *block)
+> +{
+> +	const struct mali_c55_params_gamma *gamma =
+> +		(const struct mali_c55_params_gamma *)(block);
+> +
+> +	for (unsigned int i = 0; i < 3; i++) {
+> +		/* Gains are 12 bits unsigned Q4.8. */
+> +		if (gamma->gains[i] > 4095) {
+> +			dev_dbg(dev, "Invalid gain value %u\n",
+> +				gamma->gains[i]);
+> +			return -EINVAL;
+> +		}
+> +
+> +		/* Offsets are 12 bits unsigned integers. */
+> +		if (gamma->offs[i] > 4095) {
+> +			dev_dbg(dev, "Invalid offset value %u\n",
+> +				gamma->offs[i]);
+> +			return -EINVAL;
+> +		}
+> +	}
+> +
+> +	/* Check the first and last gamma lut entries match the expectations. */
+> +	if (gamma->lut[0] != 0 ||
+> +	    gamma->lut[MALI_C55_NUM_GAMMA_LUT_ELEMENTS - 1] != 0xfff) {
 
-Cc: stable@vger.kernel.org
-Fixes: f4cc3ab824d6 ("dma-buf: protected fence ops by RCU v8")
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
----
-Changes since v1:
-  - Use ops pointer instead of memory barriers. (Christian)
-  - Rephrase commit message.
----
- drivers/dma-buf/dma-fence.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I am still learning about these things and might be wrong. Should not we also
+validate that intermediate LUT entries are monotonic and non-decreasing?
 
-diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-index c7ea1e75d38a..0a025dfdf131 100644
---- a/drivers/dma-buf/dma-fence.c
-+++ b/drivers/dma-buf/dma-fence.c
-@@ -1170,7 +1170,7 @@ const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
- 
- 	/* RCU protection is required for safe access to returned string */
- 	ops = rcu_dereference(fence->ops);
--	if (!dma_fence_test_signaled_flag(fence))
-+	if (ops)
- 		return (const char __rcu *)ops->get_driver_name(fence);
- 	else
- 		return (const char __rcu *)"detached-driver";
-@@ -1203,7 +1203,7 @@ const char __rcu *dma_fence_timeline_name(struct dma_fence *fence)
- 
- 	/* RCU protection is required for safe access to returned string */
- 	ops = rcu_dereference(fence->ops);
--	if (!dma_fence_test_signaled_flag(fence))
-+	if (ops)
- 		return (const char __rcu *)ops->get_driver_name(fence);
- 	else
- 		return (const char __rcu *)"signaled-timeline";
+> +		dev_dbg(dev, "Invalid Gamma LUT table\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static const struct v4l2_isp_params_block_type_info
+>  mali_c55_params_block_types_info[] = {
+>  	[MALI_C55_PARAM_BLOCK_SENSOR_OFFS] = {
+> @@ -622,9 +654,11 @@ mali_c55_params_block_types_info[] = {
+>  	},
+>  	[MALI_C55_PARAM_BLOCK_GAMMA_FR] = {
+>  		.size = sizeof(struct mali_c55_params_gamma),
+> +		.block_validate = mali_c55_gamma_validate,
+>  	},
+>  	[MALI_C55_PARAM_BLOCK_GAMMA_DS] = {
+>  		.size = sizeof(struct mali_c55_params_gamma),
+> +		.block_validate = mali_c55_gamma_validate,
+>  	},
+>  };
+>  
+> 
 
-base-commit: cdeb2ccd993ed8647adbbda2c3b103aa717fd6f7
 -- 
-2.54.0
+Regards,
+Vincenzo
 
 
