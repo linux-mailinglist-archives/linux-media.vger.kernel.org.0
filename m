@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-66029-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-66030-lists+linux-media=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-media@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id sYctHLzpQmrqHwoAu9opvQ
-	(envelope-from <linux-media+bounces-66029-lists+linux-media=lfdr.de@vger.kernel.org>)
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 23:55:08 +0200
+	id VFr2M0DqQmo/IAoAu9opvQ
+	(envelope-from <linux-media+bounces-66030-lists+linux-media=lfdr.de@vger.kernel.org>)
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 23:57:20 +0200
 X-Original-To: lists+linux-media@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD5716DEF4A
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 23:55:07 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [172.105.105.114])
+	by mail.lfdr.de (Postfix) with ESMTPS id 446EF6DEF60
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 23:57:20 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=UPLqZL3s;
-	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66029-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-media+bounces-66029-lists+linux-media=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=kernel.org header.s=k20260515 header.b=lKQ6Xpjz;
+	spf=pass (mail.lfdr.de: domain of "linux-media+bounces-66030-lists+linux-media=lfdr.de@vger.kernel.org" designates 172.105.105.114 as permitted sender) smtp.mailfrom="linux-media+bounces-66030-lists+linux-media=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=quarantine) header.from=kernel.org;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 65877302924D
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 21:54:57 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 1755E300AEC2
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2026 21:57:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C8323CB8F1;
-	Mon, 29 Jun 2026 21:54:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4968F3CB8EF;
+	Mon, 29 Jun 2026 21:57:18 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D62F7BA45;
-	Mon, 29 Jun 2026 21:54:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAF00BA45;
+	Mon, 29 Jun 2026 21:57:16 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782770095; cv=none; b=shl6z8jNMyMNSOs8WU+urVHvFRFwFDGq8g7/49HMs6qeKbj461v1BvpFejWA9MFzwvkIvHfb/VNVXWbRMv9BnMuifJbC6X3rqYBPrMQaf2BS36n7OKWXn2emr7SwdDoRG60yPFsgYYJcZ/NVWbxIeNO49fDO+52Fp8zj4V4tnDY=
+	t=1782770237; cv=none; b=gadfKKqPGzhgpE0j826M0EaWG3lCFJ6znHA1EYh7zm2dJ+Hk7OGHqj+PCU2GFl1wRF4qu++yC2OK/z+ml8+ORQYs74NF2ZIgxtRy+Vf/zdZ6SzGanqwurfOSaUIdHQWqYHxutNn3HAc3P6J2QJfTORd8XZbhW6A0KlnvCxZ3AHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782770095; c=relaxed/simple;
-	bh=WRGZFolOEkOGSxnfEhCVNDexsS+L//6sxgLxnG4uvT8=;
+	s=arc-20240116; t=1782770237; c=relaxed/simple;
+	bh=0qLw2c5na9GMx4vK9BG60gkWU3FT9auQmNeWicE3Sz0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bfifpxAC0dov6HH8Zi1Z79RWfab1NqqDdq9saC7F+PwH/xv0wE1bhyir9cHuNA5OWTojd6m0PHVWwlfqcCRdpzQFO4wzhjDL8MGZZFS1sgq78Q02GwwPvAZVjpkAwUmRwFMzdGZw5zV/Q1e1F67hr/XwasNCYnZVkmXtxACRqLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UPLqZL3s; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01E631F000E9;
-	Mon, 29 Jun 2026 21:54:52 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=tVzDtbGQZrIqg+U+D9v3amVo+DMzNKXrcTUskgz0qgShJRGbUyiBTFXi9Zh174rp5ylYX7qdMeurP+Tu34Hmo41YA3h9FOb2jrtpOdVmPdfsVFRdSHVWMzOYQFNDn+re+F2qgzKuYNMQwEMZMhed9TL2HdwjEqV6XHl/NcQPIqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lKQ6Xpjz; arc=none smtp.client-ip=100.103.45.18
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56E541F000E9;
+	Mon, 29 Jun 2026 21:57:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1782770094;
-	bh=KHQTydA+tMaO9we9oKw6z8q15dyt/uY7w/YJtXQBF2A=;
+	s=k20260515; t=1782770236;
+	bh=7eZY+vlh+BX9gnfVobZc168KcbnkbNb/oLcAGmSrdXM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=UPLqZL3sXvXpBM/ZiG6sGD7HRMxUtFbIMzePlg5hWbO0G26eCAWg6kjGM7uvVM0D2
-	 fKdLs5zlT2CdUeUwNNJpcfT3ln7VSt3oDSQYrwdey2Dta2UHgJZadozA5HxnZjxQAr
-	 tU4Q1iprkleONNYzMOwwgXG6fVsQCyjCpzA/vmcvJbC1vAmjn1ZWL2cPhZdZxTvD55
-	 bQ9bvNVDKHLLIqpYliYqynpf7LDloWKlFP8WYwYFICKexuHvmapXChSL7jkBviK0BS
-	 DuK7j1OW7AioW+zp23OpIyygboVjtMPFBJr+341qrTY1OsvXKmJNczEzHVvEaE+iyu
-	 UH373GXPThxdQ==
-Message-ID: <058b1a6c-420d-4114-8271-335f4c1572c7@kernel.org>
-Date: Mon, 29 Jun 2026 22:54:50 +0100
+	b=lKQ6XpjzyTQ/qY5bswWw8hCD2l8T2sS9keA8CdXq7RlpYNiIkm3EEIpVwCYSAHu8m
+	 ATUTTvSClLE79zPtIIsEK3wiwlxyQWor5fiZjZ01M61qkmWov469VuJjoJeNQl2qkQ
+	 IHu5iZBsN33yhaEGH04LsR/iow+yTYG9zXet0QZZKEZuUl2r733PE+yiAhM5EhtfYf
+	 xDv8bbZVvsveRxCzN9u2nIk9tyPM2fg70CL0WNvVVaNjicFMp9zmkSU/A1Onvfbvah
+	 ydGRP2NbkEP4gwKT2TaJsyLtsQrydHFdTjUeHkM9woBD30PhQpv4uiikZgQalOK7ir
+	 Yt71S3Ie+ZcsQ==
+Message-ID: <1e199435-426c-47f5-84c0-de1abb37df79@kernel.org>
+Date: Mon, 29 Jun 2026 22:57:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,13 +55,18 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] media: qcom: camss: Add Frank Li as reviewer
-To: Frank.Li@oss.nxp.com, mchehab@kernel.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- hverkuil+cisco@kernel.org, laurent.pinchart@ideasonboard.com
-Cc: Frank Li <Frank.Li@nxp.com>
-References: <M9Zn4aCdPpUHFR9sT6klcstoJxzUB4QF-XCTmj2nTDp1ov0pBRIwB_NFq8U1Jf-V9cwQiQZDsCu_Zz-t70a-hQ==@protonmail.internalid>
- <20260629214618.2523099-1-Frank.Li@oss.nxp.com>
+Subject: Re: [PATCH 1/2] media: imx: imx8mq-mipi-csi2: Add myself as reviewer
+ to imx8mq-mipi-csi2
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Frank Li <Frank.li@nxp.com>
+Cc: linux-kernel@vger.kernel.org, hverkuil+cisco@kernel.org,
+ michael.riesch@collabora.com, linux-media@vger.kernel.org
+References: <20260603-dphy-params-extension-v1-0-22e0e1ed8bf2@kernel.org>
+ <20260603-dphy-params-extension-v1-1-22e0e1ed8bf2@kernel.org>
+ <aiBqGVR11AZ-QI26@lizhi-Precision-Tower-5810>
+ <aiCDwpd9rsPf1FxR@lizhi-Precision-Tower-5810>
+ <DYcpKjqNWZZy48hcmToVeldvndGpUNrgcjKhOYOEq3Yhsiv7PVsOW-3uqZRCQQNooO5tSIdBMMKe3DHdOcFWyg==@protonmail.internalid>
+ <20260629214422.GL3054459@killaraus.ideasonboard.com>
 From: Bryan O'Donoghue <bod@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=bod@kernel.org; keydata=
@@ -107,7 +112,7 @@ Autocrypt: addr=bod@kernel.org; keydata=
  LKSGEglMpiX07M1AotgvylN5C8fjbouoK+/RAMsXkk8jba6rPfuuXPaDjCyyKn6zSVHETnHW
  3AJbgVY50T8STpnxayBQvWbCvu+6NOEjXCbyaOJig+5l0zlGN9XHjdANXC5HnwmyaGRL9YDq
  Jh2nVXVJDincOdQRdKcJjYLqaOAoWrYWSDi1iZGspHBTDrnOvfMQzzHY
-In-Reply-To: <20260629214618.2523099-1-Frank.Li@oss.nxp.com>
+In-Reply-To: <20260629214422.GL3054459@killaraus.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Rspamd-Action: no action
@@ -116,70 +121,63 @@ X-Spamd-Result: default: False [-3.66 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
 	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
 	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
+	R_SPF_ALLOW(-0.20)[+ip4:172.105.105.114:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-66029-lists,linux-media=lfdr.de];
-	RCVD_TLS_LAST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	FORGED_RECIPIENTS(0.00)[m:Frank.Li@oss.nxp.com,m:mchehab@kernel.org,m:linux-media@vger.kernel.org,m:linux-arm-msm@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:hverkuil+cisco@kernel.org,m:laurent.pinchart@ideasonboard.com,m:Frank.Li@nxp.com,m:hverkuil@kernel.org,s:lists@lfdr.de];
+	TAGGED_FROM(0.00)[bounces-66030-lists,linux-media=lfdr.de];
+	RCVD_TLS_LAST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:laurent.pinchart@ideasonboard.com,m:Frank.li@nxp.com,m:linux-kernel@vger.kernel.org,m:hverkuil+cisco@kernel.org,m:michael.riesch@collabora.com,m:linux-media@vger.kernel.org,m:hverkuil@kernel.org,s:lists@lfdr.de];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	FORGED_SENDER(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
+	TO_DN_SOME(0.00)[];
 	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	FORGED_SENDER_FORWARDING(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FROM_NEQ_ENVFROM(0.00)[bod@kernel.org,linux-media@vger.kernel.org];
 	DKIM_TRACE(0.00)[kernel.org:+];
-	RCPT_COUNT_SEVEN(0.00)[8];
-	TAGGED_RCPT(0.00)[linux-media,cisco];
-	TO_DN_SOME(0.00)[];
 	MID_RHS_MATCH_FROM(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	TAGGED_RCPT(0.00)[linux-media,cisco];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:172.105.96.0/20, country:SG];
 	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[nxp.com:email,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,linaro.org:email,vger.kernel.org:from_smtp,qualcomm.com:email]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:from_smtp,nxp.com:email,tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: BD5716DEF4A
+X-Rspamd-Queue-Id: 446EF6DEF60
 
-On 29/06/2026 22:46, Frank.Li@oss.nxp.com wrote:
-> From: Frank Li <Frank.Li@nxp.com>
-> 
-> During the 2026 Media Summit in Nice, a discussion highlighted the lack of
-> cross-reviewing between maintainers and contributors from different
-> subsystems. Laurent suggested encouraging collaboration between the NXP
-> and Qualcomm media communities through cross-reviewing.
-> 
-> Add Frank Li as a reviewer for the Qualcomm CAMSS driver to foster broader
-> review coverage and knowledge sharing across platforms.
-> 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
->   MAINTAINERS | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 34b8dff9bd69b..361a4f447277c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -22114,6 +22114,7 @@ QUALCOMM CAMERA SUBSYSTEM DRIVER
->   M:	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->   R:	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
->   R:	Loic Poulain <loic.poulain@oss.qualcomm.com>
-> +R:	Frank Li <Frank.Li@kernel.org>
->   L:	linux-media@vger.kernel.org
->   S:	Maintained
->   F:	Documentation/admin-guide/media/qcom_camss.rst
-> --
-> 2.43.0
-> 
+On 29/06/2026 22:44, Laurent Pinchart wrote:
+> On Wed, Jun 03, 2026 at 03:42:58PM -0400, Frank Li wrote:
+>> On Wed, Jun 03, 2026 at 01:53:29PM -0400, Frank Li wrote:
+>>> On Wed, Jun 03, 2026 at 12:15:40AM +0100, Bryan O'Donoghue wrote:
+>>>> At the media summit in Nice this year we discussed that cross reviewing
+>>>> from different people on LKML was lacking and desirable. Laurent suggested
+>>>> NXP/Qcom do some cross pollination.
+>>>>
+>>>> Happy to read and review NXP stuff in that spirit.
+>>>>
+>>>> Signed-off-by: Bryan O'Donoghue<bod@kernel.org>
+>>>> ---
+>>> Reviewed-by: Frank Li<Frank.Li@nxp.com>
+>> Laurent and Bryan O'Donoghue,
+>>
+>> 	which qcom part I can help review, I can add myself as reviewer also.
+> Bryan, could you please reply to this ?
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+How much work do you feel like doing ?
+
+You can either +R camera or +R all of driver/media/platform/qcom
+
+TBH there's a lot of work that goes on outside of camera that perhaps 
+could do with some more love from !qcom people.
+
+Up to yourself.
 
 ---
 bod
